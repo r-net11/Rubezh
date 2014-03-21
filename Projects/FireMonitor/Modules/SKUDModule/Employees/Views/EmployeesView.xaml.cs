@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media;
-using SKDModule.ViewModels;
 using Infrastructure;
 using SKDModule.Events;
+using SKDModule.ViewModels;
 
 namespace SKDModule.Views
 {
@@ -37,7 +35,7 @@ namespace SKDModule.Views
 
 				for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
 				{
-					var additionalColumnName = employeesViewModel.AdditionalColumnNames[i].Name;
+					var additionalColumnName = employeesViewModel.AdditionalColumnNames[i];
 					DataGridTextColumn textColumn = new DataGridTextColumn();
 					textColumn.Header = additionalColumnName;
 					textColumn.Binding = new Binding(string.Format("AdditionalColumnValues[{0}]", i));

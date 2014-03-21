@@ -1,39 +1,42 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Common;
 using FiresecAPI;
+using FiresecAPI.Models;
 using FiresecAPI.SKD.PassCardLibrary;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
 using SKDModule.PassCard.Designer;
 using SKDModule.ViewModels;
-using FiresecAPI.Models;
-using Infrustructure.Plans.Elements;
-using System.Collections.Generic;
-using Infrustructure.Plans.Events;
-using Infrastructure;
-using System.Windows.Media;
+using System.Windows;
+using System.Windows.Controls.Primitives;
 
 namespace SKDModule.PassCard.ViewModels
 {
 	public class PassCardViewModel : BaseViewModel, IPlanDesignerViewModel
 	{
 		private PassCardCanvas _passCardCanvas;
-		private bool _passCardCreated;
 		private EmployeesViewModel _employeesViewMode;
+		private bool _isLoaded;
 		public PassCardViewModel(EmployeesViewModel employeesViewModel)
 		{
 			_employeesViewMode = employeesViewModel;
 			_passCardCanvas = new PassCardCanvas();
-			_passCardCreated = false;
 			SKDManager.SKDPassCardLibraryConfiguration.Templates.Sort((item1, item2) => string.Compare(item1.Caption, item2.Caption));
 			PassCardTemplates = new ObservableCollection<PassCardTemplate>(SKDManager.SKDPassCardLibraryConfiguration.Templates);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 		}
 
 		public ObservableCollection<PassCardTemplate> PassCardTemplates { get; private set; }
@@ -49,18 +52,36 @@ namespace SKDModule.PassCard.ViewModels
 					_selectedPassCardTemplate = value;
 					OnPropertyChanged(() => SelectedPassCardTemplate);
 					OnPropertyChanged(() => IsNotEmpty);
-					if (_passCardCreated)
-						InternalCreatePassCard();
+					InternalCreatePassCard();
+					if (_isLoaded)
+						_employeesViewMode.SelectedCard.SaveCardTemplate(SelectedPassCardTemplate == null ? null : (Guid?)SelectedPassCardTemplate.UID);
 				}
 			}
 		}
 
+		public RelayCommand PrintCommand { get; private set; }
+		private void OnPrint()
+		{
+			var dialog = new PrintDialog();
+			if (dialog.ShowDialog() == true)
+			{
+				var rect = LayoutInformation.GetLayoutSlot(_passCardCanvas);
+				_passCardCanvas.Arrange(new Rect(_passCardCanvas.DesiredSize));
+				dialog.PrintVisual(_passCardCanvas, "Пропуск " + _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.LastName);
+				_passCardCanvas.Arrange(rect);
+			}
+		}
+		private bool CanPrint()
+		{
+			return SelectedPassCardTemplate != null;
+		}
+
 		public void CreatePassCard()
 		{
-			_passCardCreated = false;
-			//SelectedPassCardTemplate = PassCardTemplates.FirstOrDefault();
-			InternalCreatePassCard();
-			_passCardCreated = true;
+			_isLoaded = false;
+			var uid = _employeesViewMode.IsCard && _employeesViewMode.SelectedCard != null ? _employeesViewMode.SelectedCard.Card.CardTemplateUID : null;
+			SelectedPassCardTemplate = uid.HasValue ? PassCardTemplates.FirstOrDefault(item => item.UID == uid.Value) : null;
+			_isLoaded = true;
 		}
 
 		private void InternalCreatePassCard()
@@ -140,8 +161,8 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.ValidTo.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Additional:
-					var columnUID = _employeesViewMode.AdditionalColumnNames.FirstOrDefault(item => item.UID == elementTextProperty.AdditionalColumn);
-					var index = _employeesViewMode.AdditionalColumnNames.IndexOf(columnUID);
+					var columnUID = _employeesViewMode.AdditionalColumnTypes.FirstOrDefault(item => item.UID == elementTextProperty.AdditionalColumn);
+					var index = _employeesViewMode.AdditionalColumnTypes.IndexOf(columnUID);
 					elementTextProperty.Text = index == -1 ? string.Empty : _employeesViewMode.SelectedCard.EmployeeViewModel.AdditionalColumnValues[index];
 					break;
 				default:
@@ -169,8 +190,8 @@ namespace SKDModule.PassCard.ViewModels
 					elementImageProperty.BackgroundImageSource = _employeesViewMode.SelectedCard.EmployeeViewModel.PositionPhotoUID;
 					break;
 				case PassCardImagePropertyType.Additional:
-					var columnUID = _employeesViewMode.AdditionalColumnNames.FirstOrDefault(item => item.UID == elementImageProperty.AdditionalColumn);
-					var index = _employeesViewMode.AdditionalColumnNames.IndexOf(columnUID);
+					var columnUID = _employeesViewMode.AdditionalColumnTypes.FirstOrDefault(item => item.UID == elementImageProperty.AdditionalColumn);
+					var index = _employeesViewMode.AdditionalColumnTypes.IndexOf(columnUID);
 					//elementImageProperty.BackgroundImageSource = index == -1 ? string.Empty : _employeeCardViewModel.EmployeeViewModel.AdditionalColumnValues[index];
 					elementImageProperty.BackgroundImageSource = null;
 					break;

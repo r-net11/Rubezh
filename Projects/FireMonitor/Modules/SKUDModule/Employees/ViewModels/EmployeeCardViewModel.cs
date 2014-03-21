@@ -21,7 +21,6 @@ namespace SKDModule.ViewModels
 		{
 			RemoveCommand = new RelayCommand(OnRemove);
 			EditCommand = new RelayCommand(OnEdit);
-			PrintCommand = new RelayCommand(OnPrint);
 			SelectCardCommand = new RelayCommand(OnSelectCard);
 			SelectPassCommand = new RelayCommand(OnSelectPass);
 
@@ -99,11 +98,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand PrintCommand { get; private set; }
-		void OnPrint()
-		{
-		}
-
 		public RelayCommand SelectCardCommand { get; private set; }
 		void OnSelectCard()
 		{
@@ -146,10 +140,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool SaveCardTemplate(SKDCard card, Guid? cardTemplateUID)
+		public bool SaveCardTemplate(Guid? cardTemplateUID)
 		{
-			card.CardTemplateUID = cardTemplateUID;
-			return CardHelper.SaveTemplate(card);		
+			Card.CardTemplateUID = cardTemplateUID;
+			return CardHelper.SaveTemplate(Card);
 		}
 	}
 }

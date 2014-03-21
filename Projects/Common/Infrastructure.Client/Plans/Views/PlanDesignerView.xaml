@@ -26,13 +26,15 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<DockPanel Grid.Column="0" Visibility="{Binding AllowScalePoint, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Controls:ToolBarButton DockPanel.Dock="Left" Click="OnDeviceZoomOut" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить размер устройства" />
-				<Controls:ToolBarButton DockPanel.Dock="Right" Click="OnDeviceZoomIn" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить размер устройства" />
-				<Slider x:Name="deviceSlider" VerticalAlignment="Center" IsMoveToPointEnabled="True" IsSnapToTickEnabled="True" Maximum="50" Minimum="15" Orientation="Horizontal" TickFrequency="1" TickPlacement="None" ToolTip="Изменить размер устройства" Value="30" />
+				<Controls:ToolBarButton Click="OnDeviceZoomOut" DockPanel.Dock="Left" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить размер устройства" />
+				<Controls:ToolBarButton Click="OnDeviceZoomIn" DockPanel.Dock="Right" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить размер устройства" />
+				<Slider x:Name="deviceSlider" VerticalAlignment="Center" IsMoveToPointEnabled="True" IsSnapToTickEnabled="True" Maximum="50"
+				        Minimum="15" Orientation="Horizontal" TickFrequency="1" TickPlacement="None" ToolTip="Изменить размер устройства"
+				        Value="30" />
 			</DockPanel>
 			<DockPanel Grid.Column="1">
-				<Controls:ToolBarButton DockPanel.Dock="Left" Click="OnZoomOut" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб плана" />
-				<Controls:ToolBarButton DockPanel.Dock="Right" Click="OnZoomIn" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб плана" />
+				<Controls:ToolBarButton Click="OnZoomOut" DockPanel.Dock="Left" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб плана" />
+				<Controls:ToolBarButton Click="OnZoomIn" DockPanel.Dock="Right" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб плана" />
 				<Slider x:Name="slider" VerticalAlignment="Center" IsMoveToPointEnabled="True" Maximum="10" Minimum="1" Orientation="Horizontal" ToolTip="Изменить масштаб плана" Value="1" />
 			</DockPanel>
 			<ToggleButton Grid.Column="2" Width="50" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding IsCollapsed, Converter={StaticResource BoolToMinimizeTextConverter}}" IsChecked="{Binding IsCollapsed}" ToolTip="{Binding IsCollapsed, Converter={StaticResource BoolToMinimizeTooltipConverter}, ConverterParameter=True}" Visibility="{Binding CanCollapse, Converter={StaticResource BoolToVisibilityConverter}}" />

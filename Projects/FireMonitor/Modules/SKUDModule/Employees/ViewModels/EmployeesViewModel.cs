@@ -10,16 +10,17 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using SKDModule.PassCard.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class EmployeesViewModel : ViewPartViewModel
 	{
 		public static EmployeesViewModel Current { get; private set; }
+		public PassCardViewModel PassCardViewModel { get; private set; }
 		EmployeeFilter Filter;
 		public Organization Organization { get; private set; }
 		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
-
 
 		public EmployeesViewModel()
 		{
@@ -39,6 +40,7 @@ namespace SKDModule.ViewModels
 
 		void Initialize()
 		{
+			PassCardViewModel = new PassCardViewModel(this);
 			Organization = OrganizationHelper.GetSingle(Filter.OrganizationUIDs.FirstOrDefault());
 			var employees = EmployeeHelper.Get(Filter);
 			Employees = new ObservableCollection<EmployeeViewModel>();
@@ -128,6 +130,7 @@ namespace SKDModule.ViewModels
 					else
 						value.IsPassBold = true;
 				}
+				PassCardViewModel.CreatePassCard();
 			}
 		}
 
