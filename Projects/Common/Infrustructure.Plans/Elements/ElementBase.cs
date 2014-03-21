@@ -15,7 +15,6 @@ namespace Infrustructure.Plans.Elements
 			BackgroundColor = Colors.White;
 			BorderColor = Colors.Black;
 			BorderThickness = 1;
-			BackgroundPixels = null;
 			BackgroundImageSource = null;
 			BackgroundSourceName = null;
 			IsVectorImage = false;
@@ -38,8 +37,6 @@ namespace Infrustructure.Plans.Elements
 		public double BorderThickness { get; set; }
 		[DataMember]
 		public Color BackgroundColor { get; set; }
-		[DataMember]
-		public byte[] BackgroundPixels { get; set; }
 		[DataMember]
 		public Guid? BackgroundImageSource { get; set; }
 		[DataMember]

@@ -22,14 +22,13 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		{
 			base.Copy(element);
 			((ElementPassCardTextProperty)element).PropertyType = PropertyType;
-			((ElementPassCardTextProperty)element).AdditionalColumn = AdditionalColumn;
+			((ElementPassCardTextProperty)element).AdditionalColumnUID = AdditionalColumnUID;
 		}
-
 
 		[DataMember]
 		public PassCardTextPropertyType PropertyType { get; set; }
 		[DataMember]
-		public Guid AdditionalColumn { get; set; }
+		public Guid AdditionalColumnUID { get; set; }
 
 		public override void UpdateZLayer()
 		{

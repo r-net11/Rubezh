@@ -23,7 +23,7 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		{
 			base.Copy(element);
 			((ElementPassCardImageProperty)element).PropertyType = PropertyType;
-			((ElementPassCardImageProperty)element).AdditionalColumn = AdditionalColumn;
+			((ElementPassCardImageProperty)element).AdditionalColumnUID = AdditionalColumnUID;
 			((ElementPassCardImageProperty)element).Stretch = Stretch;
 			((ElementPassCardImageProperty)element).Text = Text;
 		}
@@ -31,7 +31,7 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		[DataMember]
 		public PassCardImagePropertyType PropertyType { get; set; }
 		[DataMember]
-		public Guid AdditionalColumn { get; set; }
+		public Guid AdditionalColumnUID { get; set; }
 		[DataMember]
 		public Stretch Stretch { get; set; }
 		[DataMember]

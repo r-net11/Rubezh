@@ -4,7 +4,7 @@ namespace FiresecAPI.SKD.PassCardLibrary
 {
 	public enum PassCardImagePropertyType
 	{
-		[Description("Фото")]
+		[Description("Фото сотрудника")]
 		Photo,
 		[Description("Логотип организации")]
 		OrganizationLogo,

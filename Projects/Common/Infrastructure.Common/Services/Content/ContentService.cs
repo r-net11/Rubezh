@@ -117,14 +117,6 @@ namespace Infrastructure.Common.Services.Content
 					fileStream.Write(buffer, 0, count);
 			return guid;
 		}
-		public Guid AddContent(byte[] bytes)
-		{
-			var guid = Guid.NewGuid();
-			var contentFile = Path.Combine(ContentFolder, guid.ToString());
-			using (var fs = new FileStream(contentFile, FileMode.CreateNew, FileAccess.Write))
-				fs.Write(bytes, 0, bytes.Length);
-			return guid;
-		}
 		public Guid AddContent(object data)
 		{
 			var guid = Guid.NewGuid();

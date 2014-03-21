@@ -32,7 +32,7 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		}
 		private bool ValidateVersion(PassCardTemplate template)
 		{
-			bool result = template.BackgroundPixels == null;
+			bool result = true;
 			if (template.ElementExtensions == null)
 			{
 				template.ElementExtensions = new List<ElementBase>();

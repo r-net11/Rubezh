@@ -28,6 +28,7 @@ namespace SKDModule.PassCard.ViewModels
 		private PassCardCanvas _passCardCanvas;
 		private EmployeesViewModel _employeesViewMode;
 		private bool _isLoaded;
+
 		public PassCardViewModel(EmployeesViewModel employeesViewModel)
 		{
 			_employeesViewMode = employeesViewModel;
@@ -161,7 +162,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.ValidTo.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Additional:
-					var columnUID = _employeesViewMode.AdditionalColumnTypes.FirstOrDefault(item => item.UID == elementTextProperty.AdditionalColumn);
+					var columnUID = _employeesViewMode.AdditionalColumnTypes.FirstOrDefault(item => item.UID == elementTextProperty.AdditionalColumnUID);
 					var index = _employeesViewMode.AdditionalColumnTypes.IndexOf(columnUID);
 					elementTextProperty.Text = index == -1 ? string.Empty : _employeesViewMode.SelectedCard.EmployeeViewModel.AdditionalColumnValues[index];
 					break;
@@ -173,7 +174,6 @@ namespace SKDModule.PassCard.ViewModels
 		private void ResolveImageProperty(ElementPassCardImageProperty elementImageProperty)
 		{
 			elementImageProperty.BackgroundColor = Colors.Transparent;
-			elementImageProperty.BackgroundPixels = null;
 			elementImageProperty.BackgroundSourceName = null;
 			switch (elementImageProperty.PropertyType)
 			{
@@ -190,7 +190,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementImageProperty.BackgroundImageSource = _employeesViewMode.SelectedCard.EmployeeViewModel.PositionPhotoUID;
 					break;
 				case PassCardImagePropertyType.Additional:
-					var columnUID = _employeesViewMode.AdditionalColumnTypes.FirstOrDefault(item => item.UID == elementImageProperty.AdditionalColumn);
+					var columnUID = _employeesViewMode.AdditionalColumnTypes.FirstOrDefault(item => item.UID == elementImageProperty.AdditionalColumnUID);
 					var index = _employeesViewMode.AdditionalColumnTypes.IndexOf(columnUID);
 					//elementImageProperty.BackgroundImageSource = index == -1 ? string.Empty : _employeeCardViewModel.EmployeeViewModel.AdditionalColumnValues[index];
 					elementImageProperty.BackgroundImageSource = null;
@@ -240,7 +240,7 @@ namespace SKDModule.PassCard.ViewModels
 
 		public bool HasPermissionsToScale
 		{
-			get { return FiresecManager.CheckPermission(PermissionType.Oper_ChangeView); }
+			get { return true; }
 		}
 		public bool AlwaysShowScroll
 		{

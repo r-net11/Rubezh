@@ -15,13 +15,6 @@ namespace PlansModule.Designer
 
 		public static void UpgradeBackground(IElementBackground element)
 		{
-			if (element.BackgroundPixels != null)
-			{
-				var guid = ServiceFactory.ContentService.AddContent(element.BackgroundPixels);
-				element.BackgroundImageSource = guid;
-				element.BackgroundPixels = null;
-				ServiceFactory.SaveService.PlansChanged = true;
-			}
 			PainterCache.CacheBrush(element);
 		}
 		
