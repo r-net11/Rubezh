@@ -9,9 +9,13 @@ namespace FiresecAPI
 		public SKDStates()
 		{
 			DeviceStates = new List<SKDDeviceState>();
+			ZoneStates = new List<SKDZoneState>();
 		}
 
 		[DataMember]
 		public List<SKDDeviceState> DeviceStates { get; set; }
+
+		[DataMember]
+		public List<SKDZoneState> ZoneStates { get; set; }
 	}
 }

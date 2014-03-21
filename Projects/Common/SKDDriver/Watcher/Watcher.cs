@@ -16,6 +16,7 @@ namespace SKDDriver
 		AutoResetEvent SuspendingEvent = new AutoResetEvent(false);
 
 		public SKDDevice Device { get; private set; }
+		List<SKDDevice> AllDevices;
 		bool IsStopping = false;
 		AutoResetEvent StopEvent;
 		Thread RunThread;
@@ -26,6 +27,8 @@ namespace SKDDriver
 		public Watcher(SKDDevice device)
 		{
 			Device = device;
+			AllDevices = Device.Children.ToList();
+			AllDevices.Add(Device);
 		}
 
 		public void StartThread()
@@ -98,7 +101,7 @@ namespace SKDDriver
 			lock (CallbackResultLocker)
 			{
 				SKDCallbackResult = new SKDCallbackResult();
-				foreach (var device in Device.Children)
+				foreach (var device in AllDevices)
 				{
 					if (device.State != null)
 					{
@@ -175,7 +178,7 @@ namespace SKDDriver
 			bool IsGetStatesFailure = false;
 			IsHashFailure = false;
 
-			foreach (var device in Device.Children)
+			foreach (var device in AllDevices)
 			{
 				device.State.Clear();
 			}
@@ -184,7 +187,7 @@ namespace SKDDriver
 			{
 				LastUpdateTime = DateTime.Now;
 				SKDCallbackResult = new SKDCallbackResult();
-				foreach (var device in Device.Children)
+				foreach (var device in AllDevices)
 				{
 					device.State.IsInitialState = true;
 				}
@@ -200,7 +203,7 @@ namespace SKDDriver
 					else
 						AddFailureJournalItem("Связь с ГК восстановлена", "Старт_мониторинга");
 
-					foreach (var device in Device.Children)
+					foreach (var device in AllDevices)
 					{
 						device.State.IsConnectionLost = IsPingFailure;
 						device.State.IsInitialState = !IsPingFailure;
@@ -249,7 +252,7 @@ namespace SKDDriver
 					else
 						AddFailureJournalItem("Конфигурация прибора соответствует конфигурации ПК", "Совпадает хэш");
 
-					foreach (var device in Device.Children)
+					foreach (var device in AllDevices)
 					{
 						device.State.IsDBMissmatch = IsHashFailure;
 						device.State.IsInitialState = false;
@@ -291,7 +294,7 @@ namespace SKDDriver
 				}
 
 				SKDCallbackResult = new SKDCallbackResult();
-				foreach (var device in Device.Children)
+				foreach (var device in AllDevices)
 				{
 					device.State.IsInitialState = false;
 				}
@@ -350,44 +353,6 @@ namespace SKDDriver
 			};
 			SKDDBHelper.Add(journalItem);
 			SKDCallbackResult.JournalItems.Add(journalItem);
-		}
-
-		void OnObjectStateChanged(SKDDevice device)
-		{
-			AddObjectStateToSKDStates(SKDCallbackResult.SKDStates, device);
-		}
-
-		public static void AddObjectStateToSKDStates(SKDStates skdStates, SKDDevice device)
-		{
-			if (device.State != null)
-			{
-				var stateClasses = GetStateClasses(device.State);
-				device.State.StateClass = XStatesHelper.GetMinStateClass(stateClasses);
-
-				device.State.CopyToState(device.State);
-				skdStates.DeviceStates.RemoveAll(x => x.UID == device.UID);
-				skdStates.DeviceStates.Add(device.State);
-			}
-		}
-		static List<XStateClass> GetStateClasses(SKDDeviceState deviceState)
-		{
-			if (deviceState.IsSuspending)
-			{
-				return new List<XStateClass>() { XStateClass.Unknown };
-			}
-			if (deviceState.IsConnectionLost)
-			{
-				return new List<XStateClass>() { XStateClass.ConnectionLost };
-			}
-			if (deviceState.IsDBMissmatch)
-			{
-				return new List<XStateClass>() { XStateClass.DBMissmatch };
-			}
-			if (deviceState.IsInitialState)
-			{
-				return new List<XStateClass>() { XStateClass.Unknown };
-			}
-			return deviceState.StateClasses;
 		}
 
 		internal void AddMessage(string name, string userName)

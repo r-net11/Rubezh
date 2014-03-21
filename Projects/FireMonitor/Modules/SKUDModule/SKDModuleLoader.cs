@@ -173,6 +173,15 @@ namespace SKDModule
 					device.State.OnStateChanged();
 				}
 			}
+			foreach (var remoteZoneState in skdStates.ZoneStates)
+			{
+				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
+				if (zone != null)
+				{
+					remoteZoneState.CopyToState(zone.State);
+					zone.State.OnStateChanged();
+				}
+			}
 		}
 
 		#region ILayoutProviderModule Members

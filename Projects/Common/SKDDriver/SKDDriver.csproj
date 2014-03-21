@@ -85,6 +85,7 @@
     <Compile Include="SKDDBHelper.cs" />
     <Compile Include="SKDProcessorManager.cs" />
     <Compile Include="VideoWatcher.cs" />
+    <Compile Include="Watcher\Watcher.StateChanged.cs" />
     <Compile Include="Watcher\WatcherManager.cs" />
     <Compile Include="Watcher\JournalParser.cs" />
     <Compile Include="Watcher\Watcher.Connection.cs" />
