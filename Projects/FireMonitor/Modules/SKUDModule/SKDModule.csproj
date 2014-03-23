@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Loya.Dameer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\Loya.Dameer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -60,6 +63,9 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
+    <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
+    <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentFilterViewModel.cs" />
     <Compile Include="Departments\ViewModels\OrganisationDepartmentsViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentFilterView.xaml.cs">
@@ -75,6 +81,31 @@
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeFilterViewModel.cs" />
     <Compile Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml.cs">
       <DependentUpon>AdditionalColumnTypeFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
+    <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveZoneViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\DateTimePairViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\DescriptionViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\EventNameViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\JournalItemTypeViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\StateClassViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\SubsystemTypeViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchivePageViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveSettings\ArchiveDefaultStateViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveSettings\ArchiveSettingsViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveSettings\JournalColumnTypeViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
+    <Compile Include="Journal\Views\ArchiveFilterView.xaml.cs">
+      <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Journal\Views\ArchiveSettingsView.xaml.cs">
+      <DependentUpon>ArchiveSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Journal\Views\ArchiveView.xaml.cs">
+      <DependentUpon>ArchiveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PassCard\Designer\PassCardCanvas.cs" />
     <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
@@ -492,6 +523,18 @@
     <Page Include="Documents\Views\DocumentFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Journal\Views\ArchiveFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Journal\Views\ArchiveSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Journal\Views\ArchiveView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="PassCard\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
