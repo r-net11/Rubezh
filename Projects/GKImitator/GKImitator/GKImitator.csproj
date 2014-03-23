@@ -81,6 +81,11 @@
     <Compile Include="Processor\ImitatorJournalItemCollection.cs" />
     <Compile Include="Processor\JournalHelper.cs" />
     <Compile Include="Processor\ZipConfigurationHelper.cs" />
+    <Compile Include="SKUDDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKUDDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\BinaryObjectViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SKD\ControllerEventViewModel.cs" />
@@ -137,6 +142,17 @@
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>SKD.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </None>
+    <None Include="SKUDDataSet.xsc">
+      <DependentUpon>SKUDDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="SKUDDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SKUDDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SKUDDataSet.xss">
+      <DependentUpon>SKUDDataSet.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
