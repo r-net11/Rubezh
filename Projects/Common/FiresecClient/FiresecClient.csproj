@@ -134,6 +134,7 @@
     <Compile Include="FiresecManager\SKDHelpers\EmployeeHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\AccessTemplateHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\OrganizationHelper.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\PhotoHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\PositionHelper.cs" />
     <Compile Include="Service\SafeFiresecService.GK.cs" />
     <Compile Include="Service\FileHelper.cs" />

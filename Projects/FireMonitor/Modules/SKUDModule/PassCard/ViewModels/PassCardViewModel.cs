@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using Common;
 using FiresecAPI;
-using FiresecAPI.Models;
 using FiresecAPI.SKD.PassCardLibrary;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
@@ -18,8 +18,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.PassCard.Designer;
 using SKDModule.ViewModels;
-using System.Windows;
-using System.Windows.Controls.Primitives;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.PassCard.ViewModels
 {
@@ -67,7 +66,9 @@ namespace SKDModule.PassCard.ViewModels
 			if (dialog.ShowDialog() == true)
 			{
 				var rect = LayoutInformation.GetLayoutSlot(_passCardCanvas);
-				_passCardCanvas.Arrange(new Rect(_passCardCanvas.DesiredSize));
+				var capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
+				var origin = new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight);
+				_passCardCanvas.Arrange(new Rect(origin, _passCardCanvas.DesiredSize));
 				dialog.PrintVisual(_passCardCanvas, "Пропуск " + _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.LastName);
 				_passCardCanvas.Arrange(rect);
 			}
@@ -175,31 +176,7 @@ namespace SKDModule.PassCard.ViewModels
 		{
 			elementImageProperty.BackgroundColor = Colors.Transparent;
 			elementImageProperty.BackgroundSourceName = null;
-			switch (elementImageProperty.PropertyType)
-			{
-				case PassCardImagePropertyType.DepartmentLogo:
-					elementImageProperty.BackgroundImageSource = _employeesViewMode.SelectedCard.EmployeeViewModel.DepartmentPhotoUID;
-					break;
-				case PassCardImagePropertyType.OrganizationLogo:
-					elementImageProperty.BackgroundImageSource = _employeesViewMode.SelectedCard.Organization.PhotoUID;
-					break;
-				case PassCardImagePropertyType.Photo:
-					elementImageProperty.BackgroundImageSource = _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.PhotoUID;
-					break;
-				case PassCardImagePropertyType.PositionLogo:
-					elementImageProperty.BackgroundImageSource = _employeesViewMode.SelectedCard.EmployeeViewModel.PositionPhotoUID;
-					break;
-				case PassCardImagePropertyType.Additional:
-					var columnUID = _employeesViewMode.AdditionalColumnTypes.FirstOrDefault(item => item.UID == elementImageProperty.AdditionalColumnUID);
-					var index = _employeesViewMode.AdditionalColumnTypes.IndexOf(columnUID);
-					//elementImageProperty.BackgroundImageSource = index == -1 ? string.Empty : _employeeCardViewModel.EmployeeViewModel.AdditionalColumnValues[index];
-					elementImageProperty.BackgroundImageSource = null;
-					break;
-				default:
-					elementImageProperty.BackgroundImageSource = null;
-					break;
-			}
-			//elementImageProperty.BackgroundPixels
+			elementImageProperty.BackgroundImageSource = null;
 		}
 
 		#region IPlanDesignerViewModel Members
@@ -259,7 +236,33 @@ namespace SKDModule.PassCard.ViewModels
 		{
 			var elementPassCardImageProperty = args.Element as ElementPassCardImageProperty;
 			if (elementPassCardImageProperty != null)
-				args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty);
+			{
+				Photo photo = null;
+				byte[] data = null;
+				switch (elementPassCardImageProperty.PropertyType)
+				{
+					case PassCardImagePropertyType.DepartmentLogo:
+						photo = PhotoHelper.Get(_employeesViewMode.SelectedCard.EmployeeViewModel.DepartmentPhotoUID);
+						break;
+					case PassCardImagePropertyType.OrganizationLogo:
+						photo = PhotoHelper.Get(_employeesViewMode.SelectedCard.Organization.PhotoUID);
+						break;
+					case PassCardImagePropertyType.Photo:
+						photo = PhotoHelper.Get(_employeesViewMode.SelectedCard.EmployeeViewModel.Employee.PhotoUID);
+						break;
+					case PassCardImagePropertyType.PositionLogo:
+						photo = PhotoHelper.Get(_employeesViewMode.SelectedCard.EmployeeViewModel.PositionPhotoUID);
+						break;
+					case PassCardImagePropertyType.Additional:
+						var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementPassCardImageProperty.AdditionalColumnUID);
+						if (columnValue != null)
+							data = columnValue.GraphicsData;
+						break;
+					default:
+						break;
+				}
+				args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo == null ? data : photo.Data);
+			}
 		}
 	}
 }
