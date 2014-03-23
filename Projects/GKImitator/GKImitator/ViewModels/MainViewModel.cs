@@ -49,10 +49,13 @@ namespace GKImitator.ViewModels
 			var gkDatabase = DescriptorsManager.GkDatabases.FirstOrDefault();
 
 			BinaryObjects = new List<BinaryObjectViewModel>();
-			foreach (var descriptors in gkDatabase.Descriptors)
+			if (gkDatabase != null)
 			{
-				var binObjectViewModel = new BinaryObjectViewModel(descriptors);
-				BinaryObjects.Add(binObjectViewModel);
+				foreach (var descriptors in gkDatabase.Descriptors)
+				{
+					var binObjectViewModel = new BinaryObjectViewModel(descriptors);
+					BinaryObjects.Add(binObjectViewModel);
+				}
 			}
 			SelectedBinaryObject = BinaryObjects.FirstOrDefault();
 		}

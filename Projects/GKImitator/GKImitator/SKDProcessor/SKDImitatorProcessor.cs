@@ -27,7 +27,8 @@ namespace GKImitator.Processor
 			Port = port;
 			IsConnected = true;
 			Context = new SKDDataContext();
-			LastJournalNo = Context.Journals.AsEnumerable().OrderBy(x=>x.CardNo).LastOrDefault().CardNo;
+			if (Context.Journals.Count() > 0)
+				LastJournalNo = Context.Journals.AsEnumerable().OrderBy(x => x.CardNo).LastOrDefault().CardNo;
 			//LastJournalNo = 0;
 			JournalItems = new List<SKDImitatorJournalItem>();
 			JournalItems.Add(new SKDImitatorJournalItem() { No = LastJournalNo });

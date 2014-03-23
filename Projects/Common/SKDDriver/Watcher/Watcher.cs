@@ -387,16 +387,7 @@ namespace SKDDriver
 		{
 
 		}
-		void GetAllStates()
-		{
-			foreach (var childDevice in Device.Children)
-			{
-				var bytes = new List<byte>();
-				bytes.Add(4);
-				var sendResult = SKDDeviceProcessor.SendBytes(Device, bytes);
-				//if(sendResult)
-			}
-		}
+		
 		bool CheckTechnologicalRegime()
 		{
 			return false;
