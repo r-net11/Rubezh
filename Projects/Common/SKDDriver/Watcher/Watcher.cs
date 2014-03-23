@@ -387,10 +387,7 @@ namespace SKDDriver
 		{
 
 		}
-		void GetAllStates()
-		{
-
-		}
+		
 		bool CheckTechnologicalRegime()
 		{
 			return false;

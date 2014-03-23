@@ -92,7 +92,10 @@ namespace FiresecAPI
 		{
 			foreach (var device in Devices)
 			{
+				
 				device.State = new SKDDeviceState(device);
+				if (device.DriverType == SKDDriverType.System)
+					device.State.IsInitialState = false;
 			}
 			foreach (var zone in Zones)
 			{
