@@ -29,7 +29,6 @@ namespace GKImitator.Processor
 			Context = new SKDDataContext();
 			if (Context.Journals.Count() > 0)
 				LastJournalNo = Context.Journals.AsEnumerable().OrderBy(x => x.CardNo).LastOrDefault().CardNo;
-			//LastJournalNo = 0;
 			JournalItems = new List<SKDImitatorJournalItem>();
 			JournalItems.Add(new SKDImitatorJournalItem() { No = LastJournalNo });
 		}
@@ -120,9 +119,8 @@ namespace GKImitator.Processor
 				Description = "",
 				SysemDate = DateTime.Now,
 				DeviceDate = DateTime.Now,
-				CardNo = skdImitatorJournalItem.No,
-				//CardNo = skdImitatorJournalItem.CardNo,
-				//CardSeries = skdImitatorJournalItem.CardSeries,
+				CardNo = skdImitatorJournalItem.CardNo,
+				CardSeries = skdImitatorJournalItem.CardSeries,
 			};
 			Context.Journals.InsertOnSubmit(dbJournal);
 			Context.SubmitChanges();

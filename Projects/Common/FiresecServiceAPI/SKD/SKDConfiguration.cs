@@ -97,7 +97,8 @@ namespace XFiresecAPI
 						if (childDevice.DriverType == SKDDriverType.Reader)
 						{
 							children.Add(childDevice);
-							childDevice.Address = children.Count.ToString();
+							childDevice.IntAddress = children.Count;
+							childDevice.Address = childDevice.IntAddress.ToString();
 						}
 					}
 					foreach (var childDevice in device.Children)
@@ -105,7 +106,8 @@ namespace XFiresecAPI
 						if (childDevice.DriverType != SKDDriverType.Reader)
 						{
 							children.Add(childDevice);
-							childDevice.Address = null;
+							childDevice.IntAddress = children.Count;
+							childDevice.Address = childDevice.IntAddress.ToString();
 						}
 					}
 					device.Children = children;

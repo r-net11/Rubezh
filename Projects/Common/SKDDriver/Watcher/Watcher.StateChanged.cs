@@ -15,7 +15,10 @@ namespace SKDDriver
 		void OnDeviceStateChanged(SKDDevice device)
 		{
 			AddDeviceStateToSKDStates(SKDCallbackResult.SKDStates, device);
-			OnZoneStateChanged(device.Zone);
+			if (device.Zone != null)
+			{
+				OnZoneStateChanged(device.Zone);
+			}
 		}
 
 		void OnZoneStateChanged(SKDZone zone)

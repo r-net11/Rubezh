@@ -25,16 +25,7 @@ namespace SKDDriver
 		{
 			var bytes = new List<byte>();
 			bytes.Add(4);
-			var intAddress = -1;
-			if (device.DriverType == SKDDriverType.Reader || device.DriverType == SKDDriverType.Gate)
-			{
-				try
-				{
-					intAddress = Int32.Parse(device.Address);
-				}
-				catch { }
-			}
-			bytes.Add((byte)intAddress);
+			bytes.Add((byte)device.IntAddress);
 			var sendResult = SKDDeviceProcessor.SendBytes(Device, bytes);
 			if (!sendResult.HasError)
 			{
