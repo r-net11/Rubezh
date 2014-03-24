@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media.Imaging;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
+
 
 namespace SKDModule.ViewModels
 {
@@ -51,6 +53,7 @@ namespace SKDModule.ViewModels
 						AdditionalColumns.Add(new AdditionalColumnViewModel(column, this));
 					}
 				}
+				SelectedAdditionalColumn = AdditionalColumns.FirstOrDefault();
 			}
 			CopyProperties();
 		}
@@ -60,6 +63,11 @@ namespace SKDModule.ViewModels
 			FirstName = Employee.FirstName;
 			SecondName = Employee.SecondName;
 			LastName = Employee.LastName;
+		}
+
+		public bool HasAdditionalColumns
+		{
+			get { return AdditionalColumns.IsNotNullOrEmpty(); }
 		}
 
 		public List<Position> Positions { get; private set; }
@@ -128,6 +136,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		AdditionalColumnViewModel selectedAdditionalColumn;
+		public AdditionalColumnViewModel SelectedAdditionalColumn
+		{
+			get { return selectedAdditionalColumn; }
+			set
+			{
+				selectedAdditionalColumn = value;
+				OnPropertyChanged(() => SelectedAdditionalColumn);
+			}
+		}
+
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(FirstName);
@@ -152,14 +171,16 @@ namespace SKDModule.ViewModels
 		}
 	}
 
-	public class AdditionalColumnViewModel
+	public class AdditionalColumnViewModel:BaseViewModel
 	{
-		public EmployeeDetailsViewModel EmployeeDetailsViewModel { get; private set; }
-
+		EmployeeDetailsViewModel EmployeeDetailsViewModel;
 		AdditionalColumn AdditionalColumn;
 
 		public string Name { get; private set; }
 		public AdditionalColumnType AdditionalColumnType { get; private set; }
+		public bool IsGraphicsData { get; private set; }
+		public BitmapSource Bitmap { get; private set; }
+		public string Text { get; private set; }
 
 			 
 		public AdditionalColumnViewModel(AdditionalColumn additionalColumn, EmployeeDetailsViewModel employeeDetailsViewModel)
@@ -168,8 +189,12 @@ namespace SKDModule.ViewModels
 			EmployeeDetailsViewModel = employeeDetailsViewModel;
 			AdditionalColumnType = EmployeeDetailsViewModel.EmployeesViewModel.AdditionalColumnTypes.FirstOrDefault(x => x.UID == AdditionalColumn.AdditionalColumnTypeUID);
 			Name = AdditionalColumnType.Name;
+			IsGraphicsData = AdditionalColumnType.DataType == DataType.Graphics;
+			if (IsGraphicsData)
+				Bitmap = PhotoHelper.GetSingle(additionalColumn.PhotoUID);
+			else
+				Text = AdditionalColumn.TextData;
 		}
-
 	}
 
 }

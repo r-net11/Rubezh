@@ -31,7 +31,7 @@ namespace FiresecClient.SKDHelpers
 			return true;
 		}
 
-		public static Document GetDocument(Guid? uid)
+		public static Document GetSingle(Guid? uid)
 		{
 			if (uid == null)
 				return null;
@@ -47,7 +47,7 @@ namespace FiresecClient.SKDHelpers
 				return operationResult.Result.FirstOrDefault();
 		}
 
-		public static IEnumerable<Document> GetDocuments(DocumentFilter filter)
+		public static IEnumerable<Document> Get(DocumentFilter filter)
 		{
 			var operatonResult = FiresecManager.FiresecService.GetDocuments(filter);
 			if (operatonResult.HasError)

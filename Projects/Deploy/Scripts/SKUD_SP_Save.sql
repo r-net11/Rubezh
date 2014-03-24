@@ -747,7 +747,7 @@ CREATE PROCEDURE SaveAdditionalColumn
 	@EmployeeUID uniqueidentifier = NULL,
 	@AdditionalColumnTypeUID uniqueidentifier = NULL,
 	@TextData text = NULL,
-	@GraphicsData varbinary(MAX) = NULL
+	@GraphicsDataUID uniqueidentifier = NULL
 AS
 BEGIN
 	INSERT INTO AdditionalColumn (
@@ -757,7 +757,7 @@ BEGIN
 		EmployeeUID,
 		AdditionalColumnTypeUID ,
 		TextData ,
-		GraphicsData )
+		PhotoUID )
 	VALUES (
 		@UID ,
 		@IsDeleted ,
@@ -765,5 +765,23 @@ BEGIN
 		@EmployeeUID ,
 		@AdditionalColumnTypeUID ,
 		@TextData ,
-		@GraphicsData )
+		@GraphicsDataUID )
+END	
+
+GO
+CREATE PROCEDURE SavePhoto
+	@UID uniqueidentifier,
+	@Data varbinary(MAX)
+AS
+BEGIN
+	INSERT INTO Photo (
+		UID,
+		Data,
+		IsDeleted,
+		RemovalDate )
+	VALUES (
+		@UID ,
+		@Data,
+		0,
+		'01/01/1900' )
 END	

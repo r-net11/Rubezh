@@ -108,6 +108,7 @@
     <Reference Include="System.ServiceModel">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -134,6 +135,7 @@
     <Compile Include="FiresecManager\SKDHelpers\EmployeeHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\AccessTemplateHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\OrganizationHelper.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\PhotoHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\PositionHelper.cs" />
     <Compile Include="Service\SafeFiresecService.GK.cs" />
     <Compile Include="Service\FileHelper.cs" />

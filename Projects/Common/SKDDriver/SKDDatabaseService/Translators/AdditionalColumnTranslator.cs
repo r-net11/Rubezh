@@ -18,8 +18,7 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.EmployeeUID = tableItem.EmployeeUID;
 			result.AdditionalColumnTypeUID = tableItem.AdditionalColumnTypeUID;
-			if(tableItem.GraphicsData != null)
-				result.GraphicsData = tableItem.GraphicsData.ToArray();
+			result.PhotoUID = tableItem.PhotoUID;
 			result.TextData = tableItem.TextData;
 			return result;
 		}
@@ -29,7 +28,7 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.AdditionalColumnTypeUID = apiItem.AdditionalColumnTypeUID;
-			tableItem.GraphicsData = apiItem.GraphicsData;
+			tableItem.PhotoUID = apiItem.PhotoUID;
 			tableItem.TextData = apiItem.TextData;
 		}
 

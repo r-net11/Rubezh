@@ -1,13 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using FiresecAPI;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI;
+using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FiresecClient;
-using System;
-using System.Collections.Generic;
-using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -26,7 +25,7 @@ namespace SKDModule.ViewModels
 		void Initialize()
 		{
 			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			var documents = DocumentHelper.GetDocuments(Filter);
+			var documents = DocumentHelper.Get(Filter);
 
 			OrganisationDocuments = new ObservableCollection<OrganisationDocumentsViewModel>();
 			foreach (var organisation in organisations)

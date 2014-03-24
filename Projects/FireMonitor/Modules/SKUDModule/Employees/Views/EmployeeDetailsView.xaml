@@ -33,13 +33,13 @@
                 </ComboBox>
             </Grid>
         </TabItem>
-        <TabItem Header="Дополнительные колонки">
+        <TabItem Header="Дополнительные колонки" Visibility="{Binding HasAdditionalColumns, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <ListBox Grid.Column="0" ItemsSource="{Binding AdditionalColumns}">
+                <ListBox Grid.Column="0" ItemsSource="{Binding AdditionalColumns}" SelectedItem="{Binding SelectedAdditionalColumn}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -49,6 +49,14 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                <Grid Grid.Column="1" DataContext="{Binding SelectedAdditionalColumn}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding IsGraphicsData, Converter={StaticResource BoolToVisibilityConverter}}" >
+                        <Image Source="{Binding Bitmap}" Stretch="None" />
+                    </ScrollViewer>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Visibility="{Binding IsGraphicsData, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
+                        <TextBlock Text="{Binding Text}" Foreground="White" TextWrapping="Wrap" />
+                    </ScrollViewer>
+                </Grid>
             </Grid>
         </TabItem>
     </TabControl>

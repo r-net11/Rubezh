@@ -302,3 +302,11 @@ REFERENCES [dbo].[Organization] ([Uid])
 NOT FOR REPLICATION 
 GO
 ALTER TABLE [dbo].[OrganizationZone] NOCHECK CONSTRAINT [FK_OrganizationZone_Organization]
+GO
+ALTER TABLE [dbo].[AdditionalColumn]  WITH NOCHECK ADD  CONSTRAINT [FK_AdditionalColumn_Photo] FOREIGN KEY([PhotoUID])
+REFERENCES [dbo].[Photo] ([Uid])
+ON UPDATE SET NULL
+ON DELETE SET NULL
+NOT FOR REPLICATION 
+GO
+ALTER TABLE [dbo].[AdditionalColumn] CHECK CONSTRAINT [FK_AdditionalColumn_Photo]

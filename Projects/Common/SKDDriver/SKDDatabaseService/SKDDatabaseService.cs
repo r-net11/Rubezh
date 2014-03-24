@@ -20,6 +20,7 @@ namespace SKDDriver
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context);
 			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
 			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator);
+			PhotoTranslator = new PhotoTranslator(Context);
 		}
 
 		public static DocumentTranslator DocumentTranslator { get; private set; }
