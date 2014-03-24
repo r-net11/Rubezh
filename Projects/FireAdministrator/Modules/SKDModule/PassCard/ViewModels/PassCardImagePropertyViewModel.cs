@@ -80,7 +80,7 @@ namespace SKDModule.PassCard.ViewModels
 			var element = (ElementPassCardImageProperty)ElementRectangle;
 			element.Text = SelectedPropertyType.ToDescription();
 			if (SelectedPropertyType == PassCardImagePropertyType.Additional)
-				element.Text += string.Format("({0})", SelectedAdditionalColumnType == null ? string.Empty : SelectedAdditionalColumnType.Name);
+				element.Text += string.Format("\n({0})", SelectedAdditionalColumnType == null ? string.Empty : SelectedAdditionalColumnType.Name);
 			element.PropertyType = SelectedPropertyType;
 			element.AdditionalColumnUID = SelectedAdditionalColumnType == null ? Guid.Empty : SelectedAdditionalColumnType.UID;
 			return base.Save();

@@ -65,7 +65,7 @@ namespace SKDModule.PassCard.ViewModels
 		{
 			Text = SelectedPropertyType.ToDescription();
 			if (SelectedPropertyType == PassCardTextPropertyType.Additional)
-				Text += string.Format("({0})", SelectedAdditionalColumnType == null ? string.Empty : SelectedAdditionalColumnType.Name);
+				Text += string.Format("\n({0})", SelectedAdditionalColumnType == null ? string.Empty : SelectedAdditionalColumnType.Name);
 			var element = (ElementPassCardTextProperty)ElementTextBlock;
 			element.PropertyType = SelectedPropertyType;
 			element.AdditionalColumnUID = SelectedAdditionalColumnType == null ? Guid.Empty : SelectedAdditionalColumnType.UID;

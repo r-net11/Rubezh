@@ -8,6 +8,8 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.PassCard.Designer;
 using SKDModule.PassCard.Painter;
+using System;
+using Infrustructure.Plans.Designer;
 
 namespace SKDModule.PassCard.ViewModels
 {
@@ -67,18 +69,20 @@ namespace SKDModule.PassCard.ViewModels
 			foreach (var elementPolyline in PassCardTemplate.ElementPolylines)
 				yield return elementPolyline;
 		}
-		public override void RegisterDesignerItem(Infrustructure.Plans.Designer.DesignerItem designerItem)
+		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			base.RegisterDesignerItem(designerItem);
 			if (designerItem.Element is ElementPassCardImageProperty)
 			{
 				designerItem.Group = PassCardsDesignerViewModel.PassCardImagePropertiesGroup;
-				designerItem.Title = ((ElementPassCardImageProperty)designerItem.Element).Text;
+				designerItem.Title = ((ElementPassCardImageProperty)designerItem.Element).Text.Replace('\n', ' ');
+				designerItem.UpdateProperties += DesignerItemPropertyChanged;
 			}
 			else if (designerItem.Element is ElementPassCardTextProperty)
 			{
 				designerItem.Group = PassCardsDesignerViewModel.PassCardTextPropertiesGroup;
-				designerItem.Title = ((ElementPassCardTextProperty)designerItem.Element).Text;
+				designerItem.Title = ((ElementPassCardTextProperty)designerItem.Element).Text.Replace('\n', ' ');
+				designerItem.UpdateProperties += DesignerItemPropertyChanged;
 			}
 		}
 
@@ -94,6 +98,14 @@ namespace SKDModule.PassCard.ViewModels
 			var elementPassCardImageProperty = args.Element as ElementPassCardImageProperty;
 			if (elementPassCardImageProperty != null)
 				args.Painter = new PassCardImagePropertyPainter(DesignerCanvas, elementPassCardImageProperty);
+		}
+
+		private void DesignerItemPropertyChanged(CommonDesignerItem designerItem)
+		{
+			if (designerItem.Element is ElementPassCardImageProperty)
+				designerItem.Title = ((ElementPassCardImageProperty)designerItem.Element).Text.Replace('\n', ' ');
+			else if (designerItem.Element is ElementPassCardTextProperty)
+				designerItem.Title = ((ElementPassCardTextProperty)designerItem.Element).Text.Replace('\n', ' ');
 		}
 	}
 }
