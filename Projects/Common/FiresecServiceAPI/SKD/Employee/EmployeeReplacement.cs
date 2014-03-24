@@ -6,6 +6,12 @@ namespace FiresecAPI
 	[DataContract]
 	public class EmployeeReplacement : OrganizationElementBase
 	{
+		public EmployeeReplacement()
+			: base()
+		{
+			DateTimePeriod = new DateTimePeriod();
+		}
+
 		[DataMember]
 		public DateTimePeriod DateTimePeriod { get; set; }
 
@@ -17,11 +23,5 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid? EmployeeUID { get; set; }
-
-		public EmployeeReplacement()
-			:base()
-		{
-			DateTimePeriod = new DateTimePeriod();
-		}
 	}
 }

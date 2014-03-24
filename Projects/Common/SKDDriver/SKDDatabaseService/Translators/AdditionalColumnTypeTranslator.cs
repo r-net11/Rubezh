@@ -30,7 +30,7 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
-			result.DataType = (DataType)tableItem.DataType;
+			result.DataType = (AdditionalColumnDataType)tableItem.DataType;
 			return result;
 		}
 

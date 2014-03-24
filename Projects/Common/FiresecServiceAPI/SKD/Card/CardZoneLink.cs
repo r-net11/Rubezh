@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using System.ComponentModel;
 
 namespace FiresecAPI
 {
 	[DataContract]
 	public class CardZoneLink : SKDIsDeletedModel
 	{
-
 		[DataMember]
 		public Guid? CardUid { get; set; }
 
@@ -22,17 +20,5 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid? IntervalUid { get; set; }
-	}
-
-	public enum IntervalType
-	{
-		[DescriptionAttribute("Временные зоны")]
-		Time,
-		[DescriptionAttribute("Недельные графики")]
-		Weekly,
-		[DescriptionAttribute("Скользящие посуточные графики")]
-		SlideDay,
-		[DescriptionAttribute("Скользящие понедельные графики")]
-		SlideWeekly
 	}
 }

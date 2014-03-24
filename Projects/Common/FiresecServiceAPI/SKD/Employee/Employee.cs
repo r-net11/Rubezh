@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
@@ -55,13 +54,5 @@ namespace FiresecAPI
 			get { return CurrentReplacement != null; }
 		}
 
-	}
-
-	public enum PersonType
-	{
-		[DescriptionAttribute("Работник")]
-		Employee,
-		[DescriptionAttribute("Гость")]
-		Guest
 	}
 }

@@ -6,11 +6,6 @@ namespace FiresecAPI
 	[DataContract]
 	public class SKDWeeklyIntervalPart
 	{
-		public SKDWeeklyIntervalPart()
-		{
-
-		}
-
 		[DataMember]
 		public int No { get; set; }
 

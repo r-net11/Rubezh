@@ -189,7 +189,7 @@ namespace SKDModule.ViewModels
 			EmployeeDetailsViewModel = employeeDetailsViewModel;
 			AdditionalColumnType = EmployeeDetailsViewModel.EmployeesViewModel.AdditionalColumnTypes.FirstOrDefault(x => x.UID == AdditionalColumn.AdditionalColumnTypeUID);
 			Name = AdditionalColumnType.Name;
-			IsGraphicsData = AdditionalColumnType.DataType == DataType.Graphics;
+			IsGraphicsData = AdditionalColumnType.DataType == AdditionalColumnDataType.Graphics;
 			if (IsGraphicsData)
 				Bitmap = PhotoHelper.GetSingleBitmapSource(additionalColumn.PhotoUID);
 			else

@@ -10,6 +10,6 @@ namespace FiresecAPI
 		public List<string> Names { get; set; }
 
 		[DataMember]
-		public DataType? Type { get; set; }
+		public AdditionalColumnDataType? Type { get; set; }
 	}
 }

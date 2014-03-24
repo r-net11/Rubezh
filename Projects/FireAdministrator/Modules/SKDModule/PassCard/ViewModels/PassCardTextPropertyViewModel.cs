@@ -54,7 +54,7 @@ namespace SKDModule.PassCard.ViewModels
 			var filter = new AdditionalColumnTypeFilter()
 			{
 				WithDeleted = DeletedType.Not,
-				Type = DataType.Text,
+				Type = AdditionalColumnDataType.Text,
 			};
 			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();

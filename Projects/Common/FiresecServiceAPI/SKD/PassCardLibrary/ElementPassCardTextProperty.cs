@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
-using System;
 
 namespace FiresecAPI.SKD.PassCardLibrary
 {
