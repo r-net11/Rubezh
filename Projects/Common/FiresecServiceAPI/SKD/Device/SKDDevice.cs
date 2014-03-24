@@ -27,6 +27,7 @@ namespace FiresecAPI
 		public SKDDeviceState State { get; set; }
 		public SKDZone Zone { get; set; }
 		public SKDZone OuterZone { get; set; }
+		public int IntAddress { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }

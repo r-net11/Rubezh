@@ -53,5 +53,7 @@ namespace FiresecAPI
 		public string UserName { get; set; }
 		[DataMember]
 		public XSubsystemType SubsystemType { get; set; }
+
+		public SKDDevice Device { get; set; }
 	}
 }

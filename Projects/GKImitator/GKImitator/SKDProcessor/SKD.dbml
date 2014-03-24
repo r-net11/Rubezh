@@ -12,8 +12,6 @@
       <Column Name="CardUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="CardSeries" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CardNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

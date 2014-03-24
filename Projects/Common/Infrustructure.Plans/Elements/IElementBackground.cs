@@ -7,7 +7,6 @@ namespace Infrustructure.Plans.Elements
 	{
 		bool AllowTransparent { get; }
 		Color BackgroundColor { get; set; }
-		byte[] BackgroundPixels { get; set; }
 		Guid? BackgroundImageSource { get; set; }
 		string BackgroundSourceName { get; set; }
 		bool IsVectorImage { get; set; }

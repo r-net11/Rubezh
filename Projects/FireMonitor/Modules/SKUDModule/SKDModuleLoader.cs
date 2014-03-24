@@ -25,6 +25,7 @@ namespace SKDModule
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
 		JournalViewModel JournalViewModel;
+		ArchiveViewModel ArchiveViewModel;
 		EmployeesViewModel EmployeesViewModel;
 		AccessTemplatesViewModel AccessTemplatesViewModel;
 		VerificationViewModel VerificationViewModel;
@@ -52,6 +53,7 @@ namespace SKDModule
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			JournalViewModel = new JournalViewModel();
+			ArchiveViewModel = new ArchiveViewModel();
 			EmployeesViewModel = new EmployeesViewModel();
 			AccessTemplatesViewModel = new AccessTemplatesViewModel();
 			VerificationViewModel = new VerificationViewModel();
@@ -79,6 +81,7 @@ namespace SKDModule
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png"),
+						new NavigationItem<ShowSKDArchiveEvent, ShowSKDArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowSKDEmployeesEvent>(EmployeesViewModel, "Сотрудники", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowSKDAccessTemplateAccessEvent>(AccessTemplatesViewModel, "Уровни доступа", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),

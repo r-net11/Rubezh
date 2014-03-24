@@ -34,14 +34,14 @@ namespace SKDDriver
 			var sendResult = SKDDeviceProcessor.SendBytes(Device, bytes);
 			if (IsStopping)
 				return -1;
-			if (sendResult.HasError)
+			if (sendResult.HasError || sendResult.Bytes.Count < 4)
 			{
 				ConnectionChanged(false);
 				return -1;
 			}
 			ConnectionChanged(true);
-			var journalParser = new JournalParser(Device, sendResult.Bytes);
-			return journalParser.JournalItem.DeviceJournalRecordNo;
+			var result = BytesHelper.SubstructInt(sendResult.Bytes, 0);
+			return result;
 		}
 
 		SKDJournalItem ReadJournal(int index)
@@ -70,6 +70,7 @@ namespace SKDDriver
 				var journalItem = ReadJournal(index);
 				if (journalItem != null)
 				{
+					UpdateDeviceStateOnJournalItem(journalItem);
 					journalItems.Add(journalItem);
 				}
 			}
@@ -82,6 +83,24 @@ namespace SKDDriver
 		bool ReadMissingJournalItems()
 		{
 			return true;
+		}
+
+		void UpdateDeviceStateOnJournalItem(SKDJournalItem journalItem)
+		{
+			if (journalItem.Device != null)
+			{
+				if (journalItem.Name == "Неисправность")
+				{
+					if (!journalItem.Device.State.StateClasses.Contains(XStateClass.Failure))
+						journalItem.Device.State.StateClasses.Add(XStateClass.Failure);
+					OnDeviceStateChanged(journalItem.Device);
+				}
+				if (journalItem.Name == "Неисправность устранена")
+				{
+					journalItem.Device.State.StateClasses.Remove(XStateClass.Failure);
+					OnDeviceStateChanged(journalItem.Device);
+				}
+			}
 		}
 	}
 }

@@ -27,8 +27,8 @@ namespace GKImitator.Processor
 			Port = port;
 			IsConnected = true;
 			Context = new SKDDataContext();
-			LastJournalNo = Context.Journals.AsEnumerable().OrderBy(x=>x.CardNo).LastOrDefault().CardNo;
-			//LastJournalNo = 0;
+			if (Context.Journals.Count() > 0)
+				LastJournalNo = Context.Journals.AsEnumerable().OrderBy(x => x.CardNo).LastOrDefault().CardNo;
 			JournalItems = new List<SKDImitatorJournalItem>();
 			JournalItems.Add(new SKDImitatorJournalItem() { No = LastJournalNo });
 		}
@@ -92,6 +92,9 @@ namespace GKImitator.Processor
 						result.AddRange(journalItem.ToBytes());
 					}
 					return result;
+				case 4: // Состояние устройства
+					result.Add((byte)XStateClass.Norm);
+					return result;
 			}
 			return null;
 		}
@@ -116,10 +119,8 @@ namespace GKImitator.Processor
 				Description = "",
 				SysemDate = DateTime.Now,
 				DeviceDate = DateTime.Now,
-				RemovalDate = DateTime.Now,
-				CardNo = skdImitatorJournalItem.No,
-				//CardNo = skdImitatorJournalItem.CardNo,
-				//CardSeries = skdImitatorJournalItem.CardSeries,
+				CardNo = skdImitatorJournalItem.CardNo,
+				CardSeries = skdImitatorJournalItem.CardSeries,
 			};
 			Context.Journals.InsertOnSubmit(dbJournal);
 			Context.SubmitChanges();

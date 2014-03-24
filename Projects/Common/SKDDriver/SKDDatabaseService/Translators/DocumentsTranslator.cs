@@ -72,6 +72,5 @@ namespace SKDDriver
 				result = result.And(e => e.RemovalDate >= launchDates.StartDate && e.RemovalDate <= launchDates.EndDate);
 			return result;
 		}
-
 	}
 }

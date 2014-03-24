@@ -21,16 +21,16 @@ namespace SKDModule.Validation
 				foreach (var imageProperty in template.ElementImageProperties)
 					if (imageProperty.PropertyType == PassCardImagePropertyType.Additional)
 					{
-						if (imageProperty.AdditionalColumn != Guid.Empty)
-							additionalColumnUIDs.Add(imageProperty.AdditionalColumn);
+						if (imageProperty.AdditionalColumnUID != Guid.Empty)
+							additionalColumnUIDs.Add(imageProperty.AdditionalColumnUID);
 						else
 							haveEmpty = true;
 					}
 				foreach (var textProperty in template.ElementTextProperties)
 					if (textProperty.PropertyType == PassCardTextPropertyType.Additional)
 					{
-						if (textProperty.AdditionalColumn != Guid.Empty)
-							additionalColumnUIDs.Add(textProperty.AdditionalColumn);
+						if (textProperty.AdditionalColumnUID != Guid.Empty)
+							additionalColumnUIDs.Add(textProperty.AdditionalColumnUID);
 						else
 							haveEmpty = true;
 					}

@@ -14,8 +14,8 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		{
 			UID = Guid.NewGuid();
 			Caption = "Шаблон пропуска";
-			Width = 297;
-			Height = 210;
+			Width = 210;
+			Height = 297;
 			BackgroundColor = Colors.Transparent;
 			IsVectorImage = false;
 			ClearElements();
@@ -45,8 +45,6 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		public double Height { get; set; }
 		[DataMember]
 		public Color BackgroundColor { get; set; }
-		[DataMember]
-		public byte[] BackgroundPixels { get; set; }
 		[DataMember]
 		public Guid? BackgroundImageSource { get; set; }
 		[DataMember]

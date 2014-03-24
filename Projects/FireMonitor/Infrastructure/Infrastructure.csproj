@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Events\GetFilteredSKDArchiveCompletedEvent.cs" />
     <Compile Include="Events\ShowCameraOnPlanEvent.cs" />
     <Compile Include="Events\ShowCameraEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />

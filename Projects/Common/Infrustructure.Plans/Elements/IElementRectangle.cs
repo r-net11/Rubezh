@@ -1,5 +1,4 @@
-﻿
-namespace Infrustructure.Plans.Elements
+﻿namespace Infrustructure.Plans.Elements
 {
 	public interface IElementRectangle
 	{

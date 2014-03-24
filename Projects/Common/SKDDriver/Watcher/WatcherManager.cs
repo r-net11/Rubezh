@@ -15,14 +15,15 @@ namespace SKDDriver
 
 		public static void Start()
 		{
-			foreach (var device in SKDManager.Devices)
-			{
-				device.State = new SKDDeviceState(device);
-			}
-			foreach (var zone in SKDManager.Zones)
-			{
-				zone.State = new SKDZoneState(zone);
-			}
+			SKDManager.CreateStates();
+			//foreach (var device in SKDManager.Devices)
+			//{
+			//    device.State = new SKDDeviceState(device);
+			//}
+			//foreach (var zone in SKDManager.Zones)
+			//{
+			//    zone.State = new SKDZoneState(zone);
+			//}
 
 			Watchers = new List<Watcher>();
 			foreach (var device in SKDManager.Devices)

@@ -10,40 +10,45 @@ namespace FiresecAPI
 		static SKDEventsHelper()
 		{
 			SKDEvents = new List<SKDEvent>();
-			SKDEvents.Add(new SKDEvent(1,  "Проход", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(2, "Проход с нарушением ВРЕМЕНИ", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(3, "Проход с нарушением ЗОНАЛЬНОСТИ", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(4, "Проход с нарушением ВРЕМЕНИ и ЗОНАЛЬНОСТИ", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(5, "Проход разрешен", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(6, "Нарушение ВРЕМЕНИ", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(7, "Нарушение ЗОНАЛЬНОСТИ", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(8, "Нарушение ВРЕМЕНИ и ЗОНАЛЬНОСТИ", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(9, "Идентификатор НЕ ЗАРЕГИСТРИРОВАН", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(10, "Идентификатор ЗАБЛОКИРОВАН", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(11, "Идентификатор ИЗ СТОП-ЛИСТА", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(12, "Идентификатор ПРОСРОЧЕН", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(13, "Нарушение режима доступа", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(14, "Взлом ИУ", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(15, "Проход от ДУ", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(16, "Запрс прохода от ДУ", SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(17, "Ожидание комиссионирования прохода", SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(1,  "Проход", XStateClass.Norm, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(2, "Проход с нарушением ВРЕМЕНИ", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(3, "Проход с нарушением ЗОНАЛЬНОСТИ", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(4, "Проход с нарушением ВРЕМЕНИ и ЗОНАЛЬНОСТИ", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(5, "Проход разрешен", XStateClass.Norm, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(6, "Нарушение ВРЕМЕНИ", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(7, "Нарушение ЗОНАЛЬНОСТИ", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(8, "Нарушение ВРЕМЕНИ и ЗОНАЛЬНОСТИ", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(9, "Идентификатор НЕ ЗАРЕГИСТРИРОВАН", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(10, "Идентификатор ЗАБЛОКИРОВАН", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(11, "Идентификатор ИЗ СТОП-ЛИСТА", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(12, "Идентификатор ПРОСРОЧЕН", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(13, "Нарушение режима доступа", XStateClass.Failure, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(14, "Взлом ИУ", XStateClass.Failure, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(15, "Проход от ДУ", XStateClass.Norm, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(16, "Запрс прохода от ДУ", XStateClass.Norm, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(17, "Ожидание комиссионирования прохода", XStateClass.Norm, SKDDriverType.Reader));
 
-			SKDEvents.Add(new SKDEvent(18, "Неисправность", SKDDriverType.Controller));
-			SKDEvents.Add(new SKDEvent(19, "Неисправность устранена", SKDDriverType.Controller));
+			SKDEvents.Add(new SKDEvent(18, "Неисправность", XStateClass.Failure, SKDDriverType.Controller));
+			SKDEvents.Add(new SKDEvent(19, "Неисправность устранена", XStateClass.Norm, SKDDriverType.Controller));
+
+			SKDEvents.Add(new SKDEvent(20, "Неисправность", XStateClass.Failure, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(21, "Неисправность устранена", XStateClass.Norm, SKDDriverType.Reader));
 		}
 	}
 
 	public class SKDEvent
 	{
-		public SKDEvent(int no, string name, SKDDriverType driverType)
+		public SKDEvent(int no, string name, XStateClass stateClass, SKDDriverType driverType)
 		{
 			No = no;
 			Name = name;
+			StateClass = stateClass;
 			DriverType = driverType;
 		}
 
 		public int No { get; set; }
 		public string Name { get; set; }
+		public XStateClass StateClass { get; set; }
 		public SKDDriverType DriverType { get; set; }
 	}
 }

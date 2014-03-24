@@ -29,25 +29,28 @@ namespace SKDDriver
 			if (skdEvent != null)
 			{
 				JournalItem.Name = skdEvent.Name;
+				JournalItem.StateClass = skdEvent.StateClass;
 			}
 
 			if (source == 1)
 			{
-				JournalItem.DeviceUID = device.UID;
-				JournalItem.DeviceName = device.Name;
+				SetDevice(device);
 			}
-			if (source > 1)
+			if (source == 2)
 			{
-				if (device.Children.Count > source - 2)
+				var childDevice = device.Children.First(x => x.IntAddress == address);
+				if (childDevice != null)
 				{
-					var childDevice = device.Children.First(x => x.Address == address.ToString());
-					if (childDevice != null)
-					{
-						JournalItem.DeviceUID = childDevice.UID;
-						JournalItem.DeviceName = childDevice.Name;
-					}
+					SetDevice(childDevice);
 				}
 			}
+		}
+
+		void SetDevice(SKDDevice device)
+		{
+			JournalItem.DeviceUID = device.UID;
+			JournalItem.DeviceName = device.Name;
+			JournalItem.Device = device;
 		}
 	}
 }

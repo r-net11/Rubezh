@@ -67,9 +67,9 @@ namespace GKImitator.ViewModels
 			var imitatorJournalItem = new SKDImitatorJournalItem()
 			{
 				No = SKDImitatorProcessor.LastJournalNo,
-				Source = 0,
-				Address = 0,
 				Code = skdEvent.No,
+				Source = 1,
+				Address = 0,
 				CardNo = 0
 			};
 			SKDImitatorProcessor.AddJournalItem(imitatorJournalItem);

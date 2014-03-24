@@ -54,7 +54,7 @@ namespace FiresecAPI.Models
 		}
 		private bool ValidateVersion(Plan plan)
 		{
-			bool result = plan.BackgroundPixels == null;
+			bool result = true;
 			if (plan.ElementXDevices == null)
 			{
 				plan.ElementXDevices = new List<ElementXDevice>();
@@ -102,18 +102,6 @@ namespace FiresecAPI.Models
 				result = false;
 			}
 
-			foreach (var elementSubPlan in plan.ElementSubPlans)
-				result &= elementSubPlan.BackgroundPixels == null;
-			foreach (var elementRectangle in plan.ElementRectangles)
-				result &= elementRectangle.BackgroundPixels == null;
-			foreach (var elementEllipse in plan.ElementEllipses)
-				result &= elementEllipse.BackgroundPixels == null;
-			foreach (var elementTextBlock in plan.ElementTextBlocks)
-				result &= elementTextBlock.BackgroundPixels == null;
-			foreach (var elementPolygon in plan.ElementPolygons)
-				result &= elementPolygon.BackgroundPixels == null;
-			foreach (var elementPolyline in plan.ElementPolylines)
-				result &= elementPolyline.BackgroundPixels == null;
 			return result;
 		}
 	}

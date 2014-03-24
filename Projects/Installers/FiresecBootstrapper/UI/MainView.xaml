@@ -31,6 +31,12 @@
             </Ellipse.Triggers>
         </Ellipse>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            
+            <StackPanel>
+                <CheckBox Content="SQL" IsChecked="{Binding IsSQLEnabled}" Margin="2" />
+                <CheckBox Content="Firesec" IsChecked="{Binding IsFiresecEnabled}" Margin="2" />
+            </StackPanel>
+            
             <Button Content="Install" Command="{Binding Path=InstallCommand}" Visibility="{Binding Path=InstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10" Height="20" Width="80"/>
             <Button Content="Uninstall" Command="{Binding Path=UninstallCommand}" Visibility="{Binding Path=UninstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10" Height="20" Width="80"/>
             <Button Content="Exit" Command="{Binding Path=ExitCommand}" Margin="10" Height="20" Width="80" />

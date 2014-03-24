@@ -69,8 +69,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Color BackgroundColor { get; set; }
 		[DataMember]
-		public byte[] BackgroundPixels { get; set; }
-		[DataMember]
 		public Guid? BackgroundImageSource { get; set; }
 		[DataMember]
 		public string BackgroundSourceName { get; set; }

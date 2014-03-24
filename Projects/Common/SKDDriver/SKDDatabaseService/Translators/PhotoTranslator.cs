@@ -32,6 +32,5 @@ namespace SKDDriver
 			result = result.And(base.IsInFilter(filter));
 			return result;
 		}
-
 	}
 }
