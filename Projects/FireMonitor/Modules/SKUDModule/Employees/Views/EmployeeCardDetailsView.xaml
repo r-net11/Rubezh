@@ -12,42 +12,48 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Начало действия" />
-				<Calendar Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top"
-				          BorderBrush="#66ff9829" BorderThickness="2"
-				          DisplayDateStart="{Binding StartDate,
-				                                     Mode=OneTime}"
-				          IsTodayHighlighted="False"
-				          SelectedDate="{Binding StartDate}"
-				          SelectionMode="SingleDate" />
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Text="Начало действия" HorizontalAlignment="Center" Foreground="White" Margin="2" />
+                        <Calendar VerticalAlignment="Top" Margin="2"
+				            BorderBrush="#66ff9829" BorderThickness="2"
+				            DisplayDateStart="{Binding StartDate, Mode=OneTime}"
+				            IsTodayHighlighted="False"
+				            SelectedDate="{Binding StartDate}"
+				            SelectionMode="SingleDate" />
+                    </StackPanel>
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Конец действия" />
-				<Calendar Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top"
-				          BorderBrush="#66ff9829" BorderThickness="2"
-				          DisplayDateStart="{Binding EndDate,
-				                                     Mode=OneTime}"
-				          IsTodayHighlighted="False"
-				          SelectedDate="{Binding EndDate}"
-				          SelectionMode="SingleDate" />
+                    <StackPanel Margin="10 0 0 0">
+                        <TextBlock Text="Конец действия" HorizontalAlignment="Center" Foreground="White" Margin="2" />
+                        <Calendar VerticalAlignment="Top" Margin="2"
+				            BorderBrush="#66ff9829" BorderThickness="2"
+				            DisplayDateStart="{Binding EndDate, Mode=OneTime}"
+				            IsTodayHighlighted="False"
+				            SelectedDate="{Binding EndDate}"
+				            SelectionMode="SingleDate" />
+                    </StackPanel>
+                </StackPanel>
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Семейство" />
-				<TextBox Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Series}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Семейство" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Series}" Width="100" Margin="2" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Номер" />
-				<TextBox Grid.Row="3" Grid.Column="1" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number}" />
+                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Номер" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number}" Width="100" Margin="2" />
 
-				<CheckBox Grid.Row="4" Grid.Column="0" Margin="2" VerticalAlignment="Center" Content="Из СТОП-листа" Foreground="White" IsChecked="{Binding UseStopList}" />
-				<ComboBox Grid.Row="4" Grid.Column="1" IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}">
+                <CheckBox Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Content="Из СТОП-листа" Foreground="White" IsChecked="{Binding UseStopList}" Margin="2" />
+                <ComboBox Grid.Row="3" Grid.Column="1" IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}" HorizontalAlignment="Left" Width="100" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
-							<TextBlock Margin="2" Text="{Binding PresentationName}" />
+							<TextBlock Margin="1" Text="{Binding PresentationName}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-			</Grid>
+
+                <CheckBox Grid.Row="4" Grid.Column="1" Content="Заблокирован" IsChecked="{Binding IsBlocked}" Foreground="White" Margin="2" />
+            </Grid>
 		</TabItem>
 		<TabItem Header="Зоны доступа">
 			<Views:AccessZonesSelectationView DataContext="{Binding AccessZones}" />

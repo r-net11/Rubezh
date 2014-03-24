@@ -13,7 +13,7 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="2*" MinWidth="200" />
 			</Grid.ColumnDefinitions>
-			<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" Margin="2">
+			<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название" MinWidth="250" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
@@ -30,7 +30,7 @@
 
 			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 
-			<Grid Grid.Column="2" Visibility="{Binding HasSelectedMPT, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+			<Grid Grid.Column="2" Visibility="{Binding HasSelectedMPT, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid DataContext="{Binding SelectedMPT}">
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -65,7 +65,7 @@
 							<DataGridTextColumn Header="Примечание" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" Width="*" />
 						</DataGrid.Columns>
 					</DataGrid>
-					<StackPanel Grid.Row="2" DataContext="{Binding SelectedDevice}" Margin="2">
+					<StackPanel Grid.Row="2" DataContext="{Binding SelectedDevice}" Margin="0 4 0 0">
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="Примечание" Width="200" Foreground="White" Margin="2" />
 							<TextBox Text="{Binding Description}" Width="200" Margin="2" />
@@ -98,7 +98,7 @@
 			</Grid>
 		</Grid>
 
-		<Border Grid.Row="1" CornerRadius="5" Background="White" Margin="2 7 2 2">
+		<Border Grid.Row="1" CornerRadius="5" Background="White" Margin="0 4 0 0">
 			<Grid Visibility="{Binding HasSelectedMPT, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding SelectedMPT}" Margin="2">
 					<StackPanel Orientation="Horizontal">

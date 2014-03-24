@@ -13,6 +13,7 @@ using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using System;
 
 namespace SKDModule.ViewModels
 {
@@ -42,6 +43,8 @@ namespace SKDModule.ViewModels
 				}
 			}
 			SelectedOrganisation = Organisations.FirstOrDefault();
+
+			ValidateUsers();
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -121,6 +124,7 @@ namespace SKDModule.ViewModels
 					return;
 				Organisations.Remove(SelectedOrganisation);
 				SelectedOrganisation = Organisations.FirstOrDefault();
+				ValidateUsers();
 			}
 		}
 
@@ -136,6 +140,22 @@ namespace SKDModule.ViewModels
 					return;
 				SelectedOrganisation.Organisation = organization;
 				SelectedOrganisation.Update();
+			}
+		}
+
+		void ValidateUsers()
+		{
+			foreach (var user in FiresecManager.SecurityConfiguration.Users)
+			{
+				var organisationUIDs = new List<Guid>();
+				foreach (var organisationUID in user.OrganisationUIDs)
+				{
+					if (Organisations.Any(x => x.Organisation.UID == organisationUID))
+						organisationUIDs.Add(organisationUID);
+					else
+						ServiceFactory.SaveService.SecurityChanged = true;
+				}
+				user.OrganisationUIDs = organisationUIDs;
 			}
 		}
 

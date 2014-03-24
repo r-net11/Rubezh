@@ -55,6 +55,8 @@ namespace SKDModule.ViewModels
 			{
 				AvailableOrganizations.Add(organisation);
 			}
+			if (!AvailableOrganizations.Any(x=>x.UID == Filter.OrganisationUID))
+				Filter.OrganisationUID = Guid.Empty;
 			SelectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.UID == Filter.OrganisationUID);
 			if (Filter.OrganisationUID == Guid.Empty)
 				SelectedOrganization = AvailableOrganizations.FirstOrDefault();

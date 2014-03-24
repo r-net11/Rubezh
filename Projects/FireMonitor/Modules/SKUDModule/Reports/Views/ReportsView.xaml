@@ -7,12 +7,12 @@
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
 			<Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
 			<Controls:ToolBarButton Command="{Binding ShowSettingsCommand}" ToolTip="Свойства отчета" ImageSource="/Controls;component/Images/Edit.png" />
 			<Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
 		</StackPanel>
-		<DataGrid Grid.Row="1" ItemsSource="{Binding Reports}" SelectedItem="{Binding SelectedReport}" Margin="2">
+		<DataGrid Grid.Row="1" ItemsSource="{Binding Reports}" SelectedItem="{Binding SelectedReport}" Margin="0 4 0 0">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Имя" Width="*">
 					<DataGridTemplateColumn.CellTemplate>

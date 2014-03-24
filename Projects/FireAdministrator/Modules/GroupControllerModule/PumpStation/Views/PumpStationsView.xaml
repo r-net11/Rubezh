@@ -12,7 +12,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}" Margin="2">
+			<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Насосы" Width="1*">
 						<DataGridTemplateColumn.CellTemplate>
@@ -26,7 +26,7 @@
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</Controls:XDataGrid>
-			<Grid Grid.Column="1" Margin="2">
+			<Grid Grid.Column="1" Margin="4 0 0 0">
 				<DataGrid ItemsSource="{Binding PumpDevices}" SelectedItem="{Binding SelectedPumpDevice}" DataContext="{Binding SelectedPumpStation}">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Header="Насосы" MinWidth="200" Width="Auto">
@@ -81,7 +81,7 @@
 				</Grid.ContextMenu>
 			</Grid>
 		</Grid>
-		<Border Grid.Row="1" CornerRadius="5" Background="White" Margin="2">
+		<Border Grid.Row="1" CornerRadius="5" Background="White" Margin="0 4 0 0">
 			<Grid Visibility="{Binding HasSelectedPumpStation, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel DataContext="{Binding SelectedPumpStation}" Margin="2">
 					<StackPanel Orientation="Horizontal">

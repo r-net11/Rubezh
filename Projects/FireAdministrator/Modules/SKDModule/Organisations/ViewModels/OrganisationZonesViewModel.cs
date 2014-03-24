@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 			{
 				zone.ExpandToThis();
 				if (organization.ZoneUIDs.Contains(zone.Zone.UID))
-					zone.IsChecked = true;
+					zone._isChecked = true;
 			}
 		}
 

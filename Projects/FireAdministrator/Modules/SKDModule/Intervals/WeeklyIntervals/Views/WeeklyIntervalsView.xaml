@@ -9,7 +9,7 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding WeeklyIntervals}" SelectedItem="{Binding SelectedWeeklyInterval}" Margin="2">
+		<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding WeeklyIntervals}" SelectedItem="{Binding SelectedWeeklyInterval}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Наименование" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
@@ -30,8 +30,8 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</Controls:XDataGrid>
-		<Grid Grid.Column="1" DataContext="{Binding SelectedWeeklyInterval}" IsEnabled="{Binding IsEnabled}">
-			<DataGrid ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" IsReadOnly="False" Margin="2">
+        <Grid Grid.Column="1" DataContext="{Binding SelectedWeeklyInterval}" IsEnabled="{Binding IsEnabled}" Margin="4 0 0 0">
+			<DataGrid ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" IsReadOnly="False">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Наименование" Width="*">
 						<DataGridTemplateColumn.CellTemplate>

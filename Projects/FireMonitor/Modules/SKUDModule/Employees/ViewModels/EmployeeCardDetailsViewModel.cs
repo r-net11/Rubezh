@@ -155,6 +155,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		bool _isBlocked;
+		public bool IsBlocked
+		{
+			get { return _isBlocked; }
+			set
+			{
+				_isBlocked = value;
+				OnPropertyChanged("IsBlocked");
+			}
+		}
+
 		void UpdateStopListCard()
 		{
 			if (UseStopList && SelectedStopListCard != null)
@@ -178,6 +189,7 @@ namespace SKDModule.ViewModels
 			Card.Number = Number;
 			Card.ValidFrom = StartDate;
 			Card.ValidTo = EndDate;
+			Card.IsBlocked = IsBlocked;
 			Card.CardZones = AccessZones.GetCardZones();
 
 			if (SelectedAccessTemplate != null)

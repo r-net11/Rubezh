@@ -260,7 +260,8 @@ namespace SKDModule.PassCard.ViewModels
 					default:
 						break;
 				}
-				args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo.Data);
+				if (photo != null)
+					args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo.Data);
 			}
 		}
 	}

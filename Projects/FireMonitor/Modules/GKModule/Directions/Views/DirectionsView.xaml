@@ -15,7 +15,7 @@
 			<ColumnDefinition />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-		<DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" Margin="2">
+		<DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedDirection.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -87,7 +87,7 @@
 			</DataGrid.RowStyle>
 		</DataGrid>
 
-		<DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding OutputDevices}" Margin="2">
+		<DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding OutputDevices}" Margin="4 0 0 0">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedOutputDevice.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -129,7 +129,7 @@
 			</DataGrid.RowStyle>
 		</DataGrid>
 
-		<DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding InputDevices}" Margin="2">
+		<DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding InputDevices}" Margin="4 4 0 0">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 					<MouseBinding Command="{Binding DataContext.SelectedInputDevice.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -181,7 +181,7 @@
 			</DataGrid.RowStyle>
 		</DataGrid>
 
-		<DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding InputZones}" Margin="2">
+		<DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding InputZones}" Margin="0 4 0 0">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>

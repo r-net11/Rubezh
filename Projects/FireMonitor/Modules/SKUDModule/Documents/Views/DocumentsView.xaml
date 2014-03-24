@@ -10,7 +10,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Orientation="Horizontal" Grid.Row="0" Margin="2">
+		<StackPanel Orientation="Horizontal" Grid.Row="0">
 			<Controls:ToolBarButton DataContext="{Binding SelectedOrganisationDocument}" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
 			<Controls:ToolBarButton DataContext="{Binding SelectedOrganisationDocument}" Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
 			<Controls:ToolBarButton DataContext="{Binding SelectedOrganisationDocument}" Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
@@ -30,7 +30,7 @@
 
 			<TabControl.ContentTemplate>
 				<DataTemplate>
-					<DataGrid ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}" Margin="2">
+					<DataGrid ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
 						<DataGrid.Columns>
 							<DataGridTemplateColumn Header="Название" Width="*">
 								<DataGridTemplateColumn.CellTemplate>
