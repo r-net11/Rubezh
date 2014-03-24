@@ -113,6 +113,9 @@ namespace FiresecAPI
 		OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName);
 
 		[OperationContract]
+		OperationResult<bool> SKDWriteAllIdentifiers(Guid deviceUID);
+
+		[OperationContract]
 		void SKDSetRegimeOpen(Guid deviceUID);
 
 		[OperationContract]

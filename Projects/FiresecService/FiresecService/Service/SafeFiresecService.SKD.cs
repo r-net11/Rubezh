@@ -196,6 +196,10 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDUpdateFirmware(deviceUID, fileName); }, "SKDUpdateFirmware");
 		}
+		public OperationResult<bool> SKDWriteAllIdentifiers(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDWriteAllIdentifiers(deviceUID); }, "SKDWriteAllIdentifiers");
+		}
 		public void SKDSetRegimeOpen(Guid deviceUID)
 		{
 			SafeOperationCall(() => { FiresecService.SKDSetRegimeOpen(deviceUID); }, "SKDSetIgnoreRegime");

@@ -15,6 +15,7 @@
 				<IconedMenuItem Command="{Binding ShowInfoCommand}" ImageSource="/Controls;component/Images/BInformation.png" Text="Информация об устройстве" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" ImageSource="/Controls;component/Images/BWatch.png" Text="Синхронизация времени" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Обновление ПО" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding WriteAllIdentifiersCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Запись всех идентификаторов" TotalHeight="32" />
 			</MenuItem>
 		</Menu>
 	</StackPanel>

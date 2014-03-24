@@ -83,7 +83,7 @@ namespace SKDDriver
 			return AdministratorHelper.SynchroniseTime(device);
 		}
 
-		public static OperationResult<bool> GKWriteConfiguration(SKDDevice device, string userName)
+		public static OperationResult<bool> SKDWriteConfiguration(SKDDevice device, string userName)
 		{
 			AddMessage("Запись конфигурации в прибор", "", device, userName, true);
 			OperationResult<bool> result;
@@ -93,12 +93,22 @@ namespace SKDDriver
 			return result;
 		}
 
-		public static OperationResult<bool> GKUpdateFirmware(SKDDevice device, string fileName, string userName)
+		public static OperationResult<bool> SKDUpdateFirmware(SKDDevice device, string fileName, string userName)
 		{
 			AddMessage("Обновление ПО прибора", "", device, userName, true);
 			OperationResult<bool> result;
 			Stop();
 			result = AdministratorHelper.UpdateFirmware(device);
+			Start();
+			return result;
+		}
+
+		public static OperationResult<bool> SKDWriteAllIdentifiers(SKDDevice device, string userName)
+		{
+			AddMessage("Зпись всех идентификаторов", "", device, userName, true);
+			OperationResult<bool> result;
+			Stop();
+			result = AdministratorHelper.WriteAllIdentifiers(device);
 			Start();
 			return result;
 		}

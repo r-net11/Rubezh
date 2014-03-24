@@ -208,7 +208,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return SKDProcessorManager.GKWriteConfiguration(device, UserName);
+				return SKDProcessorManager.SKDWriteConfiguration(device, UserName);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -218,7 +218,17 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return SKDProcessorManager.GKUpdateFirmware(device, fileName, UserName);
+				return SKDProcessorManager.SKDUpdateFirmware(device, fileName, UserName);
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SKDWriteAllIdentifiers(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return SKDProcessorManager.SKDWriteAllIdentifiers(device, UserName);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
