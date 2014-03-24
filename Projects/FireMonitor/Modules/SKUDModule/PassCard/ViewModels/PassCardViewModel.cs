@@ -9,6 +9,7 @@ using System.Windows.Media;
 using Common;
 using FiresecAPI;
 using FiresecAPI.SKD.PassCardLibrary;
+using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
@@ -18,7 +19,6 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.PassCard.Designer;
 using SKDModule.ViewModels;
-using FiresecClient.SKDHelpers;
 
 namespace SKDModule.PassCard.ViewModels
 {
@@ -238,30 +238,29 @@ namespace SKDModule.PassCard.ViewModels
 			if (elementPassCardImageProperty != null)
 			{
 				Photo photo = null;
-				byte[] data = null;
 				switch (elementPassCardImageProperty.PropertyType)
 				{
 					case PassCardImagePropertyType.DepartmentLogo:
-						photo = PhotoHelper.Get(_employeesViewMode.SelectedCard.EmployeeViewModel.DepartmentPhotoUID);
+						photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.EmployeeViewModel.DepartmentPhotoUID);
 						break;
 					case PassCardImagePropertyType.OrganizationLogo:
-						photo = PhotoHelper.Get(_employeesViewMode.SelectedCard.Organization.PhotoUID);
+						photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.Organization.PhotoUID);
 						break;
 					case PassCardImagePropertyType.Photo:
-						photo = PhotoHelper.Get(_employeesViewMode.SelectedCard.EmployeeViewModel.Employee.PhotoUID);
+						photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.EmployeeViewModel.Employee.PhotoUID);
 						break;
 					case PassCardImagePropertyType.PositionLogo:
-						photo = PhotoHelper.Get(_employeesViewMode.SelectedCard.EmployeeViewModel.PositionPhotoUID);
+						photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.EmployeeViewModel.PositionPhotoUID);
 						break;
 					case PassCardImagePropertyType.Additional:
 						var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementPassCardImageProperty.AdditionalColumnUID);
 						if (columnValue != null)
-							data = columnValue.GraphicsData;
+							photo = PhotoHelper.GetSingle(columnValue.PhotoUID);
 						break;
 					default:
 						break;
 				}
-				args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo == null ? data : photo.Data);
+				args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo.Data);
 			}
 		}
 	}

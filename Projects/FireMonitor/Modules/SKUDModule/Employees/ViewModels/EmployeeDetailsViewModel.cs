@@ -191,7 +191,7 @@ namespace SKDModule.ViewModels
 			Name = AdditionalColumnType.Name;
 			IsGraphicsData = AdditionalColumnType.DataType == DataType.Graphics;
 			if (IsGraphicsData)
-				Bitmap = PhotoHelper.GetSingle(additionalColumn.PhotoUID);
+				Bitmap = PhotoHelper.GetSingleBitmapSource(additionalColumn.PhotoUID);
 			else
 				Text = AdditionalColumn.TextData;
 		}
