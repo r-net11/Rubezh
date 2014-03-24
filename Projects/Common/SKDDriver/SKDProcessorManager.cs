@@ -71,7 +71,7 @@ namespace SKDDriver
 		public static string SKDGetDeviceInfo(SKDDevice device, string userName)
 		{
 			AddMessage("Запрос информации об устройсве", "", device, userName, true);
-			var result = DeviceBytesHelper.GetInfo(device);
+			var result = AdministratorHelper.GetInfo(device);
 			if (result == null)
 				result = "Устройство недоступно";
 			return result;
@@ -79,25 +79,28 @@ namespace SKDDriver
 
 		public static bool SKDSyncronyseTime(SKDDevice device, string userName)
 		{
-			AddMessage("Синхронизациявремени", "", device, userName, true);
-			return DeviceBytesHelper.SynchroniseTime(device);
+			AddMessage("Синхронизация времени", "", device, userName, true);
+			return AdministratorHelper.SynchroniseTime(device);
 		}
 
 		public static OperationResult<bool> GKWriteConfiguration(SKDDevice device, string userName)
 		{
 			AddMessage("Запись конфигурации в прибор", "", device, userName, true);
+			OperationResult<bool> result;
 			Stop();
-			// Write
+			result = AdministratorHelper.WriteConfig(device);
 			Start();
-			return new OperationResult<bool>() { Result = true };
+			return result;
 		}
 
 		public static OperationResult<bool> GKUpdateFirmware(SKDDevice device, string fileName, string userName)
 		{
+			AddMessage("Обновление ПО прибора", "", device, userName, true);
+			OperationResult<bool> result;
 			Stop();
-			// Update
+			result = AdministratorHelper.UpdateFirmware(device);
 			Start();
-			return new OperationResult<bool> { Result = true };
+			return result;
 		}
 
 		public static void AddMessage(string name, string description, SKDDevice device, string userName, bool isAdministrator = false)

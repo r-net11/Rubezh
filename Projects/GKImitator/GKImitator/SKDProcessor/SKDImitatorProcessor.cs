@@ -95,6 +95,10 @@ namespace GKImitator.Processor
 				case 4: // Состояние устройства
 					result.Add((byte)XStateClass.Norm);
 					return result;
+				case 5: // Запись конфигурации
+					return result;
+				case 6: // Обновление прошивки
+					return result;
 			}
 			return null;
 		}
