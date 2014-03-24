@@ -11,11 +11,23 @@ namespace VideoModule.RVI_VSS.ViewModels
 	public class DeviceViewModel : BaseViewModel
 	{
 		public ObservableCollection<Channel> Channels { get; set; }
-		private Device Device { get; set; }
+		public Device Device { get; private set; }
 		public DeviceViewModel(Device device)
 		{
 			Device = device;
+			Address = device.IP;
 			Channels = new ObservableCollection<Channel>(device.Channels);
+		}
+
+		private string _address;
+		public string Address
+		{
+			get { return _address; }
+			set
+			{
+				_address = value;
+				OnPropertyChanged(() => Address);
+			}
 		}
 
 		private Channel _sellectedChannel;

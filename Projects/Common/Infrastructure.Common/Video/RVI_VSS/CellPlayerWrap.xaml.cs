@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Interop;
 using Entities.DeviceOriented;
 using FiresecAPI.Models;
+using Device = Entities.DeviceOriented.Device;
 
 namespace Infrastructure.Common.Video.RVI_VSS
 {
@@ -21,6 +22,19 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				FormsPlayer.StopVideo();
 			else
 				FormsPlayer.StartVideo(camera);
+		}
+
+		public void InitializeCamera(Device device)
+		{
+			if (String.IsNullOrEmpty(device.IP))
+				FormsPlayer.StopVideo();
+			else
+				FormsPlayer.StartVideo(device);
+		}
+
+		public void InitializeCamera(PlayBackDeviceRecord record)
+		{
+			FormsPlayer.StartVideo(record);
 		}
 	}
 }

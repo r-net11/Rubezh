@@ -7,6 +7,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
@@ -16,25 +17,32 @@
                 <RowDefinition Height ="Auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row ="0">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Margin="2">Устройство:</Label>
-                        <ComboBox ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}" DisplayMemberPath="Address" Margin="2" />
-                        <Label Margin="2">Канал:</Label>
-                        <ComboBox DataContext="{Binding SelectedDevice}" ItemsSource="{Binding Channels}" SelectedItem="{Binding SelectedChannel}" DisplayMemberPath="Name" Margin="2" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
-                        <Label Margin="2, 0, 0, 0">С</Label>
-                        <extToolkit:DateTimePicker Value="{Binding DateTimeFrom}" Margin="8, 0, 0, 0"/>
-                    </StackPanel >
-                    <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
-                        <Label Margin="2, 0, 0, 0">По</Label>
-                        <extToolkit:DateTimePicker Value="{Binding DateTimeTo}" Margin="2, 0, 0, 0" />
-                        <Button Content="Поиск" Command="{Binding SearchCommand}" Width="100" Margin="20, 0, 0, 0" />
-                    </StackPanel>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="240" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                    <Label Margin="2">Устройство:</Label>
+                    <ComboBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" DisplayMemberPath="Address" Margin="2"  MinWidth="140" MaxWidth="140"/>
+                    <Label Margin="2">Канал:</Label>
+                    <ComboBox DataContext="{Binding SelectedDevice}" ItemsSource="{Binding Channels}" SelectedItem="{Binding SelectedChannel}" DisplayMemberPath="Name" Margin="2" />
                 </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="0, 10, 0, 0" HorizontalAlignment="Stretch">
+                    <Label Margin="2, 0, 0, 0">С</Label>
+                    <extToolkit:DateTimePicker Value="{Binding StartTime}" Margin="8, 0, 0, 0" MinWidth="210" MaxWidth="210"/>
+                </StackPanel >
+                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0, 10, 0, 0" HorizontalAlignment="Stretch">
+                    <Label Margin="2, 0, 0, 0">По</Label>
+                    <extToolkit:DateTimePicker Value="{Binding EndTime}" Margin="2, 0, 0, 0" MinWidth="210" MaxWidth="210" />
+                </StackPanel>
+                <ToolBarButton Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" ImageSource="/Controls;component/Images/Search.png" Width="64" Height="64" ToolTip="Поиск" Command="{Binding SearchCommand}" Margin="20, 0, 0, 0" />
             </Grid>
-            <DataGrid Grid.Row="1" ItemsSource="{Binding Records}" SelectedItem="{Binding SelectedRecord}">
+            <DataGrid Grid.Row="1" ItemsSource="{Binding Records}" SelectedItem="{Binding SelectedRecord}" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding CoupledChannel.ChannelNumber}" Header="SN" />
                     <DataGridTextColumn Binding="{Binding NetRecordFileInfo.StartTime}" Header="Время начала" />
@@ -43,14 +51,15 @@
                     <DataGridTextColumn Binding="{Binding CoupledChannel.Name}" Header="Тип записи" Width="1*" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Grid.Row="2" Content="Воспроизвести" Command="{Binding StartCommand}" HorizontalAlignment="Right" />
+            <Button Grid.Row="2" Content="Воспроизвести" Click="ButtonBase_OnClick" Width="150" HorizontalAlignment="Right" />
         </Grid>
-        <Grid Grid.Column="1">
+        <GridSplitter Grid.Column="1" Width="10" Background="Transparent" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+        <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="400" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <rviVss:CellPlayerWrap DataContext="{Binding ArchivePlayer}" Grid.Row="0" />
+            <rviVss:CellPlayerWrap Name="PlayerWrap" Grid.Row="0" />
         </Grid>
     </Grid>
 </UserControl>
