@@ -55,6 +55,8 @@ namespace FiresecClient
 		{
 			foreach (var device in DeviceConfiguration.Devices)
 			{
+				if (device.Properties == null)
+					device.Properties = new List<XProperty>();
 				foreach (var property in device.Properties)
 				{
 					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
@@ -527,12 +529,12 @@ namespace FiresecClient
 			{
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
-					CopyMPTProperty(mptDevice);
+					SetIsMPT(mptDevice);
 				}
 			}
 		}
 
-		public static void CopyMPTProperty(MPTDevice mptDevice)
+		public static void SetIsMPT(MPTDevice mptDevice)
 		{
 			if (mptDevice.Device != null)
 			{
@@ -540,42 +542,48 @@ namespace FiresecClient
 				XManager.ChangeDeviceLogic(mptDevice.Device, new XDeviceLogic());
 				mptDevice.Device.ZoneUIDs = new List<Guid>();
 				mptDevice.Device.Zones.Clear();
+			}
+		}
 
-				switch (mptDevice.Device.DriverType)
+		public static void SetMPTDefaultProperty(XDevice device)
+		{
+			if (device != null)
+			{
+				switch (device.DriverType)
 				{
 					case XDriverType.RSR2_AM_1:
-						SetDeviceProperty(mptDevice.Device, "Конфигурация", 1);
+						SetDeviceProperty(device, "Конфигурация", 1);
 						break;
 
 					case XDriverType.RSR2_OPS:
 					case XDriverType.RSR2_OPZ:
 					case XDriverType.RSR2_OPK:
-						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", 0);
-						SetDeviceProperty(mptDevice.Device, "Время удержания, с", 65000);
-						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние для модуля Выключено", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние для режима Удержания", 4);
-						SetDeviceProperty(mptDevice.Device, "Состояние для режима Включено", 16);
+						SetDeviceProperty(device, "Задержка на включение, с", 0);
+						SetDeviceProperty(device, "Время удержания, с", 65000);
+						SetDeviceProperty(device, "Задержка на выключение, с", 0);
+						SetDeviceProperty(device, "Состояние для модуля Выключено", 0);
+						SetDeviceProperty(device, "Состояние для режима Удержания", 4);
+						SetDeviceProperty(device, "Состояние для режима Включено", 16);
 						break;
 
 					case XDriverType.RSR2_MVK8:
-						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", mptDevice.Delay);
-						SetDeviceProperty(mptDevice.Device, "Время удержания, с", mptDevice.Hold);
-						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Выключено", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Удержания", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Включено", 0);
-						SetDeviceProperty(mptDevice.Device, "Контроль", mptDevice.CircuitControlValue);
-						SetDeviceProperty(mptDevice.Device, "Норма питания, 0.1В", 80);
+						SetDeviceProperty(device, "Задержка на включение, с", 0);
+						SetDeviceProperty(device, "Время удержания, с", 2);
+						SetDeviceProperty(device, "Задержка на выключение, с", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
+						SetDeviceProperty(device, "Контроль", 0);
+						SetDeviceProperty(device, "Норма питания, 0.1В", 80);
 						break;
 
 					case XDriverType.RSR2_RM_1:
-						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", mptDevice.Delay);
-						SetDeviceProperty(mptDevice.Device, "Время удержания, с", mptDevice.Hold);
-						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Выключено", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Удержания", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Включено", 0);
+						SetDeviceProperty(device, "Задержка на включение, с", 0);
+						SetDeviceProperty(device, "Время удержания, с", 2);
+						SetDeviceProperty(device, "Задержка на выключение, с", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
 						break;
 				}
 			}

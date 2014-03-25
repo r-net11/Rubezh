@@ -9,7 +9,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
-			<RowDefinition Height="100" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0">
 			<Grid.ColumnDefinitions>
@@ -111,13 +111,23 @@
 				</DataGrid.RowStyle>
 			</DataGrid>
 		</Grid>
-		<Border Grid.Row="1" CornerRadius="5" Background="White" Margin="0 4 0 0">
-			<StackPanel DataContext="{Binding SelectedMPT}" Margin="2">
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Условие для запуска" FontWeight="Bold" Width="250" Margin="5 2" />
-					<TextBlock Text="{Binding StartPresentationName}" VerticalAlignment="Center" Margin="2" />
-				</StackPanel>
-			</StackPanel>
-		</Border>
+        <Grid Grid.Row="1" DataContext="{Binding SelectedMPT}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" CornerRadius="5" Background="White" Margin="0 4 0 0">
+                <StackPanel Margin="2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Условие для запуска" FontWeight="Bold" Width="250" Margin="5 2" />
+                        <TextBlock Text="{Binding StartPresentationName}" VerticalAlignment="Center" Margin="2" />
+                    </StackPanel>
+                    <TextBlock Text="Автоматика отключена по кнопке ручного изменения режима автоматики" Visibility="{Binding IsHandAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                    <TextBlock Text="Автоматика отключена по датчику двеи-окна" Visibility="{Binding IsDoorAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                    <TextBlock Text="Автоматика отключена по неисправности устройств" Visibility="{Binding IsFailureAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                </StackPanel>
+            </Border>
+            <Views:MPTControlView Grid.Column="1" DataContext="{Binding MPTDetailsViewModel}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}" Margin="4 4 0 0" />
+        </Grid>
 	</Grid>
 </UserControl>

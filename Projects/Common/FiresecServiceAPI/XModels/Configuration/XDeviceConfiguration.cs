@@ -117,6 +117,12 @@ namespace XFiresecAPI
 				result = false;
 			}
 
+			foreach (var mpt in MPTs)
+			{
+				foreach (var mptDevice in mpt.MPTDevices)
+				{
+				}
+			}
 			foreach (var device in Devices)
 			{
 				device.BaseUID = device.UID;

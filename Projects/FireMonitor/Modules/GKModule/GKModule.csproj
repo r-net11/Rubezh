@@ -119,6 +119,9 @@
     <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTsViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTViewModel.cs" />
+    <Compile Include="MPTs\Views\MPTControlView.xaml.cs">
+      <DependentUpon>MPTControlView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MPTs\Views\MPTDetailsView.xaml.cs">
       <DependentUpon>MPTDetailsView.xaml</DependentUpon>
     </Compile>
@@ -357,6 +360,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Journal\Views\JournalsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MPTs\Views\MPTControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

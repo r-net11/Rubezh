@@ -162,9 +162,13 @@
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ConfigurationCompareViewModel.cs" />
+    <Compile Include="MPTs\ViewModels\MPTDevicePropertiesViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDeviceTypeSelectationViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDeviceTypeViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDeviceViewModel.cs" />
+    <Compile Include="MPTs\Views\MPTDevicePropertiesView.xaml.cs">
+      <DependentUpon>MPTDevicePropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MPTs\Views\MPTDeviceTypeSelectationView.xaml.cs">
       <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
     </Compile>
@@ -487,6 +491,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MPTs\Views\MPTDevicePropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

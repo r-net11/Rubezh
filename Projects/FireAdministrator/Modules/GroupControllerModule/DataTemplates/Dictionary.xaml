@@ -104,7 +104,11 @@
 		<Views:MPTsMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:MPTDevicePropertiesViewModel}">
+        <Views:MPTDevicePropertiesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
 		<Views:JournalView />
 	</DataTemplate>
 

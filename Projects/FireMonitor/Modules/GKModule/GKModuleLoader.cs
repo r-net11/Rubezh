@@ -122,7 +122,6 @@ namespace GKModule
 			_zonesNavigationItem.IsVisible = XManager.Zones.Count > 0;
 			_directionsNavigationItem.IsVisible = XManager.Directions.Count > 0;
 			_delaysNavigationItem.IsVisible = XManager.Delays.Count > 0;
-			_pimsNavigationItem.IsVisible = XManager.Pims.Count > 0;
 			_pumpStationsNavigationItem.IsVisible = XManager.PumpStations.Count > 0;
 			_mptsNavigationItem.IsVisible = XManager.MPTs.Count > 0;
 			DevicesViewModel.Initialize();
@@ -132,6 +131,7 @@ namespace GKModule
 			MPTsViewModel.Initialize();
 			DelaysViewModel.Initialize();
 			PimsViewModel.Initialize();
+			_pimsNavigationItem.IsVisible = PimsViewModel.Pims.Count > 0;
 			JournalsViewModel.Initialize();
 			ArchiveViewModel.Initialize();
 		}

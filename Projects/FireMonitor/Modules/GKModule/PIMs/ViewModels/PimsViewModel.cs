@@ -15,8 +15,11 @@ namespace GKModule.ViewModels
 			{
 				foreach (var pim in gkDatabase.Pims)
 				{
-					var pimViewModel = new PimViewModel(pim);
-					Pims.Add(pimViewModel);
+					if (pim.MPTUID == Guid.Empty)
+					{
+						var pimViewModel = new PimViewModel(pim);
+						Pims.Add(pimViewModel);
+					}
 				}
 			}
 			SelectedPim = Pims.FirstOrDefault();

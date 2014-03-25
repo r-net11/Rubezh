@@ -22,6 +22,7 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			EditPropertiesCommand = new RelayCommand(OnEditProperties, CanEditProperties);
 
 			Devices = new ObservableCollection<MPTDeviceViewModel>();
 			foreach (var mptDevice in MPT.MPTDevices)
@@ -81,6 +82,22 @@ namespace GKModule.ViewModels
 				if (MPTDevice.GetAvailableMPTDriverTypes(SelectedDevice.MPTDeviceType).Any(x => device.DriverType == x))
 					if (!device.IsInMPT)
 						devices.Add(device);
+					else if (SelectedDevice.MPTDeviceType == MPTDeviceType.Door)
+					{
+						foreach (var mpt in XManager.MPTs)
+						{
+							if (mpt.BaseUID != MPT.BaseUID)
+							{
+								foreach (var mptDevice in mpt.MPTDevices)
+								{
+									if (mptDevice.MPTDeviceType == MPTDeviceType.Door)
+									{
+										devices.Add(device);
+									}
+								}
+							}
+						}
+					}
 			}
 
 			var deviceSelectationViewModel = new DeviceSelectationViewModel(SelectedDevice.MPTDevice.Device, devices);
@@ -94,9 +111,11 @@ namespace GKModule.ViewModels
 				var selectedDevice = deviceSelectationViewModel.SelectedDevice;
 				SelectedDevice.MPTDevice.Device = selectedDevice;
 				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.BaseUID : Guid.Empty;
-				UpdateConfigurationHelper.CopyMPTProperty(SelectedDevice.MPTDevice);
+				UpdateConfigurationHelper.SetMPTDefaultProperty(selectedDevice);
+				UpdateConfigurationHelper.SetIsMPT(SelectedDevice.MPTDevice);
 				SelectedDevice.Device = selectedDevice;
 				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);
+				SelectedDevice.MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(selectedDevice, false);
 
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -118,6 +137,22 @@ namespace GKModule.ViewModels
 		bool CanDelete()
 		{
 			return SelectedDevice != null;
+		}
+
+		public RelayCommand EditPropertiesCommand { get; private set; }
+		void OnEditProperties()
+		{
+			var mptDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(SelectedDevice.Device, true);
+			if(DialogService.ShowModalWindow(mptDevicePropertiesViewModel))
+			{
+				SelectedDevice.MPTDevicePropertiesViewModel.Update(false);
+				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);
+				ServiceFactory.SaveService.GKChanged = true;
+			}
+		}
+		bool CanEditProperties()
+		{
+			return SelectedDevice != null && SelectedDevice.Device!= null && SelectedDevice.Device.DriverType != XDriverType.RSR2_AM_1;
 		}
 
 		public static void ChangeIsInMPT(XDevice device, bool isInMPT)
