@@ -19,6 +19,9 @@ namespace FiresecAPI.Models
 		}
 
 		[DataMember]
+		public int ChannelNumber { get; set; }
+
+		[DataMember]
 		public Guid UID { get; set; }
 
 		[DataMember]

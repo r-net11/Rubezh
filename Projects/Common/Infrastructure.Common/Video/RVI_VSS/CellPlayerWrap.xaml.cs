@@ -16,20 +16,20 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			InitializeComponent();
 		}
 
-		public void InitializeCamera(Camera camera)
+		public void InitializeCamera(Camera camera, int channelNumber = 0)
 		{
 			if (String.IsNullOrEmpty(camera.Address))
 				FormsPlayer.StopVideo();
 			else
-				FormsPlayer.StartVideo(camera);
+				FormsPlayer.StartVideo(camera, channelNumber);
 		}
 
-		public void InitializeCamera(Device device)
+		public void InitializeCamera(Device device, int channelNumber = 0)
 		{
 			if (String.IsNullOrEmpty(device.IP))
 				FormsPlayer.StopVideo();
 			else
-				FormsPlayer.StartVideo(device);
+				FormsPlayer.StartVideo(device, channelNumber);
 		}
 
 		public void InitializeCamera(PlayBackDeviceRecord record)

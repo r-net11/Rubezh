@@ -12,6 +12,7 @@ using Infrustructure.Plans.Events;
 using VideoModule.Plans;
 using VideoModule.Plans.Designer;
 using VideoModule.ViewModels;
+using CamerasViewModel = VideoModule.ViewModels.CamerasViewModel;
 
 namespace VideoModule
 {
@@ -28,7 +29,6 @@ namespace VideoModule
 
 		public override void Initialize()
 		{
-			CamerasViewModel.Initialize();
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			Helper.BuildMap();

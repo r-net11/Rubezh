@@ -26,7 +26,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			ExtraStream = null;
 		}
 
-		public void StartVideo(Camera camera)
+		public void StartVideo(Camera camera, int channelNumber)
 		{
 			try
 			{
@@ -35,14 +35,14 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				var deviceSI = new DeviceSearchInfo(camera.Address, camera.Port);
 				var device = perimeter.AddDevice(deviceSI);
 				device.Authorize();
-				FirstChannel = device.Channels.First(channell => channell.ChannelNumber == 0);
+				FirstChannel = device.Channels.First(channell => channell.ChannelNumber == channelNumber);
 				ExtraStream = FirstChannel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
 				ExtraStream.AddPlayHandle(Handle);
 			}
 			catch {}
 		}
 
-		public void StartVideo(Device device)
+		public void StartVideo(Device device, int channelNumber)
 		{
 			try
 			{
