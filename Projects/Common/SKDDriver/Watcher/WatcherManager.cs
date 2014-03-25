@@ -16,14 +16,6 @@ namespace SKDDriver
 		public static void Start()
 		{
 			SKDManager.CreateStates();
-			//foreach (var device in SKDManager.Devices)
-			//{
-			//    device.State = new SKDDeviceState(device);
-			//}
-			//foreach (var zone in SKDManager.Zones)
-			//{
-			//    zone.State = new SKDZoneState(zone);
-			//}
 
 			Watchers = new List<Watcher>();
 			foreach (var device in SKDManager.Devices)
@@ -55,6 +47,30 @@ namespace SKDDriver
 			catch (Exception e)
 			{
 				Logger.Error(e, "JournalWatcherManager.Stop");
+			}
+		}
+
+		public static void Send(Action<SendResult> onCompleted, SKDDevice controllerDevice, List<byte> data)
+		{
+			if (controllerDevice != null)
+			{
+				var watcher = Watchers.FirstOrDefault(x => x.Device.UID == controllerDevice.UID);
+				if (watcher != null)
+				{
+					watcher.AddTask(() =>
+					{
+						var sendResult = SKDDeviceProcessor.SendBytes(controllerDevice, data);
+						onCompleted(sendResult);
+					});
+				}
+				else
+				{
+					Logger.Error("JournalWatcherManager.Send watcher = null " + controllerDevice.UID.ToString());
+				}
+			}
+			else
+			{
+				//GKProcessorManager.AddGKMessage(EventNameEnum.Ошибка_при_выполнении_команды_над_устройством, EventDescription.Не_найдено_родительское_устройство_ГК, null, null);
 			}
 		}
 

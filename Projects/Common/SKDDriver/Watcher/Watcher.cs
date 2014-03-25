@@ -309,18 +309,6 @@ namespace SKDDriver
 		{
 			if (CheckLicense())
 			{
-				//try
-				//{
-				//	if (!IsConnected)
-				//	{
-				//		return;
-				//	}
-				//}
-				//catch (Exception e)
-				//{
-				//	Logger.Error(e, "Watcher.OnRunThread CheckTechnologicalRegime");
-				//}
-
 				try
 				{
 					CheckTasks();
@@ -382,10 +370,6 @@ namespace SKDDriver
 		bool CheckLicense()
 		{
 			return true;
-		}
-		void CheckTasks()
-		{
-
 		}
 		
 		bool CheckTechnologicalRegime()

@@ -116,28 +116,28 @@ namespace FiresecAPI
 		OperationResult<bool> SKDWriteAllIdentifiers(Guid deviceUID);
 
 		[OperationContract]
-		void SKDSetRegimeOpen(Guid deviceUID);
+		OperationResult<bool> SKDSetRegimeOpen(Guid deviceUID);
 
 		[OperationContract]
-		void SKDSetRegimeClose(Guid deviceUID);
+		OperationResult<bool> SKDSetRegimeClose(Guid deviceUID);
 
 		[OperationContract]
-		void SKDSetRegimeControl(Guid deviceUID);
+		OperationResult<bool> SKDSetRegimeControl(Guid deviceUID);
 
 		[OperationContract]
-		void SKDSetRegimeConversation(Guid deviceUID);
+		OperationResult<bool> SKDSetRegimeConversation(Guid deviceUID);
 
 		[OperationContract]
-		void SKDOpenDevice(Guid deviceUID);
+		OperationResult<bool> SKDOpenDevice(Guid deviceUID);
 
 		[OperationContract]
-		void SKDCloseDevice(Guid deviceUID);
+		OperationResult<bool> SKDCloseDevice(Guid deviceUID);
 
 		[OperationContract]
-		void SKDAllowReader(Guid deviceUID);
+		OperationResult<bool> SKDAllowReader(Guid deviceUID);
 
 		[OperationContract]
-		void SKDDenyReader(Guid deviceUID);
+		OperationResult<bool> SKDDenyReader(Guid deviceUID);
 		#endregion
 	}
 }

@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -40,7 +41,11 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.SKDSetRegimeOpen(Device);
+				var result = FiresecManager.FiresecService.SKDSetRegimeOpen(Device);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
 			}
 		}
 		bool CanSetRegimeOpen()
@@ -53,7 +58,11 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.SKDSetRegimeClose(Device);
+				var result = FiresecManager.FiresecService.SKDSetRegimeClose(Device);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
 			}
 		}
 		bool CanSetRegimeClose()
@@ -66,7 +75,11 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.SKDSetRegimeControl(Device);
+				var result = FiresecManager.FiresecService.SKDSetRegimeControl(Device);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
 			}
 		}
 		bool CanSetRegimeControl()
@@ -79,7 +92,11 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.SKDSetRegimeConversation(Device);
+				var result = FiresecManager.FiresecService.SKDSetRegimeConversation(Device);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
 			}
 		}
 		bool CanSetRegimeConversation()
@@ -92,7 +109,11 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.SKDOpenDevice(Device);
+				var result = FiresecManager.FiresecService.SKDOpenDevice(Device);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
 			}
 		}
 		bool CanOpen()
@@ -105,7 +126,11 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.SKDCloseDevice(Device);
+				var result = FiresecManager.FiresecService.SKDCloseDevice(Device);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
 			}
 		}
 		bool CanClose()

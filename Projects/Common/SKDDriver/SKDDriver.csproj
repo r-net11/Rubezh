@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="AdministratorHelper.cs" />
     <Compile Include="BytesHelper.cs" />
-    <Compile Include="DeviceBytesHelper.cs" />
     <Compile Include="SKDDatabaseService\DataAccess\IDatabaseElement.cs" />
     <Compile Include="SKDDatabaseService\DataAccess\SKD.cs">
       <DependentUpon>SKD.dbml</DependentUpon>
@@ -87,6 +86,7 @@
     <Compile Include="SKDProcessorManager.cs" />
     <Compile Include="VideoWatcher.cs" />
     <Compile Include="Watcher\Watcher.StateChanged.cs" />
+    <Compile Include="Watcher\Watcher.Tasks.cs" />
     <Compile Include="Watcher\WatcherManager.cs" />
     <Compile Include="Watcher\JournalParser.cs" />
     <Compile Include="Watcher\Watcher.Connection.cs" />

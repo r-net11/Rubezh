@@ -13,24 +13,36 @@ namespace SKDDriver
 		public JournalParser(SKDDevice device, List<byte> bytes)
 		{
 			var no = BytesHelper.SubstructInt(bytes, 0);
-			var source = bytes[4];
-			var address = bytes[5];
-			var code = bytes[6];
-			var cardSeries = BytesHelper.SubstructInt(bytes, 7);
-			var cardNo = BytesHelper.SubstructInt(bytes, 11);
+			var deviceDateTime = DateTime.MinValue;
+			try
+			{
+				deviceDateTime = new DateTime(bytes[4] + 2000, bytes[5], bytes[6], bytes[7], bytes[8], bytes[9]);
+			}
+			catch
+			{
+
+			}
+			var source = bytes[10];
+			var address = bytes[11];
+			var eventNameCode = bytes[12];
+			var evenDescriptionCode = bytes[13];
+			var cardSeries = BytesHelper.SubstructInt(bytes, 14);
+			var cardNo = BytesHelper.SubstructInt(bytes, 18);
 
 			JournalItem = new SKDJournalItem();
+			JournalItem.DeviceDateTime = deviceDateTime;
 			JournalItem.IpAddress = device.Address;
 			JournalItem.DeviceJournalRecordNo = no;
 			JournalItem.CardSeries = cardSeries;
 			JournalItem.CardNo = cardNo;
 
-			var skdEvent = SKDEventsHelper.SKDEvents.FirstOrDefault(x => x.No == code);
+			var skdEvent = SKDEventsHelper.SKDEvents.FirstOrDefault(x => x.No == eventNameCode);
 			if (skdEvent != null)
 			{
 				JournalItem.Name = skdEvent.Name;
 				JournalItem.StateClass = skdEvent.StateClass;
 			}
+			JournalItem.Description = evenDescriptionCode.ToString();
 
 			if (source == 1)
 			{
