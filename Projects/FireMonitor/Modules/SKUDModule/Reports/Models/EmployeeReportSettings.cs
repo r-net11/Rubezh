@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SKDModule.Models
 {
-	public class EmployeeReportFilter
+	public class EmployeeReportSettings
 	{
-		public EmployeeReportFilter()
+		public EmployeeReportSettings()
 		{
 			EmployeeReportType = EmployeeReportType.Время_присутствия;
-			StartDateTime = DateTime.Now.AddDays(-1);
-			EndDateTime = DateTime.Now;
+			EmployeeReportPeriod = EmployeeReportPeriod.Day;
+			StartDateTime = DateTime.Today;
+			EndDateTime = DateTime.Today;
 		}
 
 		public EmployeeReportType EmployeeReportType { get; set; }
+		public EmployeeReportPeriod EmployeeReportPeriod { get; set; }
 		public DateTime StartDateTime { get; set; }
 		public DateTime EndDateTime { get; set; }
 	}
