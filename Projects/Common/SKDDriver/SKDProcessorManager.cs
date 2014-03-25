@@ -57,7 +57,7 @@ namespace SKDDriver
 		public static SKDStates SKDGetStates()
 		{
 			var skdStates = new SKDStates();
-			foreach(var device in SKDManager.Devices)
+			foreach (var device in SKDManager.Devices)
 			{
 				Watcher.AddDeviceStateToSKDStates(skdStates, device);
 			}
@@ -127,6 +127,21 @@ namespace SKDDriver
 			var skdCallbackResult = new SKDCallbackResult();
 			skdCallbackResult.JournalItems.Add(journalItem);
 			OnSKDCallbackResult(skdCallbackResult);
+		}
+
+		public static void SendControlCommand(SKDDevice device, byte code)
+		{
+			var bytes = new List<byte>();
+			bytes.Add(8);
+			bytes.Add(code);
+			WatcherManager.Send(new Action<SendResult>(sendResult =>
+			{
+				if (sendResult.HasError)
+				{
+					//GKProcessorManager.AddGKMessage(EventNameEnum.Ошибка_при_выполнении_команды, description, xBase, null);
+				}
+			}),
+			device, bytes);
 		}
 	}
 }

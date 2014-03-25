@@ -1,6 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows.Input;
+using System.Windows.Threading;
+using Entities.DeviceOriented;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -33,11 +36,13 @@ namespace VideoModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			PlayVideoCommand = new RelayCommand(OnPlayVideo, () => SelectedCamera != null);
 			RegisterShortcuts();
-			Initialize();
+			InitializeCameras();
+			InitializePerimeter();
 			//VlcInitialize();
 			SubscribeEvents();
 			IsRightPanelEnabled = true;
 		}
+
 		private void VlcInitialize()
 		{
 			VlcContext.LibVlcDllsPath = CommonStrings.LIBVLC_DLLS_PATH_DEFAULT_VALUE_X86;
@@ -57,7 +62,8 @@ namespace VideoModule.ViewModels
 			_videoSequence = new VideoClass();
 			_videoSequence.Play();
 		}
-		public void Initialize()
+
+		public void InitializeCameras()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
@@ -65,7 +71,32 @@ namespace VideoModule.ViewModels
 				var cameraViewModel = new CameraViewModel(this, camera);
 				Cameras.Add(cameraViewModel);
 			}
-			SelectedCamera = Cameras.FirstOrDefault();
+		}
+
+		public void InitializePerimeter()
+		{
+			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			{
+				var deviceSI = new DeviceSearchInfo(camera.Address, camera.Port);
+				new Thread(delegate()
+				{
+					try
+					{
+						var device = SystemPerimeter.Instance.AddDevice(deviceSI);
+						var cameraViewModel = Cameras.FirstOrDefault(x => x.Camera.Address == device.IP);
+						if (cameraViewModel != null)
+						{
+							cameraViewModel.IsConnected = true;
+							cameraViewModel.Channels = device.Channels;
+							cameraViewModel.SelectedChannel = cameraViewModel.Channels.FirstOrDefault();
+						}
+					}
+					catch
+					{
+					}
+				}).Start();
+				SelectedCamera = Cameras.FirstOrDefault();
+			}
 		}
 
 		public VideoClass VideoSequence
@@ -124,10 +155,20 @@ namespace VideoModule.ViewModels
 			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
 				FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.Camera);
-				var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.Camera);
-				Cameras.Add(cameraViewModel);
-				SelectedCamera = cameraViewModel;
-				ServiceFactory.SaveService.CamerasChanged = true;
+				var perimeter = SystemPerimeter.Instance;
+				var deviceSI = new DeviceSearchInfo(cameraDetailsViewModel.Camera.Address, cameraDetailsViewModel.Camera.Port);
+				new Thread(delegate()
+				{
+					try
+					{
+						var device = perimeter.AddDevice(deviceSI);
+						var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.Camera);
+						Cameras.Add(cameraViewModel);
+						SelectedCamera = cameraViewModel;
+						ServiceFactory.SaveService.CamerasChanged = true;
+					}
+					catch { }
+				}).Start();
 			}
 		}
 
