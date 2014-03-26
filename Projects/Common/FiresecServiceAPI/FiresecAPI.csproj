@@ -163,6 +163,7 @@
     <Compile Include="IFiresecServiceSKD.cs" />
     <Compile Include="IGKService.cs" />
     <Compile Include="IFiresecService.cs" />
+    <Compile Include="INamedBase.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="Models\Archive\DescriptionType.cs" />
     <Compile Include="Models\Archive\JournalDescriptionItem.cs" />

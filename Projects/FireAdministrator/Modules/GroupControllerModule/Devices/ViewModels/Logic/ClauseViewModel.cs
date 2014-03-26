@@ -13,25 +13,31 @@ namespace GKModule.ViewModels
 {
 	public class ClauseViewModel : BaseViewModel
 	{
-		public List<XZone> Zones { get; set; }
 		public List<XDevice> Devices { get; set; }
+		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
+		public List<XMPT> MPTs { get; set; }
+		public List<XDelay> Delays { get; set; }
 		XDevice Device;
 
 		public ClauseViewModel(XClause clause, XDevice device)
 		{
 			Device = device;
-			SelectZonesCommand = new RelayCommand(OnSelectZones);
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
+			SelectZonesCommand = new RelayCommand(OnSelectZones);
 			SelectDirectionCommand = new RelayCommand(OnSelectDirections);
+			SelectMPTsCommand = new RelayCommand(OnSelectMPTs);
+			SelectDelaysCommand = new RelayCommand(OnSelectDelays);
 
 			ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
 			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
 
 			SelectedClauseOperationType = clause.ClauseOperationType;
-			Zones = clause.Zones.ToList();
 			Devices = clause.Devices.ToList();
+			Zones = clause.Zones.ToList();
 			Directions = clause.Directions.ToList();
+			MPTs = new List<XMPT>();
+			Delays = new List<XDelay>();
 
 			SelectedClauseConditionType = clause.ClauseConditionType;
 			SelectedStateType = clause.StateType;
@@ -97,6 +103,30 @@ namespace GKModule.ViewModels
 						StateTypes = new ObservableCollection<XStateBit>();
 						StateTypes.Add(XStateBit.On);
 						break;
+
+					case ClauseOperationType.AllMPTs:
+					case ClauseOperationType.AnyMPT:
+						Zones = new List<XZone>();
+						Devices = new List<XDevice>();
+						StateTypes = new ObservableCollection<XStateBit>();
+						StateTypes.Add(XStateBit.On);
+						StateTypes.Add(XStateBit.Off);
+						StateTypes.Add(XStateBit.TurningOn);
+						StateTypes.Add(XStateBit.TurningOff);
+						StateTypes.Add(XStateBit.Norm);
+						break;
+
+					case ClauseOperationType.AllDelays:
+					case ClauseOperationType.AnyDelay:
+						Zones = new List<XZone>();
+						Devices = new List<XDevice>();
+						StateTypes = new ObservableCollection<XStateBit>();
+						StateTypes.Add(XStateBit.On);
+						StateTypes.Add(XStateBit.Off);
+						StateTypes.Add(XStateBit.TurningOn);
+						StateTypes.Add(XStateBit.TurningOff);
+						StateTypes.Add(XStateBit.Norm);
+						break;
 				}
 				if (StateTypes.Contains(oldSelectedStateType))
 				{
@@ -107,12 +137,16 @@ namespace GKModule.ViewModels
 					SelectedStateType = StateTypes.FirstOrDefault();
 				}
 				OnPropertyChanged("SelectedClauseOperationType");
-				OnPropertyChanged("PresenrationZones");
 				OnPropertyChanged("PresenrationDevices");
+				OnPropertyChanged("PresenrationZones");
 				OnPropertyChanged("PresenrationDirections");
-				OnPropertyChanged("CanSelectZones");
+				OnPropertyChanged("PresenrationMPTs");
+				OnPropertyChanged("PresenrationDelays");
 				OnPropertyChanged("CanSelectDevices");
+				OnPropertyChanged("CanSelectZones");
 				OnPropertyChanged("CanSelectDirections");
+				OnPropertyChanged("CanSelectMPTs");
+				OnPropertyChanged("CanSelectDelays");
 			}
 		}
 
@@ -151,14 +185,14 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public string PresenrationZones
-		{
-			get { return XManager.GetCommaSeparatedZones(Zones); }
-		}
-
 		public string PresenrationDevices
 		{
 			get { return XManager.GetCommaSeparatedDevices(Devices); }
+		}
+
+		public string PresenrationZones
+		{
+			get { return XManager.GetCommaSeparatedZones(Zones); }
 		}
 
 		public string PresenrationDirections
@@ -166,9 +200,14 @@ namespace GKModule.ViewModels
 			get { return XManager.GetCommaSeparatedDirections(Directions); }
 		}
 
-		public bool CanSelectZones
+		public string PresenrationMPTs
 		{
-			get { return (SelectedClauseOperationType == ClauseOperationType.AllZones || SelectedClauseOperationType == ClauseOperationType.AnyZone); }
+			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(MPTs)); }
+		}
+
+		public string PresenrationDelays
+		{
+			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(Delays)); }
 		}
 
 		public bool CanSelectDevices
@@ -176,20 +215,24 @@ namespace GKModule.ViewModels
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice); }
 		}
 
+		public bool CanSelectZones
+		{
+			get { return (SelectedClauseOperationType == ClauseOperationType.AllZones || SelectedClauseOperationType == ClauseOperationType.AnyZone); }
+		}
+
 		public bool CanSelectDirections
 		{
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllDirections || SelectedClauseOperationType == ClauseOperationType.AnyDirection); }
 		}
 
-		public RelayCommand SelectZonesCommand { get; private set; }
-		void OnSelectZones()
+		public bool CanSelectMPTs
 		{
-			var zonesSelectationViewModel = new ZonesSelectationViewModel(Zones);
-			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
-			{
-				Zones = zonesSelectationViewModel.Zones;
-				OnPropertyChanged("PresenrationZones");
-			}
+			get { return (SelectedClauseOperationType == ClauseOperationType.AllMPTs || SelectedClauseOperationType == ClauseOperationType.AnyMPT); }
+		}
+
+		public bool CanSelectDelays
+		{
+			get { return (SelectedClauseOperationType == ClauseOperationType.AllDelays || SelectedClauseOperationType == ClauseOperationType.AnyDelay); }
 		}
 
 		public RelayCommand SelectDevicesCommand { get; private set; }
@@ -222,6 +265,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public RelayCommand SelectZonesCommand { get; private set; }
+		void OnSelectZones()
+		{
+			var zonesSelectationViewModel = new ZonesSelectationViewModel(Zones);
+			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
+			{
+				Zones = zonesSelectationViewModel.Zones;
+				OnPropertyChanged("PresenrationZones");
+			}
+		}
+
 		public RelayCommand SelectDirectionCommand { get; private set; }
 		void OnSelectDirections()
 		{
@@ -230,6 +284,28 @@ namespace GKModule.ViewModels
 			{
 				Directions = directionsSelectationViewModel.Directions;
 				OnPropertyChanged("PresenrationDirections");
+			}
+		}
+
+		public RelayCommand SelectMPTsCommand { get; private set; }
+		void OnSelectMPTs()
+		{
+			var mptsSelectationViewModel = new MPTsSelectationViewModel(MPTs);
+			if (DialogService.ShowModalWindow(mptsSelectationViewModel))
+			{
+				MPTs = mptsSelectationViewModel.MPTs;
+				OnPropertyChanged("PresenrationMPTs");
+			}
+		}
+
+		public RelayCommand SelectDelaysCommand { get; private set; }
+		void OnSelectDelays()
+		{
+			var delaysSelectationViewModel = new DelaysSelectationViewModel(Delays);
+			if (DialogService.ShowModalWindow(delaysSelectationViewModel))
+			{
+				Delays = delaysSelectationViewModel.Delays;
+				OnPropertyChanged("PresenrationDelays");
 			}
 		}
 	}

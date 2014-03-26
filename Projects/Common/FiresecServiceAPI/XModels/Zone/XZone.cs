@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XZone : XBase
+	public class XZone : XBase, INamedBase
 	{
 		public XZone()
 		{

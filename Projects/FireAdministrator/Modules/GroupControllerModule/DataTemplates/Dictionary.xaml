@@ -24,7 +24,15 @@
 		<Views:DirectionsSelectationView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:MPTsSelectationViewModel}">
+        <Views:MPTsSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DelaysSelectationViewModel}">
+        <Views:DelaysSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
 		<Views:NewDeviceView />
 	</DataTemplate>
 

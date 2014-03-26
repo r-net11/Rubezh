@@ -128,6 +128,56 @@
 										</TextBlock>
 									</Hyperlink>
 								</TextBlock>
+                                    
+                                <TextBlock Visibility="{Binding CanSelectMPTs, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+									<Hyperlink Command="{Binding SelectMPTsCommand}" Style="{StaticResource HyperlinkStyle}">
+										<TextBlock Margin="2">
+											<TextBlock.Style>
+												<Style>
+													<Setter Property="TextBlock.Text" Value="{Binding PresenrationMPTs}" />
+													<Setter Property="TextBlock.ToolTip">
+														<Setter.Value>
+															<WrapPanel>
+																<TextBlock Text="{Binding PresenrationMPTs}" TextWrapping="Wrap" />
+															</WrapPanel>
+														</Setter.Value>
+													</Setter>
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding PresenrationMPTs}" Value="">
+															<Setter Property="TextBlock.Text" Value="Нажмите для выбора МПТ" />
+															<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора МПТ" />
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</TextBlock.Style>
+										</TextBlock>
+									</Hyperlink>
+								</TextBlock>
+                                    
+                                <TextBlock Visibility="{Binding CanSelectDelays, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+									<Hyperlink Command="{Binding SelectDelaysCommand}" Style="{StaticResource HyperlinkStyle}">
+										<TextBlock Margin="2">
+											<TextBlock.Style>
+												<Style>
+													<Setter Property="TextBlock.Text" Value="{Binding PresenrationDelays}" />
+													<Setter Property="TextBlock.ToolTip">
+														<Setter.Value>
+															<WrapPanel>
+																<TextBlock Text="{Binding PresenrationDelays}" TextWrapping="Wrap" />
+															</WrapPanel>
+														</Setter.Value>
+													</Setter>
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding PresenrationDelays}" Value="">
+															<Setter Property="TextBlock.Text" Value="Нажмите для выбора задержек" />
+															<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора задержек" />
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</TextBlock.Style>
+										</TextBlock>
+									</Hyperlink>
+								</TextBlock>
 							</StackPanel>
 							<Controls:ToolBarButton Grid.Column="1" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить"
 								Command="{Binding

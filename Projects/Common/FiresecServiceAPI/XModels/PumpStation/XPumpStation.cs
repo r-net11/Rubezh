@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XPumpStation : XBase, IInputObjectsBase
+	public class XPumpStation : XBase, IInputObjectsBase, INamedBase
 	{
 		public XPumpStation()
 		{
@@ -37,7 +37,7 @@ namespace XFiresecAPI
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public ushort No { get; set; }
+		public int No { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

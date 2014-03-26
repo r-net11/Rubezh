@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDelay : XBase, IInputObjectsBase
+	public class XDelay : XBase, IInputObjectsBase, INamedBase
 	{
 		public XDelay()
 		{
@@ -20,6 +20,9 @@ namespace XFiresecAPI
 		public List<XDevice> InputDevices { get; set; }
 		public List<XZone> InputZones { get; set; }
 		public List<XDirection> InputDirections { get; set; }
+
+		[DataMember]
+		public int No { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

@@ -21,8 +21,11 @@ namespace GKModule.ViewModels
 
 				Delay = new XDelay()
 				{
-					Name = "Задержка"
+					Name = "Задержка",
+					No = 1,
 				};
+				if (XManager.Delays.Count != 0)
+					Delay.No = (ushort)(XManager.Delays.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -44,11 +47,23 @@ namespace GKModule.ViewModels
 
 		void CopyProperties()
 		{
+			No = Delay.No;
 			Name = Delay.Name;
 			Description = Delay.Description;
 			DelayTime = Delay.DelayTime;
 			Hold = Delay.Hold;
 			DelayRegime = Delay.DelayRegime;
+		}
+
+		int _no;
+		public int No
+		{
+			get { return _no; }
+			set
+			{
+				_no = value;
+				OnPropertyChanged("No");
+			}
 		}
 
 		string _name;
@@ -118,6 +133,7 @@ namespace GKModule.ViewModels
 				return false;
 			}
 
+			Delay.No = No;
 			Delay.Name = Name;
 			Delay.Description = Description;
 			Delay.DelayTime = DelayTime;

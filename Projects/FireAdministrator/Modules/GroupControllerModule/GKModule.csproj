@@ -179,6 +179,8 @@
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Selectation\ViewModels\DeviceSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\MPTsSelectationViewModel.cs" />
+    <Compile Include="Selectation\ViewModels\DelaysSelectationViewModel.cs" />
     <Compile Include="Selectation\Views\DirectionsSelectationView.xaml.cs">
       <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
     </Compile>
@@ -342,6 +344,12 @@
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Selectation\Views\DeviceSelectationView.xaml.cs">
       <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\MPTsSelectationView.xaml.cs">
+      <DependentUpon>MPTsSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Selectation\Views\DelaysSelectationView.xaml.cs">
+      <DependentUpon>DelaysSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\GuardUserValidationError.cs" />
     <Compile Include="Validation\Validator.Guard.cs" />
@@ -651,6 +659,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Selectation\Views\DeviceSelectationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Selectation\Views\MPTsSelectationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Selectation\Views\DelaysSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
