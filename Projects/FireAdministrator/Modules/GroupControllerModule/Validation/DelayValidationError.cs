@@ -5,10 +5,10 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-	public class PumpStationValidationError : ObjectValidationError<XPumpStation, ShowXPumpStationEvent, Guid>
+	public class DelayValidationError : ObjectValidationError<XDelay, ShowXDelayEvent, Guid>
 	{
-		public PumpStationValidationError(XPumpStation pumpStation, string error, ValidationErrorLevel level)
-			: base(pumpStation, error, level)
+		public DelayValidationError(XDelay delay, string error, ValidationErrorLevel level)
+			: base(delay, error, level)
 		{
 		}
 
@@ -28,12 +28,12 @@ namespace GKModule.Validation
 		}
 		public override string Address
 		{
-			get { return Object.No.ToString(); }
+			get { return ""; }
 		}
 
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/Blue_Direction.png"; }
+			get { return "/Controls;component/Images/Delay.png"; }
 		}
 	}
 }

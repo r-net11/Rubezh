@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XPumpStation : XBase
+	public class XPumpStation : XBase, IInputObjectsBase
 	{
 		public XPumpStation()
 		{

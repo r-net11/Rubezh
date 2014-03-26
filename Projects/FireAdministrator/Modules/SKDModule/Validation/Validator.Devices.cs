@@ -28,8 +28,8 @@ namespace SKDModule.Validation
 					{
 						if (device.Children.Where(x => x.DriverType == SKDDriverType.Reader).Count() == 0)
 							Errors.Add(new DeviceValidationError(device, "Отсутствуют считыватели", ValidationErrorLevel.CannotWrite));
-						if (device.Children.Where(x => x.DriverType == SKDDriverType.Reader).Count() > 2)
-							Errors.Add(new DeviceValidationError(device, "Количество считывателей не быть больше двух", ValidationErrorLevel.CannotWrite));
+						if (device.Children.Where(x => x.DriverType == SKDDriverType.Reader).Count() > 10)
+							Errors.Add(new DeviceValidationError(device, "Количество считывателей не может быть больше 10", ValidationErrorLevel.CannotWrite));
 					}
 				}
 				if (device.DriverType == SKDDriverType.Reader)

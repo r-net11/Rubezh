@@ -120,7 +120,6 @@ namespace GKProcessor
 		void CreateHandAutomaticOffPim(XPim pim)
 		{
 			pim.Name = "АО Р " + MPT.PresentationName;
-			pim.MPTUID = MPT.BaseUID;
 
 			var pimDescriptor = new PimDescriptor(pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);
@@ -161,7 +160,6 @@ namespace GKProcessor
 		void CreateDoorAutomaticOffPim(XPim pim)
 		{
 			pim.Name = "АО Д " + MPT.PresentationName;
-			pim.MPTUID = MPT.BaseUID;
 
 			var pimDescriptor = new PimDescriptor(pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);
@@ -201,7 +199,6 @@ namespace GKProcessor
 		void CreateFailureAutomaticOffPim(XPim pim)
 		{
 			pim.Name = "АО Н " + MPT.PresentationName;
-			pim.MPTUID = MPT.BaseUID;
 
 			var pimDescriptor = new PimDescriptor(pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);

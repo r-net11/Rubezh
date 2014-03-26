@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 		{
 			if (pumpStationUID != Guid.Empty)
 			{
-				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.UID == pumpStationUID);
+				SelectedPumpStation = PumpStations.FirstOrDefault(x => x.PumpStation.BaseUID == pumpStationUID);
 			}
 		}
 	}

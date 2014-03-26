@@ -89,7 +89,7 @@ namespace GKModule.Validation
 
 		void ValidatePumpStationOutput(XPumpStation pumpStation)
 		{
-			var pumpsCount = pumpStation.NSDevices.Count(x => x.Driver.DriverType == XDriverType.FirePump);
+			var pumpsCount = pumpStation.NSDevices.Count(x => x.Driver.DriverType == XDriverType.FirePump || x.Driver.DriverType == XDriverType.RSR2_Bush);
 			if (pumpsCount == 0)
 			{
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют насосы", ValidationErrorLevel.CannotWrite));

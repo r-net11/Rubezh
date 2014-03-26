@@ -66,8 +66,8 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				return ((DriverType == XDriverType.FirePump) || (DriverType == XDriverType.JockeyPump) ||
-						(DriverType == XDriverType.DrainagePump));
+				return (DriverType == XDriverType.FirePump || DriverType == XDriverType.JockeyPump ||
+						DriverType == XDriverType.DrainagePump || DriverType == XDriverType.RSR2_Bush);
 			}
 		}
 

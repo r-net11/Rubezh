@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XMPT : XBase
+	public class XMPT : XBase, IInputObjectsBase
 	{
 		public XMPT()
 		{

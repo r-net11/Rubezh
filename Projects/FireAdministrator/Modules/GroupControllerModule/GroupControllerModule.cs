@@ -30,16 +30,17 @@ namespace GKModule
 		ZonesViewModel ZonesViewModel;
 		DirectionsViewModel DirectionsViewModel;
 		PumpStationsViewModel PumpStationsViewModel;
-		FiltersViewModel FiltersViewModel;
 		MPTsViewModel MPTsViewModel;
+		DelaysViewModel DelaysViewModel;
+		FiltersViewModel FiltersViewModel;
 		GuardViewModel GuardViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
 		OPCDevicesViewModel OPCDevicesViewModel;
 		OPCZonesViewModel OPCZonesViewModel;
 		OPCDirectionsViewModel OPCDirectionsViewModel;
-		DiagnosticsViewModel DiagnosticsViewModel;
 		DescriptorsViewModel DescriptorsViewModel;
+		DiagnosticsViewModel DiagnosticsViewModel;
 		GKPlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -54,16 +55,17 @@ namespace GKModule
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			PumpStationsViewModel = new PumpStationsViewModel();
+			MPTsViewModel = new MPTsViewModel();
+			DelaysViewModel = new DelaysViewModel();
 			FiltersViewModel = new FiltersViewModel();
 			GuardViewModel = new GuardViewModel();
-			MPTsViewModel = new MPTsViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
 			OPCDevicesViewModel = new OPCDevicesViewModel();
 			OPCZonesViewModel = new OPCZonesViewModel();
 			OPCDirectionsViewModel = new OPCDirectionsViewModel();
-			DiagnosticsViewModel = new DiagnosticsViewModel();
 			DescriptorsViewModel = new DescriptorsViewModel();
+			DiagnosticsViewModel = new DiagnosticsViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel);
 		}
 
@@ -75,6 +77,7 @@ namespace GKModule
 			DirectionsViewModel.Initialize();
 			PumpStationsViewModel.Initialize();
 			MPTsViewModel.Initialize();
+			DelaysViewModel.Initialize();
 			GuardViewModel.Initialize();
 			FiltersViewModel.Initialize();
 			InstructionsViewModel.Initialize();
@@ -96,6 +99,7 @@ namespace GKModule
 					new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXMPTEvent, Guid>(MPTsViewModel, "МПТ", "/Controls;component/Images/MPT.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/user.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
 					new NavigationItem<ShowXDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
@@ -107,10 +111,10 @@ namespace GKModule
 							new NavigationItem<ShowXOPCZonesEvent, Guid>(OPCZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
 							new NavigationItem<ShowXOPCDirectionsEvent, Guid>(OPCDirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
 						}),
-					new NavigationItem<ShowXDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
 #if DEBUG
 					new NavigationItem<ShowXDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "/Controls;component/Images/Descriptors.png"),
-					#endif
+					new NavigationItem<ShowXDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
+#endif
 				};
 		}
 		public override string Name

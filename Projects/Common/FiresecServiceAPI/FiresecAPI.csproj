@@ -394,6 +394,7 @@
     <Compile Include="XModels\Formula\FormulaOperation.cs" />
     <Compile Include="XModels\Formula\FormulaOperationType.cs" />
     <Compile Include="XModels\Guard\XGuardUser.cs" />
+    <Compile Include="XModels\IInputObjectsBase.cs" />
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="XModels\Journal\EventName.cs" />

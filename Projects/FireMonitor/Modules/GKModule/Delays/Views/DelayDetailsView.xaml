@@ -107,15 +107,15 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="2">
                                 <TextBlock Text="Задержка: " />
-                                <TextBlock Text="{Binding Delay.DelayTime}"/>
+                                <TextBlock Text="{Binding Delay.DelayTime}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="2">
                                 <TextBlock Text="Удержание: " />
-                                <TextBlock Text="{Binding Delay.SetTime}"/>
+                                <TextBlock Text="{Binding Delay.Hold}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="2">
                                 <TextBlock Text="Режим после удержания: " />
-                                <TextBlock Text="{Binding Delay.DelayRegime, Converter={StaticResource DelayRegimeToStringConverter}}"/>
+                                <TextBlock Text="{Binding Delay.DelayRegime, Converter={StaticResource DelayRegimeToStringConverter}}" />
                             </StackPanel>
                         </ItemsControl.Items>
                     </ItemsControl>

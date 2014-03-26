@@ -81,7 +81,7 @@
 				</DataGrid.CellStyle>
 			</DataGrid>
 
-			<DataGrid Grid.Column="1" ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase}" Margin="0 4 0 0">
+			<DataGrid Grid.Column="1" ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase}" Margin="4 0 0 0">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="База" Width="*">
 						<DataGridTemplateColumn.CellTemplate>

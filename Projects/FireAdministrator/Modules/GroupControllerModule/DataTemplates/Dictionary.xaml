@@ -88,7 +88,8 @@
 		<Views:PumpStationsMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
 		<Views:MPTsView />
 	</DataTemplate>
 
@@ -107,6 +108,20 @@
     <DataTemplate DataType="{x:Type ViewModels:MPTDevicePropertiesViewModel}">
         <Views:MPTDevicePropertiesView />
     </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type ViewModels:DelaysViewModel}">
+        <Views:DelaysView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DelayDetailsViewModel}">
+        <Views:DelayDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DelaysMenuViewModel}">
+        <Views:DelaysMenuView />
+    </DataTemplate>
+
 
     <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
 		<Views:JournalView />
