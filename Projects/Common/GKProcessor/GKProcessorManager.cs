@@ -228,7 +228,7 @@ namespace GKProcessor
 
 		public static string GKGetDeviceInfo(XDevice device, string userName)
 		{
-			AddGKMessage(EventNameEnum.Запрос_информации_об_устройсве, "", device, userName, true);
+			AddGKMessage(EventNameEnum.Запрос_информации_об_устройстве, "", device, userName, true);
 			var result = DeviceBytesHelper.GetDeviceInfo(device);
 			if (result == null)
 				result = "Устройство недоступно";
