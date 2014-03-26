@@ -58,24 +58,7 @@
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Width="200" Binding="{Binding Camera.Address}" Header="URL" />
-                <DataGridTemplateColumn Width="200" Header="Канал">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding SelectedChannel, Converter={StaticResource ChannelToStringConverter}}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                    <DataGridTemplateColumn.CellEditingTemplate>
-                        <DataTemplate>
-                            <ComboBox Width="Auto" ItemsSource="{Binding Channels}" SelectedItem="{Binding SelectedChannel,  Converter={StaticResource ChannelToStringConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding ., Converter={StaticResource ChannelToStringConverter}}" Foreground="Black" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellEditingTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="200" Binding="{Binding SelectedChannel, Converter={StaticResource ChannelToStringConverter}}" Header="Канал" />
                 <DataGridTextColumn Width="200" Binding="{Binding PresentationZones}" Header="Зоны" />
 			</DataGrid.Columns>
 			<XDataGrid.ContextMenu>
@@ -98,7 +81,7 @@
 					</VisualBrush.Visual>
 				</VisualBrush>
 			</Grid.Background>-->
-            <rviVss:CellPlayerWrap Name="PlayerWrap" Grid.Row="0" />
+            <rviVss:CellPlayerWrap Name="PlayerWrap" />
 		</Grid>
 	</Grid>
 	<!--

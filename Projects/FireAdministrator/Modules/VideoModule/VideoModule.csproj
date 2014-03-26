@@ -114,6 +114,7 @@
     <Compile Include="ViewModels\LayoutPartCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartMultiCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
+    <Compile Include="ViewModels\PreviewViewModel.cs" />
     <Compile Include="ViewModels\ZonesSelectationViewModel.cs" />
     <Compile Include="Views\CameraDetailsView.xaml.cs">
       <DependentUpon>CameraDetailsView.xaml</DependentUpon>
@@ -129,6 +130,9 @@
     </Compile>
     <Compile Include="Views\LayoutPartPropertyCameraPageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyCameraPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PreviewView.xaml.cs">
+      <DependentUpon>PreviewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZonesSelectationView.xaml.cs">
       <DependentUpon>ZonesSelectationView.xaml</DependentUpon>
@@ -171,6 +175,10 @@
     <Page Include="Views\LayoutPartPropertyCameraPageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PreviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ZonesSelectationView.xaml">
       <SubType>Designer</SubType>

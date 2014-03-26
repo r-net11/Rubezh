@@ -27,4 +27,8 @@
 		<Views:LayoutPartPropertyCameraPageView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:PreviewViewModel}">
+        <Views:PreviewView />
+    </DataTemplate>
+    
 </ResourceDictionary>

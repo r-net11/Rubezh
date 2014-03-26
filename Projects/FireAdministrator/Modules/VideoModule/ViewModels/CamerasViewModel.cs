@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using VideoModule.Views;
 using VideoPlayerTest;
 using KeyboardKey = System.Windows.Input.Key;
 using Vlc.DotNet.Core;
@@ -71,32 +72,37 @@ namespace VideoModule.ViewModels
 				var cameraViewModel = new CameraViewModel(this, camera);
 				Cameras.Add(cameraViewModel);
 			}
+			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
 		public void InitializePerimeter()
 		{
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-			{
-				var deviceSI = new DeviceSearchInfo(camera.Address, camera.Port);
-				new Thread(delegate()
+			new Thread(delegate ()
 				{
-					try
+					foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 					{
-						var device = SystemPerimeter.Instance.AddDevice(deviceSI);
-						var cameraViewModel = Cameras.FirstOrDefault(x => x.Camera.Address == device.IP);
-						if (cameraViewModel != null)
-						{
-							cameraViewModel.IsConnected = true;
-							cameraViewModel.Channels = device.Channels;
-							cameraViewModel.SelectedChannel = cameraViewModel.Channels.FirstOrDefault();
-						}
-					}
-					catch
-					{
+						var deviceSI = new DeviceSearchInfo(camera.Address, camera.Port);
+						//var t = new Thread(delegate()
+						//{
+							try
+							{
+								var device = SystemPerimeter.Instance.AddDevice(deviceSI);
+								var cameraViewModel = Cameras.FirstOrDefault(x => x.Camera.Address == device.IP);
+								if (cameraViewModel != null)
+								{
+									cameraViewModel.IsConnected = true;
+									cameraViewModel.Channels = new ObservableCollection<Channel>(device.Channels);
+									cameraViewModel.SelectedChannel = cameraViewModel.Channels[camera.ChannelNumber];
+								}
+							}
+							catch
+							{
+							}
+						//});
+						//t.Start();
+						//t.Join();
 					}
 				}).Start();
-				SelectedCamera = Cameras.FirstOrDefault();
-			}
 		}
 
 		public VideoClass VideoSequence
@@ -164,7 +170,6 @@ namespace VideoModule.ViewModels
 						var device = perimeter.AddDevice(deviceSI);
 						var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.Camera);
 						Cameras.Add(cameraViewModel);
-						SelectedCamera = cameraViewModel;
 						ServiceFactory.SaveService.CamerasChanged = true;
 					}
 					catch { }
@@ -181,7 +186,7 @@ namespace VideoModule.ViewModels
 					camera.StopVideo();
 			}
 			if (!IsNowPlaying)
-				SelectedCamera.StartVideo();
+				SelectedCamera.StartVideo(CamerasView.Current.PlayerWrap);
 			IsNowPlaying = !IsNowPlaying;
 			OnPropertyChanged("StartedCamera");
 			OnPropertyChanged("IsNowPlaying");
@@ -202,10 +207,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera.Camera);
+			var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera);
 			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
 				SelectedCamera.Camera = cameraDetailsViewModel.Camera;
+				SelectedCamera.SelectedChannel = cameraDetailsViewModel.SelectedChannel;
 				SelectedCamera.Update();
 				SelectedCamera.Camera.OnChanged();
 				ServiceFactory.SaveService.CamerasChanged = true;

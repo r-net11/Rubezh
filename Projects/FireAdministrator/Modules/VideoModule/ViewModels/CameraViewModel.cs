@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -14,6 +15,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Video;
+using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows.ViewModels;
 using VideoModule.Views;
 using XFiresecAPI;
@@ -47,8 +49,8 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		IEnumerable<Channel> _channels;
-		public IEnumerable<Channel> Channels
+		ObservableCollection<Channel> _channels;
+		public ObservableCollection<Channel> Channels
 		{
 			get { return _channels; }
 			set
@@ -78,6 +80,11 @@ namespace VideoModule.ViewModels
 				_isConnected = value;
 				OnPropertyChanged(() => IsConnected);
 			}
+		}
+
+		public CameraViewModel(Camera camera)
+		{
+			Camera = camera;
 		}
 
 		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera)
@@ -165,11 +172,11 @@ namespace VideoModule.ViewModels
 		//    IsNowPlaying = false;
 		//}
 		#endregion
-		public void StartVideo()
+		public void StartVideo(CellPlayerWrap cellPlayerWrap)
 		{
 			try
 			{
-				CamerasView.Current.PlayerWrap.InitializeCamera(Camera);
+				cellPlayerWrap.InitializeCamera(Camera);
 				IsNowPlaying = true;
 			}
 			catch { }

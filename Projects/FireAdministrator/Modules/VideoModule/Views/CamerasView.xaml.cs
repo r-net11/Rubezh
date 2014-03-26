@@ -6,7 +6,7 @@ namespace VideoModule.Views
 {
 	public partial class CamerasView : UserControl
 	{
-		public static CamerasView Current { get; set; }
+		public static CamerasView Current { get; private set; }
 		public CamerasView()
 		{
 			InitializeComponent();
