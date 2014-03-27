@@ -6,49 +6,47 @@
 	xmlns:Views="clr-namespace:GKModule.Views"
 	xmlns:Converters="clr-namespace:GKModule.Converters" >
 
-	<Grid>
-		<DataGrid ItemsSource="{Binding Pims}" SelectedItem="{Binding SelectedPim}" Margin="2">
-			<DataGrid.Resources>
-				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
-					<MouseBinding Command="{Binding DataContext.SelectedPim.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-				</InputBindingCollection>
-			</DataGrid.Resources>
-			<DataGrid.ItemContainerStyle>
-				<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-					<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-				</Style>
-			</DataGrid.ItemContainerStyle>
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" MinWidth="250" Header="ПИМ">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Pim.png" VerticalAlignment="Center" />
-								<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
-								<TextBlock Width="200" Text="{Binding Pim.PresentationName}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-									<TextBlock.ContextMenu>
-										<ContextMenu>
-											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
-											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
-										</ContextMenu>
-									</TextBlock.ContextMenu>
-								</TextBlock>
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-			<DataGrid.RowStyle>
-				<Style TargetType="{x:Type DataGridRow}">
-					<Setter Property="ToolTip">
-						<Setter.Value>
-							<StackPanel>
-								<Views:PimToolTipView />
-							</StackPanel>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</DataGrid.RowStyle>
-		</DataGrid>
-	</Grid>
+	<DataGrid ItemsSource="{Binding Pims}" SelectedItem="{Binding SelectedPim}">
+		<DataGrid.Resources>
+			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+				<MouseBinding Command="{Binding DataContext.SelectedPim.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+			</InputBindingCollection>
+		</DataGrid.Resources>
+		<DataGrid.ItemContainerStyle>
+			<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+				<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+			</Style>
+		</DataGrid.ItemContainerStyle>
+		<DataGrid.Columns>
+			<DataGridTemplateColumn Width="*" MinWidth="250" Header="ПИМ">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Pim.png" VerticalAlignment="Center" />
+							<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
+							<TextBlock Width="200" Text="{Binding Pim.PresentationName}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+								<TextBlock.ContextMenu>
+									<ContextMenu>
+										<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+										<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
+									</ContextMenu>
+								</TextBlock.ContextMenu>
+							</TextBlock>
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+		<DataGrid.RowStyle>
+			<Style TargetType="{x:Type DataGridRow}">
+				<Setter Property="ToolTip">
+					<Setter.Value>
+						<StackPanel>
+							<Views:PimToolTipView />
+						</StackPanel>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</DataGrid.RowStyle>
+	</DataGrid>
 </UserControl>

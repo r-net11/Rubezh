@@ -16,7 +16,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<DataGrid Grid.Column="0" ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}" Margin="2">
+			<DataGrid Grid.Column="0" ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}">
 				<DataGrid.Resources>
 					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 						<MouseBinding Command="{Binding DataContext.SelectedPumpStation.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -79,7 +79,7 @@
 					</Style>
 				</DataGrid.RowStyle>
 			</DataGrid>
-			<DataGrid Grid.Column="1" ItemsSource="{Binding Pumps}" DataContext="{Binding SelectedPumpStation}" Margin="2">
+			<DataGrid Grid.Column="1" ItemsSource="{Binding Pumps}" DataContext="{Binding SelectedPumpStation}" Margin="4 0 0 0">
 				<DataGrid.Resources>
 					<InputBindingCollection x:Key="inputCollection" x:Shared="False">
 						<MouseBinding Command="{Binding DataContext.SelectedPump.ShowPropertiesCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
@@ -121,7 +121,7 @@
 				</DataGrid.RowStyle>
 			</DataGrid>
 		</Grid>
-		<Border Grid.Row="1" CornerRadius="5" Background="White" Margin="2">
+		<Border Grid.Row="1" CornerRadius="5" Background="White" Margin="0 4 0 0">
 			<StackPanel DataContext="{Binding SelectedPumpStation}" Margin="2">
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Text="Условие для запуска" FontWeight="Bold" Width="250" Margin="5 2" />

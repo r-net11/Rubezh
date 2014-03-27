@@ -11,8 +11,8 @@ namespace SKDModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			if (value is DataType)
-				return ((DataType)value).ToDescription();
+			if (value is AdditionalColumnDataType)
+				return ((AdditionalColumnDataType)value).ToDescription();
 			return "";
 		}
 

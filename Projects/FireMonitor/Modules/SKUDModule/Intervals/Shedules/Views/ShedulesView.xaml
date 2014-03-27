@@ -9,7 +9,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
 			<StackPanel Orientation="Horizontal" DataContext="{Binding SelectedOrganisationShedule}">
 				<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
 				<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
@@ -32,12 +32,12 @@
 
 			<TabControl.ContentTemplate>
 				<DataTemplate>
-					<Grid Margin="2">
+					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-						<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding Shedules}" SelectedItem="{Binding SelectedShedule}" Margin="2">
+						<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding Shedules}" SelectedItem="{Binding SelectedShedule}">
 							<DataGrid.Columns>
 								<DataGridTemplateColumn Header="Наименование" Width="*">
 									<DataGridTemplateColumn.CellTemplate>
@@ -51,7 +51,7 @@
 								</DataGridTemplateColumn>
 							</DataGrid.Columns>
 						</Controls:XDataGrid>
-						<Grid Grid.Column="1" DataContext="{Binding SelectedShedule}" IsEnabled="{Binding IsEnabled}">
+                        <Grid Grid.Column="1" DataContext="{Binding SelectedShedule}" IsEnabled="{Binding IsEnabled}" Margin="4 0 0 0">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />

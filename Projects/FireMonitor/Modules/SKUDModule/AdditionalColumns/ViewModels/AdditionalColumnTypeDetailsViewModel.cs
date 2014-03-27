@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 				CanChangeDataType = false;
 			}
 			AdditionalColumnType = additionalColumnType;
-			AvailableDataTypes = new ObservableCollection<DataType>(Enum.GetValues(typeof(DataType)).Cast<DataType>());
+			AvailableDataTypes = new ObservableCollection<AdditionalColumnDataType>(Enum.GetValues(typeof(AdditionalColumnDataType)).Cast<AdditionalColumnDataType>());
 			CopyProperties();
 		}
 
@@ -71,10 +71,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<DataType> AvailableDataTypes { get; private set; }
+		public ObservableCollection<AdditionalColumnDataType> AvailableDataTypes { get; private set; }
 
-		DataType _dataType;
-		public DataType DataType
+		AdditionalColumnDataType _dataType;
+		public AdditionalColumnDataType DataType
 		{
 			get { return _dataType; }
 			set

@@ -23,7 +23,7 @@ namespace GKProcessor
 				case (EventNameEnum.Запись_конфигурации_в_прибор):
 				case (EventNameEnum.Чтение_конфигурации_из_прибора):
 				case (EventNameEnum.Синхронизация_времени):
-				case (EventNameEnum.Запрос_информации_об_устройсве):
+				case (EventNameEnum.Запрос_информации_об_устройстве):
 				case (EventNameEnum.Команда_оператора):
 				case (EventNameEnum.Отмена_операции):
 				case (EventNameEnum.ГК_в_технологическом_режиме):

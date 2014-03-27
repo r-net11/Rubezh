@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Entities.DeviceOriented;
-using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Practices.Prism;
+using Device = Entities.DeviceOriented.Device;
 
 namespace VideoModule.RVI_VSS.ViewModels
 {
@@ -14,16 +14,26 @@ namespace VideoModule.RVI_VSS.ViewModels
 	{
 		public ArchiveViewModel()
 		{
-			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
-			DateTimeFrom = DateTime.Now - TimeSpan.FromHours(1);
-			DateTimeTo = DateTime.Now;
-			ArchivePlayer = new object();
-			StartCommand = new RelayCommand(OnStart, CanStart);
+			Title = "Архив видеозаписей на сервере";
+			InitiallizeDevices();
+			StartTime = DateTime.Now - TimeSpan.FromHours(1);
+			EndTime = DateTime.Now;
+			ArchivePlayer = new CellPlayerWrap();
 			SearchCommand = new RelayCommand(OnSearch, CanSearch);
 		}
 
-		private object _archivePlayer { get; set; }
-		public object ArchivePlayer
+		void InitiallizeDevices()
+		{
+			Devices = new ObservableCollection<DeviceViewModel>();
+			foreach (var device in new List<Device>(SystemPerimeter.Instance.Devices))
+			{
+				var deviceViewModel = new DeviceViewModel(device);
+				Devices.Add(deviceViewModel);
+			}
+		}
+
+		private CellPlayerWrap _archivePlayer { get; set; }
+		public CellPlayerWrap ArchivePlayer
 		{
 			get { return _archivePlayer; }
 			set
@@ -33,36 +43,36 @@ namespace VideoModule.RVI_VSS.ViewModels
 			}
 		}
 
-		private DateTime _dateTimeFrom;
-		public DateTime DateTimeFrom
+		private DateTime _startTime;
+		public DateTime StartTime 
 		{
-			get { return _dateTimeFrom; }
+			get { return _startTime; }
 			set
 			{
-				_dateTimeFrom = new DateTime(value.Ticks - (value.Ticks % TimeSpan.TicksPerHour), value.Kind);
-				OnPropertyChanged(() => DateTimeFrom);
+				_startTime = value;
+				OnPropertyChanged(()=>StartTime);
 			}
 		}
 
-		private DateTime _dateTimeTo;
-		public DateTime DateTimeTo
+		private DateTime _endTime;
+		public DateTime EndTime
 		{
-			get { return _dateTimeTo; }
+			get { return _endTime; }
 			set
 			{
-				_dateTimeTo = new DateTime(value.Ticks - (value.Ticks % TimeSpan.TicksPerHour), value.Kind);
-				OnPropertyChanged(() => DateTimeTo);
+				_endTime = value;
+				OnPropertyChanged(() => EndTime);
 			}
 		}
 
-		private ObservableCollection<Camera> _cameras;
-		public ObservableCollection<Camera> Cameras
+		private ObservableCollection<DeviceViewModel> _devices;
+		public ObservableCollection<DeviceViewModel> Devices
 		{
-			get { return _cameras; }
+			get { return _devices; }
 			set
 			{
-				_cameras = value;
-				OnPropertyChanged(() => Cameras);
+				_devices = value;
+				OnPropertyChanged(() => Devices);
 			}
 		}
 
@@ -74,21 +84,6 @@ namespace VideoModule.RVI_VSS.ViewModels
 			{
 				_selectedDevice = value;
 				OnPropertyChanged(() => SelectedDevice);
-			}
-		}
-
-		private Camera _selectedCamera;
-		public Camera SelectedCamera
-		{
-			get { return _selectedCamera; }
-			set
-			{
-				_selectedCamera = value;
-				var perimeter = SystemPerimeter.Instance;
-				var deviceSI = new DeviceSearchInfo(_selectedCamera.Address, _selectedCamera.Port);
-				var device = perimeter.AddDevice(deviceSI);
-				SelectedDevice = new DeviceViewModel(device);
-				OnPropertyChanged(() => SelectedCamera);
 			}
 		}
 
@@ -117,26 +112,18 @@ namespace VideoModule.RVI_VSS.ViewModels
 		public RelayCommand SearchCommand { get; private set; }
 		void OnSearch()
 		{
-			Records = new ObservableCollection<PlayBackDeviceRecord>(SelectedDevice.SelectedChannel.QueryRecordFiles(DateTimeFrom, DateTimeTo));
+			//Records = new ObservableCollection<PlayBackDeviceRecord>(SelectedDevice.SelectedChannel.QueryRecordFiles(StartTime, EndTime));
+			Records = new ObservableCollection<PlayBackDeviceRecord>();
+			for (var time = StartTime; time < EndTime; time += TimeSpan.FromDays(1))
+			{
+				var records = SelectedDevice.SelectedChannel.QueryRecordFiles(time, time + TimeSpan.FromDays(1));
+				Records.AddRange(records);
+			}
 		}
 
 		bool CanSearch()
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.SelectedChannel != null));
-		}
-
-		public RelayCommand StartCommand { get; private set; }
-		void OnStart()
-		{
-			var cellPlayerWrap = new CellPlayerWrap();
-			cellPlayerWrap.InitializeCamera(SelectedCamera);
-			ArchivePlayer = cellPlayerWrap.DataContext;
-			OnPropertyChanged(() => ArchivePlayer);
-		}
-
-		bool CanStart()
-		{
-			return SelectedRecord != null;
 		}
 	}
 }

@@ -44,34 +44,7 @@
 		</Grid>
 		<TabControl Grid.Row="1">
             <TabItem Header="Управление" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0 0 0 5">
-                        <Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
-                        <TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White" />
-                        <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="White" FontWeight="Bold" />
-                    </StackPanel>
-                    <Grid Grid.Row="1" Background="White">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
-                            <Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" IsEnabled="{Binding IsControlRegime}">
-                            <Button Content="Пуск" Command="{Binding TurnOnCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Пуск немедленно" Command="{Binding TurnOnNowCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Стоп" Command="{Binding TurnOffCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Останов пуска" Command="{Binding ForbidStartCommand}" Width="200" Height="50" Margin="2" />
-                        </StackPanel>
-                    </Grid>
-                </Grid>
+                <Views:MPTControlView />
             </TabItem>
             <TabItem Header="Свойства" IsSelected="{Binding CanControl, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">

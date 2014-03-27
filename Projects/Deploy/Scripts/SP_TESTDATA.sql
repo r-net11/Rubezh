@@ -177,9 +177,22 @@ SET @DirectorPositionUid = NEWID();
 EXEC [dbo].[SavePosition] @DirectorPositionUid , @Organization1Uid, 'Директор', 'Руководитель компании',0,'01/01/1900'
 
 
+DECLARE @photo1 varbinary(MAX);
+SET @photo1 = (SELECT * FROM OPENROWSET(BULK N'C:\image1.jpg', SINGLE_BLOB) as _file);
+
+DECLARE @photo2 varbinary(MAX);
+SET @photo2 = (SELECT * FROM OPENROWSET(BULK N'C:\image2.jpg', SINGLE_BLOB) as _file);
+
+
+DECLARE @PhotoUID uniqueidentifier;
+
+
 DECLARE @Guard1EmployeeUid uniqueidentifier;
 SET @Guard1EmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @Guard1EmployeeUid , @Organization1Uid, 'Сергей', 'Петрович', 'Иванов', @GuardPositionUid, null , @GuardScheduleUid, '12/05/2005','01/01/1900',0,'01/01/1900'
+SET @PhotoUID = NEWID();
+EXEC SavePhoto @PhotoUID, @photo1 
+UPDATE [dbo].[Employee] SET PhotoUID=@PhotoUID WHERE UID = @Guard1EmployeeUid
 DECLARE @Guard2EmployeeUid uniqueidentifier;
 SET @Guard2EmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @Guard2EmployeeUid , @Organization1Uid, 'Петр', 'Сергеевич', 'Ивановский', @GuardPositionUid, null , @GuardScheduleUid, '12/05/2006','01/01/1900',0,'01/01/1900'
@@ -236,6 +249,9 @@ EXEC [dbo].[SaveEmployee] @DirectorEmployeeUid , @Organization1Uid, 'Прохор', 'З
 DECLARE @ProgrammistConstructorEmployeeUid uniqueidentifier;
 SET @ProgrammistConstructorEmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @ProgrammistConstructorEmployeeUid , @Organization1Uid, 'Миямото', 'Дайтаро', 'Мусащи', @ProgrammistConstructorPositionUid , null , @ConstructorshipScheduleUid, '13/12/2001','01/01/1900',0,'01/01/1900'
+SET @PhotoUID = NEWID();
+EXEC SavePhoto @PhotoUID, @photo2
+UPDATE [dbo].[Employee] SET PhotoUID=@PhotoUID WHERE UID = @ProgrammistConstructorEmployeeUid
 
 DECLARE @MainDepartmentUid uniqueidentifier;
 SET @MainDepartmentUid = NEWID();
@@ -365,8 +381,6 @@ SET @Characteristics = 'Иванов Н.Е. — выпускник инженерно-экономического факульт
 Иванов Н.Е.. с первого курса работал над темой дипломной работы «Интернет-маркетинг». Дипломная работа показывает, что выпускник прекрасно ориентируется в исследованном материале и свободно владеет теоретическими основами, удачно соединяет теорию с практическим анализом реальных компаний.
 Следует отметить, что Иванов Н.Е.. печатался в журналах «Выпускник», «Молодые Предприниматели».
 Выпускник требователен к себе, пользуется уважением среди товарищей и преподавателей факультета';
-
-DECLARE @PhotoUID uniqueidentifier;
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 

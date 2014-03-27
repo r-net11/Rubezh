@@ -11,7 +11,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
             <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationAccessTemplate}" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
             <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationAccessTemplate}" Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
             <Controls:ToolBarButton DataContext="{Binding SelectedOrganisationAccessTemplate}" Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
@@ -37,7 +37,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <DataGrid Grid.Row="0" ItemsSource="{Binding AccessTemplates}" SelectedItem="{Binding SelectedAccessTemplate}" Margin="2">
+                        <DataGrid Grid.Row="0" ItemsSource="{Binding AccessTemplates}" SelectedItem="{Binding SelectedAccessTemplate}">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Название" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>

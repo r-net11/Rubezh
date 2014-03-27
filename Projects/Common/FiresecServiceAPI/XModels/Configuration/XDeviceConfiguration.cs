@@ -40,6 +40,9 @@ namespace XFiresecAPI
 		public List<XMPT> MPTs { get; set; }
 
 		[DataMember]
+		public List<XDelay> Delays { get; set; }
+
+		[DataMember]
 		public List<XJournalFilter> JournalFilters { get; set; }
 
 		[DataMember]
@@ -105,6 +108,12 @@ namespace XFiresecAPI
 
 			Update();
 
+			if (Delays == null)
+			{
+				Delays = new List<XDelay>();
+				result = false;
+			}
+
 			if (PumpStations == null)
 			{
 				PumpStations = new List<XPumpStation>();
@@ -117,6 +126,12 @@ namespace XFiresecAPI
 				result = false;
 			}
 
+			foreach (var mpt in MPTs)
+			{
+				foreach (var mptDevice in mpt.MPTDevices)
+				{
+				}
+			}
 			foreach (var device in Devices)
 			{
 				device.BaseUID = device.UID;

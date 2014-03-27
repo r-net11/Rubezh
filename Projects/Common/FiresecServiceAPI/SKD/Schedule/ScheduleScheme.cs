@@ -16,15 +16,4 @@ namespace FiresecAPI
 		[DataMember]
 		public List<Guid> DayUids { get; set; }
 	}
-
-	[DataContract]
-	public enum ScheduleSchemeType
-	{
-		[EnumMember]
-		Week,
-		[EnumMember]
-		Shift,
-		[EnumMember]
-		Month
-	}
 }

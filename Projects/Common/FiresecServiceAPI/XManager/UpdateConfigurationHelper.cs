@@ -55,6 +55,8 @@ namespace FiresecClient
 		{
 			foreach (var device in DeviceConfiguration.Devices)
 			{
+				if (device.Properties == null)
+					device.Properties = new List<XProperty>();
 				foreach (var property in device.Properties)
 				{
 					property.DriverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
@@ -78,6 +80,7 @@ namespace FiresecClient
 			InitializeDirections();
 			InitializePumpStations();
 			InitializeMPTs();
+			InitializeDelays();
 			InitializeGuardUsers();
 			UpdateGKChildrenDescription();
 		}
@@ -115,6 +118,12 @@ namespace FiresecClient
 				mpt.InputDevices = new List<XDevice>();
 				mpt.InputDirections = new List<XDirection>();
 				mpt.Devices = new List<XDevice>();
+			}
+			foreach (var delay in DeviceConfiguration.Delays)
+			{
+				delay.InputZones = new List<XZone>();
+				delay.InputDevices = new List<XDevice>();
+				delay.InputDirections = new List<XDirection>();
 			}
 		}
 
@@ -271,20 +280,16 @@ namespace FiresecClient
 				foreach (var nsDeviceUID in pumpStation.NSDeviceUIDs)
 				{
 					var nsDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == nsDeviceUID);
-					if (nsDevice != null && ((nsDevice.DriverType == XDriverType.FirePump) || (nsDevice.DriverType == XDriverType.JockeyPump)))
+					if (nsDevice != null && (nsDevice.DriverType == XDriverType.FirePump || nsDevice.DriverType == XDriverType.JockeyPump || nsDevice.DriverType == XDriverType.RSR2_Bush))
 					{
 						nsDeviceUIDs.Add(nsDevice.BaseUID);
 						pumpStation.NSDevices.Add(nsDevice);
 					}
 				}
 				pumpStation.NSDeviceUIDs = nsDeviceUIDs;
-				InvalidatePumpStationLogic(pumpStation, pumpStation.StartLogic);
-				if (pumpStation.StopLogic == null)
-					pumpStation.StopLogic = new XDeviceLogic();
-				InvalidatePumpStationLogic(pumpStation, pumpStation.StopLogic);
-				if (pumpStation.AutomaticOffLogic == null)
-					pumpStation.AutomaticOffLogic = new XDeviceLogic();
-				InvalidatePumpStationLogic(pumpStation, pumpStation.AutomaticOffLogic);
+				InvalidateInputObjectsBaseLogic(pumpStation, pumpStation.StartLogic);
+				InvalidateInputObjectsBaseLogic(pumpStation, pumpStation.StopLogic);
+				InvalidateInputObjectsBaseLogic(pumpStation, pumpStation.AutomaticOffLogic);
 			}
 		}
 
@@ -292,7 +297,7 @@ namespace FiresecClient
 		{
 			foreach (var mpt in DeviceConfiguration.MPTs)
 			{
-				InvalidateMPTLogic(mpt, mpt.StartLogic);
+				InvalidateInputObjectsBaseLogic(mpt, mpt.StartLogic);
 
 				var mptDevices = new List<MPTDevice>();
 				foreach (var mptDevice in mpt.MPTDevices)
@@ -310,7 +315,17 @@ namespace FiresecClient
 			}
 		}
 
-		public static void InvalidateMPTLogic(XMPT mpt, XDeviceLogic deviceLogic)
+		static void InitializeDelays()
+		{
+			foreach (var delay in DeviceConfiguration.Delays)
+			{
+				if (delay.DeviceLogic == null)
+					delay.DeviceLogic = new XDeviceLogic();
+				InvalidateInputObjectsBaseLogic(delay, delay.DeviceLogic);
+			}
+		}
+
+		public static void InvalidateInputObjectsBaseLogic(IInputObjectsBase inputObjectsBase, XDeviceLogic deviceLogic)
 		{
 			var clauses = new List<XClause>();
 			foreach (var clause in deviceLogic.Clauses)
@@ -327,8 +342,8 @@ namespace FiresecClient
 					{
 						deviceUIDs.Add(deviceUID);
 						clause.Devices.Add(clauseDevice);
-						if (!mpt.InputDevices.Contains(clauseDevice))
-							mpt.InputDevices.Add(clauseDevice);
+						if (!inputObjectsBase.InputDevices.Contains(clauseDevice))
+							inputObjectsBase.InputDevices.Add(clauseDevice);
 					}
 				}
 				clause.DeviceUIDs = deviceUIDs;
@@ -341,8 +356,8 @@ namespace FiresecClient
 					{
 						zoneUIDs.Add(zoneUID);
 						clause.Zones.Add(zone);
-						if (!mpt.InputZones.Contains(zone))
-							mpt.InputZones.Add(zone);
+						if (!inputObjectsBase.InputZones.Contains(zone))
+							inputObjectsBase.InputZones.Add(zone);
 					}
 				}
 				clause.ZoneUIDs = zoneUIDs;
@@ -355,112 +370,8 @@ namespace FiresecClient
 					{
 						directionUIDs.Add(directionUID);
 						clause.Directions.Add(direction);
-						if (!mpt.InputDirections.Contains(direction))
-							mpt.InputDirections.Add(direction);
-					}
-				}
-				clause.DirectionUIDs = directionUIDs;
-
-				if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
-					clauses.Add(clause);
-			}
-			deviceLogic.Clauses = clauses;
-		}
-
-		static void InvalidateOneMPTClause(XDeviceConfiguration deviceConfiguration, XClause clause)
-		{
-			clause.Devices = new List<XDevice>();
-			clause.Zones = new List<XZone>();
-			clause.Directions = new List<XDirection>();
-
-			var zoneUIDs = new List<Guid>();
-			foreach (var zoneUID in clause.ZoneUIDs)
-			{
-				var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
-				if (zone != null)
-				{
-					zoneUIDs.Add(zoneUID);
-					clause.Zones.Add(zone);
-				}
-			}
-			clause.ZoneUIDs = zoneUIDs;
-
-			var deviceUIDs = new List<Guid>();
-			foreach (var deviceUID in clause.DeviceUIDs)
-			{
-				var clauseDevice = deviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
-				if (clauseDevice != null && !clauseDevice.IsNotUsed)
-				{
-					deviceUIDs.Add(deviceUID);
-					clause.Devices.Add(clauseDevice);
-				}
-			}
-			clause.DeviceUIDs = deviceUIDs;
-
-			var directionUIDs = new List<Guid>();
-			foreach (var directionUID in clause.DirectionUIDs)
-			{
-				var direction = deviceConfiguration.Directions.FirstOrDefault(x => x.BaseUID == directionUID);
-				if (direction != null)
-				{
-					directionUIDs.Add(directionUID);
-					clause.Directions.Add(direction);
-				}
-			}
-			clause.DirectionUIDs = directionUIDs;
-		}
-
-		public static void InvalidatePumpStationLogic(XPumpStation pumpStation, XDeviceLogic deviceLogic)
-		{
-			var clauses = new List<XClause>();
-			foreach (var clause in deviceLogic.Clauses)
-			{
-				clause.Devices = new List<XDevice>();
-				clause.Zones = new List<XZone>();
-				clause.Directions = new List<XDirection>();
-
-				var deviceUIDs = new List<Guid>();
-				foreach (var deviceUID in clause.DeviceUIDs)
-				{
-					var clauseDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
-					if (clauseDevice != null && !clauseDevice.IsNotUsed)
-					{
-						deviceUIDs.Add(deviceUID);
-						clause.Devices.Add(clauseDevice);
-						if (!pumpStation.InputDevices.Contains(clauseDevice))
-							pumpStation.InputDevices.Add(clauseDevice);
-						//clauseDevice.DevicesInLogic.Add(device);
-					}
-				}
-				clause.DeviceUIDs = deviceUIDs;
-
-				var zoneUIDs = new List<Guid>();
-				foreach (var zoneUID in clause.ZoneUIDs)
-				{
-					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
-					if (zone != null)
-					{
-						zoneUIDs.Add(zoneUID);
-						clause.Zones.Add(zone);
-						if (!pumpStation.InputZones.Contains(zone))
-							pumpStation.InputZones.Add(zone);
-						//zone.DevicesInLogic.Add(device);
-					}
-				}
-				clause.ZoneUIDs = zoneUIDs;
-
-				var directionUIDs = new List<Guid>();
-				foreach (var directionUID in clause.DirectionUIDs)
-				{
-					var direction = DeviceConfiguration.Directions.FirstOrDefault(x => x.BaseUID == directionUID);
-					if (direction != null)
-					{
-						directionUIDs.Add(directionUID);
-						clause.Directions.Add(direction);
-						if (!pumpStation.InputDirections.Contains(direction))
-							pumpStation.InputDirections.Add(direction);
-						//direction.OutputDevices.Add(device);
-						//device.Directions.Add(direction);
+						if (!inputObjectsBase.InputDirections.Contains(direction))
+							inputObjectsBase.InputDirections.Add(direction);
 					}
 				}
 				clause.DirectionUIDs = directionUIDs;
@@ -527,12 +438,12 @@ namespace FiresecClient
 			{
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
-					CopyMPTProperty(mptDevice);
+					SetIsMPT(mptDevice);
 				}
 			}
 		}
 
-		public static void CopyMPTProperty(MPTDevice mptDevice)
+		public static void SetIsMPT(MPTDevice mptDevice)
 		{
 			if (mptDevice.Device != null)
 			{
@@ -540,42 +451,48 @@ namespace FiresecClient
 				XManager.ChangeDeviceLogic(mptDevice.Device, new XDeviceLogic());
 				mptDevice.Device.ZoneUIDs = new List<Guid>();
 				mptDevice.Device.Zones.Clear();
+			}
+		}
 
-				switch (mptDevice.Device.DriverType)
+		public static void SetMPTDefaultProperty(XDevice device)
+		{
+			if (device != null)
+			{
+				switch (device.DriverType)
 				{
 					case XDriverType.RSR2_AM_1:
-						SetDeviceProperty(mptDevice.Device, "Конфигурация", 1);
+						SetDeviceProperty(device, "Конфигурация", 1);
 						break;
 
 					case XDriverType.RSR2_OPS:
 					case XDriverType.RSR2_OPZ:
 					case XDriverType.RSR2_OPK:
-						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", 0);
-						SetDeviceProperty(mptDevice.Device, "Время удержания, с", 65000);
-						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние для модуля Выключено", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние для режима Удержания", 4);
-						SetDeviceProperty(mptDevice.Device, "Состояние для режима Включено", 16);
+						SetDeviceProperty(device, "Задержка на включение, с", 0);
+						SetDeviceProperty(device, "Время удержания, с", 65000);
+						SetDeviceProperty(device, "Задержка на выключение, с", 0);
+						SetDeviceProperty(device, "Состояние для модуля Выключено", 0);
+						SetDeviceProperty(device, "Состояние для режима Удержания", 4);
+						SetDeviceProperty(device, "Состояние для режима Включено", 16);
 						break;
 
 					case XDriverType.RSR2_MVK8:
-						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", mptDevice.Delay);
-						SetDeviceProperty(mptDevice.Device, "Время удержания, с", mptDevice.Hold);
-						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Выключено", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Удержания", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Включено", 0);
-						SetDeviceProperty(mptDevice.Device, "Контроль", mptDevice.CircuitControlValue);
-						SetDeviceProperty(mptDevice.Device, "Норма питания, 0.1В", 80);
+						SetDeviceProperty(device, "Задержка на включение, с", 0);
+						SetDeviceProperty(device, "Время удержания, с", 2);
+						SetDeviceProperty(device, "Задержка на выключение, с", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
+						SetDeviceProperty(device, "Контроль", 0);
+						SetDeviceProperty(device, "Норма питания, 0.1В", 80);
 						break;
 
 					case XDriverType.RSR2_RM_1:
-						SetDeviceProperty(mptDevice.Device, "Задержка на включение, с", mptDevice.Delay);
-						SetDeviceProperty(mptDevice.Device, "Время удержания, с", mptDevice.Hold);
-						SetDeviceProperty(mptDevice.Device, "Задержка на выключение, с", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Выключено", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Удержания", 0);
-						SetDeviceProperty(mptDevice.Device, "Состояние контакта для режима Включено", 0);
+						SetDeviceProperty(device, "Задержка на включение, с", 0);
+						SetDeviceProperty(device, "Время удержания, с", 2);
+						SetDeviceProperty(device, "Задержка на выключение, с", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Выключено", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Удержания", 0);
+						SetDeviceProperty(device, "Состояние контакта для режима Включено", 0);
 						break;
 				}
 			}

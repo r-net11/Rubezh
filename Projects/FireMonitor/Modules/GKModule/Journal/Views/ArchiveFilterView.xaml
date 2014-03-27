@@ -51,12 +51,16 @@
 			</TabItem>
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Тип" Foreground="White" FontWeight="Bold">
+					<TextBlock Text="Тип" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
 								<Style.Triggers>
 									<DataTrigger Binding="{Binding JournalItemTypes.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding JournalItemTypes.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -77,12 +81,16 @@
 			</TabItem>
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Состояние" Foreground="White" FontWeight="Bold">
+					<TextBlock Text="Состояние" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
-								<Style.Triggers>
+                                <Style.Triggers>
 									<DataTrigger Binding="{Binding StateClasses.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding StateClasses.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -103,12 +111,16 @@
 			</TabItem>
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Название" Foreground="White" FontWeight="Bold">
+					<TextBlock Text="Название" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
-								<Style.Triggers>
+                                <Style.Triggers>
 									<DataTrigger Binding="{Binding EventNames.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding EventNames.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -118,7 +130,7 @@
 				<ListBox ItemsSource="{Binding EventNames.Items}">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<StackPanel Orientation="Horizontal" ToolTip="{Binding EventName.Description}" IsEnabled="{Binding IsEnabled}">
+							<StackPanel Orientation="Horizontal" IsEnabled="{Binding IsEnabled}">
 								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
 								<Image Width="16" Source="{Binding EventName.StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
 								<TextBlock Text="{Binding EventName.Name}" VerticalAlignment="Center" Margin="2" />
@@ -129,12 +141,16 @@
 			</TabItem>
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Уточнение" Foreground="White" FontWeight="Bold">
+					<TextBlock Text="Уточнение" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
-								<Style.Triggers>
+                                <Style.Triggers>
 									<DataTrigger Binding="{Binding ArchiveDescriptions.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding ArchiveDescriptions.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -155,12 +171,16 @@
 			</TabItem>
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Состояние" Foreground="White" FontWeight="Bold">
+                    <TextBlock Text="Подсистемы" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
-								<Style.Triggers>
+                                <Style.Triggers>
 									<DataTrigger Binding="{Binding SubsystemTypes.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding SubsystemTypes.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -182,12 +202,16 @@
 
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Устройства" Foreground="White" FontWeight="Bold">
+					<TextBlock Text="Устройства" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
-								<Style.Triggers>
+                                <Style.Triggers>
 									<DataTrigger Binding="{Binding AllDevices.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding AllDevices.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -222,12 +246,16 @@
 			</TabItem>
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Зоны" Foreground="White" FontWeight="Bold">
+					<TextBlock Text="Зоны" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
-								<Style.Triggers>
+                                <Style.Triggers>
 									<DataTrigger Binding="{Binding ArchiveZones.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding ArchiveZones.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -248,12 +276,16 @@
 			</TabItem>
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Направления" Foreground="White" FontWeight="Bold">
+					<TextBlock Text="Направления" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
-								<Style.Triggers>
+                                <Style.Triggers>
 									<DataTrigger Binding="{Binding ArchiveDirections.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding ArchiveDirections.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -275,12 +307,16 @@
 
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="Насосные станции" Foreground="White" FontWeight="Bold">
+					<TextBlock Text="Насосные станции" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
-								<Style.Triggers>
+                                <Style.Triggers>
 									<DataTrigger Binding="{Binding PumpStations.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding PumpStations.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -302,12 +338,16 @@
 
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="МПТ" Foreground="White" FontWeight="Bold">
+					<TextBlock Text="МПТ" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
-								<Style.Triggers>
+                                <Style.Triggers>
 									<DataTrigger Binding="{Binding MPTs.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding MPTs.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>
@@ -329,12 +369,16 @@
 
 			<TabItem>
 				<TabItem.Header>
-					<TextBlock Text="ПИМ" Foreground="White" FontWeight="Bold">
+					<TextBlock Text="ПИМ" FontWeight="Bold">
 						<TextBlock.Style>
 							<Style>
-								<Style.Triggers>
+                                <Style.Triggers>
 									<DataTrigger Binding="{Binding PIMs.HasCheckedItems}" Value="True">
-										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding PIMs.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
 							</Style>

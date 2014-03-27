@@ -181,7 +181,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(PumpStation.UID);
+			ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(PumpStation.BaseUID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -213,7 +213,7 @@ namespace GKModule.ViewModels
 		#region IWindowIdentity Members
 		public string Guid
 		{
-			get { return PumpStation.UID.ToString(); }
+			get { return PumpStation.BaseUID.ToString(); }
 		}
 		#endregion
 

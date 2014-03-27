@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
+using Entities.DeviceOriented;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Video.RVI_VSS;
@@ -26,14 +28,33 @@ namespace VideoModule.RVI_VSS.Views
 			InitializeComponent();
 			Loaded += UI_Loaded;
 		}
+
 		private void UI_Loaded(object sender, RoutedEventArgs e)
 		{
+			InitializePerimeter();
 			InitializeUIElement(_1X7GridView);
 			InitializeUIElement(_2X2GridView);
 			InitializeUIElement(_3X3GridView);
 			InitializeUIElement(_4X4GridView);
 			InitializeUIElement(_6X6GridView);
 			_grid.Child = EnumToType(ClientSettings.RviMultiLayoutCameraSettings.MultiGridType);
+		}
+
+		private void InitializePerimeter()
+		{
+			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			{
+					var perimeter = SystemPerimeter.Instance;
+					var deviceSI = new DeviceSearchInfo(camera.Address, camera.Port);
+					new Thread(delegate()
+					{
+						try
+						{
+							var device = perimeter.AddDevice(deviceSI);
+						}
+						catch { }
+					}).Start();
+			}
 		}
 
 		private void InitializeUIElement(UIElement uiElement)
@@ -114,7 +135,7 @@ namespace VideoModule.RVI_VSS.Views
 		private void OnShowArchive(object sender, RoutedEventArgs e)
 		{
 			var archiveViewModel = new ArchiveViewModel();
-			DialogService.ShowModalWindow(archiveViewModel);
+			DialogService.ShowWindow(archiveViewModel);
 		}
 
 		public static void GetLogicalChildCollection(DependencyObject parent, List<CellPlayerWrap> logicalCollection)

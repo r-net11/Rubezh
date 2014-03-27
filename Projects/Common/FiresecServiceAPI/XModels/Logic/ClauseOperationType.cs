@@ -20,6 +20,18 @@ namespace XFiresecAPI
 		AnyDirection,
 
 		[DescriptionAttribute("во всех направлениях из")]
-		AllDirections
+		AllDirections,
+
+		[DescriptionAttribute("в любом МПТ из")]
+		AnyMPT,
+
+		[DescriptionAttribute("во всех МПТ из")]
+		AllMPTs,
+
+		[DescriptionAttribute("в любой задержке из")]
+		AnyDelay,
+
+		[DescriptionAttribute("во всех задержках из")]
+		AllDelays,
 	}
 }

@@ -4,7 +4,7 @@
 			 xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-	<Controls:XDataGrid ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}" Margin="2">
+	<Controls:XDataGrid ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Header="Наименование" Width="*">
 				<DataGridTemplateColumn.CellTemplate>

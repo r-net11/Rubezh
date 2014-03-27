@@ -25,7 +25,11 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			Formula.Add(FormulaOperationType.END);
+			if (Delay.DeviceLogic.Clauses.Count > 0)
+			{
+				Formula.AddClauseFormula(Delay.DeviceLogic.Clauses);
+				Formula.AddStandardTurning(Delay);
+			}
 			FormulaBytes = Formula.GetBytes();
 		}
 
@@ -40,7 +44,7 @@ namespace GKProcessor
 			binProperties.Add(new BinProperty()
 			{
 				No = 1,
-				Value = Delay.SetTime
+				Value = Delay.Hold
 			});
 			binProperties.Add(new BinProperty()
 			{

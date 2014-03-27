@@ -14,6 +14,7 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using VideoModule.Plans;
+using VideoModule.RVI_VSS.ViewModels;
 using VideoModule.ViewModels;
 using XFiresecAPI;
 using RviLayoutMultiCameraViewModel = VideoModule.RVI_VSS.ViewModels.LayoutMultiCameraViewModel;

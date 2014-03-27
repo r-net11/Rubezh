@@ -278,8 +278,8 @@
     <Compile Include="Positions\Views\PositionFilterView.xaml.cs">
       <DependentUpon>PositionFilterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\Converters\EmployeeReportTypeToStringConverter.cs" />
-    <Compile Include="Reports\Models\EmployeeReportFilter.cs" />
+    <Compile Include="Reports\Models\EmployeeReportPeriod.cs" />
+    <Compile Include="Reports\Models\EmployeeReportSettings.cs" />
     <Compile Include="Reports\Models\EmployeeReportType.cs" />
     <Compile Include="SKDModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

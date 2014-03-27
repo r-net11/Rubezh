@@ -14,7 +14,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
 			<ComboBox ItemsSource="{Binding AvailableYears}" SelectedItem="{Binding SelectedYear}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
@@ -27,7 +27,7 @@
 					<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
 					<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
 					<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-					<Controls:ToolBarButton Grid.Column="4" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" ImageSource="/Controls;component/Images/Settings.png" />
+					<Controls:ToolBarButton Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" ImageSource="/Controls;component/Images/Settings.png" />
 				</StackPanel>
 				<Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
 			</StackPanel>
@@ -45,51 +45,49 @@
 
 			<TabControl.ContentTemplate>
 				<DataTemplate>
-					<Grid Grid.Row="1" Margin="2">
-						<Controls:XDataGrid ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}" Margin="2">
-							<DataGrid.Columns>
-								<DataGridTemplateColumn Header="Наименование" Width="*">
-									<DataGridTemplateColumn.CellTemplate>
-										<DataTemplate>
-											<StackPanel Orientation="Horizontal">
-												<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-												<TextBlock Text="{Binding Holiday.Name}" VerticalAlignment="Center" Margin="2" />
-											</StackPanel>
-										</DataTemplate>
-									</DataGridTemplateColumn.CellTemplate>
-								</DataGridTemplateColumn>
-								<DataGridTemplateColumn Header="Дата" Width="*">
-									<DataGridTemplateColumn.CellTemplate>
-										<DataTemplate>
-											<TextBlock Text="{Binding Path=Holiday.DateTime, StringFormat=dd-MM}" />
-										</DataTemplate>
-									</DataGridTemplateColumn.CellTemplate>
-								</DataGridTemplateColumn>
-								<DataGridTemplateColumn Header="Тип" Width="*">
-									<DataGridTemplateColumn.CellTemplate>
-										<DataTemplate>
-											<TextBlock Text="{Binding Holiday.EmployeeHolidayType, Converter={StaticResource EmployeeHolidayTypeToStringConverter}}" />
-										</DataTemplate>
-									</DataGridTemplateColumn.CellTemplate>
-								</DataGridTemplateColumn>
-								<DataGridTemplateColumn Header="Величина сокращения" Width="*">
-									<DataGridTemplateColumn.CellTemplate>
-										<DataTemplate>
-											<TextBlock Text="{Binding ShortageTime}" />
-										</DataTemplate>
-									</DataGridTemplateColumn.CellTemplate>
-								</DataGridTemplateColumn>
-								<DataGridTemplateColumn Header="Дата переноса" Width="*">
-									<DataGridTemplateColumn.CellTemplate>
-										<DataTemplate>
-											<TextBlock Text="{Binding TransitionDateTime}" />
-										</DataTemplate>
-									</DataGridTemplateColumn.CellTemplate>
-								</DataGridTemplateColumn>
-							</DataGrid.Columns>
-						</Controls:XDataGrid>
-					</Grid>
-				</DataTemplate>
+                    <Controls:XDataGrid ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Наименование" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                            <TextBlock Text="{Binding Holiday.Name}" VerticalAlignment="Center" Margin="2" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Дата" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=Holiday.DateTime, StringFormat=dd-MM}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Тип" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Holiday.EmployeeHolidayType, Converter={StaticResource EmployeeHolidayTypeToStringConverter}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Величина сокращения" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ShortageTime}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Дата переноса" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding TransitionDateTime}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </Controls:XDataGrid>
+                </DataTemplate>
 			</TabControl.ContentTemplate>
 
 			<TabControl.ItemContainerStyle>

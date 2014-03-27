@@ -163,9 +163,8 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Additional:
-					var columnUID = _employeesViewMode.AdditionalColumnTypes.FirstOrDefault(item => item.UID == elementTextProperty.AdditionalColumnUID);
-					var index = _employeesViewMode.AdditionalColumnTypes.IndexOf(columnUID);
-					elementTextProperty.Text = index == -1 ? string.Empty : _employeesViewMode.SelectedCard.EmployeeViewModel.AdditionalColumnValues[index];
+					var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementTextProperty.AdditionalColumnUID);
+					elementTextProperty.Text = columnValue == null ? string.Empty : columnValue.TextData;
 					break;
 				default:
 					elementTextProperty.Text = string.Empty;
@@ -260,7 +259,7 @@ namespace SKDModule.PassCard.ViewModels
 					default:
 						break;
 				}
-				args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo != null ? photo.Data : null);
+				args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo == null ? null : photo.Data);
 			}
 		}
 	}

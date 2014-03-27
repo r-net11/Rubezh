@@ -28,7 +28,7 @@ namespace GKImitator.Processor
 			IsConnected = true;
 			Context = new SKDDataContext();
 			if (Context.Journals.Count() > 0)
-				LastJournalNo = Context.Journals.AsEnumerable().OrderBy(x => x.CardNo).LastOrDefault().CardNo;
+				LastJournalNo = Context.Journals.AsEnumerable().OrderBy(x => x.CardNo).LastOrDefault().DeviceNo;
 			JournalItems = new List<SKDImitatorJournalItem>();
 			JournalItems.Add(new SKDImitatorJournalItem() { No = LastJournalNo });
 		}
@@ -95,8 +95,23 @@ namespace GKImitator.Processor
 				case 4: // Состояние устройства
 					result.Add((byte)XStateClass.Norm);
 					return result;
+				case 5: // Запись конфигурации
+					return result;
+				case 6: // Обновление прошивки
+					return result;
+				case 7: // Запись всех идентификаторов
+					return result;
+				case 8: // Команда управления
+					OnControlCommand(byteData[1]);
+					return result;
 			}
 			return null;
+		}
+
+		void OnControlCommand(byte b)
+		{
+			AddJournalItem(new SKDImitatorJournalItem() { Source = 1, Address = 0, NameCode = 22, });
+
 		}
 
 		public static List<byte> ToBytes(short shortValue)
@@ -111,14 +126,17 @@ namespace GKImitator.Processor
 
 		public void AddJournalItem(SKDImitatorJournalItem skdImitatorJournalItem)
 		{
+			LastJournalNo++;
+			skdImitatorJournalItem.No = LastJournalNo;
 			JournalItems.Add(skdImitatorJournalItem);
 			var dbJournal = new SKDProcessor.Journal()
 			{
 				UID = Guid.NewGuid(),
+				DeviceNo = LastJournalNo,
 				Name = "",
 				Description = "",
 				SysemDate = DateTime.Now,
-				DeviceDate = DateTime.Now,
+				DeviceDate = skdImitatorJournalItem.DateTime,
 				CardNo = skdImitatorJournalItem.CardNo,
 				CardSeries = skdImitatorJournalItem.CardSeries,
 			};

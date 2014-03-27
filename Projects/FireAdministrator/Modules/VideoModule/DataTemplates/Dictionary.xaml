@@ -1,4 +1,7 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:VideoModule.ViewModels" xmlns:Views="clr-namespace:VideoModule.Views">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:ViewModels="clr-namespace:VideoModule.ViewModels" 
+                    xmlns:Views="clr-namespace:VideoModule.Views">
 
 	<DataTemplate DataType="{x:Type ViewModels:CamerasViewModel}">
 		<Views:CamerasView />
@@ -24,4 +27,8 @@
 		<Views:LayoutPartPropertyCameraPageView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:PreviewViewModel}">
+        <Views:PreviewView />
+    </DataTemplate>
+    
 </ResourceDictionary>

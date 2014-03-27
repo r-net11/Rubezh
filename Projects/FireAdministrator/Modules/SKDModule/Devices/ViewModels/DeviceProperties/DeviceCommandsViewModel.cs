@@ -24,6 +24,7 @@ namespace SKDModule.ViewModels
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
+			WriteAllIdentifiersCommand = new RelayCommand(OnWriteAllIdentifiers, CanWriteAllIdentifiers);
 		}
 
 		public DeviceViewModel SelectedDevice
@@ -95,33 +96,28 @@ namespace SKDModule.ViewModels
 				};
 				if (openDialog.ShowDialog().Value)
 				{
-					//var skdControllerDevice = XManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == SKDDriverType.Controller));
-					//var firmWareUpdateViewModel = new FirmWareUpdateViewModel(skdControllerDevice);
-					//if (DialogService.ShowModalWindow(firmWareUpdateViewModel))
-					//{
-					//	var hxcFileInfo = HXCFileInfoHelper.Load(openDialog.FileName);
-					//	var devices = new List<XDevice>();
-					//	firmWareUpdateViewModel.UpdatedDevices.FindAll(x => x.IsChecked).ForEach(x => devices.Add(x.Device));
-					//	result = FiresecManager.FiresecService.SKDUpdateFirmwareFSCS(hxcFileInfo, devices);
-
-					//}
-				}
-			}
-			else
-			{
-				var openDialog = new OpenFileDialog()
-				{
-					Filter = "soft update files|*.hcs",
-					DefaultExt = "soft update files|*.hcs"
-				};
-				if (openDialog.ShowDialog().Value)
 					result = FiresecManager.FiresecService.SKDUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
+				}
 			}
 			if (result.HasError)
 				MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
 		}
-
 		bool CanUpdateFirmwhare()
+		{
+			return SelectedDevice != null && SelectedDevice.Driver.DriverType == SKDDriverType.Controller;
+		}
+
+		public RelayCommand WriteAllIdentifiersCommand { get; private set; }
+		void OnWriteAllIdentifiers()
+		{
+			if (SelectedDevice.Device.DriverType == SKDDriverType.Controller)
+			{
+				var result = FiresecManager.FiresecService.SKDWriteAllIdentifiers(SelectedDevice.Device);
+				if (result.HasError)
+					MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
+			}
+		}
+		bool CanWriteAllIdentifiers()
 		{
 			return SelectedDevice != null && SelectedDevice.Driver.DriverType == SKDDriverType.Controller;
 		}

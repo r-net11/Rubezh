@@ -55,13 +55,11 @@ namespace GKImitator.ViewModels
 
 		public void NewEvent(SKDEvent skdEvent)
 		{
-			SKDImitatorProcessor.LastJournalNo++;
 			var imitatorJournalItem = new SKDImitatorJournalItem()
 			{
-				No = SKDImitatorProcessor.LastJournalNo,
 				Source = 2,
 				Address = Device.IntAddress,
-				Code = skdEvent.No,
+				NameCode = skdEvent.No,
 				CardSeries = CardSeries,
 				CardNo = CardNo
 			};

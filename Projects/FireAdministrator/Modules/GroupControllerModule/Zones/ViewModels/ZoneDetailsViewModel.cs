@@ -51,22 +51,11 @@ namespace GKModule.ViewModels
 
 		void CopyProperties()
 		{
-			Name = Zone.Name;
 			No = Zone.No;
+			Name = Zone.Name;
 			Description = Zone.Description;
 			Fire1Count = Zone.Fire1Count;
 			Fire2Count = Zone.Fire2Count;
-		}
-
-		string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged("Name");
-			}
 		}
 
 		int _no;
@@ -77,6 +66,17 @@ namespace GKModule.ViewModels
 			{
 				_no = value;
 				OnPropertyChanged("No");
+			}
+		}
+
+		string _name;
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged("Name");
 			}
 		}
 
@@ -127,8 +127,8 @@ namespace GKModule.ViewModels
 			LastFire1Count = Fire1Count;
 			LastFire2Count = Fire2Count;
 
-			Zone.Name = Name;
 			Zone.No = No;
+			Zone.Name = Name;
 			Zone.Description = Description;
 			Zone.Fire1Count = Fire1Count;
 			Zone.Fire2Count = Fire2Count;

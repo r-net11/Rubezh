@@ -25,10 +25,8 @@
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<Grid Grid.Column="0">
-					<Navigation:NavigationView Margin="5 5 0 5" />
-				</Grid>
-				<ItemsControl Grid.Column="1" Margin="5 5 5 5" ItemsSource="{Binding ContentItems}">
+                <Navigation:NavigationView Grid.Column="0" Margin="5 5 0 5" />
+                <ItemsControl Grid.Column="1" Margin="5 5 4 5" ItemsSource="{Binding ContentItems}">
 					<ItemsControl.ItemsPanel>
 						<ItemsPanelTemplate>
 							<Grid />
@@ -42,7 +40,7 @@
 				</ItemsControl>
 			</Grid>
 		</DockPanel>
-		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" Visibility="{Binding RightContent, Converter={StaticResource NullToVisibilityConverter}}" />
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" Visibility="{Binding RightContent, Converter={StaticResource NullToVisibilityConverter}}" Margin="-4 0 0 0" />
 		<ContentPresenter x:Name="RightContent" Grid.Column="2" MinWidth="200" Content="{Binding RightContent}" FocusManager.IsFocusScope="True" Keyboard.GotKeyboardFocus="RightContent_GotKeyboardFocus" PreviewMouseDown="RightContent_PreviewMouseDown" />
 	</Grid>
 </UserControl>

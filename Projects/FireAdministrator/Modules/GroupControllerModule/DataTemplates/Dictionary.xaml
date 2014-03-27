@@ -24,7 +24,15 @@
 		<Views:DirectionsSelectationView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:MPTsSelectationViewModel}">
+        <Views:MPTsSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DelaysSelectationViewModel}">
+        <Views:DelaysSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
 		<Views:NewDeviceView />
 	</DataTemplate>
 
@@ -88,7 +96,8 @@
 		<Views:PumpStationsMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
+
+    <DataTemplate DataType="{x:Type ViewModels:MPTsViewModel}">
 		<Views:MPTsView />
 	</DataTemplate>
 
@@ -104,7 +113,25 @@
 		<Views:MPTsMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:MPTDevicePropertiesViewModel}">
+        <Views:MPTDevicePropertiesView />
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type ViewModels:DelaysViewModel}">
+        <Views:DelaysView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DelayDetailsViewModel}">
+        <Views:DelayDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DelaysMenuViewModel}">
+        <Views:DelaysMenuView />
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
 		<Views:JournalView />
 	</DataTemplate>
 

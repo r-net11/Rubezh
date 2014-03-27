@@ -28,7 +28,7 @@
 				<ColumnDefinition Width="150" />
 			</Grid.ColumnDefinitions>
 
-			<DataGrid Grid.Column="0" ItemsSource="{Binding Descriptors}" SelectedItem="{Binding SelectedDescriptor}" SelectionChanged="DataGrid_SelectionChanged" Margin="2">
+			<DataGrid Grid.Column="0" ItemsSource="{Binding Descriptors}" SelectedItem="{Binding SelectedDescriptor}" SelectionChanged="DataGrid_SelectionChanged">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Объект" Width="*" MinWidth="150">
 						<DataGridTemplateColumn.CellTemplate>
@@ -81,7 +81,7 @@
 				</DataGrid.CellStyle>
 			</DataGrid>
 
-			<DataGrid Grid.Column="1" ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase}" Margin="2">
+			<DataGrid Grid.Column="1" ItemsSource="{Binding Databases}" SelectedItem="{Binding SelectedDatabase}" Margin="4 0 0 0">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="База" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
@@ -100,7 +100,7 @@
 
 		<GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
 
-		<Grid Grid.Row="2" DataContext="{Binding SelectedDescriptor}" Margin="2">
+		<Grid Grid.Row="2" DataContext="{Binding SelectedDescriptor}">
 			<TabControl>
 				<TabItem Header="Байты">
 					<ScrollViewer VerticalScrollBarVisibility="Auto" DataContext="{Binding Descriptor}">

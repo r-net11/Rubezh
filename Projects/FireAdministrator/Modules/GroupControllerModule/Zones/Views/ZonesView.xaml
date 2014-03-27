@@ -1,6 +1,6 @@
 ﻿<UserControl x:Class="GKModule.Views.ZonesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:Views="clr-namespace:GKModule.Views">
 
-	<Grid Margin="2">
+	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="2*" MinWidth="200" />
 			<ColumnDefinition Width="Auto" />

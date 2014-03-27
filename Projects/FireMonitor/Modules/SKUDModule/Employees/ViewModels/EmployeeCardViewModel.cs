@@ -56,17 +56,6 @@ namespace SKDModule.ViewModels
 			return cardZones;
 		}
 
-		bool _isBlocked;
-		public bool IsBlocked
-		{
-			get { return _isBlocked; }
-			set
-			{
-				_isBlocked = value;
-				OnPropertyChanged("IsBlocked");
-			}
-		}
-
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{

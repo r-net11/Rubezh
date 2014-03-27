@@ -1,33 +1,22 @@
-﻿<UserControl x:Class="SKDModule.Views.ReportsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+﻿<UserControl x:Class="SKDModule.Views.ReportsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
-			<Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png" />
-			<Controls:ToolBarButton Command="{Binding ShowSettingsCommand}" ToolTip="Свойства отчета" ImageSource="/Controls;component/Images/Edit.png" />
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+			<Controls:ToolBarButton Command="{Binding ShowFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Задать фильтр" />
+			<Controls:ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Свойства отчета" />
 			<Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
+			<Controls:ToolBarButton Command="{Binding PrintCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать" />
 		</StackPanel>
-		<DataGrid Grid.Row="1" ItemsSource="{Binding Reports}" SelectedItem="{Binding SelectedReport}" Margin="2">
+		<DataGrid Grid.Row="1" Margin="0 4 0 0" ItemsSource="{Binding Reports}" SelectedItem="{Binding SelectedReport}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Имя" Width="*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-								<TextBlock Text="{Binding Employee.FirstName}" VerticalAlignment="Center" Margin="2" />
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTextColumn Header="Отчество" Binding="{Binding Employee.SecondName}" />
-				<DataGridTextColumn Header="Фамилия" Binding="{Binding Employee.LastName}" />
-				<DataGridTextColumn Header="Отдел" Binding="{Binding DepartmentName}" />
-				<DataGridTextColumn Header="Должность" Binding="{Binding PositionName}" />
+				<DataGridTextColumn Binding="{Binding Employee.LastName}" Header="Фамилия" />
+				<DataGridTextColumn Binding="{Binding Employee.FirstName}" Header="Имя" />
+				<DataGridTextColumn Binding="{Binding Employee.SecondName}" Header="Отчество" />
+				<DataGridTextColumn Binding="{Binding DepartmentName}" Header="Отдел" />
+				<DataGridTextColumn Binding="{Binding PositionName}" Header="Должность" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

@@ -1,5 +1,7 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using FiresecClient;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -15,8 +17,11 @@ namespace GKModule.ViewModels
 
 				MPT = new XMPT()
 				{
-					Name = "Новый МПТ"
+					Name = "Новый МПТ",
+					No = 1,
 				};
+				if (XManager.Delays.Count != 0)
+					MPT.No = (ushort)(XManager.MPTs.Select(x => x.No).Max() + 1);
 			}
 			else
 			{
@@ -28,7 +33,20 @@ namespace GKModule.ViewModels
 
 		void CopyProperties()
 		{
+			No = MPT.No;
 			Name = MPT.Name;
+			Description = MPT.Description;
+		}
+
+		int _no;
+		public int No
+		{
+			get { return _no; }
+			set
+			{
+				_no = value;
+				OnPropertyChanged("No");
+			}
 		}
 
 		string _name;
@@ -42,10 +60,22 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		string _description;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				_description = value;
+				OnPropertyChanged("Description");
+			}
+		}
 
 		protected override bool Save()
 		{
+			MPT.No = No;
 			MPT.Name = Name;
+			MPT.Description = Description;
 			return base.Save();
 		}
 

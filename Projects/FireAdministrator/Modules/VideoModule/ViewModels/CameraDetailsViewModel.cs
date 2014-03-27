@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using Entities.DeviceOriented;
+using Entities.DeviceOriented.Dahua;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using VideoModule.Views;
 using XFiresecAPI;
 
 namespace VideoModule.ViewModels
@@ -16,25 +21,28 @@ namespace VideoModule.ViewModels
 		public Camera Camera { get; private set; }
 		public List<Guid> Zones { get; set; }
 
-		public CameraDetailsViewModel(Camera camera = null)
+		public CameraDetailsViewModel(CameraViewModel cameraViewModel = null)
 		{
 			ShowZonesCommand = new RelayCommand(OnShowZones);
 			TestCommand = new RelayCommand(OnTest);
+			ConnectCommand = new RelayCommand(OnConnect, () => !CanShow());
+			ShowCommand = new RelayCommand(OnShow, CanShow);
 			StateClasses = new List<XStateClass>();
 			StateClasses.Add(XStateClass.Fire1);
 			StateClasses.Add(XStateClass.Fire2);
 			StateClasses.Add(XStateClass.Attention);
 			StateClasses.Add(XStateClass.Ignore);
 
-			if (camera != null)
+			if (cameraViewModel != null)
 			{
+				Channels = cameraViewModel.Channels;
 				Title = "Редактировать камеру";
-				Camera = camera;
+				Camera = cameraViewModel.Camera;
 			}
 			else
 			{
 				Title = "Создать камеру";
-				Camera = new Camera()
+				Camera = new Camera
 				{
 					Name = "Новая камера",
 					Address = "172.16.7.88",
@@ -54,6 +62,8 @@ namespace VideoModule.ViewModels
 			Port = Camera.Port;
 			Login = Camera.Login;
 			Password = Camera.Password;
+			if (Channels != null)
+				SelectedChannel = Channels[Camera.ChannelNumber];
 			Left = Camera.Left;
 			Top = Camera.Top;
 			Width = Camera.Width;
@@ -63,6 +73,28 @@ namespace VideoModule.ViewModels
 			if (Camera.ZoneUIDs == null)
 				Camera.ZoneUIDs = new List<Guid>();
 			Zones = Camera.ZoneUIDs.ToList();
+		}
+
+		ObservableCollection<Channel> _channels;
+		public ObservableCollection<Channel> Channels
+		{
+			get { return _channels; }
+			set
+			{
+				_channels = value;
+				OnPropertyChanged(() => Channels);
+			}
+		}
+
+		Channel _selectedChannel;
+		public Channel SelectedChannel
+		{
+			get { return _selectedChannel; }
+			set
+			{
+				_selectedChannel = value;
+				OnPropertyChanged(() => SelectedChannel);
+			}
 		}
 
 		string _login;
@@ -215,6 +247,39 @@ namespace VideoModule.ViewModels
 			}
 		}
 
+		public RelayCommand ConnectCommand { get; private set; }
+		void OnConnect()
+		{
+			new Thread(delegate()
+			{
+				var deviceSI = new DeviceSearchInfo(Address, Port);
+				try
+				{
+					var device = SystemPerimeter.Instance.AddDevice(deviceSI);
+					Channels = new ObservableCollection<Channel>(device.Channels);
+					SelectedChannel = Channels.FirstOrDefault();
+					Save();
+				}
+				catch { }
+			}).Start();
+		}
+
+		public RelayCommand ShowCommand { get; private set; }
+		void OnShow()
+		{
+			var title = Camera.Address + " (" + SelectedChannel.Name +")";
+			var previewViewModel = new PreviewViewModel(title);
+			DialogService.ShowWindow(previewViewModel);
+			Save();
+			var cameraViewModel = new CameraViewModel(Camera);
+			cameraViewModel.StartVideo(PreviewView.Current.PlayerWrap);
+		}
+
+		bool CanShow()
+		{
+			return ((Address == Camera.Address) && (Port == Camera.Port) && (SelectedChannel != null));
+		}
+
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
@@ -244,6 +309,8 @@ namespace VideoModule.ViewModels
 			Camera.Port = Port;
 			Camera.Login = Login;
 			Camera.Password = Password;
+			if (SelectedChannel != null)
+				Camera.ChannelNumber = SelectedChannel.ChannelNumber;
 			Camera.Left = Left;
 			Camera.Top = Top;
 			Camera.Width = Width;
@@ -252,6 +319,16 @@ namespace VideoModule.ViewModels
 			Camera.ZoneUIDs = Zones.ToList();
 			Camera.IgnoreMoveResize = IgnoreMoveResize;
 			return base.Save();
+		}
+
+		protected override bool CanSave()
+		{
+			return ((Camera.Name != Name) || (Camera.Address != Address) || (Camera.Port != Port) ||
+			        (Camera.Login != Login) || (Camera.Password != Password) ||
+			        (Camera.ChannelNumber != SelectedChannel.ChannelNumber) ||
+			        (Camera.Left != Left) || (Camera.Top != Top) || (Camera.Width != Width) || (Camera.Height != Height) ||
+			        (Camera.StateClass != SelectedStateClass) || (!Camera.ZoneUIDs.SequenceEqual(Zones.ToList())) ||
+			        (Camera.IgnoreMoveResize != IgnoreMoveResize));
 		}
 	}
 }

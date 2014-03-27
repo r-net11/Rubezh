@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
 			if (showXArchiveEventArgs.Pim != null)
 				ArchiveFilter.PimUIDs.Add(showXArchiveEventArgs.Pim.BaseUID);
 			if (showXArchiveEventArgs.PumpStation != null)
-				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.PumpStation.UID);
+				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.PumpStation.BaseUID);
 			if (showXArchiveEventArgs.MPT != null)
 				ArchiveFilter.MPTUIDs.Add(showXArchiveEventArgs.MPT.BaseUID);
 			IsFilterOn = true;

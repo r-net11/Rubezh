@@ -76,11 +76,22 @@ namespace GKModule.Validation
 		{
 			foreach (var mptDevice in mpt.MPTDevices)
 			{
-				if (mptDevice.Delay < 0 || mptDevice.Delay > 10)
-					Errors.Add(new MPTValidationError(mpt, "Задержка МПТ для устройства " + mptDevice.Device.PresentationName + " должна быть в диапазоне от 0 до 10", ValidationErrorLevel.CannotWrite));
+				if (mptDevice.Device != null)
+				{
+					var delayProperty = mptDevice.Device.Properties.FirstOrDefault(x => x.Name == "Задержка на включение, с");
+					if (delayProperty != null)
+					{
+						if (delayProperty.Value < 0 || delayProperty.Value > 10)
+							Errors.Add(new MPTValidationError(mpt, "Задержка МПТ для устройства " + mptDevice.Device.PresentationName + " должна быть в диапазоне от 0 до 10", ValidationErrorLevel.CannotWrite));
+					}
 
-				if (mptDevice.Hold < 0 || mptDevice.Hold > 10)
-					Errors.Add(new MPTValidationError(mpt, "Удержание МПТ для устройства " + mptDevice.Device.PresentationName + " должно быть в диапазоне от 0 до 10", ValidationErrorLevel.CannotWrite));
+					var holdProperty = mptDevice.Device.Properties.FirstOrDefault(x => x.Name == "Время удержания, с");
+					if (holdProperty != null)
+					{
+						if (holdProperty.Value < 0 || holdProperty.Value > 10)
+							Errors.Add(new MPTValidationError(mpt, "Удержание МПТ для устройства " + mptDevice.Device.PresentationName + " должно быть в диапазоне от 0 до 10", ValidationErrorLevel.CannotWrite));
+					}
+				}
 			}
 		}
 

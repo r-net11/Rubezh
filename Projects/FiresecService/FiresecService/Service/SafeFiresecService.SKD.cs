@@ -200,38 +200,42 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDUpdateFirmware(deviceUID, fileName); }, "SKDUpdateFirmware");
 		}
-		public void SKDSetRegimeOpen(Guid deviceUID)
+		public OperationResult<bool> SKDWriteAllIdentifiers(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.SKDSetRegimeOpen(deviceUID); }, "SKDSetIgnoreRegime");
+			return SafeOperationCall(() => { return FiresecService.SKDWriteAllIdentifiers(deviceUID); }, "SKDWriteAllIdentifiers");
 		}
-		public void SKDSetRegimeClose(Guid deviceUID)
+		public OperationResult<bool> SKDSetRegimeOpen(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.SKDSetRegimeClose(deviceUID); }, "SKDSetIgnoreRegime");
+			return SafeOperationCall(() => { return FiresecService.SKDSetRegimeOpen(deviceUID); }, "SKDSetIgnoreRegime");
 		}
-		public void SKDSetRegimeControl(Guid deviceUID)
+		public OperationResult<bool> SKDSetRegimeClose(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.SKDSetRegimeControl(deviceUID); }, "SKDSetRegimeControl");
+			return SafeOperationCall(() => { return FiresecService.SKDSetRegimeClose(deviceUID); }, "SKDSetIgnoreRegime");
 		}
-		public void SKDSetRegimeConversation(Guid deviceUID)
+		public OperationResult<bool> SKDSetRegimeControl(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.SKDSetRegimeConversation(deviceUID); }, "SKDSetRegimeConversation");
+			return SafeOperationCall(() => { return FiresecService.SKDSetRegimeControl(deviceUID); }, "SKDSetRegimeControl");
 		}
-		public void SKDOpenDevice(Guid deviceUID)
+		public OperationResult<bool> SKDSetRegimeConversation(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.SKDOpenDevice(deviceUID); }, "SKDOpenDevice");
+			return SafeOperationCall(() => { return FiresecService.SKDSetRegimeConversation(deviceUID); }, "SKDSetRegimeConversation");
 		}
-		public void SKDCloseDevice(Guid deviceUID)
+		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
+			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(deviceUID); }, "SKDOpenDevice");
 		}
-		public void SKDAllowReader(Guid deviceUID)
+		public OperationResult<bool> SKDCloseDevice(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.SKDAllowReader(deviceUID); }, "SKDAllowReader");
+			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
+		}
+		public OperationResult<bool> SKDAllowReader(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDAllowReader(deviceUID); }, "SKDAllowReader");
 		}
 
-		public void SKDDenyReader(Guid deviceUID)
+		public OperationResult<bool> SKDDenyReader(Guid deviceUID)
 		{
-			SafeOperationCall(() => { FiresecService.SKDDenyReader(deviceUID); }, "SKDDenyReader");
+			return SafeOperationCall(() => { return FiresecService.SKDDenyReader(deviceUID); }, "SKDDenyReader");
 		}
 	}
 }

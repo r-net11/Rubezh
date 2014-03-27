@@ -2,10 +2,19 @@
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
- {
+{
 	[DataContract]
-	public class DocumentFilter:OrganizationFilterBase
+	public class DocumentFilter : OrganizationFilterBase
 	{
+		public DocumentFilter()
+			: base()
+		{
+			Nos = new List<int>();
+			Names = new List<string>();
+			IssueDate = new DateTimePeriod();
+			LaunchDate = new DateTimePeriod();
+		}
+
 		[DataMember]
 		public List<int> Nos { get; set; }
 
@@ -17,14 +26,5 @@ namespace FiresecAPI
 
 		[DataMember]
 		public DateTimePeriod LaunchDate { get; set; }
-
-		public DocumentFilter()
-			:base()
-		{
-			Nos = new List<int>();
-			Names = new List<string>();
-			IssueDate = new DateTimePeriod();
-			LaunchDate = new DateTimePeriod();
-		}
 	}
 }

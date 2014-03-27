@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XMPT : XBase
+	public class XMPT : XBase, IInputObjectsBase, INamedBase
 	{
 		public XMPT()
 		{
@@ -26,7 +23,13 @@ namespace XFiresecAPI
 		public List<XDevice> Devices { get; set; }
 
 		[DataMember]
+		public int No { get; set; }
+
+		[DataMember]
 		public string Name { get; set; }
+
+		[DataMember]
+		public string Description { get; set; }
 
 		[DataMember]
 		public int Delay { get; set; }

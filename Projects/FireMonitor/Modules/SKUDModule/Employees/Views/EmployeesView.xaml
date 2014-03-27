@@ -86,12 +86,11 @@
 												</Style>
 											</TextBlock.Style>
 										</TextBlock>
-										<CheckBox Margin="10 2" Content="Заблокирован" IsChecked="{Binding IsBlocked}" />
-
+										
 										<TextBlock Width="200">
 											<Hyperlink Command="{Binding SelectPassCommand}" Style="{StaticResource HyperlinkStyle2}">
 												<StackPanel Orientation="Horizontal">
-													<TextBlock Margin="10 2" Text="Пропуск" />
+													<TextBlock Margin="10 2" Text="Удостоверение" />
 												</StackPanel>
 											</Hyperlink>
 											<TextBlock.Style>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -9,11 +10,14 @@ using System.Threading;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Entities.DeviceOriented;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Video;
+using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows.ViewModels;
+using VideoModule.Views;
 using XFiresecAPI;
 using System.Windows;
 using DeviceControls;
@@ -44,6 +48,45 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged("IsNowPlaying");
 			}
 		}
+
+		ObservableCollection<Channel> _channels;
+		public ObservableCollection<Channel> Channels
+		{
+			get { return _channels; }
+			set
+			{
+				_channels = value;
+				OnPropertyChanged(() => Channels);
+			}
+		}
+
+		Channel _selectedChannel;
+		public Channel SelectedChannel
+		{
+			get { return _selectedChannel; }
+			set
+			{
+				_selectedChannel = value;
+				OnPropertyChanged(() => SelectedChannel);
+			}
+		}
+
+		bool _isConnected;
+		public bool IsConnected
+		{
+			get { return _isConnected; }
+			set
+			{
+				_isConnected = value;
+				OnPropertyChanged(() => IsConnected);
+			}
+		}
+
+		public CameraViewModel(Camera camera)
+		{
+			Camera = camera;
+		}
+
 		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera)
 		{
 			_camerasViewModel = camerasViewModel;
@@ -53,6 +96,7 @@ namespace VideoModule.ViewModels
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
 		}
+
 		void GetError(string error)
 		{
 			Error = error;
@@ -103,27 +147,49 @@ namespace VideoModule.ViewModels
 		}
 
 		Thread VideoThread { get; set; }
-		public void StartVideo()
+
+		#region MJPEG
+		//public void StartVideo()
+		//{
+		//    //return; //TODO: TEST (CameraVideo isn't working now)
+		//    MjpegCamera.FrameReady += BmpToImageSource;
+		//    MjpegCamera.ErrorHandler += GetError;
+		//    VideoThread = new Thread(MjpegCamera.StartVideo);
+		//    VideoThread.Start();
+		//    IsNowPlaying = true;
+		//}
+		//public void StopVideo()
+		//{
+		//    //TODO: TEST (CameraVideo isn't working now)
+		//    //{
+		//    //	IsNowPlaying = false;
+		//    //	return;
+		//    //}
+		//    MjpegCamera.FrameReady -= BmpToImageSource;
+		//    MjpegCamera.ErrorHandler -= GetError;
+		//    MjpegCamera.StopVideo();
+		//    ImageSource = new BitmapImage();
+		//    IsNowPlaying = false;
+		//}
+		#endregion
+		public void StartVideo(CellPlayerWrap cellPlayerWrap)
 		{
-			//return; //TODO: TEST (CameraVideo isn't working now)
-			MjpegCamera.FrameReady += BmpToImageSource;
-			MjpegCamera.ErrorHandler += GetError;
-			VideoThread = new Thread(MjpegCamera.StartVideo);
-			VideoThread.Start();
-			IsNowPlaying = true;
+			try
+			{
+				cellPlayerWrap.InitializeCamera(Camera);
+				IsNowPlaying = true;
+			}
+			catch { }
 		}
+
 		public void StopVideo()
 		{
-			//TODO: TEST (CameraVideo isn't working now)
-			//{
-			//	IsNowPlaying = false;
-			//	return;
-			//}
-			MjpegCamera.FrameReady -= BmpToImageSource;
-			MjpegCamera.ErrorHandler -= GetError;
-			MjpegCamera.StopVideo();
-			ImageSource = new BitmapImage();
-			IsNowPlaying = false;
+			try
+			{
+				CamerasView.Current.PlayerWrap.InitializeCamera(new Camera());
+				IsNowPlaying = false;
+			}
+			catch { }
 		}
 
 		private ImageSource _imageSource;

@@ -85,7 +85,7 @@ namespace XFiresecAPI
 			: this()
 		{
 			PumpStation = pumpStation;
-			UID = pumpStation.UID;
+			UID = pumpStation.BaseUID;
 			BaseObjectType = XBaseObjectType.PumpStation;
 		}
 

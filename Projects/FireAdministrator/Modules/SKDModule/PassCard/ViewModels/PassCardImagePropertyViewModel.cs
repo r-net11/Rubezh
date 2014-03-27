@@ -68,7 +68,7 @@ namespace SKDModule.PassCard.ViewModels
 			var filter = new AdditionalColumnTypeFilter()
 			{
 				WithDeleted = DeletedType.Not,
-				Type = DataType.Graphics,
+				Type = AdditionalColumnDataType.Graphics,
 				OrganizationUIDs = OrganizationHelper.Get(null).Select(x => x.UID).ToList()
 			};
 			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
@@ -81,7 +81,7 @@ namespace SKDModule.PassCard.ViewModels
 			var element = (ElementPassCardImageProperty)ElementRectangle;
 			element.Text = SelectedPropertyType.ToDescription();
 			if (SelectedPropertyType == PassCardImagePropertyType.Additional)
-				element.Text += string.Format("({0})", SelectedAdditionalColumnType == null ? string.Empty : SelectedAdditionalColumnType.Name);
+				element.Text += string.Format("\n({0})", SelectedAdditionalColumnType == null ? string.Empty : SelectedAdditionalColumnType.Name);
 			element.PropertyType = SelectedPropertyType;
 			element.AdditionalColumnUID = SelectedAdditionalColumnType == null ? Guid.Empty : SelectedAdditionalColumnType.UID;
 			return base.Save();

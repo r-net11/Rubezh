@@ -15,6 +15,7 @@ namespace FiresecClient
 			PrepareDirections();
 			PreparePumpStations();
 			PrepareMPTs();
+			PrepareDelays();
 		}
 
 		static void PrepareZones()
@@ -61,6 +62,10 @@ namespace FiresecClient
 			{
 				mpt.ClearDescriptor();
 			}
+			foreach (var delay in DeviceConfiguration.Delays)
+			{
+				delay.ClearDescriptor();
+			}
 
 			foreach (var device in DeviceConfiguration.Devices)
 			{
@@ -101,11 +106,17 @@ namespace FiresecClient
 			{
 				LinkDeviceLogic(mpt, mpt.StartLogic.Clauses);
 			}
+
+			foreach (var delay in DeviceConfiguration.Delays)
+			{
+				LinkDeviceLogic(delay, delay.DeviceLogic.Clauses);
+			}
 		}
 
 		static void LinkDeviceLogic(XBase xBase, List<XClause> clauses)
 		{
 			if (clauses != null)
+			{
 				foreach (var clause in clauses)
 				{
 					foreach (var zone in clause.Zones)
@@ -115,6 +126,7 @@ namespace FiresecClient
 					foreach (var direction in clause.Directions)
 						LinkXBases(xBase, direction);
 				}
+			}
 		}
 
 		static void PrepareDeviceLogicDependences()
@@ -223,6 +235,34 @@ namespace FiresecClient
 				if (outputDevice != null)
 				{
 					mpt.GkDatabaseParent = outputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+				}
+			}
+		}
+
+		static void PrepareDelays()
+		{
+			foreach (var delay in DeviceConfiguration.Delays)
+			{
+				delay.KauDatabaseParent = null;
+				delay.GkDatabaseParent = null;
+
+				var inputDirection = delay.InputDirections.FirstOrDefault();
+				if (inputDirection != null)
+				{
+					delay.GkDatabaseParent = inputDirection.GkDatabaseParent;
+				}
+
+				var inputZone = delay.InputZones.FirstOrDefault();
+				if (inputZone != null)
+				{
+					if (inputZone.GkDatabaseParent != null)
+						delay.GkDatabaseParent = inputZone.GkDatabaseParent;
+				}
+
+				var inputDevice = delay.InputDevices.FirstOrDefault();
+				if (inputDevice != null)
+				{
+					delay.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 				}
 			}
 		}

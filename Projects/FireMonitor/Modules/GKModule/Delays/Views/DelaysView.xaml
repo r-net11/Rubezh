@@ -19,7 +19,7 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" MinWidth="250" Header="Направление">
+				<DataGridTemplateColumn Width="*" MinWidth="250" Header="Задержка">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

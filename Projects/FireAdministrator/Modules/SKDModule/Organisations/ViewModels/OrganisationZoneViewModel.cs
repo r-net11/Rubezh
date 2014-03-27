@@ -21,7 +21,7 @@ namespace SKDModule.ViewModels
 			_isChecked = Organization != null && Organization.ZoneUIDs.Contains(zone.UID);
 		}
 
-		bool _isChecked;
+		internal bool _isChecked;
 		public bool IsChecked
 		{
 			get { return _isChecked; }
@@ -40,6 +40,9 @@ namespace SKDModule.ViewModels
 					if (Organization.ZoneUIDs.Contains(Zone.UID))
 						Organization.ZoneUIDs.Remove(Zone.UID);
 				}
+
+				if (value && Parent != null)
+					Parent.IsChecked = true;
 				var saveResult = OrganizationHelper.SaveZones(Organization);
 			}
 		}

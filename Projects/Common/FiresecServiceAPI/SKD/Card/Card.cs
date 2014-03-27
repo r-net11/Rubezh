@@ -40,6 +40,9 @@ namespace FiresecAPI
 		public bool IsInStopList { get; set; }
 
 		[DataMember]
+		public bool IsBlocked { get; set; }
+
+		[DataMember]
 		public string StopReason { get; set; }
 
 		public string PresentationName

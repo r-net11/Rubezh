@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
@@ -65,13 +64,5 @@ namespace FiresecAPI
 		public Guid ColumnTypeUID {get; set;}
 		
 		public string Text { get; set; }
-	}
-
-	public enum PersonType
-	{
-		[DescriptionAttribute("Работник")]
-		Employee,
-		[DescriptionAttribute("Гость")]
-		Guest
 	}
 }

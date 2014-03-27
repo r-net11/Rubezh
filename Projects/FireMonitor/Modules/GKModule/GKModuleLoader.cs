@@ -30,7 +30,6 @@ namespace GKModule
 		static PimsViewModel PimsViewModel;
 		static PumpStationsViewModel PumpStationsViewModel;
 		static MPTsViewModel MPTsViewModel;
-		NavigationItem _journalNavigationItem;
 		static JournalsViewModel JournalsViewModel;
 		static ArchiveViewModel ArchiveViewModel;
 		static AlarmsViewModel AlarmsViewModel;
@@ -40,6 +39,7 @@ namespace GKModule
 		NavigationItem _pimsNavigationItem;
 		NavigationItem _pumpStationsNavigationItem;
 		NavigationItem _mptsNavigationItem;
+		NavigationItem _journalNavigationItem;
 		private PlanPresenter _planPresenter;
 
 		public GKModuleLoader()
@@ -121,8 +121,6 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 			_zonesNavigationItem.IsVisible = XManager.Zones.Count > 0;
 			_directionsNavigationItem.IsVisible = XManager.Directions.Count > 0;
-			_delaysNavigationItem.IsVisible = XManager.Delays.Count > 0;
-			_pimsNavigationItem.IsVisible = XManager.Pims.Count > 0;
 			_pumpStationsNavigationItem.IsVisible = XManager.PumpStations.Count > 0;
 			_mptsNavigationItem.IsVisible = XManager.MPTs.Count > 0;
 			DevicesViewModel.Initialize();
@@ -131,7 +129,9 @@ namespace GKModule
 			PumpStationsViewModel.Initialize();
 			MPTsViewModel.Initialize();
 			DelaysViewModel.Initialize();
+			_delaysNavigationItem.IsVisible = DelaysViewModel.Delays.Count > 0;
 			PimsViewModel.Initialize();
+			_pimsNavigationItem.IsVisible = PimsViewModel.Pims.Count > 0;
 			JournalsViewModel.Initialize();
 			ArchiveViewModel.Initialize();
 		}

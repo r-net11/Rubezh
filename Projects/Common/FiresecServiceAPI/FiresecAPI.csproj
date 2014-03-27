@@ -163,6 +163,7 @@
     <Compile Include="IFiresecServiceSKD.cs" />
     <Compile Include="IGKService.cs" />
     <Compile Include="IFiresecService.cs" />
+    <Compile Include="INamedBase.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="Models\Archive\DescriptionType.cs" />
     <Compile Include="Models\Archive\JournalDescriptionItem.cs" />
@@ -198,16 +199,19 @@
     <Compile Include="Models\Library\LibraryDevicePresenter.cs" />
     <Compile Include="Models\Plans\ElementCamera.cs" />
     <Compile Include="Models\Video\CameraFrame.cs" />
+    <Compile Include="SKD\AdditionalColumn\AdditionalColumnDataType.cs" />
+    <Compile Include="SKD\Card\IntervalType.cs" />
     <Compile Include="SKD\Common\IsDeletedFilter.cs" />
     <Compile Include="SKD\Common\SKDHelper.cs" />
-    <Compile Include="SKD\Employee\AdditionalColumnFilter.cs" />
-    <Compile Include="SKD\Employee\AdditionalColumnType.cs" />
-    <Compile Include="SKD\Employee\AdditionalColumnTypeFilter.cs" />
+    <Compile Include="SKD\AdditionalColumn\AdditionalColumnFilter.cs" />
+    <Compile Include="SKD\AdditionalColumn\AdditionalColumnType.cs" />
+    <Compile Include="SKD\AdditionalColumn\AdditionalColumnTypeFilter.cs" />
     <Compile Include="SKD\Document\DocumentFilter.cs" />
     <Compile Include="Models\Video\IVSSContract.cs" />
     <Compile Include="SKD\Card\CardZone.cs" />
     <Compile Include="SKD\Employee\EmployeeDetails.cs" />
     <Compile Include="SKD\Employee\EmployeeReplacementFilter.cs" />
+    <Compile Include="SKD\Employee\PersonType.cs" />
     <Compile Include="SKD\Organization\OrganizationFilter.cs" />
     <Compile Include="SKD\Common\OrganizationFilterBase.cs" />
     <Compile Include="SKD\Organization\Organization.cs" />
@@ -226,7 +230,7 @@
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeTimeIntervalPart.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeWeeklyInterval.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\EmployeeWeeklyIntervalPart.cs" />
-    <Compile Include="SKD\Employee\AdditionalColumn.cs" />
+    <Compile Include="SKD\AdditionalColumn\AdditionalColumn.cs" />
     <Compile Include="SKD\Card\Card.cs" />
     <Compile Include="SKD\Card\CardZoneLinkFilter.cs" />
     <Compile Include="SKD\Card\CardFilter.cs" />
@@ -254,8 +258,8 @@
     <Compile Include="SKD\PassCardLibrary\SKDPassCardLibraryConfiguration.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
     <Compile Include="SKD\Department\Phone.cs" />
-    <Compile Include="SKD\Employee\Position.cs" />
-    <Compile Include="SKD\Employee\PositionFilter.cs" />
+    <Compile Include="SKD\Position\Position.cs" />
+    <Compile Include="SKD\Position\PositionFilter.cs" />
     <Compile Include="SKD\Schedule\Schedule.cs" />
     <Compile Include="SKD\Schedule\ScheduleScheme.cs" />
     <Compile Include="Models\Notification\Email.cs" />
@@ -281,6 +285,7 @@
     <Compile Include="SKD\Library\SKDLibraryFrame.cs" />
     <Compile Include="SKD\Library\SKDLibraryState.cs" />
     <Compile Include="SKD\Card\AccessTemplate.cs" />
+    <Compile Include="SKD\Schedule\ScheduleSchemeType.cs" />
     <Compile Include="SKD\SKDConfiguration.cs" />
     <Compile Include="SKD\SKDEventsHelper.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Actions.cs" />
@@ -392,6 +397,7 @@
     <Compile Include="XModels\Formula\FormulaOperation.cs" />
     <Compile Include="XModels\Formula\FormulaOperationType.cs" />
     <Compile Include="XModels\Guard\XGuardUser.cs" />
+    <Compile Include="XModels\IInputObjectsBase.cs" />
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="XModels\Journal\EventName.cs" />

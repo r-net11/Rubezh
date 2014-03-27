@@ -9,7 +9,7 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding SlideDayIntervals}" SelectedItem="{Binding SelectedSlideDayInterval}" Margin="2">
+		<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding SlideDayIntervals}" SelectedItem="{Binding SelectedSlideDayInterval}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Наименование" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
@@ -37,7 +37,7 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</Controls:XDataGrid>
-		<Grid Grid.Column="1" DataContext="{Binding SelectedSlideDayInterval}" IsEnabled="{Binding IsEnabled}">
+        <Grid Grid.Column="1" DataContext="{Binding SelectedSlideDayInterval}" IsEnabled="{Binding IsEnabled}" Margin="4 0 0 0">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
@@ -46,7 +46,7 @@
 				<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
 				<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
 			</StackPanel>
-			<DataGrid Grid.Row="1" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" IsReadOnly="False" Margin="2">
+			<DataGrid Grid.Row="1" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" IsReadOnly="False">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Наименование" Width="*">
 						<DataGridTemplateColumn.CellTemplate>

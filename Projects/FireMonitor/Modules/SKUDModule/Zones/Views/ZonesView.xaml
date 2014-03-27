@@ -16,7 +16,7 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
-		<Grid Grid.Column="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
+		<Grid Grid.Column="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<tree:TreeList Name="_zonesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedZone}" Source="{Binding RootZones}" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
@@ -52,7 +52,7 @@
 			</tree:TreeList>
 		</Grid>
 		<GridSplitter Grid.Column="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
-		<Grid Grid.Column="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
+		<Grid Grid.Column="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="4 0 0 0">
 			<DataGrid ItemsSource="{Binding Devices}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Считыватель, ведущий в зону" Width="*">

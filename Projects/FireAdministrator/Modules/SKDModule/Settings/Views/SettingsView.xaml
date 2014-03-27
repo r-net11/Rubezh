@@ -2,9 +2,9 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-	<Grid Background="White">
-		<StackPanel>
+	<Border Background="White" CornerRadius="5">
+		<StackPanel Margin="5">
 			<Button Content="Настройки поста верификации" Command="{Binding ShowVerificationSettingsCommand}" Width="200" />
 		</StackPanel>
-	</Grid>
+    </Border>
 </UserControl>

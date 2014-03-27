@@ -238,7 +238,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypes = columnTypes.ToList();
 			foreach (var additionalColumnType in AdditionalColumnTypes)
 			{
-				if (additionalColumnType.DataType == DataType.Text)
+				if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
 					AdditionalColumnNames.Add(additionalColumnType.Name);
 			}
 			foreach (var employee in Employees)
@@ -246,7 +246,7 @@ namespace SKDModule.ViewModels
 				employee.AdditionalColumnValues = new ObservableCollection<string>();
 				foreach (var additionalColumnType in AdditionalColumnTypes)
 				{
-					if (additionalColumnType.DataType == DataType.Text)
+					if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
 						employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
 				}
 			}

@@ -212,7 +212,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return SKDProcessorManager.GKWriteConfiguration(device, UserName);
+				return SKDProcessorManager.SKDWriteConfiguration(device, UserName);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -222,49 +222,131 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return SKDProcessorManager.GKUpdateFirmware(device, fileName, UserName);
+				return SKDProcessorManager.SKDUpdateFirmware(device, fileName, UserName);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
-		public void SKDSetRegimeOpen(Guid deviceUID)
+		public OperationResult<bool> SKDWriteAllIdentifiers(Guid deviceUID)
 		{
-
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return SKDProcessorManager.SKDWriteAllIdentifiers(device, UserName);
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
-		public void SKDSetRegimeClose(Guid deviceUID)
+		public OperationResult<bool> SKDSetRegimeOpen(Guid deviceUID)
 		{
-
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				SKDProcessorManager.SendControlCommand(device, 1);
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
 		}
 
-		public void SKDSetRegimeControl(Guid deviceUID)
+		public OperationResult<bool> SKDSetRegimeClose(Guid deviceUID)
 		{
-
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				SKDProcessorManager.SendControlCommand(device, 2);
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
 		}
 
-		public void SKDSetRegimeConversation(Guid deviceUID)
+		public OperationResult<bool> SKDSetRegimeControl(Guid deviceUID)
 		{
-
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				SKDProcessorManager.SendControlCommand(device, 3);
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
 		}
 
-		public void SKDOpenDevice(Guid deviceUID)
+		public OperationResult<bool> SKDSetRegimeConversation(Guid deviceUID)
 		{
-
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				SKDProcessorManager.SendControlCommand(device, 4);
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
 		}
 
-		public void SKDCloseDevice(Guid deviceUID)
+		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
 		{
-
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				SKDProcessorManager.SendControlCommand(device, 5);
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
 		}
 
-		public void SKDAllowReader(Guid deviceUID)
+		public OperationResult<bool> SKDCloseDevice(Guid deviceUID)
 		{
-
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				SKDProcessorManager.SendControlCommand(device, 6);
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
 		}
 
-		public void SKDDenyReader(Guid deviceUID)
+		public OperationResult<bool> SKDAllowReader(Guid deviceUID)
 		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				SKDProcessorManager.SendControlCommand(device, 7);
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
+		}
 
+		public OperationResult<bool> SKDDenyReader(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				SKDProcessorManager.SendControlCommand(device, 8);
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
 		}
 		#endregion
 	}

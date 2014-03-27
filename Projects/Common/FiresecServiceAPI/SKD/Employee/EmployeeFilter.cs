@@ -7,6 +7,15 @@ namespace FiresecAPI
 	[DataContract]
 	public class EmployeeFilter : OrganizationFilterBase
 	{
+		public EmployeeFilter()
+			: base()
+		{
+			PositionUIDs = new List<Guid>();
+			DepartmentUIDs = new List<Guid>();
+			Appointed = new DateTimePeriod();
+			Dismissed = new DateTimePeriod();
+		}
+
 		[DataMember]
 		public List<Guid> PositionUIDs { get; set; }
 
@@ -21,14 +30,5 @@ namespace FiresecAPI
 
 		[DataMember]
 		public DateTimePeriod Dismissed { get; set; }
-
-		public EmployeeFilter()
-			: base()
-		{
-			PositionUIDs = new List<Guid>();
-			DepartmentUIDs = new List<Guid>();
-			Appointed = new DateTimePeriod();
-			Dismissed = new DateTimePeriod();
-		}
 	}
 }

@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="GKModule.Views.DelayDetailsView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+	xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+	xmlns:controls="clr-namespace:Controls;assembly=Controls"
+	MinWidth="600" MinHeight="450">
+
+	<TabControl>
+		<TabItem Header="Основные">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Номер" Margin="2" HorizontalAlignment="Right" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+                <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
+				<Label Grid.Row="3" Grid.Column="0" Content="Задержка, с" HorizontalAlignment="Right" />
+				<Label Grid.Row="4" Grid.Column="0" Content="Удержание, с" HorizontalAlignment="Right" />
+                <Label Grid.Row="5" Grid.Column="0" Content="Режим по окончанию удержания" HorizontalAlignment="Right" />
+
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" ContextMenu="{x:Null}" x:Name="nameTextBox" Margin="2">
+					<controls:XAutoCompleteBox.TextBoxStyle>
+						<Style TargetType="TextBox">
+							<Setter Property="MaxLength" Value="20" />
+							<Setter Property="ContextMenu" Value="{x:Null}" />
+						</Style>
+					</controls:XAutoCompleteBox.TextBoxStyle>
+				</controls:XAutoCompleteBox>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding DelayTime}" Minimum="0" Maximum="65535" HorizontalAlignment="Left" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Hold}" Minimum="0" Maximum="65535" HorizontalAlignment="Left" Margin="2" />
+                <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding DelayRegimes}" SelectedItem="{Binding DelayRegime}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource DelayRegimeToStringConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+		</TabItem>
+	</TabControl>
+</UserControl>

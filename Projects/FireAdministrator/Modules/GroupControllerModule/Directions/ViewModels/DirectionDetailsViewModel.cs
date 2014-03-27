@@ -74,6 +74,17 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		string _description;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				_description = value;
+				OnPropertyChanged("Description");
+			}
+		}
+
 		ushort _no;
 		public ushort No
 		{
@@ -117,17 +128,6 @@ namespace GKModule.ViewModels
 			{
 				_delayRegime = value;
 				OnPropertyChanged("DelayRegime");
-			}
-		}
-
-		string _description;
-		public string Description
-		{
-			get { return _description; }
-			set
-			{
-				_description = value;
-				OnPropertyChanged("Description");
 			}
 		}
 

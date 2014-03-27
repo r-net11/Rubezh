@@ -80,7 +80,7 @@ namespace GKProcessor
 				}
 				else
 				{
-					Logger.Error("JournalWatcherManager.Send watcher = null " + gkParentDevice.BaseUID.ToString());
+					Logger.Error("WatcherManager.Send watcher = null " + gkParentDevice.BaseUID.ToString());
 				}
 			}
 			else
