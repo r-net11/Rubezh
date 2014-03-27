@@ -15,14 +15,18 @@ namespace XFiresecAPI
 			InputDevices = new List<XDevice>();
 			InputZones = new List<XZone>();
 			InputDirections = new List<XDirection>();
+			InputMPTs = new List<XMPT>();
+			InputDelays = new List<XDelay>();
 		}
 
 		public List<XDevice> InputDevices { get; set; }
 		public List<XZone> InputZones { get; set; }
 		public List<XDirection> InputDirections { get; set; }
+		public List<XMPT> InputMPTs { get; set; }
+		public List<XDelay> InputDelays { get; set; }
 
 		[DataMember]
-		public int No { get; set; }
+		public ushort No { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

@@ -11,14 +11,7 @@ namespace XFiresecAPI
 		{
 			Clauses = new List<XClause>();
 			OffClauses = new List<XClause>();
-			DependentZones = new List<XZone>();
-			DependentDevices = new List<XDevice>();
-			DependentDirections = new List<XDirection>();
 		}
-
-		public List<XZone> DependentZones { get; set; }
-		public List<XDevice> DependentDevices { get; set; }
-		public List<XDirection> DependentDirections { get; set; }
 
 		[DataMember]
 		public List<XClause> Clauses { get; set; }

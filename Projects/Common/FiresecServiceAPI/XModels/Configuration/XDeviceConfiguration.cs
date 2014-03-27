@@ -126,8 +126,13 @@ namespace XFiresecAPI
 				result = false;
 			}
 
+			foreach (var delay in Delays)
+			{
+				result &= ValidateDeviceLogic(delay.DeviceLogic);
+			}
 			foreach (var mpt in MPTs)
 			{
+				result &= ValidateDeviceLogic(mpt.StartLogic);
 				foreach (var mptDevice in mpt.MPTDevices)
 				{
 				}
@@ -135,6 +140,7 @@ namespace XFiresecAPI
 			foreach (var device in Devices)
 			{
 				device.BaseUID = device.UID;
+				result &= ValidateDeviceLogic(device.DeviceLogic);
 			}
 			foreach (var zone in Zones)
 			{
@@ -147,6 +153,9 @@ namespace XFiresecAPI
 			foreach (var pumpStation in PumpStations)
 			{
 				pumpStation.BaseUID = pumpStation.UID;
+				result &= ValidateDeviceLogic(pumpStation.StartLogic);
+				result &= ValidateDeviceLogic(pumpStation.StartLogic);
+				result &= ValidateDeviceLogic(pumpStation.AutomaticOffLogic);
 			}
 			foreach (var parameterTemplate in ParameterTemplates)
 			{
@@ -160,6 +169,25 @@ namespace XFiresecAPI
 			{
 			}
 
+			return result;
+		}
+
+		bool ValidateDeviceLogic(XDeviceLogic deviceLogic)
+		{
+			var result = true;
+			foreach (var clause in deviceLogic.Clauses)
+			{
+				if (clause.MPTUIDs == null)
+				{
+					clause.MPTUIDs = new List<Guid>();
+					result = false;
+				}
+				if (clause.DelayUIDs == null)
+				{
+					clause.DelayUIDs = new List<Guid>();
+					result = false;
+				}
+			}
 			return result;
 		}
 	}

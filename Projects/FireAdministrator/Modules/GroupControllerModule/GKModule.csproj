@@ -281,7 +281,6 @@
     <Compile Include="Converters\ClauseOperationConverter.cs" />
     <Compile Include="Converters\XStateTypeToStringConverter.cs" />
     <Compile Include="Selectation\ViewModels\DevicesSelectationViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Logic\StateLogicViewModel.cs" />
     <Compile Include="Selectation\ViewModels\ZonesSelectationViewModel.cs" />
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>

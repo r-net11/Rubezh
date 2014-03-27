@@ -21,7 +21,7 @@ namespace GKModule.Converters
 				if (direction != null)
 					directions.Add(direction);
 			}
-			return XManager.GetCommaSeparatedDirections(directions); 
+			return XManager.GetCommaSeparatedObjects(new List<INamedBase>(directions));
 		}
 
 		public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)

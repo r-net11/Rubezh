@@ -18,16 +18,24 @@ namespace Controls.Converters
 						case ClauseOperationType.AnyDevice:
 							return "/Controls;component/GKIcons/RSR2_RM_1.png";
 
+						case ClauseOperationType.AllZones:
+						case ClauseOperationType.AnyZone:
+							return "/Controls;component/Images/Zone.png";
+
 						case ClauseOperationType.AllDirections:
 						case ClauseOperationType.AnyDirection:
 							return "/Controls;component/Images/Blue_Direction.png";
 
-						case ClauseOperationType.AllZones:
-						case ClauseOperationType.AnyZone:
-							return "/Controls;component/Images/zone.png";
+						case ClauseOperationType.AllMPTs:
+						case ClauseOperationType.AnyMPT:
+							return "/Controls;component/Images/BMPT.png";
+
+						case ClauseOperationType.AllDelays:
+						case ClauseOperationType.AnyDelay:
+							return "/Controls;component/Images/Delay.png";
 
 						default:
-							return "/Controls;component/Images/zone.png";
+							return "/Controls;component/Images/Zone.png";
 					}
 				}
 			}

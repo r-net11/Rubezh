@@ -36,8 +36,8 @@ namespace GKModule.ViewModels
 			Devices = clause.Devices.ToList();
 			Zones = clause.Zones.ToList();
 			Directions = clause.Directions.ToList();
-			MPTs = new List<XMPT>();
-			Delays = new List<XDelay>();
+			MPTs = clause.MPTs.ToList();
+			Delays = clause.Delays.ToList();
 
 			SelectedClauseConditionType = clause.ClauseConditionType;
 			SelectedStateType = clause.StateType;
@@ -70,8 +70,6 @@ namespace GKModule.ViewModels
 				{
 					case ClauseOperationType.AllDevices:
 					case ClauseOperationType.AnyDevice:
-						Zones = new List<XZone>();
-						Directions = new List<XDirection>();
 						StateTypes = new ObservableCollection<XStateBit>();
 						StateTypes.Add(XStateBit.Norm);
 						StateTypes.Add(XStateBit.Fire2);
@@ -85,8 +83,6 @@ namespace GKModule.ViewModels
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
-						Devices = new List<XDevice>();
-						Directions = new List<XDirection>();
 						StateTypes = new ObservableCollection<XStateBit>();
 						StateTypes.Add(XStateBit.Fire2);
 						if (Device.DriverType != XDriverType.MPT)
@@ -98,34 +94,34 @@ namespace GKModule.ViewModels
 
 					case ClauseOperationType.AllDirections:
 					case ClauseOperationType.AnyDirection:
-						Zones = new List<XZone>();
-						Devices = new List<XDevice>();
-						StateTypes = new ObservableCollection<XStateBit>();
-						StateTypes.Add(XStateBit.On);
+						StateTypes = new ObservableCollection<XStateBit>()
+						{
+							XStateBit.On
+						};
 						break;
 
 					case ClauseOperationType.AllMPTs:
 					case ClauseOperationType.AnyMPT:
-						Zones = new List<XZone>();
-						Devices = new List<XDevice>();
-						StateTypes = new ObservableCollection<XStateBit>();
-						StateTypes.Add(XStateBit.On);
-						StateTypes.Add(XStateBit.Off);
-						StateTypes.Add(XStateBit.TurningOn);
-						StateTypes.Add(XStateBit.TurningOff);
-						StateTypes.Add(XStateBit.Norm);
+						StateTypes = new ObservableCollection<XStateBit>()
+						{
+							XStateBit.On,
+							XStateBit.Off,
+							XStateBit.TurningOn,
+							XStateBit.TurningOff,
+							XStateBit.Norm
+						};
 						break;
 
 					case ClauseOperationType.AllDelays:
 					case ClauseOperationType.AnyDelay:
-						Zones = new List<XZone>();
-						Devices = new List<XDevice>();
-						StateTypes = new ObservableCollection<XStateBit>();
-						StateTypes.Add(XStateBit.On);
-						StateTypes.Add(XStateBit.Off);
-						StateTypes.Add(XStateBit.TurningOn);
-						StateTypes.Add(XStateBit.TurningOff);
-						StateTypes.Add(XStateBit.Norm);
+						StateTypes = new ObservableCollection<XStateBit>()
+						{
+							XStateBit.On,
+							XStateBit.Off,
+							XStateBit.TurningOn,
+							XStateBit.TurningOff,
+							XStateBit.Norm
+						};
 						break;
 				}
 				if (StateTypes.Contains(oldSelectedStateType))
@@ -192,12 +188,12 @@ namespace GKModule.ViewModels
 
 		public string PresenrationZones
 		{
-			get { return XManager.GetCommaSeparatedZones(Zones); }
+			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(Zones)); }
 		}
 
 		public string PresenrationDirections
 		{
-			get { return XManager.GetCommaSeparatedDirections(Directions); }
+			get { return XManager.GetCommaSeparatedObjects(new List<INamedBase>(Directions)); }
 		}
 
 		public string PresenrationMPTs
@@ -243,11 +239,7 @@ namespace GKModule.ViewModels
 			{
 				if (device.IsNotUsed)
 					continue;
-				if (Device.DriverType == XDriverType.GKRele)
-				{
-
-				}
-				else
+				if (Device.DriverType != XDriverType.GKRele)
 				{
 					if (!device.Driver.IsDeviceOnShleif && Device.Driver.IsDeviceOnShleif)
 						continue;

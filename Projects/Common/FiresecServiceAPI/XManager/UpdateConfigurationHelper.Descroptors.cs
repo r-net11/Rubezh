@@ -11,7 +11,6 @@ namespace FiresecClient
 			DeviceConfiguration = deviceConfiguration;
 			PrepareZones();
 			PrepareInputOutputDependences();
-			PrepareDeviceLogicDependences();
 			PrepareDirections();
 			PreparePumpStations();
 			PrepareMPTs();
@@ -119,38 +118,16 @@ namespace FiresecClient
 			{
 				foreach (var clause in clauses)
 				{
-					foreach (var zone in clause.Zones)
-						LinkXBases(xBase, zone);
 					foreach (var clauseDevice in clause.Devices)
 						LinkXBases(xBase, clauseDevice);
+					foreach (var zone in clause.Zones)
+						LinkXBases(xBase, zone);
 					foreach (var direction in clause.Directions)
 						LinkXBases(xBase, direction);
-				}
-			}
-		}
-
-		static void PrepareDeviceLogicDependences()
-		{
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				device.DeviceLogic.DependentZones = new List<XZone>();
-				device.DeviceLogic.DependentDevices = new List<XDevice>();
-				device.DeviceLogic.DependentDirections = new List<XDirection>();
-
-				foreach (var clause in device.DeviceLogic.Clauses)
-				{
-					foreach (var clauseZone in clause.Zones)
-					{
-						device.DeviceLogic.DependentZones.Add(clauseZone);
-					}
-					foreach (var clauseDevice in clause.Devices)
-					{
-						device.DeviceLogic.DependentDevices.Add(clauseDevice);
-					}
-					foreach (var direction in clause.Directions)
-					{
-						device.DeviceLogic.DependentDirections.Add(direction);
-					}
+					foreach (var mpt in clause.MPTs)
+						LinkXBases(xBase, mpt);
+					foreach (var delay in clause.Delays)
+						LinkXBases(xBase, delay);
 				}
 			}
 		}

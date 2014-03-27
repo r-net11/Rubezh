@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDirection : XBase
+	public class XDirection : XBase, INamedBase
 	{
 		public XDirection()
 		{
@@ -13,16 +13,23 @@ namespace XFiresecAPI
 			DirectionZones = new List<XDirectionZone>();
 			DirectionDevices = new List<XDirectionDevice>();
 			DelayRegime = DelayRegime.Off;
-			InputZones = new List<XZone>();
+
 			InputDevices = new List<XDevice>();
+			InputZones = new List<XZone>();
+			InputDirections = new List<XDirection>();
+			InputMPTs = new List<XMPT>();
+			InputDelays = new List<XDelay>();
 			OutputDevices = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
 		}
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Direction; } }
 
-		public List<XZone> InputZones { get; set; }
 		public List<XDevice> InputDevices { get; set; }
+		public List<XZone> InputZones { get; set; }
+		public List<XDirection> InputDirections { get; set; }
+		public List<XMPT> InputMPTs { get; set; }
+		public List<XDelay> InputDelays { get; set; }
 		public List<XDevice> OutputDevices { get; set; }
 
 		[DataMember]

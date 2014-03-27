@@ -55,8 +55,8 @@ namespace GKModule.ViewModels
 			DelayRegime = Delay.DelayRegime;
 		}
 
-		int _no;
-		public int No
+		ushort _no;
+		public ushort No
 		{
 			get { return _no; }
 			set

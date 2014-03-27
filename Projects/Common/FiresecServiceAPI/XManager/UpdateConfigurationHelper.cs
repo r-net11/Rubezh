@@ -166,7 +166,7 @@ namespace FiresecClient
 			{
 				InvalidateOneClause(deviceConfiguration, device, clause);
 
-				if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
+				if (clause.HasObjects())
 					clauses.Add(clause);
 			}
 			deviceLogic.Clauses = clauses;
@@ -178,7 +178,7 @@ namespace FiresecClient
 				{
 					InvalidateOneClause(deviceConfiguration, device, clause);
 
-					if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
+					if (clause.HasObjects())
 						offClauses.Add(clause);
 				}
 				deviceLogic.OffClauses = offClauses;
@@ -190,19 +190,8 @@ namespace FiresecClient
 			clause.Devices = new List<XDevice>();
 			clause.Zones = new List<XZone>();
 			clause.Directions = new List<XDirection>();
-
-			var zoneUIDs = new List<Guid>();
-			foreach (var zoneUID in clause.ZoneUIDs)
-			{
-				var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
-				if (zone != null)
-				{
-					zoneUIDs.Add(zoneUID);
-					clause.Zones.Add(zone);
-					zone.DevicesInLogic.Add(device);
-				}
-			}
-			clause.ZoneUIDs = zoneUIDs;
+			clause.MPTs = new List<XMPT>();
+			clause.Delays = new List<XDelay>();
 
 			var deviceUIDs = new List<Guid>();
 			foreach (var deviceUID in clause.DeviceUIDs)
@@ -217,6 +206,19 @@ namespace FiresecClient
 			}
 			clause.DeviceUIDs = deviceUIDs;
 
+			var zoneUIDs = new List<Guid>();
+			foreach (var zoneUID in clause.ZoneUIDs)
+			{
+				var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
+				if (zone != null)
+				{
+					zoneUIDs.Add(zoneUID);
+					clause.Zones.Add(zone);
+					zone.DevicesInLogic.Add(device);
+				}
+			}
+			clause.ZoneUIDs = zoneUIDs;
+
 			var directionUIDs = new List<Guid>();
 			foreach (var directionUID in clause.DirectionUIDs)
 			{
@@ -230,6 +232,30 @@ namespace FiresecClient
 				}
 			}
 			clause.DirectionUIDs = directionUIDs;
+
+			var mptUIDs = new List<Guid>();
+			foreach (var mptUID in clause.MPTUIDs)
+			{
+				var mpt = deviceConfiguration.MPTs.FirstOrDefault(x => x.BaseUID == mptUID);
+				if (mpt != null)
+				{
+					mptUIDs.Add(mptUID);
+					clause.MPTs.Add(mpt);
+				}
+			}
+			clause.MPTUIDs = mptUIDs;
+
+			var delayUIDs = new List<Guid>();
+			foreach (var delaytUID in clause.DelayUIDs)
+			{
+				var delay = deviceConfiguration.Delays.FirstOrDefault(x => x.BaseUID == delaytUID);
+				if (delay != null)
+				{
+					delayUIDs.Add(delaytUID);
+					clause.Delays.Add(delay);
+				}
+			}
+			clause.DelayUIDs = delayUIDs;
 		}
 
 		static void InitializeDirections()
@@ -333,6 +359,8 @@ namespace FiresecClient
 				clause.Devices = new List<XDevice>();
 				clause.Zones = new List<XZone>();
 				clause.Directions = new List<XDirection>();
+				clause.MPTs = new List<XMPT>();
+				clause.Delays = new List<XDelay>();
 
 				var deviceUIDs = new List<Guid>();
 				foreach (var deviceUID in clause.DeviceUIDs)
@@ -376,7 +404,35 @@ namespace FiresecClient
 				}
 				clause.DirectionUIDs = directionUIDs;
 
-				if (clause.Zones.Count > 0 || clause.Devices.Count > 0 || clause.Directions.Count > 0)
+				var mptUIDs = new List<Guid>();
+				foreach (var mptUID in clause.MPTUIDs)
+				{
+					var mpt = DeviceConfiguration.MPTs.FirstOrDefault(x => x.BaseUID == mptUID);
+					if (mpt != null)
+					{
+						mptUIDs.Add(mptUID);
+						clause.MPTs.Add(mpt);
+						if (!inputObjectsBase.InputMPTs.Contains(mpt))
+							inputObjectsBase.InputMPTs.Add(mpt);
+					}
+				}
+				clause.MPTUIDs = mptUIDs;
+
+				var delayUIDs = new List<Guid>();
+				foreach (var delayUID in clause.DelayUIDs)
+				{
+					var delay = DeviceConfiguration.Delays.FirstOrDefault(x => x.BaseUID == delayUID);
+					if (delay != null)
+					{
+						delayUIDs.Add(delayUID);
+						clause.Delays.Add(delay);
+						if (!inputObjectsBase.InputDelays.Contains(delay))
+							inputObjectsBase.InputDelays.Add(delay);
+					}
+				}
+				clause.DelayUIDs = delayUIDs;
+
+				if (clause.HasObjects())
 					clauses.Add(clause);
 			}
 			deviceLogic.Clauses = clauses;

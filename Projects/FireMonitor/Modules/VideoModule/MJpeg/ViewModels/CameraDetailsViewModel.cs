@@ -57,7 +57,7 @@ namespace VideoModule.ViewModels
 					if (zone != null)
 						zones.Add(zone);
 				}
-				var presentationZones = XManager.GetCommaSeparatedZones(zones);
+				var presentationZones = XManager.GetCommaSeparatedObjects(new List<INamedBase>(zones));
 				return presentationZones;
 			}
 		}

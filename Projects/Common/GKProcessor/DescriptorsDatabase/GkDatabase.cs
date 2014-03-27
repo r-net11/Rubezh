@@ -167,7 +167,11 @@ namespace GKProcessor
 				}
 			}
 
-			Descriptors.ForEach(x => x.InitializeAllBytes());
+			foreach (var descriptor in Descriptors)
+			{
+				descriptor.Build();
+				descriptor.InitializeAllBytes();
+			}
 		}
 
 		void AddKauObjects()

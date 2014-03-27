@@ -76,17 +76,25 @@ namespace GKProcessor
 			foreach (var clause in clauses)
 			{
 				var xBases = new List<XBase>();
-				foreach (var zone in clause.Zones)
-				{
-					xBases.Add(zone);
-				}
 				foreach (var device in clause.Devices)
 				{
 					xBases.Add(device);
 				}
+				foreach (var zone in clause.Zones)
+				{
+					xBases.Add(zone);
+				}
 				foreach (var direction in clause.Directions)
 				{
 					xBases.Add(direction);
+				}
+				foreach (var mpt in clause.MPTs)
+				{
+					xBases.Add(mpt);
+				}
+				foreach (var delay in clause.Delays)
+				{
+					xBases.Add(delay);
 				}
 
 				var objectIndex = 0;
@@ -101,12 +109,16 @@ namespace GKProcessor
 							case ClauseOperationType.AllDevices:
 							case ClauseOperationType.AllZones:
 							case ClauseOperationType.AllDirections:
+							case ClauseOperationType.AllMPTs:
+							case ClauseOperationType.AllDelays:
 								Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 								break;
 
 							case ClauseOperationType.AnyDevice:
 							case ClauseOperationType.AnyZone:
 							case ClauseOperationType.AnyDirection:
+							case ClauseOperationType.AnyMPT:
+							case ClauseOperationType.AnyDelay:
 								Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 								break;
 						}

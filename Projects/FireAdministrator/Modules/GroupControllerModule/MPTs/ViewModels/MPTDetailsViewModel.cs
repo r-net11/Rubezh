@@ -38,8 +38,8 @@ namespace GKModule.ViewModels
 			Description = MPT.Description;
 		}
 
-		int _no;
-		public int No
+		ushort _no;
+		public ushort No
 		{
 			get { return _no; }
 			set

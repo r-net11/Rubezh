@@ -80,31 +80,7 @@
                                 <TextBlock Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="White" Margin="2" />
                                 <TextBox Grid.Column="1" Text="{Binding Description}" Margin="2" />
                             </Grid>
-
                             <Views:MPTDevicePropertiesView DataContext="{Binding MPTDevicePropertiesViewModel}" MinHeight="10" />
-                            
-                            <!--<StackPanel Visibility="{Binding HasDelayAndHold, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Задержка" Width="200" Foreground="White" Margin="2" />
-                                    <TextBox Text="{Binding Delay}" Width="200" Margin="2" />
-                                </StackPanel>
-
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Удержание" Width="200" Foreground="White" Margin="2" />
-                                    <TextBox Text="{Binding Hold}" Width="200" Margin="2" />
-                                </StackPanel>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Visibility="{Binding HasCurcuitControl, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="Контроль цепи" Width="200" Foreground="White" Margin="2" />
-
-                                <ComboBox Grid.Column="1" ItemsSource="{Binding CurcuitControlParameters}" SelectedItem="{Binding SelectedCurcuitControlParameter, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding SelectedCurcuitControlParameter.Name}" VerticalAlignment="Center" Margin="2">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-                            </StackPanel>-->
                         </StackPanel>
                         <Controls:ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" ImageSource="/Controls;component/Images/Settings.png" VerticalAlignment="Top" />
                     </Grid>
@@ -137,7 +113,7 @@
 
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Задержка" Width="200" Margin="2" />
-						<TextBox Text="{Binding Delay}" Width="200" Background="LightGray" Margin="2" />
+						<TextBox Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Width="200" Background="LightGray" Margin="2" />
 					</StackPanel>
 					<CheckBox IsChecked="{Binding UseDoorAutomatic}" Content="Отключать автоматику при срабатывании датчика двери-окна" Margin="2" />
 					<CheckBox IsChecked="{Binding UseDoorStop}" Content="Останавливать при срабатывании датчика двери-окна" Margin="2" />

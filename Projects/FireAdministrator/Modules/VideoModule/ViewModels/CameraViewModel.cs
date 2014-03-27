@@ -75,7 +75,7 @@ namespace VideoModule.ViewModels
 			get
 			{
 				var zones = Camera.ZoneUIDs.Select(zoneUID => XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID)).Where(zone => zone != null).ToList();
-				var presentationZones = XManager.GetCommaSeparatedZones(zones);
+				var presentationZones = XManager.GetCommaSeparatedObjects(new List<INamedBase>(zones));
 				return presentationZones;
 			}
 		}
