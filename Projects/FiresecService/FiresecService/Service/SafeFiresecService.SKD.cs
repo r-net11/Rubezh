@@ -12,6 +12,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Employee>>>(() => FiresecService.GetEmployees(filter));
 		}
+		public OperationResult<EmployeeDetails> GetEmployeeDetails(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<EmployeeDetails>>(() => FiresecService.GetEmployeeDetails(uid));
+		}
 		public OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Position>>>(() => FiresecService.GetPositions(filter));

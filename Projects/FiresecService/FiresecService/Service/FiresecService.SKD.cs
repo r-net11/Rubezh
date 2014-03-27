@@ -13,6 +13,10 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.EmployeeTranslator.Get(filter);
 		}
+		public OperationResult<EmployeeDetails> GetEmployeeDetails(Guid uid)
+		{
+			return SKDDatabaseService.EmployeeTranslator.GetDetails(uid);
+		}
 		public OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter)
 		{
 			return SKDDatabaseService.DepartmentTranslator.Get(filter);

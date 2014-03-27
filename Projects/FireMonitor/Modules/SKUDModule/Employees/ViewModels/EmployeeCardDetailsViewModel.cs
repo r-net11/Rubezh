@@ -26,8 +26,8 @@ namespace SKDModule.ViewModels
 				{
 					Series = 0,
 					Number = 0,
-					ValidFrom = DateTime.Now,
-					ValidTo = DateTime.Now.AddYears(1)
+					StartDate = DateTime.Now,
+					EndDate = DateTime.Now.AddYears(1)
 				};
 			}
 			else
@@ -37,8 +37,8 @@ namespace SKDModule.ViewModels
 			Card = card;
 			Series = Card.Series;
 			Number = Card.Number;
-			StartDate = Card.ValidFrom;
-			EndDate = Card.ValidTo;
+			StartDate = Card.StartDate;
+			EndDate = Card.EndDate;
 
 			AccessZones = new AccessZonesSelectationViewModel(Organization, Card.CardZones, Card.UID);
 
@@ -176,8 +176,8 @@ namespace SKDModule.ViewModels
 			}
 			Card.Series = Series;
 			Card.Number = Number;
-			Card.ValidFrom = StartDate;
-			Card.ValidTo = EndDate;
+			Card.StartDate = StartDate;
+			Card.EndDate = EndDate;
 			Card.CardZones = AccessZones.GetCardZones();
 
 			if (SelectedAccessTemplate != null)

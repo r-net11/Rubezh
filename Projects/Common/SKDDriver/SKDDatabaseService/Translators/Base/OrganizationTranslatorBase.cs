@@ -18,25 +18,37 @@ namespace SKDDriver
 
 		protected override ApiT Translate(TableT tableItem)
 		{
-			var result = base.Translate(tableItem);
-			result.OrganizationUID = tableItem.OrganizationUID;
-			return result;
+			return TranslateOrganizationElement<ApiT, TableT>(tableItem);
 		}
 
 		protected override void TranslateBack(TableT tableItem, ApiT apiItem)
 		{
-			base.TranslateBack(tableItem, apiItem);
-			tableItem.OrganizationUID = apiItem.OrganizationUID;
+			TranslateBackOrganizationElement<ApiT, TableT>(apiItem, tableItem);
 		}
 
 		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
 			var result = PredicateBuilder.True<TableT>();
 			result = result.And(base.IsInFilter(filter));
-			var organizationUIDs = filter.OrganizationUIDs;
-			if (organizationUIDs != null && organizationUIDs.Count != 0)
-				result = result.And(e => e.OrganizationUID != null && organizationUIDs.Contains(e.OrganizationUID.Value));
+			result = result.And(e => e.OrganizationUID != null && filter.OrganizationUIDs.Contains(e.OrganizationUID.Value));
 			return result;
+		}
+
+		protected static ApiType TranslateOrganizationElement<ApiType, TableType>(TableType tableItem)
+			where ApiType : OrganizationElementBase, new()
+			where TableType : DataAccess.IOrganizationDatabaseElement
+		{
+			var result = TranslateIsDeleted<ApiType, TableType>(tableItem);
+			result.OrganizationUID = tableItem.OrganizationUID;
+			return result;
+		}
+
+		protected static void TranslateBackOrganizationElement<ApiType, TableType>(ApiType apiItem, TableType tableItem)
+			where ApiType : OrganizationElementBase, new()
+			where TableType : DataAccess.IOrganizationDatabaseElement
+		{
+			TranslateBackIsDeleted<ApiType, TableType>(apiItem, tableItem);
+			tableItem.OrganizationUID = apiItem.OrganizationUID;
 		}
 	}
 }

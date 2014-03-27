@@ -151,7 +151,7 @@ namespace SKDModule.ViewModels
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employee = employeeDetailsViewModel.Employee;
+				var employee = employeeDetailsViewModel.EmployeeDetails.GetEmployee();
 				var saveResult = EmployeeHelper.Save(employee);
 				if (!saveResult)
 					return;
@@ -186,11 +186,10 @@ namespace SKDModule.ViewModels
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.Employee);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employee = employeeDetailsViewModel.Employee;
+				var employee = employeeDetailsViewModel.EmployeeDetails.GetEmployee();
 				var saveResult = EmployeeHelper.Save(employee);
 				if (!saveResult)
 					return;
-
 				SelectedEmployee.Update(employee);
 			}
 		}
@@ -230,7 +229,6 @@ namespace SKDModule.ViewModels
 		public void InitializeAdditionalColumns()
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
-
 			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
 			if (Organization != null)
 				additionalColumnTypeFilter.OrganizationUIDs.Add(Organization.UID);

@@ -9,13 +9,29 @@ namespace SKDDriver
 {
 	public class EmployeeTranslator : OrganizationElementTranslator<DataAccess.Employee, Employee, EmployeeFilter>
 	{
-		public EmployeeTranslator(DataAccess.SKDDataContext context, EmployeeReplacementTranslator replacementTranslator)
+		public EmployeeTranslator(DataAccess.SKDDataContext context,
+			EmployeeReplacementTranslator replacementTranslator, 
+			PositionTranslator positionTranslator, 
+			DepartmentTranslator departmentTranslator, 
+			AdditionalColumnTranslator additionalColumnTranslator, 
+			CardTranslator cardTranslator, 
+			PhotoTranslator photoTranslator)
 			: base(context)
 		{
-			ReplacementTranslator = replacementTranslator;
+			EmployeeReplacementTranslator = replacementTranslator;
+			PositionTranslator = positionTranslator;
+			DepartmentTranslator = departmentTranslator;
+			AdditionalColumnTranslator = additionalColumnTranslator;
+			CardTranslator = cardTranslator;
+			PhotoTranslator = photoTranslator;
 		}
 
-		EmployeeReplacementTranslator ReplacementTranslator;
+		PositionTranslator PositionTranslator;
+		EmployeeReplacementTranslator EmployeeReplacementTranslator;
+		DepartmentTranslator DepartmentTranslator;
+		AdditionalColumnTranslator AdditionalColumnTranslator;
+		CardTranslator CardTranslator;
+		PhotoTranslator PhotoTranslator;
 
 		protected override OperationResult CanSave(Employee item)
 		{
@@ -66,13 +82,22 @@ namespace SKDDriver
 			result.Dismissed = tableItem.Dismissed;
 			result.PositionUID = tableItem.PositionUID;
 			result.ReplacementUIDs = replacementUIDs;
-			result.CurrentReplacement = ReplacementTranslator.GetCurrentReplacement(tableItem.UID);
+			result.CurrentReplacement = EmployeeReplacementTranslator.GetCurrentReplacement(tableItem.UID);
 			result.DepartmentUID = tableItem.DepartmentUID;
 			result.ScheduleUID = tableItem.ScheduleUID;
 			result.AdditionalColumnUIDs = additionalColumnUIDs;
+			//result.AdditionalTextColumns = AdditionalColumnTranslator.Get()
 			result.Type = (FiresecAPI.PersonType)tableItem.Type;
 			result.CardUIDs = cardUIDs;
 			result.PhotoUID = tableItem.PhotoUID;
+			return result;
+		}
+
+		public override OperationResult<IEnumerable<Employee>> Get(EmployeeFilter filter)
+		{
+			var result = base.Get(filter);
+			if (!result.HasError)
+				AdditionalColumnTranslator.SetTextColumns(result);
 			return result;
 		}
 
@@ -89,6 +114,39 @@ namespace SKDDriver
 			tableItem.ScheduleUID = apiItem.ScheduleUID;
 			tableItem.PhotoUID = apiItem.PhotoUID;
 			tableItem.Type = (int)apiItem.Type;
+		}
+
+		public OperationResult<EmployeeDetails> GetDetails(Guid uid)
+		{
+			var result = new OperationResult<EmployeeDetails>();
+			try
+			{
+				var tableItem = Table.Where(x => x.UID == uid).FirstOrDefault();
+				if (tableItem == null)
+					return new OperationResult<EmployeeDetails>("Запись не найдена в таблице");
+				var apiItem = TranslateOrganizationElement<EmployeeDetails, DataAccess.Employee>(tableItem);
+				apiItem.FirstName = tableItem.FirstName;
+				apiItem.SecondName = tableItem.SecondName;
+				apiItem.LastName = tableItem.LastName;
+				apiItem.Appointed = tableItem.Appointed;
+				apiItem.Dismissed = tableItem.Dismissed;
+				apiItem.Position = PositionTranslator.GetSingle(tableItem.PositionUID);
+				apiItem.Replacements = EmployeeReplacementTranslator.GetByEmployee<DataAccess.EmployeeReplacement>(uid);
+				apiItem.CurrentReplacement = EmployeeReplacementTranslator.GetCurrentReplacement(tableItem.UID);
+				apiItem.Department = DepartmentTranslator.GetSingle(tableItem.DepartmentUID);
+				//result.ScheduleUID = tableItem.ScheduleUID;
+				apiItem.AdditionalColumns = AdditionalColumnTranslator.GetByEmployee<DataAccess.AdditionalColumn>(uid);
+				apiItem.Type = (FiresecAPI.PersonType)tableItem.Type;
+				apiItem.Cards = CardTranslator.GetByEmployee<DataAccess.Card>(uid);
+				apiItem.Photo = PhotoTranslator.GetSingle(tableItem.PhotoUID);
+				
+				result.Result = apiItem;
+				return result;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<EmployeeDetails>(e.Message);
+			}
 		}
 
 		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(EmployeeFilter filter)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Common;
 using FiresecAPI;
 
@@ -10,6 +11,10 @@ namespace FiresecClient
 		public OperationResult<IEnumerable<Employee>> GetEmployees(EmployeeFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Employee>>>(() => FiresecService.GetEmployees(filter));
+		}
+		public OperationResult<EmployeeDetails> GetEmployeeDetails(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<EmployeeDetails>>(() => FiresecService.GetEmployeeDetails(uid));
 		}
 		public OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter)
 		{

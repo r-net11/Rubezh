@@ -11,6 +11,8 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<IEnumerable<Employee>> GetEmployees(EmployeeFilter filter);
 		[OperationContract]
+		OperationResult<EmployeeDetails> GetEmployeeDetails(Guid uid);
+		[OperationContract]
 		OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter);

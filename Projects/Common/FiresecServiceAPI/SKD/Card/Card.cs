@@ -22,10 +22,10 @@ namespace FiresecAPI
 		public Guid? HolderUID { get; set; }
 
 		[DataMember]
-		public DateTime ValidFrom { get; set; }
+		public DateTime StartDate { get; set; }
 
 		[DataMember]
-		public DateTime ValidTo { get; set; }
+		public DateTime EndDate { get; set; }
 
 		[DataMember]
 		public List<CardZone> CardZones { get; set; }

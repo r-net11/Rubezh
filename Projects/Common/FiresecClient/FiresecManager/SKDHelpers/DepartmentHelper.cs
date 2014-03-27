@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
 
 namespace FiresecClient.SKDHelpers
 {
@@ -34,13 +32,6 @@ namespace FiresecClient.SKDHelpers
 			var filter = new DepartmentFilter { Uids = new List<Guid> { uid.Value } };
 			var result = FiresecManager.FiresecService.GetDepartments(filter);
 			return Common.ShowErrorIfExists(result).FirstOrDefault();
-		}
-
-		public static void LinkToParent(Department child, Department parent)
-		{
-			child.ParentDepartmentUID = parent.UID;
-			child.OrganizationUID = parent.OrganizationUID;
-			parent.ChildDepartmentUIDs.Add(child.UID);
 		}
 	}
 }

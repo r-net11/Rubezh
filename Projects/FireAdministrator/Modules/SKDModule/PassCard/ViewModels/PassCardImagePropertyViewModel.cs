@@ -69,6 +69,7 @@ namespace SKDModule.PassCard.ViewModels
 			{
 				WithDeleted = DeletedType.Not,
 				Type = DataType.Graphics,
+				OrganizationUIDs = OrganizationHelper.Get(null).Select(x => x.UID).ToList()
 			};
 			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();

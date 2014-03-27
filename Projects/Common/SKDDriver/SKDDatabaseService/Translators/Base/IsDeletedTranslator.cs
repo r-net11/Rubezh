@@ -16,15 +16,11 @@ namespace SKDDriver
 
 		protected override ApiT Translate(TableT tableItem)
 		{
-			var result = base.Translate(tableItem);
-			result.IsDeleted = tableItem.IsDeleted;
-			result.RemovalDate = CheckDate(tableItem.RemovalDate);
-			return result;
+			return TranslateIsDeleted<ApiT, TableT>(tableItem);
 		}
 		protected override void TranslateBack(TableT tableItem, ApiT apiItem)
 		{
-			tableItem.IsDeleted = apiItem.IsDeleted;
-			tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
+			TranslateBackIsDeleted<ApiT, TableT>(apiItem, tableItem);
 		}
 		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
@@ -86,6 +82,24 @@ namespace SKDDriver
 				default:
 					return e => true;
 			}
+		}
+
+		protected static ApiType TranslateIsDeleted<ApiType, TableType>(TableType tableItem)
+			where ApiType: SKDIsDeletedModel, new()
+			where TableType : DataAccess.IIsDeletedDatabaseElement
+		{
+			var result = TranslateBase<ApiType, TableType>(tableItem);
+			result.IsDeleted = tableItem.IsDeleted;
+			result.RemovalDate = CheckDate(tableItem.RemovalDate);
+			return result;
+		}
+
+		protected static void TranslateBackIsDeleted<ApiType, TableType>(ApiType apiItem, TableType tableItem)
+			where ApiType: SKDIsDeletedModel, new()
+			where TableType : DataAccess.IIsDeletedDatabaseElement
+		{
+			tableItem.IsDeleted = apiItem.IsDeleted;
+			tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
 		}
 	}
 }

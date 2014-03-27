@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
+using Infrastructure.Common.Windows;
 using LinqKit;
 
 namespace SKDDriver
@@ -40,6 +42,29 @@ namespace SKDDriver
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.DataType = (int?)apiItem.DataType;
+		}
+
+		public AdditionalColumnType Get(Guid? uid)
+		{
+			try
+			{
+				if (uid == null)
+					throw new Exception("Тип колонки не найден в базе даных");
+				var result = Table.Where(x => x != null &&
+					!x.IsDeleted &&
+					x.UID == uid.Value).FirstOrDefault();
+				return Translate(result);
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.Show(e.Message);
+				return null;
+			}
+		}
+
+		public List<Guid> GetTextColumnTypes()
+		{
+			return Table.Where(x => x.DataType == (int?)DataType.Text).Select(x => x.UID).ToList();
 		}
 
 		protected override Expression<Func<DataAccess.AdditionalColumnType, bool>> IsInFilter(AdditionalColumnTypeFilter filter)

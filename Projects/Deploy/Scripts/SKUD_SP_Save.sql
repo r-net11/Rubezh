@@ -680,7 +680,7 @@ CREATE PROCEDURE SaveCard
 	@StopReason text = NULL
 AS
 BEGIN
-	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,AccessTemplateUID,ValidFrom,ValidTo,IsInStopList,StopReason)
+	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,AccessTemplateUID,StartDate,EndDate,IsInStopList,StopReason)
 	VALUES (@UID,@IsDeleted,@RemovalDate,@Series,@Number,@EmployeeUID,@AccessTemplateUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason)
 END
 

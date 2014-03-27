@@ -199,12 +199,14 @@
     <Compile Include="Models\Plans\ElementCamera.cs" />
     <Compile Include="Models\Video\CameraFrame.cs" />
     <Compile Include="SKD\Common\IsDeletedFilter.cs" />
+    <Compile Include="SKD\Common\SKDHelper.cs" />
     <Compile Include="SKD\Employee\AdditionalColumnFilter.cs" />
     <Compile Include="SKD\Employee\AdditionalColumnType.cs" />
     <Compile Include="SKD\Employee\AdditionalColumnTypeFilter.cs" />
     <Compile Include="SKD\Document\DocumentFilter.cs" />
     <Compile Include="Models\Video\IVSSContract.cs" />
     <Compile Include="SKD\Card\CardZone.cs" />
+    <Compile Include="SKD\Employee\EmployeeDetails.cs" />
     <Compile Include="SKD\Employee\EmployeeReplacementFilter.cs" />
     <Compile Include="SKD\Organization\OrganizationFilter.cs" />
     <Compile Include="SKD\Common\OrganizationFilterBase.cs" />

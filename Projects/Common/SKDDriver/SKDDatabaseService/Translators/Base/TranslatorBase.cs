@@ -24,10 +24,9 @@ namespace SKDDriver
 
 		protected virtual ApiT Translate(TableT tableItem)
 		{
-			var result = new ApiT();
-			result.UID = tableItem.UID;
-			return result;
+			return TranslateBase<ApiT, TableT>(tableItem);
 		}
+
 		protected abstract void TranslateBack(TableT tableItem, ApiT apiItem);
 		
 		protected virtual OperationResult CanSave(ApiT item)
@@ -114,6 +113,35 @@ namespace SKDDriver
 			if (dateTime > MaxYear)
 				return MaxYear;
 			return dateTime;
+		}
+
+		protected static ApiType TranslateBase<ApiType,TableType>(TableType tableItem)
+			where ApiType: SKDModelBase, new()
+			where TableType : DataAccess.IDatabaseElement
+		{
+			var result = new ApiType();
+			result.UID = tableItem.UID;
+			return result; 
+		}
+
+		public List<ApiT> GetByEmployee<T>(Guid uid)
+			where T : class, DataAccess.ILinkedToEmployee, TableT
+		{
+			var result = new List<ApiT>();
+			var table = Context.GetTable<T>();
+			foreach (var tableItem in table.Where(x => x.EmployeeUID.Equals(uid)))
+				result.Add(Translate(tableItem));
+			return result;
+		}
+
+		public ApiT GetSingle(Guid? uid)
+		{
+			if (uid == null)
+				return null;
+			var tableItem = Table.Where(x => x.UID.Equals(uid.Value)).FirstOrDefault();
+			if (tableItem == null)
+				return null;
+			return Translate(tableItem);
 		}
 	}
 }
