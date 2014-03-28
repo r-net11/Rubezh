@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Entities.DeviceOriented;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Video;
 using Infrastructure.Common.Video.RVI_VSS;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using VideoModule.Views;
 using XFiresecAPI;
@@ -32,22 +26,11 @@ namespace VideoModule.ViewModels
 	public class CameraViewModel : BaseViewModel
 	{
 		private CamerasViewModel _camerasViewModel;
-		private MjpegCamera MjpegCamera { get; set; }
+		private CellPlayerWrap _cellPlayerWrap;
 		public Camera Camera { get; set; }
 		public string Error { get; private set; }
 		public bool HasError { get; private set; }
 		public CameraFramesWatcher CameraFramesWatcher { get; private set; }
-
-		private bool _isNowPlaying;
-		public bool IsNowPlaying
-		{
-			get { return _isNowPlaying; }
-			private set
-			{
-				_isNowPlaying = value;
-				OnPropertyChanged("IsNowPlaying");
-			}
-		}
 
 		ObservableCollection<Channel> _channels;
 		public ObservableCollection<Channel> Channels
@@ -71,68 +54,27 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		bool _isConnected;
-		public bool IsConnected
-		{
-			get { return _isConnected; }
-			set
-			{
-				_isConnected = value;
-				OnPropertyChanged(() => IsConnected);
-			}
-		}
-
 		public CameraViewModel(Camera camera)
 		{
 			Camera = camera;
+			_cellPlayerWrap = new CellPlayerWrap();
 		}
 
 		public CameraViewModel(CamerasViewModel camerasViewModel, Camera camera)
 		{
 			_camerasViewModel = camerasViewModel;
+			_cellPlayerWrap = new CellPlayerWrap();
 			Camera = camera;
-			MjpegCamera = new MjpegCamera(camera);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand, CanAllowMultipleVizualizationCommand);
 		}
-
-		void GetError(string error)
-		{
-			Error = error;
-			ImageSource = new BitmapImage();
-		}
-
-		void BmpToImageSource(Bitmap bmp)
-		{
-			using (var memory = new MemoryStream())
-			{
-				bmp.Save(memory, ImageFormat.Jpeg);
-				memory.Position = 0;
-				var bitmapImage = new BitmapImage();
-				bitmapImage.BeginInit();
-				bitmapImage.StreamSource = memory;
-				bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-				bitmapImage.EndInit();
-				bitmapImage.Freeze();
-				Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
-				{
-					ImageSource = bitmapImage;
-				}));
-			}
-		}
-
+		
 		public string PresentationZones
 		{
 			get
 			{
-				var zones = new List<XZone>();
-				foreach (var zoneUID in Camera.ZoneUIDs)
-				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
-					if (zone != null)
-						zones.Add(zone);
-				}
+				var zones = Camera.ZoneUIDs.Select(zoneUID => XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID)).Where(zone => zone != null).ToList();
 				var presentationZones = XManager.GetCommaSeparatedZones(zones);
 				return presentationZones;
 			}
@@ -146,60 +88,87 @@ namespace VideoModule.ViewModels
 			OnPropertyChanged(() => VisualizationState);
 		}
 
-		Thread VideoThread { get; set; }
-
-		#region MJPEG
-		//public void StartVideo()
-		//{
-		//    //return; //TODO: TEST (CameraVideo isn't working now)
-		//    MjpegCamera.FrameReady += BmpToImageSource;
-		//    MjpegCamera.ErrorHandler += GetError;
-		//    VideoThread = new Thread(MjpegCamera.StartVideo);
-		//    VideoThread.Start();
-		//    IsNowPlaying = true;
-		//}
-		//public void StopVideo()
-		//{
-		//    //TODO: TEST (CameraVideo isn't working now)
-		//    //{
-		//    //	IsNowPlaying = false;
-		//    //	return;
-		//    //}
-		//    MjpegCamera.FrameReady -= BmpToImageSource;
-		//    MjpegCamera.ErrorHandler -= GetError;
-		//    MjpegCamera.StopVideo();
-		//    ImageSource = new BitmapImage();
-		//    IsNowPlaying = false;
-		//}
-		#endregion
-		public void StartVideo(CellPlayerWrap cellPlayerWrap)
+		bool _isConnecting;
+		public bool IsConnecting
 		{
-			try
-			{
-				cellPlayerWrap.InitializeCamera(Camera);
-				IsNowPlaying = true;
-			}
-			catch { }
-		}
-
-		public void StopVideo()
-		{
-			try
-			{
-				CamerasView.Current.PlayerWrap.InitializeCamera(new Camera());
-				IsNowPlaying = false;
-			}
-			catch { }
-		}
-
-		private ImageSource _imageSource;
-		public ImageSource ImageSource
-		{
-			get { return _imageSource; }
+			get { return _isConnecting; }
 			set
 			{
-				_imageSource = value;
-				OnPropertyChanged("ImageSource");
+				_isConnecting = value;
+				OnPropertyChanged(() => IsConnecting);
+			}
+		}
+
+		bool _isConnected;
+		public bool IsConnected
+		{
+			get { return _isConnected; }
+			set
+			{
+				_isConnected = value;
+				OnPropertyChanged(() => IsConnected);
+			}
+		}
+
+		bool _isFailConnected;
+		public bool IsFailConnected
+		{
+			get { return _isFailConnected; }
+			set
+			{
+				_isFailConnected = value;
+				OnPropertyChanged(() => IsFailConnected);
+			}
+		}
+		
+		public void Connect()
+		{
+			try
+			{
+				IsConnecting = true;
+				IsConnected = false;
+				IsFailConnected = false;
+				Channels = new ObservableCollection<Channel>(_cellPlayerWrap.Connect(Camera.Address, Camera.Port));
+				SelectedChannel = Channels[Camera.ChannelNumber];
+				IsConnected = true;
+			}
+			catch
+			{
+				IsFailConnected = true;
+			}
+			finally
+			{
+				IsConnecting = false;
+			}
+		}
+		
+		public bool StartVideo()
+		{
+			try
+			{
+				var title = Camera.Address + " (" + SelectedChannel.Name + ")";
+				var previewViewModel = new PreviewViewModel(title, _cellPlayerWrap);
+				_cellPlayerWrap.Start(SelectedChannel.ChannelNumber);
+				DialogService.ShowModalWindow(previewViewModel);
+				_cellPlayerWrap.Stop();
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		public bool StopVideo()
+		{
+			try
+			{
+				_cellPlayerWrap.Stop();
+				return true;
+			}
+			catch
+			{
+				return false;
 			}
 		}
 
@@ -207,6 +176,7 @@ namespace VideoModule.ViewModels
 		{
 			get { return Camera.PlanElementUIDs.Count > 0; }
 		}
+
 		public VisualizationState VisualizationState
 		{
 			get { return IsOnPlan ? (Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent; }
@@ -222,6 +192,7 @@ namespace VideoModule.ViewModels
 			};
 			dataObject.SetData("DESIGNER_ITEM", plansElement);
 		}
+
 		private bool CanCreateDragObjectCommand(DataObject dataObject)
 		{
 			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
@@ -254,9 +225,41 @@ namespace VideoModule.ViewModels
 			CommandManager.InvalidateRequerySuggested();
 			ServiceFactory.SaveService.CamerasChanged = true;
 		}
+
 		private bool CanAllowMultipleVizualizationCommand(bool isAllow)
 		{
 			return Camera.AllowMultipleVizualization != isAllow;
+		}
+		
+		public static CameraViewModel CopyCameraViewModel(CameraViewModel cameraViewModel)
+		{
+			var camera = new Camera();
+			camera.Name = cameraViewModel.Camera.Name;
+			camera.Address = cameraViewModel.Camera.Address;
+			camera.Port = cameraViewModel.Camera.Port;
+			camera.Login = cameraViewModel.Camera.Login;
+			camera.Password = cameraViewModel.Camera.Password;
+			camera.ChannelNumber = cameraViewModel.Camera.ChannelNumber;
+
+			camera.Left = cameraViewModel.Camera.Left;
+			camera.Top = cameraViewModel.Camera.Top;
+			camera.Width = cameraViewModel.Camera.Width;
+			camera.Height = cameraViewModel.Camera.Height;
+			camera.IgnoreMoveResize = cameraViewModel.Camera.IgnoreMoveResize;
+			camera.StateClass = cameraViewModel.Camera.StateClass;
+			camera.ZoneUIDs = cameraViewModel.Camera.ZoneUIDs;
+
+			var newCameraViewModel = new CameraViewModel(camera);
+			if (cameraViewModel.Channels != null)
+			{
+				newCameraViewModel.Channels = new ObservableCollection<Channel>(cameraViewModel.Channels);
+				newCameraViewModel.SelectedChannel = newCameraViewModel.Channels[newCameraViewModel.Camera.ChannelNumber];
+			}
+			newCameraViewModel.IsConnected = cameraViewModel.IsConnected;
+			newCameraViewModel.IsConnecting = cameraViewModel.IsConnecting;
+			newCameraViewModel.IsFailConnected = cameraViewModel.IsFailConnected;
+			newCameraViewModel._cellPlayerWrap = cameraViewModel._cellPlayerWrap;
+			return newCameraViewModel;
 		}
 	}
 }
