@@ -7,24 +7,24 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
+	public class GuestDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public EmployeeDetails EmployeeDetails { get; private set; }
 
-		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, Employee employee = null)
+		public GuestDetailsViewModel(EmployeesViewModel employeesViewModel, Employee employee = null)
 		{
 			EmployeesViewModel = employeesViewModel;
 			if (employee == null)
 			{
-				Title = "Создание сотрудника";
+				Title = "Добавить посетителя";
 				EmployeeDetails = new EmployeeDetails();
 				EmployeeDetails.OrganizationUID = EmployeesViewModel.Organization.UID;
-				EmployeeDetails.FirstName = "Новый сотрудник";
+				EmployeeDetails.FirstName = "Новый посетитель";
 			}
 			else
 			{
-				Title = string.Format("Свойства сотрудника: {0}", employee.FirstName);
+				Title = string.Format("Свойства посетителя: {0}", employee.FirstName);
 				EmployeeDetails = EmployeeHelper.GetDetails(employee.UID);
 				if (EmployeeDetails == null)
 				{
@@ -33,23 +33,6 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			var positions = PositionHelper.GetByOrganization(EmployeeDetails.OrganizationUID);
-			if (positions == null)
-				Positions = new List<Position>();
-			else
-				Positions = positions.ToList();
-
-			if (EmployeeDetails.Position == null)
-			{
-				SelectedPosition = Positions.FirstOrDefault();
-			}
-			else
-			{
-				SelectedPosition = Positions.FirstOrDefault(x => x.UID == EmployeeDetails.Position.UID);
-				if (SelectedPosition == null)
-					SelectedPosition = Positions.FirstOrDefault();
-			}
-			
 			AdditionalColumns = new List<AdditionalColumnViewModel>();
 			if (EmployeesViewModel.AdditionalColumnTypes.IsNotNullOrEmpty())
 			{
@@ -59,6 +42,7 @@ namespace SKDModule.ViewModels
 				}
 				SelectedAdditionalColumn = AdditionalColumns.FirstOrDefault();
 			}
+			
 			CopyProperties();
 		}
 
@@ -67,24 +51,6 @@ namespace SKDModule.ViewModels
 			FirstName = EmployeeDetails.FirstName;
 			SecondName = EmployeeDetails.SecondName;
 			LastName = EmployeeDetails.LastName;
-		}
-
-		public bool HasAdditionalColumns
-		{
-			get { return AdditionalColumns.IsNotNullOrEmpty(); }
-		}
-
-		public List<Position> Positions { get; private set; }
-
-		Position _selectedPosition;
-		public Position SelectedPosition
-		{
-			get { return _selectedPosition; }
-			set
-			{
-				_selectedPosition = value;
-				OnPropertyChanged(() => SelectedPosition);
-			}
 		}
 
 		string _firstName;
@@ -129,6 +95,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public bool HasAdditionalColumns
+		{
+			get { return AdditionalColumns.IsNotNullOrEmpty(); }
+		}
+		
 		List<AdditionalColumnViewModel> additionalColumns;
 		public List<AdditionalColumnViewModel> AdditionalColumns
 		{
@@ -167,8 +138,6 @@ namespace SKDModule.ViewModels
 			EmployeeDetails.FirstName = FirstName;
 			EmployeeDetails.SecondName = SecondName;
 			EmployeeDetails.LastName = LastName;
-			if (SelectedPosition != null)
-				EmployeeDetails.Position = SelectedPosition;
 			return true;
 		}
 	}

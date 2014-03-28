@@ -67,6 +67,7 @@ namespace SKDDriver
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			result.CardTemplateUID = tableItem.CardTemplateUID;
+			result.IsBlocked = tableItem.IsBlocked;
 			return result;
 		}
 
@@ -82,6 +83,7 @@ namespace SKDDriver
 			tableItem.StopReason = apiItem.StopReason;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 			tableItem.CardTemplateUID = apiItem.CardTemplateUID;
+			tableItem.IsBlocked = apiItem.IsBlocked;
 		}
 
 		public override OperationResult Save(IEnumerable<SKDCard> items)

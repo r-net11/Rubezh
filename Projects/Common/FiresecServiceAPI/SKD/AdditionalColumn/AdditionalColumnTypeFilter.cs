@@ -11,5 +11,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public AdditionalColumnDataType? Type { get; set; }
+
+		[DataMember]
+		public PersonType PersonType { get; set; }
 	}
 }

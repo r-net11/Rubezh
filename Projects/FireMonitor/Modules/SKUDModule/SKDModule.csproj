@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="Employees\ViewModels\AccessZonesSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
+    <Compile Include="Employees\ViewModels\AdditionalColumnViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardDetailsViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardRemovalReasonViewModel.cs" />
@@ -81,6 +82,10 @@
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeFilterViewModel.cs" />
     <Compile Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml.cs">
       <DependentUpon>AdditionalColumnTypeFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\ViewModels\GuestDetailsViewModel.cs" />
+    <Compile Include="Employees\Views\GuestDetailsView.xaml.cs">
+      <DependentUpon>GuestDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
@@ -521,6 +526,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Documents\Views\DocumentFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\GuestDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -20,4 +20,7 @@
 		<Views:CardRemovalReasonView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GuestDetailsViewModel}">
+        <Views:GuestDetailsView />
+    </DataTemplate>
 </ResourceDictionary>

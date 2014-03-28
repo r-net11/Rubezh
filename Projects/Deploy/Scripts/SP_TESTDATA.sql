@@ -300,10 +300,12 @@ UPDATE [dbo].[Employee] SET [DepartmentUid]=@ConstructorshipDepartmentUid WHERE 
 UPDATE [dbo].[Employee] SET [DepartmentUid]=@ConstructorshipDepartmentUid WHERE [Uid]=@Constructor2EmployeeUid
 UPDATE [dbo].[Employee] SET [DepartmentUid]=@ConstructorshipDepartmentUid WHERE [Uid]=@MainConstructorEmployeeUid
 
-SET @Uid = NEWID(); 
-EXEC [dbo].[SaveGuest] @Uid, @Organization1Uid, 'Дмитрий', 'Анатольевич', 'Медведев',0,'01/01/1900'
-SET @Uid = NEWID(); 
-EXEC [dbo].[SaveGuest] @Uid, @Organization1Uid, 'Сергей', 'Кожугетович', 'Шойгу',0,'01/01/1900'
+DECLARE @Guest1UID uniqueidentifier;
+SET @Guest1UID = NEWID(); 
+EXEC [dbo].[SaveGuest] @Guest1UID, @Organization1Uid, 'Дмитрий', 'Анатольевич', 'Медведев',0,'01/01/1900'
+DECLARE @Guest2UID uniqueidentifier;
+SET @Guest2UID = NEWID(); 
+EXEC [dbo].[SaveGuest] @Guest2UID, @Organization1Uid, 'Сергей', 'Кожугетович', 'Шойгу',0,'01/01/1900'
 
 DECLARE @MontageAccessTemplateUID uniqueidentifier;
 SET @MontageAccessTemplateUID = NEWID();
@@ -367,11 +369,15 @@ EXEC SaveCard @Uid, 0, '01/01/1900', 18, 19, @ProgrammistConstructorEmployeeUid,
 
 DECLARE @PassportAdditionalColumnTypeUID uniqueidentifier;
 SET @PassportAdditionalColumnTypeUID = NEWID();
-EXEC SaveAdditionalColumnType @PassportAdditionalColumnTypeUID, @Organization1Uid, 'Скан паспорта', 'Изображение первой страницы паспорта', 1, 0, '01/01/1900'
+EXEC SaveAdditionalColumnType @PassportAdditionalColumnTypeUID, @Organization1Uid, 'Скан паспорта', 'Изображение первой страницы паспорта', 1, 0, 0, '01/01/1900'
 
 DECLARE @CharacteristicsAdditionalColumnTypeUID uniqueidentifier;
 SET @CharacteristicsAdditionalColumnTypeUID = NEWID();
-EXEC SaveAdditionalColumnType @CharacteristicsAdditionalColumnTypeUID , @Organization1Uid, 'Характеристика', 'Личная характеристика', 0, 0, '01/01/1900'
+EXEC SaveAdditionalColumnType @CharacteristicsAdditionalColumnTypeUID , @Organization1Uid, 'Характеристика', 'Личная характеристика', 0, 0, 0, '01/01/1900'
+
+DECLARE @GuestTypeAdditionalColumnTypeUID uniqueidentifier;
+SET @GuestTypeAdditionalColumnTypeUID = NEWID();
+EXEC SaveAdditionalColumnType @GuestTypeAdditionalColumnTypeUID , @Organization1Uid, 'Тип', 'Тип посетителя', 0, 1, 0, '01/01/1900'
 
 DECLARE @PassportScan varbinary(MAX);
 SET @PassportScan = (SELECT * FROM OPENROWSET(BULK N'C:\passportDesu.jpg', SINGLE_BLOB) as _file);
@@ -508,6 +514,11 @@ SET @Uid = NEWID();
 EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @AdministratorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
 EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @ProgrammistConstructorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guest1UID, @GuestTypeAdditionalColumnTypeUID, 'Проверяющий'
+SET @Uid = NEWID();
+EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guest2UID, @GuestTypeAdditionalColumnTypeUID, 'Клиент'
 
 DECLARE @Organization2Uid uniqueidentifier;
 SET @Organization2Uid = '498F0C15-76E1-40D5-836E-908F638177AF';

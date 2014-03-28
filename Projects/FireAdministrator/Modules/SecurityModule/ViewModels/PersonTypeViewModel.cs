@@ -3,13 +3,15 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SecurityModule.ViewModels
 {
-	public class OrganisationViewModel : BaseViewModel
+	public class PersonTypeViewModel : BaseViewModel
 	{
-		public Organization Organisation { get; private set; }
+		public PersonType PersonType { get; private set; }
+		public string Name { get; private set; }
 
-		public OrganisationViewModel(Organization organisation)
+		public PersonTypeViewModel(PersonType personType)
 		{
-			Organisation = organisation;
+			PersonType = personType;
+			Name = PersonType.ToDescription();
 		}
 
 		bool _isChecked;

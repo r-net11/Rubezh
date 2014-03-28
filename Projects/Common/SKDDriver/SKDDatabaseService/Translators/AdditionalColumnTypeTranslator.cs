@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
 using LinqKit;
 
 namespace SKDDriver
@@ -33,6 +32,7 @@ namespace SKDDriver
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.DataType = (AdditionalColumnDataType)tableItem.DataType;
+			result.PersonType = (PersonType)tableItem.PersonType;
 			return result;
 		}
 
@@ -42,14 +42,15 @@ namespace SKDDriver
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.DataType = (int?)apiItem.DataType;
+			tableItem.PersonType = (int)apiItem.PersonType;
 		}
 
 		public AdditionalColumnType Get(Guid? uid)
 		{
+			if (uid == null)
+				return null;
 			try
 			{
-				if (uid == null)
-					throw new Exception("Тип колонки не найден в базе даных");
 				var result = Table.Where(x => x != null &&
 					!x.IsDeleted &&
 					x.UID == uid.Value).FirstOrDefault();
@@ -57,7 +58,6 @@ namespace SKDDriver
 			}
 			catch (Exception e)
 			{
-				MessageBoxService.Show(e.Message);
 				return null;
 			}
 		}
@@ -77,6 +77,10 @@ namespace SKDDriver
 			{
 				var dataType = (int)filter.Type.Value;
 				result = result.And(e => e.DataType == dataType);
+			}
+			if (filter.PersonType != null)
+			{
+				result = result.And(e => e.PersonType == (int?)filter.PersonType);
 			}
 			return result;
 		}

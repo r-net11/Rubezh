@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using FiresecAPI;
-using System;
-using FiresecClient.SKDHelpers;
 
 namespace SecurityModule.ViewModels
 {
@@ -52,6 +52,18 @@ namespace SecurityModule.ViewModels
 				var organisationViewModel = new OrganisationViewModel(organisation);
 				organisationViewModel.IsChecked = User.OrganisationUIDs.Contains(organisation.UID);
 				Organisations.Add(organisationViewModel);
+			}
+
+			if (User.PersonTypes == null)
+				User.PersonTypes = new List<PersonType>();
+			
+			var personTypes = Enum.GetValues(typeof(PersonType)).Cast<PersonType>().ToList();
+			PersonTypes = new ObservableCollection<PersonTypeViewModel>();
+			foreach (var personType in personTypes)
+			{
+				var personTypeViewModel = new PersonTypeViewModel(personType);
+				personTypeViewModel.IsChecked = User.PersonTypes.Contains(personType);
+				PersonTypes.Add(personTypeViewModel);
 			}
 		}
 
@@ -251,6 +263,7 @@ namespace SecurityModule.ViewModels
 		}
 
 		public ObservableCollection<OrganisationViewModel> Organisations { get; private set; }
+		public ObservableCollection<PersonTypeViewModel> PersonTypes { get; private set; }
 
 		void SaveProperties()
 		{
@@ -277,6 +290,13 @@ namespace SecurityModule.ViewModels
 			{
 				if (organisation.IsChecked)
 					User.OrganisationUIDs.Add(organisation.Organisation.UID);
+			}
+
+			User.PersonTypes = new List<PersonType>();
+			foreach (var personType in PersonTypes)
+			{
+				if (personType.IsChecked)
+					User.PersonTypes.Add(personType.PersonType);
 			}
 		}
 

@@ -154,6 +154,8 @@ namespace SKDDriver
 			var result = PredicateBuilder.True<DataAccess.Employee>();
 			result = result.And(base.IsInFilter(filter));
 
+			result = result.And(e => e.Type == (int?)filter.PersonType);
+
 			var isReplaced = PredicateBuilder.True<DataAccess.EmployeeReplacement>();
 
 			var departmentUIDs = filter.DepartmentUIDs;

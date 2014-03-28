@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
+using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows;
-using System;
-using Infrastructure.Common.CheckBoxList;
-using FiresecClient.SKDHelpers;
-using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
@@ -49,6 +48,18 @@ namespace SKDModule.ViewModels
 				foreach (var position in positions)
 					Positions.Add(new FilterPositionViewModel(position));
 
+			HasManyPersonTypes = FiresecManager.CurrentUser.PersonTypes.Count > 1;
+			if (HasManyPersonTypes)
+			{
+				var personTypes = Enum.GetValues(typeof(PersonType)).Cast<PersonType>().ToList();
+				PersonTypes = new ObservableCollection<FilterPersonTypeViewModel>();
+				foreach (var personType in personTypes)
+				{
+					var personTypeViewModel = new FilterPersonTypeViewModel(personType);
+					PersonTypes.Add(personTypeViewModel);
+				}
+				SelectedPersonType = PersonTypes.FirstOrDefault(x => x.PersonType == Filter.PersonType);
+			}
 			AvailableOrganizations = new ObservableCollection<Organization>();
 			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			foreach (var organisation in organisations)
@@ -107,6 +118,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public bool HasManyPersonTypes { get; private set; }
+
 		public void SetChildDepartmentsChecked(FilterDepartmentViewModel department)
 		{
 			GetAllChildren(department).ForEach(x => x.IsChecked = true);
@@ -136,6 +149,20 @@ namespace SKDModule.ViewModels
 		}
 
 		public CheckBoxItemList<FilterPositionViewModel> Positions { get; private set; }
+		
+		public ObservableCollection<FilterPersonTypeViewModel> PersonTypes { get; private set; }
+
+		FilterPersonTypeViewModel _selectedPersonType;
+		public FilterPersonTypeViewModel SelectedPersonType
+		{
+			get { return _selectedPersonType; }
+			set
+			{
+				_selectedPersonType = value;
+				OnPropertyChanged(()=>SelectedPersonType);
+			}
+		}
+
 
 		public ObservableCollection<Organization> AvailableOrganizations { get; private set; }
 
@@ -171,6 +198,8 @@ namespace SKDModule.ViewModels
 				Filter.OrganisationUID = SelectedOrganization.UID;
 				Filter.OrganizationUIDs.Add(SelectedOrganization.UID);
 			}
+			if (HasManyPersonTypes)
+				Filter.PersonType = SelectedPersonType.PersonType;
 			return true;
 		}
 
@@ -221,5 +250,16 @@ namespace SKDModule.ViewModels
 		}
 
 		public Position Position { get; private set; }
+	}
+
+	public class FilterPersonTypeViewModel : BaseViewModel
+	{
+		public FilterPersonTypeViewModel(PersonType personType)
+		{
+			PersonType = personType;
+		}
+
+		public PersonType PersonType { get; private set; }
+		public string Name { get { return PersonType.ToDescription(); } }
 	}
 }
