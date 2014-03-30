@@ -134,6 +134,7 @@
     <Compile Include="Models\ElementDeviceReference.cs" />
     <Compile Include="Models\JournalColumnType.cs" />
     <Compile Include="Models\RviMultiLayoutCameraSettings.cs" />
+    <Compile Include="Models\SKDSettings.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Models\AutoActivationSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

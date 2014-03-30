@@ -56,6 +56,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournalRecord);
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournalRecord);
+
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();

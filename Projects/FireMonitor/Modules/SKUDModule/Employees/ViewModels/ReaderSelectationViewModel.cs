@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
+using System.Collections.ObjectModel;
+using XFiresecAPI;
+using Infrastructure;
+
+namespace SKDModule.ViewModels
+{
+	public class ReaderSelectationViewModel : SaveCancelDialogViewModel
+	{
+		public ReaderSelectationViewModel(Guid deviceUID)
+		{
+			Title = "Выбор считывателя";
+			Devices = new ObservableCollection<SKDDevice>();
+			foreach (var device in SKDManager.Devices)
+			{
+				if (device.DriverType == SKDDriverType.Reader)
+					Devices.Add(device);
+			}
+			SelectedDevice = Devices.FirstOrDefault(x => x.UID == deviceUID);
+		}
+
+		public ObservableCollection<SKDDevice> Devices { get; private set; }
+
+		SKDDevice _selectedDevice;
+		public SKDDevice SelectedDevice
+		{
+			get { return _selectedDevice; }
+			set
+			{
+				_selectedDevice = value;
+				OnPropertyChanged("SelectedDevice");
+			}
+		}
+
+		protected override bool Save()
+		{
+			ClientSettings.SKDSettings.CardCreatorReaderUID = SelectedDevice != null ? SelectedDevice.UID : Guid.Empty;
+			return base.Save();
+		}
+	}
+}

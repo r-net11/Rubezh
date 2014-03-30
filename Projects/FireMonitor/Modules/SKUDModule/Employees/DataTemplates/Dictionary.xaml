@@ -23,4 +23,8 @@
     <DataTemplate DataType="{x:Type ViewModels:GuestDetailsViewModel}">
         <Views:GuestDetailsView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ReaderSelectationViewModel}">
+        <Views:ReaderSelectationView />
+    </DataTemplate>
 </ResourceDictionary>

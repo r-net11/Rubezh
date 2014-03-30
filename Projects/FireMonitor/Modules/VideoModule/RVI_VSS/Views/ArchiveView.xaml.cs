@@ -18,7 +18,7 @@ namespace VideoModule.RVI_VSS.Views
 			{
 				try
 				{
-					PlayerWrap.InitializeCamera(arhiveViewModel.SelectedRecord);
+					//PlayerWrap.InitializeCamera(arhiveViewModel.SelectedRecord);
 				}
 				catch { }
 			}

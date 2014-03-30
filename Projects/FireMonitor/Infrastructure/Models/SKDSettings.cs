@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
+
+namespace Infrastructure.Models
+{
+	[DataContract]
+	public class SKDSettings
+	{
+		public SKDSettings()
+		{
+
+		}
+
+		[DataMember]
+		public Guid CardCreatorReaderUID { get; set; }
+	}
+}

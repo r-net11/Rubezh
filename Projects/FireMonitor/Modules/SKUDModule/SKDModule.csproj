@@ -84,8 +84,12 @@
       <DependentUpon>AdditionalColumnTypeFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\ViewModels\GuestDetailsViewModel.cs" />
+    <Compile Include="Employees\ViewModels\ReaderSelectationViewModel.cs" />
     <Compile Include="Employees\Views\GuestDetailsView.xaml.cs">
       <DependentUpon>GuestDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\ReaderSelectationView.xaml.cs">
+      <DependentUpon>ReaderSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
@@ -530,6 +534,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\GuestDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\ReaderSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

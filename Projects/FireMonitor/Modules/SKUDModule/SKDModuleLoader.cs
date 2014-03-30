@@ -41,6 +41,7 @@ namespace SKDModule
 		HolidaysViewModel HolidaysViewModel;
 		ShedulesViewModel ShedulesViewModel;
 		ReportsViewModel ReportsViewModel;
+		NavigationItem _journalNavigationItem;
 		private PlanPresenter _planPresenter;
 
 		public SKDModuleLoader()
@@ -50,6 +51,11 @@ namespace SKDModule
 
 		public override void CreateViewModels()
 		{
+			ServiceFactory.Events.GetEvent<ShowSKDJournalEvent>().Unsubscribe(OnShowJournal);
+			ServiceFactory.Events.GetEvent<ShowSKDJournalEvent>().Subscribe(OnShowJournal);
+			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Unsubscribe(OnNewJournalRecord);
+			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Subscribe(OnNewJournalRecord);
+
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			JournalViewModel = new JournalViewModel();
@@ -73,6 +79,8 @@ namespace SKDModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
+			_journalNavigationItem = new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png");
+
 			return new List<NavigationItem>
 				{
 				new NavigationItem("СКД", "/Controls;component/Images/tree.png",
@@ -80,7 +88,7 @@ namespace SKDModule
 					{
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png"),
+						_journalNavigationItem,
 						new NavigationItem<ShowSKDArchiveEvent, ShowSKDArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowSKDEmployeesEvent>(EmployeesViewModel, "Сотрудники", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowSKDAccessTemplateAccessEvent>(AccessTemplatesViewModel, "Уровни доступа", "/Controls;component/Images/tree.png"),
@@ -135,6 +143,27 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
+		}
+
+		int _unreadJournalCount;
+		private int UnreadJournalCount
+		{
+			get { return _unreadJournalCount; }
+			set
+			{
+				_unreadJournalCount = value;
+				if (_journalNavigationItem != null)
+					_journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
+			}
+		}
+		void OnShowJournal(object obj)
+		{
+			UnreadJournalCount = 0;
+		}
+		void OnNewJournalRecord(List<SKDJournalItem> journalItems)
+		{
+			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
+				UnreadJournalCount += journalItems.Count;
 		}
 
 		public override bool BeforeInitialize(bool firstTime)
