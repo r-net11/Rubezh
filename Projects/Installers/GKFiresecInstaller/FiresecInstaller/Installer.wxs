@@ -52,6 +52,11 @@
                 <Directory Id="Administrator.Xaml2svgFolder" Name="$(var.xaml2svgFolder)" />
               </Directory>
             </Directory>
+            <Directory Id="Administrator.Dll" Name="Dll">
+              <Directory Id="Administrator.Dll.Dahua" Name="Dahua" />
+              <Directory Id="Administrator.Dll.Hik" Name="Hik" />
+              <Directory Id="Administrator.Dll.Sunell" Name="Sunell" />
+            </Directory>
           </Directory>
           <Directory Id="MONITORLOCATION" Name="$(var.MonitorName)">
             <Directory Id="Monitor.ShellFolder" Name="Shell" />

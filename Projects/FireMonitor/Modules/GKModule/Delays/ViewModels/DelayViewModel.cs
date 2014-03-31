@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -54,6 +55,15 @@ namespace GKModule.ViewModels
 		public bool HasHoldDelay
 		{
 			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
+		}
+
+		public string PresentationLogic
+		{
+			get
+			{
+				var presentationZone = XManager.GetPresentationZone(Delay.DeviceLogic);
+				return presentationZone;
+			}
 		}
 	}
 }

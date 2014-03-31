@@ -54,7 +54,7 @@ namespace XFiresecAPI
 
 		public override string PresentationName
 		{
-			get { return "MПТ" + "." + Name; }
+			get { return "MПТ" + "." + No + "." + Name; }
 		}
 	}
 }

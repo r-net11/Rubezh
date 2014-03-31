@@ -4,7 +4,7 @@ namespace XFiresecAPI
 {
 	public enum XStateBit
 	{
-		[DescriptionAttribute("Дежурный")]
+		[DescriptionAttribute("Автоматика включена")]
 		Norm = 0,
 
 		[DescriptionAttribute("Внимание")]

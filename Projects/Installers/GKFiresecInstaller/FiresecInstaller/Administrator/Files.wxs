@@ -107,6 +107,63 @@
       </Component>
     </DirectoryRef>
 
+    <DirectoryRef Id="ADMINISTRATORLOCATION">
+      <Component Id="Administrator.VIDEO_MODULE_DLL" Guid="EAF56630-CCD5-4c21-8DCF-C01CC0361D1B">
+        <File Id="Administrator.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
+        <File Id="Administrator.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="Administrator.Dll.Dahua">
+      <Component Id="Administrator.VIDEO_MODULE_DLL.Dahua" Guid="1997AAAF-E8A5-4cde-846B-9366E1469F9F">
+        <File Id="Administrator.Dll.Dahua.aacdec.dll" Name="aacdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.AACDecoder.dll" Name="AACDecoder.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.amrdec.dll" Name="amrdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.AmrDll.dll" Name="AmrDll.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.DhDecode.dll" Name="DhDecode.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.dhdvr.dll" Name="dhdvr.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.dhnetsdk.dll" Name="dhnetsdk.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.dhplay.dll" Name="dhplay.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.DllDeinterlace.dll" Name="DllDeinterlace.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.dllh264.dll" Name="dllh264.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.dllmpeg4.dll" Name="dllmpeg4.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.h264dec.dll" Name="h264dec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.IvsDrawer.dll" Name="IvsDrawer.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.IvsDrawer_64.dll" Name="IvsDrawer_64.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.jpegdec.dll" Name="jpegdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.mjpegdec.dll" Name="mjpegdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.mp3dec.dll" Name="mp3dec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.MP3Decoder.dll" Name="MP3Decoder.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.mpeg4dec.dll" Name="mpeg4dec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.mpeg4enc.dll" Name="mpeg4enc.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Administrator.Dll.Dahua.postproc.dll" Name="postproc.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="Administrator.Dll.Hik">
+      <Component Id="Administrator.VIDEO_MODULE_DLL.Hik" Guid="6B1D51CC-5043-4a08-9697-3B3B419C84B0">
+        <File Id="Administrator.Dll.Hik.AudioIntercom.dll" Name="AudioIntercom.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Administrator.Dll.Hik.DsSdk.dll" Name="DsSdk.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Administrator.Dll.Hik.gdiplus.dll" Name="gdiplus.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Administrator.Dll.Hik.HCNetSDK.dll" Name="HCNetSDK.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Administrator.Dll.Hik.OpenAL32.dll" Name="OpenAL32.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Administrator.Dll.Hik.PlayCtrl.dll" Name="PlayCtrl.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Administrator.Dll.Hik.QosControl.dll" Name="QosControl.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Administrator.Dll.Hik.StreamTransClient.dll" Name="StreamTransClient.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Administrator.Dll.Hik.SystemTransform.dll" Name="SystemTransform.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="Administrator.Dll.Sunell">
+      <Component Id="Administrator.VIDEO_MODULE_DLL.Sunell" Guid="BED7A447-5E8D-43e2-A74A-9D3D38051223">
+        <File Id="Administrator.Dll.Sunell.NvdaiDll.dll" Name="NvdaiDll.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+        <File Id="Administrator.Dll.Sunell.NvdalDll.dll" Name="NvdalDll.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+        <File Id="Administrator.Dll.Sunell.Nvdcdll.dll" Name="Nvdcdll.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+        <File Id="Administrator.Dll.Sunell.SensorUI.dll" Name="SensorUI.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+      </Component>
+    </DirectoryRef>
+
     <DirectoryRef Id="FirmwhareUpdateLOCATION">
       <Component Id="Administrator.Firmwhare.Files" Guid="55AA098A-71FC-4FCA-BBD8-51F05EEEF35A">
         <File Id="Administrator.Firmwhare.firmware_update_01.FSCS" Source="$(var.Administrator.DeployFirmware.TargetDir)firmware_update_01.FSCS" />

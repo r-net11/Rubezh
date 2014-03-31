@@ -96,6 +96,14 @@ namespace GKProcessor
 					}
 				}
 			}
+			stringBuilder.Append("delays:");
+			foreach (var delay in deviceConfiguration.Delays)
+			{
+				if (delay.GkDatabaseParent == gkDevice)
+				{
+					stringBuilder.Append(delay.PresentationName).Append("@");
+				}
+			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
 		public static List<byte> CreateHash2(XDeviceConfiguration deviceConfiguration)

@@ -36,8 +36,9 @@ namespace GKModule.ViewModels
 		public XDirection Direction;
 		public XPumpStation PumpStation;
 		public XMPT MPT;
+		public XDelay Delay;
 		public string ImageSource { get; private set; }
-		public ObjectType ObjectType { get; set; }
+		public ObjectType ObjectType { get; private set; }
 		public object Clone()
 		{
 			return MemberwiseClone();
@@ -70,7 +71,7 @@ namespace GKModule.ViewModels
 			ImageSource = "/Controls;component/Images/Blue_Direction.png";
 			Address = "";
 			PresentationZone = "";
-			ObjectType = ObjectType.Zone;
+			ObjectType = ObjectType.Direction;
 		}
 
 		public ObjectViewModel(XPumpStation pumpStation)
@@ -91,6 +92,16 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.MPT;
+		}
+
+		public ObjectViewModel(XDelay delay)
+		{
+			Delay = delay;
+			Name = delay.PresentationName;
+			ImageSource = "/Controls;component/Images/Delay.png";
+			Address = "";
+			PresentationZone = "";
+			ObjectType = ObjectType.Delay;
 		}
 
 		int IComparable.CompareTo(object a)
@@ -154,6 +165,10 @@ namespace GKModule.ViewModels
 			{
 				return string.Compare(object1.MPT.Name, object2.MPT.Name);
 			}
+			if (object1.ObjectType == ObjectType.Delay)
+			{
+				return string.Compare(object1.Delay.Name, object2.Delay.Name);
+			}
 			return 0;
 		}
 	}
@@ -164,6 +179,7 @@ namespace GKModule.ViewModels
 		Zone = 1,
 		Direction = 2,
 		PumpStation = 3,
-		MPT = 4
+		MPT = 4,
+		Delay = 5
 	}
 }

@@ -159,8 +159,14 @@ namespace GKModule.ViewModels
 		}
 		public bool CanAdd()
 		{
-			if (Device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU) && Device.DriverType != XDriverType.KAUIndicator)
-				return true;
+			if (Device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
+			{
+				if(Device.DriverType == XDriverType.KAUIndicator)
+					return false;
+				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
+					return false;
+				return false;
+			}
 			if (Driver.Children.Count > 0)
 				return true;
 			if ((Driver.DriverType == XDriverType.MPT || Driver.DriverType == XDriverType.MRO_2) && Parent != null && Parent.Device.DriverType != XDriverType.MPT && Parent.Device.DriverType != XDriverType.MRO_2)

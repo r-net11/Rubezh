@@ -14,13 +14,22 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="2*" MinWidth="200" />
 			</Grid.ColumnDefinitions>
-			<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}">
+            <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" CanUserSortColumns="True">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Название" MinWidth="250" Width="*">
+                    <DataGridTemplateColumn Header="№" SortMemberPath="MPT.No" Width="Auto" CanUserResize="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BMPT.png" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding MPT.No}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Наименование" SortMemberPath="MPT.Name" MinWidth="250" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BMPT.png" VerticalAlignment="Center" />
 									<TextBlock Width="200" Text="{Binding MPT.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 								</StackPanel>
 							</DataTemplate>

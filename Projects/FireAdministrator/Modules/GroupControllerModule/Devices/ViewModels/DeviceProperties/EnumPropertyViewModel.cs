@@ -38,8 +38,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedParameter = value;
-				OnPropertyChanged("SelectedParameter");
 				Save(value.Value);
+				OnPropertyChanged("SelectedParameter");
 			}
 		}
 

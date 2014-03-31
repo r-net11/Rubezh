@@ -7,7 +7,7 @@
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 		xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
 		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-		MinWidth="950" MinHeight="500">
+		MinWidth="1050" MinHeight="500">
 
 	<UserControl.Resources>
 		<Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
@@ -367,7 +367,38 @@
 				</ListBox>
 			</TabItem>
 
-			<TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Задержки" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+                                <Style.Triggers>
+									<DataTrigger Binding="{Binding Delays.HasCheckedItems}" Value="True">
+                                        <Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+                                    <DataTrigger Binding="{Binding MPTs.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+                    </TextBlock>
+                </TabItem.Header>
+                <ListBox ItemsSource="{Binding Delays.Items}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+
+            <TabItem>
 				<TabItem.Header>
 					<TextBlock Text="ПИМ" FontWeight="Bold">
 						<TextBlock.Style>

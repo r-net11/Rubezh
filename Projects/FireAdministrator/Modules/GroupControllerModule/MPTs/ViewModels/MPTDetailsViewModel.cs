@@ -2,6 +2,7 @@
 using XFiresecAPI;
 using FiresecClient;
 using System.Linq;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -20,7 +21,7 @@ namespace GKModule.ViewModels
 					Name = "Новый МПТ",
 					No = 1,
 				};
-				if (XManager.Delays.Count != 0)
+				if (XManager.MPTs.Count != 0)
 					MPT.No = (ushort)(XManager.MPTs.Select(x => x.No).Max() + 1);
 			}
 			else
@@ -73,6 +74,12 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (MPT.No != No && XManager.MPTs.Any(x => x.No == No))
+			{
+				MessageBoxService.Show("МПТ с таким номером уже существует");
+				return false;
+			}
+
 			MPT.No = No;
 			MPT.Name = Name;
 			MPT.Description = Description;

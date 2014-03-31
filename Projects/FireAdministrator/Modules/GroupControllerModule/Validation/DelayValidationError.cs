@@ -28,7 +28,7 @@ namespace GKModule.Validation
 		}
 		public override string Address
 		{
-			get { return ""; }
+			get { return Object.No.ToString(); }
 		}
 
 		public override string ImageSource

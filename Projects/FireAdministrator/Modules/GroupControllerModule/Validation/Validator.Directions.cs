@@ -27,6 +27,7 @@ namespace GKModule.Validation
 
 					ValidateEmptyZoneInDirection(direction);
 					ValidateSameInputOutputDevices(direction);
+					ValidateDirectionSelfLogic(direction);
 				}
 			}
 		}
@@ -98,6 +99,12 @@ namespace GKModule.Validation
 					Errors.Add(new DirectionValidationError(direction, "Устройство " + device.PresentationName + " участвует во входных и выходных зависимостях направления", ValidationErrorLevel.CannotWrite));
 				}
 			}
+		}
+
+		void ValidateDirectionSelfLogic(XDirection direction)
+		{
+			if (direction.ClauseInputDirections.Contains(direction))
+				Errors.Add(new DirectionValidationError(direction, "Направление зависит от самого себя", ValidationErrorLevel.CannotWrite));
 		}
 	}
 }

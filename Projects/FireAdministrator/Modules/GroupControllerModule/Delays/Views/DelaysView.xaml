@@ -8,13 +8,22 @@
 			<RowDefinition Height="0" />
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0">
-            <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding Delays}" SelectedItem="{Binding SelectedDelay}">
+            <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding Delays}" SelectedItem="{Binding SelectedDelay}" CanUserSortColumns="True">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Наименование" Width="*">
+                    <DataGridTemplateColumn Header="№" SortMemberPath="Delay.No" Width="Auto" CanUserResize="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Controls;component/Images/Delay.png" Width="16" Margin="2 0 0 0" />
+                                    <TextBlock Text="{Binding Delay.No}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Наименование" SortMemberPath="Delay.Name" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-                                    <Image Source="/Controls;component/Images/Delay.png" Width="16" Margin="2 0 0 0" />
                                     <TextBlock Text="{Binding Delay.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
 								</StackPanel>
 							</DataTemplate>

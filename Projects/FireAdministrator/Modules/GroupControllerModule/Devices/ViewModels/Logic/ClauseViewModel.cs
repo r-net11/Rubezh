@@ -107,7 +107,6 @@ namespace GKModule.ViewModels
 							XStateBit.On,
 							XStateBit.Off,
 							XStateBit.TurningOn,
-							XStateBit.TurningOff,
 							XStateBit.Norm
 						};
 						break;
@@ -119,7 +118,6 @@ namespace GKModule.ViewModels
 							XStateBit.On,
 							XStateBit.Off,
 							XStateBit.TurningOn,
-							XStateBit.TurningOff,
 							XStateBit.Norm
 						};
 						break;

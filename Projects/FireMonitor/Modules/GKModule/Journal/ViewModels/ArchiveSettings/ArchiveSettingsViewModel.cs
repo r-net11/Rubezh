@@ -34,6 +34,9 @@ namespace GKModule.ViewModels
 			var archiveDefaultStateViewModel = ArchiveDefaultStates.FirstOrDefault(x => x.ArchiveDefaultStateType == archiveDefaultState.ArchiveDefaultStateType);
 			if (archiveDefaultStateViewModel != null)
 				archiveDefaultStateViewModel.IsActive = true;
+			else
+				ArchiveDefaultStates.FirstOrDefault().IsActive = true;
+
 			switch (archiveDefaultState.ArchiveDefaultStateType)
 			{
 				case ArchiveDefaultStateType.LastHours:
@@ -122,7 +125,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			ArchiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStates.First(x => x.IsActive).ArchiveDefaultStateType;
+			ArchiveDefaultState.ArchiveDefaultStateType = ArchiveDefaultStates.FirstOrDefault(x => x.IsActive).ArchiveDefaultStateType;
 			switch (ArchiveDefaultState.ArchiveDefaultStateType)
 			{
 				case ArchiveDefaultStateType.LastHours:
