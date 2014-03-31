@@ -120,6 +120,7 @@
     <Compile Include="AlarmButton.cs" />
     <Compile Include="AlignableWrapPanel.cs" />
     <Compile Include="Attach.cs" />
+    <Compile Include="AttachedColumnBehavior.cs" />
     <Compile Include="ButtonSpinner.cs" />
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\AlarmTypeToBIconConverter.cs" />
