@@ -64,15 +64,15 @@ namespace GKModule.ViewModels
 
 		public int InputZonesCount
 		{
-			get { return PumpStation.InputZones.Count; }
+			get { return PumpStation.ClauseInputZones.Count; }
 		}
 		public int InputDevicesCount
 		{
-			get { return PumpStation.InputDevices.Count; }
+			get { return PumpStation.ClauseInputDevices.Count; }
 		}
 		public int InputDirectionsCount
 		{
-			get { return PumpStation.InputDirections.Count(); }
+			get { return PumpStation.ClauseInputDirections.Count(); }
 		}
 
 		public DeviceControlRegime ControlRegime

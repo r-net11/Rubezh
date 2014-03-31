@@ -45,6 +45,7 @@ namespace GKProcessor
 			foreach (var device in Devices)
 			{
 				var deviceDescriptor = new DeviceDescriptor(device, DatabaseType);
+				deviceDescriptor.Build();
 				Descriptors.Add(deviceDescriptor);
 			}
 			Descriptors.ForEach(x => x.InitializeAllBytes());

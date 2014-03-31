@@ -36,8 +36,6 @@ namespace GKProcessor
 			FailureAutomaticOffPim.MPTUID = MPT.BaseUID;
 			FailureAutomaticOffPim.BaseUID = GuidHelper.CreateOn(MPT.BaseUID, 2);
 			gkDatabase.AddPim(FailureAutomaticOffPim);
-
-			Build();
 		}
 
 		public override void Build()

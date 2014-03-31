@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XMPT : XBase, IInputObjectsBase, INamedBase
+	public class XMPT : XBase, INamedBase
 	{
 		public XMPT()
 		{
@@ -12,19 +12,9 @@ namespace XFiresecAPI
 			MPTDevices = new List<MPTDevice>();
 			Delay = 10;
 
-			InputDevices = new List<XDevice>();
-			InputZones = new List<XZone>();
-			InputDirections = new List<XDirection>();
-			InputMPTs = new List<XMPT>();
-			InputDelays = new List<XDelay>();
 			Devices = new List<XDevice>();
 		}
 
-		public List<XDevice> InputDevices { get; set; }
-		public List<XZone> InputZones { get; set; }
-		public List<XDirection> InputDirections { get; set; }
-		public List<XMPT> InputMPTs { get; set; }
-		public List<XDelay> InputDelays { get; set; }
 		public List<XDevice> Devices { get; set; }
 
 		[DataMember]

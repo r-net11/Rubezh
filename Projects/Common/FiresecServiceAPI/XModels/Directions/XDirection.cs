@@ -16,9 +16,6 @@ namespace XFiresecAPI
 
 			InputDevices = new List<XDevice>();
 			InputZones = new List<XZone>();
-			InputDirections = new List<XDirection>();
-			InputMPTs = new List<XMPT>();
-			InputDelays = new List<XDelay>();
 			OutputDevices = new List<XDevice>();
 			PlanElementUIDs = new List<Guid>();
 		}
@@ -27,9 +24,6 @@ namespace XFiresecAPI
 
 		public List<XDevice> InputDevices { get; set; }
 		public List<XZone> InputZones { get; set; }
-		public List<XDirection> InputDirections { get; set; }
-		public List<XMPT> InputMPTs { get; set; }
-		public List<XDelay> InputDelays { get; set; }
 		public List<XDevice> OutputDevices { get; set; }
 
 		[DataMember]

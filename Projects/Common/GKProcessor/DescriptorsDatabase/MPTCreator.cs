@@ -123,7 +123,7 @@ namespace GKProcessor
 
 			var pimDescriptor = new PimDescriptor(pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);
-			UpdateConfigurationHelper.LinkXBases(MPT, pim);
+			XDeviceConfiguration.LinkXBases(MPT, pim);
 
 			var formula = new FormulaBuilder();
 
@@ -136,7 +136,7 @@ namespace GKProcessor
 					if (hasAutomaticExpression)
 						formula.Add(FormulaOperationType.OR);
 					hasAutomaticExpression = true;
-					UpdateConfigurationHelper.LinkXBases(pim, mptDevice.Device);
+					XDeviceConfiguration.LinkXBases(pim, mptDevice.Device);
 				}
 			}
 			if (hasAutomaticExpression)
@@ -163,7 +163,7 @@ namespace GKProcessor
 
 			var pimDescriptor = new PimDescriptor(pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);
-			UpdateConfigurationHelper.LinkXBases(MPT, pim);
+			XDeviceConfiguration.LinkXBases(MPT, pim);
 
 			var formula = new FormulaBuilder();
 
@@ -178,7 +178,7 @@ namespace GKProcessor
 						if (hasAutomaticExpression)
 							formula.Add(FormulaOperationType.OR);
 						hasAutomaticExpression = true;
-						UpdateConfigurationHelper.LinkXBases(pim, mptDevice.Device);
+						XDeviceConfiguration.LinkXBases(pim, mptDevice.Device);
 					}
 				}
 
@@ -202,7 +202,7 @@ namespace GKProcessor
 
 			var pimDescriptor = new PimDescriptor(pim);
 			GkDatabase.Descriptors.Add(pimDescriptor);
-			UpdateConfigurationHelper.LinkXBases(MPT, pim);
+			XDeviceConfiguration.LinkXBases(MPT, pim);
 
 			var formula = new FormulaBuilder();
 
@@ -215,7 +215,7 @@ namespace GKProcessor
 					if (hasAutomaticExpression)
 						formula.Add(FormulaOperationType.OR);
 					hasAutomaticExpression = true;
-					UpdateConfigurationHelper.LinkXBases(pim, mptDevice.Device);
+					XDeviceConfiguration.LinkXBases(pim, mptDevice.Device);
 				}
 
 				if (hasAutomaticExpression)
@@ -240,7 +240,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == MPTDeviceType.HandStop ||
 					mptDevice.MPTDeviceType == MPTDeviceType.Door)
 				{
-					UpdateConfigurationHelper.LinkXBases(MPT, mptDevice.Device);
+					XDeviceConfiguration.LinkXBases(MPT, mptDevice.Device);
 				}
 
 				if (mptDevice.MPTDeviceType == MPTDeviceType.AutomaticOffBoard ||
@@ -249,7 +249,7 @@ namespace GKProcessor
 					mptDevice.MPTDeviceType == MPTDeviceType.Speaker ||
 					mptDevice.MPTDeviceType == MPTDeviceType.Bomb)
 				{
-					UpdateConfigurationHelper.LinkXBases(mptDevice.Device, MPT);
+					XDeviceConfiguration.LinkXBases(mptDevice.Device, MPT);
 				}
 			}
 
@@ -257,9 +257,9 @@ namespace GKProcessor
 			{
 				if (mptDevice.MPTDeviceType == MPTDeviceType.AutomaticOffBoard)
 				{
-					UpdateConfigurationHelper.LinkXBases(mptDevice.Device, HandAutomaticOffPim);
-					UpdateConfigurationHelper.LinkXBases(mptDevice.Device, DoorAutomaticOffPim);
-					UpdateConfigurationHelper.LinkXBases(mptDevice.Device, FailureAutomaticOffPim);
+					XDeviceConfiguration.LinkXBases(mptDevice.Device, HandAutomaticOffPim);
+					XDeviceConfiguration.LinkXBases(mptDevice.Device, DoorAutomaticOffPim);
+					XDeviceConfiguration.LinkXBases(mptDevice.Device, FailureAutomaticOffPim);
 				}
 			}
 		}

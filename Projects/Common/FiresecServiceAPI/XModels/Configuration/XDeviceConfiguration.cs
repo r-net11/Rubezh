@@ -7,7 +7,7 @@ using FiresecAPI;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDeviceConfiguration : VersionedConfiguration
+	public partial class XDeviceConfiguration : VersionedConfiguration
 	{
 		public XDeviceConfiguration()
 		{
@@ -141,6 +141,7 @@ namespace XFiresecAPI
 			{
 				device.BaseUID = device.UID;
 				result &= ValidateDeviceLogic(device.DeviceLogic);
+				result &= ValidateDeviceLogic(device.NSLogic);
 			}
 			foreach (var zone in Zones)
 			{
@@ -187,6 +188,11 @@ namespace XFiresecAPI
 					clause.DelayUIDs = new List<Guid>();
 					result = false;
 				}
+			}
+			if (deviceLogic.OffClauses == null)
+			{
+				deviceLogic.OffClauses = new List<XClause>();
+				result = false;
 			}
 			return result;
 		}

@@ -20,8 +20,6 @@ namespace GKProcessor
 			MainDelay.PumpStationUID = pumpStation.BaseUID;
 			MainDelay.BaseUID = GuidHelper.CreateOn(PumpStation.BaseUID, 0);
 			gkDatabase.AddDelay(MainDelay);
-
-			Build();
 		}
 
 		public override void Build()

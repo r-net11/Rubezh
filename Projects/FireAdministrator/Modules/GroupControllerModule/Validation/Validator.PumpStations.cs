@@ -55,13 +55,13 @@ namespace GKModule.Validation
 		void ValidateDifferentGK(XPumpStation pumpStation)
 		{
 			var devices = new List<XDevice>();
-			devices.AddRange(pumpStation.InputDevices);
+			devices.AddRange(pumpStation.ClauseInputDevices);
 			devices.AddRange(pumpStation.NSDevices);
-			foreach (var zone in pumpStation.InputZones)
+			foreach (var zone in pumpStation.ClauseInputZones)
 			{
 				devices.AddRange(zone.Devices);
 			}
-			foreach (var direction in pumpStation.InputDirections)
+			foreach (var direction in pumpStation.ClauseInputDirections)
 			{
 				devices.AddRange(direction.InputDevices);
 			}
@@ -72,7 +72,7 @@ namespace GKModule.Validation
 
 		bool ValidateEmptyPumpStation(XPumpStation pumpStation)
 		{
-			var count = pumpStation.InputZones.Count + pumpStation.InputDevices.Count + pumpStation.InputDirections.Count + pumpStation.NSDevices.Count;
+			var count = pumpStation.ClauseInputZones.Count + pumpStation.ClauseInputDevices.Count + pumpStation.ClauseInputDirections.Count + pumpStation.NSDevices.Count;
 			if (count == 0)
 			{
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствуют входные или выходные объекты", ValidationErrorLevel.CannotWrite));
@@ -106,20 +106,20 @@ namespace GKModule.Validation
 
 			if (jnPumpsCount == 1)
 			{
-				if (pumpStation.InputZones.Count > 0)
+				if (pumpStation.ClauseInputZones.Count > 0)
 					Errors.Add(new PumpStationValidationError(pumpStation, "В условии пуска НС c ЖН не могут участвовать зоны", ValidationErrorLevel.CannotWrite));
 
-				if (pumpStation.InputDirections.Count > 0)
+				if (pumpStation.ClauseInputDirections.Count > 0)
 					Errors.Add(new PumpStationValidationError(pumpStation, "В условии пуска НС c ЖН не могут участвовать направления", ValidationErrorLevel.CannotWrite));
 
-				if (!pumpStation.InputDevices.All(x => x.DriverType == XDriverType.AM_1))
+				if (!pumpStation.ClauseInputDevices.All(x => x.DriverType == XDriverType.AM_1))
 					Errors.Add(new PumpStationValidationError(pumpStation, "В НС c ЖН во входных устройствах могут участвовать только АМ1", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
 		void ValidateEmptyObjectsInPumpStation(XPumpStation pumpStation)
 		{
-			foreach (var zone in pumpStation.InputZones)
+			foreach (var zone in pumpStation.ClauseInputZones)
 			{
 				if (zone.Devices.Count == 0)
 				{
@@ -127,7 +127,7 @@ namespace GKModule.Validation
 				}
 			}
 
-			foreach (var direction in pumpStation.InputDirections)
+			foreach (var direction in pumpStation.ClauseInputDirections)
 			{
 				if (direction.InputDevices.Count + direction.InputZones.Where(x => x.Devices.Count > 0).Count() == 0)
 				{

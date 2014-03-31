@@ -13,7 +13,6 @@ namespace GKProcessor
 			DatabaseType = databaseType;
 			DescriptorType = DescriptorType.Device;
 			Device = device;
-			Build();
 		}
 
 		public override void Build()

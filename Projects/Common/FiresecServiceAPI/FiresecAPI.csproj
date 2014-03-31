@@ -323,8 +323,10 @@
     <Compile Include="XManager\XManager.Device.cs" />
     <Compile Include="XManager\XManager.PresentationZone.cs" />
     <Compile Include="XManager\XManager.States.cs" />
-    <Compile Include="XManager\UpdateConfigurationHelper.Descroptors.cs" />
+    <Compile Include="XManager\UpdateConfigurationHelper.Descriptors.cs" />
     <Compile Include="XModels\ConfigurationCash.cs" />
+    <Compile Include="XModels\Configuration\XDeviceConfiguration.Update.cs" />
+    <Compile Include="XModels\Configuration\XDeviceConfiguration.Descriptors.cs" />
     <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
     <Compile Include="XModels\Configuration\XHashConfiguration.cs" />
     <Compile Include="XModels\Delay\DelayRegime.cs" />
@@ -397,7 +399,6 @@
     <Compile Include="XModels\Formula\FormulaOperation.cs" />
     <Compile Include="XModels\Formula\FormulaOperationType.cs" />
     <Compile Include="XModels\Guard\XGuardUser.cs" />
-    <Compile Include="XModels\IInputObjectsBase.cs" />
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="XModels\Journal\EventName.cs" />

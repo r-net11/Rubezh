@@ -61,8 +61,8 @@ namespace GKProcessor
 
 			var delayDescriptor = new DelayDescriptor(MainDelay);
 			GkDatabase.Descriptors.Add(delayDescriptor);
-			UpdateConfigurationHelper.LinkXBases(PumpStation, MainDelay);
-			UpdateConfigurationHelper.LinkXBases(MainDelay, PumpStation);
+			XDeviceConfiguration.LinkXBases(PumpStation, MainDelay);
+			XDeviceConfiguration.LinkXBases(MainDelay, PumpStation);
 
 			var formula = new FormulaBuilder();
 
@@ -232,7 +232,7 @@ namespace GKProcessor
 					jnDescriptor.Formula = formula;
 					jnDescriptor.FormulaBytes = formula.GetBytes();
 				}
-				UpdateConfigurationHelper.LinkXBases(jnDescriptor.XBase, PumpStation);
+				XDeviceConfiguration.LinkXBases(jnDescriptor.XBase, PumpStation);
 			}
 		}
 
@@ -252,7 +252,7 @@ namespace GKProcessor
 			var formula = new FormulaBuilder();
 
 			var inputDevices = new List<XBase>();
-			inputDevices.AddRange(PumpStation.InputDevices);
+			inputDevices.AddRange(PumpStation.ClauseInputDevices);
 			foreach (var nsDevice in PumpStation.NSDevices)
 			{
 				if (!inputDevices.Contains(nsDevice))
@@ -260,7 +260,7 @@ namespace GKProcessor
 			}
 			foreach (var inputDevice in inputDevices)
 			{
-				UpdateConfigurationHelper.LinkXBases(Pim, inputDevice);
+				XDeviceConfiguration.LinkXBases(Pim, inputDevice);
 			}
 			for (int i = 0; i < inputDevices.Count; i++)
 			{
@@ -282,15 +282,15 @@ namespace GKProcessor
 		{
 			foreach (var nsDevice in PumpStation.NSDevices)
 			{
-				UpdateConfigurationHelper.LinkXBases(nsDevice, PumpStation);
+				XDeviceConfiguration.LinkXBases(nsDevice, PumpStation);
 			}
 
 			foreach (var pumpDelay in PumpDelays)
 			{
-				UpdateConfigurationHelper.LinkXBases(pumpDelay.Delay, PumpStation);
+				XDeviceConfiguration.LinkXBases(pumpDelay.Delay, PumpStation);
 				foreach (var pumpDevice in FirePumpDevices)
 				{
-					UpdateConfigurationHelper.LinkXBases(pumpDelay.Delay, pumpDevice);
+					XDeviceConfiguration.LinkXBases(pumpDelay.Delay, pumpDevice);
 				}
 			}
 
@@ -300,7 +300,7 @@ namespace GKProcessor
 				{
 					if (pumpDelay.Device.BaseUID == nsDevice.BaseUID)
 					{
-						UpdateConfigurationHelper.LinkXBases(nsDevice, pumpDelay.Delay);
+						XDeviceConfiguration.LinkXBases(nsDevice, pumpDelay.Delay);
 					}
 				}
 			}
@@ -325,7 +325,7 @@ namespace GKProcessor
 			{
 				foreach (var otherFirePumpDevice in FirePumpDevices)
 				{
-					UpdateConfigurationHelper.LinkXBases(firePumpDevice, otherFirePumpDevice);
+					XDeviceConfiguration.LinkXBases(firePumpDevice, otherFirePumpDevice);
 				}
 			}
 		}

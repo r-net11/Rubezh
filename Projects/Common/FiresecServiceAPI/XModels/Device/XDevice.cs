@@ -25,7 +25,6 @@ namespace XFiresecAPI
 
 			Zones = new List<XZone>();
 			Directions = new List<XDirection>();
-			DevicesInLogic = new List<XDevice>();
 		}
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Deivce; } }
@@ -38,7 +37,6 @@ namespace XFiresecAPI
 		public XDevice Parent { get; set; }
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
-		public List<XDevice> DevicesInLogic { get; set; }
 		public bool HasDifferences { get; set; }
 		public bool HasMissingDifferences { get; set; }
 		public bool IsInMPT { get; set; }

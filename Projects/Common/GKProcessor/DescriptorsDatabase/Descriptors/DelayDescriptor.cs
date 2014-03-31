@@ -11,7 +11,6 @@ namespace GKProcessor
 			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Delay;
 			Delay = delay;
-			Build();
 		}
 
 		public override void Build()

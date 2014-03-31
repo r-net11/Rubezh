@@ -114,7 +114,7 @@ namespace FiresecClient
 			}
 			if (device.DriverType == XDriverType.GK)
 			{
-				UpdateConfigurationHelper.UpdateGKPredefinedName(device);
+				DeviceConfiguration.UpdateGKPredefinedName(device);
 			}
 		}
 
