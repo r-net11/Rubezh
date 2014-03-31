@@ -7,7 +7,7 @@
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 		xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
 		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-		MinWidth="1050" MinHeight="500">
+		MinWidth="1010" MinHeight="500">
 
 	<UserControl.Resources>
 		<Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
@@ -218,7 +218,7 @@
 						</TextBlock.Style>
 					</TextBlock>
 				</TabItem.Header>
-				<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
+				<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" Margin="1">
 					<tree:TreeList.View>
 						<GridView>
 							<GridViewColumn Width="250" Header="Устройство">

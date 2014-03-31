@@ -52,8 +52,18 @@
 						<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
 						<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
 					</StackPanel>
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
-						<DataGrid.Columns>
+                    <DataGrid Grid.Row="1" Name="dataGrid1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+                        <DataGrid.Resources>
+                            <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                                <MouseBinding Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+                            </InputBindingCollection>
+                        </DataGrid.Resources>
+                        <DataGrid.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                            </Style>
+                        </DataGrid.ItemContainerStyle>
+                        <DataGrid.Columns>
 							<DataGridTemplateColumn Header="Тип" MinWidth="200" Width="Auto">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
