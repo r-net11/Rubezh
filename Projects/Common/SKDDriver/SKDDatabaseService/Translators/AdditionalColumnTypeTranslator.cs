@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
@@ -31,6 +32,7 @@ namespace SKDDriver
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.DataType = (AdditionalColumnDataType)tableItem.DataType;
+			result.PersonType = (PersonType)tableItem.PersonType;
 			return result;
 		}
 
@@ -40,6 +42,29 @@ namespace SKDDriver
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.DataType = (int?)apiItem.DataType;
+			tableItem.PersonType = (int)apiItem.PersonType;
+		}
+
+		public AdditionalColumnType Get(Guid? uid)
+		{
+			if (uid == null)
+				return null;
+			try
+			{
+				var result = Table.Where(x => x != null &&
+					!x.IsDeleted &&
+					x.UID == uid.Value).FirstOrDefault();
+				return Translate(result);
+			}
+			catch (Exception e)
+			{
+				return null;
+			}
+		}
+
+		public List<Guid> GetTextColumnTypes()
+		{
+			return Table.Where(x => x.DataType == (int?)AdditionalColumnDataType.Text).Select(x => x.UID).ToList();
 		}
 
 		protected override Expression<Func<DataAccess.AdditionalColumnType, bool>> IsInFilter(AdditionalColumnTypeFilter filter)
@@ -52,6 +77,10 @@ namespace SKDDriver
 			{
 				var dataType = (int)filter.Type.Value;
 				result = result.And(e => e.DataType == dataType);
+			}
+			if (filter.PersonType != null)
+			{
+				result = result.And(e => e.PersonType == (int?)filter.PersonType);
 			}
 			return result;
 		}

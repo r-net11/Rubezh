@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.TreeList;
 using FiresecAPI;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using FiresecClient.SKDHelpers;
-using FiresecClient;
+using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -34,11 +30,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationDepartmentsViewModel);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationDepartmentsViewModel, null, Department);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var department = departmentDetailsViewModel.Department;
-				DepartmentHelper.LinkToParent(department, Department);
 				var saveResult = DepartmentHelper.Save(department);
 				if (!saveResult)
 					return;

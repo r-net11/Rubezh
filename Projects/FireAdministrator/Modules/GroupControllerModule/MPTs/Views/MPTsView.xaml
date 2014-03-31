@@ -14,13 +14,22 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="2*" MinWidth="200" />
 			</Grid.ColumnDefinitions>
-			<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}">
+            <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding MPTs}" SelectedItem="{Binding SelectedMPT}" CanUserSortColumns="True">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Название" MinWidth="250" Width="*">
+                    <DataGridTemplateColumn Header="№" SortMemberPath="MPT.No" Width="Auto" CanUserResize="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BMPT.png" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding MPT.No}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Наименование" SortMemberPath="MPT.Name" MinWidth="250" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BMPT.png" VerticalAlignment="Center" />
 									<TextBlock Width="200" Text="{Binding MPT.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
 								</StackPanel>
 							</DataTemplate>
@@ -43,8 +52,18 @@
 						<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
 						<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
 					</StackPanel>
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
-						<DataGrid.Columns>
+                    <DataGrid Grid.Row="1" Name="dataGrid1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+                        <DataGrid.Resources>
+                            <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                                <MouseBinding Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+                            </InputBindingCollection>
+                        </DataGrid.Resources>
+                        <DataGrid.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                            </Style>
+                        </DataGrid.ItemContainerStyle>
+                        <DataGrid.Columns>
 							<DataGridTemplateColumn Header="Тип" MinWidth="200" Width="Auto">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
@@ -80,31 +99,7 @@
                                 <TextBlock Grid.Column="0" Text="Примечание" HorizontalAlignment="Right" Foreground="White" Margin="2" />
                                 <TextBox Grid.Column="1" Text="{Binding Description}" Margin="2" />
                             </Grid>
-
                             <Views:MPTDevicePropertiesView DataContext="{Binding MPTDevicePropertiesViewModel}" MinHeight="10" />
-                            
-                            <!--<StackPanel Visibility="{Binding HasDelayAndHold, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Задержка" Width="200" Foreground="White" Margin="2" />
-                                    <TextBox Text="{Binding Delay}" Width="200" Margin="2" />
-                                </StackPanel>
-
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Удержание" Width="200" Foreground="White" Margin="2" />
-                                    <TextBox Text="{Binding Hold}" Width="200" Margin="2" />
-                                </StackPanel>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Visibility="{Binding HasCurcuitControl, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="Контроль цепи" Width="200" Foreground="White" Margin="2" />
-
-                                <ComboBox Grid.Column="1" ItemsSource="{Binding CurcuitControlParameters}" SelectedItem="{Binding SelectedCurcuitControlParameter, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding SelectedCurcuitControlParameter.Name}" VerticalAlignment="Center" Margin="2">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Name}" ToolTip="{Binding Name}" />
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-                            </StackPanel>-->
                         </StackPanel>
                         <Controls:ToolBarButton Grid.Column="1" Command="{Binding EditPropertiesCommand}" ToolTip="Параметры устройства" ImageSource="/Controls;component/Images/Settings.png" VerticalAlignment="Top" />
                     </Grid>
@@ -137,7 +132,7 @@
 
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Задержка" Width="200" Margin="2" />
-						<TextBox Text="{Binding Delay}" Width="200" Background="LightGray" Margin="2" />
+						<TextBox Text="{Binding Delay, UpdateSourceTrigger=PropertyChanged}" Width="200" Background="LightGray" Margin="2" />
 					</StackPanel>
 					<CheckBox IsChecked="{Binding UseDoorAutomatic}" Content="Отключать автоматику при срабатывании датчика двери-окна" Margin="2" />
 					<CheckBox IsChecked="{Binding UseDoorStop}" Content="Останавливать при срабатывании датчика двери-окна" Margin="2" />

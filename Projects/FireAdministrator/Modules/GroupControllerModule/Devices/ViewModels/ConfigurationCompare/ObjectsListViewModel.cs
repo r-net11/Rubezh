@@ -28,19 +28,25 @@ namespace GKModule.ViewModels
 			if (deviceConfiguration.Directions != null)
 				foreach (var direction in deviceConfiguration.Directions.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
 				{
-					var objectViewModel = new ObjectViewModel(direction) { ObjectType = ObjectType.Direction };
+					var objectViewModel = new ObjectViewModel(direction);
 					Objects.Add(objectViewModel);
 				}
 			if (deviceConfiguration.PumpStations != null)
 				foreach (var pumpStation in deviceConfiguration.PumpStations.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
 				{
-					var objectViewModel = new ObjectViewModel(pumpStation) { ObjectType = ObjectType.PumpStation };
+					var objectViewModel = new ObjectViewModel(pumpStation);
 					Objects.Add(objectViewModel);
 				}
 			if (deviceConfiguration.MPTs != null)
 				foreach (var mpt in deviceConfiguration.MPTs.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
 				{
-					var objectViewModel = new ObjectViewModel(mpt) { ObjectType = ObjectType.MPT };
+					var objectViewModel = new ObjectViewModel(mpt);
+					Objects.Add(objectViewModel);
+				}
+			if (deviceConfiguration.Delays != null)
+				foreach (var delay in deviceConfiguration.Delays.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
+				{
+					var objectViewModel = new ObjectViewModel(delay);
 					Objects.Add(objectViewModel);
 				}
 		}

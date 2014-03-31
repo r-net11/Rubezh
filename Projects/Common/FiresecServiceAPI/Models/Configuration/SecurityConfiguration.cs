@@ -52,6 +52,11 @@ namespace FiresecAPI.Models
 					user.OrganisationUIDs = new List<Guid>();
 					result = false;
 				}
+				if (user.PersonTypes == null)
+				{
+					user.PersonTypes = new List<PersonType>();
+					result = false;
+				}
 			}
 			return result;
 		}

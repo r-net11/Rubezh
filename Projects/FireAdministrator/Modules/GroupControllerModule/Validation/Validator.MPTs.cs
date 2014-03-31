@@ -20,17 +20,17 @@ namespace GKModule.Validation
 				ValidateMPTHasNoLogic(mpt);
 				ValidateMPTSameDevices(mpt);
 				ValidateMPTDeviceParameters(mpt);
-				ValidateMPTDeviceParametersMissmatch(mpt);
+				ValidateMPTSelfLogic(mpt);
 			}
 		}
 
 		void ValidateMPTNameEquality()
 		{
-			var mptNames = new HashSet<string>();
+			var mptNos = new HashSet<int>();
 			foreach (var mpt in XManager.DeviceConfiguration.MPTs)
 			{
-				if (!mptNames.Add(mpt.Name))
-					Errors.Add(new MPTValidationError(mpt, "Дублируется название", ValidationErrorLevel.CannotWrite));
+				if (!mptNos.Add(mpt.No))
+					Errors.Add(new MPTValidationError(mpt, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace GKModule.Validation
 		{
 			foreach (var mptDevice in mpt.MPTDevices)
 			{
-				if (mptDevice.Device != null)
+				if (mptDevice.Device != null && (mptDevice.Device.DriverType == XDriverType.RSR2_RM_1 || mptDevice.Device.DriverType == XDriverType.RSR2_MVK8))
 				{
 					var delayProperty = mptDevice.Device.Properties.FirstOrDefault(x => x.Name == "Задержка на включение, с");
 					if (delayProperty != null)
@@ -95,24 +95,10 @@ namespace GKModule.Validation
 			}
 		}
 
-		void ValidateMPTDeviceParametersMissmatch(XMPT mpt)
+		void ValidateMPTSelfLogic(XMPT mpt)
 		{
-			//foreach (var mptDevice in mpt.MPTDevices)
-			//{
-			//	var property = mptDevice.Device.Properties.FirstOrDefault(x => x.Name == "Задержка на включение, с");
-			//	if (property != null)
-			//	{
-			//		if(mptDevice.Delay != property.Value)
-			//			Errors.Add(new DeviceValidationError(mptDevice.Device, "Значение задержки не совпадает со значением, настроенным в МПТ " + mpt.PresentationName, ValidationErrorLevel.CannotWrite));
-			//	}
-
-			//	property = mptDevice.Device.Properties.FirstOrDefault(x => x.Name == "Время удержания, с");
-			//	if (property != null)
-			//	{
-			//		if (mptDevice.Hold != property.Value)
-			//			Errors.Add(new DeviceValidationError(mptDevice.Device, "Значение удержания не совпадает со значением, настроенным в МПТ " + mpt.PresentationName, ValidationErrorLevel.CannotWrite));
-			//	}
-			//}
+			if (mpt.ClauseInputMPTs.Contains(mpt))
+				Errors.Add(new MPTValidationError(mpt, "МПТ зависит от самого себя", ValidationErrorLevel.CannotWrite));
 		}
 
 		List<XDevice> GetAllMPTDevices(XMPT mpt)

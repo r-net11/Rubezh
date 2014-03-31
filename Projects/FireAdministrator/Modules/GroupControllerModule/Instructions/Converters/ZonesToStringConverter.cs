@@ -21,7 +21,7 @@ namespace GKModule.Converters
 				if (zone != null)
 					zones.Add(zone);
 			}
-			return XManager.GetCommaSeparatedZones(zones);
+			return XManager.GetCommaSeparatedObjects(new List<INamedBase>(zones));
 		}
 
 		public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)

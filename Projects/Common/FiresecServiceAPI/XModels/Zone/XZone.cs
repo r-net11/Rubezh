@@ -28,7 +28,7 @@ namespace XFiresecAPI
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public int No { get; set; }
+		public ushort No { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

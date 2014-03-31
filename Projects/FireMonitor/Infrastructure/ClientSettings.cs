@@ -14,6 +14,7 @@ namespace Infrastructure
 		public static readonly string AutoActivationSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("AutoActivationSettings.xml");
 		public static readonly string MultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("MultiLayoutCameraSettings.xml");
 		public static readonly string RviMultiLayoutCameraSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("RviMultiLayoutCameraSettings.xml");
+		public static readonly string SKDSettingsFileName = AppDataFolderHelper.GetMonitorSettingsPath("SKDSettings.xml");
 
 		static ArchiveDefaultState _archiveDefaultState;
 		public static ArchiveDefaultState ArchiveDefaultState
@@ -43,6 +44,13 @@ namespace Infrastructure
 			set { _rviMultiLayoutCameraSettings = value; }
 		}
 
+		static SKDSettings _skdSettings;
+		public static SKDSettings SKDSettings
+		{
+			get { return _skdSettings ?? (_skdSettings = new SKDSettings()); }
+			set { _skdSettings = value; }
+		}
+
 		public static void LoadSettings()
 		{
 			try
@@ -51,6 +59,7 @@ namespace Infrastructure
 				LoadAutoActivationSettings();
 				LoadCameraSettings();
 				LoadRviCameraSettings();
+				LoadSKDSettings();
 			}
 			catch (Exception e)
 			{
@@ -69,6 +78,7 @@ namespace Infrastructure
 				SaveAutoActivationSettings();
 				SaveCameraSettings();
 				SaveRviCameraSettings();
+				SaveSKDSettings();
 			}
 			catch (Exception e)
 			{
@@ -146,6 +156,22 @@ namespace Infrastructure
 			}
 		}
 
+		static void LoadSKDSettings()
+		{
+			if (File.Exists(SKDSettingsFileName))
+			{
+				using (var fileStream = new FileStream(SKDSettingsFileName, FileMode.Open))
+				{
+					var dataContractSerializer = new DataContractSerializer(typeof(SKDSettings));
+					SKDSettings = (SKDSettings)dataContractSerializer.ReadObject(fileStream);
+				}
+			}
+			else
+			{
+				SKDSettings = new SKDSettings();
+			}
+		}
+
 		static void SaveArchiveDefaultState()
 		{
 			using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Create))
@@ -179,6 +205,15 @@ namespace Infrastructure
 			{
 				var dataContractSerializer = new DataContractSerializer(typeof(RviMultiLayoutCameraSettings));
 				dataContractSerializer.WriteObject(fileStream, RviMultiLayoutCameraSettings);
+			}
+		}
+
+		static void SaveSKDSettings()
+		{
+			using (var fileStream = new FileStream(SKDSettingsFileName, FileMode.Create))
+			{
+				var dataContractSerializer = new DataContractSerializer(typeof(SKDSettings));
+				dataContractSerializer.WriteObject(fileStream, SKDSettings);
 			}
 		}
 	}

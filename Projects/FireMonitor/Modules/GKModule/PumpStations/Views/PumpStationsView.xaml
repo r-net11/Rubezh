@@ -28,13 +28,22 @@
 					</Style>
 				</DataGrid.ItemContainerStyle>
 				<DataGrid.Columns>
+                    <DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BPumpStation.png" VerticalAlignment="Center" />
+                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding PumpStation.No}" VerticalAlignment="Center" Margin="2" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 					<DataGridTemplateColumn Width="*" MinWidth="250" Header="НС">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/BPumpStation.png" VerticalAlignment="Center" />
 									<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
-									<TextBlock Width="200" Text="{Binding PumpStation.PresentationName}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+									<TextBlock Width="200" Text="{Binding PumpStation.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
 										<TextBlock.ContextMenu>
 											<ContextMenu>
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />

@@ -69,12 +69,12 @@ namespace FiresecClient
 
 		public static void UpdateConfiguration()
 		{
-			UpdateConfigurationHelper.Update(DeviceConfiguration);
+			DeviceConfiguration.UpdateConfiguration();
 		}
 
 		public static void Prepare()
 		{
-			UpdateConfigurationHelper.PrepareDescriptors(DeviceConfiguration);
+			DeviceConfiguration.PrepareDescriptors();
 		}
 
 		public static ushort GetKauLine(XDevice device)

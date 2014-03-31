@@ -111,8 +111,8 @@ namespace GKModule.ViewModels
 				var selectedDevice = deviceSelectationViewModel.SelectedDevice;
 				SelectedDevice.MPTDevice.Device = selectedDevice;
 				SelectedDevice.MPTDevice.DeviceUID = selectedDevice != null ? selectedDevice.BaseUID : Guid.Empty;
-				UpdateConfigurationHelper.SetMPTDefaultProperty(selectedDevice);
-				UpdateConfigurationHelper.SetIsMPT(SelectedDevice.MPTDevice);
+				XManager.DeviceConfiguration.SetMPTDefaultProperty(selectedDevice);
+				XManager.DeviceConfiguration.SetIsMPT(SelectedDevice.MPTDevice);
 				SelectedDevice.Device = selectedDevice;
 				ChangeIsInMPT(SelectedDevice.MPTDevice.Device, true);
 				SelectedDevice.MPTDevicePropertiesViewModel = new MPTDevicePropertiesViewModel(selectedDevice, false);

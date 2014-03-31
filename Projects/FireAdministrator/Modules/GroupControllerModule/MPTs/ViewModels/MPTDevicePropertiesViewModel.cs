@@ -44,16 +44,24 @@ namespace GKModule.ViewModels
 					switch (driverProperty.DriverPropertyType)
 					{
 						case XDriverPropertyTypeEnum.StringType:
-							StringProperties.Add(new StringPropertyViewModel(driverProperty, Device));
+							var stringPropertyViewModel = new StringPropertyViewModel(driverProperty, Device);
+							stringPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
+							StringProperties.Add(stringPropertyViewModel);
 							break;
 						case XDriverPropertyTypeEnum.IntType:
-							ShortProperties.Add(new ShortPropertyViewModel(driverProperty, Device));
+							var shortPropertyViewModel = new ShortPropertyViewModel(driverProperty, Device);
+							shortPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
+							ShortProperties.Add(shortPropertyViewModel);
 							break;
 						case XDriverPropertyTypeEnum.BoolType:
-							BoolProperties.Add(new BoolPropertyViewModel(driverProperty, Device));
+							var boolPropertyViewModel = new BoolPropertyViewModel(driverProperty, Device);
+							boolPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
+							BoolProperties.Add(boolPropertyViewModel);
 							break;
 						case XDriverPropertyTypeEnum.EnumType:
-							EnumProperties.Add(new EnumPropertyViewModel(driverProperty, Device));
+							var enumPropertyViewModel = new EnumPropertyViewModel(driverProperty, Device);
+							enumPropertyViewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(propertyViewModel_PropertyChanged);
+							EnumProperties.Add(enumPropertyViewModel);
 							break;
 					}
 				}
@@ -63,6 +71,11 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("ShortProperties");
 			OnPropertyChanged("BoolProperties");
 			OnPropertyChanged("EnumProperties");
+		}
+
+		void propertyViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			MPTViewModel.ChangeIsInMPT(Device, true);
 		}
 	}
 }

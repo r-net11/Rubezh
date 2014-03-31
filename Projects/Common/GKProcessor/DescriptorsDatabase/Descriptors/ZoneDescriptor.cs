@@ -10,7 +10,6 @@ namespace GKProcessor
 			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Zone;
 			Zone = zone;
-			Build();
 		}
 
 		public override void Build()

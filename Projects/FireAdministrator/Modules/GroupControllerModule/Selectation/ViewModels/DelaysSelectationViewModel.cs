@@ -17,9 +17,8 @@ namespace GKModule.ViewModels
 	public class DelaysSelectationViewModel : SaveCancelDialogViewModel
 	{
 		public List<XDelay> Delays { get; private set; }
-		public bool CanCreateNew { get; private set; }
 
-		public DelaysSelectationViewModel(List<XDelay> delays, bool canCreateNew = false)
+		public DelaysSelectationViewModel(List<XDelay> delays)
 		{
 			Title = "Выбор задержек";
 			AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
@@ -28,7 +27,6 @@ namespace GKModule.ViewModels
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
 			Delays = delays;
-			CanCreateNew = canCreateNew;
 			TargetDelays = new ObservableCollection<XDelay>();
 			SourceDelays = new ObservableCollection<XDelay>();
 

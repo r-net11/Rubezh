@@ -37,6 +37,7 @@ namespace GKModule.ViewModels
 			InitializeSubsystemTypes(archiveFilter);
 			InitializePumpStations(archiveFilter);
 			InitializeMPTs(archiveFilter);
+			InitializeDelays(archiveFilter);
 			InitializePIMs(archiveFilter);
 		}
 
@@ -192,8 +193,8 @@ namespace GKModule.ViewModels
 			MPTs = new CheckBoxItemList<ArchiveMPTViewModel>();
 			foreach (var mpt in XManager.MPTs)
 			{
-				var archiveDirectionViewModel = new ArchiveMPTViewModel(mpt);
-				MPTs.Add(archiveDirectionViewModel);
+				var archiveMPTViewModel = new ArchiveMPTViewModel(mpt);
+				MPTs.Add(archiveMPTViewModel);
 			}
 			foreach (var uid in archiveFilter.MPTUIDs)
 			{
@@ -201,6 +202,24 @@ namespace GKModule.ViewModels
 				if (mpt != null)
 				{
 					mpt.IsChecked = true;
+				}
+			}
+		}
+
+		void InitializeDelays(XArchiveFilter archiveFilter)
+		{
+			Delays = new CheckBoxItemList<ArchiveDelayViewModel>();
+			foreach (var delay in XManager.Delays)
+			{
+				var archiveDelayViewModel = new ArchiveDelayViewModel(delay);
+				Delays.Add(archiveDelayViewModel);
+			}
+			foreach (var uid in archiveFilter.DelayUIDs)
+			{
+				var delay = Delays.Items.FirstOrDefault(x => x.Delay.BaseUID == uid);
+				if (delay != null)
+				{
+					delay.IsChecked = true;
 				}
 			}
 		}
@@ -381,6 +400,7 @@ namespace GKModule.ViewModels
 		public CheckBoxItemList<SubsystemTypeViewModel> SubsystemTypes { get; private set; }
 		public CheckBoxItemList<ArchivePumpStationViewModel> PumpStations { get; private set; }
 		public CheckBoxItemList<ArchiveMPTViewModel> MPTs { get; private set; }
+		public CheckBoxItemList<ArchiveDelayViewModel> Delays { get; private set; }
 		public CheckBoxItemList<ArchivePimViewModel> PIMs { get; private set; }
 		List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetGkEventNames();
 		List<string> DistinctDatabaseDescriptions = FiresecManager.FiresecService.GetGkEventDescriptions();
@@ -443,6 +463,11 @@ namespace GKModule.ViewModels
 				if (mpt.IsChecked)
 					archiveFilter.MPTUIDs.Add(mpt.MPT.BaseUID);
 			}
+			foreach (var delay in Delays.Items)
+			{
+				if (delay.IsChecked)
+					archiveFilter.DelayUIDs.Add(delay.Delay.BaseUID);
+			}
 			foreach (var pim in PIMs.Items)
 			{
 				if (pim.IsChecked)
@@ -455,17 +480,18 @@ namespace GKModule.ViewModels
 		void OnClear()
 		{
 			Initialize(new XArchiveFilter());
-			OnPropertyChanged(()=>JournalItemTypes);
-			OnPropertyChanged(()=>StateClasses);
-			OnPropertyChanged(()=>EventNames);
-			OnPropertyChanged(()=>AllDevices);
-			OnPropertyChanged(()=>ArchiveZones);
-			OnPropertyChanged(()=>ArchiveDirections);
-			OnPropertyChanged(()=>ArchiveDescriptions);
-			OnPropertyChanged(()=>SubsystemTypes);
-			OnPropertyChanged(()=>PumpStations);
+			OnPropertyChanged(() => JournalItemTypes);
+			OnPropertyChanged(() => StateClasses);
+			OnPropertyChanged(() => EventNames);
+			OnPropertyChanged(() => AllDevices);
+			OnPropertyChanged(() => ArchiveZones);
+			OnPropertyChanged(() => ArchiveDirections);
+			OnPropertyChanged(() => ArchiveDescriptions);
+			OnPropertyChanged(() => SubsystemTypes);
+			OnPropertyChanged(() => PumpStations);
 			OnPropertyChanged(() => MPTs);
-			OnPropertyChanged(()=>PIMs);
+			OnPropertyChanged(() => Delays);
+			OnPropertyChanged(() => PIMs);
 		}
 
 		public RelayCommand SaveCommand { get; private set; }

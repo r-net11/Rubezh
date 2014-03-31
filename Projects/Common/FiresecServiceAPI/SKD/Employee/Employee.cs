@@ -41,6 +41,9 @@ namespace FiresecAPI
 		public List<Guid> AdditionalColumnUIDs { get; set; }
 
 		[DataMember]
+		public List<TextColumn> AdditionalTextColumns { get; set; }
+
+		[DataMember]
 		public List<Guid> CardUIDs { get; set; }
 
 		[DataMember]
@@ -54,5 +57,12 @@ namespace FiresecAPI
 			get { return CurrentReplacement != null; }
 		}
 
+	}
+
+	public class TextColumn
+	{
+		public Guid ColumnTypeUID {get; set;}
+		
+		public string Text { get; set; }
 	}
 }

@@ -41,8 +41,43 @@ namespace SKDDriver
 			{
 				JournalItem.Name = skdEvent.Name;
 				JournalItem.StateClass = skdEvent.StateClass;
+				switch (eventNameCode)
+				{
+					case 22:
+						switch (evenDescriptionCode)
+						{
+							case 1:
+								JournalItem.Description = "Установить режим ОТКРЫТО";
+								break;
+							case 2:
+								JournalItem.Description = "Установить режим ЗАКРЫТО";
+								break;
+							case 3:
+								JournalItem.Description = "Установить режим КОНТРОЛЬ";
+								break;
+							case 4:
+								JournalItem.Description = "Установить режим СОВЕЩАНИЕ";
+								break;
+							case 5:
+								JournalItem.Description = "Открыть";
+								break;
+							case 6:
+								JournalItem.Description = "Закрыть";
+								break;
+							case 7:
+								JournalItem.Description = "Разрешить проход";
+								break;
+							case 8:
+								JournalItem.Description = "Запретить проход";
+								break;
+						}
+						break;
+
+					default:
+						JournalItem.Description = evenDescriptionCode.ToString();
+						break;
+				}
 			}
-			JournalItem.Description = evenDescriptionCode.ToString();
 
 			if (source == 1)
 			{

@@ -142,7 +142,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.DepartmentName;
 					break;
 				case PassCardTextPropertyType.EndDate:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.ValidTo.ToShortDateString();
+					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.FirstName:
 					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.FirstName;
@@ -160,7 +160,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.SecondName;
 					break;
 				case PassCardTextPropertyType.StartDate:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.ValidTo.ToShortDateString();
+					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Additional:
 					var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementTextProperty.AdditionalColumnUID);
@@ -254,7 +254,7 @@ namespace SKDModule.PassCard.ViewModels
 					case PassCardImagePropertyType.Additional:
 						var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementPassCardImageProperty.AdditionalColumnUID);
 						if (columnValue != null)
-							photo = PhotoHelper.GetSingle(columnValue.PhotoUID);
+							photo = columnValue.Photo;
 						break;
 					default:
 						break;

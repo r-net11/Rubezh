@@ -64,8 +64,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		int _no;
-		public int No
+		ushort _no;
+		public ushort No
 		{
 			get { return _no; }
 			set
@@ -136,7 +136,7 @@ namespace GKModule.ViewModels
 		{
 			if (PumpStation.No != No && XManager.PumpStations.Any(x => x.No == No))
 			{
-				MessageBoxService.Show("Направление с таким номером уже существует");
+				MessageBoxService.Show("НС с таким номером уже существует");
 				return false;
 			}
 

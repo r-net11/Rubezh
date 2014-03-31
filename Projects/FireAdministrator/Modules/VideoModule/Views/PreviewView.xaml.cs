@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using VideoModule.ViewModels;
 
 namespace VideoModule.Views
 {
-	/// <summary>
-	/// Логика взаимодействия для VideoPreview.xaml
-	/// </summary>
 	public partial class PreviewView : UserControl
 	{
-		public static PreviewView Current { get; private set; }
 		public PreviewView()
 		{
 			InitializeComponent();
-			Current = this;
-			//Loaded += OnLoaded;
+			Loaded += OnLoaded;
+			Unloaded += OnUnloaded;
+		}
+
+		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+		{
+			_grid.Child = new UIElement();
 		}
 
 		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			throw new NotImplementedException();
+			var previewViewModel = DataContext as PreviewViewModel;
+			_grid.Child = previewViewModel.CellPlayerWrap;
 		}
 	}
 }

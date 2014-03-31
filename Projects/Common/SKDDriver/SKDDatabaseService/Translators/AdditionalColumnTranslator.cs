@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
 using LinqKit;
@@ -7,18 +9,22 @@ namespace SKDDriver
 {
 	public class AdditionalColumnTranslator : IsDeletedTranslator<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
 	{
-		public AdditionalColumnTranslator(DataAccess.SKDDataContext context)
+		public AdditionalColumnTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator, AdditionalColumnTypeTranslator additionalColumnTypeTranslator)
 			: base(context)
 		{
-
+			PhotoTranslator = photoTranslator;
+			AdditionalColumnTypeTranslator = additionalColumnTypeTranslator;
 		}
+
+		PhotoTranslator PhotoTranslator;
+		AdditionalColumnTypeTranslator AdditionalColumnTypeTranslator;
 
 		protected override AdditionalColumn Translate(DataAccess.AdditionalColumn tableItem)
 		{
 			var result = base.Translate(tableItem);
 			result.EmployeeUID = tableItem.EmployeeUID;
-			result.AdditionalColumnTypeUID = tableItem.AdditionalColumnTypeUID;
-			result.PhotoUID = tableItem.PhotoUID;
+			result.AdditionalColumnType = AdditionalColumnTypeTranslator.Get(tableItem.AdditionalColumnTypeUID);
+			result.Photo = PhotoTranslator.GetSingle(tableItem.PhotoUID);
 			result.TextData = tableItem.TextData;
 			return result;
 		}
@@ -27,9 +33,30 @@ namespace SKDDriver
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
-			tableItem.AdditionalColumnTypeUID = apiItem.AdditionalColumnTypeUID;
-			tableItem.PhotoUID = apiItem.PhotoUID;
+			tableItem.AdditionalColumnTypeUID = apiItem.AdditionalColumnType.UID;
+			tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.TextData = apiItem.TextData;
+		}
+
+		public void SetTextColumns(OperationResult<IEnumerable<Employee>> employees)
+		{
+			try
+			{
+				var textColumnTypes = AdditionalColumnTypeTranslator.GetTextColumnTypes();
+				foreach (var employee in employees.Result)
+				{
+					employee.AdditionalTextColumns = new List<TextColumn>();
+					var tableItems = from x in Table where x.EmployeeUID == employee.UID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value) select x;
+					foreach (var item in tableItems)
+					{
+						employee.AdditionalTextColumns.Add(new TextColumn { ColumnTypeUID = textColumnTypes.FirstOrDefault(x => x == item.AdditionalColumnTypeUID.Value), Text = item.TextData });
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				employees = new OperationResult<IEnumerable<Employee>>(e.Message);
+			}
 		}
 
 		protected override Expression<Func<DataAccess.AdditionalColumn, bool>> IsInFilter(AdditionalColumnFilter filter)

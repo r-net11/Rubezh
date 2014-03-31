@@ -7,9 +7,13 @@ namespace SKDDriver.DataAccess
 		Guid UID { get; set; }
 	}
 
+	public interface ILinkedToEmployee
+	{
+		Guid? EmployeeUID { get; set; }
+	}
+
 	public interface IIsDeletedDatabaseElement : IDatabaseElement
 	{
-		Guid UID { get; set; }
 		bool IsDeleted { get; set; }
 		DateTime RemovalDate { get; set; }
 	}
@@ -18,6 +22,8 @@ namespace SKDDriver.DataAccess
 	{
 		Guid? OrganizationUID { get; set; }
 	}
+
+
 	
 	public partial class Journal : IDatabaseElement { }
 	
@@ -26,7 +32,7 @@ namespace SKDDriver.DataAccess
 	public partial class Department : IOrganizationDatabaseElement { }
 	public partial class Document : IOrganizationDatabaseElement { }
 	public partial class Employee : IOrganizationDatabaseElement { }
-	public partial class EmployeeReplacement : IOrganizationDatabaseElement { }
+	public partial class EmployeeReplacement : IOrganizationDatabaseElement, ILinkedToEmployee { }
 	public partial class Holiday : IOrganizationDatabaseElement { }
 	public partial class NamedInterval : IOrganizationDatabaseElement { }
 	public partial class Phone : IOrganizationDatabaseElement { }
@@ -39,7 +45,7 @@ namespace SKDDriver.DataAccess
 	public partial class Organization : IIsDeletedDatabaseElement { }
 	public partial class Interval : IIsDeletedDatabaseElement { }
 	public partial class CardZoneLink : IIsDeletedDatabaseElement { }
-	public partial class Card : IIsDeletedDatabaseElement { }
-	public partial class AdditionalColumn : IIsDeletedDatabaseElement { }
+	public partial class Card : IIsDeletedDatabaseElement, ILinkedToEmployee { }
+	public partial class AdditionalColumn : IIsDeletedDatabaseElement, ILinkedToEmployee { }
 	public partial class Photo : IIsDeletedDatabaseElement { }
 }

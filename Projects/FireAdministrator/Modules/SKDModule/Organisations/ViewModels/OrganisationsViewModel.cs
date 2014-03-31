@@ -32,7 +32,8 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var organisations = OrganizationHelper.Get(new OrganizationFilter());
+			//var organisations = OrganizationHelper.Get(new OrganizationFilter());
+			var organisations = OrganizationHelper.Get(null);
 			Organisations = new ObservableCollection<OrganisationViewModel>();
 			if (organisations != null)
 			{

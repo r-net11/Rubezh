@@ -14,7 +14,7 @@ namespace Infrastructure.Models
 			Dictionary = new Dictionary<string, Guid>();
 		}
 
-		[DataMember] 
+		[DataMember]
 		public Dictionary<string, Guid> Dictionary;
 
 		[DataMember]

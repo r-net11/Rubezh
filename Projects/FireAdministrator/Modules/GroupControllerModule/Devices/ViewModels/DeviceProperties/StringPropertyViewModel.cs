@@ -20,8 +20,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_text = value;
-				OnPropertyChanged("Text");
 				Save(value);
+				OnPropertyChanged("Text");
 			}
 		}
 

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
@@ -35,8 +36,18 @@ namespace Controls
 			}
 		}
 
+		public Boolean IsDoubleClickOff
+		{
+			get { return (Boolean)this.GetValue(DoubleClickOffProperty); }
+			set { this.SetValue(DoubleClickOffProperty, value); }
+		}
+		public static readonly DependencyProperty DoubleClickOffProperty = DependencyProperty.Register(
+		  "IsDoubleClickOff", typeof(Boolean), typeof(XDataGrid), new PropertyMetadata(false));
+		
 		private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
+			if (IsDoubleClickOff)
+				return;
 			if (PreviousDataGridCell != CurrentDataGridCell)
 				return;
 

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
 	public class DepartmentDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Department Department { get; private set; }
+		Department ParentDepartment;
 		OrganisationDepartmentsViewModel OrganisationDepartmentsViewModel;
 
-		public DepartmentDetailsViewModel(OrganisationDepartmentsViewModel organisationDepartmentsViewModel, Department department = null)
+		public DepartmentDetailsViewModel(OrganisationDepartmentsViewModel organisationDepartmentsViewModel, Department department = null, Department parentDepartment = null)
 		{
 			OrganisationDepartmentsViewModel = organisationDepartmentsViewModel;
 			if (department == null)
@@ -28,6 +25,7 @@ namespace SKDModule.ViewModels
 				Title = string.Format("Свойства отдела: {0}", department.Name);
 			}
 			Department = department;
+			ParentDepartment = parentDepartment;
 			CopyProperties();
 		}
 
@@ -75,6 +73,8 @@ namespace SKDModule.ViewModels
 			Department.Name = Name;
 			Department.Description = Description;
 			Department.OrganizationUID = OrganisationDepartmentsViewModel.Organization.UID;
+			if(ParentDepartment != null)
+				Department.ParentDepartmentUID = ParentDepartment.UID;
 			return true;
 		}
 	}

@@ -17,10 +17,10 @@ namespace SKDDriver
 			JournalItemTranslator = new JournalItemTranslator(Context);
 			DepartmentTranslator = new DepartmentTranslator(Context);
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
-			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context);
-			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
-			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator);
 			PhotoTranslator = new PhotoTranslator(Context);
+			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context, PhotoTranslator, AdditionalColumnTypeTranslator);
+			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
+			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator);
 		}
 
 		public static DocumentTranslator DocumentTranslator { get; private set; }

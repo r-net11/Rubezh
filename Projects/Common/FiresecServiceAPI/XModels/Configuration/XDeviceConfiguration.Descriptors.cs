@@ -1,26 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using XFiresecAPI;
 
-namespace FiresecClient
+namespace XFiresecAPI
 {
-	public static partial class UpdateConfigurationHelper
+	public partial class XDeviceConfiguration
 	{
-		public static void PrepareDescriptors(XDeviceConfiguration deviceConfiguration)
+		public void PrepareDescriptors()
 		{
-			DeviceConfiguration = deviceConfiguration;
 			PrepareZones();
 			PrepareInputOutputDependences();
-			PrepareDeviceLogicDependences();
 			PrepareDirections();
 			PreparePumpStations();
 			PrepareMPTs();
 			PrepareDelays();
 		}
 
-		static void PrepareZones()
+		void PrepareZones()
 		{
-			foreach (var zone in DeviceConfiguration.Zones)
+			foreach (var zone in Zones)
 			{
 				zone.KauDatabaseParent = null;
 				zone.GkDatabaseParent = null;
@@ -40,40 +37,40 @@ namespace FiresecClient
 			}
 		}
 
-		static void PrepareInputOutputDependences()
+		void PrepareInputOutputDependences()
 		{
-			foreach (var device in DeviceConfiguration.Devices)
+			foreach (var device in Devices)
 			{
 				device.ClearDescriptor();
 			}
-			foreach (var zone in DeviceConfiguration.Zones)
+			foreach (var zone in Zones)
 			{
 				zone.ClearDescriptor();
 			}
-			foreach (var direction in DeviceConfiguration.Directions)
+			foreach (var direction in Directions)
 			{
 				direction.ClearDescriptor();
 			}
-			foreach (var pumpStation in DeviceConfiguration.PumpStations)
+			foreach (var pumpStation in PumpStations)
 			{
 				pumpStation.ClearDescriptor();
 			}
-			foreach (var mpt in DeviceConfiguration.MPTs)
+			foreach (var mpt in MPTs)
 			{
 				mpt.ClearDescriptor();
 			}
-			foreach (var delay in DeviceConfiguration.Delays)
+			foreach (var delay in Delays)
 			{
 				delay.ClearDescriptor();
 			}
 
-			foreach (var device in DeviceConfiguration.Devices)
+			foreach (var device in Devices)
 			{
 				LinkDeviceLogic(device, device.DeviceLogic.Clauses);
 				LinkDeviceLogic(device, device.DeviceLogic.OffClauses);
 			}
 
-			foreach (var zone in DeviceConfiguration.Zones)
+			foreach (var zone in Zones)
 			{
 				LinkXBases(zone, zone);
 				foreach (var device in zone.Devices)
@@ -82,7 +79,7 @@ namespace FiresecClient
 				}
 			}
 
-			foreach (var direction in DeviceConfiguration.Directions)
+			foreach (var direction in Directions)
 			{
 				foreach (var zone in direction.InputZones)
 				{
@@ -95,69 +92,47 @@ namespace FiresecClient
 				}
 			}
 
-			foreach (var pumpStation in DeviceConfiguration.PumpStations)
+			foreach (var pumpStation in PumpStations)
 			{
 				LinkDeviceLogic(pumpStation, pumpStation.StartLogic.Clauses);
 				LinkDeviceLogic(pumpStation, pumpStation.StopLogic.Clauses);
 				LinkDeviceLogic(pumpStation, pumpStation.AutomaticOffLogic.Clauses);
 			}
 
-			foreach (var mpt in DeviceConfiguration.MPTs)
+			foreach (var mpt in MPTs)
 			{
 				LinkDeviceLogic(mpt, mpt.StartLogic.Clauses);
 			}
 
-			foreach (var delay in DeviceConfiguration.Delays)
+			foreach (var delay in Delays)
 			{
 				LinkDeviceLogic(delay, delay.DeviceLogic.Clauses);
 			}
 		}
 
-		static void LinkDeviceLogic(XBase xBase, List<XClause> clauses)
+		void LinkDeviceLogic(XBase xBase, List<XClause> clauses)
 		{
 			if (clauses != null)
 			{
 				foreach (var clause in clauses)
 				{
-					foreach (var zone in clause.Zones)
-						LinkXBases(xBase, zone);
 					foreach (var clauseDevice in clause.Devices)
 						LinkXBases(xBase, clauseDevice);
+					foreach (var zone in clause.Zones)
+						LinkXBases(xBase, zone);
 					foreach (var direction in clause.Directions)
 						LinkXBases(xBase, direction);
+					foreach (var mpt in clause.MPTs)
+						LinkXBases(xBase, mpt);
+					foreach (var delay in clause.Delays)
+						LinkXBases(xBase, delay);
 				}
 			}
 		}
 
-		static void PrepareDeviceLogicDependences()
+		void PrepareDirections()
 		{
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				device.DeviceLogic.DependentZones = new List<XZone>();
-				device.DeviceLogic.DependentDevices = new List<XDevice>();
-				device.DeviceLogic.DependentDirections = new List<XDirection>();
-
-				foreach (var clause in device.DeviceLogic.Clauses)
-				{
-					foreach (var clauseZone in clause.Zones)
-					{
-						device.DeviceLogic.DependentZones.Add(clauseZone);
-					}
-					foreach (var clauseDevice in clause.Devices)
-					{
-						device.DeviceLogic.DependentDevices.Add(clauseDevice);
-					}
-					foreach (var direction in clause.Directions)
-					{
-						device.DeviceLogic.DependentDirections.Add(direction);
-					}
-				}
-			}
-		}
-
-		static void PrepareDirections()
-		{
-			foreach (var direction in DeviceConfiguration.Directions)
+			foreach (var direction in Directions)
 			{
 				direction.KauDatabaseParent = null;
 				direction.GkDatabaseParent = null;
@@ -183,21 +158,21 @@ namespace FiresecClient
 			}
 		}
 
-		static void PreparePumpStations()
+		void PreparePumpStations()
 		{
-			foreach (var pumpStation in DeviceConfiguration.PumpStations)
+			foreach (var pumpStation in PumpStations)
 			{
 				pumpStation.KauDatabaseParent = null;
 				pumpStation.GkDatabaseParent = null;
 
-				var inputZone = pumpStation.InputZones.FirstOrDefault();
+				var inputZone = pumpStation.ClauseInputZones.FirstOrDefault();
 				if (inputZone != null)
 				{
 					if (inputZone.GkDatabaseParent != null)
 						pumpStation.GkDatabaseParent = inputZone.GkDatabaseParent;
 				}
 
-				var inputDevice = pumpStation.InputDevices.FirstOrDefault();
+				var inputDevice = pumpStation.ClauseInputDevices.FirstOrDefault();
 				if (inputDevice != null)
 				{
 					pumpStation.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
@@ -211,21 +186,21 @@ namespace FiresecClient
 			}
 		}
 
-		static void PrepareMPTs()
+		void PrepareMPTs()
 		{
-			foreach (var mpt in DeviceConfiguration.MPTs)
+			foreach (var mpt in MPTs)
 			{
 				mpt.KauDatabaseParent = null;
 				mpt.GkDatabaseParent = null;
 
-				var inputZone = mpt.InputZones.FirstOrDefault();
+				var inputZone = mpt.ClauseInputZones.FirstOrDefault();
 				if (inputZone != null)
 				{
 					if (inputZone.GkDatabaseParent != null)
 						mpt.GkDatabaseParent = inputZone.GkDatabaseParent;
 				}
 
-				var inputDevice = mpt.InputDevices.FirstOrDefault();
+				var inputDevice = mpt.ClauseInputDevices.FirstOrDefault();
 				if (inputDevice != null)
 				{
 					mpt.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
@@ -239,27 +214,27 @@ namespace FiresecClient
 			}
 		}
 
-		static void PrepareDelays()
+		void PrepareDelays()
 		{
-			foreach (var delay in DeviceConfiguration.Delays)
+			foreach (var delay in Delays)
 			{
 				delay.KauDatabaseParent = null;
 				delay.GkDatabaseParent = null;
 
-				var inputDirection = delay.InputDirections.FirstOrDefault();
+				var inputDirection = delay.ClauseInputDirections.FirstOrDefault();
 				if (inputDirection != null)
 				{
 					delay.GkDatabaseParent = inputDirection.GkDatabaseParent;
 				}
 
-				var inputZone = delay.InputZones.FirstOrDefault();
+				var inputZone = delay.ClauseInputZones.FirstOrDefault();
 				if (inputZone != null)
 				{
 					if (inputZone.GkDatabaseParent != null)
 						delay.GkDatabaseParent = inputZone.GkDatabaseParent;
 				}
 
-				var inputDevice = delay.InputDevices.FirstOrDefault();
+				var inputDevice = delay.ClauseInputDevices.FirstOrDefault();
 				if (inputDevice != null)
 				{
 					delay.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);

@@ -16,16 +16,17 @@ namespace GKModule.Validation
 			foreach (var delay in XManager.Delays)
 			{
 				ValidateDelay(delay);
+				ValidateDelaySelfLogic(delay);
 			}
 		}
 
 		void ValidateDelayNoEquality()
 		{
-			var delayNames = new HashSet<string>();
+			var delayNos = new HashSet<int>();
 			foreach (var delay in XManager.Delays)
 			{
-				if (!delayNames.Add(delay.Name))
-					Errors.Add(new DelayValidationError(delay, "Дублируется название", ValidationErrorLevel.CannotWrite));
+				if (!delayNos.Add(delay.No))
+					Errors.Add(new DelayValidationError(delay, "Дублируется номер", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -33,6 +34,12 @@ namespace GKModule.Validation
 		{
 			if (string.IsNullOrEmpty(delay.Name))
 				Errors.Add(new DelayValidationError(delay, "Пустое название", ValidationErrorLevel.CannotWrite));
+		}
+
+		void ValidateDelaySelfLogic(XDelay delay)
+		{
+			if(delay.ClauseInputDelays.Contains(delay))
+				Errors.Add(new DelayValidationError(delay, "Задержка зависит от самой себя", ValidationErrorLevel.CannotWrite));
 		}
 	}
 }

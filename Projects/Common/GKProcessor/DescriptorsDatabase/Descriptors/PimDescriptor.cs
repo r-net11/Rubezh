@@ -9,7 +9,6 @@ namespace GKProcessor
 			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Pim;
 			Pim = pim;
-			Build();
 		}
 
 		public override void Build()

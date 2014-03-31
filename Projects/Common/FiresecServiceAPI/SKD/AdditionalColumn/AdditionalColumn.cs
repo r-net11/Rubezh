@@ -10,10 +10,10 @@ namespace FiresecAPI
 		public Guid? EmployeeUID { get; set; }
 
 		[DataMember]
-		public Guid? PhotoUID { get; set; }
+		public Photo Photo { get; set; }
 
 		[DataMember]
-		public Guid? AdditionalColumnTypeUID { get; set; }
+		public AdditionalColumnType AdditionalColumnType { get; set; }
 
 		[DataMember]
 		public string TextData { get; set; }

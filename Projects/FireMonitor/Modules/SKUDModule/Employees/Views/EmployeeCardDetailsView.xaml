@@ -13,6 +13,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
@@ -52,7 +53,16 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-                <CheckBox Grid.Row="4" Grid.Column="1" Content="Заблокирован" IsChecked="{Binding IsBlocked}" Foreground="White" Margin="2" />
+                <CheckBox Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="От контрольного считывателя" Foreground="White" IsChecked="{Binding UseReader}" Margin="2" />
+                <StackPanel Grid.Row="4" Grid.Column="1" Margin="2">
+                    <TextBlock TextWrapping="Wrap">
+						<Hyperlink Command="{Binding ChangeReaderCommand}" Style="{StaticResource HyperlinkStyle}">
+							<TextBlock Text="{Binding ReaderName}" />
+						</Hyperlink>
+					</TextBlock>
+                </StackPanel>
+
+                <CheckBox Grid.Row="5" Grid.Column="1" Content="Заблокирован" IsChecked="{Binding IsBlocked}" Foreground="White" Margin="2" />
             </Grid>
 		</TabItem>
 		<TabItem Header="Зоны доступа">

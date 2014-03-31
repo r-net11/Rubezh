@@ -12,10 +12,27 @@ namespace XFiresecAPI
 		{
 			ClearDescriptor();
 			BaseUID = Guid.NewGuid();
+
+			ClearClauseDependencies();
 		}
 
 		[DataMember]
 		public Guid BaseUID { get; set; }
+
+		public List<XDevice> ClauseInputDevices { get; set; }
+		public List<XZone> ClauseInputZones { get; set; }
+		public List<XDirection> ClauseInputDirections { get; set; }
+		public List<XMPT> ClauseInputMPTs { get; set; }
+		public List<XDelay> ClauseInputDelays { get; set; }
+		
+		public void ClearClauseDependencies()
+		{
+			ClauseInputDevices = new List<XDevice>();
+			ClauseInputZones = new List<XZone>();
+			ClauseInputDirections = new List<XDirection>();
+			ClauseInputMPTs = new List<XMPT>();
+			ClauseInputDelays = new List<XDelay>();
+		}
 
 		public List<XBase> InputXBases { get; set; }
 		public List<XBase> OutputXBases { get; set; }

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XPumpStation : XBase, IInputObjectsBase, INamedBase
+	public class XPumpStation : XBase, INamedBase
 	{
 		public XPumpStation()
 		{
@@ -19,25 +19,18 @@ namespace XFiresecAPI
 			StopLogic = new XDeviceLogic();
 			AutomaticOffLogic = new XDeviceLogic();
 
-			InputDevices = new List<XDevice>();
-			InputZones = new List<XZone>();
-			InputDirections = new List<XDirection>();
 			NSDevices = new List<XDevice>();
 			NSDeviceUIDs = new List<Guid>();
 		}
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.PumpStation; } }
-
-		public List<XDevice> InputDevices { get; set; }
-		public List<XZone> InputZones { get; set; }
-		public List<XDirection> InputDirections { get; set; }
 		public List<XDevice> NSDevices { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public int No { get; set; }
+		public ushort No { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

@@ -41,8 +41,8 @@ namespace GKProcessor
 		}
 		public static List<byte> CreateHash1(XDeviceConfiguration deviceConfiguration, XDevice gkDevice)
 		{
-			UpdateConfigurationHelper.Update(deviceConfiguration);
-			UpdateConfigurationHelper.PrepareDescriptors(deviceConfiguration);
+			deviceConfiguration.UpdateConfiguration();
+			deviceConfiguration.PrepareDescriptors();
 			var stringBuilder = new StringBuilder();
 			stringBuilder.Append("devices:");
 			foreach (var device in deviceConfiguration.Devices)
@@ -96,11 +96,19 @@ namespace GKProcessor
 					}
 				}
 			}
+			stringBuilder.Append("delays:");
+			foreach (var delay in deviceConfiguration.Delays)
+			{
+				if (delay.GkDatabaseParent == gkDevice)
+				{
+					stringBuilder.Append(delay.PresentationName).Append("@");
+				}
+			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
 		public static List<byte> CreateHash2(XDeviceConfiguration deviceConfiguration)
 		{
-			UpdateConfigurationHelper.Update(deviceConfiguration);
+			deviceConfiguration.UpdateConfiguration();
 			var hashConfiguration = new XHashConfiguration(deviceConfiguration);
 			var configMemoryStream = ZipSerializeHelper.Serialize(hashConfiguration);
 			configMemoryStream.Position = 0;

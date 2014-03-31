@@ -2,29 +2,27 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using Entities.DeviceOriented;
-using Entities.DeviceOriented.Dahua;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using VideoModule.Views;
 using XFiresecAPI;
 
 namespace VideoModule.ViewModels
 {
 	public class CameraDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public Camera Camera { get; private set; }
 		public List<Guid> Zones { get; set; }
+		CameraViewModel CameraViewModel { get; set; }
+		public CameraViewModel OriginalCameraViewModel { get; private set; }
 
-		public CameraDetailsViewModel(CameraViewModel cameraViewModel = null)
+		public CameraDetailsViewModel(CameraViewModel cameraViewModel)
 		{
+			OriginalCameraViewModel = cameraViewModel;
 			ShowZonesCommand = new RelayCommand(OnShowZones);
-			TestCommand = new RelayCommand(OnTest);
 			ConnectCommand = new RelayCommand(OnConnect, () => !CanShow());
 			ShowCommand = new RelayCommand(OnShow, CanShow);
 			StateClasses = new List<XStateClass>();
@@ -37,12 +35,12 @@ namespace VideoModule.ViewModels
 			{
 				Channels = cameraViewModel.Channels;
 				Title = "Редактировать камеру";
-				Camera = cameraViewModel.Camera;
+				CameraViewModel = CameraViewModel.CopyCameraViewModel(cameraViewModel);
 			}
 			else
 			{
 				Title = "Создать камеру";
-				Camera = new Camera
+				var camera = new Camera
 				{
 					Name = "Новая камера",
 					Address = "172.16.7.88",
@@ -50,29 +48,30 @@ namespace VideoModule.ViewModels
 					Login = "admin",
 					Password = "admin"
 				};
+				CameraViewModel = new CameraViewModel(camera);
 			}
-
-			CopyProperties();
+			CopyProperties(CameraViewModel.Camera);
 		}
 
-		void CopyProperties()
+		void CopyProperties(Camera camera)
 		{
-			Name = Camera.Name;
-			Address = Camera.Address;
-			Port = Camera.Port;
-			Login = Camera.Login;
-			Password = Camera.Password;
+			Name = camera.Name;
+			Address = camera.Address;
+			Port = camera.Port;
+			Login = camera.Login;
+			Password = camera.Password;
+			Channels = CameraViewModel.Channels;
 			if (Channels != null)
-				SelectedChannel = Channels[Camera.ChannelNumber];
-			Left = Camera.Left;
-			Top = Camera.Top;
-			Width = Camera.Width;
-			Height = Camera.Height;
-			IgnoreMoveResize = Camera.IgnoreMoveResize;
-			SelectedStateClass = Camera.StateClass;
-			if (Camera.ZoneUIDs == null)
-				Camera.ZoneUIDs = new List<Guid>();
-			Zones = Camera.ZoneUIDs.ToList();
+				SelectedChannel = Channels[camera.ChannelNumber];
+			Left = camera.Left;
+			Top = camera.Top;
+			Width = camera.Width;
+			Height = camera.Height;
+			IgnoreMoveResize = camera.IgnoreMoveResize;
+			SelectedStateClass = camera.StateClass;
+			if (camera.ZoneUIDs == null)
+				camera.ZoneUIDs = new List<Guid>();
+			Zones = camera.ZoneUIDs.ToList();
 		}
 
 		ObservableCollection<Channel> _channels;
@@ -93,6 +92,8 @@ namespace VideoModule.ViewModels
 			set
 			{
 				_selectedChannel = value;
+				if(_selectedChannel != null)
+					CameraViewModel.SelectedChannel = _selectedChannel;
 				OnPropertyChanged(() => SelectedChannel);
 			}
 		}
@@ -211,14 +212,8 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				var zones = new List<XZone>();
-				foreach (var zoneUID in Zones)
-				{
-					var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
-					if (zone != null)
-						zones.Add(zone);
-				}
-				var presentationZones = XManager.GetCommaSeparatedZones(zones);
+				var zones = Zones.Select(zoneUID => XManager.Zones.FirstOrDefault(x => x.BaseUID == zoneUID)).Where(zone => zone != null).ToList();
+				var presentationZones = XManager.GetCommaSeparatedObjects(new List<INamedBase>(zones));
 				return presentationZones;
 			}
 		}
@@ -250,15 +245,14 @@ namespace VideoModule.ViewModels
 		public RelayCommand ConnectCommand { get; private set; }
 		void OnConnect()
 		{
+			Copy(CameraViewModel);
 			new Thread(delegate()
 			{
-				var deviceSI = new DeviceSearchInfo(Address, Port);
 				try
 				{
-					var device = SystemPerimeter.Instance.AddDevice(deviceSI);
-					Channels = new ObservableCollection<Channel>(device.Channels);
+					CameraViewModel.Connect();
+					Channels = CameraViewModel.Channels;
 					SelectedChannel = Channels.FirstOrDefault();
-					Save();
 				}
 				catch { }
 			}).Start();
@@ -267,68 +261,64 @@ namespace VideoModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			var title = Camera.Address + " (" + SelectedChannel.Name +")";
-			var previewViewModel = new PreviewViewModel(title);
-			DialogService.ShowWindow(previewViewModel);
-			Save();
-			var cameraViewModel = new CameraViewModel(Camera);
-			cameraViewModel.StartVideo(PreviewView.Current.PlayerWrap);
+			CameraViewModel.StartVideo();
 		}
 
 		bool CanShow()
 		{
-			return ((Address == Camera.Address) && (Port == Camera.Port) && (SelectedChannel != null));
+			if (IsChanged)
+				return IsConnected = false;
+			return IsConnected = CameraViewModel.IsConnected;
 		}
 
-		public RelayCommand TestCommand { get; private set; }
-		void OnTest()
+		private bool _isConnected;
+		public bool IsConnected
 		{
-			var camera = new Camera
+			get { return _isConnected; }
+			set
 			{
-				Address = Address,
-				Port = Port,
-				Login = Login,
-				Password = Password,
-				Left = Left,
-				Top = Top,
-				Width = Width,
-				Height = Height,
-				IgnoreMoveResize = IgnoreMoveResize
-			};
-			VideoService.ShowModal(camera);
-			Left = camera.Left;
-			Top = camera.Top;
-			Width = camera.Width;
-			Height = camera.Height;
+				_isConnected = value;
+				OnPropertyChanged(()=>IsConnected);
+			}
+		}
+
+		bool IsChanged
+		{
+			get { return ((Address != CameraViewModel.Camera.Address) || (Port != CameraViewModel.Camera.Port)); }
 		}
 
 		protected override bool Save()
 		{
-			Camera.Name = Name;
-			Camera.Address = Address;
-			Camera.Port = Port;
-			Camera.Login = Login;
-			Camera.Password = Password;
-			if (SelectedChannel != null)
-				Camera.ChannelNumber = SelectedChannel.ChannelNumber;
-			Camera.Left = Left;
-			Camera.Top = Top;
-			Camera.Width = Width;
-			Camera.Height = Height;
-			Camera.StateClass = SelectedStateClass;
-			Camera.ZoneUIDs = Zones.ToList();
-			Camera.IgnoreMoveResize = IgnoreMoveResize;
+			Copy(OriginalCameraViewModel);
 			return base.Save();
 		}
 
-		protected override bool CanSave()
+		void Copy(CameraViewModel cameraViewModel)
 		{
-			return ((Camera.Name != Name) || (Camera.Address != Address) || (Camera.Port != Port) ||
-			        (Camera.Login != Login) || (Camera.Password != Password) ||
-			        (Camera.ChannelNumber != SelectedChannel.ChannelNumber) ||
-			        (Camera.Left != Left) || (Camera.Top != Top) || (Camera.Width != Width) || (Camera.Height != Height) ||
-			        (Camera.StateClass != SelectedStateClass) || (!Camera.ZoneUIDs.SequenceEqual(Zones.ToList())) ||
-			        (Camera.IgnoreMoveResize != IgnoreMoveResize));
+			cameraViewModel.Camera.Name = Name;
+			cameraViewModel.Camera.Address = Address;
+			cameraViewModel.Camera.Port = Port;
+			cameraViewModel.Camera.Login = Login;
+			cameraViewModel.Camera.Password = Password;
+			cameraViewModel.Channels = CameraViewModel.Channels;
+			cameraViewModel.IsConnected = CameraViewModel.IsConnected;
+			cameraViewModel.SelectedChannel = CameraViewModel.SelectedChannel;
+			if (SelectedChannel != null)
+				cameraViewModel.Camera.ChannelNumber = SelectedChannel.ChannelNumber;
+			if (IsChanged)
+			{
+				cameraViewModel.Channels = null;
+				cameraViewModel.SelectedChannel = null;
+				cameraViewModel.IsConnected = false;
+				cameraViewModel.Camera.ChannelNumber = 0;
+			}
+			cameraViewModel.Camera.Left = Left;
+			cameraViewModel.Camera.Top = Top;
+			cameraViewModel.Camera.Width = Width;
+			cameraViewModel.Camera.Height = Height;
+			cameraViewModel.Camera.StateClass = SelectedStateClass;
+			cameraViewModel.Camera.ZoneUIDs = Zones.ToList();
+			cameraViewModel.Camera.IgnoreMoveResize = IgnoreMoveResize;
 		}
 	}
 }

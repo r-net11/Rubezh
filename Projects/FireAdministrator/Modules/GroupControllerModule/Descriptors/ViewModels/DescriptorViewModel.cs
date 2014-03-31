@@ -35,14 +35,17 @@ namespace GKModule.ViewModels
 
 				case DescriptorType.PumpStation:
 					ImageSource = "/Controls;component/Images/BPumpStation.png";
+					Description = descriptor.PumpStation.Description;
 					break;
 
 				case DescriptorType.MPT:
 					ImageSource = "/Controls;component/Images/BMPT.png";
+					Description = descriptor.MPT.Description;
 					break;
 
 				case DescriptorType.Delay:
 					ImageSource = "/Controls;component/Images/Delay.png";
+					Description = descriptor.Delay.Description;
 					break;
 
 				case DescriptorType.Pim:

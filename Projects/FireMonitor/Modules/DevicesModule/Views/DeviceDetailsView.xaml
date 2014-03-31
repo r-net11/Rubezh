@@ -53,20 +53,20 @@
 								<WrapPanel Margin="1">
 									<TextBlock Text="Подключено: " FontWeight="Bold" Foreground="Orange" />
 									<TextBlock TextWrapping="Wrap">
-								<Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
-									<TextBlock Text="{Binding Device.ConnectedTo}" />
-								</Hyperlink>
-							</TextBlock>
+								        <Hyperlink Command="{Binding ShowParentCommand}" Style="{StaticResource HyperlinkStyle2}">
+									        <TextBlock Text="{Binding Device.ConnectedTo}" />
+								        </Hyperlink>
+							        </TextBlock>
 								</WrapPanel>
 							</ListBoxItem>
 							<ListBoxItem>
 								<WrapPanel Visibility="{Binding Device.Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
 									<TextBlock Text="Зона: " FontWeight="Bold" Foreground="Orange" />
 									<TextBlock TextWrapping="Wrap">
-								<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
-									<TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
-								</Hyperlink>
-							</TextBlock>
+								        <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
+									        <TextBlock Text="{Binding PresentationZone}" TextWrapping="Wrap" />
+								        </Hyperlink>
+							        </TextBlock>
 								</WrapPanel>
 							</ListBoxItem>
 							<ListBoxItem>

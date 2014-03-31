@@ -143,8 +143,8 @@ namespace GKModule.Models
 						ConfigurationCompareViewModel configurationCompareViewModel = null;
 						WaitHelper.Execute(() =>
 						{
-							UpdateConfigurationHelper.Update(result.Result);
-							UpdateConfigurationHelper.PrepareDescriptors(result.Result);
+							result.Result.UpdateConfiguration();
+							result.Result.PrepareDescriptors();
 
 							var gkDevice = result.Result.RootDevice.Children.FirstOrDefault();
 							if (gkDevice != null)
@@ -160,6 +160,14 @@ namespace GKModule.Models
 								foreach (var pumpStation in result.Result.PumpStations)
 								{
 									pumpStation.GkDatabaseParent = gkDevice;
+								}
+								foreach (var mpt in result.Result.MPTs)
+								{
+									mpt.GkDatabaseParent = gkDevice;
+								}
+								foreach (var delay in result.Result.Delays)
+								{
+									delay.GkDatabaseParent = gkDevice;
 								}
 							}
 
@@ -200,8 +208,8 @@ namespace GKModule.Models
 						WaitHelper.Execute(() =>
 						{
 							DescriptorsManager.Create();
-							UpdateConfigurationHelper.Update(result.Result);
-							UpdateConfigurationHelper.PrepareDescriptors(result.Result);
+							result.Result.UpdateConfiguration();
+							result.Result.PrepareDescriptors();
 							configurationCompareViewModel = new ConfigurationCompareViewModel(XManager.DeviceConfiguration, result.Result, SelectedDevice.Device, true);
 						});
 						LoadingService.Close();

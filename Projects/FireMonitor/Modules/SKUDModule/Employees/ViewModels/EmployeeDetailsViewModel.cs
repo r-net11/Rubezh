@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Media.Imaging;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-
 
 namespace SKDModule.ViewModels
 {
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
-		public Employee Employee { get; private set; }
+		public EmployeeDetails EmployeeDetails { get; private set; }
 
 		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, Employee employee = null)
 		{
@@ -20,38 +18,44 @@ namespace SKDModule.ViewModels
 			if (employee == null)
 			{
 				Title = "Создание сотрудника";
-				employee = new Employee()
-				{
-					FirstName = "Новый сотрудник",
-				};
+				EmployeeDetails = new EmployeeDetails();
+				EmployeeDetails.OrganizationUID = EmployeesViewModel.Organization.UID;
+				EmployeeDetails.FirstName = "Новый сотрудник";
 			}
 			else
 			{
 				Title = string.Format("Свойства сотрудника: {0}", employee.FirstName);
+				EmployeeDetails = EmployeeHelper.GetDetails(employee.UID);
+				if (EmployeeDetails == null)
+				{
+					EmployeeDetails = new EmployeeDetails();
+					EmployeeDetails.OrganizationUID = EmployeesViewModel.Organization.UID;
+				}
 			}
 
-			Employee = employee;
-
-			var positions = PositionHelper.GetByOrganization(Employee.OrganizationUID);
+			var positions = PositionHelper.GetByOrganization(EmployeeDetails.OrganizationUID);
 			if (positions == null)
 				Positions = new List<Position>();
 			else
 				Positions = positions.ToList();
 
-			SelectedPosition = Positions.FirstOrDefault(x => x.UID == Employee.PositionUID);
-			if (SelectedPosition == null)
+			if (EmployeeDetails.Position == null)
+			{
 				SelectedPosition = Positions.FirstOrDefault();
-
+			}
+			else
+			{
+				SelectedPosition = Positions.FirstOrDefault(x => x.UID == EmployeeDetails.Position.UID);
+				if (SelectedPosition == null)
+					SelectedPosition = Positions.FirstOrDefault();
+			}
+			
 			AdditionalColumns = new List<AdditionalColumnViewModel>();
 			if (EmployeesViewModel.AdditionalColumnTypes.IsNotNullOrEmpty())
 			{
-				var columns = AdditionalColumnHelper.GetByEmployee(Employee);
-				if (columns != null)
+				foreach (var column in EmployeeDetails.AdditionalColumns)
 				{
-					foreach (var column in columns)
-					{
-						AdditionalColumns.Add(new AdditionalColumnViewModel(column, this));
-					}
+					AdditionalColumns.Add(new AdditionalColumnViewModel(column));
 				}
 				SelectedAdditionalColumn = AdditionalColumns.FirstOrDefault();
 			}
@@ -60,9 +64,9 @@ namespace SKDModule.ViewModels
 
 		public void CopyProperties()
 		{
-			FirstName = Employee.FirstName;
-			SecondName = Employee.SecondName;
-			LastName = Employee.LastName;
+			FirstName = EmployeeDetails.FirstName;
+			SecondName = EmployeeDetails.SecondName;
+			LastName = EmployeeDetails.LastName;
 		}
 
 		public bool HasAdditionalColumns
@@ -154,47 +158,18 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			//if (EmployeesViewModel.Employees.Any(x => x.Employee.FirstName == FirstName && x.Employee.LastName == LastName && x.Employee.UID != Employee.UID))
-			//{
-			//    MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
-			//    return false;
-			//}
+			if (EmployeesViewModel.Employees.Any(x => x.Employee.FirstName == FirstName && x.Employee.LastName == LastName && x.Employee.UID != EmployeeDetails.UID))
+			{
+				MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
+				return false;
+			}
 
-			Employee.FirstName = FirstName;
-			Employee.LastName = LastName;
-			Employee.OrganizationUID = EmployeesViewModel.Organization.UID;
+			EmployeeDetails.FirstName = FirstName;
+			EmployeeDetails.SecondName = SecondName;
+			EmployeeDetails.LastName = LastName;
 			if (SelectedPosition != null)
-				Employee.PositionUID = SelectedPosition.UID;
-			else
-				Employee.PositionUID = Guid.Empty;
+				EmployeeDetails.Position = SelectedPosition;
 			return true;
 		}
 	}
-
-	public class AdditionalColumnViewModel:BaseViewModel
-	{
-		EmployeeDetailsViewModel EmployeeDetailsViewModel;
-		AdditionalColumn AdditionalColumn;
-
-		public string Name { get; private set; }
-		public AdditionalColumnType AdditionalColumnType { get; private set; }
-		public bool IsGraphicsData { get; private set; }
-		public BitmapSource Bitmap { get; private set; }
-		public string Text { get; private set; }
-
-			 
-		public AdditionalColumnViewModel(AdditionalColumn additionalColumn, EmployeeDetailsViewModel employeeDetailsViewModel)
-		{
-			AdditionalColumn = additionalColumn;
-			EmployeeDetailsViewModel = employeeDetailsViewModel;
-			AdditionalColumnType = EmployeeDetailsViewModel.EmployeesViewModel.AdditionalColumnTypes.FirstOrDefault(x => x.UID == AdditionalColumn.AdditionalColumnTypeUID);
-			Name = AdditionalColumnType.Name;
-			IsGraphicsData = AdditionalColumnType.DataType == AdditionalColumnDataType.Graphics;
-			if (IsGraphicsData)
-				Bitmap = PhotoHelper.GetSingleBitmapSource(additionalColumn.PhotoUID);
-			else
-				Text = AdditionalColumn.TextData;
-		}
-	}
-
 }

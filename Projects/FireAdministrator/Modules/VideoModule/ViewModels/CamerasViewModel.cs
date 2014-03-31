@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using Entities.DeviceOriented;
 using FiresecClient;
 using Infrastructure;
@@ -10,10 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using VideoModule.Views;
-using VideoPlayerTest;
 using KeyboardKey = System.Windows.Input.Key;
-using Vlc.DotNet.Core;
 using Infrustructure.Plans.Events;
 using System;
 using Infrustructure.Plans.Elements;
@@ -25,9 +22,7 @@ namespace VideoModule.ViewModels
 {
 	public class CamerasViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		private VideoClass _videoSequence;
 		private bool _lockSelection;
-
 		public CamerasViewModel()
 		{
 			_lockSelection = false;
@@ -35,33 +30,11 @@ namespace VideoModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			PlayVideoCommand = new RelayCommand(OnPlayVideo, () => SelectedCamera != null);
 			RegisterShortcuts();
 			InitializeCameras();
 			InitializePerimeter();
-			//VlcInitialize();
 			SubscribeEvents();
 			IsRightPanelEnabled = true;
-		}
-
-		private void VlcInitialize()
-		{
-			VlcContext.LibVlcDllsPath = CommonStrings.LIBVLC_DLLS_PATH_DEFAULT_VALUE_X86;
-			VlcContext.LibVlcPluginsPath = CommonStrings.PLUGINS_PATH_DEFAULT_VALUE_X86;
-
-			//Set the startup options
-			//VlcContext.StartupOptions.IgnoreConfig = true;
-			//VlcContext.StartupOptions.LogOptions.LogInFile = true;
-			//VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = true;
-			//VlcContext.StartupOptions.LogOptions.Verbosity = VlcLogVerbosities.Debug;
-
-			// Disable showing the movie file name as an overlay
-			VlcContext.StartupOptions.AddOption("--no-video-title-show");
-
-			// Initialize the VlcContext
-			VlcContext.Initialize();
-			_videoSequence = new VideoClass();
-			_videoSequence.Play();
 		}
 
 		public void InitializeCameras()
@@ -70,6 +43,7 @@ namespace VideoModule.ViewModels
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(this, camera);
+				cameraViewModel.IsConnecting = true;
 				Cameras.Add(cameraViewModel);
 			}
 			SelectedCamera = Cameras.FirstOrDefault();
@@ -77,40 +51,21 @@ namespace VideoModule.ViewModels
 
 		public void InitializePerimeter()
 		{
-			new Thread(delegate ()
+			new Thread(delegate()
 				{
-					foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+					foreach (var camera in new List<Camera>(FiresecManager.SystemConfiguration.Cameras))
 					{
-						var deviceSI = new DeviceSearchInfo(camera.Address, camera.Port);
-						//var t = new Thread(delegate()
-						//{
-							try
+						try
+						{
+							var cameraViewModel = Cameras.FirstOrDefault(x => x.Camera.Address == camera.Address);
+							if (cameraViewModel != null)
 							{
-								var device = SystemPerimeter.Instance.AddDevice(deviceSI);
-								var cameraViewModel = Cameras.FirstOrDefault(x => x.Camera.Address == device.IP);
-								if (cameraViewModel != null)
-								{
-									cameraViewModel.IsConnected = true;
-									cameraViewModel.Channels = new ObservableCollection<Channel>(device.Channels);
-									cameraViewModel.SelectedChannel = cameraViewModel.Channels[camera.ChannelNumber];
-								}
+								cameraViewModel.Connect();
 							}
-							catch
-							{
-							}
-						//});
-						//t.Start();
-						//t.Join();
+						}
+						catch { }
 					}
 				}).Start();
-		}
-
-		public VideoClass VideoSequence
-		{
-			get
-			{
-				return _videoSequence;
-			}
 		}
 
 		ObservableCollection<CameraViewModel> _cameras;
@@ -137,66 +92,23 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		public CameraViewModel StartedCamera
-		{
-			get { return Cameras.FirstOrDefault(x => x.IsNowPlaying); }
-		}
-
-		private bool _isNowPlaying;
-
-		public bool IsNowPlaying
-		{
-			get { return _isNowPlaying; }
-			set
-			{
-				_isNowPlaying = value;
-				OnPropertyChanged("IsNowPlaying");
-			}
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var cameraDetailsViewModel = new CameraDetailsViewModel();
+			var cameraDetailsViewModel = new CameraDetailsViewModel(new CameraViewModel(new Camera()));
 			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.Camera);
-				var perimeter = SystemPerimeter.Instance;
-				var deviceSI = new DeviceSearchInfo(cameraDetailsViewModel.Camera.Address, cameraDetailsViewModel.Camera.Port);
-				new Thread(delegate()
-				{
-					try
-					{
-						var device = perimeter.AddDevice(deviceSI);
-						var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.Camera);
-						Cameras.Add(cameraViewModel);
-						ServiceFactory.SaveService.CamerasChanged = true;
-					}
-					catch { }
-				}).Start();
+				FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.OriginalCameraViewModel.Camera);
+				var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.OriginalCameraViewModel.Camera);
+				Cameras.Add(cameraViewModel);
+				ServiceFactory.SaveService.CamerasChanged = true;
 			}
-		}
-
-		public RelayCommand PlayVideoCommand { get; private set; }
-		void OnPlayVideo()
-		{
-			foreach (var camera in Cameras)
-			{
-				if (camera.IsNowPlaying)
-					camera.StopVideo();
-			}
-			if (!IsNowPlaying)
-				SelectedCamera.StartVideo(CamerasView.Current.PlayerWrap);
-			IsNowPlaying = !IsNowPlaying;
-			OnPropertyChanged("StartedCamera");
-			OnPropertyChanged("IsNowPlaying");
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			if (SelectedCamera.IsNowPlaying)
-				IsNowPlaying = false;
+
 			SelectedCamera.StopVideo();
 			SelectedCamera.Camera.OnChanged();
 			FiresecManager.SystemConfiguration.Cameras.Remove(SelectedCamera.Camera);
@@ -210,8 +122,7 @@ namespace VideoModule.ViewModels
 			var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera);
 			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
-				SelectedCamera.Camera = cameraDetailsViewModel.Camera;
-				SelectedCamera.SelectedChannel = cameraDetailsViewModel.SelectedChannel;
+				SelectedCamera = cameraDetailsViewModel.OriginalCameraViewModel;
 				SelectedCamera.Update();
 				SelectedCamera.Camera.OnChanged();
 				ServiceFactory.SaveService.CamerasChanged = true;
@@ -235,6 +146,7 @@ namespace VideoModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
+
 		private void OnDeviceChanged(Guid cameraUID)
 		{
 			var camera = Cameras.FirstOrDefault(x => x.Camera.UID == cameraUID);

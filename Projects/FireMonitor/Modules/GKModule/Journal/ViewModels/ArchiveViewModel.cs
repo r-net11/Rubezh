@@ -80,6 +80,7 @@ namespace GKModule.ViewModels
 		public void Sort(ShowXArchiveEventArgs showXArchiveEventArgs)
 		{
 			ArchiveFilter = new XArchiveFilter();
+			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 			if (showXArchiveEventArgs.Device != null)
 				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.Device.BaseUID);
@@ -95,6 +96,8 @@ namespace GKModule.ViewModels
 				ArchiveFilter.PumpStationUIDs.Add(showXArchiveEventArgs.PumpStation.BaseUID);
 			if (showXArchiveEventArgs.MPT != null)
 				ArchiveFilter.MPTUIDs.Add(showXArchiveEventArgs.MPT.BaseUID);
+			if (showXArchiveEventArgs.Delay != null)
+				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.BaseUID);
 			IsFilterOn = true;
 			OnPropertyChanged("IsFilterExists");
 		}
@@ -383,17 +386,10 @@ namespace GKModule.ViewModels
 				else
 					archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
-				//if (GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
-				{
-					JournalItems = new ObservableCollection<JournalItemViewModel>();
-					FiresecManager.FiresecService.BeginGetGKFilteredArchive(archiveFilter);
-				}
-				//else
-				//{
-				//	GKDBHelper.IsAbort = false;
-				//	var journalItems = GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, false);
-				//	Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalItems); }));
-				//}
+				archiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
+
+				JournalItems = new ObservableCollection<JournalItemViewModel>();
+				FiresecManager.FiresecService.BeginGetGKFilteredArchive(archiveFilter);
 			}
 			catch (ThreadAbortException) { }
 			catch (Exception e)
@@ -405,12 +401,15 @@ namespace GKModule.ViewModels
 
 		void OnGetFilteredArchiveCompleted(IEnumerable<JournalItem> journalItems)
 		{
-			var archivePageViewModel = new ArchivePageViewModel(journalItems);
-			Pages.Add(archivePageViewModel);
-			TotalPageNumber = Pages.Count;
-			if (CurrentPageNumber == 0)
-				CurrentPageNumber = 1;
-			Status = "Количество записей: " + ((TotalPageNumber - 1) * ArchiveDefaultState.PageSize + journalItems.Count()).ToString();
+			if (journalItems.Count() > 0)
+			{
+				var archivePageViewModel = new ArchivePageViewModel(journalItems);
+				Pages.Add(archivePageViewModel);
+				TotalPageNumber = Pages.Count;
+				if (CurrentPageNumber == 0)
+					CurrentPageNumber = 1;
+				Status = "Количество записей: " + ((TotalPageNumber - 1) * ArchiveDefaultState.PageSize + journalItems.Count()).ToString();
+			}
 		}
 
 		public override void OnShow()

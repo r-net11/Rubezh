@@ -1,11 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Windows;
-using System.Windows.Interop;
+﻿using System.Collections.Generic;
+using System.Windows.Documents;
 using Entities.DeviceOriented;
 using FiresecAPI.Models;
-using Device = Entities.DeviceOriented.Device;
 
 namespace Infrastructure.Common.Video.RVI_VSS
 {
@@ -16,25 +12,24 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			InitializeComponent();
 		}
 
-		public void InitializeCamera(Camera camera)
+		public List<Channel> Connect(string ipAddress, int port)
 		{
-			if (String.IsNullOrEmpty(camera.Address))
-				FormsPlayer.StopVideo();
-			else
-				FormsPlayer.StartVideo(camera, camera.ChannelNumber);
+			return FormsPlayer.Connect(ipAddress, port);
 		}
 
-		public void InitializeCamera(Device device, int channelNumber = 0)
+		public void Start(int channelNumber)
 		{
-			if (String.IsNullOrEmpty(device.IP))
-				FormsPlayer.StopVideo();
-			else
-				FormsPlayer.StartVideo(device, channelNumber);
+			FormsPlayer.Start(channelNumber);
 		}
 
-		public void InitializeCamera(PlayBackDeviceRecord record)
+		public void Start(PlayBackDeviceRecord record)
 		{
-			FormsPlayer.StartVideo(record);
+			FormsPlayer.Start(record);
+		}
+
+		public void Stop()
+		{
+			FormsPlayer.Stop();
 		}
 	}
 }

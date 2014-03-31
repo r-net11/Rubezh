@@ -14,7 +14,8 @@ namespace FiresecAPI
 			DepartmentUIDs = new List<Guid>();
 			Appointed = new DateTimePeriod();
 			Dismissed = new DateTimePeriod();
-		}
+			PersonType = PersonType.Employee;
+		} 
 
 		[DataMember]
 		public List<Guid> PositionUIDs { get; set; }
@@ -30,5 +31,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public DateTimePeriod Dismissed { get; set; }
+
+		[DataMember]
+		public PersonType PersonType { get; set; } 
 	}
 }

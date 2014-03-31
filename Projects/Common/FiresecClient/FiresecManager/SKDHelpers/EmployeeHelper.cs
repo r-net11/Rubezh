@@ -34,5 +34,13 @@ namespace FiresecClient.SKDHelpers
 			var operationResult = FiresecManager.FiresecService.GetEmployees(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}
+
+		public static EmployeeDetails GetDetails(Guid? uid)
+		{
+			if (uid == null)
+				return null;
+			var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(uid.Value);
+			return Common.ShowErrorIfExists(operationResult);
+		}
 	}
 }

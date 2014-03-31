@@ -1,15 +1,16 @@
-﻿using Entities.DeviceOriented;
-using FiresecAPI.Models;
+﻿using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows.ViewModels;
-using VideoModule.Views;
 
 namespace VideoModule.ViewModels
 {
 	public class PreviewViewModel : SaveCancelDialogViewModel
 	{
-		public PreviewViewModel(string title)
+		public CellPlayerWrap CellPlayerWrap { get; private set; }
+
+		public PreviewViewModel(string title, CellPlayerWrap cellPlayerWrap)
 		{
 			Title = title;
+			CellPlayerWrap = cellPlayerWrap;
 		}
 	}
 }

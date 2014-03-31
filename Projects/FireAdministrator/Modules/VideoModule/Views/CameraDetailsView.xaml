@@ -47,10 +47,10 @@
 				<!--<Label Grid.Row="8" Grid.Column="0" Content="Запретить перетаскивание" HorizontalAlignment="Right" />-->
 
 				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="2" />
-				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Login}" Margin="2" />
-				<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Password}" Margin="2" />
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Password}" Margin="2" />
 				
 				<ComboBox Grid.Row="5" Grid.Column="1" Margin="2" ItemsSource="{Binding StateClasses}"
 					  SelectedItem="{Binding SelectedStateClass, UpdateSourceTrigger=PropertyChanged}">
@@ -84,7 +84,7 @@
 				<extToolkit:IntegerUpDown Grid.Row="10" Grid.Column="1" Value="{Binding Height}" Minimum="100" Maximum="1000" Margin="2" />
 				<!--<CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding IgnoreMoveResize}" Margin="2" />-->
                 <Button Grid.Row="0" Grid.Column="2" Content="Подключить" Command="{Binding ConnectCommand}" />
-                <ComboBox  Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Path=Channels}" SelectedItem="{Binding SelectedChannel, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBox  Grid.Row="1" Grid.Column="2" SelectedIndex="0" ItemsSource="{Binding Path=Channels}" IsEnabled="{Binding IsConnected, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedChannel, UpdateSourceTrigger=PropertyChanged}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name, Mode=TwoWay}" Foreground="Black" />

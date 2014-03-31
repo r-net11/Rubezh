@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
@@ -7,7 +6,6 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using XFiresecAPI;
-using System.Drawing;
 
 namespace FiresecService.Service
 {

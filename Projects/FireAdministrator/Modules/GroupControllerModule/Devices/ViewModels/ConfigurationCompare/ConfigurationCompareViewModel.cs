@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 			LocalConfiguration = localConfiguration;
 			RemoteConfiguration = remoteConfiguration;
 			RemoteConfiguration.Update();
-			UpdateConfigurationHelper.Update(RemoteConfiguration);
+			RemoteConfiguration.UpdateConfiguration();
 
 			LocalDevice = localConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
 			RemoteDevice = remoteConfiguration.Devices.FirstOrDefault(x => x.DriverType == device.DriverType && x.Address == device.Address);
@@ -103,6 +103,8 @@ namespace GKModule.ViewModels
 				LocalConfiguration.PumpStations.AddRange(RemoteConfiguration.PumpStations);
 				LocalConfiguration.MPTs.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.MPTs.AddRange(RemoteConfiguration.MPTs);
+				LocalConfiguration.Delays.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
+				LocalConfiguration.Delays.AddRange(RemoteConfiguration.Delays);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 			XManager.UpdateConfiguration();
@@ -176,6 +178,11 @@ namespace GKModule.ViewModels
 						if (sameObject1.ObjectType == ObjectType.MPT)
 						{
 							newObject.DifferenceDiscription = GetMPTsDifferences(sameObject1, sameObject2, IsLocalConfig);
+							newObject.Name = sameObject1.Name;
+						}
+						if (sameObject1.ObjectType == ObjectType.Delay)
+						{
+							newObject.DifferenceDiscription = GetDelaysDifferences(sameObject1, sameObject2);
 							newObject.Name = sameObject1.Name;
 						}
 					}
@@ -306,6 +313,31 @@ namespace GKModule.ViewModels
 				mptsDifferences.Append("Не совпадают задержки");
 			}
 			return mptsDifferences.ToString() == "" ? null : mptsDifferences.ToString();
+		}
+
+		string GetDelaysDifferences(ObjectViewModel object1, ObjectViewModel object2)
+		{
+			var delaysDifferences = new StringBuilder();
+			if (object1.Name != object2.Name)
+				delaysDifferences.Append("Не совпадает название");
+			bool delayDiff = object1.Delay.DelayTime != object2.Delay.DelayTime;
+			bool holdDiff = object1.Delay.Hold != object2.Delay.Hold;
+			bool regimeDiff = object1.Delay.DelayRegime != object2.Delay.DelayRegime;
+			if (delayDiff || holdDiff || regimeDiff)
+			{
+				if (delaysDifferences.Length != 0)
+					delaysDifferences.Append(". ");
+				delaysDifferences.Append("Не совпадают следующие параметры: ");
+				var parameters = new List<string>();
+				if (delayDiff)
+					parameters.Add("Задержка");
+				if (holdDiff)
+					parameters.Add("Удержание");
+				if (regimeDiff)
+					parameters.Add("Режим работы");
+				delaysDifferences.Append(String.Join(", ", parameters));
+			}
+			return delaysDifferences.ToString() == "" ? null : delaysDifferences.ToString();
 		}
 	}
 }

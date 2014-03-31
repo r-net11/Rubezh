@@ -41,14 +41,8 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static BitmapSource GetSingleBitmapSource(Guid? uid)
+		public static BitmapSource GetBitmapSource(Photo photo)
 		{
-			if (uid == null)
-				return null;
-			var filter = new PhotoFilter();
-			filter.Uids.Add((Guid)uid);
-			var operationResult = FiresecManager.FiresecService.GetPhotos(filter);
-			var photo = Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 			if (photo == null)
 				return null;
 			try

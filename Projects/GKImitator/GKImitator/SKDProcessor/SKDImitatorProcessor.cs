@@ -110,8 +110,7 @@ namespace GKImitator.Processor
 
 		void OnControlCommand(byte b)
 		{
-			AddJournalItem(new SKDImitatorJournalItem() { Source = 1, Address = 0, NameCode = 22, });
-
+			AddJournalItem(new SKDImitatorJournalItem() { Source = 1, Address = 0, NameCode = 22, DescriptionCode = b });
 		}
 
 		public static List<byte> ToBytes(short shortValue)

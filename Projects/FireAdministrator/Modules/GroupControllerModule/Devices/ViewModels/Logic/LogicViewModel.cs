@@ -98,8 +98,20 @@ namespace GKModule.ViewModels
 						clause.Directions = clauseViewModel.Directions.ToList();
 						clause.DirectionUIDs = clauseViewModel.Directions.Select(x => x.BaseUID).ToList();
 						break;
+
+					case ClauseOperationType.AllMPTs:
+					case ClauseOperationType.AnyMPT:
+						clause.MPTs = clauseViewModel.MPTs.ToList();
+						clause.MPTUIDs = clauseViewModel.MPTs.Select(x => x.BaseUID).ToList();
+						break;
+
+					case ClauseOperationType.AllDelays:
+					case ClauseOperationType.AnyDelay:
+						clause.Delays = clauseViewModel.Delays.ToList();
+						clause.DelayUIDs = clauseViewModel.Delays.Select(x => x.BaseUID).ToList();
+						break;
 				}
-				if (clause.ZoneUIDs.Count > 0 || clause.DeviceUIDs.Count > 0 || clause.DirectionUIDs.Count > 0)
+				if (clause.HasObjects())
 					clauses.Add(clause);
 			}
 			return clauses;

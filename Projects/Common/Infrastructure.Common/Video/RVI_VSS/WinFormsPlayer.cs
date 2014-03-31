@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using Entities.DeviceOriented;
 using FiresecAPI.Models;
@@ -10,51 +12,54 @@ namespace Infrastructure.Common.Video.RVI_VSS
 	public partial class WinFormsPlayer : UserControl
 	{
 		Stream ExtraStream { get; set; }
-		Channel FirstChannel { get; set; }
 		PlayBackDeviceRecord Record { get; set; }
+		Device Device { get; set; }
 
 		public WinFormsPlayer()
 		{
 			InitializeComponent();
 		}
 
-		public void StopVideo()
+		public void Stop()
 		{
 			if (ExtraStream != null)
+			{
 				ExtraStream.RemovePlayHandle(Handle);
-			Invalidate();
+			}
+			//Invalidate();
 			ExtraStream = null;
 		}
 
-		public void StartVideo(Camera camera, int channelNumber)
+		public List<Channel> Connect(string ipAddress, int port)
 		{
 			try
 			{
-				StopVideo();
-				var perimeter = SystemPerimeter.Instance;
-				var deviceSI = new DeviceSearchInfo(camera.Address, camera.Port);
-				var device = perimeter.AddDevice(deviceSI);
-				device.Authorize();
-				FirstChannel = device.Channels.First(channell => channell.ChannelNumber == channelNumber);
-				ExtraStream = FirstChannel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
-				ExtraStream.AddPlayHandle(Handle);
+				var deviceSi = new DeviceSearchInfo(ipAddress, port);
+				Device = SystemPerimeter.Instance.AddDevice(deviceSi);
+				return Device.Channels.ToList();
 			}
-			catch {}
+			catch
+			{
+				return null;
+			}
 		}
 
-		public void StartVideo(Device device, int channelNumber)
+		public bool Start(int channelNumber)
 		{
 			try
 			{
-				StopVideo();
-				FirstChannel = device.Channels.First(channell => channell.ChannelNumber == 0);
-				ExtraStream = FirstChannel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
+				var channel = Device.Channels.First(channell => channell.ChannelNumber == channelNumber);
+				ExtraStream = channel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
 				ExtraStream.AddPlayHandle(Handle);
+				return true;
 			}
-			catch { }
+			catch
+			{
+				return false;
+			}
 		}
 
-		public void StartVideo(PlayBackDeviceRecord record)
+		public bool Start(PlayBackDeviceRecord record)
 		{
 			try
 			{
@@ -62,8 +67,12 @@ namespace Infrastructure.Common.Video.RVI_VSS
 					Record.StopPlayBack();
 				Record = record;
 				record.StartPlaybackByFile(Handle);
+				return true;
 			}
-			catch { }
+			catch
+			{
+				return false;
+			}
 		}
 	}
 }

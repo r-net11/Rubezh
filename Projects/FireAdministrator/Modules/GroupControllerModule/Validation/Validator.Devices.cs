@@ -33,6 +33,7 @@ namespace GKModule.Validation
 				}
 				ValidateParametersMinMax(device);
 				ValidateNotUsedLogic(device);
+				ValidateDeviceSelfLogic(device);
 				ValidateRSR2AddressFollowing(device);
 				ValidateKAUAddressFollowing(device);
 			}
@@ -169,6 +170,12 @@ namespace GKModule.Validation
 						Errors.Add(new DeviceValidationError(device, "В логике задействованы неиспользуемые устройства", ValidationErrorLevel.CannotSave));
 				}
 			}
+		}
+
+		void ValidateDeviceSelfLogic(XDevice device)
+		{
+			if (device.ClauseInputDevices.Contains(device))
+				Errors.Add(new DeviceValidationError(device, "Устройство зависит от самого себя", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateDeviceRangeAddress(XDevice device)

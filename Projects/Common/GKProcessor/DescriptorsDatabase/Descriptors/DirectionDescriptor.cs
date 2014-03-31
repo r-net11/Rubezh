@@ -11,7 +11,6 @@ namespace GKProcessor
 			DatabaseType = DatabaseType.Gk;
 			DescriptorType = DescriptorType.Direction;
 			Direction = direction;
-			Build();
 		}
 
 		public override void Build()

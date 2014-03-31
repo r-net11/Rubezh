@@ -12,29 +12,6 @@
 			<SwitchCase Then="Камеру нельзя размещать на плане" When="Prohibit" />
 			<SwitchCase Then="Камера уже размещена на плане" When="Single" />
 		</SwitchConverter>
-		<Style x:Key="DataGridCellStyle" TargetType="{x:Type DataGridCell}">
-			<Style.Setters>
-				<Setter Property="Template">
-					<Setter.Value>
-						<ControlTemplate TargetType="{x:Type DataGridCell}">
-							<Border Background="{TemplateBinding Background}" BorderThickness="0">
-								<ContentPresenter VerticalAlignment="Center" />
-							</Border>
-						</ControlTemplate>
-					</Setter.Value>
-				</Setter>
-			</Style.Setters>
-			<Style.Triggers>
-				<DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
-					<Setter Property="FontStyle" Value="Italic" />
-					<Setter Property="FontWeight" Value="Bold" />
-				</DataTrigger>
-				<Trigger Property="IsSelected" Value="True">
-					<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
-					<Setter Property="Foreground" Value="White" />
-				</Trigger>
-			</Style.Triggers>
-		</Style>
         <converters:ChannelToStringConverter x:Key="ChannelToStringConverter" />
 	</UserControl.Resources>
 	<Grid>
@@ -43,8 +20,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition MinHeight="150" />
         </Grid.RowDefinitions>
-        <Controls:XDataGrid Grid.Row="0" CellStyle="{StaticResource DataGridCellStyle}" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
-			<DataGrid.Columns>
+        <Controls:XDataGrid IsDoubleClickOff="{Binding SelectedCamera.IsConnecting}" Grid.Row="0" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
+            <DataGrid.Columns>
 				<DataGridTemplateColumn Width="200" Header="Название">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>

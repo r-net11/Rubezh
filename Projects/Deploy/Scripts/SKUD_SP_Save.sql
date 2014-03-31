@@ -52,6 +52,9 @@ GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveCard]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveCard]
 GO
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SavePhoto]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SavePhoto]
+GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveAccessTemplate]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveAccessTemplate]
 GO
@@ -680,8 +683,8 @@ CREATE PROCEDURE SaveCard
 	@StopReason text = NULL
 AS
 BEGIN
-	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,AccessTemplateUID,ValidFrom,ValidTo,IsInStopList,StopReason)
-	VALUES (@UID,@IsDeleted,@RemovalDate,@Series,@Number,@EmployeeUID,@AccessTemplateUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason)
+	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,AccessTemplateUID,StartDate,EndDate,IsInStopList,StopReason,IsBlocked)
+	VALUES (@UID,@IsDeleted,@RemovalDate,@Series,@Number,@EmployeeUID,@AccessTemplateUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason,0)
 END
 
 GO
@@ -717,6 +720,7 @@ CREATE PROCEDURE SaveAdditionalColumnType
 	@Name nvarchar(50) = NULL,
 	@Description nvarchar(max) = NULL,
 	@DataType int = NULL,
+	@PersonType int,
 	@IsDeleted bit,
 	@RemovalDate datetime
 AS
@@ -727,6 +731,7 @@ BEGIN
 		Name,
 		Description,
 		DataType,
+		PersonType,
 		IsDeleted,
 		RemovalDate)
 	VALUES (
@@ -735,6 +740,7 @@ BEGIN
 		@Name ,
 		@Description ,
 		@DataType ,
+		@PersonType,
 		@IsDeleted ,
 		@RemovalDate )
 END	

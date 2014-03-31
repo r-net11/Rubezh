@@ -5,24 +5,16 @@ using System.Collections.Generic;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDelay : XBase, IInputObjectsBase, INamedBase
+	public class XDelay : XBase, INamedBase
 	{
 		public XDelay()
 		{
 			//UID = BaseUID;
 			DeviceLogic = new XDeviceLogic();
-
-			InputDevices = new List<XDevice>();
-			InputZones = new List<XZone>();
-			InputDirections = new List<XDirection>();
 		}
 
-		public List<XDevice> InputDevices { get; set; }
-		public List<XZone> InputZones { get; set; }
-		public List<XDirection> InputDirections { get; set; }
-
 		[DataMember]
-		public int No { get; set; }
+		public ushort No { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

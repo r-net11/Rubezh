@@ -249,7 +249,7 @@ namespace FiresecClient
 				}
 			}
 			device.DeviceLogic = deviceLogic;
-			UpdateConfigurationHelper.InvalidateOneLogic(DeviceConfiguration, device, device.DeviceLogic);
+			DeviceConfiguration.InvalidateOneLogic(device, device.DeviceLogic);
 			device.OnChanged();
 		}
 

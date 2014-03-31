@@ -69,7 +69,7 @@ namespace VideoModule.RVI_VSS.Views
 					var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 					if (camera != null)
 					{
-						control.InitializeCamera(camera);
+						//control.InitializeCamera(camera);
 					}
 				}
 			}
@@ -121,7 +121,7 @@ namespace VideoModule.RVI_VSS.Views
 					if (cellPlayerWrap != null)
 						try
 						{
-							cellPlayerWrap.InitializeCamera(propertyViewModel.SelectedCamera);
+							//cellPlayerWrap.InitializeCamera(propertyViewModel.SelectedCamera);
 							ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = propertyViewModel.SelectedCamera.UID;
 						}
 						catch (Exception ex)

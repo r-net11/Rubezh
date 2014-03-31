@@ -4,6 +4,11 @@ using System.Linq;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure;
+using SKDModule.Events;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -16,6 +21,8 @@ namespace SKDModule.ViewModels
 
 		public EmployeeCardDetailsViewModel(Organization organization, SKDCard card = null)
 		{
+			ChangeReaderCommand = new RelayCommand(OnChangeReader);
+
 			Organization = organization;
 			Card = card;
 			if (card == null)
@@ -26,8 +33,8 @@ namespace SKDModule.ViewModels
 				{
 					Series = 0,
 					Number = 0,
-					ValidFrom = DateTime.Now,
-					ValidTo = DateTime.Now.AddYears(1)
+					StartDate = DateTime.Now,
+					EndDate = DateTime.Now.AddYears(1)
 				};
 			}
 			else
@@ -37,8 +44,8 @@ namespace SKDModule.ViewModels
 			Card = card;
 			Series = Card.Series;
 			Number = Card.Number;
-			StartDate = Card.ValidFrom;
-			EndDate = Card.ValidTo;
+			StartDate = Card.StartDate;
+			EndDate = Card.EndDate;
 
 			AccessZones = new AccessZonesSelectationViewModel(Organization, Card.CardZones, Card.UID);
 
@@ -175,6 +182,66 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		bool _useReader;
+		public bool UseReader
+		{
+			get { return _useReader; }
+			set
+			{
+				_useReader = value;
+				OnPropertyChanged("UseReader");
+				if (value)
+				{
+					ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Subscribe(OnNewJournal);
+				}
+				else
+				{
+					ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Unsubscribe(OnNewJournal);
+				}
+			}
+		}
+
+		public void OnNewJournal(List<SKDJournalItem> journalItems)
+		{
+			foreach (var journalItem in journalItems)
+			{
+				if (journalItem.DeviceUID == ClientSettings.SKDSettings.CardCreatorReaderUID)
+				{
+					if (journalItem.CardSeries > 0 && journalItem.CardNo > 0)
+					{
+						Series = journalItem.CardSeries;
+						Number = journalItem.CardNo;
+					}
+				}
+			}
+		}
+
+		public RelayCommand ChangeReaderCommand { get; private set; }
+		void OnChangeReader()
+		{
+			var readerSelectationViewModel = new ReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
+			if (DialogService.ShowModalWindow(readerSelectationViewModel))
+			{
+				OnPropertyChanged("ReaderName");
+			}
+		}
+
+		public string ReaderName
+		{
+			get
+			{
+				var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == ClientSettings.SKDSettings.CardCreatorReaderUID);
+				if (readerDevice != null)
+				{
+					return readerDevice.Name;
+				}
+				else
+				{
+					return "Нажмите для выбора считывателя";
+				}
+			}
+		}
+
 		protected override bool Save()
 		{
 			if (UseStopList && SelectedStopListCard != null)
@@ -187,8 +254,8 @@ namespace SKDModule.ViewModels
 			}
 			Card.Series = Series;
 			Card.Number = Number;
-			Card.ValidFrom = StartDate;
-			Card.ValidTo = EndDate;
+			Card.StartDate = StartDate;
+			Card.EndDate = EndDate;
 			Card.IsBlocked = IsBlocked;
 			Card.CardZones = AccessZones.GetCardZones();
 

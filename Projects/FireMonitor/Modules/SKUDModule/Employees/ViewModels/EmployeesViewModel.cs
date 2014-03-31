@@ -19,6 +19,7 @@ namespace SKDModule.ViewModels
 		public static EmployeesViewModel Current { get; private set; }
 		public PassCardViewModel PassCardViewModel { get; private set; }
 		EmployeeFilter Filter;
+		PersonType PersonType;
 		public Organization Organization { get; private set; }
 		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
@@ -32,6 +33,7 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 
 			Filter = new EmployeeFilter();
+			Filter.PersonType = FiresecManager.CurrentUser.PersonTypes.FirstOrDefault();
 			var organizationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
 			if (organizationUID != Guid.Empty)
 				Filter.OrganizationUIDs = new List<Guid> { organizationUID };
@@ -40,6 +42,7 @@ namespace SKDModule.ViewModels
 
 		void Initialize()
 		{
+			PersonType = Filter.PersonType;
 			PassCardViewModel = new PassCardViewModel(this);
 			Organization = OrganizationHelper.GetSingle(Filter.OrganizationUIDs.FirstOrDefault());
 			var employees = EmployeeHelper.Get(Filter);
@@ -148,17 +151,31 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
+			EmployeeDetails employeeDetails = null;
+			if (PersonType == PersonType.Employee)
 			{
-				var employee = employeeDetailsViewModel.Employee;
-				var saveResult = EmployeeHelper.Save(employee);
-				if (!saveResult)
-					return;
-				var employeeViewModel = new EmployeeViewModel(this, employee);
-				Employees.Add(employeeViewModel);
-				SelectedEmployee = employeeViewModel;
+				var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
+				if (DialogService.ShowModalWindow(employeeDetailsViewModel))
+					employeeDetails = employeeDetailsViewModel.EmployeeDetails;
 			}
+			else if (PersonType == PersonType.Guest)
+			{
+				var guestDetailsViewModel = new GuestDetailsViewModel(this);
+				if (DialogService.ShowModalWindow(guestDetailsViewModel))
+					employeeDetails = guestDetailsViewModel.EmployeeDetails;
+			}
+
+			if (employeeDetails == null)
+				return;
+
+			var employee = employeeDetails.GetEmployee();
+			var saveResult = EmployeeHelper.Save(employee);
+			if (!saveResult)
+				return;
+			
+			var employeeViewModel = new EmployeeViewModel(this, employee);
+			Employees.Add(employeeViewModel);
+			SelectedEmployee = employeeViewModel;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -183,16 +200,27 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.Employee);
-			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
+			EmployeeDetails employeeDetails = null;
+			if (PersonType == PersonType.Employee)
 			{
-				var employee = employeeDetailsViewModel.Employee;
-				var saveResult = EmployeeHelper.Save(employee);
-				if (!saveResult)
-					return;
-
-				SelectedEmployee.Update(employee);
+				var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.Employee);
+				if (DialogService.ShowModalWindow(employeeDetailsViewModel))
+					employeeDetails = employeeDetailsViewModel.EmployeeDetails;
 			}
+			else if (PersonType == PersonType.Guest)
+			{
+				var guestDetailsViewModel = new GuestDetailsViewModel(this, SelectedEmployee.Employee);
+				if (DialogService.ShowModalWindow(guestDetailsViewModel))
+					employeeDetails = guestDetailsViewModel.EmployeeDetails;
+			}
+
+			if (employeeDetails == null)
+				return;
+
+			var employee = employeeDetails.GetEmployee();
+			var saveResult = EmployeeHelper.Save(employee);
+			if (!saveResult)
+				return;
 		}
 		bool CanEdit()
 		{
@@ -230,7 +258,6 @@ namespace SKDModule.ViewModels
 		public void InitializeAdditionalColumns()
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
-
 			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
 			if (Organization != null)
 				additionalColumnTypeFilter.OrganizationUIDs.Add(Organization.UID);
