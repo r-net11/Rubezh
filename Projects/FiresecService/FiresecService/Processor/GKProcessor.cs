@@ -54,7 +54,7 @@ namespace FiresecService
 			if (GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
 				var deviceConfiguration = ZipConfigurationHelper.GetDeviceConfiguration();
-				UpdateConfigurationHelper.Update(deviceConfiguration);
+				deviceConfiguration.UpdateConfiguration();
 
 				var allHashesAreEqual = true;
 				if (deviceConfiguration.RootDevice.Children.Count == XManager.DeviceConfiguration.RootDevice.Children.Count)
