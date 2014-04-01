@@ -1,27 +1,26 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using VideoModule.RVI_VSS.ViewModels;
 
 namespace VideoModule.RVI_VSS.Views
 {
-	public partial class ArchiveView : UserControl
+	public partial class ArchiveView
 	{
 		public ArchiveView()
 		{
 			InitializeComponent();
+			Loaded += OnLoaded;
+			Unloaded += OnUnloaded;
 		}
 
-		private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+		private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
 		{
-			var arhiveViewModel = DataContext as ArchiveViewModel;
-			if ((arhiveViewModel != null) && (arhiveViewModel.SelectedRecord != null))
-			{
-				try
-				{
-					//PlayerWrap.InitializeCamera(arhiveViewModel.SelectedRecord);
-				}
-				catch { }
-			}
+			_grid.Child = new UIElement();
+		}
+
+		private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+		{
+			var archiveViewModel = DataContext as ArchiveViewModel;
+			_grid.Child = archiveViewModel.CellPlayerWrap;
 		}
 	}
 }

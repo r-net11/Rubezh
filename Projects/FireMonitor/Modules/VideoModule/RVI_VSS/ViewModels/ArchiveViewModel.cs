@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Entities.DeviceOriented;
+using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Prism;
-using Device = Entities.DeviceOriented.Device;
+using VideoModule.RVI_VSS.Views;
 
 namespace VideoModule.RVI_VSS.ViewModels
 {
@@ -15,21 +16,120 @@ namespace VideoModule.RVI_VSS.ViewModels
 		public ArchiveViewModel()
 		{
 			Title = "Архив видеозаписей на сервере";
-			InitiallizeDevices();
+			CellPlayerWrap = new CellPlayerWrap();
 			StartTime = DateTime.Now - TimeSpan.FromHours(1);
 			EndTime = DateTime.Now;
 			ArchivePlayer = new CellPlayerWrap();
 			SearchCommand = new RelayCommand(OnSearch, CanSearch);
+			StartCommand = new RelayCommand(OnStart);
+			PauseCommand = new RelayCommand(OnPause);
+			StopCommand = new RelayCommand(OnStop);
+			FastCommand = new RelayCommand(OnFast);
+			SlowCommand = new RelayCommand(OnSlow);
+			InitializeCameras();
 		}
 
-		void InitiallizeDevices()
+		public CellPlayerWrap CellPlayerWrap { get; private set; }
+
+		private bool _isStarted;
+		public bool IsStarted
 		{
-			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in new List<Device>(SystemPerimeter.Instance.Devices))
+			get { return _isStarted; }
+			set
 			{
-				var deviceViewModel = new DeviceViewModel(device);
-				Devices.Add(deviceViewModel);
+				_isStarted = value;
+				OnPropertyChanged(() => IsStarted);
 			}
+		}
+
+		private bool _isPaused;
+		public bool IsPaused
+		{
+			get { return _isPaused; }
+			set
+			{
+				_isPaused = value;
+				OnPropertyChanged(() => IsPaused);
+			}
+		}
+
+		public RelayCommand StartCommand { get; private set; }
+		void OnStart()
+		{
+			if (SelectedRecord != null)
+			{
+				try
+				{
+					CellPlayerWrap.Start(SelectedRecord);
+					IsStarted = true;
+				}
+				catch { }
+			}
+		}
+
+		public RelayCommand PauseCommand { get; private set; }
+		void OnPause()
+		{
+			if (SelectedRecord != null)
+			{
+				try
+				{
+					CellPlayerWrap.Pause(SelectedRecord, !IsPaused);
+					IsPaused = !IsPaused;
+				}
+				catch { }
+			}
+		}
+
+		public RelayCommand StopCommand { get; private set; }
+		void OnStop()
+		{
+			if (SelectedRecord != null)
+			{
+				try
+				{
+					CellPlayerWrap.Stop(SelectedRecord);
+					IsStarted = false;
+				}
+				catch { }
+			}
+		}
+
+		public RelayCommand FastCommand { get; private set; }
+		void OnFast()
+		{
+			if (SelectedRecord != null)
+			{
+				try
+				{
+					CellPlayerWrap.Fast(SelectedRecord);
+				}
+				catch { }
+			}
+		}
+
+		public RelayCommand SlowCommand { get; private set; }
+		void OnSlow()
+		{
+			if (SelectedRecord != null)
+			{
+				try
+				{
+					CellPlayerWrap.Slow(SelectedRecord);
+				}
+				catch { }
+			}
+		}
+
+		public void InitializeCameras()
+		{
+			Cameras = new ObservableCollection<CameraViewModel>();
+			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			{
+				var cameraViewModel = new CameraViewModel(camera);
+				Cameras.Add(cameraViewModel);
+			}
+			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
 		private CellPlayerWrap _archivePlayer { get; set; }
@@ -65,25 +165,25 @@ namespace VideoModule.RVI_VSS.ViewModels
 			}
 		}
 
-		private ObservableCollection<DeviceViewModel> _devices;
-		public ObservableCollection<DeviceViewModel> Devices
+		private ObservableCollection<CameraViewModel> _cameras;
+		public ObservableCollection<CameraViewModel> Cameras
 		{
-			get { return _devices; }
+			get { return _cameras; }
 			set
 			{
-				_devices = value;
-				OnPropertyChanged(() => Devices);
+				_cameras = value;
+				OnPropertyChanged(() => Cameras);
 			}
 		}
 
-		private DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
+		private CameraViewModel _selectedCamera;
+		public CameraViewModel SelectedCamera
 		{
-			get { return _selectedDevice; }
+			get { return _selectedCamera; }
 			set
 			{
-				_selectedDevice = value;
-				OnPropertyChanged(() => SelectedDevice);
+				_selectedCamera = value;
+				OnPropertyChanged(() => SelectedCamera);
 			}
 		}
 
@@ -113,17 +213,19 @@ namespace VideoModule.RVI_VSS.ViewModels
 		void OnSearch()
 		{
 			//Records = new ObservableCollection<PlayBackDeviceRecord>(SelectedDevice.SelectedChannel.QueryRecordFiles(StartTime, EndTime));
+			var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == SelectedCamera.Address);
+			var channel = device.Channels.FirstOrDefault(x => x.ChannelNumber == SelectedCamera.Camera.ChannelNumber);
 			Records = new ObservableCollection<PlayBackDeviceRecord>();
 			for (var time = StartTime; time < EndTime; time += TimeSpan.FromDays(1))
 			{
-				var records = SelectedDevice.SelectedChannel.QueryRecordFiles(time, time + TimeSpan.FromDays(1));
+				var records = channel.QueryRecordFiles(time, time + TimeSpan.FromDays(1));
 				Records.AddRange(records);
 			}
 		}
 
 		bool CanSearch()
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.SelectedChannel != null));
+			return (SelectedCamera != null);
 		}
 	}
 }

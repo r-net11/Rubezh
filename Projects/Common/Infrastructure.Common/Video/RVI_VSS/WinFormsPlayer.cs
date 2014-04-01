@@ -74,5 +74,61 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				return false;
 			}
 		}
+
+		public bool Pause(PlayBackDeviceRecord record, bool pausePlayBack)
+		{
+			try
+			{
+				Record = record;
+				record.PausePlayBack(pausePlayBack);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		public bool Stop(PlayBackDeviceRecord record)
+		{
+			try
+			{
+				Record = record;
+				record.StopPlayBack();
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		public bool Fast(PlayBackDeviceRecord record)
+		{
+			try
+			{
+				Record = record;
+				record.FastPlayBack();
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		public bool Slow(PlayBackDeviceRecord record)
+		{
+			try
+			{
+				Record = record;
+				record.SlowPlayBack();
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
 	}
 }

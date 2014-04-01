@@ -122,8 +122,8 @@ namespace VideoModule.ViewModels
 			var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera);
 			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
-				SelectedCamera = cameraDetailsViewModel.OriginalCameraViewModel;
-				SelectedCamera.Update();
+				
+				SelectedCamera.CopyCameraViewModel(cameraDetailsViewModel.OriginalCameraViewModel);
 				SelectedCamera.Camera.OnChanged();
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}

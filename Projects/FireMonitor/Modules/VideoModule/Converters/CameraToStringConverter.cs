@@ -12,7 +12,7 @@ namespace VideoModule.Converters
 		{
 			var camera = value as Camera;
 			if (camera != null && FiresecManager.SystemConfiguration.Cameras.Any(x => x.Address == camera.Address))
-				return camera.Address;
+				return camera.Address + " (" + camera.ChannelNumber + " канал)";
 			return "<нет>";
 		}
 

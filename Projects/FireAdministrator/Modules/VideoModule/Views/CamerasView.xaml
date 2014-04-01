@@ -29,12 +29,12 @@
 								<drag:DragDropDecorator AllowSimulateDrag="True" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
 									<Image Margin="2,0,0,0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
 								</drag:DragDropDecorator>
-								<TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Camera.Name}" />
+                                <TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="200" Binding="{Binding Camera.Address}" Header="URL" />
+				<DataGridTextColumn Width="200" Binding="{Binding Address}" Header="URL" />
                 <DataGridTextColumn Width="200" Binding="{Binding SelectedChannel, Converter={StaticResource ChannelToStringConverter}}" Header="Канал" />
                 <DataGridTextColumn Width="200" Binding="{Binding PresentationZones}" Header="Зоны" />
 			</DataGrid.Columns>
@@ -51,27 +51,7 @@
 		</Controls:XDataGrid>
         <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 		<Grid Grid.Row="2">
-			<!--<Grid.Background>
-				<VisualBrush AlignmentX="Center" Stretch="Uniform">
-					<VisualBrush.Visual>
-						<Image Source="{Binding StartedCamera.ImageSource, Mode=OneWay}" />
-					</VisualBrush.Visual>
-				</VisualBrush>
-			</Grid.Background>-->
             <rviVss:CellPlayerWrap Name="PlayerWrap" />
 		</Grid>
 	</Grid>
-	<!--
-		<Grid>
-		<Grid Grid.Row="0">
-		<Grid.Background>
-		<VisualBrush Stretch="Uniform">
-		<VisualBrush.Visual>
-		<Image Source="{Binding Path=VideoSequence.Image}" />
-		</VisualBrush.Visual>
-		</VisualBrush >
-		</Grid.Background>
-		</Grid>
-		</Grid>
-	-->
 </UserControl>

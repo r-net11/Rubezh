@@ -91,6 +91,7 @@
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="RVI_VSS\ViewModels\ArchiveViewModel.cs" />
+    <Compile Include="RVI_VSS\ViewModels\CameraViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\DeviceViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\PropertyViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\LayoutMultiCameraViewModel.cs" />
