@@ -35,6 +35,7 @@ namespace FiresecAPI
 		NewEvents,
 		ArchiveCompleted,
 		GKArchiveCompleted,
+		SKDArchiveCompleted,
 		ConfigurationChanged,
 		Disconnecting
 	}

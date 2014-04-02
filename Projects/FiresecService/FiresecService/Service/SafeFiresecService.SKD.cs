@@ -232,10 +232,14 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDAllowReader(deviceUID); }, "SKDAllowReader");
 		}
-
 		public OperationResult<bool> SKDDenyReader(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDDenyReader(deviceUID); }, "SKDDenyReader");
+		}
+
+		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter)
+		{
+			SafeOperationCall(() => { FiresecService.BeginGetSKDFilteredArchive(archiveFilter); }, "BeginGetSKDFilteredArchive");
 		}
 	}
 }

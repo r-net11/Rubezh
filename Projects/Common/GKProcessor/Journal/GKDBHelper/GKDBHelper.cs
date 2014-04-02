@@ -131,7 +131,6 @@ namespace GKProcessor
 			var journalItems = new List<JournalItem>();
 			var result = new List<JournalItem>();
 
-			
 			try
 			{
 				lock (locker)

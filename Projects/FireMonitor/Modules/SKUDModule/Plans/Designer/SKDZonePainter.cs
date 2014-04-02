@@ -138,11 +138,6 @@ namespace SKDModule.Plans.Designer
 					));
 
 					_contextMenu.Items.Add(Helper.BuildMenuItem(
-						"Показать связанные события",
-						"pack://application:,,,/Controls;component/Images/BJournal.png",
-						ZoneViewModel.ShowJournalCommand
-					));
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
 						"Свойства",
 						"pack://application:,,,/Controls;component/Images/BSettings.png",
 						ZoneViewModel.ShowPropertiesCommand
