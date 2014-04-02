@@ -56,7 +56,20 @@
             </Grid.RowDefinitions>
             <Border Name="_grid" Grid.Row="0" />
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button Content="Pause" Command="{Binding PauseCommand}" />
+                <ToolBarButton Command="{Binding PauseCommand}" >
+                    <ToolBarButton.Style>
+                        <Style TargetType="ToolBarButton">
+                            <Style.Triggers>
+                                <DataTrigger Binding="IsPaused" Value="False">
+                                    <Setter Property="ImageSource" Value="/Controls;component/Images/Pause.png"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="IsPaused" Value="True">
+                                    <Setter Property="ImageSource" Value="/Controls;component/Images/Play.png"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToolBarButton.Style>
+                </ToolBarButton>
                 <Button Content="Stop" Command="{Binding StopCommand}" />
                 <Button Content="Faster" Command="{Binding FastCommand}" />
                 <Button Content="Slower" Command="{Binding SlowCommand}" />
