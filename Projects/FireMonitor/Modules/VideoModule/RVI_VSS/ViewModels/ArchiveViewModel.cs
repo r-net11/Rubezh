@@ -5,13 +5,13 @@ using Entities.DeviceOriented;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Video.RVI_VSS;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Practices.Prism;
-using VideoModule.RVI_VSS.Views;
 
 namespace VideoModule.RVI_VSS.ViewModels
 {
-	public class ArchiveViewModel : SaveCancelDialogViewModel
+	public class ArchiveViewModel : DialogViewModel
 	{
 		public ArchiveViewModel()
 		{
@@ -56,15 +56,17 @@ namespace VideoModule.RVI_VSS.ViewModels
 		public RelayCommand StartCommand { get; private set; }
 		void OnStart()
 		{
-			if (SelectedRecord != null)
+			if (SelectedRecord == null)
 			{
-				try
-				{
-					CellPlayerWrap.Start(SelectedRecord);
-					IsStarted = true;
-				}
-				catch { }
+				MessageBoxService.ShowError("Выберите файл для воспроизведения", "Сообщение");
+				return;
 			}
+			try
+			{
+				CellPlayerWrap.Start(SelectedRecord);
+				IsStarted = true;
+			}
+			catch { }
 		}
 
 		public RelayCommand PauseCommand { get; private set; }
@@ -126,7 +128,7 @@ namespace VideoModule.RVI_VSS.ViewModels
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
-				var cameraViewModel = new CameraViewModel(camera);
+				var cameraViewModel = new CameraViewModel(camera, CellPlayerWrap);
 				Cameras.Add(cameraViewModel);
 			}
 			SelectedCamera = Cameras.FirstOrDefault();
@@ -144,13 +146,13 @@ namespace VideoModule.RVI_VSS.ViewModels
 		}
 
 		private DateTime _startTime;
-		public DateTime StartTime 
+		public DateTime StartTime
 		{
 			get { return _startTime; }
 			set
 			{
 				_startTime = value;
-				OnPropertyChanged(()=>StartTime);
+				OnPropertyChanged(() => StartTime);
 			}
 		}
 

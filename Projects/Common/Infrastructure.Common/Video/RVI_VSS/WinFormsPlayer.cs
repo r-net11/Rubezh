@@ -20,13 +20,35 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			InitializeComponent();
 		}
 
+		private int _speed;
+		private int Speed
+		{
+			get { return _speed; }
+			set
+			{
+				_speed = value;
+				switch (_speed)
+				{
+					case 1: label.Text = "x1/8"; break;
+					case 2: label.Text = "x1/4"; break;
+					case 3: label.Text = "x1/2"; break;
+					case 4: label.Text = "x1"; break;
+					case 5: label.Text = "x2"; break;
+					case 6: label.Text = "x4"; break;
+					case 7: label.Text = "x8"; break;
+					default: label.Text = ""; break;
+				}
+			}
+		}
+
 		public void Stop()
 		{
 			if (ExtraStream != null)
 			{
 				ExtraStream.RemovePlayHandle(Handle);
+				label.Text = "";
 			}
-			//Invalidate();
+			Invalidate();
 			ExtraStream = null;
 		}
 
@@ -51,6 +73,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				var channel = Device.Channels.First(channell => channell.ChannelNumber == channelNumber);
 				ExtraStream = channel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
 				ExtraStream.AddPlayHandle(Handle);
+				Speed = 0;
 				return true;
 			}
 			catch
@@ -67,6 +90,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 					Record.StopPlayBack();
 				Record = record;
 				record.StartPlaybackByFile(Handle);
+				Speed = 4;
 				return true;
 			}
 			catch
@@ -95,6 +119,8 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			{
 				Record = record;
 				record.StopPlayBack();
+				Speed = 0;
+				Invalidate();
 				return true;
 			}
 			catch
@@ -102,13 +128,16 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				return false;
 			}
 		}
-
+	
 		public bool Fast(PlayBackDeviceRecord record)
 		{
 			try
 			{
+				if (Speed == 7)
+					return false;
 				Record = record;
 				record.FastPlayBack();
+				Speed++;
 				return true;
 			}
 			catch
@@ -121,8 +150,11 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			try
 			{
+				if (Speed == 1)
+					return false;
 				Record = record;
 				record.SlowPlayBack();
+				Speed--;
 				return true;
 			}
 			catch

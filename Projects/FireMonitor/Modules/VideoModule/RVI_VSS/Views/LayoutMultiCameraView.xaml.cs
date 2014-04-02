@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using Entities.DeviceOriented;
+using FiresecAPI;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Video.RVI_VSS;
@@ -31,49 +33,57 @@ namespace VideoModule.RVI_VSS.Views
 
 		private void UI_Loaded(object sender, RoutedEventArgs e)
 		{
+			Cameras = new List<CameraViewModel>();
+			InitializeCameras();
 			InitializePerimeter();
+			_grid.Child = EnumToType(ClientSettings.RviMultiLayoutCameraSettings.MultiGridType);
+		}
+
+		List<CameraViewModel> Cameras;
+
+		void InitializeCameras()
+		{
 			InitializeUIElement(_1X7GridView);
 			InitializeUIElement(_2X2GridView);
 			InitializeUIElement(_3X3GridView);
 			InitializeUIElement(_4X4GridView);
 			InitializeUIElement(_6X6GridView);
-			_grid.Child = EnumToType(ClientSettings.RviMultiLayoutCameraSettings.MultiGridType);
 		}
 
-		private void InitializePerimeter()
-		{
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-			{
-					var perimeter = SystemPerimeter.Instance;
-					var deviceSI = new DeviceSearchInfo(camera.Address, camera.Port);
-					new Thread(delegate()
-					{
-						try
-						{
-							var device = perimeter.AddDevice(deviceSI);
-						}
-						catch { }
-					}).Start();
-			}
-		}
-
-		private void InitializeUIElement(UIElement uiElement)
+		void InitializeUIElement(UIElement uiElement)
 		{
 			var controls = new List<CellPlayerWrap>();
 			GetLogicalChildCollection(uiElement, controls);
 			foreach (var control in controls)
 			{
 				var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name).Value;
+				var cameraViewModel = new CameraViewModel(new Camera(), control);
 				if (cameraUid != Guid.Empty)
 				{
 					var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
 					if (camera != null)
 					{
-						control.Connect(camera.Address, camera.Port);
-						control.Start(0);
+						cameraViewModel.Camera = camera;
 					}
 				}
+				Cameras.Add(cameraViewModel);
 			}
+		}
+
+		void InitializePerimeter()
+		{
+			new Thread(delegate()
+			{
+				foreach (var cameraViewModel in Cameras)
+				{
+					try
+					{
+						if (cameraViewModel.Address != null)
+							cameraViewModel.ConnectAndStart();
+					}
+					catch { }
+				}
+			}).Start();
 		}
 
 		private void On_2x2Button_Click(object sender, RoutedEventArgs e)
@@ -111,19 +121,24 @@ namespace VideoModule.RVI_VSS.Views
 			var layoutPartPropertyCameraPageViewModel = new LayoutPartPropertyCameraPageViewModel(_grid.Child);
 			if (DialogService.ShowModalWindow(layoutPartPropertyCameraPageViewModel))
 			{
-				var cellPlayerWraps = new List<CellPlayerWrap>();
-				GetLogicalChildCollection(_grid.Child, cellPlayerWraps);
 				foreach (var propertyViewModel in layoutPartPropertyCameraPageViewModel.PropertyViewModels)
 				{
+					var cameraViewModel = Cameras.FirstOrDefault(x => x.CellPlayerWrap.Name == propertyViewModel.CellName);
+					cameraViewModel.Camera = propertyViewModel.SelectedCamera;
 					var cameraUid = propertyViewModel.SelectedCamera == null ? Guid.Empty : propertyViewModel.SelectedCamera.UID;
 					if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == propertyViewModel.CellName).Value == cameraUid)
 						continue;
-					var cellPlayerWrap = cellPlayerWraps.FirstOrDefault(x => x.Name == propertyViewModel.CellName);
-					if (cellPlayerWrap != null)
 						try
 						{
-							cellPlayerWrap.Connect(propertyViewModel.SelectedCamera.Address, propertyViewModel.SelectedCamera.Port);
-							cellPlayerWrap.Start(propertyViewModel.SelectedCamera.ChannelNumber);
+							if (propertyViewModel.SelectedCamera.Address == null)
+								cameraViewModel.StopVideo();
+							else
+							{
+								new Thread(delegate()
+									{
+										cameraViewModel.ConnectAndStart();
+									}).Start();
+							}
 							ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = propertyViewModel.SelectedCamera.UID;
 						}
 						catch (Exception ex)

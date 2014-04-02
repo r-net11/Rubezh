@@ -92,12 +92,16 @@
     <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="RVI_VSS\ViewModels\ArchiveViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\CameraViewModel.cs" />
+    <Compile Include="RVI_VSS\ViewModels\CamerasViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\DeviceViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\PropertyViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\LayoutMultiCameraViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
     <Compile Include="RVI_VSS\Views\ArchiveView.xaml.cs">
       <DependentUpon>ArchiveView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RVI_VSS\Views\CamerasView.xaml.cs">
+      <DependentUpon>CamerasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RVI_VSS\Views\LayoutMultiCameraView.xaml.cs">
       <DependentUpon>LayoutMultiCameraView.xaml</DependentUpon>
@@ -230,6 +234,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RVI_VSS\Views\ArchiveView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RVI_VSS\Views\CamerasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

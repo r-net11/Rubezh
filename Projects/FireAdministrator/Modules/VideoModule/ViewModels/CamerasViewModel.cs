@@ -37,7 +37,7 @@ namespace VideoModule.ViewModels
 			IsRightPanelEnabled = true;
 		}
 
-		public void InitializeCameras()
+		void InitializeCameras()
 		{
 			Cameras = new ObservableCollection<CameraViewModel>();
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
@@ -49,19 +49,15 @@ namespace VideoModule.ViewModels
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
-		public void InitializePerimeter()
+		void InitializePerimeter()
 		{
 			new Thread(delegate()
 				{
-					foreach (var camera in new List<Camera>(FiresecManager.SystemConfiguration.Cameras))
+					foreach (var cameraViewModel in Cameras)
 					{
 						try
 						{
-							var cameraViewModel = Cameras.FirstOrDefault(x => x.Camera.Address == camera.Address);
-							if (cameraViewModel != null)
-							{
-								cameraViewModel.Connect();
-							}
+							cameraViewModel.Connect();
 						}
 						catch { }
 					}
@@ -95,7 +91,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var cameraDetailsViewModel = new CameraDetailsViewModel(new CameraViewModel(new Camera()));
+			var cameraDetailsViewModel = new CameraDetailsViewModel(null);
 			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
 				FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.OriginalCameraViewModel.Camera);
@@ -108,8 +104,6 @@ namespace VideoModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-
-			SelectedCamera.StopVideo();
 			SelectedCamera.Camera.OnChanged();
 			FiresecManager.SystemConfiguration.Cameras.Remove(SelectedCamera.Camera);
 			Cameras.Remove(SelectedCamera);
@@ -122,7 +116,6 @@ namespace VideoModule.ViewModels
 			var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera);
 			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
-				
 				SelectedCamera.CopyCameraViewModel(cameraDetailsViewModel.OriginalCameraViewModel);
 				SelectedCamera.Camera.OnChanged();
 				ServiceFactory.SaveService.CamerasChanged = true;

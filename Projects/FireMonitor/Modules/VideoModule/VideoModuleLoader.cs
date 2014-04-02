@@ -17,6 +17,8 @@ using VideoModule.Plans;
 using VideoModule.RVI_VSS.ViewModels;
 using VideoModule.ViewModels;
 using XFiresecAPI;
+using CamerasViewModel = VideoModule.ViewModels.CamerasViewModel;
+//using CamerasViewModel = VideoModule.RVI_VSS.ViewModels.CamerasViewModel;
 using RviLayoutMultiCameraViewModel = VideoModule.RVI_VSS.ViewModels.LayoutMultiCameraViewModel;
 
 namespace VideoModule

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Windows.Threading;
 using Entities.DeviceOriented;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -20,8 +22,9 @@ namespace VideoModule.RVI_VSS.ViewModels
 
 		public List<XStateClass> StateClasses { get; private set; }
 		public Camera Camera { get; set; }
+		public CellPlayerWrap CellPlayerWrap { get; private set; }
 
-		public CameraViewModel(Camera camera)
+		public CameraViewModel(Camera camera, CellPlayerWrap cellPlayerWrap)
 		{
 			Camera = camera;
 			StateClasses = new List<XStateClass>();
@@ -29,6 +32,107 @@ namespace VideoModule.RVI_VSS.ViewModels
 			StateClasses.Add(XStateClass.Fire2);
 			StateClasses.Add(XStateClass.Attention);
 			StateClasses.Add(XStateClass.Ignore);
+			CellPlayerWrap = cellPlayerWrap;
+		}
+
+		private bool _isConnecting;
+		public bool IsConnecting
+		{
+			get { return _isConnecting; }
+			set
+			{
+				_isConnecting = value;
+				OnPropertyChanged(() => IsConnecting);
+			}
+		}
+
+		private bool _isFailConnected;
+		public bool IsFailConnected
+		{
+			get { return _isFailConnected; }
+			set
+			{
+				_isFailConnected = value;
+				OnPropertyChanged(() => IsFailConnected);
+			}
+		}
+
+		public void ConnectAndStart()
+		{
+			try
+			{
+				IsConnecting = true;
+				IsFailConnected = false;
+				Channels = new ObservableCollection<Channel>(CellPlayerWrap.Connect(Camera.Address, Camera.Port));
+				Dispatcher.BeginInvoke(
+					DispatcherPriority.Input, new ThreadStart(
+						() =>
+						{
+							SelectedChannel = Channels[Camera.ChannelNumber];
+							StartVideo();
+						}));
+				SynchronizeProperties();
+			}
+			catch
+			{
+				IsFailConnected = true;
+			}
+			finally
+			{
+				IsConnecting = false;
+			}
+		}
+
+		public bool StartVideo()
+		{
+			try
+			{
+				if ((SelectedChannel == null)&&(Channels!=null))
+					SelectedChannel = Channels.FirstOrDefault();
+				CellPlayerWrap.Start(SelectedChannel.ChannelNumber);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		public bool StopVideo()
+		{
+			try
+			{
+				CellPlayerWrap.Stop();
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		void SynchronizeProperties()
+		{
+			_connectedAddress = Address;
+			_connectedport = Port;
+			_connectedlogin = Login;
+			_connectedpassword = Password;
+			OnPropertyChanged(() => IsConnected);
+		}
+
+		public bool IsConnected
+		{
+			get
+			{
+				if (((_connectedAddress == Address) && (_connectedport == Port)) &&
+					((_connectedlogin == Login) && (_connectedpassword == Password)))
+				{
+					if ((SelectedChannel == null) && (Channels != null))
+						SelectedChannel = Channels.FirstOrDefault();
+					return true;
+				}
+				return false;
+			}
 		}
 
 		public string Name
