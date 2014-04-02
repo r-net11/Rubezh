@@ -16,7 +16,7 @@ namespace mjpeg
 		// Check if the array contains needle on specified position
 		public static bool Compare(byte[] array, byte[] needle, int startIndex)
 		{
-			int	needleLen = needle.Length;
+			int needleLen = needle.Length;
 			// compare
 			for (int i = 0, p = startIndex; i < needleLen; i++, p++)
 			{
@@ -31,8 +31,8 @@ namespace mjpeg
 		// Find subarray in array
 		public static int Find(byte[] array, byte[] needle, int startIndex, int count)
 		{
-			int	needleLen = needle.Length;
-			int	index;
+			int needleLen = needle.Length;
+			int index;
 
 			while (count >= needleLen)
 			{

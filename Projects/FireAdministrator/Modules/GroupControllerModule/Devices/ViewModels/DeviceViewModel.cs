@@ -165,7 +165,7 @@ namespace GKModule.ViewModels
 					return false;
 				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
 					return false;
-				return false;
+				return true;
 			}
 			if (Driver.Children.Count > 0)
 				return true;
