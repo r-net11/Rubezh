@@ -32,7 +32,6 @@ namespace VideoModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			RegisterShortcuts();
 			InitializeCameras();
-			InitializePerimeter();
 			SubscribeEvents();
 			IsRightPanelEnabled = true;
 		}
@@ -47,21 +46,6 @@ namespace VideoModule.ViewModels
 				Cameras.Add(cameraViewModel);
 			}
 			SelectedCamera = Cameras.FirstOrDefault();
-		}
-
-		void InitializePerimeter()
-		{
-			new Thread(delegate()
-				{
-					foreach (var cameraViewModel in Cameras)
-					{
-						try
-						{
-							cameraViewModel.Connect();
-						}
-						catch { }
-					}
-				}).Start();
 		}
 
 		ObservableCollection<CameraViewModel> _cameras;

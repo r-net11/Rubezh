@@ -8,27 +8,36 @@ namespace VideoModule.ViewModels
 {
 	public class CameraDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public CameraViewModel OriginalCameraViewModel { get; private set; }
-
-		public CameraDetailsViewModel(CameraViewModel cameraViewModel)
+		public CameraDetailsViewModel(Camera camera)
 		{
-			OriginalCameraViewModel = cameraViewModel;
-
 			ShowZonesCommand = new RelayCommand(OnShowZones);
 			ConnectCommand = new RelayCommand(OnConnect);
 			ShowCommand = new RelayCommand(OnShow);
 
-			if (cameraViewModel != null)
+			if (camera == null)
 			{
-				Title = "Редактировать камеру";
-				CameraViewModel = new CameraViewModel(new Camera());
-				CameraViewModel.CopyCameraViewModel(cameraViewModel);
+				Title = "Создать камеру";
+				camera = new Camera();
 			}
 			else
 			{
-				Title = "Создать камеру";
-				CameraViewModel = CameraViewModel.CreateDefaultCamera();
+				Title = "Редактировать камеру";
 			}
+
+			CopyProperties(camera);
+		}
+
+		void CopyProperties(Camera camera)
+		{
+			Name = camera.Name;
+			Address = camera.Address;
+			Login = camera.Login;
+			Name = camera.Name;
+			Name = camera.Name;
+			Name = camera.Name;
+			Name = camera.Name;
+			Name = camera.Name;
+			Name = camera.Name;
 		}
 
 		private CameraViewModel _cameraViewModel;
@@ -39,6 +48,100 @@ namespace VideoModule.ViewModels
 			{
 				_cameraViewModel = value;
 				OnPropertyChanged(() => CameraViewModel);
+			}
+		}
+
+		public string Name
+		{
+			get { return Camera.Name; }
+			set
+			{
+				Camera.Name = value;
+				OnPropertyChanged(() => Name);
+			}
+		}
+
+		public string Address
+		{
+			get { return Camera.Address; }
+			set
+			{
+				Camera.Address = value;
+				OnPropertyChanged(() => Address);
+				OnPropertyChanged(() => IsConnected);
+			}
+		}
+
+		public int Port
+		{
+			get { return Camera.Port; }
+			set
+			{
+				Camera.Port = value;
+				OnPropertyChanged(() => Port);
+				OnPropertyChanged(() => IsConnected);
+			}
+		}
+
+		public string Login
+		{
+			get { return Camera.Login; }
+			set
+			{
+				Camera.Login = value;
+				OnPropertyChanged(() => Login);
+				OnPropertyChanged(() => IsConnected);
+			}
+		}
+
+		public string Password
+		{
+			get { return Camera.Password; }
+			set
+			{
+				Camera.Password = value;
+				OnPropertyChanged(() => Password);
+				OnPropertyChanged(() => IsConnected);
+			}
+		}
+
+		public int Left
+		{
+			get { return Camera.Left; }
+			set
+			{
+				Camera.Left = value;
+				OnPropertyChanged(() => Left);
+			}
+		}
+
+		public int Top
+		{
+			get { return Camera.Top; }
+			set
+			{
+				Camera.Top = value;
+				OnPropertyChanged(() => Top);
+			}
+		}
+
+		public int Width
+		{
+			get { return Camera.Width; }
+			set
+			{
+				Camera.Width = value;
+				OnPropertyChanged(() => Width);
+			}
+		}
+
+		public int Height
+		{
+			get { return Camera.Height; }
+			set
+			{
+				Camera.Height = value;
+				OnPropertyChanged(() => Height);
 			}
 		}
 
