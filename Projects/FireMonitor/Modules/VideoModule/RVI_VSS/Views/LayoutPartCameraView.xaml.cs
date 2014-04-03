@@ -15,10 +15,10 @@ namespace VideoModule.Views
 			var curentCameraViewModel = DataContext as LayoutPartCameraViewModel;
 			if ((curentCameraViewModel == null) || (curentCameraViewModel.CameraViewModel == null))
 				return;
-			//if (((bool)e.NewValue) && (!curentCameraViewModel.CameraViewModel.IsNowPlaying))
-			//    curentCameraViewModel.CameraViewModel.StartVideo();
-			//if (((bool)e.OldValue) && (curentCameraViewModel.CameraViewModel.IsNowPlaying))
-			//    curentCameraViewModel.CameraViewModel.StopVideo();
+			if (((bool)e.NewValue) && (!curentCameraViewModel.CameraViewModel.IsNowPlaying))
+				curentCameraViewModel.CameraViewModel.StartVideo();
+			if (((bool)e.OldValue) && (curentCameraViewModel.CameraViewModel.IsNowPlaying))
+				curentCameraViewModel.CameraViewModel.StopVideo();
 		}
 	}
 }

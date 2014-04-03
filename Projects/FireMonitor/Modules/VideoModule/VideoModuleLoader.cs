@@ -1,5 +1,4 @@
-﻿#define RVI_VSS
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
@@ -18,6 +17,7 @@ using VideoModule.ViewModels;
 using XFiresecAPI;
 using CamerasViewModel = VideoModule.RVI_VSS.ViewModels.CamerasViewModel;
 using RviLayoutMultiCameraViewModel = VideoModule.RVI_VSS.ViewModels.LayoutMultiCameraViewModel;
+using Infrastructure.Common.Windows;
 
 namespace VideoModule
 {
@@ -31,11 +31,14 @@ namespace VideoModule
 		{
 			_planPresenter = new PlanPresenter();
 			_CamerasViewModel = new CamerasViewModel();
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
-			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
+			foreach (var zone in XManager.Zones)
+			{
+				zone.State.StateChanged -= new Action(OnZoneStateChanged);
+				zone.State.StateChanged += new Action(OnZoneStateChanged);
+			}
 		}
 
-		void OnDevicesStateChanged(object obj)
+		void OnZoneStateChanged()
 		{
 			UpdateVideoAlarms();
 		}
@@ -51,7 +54,8 @@ namespace VideoModule
 					{
 						if (zone.State.StateClass == camera.StateClass)
 						{
-							VideoService.Show(camera);
+							DialogService.ShowWindow(new VideoModule.RVI_VSS.ViewModels.CameraDetailsViewModel(camera));
+							//VideoService.Show(camera);
 						}
 					}
 				}
@@ -60,7 +64,7 @@ namespace VideoModule
 
 		public override void Initialize()
 		{
-			OnDevicesStateChanged(Guid.Empty);
+			//UpdateVideoAlarms();
 			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.Cameras.Count > 0;
 			_CamerasViewModel.Initialize();
 			_planPresenter.Initialize();
@@ -91,16 +95,11 @@ namespace VideoModule
 		}
 
 		#region ILayoutProviderModule Members
-
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.CamerasList, "Список камер", "Video1.png", (p) => _CamerasViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.CameraVideo, "Видео с камеры", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartCameraProperties));
-#if RVI_VSS 
 			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Видео с камер", "Video1.png", (p) => new RviLayoutMultiCameraViewModel()); 
-#else
-			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Видео с камер", "Video1.png", (p) => new LayoutMultiCameraViewModel());
-#endif
 		}
 		#endregion
 	}

@@ -27,13 +27,13 @@ namespace VideoModule.ViewModels
 
 			if (camera == null)
 			{
-				Title = "Создать камеру";
+				Title = "Создание новой камеры";
 				Camera = new Camera();
 			}
 			else
 			{
 				Camera = camera;
-				Title = "Редактировать камеру";
+				Title = "Свойства камеры: " + Camera.PresentationName;
 			}
 			_cellPlayerWrap = new CellPlayerWrap();
 

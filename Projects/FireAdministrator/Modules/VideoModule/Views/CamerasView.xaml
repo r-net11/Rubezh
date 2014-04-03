@@ -15,9 +15,9 @@
         <converters:ChannelToStringConverter x:Key="ChannelToStringConverter" />
 	</UserControl.Resources>
 
-    <Controls:XDataGrid IsDoubleClickOff="{Binding SelectedCamera.IsConnecting}" Grid.Row="0" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
+    <Controls:XDataGrid Grid.Row="0" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
         <DataGrid.Columns>
-			<DataGridTemplateColumn Width="200" Header="Название">
+			<DataGridTemplateColumn Width="*" Header="Название">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -29,9 +29,9 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Width="200" Binding="{Binding Camera.Address}" Header="URL" />
-            <DataGridTextColumn Width="200" Binding="{Binding Camera.SelectedChannel, Converter={StaticResource ChannelToStringConverter}}" Header="Канал" />
-            <DataGridTextColumn Width="200" Binding="{Binding Camera.PresentationZones}" Header="Зоны" />
+            <DataGridTextColumn Binding="{Binding Camera.Address}" Header="Адрес" Width="Auto" />
+            <DataGridTextColumn Binding="{Binding Camera.ChannelNumber}" Header="Канал" Width="Auto" />
+            <DataGridTextColumn Binding="{Binding PresentationZones}" Header="Зоны" Width="*" />
 		</DataGrid.Columns>
 		<XDataGrid.ContextMenu>
 			<ContextMenu OverridesDefaultStyle="True">

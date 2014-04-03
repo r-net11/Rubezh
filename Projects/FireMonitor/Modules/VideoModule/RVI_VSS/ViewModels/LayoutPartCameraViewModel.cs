@@ -9,7 +9,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using VideoModule.RVI_VSS.ViewModels;
-using Infrastructure.Common.Video.RVI_VSS;
 
 namespace VideoModule.ViewModels
 {
@@ -31,7 +30,7 @@ namespace VideoModule.ViewModels
 			if (cameraUID != Guid.Empty)
 			{
 				Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUID);
-				CameraViewModel = new CameraViewModel(Camera, new CellPlayerWrap());
+				CameraViewModel = new CameraViewModel(Camera);
 			}
 			InitializeCommand();
 		}
@@ -66,7 +65,7 @@ namespace VideoModule.ViewModels
 				if (ClientSettings.MultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == ViewName).Value == Camera.UID)
 					return;
 				ClientSettings.MultiLayoutCameraSettings.Dictionary.Add(ViewName, Camera.UID);
-				CameraViewModel = new CameraViewModel(Camera, new CellPlayerWrap());
+				CameraViewModel = new CameraViewModel(Camera);
 				CameraViewModel.StartVideo();
 			}
 		}

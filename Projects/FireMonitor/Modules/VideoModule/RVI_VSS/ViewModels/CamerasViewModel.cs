@@ -15,7 +15,6 @@ namespace VideoModule.RVI_VSS.ViewModels
 	{
 		public CamerasViewModel()
 		{
-			PlayVideoCommand = new RelayCommand(OnPlayVideo, () => SelectedCamera != null);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => SelectedCamera != null && SelectedCamera.Camera.PlanElementUIDs.Count > 0);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, () => SelectedCamera != null);
 			Initialize();
@@ -58,28 +57,6 @@ namespace VideoModule.RVI_VSS.ViewModels
 				_selectedCamera = value;
 				OnPropertyChanged(() => SelectedCamera);
 			}
-		}
-
-		private bool _isNowPlaying;
-
-		public bool IsNowPlaying
-		{
-			get { return _isNowPlaying; }
-			set
-			{
-				_isNowPlaying = value;
-				OnPropertyChanged("IsNowPlaying");
-			}
-		}
-
-		public RelayCommand PlayVideoCommand { get; private set; }
-		void OnPlayVideo()
-		{
-			if (!IsNowPlaying)
-				SelectedCamera.StartVideo();
-			IsNowPlaying = !IsNowPlaying;
-			OnPropertyChanged("StartedCamera");
-			OnPropertyChanged("IsNowPlaying");
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }

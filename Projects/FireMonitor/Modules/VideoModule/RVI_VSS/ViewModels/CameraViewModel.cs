@@ -138,11 +138,6 @@ namespace VideoModule.RVI_VSS.ViewModels
 		public string Name
 		{
 			get { return Camera.Name; }
-			set
-			{
-				Camera.Name = value;
-				OnPropertyChanged(() => Name);
-			}
 		}
 
 		public string PresentationName
@@ -153,81 +148,41 @@ namespace VideoModule.RVI_VSS.ViewModels
 		public string Address
 		{
 			get { return Camera.Address; }
-			set
-			{
-				Camera.Address = value;
-				OnPropertyChanged(() => Address);
-			}
 		}
 
 		public int Port
 		{
 			get { return Camera.Port; }
-			set
-			{
-				Camera.Port = value;
-				OnPropertyChanged(() => Port);
-			}
 		}
 
 		public string Login
 		{
 			get { return Camera.Login; }
-			set
-			{
-				Camera.Login = value;
-				OnPropertyChanged(() => Login);
-			}
 		}
 
 		public string Password
 		{
 			get { return Camera.Password; }
-			set
-			{
-				Camera.Password = value;
-				OnPropertyChanged(() => Password);
-			}
 		}
 
 		public int Left
 		{
 			get { return Camera.Left; }
-			set
-			{
-				Camera.Left = value;
-				OnPropertyChanged(() => Left);
-			}
 		}
 
 		public int Top
 		{
 			get { return Camera.Top; }
-			set
-			{
-				Camera.Top = value;
-				OnPropertyChanged(() => Top);
-			}
 		}
 
 		public int Width
 		{
 			get { return Camera.Width; }
-			set
-			{
-				Camera.Width = value;
-				OnPropertyChanged(() => Width);
-			}
 		}
 
 		public int Height
 		{
 			get { return Camera.Height; }
-			set
-			{
-				Camera.Height = value;
-				OnPropertyChanged(() => Height);
-			}
 		}
 
 		private ObservableCollection<Channel> _channels;
@@ -255,27 +210,16 @@ namespace VideoModule.RVI_VSS.ViewModels
 		public bool IgnoreMoveResize
 		{
 			get { return Camera.IgnoreMoveResize; }
-			set
-			{
-				Camera.IgnoreMoveResize = value;
-				OnPropertyChanged(() => IgnoreMoveResize);
-			}
 		}
 
 		public XStateClass SelectedStateClass
 		{
 			get { return Camera.StateClass; }
-			set
-			{
-				Camera.StateClass = value;
-				OnPropertyChanged(() => SelectedStateClass);
-			}
 		}
 
 		public List<Guid> ZoneUIDs
 		{
 			get { return Camera.ZoneUIDs; }
-			set { Camera.ZoneUIDs = value; }
 		}
 
 		public string PresentationZones

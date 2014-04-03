@@ -86,9 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\CameraToStringConverter.cs" />
-    <Compile Include="MJpeg\Views\CameraDetailsView.xaml.cs">
-      <DependentUpon>CameraDetailsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\CameraPainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
@@ -128,46 +125,22 @@
     <Compile Include="RVI_VSS\Views\MultiGridViews\6x6GridView.xaml.cs">
       <DependentUpon>6x6GridView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MJpeg\ViewModels\CameraTooltipViewModel.cs" />
-    <Compile Include="MJpeg\ViewModels\LayoutMultiCameraViewModel.cs" />
+    <Compile Include="RVI_VSS\ViewModels\CameraTooltipViewModel.cs" />
     <Compile Include="MJpeg\ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
-    <Compile Include="MJpeg\Views\CameraTooltipView.xaml.cs">
+    <Compile Include="RVI_VSS\Views\CameraTooltipView.xaml.cs">
       <DependentUpon>CameraTooltipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="VideoModuleLoader.cs" />
-    <Compile Include="MJpeg\ViewModels\CameraDetailsViewModel.cs" />
     <Compile Include="MJpeg\ViewModels\CameraViewModel.cs" />
     <Compile Include="MJpeg\ViewModels\LayoutPartCameraViewModel.cs" />
-    <Compile Include="MJpeg\ViewModels\CamerasViewModel.cs" />
     <Compile Include="RVI_VSS\Views\CameraDetailsView.xaml.cs">
       <DependentUpon>CameraDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MJpeg\Views\LayoutMultiCameraView.xaml.cs">
-      <DependentUpon>LayoutMultiCameraView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MJpeg\Views\LayoutPartCameraView.xaml.cs">
       <DependentUpon>LayoutPartCameraView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MJpeg\Views\CamerasView.xaml.cs">
-      <DependentUpon>CamerasView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MJpeg\Views\LayoutPartPropertyCameraPageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyCameraPageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MJpeg\Views\MultiGridViews\1x7GridView.xaml.cs">
-      <DependentUpon>1x7GridView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MJpeg\Views\MultiGridViews\2x2GridView.xaml.cs">
-      <DependentUpon>2x2GridView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MJpeg\Views\MultiGridViews\3x3GridView.xaml.cs">
-      <DependentUpon>3x3GridView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MJpeg\Views\MultiGridViews\4x4GridView.xaml.cs">
-      <DependentUpon>4x4GridView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MJpeg\Views\MultiGridViews\6x6GridView.xaml.cs">
-      <DependentUpon>6x6GridView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -237,10 +210,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MJpeg\Views\CameraDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="RVI_VSS\Views\ArchiveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -277,7 +246,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MJpeg\Views\CameraTooltipView.xaml">
+    <Page Include="RVI_VSS\Views\CameraTooltipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -285,39 +254,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MJpeg\Views\LayoutMultiCameraView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MJpeg\Views\LayoutPartCameraView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MJpeg\Views\CamerasView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MJpeg\Views\LayoutPartPropertyCameraPageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MJpeg\Views\MultiGridViews\1x7GridView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MJpeg\Views\MultiGridViews\2x2GridView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MJpeg\Views\MultiGridViews\3x3GridView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MJpeg\Views\MultiGridViews\4x4GridView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MJpeg\Views\MultiGridViews\6x6GridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

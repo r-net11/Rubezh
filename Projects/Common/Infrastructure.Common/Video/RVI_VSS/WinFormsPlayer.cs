@@ -58,7 +58,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			try
 			{
-				var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == ipAddress && x.Port == port);
+				var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == ipAddress && x.Port == port && x.UserName == login && x.Password == password);
 				if (device == null)
 				{
 					var deviceSi = new DeviceSearchInfo(ipAddress, port, login, password);

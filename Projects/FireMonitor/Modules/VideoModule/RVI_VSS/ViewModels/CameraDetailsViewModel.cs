@@ -18,12 +18,13 @@ namespace VideoModule.RVI_VSS.ViewModels
 	public class CameraDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public Camera Camera { get; private set; }
+
 		public CameraDetailsViewModel(Camera camera)
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			Camera = camera;
-			Title = Camera.Name;
+			Title = Camera.PresentationName;
 			TopMost = true;
 		}
 

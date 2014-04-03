@@ -11,7 +11,7 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using VideoModule.ViewModels;
 using XFiresecAPI;
-using CameraDetailsViewModel = VideoModule.ViewModels.CameraDetailsViewModel;
+using VideoModule.RVI_VSS.ViewModels;
 
 namespace VideoModule.Plans.Designer
 {
@@ -103,7 +103,7 @@ namespace VideoModule.Plans.Designer
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		private void OnShowProperties()
 		{
-			DialogService.ShowWindow(new CameraDetailsViewModel(_camera));
+			DialogService.ShowWindow(new VideoModule.RVI_VSS.ViewModels.CameraDetailsViewModel(_camera));
 		}
 
 		private ContextMenu CreateContextMenu()

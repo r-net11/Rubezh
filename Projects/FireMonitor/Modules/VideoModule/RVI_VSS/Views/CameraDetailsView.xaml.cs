@@ -28,7 +28,7 @@ namespace VideoModule.Views.RVI_VSS
 			Connect();
 			Start();
 		}
-		
+
 		public bool Connect()
 		{
 			try
