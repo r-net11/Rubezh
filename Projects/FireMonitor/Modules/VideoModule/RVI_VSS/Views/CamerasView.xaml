@@ -10,7 +10,10 @@
         <XDataGrid Grid.Row="0" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="200" Binding="{Binding Camera.Name}" Header="Название" />
-                <DataGridTextColumn Width="200" Binding="{Binding Camera.Address}" Header="URL" />
+                <DataGridTextColumn Width="200" Binding="{Binding PresentationName}" Header="URL" />
+                <DataGridTextColumn Width="200" Binding="{Binding Camera.Port}" Header="Порт" />
+                <DataGridTextColumn Width="200" Binding="{Binding Camera.Login}" Header="Имя пользователя" />
+                <DataGridTextColumn Width="200" Binding="{Binding Camera.Password}" Header="Пароль" />
                 <DataGridTextColumn Width="200" Binding="{Binding PresentationZones}" Header="Зоны" />
             </DataGrid.Columns>
             <XDataGrid.ContextMenu>

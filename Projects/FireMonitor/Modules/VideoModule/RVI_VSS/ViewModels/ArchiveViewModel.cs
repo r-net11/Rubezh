@@ -65,6 +65,7 @@ namespace VideoModule.RVI_VSS.ViewModels
 			{
 				CellPlayerWrap.Start(SelectedRecord);
 				IsStarted = true;
+				IsPaused = false;
 			}
 			catch { }
 		}
@@ -76,8 +77,8 @@ namespace VideoModule.RVI_VSS.ViewModels
 			{
 				try
 				{
-					CellPlayerWrap.Pause(SelectedRecord, !IsPaused);
-					IsPaused = !IsPaused;
+					if(CellPlayerWrap.Pause(SelectedRecord, !IsPaused))
+						IsPaused = !IsPaused;
 				}
 				catch { }
 			}

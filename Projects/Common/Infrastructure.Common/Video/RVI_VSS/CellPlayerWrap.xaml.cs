@@ -25,9 +25,9 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			FormsPlayer.Start(record);
 		}
 
-		public void Pause(PlayBackDeviceRecord record, bool pausePlayBack)
+		public bool Pause(PlayBackDeviceRecord record, bool pausePlayBack)
 		{
-			FormsPlayer.Pause(record, pausePlayBack);
+			return FormsPlayer.Pause(record, pausePlayBack);
 		}
 
 		public void Stop()

@@ -130,9 +130,8 @@ namespace VideoModule.RVI_VSS.Views
 						continue;
 						try
 						{
-							if (propertyViewModel.SelectedCamera.Address == null)
-								cameraViewModel.StopVideo();
-							else
+							cameraViewModel.StopVideo();
+							if (propertyViewModel.SelectedCamera.Address != null)
 							{
 								new Thread(delegate()
 									{

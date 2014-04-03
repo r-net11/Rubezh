@@ -11,7 +11,9 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		Stream ExtraStream { get; set; }
 		PlayBackDeviceRecord Record { get; set; }
 		Device Device { get; set; }
-
+		bool IsConnected { get; set; }
+		bool IsStarted { get; set; }
+		bool IsPaused { get; set; }
 		public WinFormsPlayer()
 		{
 			InitializeComponent();
@@ -40,9 +42,12 @@ namespace Infrastructure.Common.Video.RVI_VSS
 
 		public void Stop()
 		{
+			if (!IsStarted)
+				return;
 			if (ExtraStream != null)
 			{
 				ExtraStream.RemovePlayHandle(Handle);
+				IsStarted = false;
 				label.Text = "";
 			}
 			Invalidate();
@@ -70,6 +75,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				var channel = Device.Channels.First(channell => channell.ChannelNumber == channelNumber);
 				ExtraStream = channel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
 				ExtraStream.AddPlayHandle(Handle);
+				IsStarted = true;
 				Speed = 0;
 				return true;
 			}
@@ -87,6 +93,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 					Record.StopPlayBack();
 				Record = record;
 				record.StartPlaybackByFile(Handle);
+				IsStarted = true;
 				Speed = 4;
 				return true;
 			}
@@ -100,8 +107,11 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			try
 			{
+				if (!IsStarted)
+					return false;
 				Record = record;
 				record.PausePlayBack(pausePlayBack);
+				IsPaused = pausePlayBack;
 				return true;
 			}
 			catch
@@ -114,8 +124,11 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			try
 			{
+				if (!IsStarted)
+					return false;
 				Record = record;
 				record.StopPlayBack();
+				IsStarted = false;
 				Speed = 0;
 				Invalidate();
 				return true;
@@ -130,6 +143,8 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			try
 			{
+				if (!IsStarted)
+					return false;
 				if (Speed == 7)
 					return false;
 				Record = record;
@@ -147,6 +162,8 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			try
 			{
+				if (!IsStarted)
+					return false;
 				if (Speed == 1)
 					return false;
 				Record = record;
