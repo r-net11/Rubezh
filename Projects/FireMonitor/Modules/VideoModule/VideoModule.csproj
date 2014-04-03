@@ -86,11 +86,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\CameraToStringConverter.cs" />
+    <Compile Include="MJpeg\Views\CameraDetailsView.xaml.cs">
+      <DependentUpon>CameraDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\CameraPainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="RVI_VSS\ViewModels\ArchiveViewModel.cs" />
+    <Compile Include="RVI_VSS\ViewModels\CameraDetailsViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\CameraViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\CamerasViewModel.cs" />
     <Compile Include="RVI_VSS\ViewModels\DeviceViewModel.cs" />
@@ -135,7 +139,7 @@
     <Compile Include="MJpeg\ViewModels\CameraViewModel.cs" />
     <Compile Include="MJpeg\ViewModels\LayoutPartCameraViewModel.cs" />
     <Compile Include="MJpeg\ViewModels\CamerasViewModel.cs" />
-    <Compile Include="MJpeg\Views\CameraDetailsView.xaml.cs">
+    <Compile Include="RVI_VSS\Views\CameraDetailsView.xaml.cs">
       <DependentUpon>CameraDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MJpeg\Views\LayoutMultiCameraView.xaml.cs">
@@ -233,6 +237,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MJpeg\Views\CameraDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RVI_VSS\Views\ArchiveView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -273,7 +281,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MJpeg\Views\CameraDetailsView.xaml">
+    <Page Include="RVI_VSS\Views\CameraDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

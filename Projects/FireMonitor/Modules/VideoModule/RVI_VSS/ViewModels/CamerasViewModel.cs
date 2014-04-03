@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Video.RVI_VSS;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 
@@ -23,7 +24,7 @@ namespace VideoModule.RVI_VSS.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			//DialogService.ShowWindow(new CameraDetailsViewModel(SelectedCamera.Camera));
+			DialogService.ShowWindow(new CameraDetailsViewModel(SelectedCamera.Camera));
 		}
 
 		public void Initialize()

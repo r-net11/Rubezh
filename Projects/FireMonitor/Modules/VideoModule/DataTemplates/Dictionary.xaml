@@ -3,7 +3,8 @@
                     xmlns:ViewModels="clr-namespace:VideoModule.ViewModels" 
                     xmlns:Views="clr-namespace:VideoModule.Views"
                     xmlns:RviViewModels="clr-namespace:VideoModule.RVI_VSS.ViewModels" 
-                    xmlns:RviViews="clr-namespace:VideoModule.RVI_VSS.Views">
+                    xmlns:RviViews="clr-namespace:VideoModule.RVI_VSS.Views"
+                    xmlns:rviVss="clr-namespace:VideoModule.Views.RVI_VSS">
 
 	<DataTemplate DataType="{x:Type ViewModels:CamerasViewModel}">
 		<Views:CamerasView />
@@ -43,6 +44,10 @@
 
     <DataTemplate DataType="{x:Type RviViewModels:CamerasViewModel}">
         <RviViews:CamerasView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type RviViewModels:CameraDetailsViewModel}">
+        <rviVss:CameraDetailsView />
     </DataTemplate>
 
 </ResourceDictionary>

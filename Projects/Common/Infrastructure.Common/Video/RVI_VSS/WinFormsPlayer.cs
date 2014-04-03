@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using Entities.DeviceOriented;
-using FiresecAPI.Models;
 using Device = Entities.DeviceOriented.Device;
 
 namespace Infrastructure.Common.Video.RVI_VSS
@@ -52,11 +49,11 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			ExtraStream = null;
 		}
 
-		public List<Channel> Connect(string ipAddress, int port)
+		public List<Channel> Connect(string ipAddress, int port, string login, string password)
 		{
 			try
 			{
-				var deviceSi = new DeviceSearchInfo(ipAddress, port);
+				var deviceSi = new DeviceSearchInfo(ipAddress, port, login, password);
 				Device = SystemPerimeter.Instance.AddDevice(deviceSi);
 				return Device.Channels.ToList();
 			}
