@@ -16,10 +16,12 @@ namespace FiresecAPI.Models
 			Width = 300;
 			Height = 300;
 			AllowMultipleVizualization = false;
-		}
 
-		[DataMember]
-		public int ChannelNumber { get; set; }
+			Name = "Новая камера";
+			Port = 37777;
+			Login = "admin";
+			Password = "admin";
+		}
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -32,6 +34,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public int Port { get; set; }
+
+		[DataMember]
+		public int ChannelNumber { get; set; }
 
 		[DataMember]
 		public string Login { get; set; }

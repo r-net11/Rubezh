@@ -60,5 +60,17 @@ namespace VideoModule.ViewModels
 		{
 			get { return Camera.PlanElementUIDs.Count > 0; }
 		}
+
+		public void StartVideo()
+		{
+
+		}
+
+		public void StopVideo()
+		{
+
+		}
+
+		public bool IsNowPlaying { get; set; }
 	}
 }

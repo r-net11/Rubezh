@@ -58,8 +58,14 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			try
 			{
-				var deviceSi = new DeviceSearchInfo(ipAddress, port, login, password);
-				Device = SystemPerimeter.Instance.AddDevice(deviceSi);
+				var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == ipAddress && x.Port == port);
+				if (device == null)
+				{
+					var deviceSi = new DeviceSearchInfo(ipAddress, port, login, password);
+					device = SystemPerimeter.Instance.AddDevice(deviceSi);
+				}
+				Device = device;
+				System.Diagnostics.Trace.WriteLine("Devices.Count=" + SystemPerimeter.Instance.Devices.Count().ToString());
 				return Device.Channels.ToList();
 			}
 			catch
@@ -138,7 +144,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				return false;
 			}
 		}
-	
+
 		public bool Fast(PlayBackDeviceRecord record)
 		{
 			try

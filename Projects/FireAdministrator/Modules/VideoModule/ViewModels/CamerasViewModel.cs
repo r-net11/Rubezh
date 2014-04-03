@@ -22,10 +22,10 @@ namespace VideoModule.ViewModels
 {
 	public class CamerasViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		private bool _lockSelection;
+		bool _lockSelection = false;
+
 		public CamerasViewModel()
 		{
-			_lockSelection = false;
 			Menu = new CamerasMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
@@ -42,7 +42,6 @@ namespace VideoModule.ViewModels
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(this, camera);
-				cameraViewModel.IsConnecting = true;
 				Cameras.Add(cameraViewModel);
 			}
 			SelectedCamera = Cameras.FirstOrDefault();
@@ -75,11 +74,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var cameraDetailsViewModel = new CameraDetailsViewModel(null);
+			var cameraDetailsViewModel = new CameraDetailsViewModel();
 			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.OriginalCameraViewModel.Camera);
-				var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.OriginalCameraViewModel.Camera);
+				FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.Camera);
+				var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.Camera);
 				Cameras.Add(cameraViewModel);
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}
@@ -97,10 +96,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera);
+			var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera.Camera);
 			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
-				SelectedCamera.CopyCameraViewModel(cameraDetailsViewModel.OriginalCameraViewModel);
+				SelectedCamera.Camera = cameraDetailsViewModel.Camera;
+				SelectedCamera.Update();
 				SelectedCamera.Camera.OnChanged();
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}
