@@ -10,14 +10,12 @@ using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using VideoModule.Plans;
 using VideoModule.ViewModels;
 using XFiresecAPI;
-using CamerasViewModel = VideoModule.RVI_VSS.ViewModels.CamerasViewModel;
-using RviLayoutMultiCameraViewModel = VideoModule.RVI_VSS.ViewModels.LayoutMultiCameraViewModel;
-using Infrastructure.Common.Windows;
 
 namespace VideoModule
 {
@@ -54,7 +52,7 @@ namespace VideoModule
 					{
 						if (zone.State.StateClass == camera.StateClass)
 						{
-							DialogService.ShowWindow(new VideoModule.RVI_VSS.ViewModels.CameraDetailsViewModel(camera));
+							DialogService.ShowWindow(new CameraDetailsViewModel(camera));
 							//VideoService.Show(camera);
 						}
 					}
@@ -99,7 +97,7 @@ namespace VideoModule
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.CamerasList, "Список камер", "Video1.png", (p) => _CamerasViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.CameraVideo, "Видео с камеры", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartCameraProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Видео с камер", "Video1.png", (p) => new RviLayoutMultiCameraViewModel()); 
+			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Видео с камер", "Video1.png", (p) => new LayoutMultiCameraViewModel()); 
 		}
 		#endregion
 	}
