@@ -13,7 +13,7 @@ namespace SKDDriver
 	public static class SKDDeviceProcessor
 	{
 		[DebuggerStepThrough]
-		public static SendResult SendBytes(SKDDevice device, List<byte> bytes, bool hasAnswer = true, bool sleepInsteadOfRecieve = false, int receiveTimeout = 2000)
+		public static SendResult SendBytes(SKDDevice device, List<byte> bytes, bool hasAnswer = true, int receiveTimeout = 2000)
 		{
 			var stringIPAddress = device.Address;
 			if(string.IsNullOrEmpty(stringIPAddress))
@@ -63,11 +63,6 @@ namespace SKDDriver
 			var recievedBytes = new List<byte>();
 			try
 			{
-				if (sleepInsteadOfRecieve)
-				{
-					Thread.Sleep(10000);
-					return new SendResult(new List<byte>());
-				}
 				recievedBytes = udpClient.Receive(ref endPoint).ToList();
 			}
 			catch (SocketException)

@@ -10,7 +10,7 @@ namespace SKDModule.Validation
 		void ValidateSlideWeklyIntervals()
 		{
 			ValidateSlideWeeklyIntervalEquality();
-			foreach (var slideWeeklyInterval in SKDManager.SKDConfiguration.SlideWeeklyIntervals)
+			foreach (var slideWeeklyInterval in SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals)
 			{
 				if (string.IsNullOrEmpty(slideWeeklyInterval.Name))
 				{
@@ -26,7 +26,7 @@ namespace SKDModule.Validation
 		void ValidateSlideWeeklyIntervalEquality()
 		{
 			var slideWeeklyIntervals = new HashSet<string>();
-			foreach (var slideWeeklyInterval in SKDManager.SKDConfiguration.SlideWeeklyIntervals)
+			foreach (var slideWeeklyInterval in SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals)
 			{
 				if (!slideWeeklyIntervals.Add(slideWeeklyInterval.Name))
 				{

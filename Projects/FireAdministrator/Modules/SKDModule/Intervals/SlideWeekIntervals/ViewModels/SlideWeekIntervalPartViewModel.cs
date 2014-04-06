@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 			WeeklyInterval = weeklyInterval;
 
 			AvailableWeeklyIntervals = new ObservableCollection<SKDWeeklyInterval>();
-			foreach (var skdWeeklyInterval in SKDManager.SKDConfiguration.WeeklyIntervals)
+			foreach (var skdWeeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
 			{
 				AvailableWeeklyIntervals.Add(skdWeeklyInterval);
 			}

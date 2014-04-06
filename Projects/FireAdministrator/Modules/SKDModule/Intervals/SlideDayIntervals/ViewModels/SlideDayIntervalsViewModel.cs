@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			SlideDayIntervals = new ObservableCollection<SlideDayIntervalViewModel>();
-			foreach (var slideDayInterval in SKDManager.SKDConfiguration.SlideDayIntervals)
+			foreach (var slideDayInterval in SKDManager.TimeIntervalsConfiguration.SlideDayIntervals)
 			{
 				var timeInrervalViewModel = new SlideDayIntervalViewModel(slideDayInterval);
 				SlideDayIntervals.Add(timeInrervalViewModel);
@@ -85,7 +85,7 @@ namespace SKDModule.ViewModels
 			var slideDayIntervalDetailsViewModel = new SlideDayIntervalDetailsViewModel();
 			if (DialogService.ShowModalWindow(slideDayIntervalDetailsViewModel))
 			{
-				SKDManager.SKDConfiguration.SlideDayIntervals.Add(slideDayIntervalDetailsViewModel.SlideDayInterval);
+				SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.Add(slideDayIntervalDetailsViewModel.SlideDayInterval);
 				var timeInrervalViewModel = new SlideDayIntervalViewModel(slideDayIntervalDetailsViewModel.SlideDayInterval);
 				SlideDayIntervals.Add(timeInrervalViewModel);
 				SelectedSlideDayInterval = timeInrervalViewModel;
@@ -100,7 +100,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			SKDManager.SKDConfiguration.SlideDayIntervals.Remove(SelectedSlideDayInterval.SlideDayInterval);
+			SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.Remove(SelectedSlideDayInterval.SlideDayInterval);
 			SlideDayIntervals.Remove(SelectedSlideDayInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
@@ -138,7 +138,7 @@ namespace SKDModule.ViewModels
 		void OnPaste()
 		{
 			var newInterval = CopyInterval(IntervalToCopy);
-			SKDManager.SKDConfiguration.SlideDayIntervals.Add(newInterval);
+			SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.Add(newInterval);
 			var timeInrervalViewModel = new SlideDayIntervalViewModel(newInterval);
 			SlideDayIntervals.Add(timeInrervalViewModel);
 			SelectedSlideDayInterval = timeInrervalViewModel;

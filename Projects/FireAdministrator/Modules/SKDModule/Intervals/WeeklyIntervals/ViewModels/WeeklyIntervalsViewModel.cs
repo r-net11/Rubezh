@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			WeeklyIntervals = new ObservableCollection<WeeklyIntervalViewModel>();
-			foreach (var weeklyInterval in SKDManager.SKDConfiguration.WeeklyIntervals)
+			foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
 			{
 				var timeInrervalViewModel = new WeeklyIntervalViewModel(weeklyInterval);
 				WeeklyIntervals.Add(timeInrervalViewModel);
@@ -85,7 +85,7 @@ namespace SKDModule.ViewModels
 			var weeklyIntervalDetailsViewModel = new WeeklyIntervalDetailsViewModel();
 			if (DialogService.ShowModalWindow(weeklyIntervalDetailsViewModel))
 			{
-				SKDManager.SKDConfiguration.WeeklyIntervals.Add(weeklyIntervalDetailsViewModel.WeeklyInterval);
+				SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Add(weeklyIntervalDetailsViewModel.WeeklyInterval);
 				var timeInrervalViewModel = new WeeklyIntervalViewModel(weeklyIntervalDetailsViewModel.WeeklyInterval);
 				WeeklyIntervals.Add(timeInrervalViewModel);
 				SelectedWeeklyInterval = timeInrervalViewModel;
@@ -100,7 +100,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			SKDManager.SKDConfiguration.WeeklyIntervals.Remove(SelectedWeeklyInterval.WeeklyInterval);
+			SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Remove(SelectedWeeklyInterval.WeeklyInterval);
 			WeeklyIntervals.Remove(SelectedWeeklyInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
@@ -138,7 +138,7 @@ namespace SKDModule.ViewModels
 		void OnPaste()
 		{
 			var newInterval = CopyInterval(IntervalToCopy);
-			SKDManager.SKDConfiguration.WeeklyIntervals.Add(newInterval);
+			SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Add(newInterval);
 			var timeInrervalViewModel = new WeeklyIntervalViewModel(newInterval);
 			WeeklyIntervals.Add(timeInrervalViewModel);
 			SelectedWeeklyInterval = timeInrervalViewModel;

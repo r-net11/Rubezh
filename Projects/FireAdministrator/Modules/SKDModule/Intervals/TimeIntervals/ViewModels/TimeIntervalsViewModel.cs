@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			TimeIntervals = new ObservableCollection<TimeIntervalViewModel>();
-			foreach (var timeInterval in SKDManager.SKDConfiguration.TimeIntervals)
+			foreach (var timeInterval in SKDManager.TimeIntervalsConfiguration.TimeIntervals)
 			{
 				var timeInrervalViewModel = new TimeIntervalViewModel(timeInterval);
 				TimeIntervals.Add(timeInrervalViewModel);
@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel();
 			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel))
 			{
-				SKDManager.SKDConfiguration.TimeIntervals.Add(timeIntervalDetailsViewModel.TimeInterval);
+				SKDManager.TimeIntervalsConfiguration.TimeIntervals.Add(timeIntervalDetailsViewModel.TimeInterval);
 				var timeIntervalViewModel = new TimeIntervalViewModel(timeIntervalDetailsViewModel.TimeInterval);
 				TimeIntervals.Add(timeIntervalViewModel);
 				SelectedTimeInterval = timeIntervalViewModel;
@@ -96,7 +96,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			SKDManager.SKDConfiguration.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
+			SKDManager.TimeIntervalsConfiguration.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
 			TimeIntervals.Remove(SelectedTimeInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
@@ -134,7 +134,7 @@ namespace SKDModule.ViewModels
 		void OnPaste()
 		{
 			var newInterval = CopyInterval(IntervalToCopy);
-			SKDManager.SKDConfiguration.TimeIntervals.Add(newInterval);
+			SKDManager.TimeIntervalsConfiguration.TimeIntervals.Add(newInterval);
 			var timeInrervalViewModel = new TimeIntervalViewModel(newInterval);
 			TimeIntervals.Add(timeInrervalViewModel);
 			SelectedTimeInterval = timeInrervalViewModel;

@@ -310,6 +310,7 @@
     <Compile Include="SKD\TimeIntervals\SKDTimeIntervalPart.cs" />
     <Compile Include="SKD\TimeIntervals\SKDWeeklyInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDWeeklyIntervalPart.cs" />
+    <Compile Include="SKD\TimeIntervals\TimeIntervalsConfiguration.cs" />
     <Compile Include="SKD\Zone\SKDZone.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
