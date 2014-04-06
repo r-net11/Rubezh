@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 			WeeklyIntervals = new ObservableCollection<SlideWeekIntervalPartViewModel>();
 			foreach (var weeklyIntervalUID in SlideWeekInterval.WeeklyIntervalUIDs)
 			{
-				var weeklyInterval = SKDManager.SKDConfiguration.WeeklyIntervals.FirstOrDefault(x => x.UID == weeklyIntervalUID);
+				var weeklyInterval = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.UID == weeklyIntervalUID);
 				if (weeklyInterval != null)
 				{
 					var slideWeekIntervalPartViewModel = new SlideWeekIntervalPartViewModel(this, weeklyInterval);
@@ -71,7 +71,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var weeklyInterval = SKDManager.SKDConfiguration.WeeklyIntervals.FirstOrDefault();
+			var weeklyInterval = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault();
 			SlideWeekInterval.WeeklyIntervalUIDs.Add(weeklyInterval.UID);
 			var slideWeekIntervalPartViewModel = new SlideWeekIntervalPartViewModel(this, weeklyInterval);
 			WeeklyIntervals.Add(slideWeekIntervalPartViewModel);

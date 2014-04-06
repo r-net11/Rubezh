@@ -1,11 +1,9 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using VideoModule.ViewModels;
 
 namespace VideoModule.Views
 {
-	public partial class PreviewView : UserControl
+	public partial class PreviewView
 	{
 		public PreviewView()
 		{

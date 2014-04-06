@@ -12,11 +12,11 @@ namespace FiresecAPI
 			DeviceDateTime = DateTime.Now;
 			SystemDateTime = DateTime.Now;
 			DeviceStateClass = XStateClass.Norm;
-			JournalItemType = JournalItemType.System;
+			JournalItemType = SKDJournalItemType.System;
 		}
 		
 		[DataMember]
-		public JournalItemType JournalItemType { get; set; }
+		public SKDJournalItemType JournalItemType { get; set; }
 		[DataMember]
 		public DateTime DeviceDateTime { get; set; }
 		[DataMember]
@@ -52,7 +52,7 @@ namespace FiresecAPI
 		[DataMember]
 		public string UserName { get; set; }
 		[DataMember]
-		public XSubsystemType SubsystemType { get; set; }
+		public SKDSubsystemType SubsystemType { get; set; }
 
 		public SKDDevice Device { get; set; }
 	}

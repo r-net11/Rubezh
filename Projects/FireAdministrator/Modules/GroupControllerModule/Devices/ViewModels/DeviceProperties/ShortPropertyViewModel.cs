@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -32,6 +33,7 @@ namespace GKModule.ViewModels
 				{
 					if (DriverProperty.Multiplier != 0)
 						doubleValue *= DriverProperty.Multiplier;
+					doubleValue = Math.Min(ushort.MaxValue, doubleValue);
 					_text = (ushort)doubleValue;
 					Save(_text);
 				}

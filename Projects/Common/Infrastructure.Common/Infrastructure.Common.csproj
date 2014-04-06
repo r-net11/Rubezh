@@ -462,6 +462,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Video\RVI_VSS\WinFormsPlayer.resx">
+      <DependentUpon>WinFormsPlayer.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Settings.settings">

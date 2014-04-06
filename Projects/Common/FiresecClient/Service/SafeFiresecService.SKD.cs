@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
+using XFiresecAPI;
 
 namespace FiresecClient
 {
@@ -245,6 +246,11 @@ namespace FiresecClient
 		public OperationResult<bool> SKDDenyReader(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDDenyReader(device.UID); }, "SKDDenyReader");
+		}
+
+		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter)
+		{
+				SafeOperationCall(() => FiresecService.BeginGetSKDFilteredArchive(archiveFilter), "BeginGetSKDFilteredArchive");
 		}
 		#endregion
 	}

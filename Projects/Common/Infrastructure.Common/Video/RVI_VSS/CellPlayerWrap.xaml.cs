@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Documents;
 using Entities.DeviceOriented;
-using FiresecAPI.Models;
 
 namespace Infrastructure.Common.Video.RVI_VSS
 {
@@ -12,9 +10,9 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			InitializeComponent();
 		}
 
-		public List<Channel> Connect(string ipAddress, int port)
+		public List<Channel> Connect(string ipAddress, int port, string login = "admin", string password = "admin")
 		{
-			return FormsPlayer.Connect(ipAddress, port);
+			return FormsPlayer.Connect(ipAddress, port, login, password);
 		}
 
 		public void Start(int channelNumber)
@@ -27,9 +25,29 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			FormsPlayer.Start(record);
 		}
 
+		public bool Pause(PlayBackDeviceRecord record, bool pausePlayBack)
+		{
+			return FormsPlayer.Pause(record, pausePlayBack);
+		}
+
 		public void Stop()
 		{
 			FormsPlayer.Stop();
+		}
+
+		public void Stop(PlayBackDeviceRecord record)
+		{
+			FormsPlayer.Stop(record);
+		}
+
+		public void Fast(PlayBackDeviceRecord record)
+		{
+			FormsPlayer.Fast(record);
+		}
+
+		public void Slow(PlayBackDeviceRecord record)
+		{
+			FormsPlayer.Slow(record);
 		}
 	}
 }

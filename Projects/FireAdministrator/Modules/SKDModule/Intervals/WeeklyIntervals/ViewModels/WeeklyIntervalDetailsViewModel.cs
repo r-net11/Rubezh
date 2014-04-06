@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 				};
 				foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 				{
-					var neverTimeInterval = SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault(x => x.Name == "Никогда");
+					var neverTimeInterval = SKDManager.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.Name == "Никогда");
 					if (neverTimeInterval != null)
 					{
 						weeklyIntervalPart.TimeIntervalUID = neverTimeInterval.UID;

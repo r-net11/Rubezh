@@ -35,7 +35,7 @@ namespace SKDDriver
 						SystemDateTime = DateTime.Now,
 						DeviceDateTime = DateTime.Now,
 						//GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
-						JournalItemType = JournalItemType.System,
+						JournalItemType = SKDJournalItemType.System,
 						StateClass = XStateClass.Unknown,
 						DeviceStateClass = XStateClass.Norm,
 						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"

@@ -23,7 +23,7 @@ namespace SKDModule.ViewModels
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public ArchiveDefaultState ArchiveDefaultState;
-		XArchiveFilter ArchiveFilter;
+		SKDArchiveFilter ArchiveFilter;
 		Thread UpdateThread;
 		bool FirstTime = true;
 
@@ -53,7 +53,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			ArchiveFirstDate = GetFirstDate(); // DateTime.Now.AddDays(-1);
+			ArchiveFirstDate = GetFirstDate();
 			_isFilterOn = false;
 		}
 
@@ -81,12 +81,10 @@ namespace SKDModule.ViewModels
 
 		public void Sort(ShowSKDArchiveEventArgs showSKDArchiveEventArgs)
 		{
-			ArchiveFilter = new XArchiveFilter();
+			ArchiveFilter = new SKDArchiveFilter();
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 			if (showSKDArchiveEventArgs.Device != null)
 				ArchiveFilter.DeviceUIDs.Add(showSKDArchiveEventArgs.Device.UID);
-			if (showSKDArchiveEventArgs.Zone != null)
-				ArchiveFilter.ZoneUIDs.Add(showSKDArchiveEventArgs.Zone.UID);
 			IsFilterOn = true;
 			OnPropertyChanged("IsFilterExists");
 		}
@@ -179,9 +177,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		XArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
+		SKDArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
 		{
-			var archiveFilter = new XArchiveFilter()
+			var archiveFilter = new SKDArchiveFilter()
 			{
 				StartDate = ArchiveFirstDate,
 				EndDate = DateTime.Now,
@@ -369,23 +367,14 @@ namespace SKDModule.ViewModels
 		{
 			try
 			{
-				XArchiveFilter archiveFilter = null;
+				SKDArchiveFilter archiveFilter = null;
 				if (IsFilterOn)
 					archiveFilter = ArchiveFilter;
 				else
 					archiveFilter = GerFilterFromDefaultState(ArchiveDefaultState);
 
-				//if (GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
-				{
-					JournalItems = new ObservableCollection<JournalItemViewModel>();
-					FiresecManager.FiresecService.BeginGetGKFilteredArchive(archiveFilter);
-				}
-				//else
-				//{
-				//	GKDBHelper.IsAbort = false;
-				//	var journalItems = GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, false);
-				//	Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalItems); }));
-				//}
+				JournalItems = new ObservableCollection<JournalItemViewModel>();
+				FiresecManager.FiresecService.BeginGetSKDFilteredArchive(archiveFilter);
 			}
 			catch (ThreadAbortException) { }
 			catch (Exception e)
@@ -407,6 +396,7 @@ namespace SKDModule.ViewModels
 
 		public override void OnShow()
 		{
+			return;
 			if (FirstTime)
 			{
 				FirstTime = false;

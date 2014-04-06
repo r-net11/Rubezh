@@ -35,6 +35,7 @@ namespace FiresecAPI
 			SKDEvents.Add(new SKDEvent(21, "Неисправность устранена", XStateClass.Norm, SKDDriverType.Reader));
 
 			SKDEvents.Add(new SKDEvent(22, "Команда управления", XStateClass.Info, SKDDriverType.System));
+			SKDEvents.Add(new SKDEvent(23, "Конфигурирование", XStateClass.Info, SKDDriverType.System));
 		}
 	}
 

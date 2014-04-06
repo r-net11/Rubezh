@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 		public void Update()
 		{
 			AvailableTimeIntervals = new ObservableCollection<SKDTimeInterval>();
-			foreach (var namedTimeInterval in SKDManager.SKDConfiguration.TimeIntervals)
+			foreach (var namedTimeInterval in SKDManager.TimeIntervalsConfiguration.TimeIntervals)
 			{
 				AvailableTimeIntervals.Add(namedTimeInterval);
 			}

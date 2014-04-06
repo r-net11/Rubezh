@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using XFiresecAPI;
 
 namespace FiresecAPI
 {
@@ -140,6 +141,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> SKDDenyReader(Guid deviceUID);
+
+		[OperationContract]
+		void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter);
 		#endregion
 	}
 }

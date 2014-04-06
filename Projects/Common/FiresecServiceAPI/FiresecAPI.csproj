@@ -213,6 +213,9 @@
     <Compile Include="SKD\Employee\EmployeeDetails.cs" />
     <Compile Include="SKD\Employee\EmployeeReplacementFilter.cs" />
     <Compile Include="SKD\Employee\PersonType.cs" />
+    <Compile Include="SKD\Filters\SKDArchiveFilter.cs" />
+    <Compile Include="SKD\Filters\SKDJournalItemType.cs" />
+    <Compile Include="SKD\Filters\SKDSubsystemType.cs" />
     <Compile Include="SKD\Organization\OrganizationFilter.cs" />
     <Compile Include="SKD\Common\OrganizationFilterBase.cs" />
     <Compile Include="SKD\Organization\Organization.cs" />
@@ -308,6 +311,7 @@
     <Compile Include="SKD\TimeIntervals\SKDTimeIntervalPart.cs" />
     <Compile Include="SKD\TimeIntervals\SKDWeeklyInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDWeeklyIntervalPart.cs" />
+    <Compile Include="SKD\TimeIntervals\TimeIntervalsConfiguration.cs" />
     <Compile Include="SKD\Zone\SKDZone.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />

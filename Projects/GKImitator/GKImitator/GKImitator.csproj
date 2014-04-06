@@ -74,6 +74,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SKD.dbml</DependentUpon>
     </Compile>
+    <Compile Include="SKDProcessor\SKDImitatorDB.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKDImitatorDB.dbml</DependentUpon>
+    </Compile>
     <Compile Include="SKDProcessor\SKDImitatorJournalItem.cs" />
     <Compile Include="SKDProcessor\SKDImitatorProcessor.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
@@ -129,6 +134,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="SKDProcessor\SKDImitatorDB.dbml.layout">
+      <DependentUpon>SKDImitatorDB.dbml</DependentUpon>
+    </None>
     <None Include="app.config" />
     <None Include="SKDProcessor\SKD.dbml.layout">
       <DependentUpon>SKD.dbml</DependentUpon>
@@ -141,6 +149,11 @@
     <None Include="SKDProcessor\SKD.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>SKD.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SKDProcessor\SKDImitatorDB.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>SKDImitatorDB.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
     <None Include="SKUDDataSet.xsc">

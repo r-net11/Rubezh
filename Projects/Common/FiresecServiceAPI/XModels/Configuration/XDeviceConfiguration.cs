@@ -155,7 +155,7 @@ namespace XFiresecAPI
 			{
 				pumpStation.BaseUID = pumpStation.UID;
 				result &= ValidateDeviceLogic(pumpStation.StartLogic);
-				result &= ValidateDeviceLogic(pumpStation.StartLogic);
+				result &= ValidateDeviceLogic(pumpStation.StopLogic);
 				result &= ValidateDeviceLogic(pumpStation.AutomaticOffLogic);
 			}
 			foreach (var parameterTemplate in ParameterTemplates)
@@ -193,6 +193,19 @@ namespace XFiresecAPI
 			{
 				deviceLogic.OffClauses = new List<XClause>();
 				result = false;
+			}
+			foreach (var clause in deviceLogic.OffClauses)
+			{
+				if (clause.MPTUIDs == null)
+				{
+					clause.MPTUIDs = new List<Guid>();
+					result = false;
+				}
+				if (clause.DelayUIDs == null)
+				{
+					clause.DelayUIDs = new List<Guid>();
+					result = false;
+				}
 			}
 			return result;
 		}

@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 			TimeIntervals = new ObservableCollection<SlideDayIntervalPartViewModel>();
 			foreach (var timeIntervalUID in SlideDayInterval.TimeIntervalUIDs)
 			{
-				var timeInterval = SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
+				var timeInterval = SKDManager.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
 				if (timeInterval != null)
 				{
 					var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(this, timeInterval);
@@ -71,7 +71,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var timeInterval = SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault();
+			var timeInterval = SKDManager.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault();
 			SlideDayInterval.TimeIntervalUIDs.Add(timeInterval.UID);
 			var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(this, timeInterval);
 			TimeIntervals.Add(slideDayIntervalPartViewModel);

@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			SlideWeekIntervals = new ObservableCollection<SlideWeekIntervalViewModel>();
-			foreach (var slideWeekInterval in SKDManager.SKDConfiguration.SlideWeeklyIntervals)
+			foreach (var slideWeekInterval in SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals)
 			{
 				var timeInrervalViewModel = new SlideWeekIntervalViewModel(slideWeekInterval);
 				SlideWeekIntervals.Add(timeInrervalViewModel);
@@ -85,7 +85,7 @@ namespace SKDModule.ViewModels
 			var slideWeekIntervalDetailsViewModel = new SlideWeekIntervalDetailsViewModel();
 			if (DialogService.ShowModalWindow(slideWeekIntervalDetailsViewModel))
 			{
-				SKDManager.SKDConfiguration.SlideWeeklyIntervals.Add(slideWeekIntervalDetailsViewModel.SlideWeekInterval);
+				SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Add(slideWeekIntervalDetailsViewModel.SlideWeekInterval);
 				var timeInrervalViewModel = new SlideWeekIntervalViewModel(slideWeekIntervalDetailsViewModel.SlideWeekInterval);
 				SlideWeekIntervals.Add(timeInrervalViewModel);
 				SelectedSlideWeekInterval = timeInrervalViewModel;
@@ -100,7 +100,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			SKDManager.SKDConfiguration.SlideWeeklyIntervals.Remove(SelectedSlideWeekInterval.SlideWeekInterval);
+			SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Remove(SelectedSlideWeekInterval.SlideWeekInterval);
 			SlideWeekIntervals.Remove(SelectedSlideWeekInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
@@ -138,7 +138,7 @@ namespace SKDModule.ViewModels
 		void OnPaste()
 		{
 			var newInterval = CopyInterval(IntervalToCopy);
-			SKDManager.SKDConfiguration.SlideWeeklyIntervals.Add(newInterval);
+			SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Add(newInterval);
 			var timeInrervalViewModel = new SlideWeekIntervalViewModel(newInterval);
 			SlideWeekIntervals.Add(timeInrervalViewModel);
 			SelectedSlideWeekInterval = timeInrervalViewModel;

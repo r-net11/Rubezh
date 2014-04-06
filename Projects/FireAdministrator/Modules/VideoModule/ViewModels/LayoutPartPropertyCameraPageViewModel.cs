@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using Common;
 using FiresecAPI.Models.Layouts;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Windows;
-using Microsoft.Win32;
 using FiresecAPI.Models;
 using FiresecClient;
 

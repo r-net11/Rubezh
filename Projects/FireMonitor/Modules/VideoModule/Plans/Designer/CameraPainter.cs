@@ -11,7 +11,6 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using VideoModule.ViewModels;
 using XFiresecAPI;
-using CameraDetailsViewModel = VideoModule.ViewModels.CameraDetailsViewModel;
 
 namespace VideoModule.Plans.Designer
 {

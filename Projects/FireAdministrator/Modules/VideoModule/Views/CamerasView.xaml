@@ -14,64 +14,34 @@
 		</SwitchConverter>
         <converters:ChannelToStringConverter x:Key="ChannelToStringConverter" />
 	</UserControl.Resources>
-	<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" MinHeight="200" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition MinHeight="150" />
-        </Grid.RowDefinitions>
-        <Controls:XDataGrid IsDoubleClickOff="{Binding SelectedCamera.IsConnecting}" Grid.Row="0" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
-            <DataGrid.Columns>
-				<DataGridTemplateColumn Width="200" Header="Название">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<drag:DragDropDecorator AllowSimulateDrag="True" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
-									<Image Margin="2,0,0,0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
-								</drag:DragDropDecorator>
-								<TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Camera.Name}" />
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTextColumn Width="200" Binding="{Binding Camera.Address}" Header="URL" />
-                <DataGridTextColumn Width="200" Binding="{Binding SelectedChannel, Converter={StaticResource ChannelToStringConverter}}" Header="Канал" />
-                <DataGridTextColumn Width="200" Binding="{Binding PresentationZones}" Header="Зоны" />
-			</DataGrid.Columns>
-			<XDataGrid.ContextMenu>
-				<ContextMenu OverridesDefaultStyle="True">
-					<IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить (Ctrl+N)" />
-					<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" />
-					<IconedMenuItem Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/BEdit.png" Text="Редактировать (Ctrl+E)" />
-					<Separator />
-					<Controls:IconedMenuItem Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="/Controls;component/Images/Eye2.png" Text="Разрешить множественную визуализацию" />
-					<Controls:IconedMenuItem Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="/Controls;component/Images/Eye3.png" Text="Запретить множественную визуализацию" />
-				</ContextMenu>
-			</XDataGrid.ContextMenu>
-		</Controls:XDataGrid>
-        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-		<Grid Grid.Row="2">
-			<!--<Grid.Background>
-				<VisualBrush AlignmentX="Center" Stretch="Uniform">
-					<VisualBrush.Visual>
-						<Image Source="{Binding StartedCamera.ImageSource, Mode=OneWay}" />
-					</VisualBrush.Visual>
-				</VisualBrush>
-			</Grid.Background>-->
-            <rviVss:CellPlayerWrap Name="PlayerWrap" />
-		</Grid>
-	</Grid>
-	<!--
-		<Grid>
-		<Grid Grid.Row="0">
-		<Grid.Background>
-		<VisualBrush Stretch="Uniform">
-		<VisualBrush.Visual>
-		<Image Source="{Binding Path=VideoSequence.Image}" />
-		</VisualBrush.Visual>
-		</VisualBrush >
-		</Grid.Background>
-		</Grid>
-		</Grid>
-	-->
+
+    <Controls:XDataGrid Grid.Row="0" ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
+        <DataGrid.Columns>
+			<DataGridTemplateColumn Width="*" Header="Название">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<drag:DragDropDecorator AllowSimulateDrag="True" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
+								<Image Margin="2,0,0,0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
+							</drag:DragDropDecorator>
+                            <TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Camera.Name}" />
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+            <DataGridTextColumn Binding="{Binding Camera.Address}" Header="Адрес" Width="Auto" />
+            <DataGridTextColumn Binding="{Binding Camera.ChannelNumber}" Header="Канал" Width="Auto" />
+            <DataGridTextColumn Binding="{Binding PresentationZones}" Header="Зоны" Width="*" />
+		</DataGrid.Columns>
+		<XDataGrid.ContextMenu>
+			<ContextMenu OverridesDefaultStyle="True">
+				<IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить (Ctrl+N)" />
+				<IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" />
+				<IconedMenuItem Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/BEdit.png" Text="Редактировать (Ctrl+E)" />
+				<Separator />
+				<Controls:IconedMenuItem Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource True}" ImageSource="/Controls;component/Images/Eye2.png" Text="Разрешить множественную визуализацию" />
+				<Controls:IconedMenuItem Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="/Controls;component/Images/Eye3.png" Text="Запретить множественную визуализацию" />
+			</ContextMenu>
+		</XDataGrid.ContextMenu>
+	</Controls:XDataGrid>
 </UserControl>

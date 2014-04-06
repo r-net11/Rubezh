@@ -10,7 +10,7 @@ namespace SKDModule.Validation
 		void ValidateSlideDayIntervals()
 		{
 			ValidateSlideDayIntervalEquality();
-			foreach (var slideDayInterval in SKDManager.SKDConfiguration.SlideDayIntervals)
+			foreach (var slideDayInterval in SKDManager.TimeIntervalsConfiguration.SlideDayIntervals)
 			{
 				if (string.IsNullOrEmpty(slideDayInterval.Name))
 				{
@@ -26,7 +26,7 @@ namespace SKDModule.Validation
 		void ValidateSlideDayIntervalEquality()
 		{
 			var slideDayIntervals = new HashSet<string>();
-			foreach (var slideDayInterval in SKDManager.SKDConfiguration.SlideDayIntervals)
+			foreach (var slideDayInterval in SKDManager.TimeIntervalsConfiguration.SlideDayIntervals)
 			{
 				if (!slideDayIntervals.Add(slideDayInterval.Name))
 				{

@@ -73,6 +73,18 @@ namespace SKDDriver
 						}
 						break;
 
+					case 23:
+						switch (evenDescriptionCode)
+						{
+							case 1:
+								JournalItem.Description = "Запись одного идентификатора";
+								break;
+							case 2:
+								JournalItem.Description = "Запись всех временнх интервалов";
+								break;
+						}
+						break;
+
 					default:
 						JournalItem.Description = evenDescriptionCode.ToString();
 						break;

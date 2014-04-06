@@ -27,18 +27,6 @@
 								</Hyperlink>
 							</TextBlock>
 						</WrapPanel>
-						<StackPanel Orientation="Horizontal" Margin="2">
-							<WrapPanel>
-								<TextBlock>
-										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
-											<StackPanel Orientation="Horizontal">
-												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
-												<TextBlock Text="Показать связанные события" TextWrapping="Wrap" VerticalAlignment="Center" FontWeight="Bold" Margin="2" />
-											</StackPanel>
-										</Hyperlink>
-									</TextBlock>
-							</WrapPanel>
-						</StackPanel>
 						<WrapPanel Visibility="{Binding HasPlans, Converter={StaticResource BoolToVisibilityConverter}}">
 							<TextBlock Text="План: " FontWeight="Bold" VerticalAlignment="Center" Margin="2" />
 							<ItemsControl ItemsSource="{Binding Plans}">

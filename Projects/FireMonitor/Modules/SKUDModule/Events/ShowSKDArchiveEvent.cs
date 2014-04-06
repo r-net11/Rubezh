@@ -10,6 +10,5 @@ namespace SKDModule.Events
 	public class ShowSKDArchiveEventArgs
 	{
 		public SKDDevice Device { get; set; }
-		public SKDZone Zone { get; set; }
 	}
 }

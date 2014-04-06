@@ -18,6 +18,7 @@ namespace FiresecClient
 		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
 		public static event Action<IEnumerable<JournalItem>> GetFilteredGKArchiveCompletedEvent;
+		public static event Action<IEnumerable<SKDJournalItem>> GetFilteredSKDArchiveCompletedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;
@@ -134,6 +135,14 @@ namespace FiresecClient
 						{
 							if (GetFilteredGKArchiveCompletedEvent != null)
 								GetFilteredGKArchiveCompletedEvent(callbackResult.JournalItems);
+						});
+						break;
+
+					case CallbackResultType.SKDArchiveCompleted:
+						SafeOperationCall(() =>
+						{
+							if (GetFilteredSKDArchiveCompletedEvent != null)
+								GetFilteredSKDArchiveCompletedEvent(callbackResult.SKDCallbackResult.JournalItems);
 						});
 						break;
 

@@ -11,7 +11,7 @@ namespace SKDModule.Validation
 		{
 			ValidateTimeIntervalEquality();
 
-			foreach (var timeInterval in SKDManager.SKDConfiguration.TimeIntervals)
+			foreach (var timeInterval in SKDManager.TimeIntervalsConfiguration.TimeIntervals)
 			{
 				if (string.IsNullOrEmpty(timeInterval.Name))
 				{
@@ -47,7 +47,7 @@ namespace SKDModule.Validation
 		void ValidateTimeIntervalEquality()
 		{
 			var timeIntervals = new HashSet<string>();
-			foreach (var timeInterval in SKDManager.SKDConfiguration.TimeIntervals)
+			foreach (var timeInterval in SKDManager.TimeIntervalsConfiguration.TimeIntervals)
 			{
 				if (!timeIntervals.Add(timeInterval.Name))
 				{

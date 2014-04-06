@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SKDImitatorDB">
+  <DataContextMoniker Name="/SKDImitatorDBDataContext" />
+  <nestedChildShapes>
+    <classShape Id="19f62118-50bd-4359-9607-757c8adface5" absoluteBounds="6.875, 1.5, 2, 1.3862939453125">
+      <DataClassMoniker Name="/SKDImitatorDBDataContext/Devices" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7780e916-b97d-40ce-9e64-9fd17099c5b6" absoluteBounds="6.89, 1.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
