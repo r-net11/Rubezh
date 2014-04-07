@@ -125,22 +125,22 @@ namespace VideoModule.Views
 					var cameraUid = propertyViewModel.SelectedCamera == null ? Guid.Empty : propertyViewModel.SelectedCamera.UID;
 					if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == propertyViewModel.CellName).Value == cameraUid)
 						continue;
-						try
+					try
+					{
+						cameraViewModel.StopVideo();
+						if ((propertyViewModel.SelectedCamera != null) && (propertyViewModel.SelectedCamera.Address != null))
 						{
-							cameraViewModel.StopVideo();
-							if (propertyViewModel.SelectedCamera.Address != null)
-							{
-								new Thread(delegate()
-									{
-										cameraViewModel.ConnectAndStart();
-									}).Start();
-							}
-							ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = propertyViewModel.SelectedCamera.UID;
+							new Thread(delegate()
+								{
+									cameraViewModel.ConnectAndStart();
+								}).Start();
 						}
-						catch (Exception ex)
-						{
-							Logger.Error(ex, "LayoutMultiCameraView.OnShowProperties");
-						}
+						ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = cameraUid;
+					}
+					catch (Exception ex)
+					{
+						Logger.Error(ex, "LayoutMultiCameraView.OnShowProperties");
+					}
 				}
 			}
 		}
