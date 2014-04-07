@@ -10,7 +10,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			InitializeComponent();
 		}
 
-		public List<Channel> Connect(string ipAddress, int port, string login = "admin", string password = "admin")
+		public List<IChannel> Connect(string ipAddress, int port, string login = "admin", string password = "admin")
 		{
 			return FormsPlayer.Connect(ipAddress, port, login, password);
 		}

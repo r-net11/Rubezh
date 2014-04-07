@@ -8,9 +8,9 @@ namespace Infrastructure.Common.Video.RVI_VSS
 {
 	public partial class WinFormsPlayer : UserControl
 	{
-		Stream ExtraStream { get; set; }
+		IStream ExtraStream { get; set; }
 		PlayBackDeviceRecord Record { get; set; }
-		Device Device { get; set; }
+		IDevice Device { get; set; }
 		bool IsConnected { get; set; }
 		bool IsStarted { get; set; }
 		bool IsPaused { get; set; }
@@ -54,11 +54,11 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			ExtraStream = null;
 		}
 
-		public List<Channel> Connect(string ipAddress, int port, string login, string password)
+		public List<IChannel> Connect(string ipAddress, int port, string login, string password)
 		{
 			try
 			{
-				var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == ipAddress && x.Port == port && x.UserName == login && x.Password == password);
+				IDevice device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == ipAddress && x.Port == port && x.UserName == login && x.Password == password);
 				if (device == null)
 				{
 					var deviceSi = new DeviceSearchInfo(ipAddress, port, login, password);

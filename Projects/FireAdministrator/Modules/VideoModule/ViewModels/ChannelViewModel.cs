@@ -9,7 +9,7 @@ namespace VideoModule.ViewModels
 {
 	public class ChannelViewModel : BaseViewModel
 	{
-		public ChannelViewModel(int no, Channel channel)
+		public ChannelViewModel(int no, IChannel channel)
 		{
 			No = no;
 			Channel = channel;
@@ -22,7 +22,7 @@ namespace VideoModule.ViewModels
 			Name = "Канал " + no;
 		}
 
-		public Channel Channel { get; private set; }
+		public IChannel Channel { get; private set; }
 		public string Name { get; private set; }
 		public int No { get; private set; }
 	}
