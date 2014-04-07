@@ -65,7 +65,6 @@ namespace Infrastructure.Common.Video.RVI_VSS
 					device = SystemPerimeter.Instance.AddDevice(deviceSi);
 				}
 				Device = device;
-				System.Diagnostics.Trace.WriteLine("Devices.Count=" + SystemPerimeter.Instance.Devices.Count().ToString());
 				return Device.Channels.ToList();
 			}
 			catch
