@@ -217,6 +217,8 @@ namespace VideoModule.ViewModels
 		{
 			//Records = new ObservableCollection<PlayBackDeviceRecord>(SelectedDevice.SelectedChannel.QueryRecordFiles(StartTime, EndTime));
 			var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == SelectedCamera.Address);
+			if (device == null)
+				return;
 			var channel = device.Channels.FirstOrDefault(x => x.ChannelNumber == SelectedCamera.Camera.ChannelNumber);
 			Records = new ObservableCollection<PlayBackDeviceRecord>();
 			for (var time = StartTime; time < EndTime; time += TimeSpan.FromDays(1))

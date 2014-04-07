@@ -6,13 +6,13 @@ namespace VideoModule.ViewModels
 {
 	public class DeviceViewModel : BaseViewModel
 	{
-		public ObservableCollection<Channel> Channels { get; set; }
+		public ObservableCollection<IChannel> Channels { get; set; }
 		public Device Device { get; private set; }
 		public DeviceViewModel(Device device)
 		{
 			Device = device;
 			Address = device.IP;
-			Channels = new ObservableCollection<Channel>(device.Channels);
+			Channels = new ObservableCollection<IChannel>(device.Channels);
 		}
 
 		private string _address;

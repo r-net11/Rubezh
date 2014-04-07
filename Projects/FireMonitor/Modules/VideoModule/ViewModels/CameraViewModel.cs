@@ -63,7 +63,7 @@ namespace VideoModule.ViewModels
 			{
 				IsConnecting = true;
 				IsFailConnected = false;
-				Channels = new ObservableCollection<Channel>(CellPlayerWrap.Connect(Camera.Address, Camera.Port));
+				Channels = new ObservableCollection<IChannel>(CellPlayerWrap.Connect(Camera.Address, Camera.Port));
 				Dispatcher.BeginInvoke(
 					DispatcherPriority.Input, new ThreadStart(
 						() =>
@@ -185,8 +185,8 @@ namespace VideoModule.ViewModels
 			get { return Camera.Height; }
 		}
 
-		private ObservableCollection<Channel> _channels;
-		public ObservableCollection<Channel> Channels
+		private ObservableCollection<IChannel> _channels;
+		public ObservableCollection<IChannel> Channels
 		{
 			get { return _channels; }
 			set
@@ -196,8 +196,8 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		private Channel _selectedChannel;
-		public Channel SelectedChannel
+		private IChannel _selectedChannel;
+		public IChannel SelectedChannel
 		{
 			get { return _selectedChannel; }
 			set
