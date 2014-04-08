@@ -33,9 +33,12 @@ namespace GKModule.Plans
 		private DirectionsViewModel _directionsViewModel;
 		private CommonDesignerCanvas _designerCanvas;
 		private IEnumerable<IInstrument> _instruments;
+		private List<DesignerItem> _designerItems;
+		private static GKPlanExtension _current;
 
 		public GKPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, DirectionsViewModel directionsViewModel)
 		{
+			_current = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
@@ -53,6 +56,7 @@ namespace GKModule.Plans
 			_directionsViewModel = directionsViewModel;
 			_instruments = null;
 			_processChanges = true;
+			_designerItems = new List<DesignerItem>();
 		}
 
 		public void Initialize()
@@ -194,6 +198,7 @@ namespace GKModule.Plans
 				designerItem.Group = "GK";
 				designerItem.UpdateProperties += UpdateDesignerItemXDevice;
 				UpdateDesignerItemXDevice(designerItem);
+				_designerItems.Add(designerItem);
 			}
 			else if (designerItem.Element is IElementDirection)
 			{
@@ -208,6 +213,7 @@ namespace GKModule.Plans
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
+			_designerItems = new List<DesignerItem>();
 			if (plan.ElementPolygonXZones == null)
 				plan.ElementPolygonXZones = new List<ElementPolygonXZone>();
 			if (plan.ElementRectangleXZones == null)
@@ -443,6 +449,17 @@ namespace GKModule.Plans
 					_processChanges = true;
 				}
 			}
+		}
+
+		public static void InvalidateCanvas()
+		{
+			_current._designerItems.ForEach(item =>
+			{
+				_current.OnXDevicePropertyChanged(item);
+				_current.UpdateDesignerItemXDevice(item);
+				item.Painter.Invalidate();
+			});
+			_current._designerCanvas.Refresh();
 		}
 	}
 }

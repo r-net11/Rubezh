@@ -19,9 +19,6 @@ namespace FiresecAPI.EmployeeTimeIntervals
 		public Guid ScheduleSchemeUID { get; set; }
 
 		[DataMember]
-		public DateTime? StartDate { get; set; }
-
-		[DataMember]
 		public bool IsIgnoreHoliday { get; set; }
 
 		[DataMember]

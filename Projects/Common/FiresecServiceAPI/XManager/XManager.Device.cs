@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using XFiresecAPI;
+using System;
 
 namespace FiresecClient
 {
@@ -65,6 +66,10 @@ namespace FiresecClient
 				newChildDevice.Parent = deviceTo;
 				deviceTo.Children.Add(newChildDevice);
 			}
+
+			deviceTo.PlanElementUIDs = new List<Guid>();
+			foreach (var deviceElementUID in deviceFrom.PlanElementUIDs)
+				deviceTo.PlanElementUIDs.Add(deviceElementUID);
 
 			return deviceTo;
 		}

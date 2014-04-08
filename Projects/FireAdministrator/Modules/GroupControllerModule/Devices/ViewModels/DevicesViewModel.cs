@@ -21,6 +21,7 @@ using Infrustructure.Plans.Events;
 using Microsoft.Win32;
 using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
+using GKModule.Plans;
 
 namespace GKModule.ViewModels
 {
@@ -185,13 +186,18 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			foreach (var deviceToCopy in DevicesToCopy)
+			using (var cache = new ElementXDeviceCache())
 			{
-				var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
-				PasteDevice(pasteDevice);
+				foreach (var deviceToCopy in DevicesToCopy)
+				{
+					var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
+					PasteDevice(pasteDevice);
+					cache.Update(pasteDevice);
+				}
 			}
 			XManager.DeviceConfiguration.Update();
 			Plans.Designer.Helper.BuildMap();
+			GKPlanExtension.InvalidateCanvas();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanPaste()
