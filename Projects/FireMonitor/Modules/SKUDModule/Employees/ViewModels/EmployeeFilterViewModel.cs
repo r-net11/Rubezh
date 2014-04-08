@@ -8,7 +8,6 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -48,29 +47,25 @@ namespace SKDModule.ViewModels
 				foreach (var position in positions)
 					Positions.Add(new FilterPositionViewModel(position));
 
-			HasManyPersonTypes = FiresecManager.CurrentUser.PersonTypes.Count > 1;
+			HasManyPersonTypes = FiresecManager.CurrentUser.IsEmployeesAllowed && FiresecManager.CurrentUser.IsGuestsAllowed;
 			if (HasManyPersonTypes)
 			{
-				var personTypes = Enum.GetValues(typeof(PersonType)).Cast<PersonType>().ToList();
-				PersonTypes = new ObservableCollection<FilterPersonTypeViewModel>();
-				foreach (var personType in personTypes)
-				{
-					var personTypeViewModel = new FilterPersonTypeViewModel(personType);
-					PersonTypes.Add(personTypeViewModel);
-				}
-				SelectedPersonType = PersonTypes.FirstOrDefault(x => x.PersonType == Filter.PersonType);
+				if (Filter.PersonType == PersonType.Guest)
+					IsGuestsAllowed = true;
+				else
+					IsEmployeesAllowed = true;
 			}
-			AvailableOrganizations = new ObservableCollection<Organization>();
+			AvailableOrganizations = new ObservableCollection<FilterOrganizationViewModel>();
 			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			foreach (var organisation in organisations)
 			{
-				AvailableOrganizations.Add(organisation);
+				AvailableOrganizations.Add(new FilterOrganizationViewModel(organisation));
 			}
-			if (!AvailableOrganizations.Any(x=>x.UID == Filter.OrganisationUID))
-				Filter.OrganisationUID = Guid.Empty;
-			SelectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.UID == Filter.OrganisationUID);
-			if (Filter.OrganisationUID == Guid.Empty)
-				SelectedOrganization = AvailableOrganizations.FirstOrDefault();
+			var selectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.Organization.UID == Filter.OrganisationUID);
+			if (selectedOrganization != null)
+				selectedOrganization.IsChecked = true;
+			else
+				AvailableOrganizations.FirstOrDefault().IsChecked = true;
 		}
 
 		protected override void Update()
@@ -150,30 +145,27 @@ namespace SKDModule.ViewModels
 
 		public CheckBoxItemList<FilterPositionViewModel> Positions { get; private set; }
 		
-		public ObservableCollection<FilterPersonTypeViewModel> PersonTypes { get; private set; }
+		public ObservableCollection<FilterOrganizationViewModel> AvailableOrganizations { get; private set; }
 
-		FilterPersonTypeViewModel _selectedPersonType;
-		public FilterPersonTypeViewModel SelectedPersonType
+		bool _isEmployeesAllowed;
+		public bool IsEmployeesAllowed
 		{
-			get { return _selectedPersonType; }
+			get { return _isEmployeesAllowed; }
 			set
 			{
-				_selectedPersonType = value;
-				OnPropertyChanged(()=>SelectedPersonType);
+				_isEmployeesAllowed = value;
+				OnPropertyChanged(() => IsEmployeesAllowed);
 			}
 		}
 
-
-		public ObservableCollection<Organization> AvailableOrganizations { get; private set; }
-
-		Organization _selectedOrganization;
-		public Organization SelectedOrganization
+		bool _isGuestsAllowed;
+		public bool IsGuestsAllowed
 		{
-			get { return _selectedOrganization; }
+			get { return _isGuestsAllowed; }
 			set
 			{
-				_selectedOrganization = value;
-				OnPropertyChanged("SelectedOrganization");
+				_isGuestsAllowed = value;
+				OnPropertyChanged(() => IsGuestsAllowed);
 			}
 		}
 
@@ -193,13 +185,17 @@ namespace SKDModule.ViewModels
 					Filter.DepartmentUIDs.Add(Department.Department.UID);
 			};
 			Filter.OrganizationUIDs = new List<Guid>();
-			if (SelectedOrganization != null)
+			var selectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.IsChecked);
+			if (selectedOrganization != null)
 			{
-				Filter.OrganisationUID = SelectedOrganization.UID;
-				Filter.OrganizationUIDs.Add(SelectedOrganization.UID);
+				Filter.OrganisationUID = selectedOrganization.Organization.UID;
+				Filter.OrganizationUIDs.Add(selectedOrganization.Organization.UID);
 			}
-			if (HasManyPersonTypes)
-				Filter.PersonType = SelectedPersonType.PersonType;
+			
+			if (IsGuestsAllowed)
+				Filter.PersonType = PersonType.Guest;
+			else
+				Filter.PersonType = PersonType.Employee;
 			return true;
 		}
 
@@ -250,16 +246,5 @@ namespace SKDModule.ViewModels
 		}
 
 		public Position Position { get; private set; }
-	}
-
-	public class FilterPersonTypeViewModel : BaseViewModel
-	{
-		public FilterPersonTypeViewModel(PersonType personType)
-		{
-			PersonType = personType;
-		}
-
-		public PersonType PersonType { get; private set; }
-		public string Name { get { return PersonType.ToDescription(); } }
 	}
 }

@@ -59,6 +59,30 @@ namespace SKDDriver
 			}
 		}
 
+		public override OperationResult Save(IEnumerable<AdditionalColumn> apiItems)
+		{
+			var photosToSave = new List<Photo>();
+			var photosToDelete = new List<Guid>();
+			foreach (var apiItem in apiItems)
+			{
+				var tableItem = Table.FirstOrDefault(x => x.UID == apiItem.UID);
+				if (tableItem == null)
+					continue;
+				if (tableItem.PhotoUID == null)
+					photosToSave.Add(apiItem.Photo);
+				else if (apiItem.Photo == null)
+					photosToDelete.Add(tableItem.PhotoUID.Value);
+				else if (tableItem.PhotoUID != apiItem.Photo.UID)
+				{
+					photosToSave.Add(apiItem.Photo);
+					photosToDelete.Add(tableItem.PhotoUID.Value);
+				}
+			}
+			PhotoTranslator.Save(photosToSave);
+			PhotoTranslator.MarkDeleted(photosToDelete);
+			return base.Save(apiItems);
+		}
+
 		protected override Expression<Func<DataAccess.AdditionalColumn, bool>> IsInFilter(AdditionalColumnFilter filter)
 		{
 			var result = base.IsInFilter(filter);

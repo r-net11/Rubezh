@@ -75,6 +75,7 @@
     <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
     <Compile Include="Employees\ViewModels\AdditionalColumnViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardZonesViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EditTextViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardDetailsViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardRemovalReasonViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardViewModel.cs" />
@@ -85,6 +86,9 @@
     </Compile>
     <Compile Include="Employees\ViewModels\GuestDetailsViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReaderSelectationViewModel.cs" />
+    <Compile Include="Employees\Views\EditTextView.xaml.cs">
+      <DependentUpon>EditTextView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Employees\Views\GuestDetailsView.xaml.cs">
       <DependentUpon>GuestDetailsView.xaml</DependentUpon>
     </Compile>
@@ -478,6 +482,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\CardZonesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EditTextView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

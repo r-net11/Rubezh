@@ -71,6 +71,32 @@ namespace SKDDriver
 			}
 		}
 
+		public virtual OperationResult MarkDeleted(IEnumerable<Guid> UIDs)
+		{
+			var operationResult = new OperationResult();
+			try
+			{
+				foreach (var uid in UIDs)
+				{
+					if (uid != null)
+					{
+						var databaseItem = (from x in Table where x.UID.Equals(uid) select x).FirstOrDefault();
+						if (databaseItem != null)
+						{
+							databaseItem.IsDeleted = true;
+							databaseItem.RemovalDate = DateTime.Now;
+						}
+					}
+				}
+				Table.Context.SubmitChanges();
+				return operationResult;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		public static Expression<Func<TableT, bool>> IsInDeleted(FilterT filter)
 		{
 			switch (filter.WithDeleted)

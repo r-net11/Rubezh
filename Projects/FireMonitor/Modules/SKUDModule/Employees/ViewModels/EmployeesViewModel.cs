@@ -33,7 +33,10 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 
 			Filter = new EmployeeFilter();
-			Filter.PersonType = FiresecManager.CurrentUser.PersonTypes.FirstOrDefault();
+			if (FiresecManager.CurrentUser.IsGuestsAllowed)
+				Filter.PersonType = PersonType.Guest;
+			else
+				Filter.PersonType = PersonType.Employee;
 			var organizationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
 			if (organizationUID != Guid.Empty)
 				Filter.OrganizationUIDs = new List<Guid> { organizationUID };

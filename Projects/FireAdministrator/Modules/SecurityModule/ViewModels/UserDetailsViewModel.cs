@@ -10,6 +10,7 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Win32;
 
 namespace SecurityModule.ViewModels
 {
@@ -45,26 +46,29 @@ namespace SecurityModule.ViewModels
 
 			CopyProperties();
 
-			var organisations = OrganizationHelper.Get(new OrganizationFilter());
-			Organisations = new ObservableCollection<OrganisationViewModel>();
-			foreach (var organisation in organisations)
+			bool isSQLFound = false;
+			RegistryView registryView = Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32;
+			using (RegistryKey hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView))
 			{
-				var organisationViewModel = new OrganisationViewModel(organisation);
-				organisationViewModel.IsChecked = User.OrganisationUIDs.Contains(organisation.UID);
-				Organisations.Add(organisationViewModel);
+				RegistryKey instanceKey = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL", false);
+				isSQLFound = instanceKey != null && instanceKey.GetValueNames().Length > 0;
 			}
 
-			if (User.PersonTypes == null)
-				User.PersonTypes = new List<PersonType>();
-			
-			var personTypes = Enum.GetValues(typeof(PersonType)).Cast<PersonType>().ToList();
-			PersonTypes = new ObservableCollection<PersonTypeViewModel>();
-			foreach (var personType in personTypes)
+			if (isSQLFound)
 			{
-				var personTypeViewModel = new PersonTypeViewModel(personType);
-				personTypeViewModel.IsChecked = User.PersonTypes.Contains(personType);
-				PersonTypes.Add(personTypeViewModel);
+				var organisations = OrganizationHelper.Get(new OrganizationFilter());
+				Organisations = new ObservableCollection<OrganisationViewModel>();
+				foreach (var organisation in organisations)
+				{
+					var organisationViewModel = new OrganisationViewModel(organisation);
+					organisationViewModel.IsChecked = User.OrganisationUIDs.Contains(organisation.UID);
+					Organisations.Add(organisationViewModel);
+				}
+				IsEmployeesAllowed = User.IsEmployeesAllowed;
+				IsGuestsAllowed = User.IsGuestsAllowed;
 			}
+			else
+				MessageBoxService.Show("Не обнаружен Microsoft SQL Server");
 		}
 
 		void CopyProperties()
@@ -142,6 +146,28 @@ namespace SecurityModule.ViewModels
 			{
 				_isChangePassword = value;
 				OnPropertyChanged("IsChangePassword");
+			}
+		}
+
+		bool _isEmployeesAllowed;
+		public bool IsEmployeesAllowed
+		{
+			get { return _isEmployeesAllowed; }
+			set
+			{
+				_isEmployeesAllowed = value;
+				OnPropertyChanged(()=>IsEmployeesAllowed);
+			}
+		}
+
+		bool _isGuestsAllowed;
+		public bool IsGuestsAllowed
+		{
+			get { return _isGuestsAllowed; }
+			set
+			{
+				_isGuestsAllowed = value;
+				OnPropertyChanged(() => IsGuestsAllowed);
 			}
 		}
 
@@ -292,12 +318,8 @@ namespace SecurityModule.ViewModels
 					User.OrganisationUIDs.Add(organisation.Organisation.UID);
 			}
 
-			User.PersonTypes = new List<PersonType>();
-			foreach (var personType in PersonTypes)
-			{
-				if (personType.IsChecked)
-					User.PersonTypes.Add(personType.PersonType);
-			}
+			User.IsEmployeesAllowed = IsEmployeesAllowed;
+			User.IsGuestsAllowed = IsGuestsAllowed;
 		}
 
 		protected override bool Save()

@@ -27,4 +27,8 @@
     <DataTemplate DataType="{x:Type ViewModels:ReaderSelectationViewModel}">
         <Views:ReaderSelectationView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:EditTextViewModel}">
+        <Views:EditTextView />
+    </DataTemplate>
 </ResourceDictionary>

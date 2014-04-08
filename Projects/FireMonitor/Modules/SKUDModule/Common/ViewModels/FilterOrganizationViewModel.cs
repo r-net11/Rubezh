@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.CheckBoxList;
-using FiresecAPI;
+﻿using FiresecAPI;
+using Infrastructure.Common.CheckBoxList;
 
 namespace SKDModule.ViewModels
 {
@@ -13,5 +13,16 @@ namespace SKDModule.ViewModels
 
 		public string Name { get; private set; }
 		public Organization Organization { get; private set; }
+
+		bool _isChecked;
+		public bool IsChecked
+		{
+			get { return _isChecked; }
+			set
+			{
+				_isChecked = value;
+				OnPropertyChanged(() => IsChecked);
+			}
+		}
 	}
 }

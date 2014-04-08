@@ -44,6 +44,9 @@ namespace FiresecAPI.Models
 		public List<Guid> OrganisationUIDs { get; set; }
 
 		[DataMember]
-		public List<PersonType> PersonTypes { get; set; } 
+		public bool IsEmployeesAllowed { get; set; }
+
+		[DataMember]
+		public bool IsGuestsAllowed { get; set; }
 	}
 }

@@ -41,26 +41,19 @@
 				</ListBox>
 			</TabItem>
 			<Views:FilterMarkDeletedTabItem />
-            <TabItem Header="Организаия">
-                <StackPanel>
-                    <ComboBox ItemsSource="{Binding AvailableOrganizations}" SelectedItem="{Binding SelectedOrganization}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </StackPanel>
+            <TabItem Header="Организация">
+                <ItemsControl ItemsSource="{Binding AvailableOrganizations}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton GroupName="AvailableOrganizations" Content="{Binding Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}" Margin="5" Foreground="White" FontSize="14" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </TabItem>
             <TabItem Header="Сотрудники/Гости" Visibility="{Binding HasManyPersonTypes, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel>
-                    <ComboBox ItemsSource="{Binding PersonTypes}" SelectedItem="{Binding SelectedPersonType}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                    <RadioButton GroupName="PersonTypes" Content="Сотрудники" IsChecked="{Binding IsEmployeesAllowed, Mode=TwoWay}" Margin="5" Foreground="White" FontSize="14" />
+                    <RadioButton GroupName="PersonTypes" Content="Посетители" IsChecked="{Binding IsGuestsAllowed, Mode=TwoWay}" Margin="5" Foreground="White" FontSize="14" />
                 </StackPanel>
             </TabItem>
         </TabControl>
