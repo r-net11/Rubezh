@@ -63,6 +63,8 @@ namespace VideoModule.ViewModels
 			}
 			try
 			{
+				if (StartedRecord != null)
+					CellPlayerWrap.Stop(StartedRecord);
 				CellPlayerWrap.Start(SelectedRecord);
 				StartedRecord = SelectedRecord;
 				IsStarted = true;
@@ -215,7 +217,7 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		private PlayBackDeviceRecord StartedRecord { get; set; }
+		public PlayBackDeviceRecord StartedRecord { get; private set; }
 
 		public RelayCommand SearchCommand { get; private set; }
 		void OnSearch()

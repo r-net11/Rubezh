@@ -77,6 +77,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			try
 			{
+				Invalidate();
 				var channel = Device.Channels.First(channell => channell.ChannelNumber == channelNumber);
 				ExtraStream = channel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
 				ExtraStream.AddPlayHandle(Handle);
