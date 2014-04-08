@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using Entities.DeviceOriented;
 using FiresecClient;
@@ -228,16 +229,25 @@ namespace VideoModule.ViewModels
 				return;
 			var channel = device.Channels.FirstOrDefault(x => x.ChannelNumber == SelectedCamera.Camera.ChannelNumber);
 			Records = new ObservableCollection<PlayBackDeviceRecord>();
-			for (var time = StartTime; time < EndTime; time += TimeSpan.FromDays(1))
+			for (var time = StartTime; new DateTime(time.Year, time.Month, time.Day) < EndTime; time += TimeSpan.FromDays(1))
 			{
-				var records = channel.QueryRecordFiles(time, time + TimeSpan.FromDays(1));
+				var dayStart = new DateTime(time.Year, time.Month, time.Day);
+				var dayEnd = new DateTime(time.Year, time.Month, time.Day, 23, 59, 59);
+				var startTime = dayStart;
+				if (startTime < StartTime)
+					startTime = StartTime;
+				var endTime = dayEnd;
+				if (endTime > EndTime)
+					endTime = EndTime;
+				var records = channel.QueryRecordFiles(startTime, endTime);
+				Trace.WriteLine(startTime + "  -  " + endTime);
 				Records.AddRange(records);
 			}
 		}
 
 		bool CanSearch()
 		{
-			return (SelectedCamera != null);
+			return ((SelectedCamera != null)&&(StartTime < EndTime));
 		}
 	}
 }
