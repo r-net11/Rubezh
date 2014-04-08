@@ -1,13 +1,13 @@
-﻿using FiresecAPI;
+﻿using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class HolidayViewModel : BaseViewModel
 	{
-		public EmployeeHoliday Holiday { get; set; }
+		public Holiday Holiday { get; set; }
 
-		public HolidayViewModel(EmployeeHoliday holiday)
+		public HolidayViewModel(Holiday holiday)
 		{
 			Holiday = holiday;
 		}
@@ -23,8 +23,8 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (Holiday.EmployeeHolidayType != EmployeeHolidayType.Holiday)
-					return Holiday.ShortageTime.ToString("HH-mm");
+				if (Holiday.Type != HolidayType.Holiday)
+					return Holiday.Reduction.ToString("HH-mm");
 				return null;
 			}
 		}
@@ -33,8 +33,8 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (Holiday.EmployeeHolidayType == EmployeeHolidayType.WorkingHoliday)
-					return Holiday.TransitionDateTime.ToString("dd-MM");
+				if (Holiday.Type == HolidayType.WorkingHoliday)
+					return Holiday.TransferDate.ToString("dd-MM");
 				return null;
 			}
 		}

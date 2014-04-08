@@ -6,9 +6,10 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using OrganizationFilter = FiresecAPI.OrganizationFilter;
 
 namespace SKDModule.ViewModels
 {
@@ -26,13 +27,13 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			var employeeHolidays = new List<EmployeeHoliday>();
+			var employeeHolidays = new List<Holiday>();
 
 			OrganisationHolidays = new ObservableCollection<OrganisationHolidaysYearViewModel>();
 			foreach (var organisation in organisations)
 			{
 				var holidayViewModel = new OrganisationHolidaysYearViewModel(Year);
-				holidayViewModel.Initialize(organisation, new List<EmployeeHoliday>(employeeHolidays.Where(x => x.OrganizationUID.Value == organisation.UID)));
+				holidayViewModel.Initialize(organisation, new List<Holiday>(employeeHolidays.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationHolidays.Add(holidayViewModel);
 			}
 			SelectedOrganisationHoliday = OrganisationHolidays.FirstOrDefault();

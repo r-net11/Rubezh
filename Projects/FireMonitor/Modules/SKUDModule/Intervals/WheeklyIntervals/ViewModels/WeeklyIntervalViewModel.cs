@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class WeeklyIntervalViewModel : BaseViewModel
 	{
-		public EmployeeWeeklyInterval WeeklyInterval { get; private set; }
+		public ScheduleScheme WeeklyInterval { get; private set; }
 
-		public WeeklyIntervalViewModel(EmployeeWeeklyInterval weeklyInterval)
+		public WeeklyIntervalViewModel(ScheduleScheme weeklyInterval)
 		{
 			WeeklyInterval = weeklyInterval;
 			TimeIntervals = new ObservableCollection<WeeklyIntervalPartViewModel>();
-			foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
+			foreach (var weeklyIntervalPart in weeklyInterval.DayIntervals)
 			{
 				var weeklyIntervalPartViewModel = new WeeklyIntervalPartViewModel(this, weeklyIntervalPart);
 				TimeIntervals.Add(weeklyIntervalPartViewModel);
@@ -37,20 +37,15 @@ namespace SKDModule.ViewModels
 		{
 			OnPropertyChanged("WeeklyInterval");
 
-			WeeklyInterval.WeeklyIntervalParts = new List<EmployeeWeeklyIntervalPart>();
+			WeeklyInterval.DayIntervals = new List<DayInterval>();
 			foreach (var timeInterval in TimeIntervals)
 			{
 				if (timeInterval.SelectedTimeInterval != null)
 				{
-					timeInterval.WeeklyIntervalPart.TimeIntervalUID = timeInterval.SelectedTimeInterval.UID;
-					WeeklyInterval.WeeklyIntervalParts.Add(timeInterval.WeeklyIntervalPart);
+					timeInterval.WeeklyIntervalPart.NamedIntervalUID = timeInterval.SelectedTimeInterval.UID;
+					WeeklyInterval.DayIntervals.Add(timeInterval.WeeklyIntervalPart);
 				}
 			}
-		}
-
-		public bool IsEnabled
-		{
-			get { return !WeeklyInterval.IsDefault; }
 		}
 	}
 }

@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI
+namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public class EmployeeShedulePart
+	public class ScheduleZone : SKDIsDeletedModel
 	{
-		public EmployeeShedulePart()
+		public ScheduleZone()
 		{
-			UID = Guid.NewGuid();
 		}
-
-		[DataMember]
-		public Guid UID { get; set; }
 
 		[DataMember]
 		public Guid ZoneUID { get; set; }

@@ -1,16 +1,16 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using FiresecAPI;
+﻿using System.Linq;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDManager = FiresecAPI.SKDManager;
 
 namespace SKDModule.ViewModels
 {
 	public class ShedulePartViewModel : BaseViewModel
 	{
 		SheduleViewModel SheduleViewModel;
-		public EmployeeShedulePart ShedulePart { get; set; }
+		public ScheduleZone ShedulePart { get; set; }
 
-		public ShedulePartViewModel(SheduleViewModel sheduleViewModel, EmployeeShedulePart shedulePart)
+		public ShedulePartViewModel(SheduleViewModel sheduleViewModel, ScheduleZone shedulePart)
 		{
 			SheduleViewModel = sheduleViewModel;
 			ShedulePart = shedulePart;

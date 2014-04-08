@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -11,17 +11,17 @@ namespace SKDModule.ViewModels
 {
 	public class SlideDayIntervalViewModel : BaseViewModel
 	{
-		public EmployeeSlideDayInterval SlideDayInterval { get; private set; }
+		public ScheduleScheme SlideDayInterval { get; private set; }
 
-		public SlideDayIntervalViewModel(EmployeeSlideDayInterval slideDayInterval)
+		public SlideDayIntervalViewModel(ScheduleScheme slideDayInterval)
 		{
 			SlideDayInterval = slideDayInterval;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			TimeIntervals = new ObservableCollection<SlideDayIntervalPartViewModel>();
-			foreach (var timeIntervalUID in slideDayInterval.TimeIntervalUIDs)
+			foreach (var timeIntervalUID in slideDayInterval.DayIntervals)
 			{
-				var timeInterval = (EmployeeTimeInterval)null; // SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
+				var timeInterval = (DayInterval)null; // SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
 				if (timeInterval != null)
 				{
 					var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(this, timeInterval);
@@ -47,20 +47,20 @@ namespace SKDModule.ViewModels
 		{
 			OnPropertyChanged("SlideDayInterval");
 
-			SlideDayInterval.TimeIntervalUIDs = new List<Guid>();
+			SlideDayInterval.DayIntervals = new List<DayInterval>();
 			foreach (var timeInterval in TimeIntervals)
 			{
-				SlideDayInterval.TimeIntervalUIDs.Add(timeInterval.SelectedTimeInterval.UID);
+				SlideDayInterval.DayIntervals.Add(timeInterval.SelectedTimeInterval);
 			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var timeInterval = new EmployeeTimeInterval(); //SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault();
+			var timeInterval = new DayInterval(); //SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault();
 			if (timeInterval != null)
 			{
-				SlideDayInterval.TimeIntervalUIDs.Add(timeInterval.UID);
+				SlideDayInterval.DayIntervals.Add(timeInterval);
 				var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(this, timeInterval);
 				TimeIntervals.Add(slideDayIntervalPartViewModel);
 			}
@@ -73,17 +73,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			SlideDayInterval.TimeIntervalUIDs.Remove(SelectedTimeInterval.TimeInterval.UID);
+			SlideDayInterval.DayIntervals.Remove(SelectedTimeInterval.TimeInterval);
 			TimeIntervals.Remove(SelectedTimeInterval);
 		}
 		bool CanRemove()
 		{
 			return SelectedTimeInterval != null && TimeIntervals.Count > 1;
-		}
-
-		public bool IsEnabled
-		{
-			get { return !SlideDayInterval.IsDefault; }
 		}
 	}
 }

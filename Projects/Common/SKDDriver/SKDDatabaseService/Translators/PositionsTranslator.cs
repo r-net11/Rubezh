@@ -24,7 +24,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Position item)
 		{
-			if (Context.Employee.Any(x => x.PositionUID == item.UID && x.OrganizationUID == item.OrganizationUID && !x.IsDeleted))
+			if (Context.Employees.Any(x => x.PositionUID == item.UID && x.OrganizationUID == item.OrganizationUID && !x.IsDeleted))
 				return new OperationResult("Не могу удалить должность, пока она указана у действующих сотрудников");
 			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUID == item.OrganizationUID && x.UID != item.UID);
 			if (sameName)

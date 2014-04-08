@@ -30,7 +30,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(AccessTemplate item)
 		{
-			if (Context.Card.Any(x => x.AccessTemplateUID == item.UID &&
+			if (Context.Cards.Any(x => x.AccessTemplateUID == item.UID &&
 					x.IsDeleted == false))
 				return new OperationResult("Не могу удалить ГУД, пока он указан у действующих карт");
 			return base.CanSave(item);

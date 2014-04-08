@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI
+namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public class EmployeeTimeIntervalPart
+	public class TimeInterval : SKDIsDeletedModel
 	{
-		public EmployeeTimeIntervalPart()
+		public TimeInterval()
 		{
-			UID = Guid.NewGuid();
 			StartTime = new DateTime(2000, 1, 1);
 			EndTime = new DateTime(2000, 1, 1);
 		}
-
-		[DataMember]
-		public Guid UID { get; set; }
 
 		[DataMember]
 		public DateTime StartTime { get; set; }

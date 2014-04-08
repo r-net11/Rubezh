@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using FiresecAPI;
-using Infrastructure;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
+using Organization = FiresecAPI.Organization;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationMonthlyIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public Organization Organization { get; private set; }
-		EmployeeMonthlyInterval IntervalToCopy;
+		ScheduleScheme IntervalToCopy;
 
 		public OrganisationMonthlyIntervalsViewModel()
 		{
@@ -27,19 +24,19 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(Organization organization, List<EmployeeMonthlyInterval> employeeMonthlyIntervals)
+		public void Initialize(Organization organization, List<ScheduleScheme> ScheduleSchemes)
 		{
 			Organization = organization;
 
-			var neverTimeInterval = employeeMonthlyIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
-			if (neverTimeInterval == null)
-			{
-				neverTimeInterval = new EmployeeMonthlyInterval() { Name = "Никогда", IsDefault = true };
-				employeeMonthlyIntervals.Add(neverTimeInterval);
-			}
+			//var neverTimeInterval = ScheduleSchemes.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
+			//if (neverTimeInterval == null)
+			//{
+			//    neverTimeInterval = new ScheduleScheme() { Name = "Никогда", IsDefault = true };
+			//    ScheduleSchemes.Add(neverTimeInterval);
+			//}
 
 			MonthlyIntervals = new ObservableCollection<MonthlyIntervalViewModel>();
-			foreach (var monthlyInterval in employeeMonthlyIntervals)
+			foreach (var monthlyInterval in ScheduleSchemes)
 			{
 				var timeInrervalViewModel = new MonthlyIntervalViewModel(monthlyInterval);
 				MonthlyIntervals.Add(timeInrervalViewModel);
@@ -104,7 +101,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedMonthlyInterval != null && !SelectedMonthlyInterval.MonthlyInterval.IsDefault;
+			return SelectedMonthlyInterval != null;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -118,7 +115,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedMonthlyInterval != null && !SelectedMonthlyInterval.MonthlyInterval.IsDefault;
+			return SelectedMonthlyInterval != null;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -128,7 +125,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCopy()
 		{
-			return SelectedMonthlyInterval != null && !SelectedMonthlyInterval.MonthlyInterval.IsDefault;
+			return SelectedMonthlyInterval != null;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -144,13 +141,13 @@ namespace SKDModule.ViewModels
 			return IntervalToCopy != null && MonthlyIntervals.Count < 256;
 		}
 
-		EmployeeMonthlyInterval CopyInterval(EmployeeMonthlyInterval source)
+		ScheduleScheme CopyInterval(ScheduleScheme source)
 		{
-			var copy = new EmployeeMonthlyInterval();
+			var copy = new ScheduleScheme();
 			copy.Name = source.Name;
-			foreach (var timeIntervalUID in source.MonthlyIntervalParts)
+			foreach (var timeIntervalUID in source.DayIntervals)
 			{
-				copy.MonthlyIntervalParts.Add(timeIntervalUID);
+				copy.DayIntervals.Add(timeIntervalUID);
 			}
 			return copy;
 		}

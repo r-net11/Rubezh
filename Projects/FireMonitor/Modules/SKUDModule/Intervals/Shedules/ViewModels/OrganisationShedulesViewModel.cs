@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using FiresecAPI;
-using Infrastructure;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
+using Organization = FiresecAPI.Organization;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationShedulesViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public Organization Organization { get; private set; }
-		EmployeeShedule SheduleToCopy;
+		Schedule SheduleToCopy;
 
 		public OrganisationShedulesViewModel()
 		{
@@ -27,16 +24,9 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(Organization organization, List<EmployeeShedule> employeeShedules)
+		public void Initialize(Organization organization, List<Schedule> employeeShedules)
 		{
 			Organization = organization;
-
-			var neverShedule = employeeShedules.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
-			if (neverShedule == null)
-			{
-				neverShedule = new EmployeeShedule() { Name = "Никогда", IsDefault = true };
-				employeeShedules.Add(neverShedule);
-			}
 
 			Shedules = new ObservableCollection<SheduleViewModel>();
 			foreach (var employeeShedule in employeeShedules)
@@ -100,7 +90,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedShedule != null && !SelectedShedule.Shedule.IsDefault;
+			return SelectedShedule != null;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -114,7 +104,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedShedule != null && !SelectedShedule.Shedule.IsDefault;
+			return SelectedShedule != null;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -124,7 +114,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCopy()
 		{
-			return SelectedShedule != null && !SelectedShedule.Shedule.IsDefault;
+			return SelectedShedule != null;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -140,16 +130,16 @@ namespace SKDModule.ViewModels
 			return SheduleToCopy != null;
 		}
 
-		EmployeeShedule CopyShedule(EmployeeShedule source)
+		Schedule CopyShedule(Schedule source)
 		{
-			var copy = new EmployeeShedule();
+			var copy = new Schedule();
 			copy.Name = source.Name;
-			foreach (var employeeShedulePart in source.EmployeeSheduleParts)
+			foreach (var employeeShedulePart in source.Zones)
 			{
-				var copyEmployeeShedulePart = new EmployeeShedulePart()
+				var copyEmployeeShedulePart = new ScheduleZone()
 				{
 				};
-				copy.EmployeeSheduleParts.Add(copyEmployeeShedulePart);
+				copy.Zones.Add(copyEmployeeShedulePart);
 			}
 			return copy;
 		}

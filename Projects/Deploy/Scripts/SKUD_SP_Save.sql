@@ -112,8 +112,9 @@ CREATE PROCEDURE [dbo].[SaveNamedInterval]
 	@Uid uniqueidentifier,
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
-	@IsDeleted bit ,
-	@RemovalDate datetime 
+	@SlideTime time(0) = '00:00',
+	@IsDeleted bit = 0,
+	@RemovalDate datetime = '01/01/1900' 
 AS
 BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[NamedInterval] WHERE Uid = @Uid)
@@ -122,6 +123,7 @@ BEGIN
 			Name = @Name,
 			IsDeleted = @IsDeleted,
 			RemovalDate = @RemovalDate,
+			SlideTime = @SlideTime,
 			OrganizationUid = @OrganizationUid 
 		WHERE Uid = @Uid
 	ELSE
@@ -131,24 +133,25 @@ BEGIN
 				Name,
 				IsDeleted,
 				RemovalDate,
+				SlideTime,
 				OrganizationUid)
 			VALUES (
 				@Uid,
 				@Name,
 				@IsDeleted,
 				@RemovalDate,
+				@SlideTime,
 				@OrganizationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveDay]
 	@Uid uniqueidentifier,
-	@OrganizationUid uniqueidentifier = NULL,
 	@NamedIntervalUid uniqueidentifier = NULL,
 	@ScheduleSchemeUid uniqueidentifier = NULL,
 	@Number int = NULL,
-	@IsDeleted bit ,
-	@RemovalDate datetime 
+	@IsDeleted bit = 0,
+	@RemovalDate datetime = '01/01/1900'
 
 AS
 BEGIN
@@ -159,8 +162,7 @@ BEGIN
 			ScheduleSchemeUid = @ScheduleSchemeUid,
 			Number = @Number,
 			IsDeleted = @IsDeleted,
-			RemovalDate = @RemovalDate,
-			OrganizationUid = @OrganizationUid 
+			RemovalDate = @RemovalDate
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -170,16 +172,14 @@ BEGIN
 				ScheduleSchemeUid,
 				Number,
 				IsDeleted,
-				RemovalDate,
-				OrganizationUid)
+				RemovalDate)
 			VALUES	(
 				@Uid,
 				@NamedIntervalUid,
 				@ScheduleSchemeUid,
 				@Number,
 				@IsDeleted,
-				@RemovalDate,
-				@OrganizationUid)
+				@RemovalDate)
 		END
 END
 GO
@@ -188,9 +188,8 @@ CREATE PROCEDURE [dbo].[SaveScheduleScheme]
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
 	@Type nvarchar(50) = NULL,
-	@Length int = NULL,
-	@IsDeleted bit ,
-	@RemovalDate datetime 
+	@IsDeleted bit = 0,
+	@RemovalDate datetime  = '01/01/1900'
 
 AS
 BEGIN
@@ -199,7 +198,6 @@ BEGIN
 			Uid = @Uid,
 			Name = @Name,
 			Type = @Type,
-			Length = @Length,
 			IsDeleted = @IsDeleted,
 			RemovalDate = @RemovalDate,
 			OrganizationUid = @OrganizationUid 
@@ -210,7 +208,6 @@ BEGIN
 				Uid,
 				Name,
 				Type,
-				Length,
 				IsDeleted,
 				RemovalDate,
 				OrganizationUid)
@@ -218,7 +215,6 @@ BEGIN
 				@Uid,
 				@Name,
 				@Type,
-				@Length,
 				@IsDeleted,
 				@RemovalDate,
 				@OrganizationUid)
@@ -268,9 +264,9 @@ CREATE PROCEDURE [dbo].[SaveHoliday]
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50)= NULL,
 	@Type int ,
-	@Date datetime ,
-	@TransferDate datetime ,
-	@Reduction int ,
+	@Date date ,
+	@TransferDate date ,
+	@Reduction time(0) ,
 	@IsDeleted bit ,
 	@RemovalDate datetime 
 

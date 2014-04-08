@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI;
-using Infrastructure;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -9,16 +8,16 @@ namespace SKDModule.ViewModels
 {
 	public class TimeIntervalViewModel : BaseViewModel
 	{
-		public EmployeeTimeInterval TimeInterval { get; private set; }
+		public NamedInterval TimeInterval { get; private set; }
 
-		public TimeIntervalViewModel(EmployeeTimeInterval timeInterval)
+		public TimeIntervalViewModel(NamedInterval timeInterval)
 		{
 			TimeInterval = timeInterval;
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			TimeIntervalParts = new ObservableCollection<TimeIntervalPartViewModel>();
-			foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)
+			foreach (var timeIntervalPart in timeInterval.TimeIntervals)
 			{
 				var timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPart);
 				TimeIntervalParts.Add(timeIntervalPartViewModel);
@@ -50,7 +49,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(timeIntervalPartDetailsViewModel))
 			{
 				var timeIntervalPart = timeIntervalPartDetailsViewModel.TimeIntervalPart;
-				TimeInterval.TimeIntervalParts.Add(timeIntervalPart);
+				TimeInterval.TimeIntervals.Add(timeIntervalPart);
 				var timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPart);
 				TimeIntervalParts.Add(timeIntervalPartViewModel);
 			}
@@ -59,7 +58,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			TimeInterval.TimeIntervalParts.Remove(SelectedTimeIntervalPart.TimeIntervalPart);
+			TimeInterval.TimeIntervals.Remove(SelectedTimeIntervalPart.TimeIntervalPart);
 			TimeIntervalParts.Remove(SelectedTimeIntervalPart);
 		}
 		bool CanRemove()

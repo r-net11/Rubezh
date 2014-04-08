@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows;
 using System.Collections.Generic;
+using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
@@ -12,32 +13,32 @@ namespace SKDModule.ViewModels
 	{
 		SheduleViewModel SheduleViewModel;
 		bool IsNew;
-		public EmployeeShedulePart ShedulePart { get; private set; }
+		public ScheduleZone Zone { get; private set; }
 
-		public ShedulePartDetailsViewModel(SheduleViewModel sheduleViewModel, EmployeeShedulePart shedulePart = null)
+		public ShedulePartDetailsViewModel(SheduleViewModel sheduleViewModel, ScheduleZone zone = null)
 		{
 			SheduleViewModel = sheduleViewModel;
-			if (shedulePart == null)
+			if (zone == null)
 			{
 				Title = "Выбор помещения";
 				IsNew = true;
-				shedulePart = new EmployeeShedulePart();
+				zone = new ScheduleZone();
 			}
 			else
 			{
 				Title = "Редактирование помещения";
 				IsNew = false;
 			}
-			ShedulePart = shedulePart;
-			IsControl = shedulePart.IsControl;
+			Zone = zone;
+			IsControl = zone.IsControl;
 
 			AllZones = new List<SheduleZoneViewModel>();
 			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
-			SelectedZone = AllZones.FirstOrDefault(x => x.Zone.UID == ShedulePart.ZoneUID);
+			SelectedZone = AllZones.FirstOrDefault(x => x.Zone.UID == Zone.ZoneUID);
 
-			foreach (var zone in AllZones)
+			foreach (var z in AllZones)
 			{
-				zone.ExpandToThis();
+				z.ExpandToThis();
 			}
 		}
 
@@ -108,14 +109,14 @@ namespace SKDModule.ViewModels
 		{
 			if (SelectedZone != null)
 			{
-				if (SheduleViewModel.SheduleParts.Any(x => x.ShedulePart.ZoneUID == SelectedZone.Zone.UID && ShedulePart.UID != x.ShedulePart.UID))
+				if (SheduleViewModel.SheduleParts.Any(x => x.ShedulePart.ZoneUID == SelectedZone.Zone.UID && Zone.UID != x.ShedulePart.UID))
 				{
 					MessageBoxService.ShowWarning("Выбранная зона уже включена");
 					return false;
 				}
 			}
-			ShedulePart.ZoneUID = SelectedZone.Zone.UID;
-			ShedulePart.IsControl = IsControl;
+			Zone.ZoneUID = SelectedZone.Zone.UID;
+			Zone.IsControl = IsControl;
 			return true;
 		}
 	}

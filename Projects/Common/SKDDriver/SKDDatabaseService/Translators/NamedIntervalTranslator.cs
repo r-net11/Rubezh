@@ -1,17 +1,18 @@
 ﻿using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
+using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	class EmployeeTimeIntervalTranslator : OrganizationElementTranslator<DataAccess.NamedInterval, EmployeeTimeInterval, EmployeeTimeIntervalFilter>
+	class NamedIntervalTranslator : OrganizationElementTranslator<DataAccess.NamedInterval, NamedInterval, NamedIntervalFilter>
 	{
-		public EmployeeTimeIntervalTranslator(DataAccess.SKDDataContext context)
+		public NamedIntervalTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 
 		}
 
-		protected override OperationResult CanSave(EmployeeTimeInterval item)
+		protected override OperationResult CanSave(NamedInterval item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
 				x.OrganizationUID == item.OrganizationUID &&
@@ -22,14 +23,14 @@ namespace SKDDriver.Translators
 			return base.CanSave(item);
 		}
 
-		protected override EmployeeTimeInterval Translate(DataAccess.NamedInterval tableItem)
+		protected override NamedInterval Translate(DataAccess.NamedInterval tableItem)
 		{
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			return result;
 		}
 
-		protected override void TranslateBack(DataAccess.NamedInterval tableItem, EmployeeTimeInterval apiItem)
+		protected override void TranslateBack(DataAccess.NamedInterval tableItem, NamedInterval apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;

@@ -81,6 +81,7 @@ namespace VideoModule.ViewModels
 				var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.Camera);
 				Cameras.Add(cameraViewModel);
 				ServiceFactory.SaveService.CamerasChanged = true;
+				Plans.Designer.Helper.BuildCameraMap();
 			}
 		}
 
@@ -91,6 +92,7 @@ namespace VideoModule.ViewModels
 			FiresecManager.SystemConfiguration.Cameras.Remove(SelectedCamera.Camera);
 			Cameras.Remove(SelectedCamera);
 			ServiceFactory.SaveService.CamerasChanged = true;
+			Plans.Designer.Helper.BuildCameraMap();
 		}
 
 		public RelayCommand EditCommand { get; private set; }

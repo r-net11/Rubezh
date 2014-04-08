@@ -71,7 +71,7 @@
     <Compile Include="SKDDatabaseService\Translators\EmployeeTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\AccessTemplateTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\JournalItemTranslator.cs" />
-    <Compile Include="SKDDatabaseService\Translators\EmployeeTimeIntervalTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\NamedIntervalTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\OrganizationTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\PhotoTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\PositionsTranslator.cs" />

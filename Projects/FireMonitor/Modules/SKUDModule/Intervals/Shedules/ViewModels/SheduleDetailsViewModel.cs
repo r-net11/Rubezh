@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
+using Organization = FiresecAPI.Organization;
 
 namespace SKDModule.ViewModels
 {
 	public class SheduleDetailsViewModel : SaveCancelDialogViewModel
 	{
 		OrganisationShedulesViewModel OrganisationShedulesViewModel;
-		public EmployeeShedule Shedule { get; private set; }
+		public Schedule Shedule { get; private set; }
 
-		public SheduleDetailsViewModel(OrganisationShedulesViewModel organisationShedulesViewModel, EmployeeShedule shedule = null)
+		public SheduleDetailsViewModel(OrganisationShedulesViewModel organisationShedulesViewModel, Schedule shedule = null)
 		{
 			OrganisationShedulesViewModel = organisationShedulesViewModel;
 			if (shedule == null)
 			{
 				Title = "Новый график";
-				shedule = new EmployeeShedule()
+				shedule = new Schedule()
 				{
 					Name = "Новый график работы"
 				};
@@ -31,9 +32,9 @@ namespace SKDModule.ViewModels
 			Name = Shedule.Name;
 			IsIgnoreHoliday = Shedule.IsIgnoreHoliday;
 			IsOnlyFirstEnter = Shedule.IsOnlyFirstEnter;
-			AvailableSheduleTypes = new ObservableCollection<EmployeeSheduleType>(Enum.GetValues(typeof(EmployeeSheduleType)).OfType<EmployeeSheduleType>());
-			SelectedSheduleType = Shedule.EmployeeSheduleType;
-			SelectedSheduleSceme = AvailableSheduleScemes.FirstOrDefault(x => x.UID == Shedule.SheduleUID);
+			AvailableSheduleTypes = new ObservableCollection<ScheduleSchemeType>(Enum.GetValues(typeof(ScheduleSchemeType)).OfType<ScheduleSchemeType>());
+			//SelectedSheduleType = Shedule.ScheduleType;
+			//SelectedSheduleSceme = AvailableSheduleScemes.FirstOrDefault(x => x.UID == Shedule.SheduleUID);
 		}
 
 		string _name;
@@ -69,8 +70,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<EmployeeSheduleType> _availableSheduleTypes;
-		public ObservableCollection<EmployeeSheduleType> AvailableSheduleTypes
+		ObservableCollection<ScheduleSchemeType> _availableSheduleTypes;
+		public ObservableCollection<ScheduleSchemeType> AvailableSheduleTypes
 		{
 			get { return _availableSheduleTypes; }
 			set
@@ -80,8 +81,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		EmployeeSheduleType _selectedSheduleType;
-		public EmployeeSheduleType SelectedSheduleType
+		ScheduleSchemeType _selectedSheduleType;
+		public ScheduleSchemeType SelectedSheduleType
 		{
 			get { return _selectedSheduleType; }
 			set
@@ -132,9 +133,9 @@ namespace SKDModule.ViewModels
 			Shedule.Name = Name;
 			Shedule.IsIgnoreHoliday = IsIgnoreHoliday;
 			Shedule.IsOnlyFirstEnter = IsOnlyFirstEnter;
-			Shedule.EmployeeSheduleType = SelectedSheduleType;
-			if (SelectedSheduleSceme != null)
-				Shedule.SheduleUID = SelectedSheduleSceme.UID;
+			//Shedule.ScheduleType = SelectedSheduleType;
+			//if (SelectedSheduleSceme != null)
+			//    Shedule.SheduleUID = SelectedSheduleSceme.UID;
 			return true;
 		}
 	}

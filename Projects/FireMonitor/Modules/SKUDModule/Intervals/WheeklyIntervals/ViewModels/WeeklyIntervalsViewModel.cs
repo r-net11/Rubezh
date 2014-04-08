@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using FiresecAPI;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
+using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using OrganizationFilter = FiresecAPI.OrganizationFilter;
 
 namespace SKDModule.ViewModels
 {
@@ -26,13 +21,13 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			var employeeWeeklyIntervals = new List<EmployeeWeeklyInterval>();
+			var employeeWeeklyIntervals = new List<ScheduleScheme>();
 
 			OrganisationWeeklyIntervals = new ObservableCollection<OrganisationWeeklyIntervalsViewModel>();
 			foreach (var organisation in organisations)
 			{
 				var timeInrervalViewModel = new OrganisationWeeklyIntervalsViewModel();
-				timeInrervalViewModel.Initialize(organisation, new List<EmployeeWeeklyInterval>(employeeWeeklyIntervals.Where(x => x.OrganizationUID.Value == organisation.UID)));
+				timeInrervalViewModel.Initialize(organisation, new List<ScheduleScheme>(employeeWeeklyIntervals.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationWeeklyIntervals.Add(timeInrervalViewModel);
 			}
 			SelectedOrganisationWeeklyInterval = OrganisationWeeklyIntervals.FirstOrDefault();

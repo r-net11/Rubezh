@@ -9,7 +9,7 @@ namespace SKDModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return ((EmployeeSheduleType)value).ToDescription();
+			return ((FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType)value).ToDescription();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -182,9 +182,9 @@ namespace FiresecAPI
 
 		static void InvalidateIntervals()
 		{
-			foreach (var weeklyInterval in SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
-			{
-			}
+			//foreach (var weeklyInterval in SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
+			//{
+			//}
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -8,25 +8,25 @@ namespace SKDModule.ViewModels
 	public class MonthlyIntervalPartViewModel : BaseViewModel
 	{
 		MonthlyIntervalViewModel MonthlyIntervalViewModel;
-		public EmployeeMonthlyIntervalPart MonthlyIntervalPart { get; private set; }
+		public DayInterval MonthlyIntervalPart { get; private set; }
 
-		public MonthlyIntervalPartViewModel(MonthlyIntervalViewModel monthlyIntervalViewModel, EmployeeMonthlyIntervalPart timeInterval)
+		public MonthlyIntervalPartViewModel(MonthlyIntervalViewModel monthlyIntervalViewModel, DayInterval timeInterval)
 		{
 			MonthlyIntervalViewModel = monthlyIntervalViewModel;
 			MonthlyIntervalPart = timeInterval;
 
-			AvailableTimeIntervals = new ObservableCollection<EmployeeTimeInterval>();
+			AvailableTimeIntervals = new ObservableCollection<NamedInterval>();
 			//foreach (var skdWeeklyInterval in SKDManager.SKDConfiguration.WeeklyIntervals)
 			//{
 			//	AvailableWeeklyIntervals.Add(skdWeeklyInterval);
 			//}
-			_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault(x => x.UID == MonthlyIntervalPart.TimeIntervalUID);
+			_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault(x => x.UID == MonthlyIntervalPart.NamedIntervalUID);
 		}
 
-		public ObservableCollection<EmployeeTimeInterval> AvailableTimeIntervals { get; private set; }
+		public ObservableCollection<NamedInterval> AvailableTimeIntervals { get; private set; }
 
-		EmployeeTimeInterval _selectedTimeInterval;
-		public EmployeeTimeInterval SelectedTimeInterval
+		NamedInterval _selectedTimeInterval;
+		public NamedInterval SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
 			set

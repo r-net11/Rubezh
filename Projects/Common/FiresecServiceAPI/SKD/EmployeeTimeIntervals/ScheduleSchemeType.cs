@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI
+namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public enum EmployeeSheduleType
+	public enum ScheduleSchemeType
 	{
 		[DescriptionAttribute("Недельная")]
 		Week,
