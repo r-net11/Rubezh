@@ -64,6 +64,7 @@ namespace VideoModule.ViewModels
 			try
 			{
 				CellPlayerWrap.Start(SelectedRecord);
+				StartedRecord = SelectedRecord;
 				IsStarted = true;
 				IsPaused = false;
 			}
@@ -73,11 +74,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand PauseCommand { get; private set; }
 		void OnPause()
 		{
-			if (SelectedRecord != null)
+			if (StartedRecord != null)
 			{
 				try
 				{
-					if(CellPlayerWrap.Pause(SelectedRecord, !IsPaused))
+					if (CellPlayerWrap.Pause(StartedRecord, !IsPaused))
 						IsPaused = !IsPaused;
 				}
 				catch { }
@@ -87,12 +88,13 @@ namespace VideoModule.ViewModels
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
-			if (SelectedRecord != null)
+			if (StartedRecord != null)
 			{
 				try
 				{
-					CellPlayerWrap.Stop(SelectedRecord);
+					CellPlayerWrap.Stop(StartedRecord);
 					IsStarted = false;
+					IsPaused = false;
 				}
 				catch { }
 			}
@@ -101,11 +103,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand FastCommand { get; private set; }
 		void OnFast()
 		{
-			if (SelectedRecord != null)
+			if (StartedRecord != null)
 			{
 				try
 				{
-					CellPlayerWrap.Fast(SelectedRecord);
+					CellPlayerWrap.Fast(StartedRecord);
 				}
 				catch { }
 			}
@@ -114,11 +116,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand SlowCommand { get; private set; }
 		void OnSlow()
 		{
-			if (SelectedRecord != null)
+			if (StartedRecord != null)
 			{
 				try
 				{
-					CellPlayerWrap.Slow(SelectedRecord);
+					CellPlayerWrap.Slow(StartedRecord);
 				}
 				catch { }
 			}
@@ -212,6 +214,8 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => SelectedRecord);
 			}
 		}
+
+		private PlayBackDeviceRecord StartedRecord { get; set; }
 
 		public RelayCommand SearchCommand { get; private set; }
 		void OnSearch()

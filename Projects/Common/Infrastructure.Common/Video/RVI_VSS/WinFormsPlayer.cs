@@ -97,7 +97,8 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				if (Record != null)
 					Record.StopPlayBack();
 				Record = record;
-				record.StartPlaybackByFile(Handle);
+				//record.StartPlaybackByFile(Handle);
+				record.StartPlaybackByTime(Handle, record.NetRecordFileInfo.StartTime);
 				IsStarted = true;
 				Speed = 4;
 				return true;
@@ -134,6 +135,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				Record = record;
 				record.StopPlayBack();
 				IsStarted = false;
+				IsPaused = true;
 				Speed = 0;
 				Invalidate();
 				return true;
