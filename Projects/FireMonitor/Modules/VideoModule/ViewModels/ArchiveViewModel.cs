@@ -130,6 +130,7 @@ namespace VideoModule.ViewModels
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(camera, CellPlayerWrap);
+				cameraViewModel.Connect();
 				Cameras.Add(cameraViewModel);
 			}
 			SelectedCamera = Cameras.FirstOrDefault();
