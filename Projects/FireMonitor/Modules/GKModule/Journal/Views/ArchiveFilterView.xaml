@@ -377,7 +377,7 @@
                                         <Setter Property="TextBlock.FontStyle" Value="Italic" />
 										<Setter Property="TextBlock.Foreground" Value="Orange" />
 									</DataTrigger>
-                                    <DataTrigger Binding="{Binding MPTs.HasCheckedItems}" Value="False">
+                                    <DataTrigger Binding="{Binding Delays.HasCheckedItems}" Value="False">
 										<Setter Property="TextBlock.Foreground" Value="White" />
 									</DataTrigger>
 								</Style.Triggers>
