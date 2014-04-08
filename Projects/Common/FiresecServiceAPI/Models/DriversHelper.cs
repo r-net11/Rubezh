@@ -137,6 +137,13 @@ namespace FiresecAPI.Models
 			DriverDataList.Add(new DriverData("1AA50BF3-D67C-48BC-8921-F9AD1795ED1E", 0, "USB Рубеж-П", DriverType.USB_Rubezh_P));
 			DriverDataList.Add(new DriverData("C6D4ED92-493C-4F3E-87C6-730704BD17CA", 0, "СОНАР", DriverType.Sonar));
 			DriverDataList.Add(new DriverData("507FC2EC-0033-4833-8A6F-572934443EE6", 0, "ОП-виртуальная панель", DriverType.OP_VirtualPanel));
+
+			DriverDataList.Add(new DriverData("E3DAE181-3FEE-40C2-8577-D71F182E0A1C", 0, "Блок индикации и управления БИУ", DriverType.BUI));
+			DriverDataList.Add(new DriverData("49AB60B4-52B8-4BDC-930D-22FE8BD76B0A", 0, "Модуль радиоканала МРК-30 868", DriverType.MRK_30_868));
+			DriverDataList.Add(new DriverData("DED7FE33-C878-4191-800E-CC14CF89CF40", 0, "Ручной радиоканальный извещатель ИПР513-11-868", DriverType.RadioHandDetector_868));
+			DriverDataList.Add(new DriverData("F72D3FF8-927A-476B-A0AB-07CDAF650285", 0, "Пожарный дымовой радиоканальный извещатель ИП 212-64Р-868", DriverType.RadioSmokeDetector_868));
+			DriverDataList.Add(new DriverData("F184D982-AE06-4B1A-922C-DEEE726BD45E", 0, "IP-Камеры", DriverType.IPCamera));
+			DriverDataList.Add(new DriverData("50374E6C-3753-442F-A8F8-73AA86EF8677", 0, "RVi-IPC11", DriverType.RVI_IPC11));
 		}
 
 		public static List<DriverType> PanelDrivers

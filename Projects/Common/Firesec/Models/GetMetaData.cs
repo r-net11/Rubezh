@@ -22,7 +22,7 @@ namespace Firesec.Models.Metadata
 	[System.ComponentModel.DesignerCategoryAttribute("code")]
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
 	[System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false)]
-	public partial class config {
+	public partial class DeviceRegistry {
 		
 		/// <remarks/>
 		[System.Xml.Serialization.XmlElementAttribute("class", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]

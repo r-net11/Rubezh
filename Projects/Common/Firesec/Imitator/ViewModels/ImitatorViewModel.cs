@@ -64,7 +64,7 @@ namespace Firesec.Imitator.ViewModels
 
 		public void Update()
 		{
-			var coreStates = new Firesec.Models.CoreState.config();
+			var coreStates = new Firesec.Models.CoreState.States();
 			var innerDevices = new List<devType>();
 			foreach (var device in Devices)
 			{

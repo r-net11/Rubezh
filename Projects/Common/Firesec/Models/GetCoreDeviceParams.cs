@@ -22,7 +22,7 @@ namespace Firesec.Models.DeviceParameters
 	[System.ComponentModel.DesignerCategoryAttribute("code")]
 	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true)]
 	[System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false)]
-	public partial class config {
+	public partial class Params {
 		
 		/// <remarks/>
 		[System.Xml.Serialization.XmlElementAttribute("dev", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]

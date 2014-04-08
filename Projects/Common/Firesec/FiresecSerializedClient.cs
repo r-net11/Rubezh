@@ -18,8 +18,8 @@ namespace Firesec
 		}
 
 		public event Action<List<JournalRecord>> NewJournalRecords;
-		public event Action<Firesec.Models.CoreState.config> StateChanged;
-		public event Action<Firesec.Models.DeviceParameters.config> ParametersChanged;
+		public event Action<Firesec.Models.CoreState.States> StateChanged;
+		public event Action<Firesec.Models.DeviceParameters.Params> ParametersChanged;
 		public event Action<int, string, int, int> ProgressEvent;
 
 		public void SubscribeFsAgentEvents()
@@ -42,7 +42,7 @@ namespace Firesec
 
 		void FSAgent_CoreConfigChanged(string result)
 		{
-			var coreState = ConvertResultData<Firesec.Models.CoreState.config>(result);
+			var coreState = ConvertResultData<Firesec.Models.CoreState.States>(result);
 			if (coreState != null && coreState.Result != null)
 			{
 				if (coreState.Result.dev != null)
@@ -63,7 +63,7 @@ namespace Firesec
 
 		void FSAgent_CoreDeviceParamsChanged(string result)
 		{
-			var coreParameters = ConvertResultData<Firesec.Models.DeviceParameters.config>(result);
+			var coreParameters = ConvertResultData<Firesec.Models.DeviceParameters.Params>(result);
 			if (coreParameters.Result != null)
 			{
 				if (ParametersChanged != null)
@@ -99,24 +99,24 @@ namespace Firesec
 			return ConvertResultData<Firesec.Models.Plans.surfaces>(result);
 		}
 
-		public OperationResult<Firesec.Models.CoreState.config> GetCoreState()
+		public OperationResult<Firesec.Models.CoreState.States> GetCoreState()
 		{
 			var result = FSAgent.GetCoreState();
-			return ConvertResultData<Firesec.Models.CoreState.config>(result);
+			return ConvertResultData<Firesec.Models.CoreState.States>(result);
 		}
 
-		public OperationResult<Firesec.Models.Metadata.config> GetMetaData()
+		public OperationResult<Firesec.Models.Metadata.DeviceRegistry> GetMetaData()
 		{
 			var result = FSAgent.GetMetadata();
 			if (result.HasError)
-				return new OperationResult<Models.Metadata.config>(result.Error);
-			return ConvertResultData<Firesec.Models.Metadata.config>(result);
+				return new OperationResult<Models.Metadata.DeviceRegistry>(result.Error);
+			return ConvertResultData<Firesec.Models.Metadata.DeviceRegistry>(result);
 		}
 
-		public OperationResult<Firesec.Models.DeviceParameters.config> GetDeviceParams()
+		public OperationResult<Firesec.Models.DeviceParameters.Params> GetDeviceParams()
 		{
 			var result = FSAgent.GetCoreDeviceParams();
-			return ConvertResultData<Firesec.Models.DeviceParameters.config>(result);
+			return ConvertResultData<Firesec.Models.DeviceParameters.Params>(result);
 		}
 
 		public OperationResult<Firesec.Models.Journals.document> ReadEvents(int fromId, int limit)
@@ -171,9 +171,9 @@ namespace Firesec
 			FSAgent.RemoveFromIgnoreList(devicePaths);
 		}
 
-		public void ResetStates(Firesec.Models.CoreState.config coreState)
+		public void ResetStates(Firesec.Models.CoreState.States coreState)
 		{
-			FSAgent.ResetStates(SerializerHelper.Serialize<Firesec.Models.CoreState.config>(coreState));
+			FSAgent.ResetStates(SerializerHelper.Serialize<Firesec.Models.CoreState.States>(coreState));
 		}
 
 		public void SetZoneGuard(string placeInTree, string localZoneNo)
