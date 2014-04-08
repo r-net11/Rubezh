@@ -91,6 +91,19 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
+		public static void NotifySKDArchiveCompleted(List<SKDJournalItem> journallItems)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.SKDArchiveCompleted,
+				SKDCallbackResult = new SKDCallbackResult()
+				{
+					JournalItems = journallItems
+				}
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
 		public void NotifyConfigurationChanged()
 		{
 			var callbackResult = new CallbackResult()

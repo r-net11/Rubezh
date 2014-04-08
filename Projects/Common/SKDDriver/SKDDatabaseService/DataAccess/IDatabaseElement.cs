@@ -28,7 +28,6 @@ namespace SKDDriver.DataAccess
 	public partial class Journal : IDatabaseElement { }
 	
 	public partial class AdditionalColumnType : IOrganizationDatabaseElement { }
-	public partial class Day : IOrganizationDatabaseElement { }
 	public partial class Department : IOrganizationDatabaseElement { }
 	public partial class Document : IOrganizationDatabaseElement { }
 	public partial class Employee : IOrganizationDatabaseElement { }
@@ -41,6 +40,7 @@ namespace SKDDriver.DataAccess
 	public partial class ScheduleScheme : IOrganizationDatabaseElement { }
 	public partial class AccessTemplate : IOrganizationDatabaseElement { }
 
+	public partial class Day : IIsDeletedDatabaseElement { }
 	public partial class ScheduleZoneLink : IIsDeletedDatabaseElement { }
 	public partial class Organization : IIsDeletedDatabaseElement { }
 	public partial class Interval : IIsDeletedDatabaseElement { }

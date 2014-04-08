@@ -26,7 +26,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Department item)
 		{
-			bool isHasEmployees = Context.Employee.Any(x => !x.IsDeleted && x.DepartmentUID == item.UID);
+			bool isHasEmployees = Context.Employees.Any(x => !x.IsDeleted && x.DepartmentUID == item.UID);
 			if (isHasEmployees)
 				return new OperationResult("Не могу удалить отдел, пока он указан содержит действующих сотрудников");
 
@@ -40,17 +40,17 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 
 			var phoneUIDs = new List<Guid>();
-			foreach (var phone in Context.Phone.Where(x => !x.IsDeleted && x.DepartmentUID == tableItem.UID))
+			foreach (var phone in Context.Phones.Where(x => !x.IsDeleted && x.DepartmentUID == tableItem.UID))
 			{
 				phoneUIDs.Add(phone.UID);
 			}
 			var childDepartmentUIDs = new List<Guid>();
-			foreach (var department in Context.Department.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))
+			foreach (var department in Context.Departments.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))
 			{
 				childDepartmentUIDs.Add(department.UID);
 			}
 
-			tableItem.Department2.ToList().ForEach(x => childDepartmentUIDs.Add(x.UID));
+			tableItem.Departments.ToList().ForEach(x => childDepartmentUIDs.Add(x.UID));
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.ParentDepartmentUID = tableItem.ParentDepartmentUID;

@@ -1,17 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
                     xmlns:ViewModels="clr-namespace:VideoModule.ViewModels" 
-                    xmlns:Views="clr-namespace:VideoModule.Views"
-                    xmlns:RviViewModels="clr-namespace:VideoModule.RVI_VSS.ViewModels" 
-                    xmlns:RviViews="clr-namespace:VideoModule.RVI_VSS.Views">
+                    xmlns:Views="clr-namespace:VideoModule.Views">
 
-	<DataTemplate DataType="{x:Type ViewModels:CamerasViewModel}">
-		<Views:CamerasView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:CamerasViewModel}">
+        <Views:CamerasView />
+    </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:CameraDetailsViewModel}">
-		<Views:CameraDetailsView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:CameraDetailsViewModel}">
+        <Views:CameraDetailsView />
+    </DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:CameraTooltipViewModel}">
 		<Views:CameraTooltipView />
@@ -21,24 +19,16 @@
 		<Views:LayoutPartCameraView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:LayoutMultiCameraViewModel}">
-		<Views:LayoutMultiCameraView />
-	</DataTemplate>
-    
+    <DataTemplate DataType="{x:Type ViewModels:LayoutMultiCameraViewModel}">
+        <Views:LayoutMultiCameraView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyCameraPageViewModel}">
-		<Views:LayoutPartPropertyCameraPageView />
-	</DataTemplate>
-
-    <DataTemplate DataType="{x:Type RviViewModels:LayoutMultiCameraViewModel}">
-        <RviViews:LayoutMultiCameraView />
+        <Views:LayoutPartPropertyCameraPageView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type RviViewModels:LayoutPartPropertyCameraPageViewModel}">
-        <RviViews:LayoutPartPropertyCameraPageView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type RviViewModels:ArchiveViewModel}">
-        <RviViews:ArchiveView />
+    <DataTemplate DataType="{x:Type ViewModels:ArchiveViewModel}">
+        <Views:ArchiveView />
     </DataTemplate>
 
 </ResourceDictionary>

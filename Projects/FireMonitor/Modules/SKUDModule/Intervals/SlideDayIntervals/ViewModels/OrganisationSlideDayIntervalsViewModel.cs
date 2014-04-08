@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using FiresecAPI;
-using Infrastructure;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
+using Organization = FiresecAPI.Organization;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationSlideDayIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public Organization Organization { get; private set; }
-		EmployeeSlideDayInterval IntervalToCopy;
+		ScheduleScheme IntervalToCopy;
 
 		public OrganisationSlideDayIntervalsViewModel()
 		{
@@ -27,17 +24,17 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(Organization organization, List<EmployeeSlideDayInterval> employeeSlideDayIntervals)
+		public void Initialize(Organization organization, List<ScheduleScheme> employeeSlideDayIntervals)
 		{
 			Organization = organization;
 
-			var neverTimeInterval = employeeSlideDayIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
-			if (neverTimeInterval == null)
-			{
-				neverTimeInterval = new EmployeeSlideDayInterval() { Name = "Никогда", IsDefault = true };
-				//neverTimeInterval.TimeIntervalUIDs.Add(Guid.Empty);
-				employeeSlideDayIntervals.Add(neverTimeInterval);
-			}
+			//var neverTimeInterval = employeeSlideDayIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
+			//if (neverTimeInterval == null)
+			//{
+			//    neverTimeInterval = new EmployeeSlideDayInterval() { Name = "Никогда", IsDefault = true };
+			//    //neverTimeInterval.TimeIntervalUIDs.Add(Guid.Empty);
+			//    employeeSlideDayIntervals.Add(neverTimeInterval);
+			//}
 
 			SlideDayIntervals = new ObservableCollection<SlideDayIntervalViewModel>();
 			foreach (var slideDayInterval in employeeSlideDayIntervals)
@@ -101,7 +98,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedSlideDayInterval != null && !SelectedSlideDayInterval.SlideDayInterval.IsDefault;
+			return SelectedSlideDayInterval != null;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -115,7 +112,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedSlideDayInterval != null && !SelectedSlideDayInterval.SlideDayInterval.IsDefault;
+			return SelectedSlideDayInterval != null;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -125,7 +122,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCopy()
 		{
-			return SelectedSlideDayInterval != null && !SelectedSlideDayInterval.SlideDayInterval.IsDefault;
+			return SelectedSlideDayInterval != null;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -141,13 +138,13 @@ namespace SKDModule.ViewModels
 			return IntervalToCopy != null;
 		}
 
-		EmployeeSlideDayInterval CopyInterval(EmployeeSlideDayInterval source)
+		ScheduleScheme CopyInterval(ScheduleScheme source)
 		{
-			var copy = new EmployeeSlideDayInterval();
+			var copy = new ScheduleScheme();
 			copy.Name = source.Name;
-			foreach (var timeIntervalUID in source.TimeIntervalUIDs)
+			foreach (var timeIntervalUID in source.DayIntervals)
 			{
-				copy.TimeIntervalUIDs.Add(timeIntervalUID);
+				copy.DayIntervals.Add(timeIntervalUID);
 			}
 			return copy;
 		}

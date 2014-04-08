@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using SKDDriver;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -347,6 +348,33 @@ namespace FiresecService.Service
 			{
 				return new OperationResult<bool>("Устройство не найдено в конфигурации");
 			}
+		}
+
+		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter)
+		{
+			if (CurrentThread != null)
+			{
+				SKDDBHelper.IsAbort = true;
+				CurrentThread.Join(TimeSpan.FromMinutes(1));
+				CurrentThread = null;
+			}
+			SKDDBHelper.IsAbort = false;
+			var thread = new Thread(new ThreadStart((new Action(() =>
+			{
+				SKDDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
+				SKDDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
+				SKDDBHelper.BeginGetSKDFilteredArchive(archiveFilter, false);
+
+			}))));
+			thread.Name = "SKD GetFilteredArchive";
+			thread.IsBackground = true;
+			CurrentThread = thread;
+			thread.Start();
+		}
+
+		void DatabaseHelper_ArchivePortionReady(List<SKDJournalItem> journalItems)
+		{
+			FiresecService.NotifySKDArchiveCompleted(journalItems);
 		}
 		#endregion
 	}

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 
@@ -9,15 +9,15 @@ namespace SKDModule.ViewModels
 	public class SlideDayIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
 		OrganisationSlideDayIntervalsViewModel OrganisationSlideDayIntervalsViewModel;
-		public EmployeeSlideDayInterval SlideDayInterval { get; private set; }
+		public ScheduleScheme SlideDayInterval { get; private set; }
 
-		public SlideDayIntervalDetailsViewModel(OrganisationSlideDayIntervalsViewModel organisationSlideDayIntervalsViewModel, EmployeeSlideDayInterval slideDayInterval = null)
+		public SlideDayIntervalDetailsViewModel(OrganisationSlideDayIntervalsViewModel organisationSlideDayIntervalsViewModel, ScheduleScheme slideDayInterval = null)
 		{
 			OrganisationSlideDayIntervalsViewModel = organisationSlideDayIntervalsViewModel;
 			if (slideDayInterval == null)
 			{
 				Title = "Новый скользящий посуточный график";
-				slideDayInterval = new EmployeeSlideDayInterval()
+				slideDayInterval = new ScheduleScheme()
 				{
 					Name = "Скользящий посуточный график"
 				};
@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 			SlideDayInterval = slideDayInterval;
 			Name = SlideDayInterval.Name;
 			Description = SlideDayInterval.Description;
-			StartDate = SlideDayInterval.StartDate;
+			//StartDate = SlideDayInterval.StartDate;
 		}
 
 		string _name;
@@ -80,7 +80,7 @@ namespace SKDModule.ViewModels
 
 			SlideDayInterval.Name = Name;
 			SlideDayInterval.Description = Description;
-			SlideDayInterval.StartDate = StartDate;
+			//SlideDayInterval.StartDate = StartDate;
 			return true;
 		}
 	}

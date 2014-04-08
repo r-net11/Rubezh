@@ -5,6 +5,7 @@ using Infrastructure.Designer;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.ViewModels;
+using System.Windows.Input;
 
 namespace PlansModule.Designer
 {
@@ -76,6 +77,7 @@ namespace PlansModule.Designer
 		{
 			base.DesignerChanged();
 			ServiceFactory.SaveService.PlansChanged = true;
+			CommandManager.InvalidateRequerySuggested();
 		}
 	}
 }

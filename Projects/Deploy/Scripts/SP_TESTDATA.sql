@@ -23,11 +23,11 @@ SET @Organization1Uid = 'D74D41A2-01FA-41DF-AE95-9E62A2F4BA99';
 EXEC SaveOrganization @Organization1Uid, 'СКУД', 'ООО СКУДЪ',0,'01/01/1900'
 
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Новый год', 2, '31/12/2013', '28/12/2013',0,0,'01/01/1900' 
+EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Новый год', 2, '31/12/2013', '28/12/2013','00:00',0,'01/01/1900' 
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, '8 марта', 0, '08/03/2014','01/01/1900',0,0,'01/01/1900'
+EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, '8 марта', 0, '08/03/2014','01/01/1900','00:00',0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Старый Новый год', 1, '13/01/2014', '01/01/1900', 2,0,'01/01/1900'
+EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Старый Новый год', 1, '13/01/2014', '01/01/1900', '02:00',0,'01/01/1900'
 
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveDocument] @Uid, @Organization1Uid, 123, 'Документ1', 'Документ1Организации1', '01/01/2013', '07/01/2013',0,'01/01/1900'
@@ -39,7 +39,7 @@ EXEC [dbo].[SaveDocument] @Uid, @Organization1Uid, 753, 'Документ3', 'Документ3О
 --ОХРАНА
 DECLARE @GuardNamedIntervalUid uniqueidentifier;
 SET @GuardNamedIntervalUid = NEWID();
-EXEC [dbo].[SaveNamedInterval] @GuardNamedIntervalUid, @Organization1Uid, 'Охрана',0,'01/01/1900'
+EXEC [dbo].[SaveNamedInterval] @GuardNamedIntervalUid, @Organization1Uid, 'Охрана'
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveInterval] @Uid, '08:00', '13:00', 0, @GuardNamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
@@ -52,22 +52,22 @@ SET @Uid = NEWID();
 EXEC [dbo].[SaveInterval] @Uid, '04:00', '08:00', 1, @GuardNamedIntervalUid,0,'01/01/1900'
 DECLARE @GuardScheduleSchemeUid uniqueidentifier;
 SET @GuardScheduleSchemeUid = NEWID();
-EXEC [dbo].[SaveScheduleScheme] @GuardScheduleSchemeUid, @Organization1Uid, 'Охрана', 1, 4,0,'01/01/1900'
+EXEC [dbo].[SaveScheduleScheme] @GuardScheduleSchemeUid, @Organization1Uid, 'Охрана', 1
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @GuardNamedIntervalUid, @GuardScheduleSchemeUid, 0,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @GuardNamedIntervalUid, @GuardScheduleSchemeUid, 0
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, NULL, @GuardScheduleSchemeUid, 1,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, NULL, @GuardScheduleSchemeUid, 1,0
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, NULL, @GuardScheduleSchemeUid, 2,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, NULL, @GuardScheduleSchemeUid, 2,0
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, NULL, @GuardScheduleSchemeUid, 3,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, NULL, @GuardScheduleSchemeUid, 3,0
 --МОНТАЖ
 DECLARE @Montage1NamedIntervalUid uniqueidentifier;
 SET @Montage1NamedIntervalUid = NEWID();
-EXEC [dbo].[SaveNamedInterval] @Montage1NamedIntervalUid, @Organization1Uid, 'Монтажный1',0,'01/01/1900'
+EXEC [dbo].[SaveNamedInterval] @Montage1NamedIntervalUid, @Organization1Uid, 'Монтажный1'
 DECLARE @Montage2NamedIntervalUid uniqueidentifier;
 SET @Montage2NamedIntervalUid = NEWID();
-EXEC [dbo].[SaveNamedInterval] @Montage2NamedIntervalUid, @Organization1Uid, 'Монтажный2',0,'01/01/1900'
+EXEC [dbo].[SaveNamedInterval] @Montage2NamedIntervalUid, @Organization1Uid, 'Монтажный2'
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveInterval] @Uid, '07:30', '11:00', 0, @Montage1NamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
@@ -78,46 +78,46 @@ SET @Uid = NEWID();
 EXEC [dbo].[SaveInterval] @Uid, '12:00', '16:30', 0, @Montage2NamedIntervalUid,0,'01/01/1900'
 DECLARE @MontageScheduleSchemeUid uniqueidentifier;
 SET @MontageScheduleSchemeUid = NEWID();
-EXEC [dbo].[SaveScheduleScheme] @MontageScheduleSchemeUid, @Organization1Uid, 'Монтаж', 0, 7,0,'01/01/1900'
+EXEC [dbo].[SaveScheduleScheme] @MontageScheduleSchemeUid, @Organization1Uid, 'Монтаж', 0
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @Montage1NamedIntervalUid, @MontageScheduleSchemeUid, 0,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @Montage1NamedIntervalUid, @MontageScheduleSchemeUid, 0
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @Montage2NamedIntervalUid, @MontageScheduleSchemeUid, 1,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @Montage2NamedIntervalUid, @MontageScheduleSchemeUid, 1
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @Montage1NamedIntervalUid, @MontageScheduleSchemeUid, 2,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @Montage1NamedIntervalUid, @MontageScheduleSchemeUid, 2
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @Montage2NamedIntervalUid, @MontageScheduleSchemeUid, 3,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @Montage2NamedIntervalUid, @MontageScheduleSchemeUid, 3
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @Montage1NamedIntervalUid, @MontageScheduleSchemeUid, 4,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @Montage1NamedIntervalUid, @MontageScheduleSchemeUid, 4
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, NULL, @MontageScheduleSchemeUid, 5,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, NULL, @MontageScheduleSchemeUid, 5,0
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, NULL, @MontageScheduleSchemeUid, 6,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, NULL, @MontageScheduleSchemeUid, 6,0
 --ПЯТИДНЕВКА
 DECLARE @WeeklyNamedIntervalUid uniqueidentifier;
 SET @WeeklyNamedIntervalUid = NEWID();
-EXEC [dbo].[SaveNamedInterval] @WeeklyNamedIntervalUid, @Organization1Uid, 'Пятидневка',0,'01/01/1900'
+EXEC [dbo].[SaveNamedInterval] @WeeklyNamedIntervalUid, @Organization1Uid, 'Пятидневка'
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveInterval] @Uid, '08:00', '12:00', 0, @WeeklyNamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveInterval] @Uid, '13:00', '17:00', 0, @WeeklyNamedIntervalUid,0,'01/01/1900'
 DECLARE @WeeklyScheduleSchemeUid uniqueidentifier;
 SET @WeeklyScheduleSchemeUid = NEWID();
-EXEC [dbo].[SaveScheduleScheme] @WeeklyScheduleSchemeUid, @Organization1Uid, 'Пятидневка', 0, 7,0,'01/01/1900'
+EXEC [dbo].[SaveScheduleScheme] @WeeklyScheduleSchemeUid, @Organization1Uid, 'Пятидневка', 0
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @WeeklyNamedIntervalUid, @WeeklyScheduleSchemeUid, 0,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @WeeklyNamedIntervalUid, @WeeklyScheduleSchemeUid, 0
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @WeeklyNamedIntervalUid, @WeeklyScheduleSchemeUid, 1,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @WeeklyNamedIntervalUid, @WeeklyScheduleSchemeUid, 1
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @WeeklyNamedIntervalUid, @WeeklyScheduleSchemeUid, 2,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @WeeklyNamedIntervalUid, @WeeklyScheduleSchemeUid, 2
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @WeeklyNamedIntervalUid, @WeeklyScheduleSchemeUid, 3,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @WeeklyNamedIntervalUid, @WeeklyScheduleSchemeUid, 3
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, @WeeklyNamedIntervalUid, @WeeklyScheduleSchemeUid, 4,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, @WeeklyNamedIntervalUid, @WeeklyScheduleSchemeUid, 4
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, NULL, @WeeklyScheduleSchemeUid, 5,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, NULL, @WeeklyScheduleSchemeUid, 5,0
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDay] @Uid, @Organization1Uid, NULL, @WeeklyScheduleSchemeUid, 6,0,'01/01/1900'
+EXEC [dbo].[SaveDay] @Uid, NULL, @WeeklyScheduleSchemeUid, 6,0
 
 
 DECLARE @GuardScheduleUid uniqueidentifier;

@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.TreeList;
-using XFiresecAPI;
-using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -23,7 +22,7 @@ namespace SKDModule.ViewModels
 			CanSelect = false;
 			foreach (var device in SKDManager.Devices)
 			{
-				if(device.OuterZoneUID == Zone.UID)
+				if (device.OuterZoneUID == Zone.UID)
 					CanSelect = true;
 			}
 
@@ -94,33 +93,33 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedTimeCreteria = value;
-				OnPropertyChanged(()=> SelectedTimeCreteria);
+				OnPropertyChanged(() => SelectedTimeCreteria);
 				TimeTypes = new ObservableCollection<CardTimeItem>();
 				switch (value.IntervalType)
 				{
 					case IntervalType.Time:
-						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervals)
+						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals)
 						{
 							TimeTypes.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
 						}
 						break;
 
 					case IntervalType.Weekly:
-						foreach (var interval in SKDManager.SKDConfiguration.WeeklyIntervals)
+						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
 						{
 							TimeTypes.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
 						}
 						break;
 
 					case IntervalType.SlideDay:
-						foreach (var interval in SKDManager.SKDConfiguration.SlideDayIntervals)
+						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideDayIntervals)
 						{
 							TimeTypes.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
 						}
 						break;
 
 					case IntervalType.SlideWeekly:
-						foreach (var interval in SKDManager.SKDConfiguration.SlideWeeklyIntervals)
+						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideWeeklyIntervals)
 						{
 							TimeTypes.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
 						}
@@ -165,7 +164,7 @@ namespace SKDModule.ViewModels
 
 		public string Description
 		{
-			get{ return IntervalType.ToDescription(); }
+			get { return IntervalType.ToDescription(); }
 		}
 	}
 

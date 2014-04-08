@@ -71,6 +71,7 @@
     <Compile Include="SKDDatabaseService\Translators\EmployeeTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\AccessTemplateTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\JournalItemTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\NamedIntervalTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\OrganizationTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\PhotoTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\PositionsTranslator.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Sending\SKDDeviceProcessor.cs" />
     <Compile Include="SKDDBHelper.cs" />
     <Compile Include="SKDProcessorManager.cs" />
+    <Compile Include="SKDSynchronyzation.cs" />
     <Compile Include="VideoWatcher.cs" />
     <Compile Include="Watcher\Watcher.StateChanged.cs" />
     <Compile Include="Watcher\Watcher.Tasks.cs" />

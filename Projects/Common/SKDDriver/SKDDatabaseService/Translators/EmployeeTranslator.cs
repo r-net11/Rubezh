@@ -48,11 +48,11 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Employee item)
 		{
-			bool isAttendant = Context.Department.Any(x => !x.IsDeleted && x.AttendantUID == item.UID);
+			bool isAttendant = Context.Departments.Any(x => !x.IsDeleted && x.AttendantUID == item.UID);
 			if (isAttendant)
 				return new OperationResult("Не могу удалить сотрудника, пока он указан как сопровождающий для одного из отделов");
 
-			bool isContactEmployee = Context.Department.Any(x => !x.IsDeleted && x.ContactEmployeeUID == item.UID);
+			bool isContactEmployee = Context.Departments.Any(x => !x.IsDeleted && x.ContactEmployeeUID == item.UID);
 			if (isContactEmployee)
 				return new OperationResult("Не могу удалить сотрудника, пока он указан как контактное лицо для одного из отделов");
 			return base.CanSave(item);
@@ -63,16 +63,16 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 
 			var additionalColumnUIDs = new List<Guid>();
-			foreach (var additionalColumn in Context.AdditionalColumn.Where(x => !x.IsDeleted && x.EmployeeUID == tableItem.UID))
+			foreach (var additionalColumn in Context.AdditionalColumns.Where(x => !x.IsDeleted && x.EmployeeUID == tableItem.UID))
 				additionalColumnUIDs.Add(additionalColumn.UID);
 
-			var replacements = Context.EmployeeReplacement.Where(x => !x.IsDeleted && x.EmployeeUID == tableItem.UID);
+			var replacements = Context.EmployeeReplacements.Where(x => !x.IsDeleted && x.EmployeeUID == tableItem.UID);
 			var replacementUIDs = new List<Guid>();
 			foreach (var replacement in replacements)
 				replacementUIDs.Add(replacement.UID);
 
 			var cardUIDs = new List<Guid>();
-			foreach (var card in Context.Card.Where(x => x.EmployeeUID == tableItem.UID && !x.IsDeleted))
+			foreach (var card in Context.Cards.Where(x => x.EmployeeUID == tableItem.UID && !x.IsDeleted))
 				cardUIDs.Add(card.UID);
 
 			result.FirstName = tableItem.FirstName;
@@ -163,14 +163,14 @@ namespace SKDDriver
 			{
 				result = result.And(e =>
 					e != null &&
-					(Context.EmployeeReplacement.Any(x =>
+					(Context.EmployeeReplacements.Any(x =>
 						!x.IsDeleted &&
 						x.EmployeeUID == e.UID &&
 						DateTime.Now >= x.BeginDate &&
 						DateTime.Now <= x.EndDate &&
 						departmentUIDs.Contains(x.DepartmentUID.Value)
 						) ||
-						(!Context.EmployeeReplacement.Any(x =>
+						(!Context.EmployeeReplacements.Any(x =>
 								!x.IsDeleted &&
 								x.EmployeeUID == e.UID &&
 								DateTime.Now >= x.BeginDate &&

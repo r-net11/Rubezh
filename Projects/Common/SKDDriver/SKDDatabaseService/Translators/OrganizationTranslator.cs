@@ -26,19 +26,18 @@ namespace SKDDriver
 		protected override OperationResult CanDelete(Organization item)
 		{
 			var uid = item.UID;
-			if (Context.AdditionalColumnType.Any(x => x.OrganizationUID == uid) ||
-					Context.Day.Any(x => x.OrganizationUID == uid) ||
-					Context.Department.Any(x => x.OrganizationUID == uid) ||
-					Context.Document.Any(x => x.OrganizationUID == uid) ||
-					Context.Employee.Any(x => x.OrganizationUID == uid) ||
-					Context.EmployeeReplacement.Any(x => x.OrganizationUID == uid) ||
-					Context.Holiday.Any(x => x.OrganizationUID == uid) ||
-					Context.NamedInterval.Any(x => x.OrganizationUID == uid) ||
-					Context.Position.Any(x => x.OrganizationUID == uid) ||
-					Context.Phone.Any(x => x.OrganizationUID == uid) ||
-					Context.Schedule.Any(x => x.OrganizationUID == uid) ||
-					Context.ScheduleScheme.Any(x => x.OrganizationUID == uid) ||
-					Context.AccessTemplate.Any(x => x.OrganizationUID == uid)
+			if (Context.AdditionalColumnTypes.Any(x => x.OrganizationUID == uid) ||
+					Context.Departments.Any(x => x.OrganizationUID == uid) ||
+					Context.Documents.Any(x => x.OrganizationUID == uid) ||
+					Context.Employees.Any(x => x.OrganizationUID == uid) ||
+					Context.EmployeeReplacements.Any(x => x.OrganizationUID == uid) ||
+					Context.Holidays.Any(x => x.OrganizationUID == uid) ||
+					Context.NamedIntervals.Any(x => x.OrganizationUID == uid) ||
+					Context.Positions.Any(x => x.OrganizationUID == uid) ||
+					Context.Phones.Any(x => x.OrganizationUID == uid) ||
+					Context.Schedules.Any(x => x.OrganizationUID == uid) ||
+					Context.ScheduleSchemes.Any(x => x.OrganizationUID == uid) ||
+					Context.AccessTemplates.Any(x => x.OrganizationUID == uid)
 				)
 				return new OperationResult("Организация не может быть удалена, пока существуют элементы привязанные к ней");
 			return base.CanSave(item);
@@ -50,7 +49,7 @@ namespace SKDDriver
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.PhotoUID = tableItem.PhotoUID;
-			result.ZoneUIDs = (from x in Context.OrganizationZone.Where(x => x.OrganizationUID == result.UID) select x.ZoneUID).ToList();
+			result.ZoneUIDs = (from x in Context.OrganizationZones.Where(x => x.OrganizationUID == result.UID) select x.ZoneUID).ToList();
 			return result;
 		}
 
@@ -74,15 +73,15 @@ namespace SKDDriver
 			try
 			{
 				var zoneUIDs = apiItem.ZoneUIDs;
-				var tableOrganizationZones = Context.OrganizationZone.Where(x => x.OrganizationUID == apiItem.UID);
-				Context.OrganizationZone.DeleteAllOnSubmit(tableOrganizationZones);
+				var tableOrganizationZones = Context.OrganizationZones.Where(x => x.OrganizationUID == apiItem.UID);
+				Context.OrganizationZones.DeleteAllOnSubmit(tableOrganizationZones);
 				foreach (var zoneUID in apiItem.ZoneUIDs)
 				{
 					var tableOrganizationZone = new DataAccess.OrganizationZone();
 					tableOrganizationZone.UID = Guid.NewGuid();
 					tableOrganizationZone.OrganizationUID = apiItem.UID;
 					tableOrganizationZone.ZoneUID = zoneUID;
-					Context.OrganizationZone.InsertOnSubmit(tableOrganizationZone);
+					Context.OrganizationZones.InsertOnSubmit(tableOrganizationZone);
 				}
 				Table.Context.SubmitChanges();
 			}

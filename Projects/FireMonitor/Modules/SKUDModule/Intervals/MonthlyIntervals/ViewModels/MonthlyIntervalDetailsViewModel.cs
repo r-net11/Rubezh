@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using Organization = FiresecAPI.Organization;
 
 namespace SKDModule.ViewModels
 {
 	public class MonthlyIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
 		OrganisationMonthlyIntervalsViewModel OrganisationMonthlyIntervalsViewModel;
-		public EmployeeMonthlyInterval MonthlyInterval { get; private set; }
+		public ScheduleScheme MonthlyInterval { get; private set; }
 
-		public MonthlyIntervalDetailsViewModel(OrganisationMonthlyIntervalsViewModel organisationMonthlyIntervalsViewModel, EmployeeMonthlyInterval monthlyInterval = null)
+		public MonthlyIntervalDetailsViewModel(OrganisationMonthlyIntervalsViewModel organisationMonthlyIntervalsViewModel, ScheduleScheme monthlyInterval = null)
 		{
 			OrganisationMonthlyIntervalsViewModel = organisationMonthlyIntervalsViewModel;
 			if (monthlyInterval == null)
 			{
 				Title = "Новый месячный график работы";
-				monthlyInterval = new EmployeeMonthlyInterval()
+				monthlyInterval = new ScheduleScheme()
 				{
 					Name = "Месячный график работы"
 				};

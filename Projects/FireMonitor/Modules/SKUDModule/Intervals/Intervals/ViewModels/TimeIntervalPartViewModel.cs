@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 
@@ -8,9 +8,9 @@ namespace SKDModule.ViewModels
 {
 	public class TimeIntervalPartViewModel : BaseViewModel
 	{
-		public EmployeeTimeIntervalPart TimeIntervalPart { get; set; }
+		public TimeInterval TimeIntervalPart { get; set; }
 
-		public TimeIntervalPartViewModel(EmployeeTimeIntervalPart timeIntervalPart)
+		public TimeIntervalPartViewModel(TimeInterval timeIntervalPart)
 		{
 			TimeIntervalPart = timeIntervalPart;
 		}

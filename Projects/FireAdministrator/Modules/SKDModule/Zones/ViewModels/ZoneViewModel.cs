@@ -51,8 +51,8 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("HasChildren");
-			OnPropertyChanged("IsOnPlan");
+			OnPropertyChanged(() => HasChildren);
+			OnPropertyChanged(() => IsOnPlan);
 
 			if (Zone.PlanElementUIDs == null)
 				Zone.PlanElementUIDs = new List<Guid>();
@@ -153,6 +153,7 @@ namespace SKDModule.ViewModels
 				{
 					device.OnChanged();
 				}
+				Zone.OnChanged();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}

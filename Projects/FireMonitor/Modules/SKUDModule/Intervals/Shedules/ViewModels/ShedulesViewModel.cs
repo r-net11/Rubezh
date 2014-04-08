@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using FiresecAPI;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
+using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using OrganizationFilter = FiresecAPI.OrganizationFilter;
 
 namespace SKDModule.ViewModels
 {
@@ -26,13 +21,13 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			var employeeShedules = new List<EmployeeShedule>();
+			var employeeShedules = new List<Schedule>();
 
 			OrganisationShedules = new ObservableCollection<OrganisationShedulesViewModel>();
 			foreach (var organisation in organisations)
 			{
 				var sheduleViewModel = new OrganisationShedulesViewModel();
-				sheduleViewModel.Initialize(organisation, new List<EmployeeShedule>(employeeShedules.Where(x => x.OrganizationUID.Value == organisation.UID)));
+				sheduleViewModel.Initialize(organisation, new List<Schedule>(employeeShedules.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationShedules.Add(sheduleViewModel);
 			}
 			SelectedOrganisationShedule = OrganisationShedules.FirstOrDefault();

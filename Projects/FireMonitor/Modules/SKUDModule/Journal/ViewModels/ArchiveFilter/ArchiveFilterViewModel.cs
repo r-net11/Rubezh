@@ -8,12 +8,13 @@ using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
 	public class ArchiveFilterViewModel : DialogViewModel
 	{
-		public ArchiveFilterViewModel(XArchiveFilter archiveFilter)
+		public ArchiveFilterViewModel(SKDArchiveFilter archiveFilter)
 		{
 			Title = "Настройки фильтра";
 			ClearCommand = new RelayCommand(OnClear);
@@ -22,7 +23,7 @@ namespace SKDModule.ViewModels
 			Initialize(archiveFilter);
 		}
 
-		void Initialize(XArchiveFilter archiveFilter)
+		void Initialize(SKDArchiveFilter archiveFilter)
 		{
 			StartDateTime = new DateTimePairViewModel(archiveFilter.StartDate);
 			EndDateTime = new DateTimePairViewModel(archiveFilter.EndDate);
@@ -31,23 +32,16 @@ namespace SKDModule.ViewModels
 			InitializeStateClasses(archiveFilter);
 			InitializeEventNames(archiveFilter);
 			InitializeDevices(archiveFilter);
-			InitializeZones(archiveFilter);
 			InitializeDescriptions(archiveFilter);
 			InitializeSubsystemTypes(archiveFilter);
 		}
 
-		void InitializeJournalItemTypes(XArchiveFilter archiveFilter)
+		void InitializeJournalItemTypes(SKDArchiveFilter archiveFilter)
 		{
 			JournalItemTypes = new CheckBoxItemList<JournalItemTypeViewModel>();
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Device));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Direction));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.GK));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.System));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Zone));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.PumpStation));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.MPT));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Delay));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Pim));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(SKDJournalItemType.Reader));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(SKDJournalItemType.Controller));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(SKDJournalItemType.System));
 			foreach (var journalItemType in archiveFilter.JournalItemTypes)
 			{
 				var JournalItemTypeViewModel = JournalItemTypes.Items.FirstOrDefault(x => (x as JournalItemTypeViewModel).JournalItemType == journalItemType);
@@ -58,7 +52,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		void InitializeStateClasses(XArchiveFilter archiveFilter)
+		void InitializeStateClasses(SKDArchiveFilter archiveFilter)
 		{
 			StateClasses = new CheckBoxItemList<StateClassViewModel>();
 			foreach (XStateClass stateClass in Enum.GetValues(typeof(XStateClass)))
@@ -76,7 +70,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void InitializeEventNames(XArchiveFilter archiveFilter)
+		public void InitializeEventNames(SKDArchiveFilter archiveFilter)
 		{
 			EventNames = new CheckBoxItemList<EventNameViewModel>();
 			foreach (var eventName in EventNameHelper.EventNames)
@@ -94,25 +88,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void InitializeZones(XArchiveFilter archiveFilter)
-		{
-			ArchiveZones = new CheckBoxItemList<ArchiveZoneViewModel>();
-			foreach (var zone in XManager.Zones)
-			{
-				var archiveZoneViewModel = new ArchiveZoneViewModel(zone);
-				ArchiveZones.Add(archiveZoneViewModel);
-			}
-			foreach (var zoneUID in archiveFilter.ZoneUIDs)
-			{
-				var archiveZone = ArchiveZones.Items.FirstOrDefault(x => (x as ArchiveZoneViewModel).Zone.BaseUID == zoneUID);
-				if (archiveZone != null)
-				{
-					archiveZone.IsChecked = true;
-				}
-			}
-		}
-
-		public void InitializeDescriptions(XArchiveFilter archiveFilter)
+		public void InitializeDescriptions(SKDArchiveFilter archiveFilter)
 		{
 			ArchiveDescriptions = new CheckBoxItemList<ArchiveDescriptionViewModel>();
 			foreach (var description in DescriptionsHelper.GetAllDescriptions())
@@ -130,10 +106,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		void InitializeSubsystemTypes(XArchiveFilter archiveFilter)
+		void InitializeSubsystemTypes(SKDArchiveFilter archiveFilter)
 		{
 			SubsystemTypes = new CheckBoxItemList<SubsystemTypeViewModel>();
-			foreach (XSubsystemType item in Enum.GetValues(typeof(XSubsystemType)))
+			foreach (SKDSubsystemType item in Enum.GetValues(typeof(SKDSubsystemType)))
 			{
 				SubsystemTypes.Add(new SubsystemTypeViewModel(item));
 			}
@@ -148,7 +124,7 @@ namespace SKDModule.ViewModels
 		}
 
 		#region Devices
-		public void InitializeDevices(XArchiveFilter archiveFilter)
+		public void InitializeDevices(SKDArchiveFilter archiveFilter)
 		{
 			BuildTree();
 			if (RootDevice != null)
@@ -299,15 +275,14 @@ namespace SKDModule.ViewModels
 		public CheckBoxItemList<JournalItemTypeViewModel> JournalItemTypes { get; private set; }
 		public CheckBoxItemList<StateClassViewModel> StateClasses { get; private set; }
 		public CheckBoxItemList<EventNameViewModel> EventNames { get; private set; }
-		public CheckBoxItemList<ArchiveZoneViewModel> ArchiveZones { get; private set; }
 		public CheckBoxItemList<ArchiveDescriptionViewModel> ArchiveDescriptions { get; private set; }
 		public CheckBoxItemList<SubsystemTypeViewModel> SubsystemTypes { get; private set; }
 		List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetGkEventNames();
 		List<string> DistinctDatabaseDescriptions = FiresecManager.FiresecService.GetGkEventDescriptions();
 
-		public XArchiveFilter GetModel()
+		public SKDArchiveFilter GetModel()
 		{
-			var archiveFilter = new XArchiveFilter()
+			var archiveFilter = new SKDArchiveFilter()
 			{
 				StartDate = StartDateTime.DateTime,
 				EndDate = EndDateTime.DateTime,
@@ -333,11 +308,6 @@ namespace SKDModule.ViewModels
 				if (archiveDevice.IsChecked)
 					archiveFilter.DeviceUIDs.Add(archiveDevice.Device.BaseUID);
 			}
-			foreach (var archiveZone in ArchiveZones.Items)
-			{
-				if (archiveZone.IsChecked)
-					archiveFilter.ZoneUIDs.Add(archiveZone.Zone.BaseUID);
-			}
 			foreach (var description in ArchiveDescriptions.Items)
 			{
 				if (description.IsChecked)
@@ -354,12 +324,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand ClearCommand { get; private set; }
 		void OnClear()
 		{
-			Initialize(new XArchiveFilter());
+			Initialize(new SKDArchiveFilter());
 			OnPropertyChanged(()=>JournalItemTypes);
 			OnPropertyChanged(()=>StateClasses);
 			OnPropertyChanged(()=>EventNames);
 			OnPropertyChanged(()=>AllDevices);
-			OnPropertyChanged(()=>ArchiveZones);
 			OnPropertyChanged(()=>ArchiveDescriptions);
 			OnPropertyChanged(()=>SubsystemTypes);
 		}

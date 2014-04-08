@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI
+namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
 	public enum IntervalTransitionType

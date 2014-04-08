@@ -10,9 +10,9 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			InitializeComponent();
 		}
 
-		public List<Channel> Connect(string ipAddress, int port)
+		public List<IChannel> Connect(string ipAddress, int port, string login = "admin", string password = "admin")
 		{
-			return FormsPlayer.Connect(ipAddress, port);
+			return FormsPlayer.Connect(ipAddress, port, login, password);
 		}
 
 		public void Start(int channelNumber)
@@ -25,9 +25,9 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			FormsPlayer.Start(record);
 		}
 
-		public void Pause(PlayBackDeviceRecord record, bool pausePlayBack)
+		public bool Pause(PlayBackDeviceRecord record, bool pausePlayBack)
 		{
-			FormsPlayer.Pause(record, pausePlayBack);
+			return FormsPlayer.Pause(record, pausePlayBack);
 		}
 
 		public void Stop()

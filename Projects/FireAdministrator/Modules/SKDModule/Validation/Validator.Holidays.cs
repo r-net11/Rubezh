@@ -10,7 +10,7 @@ namespace SKDModule.Validation
 		void ValidateHolidays()
 		{
 			ValidateHolidayEquality();
-			foreach (var holiday in SKDManager.SKDConfiguration.Holidays)
+			foreach (var holiday in SKDManager.TimeIntervalsConfiguration.Holidays)
 			{
 				if (string.IsNullOrEmpty(holiday.Name))
 				{
@@ -22,7 +22,7 @@ namespace SKDModule.Validation
 		void ValidateHolidayEquality()
 		{
 			var holidays = new HashSet<DateTime>();
-			foreach (var holiday in SKDManager.SKDConfiguration.Holidays)
+			foreach (var holiday in SKDManager.TimeIntervalsConfiguration.Holidays)
 			{
 				if (!holidays.Add(new DateTime(2000, holiday.DateTime.Month, holiday.DateTime.Day)))
 				{

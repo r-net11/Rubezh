@@ -1,27 +1,27 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI.EmployeeTimeIntervals;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeIntervalPartDetailsViewModel : SaveCancelDialogViewModel
 	{
 		bool IsNew;
-		EmployeeTimeInterval EmployeeTimeInterval;
-		public EmployeeTimeIntervalPart TimeIntervalPart { get; private set; }
+		NamedInterval EmployeeTimeInterval;
+		public TimeInterval TimeIntervalPart { get; private set; }
 
-		public TimeIntervalPartDetailsViewModel(EmployeeTimeInterval employeeTimeInterval, EmployeeTimeIntervalPart timeIntervalPart = null)
+		public TimeIntervalPartDetailsViewModel(NamedInterval employeeTimeInterval, TimeInterval timeIntervalPart = null)
 		{
 			EmployeeTimeInterval = employeeTimeInterval;
 			if (timeIntervalPart == null)
 			{
 				Title = "Новый интервал";
 				IsNew = true;
-				timeIntervalPart = new EmployeeTimeIntervalPart();
+				timeIntervalPart = new TimeInterval();
 			}
 			else
 			{
@@ -94,7 +94,7 @@ namespace SKDModule.ViewModels
 		{
 			var timeIntervalParts = CloneEmployeeTimeIntervalPart();
 
-			if(timeIntervalParts[0].IntervalTransitionType == IntervalTransitionType.NextDay)
+			if (timeIntervalParts[0].IntervalTransitionType == IntervalTransitionType.NextDay)
 			{
 				MessageBoxService.ShowWarning("Последовательность интервалов не может начинаться со следующего дня");
 				return false;
@@ -137,12 +137,12 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		List<EmployeeTimeIntervalPart> CloneEmployeeTimeIntervalPart()
+		List<TimeInterval> CloneEmployeeTimeIntervalPart()
 		{
-			var timeIntervalParts = new List<EmployeeTimeIntervalPart>();
-			foreach (var timeIntervalPart in EmployeeTimeInterval.TimeIntervalParts)
+			var timeIntervalParts = new List<TimeInterval>();
+			foreach (var timeIntervalPart in EmployeeTimeInterval.TimeIntervals)
 			{
-				var clonedEmployeeTimeIntervalPart = new EmployeeTimeIntervalPart()
+				var clonedEmployeeTimeIntervalPart = new TimeInterval()
 				{
 					UID = timeIntervalPart.UID,
 					StartTime = timeIntervalPart.StartTime,
@@ -153,7 +153,7 @@ namespace SKDModule.ViewModels
 			}
 			if (IsNew)
 			{
-				var newEmployeeTimeIntervalPart = new EmployeeTimeIntervalPart()
+				var newEmployeeTimeIntervalPart = new TimeInterval()
 				{
 					StartTime = StartTime,
 					EndTime = EndTime,

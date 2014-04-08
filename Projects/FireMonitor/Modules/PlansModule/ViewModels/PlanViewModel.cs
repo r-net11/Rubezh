@@ -72,6 +72,8 @@ namespace PlansModule.ViewModels
 				if (presenterState < state)
 					state = presenterState;
 			}
+			if (state == XStateClass.No || state == XStateClass.Off)
+				state = XStateClass.Norm;
 			SelfStateClass = state;
 		}
 

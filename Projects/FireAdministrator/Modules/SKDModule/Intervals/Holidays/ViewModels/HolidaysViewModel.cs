@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			Holidays = new ObservableCollection<HolidayViewModel>();
-			foreach (var holiday in SKDManager.SKDConfiguration.Holidays)
+			foreach (var holiday in SKDManager.TimeIntervalsConfiguration.Holidays)
 			{
 				var holidayViewModel = new HolidayViewModel(holiday);
 				Holidays.Add(holidayViewModel);
@@ -77,7 +77,7 @@ namespace SKDModule.ViewModels
 			var holidayDetailsViewModel = new HolidayDetailsViewModel();
 			if (DialogService.ShowModalWindow(holidayDetailsViewModel))
 			{
-				SKDManager.SKDConfiguration.Holidays.Add(holidayDetailsViewModel.Holiday);
+				SKDManager.TimeIntervalsConfiguration.Holidays.Add(holidayDetailsViewModel.Holiday);
 				var holidayViewModel = new HolidayViewModel(holidayDetailsViewModel.Holiday);
 				Holidays.Add(holidayViewModel);
 				SelectedHoliday = holidayViewModel;
@@ -92,7 +92,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			SKDManager.SKDConfiguration.Holidays.Remove(SelectedHoliday.Holiday);
+			SKDManager.TimeIntervalsConfiguration.Holidays.Remove(SelectedHoliday.Holiday);
 			Holidays.Remove(SelectedHoliday);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}

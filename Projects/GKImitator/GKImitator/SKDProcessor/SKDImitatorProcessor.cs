@@ -9,6 +9,7 @@ using System.Diagnostics;
 using GKImitator.ViewModels;
 using GKProcessor;
 using GKImitator.SKDProcessor;
+using FiresecAPI;
 
 namespace GKImitator.Processor
 {
@@ -22,15 +23,22 @@ namespace GKImitator.Processor
 		public int LastJournalNo { get; set; }
 		public SKDDataContext Context { get; private set; }
 
+		public SKDImitatorDBDataContext ImitatorContext { get; private set; }
+		GKImitator.SKDProcessor.Devices ImitatorDevice;
+
 		public SKDImitatorProcessor(int port)
 		{
 			Port = port;
 			IsConnected = true;
 			Context = new SKDDataContext();
+			
 			if (Context.Journals.Count() > 0)
 				LastJournalNo = Context.Journals.AsEnumerable().OrderBy(x => x.CardNo).LastOrDefault().DeviceNo;
 			JournalItems = new List<SKDImitatorJournalItem>();
 			JournalItems.Add(new SKDImitatorJournalItem() { No = LastJournalNo });
+
+			ImitatorContext = new SKDImitatorDBDataContext();
+			ImitatorDevice = ImitatorContext.Devices.FirstOrDefault(x => x.Port == Port);
 		}
 
 		public void Start()
@@ -104,6 +112,15 @@ namespace GKImitator.Processor
 				case 8: // Команда управления
 					OnControlCommand(byteData[1]);
 					return result;
+				case 9: // Запись одного идентификатора
+					AddJournalItem(new SKDImitatorJournalItem() { Source = 1, Address = 0, NameCode = 23, DescriptionCode = 1 });
+					return result;
+				case 10: // Запись всех временнх интервалов
+					OnWriteIntervals();
+					return result;
+				case 11: // Запрос хэша всех временнх интервалов
+					return Encoding.ASCII.GetBytes(ImitatorDevice.TimeIntervalHash).ToList();
+					return result;
 			}
 			return null;
 		}
@@ -111,6 +128,20 @@ namespace GKImitator.Processor
 		void OnControlCommand(byte b)
 		{
 			AddJournalItem(new SKDImitatorJournalItem() { Source = 1, Address = 0, NameCode = 22, DescriptionCode = b });
+		}
+
+		void OnWriteIntervals()
+		{
+			AddJournalItem(new SKDImitatorJournalItem() { Source = 1, Address = 0, NameCode = 23, DescriptionCode = 2 });
+
+			var stringBuilder = new StringBuilder();
+			for(int i = 0; i < 16; i++)
+			{
+				stringBuilder.Append(byteData[i + 1]);
+			}
+
+			ImitatorDevice.TimeIntervalHash = stringBuilder.ToString();
+			ImitatorContext.SubmitChanges();
 		}
 
 		public static List<byte> ToBytes(short shortValue)

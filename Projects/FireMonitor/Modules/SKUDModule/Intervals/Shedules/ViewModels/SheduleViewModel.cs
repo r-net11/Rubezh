@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -12,16 +12,16 @@ namespace SKDModule.ViewModels
 {
 	public class SheduleViewModel : BaseViewModel
 	{
-		public EmployeeShedule Shedule { get; private set; }
+		public Schedule Shedule { get; private set; }
 
-		public SheduleViewModel(EmployeeShedule shedule)
+		public SheduleViewModel(Schedule shedule)
 		{
 			Shedule = shedule;
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			SheduleParts = new ObservableCollection<ShedulePartViewModel>();
-			foreach (var employeeShedulePart in shedule.EmployeeSheduleParts)
+			foreach (var employeeShedulePart in shedule.Zones)
 			{
 				var shedulePartViewModel = new ShedulePartViewModel(this, employeeShedulePart);
 				SheduleParts.Add(shedulePartViewModel);
@@ -45,10 +45,10 @@ namespace SKDModule.ViewModels
 		{
 			OnPropertyChanged("Shedule");
 
-			Shedule.EmployeeSheduleParts = new List<EmployeeShedulePart>();
+			Shedule.Zones = new List<ScheduleZone>();
 			foreach (var shedulePart in SheduleParts)
 			{
-				Shedule.EmployeeSheduleParts.Add(shedulePart.ShedulePart);
+				Shedule.Zones.Add(shedulePart.ShedulePart);
 			}
 		}
 
@@ -58,8 +58,8 @@ namespace SKDModule.ViewModels
 			var shedulePartDetailsViewModel = new ShedulePartDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(shedulePartDetailsViewModel))
 			{
-				var shedulePart = shedulePartDetailsViewModel.ShedulePart;
-				Shedule.EmployeeSheduleParts.Add(shedulePart);
+				var shedulePart = shedulePartDetailsViewModel.Zone;
+				Shedule.Zones.Add(shedulePart);
 				var shedulePartViewModel = new ShedulePartViewModel(this, shedulePart);
 				SheduleParts.Add(shedulePartViewModel);
 			}
@@ -68,7 +68,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			Shedule.EmployeeSheduleParts.Remove(SelectedShedulePart.ShedulePart);
+			Shedule.Zones.Remove(SelectedShedulePart.ShedulePart);
 			SheduleParts.Remove(SelectedShedulePart);
 		}
 		bool CanRemove()
@@ -88,12 +88,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedShedulePart != null && !Shedule.IsDefault;
-		}
-
-		public bool IsEnabled
-		{
-			get { return !Shedule.IsDefault; }
+			return SelectedShedulePart != null ;
 		}
 	}
 }

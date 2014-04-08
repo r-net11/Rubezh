@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure;
 
@@ -9,13 +9,13 @@ namespace SKDModule.ViewModels
 	public class WeeklyIntervalPartViewModel : BaseViewModel
 	{
 		WeeklyIntervalViewModel WeeklyIntervalViewModel;
-		public EmployeeWeeklyIntervalPart WeeklyIntervalPart { get; private set; }
+		public DayInterval WeeklyIntervalPart { get; private set; }
 
-		public WeeklyIntervalPartViewModel(WeeklyIntervalViewModel weeklyIntervalViewModel, EmployeeWeeklyIntervalPart weeklyIntervalPart)
+		public WeeklyIntervalPartViewModel(WeeklyIntervalViewModel weeklyIntervalViewModel, DayInterval weeklyIntervalPart)
 		{
 			WeeklyIntervalViewModel = weeklyIntervalViewModel;
 			WeeklyIntervalPart = weeklyIntervalPart;
-			Name = IntToWeekDay(weeklyIntervalPart.No);
+			Name = IntToWeekDay(weeklyIntervalPart.Number);
 			Update();
 		}
 
@@ -23,16 +23,16 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			AvailableTimeIntervals = new ObservableCollection<EmployeeTimeInterval>();
+			AvailableTimeIntervals = new ObservableCollection<NamedInterval>();
 			//foreach (var namedTimeInterval in SKDManager.SKDConfiguration.TimeIntervals)
 			//{
 			//	AvailableTimeIntervals.Add(namedTimeInterval);
 			//}
-			_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault(x => x.UID == WeeklyIntervalPart.TimeIntervalUID);
+			_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault(x => x.UID == WeeklyIntervalPart.NamedIntervalUID);
 		}
 
-		ObservableCollection<EmployeeTimeInterval> _availableTimeIntervals;
-		public ObservableCollection<EmployeeTimeInterval> AvailableTimeIntervals
+		ObservableCollection<NamedInterval> _availableTimeIntervals;
+		public ObservableCollection<NamedInterval> AvailableTimeIntervals
 		{
 			get { return _availableTimeIntervals; }
 			set
@@ -42,8 +42,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		EmployeeTimeInterval _selectedTimeInterval;
-		public EmployeeTimeInterval SelectedTimeInterval
+		NamedInterval _selectedTimeInterval;
+		public NamedInterval SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
 			set

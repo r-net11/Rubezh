@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using Organization = FiresecAPI.Organization;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationTimeIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public Organization Organization { get; private set; }
-		EmployeeTimeInterval IntervalToCopy;
+		NamedInterval IntervalToCopy;
 
 		public OrganisationTimeIntervalsViewModel()
 		{
@@ -27,17 +28,17 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(Organization organization, List<EmployeeTimeInterval> employeeTimeIntervals)
+		public void Initialize(Organization organization, List<NamedInterval> employeeTimeIntervals)
 		{
 			Organization = organization;
 
-			var neverTimeInterval = employeeTimeIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
-			if (neverTimeInterval == null)
-			{
-				neverTimeInterval = new EmployeeTimeInterval() { Name = "Никогда", IsDefault = true };
-				neverTimeInterval.TimeIntervalParts.Add(new EmployeeTimeIntervalPart() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue });
-				employeeTimeIntervals.Add(neverTimeInterval);
-			}
+			//var neverTimeInterval = employeeTimeIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
+			//if (neverTimeInterval == null)
+			//{
+			//    neverTimeInterval = new NamedInterval() { Name = "Никогда", IsDefault = true };
+			//    neverTimeInterval.TimeIntervals.Add(new TimeInterval() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue });
+			//    employeeTimeIntervals.Add(neverTimeInterval);
+			//}
 
 			TimeIntervals = new ObservableCollection<TimeIntervalViewModel>();
 			foreach (var timeInterval in employeeTimeIntervals)
@@ -141,18 +142,18 @@ namespace SKDModule.ViewModels
 			return IntervalToCopy != null;
 		}
 
-		EmployeeTimeInterval CopyInterval(EmployeeTimeInterval source)
+		NamedInterval CopyInterval(NamedInterval source)
 		{
-			var copy = new EmployeeTimeInterval();
+			var copy = new NamedInterval();
 			copy.Name = source.Name;
-			foreach (var timeIntervalPart in source.TimeIntervalParts)
+			foreach (var timeIntervalPart in source.TimeIntervals)
 			{
-				var copyTimeIntervalPart = new EmployeeTimeIntervalPart()
+				var copyTimeIntervalPart = new TimeInterval()
 				{
 					StartTime = timeIntervalPart.StartTime,
 					EndTime = timeIntervalPart.EndTime
 				};
-				copy.TimeIntervalParts.Add(copyTimeIntervalPart);
+				copy.TimeIntervals.Add(copyTimeIntervalPart);
 			}
 			return copy;
 		}

@@ -2,24 +2,25 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Organization = FiresecAPI.Organization;
 
 namespace SKDModule.ViewModels
 {
 	public class MonthlyIntervalViewModel : BaseViewModel
 	{
-		public EmployeeMonthlyInterval MonthlyInterval { get; private set; }
+		public ScheduleScheme MonthlyInterval { get; private set; }
 
-		public MonthlyIntervalViewModel(EmployeeMonthlyInterval monthlyInterval)
+		public MonthlyIntervalViewModel(ScheduleScheme monthlyInterval)
 		{
 			MonthlyInterval = monthlyInterval;
 			MonthlyIntervals = new ObservableCollection<MonthlyIntervalPartViewModel>();
-			foreach (var monthlyIntervalPart in monthlyInterval.MonthlyIntervalParts)
+			foreach (var monthlyIntervalPart in monthlyInterval.DayIntervals)
 			{
-				var timeInterval = new EmployeeTimeInterval();// SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
+				var timeInterval = new NamedInterval();// SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
 				if (timeInterval != null)
 				{
 					var monthlyIntervalPartViewModel = new MonthlyIntervalPartViewModel(this, monthlyIntervalPart);
@@ -45,20 +46,15 @@ namespace SKDModule.ViewModels
 		{
 			OnPropertyChanged("MonthlyInterval");
 
-			MonthlyInterval.MonthlyIntervalParts = new List<EmployeeMonthlyIntervalPart>();
+			MonthlyInterval.DayIntervals = new List<DayInterval>();
 			foreach (var monthlyInterval in MonthlyIntervals)
 			{
 				if (monthlyInterval.SelectedTimeInterval != null)
 				{
-					monthlyInterval.MonthlyIntervalPart.TimeIntervalUID = monthlyInterval.SelectedTimeInterval.UID;
-					MonthlyInterval.MonthlyIntervalParts.Add(monthlyInterval.MonthlyIntervalPart);
+					monthlyInterval.MonthlyIntervalPart.NamedIntervalUID = monthlyInterval.SelectedTimeInterval.UID;
+					MonthlyInterval.DayIntervals.Add(monthlyInterval.MonthlyIntervalPart);
 				}
 			}
-		}
-
-		public bool IsEnabled
-		{
-			get { return !MonthlyInterval.IsDefault; }
 		}
 	}
 }

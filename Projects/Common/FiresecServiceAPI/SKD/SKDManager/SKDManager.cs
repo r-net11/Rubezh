@@ -30,6 +30,11 @@ namespace FiresecAPI
 			get { return SKDConfiguration.Zones; }
 		}
 
+		public static TimeIntervalsConfiguration TimeIntervalsConfiguration
+		{
+			get { return SKDConfiguration.TimeIntervalsConfiguration; }
+		}
+
 		public static void SetEmptyConfiguration()
 		{
 			SKDConfiguration = new SKDConfiguration();
@@ -177,9 +182,9 @@ namespace FiresecAPI
 
 		static void InvalidateIntervals()
 		{
-			foreach (var weeklyInterval in SKDConfiguration.WeeklyIntervals)
-			{
-			}
+			//foreach (var weeklyInterval in SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
+			//{
+			//}
 		}
 	}
 }

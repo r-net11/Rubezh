@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 
@@ -8,24 +8,24 @@ namespace SKDModule.ViewModels
 	public class WeeklyIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
 		OrganisationWeeklyIntervalsViewModel OrganisationWeeklyIntervalsViewModel;
-		public EmployeeWeeklyInterval WeeklyInterval { get; private set; }
+		public ScheduleScheme WeeklyInterval { get; private set; }
 
-		public WeeklyIntervalDetailsViewModel(OrganisationWeeklyIntervalsViewModel organisationWeeklyIntervalsViewModel, EmployeeWeeklyInterval weeklyInterval = null)
+		public WeeklyIntervalDetailsViewModel(OrganisationWeeklyIntervalsViewModel organisationWeeklyIntervalsViewModel, ScheduleScheme weeklyInterval = null)
 		{
 			OrganisationWeeklyIntervalsViewModel = organisationWeeklyIntervalsViewModel;
 			if (weeklyInterval == null)
 			{
 				Title = "Новый недельный график";
-				weeklyInterval = new EmployeeWeeklyInterval()
+				weeklyInterval = new ScheduleScheme()
 				{
 					Name = "Недельный график",
 				};
-				foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
+				foreach (var weeklyIntervalPart in weeklyInterval.DayIntervals)
 				{
-					var neverTimeInterval = (EmployeeTimeInterval)null; // SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault(x => x.Name == "Никогда");
+					var neverTimeInterval = (NamedInterval)null; // SKDManager.SKDConfiguration.TimeIntervals.FirstOrDefault(x => x.Name == "Никогда");
 					if (neverTimeInterval != null)
 					{
-						weeklyIntervalPart.TimeIntervalUID = neverTimeInterval.UID;
+						weeklyIntervalPart.NamedIntervalUID = neverTimeInterval.UID;
 					}
 				}
 			}

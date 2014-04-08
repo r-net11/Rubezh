@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
+using Organization = FiresecAPI.Organization;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationWeeklyIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public Organization Organization { get; private set; }
-		EmployeeWeeklyInterval IntervalToCopy;
+		ScheduleScheme IntervalToCopy;
 
 		public OrganisationWeeklyIntervalsViewModel()
 		{
@@ -27,16 +28,16 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(Organization organization, List<EmployeeWeeklyInterval> employeeWeeklyIntervals)
+		public void Initialize(Organization organization, List<ScheduleScheme> employeeWeeklyIntervals)
 		{
 			Organization = organization;
 
-			var neverTimeInterval = employeeWeeklyIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
-			if (neverTimeInterval == null)
-			{
-				neverTimeInterval = new EmployeeWeeklyInterval() { Name = "Никогда", IsDefault = true };
-				employeeWeeklyIntervals.Add(neverTimeInterval);
-			}
+			//var neverTimeInterval = employeeWeeklyIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
+			//if (neverTimeInterval == null)
+			//{
+			//    neverTimeInterval = new EmployeeWeeklyInterval() { Name = "Никогда", IsDefault = true };
+			//    employeeWeeklyIntervals.Add(neverTimeInterval);
+			//}
 
 			WeeklyIntervals = new ObservableCollection<WeeklyIntervalViewModel>();
 			foreach (var weeklyInterval in employeeWeeklyIntervals)
@@ -100,7 +101,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault && WeeklyIntervals.Count > 2;
+			return SelectedWeeklyInterval != null && WeeklyIntervals.Count > 2;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -114,7 +115,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
+			return SelectedWeeklyInterval != null;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -124,7 +125,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCopy()
 		{
-			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
+			return SelectedWeeklyInterval != null;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -140,18 +141,18 @@ namespace SKDModule.ViewModels
 			return IntervalToCopy != null;
 		}
 
-		EmployeeWeeklyInterval CopyInterval(EmployeeWeeklyInterval source)
+		ScheduleScheme CopyInterval(ScheduleScheme source)
 		{
-			var copy = new EmployeeWeeklyInterval();
+			var copy = new ScheduleScheme();
 			copy.Name = source.Name;
-			foreach (var weeklyIntervalPart in source.WeeklyIntervalParts)
+			foreach (var weeklyIntervalPart in source.DayIntervals)
 			{
-				var copyWeeklyIntervalPart = new EmployeeWeeklyIntervalPart()
+				var copyWeeklyIntervalPart = new DayInterval()
 				{
-					No = weeklyIntervalPart.No,
-					TimeIntervalUID = weeklyIntervalPart.TimeIntervalUID,
+					Number = weeklyIntervalPart.Number,
+					NamedIntervalUID = weeklyIntervalPart.NamedIntervalUID,
 				};
-				copy.WeeklyIntervalParts.Add(copyWeeklyIntervalPart);
+				copy.DayIntervals.Add(copyWeeklyIntervalPart);
 			}
 			return copy;
 		}

@@ -1,15 +1,15 @@
 ﻿using Infrastructure.Common.CheckBoxList;
-using XFiresecAPI;
+using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
 	public class SubsystemTypeViewModel : CheckBoxItemViewModel
 	{
-		public SubsystemTypeViewModel(XSubsystemType subsystemType)
+		public SubsystemTypeViewModel(SKDSubsystemType subsystemType)
 		{
 			SubsystemType = subsystemType;
 		}
 
-		public XSubsystemType SubsystemType { get; private set; }
+		public SKDSubsystemType SubsystemType { get; private set; }
 	}
 }

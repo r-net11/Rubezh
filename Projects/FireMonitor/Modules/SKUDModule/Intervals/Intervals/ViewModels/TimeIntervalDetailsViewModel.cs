@@ -1,4 +1,4 @@
-﻿using FiresecAPI;
+﻿using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Linq;
@@ -9,19 +9,19 @@ namespace SKDModule.ViewModels
 	public class TimeIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
 		OrganisationTimeIntervalsViewModel OrganisationTimeIntervalsViewModel;
-		public EmployeeTimeInterval TimeInterval { get; private set; }
+		public NamedInterval TimeInterval { get; private set; }
 
-		public TimeIntervalDetailsViewModel(OrganisationTimeIntervalsViewModel organisationTimeIntervalsViewModel, EmployeeTimeInterval timeInterval = null)
+		public TimeIntervalDetailsViewModel(OrganisationTimeIntervalsViewModel organisationTimeIntervalsViewModel, NamedInterval timeInterval = null)
 		{
 			OrganisationTimeIntervalsViewModel = organisationTimeIntervalsViewModel;
 			if (timeInterval == null)
 			{
 				Title = "Новый именованный интервал";
-				timeInterval = new EmployeeTimeInterval()
+				timeInterval = new NamedInterval()
 				{
 					Name = "Именованный интервал"
 				};
-				timeInterval.TimeIntervalParts.Add(new EmployeeTimeIntervalPart() { StartTime = new DateTime(2000, 1, 1, 9, 0, 0), EndTime = new DateTime(2000, 1, 1, 18, 0, 0) });
+				timeInterval.TimeIntervals.Add(new TimeInterval() { StartTime = new DateTime(2000, 1, 1, 9, 0, 0), EndTime = new DateTime(2000, 1, 1, 18, 0, 0) });
 			}
 			else
 			{
@@ -30,7 +30,7 @@ namespace SKDModule.ViewModels
 			TimeInterval = timeInterval;
 			Name = TimeInterval.Name;
 			Description = TimeInterval.Description;
-			ConstantSlideTime = TimeInterval.ConstantSlideTime;
+			ConstantSlideTime = TimeInterval.SlideTime;
 		}
 
 		string _name;
@@ -55,8 +55,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DateTime _constantSlideTime;
-		public DateTime ConstantSlideTime
+		TimeSpan _constantSlideTime;
+		public TimeSpan ConstantSlideTime
 		{
 			get { return _constantSlideTime; }
 			set
@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 
 			TimeInterval.Name = Name;
 			TimeInterval.Description = Description;
-			TimeInterval.ConstantSlideTime = ConstantSlideTime;
+			TimeInterval.SlideTime = ConstantSlideTime;
 			return true;
 		}
 	}

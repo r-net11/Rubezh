@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using FiresecAPI;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
+using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using OrganizationFilter = FiresecAPI.OrganizationFilter;
 
 namespace SKDModule.ViewModels
 {
@@ -26,13 +21,13 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			var employeeTimeIntervals = new List<EmployeeTimeInterval>();
+			var employeeTimeIntervals = new List<NamedInterval>();
 
 			OrganisationTimeIntervals = new ObservableCollection<OrganisationTimeIntervalsViewModel>();
 			foreach (var organisation in organisations)
 			{
 				var timeInrervalViewModel = new OrganisationTimeIntervalsViewModel();
-				timeInrervalViewModel.Initialize(organisation, new List<EmployeeTimeInterval>(employeeTimeIntervals.Where(x => x.OrganizationUID.Value == organisation.UID)));
+				timeInrervalViewModel.Initialize(organisation, new List<NamedInterval>(employeeTimeIntervals.Where(x => x.OrganizationUID.Value == organisation.UID)));
 				OrganisationTimeIntervals.Add(timeInrervalViewModel);
 			}
 			SelectedOrganisationTimeInterval = OrganisationTimeIntervals.FirstOrDefault();

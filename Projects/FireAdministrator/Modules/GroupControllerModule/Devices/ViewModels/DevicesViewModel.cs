@@ -190,6 +190,9 @@ namespace GKModule.ViewModels
 				var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
 				PasteDevice(pasteDevice);
 			}
+			XManager.DeviceConfiguration.Update();
+			Plans.Designer.Helper.BuildMap();
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanPaste()
 		{
@@ -241,8 +244,6 @@ namespace GKModule.ViewModels
 				device.Parent = SelectedDevice.Device;
 				AddDevice(device, SelectedDevice);
 			}
-			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.GKChanged = true;
 		}
 		#endregion
 

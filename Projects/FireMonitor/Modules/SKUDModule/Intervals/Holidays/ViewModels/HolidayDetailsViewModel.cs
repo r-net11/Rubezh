@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.ObjectModel;
-using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using Organization = FiresecAPI.Organization;
 
 namespace SKDModule.ViewModels
 {
@@ -11,16 +12,16 @@ namespace SKDModule.ViewModels
 	{
 		OrganisationHolidaysYearViewModel OrganisationHolidaysYearViewModel;
 		bool IsNew;
-		public EmployeeHoliday Holiday { get; private set; }
+		public Holiday Holiday { get; private set; }
 
-		public HolidayDetailsViewModel(OrganisationHolidaysYearViewModel organisationHolidaysYearViewModel, EmployeeHoliday holiday = null)
+		public HolidayDetailsViewModel(OrganisationHolidaysYearViewModel organisationHolidaysYearViewModel, Holiday holiday = null)
 		{
 			OrganisationHolidaysYearViewModel = organisationHolidaysYearViewModel;
 			if (holiday == null)
 			{
 				Title = "Новый приаздничный день";
 				IsNew = true;
-				holiday = new EmployeeHoliday()
+				holiday = new Holiday()
 				{
 					Name = "Название праздника",
 				};
@@ -33,12 +34,12 @@ namespace SKDModule.ViewModels
 
 			Holiday = holiday;
 			Name = holiday.Name;
-			DateTime = holiday.DateTime;
-			ShortageTime = holiday.ShortageTime;
-			TransitionDateTime = holiday.TransitionDateTime;
+			DateTime = holiday.Date;
+			ShortageTime = holiday.Reduction;
+			TransitionDateTime = holiday.TransferDate;
 
-			AvailableHolidayTypes = new ObservableCollection<EmployeeHolidayType>(Enum.GetValues(typeof(EmployeeHolidayType)).OfType<EmployeeHolidayType>());
-			HolidayType = holiday.EmployeeHolidayType;
+			AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
+			HolidayType = holiday.Type;
 		}
 
 		DateTime _dateTime;
@@ -63,10 +64,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<EmployeeHolidayType> AvailableHolidayTypes { get; private set; }
+		public ObservableCollection<HolidayType> AvailableHolidayTypes { get; private set; }
 
-		EmployeeHolidayType _holidayType;
-		public EmployeeHolidayType HolidayType
+		HolidayType _holidayType;
+		public HolidayType HolidayType
 		{
 			get { return _holidayType; }
 			set
@@ -78,8 +79,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		DateTime _shortageTime;
-		public DateTime ShortageTime
+		TimeSpan _shortageTime;
+		public TimeSpan ShortageTime
 		{
 			get { return _shortageTime; }
 			set
@@ -102,39 +103,39 @@ namespace SKDModule.ViewModels
 
 		public bool IsShortageTimeEnabled
 		{
-			get { return HolidayType != EmployeeHolidayType.Holiday; }
+			get { return HolidayType != HolidayType.Holiday; }
 		}
 
 		public bool IsTransitionDateTimeEnabled
 		{
-			get { return HolidayType == EmployeeHolidayType.WorkingHoliday; }
+			get { return HolidayType == HolidayType.WorkingHoliday; }
 		}
 
 		protected override bool Save()
 		{
-			if (OrganisationHolidaysYearViewModel.Holidays.Any(x => x.Holiday.DateTime.Month == DateTime.Month && x.Holiday.DateTime.Date == DateTime.Date && x.Holiday.UID != Holiday.UID))
+			if (OrganisationHolidaysYearViewModel.Holidays.Any(x => x.Holiday.Date.Month == DateTime.Month && x.Holiday.Date.Date == DateTime.Date && x.Holiday.UID != Holiday.UID))
 			{
 				MessageBoxService.ShowWarning("Дата праздника совпадает с введенным ранее");
 				return false;
 			}
 
-			if (ShortageTime.Hour > 2)
+			if (ShortageTime.TotalHours > 2)
 			{
 				MessageBoxService.ShowWarning("Величина сокращения не может быть больше двух часов");
 				return false;
 			}
 
-			if (HolidayType == EmployeeHolidayType.WorkingHoliday && DateTime.DayOfWeek != DayOfWeek.Saturday && DateTime.DayOfWeek != DayOfWeek.Sunday)
+			if (HolidayType == HolidayType.WorkingHoliday && DateTime.DayOfWeek != DayOfWeek.Saturday && DateTime.DayOfWeek != DayOfWeek.Sunday)
 			{
 				MessageBoxService.ShowWarning("Дата переноса устанавливается только на субботу или воскресенье");
 				return false;
 			}
 
 			Holiday.Name = Name;
-			Holiday.DateTime = DateTime;
-			Holiday.EmployeeHolidayType = HolidayType;
-			Holiday.ShortageTime = ShortageTime;
-			Holiday.TransitionDateTime = TransitionDateTime;
+			Holiday.Date = DateTime;
+			Holiday.Type = HolidayType;
+			Holiday.Reduction = ShortageTime;
+			Holiday.TransferDate = TransitionDateTime;
 			return true;
 		}
 	}

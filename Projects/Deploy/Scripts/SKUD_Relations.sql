@@ -29,8 +29,8 @@ ALTER TABLE [dbo].[Day] NOCHECK CONSTRAINT [FK_Day_NamedInterval]
 GO
 ALTER TABLE [dbo].[Day]  WITH CHECK ADD  CONSTRAINT [FK_Day_ScheduleScheme] FOREIGN KEY([ScheduleSchemeUid])
 REFERENCES [dbo].[ScheduleScheme] ([Uid])
-ON UPDATE SET NULL
-ON DELETE SET NULL
+ON UPDATE NO ACTION
+ON DELETE NO ACTION
 NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[Day] CHECK CONSTRAINT [FK_Day_ScheduleScheme]
@@ -196,12 +196,6 @@ ON DELETE SET NULL
 NOT FOR REPLICATION
 GO
 ALTER TABLE [dbo].[AdditionalColumnType] NOCHECK CONSTRAINT [FK_AdditionalColumnType_Organization]
-GO
-ALTER TABLE [dbo].[Day]  WITH NOCHECK ADD CONSTRAINT [FK_Day_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
-NOT FOR REPLICATION 
-GO
-ALTER TABLE [dbo].[Day] NOCHECK CONSTRAINT [FK_Day_Organization]
 GO
 ALTER TABLE [dbo].[Department]  WITH NOCHECK ADD CONSTRAINT [FK_Department_Organization] FOREIGN KEY([OrganizationUid])
 REFERENCES [dbo].[Organization] ([Uid])
