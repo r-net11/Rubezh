@@ -2,10 +2,10 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="SKDImitatorDB">
   <DataContextMoniker Name="/SKDImitatorDBDataContext" />
   <nestedChildShapes>
-    <classShape Id="19f62118-50bd-4359-9607-757c8adface5" absoluteBounds="6.875, 1.5, 2, 1.3862939453125">
+    <classShape Id="1a857a71-10fd-4da3-b5bb-121cde6fcb31" absoluteBounds="5.75, 1.375, 2, 1.5785953776041666">
       <DataClassMoniker Name="/SKDImitatorDBDataContext/Devices" />
       <nestedChildShapes>
-        <elementListCompartment Id="7780e916-b97d-40ce-9e64-9fd17099c5b6" absoluteBounds="6.89, 1.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="db9b6721-2ec7-4a2c-969d-bbd7a5cb4718" absoluteBounds="5.765, 1.835, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>
