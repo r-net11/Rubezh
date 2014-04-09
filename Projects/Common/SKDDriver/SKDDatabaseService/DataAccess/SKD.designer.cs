@@ -7824,27 +7824,28 @@ namespace SKDDriver.DataAccess
 		private EntityRef<Organization> _Organization;
 		
 		private EntityRef<ScheduleScheme> _ScheduleScheme;
-		
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnScheduleSchemeUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnScheduleSchemeUIDChanged();
-    partial void OnIsIgnoreHolidayChanging(bool value);
-    partial void OnIsIgnoreHolidayChanged();
-    partial void OnIsOnlyFirstEnterChanging(bool value);
-    partial void OnIsOnlyFirstEnterChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
-    #endregion
+
+		#region Определения метода расширяемости
+		partial void OnLoaded();
+		partial void OnValidate(System.Data.Linq.ChangeAction action);
+		partial void OnCreated();
+		partial void OnUIDChanging(System.Guid value);
+		partial void OnUIDChanged();
+		partial void OnNameChanging(string value);
+		partial void OnNameChanged();
+		partial void OnScheduleSchemeUIDChanging(System.Nullable<System.Guid> value);
+		partial void OnScheduleSchemeUIDChanged();
+		partial void OnIsIgnoreHolidayChanging(bool value);
+		partial void OnIsIgnoreHolidayChanged();
+		partial void OnIsOnlyFirstEnterChanging(bool value);
+		partial void OnIsOnlyFirstEnterChanged();
+		partial void OnIsDeletedChanging(bool value);
+		partial void OnIsDeletedChanged();
+		partial void OnRemovalDateChanging(System.DateTime value);
+		partial void OnRemovalDateChanged();
+		partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+		partial void OnOrganizationUIDChanged();
+		#endregion
 		
 		public Schedule()
 		{
