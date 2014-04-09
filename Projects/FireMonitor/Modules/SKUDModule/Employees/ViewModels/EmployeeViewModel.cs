@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
@@ -13,7 +12,7 @@ namespace SKDModule.ViewModels
 	{
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 
-		public EmployeeViewModel(EmployeesViewModel employeesViewModel, Employee employee)
+		public EmployeeViewModel(EmployeesViewModel employeesViewModel, EmployeeListItem employee)
 		{
 			EmployeesViewModel = employeesViewModel;
 			Employee = employee;
@@ -21,27 +20,20 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 			ChangeIsExpandedCommand = new RelayCommand(OnChangeIsExpanded);
 
-			var departmentUID = !Employee.IsReplaced ? Employee.DepartmentUID : Employee.CurrentReplacement.DepartmentUID;
-			var department = DepartmentHelper.GetSingle(departmentUID);
-			DepartmentName = department != null ? department.Name : "";
-			DepartmentPhotoUID = department == null ? null : department.PhotoUID;
-			var position = PositionHelper.GetSingle(Employee.PositionUID);
-			PositionName = position != null ? position.Name : "";
-			PositionPhotoUID = null; // пока нет в БД - position == null ? null : position.PhotoUID;
-			AppointedString = Employee.Appointed.ToString("d MMM yyyy");
-			DismissedString = Employee.Dismissed.ToString("d MMM yyyy");
+			DepartmentName = employee.DepartmentName;
+			//DepartmentPhotoUID = department == null ? null : department.PhotoUID;
+			PositionName = employee.PositionName;
+			//PositionPhotoUID = null; // пока нет в БД - position == null ? null : position.PhotoUID;
+			
+			AppointedString = Employee.Appointed;
+			DismissedString = Employee.Dismissed;
 
-			var filter = new CardFilter { EmployeeUIDs = new List<Guid>() { Employee.UID } };
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
-			var cards = CardHelper.Get(filter);
-			if (cards != null)
-			{
-				foreach (var item in cards)
+			foreach (var item in employee.Cards)
 					Cards.Add(new EmployeeCardViewModel(EmployeesViewModel.Organization, this, item));
-			}
 		}
 
-		public Employee Employee { get; set; }
+		public EmployeeListItem Employee { get; set; }
 		public string DepartmentName { get; set; }
 		public Guid? DepartmentPhotoUID { get; set; }
 		public string PositionName { get; set; }
@@ -49,7 +41,7 @@ namespace SKDModule.ViewModels
 		public string AppointedString { get; set; }
 		public string DismissedString { get; set; }
 
-		public void Update(Employee employee)
+		public void Update(EmployeeListItem employee)
 		{
 			Employee = employee;
 			OnPropertyChanged(() => Employee);

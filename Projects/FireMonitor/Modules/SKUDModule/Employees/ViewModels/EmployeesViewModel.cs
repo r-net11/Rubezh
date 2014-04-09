@@ -154,7 +154,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			EmployeeDetails employeeDetails = null;
+			Employee employeeDetails = null;
 			if (PersonType == PersonType.Employee)
 			{
 				var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
@@ -170,12 +170,11 @@ namespace SKDModule.ViewModels
 
 			if (employeeDetails == null)
 				return;
-
-			var employee = employeeDetails.GetEmployee();
-			var saveResult = EmployeeHelper.Save(employee);
+			var saveResult = EmployeeHelper.Save(employeeDetails);
 			if (!saveResult)
 				return;
-			
+
+			var employee = employeeDetails.GetEmployeeListItem();
 			var employeeViewModel = new EmployeeViewModel(this, employee);
 			Employees.Add(employeeViewModel);
 			SelectedEmployee = employeeViewModel;
@@ -185,7 +184,7 @@ namespace SKDModule.ViewModels
 		void OnRemove()
 		{
 			var employee = SelectedEmployee.Employee;
-			var removeResult = EmployeeHelper.MarkDeleted(employee);
+			var removeResult = EmployeeHelper.MarkDeleted(employee.UID);
 			if (!removeResult)
 				return;
 
@@ -203,7 +202,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			EmployeeDetails employeeDetails = null;
+			Employee employeeDetails = null;
 			if (PersonType == PersonType.Employee)
 			{
 				var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.Employee);
@@ -220,8 +219,7 @@ namespace SKDModule.ViewModels
 			if (employeeDetails == null)
 				return;
 
-			var employee = employeeDetails.GetEmployee();
-			var saveResult = EmployeeHelper.Save(employee);
+			var saveResult = EmployeeHelper.Save(employeeDetails);
 			if (!saveResult)
 				return;
 		}

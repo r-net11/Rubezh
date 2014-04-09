@@ -10,15 +10,15 @@ namespace SKDModule.ViewModels
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
-		public EmployeeDetails EmployeeDetails { get; private set; }
+		public Employee EmployeeDetails { get; private set; }
 
-		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, Employee employee = null)
+		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, EmployeeListItem employee = null)
 		{
 			EmployeesViewModel = employeesViewModel;
 			if (employee == null)
 			{
 				Title = "Создание сотрудника";
-				EmployeeDetails = new EmployeeDetails();
+				EmployeeDetails = new Employee();
 				EmployeeDetails.OrganizationUID = EmployeesViewModel.Organization.UID;
 				EmployeeDetails.FirstName = "Новый сотрудник";
 			}
@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 				EmployeeDetails = EmployeeHelper.GetDetails(employee.UID);
 				if (EmployeeDetails == null)
 				{
-					EmployeeDetails = new EmployeeDetails();
+					EmployeeDetails = new Employee();
 					EmployeeDetails.OrganizationUID = EmployeesViewModel.Organization.UID;
 				}
 			}
@@ -169,6 +169,10 @@ namespace SKDModule.ViewModels
 			EmployeeDetails.LastName = LastName;
 			if (SelectedPosition != null)
 				EmployeeDetails.Position = SelectedPosition;
+			foreach (var column in additionalColumns.Where(x => x.IsChanged))
+			{
+				;
+			}
 			return true;
 		}
 	}

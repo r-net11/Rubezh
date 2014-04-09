@@ -48,18 +48,23 @@ namespace SKDDriver
 			return result;
 		}
 
+		protected virtual IEnumerable<TableT> GetTableItems(FilterT filter)
+		{
+			IQueryable<TableT> query;
+			if (filter == null)
+				query = Table;
+			else
+				query = Table.Where(IsInFilter(filter));
+			return query.ToList();
+		}
+
 		public virtual OperationResult<IEnumerable<ApiT>> Get(FilterT filter)
 		{
 			try
 			{
-				List<ApiT> result = new List<ApiT>();
-				IQueryable<TableT> query;
-				if (filter == null)
-					query = Table;
-				else
-					query = Table.Where(IsInFilter(filter));
-				foreach (var item in query)
-					result.Add(Translate(item));
+				var result = new List<ApiT>();
+				foreach (var tableItem in GetTableItems(filter))
+					result.Add(Translate(tableItem));
 				var operationResult = new OperationResult<IEnumerable<ApiT>>();
 				operationResult.Result = result;
 				return operationResult;
@@ -112,7 +117,7 @@ namespace SKDDriver
 				return MinYear;
 			if (dateTime > MaxYear)
 				return MaxYear;
-			return dateTime;
+			return dateTime; 
 		}
 
 		protected static ApiType TranslateBase<ApiType,TableType>(TableType tableItem)
@@ -122,6 +127,13 @@ namespace SKDDriver
 			var result = new ApiType();
 			result.UID = tableItem.UID;
 			return result; 
+		}
+
+		protected static T GetResult<T>(OperationResult<T> operationResult)
+		{
+			if (operationResult.HasError)
+				throw new Exception(operationResult.Error);
+			return operationResult.Result;
 		}
 
 		public List<ApiT> GetByEmployee<T>(Guid uid)
@@ -134,14 +146,23 @@ namespace SKDDriver
 			return result;
 		}
 
-		public ApiT GetSingle(Guid? uid)
+		public OperationResult<ApiT> GetSingle(Guid? uid)
 		{
-			if (uid == null)
-				return null;
-			var tableItem = Table.Where(x => x.UID.Equals(uid.Value)).FirstOrDefault();
-			if (tableItem == null)
-				return null;
-			return Translate(tableItem);
+			try
+			{
+				var result = new OperationResult<ApiT>();
+				if (uid == null)
+					return result;
+				var tableItem = Table.Where(x => x.UID.Equals(uid.Value)).FirstOrDefault();
+				if (tableItem == null)
+					return result;
+				result.Result = Translate(tableItem);
+				return result;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<ApiT>(e.Message);					
+			}
 		}
 	}
 }

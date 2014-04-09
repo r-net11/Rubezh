@@ -10,15 +10,15 @@ namespace SKDModule.ViewModels
 	public class GuestDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
-		public EmployeeDetails EmployeeDetails { get; private set; }
+		public Employee EmployeeDetails { get; private set; }
 
-		public GuestDetailsViewModel(EmployeesViewModel employeesViewModel, Employee employee = null)
+		public GuestDetailsViewModel(EmployeesViewModel employeesViewModel, EmployeeListItem employee = null)
 		{
 			EmployeesViewModel = employeesViewModel;
 			if (employee == null)
 			{
 				Title = "Добавить посетителя";
-				EmployeeDetails = new EmployeeDetails();
+				EmployeeDetails = new Employee();
 				EmployeeDetails.OrganizationUID = EmployeesViewModel.Organization.UID;
 				EmployeeDetails.FirstName = "Новый посетитель";
 			}
@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 				EmployeeDetails = EmployeeHelper.GetDetails(employee.UID);
 				if (EmployeeDetails == null)
 				{
-					EmployeeDetails = new EmployeeDetails();
+					EmployeeDetails = new Employee();
 					EmployeeDetails.OrganizationUID = EmployeesViewModel.Organization.UID;
 				}
 			}

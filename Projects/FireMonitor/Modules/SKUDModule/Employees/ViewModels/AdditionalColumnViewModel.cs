@@ -5,8 +5,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
-using System;
-using System.IO;
 
 namespace SKDModule.ViewModels
 {
@@ -16,6 +14,7 @@ namespace SKDModule.ViewModels
 		AdditionalColumn AdditionalColumn;
 		public string Name { get; private set; }
 		public bool IsGraphicsData { get; private set; }
+		public bool IsChanged { get; private set; }
 		public BitmapSource Bitmap { get; private set; }
 		public string Text
 		{
@@ -34,9 +33,7 @@ namespace SKDModule.ViewModels
 			IsGraphicsData = AdditionalColumn.AdditionalColumnType.DataType == AdditionalColumnDataType.Graphics;
 			EditCommand = new RelayCommand(OnEdit);
 			if (IsGraphicsData)
-				Bitmap = PhotoHelper.GetBitmapSource(additionalColumn.Photo);
-			//else
-			//	Text = AdditionalColumn.TextData;
+				Bitmap = PhotoHelper.GetBitmapSource(AdditionalColumn.Photo);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -49,6 +46,7 @@ namespace SKDModule.ViewModels
 				{
 					AdditionalColumn.TextData = editTextViewModel.Text;
 					OnPropertyChanged(() => Text);
+					IsChanged = true;
 				}
 			}
 			else
@@ -59,10 +57,10 @@ namespace SKDModule.ViewModels
 				};
 				if (openFileDialog.ShowDialog() == true)
 				{
-					var fileStream = openFileDialog.OpenFile();
-					var memoryStream = new MemoryStream();
-					fileStream.CopyTo(memoryStream);
-					byte[] bytes = memoryStream.ToArray();
+					AdditionalColumn.Photo = new Photo(openFileDialog.OpenFile());
+					Bitmap = PhotoHelper.GetBitmapSource(AdditionalColumn.Photo);
+					OnPropertyChanged(() => Bitmap);
+					IsChanged = true;
 				}
 			}
 		}

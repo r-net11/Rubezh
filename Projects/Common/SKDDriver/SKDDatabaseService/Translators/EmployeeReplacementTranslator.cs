@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
@@ -24,6 +25,14 @@ namespace SKDDriver
 			if (tableItem != null)
 				result = Translate(tableItem);
 			return result;
+		}
+
+		public List<Guid> GetReplacementUIDs(Guid employeeUID)
+		{
+			var query = from x in Table 
+						where !x.IsDeleted && x.EmployeeUID == employeeUID 
+						select x.UID;
+			return query.ToList();
 		}
 
 		protected override OperationResult CanSave(EmployeeReplacement item)

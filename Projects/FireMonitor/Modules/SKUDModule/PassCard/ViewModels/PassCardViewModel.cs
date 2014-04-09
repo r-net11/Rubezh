@@ -164,7 +164,7 @@ namespace SKDModule.PassCard.ViewModels
 					break;
 				case PassCardTextPropertyType.Additional:
 					var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementTextProperty.AdditionalColumnUID);
-					elementTextProperty.Text = columnValue == null ? string.Empty : columnValue.TextData;
+					elementTextProperty.Text = columnValue == null ? string.Empty : columnValue;
 					break;
 				default:
 					elementTextProperty.Text = string.Empty;
@@ -246,15 +246,15 @@ namespace SKDModule.PassCard.ViewModels
 						photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.Organization.PhotoUID);
 						break;
 					case PassCardImagePropertyType.Photo:
-						photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.EmployeeViewModel.Employee.PhotoUID);
+						//photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.EmployeeViewModel.Employee.PhotoUID);
 						break;
 					case PassCardImagePropertyType.PositionLogo:
 						photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.EmployeeViewModel.PositionPhotoUID);
 						break;
 					case PassCardImagePropertyType.Additional:
-						var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementPassCardImageProperty.AdditionalColumnUID);
-						if (columnValue != null)
-							photo = columnValue.Photo;
+						//var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementPassCardImageProperty.AdditionalColumnUID);
+						//if (columnValue != null)
+							//photo = columnValue.Photo;
 						break;
 					default:
 						break;

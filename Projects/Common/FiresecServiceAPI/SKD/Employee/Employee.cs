@@ -23,10 +23,13 @@ namespace FiresecAPI
 		public DateTime Dismissed { get; set; }
 
 		[DataMember]
-		public Guid? PositionUID { get; set; }
+		public Position Position { get; set; }
 
 		[DataMember]
 		public Guid? DepartmentUID { get; set; }
+
+		[DataMember]
+		public string DepartmentName { get; set; }
 
 		[DataMember]
 		public List<Guid> ReplacementUIDs { get; set; }
@@ -35,16 +38,13 @@ namespace FiresecAPI
 		public Guid? ScheduleUID { get; set; }
 
 		[DataMember]
-		public Guid? PhotoUID { get; set; }
+		public Photo Photo { get; set; }
 
 		[DataMember]
-		public List<Guid> AdditionalColumnUIDs { get; set; }
+		public List<AdditionalColumn> AdditionalColumns { get; set; }
 
 		[DataMember]
-		public List<TextColumn> AdditionalTextColumns { get; set; }
-
-		[DataMember]
-		public List<Guid> CardUIDs { get; set; }
+		public List<SKDCard> Cards { get; set; }
 
 		[DataMember]
 		public PersonType Type { get; set; }
@@ -57,12 +57,17 @@ namespace FiresecAPI
 			get { return CurrentReplacement != null; }
 		}
 
-	}
-
-	public class TextColumn
-	{
-		public Guid ColumnTypeUID {get; set;}
-		
-		public string Text { get; set; }
+		public EmployeeListItem GetEmployeeListItem()
+		{
+			return new EmployeeListItem
+			{
+				UID = UID,
+				Cards = Cards,
+				FirstName = FirstName,
+				SecondName = SecondName,
+				LastName = LastName,
+				Type = Type
+			};
+		}
 	}
 }

@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using FiresecAPI;
 using SKDDriver;
-using System.Threading;
 
 namespace FiresecService.Service
 {
 	public partial class FiresecService : IFiresecService
 	{
 		#region Get
-		public OperationResult<IEnumerable<Employee>> GetEmployees(EmployeeFilter filter)
+		public OperationResult<IEnumerable<EmployeeListItem>> GetEmployeeList(EmployeeFilter filter)
 		{
-			return SKDDatabaseService.EmployeeTranslator.Get(filter);
+			return SKDDatabaseService.EmployeeTranslator.GetList(filter);
 		}
-		public OperationResult<EmployeeDetails> GetEmployeeDetails(Guid uid)
+		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
-			return SKDDatabaseService.EmployeeTranslator.GetDetails(uid);
+			return SKDDatabaseService.EmployeeTranslator.GetSingle(uid);
 		}
 		public OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter)
 		{
@@ -132,9 +132,9 @@ namespace FiresecService.Service
 		#endregion
 
 		#region MarkDeleted
-		public OperationResult MarkDeletedEmployees(IEnumerable<Employee> Employees)
+		public OperationResult MarkDeletedEmployees(IEnumerable<Guid> uids)
 		{
-			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(Employees);
+			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(uids);
 		}
 		public OperationResult MarkDeletedDepartments(IEnumerable<Department> Departments)
 		{

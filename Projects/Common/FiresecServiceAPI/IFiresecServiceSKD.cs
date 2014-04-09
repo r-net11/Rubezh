@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using XFiresecAPI;
 
 namespace FiresecAPI
 {
@@ -10,9 +9,9 @@ namespace FiresecAPI
 	{
 		#region Get
 		[OperationContract]
-		OperationResult<IEnumerable<Employee>> GetEmployees(EmployeeFilter filter);
+		OperationResult<IEnumerable<EmployeeListItem>> GetEmployeeList(EmployeeFilter filter);
 		[OperationContract]
-		OperationResult<EmployeeDetails> GetEmployeeDetails(Guid uid);
+		OperationResult<Employee> GetEmployeeDetails(Guid uid);
 		[OperationContract]
 		OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter);
 		[OperationContract]
@@ -74,7 +73,7 @@ namespace FiresecAPI
 
 		#region MarkDeleted
 		[OperationContract]
-		OperationResult MarkDeletedEmployees(IEnumerable<Employee> Employees);
+		OperationResult MarkDeletedEmployees(IEnumerable<Guid> uids);
 		[OperationContract]
 		OperationResult MarkDeletedDepartments(IEnumerable<Department> Departments);
 		[OperationContract]

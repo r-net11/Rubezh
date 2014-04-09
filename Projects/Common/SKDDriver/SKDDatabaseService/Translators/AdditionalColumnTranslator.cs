@@ -24,7 +24,7 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.EmployeeUID = tableItem.EmployeeUID;
 			result.AdditionalColumnType = AdditionalColumnTypeTranslator.Get(tableItem.AdditionalColumnTypeUID);
-			result.Photo = PhotoTranslator.GetSingle(tableItem.PhotoUID);
+			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			result.TextData = tableItem.TextData;
 			return result;
 		}
@@ -38,24 +38,22 @@ namespace SKDDriver
 			tableItem.TextData = apiItem.TextData;
 		}
 
-		public void SetTextColumns(OperationResult<IEnumerable<Employee>> employees)
+		public void SetTextColumns(IEnumerable<EmployeeListItem> employees)
 		{
-			try
+			var textColumnTypes = AdditionalColumnTypeTranslator.GetTextColumnTypes();
+			foreach (var employee in employees)
 			{
-				var textColumnTypes = AdditionalColumnTypeTranslator.GetTextColumnTypes();
-				foreach (var employee in employees.Result)
+				employee.TextColumns = new List<TextColumn>();
+				var tableItems = from x in Table where x.EmployeeUID == employee.UID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value) select x;
+				foreach (var item in tableItems)
 				{
-					employee.AdditionalTextColumns = new List<TextColumn>();
-					var tableItems = from x in Table where x.EmployeeUID == employee.UID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value) select x;
-					foreach (var item in tableItems)
-					{
-						employee.AdditionalTextColumns.Add(new TextColumn { ColumnTypeUID = textColumnTypes.FirstOrDefault(x => x == item.AdditionalColumnTypeUID.Value), Text = item.TextData });
-					}
+					employee.TextColumns.Add(
+						new TextColumn 
+						{ 
+							ColumnTypeUID = textColumnTypes.FirstOrDefault(x => x == item.AdditionalColumnTypeUID.Value), 
+							Text = item.TextData 
+						});
 				}
-			}
-			catch (Exception e)
-			{
-				employees = new OperationResult<IEnumerable<Employee>>(e.Message);
 			}
 		}
 
@@ -78,8 +76,12 @@ namespace SKDDriver
 					photosToDelete.Add(tableItem.PhotoUID.Value);
 				}
 			}
-			PhotoTranslator.Save(photosToSave);
-			PhotoTranslator.MarkDeleted(photosToDelete);
+			var photoSaveResult = PhotoTranslator.Save(photosToSave);
+			if (photoSaveResult.HasError)
+				return photoSaveResult;
+			var photoDeleteResult = PhotoTranslator.MarkDeleted(photosToDelete);
+			if (photoDeleteResult.HasError)
+				return photoDeleteResult;
 			return base.Save(apiItems);
 		}
 

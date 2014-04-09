@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
-using XFiresecAPI;
 
 namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
 		#region Get
-		public OperationResult<IEnumerable<Employee>> GetEmployees(EmployeeFilter filter)
+		public OperationResult<IEnumerable<EmployeeListItem>> GetEmployeeList(EmployeeFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<Employee>>>(() => FiresecService.GetEmployees(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<EmployeeListItem>>>(() => FiresecService.GetEmployeeList(filter));
 		}
-		public OperationResult<EmployeeDetails> GetEmployeeDetails(Guid uid)
+		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult<EmployeeDetails>>(() => FiresecService.GetEmployeeDetails(uid));
+			return SafeContext.Execute<OperationResult<Employee>>(() => FiresecService.GetEmployeeDetails(uid));
 		}
 		public OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter)
 		{
@@ -131,7 +130,7 @@ namespace FiresecClient
 		#endregion
 
 		#region MarkDeleted
-		public OperationResult MarkDeletedEmployees(IEnumerable<Employee> items)
+		public OperationResult MarkDeletedEmployees(IEnumerable<Guid> items)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedEmployees(items));
 		}

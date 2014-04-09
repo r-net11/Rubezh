@@ -179,12 +179,12 @@
 
 							<StackPanel Margin="10 0" Orientation="Horizontal">
 								<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Начало действия" />
-                                <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.StartDate, StringFormat=dd-MM-yyyy}" />
+								<TextBlock Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.StartDate, StringFormat=dd-MM-yyyy}" />
 							</StackPanel>
 
 							<StackPanel Margin="10 0" Orientation="Horizontal">
 								<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Конец действия" />
-                                <TextBlock Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.EndDate, StringFormat=dd-MM-yyyy}" />
+								<TextBlock Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.EndDate, StringFormat=dd-MM-yyyy}" />
 							</StackPanel>
 						</StackPanel>
 						<Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
