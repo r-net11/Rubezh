@@ -2,6 +2,7 @@
 using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using GKProcessor;
 
 namespace GKModule.ViewModels
 {
@@ -15,6 +16,14 @@ namespace GKModule.ViewModels
 			JournalFilter = journalFilter;
 			StateClasses = new List<StateClassViewModel>();
 			JournalFilter.StateClasses.ForEach(x => StateClasses.Add(new StateClassViewModel(x)));
+
+			EventNames = new List<EventName>();
+			foreach (var stringEventName in journalFilter.EventNames)
+			{
+				var eventName = EventNameHelper.EventNames.FirstOrDefault(x => x.Name == stringEventName);
+				if (eventName != null)
+					EventNames.Add(eventName);
+			}
 		}
 
 		public bool HasEvents
@@ -50,9 +59,11 @@ namespace GKModule.ViewModels
 		{
 			if (JournalFilter.EventNames.Count > 0)
 			{
-				return JournalFilter.EventNames.Any(x => x.Name == journalItem.Name);
+				return JournalFilter.EventNames.Any(x => x == journalItem.Name);
 			}
 			return true;
 		}
+
+		public List<EventName> EventNames { get; private set; }
 	}
 }

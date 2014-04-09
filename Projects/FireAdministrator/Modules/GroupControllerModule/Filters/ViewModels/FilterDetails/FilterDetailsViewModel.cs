@@ -56,9 +56,9 @@ namespace GKModule.ViewModels
 			
 			foreach (var eventViewModel in EventNames)
 			{
-				foreach (var xEvent in JournalFilter.EventNames)
+				foreach (var eventName in JournalFilter.EventNames)
 				{
-					if (xEvent.Name == eventViewModel.EventName.Name)
+					if (eventName == eventViewModel.EventName.Name)
 						eventViewModel.IsChecked = true;
 				}
 			}
@@ -122,7 +122,7 @@ namespace GKModule.ViewModels
 			JournalFilter.Description = Description;
 			JournalFilter.LastRecordsCount = LastRecordsCount;
 			JournalFilter.StateClasses = StateClasses.Where(x => x.IsChecked).Select(x => x.StateClass).Cast<XStateClass>().ToList();
-			JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.EventName).ToList();
+			JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.EventName.Name).ToList();
 			return base.Save();
 		}
 
@@ -132,7 +132,4 @@ namespace GKModule.ViewModels
 				EventNames.Where(x => x.IsChecked == true).ToList().Count > 0;
 		}
 	}
-
-	
-
 }

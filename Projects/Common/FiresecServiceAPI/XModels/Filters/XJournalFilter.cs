@@ -10,7 +10,7 @@ namespace XFiresecAPI
 		{
 			LastRecordsCount = 100;
 			StateClasses = new List<XStateClass>();
-			EventNames = new List<EventName>();
+			EventNames = new List<string>();
 		}
 
 		[DataMember]
@@ -26,6 +26,6 @@ namespace XFiresecAPI
 		public List<XStateClass> StateClasses { get; set; }
 
 		[DataMember]
-		public List<EventName> EventNames { get; set; }
+		public List<string> EventNames { get; set; }
 	}
 }

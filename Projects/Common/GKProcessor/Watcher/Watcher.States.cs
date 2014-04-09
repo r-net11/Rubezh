@@ -90,6 +90,9 @@ namespace GKProcessor
 
 		void CheckDelay(XBase xBase)
 		{
+			if (xBase.InternalState == null)
+				return;
+
 			bool mustGetState = false;
 			switch (xBase.InternalState.StateClass)
 			{
