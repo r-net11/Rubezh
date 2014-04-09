@@ -17,7 +17,7 @@ namespace FiresecClient
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
-		public static event Action<IEnumerable<JournalItem>> GetFilteredGKArchiveCompletedEvent;
+		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
 		public static event Action<IEnumerable<SKDJournalItem>> GetFilteredSKDArchiveCompletedEvent;
 
 		bool isConnected = true;
@@ -134,7 +134,7 @@ namespace FiresecClient
 						SafeOperationCall(() =>
 						{
 							if (GetFilteredGKArchiveCompletedEvent != null)
-								GetFilteredGKArchiveCompletedEvent(callbackResult.JournalItems);
+								GetFilteredGKArchiveCompletedEvent(callbackResult.JournalItems, callbackResult.ArchivePortionUID);
 						});
 						break;
 

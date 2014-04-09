@@ -46,6 +46,9 @@ namespace SecurityModule.ViewModels
 
 			CopyProperties();
 
+			IsEmployeesAllowed = User.IsEmployeesAllowed;
+			IsGuestsAllowed = User.IsGuestsAllowed;
+			Organisations = new ObservableCollection<OrganisationViewModel>();
 			if (IsSKDEnabled)
 			{
 				bool isSQLFound = false;
@@ -58,7 +61,6 @@ namespace SecurityModule.ViewModels
 
 				if (isSQLFound)
 				{
-					Organisations = new ObservableCollection<OrganisationViewModel>();
 					try
 					{
 						var organisations = OrganizationHelper.Get(new OrganizationFilter());
@@ -70,8 +72,6 @@ namespace SecurityModule.ViewModels
 						}
 					}
 					catch { }
-					IsEmployeesAllowed = User.IsEmployeesAllowed;
-					IsGuestsAllowed = User.IsGuestsAllowed;
 				}
 				else
 					MessageBoxService.Show("Не обнаружен Microsoft SQL Server");

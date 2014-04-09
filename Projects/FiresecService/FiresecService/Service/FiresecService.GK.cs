@@ -369,7 +369,7 @@ namespace FiresecService.Service
 			return GKDBHelper.GetGKTopLastJournalItems(count);
 		}
 
-		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			if (CurrentThread != null)
 			{
@@ -382,7 +382,7 @@ namespace FiresecService.Service
 			{
 				GKDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
 				GKDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, false);
+				GKDBHelper.BeginGetGKFilteredArchive(archiveFilter, archivePortionUID, false);
 
 			}))));
 			thread.Name = "GK GetFilteredArchive";
@@ -391,9 +391,9 @@ namespace FiresecService.Service
 			thread.Start();
 		}
 
-		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems)
+		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
 		{
-			FiresecService.NotifyGKArchiveCompleted(journalItems);
+			FiresecService.NotifyGKArchiveCompleted(journalItems, archivePortionUID);
 		}
 
 		public List<string> GetDistinctGKJournalNames()

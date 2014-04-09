@@ -100,7 +100,7 @@ namespace FiresecAPI
 		List<JournalItem> GetGKTopLastJournalItems(int count);
 
 		[OperationContract]
-		void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter);
+		void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID);
 
 		[OperationContract]
 		List<string> GetDistinctGKJournalNames();
