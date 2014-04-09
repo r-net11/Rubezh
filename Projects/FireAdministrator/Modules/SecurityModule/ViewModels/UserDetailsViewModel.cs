@@ -46,29 +46,36 @@ namespace SecurityModule.ViewModels
 
 			CopyProperties();
 
-			bool isSQLFound = false;
-			RegistryView registryView = Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32;
-			using (RegistryKey hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView))
+			if (IsSKDEnabled)
 			{
-				RegistryKey instanceKey = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL", false);
-				isSQLFound = instanceKey != null && instanceKey.GetValueNames().Length > 0;
-			}
-
-			if (isSQLFound)
-			{
-				var organisations = OrganizationHelper.Get(new OrganizationFilter());
-				Organisations = new ObservableCollection<OrganisationViewModel>();
-				foreach (var organisation in organisations)
+				bool isSQLFound = false;
+				RegistryView registryView = Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32;
+				using (RegistryKey hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView))
 				{
-					var organisationViewModel = new OrganisationViewModel(organisation);
-					organisationViewModel.IsChecked = User.OrganisationUIDs.Contains(organisation.UID);
-					Organisations.Add(organisationViewModel);
+					RegistryKey instanceKey = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL", false);
+					isSQLFound = instanceKey != null && instanceKey.GetValueNames().Length > 0;
 				}
-				IsEmployeesAllowed = User.IsEmployeesAllowed;
-				IsGuestsAllowed = User.IsGuestsAllowed;
+
+				if (isSQLFound)
+				{
+					Organisations = new ObservableCollection<OrganisationViewModel>();
+					try
+					{
+						var organisations = OrganizationHelper.Get(new OrganizationFilter());
+						foreach (var organisation in organisations)
+						{
+							var organisationViewModel = new OrganisationViewModel(organisation);
+							organisationViewModel.IsChecked = User.OrganisationUIDs.Contains(organisation.UID);
+							Organisations.Add(organisationViewModel);
+						}
+					}
+					catch { }
+					IsEmployeesAllowed = User.IsEmployeesAllowed;
+					IsGuestsAllowed = User.IsGuestsAllowed;
+				}
+				else
+					MessageBoxService.Show("Не обнаружен Microsoft SQL Server");
 			}
-			else
-				MessageBoxService.Show("Не обнаружен Microsoft SQL Server");
 		}
 
 		void CopyProperties()
