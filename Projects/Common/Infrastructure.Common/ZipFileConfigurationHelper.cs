@@ -43,7 +43,7 @@ namespace Infrastructure.Common
 			}
 			catch
 			{
-				Error = "Не десериализовать прочитать xml конфигурацию";
+				Error = "Не удалось десериализовать xml конфигурацию";
 				return null;
 			}
 			finally
