@@ -77,6 +77,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			try
 			{
+				Invalidate();
 				var channel = Device.Channels.First(channell => channell.ChannelNumber == channelNumber);
 				ExtraStream = channel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
 				ExtraStream.AddPlayHandle(Handle);
@@ -97,7 +98,8 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				if (Record != null)
 					Record.StopPlayBack();
 				Record = record;
-				record.StartPlaybackByFile(Handle);
+				//record.StartPlaybackByFile(Handle);
+				record.StartPlaybackByTime(Handle, record.NetRecordFileInfo.StartTime);
 				IsStarted = true;
 				Speed = 4;
 				return true;
@@ -134,6 +136,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				Record = record;
 				record.StopPlayBack();
 				IsStarted = false;
+				IsPaused = true;
 				Speed = 0;
 				Invalidate();
 				return true;

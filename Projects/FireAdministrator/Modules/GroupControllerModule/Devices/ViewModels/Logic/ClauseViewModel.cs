@@ -165,6 +165,9 @@ namespace GKModule.ViewModels
 					value = StateTypes.FirstOrDefault();
 				_selectedStateType = value;
 				OnPropertyChanged("SelectedStateType");
+
+				Devices = new List<XDevice>();
+				OnPropertyChanged("PresenrationDevices");
 			}
 		}
 

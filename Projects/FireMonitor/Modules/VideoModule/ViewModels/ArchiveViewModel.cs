@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using Entities.DeviceOriented;
 using FiresecClient;
@@ -63,7 +64,10 @@ namespace VideoModule.ViewModels
 			}
 			try
 			{
+				if (StartedRecord != null)
+					CellPlayerWrap.Stop(StartedRecord);
 				CellPlayerWrap.Start(SelectedRecord);
+				StartedRecord = SelectedRecord;
 				IsStarted = true;
 				IsPaused = false;
 			}
@@ -73,11 +77,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand PauseCommand { get; private set; }
 		void OnPause()
 		{
-			if (SelectedRecord != null)
+			if (StartedRecord != null)
 			{
 				try
 				{
-					if(CellPlayerWrap.Pause(SelectedRecord, !IsPaused))
+					if (CellPlayerWrap.Pause(StartedRecord, !IsPaused))
 						IsPaused = !IsPaused;
 				}
 				catch { }
@@ -87,12 +91,13 @@ namespace VideoModule.ViewModels
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
-			if (SelectedRecord != null)
+			if (StartedRecord != null)
 			{
 				try
 				{
-					CellPlayerWrap.Stop(SelectedRecord);
+					CellPlayerWrap.Stop(StartedRecord);
 					IsStarted = false;
+					IsPaused = false;
 				}
 				catch { }
 			}
@@ -101,11 +106,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand FastCommand { get; private set; }
 		void OnFast()
 		{
-			if (SelectedRecord != null)
+			if (StartedRecord != null)
 			{
 				try
 				{
-					CellPlayerWrap.Fast(SelectedRecord);
+					CellPlayerWrap.Fast(StartedRecord);
 				}
 				catch { }
 			}
@@ -114,11 +119,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand SlowCommand { get; private set; }
 		void OnSlow()
 		{
-			if (SelectedRecord != null)
+			if (StartedRecord != null)
 			{
 				try
 				{
-					CellPlayerWrap.Slow(SelectedRecord);
+					CellPlayerWrap.Slow(StartedRecord);
 				}
 				catch { }
 			}
@@ -130,6 +135,7 @@ namespace VideoModule.ViewModels
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(camera, CellPlayerWrap);
+				cameraViewModel.Connect();
 				Cameras.Add(cameraViewModel);
 			}
 			SelectedCamera = Cameras.FirstOrDefault();
@@ -212,6 +218,8 @@ namespace VideoModule.ViewModels
 			}
 		}
 
+		public PlayBackDeviceRecord StartedRecord { get; private set; }
+
 		public RelayCommand SearchCommand { get; private set; }
 		void OnSearch()
 		{
@@ -221,16 +229,25 @@ namespace VideoModule.ViewModels
 				return;
 			var channel = device.Channels.FirstOrDefault(x => x.ChannelNumber == SelectedCamera.Camera.ChannelNumber);
 			Records = new ObservableCollection<PlayBackDeviceRecord>();
-			for (var time = StartTime; time < EndTime; time += TimeSpan.FromDays(1))
+			for (var time = StartTime; new DateTime(time.Year, time.Month, time.Day) < EndTime; time += TimeSpan.FromDays(1))
 			{
-				var records = channel.QueryRecordFiles(time, time + TimeSpan.FromDays(1));
+				var dayStart = new DateTime(time.Year, time.Month, time.Day);
+				var dayEnd = new DateTime(time.Year, time.Month, time.Day, 23, 59, 59);
+				var startTime = dayStart;
+				if (startTime < StartTime)
+					startTime = StartTime;
+				var endTime = dayEnd;
+				if (endTime > EndTime)
+					endTime = EndTime;
+				var records = channel.QueryRecordFiles(startTime, endTime);
+				Trace.WriteLine(startTime + "  -  " + endTime);
 				Records.AddRange(records);
 			}
 		}
 
 		bool CanSearch()
 		{
-			return (SelectedCamera != null);
+			return ((SelectedCamera != null)&&(StartTime < EndTime));
 		}
 	}
 }

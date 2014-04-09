@@ -28,8 +28,8 @@ namespace Firesec
 			if (mustMonitorStates)
 			{
 				FiresecSerializedClient.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
-				FiresecSerializedClient.StateChanged += new Action<Models.CoreState.config>(OnStateChanged);
-				FiresecSerializedClient.ParametersChanged += new Action<Models.DeviceParameters.config>(OnParametersChanged);
+				FiresecSerializedClient.StateChanged += new Action<Models.CoreState.States>(OnStateChanged);
+				FiresecSerializedClient.ParametersChanged += new Action<Models.DeviceParameters.Params>(OnParametersChanged);
 			}
 			FiresecSerializedClient.ProgressEvent += new Action<int, string, int, int>(OnProgress);
 		}
@@ -102,7 +102,7 @@ namespace Firesec
 			}
 		}
 
-		public void OnParametersChanged(Firesec.Models.DeviceParameters.config coreParameters)
+		public void OnParametersChanged(Firesec.Models.DeviceParameters.Params coreParameters)
 		{
 			ChangedDevices = new HashSet<DeviceState>();
 			ChangedZones = new HashSet<ZoneState>();
@@ -147,7 +147,7 @@ namespace Firesec
 			}
 		}
 
-		internal static void ImitatorStateChanged(Firesec.Models.CoreState.config coreState)
+		internal static void ImitatorStateChanged(Firesec.Models.CoreState.States coreState)
 		{
 			Current.OnStateChanged(coreState);
 		}
@@ -165,7 +165,7 @@ namespace Firesec
 			}
 		}
 
-		void OnStateChanged(Firesec.Models.CoreState.config coreState)
+		void OnStateChanged(Firesec.Models.CoreState.States coreState)
 		{
 			try
 			{
@@ -193,10 +193,10 @@ namespace Firesec
 			}
 		}
 
-		void SetStates(Firesec.Models.CoreState.config coreState)
+		void SetStates(Firesec.Models.CoreState.States coreState)
 		{
 			if (coreState == null)
-				coreState = new Models.CoreState.config();
+				coreState = new Models.CoreState.States();
 			if (coreState.dev == null)
 				coreState.dev = new Models.CoreState.devType[0];
 

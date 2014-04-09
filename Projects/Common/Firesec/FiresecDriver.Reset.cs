@@ -64,7 +64,7 @@ namespace Firesec
 				innerDevices.Add(innerDevice);
 			}
 
-			var coreState = new Firesec.Models.CoreState.config()
+			var coreState = new Firesec.Models.CoreState.States()
 			{
 				dev = innerDevices.ToArray()
 			};

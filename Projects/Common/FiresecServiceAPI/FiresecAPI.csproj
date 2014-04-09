@@ -319,13 +319,11 @@
     <Compile Include="Models\Device\PDU\PDUGroupDevice.cs" />
     <Compile Include="Models\Plans\ElementPolygonXZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXZone.cs" />
-    <Compile Include="XManager\UpdateConfigurationHelper.cs" />
     <Compile Include="XManager\XManager.Actions.cs" />
     <Compile Include="XManager\XManager.cs" />
     <Compile Include="XManager\XManager.Device.cs" />
     <Compile Include="XManager\XManager.PresentationZone.cs" />
     <Compile Include="XManager\XManager.States.cs" />
-    <Compile Include="XManager\UpdateConfigurationHelper.Descriptors.cs" />
     <Compile Include="XModels\ConfigurationCash.cs" />
     <Compile Include="XModels\Configuration\XDeviceConfiguration.Update.cs" />
     <Compile Include="XModels\Configuration\XDeviceConfiguration.Descriptors.cs" />

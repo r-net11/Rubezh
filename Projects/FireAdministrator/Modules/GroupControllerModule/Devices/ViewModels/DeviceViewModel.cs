@@ -194,7 +194,7 @@ namespace GKModule.ViewModels
 			}
 			if (Device.Parent.DriverType == XDriverType.RSR2_KAU_Shleif)
 				XManager.RebuildRSR2Addresses(Device.Parent.Parent);
-			Device.OnChanged();
+			allDevices.ForEach(device => device.OnChanged());
 
 			var parent = Parent;
 			if (parent != null)

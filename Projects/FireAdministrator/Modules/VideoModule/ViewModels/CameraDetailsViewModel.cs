@@ -274,7 +274,7 @@ namespace VideoModule.ViewModels
 			{
 				if (SelectedChannel == null)
 					SelectedChannel = Channels.FirstOrDefault();
-				var title = Camera.Address + " (" + SelectedChannel.Name + ")";
+				var title = Address + " (" + SelectedChannel.Name + ")";
 				var previewViewModel = new PreviewViewModel(title, _cellPlayerWrap);
 
 				_cellPlayerWrap.Connect(Address, Port, Login, Password);

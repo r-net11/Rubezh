@@ -83,6 +83,31 @@ namespace VideoModule.ViewModels
 			}
 		}
 
+		public void Connect()
+		{
+			try
+			{
+				IsConnecting = true;
+				IsFailConnected = false;
+				Channels = new ObservableCollection<IChannel>(CellPlayerWrap.Connect(Camera.Address, Camera.Port));
+				Dispatcher.BeginInvoke(
+					DispatcherPriority.Input, new ThreadStart(
+						() =>
+						{
+							SelectedChannel = Channels[Camera.ChannelNumber];
+						}));
+				SynchronizeProperties();
+			}
+			catch
+			{
+				IsFailConnected = true;
+			}
+			finally
+			{
+				IsConnecting = false;
+			}
+		}
+
 		public bool StartVideo()
 		{
 			try

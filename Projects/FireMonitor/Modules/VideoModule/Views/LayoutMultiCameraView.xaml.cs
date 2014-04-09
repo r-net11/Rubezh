@@ -148,7 +148,9 @@ namespace VideoModule.Views
 		private void OnShowArchive(object sender, RoutedEventArgs e)
 		{
 			var archiveViewModel = new ArchiveViewModel();
-			DialogService.ShowWindow(archiveViewModel);
+			DialogService.ShowModalWindow(archiveViewModel);
+			if(archiveViewModel.StartedRecord != null)
+				archiveViewModel.CellPlayerWrap.Stop(archiveViewModel.StartedRecord);
 		}
 
 		public static void GetLogicalChildCollection(DependencyObject parent, List<CellPlayerWrap> logicalCollection)

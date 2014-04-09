@@ -75,6 +75,8 @@ namespace GKImitator.SKDProcessor
 	public partial class Devices
 	{
 		
+		private System.Guid _UID;
+		
 		private System.Nullable<int> _Port;
 		
 		private System.Nullable<int> _LastJournalNo;
@@ -83,6 +85,22 @@ namespace GKImitator.SKDProcessor
 		
 		public Devices()
 		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this._UID = value;
+				}
+			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Port", DbType="Int")]

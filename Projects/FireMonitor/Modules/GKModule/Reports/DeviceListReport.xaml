@@ -57,7 +57,7 @@
 					<TableCell RowSpan="2">
 						<Paragraph TextAlignment="Center">
 							<LineBreak />
-							Зона
+							Зона или Логика
 						</Paragraph>
 					</TableCell>
 				</TableRow>

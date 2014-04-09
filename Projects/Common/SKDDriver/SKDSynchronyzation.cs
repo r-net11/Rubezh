@@ -46,7 +46,7 @@ namespace SKDDriver
 			get { return SKDManager.SKDConfiguration.TimeIntervalsConfiguration; }
 		}
 
-		static void WriteIntervals(SKDDevice device)
+		public static bool WriteIntervals(SKDDevice device)
 		{
 			var bytes = new List<byte>();
 			bytes.Add(10);
@@ -122,7 +122,17 @@ namespace SKDDriver
 				}
 			}
 
-			SKDDeviceProcessor.SendBytes(device, bytes);
+			bytes.Add(5);
+			bytes.Add((byte)Intervals.Holidays.Count);
+			foreach (var holiday in Intervals.Holidays)
+			{
+				bytes.Add((byte)holiday.TypeNo);
+				bytes.Add((byte)(holiday.DateTime.Year - 2000));
+				bytes.Add((byte)holiday.DateTime.Month);
+				bytes.Add((byte)holiday.DateTime.Day);
+			}
+
+			return !SKDDeviceProcessor.SendBytes(device, bytes).HasError;
 		}
 
 		public static List<byte> GetTimeIntervalsHash(TimeIntervalsConfiguration timeIntervalsConfiguration)

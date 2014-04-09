@@ -10,7 +10,7 @@ namespace Firesec
 {
 	public static class DriverConverter
 	{
-		public static Driver Convert(Firesec.Models.Metadata.config coreDriversConfig, drvType innerDriver)
+		public static Driver Convert(Firesec.Models.Metadata.DeviceRegistry coreDriversConfig, drvType innerDriver)
 		{
 			var driver = new Driver()
 			{

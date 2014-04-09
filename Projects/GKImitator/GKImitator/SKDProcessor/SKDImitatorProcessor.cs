@@ -31,7 +31,7 @@ namespace GKImitator.Processor
 			Port = port;
 			IsConnected = true;
 			Context = new SKDDataContext();
-			
+
 			if (Context.Journals.Count() > 0)
 				LastJournalNo = Context.Journals.AsEnumerable().OrderBy(x => x.CardNo).LastOrDefault().DeviceNo;
 			JournalItems = new List<SKDImitatorJournalItem>();
@@ -39,6 +39,16 @@ namespace GKImitator.Processor
 
 			ImitatorContext = new SKDImitatorDBDataContext();
 			ImitatorDevice = ImitatorContext.Devices.FirstOrDefault(x => x.Port == Port);
+			if (ImitatorDevice == null)
+			{
+				ImitatorDevice = new Devices()
+				{
+					UID = Guid.NewGuid(),
+					Port = Port
+				};
+				ImitatorContext.Devices.InsertOnSubmit(ImitatorDevice);
+				ImitatorContext.SubmitChanges();
+			}
 		}
 
 		public void Start()

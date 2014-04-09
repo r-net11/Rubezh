@@ -11,7 +11,9 @@ namespace GKModule.Reports
 	{
 		public ReportArchiveFilter()
 		{
-			ArchiveFilter = new XArchiveFilter() { StartDate = ArchiveFirstDate < DateTime.Now.AddHours(-1) ? DateTime.Now.AddHours(-1) : ArchiveFirstDate, EndDate = DateTime.Now };
+			ArchiveFilter = new XArchiveFilter() { StartDate = ArchiveFirstDate < DateTime.Now.AddSeconds(-1) ? DateTime.Now.AddSeconds(-1) : ArchiveFirstDate, EndDate = DateTime.Now };
+			StartDate = ArchiveFilter.StartDate;
+			EndDate = ArchiveFilter.EndDate;
 			Initialize();
 		}
 

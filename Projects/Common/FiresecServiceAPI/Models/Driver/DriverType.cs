@@ -96,6 +96,12 @@
 		SonarDirection,
 		USB_Rubezh_P,
 		Sonar,
-		OP_VirtualPanel
+		OP_VirtualPanel,
+		BUI,
+		MRK_30_868,
+		RadioHandDetector_868,
+		RadioSmokeDetector_868,
+		IPCamera,
+		RVI_IPC11,
 	}
 }

@@ -43,7 +43,7 @@ namespace GKProcessor
 			{
 				No = 3,
 				Name = "Состояние для режима Выключено",
-				Caption = "Состояние для модуля Выключено",
+				Caption = "Состояние для режима Выключено",
 				Default = 0,
 				IsLowByte = true,
 				Mask = 0x03

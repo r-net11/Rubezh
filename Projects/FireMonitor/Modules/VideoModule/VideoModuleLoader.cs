@@ -21,14 +21,16 @@ namespace VideoModule
 {
 	public class VideoModuleLoader : ModuleBase, ILayoutProviderModule
 	{
-		private CamerasViewModel _CamerasViewModel;
-		private NavigationItem _videoNavigationItem;
-		private PlanPresenter _planPresenter;
+		AllVideoViewModel AllVideoViewModel;
+		//CamerasViewModel _CamerasViewModel;
+		NavigationItem _videoNavigationItem;
+		PlanPresenter _planPresenter;
 
 		public override void CreateViewModels()
 		{
 			_planPresenter = new PlanPresenter();
-			_CamerasViewModel = new CamerasViewModel();
+			//_CamerasViewModel = new CamerasViewModel();
+			AllVideoViewModel = new AllVideoViewModel();
 			foreach (var zone in XManager.Zones)
 			{
 				zone.State.StateChanged -= new Action(OnZoneStateChanged);
@@ -64,14 +66,16 @@ namespace VideoModule
 		{
 			//UpdateVideoAlarms();
 			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.Cameras.Count > 0;
-			_CamerasViewModel.Initialize();
+			//_CamerasViewModel.Initialize();
+			AllVideoViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(_CamerasViewModel, "Видео", "/Controls;component/Images/Video1.png");
+			//_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(_CamerasViewModel, "Видео", "/Controls;component/Images/Video1.png");
+			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(AllVideoViewModel, "Видео", "/Controls;component/Images/Video1.png");
 			return new List<NavigationItem>()
 			{
 				_videoNavigationItem
@@ -95,7 +99,7 @@ namespace VideoModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.CamerasList, "Список камер", "Video1.png", (p) => _CamerasViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.CamerasList, "Список камер", "Video1.png", (p) => new CamerasViewModel());
 			yield return new LayoutPartPresenter(LayoutPartIdentities.CameraVideo, "Видео с камеры", "Video1.png", (p) => new LayoutPartCameraViewModel(p as LayoutPartCameraProperties));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.MultiCamera, "Видео с камер", "Video1.png", (p) => new LayoutMultiCameraViewModel()); 
 		}

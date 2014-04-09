@@ -12,25 +12,18 @@ namespace VideoModule.ViewModels
 	public class LayoutPartCameraViewModel : BaseViewModel
 	{
 		private string ViewName { get; set; }
-
+		public Camera Camera { get; set; }
+		public CellPlayerWrap CellPlayerWrap { get; private set; }
 		public LayoutPartCameraViewModel(LayoutPartCameraProperties properties)
 		{
+			CellPlayerWrap = new CellPlayerWrap();
 			if (properties != null)
-				Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.SourceUID);
-		}
-
-		public LayoutPartCameraViewModel(string viewName)
-		{
-			ViewName = viewName;
-			var cameraUID = ClientSettings.MultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == viewName).Value;
-			if (cameraUID != Guid.Empty)
 			{
-				Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUID);
-				CameraViewModel = new CameraViewModel(Camera, new CellPlayerWrap());
+				Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.SourceUID);
+				CameraViewModel = new CameraViewModel(Camera, CellPlayerWrap);
+				CameraViewModel.ConnectAndStart();
 			}
 		}
-
-		public Camera Camera { get; set; }
 
 		private CameraViewModel _cameraViewModel;
 		public CameraViewModel CameraViewModel
