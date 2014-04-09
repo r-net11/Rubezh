@@ -25,17 +25,12 @@ namespace VideoModule.Views
 		public LayoutMultiCameraView()
 		{
 			InitializeComponent();
-			Loaded += UI_Loaded;
-		}
-
-		private void UI_Loaded(object sender, RoutedEventArgs e)
-		{
 			Cameras = new List<CameraViewModel>();
 			InitializeCameras();
 			InitializePerimeter();
 			_grid.Child = EnumToType(ClientSettings.RviMultiLayoutCameraSettings.MultiGridType);
 		}
-
+		
 		List<CameraViewModel> Cameras;
 
 		void InitializeCameras()

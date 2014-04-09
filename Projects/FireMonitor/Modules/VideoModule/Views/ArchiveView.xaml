@@ -2,10 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-             MinWidth="800" MinHeight="500">
+             MinWidth="900" MinHeight="500">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320" />
+            <ColumnDefinition MinWidth="380" MaxWidth="380" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -41,9 +41,9 @@
             </Grid>
             <DataGrid Grid.Row="1" Margin="10" ItemsSource="{Binding Records}" SelectedItem="{Binding SelectedRecord}" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding NetRecordFileInfo.StartTime}" Header="Время начала" />
-                    <DataGridTextColumn Binding="{Binding NetRecordFileInfo.EndTime}" Header="Время окончания" />
-                    <DataGridTextColumn Binding="{Binding NetRecordFileInfo.Size}" Width="1*" Header="Объем(Kb)" />
+                    <DataGridTextColumn MinWidth ="130"  Binding="{Binding NetRecordFileInfo.StartTime}" Header="Время начала" />
+                    <DataGridTextColumn MinWidth ="130" Binding="{Binding NetRecordFileInfo.EndTime}" Header="Время окончания" />
+                    <DataGridTextColumn Width ="1*" Binding="{Binding NetRecordFileInfo.Size}" Header="Объем(Kb)" />
                 </DataGrid.Columns>
             </DataGrid>
             <Button Grid.Row="2" Content="Воспроизвести" Command="{Binding StartCommand}" Height="30" Width="150" Margin="0, 0, 10, 0" HorizontalAlignment="Right" />
