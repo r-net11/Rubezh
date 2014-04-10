@@ -37,7 +37,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			IsEmployee = employee.Type == PersonType.Employee;
+			IsEmployee = Employee.Type == PersonType.Employee;
 			if (IsEmployee)
 			{
 				InitializePositions();

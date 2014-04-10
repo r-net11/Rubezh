@@ -64,6 +64,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
+    <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentFilterViewModel.cs" />

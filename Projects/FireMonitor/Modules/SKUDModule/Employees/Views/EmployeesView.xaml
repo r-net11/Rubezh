@@ -145,26 +145,6 @@
 
                 <Grid Grid.Column="1" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}">
                     <Grid DataContext="{Binding SelectedCard}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0" Orientation="Horizontal">
-                            <StackPanel Margin="10 0" Orientation="Horizontal">
-                                <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Идентификатор" />
-                                <TextBlock Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.PresentationName}" />
-                            </StackPanel>
-
-                            <StackPanel Margin="10 0" Orientation="Horizontal">
-                                <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Начало действия" />
-                                <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.StartDate, StringFormat=dd-MM-yyyy}" />
-                            </StackPanel>
-
-                            <StackPanel Margin="10 0" Orientation="Horizontal">
-                                <TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Конец действия" />
-                                <TextBlock Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.EndDate, StringFormat=dd-MM-yyyy}" />
-                            </StackPanel>
-                        </StackPanel>
                         <Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
                     </Grid>
                 </Grid>

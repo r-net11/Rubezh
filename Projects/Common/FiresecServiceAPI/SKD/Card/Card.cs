@@ -10,6 +10,7 @@ namespace FiresecAPI
 		public SKDCard()
 		{
 			CardZones = new List<CardZone>();
+			CardType = CardType.Constant;
 		}
 
 		[DataMember]
@@ -40,7 +41,7 @@ namespace FiresecAPI
 		public bool IsInStopList { get; set; }
 
 		[DataMember]
-		public bool IsBlocked { get; set; }
+		public CardType CardType { get; set; }
 
 		[DataMember]
 		public string StopReason { get; set; }

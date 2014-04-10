@@ -24,15 +24,15 @@ namespace SKDModule.PassCard.ViewModels
 {
 	public class PassCardViewModel : SaveCancelDialogViewModel, IPlanDesignerViewModel
 	{
-		private PassCardCanvas PassCardCanvas;
-		private EmployeeViewModel EmployeeViewModel;
-		private EmployeeCardViewModel EmployeeCardViewModel;
+		PassCardCanvas PassCardCanvas;
+		EmployeeViewModel EmployeeViewModel;
+		SKDCard Card;
 
-		public PassCardViewModel(EmployeeViewModel employeeViewModel, EmployeeCardViewModel employeeCardViewModel)
+		public PassCardViewModel(EmployeeViewModel employeeViewModel, SKDCard card)
 		{
 			Title = "Удостоверение";
 			EmployeeViewModel = employeeViewModel;
-			EmployeeCardViewModel = employeeCardViewModel;
+			Card = card;
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 
 			PassCardCanvas = new PassCardCanvas();
@@ -41,7 +41,7 @@ namespace SKDModule.PassCard.ViewModels
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 
-			var uid = EmployeeCardViewModel.Card.CardTemplateUID;
+			var uid = Card.CardTemplateUID;
 			SelectedPassCardTemplate = uid.HasValue ? PassCardTemplates.FirstOrDefault(item => item.UID == uid.Value) : null;
 		}
 
@@ -73,7 +73,7 @@ namespace SKDModule.PassCard.ViewModels
 				var capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
 				var origin = new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight);
 				PassCardCanvas.Arrange(new Rect(origin, PassCardCanvas.DesiredSize));
-				dialog.PrintVisual(PassCardCanvas, "Пропуск " + EmployeeCardViewModel.EmployeeViewModel.EmployeeListItem.LastName);
+				dialog.PrintVisual(PassCardCanvas, "Пропуск " + EmployeeViewModel.EmployeeListItem.LastName);
 				PassCardCanvas.Arrange(rect);
 			}
 		}
@@ -138,7 +138,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = EmployeeViewModel.DepartmentName;
 					break;
 				case PassCardTextPropertyType.EndDate:
-					elementTextProperty.Text = EmployeeCardViewModel.Card.EndDate.ToShortDateString();
+					elementTextProperty.Text = Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.FirstName:
 					elementTextProperty.Text = EmployeeViewModel.EmployeeListItem.FirstName;
@@ -147,7 +147,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = EmployeeViewModel.EmployeeListItem.LastName;
 					break;
 				case PassCardTextPropertyType.Organization:
-					elementTextProperty.Text = EmployeeCardViewModel.Organization.Name;
+					elementTextProperty.Text = EmployeeViewModel.Organization.Name;
 					break;
 				case PassCardTextPropertyType.Position:
 					elementTextProperty.Text = EmployeeViewModel.PositionName;
@@ -156,7 +156,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = EmployeeViewModel.EmployeeListItem.SecondName;
 					break;
 				case PassCardTextPropertyType.StartDate:
-					elementTextProperty.Text = EmployeeCardViewModel.Card.EndDate.ToShortDateString();
+					elementTextProperty.Text = Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Additional:
 					var columnValue = AdditionalColumnHelper.GetValue(EmployeeViewModel.EmployeeListItem, elementTextProperty.AdditionalColumnUID);
@@ -239,7 +239,7 @@ namespace SKDModule.PassCard.ViewModels
 						photo = PhotoHelper.GetSingle(EmployeeViewModel.DepartmentPhotoUID);
 						break;
 					case PassCardImagePropertyType.OrganizationLogo:
-						photo = PhotoHelper.GetSingle(EmployeeCardViewModel.Organization.PhotoUID);
+						photo = PhotoHelper.GetSingle(EmployeeViewModel.Organization.PhotoUID);
 						break;
 					case PassCardImagePropertyType.Photo:
 						//photo = PhotoHelper.GetSingle(EmployeeViewModel.EmployeeListItem.PhotoUID);
@@ -262,8 +262,8 @@ namespace SKDModule.PassCard.ViewModels
 		protected override bool Save()
 		{
 			var cardTemplateUID = SelectedPassCardTemplate == null ? null : (Guid?)SelectedPassCardTemplate.UID;
-			EmployeeCardViewModel.Card.CardTemplateUID = cardTemplateUID;
-			return CardHelper.SaveTemplate(EmployeeCardViewModel.Card);
+			Card.CardTemplateUID = cardTemplateUID;
+			return CardHelper.SaveTemplate(Card);
 		}
 	}
 }

@@ -17,6 +17,13 @@ namespace VideoModule.ViewModels
 			Title = "Автопоиск";
 			Cameras = cameras;
 			SearchCommand = new RelayCommand(OnSearch);
+			OnSearch();
+		}
+
+		public override bool OnClosing(bool isCanceled)
+		{
+			SystemPerimeter.Instance.StopSearchDevices();
+			return base.OnClosing(isCanceled);
 		}
 
 		private ObservableCollection<FoundCameraViewModel> _foundCameras;

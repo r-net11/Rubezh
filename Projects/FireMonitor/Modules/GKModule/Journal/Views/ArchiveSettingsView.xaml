@@ -10,7 +10,7 @@
 		<Converters:JournalColumnTypeToStringConverter x:Key="JournalColumnTypeToStringConverter" />
 		<Style TargetType="{x:Type Label}">
 			<Style.Setters>
-				<Setter Property="Foreground" Value="Black"/>
+				<Setter Property="Foreground" Value="Black" />
 			</Style.Setters>
 		</Style>
 	</UserControl.Resources>
@@ -19,19 +19,19 @@
 		<TabItem Header="Временной диапазон">
 			<Border Background="White" CornerRadius="5">
 				<StackPanel>
-					<Label Content="При переходе на вкладку архива, показывать записи" FontWeight="Bold" Foreground="Black"/>
-					<ListBox Name="_archiveDefaultStateTypes" BorderThickness="0" Margin="5"
+					<Label Content="При переходе на вкладку архива, показывать записи" FontWeight="Bold" Foreground="Black" />
+					<ItemsControl Name="_archiveDefaultStateTypes" BorderThickness="0" Margin="5"
 						 ItemsSource="{Binding ArchiveDefaultStates}"
 						 DataContextChanged="_archiveDefaultStateTypes_DataContextChanged">
-						<ListBox.ItemTemplate>
+                        <ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<RadioButton Margin="5" Checked="RadioButton_Checked"
 									 Content="{Binding ArchiveDefaultStateType, Converter={StaticResource ArchiveDefaultStateTypeToStringConverter}}"
 									 IsChecked="{Binding IsActive}" />
 							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-					<WrapPanel Name="_countHoursPanel" HorizontalAlignment="Left" Margin="11 5 ">
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+					<WrapPanel Name="_countHoursPanel" HorizontalAlignment="Left" Margin="11 5">
                         <ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding HoursCount, UpdateSourceTrigger=PropertyChanged}" />
 						<Label Content="количество часов" VerticalAlignment="Center" />
 					</WrapPanel>

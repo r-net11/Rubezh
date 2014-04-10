@@ -200,6 +200,7 @@
     <Compile Include="Models\Plans\ElementCamera.cs" />
     <Compile Include="Models\Video\CameraFrame.cs" />
     <Compile Include="SKD\AdditionalColumn\AdditionalColumnDataType.cs" />
+    <Compile Include="SKD\Card\CardType.cs" />
     <Compile Include="SKD\Card\IntervalType.cs" />
     <Compile Include="SKD\Common\IsDeletedFilter.cs" />
     <Compile Include="SKD\Common\SKDHelper.cs" />
