@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
@@ -21,7 +22,15 @@ namespace VideoModule.ViewModels
 			{
 				Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.SourceUID);
 				CameraViewModel = new CameraViewModel(Camera, CellPlayerWrap);
-				CameraViewModel.ConnectAndStart();
+				new Thread(delegate()
+				{
+						try
+						{
+							if (CameraViewModel.Address != null)
+								CameraViewModel.ConnectAndStart();
+						}
+						catch { }
+				}).Start();
 			}
 		}
 

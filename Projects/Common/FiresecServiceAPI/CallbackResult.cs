@@ -2,12 +2,16 @@
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
 using XFiresecAPI;
+using System;
 
 namespace FiresecAPI
 {
 	[DataContract]
 	public class CallbackResult
 	{
+		[DataMember]
+		public Guid ArchivePortionUID { get; set; }
+
 		[DataMember]
 		public CallbackResultType CallbackResultType { get; set; }
 

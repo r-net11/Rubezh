@@ -22,8 +22,8 @@ namespace GKModule.ViewModels
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public ArchiveDefaultState ArchiveDefaultState;
 		XArchiveFilter ArchiveFilter;
-		Thread UpdateThread;
 		bool FirstTime = true;
+		Guid ArchivePortionUID;
 
 		public ArchiveViewModel()
 		{
@@ -127,15 +127,15 @@ namespace GKModule.ViewModels
 		bool _isFilterOn;
 		public bool IsFilterOn
 		{
-			get 
-			{ 
-				return  _isFilterOn; 
+			get
+			{
+				return _isFilterOn;
 			}
 			set
 			{
 				_isFilterOn = value;
 				OnPropertyChanged("IsFilterOn");
-				Update(true);
+				Update();
 			}
 		}
 
@@ -180,7 +180,7 @@ namespace GKModule.ViewModels
 					ClientSettings.ArchiveDefaultState = ArchiveDefaultState;
 					ServiceFactory.Events.GetEvent<XJournalSettingsUpdatedEvent>().Publish(null);
 					if (IsFilterOn == false)
-						Update(true);
+						Update();
 				}
 			}
 			catch (Exception e)
@@ -329,7 +329,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				return Status == "Загрузка данных"; 
+				return Status == "Загрузка данных";
 			}
 		}
 
@@ -352,32 +352,16 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void Update(bool abortRunnig = true)
+		public void Update()
 		{
-			if (abortRunnig)
-			{
-				if (UpdateThread != null)
-					UpdateThread.Abort();
-				UpdateThread = null;
-			}
-			if (UpdateThread == null)
-			{
-				Status = "Загрузка данных";
-				JournalItems = new ObservableRangeCollection<JournalItemViewModel>();
+			Status = "Загрузка данных";
+			JournalItems = new ObservableRangeCollection<JournalItemViewModel>();
 
-				Pages = new ObservableCollection<ArchivePageViewModel>();
-				TotalPageNumber = 0;
-				CurrentPageNumber = 0;
-				SelectedPage = null;
+			Pages = new ObservableCollection<ArchivePageViewModel>();
+			TotalPageNumber = 0;
+			CurrentPageNumber = 0;
+			SelectedPage = null;
 
-				UpdateThread = new Thread(new ThreadStart(OnUpdate));
-				UpdateThread.Name = "GK Journal Update";
-				UpdateThread.Start();
-			}
-		}
-
-		void OnUpdate()
-		{
 			try
 			{
 				XArchiveFilter archiveFilter = null;
@@ -389,26 +373,29 @@ namespace GKModule.ViewModels
 				archiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 
 				JournalItems = new ObservableCollection<JournalItemViewModel>();
-				FiresecManager.FiresecService.BeginGetGKFilteredArchive(archiveFilter);
+				ArchivePortionUID = Guid.NewGuid();
+				FiresecManager.FiresecService.BeginGetGKFilteredArchive(archiveFilter, ArchivePortionUID);
 			}
 			catch (ThreadAbortException) { }
 			catch (Exception e)
 			{
 				Logger.Error(e, "ArchiveViewModel.OnUpdate");
 			}
-			UpdateThread = null;
 		}
 
-		void OnGetFilteredArchiveCompleted(IEnumerable<JournalItem> journalItems)
+		void OnGetFilteredArchiveCompleted(ArchiveResult archiveResult)
 		{
-			if (journalItems.Count() > 0)
+			if (archiveResult.ArchivePortionUID == ArchivePortionUID)
 			{
-				var archivePageViewModel = new ArchivePageViewModel(journalItems);
-				Pages.Add(archivePageViewModel);
-				TotalPageNumber = Pages.Count;
-				if (CurrentPageNumber == 0)
-					CurrentPageNumber = 1;
-				Status = "Количество записей: " + ((TotalPageNumber - 1) * ArchiveDefaultState.PageSize + journalItems.Count()).ToString();
+				if (archiveResult.JournalItems.Count() > 0)
+				{
+					var archivePageViewModel = new ArchivePageViewModel(archiveResult.JournalItems);
+					Pages.Add(archivePageViewModel);
+					TotalPageNumber = Pages.Count;
+					if (CurrentPageNumber == 0)
+						CurrentPageNumber = 1;
+					Status = "Количество записей: " + ((TotalPageNumber - 1) * ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()).ToString();
+				}
 			}
 		}
 
@@ -417,13 +404,13 @@ namespace GKModule.ViewModels
 			if (FirstTime)
 			{
 				FirstTime = false;
-				Update(false);
+				Update();
 			}
 		}
 
 		void OnSettingsChanged(object o)
 		{
-			AdditionalColumnsChanged = !AdditionalColumnsChanged; 
+			AdditionalColumnsChanged = !AdditionalColumnsChanged;
 		}
 	}
 }

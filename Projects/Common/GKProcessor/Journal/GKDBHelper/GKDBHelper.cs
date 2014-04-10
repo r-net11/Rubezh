@@ -17,7 +17,7 @@ namespace GKProcessor
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
 		public static bool IsAbort { get; set; }
-		public static event Action<List<JournalItem>> ArchivePortionReady;
+		public static event Action<List<JournalItem>, Guid> ArchivePortionReady;
 		
 
 		public static void Add(JournalItem journalItem)
@@ -126,7 +126,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static List<JournalItem> BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, bool isReport)
+		public static List<JournalItem> BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
 		{
 			var journalItems = new List<JournalItem>();
 			var result = new List<JournalItem>();
@@ -155,7 +155,7 @@ namespace GKProcessor
 									{
 										journalItems.Add(journalItem);
 										if (journalItems.Count >= archiveFilter.PageSize)
-											PublishNewItemsPortion(journalItems);
+											PublishNewItemsPortion(journalItems, archivePortionUID);
 									}
 								}
 								catch (Exception e)
@@ -164,7 +164,7 @@ namespace GKProcessor
 								}
 							}
 							if (!isReport)
-								PublishNewItemsPortion(journalItems);
+								PublishNewItemsPortion(journalItems, archivePortionUID);
 						}
 					}
 				}
@@ -178,10 +178,10 @@ namespace GKProcessor
 			return result;
 		}
 
-		static void PublishNewItemsPortion(List<JournalItem> journalItems)
+		static void PublishNewItemsPortion(List<JournalItem> journalItems, Guid archivePortionUID)
 		{
 			if (ArchivePortionReady != null)
-				ArchivePortionReady(journalItems.ToList());
+				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
 			UpdateNamesDescriptions(journalItems);
 			journalItems.Clear();
 		}

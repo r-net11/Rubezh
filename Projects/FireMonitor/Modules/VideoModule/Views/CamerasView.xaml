@@ -4,7 +4,16 @@
     <Grid>
         <XDataGrid ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="200" Binding="{Binding Camera.Name}" Header="Название" />
+                <DataGridTemplateColumn Width="200" Header="Название">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="16" Source="/Controls;component/Images/BVideo.png" />
+                                <TextBlock Margin="5, 0, 0, 0" VerticalAlignment="Center" Text="{Binding Camera.Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Width="200" Binding="{Binding PresentationName}" Header="URL" />
                 <DataGridTextColumn Width="200" Binding="{Binding Camera.Port}" Header="Порт" />
                 <DataGridTextColumn Width="200" Binding="{Binding Camera.Login}" Header="Имя пользователя" />

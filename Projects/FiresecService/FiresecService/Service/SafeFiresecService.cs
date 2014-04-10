@@ -343,9 +343,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetGKTopLastJournalItems(count); }, "GetGKTopLastJournalItems");
 		}
 
-		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
-			SafeOperationCall(() => { FiresecService.BeginGetGKFilteredArchive(archiveFilter); }, "BeginGetGKFilteredArchive");
+			SafeOperationCall(() => { FiresecService.BeginGetGKFilteredArchive(archiveFilter, archivePortionUID); }, "BeginGetGKFilteredArchive");
 		}
 
 		public List<string> GetDistinctGKJournalNames()

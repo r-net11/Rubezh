@@ -295,7 +295,7 @@ namespace SKDDriver
 				}
 
 				SKDCallbackResult = new SKDCallbackResult();
-				result = SyncronyzeIntervals();
+				result = !SyncronyzeIntervals();
 				if (IsIntervalsSynchroniztionFailure != result)
 				{
 					IsIntervalsSynchroniztionFailure = result;
@@ -337,9 +337,20 @@ namespace SKDDriver
 
 			var localHash = SKDSynchronyzation.GetTimeIntervalsHash(SKDManager.SKDConfiguration.TimeIntervalsConfiguration);
 			var remoteHash = result.Bytes;
-			if(!localHash.SequenceEqual(remoteHash))
+			//if (!localHash.SequenceEqual(remoteHash))
+			if (!CompreHashes(localHash, remoteHash))
 			{
 				return SKDSynchronyzation.WriteIntervals(Device);
+			}
+			return true;
+		}
+
+		bool CompreHashes(List<byte> hash1, List<byte> hash2)
+		{
+			for (int i = 0; i < 16; i++)
+			{
+				if (hash1[i] != hash2[i])
+					return false;
 			}
 			return true;
 		}

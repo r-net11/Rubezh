@@ -17,20 +17,20 @@ namespace DeviceControls
 		{
 			_geometry = new CombinedGeometry()
 			{
-				Geometry1 = new RectangleGeometry(new Rect(0, 0, 15, 10), 1, 1),
+				Geometry1 = new RectangleGeometry(new Rect(0, 3, 14, 8), 1, 1),
 				Geometry2 = new PathGeometry()
 				{
 					Figures = new PathFigureCollection()
 					{
 						new PathFigure()
 						{
-							StartPoint = new Point(15,3),
+							StartPoint = new Point(16,5),
 							IsClosed = false,
 							Segments = new PathSegmentCollection()
 							{
-								new LineSegment(new Point(20,1),true),
-								new LineSegment(new Point(20,9),true),
-								new LineSegment(new Point(15,7),true),
+								new LineSegment(new Point(20,2),true),
+								new LineSegment(new Point(20,12),true),
+								new LineSegment(new Point(16,9),true),
 							}
 						}
 					}

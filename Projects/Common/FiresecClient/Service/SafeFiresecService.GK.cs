@@ -391,15 +391,15 @@ namespace FiresecClient
 			}
 		}
 
-		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter)
+		public void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			if (IsGKAsAService)
 			{
-				SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter), "BeginGetGKFilteredArchive");
+				SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter, archivePortionUID), "BeginGetGKFilteredArchive");
 			}
 			else
 			{
-				SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter), "BeginGetGKFilteredArchive");
+				SafeOperationCall(() => FiresecService.BeginGetGKFilteredArchive(archiveFilter, archivePortionUID), "BeginGetGKFilteredArchive");
 			}
 		}
 

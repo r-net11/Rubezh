@@ -18,7 +18,7 @@ namespace GKImitator.Processor
 		public bool IsConnected { get; set; }
 		int Port;
 		Socket serverSocket;
-		byte[] byteData = new byte[64];
+		byte[] byteData = new byte[65535];
 		public List<SKDImitatorJournalItem> JournalItems { get; set; }
 		public int LastJournalNo { get; set; }
 		public SKDDataContext Context { get; private set; }
@@ -46,7 +46,7 @@ namespace GKImitator.Processor
 					UID = Guid.NewGuid(),
 					Port = Port
 				};
-				ImitatorContext.Devices.InsertOnSubmit(ImitatorDevice);
+				ImitatorContext.GetTable<Devices>().InsertOnSubmit(ImitatorDevice);
 				ImitatorContext.SubmitChanges();
 			}
 		}
@@ -129,7 +129,16 @@ namespace GKImitator.Processor
 					OnWriteIntervals();
 					return result;
 				case 11: // Запрос хэша всех временнх интервалов
-					return Encoding.ASCII.GetBytes(ImitatorDevice.TimeIntervalHash).ToList();
+					if (ImitatorDevice.TimeIntervalHash != null)
+					{
+						return ImitatorDevice.BytesHash.ToArray().ToList();
+						return Encoding.ASCII.GetBytes(ImitatorDevice.TimeIntervalHash).ToList();
+					}
+					else
+					{
+						for (int i = 0; i < 16; i++)
+							result.Add(0);
+					}
 					return result;
 			}
 			return null;
@@ -144,12 +153,15 @@ namespace GKImitator.Processor
 		{
 			AddJournalItem(new SKDImitatorJournalItem() { Source = 1, Address = 0, NameCode = 23, DescriptionCode = 2 });
 
+			var bytesHash = new byte[16];
 			var stringBuilder = new StringBuilder();
 			for(int i = 0; i < 16; i++)
 			{
-				stringBuilder.Append(byteData[i + 1]);
+				bytesHash[i] = byteData[i + 1];
+				stringBuilder.Append((char)byteData[i + 1]);
 			}
 
+			ImitatorDevice.BytesHash = new System.Data.Linq.Binary(bytesHash);
 			ImitatorDevice.TimeIntervalHash = stringBuilder.ToString();
 			ImitatorContext.SubmitChanges();
 		}

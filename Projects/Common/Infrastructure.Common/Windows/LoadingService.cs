@@ -73,7 +73,7 @@ namespace Infrastructure.Common.Windows
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "LoadingService.DoStep");
+				Logger.Error(e, "LoadingService.DoStep " + text + " # " + title + " # " + stepCount);
 			}
 		}
 		public static void AddCount(int count)

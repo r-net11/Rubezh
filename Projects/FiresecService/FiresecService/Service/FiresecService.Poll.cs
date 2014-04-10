@@ -81,10 +81,11 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyGKArchiveCompleted(List<JournalItem> journallItems)
+		public static void NotifyGKArchiveCompleted(List<JournalItem> journallItems, Guid archivePortionUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
+				ArchivePortionUID = archivePortionUID,
 				CallbackResultType = CallbackResultType.GKArchiveCompleted,
 				JournalItems = journallItems
 			};
