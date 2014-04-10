@@ -43,24 +43,5 @@ namespace SKDModule.Views
 				}
 			}
 		}
-
-		private void ItemsControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			var employeesViewModel = DataContext as EmployeesViewModel;
-			if (employeesViewModel != null)
-			{
-				employeesViewModel.DoNotSelectEmployee = true;
-			}
-		}
-
-		private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			var employeesViewModel = DataContext as EmployeesViewModel;
-			if (employeesViewModel != null)
-			{
-				employeesViewModel.DoNotSelectEmployee = false;
-				employeesViewModel.SelectedEmployee = employeesViewModel.SelectedEmployee;
-			}
-		}
 	}
 }

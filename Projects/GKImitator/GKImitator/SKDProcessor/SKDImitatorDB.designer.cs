@@ -30,6 +30,9 @@ namespace GKImitator.SKDProcessor
 		
     #region Определения метода расширяемости
     partial void OnCreated();
+    partial void InsertDevices(Devices instance);
+    partial void UpdateDevices(Devices instance);
+    partial void DeleteDevices(Devices instance);
     #endregion
 		
 		public SKDImitatorDBDataContext() : 
@@ -72,8 +75,10 @@ namespace GKImitator.SKDProcessor
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Devices")]
-	public partial class Devices
+	public partial class Devices : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private System.Guid _UID;
 		
@@ -81,13 +86,32 @@ namespace GKImitator.SKDProcessor
 		
 		private System.Nullable<int> _LastJournalNo;
 		
+		private System.Data.Linq.Binary _BytesHash;
+		
 		private string _TimeIntervalHash;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnPortChanging(System.Nullable<int> value);
+    partial void OnPortChanged();
+    partial void OnLastJournalNoChanging(System.Nullable<int> value);
+    partial void OnLastJournalNoChanged();
+    partial void OnBytesHashChanging(System.Data.Linq.Binary value);
+    partial void OnBytesHashChanged();
+    partial void OnTimeIntervalHashChanging(string value);
+    partial void OnTimeIntervalHashChanged();
+    #endregion
 		
 		public Devices()
 		{
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
 		public System.Guid UID
 		{
 			get
@@ -98,7 +122,11 @@ namespace GKImitator.SKDProcessor
 			{
 				if ((this._UID != value))
 				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
 					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
 				}
 			}
 		}
@@ -114,7 +142,11 @@ namespace GKImitator.SKDProcessor
 			{
 				if ((this._Port != value))
 				{
+					this.OnPortChanging(value);
+					this.SendPropertyChanging();
 					this._Port = value;
+					this.SendPropertyChanged("Port");
+					this.OnPortChanged();
 				}
 			}
 		}
@@ -130,7 +162,31 @@ namespace GKImitator.SKDProcessor
 			{
 				if ((this._LastJournalNo != value))
 				{
+					this.OnLastJournalNoChanging(value);
+					this.SendPropertyChanging();
 					this._LastJournalNo = value;
+					this.SendPropertyChanged("LastJournalNo");
+					this.OnLastJournalNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BytesHash", DbType="Binary(32)", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary BytesHash
+		{
+			get
+			{
+				return this._BytesHash;
+			}
+			set
+			{
+				if ((this._BytesHash != value))
+				{
+					this.OnBytesHashChanging(value);
+					this.SendPropertyChanging();
+					this._BytesHash = value;
+					this.SendPropertyChanged("BytesHash");
+					this.OnBytesHashChanged();
 				}
 			}
 		}
@@ -146,8 +202,32 @@ namespace GKImitator.SKDProcessor
 			{
 				if ((this._TimeIntervalHash != value))
 				{
+					this.OnTimeIntervalHashChanging(value);
+					this.SendPropertyChanging();
 					this._TimeIntervalHash = value;
+					this.SendPropertyChanged("TimeIntervalHash");
+					this.OnTimeIntervalHashChanged();
 				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

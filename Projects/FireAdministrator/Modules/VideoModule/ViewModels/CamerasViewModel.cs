@@ -1,6 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows.Input;
+using System.Windows.Threading;
+using Entities.DeviceOriented;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -27,6 +30,7 @@ namespace VideoModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			SearchCommand = new RelayCommand(OnSearch);
 			RegisterShortcuts();
 			InitializeCameras();
 			SubscribeEvents();
@@ -108,6 +112,24 @@ namespace VideoModule.ViewModels
 		bool CanEditDelete()
 		{
 			return SelectedCamera != null;
+		}
+
+		public RelayCommand SearchCommand { get; private set; }
+		void OnSearch()
+		{
+			var foundCamerasViewModel = new FoundCamerasViewModel(new List<CameraViewModel>(Cameras));
+			if(DialogService.ShowModalWindow(foundCamerasViewModel))
+				foreach (var foundCamera in foundCamerasViewModel.FoundCameras)
+				{
+					if (foundCamera.IsChecked)
+					{
+						var camera = new Camera();
+						camera.Address = foundCamera.Address;
+						camera.Port = foundCamera.Port;
+						var cameraViewModel = new CameraViewModel(this, camera);
+						Cameras.Add(cameraViewModel);
+					}
+				}
 		}
 
 		private void SubscribeEvents()

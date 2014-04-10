@@ -68,6 +68,9 @@ namespace SKDModule.ViewModels
 			foreach (var item in stopListCards)
 				StopListCards.Add(item);
 			SelectedStopListCard = StopListCards.FirstOrDefault();
+
+			CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
+			SelectedCardType = Card.CardType;
 		}
 
 		int _series;
@@ -90,6 +93,34 @@ namespace SKDModule.ViewModels
 				_number = value;
 				OnPropertyChanged("Number");
 			}
+		}
+
+		ObservableCollection<CardType> _cardTypes;
+		public ObservableCollection<CardType> CardTypes
+		{
+			get { return _cardTypes; }
+			set
+			{
+				_cardTypes = value;
+				OnPropertyChanged("CardTypes");
+			}
+		}
+
+		CardType _selectedCardType;
+		public CardType SelectedCardType
+		{
+			get { return _selectedCardType; }
+			set
+			{
+				_selectedCardType = value;
+				OnPropertyChanged("SelectedCardType");
+				OnPropertyChanged("CanSelectEndDate");
+			}
+		}
+
+		public bool CanSelectEndDate
+		{
+			get { return SelectedCardType == CardType.Temporary; }
 		}
 
 		DateTime _startDate;
@@ -159,17 +190,6 @@ namespace SKDModule.ViewModels
 				_selectedStopListCard = value;
 				OnPropertyChanged("SelectedStopListCard");
 				UpdateStopListCard();
-			}
-		}
-
-		bool _isBlocked;
-		public bool IsBlocked
-		{
-			get { return _isBlocked; }
-			set
-			{
-				_isBlocked = value;
-				OnPropertyChanged("IsBlocked");
 			}
 		}
 
@@ -254,9 +274,9 @@ namespace SKDModule.ViewModels
 			}
 			Card.Series = Series;
 			Card.Number = Number;
+			Card.CardType = SelectedCardType;
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
-			Card.IsBlocked = IsBlocked;
 			Card.CardZones = AccessZones.GetCardZones();
 
 			if (SelectedAccessTemplate != null)

@@ -17,7 +17,6 @@ namespace SKDModule.ViewModels
 	public class EmployeesViewModel : ViewPartViewModel
 	{
 		public static EmployeesViewModel Current { get; private set; }
-		public PassCardViewModel PassCardViewModel { get; private set; }
 		EmployeeFilter Filter;
 		PersonType PersonType;
 		public Organization Organization { get; private set; }
@@ -30,7 +29,6 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 
 			Filter = new EmployeeFilter();
 			if (FiresecManager.CurrentUser.IsGuestsAllowed)
@@ -46,13 +44,13 @@ namespace SKDModule.ViewModels
 		void Initialize()
 		{
 			PersonType = Filter.PersonType;
-			PassCardViewModel = new PassCardViewModel(this);
+
 			Organization = OrganizationHelper.GetSingle(Filter.OrganizationUIDs.FirstOrDefault());
 			var employees = EmployeeHelper.Get(Filter);
 			Employees = new ObservableCollection<EmployeeViewModel>();
 			foreach (var employee in employees)
 			{
-				var employeeViewModel = new EmployeeViewModel(this, employee);
+				var employeeViewModel = new EmployeeViewModel(Organization, employee);
 				Employees.Add(employeeViewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
@@ -80,110 +78,55 @@ namespace SKDModule.ViewModels
 			{
 				_selectedEmployee = value;
 				OnPropertyChanged("SelectedEmployee");
-
-				RealSelectedEmployee = value;
-			}
-		}
-
-		public bool DoNotSelectEmployee = false;
-
-		EmployeeViewModel _realSelectedEmployee;
-		public EmployeeViewModel RealSelectedEmployee
-		{
-			get { return _realSelectedEmployee; }
-			set
-			{
-				if (DoNotSelectEmployee)
-				{
-					value = null;
-					DoNotSelectEmployee = false;
-				}
-
-				_realSelectedEmployee = value;
-				OnPropertyChanged("RealSelectedEmployee");
-
-				IsCard = value == null;
-
-				if (value != null)
-				{
-					SelectedCard = null;
-				}
-			}
-		}
-
-		EmployeeCardViewModel selectedCard;
-		public EmployeeCardViewModel SelectedCard
-		{
-			get { return selectedCard; }
-			set
-			{
-				selectedCard = value;
-				OnPropertyChanged("SelectedCard");
-				IsCard = value != null;
-
-				foreach (var user in Employees)
-				{
-					foreach (var card in user.Cards)
-					{
-						card.IsCardBold = false;
-						card.IsPassBold = false;
-					}
-				}
-				if (value != null)
-				{
-					if (IsCard)
-						value.IsCardBold = true;
-					else
-						value.IsPassBold = true;
-				}
-				PassCardViewModel.CreatePassCard();
-			}
-		}
-
-		bool _isCard;
-		public bool IsCard
-		{
-			get { return _isCard; }
-			set
-			{
-				_isCard = value;
-				OnPropertyChanged("IsCard");
 			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			Employee employeeDetails = null;
-			if (PersonType == PersonType.Employee)
+			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
+			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
-				if (DialogService.ShowModalWindow(employeeDetailsViewModel))
-					employeeDetails = employeeDetailsViewModel.EmployeeDetails;
+				var employeeDetails = employeeDetailsViewModel.Employee;
+				if (employeeDetails == null)
+					return;
+				var saveResult = EmployeeHelper.Save(employeeDetails);
+				if (!saveResult)
+					return;
+				var employeeListItem = employeeDetailsViewModel.EmployeeListItem;
+
+				var newEmployeeViewModel = new EmployeeViewModel(Organization, employeeListItem);
+				Employees.Add(newEmployeeViewModel);
+				SelectedEmployee = newEmployeeViewModel;
 			}
-			else if (PersonType == PersonType.Guest)
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.EmployeeListItem);
+			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var guestDetailsViewModel = new GuestDetailsViewModel(this);
-				if (DialogService.ShowModalWindow(guestDetailsViewModel))
-					employeeDetails = guestDetailsViewModel.EmployeeDetails;
+				var employeeDetails = employeeDetailsViewModel.Employee;
+				if (employeeDetails == null)
+					return;
+				var saveResult = EmployeeHelper.Save(employeeDetails);
+				if (!saveResult)
+					return;
+				var employeeListItem = employeeDetailsViewModel.EmployeeListItem;
+
+				SelectedEmployee.EmployeeListItem = employeeListItem;
 			}
-
-			if (employeeDetails == null)
-				return;
-			var saveResult = EmployeeHelper.Save(employeeDetails);
-			if (!saveResult)
-				return;
-
-			var employee = employeeDetails.GetEmployeeListItem();
-			var employeeViewModel = new EmployeeViewModel(this, employee);
-			Employees.Add(employeeViewModel);
-			SelectedEmployee = employeeViewModel;
+		}
+		bool CanEdit()
+		{
+			return SelectedEmployee != null;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var employee = SelectedEmployee.Employee;
+			var employee = SelectedEmployee.EmployeeListItem;
 			var removeResult = EmployeeHelper.MarkDeleted(employee.UID);
 			if (!removeResult)
 				return;
@@ -195,46 +138,6 @@ namespace SKDModule.ViewModels
 				SelectedEmployee = Employees[index];
 		}
 		bool CanRemove()
-		{
-			return SelectedEmployee != null;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			Employee employeeDetails = null;
-			if (PersonType == PersonType.Employee)
-			{
-				var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.Employee);
-				if (DialogService.ShowModalWindow(employeeDetailsViewModel))
-					employeeDetails = employeeDetailsViewModel.EmployeeDetails;
-			}
-			else if (PersonType == PersonType.Guest)
-			{
-				var guestDetailsViewModel = new GuestDetailsViewModel(this, SelectedEmployee.Employee);
-				if (DialogService.ShowModalWindow(guestDetailsViewModel))
-					employeeDetails = guestDetailsViewModel.EmployeeDetails;
-			}
-
-			if (employeeDetails == null)
-				return;
-
-			var saveResult = EmployeeHelper.Save(employeeDetails);
-			if (!saveResult)
-				return;
-		}
-		bool CanEdit()
-		{
-			return SelectedEmployee != null;
-		}
-
-		public RelayCommand AddCardCommand { get; private set; }
-		void OnAddCard()
-		{
-			if (SelectedEmployee.CanAddCard())
-				SelectedEmployee.AddCardCommand.Execute();
-		}
-		bool CanAddCard()
 		{
 			return SelectedEmployee != null;
 		}

@@ -112,6 +112,8 @@
     <Compile Include="ViewModels\CamerasMenuViewModel.cs" />
     <Compile Include="ViewModels\CamerasViewModel.cs" />
     <Compile Include="ViewModels\ChannelViewModel.cs" />
+    <Compile Include="ViewModels\FoundCamerasViewModel.cs" />
+    <Compile Include="ViewModels\FoundCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartMultiCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
@@ -125,6 +127,9 @@
     </Compile>
     <Compile Include="Views\CamerasView.xaml.cs">
       <DependentUpon>CamerasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FoundCamerasView.xaml.cs">
+      <DependentUpon>FoundCamerasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutPartCameraView.xaml.cs">
       <DependentUpon>LayoutPartCameraView.xaml</DependentUpon>
@@ -166,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CamerasMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FoundCamerasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

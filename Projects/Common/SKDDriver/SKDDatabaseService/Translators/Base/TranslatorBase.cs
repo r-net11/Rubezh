@@ -136,7 +136,7 @@ namespace SKDDriver
 			return operationResult.Result;
 		}
 
-		public List<ApiT> GetByEmployee<T>(Guid uid)
+		public List<ApiT> GetAllByEmployee<T>(Guid uid)
 			where T : class, DataAccess.ILinkedToEmployee, TableT
 		{
 			var result = new List<ApiT>();
@@ -145,6 +145,17 @@ namespace SKDDriver
 				result.Add(Translate(tableItem));
 			return result;
 		}
+
+		public List<ApiT> GetByEmployee<T>(Guid uid)
+			where T : class, DataAccess.ILinkedToEmployee, DataAccess.IIsDeletedDatabaseElement, TableT
+		{
+			var result = new List<ApiT>();
+			var table = Context.GetTable<T>();
+			foreach (var tableItem in table.Where(x => !x.IsDeleted && x.EmployeeUID.Equals(uid)))
+				result.Add(Translate(tableItem));
+			return result;
+		}
+
 
 		public OperationResult<ApiT> GetSingle(Guid? uid)
 		{

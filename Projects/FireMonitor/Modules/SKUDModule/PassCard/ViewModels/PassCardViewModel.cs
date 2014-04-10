@@ -22,26 +22,32 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.PassCard.ViewModels
 {
-	public class PassCardViewModel : BaseViewModel, IPlanDesignerViewModel
+	public class PassCardViewModel : SaveCancelDialogViewModel, IPlanDesignerViewModel
 	{
-		private PassCardCanvas _passCardCanvas;
-		private EmployeesViewModel _employeesViewMode;
-		private bool _isLoaded;
+		PassCardCanvas PassCardCanvas;
+		EmployeeViewModel EmployeeViewModel;
+		SKDCard Card;
 
-		public PassCardViewModel(EmployeesViewModel employeesViewModel)
+		public PassCardViewModel(EmployeeViewModel employeeViewModel, SKDCard card)
 		{
-			_employeesViewMode = employeesViewModel;
-			_passCardCanvas = new PassCardCanvas();
+			Title = "Удостоверение";
+			EmployeeViewModel = employeeViewModel;
+			Card = card;
+			PrintCommand = new RelayCommand(OnPrint, CanPrint);
+
+			PassCardCanvas = new PassCardCanvas();
 			SKDManager.SKDPassCardLibraryConfiguration.Templates.Sort((item1, item2) => string.Compare(item1.Caption, item2.Caption));
 			PassCardTemplates = new ObservableCollection<PassCardTemplate>(SKDManager.SKDPassCardLibraryConfiguration.Templates);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
-			PrintCommand = new RelayCommand(OnPrint, CanPrint);
+
+			var uid = Card.CardTemplateUID;
+			SelectedPassCardTemplate = uid.HasValue ? PassCardTemplates.FirstOrDefault(item => item.UID == uid.Value) : null;
 		}
 
 		public ObservableCollection<PassCardTemplate> PassCardTemplates { get; private set; }
 
-		private PassCardTemplate _selectedPassCardTemplate;
+		PassCardTemplate _selectedPassCardTemplate;
 		public PassCardTemplate SelectedPassCardTemplate
 		{
 			get { return _selectedPassCardTemplate; }
@@ -53,61 +59,51 @@ namespace SKDModule.PassCard.ViewModels
 					OnPropertyChanged(() => SelectedPassCardTemplate);
 					OnPropertyChanged(() => IsNotEmpty);
 					InternalCreatePassCard();
-					if (_isLoaded)
-						_employeesViewMode.SelectedCard.SaveCardTemplate(SelectedPassCardTemplate == null ? null : (Guid?)SelectedPassCardTemplate.UID);
 				}
 			}
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
-		private void OnPrint()
+		void OnPrint()
 		{
 			var dialog = new PrintDialog();
 			if (dialog.ShowDialog() == true)
 			{
-				var rect = LayoutInformation.GetLayoutSlot(_passCardCanvas);
+				var rect = LayoutInformation.GetLayoutSlot(PassCardCanvas);
 				var capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
 				var origin = new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight);
-				_passCardCanvas.Arrange(new Rect(origin, _passCardCanvas.DesiredSize));
-				dialog.PrintVisual(_passCardCanvas, "Пропуск " + _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.LastName);
-				_passCardCanvas.Arrange(rect);
+				PassCardCanvas.Arrange(new Rect(origin, PassCardCanvas.DesiredSize));
+				dialog.PrintVisual(PassCardCanvas, "Пропуск " + EmployeeViewModel.EmployeeListItem.LastName);
+				PassCardCanvas.Arrange(rect);
 			}
 		}
-		private bool CanPrint()
+		bool CanPrint()
 		{
 			return SelectedPassCardTemplate != null;
 		}
 
-		public void CreatePassCard()
-		{
-			_isLoaded = false;
-			var uid = _employeesViewMode.IsCard && _employeesViewMode.SelectedCard != null ? _employeesViewMode.SelectedCard.Card.CardTemplateUID : null;
-			SelectedPassCardTemplate = uid.HasValue ? PassCardTemplates.FirstOrDefault(item => item.UID == uid.Value) : null;
-			_isLoaded = true;
-		}
-
-		private void InternalCreatePassCard()
+		void InternalCreatePassCard()
 		{
 			using (new WaitWrapper())
 				if (SelectedPassCardTemplate != null)
 				{
 					using (new TimeCounter("\t\tPassCardCanvas.Initialize: {0}"))
-						_passCardCanvas.Initialize(SelectedPassCardTemplate);
+						PassCardCanvas.Initialize(SelectedPassCardTemplate);
 					using (new TimeCounter("\t\tDesignerItem.Create: {0}"))
 						foreach (var elementBase in EnumerateElements())
-							_passCardCanvas.CreatePresenterItem(elementBase);
+							PassCardCanvas.CreatePresenterItem(elementBase);
 					using (new TimeCounter("\t\tPassCardViewModel.OnUpdated: {0}"))
 						Update();
-					_passCardCanvas.LoadingFinished();
-					_passCardCanvas.Refresh();
+					PassCardCanvas.LoadingFinished();
+					PassCardCanvas.Refresh();
 				}
 		}
-		private void Update()
+		void Update()
 		{
 			if (Updated != null)
 				Updated(this, EventArgs.Empty);
 		}
-		private IEnumerable<ElementBase> EnumerateElements()
+		IEnumerable<ElementBase> EnumerateElements()
 		{
 			foreach (var elementTextProperty in SelectedPassCardTemplate.ElementTextProperties)
 			{
@@ -131,7 +127,7 @@ namespace SKDModule.PassCard.ViewModels
 				yield return elementPolyline;
 		}
 
-		private void ResolveTextProperty(ElementPassCardTextProperty elementTextProperty)
+		void ResolveTextProperty(ElementPassCardTextProperty elementTextProperty)
 		{
 			switch (elementTextProperty.PropertyType)
 			{
@@ -139,31 +135,31 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = "[Пока нет в БД]";
 					break;
 				case PassCardTextPropertyType.Department:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.DepartmentName;
+					elementTextProperty.Text = EmployeeViewModel.DepartmentName;
 					break;
 				case PassCardTextPropertyType.EndDate:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.EndDate.ToShortDateString();
+					elementTextProperty.Text = Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.FirstName:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.FirstName;
+					elementTextProperty.Text = EmployeeViewModel.EmployeeListItem.FirstName;
 					break;
 				case PassCardTextPropertyType.LastName:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.LastName;
+					elementTextProperty.Text = EmployeeViewModel.EmployeeListItem.LastName;
 					break;
 				case PassCardTextPropertyType.Organization:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.Organization.Name;
+					elementTextProperty.Text = EmployeeViewModel.Organization.Name;
 					break;
 				case PassCardTextPropertyType.Position:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.PositionName;
+					elementTextProperty.Text = EmployeeViewModel.PositionName;
 					break;
 				case PassCardTextPropertyType.SecondName:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.SecondName;
+					elementTextProperty.Text = EmployeeViewModel.EmployeeListItem.SecondName;
 					break;
 				case PassCardTextPropertyType.StartDate:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.EndDate.ToShortDateString();
+					elementTextProperty.Text = Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Additional:
-					var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementTextProperty.AdditionalColumnUID);
+					var columnValue = AdditionalColumnHelper.GetValue(EmployeeViewModel.EmployeeListItem, elementTextProperty.AdditionalColumnUID);
 					elementTextProperty.Text = columnValue == null ? string.Empty : columnValue;
 					break;
 				default:
@@ -171,7 +167,7 @@ namespace SKDModule.PassCard.ViewModels
 					break;
 			}
 		}
-		private void ResolveImageProperty(ElementPassCardImageProperty elementImageProperty)
+		void ResolveImageProperty(ElementPassCardImageProperty elementImageProperty)
 		{
 			elementImageProperty.BackgroundColor = Colors.Transparent;
 			elementImageProperty.BackgroundSourceName = null;
@@ -192,7 +188,7 @@ namespace SKDModule.PassCard.ViewModels
 		}
 		public CommonDesignerCanvas Canvas
 		{
-			get { return _passCardCanvas; }
+			get { return PassCardCanvas; }
 		}
 		public bool AllowScalePoint
 		{
@@ -231,7 +227,7 @@ namespace SKDModule.PassCard.ViewModels
 
 		#endregion
 
-		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
+		void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
 			var elementPassCardImageProperty = args.Element as ElementPassCardImageProperty;
 			if (elementPassCardImageProperty != null)
@@ -240,27 +236,34 @@ namespace SKDModule.PassCard.ViewModels
 				switch (elementPassCardImageProperty.PropertyType)
 				{
 					case PassCardImagePropertyType.DepartmentLogo:
-						photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.EmployeeViewModel.DepartmentPhotoUID);
+						photo = PhotoHelper.GetSingle(EmployeeViewModel.DepartmentPhotoUID);
 						break;
 					case PassCardImagePropertyType.OrganizationLogo:
-						photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.Organization.PhotoUID);
+						photo = PhotoHelper.GetSingle(EmployeeViewModel.Organization.PhotoUID);
 						break;
 					case PassCardImagePropertyType.Photo:
-						//photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.EmployeeViewModel.Employee.PhotoUID);
+						//photo = PhotoHelper.GetSingle(EmployeeViewModel.EmployeeListItem.PhotoUID);
 						break;
 					case PassCardImagePropertyType.PositionLogo:
-						photo = PhotoHelper.GetSingle(_employeesViewMode.SelectedCard.EmployeeViewModel.PositionPhotoUID);
+						photo = PhotoHelper.GetSingle(EmployeeViewModel.PositionPhotoUID);
 						break;
 					case PassCardImagePropertyType.Additional:
-						//var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementPassCardImageProperty.AdditionalColumnUID);
+						//var columnValue = AdditionalColumnHelper.GetValue(EmployeeViewModel.EmployeeListItem, elementPassCardImageProperty.AdditionalColumnUID);
 						//if (columnValue != null)
-							//photo = columnValue.Photo;
+						//photo = columnValue.Photo;
 						break;
 					default:
 						break;
 				}
-				args.Painter = new PassCardImagePropertyPainter(_passCardCanvas, elementPassCardImageProperty, photo == null ? null : photo.Data);
+				args.Painter = new PassCardImagePropertyPainter(PassCardCanvas, elementPassCardImageProperty, photo == null ? null : photo.Data);
 			}
+		}
+
+		protected override bool Save()
+		{
+			var cardTemplateUID = SelectedPassCardTemplate == null ? null : (Guid?)SelectedPassCardTemplate.UID;
+			Card.CardTemplateUID = cardTemplateUID;
+			return CardHelper.SaveTemplate(Card);
 		}
 	}
 }

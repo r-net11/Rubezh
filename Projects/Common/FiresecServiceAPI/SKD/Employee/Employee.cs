@@ -56,18 +56,5 @@ namespace FiresecAPI
 		{
 			get { return CurrentReplacement != null; }
 		}
-
-		public EmployeeListItem GetEmployeeListItem()
-		{
-			return new EmployeeListItem
-			{
-				UID = UID,
-				Cards = Cards,
-				FirstName = FirstName,
-				SecondName = SecondName,
-				LastName = LastName,
-				Type = Type
-			};
-		}
 	}
 }

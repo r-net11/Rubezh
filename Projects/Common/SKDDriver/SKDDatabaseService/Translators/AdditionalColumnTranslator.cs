@@ -34,7 +34,8 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.AdditionalColumnTypeUID = apiItem.AdditionalColumnType.UID;
-			tableItem.PhotoUID = apiItem.Photo.UID;
+			if(apiItem.Photo != null)
+				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.TextData = apiItem.TextData;
 		}
 

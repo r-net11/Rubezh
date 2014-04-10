@@ -60,6 +60,7 @@ namespace SKDDriver
 			result.HolderUID = tableItem.EmployeeUID;
 			result.Number = tableItem.Number;
 			result.Series = tableItem.Series;
+			result.CardType = (CardType)tableItem.CardType;
 			result.StartDate = tableItem.StartDate;
 			result.EndDate = tableItem.EndDate;
 			result.AccessTemplateUID = tableItem.AccessTemplateUID;
@@ -67,7 +68,6 @@ namespace SKDDriver
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			result.CardTemplateUID = tableItem.CardTemplateUID;
-			result.IsBlocked = tableItem.IsBlocked;
 			return result;
 		}
 
@@ -77,13 +77,13 @@ namespace SKDDriver
 			tableItem.Number = apiItem.Number;
 			tableItem.Series = apiItem.Series;
 			tableItem.EmployeeUID = apiItem.HolderUID;
+			tableItem.CardType = (int)apiItem.CardType;
 			tableItem.StartDate = CheckDate(apiItem.StartDate);
 			tableItem.EndDate = CheckDate(apiItem.EndDate);
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 			tableItem.CardTemplateUID = apiItem.CardTemplateUID;
-			tableItem.IsBlocked = apiItem.IsBlocked;
 		}
 
 		public override OperationResult Save(IEnumerable<SKDCard> items)

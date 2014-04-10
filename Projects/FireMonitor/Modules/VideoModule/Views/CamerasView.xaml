@@ -4,7 +4,7 @@
     <Grid>
         <XDataGrid ItemsSource="{Binding Cameras}" SelectedItem="{Binding SelectedCamera}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="200" Header="Название">
+                <DataGridTemplateColumn Header="Название" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -14,11 +14,11 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Width="200" Binding="{Binding PresentationName}" Header="URL" />
-                <DataGridTextColumn Width="200" Binding="{Binding Camera.Port}" Header="Порт" />
-                <DataGridTextColumn Width="200" Binding="{Binding Camera.Login}" Header="Имя пользователя" />
-                <DataGridTextColumn Width="200" Binding="{Binding Camera.Password}" Header="Пароль" />
-                <DataGridTextColumn Width="200" Binding="{Binding PresentationZones}" Header="Зоны" />
+                <DataGridTextColumn Binding="{Binding PresentationName}" Header="URL" Width="Auto" />
+                <DataGridTextColumn Binding="{Binding Camera.Port}" Header="Порт" Width="Auto" />
+                <DataGridTextColumn Binding="{Binding Camera.Login}" Header="Имя пользователя" Width="Auto" />
+                <DataGridTextColumn Binding="{Binding Camera.Password}" Header="Пароль" Width="Auto" />
+                <DataGridTextColumn Binding="{Binding PresentationZones}" Header="Зоны" Width="*" />
             </DataGrid.Columns>
             <XDataGrid.ContextMenu>
                 <ContextMenu OverridesDefaultStyle="True" >

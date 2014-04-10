@@ -30,5 +30,9 @@
     <DataTemplate DataType="{x:Type ViewModels:PreviewViewModel}">
         <Views:PreviewView />
     </DataTemplate>
-    
+
+    <DataTemplate DataType="{x:Type ViewModels:FoundCamerasViewModel}">
+        <Views:FoundCamerasView />
+    </DataTemplate>
+
 </ResourceDictionary>

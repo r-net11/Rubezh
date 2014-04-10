@@ -11,10 +11,15 @@
 
 namespace SKDDriver.DataAccess
 {
-	using System;
-	using System.ComponentModel;
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
+	using System.Data;
+	using System.Collections.Generic;
+	using System.Reflection;
+	using System.Linq;
+	using System.Linq.Expressions;
+	using System.ComponentModel;
+	using System;
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="SKUD")]
@@ -1463,7 +1468,7 @@ namespace SKDDriver.DataAccess
 		
 		private bool _IsInStopList;
 		
-		private bool _IsBlocked;
+		private int _IsBlocked;
 		
 		private string _StopReason;
 		
@@ -1501,8 +1506,8 @@ namespace SKDDriver.DataAccess
     partial void OnEndDateChanged();
     partial void OnIsInStopListChanging(bool value);
     partial void OnIsInStopListChanged();
-    partial void OnIsBlockedChanging(bool value);
-    partial void OnIsBlockedChanged();
+    partial void OnCardTypeChanging(int value);
+    partial void OnCardTypeChanged();
     partial void OnStopReasonChanging(string value);
     partial void OnStopReasonChanged();
     partial void OnIsDeletedChanging(bool value);
@@ -1690,8 +1695,8 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsBlocked", DbType="Bit NOT NULL")]
-		public bool IsBlocked
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsBlocked", DbType="Int NOT NULL")]
+		public int CardType
 		{
 			get
 			{
@@ -1701,11 +1706,11 @@ namespace SKDDriver.DataAccess
 			{
 				if ((this._IsBlocked != value))
 				{
-					this.OnIsBlockedChanging(value);
+					this.OnCardTypeChanging(value);
 					this.SendPropertyChanging();
 					this._IsBlocked = value;
-					this.SendPropertyChanged("IsBlocked");
-					this.OnIsBlockedChanged();
+					this.SendPropertyChanged("CardType");
+					this.OnCardTypeChanged();
 				}
 			}
 		}
@@ -7824,28 +7829,28 @@ namespace SKDDriver.DataAccess
 		private EntityRef<Organization> _Organization;
 		
 		private EntityRef<ScheduleScheme> _ScheduleScheme;
-
-		#region Определения метода расширяемости
-		partial void OnLoaded();
-		partial void OnValidate(System.Data.Linq.ChangeAction action);
-		partial void OnCreated();
-		partial void OnUIDChanging(System.Guid value);
-		partial void OnUIDChanged();
-		partial void OnNameChanging(string value);
-		partial void OnNameChanged();
-		partial void OnScheduleSchemeUIDChanging(System.Nullable<System.Guid> value);
-		partial void OnScheduleSchemeUIDChanged();
-		partial void OnIsIgnoreHolidayChanging(bool value);
-		partial void OnIsIgnoreHolidayChanged();
-		partial void OnIsOnlyFirstEnterChanging(bool value);
-		partial void OnIsOnlyFirstEnterChanged();
-		partial void OnIsDeletedChanging(bool value);
-		partial void OnIsDeletedChanged();
-		partial void OnRemovalDateChanging(System.DateTime value);
-		partial void OnRemovalDateChanged();
-		partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-		partial void OnOrganizationUIDChanged();
-		#endregion
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnScheduleSchemeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnScheduleSchemeUIDChanged();
+    partial void OnIsIgnoreHolidayChanging(bool value);
+    partial void OnIsIgnoreHolidayChanged();
+    partial void OnIsOnlyFirstEnterChanging(bool value);
+    partial void OnIsOnlyFirstEnterChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
+    #endregion
 		
 		public Schedule()
 		{

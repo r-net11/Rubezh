@@ -11,10 +11,9 @@ namespace SKDModule.ViewModels
 
 	public class AdditionalColumnViewModel : BaseViewModel
 	{
-		AdditionalColumn AdditionalColumn;
+		public AdditionalColumn AdditionalColumn { get; private set; }
 		public string Name { get; private set; }
 		public bool IsGraphicsData { get; private set; }
-		public bool IsChanged { get; private set; }
 		public BitmapSource Bitmap { get; private set; }
 		public string Text
 		{
@@ -46,7 +45,6 @@ namespace SKDModule.ViewModels
 				{
 					AdditionalColumn.TextData = editTextViewModel.Text;
 					OnPropertyChanged(() => Text);
-					IsChanged = true;
 				}
 			}
 			else
@@ -60,7 +58,6 @@ namespace SKDModule.ViewModels
 					AdditionalColumn.Photo = new Photo(openFileDialog.OpenFile());
 					Bitmap = PhotoHelper.GetBitmapSource(AdditionalColumn.Photo);
 					OnPropertyChanged(() => Bitmap);
-					IsChanged = true;
 				}
 			}
 		}
