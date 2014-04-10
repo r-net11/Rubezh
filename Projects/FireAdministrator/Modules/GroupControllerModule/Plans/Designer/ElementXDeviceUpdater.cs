@@ -8,11 +8,11 @@ using XFiresecAPI;
 
 namespace GKModule.Plans.Designer
 {
-	internal class ElementXDeviceCache : IDisposable
+	internal class ElementXDeviceUpdater : IDisposable
 	{
 		private Dictionary<Guid, ElementXDevice> _map;
 
-		public ElementXDeviceCache()
+		public ElementXDeviceUpdater()
 		{
 			_map = new Dictionary<Guid, ElementXDevice>();
 			BuildMap(FiresecManager.PlansConfiguration.Plans);
@@ -27,7 +27,7 @@ namespace GKModule.Plans.Designer
 			}
 		}
 
-		public void Update(XDevice xdevice)
+		public void UpdateDeviceBinding(XDevice xdevice)
 		{
 			var planElementUIDs = xdevice.PlanElementUIDs;
 			xdevice.PlanElementUIDs = new List<Guid>();
@@ -39,7 +39,7 @@ namespace GKModule.Plans.Designer
 						Helper.SetXDevice(elementXDevice, xdevice);
 				}
 			foreach (var child in xdevice.Children)
-				Update(child);
+				UpdateDeviceBinding(child);
 		}
 
 		#region IDisposable Members

@@ -174,7 +174,7 @@
       <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
-    <Compile Include="Plans\Designer\ElementXDeviceCache.cs" />
+    <Compile Include="Plans\Designer\ElementXDeviceUpdater.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>

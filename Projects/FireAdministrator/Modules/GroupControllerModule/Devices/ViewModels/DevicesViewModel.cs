@@ -186,13 +186,13 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			using (var cache = new ElementXDeviceCache())
+			using (var cache = new ElementXDeviceUpdater())
 			{
 				foreach (var deviceToCopy in DevicesToCopy)
 				{
 					var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
 					PasteDevice(pasteDevice);
-					cache.Update(pasteDevice);
+					cache.UpdateDeviceBinding(pasteDevice);
 				}
 			}
 			XManager.DeviceConfiguration.Update();
