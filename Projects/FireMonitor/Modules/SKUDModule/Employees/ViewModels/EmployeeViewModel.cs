@@ -11,22 +11,22 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeViewModel : BaseViewModel
 	{
-		public EmployeesViewModel EmployeesViewModel { get; private set; }
+		public Organization Organization { get; private set; }
 
-		public EmployeeViewModel(EmployeesViewModel employeesViewModel, EmployeeListItem employee)
+		public EmployeeViewModel(Organization organization, EmployeeListItem employee)
 		{
-			EmployeesViewModel = employeesViewModel;
+			Organization = organization;
 			EmployeeListItem = employee;
 
-			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
-			ShowEmployeeCommand = new RelayCommand(OnShowEmployee);
+			AddCardCommand = new RelayCommand(OnAddCard);
+			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
 
 			//DepartmentPhotoUID = department == null ? null : department.PhotoUID;
 			//PositionPhotoUID = null; // пока нет в БД - position == null ? null : position.PhotoUID;
 			
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			foreach (var item in employee.Cards)
-				Cards.Add(new EmployeeCardViewModel(EmployeesViewModel.Organization, this, item));
+				Cards.Add(new EmployeeCardViewModel(Organization, this, item));
 			SelectedCard = Cards.FirstOrDefault();
 		}
 
@@ -61,7 +61,6 @@ namespace SKDModule.ViewModels
 		{
 			get { return EmployeeListItem.PositionName; }
 		}
-		
 
 		public void Update(EmployeeListItem employee)
 		{
@@ -78,6 +77,7 @@ namespace SKDModule.ViewModels
 
 		public ObservableCollection<string> AdditionalColumnValues { get; set; }
 
+		#region Cards
 		public ObservableCollection<EmployeeCardViewModel> Cards { get; private set; }
 
 		EmployeeCardViewModel _selectedCard;
@@ -94,7 +94,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCardCommand { get; private set; }
 		void OnAddCard()
 		{
-			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(EmployeesViewModel.Organization);
+			if (Cards.Count > 10)
+			{
+				MessageBoxService.ShowWarning("У сотрудника не может быть больше 10 карт");
+				return;
+			}
+			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organization);
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
@@ -102,32 +107,44 @@ namespace SKDModule.ViewModels
 				var saveResult = CardHelper.Save(card);
 				if (!saveResult)
 					return;
-				var cardViewModel = new EmployeeCardViewModel(EmployeesViewModel.Organization, this, card);
+				var cardViewModel = new EmployeeCardViewModel(Organization, this, card);
 				Cards.Add(cardViewModel);
-
-				EmployeesViewModel.SelectedCard = cardViewModel;
+				SelectedCard = cardViewModel;
+				SelectCard(cardViewModel);
 			}
 		}
-		public bool CanAddCard()
-		{
-			return Cards.Count < 1000;
-		}
 
-		bool _isCard = false;
-		public bool IsCard
+		bool _isEmployeeSelected = true;
+		public bool IsEmployeeSelected
 		{
-			get { return _isCard; }
+			get { return _isEmployeeSelected; }
 			set
 			{
-				_isCard = value;
-				OnPropertyChanged("IsCard");
+				_isEmployeeSelected = value;
+				OnPropertyChanged("IsEmployeeSelected");
 			}
 		}
 
-		public RelayCommand ShowEmployeeCommand { get; private set; }
-		void OnShowEmployee()
+		public RelayCommand SelectEmployeeCommand { get; private set; }
+		public void OnSelectEmployee()
 		{
-			IsCard = false;
+			IsEmployeeSelected = true;
+			foreach (var card in Cards)
+			{
+				card.IsCardSelected = false;
+			}
 		}
+
+		public void SelectCard(EmployeeCardViewModel employeeCardViewModel)
+		{
+			IsEmployeeSelected = false;
+			foreach (var card in Cards)
+			{
+				card.IsCardSelected = false;
+			}
+			employeeCardViewModel.IsCardSelected = true;
+			SelectedCard = employeeCardViewModel;
+		}
+		#endregion
 	}
 }

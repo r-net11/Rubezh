@@ -24,7 +24,6 @@ namespace SKDModule.Views
 
 		private void _dataGrid_Loaded(object sender, RoutedEventArgs e)
 		{
-			return;
 			EmployeesViewModel employeesViewModel = _dataGrid.DataContext as EmployeesViewModel;
 			if (employeesViewModel != null)
 			{
@@ -42,27 +41,6 @@ namespace SKDModule.Views
 					textColumn.Binding = new Binding(string.Format("AdditionalColumnValues[{0}]", i));
 					_dataGrid.Columns.Add(textColumn);
 				}
-			}
-		}
-
-		private void ItemsControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			return;
-			var employeesViewModel = DataContext as EmployeesViewModel;
-			if (employeesViewModel != null)
-			{
-				employeesViewModel.DoNotSelectEmployee = true;
-			}
-		}
-
-		private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			return;
-			var employeesViewModel = DataContext as EmployeesViewModel;
-			if (employeesViewModel != null)
-			{
-				employeesViewModel.DoNotSelectEmployee = false;
-				employeesViewModel.SelectedEmployee = employeesViewModel.SelectedEmployee;
 			}
 		}
 	}

@@ -6,6 +6,7 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.PassCard.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -14,20 +15,18 @@ namespace SKDModule.ViewModels
 		public Organization Organization { get; private set; }
 		public SKDCard Card { get; private set; }
 		public EmployeeViewModel EmployeeViewModel { get; private set; }
-		List<Guid> ZoneUIDs;
 		public CardZonesViewModel CardZonesViewModel { get; private set; }
 
 		public EmployeeCardViewModel(Organization organization, EmployeeViewModel employeeViewModel, SKDCard card)
 		{
 			RemoveCommand = new RelayCommand(OnRemove);
 			EditCommand = new RelayCommand(OnEdit);
+			PrintCommand = new RelayCommand(OnPrint);
 			SelectCardCommand = new RelayCommand(OnSelectCard);
-			SelectPassCommand = new RelayCommand(OnSelectPass);
 
 			Organization = organization;
 			EmployeeViewModel = employeeViewModel;
 			Card = card;
-			ZoneUIDs = new List<Guid>();
 
 			var cardZones = GetCardZones(Card);
 			CardZonesViewModel = new CardZonesViewModel(cardZones);
@@ -67,7 +66,7 @@ namespace SKDModule.ViewModels
 				if (!toStopListResult)
 					return;
 				EmployeeViewModel.Cards.Remove(this);
-				EmployeeViewModel.EmployeesViewModel.SelectedEmployee = EmployeeViewModel.EmployeesViewModel.SelectedEmployee;
+				EmployeeViewModel.OnSelectEmployee();
 			}
 		}
 
@@ -87,52 +86,29 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public RelayCommand PrintCommand { get; private set; }
+		void OnPrint()
+		{
+			var passCardViewModel = new PassCardViewModel(EmployeeViewModel, this);
+			DialogService.ShowModalWindow(passCardViewModel);
+		}
+
 		public RelayCommand SelectCardCommand { get; private set; }
 		void OnSelectCard()
 		{
-			IsCard = true;
-			EmployeeViewModel.EmployeesViewModel.SelectedCard = this;
-			IsCardBold = true;
-			IsPassBold = false;
+			EmployeeViewModel.SelectCard(this);
+			IsCardSelected = true;
 		}
 
-		public RelayCommand SelectPassCommand { get; private set; }
-		void OnSelectPass()
+		bool _isCardSelected;
+		public bool IsCardSelected
 		{
-			IsCard = false;
-			EmployeeViewModel.EmployeesViewModel.SelectedCard = this;
-			IsCardBold = false;
-			IsPassBold = true;
-		}
-
-		public bool IsCard = true;
-
-		bool _isCardBold;
-		public bool IsCardBold
-		{
-			get { return _isCardBold; }
+			get { return _isCardSelected; }
 			set
 			{
-				_isCardBold = value;
-				OnPropertyChanged("IsCardBold");
+				_isCardSelected = value;
+				OnPropertyChanged("IsCardSelected");
 			}
-		}
-
-		bool _isPassBold;
-		public bool IsPassBold
-		{
-			get { return _isPassBold; }
-			set
-			{
-				_isPassBold = value;
-				OnPropertyChanged("IsPassBold");
-			}
-		}
-
-		public bool SaveCardTemplate(Guid? cardTemplateUID)
-		{
-			Card.CardTemplateUID = cardTemplateUID;
-			return CardHelper.SaveTemplate(Card);
 		}
 	}
 }
