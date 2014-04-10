@@ -15,40 +15,63 @@ namespace SKDModule.ViewModels
 		public EmployeeViewModel(EmployeesViewModel employeesViewModel, EmployeeListItem employee)
 		{
 			EmployeesViewModel = employeesViewModel;
-			Employee = employee;
+			EmployeeListItem = employee;
 
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
 			ChangeIsExpandedCommand = new RelayCommand(OnChangeIsExpanded);
 
-			DepartmentName = employee.DepartmentName;
 			//DepartmentPhotoUID = department == null ? null : department.PhotoUID;
-			PositionName = employee.PositionName;
 			//PositionPhotoUID = null; // пока нет в БД - position == null ? null : position.PhotoUID;
 			
-			AppointedString = Employee.Appointed;
-			DismissedString = Employee.Dismissed;
-
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			foreach (var item in employee.Cards)
 					Cards.Add(new EmployeeCardViewModel(EmployeesViewModel.Organization, this, item));
 		}
 
-		public EmployeeListItem Employee { get; set; }
-		public string DepartmentName { get; set; }
+		public EmployeeListItem EmployeeListItem { get; set; }
 		public Guid? DepartmentPhotoUID { get; set; }
-		public string PositionName { get; set; }
 		public Guid? PositionPhotoUID { get; set; }
-		public string AppointedString { get; set; }
-		public string DismissedString { get; set; }
+		public string FirstName 
+		{
+			get { return EmployeeListItem.FirstName; }
+		}
+		public string SecondName
+		{
+			get { return EmployeeListItem.SecondName; }
+		}
+		public string LastName
+		{
+			get { return EmployeeListItem.LastName; }
+		}
+		public string AppointedString
+		{
+			get { return EmployeeListItem.Appointed; }
+		}
+		public string DismissedString
+		{
+			get { return EmployeeListItem.Dismissed; }
+		}
+		public string DepartmentName
+		{
+			get { return EmployeeListItem.DepartmentName; }
+		}
+		public string PositionName
+		{
+			get { return EmployeeListItem.PositionName; }
+		}
+		
 
 		public void Update(EmployeeListItem employee)
 		{
-			Employee = employee;
-			OnPropertyChanged(() => Employee);
+			EmployeeListItem = employee;
+			OnPropertyChanged(() => EmployeeListItem);
 			OnPropertyChanged(() => DepartmentName);
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => AppointedString);
 			OnPropertyChanged(() => DismissedString);
+			OnPropertyChanged(() => FirstName);
+			OnPropertyChanged(() => SecondName);
+			OnPropertyChanged(() => LastName);
 		}
 
 		public ObservableCollection<string> AdditionalColumnValues { get; set; }
@@ -62,7 +85,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
-				card.HolderUID = Employee.UID;
+				card.HolderUID = EmployeeListItem.UID;
 				var saveResult = CardHelper.Save(card);
 				if (!saveResult)
 					return;

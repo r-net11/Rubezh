@@ -120,15 +120,15 @@
 									<Hyperlink Command="{Binding ChangeIsExpandedCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
 											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
-											<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Employee.FirstName}" />
+											<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding FirstName}" />
 										</StackPanel>
 									</Hyperlink>
 								</TextBlock>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTextColumn Binding="{Binding Employee.SecondName}" Header="Фамилия" />
-					<DataGridTextColumn Binding="{Binding Employee.LastName}" Header="Отчество" />
+					<DataGridTextColumn Binding="{Binding SecondName}" Header="Фамилия" />
+					<DataGridTextColumn Binding="{Binding LastName}" Header="Отчество" />
 				</DataGrid.Columns>
 			</DataGrid>
 			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
@@ -138,17 +138,17 @@
 					<StackPanel Margin="5" DataContext="{Binding RealSelectedEmployee}">
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Width="100" Margin="2" Text="Имя" />
-							<TextBlock Margin="2" Text="{Binding Employee.FirstName}" />
+							<TextBlock Margin="2" Text="{Binding FirstName}" />
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Width="100" Margin="2" Text="Фамилия" />
-							<TextBlock Margin="2" Text="{Binding Employee.SecondName}" />
+							<TextBlock Margin="2" Text="{Binding SecondName}" />
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Width="100" Margin="2" Text="Отчество" />
-							<TextBlock Margin="2" Text="{Binding Employee.LastName}" />
+							<TextBlock Margin="2" Text="{Binding LastName}" />
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal">

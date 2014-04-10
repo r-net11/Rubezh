@@ -69,7 +69,7 @@ namespace SKDModule.PassCard.ViewModels
 				var capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
 				var origin = new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight);
 				_passCardCanvas.Arrange(new Rect(origin, _passCardCanvas.DesiredSize));
-				dialog.PrintVisual(_passCardCanvas, "Пропуск " + _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.LastName);
+				dialog.PrintVisual(_passCardCanvas, "Пропуск " + _employeesViewMode.SelectedCard.EmployeeViewModel.EmployeeListItem.LastName);
 				_passCardCanvas.Arrange(rect);
 			}
 		}
@@ -145,10 +145,10 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.FirstName:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.FirstName;
+					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.EmployeeListItem.FirstName;
 					break;
 				case PassCardTextPropertyType.LastName:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.LastName;
+					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.EmployeeListItem.LastName;
 					break;
 				case PassCardTextPropertyType.Organization:
 					elementTextProperty.Text = _employeesViewMode.SelectedCard.Organization.Name;
@@ -157,13 +157,13 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.PositionName;
 					break;
 				case PassCardTextPropertyType.SecondName:
-					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.Employee.SecondName;
+					elementTextProperty.Text = _employeesViewMode.SelectedCard.EmployeeViewModel.EmployeeListItem.SecondName;
 					break;
 				case PassCardTextPropertyType.StartDate:
 					elementTextProperty.Text = _employeesViewMode.SelectedCard.Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Additional:
-					var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.Employee, elementTextProperty.AdditionalColumnUID);
+					var columnValue = AdditionalColumnHelper.GetValue(_employeesViewMode.SelectedEmployee.EmployeeListItem, elementTextProperty.AdditionalColumnUID);
 					elementTextProperty.Text = columnValue == null ? string.Empty : columnValue;
 					break;
 				default:

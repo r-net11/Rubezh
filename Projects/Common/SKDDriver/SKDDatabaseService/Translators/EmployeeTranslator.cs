@@ -135,11 +135,24 @@ namespace SKDDriver
 			tableItem.LastName = apiItem.LastName;
 			tableItem.Appointed = CheckDate(apiItem.Appointed);
 			tableItem.Dismissed = CheckDate(apiItem.Dismissed);
-			tableItem.PositionUID = apiItem.Position.UID;
+			if(apiItem.Position != null)
+				tableItem.PositionUID = apiItem.Position.UID;
 			tableItem.DepartmentUID = apiItem.DepartmentUID;
 			tableItem.ScheduleUID = apiItem.ScheduleUID;
-			tableItem.PhotoUID = apiItem.Photo.UID;
+			if (apiItem.Photo != null)
+				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.Type = (int)apiItem.Type;
+		}
+
+		public override OperationResult Save(IEnumerable<Employee> apiItems)
+		{
+			foreach (var item in apiItems)
+			{
+				var columnSaveResult = AdditionalColumnTranslator.Save(item.AdditionalColumns);
+				if (columnSaveResult.HasError)
+					return columnSaveResult;
+			}
+			return base.Save(apiItems);
 		}
 
 		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(EmployeeFilter filter)

@@ -154,36 +154,47 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
+			AddEditEmployee();
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			AddEditEmployee(SelectedEmployee);
+		}
+		bool CanEdit()
+		{
+			return SelectedEmployee != null;
+		}
+
+		void AddEditEmployee(EmployeeViewModel employeeViewModel = null)
+		{
 			Employee employeeDetails = null;
-			if (PersonType == PersonType.Employee)
-			{
-				var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
-				if (DialogService.ShowModalWindow(employeeDetailsViewModel))
-					employeeDetails = employeeDetailsViewModel.EmployeeDetails;
-			}
-			else if (PersonType == PersonType.Guest)
-			{
-				var guestDetailsViewModel = new GuestDetailsViewModel(this);
-				if (DialogService.ShowModalWindow(guestDetailsViewModel))
-					employeeDetails = guestDetailsViewModel.EmployeeDetails;
-			}
+			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, employeeViewModel.EmployeeListItem);
+			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
+				employeeDetails = employeeDetailsViewModel.Employee;
 
 			if (employeeDetails == null)
 				return;
 			var saveResult = EmployeeHelper.Save(employeeDetails);
 			if (!saveResult)
 				return;
+			var employeeListItem = employeeDetailsViewModel.EmployeeListItem;
 
-			var employee = employeeDetails.GetEmployeeListItem();
-			var employeeViewModel = new EmployeeViewModel(this, employee);
-			Employees.Add(employeeViewModel);
-			SelectedEmployee = employeeViewModel;
+			if (employeeViewModel == null)
+			{
+				var newEmployeeViewModel = new EmployeeViewModel(this, employeeListItem);
+				Employees.Add(newEmployeeViewModel);
+				SelectedEmployee = newEmployeeViewModel;
+			}
+			else
+				employeeViewModel.EmployeeListItem = employeeListItem;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var employee = SelectedEmployee.Employee;
+			var employee = SelectedEmployee.EmployeeListItem;
 			var removeResult = EmployeeHelper.MarkDeleted(employee.UID);
 			if (!removeResult)
 				return;
@@ -195,35 +206,6 @@ namespace SKDModule.ViewModels
 				SelectedEmployee = Employees[index];
 		}
 		bool CanRemove()
-		{
-			return SelectedEmployee != null;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			Employee employeeDetails = null;
-			if (PersonType == PersonType.Employee)
-			{
-				var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.Employee);
-				if (DialogService.ShowModalWindow(employeeDetailsViewModel))
-					employeeDetails = employeeDetailsViewModel.EmployeeDetails;
-			}
-			else if (PersonType == PersonType.Guest)
-			{
-				var guestDetailsViewModel = new GuestDetailsViewModel(this, SelectedEmployee.Employee);
-				if (DialogService.ShowModalWindow(guestDetailsViewModel))
-					employeeDetails = guestDetailsViewModel.EmployeeDetails;
-			}
-
-			if (employeeDetails == null)
-				return;
-
-			var saveResult = EmployeeHelper.Save(employeeDetails);
-			if (!saveResult)
-				return;
-		}
-		bool CanEdit()
 		{
 			return SelectedEmployee != null;
 		}
