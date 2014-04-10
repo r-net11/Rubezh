@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
@@ -18,14 +19,15 @@ namespace SKDModule.ViewModels
 			EmployeeListItem = employee;
 
 			AddCardCommand = new RelayCommand(OnAddCard, CanAddCard);
-			ChangeIsExpandedCommand = new RelayCommand(OnChangeIsExpanded);
+			ShowEmployeeCommand = new RelayCommand(OnShowEmployee);
 
 			//DepartmentPhotoUID = department == null ? null : department.PhotoUID;
 			//PositionPhotoUID = null; // пока нет в БД - position == null ? null : position.PhotoUID;
 			
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			foreach (var item in employee.Cards)
-					Cards.Add(new EmployeeCardViewModel(EmployeesViewModel.Organization, this, item));
+				Cards.Add(new EmployeeCardViewModel(EmployeesViewModel.Organization, this, item));
+			SelectedCard = Cards.FirstOrDefault();
 		}
 
 		public EmployeeListItem EmployeeListItem { get; set; }
@@ -78,6 +80,17 @@ namespace SKDModule.ViewModels
 
 		public ObservableCollection<EmployeeCardViewModel> Cards { get; private set; }
 
+		EmployeeCardViewModel _selectedCard;
+		public EmployeeCardViewModel SelectedCard
+		{
+			get { return _selectedCard; }
+			set
+			{
+				_selectedCard = value;
+				OnPropertyChanged("SelectedCard");
+			}
+		}
+
 		public RelayCommand AddCardCommand { get; private set; }
 		void OnAddCard()
 		{
@@ -92,7 +105,6 @@ namespace SKDModule.ViewModels
 				var cardViewModel = new EmployeeCardViewModel(EmployeesViewModel.Organization, this, card);
 				Cards.Add(cardViewModel);
 
-				IsExpanded = true;
 				EmployeesViewModel.SelectedCard = cardViewModel;
 			}
 		}
@@ -101,21 +113,21 @@ namespace SKDModule.ViewModels
 			return Cards.Count < 1000;
 		}
 
-		bool _isExpanded = false;
-		public bool IsExpanded
+		bool _isCard = false;
+		public bool IsCard
 		{
-			get { return _isExpanded; }
+			get { return _isCard; }
 			set
 			{
-				_isExpanded = value;
-				OnPropertyChanged("IsExpanded");
+				_isCard = value;
+				OnPropertyChanged("IsCard");
 			}
 		}
 
-		public RelayCommand ChangeIsExpandedCommand { get; private set; }
-		void OnChangeIsExpanded()
+		public RelayCommand ShowEmployeeCommand { get; private set; }
+		void OnShowEmployee()
 		{
-			IsExpanded = !IsExpanded;
+			IsCard = false;
 		}
 	}
 }

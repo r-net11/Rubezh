@@ -24,6 +24,7 @@ namespace SKDModule.Views
 
 		private void _dataGrid_Loaded(object sender, RoutedEventArgs e)
 		{
+			return;
 			EmployeesViewModel employeesViewModel = _dataGrid.DataContext as EmployeesViewModel;
 			if (employeesViewModel != null)
 			{
@@ -46,6 +47,7 @@ namespace SKDModule.Views
 
 		private void ItemsControl_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
+			return;
 			var employeesViewModel = DataContext as EmployeesViewModel;
 			if (employeesViewModel != null)
 			{
@@ -55,6 +57,7 @@ namespace SKDModule.Views
 
 		private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
+			return;
 			var employeesViewModel = DataContext as EmployeesViewModel;
 			if (employeesViewModel != null)
 			{

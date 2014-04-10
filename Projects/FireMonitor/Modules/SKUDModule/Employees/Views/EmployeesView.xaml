@@ -61,7 +61,7 @@
 						</Style.Triggers>
 					</Style>
 				</DataGrid.CellStyle>
-				<DataGrid.RowDetailsTemplate>
+				<!--<DataGrid.RowDetailsTemplate>
 					<DataTemplate>
 						<ItemsControl ItemsSource="{Binding Cards}" Style="{StaticResource ItemsControlStyle}" Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
 							<ItemsControl.ItemTemplate>
@@ -111,20 +111,16 @@
 							</ItemsControl.ItemTemplate>
 						</ItemsControl>
 					</DataTemplate>
-				</DataGrid.RowDetailsTemplate>
+				</DataGrid.RowDetailsTemplate>-->
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Width="*" Header="Имя">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock>
-									<Hyperlink Command="{Binding ChangeIsExpandedCommand}" Style="{StaticResource HyperlinkStyle2}">
-										<StackPanel Orientation="Horizontal">
-											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
 											<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding FirstName}" />
-										</StackPanel>
-									</Hyperlink>
-								</TextBlock>
-							</DataTemplate>
+                                </StackPanel>
+                            </DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTextColumn Binding="{Binding SecondName}" Header="Фамилия" />
@@ -133,67 +129,99 @@
 			</DataGrid>
 			<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
-			<Grid Grid.Row="2" Visibility="{Binding IsCard, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-				<Border Background="White" CornerRadius="5">
-					<StackPanel Margin="5" DataContext="{Binding RealSelectedEmployee}">
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="100" Margin="2" Text="Имя" />
+            <Grid Grid.Row="2" DataContext="{Binding SelectedEmployee}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock>
+						<Hyperlink Command="{Binding ShowEmployeeCommand}" Style="{StaticResource HyperlinkStyle2}">
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="Сотрудник" />
+							</StackPanel>
+						</Hyperlink>
+					</TextBlock>
+                    <ItemsControl ItemsSource="{Binding Cards}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+						            <Hyperlink Command="{Binding ShowCardCommand}" Style="{StaticResource HyperlinkStyle2}">
+							            <StackPanel Orientation="Horizontal">
+								            <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+								            <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Card.PresentationName}" />
+							            </StackPanel>
+						            </Hyperlink>
+					            </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <Grid Grid.Column="1" Visibility="{Binding IsCard, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+                    <Border Background="White" CornerRadius="5">
+                        <StackPanel Margin="5" DataContext="{Binding RealSelectedEmployee}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="100" Margin="2" Text="Имя" />
 							<TextBlock Margin="2" Text="{Binding FirstName}" />
-						</StackPanel>
+                            </StackPanel>
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="100" Margin="2" Text="Фамилия" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="100" Margin="2" Text="Фамилия" />
 							<TextBlock Margin="2" Text="{Binding SecondName}" />
-						</StackPanel>
+                            </StackPanel>
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="100" Margin="2" Text="Отчество" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="100" Margin="2" Text="Отчество" />
 							<TextBlock Margin="2" Text="{Binding LastName}" />
-						</StackPanel>
+                            </StackPanel>
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="100" Margin="2" Text="Отдел" />
-							<TextBlock Margin="2" Text="{Binding DepartmentName}" />
-						</StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="100" Margin="2" Text="Отдел" />
+                                <TextBlock Margin="2" Text="{Binding DepartmentName}" />
+                            </StackPanel>
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="100" Margin="2" Text="Должность" />
-							<TextBlock Margin="2" Text="{Binding PositionName}" />
-						</StackPanel>
-					</StackPanel>
-				</Border>
-			</Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="100" Margin="2" Text="Должность" />
+                                <TextBlock Margin="2" Text="{Binding PositionName}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
 
-			<Grid Grid.Row="2" Visibility="{Binding IsCard, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Grid>
-					<Grid DataContext="{Binding SelectedCard}" Visibility="{Binding IsPassBold, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-						</Grid.RowDefinitions>
-						<StackPanel Grid.Row="0" Orientation="Horizontal">
-							<StackPanel Margin="10 0" Orientation="Horizontal">
-								<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Идентификатор" />
-								<TextBlock Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.PresentationName}" />
-							</StackPanel>
+                <Grid Grid.Column="1" Visibility="{Binding IsCard, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid>
+                        <Grid DataContext="{Binding SelectedCard}" Visibility="{Binding IsPassBold, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <StackPanel Margin="10 0" Orientation="Horizontal">
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Идентификатор" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.PresentationName}" />
+                                </StackPanel>
 
-							<StackPanel Margin="10 0" Orientation="Horizontal">
-								<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Начало действия" />
-								<TextBlock Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.StartDate, StringFormat=dd-MM-yyyy}" />
-							</StackPanel>
+                                <StackPanel Margin="10 0" Orientation="Horizontal">
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Начало действия" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.StartDate, StringFormat=dd-MM-yyyy}" />
+                                </StackPanel>
 
-							<StackPanel Margin="10 0" Orientation="Horizontal">
-								<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Конец действия" />
-								<TextBlock Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.EndDate, StringFormat=dd-MM-yyyy}" />
-							</StackPanel>
-						</StackPanel>
-						<Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
-					</Grid>
-					<Grid Visibility="{Binding SelectedCard.IsPassBold, Converter={StaticResource BoolToVisibilityConverter}}">
-						<ContentPresenter Content="{Binding PassCardViewModel}" />
-					</Grid>
-				</Grid>
-			</Grid>
+                                <StackPanel Margin="10 0" Orientation="Horizontal">
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Конец действия" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Left" Foreground="White" Text="{Binding Card.EndDate, StringFormat=dd-MM-yyyy}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
+                        </Grid>
+                        <Grid Visibility="{Binding SelectedCard.IsPassBold, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ContentPresenter Content="{Binding PassCardViewModel}" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+            </Grid>
 		</Grid>
 	</Grid>
 </UserControl>
