@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Linq;
+﻿using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -9,7 +8,6 @@ using FiresecClient;
 using System.Collections.Generic;
 using XFiresecAPI;
 using System.Collections.ObjectModel;
-using Entities.DeviceOriented;
 using Infrastructure.Common.Video.RVI_VSS;
 
 namespace VideoModule.ViewModels
@@ -259,6 +257,15 @@ namespace VideoModule.ViewModels
 						Channels.Add(channelViewModel);
 					}
 				}
+				else
+				{
+					Channels = new ObservableCollection<ChannelViewModel>();
+					for (int i = 0; i < 16; i++)
+					{
+						var channelViewModel = new ChannelViewModel(i);
+						Channels.Add(channelViewModel);
+					}
+				}
 				SelectedChannel = Channels.FirstOrDefault(x => x.No == Camera.ChannelNumber);
 			}
 			catch (Exception e)
@@ -274,6 +281,8 @@ namespace VideoModule.ViewModels
 			{
 				if (SelectedChannel == null)
 					SelectedChannel = Channels.FirstOrDefault();
+				if (SelectedChannel == null)
+					return;
 				var title = Address + " (" + SelectedChannel.Name + ")";
 				var previewViewModel = new PreviewViewModel(title, _cellPlayerWrap);
 
