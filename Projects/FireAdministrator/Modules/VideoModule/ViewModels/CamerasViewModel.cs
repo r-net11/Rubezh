@@ -117,15 +117,15 @@ namespace VideoModule.ViewModels
 		public RelayCommand SearchCommand { get; private set; }
 		void OnSearch()
 		{
-			var foundCamerasViewModel = new FoundCamerasViewModel(new List<CameraViewModel>(Cameras));
-			if(DialogService.ShowModalWindow(foundCamerasViewModel))
-				foreach (var foundCamera in foundCamerasViewModel.FoundCameras)
+			var autoSearchCameraViewModel = new AutoSearchCamerasViewModel(new List<CameraViewModel>(Cameras));
+			if (DialogService.ShowModalWindow(autoSearchCameraViewModel))
+				foreach (var autoSearchCamera in autoSearchCameraViewModel.AutoSearchCameras)
 				{
-					if (foundCamera.IsChecked)
+					if (autoSearchCamera.IsChecked)
 					{
 						var camera = new Camera();
-						camera.Address = foundCamera.Address;
-						camera.Port = foundCamera.Port;
+						camera.Address = autoSearchCamera.DeviceSearchInfo.IpAddress;
+						camera.Port = autoSearchCamera.DeviceSearchInfo.Port;
 						var cameraViewModel = new CameraViewModel(this, camera);
 						Cameras.Add(cameraViewModel);
 					}

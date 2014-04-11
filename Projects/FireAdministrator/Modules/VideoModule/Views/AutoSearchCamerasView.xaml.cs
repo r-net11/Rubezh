@@ -2,9 +2,9 @@
 
 namespace VideoModule.Views
 {
-	public partial class FoundCamerasView : UserControl
+	public partial class AutoSearchCamerasView : UserControl
 	{
-		public FoundCamerasView()
+		public AutoSearchCamerasView()
 		{
 			InitializeComponent();
 		}

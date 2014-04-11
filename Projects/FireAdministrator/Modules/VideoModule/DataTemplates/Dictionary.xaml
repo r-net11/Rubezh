@@ -31,8 +31,8 @@
         <Views:PreviewView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:FoundCamerasViewModel}">
-        <Views:FoundCamerasView />
+    <DataTemplate DataType="{x:Type ViewModels:AutoSearchCamerasViewModel}">
+        <Views:AutoSearchCamerasView />
     </DataTemplate>
 
 </ResourceDictionary>

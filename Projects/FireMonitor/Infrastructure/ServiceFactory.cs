@@ -8,6 +8,7 @@ using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Content;
+using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
 
@@ -29,6 +30,7 @@ namespace Infrastructure
 			Layout = ILayoutService;
 			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
 			ContentService = new ContentService("Monitor");
+			DragDropService = new DragDropService();
 		}
 
 		public static void SubscribeEvents()

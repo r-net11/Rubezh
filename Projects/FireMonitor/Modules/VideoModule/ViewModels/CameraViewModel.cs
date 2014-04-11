@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using System.Windows.Threading;
+using Common;
+using DeviceControls;
 using Entities.DeviceOriented;
 using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Painters;
 using XFiresecAPI;
 
 namespace VideoModule.ViewModels
@@ -33,6 +39,9 @@ namespace VideoModule.ViewModels
 			StateClasses.Add(XStateClass.Attention);
 			StateClasses.Add(XStateClass.Ignore);
 			CellPlayerWrap = cellPlayerWrap;
+			CellPlayerWrap.DropHandler += CellPlayerWrapOnDropHandler;
+			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand);
+			CreateDragVisual = OnCreateDragVisual;
 		}
 
 		private bool _isConnecting;
@@ -258,6 +267,49 @@ namespace VideoModule.ViewModels
 				var presentationZones = XManager.GetCommaSeparatedObjects(new List<INamedBase>(zones));
 				return presentationZones;
 			}
+		}
+
+		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
+
+		private void OnCreateDragObjectCommand(DataObject dataObject)
+		{
+			var camera = Camera;
+			dataObject.SetData("DESIGNER_ITEM", camera);
+		}
+		public Converter<IDataObject, UIElement> CreateDragVisual { get; private set; }
+
+		private UIElement OnCreateDragVisual(IDataObject dataObject)
+		{
+			var brush = PictureCacheSource.CameraPicture.GetDefaultBrush();
+			return new System.Windows.Shapes.Rectangle
+			{
+				Fill = brush,
+				Height = PainterCache.DefaultPointSize,
+				Width = PainterCache.DefaultPointSize,
+			};
+		}
+
+		private void CellPlayerWrapOnDropHandler(Camera camera)
+		{
+			if (String.IsNullOrEmpty(CellPlayerWrap.Name)) // Запрет менять для однооконного режима(?)
+				return;
+			Camera = camera;
+			if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == CellPlayerWrap.Name).Value == Camera.UID)
+				return;
+			try
+			{
+				Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
+				{
+					StopVideo();
+					ConnectAndStart();
+				}));
+				ClientSettings.RviMultiLayoutCameraSettings.Dictionary[CellPlayerWrap.Name] = Camera.UID;
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex, "LayoutMultiCameraView.OnShowProperties");
+			}
+
 		}
 	}
 }
