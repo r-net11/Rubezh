@@ -32,6 +32,11 @@ namespace SKDModule.ViewModels
 			CardZonesViewModel = new CardZonesViewModel(cardZones);
 		}
 
+		public string Name
+		{
+			get { return "Карат " + Card.PresentationName; }
+		}
+
 		List<CardZone> GetCardZones(SKDCard card)
 		{
 			var cardZones = new List<CardZone>();
@@ -82,6 +87,7 @@ namespace SKDModule.ViewModels
 					return;
 				Card = card;
 				OnPropertyChanged("Card");
+				OnPropertyChanged("Name");
 				CardZonesViewModel.Update(Card.CardZones);
 			}
 		}

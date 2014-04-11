@@ -63,6 +63,14 @@
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Filters\ViewModels\FilterDetails\DeviceFilterViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartVerificationViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartPropertyVerificationPageViewModel.cs" />
+    <Compile Include="Layout\Views\LayoutPartVerificationView.xaml.cs">
+      <DependentUpon>LayoutPartVerificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\LayoutPartPropertyVerificationPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyVerificationPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Organisations\ViewModels\OrganisationZonesViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationZoneViewModel.cs" />
     <Compile Include="PassCard\Designer\DesignerCanvas.cs" />
@@ -399,6 +407,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Filters\Views\FiltersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartVerificationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartPropertyVerificationPageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

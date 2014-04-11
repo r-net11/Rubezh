@@ -8,4 +8,12 @@
         <Views:LayoutPartPropertyJournalPageView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:LayoutPartVerificationViewModel}">
+        <Views:LayoutPartVerificationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyVerificationPageViewModel}">
+        <Views:LayoutPartPropertyVerificationPageView />
+    </DataTemplate>
+
 </ResourceDictionary>

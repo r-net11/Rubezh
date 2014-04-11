@@ -36,9 +36,9 @@
                         <TextBlock Text="Начало действия" HorizontalAlignment="Center" Foreground="White" Margin="2" />
                         <Calendar VerticalAlignment="Top" Margin="2"
 				            BorderBrush="#66ff9829" BorderThickness="2"
-				            DisplayDateStart="{Binding StartDate, Mode=OneTime}"
 				            IsTodayHighlighted="False"
 				            SelectedDate="{Binding StartDate}"
+                            DisplayDate="{Binding StartDate}"
 				            SelectionMode="SingleDate" />
                     </StackPanel>
 
@@ -46,9 +46,9 @@
                         <TextBlock Text="Конец действия" HorizontalAlignment="Center" Foreground="White" Margin="2" />
                         <Calendar VerticalAlignment="Top" Margin="2"
 				            BorderBrush="#66ff9829" BorderThickness="2"
-				            DisplayDateStart="{Binding EndDate, Mode=OneTime}"
 				            IsTodayHighlighted="False"
 				            SelectedDate="{Binding EndDate}"
+                            DisplayDate="{Binding EndDate}"
 				            SelectionMode="SingleDate"
                             IsEnabled="{Binding CanSelectEndDate}" />
                     </StackPanel>
@@ -85,7 +85,7 @@
 		<TabItem Header="Шаблон доступа">
 			<DataGrid ItemsSource="{Binding AvailableAccessTemplates}" SelectedItem="{Binding SelectedAccessTemplate}">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Width="*" Header="ГУД">
+                    <DataGridTemplateColumn Width="*" Header="Шаблон доступа">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -98,5 +98,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</TabItem>
-	</TabControl>
+        <TabItem Header="Комиссионируемые считыватели">
+        </TabItem>
+    </TabControl>
 </UserControl>

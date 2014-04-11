@@ -149,12 +149,15 @@ namespace SKDModule
 						yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDevices, 303, "СКД устройства", "Панель СКД устройства", "BTree.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDZones, 304, "СКД зоны", "Панель СКД зоны", "BTree.png");
 
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDEmployees, 301, "Сотрудники", "Панель сотрудники", "BLevels.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDJournal, 302, "Журнал", "Панель журнал", "BLevels.png")
 				{
 					Factory = (p) => new LayoutPartJournalViewModel(p as LayoutPartSKDJournalProperties),
 				};
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDVerification, 305, "Верификация", "Панель верификация", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDVerification, 305, "Верификация", "Панель верификация", "BTree.png")
+			{
+				Factory = (p) => new LayoutPartVerificationViewModel(p as LayoutPartSKDVerificationProperties),
+			};
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDEmployees, 301, "Сотрудники", "Панель сотрудники", "BLevels.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDCards, 306, "Карты", "Панель карты", "BTree.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDepartments, 307, "Отделы", "Панель отделы", "BTree.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDPositions, 308, "Должности", "Панель должности", "BTree.png");
