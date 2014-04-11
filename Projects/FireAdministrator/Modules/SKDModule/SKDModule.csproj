@@ -62,6 +62,15 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
+    <Compile Include="Filters\ViewModels\FilterDetails\DeviceFilterViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartVerificationViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartPropertyVerificationPageViewModel.cs" />
+    <Compile Include="Layout\Views\LayoutPartVerificationView.xaml.cs">
+      <DependentUpon>LayoutPartVerificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\LayoutPartPropertyVerificationPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyVerificationPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Organisations\ViewModels\OrganisationZonesViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationZoneViewModel.cs" />
     <Compile Include="PassCard\Designer\DesignerCanvas.cs" />
@@ -93,7 +102,7 @@
     <Compile Include="Events\ShowSKDZoneEvent.cs" />
     <Compile Include="Events\ShowSKDOrganisationsEvent.cs" />
     <Compile Include="Filters\ViewModels\FilterDetails\FilterDetailsViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FilterDetails\SKDEventViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FilterDetails\EventFilterViewModel.cs" />
     <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
     <Compile Include="Filters\ViewModels\FiltersViewModel.cs" />
     <Compile Include="Filters\ViewModels\FilterViewModel.cs" />
@@ -313,6 +322,14 @@
     <Compile Include="Organisations\Views\OrganisationsView.xaml.cs">
       <DependentUpon>OrganisationsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Layout\ViewModels\LayoutPartJournalViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartPropertyJournalPageViewModel.cs" />
+    <Compile Include="Layout\Views\LayoutPartJournalView.xaml.cs">
+      <DependentUpon>LayoutPartJournalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\LayoutPartPropertyJournalPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyJournalPageView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
@@ -390,6 +407,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Filters\Views\FiltersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartVerificationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartPropertyVerificationPageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -562,6 +587,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Organisations\Views\OrganisationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartJournalView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartPropertyJournalPageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

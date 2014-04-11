@@ -437,10 +437,14 @@ namespace GKProcessor
 				{
 					case XDriverType.RSR2_MVK8:
 					case XDriverType.RSR2_RM_1:
-					case XDriverType.RSR2_Bush:
 						OnDelay = additionalShortParameters[0];
 						HoldDelay = additionalShortParameters[1];
 						OffDelay = additionalShortParameters[2];
+						break;
+
+					case XDriverType.RSR2_Bush:
+						OnDelay = additionalShortParameters[0];
+						OffDelay = additionalShortParameters[1];
 						break;
 				}
 			}

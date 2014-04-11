@@ -14,7 +14,7 @@ namespace FiresecAPI
 		[Description("Временный")]
 		Temporary,
 
-		[Description("Одноразовый")]
+		[Description("Разовый")]
 		OneTime,
 
 		[Description("Заблокирован")]

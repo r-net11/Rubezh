@@ -30,7 +30,7 @@ namespace SKDModule.PassCard.ViewModels
 
 		public PassCardViewModel(EmployeeViewModel employeeViewModel, SKDCard card)
 		{
-			Title = "Удостоверение";
+			Title = "Печать удостоверения " + card.PresentationName;
 			EmployeeViewModel = employeeViewModel;
 			Card = card;
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);

@@ -7,7 +7,7 @@ namespace Infrastructure.Client.Layout.ViewModels
 {
 	public class LayoutPartTitleViewModel : BaseLayoutPartViewModel
 	{
-		private string _iconSource;
+		string _iconSource;
 		public string IconSource
 		{
 			get { return _iconSource; }
@@ -17,7 +17,7 @@ namespace Infrastructure.Client.Layout.ViewModels
 				OnPropertyChanged(() => IconSource);
 			}
 		}
-		private string _title;
+		string _title;
 		public string Title
 		{
 			get { return _title; }
