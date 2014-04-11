@@ -50,7 +50,7 @@
 										<Grid.ToolTip>
 											<Views:ZoneToolTipView />
 										</Grid.ToolTip>
-											<Grid.ContextMenu>
+										<Grid.ContextMenu>
 											<ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Отключить" Command="{Binding SetIgnoreCommand}" />
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
