@@ -3,16 +3,15 @@ using XFiresecAPI;
 
 namespace SKDModule.ViewModels
 {
-	public class SKDEventNameViewModel : BaseViewModel
+	public class EventFilterViewModel : BaseViewModel
 	{
-		public SKDEventNameViewModel(string name)
+		public EventFilterViewModel(string name, XStateClass stateClass)
 		{
 			Name = name;
-			StateClass = XStateClass.Info;
+			StateClass = stateClass;
 		}
 
 		public string Name { get; private set; }
-		public string Description { get; private set; }
 		public XStateClass StateClass { get; private set; }
 
 		bool _isChecked;

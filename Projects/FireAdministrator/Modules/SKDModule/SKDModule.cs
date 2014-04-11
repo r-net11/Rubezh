@@ -18,6 +18,7 @@ using SKDModule.Plans;
 using SKDModule.Plans.Designer;
 using SKDModule.Validation;
 using SKDModule.ViewModels;
+using FiresecAPI.Models.Layouts;
 
 namespace SKDModule
 {
@@ -85,13 +86,13 @@ namespace SKDModule
 			{
 				new NavigationItem("СКД", null, new List<NavigationItem>()
 				{
-					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
-					new NavigationItem<ShowSKDFiltersEvent, Guid>(FiltersViewModel, "Фильтры", "/Controls;component/Images/book.png", null, null, Guid.Empty),
-					new NavigationItem<ShowSKDOrganisationsEvent, Guid>(OrganisationsViewModel, "Организации", "/Controls;component/Images/book.png", null, null, Guid.Empty),
+					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/Book.png"),
+					new NavigationItem<ShowSKDFiltersEvent, Guid>(FiltersViewModel, "Фильтры", "/Controls;component/Images/Book.png", null, null, Guid.Empty),
+					new NavigationItem<ShowSKDOrganisationsEvent, Guid>(OrganisationsViewModel, "Организации", "/Controls;component/Images/Book.png", null, null, Guid.Empty),
 					new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков",null,null,null, Guid.Empty),
-					new NavigationItem<ShowSKDSettingsEvent, object>(SettingsViewModel, "Настройки", "/Controls;component/Images/book.png"),
+					new NavigationItem<ShowSKDSettingsEvent, object>(SettingsViewModel, "Настройки", "/Controls;component/Images/Book.png"),
 					new NavigationItem("Интервалы", null, new List<NavigationItem>()
 					{
 						new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -120,6 +121,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Intervals/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Settings/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml"));
 			DesignerLoader.RegisterResource();
 		}
 
@@ -144,10 +146,14 @@ namespace SKDModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDEmployees, 301, "Сотрудники", "Панель сотрудники", "BLevels.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDJournal, 302, "Журнал", "Панель журнал", "BLevels.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDevices, 303, "СКД устройства", "Панель СКД устройства", "BTree.png");
+						yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDevices, 303, "СКД устройства", "Панель СКД устройства", "BTree.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDZones, 304, "СКД зоны", "Панель СКД зоны", "BTree.png");
+
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDEmployees, 301, "Сотрудники", "Панель сотрудники", "BLevels.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDJournal, 302, "Журнал", "Панель журнал", "BLevels.png")
+				{
+					Factory = (p) => new LayoutPartJournalViewModel(p as LayoutPartSKDJournalProperties),
+				};
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDVerification, 305, "Верификация", "Панель верификация", "BTree.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDCards, 306, "Карты", "Панель карты", "BTree.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDepartments, 307, "Отделы", "Панель отделы", "BTree.png");
