@@ -115,6 +115,11 @@ namespace SKDModule.ViewModels
 				_selectedCardType = value;
 				OnPropertyChanged("SelectedCardType");
 				OnPropertyChanged("CanSelectEndDate");
+
+				if (value != CardType.Temporary)
+				{
+					EndDate = StartDate;
+				}
 			}
 		}
 
@@ -131,6 +136,11 @@ namespace SKDModule.ViewModels
 			{
 				_startDate = value;
 				OnPropertyChanged("StartDate");
+
+				if (SelectedCardType != CardType.Temporary)
+				{
+					EndDate = value;
+				}
 			}
 		}
 
@@ -264,6 +274,12 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (EndDate < StartDate)
+			{
+				MessageBoxService.ShowWarning("Дата конца действия карты не может быть раньше даты начала действия");
+				return false;
+			}
+
 			if (UseStopList && SelectedStopListCard != null)
 			{
 				if (!IsNewCard)

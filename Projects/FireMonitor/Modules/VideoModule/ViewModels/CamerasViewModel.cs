@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
+using DeviceControls;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -8,6 +11,7 @@ using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrustructure.Plans.Painters;
 
 namespace VideoModule.ViewModels
 {

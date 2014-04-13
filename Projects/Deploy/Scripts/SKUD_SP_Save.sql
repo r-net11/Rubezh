@@ -112,7 +112,7 @@ CREATE PROCEDURE [dbo].[SaveNamedInterval]
 	@Uid uniqueidentifier,
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
-	@SlideTime time(0) = '00:00',
+	@SlideTime time = '00:00',
 	@IsDeleted bit = 0,
 	@RemovalDate datetime = '01/01/1900' 
 AS
@@ -266,7 +266,7 @@ CREATE PROCEDURE [dbo].[SaveHoliday]
 	@Type int ,
 	@Date date ,
 	@TransferDate date ,
-	@Reduction time(0) ,
+	@Reduction time ,
 	@IsDeleted bit ,
 	@RemovalDate datetime 
 
@@ -679,7 +679,7 @@ CREATE PROCEDURE SaveCard
 	@StopReason text = NULL
 AS
 BEGIN
-	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,AccessTemplateUID,StartDate,EndDate,IsInStopList,StopReason,IsBlocked)
+	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,AccessTemplateUID,StartDate,EndDate,IsInStopList,StopReason,CardType)
 	VALUES (@UID,@IsDeleted,@RemovalDate,@Series,@Number,@EmployeeUID,@AccessTemplateUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason,0)
 END
 

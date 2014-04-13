@@ -7,6 +7,13 @@ namespace FiresecAPI
 	[DataContract]
 	public class Employee : OrganizationElementBase
 	{
+		public Employee() : base()
+		{
+			Cards = new List<SKDCard>();
+			ReplacementUIDs = new List<Guid>();
+			AdditionalColumns = new List<AdditionalColumn>();
+		}
+		
 		[DataMember]
 		public string FirstName { get; set; }
 

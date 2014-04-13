@@ -10,7 +10,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
-using SKDModule.PassCard.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -18,7 +17,7 @@ namespace SKDModule.ViewModels
 	{
 		public static EmployeesViewModel Current { get; private set; }
 		EmployeeFilter Filter;
-		PersonType PersonType;
+		public PersonType PersonType { get; private set; }
 		public Organization Organization { get; private set; }
 		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
@@ -87,17 +86,9 @@ namespace SKDModule.ViewModels
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employeeDetails = employeeDetailsViewModel.Employee;
-				if (employeeDetails == null)
-					return;
-				var saveResult = EmployeeHelper.Save(employeeDetails);
-				if (!saveResult)
-					return;
-				var employeeListItem = employeeDetailsViewModel.EmployeeListItem;
-
-				var newEmployeeViewModel = new EmployeeViewModel(Organization, employeeListItem);
-				Employees.Add(newEmployeeViewModel);
-				SelectedEmployee = newEmployeeViewModel;
+				var employeeViewModel = new EmployeeViewModel(Organization, employeeDetailsViewModel.EmployeeListItem);
+				Employees.Add(employeeViewModel);
+				SelectedEmployee = employeeViewModel;
 			}
 		}
 
@@ -107,15 +98,7 @@ namespace SKDModule.ViewModels
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.EmployeeListItem);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employeeDetails = employeeDetailsViewModel.Employee;
-				if (employeeDetails == null)
-					return;
-				var saveResult = EmployeeHelper.Save(employeeDetails);
-				if (!saveResult)
-					return;
-				var employeeListItem = employeeDetailsViewModel.EmployeeListItem;
-
-				SelectedEmployee.EmployeeListItem = employeeListItem;
+				SelectedEmployee.Update(employeeDetailsViewModel.EmployeeListItem);
 			}
 		}
 		bool CanEdit()

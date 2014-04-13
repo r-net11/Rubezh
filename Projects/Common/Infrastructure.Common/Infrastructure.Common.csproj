@@ -79,9 +79,6 @@
     <Reference Include="DeviceOrientedLib">
       <HintPath>..\..\..\3rdParty\RVI_VSS\DeviceOrientedLib.dll</HintPath>
     </Reference>
-    <Reference Include="Entities">
-      <HintPath>..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
-    </Reference>
     <Reference Include="GalaSoft.MvvmLight.WPF4">
       <HintPath>..\..\..\3rdParty\RVI_VSS\GalaSoft.MvvmLight.WPF4.dll</HintPath>
     </Reference>
@@ -119,9 +116,6 @@
     <Reference Include="ReachFramework" />
     <Reference Include="RVI_VSS.ViewModels">
       <HintPath>..\..\..\3rdParty\RVI_VSS\RVI_VSS.ViewModels.dll</HintPath>
-    </Reference>
-    <Reference Include="SdkWrapper">
-      <HintPath>..\..\..\3rdParty\RVI_VSS\SdkWrapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
@@ -473,6 +467,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\RVI_VSS\DeviceEntities\Entities.csproj">
+      <Project>{5DE518B5-AB55-422C-BEC9-B28FD6D40E9F}</Project>
+      <Name>Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\RVI_VSS\SdkWrapper\SdkWrapper.csproj">
+      <Project>{038CC6BE-9A56-4376-9221-AAE7C610F595}</Project>
+      <Name>SdkWrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>

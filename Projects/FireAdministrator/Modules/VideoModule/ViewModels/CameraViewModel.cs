@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
-using System.Windows.Threading;
-using Entities.DeviceOriented;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using Infrastructure.Common.Video.RVI_VSS;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using System.Windows;

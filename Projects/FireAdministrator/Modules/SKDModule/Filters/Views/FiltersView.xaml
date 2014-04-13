@@ -5,8 +5,8 @@
 	<Grid>
 		<Controls:XDataGrid ItemsSource="{Binding JournalFilters}" SelectedItem="{Binding SelectedJournalFilter}">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Название" Width="1*" Binding="{Binding JournalFilter.Name}" />
-				<DataGridTextColumn Header="Описание" Width="1*" Binding="{Binding JournalFilter.Description}" />
+				<DataGridTextColumn Header="Название" Width="*" Binding="{Binding JournalFilter.Name}" />
+				<DataGridTextColumn Header="Описание" Width="*" Binding="{Binding JournalFilter.Description}" />
 			</DataGrid.Columns>
 		</Controls:XDataGrid>
 	</Grid>

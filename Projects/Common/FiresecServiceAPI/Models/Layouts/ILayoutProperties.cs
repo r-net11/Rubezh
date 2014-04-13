@@ -1,5 +1,4 @@
-﻿
-namespace FiresecAPI.Models.Layouts
+﻿namespace FiresecAPI.Models.Layouts
 {
 	public interface ILayoutProperties
 	{

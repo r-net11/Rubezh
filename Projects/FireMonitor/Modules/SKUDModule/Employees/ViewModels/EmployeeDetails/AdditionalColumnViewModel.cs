@@ -19,9 +19,12 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (IsGraphicsData)
-					return "";
 				return AdditionalColumn.TextData;
+			}
+			set
+			{
+				AdditionalColumn.TextData = value;
+				OnPropertyChanged(() => Text);
 			}
 		}
 		
@@ -31,35 +34,42 @@ namespace SKDModule.ViewModels
 			Name = AdditionalColumn.AdditionalColumnType.Name;
 			IsGraphicsData = AdditionalColumn.AdditionalColumnType.DataType == AdditionalColumnDataType.Graphics;
 			EditCommand = new RelayCommand(OnEdit);
+			SelectGraphicsColumnCommand = new RelayCommand(OnSelectGraphicsColumn);
 			if (IsGraphicsData)
 				Bitmap = PhotoHelper.GetBitmapSource(AdditionalColumn.Photo);
+		}
+
+		public RelayCommand SelectGraphicsColumnCommand { get; private set; }
+		void OnSelectGraphicsColumn()
+		{
+			   ;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			if (!IsGraphicsData)
+			//if (!IsGraphicsData)
+			//{
+			//    var editTextViewModel = new EditTextViewModel(Name, Text);
+			//    if (DialogService.ShowModalWindow(editTextViewModel))
+			//    {
+			//        AdditionalColumn.TextData = editTextViewModel.Text;
+			//        OnPropertyChanged(() => Text);
+			//    }
+			//}
+			//else
+			//{
+			var openFileDialog = new OpenFileDialog()
 			{
-				var editTextViewModel = new EditTextViewModel(Name, Text);
-				if (DialogService.ShowModalWindow(editTextViewModel))
-				{
-					AdditionalColumn.TextData = editTextViewModel.Text;
-					OnPropertyChanged(() => Text);
-				}
-			}
-			else
+				Filter = "Jpg files (.jpg)|*.jpg"
+			};
+			if (openFileDialog.ShowDialog() == true)
 			{
-				var openFileDialog = new OpenFileDialog()
-				{
-					Filter = "Jpg files (.jpg)|*.jpg"
-				};
-				if (openFileDialog.ShowDialog() == true)
-				{
-					AdditionalColumn.Photo = new Photo(openFileDialog.OpenFile());
-					Bitmap = PhotoHelper.GetBitmapSource(AdditionalColumn.Photo);
-					OnPropertyChanged(() => Bitmap);
-				}
+				AdditionalColumn.Photo = new Photo(openFileDialog.OpenFile());
+				Bitmap = PhotoHelper.GetBitmapSource(AdditionalColumn.Photo);
+				OnPropertyChanged(() => Bitmap);
 			}
+			//}
 		}
 	}
 }

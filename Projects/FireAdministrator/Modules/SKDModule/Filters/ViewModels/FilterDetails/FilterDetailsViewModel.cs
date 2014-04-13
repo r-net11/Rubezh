@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace SKDModule.ViewModels
 {
@@ -12,11 +13,6 @@ namespace SKDModule.ViewModels
 
 		public FilterDetailsViewModel(SKDJournalFilter journalFilter = null)
 		{
-			EventNames = new ObservableCollection<SKDEventNameViewModel>();
-			EventNames.Add(new SKDEventNameViewModel("Проход"));
-			EventNames.Add(new SKDEventNameViewModel("Проход с нарушением ВРЕМЕНИ"));
-			EventNames.Add(new SKDEventNameViewModel("Проход с нарушением ЗОНАЛЬНОСТИ"));
-
 			if (journalFilter == null)
 			{
 				Title = "Создание нового фильтра";
@@ -32,9 +28,25 @@ namespace SKDModule.ViewModels
 				Title = string.Format("Свойства фильтра: {0}", journalFilter.Name);
 				JournalFilter = journalFilter;
 			}
-			CopyProperties();
 
-			Devices = new ObservableCollection<SKDDevice>();
+			EventNames = new ObservableCollection<EventFilterViewModel>();
+			foreach (var skdEvent in SKDEventsHelper.SKDEvents.Where(x => x.DriverType == SKDDriverType.Controller || x.DriverType == SKDDriverType.Reader))
+			{
+				var eventFilterViewModel = new EventFilterViewModel(skdEvent.Name, skdEvent.StateClass);
+				EventNames.Add(eventFilterViewModel);
+			}
+
+			Devices = new ObservableCollection<DeviceFilterViewModel>();
+			foreach (var device in SKDManager.Devices)
+			{
+				if (device.DriverType == SKDDriverType.Controller || device.DriverType == SKDDriverType.Reader)
+				{
+					var deviceFilterViewModel = new DeviceFilterViewModel(device);
+					Devices.Add(deviceFilterViewModel);
+				}
+			}
+
+			CopyProperties();
 		}
 
 		void CopyProperties()
@@ -42,12 +54,21 @@ namespace SKDModule.ViewModels
 			Name = JournalFilter.Name;
 			Description = JournalFilter.Description;
 
-			foreach (var eventViewModel in EventNames)
+			foreach (var eventName in JournalFilter.EventNames)
 			{
-				foreach (var eventName in JournalFilter.EventNames)
+				var eventFilterViewModel = EventNames.FirstOrDefault(x => x.Name == eventName);
+				if (eventFilterViewModel != null)
 				{
-					if (eventName == eventViewModel.Name)
-						eventViewModel.IsChecked = true;
+					eventFilterViewModel.IsChecked = true;
+				}
+			}
+
+			foreach (var deviceUID in JournalFilter.DeviceUIDs)
+			{
+				var deviceViewModel = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
+				if (deviceViewModel != null)
+				{
+					deviceViewModel.IsChecked = true;
 				}
 			}
 		}
@@ -85,15 +106,15 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<SKDDevice> Devices { get; private set; }
-
-		public ObservableCollection<SKDEventNameViewModel> EventNames { get; private set; }
+		public ObservableCollection<DeviceFilterViewModel> Devices { get; private set; }
+		public ObservableCollection<EventFilterViewModel> EventNames { get; private set; }
 
 		protected override bool Save()
 		{
 			JournalFilter.Name = Name;
 			JournalFilter.Description = Description;
 			JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.Name).ToList();
+			JournalFilter.DeviceUIDs = Devices.Where(x => x.IsChecked).Select(x => x.Device.UID).ToList();
 			return base.Save();
 		}
 

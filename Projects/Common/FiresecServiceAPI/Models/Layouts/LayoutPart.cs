@@ -6,6 +6,8 @@ namespace FiresecAPI.Models.Layouts
 	[DataContract]
 	[KnownType(typeof(LayoutPartImageProperties))]
 	[KnownType(typeof(LayoutPartCameraProperties))]
+	[KnownType(typeof(LayoutPartSKDJournalProperties))]
+	[KnownType(typeof(LayoutPartSKDVerificationProperties))]
 	[KnownType(typeof(LayoutPartPlansProperties))]
 	public class LayoutPart
 	{
