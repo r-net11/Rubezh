@@ -72,8 +72,8 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("HasChildren");
-			OnPropertyChanged("IsOnPlan");
+			OnPropertyChanged(() => HasChildren);
+			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}
 
@@ -161,7 +161,7 @@ namespace GKModule.ViewModels
 		{
 			if (Device.AllParents.Any(x => x.DriverType == XDriverType.RSR2_KAU))
 			{
-				if(Device.DriverType == XDriverType.KAUIndicator)
+				if (Device.DriverType == XDriverType.KAUIndicator)
 					return false;
 				if (Device.Parent != null && Device.Parent.Driver.IsGroupDevice)
 					return false;
