@@ -282,6 +282,8 @@
     <Compile Include="Plans\Views\SKDZoneTooltipView.xaml.cs">
       <DependentUpon>SKDZoneTooltipView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Positions\ViewModels\NewPositionsViewModel.cs" />
+    <Compile Include="Positions\ViewModels\NewPositionViewModel.cs" />
     <Compile Include="Positions\ViewModels\OrganisationPositionsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionFilterViewModel.cs" />
@@ -291,6 +293,9 @@
     </Compile>
     <Compile Include="Positions\Views\PositionFilterView.xaml.cs">
       <DependentUpon>PositionFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Positions\Views\NewPositionsView.xaml.cs">
+      <DependentUpon>NewPositionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Models\EmployeeReportPeriod.cs" />
     <Compile Include="Reports\Models\EmployeeReportSettings.cs" />
@@ -653,6 +658,10 @@
     <Page Include="Positions\Views\PositionFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Positions\Views\NewPositionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Verification\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

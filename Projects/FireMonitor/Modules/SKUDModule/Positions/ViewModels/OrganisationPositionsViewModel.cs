@@ -61,17 +61,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(positionDetailsViewModel))
-			{
-				var position = positionDetailsViewModel.Position;
-				bool saveResult = PositionHelper.Save(position);
-				if (!saveResult)
-					return;
-				var positionViewModel = new PositionViewModel(position);
-				Positions.Add(positionViewModel);
-				SelectedPosition = positionViewModel;
-			}
+			//var positionDetailsViewModel = new PositionDetailsViewModel(this);
+			//if (DialogService.ShowModalWindow(positionDetailsViewModel))
+			//{
+			//    var position = positionDetailsViewModel.Position;
+			//    bool saveResult = PositionHelper.Save(position);
+			//    if (!saveResult)
+			//        return;
+			//    var positionViewModel = new PositionViewModel(position);
+			//    Positions.Add(positionViewModel);
+			//    SelectedPosition = positionViewModel;
+			//}
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -95,15 +95,15 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(this, SelectedPosition.Position);
-			if (DialogService.ShowModalWindow(positionDetailsViewModel))
-			{
-				var position = positionDetailsViewModel.Position;
-				bool saveResult = PositionHelper.Save(position);
-				if (!saveResult)
-					return;
-				SelectedPosition.Update(positionDetailsViewModel.Position);
-			}
+			//var positionDetailsViewModel = new PositionDetailsViewModel(this, SelectedPosition.Position);
+			//if (DialogService.ShowModalWindow(positionDetailsViewModel))
+			//{
+			//    var position = positionDetailsViewModel.Position;
+			//    bool saveResult = PositionHelper.Save(position);
+			//    if (!saveResult)
+			//        return;
+			//    SelectedPosition.Update(positionDetailsViewModel.Position);
+			//}
 		}
 		bool CanEdit()
 		{
