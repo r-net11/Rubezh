@@ -4,7 +4,7 @@ using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	class NamedIntervalTranslator : OrganizationElementTranslator<DataAccess.NamedInterval, NamedInterval, NamedIntervalFilter>
+	public class NamedIntervalTranslator : OrganizationElementTranslator<DataAccess.NamedInterval, NamedInterval, NamedIntervalFilter>
 	{
 		public NamedIntervalTranslator(DataAccess.SKDDataContext context)
 			: base(context)
@@ -27,6 +27,8 @@ namespace SKDDriver.Translators
 		{
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
+			result.Description = tableItem.Description;
+			result.SlideTime = tableItem.SlideTime;
 			return result;
 		}
 
@@ -34,6 +36,8 @@ namespace SKDDriver.Translators
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
+			tableItem.Description = apiItem.Description;
+			tableItem.SlideTime = apiItem.SlideTime;
 		}
 	}
 }

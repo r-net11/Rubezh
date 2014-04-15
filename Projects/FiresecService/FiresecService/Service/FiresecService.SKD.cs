@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using SKDDriver;
+using NamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
+using NamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
 
 namespace FiresecService.Service
 {
@@ -65,6 +67,10 @@ namespace FiresecService.Service
 		public OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter)
 		{
 			return SKDDatabaseService.EmployeeReplacementTranslator.Get(filter);
+		}
+		public OperationResult<IEnumerable<NamedInterval>> GetNamedIntervals(NamedIntervalFilter filter)
+		{
+			return SKDDatabaseService.NamedIntervalTranslator.Get(filter);
 		}
 		#endregion
 
@@ -129,6 +135,10 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.EmployeeReplacementTranslator.Save(items);
 		}
+		public OperationResult SaveNamedIntervals(IEnumerable<NamedInterval> items)
+		{
+			return SKDDatabaseService.NamedIntervalTranslator.Save(items);
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -179,6 +189,10 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
 		{
 			return SKDDatabaseService.EmployeeReplacementTranslator.MarkDeleted(items);
+		}
+		public OperationResult MarkDeletedNamedIntervals(IEnumerable<NamedInterval> items)
+		{
+			return SKDDatabaseService.NamedIntervalTranslator.MarkDeleted(items);
 		}
 		#endregion
 

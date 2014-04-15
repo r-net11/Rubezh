@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
+using NamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
+using NamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
 
 namespace FiresecService.Service
 {
@@ -63,6 +65,10 @@ namespace FiresecService.Service
 		public OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<EmployeeReplacement>>>(() => FiresecService.GetEmployeeReplacements(filter));
+		}
+		public OperationResult<IEnumerable<NamedInterval>> GetNamedIntervals(NamedIntervalFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<NamedInterval>>>(() => FiresecService.GetNamedIntervals(filter));
 		}
 		#endregion
 
@@ -127,6 +133,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeReplacements(items));
 		}
+		public OperationResult SaveNamedIntervals(IEnumerable<NamedInterval> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveNamedIntervals(items));
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -177,6 +187,10 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployeeReplacements(items));
+		}
+		public OperationResult MarkDeletedNamedIntervals(IEnumerable<NamedInterval> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedNamedIntervals(items));
 		}
 		#endregion
 

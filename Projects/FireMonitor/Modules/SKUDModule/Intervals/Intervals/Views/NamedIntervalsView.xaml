@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="SKDModule.Views.NamedIntervalsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:SKDModule.Converters" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+			<StackPanel DataContext="{Binding SelectedOrganisationNamedInterval}" Orientation="Horizontal">
+				<Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
+				<Controls:ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать" />
+				<Controls:ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
+				<Controls:ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
+				<Controls:ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
+			</StackPanel>
+			<Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
+		</StackPanel>
+		<TabControl Name="tabControl" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding OrganisationNamedIntervals}" SelectedItem="{Binding SelectedOrganisationNamedInterval}">
+			<TabControl.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Organization.Name}" />
+				</DataTemplate>
+			</TabControl.ItemTemplate>
+			<TabControl.ContentTemplate>
+				<DataTemplate>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding NamedIntervals}" SelectedItem="{Binding SelectedNamedInterval}">
+							<DataGrid.Columns>
+								<DataGridTemplateColumn Width="*" Header="Наименование">
+									<DataGridTemplateColumn.CellTemplate>
+										<DataTemplate>
+											<StackPanel Orientation="Horizontal">
+												<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+												<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding NamedInterval.Name}" />
+											</StackPanel>
+										</DataTemplate>
+									</DataGridTemplateColumn.CellTemplate>
+								</DataGridTemplateColumn>
+								<DataGridTemplateColumn Width="*" Header="Описание">
+									<DataGridTemplateColumn.CellTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding NamedInterval.Description}" />
+										</DataTemplate>
+									</DataGridTemplateColumn.CellTemplate>
+								</DataGridTemplateColumn>
+							</DataGrid.Columns>
+						</Controls:XDataGrid>
+						<GridSplitter Grid.Row="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
+						<Grid Grid.Column="2" Margin="4 0 0 0" DataContext="{Binding SelectedNamedInterval}" IsEnabled="{Binding IsEnabled}">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+							<StackPanel Grid.Row="0" Orientation="Horizontal">
+								<Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить (Ctrl+N)" />
+								<Controls:ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать (Ctrl+E)" />
+								<Controls:ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить (Ctrl+Del)" />
+							</StackPanel>
+							<DataGrid Grid.Row="1" Margin="2" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}">
+								<DataGrid.Columns>
+									<DataGridTemplateColumn Width="*" Header="Начало">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Path=StartTime, StringFormat=HH-mm}" />
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Width="*" Header="Конец">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding Path=EndTime, StringFormat=HH-mm}" />
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridTemplateColumn Width="*" Header="Переход">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding IntervalTransitionType, Converter={StaticResource EnumToDescriptionConverter}}" />
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+								</DataGrid.Columns>
+							</DataGrid>
+						</Grid>
+					</Grid>
+				</DataTemplate>
+			</TabControl.ContentTemplate>
+			<TabControl.ItemContainerStyle>
+				<Style TargetType="{x:Type TabItem}">
+					<Setter Property="Background" Value="{x:Null}" />
+					<Setter Property="Visibility" Value="{Binding ElementName=tabControl, Path=Items.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+					<Setter Property="Template" Value="{StaticResource TabItemStyle}" />
+				</Style>
+			</TabControl.ItemContainerStyle>
+		</TabControl>
+	</Grid>
+</UserControl>

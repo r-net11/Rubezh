@@ -1,88 +1,172 @@
-﻿using FiresecAPI.EmployeeTimeIntervals;
-using Infrastructure.Common.Windows.ViewModels;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
-		OrganisationTimeIntervalsViewModel OrganisationTimeIntervalsViewModel;
-		public NamedInterval TimeInterval { get; private set; }
+		private bool _isNew;
+		private NamedInterval _namedInterval;
+		public TimeInterval TimeInterval { get; private set; }
 
-		public TimeIntervalDetailsViewModel(OrganisationTimeIntervalsViewModel organisationTimeIntervalsViewModel, NamedInterval timeInterval = null)
+		public TimeIntervalDetailsViewModel(NamedInterval namedInterval, TimeInterval timeInterval = null)
 		{
-			OrganisationTimeIntervalsViewModel = organisationTimeIntervalsViewModel;
+			_namedInterval = namedInterval;
 			if (timeInterval == null)
 			{
-				Title = "Новый именованный интервал";
-				timeInterval = new NamedInterval()
-				{
-					Name = "Именованный интервал"
-				};
-				timeInterval.TimeIntervals.Add(new TimeInterval() { StartTime = new DateTime(2000, 1, 1, 9, 0, 0), EndTime = new DateTime(2000, 1, 1, 18, 0, 0) });
+				Title = "Новый интервал";
+				_isNew = true;
+				timeInterval = new TimeInterval();
 			}
 			else
 			{
-				Title = "Редактирование именованного интервала";
+				Title = "Редактирование интервала";
+				_isNew = false;
 			}
 			TimeInterval = timeInterval;
-			Name = TimeInterval.Name;
-			Description = TimeInterval.Description;
-			ConstantSlideTime = TimeInterval.SlideTime;
+
+			AvailableTransitions = new ObservableCollection<IntervalTransitionType>(Enum.GetValues(typeof(IntervalTransitionType)).OfType<IntervalTransitionType>());
+			StartTime = timeInterval.StartTime;
+			EndTime = timeInterval.EndTime;
+			SelectedTransition = timeInterval.IntervalTransitionType;
 		}
 
-		string _name;
-		public string Name
+		private DateTime _startTime;
+		public DateTime StartTime
 		{
-			get { return _name; }
+			get { return _startTime; }
 			set
 			{
-				_name = value;
-				OnPropertyChanged("Name");
+				_startTime = value;
+				OnPropertyChanged(() => StartTime);
 			}
 		}
 
-		string _description;
-		public string Description
+		private DateTime _endTime;
+		public DateTime EndTime
 		{
-			get { return _description; }
+			get { return _endTime; }
 			set
 			{
-				_description = value;
-				OnPropertyChanged("Description");
+				_endTime = value;
+				OnPropertyChanged(() => EndTime);
 			}
 		}
 
-		TimeSpan _constantSlideTime;
-		public TimeSpan ConstantSlideTime
+		private ObservableCollection<IntervalTransitionType> _availableTransitions;
+		public ObservableCollection<IntervalTransitionType> AvailableTransitions
 		{
-			get { return _constantSlideTime; }
+			get { return _availableTransitions; }
 			set
 			{
-				_constantSlideTime = value;
-				OnPropertyChanged("ConstantSlideTime");
+				_availableTransitions = value;
+				OnPropertyChanged(() => AvailableTransitions);
 			}
 		}
 
-		protected override bool CanSave()
+		private IntervalTransitionType _selectedTransition;
+		public IntervalTransitionType SelectedTransition
 		{
-			return !string.IsNullOrEmpty(Name) && Name != "Всегда" && Name != "Никогда";
+			get { return _selectedTransition; }
+			set
+			{
+				_selectedTransition = value;
+				OnPropertyChanged(() => SelectedTransition);
+			}
 		}
 
 		protected override bool Save()
 		{
-			if (OrganisationTimeIntervalsViewModel.TimeIntervals.Any(x => x.TimeInterval.Name == Name && x.TimeInterval.UID != TimeInterval.UID))
+			if (!Validate())
+				return false;
+			TimeInterval.StartTime = StartTime;
+			TimeInterval.EndTime = EndTime;
+			TimeInterval.IntervalTransitionType = SelectedTransition;
+			return true;
+		}
+
+		private bool Validate()
+		{
+			var timeIntervals = CloneNamedInterval();
+			if (timeIntervals[0].IntervalTransitionType == IntervalTransitionType.NextDay)
 			{
-				MessageBoxService.ShowWarning("Название интервала совпадает с введенным ранее");
+				MessageBoxService.ShowWarning("Последовательность интервалов не может начинаться со следующего дня");
 				return false;
 			}
-
-			TimeInterval.Name = Name;
-			TimeInterval.Description = Description;
-			TimeInterval.SlideTime = ConstantSlideTime;
+			var currentDateTime = DateTime.MinValue;
+			foreach (var timeInterval in timeIntervals)
+			{
+				var startTime = timeInterval.StartTime;
+				if (timeInterval.IntervalTransitionType == IntervalTransitionType.NextDay)
+					startTime = startTime.AddDays(1);
+				var endTime = timeInterval.EndTime;
+				if (timeInterval.IntervalTransitionType != IntervalTransitionType.Day)
+					endTime = endTime.AddDays(1);
+				if (startTime < currentDateTime)
+				{
+					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
+					return false;
+				}
+				if (startTime == currentDateTime)
+				{
+					MessageBoxService.ShowWarning("Пауза между интервалами не должна быть нулевой");
+					return false;
+				}
+				currentDateTime = startTime;
+				if (endTime < currentDateTime)
+				{
+					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
+					return false;
+				}
+				if (endTime == currentDateTime)
+				{
+					MessageBoxService.ShowWarning("Интервал не может иметь нулевую длительность");
+					return false;
+				}
+				currentDateTime = endTime;
+			}
 			return true;
+		}
+		private List<TimeInterval> CloneNamedInterval()
+		{
+			var timeIntervals = new List<TimeInterval>();
+			foreach (var timeInterval in _namedInterval.TimeIntervals)
+			{
+				var clonedTimeInterval = new TimeInterval()
+				{
+					UID = timeInterval.UID,
+					StartTime = timeInterval.StartTime,
+					EndTime = timeInterval.EndTime,
+					IntervalTransitionType = timeInterval.IntervalTransitionType
+				};
+				timeIntervals.Add(clonedTimeInterval);
+			}
+			if (_isNew)
+			{
+				var newEmployeeTimeInterval = new TimeInterval()
+				{
+					StartTime = StartTime,
+					EndTime = EndTime,
+					IntervalTransitionType = SelectedTransition
+				};
+				timeIntervals.Add(newEmployeeTimeInterval);
+			}
+			else
+			{
+				var deitingTimeInterval = timeIntervals.FirstOrDefault(x => x.UID == TimeInterval.UID);
+				if (deitingTimeInterval != null)
+				{
+					deitingTimeInterval.StartTime = StartTime;
+					deitingTimeInterval.EndTime = EndTime;
+					deitingTimeInterval.IntervalTransitionType = SelectedTransition;
+				}
+			}
+			return timeIntervals;
 		}
 	}
 }
