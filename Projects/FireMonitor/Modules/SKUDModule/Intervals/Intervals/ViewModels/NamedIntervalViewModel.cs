@@ -6,7 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class NamedIntervalViewModel : BaseViewModel
+	public class NamedIntervalViewModel : BaseViewModel, IEditingViewModel
 	{
 		public NamedInterval NamedInterval { get; private set; }
 		public ObservableCollection<TimeIntervalViewModel> TimeIntervals { get; private set; }
@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 			NamedInterval = namedInterval;
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			TimeIntervals = new ObservableCollection<TimeIntervalViewModel>();
 			foreach (var timeInterval in namedInterval.TimeIntervals)
 			{
@@ -55,14 +55,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
-		private void OnRemove()
+		public RelayCommand DeleteCommand { get; private set; }
+		private void OnDelete()
 		{
 			// save
 			NamedInterval.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
 			TimeIntervals.Remove(SelectedTimeInterval);
 		}
-		private bool CanRemove()
+		private bool CanDelete()
 		{
 			return SelectedTimeInterval != null && !NamedInterval.IsDefault && TimeIntervals.Count > 1;
 		}
@@ -86,5 +86,6 @@ namespace SKDModule.ViewModels
 		{
 			get { return !NamedInterval.IsDefault; }
 		}
+
 	}
 }

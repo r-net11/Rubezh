@@ -53,8 +53,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private TimeSpan _constantSlideTime;
-		public TimeSpan ConstantSlideTime
+		private DateTime _constantSlideTime;
+		public DateTime ConstantSlideTime
 		{
 			get { return _constantSlideTime; }
 			set

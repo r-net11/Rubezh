@@ -7,12 +7,15 @@ namespace FiresecAPI.EmployeeTimeIntervals
 	public enum IntervalTransitionType
 	{
 		[DescriptionAttribute("Нет")]
+		[EnumMember]
 		Day,
 
 		[DescriptionAttribute("Переход")]
+		[EnumMember]
 		Night,
 
 		[DescriptionAttribute("Следующий день")]
+		[EnumMember]
 		NextDay
 	}
 }

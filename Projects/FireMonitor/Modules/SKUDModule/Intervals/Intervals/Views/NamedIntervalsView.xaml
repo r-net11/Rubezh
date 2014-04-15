@@ -6,13 +6,13 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
 			<StackPanel DataContext="{Binding SelectedOrganisationNamedInterval}" Orientation="Horizontal">
-				<Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
-				<Controls:ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать" />
-				<Controls:ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
-				<Controls:ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
-				<Controls:ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
+				<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
+				<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать" />
+				<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
+				<ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
+				<ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
 			</StackPanel>
-			<Controls:ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
+			<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
 		</StackPanel>
 		<TabControl Name="tabControl" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding OrganisationNamedIntervals}" SelectedItem="{Binding SelectedOrganisationNamedInterval}">
 			<TabControl.ItemTemplate>
@@ -28,7 +28,7 @@
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-						<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding NamedIntervals}" SelectedItem="{Binding SelectedNamedInterval}">
+						<XDataGrid Grid.Column="0" ItemsSource="{Binding NamedIntervals}" SelectedItem="{Binding SelectedNamedInterval}">
 							<DataGrid.Columns>
 								<DataGridTemplateColumn Width="*" Header="Наименование">
 									<DataGridTemplateColumn.CellTemplate>
@@ -48,7 +48,7 @@
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
 							</DataGrid.Columns>
-						</Controls:XDataGrid>
+						</XDataGrid>
 						<GridSplitter Grid.Row="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
 						<Grid Grid.Column="2" Margin="4 0 0 0" DataContext="{Binding SelectedNamedInterval}" IsEnabled="{Binding IsEnabled}">
 							<Grid.RowDefinitions>
@@ -56,11 +56,11 @@
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
 							<StackPanel Grid.Row="0" Orientation="Horizontal">
-								<Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить (Ctrl+N)" />
-								<Controls:ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать (Ctrl+E)" />
-								<Controls:ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить (Ctrl+Del)" />
+								<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить (Ctrl+N)" />
+								<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать (Ctrl+E)" />
+								<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить (Ctrl+Del)" />
 							</StackPanel>
-							<DataGrid Grid.Row="1" Margin="2" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}">
+							<XDataGrid Grid.Row="1" Margin="2" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}">
 								<DataGrid.Columns>
 									<DataGridTemplateColumn Width="*" Header="Начало">
 										<DataGridTemplateColumn.CellTemplate>
@@ -84,7 +84,7 @@
 										</DataGridTemplateColumn.CellTemplate>
 									</DataGridTemplateColumn>
 								</DataGrid.Columns>
-							</DataGrid>
+							</XDataGrid>
 						</Grid>
 					</Grid>
 				</DataTemplate>
