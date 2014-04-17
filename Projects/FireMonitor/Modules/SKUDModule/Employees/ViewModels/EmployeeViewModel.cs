@@ -13,10 +13,10 @@ namespace SKDModule.ViewModels
 	{
 		public Organization Organization { get; private set; }
 
-		public EmployeeViewModel(Organization organization, EmployeeListItem employee)
+		public EmployeeViewModel(Organization organization, ShortEmployee employee)
 		{
 			Organization = organization;
-			EmployeeListItem = employee;
+			ShortEmployee = employee;
 
 			AddCardCommand = new RelayCommand(OnAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
@@ -30,42 +30,42 @@ namespace SKDModule.ViewModels
 			SelectedCard = Cards.FirstOrDefault();
 		}
 
-		public EmployeeListItem EmployeeListItem { get; set; }
+		public ShortEmployee ShortEmployee { get; set; }
 		public Guid? DepartmentPhotoUID { get; set; }
 		public Guid? PositionPhotoUID { get; set; }
 		public string FirstName 
 		{
-			get { return EmployeeListItem.FirstName; }
+			get { return ShortEmployee.FirstName; }
 		}
 		public string SecondName
 		{
-			get { return EmployeeListItem.SecondName; }
+			get { return ShortEmployee.SecondName; }
 		}
 		public string LastName
 		{
-			get { return EmployeeListItem.LastName; }
+			get { return ShortEmployee.LastName; }
 		}
 		public string AppointedString
 		{
-			get { return EmployeeListItem.Appointed; }
+			get { return ShortEmployee.Appointed; }
 		}
 		public string DismissedString
 		{
-			get { return EmployeeListItem.Dismissed; }
+			get { return ShortEmployee.Dismissed; }
 		}
 		public string DepartmentName
 		{
-			get { return EmployeeListItem.DepartmentName; }
+			get { return ShortEmployee.DepartmentName; }
 		}
 		public string PositionName
 		{
-			get { return EmployeeListItem.PositionName; }
+			get { return ShortEmployee.PositionName; }
 		}
 
-		public void Update(EmployeeListItem employee)
+		public void Update(ShortEmployee employee)
 		{
-			EmployeeListItem = employee;
-			OnPropertyChanged(() => EmployeeListItem);
+			ShortEmployee = employee;
+			OnPropertyChanged(() => ShortEmployee);
 			OnPropertyChanged(() => DepartmentName);
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => AppointedString);
@@ -103,7 +103,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
-				card.HolderUID = EmployeeListItem.UID;
+				card.HolderUID = ShortEmployee.UID;
 				var saveResult = CardHelper.Save(card);
 				if (!saveResult)
 					return;

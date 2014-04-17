@@ -39,7 +39,7 @@ namespace SKDDriver
 			tableItem.TextData = apiItem.TextData;
 		}
 
-		public void SetTextColumns(IEnumerable<EmployeeListItem> employees)
+		public void SetTextColumns(IEnumerable<ShortEmployee> employees)
 		{
 			var textColumnTypes = AdditionalColumnTypeTranslator.GetTextColumnTypes();
 			foreach (var employee in employees)

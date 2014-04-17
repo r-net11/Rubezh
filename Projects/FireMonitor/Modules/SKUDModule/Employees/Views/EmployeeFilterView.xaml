@@ -50,13 +50,13 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</TabItem>
-			<TabItem Header="Сотрудники/Гости" Visibility="{Binding HasManyPersonTypes, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Сотрудники/Посетители" Visibility="{Binding HasManyPersonTypes, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel>
 					<RadioButton GroupName="PersonTypes" Content="Сотрудники" IsChecked="{Binding IsEmployeesAllowed, Mode=TwoWay}" Margin="5" Foreground="White" FontSize="14" />
 					<RadioButton GroupName="PersonTypes" Content="Посетители" IsChecked="{Binding IsGuestsAllowed, Mode=TwoWay}" Margin="5" Foreground="White" FontSize="14" />
 				</StackPanel>
 			</TabItem>
 		</TabControl>
-		<Button Grid.Row="1" Content="Сброс" Width="100" HorizontalAlignment="Right" Command="{Binding ResetCommand}" />
+		<Button Grid.Row="1" Content="Сброс" Width="120" HorizontalAlignment="Right" Command="{Binding ResetCommand}" />
 	</Grid>
 </UserControl>

@@ -37,6 +37,7 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
+			result.PhotoUID = tableItem.PhotoUID;
 			return result;
 		}
 
@@ -45,6 +46,7 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
+			tableItem.PhotoUID = apiItem.PhotoUID;
 		}
 
 		protected override Expression<Func<DataAccess.Position, bool>> IsInFilter(PositionFilter filter)

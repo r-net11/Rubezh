@@ -9,7 +9,7 @@ namespace FiresecAPI
 	{
 		#region Get
 		[OperationContract]
-		OperationResult<IEnumerable<EmployeeListItem>> GetEmployeeList(EmployeeFilter filter);
+		OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);
 		[OperationContract]
 		OperationResult<Employee> GetEmployeeDetails(Guid uid);
 		[OperationContract]

@@ -729,7 +729,8 @@ BEGIN
 		DataType,
 		PersonType,
 		IsDeleted,
-		RemovalDate)
+		RemovalDate,
+		IsInGrid)
 	VALUES (
 		@UID,
 		@OrganizationUID ,
@@ -738,7 +739,8 @@ BEGIN
 		@DataType ,
 		@PersonType,
 		@IsDeleted ,
-		@RemovalDate )
+		@RemovalDate,
+		0 )
 END	
 
 GO

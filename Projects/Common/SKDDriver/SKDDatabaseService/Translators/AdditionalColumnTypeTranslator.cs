@@ -33,6 +33,7 @@ namespace SKDDriver
 			result.Description = tableItem.Description;
 			result.DataType = (AdditionalColumnDataType)tableItem.DataType;
 			result.PersonType = (PersonType)tableItem.PersonType;
+			result.IsInGrid = tableItem.IsInGrid;
 			return result;
 		}
 
@@ -43,6 +44,7 @@ namespace SKDDriver
 			tableItem.Description = apiItem.Description;
 			tableItem.DataType = (int?)apiItem.DataType;
 			tableItem.PersonType = (int)apiItem.PersonType;
+			tableItem.IsInGrid = apiItem.IsInGrid;
 		}
 
 		public AdditionalColumnType Get(Guid? uid)
@@ -64,7 +66,7 @@ namespace SKDDriver
 
 		public List<Guid> GetTextColumnTypes()
 		{
-			return Table.Where(x => x.DataType == (int?)AdditionalColumnDataType.Text).Select(x => x.UID).ToList();
+			return Table.Where(x => x.DataType == (int?)AdditionalColumnDataType.Text && x.IsInGrid).Select(x => x.UID).ToList();
 		}
 
 		protected override Expression<Func<DataAccess.AdditionalColumnType, bool>> IsInFilter(AdditionalColumnTypeFilter filter)

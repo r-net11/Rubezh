@@ -5,7 +5,7 @@ namespace SKDModule.ViewModels
 {
 	public class ReportViewModel : BaseViewModel
 	{
-		public ReportViewModel(EmployeeListItem employee)
+		public ReportViewModel(ShortEmployee employee)
 		{
 			Employee = employee;
 			DepartmentName = employee.DepartmentName;
@@ -14,13 +14,13 @@ namespace SKDModule.ViewModels
 			DismissedString = employee.Dismissed;
 		}
 
-		public EmployeeListItem Employee { get; set; }
+		public ShortEmployee Employee { get; set; }
 		public string DepartmentName { get; set; }
 		public string PositionName { get; set; }
 		public string AppointedString { get; set; }
 		public string DismissedString { get; set; }
 
-		public void Update(EmployeeListItem employee)
+		public void Update(ShortEmployee employee)
 		{
 			Employee = employee;
 			OnPropertyChanged("Employee");

@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
@@ -10,5 +11,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public string Description { get; set; }
+
+		[DataMember]
+		public Guid? PhotoUID { get; set; }
 	}
 }

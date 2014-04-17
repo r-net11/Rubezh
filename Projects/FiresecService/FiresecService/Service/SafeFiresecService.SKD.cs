@@ -8,9 +8,9 @@ namespace FiresecService.Service
 	public partial class SafeFiresecService
 	{
 		#region Get
-		public OperationResult<IEnumerable<EmployeeListItem>> GetEmployeeList(EmployeeFilter filter)
+		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<EmployeeListItem>>>(() => FiresecService.GetEmployeeList(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<ShortEmployee>>>(() => FiresecService.GetEmployeeList(filter));
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{ 

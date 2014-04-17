@@ -10,7 +10,7 @@ namespace FiresecService.Service
 	public partial class FiresecService : IFiresecService
 	{
 		#region Get
-		public OperationResult<IEnumerable<EmployeeListItem>> GetEmployeeList(EmployeeFilter filter)
+		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
 			return SKDDatabaseService.EmployeeTranslator.GetList(filter);
 		}

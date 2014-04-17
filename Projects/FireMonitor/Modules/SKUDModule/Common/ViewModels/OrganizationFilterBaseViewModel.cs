@@ -39,6 +39,8 @@ namespace SKDModule.ViewModels
 				if (Filter.OrganizationUIDs.Any(x => x == organization.Organization.UID))
 					organization.IsChecked = true;
 			}
+			if (!Organizations.Items.Any(x => x.IsChecked))
+				Organizations.Items.ForEach(x => x.IsChecked = true);
 		}
 
 		public CheckBoxItemList<FilterOrganizationViewModel> Organizations { get; private set; }

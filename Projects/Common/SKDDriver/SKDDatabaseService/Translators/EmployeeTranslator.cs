@@ -75,13 +75,12 @@ namespace SKDDriver
 			result.Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
 			result.Position = GetResult(PositionTranslator.GetSingle(tableItem.PositionUID));
 			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
-
 			return result;
 		}
 
-		EmployeeListItem TranslateToListItem(DataAccess.Employee tableItem)
+		ShortEmployee TranslateToShort(DataAccess.Employee tableItem)
 		{
-			var employeeListItem = new EmployeeListItem
+			var shortEmployee = new ShortEmployee
 			{
 				UID = tableItem.UID,
 				FirstName = tableItem.FirstName,
@@ -94,7 +93,7 @@ namespace SKDDriver
 			};
 			var position = Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
 			if (position != null)
-				employeeListItem.PositionName = position.Name;
+				shortEmployee.PositionName = position.Name;
 
 			Guid? departmentUID;
 			var replacement = EmployeeReplacementTranslator.GetCurrentReplacement(tableItem.UID);
@@ -102,28 +101,28 @@ namespace SKDDriver
 
 			var department = Context.Departments.FirstOrDefault(x => x.UID == departmentUID);
 			if (department != null)
-				employeeListItem.DepartmentName = department.Name;
-			return employeeListItem;
+				shortEmployee.DepartmentName = department.Name;
+			return shortEmployee;
 		}
 
-		public OperationResult<IEnumerable<EmployeeListItem>> GetList(EmployeeFilter filter)
+		public OperationResult<IEnumerable<ShortEmployee>> GetList(EmployeeFilter filter)
 		{
 			try
 			{
-				var result = new List<EmployeeListItem>();
+				var result = new List<ShortEmployee>();
 				foreach (var tableItem in GetTableItems(filter))
 				{
-					var employeeListItem = TranslateToListItem(tableItem);
+					var employeeListItem = TranslateToShort(tableItem);
 					result.Add(employeeListItem);
 				}
 				AdditionalColumnTranslator.SetTextColumns(result);
-				var operationResult = new OperationResult<IEnumerable<EmployeeListItem>>();
+				var operationResult = new OperationResult<IEnumerable<ShortEmployee>>();
 				operationResult.Result = result;
 				return operationResult;
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<IEnumerable<EmployeeListItem>>(e.Message);
+				return new OperationResult<IEnumerable<ShortEmployee>>(e.Message);
 			}
 		}
 
@@ -151,6 +150,9 @@ namespace SKDDriver
 				var columnSaveResult = AdditionalColumnTranslator.Save(item.AdditionalColumns);
 				if (columnSaveResult.HasError)
 					return columnSaveResult;
+				var photoSaveResult = PhotoTranslator.Save(new List<Photo>{ item.Photo });
+				if (photoSaveResult.HasError)
+					return photoSaveResult;
 			}
 			return base.Save(apiItems);
 		}
@@ -159,11 +161,7 @@ namespace SKDDriver
 		{
 			var result = PredicateBuilder.True<DataAccess.Employee>();
 			result = result.And(base.IsInFilter(filter));
-
 			result = result.And(e => e.Type == (int?)filter.PersonType);
-
-			var isReplaced = PredicateBuilder.True<DataAccess.EmployeeReplacement>();
-
 			var departmentUIDs = filter.DepartmentUIDs;
 			if (departmentUIDs.IsNotNullOrEmpty())
 			{

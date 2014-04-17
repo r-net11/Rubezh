@@ -86,7 +86,7 @@ namespace SKDModule.ViewModels
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employeeViewModel = new EmployeeViewModel(Organization, employeeDetailsViewModel.EmployeeListItem);
+				var employeeViewModel = new EmployeeViewModel(Organization, employeeDetailsViewModel.ShortEmployee);
 				Employees.Add(employeeViewModel);
 				SelectedEmployee = employeeViewModel;
 			}
@@ -95,10 +95,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.EmployeeListItem);
+			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.ShortEmployee);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				SelectedEmployee.Update(employeeDetailsViewModel.EmployeeListItem);
+				SelectedEmployee.Update(employeeDetailsViewModel.ShortEmployee);
 			}
 		}
 		bool CanEdit()
@@ -109,7 +109,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var employee = SelectedEmployee.EmployeeListItem;
+			var employee = SelectedEmployee.ShortEmployee;
 			var removeResult = EmployeeHelper.MarkDeleted(employee.UID);
 			if (!removeResult)
 				return;
@@ -154,7 +154,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypes = columnTypes.ToList();
 			foreach (var additionalColumnType in AdditionalColumnTypes)
 			{
-				if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
+				if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
 					AdditionalColumnNames.Add(additionalColumnType.Name);
 			}
 			foreach (var employee in Employees)
