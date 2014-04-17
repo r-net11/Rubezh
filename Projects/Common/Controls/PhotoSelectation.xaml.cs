@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Infrastructure.Common.Windows;
 using Microsoft.Win32;
 
 namespace Controls
@@ -33,14 +34,25 @@ namespace Controls
 		{
 			if (Photo != null)
 			{
-				PhotoImage.Source = BitmapFrame.Create(new MemoryStream(Photo));
-				PhotoImage.Stretch = System.Windows.Media.Stretch.UniformToFill;
+				try
+				{
+					PhotoImage.Source = BitmapFrame.Create(new MemoryStream(Photo));
+					PhotoImage.Stretch = System.Windows.Media.Stretch.UniformToFill;
+				}
+				catch(Exception)
+				{
+					MessageBoxService.Show("Не могу загрузить фото");
+					SetNoPhoto();
+				}
 			}
 			else
-			{
-				PhotoImage.Source = new BitmapImage(new Uri("pack://application:,,,/Controls;component/Images/NoPhoto.png"));
-				PhotoImage.Stretch = System.Windows.Media.Stretch.None;
-			}
+				SetNoPhoto();
+		}
+
+		void SetNoPhoto()
+		{
+			PhotoImage.Source = new BitmapImage(new Uri("pack://application:,,,/Controls;component/Images/NoPhoto.png"));
+			PhotoImage.Stretch = System.Windows.Media.Stretch.None;
 		}
 
 		public byte[] Photo

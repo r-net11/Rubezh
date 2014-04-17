@@ -112,7 +112,7 @@ CREATE PROCEDURE [dbo].[SaveNamedInterval]
 	@Uid uniqueidentifier,
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
-	@SlideTime time = '00:00',
+	@SlideTime SqlTime = '00:00',
 	@IsDeleted bit = 0,
 	@RemovalDate datetime = '01/01/1900' 
 AS
@@ -264,9 +264,9 @@ CREATE PROCEDURE [dbo].[SaveHoliday]
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50)= NULL,
 	@Type int ,
-	@Date date ,
-	@TransferDate date ,
-	@Reduction time ,
+	@Date SqlDate ,
+	@TransferDate SqlDate ,
+	@Reduction SqlTime ,
 	@IsDeleted bit ,
 	@RemovalDate datetime 
 
@@ -782,7 +782,7 @@ BEGIN
 		UID,
 		Data,
 		IsDeleted,
-		RemovalDate )
+		RemovalDate)
 	VALUES (
 		@UID ,
 		@Data,
