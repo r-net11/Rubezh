@@ -79,7 +79,8 @@
     <Reference Include="DeviceOrientedLib">
       <HintPath>..\..\..\3rdParty\RVI_VSS\DeviceOrientedLib.dll</HintPath>
     </Reference>
-    <Reference Include="Entities">
+    <Reference Include="Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\RVI_VSS\Entities.dll</HintPath>
     </Reference>
     <Reference Include="GalaSoft.MvvmLight.WPF4">
@@ -120,7 +121,8 @@
     <Reference Include="RVI_VSS.ViewModels">
       <HintPath>..\..\..\3rdParty\RVI_VSS\RVI_VSS.ViewModels.dll</HintPath>
     </Reference>
-    <Reference Include="SdkWrapper">
+    <Reference Include="SdkWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\3rdParty\RVI_VSS\SdkWrapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />

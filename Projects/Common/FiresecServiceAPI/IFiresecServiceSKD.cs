@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using EmployeeNamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
+using EmployeeNamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
 
 namespace FiresecAPI
 {
@@ -36,6 +38,8 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<EmployeeNamedInterval>> GetNamedIntervals(EmployeeNamedIntervalFilter filter);
 		#endregion
 
 		#region Save
@@ -69,6 +73,8 @@ namespace FiresecAPI
 		OperationResult SavePhotos(IEnumerable<Photo> items);
 		[OperationContract]
 		OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
+		[OperationContract]
+		OperationResult SaveNamedIntervals(IEnumerable<EmployeeNamedInterval> items);
 		#endregion
 
 		#region MarkDeleted
@@ -96,6 +102,8 @@ namespace FiresecAPI
 		OperationResult MarkDeletedPhotos(IEnumerable<Photo> items);
 		[OperationContract]
 		OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
+		[OperationContract]
+		OperationResult MarkDeletedNamedIntervals(IEnumerable<EmployeeNamedInterval> items);
 		#endregion
 
 		#region DeviceCommands

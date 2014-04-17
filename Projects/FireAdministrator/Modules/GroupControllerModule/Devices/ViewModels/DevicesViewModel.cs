@@ -186,19 +186,23 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			using (var cache = new ElementXDeviceUpdater())
+			using (new WaitWrapper())
 			{
-				foreach (var deviceToCopy in DevicesToCopy)
+				using (var cache = new ElementXDeviceUpdater())
 				{
-					var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
-					PasteDevice(pasteDevice);
-					cache.UpdateDeviceBinding(pasteDevice);
+					foreach (var deviceToCopy in DevicesToCopy)
+					{
+						var pasteDevice = XManager.CopyDevice(deviceToCopy, false);
+						var device = PasteDevice(pasteDevice);
+						if (device != null)
+							cache.UpdateDeviceBinding(device);
+					}
 				}
+				XManager.DeviceConfiguration.Update();
+				Plans.Designer.Helper.BuildMap();
+				GKPlanExtension.InvalidateCanvas();
+				ServiceFactory.SaveService.GKChanged = true;
 			}
-			XManager.DeviceConfiguration.Update();
-			Plans.Designer.Helper.BuildMap();
-			GKPlanExtension.InvalidateCanvas();
-			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanPaste()
 		{
@@ -228,12 +232,10 @@ namespace GKModule.ViewModels
 			return false;
 		}
 
-		void PasteDevice(XDevice device)
+		XDevice PasteDevice(XDevice device)
 		{
 			if (SelectedDevice.Device.DriverType == XDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == XDriverType.KAUIndicator)
-			{
-				return;
-			}
+				return null;
 			if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 			{
 				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device);
@@ -243,12 +245,14 @@ namespace GKModule.ViewModels
 				var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
 				XManager.RebuildRSR2Addresses(SelectedDevice.Device.KAURSR2Parent);
 				XManager.UpdateConfiguration();
+				return addedDevice;
 			}
 			else
 			{
 				SelectedDevice.Device.Children.Add(device);
 				device.Parent = SelectedDevice.Device;
 				AddDevice(device, SelectedDevice);
+				return device;
 			}
 		}
 		#endregion

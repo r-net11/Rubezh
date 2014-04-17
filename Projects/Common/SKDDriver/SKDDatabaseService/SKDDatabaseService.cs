@@ -1,4 +1,5 @@
 ﻿
+using SKDDriver.Translators;
 namespace SKDDriver
 {
 	public static class SKDDatabaseService
@@ -21,7 +22,7 @@ namespace SKDDriver
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context, PhotoTranslator, AdditionalColumnTypeTranslator);
 			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
 			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator);
-			
+			NamedIntervalTranslator = new NamedIntervalTranslator(Context);
 		}
 
 		public static DocumentTranslator DocumentTranslator { get; private set; }
@@ -35,7 +36,8 @@ namespace SKDDriver
 		public static DepartmentTranslator DepartmentTranslator { get; private set; }
 		public static AdditionalColumnTypeTranslator AdditionalColumnTypeTranslator { get; private set; }
 		public static AdditionalColumnTranslator AdditionalColumnTranslator { get; private set; }
-		public static PhotoTranslator PhotoTranslator { get; private set; } 
-		public static EmployeeReplacementTranslator EmployeeReplacementTranslator { get; private set; } 
+		public static PhotoTranslator PhotoTranslator { get; private set; }
+		public static EmployeeReplacementTranslator EmployeeReplacementTranslator { get; private set; }
+		public static NamedIntervalTranslator NamedIntervalTranslator { get; private set; }
 	}
 }

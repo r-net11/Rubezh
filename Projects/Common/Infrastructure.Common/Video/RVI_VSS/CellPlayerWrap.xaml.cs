@@ -1,5 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Threading;
 using Entities.DeviceOriented;
+using FiresecAPI.Models;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.Services.DragDrop;
+using Infrustructure.Plans.Elements;
 
 namespace Infrastructure.Common.Video.RVI_VSS
 {
@@ -49,5 +58,25 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			FormsPlayer.Slow(record);
 		}
+
+		protected override void OnDragOver(DragEventArgs e)
+		{
+			base.OnDragOver(e);
+			e.Effects = e.Data.GetDataPresent("DESIGNER_ITEM") ? DragDropEffects.Move : DragDropEffects.None;
+			e.Handled = true;
+		}
+		
+		public event Action<Camera> DropHandler;
+		protected override void OnDrop(DragEventArgs e)
+		{
+			base.OnDrop(e);
+			var camera = e.Data.GetData("DESIGNER_ITEM") as Camera;
+			if (camera != null)
+			{
+				DropHandler(camera);
+				e.Handled = true;
+			}
+		}
+
 	}
 }

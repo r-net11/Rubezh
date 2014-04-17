@@ -10,12 +10,14 @@ namespace SKDModule.ViewModels
 {
 	public class PositionDetailsViewModel : SaveCancelDialogViewModel
 	{
-		OrganisationPositionsViewModel PositionsViewModel;
+		NewPositionsViewModel PositionsViewModel;
 		public Position Position { get; private set; }
+		public Organization Organization { get; private set; }
 
-		public PositionDetailsViewModel(OrganisationPositionsViewModel positionsViewModel, Position position = null)
+		public PositionDetailsViewModel(NewPositionsViewModel positionsViewModel, Organization orgnaisation, Position position = null)
 		{
 			PositionsViewModel = positionsViewModel;
+			Organization = orgnaisation;
 			if (position == null)
 			{
 				Title = "Создание должности";
@@ -73,15 +75,15 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (PositionsViewModel.Positions.Any(x => x.Position.Name == Name && x.Position.UID != Position.UID))
-			{
-				MessageBoxService.ShowWarning("Название должности совпадает с введеннымы ранее");
-				return false;
-			}
+			//if (PositionsViewModel.Positions.Any(x => x.Position.Name == Name && x.Position.UID != Position.UID))
+			//{
+			//    MessageBoxService.ShowWarning("Название должности совпадает с введеннымы ранее");
+			//    return false;
+			//}
 
 			Position.Name = Name;
 			Position.Description = Description;
-			Position.OrganizationUID = PositionsViewModel.Organization.UID;
+			Position.OrganizationUID = Organization.UID;
 			return true;
 		}
 	}

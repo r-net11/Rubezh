@@ -33,9 +33,10 @@ namespace SKDModule
 		CardsViewModel CardsViewModel;
 		DepartmentsViewModel DepartmentsViewModel;
 		PositionsViewModel PositionsViewModel;
+		NewPositionsViewModel NewPositionsViewModel;
 		DocumentsViewModel DocumentsViewModel;
 		AdditionalColumnTypesViewModel AdditionalColumnsViewModel;
-		TimeIntervalsViewModel TimeIntervalsViewModel;
+		NamedIntervalsViewModel NamedIntervalsViewModel;
 		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
 		MonthlyIntervalsViewModel MonthlyIntervalsViewModel;
@@ -67,9 +68,10 @@ namespace SKDModule
 			CardsViewModel = new CardsViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
+			NewPositionsViewModel = new NewPositionsViewModel();
 			DocumentsViewModel = new DocumentsViewModel();
 			AdditionalColumnsViewModel = new AdditionalColumnTypesViewModel();
-			TimeIntervalsViewModel = new TimeIntervalsViewModel();
+			NamedIntervalsViewModel = new NamedIntervalsViewModel();
 			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
 			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
 			MonthlyIntervalsViewModel = new MonthlyIntervalsViewModel();
@@ -96,13 +98,14 @@ namespace SKDModule
 						new NavigationItem<ShowSKDVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDDepartmentsEvent>(DepartmentsViewModel, "Отделы", "/Controls;component/Images/tree.png"),
-						new NavigationItem<ShowSKDPositionsEvent>(PositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
+						//new NavigationItem<ShowSKDPositionsEvent>(PositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowSKDPositionsEvent>(NewPositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDDocumentsEvent>(DocumentsViewModel, "Документы", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDAdditionalColumnsEvent>(AdditionalColumnsViewModel, "Дополнительные колонки", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDReportsEvent>(ReportsViewModel, "Отчеты", "/Controls;component/Images/tree.png"),
 						new NavigationItem("Интервалы", null, new List<NavigationItem>()
 						{
-							new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(NamedIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSKDWeeklyIntervalsEvent, Guid>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSKDMonthlyIntervalsEvent, Guid>(MonthlyIntervalsViewModel, "Месячные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -243,7 +246,7 @@ namespace SKDModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDPositions, "Должности", "Tree.png", (p) => PositionsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDocuments, "Документы", "Tree.png", (p) => DocumentsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDAdditionalColumns, "Дополнительные колонки", "Tree.png", (p) => AdditionalColumnsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeIntervals, "Именованные интервалы", "Tree.png", (p) => TimeIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeIntervals, "Именованные интервалы", "Tree.png", (p) => NamedIntervalsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyIntervals, "Недельные графики", "Tree.png", (p) => WeeklyIntervalsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideDayIntervals, "Скользящие посуточные графики", "Tree.png", (p) => SlideDayIntervalsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideWeekIntervals, "Скользящие понедельные графики", "BTree.png", (p) => MonthlyIntervalsViewModel);
