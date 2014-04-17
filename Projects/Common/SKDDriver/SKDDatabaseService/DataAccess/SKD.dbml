@@ -33,23 +33,9 @@
       <Column Name="AdditionalColumnTypeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="TextData" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="PhotoUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="AdditionalColumnType_AdditionalColumn" Member="AdditionalColumnType" ThisKey="AdditionalColumnTypeUID" OtherKey="UID" Type="AdditionalColumnType" IsForeignKey="true" />
       <Association Name="Employee_AdditionalColumn" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Photo_AdditionalColumn" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" DeleteRule="SET NULL" />
-    </Type>
-  </Table>
-  <Table Name="dbo.AdditionalColumnType" Member="AdditionalColumnTypes">
-    <Type Name="AdditionalColumnType">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="DataType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="PersonType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="AdditionalColumnType_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="AdditionalColumnTypeUID" Type="AdditionalColumn" />
-      <Association Name="Organization_AdditionalColumnType" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="AdditionalColumnType_AdditionalColumn" Member="AdditionalColumnType" ThisKey="AdditionalColumnTypeUID" OtherKey="UID" Type="AdditionalColumnType" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Card" Member="Cards">
@@ -163,8 +149,8 @@
       <Association Name="Department_Employee" Member="Department" ThisKey="DepartmentUID" OtherKey="UID" Type="Department" IsForeignKey="true" DeleteRule="SET NULL" />
       <Association Name="Organization_Employee" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
       <Association Name="Photo_Employee" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
-      <Association Name="Position_Employee" Member="Position" ThisKey="PositionUID" OtherKey="UID" Type="Position" IsForeignKey="true" DeleteRule="SET NULL" />
       <Association Name="Schedule_Employee" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Position_Employee" Member="Position" ThisKey="PositionUID" OtherKey="UID" Type="Position" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
   <Table Name="dbo.EmployeeReplacement" Member="EmployeeReplacements">
@@ -248,7 +234,6 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Organization_AccessTemplate" Member="AccessTemplates" ThisKey="UID" OtherKey="OrganizationUID" Type="AccessTemplate" />
-      <Association Name="Organization_AdditionalColumnType" Member="AdditionalColumnTypes" ThisKey="UID" OtherKey="OrganizationUID" Type="AdditionalColumnType" />
       <Association Name="Organization_Department" Member="Departments" ThisKey="UID" OtherKey="OrganizationUID" Type="Department" />
       <Association Name="Organization_Document" Member="Documents" ThisKey="UID" OtherKey="OrganizationUID" Type="Document" />
       <Association Name="Organization_Employee" Member="Employees" ThisKey="UID" OtherKey="OrganizationUID" Type="Employee" />
@@ -257,9 +242,10 @@
       <Association Name="Organization_NamedInterval" Member="NamedIntervals" ThisKey="UID" OtherKey="OrganizationUID" Type="NamedInterval" />
       <Association Name="Organization_OrganizationZone" Member="OrganizationZones" ThisKey="UID" OtherKey="OrganizationUID" Type="OrganizationZone" />
       <Association Name="Organization_Phone" Member="Phones" ThisKey="UID" OtherKey="OrganizationUID" Type="Phone" />
-      <Association Name="Organization_Position" Member="Positions" ThisKey="UID" OtherKey="OrganizationUID" Type="Position" />
       <Association Name="Organization_Schedule" Member="Schedules" ThisKey="UID" OtherKey="OrganizationUID" Type="Schedule" />
       <Association Name="Organization_ScheduleScheme" Member="ScheduleSchemes" ThisKey="UID" OtherKey="OrganizationUID" Type="ScheduleScheme" />
+      <Association Name="Organization_Position" Member="Positions" ThisKey="UID" OtherKey="OrganizationUID" Type="Position" />
+      <Association Name="Organization_AdditionalColumnType" Member="AdditionalColumnTypes" ThisKey="UID" OtherKey="OrganizationUID" Type="AdditionalColumnType" />
       <Association Name="Photo_Organization" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
   </Table>
@@ -304,18 +290,7 @@
       <Association Name="Photo_Department" Member="Departments" ThisKey="UID" OtherKey="PhotoUID" Type="Department" />
       <Association Name="Photo_Employee" Member="Employees" ThisKey="UID" OtherKey="PhotoUID" Type="Employee" />
       <Association Name="Photo_Organization" Member="Organizations" ThisKey="UID" OtherKey="PhotoUID" Type="Organization" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Position" Member="Positions">
-    <Type Name="Position">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="Position_Employee" Member="Employees" ThisKey="UID" OtherKey="PositionUID" Type="Employee" />
-      <Association Name="Organization_Position" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
+      <Association Name="Photo_Position" Member="Positions" ThisKey="UID" OtherKey="PhotoUID" Type="Position" />
     </Type>
   </Table>
   <Table Name="dbo.Schedule" Member="Schedules">
@@ -347,6 +322,35 @@
       <Association Name="ScheduleScheme_Day" Member="Days" ThisKey="UID" OtherKey="ScheduleSchemeUID" Type="Day" />
       <Association Name="ScheduleScheme_Schedule" Member="Schedules" ThisKey="UID" OtherKey="ScheduleSchemeUID" Type="Schedule" />
       <Association Name="Organization_ScheduleScheme" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Position" Member="Positions">
+    <Type Name="Position">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="PhotoUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Association Name="Position_Employee" Member="Employees" ThisKey="UID" OtherKey="PositionUID" Type="Employee" />
+      <Association Name="Organization_Position" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
+      <Association Name="Photo_Position" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AdditionalColumnType" Member="AdditionalColumnTypes">
+    <Type Name="AdditionalColumnType">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DataType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PersonType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsInGrid" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Association Name="AdditionalColumnType_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="AdditionalColumnTypeUID" Type="AdditionalColumn" />
+      <Association Name="Organization_AdditionalColumnType" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
 </Database>
