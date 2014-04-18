@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -11,9 +11,9 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeViewModel : BaseViewModel
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 
-		public EmployeeViewModel(Organization organization, ShortEmployee employee)
+		public EmployeeViewModel(Organisation organization, ShortEmployee employee)
 		{
 			Organization = organization;
 			ShortEmployee = employee;

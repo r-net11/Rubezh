@@ -6,7 +6,7 @@ using LinqKit;
 namespace SKDDriver
 {
 	public abstract class OrganizationElementTranslator<TableT, ApiT, FilterT> : IsDeletedTranslator<TableT, ApiT, FilterT>
-		where TableT : class,DataAccess.IOrganizationDatabaseElement, new()
+		where TableT : class, DataAccess.IOrganizationDatabaseElement, DataAccess.IDatabaseElement, DataAccess.IIsDeletedDatabaseElement, new()
 		where ApiT : OrganizationElementBase, new()
 		where FilterT : OrganizationFilterBase
 	{
@@ -36,7 +36,7 @@ namespace SKDDriver
 
 		protected static ApiType TranslateOrganizationElement<ApiType, TableType>(TableType tableItem)
 			where ApiType : OrganizationElementBase, new()
-			where TableType : DataAccess.IOrganizationDatabaseElement
+			where TableType : DataAccess.IOrganizationDatabaseElement, DataAccess.IDatabaseElement, DataAccess.IIsDeletedDatabaseElement
 		{
 			var result = TranslateIsDeleted<ApiType, TableType>(tableItem);
 			result.OrganizationUID = tableItem.OrganizationUID;
@@ -45,7 +45,7 @@ namespace SKDDriver
 
 		protected static void TranslateBackOrganizationElement<ApiType, TableType>(ApiType apiItem, TableType tableItem)
 			where ApiType : OrganizationElementBase, new()
-			where TableType : DataAccess.IOrganizationDatabaseElement
+			where TableType : DataAccess.IOrganizationDatabaseElement, DataAccess.IDatabaseElement, DataAccess.IIsDeletedDatabaseElement
 		{
 			TranslateBackIsDeleted<ApiType, TableType>(apiItem, tableItem);
 			tableItem.OrganizationUID = apiItem.OrganizationUID;

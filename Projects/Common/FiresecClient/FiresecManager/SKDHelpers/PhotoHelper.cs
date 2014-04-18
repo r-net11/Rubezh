@@ -16,12 +16,6 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Photo photo)
-		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedPhotos(new List<Photo> { photo });
-			return Common.ShowErrorIfExists(operationResult);
-		}
-
 		public static Photo GetSingle(Guid? uid)
 		{
 			if (uid == null)

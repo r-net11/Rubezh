@@ -5,39 +5,39 @@ using FiresecAPI;
 
 namespace FiresecClient.SKDHelpers
 {
-	public static class OrganizationHelper
+	public static class OrganisationHelper
 	{
-		public static IEnumerable<Organization> Get(OrganizationFilter filter)
+		public static IEnumerable<Organisation> Get(OrganisationFilter filter)
 		{
-			var result = FiresecManager.FiresecService.GetOrganizations(filter);
+			var result = FiresecManager.FiresecService.GetOrganisations(filter);
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool Save(Organization organization)
+		public static bool Save(Organisation Organisation)
 		{
-			var result = FiresecManager.FiresecService.SaveOrganizations(new List<Organization> { organization });
+			var result = FiresecManager.FiresecService.SaveOrganisations(new List<Organisation> { Organisation });
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static Organization GetSingle(Guid? uid)
+		public static Organisation GetSingle(Guid? uid)
 		{
 			if (uid == null)
 				return null;
-			var filter = new OrganizationFilter();
+			var filter = new OrganisationFilter();
 			filter.Uids.Add((Guid)uid);
-			var operationResult = FiresecManager.FiresecService.GetOrganizations(filter);
+			var operationResult = FiresecManager.FiresecService.GetOrganisations(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
-		public static bool SaveZones(Organization organization)
+		public static bool SaveZones(Organisation Organisation)
 		{
-			var result = FiresecManager.FiresecService.SaveOrganizationZones(organization);
+			var result = FiresecManager.FiresecService.SaveOrganisationZones(Organisation);
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool MarkDeleted(Organization organization)
+		public static bool MarkDeleted(Organisation Organisation)
 		{
-			var result = FiresecManager.FiresecService.MarkDeletedOrganizations(new List<Organization> { organization });
+			var result = FiresecManager.FiresecService.MarkDeletedOrganisations(new List<Organisation> { Organisation });
 			return Common.ShowErrorIfExists(result);
 		}
 	}

@@ -8,7 +8,7 @@ using LinqKit;
 namespace SKDDriver
 {
 	public abstract class IsDeletedTranslator<TableT, ApiT, FilterT> : TranslatorBase<TableT, ApiT, FilterT>
-		where TableT : class,DataAccess.IIsDeletedDatabaseElement, new()
+		where TableT : class,DataAccess.IIsDeletedDatabaseElement, DataAccess.IDatabaseElement, new()
 		where ApiT : SKDIsDeletedModel, new()
 		where FilterT : IsDeletedFilter
 	{
@@ -112,7 +112,7 @@ namespace SKDDriver
 
 		protected static ApiType TranslateIsDeleted<ApiType, TableType>(TableType tableItem)
 			where ApiType: SKDIsDeletedModel, new()
-			where TableType : DataAccess.IIsDeletedDatabaseElement
+			where TableType : DataAccess.IIsDeletedDatabaseElement, DataAccess.IDatabaseElement
 		{
 			var result = TranslateBase<ApiType, TableType>(tableItem);
 			result.IsDeleted = tableItem.IsDeleted;

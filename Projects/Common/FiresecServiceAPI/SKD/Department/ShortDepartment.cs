@@ -4,13 +4,17 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
+
 	[DataContract]
-	public class Organisation : SKDIsDeletedModel
+	public class ShortDepartment
 	{
-		public Organisation()
+		public ShortDepartment()
 		{
-			ZoneUIDs = new List<Guid>();
+			ChildDepartmentUIDs = new List<Guid>();
 		}
+
+		[DataMember]
+		public Guid UID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -19,9 +23,9 @@ namespace FiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
-		public Guid? PhotoUID { get; set; }
+		public Guid? ParentDepartmentUID { get; set; }
 
 		[DataMember]
-		public List<Guid> ZoneUIDs { get; set; }
+		public List<Guid> ChildDepartmentUIDs { get; set; }
 	}
 }

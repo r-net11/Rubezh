@@ -9,14 +9,14 @@ namespace SKDModule.ViewModels
 {
 	public class PositionViewModel : BaseViewModel
 	{
-		public Position Position { get; private set; }
+		public ShortPosition Position { get; private set; }
 
-		public PositionViewModel(Position position)
+		public PositionViewModel(ShortPosition position)
 		{
 			Position = position;
 		}
 
-		public void Update(Position position)
+		public void Update(ShortPosition position)
 		{
 			Position = position;
 			OnPropertyChanged("Position");

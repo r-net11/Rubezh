@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
 using System.Collections.ObjectModel;
-using SKDModule.ViewModels;
+using System.Linq;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationPositionsViewModel : BaseViewModel
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 
 		public OrganisationPositionsViewModel()
 		{
@@ -23,7 +21,7 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
 
-		public void Initialize(Organization organization, List<Position> positions)
+		public void Initialize(Organisation organization, IEnumerable<ShortPosition> positions)
 		{
 			Organization = organization;
 
@@ -61,17 +59,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			//var positionDetailsViewModel = new PositionDetailsViewModel(this);
-			//if (DialogService.ShowModalWindow(positionDetailsViewModel))
-			//{
-			//    var position = positionDetailsViewModel.Position;
-			//    bool saveResult = PositionHelper.Save(position);
-			//    if (!saveResult)
-			//        return;
-			//    var positionViewModel = new PositionViewModel(position);
-			//    Positions.Add(positionViewModel);
-			//    SelectedPosition = positionViewModel;
-			//}
+			var positionDetailsViewModel = new PositionDetailsViewModel(this, Organization);
+			if (DialogService.ShowModalWindow(positionDetailsViewModel))
+			{
+				var positionViewModel = new PositionViewModel(positionDetailsViewModel.ShortPosition);
+				Positions.Add(positionViewModel);
+				SelectedPosition = positionViewModel;
+			}
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -79,7 +73,7 @@ namespace SKDModule.ViewModels
 		{
 			var index = Positions.IndexOf(SelectedPosition);
 			var position = SelectedPosition.Position;
-			bool removeResult = PositionHelper.MarkDeleted(position);
+			bool removeResult = PositionHelper.MarkDeleted(position.UID);
 			if (!removeResult)
 				return;
 			Positions.Remove(SelectedPosition);
@@ -95,15 +89,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			//var positionDetailsViewModel = new PositionDetailsViewModel(this, SelectedPosition.Position);
-			//if (DialogService.ShowModalWindow(positionDetailsViewModel))
-			//{
-			//    var position = positionDetailsViewModel.Position;
-			//    bool saveResult = PositionHelper.Save(position);
-			//    if (!saveResult)
-			//        return;
-			//    SelectedPosition.Update(positionDetailsViewModel.Position);
-			//}
+			var positionDetailsViewModel = new PositionDetailsViewModel(this, Organization, SelectedPosition.Position.UID);
+			if (DialogService.ShowModalWindow(positionDetailsViewModel))
+			{
+				SelectedPosition.Update(positionDetailsViewModel.ShortPosition);
+			}
 		}
 		bool CanEdit()
 		{

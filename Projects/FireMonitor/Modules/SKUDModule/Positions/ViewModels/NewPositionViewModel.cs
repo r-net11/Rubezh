@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI;
 using Infrastructure.Common.TreeList;
-using FiresecAPI;
 
 namespace SKDModule.ViewModels
 {
 	public class NewPositionViewModel : TreeNodeViewModel<NewPositionViewModel>
 	{
-		public Organization Organization { get; private set; }
-		public Position Position { get; private set; }
+		public Organisation Organization { get; private set; }
+		public ShortPosition Position { get; private set; }
 
-		public NewPositionViewModel(Organization organization)
+		public NewPositionViewModel(Organisation organization)
 		{
 			Organization = organization;
 			IsOrganisation = true;
 			Name = organization.Name;
 		}
 
-		public NewPositionViewModel(Position position)
+		public NewPositionViewModel(ShortPosition position)
 		{
 			Position = position;
 			IsOrganisation = false;
@@ -27,7 +23,7 @@ namespace SKDModule.ViewModels
 			Description = position.Description;
 		}
 
-		public void Update(Position position)
+		public void Update(ShortPosition position)
 		{
 			Name = position.Name;
 			Description = position.Description;

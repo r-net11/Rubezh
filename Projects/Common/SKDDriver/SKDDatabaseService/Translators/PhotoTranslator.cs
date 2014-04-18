@@ -5,13 +5,10 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class PhotoTranslator : IsDeletedTranslator<DataAccess.Photo, Photo, PhotoFilter>
+	public class PhotoTranslator : TranslatorBase<DataAccess.Photo, Photo, PhotoFilter>
 	{
 		public PhotoTranslator(DataAccess.SKDDataContext context)
-			: base(context)
-		{
-
-		}
+			: base(context)	{ }
 
 		protected override Photo Translate(DataAccess.Photo tableItem)
 		{
@@ -22,7 +19,6 @@ namespace SKDDriver
 
 		protected override void TranslateBack(DataAccess.Photo tableItem, Photo apiItem)
 		{
-			base.TranslateBack(tableItem, apiItem);
 			tableItem.Data = apiItem.Data;
 		}
 

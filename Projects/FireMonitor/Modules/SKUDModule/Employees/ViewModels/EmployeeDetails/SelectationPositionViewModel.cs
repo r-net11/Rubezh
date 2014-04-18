@@ -5,9 +5,9 @@ namespace SKDModule.ViewModels
 {
 	public class SelectationPositionViewModel : BaseViewModel
 	{
-		public Position Position { get; private set; }
+		public ShortPosition Position { get; private set; }
 
-		public SelectationPositionViewModel(Position position)
+		public SelectationPositionViewModel(ShortPosition position)
 		{
 			Position = position;
 		}

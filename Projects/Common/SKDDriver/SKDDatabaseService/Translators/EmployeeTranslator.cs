@@ -70,10 +70,10 @@ namespace SKDDriver
 			result.CurrentReplacement = EmployeeReplacementTranslator.GetCurrentReplacement(tableItem.UID);
 			result.DepartmentUID = tableItem.DepartmentUID;
 			result.ScheduleUID = tableItem.ScheduleUID;
-			result.AdditionalColumns = AdditionalColumnTranslator.GetByEmployee<DataAccess.AdditionalColumn>(tableItem.UID);
+			result.AdditionalColumns = AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID);
 			result.Type = (FiresecAPI.PersonType)tableItem.Type;
 			result.Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
-			result.Position = GetResult(PositionTranslator.GetSingle(tableItem.PositionUID));
+			result.Position = PositionTranslator.GetSingleShort(tableItem.PositionUID);
 			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			return result;
 		}

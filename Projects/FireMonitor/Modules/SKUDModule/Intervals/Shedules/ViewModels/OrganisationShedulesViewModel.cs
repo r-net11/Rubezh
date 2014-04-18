@@ -6,13 +6,13 @@ using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Organization = FiresecAPI.Organization;
+using Organisation = FiresecAPI.Organisation;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationShedulesViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 		Schedule SheduleToCopy;
 
 		public OrganisationShedulesViewModel()
@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(Organization organization, List<Schedule> employeeShedules)
+		public void Initialize(Organisation organization, List<Schedule> employeeShedules)
 		{
 			Organization = organization;
 

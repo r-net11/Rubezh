@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using SKDModule.ViewModels;
+using System.Linq;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
-using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationDepartmentsViewModel : BaseViewModel
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 
-		public void Initialize(Organization organization, List<Department> departments)
+		public void Initialize(Organisation organization, IEnumerable<ShortDepartment> departments)
 		{
 			Organization = organization;
 
@@ -78,9 +72,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public List<Department> GetAllChildrenModels(DepartmentViewModel departmentViewModel)
+		public List<ShortDepartment> GetAllChildrenModels(DepartmentViewModel departmentViewModel)
 		{
-			var result = new List<Department>();
+			var result = new List<ShortDepartment>();
 			if (departmentViewModel.ChildrenCount == 0)
 				return result;
 			foreach (var child in departmentViewModel.Children)

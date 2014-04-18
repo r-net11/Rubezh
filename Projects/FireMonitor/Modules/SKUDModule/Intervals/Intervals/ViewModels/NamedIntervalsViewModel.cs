@@ -6,7 +6,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using OrganizationFilter = FiresecAPI.OrganizationFilter;
+using OrganizationFilter = FiresecAPI.OrganisationFilter;
 using System;
 
 namespace SKDModule.ViewModels
@@ -21,7 +21,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			var namedIntervals = NamedIntervalHelper.Get(new NamedIntervalFilter() { OrganizationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 
 			OrganisationNamedIntervals = new ObservableCollection<OrganisationNamedIntervalsViewModel>();

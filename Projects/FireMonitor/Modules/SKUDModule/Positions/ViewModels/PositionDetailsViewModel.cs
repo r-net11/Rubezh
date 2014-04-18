@@ -1,36 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class PositionDetailsViewModel : SaveCancelDialogViewModel
 	{
-		NewPositionsViewModel PositionsViewModel;
+		OrganisationPositionsViewModel PositionsViewModel;
 		public Position Position { get; private set; }
-		public Organization Organization { get; private set; }
+		public ShortPosition ShortPosition
+		{
+			get
+			{
+				return new ShortPosition
+				{
+					UID = Position.UID,
+					Name = Position.Name,
+					Description = Position.Description,
+					OrganisationUID = Position.OrganizationUID
+				};
+			}
+		}
 
-		public PositionDetailsViewModel(NewPositionsViewModel positionsViewModel, Organization orgnaisation, Position position = null)
+		public Organisation Organization { get; private set; }
+
+		public PositionDetailsViewModel(OrganisationPositionsViewModel positionsViewModel, Organisation orgnaisation, Guid? positionUID = null)
 		{
 			PositionsViewModel = positionsViewModel;
 			Organization = orgnaisation;
-			if (position == null)
+			if (positionUID == null)
 			{
 				Title = "Создание должности";
-				position = new Position()
+				Position = new Position()
 				{
 					Name = "Новая должность",
+					OrganizationUID = Organization.UID
 				};
 			}
 			else
 			{
-				Title = string.Format("Свойства должности: {0}", position.Name);
+				Position = PositionHelper.GetDetails(positionUID);
+				Title = string.Format("Свойства должности: {0}", Position.Name);
 			}
-			Position = position;
 			CopyProperties();
 		}
 
@@ -38,6 +50,8 @@ namespace SKDModule.ViewModels
 		{
 			Name = Position.Name;
 			Description = Position.Description;
+			if (Position.Photo != null)
+				PhotoData = Position.Photo.Data;
 		}
 
 		string _name;
@@ -68,6 +82,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		byte[] _photoData;
+		public byte[] PhotoData
+		{
+			get { return _photoData; }
+			set
+			{
+				_photoData = value;
+				OnPropertyChanged(() => PhotoData);
+			}
+		}
+
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Name);
@@ -75,16 +100,12 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			//if (PositionsViewModel.Positions.Any(x => x.Position.Name == Name && x.Position.UID != Position.UID))
-			//{
-			//    MessageBoxService.ShowWarning("Название должности совпадает с введеннымы ранее");
-			//    return false;
-			//}
-
 			Position.Name = Name;
 			Position.Description = Description;
-			Position.OrganizationUID = Organization.UID;
-			return true;
+			if (Position.Photo == null)
+				Position.Photo = new Photo();
+			Position.Photo.Data = PhotoData;
+			return PositionHelper.Save(Position);
 		}
 	}
 }

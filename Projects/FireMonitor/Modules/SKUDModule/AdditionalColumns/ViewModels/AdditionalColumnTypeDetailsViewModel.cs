@@ -123,7 +123,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.DataType = DataType;
 			if (IsTextType)
 				AdditionalColumnType.IsInGrid = IsInGrid;
-			AdditionalColumnType.OrganizationUID = OrganisationAdditionalColumnTypesViewModel.Organization.UID;
+			AdditionalColumnType.OrganizationUID = OrganisationAdditionalColumnTypesViewModel.Organisation.UID;
 			return true;
 		}
 	}

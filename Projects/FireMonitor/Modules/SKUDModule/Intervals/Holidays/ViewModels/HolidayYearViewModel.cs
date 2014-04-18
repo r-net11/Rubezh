@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using OrganizationFilter = FiresecAPI.OrganizationFilter;
+using OrganizationFilter = FiresecAPI.OrganisationFilter;
 
 namespace SKDModule.ViewModels
 {
@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			var employeeHolidays = new List<Holiday>();
 
 			OrganisationHolidays = new ObservableCollection<OrganisationHolidaysYearViewModel>();

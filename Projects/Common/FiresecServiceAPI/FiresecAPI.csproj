@@ -209,6 +209,7 @@
     <Compile Include="SKD\AdditionalColumn\AdditionalColumnFilter.cs" />
     <Compile Include="SKD\AdditionalColumn\AdditionalColumnType.cs" />
     <Compile Include="SKD\AdditionalColumn\AdditionalColumnTypeFilter.cs" />
+    <Compile Include="SKD\Department\ShortDepartment.cs" />
     <Compile Include="SKD\Document\DocumentFilter.cs" />
     <Compile Include="Models\Video\IVSSContract.cs" />
     <Compile Include="SKD\Card\CardZone.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="SKD\PassCardLibrary\PassCardImagePropertyType.cs" />
     <Compile Include="SKD\Photo\Photo.cs" />
     <Compile Include="SKD\Photo\PhotoFilter.cs" />
+    <Compile Include="SKD\Position\ShortPosition.cs" />
     <Compile Include="SKD\Schedule\ScheduleZoneLink.cs" />
     <Compile Include="SKD\Common\SKDModelBase.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\Holiday.cs" />

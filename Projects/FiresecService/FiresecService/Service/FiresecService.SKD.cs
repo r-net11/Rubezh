@@ -11,7 +11,7 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService : IFiresecService
 	{
-		#region Get
+		#region Employee
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
 			return SKDDatabaseService.EmployeeTranslator.GetList(filter);
@@ -20,182 +20,215 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.EmployeeTranslator.GetSingle(uid);
 		}
-		public OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter)
-		{
-			return SKDDatabaseService.DepartmentTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter)
-		{
-			return SKDDatabaseService.PositionTranslator.Get(filter);
-		}
-		public  OperationResult<IEnumerable<SKDJournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
-		{
-			return SKDDatabaseService.JournalItemTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
-		{
-			return SKDDatabaseService.CardTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter)
-		{
-			return SKDDatabaseService.CardZoneTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<Organization>> GetOrganizations(OrganizationFilter filter)
-		{
-			return SKDDatabaseService.OrganizationTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
-		{
-			return SKDDatabaseService.DocumentTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
-		{
-			return SKDDatabaseService.AccessTemplateTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
-		{
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter)
-		{
-			return SKDDatabaseService.AdditionalColumnTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter)
-		{
-			return SKDDatabaseService.PhotoTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter)
-		{
-			return SKDDatabaseService.EmployeeReplacementTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<NamedInterval>> GetNamedIntervals(NamedIntervalFilter filter)
-		{
-			return SKDDatabaseService.NamedIntervalTranslator.Get(filter);
-		}
-		#endregion
-
-		#region Save
 		public OperationResult SaveEmployees(IEnumerable<Employee> Employees)
 		{
 			return SKDDatabaseService.EmployeeTranslator.Save(Employees);
 		}
-		public OperationResult SaveCardTemplate(SKDCard card)
+		public OperationResult MarkDeletedEmployees(IEnumerable<Guid> uids)
 		{
-			return SKDDatabaseService.CardTranslator.SaveTemplate(card);
+			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(uids);
+		}
+		#endregion
+
+		#region Department
+		public OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
+		{
+			return SKDDatabaseService.DepartmentTranslator.GetList(filter);
+		}
+		public OperationResult<Department> GetDepartmentDetails(Guid uid)
+		{
+			return SKDDatabaseService.DepartmentTranslator.GetSingle(uid);
 		}
 		public OperationResult SaveDepartments(IEnumerable<Department> Departments)
 		{
 			return SKDDatabaseService.DepartmentTranslator.Save(Departments);
 		}
+		public OperationResult MarkDeletedDepartments(IEnumerable<Guid> uids)
+		{
+			return SKDDatabaseService.DepartmentTranslator.MarkDeleted(uids);
+		}
+		#endregion
+
+		#region Position
+		public OperationResult<IEnumerable<ShortPosition>> GetPositionList(PositionFilter filter)
+		{
+			return SKDDatabaseService.PositionTranslator.GetList(filter);
+		}
+		public OperationResult<Position> GetPositionDetails(Guid uid)
+		{
+			return SKDDatabaseService.PositionTranslator.GetSingle(uid);
+		}
 		public OperationResult SavePositions(IEnumerable<Position> Positions)
 		{
 			return SKDDatabaseService.PositionTranslator.Save(Positions);
+		}
+		public OperationResult MarkDeletedPositions(IEnumerable<Guid> uids)
+		{
+			return SKDDatabaseService.PositionTranslator.MarkDeleted(uids);
+		}
+		#endregion
+
+		#region Journal
+		public OperationResult<IEnumerable<SKDJournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
+		{
+			return SKDDatabaseService.JournalItemTranslator.Get(filter);
 		}
 		public OperationResult SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
 		{
 			return SKDDatabaseService.JournalItemTranslator.Save(journalItems);
 		}
+		#endregion
+
+		#region Card
+		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
+		{
+			return SKDDatabaseService.CardTranslator.Get(filter);
+		}
 		public OperationResult SaveCards(IEnumerable<SKDCard> items)
 		{
 			return SKDDatabaseService.CardTranslator.Save(items);
-		}
-		public OperationResult SaveCardZones(IEnumerable<CardZone> items)
-		{
-			return SKDDatabaseService.CardZoneTranslator.Save(items);
-		}
-		public OperationResult SaveOrganizations(IEnumerable<Organization> Organizations)
-		{
-			return SKDDatabaseService.OrganizationTranslator.Save(Organizations);
-		}
-		public OperationResult SaveOrganizationZones(Organization organization)
-		{
-			return SKDDatabaseService.OrganizationTranslator.SaveZones(organization);
-		}
-		public OperationResult SaveDocuments(IEnumerable<Document> items)
-		{
-			return SKDDatabaseService.DocumentTranslator.Save(items);
-		}
-		public OperationResult SaveAccessTemplates(IEnumerable<AccessTemplate> items)
-		{
-			return SKDDatabaseService.AccessTemplateTranslator.Save(items);
-		}
-		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
-		{
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.Save(items);
-		}
-		public OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items)
-		{
-			return SKDDatabaseService.AdditionalColumnTranslator.Save(items);
-		}
-		public OperationResult SavePhotos(IEnumerable<Photo> items)
-		{
-			return SKDDatabaseService.PhotoTranslator.Save(items);
-		}
-		public OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
-		{
-			return SKDDatabaseService.EmployeeReplacementTranslator.Save(items);
-		}
-		public OperationResult SaveNamedIntervals(IEnumerable<NamedInterval> items)
-		{
-			return SKDDatabaseService.NamedIntervalTranslator.Save(items);
-		}
-		#endregion
-
-		#region MarkDeleted
-		public OperationResult MarkDeletedEmployees(IEnumerable<Guid> uids)
-		{
-			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(uids);
-		}
-		public OperationResult MarkDeletedDepartments(IEnumerable<Department> Departments)
-		{
-			return SKDDatabaseService.DepartmentTranslator.MarkDeleted(Departments);
-		}
-		public OperationResult MarkDeletedPositions(IEnumerable<Position> Positions)
-		{
-			return SKDDatabaseService.PositionTranslator.MarkDeleted(Positions);
 		}
 		public OperationResult MarkDeletedCards(IEnumerable<SKDCard> items)
 		{
 			return SKDDatabaseService.CardTranslator.MarkDeleted(items);
 		}
+		public OperationResult SaveCardTemplate(SKDCard card)
+		{
+			return SKDDatabaseService.CardTranslator.SaveTemplate(card);
+		}
+		#endregion
+
+		#region CardZone
+		public OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter)
+		{
+			return SKDDatabaseService.CardZoneTranslator.Get(filter);
+		}
+		public OperationResult SaveCardZones(IEnumerable<CardZone> items)
+		{
+			return SKDDatabaseService.CardZoneTranslator.Save(items);
+		}
 		public OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items)
 		{
 			return SKDDatabaseService.CardZoneTranslator.MarkDeleted(items);
 		}
-		public OperationResult MarkDeletedOrganizations(IEnumerable<Organization> Organizations)
+		#endregion
+
+		#region AccessTemplate
+		public OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
 		{
-			return SKDDatabaseService.OrganizationTranslator.MarkDeleted(Organizations);
+			return SKDDatabaseService.AccessTemplateTranslator.Get(filter);
 		}
-		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
+		public OperationResult SaveAccessTemplates(IEnumerable<AccessTemplate> items)
 		{
-			return SKDDatabaseService.DocumentTranslator.MarkDeleted(items);
+			return SKDDatabaseService.AccessTemplateTranslator.Save(items);
 		}
 		public OperationResult MarkDeletedAccessTemplates(IEnumerable<AccessTemplate> items)
 		{
 			return SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(items);
 		}
+		#endregion
+
+		#region Organisation
+		public OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter)
+		{
+			return SKDDatabaseService.OrganizationTranslator.Get(filter);
+		}
+		public OperationResult SaveOrganisations(IEnumerable<Organisation> Organizations)
+		{
+			return SKDDatabaseService.OrganizationTranslator.Save(Organizations);
+		}
+		public OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organizations)
+		{
+			return SKDDatabaseService.OrganizationTranslator.MarkDeleted(Organizations);
+		}
+		public OperationResult SaveOrganisationZones(Organisation organization)
+		{
+			return SKDDatabaseService.OrganizationTranslator.SaveZones(organization);
+		}
+		#endregion
+
+		#region Document
+		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
+		{
+			return SKDDatabaseService.DocumentTranslator.Get(filter);
+		}
+		public OperationResult SaveDocuments(IEnumerable<Document> items)
+		{
+			return SKDDatabaseService.DocumentTranslator.Save(items);
+		}
+		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
+		{
+			return SKDDatabaseService.DocumentTranslator.MarkDeleted(items);
+		}
+		#endregion
+
+		#region AdditionalColumnType
+		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		{
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.Get(filter);
+		}
+		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		{
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.Save(items);
+		}
 		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
 		{
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(items);
 		}
-		public OperationResult MarkDeletedAdditionalColumns(IEnumerable<AdditionalColumn> items)
+		#endregion
+
+		#region AdditionalColumn
+		public OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter)
 		{
-			return SKDDatabaseService.AdditionalColumnTranslator.MarkDeleted(items);
+			return SKDDatabaseService.AdditionalColumnTranslator.Get(filter);
 		}
-		public OperationResult MarkDeletedPhotos(IEnumerable<Photo> items)
+		public OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items)
 		{
-			return SKDDatabaseService.PhotoTranslator.MarkDeleted(items);
+			return SKDDatabaseService.AdditionalColumnTranslator.Save(items);
+		}
+		#endregion
+
+		#region Photo
+		public OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter)
+		{
+			return SKDDatabaseService.PhotoTranslator.Get(filter);
+		}
+		public OperationResult SavePhotos(IEnumerable<Photo> items)
+		{
+			return SKDDatabaseService.PhotoTranslator.Save(items);
+		}
+		#endregion
+
+		#region EmployeeReplacement
+		public OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter)
+		{
+			return SKDDatabaseService.EmployeeReplacementTranslator.Get(filter);
+		}
+		public OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
+		{
+			return SKDDatabaseService.EmployeeReplacementTranslator.Save(items);
 		}
 		public OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
 		{
 			return SKDDatabaseService.EmployeeReplacementTranslator.MarkDeleted(items);
+		}
+		#endregion
+
+		#region NamedInterval
+		public OperationResult<IEnumerable<NamedInterval>> GetNamedIntervals(NamedIntervalFilter filter)
+		{
+			return SKDDatabaseService.NamedIntervalTranslator.Get(filter);
+		}
+		public OperationResult SaveNamedIntervals(IEnumerable<NamedInterval> items)
+		{
+			return SKDDatabaseService.NamedIntervalTranslator.Save(items);
 		}
 		public OperationResult MarkDeletedNamedIntervals(IEnumerable<NamedInterval> items)
 		{
 			return SKDDatabaseService.NamedIntervalTranslator.MarkDeleted(items);
 		}
 		#endregion
-
+		
 		#region Devices
 		public OperationResult<SKDStates> SKDGetStates()
 		{

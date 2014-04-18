@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class AdditionalColumnTranslator : IsDeletedTranslator<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
+	public class AdditionalColumnTranslator : TranslatorBase<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
 	{
 		public AdditionalColumnTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator, AdditionalColumnTypeTranslator additionalColumnTypeTranslator)
 			: base(context)
@@ -31,7 +31,6 @@ namespace SKDDriver
 
 		protected override void TranslateBack(DataAccess.AdditionalColumn tableItem, AdditionalColumn apiItem)
 		{
-			base.TranslateBack(tableItem, apiItem);
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.AdditionalColumnTypeUID = apiItem.AdditionalColumnType.UID;
 			if(apiItem.Photo != null)
@@ -80,7 +79,7 @@ namespace SKDDriver
 			var photoSaveResult = PhotoTranslator.Save(photosToSave);
 			if (photoSaveResult.HasError)
 				return photoSaveResult;
-			var photoDeleteResult = PhotoTranslator.MarkDeleted(photosToDelete);
+			var photoDeleteResult = PhotoTranslator.Delete(photosToDelete);
 			if (photoDeleteResult.HasError)
 				return photoDeleteResult;
 			return base.Save(apiItems);

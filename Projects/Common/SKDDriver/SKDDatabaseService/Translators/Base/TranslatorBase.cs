@@ -108,6 +108,26 @@ namespace SKDDriver
 			}
 		}
 
+		public virtual OperationResult Delete(IEnumerable<Guid> uids)
+		{
+			var operationResult = new OperationResult();
+			try
+			{
+				foreach (var uid in uids)
+				{
+					var databaseItem = (from x in Table where x.UID.Equals(uid) select x).FirstOrDefault();
+					if(databaseItem != null)
+						Table.DeleteOnSubmit(databaseItem);
+				}
+				Table.Context.SubmitChanges();
+				return operationResult;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		protected static readonly DateTime MinYear = new DateTime(1900, 1, 1);
 		protected static readonly DateTime MaxYear = new DateTime(9000, 1, 1);
 

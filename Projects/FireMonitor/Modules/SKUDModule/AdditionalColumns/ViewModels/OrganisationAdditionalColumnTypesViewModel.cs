@@ -1,19 +1,18 @@
-﻿using System.Collections.ObjectModel;
-using FiresecAPI;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FiresecClient;
-using System;
-using System.Collections.Generic;
-using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationAdditionalColumnTypesViewModel : ViewPartViewModel
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 
 		public OrganisationAdditionalColumnTypesViewModel()
 		{
@@ -22,9 +21,9 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
 
-		public void Initialize(Organization organization, List<AdditionalColumnType> additionalColumnTypes)
+		public void Initialize(Organisation organisation, List<AdditionalColumnType> additionalColumnTypes)
 		{
-			Organization = organization;
+			Organisation = organisation;
 
 			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnTypeViewModel>();
 			foreach (var additionalColumnType in additionalColumnTypes)

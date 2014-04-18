@@ -8,16 +8,13 @@ using Microsoft.Win32;
 
 namespace Controls
 {
-	/// <summary>
-	/// Логика взаимодействия для PhotoSelectation.xaml
-	/// </summary>
 	public partial class PhotoSelectation : UserControl
 	{
-		public static readonly DependencyProperty PhotoProperty =
-			DependencyProperty.Register("Photo", typeof(byte[]), typeof(PhotoSelectation),
-			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnPhotoPropertyChanged)));
+		public static readonly DependencyProperty DataProperty =
+			DependencyProperty.Register("Data", typeof(byte[]), typeof(PhotoSelectation),
+			new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnDataPropertyChanged)));
 
-		private static void OnPhotoPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
+		private static void OnDataPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
 			PhotoSelectation photoSelectation = dp as PhotoSelectation;
 			if (photoSelectation != null)
@@ -32,11 +29,11 @@ namespace Controls
 
 		public void UpdatePhoto()
 		{
-			if (Photo != null)
+			if (Data != null)
 			{
 				try
 				{
-					PhotoImage.Source = BitmapFrame.Create(new MemoryStream(Photo));
+					PhotoImage.Source = BitmapFrame.Create(new MemoryStream(Data));
 					PhotoImage.Stretch = System.Windows.Media.Stretch.UniformToFill;
 				}
 				catch(Exception)
@@ -55,13 +52,13 @@ namespace Controls
 			PhotoImage.Stretch = System.Windows.Media.Stretch.None;
 		}
 
-		public byte[] Photo
+		public byte[] Data
 		{
-			get { return (byte[])GetValue(PhotoProperty); }
-			set { SetValue(PhotoProperty, value); }
+			get { return (byte[])GetValue(DataProperty); }
+			set { SetValue(DataProperty, value); }
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void OpenButton_Click(object sender, RoutedEventArgs e)
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
@@ -71,8 +68,24 @@ namespace Controls
 			{
 				var memoryStream = new MemoryStream();
 				openFileDialog.OpenFile().CopyTo(memoryStream);
-				Photo = memoryStream.ToArray();
+				Data = memoryStream.ToArray();
 			}
+		}
+
+		private void PasteButton_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBoxService.Show("NOT IMPLEMENTED YET");
+			//IDataObject data = Clipboard.GetDataObject();
+		}
+
+		private void ScannerButton_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBoxService.Show("NOT IMPLEMENTED YET");
+		}
+
+		private void WebCamButton_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBoxService.Show("NOT IMPLEMENTED YET");
 		}
 	}
 }

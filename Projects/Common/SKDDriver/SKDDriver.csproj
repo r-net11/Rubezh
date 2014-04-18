@@ -64,7 +64,7 @@
     <Compile Include="SKDDatabaseService\Translators\CardTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardZoneTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\DepartmentTranslator.cs" />
-    <Compile Include="SKDDatabaseService\Translators\DocumentsTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\DocumentTranslator.cs" />
     <Compile Include="SKDDatabaseService\SKDDatabaseService.cs" />
     <Compile Include="SKDDatabaseService\Translators\Base\OrganizationTranslatorBase.cs" />
     <Compile Include="SKDDatabaseService\Translators\EmployeeReplacementTranslator.cs" />
@@ -74,7 +74,7 @@
     <Compile Include="SKDDatabaseService\Translators\NamedIntervalTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\OrganizationTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\PhotoTranslator.cs" />
-    <Compile Include="SKDDatabaseService\Translators\PositionsTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\PositionTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\Base\TranslatorBase.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

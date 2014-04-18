@@ -6,7 +6,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using OrganizationFilter = FiresecAPI.OrganizationFilter;
+using OrganizationFilter = FiresecAPI.OrganisationFilter;
 
 namespace SKDModule.ViewModels
 {
@@ -20,7 +20,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			var employeeShedules = new List<Schedule>();
 
 			OrganisationShedules = new ObservableCollection<OrganisationShedulesViewModel>();

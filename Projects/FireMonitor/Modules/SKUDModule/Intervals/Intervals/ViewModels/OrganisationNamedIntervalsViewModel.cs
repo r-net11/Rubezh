@@ -6,17 +6,17 @@ using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Organization = FiresecAPI.Organization;
+using Organisation = FiresecAPI.Organisation;
 using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationNamedIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 		private NamedInterval _intervalToCopy;
 
-		public OrganisationNamedIntervalsViewModel(Organization organization)
+		public OrganisationNamedIntervalsViewModel(Organisation organization)
 		{
 			Organization = organization;
 			AddCommand = new RelayCommand(OnAdd);

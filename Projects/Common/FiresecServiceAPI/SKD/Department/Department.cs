@@ -33,7 +33,7 @@ namespace FiresecAPI
 		public Guid? AttendantEmployeeUID { get; set; }
 
 		[DataMember]
-		public Guid? PhotoUID { get; set; }
+		public Photo Photo { get; set; }
 
 		[DataMember]
 		public List<Guid> PhoneUIDs { get; set; }

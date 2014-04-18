@@ -8,12 +8,12 @@ namespace SKDModule.ViewModels
 {
 	public class AccessZonesSelectationViewModel : BaseViewModel
 	{
-		Organization Organization;
+		Organisation Organization;
 		public List<CardZone> CardZones { get; private set; }
 		Guid? ParentUID;
 		HashSet<SKDZone> AllParentZones;
 
-		public AccessZonesSelectationViewModel(Organization organization, List<CardZone> cardZones, Guid? parentUID)
+		public AccessZonesSelectationViewModel(Organisation organization, List<CardZone> cardZones, Guid? parentUID)
 		{
 			Organization = organization;
 			CardZones = cardZones;

@@ -6,14 +6,14 @@ using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Organization = FiresecAPI.Organization;
+using Organisation = FiresecAPI.Organisation;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationHolidaysYearViewModel : BaseViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public int Year { get; private set; }
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 
 		public OrganisationHolidaysYearViewModel(int year)
 		{
@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 		}
 
-		public void Initialize(Organization organization, List<Holiday> holidays)
+		public void Initialize(Organisation organization, List<Holiday> holidays)
 		{
 			Organization = organization;
 

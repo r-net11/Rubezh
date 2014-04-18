@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
-using Organization = FiresecAPI.Organization;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {

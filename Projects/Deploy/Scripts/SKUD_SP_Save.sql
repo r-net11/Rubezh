@@ -746,8 +746,6 @@ END
 GO
 CREATE PROCEDURE SaveAdditionalColumn
 	@UID uniqueidentifier,
-	@IsDeleted bit,
-	@RemovalDate datetime,
 	@EmployeeUID uniqueidentifier = NULL,
 	@AdditionalColumnTypeUID uniqueidentifier = NULL,
 	@TextData text = NULL,
@@ -756,16 +754,12 @@ AS
 BEGIN
 	INSERT INTO AdditionalColumn (
 		UID,
-		IsDeleted,
-		RemovalDate,
 		EmployeeUID,
 		AdditionalColumnTypeUID ,
 		TextData ,
 		PhotoUID )
 	VALUES (
-		@UID ,
-		@IsDeleted ,
-		@RemovalDate ,
+		@UID,
 		@EmployeeUID ,
 		@AdditionalColumnTypeUID ,
 		@TextData ,
@@ -780,12 +774,8 @@ AS
 BEGIN
 	INSERT INTO Photo (
 		UID,
-		Data,
-		IsDeleted,
-		RemovalDate)
+		Data )
 	VALUES (
 		@UID ,
-		@Data,
-		0,
-		'01/01/1900' )
+		@Data )
 END	

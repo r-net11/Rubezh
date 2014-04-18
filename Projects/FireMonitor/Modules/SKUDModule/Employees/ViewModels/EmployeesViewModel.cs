@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 		public static EmployeesViewModel Current { get; private set; }
 		EmployeeFilter Filter;
 		public PersonType PersonType { get; private set; }
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
 		public EmployeesViewModel()
@@ -44,7 +44,7 @@ namespace SKDModule.ViewModels
 		{
 			PersonType = Filter.PersonType;
 
-			Organization = OrganizationHelper.GetSingle(Filter.OrganizationUIDs.FirstOrDefault());
+			Organization = OrganisationHelper.GetSingle(Filter.OrganizationUIDs.FirstOrDefault());
 			var employees = EmployeeHelper.Get(Filter);
 			Employees = new ObservableCollection<EmployeeViewModel>();
 			foreach (var employee in employees)

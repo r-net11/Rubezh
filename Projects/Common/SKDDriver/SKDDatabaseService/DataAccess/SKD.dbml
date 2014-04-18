@@ -24,20 +24,6 @@
       <Association Name="Schedule_ScheduleZoneLink" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
-  <Table Name="dbo.AdditionalColumn" Member="AdditionalColumns">
-    <Type Name="AdditionalColumn">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="AdditionalColumnTypeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="TextData" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="PhotoUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="Employee_AdditionalColumn" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
-      <Association Name="Photo_AdditionalColumn" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" DeleteRule="SET NULL" />
-      <Association Name="AdditionalColumnType_AdditionalColumn" Member="AdditionalColumnType" ThisKey="AdditionalColumnTypeUID" OtherKey="UID" Type="AdditionalColumnType" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Card" Member="Cards">
     <Type Name="Card">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -107,7 +93,7 @@
       <Association Name="Employee_Department" Member="Employee" ThisKey="ContactEmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Employee_Department1" Member="Employee1" ThisKey="AttendantUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Organization_Department" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
-      <Association Name="Photo_Department" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Photo_Department" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Document" Member="Documents">
@@ -140,17 +126,17 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="Employee_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="EmployeeUID" Type="AdditionalColumn" />
       <Association Name="Employee_Card" Member="Cards" ThisKey="UID" OtherKey="EmployeeUID" Type="Card" />
       <Association Name="Employee_Department" Member="Departments" ThisKey="UID" OtherKey="ContactEmployeeUID" Type="Department" />
       <Association Name="Employee_Department1" Member="Departments1" ThisKey="UID" OtherKey="AttendantUID" Type="Department" />
       <Association Name="Employee_EmployeeReplacement" Member="EmployeeReplacements" ThisKey="UID" OtherKey="EmployeeUID" Type="EmployeeReplacement" />
       <Association Name="Employee_PassJournal" Member="PassJournals" ThisKey="UID" OtherKey="EmployeeUID" Type="PassJournal" />
+      <Association Name="Employee_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="EmployeeUID" Type="AdditionalColumn" />
       <Association Name="Department_Employee" Member="Department" ThisKey="DepartmentUID" OtherKey="UID" Type="Department" IsForeignKey="true" DeleteRule="SET NULL" />
       <Association Name="Organization_Employee" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
-      <Association Name="Photo_Employee" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
       <Association Name="Schedule_Employee" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" DeleteRule="SET NULL" />
       <Association Name="Position_Employee" Member="Position" ThisKey="PositionUID" OtherKey="UID" Type="Position" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Photo_Employee" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.EmployeeReplacement" Member="EmployeeReplacements">
@@ -280,19 +266,6 @@
       <Association Name="Organization_Phone" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" DeleteRule="SET NULL" />
     </Type>
   </Table>
-  <Table Name="dbo.Photo" Member="Photos">
-    <Type Name="Photo">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Data" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
-      <Association Name="Photo_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="PhotoUID" Type="AdditionalColumn" />
-      <Association Name="Photo_Department" Member="Departments" ThisKey="UID" OtherKey="PhotoUID" Type="Department" />
-      <Association Name="Photo_Employee" Member="Employees" ThisKey="UID" OtherKey="PhotoUID" Type="Employee" />
-      <Association Name="Photo_Organization" Member="Organizations" ThisKey="UID" OtherKey="PhotoUID" Type="Organization" />
-      <Association Name="Photo_Position" Member="Positions" ThisKey="UID" OtherKey="PhotoUID" Type="Position" />
-    </Type>
-  </Table>
   <Table Name="dbo.Schedule" Member="Schedules">
     <Type Name="Schedule">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -351,6 +324,29 @@
       <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="AdditionalColumnType_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="AdditionalColumnTypeUID" Type="AdditionalColumn" />
       <Association Name="Organization_AdditionalColumnType" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" DeleteRule="SET NULL" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AdditionalColumn" Member="AdditionalColumns">
+    <Type Name="AdditionalColumn">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="AdditionalColumnTypeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="TextData" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="PhotoUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Association Name="AdditionalColumnType_AdditionalColumn" Member="AdditionalColumnType" ThisKey="AdditionalColumnTypeUID" OtherKey="UID" Type="AdditionalColumnType" IsForeignKey="true" />
+      <Association Name="Employee_AdditionalColumn" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
+      <Association Name="Photo_AdditionalColumn" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Photo" Member="Photos">
+    <Type Name="Photo">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Data" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Photo_Department" Member="Departments" ThisKey="UID" OtherKey="PhotoUID" Type="Department" />
+      <Association Name="Photo_Employee" Member="Employees" ThisKey="UID" OtherKey="PhotoUID" Type="Employee" />
+      <Association Name="Photo_Organization" Member="Organizations" ThisKey="UID" OtherKey="PhotoUID" Type="Organization" />
+      <Association Name="Photo_Position" Member="Positions" ThisKey="UID" OtherKey="PhotoUID" Type="Position" />
+      <Association Name="Photo_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="PhotoUID" Type="AdditionalColumn" />
     </Type>
   </Table>
 </Database>

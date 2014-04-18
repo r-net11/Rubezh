@@ -108,20 +108,8 @@
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-                <Controls:PhotoSelectation Grid.Column="1" Photo="{Binding SelectedGraphicsColumn.Data}" />
-				<!--<Grid Grid.Column="1" DataContext="{Binding SelectedGraphicsColumn}">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="*" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<StackPanel>
-						<Image Source="{Binding Bitmap}" Stretch="UniformToFill" Visibility="{Binding HasPhoto, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<Image Source="/Controls;component/Images/NoPhoto.png" Stretch="None" 
-								Visibility="{Binding HasPhoto, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-					</StackPanel>
-					<Button Grid.Row="1" Content="Загрузить фото" Width="100" HorizontalAlignment="Right" Command="{Binding EditCommand}" />
-				</Grid>-->
+				<Controls:PhotoSelectation Grid.Column="1" Data="{Binding SelectedGraphicsColumn.Data}" />
 			</Grid>
 		</TabItem>
-    </TabControl>
+	</TabControl>
 </UserControl>

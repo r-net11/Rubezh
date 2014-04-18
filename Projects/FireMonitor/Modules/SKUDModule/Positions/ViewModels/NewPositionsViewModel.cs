@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI;
-using FiresecClient.SKDHelpers;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -28,7 +27,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			var positions = PositionHelper.Get(Filter);
 
 			AllPositions = new List<NewPositionViewModel>();
@@ -40,7 +39,7 @@ namespace SKDModule.ViewModels
 				AllPositions.Add(organisationViewModel);
 				foreach (var position in positions)
 				{
-					if (position.OrganizationUID == organisation.UID)
+					if (position.OrganisationUID == organisation.UID)
 					{
 						var positionViewModel = new NewPositionViewModel(position);
 						organisationViewModel.AddChild(positionViewModel);
@@ -120,24 +119,24 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			NewPositionViewModel OrganisationViewModel = SelectedPosition;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedPosition.Parent;
+			//NewPositionViewModel OrganisationViewModel = SelectedPosition;
+			//if (!OrganisationViewModel.IsOrganisation)
+			//    OrganisationViewModel = SelectedPosition.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
-				return;
+			//if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
+			//    return;
 
-			var positionDetailsViewModel = new PositionDetailsViewModel(this, OrganisationViewModel.Organization);
-			if (DialogService.ShowModalWindow(positionDetailsViewModel))
-			{
-				var position = positionDetailsViewModel.Position;
-				bool saveResult = PositionHelper.Save(position);
-				if (!saveResult)
-					return;
-				var positionViewModel = new NewPositionViewModel(position);
-				OrganisationViewModel.AddChild(positionViewModel);
-				SelectedPosition = positionViewModel;
-			}
+			//var positionDetailsViewModel = new PositionDetailsViewModel(this, OrganisationViewModel.Organization);
+			//if (DialogService.ShowModalWindow(positionDetailsViewModel))
+			//{
+			//    var position = positionDetailsViewModel.Position;
+			//    bool saveResult = PositionHelper.Save(position);
+			//    if (!saveResult)
+			//        return;
+			//    var positionViewModel = new NewPositionViewModel(positionDetailsViewModel.ShortPosition);
+			//    OrganisationViewModel.AddChild(positionViewModel);
+			//    SelectedPosition = positionViewModel;
+			//}
 		}
 		bool CanAdd()
 		{
@@ -156,7 +155,7 @@ namespace SKDModule.ViewModels
 
 			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedPosition);
 			var position = SelectedPosition.Position;
-			bool removeResult = PositionHelper.MarkDeleted(position);
+			bool removeResult = PositionHelper.MarkDeleted(position.UID);
 			if (!removeResult)
 				return;
 			OrganisationViewModel.RemoveChild(SelectedPosition);
@@ -172,16 +171,16 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var organisation = SelectedPosition.Parent.Organization;
-			var positionDetailsViewModel = new PositionDetailsViewModel(this, organisation, SelectedPosition.Position);
-			if (DialogService.ShowModalWindow(positionDetailsViewModel))
-			{
-				var position = positionDetailsViewModel.Position;
-				bool saveResult = PositionHelper.Save(position);
-				if (!saveResult)
-					return;
-				SelectedPosition.Update(positionDetailsViewModel.Position);
-			}
+			//var organisation = SelectedPosition.Parent.Organization;
+			//var positionDetailsViewModel = new PositionDetailsViewModel(this, organisation, SelectedPosition.Position.UID);
+			//if (DialogService.ShowModalWindow(positionDetailsViewModel))
+			//{
+			//    var position = positionDetailsViewModel.Position;
+			//    bool saveResult = PositionHelper.Save(position);
+			//    if (!saveResult)
+			//        return;
+			//    SelectedPosition.Update(positionDetailsViewModel.ShortPosition);
+			//}
 		}
 		bool CanEdit()
 		{

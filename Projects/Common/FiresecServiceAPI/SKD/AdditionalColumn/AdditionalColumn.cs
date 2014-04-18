@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class AdditionalColumn : SKDIsDeletedModel
+	public class AdditionalColumn : SKDModelBase
 	{
 		[DataMember]
 		public Guid? EmployeeUID { get; set; }

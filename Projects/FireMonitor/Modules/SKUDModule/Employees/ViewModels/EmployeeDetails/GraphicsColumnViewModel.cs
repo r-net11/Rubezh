@@ -6,7 +6,7 @@ namespace SKDModule.ViewModels
 	public class GraphicsColumnViewModel : BaseViewModel, IGraphicsColumnViewModel
 	{
 		public string Name { get; private set; }
-		public bool HasPhoto { get { return AdditionalColumn.Photo != null && AdditionalColumn.Photo.Data != null; } }
+		bool HasPhoto { get { return AdditionalColumn.Photo != null && AdditionalColumn.Photo.Data != null; } }
 		public AdditionalColumn AdditionalColumn { get; private set; }
 
 		public byte[] Data 
@@ -36,7 +36,7 @@ namespace SKDModule.ViewModels
 	public class PhotoColumnViewModel : BaseViewModel, IGraphicsColumnViewModel
 	{
 		public string Name { get; private set; }
-		public bool HasPhoto { get { return Photo != null && Photo.Data != null; } } 
+		bool HasPhoto { get { return Photo != null && Photo.Data != null; } } 
 		public Photo Photo { get; private set; }
 
 		public byte[] Data 
@@ -67,7 +67,6 @@ namespace SKDModule.ViewModels
 	public interface IGraphicsColumnViewModel
 	{
 		string Name { get; }
-		bool HasPhoto { get; }
 		byte[] Data { get; set; }
 	}
 }

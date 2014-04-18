@@ -23,5 +23,8 @@
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>
+		<TabItem Header="Иконка">
+			<Controls:PhotoSelectation Data="{Binding PhotoData}" />
+		</TabItem>
 	</TabControl>
 </UserControl>
