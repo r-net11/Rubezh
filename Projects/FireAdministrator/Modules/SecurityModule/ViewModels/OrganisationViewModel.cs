@@ -5,9 +5,9 @@ namespace SecurityModule.ViewModels
 {
 	public class OrganisationViewModel : BaseViewModel
 	{
-		public Organization Organisation { get; private set; }
+		public Organisation Organisation { get; private set; }
 
-		public OrganisationViewModel(Organization organisation)
+		public OrganisationViewModel(Organisation organisation)
 		{
 			Organisation = organisation;
 		}

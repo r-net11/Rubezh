@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Organization = FiresecAPI.Organization;
+using Organization = FiresecAPI.Organisation;
 using FiresecClient.SKDHelpers;
 using Common;
 
@@ -17,7 +16,7 @@ namespace SKDModule.ViewModels
 		public int Year { get; private set; }
 		public Organization Organization { get; private set; }
 
-		public OrganisationHolidaysYearViewModel(int year, Organization organization)
+		public OrganisationHolidaysYearViewModel(int year, FiresecAPI.Organisation organization)
 		{
 			Year = year;
 			Organization = organization;
@@ -27,7 +26,7 @@ namespace SKDModule.ViewModels
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 		}
 
-		public void Initialize(List<Holiday> holidays)
+		public void Initialize(List<FiresecAPI.EmployeeTimeIntervals.Holiday> holidays)
 		{
 			Holidays = new SortableObservableCollection<HolidayViewModel>();
 			foreach (var holiday in holidays)

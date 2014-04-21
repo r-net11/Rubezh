@@ -11,10 +11,10 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationZoneViewModel : TreeNodeViewModel<OrganisationZoneViewModel>
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 		public SKDZone Zone { get; private set; }
 
-		public OrganisationZoneViewModel(Organization organization, SKDZone zone)
+		public OrganisationZoneViewModel(Organisation organization, SKDZone zone)
 		{
 			Organization = organization;
 			Zone = zone;
@@ -43,7 +43,7 @@ namespace SKDModule.ViewModels
 
 				if (value && Parent != null)
 					Parent.IsChecked = true;
-				var saveResult = OrganizationHelper.SaveZones(Organization);
+				var saveResult = OrganisationHelper.SaveZones(Organization);
 			}
 		}
 	}
