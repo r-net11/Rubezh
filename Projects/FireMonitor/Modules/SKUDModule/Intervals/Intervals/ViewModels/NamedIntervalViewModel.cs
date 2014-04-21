@@ -1,15 +1,18 @@
 ﻿using System.Collections.ObjectModel;
+using Common;
 using FiresecAPI.EmployeeTimeIntervals;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace SKDModule.ViewModels
 {
 	public class NamedIntervalViewModel : BaseViewModel, IEditingViewModel
 	{
 		public NamedInterval NamedInterval { get; private set; }
-		public ObservableCollection<TimeIntervalViewModel> TimeIntervals { get; private set; }
+		public SortableObservableCollection<TimeIntervalViewModel> TimeIntervals { get; private set; }
 
 		public NamedIntervalViewModel(NamedInterval namedInterval)
 		{
@@ -17,7 +20,7 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			TimeIntervals = new ObservableCollection<TimeIntervalViewModel>();
+			TimeIntervals = new SortableObservableCollection<TimeIntervalViewModel>();
 			foreach (var timeInterval in namedInterval.TimeIntervals)
 			{
 				var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
@@ -45,26 +48,29 @@ namespace SKDModule.ViewModels
 		private void OnAdd()
 		{
 			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(NamedInterval);
-			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel))
+			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel) && TimeIntervalHelper.Save(timeIntervalDetailsViewModel.TimeInterval))
 			{
-				// save
 				var timeInterval = timeIntervalDetailsViewModel.TimeInterval;
 				NamedInterval.TimeIntervals.Add(timeInterval);
 				var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
 				TimeIntervals.Add(timeIntervalViewModel);
+				Sort();
+				SelectedTimeInterval = timeIntervalViewModel;
 			}
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		private void OnDelete()
 		{
-			// save
-			NamedInterval.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
-			TimeIntervals.Remove(SelectedTimeInterval);
+			if (TimeIntervalHelper.MarkDeleted(SelectedTimeInterval.TimeInterval))
+			{
+				NamedInterval.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
+				TimeIntervals.Remove(SelectedTimeInterval);
+			}
 		}
 		private bool CanDelete()
 		{
-			return SelectedTimeInterval != null && !NamedInterval.IsDefault && TimeIntervals.Count > 1;
+			return SelectedTimeInterval != null && TimeIntervals.Count > 1;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -73,19 +79,22 @@ namespace SKDModule.ViewModels
 			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(NamedInterval, SelectedTimeInterval.TimeInterval);
 			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel))
 			{
-				// save
+				TimeIntervalHelper.Save(SelectedTimeInterval.TimeInterval);
 				SelectedTimeInterval.Update();
+				var selectedTimeInterval = SelectedTimeInterval;
+				Sort();
+				SelectedTimeInterval = selectedTimeInterval;
 			}
 		}
 		private bool CanEdit()
 		{
-			return SelectedTimeInterval != null && !NamedInterval.IsDefault;
+			return SelectedTimeInterval != null;
 		}
 
-		public bool IsEnabled
+		private void Sort()
 		{
-			get { return !NamedInterval.IsDefault; }
+			var day = TimeSpan.FromDays(1);
+			TimeIntervals.Sort(item => item.IntervalTransitionType == IntervalTransitionType.NextDay ? item.BeginTime.Add(day) : item.BeginTime);
 		}
-
 	}
 }

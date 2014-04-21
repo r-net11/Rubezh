@@ -10,132 +10,126 @@ namespace SKDModule.ViewModels
 {
 	public class HolidayDetailsViewModel : SaveCancelDialogViewModel
 	{
-		OrganisationHolidaysYearViewModel OrganisationHolidaysYearViewModel;
-		bool IsNew;
+		private OrganisationHolidaysYearViewModel _organisationHolidaysYearViewModel;
 		public Holiday Holiday { get; private set; }
 
 		public HolidayDetailsViewModel(OrganisationHolidaysYearViewModel organisationHolidaysYearViewModel, Holiday holiday = null)
 		{
-			OrganisationHolidaysYearViewModel = organisationHolidaysYearViewModel;
+			_organisationHolidaysYearViewModel = organisationHolidaysYearViewModel;
 			if (holiday == null)
 			{
 				Title = "Новый приаздничный день";
-				IsNew = true;
 				holiday = new Holiday()
 				{
 					Name = "Название праздника",
+					OrganizationUID = _organisationHolidaysYearViewModel.Organization.UID,
+					Date = new DateTime(_organisationHolidaysYearViewModel.Year, DateTime.Today.Month, DateTime.Today.Day),
 				};
 			}
 			else
 			{
 				Title = "Редактирование праздничного дня";
-				IsNew = false;
 			}
-
 			Holiday = holiday;
 			Name = holiday.Name;
-			DateTime = holiday.Date;
-			ShortageTime = holiday.Reduction;
-			TransitionDateTime = holiday.TransferDate;
+			Date = holiday.Date;
+			Reduction = holiday.Reduction;
+			TransferDate = holiday.TransferDate;
 
 			AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
 			HolidayType = holiday.Type;
 		}
 
-		DateTime _dateTime;
-		public DateTime DateTime
+		private DateTime _date;
+		public DateTime Date
 		{
-			get { return _dateTime; }
+			get { return _date; }
 			set
 			{
-				_dateTime = value;
-				OnPropertyChanged("DateTime");
+				_date = value;
+				OnPropertyChanged(() => Date);
 			}
 		}
 
-		string _name;
+		private string _name;
 		public string Name
 		{
 			get { return _name; }
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
 		public ObservableCollection<HolidayType> AvailableHolidayTypes { get; private set; }
 
-		HolidayType _holidayType;
+		private HolidayType _holidayType;
 		public HolidayType HolidayType
 		{
 			get { return _holidayType; }
 			set
 			{
 				_holidayType = value;
-				OnPropertyChanged("HolidayType");
-				OnPropertyChanged("IsShortageTimeEnabled");
-				OnPropertyChanged("IsTransitionDateTimeEnabled");
+				OnPropertyChanged(() => HolidayType);
+				OnPropertyChanged(() => IsReductionEnabled);
+				OnPropertyChanged(() => IsTransferDateEnabled);
 			}
 		}
 
-		TimeSpan _shortageTime;
-		public TimeSpan ShortageTime
+		private TimeSpan _reduction;
+		public TimeSpan Reduction
 		{
-			get { return _shortageTime; }
+			get { return _reduction; }
 			set
 			{
-				_shortageTime = value;
-				OnPropertyChanged("ShortageTime");
+				_reduction = value;
+				OnPropertyChanged(() => Reduction);
 			}
 		}
 
-		DateTime _transitionDateTime;
-		public DateTime TransitionDateTime
+		private DateTime _transferDate;
+		public DateTime TransferDate
 		{
-			get { return _transitionDateTime; }
+			get { return _transferDate; }
 			set
 			{
-				_transitionDateTime = value;
-				OnPropertyChanged("TransitionDateTime");
+				_transferDate = value;
+				OnPropertyChanged(() => TransferDate);
 			}
 		}
 
-		public bool IsShortageTimeEnabled
+		public bool IsReductionEnabled
 		{
 			get { return HolidayType != HolidayType.Holiday; }
 		}
-
-		public bool IsTransitionDateTimeEnabled
+		public bool IsTransferDateEnabled
 		{
 			get { return HolidayType == HolidayType.WorkingHoliday; }
 		}
 
 		protected override bool Save()
 		{
-			if (OrganisationHolidaysYearViewModel.Holidays.Any(x => x.Holiday.Date.Month == DateTime.Month && x.Holiday.Date.Date == DateTime.Date && x.Holiday.UID != Holiday.UID))
+			if (_organisationHolidaysYearViewModel.Holidays.Any(x => x.Holiday.Date.Month == Date.Month && x.Holiday.Date.Date == Date.Date && x.Holiday.UID != Holiday.UID))
 			{
 				MessageBoxService.ShowWarning("Дата праздника совпадает с введенным ранее");
 				return false;
 			}
-
-			if (ShortageTime.TotalHours > 2)
+			if (Reduction.TotalHours > 2)
 			{
 				MessageBoxService.ShowWarning("Величина сокращения не может быть больше двух часов");
 				return false;
 			}
-
-			if (HolidayType == HolidayType.WorkingHoliday && DateTime.DayOfWeek != DayOfWeek.Saturday && DateTime.DayOfWeek != DayOfWeek.Sunday)
+			if (HolidayType == HolidayType.WorkingHoliday && Date.DayOfWeek != DayOfWeek.Saturday && Date.DayOfWeek != DayOfWeek.Sunday)
 			{
 				MessageBoxService.ShowWarning("Дата переноса устанавливается только на субботу или воскресенье");
 				return false;
 			}
-
 			Holiday.Name = Name;
-			Holiday.Date = DateTime;
+			Holiday.Date = Date;
 			Holiday.Type = HolidayType;
-			Holiday.Reduction = ShortageTime;
-			Holiday.TransferDate = TransitionDateTime;
+			Holiday.Reduction = Reduction;
+			Holiday.TransferDate = TransferDate;
 			return true;
 		}
 	}

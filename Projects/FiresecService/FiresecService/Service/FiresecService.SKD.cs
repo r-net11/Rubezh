@@ -6,6 +6,10 @@ using FiresecAPI;
 using SKDDriver;
 using NamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
 using NamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
+using TimeInterval = FiresecAPI.EmployeeTimeIntervals.TimeInterval;
+using TimeIntervalFilter = FiresecAPI.EmployeeTimeIntervals.TimeIntervalFilter;
+using Holiday = FiresecAPI.EmployeeTimeIntervals.Holiday;
+using HolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 
 namespace FiresecService.Service
 {
@@ -71,6 +75,14 @@ namespace FiresecService.Service
 		public OperationResult<IEnumerable<NamedInterval>> GetNamedIntervals(NamedIntervalFilter filter)
 		{
 			return SKDDatabaseService.NamedIntervalTranslator.Get(filter);
+		}
+		public OperationResult<IEnumerable<TimeInterval>> GetTimeIntervals(TimeIntervalFilter filter)
+		{
+			return SKDDatabaseService.TimeIntervalTranslator.Get(filter);
+		}
+		public OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
+		{
+			return SKDDatabaseService.HolidayTranslator.Get(filter);
 		}
 		#endregion
 
@@ -139,6 +151,14 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.NamedIntervalTranslator.Save(items);
 		}
+		public OperationResult SaveTimeIntervals(IEnumerable<TimeInterval> items)
+		{
+			return SKDDatabaseService.TimeIntervalTranslator.Save(items);
+		}
+		public OperationResult SaveHolidays(IEnumerable<Holiday> items)
+		{
+			return SKDDatabaseService.HolidayTranslator.Save(items);
+		}
 		#endregion
 
 		#region MarkDeleted
@@ -193,6 +213,14 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedNamedIntervals(IEnumerable<NamedInterval> items)
 		{
 			return SKDDatabaseService.NamedIntervalTranslator.MarkDeleted(items);
+		}
+		public OperationResult MarkDeletedTimeIntervals(IEnumerable<TimeInterval> items)
+		{
+			return SKDDatabaseService.TimeIntervalTranslator.MarkDeleted(items);
+		}
+		public OperationResult MarkDeletedHolidays(IEnumerable<Holiday> items)
+		{
+			return SKDDatabaseService.HolidayTranslator.MarkDeleted(items);
 		}
 		#endregion
 

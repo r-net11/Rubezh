@@ -63,18 +63,9 @@ namespace SKDDriver.DataAccess
     partial void InsertEmployeeReplacement(EmployeeReplacement instance);
     partial void UpdateEmployeeReplacement(EmployeeReplacement instance);
     partial void DeleteEmployeeReplacement(EmployeeReplacement instance);
-    partial void InsertHoliday(Holiday instance);
-    partial void UpdateHoliday(Holiday instance);
-    partial void DeleteHoliday(Holiday instance);
-    partial void InsertInterval(Interval instance);
-    partial void UpdateInterval(Interval instance);
-    partial void DeleteInterval(Interval instance);
     partial void InsertJournal(Journal instance);
     partial void UpdateJournal(Journal instance);
     partial void DeleteJournal(Journal instance);
-    partial void InsertNamedInterval(NamedInterval instance);
-    partial void UpdateNamedInterval(NamedInterval instance);
-    partial void DeleteNamedInterval(NamedInterval instance);
     partial void InsertOrganization(Organization instance);
     partial void UpdateOrganization(Organization instance);
     partial void DeleteOrganization(Organization instance);
@@ -99,6 +90,15 @@ namespace SKDDriver.DataAccess
     partial void InsertScheduleScheme(ScheduleScheme instance);
     partial void UpdateScheduleScheme(ScheduleScheme instance);
     partial void DeleteScheduleScheme(ScheduleScheme instance);
+    partial void InsertNamedInterval(NamedInterval instance);
+    partial void UpdateNamedInterval(NamedInterval instance);
+    partial void DeleteNamedInterval(NamedInterval instance);
+    partial void InsertInterval(Interval instance);
+    partial void UpdateInterval(Interval instance);
+    partial void DeleteInterval(Interval instance);
+    partial void InsertHoliday(Holiday instance);
+    partial void UpdateHoliday(Holiday instance);
+    partial void DeleteHoliday(Holiday instance);
     #endregion
 		
 		public SKDDataContext() : 
@@ -219,35 +219,11 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<Holiday> Holidays
-		{
-			get
-			{
-				return this.GetTable<Holiday>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Interval> Intervals
-		{
-			get
-			{
-				return this.GetTable<Interval>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Journal> Journals
 		{
 			get
 			{
 				return this.GetTable<Journal>();
-			}
-		}
-		
-		public System.Data.Linq.Table<NamedInterval> NamedIntervals
-		{
-			get
-			{
-				return this.GetTable<NamedInterval>();
 			}
 		}
 		
@@ -312,6 +288,30 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<ScheduleScheme>();
+			}
+		}
+		
+		public System.Data.Linq.Table<NamedInterval> NamedIntervals
+		{
+			get
+			{
+				return this.GetTable<NamedInterval>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Interval> Intervals
+		{
+			get
+			{
+				return this.GetTable<Interval>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Holiday> Holidays
+		{
+			get
+			{
+				return this.GetTable<Holiday>();
 			}
 		}
 	}
@@ -2308,9 +2308,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private EntityRef<NamedInterval> _NamedInterval;
-		
 		private EntityRef<ScheduleScheme> _ScheduleScheme;
+		
+		private EntityRef<NamedInterval> _NamedInterval;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2332,8 +2332,8 @@ namespace SKDDriver.DataAccess
 		
 		public Day()
 		{
-			this._NamedInterval = default(EntityRef<NamedInterval>);
 			this._ScheduleScheme = default(EntityRef<ScheduleScheme>);
+			this._NamedInterval = default(EntityRef<NamedInterval>);
 			OnCreated();
 		}
 		
@@ -2465,40 +2465,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Day", Storage="_NamedInterval", ThisKey="NamedIntervalUID", OtherKey="UID", IsForeignKey=true)]
-		public NamedInterval NamedInterval
-		{
-			get
-			{
-				return this._NamedInterval.Entity;
-			}
-			set
-			{
-				NamedInterval previousValue = this._NamedInterval.Entity;
-				if (((previousValue != value) 
-							|| (this._NamedInterval.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._NamedInterval.Entity = null;
-						previousValue.Days.Remove(this);
-					}
-					this._NamedInterval.Entity = value;
-					if ((value != null))
-					{
-						value.Days.Add(this);
-						this._NamedIntervalUID = value.UID;
-					}
-					else
-					{
-						this._NamedIntervalUID = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("NamedInterval");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Day", Storage="_ScheduleScheme", ThisKey="ScheduleSchemeUID", OtherKey="UID", IsForeignKey=true)]
 		public ScheduleScheme ScheduleScheme
 		{
@@ -2529,6 +2495,40 @@ namespace SKDDriver.DataAccess
 						this._ScheduleSchemeUID = default(System.Guid);
 					}
 					this.SendPropertyChanged("ScheduleScheme");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Day", Storage="_NamedInterval", ThisKey="NamedIntervalUID", OtherKey="UID", IsForeignKey=true)]
+		public NamedInterval NamedInterval
+		{
+			get
+			{
+				return this._NamedInterval.Entity;
+			}
+			set
+			{
+				NamedInterval previousValue = this._NamedInterval.Entity;
+				if (((previousValue != value) 
+							|| (this._NamedInterval.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._NamedInterval.Entity = null;
+						previousValue.Days.Remove(this);
+					}
+					this._NamedInterval.Entity = value;
+					if ((value != null))
+					{
+						value.Days.Add(this);
+						this._NamedIntervalUID = value.UID;
+					}
+					else
+					{
+						this._NamedIntervalUID = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("NamedInterval");
 				}
 			}
 		}
@@ -4609,548 +4609,6 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Holiday")]
-	public partial class Holiday : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private string _Name;
-		
-		private System.Nullable<int> _Type;
-		
-		private System.DateTime _Date;
-		
-		private System.DateTime _TransferDate;
-		
-		private System.DateTime _Reduction;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private System.Nullable<System.Guid> _OrganizationUID;
-		
-		private EntityRef<Organization> _Organization;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnTypeChanging(System.Nullable<int> value);
-    partial void OnTypeChanged();
-    partial void OnDateChanging(System.DateTime value);
-    partial void OnDateChanged();
-    partial void OnTransferDateChanging(System.DateTime value);
-    partial void OnTransferDateChanged();
-    partial void OnReductionChanging(System.DateTime value);
-    partial void OnReductionChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
-    #endregion
-		
-		public Holiday()
-		{
-			this._Organization = default(EntityRef<Organization>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int")]
-		public System.Nullable<int> Type
-		{
-			get
-			{
-				return this._Type;
-			}
-			set
-			{
-				if ((this._Type != value))
-				{
-					this.OnTypeChanging(value);
-					this.SendPropertyChanging();
-					this._Type = value;
-					this.SendPropertyChanged("Type");
-					this.OnTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
-		public System.DateTime Date
-		{
-			get
-			{
-				return this._Date;
-			}
-			set
-			{
-				if ((this._Date != value))
-				{
-					this.OnDateChanging(value);
-					this.SendPropertyChanging();
-					this._Date = value;
-					this.SendPropertyChanged("Date");
-					this.OnDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransferDate", DbType="DateTime NOT NULL")]
-		public System.DateTime TransferDate
-		{
-			get
-			{
-				return this._TransferDate;
-			}
-			set
-			{
-				if ((this._TransferDate != value))
-				{
-					this.OnTransferDateChanging(value);
-					this.SendPropertyChanging();
-					this._TransferDate = value;
-					this.SendPropertyChanged("TransferDate");
-					this.OnTransferDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Reduction", DbType="DateTime NOT NULL")]
-		public System.DateTime Reduction
-		{
-			get
-			{
-				return this._Reduction;
-			}
-			set
-			{
-				if ((this._Reduction != value))
-				{
-					this.OnReductionChanging(value);
-					this.SendPropertyChanging();
-					this._Reduction = value;
-					this.SendPropertyChanged("Reduction");
-					this.OnReductionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
-		{
-			get
-			{
-				return this._OrganizationUID;
-			}
-			set
-			{
-				if ((this._OrganizationUID != value))
-				{
-					if (this._Organization.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnOrganizationUIDChanging(value);
-					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Holiday", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
-		public Organization Organization
-		{
-			get
-			{
-				return this._Organization.Entity;
-			}
-			set
-			{
-				Organization previousValue = this._Organization.Entity;
-				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Organization.Entity = null;
-						previousValue.Holidays.Remove(this);
-					}
-					this._Organization.Entity = value;
-					if ((value != null))
-					{
-						value.Holidays.Add(this);
-						this._OrganizationUID = value.UID;
-					}
-					else
-					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Organization");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Interval")]
-	public partial class Interval : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.DateTime _BeginDate;
-		
-		private System.DateTime _EndDate;
-		
-		private System.Nullable<int> _TransitionType;
-		
-		private System.Guid _UID;
-		
-		private System.Nullable<System.Guid> _NamedIntervalUID;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private EntityRef<NamedInterval> _NamedInterval;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnBeginDateChanging(System.DateTime value);
-    partial void OnBeginDateChanged();
-    partial void OnEndDateChanging(System.DateTime value);
-    partial void OnEndDateChanged();
-    partial void OnTransitionTypeChanging(System.Nullable<int> value);
-    partial void OnTransitionTypeChanged();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnNamedIntervalUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnNamedIntervalUIDChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    #endregion
-		
-		public Interval()
-		{
-			this._NamedInterval = default(EntityRef<NamedInterval>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginDate", DbType="DateTime NOT NULL")]
-		public System.DateTime BeginDate
-		{
-			get
-			{
-				return this._BeginDate;
-			}
-			set
-			{
-				if ((this._BeginDate != value))
-				{
-					this.OnBeginDateChanging(value);
-					this.SendPropertyChanging();
-					this._BeginDate = value;
-					this.SendPropertyChanged("BeginDate");
-					this.OnBeginDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="DateTime NOT NULL")]
-		public System.DateTime EndDate
-		{
-			get
-			{
-				return this._EndDate;
-			}
-			set
-			{
-				if ((this._EndDate != value))
-				{
-					this.OnEndDateChanging(value);
-					this.SendPropertyChanging();
-					this._EndDate = value;
-					this.SendPropertyChanged("EndDate");
-					this.OnEndDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransitionType", DbType="Int")]
-		public System.Nullable<int> TransitionType
-		{
-			get
-			{
-				return this._TransitionType;
-			}
-			set
-			{
-				if ((this._TransitionType != value))
-				{
-					this.OnTransitionTypeChanging(value);
-					this.SendPropertyChanging();
-					this._TransitionType = value;
-					this.SendPropertyChanged("TransitionType");
-					this.OnTransitionTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NamedIntervalUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> NamedIntervalUID
-		{
-			get
-			{
-				return this._NamedIntervalUID;
-			}
-			set
-			{
-				if ((this._NamedIntervalUID != value))
-				{
-					if (this._NamedInterval.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnNamedIntervalUIDChanging(value);
-					this.SendPropertyChanging();
-					this._NamedIntervalUID = value;
-					this.SendPropertyChanged("NamedIntervalUID");
-					this.OnNamedIntervalUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Interval", Storage="_NamedInterval", ThisKey="NamedIntervalUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
-		public NamedInterval NamedInterval
-		{
-			get
-			{
-				return this._NamedInterval.Entity;
-			}
-			set
-			{
-				NamedInterval previousValue = this._NamedInterval.Entity;
-				if (((previousValue != value) 
-							|| (this._NamedInterval.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._NamedInterval.Entity = null;
-						previousValue.Intervals.Remove(this);
-					}
-					this._NamedInterval.Entity = value;
-					if ((value != null))
-					{
-						value.Intervals.Add(this);
-						this._NamedIntervalUID = value.UID;
-					}
-					else
-					{
-						this._NamedIntervalUID = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("NamedInterval");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Journal")]
 	public partial class Journal : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -5470,309 +4928,6 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.NamedInterval")]
-	public partial class NamedInterval : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private string _Name;
-		
-		private string _Description;
-		
-		private System.DateTime _SlideTime;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private System.Nullable<System.Guid> _OrganizationUID;
-		
-		private EntitySet<Day> _Days;
-		
-		private EntitySet<Interval> _Intervals;
-		
-		private EntityRef<Organization> _Organization;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnSlideTimeChanging(System.DateTime value);
-    partial void OnSlideTimeChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
-    #endregion
-		
-		public NamedInterval()
-		{
-			this._Days = new EntitySet<Day>(new Action<Day>(this.attach_Days), new Action<Day>(this.detach_Days));
-			this._Intervals = new EntitySet<Interval>(new Action<Interval>(this.attach_Intervals), new Action<Interval>(this.detach_Intervals));
-			this._Organization = default(EntityRef<Organization>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SlideTime", DbType="DateTime NOT NULL")]
-		public System.DateTime SlideTime
-		{
-			get
-			{
-				return this._SlideTime;
-			}
-			set
-			{
-				if ((this._SlideTime != value))
-				{
-					this.OnSlideTimeChanging(value);
-					this.SendPropertyChanging();
-					this._SlideTime = value;
-					this.SendPropertyChanged("SlideTime");
-					this.OnSlideTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
-		{
-			get
-			{
-				return this._OrganizationUID;
-			}
-			set
-			{
-				if ((this._OrganizationUID != value))
-				{
-					if (this._Organization.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnOrganizationUIDChanging(value);
-					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Day", Storage="_Days", ThisKey="UID", OtherKey="NamedIntervalUID")]
-		public EntitySet<Day> Days
-		{
-			get
-			{
-				return this._Days;
-			}
-			set
-			{
-				this._Days.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Interval", Storage="_Intervals", ThisKey="UID", OtherKey="NamedIntervalUID")]
-		public EntitySet<Interval> Intervals
-		{
-			get
-			{
-				return this._Intervals;
-			}
-			set
-			{
-				this._Intervals.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_NamedInterval", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
-		{
-			get
-			{
-				return this._Organization.Entity;
-			}
-			set
-			{
-				Organization previousValue = this._Organization.Entity;
-				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Organization.Entity = null;
-						previousValue.NamedIntervals.Remove(this);
-					}
-					this._Organization.Entity = value;
-					if ((value != null))
-					{
-						value.NamedIntervals.Add(this);
-						this._OrganizationUID = value.UID;
-					}
-					else
-					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Organization");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Days(Day entity)
-		{
-			this.SendPropertyChanging();
-			entity.NamedInterval = this;
-		}
-		
-		private void detach_Days(Day entity)
-		{
-			this.SendPropertyChanging();
-			entity.NamedInterval = null;
-		}
-		
-		private void attach_Intervals(Interval entity)
-		{
-			this.SendPropertyChanging();
-			entity.NamedInterval = this;
-		}
-		
-		private void detach_Intervals(Interval entity)
-		{
-			this.SendPropertyChanging();
-			entity.NamedInterval = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Organization")]
 	public partial class Organization : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -5803,10 +4958,6 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<EmployeeReplacement> _EmployeeReplacements;
 		
-		private EntitySet<Holiday> _Holidays;
-		
-		private EntitySet<NamedInterval> _NamedIntervals;
-		
 		private EntitySet<OrganizationZone> _OrganizationZones;
 		
 		private EntitySet<Phone> _Phones;
@@ -5816,6 +4967,10 @@ namespace SKDDriver.DataAccess
 		private EntitySet<Schedule> _Schedules;
 		
 		private EntitySet<ScheduleScheme> _ScheduleSchemes;
+		
+		private EntitySet<NamedInterval> _NamedIntervals;
+		
+		private EntitySet<Holiday> _Holidays;
 		
 		private EntityRef<Photo> _Photo;
 		
@@ -5845,13 +5000,13 @@ namespace SKDDriver.DataAccess
 			this._Documents = new EntitySet<Document>(new Action<Document>(this.attach_Documents), new Action<Document>(this.detach_Documents));
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
 			this._EmployeeReplacements = new EntitySet<EmployeeReplacement>(new Action<EmployeeReplacement>(this.attach_EmployeeReplacements), new Action<EmployeeReplacement>(this.detach_EmployeeReplacements));
-			this._Holidays = new EntitySet<Holiday>(new Action<Holiday>(this.attach_Holidays), new Action<Holiday>(this.detach_Holidays));
-			this._NamedIntervals = new EntitySet<NamedInterval>(new Action<NamedInterval>(this.attach_NamedIntervals), new Action<NamedInterval>(this.detach_NamedIntervals));
 			this._OrganizationZones = new EntitySet<OrganizationZone>(new Action<OrganizationZone>(this.attach_OrganizationZones), new Action<OrganizationZone>(this.detach_OrganizationZones));
 			this._Phones = new EntitySet<Phone>(new Action<Phone>(this.attach_Phones), new Action<Phone>(this.detach_Phones));
 			this._Positions = new EntitySet<Position>(new Action<Position>(this.attach_Positions), new Action<Position>(this.detach_Positions));
 			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
 			this._ScheduleSchemes = new EntitySet<ScheduleScheme>(new Action<ScheduleScheme>(this.attach_ScheduleSchemes), new Action<ScheduleScheme>(this.detach_ScheduleSchemes));
+			this._NamedIntervals = new EntitySet<NamedInterval>(new Action<NamedInterval>(this.attach_NamedIntervals), new Action<NamedInterval>(this.detach_NamedIntervals));
+			this._Holidays = new EntitySet<Holiday>(new Action<Holiday>(this.attach_Holidays), new Action<Holiday>(this.detach_Holidays));
 			this._Photo = default(EntityRef<Photo>);
 			OnCreated();
 		}
@@ -6058,32 +5213,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Holiday", Storage="_Holidays", ThisKey="UID", OtherKey="OrganizationUID")]
-		public EntitySet<Holiday> Holidays
-		{
-			get
-			{
-				return this._Holidays;
-			}
-			set
-			{
-				this._Holidays.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_NamedInterval", Storage="_NamedIntervals", ThisKey="UID", OtherKey="OrganizationUID")]
-		public EntitySet<NamedInterval> NamedIntervals
-		{
-			get
-			{
-				return this._NamedIntervals;
-			}
-			set
-			{
-				this._NamedIntervals.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_OrganizationZone", Storage="_OrganizationZones", ThisKey="UID", OtherKey="OrganizationUID")]
 		public EntitySet<OrganizationZone> OrganizationZones
 		{
@@ -6146,6 +5275,32 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._ScheduleSchemes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_NamedInterval", Storage="_NamedIntervals", ThisKey="UID", OtherKey="OrganizationUID")]
+		public EntitySet<NamedInterval> NamedIntervals
+		{
+			get
+			{
+				return this._NamedIntervals;
+			}
+			set
+			{
+				this._NamedIntervals.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Holiday", Storage="_Holidays", ThisKey="UID", OtherKey="OrganizationUID")]
+		public EntitySet<Holiday> Holidays
+		{
+			get
+			{
+				return this._Holidays;
+			}
+			set
+			{
+				this._Holidays.Assign(value);
 			}
 		}
 		
@@ -6275,30 +5430,6 @@ namespace SKDDriver.DataAccess
 			entity.Organization = null;
 		}
 		
-		private void attach_Holidays(Holiday entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organization = this;
-		}
-		
-		private void detach_Holidays(Holiday entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organization = null;
-		}
-		
-		private void attach_NamedIntervals(NamedInterval entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organization = this;
-		}
-		
-		private void detach_NamedIntervals(NamedInterval entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organization = null;
-		}
-		
 		private void attach_OrganizationZones(OrganizationZone entity)
 		{
 			this.SendPropertyChanging();
@@ -6354,6 +5485,30 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_ScheduleSchemes(ScheduleScheme entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organization = null;
+		}
+		
+		private void attach_NamedIntervals(NamedInterval entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organization = this;
+		}
+		
+		private void detach_NamedIntervals(NamedInterval entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organization = null;
+		}
+		
+		private void attach_Holidays(Holiday entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organization = this;
+		}
+		
+		private void detach_Holidays(Holiday entity)
 		{
 			this.SendPropertyChanging();
 			entity.Organization = null;
@@ -8191,6 +7346,827 @@ namespace SKDDriver.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.ScheduleScheme = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.NamedInterval")]
+	public partial class NamedInterval : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private int _SlideTime;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private System.Nullable<System.Guid> _OrganizationUID;
+		
+		private EntitySet<Day> _Days;
+		
+		private EntitySet<Interval> _Intervals;
+		
+		private EntityRef<Organization> _Organization;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnSlideTimeChanging(int value);
+    partial void OnSlideTimeChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
+    #endregion
+		
+		public NamedInterval()
+		{
+			this._Days = new EntitySet<Day>(new Action<Day>(this.attach_Days), new Action<Day>(this.detach_Days));
+			this._Intervals = new EntitySet<Interval>(new Action<Interval>(this.attach_Intervals), new Action<Interval>(this.detach_Intervals));
+			this._Organization = default(EntityRef<Organization>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SlideTime", DbType="Int NOT NULL")]
+		public int SlideTime
+		{
+			get
+			{
+				return this._SlideTime;
+			}
+			set
+			{
+				if ((this._SlideTime != value))
+				{
+					this.OnSlideTimeChanging(value);
+					this.SendPropertyChanging();
+					this._SlideTime = value;
+					this.SendPropertyChanged("SlideTime");
+					this.OnSlideTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
+		{
+			get
+			{
+				return this._OrganizationUID;
+			}
+			set
+			{
+				if ((this._OrganizationUID != value))
+				{
+					if (this._Organization.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrganizationUIDChanging(value);
+					this.SendPropertyChanging();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Day", Storage="_Days", ThisKey="UID", OtherKey="NamedIntervalUID")]
+		public EntitySet<Day> Days
+		{
+			get
+			{
+				return this._Days;
+			}
+			set
+			{
+				this._Days.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Interval", Storage="_Intervals", ThisKey="UID", OtherKey="NamedIntervalUID")]
+		public EntitySet<Interval> Intervals
+		{
+			get
+			{
+				return this._Intervals;
+			}
+			set
+			{
+				this._Intervals.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_NamedInterval", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organization Organization
+		{
+			get
+			{
+				return this._Organization.Entity;
+			}
+			set
+			{
+				Organization previousValue = this._Organization.Entity;
+				if (((previousValue != value) 
+							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Organization.Entity = null;
+						previousValue.NamedIntervals.Remove(this);
+					}
+					this._Organization.Entity = value;
+					if ((value != null))
+					{
+						value.NamedIntervals.Add(this);
+						this._OrganizationUID = value.UID;
+					}
+					else
+					{
+						this._OrganizationUID = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Organization");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Days(Day entity)
+		{
+			this.SendPropertyChanging();
+			entity.NamedInterval = this;
+		}
+		
+		private void detach_Days(Day entity)
+		{
+			this.SendPropertyChanging();
+			entity.NamedInterval = null;
+		}
+		
+		private void attach_Intervals(Interval entity)
+		{
+			this.SendPropertyChanging();
+			entity.NamedInterval = this;
+		}
+		
+		private void detach_Intervals(Interval entity)
+		{
+			this.SendPropertyChanging();
+			entity.NamedInterval = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Interval")]
+	public partial class Interval : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _BeginTime;
+		
+		private int _EndTime;
+		
+		private System.Guid _UID;
+		
+		private System.Guid _NamedIntervalUID;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private EntityRef<NamedInterval> _NamedInterval;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnBeginTimeChanging(int value);
+    partial void OnBeginTimeChanged();
+    partial void OnEndTimeChanging(int value);
+    partial void OnEndTimeChanged();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNamedIntervalUIDChanging(System.Guid value);
+    partial void OnNamedIntervalUIDChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
+		
+		public Interval()
+		{
+			this._NamedInterval = default(EntityRef<NamedInterval>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginTime", DbType="Int NOT NULL")]
+		public int BeginTime
+		{
+			get
+			{
+				return this._BeginTime;
+			}
+			set
+			{
+				if ((this._BeginTime != value))
+				{
+					this.OnBeginTimeChanging(value);
+					this.SendPropertyChanging();
+					this._BeginTime = value;
+					this.SendPropertyChanged("BeginTime");
+					this.OnBeginTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="Int NOT NULL")]
+		public int EndTime
+		{
+			get
+			{
+				return this._EndTime;
+			}
+			set
+			{
+				if ((this._EndTime != value))
+				{
+					this.OnEndTimeChanging(value);
+					this.SendPropertyChanging();
+					this._EndTime = value;
+					this.SendPropertyChanged("EndTime");
+					this.OnEndTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NamedIntervalUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid NamedIntervalUID
+		{
+			get
+			{
+				return this._NamedIntervalUID;
+			}
+			set
+			{
+				if ((this._NamedIntervalUID != value))
+				{
+					if (this._NamedInterval.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnNamedIntervalUIDChanging(value);
+					this.SendPropertyChanging();
+					this._NamedIntervalUID = value;
+					this.SendPropertyChanged("NamedIntervalUID");
+					this.OnNamedIntervalUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Interval", Storage="_NamedInterval", ThisKey="NamedIntervalUID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public NamedInterval NamedInterval
+		{
+			get
+			{
+				return this._NamedInterval.Entity;
+			}
+			set
+			{
+				NamedInterval previousValue = this._NamedInterval.Entity;
+				if (((previousValue != value) 
+							|| (this._NamedInterval.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._NamedInterval.Entity = null;
+						previousValue.Intervals.Remove(this);
+					}
+					this._NamedInterval.Entity = value;
+					if ((value != null))
+					{
+						value.Intervals.Add(this);
+						this._NamedIntervalUID = value.UID;
+					}
+					else
+					{
+						this._NamedIntervalUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("NamedInterval");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Holiday")]
+	public partial class Holiday : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private string _Name;
+		
+		private System.Nullable<int> _Type;
+		
+		private System.DateTime _Date;
+		
+		private System.DateTime _TransferDate;
+		
+		private int _Reduction;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private System.Nullable<System.Guid> _OrganizationUID;
+		
+		private EntityRef<Organization> _Organization;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnTypeChanging(System.Nullable<int> value);
+    partial void OnTypeChanged();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
+    partial void OnTransferDateChanging(System.DateTime value);
+    partial void OnTransferDateChanged();
+    partial void OnReductionChanging(int value);
+    partial void OnReductionChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganizationUIDChanged();
+    #endregion
+		
+		public Holiday()
+		{
+			this._Organization = default(EntityRef<Organization>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int")]
+		public System.Nullable<int> Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime NOT NULL")]
+		public System.DateTime Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransferDate", DbType="DateTime NOT NULL")]
+		public System.DateTime TransferDate
+		{
+			get
+			{
+				return this._TransferDate;
+			}
+			set
+			{
+				if ((this._TransferDate != value))
+				{
+					this.OnTransferDateChanging(value);
+					this.SendPropertyChanging();
+					this._TransferDate = value;
+					this.SendPropertyChanged("TransferDate");
+					this.OnTransferDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Reduction", DbType="Int NOT NULL")]
+		public int Reduction
+		{
+			get
+			{
+				return this._Reduction;
+			}
+			set
+			{
+				if ((this._Reduction != value))
+				{
+					this.OnReductionChanging(value);
+					this.SendPropertyChanging();
+					this._Reduction = value;
+					this.SendPropertyChanged("Reduction");
+					this.OnReductionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganizationUID
+		{
+			get
+			{
+				return this._OrganizationUID;
+			}
+			set
+			{
+				if ((this._OrganizationUID != value))
+				{
+					if (this._Organization.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrganizationUIDChanging(value);
+					this.SendPropertyChanging();
+					this._OrganizationUID = value;
+					this.SendPropertyChanged("OrganizationUID");
+					this.OnOrganizationUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Holiday", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true, DeleteRule="SET NULL")]
+		public Organization Organization
+		{
+			get
+			{
+				return this._Organization.Entity;
+			}
+			set
+			{
+				Organization previousValue = this._Organization.Entity;
+				if (((previousValue != value) 
+							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Organization.Entity = null;
+						previousValue.Holidays.Remove(this);
+					}
+					this._Organization.Entity = value;
+					if ((value != null))
+					{
+						value.Holidays.Add(this);
+						this._OrganizationUID = value.UID;
+					}
+					else
+					{
+						this._OrganizationUID = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Organization");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

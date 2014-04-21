@@ -8,14 +8,14 @@ namespace FiresecAPI.EmployeeTimeIntervals
 	{
 		[DescriptionAttribute("Нет")]
 		[EnumMember]
-		Day,
+		Day = 0,
 
 		[DescriptionAttribute("Переход")]
 		[EnumMember]
-		Night,
+		Night = 1,
 
 		[DescriptionAttribute("Следующий день")]
 		[EnumMember]
-		NextDay
+		NextDay = 2
 	}
 }

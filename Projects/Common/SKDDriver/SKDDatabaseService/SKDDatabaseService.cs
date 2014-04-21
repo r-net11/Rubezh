@@ -22,7 +22,9 @@ namespace SKDDriver
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context, PhotoTranslator, AdditionalColumnTypeTranslator);
 			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
 			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator);
-			NamedIntervalTranslator = new NamedIntervalTranslator(Context);
+			TimeIntervalTranslator = new TimeIntervalTranslator(Context);
+			NamedIntervalTranslator = new NamedIntervalTranslator(Context, TimeIntervalTranslator);
+			HolidayTranslator = new HolidayTranslator(Context);
 		}
 
 		public static DocumentTranslator DocumentTranslator { get; private set; }
@@ -39,5 +41,7 @@ namespace SKDDriver
 		public static PhotoTranslator PhotoTranslator { get; private set; }
 		public static EmployeeReplacementTranslator EmployeeReplacementTranslator { get; private set; }
 		public static NamedIntervalTranslator NamedIntervalTranslator { get; private set; }
+		public static TimeIntervalTranslator TimeIntervalTranslator { get; private set; }
+		public static HolidayTranslator HolidayTranslator { get; private set; }
 	}
 }

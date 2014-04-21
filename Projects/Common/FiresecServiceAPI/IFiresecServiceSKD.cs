@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using EmployeeNamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
 using EmployeeNamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
+using EmployeeTimeInterval = FiresecAPI.EmployeeTimeIntervals.TimeInterval;
+using EmployeeTimeIntervalFilter = FiresecAPI.EmployeeTimeIntervals.TimeIntervalFilter;
+using EmployeeHoliday = FiresecAPI.EmployeeTimeIntervals.Holiday;
+using EmployeeHolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 
 namespace FiresecAPI
 {
@@ -40,6 +44,10 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<EmployeeNamedInterval>> GetNamedIntervals(EmployeeNamedIntervalFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<EmployeeTimeInterval>> GetTimeIntervals(EmployeeTimeIntervalFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<EmployeeHoliday>> GetHolidays(EmployeeHolidayFilter filter);
 		#endregion
 
 		#region Save
@@ -75,6 +83,10 @@ namespace FiresecAPI
 		OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
 		[OperationContract]
 		OperationResult SaveNamedIntervals(IEnumerable<EmployeeNamedInterval> items);
+		[OperationContract]
+		OperationResult SaveTimeIntervals(IEnumerable<EmployeeTimeInterval> items);
+		[OperationContract]
+		OperationResult SaveHolidays(IEnumerable<EmployeeHoliday> items);
 		#endregion
 
 		#region MarkDeleted
@@ -104,6 +116,10 @@ namespace FiresecAPI
 		OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
 		[OperationContract]
 		OperationResult MarkDeletedNamedIntervals(IEnumerable<EmployeeNamedInterval> items);
+		[OperationContract]
+		OperationResult MarkDeletedTimeIntervals(IEnumerable<EmployeeTimeInterval> items);
+		[OperationContract]
+		OperationResult MarkDeletedHolidays(IEnumerable<EmployeeHoliday> items);
 		#endregion
 
 		#region DeviceCommands

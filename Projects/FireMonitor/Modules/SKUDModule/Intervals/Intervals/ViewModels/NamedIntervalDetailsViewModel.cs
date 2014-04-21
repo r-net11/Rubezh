@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -19,9 +20,10 @@ namespace SKDModule.ViewModels
 				Title = "Новый именованный интервал";
 				namedInterval = new NamedInterval()
 				{
-					Name = "Именованный интервал"
+					Name = "Именованный интервал",
+					OrganizationUID = organisationNameIntervalsViewModel.Organization.UID,
 				};
-				namedInterval.TimeIntervals.Add(new TimeInterval() { StartTime = new DateTime(2000, 1, 1, 9, 0, 0), EndTime = new DateTime(2000, 1, 1, 18, 0, 0) });
+				namedInterval.TimeIntervals.Add(new TimeInterval() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), NamedIntervalUID = namedInterval.UID });
 			}
 			else
 				Title = "Редактирование именованного интервала";
@@ -53,8 +55,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private DateTime _constantSlideTime;
-		public DateTime ConstantSlideTime
+		private TimeSpan _constantSlideTime;
+		public TimeSpan ConstantSlideTime
 		{
 			get { return _constantSlideTime; }
 			set

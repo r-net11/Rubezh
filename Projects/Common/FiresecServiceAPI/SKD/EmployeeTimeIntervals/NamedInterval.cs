@@ -19,14 +19,9 @@ namespace FiresecAPI.EmployeeTimeIntervals
 		public string Description { get; set; }
 
 		[DataMember]
-		public DateTime SlideTime { get; set; }
+		public TimeSpan SlideTime { get; set; }
 
 		[DataMember]
 		public List<TimeInterval> TimeIntervals { get; set; }
-
-		public bool IsDefault
-		{
-			get { return UID == Guid.Empty; }
-		}
 	}
 }

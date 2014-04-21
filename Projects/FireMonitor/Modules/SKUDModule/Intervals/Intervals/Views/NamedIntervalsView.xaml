@@ -50,7 +50,7 @@
 							</DataGrid.Columns>
 						</XDataGrid>
 						<GridSplitter Grid.Row="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
-						<Grid Grid.Column="2" Margin="4 0 0 0" DataContext="{Binding SelectedNamedInterval}" IsEnabled="{Binding IsEnabled}">
+						<Grid Grid.Column="2" Margin="4 0 0 0" DataContext="{Binding SelectedNamedInterval}">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />
@@ -65,14 +65,14 @@
 									<DataGridTemplateColumn Width="*" Header="Начало">
 										<DataGridTemplateColumn.CellTemplate>
 											<DataTemplate>
-												<TextBlock Text="{Binding Path=StartTime, StringFormat=HH-mm}" />
+												<TextBlock Text="{Binding Path=BeginTime, StringFormat=hh\\-mm}" />
 											</DataTemplate>
 										</DataGridTemplateColumn.CellTemplate>
 									</DataGridTemplateColumn>
 									<DataGridTemplateColumn Width="*" Header="Конец">
 										<DataGridTemplateColumn.CellTemplate>
 											<DataTemplate>
-												<TextBlock Text="{Binding Path=EndTime, StringFormat=HH-mm}" />
+												<TextBlock Text="{Binding Path=EndTime, StringFormat=hh\\-mm}" />
 											</DataTemplate>
 										</DataGridTemplateColumn.CellTemplate>
 									</DataGridTemplateColumn>

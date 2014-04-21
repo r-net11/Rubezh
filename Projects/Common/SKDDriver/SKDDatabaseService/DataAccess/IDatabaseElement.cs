@@ -24,6 +24,7 @@ namespace SKDDriver.DataAccess
 	}
 
 
+
 	
 	public partial class Journal : IDatabaseElement { }
 	

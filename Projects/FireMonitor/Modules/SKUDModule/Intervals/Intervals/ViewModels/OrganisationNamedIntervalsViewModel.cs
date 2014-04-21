@@ -28,14 +28,6 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(List<NamedInterval> namedIntervals)
 		{
-			//var neverNamedInterval = employeeNamedIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
-			//if (neverNamedInterval == null)
-			//{
-			//    neverNamedInterval = new NamedInterval() { Name = "Никогда", IsDefault = true };
-			//    neverNamedInterval.NamedIntervals.Add(new NamedInterval() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue });
-			//    employeeNamedIntervals.Add(neverNamedInterval);
-			//}
-
 			NamedIntervals = new ObservableCollection<NamedIntervalViewModel>();
 			foreach (var namedInterval in namedIntervals)
 			{
@@ -81,9 +73,8 @@ namespace SKDModule.ViewModels
 		private void OnAdd()
 		{
 			var namedIntervalDetailsViewModel = new NamedIntervalDetailsViewModel(this);
-			if (DialogService.ShowModalWindow(namedIntervalDetailsViewModel))
+			if (DialogService.ShowModalWindow(namedIntervalDetailsViewModel) && NamedIntervalHelper.Save(namedIntervalDetailsViewModel.NamedInterval))
 			{
-				NamedIntervalHelper.Save(namedIntervalDetailsViewModel.NamedInterval);
 				var namedIntervalViewModel = new NamedIntervalViewModel(namedIntervalDetailsViewModel.NamedInterval);
 				NamedIntervals.Add(namedIntervalViewModel);
 				SelectedNamedInterval = namedIntervalViewModel;
@@ -93,12 +84,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		private void OnDelete()
 		{
-			NamedIntervalHelper.MarkDeleted(SelectedNamedInterval.NamedInterval);
-			NamedIntervals.Remove(SelectedNamedInterval);
+			if (NamedIntervalHelper.MarkDeleted(SelectedNamedInterval.NamedInterval))
+				NamedIntervals.Remove(SelectedNamedInterval);
 		}
 		private bool CanDelete()
 		{
-			return SelectedNamedInterval != null && !SelectedNamedInterval.NamedInterval.IsDefault;
+			return SelectedNamedInterval != null;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -113,7 +104,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanEdit()
 		{
-			return SelectedNamedInterval != null && !SelectedNamedInterval.NamedInterval.IsDefault;
+			return SelectedNamedInterval != null;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -123,7 +114,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanCopy()
 		{
-			return SelectedNamedInterval != null && !SelectedNamedInterval.NamedInterval.IsDefault;
+			return SelectedNamedInterval != null;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -150,7 +141,7 @@ namespace SKDModule.ViewModels
 			{
 				var copyNamedIntervalPart = new TimeInterval()
 				{
-					StartTime = timeInterval.StartTime,
+					BeginTime = timeInterval.BeginTime,
 					EndTime = timeInterval.EndTime,
 					IntervalTransitionType = timeInterval.IntervalTransitionType,
 				};

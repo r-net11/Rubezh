@@ -23,11 +23,11 @@ SET @Organization1Uid = 'D74D41A2-01FA-41DF-AE95-9E62A2F4BA99';
 EXEC SaveOrganization @Organization1Uid, 'СКУД', 'ООО СКУДЪ',0,'01/01/1900'
 
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Новый год', 2, '31/12/2013', '28/12/2013','00:00',0,'01/01/1900' 
+EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Новый год', 2, '31/12/2013', '28/12/2013',0,0,'01/01/1900' 
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, '8 марта', 0, '08/03/2014','01/01/1900','00:00',0,'01/01/1900'
+EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, '8 марта', 0, '08/03/2014','01/01/1900',0,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Старый Новый год', 1, '13/01/2014', '01/01/1900', '02:00',0,'01/01/1900'
+EXEC [dbo].[SaveHoliday] @Uid, @Organization1Uid, 'Старый Новый год', 1, '13/01/2014', '01/01/1900', 7200,0,'01/01/1900'
 
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveDocument] @Uid, @Organization1Uid, 123, 'Документ1', 'Документ1Организации1', '01/01/2013', '07/01/2013',0,'01/01/1900'
@@ -41,15 +41,15 @@ DECLARE @GuardNamedIntervalUid uniqueidentifier;
 SET @GuardNamedIntervalUid = NEWID();
 EXEC [dbo].[SaveNamedInterval] @GuardNamedIntervalUid, @Organization1Uid, 'Охрана'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '08:00', '13:00', 0, @GuardNamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 28800, 46800, @GuardNamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '13:45', '17:45', 0, @GuardNamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 49500, 63900, @GuardNamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '18:30', '22:30', 0, @GuardNamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 66600, 81000, @GuardNamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '23:15', '03:15', 2, @GuardNamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 122400, 129600, @GuardNamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '04:00', '08:00', 1, @GuardNamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 14400, 115200, @GuardNamedIntervalUid,0,'01/01/1900'
 DECLARE @GuardScheduleSchemeUid uniqueidentifier;
 SET @GuardScheduleSchemeUid = NEWID();
 EXEC [dbo].[SaveScheduleScheme] @GuardScheduleSchemeUid, @Organization1Uid, 'Охрана', 1
@@ -69,13 +69,13 @@ DECLARE @Montage2NamedIntervalUid uniqueidentifier;
 SET @Montage2NamedIntervalUid = NEWID();
 EXEC [dbo].[SaveNamedInterval] @Montage2NamedIntervalUid, @Organization1Uid, 'Монтажный2'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '07:30', '11:00', 0, @Montage1NamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 27000, 39600, @Montage1NamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '11:30', '16:00', 0, @Montage1NamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 41400, 57600, @Montage1NamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '08:00', '11:30', 0, @Montage2NamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 28800, 41400, @Montage2NamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '12:00', '16:30', 0, @Montage2NamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 43200, 59400, @Montage2NamedIntervalUid,0,'01/01/1900'
 DECLARE @MontageScheduleSchemeUid uniqueidentifier;
 SET @MontageScheduleSchemeUid = NEWID();
 EXEC [dbo].[SaveScheduleScheme] @MontageScheduleSchemeUid, @Organization1Uid, 'Монтаж', 0
@@ -98,9 +98,9 @@ DECLARE @WeeklyNamedIntervalUid uniqueidentifier;
 SET @WeeklyNamedIntervalUid = NEWID();
 EXEC [dbo].[SaveNamedInterval] @WeeklyNamedIntervalUid, @Organization1Uid, 'Пятидневка'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '08:00', '12:00', 0, @WeeklyNamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 28800, 43200, @WeeklyNamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, '13:00', '17:00', 0, @WeeklyNamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 46800, 61200, @WeeklyNamedIntervalUid,0,'01/01/1900'
 DECLARE @WeeklyScheduleSchemeUid uniqueidentifier;
 SET @WeeklyScheduleSchemeUid = NEWID();
 EXEC [dbo].[SaveScheduleScheme] @WeeklyScheduleSchemeUid, @Organization1Uid, 'Пятидневка', 0

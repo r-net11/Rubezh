@@ -68,9 +68,8 @@ DROP PROCEDURE [dbo].[SaveAdditionalColumnType]
 GO
 CREATE PROCEDURE [dbo].[SaveInterval]
 	@Uid uniqueidentifier,
-	@BeginDate datetime = NULL,
-	@EndDate datetime = NULL,
-	@TransitionType nvarchar(10) = null,
+	@BeginTime int = 0,
+	@EndTime int = 0,
 	@NamedIntervalUid uniqueidentifier = NULL,
 	@IsDeleted bit ,
 	@RemovalDate datetime 
@@ -80,9 +79,8 @@ BEGIN
 	IF EXISTS(SELECT Uid FROM [dbo].[Interval] WHERE Uid = @Uid)
 		UPDATE [dbo].[Interval]   SET 
 			Uid = @Uid,
-			BeginDate = @BeginDate,
-			EndDate = @EndDate,
-			TransitionType = @TransitionType,
+			BeginTime = @BeginTime,
+			EndTime = @EndTime,
 			NamedIntervalUid = @NamedIntervalUid,
 			IsDeleted = @IsDeleted,
 			RemovalDate = @RemovalDate
@@ -91,17 +89,15 @@ BEGIN
 		BEGIN
 			INSERT INTO [dbo].[Interval] (
 				Uid,
-				BeginDate,
-				EndDate,
-				TransitionType,
+				BeginTime,
+				EndTime,
 				NamedIntervalUid,
 				IsDeleted,
 				RemovalDate)
 			VALUES (
 				@Uid,
-				@BeginDate,
-				@EndDate,
-				@TransitionType,
+				@BeginTime,
+				@EndTime,
 				@NamedIntervalUid,
 				@IsDeleted,
 				@RemovalDate)
@@ -112,7 +108,7 @@ CREATE PROCEDURE [dbo].[SaveNamedInterval]
 	@Uid uniqueidentifier,
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
-	@SlideTime time = '00:00',
+	@SlideTime int = 0,
 	@IsDeleted bit = 0,
 	@RemovalDate datetime = '01/01/1900' 
 AS
@@ -266,7 +262,7 @@ CREATE PROCEDURE [dbo].[SaveHoliday]
 	@Type int ,
 	@Date date ,
 	@TransferDate date ,
-	@Reduction time ,
+	@Reduction int ,
 	@IsDeleted bit ,
 	@RemovalDate datetime 
 

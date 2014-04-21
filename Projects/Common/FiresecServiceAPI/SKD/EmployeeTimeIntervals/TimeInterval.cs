@@ -8,15 +8,18 @@ namespace FiresecAPI.EmployeeTimeIntervals
 	{
 		public TimeInterval()
 		{
-			StartTime = new DateTime(2000, 1, 1);
-			EndTime = new DateTime(2000, 1, 1);
+			BeginTime = new TimeSpan(0,0,0);
+			EndTime = new TimeSpan(0, 0, 0);
 		}
 
 		[DataMember]
-		public DateTime StartTime { get; set; }
+		public Guid NamedIntervalUID { get; set; }
 
 		[DataMember]
-		public DateTime EndTime { get; set; }
+		public TimeSpan BeginTime { get; set; }
+
+		[DataMember]
+		public TimeSpan EndTime { get; set; }
 
 		[DataMember]
 		public IntervalTransitionType IntervalTransitionType { get; set; }

@@ -212,6 +212,8 @@
     <Compile Include="SKD\Document\DocumentFilter.cs" />
     <Compile Include="Models\Video\IVSSContract.cs" />
     <Compile Include="SKD\Card\CardZone.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\HolidayFilter.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\TimeIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\NamedIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleScheme.cs" />
     <Compile Include="SKD\Employee\EmployeeListItem.cs" />
