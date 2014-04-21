@@ -3,30 +3,49 @@ using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
 	public class DocumentDetailsViewModel : SaveCancelDialogViewModel
 	{
-		OrganisationDocumentsViewModel OrganisationDocumentsViewModel;
+		DocumentsViewModel DocumentsViewModel;
 		public Document Document { get; private set; }
-
-		public DocumentDetailsViewModel(OrganisationDocumentsViewModel organisationDocumentsViewModel, Document document = null)
+		public Document ShortDocument
 		{
-			OrganisationDocumentsViewModel = organisationDocumentsViewModel;
-			if (document == null)
+			get
+			{
+				return new Document
+				{
+					UID = Document.UID,
+					Name = Document.Name,
+					Description = Document.Description,
+					OrganizationUID = Document.OrganizationUID
+				};
+			}
+		}
+
+		public Organisation Organization { get; private set; }
+
+		public DocumentDetailsViewModel(DocumentsViewModel documentsViewModel, Organisation orgnaisation, Guid? documentUID = null)
+		{
+			DocumentsViewModel = documentsViewModel;
+			Organization = orgnaisation;
+			if (documentUID == null)
 			{
 				Title = "Создание документа";
-				document = new Document()
+				Document = new Document()
 				{
 					Name = "Новый документ",
+					OrganizationUID = Organization.UID
 				};
 			}
 			else
 			{
-				Title = string.Format("Свойства документа: {0}", document.Name);
+				//Document = DocumentHelper.GetDetails(documentUID);
+				Document = DocumentHelper.GetSingle(documentUID);
+				Title = string.Format("Свойства документа: {0}", Document.Name);
 			}
-			Document = document;
 			CopyProperties();
 		}
 
@@ -116,18 +135,12 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (OrganisationDocumentsViewModel.Documents.Any(x => x.Document.Name == Name && x.Document.UID != Document.UID))
-			{
-				MessageBoxService.ShowWarning("Название документа совпадает с введенным ранее");
-				return false;
-			}
-
 			Document.Name = Name;
 			Document.Description = Description;
 			Document.No = No;
 			Document.IssueDate = StartDateTime;
 			Document.LaunchDate = EndDateTime;
-			Document.OrganizationUID = OrganisationDocumentsViewModel.Organization.UID;
+			Document.OrganizationUID = Organization.UID;
 			return true;
 		}
 	}

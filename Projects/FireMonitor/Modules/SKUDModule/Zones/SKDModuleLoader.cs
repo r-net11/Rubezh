@@ -33,7 +33,6 @@ namespace SKDModule
 		CardsViewModel CardsViewModel;
 		DepartmentsViewModel DepartmentsViewModel;
 		PositionsViewModel PositionsViewModel;
-		NewPositionsViewModel NewPositionsViewModel;
 		DocumentsViewModel DocumentsViewModel;
 		AdditionalColumnTypesViewModel AdditionalColumnsViewModel;
 		NamedIntervalsViewModel NamedIntervalsViewModel;
@@ -68,7 +67,6 @@ namespace SKDModule
 			CardsViewModel = new CardsViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
-			NewPositionsViewModel = new NewPositionsViewModel();
 			DocumentsViewModel = new DocumentsViewModel();
 			AdditionalColumnsViewModel = new AdditionalColumnTypesViewModel();
 			NamedIntervalsViewModel = new NamedIntervalsViewModel();
@@ -99,7 +97,6 @@ namespace SKDModule
 						new NavigationItem<ShowSKDCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDDepartmentsEvent>(DepartmentsViewModel, "Отделы", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDPositionsEvent>(PositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
-						//new NavigationItem<ShowSKDPositionsEvent>(NewPositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDDocumentsEvent>(DocumentsViewModel, "Документы", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDAdditionalColumnsEvent>(AdditionalColumnsViewModel, "Дополнительные колонки", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowSKDReportsEvent>(ReportsViewModel, "Отчеты", "/Controls;component/Images/tree.png"),

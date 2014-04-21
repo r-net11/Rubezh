@@ -165,7 +165,6 @@
       <DependentUpon>EmployeesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdditionalColumns\Converters\AdditionalColumnTypeToStringConverter.cs" />
-    <Compile Include="AdditionalColumns\ViewModels\OrganisationAdditionalColumnTypesViewModel.cs" />
     <Compile Include="Cards\ViewModels\CardsViewModel.cs" />
     <Compile Include="Cards\ViewModels\CardViewModel.cs" />
     <Compile Include="Cards\ViewModels\CardDetailsViewModel.cs" />
@@ -210,7 +209,6 @@
       <DependentUpon>DeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Documents\ViewModels\DocumentFilterViewModel.cs" />
-    <Compile Include="Documents\ViewModels\OrganisationDocumentsViewModel.cs" />
     <Compile Include="Documents\Views\DocumentFilterView.xaml.cs">
       <DependentUpon>DocumentFilterView.xaml</DependentUpon>
     </Compile>
@@ -290,25 +288,23 @@
     <Compile Include="Plans\Views\SKDZoneTooltipView.xaml.cs">
       <DependentUpon>SKDZoneTooltipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Positions\ViewModels\NewPositionsViewModel.cs" />
-    <Compile Include="Positions\ViewModels\NewPositionViewModel.cs" />
-    <Compile Include="Positions\ViewModels\OrganisationPositionsViewModel.cs" />
+    <Compile Include="Positions\ViewModels\PositionsViewModel.cs" />
+    <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionFilterViewModel.cs" />
-    <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
     <Compile Include="Positions\Views\PositionDetailsView.xaml.cs">
       <DependentUpon>PositionDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\Views\PositionFilterView.xaml.cs">
       <DependentUpon>PositionFilterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Positions\Views\NewPositionsView.xaml.cs">
-      <DependentUpon>NewPositionsView.xaml</DependentUpon>
+    <Compile Include="Positions\Views\PositionsView.xaml.cs">
+      <DependentUpon>PositionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Models\EmployeeReportPeriod.cs" />
     <Compile Include="Reports\Models\EmployeeReportSettings.cs" />
     <Compile Include="Reports\Models\EmployeeReportType.cs" />
-    <Compile Include="SKDModuleLoader.cs" />
+    <Compile Include="Zones\SKDModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
       </SubType>
@@ -333,10 +329,6 @@
     </Compile>
     <Compile Include="Zones\Views\ZoneView.xaml.cs">
       <DependentUpon>ZoneView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Positions\ViewModels\PositionsViewModel.cs" />
-    <Compile Include="Positions\Views\PositionsView.xaml.cs">
-      <DependentUpon>PositionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Departments\ViewModels\DepartmentsViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentsView.xaml.cs">
@@ -675,7 +667,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Positions\Views\NewPositionsView.xaml">
+    <Page Include="Positions\Views\PositionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -704,10 +696,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Positions\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Positions\Views\PositionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

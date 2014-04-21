@@ -4,33 +4,48 @@ using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
 	public class AdditionalColumnTypeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		OrganisationAdditionalColumnTypesViewModel OrganisationAdditionalColumnTypesViewModel;
+		AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel;
 		public AdditionalColumnType AdditionalColumnType { get; private set; }
-
-		public AdditionalColumnTypeDetailsViewModel(OrganisationAdditionalColumnTypesViewModel organisationAdditionalColumnsViewModel, AdditionalColumnType additionalColumnType = null)
+		public AdditionalColumnType ShortAdditionalColumnType
 		{
-			OrganisationAdditionalColumnTypesViewModel = organisationAdditionalColumnsViewModel;
-			if (additionalColumnType == null)
+			get
+			{
+				return new AdditionalColumnType
+				{
+					UID = AdditionalColumnType.UID,
+					Name = AdditionalColumnType.Name,
+					Description = AdditionalColumnType.Description,
+					OrganizationUID = AdditionalColumnType.OrganizationUID
+				};
+			}
+		}
+
+		public Organisation Organization { get; private set; }
+
+		public AdditionalColumnTypeDetailsViewModel(AdditionalColumnTypesViewModel additionalColumnTypesViewModel, Organisation orgnaisation, Guid? additionalColumnTypeUID = null)
+		{
+			AdditionalColumnTypesViewModel = additionalColumnTypesViewModel;
+			Organization = orgnaisation;
+			if (additionalColumnTypeUID == null)
 			{
 				Title = "Создание дополнительной колонки";
-				additionalColumnType = new AdditionalColumnType()
+				AdditionalColumnType = new AdditionalColumnType()
 				{
 					Name = "Новая дополнительная колонка",
+					OrganizationUID = Organization.UID
 				};
-				CanChangeDataType = true;
 			}
 			else
 			{
-				Title = string.Format("Дополнительная колонка: {0}", additionalColumnType.Name);
-				CanChangeDataType = false;
+				AdditionalColumnType = AdditionalColumnTypeHelper.GetSingle(additionalColumnTypeUID);
+				Title = string.Format("Свойства дополнительной колонки: {0}", AdditionalColumnType.Name);
 			}
-			AdditionalColumnType = additionalColumnType;
-			AvailableDataTypes = new ObservableCollection<AdditionalColumnDataType>(Enum.GetValues(typeof(AdditionalColumnDataType)).Cast<AdditionalColumnDataType>());
 			CopyProperties();
 		}
 
@@ -112,18 +127,13 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Запрещенное название дополнительной колонки");
 				return false;
 			}
-			if (OrganisationAdditionalColumnTypesViewModel.AdditionalColumnTypes.Any(x => x.AdditionalColumnType.Name == Name && x.AdditionalColumnType.UID != AdditionalColumnType.UID))
-			{
-				MessageBoxService.ShowWarning("Название дополнительной колонки совпадает с введенным ранее");
-				return false;
-			}
 
 			AdditionalColumnType.Name = Name;
 			AdditionalColumnType.Description = Description;
 			AdditionalColumnType.DataType = DataType;
 			if (IsTextType)
 				AdditionalColumnType.IsInGrid = IsInGrid;
-			AdditionalColumnType.OrganizationUID = OrganisationAdditionalColumnTypesViewModel.Organisation.UID;
+			AdditionalColumnType.OrganizationUID = Organization.UID;
 			return true;
 		}
 	}
