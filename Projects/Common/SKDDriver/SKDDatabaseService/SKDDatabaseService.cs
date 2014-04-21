@@ -26,6 +26,8 @@ namespace SKDDriver
 			TimeIntervalTranslator = new TimeIntervalTranslator(Context);
 			NamedIntervalTranslator = new NamedIntervalTranslator(Context, TimeIntervalTranslator);
 			HolidayTranslator = new HolidayTranslator(Context);
+			DayIntervalTranslator = new DayIntervalTranslator(Context);
+			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(Context, DayIntervalTranslator);
 		}
 
 		static EmployeeDocumentTranslator EmployeeDocumentTranslator; 
@@ -45,5 +47,7 @@ namespace SKDDriver
 		public static NamedIntervalTranslator NamedIntervalTranslator { get; private set; }
 		public static TimeIntervalTranslator TimeIntervalTranslator { get; private set; }
 		public static HolidayTranslator HolidayTranslator { get; private set; }
+		public static ScheduleSchemeTranslator ScheduleSchemeTranslator { get; private set; }
+		public static DayIntervalTranslator DayIntervalTranslator { get; private set; }
 	}
 }

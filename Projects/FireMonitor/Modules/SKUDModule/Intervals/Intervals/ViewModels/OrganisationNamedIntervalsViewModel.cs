@@ -11,7 +11,7 @@ using Organisation = FiresecAPI.Organisation;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationNamedIntervalsViewModel : OrganisationIntervalViewModel<NamedIntervalViewModel, NamedInterval>
+	public class OrganisationNamedIntervalsViewModel : OrganisationViewModel<NamedIntervalViewModel, NamedInterval>
 	{
 		private NamedInterval _intervalToCopy;
 
@@ -79,10 +79,12 @@ namespace SKDModule.ViewModels
 		private void OnPaste()
 		{
 			var newInterval = CopyInterval(_intervalToCopy);
-			NamedIntervalHelper.Save(newInterval);
-			var timeInrervalViewModel = new NamedIntervalViewModel(newInterval);
-			ViewModels.Add(timeInrervalViewModel);
-			SelectedViewModel = timeInrervalViewModel;
+			if (NamedIntervalHelper.Save(newInterval))
+			{
+				var timeInrervalViewModel = new NamedIntervalViewModel(newInterval);
+				ViewModels.Add(timeInrervalViewModel);
+				SelectedViewModel = timeInrervalViewModel;
+			}
 		}
 		private bool CanPaste()
 		{
@@ -96,15 +98,14 @@ namespace SKDModule.ViewModels
 			copy.Description = source.Description;
 			copy.SlideTime = source.SlideTime;
 			foreach (var timeInterval in source.TimeIntervals)
-			{
-				var copyNamedIntervalPart = new TimeInterval()
-				{
-					BeginTime = timeInterval.BeginTime,
-					EndTime = timeInterval.EndTime,
-					IntervalTransitionType = timeInterval.IntervalTransitionType,
-				};
-				copy.TimeIntervals.Add(copyNamedIntervalPart);
-			}
+				if (!timeInterval.IsDeleted)
+					copy.TimeIntervals.Add(new TimeInterval()
+					{
+						BeginTime = timeInterval.BeginTime,
+						EndTime = timeInterval.EndTime,
+						IntervalTransitionType = timeInterval.IntervalTransitionType,
+						NamedIntervalUID = copy.UID,
+					});
 			return copy;
 		}
 	}

@@ -1,10 +1,10 @@
-﻿using FiresecAPI.EmployeeTimeIntervals;
-using System.Linq;
-using OperationResult = FiresecAPI.OperationResult;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 using System.Linq.Expressions;
+using FiresecAPI.EmployeeTimeIntervals;
 using LinqKit;
+using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
@@ -43,6 +43,8 @@ namespace SKDDriver.Translators
 			var endTime = item.EndTime.TotalSeconds;
 			if (item.IntervalTransitionType != IntervalTransitionType.Day)
 				endTime += DaySeconds;
+			if (beginTime > endTime)
+				return new OperationResult("Время окончания интервала должно быть позже времени начала");
 			foreach (var interval in intervals)
 				if ((interval.BeginTime >= beginTime && interval.BeginTime <= endTime) || (interval.EndTime >= beginTime && interval.EndTime <= endTime))
 					return new OperationResult("Последовательность интервалов не должна быть пересекающейся");

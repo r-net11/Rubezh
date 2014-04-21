@@ -12,7 +12,7 @@ using FiresecClient;
 namespace SKDModule.Intervals.Common.ViewModels
 {
 	public abstract class IntervalViewPartViewModel<TOrganisationInterval, TViewModel, TElement> : ViewPartViewModel
-		where TOrganisationInterval : OrganisationIntervalViewModel<TViewModel, TElement>
+		where TOrganisationInterval : OrganisationViewModel<TViewModel, TElement>
 		where TViewModel : BaseObjectViewModel<TElement>
 		where TElement : OrganizationElementBase
 	{
@@ -22,47 +22,47 @@ namespace SKDModule.Intervals.Common.ViewModels
 			Initialize();
 		}
 
-		public virtual void Initialize()
+		protected virtual void Initialize()
 		{
 			var organisations = GetOrganizations();
 			var models = GetModels();
 
-			OrganisationIntervals = new ObservableCollection<TOrganisationInterval>();
+			Organisations = new ObservableCollection<TOrganisationInterval>();
 			foreach (var organisation in organisations)
 			{
 				var timeInrervalViewModel = CreateOrganizationViewModel(organisation);
 				timeInrervalViewModel.Initialize(models.Where(x => x.OrganizationUID.Value == organisation.UID));
-				OrganisationIntervals.Add(timeInrervalViewModel);
+				Organisations.Add(timeInrervalViewModel);
 			}
-			SelectedOrganisationInterval = OrganisationIntervals.FirstOrDefault();
+			SelectedOrganisation = Organisations.FirstOrDefault();
 		}
-		public abstract IEnumerable<TElement> GetModels();
-		public abstract TOrganisationInterval CreateOrganizationViewModel(Organisation organization);
+		protected abstract IEnumerable<TElement> GetModels();
+		protected abstract TOrganisationInterval CreateOrganizationViewModel(Organisation organization);
 
 		public IEnumerable<FiresecAPI.Organisation> GetOrganizations()
 		{
 			return OrganisationHelper.Get(new FiresecAPI.OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 		}
 
-		private ObservableCollection<TOrganisationInterval> _organisationIntervals;
-		public ObservableCollection<TOrganisationInterval> OrganisationIntervals
+		private ObservableCollection<TOrganisationInterval> _organisations;
+		public ObservableCollection<TOrganisationInterval> Organisations
 		{
-			get { return _organisationIntervals; }
+			get { return _organisations; }
 			set
 			{
-				_organisationIntervals = value;
-				OnPropertyChanged(() => OrganisationIntervals);
+				_organisations = value;
+				OnPropertyChanged(() => Organisations);
 			}
 		}
 
-		private TOrganisationInterval _selectedOrganisationInterval;
-		public TOrganisationInterval SelectedOrganisationInterval
+		private TOrganisationInterval _selectedOrganisation;
+		public TOrganisationInterval SelectedOrganisation
 		{
-			get { return _selectedOrganisationInterval; }
+			get { return _selectedOrganisation; }
 			set
 			{
-				_selectedOrganisationInterval = value;
-				OnPropertyChanged(() => SelectedOrganisationInterval);
+				_selectedOrganisation = value;
+				OnPropertyChanged(() => SelectedOrganisation);
 			}
 		}
 

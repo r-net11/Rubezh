@@ -110,13 +110,21 @@
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
     <Compile Include="Intervals\Common\ViewModels\IntervalViewPartViewModel.cs" />
-    <Compile Include="Intervals\Common\ViewModels\OrganisationIntervalViewModel.cs" />
-    <Compile Include="Intervals\Schedules\ViewModels\ScheduleSchemesViewModel.cs" />
-    <Compile Include="Intervals\Schedules\ViewModels\ScheduleSchemesMonthlyViewModel.cs" />
-    <Compile Include="Intervals\Schedules\ViewModels\OrganisationScheduleSchemasViewModel.cs" />
-    <Compile Include="Intervals\Schedules\ViewModels\ScheduleSchemaViewModel.cs" />
-    <Compile Include="Intervals\Schedules\ViewModels\ScheduleSchemesSlideViewModel.cs" />
-    <Compile Include="Intervals\Schedules\ViewModels\ScheduleSchemesWeeklyViewModel.cs" />
+    <Compile Include="Intervals\Common\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\DayIntervalViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemeDetailsViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesMonthlyViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\OrganisationScheduleSchemasViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemeViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesSlideViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesWeeklyViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml.cs">
+      <DependentUpon>ScheduleSchemeDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Intervals\ScheduleShemes\Views\ScheduleSchemesView.xaml.cs">
+      <DependentUpon>ScheduleSchemesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\DateTimePairViewModel.cs" />
@@ -259,25 +267,22 @@
     </Compile>
     <Compile Include="Intervals\Converters\EmployeeSheduleTypeToStringConverter.cs" />
     <Compile Include="Intervals\Intervals\ViewModels\OrganisationNamedIntervalsViewModel.cs" />
-    <Compile Include="Intervals\MonthlyIntervals\ViewModels\OrganisationMonthlyIntervalsViewModel.cs" />
-    <Compile Include="Intervals\SheduleSchemas\ViewModels\SheduleZoneViewModel.cs" />
-    <Compile Include="Intervals\SheduleSchemas\ViewModels\SheduleDetailsViewModel.cs" />
-    <Compile Include="Intervals\SheduleSchemas\ViewModels\ShedulePartViewModel.cs" />
-    <Compile Include="Intervals\SheduleSchemas\ViewModels\ShedulesViewModel.cs" />
-    <Compile Include="Intervals\SheduleSchemas\ViewModels\SheduleViewModel.cs" />
-    <Compile Include="Intervals\SheduleSchemas\ViewModels\ShedulePartDetailsViewModel.cs" />
-    <Compile Include="Intervals\SheduleSchemas\ViewModels\OrganisationShedulesViewModel.cs" />
-    <Compile Include="Intervals\SheduleSchemas\Views\SheduleDetailsView.xaml.cs">
+    <Compile Include="Intervals\Shedules\ViewModels\SheduleZoneViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\SheduleDetailsViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\ShedulePartViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\ShedulesViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\SheduleViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\ShedulePartDetailsViewModel.cs" />
+    <Compile Include="Intervals\Shedules\ViewModels\OrganisationShedulesViewModel.cs" />
+    <Compile Include="Intervals\Shedules\Views\SheduleDetailsView.xaml.cs">
       <DependentUpon>SheduleDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Intervals\SheduleSchemas\Views\ShedulesView.xaml.cs">
+    <Compile Include="Intervals\Shedules\Views\ShedulesView.xaml.cs">
       <DependentUpon>ShedulesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Intervals\SheduleSchemas\Views\ShedulePartDetailsView.xaml.cs">
+    <Compile Include="Intervals\Shedules\Views\ShedulePartDetailsView.xaml.cs">
       <DependentUpon>ShedulePartDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Intervals\SlideDayIntervals\ViewModels\OrganisationSlideDayIntervalsViewModel.cs" />
-    <Compile Include="Intervals\WheeklyIntervals\ViewModels\OrganisationWeeklyIntervalsViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
     <Compile Include="Journal\Views\JournalView.xaml.cs">
@@ -368,36 +373,6 @@
     </Compile>
     <Compile Include="Intervals\Holidays\Views\HolidaysView.xaml.cs">
       <DependentUpon>HolidaysView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\MonthlyIntervals\ViewModels\MonthlyIntervalDetailsViewModel.cs" />
-    <Compile Include="Intervals\MonthlyIntervals\ViewModels\MonthlyIntervalPartViewModel.cs" />
-    <Compile Include="Intervals\MonthlyIntervals\ViewModels\MonthlyIntervalsViewModel.cs" />
-    <Compile Include="Intervals\MonthlyIntervals\ViewModels\MonthlyIntervalViewModel.cs" />
-    <Compile Include="Intervals\MonthlyIntervals\Views\MonthlyIntervalDetailsView.xaml.cs">
-      <DependentUpon>MonthlyIntervalDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\MonthlyIntervals\Views\MonthlyIntervalsView.xaml.cs">
-      <DependentUpon>MonthlyIntervalsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\WheeklyIntervals\ViewModels\WeeklyIntervalDetailsViewModel.cs" />
-    <Compile Include="Intervals\WheeklyIntervals\ViewModels\WeeklyIntervalPartViewModel.cs" />
-    <Compile Include="Intervals\WheeklyIntervals\ViewModels\WeeklyIntervalsViewModel.cs" />
-    <Compile Include="Intervals\WheeklyIntervals\ViewModels\WeeklyIntervalViewModel.cs" />
-    <Compile Include="Intervals\WheeklyIntervals\Views\WeeklyDetailsView.xaml.cs">
-      <DependentUpon>WeeklyDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\WheeklyIntervals\Views\WeeklyIntervalsView.xaml.cs">
-      <DependentUpon>WeeklyIntervalsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\SlideDayIntervals\ViewModels\SlideDayIntervalDetailsViewModel.cs" />
-    <Compile Include="Intervals\SlideDayIntervals\ViewModels\SlideDayIntervalPartViewModel.cs" />
-    <Compile Include="Intervals\SlideDayIntervals\ViewModels\SlideDayIntervalViewModel.cs" />
-    <Compile Include="Intervals\SlideDayIntervals\ViewModels\SlideDayIntervalsViewModel.cs" />
-    <Compile Include="Intervals\SlideDayIntervals\Views\SlideDayIntervalDetailsView.xaml.cs">
-      <DependentUpon>SlideDayIntervalDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\SlideDayIntervals\Views\SlideDayIntervalsView.xaml.cs">
-      <DependentUpon>SlideDayIntervalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Intervals\Intervals\ViewModels\NamedIntervalDetailsViewModel.cs" />
     <Compile Include="Intervals\Intervals\ViewModels\TimeIntervalViewModel.cs" />
@@ -571,6 +546,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Intervals\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Intervals\ScheduleShemes\Views\ScheduleSchemesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Journal\Views\ArchiveFilterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -595,15 +578,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intervals\SheduleSchemas\Views\SheduleDetailsView.xaml">
+    <Page Include="Intervals\Shedules\Views\SheduleDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intervals\SheduleSchemas\Views\ShedulesView.xaml">
+    <Page Include="Intervals\Shedules\Views\ShedulesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intervals\SheduleSchemas\Views\ShedulePartDetailsView.xaml">
+    <Page Include="Intervals\Shedules\Views\ShedulePartDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -635,22 +618,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intervals\SlideDayIntervals\Views\SlideDayIntervalDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Intervals\SlideDayIntervals\Views\SlideDayIntervalsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Intervals\MonthlyIntervals\Views\MonthlyIntervalDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Intervals\MonthlyIntervals\Views\MonthlyIntervalsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Intervals\Intervals\Views\NamedIntervalDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -660,14 +627,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Intervals\Intervals\Views\NamedIntervalsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Intervals\WheeklyIntervals\Views\WeeklyDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Intervals\WheeklyIntervals\Views\WeeklyIntervalsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -794,9 +753,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Intervals\Schedules\Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

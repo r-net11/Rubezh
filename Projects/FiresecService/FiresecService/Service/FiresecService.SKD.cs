@@ -81,14 +81,6 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.JournalItemTranslator.Save(journalItems);
 		}
-		public OperationResult<IEnumerable<TimeInterval>> GetTimeIntervals(TimeIntervalFilter filter)
-		{
-			return SKDDatabaseService.TimeIntervalTranslator.Get(filter);
-		}
-		public OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
-		{
-			return SKDDatabaseService.HolidayTranslator.Get(filter);
-		}
 		#endregion
 
 		#region Card
@@ -156,14 +148,6 @@ namespace FiresecService.Service
 		public OperationResult SaveOrganisationZones(Organisation organization)
 		{
 			return SKDDatabaseService.OrganizationTranslator.SaveZones(organization);
-		}
-		public OperationResult SaveTimeIntervals(IEnumerable<TimeInterval> items)
-		{
-			return SKDDatabaseService.TimeIntervalTranslator.Save(items);
-		}
-		public OperationResult SaveHolidays(IEnumerable<Holiday> items)
-		{
-			return SKDDatabaseService.HolidayTranslator.Save(items);
 		}
 		#endregion
 
@@ -234,29 +218,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		#region NamedInterval
-		public OperationResult<IEnumerable<NamedInterval>> GetNamedIntervals(NamedIntervalFilter filter)
-		{
-			return SKDDatabaseService.NamedIntervalTranslator.Get(filter);
-		}
-		public OperationResult SaveNamedIntervals(IEnumerable<NamedInterval> items)
-		{
-			return SKDDatabaseService.NamedIntervalTranslator.Save(items);
-		}
-		public OperationResult MarkDeletedNamedIntervals(IEnumerable<NamedInterval> items)
-		{
-			return SKDDatabaseService.NamedIntervalTranslator.MarkDeleted(items);
-		}
-		public OperationResult MarkDeletedTimeIntervals(IEnumerable<TimeInterval> items)
-		{
-			return SKDDatabaseService.TimeIntervalTranslator.MarkDeleted(items);
-		}
-		public OperationResult MarkDeletedHolidays(IEnumerable<Holiday> items)
-		{
-			return SKDDatabaseService.HolidayTranslator.MarkDeleted(items);
-		}
-		#endregion
-		
 		#region Devices
 		public OperationResult<SKDStates> SKDGetStates()
 		{

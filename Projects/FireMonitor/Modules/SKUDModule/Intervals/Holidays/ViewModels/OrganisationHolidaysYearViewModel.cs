@@ -6,7 +6,7 @@ using SKDModule.Intervals.Common.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationHolidaysYearViewModel : OrganisationIntervalViewModel<HolidayViewModel, Holiday>
+	public class OrganisationHolidaysYearViewModel : OrganisationViewModel<HolidayViewModel, Holiday>
 	{
 		public int Year { get; private set; }
 

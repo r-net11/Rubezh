@@ -18,11 +18,11 @@ namespace SKDModule.ViewModels
 		{
 		}
 
-		public override OrganisationNamedIntervalsViewModel CreateOrganizationViewModel(FiresecAPI.Organisation organization)
+		protected override OrganisationNamedIntervalsViewModel CreateOrganizationViewModel(FiresecAPI.Organisation organization)
 		{
 			return new OrganisationNamedIntervalsViewModel(organization);
 		}
-		public override IEnumerable<NamedInterval> GetModels()
+		protected override IEnumerable<NamedInterval> GetModels()
 		{
 			return NamedIntervalHelper.Get(new NamedIntervalFilter() { OrganizationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 		}

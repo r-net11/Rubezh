@@ -110,6 +110,11 @@ namespace SKDModule.ViewModels
 				var endTime = timeInterval.EndTime;
 				if (timeInterval.IntervalTransitionType != IntervalTransitionType.Day)
 					endTime = endTime.Add(TimeSpan.FromDays(1));
+				if (beginTime > endTime)
+				{
+					MessageBoxService.ShowWarning("Время окончания интервала должно быть позже времени начала");
+					return false;
+				}
 				if (beginTime < currentDateTime)
 				{
 					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
