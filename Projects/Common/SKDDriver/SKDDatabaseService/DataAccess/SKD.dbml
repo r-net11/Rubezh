@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKUD" EntityNamespace="SKDDriver.DataAccess" ContextNamespace="SKDDriver.DataAccess" Class="SKDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;Initial Catalog=SKUD;Integrated Security=True" SettingsObjectName="SKDDriver.Properties.Settings" SettingsPropertyName="SKUDConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKUD" Class="SKDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SKUD;Integrated Security=True" SettingsObjectName="SKDDriver.Properties.Settings" SettingsPropertyName="SKUDConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.AccessTemplate" Member="AccessTemplates">
     <Type Name="AccessTemplate">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -12,20 +12,6 @@
       <Association Name="AccessTemplate_CardZoneLink" Member="CardZoneLinks" ThisKey="UID" OtherKey="ParentUID" Type="CardZoneLink" />
       <Association Name="Organization_AccessTemplate" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
     </Type>
-  </Table>
-  <Table Name="dbo.AdditionalColumn" Member="AdditionalColumns">
-    <Type Name="AdditionalColumn">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="AdditionalColumnTypeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="TextData" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="PhotoUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="Employee_AdditionalColumn" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
-      <Association Name="Schedule_ScheduleZoneLink" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" />
-      <Association Name="Photo_AdditionalColumn" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
-      <Association Name="AdditionalColumnType_AdditionalColumn" Member="AdditionalColumnType" ThisKey="AdditionalColumnTypeUID" OtherKey="UID" Type="AdditionalColumnType" IsForeignKey="true" />
-
-     </Type>
   </Table>
   <Table Name="dbo.AdditionalColumn" Member="AdditionalColumns">
     <Type Name="AdditionalColumn">
@@ -49,7 +35,7 @@
       <Column Name="DataType" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="PersonType" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="IsInGrid" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IsInGrid" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="AdditionalColumnType_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="AdditionalColumnTypeUID" Type="AdditionalColumn" />
       <Association Name="Organization_AdditionalColumnType" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
     </Type>
@@ -169,11 +155,29 @@
       <Association Name="Employee_PassJournal" Member="PassJournals" ThisKey="UID" OtherKey="EmployeeUID" Type="PassJournal" />
       <Association Name="Department_Employee" Member="Department" ThisKey="DepartmentUID" OtherKey="UID" Type="Department" IsForeignKey="true" />
       <Association Name="Employee_Employee" Member="Employee1" ThisKey="EscortUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
+      <Association Name="EmployeeDocument_Employee" Member="EmployeeDocument" ThisKey="DocumentUID" OtherKey="UID" Type="EmployeeDocument" IsForeignKey="true" />
       <Association Name="Organization_Employee" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
       <Association Name="Photo_Employee" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
       <Association Name="Position_Employee" Member="Position" ThisKey="PositionUID" OtherKey="UID" Type="Position" IsForeignKey="true" />
       <Association Name="Schedule_Employee" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" />
-      <Association Name="EmployeeDocument_Employee" Member="EmployeeDocument" ThisKey="DocumentUID" OtherKey="UID" Type="EmployeeDocument" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EmployeeDocument" Member="EmployeeDocuments">
+    <Type Name="EmployeeDocument">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Number" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="BirthPlace" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="GivenDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="GivenBy" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ValidTo" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Gender" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DepartmentCode" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Citizenship" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="EmployeeDocument_Employee" Member="Employees" ThisKey="UID" OtherKey="DocumentUID" Type="Employee" />
     </Type>
   </Table>
   <Table Name="dbo.EmployeeReplacement" Member="EmployeeReplacements">
@@ -361,13 +365,15 @@
       <Association Name="Organization_ScheduleScheme" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.ScheduleZoneLink" Member="ScheduleZoneLinks">
+    <Type Name="ScheduleZoneLink">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ScheduleUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="IsControl" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsInGrid" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="Gender" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DepartmentCode" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Citizenship" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="EmployeeDocument_Employee" Member="Employees" ThisKey="UID" OtherKey="DocumentUID" Type="Employee" />
+      <Association Name="Schedule_ScheduleZoneLink" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" />
+    </Type>
+  </Table>
 </Database>

@@ -52,13 +52,10 @@
     <Compile Include="AdministratorHelper.cs" />
     <Compile Include="BytesHelper.cs" />
     <Compile Include="SKDDatabaseService\DataAccess\IDatabaseElement.cs" />
-    <Compile Include="SKDDatabaseService\DataAccess\SKD.cs">
-      <DependentUpon>SKD.dbml</DependentUpon>
-    </Compile>
     <Compile Include="SKDDatabaseService\DataAccess\SKD.designer.cs">
-      <DependentUpon>SKD.dbml</DependentUpon>
-      <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SKD.dbml</DependentUpon>
     </Compile>
     <Compile Include="SKDDatabaseService\Translators\AdditionalColumnTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\AdditionalColumnTypeTranslator.cs" />
@@ -118,25 +115,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="SKDDatabaseService\DataAccess\SKD.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>SKD.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SKDDatabaseService\DataAccess\SKD.dbml.layout">
       <DependentUpon>SKD.dbml</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

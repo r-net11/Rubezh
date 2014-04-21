@@ -260,8 +260,8 @@ CREATE PROCEDURE [dbo].[SaveHoliday]
 	@OrganizationUid uniqueidentifier = NULL,
 	@Name nvarchar(50)= NULL,
 	@Type int ,
-	@Date date ,
-	@TransferDate date ,
+	@Date sqldate ,
+	@TransferDate sqldate ,
 	@Reduction int ,
 	@IsDeleted bit ,
 	@RemovalDate datetime 
