@@ -3,13 +3,9 @@
 					xmlns:Views="clr-namespace:SKDModule.Views"
 					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:NewPositionsViewModel}">
-        <Views:NewPositionsView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:PositionsViewModel}">
-		<Views:PositionsView />
-	</DataTemplate>
+        <Views:PositionsView />
+    </DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:PositionDetailsViewModel}">
 		<Views:PositionDetailsView />
