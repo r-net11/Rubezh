@@ -9,9 +9,9 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationZonesViewModel : BaseViewModel
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 
-		public OrganisationZonesViewModel(Organization organization)
+		public OrganisationZonesViewModel(Organisation organization)
 		{
 			Organization = organization;
 			AllZones = new List<OrganisationZoneViewModel>();

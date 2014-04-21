@@ -21,40 +21,38 @@ namespace SKDModule.ViewModels
 			Initialize();
 		}
 
-		void Initialize()
+		private void Initialize()
 		{
 			AvailableYears = new ObservableCollection<HolidayYearViewModel>();
 			for (int i = 2010; i <= 2020; i++)
-			{
 				AvailableYears.Add(new HolidayYearViewModel(i));
-			}
 			SelectedYear = AvailableYears.FirstOrDefault(x => x.Year == DateTime.Now.Year);
 		}
 
-		ObservableCollection<HolidayYearViewModel> _availableYears;
+		private ObservableCollection<HolidayYearViewModel> _availableYears;
 		public ObservableCollection<HolidayYearViewModel> AvailableYears
 		{
 			get { return _availableYears; }
 			set
 			{
 				_availableYears = value;
-				OnPropertyChanged("AvailableYears");
+				OnPropertyChanged(() => AvailableYears);
 			}
 		}
 
-		HolidayYearViewModel _selectedYear;
+		private HolidayYearViewModel _selectedYear;
 		public HolidayYearViewModel SelectedYear
 		{
 			get { return _selectedYear; }
 			set
 			{
 				_selectedYear = value;
-				OnPropertyChanged("SelectedYear");
+				OnPropertyChanged(() => SelectedYear);
 			}
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
+		private void OnRefresh()
 		{
 			Initialize();
 		}

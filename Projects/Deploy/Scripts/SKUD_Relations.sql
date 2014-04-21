@@ -116,6 +116,8 @@ ALTER TABLE [dbo].[EmployeeReplacement] NOCHECK CONSTRAINT [FK_EmployeeReplaceme
 GO
 ALTER TABLE [dbo].[Interval]  WITH NOCHECK ADD  CONSTRAINT [FK_Interval_NamedInterval1] FOREIGN KEY([NamedIntervalUid])
 REFERENCES [dbo].[NamedInterval] ([Uid])
+ON UPDATE CASCADE
+ON DELETE CASCADE
 NOT FOR REPLICATION 
 GO
 ALTER TABLE [dbo].[Interval] NOCHECK CONSTRAINT [FK_Interval_NamedInterval1]

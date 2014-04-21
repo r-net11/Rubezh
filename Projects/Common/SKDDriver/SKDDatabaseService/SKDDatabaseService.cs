@@ -23,7 +23,9 @@ namespace SKDDriver
 			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
 			EmployeeDocumentTranslator = new EmployeeDocumentTranslator(Context);
 			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator, EmployeeDocumentTranslator);
-			NamedIntervalTranslator = new NamedIntervalTranslator(Context);
+			TimeIntervalTranslator = new TimeIntervalTranslator(Context);
+			NamedIntervalTranslator = new NamedIntervalTranslator(Context, TimeIntervalTranslator);
+			HolidayTranslator = new HolidayTranslator(Context);
 		}
 
 		static EmployeeDocumentTranslator EmployeeDocumentTranslator; 
@@ -41,5 +43,7 @@ namespace SKDDriver
 		public static PhotoTranslator PhotoTranslator { get; private set; }
 		public static EmployeeReplacementTranslator EmployeeReplacementTranslator { get; private set; }
 		public static NamedIntervalTranslator NamedIntervalTranslator { get; private set; }
+		public static TimeIntervalTranslator TimeIntervalTranslator { get; private set; }
+		public static HolidayTranslator HolidayTranslator { get; private set; }
 	}
 }

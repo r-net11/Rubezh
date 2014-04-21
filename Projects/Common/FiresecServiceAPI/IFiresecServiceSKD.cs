@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using EmployeeNamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
 using EmployeeNamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
+using EmployeeTimeInterval = FiresecAPI.EmployeeTimeIntervals.TimeInterval;
+using EmployeeTimeIntervalFilter = FiresecAPI.EmployeeTimeIntervals.TimeIntervalFilter;
+using EmployeeHoliday = FiresecAPI.EmployeeTimeIntervals.Holiday;
+using EmployeeHolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 
 namespace FiresecAPI
 {
@@ -47,6 +51,10 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<SKDJournalItem>> GetSKDJournalItems(SKDJournalFilter filter);
 		[OperationContract]
 		OperationResult SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
+		[OperationContract]
+		OperationResult<IEnumerable<EmployeeTimeInterval>> GetTimeIntervals(EmployeeTimeIntervalFilter filter);
+		[OperationContract]
+		OperationResult<IEnumerable<EmployeeHoliday>> GetHolidays(EmployeeHolidayFilter filter);
 		#endregion
 
 		#region Card
@@ -87,6 +95,10 @@ namespace FiresecAPI
 		OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organisations);
 		[OperationContract]
 		OperationResult SaveOrganisationZones(Organisation organization);
+		[OperationContract]
+		OperationResult SaveTimeIntervals(IEnumerable<EmployeeTimeInterval> items);
+		[OperationContract]
+		OperationResult SaveHolidays(IEnumerable<EmployeeHoliday> items);
 		#endregion
 
 		#region Document
@@ -137,6 +149,10 @@ namespace FiresecAPI
 		OperationResult SaveNamedIntervals(IEnumerable<EmployeeNamedInterval> items);
 		[OperationContract]
 		OperationResult MarkDeletedNamedIntervals(IEnumerable<EmployeeNamedInterval> items);
+		[OperationContract]
+		OperationResult MarkDeletedTimeIntervals(IEnumerable<EmployeeTimeInterval> items);
+		[OperationContract]
+		OperationResult MarkDeletedHolidays(IEnumerable<EmployeeHoliday> items);
 		#endregion
 		
 		#region DeviceCommands

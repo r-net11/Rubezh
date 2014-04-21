@@ -21,7 +21,10 @@ namespace SKDModule.ViewModels
 			{
 				Title = "Новый интервал";
 				_isNew = true;
-				timeInterval = new TimeInterval();
+				timeInterval = new TimeInterval()
+				{
+					NamedIntervalUID = namedInterval.UID,
+				};
 			}
 			else
 			{
@@ -31,24 +34,24 @@ namespace SKDModule.ViewModels
 			TimeInterval = timeInterval;
 
 			AvailableTransitions = new ObservableCollection<IntervalTransitionType>(Enum.GetValues(typeof(IntervalTransitionType)).OfType<IntervalTransitionType>());
-			StartTime = timeInterval.StartTime;
+			BeginTime = timeInterval.BeginTime;
 			EndTime = timeInterval.EndTime;
 			SelectedTransition = timeInterval.IntervalTransitionType;
 		}
 
-		private DateTime _startTime;
-		public DateTime StartTime
+		private TimeSpan _beginTime;
+		public TimeSpan BeginTime
 		{
-			get { return _startTime; }
+			get { return _beginTime; }
 			set
 			{
-				_startTime = value;
-				OnPropertyChanged(() => StartTime);
+				_beginTime = value;
+				OnPropertyChanged(() => BeginTime);
 			}
 		}
 
-		private DateTime _endTime;
-		public DateTime EndTime
+		private TimeSpan _endTime;
+		public TimeSpan EndTime
 		{
 			get { return _endTime; }
 			set
@@ -84,7 +87,7 @@ namespace SKDModule.ViewModels
 		{
 			if (!Validate())
 				return false;
-			TimeInterval.StartTime = StartTime;
+			TimeInterval.BeginTime = BeginTime;
 			TimeInterval.EndTime = EndTime;
 			TimeInterval.IntervalTransitionType = SelectedTransition;
 			return true;
@@ -98,26 +101,26 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Последовательность интервалов не может начинаться со следующего дня");
 				return false;
 			}
-			var currentDateTime = DateTime.MinValue;
+			var currentDateTime = new TimeSpan(0, 0, 0);
 			foreach (var timeInterval in timeIntervals)
 			{
-				var startTime = timeInterval.StartTime;
+				var beginTime = timeInterval.BeginTime;
 				if (timeInterval.IntervalTransitionType == IntervalTransitionType.NextDay)
-					startTime = startTime.AddDays(1);
+					beginTime = beginTime.Add(TimeSpan.FromDays(1));
 				var endTime = timeInterval.EndTime;
 				if (timeInterval.IntervalTransitionType != IntervalTransitionType.Day)
-					endTime = endTime.AddDays(1);
-				if (startTime < currentDateTime)
+					endTime = endTime.Add(TimeSpan.FromDays(1));
+				if (beginTime < currentDateTime)
 				{
 					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
 					return false;
 				}
-				if (startTime == currentDateTime)
+				if (beginTime == currentDateTime)
 				{
 					MessageBoxService.ShowWarning("Пауза между интервалами не должна быть нулевой");
 					return false;
 				}
-				currentDateTime = startTime;
+				currentDateTime = beginTime;
 				if (endTime < currentDateTime)
 				{
 					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
@@ -140,9 +143,10 @@ namespace SKDModule.ViewModels
 				var clonedTimeInterval = new TimeInterval()
 				{
 					UID = timeInterval.UID,
-					StartTime = timeInterval.StartTime,
+					BeginTime = timeInterval.BeginTime,
 					EndTime = timeInterval.EndTime,
-					IntervalTransitionType = timeInterval.IntervalTransitionType
+					IntervalTransitionType = timeInterval.IntervalTransitionType,
+					NamedIntervalUID = timeInterval.NamedIntervalUID,
 				};
 				timeIntervals.Add(clonedTimeInterval);
 			}
@@ -150,9 +154,10 @@ namespace SKDModule.ViewModels
 			{
 				var newEmployeeTimeInterval = new TimeInterval()
 				{
-					StartTime = StartTime,
+					BeginTime = BeginTime,
 					EndTime = EndTime,
-					IntervalTransitionType = SelectedTransition
+					IntervalTransitionType = SelectedTransition,
+					NamedIntervalUID = _namedInterval.UID,
 				};
 				timeIntervals.Add(newEmployeeTimeInterval);
 			}
@@ -161,11 +166,15 @@ namespace SKDModule.ViewModels
 				var deitingTimeInterval = timeIntervals.FirstOrDefault(x => x.UID == TimeInterval.UID);
 				if (deitingTimeInterval != null)
 				{
-					deitingTimeInterval.StartTime = StartTime;
+					deitingTimeInterval.BeginTime = BeginTime;
 					deitingTimeInterval.EndTime = EndTime;
 					deitingTimeInterval.IntervalTransitionType = SelectedTransition;
 				}
 			}
+			var day = TimeSpan.FromDays(1);
+			timeIntervals.Sort((item1,item2) => TimeSpan.Compare(
+				item1.IntervalTransitionType == IntervalTransitionType.NextDay ? item1.BeginTime.Add(day) : item1.BeginTime,
+				item2.IntervalTransitionType == IntervalTransitionType.NextDay ? item2.BeginTime.Add(day) : item2.BeginTime));
 			return timeIntervals;
 		}
 	}

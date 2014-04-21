@@ -14,22 +14,22 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("Holiday");
-			OnPropertyChanged("ShortageTime");
-			OnPropertyChanged("TransitionDateTime");
+			OnPropertyChanged(() => Holiday);
+			OnPropertyChanged(() => ReductionTime);
+			OnPropertyChanged(() => TransitionDate);
 		}
 
-		public string ShortageTime
+		public string ReductionTime
 		{
 			get
 			{
 				if (Holiday.Type != HolidayType.Holiday)
-					return Holiday.Reduction.ToString("HH-mm");
+					return Holiday.Reduction.ToString("hh\\-mm");
 				return null;
 			}
 		}
 
-		public string TransitionDateTime
+		public string TransitionDate
 		{
 			get
 			{

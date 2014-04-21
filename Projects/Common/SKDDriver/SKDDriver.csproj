@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +38,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
@@ -63,6 +65,8 @@
     <Compile Include="SKDDatabaseService\Translators\Base\IsDeletedTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardZoneTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\HolidayTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\TimeIntervalTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\DepartmentTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\DocumentTranslator.cs" />
     <Compile Include="SKDDatabaseService\SKDDatabaseService.cs" />

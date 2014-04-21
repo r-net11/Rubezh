@@ -1,15 +1,22 @@
 ﻿using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
 using OperationResult = FiresecAPI.OperationResult;
+using System;
 
 namespace SKDDriver.Translators
 {
 	public class NamedIntervalTranslator : OrganizationElementTranslator<DataAccess.NamedInterval, NamedInterval, NamedIntervalFilter>
 	{
-		public NamedIntervalTranslator(DataAccess.SKDDataContext context)
+		private TimeIntervalTranslator _timeIntervalTranslator;
+		public NamedIntervalTranslator(DataAccess.SKDDataContext context, TimeIntervalTranslator timeIntervalTranslator)
 			: base(context)
 		{
+			_timeIntervalTranslator = timeIntervalTranslator;
+		}
 
+		protected override IQueryable<DataAccess.NamedInterval> GetQuery(NamedIntervalFilter filter)
+		{
+			return base.GetQuery(filter).OrderBy(item => item.Name);
 		}
 
 		protected override OperationResult CanSave(NamedInterval item)
@@ -28,7 +35,8 @@ namespace SKDDriver.Translators
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
-			result.SlideTime = tableItem.SlideTime;
+			result.SlideTime = TimeSpan.FromSeconds(tableItem.SlideTime);
+			result.TimeIntervals = _timeIntervalTranslator.TranslateAll(tableItem.Intervals.Where(item => !item.IsDeleted).OrderBy(item => item.BeginTime));
 			return result;
 		}
 
@@ -37,7 +45,8 @@ namespace SKDDriver.Translators
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
-			tableItem.SlideTime = apiItem.SlideTime;
+			tableItem.SlideTime = (int)apiItem.SlideTime.TotalSeconds;
+			_timeIntervalTranslator.Save(apiItem.TimeIntervals, false);
 		}
 	}
 }

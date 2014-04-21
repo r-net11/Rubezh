@@ -7,12 +7,15 @@ namespace FiresecAPI.EmployeeTimeIntervals
 	public enum HolidayType
 	{
 		[DescriptionAttribute("Праздник")]
-		Holiday,
+		[EnumMember]
+		Holiday = 0,
 
 		[DescriptionAttribute("Предпраздничный день")]
-		BeforeHoliday,
+		[EnumMember]
+		BeforeHoliday = 1,
 
 		[DescriptionAttribute("Рабочий выходной")]
-		WorkingHoliday
+		[EnumMember]
+		WorkingHoliday = 2,
 	}
 }

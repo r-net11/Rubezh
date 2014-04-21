@@ -63,7 +63,7 @@ namespace SecurityModule.ViewModels
 				{
 					try
 					{
-						var organisations = OrganizationHelper.Get(new OrganizationFilter());
+						var organisations = OrganisationHelper.Get(new OrganisationFilter());
 						foreach (var organisation in organisations)
 						{
 							var organisationViewModel = new OrganisationViewModel(organisation);

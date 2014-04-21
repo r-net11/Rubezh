@@ -15,11 +15,11 @@ namespace SKDModule.ViewModels
 			TimeInterval = timeInterval;
 		}
 
-		public DateTime StartTime
+		public TimeSpan BeginTime
 		{
-			get { return TimeInterval.StartTime; }
+			get { return TimeInterval.BeginTime; }
 		}
-		public DateTime EndTime
+		public TimeSpan EndTime
 		{
 			get { return TimeInterval.EndTime; }
 		}
@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 		public void Update()
 		{
 			OnPropertyChanged(() => TimeInterval);
-			OnPropertyChanged(() => StartTime);
+			OnPropertyChanged(() => BeginTime);
 			OnPropertyChanged(() => EndTime);
 			OnPropertyChanged(() => IntervalTransitionType);
 		}

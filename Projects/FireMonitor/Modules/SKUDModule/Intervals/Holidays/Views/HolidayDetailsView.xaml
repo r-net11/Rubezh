@@ -1,14 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.HolidayDetailsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 xmlns:Converters="clr-namespace:SKDModule.Converters"
-			 Width="500" Height="500">
-
-	<UserControl.Resources>
-		<Converters:EmployeeHolidayTypeToStringConverter x:Key="EmployeeHolidayTypeToStringConverter" />
-	</UserControl.Resources>
-
+﻿<UserControl x:Class="SKDModule.Views.HolidayDetailsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="500" Height="500">
 	<TabControl>
 		<TabItem Header="Основные">
 			<Grid>
@@ -23,34 +13,28 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Наименование" Foreground="White" Margin="2" />
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Наименование" />
+				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Text="Тип" Foreground="White" Margin="2" />
-				<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AvailableHolidayTypes}" SelectedItem="{Binding HolidayType}" Margin="2">
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Тип" />
+				<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding AvailableHolidayTypes}" SelectedItem="{Binding HolidayType}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding ., Converter={StaticResource EmployeeHolidayTypeToStringConverter}}" Foreground="Black" />
+								<TextBlock Foreground="Black" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 							</StackPanel>
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Text="Дата" Foreground="White" Margin="2" />
-				<Calendar Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left"
-					SelectedDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}"
-					DisplayDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" 
-					SelectionMode="SingleDate" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Дата" />
+				<Calendar Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" DisplayDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Text="Величина сокращения" Foreground="White" Margin="2" />
-				<Controls:TimePicker Grid.Row="3" Grid.Column="1" Time="{Binding ShortageTime, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsShortageTimeEnabled}"  Margin="2" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" Foreground="White" Text="Величина сокращения" />
+				<TimePicker Grid.Row="3" Grid.Column="1" Margin="2" IsEnabled="{Binding IsReductionEnabled}" TimeSpan="{Binding Reduction, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="4" Grid.Column="0" Text="Дата переноса" Foreground="White" Margin="2" />
-				<Calendar Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" IsEnabled="{Binding IsTransitionDateTimeEnabled}"
-					SelectedDate="{Binding TransitionDateTime, UpdateSourceTrigger=PropertyChanged}"
-					DisplayDate="{Binding TransitionDateTime, UpdateSourceTrigger=PropertyChanged}" 
-					SelectionMode="SingleDate" />
+				<TextBlock Grid.Row="4" Grid.Column="0" Margin="2" Foreground="White" Text="Дата переноса" />
+				<Calendar Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" DisplayDate="{Binding TransferDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsTransferDateEnabled}" SelectedDate="{Binding TransferDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
 			</Grid>
 		</TabItem>
 	</TabControl>

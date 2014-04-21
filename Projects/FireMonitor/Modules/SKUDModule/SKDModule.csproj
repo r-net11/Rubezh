@@ -245,7 +245,6 @@
     <Compile Include="AccessTemplates\ViewModels\OrganisationAccessTemplatesViewModel.cs" />
     <Compile Include="Events\UpdateAdditionalColumns.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
-    <Compile Include="Intervals\Converters\EmployeeHolidayTypeToStringConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidaySettingsViewModel.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\OrganisationHolidaysYearViewModel.cs" />

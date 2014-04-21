@@ -4,6 +4,10 @@ using Common;
 using FiresecAPI;
 using NamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
 using NamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
+using TimeInterval = FiresecAPI.EmployeeTimeIntervals.TimeInterval;
+using TimeIntervalFilter = FiresecAPI.EmployeeTimeIntervals.TimeIntervalFilter;
+using Holiday = FiresecAPI.EmployeeTimeIntervals.Holiday;
+using HolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 
 namespace FiresecService.Service
 {
@@ -63,6 +67,14 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedPositions(IEnumerable<Guid> uids)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPositions(uids));
+		}
+		public OperationResult<IEnumerable<TimeInterval>> GetTimeIntervals(TimeIntervalFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<TimeInterval>>>(() => FiresecService.GetTimeIntervals(filter));
+		}
+		public OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Holiday>>>(() => FiresecService.GetHolidays(filter));
 		}
 		#endregion
 
@@ -142,6 +154,14 @@ namespace FiresecService.Service
 		public OperationResult SaveOrganisationZones(Organisation organization)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(organization));
+		}
+		public OperationResult SaveTimeIntervals(IEnumerable<TimeInterval> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveTimeIntervals(items));
+		}
+		public OperationResult SaveHolidays(IEnumerable<Holiday> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveHolidays(items));
 		}
 		#endregion
 		
@@ -224,6 +244,14 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedNamedIntervals(IEnumerable<NamedInterval> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedNamedIntervals(items));
+		}
+		public OperationResult MarkDeletedTimeIntervals(IEnumerable<TimeInterval> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedTimeIntervals(items));
+		}
+		public OperationResult MarkDeletedHolidays(IEnumerable<Holiday> items)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedHolidays(items));
 		}
 		#endregion
 		

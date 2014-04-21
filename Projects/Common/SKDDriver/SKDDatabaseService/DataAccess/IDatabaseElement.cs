@@ -23,6 +23,7 @@ namespace SKDDriver.DataAccess
 		Guid? OrganizationUID { get; set; }
 	}
 
+	
 	public partial class Journal : IDatabaseElement { }
 	public partial class AdditionalColumn : IDatabaseElement, ILinkedToEmployee { }
 	public partial class Photo : IDatabaseElement { }

@@ -14,47 +14,47 @@ namespace SKDModule.ViewModels
 			Title = "Настройки праздничных дней";
 		}
 
-		DateTime _nightStartTime;
+		private DateTime _nightStartTime;
 		public DateTime NightStartTime
 		{
 			get { return _nightStartTime; }
 			set
 			{
 				_nightStartTime = value;
-				OnPropertyChanged("NightStartTime");
+				OnPropertyChanged(() => NightStartTime);
 			}
 		}
 
-		DateTime _nightEndTime;
+		private DateTime _nightEndTime;
 		public DateTime NightEndTime
 		{
 			get { return _nightEndTime; }
 			set
 			{
 				_nightEndTime = value;
-				OnPropertyChanged("NightEndTime");
+				OnPropertyChanged(() => NightEndTime);
 			}
 		}
 
-		DateTime _eveningStartTime;
+		private DateTime _eveningStartTime;
 		public DateTime EveningStartTime
 		{
 			get { return _eveningStartTime; }
 			set
 			{
 				_eveningStartTime = value;
-				OnPropertyChanged("EveningStartTime");
+				OnPropertyChanged(() => EveningStartTime);
 			}
 		}
 
-		DateTime _eveningEndTime;
+		private DateTime _eveningEndTime;
 		public DateTime EveningEndTime
 		{
 			get { return _eveningEndTime; }
 			set
 			{
 				_eveningEndTime = value;
-				OnPropertyChanged("EveningEndTime");
+				OnPropertyChanged(() => EveningEndTime);
 			}
 		}
 

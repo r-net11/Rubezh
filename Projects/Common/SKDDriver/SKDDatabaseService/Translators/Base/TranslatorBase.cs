@@ -28,7 +28,7 @@ namespace SKDDriver
 		}
 
 		protected abstract void TranslateBack(TableT tableItem, ApiT apiItem);
-		
+
 		protected virtual OperationResult CanSave(ApiT item)
 		{
 			return new OperationResult();
@@ -48,13 +48,18 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected virtual IEnumerable<TableT> GetTableItems(FilterT filter)
+		protected virtual IQueryable<TableT> GetQuery(FilterT filter)
 		{
 			IQueryable<TableT> query;
 			if (filter == null)
 				query = Table;
 			else
 				query = Table.Where(IsInFilter(filter));
+			return query;
+		}
+		protected virtual IEnumerable<TableT> GetTableItems(FilterT filter)
+		{
+			var query = GetQuery(filter);
 			return query.ToList();
 		}
 
@@ -77,10 +82,15 @@ namespace SKDDriver
 
 		public virtual OperationResult Save(IEnumerable<ApiT> apiItems)
 		{
+			return Save(apiItems, true);
+		}
+		public virtual OperationResult Save(IEnumerable<ApiT> apiItems, bool commit)
+		{
 			try
 			{
 				if (apiItems == null)
 					return new OperationResult();
+				var tableItems = new List<TableT>();
 				foreach (var apiItem in apiItems)
 				{
 					if (apiItem == null)
@@ -98,8 +108,12 @@ namespace SKDDriver
 					}
 					else
 						TranslateBack(tableItem, apiItem);
+					tableItems.Add(tableItem);
 				}
-				Table.Context.SubmitChanges();
+				BeforeSave(apiItems, tableItems);
+				if (commit)
+					Table.Context.SubmitChanges();
+				AfterSave(apiItems, tableItems);
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -108,24 +122,16 @@ namespace SKDDriver
 			}
 		}
 
-		public virtual OperationResult Delete(IEnumerable<Guid> uids)
+		protected virtual void BeforeSave(IEnumerable<ApiT> apiItems, IEnumerable<TableT> tableItems)
 		{
-			var operationResult = new OperationResult();
-			try
-			{
-				foreach (var uid in uids)
-				{
-					var databaseItem = (from x in Table where x.UID.Equals(uid) select x).FirstOrDefault();
-					if(databaseItem != null)
-						Table.DeleteOnSubmit(databaseItem);
-				}
-				Table.Context.SubmitChanges();
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
+		}
+		protected virtual void AfterSave(IEnumerable<ApiT> apiItems, IEnumerable<TableT> tableItems)
+		{
+		}
+
+		protected virtual int Comparer(TableT item1, TableT item2)
+		{
+			return 0;
 		}
 
 		protected static readonly DateTime MinYear = new DateTime(1900, 1, 1);
@@ -137,16 +143,16 @@ namespace SKDDriver
 				return MinYear;
 			if (dateTime > MaxYear)
 				return MaxYear;
-			return dateTime; 
+			return dateTime;
 		}
 
-		protected static ApiType TranslateBase<ApiType,TableType>(TableType tableItem)
-			where ApiType: SKDModelBase, new()
+		protected static ApiType TranslateBase<ApiType, TableType>(TableType tableItem)
+			where ApiType : SKDModelBase, new()
 			where TableType : DataAccess.IDatabaseElement
 		{
 			var result = new ApiType();
 			result.UID = tableItem.UID;
-			return result; 
+			return result;
 		}
 
 		protected static T GetResult<T>(OperationResult<T> operationResult)
@@ -192,7 +198,7 @@ namespace SKDDriver
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<ApiT>(e.Message);					
+				return new OperationResult<ApiT>(e.Message);
 			}
 		}
 	}

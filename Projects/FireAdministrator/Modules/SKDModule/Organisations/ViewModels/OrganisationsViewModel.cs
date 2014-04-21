@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			//var organisations = OrganizationHelper.Get(new OrganizationFilter());
-			var organisations = OrganizationHelper.Get(null);
+			var organisations = OrganisationHelper.Get(null);
 			Organisations = new ObservableCollection<OrganisationViewModel>();
 			if (organisations != null)
 			{
@@ -104,7 +104,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(organisationDetailsViewModel))
 			{
 				var organization = organisationDetailsViewModel.Organisation;
-				var saveResult = OrganizationHelper.Save(organization);
+				var saveResult = OrganisationHelper.Save(organization);
 				if (saveResult == false)
 					return;
 				var organisationViewModel = new OrganisationViewModel(organization);
@@ -120,7 +120,7 @@ namespace SKDModule.ViewModels
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var organization = SelectedOrganisation.Organisation;
-				var removeResult = OrganizationHelper.MarkDeleted(organization);
+				var removeResult = OrganisationHelper.MarkDeleted(organization);
 				if (removeResult == false)
 					return;
 				Organisations.Remove(SelectedOrganisation);
@@ -136,7 +136,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(organisationDetailsViewModel))
 			{
 				var organization = organisationDetailsViewModel.Organisation;
-				var saveResult = OrganizationHelper.Save(organization);
+				var saveResult = OrganisationHelper.Save(organization);
 				if (saveResult == false)
 					return;
 				SelectedOrganisation.Organisation = organization;
