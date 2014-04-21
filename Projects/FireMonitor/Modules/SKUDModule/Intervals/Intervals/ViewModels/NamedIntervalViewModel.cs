@@ -9,14 +9,13 @@ using System;
 
 namespace SKDModule.ViewModels
 {
-	public class NamedIntervalViewModel : BaseViewModel, IEditingViewModel
+	public class NamedIntervalViewModel : BaseObjectViewModel<NamedInterval>, IEditingViewModel
 	{
-		public NamedInterval NamedInterval { get; private set; }
 		public SortableObservableCollection<TimeIntervalViewModel> TimeIntervals { get; private set; }
 
 		public NamedIntervalViewModel(NamedInterval namedInterval)
+			: base(namedInterval)
 		{
-			NamedInterval = namedInterval;
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
@@ -39,19 +38,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Update()
-		{
-			OnPropertyChanged(() => NamedInterval);
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(NamedInterval);
+			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(Model);
 			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel) && TimeIntervalHelper.Save(timeIntervalDetailsViewModel.TimeInterval))
 			{
 				var timeInterval = timeIntervalDetailsViewModel.TimeInterval;
-				NamedInterval.TimeIntervals.Add(timeInterval);
+				Model.TimeIntervals.Add(timeInterval);
 				var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
 				TimeIntervals.Add(timeIntervalViewModel);
 				Sort();
@@ -64,7 +58,7 @@ namespace SKDModule.ViewModels
 		{
 			if (TimeIntervalHelper.MarkDeleted(SelectedTimeInterval.TimeInterval))
 			{
-				NamedInterval.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
+				Model.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
 				TimeIntervals.Remove(SelectedTimeInterval);
 			}
 		}
@@ -76,7 +70,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(NamedInterval, SelectedTimeInterval.TimeInterval);
+			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(Model, SelectedTimeInterval.TimeInterval);
 			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel))
 			{
 				TimeIntervalHelper.Save(SelectedTimeInterval.TimeInterval);

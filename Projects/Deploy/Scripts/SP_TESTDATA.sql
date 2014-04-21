@@ -49,7 +49,7 @@ EXEC [dbo].[SaveInterval] @Uid, 66600, 81000, @GuardNamedIntervalUid,0,'01/01/19
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveInterval] @Uid, 122400, 129600, @GuardNamedIntervalUid,0,'01/01/1900'
 SET @Uid = NEWID(); 
-EXEC [dbo].[SaveInterval] @Uid, 14400, 115200, @GuardNamedIntervalUid,0,'01/01/1900'
+EXEC [dbo].[SaveInterval] @Uid, 82800, 115200, @GuardNamedIntervalUid,0,'01/01/1900'
 DECLARE @GuardScheduleSchemeUid uniqueidentifier;
 SET @GuardScheduleSchemeUid = NEWID();
 EXEC [dbo].[SaveScheduleScheme] @GuardScheduleSchemeUid, @Organization1Uid, 'Охрана', 1

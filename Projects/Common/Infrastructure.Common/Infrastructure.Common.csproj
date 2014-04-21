@@ -195,6 +195,7 @@
     <Compile Include="Video\RVI_VSS\WinFormsPlayer.Designer.cs">
       <DependentUpon>WinFormsPlayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ViewModels\BaseObjectViewModel.cs" />
     <Compile Include="ZipFileConfigurationHelper.cs" />
     <Compile Include="LoadHelper\FS2LoadHelper.cs" />
     <Compile Include="FSCP\ZipConfigHelper.cs" />

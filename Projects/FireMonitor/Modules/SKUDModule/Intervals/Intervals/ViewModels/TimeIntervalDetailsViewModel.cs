@@ -101,7 +101,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Последовательность интервалов не может начинаться со следующего дня");
 				return false;
 			}
-			var currentDateTime = new TimeSpan(0, 0, 0);
+			var currentDateTime = new TimeSpan(0, 0, -1);
 			foreach (var timeInterval in timeIntervals)
 			{
 				var beginTime = timeInterval.BeginTime;

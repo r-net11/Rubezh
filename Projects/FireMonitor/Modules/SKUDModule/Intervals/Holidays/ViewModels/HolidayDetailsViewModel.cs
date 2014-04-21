@@ -34,7 +34,7 @@ namespace SKDModule.ViewModels
 			Name = holiday.Name;
 			Date = holiday.Date;
 			Reduction = holiday.Reduction;
-			TransferDate = holiday.TransferDate;
+			TransferDate = holiday.TransferDate.HasValue ? holiday.TransferDate.Value : holiday.Date;
 
 			AvailableHolidayTypes = new ObservableCollection<HolidayType>(Enum.GetValues(typeof(HolidayType)).OfType<HolidayType>());
 			HolidayType = holiday.Type;
@@ -110,7 +110,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (_organisationHolidaysYearViewModel.Holidays.Any(x => x.Holiday.Date.Month == Date.Month && x.Holiday.Date.Date == Date.Date && x.Holiday.UID != Holiday.UID))
+			if (_organisationHolidaysYearViewModel.ViewModels.Any(x => x.Model.Date.Month == Date.Month && x.Model.Date.Date == Date.Date && x.Model.UID != Holiday.UID))
 			{
 				MessageBoxService.ShowWarning("Дата праздника совпадает с введенным ранее");
 				return false;
@@ -129,7 +129,7 @@ namespace SKDModule.ViewModels
 			Holiday.Date = Date;
 			Holiday.Type = HolidayType;
 			Holiday.Reduction = Reduction;
-			Holiday.TransferDate = TransferDate;
+			Holiday.TransferDate = IsTransferDateEnabled ? (DateTime?)TransferDate : null;
 			return true;
 		}
 	}

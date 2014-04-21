@@ -5,7 +5,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<StackPanel DataContext="{Binding SelectedOrganisationNamedInterval}" Orientation="Horizontal">
+			<StackPanel DataContext="{Binding SelectedOrganisationInterval}" Orientation="Horizontal">
 				<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
 				<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать" />
 				<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
@@ -14,7 +14,7 @@
 			</StackPanel>
 			<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
 		</StackPanel>
-		<TabControl Name="tabControl" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding OrganisationNamedIntervals}" SelectedItem="{Binding SelectedOrganisationNamedInterval}">
+		<TabControl Name="tabControl" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding OrganisationIntervals}" SelectedItem="{Binding SelectedOrganisationInterval}">
 			<TabControl.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Organization.Name}" />
@@ -28,14 +28,14 @@
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-						<XDataGrid Grid.Column="0" ItemsSource="{Binding NamedIntervals}" SelectedItem="{Binding SelectedNamedInterval}">
+                        <XDataGrid Grid.Column="0" ItemsSource="{Binding ViewModels}" SelectedItem="{Binding SelectedViewModel}">
 							<DataGrid.Columns>
 								<DataGridTemplateColumn Width="*" Header="Наименование">
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
 											<StackPanel Orientation="Horizontal">
 												<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
-												<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding NamedInterval.Name}" />
+												<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Model.Name}" />
 											</StackPanel>
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
@@ -43,14 +43,14 @@
 								<DataGridTemplateColumn Width="*" Header="Описание">
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
-											<TextBlock Text="{Binding NamedInterval.Description}" />
+                                            <TextBlock Text="{Binding Model.Description}" />
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
 							</DataGrid.Columns>
 						</XDataGrid>
 						<GridSplitter Grid.Row="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
-						<Grid Grid.Column="2" Margin="4 0 0 0" DataContext="{Binding SelectedNamedInterval}">
+                        <Grid Grid.Column="2" Margin="4 0 0 0" DataContext="{Binding SelectedViewModel}">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />

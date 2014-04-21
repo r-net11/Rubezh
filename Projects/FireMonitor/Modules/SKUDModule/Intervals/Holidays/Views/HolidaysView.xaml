@@ -15,7 +15,7 @@
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 			<StackPanel Orientation="Horizontal" DataContext="{Binding SelectedYear}">
-				<StackPanel Orientation="Horizontal" DataContext="{Binding SelectedOrganisationHoliday}">
+                <StackPanel Orientation="Horizontal" DataContext="{Binding SelectedOrganisationHoliday}">
 					<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
 					<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
 					<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
@@ -25,26 +25,22 @@
 			</StackPanel>
 		</StackPanel>
 
-		<TabControl Grid.Row="1" Name="tabControl" BorderThickness="0" DataContext="{Binding SelectedYear}"
-				ItemsSource="{Binding OrganisationHolidays}"
-				SelectedItem="{Binding SelectedOrganisationHoliday}">
-
+        <TabControl Grid.Row="1" Name="tabControl" BorderThickness="0" DataContext="{Binding SelectedYear}" ItemsSource="{Binding OrganisationHolidays}" SelectedItem="{Binding SelectedOrganisationHoliday}">
 			<TabControl.ItemTemplate>
 				<DataTemplate>
                     <TextBlock Text="{Binding Organization.Name}" />
 				</DataTemplate>
 			</TabControl.ItemTemplate>
-
 			<TabControl.ContentTemplate>
 				<DataTemplate>
-                    <XDataGrid ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}">
+                    <XDataGrid ItemsSource="{Binding ViewModels}" SelectedItem="{Binding SelectedViewModel}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Наименование" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                            <TextBlock Text="{Binding Holiday.Name}" VerticalAlignment="Center" Margin="2" />
+                                            <TextBlock Text="{Binding Model.Name}" VerticalAlignment="Center" Margin="2" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -52,14 +48,14 @@
                             <DataGridTemplateColumn Header="Дата" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Path=Holiday.Date, StringFormat=dd-MM}" />
+                                        <TextBlock Text="{Binding Path=Model.Date, StringFormat=dd-MM}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Тип" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-										<TextBlock Text="{Binding Holiday.Type, Converter={StaticResource EnumToDescriptionConverter}}" />
+										<TextBlock Text="{Binding Model.Type, Converter={StaticResource EnumToDescriptionConverter}}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

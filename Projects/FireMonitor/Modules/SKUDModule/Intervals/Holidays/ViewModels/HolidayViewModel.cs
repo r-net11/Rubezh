@@ -3,18 +3,16 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class HolidayViewModel : BaseViewModel
+	public class HolidayViewModel : BaseObjectViewModel<Holiday>
 	{
-		public Holiday Holiday { get; set; }
-
 		public HolidayViewModel(Holiday holiday)
+			: base(holiday)
 		{
-			Holiday = holiday;
 		}
 
-		public void Update()
+		public override void Update()
 		{
-			OnPropertyChanged(() => Holiday);
+			base.Update();
 			OnPropertyChanged(() => ReductionTime);
 			OnPropertyChanged(() => TransitionDate);
 		}
@@ -23,18 +21,17 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (Holiday.Type != HolidayType.Holiday)
-					return Holiday.Reduction.ToString("hh\\-mm");
+				if (Model.Type != HolidayType.Holiday)
+					return Model.Reduction.ToString("hh\\-mm");
 				return null;
 			}
 		}
-
 		public string TransitionDate
 		{
 			get
 			{
-				if (Holiday.Type == HolidayType.WorkingHoliday)
-					return Holiday.TransferDate.ToString("dd-MM");
+				if (Model.Type == HolidayType.WorkingHoliday && Model.TransferDate.HasValue)
+					return Model.TransferDate.Value.ToString("dd-MM");
 				return null;
 			}
 		}
