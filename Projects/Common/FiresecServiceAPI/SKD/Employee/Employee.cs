@@ -13,7 +13,7 @@ namespace FiresecAPI
 			ReplacementUIDs = new List<Guid>();
 			AdditionalColumns = new List<AdditionalColumn>();
 		}
-		
+
 		[DataMember]
 		public string FirstName { get; set; }
 
@@ -58,6 +58,18 @@ namespace FiresecAPI
 
 		[DataMember]
 		public EmployeeReplacement CurrentReplacement { get; set; }
+
+		[DataMember]
+		public int TabelNo;
+
+		[DataMember]
+		public DateTime CredentialsStartDate;
+
+		[DataMember]
+		public Guid? EscortUID;
+
+		[DataMember]
+		public EmployeeDocument Document;
 
 		public bool IsReplaced
 		{

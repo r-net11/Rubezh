@@ -67,6 +67,7 @@
     <Compile Include="SKDDatabaseService\Translators\DocumentTranslator.cs" />
     <Compile Include="SKDDatabaseService\SKDDatabaseService.cs" />
     <Compile Include="SKDDatabaseService\Translators\Base\OrganizationTranslatorBase.cs" />
+    <Compile Include="SKDDatabaseService\Translators\EmployeeDocumentTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\EmployeeReplacementTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\EmployeeTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\AccessTemplateTranslator.cs" />

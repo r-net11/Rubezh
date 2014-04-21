@@ -33,7 +33,7 @@
 								Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock Text="{Binding SelectedPosition.Name}"/>
+								<TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" />
 								<TextBlock>
 									<TextBlock.Style>
 										<Style>
@@ -55,7 +55,7 @@
 								Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectDepartmentCommand}" Style="{StaticResource HyperlinkStyle}">
-								<TextBlock Text="{Binding SelectedDepartment.Name}"/>
+								<TextBlock Text="{Binding SelectedDepartment.Name}" TextDecorations="Underline" />
 								<TextBlock>
 									<TextBlock.Style>
 										<Style>
@@ -89,6 +89,55 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</StackPanel>
+		</TabItem>
+		<TabItem Header="Документ">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Label Grid.Row="0" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" />
+				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding DocumentNumber, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<Label Grid.Row="1" Grid.Column="0" Content="Место рождения" HorizontalAlignment="Right" />
+				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding BirthPlace, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<Label Grid.Row="2" Grid.Column="0" Content="Дата рождения" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+					<Hyperlink Command="{Binding SelectBirthDateCommand}" Style="{StaticResource HyperlinkStyle}">
+						<TextBlock Text="{Binding BirthDateString}" TextDecorations="Underline"  />
+					</Hyperlink>
+				</TextBlock>
+				<Label Grid.Row="3" Grid.Column="0" Content="Кем выдан" HorizontalAlignment="Right" />
+				<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding GivenBy, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<Label Grid.Row="4" Grid.Column="0" Content="Дата выдачи" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="4" Grid.Column="1" VerticalAlignment="Center">
+					<Hyperlink Command="{Binding SelectGivenDateCommand}" Style="{StaticResource HyperlinkStyle}">
+						<TextBlock Text="{Binding GivenDateString}" TextDecorations="Underline" />
+					</Hyperlink>
+				</TextBlock>
+				<Label Grid.Row="5" Grid.Column="0" Content="Документ действителен до" HorizontalAlignment="Right" />
+				<TextBlock Grid.Row="5" Grid.Column="1" VerticalAlignment="Center">
+					<Hyperlink Command="{Binding SelectValidToCommand}" Style="{StaticResource HyperlinkStyle}">
+						<TextBlock Text="{Binding ValidToString}" TextDecorations="Underline" />
+					</Hyperlink>
+				</TextBlock>
+				<!--<Label Grid.Row="6" Grid.Column="0" Content="Пол" HorizontalAlignment="Right" />
+				<TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}" Margin="2" />-->
+				<Label Grid.Row="7" Grid.Column="0" Content="Гражданство" HorizontalAlignment="Right" />
+				<TextBox Grid.Row="7" Grid.Column="1" Text="{Binding Citizenship, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<!--<Label Grid.Row="8" Grid.Column="0" Content="Тип документа" HorizontalAlignment="Right" />
+				<TextBox Grid.Row="8" Grid.Column="1" Text="{Binding DocumentType, UpdateSourceTrigger=PropertyChanged}" Margin="2" />-->
+				
+			</Grid>     
 		</TabItem>
 		<TabItem Header="{Binding GraphicsColumnsTabItemName}" >
 			<Grid>

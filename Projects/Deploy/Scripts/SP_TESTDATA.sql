@@ -225,7 +225,7 @@ SET @Tester1EmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @Tester1EmployeeUid , @Organization1Uid, 'Сидор', 'Прохорович', 'Захарьин', @TesterPositionUid, null , @ITScheduleUid, '12/06/2013','01/01/1900',0,'01/01/1900'
 DECLARE @Tester2EmployeeUid uniqueidentifier;
 SET @Tester2EmployeeUid = NEWID();
-EXEC [dbo].[SaveEmployee] @Tester1EmployeeUid , @Organization1Uid, 'Прохор', 'Сидорович', 'Захаров', @TesterPositionUid, null , @ITScheduleUid, '12/07/2013','01/01/1900',0,'01/01/1900'
+EXEC [dbo].[SaveEmployee] @Tester2EmployeeUid , @Organization1Uid, 'Прохор', 'Сидорович', 'Захаров', @TesterPositionUid, null , @ITScheduleUid, '12/07/2013','01/01/1900',0,'01/01/1900'
 DECLARE @MainTesterEmployeeUid uniqueidentifier;
 SET @MainTesterEmployeeUid = NEWID();
 EXEC [dbo].[SaveEmployee] @MainTesterEmployeeUid , @Organization1Uid, 'Прохор', 'Прохорович', 'Захаренко', @MainTesterPositionUid, null , @ITScheduleUid, '12/08/2013','01/01/1900',0,'01/01/1900'

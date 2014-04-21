@@ -63,6 +63,10 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
+    <Compile Include="Common\Views\DateSelectionView.xaml.cs">
+      <DependentUpon>DateSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
@@ -86,10 +90,14 @@
     <Compile Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml.cs">
       <DependentUpon>AdditionalColumnTypeFilterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Employees\ViewModels\GenderSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReaderSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectationDepartmentViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectDepartmentViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectPositionViewModel.cs" />
+    <Compile Include="Employees\Views\EmployeeDetails\GenderSelectionView.xaml.cs">
+      <DependentUpon>GenderSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Employees\Views\ReaderSelectationView.xaml.cs">
       <DependentUpon>ReaderSelectationView.xaml</DependentUpon>
     </Compile>
@@ -468,6 +476,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Common\Views\DateSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Departments\Views\DepartmentFilterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -497,6 +509,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\EmployeeDetails\EmployeeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetails\GenderSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -215,6 +215,7 @@
     <Compile Include="SKD\Card\CardZone.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\NamedIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleScheme.cs" />
+    <Compile Include="SKD\Employee\EmployeeDocument.cs" />
     <Compile Include="SKD\Employee\ShortEmployee.cs" />
     <Compile Include="SKD\Employee\EmployeeReplacementFilter.cs" />
     <Compile Include="SKD\Employee\PersonType.cs" />

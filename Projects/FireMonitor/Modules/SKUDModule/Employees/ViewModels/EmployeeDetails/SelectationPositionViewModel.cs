@@ -1,6 +1,6 @@
-﻿
-using FiresecAPI;
+﻿using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+
 namespace SKDModule.ViewModels
 {
 	public class SelectationPositionViewModel : BaseViewModel

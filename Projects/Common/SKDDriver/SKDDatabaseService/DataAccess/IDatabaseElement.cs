@@ -23,8 +23,6 @@ namespace SKDDriver.DataAccess
 		Guid? OrganizationUID { get; set; }
 	}
 
-
-	
 	public partial class Journal : IDatabaseElement { }
 	public partial class AdditionalColumn : IDatabaseElement, ILinkedToEmployee { }
 	public partial class Photo : IDatabaseElement { }
@@ -35,7 +33,8 @@ namespace SKDDriver.DataAccess
 	public partial class Interval : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class CardZoneLink : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Card : IDatabaseElement, IIsDeletedDatabaseElement, ILinkedToEmployee { }
-
+	public partial class EmployeeDocument : IDatabaseElement, IIsDeletedDatabaseElement { }
+	
 	public partial class AdditionalColumnType : IDatabaseElement, IIsDeletedDatabaseElement, IOrganizationDatabaseElement { }
 	public partial class Department : IDatabaseElement, IIsDeletedDatabaseElement, IOrganizationDatabaseElement { }
 	public partial class Document : IDatabaseElement, IIsDeletedDatabaseElement, IOrganizationDatabaseElement { }

@@ -15,7 +15,8 @@ namespace SKDDriver
 			DepartmentTranslator departmentTranslator, 
 			AdditionalColumnTranslator additionalColumnTranslator, 
 			CardTranslator cardTranslator, 
-			PhotoTranslator photoTranslator)
+			PhotoTranslator photoTranslator,
+			EmployeeDocumentTranslator employeeDocumentTranslator)
 			: base(context)
 		{
 			EmployeeReplacementTranslator = replacementTranslator;
@@ -24,6 +25,7 @@ namespace SKDDriver
 			AdditionalColumnTranslator = additionalColumnTranslator;
 			CardTranslator = cardTranslator;
 			PhotoTranslator = photoTranslator;
+			EmployeeDocumentTranslator = employeeDocumentTranslator;
 		}
 
 		PositionTranslator PositionTranslator;
@@ -32,6 +34,7 @@ namespace SKDDriver
 		AdditionalColumnTranslator AdditionalColumnTranslator;
 		CardTranslator CardTranslator;
 		PhotoTranslator PhotoTranslator;
+		EmployeeDocumentTranslator EmployeeDocumentTranslator;
 
 		protected override OperationResult CanSave(Employee item)
 		{
@@ -75,6 +78,10 @@ namespace SKDDriver
 			result.Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
 			result.Position = PositionTranslator.GetSingleShort(tableItem.PositionUID);
 			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
+			result.TabelNo = tableItem.TabelNo;
+			result.CredentialsStartDate = tableItem.CredentialsStartDate;
+			result.EscortUID = tableItem.EscortUID;
+			result.Document = GetResult(EmployeeDocumentTranslator.GetSingle(tableItem.DocumentUID));
 			return result;
 		}
 
@@ -107,7 +114,7 @@ namespace SKDDriver
 
 		public OperationResult<IEnumerable<ShortEmployee>> GetList(EmployeeFilter filter)
 		{
-			try
+			try 
 			{
 				var result = new List<ShortEmployee>();
 				foreach (var tableItem in GetTableItems(filter))
@@ -141,12 +148,20 @@ namespace SKDDriver
 			if (apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.Type = (int)apiItem.Type;
+			tableItem.TabelNo = apiItem.TabelNo;
+			tableItem.CredentialsStartDate = apiItem.CredentialsStartDate;
+			tableItem.EscortUID = apiItem.EscortUID;
+			if(apiItem.Document != null)
+				tableItem.DocumentUID = apiItem.Document.UID;
 		}
 
 		public override OperationResult Save(IEnumerable<Employee> apiItems)
 		{
 			foreach (var item in apiItems)
 			{
+				var employeeDocumentResult = EmployeeDocumentTranslator.Save(new List<EmployeeDocument> { item.Document });
+				if (employeeDocumentResult.HasError)
+					return employeeDocumentResult;
 				var columnSaveResult = AdditionalColumnTranslator.Save(item.AdditionalColumns);
 				if (columnSaveResult.HasError)
 					return columnSaveResult;

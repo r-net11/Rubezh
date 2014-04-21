@@ -21,10 +21,12 @@ namespace SKDDriver
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context, PhotoTranslator, AdditionalColumnTypeTranslator);
 			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
-			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator);
+			EmployeeDocumentTranslator = new EmployeeDocumentTranslator(Context);
+			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator, EmployeeDocumentTranslator);
 			NamedIntervalTranslator = new NamedIntervalTranslator(Context);
 		}
 
+		static EmployeeDocumentTranslator EmployeeDocumentTranslator; 
 		public static DocumentTranslator DocumentTranslator { get; private set; }
 		public static PositionTranslator PositionTranslator { get; private set; }
 		public static CardTranslator CardTranslator { get; private set; }

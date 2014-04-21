@@ -58,7 +58,7 @@ namespace Controls
 			set { SetValue(DataProperty, value); }
 		}
 
-		private void OpenButton_Click(object sender, RoutedEventArgs e)
+		void OpenButton_Click(object sender, RoutedEventArgs e)
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
@@ -72,18 +72,18 @@ namespace Controls
 			}
 		}
 
-		private void PasteButton_Click(object sender, RoutedEventArgs e)
+		void PasteButton_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBoxService.Show("NOT IMPLEMENTED YET");
 			//IDataObject data = Clipboard.GetDataObject();
 		}
 
-		private void ScannerButton_Click(object sender, RoutedEventArgs e)
+		void ScannerButton_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBoxService.Show("NOT IMPLEMENTED YET");
 		}
 
-		private void WebCamButton_Click(object sender, RoutedEventArgs e)
+		void WebCamButton_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBoxService.Show("NOT IMPLEMENTED YET");
 		}

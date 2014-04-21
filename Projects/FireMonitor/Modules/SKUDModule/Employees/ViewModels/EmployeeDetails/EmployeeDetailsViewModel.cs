@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
@@ -52,6 +53,9 @@ namespace SKDModule.ViewModels
 			RemoveDepartmentCommand = new RelayCommand(OnRemoveDepartment);
 			SelectPositionCommand = new RelayCommand(OnSelectPosition);
 			RemovePositionCommand = new RelayCommand(OnRemovePosition);
+			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
+			SelectGivenDateCommand = new RelayCommand(OnSelectGivenDate);
+			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
 		}
 
 		public void CopyProperties()
@@ -59,6 +63,29 @@ namespace SKDModule.ViewModels
 			FirstName = Employee.FirstName;
 			SecondName = Employee.SecondName;
 			LastName = Employee.LastName;
+
+			if (Employee.Document != null)
+			{
+				DocumentNumber = Employee.Document.Number;
+				BirthDate = Employee.Document.BirthDate;
+				BirthPlace = Employee.Document.BirthPlace;
+				GivenBy = Employee.Document.GivenBy;
+				GivenDate = Employee.Document.GivenDate;
+				Gender = Employee.Document.Gender;
+				ValidTo = Employee.Document.ValidTo;
+				Citizenship = Employee.Document.Citizenship;
+				DocumentType = Employee.Document.Type;
+			}
+			else
+			{
+				BirthDate = new DateTime(2000, 1, 1);
+				GivenDate = new DateTime(2000, 1, 1);
+				ValidTo = new DateTime(2000, 1, 1);
+				Gender = FiresecAPI.Gender.Male;
+				Citizenship = "Российская Федерация";
+				DocumentType = EmployeeDocumentType.Passport;
+			}
+			
 			if (IsEmployee)
 			{
 				SelectPositionViewModel = new SelectPositionViewModel(Employee);
@@ -189,6 +216,150 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		#region Document
+		string _number;
+		public string DocumentNumber
+		{
+			get { return _number; }
+			set
+			{
+				_number = value;
+				OnPropertyChanged(() => DocumentNumber);
+			}
+		}
+
+		DateTime _birthDate;
+		public DateTime BirthDate
+		{
+			get { return _birthDate; }
+			set
+			{
+				_birthDate = value;
+				OnPropertyChanged(() => BirthDate);
+				OnPropertyChanged(() => BirthDateString);
+			}
+		}
+
+		public string BirthDateString
+		{
+			get{ return BirthDate.ToString("dd/MM/yyyy"); }
+		}
+
+		string _birthPlace;
+		public string BirthPlace
+		{
+			get { return _birthPlace; }
+			set
+			{
+				_birthPlace = value;
+				OnPropertyChanged(() => BirthPlace);
+			}
+		}
+
+		DateTime _givenDate;
+		public DateTime GivenDate
+		{
+			get { return _givenDate; }
+			set
+			{
+				_givenDate = value;
+				OnPropertyChanged(() => GivenDate);
+				OnPropertyChanged(() => GivenDateString);
+			}
+		}
+
+		public string GivenDateString
+		{
+			get { return GivenDate.ToString("dd/MM/yyyy"); }
+		}
+
+		string _givenBy;
+		public string GivenBy
+		{
+			get { return _givenBy; }
+			set
+			{
+				_givenBy = value;
+				OnPropertyChanged(() => GivenBy);
+			}
+		}
+
+		Gender _gender;
+		public Gender Gender
+		{
+			get { return _gender; }
+			set
+			{
+				_gender = value;
+				OnPropertyChanged(() => Gender);
+				OnPropertyChanged(() => GenderString);
+			}
+		}
+
+		public string GenderString
+		{
+			get { return Gender.ToDescription(); }
+		}
+
+		DateTime _validTo;
+		public DateTime ValidTo
+		{
+			get { return _validTo; }
+			set
+			{
+				_validTo = value;
+				OnPropertyChanged(() => ValidTo);
+				OnPropertyChanged(() => ValidToString);
+			}
+		}
+
+		public string ValidToString
+		{
+			get { return ValidTo.ToString("dd/MM/yyyy"); }
+		}
+
+		string _departmentCode;
+		public string DepartmentCode
+		{
+			get { return _departmentCode; }
+			set
+			{
+				_departmentCode = value;
+				OnPropertyChanged(() => DepartmentCode);
+			}
+		}
+
+		string _citizenship;
+		public string Citizenship
+		{
+			get { return _citizenship; }
+			set
+			{
+				_citizenship = value;
+				OnPropertyChanged(() => Citizenship);
+			}
+		}
+
+		EmployeeDocumentType _documentType;
+		public EmployeeDocumentType DocumentType
+		{
+			get { return _documentType; }
+			set
+			{
+				_documentType = value;
+				OnPropertyChanged(() => DocumentType);
+				OnPropertyChanged(() => DocumentTypeString);
+			}
+		}
+
+		public string DocumentTypeString
+		{
+			get { return DocumentType.ToDescription(); }
+		}
+		#endregion
+
+		
+
 		public bool HasAdditionalGraphicsColumns { get; private set; }
 		public string GraphicsColumnsTabItemName { get; private set; }
 		
@@ -217,6 +388,36 @@ namespace SKDModule.ViewModels
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(FirstName);
+		}
+
+		public RelayCommand SelectGivenDateCommand { get; private set; }
+		void OnSelectGivenDate()
+		{
+			var selectDateViewModel = new DateSelectionViewModel(GivenDate);
+			if (DialogService.ShowModalWindow(selectDateViewModel))
+			{
+				GivenDate = selectDateViewModel.DateTime;
+			}
+		}
+
+		public RelayCommand SelectValidToCommand { get; private set; }
+		void OnSelectValidTo()
+		{
+			var selectDateViewModel = new DateSelectionViewModel(ValidTo);
+			if (DialogService.ShowModalWindow(selectDateViewModel))
+			{
+				ValidTo = selectDateViewModel.DateTime;
+			}
+		}
+
+		public RelayCommand SelectBirthDateCommand { get; private set; }
+		void OnSelectBirthDate()
+		{
+			var selectDateViewModel = new DateSelectionViewModel(BirthDate);
+			if (DialogService.ShowModalWindow(selectDateViewModel))
+			{
+				BirthDate = selectDateViewModel.DateTime;
+			}
 		}
 
 		public RelayCommand SelectDepartmentCommand { get; private set; }
@@ -309,4 +510,6 @@ namespace SKDModule.ViewModels
 			return EmployeeHelper.Save(Employee);
 		}
 	}
+
+	
 }

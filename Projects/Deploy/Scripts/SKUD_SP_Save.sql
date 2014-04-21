@@ -324,52 +324,38 @@ CREATE PROCEDURE [dbo].[SaveEmployee]
 
 AS
 BEGIN
-	IF EXISTS(SELECT Uid FROM [dbo].[Employee] WHERE Uid = @Uid)
-		UPDATE [dbo].[Employee] SET 
-			[Uid] = @Uid,
-			[FirstName] = @FirstName,
-			[SecondName] = @SecondName,
-			[LastName] = @LastName,
-			[PositionUid] = @PositionUid,
-			[DepartmentUid] = @DepartmentUid,
-			[ScheduleUid] = @ScheduleUid,
-			[Appointed] = @Appointed,
-			[Dismissed] = @Dismissed,
-			[IsDeleted] = @IsDeleted,
-			[RemovalDate] = @RemovalDate,
-			OrganizationUid = @OrganizationUid 
-		WHERE Uid = @Uid
-	ELSE
-		BEGIN
-			INSERT INTO [dbo].[Employee] (
-				[Uid] ,
-				[FirstName] ,
-				[SecondName] ,
-				[LastName] ,
-				[PositionUid] ,
-				[DepartmentUid] ,
-				[ScheduleUid] ,
-				[Appointed] ,
-				[Dismissed] ,
-				[IsDeleted] ,
-				[RemovalDate],
-				OrganizationUid,
-				[Type] )
-			VALUES (
-				@Uid ,
-				@FirstName ,
-				@SecondName ,
-				@LastName ,
-				@PositionUid ,
-				@DepartmentUid ,
-				@ScheduleUid ,
-				@Appointed ,
-				@Dismissed ,
-				@IsDeleted ,
-				@RemovalDate,
-				@OrganizationUid,
-				0)
-		END
+	INSERT INTO [dbo].[Employee] (
+			[Uid] ,
+			[FirstName] ,
+			[SecondName] ,
+			[LastName] ,
+			[PositionUid] ,
+			[DepartmentUid] ,
+			[ScheduleUid] ,
+			[Appointed] ,
+			[Dismissed] ,
+			[IsDeleted] ,
+			[RemovalDate],
+			OrganizationUid,
+			[Type],
+			TabelNo,
+			CredentialsStartDate )
+		VALUES (
+			@Uid ,
+			@FirstName ,
+			@SecondName ,
+			@LastName ,
+			@PositionUid ,
+			@DepartmentUid ,
+			@ScheduleUid ,
+			@Appointed ,
+			@Dismissed ,
+			@IsDeleted ,
+			@RemovalDate,
+			@OrganizationUid,
+			0,
+			-1,
+			'01/01/1900')
 END
 GO
 CREATE PROCEDURE [dbo].[SaveGuest]
@@ -396,7 +382,9 @@ BEGIN
 				[IsDeleted] ,
 				[RemovalDate],
 				OrganizationUid,
-				[Type] )
+				[Type],
+				TabelNo,
+				CredentialsStartDate )
 			VALUES (
 				@Uid ,
 				@FirstName ,
@@ -410,7 +398,9 @@ BEGIN
 				@IsDeleted ,
 				@RemovalDate,
 				@OrganizationUid,
-				1)
+				1,
+				-1,
+				'01/01/1900')
 END
 GO
 CREATE PROCEDURE [dbo].[SaveDepartment]
