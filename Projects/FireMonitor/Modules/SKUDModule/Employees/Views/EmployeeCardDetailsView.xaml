@@ -1,12 +1,12 @@
 ﻿<UserControl x:Class="SKDModule.Views.EmployeeCardDetailsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Views="clr-namespace:SKDModule.Views"
-             xmlns:Converters="clr-namespace:SKDModule.Converters"
-             MinWidth="600" MinHeight="500">
+			 xmlns:Converters="clr-namespace:SKDModule.Converters"
+			 MinWidth="600" MinHeight="500">
 
-    <UserControl.Resources>
-        <Converters:CardTypeToStringConverter x:Key="CardTypeToStringConverter" />
-    </UserControl.Resources>
+	<UserControl.Resources>
+		<Converters:CardTypeToStringConverter x:Key="CardTypeToStringConverter" />
+	</UserControl.Resources>
 
-    <TabControl>
+	<TabControl>
 		<TabItem Header="Основные">
 			<Grid>
 				<Grid.ColumnDefinitions>
@@ -18,50 +18,50 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Тип карты" Margin="2" />
-                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding CardTypes}" SelectedItem="{Binding SelectedCardType}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding ., Converter={StaticResource CardTypeToStringConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+				<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Тип карты" Margin="2" />
+				<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding CardTypes}" SelectedItem="{Binding SelectedCardType}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource CardTypeToStringConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 
-                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                    <StackPanel>
-                        <TextBlock Text="Начало действия" HorizontalAlignment="Center" Foreground="White" Margin="2" />
-                        <Calendar VerticalAlignment="Top" Margin="2"
-				            BorderBrush="#66ff9829" BorderThickness="2"
-				            IsTodayHighlighted="False"
-				            SelectedDate="{Binding StartDate}"
-                            DisplayDate="{Binding StartDate}"
-				            SelectionMode="SingleDate" />
-                    </StackPanel>
+				<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+					<StackPanel>
+						<TextBlock Text="Начало действия" HorizontalAlignment="Center" Foreground="White" Margin="2" />
+						<Calendar VerticalAlignment="Top" Margin="2"
+							BorderBrush="#66ff9829" BorderThickness="2"
+							IsTodayHighlighted="False"
+							SelectedDate="{Binding StartDate}"
+							DisplayDate="{Binding StartDate}"
+							SelectionMode="SingleDate" />
+					</StackPanel>
 
-                    <StackPanel Margin="10 0 0 0">
-                        <TextBlock Text="Конец действия" HorizontalAlignment="Center" Foreground="White" Margin="2" />
-                        <Calendar VerticalAlignment="Top" Margin="2"
-				            BorderBrush="#66ff9829" BorderThickness="2"
-				            IsTodayHighlighted="False"
-				            SelectedDate="{Binding EndDate}"
-                            DisplayDate="{Binding EndDate}"
-				            SelectionMode="SingleDate"
-                            IsEnabled="{Binding CanSelectEndDate}" />
-                    </StackPanel>
-                </StackPanel>
+					<StackPanel Margin="10 0 0 0">
+						<TextBlock Text="Конец действия" HorizontalAlignment="Center" Foreground="White" Margin="2" />
+						<Calendar VerticalAlignment="Top" Margin="2"
+							BorderBrush="#66ff9829" BorderThickness="2"
+							IsTodayHighlighted="False"
+							SelectedDate="{Binding EndDate}"
+							DisplayDate="{Binding EndDate}"
+							SelectionMode="SingleDate"
+							IsEnabled="{Binding CanSelectEndDate}" />
+					</StackPanel>
+				</StackPanel>
 
-                <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Семейство" Margin="2" />
-                <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Series}" Width="100" Margin="2" />
+				<TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Семейство" Margin="2" />
+				<TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Series}" Width="100" Margin="2" />
 
-                <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Номер" Margin="2" />
-                <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number}" Width="100" Margin="2" />
+				<TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Номер" Margin="2" />
+				<TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number}" Width="100" Margin="2" />
 
-                <CheckBox Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Из СТОП-листа" Foreground="White" IsChecked="{Binding UseStopList}" Margin="2" />
-                <ComboBox Grid.Row="4" Grid.Column="1" IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}" HorizontalAlignment="Left" Width="100" Margin="2">
+				<CheckBox Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Из СТОП-листа" Foreground="White" IsChecked="{Binding UseStopList}" Margin="2" />
+				<ComboBox Grid.Row="4" Grid.Column="1" IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}" HorizontalAlignment="Left" Width="100" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Margin="1" Text="{Binding PresentationName}" />
@@ -69,15 +69,15 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-                <CheckBox Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Content="От контрольного считывателя" Foreground="White" IsChecked="{Binding UseReader}" Margin="2" />
-                <StackPanel Grid.Row="5" Grid.Column="1" Margin="2">
-                    <TextBlock TextWrapping="Wrap">
+				<CheckBox Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Content="От контрольного считывателя" Foreground="White" IsChecked="{Binding UseReader}" Margin="2" />
+				<StackPanel Grid.Row="5" Grid.Column="1" Margin="2">
+					<TextBlock TextWrapping="Wrap">
 						<Hyperlink Command="{Binding ChangeReaderCommand}" Style="{StaticResource HyperlinkStyle}">
 							<TextBlock Text="{Binding ReaderName}" />
 						</Hyperlink>
 					</TextBlock>
-                </StackPanel>
-            </Grid>
+				</StackPanel>
+			</Grid>
 		</TabItem>
 		<TabItem Header="Зоны доступа">
 			<Views:AccessZonesSelectationView DataContext="{Binding AccessZones}" />
@@ -85,7 +85,7 @@
 		<TabItem Header="Шаблон доступа">
 			<DataGrid ItemsSource="{Binding AvailableAccessTemplates}" SelectedItem="{Binding SelectedAccessTemplate}">
 				<DataGrid.Columns>
-                    <DataGridTemplateColumn Width="*" Header="Шаблон доступа">
+					<DataGridTemplateColumn Width="*" Header="Шаблон доступа">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -98,7 +98,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</TabItem>
-        <TabItem Header="Комиссионируемые считыватели">
-        </TabItem>
-    </TabControl>
+		<TabItem Header="Комиссионируемые считыватели">
+		</TabItem>
+	</TabControl>
 </UserControl>

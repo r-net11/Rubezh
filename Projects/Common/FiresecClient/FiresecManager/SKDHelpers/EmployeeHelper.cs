@@ -18,7 +18,7 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static IEnumerable<EmployeeListItem> Get(EmployeeFilter filter)
+		public static IEnumerable<ShortEmployee> Get(EmployeeFilter filter)
 		{
 			var operationResult = FiresecManager.FiresecService.GetEmployeeList(filter);
 			return Common.ShowErrorIfExists(operationResult);

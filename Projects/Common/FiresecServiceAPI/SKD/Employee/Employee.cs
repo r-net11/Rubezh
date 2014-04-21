@@ -30,7 +30,7 @@ namespace FiresecAPI
 		public DateTime Dismissed { get; set; }
 
 		[DataMember]
-		public Position Position { get; set; }
+		public ShortPosition Position { get; set; }
 
 		[DataMember]
 		public Guid? DepartmentUID { get; set; }

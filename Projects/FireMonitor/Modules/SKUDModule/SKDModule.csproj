@@ -74,11 +74,12 @@
     </Compile>
     <Compile Include="Employees\ViewModels\AccessZonesSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\AdditionalColumnViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\TextColumnViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardDetailsViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardRemovalReasonViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\GraphicsColumnViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectationPositionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeFilterViewModel.cs" />

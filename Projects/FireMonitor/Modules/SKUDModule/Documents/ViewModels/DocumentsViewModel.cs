@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 
 		void Initialize()
 		{
-			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			var documents = DocumentHelper.Get(Filter);
 
 			OrganisationDocuments = new ObservableCollection<OrganisationDocumentsViewModel>();

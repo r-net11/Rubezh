@@ -1,25 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
-using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
 	public class EmployeeCardDetailsViewModel : SaveCancelDialogViewModel
 	{
-		Organization Organization;
+		Organisation Organization;
 		public SKDCard Card { get; private set; }
 		public AccessZonesSelectationViewModel AccessZones { get; private set; }
 		bool IsNewCard;
 
-		public EmployeeCardDetailsViewModel(Organization organization, SKDCard card = null)
+		public EmployeeCardDetailsViewModel(Organisation organization, SKDCard card = null)
 		{
 			ChangeReaderCommand = new RelayCommand(OnChangeReader);
 

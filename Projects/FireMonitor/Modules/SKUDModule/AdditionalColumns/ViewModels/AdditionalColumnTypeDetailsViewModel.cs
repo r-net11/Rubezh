@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
 using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -41,6 +39,8 @@ namespace SKDModule.ViewModels
 			Name = AdditionalColumnType.Name;
 			Description = AdditionalColumnType.Description;
 			DataType = AvailableDataTypes.FirstOrDefault(x => x == AdditionalColumnType.DataType);
+			if (IsTextType)
+				IsInGrid = AdditionalColumnType.IsInGrid;
 		}
 
 		string _name;
@@ -81,6 +81,20 @@ namespace SKDModule.ViewModels
 			{
 				_dataType = value;
 				OnPropertyChanged(()=>DataType);
+				OnPropertyChanged(() => IsTextType);
+			}
+		}
+
+		public bool IsTextType { get { return DataType == AdditionalColumnDataType.Text; } }
+
+		bool _isInGrid;
+		public bool IsInGrid
+		{
+			get { return _isInGrid; }
+			set
+			{
+				_isInGrid = value;
+				OnPropertyChanged(() => IsInGrid);
 			}
 		}
 
@@ -107,7 +121,9 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.Name = Name;
 			AdditionalColumnType.Description = Description;
 			AdditionalColumnType.DataType = DataType;
-			AdditionalColumnType.OrganizationUID = OrganisationAdditionalColumnTypesViewModel.Organization.UID;
+			if (IsTextType)
+				AdditionalColumnType.IsInGrid = IsInGrid;
+			AdditionalColumnType.OrganizationUID = OrganisationAdditionalColumnTypesViewModel.Organisation.UID;
 			return true;
 		}
 	}

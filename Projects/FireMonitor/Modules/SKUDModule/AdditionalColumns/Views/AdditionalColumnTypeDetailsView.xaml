@@ -11,6 +11,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
@@ -19,16 +20,19 @@
 				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Наименование" />
 				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Примечание" />
 				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Формат данных" />
+                <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Отображать в списке сотрудников" Visibility="{Binding IsTextType, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
-				<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" IsEnabled="{Binding CanChangeDataType}" ItemsSource="{Binding AvailableDataTypes}" SelectedItem="{Binding DataType}">
+				<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" IsEnabled="{Binding CanChangeDataType}" ItemsSource="{Binding AvailableDataTypes}" SelectedItem="{Binding DataType}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource DataTypeToStringConverter}}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
+                <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" 
+                          IsChecked="{Binding IsInGrid}" Visibility="{Binding IsTextType, Converter={StaticResource BoolToVisibilityConverter}}"/>
 			</Grid>
 		</TabItem>
 	</TabControl>

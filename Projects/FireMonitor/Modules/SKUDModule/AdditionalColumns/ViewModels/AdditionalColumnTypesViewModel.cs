@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 
 		void Initialize()
 		{
-			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			var additionalColumnTypes = AdditionalColumnTypeHelper.Get(Filter);
 			if(additionalColumnTypes == null)
 				additionalColumnTypes = new List<AdditionalColumnType>();

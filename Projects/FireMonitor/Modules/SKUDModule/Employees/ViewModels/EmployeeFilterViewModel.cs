@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 			base.Initialize();
 			
 			Departments = new List<FilterDepartmentViewModel>();
-			var departments = DepartmentHelper.Get(null);
+			var departments = DepartmentHelper.GetList(null);
 			if (departments != null)
 			{
 				foreach (var department in departments)
@@ -56,7 +56,7 @@ namespace SKDModule.ViewModels
 					IsEmployeesAllowed = true;
 			}
 			AvailableOrganizations = new ObservableCollection<FilterOrganizationViewModel>();
-			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			foreach (var organisation in organisations)
 			{
 				AvailableOrganizations.Add(new FilterOrganizationViewModel(organisation));
@@ -209,14 +209,14 @@ namespace SKDModule.ViewModels
 
 	public class FilterDepartmentViewModel : TreeNodeViewModel<FilterDepartmentViewModel>
 	{
-		public FilterDepartmentViewModel(Department department, EmployeeFilterViewModel employeeFilterViewModel)
+		public FilterDepartmentViewModel(ShortDepartment department, EmployeeFilterViewModel employeeFilterViewModel)
 		{
 			Department = department;
 			DepartmentCheckedCommand = new RelayCommand(OnDepartmentChecked);
 			EmployeeFilterViewModel = employeeFilterViewModel;
 		}
 
-		public Department Department { get; private set; }
+		public ShortDepartment Department { get; private set; }
 		EmployeeFilterViewModel EmployeeFilterViewModel;
 
 		bool _isChecked;
@@ -240,11 +240,11 @@ namespace SKDModule.ViewModels
 
 	public class FilterPositionViewModel : CheckBoxItemViewModel
 	{
-		public FilterPositionViewModel(Position position)
+		public FilterPositionViewModel(ShortPosition position)
 		{
 			Position = position;
 		}
 
-		public Position Position { get; private set; }
+		public ShortPosition Position { get; private set; }
 	}
 }

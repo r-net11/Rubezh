@@ -16,5 +16,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public PersonType PersonType { get; set; }
+
+		[DataMember]
+		public bool IsInGrid { get; set; }
 	}
 }

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class EmployeeListItem
+	public class ShortEmployee
 	{
 		[DataMember]
 		public Guid UID { get; set; }

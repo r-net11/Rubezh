@@ -3,7 +3,7 @@
 namespace FiresecAPI
 {
 	[DataContract]
-	public class PhotoFilter: IsDeletedFilter
+	public class PhotoFilter : FilterBase
 	{
 	}
 }

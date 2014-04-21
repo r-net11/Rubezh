@@ -7,11 +7,13 @@ namespace SKDDriver
 {
 	public class DepartmentTranslator : OrganizationElementTranslator<DataAccess.Department, Department, DepartmentFilter>
 	{
-		public DepartmentTranslator(DataAccess.SKDDataContext context)
+		public DepartmentTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator)
 			: base(context)
 		{
-
+			PhotoTranslator = photoTranslator;
 		}
+
+		PhotoTranslator PhotoTranslator;
 
 		protected override OperationResult CanSave(Department item)
 		{
@@ -49,7 +51,6 @@ namespace SKDDriver
 			{
 				childDepartmentUIDs.Add(department.UID);
 			}
-
 			tableItem.Departments.ToList().ForEach(x => childDepartmentUIDs.Add(x.UID));
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
@@ -58,7 +59,7 @@ namespace SKDDriver
 			result.ContactEmployeeUID = tableItem.ContactEmployeeUID;
 			result.AttendantEmployeeUID = tableItem.AttendantUID;
 			result.PhoneUIDs = phoneUIDs;
-			result.PhotoUID = tableItem.PhotoUID;
+			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			return result;
 		}
 
@@ -70,7 +71,53 @@ namespace SKDDriver
 			tableItem.ParentDepartmentUID = apiItem.ParentDepartmentUID;
 			tableItem.ContactEmployeeUID = apiItem.ContactEmployeeUID;
 			tableItem.AttendantUID = apiItem.AttendantEmployeeUID;
-			tableItem.PhotoUID = apiItem.PhotoUID;
+			tableItem.PhotoUID = apiItem.Photo.UID;
+		}
+
+		ShortDepartment TranslateToShort(DataAccess.Department tableItem)
+		{
+			var shortDepartment = new ShortDepartment
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+				ParentDepartmentUID = tableItem.ParentDepartmentUID
+			};
+			shortDepartment.ChildDepartmentUIDs = new List<Guid>();
+			foreach (var department in Context.Departments.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))
+				shortDepartment.ChildDepartmentUIDs.Add(department.UID);
+			return shortDepartment;
+		}
+
+		public OperationResult<IEnumerable<ShortDepartment>> GetList(DepartmentFilter filter)
+		{
+			try
+			{
+				var result = new List<ShortDepartment>();
+				foreach (var tableItem in GetTableItems(filter))
+				{
+					var departmentListItem = TranslateToShort(tableItem);
+					result.Add(departmentListItem);
+				}
+				var operationResult = new OperationResult<IEnumerable<ShortDepartment>>();
+				operationResult.Result = result;
+				return operationResult;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<IEnumerable<ShortDepartment>>(e.Message);
+			}
+		}
+
+		public override OperationResult Save(IEnumerable<Department> apiItems)
+		{
+			foreach (var item in apiItems)
+			{
+				var photoSaveResult = PhotoTranslator.Save(new List<Photo> { item.Photo });
+				if (photoSaveResult.HasError)
+					return photoSaveResult;
+			}
+			return base.Save(apiItems);
 		}
 	}
 }

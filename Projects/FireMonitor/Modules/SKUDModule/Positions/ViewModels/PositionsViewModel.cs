@@ -25,14 +25,12 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			var organisations = OrganizationHelper.Get(new OrganizationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			var positions = PositionHelper.Get(Filter);
-
+			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			OrganisationPositions = new ObservableCollection<OrganisationPositionsViewModel>();
 			foreach (var organisation in organisations)
 			{
 				var positionViewModel = new OrganisationPositionsViewModel();
-				positionViewModel.Initialize(organisation, new List<Position>(positions.Where(x => x.OrganizationUID != null && x.OrganizationUID.Value == organisation.UID)));
+				positionViewModel.Initialize(organisation, PositionHelper.GetByOrganization(organisation.UID));
 				OrganisationPositions.Add(positionViewModel);
 			}
 			SelectedOrganisationPosition = OrganisationPositions.FirstOrDefault();

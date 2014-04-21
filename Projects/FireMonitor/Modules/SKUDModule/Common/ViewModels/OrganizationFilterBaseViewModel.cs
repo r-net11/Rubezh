@@ -20,7 +20,7 @@ namespace SKDModule.ViewModels
 		protected override void Initialize()
 		{
 			base.Initialize();
-			var organisations = OrganizationHelper.Get(new OrganizationFilter { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			Organizations = new CheckBoxItemList<FilterOrganizationViewModel>();
 			if (organisations != null)
 			{
@@ -39,6 +39,8 @@ namespace SKDModule.ViewModels
 				if (Filter.OrganizationUIDs.Any(x => x == organization.Organization.UID))
 					organization.IsChecked = true;
 			}
+			if (!Organizations.Items.Any(x => x.IsChecked))
+				Organizations.Items.ForEach(x => x.IsChecked = true);
 		}
 
 		public CheckBoxItemList<FilterOrganizationViewModel> Organizations { get; private set; }

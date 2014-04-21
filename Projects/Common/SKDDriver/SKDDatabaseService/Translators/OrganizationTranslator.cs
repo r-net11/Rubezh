@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class OrganizationTranslator : IsDeletedTranslator<DataAccess.Organization, Organization, OrganizationFilter>
+	public class OrganizationTranslator : IsDeletedTranslator<DataAccess.Organization, Organisation, OrganisationFilter>
 	{
 		public OrganizationTranslator(DataAccess.SKDDataContext context)
 			: base(context)
@@ -15,7 +15,7 @@ namespace SKDDriver
 			;
 		}
 
-		protected override OperationResult CanSave(Organization item)
+		protected override OperationResult CanSave(Organisation item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name);
 			if (sameName)
@@ -23,7 +23,7 @@ namespace SKDDriver
 			return base.CanSave(item);
 		}
 
-		protected override OperationResult CanDelete(Organization item)
+		protected override OperationResult CanDelete(Organisation item)
 		{
 			var uid = item.UID;
 			if (Context.AdditionalColumnTypes.Any(x => x.OrganizationUID == uid) ||
@@ -43,7 +43,7 @@ namespace SKDDriver
 			return base.CanSave(item);
 		}
 
-		protected override Organization Translate(DataAccess.Organization tableItem)
+		protected override Organisation Translate(DataAccess.Organization tableItem)
 		{
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
@@ -53,7 +53,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void TranslateBack(DataAccess.Organization tableItem, Organization apiItem)
+		protected override void TranslateBack(DataAccess.Organization tableItem, Organisation apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
@@ -61,14 +61,14 @@ namespace SKDDriver
 			tableItem.PhotoUID = apiItem.PhotoUID;
 		}
 
-		protected override Expression<Func<DataAccess.Organization, bool>> IsInFilter(OrganizationFilter filter)
+		protected override Expression<Func<DataAccess.Organization, bool>> IsInFilter(OrganisationFilter filter)
 		{
 			var result = PredicateBuilder.True<DataAccess.Organization>();
 			result = result.And(base.IsInFilter(filter));
 			return result;
 		}
 
-		public OperationResult SaveZones(Organization apiItem)
+		public OperationResult SaveZones(Organisation apiItem)
 		{
 			try
 			{
@@ -92,7 +92,7 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
-		public override OperationResult Save(IEnumerable<Organization> apiItems)
+		public override OperationResult Save(IEnumerable<Organisation> apiItems)
 		{
 			if (apiItems == null)
 				return new OperationResult();

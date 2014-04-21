@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
 using System.Collections.ObjectModel;
-using SKDModule.ViewModels;
+using System.Linq;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationAccessTemplatesViewModel : BaseViewModel
 	{
-		public Organization Organization { get; private set; } 
+		public Organisation Organization { get; private set; } 
 
 		public OrganisationAccessTemplatesViewModel()
 		{
@@ -23,7 +21,7 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
 
-		public void Initialize(Organization organization, List<AccessTemplate> accessTemplates)
+		public void Initialize(Organisation organization, List<AccessTemplate> accessTemplates)
 		{
 			Organization = organization;
 

@@ -10,5 +10,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public string Description { get; set; }
+
+		[DataMember]
+		public Photo Photo { get; set; }
 	}
 }

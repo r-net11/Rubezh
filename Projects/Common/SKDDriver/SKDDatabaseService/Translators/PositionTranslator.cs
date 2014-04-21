@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
@@ -8,11 +9,13 @@ namespace SKDDriver
 {
 	public class PositionTranslator : OrganizationElementTranslator<DataAccess.Position, Position, PositionFilter>
 	{
-		public PositionTranslator(DataAccess.SKDDataContext context)
+		public PositionTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator)
 			: base(context)
 		{
-
+			PhotoTranslator = photoTranslator;
 		}
+
+		PhotoTranslator PhotoTranslator;
 
 		protected override OperationResult CanSave(Position item)
 		{
@@ -37,6 +40,7 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
+			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			return result;
 		}
 
@@ -45,6 +49,48 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
+			tableItem.PhotoUID = apiItem.Photo.UID;
+		}
+
+		ShortPosition TranslateToShort(DataAccess.Position tableItem)
+		{
+			var shortPosition = new ShortPosition
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name,
+				Description = tableItem.Description,
+			};
+			return shortPosition;
+		}
+
+		public OperationResult<IEnumerable<ShortPosition>> GetList(PositionFilter filter)
+		{
+			try
+			{
+				var result = new List<ShortPosition>();
+				foreach (var tableItem in GetTableItems(filter))
+				{
+					var PositionListItem = TranslateToShort(tableItem);
+					result.Add(PositionListItem);
+				}
+				var operationResult = new OperationResult<IEnumerable<ShortPosition>>();
+				operationResult.Result = result;
+				return operationResult;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<IEnumerable<ShortPosition>>(e.Message);
+			}
+		}
+
+		public ShortPosition GetSingleShort(Guid? uid)
+		{
+			if (uid == null)
+				return null;
+			var tableItem = Table.Where(x => x.UID.Equals(uid.Value)).FirstOrDefault();
+			if (tableItem == null)
+				return null;
+			return TranslateToShort(tableItem);
 		}
 
 		protected override Expression<Func<DataAccess.Position, bool>> IsInFilter(PositionFilter filter)
@@ -55,6 +101,17 @@ namespace SKDDriver
 			if (names != null && names.Count != 0)
 				result = result.And(e => names.Contains(e.Name));
 			return result;
+		}
+
+		public override OperationResult Save(IEnumerable<Position> apiItems)
+		{
+			foreach (var item in apiItems)
+			{
+				var photoSaveResult = PhotoTranslator.Save(new List<Photo> { item.Photo });
+				if (photoSaveResult.HasError)
+					return photoSaveResult;
+			}
+			return base.Save(apiItems);
 		}
 	}
 }

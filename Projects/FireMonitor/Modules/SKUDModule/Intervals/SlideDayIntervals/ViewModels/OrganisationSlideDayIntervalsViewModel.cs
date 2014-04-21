@@ -6,13 +6,13 @@ using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Organization = FiresecAPI.Organization;
+using Organisation = FiresecAPI.Organisation;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationSlideDayIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 		ScheduleScheme IntervalToCopy;
 
 		public OrganisationSlideDayIntervalsViewModel()
@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(Organization organization, List<ScheduleScheme> employeeSlideDayIntervals)
+		public void Initialize(Organisation organization, List<ScheduleScheme> employeeSlideDayIntervals)
 		{
 			Organization = organization;
 

@@ -12,12 +12,12 @@ namespace SKDModule.ViewModels
 	{
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public Employee Employee { get; private set; }
-		public EmployeeListItem EmployeeListItem { get; private set; } 
+		public ShortEmployee ShortEmployee { get; private set; } 
 		public bool IsEmployee { get; private set; }
 		SelectDepartmentViewModel SelectDepartmentViewModel;
 		SelectPositionViewModel SelectPositionViewModel;
 
-		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, EmployeeListItem employee = null)
+		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, ShortEmployee employee = null)
 		{
 			EmployeesViewModel = employeesViewModel;
 			IsEmployee = EmployeesViewModel.PersonType == PersonType.Employee;
@@ -66,19 +66,24 @@ namespace SKDModule.ViewModels
 				SelectDepartmentViewModel = new SelectDepartmentViewModel(Employee);
 				SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment;
 			}
-			TextColumns = new List<AdditionalColumnViewModel>();
-			GraphicsColumns = new List<AdditionalColumnViewModel>();
+			TextColumns = new List<TextColumnViewModel>();
+			GraphicsColumns = new List<IGraphicsColumnViewModel>();
+			GraphicsColumns.Add(new PhotoColumnViewModel(Employee.Photo));
+			SelectedGraphicsColumn = GraphicsColumns.FirstOrDefault();
+			var graphicsColumnTypes = EmployeesViewModel.AdditionalColumnTypes.Where(x => x.DataType == AdditionalColumnDataType.Graphics);
+			HasAdditionalGraphicsColumns = graphicsColumns != null && graphicsColumns.Count > 0;
 			if (EmployeesViewModel.AdditionalColumnTypes.IsNotNullOrEmpty())
 			{
 				foreach (var column in Employee.AdditionalColumns)
 				{
 					if (column.AdditionalColumnType.DataType == AdditionalColumnDataType.Text)
-						TextColumns.Add(new AdditionalColumnViewModel(column));
+						TextColumns.Add(new TextColumnViewModel(column));
 					if (column.AdditionalColumnType.DataType == AdditionalColumnDataType.Graphics)
-						GraphicsColumns.Add(new AdditionalColumnViewModel(column));
+						GraphicsColumns.Add(new GraphicsColumnViewModel(column));
 				}
-				SelectedGraphicsColumn = GraphicsColumns.FirstOrDefault();
 			}
+			HasAdditionalGraphicsColumns = GraphicsColumns.Count > 1;
+			GraphicsColumnsTabItemName = HasAdditionalGraphicsColumns ? "Фото и графические данные" : "Фото";
 		}
 
 		SelectationDepartmentViewModel selectedDepartment;
@@ -161,9 +166,9 @@ namespace SKDModule.ViewModels
 		{
 			get { return TextColumns.IsNotNullOrEmpty(); }
 		}
-		
-		List<AdditionalColumnViewModel> textColumns;
-		public List<AdditionalColumnViewModel> TextColumns
+
+		List<TextColumnViewModel> textColumns;
+		public List<TextColumnViewModel> TextColumns
 		{
 			get { return textColumns; }
 			set
@@ -173,8 +178,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		AdditionalColumnViewModel selectedTextColumn;
-		public AdditionalColumnViewModel SelectedTextColumn
+		TextColumnViewModel selectedTextColumn;
+		public TextColumnViewModel SelectedTextColumn
 		{
 			get { return selectedTextColumn; }
 			set
@@ -184,13 +189,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public bool HasGraphicsColumns
-		{
-			get { return GraphicsColumns.IsNotNullOrEmpty(); }
-		}
-
-		List<AdditionalColumnViewModel> graphicsColumns;
-		public List<AdditionalColumnViewModel> GraphicsColumns
+		public bool HasAdditionalGraphicsColumns { get; private set; }
+		public string GraphicsColumnsTabItemName { get; private set; }
+		
+		List<IGraphicsColumnViewModel> graphicsColumns;
+		public List<IGraphicsColumnViewModel> GraphicsColumns
 		{
 			get { return graphicsColumns; }
 			set
@@ -200,8 +203,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		AdditionalColumnViewModel selectedGraphicsColumn;
-		public AdditionalColumnViewModel SelectedGraphicsColumn
+		IGraphicsColumnViewModel selectedGraphicsColumn;
+		public IGraphicsColumnViewModel SelectedGraphicsColumn
 		{
 			get { return selectedGraphicsColumn; }
 			set
@@ -248,7 +251,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (EmployeesViewModel.Employees.Any(x => x.EmployeeListItem.FirstName == FirstName && x.EmployeeListItem.LastName == LastName && x.EmployeeListItem.UID != Employee.UID))
+			if (EmployeesViewModel.Employees.Any(x => x.ShortEmployee.FirstName == FirstName && x.ShortEmployee.LastName == LastName && x.ShortEmployee.UID != Employee.UID))
 			{
 				MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
 				return false;
@@ -258,9 +261,22 @@ namespace SKDModule.ViewModels
 			Employee.LastName = LastName;
 			Employee.OrganizationUID = EmployeesViewModel.Organization.UID;
 			Employee.AdditionalColumns = (from x in TextColumns select x.AdditionalColumn).ToList();
-			Employee.AdditionalColumns.AddRange((from x in GraphicsColumns select x.AdditionalColumn).ToList());
+			foreach (var item in GraphicsColumns)
+			{
+				var graphicsColumnViewModel = item as GraphicsColumnViewModel;
+				if (graphicsColumnViewModel != null)
+				{
+					Employee.AdditionalColumns.Add(graphicsColumnViewModel.AdditionalColumn);
+					continue;
+				}
+				var photoColumnViewModel = item as PhotoColumnViewModel;
+				if (photoColumnViewModel != null)
+				{
+					Employee.Photo = photoColumnViewModel.Photo;
+				}
+			}
 
-			EmployeeListItem = new EmployeeListItem
+			ShortEmployee = new ShortEmployee
 			{
 				UID = Employee.UID,
 				Cards = Employee.Cards,
@@ -285,9 +301,9 @@ namespace SKDModule.ViewModels
 					return false;
 				}
 				Employee.DepartmentUID = SelectedDepartment.Department.UID;
-				EmployeeListItem.DepartmentName = SelectedDepartment.Department.Name;
+				ShortEmployee.DepartmentName = SelectedDepartment.Department.Name;
 				Employee.Position = SelectedPosition.Position;
-				EmployeeListItem.PositionName = SelectedPosition.Name;
+				ShortEmployee.PositionName = SelectedPosition.Name;
 			}
 			
 			return EmployeeHelper.Save(Employee);

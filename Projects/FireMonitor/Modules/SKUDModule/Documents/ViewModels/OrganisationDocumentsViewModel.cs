@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationDocumentsViewModel : BaseViewModel
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 
 		public OrganisationDocumentsViewModel()
 		{
@@ -23,7 +23,7 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
 
-		public void Initialize(Organization organization, List<Document> documents)
+		public void Initialize(Organisation organization, List<Document> documents)
 		{
 			Organization = organization;
 

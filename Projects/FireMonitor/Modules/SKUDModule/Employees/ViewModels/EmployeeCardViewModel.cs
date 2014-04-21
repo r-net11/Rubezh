@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
@@ -12,12 +11,12 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeCardViewModel : BaseViewModel
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 		public SKDCard Card { get; private set; }
 		public EmployeeViewModel EmployeeViewModel { get; private set; }
 		public CardZonesViewModel CardZonesViewModel { get; private set; }
 
-		public EmployeeCardViewModel(Organization organization, EmployeeViewModel employeeViewModel, SKDCard card)
+		public EmployeeCardViewModel(Organisation organization, EmployeeViewModel employeeViewModel, SKDCard card)
 		{
 			RemoveCommand = new RelayCommand(OnRemove);
 			EditCommand = new RelayCommand(OnEdit);

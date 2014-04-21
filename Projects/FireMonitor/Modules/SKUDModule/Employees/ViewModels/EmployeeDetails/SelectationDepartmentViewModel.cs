@@ -5,12 +5,12 @@ namespace SKDModule.ViewModels
 {
 	public class SelectationDepartmentViewModel : TreeNodeViewModel<SelectationDepartmentViewModel>
 	{
-		public SelectationDepartmentViewModel(Department department)
+		public SelectationDepartmentViewModel(ShortDepartment department)
 		{
 			Department = department;
 		}
 
-		public Department Department { get; private set; }
+		public ShortDepartment Department { get; private set; }
 		public string Name { get { return Department.Name; } }
 
 		bool _isChecked;

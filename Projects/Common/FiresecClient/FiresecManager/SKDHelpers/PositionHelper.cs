@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using FiresecAPI;
 
 namespace FiresecClient.SKDHelpers
@@ -13,35 +12,33 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Position position)
+		public static bool MarkDeleted(Guid uid)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedPositions(new List<Position> { position });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedPositions(new List<Guid> { uid });
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static Position GetSingle(Guid? uid)
+		public static Position GetDetails(Guid? uid)
 		{
 			if (uid == null)
 				return null;
-			var filter = new PositionFilter();
-			filter.Uids.Add(uid.Value);
-			var operationResult = FiresecManager.FiresecService.GetPositions(filter);
-			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
+			var operationResult = FiresecManager.FiresecService.GetPositionDetails(uid.Value);
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static IEnumerable<Position> GetByOrganization(Guid? organizationUID)
+		public static IEnumerable<ShortPosition> GetByOrganization(Guid? organizationUID)
 		{
 			if (organizationUID == null)
 				return null;
 			var filter = new PositionFilter();
 			filter.OrganizationUIDs.Add(organizationUID.Value);
-			var operationResult = FiresecManager.FiresecService.GetPositions(filter);
+			var operationResult = FiresecManager.FiresecService.GetPositionList(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static IEnumerable<Position> Get(PositionFilter filter)
+		public static IEnumerable<ShortPosition> Get(PositionFilter filter)
 		{
-			var operationResult = FiresecManager.FiresecService.GetPositions(filter);
+			var operationResult = FiresecManager.FiresecService.GetPositionList(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 	}

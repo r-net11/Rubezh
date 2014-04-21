@@ -90,32 +90,25 @@
 				</ItemsControl>
 			</StackPanel>
 		</TabItem>
-		<TabItem Header="Графические колонки" Visibility="{Binding HasGraphicsColumns, Converter={StaticResource BoolToVisibilityConverter}}">
+		<TabItem Header="{Binding GraphicsColumnsTabItemName}" >
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				
-				<ListBox Grid.Column="0" ItemsSource="{Binding GraphicsColumns}" SelectedItem="{Binding SelectedGraphicsColumn}">
+				<ListBox Grid.Column="0" ItemsSource="{Binding GraphicsColumns}" SelectedItem="{Binding SelectedGraphicsColumn}"
+						 Visibility="{Binding HasAdditionalGraphicsColumns, Converter={StaticResource BoolToVisibilityConverter}}">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-								<TextBlock VerticalAlignment="Center" Margin="2" >
-									<Hyperlink Command="{Binding EditCommand}" Style="{StaticResource HyperlinkStyle2}">
-										<TextBlock Text="{Binding Name}" />
-									</Hyperlink>
-								</TextBlock>
+								<TextBlock Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-				<Grid Grid.Column="1" DataContext="{Binding SelectedGraphicsColumn}">
-					<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
-						<Image Source="{Binding Bitmap}" Stretch="None" />
-					</ScrollViewer>
-				</Grid>
+				<Controls:PhotoSelectation Grid.Column="1" Data="{Binding SelectedGraphicsColumn.Data}" />
 			</Grid>
 		</TabItem>
 	</TabControl>

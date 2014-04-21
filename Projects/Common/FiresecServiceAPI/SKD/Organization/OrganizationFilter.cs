@@ -1,6 +1,6 @@
 ﻿namespace FiresecAPI
 {
-	public class OrganizationFilter : IsDeletedFilter
+	public class OrganisationFilter : IsDeletedFilter
 	{
 	}
 }

@@ -13,107 +13,140 @@ namespace FiresecAPI
 	[ServiceContract(SessionMode = SessionMode.Required)]
 	public interface IFiresecServiceSKD
 	{
-		#region Get
+		#region Employee
 		[OperationContract]
-		OperationResult<IEnumerable<EmployeeListItem>> GetEmployeeList(EmployeeFilter filter);
+		OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);
 		[OperationContract]
 		OperationResult<Employee> GetEmployeeDetails(Guid uid);
 		[OperationContract]
-		OperationResult<IEnumerable<Department>> GetDepartments(DepartmentFilter filter);
+		OperationResult SaveEmployees(IEnumerable<Employee> Employees);
 		[OperationContract]
-		OperationResult<IEnumerable<Position>> GetPositions(PositionFilter filter);
+		OperationResult MarkDeletedEmployees(IEnumerable<Guid> uids);
+		#endregion
+
+		#region Department
+		[OperationContract]
+		OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter);
+		[OperationContract]
+		OperationResult<Department> GetDepartmentDetails(Guid uid);
+		[OperationContract]
+		OperationResult SaveDepartments(IEnumerable<Department> Departments);
+		[OperationContract]
+		OperationResult MarkDeletedDepartments(IEnumerable<Guid> uids);
+		#endregion
+
+		#region Position
+		[OperationContract]
+		OperationResult<IEnumerable<ShortPosition>> GetPositionList(PositionFilter filter);
+		[OperationContract]
+		OperationResult<Position> GetPositionDetails(Guid uid);
+		[OperationContract]
+		OperationResult SavePositions(IEnumerable<Position> Positions);
+		[OperationContract]
+		OperationResult MarkDeletedPositions(IEnumerable<Guid> uids);
+		#endregion
+
+		#region Journal
 		[OperationContract]
 		OperationResult<IEnumerable<SKDJournalItem>> GetSKDJournalItems(SKDJournalFilter filter);
 		[OperationContract]
-		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
-		[OperationContract]
-		OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter);
-		[OperationContract]
-		OperationResult<IEnumerable<Organization>> GetOrganizations(OrganizationFilter filter);
-		[OperationContract]
-		OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter);
-		[OperationContract]
-		OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter);
-		[OperationContract]
-		OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter);
-		[OperationContract]
-		OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter);
-		[OperationContract]
-		OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter);
-		[OperationContract]
-		OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter);
-		[OperationContract]
-		OperationResult<IEnumerable<EmployeeNamedInterval>> GetNamedIntervals(EmployeeNamedIntervalFilter filter);
+		OperationResult SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
 		[OperationContract]
 		OperationResult<IEnumerable<EmployeeTimeInterval>> GetTimeIntervals(EmployeeTimeIntervalFilter filter);
 		[OperationContract]
 		OperationResult<IEnumerable<EmployeeHoliday>> GetHolidays(EmployeeHolidayFilter filter);
 		#endregion
 
-		#region Save
+		#region Card
 		[OperationContract]
-		OperationResult SaveEmployees(IEnumerable<Employee> Employees);
-		[OperationContract]
-		OperationResult SaveCardTemplate(SKDCard card);
-		[OperationContract]
-		OperationResult SaveDepartments(IEnumerable<Department> Departments);
-		[OperationContract]
-		OperationResult SavePositions(IEnumerable<Position> Positions);
-		[OperationContract]
-		OperationResult SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
+		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
 		[OperationContract]
 		OperationResult SaveCards(IEnumerable<SKDCard> items);
 		[OperationContract]
+		OperationResult MarkDeletedCards(IEnumerable<SKDCard> items);
+		[OperationContract]
+		OperationResult SaveCardTemplate(SKDCard card);
+		#endregion
+
+		#region CardZone
+		[OperationContract]
+		OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter);
+		[OperationContract]
 		OperationResult SaveCardZones(IEnumerable<CardZone> items);
 		[OperationContract]
-		OperationResult SaveOrganizations(IEnumerable<Organization> Organizations);
+		OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items);
+		#endregion
+
+		#region AccessTemplate
 		[OperationContract]
-		OperationResult SaveOrganizationZones(Organization organization);
-		[OperationContract]
-		OperationResult SaveDocuments(IEnumerable<Document> items);
+		OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter);
 		[OperationContract]
 		OperationResult SaveAccessTemplates(IEnumerable<AccessTemplate> items);
 		[OperationContract]
-		OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
+		OperationResult MarkDeletedAccessTemplates(IEnumerable<AccessTemplate> items);
+		#endregion
+
+		#region Organisation
 		[OperationContract]
-		OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items);
+		OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter);
 		[OperationContract]
-		OperationResult SavePhotos(IEnumerable<Photo> items);
+		OperationResult SaveOrganisations(IEnumerable<Organisation> Organisations);
 		[OperationContract]
-		OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
+		OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organisations);
 		[OperationContract]
-		OperationResult SaveNamedIntervals(IEnumerable<EmployeeNamedInterval> items);
+		OperationResult SaveOrganisationZones(Organisation organization);
 		[OperationContract]
 		OperationResult SaveTimeIntervals(IEnumerable<EmployeeTimeInterval> items);
 		[OperationContract]
 		OperationResult SaveHolidays(IEnumerable<EmployeeHoliday> items);
 		#endregion
 
-		#region MarkDeleted
+		#region Document
 		[OperationContract]
-		OperationResult MarkDeletedEmployees(IEnumerable<Guid> uids);
+		OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter);
 		[OperationContract]
-		OperationResult MarkDeletedDepartments(IEnumerable<Department> Departments);
-		[OperationContract]
-		OperationResult MarkDeletedPositions(IEnumerable<Position> Positions);
-		[OperationContract]
-		OperationResult MarkDeletedCards(IEnumerable<SKDCard> items);
-		[OperationContract]
-		OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items);
-		[OperationContract]
-		OperationResult MarkDeletedOrganizations(IEnumerable<Organization> Organizations);
+		OperationResult SaveDocuments(IEnumerable<Document> items);
 		[OperationContract]
 		OperationResult MarkDeletedDocuments(IEnumerable<Document> items);
+		#endregion
+
+		#region AdditionalColumnType
 		[OperationContract]
-		OperationResult MarkDeletedAccessTemplates(IEnumerable<AccessTemplate> items);
+		OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter);
+		[OperationContract]
+		OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
 		[OperationContract]
 		OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
+		#endregion
+
+		#region AdditionalColumn
 		[OperationContract]
-		OperationResult MarkDeletedAdditionalColumns(IEnumerable<AdditionalColumn> items);
+		OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter);
 		[OperationContract]
-		OperationResult MarkDeletedPhotos(IEnumerable<Photo> items);
+		OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items);
+		#endregion
+
+		#region Photo
+		[OperationContract]
+		OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter);
+		[OperationContract]
+		OperationResult SavePhotos(IEnumerable<Photo> items);
+		#endregion
+
+		#region EmployeeReplacement
+		[OperationContract]
+		OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter);
+		[OperationContract]
+		OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
 		[OperationContract]
 		OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
+		#endregion
+
+		#region EmployeeNamedInterval
+		[OperationContract]
+		OperationResult<IEnumerable<EmployeeNamedInterval>> GetNamedIntervals(EmployeeNamedIntervalFilter filter);
+		[OperationContract]
+		OperationResult SaveNamedIntervals(IEnumerable<EmployeeNamedInterval> items);
 		[OperationContract]
 		OperationResult MarkDeletedNamedIntervals(IEnumerable<EmployeeNamedInterval> items);
 		[OperationContract]
@@ -121,7 +154,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult MarkDeletedHolidays(IEnumerable<EmployeeHoliday> items);
 		#endregion
-
+		
 		#region DeviceCommands
 		[OperationContract]
 		OperationResult<SKDStates> SKDGetStates();

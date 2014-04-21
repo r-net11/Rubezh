@@ -10,13 +10,13 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
-using Organization = FiresecAPI.Organization;
+using Organisation = FiresecAPI.Organisation;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationWeeklyIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		public Organization Organization { get; private set; }
+		public Organisation Organization { get; private set; }
 		ScheduleScheme IntervalToCopy;
 
 		public OrganisationWeeklyIntervalsViewModel()
@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(Organization organization, List<ScheduleScheme> employeeWeeklyIntervals)
+		public void Initialize(Organisation organization, List<ScheduleScheme> employeeWeeklyIntervals)
 		{
 			Organization = organization;
 

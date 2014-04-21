@@ -388,134 +388,134 @@ SET @Characteristics = 'Личная характеристика';
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Montage1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @Montage1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Montage2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @Montage2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainMontageEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @MainMontageEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guard1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @Guard1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guard2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @Guard2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainGuardEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @MainGuardEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Constructor1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @Constructor1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Constructor2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @Constructor2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainConstructorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @MainConstructorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Programmer1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @Programmer1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Programmer2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @Programmer2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainProgrammistEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @MainProgrammistEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Tester1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @Tester1EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Tester2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @Tester2EmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainTesterEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @MainTesterEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @DirectorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @DirectorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @AdministratorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @AdministratorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @PhotoUID = NEWID();
 EXEC SavePhoto @PhotoUID, @PassportScan 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @ProgrammistConstructorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
+EXEC SaveAdditionalColumn @Uid, @ProgrammistConstructorEmployeeUid, @PassportAdditionalColumnTypeUID, NULL, @PhotoUID
 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Montage1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @Montage1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Montage2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @Montage2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainMontageEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @MainMontageEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guard1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @Guard1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guard2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @Guard2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainGuardEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @MainGuardEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Constructor1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @Constructor1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Constructor2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @Constructor2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainConstructorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @MainConstructorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Programmer1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @Programmer1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Programmer2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @Programmer2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainProgrammistEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @MainProgrammistEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Tester1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @Tester1EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Tester2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @Tester2EmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @MainTesterEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @MainTesterEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @DirectorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @DirectorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @AdministratorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @AdministratorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @ProgrammistConstructorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
+EXEC SaveAdditionalColumn @Uid, @ProgrammistConstructorEmployeeUid, @CharacteristicsAdditionalColumnTypeUID, @Characteristics
 
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guest1UID, @GuestTypeAdditionalColumnTypeUID, 'Проверяющий'
+EXEC SaveAdditionalColumn @Uid, @Guest1UID, @GuestTypeAdditionalColumnTypeUID, 'Проверяющий'
 SET @Uid = NEWID();
-EXEC SaveAdditionalColumn @Uid, 0, '01/01/1900', @Guest2UID, @GuestTypeAdditionalColumnTypeUID, 'Клиент'
+EXEC SaveAdditionalColumn @Uid, @Guest2UID, @GuestTypeAdditionalColumnTypeUID, 'Клиент'
 
 DECLARE @Organization2Uid uniqueidentifier;
 SET @Organization2Uid = '498F0C15-76E1-40D5-836E-908F638177AF';

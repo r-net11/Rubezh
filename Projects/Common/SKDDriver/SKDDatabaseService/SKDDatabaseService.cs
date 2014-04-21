@@ -1,5 +1,5 @@
-﻿
-using SKDDriver.Translators;
+﻿using SKDDriver.Translators;
+
 namespace SKDDriver
 {
 	public static class SKDDatabaseService
@@ -10,15 +10,15 @@ namespace SKDDriver
 		{
 			Context = new DataAccess.SKDDataContext();
 			DocumentTranslator = new DocumentTranslator(Context);
-			PositionTranslator = new PositionTranslator(Context);
 			CardZoneTranslator = new CardZoneTranslator(Context);
 			CardTranslator = new CardTranslator(Context, CardZoneTranslator);
 			AccessTemplateTranslator = new AccessTemplateTranslator(Context, CardZoneTranslator);
 			OrganizationTranslator = new OrganizationTranslator(Context);
 			JournalItemTranslator = new JournalItemTranslator(Context);
-			DepartmentTranslator = new DepartmentTranslator(Context);
-			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
 			PhotoTranslator = new PhotoTranslator(Context);
+			PositionTranslator = new PositionTranslator(Context, PhotoTranslator);
+			DepartmentTranslator = new DepartmentTranslator(Context, PhotoTranslator);
+			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context, PhotoTranslator, AdditionalColumnTypeTranslator);
 			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
 			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator);

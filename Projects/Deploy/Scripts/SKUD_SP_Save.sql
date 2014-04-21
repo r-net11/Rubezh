@@ -725,7 +725,8 @@ BEGIN
 		DataType,
 		PersonType,
 		IsDeleted,
-		RemovalDate)
+		RemovalDate,
+		IsInGrid)
 	VALUES (
 		@UID,
 		@OrganizationUID ,
@@ -734,14 +735,13 @@ BEGIN
 		@DataType ,
 		@PersonType,
 		@IsDeleted ,
-		@RemovalDate )
+		@RemovalDate,
+		0 )
 END	
 
 GO
 CREATE PROCEDURE SaveAdditionalColumn
 	@UID uniqueidentifier,
-	@IsDeleted bit,
-	@RemovalDate datetime,
 	@EmployeeUID uniqueidentifier = NULL,
 	@AdditionalColumnTypeUID uniqueidentifier = NULL,
 	@TextData text = NULL,
@@ -750,16 +750,12 @@ AS
 BEGIN
 	INSERT INTO AdditionalColumn (
 		UID,
-		IsDeleted,
-		RemovalDate,
 		EmployeeUID,
 		AdditionalColumnTypeUID ,
 		TextData ,
 		PhotoUID )
 	VALUES (
-		@UID ,
-		@IsDeleted ,
-		@RemovalDate ,
+		@UID,
 		@EmployeeUID ,
 		@AdditionalColumnTypeUID ,
 		@TextData ,

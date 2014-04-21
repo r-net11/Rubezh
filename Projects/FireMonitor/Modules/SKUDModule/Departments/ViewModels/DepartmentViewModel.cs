@@ -10,9 +10,9 @@ namespace SKDModule.ViewModels
 	public class DepartmentViewModel : TreeNodeViewModel<DepartmentViewModel>
 	{
 		OrganisationDepartmentsViewModel OrganisationDepartmentsViewModel;
-		public Department Department { get; private set; }
+		public ShortDepartment Department { get; private set; }
 
-		public DepartmentViewModel(OrganisationDepartmentsViewModel organisationDepartmentsViewModel, Department department)
+		public DepartmentViewModel(OrganisationDepartmentsViewModel organisationDepartmentsViewModel, ShortDepartment department)
 		{
 			OrganisationDepartmentsViewModel = organisationDepartmentsViewModel;
 			Department = department;
@@ -24,19 +24,16 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged(()=>Department);
+			OnPropertyChanged(() => Department);
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationDepartmentsViewModel, null, Department);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationDepartmentsViewModel, null, Department.UID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
-				var department = departmentDetailsViewModel.Department;
-				var saveResult = DepartmentHelper.Save(department);
-				if (!saveResult)
-					return;
+				var department = departmentDetailsViewModel.ShortDepartment;
 				var departmentViewModel = new DepartmentViewModel(OrganisationDepartmentsViewModel, department);
 				this.Department.ChildDepartmentUIDs.Add(department.UID);
 				this.AddChild(departmentViewModel);
@@ -61,7 +58,7 @@ namespace SKDModule.ViewModels
 			var parent = Parent;
 			if (parent != null)
 			{
-				var removeResult = DepartmentHelper.MarkDeleted(Department);
+				var removeResult = DepartmentHelper.MarkDeleted(Department.UID);
 				if (!removeResult)
 					return;
 				
@@ -83,14 +80,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationDepartmentsViewModel, this.Department);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationDepartmentsViewModel, this.Department.UID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
-				var department = departmentDetailsViewModel.Department;
-				var saveResult = DepartmentHelper.Save(department);
-				if (!saveResult)
-					return;
-				this.Department = department;
+				this.Department = departmentDetailsViewModel.ShortDepartment;
 				Update();
 			}
 		}
