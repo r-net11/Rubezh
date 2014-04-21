@@ -304,7 +304,7 @@
     <Compile Include="Reports\Models\EmployeeReportPeriod.cs" />
     <Compile Include="Reports\Models\EmployeeReportSettings.cs" />
     <Compile Include="Reports\Models\EmployeeReportType.cs" />
-    <Compile Include="Zones\SKDModuleLoader.cs" />
+    <Compile Include="SKDModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
       </SubType>
