@@ -11,6 +11,7 @@ namespace FiresecAPI.Models
 		public Camera()
 		{
 			UID = Guid.NewGuid();
+			Children = new List<Camera>();
 			ZoneUIDs = new List<Guid>();
 			PlanElementUIDs = new List<Guid>();
 			Width = 300;
@@ -45,6 +46,12 @@ namespace FiresecAPI.Models
 		public string Password { get; set; }
 
 		[DataMember]
+		public Camera Parent { get; set; }
+
+		[DataMember]
+		public List<Camera> Children { get; set; }
+
+		[DataMember]
 		public int Left { get; set; }
 
 		[DataMember]
@@ -61,6 +68,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public XStateClass StateClass {get; set;}
+
+		[DataMember]
+		public XCameraType CameraType { get; set; }
 
 		public XStateClass CameraStateStateClass
 		{

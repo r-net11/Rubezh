@@ -29,6 +29,7 @@ namespace VideoModule
 
 		public override void Initialize()
 		{
+			CamerasViewModel.Initialize();
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			Helper.BuildMap();

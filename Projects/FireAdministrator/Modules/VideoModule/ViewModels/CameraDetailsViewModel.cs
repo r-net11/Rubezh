@@ -7,7 +7,6 @@ using System;
 using FiresecClient;
 using System.Collections.Generic;
 using XFiresecAPI;
-using System.Collections.ObjectModel;
 using Infrastructure.Common.Video.RVI_VSS;
 
 namespace VideoModule.ViewModels
@@ -15,18 +14,18 @@ namespace VideoModule.ViewModels
 	public class CameraDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Camera Camera { get; private set; }
-		CellPlayerWrap _cellPlayerWrap;
+		readonly CellPlayerWrap _cellPlayerWrap;
 
-		public CameraDetailsViewModel(Camera camera = null)
+		public CameraDetailsViewModel(Camera camera)
 		{
 			ShowZonesCommand = new RelayCommand(OnShowZones);
-			RefreshCommand = new RelayCommand(OnRefresh);
 			ShowCommand = new RelayCommand(OnShow);
 
-			if (camera == null)
+			if (camera.Address =="")
 			{
 				Title = "Создание новой камеры";
 				Camera = new Camera();
+				Camera.Name = "Камера";
 			}
 			else
 			{
@@ -34,7 +33,6 @@ namespace VideoModule.ViewModels
 				Title = "Свойства камеры: " + Camera.PresentationName;
 			}
 			_cellPlayerWrap = new CellPlayerWrap();
-
 			Initialize();
 			CopyProperties();
 		}
@@ -46,29 +44,18 @@ namespace VideoModule.ViewModels
 			StateClasses.Add(XStateClass.Fire2);
 			StateClasses.Add(XStateClass.Attention);
 			StateClasses.Add(XStateClass.Ignore);
-
-			Channels = new ObservableCollection<ChannelViewModel>();
-			for (int i = 0; i < 16; i++)
-			{
-				var channelViewModel = new ChannelViewModel(i);
-				Channels.Add(channelViewModel);
-			}
 		}
 
 		void CopyProperties()
 		{
 			Name = Camera.Name;
-			Address = Camera.Address;
-			Port = Camera.Port;
-			Login = Camera.Login;
-			Password = Camera.Password;
 			Left = Camera.Left;
 			Top = Camera.Top;
 			Width = Camera.Width;
 			Height = Camera.Height;
 			IgnoreMoveResize = Camera.IgnoreMoveResize;
 			SelectedStateClass = Camera.StateClass;
-			SelectedChannel = Channels.FirstOrDefault(x => x.No == Camera.ChannelNumber);
+			ChannelNumber = Camera.ChannelNumber + 1;
 		}
 
 		string _name;
@@ -82,47 +69,14 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		string _address;
-		public string Address
+		int _channelNumber;
+		public int ChannelNumber
 		{
-			get { return _address; }
+			get { return _channelNumber; }
 			set
 			{
-				_address = value;
-				OnPropertyChanged(() => Address);
-			}
-		}
-
-		int _port;
-		public int Port
-		{
-			get { return _port; }
-			set
-			{
-				_port = value;
-				OnPropertyChanged(() => Port);
-			}
-		}
-
-		string _login;
-		public string Login
-		{
-			get { return _login; }
-			set
-			{
-				_login = value;
-				OnPropertyChanged(() => Login);
-			}
-		}
-
-		string _password;
-		public string Password
-		{
-			get { return _password; }
-			set
-			{
-				_password = value;
-				OnPropertyChanged(() => Password);
+				_channelNumber = value;
+				OnPropertyChanged(() => ChannelNumber);
 			}
 		}
 
@@ -169,7 +123,7 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => Height);
 			}
 		}
-
+		
 		bool _ignoreMoveResize;
 		public bool IgnoreMoveResize
 		{
@@ -180,9 +134,9 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => IgnoreMoveResize);
 			}
 		}
-
+		
 		public List<XStateClass> StateClasses { get; private set; }
-
+		
 		XStateClass _selectedStateClass;
 		public XStateClass SelectedStateClass
 		{
@@ -193,7 +147,7 @@ namespace VideoModule.ViewModels
 				OnPropertyChanged(() => SelectedStateClass);
 			}
 		}
-
+		
 		public RelayCommand ShowZonesCommand { get; private set; }
 		void OnShowZones()
 		{
@@ -218,76 +172,15 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		#region Connection
-
-		private ObservableCollection<ChannelViewModel> _channels;
-		public ObservableCollection<ChannelViewModel> Channels
-		{
-			get { return _channels; }
-			set
-			{
-				_channels = value;
-				OnPropertyChanged(() => Channels);
-			}
-		}
-
-		private ChannelViewModel _selectedChannel;
-		public ChannelViewModel SelectedChannel
-		{
-			get { return _selectedChannel; }
-			set
-			{
-				_selectedChannel = value;
-				OnPropertyChanged(() => SelectedChannel);
-			}
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			try
-			{
-				Channels = new ObservableCollection<ChannelViewModel>();
-				var channels = _cellPlayerWrap.Connect(Address, Port, Login, Password);
-				if (channels != null)
-				{
-					for (int i = 0; i < channels.Count; i++)
-					{
-						var channelViewModel = new ChannelViewModel(i, channels[i]);
-						Channels.Add(channelViewModel);
-					}
-				}
-				else
-				{
-					Channels = new ObservableCollection<ChannelViewModel>();
-					for (int i = 0; i < 16; i++)
-					{
-						var channelViewModel = new ChannelViewModel(i);
-						Channels.Add(channelViewModel);
-					}
-				}
-				SelectedChannel = Channels.FirstOrDefault(x => x.No == Camera.ChannelNumber);
-			}
-			catch (Exception e)
-			{
-				MessageBoxService.ShowWarning(e.Message);
-			}
-		}
-
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
 			try
 			{
-				if (SelectedChannel == null)
-					SelectedChannel = Channels.FirstOrDefault();
-				if (SelectedChannel == null)
-					return;
-				var title = Address + " (" + SelectedChannel.Name + ")";
+				var title = Name + " " + ChannelNumber;
 				var previewViewModel = new PreviewViewModel(title, _cellPlayerWrap);
-
-				_cellPlayerWrap.Connect(Address, Port, Login, Password);
-				_cellPlayerWrap.Start(SelectedChannel.No);
+				_cellPlayerWrap.Connect(Camera.Parent.Address, Camera.Parent.Port, Camera.Parent.Login, Camera.Parent.Password);
+				_cellPlayerWrap.Start(ChannelNumber - 1);
 				DialogService.ShowModalWindow(previewViewModel);
 				_cellPlayerWrap.Stop();
 			}
@@ -297,28 +190,17 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		#endregion
-
 		protected override bool Save()
 		{
 			Camera.Name = Name;
-			Camera.Address = Address;
-			Camera.Port = Port;
-			Camera.Login = Login;
-			Camera.Password = Password;
-			if (SelectedChannel != null)
-				Camera.ChannelNumber = SelectedChannel.No;
-			else
-				Camera.ChannelNumber = 0;
+			Camera.ChannelNumber = ChannelNumber - 1;
 			Camera.Left = Left;
 			Camera.Top = Top;
 			Camera.Width = Width;
 			Camera.Height = Height;
 			Camera.IgnoreMoveResize = IgnoreMoveResize;
 			Camera.StateClass = SelectedStateClass;
-
 			_cellPlayerWrap.Stop();
-
 			return base.Save();
 		}
 	}

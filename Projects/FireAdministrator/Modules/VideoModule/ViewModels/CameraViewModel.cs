@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.TreeList;
 using XFiresecAPI;
 using System.Windows;
 using DeviceControls;
@@ -16,7 +17,7 @@ using Infrastructure;
 
 namespace VideoModule.ViewModels
 {
-	public class CameraViewModel : BaseViewModel
+	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
 	{
 		CamerasViewModel _camerasViewModel;
 		public Camera Camera { get; set; }
@@ -29,8 +30,52 @@ namespace VideoModule.ViewModels
 			CreateDragVisual = OnCreateDragVisual;
 			AllowMultipleVizualizationCommand = new RelayCommand<bool>(OnAllowMultipleVizualizationCommand,
 				CanAllowMultipleVizualizationCommand);
+			UpdateChildren();
 		}
 
+		public bool IsDvr
+		{
+			get
+			{
+				return Camera.CameraType == XCameraType.Dvr;
+			}
+		}
+
+		public bool IsChannel
+		{
+			get
+			{
+				return Camera.CameraType == XCameraType.Channel;
+			}
+		}
+
+		public bool IsCamera
+		{
+			get
+			{
+				return Camera.CameraType == XCameraType.Camera;
+			}
+		}
+
+		public void UpdateChildren()
+		{
+			if((Camera!=null)&&(Camera.CameraType == XCameraType.Dvr))
+				foreach (var child in Camera.Children)
+				{
+					var cameraViewModel = new CameraViewModel(_camerasViewModel, child);
+					AddChild(cameraViewModel);
+				}
+		}
+
+		public string PresentationAddress
+		{
+			get
+			{
+				if (Camera.CameraType != XCameraType.Channel)
+					return Camera.Address;
+				return (Camera.ChannelNumber + 1).ToString();
+			}
+		}
 		public string PresentationZones
 		{
 			get
@@ -43,11 +88,24 @@ namespace VideoModule.ViewModels
 				return presentationZones;
 			}
 		}
+
+		public string PresentationState
+		{
+			get
+			{
+				if ((Camera.StateClass == XStateClass.Fire1) || (Camera.StateClass == XStateClass.Fire2) ||
+					(Camera.StateClass == XStateClass.Attention) || (Camera.StateClass == XStateClass.Ignore))
+					return Camera.StateClass.ToDescription();
+				return null;
+			}
+		}
 		
 		public void Update()
 		{
 			OnPropertyChanged(() => Camera);
 			OnPropertyChanged(() => PresentationZones);
+			OnPropertyChanged(() => PresentationAddress);
+			OnPropertyChanged(() => PresentationState);
 			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}
@@ -81,6 +139,8 @@ namespace VideoModule.ViewModels
 
 		private bool CanCreateDragObjectCommand(DataObject dataObject)
 		{
+			if (Camera.CameraType == XCameraType.Dvr)
+				return false;
 			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
 		}
 

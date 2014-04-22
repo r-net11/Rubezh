@@ -114,6 +114,7 @@
     <Compile Include="ViewModels\ChannelViewModel.cs" />
     <Compile Include="ViewModels\AutoSearchCamerasViewModel.cs" />
     <Compile Include="ViewModels\AutoSearchCameraViewModel.cs" />
+    <Compile Include="ViewModels\DvrDetailsViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartMultiCameraViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyCameraPageViewModel.cs" />
@@ -130,6 +131,9 @@
     </Compile>
     <Compile Include="Views\AutoSearchCamerasView.xaml.cs">
       <DependentUpon>AutoSearchCamerasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DvrDetailsView.xaml.cs">
+      <DependentUpon>DvrDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutPartCameraView.xaml.cs">
       <DependentUpon>LayoutPartCameraView.xaml</DependentUpon>
@@ -175,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AutoSearchCamerasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DvrDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
