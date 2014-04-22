@@ -11,6 +11,9 @@ namespace FiresecAPI.EmployeeTimeIntervals
 		}
 
 		[DataMember]
+		public Guid ScheduleUID { get; set; }
+
+		[DataMember]
 		public Guid ZoneUID { get; set; }
 
 		[DataMember]

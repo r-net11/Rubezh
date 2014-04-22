@@ -52,6 +52,9 @@
     <Compile Include="AdministratorHelper.cs" />
     <Compile Include="BytesHelper.cs" />
     <Compile Include="SKDDatabaseService\DataAccess\IDatabaseElement.cs" />
+    <Compile Include="SKDDatabaseService\DataAccess\SKD.cs">
+      <DependentUpon>SKD.dbml</DependentUpon>
+    </Compile>
     <Compile Include="SKDDatabaseService\DataAccess\SKD.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -62,6 +65,8 @@
     <Compile Include="SKDDatabaseService\Translators\Base\IsDeletedTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardZoneTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\ScheduleZoneTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\ScheduleTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\DayIntervalTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\ScheduleSchemeTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\HolidayTranslator.cs" />

@@ -11,11 +11,11 @@
 				<DataGridTemplateColumn Width="*" Header="Имя">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding FirstName}" />
-                            </StackPanel>
-                        </DataTemplate>
+							</StackPanel>
+						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTextColumn Binding="{Binding SecondName}" Header="Фамилия" />
@@ -24,108 +24,108 @@
 		</DataGrid>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
-        <Grid Grid.Row="2" DataContext="{Binding SelectedEmployee}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="150" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0">
-                <TextBlock>
+		<Grid Grid.Row="2" DataContext="{Binding SelectedEmployee}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" MinWidth="150" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0">
+				<TextBlock>
 					<Hyperlink Command="{Binding SelectEmployeeCommand}" Style="{StaticResource HyperlinkStyle2}">
 						<StackPanel Orientation="Horizontal">
 							<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
 							<TextBlock Margin="2" VerticalAlignment="Center" Text="Сотрудник">
-                                <TextBlock.Style>
-							        <Style>
-								        <Style.Triggers>
-									        <DataTrigger Binding="{Binding IsEmployeeSelected}" Value="True">
-										        <DataTrigger.Setters>
-											        <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                    <Setter Property="TextBlock.Foreground" Value="Orange" />
-										        </DataTrigger.Setters>
-									        </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsEmployeeSelected}" Value="False">
-										        <DataTrigger.Setters>
-                                                    <Setter Property="TextBlock.Foreground" Value="White" />
-										        </DataTrigger.Setters>
-									        </DataTrigger>
-								        </Style.Triggers>
-							        </Style>
-						        </TextBlock.Style>
-                            </TextBlock>
+								<TextBlock.Style>
+									<Style>
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding IsEmployeeSelected}" Value="True">
+												<DataTrigger.Setters>
+													<Setter Property="TextBlock.FontWeight" Value="Bold" />
+													<Setter Property="TextBlock.Foreground" Value="Orange" />
+												</DataTrigger.Setters>
+											</DataTrigger>
+											<DataTrigger Binding="{Binding IsEmployeeSelected}" Value="False">
+												<DataTrigger.Setters>
+													<Setter Property="TextBlock.Foreground" Value="White" />
+												</DataTrigger.Setters>
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</TextBlock.Style>
+							</TextBlock>
 						</StackPanel>
 					</Hyperlink>
 				</TextBlock>
-                <ItemsControl ItemsSource="{Binding Cards}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock>
-						        <Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
-							        <StackPanel Orientation="Horizontal">
-								        <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
-								        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2">
-                                            <TextBlock.Style>
-							                    <Style>
-								                    <Style.Triggers>
-									                    <DataTrigger Binding="{Binding IsCardSelected}" Value="True">
-										                    <DataTrigger.Setters>
-											                    <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                                <Setter Property="TextBlock.Foreground" Value="Orange" />
-										                    </DataTrigger.Setters>
-									                    </DataTrigger>
-                                                        <DataTrigger Binding="{Binding IsCardSelected}" Value="False">
-										                    <DataTrigger.Setters>
-                                                                <Setter Property="TextBlock.Foreground" Value="White" />
-										                    </DataTrigger.Setters>
-									                    </DataTrigger>
-								                    </Style.Triggers>
-							                    </Style>
-						                    </TextBlock.Style>
-                                        </TextBlock>
-							        </StackPanel>
-						        </Hyperlink>
-					        </TextBlock>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
+				<ItemsControl ItemsSource="{Binding Cards}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<TextBlock>
+								<Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
+									<StackPanel Orientation="Horizontal">
+										<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+										<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}">
+											<TextBlock.Style>
+												<Style>
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding IsCardSelected}" Value="True">
+															<DataTrigger.Setters>
+																<Setter Property="TextBlock.FontWeight" Value="Bold" />
+																<Setter Property="TextBlock.Foreground" Value="Orange" />
+															</DataTrigger.Setters>
+														</DataTrigger>
+														<DataTrigger Binding="{Binding IsCardSelected}" Value="False">
+															<DataTrigger.Setters>
+																<Setter Property="TextBlock.Foreground" Value="White" />
+															</DataTrigger.Setters>
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</TextBlock.Style>
+										</TextBlock>
+									</StackPanel>
+								</Hyperlink>
+							</TextBlock>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</StackPanel>
 
-            <Grid Grid.Column="1" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Border Background="White" CornerRadius="5">
-                    <StackPanel Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Имя" />
-						<TextBlock Margin="2" Text="{Binding FirstName}" />
-                        </StackPanel>
+			<Grid Grid.Column="1" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Border Background="White" CornerRadius="5">
+					<StackPanel Margin="5">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="100" Margin="2" Text="Имя" />
+							<TextBlock Margin="2" Text="{Binding FirstName}" />
+						</StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Фамилия" />
-						<TextBlock Margin="2" Text="{Binding SecondName}" />
-                        </StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="100" Margin="2" Text="Фамилия" />
+							<TextBlock Margin="2" Text="{Binding SecondName}" />
+						</StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Отчество" />
-						<TextBlock Margin="2" Text="{Binding LastName}" />
-                        </StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="100" Margin="2" Text="Отчество" />
+							<TextBlock Margin="2" Text="{Binding LastName}" />
+						</StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Отдел" />
-                            <TextBlock Margin="2" Text="{Binding DepartmentName}" />
-                        </StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="100" Margin="2" Text="Отдел" />
+							<TextBlock Margin="2" Text="{Binding DepartmentName}" />
+						</StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Должность" />
-                            <TextBlock Margin="2" Text="{Binding PositionName}" />
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-            </Grid>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="100" Margin="2" Text="Должность" />
+							<TextBlock Margin="2" Text="{Binding PositionName}" />
+						</StackPanel>
+					</StackPanel>
+				</Border>
+			</Grid>
 
-            <Grid Grid.Column="1" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}">
-                <Grid DataContext="{Binding SelectedCard}">
-                    <Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
-                </Grid>
-            </Grid>
-        </Grid>
+			<Grid Grid.Column="1" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+				<Grid DataContext="{Binding SelectedCard}">
+					<Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
+				</Grid>
+			</Grid>
+		</Grid>
 	</Grid>
 </UserControl>

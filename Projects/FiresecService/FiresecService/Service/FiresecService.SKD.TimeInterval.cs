@@ -73,5 +73,31 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.DayIntervalTranslator.MarkDeleted(items);
 		}
+
+		public FiresecAPI.OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter)
+		{
+			return SKDDatabaseService.ScheduleTranslator.Get(filter);
+		}
+		public FiresecAPI.OperationResult SaveSchedules(IEnumerable<Schedule> items)
+		{
+			return SKDDatabaseService.ScheduleTranslator.Save(items);
+		}
+		public FiresecAPI.OperationResult MarkDeletedSchedules(IEnumerable<Schedule> items)
+		{
+			return SKDDatabaseService.ScheduleTranslator.MarkDeleted(items);
+		}
+
+		public FiresecAPI.OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)
+		{
+			return SKDDatabaseService.ScheduleZoneTranslator.Get(filter);
+		}
+		public FiresecAPI.OperationResult SaveScheduleZones(IEnumerable<ScheduleZone> items)
+		{
+			return SKDDatabaseService.ScheduleZoneTranslator.Save(items);
+		}
+		public FiresecAPI.OperationResult MarkDeletedScheduleZones(IEnumerable<ScheduleZone> items)
+		{
+			return SKDDatabaseService.ScheduleZoneTranslator.MarkDeleted(items);
+		}
 	}
 }

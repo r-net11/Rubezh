@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using FiresecClient.SKDHelpers;
 using System.Collections.ObjectModel;
+using SKDModule.Intervals.Common;
 
 namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 {
@@ -92,7 +93,7 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		private void OnCopy()
 		{
-			_clipboard = CopyInterval(SelectedViewModel.Model);
+			_clipboard = CopyInterval(SelectedViewModel.Model, false);
 		}
 		private bool CanCopy()
 		{
@@ -115,18 +116,19 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			return _clipboard != null;
 		}
 
-		private ScheduleScheme CopyInterval(ScheduleScheme source)
+		private ScheduleScheme CopyInterval(ScheduleScheme source, bool newName = true)
 		{
 			var copy = new ScheduleScheme();
-			copy.Name = source.Name;
+			copy.Name = newName ? CopyHelper.CopyName(source.Name, ViewModels.Select(item => item.Model.Name)) : source.Name;
 			copy.Description = source.Description;
+			copy.OrganisationUID = source.OrganisationUID;
 			foreach (var day in source.DayIntervals)
 				if (!day.IsDeleted)
 					copy.DayIntervals.Add(new DayInterval()
 					{
 						NamedIntervalUID = day.NamedIntervalUID,
 						Number = day.Number,
-						ScheduleSchemeUID = day.ScheduleSchemeUID,
+						ScheduleSchemeUID = copy.UID,
 					});
 			return copy;
 		}

@@ -12,13 +12,14 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
+using SKDModule.Intervals.Schedules.ViewModels;
+using SKDModule.Intervals.ScheduleShemes.ViewModels;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
 using XFiresecAPI;
-using Infrastructure.Events;
-using SKDModule.Intervals.ScheduleShemes.ViewModels;
 
 namespace SKDModule
 {
@@ -42,7 +43,7 @@ namespace SKDModule
 		ScheduleSchemesMonthlyViewModel ScheduleSchemesMonthlyViewModel;
 		ScheduleSchemesSlideViewModel ScheduleSchemesSlideViewModel;
 		HolidaysViewModel HolidaysViewModel;
-		ShedulesViewModel ShedulesViewModel;
+		SchedulesViewModel SchedulesViewModel;
 		ReportsViewModel ReportsViewModel;
 		NavigationItem _journalNavigationItem;
 		private PlanPresenter _planPresenter;
@@ -77,7 +78,7 @@ namespace SKDModule
 			ScheduleSchemesSlideViewModel = new ScheduleSchemesSlideViewModel();
 			ScheduleSchemesMonthlyViewModel = new ScheduleSchemesMonthlyViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
-			ShedulesViewModel = new ShedulesViewModel();
+			SchedulesViewModel = new SchedulesViewModel();
 			ReportsViewModel = new ReportsViewModel();
 		}
 
@@ -99,21 +100,21 @@ namespace SKDModule
 				        new NavigationItem<ShowSKDVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
 						
-						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/tree.png"),
+				        new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDDepartmentsEvent>(DepartmentsViewModel, "Отделы", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDPositionsEvent>(PositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDDocumentsEvent>(DocumentsViewModel, "Документы", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDAdditionalColumnsEvent>(AdditionalColumnsViewModel, "Дополнительные колонки", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDReportsEvent>(ReportsViewModel, "Отчеты", "/Controls;component/Images/tree.png"),
 				        new NavigationItem("Интервалы", null, new List<NavigationItem>()
-						{
+				        {
 							new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(NamedIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSKDWeeklyIntervalsEvent, Guid>(ScheduleSchemesWeeklyViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(ScheduleSchemesMonthlyViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowSKDMonthlyIntervalsEvent, Guid>(ScheduleSchemesSlideViewModel, "Месячные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSKDSlideDayIntervalsEvent, Guid>(ScheduleSchemesSlideViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSKDMonthlyIntervalsEvent, Guid>(ScheduleSchemesMonthlyViewModel, "Месячные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowSKDShedulesEvent, Guid>(ShedulesViewModel, "Графики работ", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-						}),
+							new NavigationItem<ShowSKDShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					    }),
 					})
 				};
 		}
@@ -249,10 +250,10 @@ namespace SKDModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDPositions, "Должности", "Tree.png", (p) => PositionsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDocuments, "Документы", "Tree.png", (p) => DocumentsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDAdditionalColumns, "Дополнительные колонки", "Tree.png", (p) => AdditionalColumnsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeIntervals, "Именованные интервалы", "Tree.png", (p) => NamedIntervalsViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyIntervals, "Недельные графики", "Tree.png", (p) => ScheduleSchemesWeeklyViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideDayIntervals, "Скользящие посуточные графики", "Tree.png", (p) => ScheduleSchemesSlideViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDSlideWeekIntervals, "Скользящие понедельные графики", "BTree.png", (p) => ScheduleSchemesMonthlyViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDNamedIntervals, "Именованные интервалы", "Tree.png", (p) => NamedIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyScheduleSchemes, "Недельные графики", "Tree.png", (p) => ScheduleSchemesWeeklyViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDaylyScheduleSchemes, "Скользящие посуточные графики", "Tree.png", (p) => ScheduleSchemesSlideViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDMonthlyScheduleSchemes, "Месячные графики", "BTree.png", (p) => ScheduleSchemesMonthlyViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Праздничные дни", "Tree.png", (p) => HolidaysViewModel);
 		}
 

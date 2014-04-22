@@ -5,13 +5,13 @@ using FiresecAPI;
 using Infrastructure.Common.TreeList;
 using XFiresecAPI;
 
-namespace SKDModule.ViewModels
+namespace SKDModule.Intervals.Schedules.ViewModels
 {
-	public class SheduleZoneViewModel : TreeNodeViewModel<SheduleZoneViewModel>
+	public class ZoneViewModel : TreeNodeViewModel<ZoneViewModel>
 	{
 		public SKDZone Zone { get; private set; }
 
-		public SheduleZoneViewModel(SKDZone zone)
+		public ZoneViewModel(SKDZone zone)
 		{
 			Zone = zone;
 		}

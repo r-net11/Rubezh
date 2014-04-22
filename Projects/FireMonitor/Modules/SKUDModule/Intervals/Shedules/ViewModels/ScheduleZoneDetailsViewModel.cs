@@ -5,36 +5,33 @@ using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows;
 using System.Collections.Generic;
 using FiresecAPI.EmployeeTimeIntervals;
-using FiresecAPI;
 
-namespace SKDModule.ViewModels
+namespace SKDModule.Intervals.Schedules.ViewModels
 {
-	public class ShedulePartDetailsViewModel : SaveCancelDialogViewModel
+	public class ScheduleZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
-		SheduleViewModel SheduleViewModel;
-		bool IsNew;
-		public ScheduleZone Zone { get; private set; }
+		private Schedule _schedule;
+		public ScheduleZone ScheduleZone { get; private set; }
 
-		public ShedulePartDetailsViewModel(SheduleViewModel sheduleViewModel, ScheduleZone zone = null)
+		public ScheduleZoneDetailsViewModel(Schedule schedule, ScheduleZone zone = null)
 		{
-			SheduleViewModel = sheduleViewModel;
+			_schedule = schedule;
 			if (zone == null)
 			{
 				Title = "Выбор помещения";
-				IsNew = true;
-				zone = new ScheduleZone();
+				zone = new ScheduleZone()
+				{
+					ScheduleUID = schedule.UID,
+				};
 			}
 			else
-			{
 				Title = "Редактирование помещения";
-				IsNew = false;
-			}
-			Zone = zone;
+			ScheduleZone = zone;
 			IsControl = zone.IsControl;
 
-			AllZones = new List<SheduleZoneViewModel>();
-			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
-			SelectedZone = AllZones.FirstOrDefault(x => x.Zone.UID == Zone.ZoneUID);
+			AllZones = new List<ZoneViewModel>();
+			RootZone = AddZoneInternal(FiresecAPI.SKDManager.SKDConfiguration.RootZone, null);
+			SelectedZone = AllZones.FirstOrDefault(x => x.Zone.UID == ScheduleZone.ZoneUID);
 
 			foreach (var z in AllZones)
 			{
@@ -42,11 +39,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		#region Zones
-		public List<SheduleZoneViewModel> AllZones;
+		public List<ZoneViewModel> AllZones;
 
-		SheduleZoneViewModel _selectedZone;
-		public SheduleZoneViewModel SelectedZone
+		private ZoneViewModel _selectedZone;
+		public ZoneViewModel SelectedZone
 		{
 			get { return _selectedZone; }
 			set
@@ -58,8 +54,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		SheduleZoneViewModel _rootZone;
-		public SheduleZoneViewModel RootZone
+		private ZoneViewModel _rootZone;
+		public ZoneViewModel RootZone
 		{
 			get { return _rootZone; }
 			private set
@@ -69,14 +65,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public SheduleZoneViewModel[] RootZones
+		public ZoneViewModel[] RootZones
 		{
-			get { return new SheduleZoneViewModel[] { RootZone }; }
+			get { return new ZoneViewModel[] { RootZone }; }
 		}
 
-		SheduleZoneViewModel AddZoneInternal(SKDZone zone, SheduleZoneViewModel parentZoneViewModel)
+		private ZoneViewModel AddZoneInternal(FiresecAPI.SKDZone zone, ZoneViewModel parentZoneViewModel)
 		{
-			var zoneViewModel = new SheduleZoneViewModel(zone);
+			var zoneViewModel = new ZoneViewModel(zone);
 			AllZones.Add(zoneViewModel);
 			if (parentZoneViewModel != null)
 				parentZoneViewModel.AddChild(zoneViewModel);
@@ -87,9 +83,8 @@ namespace SKDModule.ViewModels
 			}
 			return zoneViewModel;
 		}
-		#endregion
 
-		bool _isControl;
+		private bool _isControl;
 		public bool IsControl
 		{
 			get { return _isControl; }
@@ -104,19 +99,18 @@ namespace SKDModule.ViewModels
 		{
 			return SelectedZone!= null && !SelectedZone.Zone.IsRootZone;
 		}
-
 		protected override bool Save()
 		{
 			if (SelectedZone != null)
 			{
-				if (SheduleViewModel.SheduleParts.Any(x => x.ShedulePart.ZoneUID == SelectedZone.Zone.UID && Zone.UID != x.ShedulePart.UID))
+				if (_schedule.Zones.Any(x => x.ZoneUID == SelectedZone.Zone.UID && ScheduleZone.UID != x.UID))
 				{
 					MessageBoxService.ShowWarning("Выбранная зона уже включена");
 					return false;
 				}
 			}
-			Zone.ZoneUID = SelectedZone.Zone.UID;
-			Zone.IsControl = IsControl;
+			ScheduleZone.ZoneUID = SelectedZone.Zone.UID;
+			ScheduleZone.IsControl = IsControl;
 			return true;
 		}
 	}

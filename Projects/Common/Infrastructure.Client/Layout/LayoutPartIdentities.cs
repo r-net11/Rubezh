@@ -38,10 +38,10 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid SKDPositions = new Guid("{FBB2C1DD-ECFE-4524-8C61-4D65E4999D84}");
 		public static readonly Guid SKDDocuments = new Guid("{EE0BD6CD-FBB7-4173-85FD-7B87A5B8E21F}");
 		public static readonly Guid SKDAdditionalColumns = new Guid("{46DD04F8-4E5D-4C75-A98E-6222A074205B}");
-		public static readonly Guid SKDTimeIntervals = new Guid("{3BB6AB5A-4CD8-4D12-B46C-27E8F9DB8A51}");
-		public static readonly Guid SKDWeeklyIntervals = new Guid("{8D63585E-A224-4A79-BE90-3A8B45E224A0}");
-		public static readonly Guid SKDSlideDayIntervals = new Guid("{B23AC76D-C16C-4F68-8223-262393A874FB}");
-		public static readonly Guid SKDSlideWeekIntervals = new Guid("{6D6D4B53-8E45-44BC-A011-3E38B87FD6B6}");
+		public static readonly Guid SKDNamedIntervals = new Guid("{3BB6AB5A-4CD8-4D12-B46C-27E8F9DB8A51}");
+		public static readonly Guid SKDWeeklyScheduleSchemes = new Guid("{8D63585E-A224-4A79-BE90-3A8B45E224A0}");
+		public static readonly Guid SKDDaylyScheduleSchemes = new Guid("{B23AC76D-C16C-4F68-8223-262393A874FB}");
+		public static readonly Guid SKDMonthlyScheduleSchemes = new Guid("{6D6D4B53-8E45-44BC-A011-3E38B87FD6B6}");
 		public static readonly Guid SKDHolidays = new Guid("{C0DF2716-3AEA-449C-9371-9DB33625F6D5}");
 	}
 }

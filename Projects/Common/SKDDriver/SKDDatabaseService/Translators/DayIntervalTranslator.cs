@@ -31,7 +31,7 @@ namespace SKDDriver.Translators
 		{
 			foreach (var dayInterval in items)
 			{
-				var scheduleScheme = Context.ScheduleSchemes.Where(item => item.UID == dayInterval.ScheduleSchemeUID).FirstOrDefault();
+				var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(item => item.UID == dayInterval.ScheduleSchemeUID);
 				if (scheduleScheme != null)
 					foreach (var day in scheduleScheme.Days)
 						if (day.Number > dayInterval.Number)
@@ -42,7 +42,7 @@ namespace SKDDriver.Translators
 
 		protected override OperationResult CanSave(DayInterval item)
 		{
-			// проверить что в результате нет пересечений рабочего времени ИменованногоИнтервала со следующим днем
+			// проверить что в результате нет пересечений рабочего времени ИменованногоИнтервала с предыдущим и следующим днем
 			return base.CanSave(item);
 		}
 
@@ -56,11 +56,11 @@ namespace SKDDriver.Translators
 		}
 		protected override void TranslateBack(DataAccess.Day tableItem, DayInterval apiItem)
 		{
-			var namedInterval = Context.NamedIntervals.Where(item => item.UID == apiItem.NamedIntervalUID).FirstOrDefault();
-			var scheduleScheme = Context.ScheduleSchemes.Where(item => item.UID == apiItem.ScheduleSchemeUID).FirstOrDefault();
+			var namedInterval = apiItem.NamedIntervalUID == Guid.Empty ? null : Context.NamedIntervals.FirstOrDefault(item => item.UID == apiItem.NamedIntervalUID);
+			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(item => item.UID == apiItem.ScheduleSchemeUID);
 			base.TranslateBack(tableItem, apiItem);
-			if (namedInterval == null)
-				tableItem.NamedIntervalUID = apiItem.NamedIntervalUID == Guid.Empty ? null : (Guid?)apiItem.NamedIntervalUID;
+			if (namedInterval == null && apiItem.NamedIntervalUID != Guid.Empty)
+				tableItem.NamedIntervalUID = apiItem.NamedIntervalUID;
 			else
 				tableItem.NamedInterval = namedInterval;
 			if (scheduleScheme == null)

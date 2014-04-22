@@ -41,5 +41,19 @@ namespace FiresecAPI
 		OperationResult SaveDayIntervals(IEnumerable<TimeIntervals.DayInterval> items);
 		[OperationContract]
 		OperationResult MarkDeletedDayIntervals(IEnumerable<TimeIntervals.DayInterval> items);
+
+		[OperationContract]
+		OperationResult<IEnumerable<TimeIntervals.Schedule>> GetSchedules(TimeIntervals.ScheduleFilter filter);
+		[OperationContract]
+		OperationResult SaveSchedules(IEnumerable<TimeIntervals.Schedule> items);
+		[OperationContract]
+		OperationResult MarkDeletedSchedules(IEnumerable<TimeIntervals.Schedule> items);
+
+		[OperationContract]
+		OperationResult<IEnumerable<TimeIntervals.ScheduleZone>> GetScheduleZones(TimeIntervals.ScheduleZoneFilter filter);
+		[OperationContract]
+		OperationResult SaveScheduleZones(IEnumerable<TimeIntervals.ScheduleZone> items);
+		[OperationContract]
+		OperationResult MarkDeletedScheduleZones(IEnumerable<TimeIntervals.ScheduleZone> items);
 	}
 }

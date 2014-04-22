@@ -8,12 +8,13 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using SKDModule.Intervals.Common.ViewModels;
 using Organisation = FiresecAPI.Organisation;
+using SKDModule.Intervals.Common;
 
 namespace SKDModule.ViewModels
 {
 	public class OrganisationNamedIntervalsViewModel : OrganisationViewModel<NamedIntervalViewModel, NamedInterval>
 	{
-		private NamedInterval _intervalToCopy;
+		private NamedInterval _clipboard;
 
 		public OrganisationNamedIntervalsViewModel(Organisation organisation)
 			: base(organisation)
@@ -68,7 +69,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		private void OnCopy()
 		{
-			_intervalToCopy = CopyInterval(SelectedViewModel.Model);
+			_clipboard = CopyInterval(SelectedViewModel.Model, false);
 		}
 		private bool CanCopy()
 		{
@@ -78,7 +79,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		private void OnPaste()
 		{
-			var newInterval = CopyInterval(_intervalToCopy);
+			var newInterval = CopyInterval(_clipboard);
 			if (NamedIntervalHelper.Save(newInterval))
 			{
 				var timeInrervalViewModel = new NamedIntervalViewModel(newInterval);
@@ -88,15 +89,16 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _intervalToCopy != null;
+			return _clipboard != null;
 		}
 
-		private NamedInterval CopyInterval(NamedInterval source)
+		private NamedInterval CopyInterval(NamedInterval source, bool newName = true)
 		{
 			var copy = new NamedInterval();
-			copy.Name = source.Name;
+			copy.Name = newName ? CopyHelper.CopyName(source.Name, ViewModels.Select(item => item.Model.Name)) : source.Name;
 			copy.Description = source.Description;
 			copy.SlideTime = source.SlideTime;
+			copy.OrganisationUID = source.OrganisationUID;
 			foreach (var timeInterval in source.TimeIntervals)
 				if (!timeInterval.IsDeleted)
 					copy.TimeIntervals.Add(new TimeInterval()

@@ -79,7 +79,6 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			}
 		}
 
-
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Name);

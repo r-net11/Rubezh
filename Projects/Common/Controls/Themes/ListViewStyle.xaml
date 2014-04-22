@@ -70,7 +70,7 @@
 							<RowDefinition Height="*" />
 							<RowDefinition Height="Auto" />
 						</Grid.RowDefinitions>
-						<ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Background="{DynamicResource BackgroundBrush}">
+						<ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Background="{DynamicResource BackgroundBrush}" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
 							<GridViewHeaderRowPresenter AllowsColumnReorder="False" Columns="{Binding Path=View.Columns, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 						</ScrollViewer>
 						<Rectangle Grid.Row="0" Grid.Column="1" Fill="{DynamicResource BackgroundBrush}" StrokeThickness="0" />

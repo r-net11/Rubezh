@@ -1,14 +1,16 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using FiresecAPI.EmployeeTimeIntervals;
-using OperationResult = FiresecAPI.OperationResult;
-using System;
 using LinqKit;
+using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
 	public class ScheduleSchemeTranslator : OrganisationElementTranslator<DataAccess.ScheduleScheme, ScheduleScheme, ScheduleSchemeFilter>
 	{
 		private DayIntervalTranslator _dayIntervalTranslator;
+		private bool _withDays;
 		public ScheduleSchemeTranslator(DataAccess.SKDDataContext context, DayIntervalTranslator dayIntervalTranslator)
 			: base(context)
 		{
@@ -19,8 +21,9 @@ namespace SKDDriver.Translators
 		{
 			return base.GetQuery(filter).OrderBy(item => item.Name);
 		}
-		protected override System.Linq.Expressions.Expression<Func<DataAccess.ScheduleScheme, bool>> IsInFilter(ScheduleSchemeFilter filter)
+		protected override Expression<Func<DataAccess.ScheduleScheme, bool>> IsInFilter(ScheduleSchemeFilter filter)
 		{
+			_withDays = filter.WithDays;
 			var result = PredicateBuilder.True<DataAccess.ScheduleScheme>();
 			result = result.And(base.IsInFilter(filter));
 			var type = (int)filter.Type;
@@ -42,7 +45,8 @@ namespace SKDDriver.Translators
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
-			result.DayIntervals = _dayIntervalTranslator.TranslateAll(tableItem.Days.Where(item => !item.IsDeleted).OrderBy(item => item.Number));
+			if (_withDays)
+				result.DayIntervals = _dayIntervalTranslator.TranslateAll(tableItem.Days.Where(item => !item.IsDeleted).OrderBy(item => item.Number));
 			result.Type = (ScheduleSchemeType)tableItem.Type;
 			return result;
 		}

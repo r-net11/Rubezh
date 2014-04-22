@@ -27,6 +27,8 @@ namespace SKDDriver
 			HolidayTranslator = new HolidayTranslator(Context);
 			DayIntervalTranslator = new DayIntervalTranslator(Context);
 			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(Context, DayIntervalTranslator);
+			ScheduleZoneTranslator = new ScheduleZoneTranslator(Context);
+			ScheduleTranslator = new ScheduleTranslator(Context, ScheduleZoneTranslator);
 		}
 
 		public static DocumentTranslator DocumentTranslator { get; private set; }
@@ -47,5 +49,7 @@ namespace SKDDriver
 		public static HolidayTranslator HolidayTranslator { get; private set; }
 		public static ScheduleSchemeTranslator ScheduleSchemeTranslator { get; private set; }
 		public static DayIntervalTranslator DayIntervalTranslator { get; private set; }
+		public static ScheduleZoneTranslator ScheduleZoneTranslator { get; private set; }
+		public static ScheduleTranslator ScheduleTranslator { get; private set; }
 	}
 }

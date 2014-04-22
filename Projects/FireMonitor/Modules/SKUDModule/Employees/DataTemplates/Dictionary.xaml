@@ -23,7 +23,7 @@
 	<DataTemplate DataType="{x:Type ViewModels:SelectDepartmentViewModel}">
 		<Views:SelectDepartmentView />
 	</DataTemplate>
-	
+
 	<DataTemplate DataType="{x:Type ViewModels:SelectPositionViewModel}">
 		<Views:SelectPositionView />
 	</DataTemplate>

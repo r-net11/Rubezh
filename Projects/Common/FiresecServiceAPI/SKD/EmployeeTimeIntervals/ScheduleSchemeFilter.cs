@@ -9,9 +9,13 @@ namespace FiresecAPI.EmployeeTimeIntervals
 	{
 		public ScheduleSchemeFilter()
 		{
+			WithDays = true;
 		}
 
 		[DataMember]
 		public ScheduleSchemeType Type { get; set; }
+
+		[DataMember]
+		public bool WithDays { get; set; }
 	}
 }

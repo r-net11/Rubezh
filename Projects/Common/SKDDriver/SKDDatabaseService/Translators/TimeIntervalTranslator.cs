@@ -78,7 +78,7 @@ namespace SKDDriver.Translators
 
 		protected override void TranslateBack(DataAccess.Interval tableItem, TimeInterval apiItem)
 		{
-			var namedInterval = Context.NamedIntervals.Where(item => item.UID == apiItem.NamedIntervalUID).FirstOrDefault();
+			var namedInterval = Context.NamedIntervals.FirstOrDefault(item => item.UID == apiItem.NamedIntervalUID);
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.NamedIntervalUID = apiItem.NamedIntervalUID;
 			if (namedInterval != null)
