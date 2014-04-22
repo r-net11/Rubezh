@@ -32,6 +32,7 @@ namespace SKDModule
 		AccessTemplatesViewModel AccessTemplatesViewModel;
 		VerificationViewModel VerificationViewModel;
 		CardsViewModel CardsViewModel;
+		HRViewModel HRViewModel;
 		DepartmentsViewModel DepartmentsViewModel;
 		PositionsViewModel PositionsViewModel;
 		DocumentsViewModel DocumentsViewModel;
@@ -66,6 +67,7 @@ namespace SKDModule
 			AccessTemplatesViewModel = new AccessTemplatesViewModel();
 			VerificationViewModel = new VerificationViewModel();
 			CardsViewModel = new CardsViewModel();
+			HRViewModel = new HRViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
 			DocumentsViewModel = new DocumentsViewModel();
@@ -96,6 +98,8 @@ namespace SKDModule
 				        new NavigationItem<ShowSKDAccessTemplateAccessEvent>(AccessTemplatesViewModel, "Уровни доступа", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
+						
+						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDDepartmentsEvent>(DepartmentsViewModel, "Отделы", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDPositionsEvent>(PositionsViewModel, "Должности", "/Controls;component/Images/tree.png"),
 				        new NavigationItem<ShowSKDDocumentsEvent>(DocumentsViewModel, "Документы", "/Controls;component/Images/tree.png"),
@@ -137,6 +141,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "AccessTemplates/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "HR/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Positions/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Documents/DataTemplates/Dictionary.xaml"));

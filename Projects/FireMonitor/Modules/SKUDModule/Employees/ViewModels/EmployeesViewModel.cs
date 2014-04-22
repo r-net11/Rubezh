@@ -16,40 +16,27 @@ namespace SKDModule.ViewModels
 	public class EmployeesViewModel : ViewPartViewModel
 	{
 		public static EmployeesViewModel Current { get; private set; }
-		EmployeeFilter Filter;
 		public PersonType PersonType { get; private set; }
-		public Organisation Organisation { get; private set; }
-		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
+		public Organisation Organization { get; private set; }
+		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
 		public EmployeesViewModel()
 		{
-			ShowFilterCommand = new RelayCommand(OnShowFilter);
-			RefreshCommand = new RelayCommand(OnRefresh);
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-
-			Filter = new EmployeeFilter();
-			if (FiresecManager.CurrentUser.IsGuestsAllowed)
-				Filter.PersonType = PersonType.Guest;
-			else
-				Filter.PersonType = PersonType.Employee;
-			var organisationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
-			if (organisationUID != Guid.Empty)
-				Filter.OrganisationUIDs = new List<Guid> { organisationUID };
-			Initialize();
 		}
 
-		void Initialize()
+		public void Initialize(EmployeeFilter filter)
 		{
-			PersonType = Filter.PersonType;
+			PersonType = filter.PersonType;
 
-			Organisation = OrganisationHelper.GetSingle(Filter.OrganisationUIDs.FirstOrDefault());
-			var employees = EmployeeHelper.Get(Filter);
+			Organization = OrganisationHelper.GetSingle(filter.OrganisationUIDs.FirstOrDefault());
+			var employees = EmployeeHelper.Get(filter);
 			Employees = new ObservableCollection<EmployeeViewModel>();
 			foreach (var employee in employees)
 			{
-				var employeeViewModel = new EmployeeViewModel(Organisation, employee);
+				var employeeViewModel = new EmployeeViewModel(Organization, employee);
 				Employees.Add(employeeViewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
@@ -86,7 +73,7 @@ namespace SKDModule.ViewModels
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employeeViewModel = new EmployeeViewModel(Organisation, employeeDetailsViewModel.ShortEmployee);
+				var employeeViewModel = new EmployeeViewModel(Organization, employeeDetailsViewModel.ShortEmployee);
 				Employees.Add(employeeViewModel);
 				SelectedEmployee = employeeViewModel;
 			}
@@ -125,29 +112,12 @@ namespace SKDModule.ViewModels
 			return SelectedEmployee != null;
 		}
 
-		public RelayCommand ShowFilterCommand { get; private set; }
-		void OnShowFilter()
-		{
-			var employeeFilterViewModel = new EmployeeFilterViewModel(Filter);
-			if (DialogService.ShowModalWindow(employeeFilterViewModel))
-			{
-				Filter = employeeFilterViewModel.Filter;
-				Initialize();
-			}
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
-		}
-
 		public void InitializeAdditionalColumns()
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
 			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
-			if (Organisation != null)
-				additionalColumnTypeFilter.OrganisationUIDs.Add(Organisation.UID);
+			if (Organization != null)
+				additionalColumnTypeFilter.OrganisationUIDs.Add(Organization.UID);
 			var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
 			if (columnTypes == null)
 				return;

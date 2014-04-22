@@ -24,22 +24,22 @@ namespace SKDModule.Intervals.Common.ViewModels
 
 		protected virtual void Initialize()
 		{
-			var organisations = GetOrganisations();
+			var organisations = GetOrganizations();
 			var models = GetModels();
 
 			Organisations = new ObservableCollection<TOrganisationInterval>();
 			foreach (var organisation in organisations)
 			{
-				var timeInrervalViewModel = CreateOrganisationViewModel(organisation);
+				var timeInrervalViewModel = CreateOrganizationViewModel(organisation);
 				timeInrervalViewModel.Initialize(models.Where(x => x.OrganisationUID.Value == organisation.UID));
 				Organisations.Add(timeInrervalViewModel);
 			}
 			SelectedOrganisation = Organisations.FirstOrDefault();
 		}
 		protected abstract IEnumerable<TElement> GetModels();
-		protected abstract TOrganisationInterval CreateOrganisationViewModel(Organisation organisation);
+		protected abstract TOrganisationInterval CreateOrganizationViewModel(Organisation organization);
 
-		public IEnumerable<FiresecAPI.Organisation> GetOrganisations()
+		public IEnumerable<FiresecAPI.Organisation> GetOrganizations()
 		{
 			return OrganisationHelper.Get(new FiresecAPI.OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 		}

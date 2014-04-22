@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 				holiday = new Holiday()
 				{
 					Name = "Название праздника",
-					OrganisationUID = _organisationHolidaysYearViewModel.Organisation.UID,
+					OrganisationUID = _organisationHolidaysYearViewModel.Organization.UID,
 					Date = new DateTime(_organisationHolidaysYearViewModel.Year, DateTime.Today.Month, DateTime.Today.Day),
 				};
 			}

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
 using FiresecClient;
@@ -7,27 +7,23 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace SKDModule.ViewModels
 {
 	public class DocumentsViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		DocumentFilter Filter;
-
 		public DocumentsViewModel()
 		{
-			EditFilterCommand = new RelayCommand(OnEditFilter);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			Filter = new DocumentFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
-			Initialize();
 		}
 
-		public void Initialize()
+		public void Initialize(DocumentFilter filter)
 		{
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			var documents = DocumentHelper.Get(Filter);
+			var documents = DocumentHelper.Get(filter);
 
 			AllDocuments = new List<DocumentViewModel>();
 			Organisations = new List<DocumentViewModel>();
@@ -36,7 +32,6 @@ namespace SKDModule.ViewModels
 				var organisationViewModel = new DocumentViewModel(organisation);
 				Organisations.Add(organisationViewModel);
 				AllDocuments.Add(organisationViewModel);
-				
 				foreach (var document in documents)
 				{
 					if (document.OrganisationUID == organisation.UID)
@@ -103,7 +98,7 @@ namespace SKDModule.ViewModels
 					OrganisationViewModel = SelectedDocument.Parent;
 
 				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organisation;
+					return OrganisationViewModel.Organization;
 
 				return null;
 			}
@@ -112,17 +107,6 @@ namespace SKDModule.ViewModels
 		public DocumentViewModel[] RootDocuments
 		{
 			get { return Organisations.ToArray(); }
-		}
-
-		public RelayCommand EditFilterCommand { get; private set; }
-		void OnEditFilter()
-		{
-			var filterViewModel = new DocumentFilterViewModel(Filter);
-			if (DialogService.ShowModalWindow(filterViewModel))
-			{
-				Filter = filterViewModel.Filter;
-				Initialize();
-			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -137,7 +121,7 @@ namespace SKDModule.ViewModels
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedDocument.Parent;
 
-				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+				if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
 					return;
 
 				OrganisationViewModel.AddChild(documentViewModel);
@@ -156,12 +140,12 @@ namespace SKDModule.ViewModels
 			if (!OrganisationViewModel.IsOrganisation)
 				OrganisationViewModel = SelectedDocument.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+			if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
 				return;
 
 			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedDocument);
 			var document = SelectedDocument.Document;
-			bool removeResult = DocumentHelper.MarkDeleted(document.UID);
+			bool removeResult = DocumentHelper.MarkDeleted(document);
 			if (!removeResult)
 				return;
 			OrganisationViewModel.RemoveChild(SelectedDocument);

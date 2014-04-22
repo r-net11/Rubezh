@@ -6,7 +6,7 @@ using LinqKit;
 
 namespace SKDDriver.Translators
 {
-	public class ScheduleSchemeTranslator : OrganisationElementTranslator<DataAccess.ScheduleScheme, ScheduleScheme, ScheduleSchemeFilter>
+	public class ScheduleSchemeTranslator : OrganizationElementTranslator<DataAccess.ScheduleScheme, ScheduleScheme, ScheduleSchemeFilter>
 	{
 		private DayIntervalTranslator _dayIntervalTranslator;
 		public ScheduleSchemeTranslator(DataAccess.SKDDataContext context, DayIntervalTranslator dayIntervalTranslator)
@@ -31,7 +31,7 @@ namespace SKDDriver.Translators
 
 		protected override OperationResult CanSave(ScheduleScheme item)
 		{
-			bool sameName = Table.Any(x => x.OrganisationUID == item.OrganisationUID && x.UID != item.UID && !x.IsDeleted && x.Name == item.Name);
+			bool sameName = Table.Any(x => x.OrganizationUID == item.OrganisationUID && x.UID != item.UID && !x.IsDeleted && x.Name == item.Name);
 			if (sameName)
 				return new OperationResult("График с таким же названием уже содержится в базе данных");
 			return base.CanSave(item);

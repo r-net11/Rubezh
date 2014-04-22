@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI;
-using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -9,11 +11,11 @@ namespace SKDModule.ViewModels
 	{
 		DocumentsViewModel DocumentsViewModel;
 		public Document Document { get; private set; }
-		public ShortDocument ShortDocument
+		public Document ShortDocument
 		{
 			get
 			{
-				return new ShortDocument
+				return new Document
 				{
 					UID = Document.UID,
 					Name = Document.Name,
@@ -23,24 +25,25 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public Organisation Organisation { get; private set; }
+		public Organisation Organization { get; private set; }
 
 		public DocumentDetailsViewModel(DocumentsViewModel documentsViewModel, Organisation orgnaisation, Guid? documentUID = null)
 		{
 			DocumentsViewModel = documentsViewModel;
-			Organisation = orgnaisation;
+			Organization = orgnaisation;
 			if (documentUID == null)
 			{
 				Title = "Создание документа";
 				Document = new Document()
 				{
 					Name = "Новый документ",
-					OrganisationUID = Organisation.UID
+					OrganisationUID = Organization.UID
 				};
 			}
 			else
 			{
-				Document = DocumentHelper.GetDetails(documentUID);
+				//Document = DocumentHelper.GetDetails(documentUID);
+				Document = DocumentHelper.GetSingle(documentUID);
 				Title = string.Format("Свойства документа: {0}", Document.Name);
 			}
 			CopyProperties();
@@ -137,7 +140,7 @@ namespace SKDModule.ViewModels
 			Document.No = No;
 			Document.IssueDate = StartDateTime;
 			Document.LaunchDate = EndDateTime;
-			Document.OrganisationUID = Organisation.UID;
+			Document.OrganisationUID = Organization.UID;
 			return true;
 		}
 	}

@@ -12,22 +12,17 @@ namespace SKDModule.ViewModels
 {
 	public class PositionsViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		PositionFilter Filter;
-
 		public PositionsViewModel()
 		{
-			EditFilterCommand = new RelayCommand(OnEditFilter);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			Filter = new PositionFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
-			Initialize();
 		}
 
-		public void Initialize()
+		public void Initialize(PositionFilter filter)
 		{
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			var positions = PositionHelper.Get(Filter);
+			var positions = PositionHelper.Get(filter);
 
 			AllPositions = new List<PositionViewModel>();
 			Organisations = new List<PositionViewModel>();
@@ -102,7 +97,7 @@ namespace SKDModule.ViewModels
 					OrganisationViewModel = SelectedPosition.Parent;
 
 				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organisation;
+					return OrganisationViewModel.Organization;
 
 				return null;
 			}
@@ -111,17 +106,6 @@ namespace SKDModule.ViewModels
 		public PositionViewModel[] RootPositions
 		{
 			get { return Organisations.ToArray(); }
-		}
-
-		public RelayCommand EditFilterCommand { get; private set; }
-		void OnEditFilter()
-		{
-			var filterViewModel = new PositionFilterViewModel(Filter);
-			if (DialogService.ShowModalWindow(filterViewModel))
-			{
-				Filter = filterViewModel.Filter;
-				Initialize();
-			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -136,7 +120,7 @@ namespace SKDModule.ViewModels
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedPosition.Parent;
 
-				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+				if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
 					return;
 
 				OrganisationViewModel.AddChild(positionViewModel);
@@ -155,7 +139,7 @@ namespace SKDModule.ViewModels
 			if (!OrganisationViewModel.IsOrganisation)
 				OrganisationViewModel = SelectedPosition.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+			if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
 				return;
 
 			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedPosition);

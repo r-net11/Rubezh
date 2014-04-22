@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 			}
 			AccessTemplate = accessTemplate;
 			CopyProperties();
-			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(AccessTemplatesViewModel.Organisation, AccessTemplate.CardZones, AccessTemplate.UID);
+			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(AccessTemplatesViewModel.Organization, AccessTemplate.CardZones, AccessTemplate.UID);
 		}
 
 		public void CopyProperties()
@@ -86,7 +86,7 @@ namespace SKDModule.ViewModels
 			AccessTemplate.Name = Name;
 			AccessTemplate.Description = Description;
 			AccessTemplate.CardZones = AccessZonesSelectationViewModel.GetCardZones();
-			AccessTemplate.OrganisationUID = AccessTemplatesViewModel.Organisation.UID;
+			AccessTemplate.OrganisationUID = AccessTemplatesViewModel.Organization.UID;
 			return true;
 		}
 	}

@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
-using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -12,11 +12,11 @@ namespace SKDModule.ViewModels
 	{
 		AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel;
 		public AdditionalColumnType AdditionalColumnType { get; private set; }
-		public ShortAdditionalColumnType ShortAdditionalColumnType
+		public AdditionalColumnType ShortAdditionalColumnType
 		{
 			get
 			{
-				return new ShortAdditionalColumnType
+				return new AdditionalColumnType
 				{
 					UID = AdditionalColumnType.UID,
 					Name = AdditionalColumnType.Name,
@@ -26,24 +26,24 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public Organisation Organisation { get; private set; }
+		public Organisation Organization { get; private set; }
 
 		public AdditionalColumnTypeDetailsViewModel(AdditionalColumnTypesViewModel additionalColumnTypesViewModel, Organisation orgnaisation, Guid? additionalColumnTypeUID = null)
 		{
 			AdditionalColumnTypesViewModel = additionalColumnTypesViewModel;
-			Organisation = orgnaisation;
+			Organization = orgnaisation;
 			if (additionalColumnTypeUID == null)
 			{
 				Title = "Создание дополнительной колонки";
 				AdditionalColumnType = new AdditionalColumnType()
 				{
 					Name = "Новая дополнительная колонка",
-					OrganisationUID = Organisation.UID
+					OrganisationUID = Organization.UID
 				};
 			}
 			else
 			{
-				AdditionalColumnType = AdditionalColumnTypeHelper.GetDetails(additionalColumnTypeUID);
+				AdditionalColumnType = AdditionalColumnTypeHelper.GetSingle(additionalColumnTypeUID);
 				Title = string.Format("Свойства дополнительной колонки: {0}", AdditionalColumnType.Name);
 			}
 			CopyProperties();
@@ -133,7 +133,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.DataType = DataType;
 			if (IsTextType)
 				AdditionalColumnType.IsInGrid = IsInGrid;
-			AdditionalColumnType.OrganisationUID = Organisation.UID;
+			AdditionalColumnType.OrganisationUID = Organization.UID;
 			return true;
 		}
 	}

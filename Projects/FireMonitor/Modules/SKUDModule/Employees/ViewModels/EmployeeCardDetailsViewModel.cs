@@ -14,16 +14,16 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeCardDetailsViewModel : SaveCancelDialogViewModel
 	{
-		Organisation Organisation;
+		Organisation Organization;
 		public SKDCard Card { get; private set; }
 		public AccessZonesSelectationViewModel AccessZones { get; private set; }
 		bool IsNewCard;
 
-		public EmployeeCardDetailsViewModel(Organisation organisation, SKDCard card = null)
+		public EmployeeCardDetailsViewModel(Organisation organization, SKDCard card = null)
 		{
 			ChangeReaderCommand = new RelayCommand(OnChangeReader);
 
-			Organisation = organisation;
+			Organization = organization;
 			Card = card;
 			if (card == null)
 			{
@@ -47,12 +47,12 @@ namespace SKDModule.ViewModels
 			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
 
-			AccessZones = new AccessZonesSelectationViewModel(Organisation, Card.CardZones, Card.UID);
+			AccessZones = new AccessZonesSelectationViewModel(Organization, Card.CardZones, Card.UID);
 
 			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
 			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "НЕТ" });
 			var accessTemplateFilter = new AccessTemplateFilter();
-			accessTemplateFilter.OrganisationUIDs.Add(Organisation.UID);
+			accessTemplateFilter.OrganisationUIDs.Add(Organization.UID);
 			var accessTemplates = AccessTemplateHelper.Get(accessTemplateFilter);
 			if (accessTemplates != null)
 			{

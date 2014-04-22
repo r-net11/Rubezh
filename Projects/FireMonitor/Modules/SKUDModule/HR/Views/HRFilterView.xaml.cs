@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class DepartmentFilterView : UserControl
+	public partial class HRFilterView : UserControl
 	{
-		public DepartmentFilterView()
+		public HRFilterView()
 		{
 			InitializeComponent();
 		}

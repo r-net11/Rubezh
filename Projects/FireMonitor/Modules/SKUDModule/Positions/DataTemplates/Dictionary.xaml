@@ -11,8 +11,4 @@
 		<Views:PositionDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PositionFilterViewModel}">
-		<Views:PositionFilterView />
-	</DataTemplate>
-
 </ResourceDictionary>

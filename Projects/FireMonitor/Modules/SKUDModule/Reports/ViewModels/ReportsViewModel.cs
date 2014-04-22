@@ -52,9 +52,9 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowFilterCommand { get; private set; }
 		private void OnShowFilter()
 		{
-			var employeeFilterViewModel = new EmployeeFilterViewModel(_employeeFilter);
-			if (DialogService.ShowModalWindow(employeeFilterViewModel))
-				UpdateReports();
+			//var employeeFilterViewModel = new EmployeeFilterViewModel(_employeeFilter);
+			//if (DialogService.ShowModalWindow(employeeFilterViewModel))
+			//    UpdateReports();
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }

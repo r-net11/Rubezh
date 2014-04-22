@@ -13,22 +13,17 @@ namespace SKDModule.ViewModels
 {
 	public class DepartmentsViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		DepartmentFilter Filter;
-
 		public DepartmentsViewModel()
 		{
-			EditFilterCommand = new RelayCommand(OnEditFilter);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			Filter = new DepartmentFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
-			Initialize();
 		}
 
-		public void Initialize()
+		public void Initialize(DepartmentFilter filter)
 		{
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			var departments = DepartmentHelper.GetList(Filter);
+			var departments = DepartmentHelper.GetList(filter);
 
 			AllDepartments = new List<DepartmentViewModel>();
 			Organisations = new List<DepartmentViewModel>();
@@ -121,7 +116,7 @@ namespace SKDModule.ViewModels
 					OrganisationViewModel = SelectedDepartment.GetAllParents().FirstOrDefault(x=>x.IsOrganisation);
 
 				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organisation;
+					return OrganisationViewModel.Organization;
 
 				return null;
 			}
@@ -130,17 +125,6 @@ namespace SKDModule.ViewModels
 		public DepartmentViewModel[] RootDepartments
 		{
 			get { return Organisations.ToArray(); }
-		}
-
-		public RelayCommand EditFilterCommand { get; private set; }
-		void OnEditFilter()
-		{
-			var filterViewModel = new DepartmentFilterViewModel(Filter);
-			if (DialogService.ShowModalWindow(filterViewModel))
-			{
-				Filter = filterViewModel.Filter;
-				Initialize();
-			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -158,7 +142,7 @@ namespace SKDModule.ViewModels
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedDepartment.Parent;
 
-				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+				if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
 					return;
 
 				OrganisationViewModel.AddChild(departmentViewModel);

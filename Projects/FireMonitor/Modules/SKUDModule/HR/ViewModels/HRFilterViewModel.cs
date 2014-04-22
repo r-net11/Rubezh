@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using FiresecAPI;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+﻿using FiresecAPI;
 using Infrastructure.Common;
+using System.Collections.Generic;
+using System.Linq;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common.CheckBoxList;
+using FiresecClient;
+using System.Collections.ObjectModel;
 using Infrastructure.Common.TreeList;
+using System;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeFilterViewModel : FilterBaseViewModel<EmployeeFilter>
+	public class HRFilterViewModel : OrganizationFilterBaseViewModel<HRFilter>
 	{
-		public EmployeeFilterViewModel(EmployeeFilter filter)
+		public HRFilterViewModel(HRFilter filter)
 			: base(filter)
 		{
 			ResetCommand = new RelayCommand(OnReset);
@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 		protected override void Initialize()
 		{
 			base.Initialize();
-			
+
 			Departments = new List<FilterDepartmentViewModel>();
 			var departments = DepartmentHelper.GetList(null);
 			if (departments != null)
@@ -36,11 +36,11 @@ namespace SKDModule.ViewModels
 				{
 					foreach (var rootDepartment in RootDepartments)
 					{
-						SetChildren(rootDepartment);	
+						SetChildren(rootDepartment);
 					}
 				}
 			}
-			
+
 			Positions = new CheckBoxItemList<FilterPositionViewModel>();
 			var positions = PositionHelper.Get(null);
 			if (positions != null)
@@ -55,17 +55,17 @@ namespace SKDModule.ViewModels
 				else
 					IsEmployeesAllowed = true;
 			}
-			AvailableOrganisations = new ObservableCollection<FilterOrganisationViewModel>();
+			AvailableOrganizations = new ObservableCollection<FilterOrganizationViewModel>();
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			foreach (var organisation in organisations)
 			{
-				AvailableOrganisations.Add(new FilterOrganisationViewModel(organisation));
+				AvailableOrganizations.Add(new FilterOrganizationViewModel(organisation));
 			}
-			var selectedOrganisation = AvailableOrganisations.FirstOrDefault(x => x.Organisation.UID == Filter.OrganisationUID);
-			if (selectedOrganisation != null)
-				selectedOrganisation.IsChecked = true;
+			var selectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.Organization.UID == Filter.OrganisationUID);
+			if (selectedOrganization != null)
+				selectedOrganization.IsChecked = true;
 			else
-				AvailableOrganisations.FirstOrDefault().IsChecked = true;
+				AvailableOrganizations.FirstOrDefault().IsChecked = true;
 		}
 
 		protected override void Update()
@@ -120,7 +120,7 @@ namespace SKDModule.ViewModels
 			GetAllChildren(department).ForEach(x => x.IsChecked = true);
 		}
 
-		
+
 		List<FilterDepartmentViewModel> departments;
 		public List<FilterDepartmentViewModel> Departments
 		{
@@ -128,7 +128,7 @@ namespace SKDModule.ViewModels
 			private set
 			{
 				departments = value;
-				OnPropertyChanged(()=>Departments);
+				OnPropertyChanged(() => Departments);
 			}
 		}
 
@@ -144,8 +144,8 @@ namespace SKDModule.ViewModels
 		}
 
 		public CheckBoxItemList<FilterPositionViewModel> Positions { get; private set; }
-		
-		public ObservableCollection<FilterOrganisationViewModel> AvailableOrganisations { get; private set; }
+
+		public ObservableCollection<FilterOrganizationViewModel> AvailableOrganizations { get; private set; }
 
 		bool _isEmployeesAllowed;
 		public bool IsEmployeesAllowed
@@ -184,14 +184,14 @@ namespace SKDModule.ViewModels
 				if (Department.IsChecked)
 					Filter.DepartmentUIDs.Add(Department.Department.UID);
 			};
-			Filter.OrganisationUIDs = new List<Guid>();
-			var selectedOrganisation = AvailableOrganisations.FirstOrDefault(x => x.IsChecked);
-			if (selectedOrganisation != null)
-			{
-				Filter.OrganisationUID = selectedOrganisation.Organisation.UID;
-				Filter.OrganisationUIDs.Add(selectedOrganisation.Organisation.UID);
-			}
-			
+			//Filter.OrganisationUIDs = new List<Guid>();
+			//var selectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.IsChecked);
+			//if (selectedOrganization != null)
+			//{
+			//    Filter.OrganisationUID = selectedOrganization.Organization.UID;
+			//    Filter.OrganisationUIDs.Add(selectedOrganization.Organization.UID);
+			//}
+
 			if (IsGuestsAllowed)
 				Filter.PersonType = PersonType.Guest;
 			else
@@ -202,22 +202,22 @@ namespace SKDModule.ViewModels
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
-			Filter = new EmployeeFilter();
+			Filter = new HRFilter();
 			Update();
 		}
 	}
 
 	public class FilterDepartmentViewModel : TreeNodeViewModel<FilterDepartmentViewModel>
 	{
-		public FilterDepartmentViewModel(ShortDepartment department, EmployeeFilterViewModel employeeFilterViewModel)
+		public FilterDepartmentViewModel(ShortDepartment department, HRFilterViewModel hrFilterViewModel)
 		{
 			Department = department;
 			DepartmentCheckedCommand = new RelayCommand(OnDepartmentChecked);
-			EmployeeFilterViewModel = employeeFilterViewModel;
+			EmployeeFilterViewModel = hrFilterViewModel;
 		}
 
 		public ShortDepartment Department { get; private set; }
-		EmployeeFilterViewModel EmployeeFilterViewModel;
+		HRFilterViewModel EmployeeFilterViewModel;
 
 		bool _isChecked;
 		public bool IsChecked

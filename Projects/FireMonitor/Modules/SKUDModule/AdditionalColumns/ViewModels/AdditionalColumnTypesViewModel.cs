@@ -1,33 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI;
-using FiresecClient;
-using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
+using System;
+using System.Collections.Generic;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
 	public class AdditionalColumnTypesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		AdditionalColumnTypeFilter Filter;
-
 		public AdditionalColumnTypesViewModel()
 		{
-			EditFilterCommand = new RelayCommand(OnEditFilter);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			Filter = new AdditionalColumnTypeFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
-			Initialize();
 		}
 
-		public void Initialize()
+		public void Initialize(AdditionalColumnTypeFilter filter)
 		{
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			var additionalColumnTypes = AdditionalColumnTypeHelper.Get(Filter);
+			var additionalColumnTypes = AdditionalColumnTypeHelper.Get(filter);
 
 			AllAdditionalColumnTypes = new List<AdditionalColumnTypeViewModel>();
 			Organisations = new List<AdditionalColumnTypeViewModel>();
@@ -102,7 +98,7 @@ namespace SKDModule.ViewModels
 					OrganisationViewModel = SelectedAdditionalColumnType.Parent;
 
 				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organisation;
+					return OrganisationViewModel.Organization;
 
 				return null;
 			}
@@ -111,17 +107,6 @@ namespace SKDModule.ViewModels
 		public AdditionalColumnTypeViewModel[] RootAdditionalColumnTypes
 		{
 			get { return Organisations.ToArray(); }
-		}
-
-		public RelayCommand EditFilterCommand { get; private set; }
-		void OnEditFilter()
-		{
-			var filterViewModel = new AdditionalColumnTypeFilterViewModel(Filter);
-			if (DialogService.ShowModalWindow(filterViewModel))
-			{
-				Filter = filterViewModel.Filter;
-				Initialize();
-			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -136,7 +121,7 @@ namespace SKDModule.ViewModels
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedAdditionalColumnType.Parent;
 
-				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+				if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
 					return;
 
 				OrganisationViewModel.AddChild(additionalColumnTypeViewModel);
@@ -155,12 +140,12 @@ namespace SKDModule.ViewModels
 			if (!OrganisationViewModel.IsOrganisation)
 				OrganisationViewModel = SelectedAdditionalColumnType.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+			if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
 				return;
 
 			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedAdditionalColumnType);
 			var additionalColumnType = SelectedAdditionalColumnType.AdditionalColumnType;
-			bool removeResult = AdditionalColumnTypeHelper.MarkDeleted(additionalColumnType.UID);
+			bool removeResult = AdditionalColumnTypeHelper.MarkDeleted(additionalColumnType);
 			if (!removeResult)
 				return;
 			OrganisationViewModel.RemoveChild(SelectedAdditionalColumnType);

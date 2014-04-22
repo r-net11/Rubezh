@@ -71,13 +71,8 @@
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
-    <Compile Include="Departments\ViewModels\DepartmentFilterViewModel.cs" />
-    <Compile Include="Departments\Views\DepartmentFilterView.xaml.cs">
-      <DependentUpon>DepartmentFilterView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Employees\ViewModels\AccessZonesSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\TextColumnViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardDetailsViewModel.cs" />
@@ -86,18 +81,11 @@
     <Compile Include="Employees\ViewModels\EmployeeDetails\GraphicsColumnViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectationPositionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
-    <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeFilterViewModel.cs" />
-    <Compile Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml.cs">
-      <DependentUpon>AdditionalColumnTypeFilterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Employees\ViewModels\EmployeeDetails\GenderSelectionViewModel.cs" />
+    <Compile Include="Employees\ViewModels\GenderSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReaderSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectationDepartmentViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectDepartmentViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectPositionViewModel.cs" />
-    <Compile Include="Employees\Views\EmployeeDetails\DocumentTypeSelectionView.xaml.cs">
-      <DependentUpon>DocumentTypeSelectionView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Employees\Views\EmployeeDetails\GenderSelectionView.xaml.cs">
       <DependentUpon>GenderSelectionView.xaml</DependentUpon>
     </Compile>
@@ -112,6 +100,8 @@
     </Compile>
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Events\ShowHREvent.cs" />
+    <Compile Include="HR\ViewModels\HRFilter.cs" />
     <Compile Include="Intervals\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="Intervals\Common\ViewModels\OrganisationViewModel.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\DayIntervalViewModel.cs" />
@@ -173,10 +163,6 @@
       <DependentUpon>EmployeeDetailsView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Employees\Views\EmployeeFilterView.xaml.cs">
-      <DependentUpon>EmployeeFilterView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AccessTemplates\Views\AccessTemplateFilterView.xaml.cs">
       <DependentUpon>AccessTemplateFilterView.xaml</DependentUpon>
     </Compile>
@@ -226,10 +212,6 @@
     </Compile>
     <Compile Include="Devices\Views\DeviceView.xaml.cs">
       <DependentUpon>DeviceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Documents\ViewModels\DocumentFilterViewModel.cs" />
-    <Compile Include="Documents\Views\DocumentFilterView.xaml.cs">
-      <DependentUpon>DocumentFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeDetailsViewModel.cs" />
     <Compile Include="PassCard\Views\PassCardView.xaml.cs">
@@ -307,12 +289,8 @@
     <Compile Include="Positions\ViewModels\PositionsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
-    <Compile Include="Positions\ViewModels\PositionFilterViewModel.cs" />
     <Compile Include="Positions\Views\PositionDetailsView.xaml.cs">
       <DependentUpon>PositionDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Positions\Views\PositionFilterView.xaml.cs">
-      <DependentUpon>PositionFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\Views\PositionsView.xaml.cs">
       <DependentUpon>PositionsView.xaml</DependentUpon>
@@ -330,7 +308,6 @@
     <Compile Include="Verification\Views\VerificationlView.xaml.cs">
       <DependentUpon>VerificationlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Employees\ViewModels\EmployeeFilterViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeViewModel.cs" />
     <Compile Include="Watcher\AutoActivationWatcher.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
@@ -409,6 +386,14 @@
     <Compile Include="AccessTemplates\Views\AccessTemplatesView.xaml.cs">
       <DependentUpon>AccessTemplatesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HR\ViewModels\HRFilterViewModel.cs" />
+    <Compile Include="HR\ViewModels\HRViewModel.cs" />
+    <Compile Include="HR\Views\HRFilterView.xaml.cs">
+      <DependentUpon>HRFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HR\Views\HRView.xaml.cs">
+      <DependentUpon>HRView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
@@ -457,17 +442,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Departments\Views\DepartmentFilterView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Employees\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\AccessZonesSelectationView.xaml">
       <SubType>Designer</SubType>
@@ -485,19 +462,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Employees\Views\EmployeeDetails\DocumentTypeSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Employees\Views\EmployeeDetails\EmployeeDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\EmployeeDetails\GenderSelectionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Employees\Views\EmployeeFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -534,10 +503,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Departments\Views\DepartmentDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Documents\Views\DocumentFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -637,10 +602,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Positions\Views\PositionFilterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Positions\Views\PositionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -726,6 +687,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="AccessTemplates\Views\AccessTemplatesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HR\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HR\Views\HRFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HR\Views\HRView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
