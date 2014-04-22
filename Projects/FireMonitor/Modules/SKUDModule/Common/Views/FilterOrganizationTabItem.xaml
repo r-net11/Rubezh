@@ -1,4 +1,4 @@
-﻿<TabItem x:Class="SKDModule.Views.FilterOrganizationTabItem"
+﻿<TabItem x:Class="SKDModule.Views.FilterOrganisationTabItem"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		Style="{StaticResource TabItemElementStyle}">
@@ -7,7 +7,7 @@
 			<TextBlock.Style>
 				<Style>
 					<Style.Triggers>
-						<DataTrigger Binding="{Binding Organizations.HasCheckedItems}" Value="True">
+						<DataTrigger Binding="{Binding Organisations.HasCheckedItems}" Value="True">
 							<Setter Property="TextBlock.FontStyle" Value="Italic" />
 						</DataTrigger>
 					</Style.Triggers>
@@ -15,7 +15,7 @@
 			</TextBlock.Style>
 		</TextBlock>
 	</TabItem.Header>
-	<ListBox ItemsSource="{Binding Organizations.Items}">
+	<ListBox ItemsSource="{Binding Organisations.Items}">
 		<ListBox.ItemTemplate>
 			<DataTemplate>
 				<StackPanel Orientation="Horizontal">

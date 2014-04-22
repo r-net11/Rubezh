@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			//var organisations = OrganizationHelper.Get(new OrganizationFilter());
+			//var organisations = OrganisationHelper.Get(new OrganisationFilter());
 			var organisations = OrganisationHelper.Get(null);
 			Organisations = new ObservableCollection<OrganisationViewModel>();
 			if (organisations != null)
@@ -103,11 +103,11 @@ namespace SKDModule.ViewModels
 			var organisationDetailsViewModel = new OrganisationDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(organisationDetailsViewModel))
 			{
-				var organization = organisationDetailsViewModel.Organisation;
-				var saveResult = OrganisationHelper.Save(organization);
+				var organisation = organisationDetailsViewModel.Organisation;
+				var saveResult = OrganisationHelper.Save(organisation);
 				if (saveResult == false)
 					return;
-				var organisationViewModel = new OrganisationViewModel(organization);
+				var organisationViewModel = new OrganisationViewModel(organisation);
 				Organisations.Add(organisationViewModel);
 				SelectedOrganisation = organisationViewModel;
 			}
@@ -119,8 +119,8 @@ namespace SKDModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить огранизацию " + SelectedOrganisation.Organisation.Name);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				var organization = SelectedOrganisation.Organisation;
-				var removeResult = OrganisationHelper.MarkDeleted(organization);
+				var organisation = SelectedOrganisation.Organisation;
+				var removeResult = OrganisationHelper.MarkDeleted(organisation);
 				if (removeResult == false)
 					return;
 				Organisations.Remove(SelectedOrganisation);
@@ -135,11 +135,11 @@ namespace SKDModule.ViewModels
 			var organisationDetailsViewModel = new OrganisationDetailsViewModel(this, SelectedOrganisation.Organisation);
 			if (DialogService.ShowModalWindow(organisationDetailsViewModel))
 			{
-				var organization = organisationDetailsViewModel.Organisation;
-				var saveResult = OrganisationHelper.Save(organization);
+				var organisation = organisationDetailsViewModel.Organisation;
+				var saveResult = OrganisationHelper.Save(organisation);
 				if (saveResult == false)
 					return;
-				SelectedOrganisation.Organisation = organization;
+				SelectedOrganisation.Organisation = organisation;
 				SelectedOrganisation.Update();
 			}
 		}

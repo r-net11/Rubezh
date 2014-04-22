@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD.PassCardLibrary;
-using Infrastructure.Designer.ElementProperties.ViewModels;
 using System.Windows.Media;
 using FiresecAPI;
+using FiresecAPI.SKD.PassCardLibrary;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Designer.ElementProperties.ViewModels;
 
 namespace SKDModule.PassCard.ViewModels
 {
@@ -46,9 +46,9 @@ namespace SKDModule.PassCard.ViewModels
 			}
 		}
 
-		public ObservableCollection<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
-		private AdditionalColumnType _selectedAdditionalColumnType;
-		public AdditionalColumnType SelectedAdditionalColumnType
+		public ObservableCollection<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
+		private ShortAdditionalColumnType _selectedAdditionalColumnType;
+		public ShortAdditionalColumnType SelectedAdditionalColumnType
 		{
 			get { return _selectedAdditionalColumnType; }
 			set
@@ -69,9 +69,9 @@ namespace SKDModule.PassCard.ViewModels
 			{
 				WithDeleted = DeletedType.Not,
 				Type = AdditionalColumnDataType.Graphics,
-				OrganizationUIDs = OrganisationHelper.Get(null).Select(x => x.UID).ToList()
+				OrganisationUIDs = OrganisationHelper.Get(null).Select(x => x.UID).ToList()
 			};
-			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
+			AdditionalColumnTypes = new ObservableCollection<ShortAdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();
 			SelectedPropertyType = ((ElementPassCardImageProperty)ElementRectangle).PropertyType;
 			SelectedAdditionalColumnType = SelectedPropertyType == PassCardImagePropertyType.Additional ? AdditionalColumnTypes.FirstOrDefault(item => item.UID == ((ElementPassCardImageProperty)ElementRectangle).AdditionalColumnUID) : null;

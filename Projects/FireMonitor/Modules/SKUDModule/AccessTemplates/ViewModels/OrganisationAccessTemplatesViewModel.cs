@@ -12,7 +12,7 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationAccessTemplatesViewModel : BaseViewModel
 	{
-		public Organisation Organization { get; private set; } 
+		public Organisation Organisation { get; private set; } 
 
 		public OrganisationAccessTemplatesViewModel()
 		{
@@ -21,9 +21,9 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
 
-		public void Initialize(Organisation organization, List<AccessTemplate> accessTemplates)
+		public void Initialize(Organisation organisation, List<AccessTemplate> accessTemplates)
 		{
-			Organization = organization;
+			Organisation = organisation;
 
 			AccessTemplates = new ObservableCollection<AccessTemplateViewModel>();
 			foreach (var accessTemplate in accessTemplates)

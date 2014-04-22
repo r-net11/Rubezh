@@ -3,7 +3,7 @@
 namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public class NamedIntervalFilter : OrganizationFilterBase
+	public class NamedIntervalFilter : OrganisationFilterBase
 	{
 		public NamedIntervalFilter()
 		{

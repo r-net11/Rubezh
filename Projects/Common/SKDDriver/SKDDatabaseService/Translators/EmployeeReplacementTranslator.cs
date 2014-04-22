@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class EmployeeReplacementTranslator : OrganizationElementTranslator<DataAccess.EmployeeReplacement, EmployeeReplacement, EmployeeReplacementFilter>
+	public class EmployeeReplacementTranslator : OrganisationElementTranslator<DataAccess.EmployeeReplacement, EmployeeReplacement, EmployeeReplacementFilter>
 	{
 		public EmployeeReplacementTranslator(DataAccess.SKDDataContext context)
 			: base(context)
@@ -39,7 +39,7 @@ namespace SKDDriver
 		{
 			bool notUinque = Table.Any(x => x.EmployeeUID == item.EmployeeUID &&
 				x.UID == item.UID &&
-				x.OrganizationUID == item.OrganizationUID &&
+				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
 				(x.BeginDate >= item.DateTimePeriod.StartDate || x.EndDate <= item.DateTimePeriod.EndDate) &&
 				x.IsDeleted == false);

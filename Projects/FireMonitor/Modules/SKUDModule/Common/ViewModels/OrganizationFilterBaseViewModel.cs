@@ -8,10 +8,10 @@ using Infrastructure.Common.CheckBoxList;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganizationFilterBaseViewModel<T> : FilterBaseViewModel<T>
-		where T : OrganizationFilterBase
+	public class OrganisationFilterBaseViewModel<T> : FilterBaseViewModel<T>
+		where T : OrganisationFilterBase
 	{
-		public OrganizationFilterBaseViewModel(T filter)
+		public OrganisationFilterBaseViewModel(T filter)
 			: base(filter)
 		{
 
@@ -21,12 +21,12 @@ namespace SKDModule.ViewModels
 		{
 			base.Initialize();
 			var organisations = OrganisationHelper.Get(new OrganisationFilter { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
-			Organizations = new CheckBoxItemList<FilterOrganizationViewModel>();
+			Organisations = new CheckBoxItemList<FilterOrganisationViewModel>();
 			if (organisations != null)
 			{
 				foreach (var organisation in organisations)
 				{
-					Organizations.Add(new FilterOrganizationViewModel(organisation));
+					Organisations.Add(new FilterOrganisationViewModel(organisation));
 				}
 			}
 		}
@@ -34,33 +34,33 @@ namespace SKDModule.ViewModels
 		protected override void Update()
 		{
 			base.Update();
-			foreach (var organization in Organizations.Items)
+			foreach (var organisation in Organisations.Items)
 			{
-				if (Filter.OrganizationUIDs.Any(x => x == organization.Organization.UID))
-					organization.IsChecked = true;
+				if (Filter.OrganisationUIDs.Any(x => x == organisation.Organisation.UID))
+					organisation.IsChecked = true;
 			}
-			if (!Organizations.Items.Any(x => x.IsChecked))
-				Organizations.Items.ForEach(x => x.IsChecked = true);
+			if (!Organisations.Items.Any(x => x.IsChecked))
+				Organisations.Items.ForEach(x => x.IsChecked = true);
 		}
 
-		public CheckBoxItemList<FilterOrganizationViewModel> Organizations { get; private set; }
+		public CheckBoxItemList<FilterOrganisationViewModel> Organisations { get; private set; }
 
 		protected override bool Save()
 		{
 			base.Save();
-			Filter.OrganizationUIDs = new List<Guid>();
-			if (Organizations.HasCheckedItems)
+			Filter.OrganisationUIDs = new List<Guid>();
+			if (Organisations.HasCheckedItems)
 			{
-				foreach (var organization in Organizations.Items.Where(x => x.IsChecked))
+				foreach (var organisation in Organisations.Items.Where(x => x.IsChecked))
 				{
-					Filter.OrganizationUIDs.Add(organization.Organization.UID);
+					Filter.OrganisationUIDs.Add(organisation.Organisation.UID);
 				}
 			}
 			else
 			{
-				foreach (var organization in Organizations.Items)
+				foreach (var organisation in Organisations.Items)
 				{
-					Filter.OrganizationUIDs.Add(organization.Organization.UID);
+					Filter.OrganisationUIDs.Add(organisation.Organisation.UID);
 				}
 			}
 			return true;

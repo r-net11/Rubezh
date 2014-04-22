@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public class Schedule : OrganizationElementBase
+	public class Schedule : OrganisationElementBase
 	{
 		public Schedule()
 		{

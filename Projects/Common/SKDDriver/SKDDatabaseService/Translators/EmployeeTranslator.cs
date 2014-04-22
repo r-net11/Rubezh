@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class EmployeeTranslator : OrganizationElementTranslator<DataAccess.Employee, Employee, EmployeeFilter>
+	public class EmployeeTranslator : OrganisationElementTranslator<DataAccess.Employee, Employee, EmployeeFilter>
 	{
 		public EmployeeTranslator(DataAccess.SKDDataContext context,
 			EmployeeReplacementTranslator replacementTranslator, 
@@ -38,7 +38,7 @@ namespace SKDDriver
 			bool sameName = Table.Any(x => x.FirstName == item.FirstName &&
 				x.SecondName == item.SecondName &&
 				x.LastName == item.LastName &&
-				x.OrganizationUID == item.OrganizationUID &&
+				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)

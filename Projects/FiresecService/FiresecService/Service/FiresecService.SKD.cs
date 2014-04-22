@@ -129,19 +129,19 @@ namespace FiresecService.Service
 		#region Organisation
 		public OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter)
 		{
-			return SKDDatabaseService.OrganizationTranslator.Get(filter);
+			return SKDDatabaseService.OrganisationTranslator.Get(filter);
 		}
-		public OperationResult SaveOrganisations(IEnumerable<Organisation> Organizations)
+		public OperationResult SaveOrganisations(IEnumerable<Organisation> Organisations)
 		{
-			return SKDDatabaseService.OrganizationTranslator.Save(Organizations);
+			return SKDDatabaseService.OrganisationTranslator.Save(Organisations);
 		}
-		public OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organizations)
+		public OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organisations)
 		{
-			return SKDDatabaseService.OrganizationTranslator.MarkDeleted(Organizations);
+			return SKDDatabaseService.OrganisationTranslator.MarkDeleted(Organisations);
 		}
-		public OperationResult SaveOrganisationZones(Organisation organization)
+		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
-			return SKDDatabaseService.OrganizationTranslator.SaveZones(organization);
+			return SKDDatabaseService.OrganisationTranslator.SaveZones(organisation);
 		}
 		#endregion
 

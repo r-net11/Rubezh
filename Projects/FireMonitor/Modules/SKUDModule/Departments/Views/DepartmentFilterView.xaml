@@ -6,6 +6,6 @@
 			 Height="600">
 	<TabControl>
 		<Views:FilterMarkDeletedTabItem />
-		<Views:FilterOrganizationTabItem />
+		<Views:FilterOrganisationTabItem />
 	</TabControl>
 </UserControl>

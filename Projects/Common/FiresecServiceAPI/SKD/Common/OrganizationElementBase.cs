@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public abstract class OrganizationElementBase : SKDIsDeletedModel
+	public abstract class OrganisationElementBase : SKDIsDeletedModel
 	{
 		[DataMember]
-		public Guid? OrganizationUID { get; set; }
+		public Guid? OrganisationUID { get; set; }
 	}
 }

@@ -129,17 +129,17 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Organisation>>>(() => FiresecService.GetOrganisations(filter));
 		}
-		public OperationResult SaveOrganisations(IEnumerable<Organisation> Organizations)
+		public OperationResult SaveOrganisations(IEnumerable<Organisation> Organisations)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisations(Organizations));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisations(Organisations));
 		}
-		public OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organizations)
+		public OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organisations)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedOrganisations(Organizations));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedOrganisations(Organisations));
 		}
-		public OperationResult SaveOrganisationZones(Organisation organization)
+		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(organization));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(organisation));
 		}
 		#endregion
 		

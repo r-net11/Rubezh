@@ -46,8 +46,8 @@ GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveGuest]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveGuest]
 GO
-IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveOrganization]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE [dbo].[SaveOrganization]
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveOrganisation]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SaveOrganisation]
 GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveCard]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveCard]
@@ -106,7 +106,7 @@ END
 GO
 CREATE PROCEDURE [dbo].[SaveNamedInterval]
 	@Uid uniqueidentifier,
-	@OrganizationUid uniqueidentifier = NULL,
+	@OrganisationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
 	@SlideTime int = 0,
 	@IsDeleted bit = 0,
@@ -120,7 +120,7 @@ BEGIN
 			IsDeleted = @IsDeleted,
 			RemovalDate = @RemovalDate,
 			SlideTime = @SlideTime,
-			OrganizationUid = @OrganizationUid 
+			OrganisationUid = @OrganisationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -130,14 +130,14 @@ BEGIN
 				IsDeleted,
 				RemovalDate,
 				SlideTime,
-				OrganizationUid)
+				OrganisationUid)
 			VALUES (
 				@Uid,
 				@Name,
 				@IsDeleted,
 				@RemovalDate,
 				@SlideTime,
-				@OrganizationUid)
+				@OrganisationUid)
 		END
 END
 GO
@@ -181,7 +181,7 @@ END
 GO
 CREATE PROCEDURE [dbo].[SaveScheduleScheme]
 	@Uid uniqueidentifier,
-	@OrganizationUid uniqueidentifier = NULL,
+	@OrganisationUid uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
 	@Type nvarchar(50) = NULL,
 	@IsDeleted bit = 0,
@@ -196,7 +196,7 @@ BEGIN
 			Type = @Type,
 			IsDeleted = @IsDeleted,
 			RemovalDate = @RemovalDate,
-			OrganizationUid = @OrganizationUid 
+			OrganisationUid = @OrganisationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -206,20 +206,20 @@ BEGIN
 				Type,
 				IsDeleted,
 				RemovalDate,
-				OrganizationUid)
+				OrganisationUid)
 			VALUES	(
 				@Uid,
 				@Name,
 				@Type,
 				@IsDeleted,
 				@RemovalDate,
-				@OrganizationUid)
+				@OrganisationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveSchedule]
 	@Uid uniqueidentifier,
-	@OrganizationUid uniqueidentifier = NULL,
+	@OrganisationUid uniqueidentifier = NULL,
 	@Name nvarchar(50)= NULL,
 	@ScheduleSchemeUid uniqueidentifier,
 	@IsDeleted bit ,
@@ -234,7 +234,7 @@ BEGIN
 			ScheduleSchemeUid = @ScheduleSchemeUid,
 			IsDeleted = @IsDeleted,
 			RemovalDate = @RemovalDate,
-			OrganizationUid = @OrganizationUid 
+			OrganisationUid = @OrganisationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -244,20 +244,20 @@ BEGIN
 				ScheduleSchemeUid,
 				IsDeleted,
 				RemovalDate,
-				OrganizationUid)
+				OrganisationUid)
 			VALUES (
 				@Uid,
 				@Name,
 				@ScheduleSchemeUid,
 				@IsDeleted,
 				@RemovalDate,
-				@OrganizationUid)
+				@OrganisationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveHoliday]
 	@Uid uniqueidentifier,
-	@OrganizationUid uniqueidentifier = NULL,
+	@OrganisationUid uniqueidentifier = NULL,
 	@Name nvarchar(50)= NULL,
 	@Type int ,
 	@Date sqldate ,
@@ -277,7 +277,7 @@ BEGIN
 			Reduction = @Reduction,
 			IsDeleted = @IsDeleted,
 			RemovalDate = @RemovalDate,
-			OrganizationUid = @OrganizationUid 
+			OrganisationUid = @OrganisationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -290,7 +290,7 @@ BEGIN
 				[Reduction], 
 				[IsDeleted], 
 				[RemovalDate],
-				OrganizationUid)
+				OrganisationUid)
 			VALUES (
 				@Uid,
 				@Name, 
@@ -300,13 +300,13 @@ BEGIN
 				@Reduction, 
 				@IsDeleted, 
 				@RemovalDate,
-				@OrganizationUid)
+				@OrganisationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveEmployee]
 	@Uid [uniqueidentifier],
-	@OrganizationUid uniqueidentifier = NULL,
+	@OrganisationUid uniqueidentifier = NULL,
 	@FirstName [nvarchar](50) = NULL,
 	@SecondName [nvarchar](50) = NULL,
 	@LastName [nvarchar](50) = NULL,
@@ -332,7 +332,7 @@ BEGIN
 			[Dismissed] ,
 			[IsDeleted] ,
 			[RemovalDate],
-			OrganizationUid,
+			OrganisationUid,
 			[Type],
 			TabelNo,
 			CredentialsStartDate,
@@ -358,7 +358,7 @@ BEGIN
 			@Dismissed ,
 			@IsDeleted ,
 			@RemovalDate,
-			@OrganizationUid,
+			@OrganisationUid,
 			0,
 			-1,
 			'01/01/1900',
@@ -376,7 +376,7 @@ END
 GO
 CREATE PROCEDURE [dbo].[SaveGuest]
 	@Uid [uniqueidentifier],
-	@OrganizationUid uniqueidentifier = NULL,
+	@OrganisationUid uniqueidentifier = NULL,
 	@FirstName [nvarchar](50) = NULL,
 	@SecondName [nvarchar](50) = NULL,
 	@LastName [nvarchar](50) = NULL,
@@ -397,7 +397,7 @@ BEGIN
 				[Dismissed] ,
 				[IsDeleted] ,
 				[RemovalDate],
-				OrganizationUid,
+				OrganisationUid,
 				[Type],
 				TabelNo,
 				CredentialsStartDate,
@@ -423,7 +423,7 @@ BEGIN
 				'01/01/1900' ,
 				@IsDeleted ,
 				@RemovalDate,
-				@OrganizationUid,
+				@OrganisationUid,
 				1,
 				-1,
 				'01/01/1900',
@@ -441,7 +441,7 @@ END
 GO
 CREATE PROCEDURE [dbo].[SaveDepartment]
 	@Uid [uniqueidentifier] ,
-	@OrganizationUid uniqueidentifier = NULL,
+	@OrganisationUid uniqueidentifier = NULL,
 	@Name [nvarchar](50) = NULL,
 	@Description [nvarchar](max) = NULL,
 	@ParentDepartmentUid [uniqueidentifier] = NULL,
@@ -461,7 +461,7 @@ BEGIN
 			[AttendantUid] = @AttendantUid,
 			[IsDeleted] = @IsDeleted,
 			[RemovalDate] = @RemovalDate,
-			OrganizationUid = @OrganizationUid 
+			OrganisationUid = @OrganisationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -474,7 +474,7 @@ BEGIN
 				[AttendantUid],
 				[IsDeleted] ,
 				[RemovalDate],
-				OrganizationUid)
+				OrganisationUid)
 			VALUES (
 				@Uid,
 				@Name, 
@@ -484,13 +484,13 @@ BEGIN
 				@AttendantUid,
 				@IsDeleted,
 				@RemovalDate,
-				@OrganizationUid)
+				@OrganisationUid)
 		END
 END
 GO
 CREATE PROCEDURE [dbo].[SaveEmployeeReplacement]
 	@Uid [uniqueidentifier] ,
-	@OrganizationUid uniqueidentifier = NULL,	
+	@OrganisationUid uniqueidentifier = NULL,	
 	@BeginDate [datetime] = NULL,
 	@EndDate [datetime] = NULL,
 	@EmployeeUid [uniqueidentifier] = NULL,
@@ -510,7 +510,7 @@ BEGIN
 			[EmployeeUid] = @EmployeeUid,
 			[DepartmentUid] = @DepartmentUid,
 			[ScheduleUid] = @ScheduleUid,
-			OrganizationUid = @OrganizationUid 
+			OrganisationUid = @OrganisationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -523,7 +523,7 @@ BEGIN
 				[EmployeeUid] ,
 				[DepartmentUid] ,
 				[ScheduleUid],
-				OrganizationUid )
+				OrganisationUid )
 			VALUES (
 				@Uid,
 				@IsDeleted,
@@ -533,14 +533,14 @@ BEGIN
 				@EmployeeUid,
 				@DepartmentUid,
 				@ScheduleUid,
-				@OrganizationUid)
+				@OrganisationUid)
 		END
 END
 
 GO
 CREATE PROCEDURE [dbo].[SavePhone]
 	@Uid [uniqueidentifier] ,
-	@OrganizationUid uniqueidentifier = NULL,
+	@OrganisationUid uniqueidentifier = NULL,
 	@Name [nvarchar](50) = NULL,
 	@NumberString [nvarchar](50) = NULL,
 	@DepartmentUid [uniqueidentifier] = NULL,
@@ -556,7 +556,7 @@ BEGIN
 			[Name] = @Name ,
 			[NumberString] = @NumberString ,
 			[DepartmentUid] = @DepartmentUid,
-			OrganizationUid = @OrganizationUid  	
+			OrganisationUid = @OrganisationUid  	
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -567,7 +567,7 @@ BEGIN
 				[Name] ,
 				[NumberString] ,
 				[DepartmentUid],
-				OrganizationUid )
+				OrganisationUid )
 			VALUES (
 				@Uid,
 				@IsDeleted,
@@ -575,14 +575,14 @@ BEGIN
 				@Name ,
 				@NumberString ,
 				@DepartmentUid ,
-				@OrganizationUid)
+				@OrganisationUid)
 		END
 END
 
 GO
 CREATE PROCEDURE [dbo].[SaveDocument]
 	@Uid [uniqueidentifier] ,
-	@OrganizationUid uniqueidentifier = NULL,	
+	@OrganisationUid uniqueidentifier = NULL,	
 	@No [int] ,
 	@Name [nvarchar](50) ,
 	@Description [nvarchar](max) ,
@@ -601,7 +601,7 @@ BEGIN
 			[Description] = @Description,
 			[IssueDate] = @IssueDate,
 			[LaunchDate] = @LaunchDate,
-			OrganizationUid = @OrganizationUid,
+			OrganisationUid = @OrganisationUid,
 			[No] = @No
 		WHERE Uid = @Uid
 	ELSE
@@ -614,7 +614,7 @@ BEGIN
 				[Description] ,
 				[IssueDate] ,
 				[LaunchDate],
-				OrganizationUid,
+				OrganisationUid,
 				[No] )
 			VALUES (
 				@Uid,
@@ -624,7 +624,7 @@ BEGIN
 				@Description,
 				@IssueDate,
 				@LaunchDate,
-				@OrganizationUid,
+				@OrganisationUid,
 				@No)
 		END
 END
@@ -632,7 +632,7 @@ END
 GO
 CREATE PROCEDURE [dbo].[SavePosition]
 	@Uid [uniqueidentifier] ,
-	@OrganizationUid uniqueidentifier = NULL,
+	@OrganisationUid uniqueidentifier = NULL,
 	@Name [nvarchar](50) ,
 	@Description [nvarchar](max) ,
 	@IsDeleted [bit] ,
@@ -646,7 +646,7 @@ BEGIN
 			[RemovalDate] = @RemovalDate,
 			[Name] = @Name ,
 			[Description] = @Description,
-			OrganizationUid = @OrganizationUid 
+			OrganisationUid = @OrganisationUid 
 		WHERE Uid = @Uid
 	ELSE
 		BEGIN
@@ -656,19 +656,19 @@ BEGIN
 				[RemovalDate],
 				[Name] ,
 				[Description],
-				OrganizationUid )
+				OrganisationUid )
 			VALUES (
 				@Uid,
 				@IsDeleted,
 				@RemovalDate,
 				@Name ,
 				@Description,
-				@OrganizationUid)
+				@OrganisationUid)
 		END
 END
 
 GO
-CREATE PROCEDURE [dbo].[SaveOrganization]
+CREATE PROCEDURE [dbo].[SaveOrganisation]
 	@Uid [uniqueidentifier] ,
 	@Name [nvarchar](50) = NULL,
 	@Description [nvarchar](max) = NULL,
@@ -676,7 +676,7 @@ CREATE PROCEDURE [dbo].[SaveOrganization]
 	@RemovalDate [datetime] = NULL
 AS
 BEGIN
-	INSERT INTO [dbo].[Organization] (
+	INSERT INTO [dbo].[Organisation] (
 		[Uid],
 		[IsDeleted] ,
 		[RemovalDate],
@@ -712,7 +712,7 @@ END
 GO
 CREATE PROCEDURE SaveAccessTemplate
 	@UID uniqueidentifier,
-	@OrganizationUID uniqueidentifier,
+	@OrganisationUID uniqueidentifier,
 	@Name nvarchar(50) = NULL,
 	@Description nvarchar(max) = NULL,
 	@IsDeleted bit,
@@ -725,20 +725,20 @@ BEGIN
 		Description,
 		IsDeleted,
 		RemovalDate,
-		OrganizationUID)
+		OrganisationUID)
 	VALUES (
 		@UID,
 		@Name,
 		@Description,
 		@IsDeleted ,
 		@RemovalDate ,
-		@OrganizationUID )
+		@OrganisationUID )
 END
 
 GO
 CREATE PROCEDURE SaveAdditionalColumnType
 	@UID uniqueidentifier,
-	@OrganizationUID uniqueidentifier = NULL,
+	@OrganisationUID uniqueidentifier = NULL,
 	@Name nvarchar(50) = NULL,
 	@Description nvarchar(max) = NULL,
 	@DataType int = NULL,
@@ -749,7 +749,7 @@ AS
 BEGIN
 	INSERT INTO AdditionalColumnType (
 		UID,
-		OrganizationUID,
+		OrganisationUID,
 		Name,
 		Description,
 		DataType,
@@ -759,7 +759,7 @@ BEGIN
 		IsInGrid)
 	VALUES (
 		@UID,
-		@OrganizationUID ,
+		@OrganisationUID ,
 		@Name ,
 		@Description ,
 		@DataType ,

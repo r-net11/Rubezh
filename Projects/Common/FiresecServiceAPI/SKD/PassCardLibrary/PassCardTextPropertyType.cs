@@ -13,7 +13,7 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		[Description("Дата рождения")]
 		Birthday,
 		[Description("Организация")]
-		Organization,
+		Organisation,
 		[Description("Подразделение")]
 		Department,
 		[Description("Должность")]

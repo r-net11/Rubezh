@@ -28,7 +28,7 @@
         <TabControl Grid.Row="1" Name="tabControl" BorderThickness="0" DataContext="{Binding SelectedYear}" ItemsSource="{Binding OrganisationHolidays}" SelectedItem="{Binding SelectedOrganisationHoliday}">
 			<TabControl.ItemTemplate>
 				<DataTemplate>
-                    <TextBlock Text="{Binding Organization.Name}" />
+                    <TextBlock Text="{Binding Organisation.Name}" />
 				</DataTemplate>
 			</TabControl.ItemTemplate>
 			<TabControl.ContentTemplate>

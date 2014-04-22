@@ -12,7 +12,7 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationShedulesViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 		Schedule SheduleToCopy;
 
 		public OrganisationShedulesViewModel()
@@ -24,9 +24,9 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(Organisation organization, List<Schedule> employeeShedules)
+		public void Initialize(Organisation organisation, List<Schedule> employeeShedules)
 		{
-			Organization = organization;
+			Organisation = organisation;
 
 			Shedules = new ObservableCollection<SheduleViewModel>();
 			foreach (var employeeShedule in employeeShedules)

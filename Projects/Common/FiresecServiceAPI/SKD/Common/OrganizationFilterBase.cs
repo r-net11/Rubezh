@@ -5,15 +5,15 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public abstract class OrganizationFilterBase : IsDeletedFilter
+	public abstract class OrganisationFilterBase : IsDeletedFilter
 	{
 		[DataMember]
-		public List<Guid> OrganizationUIDs { get; set; }
+		public List<Guid> OrganisationUIDs { get; set; }
 
-		public OrganizationFilterBase()
+		public OrganisationFilterBase()
 			: base()
 		{
-			OrganizationUIDs = new List<Guid>();
+			OrganisationUIDs = new List<Guid>();
 		}
 	}
 }

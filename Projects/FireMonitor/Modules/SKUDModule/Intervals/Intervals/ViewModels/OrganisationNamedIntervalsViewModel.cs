@@ -15,8 +15,8 @@ namespace SKDModule.ViewModels
 	{
 		private NamedInterval _intervalToCopy;
 
-		public OrganisationNamedIntervalsViewModel(Organisation organization)
-			: base(organization)
+		public OrganisationNamedIntervalsViewModel(Organisation organisation)
+			: base(organisation)
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);

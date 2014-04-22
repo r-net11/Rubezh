@@ -3,7 +3,7 @@
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Position : OrganizationElementBase
+	public class Position : OrganisationElementBase
 	{
 		[DataMember]
 		public string Name { get; set; }

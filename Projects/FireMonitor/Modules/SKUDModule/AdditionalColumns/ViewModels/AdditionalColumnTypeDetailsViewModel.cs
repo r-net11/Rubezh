@@ -21,7 +21,7 @@ namespace SKDModule.ViewModels
 					UID = AdditionalColumnType.UID,
 					Name = AdditionalColumnType.Name,
 					Description = AdditionalColumnType.Description,
-					OrganisationUID = AdditionalColumnType.OrganizationUID
+					OrganisationUID = AdditionalColumnType.OrganisationUID
 				};
 			}
 		}
@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 				AdditionalColumnType = new AdditionalColumnType()
 				{
 					Name = "Новая дополнительная колонка",
-					OrganizationUID = Organisation.UID
+					OrganisationUID = Organisation.UID
 				};
 			}
 			else
@@ -133,7 +133,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.DataType = DataType;
 			if (IsTextType)
 				AdditionalColumnType.IsInGrid = IsInGrid;
-			AdditionalColumnType.OrganizationUID = Organisation.UID;
+			AdditionalColumnType.OrganisationUID = Organisation.UID;
 			return true;
 		}
 	}

@@ -42,10 +42,10 @@
 			</TabItem>
 			<Views:FilterMarkDeletedTabItem />
 			<TabItem Header="Организация">
-				<ItemsControl ItemsSource="{Binding AvailableOrganizations}">
+				<ItemsControl ItemsSource="{Binding AvailableOrganisations}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<RadioButton GroupName="AvailableOrganizations" Content="{Binding Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}" Margin="5" Foreground="White" FontSize="14" />
+							<RadioButton GroupName="AvailableOrganisations" Content="{Binding Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}" Margin="5" Foreground="White" FontSize="14" />
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>

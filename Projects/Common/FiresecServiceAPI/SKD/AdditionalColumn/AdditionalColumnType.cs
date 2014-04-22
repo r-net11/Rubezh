@@ -3,7 +3,7 @@
 namespace FiresecAPI
 {
 	[DataContract]
-	public class AdditionalColumnType : OrganizationElementBase
+	public class AdditionalColumnType : OrganisationElementBase
 	{
 		[DataMember]
 		public string Name { get; set; }

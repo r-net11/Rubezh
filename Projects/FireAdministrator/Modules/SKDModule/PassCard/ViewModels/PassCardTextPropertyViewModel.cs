@@ -32,9 +32,9 @@ namespace SKDModule.PassCard.ViewModels
 			}
 		}
 
-		public ObservableCollection<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
-		private AdditionalColumnType _selectedAdditionalColumnType;
-		public AdditionalColumnType SelectedAdditionalColumnType
+		public ObservableCollection<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
+		private ShortAdditionalColumnType _selectedAdditionalColumnType;
+		public ShortAdditionalColumnType SelectedAdditionalColumnType
 		{
 			get { return _selectedAdditionalColumnType; }
 			set
@@ -56,7 +56,7 @@ namespace SKDModule.PassCard.ViewModels
 				WithDeleted = DeletedType.Not,
 				Type = AdditionalColumnDataType.Text,
 			};
-			AdditionalColumnTypes = new ObservableCollection<AdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
+			AdditionalColumnTypes = new ObservableCollection<ShortAdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();
 			SelectedPropertyType = ((ElementPassCardTextProperty)ElementTextBlock).PropertyType;
 			SelectedAdditionalColumnType = SelectedPropertyType == PassCardTextPropertyType.Additional ? AdditionalColumnTypes.FirstOrDefault(item => item.UID == ((ElementPassCardTextProperty)ElementTextBlock).AdditionalColumnUID) : null;

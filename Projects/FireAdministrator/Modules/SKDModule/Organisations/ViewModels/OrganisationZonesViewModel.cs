@@ -9,11 +9,11 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationZonesViewModel : BaseViewModel
 	{
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 
-		public OrganisationZonesViewModel(Organisation organization)
+		public OrganisationZonesViewModel(Organisation organisation)
 		{
-			Organization = organization;
+			Organisation = organisation;
 			AllZones = new List<OrganisationZoneViewModel>();
 			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
 			SelectedZone = RootZone;
@@ -21,7 +21,7 @@ namespace SKDModule.ViewModels
 			foreach (var zone in AllZones)
 			{
 				zone.ExpandToThis();
-				if (organization.ZoneUIDs.Contains(zone.Zone.UID))
+				if (organisation.ZoneUIDs.Contains(zone.Zone.UID))
 					zone._isChecked = true;
 			}
 		}
@@ -60,7 +60,7 @@ namespace SKDModule.ViewModels
 
 		OrganisationZoneViewModel AddZoneInternal(SKDZone zone, OrganisationZoneViewModel parentZoneViewModel)
 		{
-			var zoneViewModel = new OrganisationZoneViewModel(Organization, zone);
+			var zoneViewModel = new OrganisationZoneViewModel(Organisation, zone);
 			AllZones.Add(zoneViewModel);
 			if (parentZoneViewModel != null)
 				parentZoneViewModel.AddChild(zoneViewModel);

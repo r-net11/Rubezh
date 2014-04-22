@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class AccessTemplateFilter : OrganizationFilterBase
+	public class AccessTemplateFilter : OrganisationFilterBase
 	{
 		[DataMember]
 		public List<string> Names { get; set; }

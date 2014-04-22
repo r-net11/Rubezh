@@ -21,7 +21,7 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			Filter = new DepartmentFilter() { OrganizationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
+			Filter = new DepartmentFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
 			Initialize();
 		}
 
@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 					OrganisationViewModel = SelectedDepartment.GetAllParents().FirstOrDefault(x=>x.IsOrganisation);
 
 				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organization;
+					return OrganisationViewModel.Organisation;
 
 				return null;
 			}
@@ -158,7 +158,7 @@ namespace SKDModule.ViewModels
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedDepartment.Parent;
 
-				if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 					return;
 
 				OrganisationViewModel.AddChild(departmentViewModel);

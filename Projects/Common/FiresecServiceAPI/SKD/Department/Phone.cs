@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Phone : OrganizationElementBase
+	public class Phone : OrganisationElementBase
 	{
 		[DataMember]
 		public string Name { get; set; }

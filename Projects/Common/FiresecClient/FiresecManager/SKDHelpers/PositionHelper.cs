@@ -26,12 +26,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static IEnumerable<ShortPosition> GetByOrganization(Guid? organizationUID)
+		public static IEnumerable<ShortPosition> GetByOrganisation(Guid? organisationUID)
 		{
-			if (organizationUID == null)
+			if (organisationUID == null)
 				return null;
 			var filter = new PositionFilter();
-			filter.OrganizationUIDs.Add(organizationUID.Value);
+			filter.OrganisationUIDs.Add(organisationUID.Value);
 			var operationResult = FiresecManager.FiresecService.GetPositionList(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}

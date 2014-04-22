@@ -5,7 +5,7 @@ using System;
 
 namespace SKDDriver.Translators
 {
-	public class NamedIntervalTranslator : OrganizationElementTranslator<DataAccess.NamedInterval, NamedInterval, NamedIntervalFilter>
+	public class NamedIntervalTranslator : OrganisationElementTranslator<DataAccess.NamedInterval, NamedInterval, NamedIntervalFilter>
 	{
 		private TimeIntervalTranslator _timeIntervalTranslator;
 		public NamedIntervalTranslator(DataAccess.SKDDataContext context, TimeIntervalTranslator timeIntervalTranslator)
@@ -22,7 +22,7 @@ namespace SKDDriver.Translators
 		protected override OperationResult CanSave(NamedInterval item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganizationUID == item.OrganizationUID &&
+				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)

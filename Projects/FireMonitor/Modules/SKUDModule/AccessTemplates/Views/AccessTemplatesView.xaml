@@ -25,7 +25,7 @@
 
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Organization.Name}" />
+                    <TextBlock Text="{Binding Organisation.Name}" />
                 </DataTemplate>
             </TabControl.ItemTemplate>
 

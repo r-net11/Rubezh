@@ -8,14 +8,14 @@ namespace SKDModule.ViewModels
 {
 	public class AccessZonesSelectationViewModel : BaseViewModel
 	{
-		Organisation Organization;
+		Organisation Organisation;
 		public List<CardZone> CardZones { get; private set; }
 		Guid? ParentUID;
 		HashSet<SKDZone> AllParentZones;
 
-		public AccessZonesSelectationViewModel(Organisation organization, List<CardZone> cardZones, Guid? parentUID)
+		public AccessZonesSelectationViewModel(Organisation organisation, List<CardZone> cardZones, Guid? parentUID)
 		{
-			Organization = organization;
+			Organisation = organisation;
 			CardZones = cardZones;
 
 			InitializeAllParentZones();
@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 		void InitializeAllParentZones()
 		{
 			AllParentZones = new HashSet<SKDZone>();
-			foreach (var zoneUID in Organization.ZoneUIDs)
+			foreach (var zoneUID in Organisation.ZoneUIDs)
 			{
 				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 				if (zone != null)

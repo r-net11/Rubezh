@@ -18,24 +18,24 @@ namespace SKDModule.ViewModels
 					UID = Document.UID,
 					Name = Document.Name,
 					Description = Document.Description,
-					OrganisationUID = Document.OrganizationUID
+					OrganisationUID = Document.OrganisationUID
 				};
 			}
 		}
 
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 
 		public DocumentDetailsViewModel(DocumentsViewModel documentsViewModel, Organisation orgnaisation, Guid? documentUID = null)
 		{
 			DocumentsViewModel = documentsViewModel;
-			Organization = orgnaisation;
+			Organisation = orgnaisation;
 			if (documentUID == null)
 			{
 				Title = "Создание документа";
 				Document = new Document()
 				{
 					Name = "Новый документ",
-					OrganizationUID = Organization.UID
+					OrganisationUID = Organisation.UID
 				};
 			}
 			else
@@ -137,7 +137,7 @@ namespace SKDModule.ViewModels
 			Document.No = No;
 			Document.IssueDate = StartDateTime;
 			Document.LaunchDate = EndDateTime;
-			Document.OrganizationUID = Organization.UID;
+			Document.OrganisationUID = Organisation.UID;
 			return true;
 		}
 	}

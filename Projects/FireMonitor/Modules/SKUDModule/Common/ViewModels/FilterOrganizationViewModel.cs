@@ -3,16 +3,16 @@ using Infrastructure.Common.CheckBoxList;
 
 namespace SKDModule.ViewModels
 {
-	public class FilterOrganizationViewModel : CheckBoxItemViewModel
+	public class FilterOrganisationViewModel : CheckBoxItemViewModel
 	{
-		public FilterOrganizationViewModel(Organisation organization)
+		public FilterOrganisationViewModel(Organisation organisation)
 		{
-			Name = organization.Name;
-			Organization = organization;
+			Name = organisation.Name;
+			Organisation = organisation;
 		}
 
 		public string Name { get; private set; }
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked

@@ -7,9 +7,9 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class OrganizationTranslator : IsDeletedTranslator<DataAccess.Organization, Organisation, OrganisationFilter>
+	public class OrganisationTranslator : IsDeletedTranslator<DataAccess.Organisation, Organisation, OrganisationFilter>
 	{
-		public OrganizationTranslator(DataAccess.SKDDataContext context)
+		public OrganisationTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 			;
@@ -26,34 +26,34 @@ namespace SKDDriver
 		protected override OperationResult CanDelete(Organisation item)
 		{
 			var uid = item.UID;
-			if (Context.AdditionalColumnTypes.Any(x => x.OrganizationUID == uid) ||
-					Context.Departments.Any(x => x.OrganizationUID == uid) ||
-					Context.Documents.Any(x => x.OrganizationUID == uid) ||
-					Context.Employees.Any(x => x.OrganizationUID == uid) ||
-					Context.EmployeeReplacements.Any(x => x.OrganizationUID == uid) ||
-					Context.Holidays.Any(x => x.OrganizationUID == uid) ||
-					Context.NamedIntervals.Any(x => x.OrganizationUID == uid) ||
-					Context.Positions.Any(x => x.OrganizationUID == uid) ||
-					Context.Phones.Any(x => x.OrganizationUID == uid) ||
-					Context.Schedules.Any(x => x.OrganizationUID == uid) ||
-					Context.ScheduleSchemes.Any(x => x.OrganizationUID == uid) ||
-					Context.AccessTemplates.Any(x => x.OrganizationUID == uid)
+			if (Context.AdditionalColumnTypes.Any(x => x.OrganisationUID == uid) ||
+					Context.Departments.Any(x => x.OrganisationUID == uid) ||
+					Context.Documents.Any(x => x.OrganisationUID == uid) ||
+					Context.Employees.Any(x => x.OrganisationUID == uid) ||
+					Context.EmployeeReplacements.Any(x => x.OrganisationUID == uid) ||
+					Context.Holidays.Any(x => x.OrganisationUID == uid) ||
+					Context.NamedIntervals.Any(x => x.OrganisationUID == uid) ||
+					Context.Positions.Any(x => x.OrganisationUID == uid) ||
+					Context.Phones.Any(x => x.OrganisationUID == uid) ||
+					Context.Schedules.Any(x => x.OrganisationUID == uid) ||
+					Context.ScheduleSchemes.Any(x => x.OrganisationUID == uid) ||
+					Context.AccessTemplates.Any(x => x.OrganisationUID == uid)
 				)
 				return new OperationResult("Организация не может быть удалена, пока существуют элементы привязанные к ней");
 			return base.CanSave(item);
 		}
 
-		protected override Organisation Translate(DataAccess.Organization tableItem)
+		protected override Organisation Translate(DataAccess.Organisation tableItem)
 		{
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.PhotoUID = tableItem.PhotoUID;
-			result.ZoneUIDs = (from x in Context.OrganizationZones.Where(x => x.OrganizationUID == result.UID) select x.ZoneUID).ToList();
+			result.ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID) select x.ZoneUID).ToList();
 			return result;
 		}
 
-		protected override void TranslateBack(DataAccess.Organization tableItem, Organisation apiItem)
+		protected override void TranslateBack(DataAccess.Organisation tableItem, Organisation apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
@@ -61,9 +61,9 @@ namespace SKDDriver
 			tableItem.PhotoUID = apiItem.PhotoUID;
 		}
 
-		protected override Expression<Func<DataAccess.Organization, bool>> IsInFilter(OrganisationFilter filter)
+		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(OrganisationFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.Organization>();
+			var result = PredicateBuilder.True<DataAccess.Organisation>();
 			result = result.And(base.IsInFilter(filter));
 			return result;
 		}
@@ -73,15 +73,15 @@ namespace SKDDriver
 			try
 			{
 				var zoneUIDs = apiItem.ZoneUIDs;
-				var tableOrganizationZones = Context.OrganizationZones.Where(x => x.OrganizationUID == apiItem.UID);
-				Context.OrganizationZones.DeleteAllOnSubmit(tableOrganizationZones);
+				var tableOrganisationZones = Context.OrganisationZones.Where(x => x.OrganisationUID == apiItem.UID);
+				Context.OrganisationZones.DeleteAllOnSubmit(tableOrganisationZones);
 				foreach (var zoneUID in apiItem.ZoneUIDs)
 				{
-					var tableOrganizationZone = new DataAccess.OrganizationZone();
-					tableOrganizationZone.UID = Guid.NewGuid();
-					tableOrganizationZone.OrganizationUID = apiItem.UID;
-					tableOrganizationZone.ZoneUID = zoneUID;
-					Context.OrganizationZones.InsertOnSubmit(tableOrganizationZone);
+					var tableOrganisationZone = new DataAccess.OrganisationZone();
+					tableOrganisationZone.UID = Guid.NewGuid();
+					tableOrganisationZone.OrganisationUID = apiItem.UID;
+					tableOrganisationZone.ZoneUID = zoneUID;
+					Context.OrganisationZones.InsertOnSubmit(tableOrganisationZone);
 				}
 				Table.Context.SubmitChanges();
 			}

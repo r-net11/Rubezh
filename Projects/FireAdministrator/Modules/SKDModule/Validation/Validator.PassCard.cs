@@ -10,7 +10,7 @@ namespace SKDModule.Validation
 {
 	public partial class Validator
 	{
-		private const string DifferentOrganizationInSameTemplate = "Шаблон содержит дополнительные колонки относящиеся к разным организациям";
+		private const string DifferentOrganisationInSameTemplate = "Шаблон содержит дополнительные колонки относящиеся к разным организациям";
 		private const string UnknownAddtionColumn = "Шаблон содержит неопределенные дополнительные колонки";
 		void ValidatePassCards()
 		{
@@ -38,28 +38,28 @@ namespace SKDModule.Validation
 					Errors.Add(new PassCardValidationError(template, UnknownAddtionColumn, ValidationErrorLevel.Warning));
 				if (additionalColumnUIDs.Count > 1)
 				{
-					var organizationUID = GetOrganizationUID(additionalColumnUIDs[0]);
-					if (!organizationUID.HasValue)
-						Errors.Add(new PassCardValidationError(template, DifferentOrganizationInSameTemplate, ValidationErrorLevel.Warning));
+					var organisationUID = GetOrganisationUID(additionalColumnUIDs[0]);
+					if (!organisationUID.HasValue)
+						Errors.Add(new PassCardValidationError(template, DifferentOrganisationInSameTemplate, ValidationErrorLevel.Warning));
 					else
 						for (int i = 1; i < additionalColumnUIDs.Count; i++)
-							if (organizationUID != GetOrganizationUID(additionalColumnUIDs[i]))
+							if (organisationUID != GetOrganisationUID(additionalColumnUIDs[i]))
 							{
-								Errors.Add(new PassCardValidationError(template, DifferentOrganizationInSameTemplate, ValidationErrorLevel.Warning));
+								Errors.Add(new PassCardValidationError(template, DifferentOrganisationInSameTemplate, ValidationErrorLevel.Warning));
 								break;
 							}
 				}
 			});
 		}
 
-		private Guid? GetOrganizationUID(Guid additionalColumnGuid)
+		private Guid? GetOrganisationUID(Guid additionalColumnGuid)
 		{
 			var additionalColumn = AdditionalColumns.FirstOrDefault(item => item.UID == additionalColumnGuid);
-			return additionalColumn == null ? null : additionalColumn.OrganizationUID;
+			return additionalColumn == null ? null : additionalColumn.OrganisationUID;
 		}
 
-		private List<AdditionalColumnType> _addtionalColumns = null;
-		private List<AdditionalColumnType> AdditionalColumns
+		private List<ShortAdditionalColumnType> _addtionalColumns = null;
+		private List<ShortAdditionalColumnType> AdditionalColumns
 		{
 			get
 			{

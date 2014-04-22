@@ -14,15 +14,15 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 		{
 		}
 
-		protected override OrganisationScheduleSchemasViewModel CreateOrganizationViewModel(FiresecAPI.Organisation organization)
+		protected override OrganisationScheduleSchemasViewModel CreateOrganisationViewModel(FiresecAPI.Organisation organisation)
 		{
-			return new OrganisationScheduleSchemasViewModel(Type, organization);
+			return new OrganisationScheduleSchemasViewModel(Type, organisation);
 		}
 		protected override IEnumerable<ScheduleScheme> GetModels()
 		{
 			return ScheduleSchemaHelper.Get(new ScheduleSchemeFilter()
 			{
-				OrganizationUIDs = FiresecManager.CurrentUser.OrganisationUIDs,
+				OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs,
 				Type = Type,
 			});
 		}
@@ -31,8 +31,8 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 		{
 			base.OnShow();
 			// заменить на подписание на Event редактирования NamedInterval - выполнять в отдельном потоке
-			foreach (var organization in Organisations)
-				organization.ReloadNamedIntervals();
+			foreach (var organisation in Organisations)
+				organisation.ReloadNamedIntervals();
 		}
 	}
 }

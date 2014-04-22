@@ -5,14 +5,14 @@ namespace SKDModule.ViewModels
 {
 	public class PositionViewModel : TreeNodeViewModel<PositionViewModel>
 	{
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 		public ShortPosition Position { get; private set; }
 
-		public PositionViewModel(Organisation organization)
+		public PositionViewModel(Organisation organisation)
 		{
-			Organization = organization;
+			Organisation = organisation;
 			IsOrganisation = true;
-			Name = organization.Name;
+			Name = organisation.Name;
 		}
 
 		public PositionViewModel(ShortPosition position)

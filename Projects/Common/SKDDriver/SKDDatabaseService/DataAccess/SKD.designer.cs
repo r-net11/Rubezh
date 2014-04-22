@@ -67,12 +67,12 @@ namespace SKDDriver.DataAccess
     partial void InsertNamedInterval(NamedInterval instance);
     partial void UpdateNamedInterval(NamedInterval instance);
     partial void DeleteNamedInterval(NamedInterval instance);
-    partial void InsertOrganization(Organization instance);
-    partial void UpdateOrganization(Organization instance);
-    partial void DeleteOrganization(Organization instance);
-    partial void InsertOrganizationZone(OrganizationZone instance);
-    partial void UpdateOrganizationZone(OrganizationZone instance);
-    partial void DeleteOrganizationZone(OrganizationZone instance);
+    partial void InsertOrganisation(Organisation instance);
+    partial void UpdateOrganisation(Organisation instance);
+    partial void DeleteOrganisation(Organisation instance);
+    partial void InsertOrganisationZone(OrganisationZone instance);
+    partial void UpdateOrganisationZone(OrganisationZone instance);
+    partial void DeleteOrganisationZone(OrganisationZone instance);
     partial void InsertPassJournal(PassJournal instance);
     partial void UpdatePassJournal(PassJournal instance);
     partial void DeletePassJournal(PassJournal instance);
@@ -238,19 +238,19 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<Organization> Organizations
+		public System.Data.Linq.Table<Organisation> Organisations
 		{
 			get
 			{
-				return this.GetTable<Organization>();
+				return this.GetTable<Organisation>();
 			}
 		}
 		
-		public System.Data.Linq.Table<OrganizationZone> OrganizationZones
+		public System.Data.Linq.Table<OrganisationZone> OrganisationZones
 		{
 			get
 			{
-				return this.GetTable<OrganizationZone>();
+				return this.GetTable<OrganisationZone>();
 			}
 		}
 		
@@ -327,13 +327,13 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
 		private EntitySet<Card> _Cards;
 		
 		private EntitySet<CardZoneLink> _CardZoneLinks;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -349,15 +349,15 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     #endregion
 		
 		public AccessTemplate()
 		{
 			this._Cards = new EntitySet<Card>(new Action<Card>(this.attach_Cards), new Action<Card>(this.detach_Cards));
 			this._CardZoneLinks = new EntitySet<CardZoneLink>(new Action<CardZoneLink>(this.attach_CardZoneLinks), new Action<CardZoneLink>(this.detach_CardZoneLinks));
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
 		
@@ -461,26 +461,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
@@ -511,36 +511,36 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_AccessTemplate", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_AccessTemplate", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.AccessTemplates.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.AccessTemplates.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -891,13 +891,13 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<int> _PersonType;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
 		private bool _IsInGrid;
 		
 		private EntitySet<AdditionalColumn> _AdditionalColumns;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -917,8 +917,8 @@ namespace SKDDriver.DataAccess
     partial void OnDataTypeChanged();
     partial void OnPersonTypeChanging(System.Nullable<int> value);
     partial void OnPersonTypeChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     partial void OnIsInGridChanging(bool value);
     partial void OnIsInGridChanged();
     #endregion
@@ -926,7 +926,7 @@ namespace SKDDriver.DataAccess
 		public AdditionalColumnType()
 		{
 			this._AdditionalColumns = new EntitySet<AdditionalColumn>(new Action<AdditionalColumn>(this.attach_AdditionalColumns), new Action<AdditionalColumn>(this.detach_AdditionalColumns));
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
 		
@@ -1070,26 +1070,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
@@ -1127,36 +1127,36 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_AdditionalColumnType", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_AdditionalColumnType", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.AdditionalColumnTypes.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.AdditionalColumnTypes.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -2326,7 +2326,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
 		private EntitySet<Department> _Departments;
 		
@@ -2342,7 +2342,7 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Employee> _Employee1;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
 		private EntityRef<Photo> _Photo;
 		
@@ -2368,8 +2368,8 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     #endregion
 		
 		public Department()
@@ -2381,7 +2381,7 @@ namespace SKDDriver.DataAccess
 			this._Department1 = default(EntityRef<Department>);
 			this._Employee = default(EntityRef<Employee>);
 			this._Employee1 = default(EntityRef<Employee>);
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			this._Photo = default(EntityRef<Photo>);
 			OnCreated();
 		}
@@ -2582,26 +2582,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
@@ -2760,36 +2760,36 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Department", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Department", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.Departments.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.Departments.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -2919,9 +2919,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -2943,13 +2943,13 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     #endregion
 		
 		public Document()
 		{
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
 		
@@ -3113,60 +3113,60 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Document", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.Documents.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.Documents.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -3232,7 +3232,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
 		private string _DocumentNumber;
 		
@@ -3272,7 +3272,7 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Employee> _Employee1;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
 		private EntityRef<Photo> _Photo;
 		
@@ -3318,8 +3318,8 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     partial void OnDocumentNumberChanging(string value);
     partial void OnDocumentNumberChanged();
     partial void OnBirthDateChanging(System.DateTime value);
@@ -3353,7 +3353,7 @@ namespace SKDDriver.DataAccess
 			this._PassJournals = new EntitySet<PassJournal>(new Action<PassJournal>(this.attach_PassJournals), new Action<PassJournal>(this.detach_PassJournals));
 			this._Department = default(EntityRef<Department>);
 			this._Employee1 = default(EntityRef<Employee>);
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			this._Photo = default(EntityRef<Photo>);
 			this._Position = default(EntityRef<Position>);
 			this._Schedule = default(EntityRef<Schedule>);
@@ -3720,26 +3720,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
@@ -4103,36 +4103,36 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Employee", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Employee", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.Employees.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.Employees.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -4366,13 +4366,13 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
 		private EntityRef<Department> _Department;
 		
 		private EntityRef<Employee> _Employee;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
 		private EntityRef<Schedule> _Schedule;
 		
@@ -4396,15 +4396,15 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     #endregion
 		
 		public EmployeeReplacement()
 		{
 			this._Department = default(EntityRef<Department>);
 			this._Employee = default(EntityRef<Employee>);
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			this._Schedule = default(EntityRef<Schedule>);
 			OnCreated();
 		}
@@ -4581,26 +4581,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
@@ -4673,36 +4673,36 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_EmployeeReplacement", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_EmployeeReplacement", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.EmployeeReplacements.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.EmployeeReplacements.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -4784,9 +4784,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -4808,13 +4808,13 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     #endregion
 		
 		public Holiday()
 		{
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
 		
@@ -4978,60 +4978,60 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Holiday", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Holiday", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.Holidays.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.Holidays.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -5617,13 +5617,13 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
 		private EntitySet<Day> _Days;
 		
 		private EntitySet<Interval> _Intervals;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -5641,15 +5641,15 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     #endregion
 		
 		public NamedInterval()
 		{
 			this._Days = new EntitySet<Day>(new Action<Day>(this.attach_Days), new Action<Day>(this.detach_Days));
 			this._Intervals = new EntitySet<Interval>(new Action<Interval>(this.attach_Intervals), new Action<Interval>(this.detach_Intervals));
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
 		
@@ -5773,26 +5773,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
@@ -5823,36 +5823,36 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_NamedInterval", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_NamedInterval", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.NamedIntervals.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.NamedIntervals.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -5902,8 +5902,8 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Organization")]
-	public partial class Organization : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Organisation")]
+	public partial class Organisation : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -5936,7 +5936,7 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<NamedInterval> _NamedIntervals;
 		
-		private EntitySet<OrganizationZone> _OrganizationZones;
+		private EntitySet<OrganisationZone> _OrganisationZones;
 		
 		private EntitySet<Phone> _Phones;
 		
@@ -5966,7 +5966,7 @@ namespace SKDDriver.DataAccess
     partial void OnRemovalDateChanged();
     #endregion
 		
-		public Organization()
+		public Organisation()
 		{
 			this._AccessTemplates = new EntitySet<AccessTemplate>(new Action<AccessTemplate>(this.attach_AccessTemplates), new Action<AccessTemplate>(this.detach_AccessTemplates));
 			this._AdditionalColumnTypes = new EntitySet<AdditionalColumnType>(new Action<AdditionalColumnType>(this.attach_AdditionalColumnTypes), new Action<AdditionalColumnType>(this.detach_AdditionalColumnTypes));
@@ -5976,7 +5976,7 @@ namespace SKDDriver.DataAccess
 			this._EmployeeReplacements = new EntitySet<EmployeeReplacement>(new Action<EmployeeReplacement>(this.attach_EmployeeReplacements), new Action<EmployeeReplacement>(this.detach_EmployeeReplacements));
 			this._Holidays = new EntitySet<Holiday>(new Action<Holiday>(this.attach_Holidays), new Action<Holiday>(this.detach_Holidays));
 			this._NamedIntervals = new EntitySet<NamedInterval>(new Action<NamedInterval>(this.attach_NamedIntervals), new Action<NamedInterval>(this.detach_NamedIntervals));
-			this._OrganizationZones = new EntitySet<OrganizationZone>(new Action<OrganizationZone>(this.attach_OrganizationZones), new Action<OrganizationZone>(this.detach_OrganizationZones));
+			this._OrganisationZones = new EntitySet<OrganisationZone>(new Action<OrganisationZone>(this.attach_OrganisationZones), new Action<OrganisationZone>(this.detach_OrganisationZones));
 			this._Phones = new EntitySet<Phone>(new Action<Phone>(this.attach_Phones), new Action<Phone>(this.detach_Phones));
 			this._Positions = new EntitySet<Position>(new Action<Position>(this.attach_Positions), new Action<Position>(this.detach_Positions));
 			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
@@ -6109,7 +6109,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_AccessTemplate", Storage="_AccessTemplates", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_AccessTemplate", Storage="_AccessTemplates", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<AccessTemplate> AccessTemplates
 		{
 			get
@@ -6122,7 +6122,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_AdditionalColumnType", Storage="_AdditionalColumnTypes", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_AdditionalColumnType", Storage="_AdditionalColumnTypes", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<AdditionalColumnType> AdditionalColumnTypes
 		{
 			get
@@ -6135,7 +6135,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Department", Storage="_Departments", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Department", Storage="_Departments", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<Department> Departments
 		{
 			get
@@ -6148,7 +6148,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Document", Storage="_Documents", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Document", Storage="_Documents", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<Document> Documents
 		{
 			get
@@ -6161,7 +6161,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Employee", Storage="_Employees", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Employee", Storage="_Employees", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<Employee> Employees
 		{
 			get
@@ -6174,7 +6174,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_EmployeeReplacement", Storage="_EmployeeReplacements", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_EmployeeReplacement", Storage="_EmployeeReplacements", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<EmployeeReplacement> EmployeeReplacements
 		{
 			get
@@ -6187,7 +6187,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Holiday", Storage="_Holidays", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Holiday", Storage="_Holidays", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<Holiday> Holidays
 		{
 			get
@@ -6200,7 +6200,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_NamedInterval", Storage="_NamedIntervals", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_NamedInterval", Storage="_NamedIntervals", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<NamedInterval> NamedIntervals
 		{
 			get
@@ -6213,20 +6213,20 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_OrganizationZone", Storage="_OrganizationZones", ThisKey="UID", OtherKey="OrganizationUID")]
-		public EntitySet<OrganizationZone> OrganizationZones
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_OrganisationZone", Storage="_OrganisationZones", ThisKey="UID", OtherKey="OrganisationUID")]
+		public EntitySet<OrganisationZone> OrganisationZones
 		{
 			get
 			{
-				return this._OrganizationZones;
+				return this._OrganisationZones;
 			}
 			set
 			{
-				this._OrganizationZones.Assign(value);
+				this._OrganisationZones.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Phone", Storage="_Phones", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Phone", Storage="_Phones", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<Phone> Phones
 		{
 			get
@@ -6239,7 +6239,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Position", Storage="_Positions", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Position", Storage="_Positions", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<Position> Positions
 		{
 			get
@@ -6252,7 +6252,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Schedule", Storage="_Schedules", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Schedule", Storage="_Schedules", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<Schedule> Schedules
 		{
 			get
@@ -6265,7 +6265,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_ScheduleScheme", Storage="_ScheduleSchemes", ThisKey="UID", OtherKey="OrganizationUID")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_ScheduleScheme", Storage="_ScheduleSchemes", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<ScheduleScheme> ScheduleSchemes
 		{
 			get
@@ -6278,7 +6278,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Photo_Organization", Storage="_Photo", ThisKey="PhotoUID", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Photo_Organisation", Storage="_Photo", ThisKey="PhotoUID", OtherKey="UID", IsForeignKey=true)]
 		public Photo Photo
 		{
 			get
@@ -6295,12 +6295,12 @@ namespace SKDDriver.DataAccess
 					if ((previousValue != null))
 					{
 						this._Photo.Entity = null;
-						previousValue.Organizations.Remove(this);
+						previousValue.Organisations.Remove(this);
 					}
 					this._Photo.Entity = value;
 					if ((value != null))
 					{
-						value.Organizations.Add(this);
+						value.Organisations.Add(this);
 						this._PhotoUID = value.UID;
 					}
 					else
@@ -6335,162 +6335,162 @@ namespace SKDDriver.DataAccess
 		private void attach_AccessTemplates(AccessTemplate entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_AccessTemplates(AccessTemplate entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_AdditionalColumnTypes(AdditionalColumnType entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_AdditionalColumnTypes(AdditionalColumnType entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_Departments(Department entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_Departments(Department entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_Documents(Document entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_Documents(Document entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_Employees(Employee entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_Employees(Employee entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_EmployeeReplacements(EmployeeReplacement entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_EmployeeReplacements(EmployeeReplacement entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_Holidays(Holiday entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_Holidays(Holiday entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_NamedIntervals(NamedInterval entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_NamedIntervals(NamedInterval entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
-		private void attach_OrganizationZones(OrganizationZone entity)
+		private void attach_OrganisationZones(OrganisationZone entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
-		private void detach_OrganizationZones(OrganizationZone entity)
+		private void detach_OrganisationZones(OrganisationZone entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_Phones(Phone entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_Phones(Phone entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_Positions(Position entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_Positions(Position entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_Schedules(Schedule entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_Schedules(Schedule entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 		
 		private void attach_ScheduleSchemes(ScheduleScheme entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = this;
+			entity.Organisation = this;
 		}
 		
 		private void detach_ScheduleSchemes(ScheduleScheme entity)
 		{
 			this.SendPropertyChanging();
-			entity.Organization = null;
+			entity.Organisation = null;
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrganizationZone")]
-	public partial class OrganizationZone : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrganisationZone")]
+	public partial class OrganisationZone : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -6499,9 +6499,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Guid _ZoneUID;
 		
-		private System.Guid _OrganizationUID;
+		private System.Guid _OrganisationUID;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -6511,13 +6511,13 @@ namespace SKDDriver.DataAccess
     partial void OnUIDChanged();
     partial void OnZoneUIDChanging(System.Guid value);
     partial void OnZoneUIDChanged();
-    partial void OnOrganizationUIDChanging(System.Guid value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Guid value);
+    partial void OnOrganisationUIDChanged();
     #endregion
 		
-		public OrganizationZone()
+		public OrganisationZone()
 		{
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
 		
@@ -6561,60 +6561,60 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_OrganizationZone", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_OrganisationZone", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
-						previousValue.OrganizationZones.Remove(this);
+						this._Organisation.Entity = null;
+						previousValue.OrganisationZones.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
-						value.OrganizationZones.Add(this);
-						this._OrganizationUID = value.UID;
+						value.OrganisationZones.Add(this);
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(System.Guid);
+						this._OrganisationUID = default(System.Guid);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -6857,11 +6857,11 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
 		private EntityRef<Department> _Department;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -6879,14 +6879,14 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     #endregion
 		
 		public Phone()
 		{
 			this._Department = default(EntityRef<Department>);
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
 		
@@ -7014,26 +7014,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
@@ -7072,36 +7072,36 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Phone", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Phone", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.Phones.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.Phones.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -7143,7 +7143,7 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<Employee> _Employees;
 		
-		private EntitySet<Organization> _Organizations;
+		private EntitySet<Organisation> _Organisations;
 		
 		private EntitySet<Position> _Positions;
 		
@@ -7162,7 +7162,7 @@ namespace SKDDriver.DataAccess
 			this._AdditionalColumns = new EntitySet<AdditionalColumn>(new Action<AdditionalColumn>(this.attach_AdditionalColumns), new Action<AdditionalColumn>(this.detach_AdditionalColumns));
 			this._Departments = new EntitySet<Department>(new Action<Department>(this.attach_Departments), new Action<Department>(this.detach_Departments));
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
-			this._Organizations = new EntitySet<Organization>(new Action<Organization>(this.attach_Organizations), new Action<Organization>(this.detach_Organizations));
+			this._Organisations = new EntitySet<Organisation>(new Action<Organisation>(this.attach_Organisations), new Action<Organisation>(this.detach_Organisations));
 			this._Positions = new EntitySet<Position>(new Action<Position>(this.attach_Positions), new Action<Position>(this.detach_Positions));
 			OnCreated();
 		}
@@ -7246,16 +7246,16 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Photo_Organization", Storage="_Organizations", ThisKey="UID", OtherKey="PhotoUID")]
-		public EntitySet<Organization> Organizations
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Photo_Organisation", Storage="_Organisations", ThisKey="UID", OtherKey="PhotoUID")]
+		public EntitySet<Organisation> Organisations
 		{
 			get
 			{
-				return this._Organizations;
+				return this._Organisations;
 			}
 			set
 			{
-				this._Organizations.Assign(value);
+				this._Organisations.Assign(value);
 			}
 		}
 		
@@ -7328,13 +7328,13 @@ namespace SKDDriver.DataAccess
 			entity.Photo = null;
 		}
 		
-		private void attach_Organizations(Organization entity)
+		private void attach_Organisations(Organisation entity)
 		{
 			this.SendPropertyChanging();
 			entity.Photo = this;
 		}
 		
-		private void detach_Organizations(Organization entity)
+		private void detach_Organisations(Organisation entity)
 		{
 			this.SendPropertyChanging();
 			entity.Photo = null;
@@ -7369,13 +7369,13 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
 		private System.Nullable<System.Guid> _PhotoUID;
 		
 		private EntitySet<Employee> _Employees;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
 		private EntityRef<Photo> _Photo;
 		
@@ -7393,8 +7393,8 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
     partial void OnPhotoUIDChanged();
     #endregion
@@ -7402,7 +7402,7 @@ namespace SKDDriver.DataAccess
 		public Position()
 		{
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			this._Photo = default(EntityRef<Photo>);
 			OnCreated();
 		}
@@ -7507,26 +7507,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
@@ -7568,36 +7568,36 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Position", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Position", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.Positions.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.Positions.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -7689,7 +7689,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
 		private EntitySet<Employee> _Employees;
 		
@@ -7697,7 +7697,7 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<ScheduleZoneLink> _ScheduleZoneLinks;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
 		private EntityRef<ScheduleScheme> _ScheduleScheme;
 		
@@ -7719,8 +7719,8 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     #endregion
 		
 		public Schedule()
@@ -7728,7 +7728,7 @@ namespace SKDDriver.DataAccess
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
 			this._EmployeeReplacements = new EntitySet<EmployeeReplacement>(new Action<EmployeeReplacement>(this.attach_EmployeeReplacements), new Action<EmployeeReplacement>(this.detach_EmployeeReplacements));
 			this._ScheduleZoneLinks = new EntitySet<ScheduleZoneLink>(new Action<ScheduleZoneLink>(this.attach_ScheduleZoneLinks), new Action<ScheduleZoneLink>(this.detach_ScheduleZoneLinks));
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			this._ScheduleScheme = default(EntityRef<ScheduleScheme>);
 			OnCreated();
 		}
@@ -7877,26 +7877,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
@@ -7940,36 +7940,36 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_Schedule", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Schedule", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.Schedules.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.Schedules.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}
@@ -8083,13 +8083,13 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _OrganizationUID;
+		private System.Nullable<System.Guid> _OrganisationUID;
 		
 		private EntitySet<Day> _Days;
 		
 		private EntitySet<Schedule> _Schedules;
 		
-		private EntityRef<Organization> _Organization;
+		private EntityRef<Organisation> _Organisation;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -8107,15 +8107,15 @@ namespace SKDDriver.DataAccess
     partial void OnIsDeletedChanged();
     partial void OnRemovalDateChanging(System.DateTime value);
     partial void OnRemovalDateChanged();
-    partial void OnOrganizationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganizationUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
     #endregion
 		
 		public ScheduleScheme()
 		{
 			this._Days = new EntitySet<Day>(new Action<Day>(this.attach_Days), new Action<Day>(this.detach_Days));
 			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
-			this._Organization = default(EntityRef<Organization>);
+			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
 		
@@ -8239,26 +8239,26 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganizationUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
 		{
 			get
 			{
-				return this._OrganizationUID;
+				return this._OrganisationUID;
 			}
 			set
 			{
-				if ((this._OrganizationUID != value))
+				if ((this._OrganisationUID != value))
 				{
-					if (this._Organization.HasLoadedOrAssignedValue)
+					if (this._Organisation.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnOrganizationUIDChanging(value);
+					this.OnOrganisationUIDChanging(value);
 					this.SendPropertyChanging();
-					this._OrganizationUID = value;
-					this.SendPropertyChanged("OrganizationUID");
-					this.OnOrganizationUIDChanged();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
 				}
 			}
 		}
@@ -8289,36 +8289,36 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organization_ScheduleScheme", Storage="_Organization", ThisKey="OrganizationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organization Organization
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_ScheduleScheme", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
 		{
 			get
 			{
-				return this._Organization.Entity;
+				return this._Organisation.Entity;
 			}
 			set
 			{
-				Organization previousValue = this._Organization.Entity;
+				Organisation previousValue = this._Organisation.Entity;
 				if (((previousValue != value) 
-							|| (this._Organization.HasLoadedOrAssignedValue == false)))
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Organization.Entity = null;
+						this._Organisation.Entity = null;
 						previousValue.ScheduleSchemes.Remove(this);
 					}
-					this._Organization.Entity = value;
+					this._Organisation.Entity = value;
 					if ((value != null))
 					{
 						value.ScheduleSchemes.Add(this);
-						this._OrganizationUID = value.UID;
+						this._OrganisationUID = value.UID;
 					}
 					else
 					{
-						this._OrganizationUID = default(Nullable<System.Guid>);
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
-					this.SendPropertyChanged("Organization");
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}

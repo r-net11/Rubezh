@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class EmployeeFilter : OrganizationFilterBase
+	public class EmployeeFilter : OrganisationFilterBase
 	{
 		public EmployeeFilter()
 			: base()

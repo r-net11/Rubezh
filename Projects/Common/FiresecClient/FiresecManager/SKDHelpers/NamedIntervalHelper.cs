@@ -30,12 +30,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
-		public static IEnumerable<NamedInterval> GetByOrganization(Guid? organizationUID)
+		public static IEnumerable<NamedInterval> GetByOrganisation(Guid? organisationUID)
 		{
-			if (organizationUID == null)
+			if (organisationUID == null)
 				return null;
 			var filter = new NamedIntervalFilter();
-			filter.OrganizationUIDs.Add(organizationUID.Value);
+			filter.OrganisationUIDs.Add(organisationUID.Value);
 			var operationResult = FiresecManager.FiresecService.GetNamedIntervals(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}

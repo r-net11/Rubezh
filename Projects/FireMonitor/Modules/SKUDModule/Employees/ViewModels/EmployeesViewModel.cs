@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 		public static EmployeesViewModel Current { get; private set; }
 		EmployeeFilter Filter;
 		public PersonType PersonType { get; private set; }
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
 		public EmployeesViewModel()
@@ -34,9 +34,9 @@ namespace SKDModule.ViewModels
 				Filter.PersonType = PersonType.Guest;
 			else
 				Filter.PersonType = PersonType.Employee;
-			var organizationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
-			if (organizationUID != Guid.Empty)
-				Filter.OrganizationUIDs = new List<Guid> { organizationUID };
+			var organisationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
+			if (organisationUID != Guid.Empty)
+				Filter.OrganisationUIDs = new List<Guid> { organisationUID };
 			Initialize();
 		}
 
@@ -44,12 +44,12 @@ namespace SKDModule.ViewModels
 		{
 			PersonType = Filter.PersonType;
 
-			Organization = OrganisationHelper.GetSingle(Filter.OrganizationUIDs.FirstOrDefault());
+			Organisation = OrganisationHelper.GetSingle(Filter.OrganisationUIDs.FirstOrDefault());
 			var employees = EmployeeHelper.Get(Filter);
 			Employees = new ObservableCollection<EmployeeViewModel>();
 			foreach (var employee in employees)
 			{
-				var employeeViewModel = new EmployeeViewModel(Organization, employee);
+				var employeeViewModel = new EmployeeViewModel(Organisation, employee);
 				Employees.Add(employeeViewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
@@ -86,7 +86,7 @@ namespace SKDModule.ViewModels
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employeeViewModel = new EmployeeViewModel(Organization, employeeDetailsViewModel.ShortEmployee);
+				var employeeViewModel = new EmployeeViewModel(Organisation, employeeDetailsViewModel.ShortEmployee);
 				Employees.Add(employeeViewModel);
 				SelectedEmployee = employeeViewModel;
 			}
@@ -146,8 +146,8 @@ namespace SKDModule.ViewModels
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
 			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
-			if (Organization != null)
-				additionalColumnTypeFilter.OrganizationUIDs.Add(Organization.UID);
+			if (Organisation != null)
+				additionalColumnTypeFilter.OrganisationUIDs.Add(Organisation.UID);
 			var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
 			if (columnTypes == null)
 				return;

@@ -5,14 +5,14 @@ namespace SKDModule.ViewModels
 {
 	public class AdditionalColumnTypeViewModel : TreeNodeViewModel<AdditionalColumnTypeViewModel>
 	{
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 		public ShortAdditionalColumnType AdditionalColumnType { get; private set; }
 
-		public AdditionalColumnTypeViewModel(Organisation organization)
+		public AdditionalColumnTypeViewModel(Organisation organisation)
 		{
-			Organization = organization;
+			Organisation = organisation;
 			IsOrganisation = true;
-			Name = organization.Name;
+			Name = organisation.Name;
 		}
 
 		public AdditionalColumnTypeViewModel(ShortAdditionalColumnType additionalColumnType)

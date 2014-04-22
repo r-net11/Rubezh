@@ -84,7 +84,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organisations);
 		[OperationContract]
-		OperationResult SaveOrganisationZones(Organisation organization);
+		OperationResult SaveOrganisationZones(Organisation organisation);
 		#endregion
 
 		#region Document

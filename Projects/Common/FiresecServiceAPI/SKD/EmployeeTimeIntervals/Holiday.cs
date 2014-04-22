@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public class Holiday : OrganizationElementBase
+	public class Holiday : OrganisationElementBase
 	{
 		public Holiday()
 		{

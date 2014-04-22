@@ -24,11 +24,11 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static IEnumerable<ShortDepartment> GetByOrganization(Guid? organizationUID)
+		public static IEnumerable<ShortDepartment> GetByOrganisation(Guid? organisationUID)
 		{
-			if (organizationUID == null)
+			if (organisationUID == null)
 				return null;
-			var result = FiresecManager.FiresecService.GetDepartmentList(new DepartmentFilter { OrganizationUIDs = new List<System.Guid> { organizationUID.Value } });
+			var result = FiresecManager.FiresecService.GetDepartmentList(new DepartmentFilter { OrganisationUIDs = new List<System.Guid> { organisationUID.Value } });
 			return Common.ShowErrorIfExists(result);
 		}
 

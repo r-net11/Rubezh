@@ -10,8 +10,8 @@ namespace SKDModule.ViewModels
 	{
 		public int Year { get; private set; }
 
-		public OrganisationHolidaysYearViewModel(int year, FiresecAPI.Organisation organization)
-			: base(organization)
+		public OrganisationHolidaysYearViewModel(int year, FiresecAPI.Organisation organisation)
+			: base(organisation)
 		{
 			Year = year;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);

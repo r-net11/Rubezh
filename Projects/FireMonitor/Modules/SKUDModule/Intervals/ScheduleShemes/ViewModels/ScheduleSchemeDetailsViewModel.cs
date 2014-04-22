@@ -10,15 +10,15 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 {
 	public class ScheduleSchemeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		private OrganisationScheduleSchemasViewModel _organization;
+		private OrganisationScheduleSchemasViewModel _organisation;
 		public ScheduleScheme ScheduleSchema { get; private set; }
 
-		public ScheduleSchemeDetailsViewModel(OrganisationScheduleSchemasViewModel organization, ScheduleScheme scheduleScheme = null)
+		public ScheduleSchemeDetailsViewModel(OrganisationScheduleSchemasViewModel organisation, ScheduleScheme scheduleScheme = null)
 		{
-			_organization = organization;
+			_organisation = organisation;
 			var dayCount = 0;
 			var name = string.Empty;
-			switch (organization.Type)
+			switch (organisation.Type)
 			{
 				case ScheduleSchemeType.Month:
 					name = "Месячный график работы";
@@ -40,8 +40,8 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			{
 				scheduleScheme = new ScheduleScheme()
 				{
-					OrganizationUID = _organization.Organization.UID,
-					Type = _organization.Type,
+					OrganisationUID = _organisation.Organisation.UID,
+					Type = _organisation.Type,
 					Name = name,
 				};
 				for (int i = 0; i < dayCount; i++)
@@ -86,7 +86,7 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (_organization.ViewModels.Any(x => x.Model.Name == Name && x.Model.UID != ScheduleSchema.UID))
+			if (_organisation.ViewModels.Any(x => x.Model.Name == Name && x.Model.UID != ScheduleSchema.UID))
 			{
 				MessageBoxService.ShowWarning("Название графика совпадает с введенным ранее");
 				return false;

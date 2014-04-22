@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var accessTemplateViewModel = new OrganisationAccessTemplatesViewModel();
-				accessTemplateViewModel.Initialize(organisation, new List<AccessTemplate>(accessTemplates.Where(x => x.OrganizationUID != null && x.OrganizationUID.Value == organisation.UID)));
+				accessTemplateViewModel.Initialize(organisation, new List<AccessTemplate>(accessTemplates.Where(x => x.OrganisationUID != null && x.OrganisationUID.Value == organisation.UID)));
 				OrganisationAccessTemplates.Add(accessTemplateViewModel);
 			}
 			SelectedOrganisationAccessTemplate = OrganisationAccessTemplates.FirstOrDefault();

@@ -17,8 +17,8 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 		public ObservableCollection<NamedInterval> NamedIntervals { get; private set; }
 		private ScheduleScheme _clipboard;
 
-		public OrganisationScheduleSchemasViewModel(ScheduleSchemeType type, FiresecAPI.Organisation organization)
-			: base(organization)
+		public OrganisationScheduleSchemasViewModel(ScheduleSchemeType type, FiresecAPI.Organisation organisation)
+			: base(organisation)
 		{
 			Type = type;
 			AddCommand = new RelayCommand(OnAdd);
@@ -42,9 +42,9 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 		{
 			var namedIntervals = NamedIntervalHelper.Get(new NamedIntervalFilter()
 			{
-				OrganizationUIDs = new List<Guid>()
+				OrganisationUIDs = new List<Guid>()
 				{
-					Organization.UID,
+					Organisation.UID,
 				},
 			});
 			NamedIntervals = new ObservableCollection<NamedInterval>(namedIntervals);

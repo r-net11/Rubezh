@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public class ScheduleSchemeFilter : OrganizationFilterBase
+	public class ScheduleSchemeFilter : OrganisationFilterBase
 	{
 		public ScheduleSchemeFilter()
 		{

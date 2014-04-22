@@ -13,12 +13,12 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 	public class ScheduleSchemeViewModel : BaseObjectViewModel<ScheduleScheme>
 	{
 		public SortableObservableCollection<DayIntervalViewModel> DayIntervals { get; private set; }
-		public OrganisationScheduleSchemasViewModel OrganizationViewModel { get; private set; }
+		public OrganisationScheduleSchemasViewModel OrganisationViewModel { get; private set; }
 
-		public ScheduleSchemeViewModel(OrganisationScheduleSchemasViewModel organizationViewModel, ScheduleScheme scheduleScheme)
+		public ScheduleSchemeViewModel(OrganisationScheduleSchemasViewModel organisationViewModel, ScheduleScheme scheduleScheme)
 			: base(scheduleScheme)
 		{
-			OrganizationViewModel = organizationViewModel;
+			OrganisationViewModel = organisationViewModel;
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			DayIntervals = new SortableObservableCollection<DayIntervalViewModel>(scheduleScheme.DayIntervals.Select(item => new DayIntervalViewModel(this, item)));

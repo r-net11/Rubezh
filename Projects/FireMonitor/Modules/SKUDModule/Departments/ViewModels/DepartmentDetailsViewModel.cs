@@ -23,7 +23,7 @@ namespace SKDModule.ViewModels
 				{
 					Name = "Новый отдел",
 					ParentDepartmentUID = parentDepartmentUID,
-					OrganizationUID = Organisation.UID
+					OrganisationUID = Organisation.UID
 				};
 			}
 			else

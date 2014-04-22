@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class PositionTranslator : OrganizationElementTranslator<DataAccess.Position, Position, PositionFilter>
+	public class PositionTranslator : OrganisationElementTranslator<DataAccess.Position, Position, PositionFilter>
 	{
 		public PositionTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator)
 			: base(context)
@@ -20,7 +20,7 @@ namespace SKDDriver
 		protected override OperationResult CanSave(Position item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name && 
-				x.OrganizationUID == item.OrganizationUID && 
+				x.OrganisationUID == item.OrganisationUID && 
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (sameName)
@@ -30,7 +30,7 @@ namespace SKDDriver
 
 		protected override OperationResult CanDelete(Position item)
 		{
-			if (Context.Employees.Any(x => x.PositionUID == item.UID && x.OrganizationUID == item.OrganizationUID && !x.IsDeleted))
+			if (Context.Employees.Any(x => x.PositionUID == item.UID && x.OrganisationUID == item.OrganisationUID && !x.IsDeleted))
 				return new OperationResult("Не могу удалить должность, пока она указана у действующих сотрудников");
 			return base.CanSave(item);
 		}
@@ -60,7 +60,7 @@ namespace SKDDriver
 				UID = tableItem.UID,
 				Name = tableItem.Name,
 				Description = tableItem.Description,
-				OrganisationUID = tableItem.OrganizationUID
+				OrganisationUID = tableItem.OrganisationUID
 			};
 			return shortPosition;
 		}

@@ -11,11 +11,11 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeViewModel : BaseViewModel
 	{
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 
-		public EmployeeViewModel(Organisation organization, ShortEmployee employee)
+		public EmployeeViewModel(Organisation organisation, ShortEmployee employee)
 		{
-			Organization = organization;
+			Organisation = organisation;
 			ShortEmployee = employee;
 
 			AddCardCommand = new RelayCommand(OnAddCard);
@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 			
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			foreach (var item in employee.Cards)
-				Cards.Add(new EmployeeCardViewModel(Organization, this, item));
+				Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
 			SelectedCard = Cards.FirstOrDefault();
 		}
 
@@ -99,7 +99,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("У сотрудника не может быть больше 10 карт");
 				return;
 			}
-			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organization);
+			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation);
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
@@ -107,7 +107,7 @@ namespace SKDModule.ViewModels
 				var saveResult = CardHelper.Save(card);
 				if (!saveResult)
 					return;
-				var cardViewModel = new EmployeeCardViewModel(Organization, this, card);
+				var cardViewModel = new EmployeeCardViewModel(Organisation, this, card);
 				Cards.Add(cardViewModel);
 				SelectedCard = cardViewModel;
 				SelectCard(cardViewModel);

@@ -5,7 +5,7 @@ using FiresecAPI;
 
 namespace SKDDriver
 {
-	public class DepartmentTranslator : OrganizationElementTranslator<DataAccess.Department, Department, DepartmentFilter>
+	public class DepartmentTranslator : OrganisationElementTranslator<DataAccess.Department, Department, DepartmentFilter>
 	{
 		public DepartmentTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator)
 			: base(context)
@@ -18,7 +18,7 @@ namespace SKDDriver
 		protected override OperationResult CanSave(Department item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganizationUID == item.OrganizationUID &&
+				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
 				x.ParentDepartmentUID == item.ParentDepartmentUID &&
 				x.IsDeleted == false);
@@ -84,7 +84,7 @@ namespace SKDDriver
 				Name = tableItem.Name,
 				Description = tableItem.Description,
 				ParentDepartmentUID = tableItem.ParentDepartmentUID,
-				OrganisationUID = tableItem.OrganizationUID
+				OrganisationUID = tableItem.OrganisationUID
 			};
 			shortDepartment.ChildDepartmentUIDs = new List<Guid>();
 			foreach (var department in Context.Departments.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))

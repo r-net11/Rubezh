@@ -186,102 +186,102 @@ GO
 ALTER TABLE [dbo].[CardZoneLink] NOCHECK CONSTRAINT [FK_CardZoneLink_AccessTemplate]
 
 GO
-ALTER TABLE [dbo].[AdditionalColumnType]  WITH NOCHECK ADD CONSTRAINT [FK_AdditionalColumnType_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[AdditionalColumnType]  WITH NOCHECK ADD CONSTRAINT [FK_AdditionalColumnType_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION
 GO
-ALTER TABLE [dbo].[AdditionalColumnType] NOCHECK CONSTRAINT [FK_AdditionalColumnType_Organization]
+ALTER TABLE [dbo].[AdditionalColumnType] NOCHECK CONSTRAINT [FK_AdditionalColumnType_Organisation]
 
 GO
-ALTER TABLE [dbo].[Department]  WITH NOCHECK ADD CONSTRAINT [FK_Department_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[Department]  WITH NOCHECK ADD CONSTRAINT [FK_Department_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[Department] NOCHECK CONSTRAINT [FK_Department_Organization]
+ALTER TABLE [dbo].[Department] NOCHECK CONSTRAINT [FK_Department_Organisation]
 
 GO
-ALTER TABLE [dbo].[Schedule]  WITH NOCHECK ADD CONSTRAINT [FK_Schedule_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[Schedule]  WITH NOCHECK ADD CONSTRAINT [FK_Schedule_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[Schedule] NOCHECK CONSTRAINT [FK_Schedule_Organization]
+ALTER TABLE [dbo].[Schedule] NOCHECK CONSTRAINT [FK_Schedule_Organisation]
 
 GO
-ALTER TABLE [dbo].[Organization]  WITH NOCHECK ADD  CONSTRAINT [FK_Organization_Photo] FOREIGN KEY([PhotoUID])
+ALTER TABLE [dbo].[Organisation]  WITH NOCHECK ADD  CONSTRAINT [FK_Organisation_Photo] FOREIGN KEY([PhotoUID])
 REFERENCES [dbo].[Photo] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[Organization] NOCHECK CONSTRAINT [FK_Organization_Photo]
+ALTER TABLE [dbo].[Organisation] NOCHECK CONSTRAINT [FK_Organisation_Photo]
 
 GO
-ALTER TABLE [dbo].[ScheduleScheme]  WITH NOCHECK ADD CONSTRAINT [FK_ScheduleScheme_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[ScheduleScheme]  WITH NOCHECK ADD CONSTRAINT [FK_ScheduleScheme_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[ScheduleScheme] NOCHECK CONSTRAINT [FK_ScheduleScheme_Organization]
+ALTER TABLE [dbo].[ScheduleScheme] NOCHECK CONSTRAINT [FK_ScheduleScheme_Organisation]
 
 GO
-ALTER TABLE [dbo].[Position]  WITH NOCHECK ADD CONSTRAINT [FK_Position_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[Position]  WITH NOCHECK ADD CONSTRAINT [FK_Position_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[Position] NOCHECK CONSTRAINT [FK_Position_Organization]
+ALTER TABLE [dbo].[Position] NOCHECK CONSTRAINT [FK_Position_Organisation]
 
 GO
-ALTER TABLE [dbo].[Phone]  WITH NOCHECK ADD CONSTRAINT [FK_Phone_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[Phone]  WITH NOCHECK ADD CONSTRAINT [FK_Phone_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[Phone] NOCHECK CONSTRAINT [FK_Phone_Organization]
+ALTER TABLE [dbo].[Phone] NOCHECK CONSTRAINT [FK_Phone_Organisation]
 
 GO
-ALTER TABLE [dbo].[NamedInterval]  WITH NOCHECK ADD CONSTRAINT [FK_NamedInterval_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[NamedInterval]  WITH NOCHECK ADD CONSTRAINT [FK_NamedInterval_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[NamedInterval] NOCHECK CONSTRAINT [FK_NamedInterval_Organization]
+ALTER TABLE [dbo].[NamedInterval] NOCHECK CONSTRAINT [FK_NamedInterval_Organisation]
 
 GO
-ALTER TABLE [dbo].[Holiday]  WITH NOCHECK ADD CONSTRAINT [FK_Holiday_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[Holiday]  WITH NOCHECK ADD CONSTRAINT [FK_Holiday_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[Holiday] NOCHECK CONSTRAINT [FK_Holiday_Organization]
+ALTER TABLE [dbo].[Holiday] NOCHECK CONSTRAINT [FK_Holiday_Organisation]
 
 GO
-ALTER TABLE [dbo].[EmployeeReplacement]  WITH NOCHECK ADD CONSTRAINT [FK_EmployeeReplacement_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[EmployeeReplacement]  WITH NOCHECK ADD CONSTRAINT [FK_EmployeeReplacement_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[EmployeeReplacement] NOCHECK CONSTRAINT [FK_EmployeeReplacement_Organization]
+ALTER TABLE [dbo].[EmployeeReplacement] NOCHECK CONSTRAINT [FK_EmployeeReplacement_Organisation]
 
 GO
-ALTER TABLE [dbo].[Employee]  WITH NOCHECK ADD CONSTRAINT [FK_Employee_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[Employee]  WITH NOCHECK ADD CONSTRAINT [FK_Employee_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[Employee] NOCHECK CONSTRAINT [FK_Employee_Organization]
+ALTER TABLE [dbo].[Employee] NOCHECK CONSTRAINT [FK_Employee_Organisation]
 
 GO
-ALTER TABLE [dbo].[Document]  WITH NOCHECK ADD CONSTRAINT [FK_Document_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[Document]  WITH NOCHECK ADD CONSTRAINT [FK_Document_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[Document] NOCHECK CONSTRAINT [FK_Document_Organization]
+ALTER TABLE [dbo].[Document] NOCHECK CONSTRAINT [FK_Document_Organisation]
 
 GO
-ALTER TABLE [dbo].[AccessTemplate] WITH NOCHECK ADD CONSTRAINT [FK_AccessTemplate_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[AccessTemplate] WITH NOCHECK ADD CONSTRAINT [FK_AccessTemplate_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[AccessTemplate] NOCHECK CONSTRAINT [FK_AccessTemplate_Organization]
+ALTER TABLE [dbo].[AccessTemplate] NOCHECK CONSTRAINT [FK_AccessTemplate_Organisation]
 
 GO
-ALTER TABLE [dbo].[OrganizationZone] WITH NOCHECK ADD CONSTRAINT [FK_OrganizationZone_Organization] FOREIGN KEY([OrganizationUid])
-REFERENCES [dbo].[Organization] ([Uid])
+ALTER TABLE [dbo].[OrganisationZone] WITH NOCHECK ADD CONSTRAINT [FK_OrganisationZone_Organisation] FOREIGN KEY([OrganisationUid])
+REFERENCES [dbo].[Organisation] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[OrganizationZone] NOCHECK CONSTRAINT [FK_OrganizationZone_Organization]
+ALTER TABLE [dbo].[OrganisationZone] NOCHECK CONSTRAINT [FK_OrganisationZone_Organisation]
 
 GO
 ALTER TABLE [dbo].[AdditionalColumn]  WITH NOCHECK ADD  CONSTRAINT [FK_AdditionalColumn_Photo] FOREIGN KEY([PhotoUID])

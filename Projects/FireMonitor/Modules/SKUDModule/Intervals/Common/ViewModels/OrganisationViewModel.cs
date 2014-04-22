@@ -12,13 +12,13 @@ namespace SKDModule.Intervals.Common.ViewModels
 {
 	public abstract class OrganisationViewModel<TViewModel, TElement> : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 		where TViewModel : BaseObjectViewModel<TElement>
-		where TElement : OrganizationElementBase
+		where TElement : OrganisationElementBase
 	{
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 
-		public OrganisationViewModel(Organisation organization)
+		public OrganisationViewModel(Organisation organisation)
 		{
-			Organization = organization;
+			Organisation = organisation;
 		}
 
 		public virtual void Initialize(IEnumerable<TElement> models)

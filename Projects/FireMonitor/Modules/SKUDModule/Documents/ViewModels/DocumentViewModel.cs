@@ -5,14 +5,14 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentViewModel : TreeNodeViewModel<DocumentViewModel>
 	{
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 		public ShortDocument Document { get; private set; }
 
-		public DocumentViewModel(Organisation organization)
+		public DocumentViewModel(Organisation organisation)
 		{
-			Organization = organization;
+			Organisation = organisation;
 			IsOrganisation = true;
-			Name = organization.Name;
+			Name = organisation.Name;
 		}
 
 		public DocumentViewModel(ShortDocument document)

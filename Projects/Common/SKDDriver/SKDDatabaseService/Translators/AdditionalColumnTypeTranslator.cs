@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class AdditionalColumnTypeTranslator : OrganizationElementTranslator<DataAccess.AdditionalColumnType, AdditionalColumnType, AdditionalColumnTypeFilter>
+	public class AdditionalColumnTypeTranslator : OrganisationElementTranslator<DataAccess.AdditionalColumnType, AdditionalColumnType, AdditionalColumnTypeFilter>
 	{
 		public AdditionalColumnTypeTranslator(DataAccess.SKDDataContext context)
 			: base(context)
@@ -18,7 +18,7 @@ namespace SKDDriver
 		protected override OperationResult CanSave(AdditionalColumnType item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganizationUID == item.OrganizationUID &&
+				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)
@@ -45,7 +45,7 @@ namespace SKDDriver
 				DataType = (AdditionalColumnDataType)tableItem.DataType,
 				Description = tableItem.Description,
 				Name = tableItem.Name,
-				OrganisationUID = tableItem.OrganizationUID,
+				OrganisationUID = tableItem.OrganisationUID,
 				IsInGrid = tableItem.IsInGrid
 			};
 		}

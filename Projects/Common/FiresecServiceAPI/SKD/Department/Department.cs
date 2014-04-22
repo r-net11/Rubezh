@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Department : OrganizationElementBase
+	public class Department : OrganisationElementBase
 	{
 		public Department()
 			:base()

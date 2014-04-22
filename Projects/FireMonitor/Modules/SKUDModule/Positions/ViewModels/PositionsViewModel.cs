@@ -20,7 +20,7 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			Filter = new PositionFilter() { OrganizationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
+			Filter = new PositionFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
 			Initialize();
 		}
 
@@ -102,7 +102,7 @@ namespace SKDModule.ViewModels
 					OrganisationViewModel = SelectedPosition.Parent;
 
 				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organization;
+					return OrganisationViewModel.Organisation;
 
 				return null;
 			}
@@ -136,7 +136,7 @@ namespace SKDModule.ViewModels
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedPosition.Parent;
 
-				if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 					return;
 
 				OrganisationViewModel.AddChild(positionViewModel);
@@ -155,7 +155,7 @@ namespace SKDModule.ViewModels
 			if (!OrganisationViewModel.IsOrganisation)
 				OrganisationViewModel = SelectedPosition.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
+			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 				return;
 
 			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedPosition);

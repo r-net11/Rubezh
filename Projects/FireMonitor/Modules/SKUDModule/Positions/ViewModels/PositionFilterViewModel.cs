@@ -2,7 +2,7 @@
 
 namespace SKDModule.ViewModels
 {
-	public class PositionFilterViewModel : OrganizationFilterBaseViewModel<PositionFilter>
+	public class PositionFilterViewModel : OrganisationFilterBaseViewModel<PositionFilter>
 	{
 		public PositionFilterViewModel(PositionFilter filter) : base(filter) { }
 	}

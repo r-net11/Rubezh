@@ -11,19 +11,19 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeCardViewModel : BaseViewModel
 	{
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 		public SKDCard Card { get; private set; }
 		public EmployeeViewModel EmployeeViewModel { get; private set; }
 		public CardZonesViewModel CardZonesViewModel { get; private set; }
 
-		public EmployeeCardViewModel(Organisation organization, EmployeeViewModel employeeViewModel, SKDCard card)
+		public EmployeeCardViewModel(Organisation organisation, EmployeeViewModel employeeViewModel, SKDCard card)
 		{
 			RemoveCommand = new RelayCommand(OnRemove);
 			EditCommand = new RelayCommand(OnEdit);
 			PrintCommand = new RelayCommand(OnPrint);
 			SelectCardCommand = new RelayCommand(OnSelectCard);
 
-			Organization = organization;
+			Organisation = organisation;
 			EmployeeViewModel = employeeViewModel;
 			Card = card;
 
@@ -77,7 +77,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Organization, Card);
+			var employeeCardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation, Card);
 			if (DialogService.ShowModalWindow(employeeCardDetailsViewModel))
 			{
 				var card = employeeCardDetailsViewModel.Card;

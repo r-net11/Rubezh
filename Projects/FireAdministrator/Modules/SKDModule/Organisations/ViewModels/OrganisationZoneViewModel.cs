@@ -11,14 +11,14 @@ namespace SKDModule.ViewModels
 {
 	public class OrganisationZoneViewModel : TreeNodeViewModel<OrganisationZoneViewModel>
 	{
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 		public SKDZone Zone { get; private set; }
 
-		public OrganisationZoneViewModel(Organisation organization, SKDZone zone)
+		public OrganisationZoneViewModel(Organisation organisation, SKDZone zone)
 		{
-			Organization = organization;
+			Organisation = organisation;
 			Zone = zone;
-			_isChecked = Organization != null && Organization.ZoneUIDs.Contains(zone.UID);
+			_isChecked = Organisation != null && Organisation.ZoneUIDs.Contains(zone.UID);
 		}
 
 		internal bool _isChecked;
@@ -32,18 +32,18 @@ namespace SKDModule.ViewModels
 
 				if (value)
 				{
-					if (!Organization.ZoneUIDs.Contains(Zone.UID))
-						Organization.ZoneUIDs.Add(Zone.UID);
+					if (!Organisation.ZoneUIDs.Contains(Zone.UID))
+						Organisation.ZoneUIDs.Add(Zone.UID);
 				}
 				else
 				{
-					if (Organization.ZoneUIDs.Contains(Zone.UID))
-						Organization.ZoneUIDs.Remove(Zone.UID);
+					if (Organisation.ZoneUIDs.Contains(Zone.UID))
+						Organisation.ZoneUIDs.Remove(Zone.UID);
 				}
 
 				if (value && Parent != null)
 					Parent.IsChecked = true;
-				var saveResult = OrganisationHelper.SaveZones(Organization);
+				var saveResult = OrganisationHelper.SaveZones(Organisation);
 			}
 		}
 	}

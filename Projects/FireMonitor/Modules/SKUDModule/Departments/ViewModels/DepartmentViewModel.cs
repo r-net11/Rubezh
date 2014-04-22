@@ -9,12 +9,12 @@ namespace SKDModule.ViewModels
 {
 	public class DepartmentViewModel : TreeNodeViewModel<DepartmentViewModel>
 	{
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 		public ShortDepartment Department { get; private set; }
 
 		public DepartmentViewModel(Organisation organisation)
 		{
-			Organization = organisation;
+			Organisation = organisation;
 			IsOrganisation = true;
 			Name = organisation.Name;
 		}

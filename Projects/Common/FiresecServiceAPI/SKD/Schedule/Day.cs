@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Day : OrganizationElementBase
+	public class Day : OrganisationElementBase
 	{
 		[DataMember]
 		public Guid NamedIntervalUid { get; set; }

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class AccessTemplate : OrganizationElementBase
+	public class AccessTemplate : OrganisationElementBase
 	{
 		public AccessTemplate()
 			: base()

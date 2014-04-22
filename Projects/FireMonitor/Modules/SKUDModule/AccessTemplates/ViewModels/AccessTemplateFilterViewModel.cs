@@ -2,7 +2,7 @@
 
 namespace SKDModule.ViewModels
 {
-	public class AccessTemplateFilterViewModel : OrganizationFilterBaseViewModel<AccessTemplateFilter>
+	public class AccessTemplateFilterViewModel : OrganisationFilterBaseViewModel<AccessTemplateFilter>
 	{
 		public AccessTemplateFilterViewModel(AccessTemplateFilter filter) : base(filter) { }
 	}

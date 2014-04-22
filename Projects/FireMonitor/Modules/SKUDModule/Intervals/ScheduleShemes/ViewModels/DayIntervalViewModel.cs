@@ -21,14 +21,14 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			_initialized = false;
 			_scheduleScheme = scheduleScheme;
 			Update();
-			_scheduleScheme.OrganizationViewModel.PropertyChanged += OrganizationViewModel_PropertyChanged;
+			_scheduleScheme.OrganisationViewModel.PropertyChanged += OrganisationViewModel_PropertyChanged;
 			_initialized = true;
 		}
 
 		public string Name { get; private set; }
 		public ObservableCollection<NamedInterval> NamedIntervals
 		{
-			get { return _scheduleScheme.OrganizationViewModel.NamedIntervals; }
+			get { return _scheduleScheme.OrganisationViewModel.NamedIntervals; }
 		}
 
 		public override void Update()
@@ -58,7 +58,7 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			}
 		}
 
-		private void OrganizationViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		private void OrganisationViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "NamedIntervals")
 				Update();

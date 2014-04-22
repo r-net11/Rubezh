@@ -3,7 +3,7 @@
 namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public class HolidayFilter : OrganizationFilterBase
+	public class HolidayFilter : OrganisationFilterBase
 	{
 		public HolidayFilter()
 		{

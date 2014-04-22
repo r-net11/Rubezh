@@ -55,17 +55,17 @@ namespace SKDModule.ViewModels
 				else
 					IsEmployeesAllowed = true;
 			}
-			AvailableOrganizations = new ObservableCollection<FilterOrganizationViewModel>();
+			AvailableOrganisations = new ObservableCollection<FilterOrganisationViewModel>();
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			foreach (var organisation in organisations)
 			{
-				AvailableOrganizations.Add(new FilterOrganizationViewModel(organisation));
+				AvailableOrganisations.Add(new FilterOrganisationViewModel(organisation));
 			}
-			var selectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.Organization.UID == Filter.OrganisationUID);
-			if (selectedOrganization != null)
-				selectedOrganization.IsChecked = true;
+			var selectedOrganisation = AvailableOrganisations.FirstOrDefault(x => x.Organisation.UID == Filter.OrganisationUID);
+			if (selectedOrganisation != null)
+				selectedOrganisation.IsChecked = true;
 			else
-				AvailableOrganizations.FirstOrDefault().IsChecked = true;
+				AvailableOrganisations.FirstOrDefault().IsChecked = true;
 		}
 
 		protected override void Update()
@@ -145,7 +145,7 @@ namespace SKDModule.ViewModels
 
 		public CheckBoxItemList<FilterPositionViewModel> Positions { get; private set; }
 		
-		public ObservableCollection<FilterOrganizationViewModel> AvailableOrganizations { get; private set; }
+		public ObservableCollection<FilterOrganisationViewModel> AvailableOrganisations { get; private set; }
 
 		bool _isEmployeesAllowed;
 		public bool IsEmployeesAllowed
@@ -184,12 +184,12 @@ namespace SKDModule.ViewModels
 				if (Department.IsChecked)
 					Filter.DepartmentUIDs.Add(Department.Department.UID);
 			};
-			Filter.OrganizationUIDs = new List<Guid>();
-			var selectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.IsChecked);
-			if (selectedOrganization != null)
+			Filter.OrganisationUIDs = new List<Guid>();
+			var selectedOrganisation = AvailableOrganisations.FirstOrDefault(x => x.IsChecked);
+			if (selectedOrganisation != null)
 			{
-				Filter.OrganisationUID = selectedOrganization.Organization.UID;
-				Filter.OrganizationUIDs.Add(selectedOrganization.Organization.UID);
+				Filter.OrganisationUID = selectedOrganisation.Organisation.UID;
+				Filter.OrganisationUIDs.Add(selectedOrganisation.Organisation.UID);
 			}
 			
 			if (IsGuestsAllowed)

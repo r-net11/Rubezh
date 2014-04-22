@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class AccessTemplateTranslator : OrganizationElementTranslator<DataAccess.AccessTemplate, AccessTemplate, AccessTemplateFilter>
+	public class AccessTemplateTranslator : OrganisationElementTranslator<DataAccess.AccessTemplate, AccessTemplate, AccessTemplateFilter>
 	{
 		public AccessTemplateTranslator(DataAccess.SKDDataContext context, CardZoneTranslator cardsTranslator)
 			: base(context)
@@ -20,7 +20,7 @@ namespace SKDDriver
 		protected override OperationResult CanSave(AccessTemplate item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganizationUID == item.OrganizationUID &&
+				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (sameName)

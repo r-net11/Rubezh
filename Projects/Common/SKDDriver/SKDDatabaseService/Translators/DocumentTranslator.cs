@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class DocumentTranslator : OrganizationElementTranslator<DataAccess.Document, Document, DocumentFilter>
+	public class DocumentTranslator : OrganisationElementTranslator<DataAccess.Document, Document, DocumentFilter>
 	{
 		public DocumentTranslator(DataAccess.SKDDataContext context)
 			: base(context)
@@ -18,7 +18,7 @@ namespace SKDDriver
 		protected override OperationResult CanSave(Document item)
 		{
 			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganizationUID == item.OrganizationUID &&
+				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameName)
@@ -26,7 +26,7 @@ namespace SKDDriver
 			if (item.No <= 0)
 				return new OperationResult("Номер добавляемого документа должен быть положительным числом");
 			bool sameNo = Table.Any(x => x.No == item.No &&
-				x.OrganizationUID == item.OrganizationUID &&
+				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (sameNo)
@@ -60,7 +60,7 @@ namespace SKDDriver
 			return new ShortDocument
 			{
 				UID = tableItem.UID,
-				OrganisationUID = tableItem.OrganizationUID,
+				OrganisationUID = tableItem.OrganisationUID,
 				Description = tableItem.Description,
 				IssueDate = tableItem.IssueDate,
 				LaunchDate = tableItem.LaunchDate,

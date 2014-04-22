@@ -6,7 +6,7 @@ using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using OrganizationFilter = FiresecAPI.OrganisationFilter;
+using OrganisationFilter = FiresecAPI.OrganisationFilter;
 using System;
 using SKDModule.Intervals.Common.ViewModels;
 
@@ -18,13 +18,13 @@ namespace SKDModule.ViewModels
 		{
 		}
 
-		protected override OrganisationNamedIntervalsViewModel CreateOrganizationViewModel(FiresecAPI.Organisation organization)
+		protected override OrganisationNamedIntervalsViewModel CreateOrganisationViewModel(FiresecAPI.Organisation organisation)
 		{
-			return new OrganisationNamedIntervalsViewModel(organization);
+			return new OrganisationNamedIntervalsViewModel(organisation);
 		}
 		protected override IEnumerable<NamedInterval> GetModels()
 		{
-			return NamedIntervalHelper.Get(new NamedIntervalFilter() { OrganizationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			return NamedIntervalHelper.Get(new NamedIntervalFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 		}
 	}
 }

@@ -146,8 +146,8 @@ namespace SKDModule.PassCard.ViewModels
 				case PassCardTextPropertyType.LastName:
 					elementTextProperty.Text = EmployeeViewModel.ShortEmployee.LastName;
 					break;
-				case PassCardTextPropertyType.Organization:
-					elementTextProperty.Text = EmployeeViewModel.Organization.Name;
+				case PassCardTextPropertyType.Organisation:
+					elementTextProperty.Text = EmployeeViewModel.Organisation.Name;
 					break;
 				case PassCardTextPropertyType.Position:
 					elementTextProperty.Text = EmployeeViewModel.PositionName;
@@ -238,8 +238,8 @@ namespace SKDModule.PassCard.ViewModels
 					case PassCardImagePropertyType.DepartmentLogo:
 						photo = PhotoHelper.GetSingle(EmployeeViewModel.DepartmentPhotoUID);
 						break;
-					case PassCardImagePropertyType.OrganizationLogo:
-						photo = PhotoHelper.GetSingle(EmployeeViewModel.Organization.PhotoUID);
+					case PassCardImagePropertyType.OrganisationLogo:
+						photo = PhotoHelper.GetSingle(EmployeeViewModel.Organisation.PhotoUID);
 						break;
 					case PassCardImagePropertyType.Photo:
 						//photo = PhotoHelper.GetSingle(EmployeeViewModel.ShortEmployee.PhotoUID);

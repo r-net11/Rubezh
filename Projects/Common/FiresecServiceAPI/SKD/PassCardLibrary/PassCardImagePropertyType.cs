@@ -7,7 +7,7 @@ namespace FiresecAPI.SKD.PassCardLibrary
 		[Description("Фото сотрудника")]
 		Photo,
 		[Description("Логотип организации")]
-		OrganizationLogo,
+		OrganisationLogo,
 		[Description("Логотип подразделения")]
 		DepartmentLogo,
 		[Description("Логотип должности")]

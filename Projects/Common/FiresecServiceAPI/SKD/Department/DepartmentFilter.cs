@@ -3,7 +3,7 @@
 namespace FiresecAPI
 {
 	[DataContract]
-	public class DepartmentFilter : OrganizationFilterBase
+	public class DepartmentFilter : OrganisationFilterBase
 	{
 			
 	}
