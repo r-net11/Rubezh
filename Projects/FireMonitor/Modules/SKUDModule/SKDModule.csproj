@@ -72,7 +72,6 @@
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentFilterViewModel.cs" />
-    <Compile Include="Departments\ViewModels\OrganisationDepartmentsViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentFilterView.xaml.cs">
       <DependentUpon>DepartmentFilterView.xaml</DependentUpon>
     </Compile>

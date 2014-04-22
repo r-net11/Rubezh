@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI
 {
-
 	[DataContract]
 	public class ShortDepartment
 	{
@@ -27,5 +26,8 @@ namespace FiresecAPI
 
 		[DataMember]
 		public List<Guid> ChildDepartmentUIDs { get; set; }
+
+		[DataMember]
+		public Guid? OrganisationUID { get; set; }
 	}
 }

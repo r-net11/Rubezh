@@ -8,11 +8,14 @@ namespace SKDModule.ViewModels
 	public class DepartmentDetailsViewModel : SaveCancelDialogViewModel
 	{
 		Department Department;
-		OrganisationDepartmentsViewModel OrganisationDepartmentsViewModel;
+		DepartmentsViewModel DepartmentsViewModel;
+		Organisation Organisation;
 
-		public DepartmentDetailsViewModel(OrganisationDepartmentsViewModel organisationDepartmentsViewModel, Guid? departmentUID = null, Guid? parentDepartmentUID = null)
+		public DepartmentDetailsViewModel(DepartmentsViewModel departmentsViewModel, Organisation organisation, Guid? departmentUID = null, Guid? parentDepartmentUID = null)
 		{
-			OrganisationDepartmentsViewModel = organisationDepartmentsViewModel;
+			Organisation = organisation;
+
+			DepartmentsViewModel = departmentsViewModel;
 			if (departmentUID == null)
 			{
 				Title = "Создание отдела";
@@ -20,7 +23,7 @@ namespace SKDModule.ViewModels
 				{
 					Name = "Новый отдел",
 					ParentDepartmentUID = parentDepartmentUID,
-					OrganizationUID = OrganisationDepartmentsViewModel.Organization.UID
+					OrganizationUID = Organisation.UID
 				};
 			}
 			else
