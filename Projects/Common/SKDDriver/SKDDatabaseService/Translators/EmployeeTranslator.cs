@@ -15,8 +15,7 @@ namespace SKDDriver
 			DepartmentTranslator departmentTranslator, 
 			AdditionalColumnTranslator additionalColumnTranslator, 
 			CardTranslator cardTranslator, 
-			PhotoTranslator photoTranslator,
-			EmployeeDocumentTranslator employeeDocumentTranslator)
+			PhotoTranslator photoTranslator)
 			: base(context)
 		{
 			EmployeeReplacementTranslator = replacementTranslator;
@@ -25,7 +24,6 @@ namespace SKDDriver
 			AdditionalColumnTranslator = additionalColumnTranslator;
 			CardTranslator = cardTranslator;
 			PhotoTranslator = photoTranslator;
-			EmployeeDocumentTranslator = employeeDocumentTranslator;
 		}
 
 		PositionTranslator PositionTranslator;
@@ -34,8 +32,7 @@ namespace SKDDriver
 		AdditionalColumnTranslator AdditionalColumnTranslator;
 		CardTranslator CardTranslator;
 		PhotoTranslator PhotoTranslator;
-		EmployeeDocumentTranslator EmployeeDocumentTranslator;
-
+		
 		protected override OperationResult CanSave(Employee item)
 		{
 			bool sameName = Table.Any(x => x.FirstName == item.FirstName &&
@@ -81,7 +78,16 @@ namespace SKDDriver
 			result.TabelNo = tableItem.TabelNo;
 			result.CredentialsStartDate = tableItem.CredentialsStartDate;
 			result.EscortUID = tableItem.EscortUID;
-			result.Document = GetResult(EmployeeDocumentTranslator.GetSingle(tableItem.DocumentUID));
+			result.DocumentNumber = tableItem.DocumentNumber;
+			result.BirthDate = tableItem.BirthDate;
+			result.BirthPlace = tableItem.BirthPlace;
+			result.DocumentGivenBy = tableItem.DocumentGivenBy;
+			result.DocumentGivenDate = tableItem.DocumentGivenDate;
+			result.DocumentValidTo = tableItem.DocumentValidTo;
+			result.Gender = (Gender)tableItem.Gender;
+			result.DocumentDepartmentCode = tableItem.DocumentDepartmentCode;
+			result.Citizenship = tableItem.Citizenship;
+			result.DocumentType = (EmployeeDocumentType)tableItem.DocumentType;
 			return result;
 		}
 
@@ -151,17 +157,22 @@ namespace SKDDriver
 			tableItem.TabelNo = apiItem.TabelNo;
 			tableItem.CredentialsStartDate = apiItem.CredentialsStartDate;
 			tableItem.EscortUID = apiItem.EscortUID;
-			if(apiItem.Document != null)
-				tableItem.DocumentUID = apiItem.Document.UID;
+			tableItem.DocumentNumber = apiItem.DocumentNumber;
+			tableItem.BirthDate = apiItem.BirthDate;
+			tableItem.BirthPlace = apiItem.BirthPlace;
+			tableItem.DocumentGivenBy = apiItem.DocumentGivenBy;
+			tableItem.DocumentGivenDate = apiItem.DocumentGivenDate;
+			tableItem.DocumentValidTo = apiItem.DocumentValidTo;
+			tableItem.Gender = (int)apiItem.Gender;
+			tableItem.DocumentDepartmentCode = apiItem.DocumentDepartmentCode;
+			tableItem.Citizenship = apiItem.Citizenship;
+			tableItem.DocumentType = (int)apiItem.DocumentType;
 		}
 
 		public override OperationResult Save(IEnumerable<Employee> apiItems)
 		{
 			foreach (var item in apiItems)
 			{
-				var employeeDocumentResult = EmployeeDocumentTranslator.Save(new List<EmployeeDocument> { item.Document });
-				if (employeeDocumentResult.HasError)
-					return employeeDocumentResult;
 				var columnSaveResult = AdditionalColumnTranslator.Save(item.AdditionalColumns);
 				if (columnSaveResult.HasError)
 					return columnSaveResult;

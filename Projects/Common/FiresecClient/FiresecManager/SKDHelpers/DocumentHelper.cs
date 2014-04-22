@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
 
 namespace FiresecClient.SKDHelpers
 {
@@ -11,51 +8,38 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool Save(Document document)
 		{
-			var operatonResult = FiresecManager.FiresecService.SaveDocuments(new List<Document> { document });
-			if (operatonResult.HasError)
-			{
-				MessageBoxService.ShowWarning(operatonResult.Error);
-				return false;
-			}
-			return true;
+			var operationResult = FiresecManager.FiresecService.SaveDocuments(new List<Document> { document });
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Document document)
+		public static bool MarkDeleted(Guid uid)
 		{
-			var operatonResult = FiresecManager.FiresecService.MarkDeletedDocuments(new List<Document> { document });
-			if (operatonResult.HasError)
-			{
-				MessageBoxService.ShowWarning(operatonResult.Error);
-				return false;
-			}
-			return true;
+			var operationResult = FiresecManager.FiresecService.MarkDeletedDocuments(new List<Guid> { uid });
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static Document GetSingle(Guid? uid)
+		public static Document GetDetails(Guid? uid)
 		{
 			if (uid == null)
 				return null;
-			var filter = new DocumentFilter();
-			filter.Uids.Add((Guid)uid);
-			var operationResult = FiresecManager.FiresecService.GetDocuments(filter);
-			if (operationResult.HasError)
-			{
-				MessageBoxService.ShowWarning(operationResult.Error);
-				return null;
-			}
-			else
-				return operationResult.Result.FirstOrDefault();
+			var operationResult = FiresecManager.FiresecService.GetDocumentDetails(uid.Value);
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static IEnumerable<Document> Get(DocumentFilter filter)
+		public static IEnumerable<ShortDocument> Get(DocumentFilter filter)
 		{
-			var operatonResult = FiresecManager.FiresecService.GetDocuments(filter);
-			if (operatonResult.HasError)
-			{
-				MessageBoxService.ShowWarning(operatonResult.Error);
+			var operationResult = FiresecManager.FiresecService.GetDocumentList(filter);
+			return Common.ShowErrorIfExists(operationResult);
+		}
+
+		public static IEnumerable<ShortDocument> GetByOrganization(Guid? organizationUID)
+		{
+			if (organizationUID == null)
 				return null;
-			}
-			return operatonResult.Result;
+			var filter = new DocumentFilter();
+			filter.OrganizationUIDs.Add(organizationUID.Value);
+			var operationResult = FiresecManager.FiresecService.GetDocumentList(filter);
+			return Common.ShowErrorIfExists(operationResult);
 		}
 	}
 }

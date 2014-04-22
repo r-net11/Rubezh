@@ -58,13 +58,6 @@ GO
 ALTER TABLE [dbo].[Employee] NOCHECK CONSTRAINT [FK_Employee_Position]
 
 GO
-ALTER TABLE [dbo].[Employee]  WITH NOCHECK ADD  CONSTRAINT [FK_Employee_EmployeeDocument] FOREIGN KEY([DocumentUID])
-REFERENCES [dbo].EmployeeDocument([Uid])
-NOT FOR REPLICATION 
-GO
-ALTER TABLE [dbo].[Employee] NOCHECK CONSTRAINT [FK_Employee_EmployeeDocument]
-
-GO
 ALTER TABLE [dbo].[Employee]  WITH NOCHECK ADD  CONSTRAINT [FK_Employee_Employee] FOREIGN KEY([EscortUID])
 REFERENCES [dbo].Employee([Uid])
 NOT FOR REPLICATION 

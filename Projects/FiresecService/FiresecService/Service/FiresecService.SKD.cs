@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using SKDDriver;
+using Holiday = FiresecAPI.EmployeeTimeIntervals.Holiday;
+using HolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 using NamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
 using NamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
 using TimeInterval = FiresecAPI.EmployeeTimeIntervals.TimeInterval;
 using TimeIntervalFilter = FiresecAPI.EmployeeTimeIntervals.TimeIntervalFilter;
-using Holiday = FiresecAPI.EmployeeTimeIntervals.Holiday;
-using HolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 
 namespace FiresecService.Service
 {
@@ -168,17 +168,21 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Document
-		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
+		public OperationResult<IEnumerable<ShortDocument>> GetDocumentList(DocumentFilter filter)
 		{
-			return SKDDatabaseService.DocumentTranslator.Get(filter);
+			return SKDDatabaseService.DocumentTranslator.GetList(filter);
+		}
+		public OperationResult<Document> GetDocumentDetails(Guid uid)
+		{
+			return SKDDatabaseService.DocumentTranslator.GetSingle(uid);
 		}
 		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
 			return SKDDatabaseService.DocumentTranslator.Save(items);
 		}
-		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
+		public OperationResult MarkDeletedDocuments(IEnumerable<Guid> uids)
 		{
-			return SKDDatabaseService.DocumentTranslator.MarkDeleted(items);
+			return SKDDatabaseService.DocumentTranslator.MarkDeleted(uids);
 		}
 		#endregion
 

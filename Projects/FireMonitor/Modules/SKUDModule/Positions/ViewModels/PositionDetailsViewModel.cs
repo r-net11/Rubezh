@@ -102,9 +102,11 @@ namespace SKDModule.ViewModels
 		{
 			Position.Name = Name;
 			Position.Description = Description;
-			if (Position.Photo == null)
+			if (PhotoData != null && PhotoData.Length > 0)
+			{
 				Position.Photo = new Photo();
-			Position.Photo.Data = PhotoData;
+				Position.Photo.Data = PhotoData;
+			}
 			return PositionHelper.Save(Position);
 		}
 	}

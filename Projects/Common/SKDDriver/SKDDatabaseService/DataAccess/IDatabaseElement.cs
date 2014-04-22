@@ -34,7 +34,6 @@ namespace SKDDriver.DataAccess
 	public partial class Interval : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class CardZoneLink : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Card : IDatabaseElement, IIsDeletedDatabaseElement, ILinkedToEmployee { }
-	public partial class EmployeeDocument : IDatabaseElement, IIsDeletedDatabaseElement { }
 	
 	public partial class AdditionalColumnType : IDatabaseElement, IIsDeletedDatabaseElement, IOrganizationDatabaseElement { }
 	public partial class Department : IDatabaseElement, IIsDeletedDatabaseElement, IOrganizationDatabaseElement { }

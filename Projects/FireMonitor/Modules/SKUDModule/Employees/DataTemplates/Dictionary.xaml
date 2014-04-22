@@ -32,5 +32,13 @@
 		<Views:SelectPositionView />
 	</DataTemplate>
 
-    
+	<DataTemplate DataType="{x:Type ViewModels:GenderSelectionViewModel}">
+		<Views:GenderSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DocumentTypeSelectionViewModel}">
+		<Views:DocumentTypeSelectionView />
+	</DataTemplate>
+
+
 </ResourceDictionary>

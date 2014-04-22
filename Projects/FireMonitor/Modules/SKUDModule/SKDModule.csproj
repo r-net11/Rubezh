@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Employees\ViewModels\AccessZonesSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\TextColumnViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardDetailsViewModel.cs" />
@@ -90,11 +91,14 @@
     <Compile Include="AdditionalColumns\Views\AdditionalColumnTypeFilterView.xaml.cs">
       <DependentUpon>AdditionalColumnTypeFilterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Employees\ViewModels\GenderSelectionViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\GenderSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReaderSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectationDepartmentViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectDepartmentViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectPositionViewModel.cs" />
+    <Compile Include="Employees\Views\EmployeeDetails\DocumentTypeSelectionView.xaml.cs">
+      <DependentUpon>DocumentTypeSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Employees\Views\EmployeeDetails\GenderSelectionView.xaml.cs">
       <DependentUpon>GenderSelectionView.xaml</DependentUpon>
     </Compile>
@@ -504,6 +508,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Employees\Views\EmployeeCardDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetails\DocumentTypeSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

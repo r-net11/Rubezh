@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
@@ -52,6 +53,39 @@ namespace SKDDriver
 			tableItem.IssueDate = CheckDate(apiItem.IssueDate);
 			tableItem.LaunchDate = CheckDate(apiItem.LaunchDate);
 			tableItem.No = apiItem.No;
+		}
+
+		ShortDocument TranslateToShort(DataAccess.Document tableItem)
+		{
+			return new ShortDocument
+			{
+				UID = tableItem.UID,
+				Description = tableItem.Description,
+				IssueDate = tableItem.IssueDate,
+				LaunchDate = tableItem.LaunchDate,
+				Name = tableItem.Name,
+				No = tableItem.No
+			};
+		}
+
+		public OperationResult<IEnumerable<ShortDocument>> GetList(DocumentFilter filter)
+		{
+			try
+			{
+				var result = new List<ShortDocument>();
+				foreach (var tableItem in GetTableItems(filter))
+				{
+					var shortPosition = TranslateToShort(tableItem);
+					result.Add(shortPosition);
+				}
+				var operationResult = new OperationResult<IEnumerable<ShortDocument>>();
+				operationResult.Result = result;
+				return operationResult;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<IEnumerable<ShortDocument>>(e.Message);
+			}
 		}
 
 		protected override Expression<Func<DataAccess.Document, bool>> IsInFilter(DocumentFilter filter)

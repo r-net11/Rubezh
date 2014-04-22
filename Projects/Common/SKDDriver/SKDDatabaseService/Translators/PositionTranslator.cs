@@ -19,7 +19,10 @@ namespace SKDDriver
 
 		protected override OperationResult CanSave(Position item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUID == item.OrganizationUID && x.UID != item.UID);
+			bool sameName = Table.Any(x => x.Name == item.Name && 
+				x.OrganizationUID == item.OrganizationUID && 
+				x.UID != item.UID &&
+				!x.IsDeleted);
 			if (sameName)
 				return new OperationResult("Попытка добавления должности с совпадающим именем");
 			return base.CanSave(item);
@@ -29,9 +32,6 @@ namespace SKDDriver
 		{
 			if (Context.Employees.Any(x => x.PositionUID == item.UID && x.OrganizationUID == item.OrganizationUID && !x.IsDeleted))
 				return new OperationResult("Не могу удалить должность, пока она указана у действующих сотрудников");
-			bool sameName = Table.Any(x => x.Name == item.Name && x.OrganizationUID == item.OrganizationUID && x.UID != item.UID);
-			if (sameName)
-				return new OperationResult("Попытка добавления должности с совпадающим именем");
 			return base.CanSave(item);
 		}
 
@@ -49,7 +49,8 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
-			tableItem.PhotoUID = apiItem.Photo.UID;
+			if(apiItem.Photo != null)
+				tableItem.PhotoUID = apiItem.Photo.UID;
 		}
 
 		ShortPosition TranslateToShort(DataAccess.Position tableItem)
@@ -70,8 +71,8 @@ namespace SKDDriver
 				var result = new List<ShortPosition>();
 				foreach (var tableItem in GetTableItems(filter))
 				{
-					var PositionListItem = TranslateToShort(tableItem);
-					result.Add(PositionListItem);
+					var shortPosition = TranslateToShort(tableItem);
+					result.Add(shortPosition);
 				}
 				var operationResult = new OperationResult<IEnumerable<ShortPosition>>();
 				operationResult.Result = result;

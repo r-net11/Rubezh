@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
 using System.Collections.ObjectModel;
-using SKDModule.ViewModels;
+using System.Linq;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -78,7 +76,8 @@ namespace SKDModule.ViewModels
 		void OnRemove()
 		{
 			var document = SelectedDocument.Document;
-			var removeResult = DocumentHelper.MarkDeleted(document);
+			var removeResult = DocumentHelper.MarkDeleted(document.UI
+);
 			if (!removeResult)
 				return;
 			var index = Documents.IndexOf(SelectedDocument);

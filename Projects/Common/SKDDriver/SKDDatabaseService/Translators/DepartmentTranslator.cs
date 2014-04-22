@@ -20,6 +20,7 @@ namespace SKDDriver
 			bool sameName = Table.Any(x => x.Name == item.Name &&
 				x.OrganizationUID == item.OrganizationUID &&
 				x.UID != item.UID &&
+				x.ParentDepartmentUID == item.ParentDepartmentUID &&
 				x.IsDeleted == false);
 			if (sameName)
 				return new OperationResult("Отдел с таким же названием уже содержится в базе данных");
@@ -71,7 +72,8 @@ namespace SKDDriver
 			tableItem.ParentDepartmentUID = apiItem.ParentDepartmentUID;
 			tableItem.ContactEmployeeUID = apiItem.ContactEmployeeUID;
 			tableItem.AttendantUID = apiItem.AttendantEmployeeUID;
-			tableItem.PhotoUID = apiItem.Photo.UID;
+			if(apiItem.Photo != null)
+				tableItem.PhotoUID = apiItem.Photo.UID;
 		}
 
 		ShortDepartment TranslateToShort(DataAccess.Department tableItem)

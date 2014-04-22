@@ -335,7 +335,17 @@ BEGIN
 			OrganizationUid,
 			[Type],
 			TabelNo,
-			CredentialsStartDate )
+			CredentialsStartDate,
+			DocumentNumber,
+			BirthDate,
+			BirthPlace,
+			DocumentGivenDate,
+			DocumentGivenBy,
+			DocumentValidTo,
+			Gender,
+			DocumentDepartmentCode,
+			Citizenship,
+			DocumentType )
 		VALUES (
 			@Uid ,
 			@FirstName ,
@@ -351,7 +361,17 @@ BEGIN
 			@OrganizationUid,
 			0,
 			-1,
-			'01/01/1900')
+			'01/01/1900',
+			'0000aa00',
+			'01/01/2000',
+			NULL,
+			'01/01/2000',
+			NULL,
+			'01/01/2000',
+			0,
+			NULL,
+			'Российская Федерация',
+			0)
 END
 GO
 CREATE PROCEDURE [dbo].[SaveGuest]
@@ -380,10 +400,20 @@ BEGIN
 				OrganizationUid,
 				[Type],
 				TabelNo,
-				CredentialsStartDate )
+				CredentialsStartDate,
+				DocumentNumber,
+				BirthDate,
+				BirthPlace,
+				DocumentGivenDate,
+				DocumentGivenBy,
+				DocumentValidTo,
+				Gender,
+				DocumentDepartmentCode,
+				Citizenship,
+				DocumentType )
 			VALUES (
 				@Uid ,
-				@FirstName ,
+				@FirstName ,	
 				@SecondName ,
 				@LastName ,
 				NULL ,
@@ -396,7 +426,17 @@ BEGIN
 				@OrganizationUid,
 				1,
 				-1,
-				'01/01/1900')
+				'01/01/1900',
+				'0000aa00',
+				'01/01/2000',
+				NULL,
+				'01/01/2000',
+				NULL,
+				'01/01/2000',
+				0,
+				NULL,
+				'Российская Федерация',
+				0)
 END
 GO
 CREATE PROCEDURE [dbo].[SaveDepartment]
@@ -760,12 +800,8 @@ AS
 BEGIN
 	INSERT INTO Photo (
 		UID,
-		Data,
-		IsDeleted,
-		RemovalDate )
+		Data )
 	VALUES (
 		@UID ,
-		@Data,
-		0,
-		'01/01/1900' )
+		@Data )
 END	

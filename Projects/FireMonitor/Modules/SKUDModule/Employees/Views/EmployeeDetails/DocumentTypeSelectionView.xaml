@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="SKDModule.Views.GenderSelectionView"
+﻿<UserControl x:Class="SKDModule.Views.DocumentTypeSelectionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Width="200" Height="100">
+             Height="100" Width="200">
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Genders}">
+            <ItemsControl ItemsSource="{Binding Types}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <RadioButton GroupName="Positions" Margin="5" Foreground="White" FontSize="14" 
@@ -12,6 +12,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </ScrollViewer>
+        </ScrollViewer>    
     </Grid>
 </UserControl>

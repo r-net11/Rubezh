@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
+using Holiday = FiresecAPI.EmployeeTimeIntervals.Holiday;
+using HolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 using NamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
 using NamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
 using TimeInterval = FiresecAPI.EmployeeTimeIntervals.TimeInterval;
 using TimeIntervalFilter = FiresecAPI.EmployeeTimeIntervals.TimeIntervalFilter;
-using Holiday = FiresecAPI.EmployeeTimeIntervals.Holiday;
-using HolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 
 namespace FiresecService.Service
 {
@@ -166,17 +166,21 @@ namespace FiresecService.Service
 		#endregion
 		
 		#region Document
-		public OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter)
+		public OperationResult<IEnumerable<ShortDocument>> GetDocumentList(DocumentFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<Document>>>(() => FiresecService.GetDocuments(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<ShortDocument>>>(() => FiresecService.GetDocumentList(filter));
+		}
+		public OperationResult<Document> GetDocumentDetails(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<Document>>(() => FiresecService.GetDocumentDetails(uid));
 		}
 		public OperationResult SaveDocuments(IEnumerable<Document> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocuments(items));
 		}
-		public OperationResult MarkDeletedDocuments(IEnumerable<Document> items)
+		public OperationResult MarkDeletedDocuments(IEnumerable<Guid> uids)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDocuments(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDocuments(uids));
 		}
 		#endregion
 

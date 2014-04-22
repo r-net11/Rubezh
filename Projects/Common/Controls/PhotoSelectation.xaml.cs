@@ -29,7 +29,7 @@ namespace Controls
 
 		public void UpdatePhoto()
 		{
-			if (Data != null)
+			if (Data != null && Data.Length > 0)
 			{
 				try
 				{
@@ -74,8 +74,28 @@ namespace Controls
 
 		void PasteButton_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxService.Show("NOT IMPLEMENTED YET");
-			//IDataObject data = Clipboard.GetDataObject();
+			var image = Clipboard.GetImage();
+			if (image != null)
+			{
+				var stream = new MemoryStream();
+				var encoder = new JpegBitmapEncoder();
+				encoder.QualityLevel = 100;
+				encoder.Frames.Add(BitmapFrame.Create(image));
+				encoder.Save(stream);
+				Data = stream.ToArray();
+				stream.Close();
+				return;
+			}
+			
+			
+			string fileName = null;
+			foreach (var item in Clipboard.GetFileDropList())
+			{
+				fileName = item;
+				break;
+			}
+			if(fileName != null)
+				Data = System.IO.File.ReadAllBytes(fileName);
 		}
 
 		void ScannerButton_Click(object sender, RoutedEventArgs e)

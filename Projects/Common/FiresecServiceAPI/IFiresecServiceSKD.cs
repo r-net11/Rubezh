@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using EmployeeHoliday = FiresecAPI.EmployeeTimeIntervals.Holiday;
+using EmployeeHolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 using EmployeeNamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
 using EmployeeNamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
 using EmployeeTimeInterval = FiresecAPI.EmployeeTimeIntervals.TimeInterval;
 using EmployeeTimeIntervalFilter = FiresecAPI.EmployeeTimeIntervals.TimeIntervalFilter;
-using EmployeeHoliday = FiresecAPI.EmployeeTimeIntervals.Holiday;
-using EmployeeHolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 
 namespace FiresecAPI
 {
@@ -103,11 +103,13 @@ namespace FiresecAPI
 
 		#region Document
 		[OperationContract]
-		OperationResult<IEnumerable<Document>> GetDocuments(DocumentFilter filter);
+		OperationResult<IEnumerable<ShortDocument>> GetDocumentList(DocumentFilter filter);
+		[OperationContract]
+		OperationResult<Document> GetDocumentDetails(Guid uid);
 		[OperationContract]
 		OperationResult SaveDocuments(IEnumerable<Document> items);
 		[OperationContract]
-		OperationResult MarkDeletedDocuments(IEnumerable<Document> items);
+		OperationResult MarkDeletedDocuments(IEnumerable<Guid> uids);
 		#endregion
 
 		#region AdditionalColumnType

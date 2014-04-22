@@ -6,34 +6,24 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class SelectGenderViewModel : SaveCancelDialogViewModel
+	public class GenderSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public SelectGenderViewModel(Gender employeeGender)
+		public GenderSelectionViewModel(Gender employeeGender)
 		{
 			Genders = new List<SelectationGenderViewModel>();
 		  	var genders = Enum.GetValues(typeof(Gender));
 			foreach (Gender gender in genders)
 				Genders.Add(new SelectationGenderViewModel(gender));
-			SelectedGender = Genders.FirstOrDefault(x => x.Gender == employeeGender);
-			SelectedGender.IsChecked = true;
+			var selectedGender = Genders.FirstOrDefault(x => x.Gender == employeeGender);
+			selectedGender.IsChecked = true;
 		}
 
 		public List<SelectationGenderViewModel> Genders { get; private set; }
-
-		SelectationGenderViewModel _selectedGender;
-		public SelectationGenderViewModel SelectedGender
-		{
-			get { return _selectedGender; }
-			set
-			{
-				_selectedGender = value;
-				OnPropertyChanged(() => SelectedGender);
-			}
-		}
+		public Gender Gender;
 
 		protected override bool Save()
 		{
-			SelectedGender = Genders.FirstOrDefault(x => x.IsChecked);
+			Gender = Genders.FirstOrDefault(x => x.IsChecked).Gender;
 			return base.Save();
 		}
 	}

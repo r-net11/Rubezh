@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI
@@ -69,11 +70,54 @@ namespace FiresecAPI
 		public Guid? EscortUID;
 
 		[DataMember]
-		public EmployeeDocument Document;
+		public string DocumentNumber { get; set; }
+
+		[DataMember]
+		public DateTime BirthDate { get; set; }
+
+		[DataMember]
+		public string BirthPlace { get; set; }
+
+		[DataMember]
+		public DateTime DocumentGivenDate { get; set; }
+
+		[DataMember]
+		public string DocumentGivenBy { get; set; }
+
+		[DataMember]
+		public DateTime DocumentValidTo { get; set; }
+
+		[DataMember]
+		public Gender Gender { get; set; }
+
+		[DataMember]
+		public string DocumentDepartmentCode { get; set; }
+
+		[DataMember]
+		public string Citizenship { get; set; }
+
+		[DataMember]
+		public EmployeeDocumentType DocumentType { get; set; }
 
 		public bool IsReplaced
 		{
 			get { return CurrentReplacement != null; }
 		}
+	}
+
+	public enum Gender
+	{
+		[Description("Мужской")]
+		Male,
+		[Description("Женский")]
+		Female
+	}
+
+	public enum EmployeeDocumentType
+	{
+		[Description("Пасспорт РФ")]
+		Passport,
+		[Description("Пасспорт иного государства")]
+		ForeignPassport,
 	}
 }

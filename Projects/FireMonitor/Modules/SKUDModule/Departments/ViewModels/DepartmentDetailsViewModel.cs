@@ -102,9 +102,11 @@ namespace SKDModule.ViewModels
 		{
 			Department.Name = Name;
 			Department.Description = Description;
-			if (Department.Photo == null)
+			if (PhotoData != null && PhotoData.Length > 0)
+			{
 				Department.Photo = new Photo();
-			Department.Photo.Data = PhotoData;
+				Department.Photo.Data = PhotoData;
+			}
 			return DepartmentHelper.Save(Department);
 		}
 	}
