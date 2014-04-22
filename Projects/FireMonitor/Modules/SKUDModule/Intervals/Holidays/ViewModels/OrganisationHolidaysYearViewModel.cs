@@ -1,116 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using FiresecAPI.EmployeeTimeIntervals;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Organization = FiresecAPI.Organisation;
-using FiresecClient.SKDHelpers;
-using Common;
+using SKDModule.Intervals.Common.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationHolidaysYearViewModel : BaseViewModel, IEditingViewModel, ISelectable<Guid>
+	public class OrganisationHolidaysYearViewModel : OrganisationViewModel<HolidayViewModel, Holiday>
 	{
 		public int Year { get; private set; }
-		public Organization Organization { get; private set; }
 
 		public OrganisationHolidaysYearViewModel(int year, FiresecAPI.Organisation organization)
+			: base(organization)
 		{
 			Year = year;
-			Organization = organization;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 		}
 
-		public void Initialize(List<FiresecAPI.EmployeeTimeIntervals.Holiday> holidays)
+		protected override HolidayViewModel CreateViewModel(Holiday model)
 		{
-			Holidays = new SortableObservableCollection<HolidayViewModel>();
-			foreach (var holiday in holidays)
-			{
-				var holidayViewModel = new HolidayViewModel(holiday);
-				Holidays.Add(holidayViewModel);
-			}
-			SelectedHoliday = Holidays.FirstOrDefault();
+			return new HolidayViewModel(model);
 		}
 
-		private SortableObservableCollection<HolidayViewModel> _holidays;
-		public SortableObservableCollection<HolidayViewModel> Holidays
-		{
-			get { return _holidays; }
-			set
-			{
-				_holidays = value;
-				OnPropertyChanged(() => Holidays);
-			}
-		}
-
-		private HolidayViewModel _selectedHoliday;
-		public HolidayViewModel SelectedHoliday
-		{
-			get { return _selectedHoliday; }
-			set
-			{
-				_selectedHoliday = value;
-				OnPropertyChanged(() => SelectedHoliday);
-			}
-		}
-
-		public void Select(Guid holidayUID)
-		{
-			if (holidayUID != Guid.Empty)
-			{
-				var holidayViewModel = Holidays.FirstOrDefault(x => x.Holiday.UID == holidayUID);
-				if (holidayViewModel != null)
-					SelectedHoliday = holidayViewModel;
-			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
 			var holidayDetailsViewModel = new HolidayDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(holidayDetailsViewModel) && HolidayHelper.Save(holidayDetailsViewModel.Holiday))
 			{
 				var holidayViewModel = new HolidayViewModel(holidayDetailsViewModel.Holiday);
-				Holidays.Add(holidayViewModel);
+				ViewModels.Add(holidayViewModel);
 				Sort();
-				SelectedHoliday = holidayViewModel;
+				SelectedViewModel = holidayViewModel;
 			}
 		}
 		private bool CanAdd()
 		{
-			return Holidays.Count < 100;
+			return ViewModels.Count < 100;
 		}
-
-		public RelayCommand DeleteCommand { get; private set; }
 		private void OnDelete()
 		{
-			if (HolidayHelper.MarkDeleted(SelectedHoliday.Holiday))
-				Holidays.Remove(SelectedHoliday);
+			if (HolidayHelper.MarkDeleted(SelectedViewModel.Model))
+				ViewModels.Remove(SelectedViewModel);
 		}
 		private bool CanDelete()
 		{
-			return SelectedHoliday != null;
+			return SelectedViewModel != null;
 		}
-
-		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			var holidayDetailsViewModel = new HolidayDetailsViewModel(this, SelectedHoliday.Holiday);
+			var holidayDetailsViewModel = new HolidayDetailsViewModel(this, SelectedViewModel.Model);
 			if (DialogService.ShowModalWindow(holidayDetailsViewModel))
 			{
-				HolidayHelper.Save(SelectedHoliday.Holiday);
-				SelectedHoliday.Update();
+				HolidayHelper.Save(SelectedViewModel.Model);
+				SelectedViewModel.Update();
 				Sort();
 			}
 		}
 		private bool CanEdit()
 		{
-			return SelectedHoliday != null;
+			return SelectedViewModel != null;
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }
@@ -122,7 +73,7 @@ namespace SKDModule.ViewModels
 
 		private void Sort()
 		{
-			Holidays.Sort(item => item.Holiday.Date);
+			ViewModels.Sort(item => item.Model.Date);
 		}
 	}
 }

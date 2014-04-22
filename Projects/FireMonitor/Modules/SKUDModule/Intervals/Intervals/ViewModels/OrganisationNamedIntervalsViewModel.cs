@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Intervals.Common.ViewModels;
 using Organisation = FiresecAPI.Organisation;
-using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationNamedIntervalsViewModel : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class OrganisationNamedIntervalsViewModel : OrganisationViewModel<NamedIntervalViewModel, NamedInterval>
 	{
-		public Organisation Organization { get; private set; }
 		private NamedInterval _intervalToCopy;
 
 		public OrganisationNamedIntervalsViewModel(Organisation organization)
+			: base(organization)
 		{
-			Organization = organization;
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
@@ -26,105 +25,66 @@ namespace SKDModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
-		public void Initialize(List<NamedInterval> namedIntervals)
+		protected override NamedIntervalViewModel CreateViewModel(NamedInterval model)
 		{
-			NamedIntervals = new ObservableCollection<NamedIntervalViewModel>();
-			foreach (var namedInterval in namedIntervals)
-			{
-				var timeInrervalViewModel = new NamedIntervalViewModel(namedInterval);
-				NamedIntervals.Add(timeInrervalViewModel);
-			}
-			SelectedNamedInterval = NamedIntervals.FirstOrDefault();
+			return new NamedIntervalViewModel(model);
 		}
 
-		private ObservableCollection<NamedIntervalViewModel> _namedIntervals;
-		public ObservableCollection<NamedIntervalViewModel> NamedIntervals
-		{
-			get { return _namedIntervals; }
-			set
-			{
-				_namedIntervals = value;
-				OnPropertyChanged(() => NamedIntervals);
-			}
-		}
-
-		private NamedIntervalViewModel _selectedNamedInterval;
-		public NamedIntervalViewModel SelectedNamedInterval
-		{
-			get { return _selectedNamedInterval; }
-			set
-			{
-				_selectedNamedInterval = value;
-				OnPropertyChanged(() => SelectedNamedInterval);
-			}
-		}
-
-		public void Select(Guid namedIntervalUID)
-		{
-			if (namedIntervalUID != Guid.Empty)
-			{
-				var namedIntervalViewModel = NamedIntervals.FirstOrDefault(x => x.NamedInterval.UID == namedIntervalUID);
-				if (namedIntervalViewModel != null)
-					SelectedNamedInterval = namedIntervalViewModel;
-			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
 			var namedIntervalDetailsViewModel = new NamedIntervalDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(namedIntervalDetailsViewModel) && NamedIntervalHelper.Save(namedIntervalDetailsViewModel.NamedInterval))
 			{
 				var namedIntervalViewModel = new NamedIntervalViewModel(namedIntervalDetailsViewModel.NamedInterval);
-				NamedIntervals.Add(namedIntervalViewModel);
-				SelectedNamedInterval = namedIntervalViewModel;
+				ViewModels.Add(namedIntervalViewModel);
+				SelectedViewModel = namedIntervalViewModel;
 			}
 		}
 
-		public RelayCommand DeleteCommand { get; private set; }
 		private void OnDelete()
 		{
-			if (NamedIntervalHelper.MarkDeleted(SelectedNamedInterval.NamedInterval))
-				NamedIntervals.Remove(SelectedNamedInterval);
+			if (NamedIntervalHelper.MarkDeleted(SelectedViewModel.Model))
+				ViewModels.Remove(SelectedViewModel);
 		}
 		private bool CanDelete()
 		{
-			return SelectedNamedInterval != null;
+			return SelectedViewModel != null;
 		}
 
-		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			var namedInrervalDetailsViewModel = new NamedIntervalDetailsViewModel(this, SelectedNamedInterval.NamedInterval);
+			var namedInrervalDetailsViewModel = new NamedIntervalDetailsViewModel(this, SelectedViewModel.Model);
 			if (DialogService.ShowModalWindow(namedInrervalDetailsViewModel))
 			{
-				NamedIntervalHelper.Save(SelectedNamedInterval.NamedInterval);
-				SelectedNamedInterval.Update();
+				NamedIntervalHelper.Save(SelectedViewModel.Model);
+				SelectedViewModel.Update();
 			}
 		}
 		private bool CanEdit()
 		{
-			return SelectedNamedInterval != null;
+			return SelectedViewModel != null;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
 		private void OnCopy()
 		{
-			_intervalToCopy = CopyInterval(SelectedNamedInterval.NamedInterval);
+			_intervalToCopy = CopyInterval(SelectedViewModel.Model);
 		}
 		private bool CanCopy()
 		{
-			return SelectedNamedInterval != null;
+			return SelectedViewModel != null;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
 		private void OnPaste()
 		{
 			var newInterval = CopyInterval(_intervalToCopy);
-			NamedIntervalHelper.Save(newInterval);
-			var timeInrervalViewModel = new NamedIntervalViewModel(newInterval);
-			NamedIntervals.Add(timeInrervalViewModel);
-			SelectedNamedInterval = timeInrervalViewModel;
+			if (NamedIntervalHelper.Save(newInterval))
+			{
+				var timeInrervalViewModel = new NamedIntervalViewModel(newInterval);
+				ViewModels.Add(timeInrervalViewModel);
+				SelectedViewModel = timeInrervalViewModel;
+			}
 		}
 		private bool CanPaste()
 		{
@@ -138,15 +98,14 @@ namespace SKDModule.ViewModels
 			copy.Description = source.Description;
 			copy.SlideTime = source.SlideTime;
 			foreach (var timeInterval in source.TimeIntervals)
-			{
-				var copyNamedIntervalPart = new TimeInterval()
-				{
-					BeginTime = timeInterval.BeginTime,
-					EndTime = timeInterval.EndTime,
-					IntervalTransitionType = timeInterval.IntervalTransitionType,
-				};
-				copy.TimeIntervals.Add(copyNamedIntervalPart);
-			}
+				if (!timeInterval.IsDeleted)
+					copy.TimeIntervals.Add(new TimeInterval()
+					{
+						BeginTime = timeInterval.BeginTime,
+						EndTime = timeInterval.EndTime,
+						IntervalTransitionType = timeInterval.IntervalTransitionType,
+						NamedIntervalUID = copy.UID,
+					});
 			return copy;
 		}
 	}

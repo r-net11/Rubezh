@@ -1,18 +1,23 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
+	[Flags]
 	public enum ScheduleSchemeType
 	{
 		[DescriptionAttribute("Недельная")]
-		Week,
-
-		[DescriptionAttribute("Сменная")]
-		SlideDay,
+		[EnumMember]
+		Week = 1,
 
 		[DescriptionAttribute("Месячная")]
-		Month
+		[EnumMember]
+		Month = 2,
+
+		[DescriptionAttribute("Сменная")]
+		[EnumMember]
+		SlideDay = 4,
 	}
 }

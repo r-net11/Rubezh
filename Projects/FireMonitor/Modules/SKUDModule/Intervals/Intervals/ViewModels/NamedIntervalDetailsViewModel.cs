@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (_organisationNamedIntervalsViewModel.NamedIntervals.Any(x => x.NamedInterval.Name == Name && x.NamedInterval.UID != NamedInterval.UID))
+			if (_organisationNamedIntervalsViewModel.ViewModels.Any(x => x.Model.Name == Name && x.Model.UID != NamedInterval.UID))
 			{
 				MessageBoxService.ShowWarning("Название интервала совпадает с введенным ранее");
 				return false;

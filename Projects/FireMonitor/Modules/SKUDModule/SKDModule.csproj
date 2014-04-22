@@ -72,7 +72,6 @@
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
     <Compile Include="Departments\ViewModels\DepartmentFilterViewModel.cs" />
-    <Compile Include="Departments\ViewModels\OrganisationDepartmentsViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentFilterView.xaml.cs">
       <DependentUpon>DepartmentFilterView.xaml</DependentUpon>
     </Compile>
@@ -113,6 +112,22 @@
     </Compile>
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Intervals\Common\ViewModels\IntervalViewPartViewModel.cs" />
+    <Compile Include="Intervals\Common\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\DayIntervalViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemeDetailsViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesMonthlyViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\OrganisationScheduleSchemasViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemeViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesSlideViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesWeeklyViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml.cs">
+      <DependentUpon>ScheduleSchemeDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Intervals\ScheduleShemes\Views\ScheduleSchemesView.xaml.cs">
+      <DependentUpon>ScheduleSchemesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\DateTimePairViewModel.cs" />
@@ -169,7 +184,6 @@
       <DependentUpon>EmployeesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AdditionalColumns\Converters\AdditionalColumnTypeToStringConverter.cs" />
-    <Compile Include="AdditionalColumns\ViewModels\OrganisationAdditionalColumnTypesViewModel.cs" />
     <Compile Include="Cards\ViewModels\CardsViewModel.cs" />
     <Compile Include="Cards\ViewModels\CardViewModel.cs" />
     <Compile Include="Cards\ViewModels\CardDetailsViewModel.cs" />
@@ -214,7 +228,6 @@
       <DependentUpon>DeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Documents\ViewModels\DocumentFilterViewModel.cs" />
-    <Compile Include="Documents\ViewModels\OrganisationDocumentsViewModel.cs" />
     <Compile Include="Documents\Views\DocumentFilterView.xaml.cs">
       <DependentUpon>DocumentFilterView.xaml</DependentUpon>
     </Compile>
@@ -257,7 +270,6 @@
     </Compile>
     <Compile Include="Intervals\Converters\EmployeeSheduleTypeToStringConverter.cs" />
     <Compile Include="Intervals\Intervals\ViewModels\OrganisationNamedIntervalsViewModel.cs" />
-    <Compile Include="Intervals\MonthlyIntervals\ViewModels\OrganisationMonthlyIntervalsViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\SheduleZoneViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\SheduleDetailsViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ShedulePartViewModel.cs" />
@@ -274,8 +286,6 @@
     <Compile Include="Intervals\Shedules\Views\ShedulePartDetailsView.xaml.cs">
       <DependentUpon>ShedulePartDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Intervals\SlideDayIntervals\ViewModels\OrganisationSlideDayIntervalsViewModel.cs" />
-    <Compile Include="Intervals\WheeklyIntervals\ViewModels\OrganisationWeeklyIntervalsViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
     <Compile Include="Journal\Views\JournalView.xaml.cs">
@@ -294,20 +304,18 @@
     <Compile Include="Plans\Views\SKDZoneTooltipView.xaml.cs">
       <DependentUpon>SKDZoneTooltipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Positions\ViewModels\NewPositionsViewModel.cs" />
-    <Compile Include="Positions\ViewModels\NewPositionViewModel.cs" />
-    <Compile Include="Positions\ViewModels\OrganisationPositionsViewModel.cs" />
+    <Compile Include="Positions\ViewModels\PositionsViewModel.cs" />
+    <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionFilterViewModel.cs" />
-    <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
     <Compile Include="Positions\Views\PositionDetailsView.xaml.cs">
       <DependentUpon>PositionDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Positions\Views\PositionFilterView.xaml.cs">
       <DependentUpon>PositionFilterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Positions\Views\NewPositionsView.xaml.cs">
-      <DependentUpon>NewPositionsView.xaml</DependentUpon>
+    <Compile Include="Positions\Views\PositionsView.xaml.cs">
+      <DependentUpon>PositionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\Models\EmployeeReportPeriod.cs" />
     <Compile Include="Reports\Models\EmployeeReportSettings.cs" />
@@ -337,10 +345,6 @@
     </Compile>
     <Compile Include="Zones\Views\ZoneView.xaml.cs">
       <DependentUpon>ZoneView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Positions\ViewModels\PositionsViewModel.cs" />
-    <Compile Include="Positions\Views\PositionsView.xaml.cs">
-      <DependentUpon>PositionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Departments\ViewModels\DepartmentsViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentsView.xaml.cs">
@@ -372,36 +376,6 @@
     </Compile>
     <Compile Include="Intervals\Holidays\Views\HolidaysView.xaml.cs">
       <DependentUpon>HolidaysView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\MonthlyIntervals\ViewModels\MonthlyIntervalDetailsViewModel.cs" />
-    <Compile Include="Intervals\MonthlyIntervals\ViewModels\MonthlyIntervalPartViewModel.cs" />
-    <Compile Include="Intervals\MonthlyIntervals\ViewModels\MonthlyIntervalsViewModel.cs" />
-    <Compile Include="Intervals\MonthlyIntervals\ViewModels\MonthlyIntervalViewModel.cs" />
-    <Compile Include="Intervals\MonthlyIntervals\Views\MonthlyIntervalDetailsView.xaml.cs">
-      <DependentUpon>MonthlyIntervalDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\MonthlyIntervals\Views\MonthlyIntervalsView.xaml.cs">
-      <DependentUpon>MonthlyIntervalsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\WheeklyIntervals\ViewModels\WeeklyIntervalDetailsViewModel.cs" />
-    <Compile Include="Intervals\WheeklyIntervals\ViewModels\WeeklyIntervalPartViewModel.cs" />
-    <Compile Include="Intervals\WheeklyIntervals\ViewModels\WeeklyIntervalsViewModel.cs" />
-    <Compile Include="Intervals\WheeklyIntervals\ViewModels\WeeklyIntervalViewModel.cs" />
-    <Compile Include="Intervals\WheeklyIntervals\Views\WeeklyDetailsView.xaml.cs">
-      <DependentUpon>WeeklyDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\WheeklyIntervals\Views\WeeklyIntervalsView.xaml.cs">
-      <DependentUpon>WeeklyIntervalsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\SlideDayIntervals\ViewModels\SlideDayIntervalDetailsViewModel.cs" />
-    <Compile Include="Intervals\SlideDayIntervals\ViewModels\SlideDayIntervalPartViewModel.cs" />
-    <Compile Include="Intervals\SlideDayIntervals\ViewModels\SlideDayIntervalViewModel.cs" />
-    <Compile Include="Intervals\SlideDayIntervals\ViewModels\SlideDayIntervalsViewModel.cs" />
-    <Compile Include="Intervals\SlideDayIntervals\Views\SlideDayIntervalDetailsView.xaml.cs">
-      <DependentUpon>SlideDayIntervalDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Intervals\SlideDayIntervals\Views\SlideDayIntervalsView.xaml.cs">
-      <DependentUpon>SlideDayIntervalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Intervals\Intervals\ViewModels\NamedIntervalDetailsViewModel.cs" />
     <Compile Include="Intervals\Intervals\ViewModels\TimeIntervalViewModel.cs" />
@@ -579,6 +553,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Intervals\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Intervals\ScheduleShemes\Views\ScheduleSchemesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Journal\Views\ArchiveFilterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -643,22 +625,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intervals\SlideDayIntervals\Views\SlideDayIntervalDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Intervals\SlideDayIntervals\Views\SlideDayIntervalsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Intervals\MonthlyIntervals\Views\MonthlyIntervalDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Intervals\MonthlyIntervals\Views\MonthlyIntervalsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Intervals\Intervals\Views\NamedIntervalDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -671,19 +637,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intervals\WheeklyIntervals\Views\WeeklyDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Intervals\WheeklyIntervals\Views\WeeklyIntervalsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Positions\Views\PositionFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Positions\Views\NewPositionsView.xaml">
+    <Page Include="Positions\Views\PositionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -712,10 +670,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Positions\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Positions\Views\PositionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

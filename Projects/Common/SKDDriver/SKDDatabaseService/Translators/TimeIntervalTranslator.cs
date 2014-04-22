@@ -1,10 +1,10 @@
-﻿using FiresecAPI.EmployeeTimeIntervals;
-using System.Linq;
-using OperationResult = FiresecAPI.OperationResult;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 using System.Linq.Expressions;
+using FiresecAPI.EmployeeTimeIntervals;
 using LinqKit;
+using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
@@ -43,6 +43,8 @@ namespace SKDDriver.Translators
 			var endTime = item.EndTime.TotalSeconds;
 			if (item.IntervalTransitionType != IntervalTransitionType.Day)
 				endTime += DaySeconds;
+			if (beginTime > endTime)
+				return new OperationResult("Время окончания интервала должно быть позже времени начала");
 			foreach (var interval in intervals)
 				if ((interval.BeginTime >= beginTime && interval.BeginTime <= endTime) || (interval.EndTime >= beginTime && interval.EndTime <= endTime))
 					return new OperationResult("Последовательность интервалов не должна быть пересекающейся");
@@ -76,9 +78,11 @@ namespace SKDDriver.Translators
 
 		protected override void TranslateBack(DataAccess.Interval tableItem, TimeInterval apiItem)
 		{
+			var namedInterval = Context.NamedIntervals.Where(item => item.UID == apiItem.NamedIntervalUID).FirstOrDefault();
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.NamedIntervalUID = apiItem.NamedIntervalUID;
-			tableItem.NamedInterval = Context.NamedIntervals.Where(item => item.UID == apiItem.NamedIntervalUID).FirstOrDefault();
+			if (namedInterval != null)
+				tableItem.NamedInterval = namedInterval;
 			tableItem.BeginTime = (int)apiItem.BeginTime.TotalSeconds;
 			tableItem.EndTime = (int)apiItem.EndTime.TotalSeconds;
 			switch (apiItem.IntervalTransitionType)

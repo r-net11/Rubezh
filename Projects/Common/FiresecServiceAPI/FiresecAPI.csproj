@@ -141,6 +141,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="CallbackResult.cs" />
+    <Compile Include="IFiresecServiceSKD.TimeInterval.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AM1_O_Helper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AM1_T_Helper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AMP4Helper.cs" />
@@ -213,6 +214,8 @@
     <Compile Include="SKD\Document\DocumentFilter.cs" />
     <Compile Include="Models\Video\IVSSContract.cs" />
     <Compile Include="SKD\Card\CardZone.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\DayIntervalFilter.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\ScheduleSchemeFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\HolidayFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\TimeIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\NamedIntervalFilter.cs" />

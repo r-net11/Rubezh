@@ -21,7 +21,7 @@ namespace FiresecAPI.EmployeeTimeIntervals
 		public DateTime Date { get; set; }
 
 		[DataMember]
-		public DateTime TransferDate { get; set; }
+		public DateTime? TransferDate { get; set; }
 
 		[DataMember]
 		public TimeSpan Reduction { get; set; }

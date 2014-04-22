@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKUD" Class="SKDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKUD" EntityNamespace="SKDDriver.DataAccess" ContextNamespace="SKDDriver.DataAccess" Class="SKDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SKUD;Integrated Security=True" SettingsObjectName="SKDDriver.Properties.Settings" SettingsPropertyName="SKUDConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.AccessTemplate" Member="AccessTemplates">
     <Type Name="AccessTemplate">
@@ -11,6 +11,17 @@
       <Association Name="AccessTemplate_Card" Member="Cards" ThisKey="UID" OtherKey="AccessTemplateUID" Type="Card" />
       <Association Name="AccessTemplate_CardZoneLink" Member="CardZoneLinks" ThisKey="UID" OtherKey="ParentUID" Type="CardZoneLink" />
       <Association Name="Organization_AccessTemplate" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ScheduleZoneLink" Member="ScheduleZoneLinks">
+    <Type Name="ScheduleZoneLink">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ScheduleUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsControl" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Schedule_ScheduleZoneLink" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.AdditionalColumn" Member="AdditionalColumns">
@@ -146,10 +157,10 @@
   <Table Name="dbo.Holiday" Member="Holidays">
     <Type Name="Holiday">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="TransferDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TransferDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Reduction" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
@@ -159,7 +170,6 @@
   </Table>
   <Table Name="dbo.Interval" Member="Intervals">
     <Type Name="Interval">
-      <Column Name="TransitionType" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="BeginTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="EndTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -187,7 +197,7 @@
   <Table Name="dbo.NamedInterval" Member="NamedIntervals">
     <Type Name="NamedInterval">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="SlideTime" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
@@ -270,16 +280,22 @@
   <Table Name="dbo.Schedule" Member="Schedules">
     <Type Name="Schedule">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="ScheduleSchemeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="IsIgnoreHoliday" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="IsOnlyFirstEnter" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganizationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+<<<<<<< HEAD
       <Association Name="Schedule_EmployeeReplacement" Member="EmployeeReplacements" ThisKey="UID" OtherKey="ScheduleUID" Type="EmployeeReplacement" />
       <Association Name="Schedule_ScheduleZoneLink" Member="ScheduleZoneLinks" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleZoneLink" />
       <Association Name="Schedule_Employee" Member="Employees" ThisKey="UID" OtherKey="ScheduleUID" Type="Employee" />
+=======
+      <Association Name="Schedule_ScheduleZoneLink" Member="ScheduleZoneLinks" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleZoneLink" />
+      <Association Name="Schedule_Employee" Member="Employees" ThisKey="UID" OtherKey="ScheduleUID" Type="Employee" />
+      <Association Name="Schedule_EmployeeReplacement" Member="EmployeeReplacements" ThisKey="UID" OtherKey="ScheduleUID" Type="EmployeeReplacement" />
+>>>>>>> 01a6eacda9973c5fe763761d5615e6a1c4b1e79d
       <Association Name="Organization_Schedule" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
       <Association Name="ScheduleScheme_Schedule" Member="ScheduleScheme" ThisKey="ScheduleSchemeUID" OtherKey="UID" Type="ScheduleScheme" IsForeignKey="true" />
     </Type>
@@ -287,8 +303,8 @@
   <Table Name="dbo.ScheduleScheme" Member="ScheduleSchemes">
     <Type Name="ScheduleScheme">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Type" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
@@ -298,6 +314,7 @@
       <Association Name="Organization_ScheduleScheme" Member="Organization" ThisKey="OrganizationUID" OtherKey="UID" Type="Organization" IsForeignKey="true" />
     </Type>
   </Table>
+<<<<<<< HEAD
   <Table Name="dbo.ScheduleZoneLink" Member="ScheduleZoneLinks">
     <Type Name="ScheduleZoneLink">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -365,4 +382,6 @@
       <Association Name="Photo_Employee" Member="Employees" ThisKey="UID" OtherKey="PhotoUID" Type="Employee" />
     </Type>
   </Table>
+=======
+>>>>>>> 01a6eacda9973c5fe763761d5615e6a1c4b1e79d
 </Database>

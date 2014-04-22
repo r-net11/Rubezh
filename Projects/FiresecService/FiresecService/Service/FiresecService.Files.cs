@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Common;
+using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
-using FiresecAPI;
-using System.Text;
-using FiresecAPI.Models;
 
 namespace FiresecService.Service
 {
@@ -106,7 +105,7 @@ namespace FiresecService.Service
 				ZipEntry e = zipFile[x];
 				if (e.FileName.StartsWith("Content/"))
 					zipFile.RemoveEntry(e.FileName);
-			} 
+			}
 			if (Directory.Exists(imagesDirectory))
 			{
 				zipFile.AddDirectory(imagesDirectory, "Content");

@@ -101,7 +101,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Последовательность интервалов не может начинаться со следующего дня");
 				return false;
 			}
-			var currentDateTime = new TimeSpan(0, 0, 0);
+			var currentDateTime = new TimeSpan(0, 0, -1);
 			foreach (var timeInterval in timeIntervals)
 			{
 				var beginTime = timeInterval.BeginTime;
@@ -110,6 +110,11 @@ namespace SKDModule.ViewModels
 				var endTime = timeInterval.EndTime;
 				if (timeInterval.IntervalTransitionType != IntervalTransitionType.Day)
 					endTime = endTime.Add(TimeSpan.FromDays(1));
+				if (beginTime > endTime)
+				{
+					MessageBoxService.ShowWarning("Время окончания интервала должно быть позже времени начала");
+					return false;
+				}
 				if (beginTime < currentDateTime)
 				{
 					MessageBoxService.ShowWarning("Последовательность интервалов не должна быть пересекающейся");
