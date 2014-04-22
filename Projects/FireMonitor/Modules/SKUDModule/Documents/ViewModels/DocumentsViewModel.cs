@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecClient;
@@ -7,7 +7,6 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System;
 
 namespace SKDModule.ViewModels
 {
@@ -37,9 +36,10 @@ namespace SKDModule.ViewModels
 				var organisationViewModel = new DocumentViewModel(organisation);
 				Organisations.Add(organisationViewModel);
 				AllDocuments.Add(organisationViewModel);
+				
 				foreach (var document in documents)
 				{
-					if (document.OrganizationUID == organisation.UID)
+					if (document.OrganisationUID == organisation.UID)
 					{
 						var documentViewModel = new DocumentViewModel(document);
 						organisationViewModel.AddChild(documentViewModel);
@@ -161,7 +161,7 @@ namespace SKDModule.ViewModels
 
 			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedDocument);
 			var document = SelectedDocument.Document;
-			bool removeResult = DocumentHelper.MarkDeleted(document);
+			bool removeResult = DocumentHelper.MarkDeleted(document.UID);
 			if (!removeResult)
 				return;
 			OrganisationViewModel.RemoveChild(SelectedDocument);

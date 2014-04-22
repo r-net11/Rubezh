@@ -60,6 +60,7 @@ namespace SKDDriver
 				UID = tableItem.UID,
 				Name = tableItem.Name,
 				Description = tableItem.Description,
+				OrganisationUID = tableItem.OrganizationUID
 			};
 			return shortPosition;
 		}

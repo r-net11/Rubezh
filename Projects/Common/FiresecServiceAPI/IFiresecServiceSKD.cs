@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using EmployeeHoliday = FiresecAPI.EmployeeTimeIntervals.Holiday;
-using EmployeeHolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
 
 namespace FiresecAPI
 {
@@ -102,11 +100,13 @@ namespace FiresecAPI
 
 		#region AdditionalColumnType
 		[OperationContract]
-		OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter);
+		OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter);
+		[OperationContract]
+		OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid);
 		[OperationContract]
 		OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
 		[OperationContract]
-		OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
+		OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<Guid> uids);
 		#endregion
 
 		#region AdditionalColumn

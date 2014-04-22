@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
-using Holiday = FiresecAPI.EmployeeTimeIntervals.Holiday;
-using HolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
-using NamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
-using NamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
-using TimeInterval = FiresecAPI.EmployeeTimeIntervals.TimeInterval;
-using TimeIntervalFilter = FiresecAPI.EmployeeTimeIntervals.TimeIntervalFilter;
 
 namespace FiresecClient
 {
@@ -169,17 +163,21 @@ namespace FiresecClient
 		#endregion
 
 		#region AdditionalColumnType
-		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<AdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypes(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<ShortAdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypeList(filter));
+		}
+		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<AdditionalColumnType>>(() => FiresecService.GetAdditionalColumnTypeDetails(uid));
 		}
 		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAdditionalColumnTypes(items));
 		}
-		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<Guid> uids)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedAdditionalColumnTypes(items));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedAdditionalColumnTypes(uids));
 		}
 		#endregion
 
@@ -220,51 +218,6 @@ namespace FiresecClient
 		}
 		#endregion
 
-		#region NamedInterval
-		public OperationResult<IEnumerable<NamedInterval>> GetNamedIntervals(NamedIntervalFilter filter)
-		{
-			return SafeContext.Execute<OperationResult<IEnumerable<NamedInterval>>>(() => FiresecService.GetNamedIntervals(filter));
-		}
-		public OperationResult SaveNamedIntervals(IEnumerable<NamedInterval> items)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveNamedIntervals(items));
-		}
-		public OperationResult MarkDeletedNamedIntervals(IEnumerable<NamedInterval> items)
-		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedNamedIntervals(items));
-		}
-		#endregion
-
-		#region TimeInterval
-		public OperationResult<IEnumerable<TimeInterval>> GetTimeIntervals(TimeIntervalFilter filter)
-		{
-			return SafeContext.Execute<OperationResult<IEnumerable<TimeInterval>>>(() => FiresecService.GetTimeIntervals(filter));
-		}
-		public OperationResult SaveTimeIntervals(IEnumerable<TimeInterval> items)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveTimeIntervals(items));
-		}
-		public OperationResult MarkDeletedTimeIntervals(IEnumerable<TimeInterval> items)
-		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedTimeIntervals(items));
-		}
-		#endregion
-
-		#region Holiday
-		public OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
-		{
-			return SafeContext.Execute<OperationResult<IEnumerable<Holiday>>>(() => FiresecService.GetHolidays(filter));
-		}
-		public OperationResult SaveHolidays(IEnumerable<Holiday> items)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveHolidays(items));
-		}
-		public OperationResult MarkDeletedHolidays(IEnumerable<Holiday> items)
-		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedHolidays(items));
-		}
-		#endregion
-		
 		#region Devices
 		public OperationResult<SKDStates> SKDGetStates()
 		{

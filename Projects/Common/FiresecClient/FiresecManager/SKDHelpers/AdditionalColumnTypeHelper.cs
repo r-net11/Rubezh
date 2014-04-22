@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FiresecAPI;
 
 namespace FiresecClient.SKDHelpers
@@ -14,25 +12,23 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(AdditionalColumnType AdditionalColumnType)
+		public static bool MarkDeleted(Guid uid)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedAdditionalColumnTypes(new List<AdditionalColumnType> { AdditionalColumnType });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedAdditionalColumnTypes(new List<Guid> { uid });
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static AdditionalColumnType GetSingle(Guid? uid)
+		public static AdditionalColumnType GetDetails(Guid? uid)
 		{
 			if (uid == null)
 				return null;
-			var filter = new AdditionalColumnTypeFilter();
-			filter.Uids.Add((Guid)uid);
-			var operationResult = FiresecManager.FiresecService.GetAdditionalColumnTypes(filter);
-			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
+			var operationResult = FiresecManager.FiresecService.GetAdditionalColumnTypeDetails(uid.Value);
+			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static IEnumerable<AdditionalColumnType> Get(AdditionalColumnTypeFilter filter)
+		public static IEnumerable<ShortAdditionalColumnType> Get(AdditionalColumnTypeFilter filter)
 		{
-			var operationResult = FiresecManager.FiresecService.GetAdditionalColumnTypes(filter);
+			var operationResult = FiresecManager.FiresecService.GetAdditionalColumnTypeList(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 	}

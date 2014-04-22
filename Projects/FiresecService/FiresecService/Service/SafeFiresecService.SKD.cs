@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
-using Holiday = FiresecAPI.EmployeeTimeIntervals.Holiday;
-using HolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
-using NamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
-using NamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
-using TimeInterval = FiresecAPI.EmployeeTimeIntervals.TimeInterval;
-using TimeIntervalFilter = FiresecAPI.EmployeeTimeIntervals.TimeIntervalFilter;
 
 namespace FiresecService.Service
 {
@@ -169,17 +163,21 @@ namespace FiresecService.Service
 		#endregion
 
 		#region AdditionalColumnType
-		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<AdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypes(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<ShortAdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypeList(filter));
+		}
+		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<AdditionalColumnType>>(() => FiresecService.GetAdditionalColumnTypeDetails(uid));
 		}
 		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAdditionalColumnTypes(items));
 		}
-		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<Guid> uids)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAdditionalColumnTypes(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAdditionalColumnTypes(uids));
 		}
 		#endregion
 

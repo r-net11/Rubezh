@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 		EmployeeFilter Filter;
 		public PersonType PersonType { get; private set; }
 		public Organisation Organization { get; private set; }
-		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
+		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
 		public EmployeesViewModel()
 		{

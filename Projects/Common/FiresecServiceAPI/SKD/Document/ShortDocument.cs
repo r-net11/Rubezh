@@ -4,8 +4,14 @@ using System.Runtime.Serialization;
 namespace FiresecAPI
 {
 	[DataContract]
-	public class Document : OrganizationElementBase
+	public class ShortDocument
 	{
+		[DataMember]
+		public Guid UID { get; set; }
+
+		[DataMember]
+		public Guid? OrganisationUID { get; set; }
+
 		[DataMember]
 		public string Name { get; set; }
 

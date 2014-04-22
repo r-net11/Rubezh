@@ -4,12 +4,6 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using SKDDriver;
-using Holiday = FiresecAPI.EmployeeTimeIntervals.Holiday;
-using HolidayFilter = FiresecAPI.EmployeeTimeIntervals.HolidayFilter;
-using NamedInterval = FiresecAPI.EmployeeTimeIntervals.NamedInterval;
-using NamedIntervalFilter = FiresecAPI.EmployeeTimeIntervals.NamedIntervalFilter;
-using TimeInterval = FiresecAPI.EmployeeTimeIntervals.TimeInterval;
-using TimeIntervalFilter = FiresecAPI.EmployeeTimeIntervals.TimeIntervalFilter;
 
 namespace FiresecService.Service
 {
@@ -171,17 +165,21 @@ namespace FiresecService.Service
 		#endregion
 
 		#region AdditionalColumnType
-		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
 		{
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.Get(filter);
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.GetList(filter);
+		}
+		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
+		{
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.GetSingle(uid);
 		}
 		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
 		{
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.Save(items);
 		}
-		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<Guid> uids)
 		{
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(items);
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(uids);
 		}
 		#endregion
 

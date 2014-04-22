@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using FiresecAPI;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -11,16 +9,16 @@ namespace SKDModule.ViewModels
 	{
 		DocumentsViewModel DocumentsViewModel;
 		public Document Document { get; private set; }
-		public Document ShortDocument
+		public ShortDocument ShortDocument
 		{
 			get
 			{
-				return new Document
+				return new ShortDocument
 				{
 					UID = Document.UID,
 					Name = Document.Name,
 					Description = Document.Description,
-					OrganizationUID = Document.OrganizationUID
+					OrganisationUID = Document.OrganizationUID
 				};
 			}
 		}
@@ -42,8 +40,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				//Document = DocumentHelper.GetDetails(documentUID);
-				Document = DocumentHelper.GetSingle(documentUID);
+				Document = DocumentHelper.GetDetails(documentUID);
 				Title = string.Format("Свойства документа: {0}", Document.Name);
 			}
 			CopyProperties();

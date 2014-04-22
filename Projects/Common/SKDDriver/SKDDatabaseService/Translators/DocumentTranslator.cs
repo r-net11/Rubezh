@@ -60,6 +60,7 @@ namespace SKDDriver
 			return new ShortDocument
 			{
 				UID = tableItem.UID,
+				OrganisationUID = tableItem.OrganizationUID,
 				Description = tableItem.Description,
 				IssueDate = tableItem.IssueDate,
 				LaunchDate = tableItem.LaunchDate,

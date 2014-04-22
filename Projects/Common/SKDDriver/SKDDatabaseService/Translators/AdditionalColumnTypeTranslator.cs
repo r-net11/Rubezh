@@ -37,6 +37,19 @@ namespace SKDDriver
 			return result;
 		}
 
+		ShortAdditionalColumnType TranslateToShort(DataAccess.AdditionalColumnType tableItem)
+		{
+			return new ShortAdditionalColumnType
+			{
+				UID = tableItem.UID,
+				DataType = (AdditionalColumnDataType)tableItem.DataType,
+				Description = tableItem.Description,
+				Name = tableItem.Name,
+				OrganisationUID = tableItem.OrganizationUID,
+				IsInGrid = tableItem.IsInGrid
+			};
+		}
+
 		protected override void TranslateBack(DataAccess.AdditionalColumnType tableItem, AdditionalColumnType apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);
@@ -61,6 +74,26 @@ namespace SKDDriver
 			catch (Exception e)
 			{
 				return null;
+			}
+		}
+
+		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetList(AdditionalColumnTypeFilter filter)
+		{
+			try
+			{
+				var result = new List<ShortAdditionalColumnType>();
+				foreach (var tableItem in GetTableItems(filter))
+				{
+					var shortPosition = TranslateToShort(tableItem);
+					result.Add(shortPosition);
+				}
+				var operationResult = new OperationResult<IEnumerable<ShortAdditionalColumnType>>();
+				operationResult.Result = result;
+				return operationResult;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<IEnumerable<ShortAdditionalColumnType>>(e.Message);
 			}
 		}
 

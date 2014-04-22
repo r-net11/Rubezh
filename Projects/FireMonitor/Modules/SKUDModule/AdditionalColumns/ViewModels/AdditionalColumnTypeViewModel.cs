@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
+﻿using FiresecAPI;
 using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels
@@ -11,7 +6,7 @@ namespace SKDModule.ViewModels
 	public class AdditionalColumnTypeViewModel : TreeNodeViewModel<AdditionalColumnTypeViewModel>
 	{
 		public Organisation Organization { get; private set; }
-		public AdditionalColumnType AdditionalColumnType { get; private set; }
+		public ShortAdditionalColumnType AdditionalColumnType { get; private set; }
 
 		public AdditionalColumnTypeViewModel(Organisation organization)
 		{
@@ -20,7 +15,7 @@ namespace SKDModule.ViewModels
 			Name = organization.Name;
 		}
 
-		public AdditionalColumnTypeViewModel(AdditionalColumnType additionalColumnType)
+		public AdditionalColumnTypeViewModel(ShortAdditionalColumnType additionalColumnType)
 		{
 			AdditionalColumnType = additionalColumnType;
 			IsOrganisation = false;
@@ -28,7 +23,7 @@ namespace SKDModule.ViewModels
 			Description = additionalColumnType.Description;
 		}
 
-		public void Update(AdditionalColumnType additionalColumnType)
+		public void Update(ShortAdditionalColumnType additionalColumnType)
 		{
 			Name = additionalColumnType.Name;
 			Description = additionalColumnType.Description;
