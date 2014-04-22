@@ -11,11 +11,11 @@ namespace SKDModule.ViewModels
 	{
 		DocumentsViewModel DocumentsViewModel;
 		public Document Document { get; private set; }
-		public Document ShortDocument
+		public ShortDocument ShortDocument
 		{
 			get
 			{
-				return new Document
+				return new ShortDocument
 				{
 					UID = Document.UID,
 					Name = Document.Name,
@@ -25,25 +25,24 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 
 		public DocumentDetailsViewModel(DocumentsViewModel documentsViewModel, Organisation orgnaisation, Guid? documentUID = null)
 		{
 			DocumentsViewModel = documentsViewModel;
-			Organization = orgnaisation;
+			Organisation = orgnaisation;
 			if (documentUID == null)
 			{
 				Title = "Создание документа";
 				Document = new Document()
 				{
 					Name = "Новый документ",
-					OrganisationUID = Organization.UID
+					OrganisationUID = Organisation.UID
 				};
 			}
 			else
 			{
-				//Document = DocumentHelper.GetDetails(documentUID);
-				Document = DocumentHelper.GetSingle(documentUID);
+				Document = DocumentHelper.GetDetails(documentUID);
 				Title = string.Format("Свойства документа: {0}", Document.Name);
 			}
 			CopyProperties();
@@ -140,7 +139,7 @@ namespace SKDModule.ViewModels
 			Document.No = No;
 			Document.IssueDate = StartDateTime;
 			Document.LaunchDate = EndDateTime;
-			Document.OrganisationUID = Organization.UID;
+			Document.OrganisationUID = Organisation.UID;
 			return true;
 		}
 	}

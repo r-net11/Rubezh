@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 		{
 			Employee = employee;
 			Positions = new List<SelectationPositionViewModel>();
-			var positions = PositionHelper.GetByOrganization(Employee.OrganisationUID);
+			var positions = PositionHelper.GetByOrganisation(Employee.OrganisationUID);
 			if (positions == null)
 				return;
 			foreach (var position in positions)

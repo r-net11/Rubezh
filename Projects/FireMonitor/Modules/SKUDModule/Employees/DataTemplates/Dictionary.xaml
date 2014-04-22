@@ -36,5 +36,4 @@
 		<Views:DocumentTypeSelectionView />
 	</DataTemplate>
 
-
 </ResourceDictionary>

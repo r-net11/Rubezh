@@ -98,7 +98,7 @@ namespace SKDModule.ViewModels
 					OrganisationViewModel = SelectedDocument.Parent;
 
 				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organization;
+					return OrganisationViewModel.Organisation;
 
 				return null;
 			}
@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedDocument.Parent;
 
-				if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 					return;
 
 				OrganisationViewModel.AddChild(documentViewModel);
@@ -140,12 +140,12 @@ namespace SKDModule.ViewModels
 			if (!OrganisationViewModel.IsOrganisation)
 				OrganisationViewModel = SelectedDocument.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
+			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 				return;
 
 			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedDocument);
 			var document = SelectedDocument.Document;
-			bool removeResult = DocumentHelper.MarkDeleted(document);
+			bool removeResult = DocumentHelper.MarkDeleted(document.UID);
 			if (!removeResult)
 				return;
 			OrganisationViewModel.RemoveChild(SelectedDocument);

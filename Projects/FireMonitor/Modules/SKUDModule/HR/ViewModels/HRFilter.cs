@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace SKDModule.ViewModels
 {
-	public class HRFilter : OrganizationFilterBase
+	public class HRFilter : OrganisationFilterBase
 	{
 		public HRFilter()
 			: base()

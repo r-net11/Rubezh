@@ -17,8 +17,8 @@ namespace SKDModule.ViewModels
 	{
 		public static EmployeesViewModel Current { get; private set; }
 		public PersonType PersonType { get; private set; }
-		public Organisation Organization { get; private set; }
-		public List<AdditionalColumnType> AdditionalColumnTypes { get; private set; }
+		public Organisation Organisation { get; private set; }
+		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
 		public EmployeesViewModel()
 		{
@@ -31,12 +31,12 @@ namespace SKDModule.ViewModels
 		{
 			PersonType = filter.PersonType;
 
-			Organization = OrganisationHelper.GetSingle(filter.OrganisationUIDs.FirstOrDefault());
+			Organisation = OrganisationHelper.GetSingle(filter.OrganisationUIDs.FirstOrDefault());
 			var employees = EmployeeHelper.Get(filter);
 			Employees = new ObservableCollection<EmployeeViewModel>();
 			foreach (var employee in employees)
 			{
-				var employeeViewModel = new EmployeeViewModel(Organization, employee);
+				var employeeViewModel = new EmployeeViewModel(Organisation, employee);
 				Employees.Add(employeeViewModel);
 			}
 			SelectedEmployee = Employees.FirstOrDefault();
@@ -73,7 +73,7 @@ namespace SKDModule.ViewModels
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employeeViewModel = new EmployeeViewModel(Organization, employeeDetailsViewModel.ShortEmployee);
+				var employeeViewModel = new EmployeeViewModel(Organisation, employeeDetailsViewModel.ShortEmployee);
 				Employees.Add(employeeViewModel);
 				SelectedEmployee = employeeViewModel;
 			}
@@ -116,8 +116,8 @@ namespace SKDModule.ViewModels
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
 			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
-			if (Organization != null)
-				additionalColumnTypeFilter.OrganisationUIDs.Add(Organization.UID);
+			if (Organisation != null)
+				additionalColumnTypeFilter.OrganisationUIDs.Add(Organisation.UID);
 			var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
 			if (columnTypes == null)
 				return;

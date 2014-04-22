@@ -11,7 +11,7 @@ using System;
 
 namespace SKDModule.ViewModels
 {
-	public class HRFilterViewModel : OrganizationFilterBaseViewModel<HRFilter>
+	public class HRFilterViewModel : OrganisationFilterBaseViewModel<HRFilter>
 	{
 		public HRFilterViewModel(HRFilter filter)
 			: base(filter)
@@ -55,13 +55,13 @@ namespace SKDModule.ViewModels
 				else
 					IsEmployeesAllowed = true;
 			}
-			AvailableOrganizations = new ObservableCollection<FilterOrganizationViewModel>();
+			AvailableOrganizations = new ObservableCollection<FilterOrganisationViewModel>();
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			foreach (var organisation in organisations)
 			{
-				AvailableOrganizations.Add(new FilterOrganizationViewModel(organisation));
+				AvailableOrganizations.Add(new FilterOrganisationViewModel(organisation));
 			}
-			var selectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.Organization.UID == Filter.OrganisationUID);
+			var selectedOrganization = AvailableOrganizations.FirstOrDefault(x => x.Organisation.UID == Filter.OrganisationUID);
 			if (selectedOrganization != null)
 				selectedOrganization.IsChecked = true;
 			else
@@ -145,7 +145,7 @@ namespace SKDModule.ViewModels
 
 		public CheckBoxItemList<FilterPositionViewModel> Positions { get; private set; }
 
-		public ObservableCollection<FilterOrganizationViewModel> AvailableOrganizations { get; private set; }
+		public ObservableCollection<FilterOrganisationViewModel> AvailableOrganizations { get; private set; }
 
 		bool _isEmployeesAllowed;
 		public bool IsEmployeesAllowed

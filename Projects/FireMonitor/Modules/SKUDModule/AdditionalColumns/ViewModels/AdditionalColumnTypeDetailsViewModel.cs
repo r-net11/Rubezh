@@ -12,11 +12,11 @@ namespace SKDModule.ViewModels
 	{
 		AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel;
 		public AdditionalColumnType AdditionalColumnType { get; private set; }
-		public AdditionalColumnType ShortAdditionalColumnType
+		public ShortAdditionalColumnType ShortAdditionalColumnType
 		{
 			get
 			{
-				return new AdditionalColumnType
+				return new ShortAdditionalColumnType
 				{
 					UID = AdditionalColumnType.UID,
 					Name = AdditionalColumnType.Name,
@@ -26,24 +26,24 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public Organisation Organization { get; private set; }
+		public Organisation Organisation { get; private set; }
 
 		public AdditionalColumnTypeDetailsViewModel(AdditionalColumnTypesViewModel additionalColumnTypesViewModel, Organisation orgnaisation, Guid? additionalColumnTypeUID = null)
 		{
 			AdditionalColumnTypesViewModel = additionalColumnTypesViewModel;
-			Organization = orgnaisation;
+			Organisation = orgnaisation;
 			if (additionalColumnTypeUID == null)
 			{
 				Title = "Создание дополнительной колонки";
 				AdditionalColumnType = new AdditionalColumnType()
 				{
 					Name = "Новая дополнительная колонка",
-					OrganisationUID = Organization.UID
+					OrganisationUID = Organisation.UID
 				};
 			}
 			else
 			{
-				AdditionalColumnType = AdditionalColumnTypeHelper.GetSingle(additionalColumnTypeUID);
+				AdditionalColumnType = AdditionalColumnTypeHelper.GetDetails(additionalColumnTypeUID);
 				Title = string.Format("Свойства дополнительной колонки: {0}", AdditionalColumnType.Name);
 			}
 			CopyProperties();
@@ -133,7 +133,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnType.DataType = DataType;
 			if (IsTextType)
 				AdditionalColumnType.IsInGrid = IsInGrid;
-			AdditionalColumnType.OrganisationUID = Organization.UID;
+			AdditionalColumnType.OrganisationUID = Organisation.UID;
 			return true;
 		}
 	}

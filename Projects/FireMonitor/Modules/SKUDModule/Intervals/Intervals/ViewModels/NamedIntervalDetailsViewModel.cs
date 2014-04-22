@@ -21,7 +21,7 @@ namespace SKDModule.ViewModels
 				namedInterval = new NamedInterval()
 				{
 					Name = "Именованный интервал",
-					OrganisationUID = organisationNameIntervalsViewModel.Organization.UID,
+					OrganisationUID = organisationNameIntervalsViewModel.Organisation.UID,
 				};
 				namedInterval.TimeIntervals.Add(new TimeInterval() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), NamedIntervalUID = namedInterval.UID });
 			}

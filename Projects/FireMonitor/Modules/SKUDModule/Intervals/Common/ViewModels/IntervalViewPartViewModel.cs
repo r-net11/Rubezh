@@ -30,14 +30,14 @@ namespace SKDModule.Intervals.Common.ViewModels
 			Organisations = new ObservableCollection<TOrganisationInterval>();
 			foreach (var organisation in organisations)
 			{
-				var timeInrervalViewModel = CreateOrganizationViewModel(organisation);
+				var timeInrervalViewModel = CreateOrganisationViewModel(organisation);
 				timeInrervalViewModel.Initialize(models.Where(x => x.OrganisationUID.Value == organisation.UID));
 				Organisations.Add(timeInrervalViewModel);
 			}
 			SelectedOrganisation = Organisations.FirstOrDefault();
 		}
 		protected abstract IEnumerable<TElement> GetModels();
-		protected abstract TOrganisationInterval CreateOrganizationViewModel(Organisation organization);
+		protected abstract TOrganisationInterval CreateOrganisationViewModel(Organisation organization);
 
 		public IEnumerable<FiresecAPI.Organisation> GetOrganizations()
 		{

@@ -98,7 +98,7 @@ namespace SKDModule.ViewModels
 					OrganisationViewModel = SelectedAdditionalColumnType.Parent;
 
 				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organization;
+					return OrganisationViewModel.Organisation;
 
 				return null;
 			}
@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedAdditionalColumnType.Parent;
 
-				if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 					return;
 
 				OrganisationViewModel.AddChild(additionalColumnTypeViewModel);
@@ -140,12 +140,12 @@ namespace SKDModule.ViewModels
 			if (!OrganisationViewModel.IsOrganisation)
 				OrganisationViewModel = SelectedAdditionalColumnType.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
+			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 				return;
 
 			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedAdditionalColumnType);
 			var additionalColumnType = SelectedAdditionalColumnType.AdditionalColumnType;
-			bool removeResult = AdditionalColumnTypeHelper.MarkDeleted(additionalColumnType);
+			bool removeResult = AdditionalColumnTypeHelper.MarkDeleted(additionalColumnType.UID);
 			if (!removeResult)
 				return;
 			OrganisationViewModel.RemoveChild(SelectedAdditionalColumnType);

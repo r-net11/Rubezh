@@ -116,7 +116,7 @@ namespace SKDModule.ViewModels
 					OrganisationViewModel = SelectedDepartment.GetAllParents().FirstOrDefault(x=>x.IsOrganisation);
 
 				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organization;
+					return OrganisationViewModel.Organisation;
 
 				return null;
 			}
@@ -142,7 +142,7 @@ namespace SKDModule.ViewModels
 				if (!OrganisationViewModel.IsOrganisation)
 					OrganisationViewModel = SelectedDepartment.Parent;
 
-				if (OrganisationViewModel == null || OrganisationViewModel.Organization == null)
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 					return;
 
 				OrganisationViewModel.AddChild(departmentViewModel);

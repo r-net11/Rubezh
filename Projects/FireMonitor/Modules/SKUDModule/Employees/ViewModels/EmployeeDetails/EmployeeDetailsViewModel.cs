@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
@@ -13,7 +13,7 @@ namespace SKDModule.ViewModels
 	{
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public Employee Employee { get; private set; }
-		public ShortEmployee ShortEmployee { get; private set; } 
+		public ShortEmployee ShortEmployee { get; private set; }
 		public bool IsEmployee { get; private set; }
 		SelectDepartmentViewModel SelectDepartmentViewModel;
 		SelectPositionViewModel SelectPositionViewModel;
@@ -56,6 +56,8 @@ namespace SKDModule.ViewModels
 			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
 			SelectGivenDateCommand = new RelayCommand(OnSelectGivenDate);
 			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
+			SelectGenderCommand = new RelayCommand(OnSelectGender);
+			SelectDocumentTypeCommand = new RelayCommand(OnSelectDocumentType);
 		}
 
 		public void CopyProperties()
@@ -63,29 +65,16 @@ namespace SKDModule.ViewModels
 			FirstName = Employee.FirstName;
 			SecondName = Employee.SecondName;
 			LastName = Employee.LastName;
+			DocumentNumber = Employee.DocumentNumber;
+			BirthDate = Employee.BirthDate;
+			BirthPlace = Employee.BirthPlace;
+			GivenBy = Employee.DocumentGivenBy;
+			GivenDate = Employee.DocumentGivenDate;
+			Gender = Employee.Gender;
+			ValidTo = Employee.DocumentValidTo;
+			Citizenship = Employee.Citizenship;
+			DocumentType = Employee.DocumentType;
 
-			if (Employee.Document != null)
-			{
-				DocumentNumber = Employee.Document.Number;
-				BirthDate = Employee.Document.BirthDate;
-				BirthPlace = Employee.Document.BirthPlace;
-				GivenBy = Employee.Document.GivenBy;
-				GivenDate = Employee.Document.GivenDate;
-				Gender = Employee.Document.Gender;
-				ValidTo = Employee.Document.ValidTo;
-				Citizenship = Employee.Document.Citizenship;
-				DocumentType = Employee.Document.Type;
-			}
-			else
-			{
-				BirthDate = new DateTime(2000, 1, 1);
-				GivenDate = new DateTime(2000, 1, 1);
-				ValidTo = new DateTime(2000, 1, 1);
-				Gender = FiresecAPI.Gender.Male;
-				Citizenship = "Российская Федерация";
-				DocumentType = EmployeeDocumentType.Passport;
-			}
-			
 			if (IsEmployee)
 			{
 				SelectPositionViewModel = new SelectPositionViewModel(Employee);
@@ -125,11 +114,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public bool HasSelectedDepartment 
+		public bool HasSelectedDepartment
 		{
 			get { return SelectedDepartment != null; }
 		}
-		
+
 		SelectationPositionViewModel _selectedPosition;
 		public SelectationPositionViewModel SelectedPosition
 		{
@@ -242,7 +231,7 @@ namespace SKDModule.ViewModels
 
 		public string BirthDateString
 		{
-			get{ return BirthDate.ToString("dd/MM/yyyy"); }
+			get { return BirthDate.ToString("dd/MM/yyyy"); }
 		}
 
 		string _birthPlace;
@@ -358,11 +347,11 @@ namespace SKDModule.ViewModels
 		}
 		#endregion
 
-		
+
 
 		public bool HasAdditionalGraphicsColumns { get; private set; }
 		public string GraphicsColumnsTabItemName { get; private set; }
-		
+
 		List<IGraphicsColumnViewModel> graphicsColumns;
 		public List<IGraphicsColumnViewModel> GraphicsColumns
 		{
@@ -388,6 +377,26 @@ namespace SKDModule.ViewModels
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(FirstName);
+		}
+
+		public RelayCommand SelectDocumentTypeCommand { get; private set; }
+		void OnSelectDocumentType()
+		{
+			var selectDateViewModel = new DocumentTypeSelectionViewModel(DocumentType);
+			if (DialogService.ShowModalWindow(selectDateViewModel))
+			{
+				DocumentType = selectDateViewModel.DocumentType;
+			}
+		}
+
+		public RelayCommand SelectGenderCommand { get; private set; }
+		void OnSelectGender()
+		{
+			var selectDateViewModel = new GenderSelectionViewModel(Gender);
+			if (DialogService.ShowModalWindow(selectDateViewModel))
+			{
+				Gender = selectDateViewModel.Gender;
+			}
 		}
 
 		public RelayCommand SelectGivenDateCommand { get; private set; }
@@ -460,7 +469,16 @@ namespace SKDModule.ViewModels
 			Employee.FirstName = FirstName;
 			Employee.SecondName = SecondName;
 			Employee.LastName = LastName;
-			Employee.OrganisationUID = EmployeesViewModel.Organization.UID;
+			Employee.DocumentNumber = DocumentNumber;
+			Employee.BirthDate = BirthDate;
+			Employee.BirthPlace = BirthPlace;
+			Employee.DocumentGivenBy = GivenBy;
+			Employee.DocumentGivenDate = GivenDate;
+			Employee.Gender = Gender;
+			Employee.DocumentValidTo = ValidTo;
+			Employee.Citizenship = Citizenship;
+			Employee.DocumentType = DocumentType;
+			Employee.OrganisationUID = EmployeesViewModel.Organisation.UID;
 			Employee.AdditionalColumns = (from x in TextColumns select x.AdditionalColumn).ToList();
 			foreach (var item in GraphicsColumns)
 			{
@@ -506,10 +524,8 @@ namespace SKDModule.ViewModels
 				Employee.Position = SelectedPosition.Position;
 				ShortEmployee.PositionName = SelectedPosition.Name;
 			}
-			
+
 			return EmployeeHelper.Save(Employee);
 		}
 	}
-
-	
 }

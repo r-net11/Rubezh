@@ -11,7 +11,7 @@ namespace SKDModule.ViewModels
 		public GenderSelectionViewModel(Gender employeeGender)
 		{
 			Genders = new List<SelectationGenderViewModel>();
-		  	var genders = Enum.GetValues(typeof(Gender));
+			var genders = Enum.GetValues(typeof(Gender));
 			foreach (Gender gender in genders)
 				Genders.Add(new SelectationGenderViewModel(gender));
 			var selectedGender = Genders.FirstOrDefault(x => x.Gender == employeeGender);

@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 		{
 			Employee = employee;
 			Departments = new List<SelectationDepartmentViewModel>();
-			var departments = DepartmentHelper.GetByOrganization(Employee.OrganisationUID);
+			var departments = DepartmentHelper.GetByOrganisation(Employee.OrganisationUID);
 			if (departments != null)
 			{
 				foreach (var department in departments)
