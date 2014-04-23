@@ -2,7 +2,7 @@
 
 namespace SKDModule.Events
 {
-	public class ShowSKDEmployeesEvent : CompositePresentationEvent<object>
+	public class ShowVerificationEvent : CompositePresentationEvent<object>
 	{
 	}
 }

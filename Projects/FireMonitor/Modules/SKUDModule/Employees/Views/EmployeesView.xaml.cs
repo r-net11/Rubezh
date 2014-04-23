@@ -24,24 +24,24 @@ namespace SKDModule.Views
 
 		private void _dataGrid_Loaded(object sender, RoutedEventArgs e)
 		{
-			EmployeesViewModel employeesViewModel = _dataGrid.DataContext as EmployeesViewModel;
-			if (employeesViewModel != null)
-			{
-				var columns = _dataGrid.Columns.Where(x => x.Header.ToString() != "Имя" && x.Header.ToString() != "Фамилия" && x.Header.ToString() != "Отчество").ToList();
-				foreach (var column in columns)
-				{
-					_dataGrid.Columns.Remove(column);
-				}
+			//EmployeesViewModel employeesViewModel = _dataGrid.DataContext as EmployeesViewModel;
+			//if (employeesViewModel != null)
+			//{
+			//    var columns = _dataGrid.Columns.Where(x => x.Header.ToString() != "Имя" && x.Header.ToString() != "Фамилия" && x.Header.ToString() != "Отчество").ToList();
+			//    foreach (var column in columns)
+			//    {
+			//        _dataGrid.Columns.Remove(column);
+			//    }
 
-				for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
-				{
-					var additionalColumnName = employeesViewModel.AdditionalColumnNames[i];
-					DataGridTextColumn textColumn = new DataGridTextColumn();
-					textColumn.Header = additionalColumnName;
-					textColumn.Binding = new Binding(string.Format("AdditionalColumnValues[{0}]", i));
-					_dataGrid.Columns.Add(textColumn);
-				}
-			}
+			//    for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
+			//    {
+			//        var additionalColumnName = employeesViewModel.AdditionalColumnNames[i];
+			//        DataGridTextColumn textColumn = new DataGridTextColumn();
+			//        textColumn.Header = additionalColumnName;
+			//        textColumn.Binding = new Binding(string.Format("AdditionalColumnValues[{0}]", i));
+			//        _dataGrid.Columns.Add(textColumn);
+			//    }
+			//}
 		}
 	}
 }

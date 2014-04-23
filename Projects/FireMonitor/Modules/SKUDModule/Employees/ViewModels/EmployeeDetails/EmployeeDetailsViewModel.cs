@@ -461,7 +461,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (EmployeesViewModel.Employees.Any(x => x.ShortEmployee.FirstName == FirstName && x.ShortEmployee.LastName == LastName && x.ShortEmployee.UID != Employee.UID))
+			if (EmployeesViewModel.AllEmployees.Any(x => x.ShortEmployee.FirstName == FirstName && x.ShortEmployee.LastName == LastName && x.ShortEmployee.UID != Employee.UID))
 			{
 				MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
 				return false;

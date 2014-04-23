@@ -6,22 +6,37 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<DataGrid Name="_dataGrid" Grid.Row="0" Margin="2" ItemsSource="{Binding Employees}" Loaded="_dataGrid_Loaded" RowDetailsVisibilityMode="Visible" SelectedItem="{Binding SelectedEmployee}">
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" Header="Имя">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
-								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding FirstName}" />
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding SecondName}" Header="Фамилия" />
-				<DataGridTextColumn Binding="{Binding LastName}" Header="Отчество" />
-			</DataGrid.Columns>
-		</DataGrid>
+        <tree:TreeList Grid.Row="0" Name="_dataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedEmployee}" Source="{Binding RootEmployees}" Loaded="_dataGrid_Loaded" Margin="2">
+            <tree:TreeList.View>
+                <GridView>
+                    <GridViewColumn Header="Фамилия" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Source="/Controls;component/Images/BDirection.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                    <Image Width="16" Source="/Controls;component/Images/Zone.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                    <TextBlock Text="{Binding SecondName}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Имя">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FirstName}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Отчество">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding LastName}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </tree:TreeList.View>
+        </tree:TreeList>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
 		<Grid Grid.Row="2" DataContext="{Binding SelectedEmployee}">

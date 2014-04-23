@@ -2,7 +2,7 @@
 
 namespace SKDModule.Events
 {
-	public class ShowSKDCardsEvent : CompositePresentationEvent<object>
+	public class ShowAccessTemplatesEvent : CompositePresentationEvent<object>
 	{
 	}
 }

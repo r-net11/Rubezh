@@ -6,17 +6,27 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeViewModel : BaseViewModel
+	public class EmployeeViewModel : TreeNodeViewModel<EmployeeViewModel>
 	{
 		public Organisation Organisation { get; private set; }
+		public bool IsOrganisation { get; private set; }
 
-		public EmployeeViewModel(Organisation organisation, ShortEmployee employee)
+		public EmployeeViewModel(Organisation organisation)
 		{
 			Organisation = organisation;
+			IsOrganisation = true;
+			LastName = organisation.Name;
+		}
+
+		public EmployeeViewModel(ShortEmployee employee)
+		{
 			ShortEmployee = employee;
+			IsOrganisation = false;
+			LastName = employee.LastName;
 
 			AddCardCommand = new RelayCommand(OnAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
@@ -28,39 +38,25 @@ namespace SKDModule.ViewModels
 			foreach (var item in employee.Cards)
 				Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
 			SelectedCard = Cards.FirstOrDefault();
+
+			SecondName = ShortEmployee.SecondName;
+			FirstName = ShortEmployee.FirstName;
+			AppointedString = ShortEmployee.Appointed;
+			DismissedString = ShortEmployee.Dismissed;
+			DepartmentName = ShortEmployee.DepartmentName;
+			PositionName = ShortEmployee.PositionName;
 		}
 
 		public ShortEmployee ShortEmployee { get; set; }
 		public Guid? DepartmentPhotoUID { get; set; }
 		public Guid? PositionPhotoUID { get; set; }
-		public string FirstName 
-		{
-			get { return ShortEmployee.FirstName; }
-		}
-		public string SecondName
-		{
-			get { return ShortEmployee.SecondName; }
-		}
-		public string LastName
-		{
-			get { return ShortEmployee.LastName; }
-		}
-		public string AppointedString
-		{
-			get { return ShortEmployee.Appointed; }
-		}
-		public string DismissedString
-		{
-			get { return ShortEmployee.Dismissed; }
-		}
-		public string DepartmentName
-		{
-			get { return ShortEmployee.DepartmentName; }
-		}
-		public string PositionName
-		{
-			get { return ShortEmployee.PositionName; }
-		}
+		public string LastName { get; private set; }
+		public string SecondName { get; private set; }
+		public string FirstName { get; private set; }
+		public string AppointedString { get; private set; }
+		public string DismissedString { get; private set; }
+		public string DepartmentName { get; private set; }
+		public string PositionName { get; private set; }
 
 		public void Update(ShortEmployee employee)
 		{

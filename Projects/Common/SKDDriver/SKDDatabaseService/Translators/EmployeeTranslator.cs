@@ -102,7 +102,8 @@ namespace SKDDriver
 				Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID),
 				Type = (PersonType)tableItem.Type,
 				Appointed = tableItem.Appointed.ToString("d MMM yyyy"),
-				Dismissed = tableItem.Dismissed.ToString("d MMM yyyy")
+				Dismissed = tableItem.Dismissed.ToString("d MMM yyyy"),
+				OrganisationUID = tableItem.OrganisationUID,
 			};
 			var position = Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
 			if (position != null)

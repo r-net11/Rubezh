@@ -17,7 +17,6 @@ namespace SKDModule.ViewModels
 	{
 		public static EmployeesViewModel Current { get; private set; }
 		public PersonType PersonType { get; private set; }
-		public Organisation Organisation { get; private set; }
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
 		public EmployeesViewModel()
@@ -29,32 +28,79 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(EmployeeFilter filter)
 		{
-			PersonType = filter.PersonType;
-
-			Organisation = OrganisationHelper.GetSingle(filter.OrganisationUIDs.FirstOrDefault());
+			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			var employees = EmployeeHelper.Get(filter);
-			Employees = new ObservableCollection<EmployeeViewModel>();
-			foreach (var employee in employees)
-			{
-				var employeeViewModel = new EmployeeViewModel(Organisation, employee);
-				Employees.Add(employeeViewModel);
-			}
-			SelectedEmployee = Employees.FirstOrDefault();
 
-			InitializeAdditionalColumns();
-			ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
+			AllEmployees = new List<EmployeeViewModel>();
+			Organisations = new List<EmployeeViewModel>();
+			foreach (var organisation in organisations)
+			{
+				var organisationViewModel = new EmployeeViewModel(organisation);
+				Organisations.Add(organisationViewModel);
+				AllEmployees.Add(organisationViewModel);
+				foreach (var employee in employees)
+				{
+					if (employee.OrganisationUID == organisation.UID)
+					{
+						var employeeViewModel = new EmployeeViewModel(employee);
+						organisationViewModel.AddChild(employeeViewModel);
+						AllEmployees.Add(employeeViewModel);
+					}
+				}
+			}
+
+			foreach (var organisation in Organisations)
+			{
+				organisation.ExpandToThis();
+			}
+			OnPropertyChanged("RootEmployees");
 		}
 
-		ObservableCollection<EmployeeViewModel> _employee;
-		public ObservableCollection<EmployeeViewModel> Employees
+		List<EmployeeViewModel> _organisations;
+		public List<EmployeeViewModel> Organisations
 		{
-			get { return _employee; }
-			set
+			get { return _organisations; }
+			private set
 			{
-				_employee = value;
-				OnPropertyChanged("Employees");
+				_organisations = value;
+				OnPropertyChanged("Organisations");
 			}
 		}
+
+		public Organisation Organisation
+		{
+			get
+			{
+				EmployeeViewModel OrganisationViewModel = SelectedEmployee;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedEmployee.Parent;
+
+				if (OrganisationViewModel != null)
+					return OrganisationViewModel.Organisation;
+
+				return null;
+			}
+		}
+
+		public EmployeeViewModel[] RootEmployees
+		{
+			get { return Organisations.ToArray(); }
+		}
+
+		#region EmployeeSelection
+		public List<EmployeeViewModel> AllEmployees;
+
+		public void Select(Guid employeeUID)
+		{
+			if (employeeUID != Guid.Empty)
+			{
+				var employeeViewModel = AllEmployees.FirstOrDefault(x => x.ShortEmployee != null && x.ShortEmployee.UID == employeeUID);
+				if (employeeViewModel != null)
+					employeeViewModel.ExpandToThis();
+				SelectedEmployee = employeeViewModel;
+			}
+		}
+		#endregion
 
 		EmployeeViewModel _selectedEmployee;
 		public EmployeeViewModel SelectedEmployee
@@ -73,8 +119,8 @@ namespace SKDModule.ViewModels
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employeeViewModel = new EmployeeViewModel(Organisation, employeeDetailsViewModel.ShortEmployee);
-				Employees.Add(employeeViewModel);
+				var employeeViewModel = new EmployeeViewModel(employeeDetailsViewModel.ShortEmployee);
+				AllEmployees.Add(employeeViewModel);
 				SelectedEmployee = employeeViewModel;
 			}
 		}
@@ -101,11 +147,11 @@ namespace SKDModule.ViewModels
 			if (!removeResult)
 				return;
 
-			var index = Employees.IndexOf(SelectedEmployee);
-			Employees.Remove(SelectedEmployee);
-			index = Math.Min(index, Employees.Count - 1);
+			var index = AllEmployees.IndexOf(SelectedEmployee);
+			AllEmployees.Remove(SelectedEmployee);
+			index = Math.Min(index, AllEmployees.Count - 1);
 			if (index > -1)
-				SelectedEmployee = Employees[index];
+				SelectedEmployee = AllEmployees[index];
 		}
 		bool CanRemove()
 		{
@@ -114,28 +160,28 @@ namespace SKDModule.ViewModels
 
 		public void InitializeAdditionalColumns()
 		{
-			AdditionalColumnNames = new ObservableCollection<string>();
-			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
-			if (Organisation != null)
-				additionalColumnTypeFilter.OrganisationUIDs.Add(Organisation.UID);
-			var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
-			if (columnTypes == null)
-				return;
-			AdditionalColumnTypes = columnTypes.ToList();
-			foreach (var additionalColumnType in AdditionalColumnTypes)
-			{
-				if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
-					AdditionalColumnNames.Add(additionalColumnType.Name);
-			}
-			foreach (var employee in Employees)
-			{
-				employee.AdditionalColumnValues = new ObservableCollection<string>();
-				foreach (var additionalColumnType in AdditionalColumnTypes)
-				{
-					if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
-						employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
-				}
-			}
+			//AdditionalColumnNames = new ObservableCollection<string>();
+			//var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
+			//if (Organisation != null)
+			//    additionalColumnTypeFilter.OrganisationUIDs.Add(Organisation.UID);
+			//var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
+			//if (columnTypes == null)
+			//    return;
+			//AdditionalColumnTypes = columnTypes.ToList();
+			//foreach (var additionalColumnType in AdditionalColumnTypes)
+			//{
+			//    if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
+			//        AdditionalColumnNames.Add(additionalColumnType.Name);
+			//}
+			//foreach (var employee in AllEmployees)
+			//{
+			//    employee.AdditionalColumnValues = new ObservableCollection<string>();
+			//    foreach (var additionalColumnType in AdditionalColumnTypes)
+			//    {
+			//        if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
+			//            employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
+			//    }
+			//}
 		}
 
 		public ObservableCollection<string> AdditionalColumnNames { get; private set; }

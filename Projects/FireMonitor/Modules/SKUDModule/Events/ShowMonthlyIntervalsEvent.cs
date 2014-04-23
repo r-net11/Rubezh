@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace SKDModule.Events
 {
-	public class ShowSKDMonthlyIntervalsEvent : CompositePresentationEvent<Guid>
+	public class ShowMonthlyIntervalsEvent : CompositePresentationEvent<Guid>
 	{
 	}
 }

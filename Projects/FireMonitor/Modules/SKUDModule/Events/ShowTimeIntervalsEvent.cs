@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace SKDModule.Events
 {
-	public class ShowSKDSlideDayIntervalsEvent : CompositePresentationEvent<Guid>
+	public class ShowTimeIntervalsEvent : CompositePresentationEvent<Guid>
 	{
 	}
 }

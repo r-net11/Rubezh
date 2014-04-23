@@ -38,7 +38,10 @@ namespace FiresecAPI
 		public string Appointed { get; set; }
 
 		[DataMember]
-		public string Dismissed { get; set; } 
+		public string Dismissed { get; set; }
+
+		[DataMember]
+		public Guid? OrganisationUID { get; set; }
 	}
 
 	public class TextColumn

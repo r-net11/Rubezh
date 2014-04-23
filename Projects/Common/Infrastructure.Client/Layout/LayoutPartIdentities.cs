@@ -28,16 +28,12 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid MultiCamera = new Guid("{521F0B43-C0D3-47CB-9C8B-CB5B7C8FF39C}");
 
 		// SKD
-		public static readonly Guid SKDEmployees = new Guid("{CADC9059-9868-4B31-A072-992776677C57}");
-		public static readonly Guid SKDJournal = new Guid("{649103B7-794A-44CF-9019-39E0BF0C1986}");
 		public static readonly Guid SKDDevices = new Guid("{41B13062-368D-40D7-B0C5-BCEE16429518}");
 		public static readonly Guid SKDZones = new Guid("{64FB191F-004A-4F52-A0D0-A739031EDBF5}");
+		public static readonly Guid SKDJournal = new Guid("{649103B7-794A-44CF-9019-39E0BF0C1986}");
+		public static readonly Guid SKDHR = new Guid("{CADC9059-9868-4B31-A072-992776677C57}");
 		public static readonly Guid SKDVerification = new Guid("{3223085C-F808-49DC-B215-45875DA67833}");
 		public static readonly Guid SKDCards = new Guid("{78545642-B423-4160-ADD5-2F520F2C1FA3}");
-		public static readonly Guid SKDDepartments = new Guid("{3BD32FB2-ACD5-4315-B491-7200C41E7CBA}");
-		public static readonly Guid SKDPositions = new Guid("{FBB2C1DD-ECFE-4524-8C61-4D65E4999D84}");
-		public static readonly Guid SKDDocuments = new Guid("{EE0BD6CD-FBB7-4173-85FD-7B87A5B8E21F}");
-		public static readonly Guid SKDAdditionalColumns = new Guid("{46DD04F8-4E5D-4C75-A98E-6222A074205B}");
 		public static readonly Guid SKDNamedIntervals = new Guid("{3BB6AB5A-4CD8-4D12-B46C-27E8F9DB8A51}");
 		public static readonly Guid SKDWeeklyScheduleSchemes = new Guid("{8D63585E-A224-4A79-BE90-3A8B45E224A0}");
 		public static readonly Guid SKDDaylyScheduleSchemes = new Guid("{B23AC76D-C16C-4F68-8223-262393A874FB}");
