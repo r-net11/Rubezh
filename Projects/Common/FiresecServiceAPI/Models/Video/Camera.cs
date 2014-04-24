@@ -70,7 +70,7 @@ namespace FiresecAPI.Models
 		public XStateClass StateClass {get; set;}
 
 		[DataMember]
-		public XCameraType CameraType { get; set; }
+		public CameraType CameraType { get; set; }
 
 		public XStateClass CameraStateStateClass
 		{

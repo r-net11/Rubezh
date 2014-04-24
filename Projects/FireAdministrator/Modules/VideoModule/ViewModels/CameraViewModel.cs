@@ -37,7 +37,7 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				return Camera.CameraType == XCameraType.Dvr;
+				return Camera.CameraType == CameraType.Dvr;
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				return Camera.CameraType == XCameraType.Channel;
+				return Camera.CameraType == CameraType.Channel;
 			}
 		}
 
@@ -53,13 +53,13 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				return Camera.CameraType == XCameraType.Camera;
+				return Camera.CameraType == CameraType.Camera;
 			}
 		}
 
 		public void UpdateChildren()
 		{
-			if((Camera!=null)&&(Camera.CameraType == XCameraType.Dvr))
+			if((Camera!=null)&&(Camera.CameraType == CameraType.Dvr))
 				foreach (var child in Camera.Children)
 				{
 					var cameraViewModel = new CameraViewModel(_camerasViewModel, child);
@@ -71,7 +71,7 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				if (Camera.CameraType != XCameraType.Channel)
+				if (Camera.CameraType != CameraType.Channel)
 					return Camera.Address;
 				return (Camera.ChannelNumber + 1).ToString();
 			}
@@ -139,7 +139,7 @@ namespace VideoModule.ViewModels
 
 		private bool CanCreateDragObjectCommand(DataObject dataObject)
 		{
-			if (Camera.CameraType == XCameraType.Dvr)
+			if (Camera.CameraType == CameraType.Dvr)
 				return false;
 			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
 		}

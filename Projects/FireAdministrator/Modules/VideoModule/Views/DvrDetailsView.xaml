@@ -42,13 +42,20 @@
                 <Label Grid.Row="9" Grid.Column="0" Content="Отступ справа" HorizontalAlignment="Right" Visibility="{Binding IsCamera, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <Label Grid.Row="10" Grid.Column="0" Content="Ширина" HorizontalAlignment="Right" Visibility="{Binding IsCamera, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <Label Grid.Row="11" Grid.Column="0" Content="Высота" HorizontalAlignment="Right" Visibility="{Binding IsCamera, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsCamera, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding CameraTypes}" Margin="2" >
+                    SelectedItem="{Binding SelectedCameraType, UpdateSourceTrigger=PropertyChanged}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource XStateClassToStringConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
                 <extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Value="{Binding ChannelsCount}" Minimum="1" Maximum="32" Margin="2" Visibility="{Binding IsChannelsCountVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <ComboBox Grid.Row="6" Grid.Column="1" ItemsSource="{Binding StateClasses}"
 					  SelectedItem="{Binding SelectedStateClass, UpdateSourceTrigger=PropertyChanged}" Margin="2" Visibility="{Binding IsCamera, Converter={StaticResource BoolToVisibilityConverter}}">

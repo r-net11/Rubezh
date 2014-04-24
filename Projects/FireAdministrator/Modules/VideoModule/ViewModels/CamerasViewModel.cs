@@ -38,8 +38,6 @@ namespace VideoModule.ViewModels
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(this, camera);
-				var cccameraViewModel = new CameraViewModel(this, camera);
-				cameraViewModel.AddChild(cccameraViewModel);
 				Cameras.Add(cameraViewModel);
 			}
 			SelectedCamera = Cameras.FirstOrDefault();

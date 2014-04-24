@@ -1,6 +1,8 @@
-﻿using FiresecAPI;
+﻿using System.Collections.Generic;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace VideoModule.ViewModels
 {
@@ -12,22 +14,29 @@ namespace VideoModule.ViewModels
 		{
 			if (camera == null)
 			{
-				Title = "Создание нового видеорегистратора";
+				Title = "Создание нового видеоустройства";
 				Camera = new Camera();
-				Camera.Name = "Видеорегистратор";
+				Camera.Name = "Видеоустройство";
 				Camera.Address = "172.16.5.201";
 				ChannelsCount = 1;
-				Camera.CameraType = XCameraType.Dvr;
+				Camera.CameraType = CameraType.Dvr;
 				IsChannelsCountVisible = true;
 			}
 			else
 			{
 				Camera = camera;
-				Title = "Свойства видеорегистратора: " + Camera.PresentationName;
+				Title = (Camera.CameraType == CameraType.Dvr ? "Свойства видеорегистратора: " : "Свойства камеры: ") + Camera.PresentationName;
 				IsChannelsCountVisible = false;
 			}
+			CameraTypes = new List<CameraType>();
+			CameraTypes.Add(CameraType.Dvr);
+			CameraTypes.Add(CameraType.Camera);
+			if ((Camera.Parent != null)&&(Camera.CameraType == CameraType.Dvr))
+				CameraTypes.Add(CameraType.Channel);
 			CopyProperties();
 		}
+
+		public List<CameraType> CameraTypes { get; private set; }
 
 		private bool _isCamera;
 		public bool IsCamera
@@ -50,7 +59,7 @@ namespace VideoModule.ViewModels
 			Port = Camera.Port;
 			Login = Camera.Login;
 			Password = Camera.Password;
-			IsCamera = Camera.CameraType == XCameraType.Camera;
+			IsCamera = Camera.CameraType == CameraType.Camera;
 		}
 
 		string _name;
@@ -126,7 +135,7 @@ namespace VideoModule.ViewModels
 			Camera.Port = Port;
 			Camera.Login = Login;
 			Camera.Password = Password;
-			Camera.CameraType = IsCamera ? XCameraType.Camera : XCameraType.Dvr;
+			Camera.CameraType = IsCamera ? CameraType.Camera : CameraType.Dvr;
 			if(!IsCamera)
 			for (int i = 0; i < ChannelsCount; i++)
 			{

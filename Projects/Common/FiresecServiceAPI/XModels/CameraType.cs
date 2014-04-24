@@ -1,6 +1,6 @@
 ﻿namespace FiresecAPI
 {
-	public enum XCameraType
+	public enum CameraType
 	{
 		Camera,
 		Dvr,
