@@ -88,31 +88,33 @@ namespace SKDModule.Intervals.TimeTracking.ViewModels
 		public RelayCommand ShowFilterCommand { get; private set; }
 		private void OnShowFilter()
 		{
+			var employeeFilter = new EmployeeFilter()
+			{
+				OrganisationUIDs = _employeeFilter.OrganisationUIDs,
+				DepartmentUIDs = _employeeFilter.DepartmentUIDs,
+				PositionUIDs = _employeeFilter.PositionUIDs,
+				Appointed = _employeeFilter.Appointed,
+				Dismissed = _employeeFilter.Dismissed,
+				PersonType = _employeeFilter.PersonType
+			};
 			var filter = new HRFilter()
 			{
-				Appointed = _employeeFilter.Appointed,
-				DepartmentUIDs = _employeeFilter.DepartmentUIDs,
-				Dismissed = _employeeFilter.Dismissed,
-				OrganisationUID = _employeeFilter.OrganisationUID,
-				OrganisationUIDs = _employeeFilter.OrganisationUIDs,
-				PersonType = _employeeFilter.PersonType,
-				PositionUIDs = _employeeFilter.PositionUIDs,
+				EmployeeFilter = employeeFilter,
 				RemovalDates = _employeeFilter.RemovalDates,
-				Uids = _employeeFilter.Uids,
+				UIDs = _employeeFilter.UIDs,
 				WithDeleted = _employeeFilter.WithDeleted,
 			};
 			var filterViewModel = new HRFilterViewModel(filter);
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
-				_employeeFilter.Appointed = filterViewModel.Filter.Appointed;
-				_employeeFilter.DepartmentUIDs = filterViewModel.Filter.DepartmentUIDs;
-				_employeeFilter.Dismissed = filterViewModel.Filter.Dismissed;
-				_employeeFilter.OrganisationUID = filterViewModel.Filter.OrganisationUID;
 				_employeeFilter.OrganisationUIDs = filterViewModel.Filter.OrganisationUIDs;
-				_employeeFilter.PersonType = filterViewModel.Filter.PersonType;
-				_employeeFilter.PositionUIDs = filterViewModel.Filter.PositionUIDs;
+				_employeeFilter.DepartmentUIDs = filterViewModel.Filter.EmployeeFilter.DepartmentUIDs;
+				_employeeFilter.PositionUIDs = filterViewModel.Filter.EmployeeFilter.PositionUIDs;
+				_employeeFilter.Appointed = filterViewModel.Filter.EmployeeFilter.Appointed;
+				_employeeFilter.Dismissed = filterViewModel.Filter.EmployeeFilter.Dismissed;
+				_employeeFilter.PersonType = filterViewModel.Filter.EmployeeFilter.PersonType;
 				_employeeFilter.RemovalDates = filterViewModel.Filter.RemovalDates;
-				_employeeFilter.Uids = filterViewModel.Filter.Uids;
+				_employeeFilter.UIDs = filterViewModel.Filter.UIDs;
 				_employeeFilter.WithDeleted = filterViewModel.Filter.WithDeleted;
 				UpdateGrid();
 			}

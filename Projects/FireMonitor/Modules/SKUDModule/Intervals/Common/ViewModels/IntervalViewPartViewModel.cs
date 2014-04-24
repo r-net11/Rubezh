@@ -41,7 +41,7 @@ namespace SKDModule.Intervals.Common.ViewModels
 
 		public IEnumerable<FiresecAPI.Organisation> GetOrganizations()
 		{
-			return OrganisationHelper.Get(new FiresecAPI.OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			return OrganisationHelper.Get(new FiresecAPI.OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 		}
 
 		private ObservableCollection<TOrganisationInterval> _organisations;

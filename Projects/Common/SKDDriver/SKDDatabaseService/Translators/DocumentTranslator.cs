@@ -93,12 +93,6 @@ namespace SKDDriver
 		{
 			var result = PredicateBuilder.True<DataAccess.Document>();
 			result = result.And(base.IsInFilter(filter));
-			var nos = filter.Nos;
-			if (nos != null && nos.Count != 0)
-				result = result.And(e => nos.Contains(e.No));
-			var names = filter.Names;
-			if (names != null && names.Count != 0)
-				result = result.And(e => names.Contains(e.Name));
 			var issueDates = filter.IssueDate;
 			if (issueDates != null)
 				result = result.And(e => e.RemovalDate >= issueDates.StartDate && e.RemovalDate <= issueDates.EndDate);

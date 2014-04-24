@@ -21,7 +21,7 @@ namespace FiresecClient.SKDHelpers
 			if (uid == null)
 				return null;
 			var filter = new PhotoFilter();
-			filter.Uids.Add(uid.Value);
+			filter.UIDs.Add(uid.Value);
 			var operationResult = FiresecManager.FiresecService.GetPhotos(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
@@ -29,7 +29,7 @@ namespace FiresecClient.SKDHelpers
 		{
 			var filter = new PhotoFilter()
 			{
-				Uids = uids
+				UIDs = uids
 			};
 			var operationResult = FiresecManager.FiresecService.GetPhotos(filter);
 			return Common.ShowErrorIfExists(operationResult);

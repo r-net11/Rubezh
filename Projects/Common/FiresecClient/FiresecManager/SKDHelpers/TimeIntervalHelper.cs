@@ -25,7 +25,7 @@ namespace FiresecClient.SKDHelpers
 			if (uid == null)
 				return null;
 			var filter = new TimeIntervalFilter();
-			filter.Uids.Add(uid.Value);
+			filter.UIDs.Add(uid.Value);
 			var operationResult = FiresecManager.FiresecService.GetTimeIntervals(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}

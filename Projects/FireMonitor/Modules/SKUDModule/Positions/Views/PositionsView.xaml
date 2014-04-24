@@ -2,12 +2,17 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+    <UserControl.Resources>
+        <viewModel:PositionViewModelNameComparer x:Key="PositionViewModelNameComparer" />
+        <viewModel:PositionViewModelDescriptionComparer x:Key="PositionViewModelDescriptionComparer" />
+    </UserControl.Resources>
 
-    <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedPosition}" Source="{Binding RootPositions}">
+    <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedPosition}" Source="{Binding RootPositions}" tree:SortBehavior.CanUserSortColumns="True">
         <tree:TreeList.View>
             <GridView>
-                <GridViewColumn Header="Название" Width="200">
+                <GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource PositionViewModelNameComparer}">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -18,7 +23,7 @@
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
-                <GridViewColumn Header="Описание">
+                <GridViewColumn Header="Описание" tree:SortBehavior.SortComparer="{StaticResource PositionViewModelDescriptionComparer}">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

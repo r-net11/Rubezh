@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(DocumentFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 			var documents = DocumentHelper.Get(filter);
 
 			AllDocuments = new List<DocumentViewModel>();
@@ -42,11 +42,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-
-			foreach (var organisation in Organisations)
-			{
-				organisation.ExpandToThis();
-			}
+			SelectedDocument = Organisations.FirstOrDefault();
 			OnPropertyChanged("RootDocuments");
 		}
 

@@ -5,7 +5,7 @@
 		<viewModel:DeviceViewModelZoneComparer x:Key="DeviceViewModelZoneComparer" />
 		<viewModel:DeviceViewModelDescriptionComparer x:Key="DeviceViewModelDescriptionComparer" />
 	</UserControl.Resources>
-		<Grid>
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="200" />
 			<RowDefinition Height="Auto" />

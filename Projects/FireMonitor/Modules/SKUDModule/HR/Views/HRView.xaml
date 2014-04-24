@@ -13,19 +13,14 @@
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
             <Grid Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid DataContext="{Binding EmployeesViewModel}">
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}" DataContext="{Binding EmployeesViewModel}">
-                        <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-                        <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-                        <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Horizontal" Visibility="{Binding SelectedEmployee.IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить пользователя" />
                             <Controls:ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить пользователя" />
                             <Controls:ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать пользователя" />
                         </StackPanel>
                         <Controls:ToolBarButton Command="{Binding SelectedEmployee.AddCardCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить карту" />
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding SelectedEmployee.IsEmployeeSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding SelectedEmployee.IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                             <StackPanel DataContext="{Binding SelectedEmployee}" Orientation="Horizontal">
                                 <Controls:ToolBarButton Command="{Binding SelectedCard.RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить карту" />
                                 <Controls:ToolBarButton Command="{Binding SelectedCard.EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать карту" />
@@ -79,7 +74,7 @@
             <TabItem Header="Дополнительные колонки" IsSelected="{Binding IsAdditionalColumnTypesSelected}">
                 <Views:AdditionalColumnTypesView DataContext="{Binding AdditionalColumnTypesViewModel}" />
             </TabItem>
-            <TabItem Header="Документы" IsSelected="{Binding IsDocumentsSelected}">
+            <TabItem Header="Документы" IsSelected="{Binding IsDocumentsSelected}" Visibility="Collapsed">
                 <Views:DocumentsView DataContext="{Binding DocumentsViewModel}" />
             </TabItem>
         </TabControl>

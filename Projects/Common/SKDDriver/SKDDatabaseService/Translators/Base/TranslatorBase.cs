@@ -42,7 +42,7 @@ namespace SKDDriver
 			var result = PredicateBuilder.True<TableT>();
 			result = result.And(e => e != null);
 
-			var uids = filter.Uids;
+			var uids = filter.UIDs;
 			if (uids != null && uids.Count != 0)
 				result = result.And(e => uids.Contains(e.UID));
 			return result;

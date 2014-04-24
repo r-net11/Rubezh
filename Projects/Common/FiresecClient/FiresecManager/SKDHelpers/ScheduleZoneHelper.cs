@@ -29,7 +29,7 @@ namespace FiresecClient.SKDHelpers
 			if (uid == null)
 				return null;
 			var filter = new ScheduleZoneFilter();
-			filter.Uids.Add(uid.Value);
+			filter.UIDs.Add(uid.Value);
 			var operationResult = FiresecManager.FiresecService.GetScheduleZones(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}

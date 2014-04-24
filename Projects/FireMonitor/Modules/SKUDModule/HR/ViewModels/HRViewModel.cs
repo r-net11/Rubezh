@@ -19,40 +19,30 @@ namespace SKDModule.ViewModels
 		AdditionalColumnTypeFilter AdditionalColumnTypeFilter;
 		DocumentFilter DocumentFilter;
 
+		public EmployeesViewModel EmployeesViewModel { get; private set; }
+		public DepartmentsViewModel DepartmentsViewModel { get; private set; }
+		public PositionsViewModel PositionsViewModel { get; private set; }
+		public AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel { get; private set; }
+		public DocumentsViewModel DocumentsViewModel { get; private set; }
+
 		public HRViewModel()
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
-			Filter = new HRFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
 
 			EmployeesViewModel = new EmployeesViewModel();
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
 			AdditionalColumnTypesViewModel = new AdditionalColumnTypesViewModel();
 			DocumentsViewModel = new DocumentsViewModel();
+			IsEmployeesSelected = true;
 
-
-			EmployeeFilter = new EmployeeFilter();
-			if (FiresecManager.CurrentUser.IsGuestsAllowed)
-				EmployeeFilter.PersonType = PersonType.Guest;
-			else
-				EmployeeFilter.PersonType = PersonType.Employee;
-			var organizationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
-			if (organizationUID != Guid.Empty)
-				EmployeeFilter.OrganisationUIDs = new List<Guid> { organizationUID };
-
-			DepartmentFilter = new DepartmentFilter();
-			PositionFilter = new PositionFilter();
-			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter();
-			DocumentFilter = new DocumentFilter();
-
+			Filter = new HRFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
+			Filter.EmployeeFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
+			Filter.DepartmentFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
+			Filter.PositionFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
+			InitializeFilters();
 			Initialize();
 		}
-
-		public EmployeesViewModel EmployeesViewModel { get; private set; }
-		public DepartmentsViewModel DepartmentsViewModel { get; private set; }
-		public PositionsViewModel PositionsViewModel { get; private set; }
-		public AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel { get; private set; }
-		public DocumentsViewModel DocumentsViewModel { get; private set; }
 
 		public void Initialize()
 		{
@@ -125,22 +115,18 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
 				Filter = filterViewModel.Filter;
-
-				EmployeeFilter = new EmployeeFilter();
-				if (FiresecManager.CurrentUser.IsGuestsAllowed)
-					EmployeeFilter.PersonType = PersonType.Guest;
-				else
-					EmployeeFilter.PersonType = PersonType.Employee;
-				var organizationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
-				if (organizationUID != Guid.Empty)
-					EmployeeFilter.OrganisationUIDs = new List<Guid> { organizationUID };
-
-				DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
-				PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
-				AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
-				DocumentFilter = new DocumentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+				InitializeFilters();
 				Initialize();
 			}
+		}
+
+		void InitializeFilters()
+		{
+			EmployeeFilter = Filter.EmployeeFilter;
+			DepartmentFilter = Filter.DepartmentFilter;
+			PositionFilter = Filter.PositionFilter;
+			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+			DocumentFilter = new DocumentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 		}
 	}
 }

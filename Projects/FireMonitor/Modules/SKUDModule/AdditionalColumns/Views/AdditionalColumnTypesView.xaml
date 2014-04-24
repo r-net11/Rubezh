@@ -3,16 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:SKDModule.Converters"
              xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
     <UserControl.Resources>
+        <viewModel:AdditionalColumnTypeViewModelNameComparer x:Key="AdditionalColumnTypeViewModelNameComparer" />
+        <viewModel:AdditionalColumnTypeViewModelDescriptionComparer x:Key="AdditionalColumnTypeViewModelDescriptionComparer" />
         <Converters:DataTypeToStringConverter x:Key="DataTypeToStringConverter" />
     </UserControl.Resources>
 
-    <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedAdditionalColumnType}" Source="{Binding RootAdditionalColumnTypes}">
+    <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedAdditionalColumnType}" Source="{Binding RootAdditionalColumnTypes}" tree:SortBehavior.CanUserSortColumns="True">
         <tree:TreeList.View>
             <GridView>
-                <GridViewColumn Header="Название" Width="200">
+                <GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -23,7 +25,7 @@
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>
-                <GridViewColumn Header="Описание">
+                <GridViewColumn Header="Описание" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelDescriptionComparer}">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Description}" />
