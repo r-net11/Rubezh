@@ -103,6 +103,7 @@
       <DependentUpon>SelectPositionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
+    <Compile Include="Events\ShowTimeTrackingEvent.cs" />
     <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
     <Compile Include="Events\ShowHREvent.cs" />
     <Compile Include="HR\ViewModels\HRFilter.cs" />
@@ -122,6 +123,17 @@
     </Compile>
     <Compile Include="Intervals\ScheduleShemes\Views\ScheduleSchemesView.xaml.cs">
       <DependentUpon>ScheduleSchemesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Intervals\TimeTracking\Model\TimeTrackingSettings.cs" />
+    <Compile Include="Intervals\TimeTracking\Model\TimeTrackingPeriod.cs" />
+    <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackingSettingsViewModel.cs" />
+    <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
+    <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackViewModel.cs" />
+    <Compile Include="Intervals\TimeTracking\Views\TimeTrackingSettingsView.xaml.cs">
+      <DependentUpon>TimeTrackingSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Intervals\TimeTracking\Views\TimeTrackingView.xaml.cs">
+      <DependentUpon>TimeTrackingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
@@ -527,6 +539,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Intervals\ScheduleShemes\Views\ScheduleSchemesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Intervals\TimeTracking\Views\TimeTrackingSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Intervals\TimeTracking\Views\TimeTrackingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

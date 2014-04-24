@@ -224,6 +224,7 @@
     <Compile Include="SKD\EmployeeTimeIntervals\TimeIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\NamedIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleScheme.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\TimeTrack.cs" />
     <Compile Include="SKD\Employee\ShortEmployee.cs" />
     <Compile Include="SKD\Employee\EmployeeReplacementFilter.cs" />
     <Compile Include="SKD\Employee\PersonType.cs" />

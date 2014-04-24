@@ -39,5 +39,6 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid SKDDaylyScheduleSchemes = new Guid("{B23AC76D-C16C-4F68-8223-262393A874FB}");
 		public static readonly Guid SKDMonthlyScheduleSchemes = new Guid("{6D6D4B53-8E45-44BC-A011-3E38B87FD6B6}");
 		public static readonly Guid SKDHolidays = new Guid("{C0DF2716-3AEA-449C-9371-9DB33625F6D5}");
+		public static readonly Guid SKDTimeTracking = new Guid("{9F5A429C-7E00-4360-824C-24D31952E50F}");
 	}
 }
