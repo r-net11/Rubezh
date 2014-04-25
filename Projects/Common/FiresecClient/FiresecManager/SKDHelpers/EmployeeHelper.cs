@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI;
 
 namespace FiresecClient.SKDHelpers
@@ -22,6 +23,16 @@ namespace FiresecClient.SKDHelpers
 		{
 			var operationResult = FiresecManager.FiresecService.GetEmployeeList(filter);
 			return Common.ShowErrorIfExists(operationResult);
+		}
+
+		public static ShortEmployee GetSingleShort(Guid? uid)
+		{
+			if (uid == null)
+				return null;
+			var filter = new EmployeeFilter();
+			filter.Uids.Add(uid.Value);
+			var operationResult = FiresecManager.FiresecService.GetEmployeeList(filter);
+			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
 		public static Employee GetDetails(Guid? uid)

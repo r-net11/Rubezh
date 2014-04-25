@@ -10,6 +10,7 @@ namespace SKDModule.ViewModels
 	{
 		public GenderSelectionViewModel(Gender employeeGender)
 		{
+			Title = "Пол";
 			Genders = new List<SelectationGenderViewModel>();
 			var genders = Enum.GetValues(typeof(Gender));
 			foreach (Gender gender in genders)

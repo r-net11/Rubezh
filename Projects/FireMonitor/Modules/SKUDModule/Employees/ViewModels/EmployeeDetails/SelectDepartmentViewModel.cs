@@ -14,6 +14,7 @@ namespace SKDModule.ViewModels
 
 		public SelectDepartmentViewModel(Employee employee)
 		{
+			Title = "Отдел";
 			Employee = employee;
 			Departments = new List<SelectationDepartmentViewModel>();
 			var departments = DepartmentHelper.GetByOrganisation(Employee.OrganisationUID);

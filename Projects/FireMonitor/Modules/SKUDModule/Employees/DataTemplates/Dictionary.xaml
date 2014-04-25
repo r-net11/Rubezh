@@ -36,4 +36,12 @@
 		<Views:DocumentTypeSelectionView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:SelectEscortViewModel}">
+        <Views:SelectEscortView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:SelectScheduleViewModel}">
+        <Views:SelectScheduleView />
+    </DataTemplate>
+
 </ResourceDictionary>

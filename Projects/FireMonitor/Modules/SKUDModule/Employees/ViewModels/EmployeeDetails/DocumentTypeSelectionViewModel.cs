@@ -10,6 +10,7 @@ namespace SKDModule.ViewModels
 	{
 		public DocumentTypeSelectionViewModel(EmployeeDocumentType employeeDocumentType)
 		{
+			Title = "Тип документа";
 			Types = new List<SelectationDocumentTypeViewModel>();
 			var documentTypes = Enum.GetValues(typeof(EmployeeDocumentType));
 			foreach (EmployeeDocumentType documentType in documentTypes)

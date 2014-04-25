@@ -154,6 +154,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isEmployeesAllowed = value;
+				_isGuestsAllowed = !value;
 				OnPropertyChanged(() => IsEmployeesAllowed);
 			}
 		}
@@ -165,6 +166,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isGuestsAllowed = value;
+				_isEmployeesAllowed = !value;
 				OnPropertyChanged(() => IsGuestsAllowed);
 			}
 		}

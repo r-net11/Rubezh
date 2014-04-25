@@ -70,6 +70,7 @@ namespace SKDDriver
 			result.CurrentReplacement = EmployeeReplacementTranslator.GetCurrentReplacement(tableItem.UID);
 			result.DepartmentUID = tableItem.DepartmentUID;
 			result.ScheduleUID = tableItem.ScheduleUID;
+			result.ScheduleStartDate = tableItem.ScheduleStartDate;
 			result.AdditionalColumns = AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID);
 			result.Type = (FiresecAPI.PersonType)tableItem.Type;
 			result.Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
@@ -152,6 +153,7 @@ namespace SKDDriver
 				tableItem.PositionUID = apiItem.Position.UID;
 			tableItem.DepartmentUID = apiItem.DepartmentUID;
 			tableItem.ScheduleUID = apiItem.ScheduleUID;
+			tableItem.ScheduleStartDate = apiItem.ScheduleStartDate;
 			if (apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.Type = (int)apiItem.Type;

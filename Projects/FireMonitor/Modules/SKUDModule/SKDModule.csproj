@@ -75,6 +75,8 @@
     <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\GenderSelectionViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\SelectEscortViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\SelectScheduleViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\TextColumnViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardDetailsViewModel.cs" />
@@ -90,8 +92,14 @@
     <Compile Include="Employees\Views\EmployeeDetails\DocumentTypeSelectionView.xaml.cs">
       <DependentUpon>DocumentTypeSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Employees\Views\EmployeeDetails\EscortSelectionView.xaml.cs">
+      <DependentUpon>EscortSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Employees\Views\EmployeeDetails\GenderSelectionView.xaml.cs">
       <DependentUpon>GenderSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\EmployeeDetails\SelectScheduleView.xaml.cs">
+      <DependentUpon>SelectScheduleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\Views\ReaderSelectationView.xaml.cs">
       <DependentUpon>ReaderSelectationView.xaml</DependentUpon>
@@ -482,11 +490,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Employees\Views\EmployeeDetails\EscortSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Employees\Views\EmployeeDetails\GenderSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AccessTemplates\Views\AccessTemplateFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\EmployeeDetails\SelectScheduleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

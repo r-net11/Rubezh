@@ -4,6 +4,7 @@ using FiresecAPI;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
+
 namespace SKDModule.ViewModels
 {
 	public class SelectPositionViewModel : SaveCancelDialogViewModel
@@ -12,6 +13,7 @@ namespace SKDModule.ViewModels
 
 		public SelectPositionViewModel(Employee employee)
 		{
+			Title = "Должность";
 			Employee = employee;
 			Positions = new List<SelectationPositionViewModel>();
 			var positions = PositionHelper.GetByOrganisation(Employee.OrganisationUID);
@@ -26,7 +28,7 @@ namespace SKDModule.ViewModels
 					SelectedPosition = Positions.FirstOrDefault();
 			}
 			else
-				SelectedPosition = Positions.FirstOrDefault();	
+				SelectedPosition = Positions.FirstOrDefault();
 			SelectedPosition.IsChecked = true;
 		}
 

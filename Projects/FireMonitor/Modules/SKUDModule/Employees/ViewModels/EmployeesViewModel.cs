@@ -5,11 +5,9 @@ using System.Linq;
 using FiresecAPI;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -30,7 +28,7 @@ namespace SKDModule.ViewModels
 		{
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
 			var employees = EmployeeHelper.Get(filter);
-
+			PersonType = filter.PersonType;
 			AllEmployees = new List<EmployeeViewModel>();
 			Organisations = new List<EmployeeViewModel>();
 			foreach (var organisation in organisations)
@@ -38,7 +36,7 @@ namespace SKDModule.ViewModels
 				var organisationViewModel = new EmployeeViewModel(organisation);
 				Organisations.Add(organisationViewModel);
 				AllEmployees.Add(organisationViewModel);
-				foreach (var employee in employees)
+				foreach (var employee  in employees)
 				{
 					if (employee.OrganisationUID == organisation.UID)
 					{
@@ -53,6 +51,7 @@ namespace SKDModule.ViewModels
 			{
 				organisation.ExpandToThis();
 			}
+			SelectedEmployee = Organisations.FirstOrDefault();
 			OnPropertyChanged("RootEmployees");
 		}
 
@@ -71,14 +70,16 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				EmployeeViewModel OrganisationViewModel = SelectedEmployee;
-				if (!OrganisationViewModel.IsOrganisation)
-					OrganisationViewModel = SelectedEmployee.Parent;
+				var organisationViewModel = SelectedEmployee;
+				
+				if (organisationViewModel == null)
+					return null;
+				
+				if (!organisationViewModel.IsOrganisation)
+					organisationViewModel = SelectedEmployee.Parent;
 
-				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organisation;
+				return organisationViewModel.Organisation;
 
-				return null;
 			}
 		}
 
@@ -160,14 +161,11 @@ namespace SKDModule.ViewModels
 
 		public void InitializeAdditionalColumns()
 		{
-			//AdditionalColumnNames = new ObservableCollection<string>();
-			//var additionalColumnTypeFilter = new AdditionalColumnTypeFilter();
-			//if (Organisation != null)
-			//    additionalColumnTypeFilter.OrganisationUIDs.Add(Organisation.UID);
-			//var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
+			//var columnTypes = AdditionalColumnTypeHelper.GetByOrganisation(Organisation.UID);
 			//if (columnTypes == null)
 			//    return;
 			//AdditionalColumnTypes = columnTypes.ToList();
+			//AdditionalColumnNames = new ObservableCollection<string>();
 			//foreach (var additionalColumnType in AdditionalColumnTypes)
 			//{
 			//    if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)

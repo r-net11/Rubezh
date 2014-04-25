@@ -46,6 +46,9 @@ namespace FiresecAPI
 		public Guid? ScheduleUID { get; set; }
 
 		[DataMember]
+		public DateTime ScheduleStartDate { get; set; }
+
+		[DataMember]
 		public Photo Photo { get; set; }
 
 		[DataMember]

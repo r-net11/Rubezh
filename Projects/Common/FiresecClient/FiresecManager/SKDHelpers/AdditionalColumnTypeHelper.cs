@@ -31,5 +31,16 @@ namespace FiresecClient.SKDHelpers
 			var operationResult = FiresecManager.FiresecService.GetAdditionalColumnTypeList(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}
+
+		public static IEnumerable<ShortAdditionalColumnType> GetByOrganisation(Guid? organisationUID)
+		{
+			if (organisationUID == null)
+				return null;
+			var result = FiresecManager.FiresecService.GetAdditionalColumnTypeList(new AdditionalColumnTypeFilter 
+				{ 
+					OrganisationUIDs = new List<System.Guid> { organisationUID.Value } 
+				});
+			return Common.ShowErrorIfExists(result);
+		}
 	}
 }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI;
+﻿using FiresecAPI;
 using FiresecClient;
-using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -36,9 +32,10 @@ namespace SKDModule.ViewModels
 				EmployeeFilter.PersonType = PersonType.Guest;
 			else
 				EmployeeFilter.PersonType = PersonType.Employee;
-			var organizationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
-			if (organizationUID != Guid.Empty)
-				EmployeeFilter.OrganisationUIDs = new List<Guid> { organizationUID };
+			
+			var organisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
+			if (organisationUIDs.IsNotNullOrEmpty())
+				EmployeeFilter.OrganisationUIDs = organisationUIDs;
 
 			DepartmentFilter = new DepartmentFilter();
 			PositionFilter = new PositionFilter();
@@ -127,14 +124,9 @@ namespace SKDModule.ViewModels
 				Filter = filterViewModel.Filter;
 
 				EmployeeFilter = new EmployeeFilter();
-				if (FiresecManager.CurrentUser.IsGuestsAllowed)
-					EmployeeFilter.PersonType = PersonType.Guest;
-				else
-					EmployeeFilter.PersonType = PersonType.Employee;
-				var organizationUID = FiresecManager.CurrentUser.OrganisationUIDs.FirstOrDefault();
-				if (organizationUID != Guid.Empty)
-					EmployeeFilter.OrganisationUIDs = new List<Guid> { organizationUID };
-
+				EmployeeFilter.PersonType = Filter.PersonType;
+				EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs;
+				
 				DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 				PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 				AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };

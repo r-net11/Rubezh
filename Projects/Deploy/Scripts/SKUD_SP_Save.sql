@@ -345,7 +345,8 @@ BEGIN
 			Gender,
 			DocumentDepartmentCode,
 			Citizenship,
-			DocumentType )
+			DocumentType,
+			ScheduleStartDate )
 		VALUES (
 			@Uid ,
 			@FirstName ,
@@ -371,7 +372,8 @@ BEGIN
 			0,
 			NULL,
 			'Российская Федерация',
-			0)
+			0,
+			'01/01/2000')
 END
 GO
 CREATE PROCEDURE [dbo].[SaveGuest]
@@ -410,7 +412,8 @@ BEGIN
 				Gender,
 				DocumentDepartmentCode,
 				Citizenship,
-				DocumentType )
+				DocumentType ,
+				ScheduleStartDate )
 			VALUES (
 				@Uid ,
 				@FirstName ,	
@@ -436,7 +439,8 @@ BEGIN
 				0,
 				NULL,
 				'Российская Федерация',
-				0)
+				0,
+				'01/01/2000')
 END
 GO
 CREATE PROCEDURE [dbo].[SaveDepartment]

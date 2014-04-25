@@ -13,9 +13,31 @@ namespace SKDModule.ViewModels
 	{
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public Employee Employee { get; private set; }
-		public ShortEmployee ShortEmployee { get; private set; }
+		public ShortEmployee ShortEmployee 
+		{ 
+			get
+			{
+				var result = new ShortEmployee
+				{
+					UID = Employee.UID,
+					Cards = Employee.Cards,
+					FirstName = FirstName,
+					SecondName = SecondName,
+					LastName = LastName,
+					Type = Employee.Type,
+					Appointed = Employee.Appointed.ToString("d MMM yyyy"),
+					Dismissed = Employee.Dismissed.ToString("d MMM yyyy"),
+				};
+				if (SelectedDepartment != null)
+					result.DepartmentName = SelectedDepartment.Department.Name;
+				if (SelectedPosition != null)
+					result.PositionName = SelectedPosition.Position.Name;
+				return result;
+			} 
+		}
 		public bool IsEmployee { get; private set; }
 		SelectDepartmentViewModel SelectDepartmentViewModel;
+		SelectScheduleViewModel SelectScheduleViewModel;
 		SelectPositionViewModel SelectPositionViewModel;
 
 		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, ShortEmployee employee = null)
@@ -51,6 +73,8 @@ namespace SKDModule.ViewModels
 			CopyProperties();
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
 			RemoveDepartmentCommand = new RelayCommand(OnRemoveDepartment);
+			SelectEscortCommand = new RelayCommand(OnSelectEscort);
+			RemoveEscortCommand = new RelayCommand(OnRemoveEscort);
 			SelectPositionCommand = new RelayCommand(OnSelectPosition);
 			RemovePositionCommand = new RelayCommand(OnRemovePosition);
 			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
@@ -58,6 +82,11 @@ namespace SKDModule.ViewModels
 			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
 			SelectGenderCommand = new RelayCommand(OnSelectGender);
 			SelectDocumentTypeCommand = new RelayCommand(OnSelectDocumentType);
+			SelectAppointedCommand = new RelayCommand(OnSelectAppointed);
+			SelectDismissedCommand = new RelayCommand(OnSelectDismissed);
+			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
+			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
+			RemoveScheduleCommand = new RelayCommand(OnRemoveSchedule);
 		}
 
 		public void CopyProperties()
@@ -74,22 +103,36 @@ namespace SKDModule.ViewModels
 			ValidTo = Employee.DocumentValidTo;
 			Citizenship = Employee.Citizenship;
 			DocumentType = Employee.DocumentType;
-
+			
 			if (IsEmployee)
 			{
 				SelectPositionViewModel = new SelectPositionViewModel(Employee);
 				SelectedPosition = SelectPositionViewModel.SelectedPosition;
-				SelectDepartmentViewModel = new SelectDepartmentViewModel(Employee);
-				SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment;
+				SelectScheduleViewModel = new SelectScheduleViewModel(Employee);
+				SelectedSchedule = SelectScheduleViewModel.SelectedSchedule;
+				ScheduleStartDate = Employee.ScheduleStartDate;
+				Appointed = Employee.Appointed;
+				Dismissed = Employee.Dismissed;
+				CredentialsStartDate = Employee.CredentialsStartDate;
 			}
+			else
+			{
+				var escortEmployee = EmployeeHelper.GetSingleShort(Employee.EscortUID);
+				if(escortEmployee != null)
+					SelectedEscort = new SelectationEmployeeViewModel(escortEmployee);
+			}
+
+			SelectDepartmentViewModel = new SelectDepartmentViewModel(Employee);
+			SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment;
 			TextColumns = new List<TextColumnViewModel>();
 			GraphicsColumns = new List<IGraphicsColumnViewModel>();
 			GraphicsColumns.Add(new PhotoColumnViewModel(Employee.Photo));
 			SelectedGraphicsColumn = GraphicsColumns.FirstOrDefault();
-			var graphicsColumnTypes = EmployeesViewModel.AdditionalColumnTypes.Where(x => x.DataType == AdditionalColumnDataType.Graphics);
-			HasAdditionalGraphicsColumns = graphicsColumns != null && graphicsColumns.Count > 0;
-			if (EmployeesViewModel.AdditionalColumnTypes.IsNotNullOrEmpty())
+			var additionalColumnTypes = AdditionalColumnTypeHelper.GetByOrganisation(Employee.OrganisationUID);
+			if (additionalColumnTypes != null && additionalColumnTypes.Count() > 0)
 			{
+				var graphicsColumnTypes = additionalColumnTypes.Where(x => x.DataType == AdditionalColumnDataType.Graphics);
+				HasAdditionalGraphicsColumns = graphicsColumns != null && graphicsColumns.Count > 0;
 				foreach (var column in Employee.AdditionalColumns)
 				{
 					if (column.AdditionalColumnType.DataType == AdditionalColumnDataType.Text)
@@ -119,6 +162,23 @@ namespace SKDModule.ViewModels
 			get { return SelectedDepartment != null; }
 		}
 
+		SelectationEmployeeViewModel selectedEscort;
+		public SelectationEmployeeViewModel SelectedEscort
+		{
+			get { return selectedEscort; }
+			private set
+			{
+				selectedEscort = value;
+				OnPropertyChanged(() => SelectedEscort);
+				OnPropertyChanged(() => HasSelectedEscort);
+			}
+		}
+
+		public bool HasSelectedEscort
+		{
+			get { return SelectedEscort != null; }
+		}
+
 		SelectationPositionViewModel _selectedPosition;
 		public SelectationPositionViewModel SelectedPosition
 		{
@@ -131,9 +191,51 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		
 		public bool HasSelectedPosition
 		{
 			get { return SelectedPosition != null; }
+		}
+
+		SelectationScheduleViewModel _selectedSchedule;
+		public SelectationScheduleViewModel SelectedSchedule
+		{
+			get { return _selectedSchedule; }
+			private set
+			{
+				_selectedSchedule = value;
+				OnPropertyChanged(() => SelectedSchedule);
+				OnPropertyChanged(() => HasSelectedSchedule);
+				OnPropertyChanged(() => ScheduleString);
+			}
+		}
+
+		DateTime _scheduleStartDate;
+		public DateTime ScheduleStartDate
+		{
+			get { return _scheduleStartDate; }
+			set
+			{
+				_scheduleStartDate = value;
+				OnPropertyChanged(() => ScheduleStartDate);
+				OnPropertyChanged(() => ScheduleString);
+			}
+		}
+
+		public bool HasSelectedSchedule
+		{
+			get { return SelectedSchedule != null; }
+		}
+
+		public string ScheduleString
+		{
+			get
+			{
+				if(HasSelectedSchedule)
+					return string.Format("{0} с {1}", SelectedSchedule.Name, ScheduleStartDate.ToString("dd/MM/yyyy"));
+				else
+					return "";
+			}
 		}
 
 		string _firstName;
@@ -178,32 +280,64 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public bool HasTextColumns
+		DateTime _appointed;
+		public DateTime Appointed
 		{
-			get { return TextColumns.IsNotNullOrEmpty(); }
-		}
-
-		List<TextColumnViewModel> textColumns;
-		public List<TextColumnViewModel> TextColumns
-		{
-			get { return textColumns; }
+			get { return _appointed; }
 			set
 			{
-				textColumns = value;
-				OnPropertyChanged(() => TextColumns);
+				if (_appointed != value)
+				{
+					_appointed = value;
+					OnPropertyChanged(() => Appointed);
+					OnPropertyChanged(() => AppointedString);
+				}
 			}
+		}
+		public string AppointedString
+		{
+			get { return Appointed.ToString("dd/MM/yyyy"); }
 		}
 
-		TextColumnViewModel selectedTextColumn;
-		public TextColumnViewModel SelectedTextColumn
+		DateTime _dismissed;
+		public DateTime Dismissed
 		{
-			get { return selectedTextColumn; }
+			get { return _dismissed; }
 			set
 			{
-				selectedTextColumn = value;
-				OnPropertyChanged(() => SelectedTextColumn);
+				if (_dismissed != value)
+				{
+					_dismissed = value;
+					OnPropertyChanged(() => Dismissed);
+					OnPropertyChanged(() => DismissedString);
+				}
 			}
 		}
+		public string DismissedString
+		{
+			get { return Dismissed.ToString("dd/MM/yyyy"); }
+		}
+
+		DateTime _credentialsStartDate;
+		public DateTime CredentialsStartDate
+		{
+			get { return _credentialsStartDate; }
+			set
+			{
+				if (_credentialsStartDate != value)
+				{
+					_credentialsStartDate = value;
+					OnPropertyChanged(() => CredentialsStartDate);
+					OnPropertyChanged(() => CredentialsStartDateString);
+				}
+			}
+		}
+		public string CredentialsStartDateString
+		{
+			get { return CredentialsStartDate.ToString("dd/MM/yyyy"); }
+		}
+
+		
 
 		#region Document
 		string _number;
@@ -347,8 +481,7 @@ namespace SKDModule.ViewModels
 		}
 		#endregion
 
-
-
+		#region AdditionalColumns
 		public bool HasAdditionalGraphicsColumns { get; private set; }
 		public string GraphicsColumnsTabItemName { get; private set; }
 
@@ -374,11 +507,35 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		protected override bool CanSave()
+		public bool HasTextColumns
 		{
-			return !string.IsNullOrEmpty(FirstName);
+			get { return TextColumns.IsNotNullOrEmpty(); }
 		}
 
+		List<TextColumnViewModel> textColumns;
+		public List<TextColumnViewModel> TextColumns
+		{
+			get { return textColumns; }
+			set
+			{
+				textColumns = value;
+				OnPropertyChanged(() => TextColumns);
+			}
+		}
+
+		TextColumnViewModel selectedTextColumn;
+		public TextColumnViewModel SelectedTextColumn
+		{
+			get { return selectedTextColumn; }
+			set
+			{
+				selectedTextColumn = value;
+				OnPropertyChanged(() => SelectedTextColumn);
+			}
+		}
+		#endregion
+		
+		#region Commands
 		public RelayCommand SelectDocumentTypeCommand { get; private set; }
 		void OnSelectDocumentType()
 		{
@@ -387,6 +544,52 @@ namespace SKDModule.ViewModels
 			{
 				DocumentType = selectDateViewModel.DocumentType;
 			}
+		}
+
+		public RelayCommand SelectAppointedCommand { get; private set; }
+		void OnSelectAppointed()
+		{
+			var selectDateViewModel = new DateSelectionViewModel(Appointed);
+			if (DialogService.ShowModalWindow(selectDateViewModel))
+			{
+				Appointed = selectDateViewModel.DateTime;
+			}
+		}
+
+		public RelayCommand SelectDismissedCommand { get; private set; }
+		void OnSelectDismissed()
+		{
+			var selectDateViewModel = new DateSelectionViewModel(Dismissed);
+			if (DialogService.ShowModalWindow(selectDateViewModel))
+			{
+				Dismissed = selectDateViewModel.DateTime;
+			}
+		}
+
+		public RelayCommand SelectCredentialsStartDateCommand { get; private set; }
+		void OnSelectCredentialsStartDate()
+		{
+			var selectDateViewModel = new DateSelectionViewModel(CredentialsStartDate);
+			if (DialogService.ShowModalWindow(selectDateViewModel))
+			{
+				CredentialsStartDate = selectDateViewModel.DateTime;
+			}
+		}
+
+		public RelayCommand SelectScheduleCommand { get; private set; }
+		void OnSelectSchedule()
+		{
+			if (DialogService.ShowModalWindow(SelectScheduleViewModel))
+			{
+				SelectedSchedule = SelectScheduleViewModel.SelectedSchedule;
+				ScheduleStartDate = SelectScheduleViewModel.StartDate;
+			}
+		}
+
+		public RelayCommand RemoveScheduleCommand { get; private set; }
+		void OnRemoveSchedule()
+		{
+			SelectedSchedule = null;
 		}
 
 		public RelayCommand SelectGenderCommand { get; private set; }
@@ -459,9 +662,44 @@ namespace SKDModule.ViewModels
 			SelectedPosition = null;
 		}
 
+		public RelayCommand SelectEscortCommand { get; private set; }
+		void OnSelectEscort()
+		{
+			if(SelectedDepartment == null)
+			{
+				MessageBoxService.Show("Выберите отдел");
+				return;
+			}	
+			Guid? escortUID = null; 
+			if(HasSelectedEscort)
+				escortUID = SelectedEscort.Employee.UID;
+			var selectEscortViewModel = new SelectEscortViewModel(SelectedDepartment.Department.UID, escortUID);
+			if (DialogService.ShowModalWindow(selectEscortViewModel))
+			{
+				SelectedEscort = selectEscortViewModel.SelectedEmployee;
+			}
+		}
+		bool CanSelectEscort()
+		{
+			return SelectedDepartment != null;
+		}
+
+		public RelayCommand RemoveEscortCommand { get; private set; }
+		void OnRemoveEscort()
+		{
+			SelectedEscort = null;
+		}
+		#endregion
+
+		protected override bool CanSave()
+		{
+			return !string.IsNullOrEmpty(FirstName);
+		}
+		
 		protected override bool Save()
 		{
-			if (EmployeesViewModel.AllEmployees.Any(x => x.ShortEmployee.FirstName == FirstName && x.ShortEmployee.LastName == LastName && x.ShortEmployee.UID != Employee.UID))
+			if (EmployeesViewModel.AllEmployees.Any(x => x.ShortEmployee != null && 
+				x.ShortEmployee.FirstName == FirstName && x.ShortEmployee.LastName == LastName && x.ShortEmployee.UID != Employee.UID))
 			{
 				MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
 				return false;
@@ -495,34 +733,33 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			ShortEmployee = new ShortEmployee
+			if (SelectedDepartment == null)
 			{
-				UID = Employee.UID,
-				Cards = Employee.Cards,
-				FirstName = Employee.FirstName,
-				SecondName = Employee.SecondName,
-				LastName = Employee.LastName,
-				Type = Employee.Type,
-				Appointed = Employee.Appointed.ToString("d MMM yyyy"),
-				Dismissed = Employee.Dismissed.ToString("d MMM yyyy"),
-			};
+				MessageBoxService.ShowWarning("Выберите отдел");
+				return false;
+			}
+			Employee.DepartmentUID = SelectedDepartment.Department.UID;
 
 			if (IsEmployee)
 			{
-				if (SelectedDepartment == null)
-				{
-					MessageBoxService.ShowWarning("Выберите отдел");
-					return false;
-				}
+
 				if (SelectedPosition == null)
 				{
 					MessageBoxService.ShowWarning("Выберите должность");
 					return false;
 				}
-				Employee.DepartmentUID = SelectedDepartment.Department.UID;
-				ShortEmployee.DepartmentName = SelectedDepartment.Department.Name;
 				Employee.Position = SelectedPosition.Position;
-				ShortEmployee.PositionName = SelectedPosition.Name;
+				if (SelectedSchedule == null)
+				{
+					MessageBoxService.ShowWarning("Выберите график работы");
+					return false;
+				}
+				Employee.ScheduleUID = SelectedSchedule.Schedule.UID;
+				Employee.ScheduleStartDate = ScheduleStartDate;
+			}
+			else
+			{
+				Employee.EscortUID = SelectedEscort != null ? SelectedEscort.Employee.UID : Employee.EscortUID = null;
 			}
 
 			return EmployeeHelper.Save(Employee);
