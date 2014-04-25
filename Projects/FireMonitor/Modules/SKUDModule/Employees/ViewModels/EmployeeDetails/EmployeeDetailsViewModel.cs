@@ -11,7 +11,7 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public EmployeesViewModel EmployeesViewModel { get; private set; }
+		Organisation Organisation { get; set; }
 		public Employee Employee { get; private set; }
 		public ShortEmployee ShortEmployee 
 		{ 
@@ -40,10 +40,10 @@ namespace SKDModule.ViewModels
 		SelectScheduleViewModel SelectScheduleViewModel;
 		SelectPositionViewModel SelectPositionViewModel;
 
-		public EmployeeDetailsViewModel(EmployeesViewModel employeesViewModel, ShortEmployee employee = null)
+		public EmployeeDetailsViewModel(PersonType personType, Organisation orgnaisation, ShortEmployee employee = null)
 		{
-			EmployeesViewModel = employeesViewModel;
-			IsEmployee = EmployeesViewModel.PersonType == PersonType.Employee;
+			Organisation = orgnaisation;
+			IsEmployee = personType == PersonType.Employee;
 			if (employee == null)
 			{
 				Employee = new Employee();
@@ -698,12 +698,6 @@ namespace SKDModule.ViewModels
 		
 		protected override bool Save()
 		{
-			if (EmployeesViewModel.AllEmployees.Any(x => x.ShortEmployee != null && 
-				x.ShortEmployee.FirstName == FirstName && x.ShortEmployee.LastName == LastName && x.ShortEmployee.UID != Employee.UID))
-			{
-				MessageBoxService.ShowWarning("Имя и фамилия сотрудника совпадает с введеннымы ранее");
-				return false;
-			}
 			Employee.FirstName = FirstName;
 			Employee.SecondName = SecondName;
 			Employee.LastName = LastName;
@@ -716,7 +710,7 @@ namespace SKDModule.ViewModels
 			Employee.DocumentValidTo = ValidTo;
 			Employee.Citizenship = Citizenship;
 			Employee.DocumentType = DocumentType;
-			Employee.OrganisationUID = EmployeesViewModel.Organisation.UID;
+			Employee.OrganisationUID = Organisation.UID;
 			Employee.AdditionalColumns = (from x in TextColumns select x.AdditionalColumn).ToList();
 			foreach (var item in GraphicsColumns)
 			{

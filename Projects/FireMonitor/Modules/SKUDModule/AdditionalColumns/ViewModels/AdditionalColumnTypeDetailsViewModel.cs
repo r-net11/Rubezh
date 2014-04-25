@@ -10,7 +10,7 @@ namespace SKDModule.ViewModels
 {
 	public class AdditionalColumnTypeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel;
+		Organisation Organisation { get; set; }
 		public AdditionalColumnType AdditionalColumnType { get; private set; }
 		public ShortAdditionalColumnType ShortAdditionalColumnType
 		{
@@ -26,11 +26,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public Organisation Organisation { get; private set; }
-
-		public AdditionalColumnTypeDetailsViewModel(AdditionalColumnTypesViewModel additionalColumnTypesViewModel, Organisation orgnaisation, Guid? additionalColumnTypeUID = null)
+		public AdditionalColumnTypeDetailsViewModel(Organisation orgnaisation, Guid? additionalColumnTypeUID = null)
 		{
-			AdditionalColumnTypesViewModel = additionalColumnTypesViewModel;
 			Organisation = orgnaisation;
 			if (additionalColumnTypeUID == null)
 			{

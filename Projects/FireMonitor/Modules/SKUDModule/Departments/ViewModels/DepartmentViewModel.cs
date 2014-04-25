@@ -23,8 +23,9 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 		}
 
-		public DepartmentViewModel(ShortDepartment department)
+		public DepartmentViewModel(Organisation organisation, ShortDepartment department)
 		{
+			Organisation = organisation;
 			Department = department;
 			IsOrganisation = false;
 			Name = department.Name;

@@ -19,20 +19,21 @@ namespace SKDModule.ViewModels
 
 		public AccessTemplateViewModel(Organisation organisation)
 		{
-			CardZonesViewModel = new CardZonesViewModel(new List<CardZone>());
 			Organisation = organisation;
 			IsOrganisation = true;
 			Name = organisation.Name;
 			IsExpanded = true;
+			CardZonesViewModel = new CardZonesViewModel(new List<CardZone>());
 		}
 
-		public AccessTemplateViewModel(AccessTemplate accessTemplate)
+		public AccessTemplateViewModel(Organisation organisation, AccessTemplate accessTemplate)
 		{
+			Organisation = organisation;
 			AccessTemplate = accessTemplate;
-			CardZonesViewModel = new CardZonesViewModel(accessTemplate.CardZones);
 			IsOrganisation = false;
 			Name = accessTemplate.Name;
 			Description = accessTemplate.Description;
+			CardZonesViewModel = new CardZonesViewModel(accessTemplate.CardZones);
 		}
 
 		public void Update(AccessTemplate accessTemplate)

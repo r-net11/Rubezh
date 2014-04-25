@@ -7,7 +7,6 @@ namespace SKDModule.ViewModels
 {
 	public class PositionDetailsViewModel : SaveCancelDialogViewModel
 	{
-		PositionsViewModel PositionsViewModel;
 		public Position Position { get; private set; }
 		public ShortPosition ShortPosition
 		{
@@ -23,11 +22,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public Organisation Organisation { get; private set; }
+		Organisation Organisation { get; set; }
 
-		public PositionDetailsViewModel(PositionsViewModel positionsViewModel, Organisation orgnaisation, Guid? positionUID = null)
+		public PositionDetailsViewModel(Organisation orgnaisation, Guid? positionUID = null)
 		{
-			PositionsViewModel = positionsViewModel;
 			Organisation = orgnaisation;
 			if (positionUID == null)
 			{

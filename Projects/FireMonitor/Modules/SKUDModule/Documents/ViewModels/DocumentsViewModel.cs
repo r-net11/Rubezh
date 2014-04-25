@@ -36,18 +36,18 @@ namespace SKDModule.ViewModels
 				{
 					if (document.OrganisationUID == organisation.UID)
 					{
-						var documentViewModel = new DocumentViewModel(document);
+						var documentViewModel = new DocumentViewModel(organisation, document);
 						organisationViewModel.AddChild(documentViewModel);
 						AllDocuments.Add(documentViewModel);
 					}
 				}
 			}
+			OnPropertyChanged("Organisations");
 			SelectedDocument = Organisations.FirstOrDefault();
-			OnPropertyChanged("RootDocuments");
 		}
 
-		#region DocumentSelection
-		public List<DocumentViewModel> AllDocuments;
+		public List<DocumentViewModel> Organisations { get; private set; }
+		List<DocumentViewModel> AllDocuments { get; set; }
 
 		public void Select(Guid documentUID)
 		{
@@ -59,7 +59,6 @@ namespace SKDModule.ViewModels
 				SelectedDocument = documentViewModel;
 			}
 		}
-		#endregion
 
 		DocumentViewModel _selectedDocument;
 		public DocumentViewModel SelectedDocument
@@ -74,44 +73,13 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		List<DocumentViewModel> _organisations;
-		public List<DocumentViewModel> Organisations
-		{
-			get { return _organisations; }
-			private set
-			{
-				_organisations = value;
-				OnPropertyChanged("Organisations");
-			}
-		}
-
-		public Organisation Organisation
-		{
-			get
-			{
-				DocumentViewModel OrganisationViewModel = SelectedDocument;
-				if (!OrganisationViewModel.IsOrganisation)
-					OrganisationViewModel = SelectedDocument.Parent;
-
-				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organisation;
-
-				return null;
-			}
-		}
-
-		public DocumentViewModel[] RootDocuments
-		{
-			get { return Organisations.ToArray(); }
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(this, Organisation);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(SelectedDocument.Organisation);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				var documentViewModel = new DocumentViewModel(documentDetailsViewModel.ShortDocument);
+				var documentViewModel = new DocumentViewModel(SelectedDocument.Organisation, documentDetailsViewModel.ShortDocument);
 
 				DocumentViewModel OrganisationViewModel = SelectedDocument;
 				if (!OrganisationViewModel.IsOrganisation)
@@ -159,7 +127,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(this, Organisation, SelectedDocument.Document.UID);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(SelectedDocument.Organisation, SelectedDocument.Document.UID);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				SelectedDocument.Update(documentDetailsViewModel.ShortDocument);

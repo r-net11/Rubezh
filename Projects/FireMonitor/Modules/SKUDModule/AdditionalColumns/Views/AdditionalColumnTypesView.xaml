@@ -11,7 +11,7 @@
         <Converters:DataTypeToStringConverter x:Key="DataTypeToStringConverter" />
     </UserControl.Resources>
 
-    <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedAdditionalColumnType}" Source="{Binding RootAdditionalColumnTypes}" tree:SortBehavior.CanUserSortColumns="True">
+    <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedAdditionalColumnType}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
         <tree:TreeList.View>
             <GridView>
                 <GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">

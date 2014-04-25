@@ -23,7 +23,7 @@
             <Controls:ToolBarButton Command="{Binding EditFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" />
         </StackPanel>
 
-        <tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedAccessTemplate}" Source="{Binding RootAccessTemplates}" tree:SortBehavior.CanUserSortColumns="True">
+        <tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedAccessTemplate}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
             <tree:TreeList.View>
                 <GridView>
                     <GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">

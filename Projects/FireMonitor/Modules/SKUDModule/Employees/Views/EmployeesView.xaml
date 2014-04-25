@@ -11,7 +11,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-        <tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" SelectedTreeNode="{Binding SelectedEmployee}" Source="{Binding RootEmployees}" Loaded="treeList_Loaded">
+        <tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" SelectedTreeNode="{Binding SelectedEmployee}" Source="{Binding Organisations}" Loaded="treeList_Loaded">
             <tree:TreeList.View>
                 <GridView>
                     <GridViewColumn Header="ФИО" Width="200" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelLastNameComparer}">

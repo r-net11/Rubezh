@@ -31,8 +31,9 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 		}
 
-		public EmployeeViewModel(ShortEmployee employee)
+		public EmployeeViewModel(Organisation organisation, ShortEmployee employee)
 		{
+			Organisation = organisation;
 			ShortEmployee = employee;
 			IsOrganisation = false;
 			Name = employee.LastName;

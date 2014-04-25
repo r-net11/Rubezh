@@ -19,8 +19,9 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 		}
 
-		public AdditionalColumnTypeViewModel(ShortAdditionalColumnType additionalColumnType)
+		public AdditionalColumnTypeViewModel(Organisation organisation, ShortAdditionalColumnType additionalColumnType)
 		{
+			Organisation = organisation;
 			AdditionalColumnType = additionalColumnType;
 			IsOrganisation = false;
 			Name = additionalColumnType.Name;

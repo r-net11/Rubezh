@@ -35,17 +35,18 @@ namespace SKDModule.ViewModels
 				{
 					if (position.OrganisationUID == organisation.UID)
 					{
-						var positionViewModel = new PositionViewModel(position);
+						var positionViewModel = new PositionViewModel(organisation, position);
 						organisationViewModel.AddChild(positionViewModel);
 						AllPositions.Add(positionViewModel);
 					}
 				}
 			}
+			OnPropertyChanged("Organisations");
 			SelectedPosition = Organisations.FirstOrDefault();
-			OnPropertyChanged("RootPositions");
 		}
 
-		public List<PositionViewModel> AllPositions;
+		public List<PositionViewModel> Organisations { get; private set; }
+		List<PositionViewModel> AllPositions { get; set; }
 
 		public void Select(Guid positionUID)
 		{
@@ -71,44 +72,13 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		List<PositionViewModel> _organisations;
-		public List<PositionViewModel> Organisations
-		{
-			get { return _organisations; }
-			private set
-			{
-				_organisations = value;
-				OnPropertyChanged("Organisations");
-			}
-		}
-
-		public Organisation Organisation
-		{
-			get
-			{
-				PositionViewModel OrganisationViewModel = SelectedPosition;
-				if (!OrganisationViewModel.IsOrganisation)
-					OrganisationViewModel = SelectedPosition.Parent;
-
-				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organisation;
-
-				return null;
-			}
-		}
-
-		public PositionViewModel[] RootPositions
-		{
-			get { return Organisations.ToArray(); }
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(this, Organisation);
+			var positionDetailsViewModel = new PositionDetailsViewModel(SelectedPosition.Organisation);
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
-				var positionViewModel = new PositionViewModel(positionDetailsViewModel.ShortPosition);
+				var positionViewModel = new PositionViewModel(SelectedPosition.Organisation, positionDetailsViewModel.ShortPosition);
 
 				PositionViewModel OrganisationViewModel = SelectedPosition;
 				if (!OrganisationViewModel.IsOrganisation)
@@ -156,7 +126,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(this, Organisation, SelectedPosition.Position.UID);
+			var positionDetailsViewModel = new PositionDetailsViewModel(SelectedPosition.Organisation, SelectedPosition.Position.UID);
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
 				SelectedPosition.Update(positionDetailsViewModel.ShortPosition);

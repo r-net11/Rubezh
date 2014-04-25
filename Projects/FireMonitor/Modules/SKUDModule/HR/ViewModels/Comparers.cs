@@ -58,4 +58,20 @@ namespace SKDModule.ViewModels
 			return string.Compare(x.Description, y.Description);
 		}
 	}
+
+	public class DocumentViewModelNameComparer : TreeNodeComparer<DocumentViewModel>
+	{
+		protected override int Compare(DocumentViewModel x, DocumentViewModel y)
+		{
+			return string.Compare(x.Name, y.Name);
+		}
+	}
+
+	public class DocumentViewModelDescriptionComparer : TreeNodeComparer<DocumentViewModel>
+	{
+		protected override int Compare(DocumentViewModel x, DocumentViewModel y)
+		{
+			return string.Compare(x.Description, y.Description);
+		}
+	}
 }

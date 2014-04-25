@@ -36,18 +36,18 @@ namespace SKDModule.ViewModels
 				{
 					if (additionalColumnType.OrganisationUID == organisation.UID)
 					{
-						var additionalColumnTypeViewModel = new AdditionalColumnTypeViewModel(additionalColumnType);
+						var additionalColumnTypeViewModel = new AdditionalColumnTypeViewModel(organisation, additionalColumnType);
 						organisationViewModel.AddChild(additionalColumnTypeViewModel);
 						AllAdditionalColumnTypes.Add(additionalColumnTypeViewModel);
 					}
 				}
 			}
+			OnPropertyChanged("Organisations");
 			SelectedAdditionalColumnType = Organisations.FirstOrDefault();
-			OnPropertyChanged("RootAdditionalColumnTypes");
 		}
 
-		#region AdditionalColumnTypeSelection
-		public List<AdditionalColumnTypeViewModel> AllAdditionalColumnTypes;
+		public List<AdditionalColumnTypeViewModel> Organisations { get; private set; }
+		List<AdditionalColumnTypeViewModel> AllAdditionalColumnTypes { get; set; }
 
 		public void Select(Guid additionalColumnTypeUID)
 		{
@@ -59,7 +59,6 @@ namespace SKDModule.ViewModels
 				SelectedAdditionalColumnType = additionalColumnTypeViewModel;
 			}
 		}
-		#endregion
 
 		AdditionalColumnTypeViewModel _selectedAdditionalColumnType;
 		public AdditionalColumnTypeViewModel SelectedAdditionalColumnType
@@ -74,44 +73,13 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		List<AdditionalColumnTypeViewModel> _organisations;
-		public List<AdditionalColumnTypeViewModel> Organisations
-		{
-			get { return _organisations; }
-			private set
-			{
-				_organisations = value;
-				OnPropertyChanged("Organisations");
-			}
-		}
-
-		public Organisation Organisation
-		{
-			get
-			{
-				AdditionalColumnTypeViewModel OrganisationViewModel = SelectedAdditionalColumnType;
-				if (!OrganisationViewModel.IsOrganisation)
-					OrganisationViewModel = SelectedAdditionalColumnType.Parent;
-
-				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organisation;
-
-				return null;
-			}
-		}
-
-		public AdditionalColumnTypeViewModel[] RootAdditionalColumnTypes
-		{
-			get { return Organisations.ToArray(); }
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var additionalColumnTypeDetailsViewModel = new AdditionalColumnTypeDetailsViewModel(this, Organisation);
+			var additionalColumnTypeDetailsViewModel = new AdditionalColumnTypeDetailsViewModel(SelectedAdditionalColumnType.Organisation);
 			if (DialogService.ShowModalWindow(additionalColumnTypeDetailsViewModel))
 			{
-				var additionalColumnTypeViewModel = new AdditionalColumnTypeViewModel(additionalColumnTypeDetailsViewModel.ShortAdditionalColumnType);
+				var additionalColumnTypeViewModel = new AdditionalColumnTypeViewModel(SelectedAdditionalColumnType.Organisation, additionalColumnTypeDetailsViewModel.ShortAdditionalColumnType);
 
 				AdditionalColumnTypeViewModel OrganisationViewModel = SelectedAdditionalColumnType;
 				if (!OrganisationViewModel.IsOrganisation)
@@ -159,7 +127,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var additionalColumnTypeDetailsViewModel = new AdditionalColumnTypeDetailsViewModel(this, Organisation, SelectedAdditionalColumnType.AdditionalColumnType.UID);
+			var additionalColumnTypeDetailsViewModel = new AdditionalColumnTypeDetailsViewModel(SelectedAdditionalColumnType.Organisation, SelectedAdditionalColumnType.AdditionalColumnType.UID);
 			if (DialogService.ShowModalWindow(additionalColumnTypeDetailsViewModel))
 			{
 				SelectedAdditionalColumnType.Update(additionalColumnTypeDetailsViewModel.ShortAdditionalColumnType);

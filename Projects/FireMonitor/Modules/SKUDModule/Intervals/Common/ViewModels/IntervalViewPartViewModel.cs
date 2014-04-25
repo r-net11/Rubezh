@@ -24,7 +24,7 @@ namespace SKDModule.Intervals.Common.ViewModels
 
 		protected virtual void Initialize()
 		{
-			var organisations = GetOrganizations();
+			var organisations = GetOrganisations();
 			var models = GetModels();
 
 			Organisations = new ObservableCollection<TOrganisationInterval>();
@@ -37,9 +37,9 @@ namespace SKDModule.Intervals.Common.ViewModels
 			SelectedOrganisation = Organisations.FirstOrDefault();
 		}
 		protected abstract IEnumerable<TElement> GetModels();
-		protected abstract TOrganisationInterval CreateOrganisationViewModel(Organisation organization);
+		protected abstract TOrganisationInterval CreateOrganisationViewModel(Organisation organisation);
 
-		public IEnumerable<FiresecAPI.Organisation> GetOrganizations()
+		public IEnumerable<FiresecAPI.Organisation> GetOrganisations()
 		{
 			return OrganisationHelper.Get(new FiresecAPI.OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 		}

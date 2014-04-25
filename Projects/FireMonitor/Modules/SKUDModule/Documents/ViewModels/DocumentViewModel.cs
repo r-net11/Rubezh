@@ -19,8 +19,9 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 		}
 
-		public DocumentViewModel(ShortDocument document)
+		public DocumentViewModel(Organisation organisation, ShortDocument document)
 		{
+			Organisation = organisation;
 			Document = document;
 			IsOrganisation = false;
 			Name = document.Name;

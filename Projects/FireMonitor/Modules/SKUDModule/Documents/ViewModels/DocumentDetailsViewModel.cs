@@ -9,7 +9,7 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentDetailsViewModel : SaveCancelDialogViewModel
 	{
-		DocumentsViewModel DocumentsViewModel;
+		Organisation Organisation { get; set; }
 		public Document Document { get; private set; }
 		public ShortDocument ShortDocument
 		{
@@ -25,11 +25,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public Organisation Organisation { get; private set; }
-
-		public DocumentDetailsViewModel(DocumentsViewModel documentsViewModel, Organisation orgnaisation, Guid? documentUID = null)
+		public DocumentDetailsViewModel(Organisation orgnaisation, Guid? documentUID = null)
 		{
-			DocumentsViewModel = documentsViewModel;
 			Organisation = orgnaisation;
 			if (documentUID == null)
 			{

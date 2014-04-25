@@ -36,7 +36,7 @@ namespace SKDModule.ViewModels
 				{
 					if (department.OrganisationUID == organisation.UID)
 					{
-						var departmentViewModel = new DepartmentViewModel(department);
+						var departmentViewModel = new DepartmentViewModel(organisation, department);
 						organisationViewModel.AddChild(departmentViewModel);
 						AllDepartments.Add(departmentViewModel);
 					}
@@ -47,8 +47,8 @@ namespace SKDModule.ViewModels
 						AddChildren(departmentViewModel);
 				}
 			}
+			OnPropertyChanged("Organisations");
 			SelectedDepartment = Organisations.FirstOrDefault();
-			OnPropertyChanged("RootDepartments");
 		}
 
 		void AddChildren(DepartmentViewModel departmentViewModel)
@@ -64,8 +64,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		#region DepartmentSelection
-		public List<DepartmentViewModel> AllDepartments;
+		public List<DepartmentViewModel> Organisations { get; private set; }
+		List<DepartmentViewModel> AllDepartments { get; set; }
 
 		public void Select(Guid departmentUID)
 		{
@@ -77,7 +77,6 @@ namespace SKDModule.ViewModels
 				SelectedDepartment = departmentViewModel;
 			}
 		}
-		#endregion
 
 		DepartmentViewModel _selectedDepartment;
 		public DepartmentViewModel SelectedDepartment
@@ -92,47 +91,16 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		List<DepartmentViewModel> _organisations;
-		public List<DepartmentViewModel> Organisations
-		{
-			get { return _organisations; }
-			private set
-			{
-				_organisations = value;
-				OnPropertyChanged("Organisations");
-			}
-		}
-
-		public Organisation Organisation
-		{
-			get
-			{
-				DepartmentViewModel OrganisationViewModel = SelectedDepartment;
-				if (!OrganisationViewModel.IsOrganisation)
-					OrganisationViewModel = SelectedDepartment.GetAllParents().FirstOrDefault(x=>x.IsOrganisation);
-
-				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organisation;
-
-				return null;
-			}
-		}
-
-		public DepartmentViewModel[] RootDepartments
-		{
-			get { return Organisations.ToArray(); }
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
 			Guid? parentDepartmentUID = null;
 			if(SelectedDepartment.Parent != null && !SelectedDepartment.Parent.IsOrganisation)
 				parentDepartmentUID = SelectedDepartment.Parent.Department.UID;
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(this, Organisation, null, parentDepartmentUID);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(SelectedDepartment.Organisation, null, parentDepartmentUID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
-				var departmentViewModel = new DepartmentViewModel(departmentDetailsViewModel.ShortDepartment);
+				var departmentViewModel = new DepartmentViewModel(SelectedDepartment.Organisation, departmentDetailsViewModel.ShortDepartment);
 
 				DepartmentViewModel OrganisationViewModel = SelectedDepartment;
 				if (!OrganisationViewModel.IsOrganisation)
@@ -178,7 +146,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(this, Organisation, SelectedDepartment.Department.UID);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(SelectedDepartment.Organisation, SelectedDepartment.Department.UID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				SelectedDepartment.Update(departmentDetailsViewModel.ShortDepartment);

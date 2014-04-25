@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 
 		public EmployeesViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd);
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
@@ -39,54 +39,20 @@ namespace SKDModule.ViewModels
 				{
 					if (employee.OrganisationUID == organisation.UID)
 					{
-						var employeeViewModel = new EmployeeViewModel(employee);
+						var employeeViewModel = new EmployeeViewModel(organisation, employee);
 						organisationViewModel.AddChild(employeeViewModel);
 						AllEmployees.Add(employeeViewModel);
 					}
 				}
 			}
+			OnPropertyChanged("Organisations");
 			SelectedEmployee = Organisations.FirstOrDefault();
-			SelectedEmployee = Organisations.FirstOrDefault();
-			OnPropertyChanged("RootEmployees");
 
 			InitializeAdditionalColumns();
 		}
 
-		List<EmployeeViewModel> _organisations;
-		public List<EmployeeViewModel> Organisations
-		{
-			get { return _organisations; }
-			private set
-			{
-				_organisations = value;
-				OnPropertyChanged("Organisations");
-			}
-		}
-
-		public Organisation Organisation
-		{
-			get
-			{
-				var organisationViewModel = SelectedEmployee;
-				
-				if (organisationViewModel == null)
-					return null;
-				
-				if (!organisationViewModel.IsOrganisation)
-					organisationViewModel = SelectedEmployee.Parent;
-
-				return organisationViewModel.Organisation;
-
-			}
-		}
-
-		public EmployeeViewModel[] RootEmployees
-		{
-			get { return Organisations.ToArray(); }
-		}
-
-		#region EmployeeSelection
-		public List<EmployeeViewModel> AllEmployees;
+		public List<EmployeeViewModel> Organisations { get; private set; }
+		List<EmployeeViewModel> AllEmployees { get; set; }
 
 		public void Select(Guid employeeUID)
 		{
@@ -98,7 +64,6 @@ namespace SKDModule.ViewModels
 				SelectedEmployee = employeeViewModel;
 			}
 		}
-		#endregion
 
 		EmployeeViewModel _selectedEmployee;
 		public EmployeeViewModel SelectedEmployee
@@ -120,19 +85,23 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this);
+			var employeeDetailsViewModel = new EmployeeDetailsViewModel(PersonType, SelectedEmployee.Organisation);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				var employeeViewModel = new EmployeeViewModel(employeeDetailsViewModel.ShortEmployee);
+				var employeeViewModel = new EmployeeViewModel(SelectedEmployee.Organisation, employeeDetailsViewModel.ShortEmployee);
 				AllEmployees.Add(employeeViewModel);
 				SelectedEmployee = employeeViewModel;
 			}
+		}
+		bool CanAdd()
+		{
+			return SelectedEmployee != null;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var employeeDetailsViewModel = new EmployeeDetailsViewModel(this, SelectedEmployee.ShortEmployee);
+			var employeeDetailsViewModel = new EmployeeDetailsViewModel(PersonType, SelectedEmployee.Organisation, SelectedEmployee.ShortEmployee);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				SelectedEmployee.Update(employeeDetailsViewModel.ShortEmployee);
@@ -172,7 +141,6 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypes = columnTypes.ToList();
 			foreach (var additionalColumnType in AdditionalColumnTypes)
 			{
-			//AdditionalColumnNames = new ObservableCollection<string>();
 				//if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
 				if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
 					AdditionalColumnNames.Add(additionalColumnType.Name);

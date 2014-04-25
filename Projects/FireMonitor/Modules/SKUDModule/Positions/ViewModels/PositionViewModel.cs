@@ -19,8 +19,9 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 		}
 
-		public PositionViewModel(ShortPosition position)
+		public PositionViewModel(Organisation organisation, ShortPosition position)
 		{
+			Organisation = organisation;
 			Position = position;
 			IsOrganisation = false;
 			Name = position.Name;

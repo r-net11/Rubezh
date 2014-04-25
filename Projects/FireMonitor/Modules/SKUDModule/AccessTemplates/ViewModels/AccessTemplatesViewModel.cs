@@ -41,17 +41,18 @@ namespace SKDModule.ViewModels
 				{
 					if (accessTemplate.OrganisationUID == organisation.UID)
 					{
-						var accessTemplateViewModel = new AccessTemplateViewModel(accessTemplate);
+						var accessTemplateViewModel = new AccessTemplateViewModel(organisation, accessTemplate);
 						organisationViewModel.AddChild(accessTemplateViewModel);
 						AllAccessTemplates.Add(accessTemplateViewModel);
 					}
 				}
 			}
+			OnPropertyChanged("Organisations");
 			SelectedAccessTemplate = Organisations.FirstOrDefault();
-			OnPropertyChanged("RootAccessTemplates");
 		}
 
-		public List<AccessTemplateViewModel> AllAccessTemplates;
+		public List<AccessTemplateViewModel> Organisations { get; private set; }
+		List<AccessTemplateViewModel> AllAccessTemplates { get; set; }
 
 		public void Select(Guid accessTemplateUID)
 		{
@@ -77,37 +78,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		List<AccessTemplateViewModel> _organisations;
-		public List<AccessTemplateViewModel> Organisations
-		{
-			get { return _organisations; }
-			private set
-			{
-				_organisations = value;
-				OnPropertyChanged("Organisations");
-			}
-		}
-
-		public Organisation Organisation
-		{
-			get
-			{
-				AccessTemplateViewModel OrganisationViewModel = SelectedAccessTemplate;
-				if (!OrganisationViewModel.IsOrganisation)
-					OrganisationViewModel = SelectedAccessTemplate.Parent;
-
-				if (OrganisationViewModel != null)
-					return OrganisationViewModel.Organisation;
-
-				return null;
-			}
-		}
-
-		public AccessTemplateViewModel[] RootAccessTemplates
-		{
-			get { return Organisations.ToArray(); }
-		}
-
 		public RelayCommand EditFilterCommand { get; private set; }
 		void OnEditFilter()
 		{
@@ -122,10 +92,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var accessTemplateDetailsViewModel = new AccessTemplateDetailsViewModel(this, Organisation);
+			var accessTemplateDetailsViewModel = new AccessTemplateDetailsViewModel(SelectedAccessTemplate.Organisation);
 			if (DialogService.ShowModalWindow(accessTemplateDetailsViewModel))
 			{
-				var accessTemplateViewModel = new AccessTemplateViewModel(accessTemplateDetailsViewModel.AccessTemplate);
+				var accessTemplateViewModel = new AccessTemplateViewModel(SelectedAccessTemplate.Organisation, accessTemplateDetailsViewModel.AccessTemplate);
 
 				AccessTemplateViewModel OrganisationViewModel = SelectedAccessTemplate;
 				if (!OrganisationViewModel.IsOrganisation)
@@ -173,7 +143,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var accessTemplateDetailsViewModel = new AccessTemplateDetailsViewModel(this, Organisation, SelectedAccessTemplate.AccessTemplate);
+			var accessTemplateDetailsViewModel = new AccessTemplateDetailsViewModel(SelectedAccessTemplate.Organisation, SelectedAccessTemplate.AccessTemplate);
 			if (DialogService.ShowModalWindow(accessTemplateDetailsViewModel))
 			{
 				SelectedAccessTemplate.Update(accessTemplateDetailsViewModel.AccessTemplate);
