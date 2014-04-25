@@ -48,6 +48,8 @@ namespace SKDModule.ViewModels
 			SelectedEmployee = Organisations.FirstOrDefault();
 			SelectedEmployee = Organisations.FirstOrDefault();
 			OnPropertyChanged("RootEmployees");
+
+			InitializeAdditionalColumns();
 		}
 
 		List<EmployeeViewModel> _organisations;
@@ -162,25 +164,28 @@ namespace SKDModule.ViewModels
 
 		public void InitializeAdditionalColumns()
 		{
-			//var columnTypes = AdditionalColumnTypeHelper.GetByOrganisation(Organisation.UID);
-			//if (columnTypes == null)
-			//    return;
-			//AdditionalColumnTypes = columnTypes.ToList();
+			AdditionalColumnNames = new ObservableCollection<string>();
+			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
+			var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
+			if (columnTypes == null)
+				return;
+			AdditionalColumnTypes = columnTypes.ToList();
+			foreach (var additionalColumnType in AdditionalColumnTypes)
+			{
 			//AdditionalColumnNames = new ObservableCollection<string>();
-			//foreach (var additionalColumnType in AdditionalColumnTypes)
-			//{
-			//    if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
-			//        AdditionalColumnNames.Add(additionalColumnType.Name);
-			//}
-			//foreach (var employee in AllEmployees)
-			//{
-			//    employee.AdditionalColumnValues = new ObservableCollection<string>();
-			//    foreach (var additionalColumnType in AdditionalColumnTypes)
-			//    {
-			//        if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
-			//            employee.AdditionalColumnValues.Add("Test " + additionalColumnType.Name);
-			//    }
-			//}
+				//if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
+				if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
+					AdditionalColumnNames.Add(additionalColumnType.Name);
+			}
+			foreach (var employee in AllEmployees)
+			{
+				employee.AdditionalColumnValues = new ObservableCollection<string>();
+				foreach (var additionalColumnType in AdditionalColumnTypes)
+				{
+					if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
+						employee.AdditionalColumnValues.Add(additionalColumnType.Name + "/" + employee.Name);
+				}
+			}
 		}
 
 		public ObservableCollection<string> AdditionalColumnNames { get; private set; }

@@ -42,7 +42,7 @@ namespace SKDModule.ViewModels
 
 			//DepartmentPhotoUID = department == null ? null : department.PhotoUID;
 			//PositionPhotoUID = null; // пока нет в БД - position == null ? null : position.PhotoUID;
-			
+
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			foreach (var item in employee.Cards)
 				Cards.Add(new EmployeeCardViewModel(Organisation, this, item));

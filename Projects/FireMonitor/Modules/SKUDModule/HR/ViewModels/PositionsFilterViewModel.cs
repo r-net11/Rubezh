@@ -16,40 +16,30 @@ namespace SKDModule.ViewModels
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 			var positions = PositionHelper.Get(new PositionFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 
-			AllFilterEntities = new List<FilterEntityViewModel>();
-			Organisations = new List<FilterEntityViewModel>();
+			AllPositions = new List<PositionFilterItemViewModel>();
+			Organisations = new List<PositionFilterItemViewModel>();
 			foreach (var organisation in organisations)
 			{
-				var organisationViewModel = new FilterEntityViewModel(organisation);
+				var organisationViewModel = new PositionFilterItemViewModel(organisation);
 				Organisations.Add(organisationViewModel);
-				AllFilterEntities.Add(organisationViewModel);
+				AllPositions.Add(organisationViewModel);
 				foreach (var position in positions)
 				{
 					if (position.OrganisationUID == organisation.UID)
 					{
-						var positionViewModel = new FilterEntityViewModel(position.Name, position.Description, position.UID);
+						var positionViewModel = new PositionFilterItemViewModel(position.Name, position.Description, position.UID);
 						positionViewModel.IsChecked = filter.UIDs.Contains(position.UID);
 						organisationViewModel.AddChild(positionViewModel);
-						AllFilterEntities.Add(positionViewModel);
+						AllPositions.Add(positionViewModel);
 					}
 				}
 			}
 		}
 
-		public List<FilterEntityViewModel> AllFilterEntities;
+		public List<PositionFilterItemViewModel> AllPositions;
+		public List<PositionFilterItemViewModel> Organisations { get; private set; }
 
-		List<FilterEntityViewModel> _organisations;
-		public List<FilterEntityViewModel> Organisations
-		{
-			get { return _organisations; }
-			private set
-			{
-				_organisations = value;
-				OnPropertyChanged("Organisations");
-			}
-		}
-
-		public FilterEntityViewModel[] RootFilterEntities
+		public PositionFilterItemViewModel[] RootPositions
 		{
 			get { return Organisations.ToArray(); }
 		}
@@ -57,11 +47,11 @@ namespace SKDModule.ViewModels
 		public PositionFilter Save()
 		{
 			var positionFilter = new PositionFilter();
-			foreach (var filterEntity in AllFilterEntities)
+			foreach (var position in AllPositions)
 			{
-				if (filterEntity.IsChecked && !filterEntity.IsOrganisation)
+				if (position.IsChecked && !position.IsOrganisation)
 				{
-					positionFilter.UIDs.Add(filterEntity.UID);
+					positionFilter.UIDs.Add(position.UID);
 				}
 			}
 			return positionFilter;

@@ -19,29 +19,31 @@ namespace SKDModule.Views
 
 		void OnUpdateAdditionalColumns(object obj)
 		{
-			_dataGrid_Loaded(_dataGrid, null);
+			treeList_Loaded(_treeList, null);
 		}
 
-		private void _dataGrid_Loaded(object sender, RoutedEventArgs e)
+		private void treeList_Loaded(object sender, RoutedEventArgs e)
 		{
-			//EmployeesViewModel employeesViewModel = _dataGrid.DataContext as EmployeesViewModel;
-			//if (employeesViewModel != null)
-			//{
-			//    var columns = _dataGrid.Columns.Where(x => x.Header.ToString() != "Имя" && x.Header.ToString() != "Фамилия" && x.Header.ToString() != "Отчество").ToList();
-			//    foreach (var column in columns)
-			//    {
-			//        _dataGrid.Columns.Remove(column);
-			//    }
+			GridView gridView = _treeList.View as GridView;
+			EmployeesViewModel employeesViewModel = _treeList.DataContext as EmployeesViewModel;
 
-			//    for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
-			//    {
-			//        var additionalColumnName = employeesViewModel.AdditionalColumnNames[i];
-			//        DataGridTextColumn textColumn = new DataGridTextColumn();
-			//        textColumn.Header = additionalColumnName;
-			//        textColumn.Binding = new Binding(string.Format("AdditionalColumnValues[{0}]", i));
-			//        _dataGrid.Columns.Add(textColumn);
-			//    }
-			//}
+			for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
+			{
+				var gridViewColumn = new GridViewColumn();
+				gridViewColumn.Header = employeesViewModel.AdditionalColumnNames[i];
+
+				var dataTemplate = new DataTemplate();
+				var txtElement = new FrameworkElementFactory(typeof(TextBox));
+				dataTemplate.VisualTree = txtElement;
+				var binding = new Binding();
+				var bindingPath = string.Format("AdditionalColumnValues[{0}]", 0);
+				binding.Path = new PropertyPath(bindingPath);
+				binding.Mode = BindingMode.OneWay;
+				txtElement.SetBinding(TextBox.TextProperty, binding);
+
+				gridViewColumn.CellTemplate = dataTemplate;
+				gridView.Columns.Add(gridViewColumn);
+			}
 		}
 	}
 }

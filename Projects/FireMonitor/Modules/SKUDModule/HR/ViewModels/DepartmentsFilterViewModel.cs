@@ -14,60 +14,50 @@ namespace SKDModule.ViewModels
 		public DepartmentsFilterViewModel(DepartmentFilter filter)
 		{
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
-			var departments = DepartmentHelper.GetList(new DepartmentFilter () { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var departments = DepartmentHelper.GetList(new DepartmentFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 
-			AllFilterEntities = new List<FilterDepartmentViewModel>();
-			Organisations = new List<FilterDepartmentViewModel>();
+			AllDepartments = new List<DepartmentFilterItemViewModel>();
+			Organisations = new List<DepartmentFilterItemViewModel>();
 			foreach (var organisation in organisations)
 			{
-				var organisationViewModel = new FilterDepartmentViewModel(organisation);
+				var organisationViewModel = new DepartmentFilterItemViewModel(organisation);
 				Organisations.Add(organisationViewModel);
-				AllFilterEntities.Add(organisationViewModel);
+				AllDepartments.Add(organisationViewModel);
 				foreach (var department in departments)
 				{
 					if (department.OrganisationUID == organisation.UID)
 					{
-						var departmentViewModel = new FilterDepartmentViewModel(department);
+						var departmentViewModel = new DepartmentFilterItemViewModel(department);
 						departmentViewModel.IsChecked = filter.UIDs.Contains(department.UID);
 						organisationViewModel.AddChild(departmentViewModel);
-						AllFilterEntities.Add(departmentViewModel);
+						AllDepartments.Add(departmentViewModel);
 					}
 				}
-				foreach (var filterEntitysViewModel in AllFilterEntities)
+				foreach (var departmentViewModel in AllDepartments)
 				{
-					if (filterEntitysViewModel.Department != null && filterEntitysViewModel.Department.ParentDepartmentUID == null)
-						AddChildren(filterEntitysViewModel);
+					if (departmentViewModel.Department != null && departmentViewModel.Department.ParentDepartmentUID == null)
+						AddChildren(departmentViewModel);
 				}
 			}
 		}
 
-		void AddChildren(FilterDepartmentViewModel filterDepartmentViewModel)
+		void AddChildren(DepartmentFilterItemViewModel departmentViewModel)
 		{
-			if (filterDepartmentViewModel.Department.ChildDepartmentUIDs != null && filterDepartmentViewModel.Department.ChildDepartmentUIDs.Count > 0)
+			if (departmentViewModel.Department.ChildDepartmentUIDs != null && departmentViewModel.Department.ChildDepartmentUIDs.Count > 0)
 			{
-				var children = AllFilterEntities.Where(x => filterDepartmentViewModel.Department.ChildDepartmentUIDs.Any(y => x.Department != null && y == x.Department.UID));
+				var children = AllDepartments.Where(x => departmentViewModel.Department.ChildDepartmentUIDs.Any(y => x.Department != null && y == x.Department.UID));
 				foreach (var child in children)
 				{
-					filterDepartmentViewModel.AddChild(child);
+					departmentViewModel.AddChild(child);
 					AddChildren(child);
 				}
 			}
 		}
 
-		public List<FilterDepartmentViewModel> AllFilterEntities;
+		public List<DepartmentFilterItemViewModel> AllDepartments;
+		public List<DepartmentFilterItemViewModel> Organisations { get; private set; }
 
-		List<FilterDepartmentViewModel> _organisations;
-		public List<FilterDepartmentViewModel> Organisations
-		{
-			get { return _organisations; }
-			private set
-			{
-				_organisations = value;
-				OnPropertyChanged("Organisations");
-			}
-		}
-
-		public FilterDepartmentViewModel[] RootFilterEntities
+		public DepartmentFilterItemViewModel[] RootDepartments
 		{
 			get { return Organisations.ToArray(); }
 		}
@@ -75,11 +65,11 @@ namespace SKDModule.ViewModels
 		public DepartmentFilter Save()
 		{
 			var departmentFilter = new DepartmentFilter();
-			foreach (var filterEntity in AllFilterEntities)
+			foreach (var department in AllDepartments)
 			{
-				if (filterEntity.IsChecked && !filterEntity.IsOrganisation)
+				if (department.IsChecked && !department.IsOrganisation)
 				{
-					departmentFilter.UIDs.Add(filterEntity.UID);
+					departmentFilter.UIDs.Add(department.UID);
 				}
 			}
 			return departmentFilter;

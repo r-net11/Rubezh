@@ -46,6 +46,7 @@ namespace SKDModule.ViewModels
 				AdditionalColumnType = AdditionalColumnTypeHelper.GetDetails(additionalColumnTypeUID);
 				Title = string.Format("Свойства дополнительной колонки: {0}", AdditionalColumnType.Name);
 			}
+			AvailableDataTypes = new ObservableCollection<AdditionalColumnDataType>(Enum.GetValues(typeof(AdditionalColumnDataType)).OfType<AdditionalColumnDataType>());
 			CopyProperties();
 		}
 

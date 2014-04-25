@@ -116,11 +116,11 @@
     <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
     <Compile Include="Events\ShowHREvent.cs" />
     <Compile Include="HR\ViewModels\EmployeeFilterViewModel.cs" />
-    <Compile Include="HR\ViewModels\FilterEntityViewModel.cs" />
+    <Compile Include="HR\ViewModels\PositionFilterItemViewModel.cs" />
     <Compile Include="HR\ViewModels\HRFilter.cs" />
     <Compile Include="HR\ViewModels\PositionsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentsFilterViewModel.cs" />
-    <Compile Include="HR\ViewModels\FilterDepartmentViewModel.cs" />
+    <Compile Include="HR\ViewModels\DepartmentFilterItemViewModel.cs" />
     <Compile Include="Intervals\Common\CopyHelper.cs" />
     <Compile Include="Intervals\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="Intervals\Common\ViewModels\OrganisationViewModel.cs" />

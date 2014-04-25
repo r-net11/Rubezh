@@ -99,8 +99,8 @@ namespace Controls
 				return s;
 			UIElement expander = Expander;
 
-			//if (Columns != null)
-			//	EnsureLines(Columns.Count);
+			if (Columns != null)
+				EnsureLines();
 
 			double current = 0;
 			double max = arrangeSize.Width;
