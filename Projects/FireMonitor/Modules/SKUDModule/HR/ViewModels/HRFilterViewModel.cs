@@ -1,13 +1,5 @@
-﻿using FiresecAPI;
+﻿using System.Linq;
 using Infrastructure.Common;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecClient.SKDHelpers;
-using Infrastructure.Common.CheckBoxList;
-using FiresecClient;
-using System.Collections.ObjectModel;
-using Infrastructure.Common.TreeList;
-using System;
 
 namespace SKDModule.ViewModels
 {
@@ -29,8 +21,6 @@ namespace SKDModule.ViewModels
 			EmployeeFilterViewModel = new EmployeeFilterViewModel(filter.EmployeeFilter);
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel(filter.DepartmentFilter);
 			PositionsFilterViewModel = new PositionsFilterViewModel(filter.PositionFilter);
-				_isGuestsAllowed = !value;
-				_isEmployeesAllowed = !value;
 		}
 
 		protected override bool Save()
