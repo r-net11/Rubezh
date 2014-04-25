@@ -9,10 +9,10 @@ namespace FiresecAPI
 	{
 		public FilterBase()
 		{
-			Uids = new List<Guid>();
+			UIDs = new List<Guid>();
 		}
 
 		[DataMember]
-		public List<Guid> Uids { get; set; }
+		public List<Guid> UIDs { get; set; }
 	}
 }

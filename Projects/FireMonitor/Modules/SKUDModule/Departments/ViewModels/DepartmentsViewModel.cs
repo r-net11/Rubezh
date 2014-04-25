@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(DepartmentFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 			var departments = DepartmentHelper.GetList(filter);
 
 			AllDepartments = new List<DepartmentViewModel>();
@@ -47,11 +47,7 @@ namespace SKDModule.ViewModels
 						AddChildren(departmentViewModel);
 				}
 			}
-
-			foreach (var organisation in Organisations)
-			{
-				organisation.ExpandToThis();
-			}
+			SelectedDepartment = Organisations.FirstOrDefault();
 			OnPropertyChanged("RootDepartments");
 		}
 

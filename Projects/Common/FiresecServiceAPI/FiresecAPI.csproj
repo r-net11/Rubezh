@@ -452,7 +452,7 @@
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />
     <Compile Include="XModels\XBaseObjectType.cs" />
-    <Compile Include="XModels\XCameraType.cs" />
+    <Compile Include="XModels\CameraType.cs" />
     <Compile Include="XModels\XDeviceMeasureParameters.cs" />
     <Compile Include="XModels\XMeasureParameterValue.cs" />
     <Compile Include="XModels\XState.cs" />

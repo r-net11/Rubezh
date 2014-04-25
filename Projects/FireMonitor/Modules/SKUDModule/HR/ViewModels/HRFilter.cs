@@ -12,29 +12,18 @@ namespace SKDModule.ViewModels
 		public HRFilter()
 			: base()
 		{
-			PositionUIDs = new List<Guid>();
-			DepartmentUIDs = new List<Guid>();
-			Appointed = new DateTimePeriod();
-			Dismissed = new DateTimePeriod();
-			PersonType = PersonType.Employee;
+			EmployeeFilter = new EmployeeFilter();
+			DepartmentFilter = new DepartmentFilter();
+			PositionFilter = new PositionFilter();
 		}
 
 		[DataMember]
-		public List<Guid> PositionUIDs { get; set; }
+		public EmployeeFilter EmployeeFilter { get; set; }
 
 		[DataMember]
-		public List<Guid> DepartmentUIDs { get; set; }
+		public DepartmentFilter DepartmentFilter { get; set; }
 
 		[DataMember]
-		public Guid OrganisationUID { get; set; }
-
-		[DataMember]
-		public DateTimePeriod Appointed { get; set; }
-
-		[DataMember]
-		public DateTimePeriod Dismissed { get; set; }
-
-		[DataMember]
-		public PersonType PersonType { get; set; }
+		public PositionFilter PositionFilter { get; set; }
 	}
 }

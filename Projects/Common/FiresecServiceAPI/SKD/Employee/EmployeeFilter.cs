@@ -10,21 +10,18 @@ namespace FiresecAPI
 		public EmployeeFilter()
 			: base()
 		{
-			PositionUIDs = new List<Guid>();
 			DepartmentUIDs = new List<Guid>();
+			PositionUIDs = new List<Guid>();
 			Appointed = new DateTimePeriod();
 			Dismissed = new DateTimePeriod();
 			PersonType = PersonType.Employee;
-		} 
-
-		[DataMember]
-		public List<Guid> PositionUIDs { get; set; }
+		}
 
 		[DataMember]
 		public List<Guid> DepartmentUIDs { get; set; }
 
 		[DataMember]
-		public Guid OrganisationUID { get; set; }
+		public List<Guid> PositionUIDs { get; set; }
 
 		[DataMember]
 		public DateTimePeriod Appointed { get; set; }

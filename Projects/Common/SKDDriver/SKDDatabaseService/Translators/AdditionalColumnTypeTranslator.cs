@@ -105,9 +105,6 @@ namespace SKDDriver
 		protected override Expression<Func<DataAccess.AdditionalColumnType, bool>> IsInFilter(AdditionalColumnTypeFilter filter)
 		{
 			var result = base.IsInFilter(filter);
-			var names = filter.Names;
-			if (names != null && names.Count != 0)
-				result = result.And(e => names.Contains(e.Name));
 			if (filter.Type.HasValue)
 			{
 				var dataType = (int)filter.Type.Value;

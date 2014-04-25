@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.Common.TreeList
+﻿namespace Infrastructure.Common.TreeList
 {
 	public class TreeNodeComparer<T> : IItemComparer
 		where T : TreeNodeViewModel<T>

@@ -6,6 +6,9 @@ namespace SKDModule.ViewModels
 	public class DocumentViewModel : TreeNodeViewModel<DocumentViewModel>
 	{
 		public Organisation Organisation { get; private set; }
+		public bool IsOrganisation { get; private set; }
+		public string Name { get; private set; }
+		public string Description { get; private set; }
 		public ShortDocument Document { get; private set; }
 
 		public DocumentViewModel(Organisation organisation)
@@ -13,6 +16,7 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			IsOrganisation = true;
 			Name = organisation.Name;
+			IsExpanded = true;
 		}
 
 		public DocumentViewModel(ShortDocument document)
@@ -30,10 +34,5 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged("Name");
 			OnPropertyChanged("Description");
 		}
-
-		public bool IsOrganisation { get; private set; }
-
-		public string Name { get; private set; }
-		public string Description { get; private set; }
 	}
 }

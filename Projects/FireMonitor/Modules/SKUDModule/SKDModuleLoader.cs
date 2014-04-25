@@ -81,20 +81,20 @@ namespace SKDModule
 
 			return new List<NavigationItem>
 				{
-				//new NavigationItem("СКД", "/Controls;component/Images/tree.png",
-				//    new List<NavigationItem>()
-				//    {
-						//new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-						//new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-						//_journalNavigationItem,
-						//new NavigationItem<ShowSKDArchiveEvent, ShowSKDArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/levels.png"),
-						//new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/tree.png"),
-						//new NavigationItem<ShowAccessTemplatesEvent>(AccessTemplatesViewModel, "Уровни доступа", "/Controls;component/Images/tree.png"),
-						//new NavigationItem<ShowVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
-						//new NavigationItem<ShowCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
-						//new NavigationItem<ShowSKDReportsEvent>(ReportsViewModel, "Отчеты", "/Controls;component/Images/tree.png"),
-						//new NavigationItem("Интервалы", null, new List<NavigationItem>()
-						//{
+				new NavigationItem("СКД", "/Controls;component/Images/tree.png",
+				    new List<NavigationItem>()
+				    {
+						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						_journalNavigationItem,
+						new NavigationItem<ShowSKDArchiveEvent, ShowSKDArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/levels.png"),
+						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowAccessTemplatesEvent>(AccessTemplatesViewModel, "Уровни доступа", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
+						new NavigationItem<ShowSKDReportsEvent>(ReportsViewModel, "Отчеты", "/Controls;component/Images/tree.png"),
+						new NavigationItem("Интервалы", null, new List<NavigationItem>()
+						{
 							new NavigationItem<ShowTimeIntervalsEvent, Guid>(NamedIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesWeeklyViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSlideDayIntervalsEvent, Guid>(ScheduleSchemesSlideViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -102,8 +102,8 @@ namespace SKDModule
 							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowTimeTrackingEvent>(_timeTrackingViewModel, "Учет рабочего времени", "/Controls;component/Images/tree.png", null, null),
-					//    }),
-					//})
+					    }),
+					})
 				};
 		}
 

@@ -99,9 +99,6 @@ namespace SKDDriver
 		{
 			var result = PredicateBuilder.True<DataAccess.Position>();
 			result = result.And(base.IsInFilter(filter));
-			var names = filter.Names;
-			if (names != null && names.Count != 0)
-				result = result.And(e => names.Contains(e.Name));
 			return result;
 		}
 

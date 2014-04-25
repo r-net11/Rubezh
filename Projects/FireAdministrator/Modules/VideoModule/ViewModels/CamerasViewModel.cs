@@ -20,6 +20,7 @@ namespace VideoModule.ViewModels
 	public class CamerasViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		bool _lockSelection = false;
+		public static CamerasViewModel Current { get; private set; }
 		public CamerasViewModel()
 		{
 			Menu = new CamerasMenuViewModel(this);
@@ -30,6 +31,7 @@ namespace VideoModule.ViewModels
 			RegisterShortcuts();
 			SubscribeEvents();
 			IsRightPanelEnabled = true;
+			Current = this;
 		}
 
 		public void Initialize()
@@ -38,8 +40,6 @@ namespace VideoModule.ViewModels
 			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
 			{
 				var cameraViewModel = new CameraViewModel(this, camera);
-				var cccameraViewModel = new CameraViewModel(this, camera);
-				cameraViewModel.AddChild(cccameraViewModel);
 				Cameras.Add(cameraViewModel);
 			}
 			SelectedCamera = Cameras.FirstOrDefault();
@@ -72,31 +72,22 @@ namespace VideoModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			if ((SelectedCamera == null) || (!SelectedCamera.IsChannel))
+			var dvrDetailsViewModel = new DvrDetailsViewModel();
+			if (DialogService.ShowModalWindow(dvrDetailsViewModel))
 			{
-				var dvrDetailsViewModel = new DvrDetailsViewModel();
-				if (DialogService.ShowModalWindow(dvrDetailsViewModel))
+				FiresecManager.SystemConfiguration.Cameras.Add(dvrDetailsViewModel.Camera);
+				var cameraViewModel = new CameraViewModel(this, dvrDetailsViewModel.Camera);
+				if (cameraViewModel.IsChannel)
 				{
-					FiresecManager.SystemConfiguration.Cameras.Add(dvrDetailsViewModel.Camera);
-					var cameraViewModel = new CameraViewModel(this, dvrDetailsViewModel.Camera);
+					if (SelectedCamera.IsDvr)
+						SelectedCamera.AddChild(cameraViewModel);
+					else
+						SelectedCamera.Parent.AddChild(cameraViewModel);
+				}
+				else
 					Cameras.Add(cameraViewModel);
-					ServiceFactory.SaveService.CamerasChanged = true;
-					Helper.BuildCameraMap();
-				}
-			}
-			else
-			{
-				var camera = new Camera();
-				camera.Parent = SelectedCamera.Camera;
-				var cameraDetailsViewModel = new CameraDetailsViewModel(camera);
-				if (DialogService.ShowModalWindow(cameraDetailsViewModel))
-				{
-					FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.Camera);
-					var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.Camera);
-					SelectedCamera.AddChild(cameraViewModel);
-					ServiceFactory.SaveService.CamerasChanged = true;
-					Helper.BuildCameraMap();
-				}
+				ServiceFactory.SaveService.CamerasChanged = true;
+				Helper.BuildCameraMap();
 			}
 		}
 
@@ -113,27 +104,13 @@ namespace VideoModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			if (!SelectedCamera.IsChannel)
+			var dvrDetailsViewModel = new DvrDetailsViewModel(SelectedCamera.Camera);
+			if (DialogService.ShowModalWindow(dvrDetailsViewModel))
 			{
-				var dvrDetailsViewModel = new DvrDetailsViewModel(SelectedCamera.Camera);
-				if (DialogService.ShowModalWindow(dvrDetailsViewModel))
-				{
-					SelectedCamera.Camera = dvrDetailsViewModel.Camera;
-					SelectedCamera.Update();
-					SelectedCamera.Camera.OnChanged();
-					ServiceFactory.SaveService.CamerasChanged = true;
-				}
-			}
-			else
-			{
-				var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera.Camera);
-				if (DialogService.ShowModalWindow(cameraDetailsViewModel))
-				{
-					SelectedCamera.Camera = cameraDetailsViewModel.Camera;
-					SelectedCamera.Update();
-					SelectedCamera.Camera.OnChanged();
-					ServiceFactory.SaveService.CamerasChanged = true;
-				}
+				SelectedCamera.Camera = dvrDetailsViewModel.Camera;
+				SelectedCamera.Update();
+				SelectedCamera.Camera.OnChanged();
+				ServiceFactory.SaveService.CamerasChanged = true;
 			}
 		}
 

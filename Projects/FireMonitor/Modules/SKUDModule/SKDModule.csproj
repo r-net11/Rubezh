@@ -73,6 +73,7 @@
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
     <Compile Include="Employees\ViewModels\AccessZonesSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
+    <Compile Include="HR\ViewModels\Comparers.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\GenderSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectEscortViewModel.cs" />
@@ -114,7 +115,12 @@
     <Compile Include="Events\ShowTimeTrackingEvent.cs" />
     <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
     <Compile Include="Events\ShowHREvent.cs" />
+    <Compile Include="HR\ViewModels\EmployeeFilterViewModel.cs" />
+    <Compile Include="HR\ViewModels\FilterEntityViewModel.cs" />
     <Compile Include="HR\ViewModels\HRFilter.cs" />
+    <Compile Include="HR\ViewModels\PositionsFilterViewModel.cs" />
+    <Compile Include="HR\ViewModels\DepartmentsFilterViewModel.cs" />
+    <Compile Include="HR\ViewModels\FilterDepartmentViewModel.cs" />
     <Compile Include="Intervals\Common\CopyHelper.cs" />
     <Compile Include="Intervals\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="Intervals\Common\ViewModels\OrganisationViewModel.cs" />

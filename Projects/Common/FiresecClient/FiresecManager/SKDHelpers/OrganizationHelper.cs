@@ -24,7 +24,7 @@ namespace FiresecClient.SKDHelpers
 			if (uid == null)
 				return null;
 			var filter = new OrganisationFilter();
-			filter.Uids.Add((Guid)uid);
+			filter.UIDs.Add((Guid)uid);
 			var operationResult = FiresecManager.FiresecService.GetOrganisations(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}

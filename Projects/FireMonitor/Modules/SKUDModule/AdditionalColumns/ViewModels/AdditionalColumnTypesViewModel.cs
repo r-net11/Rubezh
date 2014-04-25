@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(AdditionalColumnTypeFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 			var additionalColumnTypes = AdditionalColumnTypeHelper.Get(filter);
 
 			AllAdditionalColumnTypes = new List<AdditionalColumnTypeViewModel>();
@@ -42,11 +42,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-
-			foreach (var organisation in Organisations)
-			{
-				organisation.ExpandToThis();
-			}
+			SelectedAdditionalColumnType = Organisations.FirstOrDefault();
 			OnPropertyChanged("RootAdditionalColumnTypes");
 		}
 

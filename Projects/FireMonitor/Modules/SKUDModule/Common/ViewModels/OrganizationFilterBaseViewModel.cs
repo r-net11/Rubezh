@@ -20,7 +20,7 @@ namespace SKDModule.ViewModels
 		protected override void Initialize()
 		{
 			base.Initialize();
-			var organisations = OrganisationHelper.Get(new OrganisationFilter { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 			Organisations = new CheckBoxItemList<FilterOrganisationViewModel>();
 			if (organisations != null)
 			{

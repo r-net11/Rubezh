@@ -6,6 +6,9 @@ namespace SKDModule.ViewModels
 	public class AdditionalColumnTypeViewModel : TreeNodeViewModel<AdditionalColumnTypeViewModel>
 	{
 		public Organisation Organisation { get; private set; }
+		public bool IsOrganisation { get; private set; }
+		public string Name { get; private set; }
+		public string Description { get; private set; }
 		public ShortAdditionalColumnType AdditionalColumnType { get; private set; }
 
 		public AdditionalColumnTypeViewModel(Organisation organisation)
@@ -13,6 +16,7 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			IsOrganisation = true;
 			Name = organisation.Name;
+			IsExpanded = true;
 		}
 
 		public AdditionalColumnTypeViewModel(ShortAdditionalColumnType additionalColumnType)
@@ -30,10 +34,5 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged("Name");
 			OnPropertyChanged("Description");
 		}
-
-		public bool IsOrganisation { get; private set; }
-
-		public string Name { get; private set; }
-		public string Description { get; private set; }
 	}
 }

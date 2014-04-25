@@ -13,7 +13,6 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeesViewModel : ViewPartViewModel
 	{
-		public static EmployeesViewModel Current { get; private set; }
 		public PersonType PersonType { get; private set; }
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
 
@@ -26,7 +25,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(EmployeeFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { Uids = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 			var employees = EmployeeHelper.Get(filter);
 			PersonType = filter.PersonType;
 			AllEmployees = new List<EmployeeViewModel>();
@@ -46,11 +45,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-
-			foreach (var organisation in Organisations)
-			{
-				organisation.ExpandToThis();
-			}
+			SelectedEmployee = Organisations.FirstOrDefault();
 			SelectedEmployee = Organisations.FirstOrDefault();
 			OnPropertyChanged("RootEmployees");
 		}
@@ -111,7 +106,13 @@ namespace SKDModule.ViewModels
 			{
 				_selectedEmployee = value;
 				OnPropertyChanged("SelectedEmployee");
+				OnPropertyChanged("IsEmployeeSelected");
 			}
+		}
+
+		public bool IsEmployeeSelected
+		{
+			get { return SelectedEmployee != null && !SelectedEmployee.IsOrganisation; }
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -137,7 +138,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedEmployee != null;
+			return SelectedEmployee != null && SelectedEmployee.Parent != null && !SelectedEmployee.IsOrganisation;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -156,7 +157,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedEmployee != null;
+			return SelectedEmployee != null && !SelectedEmployee.IsOrganisation;
 		}
 
 		public void InitializeAdditionalColumns()

@@ -14,19 +14,28 @@ namespace SKDModule.ViewModels
 	{
 		public Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
+		public ShortEmployee ShortEmployee { get; set; }
+		public string Name { get; private set; }
+		public Guid? DepartmentPhotoUID { get; set; }
+		public Guid? PositionPhotoUID { get; set; }
+		public string AppointedString { get; private set; }
+		public string DismissedString { get; private set; }
+		public string DepartmentName { get; private set; }
+		public string PositionName { get; private set; }
 
 		public EmployeeViewModel(Organisation organisation)
 		{
 			Organisation = organisation;
 			IsOrganisation = true;
-			LastName = organisation.Name;
+			Name = organisation.Name;
+			IsExpanded = true;
 		}
 
 		public EmployeeViewModel(ShortEmployee employee)
 		{
 			ShortEmployee = employee;
 			IsOrganisation = false;
-			LastName = employee.LastName;
+			Name = employee.LastName;
 
 			AddCardCommand = new RelayCommand(OnAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
@@ -39,36 +48,22 @@ namespace SKDModule.ViewModels
 				Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
 			SelectedCard = Cards.FirstOrDefault();
 
-			SecondName = ShortEmployee.SecondName;
-			FirstName = ShortEmployee.FirstName;
-			AppointedString = ShortEmployee.Appointed;
-			DismissedString = ShortEmployee.Dismissed;
-			DepartmentName = ShortEmployee.DepartmentName;
-			PositionName = ShortEmployee.PositionName;
+			Name = employee.LastName + " " + employee.FirstName + " " + employee.SecondName;
+			AppointedString = employee.Appointed;
+			DismissedString = employee.Dismissed;
+			DepartmentName = employee.DepartmentName;
+			PositionName = employee.PositionName;
 		}
-
-		public ShortEmployee ShortEmployee { get; set; }
-		public Guid? DepartmentPhotoUID { get; set; }
-		public Guid? PositionPhotoUID { get; set; }
-		public string LastName { get; private set; }
-		public string SecondName { get; private set; }
-		public string FirstName { get; private set; }
-		public string AppointedString { get; private set; }
-		public string DismissedString { get; private set; }
-		public string DepartmentName { get; private set; }
-		public string PositionName { get; private set; }
 
 		public void Update(ShortEmployee employee)
 		{
 			ShortEmployee = employee;
 			OnPropertyChanged(() => ShortEmployee);
+			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => DepartmentName);
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => AppointedString);
 			OnPropertyChanged(() => DismissedString);
-			OnPropertyChanged(() => FirstName);
-			OnPropertyChanged(() => SecondName);
-			OnPropertyChanged(() => LastName);
 		}
 
 		public ObservableCollection<string> AdditionalColumnValues { get; set; }
@@ -121,10 +116,22 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		bool _isCardSelected;
+		public bool IsCardSelected
+		{
+			get { return _isCardSelected; }
+			set
+			{
+				_isCardSelected = value;
+				OnPropertyChanged("IsCardSelected");
+			}
+		}
+
 		public RelayCommand SelectEmployeeCommand { get; private set; }
 		public void OnSelectEmployee()
 		{
-			IsEmployeeSelected = true;
+			IsEmployeeSelected = !IsOrganisation;
+			IsCardSelected = false;
 			foreach (var card in Cards)
 			{
 				card.IsCardSelected = false;
@@ -134,6 +141,7 @@ namespace SKDModule.ViewModels
 		public void SelectCard(EmployeeCardViewModel employeeCardViewModel)
 		{
 			IsEmployeeSelected = false;
+			IsCardSelected = true;
 			foreach (var card in Cards)
 			{
 				card.IsCardSelected = false;
