@@ -72,7 +72,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var dvrDetailsViewModel = new DvrDetailsViewModel();
+			var dvrDetailsViewModel = new VideoDeviceDetailsViewModel();
 			if (DialogService.ShowModalWindow(dvrDetailsViewModel))
 			{
 				FiresecManager.SystemConfiguration.Cameras.Add(dvrDetailsViewModel.Camera);
@@ -80,9 +80,21 @@ namespace VideoModule.ViewModels
 				if (cameraViewModel.IsChannel)
 				{
 					if (SelectedCamera.IsDvr)
+					{
+						cameraViewModel.Camera.Address = SelectedCamera.Camera.Address;
+						cameraViewModel.Camera.Port = SelectedCamera.Camera.Port;
+						cameraViewModel.Camera.Login = SelectedCamera.Camera.Login;
+						cameraViewModel.Camera.Password = SelectedCamera.Camera.Password;
 						SelectedCamera.AddChild(cameraViewModel);
+					}
 					else
+					{
+						cameraViewModel.Camera.Address = SelectedCamera.Parent.Camera.Address;
+						cameraViewModel.Camera.Port = SelectedCamera.Parent.Camera.Port;
+						cameraViewModel.Camera.Login = SelectedCamera.Parent.Camera.Login;
+						cameraViewModel.Camera.Password = SelectedCamera.Parent.Camera.Password;
 						SelectedCamera.Parent.AddChild(cameraViewModel);
+					}
 				}
 				else
 					Cameras.Add(cameraViewModel);
@@ -96,7 +108,10 @@ namespace VideoModule.ViewModels
 		{
 			SelectedCamera.Camera.OnChanged();
 			FiresecManager.SystemConfiguration.Cameras.Remove(SelectedCamera.Camera);
-			Cameras.Remove(SelectedCamera);
+			if(SelectedCamera.IsChannel)
+				SelectedCamera.Parent.RemoveChild(SelectedCamera);
+			else
+				Cameras.Remove(SelectedCamera);
 			ServiceFactory.SaveService.CamerasChanged = true;
 			Helper.BuildCameraMap();
 		}
@@ -104,7 +119,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var dvrDetailsViewModel = new DvrDetailsViewModel(SelectedCamera.Camera);
+			var dvrDetailsViewModel = new VideoDeviceDetailsViewModel(SelectedCamera.Camera);
 			if (DialogService.ShowModalWindow(dvrDetailsViewModel))
 			{
 				SelectedCamera.Camera = dvrDetailsViewModel.Camera;

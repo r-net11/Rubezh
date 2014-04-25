@@ -7,14 +7,10 @@
 		<Views:CamerasView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DvrDetailsViewModel}">
-        <Views:DvrDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:VideoDeviceDetailsViewModel}">
+		<Views:VideoDeviceDetailsView />
     </DataTemplate>
     
-    <DataTemplate DataType="{x:Type ViewModels:CameraDetailsViewModel}">
-		<Views:CameraDetailsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:ZonesSelectationViewModel}">
 		<Views:ZonesSelectationView />
 	</DataTemplate>

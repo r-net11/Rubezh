@@ -24,6 +24,13 @@ namespace FiresecAPI.Models
 			Password = "admin";
 		}
 
+		public Camera Parent { get; set; }
+
+		public string ImageSource
+		{
+			get { return "/Controls;component/Images/" + this.CameraType.ToString() + ".png"; }
+		}
+
 		[DataMember]
 		public Guid UID { get; set; }
 
@@ -44,9 +51,6 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string Password { get; set; }
-
-		[DataMember]
-		public Camera Parent { get; set; }
 
 		[DataMember]
 		public List<Camera> Children { get; set; }

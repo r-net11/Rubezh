@@ -1,27 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
 namespace VideoModule.ViewModels
 {
-	class DvrDetailsViewModel : SaveCancelDialogViewModel
+	class VideoDeviceDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Camera Camera { get; private set; }
 		public bool IsEditMode { get; private set; }
-		public DvrDetailsViewModel(Camera camera = null)
+		readonly CellPlayerWrap _cellPlayerWrap;
+
+		public VideoDeviceDetailsViewModel(Camera camera = null)
 		{
 			if (camera != null)
 			{
 				Camera = camera;
-				Title = (Camera.CameraType == CameraType.Dvr ? "Свойства видеорегистратора: " : "Свойства камеры: ") + Camera.PresentationName;
-				CopyProperties();
+				Title = (Camera.CameraType == CameraType.Dvr ? "Свойства видеорегистратора" : 
+					Camera.CameraType == CameraType.Camera ? "Свойства камеры" : "Свойства канала");
 				IsEditMode = true;
+				CopyProperties();
 			}
 			else
 			{
@@ -33,10 +38,13 @@ namespace VideoModule.ViewModels
 				Login = "admin";
 				Password = "admin";
 				ChannelsCount = 1;
+				ChannelNumber = 1;
 				SelectedCameraType = CameraType.Dvr;
 				IsEditMode = false;
 			}
+			_cellPlayerWrap = new CellPlayerWrap();
 			ShowZonesCommand = new RelayCommand(OnShowZones);
+			ShowCommand = new RelayCommand(OnShow);
 			Initialize();
 		}
 
@@ -110,12 +118,15 @@ namespace VideoModule.ViewModels
 			set
 			{
 				_selectedCameraType = value;
-				if (value == CameraType.Dvr)
-					Name = "Видеорегистратор";
-				if (value == CameraType.Camera)
-					Name = "Камера";
-				if (value == CameraType.Channel)
-					Name = "Канал";
+				if (!IsEditMode)
+				{
+					if (value == CameraType.Dvr)
+						Name = "Видеорегистратор";
+					if (value == CameraType.Camera)
+						Name = "Камера";
+					if (value == CameraType.Channel)
+						Name = "Канал";
+				}
 				OnPropertyChanged(()=>SelectedCameraType);
 			}
 		}
@@ -129,6 +140,7 @@ namespace VideoModule.ViewModels
 			Password = Camera.Password;
 			SelectedCameraType = Camera.CameraType;
 			SelectedStateClass = Camera.StateClass;
+			ChannelNumber = Camera.ChannelNumber + 1;
 			Left = Camera.Left;
 			Top = Camera.Top;
 			Width = Camera.Width;
@@ -247,6 +259,24 @@ namespace VideoModule.ViewModels
 			}
 		}
 
+		public RelayCommand ShowCommand { get; private set; }
+		void OnShow()
+		{
+			try
+			{
+				var title = Name + " " + ChannelNumber;
+				var previewViewModel = new PreviewViewModel(title, _cellPlayerWrap);
+				_cellPlayerWrap.Connect(Address, Port, Login, Password);
+				_cellPlayerWrap.Start(ChannelNumber - 1);
+				DialogService.ShowModalWindow(previewViewModel);
+				_cellPlayerWrap.Stop();
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.ShowWarning(e.Message);
+			}
+		}
+
 		protected override bool Save()
 		{
 			if (!Validation())
@@ -265,6 +295,7 @@ namespace VideoModule.ViewModels
 			Camera.Top = Top;
 			Camera.Width = Width;
 			Camera.Height = Height;
+			Camera.ChannelNumber = ChannelNumber - 1;
 			for (int i = 0; i < ChannelsCount; i++)
 			{
 				Camera.Children.Add(new Camera 
@@ -279,6 +310,14 @@ namespace VideoModule.ViewModels
 					Password = Password
 				});
 			}
+			if ((Camera.Children != null)&&(Camera.Children.Count > 0))
+				foreach (var child in Camera.Children)
+				{
+					child.Address = Address;
+					child.Port = Port;
+					child.Login = Login;
+					child.Password = Password;
+				}
 			return base.Save();
 		}
 
@@ -288,7 +327,8 @@ namespace VideoModule.ViewModels
 			{
 				if (CamerasViewModel.Current.SelectedCamera.IsDvr)
 				{
-					if (CamerasViewModel.Current.SelectedCamera.Children.Any(x => x.Camera.ChannelNumber == ChannelNumber))
+					if (CamerasViewModel.Current.SelectedCamera.Children.Any(x => (x.Camera.ChannelNumber == (ChannelNumber - 1))&&
+						x.Camera != Camera))
 					{
 						MessageBoxService.ShowError("Канал с таким номером уже существует", "Сообщение");
 						return false;
@@ -296,7 +336,9 @@ namespace VideoModule.ViewModels
 				}
 				else
 				{
-					if (CamerasViewModel.Current.SelectedCamera.Parent.Children.Any(x => x.Camera.ChannelNumber == ChannelNumber))
+					var children = CamerasViewModel.Current.SelectedCamera.Parent.Children;
+					if (CamerasViewModel.Current.SelectedCamera.Parent.Children.Any(x => (x.Camera.ChannelNumber == (ChannelNumber - 1))&&
+						x.Camera != Camera))
 					{
 						MessageBoxService.ShowError("Канал с таким номером уже существует", "Сообщение");
 						return false;

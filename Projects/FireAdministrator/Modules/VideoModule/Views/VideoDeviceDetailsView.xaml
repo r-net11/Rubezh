@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="VideoModule.Views.DvrDetailsView"
+﻿<UserControl x:Class="VideoModule.Views.VideoDeviceDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
@@ -46,13 +46,14 @@
                 <Label Grid.Row="1" Grid.Column="0" Content="Название" HorizontalAlignment="Right" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-				<Label Grid.Row="1" Grid.Column="0" Content="Номер канала" HorizontalAlignment="Right"
+				<Label Grid.Row="2" Grid.Column="0" Content="Номер канала" HorizontalAlignment="Right"
 					   Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource CameraTypeToVisibilityConverter},
 					ConverterParameter={x:Static local:CameraType.Channel}}" />
-				<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="0" Value="{Binding ChannelNumber}" Minimum="1" Maximum="32" Margin="2"
+				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding ChannelNumber}" Minimum="1" Maximum="32" Margin="2"
+						IsEnabled="{Binding IsEditMode, Converter={StaticResource InverseBooleanConverter}}"
 						Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource CameraTypeToVisibilityConverter},
 					ConverterParameter={x:Static local:CameraType.Channel}}" />
-				
+
 				<Label Grid.Row="2" Grid.Column="0" Content="Адрес" HorizontalAlignment="Right"
 					   Visibility="{Binding Path=SelectedCameraType, Converter={StaticResource InversedCameraTypeToVisibilityConverter},
 					ConverterParameter={x:Static local:CameraType.Channel}}" />
@@ -157,8 +158,7 @@
                 <Label Grid.Row="5" Grid.Column="0" Content="Высота" HorizontalAlignment="Right" />
                 <extToolkit:IntegerUpDown Grid.Row="5" Grid.Column="1" Value="{Binding Height}" Minimum="100" Maximum="1000" Margin="2" />
 
-                <Button Grid.Row="6" Grid.Column="1" Content="Предпросмотр" Margin="2"
-                        IsEnabled="{Binding IsConnected, UpdateSourceTrigger=PropertyChanged}" Command="{Binding ShowCommand}" />
+                <Button Grid.Row="6" Grid.Column="1" Content="Предпросмотр" Margin="2" Command="{Binding ShowCommand}" />
             </Grid>
         </TabItem>
     </TabControl>

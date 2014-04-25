@@ -37,7 +37,10 @@
                                         <drag:DragDropDecorator AllowSimulateDrag="True" DragCommand="{Binding CreateDragObjectCommand}" DragVisualProvider="{Binding CreateDragVisual}" DynamicCursor="True" IsSource="True">
                                             <Image Margin="2,0,0,0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" ToolTip="{Binding VisualizationState, Converter={StaticResource Tooltip}}" />
                                         </drag:DragDropDecorator>
-                                        <TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Camera.Name}" />
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Camera.ImageSource}" />
+											<TextBlock Text="{Binding  Camera.Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+										</StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
