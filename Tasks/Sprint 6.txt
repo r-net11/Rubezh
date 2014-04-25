@@ -32,6 +32,8 @@
 - Employee.AdditionalColumns
 - Таблица патчей
 - Фильтр по удаленным и не удаленным сотрудникам
+- GetByOrganisation(Guid?
+- Все Get без IEnumerable
 
 
 ВОВА

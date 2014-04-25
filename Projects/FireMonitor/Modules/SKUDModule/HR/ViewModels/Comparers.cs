@@ -7,7 +7,7 @@ namespace SKDModule.ViewModels
 	{
 		protected override int Compare(EmployeeViewModel x, EmployeeViewModel y)
 		{
-			return string.Compare(x.ShortEmployee.LastName, y.ShortEmployee.LastName);
+			return string.Compare(x.Name, y.Name);
 		}
 	}
 

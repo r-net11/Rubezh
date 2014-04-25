@@ -11,17 +11,7 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Фильтр";
 			Filter = filter;
-			Initialize();
-			Update();
-		}
 
-		protected virtual void Initialize()
-		{
-			;
-		}
-
-		protected virtual void Update()
-		{
 			switch (Filter.WithDeleted)
 			{
 				case DeletedType.Deleted:
@@ -94,12 +84,6 @@ namespace SKDModule.ViewModels
 				removalDatesEnd = value;
 				OnPropertyChanged(() => RemovalDatesEnd);
 			}
-		}
-
-
-		protected override bool CanSave()
-		{
-			return true;
 		}
 
 		protected override bool Save()

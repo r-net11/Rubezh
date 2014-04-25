@@ -11,15 +11,11 @@ namespace SKDModule.ViewModels
 	public class OrganisationFilterBaseViewModel<T> : FilterBaseViewModel<T>
 		where T : OrganisationFilterBase
 	{
+		public CheckBoxItemList<FilterOrganisationViewModel> Organisations { get; private set; }
+
 		public OrganisationFilterBaseViewModel(T filter)
 			: base(filter)
 		{
-
-		}
-
-		protected override void Initialize()
-		{
-			base.Initialize();
 			var organisations = OrganisationHelper.Get(new OrganisationFilter { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 			Organisations = new CheckBoxItemList<FilterOrganisationViewModel>();
 			if (organisations != null)
@@ -29,38 +25,22 @@ namespace SKDModule.ViewModels
 					Organisations.Add(new FilterOrganisationViewModel(organisation));
 				}
 			}
-		}
 
-		protected override void Update()
-		{
-			base.Update();
 			foreach (var organisation in Organisations.Items)
 			{
-				if (Filter.OrganisationUIDs.Any(x => x == organisation.Organisation.UID))
-					organisation.IsChecked = true;
+				organisation.IsChecked = Filter.OrganisationUIDs.Any(x => x == organisation.Organisation.UID);
 			}
-			if (!Organisations.Items.Any(x => x.IsChecked))
-				Organisations.Items.ForEach(x => x.IsChecked = true);
 		}
-
-		public CheckBoxItemList<FilterOrganisationViewModel> Organisations { get; private set; }
 
 		protected override bool Save()
 		{
 			base.Save();
 			Filter.OrganisationUIDs = new List<Guid>();
-			if (Organisations.HasCheckedItems)
+			foreach (var organisation in Organisations.Items)
 			{
-				foreach (var organization in Organisations.Items.Where(x => x.IsChecked))
+				if (organisation.IsChecked)
 				{
-					Filter.OrganisationUIDs.Add(organization.Organisation.UID);
-				}
-			}
-			else
-			{
-				foreach (var organization in Organisations.Items)
-				{
-					Filter.OrganisationUIDs.Add(organization.Organisation.UID);
+					Filter.OrganisationUIDs.Add(organisation.Organisation.UID);
 				}
 			}
 			return true;

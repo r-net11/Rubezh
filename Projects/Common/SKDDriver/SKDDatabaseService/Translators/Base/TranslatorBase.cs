@@ -182,7 +182,6 @@ namespace SKDDriver
 			return result;
 		}
 
-
 		public OperationResult<ApiT> GetSingle(Guid? uid)
 		{
 			try

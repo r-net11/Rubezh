@@ -30,8 +30,7 @@ namespace SKDDriver
 		{
 			var result = PredicateBuilder.True<TableT>();
 			result = result.And(base.IsInFilter(filter));
-			if(filter.OrganisationUIDs.IsNotNullOrEmpty())
-				result = result.And(e => e.OrganisationUID != null && filter.OrganisationUIDs.Contains(e.OrganisationUID.Value));
+			result = result.And(e => e.OrganisationUID != null && filter.OrganisationUIDs.Contains(e.OrganisationUID.Value));
 			return result;
 		}
 

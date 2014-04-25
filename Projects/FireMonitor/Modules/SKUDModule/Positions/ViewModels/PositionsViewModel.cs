@@ -45,7 +45,6 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged("RootPositions");
 		}
 
-		#region PositionSelection
 		public List<PositionViewModel> AllPositions;
 
 		public void Select(Guid positionUID)
@@ -58,7 +57,6 @@ namespace SKDModule.ViewModels
 				SelectedPosition = positionViewModel;
 			}
 		}
-		#endregion
 
 		PositionViewModel _selectedPosition;
 		public PositionViewModel SelectedPosition

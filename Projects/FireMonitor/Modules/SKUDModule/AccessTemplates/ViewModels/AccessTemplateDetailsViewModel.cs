@@ -2,18 +2,21 @@
 using FiresecAPI;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
 	public class AccessTemplateDetailsViewModel : SaveCancelDialogViewModel
 	{
-		OrganisationAccessTemplatesViewModel AccessTemplatesViewModel;
+		AccessTemplatesViewModel AccessTemplatesViewModel;
 		public AccessTemplate AccessTemplate { get; private set; }
 		public AccessZonesSelectationViewModel AccessZonesSelectationViewModel { get; private set; }
+		public Organisation Organisation { get; private set; }
 
-		public AccessTemplateDetailsViewModel(OrganisationAccessTemplatesViewModel accessTemplatesViewModel, AccessTemplate accessTemplate = null)
+		public AccessTemplateDetailsViewModel(AccessTemplatesViewModel accessTemplatesViewModel, Organisation orgnaisation, AccessTemplate accessTemplate = null)
 		{
 			AccessTemplatesViewModel = accessTemplatesViewModel;
+			Organisation = orgnaisation;
 			if (accessTemplate == null)
 			{
 				Title = "Создание шаблона доступа";
@@ -28,7 +31,7 @@ namespace SKDModule.ViewModels
 			}
 			AccessTemplate = accessTemplate;
 			CopyProperties();
-			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(AccessTemplatesViewModel.Organisation, AccessTemplate.CardZones, AccessTemplate.UID);
+			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(Organisation, AccessTemplate.CardZones, AccessTemplate.UID);
 		}
 
 		public void CopyProperties()
@@ -77,17 +80,17 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Запрещенное название");
 				return false;
 			}
-			if (AccessTemplatesViewModel.AccessTemplates.Any(x => x.AccessTemplate.Name == Name && x.AccessTemplate.UID != AccessTemplate.UID))
-			{
-				MessageBoxService.ShowWarning("Название шаблона доступа совпадает с введеннымы ранее");
-				return false;
-			}
+			//if (AccessTemplatesViewModel.AllAccessTemplates.Any(x => x.AccessTemplate.Name == Name && x.AccessTemplate.UID != AccessTemplate.UID))
+			//{
+			//    MessageBoxService.ShowWarning("Название шаблона доступа совпадает с введеннымы ранее");
+			//    return false;
+			//}
 
 			AccessTemplate.Name = Name;
 			AccessTemplate.Description = Description;
 			AccessTemplate.CardZones = AccessZonesSelectationViewModel.GetCardZones();
-			AccessTemplate.OrganisationUID = AccessTemplatesViewModel.Organisation.UID;
-			return true;
+			AccessTemplate.OrganisationUID = Organisation.UID;
+			return AccessTemplateHelper.Save(AccessTemplate);
 		}
 	}
 }

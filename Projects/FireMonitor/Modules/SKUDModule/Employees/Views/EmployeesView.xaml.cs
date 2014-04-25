@@ -33,13 +33,13 @@ namespace SKDModule.Views
 				gridViewColumn.Header = employeesViewModel.AdditionalColumnNames[i];
 
 				var dataTemplate = new DataTemplate();
-				var txtElement = new FrameworkElementFactory(typeof(TextBox));
+				var txtElement = new FrameworkElementFactory(typeof(TextBlock));
 				dataTemplate.VisualTree = txtElement;
 				var binding = new Binding();
 				var bindingPath = string.Format("AdditionalColumnValues[{0}]", 0);
 				binding.Path = new PropertyPath(bindingPath);
 				binding.Mode = BindingMode.OneWay;
-				txtElement.SetBinding(TextBox.TextProperty, binding);
+				txtElement.SetBinding(TextBlock.TextProperty, binding);
 
 				gridViewColumn.CellTemplate = dataTemplate;
 				gridView.Columns.Add(gridViewColumn);

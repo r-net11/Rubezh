@@ -63,6 +63,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
     <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Common\Views\DateSelectionView.xaml.cs">
       <DependentUpon>DateSelectionView.xaml</DependentUpon>
@@ -267,7 +268,6 @@
     <Compile Include="Events\ShowAccessTemplatesEvent.cs" />
     <Compile Include="Events\ShowShedulesEvent.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
-    <Compile Include="AccessTemplates\ViewModels\OrganisationAccessTemplatesViewModel.cs" />
     <Compile Include="Events\UpdateAdditionalColumns.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
