@@ -9,11 +9,12 @@ namespace SKDModule.ViewModels
 {
 	public class SelectEscortViewModel : SaveCancelDialogViewModel
 	{
-		public SelectEscortViewModel(Guid departmentUID, Guid? escortUID = null)
+		public SelectEscortViewModel(ShortDepartment department, Guid? escortUID = null)
 		{
 			Title = "Сопровождающий";
 			var filter = new EmployeeFilter();
-			filter.DepartmentUIDs.Add(departmentUID);
+			filter.DepartmentUIDs.Add(department.UID);
+			filter.OrganisationUIDs.Add(department.OrganisationUID.Value);
 			var employees = EmployeeHelper.Get(filter);
 			if (employees == null)
 				return;
@@ -22,6 +23,8 @@ namespace SKDModule.ViewModels
 			{
 				Employees.Add(new SelectationEmployeeViewModel(employee));
 			}
+			if (Employees.Count == 0)
+				return;
 			if (escortUID != null)
 			{
 				SelectedEmployee = Employees.FirstOrDefault(x => x.Employee.UID == escortUID.Value);
@@ -63,6 +66,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public string Name { get { return string.Format("{0} {1} {2}", Employee.LastName, Employee.FirstName, Employee.SecondName); } }
+		public string PositionName { get { return Employee.PositionName; } }
 		bool _isChecked;
 		public bool IsChecked
 		{

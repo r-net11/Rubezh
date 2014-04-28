@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -132,7 +132,7 @@ namespace SKDModule.ViewModels
 			if (IsTextType)
 				AdditionalColumnType.IsInGrid = IsInGrid;
 			AdditionalColumnType.OrganisationUID = Organisation.UID;
-			return true;
+			return AdditionalColumnTypeHelper.Save(AdditionalColumnType);
 		}
 	}
 }

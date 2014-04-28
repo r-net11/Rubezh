@@ -12,6 +12,7 @@ namespace SKDModule.ViewModels
 
 		public ShortDepartment Department { get; private set; }
 		public string Name { get { return Department.Name; } }
+		public string Description { get { return Department.Description; } }
 
 		bool _isChecked;
 		public bool IsChecked

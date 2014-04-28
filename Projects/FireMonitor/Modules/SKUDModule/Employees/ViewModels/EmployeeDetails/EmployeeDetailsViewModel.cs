@@ -132,7 +132,6 @@ namespace SKDModule.ViewModels
 			if (additionalColumnTypes != null && additionalColumnTypes.Count() > 0)
 			{
 				var graphicsColumnTypes = additionalColumnTypes.Where(x => x.DataType == AdditionalColumnDataType.Graphics);
-				HasAdditionalGraphicsColumns = graphicsColumns != null && graphicsColumns.Count > 0;
 				foreach (var column in Employee.AdditionalColumns)
 				{
 					if (column.AdditionalColumnType.DataType == AdditionalColumnDataType.Text)
@@ -673,7 +672,7 @@ namespace SKDModule.ViewModels
 			Guid? escortUID = null; 
 			if(HasSelectedEscort)
 				escortUID = SelectedEscort.Employee.UID;
-			var selectEscortViewModel = new SelectEscortViewModel(SelectedDepartment.Department.UID, escortUID);
+			var selectEscortViewModel = new SelectEscortViewModel(SelectedDepartment.Department, escortUID);
 			if (DialogService.ShowModalWindow(selectEscortViewModel))
 			{
 				SelectedEscort = selectEscortViewModel.SelectedEmployee;

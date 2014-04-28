@@ -20,19 +20,22 @@ namespace SKDModule.ViewModels
 			var schedules = ScheduleHelper.GetByOrganisation(Employee.OrganisationUID);
 			if (schedules == null)
 				return;
+			StartDate = employee.ScheduleStartDate;
 			foreach (var schedule in schedules)
 				Schedules.Add(new SelectationScheduleViewModel(schedule));
-			StartDate = employee.ScheduleStartDate;
-			if (Employee.ScheduleUID != null)
+			if (Schedules.Count > 0)
 			{
-				var selectedSchedule = Schedules.FirstOrDefault(x => x.Schedule.UID == Employee.ScheduleUID);
-				if (selectedSchedule != null)
-					selectedSchedule.IsChecked = true;
+				if (Employee.ScheduleUID != null)
+				{
+					var selectedSchedule = Schedules.FirstOrDefault(x => x.Schedule.UID == Employee.ScheduleUID);
+					if (selectedSchedule != null)
+						selectedSchedule.IsChecked = true;
+					else
+						Schedules.FirstOrDefault().IsChecked = true;
+				}
 				else
 					Schedules.FirstOrDefault().IsChecked = true;
 			}
-			else
-				Schedules.FirstOrDefault().IsChecked = true;
 		}
 		
 		DateTime _startDate;

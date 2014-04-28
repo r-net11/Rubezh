@@ -62,7 +62,7 @@ namespace Controls
 		{
 			var openFileDialog = new OpenFileDialog()
 			{
-				Filter = "Jpg files (.jpg)|*.jpg"
+				Filter = "All Graphics Types|*.bmp;*.jpg;*.jpeg;*.png;*.tif;*.tiff"
 			};
 			if (openFileDialog.ShowDialog() == true)
 			{

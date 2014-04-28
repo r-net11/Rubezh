@@ -7,13 +7,20 @@
 		<tree:TreeList Focusable="True" Source="{Binding RootDepartments}">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn>
+					<GridViewColumn Header="Название" Width="150">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<RadioButton GroupName="Departments" IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-									<TextBlock Text="{Binding Department.Name}" VerticalAlignment="Center" Margin="2" />
+									<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
 								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Примечание">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" Margin="2" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

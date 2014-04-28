@@ -13,6 +13,8 @@ namespace SKDModule.ViewModels
 		}
 
 		public string Name { get { return Position.Name; } }
+		public string Description { get { return Position.Description; } }
+
 		bool _isChecked;
 		public bool IsChecked
 		{

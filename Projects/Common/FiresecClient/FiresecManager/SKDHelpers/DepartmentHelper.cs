@@ -18,7 +18,7 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static IEnumerable<ShortDepartment> GetList(DepartmentFilter filter)
+		public static IEnumerable<ShortDepartment> Get(DepartmentFilter filter)
 		{
 			var result = FiresecManager.FiresecService.GetDepartmentList(filter);
 			return Common.ShowErrorIfExists(result);

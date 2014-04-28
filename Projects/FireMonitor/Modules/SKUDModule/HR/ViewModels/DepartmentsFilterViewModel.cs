@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 		public DepartmentsFilterViewModel(DepartmentFilter filter)
 		{
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
-			var departments = DepartmentHelper.GetList(new DepartmentFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var departments = DepartmentHelper.Get(new DepartmentFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 
 			AllDepartments = new List<DepartmentFilterItemViewModel>();
 			Organisations = new List<DepartmentFilterItemViewModel>();

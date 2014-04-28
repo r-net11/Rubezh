@@ -54,12 +54,7 @@ namespace SKDDriver
 
 		protected virtual IQueryable<TableT> GetQuery(FilterT filter)
 		{
-			IQueryable<TableT> query;
-			if (filter == null)
-				query = Table;
-			else
-				query = Table.Where(IsInFilter(filter));
-			return query;
+			return Table.Where(IsInFilter(filter));
 		}
 		protected virtual IEnumerable<TableT> GetTableItems(FilterT filter)
 		{

@@ -23,7 +23,7 @@ namespace SKDModule.ViewModels
 		public void Initialize(DepartmentFilter filter)
 		{
 			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
-			var departments = DepartmentHelper.GetList(filter);
+			var departments = DepartmentHelper.Get(filter);
 
 			AllDepartments = new List<DepartmentViewModel>();
 			Organisations = new List<DepartmentViewModel>();

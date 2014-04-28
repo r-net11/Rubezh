@@ -5,7 +5,7 @@
              MinWidth="500" MinHeight="300">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
@@ -16,30 +16,17 @@
         </StackPanel>
         
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-            <ListBox ItemsSource="{Binding Schedules}" BorderThickness="0" Background="Transparent" Style="{x:Null}">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}">
-                        <Setter Property="IsSelected" Value="{Binding Path=IsChecked, Mode=TwoWay}" />
-                        <Setter Property="Foreground" Value="White" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <ContentPresenter/>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <RadioButton 
-                            Content="{Binding Name}"
-                            IsChecked="{Binding Path=IsSelected, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}"
-                            Margin="0,5,0,5"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-
+            <DataGrid ItemsSource="{Binding Schedules}" >
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Название" Width="*" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <RadioButton GroupName="Schedules" Content="{Binding Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center" Margin="2" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </ScrollViewer>  
     </Grid>
 </UserControl>
