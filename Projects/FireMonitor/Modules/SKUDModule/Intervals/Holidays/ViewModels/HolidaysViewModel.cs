@@ -22,11 +22,12 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 
 			InitializeYears();
-			//Filter = new HolidayFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
-			//Initialize(Filter);
 		}
 
 		public void Initialize(HolidayFilter filter)
@@ -82,6 +83,21 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public HolidayViewModel ParentOrganisation
+		{
+			get
+			{
+				HolidayViewModel OrganisationViewModel = SelectedHoliday;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedHoliday.Parent;
+
+				if (OrganisationViewModel.Organisation != null)
+					return OrganisationViewModel;
+
+				return null;
+			}
+		}
+
 		public RelayCommand EditFilterCommand { get; private set; }
 		void OnEditFilter()
 		{
@@ -96,7 +112,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var holidayDetailsViewModel = new HolidayDetailsViewModel(SelectedHoliday.Organisation, SelectedYear.Year);
+			var holidayDetailsViewModel = new HolidayDetailsViewModel(SelectedHoliday.Organisation, SelectedYear);
 			if (DialogService.ShowModalWindow(holidayDetailsViewModel))
 			{
 				var holidayViewModel = new HolidayViewModel(SelectedHoliday.Organisation, holidayDetailsViewModel.Holiday);
@@ -147,7 +163,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var holidayDetailsViewModel = new HolidayDetailsViewModel(SelectedHoliday.Organisation, SelectedYear.Year, SelectedHoliday.Holiday);
+			var holidayDetailsViewModel = new HolidayDetailsViewModel(SelectedHoliday.Organisation, SelectedYear, SelectedHoliday.Holiday);
 			if (DialogService.ShowModalWindow(holidayDetailsViewModel))
 			{
 				SelectedHoliday.Update(holidayDetailsViewModel.Holiday);
@@ -174,9 +190,13 @@ namespace SKDModule.ViewModels
 			var newInterval = CopyHoliday(_clipboard);
 			if (HolidayHelper.Save(newInterval))
 			{
-				var timeInrervalViewModel = new HolidayViewModel(SelectedHoliday.Organisation, newInterval);
-				AllHolidays.Add(timeInrervalViewModel);
-				SelectedHoliday = timeInrervalViewModel;
+				var holidayViewModel = new HolidayViewModel(SelectedHoliday.Organisation, newInterval);
+				if (ParentOrganisation != null)
+				{
+					ParentOrganisation.AddChild(holidayViewModel);
+					AllHolidays.Add(holidayViewModel);
+				}
+				SelectedHoliday = holidayViewModel;
 			}
 		}
 		private bool CanPaste()
@@ -187,22 +207,25 @@ namespace SKDModule.ViewModels
 		private Holiday CopyHoliday(Holiday source, bool newName = true)
 		{
 			var copy = new Holiday();
-			copy.Name = newName ? CopyHelper.CopyName(source.Name, AllHolidays.Select(item => item.Holiday.Name)) : source.Name;
-			copy.OrganisationUID = source.OrganisationUID;
+			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
+			copy.Type = source.Type;
+			copy.Date = source.Date;
+			copy.TransferDate = source.TransferDate;
+			copy.Reduction = source.Reduction;
+			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			return copy;
 		}
 
-
 		void InitializeYears()
 		{
-			AvailableYears = new ObservableCollection<HolidayYearViewModel>();
-			for (int i = 2010; i <= 2020; i++)
-				AvailableYears.Add(new HolidayYearViewModel(i));
-			SelectedYear = AvailableYears.FirstOrDefault(x => x.Year == DateTime.Now.Year);
+			AvailableYears = new ObservableCollection<int>();
+			for (int i = 2014; i <= 2020; i++)
+				AvailableYears.Add(i);
+			SelectedYear = AvailableYears.FirstOrDefault(x => x == DateTime.Now.Year);
 		}
 
-		private ObservableCollection<HolidayYearViewModel> _availableYears;
-		public ObservableCollection<HolidayYearViewModel> AvailableYears
+		private ObservableCollection<int> _availableYears;
+		public ObservableCollection<int> AvailableYears
 		{
 			get { return _availableYears; }
 			set
@@ -212,8 +235,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private HolidayYearViewModel _selectedYear;
-		public HolidayYearViewModel SelectedYear
+		private int _selectedYear;
+		public int SelectedYear
 		{
 			get { return _selectedYear; }
 			set
@@ -221,9 +244,16 @@ namespace SKDModule.ViewModels
 				_selectedYear = value;
 				OnPropertyChanged(() => SelectedYear);
 
-				Filter = new HolidayFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs, Year = value.Year };
+				Filter = new HolidayFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs, Year = value };
 				Initialize(Filter);
 			}
+		}
+
+		public RelayCommand ShowSettingsCommand { get; private set; }
+		private void OnShowSettings()
+		{
+			var holidaySettingsViewModel = new HolidaySettingsViewModel();
+			DialogService.ShowModalWindow(holidaySettingsViewModel);
 		}
 	}
 }

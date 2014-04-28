@@ -24,6 +24,8 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			ReloadNamedIntervals();
 			Filter = new ScheduleSchemeFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs, Type = Type };
@@ -95,6 +97,21 @@ namespace SKDModule.ViewModels
 				if (value != null)
 					value.ExpandToThis();
 				OnPropertyChanged("SelectedScheduleScheme");
+			}
+		}
+
+		public ScheduleSchemeViewModel ParentOrganisation
+		{
+			get
+			{
+				ScheduleSchemeViewModel OrganisationViewModel = SelectedScheduleScheme;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedScheduleScheme.Parent;
+
+				if (OrganisationViewModel.Organisation != null)
+					return OrganisationViewModel;
+
+				return null;
 			}
 		}
 
@@ -190,9 +207,13 @@ namespace SKDModule.ViewModels
 			var newInterval = CopyScheduleScheme(_clipboard);
 			if (ScheduleSchemaHelper.Save(newInterval))
 			{
-				var timeInrervalViewModel = new ScheduleSchemeViewModel(this, SelectedScheduleScheme.Organisation, newInterval);
-				AllScheduleSchemes.Add(timeInrervalViewModel);
-				SelectedScheduleScheme = timeInrervalViewModel;
+				var scheduleSchemeViewModel = new ScheduleSchemeViewModel(this, SelectedScheduleScheme.Organisation, newInterval);
+				if (ParentOrganisation != null)
+				{
+					ParentOrganisation.AddChild(scheduleSchemeViewModel);
+					AllScheduleSchemes.Add(scheduleSchemeViewModel);
+				}
+				SelectedScheduleScheme = scheduleSchemeViewModel;
 			}
 		}
 		bool CanPaste()
@@ -203,9 +224,9 @@ namespace SKDModule.ViewModels
 		ScheduleScheme CopyScheduleScheme(ScheduleScheme source, bool newName = true)
 		{
 			var copy = new ScheduleScheme();
-			copy.Name = newName ? CopyHelper.CopyName(source.Name, AllScheduleSchemes.Select(item => item.ScheduleScheme.Name)) : source.Name;
+			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
 			copy.Description = source.Description;
-			copy.OrganisationUID = source.OrganisationUID;
+			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			foreach (var day in source.DayIntervals)
 				if (!day.IsDeleted)
 					copy.DayIntervals.Add(new DayInterval()

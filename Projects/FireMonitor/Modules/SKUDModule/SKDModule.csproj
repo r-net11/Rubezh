@@ -272,7 +272,6 @@
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
     <Compile Include="Events\UpdateAdditionalColumns.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
-    <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidaySettingsViewModel.cs" />
     <Compile Include="Intervals\Holidays\Views\HolidayDetailsView.xaml.cs">
       <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
@@ -311,6 +310,7 @@
     <Compile Include="Plans\Views\SKDZoneTooltipView.xaml.cs">
       <DependentUpon>SKDZoneTooltipView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Positions\ViewModels\BaseOrganisationTreeViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />

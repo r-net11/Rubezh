@@ -64,7 +64,7 @@
 					<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
 					<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
 				</StackPanel>
-                <DataGrid Grid.Row="1" Margin="2" IsReadOnly="False" ItemsSource="{Binding DayIntervals}" SelectedItem="{Binding SelectedScheduleSheme}">
+                <DataGrid Grid.Row="1" Margin="2" IsReadOnly="False" ItemsSource="{Binding DayIntervals}" SelectedItem="{Binding SelectedDayInterval}">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Width="Auto" Header="День">
 							<DataGridTemplateColumn.CellTemplate>

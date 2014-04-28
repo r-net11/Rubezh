@@ -17,16 +17,8 @@ namespace SKDModule.ViewModels
 		public string Description { get; private set; }
 		public ScheduleScheme ScheduleScheme { get; private set; }
 
-		void Initialize()
-		{
-			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			DayIntervals = new SortableObservableCollection<DayIntervalViewModel>();
-		}
-
 		public ScheduleSchemeViewModel(ScheduleSchemesViewModel scheduleSchemesViewModel, FiresecAPI.Organisation organisation)
 		{
-			Initialize();
 			ScheduleSchemesViewModel = scheduleSchemesViewModel;
 			Organisation = organisation;
 			IsOrganisation = true;
@@ -36,7 +28,9 @@ namespace SKDModule.ViewModels
 
 		public ScheduleSchemeViewModel(ScheduleSchemesViewModel scheduleSchemesViewModel, FiresecAPI.Organisation organisation, ScheduleScheme scheduleScheme)
 		{
-			Initialize();
+			AddCommand = new RelayCommand(OnAdd);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+
 			ScheduleSchemesViewModel = scheduleSchemesViewModel;
 			Organisation = organisation;
 			ScheduleScheme = scheduleScheme;

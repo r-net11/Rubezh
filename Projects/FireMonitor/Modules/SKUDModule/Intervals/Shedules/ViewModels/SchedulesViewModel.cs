@@ -22,6 +22,8 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			Filter = new ScheduleFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
 			Initialize(Filter);
@@ -77,6 +79,21 @@ namespace SKDModule.ViewModels
 				if (value != null)
 					value.ExpandToThis();
 				OnPropertyChanged("SelectedSchedule");
+			}
+		}
+
+		public ScheduleViewModel ParentOrganisation
+		{
+			get
+			{
+				ScheduleViewModel OrganisationViewModel = SelectedSchedule;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedSchedule.Parent;
+
+				if (OrganisationViewModel.Organisation != null)
+					return OrganisationViewModel;
+
+				return null;
 			}
 		}
 
@@ -172,9 +189,13 @@ namespace SKDModule.ViewModels
 			var newInterval = CopySchedule(_clipboard);
 			if (ScheduleHelper.Save(newInterval))
 			{
-				var timeInrervalViewModel = new ScheduleViewModel(SelectedSchedule.Organisation, newInterval);
-				AllSchedules.Add(timeInrervalViewModel);
-				SelectedSchedule = timeInrervalViewModel;
+				var scheduleViewModel = new ScheduleViewModel(SelectedSchedule.Organisation, newInterval);
+				if (ParentOrganisation != null)
+				{
+					ParentOrganisation.AddChild(scheduleViewModel);
+					AllSchedules.Add(scheduleViewModel);
+				}
+				SelectedSchedule = scheduleViewModel;
 			}
 		}
 		private bool CanPaste()
@@ -185,11 +206,11 @@ namespace SKDModule.ViewModels
 		private Schedule CopySchedule(Schedule source, bool newName = true)
 		{
 			var copy = new Schedule();
-			copy.Name = newName ? CopyHelper.CopyName(source.Name, AllSchedules.Select(item => item.Schedule.Name)) : source.Name;
+			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
 			copy.ScheduleSchemeUID = source.ScheduleSchemeUID;
 			copy.IsIgnoreHoliday = source.IsIgnoreHoliday;
 			copy.IsOnlyFirstEnter = source.IsOnlyFirstEnter;
-			copy.OrganisationUID = source.OrganisationUID;
+			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			foreach (var scheduleZone in source.Zones)
 				copy.Zones.Add(new ScheduleZone()
 				{

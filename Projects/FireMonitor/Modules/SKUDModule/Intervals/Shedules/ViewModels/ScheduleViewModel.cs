@@ -16,17 +16,8 @@ namespace SKDModule.ViewModels
 		public string Description { get; private set; }
 		public Schedule Schedule { get; private set; }
 
-		void Initialize()
-		{
-			AddCommand = new RelayCommand(OnAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			ScheduleZones = new SortableObservableCollection<ScheduleZoneViewModel>();
-		}
-
 		public ScheduleViewModel(FiresecAPI.Organisation organisation)
 		{
-			Initialize();
 			Organisation = organisation;
 			IsOrganisation = true;
 			Name = organisation.Name;
@@ -35,12 +26,16 @@ namespace SKDModule.ViewModels
 
 		public ScheduleViewModel(FiresecAPI.Organisation organisation, Schedule schedule)
 		{
-			Initialize();
+			AddCommand = new RelayCommand(OnAdd);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+
 			Organisation = organisation;
 			Schedule = schedule;
 			IsOrganisation = false;
 			Name = schedule.Name;
 
+			ScheduleZones = new SortableObservableCollection<ScheduleZoneViewModel>();
 			foreach (var employeeScheduleZone in schedule.Zones)
 			{
 				var scheduleZoneViewModel = new ScheduleZoneViewModel(employeeScheduleZone);

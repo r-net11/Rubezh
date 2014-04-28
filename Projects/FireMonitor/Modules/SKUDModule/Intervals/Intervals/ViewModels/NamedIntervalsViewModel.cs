@@ -22,6 +22,8 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			Filter = new NamedIntervalFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
 			Initialize(Filter);
@@ -77,6 +79,21 @@ namespace SKDModule.ViewModels
 				if (value != null)
 					value.ExpandToThis();
 				OnPropertyChanged("SelectedNamedInterval");
+			}
+		}
+
+		public NamedIntervalViewModel ParentOrganisation
+		{
+			get
+			{
+				NamedIntervalViewModel OrganisationViewModel = SelectedNamedInterval;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedNamedInterval.Parent;
+
+				if (OrganisationViewModel.Organisation != null)
+					return OrganisationViewModel;
+
+				return null;
 			}
 		}
 
@@ -173,7 +190,11 @@ namespace SKDModule.ViewModels
 			if (NamedIntervalHelper.Save(newInterval))
 			{
 				var timeInrervalViewModel = new NamedIntervalViewModel(SelectedNamedInterval.Organisation, newInterval);
-				AllNamedIntervals.Add(timeInrervalViewModel);
+				if (ParentOrganisation != null)
+				{
+					ParentOrganisation.AddChild(timeInrervalViewModel);
+					AllNamedIntervals.Add(timeInrervalViewModel);
+				}
 				SelectedNamedInterval = timeInrervalViewModel;
 			}
 		}
@@ -185,10 +206,10 @@ namespace SKDModule.ViewModels
 		private NamedInterval CopyInterval(NamedInterval source, bool newName = true)
 		{
 			var copy = new NamedInterval();
-			copy.Name = newName ? CopyHelper.CopyName(source.Name, AllNamedIntervals.Select(item => item.NamedInterval.Name)) : source.Name;
+			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
 			copy.Description = source.Description;
 			copy.SlideTime = source.SlideTime;
-			copy.OrganisationUID = source.OrganisationUID;
+			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			foreach (var timeInterval in source.TimeIntervals)
 				if (!timeInterval.IsDeleted)
 					copy.TimeIntervals.Add(new TimeInterval()

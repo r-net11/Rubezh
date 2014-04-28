@@ -17,17 +17,8 @@ namespace SKDModule.ViewModels
 		public string Description { get; private set; }
 		public NamedInterval NamedInterval { get; private set; }
 
-		void Initialize()
-		{
-			AddCommand = new RelayCommand(OnAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			TimeIntervals = new SortableObservableCollection<TimeIntervalViewModel>();
-		}
-
 		public NamedIntervalViewModel(FiresecAPI.Organisation organisation)
 		{
-			Initialize();
 			Organisation = organisation;
 			IsOrganisation = true;
 			Name = organisation.Name;
@@ -36,12 +27,16 @@ namespace SKDModule.ViewModels
 
 		public NamedIntervalViewModel(FiresecAPI.Organisation organisation, NamedInterval namedInterval)
 		{
-			Initialize();
+			AddCommand = new RelayCommand(OnAdd);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+
 			Organisation = organisation;
 			NamedInterval = namedInterval;
 			IsOrganisation = false;
 			Name = namedInterval.Name;
 
+			TimeIntervals = new SortableObservableCollection<TimeIntervalViewModel>();
 			foreach (var timeInterval in namedInterval.TimeIntervals)
 			{
 				var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
