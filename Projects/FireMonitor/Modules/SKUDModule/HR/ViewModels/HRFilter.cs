@@ -11,6 +11,7 @@ namespace SKDModule.ViewModels
 			EmployeeFilter = new EmployeeFilter();
 			DepartmentFilter = new DepartmentFilter();
 			PositionFilter = new PositionFilter();
+			CardFilter = new CardFilter();
 		}
 
 		[DataMember]
@@ -21,5 +22,8 @@ namespace SKDModule.ViewModels
 
 		[DataMember]
 		public PositionFilter PositionFilter { get; set; }
+
+		[DataMember]
+		public CardFilter CardFilter { get; set; }
 	}
 }

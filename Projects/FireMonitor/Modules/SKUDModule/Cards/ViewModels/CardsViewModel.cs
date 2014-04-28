@@ -16,16 +16,13 @@ namespace SKDModule.ViewModels
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			RefreshCommand = new RelayCommand(OnRefresh);
 			Filter = new CardFilter();
-			Initialize();
 		}
 
-		public void Initialize()
+		public void Initialize(CardFilter filter)
 		{
 			Cards = new ObservableCollection<CardViewModel>();
-			var cards = CardHelper.Get(Filter);
+			var cards = CardHelper.Get(filter);
 			if (cards == null)
 				return;
 			foreach (var card in cards)
@@ -88,31 +85,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return SelectedCard != null;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var cardDetailsViewModel = new CardDetailsViewModel(this, SelectedCard.Card);
-			if (DialogService.ShowModalWindow(cardDetailsViewModel))
-			{
-				var card = cardDetailsViewModel.Card;
-				var saveResult = CardHelper.Save(card);
-				if (!saveResult)
-					return;
-				SelectedCard.Update(cardDetailsViewModel.Card);
-			}
-		}
-		bool CanEdit()
-		{
-			return SelectedCard != null;
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
+			return SelectedCard != null && SelectedCard.Card.IsInStopList;
 		}
 	}
 }

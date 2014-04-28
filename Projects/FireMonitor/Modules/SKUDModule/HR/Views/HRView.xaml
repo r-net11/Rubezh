@@ -58,6 +58,12 @@
                     <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
                 </StackPanel>
             </Grid>
+            <Grid Visibility="{Binding IsCardsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" DataContext="{Binding CardsViewModel}">
+                    <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+                    <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+                </StackPanel>
+            </Grid>
             <Controls:ToolBarButton Command="{Binding EditFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" />
 		</StackPanel>
 
@@ -73,6 +79,9 @@
             </TabItem>
             <TabItem Header="Дополнительные колонки" IsSelected="{Binding IsAdditionalColumnTypesSelected}">
                 <Views:AdditionalColumnTypesView DataContext="{Binding AdditionalColumnTypesViewModel}" />
+            </TabItem>
+            <TabItem Header="Карты" IsSelected="{Binding IsCardsSelected}">
+                <Views:CardsView DataContext="{Binding CardsViewModel}" />
             </TabItem>
             <TabItem Header="Документы" IsSelected="{Binding IsDocumentsSelected}" Visibility="Collapsed">
                 <Views:DocumentsView DataContext="{Binding DocumentsViewModel}" />

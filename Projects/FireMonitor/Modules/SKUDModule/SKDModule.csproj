@@ -122,6 +122,7 @@
     <Compile Include="HR\ViewModels\PositionsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentFilterItemViewModel.cs" />
+    <Compile Include="HR\ViewModels\CardFilterViewModel.cs" />
     <Compile Include="Intervals\Common\CopyHelper.cs" />
     <Compile Include="Intervals\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="Intervals\Common\ViewModels\OrganisationViewModel.cs" />
@@ -254,7 +255,6 @@
     </Compile>
     <Compile Include="Events\NewSKDJournalEvent.cs" />
     <Compile Include="Events\ShowSKDArchiveEvent.cs" />
-    <Compile Include="Events\ShowCardsEvent.cs" />
     <Compile Include="Events\ShowSKDDeviceEvent.cs" />
     <Compile Include="Events\ShowSKDDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowHolidaysEvent.cs" />
@@ -310,7 +310,6 @@
     <Compile Include="Plans\Views\SKDZoneTooltipView.xaml.cs">
       <DependentUpon>SKDZoneTooltipView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Positions\ViewModels\BaseOrganisationTreeViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionsViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionViewModel.cs" />
     <Compile Include="Positions\ViewModels\PositionDetailsViewModel.cs" />

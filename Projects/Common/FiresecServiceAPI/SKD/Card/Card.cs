@@ -46,6 +46,9 @@ namespace FiresecAPI
 		[DataMember]
 		public string StopReason { get; set; }
 
+		[DataMember]
+		public string EmployeeName { get; set; }
+
 		public string PresentationName
 		{
 			get { return Series.ToString() + "/" + Number; }

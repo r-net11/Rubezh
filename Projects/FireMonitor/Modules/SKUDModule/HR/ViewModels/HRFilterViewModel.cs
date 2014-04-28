@@ -8,6 +8,7 @@ namespace SKDModule.ViewModels
 		public EmployeeFilterViewModel EmployeeFilterViewModel { get; private set; }
 		public DepartmentsFilterViewModel DepartmentsFilterViewModel { get; private set; }
 		public PositionsFilterViewModel PositionsFilterViewModel { get; private set; }
+		public CardFilterViewModel CardFilterViewModel { get; private set; }
 
 		public HRFilterViewModel(HRFilter filter)
 			: base(filter)
@@ -21,6 +22,7 @@ namespace SKDModule.ViewModels
 			EmployeeFilterViewModel = new EmployeeFilterViewModel(filter.EmployeeFilter);
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel(filter.DepartmentFilter);
 			PositionsFilterViewModel = new PositionsFilterViewModel(filter.PositionFilter);
+			CardFilterViewModel = new CardFilterViewModel(filter.CardFilter);
 		}
 
 		protected override bool Save()
@@ -29,6 +31,7 @@ namespace SKDModule.ViewModels
 			Filter.EmployeeFilter = EmployeeFilterViewModel.Save();
 			Filter.DepartmentFilter = DepartmentsFilterViewModel.Save();
 			Filter.PositionFilter = PositionsFilterViewModel.Save();
+			Filter.CardFilter = CardFilterViewModel.Save();
 
 			Filter.EmployeeFilter.DepartmentUIDs = Filter.DepartmentFilter.UIDs.ToList();
 			Filter.EmployeeFilter.PositionUIDs = Filter.PositionFilter.UIDs.ToList();

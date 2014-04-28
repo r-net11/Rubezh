@@ -68,6 +68,10 @@ namespace SKDDriver
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			result.CardTemplateUID = tableItem.CardTemplateUID;
+
+			var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
+			if (employee != null)
+				result.EmployeeName = employee.LastName + " " + employee.FirstName + " " + employee.SecondName;
 			return result;
 		}
 
@@ -94,7 +98,6 @@ namespace SKDDriver
 			return base.Save(item);
 		}
 
-
 		public OperationResult SaveTemplate(SKDCard apiItem)
 		{
 			try
@@ -118,7 +121,7 @@ namespace SKDDriver
 			result = result.And(base.IsInFilter(filter));
 
 			var IsBlockedExpression = PredicateBuilder.True<DataAccess.Card>();
-			switch (filter.WithBlocked)
+			switch (filter.WithDeleted)
 			{
 				case DeletedType.Deleted:
 					IsBlockedExpression = e => e.IsInStopList;
@@ -131,9 +134,23 @@ namespace SKDDriver
 			}
 			result = result.And(IsBlockedExpression);
 
-			var employeeUIDs = filter.EmployeeUIDs;
-			if (employeeUIDs != null && employeeUIDs.Count != 0)
-				result = result.And(e => e.EmployeeUID.HasValue && employeeUIDs.Contains(e.EmployeeUID.Value));
+			if (filter.FirstSeries > 0)
+			{
+				result = result.And(e => e.Series >= filter.FirstSeries);
+			}
+			if (filter.LastSeries > 0)
+			{
+				result = result.And(e => e.Series <= filter.LastSeries);
+			}
+			if (filter.FirstNos > 0)
+			{
+				result = result.And(e => e.Number >= filter.FirstNos);
+			}
+			if (filter.LastNos > 0)
+			{
+				result = result.And(e => e.Number <= filter.LastNos);
+			}
+
 			return result;
 		}
 	}

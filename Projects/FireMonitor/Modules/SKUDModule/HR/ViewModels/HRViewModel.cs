@@ -13,12 +13,14 @@ namespace SKDModule.ViewModels
 		DepartmentFilter DepartmentFilter;
 		PositionFilter PositionFilter;
 		AdditionalColumnTypeFilter AdditionalColumnTypeFilter;
+		CardFilter CardFilter;
 		DocumentFilter DocumentFilter;
 
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public DepartmentsViewModel DepartmentsViewModel { get; private set; }
 		public PositionsViewModel PositionsViewModel { get; private set; }
 		public AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel { get; private set; }
+		public CardsViewModel CardsViewModel { get; private set; }
 		public DocumentsViewModel DocumentsViewModel { get; private set; }
 
 		public HRViewModel()
@@ -29,6 +31,7 @@ namespace SKDModule.ViewModels
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
 			AdditionalColumnTypesViewModel = new AdditionalColumnTypesViewModel();
+			CardsViewModel = new CardsViewModel();
 			DocumentsViewModel = new DocumentsViewModel();
 			IsEmployeesSelected = true;
 
@@ -36,6 +39,7 @@ namespace SKDModule.ViewModels
 			Filter.EmployeeFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
 			Filter.DepartmentFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
 			Filter.PositionFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
+			//Filter.CardFilter;
 			InitializeFilters();
 			Initialize();
 		}
@@ -46,6 +50,7 @@ namespace SKDModule.ViewModels
 			DepartmentsViewModel.Initialize(DepartmentFilter);
 			PositionsViewModel.Initialize(PositionFilter);
 			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
+			CardsViewModel.Initialize(CardFilter);
 			DocumentsViewModel.Initialize(DocumentFilter);
 		}
 
@@ -93,6 +98,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		bool _isCardsSelected;
+		public bool IsCardsSelected
+		{
+			get { return _isCardsSelected; }
+			set
+			{
+				_isCardsSelected = value;
+				OnPropertyChanged(() => IsCardsSelected);
+			}
+		}
+
 		bool _isDocumentsSelected;
 		public bool IsDocumentsSelected
 		{
@@ -122,6 +138,7 @@ namespace SKDModule.ViewModels
 			DepartmentFilter = Filter.DepartmentFilter;
 			PositionFilter = Filter.PositionFilter;
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+			CardFilter = Filter.CardFilter;
 			DocumentFilter = new DocumentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 		}
 	}

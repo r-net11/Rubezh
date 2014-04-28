@@ -47,7 +47,7 @@
 				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Номер" />
 				<TextBox Grid.Row="3" Grid.Column="1" Width="100" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number}" />
 
-				<CheckBox Grid.Row="4" Grid.Column="0" Margin="2" VerticalAlignment="Center" Content="Из СТОП-листа" Foreground="White" IsChecked="{Binding UseStopList}" />
+                <CheckBox Grid.Row="4" Grid.Column="0" Margin="2" VerticalAlignment="Center" Content="Из списка деактивированных" Foreground="White" IsChecked="{Binding UseStopList}" />
 				<ComboBox Grid.Row="4" Grid.Column="1" Width="100" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>

@@ -151,12 +151,11 @@ namespace SKDModule
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDJournal, 303, "Журнал", "Панель журнал", "BLevels.png") { Factory = (p) => new LayoutPartJournalViewModel(p as LayoutPartSKDJournalProperties), };
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDHR, 304, "Картотека", "Панель картотека", "BLevels.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDVerification, 305, "Верификация", "Панель верификация", "BTree.png") { Factory = (p) => new LayoutPartVerificationViewModel(p as LayoutPartSKDVerificationProperties), };
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDCards, 306, "Карты", "Панель карты", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDNamedIntervals, 307, "Именованные интервалы", "Панель именованные интервалы", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDWeeklyScheduleSchemes, 308, "Недельные графики", "Панель недельные графики", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDaylyScheduleSchemes, 309, "Скользящие посуточные графики", "Панель скользящие посуточные графики", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDMonthlyScheduleSchemes, 310, "Месячные графики", "Панель месячные графики", "BTree.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDHolidays, 311, "Праздничные дни", "Панель праздничные дни", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDNamedIntervals, 306, "Именованные интервалы", "Панель именованные интервалы", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDWeeklyScheduleSchemes, 307, "Недельные графики", "Панель недельные графики", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDDaylyScheduleSchemes, 308, "Скользящие посуточные графики", "Панель скользящие посуточные графики", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDMonthlyScheduleSchemes, 309, "Месячные графики", "Панель месячные графики", "BTree.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.SKD, LayoutPartIdentities.SKDHolidays, 310, "Праздничные дни", "Панель праздничные дни", "BTree.png");
 		}
 
 		#endregion

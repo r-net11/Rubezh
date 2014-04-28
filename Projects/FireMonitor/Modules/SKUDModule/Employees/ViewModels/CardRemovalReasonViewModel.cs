@@ -7,7 +7,7 @@ namespace SKDModule.ViewModels
 	{
 		public CardRemovalReasonViewModel()
 		{
-			Title = "Причина перемещения в СТОП-лист";
+			Title = "Причина деактивации";
 			RemovalReason = "Утеряна " + DateTime.Now.ToString();
 		}
 

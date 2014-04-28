@@ -20,7 +20,7 @@ namespace FiresecAPI
 			SKDEvents.Add(new SKDEvent(8, "Нарушение ВРЕМЕНИ и ЗОНАЛЬНОСТИ", XStateClass.Info, SKDDriverType.Reader));
 			SKDEvents.Add(new SKDEvent(9, "Идентификатор НЕ ЗАРЕГИСТРИРОВАН", XStateClass.Info, SKDDriverType.Reader));
 			SKDEvents.Add(new SKDEvent(10, "Идентификатор ЗАБЛОКИРОВАН", XStateClass.Info, SKDDriverType.Reader));
-			SKDEvents.Add(new SKDEvent(11, "Идентификатор ИЗ СТОП-ЛИСТА", XStateClass.Info, SKDDriverType.Reader));
+			SKDEvents.Add(new SKDEvent(11, "Деактивированный идентификатор", XStateClass.Info, SKDDriverType.Reader));
 			SKDEvents.Add(new SKDEvent(12, "Идентификатор ПРОСРОЧЕН", XStateClass.Info, SKDDriverType.Reader));
 			SKDEvents.Add(new SKDEvent(13, "Нарушение режима доступа", XStateClass.Failure, SKDDriverType.Reader));
 			SKDEvents.Add(new SKDEvent(14, "Взлом ИУ", XStateClass.Failure, SKDDriverType.Reader));

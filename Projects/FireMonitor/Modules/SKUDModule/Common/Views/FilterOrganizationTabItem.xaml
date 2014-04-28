@@ -1,20 +1,8 @@
 ﻿<TabItem x:Class="SKDModule.Views.FilterOrganisationTabItem"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		Style="{StaticResource TabItemElementStyle}">
-	<TabItem.Header>
-		<TextBlock Text="Организации" Foreground="White" FontWeight="Bold">
-			<TextBlock.Style>
-				<Style>
-					<Style.Triggers>
-						<DataTrigger Binding="{Binding Organisations.HasCheckedItems}" Value="True">
-							<Setter Property="TextBlock.FontStyle" Value="Italic" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</TextBlock.Style>
-		</TextBlock>
-	</TabItem.Header>
+		Style="{StaticResource TabItemElementStyle}"
+        Header="Организации">
     <DataGrid ItemsSource="{Binding Organisations.Items}">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Название" Width="*">

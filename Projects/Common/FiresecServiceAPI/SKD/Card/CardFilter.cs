@@ -10,14 +10,19 @@ namespace FiresecAPI
 		public CardFilter()
 			: base()
 		{
-			EmployeeUIDs = new List<Guid>();
-			WithBlocked = DeletedType.Not;
+			WithDeleted = DeletedType.All;
 		}
 
 		[DataMember]
-		public List<Guid> EmployeeUIDs { get; set; }
+		public int FirstSeries { get; set; }
 
 		[DataMember]
-		public DeletedType WithBlocked { get; set; }
+		public int LastSeries { get; set; }
+
+		[DataMember]
+		public int FirstNos { get; set; }
+
+		[DataMember]
+		public int LastNos { get; set; }
 	}
 }

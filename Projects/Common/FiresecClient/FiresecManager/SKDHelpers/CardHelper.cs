@@ -19,7 +19,7 @@ namespace FiresecClient.SKDHelpers
 		public static IEnumerable<SKDCard> GetStopListCards()
 		{
 			var filter = new CardFilter();
-			filter.WithBlocked = DeletedType.Deleted;
+			filter.WithDeleted = DeletedType.Deleted;
 			var result = FiresecManager.FiresecService.GetCards(filter);
 			return Common.ShowErrorIfExists(result);
 		}

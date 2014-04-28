@@ -224,6 +224,16 @@ namespace SKDDriver
 			var dismissedDates = filter.Dismissed;
 			if (dismissedDates != null)
 				result = result.And(e => e.Dismissed >= dismissedDates.StartDate && e.Dismissed <= dismissedDates.EndDate);
+
+			if (!string.IsNullOrEmpty(filter.LastName))
+				result = result.And(e => e.LastName.Contains(filter.LastName));
+
+			if (!string.IsNullOrEmpty(filter.FirstName))
+				result = result.And(e => e.FirstName.Contains(filter.FirstName));
+
+			if (!string.IsNullOrEmpty(filter.SecondName))
+				result = result.And(e => e.SecondName.Contains(filter.SecondName));
+
 			return result;
 		}
 	}

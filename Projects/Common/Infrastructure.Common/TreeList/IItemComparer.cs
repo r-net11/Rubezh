@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.Common.TreeList
+﻿namespace Infrastructure.Common.TreeList
 {
 	public interface IItemComparer
 	{

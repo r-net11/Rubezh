@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace FiresecAPI
 {
@@ -23,12 +24,15 @@ namespace FiresecAPI
 	public enum DeletedType
 	{
 		[EnumMember]
-		Deleted,
-
-		[EnumMember]
+		[Description("Только неудаленные")]
 		Not,
 
 		[EnumMember]
+		[Description("Только удаленный")]
+		Deleted,
+
+		[EnumMember]
+		[Description("Все")]
 		All
 	}
 }

@@ -183,6 +183,7 @@
     <Compile Include="Converters\ZoneLogicStateToColorConverter.cs" />
     <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="Converters\MPTDeviceTypeToStringConverter.cs" />
+    <Compile Include="Converters\DeletedTypeToStringConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
