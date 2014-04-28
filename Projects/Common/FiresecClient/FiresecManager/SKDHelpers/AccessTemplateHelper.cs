@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FiresecAPI;
 
 namespace FiresecClient.SKDHelpers
@@ -16,13 +14,18 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool Save(AccessTemplate accessTemplate)
 		{
-			var result = FiresecManager.FiresecService.SaveAccessTemplates(new List<AccessTemplate> { accessTemplate });
+			var result = FiresecManager.FiresecService.SaveAccessTemplate(accessTemplate);
 			return Common.ShowErrorIfExists(result);
 		}
 
 		public static bool MarkDeleted(AccessTemplate accessTemplate)
 		{
-			var result = FiresecManager.FiresecService.MarkDeletedAccessTemplates(new List<AccessTemplate> { accessTemplate });
+			return MarkDeleted(accessTemplate.UID);
+		}
+
+		public static bool MarkDeleted(Guid uid)
+		{
+			var result = FiresecManager.FiresecService.MarkDeletedAccessTemplate(uid);
 			return Common.ShowErrorIfExists(result);
 		}
 	}

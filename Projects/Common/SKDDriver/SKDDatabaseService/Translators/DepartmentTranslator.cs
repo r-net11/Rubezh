@@ -27,16 +27,19 @@ namespace SKDDriver
 			return base.CanSave(item);
 		}
 
-		protected override OperationResult CanDelete(Department item)
+		protected override OperationResult CanDelete(Guid uid)
 		{
-			bool isHasEmployees = Context.Employees.Any(x => !x.IsDeleted && x.DepartmentUID == item.UID);
+			bool isHasEmployees = Context.Employees.Any(x => !x.IsDeleted && x.DepartmentUID == uid);
 			if (isHasEmployees)
-				return new OperationResult("Не могу удалить отдел, пока он указан содержит действующих сотрудников");
+				return new OperationResult("Не могу удалить отдел, пока он содержит действующих сотрудников");
 
-			if (item.ChildDepartmentUIDs.IsNotNullOrEmpty())
+			bool isHasChildren = Table.Any(x => !x.IsDeleted && x.ParentDepartmentUID == uid);
+			if (isHasChildren)
 				return new OperationResult("Не могу удалить отдел, пока он содержит дочерние отделы");
-			return base.CanSave(item);
+			return base.CanDelete(uid);
 		}
+
+
 
 		protected override Department Translate(DataAccess.Department tableItem)
 		{

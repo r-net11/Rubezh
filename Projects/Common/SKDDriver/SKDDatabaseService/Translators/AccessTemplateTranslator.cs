@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
@@ -28,30 +27,20 @@ namespace SKDDriver
 			return base.CanSave(item);
 		}
 
-		protected override OperationResult CanDelete(AccessTemplate item)
+		protected override OperationResult CanDelete(Guid uid)
 		{
-			if (Context.Cards.Any(x => x.AccessTemplateUID == item.UID &&
+			if (Context.Cards.Any(x => x.AccessTemplateUID == uid &&
 					x.IsDeleted == false))
 				return new OperationResult("Не могу удалить ГУД, пока он указан у действующих карт");
-			return base.CanSave(item);
+			return base.CanDelete(uid);
 		}
 
-		public override OperationResult MarkDeleted(IEnumerable<AccessTemplate> items)
+		public override OperationResult MarkDeleted(Guid uid)
 		{
-			try
-			{
-				foreach (var item in items)
-				{
-					if (item == null)
-						continue;
-					CardZonesTranslator.MarkDeleted(item.CardZones);
-				}
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return base.MarkDeleted(items);
+			var deleteZonesResult = CardZonesTranslator.MarkDeletefFromAccessTemplate(uid);
+			if (deleteZonesResult.HasError)
+				return deleteZonesResult;
+			return base.MarkDeleted(uid);
 		}
 
 		protected override AccessTemplate Translate(DataAccess.AccessTemplate tableItem)
@@ -68,12 +57,12 @@ namespace SKDDriver
 			tableItem.Name = apiItem.Name;
 		}
 
-		public override OperationResult Save(IEnumerable<AccessTemplate> items)
+		public override OperationResult Save(AccessTemplate item)
 		{
-			var updateZonesResult = CardZonesTranslator.SaveFromAccessTemplates(items);
+			var updateZonesResult = CardZonesTranslator.SaveFromAccessTemplate(item);
 			if (updateZonesResult.HasError)
 				return updateZonesResult;
-			return base.Save(items);
+			return base.Save(item);
 		}
 
 		protected override Expression<Func<DataAccess.AccessTemplate, bool>> IsInFilter(AccessTemplateFilter filter)

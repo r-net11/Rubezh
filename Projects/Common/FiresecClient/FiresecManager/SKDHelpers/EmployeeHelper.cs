@@ -7,15 +7,15 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class EmployeeHelper
 	{
-		public static bool Save(Employee Employee)
+		public static bool Save(Employee employee)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveEmployees(new List<Employee> { Employee });
+			var operationResult = FiresecManager.FiresecService.SaveEmployee(employee);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static bool MarkDeleted(Guid uid)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedEmployees(new List<Guid> { uid });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedEmployee(uid);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

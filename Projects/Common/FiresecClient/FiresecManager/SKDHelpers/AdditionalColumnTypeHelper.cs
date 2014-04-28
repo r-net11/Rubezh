@@ -8,13 +8,13 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool Save(AdditionalColumnType AdditionalColumnType)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveAdditionalColumnTypes(new List<AdditionalColumnType> { AdditionalColumnType });
+			var operationResult = FiresecManager.FiresecService.SaveAdditionalColumnType(AdditionalColumnType);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static bool MarkDeleted(Guid uid)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedAdditionalColumnTypes(new List<Guid> { uid });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedAdditionalColumnType(uid);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

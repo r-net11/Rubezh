@@ -16,13 +16,13 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<Employee>>(() => FiresecService.GetEmployeeDetails(uid));
 		}
-		public OperationResult SaveEmployees(IEnumerable<Employee> Employees)
+		public OperationResult SaveEmployee(Employee item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployees(Employees));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployee(item));
 		}
-		public OperationResult MarkDeletedEmployees(IEnumerable<Guid> uids)
+		public OperationResult MarkDeletedEmployee(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployees(uids));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployee(uid));
 		}
 		#endregion
 
@@ -35,13 +35,13 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<Department>>(() => FiresecService.GetDepartmentDetails(uid));
 		}
-		public OperationResult SaveDepartments(IEnumerable<Department> Departments)
+		public OperationResult SaveDepartment(Department item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartments(Departments));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDepartment(item));
 		}
-		public OperationResult MarkDeletedDepartments(IEnumerable<Guid> uids)
+		public OperationResult MarkDeletedDepartment(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartments(uids));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDepartment(uid));
 		}
 		#endregion
 
@@ -54,13 +54,13 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<Position>>(() => FiresecService.GetPositionDetails(uid));
 		}
-		public OperationResult SavePositions(IEnumerable<Position> Positions)
+		public OperationResult SavePosition(Position item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePositions(Positions));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePosition(item));
 		}
-		public OperationResult MarkDeletedPositions(IEnumerable<Guid> uids)
+		public OperationResult MarkDeletedPosition(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPositions(uids));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPosition(uid));
 		}
 		#endregion
 
@@ -80,32 +80,17 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
-		public OperationResult SaveCards(IEnumerable<SKDCard> items)
+		public OperationResult SaveCard(SKDCard item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCards(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCard(item));
 		}
-		public OperationResult MarkDeletedCards(IEnumerable<SKDCard> items)
+		public OperationResult MarkDeletedCard(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedCards(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedCard(uid));
 		}
-		#endregion
-
-		#region CardZone
-		public OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter)
+		public OperationResult SaveCardTemplate(SKDCard item)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<CardZone>>>(() => FiresecService.GetCardZones(filter));
-		}
-		public OperationResult SaveCardZones(IEnumerable<CardZone> items)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCardZones(items));
-		}
-		public OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedCardZones(items));
-		}
-		public OperationResult SaveCardTemplate(SKDCard card)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCardTemplate(card));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCardTemplate(item));
 		}
 		#endregion
 
@@ -114,13 +99,13 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<AccessTemplate>>>(() => FiresecService.GetAccessTemplates(filter));
 		}
-		public OperationResult SaveAccessTemplates(IEnumerable<AccessTemplate> items)
+		public OperationResult SaveAccessTemplate(AccessTemplate item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAccessTemplates(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAccessTemplate(item));
 		}
-		public OperationResult MarkDeletedAccessTemplates(IEnumerable<AccessTemplate> items)
+		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAccessTemplates(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAccessTemplate(uid));
 		}
 		#endregion
 
@@ -129,13 +114,13 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Organisation>>>(() => FiresecService.GetOrganisations(filter));
 		}
-		public OperationResult SaveOrganisations(IEnumerable<Organisation> Organisations)
+		public OperationResult SaveOrganisation(Organisation item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisations(Organisations));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisation(item));
 		}
-		public OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organisations)
+		public OperationResult MarkDeletedOrganisation(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedOrganisations(Organisations));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedOrganisation(uid));
 		}
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
@@ -152,13 +137,13 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<Document>>(() => FiresecService.GetDocumentDetails(uid));
 		}
-		public OperationResult SaveDocuments(IEnumerable<Document> items)
+		public OperationResult SaveDocument(Document item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocuments(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocument(item));
 		}
-		public OperationResult MarkDeletedDocuments(IEnumerable<Guid> uids)
+		public OperationResult MarkDeletedDocument(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDocuments(uids));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDocument(uid));
 		}
 		#endregion
 
@@ -171,35 +156,13 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<AdditionalColumnType>>(() => FiresecService.GetAdditionalColumnTypeDetails(uid));
 		}
-		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		public OperationResult SaveAdditionalColumnType(AdditionalColumnType item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAdditionalColumnTypes(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAdditionalColumnType(item));
 		}
-		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<Guid> uids)
+		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAdditionalColumnTypes(uids));
-		}
-		#endregion
-
-		#region AdditionalColumn
-		public OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter)
-		{
-			return SafeContext.Execute<OperationResult<IEnumerable<AdditionalColumn>>>(() => FiresecService.GetAdditionalColumns(filter));
-		}
-		public OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAdditionalColumns(items));
-		}
-		#endregion
-
-		#region Photo
-		public OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter)
-		{
-			return SafeContext.Execute<OperationResult<IEnumerable<Photo>>>(() => FiresecService.GetPhotos(filter));
-		}
-		public OperationResult SavePhotos(IEnumerable<Photo> items)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePhotos(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAdditionalColumnType(uid));
 		}
 		#endregion
 
@@ -208,13 +171,13 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<EmployeeReplacement>>>(() => FiresecService.GetEmployeeReplacements(filter));
 		}
-		public OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
+		public OperationResult SaveEmployeeReplacement(EmployeeReplacement item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeReplacements(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeReplacement(item));
 		}
-		public OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
+		public OperationResult MarkDeletedEmployeeReplacement(Guid uid)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployeeReplacements(items));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployeeReplacement(uid));
 		}
 		#endregion
 		

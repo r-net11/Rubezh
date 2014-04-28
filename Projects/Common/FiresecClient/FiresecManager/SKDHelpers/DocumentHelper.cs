@@ -8,13 +8,13 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool Save(Document document)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveDocuments(new List<Document> { document });
+			var operationResult = FiresecManager.FiresecService.SaveDocument(document);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static bool MarkDeleted(Guid uid)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedDocuments(new List<Guid> { uid });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedDocument(uid);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

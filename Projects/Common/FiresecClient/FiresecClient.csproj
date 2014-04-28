@@ -127,7 +127,6 @@
     <Compile Include="FiresecManager\FiresecManager.FS2OrAgentComands.cs" />
     <Compile Include="FiresecManager\FiresecManager.Zip.cs" />
     <Compile Include="FiresecManager\SKDHelpers\AdditionalColumnTypeHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\AdditionalColunmHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\CardHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\Common.cs" />
     <Compile Include="FiresecManager\SKDHelpers\ScheduleZoneHelper.cs" />
@@ -141,8 +140,7 @@
     <Compile Include="FiresecManager\SKDHelpers\EmployeeHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\AccessTemplateHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\NamedIntervalHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\OrganizationHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\PhotoHelper.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\OrganisationHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\PositionHelper.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\SafeFiresecService.GK.cs" />

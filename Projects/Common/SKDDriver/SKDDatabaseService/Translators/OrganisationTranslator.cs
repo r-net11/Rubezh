@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
@@ -23,9 +22,8 @@ namespace SKDDriver
 			return base.CanSave(item);
 		}
 
-		protected override OperationResult CanDelete(Organisation item)
+		protected override OperationResult CanDelete(Guid uid)
 		{
-			var uid = item.UID;
 			if (Context.AdditionalColumnTypes.Any(x => x.OrganisationUID == uid) ||
 					Context.Departments.Any(x => x.OrganisationUID == uid) ||
 					Context.Documents.Any(x => x.OrganisationUID == uid) ||
@@ -40,7 +38,7 @@ namespace SKDDriver
 					Context.AccessTemplates.Any(x => x.OrganisationUID == uid)
 				)
 				return new OperationResult("Организация не может быть удалена, пока существуют элементы привязанные к ней");
-			return base.CanSave(item);
+			return base.CanDelete(uid);
 		}
 
 		protected override Organisation Translate(DataAccess.Organisation tableItem)
@@ -92,15 +90,12 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
-		public override OperationResult Save(IEnumerable<Organisation> apiItems)
+		public override OperationResult Save(Organisation apiItem)
 		{
-			if (apiItems == null)
-				return new OperationResult();
-			foreach (var apiItem in apiItems)
-			{
-				SaveZones(apiItem);
-			}
-			return base.Save(apiItems);
+			var saveZonesResult = SaveZones(apiItem);
+			if (saveZonesResult.HasError)
+				return saveZonesResult;
+			return base.Save(apiItem);
 		}
 	}
 }

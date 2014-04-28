@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FiresecAPI;
 
 namespace FiresecClient.SKDHelpers
@@ -11,7 +12,7 @@ namespace FiresecClient.SKDHelpers
 			card.StopReason = reason;
 			card.HolderUID = null;
 			card.CardZones = null;
-			var result = FiresecManager.FiresecService.SaveCards(new List<SKDCard> { card });
+			var result = FiresecManager.FiresecService.SaveCard(card);
 			return Common.ShowErrorIfExists(result);
 		}
 
@@ -31,7 +32,7 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool Save(SKDCard card)
 		{
-			var result = FiresecManager.FiresecService.SaveCards(new List<SKDCard> { card });
+			var result = FiresecManager.FiresecService.SaveCard(card);
 			return Common.ShowErrorIfExists(result);
 		}
 
@@ -43,7 +44,12 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool MarkDeleted(SKDCard card)
 		{
-			var result = FiresecManager.FiresecService.MarkDeletedCards(new List<SKDCard> { card });
+			return MarkDeleted(card.UID);
+		}
+
+		public static bool MarkDeleted(Guid uid)
+		{
+			var result = FiresecManager.FiresecService.MarkDeletedCard(uid);
 			return Common.ShowErrorIfExists(result);
 		}
 	}

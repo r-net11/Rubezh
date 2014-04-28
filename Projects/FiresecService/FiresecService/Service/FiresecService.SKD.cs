@@ -18,13 +18,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.EmployeeTranslator.GetSingle(uid);
 		}
-		public OperationResult SaveEmployees(IEnumerable<Employee> Employees)
+		public OperationResult SaveEmployee(Employee item)
 		{
-			return SKDDatabaseService.EmployeeTranslator.Save(Employees);
+			return SKDDatabaseService.EmployeeTranslator.Save(item);
 		}
-		public OperationResult MarkDeletedEmployees(IEnumerable<Guid> uids)
+		public OperationResult MarkDeletedEmployee(Guid uid)
 		{
-			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(uids);
+			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(uid);
 		}
 		#endregion
 
@@ -37,13 +37,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.DepartmentTranslator.GetSingle(uid);
 		}
-		public OperationResult SaveDepartments(IEnumerable<Department> Departments)
+		public OperationResult SaveDepartment(Department item)
 		{
-			return SKDDatabaseService.DepartmentTranslator.Save(Departments);
+			return SKDDatabaseService.DepartmentTranslator.Save(item);
 		}
-		public OperationResult MarkDeletedDepartments(IEnumerable<Guid> uids)
+		public OperationResult MarkDeletedDepartment(Guid uid)
 		{
-			return SKDDatabaseService.DepartmentTranslator.MarkDeleted(uids);
+			return SKDDatabaseService.DepartmentTranslator.MarkDeleted(uid);
 		}
 		#endregion
 
@@ -56,13 +56,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.PositionTranslator.GetSingle(uid);
 		}
-		public OperationResult SavePositions(IEnumerable<Position> Positions)
+		public OperationResult SavePosition(Position item)
 		{
-			return SKDDatabaseService.PositionTranslator.Save(Positions);
+			return SKDDatabaseService.PositionTranslator.Save(item);
 		}
-		public OperationResult MarkDeletedPositions(IEnumerable<Guid> uids)
+		public OperationResult MarkDeletedPosition(Guid uid)
 		{
-			return SKDDatabaseService.PositionTranslator.MarkDeleted(uids);
+			return SKDDatabaseService.PositionTranslator.MarkDeleted(uid);
 		}
 		#endregion
 
@@ -82,32 +82,17 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.CardTranslator.Get(filter);
 		}
-		public OperationResult SaveCards(IEnumerable<SKDCard> items)
+		public OperationResult SaveCard(SKDCard item)
 		{
-			return SKDDatabaseService.CardTranslator.Save(items);
+			return SKDDatabaseService.CardTranslator.Save(item);
 		}
-		public OperationResult MarkDeletedCards(IEnumerable<SKDCard> items)
+		public OperationResult MarkDeletedCard(Guid uid)
 		{
-			return SKDDatabaseService.CardTranslator.MarkDeleted(items);
+			return SKDDatabaseService.CardTranslator.MarkDeleted(uid);
 		}
 		public OperationResult SaveCardTemplate(SKDCard card)
 		{
 			return SKDDatabaseService.CardTranslator.SaveTemplate(card);
-		}
-		#endregion
-
-		#region CardZone
-		public OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter)
-		{
-			return SKDDatabaseService.CardZoneTranslator.Get(filter);
-		}
-		public OperationResult SaveCardZones(IEnumerable<CardZone> items)
-		{
-			return SKDDatabaseService.CardZoneTranslator.Save(items);
-		}
-		public OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items)
-		{
-			return SKDDatabaseService.CardZoneTranslator.MarkDeleted(items);
 		}
 		#endregion
 
@@ -116,13 +101,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.AccessTemplateTranslator.Get(filter);
 		}
-		public OperationResult SaveAccessTemplates(IEnumerable<AccessTemplate> items)
+		public OperationResult SaveAccessTemplate(AccessTemplate item)
 		{
-			return SKDDatabaseService.AccessTemplateTranslator.Save(items);
+			return SKDDatabaseService.AccessTemplateTranslator.Save(item);
 		}
-		public OperationResult MarkDeletedAccessTemplates(IEnumerable<AccessTemplate> items)
+		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{
-			return SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(items);
+			return SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(uid);
 		}
 		#endregion
 
@@ -131,13 +116,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.OrganisationTranslator.Get(filter);
 		}
-		public OperationResult SaveOrganisations(IEnumerable<Organisation> Organisations)
+		public OperationResult SaveOrganisation(Organisation item)
 		{
-			return SKDDatabaseService.OrganisationTranslator.Save(Organisations);
+			return SKDDatabaseService.OrganisationTranslator.Save(item);
 		}
-		public OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organisations)
+		public OperationResult MarkDeletedOrganisation(Guid uid)
 		{
-			return SKDDatabaseService.OrganisationTranslator.MarkDeleted(Organisations);
+			return SKDDatabaseService.OrganisationTranslator.MarkDeleted(uid);
 		}
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
@@ -154,13 +139,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.DocumentTranslator.GetSingle(uid);
 		}
-		public OperationResult SaveDocuments(IEnumerable<Document> items)
+		public OperationResult SaveDocument(Document item)
 		{
-			return SKDDatabaseService.DocumentTranslator.Save(items);
+			return SKDDatabaseService.DocumentTranslator.Save(item);
 		}
-		public OperationResult MarkDeletedDocuments(IEnumerable<Guid> uids)
+		public OperationResult MarkDeletedDocument(Guid uid)
 		{
-			return SKDDatabaseService.DocumentTranslator.MarkDeleted(uids);
+			return SKDDatabaseService.DocumentTranslator.MarkDeleted(uid);
 		}
 		#endregion
 
@@ -173,35 +158,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.GetSingle(uid);
 		}
-		public OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items)
+		public OperationResult SaveAdditionalColumnType(AdditionalColumnType item)
 		{
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.Save(items);
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.Save(item);
 		}
-		public OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<Guid> uids)
+		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
 		{
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(uids);
-		}
-		#endregion
-
-		#region AdditionalColumn
-		public OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter)
-		{
-			return SKDDatabaseService.AdditionalColumnTranslator.Get(filter);
-		}
-		public OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items)
-		{
-			return SKDDatabaseService.AdditionalColumnTranslator.Save(items);
-		}
-		#endregion
-
-		#region Photo
-		public OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter)
-		{
-			return SKDDatabaseService.PhotoTranslator.Get(filter);
-		}
-		public OperationResult SavePhotos(IEnumerable<Photo> items)
-		{
-			return SKDDatabaseService.PhotoTranslator.Save(items);
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
 		}
 		#endregion
 
@@ -210,13 +173,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.EmployeeReplacementTranslator.Get(filter);
 		}
-		public OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
+		public OperationResult SaveEmployeeReplacement(EmployeeReplacement item)
 		{
-			return SKDDatabaseService.EmployeeReplacementTranslator.Save(items);
+			return SKDDatabaseService.EmployeeReplacementTranslator.Save(item);
 		}
-		public OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items)
+		public OperationResult MarkDeletedEmployeeReplacement(Guid uid)
 		{
-			return SKDDatabaseService.EmployeeReplacementTranslator.MarkDeleted(items);
+			return SKDDatabaseService.EmployeeReplacementTranslator.MarkDeleted(uid);
 		}
 		#endregion
 

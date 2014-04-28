@@ -13,9 +13,9 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<Employee> GetEmployeeDetails(Guid uid);
 		[OperationContract]
-		OperationResult SaveEmployees(IEnumerable<Employee> Employees);
+		OperationResult SaveEmployee(Employee item);
 		[OperationContract]
-		OperationResult MarkDeletedEmployees(IEnumerable<Guid> uids);
+		OperationResult MarkDeletedEmployee(Guid uid);
 		#endregion
 
 		#region Department
@@ -24,9 +24,9 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<Department> GetDepartmentDetails(Guid uid);
 		[OperationContract]
-		OperationResult SaveDepartments(IEnumerable<Department> Departments);
+		OperationResult SaveDepartment(Department item);
 		[OperationContract]
-		OperationResult MarkDeletedDepartments(IEnumerable<Guid> uids);
+		OperationResult MarkDeletedDepartment(Guid uid);
 		#endregion
 
 		#region Position
@@ -35,9 +35,9 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<Position> GetPositionDetails(Guid uid);
 		[OperationContract]
-		OperationResult SavePositions(IEnumerable<Position> Positions);
+		OperationResult SavePosition(Position item);
 		[OperationContract]
-		OperationResult MarkDeletedPositions(IEnumerable<Guid> uids);
+		OperationResult MarkDeletedPosition(Guid uid);
 		#endregion
 
 		#region Journal
@@ -51,38 +51,29 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
 		[OperationContract]
-		OperationResult SaveCards(IEnumerable<SKDCard> items);
+		OperationResult SaveCard(SKDCard item);
 		[OperationContract]
-		OperationResult MarkDeletedCards(IEnumerable<SKDCard> items);
+		OperationResult MarkDeletedCard(Guid uid);
 		[OperationContract]
 		OperationResult SaveCardTemplate(SKDCard card);
-		#endregion
-
-		#region CardZone
-		[OperationContract]
-		OperationResult<IEnumerable<CardZone>> GetCardZones(CardZoneFilter filter);
-		[OperationContract]
-		OperationResult SaveCardZones(IEnumerable<CardZone> items);
-		[OperationContract]
-		OperationResult MarkDeletedCardZones(IEnumerable<CardZone> items);
 		#endregion
 
 		#region AccessTemplate
 		[OperationContract]
 		OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter);
 		[OperationContract]
-		OperationResult SaveAccessTemplates(IEnumerable<AccessTemplate> items);
+		OperationResult SaveAccessTemplate(AccessTemplate item);
 		[OperationContract]
-		OperationResult MarkDeletedAccessTemplates(IEnumerable<AccessTemplate> items);
+		OperationResult MarkDeletedAccessTemplate(Guid uid);
 		#endregion
 
 		#region Organisation
 		[OperationContract]
 		OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter);
 		[OperationContract]
-		OperationResult SaveOrganisations(IEnumerable<Organisation> Organisations);
+		OperationResult SaveOrganisation(Organisation Organisation);
 		[OperationContract]
-		OperationResult MarkDeletedOrganisations(IEnumerable<Organisation> Organisations);
+		OperationResult MarkDeletedOrganisation(Guid uid);
 		[OperationContract]
 		OperationResult SaveOrganisationZones(Organisation organisation);
 		#endregion
@@ -93,9 +84,9 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<Document> GetDocumentDetails(Guid uid);
 		[OperationContract]
-		OperationResult SaveDocuments(IEnumerable<Document> items);
+		OperationResult SaveDocument(Document item);
 		[OperationContract]
-		OperationResult MarkDeletedDocuments(IEnumerable<Guid> uids);
+		OperationResult MarkDeletedDocument(Guid uid);
 		#endregion
 
 		#region AdditionalColumnType
@@ -104,32 +95,18 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid);
 		[OperationContract]
-		OperationResult SaveAdditionalColumnTypes(IEnumerable<AdditionalColumnType> items);
+		OperationResult SaveAdditionalColumnType(AdditionalColumnType item);
 		[OperationContract]
-		OperationResult MarkDeletedAdditionalColumnTypes(IEnumerable<Guid> uids);
-		#endregion
-
-		#region AdditionalColumn
-		[OperationContract]
-		OperationResult<IEnumerable<AdditionalColumn>> GetAdditionalColumns(AdditionalColumnFilter filter);
-		[OperationContract]
-		OperationResult SaveAdditionalColumns(IEnumerable<AdditionalColumn> items);
-		#endregion
-
-		#region Photo
-		[OperationContract]
-		OperationResult<IEnumerable<Photo>> GetPhotos(PhotoFilter filter);
-		[OperationContract]
-		OperationResult SavePhotos(IEnumerable<Photo> items);
+		OperationResult MarkDeletedAdditionalColumnType(Guid uid);
 		#endregion
 
 		#region EmployeeReplacement
 		[OperationContract]
 		OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter);
 		[OperationContract]
-		OperationResult SaveEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
+		OperationResult SaveEmployeeReplacement(EmployeeReplacement item);
 		[OperationContract]
-		OperationResult MarkDeletedEmployeeReplacements(IEnumerable<EmployeeReplacement> items);
+		OperationResult MarkDeletedEmployeeReplacement(Guid uid);
 		#endregion
 
 		#region DeviceCommands

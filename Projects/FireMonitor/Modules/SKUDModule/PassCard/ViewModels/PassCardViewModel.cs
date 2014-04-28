@@ -159,8 +159,8 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Additional:
-					var columnValue = AdditionalColumnHelper.GetValue(EmployeeViewModel.ShortEmployee, elementTextProperty.AdditionalColumnUID);
-					elementTextProperty.Text = columnValue == null ? string.Empty : columnValue;
+					//var columnValue = AdditionalColumnHelper.GetValue(EmployeeViewModel.ShortEmployee, elementTextProperty.AdditionalColumnUID);
+					//elementTextProperty.Text = columnValue == null ? string.Empty : columnValue;
 					break;
 				default:
 					elementTextProperty.Text = string.Empty;
@@ -236,16 +236,16 @@ namespace SKDModule.PassCard.ViewModels
 				switch (elementPassCardImageProperty.PropertyType)
 				{
 					case PassCardImagePropertyType.DepartmentLogo:
-						photo = PhotoHelper.GetSingle(EmployeeViewModel.DepartmentPhotoUID);
+						//photo = PhotoHelper.GetSingle(EmployeeViewModel.DepartmentPhotoUID);
 						break;
 					case PassCardImagePropertyType.OrganisationLogo:
-						photo = PhotoHelper.GetSingle(EmployeeViewModel.Organisation.PhotoUID);
+						//photo = PhotoHelper.GetSingle(EmployeeViewModel.Organisation.PhotoUID);
 						break;
 					case PassCardImagePropertyType.Photo:
 						//photo = PhotoHelper.GetSingle(EmployeeViewModel.ShortEmployee.PhotoUID);
 						break;
 					case PassCardImagePropertyType.PositionLogo:
-						photo = PhotoHelper.GetSingle(EmployeeViewModel.PositionPhotoUID);
+						//photo = PhotoHelper.GetSingle(EmployeeViewModel.PositionPhotoUID);
 						break;
 					case PassCardImagePropertyType.Additional:
 						//var columnValue = AdditionalColumnHelper.GetValue(EmployeeViewModel.ShortEmployee, elementPassCardImageProperty.AdditionalColumnUID);

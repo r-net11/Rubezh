@@ -28,11 +28,11 @@ namespace SKDDriver
 			return base.CanSave(item);
 		}
 
-		protected override OperationResult CanDelete(Position item)
+		protected override OperationResult CanDelete(Guid uid)
 		{
-			if (Context.Employees.Any(x => x.PositionUID == item.UID && x.OrganisationUID == item.OrganisationUID && !x.IsDeleted))
+			if (Context.Employees.Any(x => x.PositionUID == uid && !x.IsDeleted))
 				return new OperationResult("Не могу удалить должность, пока она указана у действующих сотрудников");
-			return base.CanSave(item);
+			return base.CanDelete(uid);
 		}
 
 		protected override Position Translate(DataAccess.Position tableItem)
@@ -102,15 +102,12 @@ namespace SKDDriver
 			return result;
 		}
 
-		public override OperationResult Save(IEnumerable<Position> apiItems)
+		public override OperationResult Save(Position apiItem)
 		{
-			foreach (var item in apiItems)
-			{
-				var photoSaveResult = PhotoTranslator.Save(new List<Photo> { item.Photo });
-				if (photoSaveResult.HasError)
-					return photoSaveResult;
-			}
-			return base.Save(apiItems);
+			var photoSaveResult = PhotoTranslator.Save(new List<Photo> { apiItem.Photo });
+			if (photoSaveResult.HasError)
+				return photoSaveResult;
+			return base.Save(apiItem);
 		}
 	}
 }

@@ -37,6 +37,10 @@ namespace SKDDriver
 		{
 			return new OperationResult();
 		}
+		protected virtual OperationResult CanDelete(Guid uid)
+		{
+			return new OperationResult();
+		}
 		protected virtual Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
 			var result = PredicateBuilder.True<TableT>();
@@ -84,6 +88,10 @@ namespace SKDDriver
 		{
 			return Save(apiItems, true);
 		}
+		public virtual OperationResult Save(ApiT apiItem)
+		{
+			return Save(apiItem, true);
+		}
 		public virtual OperationResult Save(IEnumerable<ApiT> apiItems, bool commit)
 		{
 			try
@@ -114,6 +122,35 @@ namespace SKDDriver
 				if (commit)
 					Table.Context.SubmitChanges();
 				AfterSave(apiItems, tableItems);
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public virtual OperationResult Save(ApiT apiItem, bool commit)
+		{
+			try
+			{
+				if (apiItem == null)
+					return new OperationResult("Попытка сохранить пустую запись");
+				var verifyResult = CanSave(apiItem);
+				if (verifyResult.HasError)
+					return verifyResult;
+				var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
+				if (tableItem == null)
+				{
+					tableItem = new TableT();
+					tableItem.UID = apiItem.UID;
+					TranslateBack(tableItem, apiItem);
+					Table.InsertOnSubmit(tableItem);
+				}
+				else
+					TranslateBack(tableItem, apiItem);
+				if (commit)
+					Context.SubmitChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)

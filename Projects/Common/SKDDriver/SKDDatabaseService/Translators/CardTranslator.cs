@@ -86,12 +86,12 @@ namespace SKDDriver
 			tableItem.CardTemplateUID = apiItem.CardTemplateUID;
 		}
 
-		public override OperationResult Save(IEnumerable<SKDCard> items)
+		public override OperationResult Save(SKDCard item)
 		{
-			var updateZonesResult = CardZonesTranslator.SaveFromCards(items);
+			var updateZonesResult = CardZonesTranslator.SaveFromCard(item);
 			if (updateZonesResult.HasError)
 				return updateZonesResult;
-			return base.Save(items);
+			return base.Save(item);
 		}
 
 

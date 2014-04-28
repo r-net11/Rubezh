@@ -46,16 +46,16 @@ namespace SKDDriver
 			return base.CanSave(item);
 		}
 
-		protected override OperationResult CanDelete(Employee item)
+		protected override OperationResult CanDelete(Guid uid)
 		{
-			bool isAttendant = Context.Departments.Any(x => !x.IsDeleted && x.AttendantUID == item.UID);
+			bool isAttendant = Context.Departments.Any(x => !x.IsDeleted && x.AttendantUID == uid);
 			if (isAttendant)
 				return new OperationResult("Не могу удалить сотрудника, пока он указан как сопровождающий для одного из отделов");
 
-			bool isContactEmployee = Context.Departments.Any(x => !x.IsDeleted && x.ContactEmployeeUID == item.UID);
+			bool isContactEmployee = Context.Departments.Any(x => !x.IsDeleted && x.ContactEmployeeUID == uid);
 			if (isContactEmployee)
 				return new OperationResult("Не могу удалить сотрудника, пока он указан как контактное лицо для одного из отделов");
-			return base.CanSave(item);
+			return base.CanDelete(uid);
 		}
 
 		protected override Employee Translate(DataAccess.Employee tableItem)
@@ -172,18 +172,15 @@ namespace SKDDriver
 			tableItem.DocumentType = (int)apiItem.DocumentType;
 		}
 
-		public override OperationResult Save(IEnumerable<Employee> apiItems)
+		public override OperationResult Save(Employee apiItem)
 		{
-			foreach (var item in apiItems)
-			{
-				var columnSaveResult = AdditionalColumnTranslator.Save(item.AdditionalColumns);
-				if (columnSaveResult.HasError)
-					return columnSaveResult;
-				var photoSaveResult = PhotoTranslator.Save(new List<Photo>{ item.Photo });
-				if (photoSaveResult.HasError)
-					return photoSaveResult;
-			}
-			return base.Save(apiItems);
+			var columnSaveResult = AdditionalColumnTranslator.Save(apiItem.AdditionalColumns);
+			if (columnSaveResult.HasError)
+				return columnSaveResult;
+			var photoSaveResult = PhotoTranslator.Save(new List<Photo> { apiItem.Photo });
+			if (photoSaveResult.HasError)
+				return photoSaveResult;
+			return base.Save(apiItem);
 		}
 
 		protected override Expression<Func<DataAccess.Employee, bool>> IsInFilter(EmployeeFilter filter)

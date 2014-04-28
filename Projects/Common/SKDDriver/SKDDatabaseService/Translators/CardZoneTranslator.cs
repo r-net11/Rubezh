@@ -69,17 +69,14 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult SaveFromCards(IEnumerable<SKDCard> cards)
+		public OperationResult SaveFromCard(SKDCard card)
 		{
 			var operationResult = new OperationResult();
 			try
 			{
-				foreach (var card in cards)
-				{
-					var databaseItems = Table.Where(x => x.ParentUID == card.UID);
-					databaseItems.ForEach(x => MarkDeleted(x));
-					Save(card.CardZones);
-				}
+				var databaseItems = Table.Where(x => x.ParentUID == card.UID);
+				databaseItems.ForEach(x => MarkDeleted(x));
+				Save(card.CardZones);
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -88,17 +85,29 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult SaveFromAccessTemplates(IEnumerable<AccessTemplate> AccessTemplates)
+		public OperationResult SaveFromAccessTemplate(AccessTemplate accessTemplate)
 		{
 			var operationResult = new OperationResult();
 			try
 			{
-				foreach (var accessTemplate in AccessTemplates)
-				{
-					var databaseItems = Table.Where(x => x.ParentUID == accessTemplate.UID);
-					databaseItems.ForEach(x => MarkDeleted(x));
-					Save(accessTemplate.CardZones);
-				}
+				var databaseItems = Table.Where(x => x.ParentUID == accessTemplate.UID);
+				databaseItems.ForEach(x => MarkDeleted(x));
+				Save(accessTemplate.CardZones);
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult MarkDeletefFromAccessTemplate(Guid uid)
+		{
+			var operationResult = new OperationResult();
+			try
+			{
+				var databaseItems = Table.Where(x => x.ParentUID == uid);
+				databaseItems.ForEach(x => MarkDeleted(x));
 				return new OperationResult();
 			}
 			catch (Exception e)

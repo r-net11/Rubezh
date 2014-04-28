@@ -13,9 +13,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool Save(Organisation Organisation)
+		public static bool Save(Organisation organisation)
 		{
-			var result = FiresecManager.FiresecService.SaveOrganisations(new List<Organisation> { Organisation });
+			var result = FiresecManager.FiresecService.SaveOrganisation(organisation);
 			return Common.ShowErrorIfExists(result);
 		}
 
@@ -35,9 +35,14 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool MarkDeleted(Organisation Organisation)
+		public static bool MarkDeleted(Organisation organisation)
 		{
-			var result = FiresecManager.FiresecService.MarkDeletedOrganisations(new List<Organisation> { Organisation });
+			return MarkDeleted(organisation);
+		}
+
+		public static bool MarkDeleted(Guid uid)
+		{
+			var result = FiresecManager.FiresecService.MarkDeletedOrganisation(uid);
 			return Common.ShowErrorIfExists(result);
 		}
 	}
