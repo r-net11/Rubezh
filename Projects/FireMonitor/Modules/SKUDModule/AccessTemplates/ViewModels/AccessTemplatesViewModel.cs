@@ -7,18 +7,22 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {
 	public class AccessTemplatesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		AccessTemplateFilter Filter;
+        AccessTemplate _clipboard;
 
 		public AccessTemplatesViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+            CopyCommand = new RelayCommand(OnCopy, CanCopy);
+            PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 			Filter = new AccessTemplateFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
 			Initialize(Filter);
@@ -88,6 +92,21 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+        public AccessTemplateViewModel ParentOrganisation
+        {
+            get
+            {
+                AccessTemplateViewModel OrganisationViewModel = SelectedAccessTemplate;
+                if (!OrganisationViewModel.IsOrganisation)
+                    OrganisationViewModel = SelectedAccessTemplate.Parent;
+
+                if (OrganisationViewModel.Organisation != null)
+                    return OrganisationViewModel;
+
+                return null;
+            }
+        }
+
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -152,5 +171,44 @@ namespace SKDModule.ViewModels
 		{
 			return SelectedAccessTemplate != null && SelectedAccessTemplate.Parent != null && !SelectedAccessTemplate.IsOrganisation;
 		}
+
+        public RelayCommand CopyCommand { get; private set; }
+        private void OnCopy()
+        {
+            _clipboard = CopyAccessTemplate(SelectedAccessTemplate.AccessTemplate, false);
+        }
+        private bool CanCopy()
+        {
+            return SelectedAccessTemplate != null;
+        }
+
+        public RelayCommand PasteCommand { get; private set; }
+        private void OnPaste()
+        {
+            var newAccessTemplate = CopyAccessTemplate(_clipboard);
+            if (AccessTemplateHelper.Save(newAccessTemplate))
+            {
+                var accessTemplateViewModel = new AccessTemplateViewModel(SelectedAccessTemplate.Organisation, newAccessTemplate);
+                if (ParentOrganisation != null)
+                {
+                    ParentOrganisation.AddChild(accessTemplateViewModel);
+                    AllAccessTemplates.Add(accessTemplateViewModel);
+                }
+                SelectedAccessTemplate = accessTemplateViewModel;
+            }
+        }
+        private bool CanPaste()
+        {
+            return _clipboard != null;
+        }
+
+        AccessTemplate CopyAccessTemplate(AccessTemplate source, bool newName = true)
+        {
+            var copy = new AccessTemplate();
+            copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
+            copy.Description = source.Description;
+            copy.OrganisationUID = ParentOrganisation.Organisation.UID;
+            return copy;
+        }
 	}
 }

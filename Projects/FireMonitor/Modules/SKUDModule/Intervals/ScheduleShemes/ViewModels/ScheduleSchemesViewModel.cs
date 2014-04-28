@@ -26,7 +26,6 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			EditFilterCommand = new RelayCommand(OnEditFilter);
 			ReloadNamedIntervals();
 			Filter = new ScheduleSchemeFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs, Type = Type };
 			Initialize(Filter);
@@ -113,17 +112,6 @@ namespace SKDModule.ViewModels
 
 				return null;
 			}
-		}
-
-		public RelayCommand EditFilterCommand { get; private set; }
-		void OnEditFilter()
-		{
-			//var filterViewModel = new ScheduleSchemeFilterViewModel(Filter);
-			//if (DialogService.ShowModalWindow(filterViewModel))
-			//{
-			//    Filter = filterViewModel.Filter;
-			//    Initialize(Filter);
-			//}
 		}
 
 		public RelayCommand AddCommand { get; private set; }

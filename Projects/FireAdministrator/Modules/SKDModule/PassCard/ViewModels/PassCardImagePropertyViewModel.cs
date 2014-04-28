@@ -67,7 +67,7 @@ namespace SKDModule.PassCard.ViewModels
 		{
 			var filter = new AdditionalColumnTypeFilter()
 			{
-				WithDeleted = DeletedType.Not,
+				LogicalDeletationType = LogicalDeletationType.Active,
 				Type = AdditionalColumnDataType.Graphics,
 				OrganisationUIDs = OrganisationHelper.Get(null).Select(x => x.UID).ToList()
 			};

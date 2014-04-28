@@ -25,7 +25,6 @@ namespace SKDModule.ViewModels
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
-			EditFilterCommand = new RelayCommand(OnEditFilter);
 
 			InitializeYears();
 		}
@@ -96,17 +95,6 @@ namespace SKDModule.ViewModels
 
 				return null;
 			}
-		}
-
-		public RelayCommand EditFilterCommand { get; private set; }
-		void OnEditFilter()
-		{
-			//var filterViewModel = new HolidayFilterViewModel(Filter);
-			//if (DialogService.ShowModalWindow(filterViewModel))
-			//{
-			//    Filter = filterViewModel.Filter;
-			//    Initialize(Filter);
-			//}
 		}
 
 		public RelayCommand AddCommand { get; private set; }

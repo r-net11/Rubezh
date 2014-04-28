@@ -27,7 +27,7 @@ namespace SKDDriver
 			var result = PredicateBuilder.True<TableT>();
 			result = result.And(base.IsInFilter(filter));
 			var IsDeletedExpression = PredicateBuilder.True<TableT>();
-			switch (filter.WithDeleted)
+            switch (filter.LogicalDeletationType)
 			{
 				case LogicalDeletationType.Deleted:
 					IsDeletedExpression = e => e.IsDeleted;
@@ -125,7 +125,7 @@ namespace SKDDriver
 
 		public static Expression<Func<TableT, bool>> IsInDeleted(FilterT filter)
 		{
-			switch (filter.WithDeleted)
+            switch (filter.LogicalDeletationType)
 			{
 				case LogicalDeletationType.Deleted:
 					return e => e != null && e.IsDeleted;

@@ -98,7 +98,7 @@ namespace SKDModule.ViewModels
 				EmployeeFilter = employeeFilter,
 				RemovalDates = _employeeFilter.RemovalDates,
 				UIDs = _employeeFilter.UIDs,
-				WithDeleted = _employeeFilter.WithDeleted,
+                LogicalDeletationType = _employeeFilter.LogicalDeletationType,
 			};
 			var filterViewModel = new HRFilterViewModel(filter);
 			if (DialogService.ShowModalWindow(filterViewModel))
@@ -111,7 +111,7 @@ namespace SKDModule.ViewModels
 				_employeeFilter.PersonType = filterViewModel.Filter.EmployeeFilter.PersonType;
 				_employeeFilter.RemovalDates = filterViewModel.Filter.RemovalDates;
 				_employeeFilter.UIDs = filterViewModel.Filter.UIDs;
-				_employeeFilter.WithDeleted = filterViewModel.Filter.WithDeleted;
+                _employeeFilter.LogicalDeletationType = filterViewModel.Filter.LogicalDeletationType;
 				UpdateGrid();
 			}
 		}

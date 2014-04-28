@@ -67,7 +67,7 @@ namespace SKDModule.Validation
 				{
 					var filter = new AdditionalColumnTypeFilter()
 					{
-						WithDeleted = DeletedType.Not,
+                        LogicalDeletationType = LogicalDeletationType.Active,
 					};
 					_addtionalColumns = AdditionalColumnTypeHelper.Get(filter).ToList();
 				}

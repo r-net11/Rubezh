@@ -35,6 +35,8 @@
                     <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
                     <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
                     <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+                    <ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
+                    <ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
                 </StackPanel>
             </Grid>
             <Grid Visibility="{Binding IsPositionsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -42,6 +44,8 @@
                     <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
                     <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
                     <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+                    <ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
+                    <ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
                 </StackPanel>
             </Grid>
             <Grid Visibility="{Binding IsAdditionalColumnTypesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
