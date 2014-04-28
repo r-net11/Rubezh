@@ -21,20 +21,20 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			_initialized = false;
 			_scheduleScheme = scheduleScheme;
 			Update();
-			_scheduleScheme.OrganisationViewModel.PropertyChanged += OrganisationViewModel_PropertyChanged;
+			_scheduleScheme.ScheduleSchemesViewModel.PropertyChanged += OrganisationViewModel_PropertyChanged;
 			_initialized = true;
 		}
 
 		public string Name { get; private set; }
 		public ObservableCollection<NamedInterval> NamedIntervals
 		{
-			get { return _scheduleScheme.OrganisationViewModel.NamedIntervals; }
+			get { return _scheduleScheme.ScheduleSchemesViewModel.NamedIntervals; }
 		}
 
 		public override void Update()
 		{
 			base.Update();
-			Name = _scheduleScheme.Model.Type == ScheduleSchemeType.Week ? ((DayOfWeek)((Model.Number + 1) % 7)).ToString() : (Model.Number + 1).ToString();
+			Name = _scheduleScheme.ScheduleScheme.Type == ScheduleSchemeType.Week ? ((DayOfWeek)((Model.Number + 1) % 7)).ToString() : (Model.Number + 1).ToString();
 			SelectedNamedInterval = NamedIntervals.SingleOrDefault(item => item.UID == Model.NamedIntervalUID) ?? NamedIntervals[0];
 			OnPropertyChanged(() => Name);
 		}

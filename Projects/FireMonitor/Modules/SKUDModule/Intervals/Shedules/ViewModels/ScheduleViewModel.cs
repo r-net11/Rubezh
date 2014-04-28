@@ -4,23 +4,56 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.TreeList;
 
 namespace SKDModule.Intervals.Schedules.ViewModels
 {
-	public class ScheduleViewModel : BaseObjectViewModel<Schedule>, IEditingViewModel
+	public class ScheduleViewModel : TreeNodeViewModel<ScheduleViewModel>, IEditingViewModel
 	{
-		public ScheduleViewModel(Schedule schedule)
-			: base(schedule)
+		public FiresecAPI.Organisation Organisation { get; private set; }
+		public bool IsOrganisation { get; private set; }
+		public string Name { get; private set; }
+		public string Description { get; private set; }
+		public Schedule Schedule { get; private set; }
+
+		void Initialize()
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			ScheduleZones = new SortableObservableCollection<ScheduleZoneViewModel>();
+		}
+
+		public ScheduleViewModel(FiresecAPI.Organisation organisation)
+		{
+			Initialize();
+			Organisation = organisation;
+			IsOrganisation = true;
+			Name = organisation.Name;
+			IsExpanded = true;
+		}
+
+		public ScheduleViewModel(FiresecAPI.Organisation organisation, Schedule schedule)
+		{
+			Initialize();
+			Organisation = organisation;
+			Schedule = schedule;
+			IsOrganisation = false;
+			Name = schedule.Name;
+
 			foreach (var employeeScheduleZone in schedule.Zones)
 			{
 				var scheduleZoneViewModel = new ScheduleZoneViewModel(employeeScheduleZone);
 				ScheduleZones.Add(scheduleZoneViewModel);
 			}
+		}
+
+		public void Update(Schedule schedule)
+		{
+			Name = schedule.Name;
+			//Description = schedule.Description;
+			OnPropertyChanged("Name");
+			OnPropertyChanged("Description");
 		}
 
 		public SortableObservableCollection<ScheduleZoneViewModel> ScheduleZones { get; private set; }
@@ -39,11 +72,11 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-			var detailsViewModel = new ScheduleZoneDetailsViewModel(this.Model);
+			var detailsViewModel = new ScheduleZoneDetailsViewModel(Schedule);
 			if (DialogService.ShowModalWindow(detailsViewModel) && ScheduleZoneHelper.Save(detailsViewModel.ScheduleZone))
 			{
 				var scheduleZone = detailsViewModel.ScheduleZone;
-				Model.Zones.Add(scheduleZone);
+				Schedule.Zones.Add(scheduleZone);
 				var scheduleZoneViewModel = new ScheduleZoneViewModel(scheduleZone);
 				ScheduleZones.Add(scheduleZoneViewModel);
 				Sort();
@@ -56,7 +89,7 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 		{
 			if (ScheduleZoneHelper.MarkDeleted(SelectedScheduleZone.Model))
 			{
-				Model.Zones.Remove(SelectedScheduleZone.Model);
+				Schedule.Zones.Remove(SelectedScheduleZone.Model);
 				ScheduleZones.Remove(SelectedScheduleZone);
 			}
 		}
@@ -68,7 +101,7 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Model, SelectedScheduleZone.Model);
+			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Schedule, SelectedScheduleZone.Model);
 			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel))
 			{
 				ScheduleZoneHelper.Save(SelectedScheduleZone.Model);

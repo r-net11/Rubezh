@@ -4,24 +4,25 @@ using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
 	public class NamedIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
-		private OrganisationNamedIntervalsViewModel _organisationNamedIntervalsViewModel;
+		private FiresecAPI.Organisation Organisation;
 		public NamedInterval NamedInterval { get; private set; }
 
-		public NamedIntervalDetailsViewModel(OrganisationNamedIntervalsViewModel organisationNameIntervalsViewModel, NamedInterval namedInterval = null)
+		public NamedIntervalDetailsViewModel(FiresecAPI.Organisation organisation, NamedInterval namedInterval = null)
 		{
-			_organisationNamedIntervalsViewModel = organisationNameIntervalsViewModel;
+			Organisation = organisation;
 			if (namedInterval == null)
 			{
 				Title = "Новый именованный интервал";
 				namedInterval = new NamedInterval()
 				{
 					Name = "Именованный интервал",
-					OrganisationUID = organisationNameIntervalsViewModel.Organisation.UID,
+					OrganisationUID = organisation.UID,
 				};
 				namedInterval.TimeIntervals.Add(new TimeInterval() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), NamedIntervalUID = namedInterval.UID });
 			}
@@ -72,16 +73,10 @@ namespace SKDModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (_organisationNamedIntervalsViewModel.ViewModels.Any(x => x.Model.Name == Name && x.Model.UID != NamedInterval.UID))
-			{
-				MessageBoxService.ShowWarning("Название интервала совпадает с введенным ранее");
-				return false;
-			}
-
 			NamedInterval.Name = Name;
 			NamedInterval.Description = Description;
 			NamedInterval.SlideTime = ConstantSlideTime;
-			return true;
+			return NamedIntervalHelper.Save(NamedInterval);
 		}
 	}
 }

@@ -1,28 +1,47 @@
 ﻿using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels
 {
-	public class HolidayViewModel : BaseObjectViewModel<Holiday>
+	public class HolidayViewModel : TreeNodeViewModel<HolidayViewModel>
 	{
-		public HolidayViewModel(Holiday holiday)
-			: base(holiday)
+		public FiresecAPI.Organisation Organisation { get; private set; }
+		public bool IsOrganisation { get; private set; }
+		public string Name { get; private set; }
+		public string Description { get; private set; }
+		public Holiday Holiday { get; private set; }
+
+		public HolidayViewModel(FiresecAPI.Organisation organisation)
 		{
+			Organisation = organisation;
+			IsOrganisation = true;
+			Name = organisation.Name;
+			IsExpanded = true;
 		}
 
-		public override void Update()
+		public HolidayViewModel(FiresecAPI.Organisation organisation, Holiday holiday)
 		{
-			base.Update();
-			OnPropertyChanged(() => ReductionTime);
-			OnPropertyChanged(() => TransitionDate);
+			Organisation = organisation;
+			Holiday = holiday;
+			IsOrganisation = false;
+			Name = holiday.Name;
+		}
+
+		public void Update(Holiday holiday)
+		{
+			Name = holiday.Name;
+			//Description = namedInterval.Description;
+			OnPropertyChanged("Name");
+			OnPropertyChanged("Description");
 		}
 
 		public string ReductionTime
 		{
 			get
 			{
-				if (Model.Type != HolidayType.Holiday)
-					return Model.Reduction.ToString("hh\\-mm");
+				if (Holiday != null && Holiday.Type != HolidayType.Holiday)
+					return Holiday.Reduction.ToString("hh\\-mm");
 				return null;
 			}
 		}
@@ -30,8 +49,8 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (Model.Type == HolidayType.WorkingHoliday && Model.TransferDate.HasValue)
-					return Model.TransferDate.Value.ToString("dd-MM");
+				if (Holiday != null && Holiday.Type == HolidayType.WorkingHoliday && Holiday.TransferDate.HasValue)
+					return Holiday.TransferDate.Value.ToString("dd-MM");
 				return null;
 			}
 		}

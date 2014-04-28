@@ -18,7 +18,6 @@ namespace SKDModule.Intervals.Common.ViewModels
 	{
 		public IntervalViewPartViewModel()
 		{
-			RefreshCommand = new RelayCommand(OnRefresh);
 			Initialize();
 		}
 
@@ -64,12 +63,6 @@ namespace SKDModule.Intervals.Common.ViewModels
 				_selectedOrganisation = value;
 				OnPropertyChanged(() => SelectedOrganisation);
 			}
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		private void OnRefresh()
-		{
-			Initialize();
 		}
 	}
 }

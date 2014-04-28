@@ -6,26 +6,59 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
+using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels
 {
-	public class NamedIntervalViewModel : BaseObjectViewModel<NamedInterval>, IEditingViewModel
+	public class NamedIntervalViewModel : TreeNodeViewModel<NamedIntervalViewModel>, IEditingViewModel
 	{
-		public SortableObservableCollection<TimeIntervalViewModel> TimeIntervals { get; private set; }
+		public FiresecAPI.Organisation Organisation { get; private set; }
+		public bool IsOrganisation { get; private set; }
+		public string Name { get; private set; }
+		public string Description { get; private set; }
+		public NamedInterval NamedInterval { get; private set; }
 
-		public NamedIntervalViewModel(NamedInterval namedInterval)
-			: base(namedInterval)
+		void Initialize()
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			TimeIntervals = new SortableObservableCollection<TimeIntervalViewModel>();
+		}
+
+		public NamedIntervalViewModel(FiresecAPI.Organisation organisation)
+		{
+			Initialize();
+			Organisation = organisation;
+			IsOrganisation = true;
+			Name = organisation.Name;
+			IsExpanded = true;
+		}
+
+		public NamedIntervalViewModel(FiresecAPI.Organisation organisation, NamedInterval namedInterval)
+		{
+			Initialize();
+			Organisation = organisation;
+			NamedInterval = namedInterval;
+			IsOrganisation = false;
+			Name = namedInterval.Name;
+
 			foreach (var timeInterval in namedInterval.TimeIntervals)
 			{
 				var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
 				TimeIntervals.Add(timeIntervalViewModel);
 			}
 		}
+
+		public void Update(NamedInterval namedInterval)
+		{
+			Name = namedInterval.Name;
+			//Description = namedInterval.Description;
+			OnPropertyChanged("Name");
+			OnPropertyChanged("Description");
+		}
+
+		public SortableObservableCollection<TimeIntervalViewModel> TimeIntervals { get; private set; }
 
 		private TimeIntervalViewModel _selectedTimeInterval;
 		public TimeIntervalViewModel SelectedTimeInterval
@@ -41,11 +74,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(Model);
+			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(NamedInterval);
 			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel) && TimeIntervalHelper.Save(timeIntervalDetailsViewModel.TimeInterval))
 			{
 				var timeInterval = timeIntervalDetailsViewModel.TimeInterval;
-				Model.TimeIntervals.Add(timeInterval);
+				NamedInterval.TimeIntervals.Add(timeInterval);
 				var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
 				TimeIntervals.Add(timeIntervalViewModel);
 				Sort();
@@ -58,7 +91,7 @@ namespace SKDModule.ViewModels
 		{
 			if (TimeIntervalHelper.MarkDeleted(SelectedTimeInterval.TimeInterval))
 			{
-				Model.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
+				NamedInterval.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
 				TimeIntervals.Remove(SelectedTimeInterval);
 			}
 		}
@@ -70,7 +103,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(Model, SelectedTimeInterval.TimeInterval);
+			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(NamedInterval, SelectedTimeInterval.TimeInterval);
 			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel))
 			{
 				TimeIntervalHelper.Save(SelectedTimeInterval.TimeInterval);

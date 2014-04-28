@@ -5,25 +5,26 @@ using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using Organisation = FiresecAPI.Organisation;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
 	public class HolidayDetailsViewModel : SaveCancelDialogViewModel
 	{
-		private OrganisationHolidaysYearViewModel _organisationHolidaysYearViewModel;
+		private Organisation Organisation;
 		public Holiday Holiday { get; private set; }
 
-		public HolidayDetailsViewModel(OrganisationHolidaysYearViewModel organisationHolidaysYearViewModel, Holiday holiday = null)
+		public HolidayDetailsViewModel(Organisation organisation, int year, Holiday holiday = null)
 		{
-			_organisationHolidaysYearViewModel = organisationHolidaysYearViewModel;
+			Organisation = organisation;
 			if (holiday == null)
 			{
 				Title = "Новый приаздничный день";
 				holiday = new Holiday()
 				{
 					Name = "Название праздника",
-					OrganisationUID = _organisationHolidaysYearViewModel.Organisation.UID,
-					Date = new DateTime(_organisationHolidaysYearViewModel.Year, DateTime.Today.Month, DateTime.Today.Day),
+					OrganisationUID = Organisation.UID,
+					Date = new DateTime(year, DateTime.Today.Month, DateTime.Today.Day),
 				};
 			}
 			else
@@ -110,11 +111,6 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (_organisationHolidaysYearViewModel.ViewModels.Any(x => x.Model.Date.Month == Date.Month && x.Model.Date.Date == Date.Date && x.Model.UID != Holiday.UID))
-			{
-				MessageBoxService.ShowWarning("Дата праздника совпадает с введенным ранее");
-				return false;
-			}
 			if (Reduction.TotalHours > 2)
 			{
 				MessageBoxService.ShowWarning("Величина сокращения не может быть больше двух часов");
@@ -130,7 +126,7 @@ namespace SKDModule.ViewModels
 			Holiday.Type = HolidayType;
 			Holiday.Reduction = Reduction;
 			Holiday.TransferDate = IsTransferDateEnabled ? (DateTime?)TransferDate : null;
-			return true;
+			return HolidayHelper.Save(Holiday);
 		}
 	}
 }

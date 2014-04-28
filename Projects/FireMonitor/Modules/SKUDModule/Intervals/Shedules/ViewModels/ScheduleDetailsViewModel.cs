@@ -12,20 +12,20 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 {
 	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel
 	{
-		private OrganisationSchedulesViewModel _organisationSchedulesViewModel;
-		private IEnumerable<ScheduleScheme> _schemes;
+		FiresecAPI.Organisation Organisation;
+		IEnumerable<ScheduleScheme> _schemes;
 		public Schedule Schedule { get; private set; }
 
-		public ScheduleDetailsViewModel(OrganisationSchedulesViewModel organisationSchedulesViewModel, Schedule schedule = null)
+		public ScheduleDetailsViewModel(FiresecAPI.Organisation organisation, Schedule schedule = null)
 		{
-			_organisationSchedulesViewModel = organisationSchedulesViewModel;
+			Organisation = organisation;
 			if (schedule == null)
 			{
 				Title = "Новый график";
 				schedule = new Schedule()
 				{
 					Name = "Новый график работы",
-					OrganisationUID = _organisationSchedulesViewModel.Organisation.UID,
+					OrganisationUID = Organisation.UID,
 				};
 			}
 			else
@@ -37,7 +37,7 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 			AvailableScheduleTypes = new ObservableCollection<ScheduleSchemeType>(Enum.GetValues(typeof(ScheduleSchemeType)).OfType<ScheduleSchemeType>());
 			_schemes = ScheduleSchemaHelper.Get(new ScheduleSchemeFilter()
 			{
-				OrganisationUIDs = new List<Guid>() { organisationSchedulesViewModel.Organisation.UID },
+				OrganisationUIDs = new List<Guid>() { Organisation.UID },
 				Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
 				WithDays = false,
 			});
@@ -49,7 +49,7 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 			}
 		}
 
-		private string _name;
+		string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -60,7 +60,7 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 			}
 		}
 
-		private bool _isIgnoreHoliday;
+		bool _isIgnoreHoliday;
 		public bool IsIgnoreHoliday
 		{
 			get { return _isIgnoreHoliday; }
@@ -71,7 +71,7 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 			}
 		}
 
-		private bool _isOnlyFirstEnter;
+		bool _isOnlyFirstEnter;
 		public bool IsOnlyFirstEnter
 		{
 			get { return _isOnlyFirstEnter; }
@@ -84,7 +84,7 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 
 		public ObservableCollection<ScheduleSchemeType> AvailableScheduleTypes { get; private set; }
 
-		private ScheduleSchemeType _selectedScheduleType;
+		ScheduleSchemeType _selectedScheduleType;
 		public ScheduleSchemeType SelectedScheduleType
 		{
 			get { return _selectedScheduleType; }
@@ -98,7 +98,7 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 			}
 		}
 
-		private ObservableCollection<ScheduleScheme> _availableScheduleSchemes;
+		ObservableCollection<ScheduleScheme> _availableScheduleSchemes;
 		public ObservableCollection<ScheduleScheme> AvailableScheduleSchemes
 		{
 			get { return _availableScheduleSchemes; }
@@ -109,7 +109,7 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 			}
 		}
 
-		private ScheduleScheme _selectedScheduleScheme;
+		ScheduleScheme _selectedScheduleScheme;
 		public ScheduleScheme SelectedScheduleScheme
 		{
 			get { return _selectedScheduleScheme; }
@@ -126,17 +126,11 @@ namespace SKDModule.Intervals.Schedules.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (_organisationSchedulesViewModel.ViewModels.Any(x => x.Model.Name == Name && x.Model.UID != Schedule.UID))
-			{
-				MessageBoxService.ShowWarning("Название графика совпадает с введенным ранее");
-				return false;
-			}
-
 			Schedule.Name = Name;
 			Schedule.IsIgnoreHoliday = IsIgnoreHoliday;
 			Schedule.IsOnlyFirstEnter = IsOnlyFirstEnter;
 			Schedule.ScheduleSchemeUID = SelectedScheduleScheme == null ? Guid.Empty : SelectedScheduleScheme.UID;
-			return true;
+			return ScheduleHelper.Save(Schedule); ;
 		}
 	}
 }

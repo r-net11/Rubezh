@@ -15,56 +15,56 @@ namespace SKDModule.ViewModels
 
 		public HolidayYearViewModel(int year)
 		{
-			RefreshCommand = new RelayCommand(OnRefresh);
+			//RefreshCommand = new RelayCommand(OnRefresh);
 			Year = year;
-			Initialize();
+			//Initialize();
 		}
 
-		public void Initialize()
-		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
-			var holidays = HolidayHelper.Get(new FiresecAPI.EmployeeTimeIntervals.HolidayFilter() 
-			{ 
-				OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs,
-				Year = Year,
-			});
+		//public void Initialize()
+		//{
+		//    var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+		//    var holidays = HolidayHelper.Get(new FiresecAPI.EmployeeTimeIntervals.HolidayFilter() 
+		//    { 
+		//        OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs,
+		//        Year = Year,
+		//    });
 
-			OrganisationHolidays = new ObservableCollection<OrganisationHolidaysYearViewModel>();
-			foreach (var organisation in organisations)
-			{
-				var holidayViewModel = new OrganisationHolidaysYearViewModel(Year, organisation);
-				holidayViewModel.Initialize(new List<FiresecAPI.EmployeeTimeIntervals.Holiday>(holidays.Where(x => x.OrganisationUID.Value == organisation.UID)));
-				OrganisationHolidays.Add(holidayViewModel);
-			}
-			SelectedOrganisationHoliday = OrganisationHolidays.FirstOrDefault();
-		}
+		//    OrganisationHolidays = new ObservableCollection<OrganisationHolidaysYearViewModel>();
+		//    foreach (var organisation in organisations)
+		//    {
+		//        var holidayViewModel = new OrganisationHolidaysYearViewModel(Year, organisation);
+		//        holidayViewModel.Initialize(new List<FiresecAPI.EmployeeTimeIntervals.Holiday>(holidays.Where(x => x.OrganisationUID.Value == organisation.UID)));
+		//        OrganisationHolidays.Add(holidayViewModel);
+		//    }
+		//    SelectedOrganisationHoliday = OrganisationHolidays.FirstOrDefault();
+		//}
 
-		private ObservableCollection<OrganisationHolidaysYearViewModel> _organisationHolidays;
-		public ObservableCollection<OrganisationHolidaysYearViewModel> OrganisationHolidays
-		{
-			get { return _organisationHolidays; }
-			set
-			{
-				_organisationHolidays = value;
-				OnPropertyChanged(() => OrganisationHolidays);
-			}
-		}
+		//private ObservableCollection<OrganisationHolidaysYearViewModel> _organisationHolidays;
+		//public ObservableCollection<OrganisationHolidaysYearViewModel> OrganisationHolidays
+		//{
+		//    get { return _organisationHolidays; }
+		//    set
+		//    {
+		//        _organisationHolidays = value;
+		//        OnPropertyChanged(() => OrganisationHolidays);
+		//    }
+		//}
 
-		private OrganisationHolidaysYearViewModel _selectedOrganisationHoliday;
-		public OrganisationHolidaysYearViewModel SelectedOrganisationHoliday
-		{
-			get { return _selectedOrganisationHoliday; }
-			set
-			{
-				_selectedOrganisationHoliday = value;
-				OnPropertyChanged(() => SelectedOrganisationHoliday);
-			}
-		}
+		//private OrganisationHolidaysYearViewModel _selectedOrganisationHoliday;
+		//public OrganisationHolidaysYearViewModel SelectedOrganisationHoliday
+		//{
+		//    get { return _selectedOrganisationHoliday; }
+		//    set
+		//    {
+		//        _selectedOrganisationHoliday = value;
+		//        OnPropertyChanged(() => SelectedOrganisationHoliday);
+		//    }
+		//}
 
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
-		}
+		//public RelayCommand RefreshCommand { get; private set; }
+		//void OnRefresh()
+		//{
+		//    Initialize();
+		//}
 	}
 }

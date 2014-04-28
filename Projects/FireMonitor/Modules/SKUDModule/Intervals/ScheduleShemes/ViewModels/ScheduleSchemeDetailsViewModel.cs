@@ -5,20 +5,23 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 {
 	public class ScheduleSchemeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		private OrganisationScheduleSchemasViewModel _organisation;
-		public ScheduleScheme ScheduleSchema { get; private set; }
+		FiresecAPI.Organisation Organisation;
+		ScheduleSchemeType ScheduleSchemeType;
+		public ScheduleScheme ScheduleScheme { get; private set; }
 
-		public ScheduleSchemeDetailsViewModel(OrganisationScheduleSchemasViewModel organisation, ScheduleScheme scheduleScheme = null)
+		public ScheduleSchemeDetailsViewModel(FiresecAPI.Organisation organisation, ScheduleSchemeType scheduleSchemeType, ScheduleScheme scheduleScheme = null)
 		{
-			_organisation = organisation;
+			Organisation = organisation;
+			ScheduleSchemeType = scheduleSchemeType;
 			var dayCount = 0;
 			var name = string.Empty;
-			switch (organisation.Type)
+			switch (scheduleSchemeType)
 			{
 				case ScheduleSchemeType.Month:
 					name = "Месячный график работы";
@@ -40,8 +43,8 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			{
 				scheduleScheme = new ScheduleScheme()
 				{
-					OrganisationUID = _organisation.Organisation.UID,
-					Type = _organisation.Type,
+					OrganisationUID = Organisation.UID,
+					Type = scheduleSchemeType,
 					Name = name,
 				};
 				for (int i = 0; i < dayCount; i++)
@@ -52,9 +55,9 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 						NamedIntervalUID = Guid.Empty,
 					});
 			}
-			ScheduleSchema = scheduleScheme;
-			Name = ScheduleSchema.Name;
-			Description = ScheduleSchema.Description;
+			ScheduleScheme = scheduleScheme;
+			Name = ScheduleScheme.Name;
+			Description = ScheduleScheme.Description;
 		}
 
 		private string _name;
@@ -85,14 +88,9 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 		}
 		protected override bool Save()
 		{
-			if (_organisation.ViewModels.Any(x => x.Model.Name == Name && x.Model.UID != ScheduleSchema.UID))
-			{
-				MessageBoxService.ShowWarning("Название графика совпадает с введенным ранее");
-				return false;
-			}
-			ScheduleSchema.Name = Name;
-			ScheduleSchema.Description = Description;
-			return true;
+			ScheduleScheme.Name = Name;
+			ScheduleScheme.Description = Description;
+			return ScheduleSchemaHelper.Save(ScheduleScheme);
 		}
 	}
 }

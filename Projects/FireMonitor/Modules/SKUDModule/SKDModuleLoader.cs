@@ -40,7 +40,6 @@ namespace SKDModule
 		ScheduleSchemesSlideViewModel ScheduleSchemesSlideViewModel;
 		HolidaysViewModel HolidaysViewModel;
 		SchedulesViewModel SchedulesViewModel;
-		ReportsViewModel ReportsViewModel;
 		private TimeTrackingViewModel _timeTrackingViewModel;
 		NavigationItem _journalNavigationItem;
 		private PlanPresenter _planPresenter;
@@ -71,7 +70,6 @@ namespace SKDModule
 			ScheduleSchemesMonthlyViewModel = new ScheduleSchemesMonthlyViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
-			ReportsViewModel = new ReportsViewModel();
 			_timeTrackingViewModel = new TimeTrackingViewModel();
 		}
 
@@ -92,7 +90,6 @@ namespace SKDModule
 						new NavigationItem<ShowAccessTemplatesEvent>(AccessTemplatesViewModel, "Уровни доступа", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
-						new NavigationItem<ShowSKDReportsEvent>(ReportsViewModel, "Отчеты", "/Controls;component/Images/tree.png"),
 						new NavigationItem("Интервалы", null, new List<NavigationItem>()
 						{
 							new NavigationItem<ShowTimeIntervalsEvent, Guid>(NamedIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -136,7 +133,6 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Intervals/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Reports/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
 		}

@@ -125,11 +125,13 @@
     <Compile Include="Intervals\Common\CopyHelper.cs" />
     <Compile Include="Intervals\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="Intervals\Common\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="Intervals\Holidays\ViewModels\Comparers.cs" />
+    <Compile Include="Intervals\Intervals\ViewModels\Comparers.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\Comparers.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\DayIntervalViewModel.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemeDetailsViewModel.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesViewModel.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesMonthlyViewModel.cs" />
-    <Compile Include="Intervals\ScheduleShemes\ViewModels\OrganisationScheduleSchemasViewModel.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemeViewModel.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesSlideViewModel.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesWeeklyViewModel.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Intervals\ScheduleShemes\Views\ScheduleSchemesView.xaml.cs">
       <DependentUpon>ScheduleSchemesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Intervals\Shedules\ViewModels\Comparers.cs" />
     <Compile Include="Intervals\TimeTracking\Model\TimeTrackingSettings.cs" />
     <Compile Include="Intervals\TimeTracking\Model\TimeTrackingPeriod.cs" />
     <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackingSettingsViewModel.cs" />
@@ -264,7 +267,6 @@
     <Compile Include="Events\ShowSKDZoneEvent.cs" />
     <Compile Include="Events\ShowSKDZoneOnPlanEvent.cs" />
     <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
-    <Compile Include="Events\ShowSKDReportsEvent.cs" />
     <Compile Include="Events\ShowAccessTemplatesEvent.cs" />
     <Compile Include="Events\ShowShedulesEvent.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
@@ -277,14 +279,12 @@
       <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Intervals\Converters\EmployeeSheduleTypeToStringConverter.cs" />
-    <Compile Include="Intervals\Intervals\ViewModels\OrganisationNamedIntervalsViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ZoneViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ScheduleDetailsViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ScheduleZoneViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\SchedulesViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ScheduleViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ScheduleZoneDetailsViewModel.cs" />
-    <Compile Include="Intervals\Shedules\ViewModels\OrganisationSchedulesViewModel.cs" />
     <Compile Include="Intervals\Shedules\Views\ScheduleDetailsView.xaml.cs">
       <DependentUpon>ScheduleDetailsView.xaml</DependentUpon>
     </Compile>
@@ -321,9 +321,6 @@
     <Compile Include="Positions\Views\PositionsView.xaml.cs">
       <DependentUpon>PositionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\Models\EmployeeReportPeriod.cs" />
-    <Compile Include="Reports\Models\EmployeeReportSettings.cs" />
-    <Compile Include="Reports\Models\EmployeeReportType.cs" />
     <Compile Include="SKDModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>
@@ -393,15 +390,6 @@
     </Compile>
     <Compile Include="Intervals\Intervals\Views\NamedIntervalDetailsView.xaml.cs">
       <DependentUpon>NamedIntervalDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\ViewModels\ReportSettingsViewModel.cs" />
-    <Compile Include="Reports\ViewModels\ReportsViewModel.cs" />
-    <Compile Include="Reports\ViewModels\ReportViewModel.cs" />
-    <Compile Include="Reports\Views\ReportSettingsView.xaml.cs">
-      <DependentUpon>ReportSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Views\ReportsView.xaml.cs">
-      <DependentUpon>ReportsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplatesViewModel.cs" />
@@ -709,18 +697,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="AdditionalColumns\Views\AdditionalColumnTypesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Reports\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Reports\Views\ReportSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Reports\Views\ReportsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
