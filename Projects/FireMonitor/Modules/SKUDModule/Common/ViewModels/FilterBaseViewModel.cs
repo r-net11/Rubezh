@@ -14,11 +14,11 @@ namespace SKDModule.ViewModels
 
 			switch (Filter.WithDeleted)
 			{
-				case DeletedType.Deleted:
+				case LogicalDeletationType.Deleted:
 					WithDeleted = true;
 					OnlyDeleted = true;
 					break;
-				case DeletedType.All:
+				case LogicalDeletationType.All:
 					WithDeleted = true;
 					OnlyDeleted = false;
 					break;
@@ -89,11 +89,11 @@ namespace SKDModule.ViewModels
 		protected override bool Save()
 		{
 			if (OnlyDeleted && WithDeleted)
-				Filter.WithDeleted = DeletedType.Deleted;
+				Filter.WithDeleted = LogicalDeletationType.Deleted;
 			else if (WithDeleted)
-				Filter.WithDeleted = DeletedType.All;
+				Filter.WithDeleted = LogicalDeletationType.All;
 			else
-				Filter.WithDeleted = DeletedType.Not;
+				Filter.WithDeleted = LogicalDeletationType.Active;
 			Filter.RemovalDates.StartDate = RemovalDatesStart;
 			Filter.RemovalDates.EndDate = RemovalDatesEnd;
 			return true;

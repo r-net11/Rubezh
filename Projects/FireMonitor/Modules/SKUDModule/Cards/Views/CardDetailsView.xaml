@@ -7,21 +7,19 @@
 
 	<TabControl>
 		<TabItem Header="Основные">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-				<Label Grid.Row="0" Grid.Column="0" Content="Серия" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Series, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-				
-				<Label Grid.Row="1" Grid.Column="0" Content="Номер" HorizontalAlignment="Right" />
-				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Number, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-			</Grid>
-		</TabItem>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Серия" Width="160" Foreground="White" Margin="2" />
+                    <TextBox Text="{Binding Series}" Margin="2" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Диапазон номеров" Width="150" Foreground="White" Margin="2" />
+                    <TextBlock Text="От" Foreground="White" Margin="2" />
+                    <TextBox Text="{Binding FirstNos}" Margin="2" />
+                    <TextBlock Text="До" Foreground="White" Margin="2" />
+                    <TextBox Text="{Binding LastNos}" Margin="2" />
+                </StackPanel>
+            </StackPanel>
+        </TabItem>
 	</TabControl>
 </UserControl>

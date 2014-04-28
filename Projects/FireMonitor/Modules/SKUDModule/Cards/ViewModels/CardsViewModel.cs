@@ -57,16 +57,14 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var cardDetailsViewModel = new CardDetailsViewModel(this);
+			var cardDetailsViewModel = new CardDetailsViewModel();
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
-				var card = cardDetailsViewModel.Card;
-				var saveResult = CardHelper.Save(card);
-				if (saveResult == false)
-					return;
-				var cardViewModel = new CardViewModel(card);
-				Cards.Add(cardViewModel);
-				SelectedCard = cardViewModel;
+				foreach (var card in cardDetailsViewModel.Cards)
+				{
+					var cardViewModel = new CardViewModel(card);
+					Cards.Add(cardViewModel);
+				}
 			}
 		}
 

@@ -120,19 +120,15 @@ namespace SKDDriver
 			var result = PredicateBuilder.True<DataAccess.Card>();
 			result = result.And(base.IsInFilter(filter));
 
-			var IsBlockedExpression = PredicateBuilder.True<DataAccess.Card>();
-			switch (filter.WithDeleted)
+			switch (filter.DeactivationType)
 			{
-				case DeletedType.Deleted:
-					IsBlockedExpression = e => e.IsInStopList;
+				case LogicalDeletationType.Deleted:
+					result = result.And(e => e.IsInStopList);
 					break;
-				case DeletedType.Not:
-					IsBlockedExpression = e => !e.IsInStopList;
-					break;
-				default:
+				case LogicalDeletationType.Active:
+					result = result.And(e => !e.IsInStopList);
 					break;
 			}
-			result = result.And(IsBlockedExpression);
 
 			if (filter.FirstSeries > 0)
 			{

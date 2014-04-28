@@ -29,10 +29,10 @@ namespace SKDDriver
 			var IsDeletedExpression = PredicateBuilder.True<TableT>();
 			switch (filter.WithDeleted)
 			{
-				case DeletedType.Deleted:
+				case LogicalDeletationType.Deleted:
 					IsDeletedExpression = e => e.IsDeleted;
 					break;
-				case DeletedType.Not:
+				case LogicalDeletationType.Active:
 					IsDeletedExpression = e => !e.IsDeleted;
 					break;
 				default:
@@ -127,9 +127,9 @@ namespace SKDDriver
 		{
 			switch (filter.WithDeleted)
 			{
-				case DeletedType.Deleted:
+				case LogicalDeletationType.Deleted:
 					return e => e != null && e.IsDeleted;
-				case DeletedType.Not:
+				case LogicalDeletationType.Active:
 					return e => e != null && !e.IsDeleted;
 				default:
 					return e => true;
@@ -137,7 +137,7 @@ namespace SKDDriver
 		}
 
 		protected static ApiType TranslateIsDeleted<ApiType, TableType>(TableType tableItem)
-			where ApiType: SKDIsDeletedModel, new()
+			where ApiType : SKDIsDeletedModel, new()
 			where TableType : DataAccess.IIsDeletedDatabaseElement, DataAccess.IDatabaseElement
 		{
 			var result = TranslateBase<ApiType, TableType>(tableItem);
@@ -147,7 +147,7 @@ namespace SKDDriver
 		}
 
 		protected static void TranslateBackIsDeleted<ApiType, TableType>(ApiType apiItem, TableType tableItem)
-			where ApiType: SKDIsDeletedModel, new()
+			where ApiType : SKDIsDeletedModel, new()
 			where TableType : DataAccess.IIsDeletedDatabaseElement
 		{
 			tableItem.IsDeleted = apiItem.IsDeleted;

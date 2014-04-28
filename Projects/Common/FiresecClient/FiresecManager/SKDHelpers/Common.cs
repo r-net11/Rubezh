@@ -9,7 +9,7 @@ namespace FiresecClient.SKDHelpers
 {
 	static class Common
 	{
-		public static bool ShowErrorIfExists(OperationResult operationResult)
+		public static bool ShowErrorIfExists(OperationResult operationResult, bool showError = true)
 		{
 			if (operationResult == null)
 			{
@@ -17,7 +17,10 @@ namespace FiresecClient.SKDHelpers
 			}
 			if (operationResult.HasError)
 			{
-				MessageBoxService.ShowWarning(operationResult.Error);
+				if (showError)
+				{
+					MessageBoxService.ShowWarning(operationResult.Error);
+				}
 				return false;
 			}
 			return true;

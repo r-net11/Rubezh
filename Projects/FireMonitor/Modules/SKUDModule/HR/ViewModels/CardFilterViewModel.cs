@@ -15,8 +15,8 @@ namespace SKDModule.ViewModels
 			LastSeries = cardFilter.LastSeries;
 			FirstNos = cardFilter.FirstNos;
 			LastNos = cardFilter.LastNos;
-			AvaivableDeletedTypes = new ObservableCollection<DeletedType>(Enum.GetValues(typeof(DeletedType)).OfType<DeletedType>());
-			SelectedDeletedType = cardFilter.WithDeleted;
+			AvaivableDeletedTypes = new ObservableCollection<LogicalDeletationType>(Enum.GetValues(typeof(LogicalDeletationType)).OfType<LogicalDeletationType>());
+			SelectedDeletedType = cardFilter.DeactivationType;
 		}
 
 		int _firstSeries;
@@ -63,10 +63,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<DeletedType> AvaivableDeletedTypes { get; private set; }
+		public ObservableCollection<LogicalDeletationType> AvaivableDeletedTypes { get; private set; }
 
-		DeletedType _selectedDeletedType;
-		public DeletedType SelectedDeletedType
+		LogicalDeletationType _selectedDeletedType;
+		public LogicalDeletationType SelectedDeletedType
 		{
 			get { return _selectedDeletedType; }
 			set
@@ -83,7 +83,7 @@ namespace SKDModule.ViewModels
 			cardFilter.LastSeries = LastSeries;
 			cardFilter.FirstNos = FirstNos;
 			cardFilter.LastNos = LastNos;
-			cardFilter.WithDeleted = SelectedDeletedType;
+			cardFilter.DeactivationType = SelectedDeletedType;
 			return cardFilter;
 		}
 	}

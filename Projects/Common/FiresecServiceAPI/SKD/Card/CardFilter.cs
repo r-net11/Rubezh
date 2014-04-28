@@ -10,8 +10,11 @@ namespace FiresecAPI
 		public CardFilter()
 			: base()
 		{
-			WithDeleted = DeletedType.All;
+			DeactivationType = LogicalDeletationType.All;
 		}
+
+		[DataMember]
+		public LogicalDeletationType DeactivationType { get; set; }
 
 		[DataMember]
 		public int FirstSeries { get; set; }

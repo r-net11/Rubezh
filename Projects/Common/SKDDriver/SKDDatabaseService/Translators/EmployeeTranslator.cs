@@ -10,11 +10,11 @@ namespace SKDDriver
 	public class EmployeeTranslator : OrganisationElementTranslator<DataAccess.Employee, Employee, EmployeeFilter>
 	{
 		public EmployeeTranslator(DataAccess.SKDDataContext context,
-			EmployeeReplacementTranslator replacementTranslator, 
-			PositionTranslator positionTranslator, 
-			DepartmentTranslator departmentTranslator, 
-			AdditionalColumnTranslator additionalColumnTranslator, 
-			CardTranslator cardTranslator, 
+			EmployeeReplacementTranslator replacementTranslator,
+			PositionTranslator positionTranslator,
+			DepartmentTranslator departmentTranslator,
+			AdditionalColumnTranslator additionalColumnTranslator,
+			CardTranslator cardTranslator,
 			PhotoTranslator photoTranslator)
 			: base(context)
 		{
@@ -32,7 +32,7 @@ namespace SKDDriver
 		AdditionalColumnTranslator AdditionalColumnTranslator;
 		CardTranslator CardTranslator;
 		PhotoTranslator PhotoTranslator;
-		
+
 		protected override OperationResult CanSave(Employee item)
 		{
 			bool sameName = Table.Any(x => x.FirstName == item.FirstName &&
@@ -122,7 +122,7 @@ namespace SKDDriver
 
 		public OperationResult<IEnumerable<ShortEmployee>> GetList(EmployeeFilter filter)
 		{
-			try 
+			try
 			{
 				var result = new List<ShortEmployee>();
 				foreach (var tableItem in GetTableItems(filter))
@@ -149,7 +149,7 @@ namespace SKDDriver
 			tableItem.LastName = apiItem.LastName;
 			tableItem.Appointed = CheckDate(apiItem.Appointed);
 			tableItem.Dismissed = CheckDate(apiItem.Dismissed);
-			if(apiItem.Position != null)
+			if (apiItem.Position != null)
 				tableItem.PositionUID = apiItem.Position.UID;
 			tableItem.DepartmentUID = apiItem.DepartmentUID;
 			tableItem.ScheduleUID = apiItem.ScheduleUID;

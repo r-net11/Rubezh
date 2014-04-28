@@ -7,7 +7,7 @@ namespace FiresecAPI
 	public abstract class IsDeletedFilter : FilterBase
 	{
 		[DataMember]
-		public DeletedType WithDeleted { get; set; }
+		public LogicalDeletationType WithDeleted { get; set; }
 
 		[DataMember]
 		public DateTimePeriod RemovalDates { get; set; }
@@ -16,19 +16,19 @@ namespace FiresecAPI
 			: base()
 		{
 			RemovalDates = new DateTimePeriod();
-			WithDeleted = DeletedType.Not;
+			WithDeleted = LogicalDeletationType.Active;
 		}
 	}
 
 	[DataContract]
-	public enum DeletedType
+	public enum LogicalDeletationType
 	{
 		[EnumMember]
-		[Description("Только неудаленные")]
-		Not,
+		[Description("Только активные")]
+		Active,
 
 		[EnumMember]
-		[Description("Только удаленный")]
+		[Description("Только удаленные")]
 		Deleted,
 
 		[EnumMember]

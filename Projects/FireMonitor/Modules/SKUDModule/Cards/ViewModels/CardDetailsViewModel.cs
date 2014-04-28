@@ -1,37 +1,19 @@
 ﻿using System.Linq;
 using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
 	public class CardDetailsViewModel : SaveCancelDialogViewModel
 	{
-		CardsViewModel CardsViewModel;
-		bool IsNew;
-		public SKDCard Card { get; private set; }
+		public List<SKDCard> Cards { get; private set; }
 
-		public CardDetailsViewModel(CardsViewModel cardsViewModel, SKDCard card = null)
+		public CardDetailsViewModel()
 		{
-			CardsViewModel = cardsViewModel;
-			if (card == null)
-			{
-				Title = "Создание карты";
-				IsNew = true;
-				card = new SKDCard();
-			}
-			else
-			{
-				Title = string.Format("Свойства карты: {0}", card.PresentationName);
-				IsNew = false;
-			}
-			Card = card;
-			CopyProperties();
-		}
-
-		public void CopyProperties()
-		{
-			Series = Card.Series;
-			Number = Card.Number;
+			Title = "Создание карт";
+			Cards = new List<SKDCard>();
 		}
 
 		int _series;
@@ -48,17 +30,25 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		int _number;
-		public int Number
+		int _firstNos;
+		public int FirstNos
 		{
-			get { return _number; }
+			get { return _firstNos; }
 			set
 			{
-				if (_number != value)
-				{
-					_number = value;
-					OnPropertyChanged("Number");
-				}
+				_firstNos = value;
+				OnPropertyChanged(() => FirstNos);
+			}
+		}
+
+		int _lastNos;
+		public int LastNos
+		{
+			get { return _lastNos; }
+			set
+			{
+				_lastNos = value;
+				OnPropertyChanged(() => LastNos);
 			}
 		}
 
@@ -69,15 +59,22 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (CardsViewModel.Cards.Any(x => x.Card.Series == Series && x.Card.Number == Number && x.Card.UID != Card.UID))
+			for (int i = FirstNos; i < LastNos; i++)
 			{
-				//MessageBoxService.ShowWarning("Серия и номер карты совпадает с введеннымы ранее");
-				//return false;
+				var card = new SKDCard()
+				{
+					Series = Series,
+					Number = i,
+					IsInStopList = true,
+				};
+				var saveResult = CardHelper.Save(card, false);
+				if (saveResult)
+				{
+					Cards.Add(card);
+				}
 			}
 
-			Card.Series = Series;
-			Card.Number = Number;
-			return true;
+			return Cards.Count > 0;
 		}
 	}
 }

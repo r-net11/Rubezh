@@ -19,7 +19,7 @@ namespace FiresecClient.SKDHelpers
 		public static IEnumerable<SKDCard> GetStopListCards()
 		{
 			var filter = new CardFilter();
-			filter.WithDeleted = DeletedType.Deleted;
+			filter.DeactivationType = LogicalDeletationType.Deleted;
 			var result = FiresecManager.FiresecService.GetCards(filter);
 			return Common.ShowErrorIfExists(result);
 		}
@@ -30,10 +30,10 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool Save(SKDCard card)
+		public static bool Save(SKDCard card, bool showError = true)
 		{
 			var result = FiresecManager.FiresecService.SaveCard(card);
-			return Common.ShowErrorIfExists(result);
+			return Common.ShowErrorIfExists(result, showError);
 		}
 
 		public static bool SaveTemplate(SKDCard card)
