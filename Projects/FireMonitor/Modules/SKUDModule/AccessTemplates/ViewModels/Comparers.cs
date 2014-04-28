@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Common.TreeList;
-using XFiresecAPI;
 
 namespace SKDModule.ViewModels
 {

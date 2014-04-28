@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SKDModule.Intervals.Common.ViewModels;
-using FiresecAPI.EmployeeTimeIntervals;
+﻿using FiresecAPI.EmployeeTimeIntervals;
 
-namespace SKDModule.Intervals.ScheduleShemes.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class ScheduleSchemesWeeklyViewModel : ScheduleSchemesViewModel
 	{

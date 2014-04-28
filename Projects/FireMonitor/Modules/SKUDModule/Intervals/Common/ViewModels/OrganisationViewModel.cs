@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecAPI;
@@ -8,7 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Organisation = FiresecAPI.Organisation;
 
-namespace SKDModule.Intervals.Common.ViewModels
+namespace SKDModule.ViewModels
 {
 	public abstract class OrganisationViewModel<TViewModel, TElement> : ViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 		where TViewModel : BaseObjectViewModel<TElement>

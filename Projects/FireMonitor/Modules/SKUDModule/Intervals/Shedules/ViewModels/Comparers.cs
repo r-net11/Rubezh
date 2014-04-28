@@ -1,6 +1,4 @@
 ﻿using Infrastructure.Common.TreeList;
-using XFiresecAPI;
-using SKDModule.Intervals.Schedules.ViewModels;
 
 namespace SKDModule.ViewModels
 {

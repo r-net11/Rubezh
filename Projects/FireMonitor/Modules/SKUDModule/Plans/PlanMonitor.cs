@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Presenter;
 using SKDModule.Plans.Designer;
 using XFiresecAPI;
-using Infrustructure.Plans.Presenter;
 
 namespace SKDModule.Plans
 {

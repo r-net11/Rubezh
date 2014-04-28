@@ -1,8 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using FiresecAPI.Models;
-using VideoModule.ViewModels;
+﻿using System.Windows.Controls;
 
 namespace VideoModule.Views
 {

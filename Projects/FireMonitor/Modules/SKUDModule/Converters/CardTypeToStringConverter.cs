@@ -1,6 +1,5 @@
 ﻿using System.Windows.Data;
 using FiresecAPI;
-using Infrastructure.Models;
 
 namespace SKDModule.Converters
 {

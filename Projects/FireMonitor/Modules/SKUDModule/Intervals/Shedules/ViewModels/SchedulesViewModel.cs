@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using OrganisationFilter = FiresecAPI.OrganisationFilter;
-using SKDModule.Intervals.Common.ViewModels;
-using System;
 using Infrastructure.Common.Windows;
-using SKDModule.Intervals.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Common;
+using OrganisationFilter = FiresecAPI.OrganisationFilter;
 
-namespace SKDModule.Intervals.Schedules.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class SchedulesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.EmployeeTimeIntervals;
-using Infrastructure.Common;
 using Common;
+using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 
-namespace SKDModule.Intervals.ScheduleShemes.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class ScheduleSchemeViewModel : TreeNodeViewModel<ScheduleSchemeViewModel>
 	{

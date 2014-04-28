@@ -4,18 +4,17 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Common;
+using FiresecAPI;
 using FiresecClient;
-using SKDModule.Events;
+using GKModule.Events;
+using GKProcessor;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
-using XFiresecAPI;
-using GKProcessor;
-using GKModule.Events;
-using FiresecAPI;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {

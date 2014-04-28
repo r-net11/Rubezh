@@ -1,5 +1,5 @@
-﻿using SKDModule.ViewModels;
-using Microsoft.Practices.Prism.Events;
+﻿using Microsoft.Practices.Prism.Events;
+using SKDModule.ViewModels;
 
 namespace SKDModule.Events
 {

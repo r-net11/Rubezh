@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI;
-using FiresecClient.SKDHelpers;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace SKDModule.Intervals.Common.ViewModels
+namespace SKDModule.ViewModels
 {
 	public abstract class IntervalViewPartViewModel<TOrganisationInterval, TViewModel, TElement> : ViewPartViewModel
 		where TOrganisationInterval : OrganisationViewModel<TViewModel, TElement>

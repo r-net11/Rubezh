@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.EmployeeTimeIntervals;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
-using FiresecClient.SKDHelpers;
 using System.ComponentModel;
+using System.Linq;
+using FiresecAPI.EmployeeTimeIntervals;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace SKDModule.Intervals.ScheduleShemes.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class DayIntervalViewModel : BaseObjectViewModel<DayInterval>
 	{
-		private ScheduleSchemeViewModel _scheduleScheme;
-		private bool _initialized;
+		ScheduleSchemeViewModel _scheduleScheme;
+		bool _initialized;
 
 		public DayIntervalViewModel(ScheduleSchemeViewModel scheduleScheme, DayInterval dayInterval)
 			: base(dayInterval)
@@ -39,7 +37,7 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			OnPropertyChanged(() => Name);
 		}
 
-		private NamedInterval _selectedNamedInterval;
+		NamedInterval _selectedNamedInterval;
 		public NamedInterval SelectedNamedInterval
 		{
 			get { return _selectedNamedInterval; }
@@ -58,7 +56,7 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			}
 		}
 
-		private void OrganisationViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		void OrganisationViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "NamedIntervals")
 				Update();

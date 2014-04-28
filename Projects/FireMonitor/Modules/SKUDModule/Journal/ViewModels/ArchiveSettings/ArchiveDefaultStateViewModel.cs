@@ -1,7 +1,7 @@
-﻿using SKDModule.Events;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Models;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {

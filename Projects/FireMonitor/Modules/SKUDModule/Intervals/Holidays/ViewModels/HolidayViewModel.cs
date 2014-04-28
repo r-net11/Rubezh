@@ -1,5 +1,4 @@
 ﻿using FiresecAPI.EmployeeTimeIntervals;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels

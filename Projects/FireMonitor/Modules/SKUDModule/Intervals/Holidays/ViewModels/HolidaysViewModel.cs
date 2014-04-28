@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
 using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using SKDModule.Intervals.Common;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {

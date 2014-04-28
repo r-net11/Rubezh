@@ -8,7 +8,7 @@ namespace FiresecAPI
 		Time,
 		[DescriptionAttribute("Недельные графики")]
 		Weekly,
-		[DescriptionAttribute("Скользящие посуточные графики")]
+		[DescriptionAttribute("Суточные графики")]
 		SlideDay,
 		[DescriptionAttribute("Скользящие понедельные графики")]
 		SlideWeekly

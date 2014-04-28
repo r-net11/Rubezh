@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Intervals.ScheduleShemes.ViewModels;
-using System.Collections.Generic;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace SKDModule.Intervals.Schedules.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel
 	{

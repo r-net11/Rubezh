@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Media;
-using FiresecAPI.Models;
+using FiresecAPI.SKD.PassCardLibrary;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using FiresecAPI.SKD.PassCardLibrary;
 
 namespace SKDModule.PassCard.Designer
 {

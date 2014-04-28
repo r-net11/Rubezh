@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {

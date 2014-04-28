@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SKDModule.Intervals.TimeTracking.Model
+namespace SKDModule.Model
 {
 	public enum TimeTrackingPeriod
 	{

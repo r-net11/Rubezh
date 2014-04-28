@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI.SKD.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.SKD.EmployeeTimeIntervals;
 
-namespace SKDModule.Intervals.TimeTracking.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class TimeTrackViewModel : BaseObjectViewModel<TimeTrack>
 	{

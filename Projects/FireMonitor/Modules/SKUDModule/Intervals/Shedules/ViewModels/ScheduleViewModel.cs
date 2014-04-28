@@ -2,11 +2,11 @@
 using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.TreeList;
 
-namespace SKDModule.Intervals.Schedules.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class ScheduleViewModel : TreeNodeViewModel<ScheduleViewModel>, IEditingViewModel
 	{

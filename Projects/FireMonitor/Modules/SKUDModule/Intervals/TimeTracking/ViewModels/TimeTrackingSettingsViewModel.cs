@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Intervals.TimeTracking.Model;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Model;
 
-namespace SKDModule.Intervals.TimeTracking.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class TimeTrackingSettingsViewModel : SaveCancelDialogViewModel
 	{

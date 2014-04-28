@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
 					xmlns:clientPlans="clr-namespace:Infrastructure.Client.Plans;assembly=Infrastructure.Client"
-					xmlns:ScheduleSchemesView="clr-namespace:SKDModule.Intervals.ScheduleShemes.Views"
-					xmlns:ScheduleSchemesViewModel="clr-namespace:SKDModule.Intervals.ScheduleShemes.ViewModels" xmlns:SchedulesView="clr-namespace:SKDModule.Intervals.Schedules.Views" xmlns:SchedulesViewModel="clr-namespace:SKDModule.Intervals.Schedules.ViewModels" xmlns:TimeTrackingView="clr-namespace:SKDModule.Intervals.TimeTracking.Views" xmlns:TimeTrackingViewModel="clr-namespace:SKDModule.Intervals.TimeTracking.ViewModels" 
-					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels" xmlns:Views="clr-namespace:SKDModule.Views">
+					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels"
+                    xmlns:Views="clr-namespace:SKDModule.Views">
 
 	<DataTemplate DataType="{x:Type ViewModels:NamedIntervalsViewModel}">
 		<Views:NamedIntervalsView />
@@ -28,32 +27,32 @@
 		<Views:HolidaySettingsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type SchedulesViewModel:SchedulesViewModel}">
-		<SchedulesView:SchedulesView />
+    <DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
+        <Views:SchedulesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type SchedulesViewModel:ScheduleDetailsViewModel}">
-		<SchedulesView:ScheduleDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:ScheduleDetailsViewModel}">
+        <Views:ScheduleDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type SchedulesViewModel:ScheduleZoneDetailsViewModel}">
-		<SchedulesView:ScheduleZoneDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:ScheduleZoneDetailsViewModel}">
+        <Views:ScheduleZoneDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ScheduleSchemesViewModel:ScheduleSchemesViewModel}">
-		<ScheduleSchemesView:ScheduleSchemesView />
+    <DataTemplate DataType="{x:Type ViewModels:ScheduleSchemesViewModel}">
+        <Views:ScheduleSchemesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ScheduleSchemesViewModel:ScheduleSchemeDetailsViewModel}">
-		<ScheduleSchemesView:ScheduleSchemeDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:ScheduleSchemeDetailsViewModel}">
+		<Views:ScheduleSchemeDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type TimeTrackingViewModel:TimeTrackingViewModel}">
-		<TimeTrackingView:TimeTrackingView />
+    <DataTemplate DataType="{x:Type ViewModels:TimeTrackingViewModel}">
+        <Views:TimeTrackingView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type TimeTrackingViewModel:TimeTrackingSettingsViewModel}">
-		<TimeTrackingView:TimeTrackingSettingsView />
+    <DataTemplate DataType="{x:Type ViewModels:TimeTrackingSettingsViewModel}">
+        <Views:TimeTrackingSettingsView />
 	</DataTemplate>
 
 </ResourceDictionary>

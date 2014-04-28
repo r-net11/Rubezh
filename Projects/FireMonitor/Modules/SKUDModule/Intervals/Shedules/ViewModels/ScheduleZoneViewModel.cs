@@ -3,7 +3,7 @@ using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDManager = FiresecAPI.SKDManager;
 
-namespace SKDModule.Intervals.Schedules.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class ScheduleZoneViewModel : BaseObjectViewModel<ScheduleZone>
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SKDModule.Intervals.Schedules.Views
+namespace SKDModule.Views
 {
 	public partial class SchedulesView : UserControl
 	{

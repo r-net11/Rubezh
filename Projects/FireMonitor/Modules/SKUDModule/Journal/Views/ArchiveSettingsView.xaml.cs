@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using SKDModule.ViewModels;
 using Infrastructure.Models;
+using SKDModule.ViewModels;
 
 namespace SKDModule.Views
 {

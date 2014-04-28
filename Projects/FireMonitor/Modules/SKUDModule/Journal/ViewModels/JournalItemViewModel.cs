@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using FiresecAPI;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels

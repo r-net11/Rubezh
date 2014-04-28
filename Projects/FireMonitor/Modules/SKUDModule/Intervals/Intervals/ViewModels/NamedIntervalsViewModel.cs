@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using OrganisationFilter = FiresecAPI.OrganisationFilter;
-using System;
-using SKDModule.Intervals.Common.ViewModels;
 using Infrastructure.Common.Windows;
-using SKDModule.Intervals.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Common;
+using OrganisationFilter = FiresecAPI.OrganisationFilter;
 
 namespace SKDModule.ViewModels
 {

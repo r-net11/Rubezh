@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace SKDModule.Intervals.Common
+namespace SKDModule.Common
 {
 	public static class CopyHelper
 	{

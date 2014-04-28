@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrustructure.Plans.Painters;
-using Infrustructure.Plans.Designer;
-using FiresecAPI.SKD.PassCardLibrary;
+﻿using System.IO;
 using System.Windows.Media;
-using System.IO;
 using System.Windows.Media.Imaging;
+using FiresecAPI.SKD.PassCardLibrary;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Painters;
 
 namespace SKDModule.PassCard.Designer
 {

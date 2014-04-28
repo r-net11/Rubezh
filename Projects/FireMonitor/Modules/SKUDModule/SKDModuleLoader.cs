@@ -15,12 +15,9 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
-using SKDModule.Intervals.Schedules.ViewModels;
-using SKDModule.Intervals.ScheduleShemes.ViewModels;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
 using XFiresecAPI;
-using SKDModule.Intervals.TimeTracking.ViewModels;
 
 namespace SKDModule
 {
@@ -90,11 +87,11 @@ namespace SKDModule
 						new NavigationItem<ShowAccessTemplatesEvent>(AccessTemplatesViewModel, "Уровни доступа", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowCardsEvent>(CardsViewModel, "Карты", "/Controls;component/Images/tree.png"),
-						new NavigationItem("Интервалы", null, new List<NavigationItem>()
+						new NavigationItem("Учет рабочего времени", null, new List<NavigationItem>()
 						{
 							new NavigationItem<ShowTimeIntervalsEvent, Guid>(NamedIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesWeeklyViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowSlideDayIntervalsEvent, Guid>(ScheduleSchemesSlideViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSlideDayIntervalsEvent, Guid>(ScheduleSchemesSlideViewModel, "Суточные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowMonthlyIntervalsEvent, Guid>(ScheduleSchemesMonthlyViewModel, "Месячные графики", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -232,7 +229,7 @@ namespace SKDModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDCards, "Карты", "Tree.png", (p) => CardsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDNamedIntervals, "Именованные интервалы", "Tree.png", (p) => NamedIntervalsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyScheduleSchemes, "Недельные графики", "Tree.png", (p) => ScheduleSchemesWeeklyViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDaylyScheduleSchemes, "Скользящие посуточные графики", "Tree.png", (p) => ScheduleSchemesSlideViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDaylyScheduleSchemes, "Суточные графики", "Tree.png", (p) => ScheduleSchemesSlideViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDMonthlyScheduleSchemes, "Месячные графики", "BTree.png", (p) => ScheduleSchemesMonthlyViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHolidays, "Праздничные дни", "Tree.png", (p) => HolidaysViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDTimeTracking, "Учета рабочего времени", "Tree.png", (p) => _timeTrackingViewModel);

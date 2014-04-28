@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.EmployeeTimeIntervals;
-using Infrastructure.Common.Windows;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
-namespace SKDModule.Intervals.ScheduleShemes.ViewModels
+namespace SKDModule.ViewModels
 {
 	public class ScheduleSchemeDetailsViewModel : SaveCancelDialogViewModel
 	{
@@ -29,8 +25,8 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 					dayCount = 31;
 					break;
 				case ScheduleSchemeType.SlideDay:
-					name = "Скользящий посуточный график работы";
-					Title = scheduleScheme == null ? "Новый скользящий посуточный график работы" : "Редактирование скользящего посуточного графика работы";
+					name = "Суточный график работы";
+					Title = scheduleScheme == null ? "Новый суточный график работы" : "Редактирование скользящего посуточного графика работы";
 					dayCount = 1;
 					break;
 				case ScheduleSchemeType.Week:
@@ -60,7 +56,7 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			Description = ScheduleScheme.Description;
 		}
 
-		private string _name;
+		string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -71,7 +67,7 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 			}
 		}
 
-		private string _description;
+		string _description;
 		public string Description
 		{
 			get { return _description; }

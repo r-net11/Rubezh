@@ -5,8 +5,8 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Events;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 
 namespace AlarmModule
 {

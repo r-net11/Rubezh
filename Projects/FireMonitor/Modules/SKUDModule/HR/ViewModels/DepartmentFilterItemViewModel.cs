@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.TreeList;
 using FiresecAPI;
+using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels
 {

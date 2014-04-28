@@ -26,7 +26,7 @@
             <StackPanel Orientation="Horizontal">
                 <ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
                 <ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать" />
-                <ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
+                <ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
                 <ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="/Controls;component/Images/Settings.png" ToolTip="Настройки" />
             </StackPanel>
         </StackPanel>

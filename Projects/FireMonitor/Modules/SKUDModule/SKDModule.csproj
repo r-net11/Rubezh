@@ -274,7 +274,6 @@
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidayYearViewModel.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\HolidaySettingsViewModel.cs" />
-    <Compile Include="Intervals\Holidays\ViewModels\OrganisationHolidaysYearViewModel.cs" />
     <Compile Include="Intervals\Holidays\Views\HolidayDetailsView.xaml.cs">
       <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
     </Compile>

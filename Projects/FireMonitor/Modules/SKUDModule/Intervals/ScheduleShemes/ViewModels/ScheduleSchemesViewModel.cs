@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using SKDModule.Intervals.Common.ViewModels;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
-using System;
-using System.Linq;
-using SKDModule.Intervals.Common;
 using Infrastructure.Common.Windows;
-using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Common;
 
-namespace SKDModule.Intervals.ScheduleShemes.ViewModels
+namespace SKDModule.ViewModels
 {
 	public abstract class ScheduleSchemesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
@@ -176,7 +175,7 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		private void OnCopy()
+		void OnCopy()
 		{
 			_clipboard = CopyScheduleScheme(SelectedScheduleScheme.ScheduleScheme, false);
 		}
@@ -186,7 +185,7 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		private void OnPaste()
+		void OnPaste()
 		{
 			var newInterval = CopyScheduleScheme(_clipboard);
 			if (ScheduleSchemaHelper.Save(newInterval))
@@ -196,12 +195,12 @@ namespace SKDModule.Intervals.ScheduleShemes.ViewModels
 				SelectedScheduleScheme = timeInrervalViewModel;
 			}
 		}
-		private bool CanPaste()
+		bool CanPaste()
 		{
 			return _clipboard != null;
 		}
 
-		private ScheduleScheme CopyScheduleScheme(ScheduleScheme source, bool newName = true)
+		ScheduleScheme CopyScheduleScheme(ScheduleScheme source, bool newName = true)
 		{
 			var copy = new ScheduleScheme();
 			copy.Name = newName ? CopyHelper.CopyName(source.Name, AllScheduleSchemes.Select(item => item.ScheduleScheme.Name)) : source.Name;

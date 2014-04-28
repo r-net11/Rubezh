@@ -7,7 +7,6 @@ using FiresecAPI.Models;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using XFiresecAPI;
-using Infrustructure.Plans.Designer;
 
 namespace PlansModule.Kursk.Designer
 {

@@ -5,8 +5,8 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.XModels;
 using Infrustructure.Plans.Elements;
-using XFiresecAPI;
 using Infrustructure.Plans.Presenter;
+using XFiresecAPI;
 
 namespace DevicesModule.Plans
 {

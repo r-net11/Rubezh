@@ -12,7 +12,6 @@ using Infrastructure.Events;
 using Infrastructure.Models;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using Infrustructure.Plans.Designer;
 
 namespace DevicesModule.Plans.Designer
 {
