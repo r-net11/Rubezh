@@ -61,7 +61,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKProcessor", "..\Common\GK
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireMonitor.Layout", "FireMonitor.Layout\FireMonitor.Layout.csproj", "{A82CFA86-AAA0-4894-9BBF-A6C087A235BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKDModule", "Modules\SKUDModule\SKDModule.csproj", "{8D427CFB-D784-41AC-B2B4-354B017AD556}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SKDModule", "Modules\SKDModule\SKDModule.csproj", "{8D427CFB-D784-41AC-B2B4-354B017AD556}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
