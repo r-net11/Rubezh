@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class EmployeeTranslator : OrganisationElementTranslator<DataAccess.Employee, Employee, EmployeeFilter>
+	public class EmployeeTranslator : WithShortTranslator<DataAccess.Employee, Employee, EmployeeFilter, ShortEmployee>
 	{
 		public EmployeeTranslator(DataAccess.SKDDataContext context,
 			EmployeeReplacementTranslator replacementTranslator,
@@ -92,7 +92,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		ShortEmployee TranslateToShort(DataAccess.Employee tableItem)
+		protected override ShortEmployee TranslateToShort(DataAccess.Employee tableItem)
 		{
 			var shortEmployee = new ShortEmployee
 			{
@@ -120,27 +120,14 @@ namespace SKDDriver
 			return shortEmployee;
 		}
 
-		public OperationResult<IEnumerable<ShortEmployee>> GetList(EmployeeFilter filter)
+		public override OperationResult<IEnumerable<ShortEmployee>> GetList(EmployeeFilter filter)
 		{
-			try
-			{
-				var result = new List<ShortEmployee>();
-				foreach (var tableItem in GetTableItems(filter))
-				{
-					var employeeListItem = TranslateToShort(tableItem);
-					result.Add(employeeListItem);
-				}
-				AdditionalColumnTranslator.SetTextColumns(result);
-				var operationResult = new OperationResult<IEnumerable<ShortEmployee>>();
-				operationResult.Result = result;
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult<IEnumerable<ShortEmployee>>(e.Message);
-			}
+			var result = base.GetList(filter);
+			if (result.HasError)
+				return result;
+			return AdditionalColumnTranslator.SetTextColumns(result);
 		}
-
+		
 		protected override void TranslateBack(DataAccess.Employee tableItem, Employee apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);

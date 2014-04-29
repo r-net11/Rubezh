@@ -9,7 +9,7 @@
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="AccessTemplate_Card" Member="Cards" ThisKey="UID" OtherKey="AccessTemplateUID" Type="Card" />
-      <Association Name="AccessTemplate_CardZoneLink" Member="CardZoneLinks" ThisKey="UID" OtherKey="ParentUID" Type="CardZoneLink" />
+      <Association Name="AccessTemplate_CardZone" Member="CardZones" ThisKey="UID" OtherKey="ParentUID" Type="CardZone" />
       <Association Name="Organisation_AccessTemplate" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
@@ -55,26 +55,10 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="CardTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="Card_CardZoneLink" Member="CardZoneLinks" ThisKey="UID" OtherKey="ParentUID" Type="CardZoneLink" />
       <Association Name="Card_Journal" Member="Journals" ThisKey="UID" OtherKey="CardUID" Type="Journal" />
+      <Association Name="Card_CardZone" Member="CardZones" ThisKey="UID" OtherKey="ParentUID" Type="CardZone" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.CardZoneLink" Member="CardZoneLinks">
-    <Type Name="CardZoneLink">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ParentUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="ParentType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsWithEscort" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsAntipass" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IntervalUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="IntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="AccessTemplate_CardZoneLink" Member="AccessTemplate" ThisKey="ParentUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
-      <Association Name="Card_CardZoneLink" Member="Card" ThisKey="ParentUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Day" Member="Days">
@@ -288,8 +272,8 @@
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="Schedule_EmployeeReplacement" Member="EmployeeReplacements" ThisKey="UID" OtherKey="ScheduleUID" Type="EmployeeReplacement" />
-      <Association Name="Schedule_ScheduleZoneLink" Member="ScheduleZoneLinks" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleZoneLink" />
       <Association Name="Schedule_Employee" Member="Employees" ThisKey="UID" OtherKey="ScheduleUID" Type="Employee" />
+      <Association Name="Schedule_ScheduleZone" Member="ScheduleZones" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleZone" />
       <Association Name="Organisation_Schedule" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
       <Association Name="ScheduleScheme_Schedule" Member="ScheduleScheme" ThisKey="ScheduleSchemeUID" OtherKey="UID" Type="ScheduleScheme" IsForeignKey="true" />
     </Type>
@@ -306,17 +290,6 @@
       <Association Name="ScheduleScheme_Day" Member="Days" ThisKey="UID" OtherKey="ScheduleSchemeUID" Type="Day" />
       <Association Name="ScheduleScheme_Schedule" Member="Schedules" ThisKey="UID" OtherKey="ScheduleSchemeUID" Type="Schedule" />
       <Association Name="Organisation_ScheduleScheme" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.ScheduleZoneLink" Member="ScheduleZoneLinks">
-    <Type Name="ScheduleZoneLink">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ScheduleUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="IsControl" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="Schedule_ScheduleZoneLink" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Employee" Member="Employees">
@@ -362,6 +335,33 @@
       <Association Name="Photo_Employee" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
       <Association Name="Position_Employee" Member="Position" ThisKey="PositionUID" OtherKey="UID" Type="Position" IsForeignKey="true" />
       <Association Name="Schedule_Employee" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ScheduleZone" Member="ScheduleZones">
+    <Type Name="ScheduleZone">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ScheduleUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="IsControl" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Schedule_ScheduleZone" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CardZone" Member="CardZones">
+    <Type Name="CardZone">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ParentUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ParentType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsWithEscort" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsAntipass" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IntervalUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="AccessTemplate_CardZone" Member="AccessTemplate" ThisKey="ParentUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
+      <Association Name="Card_CardZone" Member="Card" ThisKey="ParentUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

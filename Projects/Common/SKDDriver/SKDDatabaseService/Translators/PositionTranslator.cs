@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class PositionTranslator : OrganisationElementTranslator<DataAccess.Position, Position, PositionFilter>
+	public class PositionTranslator : WithShortTranslator<DataAccess.Position, Position, PositionFilter, ShortPosition>
 	{
 		public PositionTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator)
 			: base(context)
@@ -53,7 +53,7 @@ namespace SKDDriver
 				tableItem.PhotoUID = apiItem.Photo.UID;
 		}
 
-		ShortPosition TranslateToShort(DataAccess.Position tableItem)
+		protected override ShortPosition TranslateToShort(DataAccess.Position tableItem)
 		{
 			var shortPosition = new ShortPosition
 			{
@@ -63,26 +63,6 @@ namespace SKDDriver
 				OrganisationUID = tableItem.OrganisationUID
 			};
 			return shortPosition;
-		}
-
-		public OperationResult<IEnumerable<ShortPosition>> GetList(PositionFilter filter)
-		{
-			try
-			{
-				var result = new List<ShortPosition>();
-				foreach (var tableItem in GetTableItems(filter))
-				{
-					var shortPosition = TranslateToShort(tableItem);
-					result.Add(shortPosition);
-				}
-				var operationResult = new OperationResult<IEnumerable<ShortPosition>>();
-				operationResult.Result = result;
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult<IEnumerable<ShortPosition>>(e.Message);
-			}
 		}
 
 		public ShortPosition GetSingleShort(Guid? uid)

@@ -1,4 +1,4 @@
-USE [SKUD]
+USE [SKD]
 GO
 SET ANSI_PADDING OFF
 GO
@@ -123,11 +123,11 @@ GO
 ALTER TABLE [dbo].[Phone] NOCHECK CONSTRAINT [FK_Phone_Department]
 
 GO
-ALTER TABLE [dbo].[ScheduleZoneLink]  WITH NOCHECK ADD  CONSTRAINT [FK_ScheduleZoneLink_Schedule] FOREIGN KEY([ScheduleUid])
+ALTER TABLE [dbo].[ScheduleZone]  WITH NOCHECK ADD  CONSTRAINT [FK_ScheduleZone_Schedule] FOREIGN KEY([ScheduleUid])
 REFERENCES [dbo].[Schedule] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[ScheduleZoneLink] NOCHECK CONSTRAINT [FK_ScheduleZoneLink_Schedule]
+ALTER TABLE [dbo].[ScheduleZone] NOCHECK CONSTRAINT [FK_ScheduleZone_Schedule]
 
 GO
 ALTER TABLE [dbo].[Schedule]  WITH NOCHECK ADD  CONSTRAINT [FK_Schedule_ScheduleScheme] FOREIGN KEY([ScheduleSchemeUid])
@@ -172,18 +172,18 @@ GO
 ALTER TABLE [dbo].[Card] NOCHECK CONSTRAINT [FK_Card_AccessTemplate]
 
 GO
-ALTER TABLE [dbo].[CardZoneLink]  WITH NOCHECK ADD  CONSTRAINT [FK_CardZoneLink_Card] FOREIGN KEY([ParentUid])
+ALTER TABLE [dbo].[CardZone]  WITH NOCHECK ADD  CONSTRAINT [FK_CardZone_Card] FOREIGN KEY([ParentUid])
 REFERENCES [dbo].[Card] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[CardZoneLink] NOCHECK CONSTRAINT [FK_CardZoneLink_Card]
+ALTER TABLE [dbo].[CardZone] NOCHECK CONSTRAINT [FK_CardZone_Card]
 
 GO
-ALTER TABLE [dbo].[CardZoneLink]  WITH NOCHECK ADD  CONSTRAINT [FK_CardZoneLink_AccessTemplate] FOREIGN KEY([ParentUid])
+ALTER TABLE [dbo].[CardZone]  WITH NOCHECK ADD  CONSTRAINT [FK_CardZone_AccessTemplate] FOREIGN KEY([ParentUid])
 REFERENCES [dbo].[AccessTemplate] ([Uid])
 NOT FOR REPLICATION 
 GO
-ALTER TABLE [dbo].[CardZoneLink] NOCHECK CONSTRAINT [FK_CardZoneLink_AccessTemplate]
+ALTER TABLE [dbo].[CardZone] NOCHECK CONSTRAINT [FK_CardZone_AccessTemplate]
 
 GO
 ALTER TABLE [dbo].[AdditionalColumnType]  WITH NOCHECK ADD CONSTRAINT [FK_AdditionalColumnType_Organisation] FOREIGN KEY([OrganisationUid])

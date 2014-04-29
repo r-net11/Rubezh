@@ -35,7 +35,7 @@ namespace SKDDriver.Translators
 			result.ScheduleSchemeUID = tableItem.ScheduleSchemeUID.HasValue ? tableItem.ScheduleSchemeUID.Value : Guid.Empty;
 			result.IsIgnoreHoliday = tableItem.IsIgnoreHoliday;
 			result.IsOnlyFirstEnter = tableItem.IsOnlyFirstEnter;
-			result.Zones = _scheduleZoneTranslator.TranslateAll(tableItem.ScheduleZoneLinks.Where(item => !item.IsDeleted));
+			result.Zones = _scheduleZoneTranslator.TranslateAll(tableItem.ScheduleZones.Where(item => !item.IsDeleted));
 			return result;
 		}
 

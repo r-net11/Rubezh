@@ -8,16 +8,16 @@ using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	public class ScheduleZoneTranslator : IsDeletedTranslator<DataAccess.ScheduleZoneLink, ScheduleZone, ScheduleZoneFilter>
+	public class ScheduleZoneTranslator : IsDeletedTranslator<DataAccess.ScheduleZone, ScheduleZone, ScheduleZoneFilter>
 	{
 		public ScheduleZoneTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 
 		}
-		protected override Expression<Func<DataAccess.ScheduleZoneLink, bool>> IsInFilter(ScheduleZoneFilter filter)
+		protected override Expression<Func<DataAccess.ScheduleZone, bool>> IsInFilter(ScheduleZoneFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.ScheduleZoneLink>();
+			var result = PredicateBuilder.True<DataAccess.ScheduleZone>();
 			result = result.And(base.IsInFilter(filter));
 			result = result.And(e => filter.ScheduleUIDs.Contains(e.ScheduleUID));
 			return result;
@@ -31,7 +31,7 @@ namespace SKDDriver.Translators
 			return base.CanSave(item);
 		}
 
-		protected override ScheduleZone Translate(DataAccess.ScheduleZoneLink tableItem)
+		protected override ScheduleZone Translate(DataAccess.ScheduleZone tableItem)
 		{
 			var apiItem = base.Translate(tableItem);
 			apiItem.ScheduleUID = tableItem.ScheduleUID;
@@ -39,7 +39,7 @@ namespace SKDDriver.Translators
 			apiItem.IsControl = tableItem.IsControl;
 			return apiItem;
 		}
-		protected override void TranslateBack(DataAccess.ScheduleZoneLink tableItem, ScheduleZone apiItem)
+		protected override void TranslateBack(DataAccess.ScheduleZone tableItem, ScheduleZone apiItem)
 		{
 			var schedule = Context.Schedules.FirstOrDefault(item => item.UID == apiItem.ScheduleUID);
 			base.TranslateBack(tableItem, apiItem);
@@ -51,7 +51,7 @@ namespace SKDDriver.Translators
 			tableItem.IsControl = apiItem.IsControl;
 		}
 
-		public List<ScheduleZone> TranslateAll(IEnumerable<DataAccess.ScheduleZoneLink> list)
+		public List<ScheduleZone> TranslateAll(IEnumerable<DataAccess.ScheduleZone> list)
 		{
 			return list.Select(item => Translate(item)).ToList();
 		}

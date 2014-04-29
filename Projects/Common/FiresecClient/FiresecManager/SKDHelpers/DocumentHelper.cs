@@ -32,14 +32,13 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static IEnumerable<ShortDocument> GetByOrganisation(Guid? organisationUID)
+		public static IEnumerable<ShortDocument> GetByOrganisation(Guid organisationUID)
 		{
-			if (organisationUID == null)
-				return null;
-			var filter = new DocumentFilter();
-			filter.OrganisationUIDs.Add(organisationUID.Value);
-			var operationResult = FiresecManager.FiresecService.GetDocumentList(filter);
-			return Common.ShowErrorIfExists(operationResult);
+			var result = FiresecManager.FiresecService.GetDocumentList(new DocumentFilter
+			{
+				OrganisationUIDs = new List<System.Guid> { organisationUID }
+			});
+			return Common.ShowErrorIfExists(result);
 		}
 	}
 }

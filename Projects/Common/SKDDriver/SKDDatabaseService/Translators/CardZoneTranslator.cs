@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class CardZoneTranslator : IsDeletedTranslator<DataAccess.CardZoneLink, CardZone, CardZoneFilter>
+	public class CardZoneTranslator : IsDeletedTranslator<DataAccess.CardZone, CardZone, CardZoneFilter>
 	{
 		public CardZoneTranslator(DataAccess.SKDDataContext context)
 			: base(context)
@@ -15,7 +15,7 @@ namespace SKDDriver
 
 		}
 
-		protected override CardZone Translate(DataAccess.CardZoneLink tableItem)
+		protected override CardZone Translate(DataAccess.CardZone tableItem)
 		{
 			var result = base.Translate(tableItem);
 			result.IntervalType = (FiresecAPI.IntervalType)tableItem.IntervalType;
@@ -27,7 +27,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		protected override void TranslateBack(DataAccess.CardZoneLink tableItem, CardZone apiItem)
+		protected override void TranslateBack(DataAccess.CardZone tableItem, CardZone apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.IntervalType = (int?)apiItem.IntervalType;
@@ -50,7 +50,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		public OperationResult MarkDeleted(DataAccess.CardZoneLink databaseItem)
+		public OperationResult MarkDeleted(DataAccess.CardZone databaseItem)
 		{
 			var operationResult = new OperationResult();
 			try
@@ -116,9 +116,9 @@ namespace SKDDriver
 			}
 		}
 
-		protected override Expression<Func<DataAccess.CardZoneLink, bool>> IsInFilter(CardZoneFilter filter)
+		protected override Expression<Func<DataAccess.CardZone, bool>> IsInFilter(CardZoneFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.CardZoneLink>();
+			var result = PredicateBuilder.True<DataAccess.CardZone>();
 			result = result.And(base.IsInFilter(filter));
 			var cardUIDs = filter.CardUIDs;
 			if (cardUIDs != null && cardUIDs.Count != 0)

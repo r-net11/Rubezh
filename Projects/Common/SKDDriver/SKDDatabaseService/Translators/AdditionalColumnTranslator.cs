@@ -38,23 +38,35 @@ namespace SKDDriver
 			tableItem.TextData = apiItem.TextData;
 		}
 
-		public void SetTextColumns(IEnumerable<ShortEmployee> employees)
+		public OperationResult<IEnumerable<ShortEmployee>> SetTextColumns(OperationResult<IEnumerable<ShortEmployee>> employeesResult)
 		{
-			var textColumnTypes = AdditionalColumnTypeTranslator.GetTextColumnTypes();
-			foreach (var employee in employees)
+			try
 			{
-				employee.TextColumns = new List<TextColumn>();
-				var tableItems = from x in Table where x.EmployeeUID == employee.UID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value) select x;
-				foreach (var item in tableItems)
+				var textColumnTypes = AdditionalColumnTypeTranslator.GetTextColumnTypes();
+				var employees = employeesResult.Result;
+				foreach (var employee in employees)
 				{
-					employee.TextColumns.Add(
-						new TextColumn 
-						{ 
-							ColumnTypeUID = textColumnTypes.FirstOrDefault(x => x == item.AdditionalColumnTypeUID.Value), 
-							Text = item.TextData 
-						});
+					employee.TextColumns = new List<TextColumn>();
+					var tableItems = from x in Table where x.EmployeeUID == employee.UID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value) select x;
+					foreach (var item in tableItems)
+					{
+						employee.TextColumns.Add(
+							new TextColumn
+							{
+								ColumnTypeUID = textColumnTypes.FirstOrDefault(x => x == item.AdditionalColumnTypeUID.Value),
+								Text = item.TextData
+							});
+					}
 				}
+				var result = new OperationResult<IEnumerable<ShortEmployee>>();
+				result.Result = employees;
+				return result;
 			}
+			catch (Exception e)
+			{
+				return new OperationResult<IEnumerable<ShortEmployee>>(e.Message);
+			}
+			
 		}
 
 		public override OperationResult Save(IEnumerable<AdditionalColumn> apiItems)

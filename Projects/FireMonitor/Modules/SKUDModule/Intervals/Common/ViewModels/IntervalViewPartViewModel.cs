@@ -27,7 +27,7 @@ namespace SKDModule.ViewModels
 			foreach (var organisation in organisations)
 			{
 				var timeInrervalViewModel = CreateOrganisationViewModel(organisation);
-				timeInrervalViewModel.Initialize(models.Where(x => x.OrganisationUID.Value == organisation.UID));
+				timeInrervalViewModel.Initialize(models.Where(x => x.OrganisationUID == organisation.UID));
 				Organisations.Add(timeInrervalViewModel);
 			}
 			SelectedOrganisation = Organisations.FirstOrDefault();

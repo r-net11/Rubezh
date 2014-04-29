@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
@@ -7,7 +6,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class DocumentTranslator : OrganisationElementTranslator<DataAccess.Document, Document, DocumentFilter>
+	public class DocumentTranslator : WithShortTranslator<DataAccess.Document, Document, DocumentFilter, ShortDocument>
 	{
 		public DocumentTranslator(DataAccess.SKDDataContext context)
 			: base(context)
@@ -55,7 +54,7 @@ namespace SKDDriver
 			tableItem.No = apiItem.No;
 		}
 
-		ShortDocument TranslateToShort(DataAccess.Document tableItem)
+		protected override ShortDocument TranslateToShort(DataAccess.Document tableItem)
 		{
 			return new ShortDocument
 			{
@@ -67,26 +66,6 @@ namespace SKDDriver
 				Name = tableItem.Name,
 				No = tableItem.No
 			};
-		}
-
-		public OperationResult<IEnumerable<ShortDocument>> GetList(DocumentFilter filter)
-		{
-			try
-			{
-				var result = new List<ShortDocument>();
-				foreach (var tableItem in GetTableItems(filter))
-				{
-					var shortPosition = TranslateToShort(tableItem);
-					result.Add(shortPosition);
-				}
-				var operationResult = new OperationResult<IEnumerable<ShortDocument>>();
-				operationResult.Result = result;
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult<IEnumerable<ShortDocument>>(e.Message);
-			}
 		}
 
 		protected override Expression<Func<DataAccess.Document, bool>> IsInFilter(DocumentFilter filter)

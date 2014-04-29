@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.EmployeeTimeIntervals;
 
 namespace FiresecClient.SKDHelpers
@@ -30,14 +29,13 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
 		}
 
-		public static IEnumerable<ScheduleScheme> GetByOrganisation(Guid? organisationUID)
+		public static IEnumerable<ScheduleScheme> GetByOrganisation(Guid organisationUID)
 		{
-			if (organisationUID == null)
-				return null;
-			var filter = new ScheduleSchemeFilter();
-			filter.OrganisationUIDs.Add(organisationUID.Value);
-			var operationResult = FiresecManager.FiresecService.GetScheduleSchemes(filter);
-			return Common.ShowErrorIfExists(operationResult);
+			var result = FiresecManager.FiresecService.GetScheduleSchemes(new ScheduleSchemeFilter
+				{
+					OrganisationUIDs = new List<System.Guid> { organisationUID }
+				});
+			return Common.ShowErrorIfExists(result);
 		}
 
 		public static IEnumerable<ScheduleScheme> Get(ScheduleSchemeFilter filter)

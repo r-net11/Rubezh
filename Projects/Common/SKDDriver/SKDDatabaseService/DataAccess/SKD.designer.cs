@@ -42,9 +42,6 @@ namespace SKDDriver.DataAccess
     partial void InsertCard(Card instance);
     partial void UpdateCard(Card instance);
     partial void DeleteCard(Card instance);
-    partial void InsertCardZoneLink(CardZoneLink instance);
-    partial void UpdateCardZoneLink(CardZoneLink instance);
-    partial void DeleteCardZoneLink(CardZoneLink instance);
     partial void InsertDay(Day instance);
     partial void UpdateDay(Day instance);
     partial void DeleteDay(Day instance);
@@ -93,12 +90,15 @@ namespace SKDDriver.DataAccess
     partial void InsertScheduleScheme(ScheduleScheme instance);
     partial void UpdateScheduleScheme(ScheduleScheme instance);
     partial void DeleteScheduleScheme(ScheduleScheme instance);
-    partial void InsertScheduleZoneLink(ScheduleZoneLink instance);
-    partial void UpdateScheduleZoneLink(ScheduleZoneLink instance);
-    partial void DeleteScheduleZoneLink(ScheduleZoneLink instance);
     partial void InsertEmployee(Employee instance);
     partial void UpdateEmployee(Employee instance);
     partial void DeleteEmployee(Employee instance);
+    partial void InsertScheduleZone(ScheduleZone instance);
+    partial void UpdateScheduleZone(ScheduleZone instance);
+    partial void DeleteScheduleZone(ScheduleZone instance);
+    partial void InsertCardZone(CardZone instance);
+    partial void UpdateCardZone(CardZone instance);
+    partial void DeleteCardZone(CardZone instance);
     #endregion
 		
 		public SKDDataContext() : 
@@ -160,14 +160,6 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<Card>();
-			}
-		}
-		
-		public System.Data.Linq.Table<CardZoneLink> CardZoneLinks
-		{
-			get
-			{
-				return this.GetTable<CardZoneLink>();
 			}
 		}
 		
@@ -299,19 +291,27 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<ScheduleZoneLink> ScheduleZoneLinks
-		{
-			get
-			{
-				return this.GetTable<ScheduleZoneLink>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Employee> Employees
 		{
 			get
 			{
 				return this.GetTable<Employee>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ScheduleZone> ScheduleZones
+		{
+			get
+			{
+				return this.GetTable<ScheduleZone>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CardZone> CardZones
+		{
+			get
+			{
+				return this.GetTable<CardZone>();
 			}
 		}
 	}
@@ -336,7 +336,7 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<Card> _Cards;
 		
-		private EntitySet<CardZoneLink> _CardZoneLinks;
+		private EntitySet<CardZone> _CardZones;
 		
 		private EntityRef<Organisation> _Organisation;
 		
@@ -361,7 +361,7 @@ namespace SKDDriver.DataAccess
 		public AccessTemplate()
 		{
 			this._Cards = new EntitySet<Card>(new Action<Card>(this.attach_Cards), new Action<Card>(this.detach_Cards));
-			this._CardZoneLinks = new EntitySet<CardZoneLink>(new Action<CardZoneLink>(this.attach_CardZoneLinks), new Action<CardZoneLink>(this.detach_CardZoneLinks));
+			this._CardZones = new EntitySet<CardZone>(new Action<CardZone>(this.attach_CardZones), new Action<CardZone>(this.detach_CardZones));
 			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
@@ -503,16 +503,16 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_CardZoneLink", Storage="_CardZoneLinks", ThisKey="UID", OtherKey="ParentUID")]
-		public EntitySet<CardZoneLink> CardZoneLinks
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_CardZone", Storage="_CardZones", ThisKey="UID", OtherKey="ParentUID")]
+		public EntitySet<CardZone> CardZones
 		{
 			get
 			{
-				return this._CardZoneLinks;
+				return this._CardZones;
 			}
 			set
 			{
-				this._CardZoneLinks.Assign(value);
+				this._CardZones.Assign(value);
 			}
 		}
 		
@@ -582,13 +582,13 @@ namespace SKDDriver.DataAccess
 			entity.AccessTemplate = null;
 		}
 		
-		private void attach_CardZoneLinks(CardZoneLink entity)
+		private void attach_CardZones(CardZone entity)
 		{
 			this.SendPropertyChanging();
 			entity.AccessTemplate = this;
 		}
 		
-		private void detach_CardZoneLinks(CardZoneLink entity)
+		private void detach_CardZones(CardZone entity)
 		{
 			this.SendPropertyChanging();
 			entity.AccessTemplate = null;
@@ -1231,9 +1231,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _CardTemplateUID;
 		
-		private EntitySet<CardZoneLink> _CardZoneLinks;
-		
 		private EntitySet<Journal> _Journals;
+		
+		private EntitySet<CardZone> _CardZones;
 		
 		private EntityRef<AccessTemplate> _AccessTemplate;
 		
@@ -1273,8 +1273,8 @@ namespace SKDDriver.DataAccess
 		
 		public Card()
 		{
-			this._CardZoneLinks = new EntitySet<CardZoneLink>(new Action<CardZoneLink>(this.attach_CardZoneLinks), new Action<CardZoneLink>(this.detach_CardZoneLinks));
 			this._Journals = new EntitySet<Journal>(new Action<Journal>(this.attach_Journals), new Action<Journal>(this.detach_Journals));
+			this._CardZones = new EntitySet<CardZone>(new Action<CardZone>(this.attach_CardZones), new Action<CardZone>(this.detach_CardZones));
 			this._AccessTemplate = default(EntityRef<AccessTemplate>);
 			this._Employee = default(EntityRef<Employee>);
 			OnCreated();
@@ -1548,19 +1548,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZoneLink", Storage="_CardZoneLinks", ThisKey="UID", OtherKey="ParentUID")]
-		public EntitySet<CardZoneLink> CardZoneLinks
-		{
-			get
-			{
-				return this._CardZoneLinks;
-			}
-			set
-			{
-				this._CardZoneLinks.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Journals", ThisKey="UID", OtherKey="CardUID")]
 		public EntitySet<Journal> Journals
 		{
@@ -1571,6 +1558,19 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._Journals.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZone", Storage="_CardZones", ThisKey="UID", OtherKey="ParentUID")]
+		public EntitySet<CardZone> CardZones
+		{
+			get
+			{
+				return this._CardZones;
+			}
+			set
+			{
+				this._CardZones.Assign(value);
 			}
 		}
 		
@@ -1662,18 +1662,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		private void attach_CardZoneLinks(CardZoneLink entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = this;
-		}
-		
-		private void detach_CardZoneLinks(CardZoneLink entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = null;
-		}
-		
 		private void attach_Journals(Journal entity)
 		{
 			this.SendPropertyChanging();
@@ -1685,361 +1673,17 @@ namespace SKDDriver.DataAccess
 			this.SendPropertyChanging();
 			entity.Card = null;
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CardZoneLink")]
-	public partial class CardZoneLink : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private System.Guid _ZoneUID;
-		
-		private System.Nullable<System.Guid> _ParentUID;
-		
-		private System.Nullable<int> _ParentType;
-		
-		private bool _IsWithEscort;
-		
-		private bool _IsAntipass;
-		
-		private System.Nullable<System.Guid> _IntervalUID;
-		
-		private System.Nullable<int> _IntervalType;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private EntityRef<AccessTemplate> _AccessTemplate;
-		
-		private EntityRef<Card> _Card;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnZoneUIDChanging(System.Guid value);
-    partial void OnZoneUIDChanged();
-    partial void OnParentUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnParentUIDChanged();
-    partial void OnParentTypeChanging(System.Nullable<int> value);
-    partial void OnParentTypeChanged();
-    partial void OnIsWithEscortChanging(bool value);
-    partial void OnIsWithEscortChanged();
-    partial void OnIsAntipassChanging(bool value);
-    partial void OnIsAntipassChanged();
-    partial void OnIntervalUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnIntervalUIDChanged();
-    partial void OnIntervalTypeChanging(System.Nullable<int> value);
-    partial void OnIntervalTypeChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    #endregion
-		
-		public CardZoneLink()
+		private void attach_CardZones(CardZone entity)
 		{
-			this._AccessTemplate = default(EntityRef<AccessTemplate>);
-			this._Card = default(EntityRef<Card>);
-			OnCreated();
+			this.SendPropertyChanging();
+			entity.Card = this;
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
+		private void detach_CardZones(CardZone entity)
 		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ZoneUID
-		{
-			get
-			{
-				return this._ZoneUID;
-			}
-			set
-			{
-				if ((this._ZoneUID != value))
-				{
-					this.OnZoneUIDChanging(value);
-					this.SendPropertyChanging();
-					this._ZoneUID = value;
-					this.SendPropertyChanged("ZoneUID");
-					this.OnZoneUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ParentUID
-		{
-			get
-			{
-				return this._ParentUID;
-			}
-			set
-			{
-				if ((this._ParentUID != value))
-				{
-					if ((this._AccessTemplate.HasLoadedOrAssignedValue || this._Card.HasLoadedOrAssignedValue))
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnParentUIDChanging(value);
-					this.SendPropertyChanging();
-					this._ParentUID = value;
-					this.SendPropertyChanged("ParentUID");
-					this.OnParentUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentType", DbType="Int")]
-		public System.Nullable<int> ParentType
-		{
-			get
-			{
-				return this._ParentType;
-			}
-			set
-			{
-				if ((this._ParentType != value))
-				{
-					this.OnParentTypeChanging(value);
-					this.SendPropertyChanging();
-					this._ParentType = value;
-					this.SendPropertyChanged("ParentType");
-					this.OnParentTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsWithEscort", DbType="Bit NOT NULL")]
-		public bool IsWithEscort
-		{
-			get
-			{
-				return this._IsWithEscort;
-			}
-			set
-			{
-				if ((this._IsWithEscort != value))
-				{
-					this.OnIsWithEscortChanging(value);
-					this.SendPropertyChanging();
-					this._IsWithEscort = value;
-					this.SendPropertyChanged("IsWithEscort");
-					this.OnIsWithEscortChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAntipass", DbType="Bit NOT NULL")]
-		public bool IsAntipass
-		{
-			get
-			{
-				return this._IsAntipass;
-			}
-			set
-			{
-				if ((this._IsAntipass != value))
-				{
-					this.OnIsAntipassChanging(value);
-					this.SendPropertyChanging();
-					this._IsAntipass = value;
-					this.SendPropertyChanged("IsAntipass");
-					this.OnIsAntipassChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntervalUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> IntervalUID
-		{
-			get
-			{
-				return this._IntervalUID;
-			}
-			set
-			{
-				if ((this._IntervalUID != value))
-				{
-					this.OnIntervalUIDChanging(value);
-					this.SendPropertyChanging();
-					this._IntervalUID = value;
-					this.SendPropertyChanged("IntervalUID");
-					this.OnIntervalUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntervalType", DbType="Int")]
-		public System.Nullable<int> IntervalType
-		{
-			get
-			{
-				return this._IntervalType;
-			}
-			set
-			{
-				if ((this._IntervalType != value))
-				{
-					this.OnIntervalTypeChanging(value);
-					this.SendPropertyChanging();
-					this._IntervalType = value;
-					this.SendPropertyChanged("IntervalType");
-					this.OnIntervalTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_CardZoneLink", Storage="_AccessTemplate", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
-		public AccessTemplate AccessTemplate
-		{
-			get
-			{
-				return this._AccessTemplate.Entity;
-			}
-			set
-			{
-				AccessTemplate previousValue = this._AccessTemplate.Entity;
-				if (((previousValue != value) 
-							|| (this._AccessTemplate.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._AccessTemplate.Entity = null;
-						previousValue.CardZoneLinks.Remove(this);
-					}
-					this._AccessTemplate.Entity = value;
-					if ((value != null))
-					{
-						value.CardZoneLinks.Add(this);
-						this._ParentUID = value.UID;
-					}
-					else
-					{
-						this._ParentUID = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("AccessTemplate");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZoneLink", Storage="_Card", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
-		public Card Card
-		{
-			get
-			{
-				return this._Card.Entity;
-			}
-			set
-			{
-				Card previousValue = this._Card.Entity;
-				if (((previousValue != value) 
-							|| (this._Card.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Card.Entity = null;
-						previousValue.CardZoneLinks.Remove(this);
-					}
-					this._Card.Entity = value;
-					if ((value != null))
-					{
-						value.CardZoneLinks.Add(this);
-						this._ParentUID = value.UID;
-					}
-					else
-					{
-						this._ParentUID = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Card");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			this.SendPropertyChanging();
+			entity.Card = null;
 		}
 	}
 	
@@ -6546,9 +6190,9 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<EmployeeReplacement> _EmployeeReplacements;
 		
-		private EntitySet<ScheduleZoneLink> _ScheduleZoneLinks;
-		
 		private EntitySet<Employee> _Employees;
+		
+		private EntitySet<ScheduleZone> _ScheduleZones;
 		
 		private EntityRef<Organisation> _Organisation;
 		
@@ -6579,8 +6223,8 @@ namespace SKDDriver.DataAccess
 		public Schedule()
 		{
 			this._EmployeeReplacements = new EntitySet<EmployeeReplacement>(new Action<EmployeeReplacement>(this.attach_EmployeeReplacements), new Action<EmployeeReplacement>(this.detach_EmployeeReplacements));
-			this._ScheduleZoneLinks = new EntitySet<ScheduleZoneLink>(new Action<ScheduleZoneLink>(this.attach_ScheduleZoneLinks), new Action<ScheduleZoneLink>(this.detach_ScheduleZoneLinks));
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
+			this._ScheduleZones = new EntitySet<ScheduleZone>(new Action<ScheduleZone>(this.attach_ScheduleZones), new Action<ScheduleZone>(this.detach_ScheduleZones));
 			this._Organisation = default(EntityRef<Organisation>);
 			this._ScheduleScheme = default(EntityRef<ScheduleScheme>);
 			OnCreated();
@@ -6767,19 +6411,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_ScheduleZoneLink", Storage="_ScheduleZoneLinks", ThisKey="UID", OtherKey="ScheduleUID")]
-		public EntitySet<ScheduleZoneLink> ScheduleZoneLinks
-		{
-			get
-			{
-				return this._ScheduleZoneLinks;
-			}
-			set
-			{
-				this._ScheduleZoneLinks.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_Employee", Storage="_Employees", ThisKey="UID", OtherKey="ScheduleUID")]
 		public EntitySet<Employee> Employees
 		{
@@ -6790,6 +6421,19 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._Employees.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_ScheduleZone", Storage="_ScheduleZones", ThisKey="UID", OtherKey="ScheduleUID")]
+		public EntitySet<ScheduleZone> ScheduleZones
+		{
+			get
+			{
+				return this._ScheduleZones;
+			}
+			set
+			{
+				this._ScheduleZones.Assign(value);
 			}
 		}
 		
@@ -6893,18 +6537,6 @@ namespace SKDDriver.DataAccess
 			entity.Schedule = null;
 		}
 		
-		private void attach_ScheduleZoneLinks(ScheduleZoneLink entity)
-		{
-			this.SendPropertyChanging();
-			entity.Schedule = this;
-		}
-		
-		private void detach_ScheduleZoneLinks(ScheduleZoneLink entity)
-		{
-			this.SendPropertyChanging();
-			entity.Schedule = null;
-		}
-		
 		private void attach_Employees(Employee entity)
 		{
 			this.SendPropertyChanging();
@@ -6912,6 +6544,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_Employees(Employee entity)
+		{
+			this.SendPropertyChanging();
+			entity.Schedule = null;
+		}
+		
+		private void attach_ScheduleZones(ScheduleZone entity)
+		{
+			this.SendPropertyChanging();
+			entity.Schedule = this;
+		}
+		
+		private void detach_ScheduleZones(ScheduleZone entity)
 		{
 			this.SendPropertyChanging();
 			entity.Schedule = null;
@@ -7218,229 +6862,6 @@ namespace SKDDriver.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.ScheduleScheme = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ScheduleZoneLink")]
-	public partial class ScheduleZoneLink : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private System.Guid _ZoneUID;
-		
-		private System.Guid _ScheduleUID;
-		
-		private bool _IsControl;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private EntityRef<Schedule> _Schedule;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnZoneUIDChanging(System.Guid value);
-    partial void OnZoneUIDChanged();
-    partial void OnScheduleUIDChanging(System.Guid value);
-    partial void OnScheduleUIDChanged();
-    partial void OnIsControlChanging(bool value);
-    partial void OnIsControlChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    #endregion
-		
-		public ScheduleZoneLink()
-		{
-			this._Schedule = default(EntityRef<Schedule>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ZoneUID
-		{
-			get
-			{
-				return this._ZoneUID;
-			}
-			set
-			{
-				if ((this._ZoneUID != value))
-				{
-					this.OnZoneUIDChanging(value);
-					this.SendPropertyChanging();
-					this._ZoneUID = value;
-					this.SendPropertyChanged("ZoneUID");
-					this.OnZoneUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ScheduleUID
-		{
-			get
-			{
-				return this._ScheduleUID;
-			}
-			set
-			{
-				if ((this._ScheduleUID != value))
-				{
-					if (this._Schedule.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnScheduleUIDChanging(value);
-					this.SendPropertyChanging();
-					this._ScheduleUID = value;
-					this.SendPropertyChanged("ScheduleUID");
-					this.OnScheduleUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsControl", DbType="Bit NOT NULL")]
-		public bool IsControl
-		{
-			get
-			{
-				return this._IsControl;
-			}
-			set
-			{
-				if ((this._IsControl != value))
-				{
-					this.OnIsControlChanging(value);
-					this.SendPropertyChanging();
-					this._IsControl = value;
-					this.SendPropertyChanged("IsControl");
-					this.OnIsControlChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_ScheduleZoneLink", Storage="_Schedule", ThisKey="ScheduleUID", OtherKey="UID", IsForeignKey=true)]
-		public Schedule Schedule
-		{
-			get
-			{
-				return this._Schedule.Entity;
-			}
-			set
-			{
-				Schedule previousValue = this._Schedule.Entity;
-				if (((previousValue != value) 
-							|| (this._Schedule.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Schedule.Entity = null;
-						previousValue.ScheduleZoneLinks.Remove(this);
-					}
-					this._Schedule.Entity = value;
-					if ((value != null))
-					{
-						value.ScheduleZoneLinks.Add(this);
-						this._ScheduleUID = value.UID;
-					}
-					else
-					{
-						this._ScheduleUID = default(System.Guid);
-					}
-					this.SendPropertyChanged("Schedule");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -8593,6 +8014,585 @@ namespace SKDDriver.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.Employee1 = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ScheduleZone")]
+	public partial class ScheduleZone : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.Guid _ZoneUID;
+		
+		private System.Guid _ScheduleUID;
+		
+		private bool _IsControl;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private EntityRef<Schedule> _Schedule;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnZoneUIDChanging(System.Guid value);
+    partial void OnZoneUIDChanged();
+    partial void OnScheduleUIDChanging(System.Guid value);
+    partial void OnScheduleUIDChanged();
+    partial void OnIsControlChanging(bool value);
+    partial void OnIsControlChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
+		
+		public ScheduleZone()
+		{
+			this._Schedule = default(EntityRef<Schedule>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ZoneUID
+		{
+			get
+			{
+				return this._ZoneUID;
+			}
+			set
+			{
+				if ((this._ZoneUID != value))
+				{
+					this.OnZoneUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ZoneUID = value;
+					this.SendPropertyChanged("ZoneUID");
+					this.OnZoneUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ScheduleUID
+		{
+			get
+			{
+				return this._ScheduleUID;
+			}
+			set
+			{
+				if ((this._ScheduleUID != value))
+				{
+					if (this._Schedule.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnScheduleUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ScheduleUID = value;
+					this.SendPropertyChanged("ScheduleUID");
+					this.OnScheduleUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsControl", DbType="Bit NOT NULL")]
+		public bool IsControl
+		{
+			get
+			{
+				return this._IsControl;
+			}
+			set
+			{
+				if ((this._IsControl != value))
+				{
+					this.OnIsControlChanging(value);
+					this.SendPropertyChanging();
+					this._IsControl = value;
+					this.SendPropertyChanged("IsControl");
+					this.OnIsControlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Schedule_ScheduleZone", Storage="_Schedule", ThisKey="ScheduleUID", OtherKey="UID", IsForeignKey=true)]
+		public Schedule Schedule
+		{
+			get
+			{
+				return this._Schedule.Entity;
+			}
+			set
+			{
+				Schedule previousValue = this._Schedule.Entity;
+				if (((previousValue != value) 
+							|| (this._Schedule.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Schedule.Entity = null;
+						previousValue.ScheduleZones.Remove(this);
+					}
+					this._Schedule.Entity = value;
+					if ((value != null))
+					{
+						value.ScheduleZones.Add(this);
+						this._ScheduleUID = value.UID;
+					}
+					else
+					{
+						this._ScheduleUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("Schedule");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CardZone")]
+	public partial class CardZone : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.Guid _ZoneUID;
+		
+		private System.Nullable<System.Guid> _ParentUID;
+		
+		private System.Nullable<int> _ParentType;
+		
+		private bool _IsWithEscort;
+		
+		private bool _IsAntipass;
+		
+		private System.Nullable<System.Guid> _IntervalUID;
+		
+		private System.Nullable<int> _IntervalType;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private EntityRef<AccessTemplate> _AccessTemplate;
+		
+		private EntityRef<Card> _Card;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnZoneUIDChanging(System.Guid value);
+    partial void OnZoneUIDChanged();
+    partial void OnParentUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnParentUIDChanged();
+    partial void OnParentTypeChanging(System.Nullable<int> value);
+    partial void OnParentTypeChanged();
+    partial void OnIsWithEscortChanging(bool value);
+    partial void OnIsWithEscortChanged();
+    partial void OnIsAntipassChanging(bool value);
+    partial void OnIsAntipassChanged();
+    partial void OnIntervalUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnIntervalUIDChanged();
+    partial void OnIntervalTypeChanging(System.Nullable<int> value);
+    partial void OnIntervalTypeChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
+		
+		public CardZone()
+		{
+			this._AccessTemplate = default(EntityRef<AccessTemplate>);
+			this._Card = default(EntityRef<Card>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ZoneUID
+		{
+			get
+			{
+				return this._ZoneUID;
+			}
+			set
+			{
+				if ((this._ZoneUID != value))
+				{
+					this.OnZoneUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ZoneUID = value;
+					this.SendPropertyChanged("ZoneUID");
+					this.OnZoneUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ParentUID
+		{
+			get
+			{
+				return this._ParentUID;
+			}
+			set
+			{
+				if ((this._ParentUID != value))
+				{
+					if ((this._AccessTemplate.HasLoadedOrAssignedValue || this._Card.HasLoadedOrAssignedValue))
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParentUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ParentUID = value;
+					this.SendPropertyChanged("ParentUID");
+					this.OnParentUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentType", DbType="Int")]
+		public System.Nullable<int> ParentType
+		{
+			get
+			{
+				return this._ParentType;
+			}
+			set
+			{
+				if ((this._ParentType != value))
+				{
+					this.OnParentTypeChanging(value);
+					this.SendPropertyChanging();
+					this._ParentType = value;
+					this.SendPropertyChanged("ParentType");
+					this.OnParentTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsWithEscort", DbType="Bit NOT NULL")]
+		public bool IsWithEscort
+		{
+			get
+			{
+				return this._IsWithEscort;
+			}
+			set
+			{
+				if ((this._IsWithEscort != value))
+				{
+					this.OnIsWithEscortChanging(value);
+					this.SendPropertyChanging();
+					this._IsWithEscort = value;
+					this.SendPropertyChanged("IsWithEscort");
+					this.OnIsWithEscortChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAntipass", DbType="Bit NOT NULL")]
+		public bool IsAntipass
+		{
+			get
+			{
+				return this._IsAntipass;
+			}
+			set
+			{
+				if ((this._IsAntipass != value))
+				{
+					this.OnIsAntipassChanging(value);
+					this.SendPropertyChanging();
+					this._IsAntipass = value;
+					this.SendPropertyChanged("IsAntipass");
+					this.OnIsAntipassChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntervalUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> IntervalUID
+		{
+			get
+			{
+				return this._IntervalUID;
+			}
+			set
+			{
+				if ((this._IntervalUID != value))
+				{
+					this.OnIntervalUIDChanging(value);
+					this.SendPropertyChanging();
+					this._IntervalUID = value;
+					this.SendPropertyChanged("IntervalUID");
+					this.OnIntervalUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IntervalType", DbType="Int")]
+		public System.Nullable<int> IntervalType
+		{
+			get
+			{
+				return this._IntervalType;
+			}
+			set
+			{
+				if ((this._IntervalType != value))
+				{
+					this.OnIntervalTypeChanging(value);
+					this.SendPropertyChanging();
+					this._IntervalType = value;
+					this.SendPropertyChanged("IntervalType");
+					this.OnIntervalTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_CardZone", Storage="_AccessTemplate", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
+		public AccessTemplate AccessTemplate
+		{
+			get
+			{
+				return this._AccessTemplate.Entity;
+			}
+			set
+			{
+				AccessTemplate previousValue = this._AccessTemplate.Entity;
+				if (((previousValue != value) 
+							|| (this._AccessTemplate.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AccessTemplate.Entity = null;
+						previousValue.CardZones.Remove(this);
+					}
+					this._AccessTemplate.Entity = value;
+					if ((value != null))
+					{
+						value.CardZones.Add(this);
+						this._ParentUID = value.UID;
+					}
+					else
+					{
+						this._ParentUID = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("AccessTemplate");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardZone", Storage="_Card", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
+		public Card Card
+		{
+			get
+			{
+				return this._Card.Entity;
+			}
+			set
+			{
+				Card previousValue = this._Card.Entity;
+				if (((previousValue != value) 
+							|| (this._Card.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Card.Entity = null;
+						previousValue.CardZones.Remove(this);
+					}
+					this._Card.Entity = value;
+					if ((value != null))
+					{
+						value.CardZones.Add(this);
+						this._ParentUID = value.UID;
+					}
+					else
+					{
+						this._ParentUID = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Card");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

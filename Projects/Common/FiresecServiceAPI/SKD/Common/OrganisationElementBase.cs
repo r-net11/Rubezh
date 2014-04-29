@@ -7,6 +7,6 @@ namespace FiresecAPI
 	public abstract class OrganisationElementBase : SKDIsDeletedModel
 	{
 		[DataMember]
-		public Guid? OrganisationUID { get; set; }
+		public Guid OrganisationUID { get; set; }
 	}
 }

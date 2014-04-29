@@ -7,7 +7,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class AdditionalColumnTypeTranslator : OrganisationElementTranslator<DataAccess.AdditionalColumnType, AdditionalColumnType, AdditionalColumnTypeFilter>
+	public class AdditionalColumnTypeTranslator : WithShortTranslator<DataAccess.AdditionalColumnType, AdditionalColumnType, AdditionalColumnTypeFilter, ShortAdditionalColumnType>
 	{
 		public AdditionalColumnTypeTranslator(DataAccess.SKDDataContext context)
 			: base(context)
@@ -37,7 +37,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		ShortAdditionalColumnType TranslateToShort(DataAccess.AdditionalColumnType tableItem)
+		protected override ShortAdditionalColumnType TranslateToShort(DataAccess.AdditionalColumnType tableItem)
 		{
 			return new ShortAdditionalColumnType
 			{
@@ -74,26 +74,6 @@ namespace SKDDriver
 			catch (Exception e)
 			{
 				return null;
-			}
-		}
-
-		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetList(AdditionalColumnTypeFilter filter)
-		{
-			try
-			{
-				var result = new List<ShortAdditionalColumnType>();
-				foreach (var tableItem in GetTableItems(filter))
-				{
-					var shortPosition = TranslateToShort(tableItem);
-					result.Add(shortPosition);
-				}
-				var operationResult = new OperationResult<IEnumerable<ShortAdditionalColumnType>>();
-				operationResult.Result = result;
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult<IEnumerable<ShortAdditionalColumnType>>(e.Message);
 			}
 		}
 

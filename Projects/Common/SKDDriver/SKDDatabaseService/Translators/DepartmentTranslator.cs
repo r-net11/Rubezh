@@ -5,7 +5,7 @@ using FiresecAPI;
 
 namespace SKDDriver
 {
-	public class DepartmentTranslator : OrganisationElementTranslator<DataAccess.Department, Department, DepartmentFilter>
+	public class DepartmentTranslator : WithShortTranslator<DataAccess.Department, Department, DepartmentFilter, ShortDepartment>
 	{
 		public DepartmentTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator)
 			: base(context)
@@ -79,7 +79,7 @@ namespace SKDDriver
 				tableItem.PhotoUID = apiItem.Photo.UID;
 		}
 
-		ShortDepartment TranslateToShort(DataAccess.Department tableItem)
+		protected override ShortDepartment TranslateToShort(DataAccess.Department tableItem)
 		{
 			var shortDepartment = new ShortDepartment
 			{
@@ -93,26 +93,6 @@ namespace SKDDriver
 			foreach (var department in Context.Departments.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))
 				shortDepartment.ChildDepartmentUIDs.Add(department.UID);
 			return shortDepartment;
-		}
-
-		public OperationResult<IEnumerable<ShortDepartment>> GetList(DepartmentFilter filter)
-		{
-			try
-			{
-				var result = new List<ShortDepartment>();
-				foreach (var tableItem in GetTableItems(filter))
-				{
-					var departmentListItem = TranslateToShort(tableItem);
-					result.Add(departmentListItem);
-				}
-				var operationResult = new OperationResult<IEnumerable<ShortDepartment>>();
-				operationResult.Result = result;
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult<IEnumerable<ShortDepartment>>(e.Message);
-			}
 		}
 
 		public override OperationResult Save(IEnumerable<Department> apiItems)

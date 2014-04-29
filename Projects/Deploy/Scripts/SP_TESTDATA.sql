@@ -1,4 +1,4 @@
-USE [SKUD]
+USE [SKD]
 SET DATEFORMAT dmy;
 DECLARE @Uid uniqueidentifier;
 

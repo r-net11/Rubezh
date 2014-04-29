@@ -29,10 +29,10 @@ namespace SKDDriver.DataAccess
 	public partial class Photo : IDatabaseElement { }
 
 	public partial class Day : IDatabaseElement, IIsDeletedDatabaseElement { }
-	public partial class ScheduleZoneLink : IDatabaseElement, IIsDeletedDatabaseElement { }
+	public partial class ScheduleZone : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Organisation : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Interval : IDatabaseElement, IIsDeletedDatabaseElement { }
-	public partial class CardZoneLink : IDatabaseElement, IIsDeletedDatabaseElement { }
+	public partial class CardZone : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Card : IDatabaseElement, IIsDeletedDatabaseElement, ILinkedToEmployee { }
 	
 	public partial class AdditionalColumnType : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }

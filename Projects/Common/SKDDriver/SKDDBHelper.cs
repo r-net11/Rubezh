@@ -12,17 +12,24 @@ namespace SKDDriver
 	public static class SKDDBHelper
 	{
 		public static object locker = new object();
+		public static object databaseLocker = new object();
 		public static bool IsAbort { get; set; }
 		public static event Action<List<SKDJournalItem>> ArchivePortionReady;
 
 		public static void Add(SKDJournalItem journalItem)
 		{
-			SKDDatabaseService.JournalItemTranslator.Save(new List<SKDJournalItem> { journalItem });
+			lock (databaseLocker)
+			{
+				SKDDatabaseService.JournalItemTranslator.Save(new List<SKDJournalItem> { journalItem });
+			}
 		}
 
 		public static void AddMany(List<SKDJournalItem> journalItems)
 		{
-			SKDDatabaseService.JournalItemTranslator.Save(journalItems);
+			lock (databaseLocker)
+			{
+				SKDDatabaseService.JournalItemTranslator.Save(journalItems);
+			}
 		}
 
 		public static SKDJournalItem AddMessage(string name, string userName)
