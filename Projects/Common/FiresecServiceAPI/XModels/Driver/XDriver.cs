@@ -19,6 +19,7 @@ namespace XFiresecAPI
 			CanEditAddress = true;
 			HasAddress = true;
 			IsDeviceOnShleif = true;
+			IsReal = true;
 			IsPlaceable = false;
 		}
 
@@ -47,6 +48,7 @@ namespace XFiresecAPI
 		public byte MaxAddress { get; set; }
 		public byte MaxAddressOnShleif { get; set; }
 		public bool IsDeviceOnShleif { get; set; }
+		public bool IsReal { get; set; }
 
 		public bool HasLogic { get; set; }
 		public bool IgnoreHasLogic { get; set; }

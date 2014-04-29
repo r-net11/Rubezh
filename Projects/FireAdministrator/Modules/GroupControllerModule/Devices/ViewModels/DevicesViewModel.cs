@@ -239,7 +239,7 @@ namespace GKModule.ViewModels
 			if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 			{
 				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device);
-				XDevice addedDevice = XManager.InsertChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress % 256 + 1));
+				XDevice addedDevice = XManager.	AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress % 256 + 1));
 				XManager.CopyDevice(device, addedDevice);
 				addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
 				var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);

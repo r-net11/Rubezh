@@ -14,7 +14,8 @@ namespace GKProcessor
 				ShortName = "Локальная сеть",
 				CanEditAddress = false,
 				HasAddress = false,
-				IsDeviceOnShleif = false
+				IsDeviceOnShleif = false,
+				IsReal = false
 			};
 			driver.Children.Add(XDriverType.GK);
 

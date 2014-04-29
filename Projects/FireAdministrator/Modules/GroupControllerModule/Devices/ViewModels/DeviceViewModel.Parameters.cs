@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 
 		public List<XDevice> GetRealChildren()
 		{
-			return XManager.GetAllDeviceChildren(Device).Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
+			return Device.AllChildrenAndSelf.Where(device => device.Driver.Properties.Any(x => x.IsAUParameter)).ToList();
 		}
 
 		#region Capy and Paste
@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteAllParamCommand { get; private set; }
 		void OnPasteAll()
 		{
-			foreach (var device in XManager.GetAllDeviceChildren(Device))
+			foreach (var device in Device.AllChildrenAndSelf)
 			{
 				if (device.DriverType == DriverCopy.DriverType)
 				{
@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanPasteAll()
 		{
-			return (Children.Count() > 0 && DriverCopy != null) && (XManager.GetAllDeviceChildren(Device).Any(x => x.DriverType == DriverCopy.DriverType));
+			return (Children.Count() > 0 && DriverCopy != null) && (Device.AllChildrenAndSelf.Any(x => x.DriverType == DriverCopy.DriverType));
 		}
 
 		static void CopyParametersFromBuffer(XDevice device)
@@ -134,8 +134,7 @@ namespace GKModule.ViewModels
 			var parameterTemplateSelectationViewModel = new ParameterTemplateSelectationViewModel();
 			if (DialogService.ShowModalWindow(parameterTemplateSelectationViewModel))
 			{
-				var devices = XManager.GetAllDeviceChildren(Device);
-				foreach (var device in devices)
+				foreach (var device in Device.AllChildrenAndSelf)
 				{
 					CopyParametersFromTemplate(parameterTemplateSelectationViewModel.SelectedParameterTemplate, device);
 					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == device);

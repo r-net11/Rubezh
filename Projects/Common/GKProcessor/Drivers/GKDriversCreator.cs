@@ -70,20 +70,31 @@ namespace GKProcessor
 			AddDriverToKau_RSR2(RSR2_OPS_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_OPZ_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MVP_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(RSR2_MVP_Part_Helper.Create());
+
+			var kauShleifDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
+			var mvpPartDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_MVP_Part);
+			foreach (var driver in kauShleifDriver.Children)
+			{
+				if (driver != XDriverType.RSR2_MVP)
+				{
+					mvpPartDriver.Children.Add(driver);
+				}
+			}
 		}
 
 		static void AddDriverToKau(XDriver driver)
 		{
 			XManager.DriversConfiguration.XDrivers.Add(driver);
-			var kauDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif);
-			kauDriver.Children.Add(driver.DriverType);
+			var kauShleifDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU_Shleif);
+			kauShleifDriver.Children.Add(driver.DriverType);
 		}
 
 		static void AddDriverToKau_RSR2(XDriver driver)
 		{
 			XManager.DriversConfiguration.XDrivers.Add(driver);
-			var kauDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
-			kauDriver.Children.Add(driver.DriverType);
+			var kauShleifDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
+			kauShleifDriver.Children.Add(driver.DriverType);
 		}
 	}
 }

@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 					return true;
 				}
 
-				XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, (byte)address);
+				XDevice device = XManager.AddChild(ParentDevice, null, SelectedDriver, (byte)address);
 				AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 			}
 			return true;

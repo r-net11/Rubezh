@@ -77,32 +77,41 @@ namespace FiresecClient
 			}
 			parentDevice.Children.Remove(device);
 			Devices.Remove(device);
-
-			//if (parentDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
-			//	RebuildRSR2Addresses(parentDevice.Parent);
-			//device.OnChanged();
 		}
 
+		#region RebuildRSR2Addresses
 		public static void RebuildRSR2Addresses(XDevice parentDevice)
 		{
 			foreach (var shliefDevice in parentDevice.Children)
 			{
+				RebuildRSR2Addresses_Children = new List<XDevice>();
+				RebuildRSR2Addresses_AddChild(shliefDevice);
+
 				byte currentAddress = 1;
-				foreach (var device in shliefDevice.Children)
+				foreach (var device in RebuildRSR2Addresses_Children)
 				{
 					device.IntAddress = currentAddress;
-					device.OnChanged();
-
-					for (int i = 0; i < device.Children.Count; i++)
+					if (!device.Driver.IsGroupDevice)
 					{
-						var childDevice = device.Children[i];
-						childDevice.IntAddress = (byte)(currentAddress + i);
-						childDevice.OnChanged();
+						currentAddress++;
 					}
-					currentAddress += (byte)Math.Max(device.Children.Count, 1);
+					device.OnChanged();
 				}
 			}
 		}
+
+		static List<XDevice> RebuildRSR2Addresses_Children;
+		static void RebuildRSR2Addresses_AddChild(XDevice device)
+		{
+			if (device.DriverType != XDriverType.RSR2_MVP_Part && device.DriverType != XDriverType.RSR2_KAU_Shleif)
+				RebuildRSR2Addresses_Children.Add(device);
+
+			foreach (var child in device.Children)
+			{
+				RebuildRSR2Addresses_AddChild(child);
+			}
+		}
+		#endregion
 
 		public static void AddZone(XZone zone)
 		{
@@ -268,7 +277,7 @@ namespace FiresecClient
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = XManager.AddChild(device, groupDriver, (byte)(device.IntAddress + i));
+					var autoDevice = XManager.AddChild(device, null, groupDriver, (byte)(device.IntAddress + i));
 				}
 			}
 

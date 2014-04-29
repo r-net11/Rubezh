@@ -34,25 +34,6 @@ namespace FiresecClient
 			}
 		}
 
-		static List<XDevice> allDeviceChildren;
-		public static List<XDevice> GetAllDeviceChildren(XDevice device)
-		{
-			allDeviceChildren = new List<XDevice>();
-			AddChildren(device);
-			return allDeviceChildren;
-		}
-		public static void AddChildren(XDevice device)
-		{
-			allDeviceChildren.Add(device);
-			if (device.Children != null && device.Children.Count != 0)
-			{
-				foreach (var childDevice in device.Children)
-				{
-					AddChildren(childDevice);
-				}
-			}
-		}
-
 		public static XStateClass GetMinStateClass()
 		{
 			var minStateClass = XStateClass.No;

@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = XManager.AddChild(device, driver, (byte)(device.IntAddress + i));
+					var autoDevice = XManager.AddChild(device, null, driver, (byte)(device.IntAddress + i));
 					AddDevice(autoDevice, deviceViewModel);
 				}
 			}
@@ -112,7 +112,6 @@ namespace GKModule.ViewModels
 
 			foreach (var childDevice in device.Children)
 			{
-				//InsertDevice(childDevice, deviceViewModel);
 				AddDevice(childDevice, deviceViewModel);
 			}
 
@@ -122,7 +121,7 @@ namespace GKModule.ViewModels
 
 				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
 				{
-					var autoDevice = XManager.AddChild(device, driver, (byte)(device.IntAddress + i));
+					var autoDevice = XManager.AddChild(device, null, driver, (byte)(device.IntAddress + i));
 					AddDevice(autoDevice, deviceViewModel);
 				}
 			}

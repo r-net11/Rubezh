@@ -141,8 +141,12 @@ namespace XFiresecAPI
 				var address = Address;
 				if (Driver.IsGroupDevice)
 				{
-					var lastAddressInGroup = Parent.IntAddress.ToString() + "." + (IntAddress + Driver.GroupDeviceChildrenCount - 1).ToString();
-					address += " - " + lastAddressInGroup;
+					var firstDevice = Children.FirstOrDefault();
+					var lastDevice = Children.LastOrDefault();
+					if (firstDevice != null && lastDevice != null)
+					{
+						address = firstDevice.Address + " - " + lastDevice.Address;
+					}
 				}
 				return address;
 			}
@@ -170,6 +174,9 @@ namespace XFiresecAPI
 						continue;
 
 					if (parentDevice.DriverType == XDriverType.MPT || parentDevice.DriverType == XDriverType.MRO_2)
+						continue;
+
+					if (parentDevice.DriverType == XDriverType.RSR2_MVP || parentDevice.DriverType == XDriverType.RSR2_MVP_Part)
 						continue;
 
 					address.Append(parentDevice.Address);
@@ -274,6 +281,31 @@ namespace XFiresecAPI
 			}
 		}
 
+		public List<XDevice> AllChildren
+		{
+			get
+			{
+				var allChildren = new List<XDevice>();
+				foreach (var child in Children)
+				{
+					allChildren.Add(child);
+					allChildren.AddRange(child.AllChildren);
+				}
+				return allChildren;
+			}
+		}
+
+		public List<XDevice> AllChildrenAndSelf
+		{
+			get
+			{
+				var allChildren = new List<XDevice>();
+				allChildren.Add(this);
+				allChildren.AddRange(AllChildren);
+				return allChildren;
+			}
+		}
+
 		public XDevice GKParent
 		{
 			get { return AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK); }
@@ -309,6 +341,16 @@ namespace XFiresecAPI
 			}
 		}
 
+		public XDevice MVPPartParent
+		{
+			get
+			{
+				var allParents = AllParents;
+				allParents.Add(this);
+				return allParents.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_MVP_Part);
+			}
+		}
+
 		public bool IsConnectedToKAURSR2OrIsKAURSR2
 		{
 			get { return KAURSR2Parent != null; }
@@ -331,15 +373,9 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				if (Driver == null)
+				if (Driver == null || Driver.IsGroupDevice)
 					return false;
-				if (Driver.IsGroupDevice)
-					return false;
-				if (DriverType == XDriverType.System)
-					return false;
-				if (DriverType == XDriverType.KAU_Shleif || DriverType == XDriverType.RSR2_KAU_Shleif)
-					return false;
-				return true;
+				return Driver.IsReal;
 			}
 		}
 

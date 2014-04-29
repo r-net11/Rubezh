@@ -54,6 +54,7 @@
 		RSR2_OPK,
 		RSR2_OPS,
 		RSR2_OPZ,
-		RSR2_MVP
+		RSR2_MVP,
+		RSR2_MVP_Part
 	}
 }

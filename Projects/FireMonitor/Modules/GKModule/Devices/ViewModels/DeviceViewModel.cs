@@ -145,8 +145,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var devices = XManager.GetAllDeviceChildren(Device);
-				foreach (var device in devices)
+				foreach (var device in Device.AllChildrenAndSelf)
 				{
 					if (device.IsRealDevice && !device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
@@ -161,8 +160,7 @@ namespace GKModule.ViewModels
 			{
 				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
 					return false;
-				var devices = XManager.GetAllDeviceChildren(Device);
-				foreach (var device in devices)
+				foreach (var device in Device.AllChildrenAndSelf)
 				{
 					if (device.IsRealDevice && !device.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;
@@ -176,8 +174,7 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var devices = XManager.GetAllDeviceChildren(Device);
-				foreach (var device in devices)
+				foreach (var device in Device.AllChildrenAndSelf)
 				{
 					if (device.IsRealDevice && device.State.StateClasses.Contains(XStateClass.Ignore))
 					{
@@ -192,8 +189,7 @@ namespace GKModule.ViewModels
 			{
 				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
 					return false;
-				var devices = XManager.GetAllDeviceChildren(Device);
-				foreach (var device in devices)
+				foreach (var device in Device.AllChildrenAndSelf)
 				{
 					if (device.IsRealDevice && device.State.StateClasses.Contains(XStateClass.Ignore))
 						return true;

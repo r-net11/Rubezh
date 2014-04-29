@@ -297,8 +297,7 @@ namespace GKProcessor
 				foreach (var kauDatabase in GkDatabase.KauDatabases)
 				{
 					var isKAUInTechnologicalRegime = DeviceBytesHelper.IsInTechnologicalRegime(kauDatabase.RootDevice);
-					var allChildren = XManager.GetAllDeviceChildren(kauDatabase.RootDevice);
-					foreach (var device in allChildren)
+					foreach (var device in kauDatabase.RootDevice.AllChildrenAndSelf)
 					{
 						device.InternalState.IsInTechnologicalRegime = isKAUInTechnologicalRegime;
 					}
@@ -311,11 +310,11 @@ namespace GKProcessor
 		void NotifyAllObjectsStateChanged()
 		{
 			var gkDevice = XManager.Devices.FirstOrDefault(x => x.BaseUID == GkDatabase.RootDevice.BaseUID);
-			foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
+			foreach (var device in gkDevice.AllChildrenAndSelf)
 			{
 				OnObjectStateChanged(device);
 			}
-			foreach (var device in XManager.GetAllDeviceChildren(gkDevice))
+			foreach (var device in gkDevice.AllChildrenAndSelf)
 			{
 				if (device.Driver.IsGroupDevice || device.DriverType == XDriverType.KAU_Shleif || device.DriverType == XDriverType.RSR2_KAU_Shleif)
 				{

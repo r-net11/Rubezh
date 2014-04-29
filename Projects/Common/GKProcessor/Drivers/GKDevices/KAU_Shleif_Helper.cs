@@ -20,6 +20,7 @@ namespace GKProcessor
 				MaxAddress = 8,
 				IsDeviceOnShleif = false,
 				IsPlaceable = false,
+				IsReal = false
 			};
 
 			return driver;

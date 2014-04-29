@@ -195,7 +195,7 @@ namespace GKModule.Validation
 				{
 					if (shleifDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
 					{
-						var realChildren = XManager.GetAllDeviceChildren(shleifDevice);
+						var realChildren = shleifDevice.AllChildrenAndSelf;
 						realChildren.RemoveAll(x => !x.IsRealDevice);
 						for (int i = 0; i < realChildren.Count(); i++)
 						{

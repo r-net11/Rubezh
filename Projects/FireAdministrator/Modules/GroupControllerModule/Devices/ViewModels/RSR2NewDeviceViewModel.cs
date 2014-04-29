@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -12,7 +13,9 @@ namespace GKModule.ViewModels
 		public RSR2NewDeviceViewModel(DeviceViewModel deviceViewModel)
 			: base(deviceViewModel)
 		{
-			RealParentDevice = ParentDevice.KAURSR2ShleifParent;
+			RealParentDevice = ParentDevice.MVPPartParent;
+			if (RealParentDevice == null)
+				RealParentDevice = ParentDevice.KAURSR2ShleifParent;
 
 			var sortedDrivers = SortDrivers();
 			foreach (var driver in sortedDrivers)
@@ -37,33 +40,26 @@ namespace GKModule.ViewModels
 
 		bool CreateDevices()
 		{
+			var allChildren = RealParentDevice.AllChildren;
+			int maxAddressOnShleif = 0;
+			if (allChildren.Count > 0)
+				maxAddressOnShleif = allChildren.Max(x => x.IntAddress);
+			if (maxAddressOnShleif + Count * Math.Max(1, (int)SelectedDriver.GroupDeviceChildrenCount) > 255)
+			{
+				MessageBoxService.ShowWarning("При добавлении количество устройств на шлейфе будет превышать 255");
+				return false;
+			}
+
 			for (int i = 0; i < Count; i++)
 			{
-				if (ParentDevice.DriverType == XDriverType.RSR2_KAU_Shleif)
+				if (RealParentDevice == ParentDevice)
 				{
-					var maxAddressOnShleif = 0;
-					if (ParentDevice.Children.Count > 0)
-					{
-						maxAddressOnShleif = ParentDevice.Children.Max(x => x.IntAddress + Math.Max(0, x.Driver.GroupDeviceChildrenCount - 1));
-					}
-					maxAddressOnShleif += 1;
-
-					if (maxAddressOnShleif + Math.Min(0, SelectedDriver.GroupDeviceChildrenCount - 1) > 255)
-					{
-						return true;
-					}
-
-					XDevice device = XManager.AddChild(ParentDevice, SelectedDriver, (byte)maxAddressOnShleif);
+					XDevice device = XManager.AddChild(ParentDevice, null, SelectedDriver, 0);
 					AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
 				}
-				else if (ParentDevice.Parent != null && ParentDevice.Parent.DriverType == XDriverType.RSR2_KAU_Shleif)
+				else
 				{
-					var maxPreviousAddress = ParentDevice.IntAddress + Math.Max(0, ParentDevice.Driver.GroupDeviceChildrenCount - 1) + 1;
-					if(maxPreviousAddress > 255)
-					{
-						return true;
-					}
-					XDevice device = XManager.InsertChild(RealParentDevice, ParentDevice, SelectedDriver, (byte)maxPreviousAddress);
+					XDevice device = XManager.AddChild(RealParentDevice, ParentDevice, SelectedDriver, 0);
 					AddedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
 				}
 			}

@@ -74,7 +74,7 @@ namespace FiresecClient
 			return deviceTo;
 		}
 
-		public static XDevice AddChild(XDevice parentDevice, XDriver driver, byte intAddress)
+		public static XDevice AddChild(XDevice parentDevice, XDevice previousDevice, XDriver driver, byte intAddress)
 		{
 			var device = new XDevice()
 			{
@@ -84,26 +84,18 @@ namespace FiresecClient
 				Parent = parentDevice
 			};
 			device.InitializeDefaultProperties();
-			parentDevice.Children.Add(device);
-			AddAutoCreateChildren(device);
 
-			return device;
-		}
-
-		public static XDevice InsertChild(XDevice parentDevice, XDevice previousDevice, XDriver driver, byte intAddress)
-		{
-			var device = new XDevice()
+			if (previousDevice == null || parentDevice == previousDevice)
 			{
-				DriverUID = driver.UID,
-				Driver = driver,
-				IntAddress = intAddress,
-				Parent = parentDevice
-			};
-			device.InitializeDefaultProperties();
-			var index = parentDevice.Children.IndexOf(previousDevice);
-			parentDevice.Children.Insert(index + 1, device);
-			AddAutoCreateChildren(device);
+				parentDevice.Children.Add(device);
+			}
+			else
+			{
+				var index = parentDevice.Children.IndexOf(previousDevice);
+				parentDevice.Children.Insert(index + 1, device);
+			}
 
+			AddAutoCreateChildren(device);
 			return device;
 		}
 
@@ -114,7 +106,7 @@ namespace FiresecClient
 				var autoCreateDriver = XManager.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
 				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 				{
-					AddChild(device, autoCreateDriver, i);
+					AddChild(device, null, autoCreateDriver, i);
 				}
 			}
 			if (device.DriverType == XDriverType.GK)
