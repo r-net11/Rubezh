@@ -268,7 +268,6 @@
     <Compile Include="Events\ShowSKDZoneEvent.cs" />
     <Compile Include="Events\ShowSKDZoneOnPlanEvent.cs" />
     <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
-    <Compile Include="Events\ShowAccessTemplatesEvent.cs" />
     <Compile Include="Events\ShowShedulesEvent.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
     <Compile Include="Events\UpdateAdditionalColumns.cs" />

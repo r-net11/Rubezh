@@ -28,7 +28,6 @@ namespace SKDModule
 		JournalViewModel JournalViewModel;
 		ArchiveViewModel ArchiveViewModel;
 		HRViewModel HRViewModel;
-		AccessTemplatesViewModel AccessTemplatesViewModel;
 		VerificationViewModel VerificationViewModel;
 		NamedIntervalsViewModel NamedIntervalsViewModel;
 		ScheduleSchemesWeeklyViewModel ScheduleSchemesWeeklyViewModel;
@@ -57,7 +56,6 @@ namespace SKDModule
 			JournalViewModel = new JournalViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
 			HRViewModel = new HRViewModel();
-			AccessTemplatesViewModel = new AccessTemplatesViewModel();
 			VerificationViewModel = new VerificationViewModel();
 			NamedIntervalsViewModel = new NamedIntervalsViewModel();
 			ScheduleSchemesWeeklyViewModel = new ScheduleSchemesWeeklyViewModel();
@@ -82,7 +80,6 @@ namespace SKDModule
 						_journalNavigationItem,
 						new NavigationItem<ShowSKDArchiveEvent, ShowSKDArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/tree.png"),
-						new NavigationItem<ShowAccessTemplatesEvent>(AccessTemplatesViewModel, "Уровни доступа", "/Controls;component/Images/tree.png"),
 						new NavigationItem<ShowVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
 						new NavigationItem("Учет рабочего времени", null, new List<NavigationItem>()
 						{

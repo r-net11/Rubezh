@@ -14,6 +14,7 @@ namespace SKDModule.ViewModels
 		PositionFilter PositionFilter;
 		AdditionalColumnTypeFilter AdditionalColumnTypeFilter;
 		CardFilter CardFilter;
+		AccessTemplateFilter AccessTemplateFilter;
 		DocumentFilter DocumentFilter;
 
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
@@ -21,6 +22,7 @@ namespace SKDModule.ViewModels
 		public PositionsViewModel PositionsViewModel { get; private set; }
 		public AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel { get; private set; }
 		public CardsViewModel CardsViewModel { get; private set; }
+		public AccessTemplatesViewModel AccessTemplatesViewModel { get; private set; }
 		public DocumentsViewModel DocumentsViewModel { get; private set; }
 
 		public HRViewModel()
@@ -32,6 +34,7 @@ namespace SKDModule.ViewModels
 			PositionsViewModel = new PositionsViewModel();
 			AdditionalColumnTypesViewModel = new AdditionalColumnTypesViewModel();
 			CardsViewModel = new CardsViewModel();
+			AccessTemplatesViewModel = new AccessTemplatesViewModel();
 			DocumentsViewModel = new DocumentsViewModel();
 			IsEmployeesSelected = true;
 
@@ -39,7 +42,6 @@ namespace SKDModule.ViewModels
 			Filter.EmployeeFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
 			Filter.DepartmentFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
 			Filter.PositionFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
-			//Filter.CardFilter;
 			InitializeFilters();
 			Initialize();
 		}
@@ -51,6 +53,7 @@ namespace SKDModule.ViewModels
 			PositionsViewModel.Initialize(PositionFilter);
 			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
 			CardsViewModel.Initialize(CardFilter);
+			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
 			DocumentsViewModel.Initialize(DocumentFilter);
 		}
 
@@ -109,6 +112,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		bool _isAccessTemplatesSelected;
+		public bool IsAccessTemplatesSelected
+		{
+			get { return _isAccessTemplatesSelected; }
+			set
+			{
+				_isAccessTemplatesSelected = value;
+				OnPropertyChanged(() => IsAccessTemplatesSelected);
+			}
+		}
+
 		bool _isDocumentsSelected;
 		public bool IsDocumentsSelected
 		{
@@ -139,6 +153,7 @@ namespace SKDModule.ViewModels
 			PositionFilter = Filter.PositionFilter;
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			CardFilter = Filter.CardFilter;
+			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			DocumentFilter = new DocumentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 		}
 	}

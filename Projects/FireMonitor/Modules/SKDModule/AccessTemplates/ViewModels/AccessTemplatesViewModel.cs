@@ -13,7 +13,6 @@ namespace SKDModule.ViewModels
 {
 	public class AccessTemplatesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		AccessTemplateFilter Filter;
         AccessTemplate _clipboard;
 
 		public AccessTemplatesViewModel()
@@ -23,9 +22,6 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
             CopyCommand = new RelayCommand(OnCopy, CanCopy);
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			EditFilterCommand = new RelayCommand(OnEditFilter);
-			Filter = new AccessTemplateFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
-			Initialize(Filter);
 		}
 
 		public void Initialize(AccessTemplateFilter filter)
@@ -78,17 +74,6 @@ namespace SKDModule.ViewModels
 				if (value != null)
 					value.ExpandToThis();
 				OnPropertyChanged("SelectedAccessTemplate");
-			}
-		}
-
-		public RelayCommand EditFilterCommand { get; private set; }
-		void OnEditFilter()
-		{
-			var filterViewModel = new AccessTemplateFilterViewModel(Filter);
-			if (DialogService.ShowModalWindow(filterViewModel))
-			{
-				Filter = filterViewModel.Filter;
-				Initialize(Filter);
 			}
 		}
 

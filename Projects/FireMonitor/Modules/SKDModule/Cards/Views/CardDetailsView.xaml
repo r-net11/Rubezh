@@ -9,7 +9,7 @@
 		<TabItem Header="Основные">
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Серия" Width="160" Foreground="White" Margin="2" />
+                    <TextBlock Text="Серия" Width="169" Foreground="White" Margin="2" />
                     <TextBox Text="{Binding Series}" Margin="2" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
