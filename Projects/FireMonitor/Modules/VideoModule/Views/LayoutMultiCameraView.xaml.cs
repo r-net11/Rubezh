@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 using Common;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -27,10 +28,10 @@ namespace VideoModule.Views
 			InitializeComponent();
 			Cameras = new List<CameraViewModel>();
 			InitializeCameras();
-			InitializePerimeter();
+			//InitializePerimeter();
 			_grid.Child = EnumToType(ClientSettings.RviMultiLayoutCameraSettings.MultiGridType);
 		}
-		
+
 		List<CameraViewModel> Cameras;
 
 		void InitializeCameras()
@@ -52,30 +53,26 @@ namespace VideoModule.Views
 				var cameraViewModel = new CameraViewModel(new Camera(), control);
 				if (cameraUid != Guid.Empty)
 				{
-					var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == cameraUid);
+					var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == cameraUid);
 					if (camera != null)
 					{
 						cameraViewModel.Camera = camera;
+						new Thread(delegate()
+							{
+								try
+								{
+									Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
+									{
+										cameraViewModel.Connect();
+										cameraViewModel.Start();
+									}));
+								}
+								catch { }
+							}).Start();
 					}
 				}
 				Cameras.Add(cameraViewModel);
 			}
-		}
-
-		void InitializePerimeter()
-		{
-			new Thread(delegate()
-			{
-				foreach (var cameraViewModel in Cameras)
-				{
-					try
-					{
-						if (cameraViewModel.Address != null)
-							cameraViewModel.ConnectAndStart();
-					}
-					catch { }
-				}
-			}).Start();
 		}
 
 		private void On_2x2Button_Click(object sender, RoutedEventArgs e)
@@ -115,19 +112,20 @@ namespace VideoModule.Views
 			{
 				foreach (var propertyViewModel in layoutPartPropertyCameraPageViewModel.PropertyViewModels)
 				{
-					var cameraViewModel = Cameras.FirstOrDefault(x => x.CellPlayerWrap.Name == propertyViewModel.CellName);
+					var cameraViewModel = Cameras.FirstOrDefault(x => x.ViewName == propertyViewModel.CellName);
 					cameraViewModel.Camera = propertyViewModel.SelectedCamera;
 					var cameraUid = propertyViewModel.SelectedCamera == null ? Guid.Empty : propertyViewModel.SelectedCamera.UID;
 					if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == propertyViewModel.CellName).Value == cameraUid)
 						continue;
 					try
 					{
-						cameraViewModel.StopVideo();
+						cameraViewModel.Stop();
 						if ((propertyViewModel.SelectedCamera != null) && (propertyViewModel.SelectedCamera.Address != null))
 						{
 							new Thread(delegate()
 								{
-									cameraViewModel.ConnectAndStart();
+									cameraViewModel.Connect();
+									cameraViewModel.Start();
 								}).Start();
 						}
 						ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = cameraUid;
@@ -144,7 +142,7 @@ namespace VideoModule.Views
 		{
 			var archiveViewModel = new ArchiveViewModel();
 			DialogService.ShowModalWindow(archiveViewModel);
-			if(archiveViewModel.StartedRecord != null)
+			if (archiveViewModel.StartedRecord != null)
 				archiveViewModel.CellPlayerWrap.Stop(archiveViewModel.StartedRecord);
 		}
 

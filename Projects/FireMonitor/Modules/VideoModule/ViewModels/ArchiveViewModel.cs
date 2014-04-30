@@ -223,8 +223,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand SearchCommand { get; private set; }
 		void OnSearch()
 		{
-			//Records = new ObservableCollection<PlayBackDeviceRecord>(SelectedDevice.SelectedChannel.QueryRecordFiles(StartTime, EndTime));
-			var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == SelectedCamera.Address);
+			var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == SelectedCamera.Camera.Address);
 			if (device == null)
 				return;
 			var channel = device.Channels.FirstOrDefault(x => x.ChannelNumber == SelectedCamera.Camera.ChannelNumber);

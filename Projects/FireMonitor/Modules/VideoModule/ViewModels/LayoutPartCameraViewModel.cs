@@ -24,8 +24,11 @@ namespace VideoModule.ViewModels
 				{
 						try
 						{
-							if (CameraViewModel.Address != null)
-								CameraViewModel.ConnectAndStart();
+							if (CameraViewModel.Camera.Address != null)
+							{
+								CameraViewModel.Connect();
+								CameraViewModel.Start();
+							}
 						}
 						catch { }
 				}).Start();

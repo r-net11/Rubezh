@@ -1,261 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Common;
 using DeviceControls;
-using Entities.DeviceOriented;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Video.RVI_VSS;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Painters;
 using XFiresecAPI;
 
 namespace VideoModule.ViewModels
 {
-	public class CameraViewModel : BaseViewModel
+	public class CameraViewModel : TreeNodeViewModel<CameraViewModel>
 	{
-		private string _connectedAddress;
-		private int _connectedport;
-		private string _connectedlogin;
-		private string _connectedpassword;
-
-		public List<XStateClass> StateClasses { get; private set; }
 		public Camera Camera { get; set; }
-		public CellPlayerWrap CellPlayerWrap { get; private set; }
+		readonly CellPlayerWrap _cellPlayerWrap;
 
 		public CameraViewModel(Camera camera, CellPlayerWrap cellPlayerWrap)
 		{
+			_cellPlayerWrap = cellPlayerWrap;
+			_cellPlayerWrap.DropHandler += CellPlayerWrapOnDropHandler;
 			Camera = camera;
-			StateClasses = new List<XStateClass>();
-			StateClasses.Add(XStateClass.Fire1);
-			StateClasses.Add(XStateClass.Fire2);
-			StateClasses.Add(XStateClass.Attention);
-			StateClasses.Add(XStateClass.Ignore);
-			CellPlayerWrap = cellPlayerWrap;
-			CellPlayerWrap.DropHandler += CellPlayerWrapOnDropHandler;
-			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand);
+			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
+			UpdateChildren();
 		}
 
-		private bool _isConnecting;
-		public bool IsConnecting
+		public string ViewName
 		{
-			get { return _isConnecting; }
-			set
-			{
-				_isConnecting = value;
-				OnPropertyChanged(() => IsConnecting);
-			}
+			get { return _cellPlayerWrap.Name; }
 		}
 
-		private bool _isFailConnected;
-		public bool IsFailConnected
-		{
-			get { return _isFailConnected; }
-			set
-			{
-				_isFailConnected = value;
-				OnPropertyChanged(() => IsFailConnected);
-			}
-		}
-
-		public void ConnectAndStart()
-		{
-			try
-			{
-				IsConnecting = true;
-				IsFailConnected = false;
-				Channels = new ObservableCollection<IChannel>(CellPlayerWrap.Connect(Camera.Address, Camera.Port));
-				Dispatcher.BeginInvoke(
-					DispatcherPriority.Input, new ThreadStart(
-						() =>
-						{
-							SelectedChannel = Channels[Camera.ChannelNumber];
-							StartVideo();
-						}));
-				SynchronizeProperties();
-			}
-			catch
-			{
-				IsFailConnected = true;
-			}
-			finally
-			{
-				IsConnecting = false;
-			}
-		}
-
-		public void Connect()
-		{
-			try
-			{
-				IsConnecting = true;
-				IsFailConnected = false;
-				Channels = new ObservableCollection<IChannel>(CellPlayerWrap.Connect(Camera.Address, Camera.Port));
-				Dispatcher.BeginInvoke(
-					DispatcherPriority.Input, new ThreadStart(
-						() =>
-						{
-							SelectedChannel = Channels[Camera.ChannelNumber];
-						}));
-				SynchronizeProperties();
-			}
-			catch
-			{
-				IsFailConnected = true;
-			}
-			finally
-			{
-				IsConnecting = false;
-			}
-		}
-
-		public bool StartVideo()
-		{
-			try
-			{
-				if ((SelectedChannel == null)&&(Channels!=null))
-					SelectedChannel = Channels.FirstOrDefault();
-				CellPlayerWrap.Start(SelectedChannel.ChannelNumber);
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-		}
-
-		public bool StopVideo()
-		{
-			try
-			{
-				CellPlayerWrap.Stop();
-				return true;
-			}
-			catch
-			{
-				return false;
-			}
-		}
-
-		void SynchronizeProperties()
-		{
-			_connectedAddress = Address;
-			_connectedport = Port;
-			_connectedlogin = Login;
-			_connectedpassword = Password;
-			OnPropertyChanged(() => IsConnected);
-		}
-
-		public bool IsConnected
+		public bool IsDvr
 		{
 			get
 			{
-				if (((_connectedAddress == Address) && (_connectedport == Port)) &&
-					((_connectedlogin == Login) && (_connectedpassword == Password)))
+				return Camera.CameraType == CameraType.Dvr;
+			}
+		}
+
+		public bool IsChannel
+		{
+			get
+			{
+				return Camera.CameraType == CameraType.Channel;
+			}
+		}
+
+		public bool IsCamera
+		{
+			get
+			{
+				return Camera.CameraType == CameraType.Camera;
+			}
+		}
+
+		public void UpdateChildren()
+		{
+			if ((Camera != null) && (Camera.CameraType == CameraType.Dvr))
+				foreach (var child in Camera.Children)
 				{
-					if ((SelectedChannel == null) && (Channels != null))
-						SelectedChannel = Channels.FirstOrDefault();
-					return true;
+					var cameraViewModel = new CameraViewModel(child, new CellPlayerWrap());
+					AddChild(cameraViewModel);
 				}
-				return false;
-			}
 		}
 
-		public string Name
+		public string PresentationAddress
 		{
-			get { return Camera.Name; }
-		}
-
-		public string PresentationName
-		{
-			get { return Camera.Address + " (" + (Camera.ChannelNumber + 1) + " канал)"; }
-		}
-
-		public string Address
-		{
-			get { return Camera.Address; }
-		}
-
-		public int Port
-		{
-			get { return Camera.Port; }
-		}
-
-		public string Login
-		{
-			get { return Camera.Login; }
-		}
-
-		public string Password
-		{
-			get { return Camera.Password; }
-		}
-
-		public int Left
-		{
-			get { return Camera.Left; }
-		}
-
-		public int Top
-		{
-			get { return Camera.Top; }
-		}
-
-		public int Width
-		{
-			get { return Camera.Width; }
-		}
-
-		public int Height
-		{
-			get { return Camera.Height; }
-		}
-
-		private ObservableCollection<IChannel> _channels;
-		public ObservableCollection<IChannel> Channels
-		{
-			get { return _channels; }
-			set
+			get
 			{
-				_channels = value;
-				OnPropertyChanged(() => Channels);
+				if (Camera.CameraType != CameraType.Channel)
+					return Camera.Address;
+				return (Camera.ChannelNumber + 1).ToString();
 			}
 		}
-
-		private IChannel _selectedChannel;
-		public IChannel SelectedChannel
-		{
-			get { return _selectedChannel; }
-			set
-			{
-				_selectedChannel = value;
-				OnPropertyChanged(() => SelectedChannel);
-			}
-		}
-
-		public bool IgnoreMoveResize
-		{
-			get { return Camera.IgnoreMoveResize; }
-		}
-
-		public XStateClass SelectedStateClass
-		{
-			get { return Camera.StateClass; }
-		}
-
-		public List<Guid> ZoneUIDs
-		{
-			get { return Camera.ZoneUIDs; }
-		}
-
 		public string PresentationZones
 		{
 			get
@@ -267,6 +92,57 @@ namespace VideoModule.ViewModels
 				var presentationZones = XManager.GetCommaSeparatedObjects(new List<INamedBase>(zones));
 				return presentationZones;
 			}
+		}
+
+		public string PresentationState
+		{
+			get
+			{
+				if ((Camera.StateClass == XStateClass.Fire1) || (Camera.StateClass == XStateClass.Fire2) ||
+					(Camera.StateClass == XStateClass.Attention) || (Camera.StateClass == XStateClass.Ignore))
+					return Camera.StateClass.ToDescription();
+				return null;
+			}
+		}
+
+		public void Update()
+		{
+			OnPropertyChanged(() => Camera);
+			OnPropertyChanged(() => PresentationZones);
+			OnPropertyChanged(() => PresentationAddress);
+			OnPropertyChanged(() => PresentationState);
+			OnPropertyChanged(() => IsOnPlan);
+			OnPropertyChanged(() => VisualizationState);
+		}
+
+		public bool IsOnPlan
+		{
+			get { return Camera.PlanElementUIDs.Count > 0; }
+		}
+
+		public VisualizationState VisualizationState
+		{
+			get
+			{
+				return IsOnPlan
+					? (Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single)
+					: VisualizationState.NotPresent;
+			}
+		}
+
+		public void Connect()
+		{
+			_cellPlayerWrap.Connect(Camera.Address, Camera.Port, Camera.Login, Camera.Password);
+		}
+
+		public void Start()
+		{
+			_cellPlayerWrap.Start(Camera.ChannelNumber);
+		}
+		
+		public void Stop()
+		{
+			_cellPlayerWrap.Stop();
 		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
@@ -291,25 +167,32 @@ namespace VideoModule.ViewModels
 
 		private void CellPlayerWrapOnDropHandler(Camera camera)
 		{
-			if (String.IsNullOrEmpty(CellPlayerWrap.Name)) // Запрет менять для однооконного режима(?)
+			if (String.IsNullOrEmpty(_cellPlayerWrap.Name)) // Запрет менять для однооконного режима(?)
 				return;
 			Camera = camera;
-			if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == CellPlayerWrap.Name).Value == Camera.UID)
+			if (ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == _cellPlayerWrap.Name).Value == Camera.UID)
 				return;
 			try
 			{
 				Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
 				{
-					StopVideo();
-					ConnectAndStart();
+					Stop();
+					Connect();
+					Start();
 				}));
-				ClientSettings.RviMultiLayoutCameraSettings.Dictionary[CellPlayerWrap.Name] = Camera.UID;
+				ClientSettings.RviMultiLayoutCameraSettings.Dictionary[_cellPlayerWrap.Name] = Camera.UID;
 			}
 			catch (Exception ex)
 			{
 				Logger.Error(ex, "LayoutMultiCameraView.OnShowProperties");
 			}
+		}
 
+		private bool CanCreateDragObjectCommand(DataObject dataObject)
+		{
+			if (Camera.CameraType == CameraType.Dvr)
+				return false;
+			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
 		}
 	}
 }

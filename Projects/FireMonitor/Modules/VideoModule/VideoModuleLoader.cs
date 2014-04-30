@@ -22,14 +22,12 @@ namespace VideoModule
 	public class VideoModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		AllVideoViewModel AllVideoViewModel;
-		//CamerasViewModel _CamerasViewModel;
 		NavigationItem _videoNavigationItem;
 		PlanPresenter _planPresenter;
 
 		public override void CreateViewModels()
 		{
 			_planPresenter = new PlanPresenter();
-			//_CamerasViewModel = new CamerasViewModel();
 			AllVideoViewModel = new AllVideoViewModel();
 			foreach (var zone in XManager.Zones)
 			{
@@ -55,7 +53,6 @@ namespace VideoModule
 						if (zone.State.StateClass == camera.StateClass)
 						{
 							DialogService.ShowWindow(new CameraDetailsViewModel(camera));
-							//VideoService.Show(camera);
 						}
 					}
 				}
@@ -64,9 +61,7 @@ namespace VideoModule
 
 		public override void Initialize()
 		{
-			//UpdateVideoAlarms();
 			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.Cameras.Count > 0;
-			//_CamerasViewModel.Initialize();
 			AllVideoViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
@@ -74,7 +69,6 @@ namespace VideoModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			//_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(_CamerasViewModel, "Видео", "/Controls;component/Images/Video1.png");
 			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(AllVideoViewModel, "Видео", "/Controls;component/Images/Video1.png");
 			return new List<NavigationItem>()
 			{

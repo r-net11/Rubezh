@@ -45,5 +45,20 @@ namespace FiresecAPI.Models
 			}
 			return result;
 		}
+
+		public List<Camera> AllCameras
+		{
+			get
+			{
+				var AllCameras = new List<Camera>();
+				foreach (var camera in Cameras)
+				{
+					AllCameras.Add(camera);
+					if (camera.CameraType == CameraType.Dvr)
+						AllCameras.AddRange(camera.Children);
+				}
+				return AllCameras;
+			}
+		}
 	}
 }

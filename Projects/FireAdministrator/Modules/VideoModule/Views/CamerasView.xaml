@@ -1,8 +1,7 @@
 ﻿<UserControl x:Class="VideoModule.Views.CamerasView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
-             xmlns:converters="clr-namespace:VideoModule.Converters">
+             xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
     <UserControl.Resources>
         <SwitchConverter x:Key="Tooltip" Else="{x:Null}">
             <SwitchCase Then="Камера может быть размещена на плане" When="Multiple" />
@@ -10,7 +9,6 @@
             <SwitchCase Then="Камеру нельзя размещать на плане" When="Prohibit" />
             <SwitchCase Then="Камера уже размещена на плане" When="Single" />
         </SwitchConverter>
-        <converters:ChannelToStringConverter x:Key="ChannelToStringConverter" />
         <ContextMenu  x:Key="CameraContextMenu">
             <IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить (Ctrl+N)" />
             <IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" />
@@ -20,17 +18,11 @@
             <IconedMenuItem Command="{Binding SelectedCamera.AllowMultipleVizualizationCommand}" CommandParameter="{StaticResource False}" ImageSource="/Controls;component/Images/Eye3.png" Text="Запретить множественную визуализацию" />
         </ContextMenu>
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" MinHeight="200" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="150" MinHeight="150" />
-        </Grid.RowDefinitions>
-        <TreeList ContextMenu="{StaticResource CameraContextMenu}" Grid.Row="0" Focusable="True" SelectedTreeNode="{Binding SelectedCamera}" Source="{Binding Cameras}">
+	<TreeList ContextMenu="{StaticResource CameraContextMenu}" Focusable="True" SelectedTreeNode="{Binding SelectedCamera}" Source="{Binding Cameras}">
             <TreeList.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Width="250" Header="Камера">
+						<GridViewColumn Width="250" Header="Камера">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -97,5 +89,4 @@
                 </GridView>
             </TreeList.View>
         </TreeList>
-    </Grid>
 </UserControl>

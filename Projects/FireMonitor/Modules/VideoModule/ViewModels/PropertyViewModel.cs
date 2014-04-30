@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
@@ -16,7 +17,7 @@ namespace VideoModule.ViewModels
 		{
 			CellName = cellName;
 			PresentationCellName = presentationCellName;
-			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
+			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.AllCameras.FindAll(x => x.CameraType != CameraType.Dvr));
 			Cameras.Insert(0, new Camera{UID = new Guid()});
 			SelectedCamera = Cameras.FirstOrDefault(x => x.UID == cameraUid);
 		}
