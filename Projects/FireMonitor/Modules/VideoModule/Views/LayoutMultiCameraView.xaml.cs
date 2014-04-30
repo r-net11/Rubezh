@@ -28,7 +28,6 @@ namespace VideoModule.Views
 			InitializeComponent();
 			Cameras = new List<CameraViewModel>();
 			InitializeCameras();
-			//InitializePerimeter();
 			_grid.Child = EnumToType(ClientSettings.RviMultiLayoutCameraSettings.MultiGridType);
 		}
 

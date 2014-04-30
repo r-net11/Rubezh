@@ -72,6 +72,16 @@ namespace VideoModule.ViewModels
 				}
 		}
 
+		public string PresentationName
+		{
+			get
+			{
+				if (Camera.CameraType != CameraType.Channel)
+					return Camera.Name + " " + Camera.Address;
+				return Camera.Name + " " +(Camera.ChannelNumber + 1);
+			}
+		}
+
 		public string PresentationAddress
 		{
 			get

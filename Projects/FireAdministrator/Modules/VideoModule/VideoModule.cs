@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using Infrastructure;
@@ -7,16 +8,18 @@ using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using VideoModule.Plans;
 using VideoModule.Plans.Designer;
+using VideoModule.Validation;
 using VideoModule.ViewModels;
 using CamerasViewModel = VideoModule.ViewModels.CamerasViewModel;
 
 namespace VideoModule
 {
-	public class VideoModule : ModuleBase, ILayoutDeclarationModule
+	public class VideoModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
 		CamerasViewModel CamerasViewModel;
 		PlanExtension _planExtension;
@@ -34,6 +37,13 @@ namespace VideoModule
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 			Helper.BuildMap();
 		}
+
+		public IEnumerable<IValidationError> Validate()
+		{
+			var validator = new Validator();
+			return validator.Validate();
+		}
+
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
@@ -43,7 +53,7 @@ namespace VideoModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowVideoEvent>(CamerasViewModel,"Видео", "/Controls;component/Images/Video1.png"),
+				new NavigationItem<ShowVideoEvent, Guid>(CamerasViewModel,"Видео", "/Controls;component/Images/Video1.png"),
 			};
 		}
 		public override string Name

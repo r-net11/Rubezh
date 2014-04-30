@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Xml.XPath;
+using FiresecAPI;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -147,6 +149,21 @@ namespace VideoModule.ViewModels
 						camera.Address = autoSearchCamera.DeviceSearchInfo.IpAddress;
 						camera.Port = autoSearchCamera.DeviceSearchInfo.Port;
 						var cameraViewModel = new CameraViewModel(this, camera);
+						if (autoSearchCamera.DeviceSearchInfo.DeviceType.Contains("DVR"))
+						{
+							cameraViewModel.Camera.CameraType = CameraType.Dvr;
+							cameraViewModel.Camera.Children.Add(new Camera
+							{
+								ChannelNumber = 1,
+								Parent = cameraViewModel.Camera,
+								CameraType = CameraType.Channel,
+								Name = "Канал",
+								Address = cameraViewModel.Camera.Address,
+								Port = cameraViewModel.Camera.Port,
+								Login = cameraViewModel.Camera.Login,
+								Password = cameraViewModel.Camera.Password
+							});
+						}
 						Cameras.Add(cameraViewModel);
 					}
 				}

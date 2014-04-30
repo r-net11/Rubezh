@@ -15,11 +15,22 @@ namespace VideoModule.ViewModels
 		public LayoutPartPropertyCameraPageViewModel(LayoutPartCameraViewModel layoutPartCameraViewModel)
 		{
 			_layoutPartCameraViewModel = layoutPartCameraViewModel;
-			Cameras = new ObservableCollection<Camera>(FiresecManager.SystemConfiguration.Cameras);
+			Initialize();
 		}
 
-		private ObservableCollection<Camera> _cameras;
-		public ObservableCollection<Camera> Cameras
+		public void Initialize()
+		{
+			Cameras = new ObservableCollection<CameraViewModel>();
+			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			{
+				var cameraViewModel = new CameraViewModel(CamerasViewModel.Current, camera);
+				Cameras.Add(cameraViewModel);
+			}
+			SelectedCamera = Cameras.FirstOrDefault();
+		}
+
+		private ObservableCollection<CameraViewModel> _cameras;
+		public ObservableCollection<CameraViewModel> Cameras
 		{
 			get { return _cameras; }
 			set
@@ -29,8 +40,8 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		private Camera _selectedCamera;
-		public Camera SelectedCamera
+		private CameraViewModel _selectedCamera;
+		public CameraViewModel SelectedCamera
 		{
 			get { return _selectedCamera; }
 			set
@@ -47,19 +58,23 @@ namespace VideoModule.ViewModels
 		public override void CopyProperties()
 		{
 			var properties = (LayoutPartCameraProperties)_layoutPartCameraViewModel.Properties;
-			SelectedCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.SourceUID);
+			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.SourceUID); 
+			SelectedCamera = new CameraViewModel(CamerasViewModel.Current, camera);
 		}
 		public override bool CanSave()
 		{
-			return true;
+			return ((SelectedCamera.Camera != null) && (!SelectedCamera.IsDvr));
 		}
 		public override bool Save()
 		{
 			var properties = (LayoutPartCameraProperties)_layoutPartCameraViewModel.Properties;
-			if ((SelectedCamera == null && properties.SourceUID != Guid.Empty) || (SelectedCamera != null && properties.SourceUID != SelectedCamera.UID))
+			if ((SelectedCamera == null && properties.SourceUID != Guid.Empty) || (SelectedCamera != null && properties.SourceUID != SelectedCamera.Camera.UID))
 			{
-				properties.SourceUID = SelectedCamera == null ? Guid.Empty : SelectedCamera.UID;
-				_layoutPartCameraViewModel.UpdateLayoutPart(SelectedCamera);
+				properties.SourceUID = SelectedCamera == null ? Guid.Empty : SelectedCamera.Camera.UID;
+				if (SelectedCamera == null)
+					_layoutPartCameraViewModel.UpdateLayoutPart(null);
+				else
+					_layoutPartCameraViewModel.UpdateLayoutPart(SelectedCamera.Camera);
 				return true;
 			}
 			return false;

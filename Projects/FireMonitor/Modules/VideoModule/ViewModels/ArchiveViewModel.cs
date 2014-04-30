@@ -196,6 +196,17 @@ namespace VideoModule.ViewModels
 			}
 		}
 
+		CameraViewModel _selectedChannel;
+		public CameraViewModel SelectedChannel
+		{
+			get { return _selectedChannel; }
+			set
+			{
+				_selectedChannel = value;
+				OnPropertyChanged(() => SelectedChannel);
+			}
+		}
+
 		private ObservableCollection<PlayBackDeviceRecord> _records;
 		public ObservableCollection<PlayBackDeviceRecord> Records
 		{
