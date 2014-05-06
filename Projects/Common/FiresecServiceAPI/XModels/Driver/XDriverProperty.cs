@@ -28,6 +28,6 @@ namespace XFiresecAPI
 		public ushort Min { get; set; }
 		public ushort Max { get; set; }
 		public double Multiplier { get; set; }
-		public bool IsMPTOrMRORegime { get; set; }
+		public bool CanNotEdit { get; set; }
 	}
 }

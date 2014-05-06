@@ -30,7 +30,7 @@ namespace GKProcessor
 			AddDriverToKau(AMP_1_Helper.Create());
 			AddDriverToKau(AM1_T_Helper.Create());
 			AddDriverToKau(Battery_Helper.Create());
-			
+
 			AddDriverToKau(RM_1_Helper.Create());
 			AddDriverToKau(MRO_2_Helper.Create());
 			AddDriverToKau(MDU_Helper.Create());
@@ -76,10 +76,7 @@ namespace GKProcessor
 			var mvpPartDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_MVP_Part);
 			foreach (var driver in kauShleifDriver.Children)
 			{
-				if (driver != XDriverType.RSR2_MVP)
-				{
-					mvpPartDriver.Children.Add(driver);
-				}
+				mvpPartDriver.Children.Add(driver);
 			}
 		}
 

@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 			{
 				foreach (var driverProperty in Device.Driver.Properties)
 				{
-					if (driverProperty.IsMPTOrMRORegime)
+					if (driverProperty.CanNotEdit)
 						continue;
 
 					switch (driverProperty.DriverPropertyType)
