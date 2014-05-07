@@ -7,16 +7,16 @@
 		<Views:JournalView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ArchiveViewModel}">
-        <Views:ArchiveView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ArchiveViewModel}">
+		<Views:ArchiveView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ArchiveFilterViewModel}">
-        <Views:ArchiveFilterView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ArchiveFilterViewModel}">
+		<Views:ArchiveFilterView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ArchiveSettingsViewModel}">
-        <Views:ArchiveSettingsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ArchiveSettingsViewModel}">
+		<Views:ArchiveSettingsView />
+	</DataTemplate>
 
 </ResourceDictionary>

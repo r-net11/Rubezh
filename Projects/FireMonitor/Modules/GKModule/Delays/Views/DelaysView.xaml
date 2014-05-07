@@ -19,17 +19,17 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-                <DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center"/>
-                                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Delay.No}" VerticalAlignment="Center" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" MinWidth="250" Header="Задержка">
+				<DataGridTemplateColumn Width="Auto" Header="№" CanUserResize="False">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center"/>
+								<TextBlock HorizontalAlignment="Stretch" Text="{Binding Delay.No}" VerticalAlignment="Center" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="*" MinWidth="250" Header="Задержка">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -46,20 +46,20 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Логика включения" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock MinWidth="100" VerticalAlignment="Center" Cursor="Hand" Text="{Binding PresentationLogic}" TextWrapping="NoWrap">
+				<DataGridTemplateColumn Header="Логика включения" Width="*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock MinWidth="100" VerticalAlignment="Center" Cursor="Hand" Text="{Binding PresentationLogic}" TextWrapping="NoWrap">
 								<TextBlock.ToolTip>
 									<WrapPanel>
 										<TextBlock Text="{Binding PresentationLogic}" TextWrapping="Wrap" />
 									</WrapPanel>
 								</TextBlock.ToolTip>
 							</TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Задержка" Width="Auto" MinWidth="100">
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Задержка" Width="Auto" MinWidth="100">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" TextBlock.FontWeight="Bold" VerticalAlignment="Center">

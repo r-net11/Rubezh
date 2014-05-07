@@ -7,13 +7,13 @@
 
 //namespace SKDModule.ViewModels
 //{
-//    public class ZoneViewModel : TreeNodeViewModel<ZoneViewModel>
-//    {
-//        public SKDZone Zone { get; private set; }
+//	public class ZoneViewModel : TreeNodeViewModel<ZoneViewModel>
+//	{
+//		public SKDZone Zone { get; private set; }
 
-//        public ZoneViewModel(SKDZone zone)
-//        {
-//            Zone = zone;
-//        }
-//    }
+//		public ZoneViewModel(SKDZone zone)
+//		{
+//			Zone = zone;
+//		}
+//	}
 //}

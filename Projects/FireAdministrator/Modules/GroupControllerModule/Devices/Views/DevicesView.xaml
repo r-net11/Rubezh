@@ -254,10 +254,10 @@
 							</TextBlock>
 						</WrapPanel>
 
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding Device.IsInMPT, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="МПТ " />
-                            
-                            <TextBlock VerticalAlignment="Center">
+						<StackPanel Orientation="Horizontal" Visibility="{Binding Device.IsInMPT, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="МПТ " />
+							
+							<TextBlock VerticalAlignment="Center">
 								<Hyperlink Command="{Binding ShowMPTCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/BMPT.png" />
@@ -265,9 +265,9 @@
 									</StackPanel>
 								</Hyperlink>
 							</TextBlock>
-                        </StackPanel>
+						</StackPanel>
 
-                        <Grid IsEnabled="{Binding IsParamtersEnabled}">
+						<Grid IsEnabled="{Binding IsParamtersEnabled}">
 							<Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
 						</Grid>
 					</StackPanel>

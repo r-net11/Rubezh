@@ -13,15 +13,15 @@ namespace SKDModule.ViewModels
 {
 	public class PositionsViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-        ShortPosition _clipboard;
+		ShortPosition _clipboard;
 
 		public PositionsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-            CopyCommand = new RelayCommand(OnCopy, CanCopy);
-            PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 		}
 
 		public void Initialize(PositionFilter filter)
@@ -77,20 +77,20 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-        public PositionViewModel ParentOrganisation
-        {
-            get
-            {
-                PositionViewModel OrganisationViewModel = SelectedPosition;
-                if (!OrganisationViewModel.IsOrganisation)
-                    OrganisationViewModel = SelectedPosition.Parent;
+		public PositionViewModel ParentOrganisation
+		{
+			get
+			{
+				PositionViewModel OrganisationViewModel = SelectedPosition;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedPosition.Parent;
 
-                if (OrganisationViewModel.Organisation != null)
-                    return OrganisationViewModel;
+				if (OrganisationViewModel.Organisation != null)
+					return OrganisationViewModel;
 
-                return null;
-            }
-        }
+				return null;
+			}
+		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
@@ -157,49 +157,49 @@ namespace SKDModule.ViewModels
 			return SelectedPosition != null && SelectedPosition.Parent != null && !SelectedPosition.IsOrganisation;
 		}
 
-        public RelayCommand CopyCommand { get; private set; }
-        private void OnCopy()
-        {
-            _clipboard = CopyPosition(SelectedPosition.Position, false);
-        }
-        private bool CanCopy()
-        {
-            return SelectedPosition != null;
-        }
+		public RelayCommand CopyCommand { get; private set; }
+		private void OnCopy()
+		{
+			_clipboard = CopyPosition(SelectedPosition.Position, false);
+		}
+		private bool CanCopy()
+		{
+			return SelectedPosition != null;
+		}
 
-        public RelayCommand PasteCommand { get; private set; }
-        private void OnPaste()
-        {
-            var newShortPosition = CopyPosition(_clipboard);
-            var position = new Position()
-            {
-                UID = newShortPosition.UID,
-                Name = newShortPosition.Name,
-                Description = newShortPosition.Description
-            };
-            if (PositionHelper.Save(position))
-            {
-                var positionViewModel = new PositionViewModel(SelectedPosition.Organisation, newShortPosition);
-                if (ParentOrganisation != null)
-                {
-                    ParentOrganisation.AddChild(positionViewModel);
-                    AllPositions.Add(positionViewModel);
-                }
-                SelectedPosition = positionViewModel;
-            }
-        }
-        private bool CanPaste()
-        {
-            return _clipboard != null;
-        }
+		public RelayCommand PasteCommand { get; private set; }
+		private void OnPaste()
+		{
+			var newShortPosition = CopyPosition(_clipboard);
+			var position = new Position()
+			{
+				UID = newShortPosition.UID,
+				Name = newShortPosition.Name,
+				Description = newShortPosition.Description
+			};
+			if (PositionHelper.Save(position))
+			{
+				var positionViewModel = new PositionViewModel(SelectedPosition.Organisation, newShortPosition);
+				if (ParentOrganisation != null)
+				{
+					ParentOrganisation.AddChild(positionViewModel);
+					AllPositions.Add(positionViewModel);
+				}
+				SelectedPosition = positionViewModel;
+			}
+		}
+		private bool CanPaste()
+		{
+			return _clipboard != null;
+		}
 
-        ShortPosition CopyPosition(ShortPosition source, bool newName = true)
-        {
-            var copy = new ShortPosition();
-            copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
-            copy.Description = source.Description;
-            copy.OrganisationUID = ParentOrganisation.Organisation.UID;
-            return copy;
-        }
+		ShortPosition CopyPosition(ShortPosition source, bool newName = true)
+		{
+			var copy = new ShortPosition();
+			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
+			copy.Description = source.Description;
+			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
+			return copy;
+		}
 	}
 }

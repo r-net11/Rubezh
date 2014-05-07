@@ -132,15 +132,15 @@ namespace FiresecAPI
 			ModuleItems.Add("VideoModule.dll");
 			ModuleItems.Add("DiagnosticsModule.dll");
 			ModuleItems.Add("ReportsModule.dll");
-            //ModuleItems.Add("SKDModule.dll");
+			//ModuleItems.Add("SKDModule.dll");
 
-            //ModuleItems.Add("DevicesModule.dll");
-            //ModuleItems.Add("LibraryModule.dll");
-            //ModuleItems.Add("FiltersModule.dll");
-            //ModuleItems.Add("InstructionsModule.dll");
-            //ModuleItems.Add("NotificationModule.dll");
-            //ModuleItems.Add("AlarmModule.dll");
-            //ModuleItems.Add("JournalModule.dll");
+			//ModuleItems.Add("DevicesModule.dll");
+			//ModuleItems.Add("LibraryModule.dll");
+			//ModuleItems.Add("FiltersModule.dll");
+			//ModuleItems.Add("InstructionsModule.dll");
+			//ModuleItems.Add("NotificationModule.dll");
+			//ModuleItems.Add("AlarmModule.dll");
+			//ModuleItems.Add("JournalModule.dll");
 		}
 
 		public bool IsDebug

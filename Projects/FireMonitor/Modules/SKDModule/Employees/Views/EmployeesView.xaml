@@ -1,43 +1,43 @@
 ﻿<UserControl x:Class="SKDModule.Views.EmployeesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-             xmlns:Views="clr-namespace:SKDModule.Views"
-             xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
-    <UserControl.Resources>
-        <viewModel:EmployeeViewModelLastNameComparer x:Key="EmployeeViewModelLastNameComparer" />
-    </UserControl.Resources>
+			 xmlns:Views="clr-namespace:SKDModule.Views"
+			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+	<UserControl.Resources>
+		<viewModel:EmployeeViewModelLastNameComparer x:Key="EmployeeViewModelLastNameComparer" />
+	</UserControl.Resources>
 
-    <Grid>
+	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="200" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-        <tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" SelectedTreeNode="{Binding SelectedEmployee}" Source="{Binding Organisations}" Loaded="treeList_Loaded">
-            <tree:TreeList.View>
-                <GridView>
-                    <GridViewColumn Header="ФИО" Width="200" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelLastNameComparer}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="16" Source="/Controls;component/Images/BDirection.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                    <Image Width="16" Source="/Controls;component/Images/Zone.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                    <TextBlock Text="{Binding Name}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </tree:TreeList.View>
-        </tree:TreeList>
+		<tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" SelectedTreeNode="{Binding SelectedEmployee}" Source="{Binding Organisations}" Loaded="treeList_Loaded">
+			<tree:TreeList.View>
+				<GridView>
+					<GridViewColumn Header="ФИО" Width="200" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelLastNameComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Source="/Controls;component/Images/BDirection.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<Image Width="16" Source="/Controls;component/Images/Zone.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<TextBlock Text="{Binding Name}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</tree:TreeList.View>
+		</tree:TreeList>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 
-        <Grid Grid.Row="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid DataContext="{Binding SelectedEmployee}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="150" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <TextBlock>
+		<Grid Grid.Row="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid DataContext="{Binding SelectedEmployee}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" MinWidth="150" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<StackPanel Grid.Column="0">
+					<TextBlock>
 					<Hyperlink Command="{Binding SelectEmployeeCommand}" Style="{StaticResource HyperlinkStyle2}">
 						<StackPanel Orientation="Horizontal">
 							<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
@@ -63,10 +63,10 @@
 						</StackPanel>
 					</Hyperlink>
 				</TextBlock>
-                    <ItemsControl ItemsSource="{Binding Cards}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock>
+					<ItemsControl ItemsSource="{Binding Cards}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<TextBlock>
 								<Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<StackPanel Orientation="Horizontal">
 										<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
@@ -92,48 +92,48 @@
 									</StackPanel>
 								</Hyperlink>
 							</TextBlock>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</StackPanel>
 
-                <Grid Grid.Column="1" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Border Background="White" CornerRadius="5">
-                        <StackPanel Margin="5">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Имя" />
-                                <TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
-                            </StackPanel>
+				<Grid Grid.Column="1" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+					<Border Background="White" CornerRadius="5">
+						<StackPanel Margin="5">
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Width="100" Margin="2" Text="Имя" />
+								<TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
+							</StackPanel>
 
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Фамилия" />
-                                <TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
-                            </StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Width="100" Margin="2" Text="Фамилия" />
+								<TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
+							</StackPanel>
 
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Отчество" />
-                                <TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
-                            </StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Width="100" Margin="2" Text="Отчество" />
+								<TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
+							</StackPanel>
 
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Отдел" />
-                                <TextBlock Margin="2" Text="{Binding DepartmentName}" />
-                            </StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Width="100" Margin="2" Text="Отдел" />
+								<TextBlock Margin="2" Text="{Binding DepartmentName}" />
+							</StackPanel>
 
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Должность" />
-                                <TextBlock Margin="2" Text="{Binding PositionName}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
-                </Grid>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Width="100" Margin="2" Text="Должность" />
+								<TextBlock Margin="2" Text="{Binding PositionName}" />
+							</StackPanel>
+						</StackPanel>
+					</Border>
+				</Grid>
 
-                <Grid Grid.Column="1" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Grid DataContext="{Binding SelectedCard}">
-                        <Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
-                    </Grid>
-                </Grid>
-            </Grid>
-        </Grid>
-    </Grid>
+				<Grid Grid.Column="1" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+					<Grid DataContext="{Binding SelectedCard}">
+						<Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
+					</Grid>
+				</Grid>
+			</Grid>
+		</Grid>
+	</Grid>
 </UserControl>

@@ -23,36 +23,36 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Устройства">
-            <Border CornerRadius="5" Background="White">
-                <ItemsControl ItemsSource="{Binding Devices}" Margin="5">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Margin="1">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="16" Height="16" Source="{Binding Device.Driver.ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
-                                    <TextBlock Text="{Binding Device.Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" />
-                                </StackPanel>
-                            </CheckBox>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Border>
-        </TabItem>
+			<Border CornerRadius="5" Background="White">
+				<ItemsControl ItemsSource="{Binding Devices}" Margin="5">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<CheckBox IsChecked="{Binding IsChecked}" Margin="1">
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Height="16" Source="{Binding Device.Driver.ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+									<TextBlock Text="{Binding Device.Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2" />
+								</StackPanel>
+							</CheckBox>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</Border>
+		</TabItem>
 		<TabItem Header="События">
-            <Border CornerRadius="5" Background="White">
-                <ItemsControl ItemsSource="{Binding EventNames}" Margin="5">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Margin="1">
-                                <StackPanel Orientation="Horizontal" ToolTip="{Binding Description}">
-                                    <Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="5 0" />
-                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                                </StackPanel>
-                            </CheckBox>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Border>
-        </TabItem>
+			<Border CornerRadius="5" Background="White">
+				<ItemsControl ItemsSource="{Binding EventNames}" Margin="5">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<CheckBox IsChecked="{Binding IsChecked}" Margin="1">
+								<StackPanel Orientation="Horizontal" ToolTip="{Binding Description}">
+									<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="5 0" />
+									<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+								</StackPanel>
+							</CheckBox>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</Border>
+		</TabItem>
 	</TabControl>
 </UserControl>

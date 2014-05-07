@@ -29,9 +29,9 @@ namespace VideoModule.Views
 			if ((curentCameraViewModel == null) || (curentCameraViewModel.CameraViewModel == null))
 				return;
 			//if (((bool)e.NewValue) && (!curentCameraViewModel.CameraViewModel.IsNowPlaying))
-			//    curentCameraViewModel.CameraViewModel.StartVideo();
+			//	curentCameraViewModel.CameraViewModel.StartVideo();
 			//if (((bool)e.OldValue) && (curentCameraViewModel.CameraViewModel.IsNowPlaying))
-			//    curentCameraViewModel.CameraViewModel.StopVideo();
+			//	curentCameraViewModel.CameraViewModel.StopVideo();
 		}
 	}
 }

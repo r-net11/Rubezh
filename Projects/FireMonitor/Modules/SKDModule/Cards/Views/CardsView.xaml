@@ -4,36 +4,36 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <DataGrid ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" CanUserSortColumns="True">
-        <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Семейство" CanUserSort="True" SortMemberPath="Card.Series" Width="Auto">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Card.Series}" />
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Номер" CanUserSort="True" SortMemberPath="Card.Number" Width="Auto">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Card.Number}" />
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Сотрудник" SortMemberPath="Card.EmployeeName" Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Card.EmployeeName}" />
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Причина деактивации" SortMemberPath="Card.StopReason" Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Card.StopReason}" />
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
-    </DataGrid>
+	<DataGrid ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" CanUserSortColumns="True">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn Header="Семейство" CanUserSort="True" SortMemberPath="Card.Series" Width="Auto">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Card.Series}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Номер" CanUserSort="True" SortMemberPath="Card.Number" Width="Auto">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Card.Number}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Сотрудник" SortMemberPath="Card.EmployeeName" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Card.EmployeeName}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Причина деактивации" SortMemberPath="Card.StopReason" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Card.StopReason}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
 </UserControl>

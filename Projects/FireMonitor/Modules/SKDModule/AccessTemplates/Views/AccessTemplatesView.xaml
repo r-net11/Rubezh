@@ -4,36 +4,36 @@
 			 xmlns:Views="clr-namespace:SKDModule.Views"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
-    <UserControl.Resources>
-        <viewModel:AccessTemplateViewModelNameComparer x:Key="AccessTemplateViewModelNameComparer" />
-        <viewModel:AccessTemplateViewModelDescriptionComparer x:Key="AccessTemplateViewModelDescriptionComparer" />
-    </UserControl.Resources>
+			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+	<UserControl.Resources>
+		<viewModel:AccessTemplateViewModelNameComparer x:Key="AccessTemplateViewModelNameComparer" />
+		<viewModel:AccessTemplateViewModelDescriptionComparer x:Key="AccessTemplateViewModelDescriptionComparer" />
+	</UserControl.Resources>
 
-    <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedAccessTemplate}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
-        <tree:TreeList.View>
-            <GridView>
-                <GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="16" Source="/Controls;component/Images/BDirection.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <Image Width="16" Source="/Controls;component/Images/Zone.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                <TextBlock Text="{Binding Name}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-                <GridViewColumn Header="Описание" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelDescriptionComparer}">
-                    <GridViewColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Description}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </GridViewColumn.CellTemplate>
-                </GridViewColumn>
-            </GridView>
-        </tree:TreeList.View>
-    </tree:TreeList>
+	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedAccessTemplate}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+		<tree:TreeList.View>
+			<GridView>
+				<GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" Source="/Controls;component/Images/BDirection.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<Image Width="16" Source="/Controls;component/Images/Zone.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Name}" />
+							</StackPanel>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+				<GridViewColumn Header="Описание" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelDescriptionComparer}">
+					<GridViewColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="{Binding Description}" />
+							</StackPanel>
+						</DataTemplate>
+					</GridViewColumn.CellTemplate>
+				</GridViewColumn>
+			</GridView>
+		</tree:TreeList.View>
+	</tree:TreeList>
 </UserControl>

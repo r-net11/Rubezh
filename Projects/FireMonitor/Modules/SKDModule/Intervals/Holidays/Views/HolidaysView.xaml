@@ -1,14 +1,14 @@
 ﻿<UserControl x:Class="SKDModule.Views.HolidaysView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:SKDModule.Converters"
-             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Converters="clr-namespace:SKDModule.Converters"
+			 xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
-    <UserControl.Resources>
-        <viewModel:HolidayViewModelNameComparer x:Key="HolidayViewModelNameComparer" />
-    </UserControl.Resources>
+			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+	<UserControl.Resources>
+		<viewModel:HolidayViewModelNameComparer x:Key="HolidayViewModelNameComparer" />
+	</UserControl.Resources>
 
 	<Grid>
 		<Grid.RowDefinitions>
@@ -23,60 +23,60 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-            <StackPanel Orientation="Horizontal">
-                <ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
-                <ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать" />
-                <ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
-                <ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
-                <ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
-                <ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="/Controls;component/Images/Settings.png" ToolTip="Настройки" />
-            </StackPanel>
-        </StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
+				<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать" />
+				<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
+				<ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
+				<ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
+				<ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="/Controls;component/Images/Settings.png" ToolTip="Настройки" />
+			</StackPanel>
+		</StackPanel>
 
-        <tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedHoliday}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
-            <tree:TreeList.View>
-                <GridView>
-                    <GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="16" Source="/Controls;component/Images/BDirection.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                    <Image Width="16" Source="/Controls;component/Images/Zone.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                    <TextBlock Text="{Binding Name}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Дата">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=Holiday.Date, StringFormat=dd-MM}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Тип">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Holiday.Type, Converter={StaticResource EnumToDescriptionConverter}}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Величина сокращения">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ReductionTime}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Дата переноса">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding TransitionDate}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </tree:TreeList.View>
-        </tree:TreeList>
-    </Grid>
+		<tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedHoliday}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+			<tree:TreeList.View>
+				<GridView>
+					<GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Source="/Controls;component/Images/BDirection.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<Image Width="16" Source="/Controls;component/Images/Zone.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<TextBlock Text="{Binding Name}" />
+								</StackPanel>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Дата">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Path=Holiday.Date, StringFormat=dd-MM}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Тип">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Holiday.Type, Converter={StaticResource EnumToDescriptionConverter}}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Величина сокращения">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding ReductionTime}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Дата переноса">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding TransitionDate}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</tree:TreeList.View>
+		</tree:TreeList>
+	</Grid>
 </UserControl>

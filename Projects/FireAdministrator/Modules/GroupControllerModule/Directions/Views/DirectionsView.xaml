@@ -24,13 +24,13 @@
 
 		<Controls:XDataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" CanUserSortColumns="True">
 			<DataGrid.Columns>
-                <DataGridTemplateColumn Header="№" SortMemberPath="Direction.No" Width="Auto" CanUserResize="False">
+				<DataGridTemplateColumn Header="№" SortMemberPath="Direction.No" Width="Auto" CanUserResize="False">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/Blue_Direction.png" Width="16" Margin="2 0 0 0" />
-                                <TextBlock Text="{Binding Direction.No}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
-                            </StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<Image Source="/Controls;component/Images/Blue_Direction.png" Width="16" Margin="2 0 0 0" />
+								<TextBlock Text="{Binding Direction.No}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

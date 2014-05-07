@@ -10,7 +10,7 @@
 			<ColumnDefinition Width="50" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetDelays}" SelectedItem="{Binding SelectedTargetDelay}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
+		<DataGrid x:Name="dataGrid1" Grid.Column="0" ItemsSource="{Binding TargetDelays}" SelectedItem="{Binding SelectedTargetDelay}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
 					SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -27,7 +27,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center" />
+								<Image Margin="1 0 0 0" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
 							</StackPanel>
 						</DataTemplate>
@@ -38,12 +38,12 @@
 			</DataGrid.Columns>
 		</DataGrid>
 		<StackPanel Grid.Column="1" Margin="2">
-            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные задкржки" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
-            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные задкржки" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
-            <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все задкржки" ImageSource="/Controls;component/Images/LeftLeft.png" />
-            <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все задкржки" ImageSource="/Controls;component/Images/RightRight.png" />
+			<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные задкржки" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=dataGrid2, Path=SelectedItems}" />
+			<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные задкржки" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=dataGrid1, Path=SelectedItems}" />
+			<Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все задкржки" ImageSource="/Controls;component/Images/LeftLeft.png" />
+			<Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все задкржки" ImageSource="/Controls;component/Images/RightRight.png" />
 		</StackPanel>
-        <DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDelays}" SelectedItem="{Binding SelectedSourceDelay}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
+		<DataGrid x:Name="dataGrid2" Grid.Column="2" ItemsSource="{Binding SourceDelays}" SelectedItem="{Binding SelectedSourceDelay}" SelectionChanged="OnSelectionChanged" CanUserSortColumns="True"
 					SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Standard">
 			<DataGrid.Resources>
 				<InputBindingCollection x:Key="inputCollection" x:Shared="False">
@@ -60,7 +60,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Margin="1 0 0 0" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center" />
+								<Image Margin="1 0 0 0" Source="/Controls;component/Images/Delay.png" VerticalAlignment="Center" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
 							</StackPanel>
 						</DataTemplate>

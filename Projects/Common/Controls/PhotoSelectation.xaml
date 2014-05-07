@@ -1,18 +1,18 @@
 ﻿<UserControl x:Class="Controls.PhotoSelectation"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Controls" >
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Image Grid.Row="0" Name="PhotoImage" Stretch="UniformToFill" />
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
-            <local:ToolBarButton ImageSource="/Controls;component/Images/Webcam.png" ToolTip="Загрузить фото из веб-камеры" Click="WebCamButton_Click" IsEnabled="True" />
-            <local:ToolBarButton ImageSource="/Controls;component/Images/Scanner.png" ToolTip="Загрузить фото из сканера" Click="ScannerButton_Click" IsEnabled="True" />
-            <local:ToolBarButton ImageSource="/Controls;component/Images/Paste.png" ToolTip="Загрузить фото из буфера обмена" Click="PasteButton_Click" IsEnabled="True" />
-            <local:ToolBarButton ImageSource="/Controls;component/Images/load.png" ToolTip="Загрузить фото из файла" Click="OpenButton_Click" IsEnabled="True" />
-        </StackPanel>
-    </Grid>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:Controls" >
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Image Grid.Row="0" Name="PhotoImage" Stretch="UniformToFill" />
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
+			<local:ToolBarButton ImageSource="/Controls;component/Images/Webcam.png" ToolTip="Загрузить фото из веб-камеры" Click="WebCamButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="/Controls;component/Images/Scanner.png" ToolTip="Загрузить фото из сканера" Click="ScannerButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="/Controls;component/Images/Paste.png" ToolTip="Загрузить фото из буфера обмена" Click="PasteButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="/Controls;component/Images/load.png" ToolTip="Загрузить фото из файла" Click="OpenButton_Click" IsEnabled="True" />
+		</StackPanel>
+	</Grid>
 </UserControl>

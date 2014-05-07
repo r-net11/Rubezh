@@ -128,8 +128,8 @@
 										</TextBlock>
 									</Hyperlink>
 								</TextBlock>
-                                    
-                                <TextBlock Visibility="{Binding CanSelectMPTs, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+									
+								<TextBlock Visibility="{Binding CanSelectMPTs, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
 									<Hyperlink Command="{Binding SelectMPTsCommand}" Style="{StaticResource HyperlinkStyle}">
 										<TextBlock Margin="2">
 											<TextBlock.Style>
@@ -153,8 +153,8 @@
 										</TextBlock>
 									</Hyperlink>
 								</TextBlock>
-                                    
-                                <TextBlock Visibility="{Binding CanSelectDelays, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+									
+								<TextBlock Visibility="{Binding CanSelectDelays, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
 									<Hyperlink Command="{Binding SelectDelaysCommand}" Style="{StaticResource HyperlinkStyle}">
 										<TextBlock Margin="2">
 											<TextBlock.Style>

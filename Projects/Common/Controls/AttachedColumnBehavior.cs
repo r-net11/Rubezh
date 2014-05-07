@@ -15,10 +15,10 @@ namespace Controls
 				new UIPropertyMetadata(null, OnAttachedColumnsPropertyChanged));
 
 		//public static readonly DependencyProperty MappedValuesProperty =
-		//        DependencyProperty.RegisterAttached("MappedValues",
-		//        typeof(MappedValueCollection),
-		//        typeof(AttachedColumnBehavior),
-		//        new UIPropertyMetadata(null, OnMappedValuesPropertyChanged));
+		//		DependencyProperty.RegisterAttached("MappedValues",
+		//		typeof(MappedValueCollection),
+		//		typeof(AttachedColumnBehavior),
+		//		new UIPropertyMetadata(null, OnMappedValuesPropertyChanged));
 
 		public static readonly DependencyProperty HeaderTemplateProperty =
 				DependencyProperty.RegisterAttached("HeaderTemplate",
@@ -96,7 +96,7 @@ namespace Controls
 		{
 			//foreach (var row in rows)
 			//{
-			//    GetMappedValues(dataGrid).RemoveByRow(row);
+			//	GetMappedValues(dataGrid).RemoveByRow(row);
 			//}
 		}
 
@@ -132,11 +132,11 @@ namespace Controls
 
 		//public static MappedValueCollection GetMappedValues(DependencyObject dataGrid)
 		//{
-		//    return (MappedValueCollection)dataGrid.GetValue(MappedValuesProperty);
+		//	return (MappedValueCollection)dataGrid.GetValue(MappedValuesProperty);
 		//}
 		//public static void SetMappedValues(DependencyObject dataGrid, MappedValueCollection value)
 		//{
-		//    dataGrid.SetValue(MappedValuesProperty, value);
+		//	dataGrid.SetValue(MappedValuesProperty, value);
 		//}
 
 		public static DataTemplate GetHeaderTemplate(DependencyObject dataGrid)

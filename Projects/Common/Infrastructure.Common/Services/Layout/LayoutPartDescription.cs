@@ -10,7 +10,7 @@ namespace Infrastructure.Common.Services.Layout
 		public Converter<ILayoutProperties, BaseLayoutPartViewModel> Factory { get; set; }
 
 		//public LayoutPartDescription(Guid uid, int index, string name, string description, string iconName = null, bool allowMultiple = true, LayoutPartSize size = null)
-		//    : this(LayoutPartDescriptionGroup.Root, uid, index, name, description, iconName, allowMultiple, size)
+		//	: this(LayoutPartDescriptionGroup.Root, uid, index, name, description, iconName, allowMultiple, size)
 		//{
 		//}
 

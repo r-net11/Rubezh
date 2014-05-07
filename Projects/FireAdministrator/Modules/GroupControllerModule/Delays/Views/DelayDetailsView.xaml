@@ -14,21 +14,21 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Номер" Margin="2" HorizontalAlignment="Right" />
-                <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
-                <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
+				<Label Grid.Row="0" Grid.Column="0" Content="Номер" Margin="2" HorizontalAlignment="Right" />
+				<Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
+				<Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 				<Label Grid.Row="3" Grid.Column="0" Content="Задержка, с" HorizontalAlignment="Right" />
 				<Label Grid.Row="4" Grid.Column="0" Content="Удержание, с" HorizontalAlignment="Right" />
-                <Label Grid.Row="5" Grid.Column="0" Content="Режим по окончанию удержания" HorizontalAlignment="Right" />
+				<Label Grid.Row="5" Grid.Column="0" Content="Режим по окончанию удержания" HorizontalAlignment="Right" />
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<controls:XAutoCompleteBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ItemsSource="{Binding AvailableNames}" IsTextCompletionEnabled="True" ContextMenu="{x:Null}" x:Name="nameTextBox" Margin="2">
 					<controls:XAutoCompleteBox.TextBoxStyle>
 						<Style TargetType="TextBox">
@@ -37,17 +37,17 @@
 						</Style>
 					</controls:XAutoCompleteBox.TextBoxStyle>
 				</controls:XAutoCompleteBox>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+				<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding DelayTime}" Minimum="0" Maximum="65535" HorizontalAlignment="Left" Margin="2" />
-                <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Hold}" Minimum="0" Maximum="65535" HorizontalAlignment="Left" Margin="2" />
-                <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding DelayRegimes}" SelectedItem="{Binding DelayRegime}" Margin="2">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding ., Converter={StaticResource DelayRegimeToStringConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </Grid>
+				<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Hold}" Minimum="0" Maximum="65535" HorizontalAlignment="Left" Margin="2" />
+				<ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding DelayRegimes}" SelectedItem="{Binding DelayRegime}" Margin="2">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource DelayRegimeToStringConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</Grid>
 		</TabItem>
 	</TabControl>
 </UserControl>

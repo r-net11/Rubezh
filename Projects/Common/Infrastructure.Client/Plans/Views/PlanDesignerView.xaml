@@ -29,8 +29,8 @@
 				<Controls:ToolBarButton Click="OnDeviceZoomOut" DockPanel.Dock="Left" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить размер устройства" />
 				<Controls:ToolBarButton Click="OnDeviceZoomIn" DockPanel.Dock="Right" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить размер устройства" />
 				<Slider x:Name="deviceSlider" VerticalAlignment="Center" IsMoveToPointEnabled="True" IsSnapToTickEnabled="True" Maximum="50"
-				        Minimum="15" Orientation="Horizontal" TickFrequency="1" TickPlacement="None" ToolTip="Изменить размер устройства"
-				        Value="30" />
+						Minimum="15" Orientation="Horizontal" TickFrequency="1" TickPlacement="None" ToolTip="Изменить размер устройства"
+						Value="30" />
 			</DockPanel>
 			<DockPanel Grid.Column="1">
 				<Controls:ToolBarButton Click="OnZoomOut" DockPanel.Dock="Left" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб плана" />

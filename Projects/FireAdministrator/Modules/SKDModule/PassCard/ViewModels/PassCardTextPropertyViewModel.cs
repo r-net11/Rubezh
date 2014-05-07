@@ -53,7 +53,7 @@ namespace SKDModule.PassCard.ViewModels
 		{
 			var filter = new AdditionalColumnTypeFilter()
 			{
-                LogicalDeletationType = LogicalDeletationType.Active,
+				LogicalDeletationType = LogicalDeletationType.Active,
 				Type = AdditionalColumnDataType.Text,
 			};
 			AdditionalColumnTypes = new ObservableCollection<ShortAdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));

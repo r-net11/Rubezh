@@ -3,12 +3,12 @@
 					xmlns:Views="clr-namespace:SKDModule.Views"
 					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:HRViewModel}">
-        <Views:HRView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:HRViewModel}">
+		<Views:HRView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:HRFilterViewModel}">
-        <Views:HRFilterView />
+	<DataTemplate DataType="{x:Type ViewModels:HRFilterViewModel}">
+		<Views:HRFilterView />
 	</DataTemplate>
 
 </ResourceDictionary>

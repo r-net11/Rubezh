@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="Controls.TimePicker" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<WrapPanel>
 		<TextBox Name="TextBox" Width="37" MinWidth="0" Margin="1" HorizontalContentAlignment="Center"
-		         VerticalContentAlignment="Center" LostFocus="TextBox_LostFocus" OverridesDefaultStyle="True" PreviewKeyDown="TextBox_PreviewKeyDown" PreviewTextInput="TextBox_PreviewTextInput"
-		         SelectionChanged="TextBox_SelectionChanged" TextChanged="TextBox_TextChanged" />
+				 VerticalContentAlignment="Center" LostFocus="TextBox_LostFocus" OverridesDefaultStyle="True" PreviewKeyDown="TextBox_PreviewKeyDown" PreviewTextInput="TextBox_PreviewTextInput"
+				 SelectionChanged="TextBox_SelectionChanged" TextChanged="TextBox_TextChanged" />
 		<StackPanel>
 			<Button Name="Inc" Width="20" Height="16" Click="Inc_Click">
 				<Image Source="/Controls;component/Images/AddTime.png" />

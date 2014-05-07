@@ -93,7 +93,7 @@ namespace SKDDriver
 				return photoSaveResult;
 			//var photoDeleteResult = PhotoTranslator.Delete(photosToDelete);
 			//if (photoDeleteResult.HasError)
-			//    return photoDeleteResult;
+			//	return photoDeleteResult;
 			return base.Save(apiItems);
 		}
 

@@ -7,19 +7,19 @@
 
 	<TabControl>
 		<TabItem Header="Основные">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Серия" Width="169" Foreground="White" Margin="2" />
-                    <TextBox Text="{Binding Series}" Margin="2" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Диапазон номеров" Width="150" Foreground="White" Margin="2" />
-                    <TextBlock Text="От" Foreground="White" Margin="2" />
-                    <TextBox Text="{Binding FirstNos}" Margin="2" />
-                    <TextBlock Text="До" Foreground="White" Margin="2" />
-                    <TextBox Text="{Binding LastNos}" Margin="2" />
-                </StackPanel>
-            </StackPanel>
-        </TabItem>
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Серия" Width="169" Foreground="White" Margin="2" />
+					<TextBox Text="{Binding Series}" Margin="2" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Диапазон номеров" Width="150" Foreground="White" Margin="2" />
+					<TextBlock Text="От" Foreground="White" Margin="2" />
+					<TextBox Text="{Binding FirstNos}" Margin="2" />
+					<TextBlock Text="До" Foreground="White" Margin="2" />
+					<TextBox Text="{Binding LastNos}" Margin="2" />
+				</StackPanel>
+			</StackPanel>
+		</TabItem>
 	</TabControl>
 </UserControl>

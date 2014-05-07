@@ -16,10 +16,10 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
@@ -83,7 +83,7 @@
 					</StackPanel>
 					
 					<Label Grid.Row="5" Grid.Column="0" Content="Сопровождающий" HorizontalAlignment="Right" VerticalAlignment="Center" 
-                           Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+						   Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 					<StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
 								Visibility="{Binding IsEmployee, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
@@ -107,11 +107,11 @@
 												Command="{Binding RemoveEscortCommand}" />
 					</StackPanel>
 
-                    <Label Grid.Row="6" Grid.Column="0" Content="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" 
-                           Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                    <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
+					<Label Grid.Row="6" Grid.Column="0" Content="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" 
+						   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
 								Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock VerticalAlignment="Center">
+						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectScheduleCommand}" Style="{StaticResource HyperlinkStyle}">
 								<TextBlock Text="{Binding ScheduleString}" TextDecorations="Underline" />
 								<TextBlock>
@@ -127,37 +127,37 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-                        <Controls:ToolBarButton Margin="2" ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" 
+						<Controls:ToolBarButton Margin="2" ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" 
 												Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}"
 												Command="{Binding RemoveScheduleCommand}" />
-                    </StackPanel>
+					</StackPanel>
 
-                    <Label Grid.Row="7" Grid.Column="0" Content="Назначен" HorizontalAlignment="Right"
-                           Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                    <TextBlock Grid.Row="7" Grid.Column="1" VerticalAlignment="Center"
-                               Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-					    <Hyperlink Command="{Binding SelectAppointedCommand}" Style="{StaticResource HyperlinkStyle}">
-						    <TextBlock Text="{Binding AppointedString}" TextDecorations="Underline" />
-					    </Hyperlink>
-                    </TextBlock>
-                        
-                    <Label Grid.Row="8" Grid.Column="0" Content="Уволен" HorizontalAlignment="Right" 
-                           Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
-				    <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"
-                               Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-					    <Hyperlink Command="{Binding SelectDismissedCommand}" Style="{StaticResource HyperlinkStyle}">
-						    <TextBlock Text="{Binding DismissedString}" TextDecorations="Underline" />
-					    </Hyperlink>
-				    </TextBlock>
-                        
-                    <Label Grid.Row="9" Grid.Column="0" Content="Учётные данные действуют с" HorizontalAlignment="Right" 
-                           Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
-				    <TextBlock Grid.Row="9" Grid.Column="1" VerticalAlignment="Center"
-                               Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-					    <Hyperlink Command="{Binding SelectCredentialsStartDateCommand}" Style="{StaticResource HyperlinkStyle}">
-						    <TextBlock Text="{Binding CredentialsStartDateString}" TextDecorations="Underline" />
-					    </Hyperlink>
-				    </TextBlock>      
+					<Label Grid.Row="7" Grid.Column="0" Content="Назначен" HorizontalAlignment="Right"
+						   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<TextBlock Grid.Row="7" Grid.Column="1" VerticalAlignment="Center"
+							   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
+						<Hyperlink Command="{Binding SelectAppointedCommand}" Style="{StaticResource HyperlinkStyle}">
+							<TextBlock Text="{Binding AppointedString}" TextDecorations="Underline" />
+						</Hyperlink>
+					</TextBlock>
+						
+					<Label Grid.Row="8" Grid.Column="0" Content="Уволен" HorizontalAlignment="Right" 
+						   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"
+							   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
+						<Hyperlink Command="{Binding SelectDismissedCommand}" Style="{StaticResource HyperlinkStyle}">
+							<TextBlock Text="{Binding DismissedString}" TextDecorations="Underline" />
+						</Hyperlink>
+					</TextBlock>
+						
+					<Label Grid.Row="9" Grid.Column="0" Content="Учётные данные действуют с" HorizontalAlignment="Right" 
+						   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<TextBlock Grid.Row="9" Grid.Column="1" VerticalAlignment="Center"
+							   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
+						<Hyperlink Command="{Binding SelectCredentialsStartDateCommand}" Style="{StaticResource HyperlinkStyle}">
+							<TextBlock Text="{Binding CredentialsStartDateString}" TextDecorations="Underline" />
+						</Hyperlink>
+					</TextBlock>	  
 				</Grid>
 				<ItemsControl ItemsSource="{Binding TextColumns}" Visibility="{Binding HasTextColumns, Converter={StaticResource BoolToVisibilityConverter}}">
 					<ItemsControl.ItemTemplate>
@@ -230,7 +230,7 @@
 						<TextBlock Text="{Binding DocumentTypeString}" TextDecorations="Underline" />
 					</Hyperlink>
 				</TextBlock>
-			</Grid>     
+			</Grid>	 
 		</TabItem>
 		<TabItem Header="{Binding GraphicsColumnsTabItemName}" >
 			<Grid>

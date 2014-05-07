@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using Entities.DeviceOriented;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Video.RVI_VSS;
@@ -234,10 +235,18 @@ namespace VideoModule.ViewModels
 		public RelayCommand SearchCommand { get; private set; }
 		void OnSearch()
 		{
-			var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == SelectedCamera.Camera.Address);
+			var camera = new Camera();
+			if (SelectedCamera.IsDvr)
+			{
+				if (SelectedChannel != null)
+					camera = SelectedChannel.Camera;
+			}
+			else
+				camera = SelectedCamera.Camera;
+			var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == camera.Address);
 			if (device == null)
 				return;
-			var channel = device.Channels.FirstOrDefault(x => x.ChannelNumber == SelectedCamera.Camera.ChannelNumber);
+			var channel = device.Channels.FirstOrDefault(x => x.ChannelNumber == camera.ChannelNumber);
 			Records = new ObservableCollection<PlayBackDeviceRecord>();
 			for (var time = StartTime; new DateTime(time.Year, time.Month, time.Day) < EndTime; time += TimeSpan.FromDays(1))
 			{
@@ -257,7 +266,12 @@ namespace VideoModule.ViewModels
 
 		bool CanSearch()
 		{
-			return ((SelectedCamera != null)&&(StartTime < EndTime));
+			if (SelectedCamera == null)
+				return false;
+			if (SelectedCamera.IsDvr)
+				if (SelectedChannel == null)
+					return false;
+			return true;
 		}
 	}
 }

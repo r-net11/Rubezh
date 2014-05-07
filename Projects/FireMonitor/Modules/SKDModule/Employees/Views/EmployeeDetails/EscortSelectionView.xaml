@@ -1,27 +1,27 @@
 ﻿<UserControl x:Class="SKDModule.Views.SelectEscortView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             MinWidth="400" MinHeight="300">
-    <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <DataGrid ItemsSource="{Binding Employees}" >
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Имя" Width="*" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <RadioButton GroupName="Positions" Content="{Binding Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center" Margin="2" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Должность" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PositionName}" VerticalAlignment="Center" Margin="2" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </ScrollViewer>
-    </Grid>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 MinWidth="400" MinHeight="300">
+	<Grid>
+		<ScrollViewer VerticalScrollBarVisibility="Auto">
+			<DataGrid ItemsSource="{Binding Employees}" >
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Имя" Width="*" >
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<RadioButton GroupName="Positions" Content="{Binding Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Должность" >
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding PositionName}" VerticalAlignment="Center" Margin="2" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</ScrollViewer>
+	</Grid>
 </UserControl>

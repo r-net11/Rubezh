@@ -1,12 +1,12 @@
 ﻿<UserControl x:Class="Infrastructure.Common.Video.RVI_VSS.CellPlayerWrap"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:rviVss="clr-namespace:Infrastructure.Common.Video.RVI_VSS">
-    <Grid>
-        <Grid Background="SlateGray">
-            <WindowsFormsHost>
-                <rviVss:WinFormsPlayer x:Name="FormsPlayer" />
-            </WindowsFormsHost>
-        </Grid>
-    </Grid>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:rviVss="clr-namespace:Infrastructure.Common.Video.RVI_VSS">
+	<Grid>
+		<Grid Background="SlateGray">
+			<WindowsFormsHost>
+				<rviVss:WinFormsPlayer x:Name="FormsPlayer" />
+			</WindowsFormsHost>
+		</Grid>
+	</Grid>
 </UserControl>

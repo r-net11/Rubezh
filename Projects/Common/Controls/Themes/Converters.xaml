@@ -4,7 +4,7 @@
 	<Converters:InversedBoolToVisibilityConverter x:Key="InversedBoolToVisibilityConverter" />
 	<Converters:MultiBooleanToVisibilityConverter x:Key="MultiBooleanToVisibilityConverter" />
 	<Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-    <Converters:BoolToYesConverter x:Key="BoolToYesConverter" />
+	<Converters:BoolToYesConverter x:Key="BoolToYesConverter" />
 	<Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
 	<Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
 	<Converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
@@ -13,7 +13,7 @@
 	<Converters:StateTypeToJournalStringConverter x:Key="StateTypeToJournalStringConverter" />
 	<Converters:StateTypeToColorConverter x:Key="StateTypeToColorConverter" />
 	<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
-    <Converters:StateTypeToIntConverter x:Key="StateTypeToIntConverter" />
+	<Converters:StateTypeToIntConverter x:Key="StateTypeToIntConverter" />
 	<Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
 	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
@@ -63,6 +63,6 @@
 		<Converters:SwitchCase Then="Сохранить пропорции" When="Uniform" />
 		<Converters:SwitchCase Then="Заполнить пропорционально" When="UniformToFill" />
 	</Converters:SwitchConverter>
-    <Converters:DeletedTypeToStringConverter x:Key="DeletedTypeToStringConverter" />
+	<Converters:DeletedTypeToStringConverter x:Key="DeletedTypeToStringConverter" />
 
 </ResourceDictionary>

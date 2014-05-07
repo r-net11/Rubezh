@@ -30,7 +30,7 @@
 			</StackPanel>
 		</Grid>
 		<TabControl Grid.Row="1">
-            <TabItem Header="Управление" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
+			<TabItem Header="Управление" IsSelected="{Binding CanControl, Mode=OneWay}" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -59,12 +59,12 @@
 					</Grid>
 				</Grid>
 			</TabItem>
-            <TabItem Header="Свойства" IsSelected="{Binding CanControl, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <ItemsControl Background="White" Padding="2">
-                        <ItemsControl.Items>
-                            <WrapPanel>
-                                <TextBlock>
+			<TabItem Header="Свойства" IsSelected="{Binding CanControl, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
+				<ScrollViewer VerticalScrollBarVisibility="Auto">
+					<ItemsControl Background="White" Padding="2">
+						<ItemsControl.Items>
+							<WrapPanel>
+								<TextBlock>
 									<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 										<StackPanel Orientation="Horizontal">
 											<Image Width="16" Source="/Controls;component/Images/Pim.png" Margin="2" />
@@ -72,10 +72,10 @@
 										</StackPanel>
 									</Hyperlink>
 								</TextBlock>
-                            </WrapPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <WrapPanel>
-                                    <TextBlock>
+							</WrapPanel>
+							<StackPanel Orientation="Horizontal">
+								<WrapPanel>
+									<TextBlock>
 										<Hyperlink Command="{Binding ShowJournalCommand}" Style="{StaticResource HyperlinkStyle2}">
 											<StackPanel Orientation="Horizontal">
 												<Image Width="16" Source="/Controls;component/Images/BJournal.png" />
@@ -83,12 +83,12 @@
 											</StackPanel>
 										</Hyperlink>
 									</TextBlock>
-                                </WrapPanel>
-                            </StackPanel>
-                        </ItemsControl.Items>
-                    </ItemsControl>
-                </ScrollViewer>
-            </TabItem>
-        </TabControl>
+								</WrapPanel>
+							</StackPanel>
+						</ItemsControl.Items>
+					</ItemsControl>
+				</ScrollViewer>
+			</TabItem>
+		</TabControl>
 	</Grid>
 </UserControl>

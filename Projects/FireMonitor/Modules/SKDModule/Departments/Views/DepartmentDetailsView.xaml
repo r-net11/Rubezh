@@ -23,7 +23,7 @@
 			</Grid>
 		</TabItem>
 		<TabItem Header="Иконка">
-			<Controls:PhotoSelectation Data="{Binding PhotoData}" />    
+			<Controls:PhotoSelectation Data="{Binding PhotoData}" />	
 		</TabItem>
 		
 	</TabControl>

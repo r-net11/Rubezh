@@ -41,7 +41,7 @@
 									</DataTemplate>
 								</ItemsControl.ItemTemplate>
 							</ItemsControl>
-                            <TextBlock Text="Cостояния:" Visibility="{Binding JournalFilterViewModel.HasStates, Converter={StaticResource BoolToVisibilityConverter}}" FontStyle="Italic" />
+							<TextBlock Text="Cостояния:" Visibility="{Binding JournalFilterViewModel.HasStates, Converter={StaticResource BoolToVisibilityConverter}}" FontStyle="Italic" />
 							<ItemsControl ItemsSource="{Binding JournalFilterViewModel.StateClasses}" Visibility="{Binding JournalFilterViewModel.HasStates, Converter={StaticResource BoolToVisibilityConverter}}">
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>

@@ -32,11 +32,11 @@
 						</ListBox.ItemTemplate>
 					</ListBox>
 					<WrapPanel Name="_countHoursPanel" HorizontalAlignment="Left" Margin="11 5 ">
-                        <ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding HoursCount, UpdateSourceTrigger=PropertyChanged}" />
+						<ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding HoursCount, UpdateSourceTrigger=PropertyChanged}" />
 						<Label Content="количество часов" VerticalAlignment="Center" />
 					</WrapPanel>
 					<WrapPanel Name="_countDaysPanel" HorizontalAlignment="Left" Margin="11 5">
-                        <ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding DaysCount, UpdateSourceTrigger=PropertyChanged}" />
+						<ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding DaysCount, UpdateSourceTrigger=PropertyChanged}" />
 						<Label Content="количество дней" VerticalAlignment="Center" />
 					</WrapPanel>
 					<Grid HorizontalAlignment="Left">
@@ -77,15 +77,15 @@
 				</ListBox>
 			</Border>
 		</TabItem>
-        <TabItem Header="Настройки">
-            <Border Background="White" CornerRadius="5">
-                <StackPanel Margin="5">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Количество событий на странице" VerticalAlignment="Center" Margin="2" />
-                        <TextBox Text="{Binding PageSize, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Gray" BorderThickness="1" VerticalAlignment="Center" Margin="10 2" />
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-        </TabItem>
-    </TabControl>
+		<TabItem Header="Настройки">
+			<Border Background="White" CornerRadius="5">
+				<StackPanel Margin="5">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Количество событий на странице" VerticalAlignment="Center" Margin="2" />
+						<TextBox Text="{Binding PageSize, UpdateSourceTrigger=PropertyChanged}" BorderBrush="Gray" BorderThickness="1" VerticalAlignment="Center" Margin="10 2" />
+					</StackPanel>
+				</StackPanel>
+			</Border>
+		</TabItem>
+	</TabControl>
 </UserControl>

@@ -1,19 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:ViewModels="clr-namespace:VideoModule.ViewModels" 
-                    xmlns:Views="clr-namespace:VideoModule.Views">
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+					xmlns:ViewModels="clr-namespace:VideoModule.ViewModels" 
+					xmlns:Views="clr-namespace:VideoModule.Views">
 
-    <DataTemplate DataType="{x:Type ViewModels:AllVideoViewModel}">
-        <Views:AllVideoView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:AllVideoViewModel}">
+		<Views:AllVideoView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CamerasViewModel}">
-        <Views:CamerasView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:CamerasViewModel}">
+		<Views:CamerasView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CameraDetailsViewModel}">
-        <Views:CameraDetailsView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:CameraDetailsViewModel}">
+		<Views:CameraDetailsView />
+	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:CameraTooltipViewModel}">
 		<Views:CameraTooltipView />
@@ -23,16 +23,16 @@
 		<Views:LayoutPartCameraView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LayoutMultiCameraViewModel}">
-        <Views:LayoutMultiCameraView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:LayoutMultiCameraViewModel}">
+		<Views:LayoutMultiCameraView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyCameraPageViewModel}">
-        <Views:LayoutPartPropertyCameraPageView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyCameraPageViewModel}">
+		<Views:LayoutPartPropertyCameraPageView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ArchiveViewModel}">
-        <Views:ArchiveView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ArchiveViewModel}">
+		<Views:ArchiveView />
+	</DataTemplate>
 
 </ResourceDictionary>

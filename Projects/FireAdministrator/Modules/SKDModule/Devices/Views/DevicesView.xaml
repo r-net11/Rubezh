@@ -51,8 +51,8 @@
 										<Controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
-                                                    <Image Width="16" Height="16" Source="{Binding Driver.ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
-                                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
+													<Image Width="16" Height="16" Source="{Binding Driver.ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+													<TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
 												</StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>

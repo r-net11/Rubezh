@@ -49,19 +49,19 @@ namespace DiagnosticsModule.ViewModels
 		//{
 			//XDocument d;
 			//using (var nodeReader = new XmlNodeReader(doc))
-			//    d = XDocument.Load(nodeReader);
+			//	d = XDocument.Load(nodeReader);
 
 			//d.Root.Attributes().Where(x => x.IsNamespaceDeclaration).Remove();
 			//d.Root.Descendants().Attributes().Where(x => x.IsNamespaceDeclaration).Remove();
 
 			//foreach (var elem in d.Descendants())
-			//    elem.Name = elem.Name.LocalName;
+			//	elem.Name = elem.Name.LocalName;
 
 			//d.Save("D://Config/XDeviceConfiguration_2.xml");
 
 			//var xmlDocument = new XmlDocument();
 			//using (var xmlReader = d.CreateReader())
-			//    xmlDocument.Load(xmlReader);
+			//	xmlDocument.Load(xmlReader);
 
 			//return xmlDocument;
 		//}

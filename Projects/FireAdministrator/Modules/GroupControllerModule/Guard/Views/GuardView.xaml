@@ -27,17 +27,17 @@
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" x:Name="DataGrid1" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
-                    <DataGrid.Resources>
-                        <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                            <MouseBinding Command="{Binding DataContext.RemoveZoneCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding ElementName=DataGrid1, Path=SelectedItems}" MouseAction="LeftDoubleClick" />
-                        </InputBindingCollection>
-                    </DataGrid.Resources>
-                    <DataGrid.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-                            <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-                        </Style>
-                    </DataGrid.ItemContainerStyle>
+				<DataGrid Grid.Row="0" x:Name="DataGrid1" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+					<DataGrid.Resources>
+						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+							<MouseBinding Command="{Binding DataContext.RemoveZoneCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding ElementName=DataGrid1, Path=SelectedItems}" MouseAction="LeftDoubleClick" />
+						</InputBindingCollection>
+					</DataGrid.Resources>
+					<DataGrid.ItemContainerStyle>
+						<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+							<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+						</Style>
+					</DataGrid.ItemContainerStyle>
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="№" Binding="{Binding Zone.No}" />
 						<DataGridTextColumn Width="1*" Header="Выбранные зоны" Binding="{Binding Zone.Name}" />
@@ -53,18 +53,18 @@
 			<GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
 
 			<Grid Grid.Row="2">
-                <DataGrid x:Name="DataGrid2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
-                    <DataGrid.Resources>
-                        <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                            <MouseBinding Command="{Binding DataContext.AddZoneCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding ElementName=DataGrid2, Path=SelectedItems}" MouseAction="LeftDoubleClick" />
-                        </InputBindingCollection>
-                    </DataGrid.Resources>
-                    <DataGrid.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-                            <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-                        </Style>
-                    </DataGrid.ItemContainerStyle>
-                    <DataGrid.Columns>
+				<DataGrid x:Name="DataGrid2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
+					<DataGrid.Resources>
+						<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+							<MouseBinding Command="{Binding DataContext.AddZoneCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding ElementName=DataGrid2, Path=SelectedItems}" MouseAction="LeftDoubleClick" />
+						</InputBindingCollection>
+					</DataGrid.Resources>
+					<DataGrid.ItemContainerStyle>
+						<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+							<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+						</Style>
+					</DataGrid.ItemContainerStyle>
+					<DataGrid.Columns>
 						<DataGridTextColumn Header="№" Binding="{Binding Zone.No}" />
 						<DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Zone.Name}" />
 						<DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Zone.Description}" />

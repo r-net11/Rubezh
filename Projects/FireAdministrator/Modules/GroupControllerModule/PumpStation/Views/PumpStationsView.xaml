@@ -12,19 +12,19 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-            <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}" CanUserSortColumns="True">
+			<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding PumpStations}" SelectedItem="{Binding SelectedPumpStation}" CanUserSortColumns="True">
 				<DataGrid.Columns>
-                    <DataGridTemplateColumn Header="№" SortMemberPath="PumpStation.No" Width="Auto" CanUserResize="False">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/Controls;component/Images/BPumpStation.png" Width="16" Margin="2 0 0 0" />
-                                    <TextBlock Text="{Binding PumpStation.No}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Наименование" SortMemberPath="PumpStation.Name" Width="1*">
+					<DataGridTemplateColumn Header="№" SortMemberPath="PumpStation.No" Width="Auto" CanUserResize="False">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/Controls;component/Images/BPumpStation.png" Width="16" Margin="2 0 0 0" />
+									<TextBlock Text="{Binding PumpStation.No}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Наименование" SortMemberPath="PumpStation.Name" Width="1*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

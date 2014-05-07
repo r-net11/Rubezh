@@ -22,7 +22,7 @@
 			<StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
 				<StackPanel TextBlock.Foreground="Red">
 					<StackPanel Visibility="{Binding HasOnDelay, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
+						<TextBlock Text="Задержка на включение" Foreground="White" Margin="2" />
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Text="{Binding State.OnDelay}" FontSize="24" Margin="2" />
 							<TextBlock Text="Сек" FontSize="24" Margin="2" />
@@ -46,74 +46,74 @@
 			</StackPanel>
 		</Grid>
 		<TabControl Grid.Row="1">
-            <TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="Управление" IsSelected="{Binding IsTriStateControl, Mode=OneWay}" Visibility="{Binding IsTriStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 0 5">
-                        <Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
-                        <TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White"/>
-                        <TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="White" FontWeight="Bold" />
-                    </StackPanel>
-                    <Grid Grid.Row="1" Background="White">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
-                            <Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Height="50" Margin="2" />
-                            <Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" IsEnabled="{Binding IsControlRegime}">
-                            <ItemsControl ItemsSource="{Binding DeviceExecutableCommands}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Command="{Binding ExecuteControlCommand}" Content="{Binding Name}" Width="200" Height="50" Margin="2" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Grid>
-                </Grid>
-            </TabItem>
-            <TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="Управление" IsSelected="{Binding IsBiStateControl, Mode=OneWay}" Visibility="{Binding IsBiStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid Background="White">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Button Grid.Row="0" Content="Снять отключение" Command="{Binding SetAutomaticStateCommand}" VerticalAlignment="Top" Width="200" Height="50" Margin="2" />
-                    <Button Grid.Row="1" Content="Отключение" Command="{Binding SetIgnoreStateCommand}" VerticalAlignment="Top" Width="200" Height="50" Margin="2" />
-                    <Button Grid.Row="2" Content="Сбросить" Command="{Binding ResetCommand}" Visibility="{Binding HasReset, Converter={StaticResource BoolToVisibilityConverter}}" Width="200" Height="50" Margin="2" />
-                </Grid>
-            </TabItem>
-            <TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="МРО-2М" Visibility="{Binding IsMRO, Converter={StaticResource BoolToVisibilityConverter}}">
-                <StackPanel Margin="2" Background="White">
-                    <StackPanel Orientation="Horizontal" Margin="2">
-                        <ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource MROMessageNoToStringConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <ComboBox ItemsSource="{Binding AvailableMROMessageTypes}" SelectedItem="{Binding SelectedMROMessageType}" Width="150" Height="30" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource MROMessageTypeToStringConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                    <Button Grid.Row="1" Width="200" Height="50" Margin="2" VerticalAlignment="Top" Command="{Binding ExecuteMROCommand}" Content="Выполнить" />
-                    <TextBox Text="{Binding MROCode}" />
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Свойства" IsSelected="{Binding CanNotControl, Mode=OneWay}">
+			<TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="Управление" IsSelected="{Binding IsTriStateControl, Mode=OneWay}" Visibility="{Binding IsTriStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 0 5">
+						<Image Width="16" Source="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToIconConverter}}" Margin="2" />
+						<TextBlock Text="Режим" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="2"  Foreground="White"/>
+						<TextBlock Text="{Binding ControlRegime, Converter={StaticResource DeviceControlRegimeToStringConverter}}" FontSize="16" Margin="2" Foreground="White" FontWeight="Bold" />
+					</StackPanel>
+					<Grid Grid.Row="1" Background="White">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<StackPanel Grid.Column="0">
+							<Button Content="Автоматика" Command="{Binding SetAutomaticStateCommand}" Width="200" Height="50" Margin="2" />
+							<Button Content="Ручное" Command="{Binding SetManualStateCommand}" Width="200" Height="50" Margin="2" />
+							<Button Content="Отключение" Command="{Binding SetIgnoreStateCommand}" Width="200" Height="50" Margin="2" />
+						</StackPanel>
+						<StackPanel Grid.Column="1" IsEnabled="{Binding IsControlRegime}">
+							<ItemsControl ItemsSource="{Binding DeviceExecutableCommands}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<Button Command="{Binding ExecuteControlCommand}" Content="{Binding Name}" Width="200" Height="50" Margin="2" />
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</StackPanel>
+					</Grid>
+				</Grid>
+			</TabItem>
+			<TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="Управление" IsSelected="{Binding IsBiStateControl, Mode=OneWay}" Visibility="{Binding IsBiStateControl, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid Background="White">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Button Grid.Row="0" Content="Снять отключение" Command="{Binding SetAutomaticStateCommand}" VerticalAlignment="Top" Width="200" Height="50" Margin="2" />
+					<Button Grid.Row="1" Content="Отключение" Command="{Binding SetIgnoreStateCommand}" VerticalAlignment="Top" Width="200" Height="50" Margin="2" />
+					<Button Grid.Row="2" Content="Сбросить" Command="{Binding ResetCommand}" Visibility="{Binding HasReset, Converter={StaticResource BoolToVisibilityConverter}}" Width="200" Height="50" Margin="2" />
+				</Grid>
+			</TabItem>
+			<TabItem DataContext="{Binding DeviceCommandsViewModel}" Header="МРО-2М" Visibility="{Binding IsMRO, Converter={StaticResource BoolToVisibilityConverter}}">
+				<StackPanel Margin="2" Background="White">
+					<StackPanel Orientation="Horizontal" Margin="2">
+						<ComboBox ItemsSource="{Binding AvailableMROMessageNos}" SelectedItem="{Binding SelectedMROMessageNo}" Width="150" Height="30" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource MROMessageNoToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+						<ComboBox ItemsSource="{Binding AvailableMROMessageTypes}" SelectedItem="{Binding SelectedMROMessageType}" Width="150" Height="30" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource MROMessageTypeToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<Button Grid.Row="1" Width="200" Height="50" Margin="2" VerticalAlignment="Top" Command="{Binding ExecuteMROCommand}" Content="Выполнить" />
+					<TextBox Text="{Binding MROCode}" />
+				</StackPanel>
+			</TabItem>
+			<TabItem Header="Свойства" IsSelected="{Binding CanNotControl, Mode=OneWay}">
 				<ScrollViewer VerticalScrollBarVisibility="Auto">
 					<ItemsControl Background="White" Padding="2">
 						<ItemsControl.Items>
