@@ -17,7 +17,7 @@ namespace VideoModule.Plans.Designer
 		public static void BuildCameraMap()
 		{
 			_cameraMap = new Dictionary<Guid, Camera>();
-			FiresecManager.SystemConfiguration.Cameras.ForEach(item => _cameraMap.Add(item.UID, item));
+			FiresecManager.SystemConfiguration.AllCameras.ForEach(item => _cameraMap.Add(item.UID, item));
 		}
 
 		public static Camera GetCamera(ElementCamera element)
