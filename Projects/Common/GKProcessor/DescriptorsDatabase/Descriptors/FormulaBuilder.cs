@@ -70,10 +70,10 @@ namespace GKProcessor
 			AddPutBit(XStateBit.TurnOff_InAutomatic, xBase);
 		}
 
-		public void AddClauseFormula(List<XClause> clauses)
+		public void AddClauseFormula(XClauseGroup clauseGroup)
 		{
 			var clauseIndex = 0;
-			foreach (var clause in clauses)
+			foreach (var clause in clauseGroup.Clauses)
 			{
 				var xBases = new List<XBase>();
 				foreach (var device in clause.Devices)
@@ -131,7 +131,7 @@ namespace GKProcessor
 
 				if (clauseIndex > 0)
 				{
-					switch (clause.ClauseJounOperationType)
+					switch (clauseGroup.ClauseJounOperationType)
 					{
 						case ClauseJounOperationType.And:
 							Add(FormulaOperationType.AND, comment: "Объединение нескольких условий по И");

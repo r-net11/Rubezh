@@ -90,7 +90,7 @@
     <Compile Include="Devices\ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="Devices\ViewModels\ConfigurationCompare\ObjectViewModel.cs" />
     <Compile Include="Devices\ViewModels\FirmWareUpdateViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Logic\LogicViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\ClauseGroupViewModel.cs" />
     <Compile Include="Devices\ViewModels\RSR2NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModelBase.cs" />
     <Compile Include="Devices\ViewModels\UpdatedDeviceViewModel.cs" />

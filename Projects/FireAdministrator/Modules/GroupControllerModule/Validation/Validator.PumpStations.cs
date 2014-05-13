@@ -83,7 +83,7 @@ namespace GKModule.Validation
 
 		void ValidatePumpStationInput(XPumpStation pumpStation)
 		{
-			if (pumpStation.StartLogic.Clauses.Count == 0)
+			if (pumpStation.StartLogic.ClausesGroup.Clauses.Count == 0)
 				Errors.Add(new PumpStationValidationError(pumpStation, "В НС отсутствует условие для запуска", ValidationErrorLevel.CannotWrite));
 		}
 
@@ -138,7 +138,7 @@ namespace GKModule.Validation
 
 		void ValidatePumpInNSInputLogic(XPumpStation pumpStation)
 		{
-			foreach (var clause in pumpStation.StartLogic.Clauses)
+			foreach (var clause in pumpStation.StartLogic.ClausesGroup.Clauses)
 			{
 				foreach (var device in clause.Devices)
 				{

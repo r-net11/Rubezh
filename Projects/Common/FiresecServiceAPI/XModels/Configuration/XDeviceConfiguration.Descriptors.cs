@@ -66,8 +66,8 @@ namespace XFiresecAPI
 
 			foreach (var device in Devices)
 			{
-				LinkDeviceLogic(device, device.DeviceLogic.Clauses);
-				LinkDeviceLogic(device, device.DeviceLogic.OffClauses);
+				LinkDeviceLogic(device, device.DeviceLogic.ClausesGroup.Clauses);
+				LinkDeviceLogic(device, device.DeviceLogic.OffClausesGroup.Clauses);
 			}
 
 			foreach (var zone in Zones)
@@ -94,19 +94,19 @@ namespace XFiresecAPI
 
 			foreach (var pumpStation in PumpStations)
 			{
-				LinkDeviceLogic(pumpStation, pumpStation.StartLogic.Clauses);
-				LinkDeviceLogic(pumpStation, pumpStation.StopLogic.Clauses);
-				LinkDeviceLogic(pumpStation, pumpStation.AutomaticOffLogic.Clauses);
+				LinkDeviceLogic(pumpStation, pumpStation.StartLogic.ClausesGroup.Clauses);
+				LinkDeviceLogic(pumpStation, pumpStation.StopLogic.ClausesGroup.Clauses);
+				LinkDeviceLogic(pumpStation, pumpStation.AutomaticOffLogic.ClausesGroup.Clauses);
 			}
 
 			foreach (var mpt in MPTs)
 			{
-				LinkDeviceLogic(mpt, mpt.StartLogic.Clauses);
+				LinkDeviceLogic(mpt, mpt.StartLogic.ClausesGroup.Clauses);
 			}
 
 			foreach (var delay in Delays)
 			{
-				LinkDeviceLogic(delay, delay.DeviceLogic.Clauses);
+				LinkDeviceLogic(delay, delay.DeviceLogic.ClausesGroup.Clauses);
 			}
 		}
 

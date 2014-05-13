@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
 		public List<XDelay> Delays { get; set; }
 		XDevice Device;
 
-		public ClauseViewModel(XClause clause, XDevice device)
+		public ClauseViewModel(XDevice device, XClause clause)
 		{
 			Device = device;
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
@@ -168,17 +168,6 @@ namespace GKModule.ViewModels
 
 				Devices = new List<XDevice>();
 				OnPropertyChanged("PresenrationDevices");
-			}
-		}
-
-		bool _showJoinOperator;
-		public bool ShowJoinOperator
-		{
-			get { return _showJoinOperator; }
-			set
-			{
-				_showJoinOperator = value;
-				OnPropertyChanged("ShowJoinOperator");
 			}
 		}
 

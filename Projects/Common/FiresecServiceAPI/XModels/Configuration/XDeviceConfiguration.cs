@@ -163,6 +163,8 @@ namespace XFiresecAPI
 				foreach (var deviceParameterTemplate in parameterTemplate.DeviceParameterTemplates)
 				{
 					deviceParameterTemplate.XDevice.BaseUID = deviceParameterTemplate.XDevice.UID;
+					result &= ValidateDeviceLogic(deviceParameterTemplate.XDevice.DeviceLogic);
+					result &= ValidateDeviceLogic(deviceParameterTemplate.XDevice.NSLogic);
 				}
 			}
 
@@ -176,36 +178,16 @@ namespace XFiresecAPI
 		bool ValidateDeviceLogic(XDeviceLogic deviceLogic)
 		{
 			var result = true;
-			foreach (var clause in deviceLogic.Clauses)
+
+			if (deviceLogic.ClausesGroup == null)
 			{
-				if (clause.MPTUIDs == null)
-				{
-					clause.MPTUIDs = new List<Guid>();
-					result = false;
-				}
-				if (clause.DelayUIDs == null)
-				{
-					clause.DelayUIDs = new List<Guid>();
-					result = false;
-				}
-			}
-			if (deviceLogic.OffClauses == null)
-			{
-				deviceLogic.OffClauses = new List<XClause>();
+				deviceLogic.ClausesGroup = new XClauseGroup();
 				result = false;
 			}
-			foreach (var clause in deviceLogic.OffClauses)
+			if (deviceLogic.OffClausesGroup == null)
 			{
-				if (clause.MPTUIDs == null)
-				{
-					clause.MPTUIDs = new List<Guid>();
-					result = false;
-				}
-				if (clause.DelayUIDs == null)
-				{
-					clause.DelayUIDs = new List<Guid>();
-					result = false;
-				}
+				deviceLogic.OffClausesGroup = new XClauseGroup();
+				result = false;
 			}
 			return result;
 		}

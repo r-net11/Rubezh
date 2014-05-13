@@ -195,10 +195,10 @@ namespace GKModule.Converter
 								xClause.ZoneUIDs.Add(xZone.BaseUID);
 							}
 
-							xDeviceLogic.Clauses.Add(xClause);
+							xDeviceLogic.ClausesGroup.Clauses.Add(xClause);
 						}
 
-						if (xDeviceLogic.Clauses.Count > 0)
+						if (xDeviceLogic.ClausesGroup.Clauses.Count > 0)
 							xDevice.DeviceLogic = xDeviceLogic;
 					}
 					if (device.Driver.DriverType == DriverType.MPT)
@@ -208,7 +208,7 @@ namespace GKModule.Converter
 							var xClause = new XClause();
 							xClause.ClauseOperationType = ClauseOperationType.AnyZone;
 							xClause.ZoneUIDs.Add(device.Zone.UID);
-							xDevice.DeviceLogic.Clauses.Add(xClause);
+							xDevice.DeviceLogic.ClausesGroup.Clauses.Add(xClause);
 						}
 					}
 				}

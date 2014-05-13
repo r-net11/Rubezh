@@ -35,11 +35,11 @@ namespace GKProcessor
 			{
 				if (Device.Driver.HasLogic)
 				{
-					if (Device.DeviceLogic.Clauses.Count > 0)
+					if (Device.DeviceLogic.ClausesGroup.Clauses.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.DeviceLogic.Clauses);
+						Formula.AddClauseFormula(Device.DeviceLogic.ClausesGroup);
 						AddMro2MFormula();
-						if (Device.DeviceLogic.OffClauses == null || Device.DeviceLogic.OffClauses.Count == 0)
+						if (Device.DeviceLogic.OffClausesGroup.Clauses.Count == 0)
 						{
 							Formula.AddStandardTurning(Device);
 						}
@@ -50,9 +50,9 @@ namespace GKProcessor
 							Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Device);
 						}
 					}
-					if (Device.DeviceLogic.OffClauses.Count > 0)
+					if (Device.DeviceLogic.OffClausesGroup.Clauses.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.DeviceLogic.OffClauses);
+						Formula.AddClauseFormula(Device.DeviceLogic.OffClausesGroup);
 						Formula.AddGetBit(XStateBit.Norm, Device);
 						Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 						Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Device);

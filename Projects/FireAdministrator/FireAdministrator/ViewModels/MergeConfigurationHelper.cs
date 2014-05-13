@@ -308,7 +308,7 @@ namespace FireAdministrator.ViewModels
 
 		void ReplaceDeviceLogic(XDeviceLogic deviceLogic)
 		{
-			foreach (var clause in deviceLogic.Clauses)
+			foreach (var clause in deviceLogic.ClausesGroup.Clauses)
 			{
 				for (int i = 0; i < clause.ZoneUIDs.Count; i++)
 				{

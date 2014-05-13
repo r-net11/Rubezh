@@ -151,7 +151,7 @@ namespace XFiresecAPI
 		public void InvalidateOneLogic(XDevice device, XDeviceLogic deviceLogic)
 		{
 			InvalidateInputObjectsBaseLogic(device, deviceLogic);
-			foreach (var clause in deviceLogic.Clauses)
+			foreach (var clause in deviceLogic.ClausesGroup.Clauses)
 			{
 				foreach (var clauseZone in clause.Zones)
 				{
@@ -163,7 +163,7 @@ namespace XFiresecAPI
 					device.Directions.Add(clauseDirection);
 				}
 			}
-			foreach (var clause in device.DeviceLogic.OffClauses)
+			foreach (var clause in device.DeviceLogic.OffClausesGroup.Clauses)
 			{
 				foreach (var clauseZone in clause.Zones)
 				{
@@ -270,14 +270,22 @@ namespace XFiresecAPI
 
 		public void InvalidateInputObjectsBaseLogic(XBase xBase, XDeviceLogic deviceLogic)
 		{
-			deviceLogic.Clauses = InvalidateOneInputObjectsBaseLogic(xBase, deviceLogic.Clauses);
-			deviceLogic.OffClauses = InvalidateOneInputObjectsBaseLogic(xBase, deviceLogic.OffClauses);
+			deviceLogic.ClausesGroup = InvalidateOneInputObjectsBaseLogic(xBase, deviceLogic.ClausesGroup);
+			deviceLogic.OffClausesGroup = InvalidateOneInputObjectsBaseLogic(xBase, deviceLogic.OffClausesGroup);
 		}
 
-		public List<XClause> InvalidateOneInputObjectsBaseLogic(XBase xBase, List<XClause> inputClauses)
+		public XClauseGroup InvalidateOneInputObjectsBaseLogic(XBase xBase, XClauseGroup clauseGroup)
 		{
-			var clauses = new List<XClause>();
-			foreach (var clause in inputClauses)
+			var result = new XClauseGroup();
+			result.ClauseJounOperationType = clauseGroup.ClauseJounOperationType;
+			var groups = new List<XClauseGroup>();
+			foreach (var group in clauseGroup.ClauseGroups)
+			{
+				groups.Add(InvalidateOneInputObjectsBaseLogic(xBase, group));
+			}
+			result.ClauseGroups = groups;
+
+			foreach (var clause in clauseGroup.Clauses)
 			{
 				clause.Devices = new List<XDevice>();
 				clause.Zones = new List<XZone>();
@@ -356,9 +364,9 @@ namespace XFiresecAPI
 				clause.DelayUIDs = delayUIDs;
 
 				if (clause.HasObjects())
-					clauses.Add(clause);
+					result.Clauses.Add(clause);
 			}
-			return clauses;
+			return result;
 		}
 
 		void InitializeGuardUsers()

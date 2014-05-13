@@ -167,12 +167,12 @@ namespace GKModule.ViewModels
 		{
 			foreach (var device in Direction.OutputDevices)
 			{
-				foreach (var clause in device.DeviceLogic.Clauses)
+				foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 				{
 					clause.Directions.RemoveAll(x => x == Direction);
 					clause.DirectionUIDs.RemoveAll(x => x == Direction.BaseUID);
 				}
-				device.DeviceLogic.Clauses.RemoveAll(x => x.Zones.Count + x.Devices.Count + x.Directions.Count == 0);
+				device.DeviceLogic.ClausesGroup.Clauses.RemoveAll(x => x.Zones.Count + x.Devices.Count + x.Directions.Count == 0);
 				device.OnChanged();
 			}
 			Direction.OutputDevices.Clear();
@@ -181,7 +181,7 @@ namespace GKModule.ViewModels
 			foreach (var device in Direction.OutputDevices)
 			{
 				var alreadyHasDirectionClause = false;
-				foreach (var clause in device.DeviceLogic.Clauses)
+				foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 				{
 					if ((clause.ClauseOperationType == ClauseOperationType.AllDirections) || (clause.ClauseOperationType == ClauseOperationType.AnyDirection))
 					{
@@ -205,7 +205,7 @@ namespace GKModule.ViewModels
 						DirectionUIDs = new List<Guid>() { Direction.BaseUID }
 					};
 
-					device.DeviceLogic.Clauses.Add(clause);
+					device.DeviceLogic.ClausesGroup.Clauses.Add(clause);
 					device.Directions.Add(Direction);
 					device.OnChanged();
 				}
@@ -218,19 +218,19 @@ namespace GKModule.ViewModels
 			devices.Remove(deviceToRemove);
 			foreach (var device in Direction.OutputDevices)
 			{
-				foreach (var clause in device.DeviceLogic.Clauses)
+				foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 				{
 					clause.Directions.RemoveAll(x => x == Direction);
 					clause.DirectionUIDs.RemoveAll(x => x == Direction.BaseUID);
 				}
-				device.DeviceLogic.Clauses.RemoveAll(x => x.Zones.Count + x.Devices.Count + x.Directions.Count == 0);
+				device.DeviceLogic.ClausesGroup.Clauses.RemoveAll(x => x.Zones.Count + x.Devices.Count + x.Directions.Count == 0);
 				device.OnChanged();
 			}
 			Direction.OutputDevices.Clear();
 			foreach (var device in devices)
 			{
 				var alreadyHasDirectionClause = false;
-				foreach (var clause in device.DeviceLogic.Clauses)
+				foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 				{
 					if ((clause.ClauseOperationType == ClauseOperationType.AllDirections) || (clause.ClauseOperationType == ClauseOperationType.AnyDirection))
 					{
@@ -254,7 +254,7 @@ namespace GKModule.ViewModels
 						DirectionUIDs = new List<Guid>() { Direction.BaseUID }
 					};
 
-					device.DeviceLogic.Clauses.Add(clause);
+					device.DeviceLogic.ClausesGroup.Clauses.Add(clause);
 					device.Directions.Add(Direction);
 					device.OnChanged();
 				}

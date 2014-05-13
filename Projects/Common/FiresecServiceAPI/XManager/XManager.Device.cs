@@ -41,23 +41,9 @@ namespace FiresecClient
 
 			deviceTo.ZoneUIDs = deviceFrom.ZoneUIDs.ToList();
 			deviceTo.Zones = deviceFrom.Zones.ToList();
-			foreach (var clause in deviceFrom.DeviceLogic.Clauses)
-			{
-				var clonedClause = new XClause()
-				{
-					ClauseConditionType = clause.ClauseConditionType,
-					ClauseJounOperationType = clause.ClauseJounOperationType,
-					ClauseOperationType = clause.ClauseOperationType,
-					StateType = clause.StateType,
-					DeviceUIDs = clause.DeviceUIDs,
-					ZoneUIDs = clause.ZoneUIDs,
-					DirectionUIDs = clause.DirectionUIDs,
-					Devices = clause.Devices,
-					Zones = clause.Zones,
-					Directions = clause.Directions,
-				};
-				deviceTo.DeviceLogic.Clauses.Add(clonedClause);
-			}
+
+			deviceTo.DeviceLogic.ClausesGroup = deviceFrom.DeviceLogic.ClausesGroup.Clone();
+			deviceTo.DeviceLogic.OffClausesGroup = deviceFrom.DeviceLogic.OffClausesGroup.Clone();
 
 			deviceTo.Children = new List<XDevice>();
 			foreach (var childDevice in deviceFrom.Children)

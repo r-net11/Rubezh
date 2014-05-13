@@ -37,10 +37,10 @@ namespace FiresecClient
 		{
 			var stringBuilder = new StringBuilder();
 			var index = 0;
-			foreach (var clause in DeviceLogic.Clauses)
+			foreach (var clause in DeviceLogic.ClausesGroup.Clauses)
 			{
 				if (index > 0)
-					stringBuilder.Append(" " + clause.ClauseJounOperationType.ToDescription() + " ");
+					stringBuilder.Append(" " + DeviceLogic.ClausesGroup.ClauseJounOperationType.ToDescription() + " ");
 
 				if (clause.ClauseConditionType == ClauseConditionType.IfNot)
 					stringBuilder.Append("Если НЕ ");
