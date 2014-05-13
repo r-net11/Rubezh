@@ -3,10 +3,6 @@
 					xmlns:ViewModels="clr-namespace:VideoModule.ViewModels" 
 					xmlns:Views="clr-namespace:VideoModule.Views">
 
-	<DataTemplate DataType="{x:Type ViewModels:AllVideoViewModel}">
-		<Views:AllVideoView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:CamerasViewModel}">
 		<Views:CamerasView />
 	</DataTemplate>

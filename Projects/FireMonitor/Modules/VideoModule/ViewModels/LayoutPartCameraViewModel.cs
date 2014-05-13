@@ -18,7 +18,7 @@ namespace VideoModule.ViewModels
 			CellPlayerWrap = new CellPlayerWrap();
 			if (properties != null)
 			{
-				Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.SourceUID);
+				Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(item => item.UID == properties.SourceUID);
 				CameraViewModel = new CameraViewModel(Camera, CellPlayerWrap);
 				new Thread(delegate()
 				{

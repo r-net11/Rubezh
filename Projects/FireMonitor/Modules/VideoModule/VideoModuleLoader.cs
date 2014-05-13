@@ -14,6 +14,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using VideoModule.Plans;
+using VideoModule.Plans.Designer;
 using VideoModule.ViewModels;
 using XFiresecAPI;
 
@@ -21,14 +22,14 @@ namespace VideoModule
 {
 	public class VideoModuleLoader : ModuleBase, ILayoutProviderModule
 	{
-		AllVideoViewModel AllVideoViewModel;
+		CamerasViewModel CamerasViewModel;
 		NavigationItem _videoNavigationItem;
 		PlanPresenter _planPresenter;
 
 		public override void CreateViewModels()
 		{
 			_planPresenter = new PlanPresenter();
-			AllVideoViewModel = new AllVideoViewModel();
+			CamerasViewModel = new CamerasViewModel();
 			foreach (var zone in XManager.Zones)
 			{
 				zone.State.StateChanged -= new Action(OnZoneStateChanged);
@@ -43,7 +44,7 @@ namespace VideoModule
 
 		void UpdateVideoAlarms()
 		{
-			foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+			foreach (var camera in FiresecManager.SystemConfiguration.AllCameras)
 			{
 				foreach (var zoneUID in camera.ZoneUIDs)
 				{
@@ -61,15 +62,15 @@ namespace VideoModule
 
 		public override void Initialize()
 		{
-			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.Cameras.Count > 0;
-			AllVideoViewModel.Initialize();
+			_videoNavigationItem.IsVisible = FiresecManager.SystemConfiguration.AllCameras.Count > 0;
+			CamerasViewModel.Initialize();
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(AllVideoViewModel, "Видео", "/Controls;component/Images/Video1.png");
+			_videoNavigationItem = new NavigationItem<ShowCameraEvent, Guid>(CamerasViewModel, "Видео", "/Controls;component/Images/Video1.png");
 			return new List<NavigationItem>()
 			{
 				_videoNavigationItem

@@ -202,10 +202,7 @@ namespace VideoModule.ViewModels
 				foreach (var camera in Cameras)
 				{
 					cameras.Add(camera);
-					foreach (var child in camera.Children)
-					{
-						cameras.Add(child);
-					}
+					cameras.AddRange(camera.Children);
 				}
 				return cameras;
 			}
