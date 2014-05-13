@@ -281,7 +281,9 @@ namespace XFiresecAPI
 			var groups = new List<XClauseGroup>();
 			foreach (var group in clauseGroup.ClauseGroups)
 			{
-				groups.Add(InvalidateOneInputObjectsBaseLogic(xBase, group));
+				var _clauseGroup = InvalidateOneInputObjectsBaseLogic(xBase, group);
+				if (_clauseGroup.Clauses.Count + _clauseGroup.ClauseGroups.Count > 0)
+					groups.Add(_clauseGroup);
 			}
 			result.ClauseGroups = groups;
 

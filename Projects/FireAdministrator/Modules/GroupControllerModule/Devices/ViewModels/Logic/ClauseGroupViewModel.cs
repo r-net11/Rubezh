@@ -12,6 +12,7 @@ namespace GKModule.ViewModels
 	public class ClauseGroupViewModel : BaseViewModel
 	{
 		XDevice Device;
+		ClauseGroupViewModel Parent;
 
 		public ClauseGroupViewModel(XDevice device, XClauseGroup clauseGroup)
 		{
@@ -19,6 +20,7 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			AddGroupCommand = new RelayCommand(OnAddGroup);
 			RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
+			RemoveGroupCommand2 = new RelayCommand(OnRemoveGroup2, CanRemoveGroup2);
 			RemoveGroupCommand = new RelayCommand<ClauseGroupViewModel>(OnRemoveGroup);
 			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 
@@ -33,12 +35,11 @@ namespace GKModule.ViewModels
 			foreach (var clause in clauseGroup.ClauseGroups)
 			{
 				var clauseGroupViewModel = new ClauseGroupViewModel(device, clause);
+				clauseGroupViewModel.Parent = this;
 				ClauseGroups.Add(clauseGroupViewModel);
 			}
 
 			JoinOperator = clauseGroup.ClauseJounOperationType;
-
-			UpdateJoinOperatorVisibility();
 		}
 
 		public ObservableCollection<ClauseViewModel> Clauses { get; private set; }
@@ -49,34 +50,36 @@ namespace GKModule.ViewModels
 		{
 			var clauseViewModel = new ClauseViewModel(Device, new XClause());
 			Clauses.Add(clauseViewModel);
-			UpdateJoinOperatorVisibility();
 		}
 
 		public RelayCommand AddGroupCommand { get; private set; }
 		void OnAddGroup()
 		{
 			var clauseGroupViewModel = new ClauseGroupViewModel(Device, new XClauseGroup());
+			clauseGroupViewModel.Parent = this;
 			ClauseGroups.Add(clauseGroupViewModel);
-			UpdateJoinOperatorVisibility();
 		}
 
 		public RelayCommand<ClauseViewModel> RemoveCommand { get; private set; }
 		void OnRemove(ClauseViewModel clauseViewModel)
 		{
 			Clauses.Remove(clauseViewModel);
-			UpdateJoinOperatorVisibility();
+		}
+
+		public RelayCommand RemoveGroupCommand2 { get; private set; }
+		void OnRemoveGroup2()
+		{
+			Parent.ClauseGroups.Remove(this);
+		}
+		bool CanRemoveGroup2()
+		{
+			return Parent != null;
 		}
 
 		public RelayCommand<ClauseGroupViewModel> RemoveGroupCommand { get; private set; }
 		void OnRemoveGroup(ClauseGroupViewModel clauseGroupViewModel)
 		{
 			ClauseGroups.Remove(clauseGroupViewModel);
-			UpdateJoinOperatorVisibility();
-		}
-
-		public void UpdateJoinOperatorVisibility()
-		{
-			ShowJoinOperator = Clauses.Count > 1;
 		}
 
 		public RelayCommand ChangeJoinOperatorCommand { get; private set; }
@@ -96,17 +99,6 @@ namespace GKModule.ViewModels
 			{
 				_joinOperator = value;
 				OnPropertyChanged("JoinOperator");
-			}
-		}
-
-		bool _showJoinOperator;
-		public bool ShowJoinOperator
-		{
-			get { return _showJoinOperator; }
-			set
-			{
-				_showJoinOperator = value;
-				OnPropertyChanged("ShowJoinOperator");
 			}
 		}
 

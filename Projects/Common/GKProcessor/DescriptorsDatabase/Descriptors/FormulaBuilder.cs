@@ -144,6 +144,26 @@ namespace GKProcessor
 				}
 				clauseIndex++;
 			}
+
+			foreach (var group in clauseGroup.ClauseGroups)
+			{
+				AddClauseFormula(group);
+
+				if (clauseIndex > 0)
+				{
+					switch (clauseGroup.ClauseJounOperationType)
+					{
+						case ClauseJounOperationType.And:
+							Add(FormulaOperationType.AND, comment: "Объединение нескольких условий по И");
+							break;
+
+						case ClauseJounOperationType.Or:
+							Add(FormulaOperationType.OR, comment: "Объединение нескольких условий по ИЛИ");
+							break;
+					}
+				}
+				clauseIndex++;
+			}
 		}
 
 		public List<byte> GetBytes()

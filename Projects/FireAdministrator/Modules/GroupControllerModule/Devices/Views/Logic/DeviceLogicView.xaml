@@ -16,8 +16,10 @@
 		</TabItem>
 		<TabItem Header="{Binding OffClauseName}" Visibility="{Binding HasOffClause, Converter={StaticResource BoolToVisibilityConverter}}">
 			<ScrollViewer VerticalScrollBarVisibility="Auto">
-                <Views:ClausesView DataContext="{Binding OffClausesGroup}" />
-			</ScrollViewer>
+                <StackPanel>
+                    <Views:ClausesView DataContext="{Binding OffClausesGroup}" />
+                </StackPanel>
+            </ScrollViewer>
 		</TabItem>
 	</TabControl>
 </UserControl>
