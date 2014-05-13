@@ -9,14 +9,14 @@ namespace SKDModule.ViewModels
 	{
 		public SettingsViewModel()
 		{
-			ShowVerificationSettingsCommand = new RelayCommand(OnShowVerificationSettings);
+			ShowSettingsCommand = new RelayCommand(OnShowVerificationSettings);
 		}
 
-		public RelayCommand ShowVerificationSettingsCommand { get; private set; }
+		public RelayCommand ShowSettingsCommand { get; private set; }
 		void OnShowVerificationSettings()
 		{
-			var verificationDetailsViewModel = new VerificationDetailsViewModel();
-			if(DialogService.ShowModalWindow(verificationDetailsViewModel))
+			var settingsDetailsViewModel = new SettingsDetailsViewModel();
+			if(DialogService.ShowModalWindow(settingsDetailsViewModel))
 			{
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
