@@ -7,16 +7,17 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using FiresecAPI.Models.Layouts;
 
 namespace SKDModule.ViewModels
 {
 	public class VerificationViewModel : ViewPartViewModel
 	{
-		public VerificationViewModel()
+		public VerificationViewModel(LayoutPartSKDVerificationProperties layoutPartSKDVerificationProperties)
 		{
 			DenyCommand = new RelayCommand(OnDeny);
 			AllowCommand = new RelayCommand(OnAllow);
-			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == SKDManager.SKDConfiguration.SKDSystemConfiguration.ReaderDeviceUID);
+			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == layoutPartSKDVerificationProperties.ReaderDeviceUID);
 			VerificationItemViewModel = new VerificationItemViewModel();
 
 			if (Device != null)

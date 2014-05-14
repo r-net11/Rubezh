@@ -18,6 +18,7 @@ using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
 using XFiresecAPI;
+using FiresecAPI.Models.Layouts;
 
 namespace SKDModule
 {
@@ -28,7 +29,6 @@ namespace SKDModule
 		JournalViewModel JournalViewModel;
 		ArchiveViewModel ArchiveViewModel;
 		HRViewModel HRViewModel;
-		VerificationViewModel VerificationViewModel;
 		NamedIntervalsViewModel NamedIntervalsViewModel;
 		ScheduleSchemesWeeklyViewModel ScheduleSchemesWeeklyViewModel;
 		ScheduleSchemesMonthlyViewModel ScheduleSchemesMonthlyViewModel;
@@ -56,7 +56,6 @@ namespace SKDModule
 			JournalViewModel = new JournalViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
 			HRViewModel = new HRViewModel();
-			VerificationViewModel = new VerificationViewModel();
 			NamedIntervalsViewModel = new NamedIntervalsViewModel();
 			ScheduleSchemesWeeklyViewModel = new ScheduleSchemesWeeklyViewModel();
 			ScheduleSchemesSlideViewModel = new ScheduleSchemesSlideViewModel();
@@ -80,7 +79,6 @@ namespace SKDModule
 						_journalNavigationItem,
 						new NavigationItem<ShowSKDArchiveEvent, ShowSKDArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/levels.png"),
 						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/tree.png"),
-						new NavigationItem<ShowVerificationEvent>(VerificationViewModel, "Верификация", "/Controls;component/Images/tree.png"),
 						new NavigationItem("Учет рабочего времени", null, new List<NavigationItem>()
 						{
 							new NavigationItem<ShowTimeIntervalsEvent, Guid>(NamedIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -219,7 +217,7 @@ namespace SKDModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "СКД зоны", "Tree.png", (p) => ZonesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDJournal, "Журнал", "Levels.png", (p) => JournalViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => HRViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => VerificationViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartSKDVerificationProperties));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDNamedIntervals, "Именованные интервалы", "Tree.png", (p) => NamedIntervalsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyScheduleSchemes, "Недельные графики", "Tree.png", (p) => ScheduleSchemesWeeklyViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDaylyScheduleSchemes, "Суточные графики", "Tree.png", (p) => ScheduleSchemesSlideViewModel);
