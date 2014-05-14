@@ -19,7 +19,7 @@ namespace SKDDriver
 			result.UID = tableItem.UID;
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
-			result.SystemDateTime = tableItem.SysemDate;
+			result.SystemDateTime = tableItem.SystemDate;
 			result.DeviceDateTime = tableItem.DeviceDate;
 			result.CardNo = tableItem.CardNo;
 			result.CardSeries = tableItem.CardSeries;
@@ -37,7 +37,7 @@ namespace SKDDriver
 			tableItem.DeviceNo = apiItem.DeviceJournalRecordNo;
 			tableItem.IpPort = apiItem.IpAddress;
 			tableItem.Name = apiItem.Name;
-			tableItem.SysemDate = CheckDate(apiItem.SystemDateTime);
+			tableItem.SystemDate = CheckDate(apiItem.SystemDateTime);
 		}
 
 		protected override Expression<Func<DataAccess.Journal, bool>> IsInFilter(SKDJournalFilter filter)
@@ -57,9 +57,9 @@ namespace SKDDriver
 
 			var systemDates = filter.SystemDateTime;
 			if (systemDates != null)
-				result = result.And(e => e.SysemDate != null &&
-					e.SysemDate >= systemDates.StartDate &&
-					e.SysemDate <= systemDates.EndDate);
+				result = result.And(e => e.SystemDate != null &&
+					e.SystemDate >= systemDates.StartDate &&
+					e.SystemDate <= systemDates.EndDate);
 
 			return result;
 		}
