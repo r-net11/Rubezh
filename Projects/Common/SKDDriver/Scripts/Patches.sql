@@ -1,0 +1,6 @@
+USE [SKD]
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Test')
+BEGIN
+	INSERT INTO Patches (Id) VALUES ('Test')    
+END

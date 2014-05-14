@@ -55,6 +55,12 @@ namespace FiresecService
 				commandText = commandText + " " + sr.ReadToEnd();
 			}
 
+			var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/InsertAllPatches.sql"));
+			using (StreamReader sr = new StreamReader(patchesStream.Stream))
+			{
+				commandText = commandText + " " + sr.ReadToEnd();
+			}
+
 			var server = new Server(new ServerConnection(connection));
 			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
 		}
