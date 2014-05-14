@@ -77,7 +77,7 @@ namespace GKModule.Validation
 
 		void ValidateDifferentGK(XDevice device)
 		{
-			foreach (var clause in device.DeviceLogic.Clauses)
+			foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 			{
 				foreach (var clauseDevice in clause.Devices)
 				{
@@ -109,7 +109,7 @@ namespace GKModule.Validation
 
 			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic && !device.IsChildMPTOrMRO())
 			{
-				if (device.DeviceLogic.Clauses.Count == 0)
+				if (device.DeviceLogic.ClausesGroup.Clauses.Count == 0)
 					Errors.Add(new DeviceValidationError(device, "Отсутствует логика срабатывания исполнительного устройства", ValidationErrorLevel.Warning));
 			}
 		}
@@ -162,7 +162,7 @@ namespace GKModule.Validation
 
 		void ValidateNotUsedLogic(XDevice device)
 		{
-			foreach (var clause in device.DeviceLogic.Clauses)
+			foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 			{
 				foreach (var clauseDevices in clause.Devices)
 				{

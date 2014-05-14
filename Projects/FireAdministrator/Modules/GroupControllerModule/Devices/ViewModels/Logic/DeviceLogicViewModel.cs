@@ -21,13 +21,13 @@ namespace GKModule.ViewModels
 				Title = "Настройка логики устройства " + device.PresentationName;
 			Device = device;
 
-			if (deviceLogic.Clauses.Count == 0)
+			if (deviceLogic.ClausesGroup.Clauses.Count == 0)
 			{
-				deviceLogic.Clauses.Add(new XClause());
+				deviceLogic.ClausesGroup.Clauses.Add(new XClause());
 			}
 
-			OnLogicViewModel = new LogicViewModel(device, deviceLogic.Clauses);
-			OffLogicViewModel = new LogicViewModel(device, deviceLogic.OffClauses);
+			ClausesGroup = new ClauseGroupViewModel(device, deviceLogic.ClausesGroup);
+			OffClausesGroup = new ClauseGroupViewModel(device, deviceLogic.OffClausesGroup);
 
 			SelectedMROMessageNo = deviceLogic.ZoneLogicMROMessageNo;
 			SelectedMROMessageType = deviceLogic.ZoneLogicMROMessageType;
@@ -37,8 +37,8 @@ namespace GKModule.ViewModels
 
 		public DeviceLogicViewModel _deviceDetailsViewModel { get; private set; }
 
-		public LogicViewModel OnLogicViewModel { get; private set; }
-		public LogicViewModel OffLogicViewModel { get; private set; }
+		public ClauseGroupViewModel ClausesGroup { get; private set; }
+		public ClauseGroupViewModel OffClausesGroup { get; private set; }
 
 		#region IsMRO_2M
 		public bool IsMRO_2M
@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				if (Device.DeviceLogic.OffClauses == null || Device.DeviceLogic.OffClauses.Count == 0)
+				if (Device.DeviceLogic.OffClausesGroup.Clauses == null || Device.DeviceLogic.OffClausesGroup.Clauses.Count == 0)
 					return "Условие выключения противоположно условию включения";
 				else
 					return "Условие выключения";
@@ -100,8 +100,8 @@ namespace GKModule.ViewModels
 		public XDeviceLogic GetModel()
 		{
 			var deviceLogic = new XDeviceLogic();
-			deviceLogic.Clauses = OnLogicViewModel.GetClauses();
-			deviceLogic.OffClauses = OffLogicViewModel.GetClauses();
+			deviceLogic.ClausesGroup = ClausesGroup.GetClauseGroup();
+			deviceLogic.OffClausesGroup = OffClausesGroup.GetClauseGroup();
 			deviceLogic.ZoneLogicMROMessageNo = SelectedMROMessageNo;
 			deviceLogic.ZoneLogicMROMessageType = SelectedMROMessageType;
 			return deviceLogic;

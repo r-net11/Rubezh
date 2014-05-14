@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class VerificationDetailsView : UserControl
+	public partial class SettingsDetailsView : UserControl
 	{
-		public VerificationDetailsView()
+		public SettingsDetailsView()
 		{
 			InitializeComponent();
 		}

@@ -35,11 +35,11 @@ namespace GKProcessor
 			{
 				if (Device.Driver.HasLogic)
 				{
-					if (Device.DeviceLogic.Clauses.Count > 0)
+					if (Device.DeviceLogic.ClausesGroup.Clauses.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.DeviceLogic.Clauses);
+						Formula.AddClauseFormula(Device.DeviceLogic.ClausesGroup);
 						AddMro2MFormula();
-						if (Device.DeviceLogic.OffClauses == null || Device.DeviceLogic.OffClauses.Count == 0)
+						if (Device.DeviceLogic.OffClausesGroup.Clauses.Count == 0)
 						{
 							Formula.AddStandardTurning(Device);
 						}
@@ -50,9 +50,9 @@ namespace GKProcessor
 							Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, Device);
 						}
 					}
-					if (Device.DeviceLogic.OffClauses.Count > 0)
+					if (Device.DeviceLogic.OffClausesGroup.Clauses.Count > 0)
 					{
-						Formula.AddClauseFormula(Device.DeviceLogic.OffClauses);
+						Formula.AddClauseFormula(Device.DeviceLogic.OffClausesGroup);
 						Formula.AddGetBit(XStateBit.Norm, Device);
 						Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 						Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Device);
@@ -104,12 +104,20 @@ namespace GKProcessor
 				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
-					if (driverProperty.IsMPTOrMRORegime)
+					if (driverProperty.CanNotEdit)
 					{
 						if (Device.DriverType == XDriverType.MPT)
 							property.Value = Device.IsChildMPTOrMRO() ? (ushort)(2 << 6) : (ushort)(1 << 6);
 						if (Device.DriverType == XDriverType.MRO_2)
 							property.Value = Device.IsChildMPTOrMRO() ? (ushort)1 : (ushort)2;
+
+						if (Device.DriverType == XDriverType.RSR2_MVP)
+						{
+							if (driverProperty.Name == "Число АУ на АЛС3 МВП")
+								property.Value = (ushort)Device.Children[0].AllChildren.Count(x => x.Driver.IsReal);
+							if (driverProperty.Name == "Число АУ на АЛС4 МВП")
+								property.Value = (ushort)Device.Children[1].AllChildren.Count(x => x.Driver.IsReal);
+						}
 					}
 
 					byte no = driverProperty.No;

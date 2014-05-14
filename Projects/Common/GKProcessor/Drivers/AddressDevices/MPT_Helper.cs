@@ -43,7 +43,7 @@ namespace GKProcessor
 
 			var property1 = GKDriversHelper.AddPlainEnumProprety(driver, 0x8C, 6, "Статус МПТ", "Ведущий", "Ведомый");
 			property1.IsLowByte = true;
-			property1.IsMPTOrMRORegime = true;
+			property1.CanNotEdit = true;
 
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Масса", 0, 2);
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Давление", 2, 2);

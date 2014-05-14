@@ -18,17 +18,10 @@ namespace Infrastructure.Common.Video.RVI_VSS
 
 		#region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
 		private void InitializeComponent()
 		{
 			this.label = new System.Windows.Forms.Label();
 			this.SuspendLayout();
-			// 
-			// label
-			// 
 			this.label.AutoSize = true;
 			this.label.Location = new System.Drawing.Point(6, 9);
 			this.label.Name = "label";

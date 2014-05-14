@@ -47,7 +47,7 @@ namespace GKProcessor
 				Caption = "Режим",
 				Default = 2,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
-				IsMPTOrMRORegime = true
+				CanNotEdit = true
 			};
 			var property2Parameter1 = new XDriverPropertyParameter()
 			{

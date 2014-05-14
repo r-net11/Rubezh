@@ -84,7 +84,7 @@ namespace FiresecClient
 					Plan.ElementSKDDevices = elementSKDDevices;
 
 					keys = XManager.Devices.Select(item => item.BaseUID).ToList();
-					var cameraKeys = SystemConfiguration.Cameras.Select(item => item.UID).ToList();
+					var cameraKeys = SystemConfiguration.AllCameras.Select(item => item.UID).ToList();
 					var elementExtensions = new List<ElementBase>();
 					foreach (var elementExtension in Plan.ElementExtensions)
 					{

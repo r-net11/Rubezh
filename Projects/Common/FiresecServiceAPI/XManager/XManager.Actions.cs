@@ -248,7 +248,7 @@ namespace FiresecClient
 
 		public static void ChangeDeviceLogic(XDevice device, XDeviceLogic deviceLogic)
 		{
-			foreach (var clause in device.DeviceLogic.Clauses)
+			foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
 			{
 				foreach (var direction in clause.Directions)
 				{

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows.Forms;
 using Entities.DeviceOriented;
-using Device = Entities.DeviceOriented.Device;
 
 namespace Infrastructure.Common.Video.RVI_VSS
 {
@@ -11,7 +10,6 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		IStream ExtraStream { get; set; }
 		PlayBackDeviceRecord Record { get; set; }
 		IDevice Device { get; set; }
-		bool IsConnected { get; set; }
 		bool IsStarted { get; set; }
 		bool IsPaused { get; set; }
 		public WinFormsPlayer()
@@ -98,7 +96,6 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				if (Record != null)
 					Record.StopPlayBack();
 				Record = record;
-				//record.StartPlaybackByFile(Handle);
 				record.StartPlaybackByTime(Handle, record.NetRecordFileInfo.StartTime);
 				IsStarted = true;
 				Speed = 4;

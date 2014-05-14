@@ -9,15 +9,15 @@ namespace XFiresecAPI
 	{
 		public XDeviceLogic()
 		{
-			Clauses = new List<XClause>();
-			OffClauses = new List<XClause>();
+			ClausesGroup = new XClauseGroup();
+			OffClausesGroup = new XClauseGroup();
 		}
 
 		[DataMember]
-		public List<XClause> Clauses { get; set; }
+		public XClauseGroup ClausesGroup { get; set; }
 
 		[DataMember]
-		public List<XClause> OffClauses { get; set; }
+		public XClauseGroup OffClausesGroup { get; set; }
 
 		[DataMember]
 		public ZoneLogicMROMessageNo ZoneLogicMROMessageNo { get; set; }

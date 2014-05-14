@@ -35,12 +35,17 @@ namespace FiresecClient
 
 		public static string GetPresentationZone(XDeviceLogic DeviceLogic)
 		{
+			return GetPresentationZone(DeviceLogic.ClausesGroup);
+		}
+
+		static string GetPresentationZone(XClauseGroup clauseGroup)
+		{
 			var stringBuilder = new StringBuilder();
 			var index = 0;
-			foreach (var clause in DeviceLogic.Clauses)
+			foreach (var clause in clauseGroup.Clauses)
 			{
 				if (index > 0)
-					stringBuilder.Append(" " + clause.ClauseJounOperationType.ToDescription() + " ");
+					stringBuilder.Append(" " + clauseGroup.ClauseJounOperationType.ToDescription() + " ");
 
 				if (clause.ClauseConditionType == ClauseConditionType.IfNot)
 					stringBuilder.Append("Если НЕ ");
@@ -51,6 +56,17 @@ namespace FiresecClient
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.Directions)));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.MPTs)));
 				stringBuilder.Append(GetCommaSeparatedObjects(new List<INamedBase>(clause.Delays)));
+				index++;
+			}
+
+			foreach (var group in clauseGroup.ClauseGroups)
+			{
+				if (index > 0)
+					stringBuilder.Append(" " + clauseGroup.ClauseJounOperationType.ToDescription() + " ");
+
+				var groupString = GetPresentationZone(group);
+
+				stringBuilder.Append("(" + groupString + ")");
 				index++;
 			}
 			return stringBuilder.ToString();

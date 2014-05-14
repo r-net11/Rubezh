@@ -2,7 +2,8 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 xmlns:Converters="clr-namespace:GKModule.Converters">
+			 xmlns:Converters="clr-namespace:GKModule.Converters"
+             xmlns:Views="clr-namespace:GKModule.Views">
 
 	<UserControl.Resources>
 		<Converters:ClauseConditionConverter x:Key="ClauseConditionConverter" />
@@ -11,190 +12,204 @@
 		<Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
 	</UserControl.Resources>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		<Controls:ToolBarButton Grid.Row="0" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" HorizontalAlignment="Left" Margin="2" />
-		<ItemsControl Grid.Row="1" ItemsSource="{Binding Clauses}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<StackPanel>
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<StackPanel Grid.Column="0" Margin="2" Orientation="Horizontal">
-									<ComboBox ItemsSource="{Binding ClauseConditionTypes}" SelectedItem="{Binding SelectedClauseConditionType}" Width="30" Margin="2">
-										<ComboBox.ItemTemplate>
-											<DataTemplate>
-												<TextBlock Text="{Binding ., Converter={StaticResource ClauseConditionConverter}}" />
-											</DataTemplate>
-										</ComboBox.ItemTemplate>
-									</ComboBox>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" CornerRadius="2" Background="DarkGray" Margin="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0"
+				    Command="{Binding ChangeJoinOperatorCommand}"
+				    Width="100" Foreground="White" Background="DarkGray" Style="{StaticResource ToolBarButtonStyle}">
+                    <TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" />                
+                </Button>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить условие" Height="32" Width="32" />
+                    <ToolBarButton Command="{Binding AddGroupCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить группу условий" Height="32" Width="32" />
+                    <ToolBarButton Command="{Binding RemoveGroupCommand2}" ImageSource="/Controls;component/Images/DeleteCross.png" ToolTip="Удалить группу условий" Height="32" Width="32" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <StackPanel Grid.Column="1">
+            <ItemsControl ItemsSource="{Binding Clauses}">
+			    <ItemsControl.ItemTemplate>
+				    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Controls:ToolBarButton Margin="2" ToolTip="Удалить условие"
+							    Command="{Binding
+							    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
+							    Path=DataContext.RemoveCommand}"
+							    CommandParameter="{Binding}"
+							    ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Background="DarkGray" />
 
-									<ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="160" Margin="2">
-										<ComboBox.ItemTemplate>
-											<DataTemplate>
-												<Controls:IconLabel ImageSource="{Binding ., Converter={StaticResource ClauseOperationTypeToIconConverter}}" 
-												Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" />
-											</DataTemplate>
-										</ComboBox.ItemTemplate>
-									</ComboBox>
+                            <ComboBox ItemsSource="{Binding ClauseConditionTypes}" SelectedItem="{Binding SelectedClauseConditionType}" Width="30" Margin="2">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<TextBlock Text="{Binding ., Converter={StaticResource ClauseConditionConverter}}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
 
-									<ComboBox Width="150" Height="30" VerticalAlignment="Center" Margin="2"
-													ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
-										<ComboBox.ItemTemplate>
-											<DataTemplate>
-												<Controls:IconLabel ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"
-												Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" />
-											</DataTemplate>
-										</ComboBox.ItemTemplate>
-									</ComboBox>
+							<ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="160" Margin="2">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<Controls:IconLabel ImageSource="{Binding ., Converter={StaticResource ClauseOperationTypeToIconConverter}}" 
+										Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
 
-									<TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-									<Hyperlink Command="{Binding SelectZonesCommand}" Style="{StaticResource HyperlinkStyle}">
-										<TextBlock Margin="2">
-											<TextBlock.Style>
-												<Style>
-													<Setter Property="TextBlock.Text" Value="{Binding PresenrationZones}" />
-													<Setter Property="TextBlock.ToolTip">
-														<Setter.Value>
-															<WrapPanel>
-																<TextBlock Text="{Binding PresenrationZones}" TextWrapping="Wrap" />
-															</WrapPanel>
-														</Setter.Value>
-													</Setter>
-													<Style.Triggers>
-														<DataTrigger Binding="{Binding PresenrationZones}" Value="">
-															<Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
-															<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора зон" />
-														</DataTrigger>
-													</Style.Triggers>
-												</Style>
-											</TextBlock.Style>
-										</TextBlock>
-									</Hyperlink>
-								</TextBlock>
+							<ComboBox Width="150" Height="30" VerticalAlignment="Center" Margin="2"
+											ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
+								<ComboBox.ItemTemplate>
+									<DataTemplate>
+										<Controls:IconLabel ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"
+										Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" />
+									</DataTemplate>
+								</ComboBox.ItemTemplate>
+							</ComboBox>
 
-								<TextBlock Visibility="{Binding CanSelectDevices, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-									<Hyperlink Command="{Binding SelectDevicesCommand}" Style="{StaticResource HyperlinkStyle}">
-										<TextBlock Margin="2">
-											<TextBlock.Style>
-												<Style>
-													<Setter Property="TextBlock.Text" Value="{Binding PresenrationDevices}" />
-													<Setter Property="TextBlock.ToolTip">
-														<Setter.Value>
-															<WrapPanel>
-																<TextBlock Text="{Binding PresenrationDevices}" TextWrapping="Wrap" />
-															</WrapPanel>
-														</Setter.Value>
-													</Setter>
-													<Style.Triggers>
-														<DataTrigger Binding="{Binding PresenrationDevices}" Value="">
-															<Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
-															<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора устройств" />
-														</DataTrigger>
-													</Style.Triggers>
-												</Style>
-											</TextBlock.Style>
-										</TextBlock>
-									</Hyperlink>
-								</TextBlock>
+							<TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+								<Hyperlink Command="{Binding SelectZonesCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Margin="2">
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding PresenrationZones}" />
+												<Setter Property="TextBlock.ToolTip">
+													<Setter.Value>
+														<WrapPanel>
+															<TextBlock Text="{Binding PresenrationZones}" TextWrapping="Wrap" />
+														</WrapPanel>
+													</Setter.Value>
+												</Setter>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding PresenrationZones}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора зон" />
+														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора зон" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Hyperlink>
+							</TextBlock>
 
-								<TextBlock Visibility="{Binding CanSelectDirections, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-									<Hyperlink Command="{Binding SelectDirectionCommand}" Style="{StaticResource HyperlinkStyle}">
-										<TextBlock Margin="2">
-											<TextBlock.Style>
-												<Style>
-													<Setter Property="TextBlock.Text" Value="{Binding PresenrationDirections}" />
-													<Setter Property="TextBlock.ToolTip">
-														<Setter.Value>
-															<WrapPanel>
-																<TextBlock Text="{Binding PresenrationDirections}" TextWrapping="Wrap" />
-															</WrapPanel>
-														</Setter.Value>
-													</Setter>
-													<Style.Triggers>
-														<DataTrigger Binding="{Binding PresenrationDirections}" Value="">
-															<Setter Property="TextBlock.Text" Value="Нажмите для выбора направлений" />
-															<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора направлений" />
-														</DataTrigger>
-													</Style.Triggers>
-												</Style>
-											</TextBlock.Style>
-										</TextBlock>
-									</Hyperlink>
-								</TextBlock>
+							<TextBlock Visibility="{Binding CanSelectDevices, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+								<Hyperlink Command="{Binding SelectDevicesCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Margin="2">
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding PresenrationDevices}" />
+												<Setter Property="TextBlock.ToolTip">
+													<Setter.Value>
+														<WrapPanel>
+															<TextBlock Text="{Binding PresenrationDevices}" TextWrapping="Wrap" />
+														</WrapPanel>
+													</Setter.Value>
+												</Setter>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding PresenrationDevices}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
+														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора устройств" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Hyperlink>
+							</TextBlock>
+
+							<TextBlock Visibility="{Binding CanSelectDirections, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+								<Hyperlink Command="{Binding SelectDirectionCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Margin="2">
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding PresenrationDirections}" />
+												<Setter Property="TextBlock.ToolTip">
+													<Setter.Value>
+														<WrapPanel>
+															<TextBlock Text="{Binding PresenrationDirections}" TextWrapping="Wrap" />
+														</WrapPanel>
+													</Setter.Value>
+												</Setter>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding PresenrationDirections}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора направлений" />
+														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора направлений" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Hyperlink>
+							</TextBlock>
 									
-								<TextBlock Visibility="{Binding CanSelectMPTs, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-									<Hyperlink Command="{Binding SelectMPTsCommand}" Style="{StaticResource HyperlinkStyle}">
-										<TextBlock Margin="2">
-											<TextBlock.Style>
-												<Style>
-													<Setter Property="TextBlock.Text" Value="{Binding PresenrationMPTs}" />
-													<Setter Property="TextBlock.ToolTip">
-														<Setter.Value>
-															<WrapPanel>
-																<TextBlock Text="{Binding PresenrationMPTs}" TextWrapping="Wrap" />
-															</WrapPanel>
-														</Setter.Value>
-													</Setter>
-													<Style.Triggers>
-														<DataTrigger Binding="{Binding PresenrationMPTs}" Value="">
-															<Setter Property="TextBlock.Text" Value="Нажмите для выбора МПТ" />
-															<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора МПТ" />
-														</DataTrigger>
-													</Style.Triggers>
-												</Style>
-											</TextBlock.Style>
-										</TextBlock>
-									</Hyperlink>
-								</TextBlock>
+                            <TextBlock Visibility="{Binding CanSelectMPTs, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+								<Hyperlink Command="{Binding SelectMPTsCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Margin="2">
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding PresenrationMPTs}" />
+												<Setter Property="TextBlock.ToolTip">
+													<Setter.Value>
+														<WrapPanel>
+															<TextBlock Text="{Binding PresenrationMPTs}" TextWrapping="Wrap" />
+														</WrapPanel>
+													</Setter.Value>
+												</Setter>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding PresenrationMPTs}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора МПТ" />
+														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора МПТ" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Hyperlink>
+							</TextBlock>
 									
-								<TextBlock Visibility="{Binding CanSelectDelays, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-									<Hyperlink Command="{Binding SelectDelaysCommand}" Style="{StaticResource HyperlinkStyle}">
-										<TextBlock Margin="2">
-											<TextBlock.Style>
-												<Style>
-													<Setter Property="TextBlock.Text" Value="{Binding PresenrationDelays}" />
-													<Setter Property="TextBlock.ToolTip">
-														<Setter.Value>
-															<WrapPanel>
-																<TextBlock Text="{Binding PresenrationDelays}" TextWrapping="Wrap" />
-															</WrapPanel>
-														</Setter.Value>
-													</Setter>
-													<Style.Triggers>
-														<DataTrigger Binding="{Binding PresenrationDelays}" Value="">
-															<Setter Property="TextBlock.Text" Value="Нажмите для выбора задержек" />
-															<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора задержек" />
-														</DataTrigger>
-													</Style.Triggers>
-												</Style>
-											</TextBlock.Style>
-										</TextBlock>
-									</Hyperlink>
-								</TextBlock>
-							</StackPanel>
-							<Controls:ToolBarButton Grid.Column="1" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить"
-								Command="{Binding
-								RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
-								Path=DataContext.RemoveCommand}"
-								CommandParameter="{Binding}"
-								ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
-						</Grid>
-						<Grid Visibility="{Binding ShowJoinOperator, Converter={StaticResource BoolToVisibilityConverter}}">
-							<Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
-								Content="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}"
-								Command="{Binding ChangeJoinOperatorCommand}"
-								Width="75" HorizontalAlignment="Left" Style="{StaticResource ToolBarButtonStyle}" Foreground="White" />
-						</Grid>
-					</StackPanel>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-	</Grid>
+                            <TextBlock Visibility="{Binding CanSelectDelays, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+								<Hyperlink Command="{Binding SelectDelaysCommand}" Style="{StaticResource HyperlinkStyle}">
+									<TextBlock Margin="2">
+										<TextBlock.Style>
+											<Style>
+												<Setter Property="TextBlock.Text" Value="{Binding PresenrationDelays}" />
+												<Setter Property="TextBlock.ToolTip">
+													<Setter.Value>
+														<WrapPanel>
+															<TextBlock Text="{Binding PresenrationDelays}" TextWrapping="Wrap" />
+														</WrapPanel>
+													</Setter.Value>
+												</Setter>
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding PresenrationDelays}" Value="">
+														<Setter Property="TextBlock.Text" Value="Нажмите для выбора задержек" />
+														<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора задержек" />
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</TextBlock.Style>
+									</TextBlock>
+								</Hyperlink>
+							</TextBlock>
+						</StackPanel>
+			        </DataTemplate>
+		        </ItemsControl.ItemTemplate>
+	        </ItemsControl>
+                
+            <ItemsControl ItemsSource="{Binding ClauseGroups}">
+			    <ItemsControl.ItemTemplate>
+				    <DataTemplate>
+                        <Views:ClausesView />
+			        </DataTemplate>
+		        </ItemsControl.ItemTemplate>
+	        </ItemsControl>
+        </StackPanel>
+    </Grid>
 </UserControl>

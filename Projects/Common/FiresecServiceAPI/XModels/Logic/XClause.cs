@@ -9,7 +9,6 @@ namespace XFiresecAPI
 	{
 		public XClause()
 		{
-			ClauseJounOperationType = ClauseJounOperationType.Or;
 			StateType = XStateBit.Fire1;
 			DeviceUIDs = new List<Guid>();
 			ZoneUIDs = new List<Guid>();
@@ -53,9 +52,6 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public ClauseOperationType ClauseOperationType { get; set; }
-
-		[DataMember]
-		public ClauseJounOperationType ClauseJounOperationType { get; set; }
 
 		public bool HasObjects()
 		{

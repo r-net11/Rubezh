@@ -182,9 +182,9 @@ namespace VideoModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
 
-		private void OnDeviceChanged(Guid cameraUID)
+		private void OnCameraChanged(Guid cameraUID)
 		{
-			var camera = Cameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
+			var camera = AllCameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
 			if (camera != null)
 			{
 				camera.Update();
@@ -193,6 +193,21 @@ namespace VideoModule.ViewModels
 					SelectedCamera = camera;
 			}
 		}
+
+		public List<CameraViewModel> AllCameras
+		{
+			get
+			{
+				var cameras = new List<CameraViewModel>();
+				foreach (var camera in Cameras)
+				{
+					cameras.Add(camera);
+					cameras.AddRange(camera.Children);
+				}
+				return cameras;
+			}
+		}
+
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
 			elements.OfType<ElementCamera>().ToList().ForEach(element => Helper.ResetCamera(element));
@@ -203,15 +218,15 @@ namespace VideoModule.ViewModels
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
-				ElementCamera elementDevice = element as ElementCamera;
-				if (elementDevice != null)
-					OnDeviceChanged(elementDevice.CameraUID);
+				var elementCamera = element as ElementCamera;
+				if (elementCamera != null)
+					OnCameraChanged(elementCamera.CameraUID);
 			});
 			_lockSelection = false;
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			ElementCamera elementCamera = element as ElementCamera;
+			var elementCamera = element as ElementCamera;
 			if (elementCamera != null)
 			{
 				_lockSelection = true;
@@ -223,7 +238,11 @@ namespace VideoModule.ViewModels
 		public void Select(Guid cameraUID)
 		{
 			if (cameraUID != Guid.Empty)
-				SelectedCamera = Cameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
+			{
+				SelectedCamera = AllCameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
+				if(SelectedCamera != null)
+					SelectedCamera.ExpandToThis();
+			}
 		}
 
 		private void RegisterShortcuts()

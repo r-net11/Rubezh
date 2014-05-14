@@ -119,9 +119,7 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				return IsOnPlan
-					? (Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single)
-					: VisualizationState.NotPresent;
+				return IsOnPlan ? (Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent; 
 			}
 		}
 

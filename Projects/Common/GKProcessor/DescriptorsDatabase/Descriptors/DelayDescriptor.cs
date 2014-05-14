@@ -24,9 +24,9 @@ namespace GKProcessor
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if (Delay.DeviceLogic.Clauses.Count > 0)
+			if (Delay.DeviceLogic.ClausesGroup.Clauses.Count > 0)
 			{
-				Formula.AddClauseFormula(Delay.DeviceLogic.Clauses);
+				Formula.AddClauseFormula(Delay.DeviceLogic.ClausesGroup);
 				Formula.AddStandardTurning(Delay);
 			}
 			FormulaBytes = Formula.GetBytes();

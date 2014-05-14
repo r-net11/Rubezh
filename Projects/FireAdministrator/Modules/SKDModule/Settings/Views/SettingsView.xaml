@@ -4,7 +4,7 @@
 
 	<Border Background="White" CornerRadius="5">
 		<StackPanel Margin="5">
-			<Button Content="Настройки поста верификации" Command="{Binding ShowVerificationSettingsCommand}" Width="200" />
+			<Button Content="Настройки" Command="{Binding ShowSettingsCommand}" Width="200" />
 		</StackPanel>
 	</Border>
 </UserControl>

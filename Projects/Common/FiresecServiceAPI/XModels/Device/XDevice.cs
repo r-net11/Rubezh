@@ -347,7 +347,7 @@ namespace XFiresecAPI
 			{
 				var allParents = AllParents;
 				allParents.Add(this);
-				return allParents.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_MVP_Part);
+				return allParents.LastOrDefault(x => x.DriverType == XDriverType.RSR2_MVP_Part);
 			}
 		}
 

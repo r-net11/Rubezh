@@ -17,8 +17,8 @@ namespace FiresecClient
 		public static FiresecConfiguration FiresecConfiguration { get; set; }
 		public static PlansConfiguration PlansConfiguration
 		{
-			get { return FiresecAPI.Models.ConfigurationCash.PlansConfiguration; }
-			set { FiresecAPI.Models.ConfigurationCash.PlansConfiguration = value; }
+			get { return ConfigurationCash.PlansConfiguration; }
+			set { ConfigurationCash.PlansConfiguration = value; }
 		}
 
 		public static DeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
@@ -54,7 +54,7 @@ namespace FiresecClient
 		{
 			try
 			{
-				var stream = FiresecManager.FiresecService.GetConfig();
+				var stream = FiresecService.GetConfig();
 				FiresecConfiguration = new FiresecConfiguration();
 
 				var folderName = AppDataFolderHelper.GetLocalFolder(configurationFolderName);
@@ -112,7 +112,7 @@ namespace FiresecClient
 				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
-				FiresecManager.SystemConfiguration.Cameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
+				SystemConfiguration.AllCameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 
 				var deviceMap = new Dictionary<Guid, Device>();
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(device => deviceMap.Add(device.UID, device));
@@ -152,15 +152,15 @@ namespace FiresecClient
 				}
 
 				var cameraMap = new Dictionary<Guid, Camera>();
-				foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+				foreach (var camera in SystemConfiguration.AllCameras)
 				{
 					if (!cameraMap.ContainsKey(camera.UID))
 						cameraMap.Add(camera.UID, camera);
 				}
 
 				var planMap = new Dictionary<Guid, Plan>();
-				FiresecManager.PlansConfiguration.AllPlans.ForEach(plan => planMap.Add(plan.UID, plan));
-				foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				PlansConfiguration.AllPlans.ForEach(plan => planMap.Add(plan.UID, plan));
+				foreach (var plan in PlansConfiguration.AllPlans)
 				{
 					for (int i = plan.ElementDevices.Count(); i > 0; i--)
 					{
