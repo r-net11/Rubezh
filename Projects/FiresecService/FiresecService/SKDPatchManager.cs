@@ -11,6 +11,8 @@ namespace FiresecService
 {
 	public static class SKDPatchManager
 	{
+		static string connectionString = @"Data Source=.\sqlexpress;Initial Catalog=master;Integrated Security=True"; 
+		
 		public static void Patch()
 		{
 			try
@@ -18,6 +20,7 @@ namespace FiresecService
 				var isExists = IsExists();
 				if (!isExists)
 					Create();
+				ApplyPatches();
 			}
 			catch (Exception e)
 			{
@@ -27,7 +30,7 @@ namespace FiresecService
 
 		static bool IsExists()
 		{
-			var connection = new SqlConnection(@"Data Source=.\sqlexpress;Initial Catalog=master;Integrated Security=True");
+			SqlConnection connection = new SqlConnection(connectionString); 
 			var sqlCommand = new SqlCommand(
 				@"SELECT name FROM sys.databases WHERE name = 'SKD'",
 				connection);
@@ -41,26 +44,39 @@ namespace FiresecService
 
 		static void Create()
 		{
-			var connection = new SqlConnection(@"Data Source=.\sqlexpress;Initial Catalog=master;Integrated Security=True");
+			SqlConnection connection = new SqlConnection(connectionString); 
 			string commandText = "";
-			var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKUD_Create.sql"));
-			using (StreamReader sr = new StreamReader(createStream.Stream))
+			var stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKUD_Create.sql"));
+			using (StreamReader sr = new StreamReader(stream.Stream))
 			{
 				commandText = sr.ReadToEnd();
 			}
 
-			var relationsStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKUD_Relations.sql"));
-			using (StreamReader sr = new StreamReader(relationsStream.Stream))
+			stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKUD_Relations.sql"));
+			using (StreamReader sr = new StreamReader(stream.Stream))
 			{
 				commandText = commandText + " " + sr.ReadToEnd();
 			}
 
-			var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/InsertAllPatches.sql"));
-			using (StreamReader sr = new StreamReader(patchesStream.Stream))
+			stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/InsertAllPatches.sql"));
+			using (StreamReader sr = new StreamReader(stream.Stream))
 			{
 				commandText = commandText + " " + sr.ReadToEnd();
 			}
 
+			var server = new Server(new ServerConnection(connection));
+			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+		}
+
+		static void ApplyPatches()
+		{
+			SqlConnection connection = new SqlConnection(connectionString); 
+			string commandText;
+			var stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Patches.sql"));
+			using (StreamReader sr = new StreamReader(stream.Stream))
+			{
+				commandText = sr.ReadToEnd();
+			}
 			var server = new Server(new ServerConnection(connection));
 			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
 		}
