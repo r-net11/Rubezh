@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Common;
 using FiresecAPI;
@@ -145,7 +146,7 @@ namespace Firesec
 			if (deviceConfiguration == null)
 			{
 				Logger.Error("ConfigurationConverter.Update deviceConfiguration = null");
-				throw new FiresecException("Нулевая кофигурация устройств при обновлении");
+				throw new Exception("Нулевая кофигурация устройств при обновлении");
 			}
 
 			var hasInvalidDriver = false;

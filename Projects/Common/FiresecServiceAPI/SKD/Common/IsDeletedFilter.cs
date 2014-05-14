@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
-namespace FiresecAPI
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public abstract class IsDeletedFilter : FilterBase

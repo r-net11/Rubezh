@@ -2,9 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models.Layouts;
-using Infrastructure.Common.Services.Layout;
-using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure.Common.Services.Layout;
 
 namespace VideoModule.ViewModels
 {

@@ -1,4 +1,4 @@
-﻿namespace XFiresecAPI
+﻿namespace FiresecAPI.GK
 {
 	public enum XDriverDevicePropertyTypeEnum
 	{

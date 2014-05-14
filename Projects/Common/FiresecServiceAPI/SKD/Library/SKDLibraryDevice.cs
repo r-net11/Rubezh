@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.GK;
 using Infrustructure.Plans.Devices;
 
-namespace XFiresecAPI
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class SKDLibraryDevice : ILibraryDevice<SKDLibraryState, SKDLibraryFrame, XStateClass>

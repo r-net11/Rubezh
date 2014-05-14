@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.Models.Layouts;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
-using FiresecAPI.Models.Layouts;
 
 namespace SKDModule.ViewModels
 {

@@ -1,6 +1,4 @@
-﻿using System;
-using FiresecAPI.Models.Layouts;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Infrastructure.Common.Services.Layout
 {

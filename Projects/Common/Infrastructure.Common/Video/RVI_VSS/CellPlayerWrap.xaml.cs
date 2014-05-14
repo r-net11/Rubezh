@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Threading;
 using Entities.DeviceOriented;
 using FiresecAPI.Models;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Services.DragDrop;
-using Infrustructure.Plans.Elements;
 
 namespace Infrastructure.Common.Video.RVI_VSS
 {

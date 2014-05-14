@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	[DataContract]
 	public abstract class XBase

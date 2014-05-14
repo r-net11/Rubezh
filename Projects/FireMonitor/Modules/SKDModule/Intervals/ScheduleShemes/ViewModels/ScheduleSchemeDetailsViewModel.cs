@@ -7,11 +7,11 @@ namespace SKDModule.ViewModels
 {
 	public class ScheduleSchemeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		FiresecAPI.Organisation Organisation;
+		FiresecAPI.SKD.Organisation Organisation;
 		ScheduleSchemeType ScheduleSchemeType;
 		public ScheduleScheme ScheduleScheme { get; private set; }
 
-		public ScheduleSchemeDetailsViewModel(FiresecAPI.Organisation organisation, ScheduleSchemeType scheduleSchemeType, ScheduleScheme scheduleScheme = null)
+		public ScheduleSchemeDetailsViewModel(FiresecAPI.SKD.Organisation organisation, ScheduleSchemeType scheduleSchemeType, ScheduleScheme scheduleScheme = null)
 		{
 			Organisation = organisation;
 			ScheduleSchemeType = scheduleSchemeType;

@@ -2,17 +2,15 @@
 using System.Windows;
 using System.Windows.Shapes;
 using DeviceControls;
-using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
-using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
-using XFiresecAPI;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels

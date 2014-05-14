@@ -5,6 +5,7 @@ using Common;
 using DevicesModule.Plans;
 using DevicesModule.Reports;
 using DevicesModule.ViewModels;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -16,7 +17,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Models;
 using Infrustructure.Plans.Events;
-using XFiresecAPI;
 
 namespace DevicesModule
 {

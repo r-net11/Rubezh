@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
@@ -17,7 +18,6 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using XFiresecAPI;
 
 namespace GKModule
 {

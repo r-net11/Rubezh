@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
+using FiresecAPI.SKD;
 using LinqKit;
 
 namespace SKDDriver
@@ -18,7 +19,7 @@ namespace SKDDriver
 		protected override CardZone Translate(DataAccess.CardZone tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.IntervalType = (FiresecAPI.IntervalType)tableItem.IntervalType;
+			result.IntervalType = (IntervalType)tableItem.IntervalType;
 			result.IntervalUID = tableItem.IntervalUID;
 			result.IsComission = tableItem.IsWithEscort;
 			result.ZoneUID = tableItem.ZoneUID;

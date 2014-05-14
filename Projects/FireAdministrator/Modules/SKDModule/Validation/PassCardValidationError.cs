@@ -1,10 +1,7 @@
 ﻿using System;
-using FiresecAPI;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
 using SKDModule.Events;
-using XFiresecAPI;
-using FiresecAPI.SKD.PassCardLibrary;
-using Infrastructure.Events;
 
 namespace SKDModule.Validation
 {

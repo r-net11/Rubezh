@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Ionic.Zip;
-using XFiresecAPI;
 
 namespace Infrastructure.Common
 {

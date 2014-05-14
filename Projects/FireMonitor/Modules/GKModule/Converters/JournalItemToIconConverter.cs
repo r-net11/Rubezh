@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Data;
+using FiresecAPI.GK;
 using FiresecClient;
-using XFiresecAPI;
 
 namespace GKModule.Converters
 {

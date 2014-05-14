@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI
+namespace FiresecAPI.SKD
 {
 	public enum PersonType
 	{

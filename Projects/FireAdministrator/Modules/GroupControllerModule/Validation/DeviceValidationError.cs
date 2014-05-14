@@ -1,7 +1,7 @@
 ﻿using System;
+using FiresecAPI.GK;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
-using XFiresecAPI;
 
 namespace GKModule.Validation
 {

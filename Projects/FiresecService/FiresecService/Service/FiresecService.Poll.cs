@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
-using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
-using System.Diagnostics;
-using XFiresecAPI;
+using FiresecAPI.SKD;
 
 namespace FiresecService.Service
 {

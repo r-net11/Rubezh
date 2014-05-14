@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.SKD.PassCardLibrary
+namespace FiresecAPI.SKD
 {
 	public enum PassCardImagePropertyType
 	{

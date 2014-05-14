@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
 using FiresecAPI.Models;
-using Infrastructure.Common.BalloonTrayTip;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecService.ViewModels
 {

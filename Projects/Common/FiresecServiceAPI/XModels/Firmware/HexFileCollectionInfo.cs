@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	[DataContract]
 	public class HexFileCollectionInfo

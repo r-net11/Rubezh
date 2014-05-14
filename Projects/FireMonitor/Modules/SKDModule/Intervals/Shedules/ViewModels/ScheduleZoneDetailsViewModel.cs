@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 			IsControl = zone.IsControl;
 
 			AllZones = new List<ZoneViewModel>();
-			RootZone = AddZoneInternal(FiresecAPI.SKDManager.SKDConfiguration.RootZone, null);
+			RootZone = AddZoneInternal(FiresecAPI.SKD.SKDManager.SKDConfiguration.RootZone, null);
 			SelectedZone = AllZones.FirstOrDefault(x => x.Zone.UID == ScheduleZone.ZoneUID);
 
 			foreach (var z in AllZones)
@@ -68,7 +68,7 @@ namespace SKDModule.ViewModels
 			get { return new ZoneViewModel[] { RootZone }; }
 		}
 
-		private ZoneViewModel AddZoneInternal(FiresecAPI.SKDZone zone, ZoneViewModel parentZoneViewModel)
+		private ZoneViewModel AddZoneInternal(FiresecAPI.SKD.SKDZone zone, ZoneViewModel parentZoneViewModel)
 		{
 			var zoneViewModel = new ZoneViewModel(zone);
 			AllZones.Add(zoneViewModel);

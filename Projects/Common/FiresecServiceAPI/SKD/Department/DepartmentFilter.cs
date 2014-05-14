@@ -1,8 +1,6 @@
 ﻿using System.Runtime.Serialization;
-using System;
-using System.Collections.Generic;
 
-namespace FiresecAPI
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class DepartmentFilter : OrganisationFilterBase

@@ -10,13 +10,13 @@ namespace SKDModule.ViewModels
 {
 	public class ScheduleViewModel : TreeNodeViewModel<ScheduleViewModel>, IEditingViewModel
 	{
-		public FiresecAPI.Organisation Organisation { get; private set; }
+		public FiresecAPI.SKD.Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 		public Schedule Schedule { get; private set; }
 
-		public ScheduleViewModel(FiresecAPI.Organisation organisation)
+		public ScheduleViewModel(FiresecAPI.SKD.Organisation organisation)
 		{
 			Organisation = organisation;
 			IsOrganisation = true;
@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 		}
 
-		public ScheduleViewModel(FiresecAPI.Organisation organisation, Schedule schedule)
+		public ScheduleViewModel(FiresecAPI.SKD.Organisation organisation, Schedule schedule)
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);

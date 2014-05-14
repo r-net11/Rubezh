@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows.Input;
 using Common;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
@@ -12,7 +13,6 @@ using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using System.Windows.Input;
 
 namespace LayoutModule.ViewModels
 {

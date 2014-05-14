@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using VideoModule.ViewModels;
+﻿using System.Windows.Controls;
 
 namespace VideoModule.Views
 {

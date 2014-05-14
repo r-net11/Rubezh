@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
 using Common;
-using FiresecAPI;
-using FiresecAPI.SKD.PassCardLibrary;
+using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.PassCard.Designer;
 using SKDModule.PassCard.Painter;
-using System;
-using Infrustructure.Plans.Designer;
 
 namespace SKDModule.PassCard.ViewModels
 {

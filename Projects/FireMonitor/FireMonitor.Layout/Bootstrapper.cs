@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using Common;
 using FireMonitor.Layout.ViewModels;
 using FiresecClient;
 using Infrastructure;
@@ -8,8 +10,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Shell = FireMonitor;
-using System;
-using Common;
 
 namespace FireMonitor.Layout
 {

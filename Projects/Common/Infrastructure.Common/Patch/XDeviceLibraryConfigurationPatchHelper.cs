@@ -5,9 +5,9 @@ using System.Runtime.Serialization;
 using System.Text;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.SKD;
 using Ionic.Zip;
-using XFiresecAPI;
-using System.Windows.Forms;
 
 namespace Infrastructure.Common
 {

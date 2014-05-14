@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using XFiresecAPI;
-using FiresecService.Processor;
+using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecClient;
+using FiresecService.Processor;
 using GKProcessor;
 using Infrastructure.Common;
-using FiresecAPI;
 
 namespace FiresecService
 {

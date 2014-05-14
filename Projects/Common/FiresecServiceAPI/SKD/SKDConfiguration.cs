@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI;
 
-namespace XFiresecAPI
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class SKDConfiguration : VersionedConfiguration

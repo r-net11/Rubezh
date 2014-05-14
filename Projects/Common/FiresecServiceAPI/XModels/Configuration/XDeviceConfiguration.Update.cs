@@ -4,7 +4,7 @@ using System.Linq;
 using Common;
 using FiresecClient;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	public partial class XDeviceConfiguration
 	{

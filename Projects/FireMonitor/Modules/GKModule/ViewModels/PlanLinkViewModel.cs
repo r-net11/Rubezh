@@ -1,11 +1,11 @@
 ﻿using System;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

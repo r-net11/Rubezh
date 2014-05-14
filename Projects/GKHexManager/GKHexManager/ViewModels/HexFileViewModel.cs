@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 
 namespace HexManager.ViewModels
 {

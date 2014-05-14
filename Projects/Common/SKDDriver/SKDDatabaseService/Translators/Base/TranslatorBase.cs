@@ -4,6 +4,7 @@ using System.Data.Linq;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
+using FiresecAPI.SKD;
 using LinqKit;
 
 namespace SKDDriver

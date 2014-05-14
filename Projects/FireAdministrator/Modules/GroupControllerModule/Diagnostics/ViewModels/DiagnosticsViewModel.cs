@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecClient;
 using GKModule.Converter;
 using GKModule.Diagnostics;
@@ -15,7 +16,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

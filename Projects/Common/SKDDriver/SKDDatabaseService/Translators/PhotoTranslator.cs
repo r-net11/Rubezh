@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using FiresecAPI;
+using FiresecAPI.SKD;
 using LinqKit;
 
 namespace SKDDriver

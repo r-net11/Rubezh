@@ -11,13 +11,13 @@ namespace SKDModule.ViewModels
 {
 	public class NamedIntervalViewModel : TreeNodeViewModel<NamedIntervalViewModel>, IEditingViewModel
 	{
-		public FiresecAPI.Organisation Organisation { get; private set; }
+		public FiresecAPI.SKD.Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 		public NamedInterval NamedInterval { get; private set; }
 
-		public NamedIntervalViewModel(FiresecAPI.Organisation organisation)
+		public NamedIntervalViewModel(FiresecAPI.SKD.Organisation organisation)
 		{
 			Organisation = organisation;
 			IsOrganisation = true;
@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 		}
 
-		public NamedIntervalViewModel(FiresecAPI.Organisation organisation, NamedInterval namedInterval)
+		public NamedIntervalViewModel(FiresecAPI.SKD.Organisation organisation, NamedInterval namedInterval)
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);

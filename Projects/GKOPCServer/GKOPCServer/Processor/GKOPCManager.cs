@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Common;
-using FiresecAPI.Models;
+using FiresecAPI.GK;
 using FiresecClient;
 using Graybox.OPC.ServerToolkit.CLRWrapper;
-using XFiresecAPI;
 
 namespace GKOPCServer
 {

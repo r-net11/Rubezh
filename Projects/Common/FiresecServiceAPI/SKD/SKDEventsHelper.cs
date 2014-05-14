@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using XFiresecAPI;
+using FiresecAPI.GK;
 
-namespace FiresecAPI
+namespace FiresecAPI.SKD
 {
 	public static class SKDEventsHelper
 	{

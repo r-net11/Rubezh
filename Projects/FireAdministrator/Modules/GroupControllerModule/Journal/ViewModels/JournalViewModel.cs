@@ -3,13 +3,13 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using FiresecAPI.GK;
 using FiresecClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

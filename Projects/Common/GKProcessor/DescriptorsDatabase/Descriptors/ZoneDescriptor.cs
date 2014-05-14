@@ -1,5 +1,5 @@
-﻿using FiresecAPI.Models;
-using XFiresecAPI;
+﻿using FiresecAPI.GK;
+using FiresecAPI.Models;
 
 namespace GKProcessor
 {

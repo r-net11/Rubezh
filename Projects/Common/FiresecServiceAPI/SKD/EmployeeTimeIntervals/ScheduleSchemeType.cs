@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.Serialization;
-using System;
 
 namespace FiresecAPI.EmployeeTimeIntervals
 {

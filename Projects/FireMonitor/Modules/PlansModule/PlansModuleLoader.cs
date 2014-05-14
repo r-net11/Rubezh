@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
@@ -16,7 +17,6 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
-using XFiresecAPI;
 
 namespace PlansModule
 {

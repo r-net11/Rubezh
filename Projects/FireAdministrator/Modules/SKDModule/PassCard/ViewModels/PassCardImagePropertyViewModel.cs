@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 using FiresecAPI;
-using FiresecAPI.SKD.PassCardLibrary;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Designer.ElementProperties.ViewModels;
 

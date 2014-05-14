@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Shapes;
 using DeviceControls;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
@@ -15,7 +16,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

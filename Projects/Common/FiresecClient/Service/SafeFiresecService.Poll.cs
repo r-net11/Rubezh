@@ -4,8 +4,9 @@ using System.Threading;
 using Common;
 using Firesec;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
-using XFiresecAPI;
+using FiresecAPI.SKD;
 
 namespace FiresecClient
 {

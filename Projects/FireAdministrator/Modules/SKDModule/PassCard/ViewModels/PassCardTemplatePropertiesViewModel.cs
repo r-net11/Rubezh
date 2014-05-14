@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using FiresecAPI.SKD.PassCardLibrary;
+using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ElementProperties.ViewModels;

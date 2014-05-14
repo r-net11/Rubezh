@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Common;
+using FiresecAPI.GK;
 using FiresecClient;
 using GKModule.Events;
 using GKProcessor;
@@ -13,7 +14,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Video.RVI_VSS;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 
 namespace VideoModule.ViewModels
 {

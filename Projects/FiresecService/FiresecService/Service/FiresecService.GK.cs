@@ -1,17 +1,11 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Common;
-using Infrastructure.Common;
-using Ionic.Zip;
-using FiresecAPI;
-using System.Text;
-using FiresecAPI.Models;
-using XFiresecAPI;
-using System;
-using GKProcessor;
-using FiresecClient;
 using System.Threading;
+using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecClient;
+using GKProcessor;
 
 namespace FiresecService.Service
 {

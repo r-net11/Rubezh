@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecAPI;
-using XFiresecAPI;
 using Common;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
 
 namespace SKDDriver

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
 using Common;
 using FiresecAPI.Models;
 using Vlc.DotNet.Core;

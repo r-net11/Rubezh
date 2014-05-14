@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Media;
-using FiresecClient;
-using Infrustructure.Plans.Devices;
-using XFiresecAPI;
+﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Media;
 
 namespace DeviceControls
 {

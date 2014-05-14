@@ -6,6 +6,7 @@ using System.Windows;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using GKProcessor;
 using Infrastructure;

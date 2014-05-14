@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(ScheduleSchemeFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new FiresecAPI.OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.Get(new FiresecAPI.SKD.OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 			var scheduleSchemes = ScheduleSchemaHelper.Get(filter);
 
 			AllScheduleSchemes = new List<ScheduleSchemeViewModel>();

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Common;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -12,7 +13,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
-using XFiresecAPI;
 
 namespace FireAdministrator.ViewModels
 {

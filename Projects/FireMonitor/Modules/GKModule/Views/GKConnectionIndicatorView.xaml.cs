@@ -6,11 +6,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Events;
-using XFiresecAPI;
 
 namespace GKModule.Views
 {

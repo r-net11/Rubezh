@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Firesec.Imitator;
-using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace FiresecClient.Itv
@@ -42,10 +41,6 @@ namespace FiresecClient.Itv
 					FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(Watcher_NewJournalRecords);
 					FiresecManager.FiresecDriver.StartWatcher(true, true);
 					FiresecManager.FSAgent.Start();
-				}
-				catch (FiresecException e)
-				{
-					return e.Message;
 				}
 				catch (Exception e)
 				{

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using CodeReason.Reports;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Reports;
 
@@ -26,7 +27,7 @@ namespace GKModule.Reports
 			{
 				foreach (var device in XManager.Devices)
 				{
-					if (device.DriverType == XFiresecAPI.XDriverType.System)
+					if (device.DriverType == XDriverType.System)
 						continue;
 					if (device.Driver.IsGroupDevice)
 						continue;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.SKD.PassCardLibrary;
+using FiresecAPI.SKD;
 using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;

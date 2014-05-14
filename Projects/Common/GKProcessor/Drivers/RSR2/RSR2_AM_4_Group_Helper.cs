@@ -1,5 +1,5 @@
 ﻿using System;
-using XFiresecAPI;
+using FiresecAPI.GK;
 
 namespace GKProcessor
 {

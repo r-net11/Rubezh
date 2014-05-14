@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using XFiresecAPI;
+using FiresecAPI.GK;
 
 namespace GKModule.ViewModels
 {

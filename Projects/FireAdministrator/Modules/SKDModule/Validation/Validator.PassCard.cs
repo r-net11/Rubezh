@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI;
-using Infrastructure.Common.Validation;
 using System.Linq;
-using FiresecAPI.SKD.PassCardLibrary;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Validation;
 
 namespace SKDModule.Validation
 {

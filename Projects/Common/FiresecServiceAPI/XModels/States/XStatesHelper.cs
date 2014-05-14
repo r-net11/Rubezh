@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using XFiresecAPI;
 
-namespace FiresecAPI.XModels
+namespace FiresecAPI.GK
 {
 	public static class XStatesHelper
 	{

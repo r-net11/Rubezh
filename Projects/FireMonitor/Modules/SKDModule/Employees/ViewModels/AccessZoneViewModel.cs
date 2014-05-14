@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
+using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels

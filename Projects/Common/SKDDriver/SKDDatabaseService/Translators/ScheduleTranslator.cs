@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
-using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators

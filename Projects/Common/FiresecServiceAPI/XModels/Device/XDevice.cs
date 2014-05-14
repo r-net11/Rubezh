@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using FiresecAPI.Models;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	[DataContract]
 	public class XDevice : XBase

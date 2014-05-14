@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -8,7 +9,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Microsoft.Win32;
-using XFiresecAPI;
 
 namespace SKDModule.ViewModels
 {

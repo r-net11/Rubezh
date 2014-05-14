@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ManagementConsole.Properties {
-	using System;
-	
-	
+namespace ManagementConsole.Properties
+{
+
+
 	/// <summary>
 	///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
 	/// </summary>

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	public enum ClauseConditionType
 	{

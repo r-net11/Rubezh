@@ -9,6 +9,7 @@ using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
+using FiresecAPI.SKD;
 
 namespace SKDModule.ViewModels
 {

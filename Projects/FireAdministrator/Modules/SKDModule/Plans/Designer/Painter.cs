@@ -2,8 +2,8 @@
 using DeviceControls;
 using FiresecAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
-using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Painters;
 
 namespace SKDModule.Plans.Designer
 {

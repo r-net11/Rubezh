@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlServerCe;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecService.Processor;
 using FiresecService.Properties;
 using FiresecService.ViewModels;
-using FiresecService.Processor;
-using Xceed.Wpf.Toolkit;
 using GKProcessor;
 using SKDDriver;
 

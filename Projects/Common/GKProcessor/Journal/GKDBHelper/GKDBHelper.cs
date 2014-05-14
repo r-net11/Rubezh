@@ -6,8 +6,8 @@ using System.Linq;
 using System.Threading;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using Infrastructure.Common;
-using XFiresecAPI;
 
 namespace GKProcessor
 {

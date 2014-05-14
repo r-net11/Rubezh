@@ -1,6 +1,6 @@
 ﻿using System;
-using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;

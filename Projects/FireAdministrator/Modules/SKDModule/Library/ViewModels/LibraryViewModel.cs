@@ -4,12 +4,12 @@ using System.Linq;
 using System.Windows.Media;
 using Common;
 using DeviceControls;
-using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 
 namespace SKDModule.ViewModels
 {

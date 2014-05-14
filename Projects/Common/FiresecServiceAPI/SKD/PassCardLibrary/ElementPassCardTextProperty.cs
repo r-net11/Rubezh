@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
 
-namespace FiresecAPI.SKD.PassCardLibrary
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class ElementPassCardTextProperty : ElementTextBlock

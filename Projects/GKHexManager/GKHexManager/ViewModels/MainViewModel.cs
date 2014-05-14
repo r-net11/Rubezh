@@ -1,11 +1,10 @@
-﻿using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using FiresecAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using XFiresecAPI;
 
 namespace HexManager.ViewModels
 {

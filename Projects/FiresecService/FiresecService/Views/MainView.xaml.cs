@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using FiresecService.Service;
 using Infrastructure.Common.Windows;
-using Common;
 
 namespace FiresecService.Views
 {

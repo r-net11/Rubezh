@@ -7,10 +7,10 @@ namespace SKDModule.ViewModels
 {
 	public class NamedIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
-		private FiresecAPI.Organisation Organisation;
+		private FiresecAPI.SKD.Organisation Organisation;
 		public NamedInterval NamedInterval { get; private set; }
 
-		public NamedIntervalDetailsViewModel(FiresecAPI.Organisation organisation, NamedInterval namedInterval = null)
+		public NamedIntervalDetailsViewModel(FiresecAPI.SKD.Organisation organisation, NamedInterval namedInterval = null)
 		{
 			Organisation = organisation;
 			if (namedInterval == null)

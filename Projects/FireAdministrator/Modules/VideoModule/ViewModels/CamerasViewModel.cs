@@ -1,21 +1,20 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using System.Xml.XPath;
 using FiresecAPI;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
-using Infrustructure.Plans.Events;
-using System;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
 using VideoModule.Plans.Designer;
-using FiresecAPI.Models;
-using System.Collections.Generic;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace VideoModule.ViewModels
 {

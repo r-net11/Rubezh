@@ -5,12 +5,12 @@ using System.Linq;
 using System.Windows;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI;
+using FiresecAPI.SKD;
 using FiresecClient;
 using GKModule.Events;
 using GKProcessor;

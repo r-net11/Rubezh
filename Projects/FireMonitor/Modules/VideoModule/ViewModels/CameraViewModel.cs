@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using Common;
 using DeviceControls;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -14,7 +15,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Video.RVI_VSS;
 using Infrustructure.Plans.Painters;
-using XFiresecAPI;
 
 namespace VideoModule.ViewModels
 {

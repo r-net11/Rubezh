@@ -1,5 +1,4 @@
-﻿
-namespace FiresecAPI.Models
+﻿namespace FiresecAPI.Models
 {
 	public static class BUNHelper
 	{

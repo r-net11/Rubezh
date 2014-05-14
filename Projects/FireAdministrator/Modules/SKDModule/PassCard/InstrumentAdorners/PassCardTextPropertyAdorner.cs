@@ -1,11 +1,8 @@
-﻿using FiresecAPI.Models;
+﻿using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
-using SKDModule.Plans.Designer;
-using SKDModule.Plans.ViewModels;
-using FiresecAPI.SKD.PassCardLibrary;
 using SKDModule.PassCard.ViewModels;
 
 namespace SKDModule.PassCard.InstrumentAdorners

@@ -1,5 +1,4 @@
-﻿
-namespace XFiresecAPI
+﻿namespace FiresecAPI.GK
 {
 	public class XDriverPropertyParameter
 	{

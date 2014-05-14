@@ -1,4 +1,4 @@
-﻿using FiresecAPI;
+﻿using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

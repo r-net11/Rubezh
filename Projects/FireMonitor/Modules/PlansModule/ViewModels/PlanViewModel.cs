@@ -1,9 +1,9 @@
-﻿using FiresecAPI.Models;
+﻿using FiresecAPI.GK;
+using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.TreeList;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
-using XFiresecAPI;
 
 namespace PlansModule.ViewModels
 {

@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using System.Windows.Media;
 using Common;
-using DeviceControls;
-using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
-using Infrastructure.Client.Plans;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
-using VideoModule.ViewModels;
 using VideoModule.Plans.Designer;
 using VideoModule.Plans.ViewModels;
+using VideoModule.ViewModels;
 
 namespace VideoModule.Plans
 {

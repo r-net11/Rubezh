@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	public class XDriverDeviceParameter
 	{

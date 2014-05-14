@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
@@ -14,9 +15,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using VideoModule.Plans;
-using VideoModule.Plans.Designer;
 using VideoModule.ViewModels;
-using XFiresecAPI;
 
 namespace VideoModule
 {

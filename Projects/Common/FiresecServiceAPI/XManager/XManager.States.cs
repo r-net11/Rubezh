@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using XFiresecAPI;
+﻿using FiresecAPI.GK;
 
 namespace FiresecClient
 {

@@ -1,4 +1,4 @@
-﻿using XFiresecAPI;
+﻿using FiresecAPI.GK;
 
 namespace GKModule
 {

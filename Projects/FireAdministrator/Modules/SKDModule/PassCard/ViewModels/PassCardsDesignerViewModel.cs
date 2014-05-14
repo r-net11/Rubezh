@@ -1,19 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using Controls.Menu.ViewModels;
+using FiresecAPI.SKD;
+using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Designer.ViewModels;
 using Infrastructure.ViewModels;
-using FiresecAPI;
 using Infrustructure.Plans.Designer;
-using System.Collections.Generic;
-using Infrastructure.Client.Plans;
-using SKDModule.PassCard.InstrumentAdorners;
 using Infrustructure.Plans.Services;
+using SKDModule.PassCard.InstrumentAdorners;
 
 namespace SKDModule.PassCard.ViewModels
 {

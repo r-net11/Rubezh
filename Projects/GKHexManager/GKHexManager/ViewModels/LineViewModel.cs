@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using System;
+﻿using System;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace HexManager.ViewModels
 {

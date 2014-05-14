@@ -3,7 +3,6 @@ using System.Linq;
 
 namespace FiresecAPI.Models
 {
-
 	public class AM1_O_Helper
 	{
 		public static void Create(List<Driver> drivers)

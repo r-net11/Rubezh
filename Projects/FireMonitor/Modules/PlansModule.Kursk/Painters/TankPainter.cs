@@ -3,10 +3,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using XFiresecAPI;
 
 namespace PlansModule.Kursk.Designer
 {

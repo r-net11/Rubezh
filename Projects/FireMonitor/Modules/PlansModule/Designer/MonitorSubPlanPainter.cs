@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrustructure.Plans.Elements;
@@ -9,7 +10,6 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using PlansModule.ViewModels;
-using XFiresecAPI;
 
 namespace PlansModule.Designer
 {

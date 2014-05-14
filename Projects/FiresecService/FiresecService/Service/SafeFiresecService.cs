@@ -4,8 +4,8 @@ using System.IO;
 using System.ServiceModel;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
-using XFiresecAPI;
 
 namespace FiresecService.Service
 {

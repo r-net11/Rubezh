@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI.SKD;
 using Microsoft.Practices.Prism.Events;
-using XFiresecAPI;
-using FiresecAPI;
 
 namespace Infrastructure.Events
 {

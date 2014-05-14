@@ -1,6 +1,6 @@
-﻿using FiresecClient;
+﻿using System.Collections.Generic;
+using FiresecClient;
 using Infrastructure.Common.Validation;
-using System.Collections.Generic;
 
 namespace VideoModule.Validation
 {

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using SKDModule.Events;
 using SKDModule.ViewModels;
-using XFiresecAPI;
 
 namespace SKDModule
 {

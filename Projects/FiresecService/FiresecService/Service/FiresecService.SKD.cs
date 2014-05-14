@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using FiresecAPI;
+using FiresecAPI.SKD;
 using SKDDriver;
 
 namespace FiresecService.Service

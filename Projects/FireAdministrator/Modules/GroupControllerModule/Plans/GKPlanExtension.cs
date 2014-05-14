@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using Common;
 using DeviceControls;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Plans.Designer;
@@ -21,7 +22,6 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
-using XFiresecAPI;
 
 namespace GKModule.Plans
 {

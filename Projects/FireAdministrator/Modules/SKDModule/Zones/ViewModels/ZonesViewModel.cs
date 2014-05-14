@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using FiresecAPI;
+using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
@@ -11,9 +12,8 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
-using KeyboardKey = System.Windows.Input.Key;
-using FiresecAPI.Models;
 using SKDModule.Plans.Designer;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {

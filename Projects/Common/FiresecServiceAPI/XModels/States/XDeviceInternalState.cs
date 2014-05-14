@@ -2,7 +2,7 @@
 using System.Linq;
 using FiresecAPI.Models;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	public class XDeviceInternalState : XBaseInternalState
 	{

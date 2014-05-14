@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Presenter;
 using SKDModule.Plans.Designer;
-using XFiresecAPI;
 
 namespace SKDModule.Plans
 {

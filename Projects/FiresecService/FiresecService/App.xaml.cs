@@ -3,10 +3,10 @@ using System.Diagnostics;
 using System.Windows;
 using Common;
 using FiresecService;
+using FSAgentServer;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Theme;
-using FSAgentServer;
 
 namespace FiresecServiceRunner
 {

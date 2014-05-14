@@ -2,8 +2,8 @@
 using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
-using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
