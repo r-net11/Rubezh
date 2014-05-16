@@ -1,4 +1,5 @@
-﻿using FiresecAPI.SKD;
+﻿using System.Linq;
+using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 
@@ -7,7 +8,7 @@ namespace SKDModule.ViewModels
 	public class SelectationDepartmentViewModel : TreeNodeViewModel<SelectationDepartmentViewModel>
 	{
 		SelectDepartmentViewModel SelectDepartmentViewModel;
-		
+
 		public SelectationDepartmentViewModel(ShortDepartment department, SelectDepartmentViewModel selectDepartmentViewModel)
 		{
 			Department = department;

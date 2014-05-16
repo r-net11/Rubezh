@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -40,6 +41,7 @@ namespace GKModule.ViewModels
 
 		bool CreateDevices()
 		{
+			AddedDevices = new List<DeviceViewModel>();
 			var allChildren = RealParentDevice.AllChildren;
 			int maxAddressOnShleif = 0;
 			if (allChildren.Count > 0)
@@ -55,12 +57,14 @@ namespace GKModule.ViewModels
 				if (RealParentDevice == ParentDevice)
 				{
 					XDevice device = XManager.AddChild(ParentDevice, null, SelectedDriver, 0);
-					AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
+					var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
+					AddedDevices.Add(addedDevice);
 				}
 				else
 				{
 					XDevice device = XManager.AddChild(RealParentDevice, ParentDevice, SelectedDriver, 0);
-					AddedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
+					var addedDevice = NewDeviceHelper.InsertDevice(device, ParentDeviceViewModel);
+					AddedDevices.Add(addedDevice);
 				}
 			}
 			XManager.RebuildRSR2Addresses(ParentDevice.KAURSR2Parent);

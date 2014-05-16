@@ -80,10 +80,6 @@
 		<Views:DirectionsMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DirectionDeviceSelectationViewModel}">
-		<Views:DirectionDeviceSelectationView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:PumpStationsViewModel}">
 		<Views:PumpStationsView />
 	</DataTemplate>

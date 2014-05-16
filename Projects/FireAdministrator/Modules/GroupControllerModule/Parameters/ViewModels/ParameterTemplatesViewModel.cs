@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 		{
 			Menu = new ParameterTemplatesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanRemove);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -74,7 +74,8 @@ namespace GKModule.ViewModels
 			SelectedParameterTemplate = parameterTemplateViewModel;
 			ServiceFactory.SaveService.GKChanged = true;
 		}
-		bool CanRemove()
+
+		bool CanDelete()
 		{
 			return SelectedParameterTemplate != null && SelectedParameterTemplate.ParameterTemplate.Name != "По умолчанию";
 		}
