@@ -81,7 +81,7 @@ namespace ControllerSDK
 			bool bDhcpEnable;
 			bool bDnsAutoGet;
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 2 * 256)]
-			Char[][] szDnsServers;
+			Char[] szDnsServers;
 			Int32 nMTU;
 		}
 
@@ -607,11 +607,23 @@ namespace ControllerSDK
 			Int32 dwSoftwareBuildDate_3;
 		}
 
-
-		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool Test(Int32 lLoginID);
-
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_DevConfig_TypeAndSoftInfo(Int32 lLoginID, out WRAP_DevConfig_TypeAndSoftInfo_Result result);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_Get_DevConfig_IPMaskGate(int lLoginID, out CFG_NETWORK_INFO stuNetwork);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_Set_DevConfig_IPMaskGate(int lLoginID, string ip, string mask, string gate, int mtu);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_DevConfig_MAC_Result
+		{
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 40)]
+			char[] szMAC;
+		}
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_DevConfig_MAC(int lLoginID, out WRAP_DevConfig_MAC_Result result);
 	}
 }

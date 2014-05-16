@@ -4,8 +4,12 @@
         Title="SDK Test" Height="500" Width="500">
     <Grid>
         <StackPanel>
-            <Button Content="Test" Click="Button_Click" Width="300" Margin="2" />
-            <Button Content="WRAP_DevConfig_TypeAndSoftInfo" Click="Button_Click_1" Width="300" Margin="2" />
+            <Button Content="Connect" Click="OnConnect" Width="300" Margin="2" />
+            <Button Content="Disconnect" Click="OnDisconnect" Width="300" Margin="2" />
+            <Button Content="GetTypeAndSoft" Click="OnGetTypeAndSoft" Width="300" Margin="2" />
+            <Button Content="GetIpMask" Click="OnGetIpMask" Width="300" Margin="2" />
+            <Button Content="SetIpMask" Click="OnSetIpMask" Width="300" Margin="2" />
+            <Button Content="GetMac" Click="OnGetMac" Width="300" Margin="2" />
         </StackPanel>
     </Grid>
 </Window>
