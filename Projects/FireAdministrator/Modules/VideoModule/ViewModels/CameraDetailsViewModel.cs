@@ -12,13 +12,13 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels
 {
-	class VideoDeviceDetailsViewModel : SaveCancelDialogViewModel
+	class CameraDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Camera Camera { get; private set; }
 		public bool IsEditMode { get; private set; }
 		readonly CellPlayerWrap _cellPlayerWrap;
 
-		public VideoDeviceDetailsViewModel(Camera camera = null)
+		public CameraDetailsViewModel(Camera camera = null)
 		{
 			if (camera != null)
 			{

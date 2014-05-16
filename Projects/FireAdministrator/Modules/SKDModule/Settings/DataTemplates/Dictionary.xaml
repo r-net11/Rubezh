@@ -4,8 +4,8 @@
 		<Views:SettingsView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:SettingsDetailsViewModel}">
-        <Views:SettingsDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:SettingsDetailsViewModel}">
+		<Views:SettingsDetailsView />
 	</DataTemplate>
 
 </ResourceDictionary>

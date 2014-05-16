@@ -72,5 +72,10 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			}
 		}
 
+		public DeviceStatuses Status
+		{
+			get { return FormsPlayer.Status; }
+		}
+
 	}
 }

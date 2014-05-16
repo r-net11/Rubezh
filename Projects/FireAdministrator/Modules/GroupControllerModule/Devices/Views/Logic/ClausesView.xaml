@@ -3,7 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:Converters="clr-namespace:GKModule.Converters"
-             xmlns:Views="clr-namespace:GKModule.Views">
+			 xmlns:Views="clr-namespace:GKModule.Views">
 
 	<UserControl.Resources>
 		<Converters:ClauseConditionConverter x:Key="ClauseConditionConverter" />
@@ -12,42 +12,42 @@
 		<Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
 	</UserControl.Resources>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Border Grid.Column="0" CornerRadius="2" Background="DarkGray" Margin="2">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Button Grid.Row="0"
-				    Command="{Binding ChangeJoinOperatorCommand}"
-				    Width="100" Foreground="White" Background="DarkGray" Style="{StaticResource ToolBarButtonStyle}">
-                    <TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" />                
-                </Button>
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить условие" Height="32" Width="32" />
-                    <ToolBarButton Command="{Binding AddGroupCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить группу условий" Height="32" Width="32" />
-                    <ToolBarButton Command="{Binding RemoveGroupCommand2}" ImageSource="/Controls;component/Images/DeleteCross.png" ToolTip="Удалить группу условий" Height="32" Width="32" />
-                </StackPanel>
-            </Grid>
-        </Border>
-        <StackPanel Grid.Column="1">
-            <ItemsControl ItemsSource="{Binding Clauses}">
-			    <ItemsControl.ItemTemplate>
-				    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Controls:ToolBarButton Margin="2" ToolTip="Удалить условие"
-							    Command="{Binding
-							    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
-							    Path=DataContext.RemoveCommand}"
-							    CommandParameter="{Binding}"
-							    ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Background="DarkGray" />
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Border Grid.Column="0" CornerRadius="2" Background="DarkGray" Margin="2">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Button Grid.Row="0"
+					Command="{Binding ChangeJoinOperatorCommand}"
+					Width="100" Foreground="White" Background="DarkGray" Style="{StaticResource ToolBarButtonStyle}">
+					<TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" />				
+				</Button>
+				<StackPanel Grid.Row="1" Orientation="Horizontal">
+					<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить условие" Height="32" Width="32" />
+					<ToolBarButton Command="{Binding AddGroupCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить группу условий" Height="32" Width="32" />
+					<ToolBarButton Command="{Binding RemoveGroupCommand2}" ImageSource="/Controls;component/Images/DeleteCross.png" ToolTip="Удалить группу условий" Height="32" Width="32" />
+				</StackPanel>
+			</Grid>
+		</Border>
+		<StackPanel Grid.Column="1">
+			<ItemsControl ItemsSource="{Binding Clauses}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Controls:ToolBarButton Margin="2" ToolTip="Удалить условие"
+								Command="{Binding
+								RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
+								Path=DataContext.RemoveCommand}"
+								CommandParameter="{Binding}"
+								ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Background="DarkGray" />
 
-                            <ComboBox ItemsSource="{Binding ClauseConditionTypes}" SelectedItem="{Binding SelectedClauseConditionType}" Width="30" Margin="2">
+							<ComboBox ItemsSource="{Binding ClauseConditionTypes}" SelectedItem="{Binding SelectedClauseConditionType}" Width="30" Margin="2">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
 										<TextBlock Text="{Binding ., Converter={StaticResource ClauseConditionConverter}}" />
@@ -149,7 +149,7 @@
 								</Hyperlink>
 							</TextBlock>
 									
-                            <TextBlock Visibility="{Binding CanSelectMPTs, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+							<TextBlock Visibility="{Binding CanSelectMPTs, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
 								<Hyperlink Command="{Binding SelectMPTsCommand}" Style="{StaticResource HyperlinkStyle}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>
@@ -174,7 +174,7 @@
 								</Hyperlink>
 							</TextBlock>
 									
-                            <TextBlock Visibility="{Binding CanSelectDelays, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+							<TextBlock Visibility="{Binding CanSelectDelays, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
 								<Hyperlink Command="{Binding SelectDelaysCommand}" Style="{StaticResource HyperlinkStyle}">
 									<TextBlock Margin="2">
 										<TextBlock.Style>
@@ -199,17 +199,17 @@
 								</Hyperlink>
 							</TextBlock>
 						</StackPanel>
-			        </DataTemplate>
-		        </ItemsControl.ItemTemplate>
-	        </ItemsControl>
-                
-            <ItemsControl ItemsSource="{Binding ClauseGroups}">
-			    <ItemsControl.ItemTemplate>
-				    <DataTemplate>
-                        <Views:ClausesView />
-			        </DataTemplate>
-		        </ItemsControl.ItemTemplate>
-	        </ItemsControl>
-        </StackPanel>
-    </Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+				
+			<ItemsControl ItemsSource="{Binding ClauseGroups}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Views:ClausesView />
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</StackPanel>
+	</Grid>
 </UserControl>

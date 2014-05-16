@@ -35,6 +35,19 @@ namespace VideoModule.ViewModels
 				var cameraViewModel = new CameraViewModel(camera, new CellPlayerWrap());
 				Cameras.Add(cameraViewModel);
 			}
+
+			AllCameras = new List<CameraViewModel>();
+			foreach (var camera in Cameras)
+			{
+				AllCameras.Add(camera);
+				AllCameras.AddRange(camera.Children);
+			}
+
+			foreach (var camera in AllCameras)
+			{
+				if (camera.IsDvr)
+					camera.ExpandToThis();
+			}
 			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
@@ -56,6 +69,8 @@ namespace VideoModule.ViewModels
 			set
 			{
 				_selectedCamera = value;
+				if (value != null)
+					value.ExpandToThis();
 				OnPropertyChanged(() => SelectedCamera);
 			}
 		}
@@ -71,12 +86,12 @@ namespace VideoModule.ViewModels
 			if (cameraUID != Guid.Empty)
 			{
 				SelectedCamera = AllCameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
-				if (SelectedCamera != null)
-					SelectedCamera.ExpandToThis();
 			}
 		}
 
-		public List<CameraViewModel> AllCameras
+		public List<CameraViewModel> AllCameras;
+
+		public List<CameraViewModel> AllCamerass
 		{
 			get
 			{

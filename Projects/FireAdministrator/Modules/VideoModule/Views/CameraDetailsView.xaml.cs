@@ -5,9 +5,9 @@ namespace VideoModule.Views
 	/// <summary>
 	/// Логика взаимодействия для DvrDetailsView.xaml
 	/// </summary>
-	public partial class VideoDeviceDetailsView : UserControl
+	public partial class CameraDetailsView : UserControl
 	{
-		public VideoDeviceDetailsView()
+		public CameraDetailsView()
 		{
 			InitializeComponent();
 		}

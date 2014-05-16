@@ -73,7 +73,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var dvrDetailsViewModel = new VideoDeviceDetailsViewModel();
+			var dvrDetailsViewModel = new CameraDetailsViewModel();
 			if (DialogService.ShowModalWindow(dvrDetailsViewModel))
 			{
 				FiresecManager.SystemConfiguration.Cameras.Add(dvrDetailsViewModel.Camera);
@@ -120,7 +120,7 @@ namespace VideoModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var dvrDetailsViewModel = new VideoDeviceDetailsViewModel(SelectedCamera.Camera);
+			var dvrDetailsViewModel = new CameraDetailsViewModel(SelectedCamera.Camera);
 			if (DialogService.ShowModalWindow(dvrDetailsViewModel))
 			{
 				SelectedCamera.Camera = dvrDetailsViewModel.Camera;

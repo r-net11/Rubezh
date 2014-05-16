@@ -7,8 +7,8 @@
 		<Views:CamerasView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:VideoDeviceDetailsViewModel}">
-		<Views:VideoDeviceDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:CameraDetailsViewModel}">
+		<Views:CameraDetailsView />
 	</DataTemplate>
 	
 	<DataTemplate DataType="{x:Type ViewModels:ZonesSelectationViewModel}">

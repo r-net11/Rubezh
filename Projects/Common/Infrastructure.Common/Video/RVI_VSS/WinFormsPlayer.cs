@@ -56,13 +56,9 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			try
 			{
-				IDevice device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == ipAddress && x.Port == port && x.UserName == login && x.Password == password);
-				if (device == null)
-				{
-					var deviceSi = new DeviceSearchInfo(ipAddress, port, login, password);
-					device = SystemPerimeter.Instance.AddDevice(deviceSi);
-				}
-				Device = device;
+				var deviceSi = new DeviceSearchInfo(ipAddress, port, login, password);
+				Device = DeviceManager.Instance.GetDevice(deviceSi);
+				Device.Authorize();
 				return Device.Channels.ToList();
 			}
 			catch
@@ -180,6 +176,11 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			{
 				return false;
 			}
+		}
+
+		public DeviceStatuses Status
+		{
+			get { return Device.Status; }
 		}
 	}
 }
