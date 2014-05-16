@@ -39,7 +39,9 @@ namespace SKDModule.ViewModels
 				selectedDepartment = Departments.FirstOrDefault();
 			selectedDepartment.IsChecked = true;
 			selectedDepartment.ExpandToThis();
+			HighlightedDepartment = selectedDepartment;
 			OnPropertyChanged(() => SelectedDepartment);
+			OnPropertyChanged(() => HighlightedDepartment);
 			AddCommand = new RelayCommand(OnAdd);
 		}
 		
@@ -61,13 +63,13 @@ namespace SKDModule.ViewModels
 		}
 
 		SelectationDepartmentViewModel _selectedDepartment2;
-		public SelectationDepartmentViewModel SelectedDepartment2
+		public SelectationDepartmentViewModel HighlightedDepartment
 		{
 			get { return _selectedDepartment2; }
 			set
 			{
 				_selectedDepartment2 = value;
-				OnPropertyChanged(() => SelectedDepartment2);
+				OnPropertyChanged(() => HighlightedDepartment);
 			}
 		}
 
@@ -113,21 +115,21 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			Guid? parentDepartmentUID = null;
-			if (SelectedDepartment2.Parent != null)
-				parentDepartmentUID = SelectedDepartment2.Parent.Department.UID;
+			if (HighlightedDepartment.Parent != null)
+				parentDepartmentUID = HighlightedDepartment.Parent.Department.UID;
 			var departmentDetailsViewModel = new DepartmentDetailsViewModel(Employee.OrganisationUID, null, parentDepartmentUID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var departmentViewModel = new SelectationDepartmentViewModel(departmentDetailsViewModel.ShortDepartment, this);
-				SelectedDepartment2.AddChild(departmentViewModel);
+				HighlightedDepartment.AddChild(departmentViewModel);
 				Departments.Add(departmentViewModel);
 				departmentViewModel.SelectCommand.Execute();
-				SelectedDepartment2.ExpandToThis();
+				HighlightedDepartment.ExpandToThis();
 			}
 		}
 		bool CanAdd()
 		{
-			return SelectedDepartment2 != null;
+			return HighlightedDepartment != null;
 		}
 
 		protected override bool Save()

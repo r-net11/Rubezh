@@ -8,7 +8,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Grid.Row="0" Focusable="True" Source="{Binding RootDepartments}" SelectedItem="{Binding SelectedDepartment2}">
+		<tree:TreeList Grid.Row="0" Focusable="True" Source="{Binding RootDepartments}" SelectedItem="{Binding HighlightedDepartment}">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Header="Название" Width="150">
