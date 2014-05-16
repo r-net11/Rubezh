@@ -141,7 +141,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Scripts\SKUD_Create.sql" />
-    <Resource Include="Scripts\SKUD_Relations.sql" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Scripts\Patches.sql" />

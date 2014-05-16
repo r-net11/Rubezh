@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -10,7 +12,6 @@ namespace SKDModule.ViewModels
 	public class SelectDepartmentViewModel : SaveCancelDialogViewModel
 	{
 		Employee Employee;
-		public SelectationDepartmentViewModel SelectedDepartment { get; private set; }
 
 		public SelectDepartmentViewModel(Employee employee)
 		{
@@ -22,7 +23,7 @@ namespace SKDModule.ViewModels
 			{
 				foreach (var department in departments)
 				{
-					Departments.Add(new SelectationDepartmentViewModel(department));
+					Departments.Add(new SelectationDepartmentViewModel(department, this));
 				}
 				RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
 				if (RootDepartments.IsNotNullOrEmpty())
@@ -33,12 +34,13 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			SelectedDepartment = Departments.FirstOrDefault(x => x.Department.UID == Employee.DepartmentUID);
-			if (SelectedDepartment != null)
-			{
-				SelectedDepartment.IsChecked = true;
-				SelectedDepartment.ExpandToThis();
-			}
+			var selectedDepartment = Departments.FirstOrDefault(x => x.Department.UID == Employee.DepartmentUID);
+			if (selectedDepartment == null)
+				selectedDepartment = Departments.FirstOrDefault();
+			selectedDepartment.IsChecked = true;
+			selectedDepartment.ExpandToThis();
+			OnPropertyChanged(() => SelectedDepartment);
+			AddCommand = new RelayCommand(OnAdd);
 		}
 		
 		void SetChildren(SelectationDepartmentViewModel department)
@@ -50,6 +52,22 @@ namespace SKDModule.ViewModels
 			{
 				department.AddChild(child);
 				SetChildren(child);
+			}
+		}
+
+		public SelectationDepartmentViewModel SelectedDepartment
+		{
+			get { return Departments.FirstOrDefault(x => x.IsChecked); }
+		}
+
+		SelectationDepartmentViewModel _selectedDepartment2;
+		public SelectationDepartmentViewModel SelectedDepartment2
+		{
+			get { return _selectedDepartment2; }
+			set
+			{
+				_selectedDepartment2 = value;
+				OnPropertyChanged(() => SelectedDepartment2);
 			}
 		}
 
@@ -91,9 +109,29 @@ namespace SKDModule.ViewModels
 			return result;
 		}
 
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			Guid? parentDepartmentUID = null;
+			if (SelectedDepartment2.Parent != null)
+				parentDepartmentUID = SelectedDepartment2.Parent.Department.UID;
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(Employee.OrganisationUID, null, parentDepartmentUID);
+			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
+			{
+				var departmentViewModel = new SelectationDepartmentViewModel(departmentDetailsViewModel.ShortDepartment, this);
+				SelectedDepartment2.AddChild(departmentViewModel);
+				Departments.Add(departmentViewModel);
+				departmentViewModel.SelectCommand.Execute();
+				SelectedDepartment2.ExpandToThis();
+			}
+		}
+		bool CanAdd()
+		{
+			return SelectedDepartment2 != null;
+		}
+
 		protected override bool Save()
 		{
-			SelectedDepartment = Departments.FirstOrDefault(x => x.IsChecked);
 			if(SelectedDepartment == null)
 			{
 				MessageBoxService.ShowWarning("Выборите отдел");

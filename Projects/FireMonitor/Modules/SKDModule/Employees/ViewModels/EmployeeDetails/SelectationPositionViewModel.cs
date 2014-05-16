@@ -1,4 +1,6 @@
-﻿using FiresecAPI;
+﻿using System.Linq;
+using FiresecAPI;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -6,10 +8,13 @@ namespace SKDModule.ViewModels
 	public class SelectationPositionViewModel : BaseViewModel
 	{
 		public ShortPosition Position { get; private set; }
+		SelectPositionViewModel SelectPositionViewModel;
 
-		public SelectationPositionViewModel(ShortPosition position)
+		public SelectationPositionViewModel(ShortPosition position, SelectPositionViewModel selectPositionViewModel)
 		{
 			Position = position;
+			SelectPositionViewModel = selectPositionViewModel;
+			SelectCommand = new RelayCommand(OnAdd);
 		}
 
 		public string Name { get { return Position.Name; } }
@@ -22,8 +27,17 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 			}
+		}
+
+		public RelayCommand SelectCommand { get; private set; }
+		void OnAdd()
+		{
+			var position = SelectPositionViewModel.Positions.FirstOrDefault(x => x.IsChecked);
+			if(position != null)
+				position.IsChecked = false; 
+			IsChecked = true;
 		}
 	}
 }

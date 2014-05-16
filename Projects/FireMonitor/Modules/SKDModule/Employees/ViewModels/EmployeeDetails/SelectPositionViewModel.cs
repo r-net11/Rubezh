@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 
@@ -15,40 +17,42 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Должность";
 			Employee = employee;
-			Positions = new List<SelectationPositionViewModel>();
+			Positions = new ObservableCollection<SelectationPositionViewModel>();
 			var positions = PositionHelper.GetByOrganisation(Employee.OrganisationUID);
 			if (positions == null)
 				return;
 			foreach (var position in positions)
-				Positions.Add(new SelectationPositionViewModel(position));
+				Positions.Add(new SelectationPositionViewModel(position, this));
+			SelectationPositionViewModel selectedPosition;
 			if (Employee.Position != null)
 			{
-				SelectedPosition = Positions.FirstOrDefault(x => x.Position.UID == Employee.Position.UID);
-				if (SelectedPosition == null)
-					SelectedPosition = Positions.FirstOrDefault();
+				selectedPosition = Positions.FirstOrDefault(x => x.Position.UID == Employee.Position.UID);
+				if (selectedPosition == null)
+					selectedPosition = Positions.FirstOrDefault();
 			}
 			else
-				SelectedPosition = Positions.FirstOrDefault();
-			SelectedPosition.IsChecked = true;
+				selectedPosition = Positions.FirstOrDefault();
+			selectedPosition.IsChecked = true;
+			AddCommand = new RelayCommand(OnAdd);
 		}
 
-		public List<SelectationPositionViewModel> Positions { get; private set; }
+		public ObservableCollection<SelectationPositionViewModel> Positions { get; set; }
 
-		SelectationPositionViewModel _selectedPosition;
 		public SelectationPositionViewModel SelectedPosition
 		{
-			get { return _selectedPosition; }
-			set
-			{
-				_selectedPosition = value;
-				OnPropertyChanged(() => SelectedPosition);
-			}
+			get { return Positions.FirstOrDefault(x => x.IsChecked); }
 		}
 
-		protected override bool Save()
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
 		{
-			SelectedPosition = Positions.FirstOrDefault(x => x.IsChecked);
-			return base.Save();
+			var positionDetailsViewModel = new PositionDetailsViewModel(Employee.OrganisationUID);
+			if (DialogService.ShowModalWindow(positionDetailsViewModel))
+			{
+				var positionViewModel = new SelectationPositionViewModel(positionDetailsViewModel.ShortPosition, this);
+				Positions.Add(positionViewModel);
+				positionViewModel.SelectCommand.Execute();
+			}
 		}
 	}
 }

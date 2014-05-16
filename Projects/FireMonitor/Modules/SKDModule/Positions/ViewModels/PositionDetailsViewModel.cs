@@ -22,18 +22,18 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		Organisation Organisation { get; set; }
+		Guid OrganisationUID { get; set; }
 
-		public PositionDetailsViewModel(Organisation orgnaisation, Guid? positionUID = null)
+		public PositionDetailsViewModel(Guid orgnaisationUID, Guid? positionUID = null)
 		{
-			Organisation = orgnaisation;
+			OrganisationUID = orgnaisationUID;
 			if (positionUID == null)
 			{
 				Title = "Создание должности";
 				Position = new Position()
 				{
 					Name = "Новая должность",
-					OrganisationUID = Organisation.UID
+					OrganisationUID = OrganisationUID
 				};
 			}
 			else
@@ -103,7 +103,7 @@ namespace SKDModule.ViewModels
 			if (Position.Photo == null)
 				Position.Photo = new Photo();
 			Position.Photo.Data = PhotoData;
-			Position.OrganisationUID = Organisation.UID;
+			Position.OrganisationUID = OrganisationUID;
 			return PositionHelper.Save(Position);
 		}
 	}

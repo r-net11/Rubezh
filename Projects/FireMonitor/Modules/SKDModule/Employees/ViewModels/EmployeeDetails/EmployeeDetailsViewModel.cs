@@ -12,30 +12,6 @@ namespace SKDModule.ViewModels
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
 	{
 		Organisation Organisation { get; set; }
-		public Employee Employee { get; private set; }
-		public ShortEmployee ShortEmployee 
-		{ 
-			get
-			{
-				var result = new ShortEmployee
-				{
-					UID = Employee.UID,
-					Cards = Employee.Cards,
-					FirstName = FirstName,
-					SecondName = SecondName,
-					LastName = LastName,
-					Type = Employee.Type,
-					Appointed = Employee.Appointed.ToString("d MMM yyyy"),
-					Dismissed = Employee.Dismissed.ToString("d MMM yyyy"),
-				};
-				if (SelectedDepartment != null)
-					result.DepartmentName = SelectedDepartment.Department.Name;
-				if (SelectedPosition != null)
-					result.PositionName = SelectedPosition.Position.Name;
-				return result;
-			} 
-		}
-		public bool IsEmployee { get; private set; }
 		SelectDepartmentViewModel SelectDepartmentViewModel;
 		SelectScheduleViewModel SelectScheduleViewModel;
 		SelectPositionViewModel SelectPositionViewModel;
@@ -107,7 +83,7 @@ namespace SKDModule.ViewModels
 			if (IsEmployee)
 			{
 				SelectPositionViewModel = new SelectPositionViewModel(Employee);
-				SelectedPosition = SelectPositionViewModel.SelectedPosition;
+				SelectedPosition = SelectPositionViewModel.SelectedPosition.Position;
 				SelectScheduleViewModel = new SelectScheduleViewModel(Employee);
 				SelectedSchedule = SelectScheduleViewModel.SelectedSchedule;
 				ScheduleStartDate = Employee.ScheduleStartDate;
@@ -123,7 +99,7 @@ namespace SKDModule.ViewModels
 			}
 
 			SelectDepartmentViewModel = new SelectDepartmentViewModel(Employee);
-			SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment;
+			SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment.Department;
 			TextColumns = new List<TextColumnViewModel>();
 			GraphicsColumns = new List<IGraphicsColumnViewModel>();
 			GraphicsColumns.Add(new PhotoColumnViewModel(Employee.Photo));
@@ -144,8 +120,33 @@ namespace SKDModule.ViewModels
 			GraphicsColumnsTabItemName = HasAdditionalGraphicsColumns ? "Фото и графические данные" : "Фото";
 		}
 
-		SelectationDepartmentViewModel selectedDepartment;
-		public SelectationDepartmentViewModel SelectedDepartment
+		public Employee Employee { get; private set; }
+		public ShortEmployee ShortEmployee
+		{
+			get
+			{
+				var result = new ShortEmployee
+				{
+					UID = Employee.UID,
+					Cards = Employee.Cards,
+					FirstName = FirstName,
+					SecondName = SecondName,
+					LastName = LastName,
+					Type = Employee.Type,
+					Appointed = Employee.Appointed.ToString("d MMM yyyy"),
+					Dismissed = Employee.Dismissed.ToString("d MMM yyyy"),
+				};
+				if (SelectedDepartment != null)
+					result.DepartmentName = SelectedDepartment.Name;
+				if (SelectedPosition != null)
+					result.PositionName = SelectedPosition.Name;
+				return result;
+			}
+		}
+		public bool IsEmployee { get; private set; }
+
+		ShortDepartment selectedDepartment;
+		public ShortDepartment SelectedDepartment
 		{
 			get { return selectedDepartment; }
 			private set
@@ -178,8 +179,8 @@ namespace SKDModule.ViewModels
 			get { return SelectedEscort != null; }
 		}
 
-		SelectationPositionViewModel _selectedPosition;
-		public SelectationPositionViewModel SelectedPosition
+		ShortPosition _selectedPosition;
+		public ShortPosition SelectedPosition
 		{
 			get { return _selectedPosition; }
 			set
@@ -636,7 +637,7 @@ namespace SKDModule.ViewModels
 		{
 			if (DialogService.ShowModalWindow(SelectDepartmentViewModel))
 			{
-				SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment;
+				SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment.Department;
 			}
 		}
 
@@ -651,7 +652,7 @@ namespace SKDModule.ViewModels
 		{
 			if (DialogService.ShowModalWindow(SelectPositionViewModel))
 			{
-				SelectedPosition = SelectPositionViewModel.SelectedPosition;
+				SelectedPosition = SelectPositionViewModel.SelectedPosition.Position;
 			}
 		}
 
@@ -660,7 +661,7 @@ namespace SKDModule.ViewModels
 		{
 			SelectedPosition = null;
 		}
-
+		
 		public RelayCommand SelectEscortCommand { get; private set; }
 		void OnSelectEscort()
 		{
@@ -672,7 +673,7 @@ namespace SKDModule.ViewModels
 			Guid? escortUID = null; 
 			if(HasSelectedEscort)
 				escortUID = SelectedEscort.Employee.UID;
-			var selectEscortViewModel = new SelectEscortViewModel(SelectedDepartment.Department, escortUID);
+			var selectEscortViewModel = new SelectEscortViewModel(SelectedDepartment, escortUID);
 			if (DialogService.ShowModalWindow(selectEscortViewModel))
 			{
 				SelectedEscort = selectEscortViewModel.SelectedEmployee;
@@ -731,7 +732,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Выберите отдел");
 				return false;
 			}
-			Employee.DepartmentUID = SelectedDepartment.Department.UID;
+			Employee.DepartmentUID = SelectedDepartment.UID;
 
 			if (IsEmployee)
 			{
@@ -741,14 +742,14 @@ namespace SKDModule.ViewModels
 					MessageBoxService.ShowWarning("Выберите должность");
 					return false;
 				}
-				Employee.Position = SelectedPosition.Position;
-				if (SelectedSchedule == null)
-				{
-					MessageBoxService.ShowWarning("Выберите график работы");
-					return false;
-				}
-				Employee.ScheduleUID = SelectedSchedule.Schedule.UID;
-				Employee.ScheduleStartDate = ScheduleStartDate;
+				Employee.Position = SelectedPosition;
+				//if (SelectedSchedule == null)
+				//{
+				//    MessageBoxService.ShowWarning("Выберите график работы");
+				//    return false;
+				//}
+				//Employee.ScheduleUID = SelectedSchedule.Schedule.UID;
+				//Employee.ScheduleStartDate = ScheduleStartDate;
 			}
 			else
 			{

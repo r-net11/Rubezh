@@ -52,12 +52,6 @@ namespace FiresecService
 				commandText = sr.ReadToEnd();
 			}
 
-			stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKUD_Relations.sql"));
-			using (StreamReader sr = new StreamReader(stream.Stream))
-			{
-				commandText = commandText + " " + sr.ReadToEnd();
-			}
-
 			stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/InsertAllPatches.sql"));
 			using (StreamReader sr = new StreamReader(stream.Stream))
 			{

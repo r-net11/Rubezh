@@ -95,7 +95,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(SelectedPosition.Organisation);
+			var positionDetailsViewModel = new PositionDetailsViewModel(SelectedPosition.Organisation.UID);
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
 				var positionViewModel = new PositionViewModel(SelectedPosition.Organisation, positionDetailsViewModel.ShortPosition);
@@ -146,7 +146,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(SelectedPosition.Organisation, SelectedPosition.Position.UID);
+			var positionDetailsViewModel = new PositionDetailsViewModel(SelectedPosition.Organisation.UID, SelectedPosition.Position.UID);
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
 				SelectedPosition.Update(positionDetailsViewModel.ShortPosition);

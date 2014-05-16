@@ -3,13 +3,18 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 MinWidth="400" MinHeight="300">
 	<Grid>
-		<ScrollViewer VerticalScrollBarVisibility="Auto">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0">
 			<DataGrid ItemsSource="{Binding Positions}" >
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название" Width="*" >
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<RadioButton GroupName="Positions" Content="{Binding Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center" Margin="2" />
+								<RadioButton GroupName="Positions" VerticalAlignment="Center" Margin="2" 
+									Content="{Binding Name}" Command="{Binding SelectCommand}" IsChecked="{Binding IsChecked}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
@@ -23,5 +28,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</ScrollViewer>
+		<Button Grid.Row="1" HorizontalAlignment="Right" Content="Добавить новую должность" Width="200"
+				Command="{Binding AddCommand}" />
 	</Grid>
 </UserControl>

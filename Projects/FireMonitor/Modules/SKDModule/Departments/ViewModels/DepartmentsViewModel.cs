@@ -116,7 +116,7 @@ namespace SKDModule.ViewModels
 			Guid? parentDepartmentUID = null;
 			if (SelectedDepartment.Parent != null && !SelectedDepartment.Parent.IsOrganisation)
 				parentDepartmentUID = SelectedDepartment.Parent.Department.UID;
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(SelectedDepartment.Organisation, null, parentDepartmentUID);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(SelectedDepartment.Organisation.UID, null, parentDepartmentUID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var departmentViewModel = new DepartmentViewModel(SelectedDepartment.Organisation, departmentDetailsViewModel.ShortDepartment);
@@ -165,7 +165,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(SelectedDepartment.Organisation, SelectedDepartment.Department.UID);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(SelectedDepartment.Organisation.UID, SelectedDepartment.Department.UID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				SelectedDepartment.Update(departmentDetailsViewModel.ShortDepartment);

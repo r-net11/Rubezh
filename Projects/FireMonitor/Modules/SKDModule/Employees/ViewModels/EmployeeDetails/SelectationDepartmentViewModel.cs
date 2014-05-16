@@ -1,13 +1,19 @@
-﻿using FiresecAPI;
+﻿using System.Linq;
+using FiresecAPI;
+using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels
 {
 	public class SelectationDepartmentViewModel : TreeNodeViewModel<SelectationDepartmentViewModel>
 	{
-		public SelectationDepartmentViewModel(ShortDepartment department)
+		SelectDepartmentViewModel SelectDepartmentViewModel;
+		
+		public SelectationDepartmentViewModel(ShortDepartment department, SelectDepartmentViewModel selectDepartmentViewModel)
 		{
 			Department = department;
+			SelectDepartmentViewModel = selectDepartmentViewModel;
+			SelectCommand = new RelayCommand(OnSelect);
 		}
 
 		public ShortDepartment Department { get; private set; }
@@ -21,8 +27,18 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 			}
+		}
+
+		public RelayCommand SelectCommand { get; private set; }
+		void OnSelect()
+		{
+			var department = SelectDepartmentViewModel.Departments.FirstOrDefault(x => x.IsChecked);
+			if (department != null)
+				department.IsChecked = false;
+			IsChecked = true;
+			SelectDepartmentViewModel.SelectedDepartment2 = this;
 		}
 	}
 }
