@@ -132,6 +132,7 @@ namespace FiresecAPI
 			ModuleItems.Add("VideoModule.dll");
 			ModuleItems.Add("DiagnosticsModule.dll");
 			ModuleItems.Add("ReportsModule.dll");
+			ModuleItems.Add("AutomationModule.dll");
 			//ModuleItems.Add("SKDModule.dll");
 
 			//ModuleItems.Add("DevicesModule.dll");

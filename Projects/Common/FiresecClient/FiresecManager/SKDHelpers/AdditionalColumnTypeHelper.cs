@@ -34,9 +34,9 @@ namespace FiresecClient.SKDHelpers
 
 		public static IEnumerable<ShortAdditionalColumnType> GetByOrganisation(Guid organisationUID)
 		{
-			var result = FiresecManager.FiresecService.GetAdditionalColumnTypeList(new AdditionalColumnTypeFilter 
-				{ 
-					OrganisationUIDs = new List<System.Guid> { organisationUID } 
+			var result = FiresecManager.FiresecService.GetAdditionalColumnTypeList(new AdditionalColumnTypeFilter
+				{
+					OrganisationUIDs = new List<System.Guid> { organisationUID }
 				});
 			return Common.ShowErrorIfExists(result);
 		}

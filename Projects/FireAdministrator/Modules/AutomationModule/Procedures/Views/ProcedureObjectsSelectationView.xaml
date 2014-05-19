@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="AutomationModule.Views.ProcedureObjectsSelectationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Converters="clr-namespace:AutomationModule.Converters"
+             MinWidth="300" MinHeight="300">
+    <UserControl.Resources>
+        <Converters:ObjectTypeToStringConverter x:Key="ObjectTypeToStringConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ComboBox Grid.Row="0" ItemsSource="{Binding AvailableProcedureObjectTypes}" SelectedItem="{Binding SelectedProcedureObjectType}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ., Converter={StaticResource ObjectTypeToStringConverter}}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Grid Grid.Row="1" Visibility="{Binding IsXDeviceSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid DataContext="{Binding IsXDeviceSelected}">
+                <TextBlock Text="Выбор устройства" Foreground="White" Margin="2" />
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Visibility="{Binding IsCameraSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid DataContext="{Binding IsCameraSelected}">
+                <TextBlock Text="Выбор камеры" Foreground="White" Margin="2" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

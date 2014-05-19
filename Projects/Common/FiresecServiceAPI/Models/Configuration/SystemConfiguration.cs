@@ -13,6 +13,7 @@ namespace FiresecAPI.Models
 			Instructions = new List<Instruction>();
 			Cameras = new List<Camera>();
 			EmailData = new EmailData();
+			AutomationConfiguration = new AutomationConfiguration();
 		}
 
 		[DataMember]
@@ -30,6 +31,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public EmailData EmailData { get; set; }
 
+		[DataMember]
+		public AutomationConfiguration AutomationConfiguration { get; set; }
+
 		public override bool ValidateVersion()
 		{
 			var result = true;
@@ -41,6 +45,11 @@ namespace FiresecAPI.Models
 			if (EmailData == null)
 			{
 				EmailData = new EmailData();
+				result = false;
+			}
+			if (AutomationConfiguration == null)
+			{
+				AutomationConfiguration = new AutomationConfiguration();
 				result = false;
 			}
 			return result;
