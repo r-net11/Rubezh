@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -53,10 +53,7 @@ namespace GKModule.ViewModels
 		{
 			if (deviceUID != Guid.Empty)
 			{
-				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.BaseUID == deviceUID);
-				if (deviceViewModel != null)
-					deviceViewModel.ExpandToThis();
-				SelectedDevice = deviceViewModel;
+				SelectedDevice = AllDevices.FirstOrDefault(x => x.Device.BaseUID == deviceUID);
 			}
 		}
 		#endregion
@@ -70,7 +67,7 @@ namespace GKModule.ViewModels
 				_selectedDevice = value;
 				if (value != null)
 					value.ExpandToThis();
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 

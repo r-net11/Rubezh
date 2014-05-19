@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.SKD.PassCardLibrary;
-using XFiresecAPI;
+using FiresecAPI.GK;
 
-namespace FiresecAPI
+namespace FiresecAPI.SKD
 {
 	public partial class SKDManager
 	{

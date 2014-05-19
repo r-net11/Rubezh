@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
-using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Client;
 using Infrastructure.Common;
@@ -72,7 +71,7 @@ namespace OPCModule
 				//FiresecManager.FSAgent.Start();
 				return true;
 			}
-			catch (FiresecException e)
+			catch (Exception e)
 			{
 				Logger.Error(e, "OPCModule.BeforeInitialize");
 				MessageBoxService.ShowException(e);

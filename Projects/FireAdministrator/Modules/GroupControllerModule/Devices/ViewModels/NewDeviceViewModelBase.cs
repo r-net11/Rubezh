@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -18,12 +18,13 @@ namespace GKModule.ViewModels
 			ParentDevice = ParentDeviceViewModel.Device;
 			Drivers = new ObservableCollection<XDriver>();
 			AvailableShleifs = new ObservableCollection<byte>();
+			AddedDevices = new List<DeviceViewModel>();
 			Count = 1;
 		}
 
 		protected DeviceViewModel ParentDeviceViewModel;
 		protected XDevice ParentDevice;
-		public DeviceViewModel AddedDevice { get; protected set; }
+		public List<DeviceViewModel> AddedDevices { get; protected set; }
 		public ObservableCollection<XDriver> Drivers { get; protected set; }
 		public ObservableCollection<byte> AvailableShleifs { get; protected set; }
 

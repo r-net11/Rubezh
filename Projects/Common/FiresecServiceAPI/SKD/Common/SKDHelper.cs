@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FiresecAPI
+namespace FiresecAPI.SKD
 {
 	static class SKDHelper
 	{

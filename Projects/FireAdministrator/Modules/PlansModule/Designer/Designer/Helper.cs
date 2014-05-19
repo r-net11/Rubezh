@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 

@@ -3,7 +3,7 @@
 //using System.Linq;
 //using FiresecAPI;
 //using Infrastructure.Common.TreeList;
-//using XFiresecAPI;
+//using FiresecAPI.GK;
 
 //namespace SKDModule.ViewModels
 //{

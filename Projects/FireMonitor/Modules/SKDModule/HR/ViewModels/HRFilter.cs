@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using FiresecAPI;
+using FiresecAPI.SKD;
 
 namespace SKDModule.ViewModels
 {

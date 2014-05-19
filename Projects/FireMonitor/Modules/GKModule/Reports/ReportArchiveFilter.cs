@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI.GK;
 using FiresecClient;
 using GKModule.ViewModels;
 using GKProcessor;
-using XFiresecAPI;
 
 namespace GKModule.Reports
 {

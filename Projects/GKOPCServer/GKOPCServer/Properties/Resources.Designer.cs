@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GKOPCServer.Properties {
-    using System;
-    
-    
-    /// <summary>
+namespace GKOPCServer.Properties
+{
+
+
+	/// <summary>
     ///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
     /// </summary>
     // Этот класс создан автоматически классом StronglyTypedResourceBuilder

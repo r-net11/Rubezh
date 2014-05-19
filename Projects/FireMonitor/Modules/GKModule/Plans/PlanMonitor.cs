@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using GKModule.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Presenter;
-using XFiresecAPI;
 
 namespace GKModule.Plans
 {

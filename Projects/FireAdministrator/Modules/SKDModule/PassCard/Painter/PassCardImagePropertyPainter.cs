@@ -1,8 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using FiresecAPI;
-using FiresecAPI.SKD.PassCardLibrary;
+using FiresecAPI.SKD;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
 

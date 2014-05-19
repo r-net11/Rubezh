@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
-using System;
+﻿using System;
+using System.Runtime.Serialization;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	[DataContract]
 	public class XPim : XBase

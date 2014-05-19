@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Plans.Designer;
 using SKDModule.ViewModels;

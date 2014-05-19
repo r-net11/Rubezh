@@ -1,8 +1,8 @@
 ﻿using System.Data;
 using CodeReason.Reports;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Reports;
-using XFiresecAPI;
 
 namespace GKModule.Reports
 {

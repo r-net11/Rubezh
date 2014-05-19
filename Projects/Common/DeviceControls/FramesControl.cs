@@ -4,9 +4,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrustructure.Plans.Devices;
-using XFiresecAPI;
 
 namespace DeviceControls
 {

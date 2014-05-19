@@ -1,4 +1,5 @@
 ﻿using System;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
@@ -6,7 +7,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

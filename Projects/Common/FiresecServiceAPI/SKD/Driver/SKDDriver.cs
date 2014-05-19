@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using FiresecAPI.GK;
 
-namespace XFiresecAPI
+namespace FiresecAPI.SKD
 {
 	public class SKDDriver
 	{

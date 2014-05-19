@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using DevicesModule.Plans.Designer;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecAPI.XModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Presenter;
-using XFiresecAPI;
 
 namespace DevicesModule.Plans
 {

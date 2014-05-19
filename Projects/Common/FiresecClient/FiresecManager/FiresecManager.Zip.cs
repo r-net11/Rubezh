@@ -1,12 +1,11 @@
 ﻿using System.IO;
 using System.Text;
 using Common;
-using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Ionic.Zip;
-using XFiresecAPI;
-using FiresecAPI.SKD.PassCardLibrary;
 
 namespace FiresecClient
 {

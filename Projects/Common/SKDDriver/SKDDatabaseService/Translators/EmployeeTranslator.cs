@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
+using FiresecAPI.SKD;
 using LinqKit;
 
 namespace SKDDriver
@@ -72,7 +73,7 @@ namespace SKDDriver
 			result.ScheduleUID = tableItem.ScheduleUID;
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
 			result.AdditionalColumns = AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID);
-			result.Type = (FiresecAPI.PersonType)tableItem.Type;
+			result.Type = (PersonType)tableItem.Type;
 			result.Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
 			result.Position = PositionTranslator.GetSingleShort(tableItem.PositionUID);
 			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));

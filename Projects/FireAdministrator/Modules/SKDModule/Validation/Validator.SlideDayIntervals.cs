@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using FiresecAPI;
+﻿using System.Collections.Generic;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
 
 namespace SKDModule.Validation

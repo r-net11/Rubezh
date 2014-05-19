@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Linq;
+using System.IO;
+using System.Runtime.Serialization;
 using Common;
-using DiagnosticsModule.Views;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Video;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
-using System.Xml;
-using System.Xml.Linq;
-using FiresecAPI;
-using System.IO;
-using System.Runtime.Serialization;
-using XFiresecAPI;
-using System.Collections.Generic;
 
 namespace DiagnosticsModule.ViewModels
 {

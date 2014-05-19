@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using FiresecAPI.SKD;
 
 namespace FiresecAPI.EmployeeTimeIntervals
 {

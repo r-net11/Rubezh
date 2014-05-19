@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI;
-using Common;
-using System.Threading;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Threading;
+using Common;
+using FiresecAPI.SKD;
 
 namespace SKDDriver
 {

@@ -1,0 +1,15 @@
+﻿<Window x:Class="ControllerSDK.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SDK Test" Height="500" Width="500">
+    <Grid>
+        <StackPanel>
+            <Button Content="Connect" Click="OnConnect" Width="300" Margin="2" />
+            <Button Content="Disconnect" Click="OnDisconnect" Width="300" Margin="2" />
+            <Button Content="GetTypeAndSoft" Click="OnGetTypeAndSoft" Width="300" Margin="2" />
+            <Button Content="GetIpMask" Click="OnGetIpMask" Width="300" Margin="2" />
+            <Button Content="SetIpMask" Click="OnSetIpMask" Width="300" Margin="2" />
+            <Button Content="GetMac" Click="OnGetMac" Width="300" Margin="2" />
+        </StackPanel>
+    </Grid>
+</Window>

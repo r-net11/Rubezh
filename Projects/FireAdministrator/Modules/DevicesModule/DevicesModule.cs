@@ -5,7 +5,6 @@ using DevicesModule.Plans;
 using DevicesModule.Plans.Designer;
 using DevicesModule.Validation;
 using DevicesModule.ViewModels;
-using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -141,7 +140,7 @@ namespace DevicesModule
 					FiresecManager.FSAgent.Start();
 				}
 			}
-			catch (FiresecException e)
+			catch (Exception e)
 			{
 				Logger.Error(e, "DevicesModule.BeforeInitialize");
 				MessageBoxService.ShowError(e.Message);

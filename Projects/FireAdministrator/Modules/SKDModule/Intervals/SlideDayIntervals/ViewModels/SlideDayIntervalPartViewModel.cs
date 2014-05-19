@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI;
-using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.SKD;
 using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {

@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common.Windows;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 namespace ManagementConsole
 {
 	public partial class ManagementConsoleView

@@ -1,4 +1,4 @@
-﻿using FiresecAPI;
+﻿using FiresecAPI.SKD;
 using Infrastructure.Common.CheckBoxList;
 
 namespace SKDModule.ViewModels

@@ -1,6 +1,6 @@
-﻿using Infrastructure;
+﻿using FiresecAPI.GK;
+using Infrastructure;
 using Infrastructure.Client.Library;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

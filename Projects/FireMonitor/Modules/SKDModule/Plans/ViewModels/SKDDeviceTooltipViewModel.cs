@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels

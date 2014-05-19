@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI;
+using Common;
+using FiresecAPI.SKD;
 using FiresecService.Processor;
 using SKDDriver;
-using Common;
 
 namespace FiresecService
 {

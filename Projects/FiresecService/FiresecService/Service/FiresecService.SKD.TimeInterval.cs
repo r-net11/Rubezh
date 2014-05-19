@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using SKDDriver;
+﻿using System.Collections.Generic;
 using FiresecAPI.EmployeeTimeIntervals;
+using SKDDriver;
 
 namespace FiresecService.Service
 {

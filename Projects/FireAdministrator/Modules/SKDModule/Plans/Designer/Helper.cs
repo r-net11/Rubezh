@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media;
-using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrustructure.Plans.Elements;
 
 namespace SKDModule.Plans.Designer

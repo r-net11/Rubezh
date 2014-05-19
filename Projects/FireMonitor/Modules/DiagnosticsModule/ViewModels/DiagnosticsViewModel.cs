@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using FiresecAPI.GK;
 using FiresecClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 
 namespace DiagnosticsModule.ViewModels
 {

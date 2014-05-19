@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI;
+using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels

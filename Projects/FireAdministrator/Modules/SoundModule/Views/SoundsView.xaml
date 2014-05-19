@@ -4,7 +4,7 @@
 		<Converters:BoolToStringConverter x:Key="BoolToStringConverter" />
 	</UserControl.Resources>
 
-	<DataGrid Grid.Column="0" ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}" IsReadOnly="False">
+	<DataGrid ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}" IsReadOnly="False">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Header="Состояние" Width="1*">
 				<DataGridTemplateColumn.CellTemplate>

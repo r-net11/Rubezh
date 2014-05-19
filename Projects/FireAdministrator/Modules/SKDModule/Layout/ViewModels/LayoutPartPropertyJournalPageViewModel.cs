@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models.Layouts;
-using Infrastructure.Common.Services.Layout;
-using FiresecAPI.Models;
-using FiresecClient;
 using FiresecAPI;
+using FiresecAPI.Models.Layouts;
+using FiresecAPI.SKD;
+using Infrastructure.Common.Services.Layout;
 
 namespace SKDModule.ViewModels
 {

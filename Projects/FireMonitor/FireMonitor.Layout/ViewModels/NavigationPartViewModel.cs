@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
 
 namespace FireMonitor.Layout.ViewModels
 {

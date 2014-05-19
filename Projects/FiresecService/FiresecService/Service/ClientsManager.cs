@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using FiresecAPI.Models;
 using FiresecService.ViewModels;
-using System.Threading;
 
 namespace FiresecService.Service
 {

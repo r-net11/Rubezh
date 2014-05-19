@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Data;
 using Entities.DeviceOriented;
-using FiresecAPI.Models;
-using FiresecClient;
 
 namespace VideoModule.Converters
 {

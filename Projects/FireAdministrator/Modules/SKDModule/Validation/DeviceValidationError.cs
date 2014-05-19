@@ -1,8 +1,7 @@
 ﻿using System;
-using FiresecAPI;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
 using SKDModule.Events;
-using XFiresecAPI;
 
 namespace SKDModule.Validation
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
-using XFiresecAPI;
 
 namespace GKModule.Plans.Designer
 {

@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Infrustructure.Plans.Devices;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	[DataContract]
 	public class LibraryXFrame : ILibraryFrame

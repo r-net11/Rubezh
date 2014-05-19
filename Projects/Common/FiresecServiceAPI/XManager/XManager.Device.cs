@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using XFiresecAPI;
-using System;
+using FiresecAPI.GK;
 
 namespace FiresecClient
 {

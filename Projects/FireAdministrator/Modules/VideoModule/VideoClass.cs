@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Infrastructure.Common.Windows.ViewModels;
 using Vlc.DotNet.Core;
 using Vlc.DotNet.Core.Medias;

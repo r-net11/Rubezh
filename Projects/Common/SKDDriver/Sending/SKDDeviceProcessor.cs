@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI;
-using System.Net;
-using System.Threading;
-using System.Net.Sockets;
 using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using FiresecAPI.SKD;
 
 namespace SKDDriver
 {

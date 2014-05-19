@@ -2,13 +2,13 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 		{
 			Menu = new ParameterTemplatesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanRemove);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -74,7 +74,8 @@ namespace GKModule.ViewModels
 			SelectedParameterTemplate = parameterTemplateViewModel;
 			ServiceFactory.SaveService.GKChanged = true;
 		}
-		bool CanRemove()
+
+		bool CanDelete()
 		{
 			return SelectedParameterTemplate != null && SelectedParameterTemplate.ParameterTemplate.Name != "По умолчанию";
 		}

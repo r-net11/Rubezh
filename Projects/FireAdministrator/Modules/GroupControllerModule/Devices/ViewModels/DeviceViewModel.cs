@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Shapes;
 using DeviceControls;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
@@ -15,7 +16,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -140,19 +140,26 @@ namespace GKModule.ViewModels
 			if (newDeviceViewModel.Drivers.Count == 1)
 			{
 				newDeviceViewModel.SaveCommand.Execute();
-				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
-				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
+				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
+				{
+					DevicesViewModel.Current.AllDevices.Add(addedDevice);
+				}
+				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
 				Plans.Designer.Helper.BuildMap();
 				ServiceFactory.SaveService.GKChanged = true;
 				return;
 			}
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
-				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
-				foreach (var childDeviceViewModel in newDeviceViewModel.AddedDevice.Children)
+				foreach (var addedDevice in newDeviceViewModel.AddedDevices)
 				{
-					DevicesViewModel.Current.AllDevices.Add(childDeviceViewModel);
+					DevicesViewModel.Current.AllDevices.Add(addedDevice);
+					foreach (var childDeviceViewModel in addedDevice.Children)
+					{
+						DevicesViewModel.Current.AllDevices.Add(childDeviceViewModel);
+					}
 				}
+				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
 				Plans.Designer.Helper.BuildMap();
 				ServiceFactory.SaveService.GKChanged = true;
 			}

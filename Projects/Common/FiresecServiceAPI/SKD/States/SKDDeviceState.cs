@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Common;
-using XFiresecAPI;
+using FiresecAPI.GK;
 
-namespace FiresecAPI
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class SKDDeviceState : IDeviceState<XStateClass>

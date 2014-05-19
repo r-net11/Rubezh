@@ -1,6 +1,5 @@
-﻿using Microsoft.Practices.Prism.Events;
-using XFiresecAPI;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events
 {

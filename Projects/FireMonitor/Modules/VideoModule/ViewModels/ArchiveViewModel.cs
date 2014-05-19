@@ -243,10 +243,11 @@ namespace VideoModule.ViewModels
 			}
 			else
 				camera = SelectedCamera.Camera;
-			var device = SystemPerimeter.Instance.Devices.FirstOrDefault(x => x.IP == camera.Address);
-			if (device == null)
+			var cellPlayerWrap = new CellPlayerWrap();
+			var channel = cellPlayerWrap.Connect(camera.Address, camera.Port, camera.Login, camera.Password).FirstOrDefault
+				(x => x.ChannelNumber == camera.ChannelNumber);
+			if (channel == null)
 				return;
-			var channel = device.Channels.FirstOrDefault(x => x.ChannelNumber == camera.ChannelNumber);
 			Records = new ObservableCollection<PlayBackDeviceRecord>();
 			for (var time = StartTime; new DateTime(time.Year, time.Month, time.Day) < EndTime; time += TimeSpan.FromDays(1))
 			{

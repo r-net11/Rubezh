@@ -5,9 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Input;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Models;
+using GKModule.Plans;
 using GKModule.Plans.Designer;
 using GKProcessor;
 using Infrastructure;
@@ -19,9 +21,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Microsoft.Win32;
-using XFiresecAPI;
 using KeyboardKey = System.Windows.Input.Key;
-using GKModule.Plans;
 
 namespace GKModule.ViewModels
 {

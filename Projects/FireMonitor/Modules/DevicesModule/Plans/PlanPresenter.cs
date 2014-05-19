@@ -4,6 +4,7 @@ using System.Linq;
 using Common;
 using DeviceControls;
 using DevicesModule.Plans.Designer;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -12,7 +13,6 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
-using XFiresecAPI;
 
 namespace DevicesModule.Plans
 {

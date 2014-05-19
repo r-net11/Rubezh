@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
 
-namespace FiresecAPI.SKD.PassCardLibrary
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class SKDPassCardLibraryConfiguration : VersionedConfiguration

@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
@@ -10,7 +11,6 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using VideoModule.ViewModels;
-using XFiresecAPI;
 
 namespace VideoModule.Plans.Designer
 {

@@ -2,19 +2,16 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Text;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
+using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Ionic.Zip;
 using Microsoft.Win32;
-using Cursor = System.Windows.Input.Cursor;
 using Cursors = System.Windows.Input.Cursors;
 using MessageBox = System.Windows.MessageBox;
-using FiresecAPI;
-using Infrastructure.Common.Windows;
-using System.Windows;
 
 namespace ManagementConsole
 {

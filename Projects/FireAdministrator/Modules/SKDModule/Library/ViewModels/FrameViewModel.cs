@@ -1,6 +1,6 @@
-﻿using Infrastructure;
+﻿using FiresecAPI.SKD;
+using Infrastructure;
 using Infrastructure.Client.Library;
-using XFiresecAPI;
 
 namespace SKDModule.ViewModels
 {

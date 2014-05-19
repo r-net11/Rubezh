@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.XModels;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	public abstract class XBaseInternalState
 	{

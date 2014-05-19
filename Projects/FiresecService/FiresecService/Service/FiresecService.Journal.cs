@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Threading;
-using GKProcessor;
 
 namespace FiresecService.Service
 {

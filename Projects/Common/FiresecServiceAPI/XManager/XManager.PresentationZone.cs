@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using FiresecAPI;
-using XFiresecAPI;
+using FiresecAPI.GK;
 
 namespace FiresecClient
 {

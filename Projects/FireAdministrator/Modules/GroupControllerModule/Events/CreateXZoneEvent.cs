@@ -1,6 +1,6 @@
 ﻿using System;
+using FiresecAPI.GK;
 using Microsoft.Practices.Prism.Events;
-using XFiresecAPI;
 
 namespace GKModule.Events
 {

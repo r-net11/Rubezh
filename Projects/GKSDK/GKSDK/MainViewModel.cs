@@ -1,16 +1,16 @@
-﻿using System.Threading;
-using GKProcessor;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
-using Microsoft.Practices.Prism.Events;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
-using FiresecAPI;
-using System;
-using System.Linq;
+using Microsoft.Practices.Prism.Events;
 
 namespace GKSDK
 {
@@ -160,17 +160,6 @@ namespace GKSDK
 				{
 					delayState.CopyTo(delay.State);
                     delay.State.OnStateChanged();
-				}
-			}
-			foreach (var remotePimState in gkStates.PimStates)
-			{
-				var pim = XManager.Pims.FirstOrDefault(x => x.BaseUID == remotePimState.UID);
-				if (pim == null)
-					pim = XManager.Pims.FirstOrDefault(x => x.PresentationName == remotePimState.PresentationName);
-				if (pim != null)
-				{
-					remotePimState.CopyTo(pim.State);
-                    pim.State.OnStateChanged();
 				}
 			}
 		}

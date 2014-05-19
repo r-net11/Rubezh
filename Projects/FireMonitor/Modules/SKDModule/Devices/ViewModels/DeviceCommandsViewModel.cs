@@ -1,11 +1,10 @@
-﻿using FiresecAPI;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 
 namespace SKDModule.ViewModels
 {

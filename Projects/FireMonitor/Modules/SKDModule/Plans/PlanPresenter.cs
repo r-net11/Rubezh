@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using DeviceControls;
-using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrustructure.Plans;
@@ -13,7 +14,6 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using SKDModule.Events;
 using SKDModule.Plans.Designer;
-using XFiresecAPI;
 
 namespace SKDModule.Plans
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	public class XDriver
 	{

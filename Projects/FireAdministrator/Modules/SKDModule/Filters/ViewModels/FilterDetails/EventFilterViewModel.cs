@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
+﻿using FiresecAPI.GK;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {

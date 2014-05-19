@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Input;
 using System.Windows.Media;
 using DeviceControls;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
@@ -14,7 +15,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FiresecAPI
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class Position : OrganisationElementBase

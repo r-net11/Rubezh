@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using FiresecAPI;
+using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -35,8 +35,8 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var position = SelectPositionViewModel.Positions.FirstOrDefault(x => x.IsChecked);
-			if(position != null)
-				position.IsChecked = false; 
+			if (position != null)
+				position.IsChecked = false;
 			IsChecked = true;
 		}
 	}

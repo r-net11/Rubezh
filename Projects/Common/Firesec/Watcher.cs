@@ -161,7 +161,7 @@ namespace Firesec
 			}
 			else
 			{
-				throw new FiresecException("Список состояний драйвера пуст");
+				throw new Exception("Список состояний драйвера пуст");
 			}
 		}
 

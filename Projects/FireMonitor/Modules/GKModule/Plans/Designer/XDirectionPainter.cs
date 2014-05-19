@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using GKModule.Events;
 using GKModule.ViewModels;
@@ -13,7 +14,6 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using XFiresecAPI;
 
 namespace GKModule.Plans.Designer
 {

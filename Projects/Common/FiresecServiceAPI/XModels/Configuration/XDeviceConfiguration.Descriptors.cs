@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace XFiresecAPI
+namespace FiresecAPI.GK
 {
 	public partial class XDeviceConfiguration
 	{

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Media;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
-using XFiresecAPI;
 
 namespace PlansModule.Kursk.Designer
 {

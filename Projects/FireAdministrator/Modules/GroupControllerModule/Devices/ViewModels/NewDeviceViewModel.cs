@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
-using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -87,6 +88,7 @@ namespace GKModule.ViewModels
 				Count = Math.Min(Count, ParentDevice.Driver.GroupDeviceChildrenCount);
 			}
 
+			AddedDevices = new List<DeviceViewModel>();
 			for (int i = 0; i < Count; i++)
 			{
 				var address = StartAddress + i * step;
@@ -96,7 +98,8 @@ namespace GKModule.ViewModels
 				}
 
 				XDevice device = XManager.AddChild(ParentDevice, null, SelectedDriver, (byte)address);
-				AddedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
+				var addedDevice = NewDeviceHelper.AddDevice(device, ParentDeviceViewModel);
+				AddedDevices.Add(addedDevice);
 			}
 			return true;
 		}

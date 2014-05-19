@@ -1,6 +1,4 @@
-﻿using FiresecAPI.Models;
-using XFiresecAPI;
-using Graybox.OPC.ServerToolkit.CLRWrapper;
+﻿using FiresecAPI.GK;
 
 namespace GKOPCServer
 {

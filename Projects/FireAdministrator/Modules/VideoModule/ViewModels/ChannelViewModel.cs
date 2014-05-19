@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Entities.DeviceOriented;
 using Infrastructure.Common.Windows.ViewModels;
-using Entities.DeviceOriented;
 
 namespace VideoModule.ViewModels
 {

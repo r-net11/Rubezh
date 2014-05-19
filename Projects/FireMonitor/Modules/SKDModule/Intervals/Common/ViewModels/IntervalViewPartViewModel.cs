@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -35,9 +35,9 @@ namespace SKDModule.ViewModels
 		protected abstract IEnumerable<TElement> GetModels();
 		protected abstract TOrganisationInterval CreateOrganisationViewModel(Organisation organisation);
 
-		public IEnumerable<FiresecAPI.Organisation> GetOrganisations()
+		public IEnumerable<Organisation> GetOrganisations()
 		{
-			return OrganisationHelper.Get(new FiresecAPI.OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			return OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
 		}
 
 		private ObservableCollection<TOrganisationInterval> _organisations;

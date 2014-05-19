@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
-using Ionic.Zip;
 using System.IO;
-using Infrastructure.Common;
-using FiresecAPI;
-using Common;
 using System.Runtime.Serialization;
-using XFiresecAPI;
+using System.Text;
+using Common;
+using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.Models;
+using FiresecAPI.SKD;
+using Infrastructure.Common;
+using Ionic.Zip;
 
 namespace FiresecService.Processor
 {
@@ -32,6 +31,8 @@ namespace FiresecService.Processor
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
 
 			var deviceConfiguration = (XDeviceConfiguration)GetConfigurationFomZip(zipFile, "XDeviceConfiguration.xml", typeof(XDeviceConfiguration));
+			if (deviceConfiguration == null)
+				deviceConfiguration = new XDeviceConfiguration();
 			deviceConfiguration.AfterLoad();
 			zipFile.Dispose();
 			return deviceConfiguration;

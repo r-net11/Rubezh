@@ -44,17 +44,15 @@ namespace VideoModule.ViewModels
 		public RelayCommand SearchCommand { get; private set; }
 		void OnSearch()
 		{
-			var perimeter = SystemPerimeter.Instance;
 			AutoSearchCameras = new ObservableCollection<AutoSearchCameraViewModel>();
-			perimeter.NewDevice -= OnNewDeviceFound;
-			perimeter.NewDevice += OnNewDeviceFound;
-			perimeter.StartSearchDevices();
+			DeviceManager.Instance.NewDevice -= OnNewDeviceFound;
+			DeviceManager.Instance.NewDevice += OnNewDeviceFound;
+			DeviceManager.Instance.StartSearchDevices();
 		}
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			var perimeter = SystemPerimeter.Instance;
-			perimeter.StopSearchDevices();
+			DeviceManager.Instance.StopSearchDevices();
 			return base.OnClosing(isCanceled);
 		}
 

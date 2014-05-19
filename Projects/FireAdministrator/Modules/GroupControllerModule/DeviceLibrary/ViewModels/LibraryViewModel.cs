@@ -4,12 +4,12 @@ using System.Linq;
 using System.Windows.Media;
 using Common;
 using DeviceControls;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

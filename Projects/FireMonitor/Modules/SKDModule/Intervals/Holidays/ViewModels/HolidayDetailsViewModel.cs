@@ -5,7 +5,7 @@ using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Organisation = FiresecAPI.Organisation;
+using Organisation = FiresecAPI.SKD.Organisation;
 
 namespace SKDModule.ViewModels
 {

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
-using XFiresecAPI;
+using FiresecAPI.GK;
 
 namespace GKModule.Views
 {

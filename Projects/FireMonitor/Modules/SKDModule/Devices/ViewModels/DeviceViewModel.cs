@@ -1,13 +1,13 @@
 ﻿using System;
-using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using SKDModule.Events;
-using XFiresecAPI;
 
 namespace SKDModule.ViewModels
 {

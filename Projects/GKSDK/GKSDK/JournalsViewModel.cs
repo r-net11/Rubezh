@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using GKProcessor;
-using Infrastructure.Common.Services;
+using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
 
 namespace GKSDK
 {

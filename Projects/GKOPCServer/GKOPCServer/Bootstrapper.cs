@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Threading;
 using Common;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKOPCServer.ViewModels;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using GKProcessor;
+using Infrastructure.Common;
 using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
 using Microsoft.Practices.Prism.Events;
-using XFiresecAPI;
 
 namespace GKOPCServer
 {

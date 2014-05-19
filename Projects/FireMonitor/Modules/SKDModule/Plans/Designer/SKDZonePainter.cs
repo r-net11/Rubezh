@@ -1,8 +1,9 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -11,7 +12,6 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using SKDModule.Events;
 using SKDModule.ViewModels;
-using XFiresecAPI;
 
 namespace SKDModule.Plans.Designer
 {

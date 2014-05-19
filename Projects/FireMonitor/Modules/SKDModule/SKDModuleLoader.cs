@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.Models.Layouts;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
@@ -17,8 +19,6 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
-using XFiresecAPI;
-using FiresecAPI.Models.Layouts;
 
 namespace SKDModule
 {

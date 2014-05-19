@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans;
-using XFiresecAPI;
 namespace PlansModule.ViewModels
 {
 	public class PlanTreeViewModel : BaseViewModel

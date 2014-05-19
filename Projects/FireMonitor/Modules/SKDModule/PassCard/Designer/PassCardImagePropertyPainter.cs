@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using FiresecAPI.SKD.PassCardLibrary;
+using FiresecAPI.SKD;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
 

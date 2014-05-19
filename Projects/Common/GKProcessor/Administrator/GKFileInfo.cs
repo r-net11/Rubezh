@@ -4,10 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using FiresecAPI;
-using FiresecClient;
+using FiresecAPI.GK;
 using Infrastructure.Common;
-using XFiresecAPI;
 
 namespace GKProcessor
 {

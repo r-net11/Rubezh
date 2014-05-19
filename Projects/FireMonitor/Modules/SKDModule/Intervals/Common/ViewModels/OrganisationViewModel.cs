@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using FiresecAPI;
+using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Organisation = FiresecAPI.Organisation;
 
 namespace SKDModule.ViewModels
 {

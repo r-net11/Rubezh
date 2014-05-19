@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using XFiresecAPI;
 
-namespace FiresecAPI
+namespace FiresecAPI.GK
 {
 	[DataContract]
 	public class XHashConfiguration : VersionedConfiguration

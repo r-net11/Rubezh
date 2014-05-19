@@ -10,16 +10,16 @@
 		<TabItem Header="Условие включения">
 			<ScrollViewer VerticalScrollBarVisibility="Auto">
 				<StackPanel>
-                    <Views:ClausesView DataContext="{Binding ClausesGroup}" />
+					<Views:ClausesView DataContext="{Binding ClausesGroup}" />
 				</StackPanel>
 			</ScrollViewer>
 		</TabItem>
 		<TabItem Header="{Binding OffClauseName}" Visibility="{Binding HasOffClause, Converter={StaticResource BoolToVisibilityConverter}}">
 			<ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel>
-                    <Views:ClausesView DataContext="{Binding OffClausesGroup}" />
-                </StackPanel>
-            </ScrollViewer>
+				<StackPanel>
+					<Views:ClausesView DataContext="{Binding OffClausesGroup}" />
+				</StackPanel>
+			</ScrollViewer>
 		</TabItem>
 	</TabControl>
 </UserControl>

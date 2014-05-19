@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Linq;
 using FiresecAPI;
+using FiresecAPI.GK;
 using Ionic.Zip;
-using XFiresecAPI;
 
 
 namespace Infrastructure.Common

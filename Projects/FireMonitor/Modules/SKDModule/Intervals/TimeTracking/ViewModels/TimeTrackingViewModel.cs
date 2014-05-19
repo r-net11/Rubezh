@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI;
+using FiresecAPI.SKD;
 using FiresecAPI.SKD.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using ManagementConsole.ViewModels;
 
 namespace ManagementConsole
@@ -44,6 +42,7 @@ namespace ManagementConsole
 			Modules.Add(new ModuleViewModel("ReportsModule.dll"));
 			Modules.Add(new ModuleViewModel("SKDModule.dll"));
 			Modules.Add(new ModuleViewModel("LayoutModule.dll"));
+			Modules.Add(new ModuleViewModel("AutomationModule.dll"));
 
 			Modules.Add(new ModuleViewModel("DevicesModule.dll"));
 			Modules.Add(new ModuleViewModel("LibraryModule.dll"));

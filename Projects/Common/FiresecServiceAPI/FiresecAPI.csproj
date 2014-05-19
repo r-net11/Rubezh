@@ -158,13 +158,12 @@
     <Compile Include="DriverConfigurationParametersHelper\MRO2Helper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\MROHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\RMHelper.cs" />
-    <Compile Include="FiresecException.cs" />
     <Compile Include="GKCallbackResult.cs" />
     <Compile Include="GKProgressCallback.cs" />
     <Compile Include="IFiresecServiceSKD.cs" />
     <Compile Include="IGKService.cs" />
     <Compile Include="IFiresecService.cs" />
-    <Compile Include="INamedBase.cs" />
+    <Compile Include="XModels\INamedBase.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="Models\Archive\DescriptionType.cs" />
     <Compile Include="Models\Archive\JournalDescriptionItem.cs" />
@@ -425,7 +424,6 @@
     <Compile Include="XModels\Library\LibraryXState.cs" />
     <Compile Include="XModels\Logic\ClauseConditionType.cs" />
     <Compile Include="XModels\Logic\ClauseJounOperationType.cs" />
-    <Compile Include="XModels\Logic\ClauseOperandType.cs" />
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />
     <Compile Include="XModels\Logic\XClause.cs" />
     <Compile Include="XModels\Logic\XClauseGroup.cs" />

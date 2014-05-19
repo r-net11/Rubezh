@@ -1,7 +1,7 @@
 ﻿using System;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrustructure.Plans.Presenter;
-using XFiresecAPI;
 
 namespace PlansModule.Kursk
 {

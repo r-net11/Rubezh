@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class ShortAdditionalColumnType
@@ -11,7 +11,7 @@ namespace FiresecAPI
 
 		[DataMember]
 		public Guid? OrganisationUID { get; set; }
-		
+
 		[DataMember]
 		public string Name { get; set; }
 
@@ -20,7 +20,7 @@ namespace FiresecAPI
 
 		[DataMember]
 		public AdditionalColumnDataType DataType { get; set; }
-		
+
 		[DataMember]
 		public bool IsInGrid { get; set; }
 	}

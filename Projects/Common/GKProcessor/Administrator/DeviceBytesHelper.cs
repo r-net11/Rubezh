@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using Common;
 using FiresecAPI;
-using XFiresecAPI;
+using FiresecAPI.GK;
 
 namespace GKProcessor
 {

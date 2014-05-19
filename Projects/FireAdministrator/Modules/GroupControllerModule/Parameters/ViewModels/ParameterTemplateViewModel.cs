@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
-using XFiresecAPI;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
@@ -39,8 +40,11 @@ namespace GKModule.ViewModels
 			get { return ParameterTemplate.Name; }
 			set
 			{
+				if (value == "По умолчанию")
+					return;
 				ParameterTemplate.Name = value;
 				OnPropertyChanged("Name");
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 

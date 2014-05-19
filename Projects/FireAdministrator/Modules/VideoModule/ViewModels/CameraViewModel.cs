@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using DeviceControls;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common;
-using Infrastructure.Common.TreeList;
-using XFiresecAPI;
-using System.Windows;
-using DeviceControls;
-using Infrustructure.Plans.Painters;
-using Infrastructure.Common.Services;
-using Infrustructure.Plans.Events;
-using System.Windows.Input;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.TreeList;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Painters;
 
 namespace VideoModule.ViewModels
 {

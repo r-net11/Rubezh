@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrustructure.Plans;
@@ -8,7 +9,6 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using PlansModule.Kursk.Designer;
-using XFiresecAPI;
 
 namespace PlansModule.Kursk
 {
