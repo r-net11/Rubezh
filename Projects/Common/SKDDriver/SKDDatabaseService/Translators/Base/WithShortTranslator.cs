@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FiresecAPI;
+using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
