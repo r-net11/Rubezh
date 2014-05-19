@@ -42,6 +42,7 @@ namespace ManagementConsole
 			Modules.Add(new ModuleViewModel("ReportsModule.dll"));
 			Modules.Add(new ModuleViewModel("SKDModule.dll"));
 			Modules.Add(new ModuleViewModel("LayoutModule.dll"));
+			Modules.Add(new ModuleViewModel("AutomationModule.dll"));
 
 			Modules.Add(new ModuleViewModel("DevicesModule.dll"));
 			Modules.Add(new ModuleViewModel("LibraryModule.dll"));
