@@ -47,6 +47,25 @@ namespace FiresecAPI
 				Default = 10000
 			};
 			controllerDriver.Properties.Add(driverProperty);
+			
+			var loginProperty = new XDriverProperty()
+			{
+				Name = "Login",
+				Caption = "Логин",
+				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
+				StringDefault = ""
+			};
+			controllerDriver.Properties.Add(loginProperty);
+			
+			var passwordProperty = new XDriverProperty()
+			{
+				Name = "Password",
+				Caption = "Пароль",
+				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
+				StringDefault = ""
+			};
+			controllerDriver.Properties.Add(passwordProperty);
+			
 			Drivers.Add(controllerDriver);
 
 			var readerDriver = new SKDDriver()

@@ -25,6 +25,5 @@
 		<TabItem Header="Иконка">
 			<Controls:PhotoSelectation Data="{Binding PhotoData}" />	
 		</TabItem>
-		
 	</TabControl>
 </UserControl>

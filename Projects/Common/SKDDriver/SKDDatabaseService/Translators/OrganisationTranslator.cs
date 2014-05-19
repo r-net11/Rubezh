@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI;
@@ -8,18 +9,20 @@ namespace SKDDriver
 {
 	public class OrganisationTranslator : IsDeletedTranslator<DataAccess.Organisation, Organisation, OrganisationFilter>
 	{
-		public OrganisationTranslator(DataAccess.SKDDataContext context)
+		public OrganisationTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator)
 			: base(context)
 		{
-			;
+			PhotoTranslator = photoTranslator;
 		}
 
-		protected override OperationResult CanSave(Organisation item)
+		PhotoTranslator PhotoTranslator; 
+
+		protected OperationResult CanSave(OrganisationDetails item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name);
+			bool sameName = Table.Any(x => x.Name == item.Name && !x.IsDeleted && x.UID != item.UID);
 			if (sameName)
 				return new OperationResult("Организация таким же именем уже содержится в базе данных");
-			return base.CanSave(item);
+			return new OperationResult();
 		}
 
 		protected override OperationResult CanDelete(Guid uid)
@@ -56,7 +59,6 @@ namespace SKDDriver
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
-			tableItem.PhotoUID = apiItem.PhotoUID;
 		}
 
 		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(OrganisationFilter filter)
@@ -66,18 +68,62 @@ namespace SKDDriver
 			return result;
 		}
 
-		public OperationResult SaveZones(Organisation apiItem)
+		public OperationResult<OrganisationDetails> GetDetails(Guid uid)
 		{
 			try
 			{
-				var zoneUIDs = apiItem.ZoneUIDs;
-				var tableOrganisationZones = Context.OrganisationZones.Where(x => x.OrganisationUID == apiItem.UID);
+				var result = new OperationResult<OrganisationDetails>();
+				var tableItem = Table.Where(x => x.UID.Equals(uid)).FirstOrDefault();
+				if (tableItem == null)
+					return result;
+				var organisationDetails = new OrganisationDetails
+					{
+						Description = tableItem.Description,
+						IsDeleted = tableItem.IsDeleted,
+						Name = tableItem.Name,
+						Photo = PhotoTranslator.GetSingle(tableItem.PhotoUID).Result,
+						RemovalDate = tableItem.RemovalDate,
+						UID = tableItem.UID,
+						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList()
+					};
+				var photoResult = PhotoTranslator.GetSingle(tableItem.PhotoUID);
+				if (photoResult.HasError)
+				{
+					result.Error = photoResult.Error;
+					return result;
+				}
+				organisationDetails.Photo = photoResult.Result;
+				result.Result = organisationDetails;
+				return result;
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<OrganisationDetails>(e.Message);
+			}
+		}
+			
+
+		public OperationResult SaveZones(Organisation apiItem)
+		{
+			return SaveZonesInternal(apiItem.UID, apiItem.ZoneUIDs);
+		}
+
+		public OperationResult SaveZones(OrganisationDetails apiItem)
+		{
+			return SaveZonesInternal(apiItem.UID, apiItem.ZoneUIDs);
+		}
+
+		OperationResult SaveZonesInternal(Guid organisationUID, List<Guid> zoneUIDs)
+		{
+			try
+			{
+				var tableOrganisationZones = Context.OrganisationZones.Where(x => x.OrganisationUID == organisationUID);
 				Context.OrganisationZones.DeleteAllOnSubmit(tableOrganisationZones);
-				foreach (var zoneUID in apiItem.ZoneUIDs)
+				foreach (var zoneUID in zoneUIDs)
 				{
 					var tableOrganisationZone = new DataAccess.OrganisationZone();
 					tableOrganisationZone.UID = Guid.NewGuid();
-					tableOrganisationZone.OrganisationUID = apiItem.UID;
+					tableOrganisationZone.OrganisationUID = organisationUID;
 					tableOrganisationZone.ZoneUID = zoneUID;
 					Context.OrganisationZones.InsertOnSubmit(tableOrganisationZone);
 				}
@@ -90,12 +136,44 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
-		public override OperationResult Save(Organisation apiItem)
+		public OperationResult Save(OrganisationDetails apiItem)
 		{
 			var saveZonesResult = SaveZones(apiItem);
 			if (saveZonesResult.HasError)
 				return saveZonesResult;
-			return base.Save(apiItem);
+			var savePhotoResult = PhotoTranslator.Save(apiItem.Photo);
+			if(savePhotoResult.HasError)
+				return savePhotoResult;
+			try
+			{
+				if (apiItem == null)
+					return new OperationResult("Попытка сохранить пустую запись");
+				var verifyResult = CanSave(apiItem);
+				if (verifyResult.HasError)
+					return verifyResult;
+				var tableItem = (from x in Table where x.UID.Equals(apiItem.UID) select x).FirstOrDefault();
+				if (tableItem == null)
+				{
+					tableItem = new DataAccess.Organisation();
+					tableItem.UID = apiItem.UID;
+					tableItem.Name = apiItem.Name;
+					tableItem.Description = apiItem.Description;
+					tableItem.PhotoUID = apiItem.Photo.UID;
+					Table.InsertOnSubmit(tableItem);
+				}
+				else
+				{
+					tableItem.Name = apiItem.Name;
+					tableItem.Description = apiItem.Description;
+					tableItem.PhotoUID = apiItem.Photo.UID;
+				}
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 		}
 	}
 }

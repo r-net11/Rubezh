@@ -13,9 +13,9 @@ namespace SKDDriver
 			CardZoneTranslator = new CardZoneTranslator(Context);
 			CardTranslator = new CardTranslator(Context, CardZoneTranslator);
 			AccessTemplateTranslator = new AccessTemplateTranslator(Context, CardZoneTranslator);
-			OrganisationTranslator = new OrganisationTranslator(Context);
 			JournalItemTranslator = new JournalItemTranslator(Context);
 			PhotoTranslator = new PhotoTranslator(Context);
+			OrganisationTranslator = new OrganisationTranslator(Context, PhotoTranslator);
 			PositionTranslator = new PositionTranslator(Context, PhotoTranslator);
 			DepartmentTranslator = new DepartmentTranslator(Context, PhotoTranslator);
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);

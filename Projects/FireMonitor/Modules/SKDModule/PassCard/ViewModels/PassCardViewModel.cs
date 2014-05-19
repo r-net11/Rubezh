@@ -18,23 +18,27 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.PassCard.Designer;
-using SKDModule.ViewModels;
 
 namespace SKDModule.PassCard.ViewModels
 {
 	public class PassCardViewModel : SaveCancelDialogViewModel, IPlanDesignerViewModel
 	{
 		PassCardCanvas PassCardCanvas;
-		EmployeeViewModel EmployeeViewModel;
+		Employee Employee;
+		Department Department;
+		Position Position;
+		OrganisationDetails Organisation;
 		SKDCard Card;
 
-		public PassCardViewModel(EmployeeViewModel employeeViewModel, SKDCard card)
+		public PassCardViewModel(Guid employeeUID, SKDCard card)
 		{
 			Title = "Печать удостоверения " + card.PresentationName;
-			EmployeeViewModel = employeeViewModel;
 			Card = card;
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
-
+			Employee = EmployeeHelper.GetDetails(employeeUID);
+			Department = DepartmentHelper.GetDetails(Employee.DepartmentUID);
+			Organisation = OrganisationHelper.GetDetails(Employee.OrganisationUID);
+			Position = PositionHelper.GetDetails(Employee.Position.UID);
 			PassCardCanvas = new PassCardCanvas();
 			SKDManager.SKDPassCardLibraryConfiguration.Templates.Sort((item1, item2) => string.Compare(item1.Caption, item2.Caption));
 			PassCardTemplates = new ObservableCollection<PassCardTemplate>(SKDManager.SKDPassCardLibraryConfiguration.Templates);
@@ -73,7 +77,7 @@ namespace SKDModule.PassCard.ViewModels
 				var capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
 				var origin = new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight);
 				PassCardCanvas.Arrange(new Rect(origin, PassCardCanvas.DesiredSize));
-				dialog.PrintVisual(PassCardCanvas, "Пропуск " + EmployeeViewModel.ShortEmployee.LastName);
+				dialog.PrintVisual(PassCardCanvas, "Пропуск " + Employee.LastName);
 				PassCardCanvas.Arrange(rect);
 			}
 		}
@@ -135,32 +139,32 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = "[Пока нет в БД]";
 					break;
 				case PassCardTextPropertyType.Department:
-					elementTextProperty.Text = EmployeeViewModel.DepartmentName;
+					elementTextProperty.Text = Department.Name;
 					break;
 				case PassCardTextPropertyType.EndDate:
 					elementTextProperty.Text = Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.FirstName:
-					elementTextProperty.Text = EmployeeViewModel.ShortEmployee.FirstName;
+					elementTextProperty.Text = Employee.FirstName;
 					break;
 				case PassCardTextPropertyType.LastName:
-					elementTextProperty.Text = EmployeeViewModel.ShortEmployee.LastName;
+					elementTextProperty.Text = Employee.LastName;
 					break;
 				case PassCardTextPropertyType.Organisation:
-					elementTextProperty.Text = EmployeeViewModel.Organisation.Name;
+					elementTextProperty.Text = Organisation.Name;
 					break;
 				case PassCardTextPropertyType.Position:
-					elementTextProperty.Text = EmployeeViewModel.PositionName;
+					elementTextProperty.Text = Position.Name;
 					break;
 				case PassCardTextPropertyType.SecondName:
-					elementTextProperty.Text = EmployeeViewModel.ShortEmployee.SecondName;
+					elementTextProperty.Text = Employee.SecondName;
 					break;
 				case PassCardTextPropertyType.StartDate:
 					elementTextProperty.Text = Card.EndDate.ToShortDateString();
 					break;
 				case PassCardTextPropertyType.Additional:
-					//var columnValue = AdditionalColumnHelper.GetValue(EmployeeViewModel.ShortEmployee, elementTextProperty.AdditionalColumnUID);
-					//elementTextProperty.Text = columnValue == null ? string.Empty : columnValue;
+					var columnValue = Employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == elementTextProperty.AdditionalColumnUID);
+					elementTextProperty.Text = columnValue == null || columnValue.TextData == null ? string.Empty : columnValue.TextData;
 					break;
 				default:
 					elementTextProperty.Text = string.Empty;
@@ -236,26 +240,27 @@ namespace SKDModule.PassCard.ViewModels
 				switch (elementPassCardImageProperty.PropertyType)
 				{
 					case PassCardImagePropertyType.DepartmentLogo:
-						//photo = PhotoHelper.GetSingle(EmployeeViewModel.DepartmentPhotoUID);
+						photo = Department.Photo;	
 						break;
 					case PassCardImagePropertyType.OrganisationLogo:
-						//photo = PhotoHelper.GetSingle(EmployeeViewModel.Organisation.PhotoUID);
+						photo = Organisation.Photo;
 						break;
 					case PassCardImagePropertyType.Photo:
-						//photo = PhotoHelper.GetSingle(EmployeeViewModel.ShortEmployee.PhotoUID);
+						photo = Employee.Photo;
 						break;
 					case PassCardImagePropertyType.PositionLogo:
-						//photo = PhotoHelper.GetSingle(EmployeeViewModel.PositionPhotoUID);
+						photo = Position.Photo;	
 						break;
 					case PassCardImagePropertyType.Additional:
-						//var columnValue = AdditionalColumnHelper.GetValue(EmployeeViewModel.ShortEmployee, elementPassCardImageProperty.AdditionalColumnUID);
-						//if (columnValue != null)
-						//photo = columnValue.Photo;
+						var columnValue = Employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == elementPassCardImageProperty.AdditionalColumnUID);
+						if (columnValue != null)
+							photo = columnValue.Photo;
 						break;
 					default:
 						break;
 				}
-				args.Painter = new PassCardImagePropertyPainter(PassCardCanvas, elementPassCardImageProperty, photo == null ? null : photo.Data);
+				args.Painter = new PassCardImagePropertyPainter(PassCardCanvas, elementPassCardImageProperty, 
+					photo == null || photo.Data == null ? null : photo.Data);
 			}
 		}
 

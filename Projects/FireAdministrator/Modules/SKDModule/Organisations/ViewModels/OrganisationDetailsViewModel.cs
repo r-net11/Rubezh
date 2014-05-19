@@ -1,9 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using FiresecAPI;
-using FiresecAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -11,7 +10,7 @@ namespace SKDModule.ViewModels
 	{
 		OrganisationsViewModel OrganisationsViewModel;
 		bool IsNew;
-		public Organisation Organisation { get; set; }
+		public OrganisationDetails OrganisationDetails { get; set; }
 
 		public OrganisationDetailsViewModel(OrganisationsViewModel organisationsViewModel, Organisation organisation = null)
 		{
@@ -20,7 +19,7 @@ namespace SKDModule.ViewModels
 			{
 				Title = "Создание новой организации";
 
-				Organisation = new Organisation()
+				OrganisationDetails = new OrganisationDetails()
 				{
 					Name = "Огранизация",
 				};
@@ -28,15 +27,33 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Title = string.Format("Свойства организации: {0}", organisation.Name);
-				Organisation = organisation;
+				OrganisationDetails = OrganisationHelper.GetDetails(organisation.UID);
 			}
 			CopyProperties();
 		}
 
 		void CopyProperties()
 		{
-			Name = Organisation.Name;
-			Description = Organisation.Description;
+			Name = OrganisationDetails.Name;
+			Description = OrganisationDetails.Description;
+			PhotoData = OrganisationDetails.Photo.Data;
+		}
+
+		public Organisation Organisation
+		{
+			get
+			{
+				return new Organisation
+				{
+					Description = OrganisationDetails.Description,
+					IsDeleted = OrganisationDetails.IsDeleted,
+					Name = OrganisationDetails.Name,
+					PhotoUID = OrganisationDetails.Photo.UID,
+					RemovalDate = OrganisationDetails.RemovalDate,
+					UID = OrganisationDetails.UID,
+					ZoneUIDs = OrganisationDetails.ZoneUIDs
+				};
+			}
 		}
 
 		string _name;
@@ -61,6 +78,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		byte[] _photoData;
+		public byte[] PhotoData
+		{
+			get { return _photoData; }
+			set
+			{
+				_photoData = value;
+				OnPropertyChanged(() => PhotoData);
+			}
+		}
+
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Name);
@@ -68,15 +96,20 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (OrganisationsViewModel.Organisations.Any(x => x.Organisation.Name == Name && x.Organisation.UID != Organisation.UID))
+			if (OrganisationsViewModel.Organisations.Any(x => x.Organisation.Name == Name && x.Organisation.UID != OrganisationDetails.UID))
 			{
 				MessageBoxService.ShowWarning("Название организации совпадает с введенным ранее");
 				return false;
 			}
 
-			Organisation.Name = Name;
-			Organisation.Description = Description;
-			return base.Save();
+			OrganisationDetails.Name = Name;
+			OrganisationDetails.Description = Description;
+			if (PhotoData != null && PhotoData.Length > 0)
+			{
+				OrganisationDetails.Photo = new Photo();
+				OrganisationDetails.Photo.Data = PhotoData;
+			}
+			return OrganisationHelper.Save(OrganisationDetails);
 		}
 	}
 }

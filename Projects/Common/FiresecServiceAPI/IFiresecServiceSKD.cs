@@ -71,11 +71,13 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter);
 		[OperationContract]
-		OperationResult SaveOrganisation(Organisation Organisation);
+		OperationResult SaveOrganisation(OrganisationDetails Organisation);
 		[OperationContract]
 		OperationResult MarkDeletedOrganisation(Guid uid);
 		[OperationContract]
 		OperationResult SaveOrganisationZones(Organisation organisation);
+		[OperationContract]
+		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid);
 		#endregion
 
 		#region Document

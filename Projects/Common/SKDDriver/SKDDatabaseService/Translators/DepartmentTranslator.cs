@@ -95,15 +95,12 @@ namespace SKDDriver
 			return shortDepartment;
 		}
 
-		public override OperationResult Save(IEnumerable<Department> apiItems)
+		public override OperationResult Save(Department apiItem)
 		{
-			foreach (var item in apiItems)
-			{
-				var photoSaveResult = PhotoTranslator.Save(new List<Photo> { item.Photo });
-				if (photoSaveResult.HasError)
-					return photoSaveResult;
-			}
-			return base.Save(apiItems);
+			var photoSaveResult = PhotoTranslator.Save(new List<Photo> { apiItem.Photo });
+			if (photoSaveResult.HasError)
+				return photoSaveResult;
+			return base.Save(apiItem);
 		}
 	}
 }

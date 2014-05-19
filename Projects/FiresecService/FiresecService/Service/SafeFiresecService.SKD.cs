@@ -114,7 +114,7 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<Organisation>>>(() => FiresecService.GetOrganisations(filter));
 		}
-		public OperationResult SaveOrganisation(Organisation item)
+		public OperationResult SaveOrganisation(OrganisationDetails item)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisation(item));
 		}
@@ -125,6 +125,10 @@ namespace FiresecService.Service
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(organisation));
+		}
+		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult<OrganisationDetails>>(() => FiresecService.GetOrganisationDetails(uid));
 		}
 		#endregion
 		

@@ -231,9 +231,9 @@
     <Compile Include="SKD\Filters\SKDArchiveFilter.cs" />
     <Compile Include="SKD\Filters\SKDJournalItemType.cs" />
     <Compile Include="SKD\Filters\SKDSubsystemType.cs" />
-    <Compile Include="SKD\Organization\OrganizationFilter.cs" />
+    <Compile Include="SKD\Organisation\OrganisationFilter.cs" />
     <Compile Include="SKD\Common\OrganisationFilterBase.cs" />
-    <Compile Include="SKD\Organization\Organization.cs" />
+    <Compile Include="SKD\Organisation\Organisation.cs" />
     <Compile Include="SKD\Common\OrganisationElementBase.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardImagePropertyType.cs" />
     <Compile Include="SKD\Photo\Photo.cs" />

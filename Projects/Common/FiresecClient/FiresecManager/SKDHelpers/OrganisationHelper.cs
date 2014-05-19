@@ -13,7 +13,7 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool Save(Organisation organisation)
+		public static bool Save(OrganisationDetails organisation)
 		{
 			var result = FiresecManager.FiresecService.SaveOrganisation(organisation);
 			return Common.ShowErrorIfExists(result);
@@ -27,6 +27,12 @@ namespace FiresecClient.SKDHelpers
 			filter.UIDs.Add((Guid)uid);
 			var operationResult = FiresecManager.FiresecService.GetOrganisations(filter);
 			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
+		}
+
+		public static OrganisationDetails GetDetails(Guid uid)
+		{
+			var result = FiresecManager.FiresecService.GetOrganisationDetails(uid);
+			return Common.ShowErrorIfExists(result);
 		}
 
 		public static bool SaveZones(Organisation Organisation)

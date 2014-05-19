@@ -24,4 +24,26 @@ namespace FiresecAPI
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
 	}
+
+	[DataContract]
+	public class OrganisationDetails : SKDIsDeletedModel
+	{
+		public OrganisationDetails()
+		{
+			ZoneUIDs = new List<Guid>();
+		}
+
+		[DataMember]
+		public string Name { get; set; }
+
+		[DataMember]
+		public string Description { get; set; }
+
+		[DataMember]
+		public Photo Photo { get; set; }
+
+		[DataMember]
+		public List<Guid> ZoneUIDs { get; set; }
+	}
+
 }

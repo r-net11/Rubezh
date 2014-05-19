@@ -116,7 +116,7 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.OrganisationTranslator.Get(filter);
 		}
-		public OperationResult SaveOrganisation(Organisation item)
+		public OperationResult SaveOrganisation(OrganisationDetails item)
 		{
 			return SKDDatabaseService.OrganisationTranslator.Save(item);
 		}
@@ -127,6 +127,10 @@ namespace FiresecService.Service
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
 			return SKDDatabaseService.OrganisationTranslator.SaveZones(organisation);
+		}
+		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
+		{
+			return SKDDatabaseService.OrganisationTranslator.GetDetails(uid);
 		}
 		#endregion
 

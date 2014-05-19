@@ -9,3 +9,5 @@ sqlcmd -E -S .\sqlexpress -i SP_TESTDATA.sql
 del c:\passportDesu.jpg
 del c:\image1.jpg
 del c:\image2.jpg
+
+pause

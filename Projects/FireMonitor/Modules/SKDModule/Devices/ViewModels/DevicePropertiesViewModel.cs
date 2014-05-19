@@ -40,6 +40,10 @@ namespace SKDModule.ViewModels
 								var isTrue = property.Value > 0;
 								deviceProperty.Value = isTrue ? "Есть" : "Нет";
 								break;
+
+							case XDriverPropertyTypeEnum.StringType:
+								deviceProperty.Value = property.StringValue;
+								break;
 						}
 					}
 
