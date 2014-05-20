@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using AutomationModule.Validation;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using AutomationModule.ViewModels;
 using AutomationModule.Events;
+using Infrastructure.Common.Validation;
 
 namespace AutomationModule
 {
-	public class AutomationModule : ModuleBase
+	public class AutomationModule : ModuleBase, IValidationModule
 	{
 		SoundsViewModel SoundsViewModel;
 		ProceduresViewModel ProceduresViewModel;
@@ -30,7 +33,7 @@ namespace AutomationModule
 					new NavigationItem("Автоматизация", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
-							new NavigationItem<ShowAutomationSoundsEvent>(SoundsViewModel, "Звуки", "/Controls;component/Images/Music.png"),
+							new NavigationItem<ShowAutomationSoundsEvent, Guid>(SoundsViewModel, "Звуки", "/Controls;component/Images/Music.png"),
 							new NavigationItem<ShowProceduresEvent>(ProceduresViewModel, "Процедуры", "/Controls;component/Images/Tree.png"),
 						}),
 				};
@@ -45,6 +48,12 @@ namespace AutomationModule
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Sounds/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Procedures/DataTemplates/Dictionary.xaml"));
+		}
+
+		public IEnumerable<IValidationError> Validate()
+		{
+			var validator = new Validator();
+			return validator.Validate();
 		}
 	}
 }

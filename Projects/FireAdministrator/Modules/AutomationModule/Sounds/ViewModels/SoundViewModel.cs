@@ -15,7 +15,6 @@ namespace AutomationModule.ViewModels
 			Sound = sound;
 		}
 
-
 		public string Name
 		{
 			get { return Sound.Name; }
@@ -25,6 +24,12 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged("Name");
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
+		}
+
+		public void Update()
+		{
+			OnPropertyChanged(() => Sound);
+			OnPropertyChanged(() => Name);
 		}
 	}
 }

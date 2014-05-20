@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomationModule.cs" />
+    <Compile Include="Sounds\ViewModels\SoundDetailsViewModel.cs" />
     <Compile Include="Sounds\ViewModels\SoundsMenuViewModel.cs" />
     <Compile Include="Sounds\ViewModels\SoundsViewModel.cs" />
     <Compile Include="Sounds\ViewModels\SoundViewModel.cs" />
@@ -92,6 +93,12 @@
     <Compile Include="Procedures\Views\ProceduresView.xaml.cs">
       <DependentUpon>ProceduresView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Sounds\Views\SoundDetailsView.xaml.cs">
+      <DependentUpon>SoundDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\SoundValidationError.cs" />
+    <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\Validator.Sound.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
@@ -159,6 +166,10 @@
     <Page Include="Procedures\Views\ProceduresView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Sounds\Views\SoundDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

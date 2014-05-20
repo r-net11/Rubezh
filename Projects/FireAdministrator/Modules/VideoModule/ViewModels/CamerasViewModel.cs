@@ -73,11 +73,12 @@ namespace VideoModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var dvrDetailsViewModel = new CameraDetailsViewModel();
-			if (DialogService.ShowModalWindow(dvrDetailsViewModel))
+			var cameraDetailsViewModel = new CameraDetailsViewModel();
+			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.Cameras.Add(dvrDetailsViewModel.Camera);
-				var cameraViewModel = new CameraViewModel(this, dvrDetailsViewModel.Camera);
+				if (cameraDetailsViewModel.Camera.CameraType != CameraType.Channel)
+					FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.Camera);
+				var cameraViewModel = new CameraViewModel(this, cameraDetailsViewModel.Camera);
 				if (cameraViewModel.IsChannel)
 				{
 					if (SelectedCamera.IsDvr)
@@ -87,6 +88,9 @@ namespace VideoModule.ViewModels
 						cameraViewModel.Camera.Login = SelectedCamera.Camera.Login;
 						cameraViewModel.Camera.Password = SelectedCamera.Camera.Password;
 						SelectedCamera.AddChild(cameraViewModel);
+						var rootDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == SelectedCamera.Camera.UID);
+						if(rootDevice != null)
+							rootDevice.Children.Add(cameraViewModel.Camera);
 					}
 					else
 					{
@@ -95,6 +99,9 @@ namespace VideoModule.ViewModels
 						cameraViewModel.Camera.Login = SelectedCamera.Parent.Camera.Login;
 						cameraViewModel.Camera.Password = SelectedCamera.Parent.Camera.Password;
 						SelectedCamera.Parent.AddChild(cameraViewModel);
+						var rootDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == SelectedCamera.Parent.Camera.UID);
+						if (rootDevice != null)
+							rootDevice.Children.Add(cameraViewModel.Camera);
 					}
 				}
 				else

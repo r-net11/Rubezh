@@ -1,24 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Windows.Controls;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Microsoft.Win32;
 
 namespace AutomationModule.ViewModels
 {
-	public class SoundsViewModel : MenuViewPartViewModel
+	public class SoundsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public SoundsViewModel()
 		{
 			Menu = new SoundsMenuViewModel(this);
+			PlaySoundCommand = new RelayCommand(OnPlaySound);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 		}
 
 		public void Initialize()
@@ -56,6 +60,32 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		bool _isNowPlaying;
+		public bool IsNowPlaying
+		{
+			get { return _isNowPlaying; }
+			set
+			{
+				_isNowPlaying = value;
+				OnPropertyChanged("IsNowPlaying");
+			}
+		}
+
+		public RelayCommand PlaySoundCommand { get; private set; }
+		void OnPlaySound()
+		{
+			if (IsNowPlaying == false)
+			{
+				AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(SelectedSound.Name), BeeperType.Alarm, false);
+				IsNowPlaying = false;
+			}
+			else
+			{
+				AlarmPlayerHelper.Stop();
+				IsNowPlaying = false;
+			}
+		}
+
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -69,7 +99,7 @@ namespace AutomationModule.ViewModels
 				var sound = new AutomationSound();
 				using (new WaitWrapper())
 				{
-					sound.Name = openFileDialog.SafeFileName;
+					sound.Name = Path.GetFileNameWithoutExtension(openFileDialog.SafeFileName);
 					sound.Uid = ServiceFactoryBase.ContentService.AddContent(openFileDialog.FileName);
 				}
 				FiresecClient.FiresecManager.SystemConfiguration.AutomationSounds.Add(sound);
@@ -83,6 +113,39 @@ namespace AutomationModule.ViewModels
 		bool CanAdd()
 		{
 			return true;
+		}
+
+		public RelayCommand DeleteCommand { get; private set; }
+		void OnDelete()
+		{
+			FiresecClient.FiresecManager.SystemConfiguration.AutomationSounds.Remove(SelectedSound.Sound);
+			Sounds.Remove(SelectedSound);
+			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var soundDetailsViewModel = new SoundDetailsViewModel(SelectedSound.Sound);
+			if (DialogService.ShowModalWindow(soundDetailsViewModel))
+			{
+				SelectedSound.Sound = soundDetailsViewModel.Sound;
+				SelectedSound.Update();
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+
+		bool CanEditDelete()
+		{
+			return SelectedSound != null;
+		}
+
+		public void Select(Guid soundUid)
+		{
+			if (soundUid != Guid.Empty)
+			{
+				SelectedSound = Sounds.FirstOrDefault(item => item.Sound.Uid == soundUid);
+			}
 		}
 
 		public override void OnShow()

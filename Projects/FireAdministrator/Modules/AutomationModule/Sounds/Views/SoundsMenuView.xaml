@@ -7,5 +7,33 @@
         <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
         <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
         <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+		<Button Name="playButton" Command="{Binding PlaySoundCommand}" Style="{StaticResource ToolBarButtonStyle}">
+			<ContentControl>
+				<ContentControl.Style>
+					<Style>
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding IsNowPlaying}" Value="True">
+								<DataTrigger.Setters>
+									<Setter Property="ContentControl.Content">
+										<Setter.Value>
+											<Image Source="/Controls;component/Images/Stop.png" Height="24" Width="32" ToolTip="Остановить" />
+										</Setter.Value>
+									</Setter>
+								</DataTrigger.Setters>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding IsNowPlaying}" Value="False">
+								<DataTrigger.Setters>
+									<Setter Property="ContentControl.Content">
+										<Setter.Value>
+											<Image Source="/Controls;component/Images/Play.png" Height="32" ToolTip="Проверить звук" />
+										</Setter.Value>
+									</Setter>
+								</DataTrigger.Setters>
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</ContentControl.Style>
+			</ContentControl>
+		</Button>
     </StackPanel>
 </UserControl>
