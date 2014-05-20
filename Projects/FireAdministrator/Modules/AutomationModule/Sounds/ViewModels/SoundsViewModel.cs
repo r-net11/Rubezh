@@ -73,7 +73,7 @@ namespace AutomationModule.ViewModels
 					sound.Uid = ServiceFactoryBase.ContentService.AddContent(openFileDialog.FileName);
 				}
 				FiresecClient.FiresecManager.SystemConfiguration.AutomationSounds.Add(sound);
-				ServiceFactory.SaveService.AutomationSoundsChanged = true;
+				ServiceFactory.SaveService.AutomationChanged = true;
 				var soundViewModel = new SoundViewModel(sound);
 				Sounds.Add(soundViewModel);
 				SelectedSound = soundViewModel;

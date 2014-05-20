@@ -116,17 +116,6 @@ namespace Infrastructure
 			}
 		}
 
-		bool _automationSoundsChanged;
-		public bool AutomationSoundsChanged
-		{
-			get { return _automationSoundsChanged; }
-			set
-			{
-				_automationSoundsChanged = value;
-				OnChanged();
-			}
-		}
-
 		bool _instructionsChanged;
 		public bool InstructionsChanged
 		{
@@ -263,7 +252,6 @@ namespace Infrastructure
 			FilterChanged = value;
 			SecurityChanged = value;
 			SoundsChanged = value;
-			AutomationSoundsChanged = value;
 			InstructionsChanged = value;
 			CamerasChanged = value;
 			OPCChanged = value;
