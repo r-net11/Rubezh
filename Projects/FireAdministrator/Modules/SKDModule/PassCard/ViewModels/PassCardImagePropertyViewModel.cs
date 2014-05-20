@@ -65,6 +65,7 @@ namespace SKDModule.PassCard.ViewModels
 
 		protected override void CopyProperties()
 		{
+
 			var filter = new AdditionalColumnTypeFilter()
 			{
 				LogicalDeletationType = LogicalDeletationType.Active,

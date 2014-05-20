@@ -30,7 +30,7 @@ namespace AutomationModule.ViewModels
 			{
 				Sound.SoundName = value;
 				OnPropertyChanged("Name");
-				ServiceFactory.SaveService.SoundsChanged = true;
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 	}

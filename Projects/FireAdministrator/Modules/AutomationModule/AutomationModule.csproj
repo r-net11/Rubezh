@@ -58,6 +58,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
+    <Compile Include="Events\ShowProceduresEvent.cs" />
+    <Compile Include="Procedures\Converters\ObjectTypeToStringConverter.cs" />
+    <Compile Include="Procedures\ViewModels\CameraSelectationViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\DeviceSelectationViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProcedureInputObjectViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProcedureInputObjectsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProcedureObjectsSelectationViewModel.cs" />
+    <Compile Include="Procedures\Views\ProcedureDetailsView.xaml.cs">
+      <DependentUpon>ProcedureDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ProcedureObjectsSelectationView.xaml.cs">
+      <DependentUpon>ProcedureObjectsSelectationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomationModule.cs" />
     <Compile Include="Sounds\ViewModels\SoundsMenuViewModel.cs" />
@@ -68,6 +82,15 @@
     </Compile>
     <Compile Include="Sounds\Views\SoundsView.xaml.cs">
       <DependentUpon>SoundsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\ViewModels\ProceduresMenuViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProceduresViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ProcedureViewModel.cs" />
+    <Compile Include="Procedures\Views\ProceduresMenuView.xaml.cs">
+      <DependentUpon>ProceduresMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ProceduresView.xaml.cs">
+      <DependentUpon>ProceduresView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -113,7 +136,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Procedures\Views\ProcedureDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ProcedureObjectsSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Sounds\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\ProceduresMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\ProceduresView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

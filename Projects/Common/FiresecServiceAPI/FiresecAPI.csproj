@@ -163,6 +163,10 @@
     <Compile Include="IFiresecServiceSKD.cs" />
     <Compile Include="IGKService.cs" />
     <Compile Include="IFiresecService.cs" />
+    <Compile Include="XModels\Automation\AutomationConfiguration.cs" />
+    <Compile Include="XModels\Automation\Procedure.cs" />
+    <Compile Include="XModels\Automation\ProcedureInputObject.cs" />
+    <Compile Include="XModels\Automation\ProcedureObjectType.cs" />
     <Compile Include="XModels\INamedBase.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="Models\Archive\DescriptionType.cs" />

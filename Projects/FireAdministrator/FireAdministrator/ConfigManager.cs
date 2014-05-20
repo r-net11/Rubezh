@@ -111,7 +111,7 @@ namespace FireAdministrator
 					AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1);
 				if (ServiceFactory.SaveService.PlansChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
-				if ((ServiceFactory.SaveService.InstructionsChanged) || (ServiceFactory.SaveService.SoundsChanged) || (ServiceFactory.SaveService.FilterChanged) || (ServiceFactory.SaveService.CamerasChanged) || (ServiceFactory.SaveService.EmailsChanged) || saveAnyway)
+				if (ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
 				if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged || saveAnyway)
 					AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);

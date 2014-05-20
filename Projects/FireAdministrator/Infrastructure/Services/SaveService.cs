@@ -203,9 +203,20 @@ namespace Infrastructure
 				OnChanged();
 			}
 		}
+
+		bool _automationChanged;
+		public bool AutomationChanged
+		{
+			get { return _automationChanged; }
+			set
+			{
+				_automationChanged = value;
+				OnChanged();
+			}
+		}
 		 
 		public event Action Changed;
-		private void OnChanged()
+		void OnChanged()
 		{
 			if (Changed != null)
 				Changed();
@@ -215,7 +226,7 @@ namespace Infrastructure
 		{
 			get
 			{
-				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || SKDPassCardLibraryChanged || LayoutsChanged;
+				return FSChanged || FSParametersChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || XInstructionsChanged || GKChanged || CamerasChanged || OPCChanged || EmailsChanged || SKDChanged || SKDLibraryChanged || SKDPassCardLibraryChanged || LayoutsChanged || AutomationChanged;
 			}
 		}
 
@@ -249,6 +260,7 @@ namespace Infrastructure
 			SKDPassCardLibraryChanged = value;
 			EmailsChanged = value;
 			LayoutsChanged = value;
+			AutomationChanged = value;
 			OnChanged();
 		}
 	}
