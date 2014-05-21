@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -18,7 +19,15 @@ namespace AutomationModule.ViewModels
 			switch(procedureInputObject.ProcedureObjectType)
 			{
 				case ProcedureObjectType.XDevice:
-					Name = "Устройство";
+					Name = "Неизвестное устройство";
+					if (ProcedureInputObject.UID != Guid.Empty)
+					{
+						var device = XManager.Devices.FirstOrDefault(x => x.UID == ProcedureInputObject.UID);
+						if (device != null)
+						{
+							Name = device.PresentationName;
+						}
+					}
 					break;
 
 				case ProcedureObjectType.Camera:

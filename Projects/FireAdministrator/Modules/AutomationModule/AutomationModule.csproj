@@ -61,7 +61,9 @@
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="Procedures\Converters\ObjectTypeToStringConverter.cs" />
     <Compile Include="Procedures\ViewModels\CameraSelectationViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\CameraViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DeviceSelectationViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureInputObjectViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureInputObjectsViewModel.cs" />
