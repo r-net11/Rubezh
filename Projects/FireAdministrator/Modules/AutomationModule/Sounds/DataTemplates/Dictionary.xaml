@@ -11,4 +11,7 @@
 		<Views:SoundsMenuView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:SoundDetailsViewModel}">
+		<Views:SoundDetailsView />
+	</DataTemplate>
 </ResourceDictionary>

@@ -50,7 +50,7 @@
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить" Command="{Binding DeleteCommand}" />
-                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BEdit.png" Text="Изменить" Command="{Binding AddCommand}" />
+                            <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить" Command="{Binding AddCommand}" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>

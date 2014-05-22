@@ -20,6 +20,7 @@ namespace AutomationModule.ViewModels
 			AvailableProcedureObjectTypes = new ObservableCollection<ProcedureObjectType>();
 			AvailableProcedureObjectTypes.Add(ProcedureObjectType.XDevice);
 			AvailableProcedureObjectTypes.Add(ProcedureObjectType.Camera);
+			SelectedProcedureObjectType = AvailableProcedureObjectTypes.FirstOrDefault();
 		}
 
 		public ObservableCollection<ProcedureObjectType> AvailableProcedureObjectTypes { get; private set; }
@@ -32,7 +33,7 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedProcedureObjectType = value;
 				OnPropertyChanged("SelectedProcedureObjectType");
-				switch(value)
+				switch (value)
 				{
 					case ProcedureObjectType.XDevice:
 						IsXDeviceSelected = true;
@@ -78,14 +79,16 @@ namespace AutomationModule.ViewModels
 			{
 				ProcedureObjectType = SelectedProcedureObjectType
 			};
-			switch(SelectedProcedureObjectType)
+			switch (SelectedProcedureObjectType)
 			{
 				case ProcedureObjectType.XDevice:
-					ProcedureInputObject.UID = Guid.NewGuid();
+					if (DeviceSelectationViewModel.SelectedDevice != null)
+						ProcedureInputObject.UID = DeviceSelectationViewModel.SelectedDevice.Device.UID;
 					break;
 
 				case ProcedureObjectType.Camera:
-					ProcedureInputObject.UID = Guid.NewGuid();
+					if(CameraSelectationViewModel.SelectedCamera != null)
+						ProcedureInputObject.UID = CameraSelectationViewModel.SelectedCamera.Camera.UID;
 					break;
 			}
 			return base.Save();
