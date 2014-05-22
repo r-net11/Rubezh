@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.EmployeeTimeIntervals;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Schedule = FiresecAPI.EmployeeTimeIntervals.Schedule;
 
@@ -14,30 +17,30 @@ namespace SKDModule.ViewModels
 
 		public SelectScheduleViewModel(Employee employee)
 		{
-			Title = "График работы";
+			Title = "Должность";
 			Employee = employee;
-			Schedules = new List<SelectationScheduleViewModel>();
-			var schedules = ScheduleHelper.GetByOrganisation(Employee.OrganisationUID);
-			if (schedules == null)
-				return;
 			StartDate = employee.ScheduleStartDate;
-			foreach (var schedule in schedules)
-				Schedules.Add(new SelectationScheduleViewModel(schedule));
-			if (Schedules.Count > 0)
+			Schedules = new ObservableCollection<SelectationScheduleViewModel>();
+			var schedules = ScheduleHelper.GetShortByOrganisation(Employee.OrganisationUID);
+			if (schedules == null || schedules.Count() == 0)
 			{
-				if (Employee.ScheduleUID != null)
-				{
-					var selectedSchedule = Schedules.FirstOrDefault(x => x.Schedule.UID == Employee.ScheduleUID);
-					if (selectedSchedule != null)
-						selectedSchedule.IsChecked = true;
-					else
-						Schedules.FirstOrDefault().IsChecked = true;
-				}
-				else
-					Schedules.FirstOrDefault().IsChecked = true;
+				MessageBoxService.Show("Для данной организации не указано не одного графика работы");
+				return;
 			}
+			foreach (var schedule in schedules)
+				Schedules.Add(new SelectationScheduleViewModel(schedule, this));
+			SelectationScheduleViewModel selectedSchedule;
+			if (Employee.Schedule != null)
+			{
+				selectedSchedule = Schedules.FirstOrDefault(x => x.Schedule.UID == Employee.Schedule.UID);
+				if (selectedSchedule == null)
+					selectedSchedule = Schedules.FirstOrDefault();
+			}
+			else
+				selectedSchedule = Schedules.FirstOrDefault();
+			selectedSchedule.IsChecked = true;
 		}
-		
+
 		DateTime _startDate;
 		public DateTime StartDate
 		{
@@ -49,7 +52,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public List<SelectationScheduleViewModel> Schedules { get; private set; }
+		public ObservableCollection<SelectationScheduleViewModel> Schedules { get; set; }
+
 		public SelectationScheduleViewModel SelectedSchedule
 		{
 			get { return Schedules.FirstOrDefault(x => x.IsChecked); }
@@ -58,14 +62,18 @@ namespace SKDModule.ViewModels
 
 	public class SelectationScheduleViewModel : BaseViewModel
 	{
-		public Schedule Schedule { get; private set; }
+		public ShortSchedule Schedule { get; private set; }
+		SelectScheduleViewModel SelectScheduleViewModel;
 
-		public SelectationScheduleViewModel(Schedule schedule)
+		public SelectationScheduleViewModel(ShortSchedule schedule, SelectScheduleViewModel selectScheduleViewModel)
 		{
 			Schedule = schedule;
+			SelectScheduleViewModel = selectScheduleViewModel;
+			SelectCommand = new RelayCommand(OnAdd);
 		}
 
 		public string Name { get { return Schedule.Name; } }
+		
 		bool _isChecked;
 		public bool IsChecked
 		{
@@ -73,8 +81,17 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 			}
+		}
+
+		public RelayCommand SelectCommand { get; private set; }
+		void OnAdd()
+		{
+			var Schedule = SelectScheduleViewModel.Schedules.FirstOrDefault(x => x.IsChecked);
+			if (Schedule != null)
+				Schedule.IsChecked = false;
+			IsChecked = true;
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using FiresecAPI.EmployeeTimeIntervals;
 
 namespace FiresecAPI.SKD
 {
@@ -34,16 +35,16 @@ namespace FiresecAPI.SKD
 		public ShortPosition Position { get; set; }
 
 		[DataMember]
-		public Guid? DepartmentUID { get; set; }
-
-		[DataMember]
-		public string DepartmentName { get; set; }
+		public ShortDepartment Department { get; set; }
 
 		[DataMember]
 		public List<Guid> ReplacementUIDs { get; set; }
 
 		[DataMember]
-		public Guid? ScheduleUID { get; set; }
+		public ShortSchedule Schedule { get; set; }
+
+		[DataMember]
+		public string ScheduleName { get; set; }
 
 		[DataMember]
 		public DateTime ScheduleStartDate { get; set; }

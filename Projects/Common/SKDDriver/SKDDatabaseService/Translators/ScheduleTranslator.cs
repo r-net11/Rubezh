@@ -5,7 +5,7 @@ using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	public class ScheduleTranslator : OrganisationElementTranslator<DataAccess.Schedule, Schedule, ScheduleFilter>
+	public class ScheduleTranslator : WithShortTranslator<DataAccess.Schedule, Schedule, ScheduleFilter, ShortSchedule>
 	{
 		private ScheduleZoneTranslator _scheduleZoneTranslator;
 		public ScheduleTranslator(DataAccess.SKDDataContext context, ScheduleZoneTranslator scheduleZoneTranslator)
@@ -38,6 +38,15 @@ namespace SKDDriver.Translators
 			return result;
 		}
 
+		protected override ShortSchedule TranslateToShort(DataAccess.Schedule tableItem)
+		{
+			return new ShortSchedule
+			{
+				UID = tableItem.UID,
+				Name = tableItem.Name
+			};
+		}
+
 		protected override void TranslateBack(DataAccess.Schedule tableItem, Schedule apiItem)
 		{
 			var scheduleScheme = apiItem.ScheduleSchemeUID == Guid.Empty ? null : Context.ScheduleSchemes.FirstOrDefault(item => item.UID == apiItem.ScheduleSchemeUID);
@@ -50,6 +59,16 @@ namespace SKDDriver.Translators
 			else
 				tableItem.ScheduleScheme = scheduleScheme;
 			_scheduleZoneTranslator.Save(apiItem.Zones, false);
+		}
+
+		public string GetName(Guid? uid)
+		{
+			if (uid == null)
+				return "";
+			var tableItem = Table.FirstOrDefault(x => x.UID == uid.Value);
+			if (tableItem == null)
+				return "";
+			return tableItem.Name;
 		}
 	}
 }

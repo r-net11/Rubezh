@@ -38,6 +38,15 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static IEnumerable<ShortSchedule> GetShortByOrganisation(Guid organisationUID)
+		{
+			var result = FiresecManager.FiresecService.GetScheduleShortList(new ScheduleFilter
+			{
+				OrganisationUIDs = new List<System.Guid> { organisationUID }
+			});
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static IEnumerable<Schedule> Get(ScheduleFilter filter)
 		{
 			var operationResult = FiresecManager.FiresecService.GetSchedules(filter);

@@ -47,6 +47,8 @@ namespace FiresecAPI
 		OperationResult SaveSchedules(IEnumerable<TimeIntervals.Schedule> items);
 		[OperationContract]
 		OperationResult MarkDeletedSchedules(IEnumerable<TimeIntervals.Schedule> items);
+		[OperationContract]
+		OperationResult<IEnumerable<TimeIntervals.ShortSchedule>> GetScheduleShortList(TimeIntervals.ScheduleFilter filter);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.ScheduleZone>> GetScheduleZones(TimeIntervals.ScheduleZoneFilter filter);

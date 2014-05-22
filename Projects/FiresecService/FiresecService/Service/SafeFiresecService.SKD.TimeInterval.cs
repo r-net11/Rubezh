@@ -83,6 +83,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.MarkDeletedSchedules(items));
 		}
+		public FiresecAPI.OperationResult<IEnumerable<ShortSchedule>> GetScheduleShortList(ScheduleFilter filter)
+		{
+			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ShortSchedule>>>(() => FiresecService.GetScheduleShortList(filter));
+		}
 
 		public FiresecAPI.OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)
 		{

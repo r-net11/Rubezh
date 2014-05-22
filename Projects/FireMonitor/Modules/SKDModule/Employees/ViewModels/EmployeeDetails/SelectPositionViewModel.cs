@@ -19,8 +19,11 @@ namespace SKDModule.ViewModels
 			Employee = employee;
 			Positions = new ObservableCollection<SelectationPositionViewModel>();
 			var positions = PositionHelper.GetByOrganisation(Employee.OrganisationUID);
-			if (positions == null)
+			if (positions == null || positions.Count() == 0)
+			{
+				MessageBoxService.Show("Для данной организации не указано не одной должности");
 				return;
+			}
 			foreach (var position in positions)
 				Positions.Add(new SelectationPositionViewModel(position, this));
 			SelectationPositionViewModel selectedPosition;

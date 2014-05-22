@@ -21,7 +21,6 @@ namespace SKDDriver
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context, PhotoTranslator, AdditionalColumnTypeTranslator);
 			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
-			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator);
 			TimeIntervalTranslator = new TimeIntervalTranslator(Context);
 			NamedIntervalTranslator = new NamedIntervalTranslator(Context, TimeIntervalTranslator);
 			HolidayTranslator = new HolidayTranslator(Context);
@@ -29,6 +28,7 @@ namespace SKDDriver
 			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(Context, DayIntervalTranslator);
 			ScheduleZoneTranslator = new ScheduleZoneTranslator(Context);
 			ScheduleTranslator = new ScheduleTranslator(Context, ScheduleZoneTranslator);
+			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator, ScheduleTranslator);
 		}
 
 		public static DocumentTranslator DocumentTranslator { get; private set; }

@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 	{
 		public PersonType PersonType { get; private set; }
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
-
+		
 		public EmployeesViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
@@ -35,7 +35,7 @@ namespace SKDModule.ViewModels
 				var organisationViewModel = new EmployeeViewModel(organisation);
 				Organisations.Add(organisationViewModel);
 				AllEmployees.Add(organisationViewModel);
-				foreach (var employee  in employees)
+				foreach (var employee in employees)
 				{
 					if (employee.OrganisationUID == organisation.UID)
 					{
@@ -47,7 +47,6 @@ namespace SKDModule.ViewModels
 			}
 			OnPropertyChanged("Organisations");
 			SelectedEmployee = Organisations.FirstOrDefault();
-
 			InitializeAdditionalColumns();
 		}
 
@@ -90,6 +89,8 @@ namespace SKDModule.ViewModels
 			{
 				var employeeViewModel = new EmployeeViewModel(SelectedEmployee.Organisation, employeeDetailsViewModel.ShortEmployee);
 				AllEmployees.Add(employeeViewModel);
+				var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == employeeViewModel.Organisation.UID);
+				organisationViewModel.AddChild(employeeViewModel);
 				SelectedEmployee = employeeViewModel;
 			}
 		}

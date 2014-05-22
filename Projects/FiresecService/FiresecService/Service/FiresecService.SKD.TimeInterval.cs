@@ -83,7 +83,11 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.ScheduleTranslator.MarkDeleted(items);
 		}
-
+		public FiresecAPI.OperationResult<IEnumerable<ShortSchedule>> GetScheduleShortList(ScheduleFilter filter)
+		{
+			return SKDDatabaseService.ScheduleTranslator.GetList(filter);
+		}
+		
 		public FiresecAPI.OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)
 		{
 			return SKDDatabaseService.ScheduleZoneTranslator.Get(filter);

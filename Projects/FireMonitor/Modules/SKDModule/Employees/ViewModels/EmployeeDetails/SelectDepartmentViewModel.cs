@@ -20,22 +20,24 @@ namespace SKDModule.ViewModels
 			Employee = employee;
 			Departments = new List<SelectationDepartmentViewModel>();
 			var departments = DepartmentHelper.GetByOrganisation(Employee.OrganisationUID);
-			if (departments != null)
+			if (departments == null || departments.Count() == 0)
 			{
-				foreach (var department in departments)
+				MessageBoxService.Show("Для данной организации не указано не одного отдела");
+				return;
+			}
+			foreach (var department in departments)
+			{
+				Departments.Add(new SelectationDepartmentViewModel(department, this));
+			}
+			RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
+			if (RootDepartments.IsNotNullOrEmpty())
+			{
+				foreach (var rootDepartment in RootDepartments)
 				{
-					Departments.Add(new SelectationDepartmentViewModel(department, this));
-				}
-				RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
-				if (RootDepartments.IsNotNullOrEmpty())
-				{
-					foreach (var rootDepartment in RootDepartments)
-					{
-						SetChildren(rootDepartment);
-					}
+					SetChildren(rootDepartment);
 				}
 			}
-			var selectedDepartment = Departments.FirstOrDefault(x => x.Department.UID == Employee.DepartmentUID);
+			var selectedDepartment = Departments.FirstOrDefault(x => x.Department.UID == Employee.Department.UID);
 			if (selectedDepartment == null)
 				selectedDepartment = Departments.FirstOrDefault();
 			selectedDepartment.IsChecked = true;
@@ -63,13 +65,13 @@ namespace SKDModule.ViewModels
 			get { return Departments.FirstOrDefault(x => x.IsChecked); }
 		}
 
-		SelectationDepartmentViewModel _selectedDepartment2;
+		SelectationDepartmentViewModel _highlightedDepartment;
 		public SelectationDepartmentViewModel HighlightedDepartment
 		{
-			get { return _selectedDepartment2; }
+			get { return _highlightedDepartment; }
 			set
 			{
-				_selectedDepartment2 = value;
+				_highlightedDepartment = value;
 				OnPropertyChanged(() => HighlightedDepartment);
 			}
 		}

@@ -66,16 +66,6 @@ namespace SKDDriver
 			return shortPosition;
 		}
 
-		public ShortPosition GetSingleShort(Guid? uid)
-		{
-			if (uid == null)
-				return null;
-			var tableItem = Table.Where(x => x.UID.Equals(uid.Value)).FirstOrDefault();
-			if (tableItem == null)
-				return null;
-			return TranslateToShort(tableItem);
-		}
-
 		protected override Expression<Func<DataAccess.Position, bool>> IsInFilter(PositionFilter filter)
 		{
 			var result = PredicateBuilder.True<DataAccess.Position>();

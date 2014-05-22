@@ -64,8 +64,8 @@ namespace SKDDriver
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.ScheduleUID = apiItem.ScheduleUID;
-			tableItem.BeginDate = apiItem.DateTimePeriod.StartDate;
-			tableItem.EndDate = apiItem.DateTimePeriod.EndDate;
+			tableItem.BeginDate = CheckDate(apiItem.DateTimePeriod.StartDate);
+			tableItem.EndDate = CheckDate(apiItem.DateTimePeriod.EndDate);
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.DepartmentUID = apiItem.DepartmentUID;
 		}

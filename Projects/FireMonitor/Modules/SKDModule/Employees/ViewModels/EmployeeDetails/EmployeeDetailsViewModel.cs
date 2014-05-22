@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
+using FiresecAPI.EmployeeTimeIntervals;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -13,10 +14,7 @@ namespace SKDModule.ViewModels
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
 	{
 		Organisation Organisation { get; set; }
-		SelectDepartmentViewModel SelectDepartmentViewModel;
-		SelectScheduleViewModel SelectScheduleViewModel;
-		SelectPositionViewModel SelectPositionViewModel;
-
+		
 		public EmployeeDetailsViewModel(PersonType personType, Organisation orgnaisation, ShortEmployee employee = null)
 		{
 			Organisation = orgnaisation;
@@ -24,7 +22,7 @@ namespace SKDModule.ViewModels
 			if (employee == null)
 			{
 				Employee = new Employee();
-				Employee.FirstName = "Новый сотрудник";
+				Employee.OrganisationUID = orgnaisation.UID;
 				if (IsEmployee)
 				{
 					Title = "Добавить сотрудника";
@@ -66,7 +64,7 @@ namespace SKDModule.ViewModels
 			RemoveScheduleCommand = new RelayCommand(OnRemoveSchedule);
 		}
 
-		public void CopyProperties()
+		void CopyProperties()
 		{
 			FirstName = Employee.FirstName;
 			SecondName = Employee.SecondName;
@@ -83,10 +81,8 @@ namespace SKDModule.ViewModels
 			
 			if (IsEmployee)
 			{
-				SelectPositionViewModel = new SelectPositionViewModel(Employee);
-				SelectedPosition = SelectPositionViewModel.SelectedPosition.Position;
-				SelectScheduleViewModel = new SelectScheduleViewModel(Employee);
-				SelectedSchedule = SelectScheduleViewModel.SelectedSchedule;
+				SelectedPosition = Employee.Position;
+				SelectedSchedule = Employee.Schedule;
 				ScheduleStartDate = Employee.ScheduleStartDate;
 				Appointed = Employee.Appointed;
 				Dismissed = Employee.Dismissed;
@@ -99,8 +95,7 @@ namespace SKDModule.ViewModels
 					SelectedEscort = new SelectationEmployeeViewModel(escortEmployee);
 			}
 
-			SelectDepartmentViewModel = new SelectDepartmentViewModel(Employee);
-			SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment.Department;
+			SelectedDepartment = Employee.Department;
 			TextColumns = new List<TextColumnViewModel>();
 			GraphicsColumns = new List<IGraphicsColumnViewModel>();
 			GraphicsColumns.Add(new PhotoColumnViewModel(Employee.Photo));
@@ -198,8 +193,8 @@ namespace SKDModule.ViewModels
 			get { return SelectedPosition != null; }
 		}
 
-		SelectationScheduleViewModel _selectedSchedule;
-		public SelectationScheduleViewModel SelectedSchedule
+		ShortSchedule _selectedSchedule;
+		public ShortSchedule SelectedSchedule
 		{
 			get { return _selectedSchedule; }
 			private set
@@ -227,7 +222,7 @@ namespace SKDModule.ViewModels
 		{
 			get { return SelectedSchedule != null; }
 		}
-
+		 
 		public string ScheduleString
 		{
 			get
@@ -580,10 +575,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectScheduleCommand { get; private set; }
 		void OnSelectSchedule()
 		{
-			if (DialogService.ShowModalWindow(SelectScheduleViewModel))
+			var selectScheduleViewModel = new SelectScheduleViewModel(Employee);
+			if (DialogService.ShowModalWindow(selectScheduleViewModel))
 			{
-				SelectedSchedule = SelectScheduleViewModel.SelectedSchedule;
-				ScheduleStartDate = SelectScheduleViewModel.StartDate;
+				SelectedSchedule = selectScheduleViewModel.SelectedSchedule.Schedule;
+				ScheduleStartDate = selectScheduleViewModel.StartDate;
 			}
 		}
 
@@ -636,9 +632,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectDepartmentCommand { get; private set; }
 		void OnSelectDepartment()
 		{
-			if (DialogService.ShowModalWindow(SelectDepartmentViewModel))
+			var selectDepartmentViewModel = new SelectDepartmentViewModel(Employee);
+			if (DialogService.ShowModalWindow(selectDepartmentViewModel))
 			{
-				SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment.Department;
+				SelectedDepartment = selectDepartmentViewModel.SelectedDepartment.Department;
 			}
 		}
 
@@ -651,9 +648,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectPositionCommand { get; private set; }
 		void OnSelectPosition()
 		{
-			if (DialogService.ShowModalWindow(SelectPositionViewModel))
+			var selectPositionViewModel = new SelectPositionViewModel(Employee);
+			if (DialogService.ShowModalWindow(selectPositionViewModel))
 			{
-				SelectedPosition = SelectPositionViewModel.SelectedPosition.Position;
+				SelectedPosition = selectPositionViewModel.SelectedPosition.Position;
 			}
 		}
 
@@ -733,7 +731,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Выберите отдел");
 				return false;
 			}
-			Employee.DepartmentUID = SelectedDepartment.UID;
+			Employee.Department = SelectedDepartment;
 
 			if (IsEmployee)
 			{
@@ -744,13 +742,13 @@ namespace SKDModule.ViewModels
 					return false;
 				}
 				Employee.Position = SelectedPosition;
-				//if (SelectedSchedule == null)
-				//{
-				//    MessageBoxService.ShowWarning("Выберите график работы");
-				//    return false;
-				//}
-				//Employee.ScheduleUID = SelectedSchedule.Schedule.UID;
-				//Employee.ScheduleStartDate = ScheduleStartDate;
+				if (SelectedSchedule == null)
+				{
+					MessageBoxService.ShowWarning("Выберите график работы");
+					return false;
+				}
+				Employee.Schedule = SelectedSchedule;
+				Employee.ScheduleStartDate = ScheduleStartDate;
 			}
 			else
 			{

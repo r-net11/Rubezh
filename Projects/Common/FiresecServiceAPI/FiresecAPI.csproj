@@ -163,6 +163,7 @@
     <Compile Include="IFiresecServiceSKD.cs" />
     <Compile Include="IGKService.cs" />
     <Compile Include="IFiresecService.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="XModels\Automation\AutomationConfiguration.cs" />
     <Compile Include="XModels\Automation\Procedure.cs" />
     <Compile Include="XModels\Automation\ProcedureInputObject.cs" />

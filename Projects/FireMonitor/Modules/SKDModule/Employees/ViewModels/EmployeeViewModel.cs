@@ -14,7 +14,16 @@ namespace SKDModule.ViewModels
 		public Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
 		public ShortEmployee ShortEmployee { get; set; }
-		public string Name { get; private set; }
+		public string Name 
+		{
+			get 
+			{
+				if (IsOrganisation)
+					return Organisation.Name;
+				else
+					return ShortEmployee.LastName + " " + ShortEmployee.FirstName + " " + ShortEmployee.SecondName; 
+			} 
+		}
 		public Guid? DepartmentPhotoUID { get; set; }
 		public Guid? PositionPhotoUID { get; set; }
 		public string AppointedString { get; private set; }
@@ -26,7 +35,6 @@ namespace SKDModule.ViewModels
 		{
 			Organisation = organisation;
 			IsOrganisation = true;
-			Name = organisation.Name;
 			IsExpanded = true;
 		}
 
@@ -35,20 +43,15 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			ShortEmployee = employee;
 			IsOrganisation = false;
-			Name = employee.LastName;
-
+			
 			AddCardCommand = new RelayCommand(OnAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
-
-			//DepartmentPhotoUID = department == null ? null : department.PhotoUID;
-			//PositionPhotoUID = null; // пока нет в БД - position == null ? null : position.PhotoUID;
 
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
 			foreach (var item in employee.Cards)
 				Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
 			SelectedCard = Cards.FirstOrDefault();
 
-			Name = employee.LastName + " " + employee.FirstName + " " + employee.SecondName;
 			AppointedString = employee.Appointed;
 			DismissedString = employee.Dismissed;
 			DepartmentName = employee.DepartmentName;

@@ -46,7 +46,7 @@ namespace FiresecService
 		{
 			SqlConnection connection = new SqlConnection(connectionString); 
 			string commandText = "";
-			var stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/SKUD_Create.sql"));
+			var stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Create.sql"));
 			using (StreamReader sr = new StreamReader(stream.Stream))
 			{
 				commandText = sr.ReadToEnd();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI;
 using FiresecAPI.SKD;
 
@@ -9,7 +10,7 @@ namespace SKDDriver
 		where TableT : class, DataAccess.IOrganisationDatabaseElement, DataAccess.IDatabaseElement, DataAccess.IIsDeletedDatabaseElement, new()
 		where ApiT : OrganisationElementBase, new()
 		where FilterT : OrganisationFilterBase
-		where ShortT : new()
+		where ShortT : class, new()
 	{
 		public WithShortTranslator(DataAccess.SKDDataContext context)
 			: base(context)
@@ -35,6 +36,16 @@ namespace SKDDriver
 			{
 				return new OperationResult<IEnumerable<ShortT>>(e.Message);
 			}
+		}
+
+		public ShortT GetSingleShort(Guid? uid)
+		{
+			if (uid == null)
+				return null;
+			var tableItem = Table.Where(x => x.UID.Equals(uid.Value)).FirstOrDefault();
+			if (tableItem == null)
+				return null;
+			return TranslateToShort(tableItem);
 		}
 
 		protected abstract ShortT TranslateToShort(TableT tableItem);

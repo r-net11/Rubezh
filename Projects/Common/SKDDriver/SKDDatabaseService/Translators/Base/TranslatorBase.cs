@@ -59,8 +59,9 @@ namespace SKDDriver
 		}
 		protected virtual IEnumerable<TableT> GetTableItems(FilterT filter)
 		{
-			var query = GetQuery(filter);
-			return query.ToList();
+			if (filter == null)
+				return new List<TableT>();
+			return GetQuery(filter).ToList();
 		}
 
 		public virtual OperationResult<IEnumerable<ApiT>> Get(FilterT filter)

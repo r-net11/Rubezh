@@ -96,6 +96,16 @@ namespace SKDDriver
 			return shortDepartment;
 		}
 
+		public string GetName(Guid? uid)
+		{
+			if (uid == null)
+				return "";
+			var tableItem = Table.FirstOrDefault(x => x.UID == uid.Value);
+			if(tableItem == null)
+				return "";
+			return tableItem.Name;
+		}
+
 		public override OperationResult Save(Department apiItem)
 		{
 			var photoSaveResult = PhotoTranslator.Save(new List<Photo> { apiItem.Photo });

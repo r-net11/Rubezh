@@ -21,7 +21,8 @@
 					<DataGridTemplateColumn Header="Название" Width="*" >
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<RadioButton GroupName="Schedules" Content="{Binding Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center" Margin="2" />
+								<RadioButton GroupName="Schedules" VerticalAlignment="Center" Margin="2"
+											 Content="{Binding Name}" IsChecked="{Binding IsChecked}" Command="{Binding SelectCommand}"/>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

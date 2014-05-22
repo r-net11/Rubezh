@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using LinqKit;
+using SKDDriver.Translators;
 
 namespace SKDDriver
 {
@@ -16,7 +17,8 @@ namespace SKDDriver
 			DepartmentTranslator departmentTranslator,
 			AdditionalColumnTranslator additionalColumnTranslator,
 			CardTranslator cardTranslator,
-			PhotoTranslator photoTranslator)
+			PhotoTranslator photoTranslator,
+			ScheduleTranslator scheduleTranslator )
 			: base(context)
 		{
 			EmployeeReplacementTranslator = replacementTranslator;
@@ -25,6 +27,7 @@ namespace SKDDriver
 			AdditionalColumnTranslator = additionalColumnTranslator;
 			CardTranslator = cardTranslator;
 			PhotoTranslator = photoTranslator;
+			ScheduleTranslator = scheduleTranslator;
 		}
 
 		PositionTranslator PositionTranslator;
@@ -33,6 +36,7 @@ namespace SKDDriver
 		AdditionalColumnTranslator AdditionalColumnTranslator;
 		CardTranslator CardTranslator;
 		PhotoTranslator PhotoTranslator;
+		ScheduleTranslator ScheduleTranslator;
 
 		protected override OperationResult CanSave(Employee item)
 		{
@@ -69,8 +73,8 @@ namespace SKDDriver
 			result.Dismissed = tableItem.Dismissed;
 			result.ReplacementUIDs = EmployeeReplacementTranslator.GetReplacementUIDs(tableItem.UID);
 			result.CurrentReplacement = EmployeeReplacementTranslator.GetCurrentReplacement(tableItem.UID);
-			result.DepartmentUID = tableItem.DepartmentUID;
-			result.ScheduleUID = tableItem.ScheduleUID;
+			result.Department = DepartmentTranslator.GetSingleShort(tableItem.DepartmentUID);
+			result.Schedule = ScheduleTranslator.GetSingleShort(tableItem.ScheduleUID);
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
 			result.AdditionalColumns = AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID);
 			result.Type = (PersonType)tableItem.Type;
@@ -139,21 +143,23 @@ namespace SKDDriver
 			tableItem.Dismissed = CheckDate(apiItem.Dismissed);
 			if (apiItem.Position != null)
 				tableItem.PositionUID = apiItem.Position.UID;
-			tableItem.DepartmentUID = apiItem.DepartmentUID;
-			tableItem.ScheduleUID = apiItem.ScheduleUID;
-			tableItem.ScheduleStartDate = apiItem.ScheduleStartDate;
+			if (apiItem.Department != null)
+				tableItem.DepartmentUID = apiItem.Department.UID;
+			if(apiItem.Schedule != null)
+				tableItem.ScheduleUID = apiItem.Schedule.UID;
+			tableItem.ScheduleStartDate = CheckDate(apiItem.ScheduleStartDate);
 			if (apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.Type = (int)apiItem.Type;
 			tableItem.TabelNo = apiItem.TabelNo;
-			tableItem.CredentialsStartDate = apiItem.CredentialsStartDate;
+			tableItem.CredentialsStartDate = CheckDate(apiItem.CredentialsStartDate);
 			tableItem.EscortUID = apiItem.EscortUID;
 			tableItem.DocumentNumber = apiItem.DocumentNumber;
-			tableItem.BirthDate = apiItem.BirthDate;
+			tableItem.BirthDate = CheckDate(apiItem.BirthDate);
 			tableItem.BirthPlace = apiItem.BirthPlace;
 			tableItem.DocumentGivenBy = apiItem.DocumentGivenBy;
-			tableItem.DocumentGivenDate = apiItem.DocumentGivenDate;
-			tableItem.DocumentValidTo = apiItem.DocumentValidTo;
+			tableItem.DocumentGivenDate = CheckDate(apiItem.DocumentGivenDate);
+			tableItem.DocumentValidTo = CheckDate(apiItem.DocumentValidTo);
 			tableItem.Gender = (int)apiItem.Gender;
 			tableItem.DocumentDepartmentCode = apiItem.DocumentDepartmentCode;
 			tableItem.Citizenship = apiItem.Citizenship;

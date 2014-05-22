@@ -35,7 +35,7 @@ namespace SKDModule.PassCard.ViewModels
 			Card = card;
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			Employee = EmployeeHelper.GetDetails(employeeUID);
-			Department = DepartmentHelper.GetDetails(Employee.DepartmentUID);
+			Department = DepartmentHelper.GetDetails(Employee.Department.UID);
 			Organisation = OrganisationHelper.GetDetails(Employee.OrganisationUID);
 			Position = PositionHelper.GetDetails(Employee.Position.UID);
 			PassCardCanvas = new PassCardCanvas();
