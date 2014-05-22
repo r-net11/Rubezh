@@ -24,7 +24,7 @@ namespace ControllerSDK
 
 		Int32 loginID = 1;
 
-		private void OnConnect(object sender, RoutedEventArgs e)
+		void OnConnect(object sender, RoutedEventArgs e)
 		{
 			SDKImport.fDisConnectDelegate dCbFunc = new SDKImport.fDisConnectDelegate(OnfDisConnect);
 			var result = SDKImport.CLIENT_Init(dCbFunc, (UInt32)0);
@@ -42,29 +42,29 @@ namespace ControllerSDK
 			}
 		}
 
-		private void OnDisconnect(object sender, RoutedEventArgs e)
+		void OnDisconnect(object sender, RoutedEventArgs e)
 		{
 			var result = SDKImport.CLIENT_Cleanup();
 		}
 
-		private void OnGetTypeAndSoft(object sender, RoutedEventArgs e)
+		void OnGetTypeAndSoft(object sender, RoutedEventArgs e)
 		{
 			SDKImport.WRAP_DevConfig_TypeAndSoftInfo_Result outResult;
 			var result = SDKImport.WRAP_DevConfig_TypeAndSoftInfo(loginID, out outResult);
 		}
 
-		private void OnGetIpMask(object sender, RoutedEventArgs e)
+		void OnGetIpMask(object sender, RoutedEventArgs e)
 		{
 			SDKImport.CFG_NETWORK_INFO outResult;
 			var result = SDKImport.WRAP_Get_DevConfig_IPMaskGate(loginID, out outResult);
 		}
 
-		private void OnSetIpMask(object sender, RoutedEventArgs e)
+		void OnSetIpMask(object sender, RoutedEventArgs e)
 		{
 			var result = SDKImport.WRAP_Set_DevConfig_IPMaskGate(loginID, "172.5.2.65", "255.255.255.0", "172.5.1.1", 1000);
 		}
 
-		private void OnGetMac(object sender, RoutedEventArgs e)
+		void OnGetMac(object sender, RoutedEventArgs e)
 		{
 			SDKImport.WRAP_DevConfig_MAC_Result outResult;
 			var result = SDKImport.WRAP_DevConfig_MAC(loginID, out outResult);
