@@ -195,12 +195,12 @@ namespace ControllerSDK
 		[StructLayout(LayoutKind.Sequential)]
 		public struct DHDEVTIME
 		{
-			Int32 second;
-			Int32 minute;
-			Int32 hour;
-			Int32 day;
-			Int32 month;
-			Int32 year;
+			public Int32 second;
+			public Int32 minute;
+			public Int32 hour;
+			public Int32 day;
+			public Int32 month;
+			public Int32 year;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -599,19 +599,31 @@ namespace ControllerSDK
 		public struct WRAP_DevConfig_TypeAndSoftInfo_Result
 		{
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			char[] szDevType;
+			public char[] szDevType;
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-			char[] szSoftWareVersion;
-			Int32 dwSoftwareBuildDate_1;
-			Int32 dwSoftwareBuildDate_2;
-			Int32 dwSoftwareBuildDate_3;
+			public char[] szSoftWareVersion;
+			public Int32 dwSoftwareBuildDate_1;
+			public Int32 dwSoftwareBuildDate_2;
+			public Int32 dwSoftwareBuildDate_3;
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_DevConfig_TypeAndSoftInfo(Int32 lLoginID, out WRAP_DevConfig_TypeAndSoftInfo_Result result);
 
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_CFG_NETWORK_INFO_Result
+		{
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+			public char[] szIP;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+			public char[] szSubnetMask;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+			public char[] szDefGateway;
+			public Int32 nMTU;
+		}
+
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_Get_DevConfig_IPMaskGate(int lLoginID, out CFG_NETWORK_INFO stuNetwork);
+		public static extern bool WRAP_Get_DevConfig_IPMaskGate(int lLoginID, out WRAP_CFG_NETWORK_INFO_Result stuNetwork);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_Set_DevConfig_IPMaskGate(int lLoginID, string ip, string mask, string gate, int mtu);
@@ -620,10 +632,49 @@ namespace ControllerSDK
 		public struct WRAP_DevConfig_MAC_Result
 		{
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 40)]
-			char[] szMAC;
+			public char[] szMAC;
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_DevConfig_MAC(int lLoginID, out WRAP_DevConfig_MAC_Result result);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_DevConfig_RecordFinderCaps_Result
+		{
+			public int nMaxPageSize;
+		}
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_DevConfig_RecordFinderCaps(int lLoginID, out WRAP_DevConfig_RecordFinderCaps_Result result);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_DevConfig_GetCurrentTime(int lLoginID, out NET_TIME result);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_DevConfig_SetCurrentTime(int lLoginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_LogItem
+		{
+			public int nLogType;
+			public DHDEVTIME stuOperateTime;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
+			public char[] szOperator;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+			public char[] szOperation;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4 * 1024)]
+			public char[] szDetailContext;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_Dev_QueryLogList_Result
+		{
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+			public WRAP_LogItem[] Logs;
+			public int Test;
+		}
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_Dev_QueryLogList(int lLoginID, out WRAP_Dev_QueryLogList_Result result);
 	}
 }

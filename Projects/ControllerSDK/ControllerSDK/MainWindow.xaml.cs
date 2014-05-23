@@ -22,7 +22,25 @@ namespace ControllerSDK
 			InitializeComponent();
 		}
 
-		Int32 loginID = 1;
+		Int32 LoginID = 1;
+
+		string CharArrayToString(char[] charArray)
+		{
+			var result = new string(charArray);
+			int i = result.IndexOf('\0');
+			if (i >= 0)
+				result = result.Substring(0, i);
+			return result;
+		}
+
+		string CharArrayToStringNoTrim(char[] charArray)
+		{
+			var result = new string(charArray);
+			//int i = result.IndexOf('\0');
+			//if (i >= 0)
+			//    result = result.Substring(0, i);
+			return result;
+		}
 
 		void OnConnect(object sender, RoutedEventArgs e)
 		{
@@ -31,7 +49,9 @@ namespace ControllerSDK
 
 			ControllerSDK.SDKImport.NET_DEVICEINFO deviceInfo;
 			int error = 0;
-			Int32 loginID = SDKImport.CLIENT_Login("172.16.2.55", (UInt16)37777, "admin", "admin", out deviceInfo, out error);
+			LoginID = SDKImport.CLIENT_Login("172.16.2.56", (UInt16)37777, "admin", "123456", out deviceInfo, out error);
+
+			_textBox.Text += "LoginID = " + LoginID + "\n";
 		}
 
 		void OnfDisConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
@@ -50,26 +70,152 @@ namespace ControllerSDK
 		void OnGetTypeAndSoft(object sender, RoutedEventArgs e)
 		{
 			SDKImport.WRAP_DevConfig_TypeAndSoftInfo_Result outResult;
-			var result = SDKImport.WRAP_DevConfig_TypeAndSoftInfo(loginID, out outResult);
+			var result = SDKImport.WRAP_DevConfig_TypeAndSoftInfo(LoginID, out outResult);
+
+			DeviceSoftwareInfo deviceSoftwareInfo = null;
+			if (result)
+			{
+				deviceSoftwareInfo = new DeviceSoftwareInfo();
+				deviceSoftwareInfo.SoftwareBuildDate = new DateTime(outResult.dwSoftwareBuildDate_1, outResult.dwSoftwareBuildDate_2, outResult.dwSoftwareBuildDate_3);
+				deviceSoftwareInfo.DeviceType = CharArrayToString(outResult.szDevType);
+				deviceSoftwareInfo.SoftwareVersion = CharArrayToString(outResult.szSoftWareVersion);
+			}
+			if (result)
+			{
+				_textBox.Text += "SoftwareBuildDate = " + deviceSoftwareInfo.SoftwareBuildDate.ToString() + "\n";
+				_textBox.Text += "DeviceType = " + deviceSoftwareInfo.DeviceType + "\n";
+				_textBox.Text += "SoftwareBuildDate = " + deviceSoftwareInfo.SoftwareBuildDate + "\n";
+			}
+			else
+			{
+				_textBox.Text += "Error" + "\n";
+			}
 		}
 
 		void OnGetIpMask(object sender, RoutedEventArgs e)
 		{
-			SDKImport.CFG_NETWORK_INFO outResult;
-			var result = SDKImport.WRAP_Get_DevConfig_IPMaskGate(loginID, out outResult);
+			SDKImport.WRAP_CFG_NETWORK_INFO_Result outResult;
+			var result = SDKImport.WRAP_Get_DevConfig_IPMaskGate(LoginID, out outResult);
+
+			DeviceNetInfo deviceNetInfo = null;
+			if (result)
+			{
+				deviceNetInfo = new DeviceNetInfo();
+				deviceNetInfo.IP = CharArrayToString(outResult.szIP);
+				deviceNetInfo.SubnetMask = CharArrayToString(outResult.szSubnetMask);
+				deviceNetInfo.DefaultGateway = CharArrayToString(outResult.szDefGateway);
+				deviceNetInfo.MTU = outResult.nMTU;
+			}
+			if (result)
+			{
+				_textBox.Text += "IP = " + deviceNetInfo.IP + "\n";
+				_textBox.Text += "SubnetMask = " + deviceNetInfo.SubnetMask + "\n";
+				_textBox.Text += "DefaultGateway = " + deviceNetInfo.DefaultGateway + "\n";
+				_textBox.Text += "MTU = " + deviceNetInfo.MTU.ToString() + "\n";
+			}
+			else
+			{
+				_textBox.Text += "Error" + "\n";
+			}
 		}
 
 		void OnSetIpMask(object sender, RoutedEventArgs e)
 		{
-			var result = SDKImport.WRAP_Set_DevConfig_IPMaskGate(loginID, "172.5.2.65", "255.255.255.0", "172.5.1.1", 1000);
+			return;
+			var result = SDKImport.WRAP_Set_DevConfig_IPMaskGate(LoginID, "172.5.2.65", "255.255.255.0", "172.5.1.1", 1000);
 		}
 
 		void OnGetMac(object sender, RoutedEventArgs e)
 		{
 			SDKImport.WRAP_DevConfig_MAC_Result outResult;
-			var result = SDKImport.WRAP_DevConfig_MAC(loginID, out outResult);
+			var result = SDKImport.WRAP_DevConfig_MAC(LoginID, out outResult);
+			if (result)
+			{
+				var macAddress = CharArrayToString(outResult.szMAC);
+				_textBox.Text += "macAddress = " + macAddress + "\n";
+			}
+			else
+			{
+				_textBox.Text += "Error" + "\n";
+			}
 		}
 
-		
+		void OnGetMaxPageSize(object sender, RoutedEventArgs e)
+		{
+			SDKImport.WRAP_DevConfig_RecordFinderCaps_Result outResult;
+			var result = SDKImport.WRAP_DevConfig_RecordFinderCaps(LoginID, out outResult);
+			if (result)
+			{
+				var maxPageSize = outResult.nMaxPageSize;
+				_textBox.Text += "maxPageSize = " + maxPageSize + "\n";
+			}
+			else
+			{
+				_textBox.Text += "Error" + "\n";
+			}
+		}
+
+		void OnGetCurrentTime(object sender, RoutedEventArgs e)
+		{
+			SDKImport.NET_TIME outResult;
+			var result = SDKImport.WRAP_DevConfig_GetCurrentTime(LoginID, out outResult);
+			if (result)
+			{
+				var dateTime = new DateTime(outResult.dwYear, outResult.dwMonth, outResult.dwDay, outResult.dwHour, outResult.dwMinute, outResult.dwSecond);
+				_textBox.Text += "dateTime = " + dateTime.ToString() + "\n";
+			}
+			else
+			{
+				_textBox.Text += "Error" + "\n";
+			}
+		}
+
+		void OnSetCurrentTime(object sender, RoutedEventArgs e)
+		{
+			var result = SDKImport.WRAP_DevConfig_SetCurrentTime(LoginID, 2014, 5, 23, 13, 14, 01);
+			if (result)
+			{
+				_textBox.Text += "Success" + "\n";
+			}
+			else
+			{
+				_textBox.Text += "Error" + "\n";
+			}
+		}
+
+		void OnQueryLogList(object sender, RoutedEventArgs e)
+		{
+			SDKImport.WRAP_Dev_QueryLogList_Result outResult;
+			var result = SDKImport.WRAP_Dev_QueryLogList(LoginID, out outResult);
+			List<DeviceJournalItem> deviceJournalItems = new List<DeviceJournalItem>();
+			if (result)
+			{
+				foreach (var log in outResult.Logs)
+				{
+					var deviceJournalItem = new DeviceJournalItem();
+					//deviceJournalItem.DateTime = new DateTime(log.stuOperateTime.year, log.stuOperateTime.month, log.stuOperateTime.day, log.stuOperateTime.hour, log.stuOperateTime.minute, log.stuOperateTime.second);
+					deviceJournalItem.OperatorName = CharArrayToStringNoTrim(log.szOperator);
+					deviceJournalItem.Name = CharArrayToStringNoTrim(log.szOperation);
+					deviceJournalItem.Description = CharArrayToStringNoTrim(log.szDetailContext);
+					deviceJournalItems.Add(deviceJournalItem);
+				}
+			}
+			if (result)
+			{
+				foreach (var deviceJournalItem in deviceJournalItems)
+				{
+					_textBox.Text += "\n";
+					_textBox.Text += "DateTime = " + deviceJournalItem.DateTime.ToString() + "\n";
+					_textBox.Text += "OperatorName = " + deviceJournalItem.OperatorName.ToString() + "\n";
+					_textBox.Text += "Name = " + deviceJournalItem.Name.ToString() + "\n";
+					_textBox.Text += "Description = " + deviceJournalItem.Description.ToString() + "\n";
+				}
+
+			}
+			else
+			{
+				_textBox.Text += "Error" + "\n";
+			}
+		}
 	}
 }

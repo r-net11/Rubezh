@@ -3,13 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="SDK Test" Height="500" Width="500">
     <Grid>
-        <StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
             <Button Content="Connect" Click="OnConnect" Width="300" Margin="2" />
             <Button Content="Disconnect" Click="OnDisconnect" Width="300" Margin="2" />
             <Button Content="GetTypeAndSoft" Click="OnGetTypeAndSoft" Width="300" Margin="2" />
             <Button Content="GetIpMask" Click="OnGetIpMask" Width="300" Margin="2" />
             <Button Content="SetIpMask" Click="OnSetIpMask" Width="300" Margin="2" />
             <Button Content="GetMac" Click="OnGetMac" Width="300" Margin="2" />
+            <Button Content="GetMaxPageSize" Click="OnGetMaxPageSize" Width="300" Margin="2" />
+            <Button Content="GetCurrentTime" Click="OnGetCurrentTime" Width="300" Margin="2" />
+            <Button Content="SetCurrentTime" Click="OnSetCurrentTime" Width="300" Margin="2" />
+            <Button Content="QueryLogList" Click="OnQueryLogList" Width="300" Margin="2" />
         </StackPanel>
+        <TextBox Grid.Row="1" Name="_textBox" TextWrapping="Wrap">
+        </TextBox>
     </Grid>
 </Window>
