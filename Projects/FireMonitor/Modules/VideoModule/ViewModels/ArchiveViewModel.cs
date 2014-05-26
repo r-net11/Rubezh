@@ -244,7 +244,7 @@ namespace VideoModule.ViewModels
 			else
 				camera = SelectedCamera.Camera;
 			var cellPlayerWrap = new CellPlayerWrap();
-			var channel = cellPlayerWrap.Connect(camera.Address, camera.Port, camera.Login, camera.Password).FirstOrDefault
+			var channel = cellPlayerWrap.Connect(camera).FirstOrDefault
 				(x => x.ChannelNumber == camera.ChannelNumber);
 			if (channel == null)
 				return;

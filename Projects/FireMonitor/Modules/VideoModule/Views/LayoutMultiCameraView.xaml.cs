@@ -53,24 +53,24 @@ namespace VideoModule.Views
 				if (cameraUid != Guid.Empty)
 				{
 					var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == cameraUid);
+					cameraViewModel = new CameraViewModel(camera, control);
 					if (camera != null)
 					{
-						cameraViewModel.Camera = camera;
-						new Thread(delegate()
+						Dispatcher.BeginInvoke(new ThreadStart(() =>
+						{
+							try
 							{
-								try
-								{
-									Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
-									{
-										cameraViewModel.Connect();
-										cameraViewModel.Start();
-									}));
-								}
-								catch { }
-							}).Start();
+								cameraViewModel.Connect();
+								cameraViewModel.Start();
+							}
+							catch (Exception e)
+							{
+								MessageBox.Show(e.Message);
+							}
+						}));
 					}
+					Cameras.Add(cameraViewModel);
 				}
-				Cameras.Add(cameraViewModel);
 			}
 		}
 
@@ -119,7 +119,7 @@ namespace VideoModule.Views
 					try
 					{
 						cameraViewModel.Stop();
-						if ((propertyViewModel.SelectedCamera != null) && (propertyViewModel.SelectedCamera.Address != null))
+						if ((propertyViewModel.SelectedCamera != null) && (propertyViewModel.SelectedCamera.Ip != null))
 						{
 							new Thread(delegate()
 								{

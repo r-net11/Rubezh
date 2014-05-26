@@ -26,9 +26,9 @@ namespace Infrastructure.Common
 					videoWindow._headerGrid.Visibility = Visibility.Visible;
 				}
 
-				if (ActiveAddresses.Contains(camera.Address) == false)
+				if (ActiveAddresses.Contains(camera.Ip) == false)
 				{
-					ActiveAddresses.Add(camera.Address);
+					ActiveAddresses.Add(camera.Ip);
 					videoWindow.Closed += new System.EventHandler(videoWindow_Closed);
 					videoWindow.Show();
 				}
@@ -67,12 +67,12 @@ namespace Infrastructure.Common
 		{
 			var title = camera.Name;
 			if(string.IsNullOrEmpty(title))
-				title = "Видео с камеры " + camera.Address;
+				title = "Видео с камеры " + camera.Ip;
 
 			var videoWindow = new VideoWindow()
 			{
 				Title = title,
-				Address = camera.Address,
+				Address = camera.Ip,
 				Left = camera.Left,
 				Top = camera.Top,
 				Width = camera.Width,

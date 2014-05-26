@@ -38,7 +38,10 @@ namespace FiresecAPI.Models
 		public string Name { get; set; }
 
 		[DataMember]
-		public string Address { get; set; }
+		public string Ip { get; set; }
+
+		[DataMember]
+		public string Status { get; set; }
 
 		[DataMember]
 		public int Port { get; set; }
@@ -98,7 +101,7 @@ namespace FiresecAPI.Models
 
 		public string PresentationName
 		{
-			get { return Name + " " + Address; }
+			get { return Name + " " + Ip; }
 		}
 
 		public event Action Changed;

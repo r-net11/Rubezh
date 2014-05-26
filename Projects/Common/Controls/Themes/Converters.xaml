@@ -44,6 +44,7 @@
 	<Converters:BoolToMinimizeTextConverter x:Key="BoolToMinimizeTextConverter" />
 	<Converters:BoolToMinimizeTooltipConverter x:Key="BoolToMinimizeTooltipConverter" />
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
+	<Converters:ConnectionStateToImageSourceConverter x:Key="ConnectionStateToImageSourceConverter" />
 	<Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
 	<Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter " />
 	<Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />

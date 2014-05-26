@@ -169,7 +169,7 @@ namespace DevicesModule.Validation
 
 		void ValidateDeviceConflictAddressWithMSChannel(Device device)
 		{
-			var driverAddressProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == "Address");
+			var driverAddressProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == "Ip");
 			if (driverAddressProperty != null)
 			{
 				var deviceAddressProperty = device.Properties.FirstOrDefault(x => x.Name == driverAddressProperty.Name);

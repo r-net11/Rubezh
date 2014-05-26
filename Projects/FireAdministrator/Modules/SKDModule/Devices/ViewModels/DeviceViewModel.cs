@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				Device.Address = value;
-				OnPropertyChanged("Address");
+				OnPropertyChanged("Ip");
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}

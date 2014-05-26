@@ -53,7 +53,7 @@ namespace SKDModule.ViewModels
 				if (_address != value)
 				{
 					_address = value;
-					OnPropertyChanged("Address");
+					OnPropertyChanged("Ip");
 				}
 			}
 		}

@@ -87,11 +87,11 @@ namespace GKModule.ViewModels
 				{
 					foreach (var deviceViewModel in Children)
 					{
-						deviceViewModel.OnPropertyChanged("Address");
+						deviceViewModel.OnPropertyChanged("Ip");
 						deviceViewModel.OnPropertyChanged("PresentationAddress");
 					}
 				}
-				OnPropertyChanged("Address");
+				OnPropertyChanged("Ip");
 				OnPropertyChanged("PresentationAddress");
 				ServiceFactory.SaveService.GKChanged = true;
 			}

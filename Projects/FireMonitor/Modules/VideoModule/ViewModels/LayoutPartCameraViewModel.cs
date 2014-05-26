@@ -19,12 +19,13 @@ namespace VideoModule.ViewModels
 			if (properties != null)
 			{
 				Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(item => item.UID == properties.SourceUID);
+				Camera.Status = "Connected";
 				CameraViewModel = new CameraViewModel(Camera, CellPlayerWrap);
 				new Thread(delegate()
 				{
 						try
 						{
-							if ((CameraViewModel.Camera != null) && (CameraViewModel.Camera.Address != null))
+							if ((CameraViewModel.Camera != null) && (CameraViewModel.Camera.Ip != null))
 							{
 								CameraViewModel.Connect();
 								CameraViewModel.Start();

@@ -138,6 +138,7 @@
     <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
     <Compile Include="Converters\BoolToGridLengthConverter.cs" />
+    <Compile Include="Converters\ConnectionStateToImageSourceConverter.cs" />
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />
     <Compile Include="Converters\DelayRegimeToStringConverter.cs" />
     <Compile Include="Converters\DescriptionTypeToIconConverter.cs" />
@@ -1095,6 +1096,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Dvr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\VideoDisconnected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\VideoConnected.png" />
+    <Resource Include="Images\VideoConnecting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\VideoNotAvailable.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="GKIcons\RSR2_Bush_Fire.png" />

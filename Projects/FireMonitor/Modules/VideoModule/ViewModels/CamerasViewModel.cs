@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -14,8 +15,10 @@ namespace VideoModule.ViewModels
 {
 	public class CamerasViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
+		public static CamerasViewModel Current { get; private set; }
 		public CamerasViewModel()
 		{
+			Current = this;
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => SelectedCamera != null && SelectedCamera.Camera.PlanElementUIDs.Count > 0);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, () => SelectedCamera != null);
 			Initialize();
@@ -90,19 +93,5 @@ namespace VideoModule.ViewModels
 		}
 
 		public List<CameraViewModel> AllCameras;
-
-		public List<CameraViewModel> AllCamerass
-		{
-			get
-			{
-				var cameras = new List<CameraViewModel>();
-				foreach (var camera in Cameras)
-				{
-					cameras.Add(camera);
-					cameras.AddRange(camera.Children);
-				}
-				return cameras;
-			}
-		}
 	}
 }
