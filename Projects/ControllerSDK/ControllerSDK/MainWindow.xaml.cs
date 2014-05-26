@@ -265,7 +265,7 @@ namespace ControllerSDK
 						timeInterval.StartDateTime = new TimeSpan(section.stuTime.stuStartTime.dwHour, section.stuTime.stuStartTime.dwMinute, section.stuTime.stuStartTime.dwSecond);
 						timeInterval.EndDateTime = new TimeSpan(section.stuTime.stuEndTime.dwHour, section.stuTime.stuEndTime.dwMinute, section.stuTime.stuEndTime.dwSecond);
 						namedTimeInterval.Intervals.Add(timeInterval);
-						_textBox.Text += timeInterval.StartDateTime.ToString() + " " + timeInterval.StartDateTime.ToString() + "\n";
+						_textBox.Text += timeInterval.StartDateTime.ToString() + " " + "\n";
 					}
 				}
 			}
