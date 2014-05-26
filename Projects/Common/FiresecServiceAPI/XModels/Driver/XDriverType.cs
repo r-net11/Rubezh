@@ -48,6 +48,8 @@
 		RSR2_MVK8_Group,
 		RSR2_HeatDetector,
 		RSR2_Bush,
+		RSR2_Bush_Jokey,
+		RSR2_Bush_Fire,
 		Battery,
 		Shu,
 		Shuv,

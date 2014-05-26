@@ -442,8 +442,43 @@ namespace GKProcessor
 						break;
 
 					case XDriverType.RSR2_Bush:
-						OnDelay = additionalShortParameters[0];
-						OffDelay = additionalShortParameters[1];
+					case XDriverType.DrainagePump:
+					case XDriverType.FirePump:
+
+						switch (additionalShortParameters[1])
+						{
+							case 1:
+								OnDelay = additionalShortParameters[0];
+								break;
+
+							case 2:
+								OffDelay = additionalShortParameters[0];
+								break;
+						}
+
+						var bitArray = new BitArray(new int[1] { additionalShortParameters[2] });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "Неисправность датчика низкого уровня");
+						if (bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Неисправность датчика высокого уровня");
+						if (bitArray[2])
+							AddAdditionalState(XStateClass.Failure, "Неисправность датчика аварийного уровня");
+						if (bitArray[6])
+							AddAdditionalState(XStateClass.Failure, "Аварийный уровень есть");
+						if (bitArray[7])
+							AddAdditionalState(XStateClass.Failure, "Неисправность питания контроллера");
+
+						bitArray = new BitArray(new int[1] { additionalShortParameters[2] / 256 });
+						if (bitArray[0])
+							AddAdditionalState(XStateClass.Failure, "Вскрытие");
+						if (bitArray[1])
+							AddAdditionalState(XStateClass.Failure, "Неисправность контактора");
+						if (bitArray[4])
+							AddAdditionalState(XStateClass.Failure, "Неисправность силового питания");
+						if (bitArray[6])
+							AddAdditionalState(XStateClass.Failure, "Обрыв цепи ПД");
+						if (bitArray[7])
+							AddAdditionalState(XStateClass.Failure, "Недопустимое сочетание сигналов");
 						break;
 				}
 			}

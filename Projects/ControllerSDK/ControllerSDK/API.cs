@@ -27,4 +27,44 @@ namespace ControllerSDK
 		public string Name { get; set; }
 		public string Description { get; set; }
 	}
+
+	public class DeviceGeneralInfo
+	{
+		public string OpenDoorAudioPath { get; set; }
+		public string CloseDoorAudioPath { get; set; }
+		public string InUsedAuidoPath { get; set; }
+		public string PauseUsedAudioPath { get; set; }
+		public string NotClosedAudioPath { get; set; }
+		public string WaitingAudioPath { get; set; }
+		public Int32 UnlockReloadTime { get; set; }
+		public Int32 UnlockHoldTime { get; set; }
+		public bool IsProjectPassword { get; set; }
+		public string ProjectPassword { get; set; }
+	}
+
+	public class TimeInterval
+	{
+		public TimeSpan StartDateTime { get; set; }
+		public TimeSpan EndDateTime { get; set; }
+	}
+
+	public class NamedTimeInterval
+	{
+		public NamedTimeInterval()
+		{
+			Intervals = new List<TimeInterval>();
+		}
+
+		public List<TimeInterval> Intervals;
+	}
+
+	public class ControllerConfig
+	{
+		public ControllerConfig()
+		{
+			NamedTimeIntervals = new List<NamedTimeInterval>();
+		}
+
+		public List<NamedTimeInterval> NamedTimeIntervals;
+	}
 }

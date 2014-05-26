@@ -217,5 +217,62 @@ namespace ControllerSDK
 				_textBox.Text += "Error" + "\n";
 			}
 		}
+
+		void OnGetAccessGeneral(object sender, RoutedEventArgs e)
+		{
+			SDKImport.CFG_ACCESS_GENERAL_INFO outResult;
+			var result = SDKImport.WRAP_DevConfig_AccessGeneral(LoginID, out outResult);
+			DeviceGeneralInfo deviceGeneralInfo = null;
+			if (result)
+			{
+				_textBox.Text += "Success" + "\n";
+				deviceGeneralInfo = new DeviceGeneralInfo();
+				deviceGeneralInfo.OpenDoorAudioPath = CharArrayToString(outResult.szOpenDoorAudioPath);
+				deviceGeneralInfo.CloseDoorAudioPath = CharArrayToString(outResult.szCloseDoorAudioPath);
+				deviceGeneralInfo.InUsedAuidoPath = CharArrayToString(outResult.szInUsedAuidoPath);
+				deviceGeneralInfo.PauseUsedAudioPath = CharArrayToString(outResult.szPauseUsedAudioPath);
+				deviceGeneralInfo.NotClosedAudioPath = CharArrayToString(outResult.szNotClosedAudioPath);
+				deviceGeneralInfo.WaitingAudioPath = CharArrayToString(outResult.szWaitingAudioPath);
+				deviceGeneralInfo.UnlockReloadTime = outResult.nUnlockReloadTime;
+				deviceGeneralInfo.UnlockHoldTime = outResult.nUnlockHoldTime;
+				deviceGeneralInfo.IsProjectPassword = outResult.abProjectPassword;
+				deviceGeneralInfo.ProjectPassword = CharArrayToString(outResult.szProjectPassword);
+			}
+			else
+			{
+				_textBox.Text += "Error" + "\n";
+			}
+		}
+
+		void OnGetDevConfig_AccessControl(object sender, RoutedEventArgs e)
+		{
+			SDKImport.CFG_ACCESS_EVENT_INFO outResult;
+			var result = SDKImport.WRAP_GetDevConfig_AccessControl(LoginID, out outResult);
+			if (result)
+			{
+				_textBox.Text += "Success" + "\n";
+
+
+				var controllerConfig = new ControllerConfig();
+
+				for (int i = 0; i < 7; i++)
+				{
+					var namedTimeInterval = new NamedTimeInterval();
+					for (int j = 0; j < 4; j++)
+					{
+						var section = outResult.stuDoorTimeSection[i * 4 + j];
+						var timeInterval = new TimeInterval();
+						timeInterval.StartDateTime = new TimeSpan(section.stuTime.stuStartTime.dwHour, section.stuTime.stuStartTime.dwMinute, section.stuTime.stuStartTime.dwSecond);
+						timeInterval.EndDateTime = new TimeSpan(section.stuTime.stuEndTime.dwHour, section.stuTime.stuEndTime.dwMinute, section.stuTime.stuEndTime.dwSecond);
+						namedTimeInterval.Intervals.Add(timeInterval);
+						_textBox.Text += timeInterval.StartDateTime.ToString() + " " + timeInterval.StartDateTime.ToString() + "\n";
+					}
+				}
+			}
+			else
+			{
+				_textBox.Text += "Error" + "\n";
+			}
+		}
 	}
 }

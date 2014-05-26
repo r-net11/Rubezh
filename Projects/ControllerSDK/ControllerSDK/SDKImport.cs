@@ -250,30 +250,6 @@ namespace ControllerSDK
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern bool CLIENT_QueryDeviceLog(Int32 lLoginID, IntPtr pQueryParam, IntPtr pLogBuffer, Int32 nLogBufferLen, out Int32 pRecLogNum, Int32 waittime);
 
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CFG_ACCESS_GENERAL_INFO
-		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			Char[] szOpenDoorAudioPath;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			Char[] szCloseDoorAudioPath;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			Char[] szInUsedAuidoPath;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			Char[] szPauseUsedAudioPath;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			Char[] szNotClosedAudioPath;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			Char[] szWaitingAudioPath;
-			Int32 nUnlockReloadTime;
-			Int32 nUnlockHoldTime;
-			public bool abProjectPassword;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			Byte[] byReserved;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-			public Char[] szProjectPassword;
-		}
-
 		public enum CFG_ACCESS_STATE
 		{
 			ACCESS_STATE_NORMAL,
@@ -302,59 +278,59 @@ namespace ControllerSDK
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_TIME
 		{
-			Int32 dwHour;
-			Int32 dwMinute;
-			Int32 dwSecond;
+			public Int32 dwHour;
+			public Int32 dwMinute;
+			public Int32 dwSecond;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_TIME_PERIOD
 		{
-			CFG_TIME stuStartTime;
-			CFG_TIME stuEndTime;
+			public CFG_TIME stuStartTime;
+			public CFG_TIME stuEndTime;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_DOOROPEN_TIMESECTION_INFO
 		{
-			CFG_TIME_PERIOD stuTime;
-			CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
+			public CFG_TIME_PERIOD stuTime;
+			public CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
 		}
 
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CFG_ACCESS_EVENT_INFO
-		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-			Char[] szChannelName;
-			CFG_ACCESS_STATE emState;
-			CFG_ACCESS_MODE emMode;
-			Int32 nEnableMode;
-			bool bSnapshotEnable;
-			bool abDoorOpenMethod;
-			bool abUnlockHoldInterval;
-			bool abCloseTimeout;
-			bool abOpenAlwaysTimeIndex;
-			bool abHolidayTimeIndex;
-			bool abBreakInAlarmEnable;
-			bool abRepeatEnterAlarmEnable;
-			bool abDoorNotClosedAlarmEnable;
-			bool abDuressAlarmEnable;
-			bool abDoorTimeSection;
-			bool abSensorEnable;
-			Byte byReserved;
-			CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
-			Int32 nUnlockHoldInterval;
-			Int32 nCloseTimeout;
-			Int32 nOpenAlwaysTimeIndex;
-			Int32 nHolidayTimeRecoNo;
-			bool bBreakInAlarmEnable;
-			bool bRepeatEnterAlarm;
-			bool bDoorNotClosedAlarmEnable;
-			bool bDuressAlarmEnable;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 7 * 4)]
-			CFG_DOOROPEN_TIMESECTION_INFO[][] stuDoorTimeSection;
-			bool bSensorEnable;
-		}
+		//[StructLayout(LayoutKind.Sequential)]
+		//public struct CFG_ACCESS_EVENT_INFO
+		//{
+		//    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+		//    Char[] szChannelName;
+		//    CFG_ACCESS_STATE emState;
+		//    CFG_ACCESS_MODE emMode;
+		//    Int32 nEnableMode;
+		//    bool bSnapshotEnable;
+		//    bool abDoorOpenMethod;
+		//    bool abUnlockHoldInterval;
+		//    bool abCloseTimeout;
+		//    bool abOpenAlwaysTimeIndex;
+		//    bool abHolidayTimeIndex;
+		//    bool abBreakInAlarmEnable;
+		//    bool abRepeatEnterAlarmEnable;
+		//    bool abDoorNotClosedAlarmEnable;
+		//    bool abDuressAlarmEnable;
+		//    bool abDoorTimeSection;
+		//    bool abSensorEnable;
+		//    Byte byReserved;
+		//    CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
+		//    Int32 nUnlockHoldInterval;
+		//    Int32 nCloseTimeout;
+		//    Int32 nOpenAlwaysTimeIndex;
+		//    Int32 nHolidayTimeRecoNo;
+		//    bool bBreakInAlarmEnable;
+		//    bool bRepeatEnterAlarm;
+		//    bool bDoorNotClosedAlarmEnable;
+		//    bool bDuressAlarmEnable;
+		//    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 7 * 4)]
+		//    CFG_DOOROPEN_TIMESECTION_INFO[][] stuDoorTimeSection;
+		//    bool bSensorEnable;
+		//}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_TIME_SECTION
@@ -676,5 +652,69 @@ namespace ControllerSDK
 
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_Dev_QueryLogList(int lLoginID, out WRAP_Dev_QueryLogList_Result result);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct CFG_ACCESS_GENERAL_INFO
+		{
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+			public Char[] szOpenDoorAudioPath;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+			public Char[] szCloseDoorAudioPath;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+			public Char[] szInUsedAuidoPath;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+			public Char[] szPauseUsedAudioPath;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+			public Char[] szNotClosedAudioPath;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
+			public Char[] szWaitingAudioPath;
+			public Int32 nUnlockReloadTime;
+			public Int32 nUnlockHoldTime;
+			public bool abProjectPassword;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+			public Byte[] byReserved;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+			public Char[] szProjectPassword;
+		}
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_DevConfig_AccessGeneral(int lLoginId, out CFG_ACCESS_GENERAL_INFO result);
+
+		public struct CFG_ACCESS_EVENT_INFO
+		{
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+			public char[] szChannelName;
+			public CFG_ACCESS_STATE emState;
+			public CFG_ACCESS_MODE emMode;
+			public int nEnableMode;
+			public bool bSnapshotEnable;
+			public bool abDoorOpenMethod;
+			public bool abUnlockHoldInterval;
+			public bool abCloseTimeout;
+			public bool abOpenAlwaysTimeIndex;
+			public bool abHolidayTimeIndex;
+			public bool abBreakInAlarmEnable;
+			public bool abRepeatEnterAlarmEnable;
+			public bool abDoorNotClosedAlarmEnable;
+			public bool abDuressAlarmEnable;
+			public bool abDoorTimeSection;
+			public bool abSensorEnable;
+			public byte byReserved;
+			public CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
+			public int nUnlockHoldInterval;
+			public int nCloseTimeout;
+			public int nOpenAlwaysTimeIndex;
+			public int nHolidayTimeRecoNo;
+			public bool bBreakInAlarmEnable;
+			public bool bRepeatEnterAlarm;
+			public bool bDoorNotClosedAlarmEnable;
+			public bool bDuressAlarmEnable;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 7 * 4)]
+			public CFG_DOOROPEN_TIMESECTION_INFO[] stuDoorTimeSection;
+			public bool bSensorEnable;
+		}
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_GetDevConfig_AccessControl(int lLoginId, out CFG_ACCESS_EVENT_INFO result);
 	}
 }
