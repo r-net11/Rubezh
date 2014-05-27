@@ -18,6 +18,7 @@ namespace FiresecAPI.GK
 			JournalFilters = new List<XJournalFilter>();
 			Instructions = new List<XInstruction>();
 			GuardUsers = new List<XGuardUser>();
+			GuardZones = new List<XGuardZone>();
 			ParameterTemplates = new List<XParameterTemplate>();
 		}
 
@@ -49,6 +50,9 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public List<XGuardUser> GuardUsers { get; set; }
+
+		[DataMember]
+		public List<XGuardZone> GuardZones { get; set; }
 
 		[DataMember]
 		public List<XParameterTemplate> ParameterTemplates { get; set; }
@@ -169,6 +173,12 @@ namespace FiresecAPI.GK
 
 			foreach (var journalFilter in JournalFilters)
 			{
+			}
+
+			if (GuardZones == null)
+			{
+				GuardZones = new List<XGuardZone>();
+				result = false;
 			}
 
 			return result;
