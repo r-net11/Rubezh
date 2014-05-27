@@ -442,8 +442,8 @@ namespace GKProcessor
 						break;
 
 					case XDriverType.RSR2_Bush:
-					case XDriverType.DrainagePump:
-					case XDriverType.FirePump:
+					case XDriverType.RSR2_Bush_Jokey:
+					case XDriverType.RSR2_Bush_Fire:
 
 						switch (additionalShortParameters[1])
 						{
@@ -457,14 +457,39 @@ namespace GKProcessor
 						}
 
 						var bitArray = new BitArray(new int[1] { additionalShortParameters[2] });
-						if (bitArray[0])
-							AddAdditionalState(XStateClass.Failure, "Неисправность датчика низкого уровня");
-						if (bitArray[1])
-							AddAdditionalState(XStateClass.Failure, "Неисправность датчика высокого уровня");
-						if (bitArray[2])
-							AddAdditionalState(XStateClass.Failure, "Неисправность датчика аварийного уровня");
-						if (bitArray[6])
-							AddAdditionalState(XStateClass.Failure, "Аварийный уровень есть");
+						switch (driverType)
+						{
+							case XDriverType.RSR2_Bush:
+								if (bitArray[0])
+									AddAdditionalState(XStateClass.Failure, "Неисправность датчика низкого уровня");
+								if (bitArray[1])
+									AddAdditionalState(XStateClass.Failure, "Неисправность датчика высокого уровня");
+								if (bitArray[2])
+									AddAdditionalState(XStateClass.Failure, "Неисправность датчика аварийного уровня");
+								if (bitArray[6])
+									AddAdditionalState(XStateClass.Failure, "Аварийный уровень есть");
+								break;
+							case XDriverType.RSR2_Bush_Jokey:
+								if (bitArray[0])
+									AddAdditionalState(XStateClass.Failure, "Неисправность датчика низкого давления");
+								if (bitArray[1])
+									AddAdditionalState(XStateClass.Failure, "Неисправность датчика нормального давления");
+								if (bitArray[2])
+									AddAdditionalState(XStateClass.Failure, "Неисправность датчика высокого давления");
+								if (bitArray[6])
+									AddAdditionalState(XStateClass.Failure, "Неисправность выхода на режим");
+								break;
+							case XDriverType.RSR2_Bush_Fire:
+								if (bitArray[0])
+									AddAdditionalState(XStateClass.Failure, "Неисправность датчика давления а выходе");
+								if (bitArray[1])
+									AddAdditionalState(XStateClass.Failure, "Неисправность ДУ ПУСК");
+								if (bitArray[2])
+									AddAdditionalState(XStateClass.Failure, "Неисправность ДУ СТОП");
+								if (bitArray[6])
+									AddAdditionalState(XStateClass.Failure, "Неисправность выхода на режим");
+								break;
+						}
 						if (bitArray[7])
 							AddAdditionalState(XStateClass.Failure, "Неисправность питания контроллера");
 

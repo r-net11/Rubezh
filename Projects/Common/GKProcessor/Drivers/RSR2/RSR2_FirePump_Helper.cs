@@ -79,18 +79,18 @@ namespace GKProcessor
 			GKDriversHelper.AddPropertyParameter(property92, "Контакт НЗ", 4);
 			driver.Properties.Add(property92);
 
-			var property97 = new XDriverProperty()
+			var property911 = new XDriverProperty()
 			{
 				No = 9,
 				Name = "Наличие ДУ",
 				Caption = "Наличие ДУ",
 				Default = 0,
-				IsLowByte = true,
-				Mask = 0x40
+				IsHieghByte = true,
+				Mask = 0x01
 			};
-			GKDriversHelper.AddPropertyParameter(property97, "Нет", 0);
-			GKDriversHelper.AddPropertyParameter(property97, "Есть", 0x40);
-			driver.Properties.Add(property97);
+			GKDriversHelper.AddPropertyParameter(property911, "Нет", 0);
+			GKDriversHelper.AddPropertyParameter(property911, "Есть", 0x01);
+			driver.Properties.Add(property911);
 
 			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
 			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Отсчет задержки на выключение, с", IsDelay = true });
