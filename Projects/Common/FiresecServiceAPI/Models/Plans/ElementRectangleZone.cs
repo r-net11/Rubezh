@@ -11,6 +11,8 @@ namespace FiresecAPI.Models
 		public Guid ZoneUID { get; set; }
 		[DataMember]
 		public bool IsHiddenZone { get; set; }
+		[DataMember]
+		public ElementZoneType ElementZoneType { get; set; }
 
 		public override ElementBase Clone()
 		{

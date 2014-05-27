@@ -191,6 +191,7 @@
       <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
+    <Compile Include="Plans\Converters\ElementZoneTypeToStringConverter.cs" />
     <Compile Include="Plans\Designer\ElementXDeviceUpdater.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">

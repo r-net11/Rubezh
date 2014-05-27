@@ -68,7 +68,7 @@ namespace GKModule
 			OPCDirectionsViewModel = new OPCDirectionsViewModel();
 			DescriptorsViewModel = new DescriptorsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
-			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel);
+			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel, GuardZonesViewModel);
 		}
 
 		public override void Initialize()
