@@ -858,5 +858,39 @@ namespace ControllerSDK
 
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_DevCtrl_ClearRecordSet(int lLoginID, int nRecordSetType);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct FIND_RECORD_ACCESSCTLCARD_CONDITION
+		{
+			public int dwSize;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+			public char[] szCardNo;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+			public char[] szUserID;
+			public bool bIsValid;
+		}
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern int WRAP_DevCtrl_Get_Card_RecordSetCount(int lLoginID, ref FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_DevCtrl_Get_Password_RecordSetCount(int lLoginID);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_DevCtrl_Get_RecordSet_RecordSetCount(int lLoginID);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_DevCtrl_Get_Holiday_RecordSetCount(int lLoginID);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct CardsCollection
+		{
+			public int Count;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1000)]
+			public NET_RECORDSET_ACCESS_CTL_CARD[] Cards;
+		}
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_GetAllCards(int lLoginId, IntPtr result);
 	}
 }

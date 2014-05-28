@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Runtime.InteropServices;
+using System.Collections.ObjectModel;
 
 namespace ControllerSDK
 {
@@ -20,9 +21,13 @@ namespace ControllerSDK
 		public MainWindow()
 		{
 			InitializeComponent();
+			DataContext = this;
+			CardsViewModel = new CardsViewModel();
+			OnConnect(this, null);
 		}
 
-		Int32 LoginID = 1;
+		public static Int32 LoginID = 0;
+		public CardsViewModel CardsViewModel { get; private set; }
 
 		string CharArrayToString(char[] charArray)
 		{
@@ -51,6 +56,17 @@ namespace ControllerSDK
 				result[i] = charArray[i];
 			}
 			return result;
+		}
+
+		public DateTime NET_TIMEToDateTime(ControllerSDK.SDKImport.NET_TIME netTime)
+		{
+			DateTime dateTime = DateTime.MinValue;
+			try
+			{
+				//dateTime = new DateTime(netTime.dwYear, netTime.dwMonth, netTime.dwDay, netTime.dwHour, netTime.dwMinute, netTime.dwSecond);
+			}
+			catch { }
+			return dateTime;
 		}
 
 		void OnConnect(object sender, RoutedEventArgs e)
@@ -342,57 +358,57 @@ namespace ControllerSDK
 
 		void OnInsertCard(object sender, RoutedEventArgs e)
 		{
-			SDKImport.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new SDKImport.NET_RECORDSET_ACCESS_CTL_CARD();
-			stuCard.bIsValid = true;
-			stuCard.emStatus = SDKImport.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL;
-			stuCard.emType = SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_GENERAL;
-			stuCard.nTimeSectionNum = 1;
-			stuCard.nUserTime = 10;
-
-			stuCard.stuCreateTime.dwYear = 2013;
-			stuCard.stuCreateTime.dwMonth = 12;
-			stuCard.stuCreateTime.dwDay = 12;
-			stuCard.stuCreateTime.dwHour = 11;
-			stuCard.stuCreateTime.dwMinute = 30;
-			stuCard.stuCreateTime.dwSecond = 30;
-
-			stuCard.stuValidStartTime.dwYear = 2013;
-			stuCard.stuValidStartTime.dwMonth = 12;
-			stuCard.stuValidStartTime.dwDay = 12;
-			stuCard.stuValidStartTime.dwHour = 11;
-			stuCard.stuValidStartTime.dwMinute = 30;
-			stuCard.stuValidStartTime.dwSecond = 30;
-
-			stuCard.stuValidEndTime.dwYear = 2014;
-			stuCard.stuValidEndTime.dwMonth = 12;
-			stuCard.stuValidEndTime.dwDay = 12;
-			stuCard.stuValidEndTime.dwHour = 11;
-			stuCard.stuValidEndTime.dwMinute = 30;
-			stuCard.stuValidEndTime.dwSecond = 30;
-
-			var strTemp = "457";
-			stuCard.szCardNo = StringToCharArray(strTemp, 32);
-			stuCard.nDoorNum = 2;
-			stuCard.sznDoors = new int[32];
-			stuCard.sznDoors[0] = 1;
-			stuCard.sznDoors[1] = 2;
-			stuCard.nTimeSectionNum = 2;
-			stuCard.sznTimeSectionNo = new int[32];
-			stuCard.sznTimeSectionNo[0] = 1;
-			stuCard.sznTimeSectionNo[1] = 2;
-			strTemp = "952";
-			stuCard.szPsw = StringToCharArray(strTemp, 64);
-			strTemp = "741";
-			stuCard.szUserID = StringToCharArray(strTemp, 32);
-
-			var result = SDKImport.WRAP_Insert_Card(LoginID, ref stuCard);
-			if (result > 0)
+			for (int i = 1; i < 100; i++)
 			{
-				_textBox.Text += "Success " + result.ToString() + "\n";
-			}
-			else
-			{
-				_textBox.Text += "Error" + "\n";
+				SDKImport.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new SDKImport.NET_RECORDSET_ACCESS_CTL_CARD();
+				stuCard.bIsValid = true;
+				stuCard.emStatus = SDKImport.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL;
+				stuCard.emType = SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_GENERAL;
+				stuCard.nTimeSectionNum = 1;
+				stuCard.nUserTime = 10;
+
+				stuCard.stuCreateTime.dwYear = 2013;
+				stuCard.stuCreateTime.dwMonth = 12;
+				stuCard.stuCreateTime.dwDay = 12;
+				stuCard.stuCreateTime.dwHour = 11;
+				stuCard.stuCreateTime.dwMinute = 30;
+				stuCard.stuCreateTime.dwSecond = 30;
+
+				stuCard.stuValidStartTime.dwYear = 2013;
+				stuCard.stuValidStartTime.dwMonth = 12;
+				stuCard.stuValidStartTime.dwDay = 12;
+				stuCard.stuValidStartTime.dwHour = 11;
+				stuCard.stuValidStartTime.dwMinute = 30;
+				stuCard.stuValidStartTime.dwSecond = 30;
+
+				stuCard.stuValidEndTime.dwYear = 2014;
+				stuCard.stuValidEndTime.dwMonth = 12;
+				stuCard.stuValidEndTime.dwDay = 12;
+				stuCard.stuValidEndTime.dwHour = 11;
+				stuCard.stuValidEndTime.dwMinute = 30;
+				stuCard.stuValidEndTime.dwSecond = 30;
+
+				stuCard.szCardNo = StringToCharArray(i.ToString(), 32);
+				stuCard.nDoorNum = 2;
+				stuCard.sznDoors = new int[32];
+				stuCard.sznDoors[0] = 1;
+				stuCard.sznDoors[1] = 2;
+				stuCard.nTimeSectionNum = 2;
+				stuCard.sznTimeSectionNo = new int[32];
+				stuCard.sznTimeSectionNo[0] = 1;
+				stuCard.sznTimeSectionNo[1] = 2;
+				stuCard.szPsw = StringToCharArray(i.ToString(), 64);
+				stuCard.szUserID = StringToCharArray(i.ToString(), 32);
+
+				var result = SDKImport.WRAP_Insert_Card(LoginID, ref stuCard);
+				if (result > 0)
+				{
+					_textBox.Text += "Success " + result.ToString() + "\n";
+				}
+				else
+				{
+					_textBox.Text += "Error" + "\n";
+				}
 			}
 		}
 
@@ -405,12 +421,9 @@ namespace ControllerSDK
 			stuAccessCtlPwd.stuCreateTime.dwHour = 11;
 			stuAccessCtlPwd.stuCreateTime.dwMinute = 30;
 			stuAccessCtlPwd.stuCreateTime.dwSecond = 30;
-			var strTemp = "456";
-			stuAccessCtlPwd.szUserID = StringToCharArray(strTemp, 32);
-			strTemp = "4525";
-			stuAccessCtlPwd.szDoorOpenPwd = StringToCharArray(strTemp, 64);
-			strTemp = "7854";
-			stuAccessCtlPwd.szAlarmPwd = StringToCharArray(strTemp, 64);
+			stuAccessCtlPwd.szUserID = StringToCharArray("456", 32);
+			stuAccessCtlPwd.szDoorOpenPwd = StringToCharArray("4525", 64);
+			stuAccessCtlPwd.szAlarmPwd = StringToCharArray("7854", 64);
 			stuAccessCtlPwd.nDoorNum = 2;
 			stuAccessCtlPwd.sznDoors = new int[32];
 			stuAccessCtlPwd.sznDoors[0] = 1;
@@ -430,10 +443,8 @@ namespace ControllerSDK
 		void OnInsertCardRecord(object sender, RoutedEventArgs e)
 		{
 			SDKImport.NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec = new SDKImport.NET_RECORDSET_ACCESS_CTL_CARDREC();
-			var strTemp = "75236";
-			stuCardRec.szCardNo = StringToCharArray(strTemp, 32);
-			strTemp = "1566";
-			stuCardRec.szPwd = StringToCharArray(strTemp, 64);
+			stuCardRec.szCardNo = StringToCharArray("75236", 32);
+			stuCardRec.szPwd = StringToCharArray("1566", 64);
 
 			stuCardRec.stuTime.dwYear = 2013;
 			stuCardRec.stuTime.dwMonth = 12;
@@ -519,8 +530,7 @@ namespace ControllerSDK
 			stuCard.stuValidEndTime.dwMinute = 30;
 			stuCard.stuValidEndTime.dwSecond = 30;
 
-			var strTemp = "457";
-			stuCard.szCardNo = StringToCharArray(strTemp, 32);
+			stuCard.szCardNo = StringToCharArray("457", 32);
 			stuCard.nDoorNum = 2;
 			stuCard.sznDoors = new int[32];
 			stuCard.sznDoors[0] = 1;
@@ -529,10 +539,8 @@ namespace ControllerSDK
 			stuCard.sznTimeSectionNo = new int[32];
 			stuCard.sznTimeSectionNo[0] = 1;
 			stuCard.sznTimeSectionNo[1] = 2;
-			strTemp = "952";
-			stuCard.szPsw = StringToCharArray(strTemp, 64);
-			strTemp = "741";
-			stuCard.szUserID = StringToCharArray(strTemp, 32);
+			stuCard.szPsw = StringToCharArray("952", 64);
+			stuCard.szUserID = StringToCharArray("741", 32);
 
 			var result = SDKImport.WRAP_Update_Card(LoginID, ref stuCard);
 			if (result)
@@ -554,12 +562,9 @@ namespace ControllerSDK
 			stuAccessCtlPwd.stuCreateTime.dwHour = 11;
 			stuAccessCtlPwd.stuCreateTime.dwMinute = 30;
 			stuAccessCtlPwd.stuCreateTime.dwSecond = 30;
-			var strTemp = "456";
-			stuAccessCtlPwd.szUserID = StringToCharArray(strTemp, 32);
-			strTemp = "4525";
-			stuAccessCtlPwd.szDoorOpenPwd = StringToCharArray(strTemp, 64);
-			strTemp = "7854";
-			stuAccessCtlPwd.szAlarmPwd = StringToCharArray(strTemp, 64);
+			stuAccessCtlPwd.szUserID = StringToCharArray("456", 32);
+			stuAccessCtlPwd.szDoorOpenPwd = StringToCharArray("4525", 64);
+			stuAccessCtlPwd.szAlarmPwd = StringToCharArray("7854", 64);
 			stuAccessCtlPwd.nDoorNum = 2;
 			stuAccessCtlPwd.sznDoors = new int[32];
 			stuAccessCtlPwd.sznDoors[0] = 1;
@@ -579,10 +584,8 @@ namespace ControllerSDK
 		void OnUpdateCardRecord(object sender, RoutedEventArgs e)
 		{
 			SDKImport.NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec = new SDKImport.NET_RECORDSET_ACCESS_CTL_CARDREC();
-			var strTemp = "75236";
-			stuCardRec.szCardNo = StringToCharArray(strTemp, 32);
-			strTemp = "1566";
-			stuCardRec.szPwd = StringToCharArray(strTemp, 64);
+			stuCardRec.szCardNo = StringToCharArray("75236", 32);
+			stuCardRec.szPwd = StringToCharArray("1566", 64);
 
 			stuCardRec.stuTime.dwYear = 2013;
 			stuCardRec.stuTime.dwMonth = 12;
@@ -715,6 +718,91 @@ namespace ControllerSDK
 			{
 				_textBox.Text += "Error" + "\n";
 			}
+		}
+
+		void OnGetCount(object sender, RoutedEventArgs e)
+		{
+			SDKImport.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new SDKImport.FIND_RECORD_ACCESSCTLCARD_CONDITION();
+			stuParam.szCardNo = StringToCharArray("1", 32);
+			stuParam.szUserID = StringToCharArray("1", 32);
+			var cardsCount = SDKImport.WRAP_DevCtrl_Get_Card_RecordSetCount(LoginID, ref stuParam);
+			if (cardsCount > 0)
+			{
+				_textBox.Text += "Card Success " + cardsCount.ToString() + "\n";
+			}
+			else
+			{
+				_textBox.Text += "Card Error" + "\n";
+			}
+
+			var result = SDKImport.WRAP_DevCtrl_Get_Password_RecordSetCount(LoginID);
+			if (result)
+			{
+				_textBox.Text += "Password Success" + "\n";
+			}
+			else
+			{
+				_textBox.Text += "Password Error" + "\n";
+			}
+
+			result = SDKImport.WRAP_DevCtrl_Get_RecordSet_RecordSetCount(LoginID);
+			if (result)
+			{
+				_textBox.Text += "CardRecord Success" + "\n";
+			}
+			else
+			{
+				_textBox.Text += "CardRecord Error" + "\n";
+			}
+
+			result = SDKImport.WRAP_DevCtrl_Get_Holiday_RecordSetCount(LoginID);
+			if (result)
+			{
+				_textBox.Text += "Holiday Success" + "\n";
+			}
+			else
+			{
+				_textBox.Text += "Holiday Error" + "\n";
+			}
+		}
+
+		void OnGetAllCards(object sender, RoutedEventArgs e)
+		{
+			int structSize = Marshal.SizeOf(typeof(SDKImport.CardsCollection));
+			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+
+			var result = SDKImport.WRAP_GetAllCards(LoginID, intPtr);
+			_textBox.Text += "Result = " + result + "\n";
+
+			SDKImport.CardsCollection cardsCollection = (SDKImport.CardsCollection)(Marshal.PtrToStructure(intPtr, typeof(SDKImport.CardsCollection)));
+			Marshal.FreeCoTaskMem(intPtr);
+			intPtr = IntPtr.Zero;
+
+			var cards = new List<Card>();
+
+			for (int i = 0; i < Math.Min(cardsCollection.Count, 500); i++)
+			{
+				var sdkCard = cardsCollection.Cards[i];
+				var card = new Card();
+				card.RecordNo = sdkCard.nRecNo;
+				card.CreationDateTime = NET_TIMEToDateTime(sdkCard.stuCreateTime);
+				card.CardNo = CharArrayToString(sdkCard.szCardNo);
+				card.UserID = CharArrayToString(sdkCard.szUserID);
+				card.CardStatus = sdkCard.emStatus;
+				card.CardType = sdkCard.emType;
+				card.Password = CharArrayToString(sdkCard.szPsw);
+				card.DoorsCount = sdkCard.nDoorNum;
+				card.Doors = sdkCard.sznDoors;
+				card.TimeSectionsCount = sdkCard.nTimeSectionNum;
+				card.TimeSections = sdkCard.sznTimeSectionNo;
+				card.UserTime = sdkCard.nUserTime;
+				card.ValidStartDateTime = NET_TIMEToDateTime(sdkCard.stuValidStartTime);
+				card.ValidEndDateTime = NET_TIMEToDateTime(sdkCard.stuValidEndTime);
+				card.IsValid = sdkCard.bIsValid;
+				cards.Add(card);
+			}
+
+			CardsViewModel.Initialize(cards);
 		}
 	}
 }
