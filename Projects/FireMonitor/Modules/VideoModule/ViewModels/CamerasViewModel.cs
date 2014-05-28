@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Entities.DeviceOriented;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
@@ -21,7 +22,29 @@ namespace VideoModule.ViewModels
 			Current = this;
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, () => SelectedCamera != null && SelectedCamera.Camera.PlanElementUIDs.Count > 0);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, () => SelectedCamera != null);
+			ConnectCommand = new RelayCommand(OnConnect, CanConnect);
+			DisconnectCommand = new RelayCommand(OnDisconnect, CanDisconnect);
 			Initialize();
+		}
+
+		public RelayCommand ConnectCommand { get; private set; }
+		void OnConnect()
+		{
+			SelectedCamera.Connect();
+		}
+		bool CanConnect()
+		{
+			return ((SelectedCamera != null) && (SelectedCamera.Status != DeviceStatuses.Connected));
+		}
+
+		public RelayCommand DisconnectCommand { get; private set; }
+		void OnDisconnect()
+		{
+			SelectedCamera.Disconnect();
+		}
+		bool CanDisconnect()
+		{
+			return ((SelectedCamera != null) && (SelectedCamera.Status != DeviceStatuses.Disconnected));
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

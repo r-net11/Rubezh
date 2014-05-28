@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Threading;
 using Common;
 using DeviceControls;
@@ -29,7 +28,9 @@ namespace VideoModule.ViewModels
 		public CameraViewModel(Camera camera, CellPlayerWrap cellPlayerWrap)
 		{
 			_cellPlayerWrap = cellPlayerWrap;
-			_cellPlayerWrap.PropertyChangedEvent += PropertyChangedEvent;
+			VisualCameraViewModels = new List<CameraViewModel>();
+			if ((camera.Ip != null) && (camera.CameraType != CameraType.Channel))
+				_cellPlayerWrap.PropertyChangedEvent += PropertyChangedEvent;
 			_cellPlayerWrap.DropHandler += CellPlayerWrapOnDropHandler;
 			Camera = camera;
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
@@ -37,21 +38,26 @@ namespace VideoModule.ViewModels
 			UpdateChildren();
 		}
 
+		public List<CameraViewModel> VisualCameraViewModels;
+
 		private void PropertyChangedEvent(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
 		{
 			var device = sender as Entities.DeviceOriented.Device;
-			if (device != null)
+			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.Ip == Camera.Ip);
+			if ((device == null) || (camera == null))
 			{
-				FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.Ip == Camera.Ip).Status = device.Status.ToString();
+				throw new Exception("Неожидаемый null в CameraViewModel.PropertyChangedEvent");
 			}
+			camera.Status = device.Status;
 			CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == Camera.Ip).Update();
-			if(device.Status == DeviceStatuses.Connected)
-				CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == Camera.Ip).Start();
-			if (device.Status == DeviceStatuses.NotAvailable)
-				CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == Camera.Ip).Stop();
+			//Update();
+			if ((device.Status == DeviceStatuses.Disconnected) || (device.Status == DeviceStatuses.NotAvailable))
+				StopAll();
+			if (device.Status == DeviceStatuses.Connected)
+				StartAll();
 		}
 
-		public string Status
+		public DeviceStatuses Status
 		{
 			get { return Camera.Status; }
 		}
@@ -101,7 +107,7 @@ namespace VideoModule.ViewModels
 			{
 				if (Camera.CameraType != CameraType.Channel)
 					return Camera.Name + " " + Camera.Ip;
-				return Camera.Name + " " +(Camera.ChannelNumber + 1);
+				return Camera.Name + " " + (Camera.ChannelNumber + 1);
 			}
 		}
 
@@ -140,7 +146,7 @@ namespace VideoModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged(() => Camera); 
+			OnPropertyChanged(() => Camera);
 			OnPropertyChanged(() => Status);
 			OnPropertyChanged(() => PresentationZones);
 			OnPropertyChanged(() => PresentationAddress);
@@ -166,31 +172,62 @@ namespace VideoModule.ViewModels
 
 		public void Connect()
 		{
-			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.Ip == Camera.Ip);
-			if (camera == null)
+			Dispatcher.BeginInvoke(new ThreadStart(() =>
 			{
-				throw new Exception("Ошибка конфигурации. В конфигурации отсутствует камера с таким IP");
-			}
+				try
+				{
+					if (RviVssHelper.Devices.Any(x => x.IP == Camera.Ip))
+						return;
+					Camera.Status = DeviceStatuses.Connecting;
+					_cellPlayerWrap.Connect(Camera);
+					Camera.Status = DeviceStatuses.Connected;
+					StartAll();
+
+				}
+				catch (Exception)
+				{
+					Camera.Status = DeviceStatuses.NotAvailable;
+				}
+				Update();
+			}));
+		}
+
+		public void Disconnect()
+		{
 			try
 			{
-				if (RviVssHelper.Devices.Any(x => x.IP == Camera.Ip))
-					return;
-				camera.Status = "Connecting";
-				_cellPlayerWrap.Connect(Camera);
-				camera.Status = "Connected";
+				_cellPlayerWrap.Disconnect(Camera);
+				Camera.Status = DeviceStatuses.Disconnected;
+				StopAll();
 			}
-			catch (Exception)
+			catch
 			{
-				camera.Status = "DisConnected";
+				throw new Exception("Не удалось отключиться от камеры");
 			}
-			CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == Camera.Ip).Update();
+			Update();
+		}
+
+		void StartAll()
+		{
+			foreach (var visualCameraViewModel in VisualCameraViewModels)
+			{
+				visualCameraViewModel.Start();
+			}
+		}
+
+		void StopAll()
+		{
+			foreach (var visualCameraViewModel in VisualCameraViewModels)
+			{
+				visualCameraViewModel.Stop();
+			}
 		}
 
 		public void Start()
 		{
 			_cellPlayerWrap.Start(Camera, Camera.ChannelNumber);
 		}
-		
+
 		public void Stop()
 		{
 			_cellPlayerWrap.Stop();

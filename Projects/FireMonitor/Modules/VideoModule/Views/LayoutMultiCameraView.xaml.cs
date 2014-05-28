@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Common;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -33,13 +34,30 @@ namespace VideoModule.Views
 
 		List<CameraViewModel> Cameras;
 
-		void InitializeCameras()
+		private void InitializeCameras()
 		{
 			InitializeUIElement(_1X7GridView);
 			InitializeUIElement(_2X2GridView);
 			InitializeUIElement(_3X3GridView);
 			InitializeUIElement(_4X4GridView);
 			InitializeUIElement(_6X6GridView);
+			foreach (var camera in Cameras)
+			{
+				var rootCamera = CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == camera.Camera.Ip);
+				if (rootCamera != null)
+					rootCamera.VisualCameraViewModels.Add(camera);
+			}
+			foreach (var rootCamera in CamerasViewModel.Current.Cameras)
+			{
+				try
+				{
+					rootCamera.Connect();
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message);
+				}
+			}
 		}
 
 		void InitializeUIElement(UIElement uiElement)
@@ -49,30 +67,19 @@ namespace VideoModule.Views
 			foreach (var control in controls)
 			{
 				var cameraUid = ClientSettings.RviMultiLayoutCameraSettings.Dictionary.FirstOrDefault(x => x.Key == control.Name).Value;
-				var cameraViewModel = new CameraViewModel(new Camera(), control);
 				if (cameraUid != Guid.Empty)
 				{
 					var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == cameraUid);
-					cameraViewModel = new CameraViewModel(camera, control);
 					if (camera != null)
 					{
-						Dispatcher.BeginInvoke(new ThreadStart(() =>
-						{
-							try
-							{
-								cameraViewModel.Connect();
-								cameraViewModel.Start();
-							}
-							catch (Exception e)
-							{
-								MessageBox.Show(e.Message);
-							}
-						}));
+						var rootCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.Ip == camera.Ip);
+						var cameraViewModel = new CameraViewModel(camera, control);
+						Cameras.Add(cameraViewModel);
 					}
-					Cameras.Add(cameraViewModel);
 				}
 			}
 		}
+
 
 		private void On_2x2Button_Click(object sender, RoutedEventArgs e)
 		{

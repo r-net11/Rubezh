@@ -19,6 +19,11 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			return FormsPlayer.Connect(camera);
 		}
 
+		public void Disconnect(Camera camera)
+		{
+			FormsPlayer.Disconnect(camera);
+		}
+
 		public void Start(Camera camera, int channelNumber)
 		{
 			FormsPlayer.Start(camera, channelNumber);

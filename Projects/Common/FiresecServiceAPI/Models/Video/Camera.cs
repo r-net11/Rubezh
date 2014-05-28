@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
+using Entities.DeviceOriented;
 
 namespace FiresecAPI.Models
 {
@@ -17,6 +18,7 @@ namespace FiresecAPI.Models
 			Width = 300;
 			Height = 300;
 			AllowMultipleVizualization = false;
+			Status = DeviceStatuses.Disconnected;
 
 			Name = "Новая камера";
 			Port = 37777;
@@ -40,8 +42,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public string Ip { get; set; }
 
-		[DataMember]
-		public string Status { get; set; }
+		public DeviceStatuses Status { get; set; }
 
 		[DataMember]
 		public int Port { get; set; }

@@ -83,6 +83,26 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			}
 		}
 
+		public void Disconnect(Camera camera)
+		{
+			try
+			{
+				var device =
+					RviVssHelper.Devices.FirstOrDefault(
+						x => x.IP == camera.Ip && x.Port == camera.Port && x.UserName == camera.Login && x.Password == camera.Password);
+				if (device == null)
+				{
+					return;
+				}
+				device.Logout();
+				RviVssHelper.Devices.Remove(device);
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
+		}
+
 		private void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
 		{
 			PropertyChangedEvent(sender, propertyChangedEventArgs);
