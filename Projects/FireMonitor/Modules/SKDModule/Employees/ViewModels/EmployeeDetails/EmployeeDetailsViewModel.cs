@@ -7,6 +7,8 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -19,6 +21,23 @@ namespace SKDModule.ViewModels
 
 		public EmployeeDetailsViewModel(PersonType personType, Organisation orgnaisation, ShortEmployee employee = null)
 		{
+			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
+			RemoveDepartmentCommand = new RelayCommand(OnRemoveDepartment);
+			SelectEscortCommand = new RelayCommand(OnSelectEscort);
+			RemoveEscortCommand = new RelayCommand(OnRemoveEscort);
+			SelectPositionCommand = new RelayCommand(OnSelectPosition);
+			RemovePositionCommand = new RelayCommand(OnRemovePosition);
+			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
+			SelectGivenDateCommand = new RelayCommand(OnSelectGivenDate);
+			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
+			SelectGenderCommand = new RelayCommand(OnSelectGender);
+			SelectDocumentTypeCommand = new RelayCommand(OnSelectDocumentType);
+			SelectAppointedCommand = new RelayCommand(OnSelectAppointed);
+			SelectDismissedCommand = new RelayCommand(OnSelectDismissed);
+			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
+			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
+			RemoveScheduleCommand = new RelayCommand(OnRemoveSchedule);
+
 			Organisation = orgnaisation;
 			IsEmployee = personType == PersonType.Employee;
 			if (employee == null)
@@ -47,23 +66,15 @@ namespace SKDModule.ViewModels
 				else
 					Title = string.Format("Свойства посетителя: {0}", employee.FirstName);
 			}
+			Employee.OrganisationUID = orgnaisation.UID;
 			CopyProperties();
-			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
-			RemoveDepartmentCommand = new RelayCommand(OnRemoveDepartment);
-			SelectEscortCommand = new RelayCommand(OnSelectEscort);
-			RemoveEscortCommand = new RelayCommand(OnRemoveEscort);
-			SelectPositionCommand = new RelayCommand(OnSelectPosition);
-			RemovePositionCommand = new RelayCommand(OnRemovePosition);
-			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
-			SelectGivenDateCommand = new RelayCommand(OnSelectGivenDate);
-			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
-			SelectGenderCommand = new RelayCommand(OnSelectGender);
-			SelectDocumentTypeCommand = new RelayCommand(OnSelectDocumentType);
-			SelectAppointedCommand = new RelayCommand(OnSelectAppointed);
-			SelectDismissedCommand = new RelayCommand(OnSelectDismissed);
-			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
-			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
-			RemoveScheduleCommand = new RelayCommand(OnRemoveSchedule);
+
+			GuardZones = new ObservableCollection<EmployeeGuardZoneViewModel>();
+			foreach (var guardZone in XManager.DeviceConfiguration.GuardZones)
+			{
+				var guardZoneViewModel = new EmployeeGuardZoneViewModel(guardZone);
+				GuardZones.Add(guardZoneViewModel);
+			}
 		}
 
 		public void CopyProperties()
@@ -84,7 +95,8 @@ namespace SKDModule.ViewModels
 			if (IsEmployee)
 			{
 				SelectPositionViewModel = new SelectPositionViewModel(Employee);
-				SelectedPosition = SelectPositionViewModel.SelectedPosition.Position;
+				if (SelectPositionViewModel.SelectedPosition != null)
+					SelectedPosition = SelectPositionViewModel.SelectedPosition.Position;
 				SelectScheduleViewModel = new SelectScheduleViewModel(Employee);
 				SelectedSchedule = SelectScheduleViewModel.SelectedSchedule;
 				ScheduleStartDate = Employee.ScheduleStartDate;
@@ -100,7 +112,8 @@ namespace SKDModule.ViewModels
 			}
 
 			SelectDepartmentViewModel = new SelectDepartmentViewModel(Employee);
-			SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment.Department;
+			if (SelectDepartmentViewModel.SelectedDepartment != null)
+				SelectedDepartment = SelectDepartmentViewModel.SelectedDepartment.Department;
 			TextColumns = new List<TextColumnViewModel>();
 			GraphicsColumns = new List<IGraphicsColumnViewModel>();
 			GraphicsColumns.Add(new PhotoColumnViewModel(Employee.Photo));
@@ -338,8 +351,6 @@ namespace SKDModule.ViewModels
 			get { return CredentialsStartDate.ToString("dd/MM/yyyy"); }
 		}
 
-		
-
 		#region Document
 		string _number;
 		public string DocumentNumber
@@ -535,7 +546,24 @@ namespace SKDModule.ViewModels
 			}
 		}
 		#endregion
-		
+
+		#region GuardZones
+
+		public ObservableCollection<EmployeeGuardZoneViewModel> GuardZones { get; private set; }
+
+		EmployeeGuardZoneViewModel _selectedGuardZone;
+		public EmployeeGuardZoneViewModel SelectedGuardZone
+		{
+			get { return _selectedGuardZone; }
+			set
+			{
+				_selectedGuardZone = value;
+				OnPropertyChanged("SelectedGuardZone");
+			}
+		}
+
+		#endregion
+
 		#region Commands
 		public RelayCommand SelectDocumentTypeCommand { get; private set; }
 		void OnSelectDocumentType()

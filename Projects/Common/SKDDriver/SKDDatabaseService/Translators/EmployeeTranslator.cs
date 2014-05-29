@@ -141,19 +141,19 @@ namespace SKDDriver
 				tableItem.PositionUID = apiItem.Position.UID;
 			tableItem.DepartmentUID = apiItem.DepartmentUID;
 			tableItem.ScheduleUID = apiItem.ScheduleUID;
-			tableItem.ScheduleStartDate = apiItem.ScheduleStartDate;
+			tableItem.ScheduleStartDate = CheckDate(apiItem.ScheduleStartDate);
 			if (apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.Type = (int)apiItem.Type;
 			tableItem.TabelNo = apiItem.TabelNo;
-			tableItem.CredentialsStartDate = apiItem.CredentialsStartDate;
+			tableItem.CredentialsStartDate = CheckDate(apiItem.CredentialsStartDate);
 			tableItem.EscortUID = apiItem.EscortUID;
 			tableItem.DocumentNumber = apiItem.DocumentNumber;
-			tableItem.BirthDate = apiItem.BirthDate;
+			tableItem.BirthDate = CheckDate(apiItem.BirthDate);
 			tableItem.BirthPlace = apiItem.BirthPlace;
 			tableItem.DocumentGivenBy = apiItem.DocumentGivenBy;
-			tableItem.DocumentGivenDate = apiItem.DocumentGivenDate;
-			tableItem.DocumentValidTo = apiItem.DocumentValidTo;
+			tableItem.DocumentGivenDate = CheckDate(apiItem.DocumentGivenDate);
+			tableItem.DocumentValidTo = CheckDate(apiItem.DocumentValidTo);
 			tableItem.Gender = (int)apiItem.Gender;
 			tableItem.DocumentDepartmentCode = apiItem.DocumentDepartmentCode;
 			tableItem.Citizenship = apiItem.Citizenship;
@@ -165,9 +165,12 @@ namespace SKDDriver
 			var columnSaveResult = AdditionalColumnTranslator.Save(apiItem.AdditionalColumns);
 			if (columnSaveResult.HasError)
 				return columnSaveResult;
-			var photoSaveResult = PhotoTranslator.Save(new List<Photo> { apiItem.Photo });
-			if (photoSaveResult.HasError)
-				return photoSaveResult;
+			if (apiItem.Photo != null)
+			{
+				var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
+				if (photoSaveResult.HasError)
+					return photoSaveResult;
+			}
 			return base.Save(apiItem);
 		}
 

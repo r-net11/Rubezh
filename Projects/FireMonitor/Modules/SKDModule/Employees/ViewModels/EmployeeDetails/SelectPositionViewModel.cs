@@ -6,7 +6,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
-
 namespace SKDModule.ViewModels
 {
 	public class SelectPositionViewModel : SaveCancelDialogViewModel
@@ -17,6 +16,7 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Должность";
 			Employee = employee;
+			AddCommand = new RelayCommand(OnAdd);
 			Positions = new ObservableCollection<SelectationPositionViewModel>();
 			var positions = PositionHelper.GetByOrganisation(Employee.OrganisationUID);
 			if (positions == null)
@@ -32,8 +32,8 @@ namespace SKDModule.ViewModels
 			}
 			else
 				selectedPosition = Positions.FirstOrDefault();
-			selectedPosition.IsChecked = true;
-			AddCommand = new RelayCommand(OnAdd);
+			if (selectedPosition != null)
+				selectedPosition.IsChecked = true;
 		}
 
 		public ObservableCollection<SelectationPositionViewModel> Positions { get; set; }
