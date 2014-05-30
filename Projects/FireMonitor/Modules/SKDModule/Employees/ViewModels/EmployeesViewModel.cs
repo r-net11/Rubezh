@@ -90,6 +90,8 @@ namespace SKDModule.ViewModels
 			{
 				var employeeViewModel = new EmployeeViewModel(SelectedEmployee.Organisation, employeeDetailsViewModel.ShortEmployee);
 				AllEmployees.Add(employeeViewModel);
+				var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == SelectedEmployee.Organisation.UID);
+				organisationViewModel.AddChild(employeeViewModel);
 				SelectedEmployee = employeeViewModel;
 			}
 		}
