@@ -187,6 +187,7 @@
       <Association Name="Organisation_Schedule" Member="Schedules" ThisKey="UID" OtherKey="OrganisationUID" Type="Schedule" />
       <Association Name="Organisation_ScheduleScheme" Member="ScheduleSchemes" ThisKey="UID" OtherKey="OrganisationUID" Type="ScheduleScheme" />
       <Association Name="Organisation_Employee" Member="Employees" ThisKey="UID" OtherKey="OrganisationUID" Type="Employee" />
+      <Association Name="Organisation_OrganisationUser" Member="OrganisationUsers" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationUser" />
       <Association Name="Photo_Organisation" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
   </Table>
@@ -362,6 +363,14 @@
       <Column Name="CardSeries" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="CardNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Card_Journal" Member="Card" ThisKey="CardUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrganisationUser" Member="OrganisationUsers">
+    <Type Name="OrganisationUser">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="UserUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="Organisation_OrganisationUser" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

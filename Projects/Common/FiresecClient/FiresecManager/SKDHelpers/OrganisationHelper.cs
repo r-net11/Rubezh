@@ -41,6 +41,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static bool SaveUsers(Organisation Organisation)
+		{
+			var result = FiresecManager.FiresecService.SaveOrganisationUsers(Organisation);
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static bool MarkDeleted(Organisation organisation)
 		{
 			var result = FiresecManager.FiresecService.MarkDeletedOrganisation(organisation.UID);

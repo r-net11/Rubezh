@@ -46,6 +46,7 @@ namespace SKDModule.ViewModels
 				selectedDepartment = Departments.FirstOrDefault(x => x.Department.UID == Employee.Department.UID);
 				if (selectedDepartment == null)
 					selectedDepartment = Departments.FirstOrDefault();
+			}
 			if (selectedDepartment != null)
 			{
 				selectedDepartment.IsChecked = true;

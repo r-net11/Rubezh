@@ -52,6 +52,7 @@ namespace SKDDriver
 			result.Description = tableItem.Description;
 			result.PhotoUID = tableItem.PhotoUID;
 			result.ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID) select x.ZoneUID).ToList();
+			result.UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID) select x.UserUID).ToList();
 			return result;
 		}
 
@@ -85,7 +86,8 @@ namespace SKDDriver
 						Photo = PhotoTranslator.GetSingle(tableItem.PhotoUID).Result,
 						RemovalDate = tableItem.RemovalDate,
 						UID = tableItem.UID,
-						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList()
+						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList(),
+						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList()
 					};
 				var photoResult = PhotoTranslator.GetSingle(tableItem.PhotoUID);
 				if (photoResult.HasError)
@@ -137,11 +139,47 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
+		public OperationResult SaveUsers(Organisation apiItem)
+		{
+			return SaveUsersInternal(apiItem.UID, apiItem.UserUIDs);
+		}
+
+		public OperationResult SaveUsers(OrganisationDetails apiItem)
+		{
+			return SaveUsersInternal(apiItem.UID, apiItem.UserUIDs);
+		}
+
+		OperationResult SaveUsersInternal(Guid organisationUID, List<Guid> UserUIDs)
+		{
+			try
+			{
+				var tableOrganisationUsers = Context.OrganisationUsers.Where(x => x.OrganisationUID == organisationUID);
+				Context.OrganisationUsers.DeleteAllOnSubmit(tableOrganisationUsers);
+				foreach (var UserUID in UserUIDs)
+				{
+					var tableOrganisationUser = new DataAccess.OrganisationUser();
+					tableOrganisationUser.UID = Guid.NewGuid();
+					tableOrganisationUser.OrganisationUID = organisationUID;
+					tableOrganisationUser.UserUID = UserUID;
+					Context.OrganisationUsers.InsertOnSubmit(tableOrganisationUser);
+				}
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
 		public OperationResult Save(OrganisationDetails apiItem)
 		{
 			var saveZonesResult = SaveZones(apiItem);
 			if (saveZonesResult.HasError)
 				return saveZonesResult;
+			var saveUsersResult = SaveUsers(apiItem);
+			if (saveUsersResult.HasError)
+				return saveUsersResult;
 			var savePhotoResult = PhotoTranslator.Save(apiItem.Photo);
 			if(savePhotoResult.HasError)
 				return savePhotoResult;

@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
 using FiresecClient;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -20,6 +19,11 @@ namespace SKDModule.ViewModels
 				var userViewModel = new OrganisationUserViewModel(organisation, user);
 				Users.Add(userViewModel);
 			}
+			//foreach (var user in Users)
+			//{
+			//    if (organisation.UserUIDs.Any(x => x == user.User.UID))
+			//        user.IsChecked = true;
+			//}
 			SelectedUser = Users.FirstOrDefault();
 		}
 

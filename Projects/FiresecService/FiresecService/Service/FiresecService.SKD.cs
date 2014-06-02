@@ -129,6 +129,10 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.OrganisationTranslator.SaveZones(organisation);
 		}
+		public OperationResult SaveOrganisationUsers(Organisation organisation)
+		{
+			return SKDDatabaseService.OrganisationTranslator.SaveUsers(organisation);
+		}
 		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
 		{
 			return SKDDatabaseService.OrganisationTranslator.GetDetails(uid);

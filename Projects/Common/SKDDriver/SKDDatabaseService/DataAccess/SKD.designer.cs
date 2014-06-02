@@ -11,10 +11,15 @@
 
 namespace SKDDriver.DataAccess
 {
-	using System;
-	using System.ComponentModel;
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
+	using System.Data;
+	using System.Collections.Generic;
+	using System.Reflection;
+	using System.Linq;
+	using System.Linq.Expressions;
+	using System.ComponentModel;
+	using System;
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="SKD")]
@@ -94,6 +99,9 @@ namespace SKDDriver.DataAccess
     partial void InsertJournal(Journal instance);
     partial void UpdateJournal(Journal instance);
     partial void DeleteJournal(Journal instance);
+    partial void InsertOrganisationUser(OrganisationUser instance);
+    partial void UpdateOrganisationUser(OrganisationUser instance);
+    partial void DeleteOrganisationUser(OrganisationUser instance);
     #endregion
 		
 		public SKDDataContext() : 
@@ -307,6 +315,14 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<Journal>();
+			}
+		}
+		
+		public System.Data.Linq.Table<OrganisationUser> OrganisationUsers
+		{
+			get
+			{
+				return this.GetTable<OrganisationUser>();
 			}
 		}
 	}
@@ -4119,6 +4135,8 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<Employee> _Employees;
 		
+		private EntitySet<OrganisationUser> _OrganisationUsers;
+		
 		private EntityRef<Photo> _Photo;
 		
     #region Определения метода расширяемости
@@ -4154,6 +4172,7 @@ namespace SKDDriver.DataAccess
 			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
 			this._ScheduleSchemes = new EntitySet<ScheduleScheme>(new Action<ScheduleScheme>(this.attach_ScheduleSchemes), new Action<ScheduleScheme>(this.detach_ScheduleSchemes));
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
+			this._OrganisationUsers = new EntitySet<OrganisationUser>(new Action<OrganisationUser>(this.attach_OrganisationUsers), new Action<OrganisationUser>(this.detach_OrganisationUsers));
 			this._Photo = default(EntityRef<Photo>);
 			OnCreated();
 		}
@@ -4451,6 +4470,19 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_OrganisationUser", Storage="_OrganisationUsers", ThisKey="UID", OtherKey="OrganisationUID")]
+		public EntitySet<OrganisationUser> OrganisationUsers
+		{
+			get
+			{
+				return this._OrganisationUsers;
+			}
+			set
+			{
+				this._OrganisationUsers.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Photo_Organisation", Storage="_Photo", ThisKey="PhotoUID", OtherKey="UID", IsForeignKey=true)]
 		public Photo Photo
 		{
@@ -4656,6 +4688,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_Employees(Employee entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organisation = null;
+		}
+		
+		private void attach_OrganisationUsers(OrganisationUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organisation = this;
+		}
+		
+		private void detach_OrganisationUsers(OrganisationUser entity)
 		{
 			this.SendPropertyChanging();
 			entity.Organisation = null;
@@ -8566,6 +8610,157 @@ namespace SKDDriver.DataAccess
 						this._CardUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Card");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OrganisationUser")]
+	public partial class OrganisationUser : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.Guid _UserUID;
+		
+		private System.Guid _OrganisationUID;
+		
+		private EntityRef<Organisation> _Organisation;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnUserUIDChanging(System.Guid value);
+    partial void OnUserUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Guid value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
+		
+		public OrganisationUser()
+		{
+			this._Organisation = default(EntityRef<Organisation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid UserUID
+		{
+			get
+			{
+				return this._UserUID;
+			}
+			set
+			{
+				if ((this._UserUID != value))
+				{
+					this.OnUserUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UserUID = value;
+					this.SendPropertyChanged("UserUID");
+					this.OnUserUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid OrganisationUID
+		{
+			get
+			{
+				return this._OrganisationUID;
+			}
+			set
+			{
+				if ((this._OrganisationUID != value))
+				{
+					if (this._Organisation.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrganisationUIDChanging(value);
+					this.SendPropertyChanging();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_OrganisationUser", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
+		{
+			get
+			{
+				return this._Organisation.Entity;
+			}
+			set
+			{
+				Organisation previousValue = this._Organisation.Entity;
+				if (((previousValue != value) 
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Organisation.Entity = null;
+						previousValue.OrganisationUsers.Remove(this);
+					}
+					this._Organisation.Entity = value;
+					if ((value != null))
+					{
+						value.OrganisationUsers.Add(this);
+						this._OrganisationUID = value.UID;
+					}
+					else
+					{
+						this._OrganisationUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("Organisation");
 				}
 			}
 		}

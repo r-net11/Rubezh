@@ -78,6 +78,8 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveOrganisationZones(Organisation organisation);
 		[OperationContract]
+		OperationResult SaveOrganisationUsers(Organisation organisation);
+		[OperationContract]
 		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid);
 		#endregion
 

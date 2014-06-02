@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using FiresecAPI.Models;
 using FiresecAPI.SKD;
-using FiresecAPI.Models;
+using FiresecClient.SKDHelpers;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -17,7 +14,7 @@ namespace SKDModule.ViewModels
 		{
 			Organisation = organisation;
 			User = user;
-			_isChecked = Organisation != null && Organisation.ZoneUIDs.Contains(user.UID);
+			_isChecked = Organisation != null && Organisation.UserUIDs.Contains(user.UID);
 		}
 
 		internal bool _isChecked;
@@ -29,18 +26,18 @@ namespace SKDModule.ViewModels
 				_isChecked = value;
 				OnPropertyChanged("IsChecked");
 
-				//if (value)
-				//{
-				//    if (!Organisation.ZoneUIDs.Contains(User.UID))
-				//        Organisation.ZoneUIDs.Add(User.UID);
-				//}
-				//else
-				//{
-				//    if (Organisation.ZoneUIDs.Contains(User.UID))
-				//        Organisation.ZoneUIDs.Remove(User.UID);
-				//}
+				if (value)
+				{
+					if (!Organisation.UserUIDs.Contains(User.UID))
+						Organisation.UserUIDs.Add(User.UID);
+				}
+				else
+				{
+					if (Organisation.UserUIDs.Contains(User.UID))
+						Organisation.UserUIDs.Remove(User.UID);
+				}
 
-				//var saveResult = OrganisationHelper.SaveZones(Organisation);
+				var saveResult = OrganisationHelper.SaveUsers(Organisation);
 			}
 		}
 	}

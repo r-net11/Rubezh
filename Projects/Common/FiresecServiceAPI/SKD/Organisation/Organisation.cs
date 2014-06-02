@@ -10,6 +10,7 @@ namespace FiresecAPI.SKD
 		public Organisation()
 		{
 			ZoneUIDs = new List<Guid>();
+			UserUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -23,6 +24,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> UserUIDs { get; set; }
 	}
 
 	[DataContract]
@@ -31,6 +35,7 @@ namespace FiresecAPI.SKD
 		public OrganisationDetails()
 		{
 			ZoneUIDs = new List<Guid>();
+			UserUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -44,6 +49,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> ZoneUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> UserUIDs { get; set; }
 	}
 
 }
