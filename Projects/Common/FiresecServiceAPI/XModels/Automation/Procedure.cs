@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.XModels.Automation;
 
 namespace FiresecAPI.Models
 {
@@ -13,6 +11,7 @@ namespace FiresecAPI.Models
 		{
 			Name = "Новая процедура";
 			InputObjects = new List<ProcedureInputObject>();
+			Step = new List<ProcedureStep>();
 		}
 
 		[DataMember]
@@ -23,5 +22,8 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<ProcedureInputObject> InputObjects { get; set; }
+
+		[DataMember]
+		public List<ProcedureStep> Step { get; set; }
 	}
 }

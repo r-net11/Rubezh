@@ -5,8 +5,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Video.RVI_VSS;
@@ -33,7 +31,6 @@ namespace VideoModule.Views
 		}
 
 		List<CameraViewModel> Cameras;
-
 		private void InitializeCameras()
 		{
 			InitializeUIElement(_1X7GridView);
@@ -47,17 +44,22 @@ namespace VideoModule.Views
 				if (rootCamera != null)
 					rootCamera.VisualCameraViewModels.Add(camera);
 			}
-			foreach (var rootCamera in CamerasViewModel.Current.Cameras)
+
+			Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(() =>
 			{
-				try
+				foreach (var rootCamera in CamerasViewModel.Current.Cameras)
 				{
-					rootCamera.Connect();
+					try
+					{
+						rootCamera.Connect();
+						rootCamera.StartAll();
+					}
+					catch (Exception e)
+					{
+						MessageBox.Show(e.Message);
+					}
 				}
-				catch (Exception e)
-				{
-					MessageBox.Show(e.Message);
-				}
-			}
+			}));
 		}
 
 		void InitializeUIElement(UIElement uiElement)
@@ -128,11 +130,11 @@ namespace VideoModule.Views
 						cameraViewModel.Stop();
 						if ((propertyViewModel.SelectedCamera != null) && (propertyViewModel.SelectedCamera.Ip != null))
 						{
-							new Thread(delegate()
-								{
+							Dispatcher.BeginInvoke(DispatcherPriority.Send, new ThreadStart(() =>
+							{
 									cameraViewModel.Connect();
 									cameraViewModel.Start();
-								}).Start();
+							}));
 						}
 						ClientSettings.RviMultiLayoutCameraSettings.Dictionary[propertyViewModel.CellName] = cameraUid;
 					}

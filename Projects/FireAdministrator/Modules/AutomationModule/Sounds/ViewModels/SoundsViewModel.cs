@@ -16,8 +16,10 @@ namespace AutomationModule.ViewModels
 {
 	public class SoundsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		public static SoundsViewModel Current { get; private set; }
 		public SoundsViewModel()
 		{
+			Current = this;
 			Menu = new SoundsMenuViewModel(this);
 			PlaySoundCommand = new RelayCommand(OnPlaySound);
 			AddCommand = new RelayCommand(OnAdd, CanAdd);

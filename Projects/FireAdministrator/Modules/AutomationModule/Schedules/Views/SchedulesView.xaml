@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="AutomationModule.Views.SchedulesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" >
+	<DataGrid ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" IsReadOnly="False">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn Header="Расписание" Width="1*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
+</UserControl>

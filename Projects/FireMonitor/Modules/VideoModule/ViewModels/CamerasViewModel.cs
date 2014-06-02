@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Windows.Threading;
 using Entities.DeviceOriented;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -30,7 +32,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand ConnectCommand { get; private set; }
 		void OnConnect()
 		{
-			SelectedCamera.Connect();
+			Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
+			{
+				SelectedCamera.Connect();
+				SelectedCamera.StartAll();
+			}));
 		}
 		bool CanConnect()
 		{
@@ -40,7 +46,11 @@ namespace VideoModule.ViewModels
 		public RelayCommand DisconnectCommand { get; private set; }
 		void OnDisconnect()
 		{
-			SelectedCamera.Disconnect();
+			Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
+			{
+				SelectedCamera.Disconnect();
+				SelectedCamera.StopAll();
+			}));
 		}
 		bool CanDisconnect()
 		{

@@ -4,22 +4,22 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
-	public class SoundViewModel : BaseViewModel
+	public class ScheduleViewModel : BaseViewModel
 	{
 		public const string DefaultName = "<нет>";
-		public AutomationSound Sound { get; set; }
+		public AutomationSchedule Schedule { get; set; }
 
-		public SoundViewModel(AutomationSound sound)
+		public ScheduleViewModel(AutomationSchedule schedule)
 		{
-			Sound = sound;
+			Schedule = schedule;
 		}
 
 		public string Name
 		{
-			get { return Sound.Name; }
+			get { return Schedule.Name; }
 			set
 			{
-				Sound.Name = value;
+				Schedule.Name = value;
 				OnPropertyChanged("Name");
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
@@ -27,7 +27,7 @@ namespace AutomationModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged(() => Sound);
+			OnPropertyChanged(() => Schedule);
 			OnPropertyChanged(() => Name);
 		}
 	}

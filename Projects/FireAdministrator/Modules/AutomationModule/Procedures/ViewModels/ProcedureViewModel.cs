@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -35,5 +31,6 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ProcedureInputObjectsViewModel InputObjects { get; private set; }
+		public ProcedureInputObjectsViewModel Steps { get; private set; }
 	}
 }

@@ -172,24 +172,24 @@ namespace VideoModule.ViewModels
 
 		public void Connect()
 		{
-			Dispatcher.BeginInvoke(new ThreadStart(() =>
-			{
-				try
-				{
-					if (RviVssHelper.Devices.Any(x => x.IP == Camera.Ip))
-						return;
-					Camera.Status = DeviceStatuses.Connecting;
-					_cellPlayerWrap.Connect(Camera);
-					Camera.Status = DeviceStatuses.Connected;
-					StartAll();
+			if ((RootCamera == null) || (RviVssHelper.Devices.Any(x => x.IP == Camera.Ip)))
+				return;
+			RootCamera.ConnectRoot();
+		}
 
-				}
-				catch (Exception)
-				{
-					Camera.Status = DeviceStatuses.NotAvailable;
-				}
-				Update();
-			}));
+		void ConnectRoot()
+		{
+			try
+			{
+				Camera.Status = DeviceStatuses.Connecting;
+				_cellPlayerWrap.Connect(Camera);
+				Camera.Status = DeviceStatuses.Connected;
+			}
+			catch (Exception)
+			{
+				Camera.Status = DeviceStatuses.NotAvailable;
+			}
+			Update();
 		}
 
 		public void Disconnect()
@@ -198,7 +198,6 @@ namespace VideoModule.ViewModels
 			{
 				_cellPlayerWrap.Disconnect(Camera);
 				Camera.Status = DeviceStatuses.Disconnected;
-				StopAll();
 			}
 			catch
 			{
@@ -207,30 +206,42 @@ namespace VideoModule.ViewModels
 			Update();
 		}
 
-		void StartAll()
+		public void StartAll()
 		{
 			foreach (var visualCameraViewModel in VisualCameraViewModels)
 			{
-				visualCameraViewModel.Start();
+				visualCameraViewModel.Start(false);
 			}
 		}
 
-		void StopAll()
+		public void StopAll()
 		{
 			foreach (var visualCameraViewModel in VisualCameraViewModels)
 			{
-				visualCameraViewModel.Stop();
+				visualCameraViewModel.Stop(false);
 			}
 		}
 
-		public void Start()
+		public void Start(bool addToRootCamera = true)
 		{
 			_cellPlayerWrap.Start(Camera, Camera.ChannelNumber);
+			if ((addToRootCamera)&&(RootCamera != null))
+				RootCamera.VisualCameraViewModels.Add(this);
 		}
 
-		public void Stop()
+		public void Stop(bool addToRootCamera = true)
 		{
 			_cellPlayerWrap.Stop();
+			if ((addToRootCamera) && (RootCamera != null))
+				RootCamera.VisualCameraViewModels.Remove(this);
+		}
+
+		CameraViewModel RootCamera
+		{
+			get
+			{
+				return CamerasViewModel.Current.Cameras.FirstOrDefault(x => x.Camera.Ip == Camera.Ip);
+			}
 		}
 
 		public RelayCommand<DataObject> CreateDragObjectCommand { get; private set; }
@@ -278,7 +289,7 @@ namespace VideoModule.ViewModels
 
 		private bool CanCreateDragObjectCommand(DataObject dataObject)
 		{
-			if (Camera.CameraType == CameraType.Dvr)
+			if ((Camera.CameraType == CameraType.Dvr)||(RootCamera.Status != DeviceStatuses.Connected))
 				return false;
 			return VisualizationState == VisualizationState.NotPresent || VisualizationState == VisualizationState.Multiple;
 		}

@@ -14,17 +14,20 @@ namespace AutomationModule
 	{
 		SoundsViewModel SoundsViewModel;
 		ProceduresViewModel ProceduresViewModel;
+		SchedulesViewModel SchedulesViewModel;
 
 		public override void CreateViewModels()
 		{
 			SoundsViewModel = new SoundsViewModel();
 			ProceduresViewModel = new ProceduresViewModel();
+			SchedulesViewModel = new SchedulesViewModel();
 		}
 
 		public override void Initialize()
 		{
 			SoundsViewModel.Initialize();
 			ProceduresViewModel.Initialize();
+			SchedulesViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -35,6 +38,7 @@ namespace AutomationModule
 						{
 							new NavigationItem<ShowAutomationSoundsEvent, Guid>(SoundsViewModel, "Звуки", "/Controls;component/Images/Music.png"),
 							new NavigationItem<ShowProceduresEvent>(ProceduresViewModel, "Процедуры", "/Controls;component/Images/Tree.png"),
+							new NavigationItem<ShowAutomationSchedulesEvents>(SchedulesViewModel, "Расписания", "/Controls;component/Images/SelectNone.png")
 						}),
 				};
 		}
@@ -48,6 +52,7 @@ namespace AutomationModule
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Sounds/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Procedures/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Schedules/DataTemplates/Dictionary.xaml"));
 		}
 
 		public IEnumerable<IValidationError> Validate()

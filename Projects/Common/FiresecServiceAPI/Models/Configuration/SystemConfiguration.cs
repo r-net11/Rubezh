@@ -22,6 +22,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<AutomationSound> AutomationSounds { get; set; }
+
+		[DataMember]
+		public List<AutomationSchedule> AutomationSchedules { get; set; }
 		
 		[DataMember]
 		public List<JournalFilter> JournalFilters { get; set; }
