@@ -1,15 +1,15 @@
 ﻿<UserControl x:Class="SettingsModule.Views.GloobalSettingsView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 MinWidth="500" MinHeight="500">
+			 MinWidth="800" MinHeight="500">
 	<UserControl.Resources>
 		<Style TargetType="TextBlock">
 			<Setter Property="Foreground" Value="White" />
 		</Style>
 	</UserControl.Resources>
 
-	<TabControl DataContext="{Binding GlobalSettings}">
-		<TabItem Header="Администратор">
+	<TabControl>
+        <TabItem Header="Администратор" DataContext="{Binding GlobalSettings}">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -27,7 +27,7 @@
 				<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding Administrator_HidePlanAlignInstruments}" HorizontalAlignment="Left" Margin="2" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="ОЗ">
+        <TabItem Header="ОЗ" DataContext="{Binding GlobalSettings}">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -64,31 +64,136 @@
 				<CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding Monitor_HaspInfo_Enabled}" HorizontalAlignment="Left" Margin="2" />-->
 			</Grid>
 		</TabItem>
-		<TabItem Header="Сервер">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" HorizontalAlignment="Right" Margin="2" />
-				<CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Server_EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
-			</Grid>
-		</TabItem>
-		<TabItem Header="Прочее">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Text="Путь к VLC" HorizontalAlignment="Right" Margin="2" />
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LibVlcDllsPath}" Margin="2" />
-			</Grid>
-		</TabItem>
-	</TabControl>
+        <TabItem Header="Сервер" DataContext="{Binding GlobalSettings}">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Использовать сервер ГК" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Использовать HASP" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Использовать СКД" HorizontalAlignment="Right" Margin="2" />
+
+                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Server_EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
+                <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsGKAsAService}" HorizontalAlignment="Left" Margin="2" />
+                <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding UseHasp}" HorizontalAlignment="Left" Margin="2" />
+                <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding UseSKD}" HorizontalAlignment="Left" Margin="2" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Автозапуск">
+            <StackPanel Margin="2">
+                <TextBlock Text="Следующие приложения будут автоматически запускаться при старте системы:" TextWrapping="Wrap" FontSize="12" Foreground="White" Margin="2" />
+                <CheckBox Content="Сервер приложений ОПС FireSec" IsChecked="{Binding IsServerAuto}" FontSize="12" Foreground="White" Margin="5,5,5,1" />
+                <CheckBox Content="Агент FireSec" IsChecked="{Binding IsFsAgentAuto}" FontSize="12" Foreground="White" Margin="5 1" />
+                <CheckBox Content="OPC Сервер ОПС FireSec" IsChecked="{Binding IsOpcServerAuto}" FontSize="12" Foreground="White" Margin="5 1" />
+                <CheckBox Content="OPC Сервер ГК ОПС FireSec" IsChecked="{Binding IsGKOpcServerAuto}" FontSize="12" Foreground="White" Margin="5 1" />
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Логи">
+            <StackPanel Margin="2">
+                <TextBox Text="{Binding LogsFolderPath, Mode=OneWay}" Margin="2" />
+                <Button Content="Собрать логи" Command="{Binding SaveLogsCommand}" Height="25" FontSize="13" Margin="2" />
+                <Button Content="Удалить логи" Command="{Binding RemoveLogsCommand}" Height="25" FontSize="13" Margin="2" />
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Соединение" DataContext="{Binding GlobalSettings}">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Адрес сервера" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Порт сервера" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Пароль" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Автоконнект" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Запретить администратору автоконнект" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Перезапускать ОЗ в случае аварийного завершения" HorizontalAlignment="Right" Margin="2" />
+
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding RemoteAddress, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding RemotePort, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding AutoConnect}" HorizontalAlignment="Left" Margin="2" />
+                <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding DoNotAutoconnectAdm}" HorizontalAlignment="Left" Margin="2" />
+                <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding RunRevisor}" HorizontalAlignment="Left" Margin="2" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Отладка" DataContext="{Binding GlobalSettings}" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Использовать СКД" HorizontalAlignment="Right" Margin="2" />
+
+                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding UseSKD}" HorizontalAlignment="Left" Margin="2" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Модули" DataContext="{Binding ModulesViewModel}">
+            <ItemsControl ItemsSource="{Binding Modules}" Margin="2">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding Name}" Foreground="White" Margin="5 2" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </TabItem>
+        <TabItem Header="FS1" DataContext="{Binding GlobalSettings}">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Не перезаписывать Firesec-1" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес сервера" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Порт" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Логин" HorizontalAlignment="Right" Margin="2" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Пароль(максимум 1 символ)" HorizontalAlignment="Right" Margin="2" />
+
+                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding DoNotOverrideFS1}" HorizontalAlignment="Left" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FS_RemoteAddress, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FS_Port, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding FS_Login, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding FS_Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Сброс">
+            <StackPanel Margin="2">
+                <Button Content="Сбросить базу данных" Command="{Binding ResetDatabaseCommand}" Width="300" Margin="2" />
+                <Button Content="Сбросить конфигурацию" Command="{Binding ResetConfigurationCommand}" Width="300" Margin="2" />
+                <Button Content="Сбросить библиотеку устройств" Command="{Binding ResetXLibaryCommand}" Width="300" Margin="2" />
+                <Button Content="Сбросить библиотеку СКД" Command="{Binding ResetSKDLibaryCommand}" Width="300" Margin="2" />
+                <Button Content="Сбросить настройки" Command="{Binding ResetSettingsCommand}" Width="300" Margin="2" />
+            </StackPanel>
+        </TabItem>
+    </TabControl>
 </UserControl>

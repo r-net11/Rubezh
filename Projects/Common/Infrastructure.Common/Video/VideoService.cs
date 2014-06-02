@@ -86,7 +86,7 @@ namespace Infrastructure.Common
 			IsInitialized = true;
 			if (VlcContext.IsInitialized == false)
 			{
-				VlcContext.LibVlcDllsPath = GlobalSettingsHelper.GlobalSettings.LibVlcDllsPath;
+				//VlcContext.LibVlcDllsPath = GlobalSettingsHelper.GlobalSettings.LibVlcDllsPath;
 				VlcContext.StartupOptions.IgnoreConfig = false;
 				VlcContext.StartupOptions.LogOptions.LogInFile = false;
 				VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
