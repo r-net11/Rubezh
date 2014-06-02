@@ -178,8 +178,10 @@
     <Compile Include="Journal\Views\ArchiveView.xaml.cs">
       <DependentUpon>ArchiveView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Organisations\ViewModels\OrganisationUserViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationZonesViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationZoneViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationUsersViewModel.cs" />
     <Compile Include="PassCard\Designer\PassCardCanvas.cs" />
     <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
     <Compile Include="PassCard\ViewModels\PassCardViewModel.cs" />

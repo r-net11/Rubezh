@@ -41,5 +41,10 @@ namespace SKDModule.ViewModels
 				var saveResult = OrganisationHelper.SaveZones(Organisation);
 			}
 		}
+
+		public bool CanSelect
+		{
+			get { return !Zone.IsRootZone; }
+		}
 	}
 }

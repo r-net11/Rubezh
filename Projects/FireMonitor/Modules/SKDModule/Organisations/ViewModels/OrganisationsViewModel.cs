@@ -63,9 +63,15 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged("SelectedOrganisation");
 
 				if (value != null)
+				{
 					OrganisationZonesViewModel = new OrganisationZonesViewModel(SelectedOrganisation.Organisation);
+					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation);
+				}
 				else
+				{
 					OrganisationZonesViewModel = null;
+					OrganisationUsersViewModel = null;
+				}
 			}
 		}
 
@@ -77,6 +83,17 @@ namespace SKDModule.ViewModels
 			{
 				_organisationZonesViewModel = value;
 				OnPropertyChanged("OrganisationZonesViewModel");
+			}
+		}
+
+		OrganisationUsersViewModel _organisationUsersViewModel;
+		public OrganisationUsersViewModel OrganisationUsersViewModel
+		{
+			get { return _organisationUsersViewModel; }
+			set
+			{
+				_organisationUsersViewModel = value;
+				OnPropertyChanged("OrganisationUsersViewModel");
 			}
 		}
 
