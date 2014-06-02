@@ -2,6 +2,8 @@
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using System;
 
 namespace SKDModule.ViewModels
 {
@@ -14,7 +16,12 @@ namespace SKDModule.ViewModels
 		{
 			Organisation = organisation;
 			User = user;
-			_isChecked = Organisation != null && Organisation.UserUIDs.Contains(user.UID);
+			if (Organisation != null)
+			{
+				if (Organisation.UserUIDs == null)
+					Organisation.UserUIDs = new List<Guid>();
+			}
+			_isChecked = Organisation != null && Organisation.UserUIDs != null && Organisation.UserUIDs.Contains(user.UID);
 		}
 
 		internal bool _isChecked;
