@@ -82,14 +82,14 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand CreateCommand { get; private set; }
 		private void OnCreate()
 		{
-			Guid xzoneUID = IElementZone.ZoneUID;
+			Guid zoneUID = IElementZone.ZoneUID;
 			var createZoneEventArg = new CreateXZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
 				IElementZone.ZoneUID = createZoneEventArg.Zone.BaseUID;
 			Helper.BuildMap();
 			Helper.SetXZone(IElementZone);
-			UpdateZones(xzoneUID);
+			UpdateZones(zoneUID);
 			if (!createZoneEventArg.Cancel)
 				Close(true);
 		}

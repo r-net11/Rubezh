@@ -25,6 +25,7 @@ namespace GKModule
 	{
 		static DevicesViewModel DevicesViewModel;
 		static ZonesViewModel ZonesViewModel;
+		static GuardZonesViewModel GuardZonesViewModel;
 		static DirectionsViewModel DirectionsViewModel;
 		static DelaysViewModel DelaysViewModel;
 		static PimsViewModel PimsViewModel;
@@ -34,6 +35,7 @@ namespace GKModule
 		static ArchiveViewModel ArchiveViewModel;
 		static AlarmsViewModel AlarmsViewModel;
 		NavigationItem _zonesNavigationItem;
+		NavigationItem _guardZonesNavigationItem;
 		NavigationItem _directionsNavigationItem;
 		NavigationItem _delaysNavigationItem;
 		NavigationItem _pimsNavigationItem;
@@ -59,6 +61,7 @@ namespace GKModule
 
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
+			GuardZonesViewModel = new GuardZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
 			DelaysViewModel = new DelaysViewModel();
 			PimsViewModel = new PimsViewModel();
@@ -121,11 +124,13 @@ namespace GKModule
 			_planPresenter.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 			_zonesNavigationItem.IsVisible = XManager.Zones.Count > 0;
+			_guardZonesNavigationItem.IsVisible = XManager.DeviceConfiguration.GuardZones.Count > 0;
 			_directionsNavigationItem.IsVisible = XManager.Directions.Count > 0;
 			_pumpStationsNavigationItem.IsVisible = XManager.PumpStations.Count > 0;
 			_mptsNavigationItem.IsVisible = XManager.MPTs.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
+			GuardZonesViewModel.Initialize();
 			DirectionsViewModel.Initialize();
 			PumpStationsViewModel.Initialize();
 			MPTsViewModel.Initialize();
@@ -139,6 +144,7 @@ namespace GKModule
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
+			_guardZonesNavigationItem = new NavigationItem<ShowXGuardZoneEvent, Guid>(GuardZonesViewModel, "Охранные зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
 			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty);
 			_delaysNavigationItem = new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty);
 			_pimsNavigationItem = new NavigationItem<ShowXPimEvent, Guid>(PimsViewModel, "ПИМ", "/Controls;component/Images/Pim_White.png", null, null, Guid.Empty);
@@ -152,6 +158,7 @@ namespace GKModule
 					new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
 					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					_zonesNavigationItem,
+					_guardZonesNavigationItem,
 					_directionsNavigationItem,
 					_delaysNavigationItem,
 					_pimsNavigationItem,
@@ -203,6 +210,7 @@ namespace GKModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Alarms, "Состояния", "Alarm.png", (p) => AlarmsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.GDevices, "Устройства", "Tree.png", (p) => DevicesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Zones, "Зоны", "Zones.png", (p) => ZonesViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.GuardZones, "Охранные зоны", "Zones.png", (p) => GuardZonesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Directions, "Направления", "Direction.png", (p) => DirectionsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.PumpStations, "НС", "PumpStation.png", (p) => PumpStationsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.MPTs, "МПТ", "BMPT.png", (p) => MPTsViewModel);

@@ -313,6 +313,18 @@
     <Compile Include="Zones\Views\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GuardZones\ViewModels\GuardZoneDetailsViewModel.cs" />
+    <Compile Include="GuardZones\ViewModels\GuardZonesViewModel.cs" />
+    <Compile Include="GuardZones\ViewModels\GuardZoneViewModel.cs" />
+    <Compile Include="GuardZones\Views\GuardZoneDetailsView.xaml.cs">
+      <DependentUpon>GuardZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuardZones\Views\GuardZonesView.xaml.cs">
+      <DependentUpon>GuardZonesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuardZones\Views\GuardZoneToolTipView.xaml.cs">
+      <DependentUpon>GuardZoneToolTipView.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -401,6 +413,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PumpStations\Views\PumpStationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuardZones\Views\GuardZoneDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuardZones\Views\GuardZonesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuardZones\Views\GuardZoneToolTipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
