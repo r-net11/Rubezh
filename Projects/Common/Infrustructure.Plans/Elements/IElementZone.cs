@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Media;
+using System.ComponentModel;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -12,5 +13,15 @@ namespace Infrustructure.Plans.Elements
 		bool IsHiddenZone { get; set; }
 		int ZIndex { get; set; }
 		int ZLayer { get; }
+		ElementZoneType ElementZoneType { get; set; }
+	}
+
+	public enum ElementZoneType
+	{
+		[Description("Пожарная зона")]
+		GK,
+
+		[Description("Охранная зона")]
+		Guard
 	}
 }

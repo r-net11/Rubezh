@@ -43,12 +43,7 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool MarkDeleted(Organisation organisation)
 		{
-			return MarkDeleted(organisation);
-		}
-
-		public static bool MarkDeleted(Guid uid)
-		{
-			var result = FiresecManager.FiresecService.MarkDeletedOrganisation(uid);
+			var result = FiresecManager.FiresecService.MarkDeletedOrganisation(organisation.UID);
 			return Common.ShowErrorIfExists(result);
 		}
 	}

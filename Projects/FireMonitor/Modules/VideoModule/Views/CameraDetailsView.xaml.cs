@@ -33,7 +33,7 @@ namespace VideoModule.Views
 		{
 			try
 			{
-				CellPlayerWrap.Connect(Camera.Address, Camera.Port, Camera.Login, Camera.Password);
+				CellPlayerWrap.Connect(Camera);
 				return true;
 			}
 			catch (Exception)
@@ -46,7 +46,7 @@ namespace VideoModule.Views
 		{
 			try
 			{
-				CellPlayerWrap.Start(Camera.ChannelNumber);
+				CellPlayerWrap.Start(Camera, Camera.ChannelNumber);
 				return true;
 			}
 			catch (Exception)

@@ -107,6 +107,7 @@
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\CreateXDirectionEvent.cs" />
+    <Compile Include="Events\CreateXGuardZoneEvent.cs" />
     <Compile Include="Events\CreateXZoneEvent.cs" />
     <Compile Include="Events\EditXDirectionEvent.cs" />
     <Compile Include="Events\EditXZoneEvent.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Events\ShowXDirectionEvent.cs" />
     <Compile Include="Events\ShowXGuardEvent.cs" />
     <Compile Include="Events\ShowXGuardUserEvent.cs" />
+    <Compile Include="Events\ShowXGuardZonesEvent.cs" />
     <Compile Include="Events\ShowXInstructionsEvent.cs" />
     <Compile Include="Events\ShowXJournalFilterEvent.cs" />
     <Compile Include="Events\ShowXMPTEvent.cs" />
@@ -130,6 +132,12 @@
     <Compile Include="Filters\ViewModels\FilterDetails\XEventViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardZoneDetailsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardZoneDevicesViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardZoneDeviceViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardZonesMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardZonesViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardZoneViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserViewModel.cs" />
     <Compile Include="Guard\Views\GuardMenuView.xaml.cs">
@@ -137,6 +145,15 @@
     </Compile>
     <Compile Include="Guard\Views\GuardView.xaml.cs">
       <DependentUpon>GuardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\GuardZoneDetailsView.xaml.cs">
+      <DependentUpon>GuardZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\GuardZonesMenuView.xaml.cs">
+      <DependentUpon>GuardZonesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\GuardZonesView.xaml.cs">
+      <DependentUpon>GuardZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Guard\Views\UserDetailsView.xaml.cs">
       <DependentUpon>UserDetailsView.xaml</DependentUpon>
@@ -174,6 +191,7 @@
       <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
+    <Compile Include="Plans\Converters\ElementZoneTypeToStringConverter.cs" />
     <Compile Include="Plans\Designer\ElementXDeviceUpdater.cs" />
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
@@ -513,6 +531,18 @@
     <Page Include="Devices\Views\DevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guard\Views\GuardZoneDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guard\Views\GuardZonesMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guard\Views\GuardZonesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MPTs\Views\MPTDevicePropertiesView.xaml">
       <SubType>Designer</SubType>

@@ -18,6 +18,7 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Отдел";
 			Employee = employee;
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			Departments = new List<SelectationDepartmentViewModel>();
 			var departments = DepartmentHelper.GetByOrganisation(Employee.OrganisationUID);
 			if (departments == null || departments.Count() == 0)
@@ -45,13 +46,14 @@ namespace SKDModule.ViewModels
 				selectedDepartment = Departments.FirstOrDefault(x => x.Department.UID == Employee.Department.UID);
 				if (selectedDepartment == null)
 					selectedDepartment = Departments.FirstOrDefault();
+			if (selectedDepartment != null)
+			{
+				selectedDepartment.IsChecked = true;
+				selectedDepartment.ExpandToThis();
 			}
-			selectedDepartment.IsChecked = true;
-			selectedDepartment.ExpandToThis();
 			HighlightedDepartment = selectedDepartment;
 			OnPropertyChanged(() => SelectedDepartment);
 			OnPropertyChanged(() => HighlightedDepartment);
-			AddCommand = new RelayCommand(OnAdd);
 		}
 		
 		void SetChildren(SelectationDepartmentViewModel department)

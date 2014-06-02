@@ -83,7 +83,7 @@ namespace VideoModule.ViewModels
 				{
 					if (SelectedCamera.IsDvr)
 					{
-						cameraViewModel.Camera.Address = SelectedCamera.Camera.Address;
+						cameraViewModel.Camera.Ip = SelectedCamera.Camera.Ip;
 						cameraViewModel.Camera.Port = SelectedCamera.Camera.Port;
 						cameraViewModel.Camera.Login = SelectedCamera.Camera.Login;
 						cameraViewModel.Camera.Password = SelectedCamera.Camera.Password;
@@ -94,7 +94,7 @@ namespace VideoModule.ViewModels
 					}
 					else
 					{
-						cameraViewModel.Camera.Address = SelectedCamera.Parent.Camera.Address;
+						cameraViewModel.Camera.Ip = SelectedCamera.Parent.Camera.Ip;
 						cameraViewModel.Camera.Port = SelectedCamera.Parent.Camera.Port;
 						cameraViewModel.Camera.Login = SelectedCamera.Parent.Camera.Login;
 						cameraViewModel.Camera.Password = SelectedCamera.Parent.Camera.Password;
@@ -152,7 +152,7 @@ namespace VideoModule.ViewModels
 					if (autoSearchCamera.IsChecked)
 					{
 						var camera = new Camera();
-						camera.Address = autoSearchCamera.DeviceSearchInfo.IpAddress;
+						camera.Ip = autoSearchCamera.DeviceSearchInfo.IpAddress;
 						camera.Port = autoSearchCamera.DeviceSearchInfo.Port;
 						var cameraViewModel = new CameraViewModel(this, camera);
 						if (autoSearchCamera.DeviceSearchInfo.DeviceType.Contains("DVR"))
@@ -164,7 +164,7 @@ namespace VideoModule.ViewModels
 								Parent = cameraViewModel.Camera,
 								CameraType = CameraType.Channel,
 								Name = "Канал",
-								Address = cameraViewModel.Camera.Address,
+								Ip = cameraViewModel.Camera.Ip,
 								Port = cameraViewModel.Camera.Port,
 								Login = cameraViewModel.Camera.Login,
 								Password = cameraViewModel.Camera.Password

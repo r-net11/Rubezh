@@ -93,7 +93,7 @@ namespace SKDDriver
 		{
 			try
 			{
-				if (apiItems == null)
+				if (apiItems == null || apiItems.Count() == 0)
 					return new OperationResult();
 				var tableItems = new List<TableT>();
 				foreach (var apiItem in apiItems)

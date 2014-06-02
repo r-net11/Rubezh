@@ -3,17 +3,17 @@ using FiresecAPI.GK;
 
 namespace GKProcessor
 {
-	public class RSR2_Pump_Helper
+	public class RSR2_JokeyPump_Helper
 	{
 		public static XDriver Create()
 		{
 			var driver = new XDriver()
 			{
-				DriverTypeNo = 0xE0,
-				DriverType = XDriverType.RSR2_Bush,
-				UID = new Guid("1743FA7E-EF69-45B7-90CD-D9BF2B44644C"),
-				Name = "Блок управления шкафом RSR2",
-				ShortName = "БУШ RSR2",
+				DriverTypeNo = 0x02,
+				DriverType = XDriverType.RSR2_Bush_Jokey,
+				UID = new Guid("0F6B6AEE-4D7A-4e9d-9C16-0072CDC40932"),
+				Name = "Блок управления ЖН",
+				ShortName = "БУШ ЖН RSR2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IgnoreHasLogic = true,
@@ -38,32 +38,33 @@ namespace GKProcessor
 			GKDriversHelper.AddIntProprety(driver, 6, "Порог 4, Ом", 3350, 0, 65535);
 			GKDriversHelper.AddIntProprety(driver, 7, "Порог 5, Ом", 4500, 0, 65535);
 
-			var property8 = new XDriverProperty()
+			GKDriversHelper.AddIntProprety(driver, 8, "Время выхода на режим, мин", 1, 1, 720);
+
+			var property90 = new XDriverProperty()
 			{
-				No = 8,
-				Name = "Type",
-				Caption = "Тип шкафа",
-				Default = 1
+				No = 9,
+				Name = "Состояние контакта датчика низкого давления",
+				Caption = "Состояние контакта датчика низкого давления",
+				Default = 0,
+				IsLowByte = true,
+				Mask = 0x01
 			};
-			var property8Parameter1 = new XDriverPropertyParameter()
+			GKDriversHelper.AddPropertyParameter(property90, "Контакт НР", 0);
+			GKDriversHelper.AddPropertyParameter(property90, "Контакт НЗ", 1);
+			driver.Properties.Add(property90);
+
+			var property91 = new XDriverProperty()
 			{
-				Name = "Дренажный насос",
-				Value = 1
+				No = 9,
+				Name = "Состояние контакта датчика высокого давления",
+				Caption = "Состояние контакта датчика высокого давления",
+				Default = 0,
+				IsLowByte = true,
+				Mask = 0x02
 			};
-			property8.Parameters.Add(property8Parameter1);
-			//var property8Parameter2 = new XDriverPropertyParameter()
-			//{
-			//	Name = "Жокей насос",
-			//	Value = 2
-			//};
-			//property8.Parameters.Add(property8Parameter2);
-			//var property8Parameter3 = new XDriverPropertyParameter()
-			//{
-			//	Name = "Пожарный насос",
-			//	Value = 3
-			//};
-			//property8.Parameters.Add(property8Parameter3);
-			driver.Properties.Add(property8);
+			GKDriversHelper.AddPropertyParameter(property91, "Контакт НР", 0);
+			GKDriversHelper.AddPropertyParameter(property91, "Контакт НЗ", 2);
+			driver.Properties.Add(property91);
 
 			driver.MeasureParameters.Add(new XMeasureParameter() { No = 1, Name = "Отсчет задержки на включение, с", IsDelay = true });
 			driver.MeasureParameters.Add(new XMeasureParameter() { No = 2, Name = "Отсчет задержки на выключение, с", IsDelay = true });

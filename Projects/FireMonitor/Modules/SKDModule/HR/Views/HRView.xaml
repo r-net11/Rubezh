@@ -70,7 +70,14 @@
 					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
 				</StackPanel>
 			</Grid>
-			<Grid Visibility="{Binding IsDocumentsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal" DataContext="{Binding OrganisationsViewModel}">
+                    <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+                    <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+                    <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+                </StackPanel>
+            </Grid>
+            <Grid Visibility="{Binding IsDocumentsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel Orientation="Horizontal" DataContext="{Binding DocumentsViewModel}">
 					<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
 					<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
@@ -99,7 +106,10 @@
 			<TabItem Header="Уровни доступа" IsSelected="{Binding IsAccessTemplatesSelected}">
 				<Views:AccessTemplatesView DataContext="{Binding AccessTemplatesViewModel}" />
 			</TabItem>
-			<TabItem Header="Документы" IsSelected="{Binding IsDocumentsSelected}" Visibility="Collapsed">
+            <TabItem Header="Организации" IsSelected="{Binding IsOrganisationsSelected}">
+                <Views:OrganisationsView DataContext="{Binding OrganisationsViewModel}" />
+            </TabItem>
+            <TabItem Header="Документы" IsSelected="{Binding IsDocumentsSelected}" Visibility="Collapsed">
 				<Views:DocumentsView DataContext="{Binding DocumentsViewModel}" />
 			</TabItem>
 		</TabControl>

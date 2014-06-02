@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using Entities.DeviceOriented;
+using FiresecAPI.Models;
+using GalaSoft.MvvmLight.Threading;
 
 namespace Infrastructure.Common.Video.RVI_VSS
 {
@@ -9,12 +13,16 @@ namespace Infrastructure.Common.Video.RVI_VSS
 	{
 		IStream ExtraStream { get; set; }
 		PlayBackDeviceRecord Record { get; set; }
-		IDevice Device { get; set; }
 		bool IsStarted { get; set; }
 		bool IsPaused { get; set; }
 		public WinFormsPlayer()
 		{
 			InitializeComponent();
+		}
+
+		static WinFormsPlayer()
+		{
+			DispatcherHelper.Initialize();
 		}
 
 		private int _speed;
@@ -52,27 +60,63 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			ExtraStream = null;
 		}
 
-		public List<IChannel> Connect(string ipAddress, int port, string login, string password)
+		public PropertyChangedEventHandler PropertyChangedEvent;
+		public List<IChannel> Connect(Camera camera)
 		{
 			try
 			{
-				var deviceSi = new DeviceSearchInfo(ipAddress, port, login, password);
-				Device = DeviceManager.Instance.GetDevice(deviceSi);
-				Device.Authorize();
-				return Device.Channels.ToList();
+				var device = RviVssHelper.Devices.FirstOrDefault(x => x.IP == camera.Ip && x.Port == camera.Port && x.UserName == camera.Login && x.Password == camera.Password);
+				if (device == null)
+				{
+					var deviceSi = new DeviceSearchInfo(camera.Ip, camera.Port, camera.Login, camera.Password);
+					device = DeviceManager.Instance.GetDevice(deviceSi);
+					device.PropertyChanged -= DeviceOnPropertyChanged;
+					device.PropertyChanged += DeviceOnPropertyChanged;
+					device.Authorize();
+					RviVssHelper.Devices.Add(device);
+				}
+				return device.Channels.ToList();
 			}
-			catch
+			catch(Exception e)
 			{
-				return null;
+				throw new Exception(e.Message);
 			}
 		}
 
-		public bool Start(int channelNumber)
+		public void Disconnect(Camera camera)
 		{
 			try
 			{
+				var device =
+					RviVssHelper.Devices.FirstOrDefault(
+						x => x.IP == camera.Ip && x.Port == camera.Port && x.UserName == camera.Login && x.Password == camera.Password);
+				if (device == null)
+				{
+					return;
+				}
+				device.Logout();
+				RviVssHelper.Devices.Remove(device);
+			}
+			catch (Exception e)
+			{
+				throw new Exception(e.Message);
+			}
+		}
+
+		private void DeviceOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+		{
+			PropertyChangedEvent(sender, propertyChangedEventArgs);
+		}
+
+		public bool Start(Camera camera, int channelNumber)
+		{
+			try
+			{
+				var device = RviVssHelper.Devices.FirstOrDefault(x => x.IP == camera.Ip && x.Port == camera.Port && x.UserName == camera.Login && x.Password == camera.Password);
+				if (device == null)
+					return false;
 				Invalidate();
-				var channel = Device.Channels.First(channell => channell.ChannelNumber == channelNumber);
+				var channel = device.Channels.First(channell => channell.ChannelNumber == channelNumber);
 				ExtraStream = channel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
 				ExtraStream.AddPlayHandle(Handle);
 				IsStarted = true;
@@ -176,11 +220,6 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			{
 				return false;
 			}
-		}
-
-		public DeviceStatuses Status
-		{
-			get { return Device.Status; }
 		}
 	}
 }

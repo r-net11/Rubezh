@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
+using Common;
+using Entities.DeviceOriented;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecClient;
@@ -10,8 +13,7 @@ namespace VideoModule.ViewModels
 {
 	public class LayoutPartCameraViewModel : BaseViewModel
 	{
-		private string ViewName { get; set; }
-		public Camera Camera { get; set; }
+		Camera Camera { get; set; }
 		public CellPlayerWrap CellPlayerWrap { get; private set; }
 		public LayoutPartCameraViewModel(LayoutPartCameraProperties properties)
 		{
@@ -19,18 +21,24 @@ namespace VideoModule.ViewModels
 			if (properties != null)
 			{
 				Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(item => item.UID == properties.SourceUID);
+				if (Camera == null)
+					return;
+				Camera.Status = DeviceStatuses.Connected;
 				CameraViewModel = new CameraViewModel(Camera, CellPlayerWrap);
 				new Thread(delegate()
 				{
-						try
+					try
+					{
+						if ((CameraViewModel.Camera != null) && (CameraViewModel.Camera.Ip != null))
 						{
-							if ((CameraViewModel.Camera != null) && (CameraViewModel.Camera.Address != null))
-							{
-								CameraViewModel.Connect();
-								CameraViewModel.Start();
-							}
+							CameraViewModel.Connect();
+							CameraViewModel.Start();
 						}
-						catch { }
+					}
+					catch (Exception e)
+					{
+						Logger.Error(e);
+					}
 				}).Start();
 			}
 		}

@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="SKDModule.Views.SelectPositionView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 MinWidth="400" MinHeight="300">
+			 MinWidth="500" MinHeight="500">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />

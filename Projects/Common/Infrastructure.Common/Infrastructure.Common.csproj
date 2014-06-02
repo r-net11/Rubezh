@@ -189,6 +189,7 @@
     <Compile Include="Video\RVI_VSS\CellPlayerWrap.xaml.cs">
       <DependentUpon>CellPlayerWrap.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Video\RVI_VSS\RviVssHelper.cs" />
     <Compile Include="Video\RVI_VSS\WinFormsPlayer.cs">
       <SubType>UserControl</SubType>
     </Compile>

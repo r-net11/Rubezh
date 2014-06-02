@@ -34,6 +34,7 @@ namespace GKModule
 		DelaysViewModel DelaysViewModel;
 		FiltersViewModel FiltersViewModel;
 		GuardViewModel GuardViewModel;
+		GuardZonesViewModel GuardZonesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
 		OPCDevicesViewModel OPCDevicesViewModel;
@@ -59,6 +60,7 @@ namespace GKModule
 			DelaysViewModel = new DelaysViewModel();
 			FiltersViewModel = new FiltersViewModel();
 			GuardViewModel = new GuardViewModel();
+			GuardZonesViewModel = new GuardZonesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
 			OPCDevicesViewModel = new OPCDevicesViewModel();
@@ -66,7 +68,7 @@ namespace GKModule
 			OPCDirectionsViewModel = new OPCDirectionsViewModel();
 			DescriptorsViewModel = new DescriptorsViewModel();
 			DiagnosticsViewModel = new DiagnosticsViewModel();
-			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel);
+			_planExtension = new GKPlanExtension(DevicesViewModel, ZonesViewModel, DirectionsViewModel, GuardZonesViewModel);
 		}
 
 		public override void Initialize()
@@ -79,6 +81,7 @@ namespace GKModule
 			MPTsViewModel.Initialize();
 			DelaysViewModel.Initialize();
 			GuardViewModel.Initialize();
+			GuardZonesViewModel.Initialize();
 			FiltersViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 			OPCDevicesViewModel.Initialize();
@@ -100,7 +103,14 @@ namespace GKModule
 					new NavigationItem<ShowXPumpStationEvent, Guid>(PumpStationsViewModel, "НС", "/Controls;component/Images/PumpStation.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXMPTEvent, Guid>(MPTsViewModel, "МПТ", "/Controls;component/Images/MPT.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/user.png", null, null, Guid.Empty),
+
+					new NavigationItem("Охрана", "/Controls;component/Images/tree.png",
+						new List<NavigationItem>()
+						{
+							new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/User.png", null, null, Guid.Empty),
+							new NavigationItem<ShowXGuardZonesEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+						}),
+
 					new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
 					new NavigationItem<ShowXDeviceLidraryEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
 					new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),

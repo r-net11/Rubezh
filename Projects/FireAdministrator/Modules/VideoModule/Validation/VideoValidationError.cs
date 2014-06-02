@@ -26,7 +26,7 @@ namespace VideoModule.Validation
 		}
 		public override string Address
 		{
-			get { return Object.Address; }
+			get { return Object.Ip; }
 		}
 		public override string ImageSource
 		{

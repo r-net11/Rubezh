@@ -72,7 +72,7 @@ namespace VideoModule.ViewModels
 			get
 			{
 				if (Camera.CameraType != CameraType.Channel)
-					return Camera.Address;
+					return Camera.Ip;
 				return (Camera.ChannelNumber + 1).ToString();
 			}
 		}

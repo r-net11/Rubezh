@@ -27,16 +27,17 @@ namespace GKModule.Plans
 {
 	class GKPlanExtension : IPlanExtension<Plan>
 	{
-		private bool _processChanges;
-		private DevicesViewModel _devicesViewModel;
-		private ZonesViewModel _zonesViewModel;
-		private DirectionsViewModel _directionsViewModel;
-		private CommonDesignerCanvas _designerCanvas;
-		private IEnumerable<IInstrument> _instruments;
-		private List<DesignerItem> _designerItems;
-		private static GKPlanExtension _current;
+		bool _processChanges;
+		DevicesViewModel _devicesViewModel;
+		ZonesViewModel _zonesViewModel;
+		DirectionsViewModel _directionsViewModel;
+		GuardZonesViewModel _guardZonesViewModel;
+		CommonDesignerCanvas _designerCanvas;
+		IEnumerable<IInstrument> _instruments;
+		List<DesignerItem> _designerItems;
+		static GKPlanExtension _current;
 
-		public GKPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, DirectionsViewModel directionsViewModel)
+		public GKPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, DirectionsViewModel directionsViewModel, GuardZonesViewModel guardZonesViewModel)
 		{
 			_current = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -54,6 +55,7 @@ namespace GKModule.Plans
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
 			_directionsViewModel = directionsViewModel;
+			_guardZonesViewModel = guardZonesViewModel;
 			_instruments = null;
 			_processChanges = true;
 			_designerItems = new List<DesignerItem>();
@@ -83,7 +85,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="/Controls;component/Images/ZoneRectangle.png",
 							ToolTip="Зона",
-							Adorner = new XZoneRectangleAdorner(_designerCanvas,_zonesViewModel),
+							Adorner = new XZoneRectangleAdorner(_designerCanvas, _zonesViewModel, _guardZonesViewModel),
 							Index = 200,
 							Autostart = true
 						},
@@ -91,7 +93,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="/Controls;component/Images/ZonePolygon.png",
 							ToolTip="Зона",
-							Adorner = new XZonePolygonAdorner(_designerCanvas,_zonesViewModel),
+							Adorner = new XZonePolygonAdorner(_designerCanvas, _zonesViewModel, _guardZonesViewModel),
 							Index = 201,
 							Autostart = true
 						},
@@ -351,7 +353,7 @@ namespace GKModule.Plans
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementRectangleXZone || e.Element is ElementPolygonXZone)
-				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
+				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel, _guardZonesViewModel);
 			else if (e.Element is ElementRectangleXDirection || e.Element is ElementPolygonXDirection)
 				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
 		}

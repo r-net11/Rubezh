@@ -134,7 +134,7 @@ namespace VideoModule.ViewModels
 		void CopyProperties()
 		{
 			Name = Camera.Name;
-			Address = Camera.Address;
+			Address = Camera.Ip;
 			Port = Camera.Port;
 			Login = Camera.Login;
 			Password = Camera.Password;
@@ -266,8 +266,9 @@ namespace VideoModule.ViewModels
 			{
 				var title = Name + " " + ChannelNumber;
 				var previewViewModel = new PreviewViewModel(title, _cellPlayerWrap);
-				_cellPlayerWrap.Connect(Address, Port, Login, Password);
-				_cellPlayerWrap.Start(ChannelNumber - 1);
+				var camera = new Camera {Ip = Address, Port = Port, Login = Login, Password = Password};
+				_cellPlayerWrap.Connect(camera);
+				_cellPlayerWrap.Start(camera, ChannelNumber - 1);
 				DialogService.ShowModalWindow(previewViewModel);
 				_cellPlayerWrap.Stop();
 			}
@@ -285,7 +286,7 @@ namespace VideoModule.ViewModels
 				return false;
 			}
 			Camera.Name = Name;
-			Camera.Address = Address;
+			Camera.Ip = Address;
 			Camera.Port = Port;
 			Camera.Login = Login;
 			Camera.Password = Password;
@@ -304,7 +305,7 @@ namespace VideoModule.ViewModels
 					Parent = Camera,
 					CameraType = CameraType.Channel,
 					Name = "Канал",
-					Address = Address,
+					Ip = Address,
 					Port = Port,
 					Login = Login,
 					Password = Password
@@ -313,7 +314,7 @@ namespace VideoModule.ViewModels
 			if ((Camera.Children != null)&&(Camera.Children.Count > 0))
 				foreach (var child in Camera.Children)
 				{
-					child.Address = Address;
+					child.Ip = Address;
 					child.Port = Port;
 					child.Login = Login;
 					child.Password = Password;

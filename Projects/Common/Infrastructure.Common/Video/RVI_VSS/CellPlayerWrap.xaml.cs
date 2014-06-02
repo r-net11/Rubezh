@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using Entities.DeviceOriented;
 using FiresecAPI.Models;
@@ -13,14 +14,19 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			InitializeComponent();
 		}
 
-		public List<IChannel> Connect(string ipAddress, int port, string login = "admin", string password = "admin")
+		public List<IChannel> Connect(Camera camera)
 		{
-			return FormsPlayer.Connect(ipAddress, port, login, password);
+			return FormsPlayer.Connect(camera);
 		}
 
-		public void Start(int channelNumber)
+		public void Disconnect(Camera camera)
 		{
-			FormsPlayer.Start(channelNumber);
+			FormsPlayer.Disconnect(camera);
+		}
+
+		public void Start(Camera camera, int channelNumber)
+		{
+			FormsPlayer.Start(camera, channelNumber);
 		}
 
 		public void Start(PlayBackDeviceRecord record)
@@ -72,9 +78,10 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			}
 		}
 
-		public DeviceStatuses Status
+		public PropertyChangedEventHandler PropertyChangedEvent
 		{
-			get { return FormsPlayer.Status; }
+			get { return FormsPlayer.PropertyChangedEvent; }
+			set { FormsPlayer.PropertyChangedEvent = value; }
 		}
 
 	}

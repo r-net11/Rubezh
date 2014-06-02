@@ -11,7 +11,7 @@ namespace Infrastructure.Common
 	public class MjpegCamera
 	{
 		bool _videoThreadInterrupt;
-		string URL { get { return Camera.Address; } }
+		string URL { get { return Camera.Ip; } }
 		string Login { get { return Camera.Login; } }
 		string Password { get { return Camera.Password; } }
 		Camera Camera { get; set; }

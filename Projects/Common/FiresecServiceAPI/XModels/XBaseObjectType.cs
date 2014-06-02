@@ -10,6 +10,9 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Зона")]
 		Zone,
 
+		[DescriptionAttribute("Охранная Зона")]
+		GuardZone,
+
 		[DescriptionAttribute("Направление")]
 		Direction,
 

@@ -14,12 +14,14 @@ namespace GKModule.Plans.ViewModels
 {
 	public class ZonePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private IElementZone IElementZone;
-		private ZonesViewModel _zonesViewModel;
+		IElementZone IElementZone;
+		ZonesViewModel _zonesViewModel;
+		GuardZonesViewModel _guardZonesViewModel;
 
-		public ZonePropertiesViewModel(IElementZone iElementZone, ZonesViewModel zonesViewModel)
+		public ZonePropertiesViewModel(IElementZone iElementZone, ZonesViewModel zonesViewModel, GuardZonesViewModel guardZonesViewModel)
 		{
 			_zonesViewModel = zonesViewModel;
+			_guardZonesViewModel = guardZonesViewModel;
 			IElementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -34,11 +36,28 @@ namespace GKModule.Plans.ViewModels
 			if (iElementZone.ZoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.BaseUID == iElementZone.ZoneUID);
 			IsHiddenZone = iElementZone.IsHiddenZone;
+
+			ZoneTypes = new ObservableCollection<ElementZoneType>();
+			ZoneTypes.Add(ElementZoneType.GK);
+			ZoneTypes.Add(ElementZoneType.Guard);
+		}
+
+		public ObservableCollection<ElementZoneType> ZoneTypes { get; private set; }
+
+		ElementZoneType _selectedZoneType;
+		public ElementZoneType SelectedZoneType
+		{
+			get { return _selectedZoneType; }
+			set
+			{
+				_selectedZoneType = value;
+				OnPropertyChanged("SelectedZoneType");
+			}
 		}
 
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
-		private ZoneViewModel _selectedZone;
+		ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone
 		{
 			get { return _selectedZone; }

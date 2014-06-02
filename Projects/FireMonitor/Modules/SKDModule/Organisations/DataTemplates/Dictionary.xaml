@@ -8,8 +8,4 @@
 		<Views:OrganisationDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:OrganisationsMenuViewModel}">
-		<Views:OrganisationsMenuView />
-	</DataTemplate>
-
 </ResourceDictionary>

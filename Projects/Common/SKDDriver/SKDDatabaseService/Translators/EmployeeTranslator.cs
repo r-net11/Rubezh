@@ -171,9 +171,12 @@ namespace SKDDriver
 			var columnSaveResult = AdditionalColumnTranslator.Save(apiItem.AdditionalColumns);
 			if (columnSaveResult.HasError)
 				return columnSaveResult;
-			var photoSaveResult = PhotoTranslator.Save(new List<Photo> { apiItem.Photo });
-			if (photoSaveResult.HasError)
-				return photoSaveResult;
+			if (apiItem.Photo != null)
+			{
+				var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
+				if (photoSaveResult.HasError)
+					return photoSaveResult;
+			}
 			return base.Save(apiItem);
 		}
 

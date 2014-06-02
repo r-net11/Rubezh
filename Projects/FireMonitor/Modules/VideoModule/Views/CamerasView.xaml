@@ -4,6 +4,8 @@
 	 xmlns:dragDrop="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common">
 	<UserControl.Resources>
 		<ContextMenu  x:Key="CameraContextMenu">
+			<IconedMenuItem Command="{Binding ConnectCommand}" Text="Подключить" Visibility="{Binding SelectedCamera.IsChannel, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
+			<IconedMenuItem Command="{Binding DisconnectCommand}" Text="Отключить" Visibility="{Binding SelectedCamera.IsChannel, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 			<IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" />
 			<IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" />
 		</ContextMenu>
@@ -20,6 +22,7 @@
 										<Image Margin="2,0,0,0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
 									</dragDrop:DragDropDecorator>
 									<StackPanel Orientation="Horizontal">
+										<Image Margin="2,0,0,0" Source="{Binding Status, Converter={StaticResource ConnectionStateToImageSourceConverter}}" Visibility="{Binding IsChannel, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 										<Image Width="16" Height="16" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Source="{Binding Camera.ImageSource}" />
 										<TextBlock Text="{Binding  Camera.Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" />
 									</StackPanel>

@@ -51,7 +51,7 @@ namespace DevicesModule.ViewModels
 
 		void device_Changed()
 		{
-			OnPropertyChanged("Address");
+			OnPropertyChanged("Ip");
 			OnPropertyChanged("HasExternalDevices");
 			UpdateZoneName();
 		}
@@ -74,12 +74,12 @@ namespace DevicesModule.ViewModels
 					{
 						foreach (var deviceViewModel in Children)
 						{
-							deviceViewModel.OnPropertyChanged("Address");
+							deviceViewModel.OnPropertyChanged("Ip");
 						}
 					}
 					ServiceFactory.SaveService.FSChanged = true;
 				}
-				OnPropertyChanged("Address");
+				OnPropertyChanged("Ip");
 			}
 		}
 

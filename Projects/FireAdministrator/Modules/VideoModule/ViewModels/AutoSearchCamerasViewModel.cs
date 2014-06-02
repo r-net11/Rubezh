@@ -66,7 +66,7 @@ namespace VideoModule.ViewModels
 							if (AutoSearchCameras.Any(x => x.DeviceSearchInfo.IpAddress == deviceInfoViewModel.IpAddress))
 								return;
 							var autoSearchCameraViewModel = new AutoSearchCameraViewModel(deviceInfoViewModel);
-							autoSearchCameraViewModel.IsAdded = Cameras.Any(x => x.Camera.Address == autoSearchCameraViewModel.DeviceSearchInfo.IpAddress && x.Camera.Port == autoSearchCameraViewModel.DeviceSearchInfo.Port);
+							autoSearchCameraViewModel.IsAdded = Cameras.Any(x => x.Camera.Ip == autoSearchCameraViewModel.DeviceSearchInfo.IpAddress && x.Camera.Port == autoSearchCameraViewModel.DeviceSearchInfo.Port);
 							AutoSearchCameras.Add(autoSearchCameraViewModel);
 						}));
 		}

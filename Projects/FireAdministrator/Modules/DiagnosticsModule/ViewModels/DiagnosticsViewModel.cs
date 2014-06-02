@@ -19,7 +19,7 @@ namespace DiagnosticsModule.ViewModels
 			var camera = new Camera();
 			camera.Login = "admin";
 			camera.Password = "admin";
-			camera.Address = "172.16.7.88";
+			camera.Ip = "172.16.7.88";
 			CameraFramesWatcher = new CameraFramesWatcher(camera);
 			TestXMLCommand = new RelayCommand(OnTestXML);
 			StartCommand = new RelayCommand(OnStart, () => !IsNowPlaying);

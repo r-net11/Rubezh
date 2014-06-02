@@ -260,7 +260,6 @@ namespace GKModule.Views
 				}
 				toolTip = null;
 				dispatcherTimer = null;
-
 			});
 		}
 	}
