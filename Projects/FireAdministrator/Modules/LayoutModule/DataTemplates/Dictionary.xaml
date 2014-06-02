@@ -11,6 +11,10 @@
 		<Views:MonitorLayoutsView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:MonitorLayoutsMenuViewModel}">
+		<Views:MonitorLayoutsMenuView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:MonitorLayoutViewModel}">
 		<Views:MonitorLayoutView />
 	</DataTemplate>

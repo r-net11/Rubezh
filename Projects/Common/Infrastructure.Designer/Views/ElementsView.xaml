@@ -46,6 +46,7 @@
 		<tree:TreeList.ItemContainerStyle>
 			<Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
 				<Setter Property="Visibility" Value="{Binding IsGroupHasChild, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<Setter Property="ContextMenu" Value="{Binding ContextMenu}" />
 			</Style>
 		</tree:TreeList.ItemContainerStyle>
 		<tree:TreeList.View>
@@ -53,7 +54,7 @@
 				<GridViewColumn Header="Слои">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
-							<StackPanel Grid.Column="1" ContextMenu="{Binding ContextMenu}" Orientation="Horizontal">
+							<StackPanel Grid.Column="1" Orientation="Horizontal">
 								<Image Width="16" Height="16" Margin="5, 0, 5, 0" Source="{Binding IconSource, Converter={StaticResource NullToImageConverter}}" Visibility="{Binding IconSource, Converter={StaticResource NullToVisibilityConverter}}" />
 								<TextBlock Margin="1" Text="{Binding Name}">
 									<TextBlock.Style>

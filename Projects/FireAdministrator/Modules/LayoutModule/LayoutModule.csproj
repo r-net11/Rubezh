@@ -108,6 +108,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
+    <Compile Include="ViewModels\MonitorLayoutsMenuViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartDescriptionGroupViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartEmptyViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartPropertyImagePageViewModel.cs" />
@@ -156,6 +157,9 @@
     </Compile>
     <Compile Include="Views\LayoutUsersView.xaml.cs">
       <DependentUpon>LayoutUsersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MonitorLayoutsMenuView.xaml.cs">
+      <DependentUpon>MonitorLayoutsMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MonitorLayoutsTreeView.xaml.cs">
       <DependentUpon>MonitorLayoutsTreeView.xaml</DependentUpon>
@@ -263,6 +267,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutUsersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MonitorLayoutsMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

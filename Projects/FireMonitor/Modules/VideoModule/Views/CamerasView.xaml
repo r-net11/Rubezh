@@ -10,7 +10,7 @@
 			<IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" />
 		</ContextMenu>
 	</UserControl.Resources>
-	<TreeList ContextMenu="{StaticResource CameraContextMenu}" Focusable="True" SelectedTreeNode="{Binding SelectedCamera}" Source="{Binding Cameras}">
+	<TreeList ContextMenu="{StaticResource CameraContextMenu}" Focusable="True" SelectedTreeNode="{Binding SelectedCamera, Mode=TwoWay, NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" Source="{Binding Cameras}">
 		<TreeList.View>
 			<GridView>
 				<GridView.Columns>

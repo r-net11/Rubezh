@@ -28,6 +28,7 @@ namespace LayoutModule.ViewModels
 			MonitorLayoutsTreeViewModel = new MonitorLayoutsTreeViewModel(this);
 			CreateCommands();
 			SetRibbonItems();
+			Menu = new MonitorLayoutsMenuViewModel(this);
 		}
 
 		#region ISelectable<Guid> Members
