@@ -3,8 +3,9 @@
 	<?include Variables.wxi?>
 	<Fragment>
 		<Feature Id="OPC.Features" Title="OPC Сервер" Description="Программа установит компопненты необходимые для работы приложения OPC Сервер"
-						 Level="1" Display="expand" ConfigurableDirectory="GKOPCLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
-			<ComponentRef Id="OPC.Files" />
+						 Display="expand" ConfigurableDirectory="GKOPCLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Condition Level="2">INSTALL_OPC</Condition>
+      <ComponentRef Id="OPC.Files" />
       <ComponentRef Id="OPC.DB.Common" />
       <ComponentRef Id="OPC.AutorunComponent" />
       <ComponentRef Id="OPC.ProgramsMenuShortcut" />

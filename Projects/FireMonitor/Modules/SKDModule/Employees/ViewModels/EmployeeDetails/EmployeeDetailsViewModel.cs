@@ -578,8 +578,12 @@ namespace SKDModule.ViewModels
 			var selectScheduleViewModel = new SelectScheduleViewModel(Employee);
 			if (DialogService.ShowModalWindow(selectScheduleViewModel))
 			{
-				SelectedSchedule = selectScheduleViewModel.SelectedSchedule.Schedule;
-				ScheduleStartDate = selectScheduleViewModel.StartDate;
+				var selectedSchedule = selectScheduleViewModel.SelectedSchedule;
+				if(selectedSchedule != null)
+				{
+					SelectedSchedule = selectedSchedule.Schedule;
+					ScheduleStartDate = selectScheduleViewModel.StartDate;
+				}
 			}
 		}
 

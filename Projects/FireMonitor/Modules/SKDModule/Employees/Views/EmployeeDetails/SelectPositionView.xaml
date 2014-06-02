@@ -13,8 +13,12 @@
 					<DataGridTemplateColumn Header="Название" Width="*" >
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<RadioButton GroupName="Positions" VerticalAlignment="Center" Margin="2" 
-									Content="{Binding Name}" Command="{Binding SelectCommand}" IsChecked="{Binding IsChecked}" />
+								<StackPanel Orientation="Horizontal">
+									<RadioButton GroupName="Positions" VerticalAlignment="Center" Margin="2" 
+										Command="{Binding SelectCommand}" IsChecked="{Binding IsChecked}" />
+									<Image Width="16" Source="/Controls;component/Images/Position.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<TextBlock Text="{Binding Name}" />
+								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

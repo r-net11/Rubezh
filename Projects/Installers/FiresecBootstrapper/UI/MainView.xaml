@@ -8,38 +8,24 @@
     </Window.Resources>
 
     <Grid>
-        <TextBlock Text="Welcome to my test bootstrapper application." Margin="10" FontSize="18" HorizontalAlignment="Center" Foreground="Red" VerticalAlignment="Top" />
-        <Ellipse Height="100" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" StrokeThickness="6" Margin="10"
-                 Visibility="{Binding Path=IsThinking, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Ellipse.Stroke>
-                <LinearGradientBrush>
-                    <GradientStop Color="Red" Offset="0.0"/>
-                    <GradientStop Color="White" Offset="0.9"/>
-                </LinearGradientBrush>
-            </Ellipse.Stroke>
-            <Ellipse.RenderTransform>
-                <RotateTransform x:Name="Rotator" CenterX="50" CenterY="50" Angle="0"/>
-            </Ellipse.RenderTransform>
-            <Ellipse.Triggers>
-                <EventTrigger RoutedEvent="Ellipse.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard TargetName="Rotator" TargetProperty="Angle">
-                            <DoubleAnimation By="360" Duration="0:0:2" RepeatBehavior="Forever" />
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Ellipse.Triggers>
-        </Ellipse>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            
-            <StackPanel>
+            <StackPanel Visibility="{Binding Path=InstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" >
                 <CheckBox Content="SQL" IsChecked="{Binding IsSQLEnabled}" Margin="2" />
-                <CheckBox Content="Firesec" IsChecked="{Binding IsFiresecEnabled}" Margin="2" />
+                <CheckBox Content="IsInstallHasp" IsChecked="{Binding IsInstallHasp}" Margin="2" />
+                <CheckBox Content="IsInstallOPC" IsChecked="{Binding IsInstallOPC}" Margin="2" />
+                <CheckBox Content="IsInstallSDK" IsChecked="{Binding IsInstallSDK}" Margin="2" />
+                <CheckBox Content="IsInstallGK" IsChecked="{Binding IsInstallGK}" Margin="2" />
+                <CheckBox Content="IsInstallSKD" IsChecked="{Binding IsInstallSKD}" Margin="2" />
+                <CheckBox Content="IsInstallVideo" IsChecked="{Binding IsInstallVideo}" Margin="2" />
+                <CheckBox Content="IsInstallFiresec2" IsChecked="{Binding IsInstallFiresec2}" Margin="2" />
             </StackPanel>
-            
-            <Button Content="Install" Command="{Binding Path=InstallCommand}" Visibility="{Binding Path=InstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10" Height="20" Width="80"/>
-            <Button Content="Uninstall" Command="{Binding Path=UninstallCommand}" Visibility="{Binding Path=UninstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10" Height="20" Width="80"/>
-            <Button Content="Exit" Command="{Binding Path=ExitCommand}" Margin="10" Height="20" Width="80" />
+            <StackPanel>
+                <Button Content="Install" Margin="10" Height="20" Width="80"
+                    Command="{Binding Path=InstallCommand}" Visibility="{Binding Path=InstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button Content="Uninstall" Margin="10" Height="20" Width="80"
+                    Command="{Binding Path=UninstallCommand}" Visibility="{Binding Path=UninstallEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <Button Content="Exit" Command="{Binding Path=ExitCommand}" Margin="10" Height="20" Width="80" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

@@ -36,7 +36,8 @@ namespace SKDModule.ViewModels
 		{
 			Name = OrganisationDetails.Name;
 			Description = OrganisationDetails.Description;
-			PhotoData = OrganisationDetails.Photo.Data;
+			if(OrganisationDetails.Photo != null)
+				PhotoData = OrganisationDetails.Photo.Data;
 		}
 
 		public Organisation Organisation

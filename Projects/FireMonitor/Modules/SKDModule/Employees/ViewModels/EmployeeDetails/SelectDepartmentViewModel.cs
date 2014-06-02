@@ -37,9 +37,15 @@ namespace SKDModule.ViewModels
 					SetChildren(rootDepartment);
 				}
 			}
-			var selectedDepartment = Departments.FirstOrDefault(x => x.Department.UID == Employee.Department.UID);
-			if (selectedDepartment == null)
+			SelectationDepartmentViewModel selectedDepartment;
+			if (employee.Department == null)
 				selectedDepartment = Departments.FirstOrDefault();
+			else
+			{
+				selectedDepartment = Departments.FirstOrDefault(x => x.Department.UID == Employee.Department.UID);
+				if (selectedDepartment == null)
+					selectedDepartment = Departments.FirstOrDefault();
+			}
 			selectedDepartment.IsChecked = true;
 			selectedDepartment.ExpandToThis();
 			HighlightedDepartment = selectedDepartment;

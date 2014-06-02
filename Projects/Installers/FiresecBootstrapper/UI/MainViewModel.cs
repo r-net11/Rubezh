@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System.Windows;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
-using System.Windows;
 
 namespace UI
 {
@@ -23,7 +19,17 @@ namespace UI
 			Bootstrapper.ApplyComplete += this.OnApplyComplete;
 			Bootstrapper.DetectPackageComplete += this.OnDetectPackageComplete;
 			Bootstrapper.PlanComplete += this.OnPlanComplete;
-
+			
+			
+			try
+			{
+				IsSQLEnabled = Bootstrapper.Engine.StringVariables["InstallSQL"] == "1";
+			}
+			catch (System.Exception e)
+			{
+				MessageBox.Show(e.Message);	
+			}
+			
 			IsThinking = false;
 		}
 
@@ -34,7 +40,84 @@ namespace UI
 			set
 			{
 				_isSQLEnabled = value;
-				OnPropertyChanged("IsSQLEnabled");
+				OnPropertyChanged(() => IsSQLEnabled);
+			}
+		}
+
+		private bool _isInstallHasp;
+		public bool IsInstallHasp
+		{
+			get { return _isInstallHasp; }
+			set
+			{
+				_isInstallHasp = value;
+				OnPropertyChanged(() => IsInstallHasp);
+			}
+		}
+
+		private bool _isInstallOPC;
+		public bool IsInstallOPC
+		{
+			get { return _isInstallOPC; }
+			set
+			{
+				_isInstallOPC = value;
+				OnPropertyChanged(() => IsInstallOPC);
+			}
+		}
+
+		private bool _isInstallSDK;
+		public bool IsInstallSDK
+		{
+			get { return _isInstallSDK; }
+			set
+			{
+				_isInstallSDK = value;
+				OnPropertyChanged(() => IsInstallSDK);
+			}
+		}
+
+		private bool _isInstallGK;
+		public bool IsInstallGK
+		{
+			get { return _isInstallGK; }
+			set
+			{
+				_isInstallGK = value;
+				OnPropertyChanged(() => IsInstallGK);
+			}
+		}
+
+		private bool _isInstallSKD;
+		public bool IsInstallSKD
+		{
+			get { return _isInstallSKD; }
+			set
+			{
+				_isInstallSKD = value;
+				OnPropertyChanged(() => IsInstallSKD);
+			}
+		}
+
+		private bool _isInstallVideo;
+		public bool IsInstallVideo
+		{
+			get { return _isInstallVideo; }
+			set
+			{
+				_isInstallVideo = value;
+				OnPropertyChanged(() => IsInstallVideo);
+			}
+		}
+		
+		private bool _isInstallFiresec2;
+		public bool IsInstallFiresec2
+		{
+			get { return _isInstallFiresec2; }
+			set
+			{
+				_isInstallFiresec2 = value;
+				OnPropertyChanged(() => IsInstallFiresec2);
 			}
 		}
 
@@ -81,28 +164,34 @@ namespace UI
 				OnPropertyChanged("IsThinking");
 			}
 		}
-
+		
 		public RelayCommand InstallCommand { get; private set; }
 		private void OnInstall()
 		{
 			try
 			{
-				MessageBox.Show("OnInstall");
-				var x = Bootstrapper.Engine.StringVariables["Checkbox1"];
-				MessageBox.Show(x);
-				x = "0";
-
-				var y = Bootstrapper.Engine.StringVariables["Checkbox1"];
-				MessageBox.Show(y);
-
-				var x2 = Bootstrapper.Engine.StringVariables["Checkbox2"];
-				MessageBox.Show(x2);
+				if (IsSQLEnabled)
+					Bootstrapper.Engine.StringVariables["InstallSQL"] = "1";
+				if (IsInstallHasp)
+					Bootstrapper.Engine.StringVariables["InstallHasp"] = "1";
+				if (IsInstallOPC)
+					Bootstrapper.Engine.StringVariables["InstallOPC"] = "1";
+				if (IsInstallSDK)
+					Bootstrapper.Engine.StringVariables["InstallSDK"] = "1";
+				if (IsInstallGK)
+					Bootstrapper.Engine.StringVariables["InstallGK"] = "1";
+				if (IsInstallSKD)
+					Bootstrapper.Engine.StringVariables["InstallSKD"] = "1";
+				if (IsInstallVideo)
+					Bootstrapper.Engine.StringVariables["InstallVideo"] = "1";
+				if (IsInstallFiresec2)
+					Bootstrapper.Engine.StringVariables["InstallFiresec2"] = "1";
 			}
-			catch (Exception e)
+			catch (System.Exception e)
 			{
-				MessageBox.Show(e.Message);
+				MessageBox.Show(e.Message);	
 			}
-
+			
 			IsThinking = true;
 			Bootstrapper.Engine.Plan(LaunchAction.Install);
 		}
@@ -139,33 +228,6 @@ namespace UI
 		/// </summary>
 		private void OnDetectPackageComplete(object sender, DetectPackageCompleteEventArgs e)
 		{
-			if (e.PackageId == "Firesec2Installer")
-			{
-				if (e.State == PackageState.Absent)
-				{
-					InstallEnabled = true;
-					IsFiresecEnabled = true;
-				}
-				else if (e.State == PackageState.Present)
-				{
-					UninstallEnabled = true;
-					IsFiresecEnabled = false;
-				}
-			}
-			if (e.PackageId == "Firesec2Installer")
-			{
-				if (e.State == PackageState.Absent)
-				{
-					InstallEnabled = true;
-					IsSQLEnabled = true;
-				}
-				else if (e.State == PackageState.Present)
-				{
-					UninstallEnabled = true;
-					IsSQLEnabled = false;
-				}
-			}
-
 			InstallEnabled = true;
 			UninstallEnabled = true;
 		}

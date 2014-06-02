@@ -9,8 +9,12 @@
 					<DataGridTemplateColumn Header="Имя" Width="*" >
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<RadioButton GroupName="Positions" Content="{Binding Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center" Margin="2" />
-							</DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton GroupName="Positions" Content="{Binding Name}" IsChecked="{Binding IsChecked, Mode=TwoWay}" VerticalAlignment="Center" Margin="2" />
+                                    <Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                    <TextBlock Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn Header="Должность" >

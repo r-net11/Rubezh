@@ -2,8 +2,9 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?include Variables.wxi?>
   <Fragment>
-    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION"
+    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Display="expand" ConfigurableDirectory="INSTALLLOCATION"
         AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Condition Level="2">INSTALL_FIRESEC2</Condition>
       <FeatureRef Id="Server.Features" />
       <FeatureRef Id="Administrator.Features" />
       <FeatureRef Id="Monitor.Features" />
@@ -12,17 +13,22 @@
       <FeatureRef Id="SDK.Features" />
 
       <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
-        Level="1" Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local" />
+        Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local">
+        <Condition Level="2">INSTALL_HASP</Condition>
+      </Feature>
 
-      <Feature Id="GK.Features" Title="ГК" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
+      <Feature Id="GK.Features" Title="ГК" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
+        <Condition Level="2">INSTALL_GK</Condition>
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>
-      <Feature Id="SKD.Features" Title="СКД" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы СКД">
+      <Feature Id="SKD.Features" Title="СКД" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы СКД">
+        <Condition Level="2">INSTALL_SKD</Condition>
         <ComponentRef Id="Administrator.SKD_MODULE" />
         <ComponentRef Id="Monitor.SKD_MODULE" />
       </Feature>
-      <Feature Id="Video.Features" Title="Видео" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео. Необходимы компоненты VLC">
+      <Feature Id="Video.Features" Title="Видео" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео. Необходимы компоненты VLC">
+        <Condition Level="2">INSTALL_VIDEO</Condition>
         <ComponentRef Id="Administrator.VIDEO_MODULE" />
         <ComponentRef Id="Administrator.VIDEO_MODULE_DLL" />
         <ComponentRef Id="Administrator.VIDEO_MODULE_DLL.Dahua" />

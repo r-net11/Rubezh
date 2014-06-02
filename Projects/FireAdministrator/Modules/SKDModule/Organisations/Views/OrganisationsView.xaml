@@ -11,7 +11,16 @@
 		</Grid.RowDefinitions>
 		<Controls:XDataGrid Grid.Row="0" ItemsSource="{Binding Organisations}" SelectedItem="{Binding SelectedOrganisation}">
 			<DataGrid.Columns>
-				<DataGridTextColumn Header="Название" Width="1*" Binding="{Binding Organisation.Name}" />
+				<DataGridTemplateColumn Header="Название" Width="1*" >
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<TextBlock Text="{Binding Organisation.Name}" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 				<DataGridTextColumn Header="Описание" Width="1*" Binding="{Binding Organisation.Description}" />
 			</DataGrid.Columns>
 		</Controls:XDataGrid>

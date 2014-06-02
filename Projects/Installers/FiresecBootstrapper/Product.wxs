@@ -16,21 +16,31 @@
     </BootstrapperApplicationRef>
     <Chain>
       <PackageGroupRef Id='Netfx4Full' />
-
       <MsiPackage Id="Firesec2Installer" SourceFile="X:\Sensor\ОРПОВУ\Севастьянов\Firesec 2.1.3.msi"
-                  Compressed="no" EnableFeatureSelection="yes" Vital="yes" DisplayInternalUI="yes">
+             Compressed="no" EnableFeatureSelection="yes" Vital="yes" >
         <MsiProperty Name="ALLUSERS" Value="1" />
+        <MsiProperty Name="INSTALL_HASP" Value="[InstallHasp]" />
+        <MsiProperty Name="INSTALL_OPC" Value="[InstallOPC]" />
+        <MsiProperty Name="INSTALL_SDK" Value="[InstallSDK]" />
+        <MsiProperty Name="INSTALL_GK" Value="[InstallGK]" />
+        <MsiProperty Name="INSTALL_SKD" Value="[InstallSKD]" />
+        <MsiProperty Name="INSTALL_VIDEO" Value="[InstallVideo]" />
+        <MsiProperty Name="INSTALL_FIRESEC2 " Value="[InstallFiresec2]" />
       </MsiPackage>
-
-      <ExePackage Id="SQLServer" InstallCondition='Checkbox1' SourceFile="X:\Sensor\ОРПОВУ\Севастьянов\Soft\SQLEXPR32_RUS.EXE" />
+      <ExePackage Id="SQLServer" InstallCondition='INSTALLSQL' SourceFile="X:\Sensor\ОРПОВУ\Севастьянов\Soft\SQLEXPR32_RUS.EXE" />
     </Chain>
   </Bundle>
 
   <Fragment>
-
-    <Variable Name='Checkbox1' Value='1' Persisted='yes' />
-    
-
+    <Variable Name='InstallSQL' Value='0' />
+    <Variable Name='InstallHasp' />
+    <Variable Name='InstallOPC' />
+    <Variable Name='InstallSDK' />
+    <Variable Name='InstallGK' />
+    <Variable Name='InstallSKD' />
+    <Variable Name='InstallVideo' />
+    <Variable Name='InstallFiresec2' />
+   
     <WixVariable Id="WixMbaPrereqPackageId" Value="Netfx4Full" />
     <WixVariable Id="WixMbaPrereqLicenseUrl" Value="NetfxLicense.rtf" />
 

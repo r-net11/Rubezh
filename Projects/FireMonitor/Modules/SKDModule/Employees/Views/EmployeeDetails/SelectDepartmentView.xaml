@@ -17,7 +17,8 @@
 								<StackPanel Orientation="Horizontal">
 									<RadioButton GroupName="Departments" VerticalAlignment="Center" 
 												 IsChecked="{Binding IsChecked, Mode=OneWay}" Command="{Binding SelectCommand}" />
-									<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+                                    <Image Width="16" Source="/Controls;component/Images/Department.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>

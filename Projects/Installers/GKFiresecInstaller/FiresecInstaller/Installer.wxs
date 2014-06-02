@@ -35,6 +35,14 @@
     <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
     <Property Id="INSTALLMODE" />
     <Property Id="ALLUSERS" Value="1" Secure="yes" />
+    
+    <Property Id="INSTALL_FIRESEC2" Secure="yes" />
+    <Property Id="INSTALL_HASP" Secure="yes" />
+    <Property Id="INSTALL_OPC" Secure="yes" />
+    <Property Id="INSTALL_SDK" Secure="yes" />
+    <Property Id="INSTALL_GK" Secure="yes" />
+    <Property Id="INSTALL_SKD" Secure="yes" />
+    <Property Id="INSTALL_VIDEO" Secure="yes" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="SystemFolder"/>

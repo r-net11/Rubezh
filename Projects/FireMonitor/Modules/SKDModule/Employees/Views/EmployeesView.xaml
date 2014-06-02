@@ -19,7 +19,7 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Width="16" Source="/Controls;component/Images/BDirection.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
-									<Image Width="16" Source="/Controls;component/Images/Zone.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<Image Width="16" Source="/Controls;component/Images/Employee.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
 									<TextBlock Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>
@@ -40,7 +40,7 @@
 					<TextBlock>
 					<Hyperlink Command="{Binding SelectEmployeeCommand}" Style="{StaticResource HyperlinkStyle2}">
 						<StackPanel Orientation="Horizontal">
-							<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+							<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Employee.png" />
 							<TextBlock Margin="2" VerticalAlignment="Center" Text="Сотрудник">
 								<TextBlock.Style>
 									<Style>
@@ -69,7 +69,7 @@
 								<TextBlock>
 								<Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<StackPanel Orientation="Horizontal">
-										<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+										<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Card.png" />
 										<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}">
 											<TextBlock.Style>
 												<Style>

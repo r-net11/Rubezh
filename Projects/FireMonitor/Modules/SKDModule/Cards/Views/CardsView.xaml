@@ -9,7 +9,10 @@
 			<DataGridTemplateColumn Header="Семейство" CanUserSort="True" SortMemberPath="Card.Series" Width="Auto">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding Card.Series}" />
+						<StackPanel Orientation="Horizontal">
+							<Image Width="16" Source="/Controls;component/Images/Card.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+							<TextBlock Text="{Binding Card.Series}" />
+						</StackPanel>
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
