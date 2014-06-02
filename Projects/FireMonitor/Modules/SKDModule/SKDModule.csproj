@@ -420,6 +420,17 @@
     <Compile Include="HR\Views\HRView.xaml.cs">
       <DependentUpon>HRView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Passwords\ViewModels\PasswordDetailsViewModel.cs" />
+    <Compile Include="Passwords\ViewModels\PasswordsViewModel.cs" />
+    <Compile Include="Passwords\ViewModels\PasswordViewModel.cs" />
+    <Compile Include="Passwords\ViewModels\PasswordGuardZonesViewModel.cs" />
+    <Compile Include="Passwords\ViewModels\PasswordGuardZoneViewModel.cs" />
+    <Compile Include="Passwords\Views\PasswordDetailsView.xaml.cs">
+      <DependentUpon>PasswordDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Passwords\Views\PasswordsView.xaml.cs">
+      <DependentUpon>PasswordsView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
@@ -745,6 +756,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="HR\Views\HRView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Passwords\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Passwords\Views\PasswordDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Passwords\Views\PasswordsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

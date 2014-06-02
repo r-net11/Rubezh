@@ -143,6 +143,7 @@
     <Compile Include="FiresecManager\SKDHelpers\NamedIntervalHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\OrganisationHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\PositionHelper.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\PasswordHelper.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\SafeFiresecService.GK.cs" />
     <Compile Include="Service\FileHelper.cs" />

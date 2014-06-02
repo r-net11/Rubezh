@@ -26,6 +26,7 @@ namespace FiresecAPI.SKD
 		public List<Guid> ZoneUIDs { get; set; }
 
 		[DataMember]
+		public List<Guid> GuardZoneUIDs { get; set; }
 		public List<Guid> UserUIDs { get; set; }
 	}
 

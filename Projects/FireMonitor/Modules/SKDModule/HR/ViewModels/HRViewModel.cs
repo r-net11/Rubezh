@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 		AdditionalColumnTypeFilter AdditionalColumnTypeFilter;
 		CardFilter CardFilter;
 		AccessTemplateFilter AccessTemplateFilter;
+		PasswordFilter PasswordFilter;
 		DocumentFilter DocumentFilter;
 
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
@@ -23,6 +24,7 @@ namespace SKDModule.ViewModels
 		public AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel { get; private set; }
 		public CardsViewModel CardsViewModel { get; private set; }
 		public AccessTemplatesViewModel AccessTemplatesViewModel { get; private set; }
+		public PasswordsViewModel PasswordsViewModel { get; private set; }
 		public OrganisationsViewModel OrganisationsViewModel { get; private set; }
 		public DocumentsViewModel DocumentsViewModel { get; private set; }
 
@@ -36,6 +38,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypesViewModel = new AdditionalColumnTypesViewModel();
 			CardsViewModel = new CardsViewModel();
 			AccessTemplatesViewModel = new AccessTemplatesViewModel();
+			PasswordsViewModel = new PasswordsViewModel();
 			OrganisationsViewModel = new OrganisationsViewModel();
 			DocumentsViewModel = new DocumentsViewModel();
 			IsEmployeesSelected = true;
@@ -56,6 +59,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
 			CardsViewModel.Initialize(CardFilter);
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
+			PasswordsViewModel.Initialize(PasswordFilter);
 			OrganisationsViewModel.Initialize();
 			DocumentsViewModel.Initialize(DocumentFilter);
 		}
@@ -126,6 +130,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		bool _isPasswordsSelected;
+		public bool IsPasswordsSelected
+		{
+			get { return _isPasswordsSelected; }
+			set
+			{
+				_isPasswordsSelected = value;
+				OnPropertyChanged(() => IsPasswordsSelected);
+			}
+		}
+
 		bool _isOrganisationsSelected;
 		public bool IsOrganisationsSelected
 		{
@@ -168,6 +183,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			CardFilter = Filter.CardFilter;
 			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+			PasswordFilter = new PasswordFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			DocumentFilter = new DocumentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 		}
 	}

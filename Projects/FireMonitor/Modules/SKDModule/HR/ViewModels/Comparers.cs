@@ -58,6 +58,22 @@ namespace SKDModule.ViewModels
 		}
 	}
 
+	public class PasswordViewModelNameComparer : TreeNodeComparer<PasswordViewModel>
+	{
+		protected override int Compare(PasswordViewModel x, PasswordViewModel y)
+		{
+			return string.Compare(x.Name, y.Name);
+		}
+	}
+
+	public class PasswordViewModelDescriptionComparer : TreeNodeComparer<PasswordViewModel>
+	{
+		protected override int Compare(PasswordViewModel x, PasswordViewModel y)
+		{
+			return string.Compare(x.Description, y.Description);
+		}
+	}
+
 	public class DocumentViewModelNameComparer : TreeNodeComparer<DocumentViewModel>
 	{
 		protected override int Compare(DocumentViewModel x, DocumentViewModel y)
