@@ -254,9 +254,20 @@
 			</Grid>
 		</TabItem>
         <TabItem Header="Охранные зоны">
-            <Grid>
+            <Grid DataContext="{Binding EmployeeGuardZones}">
                 <DataGrid Grid.Column="0" ItemsSource="{Binding GuardZones}" SelectedItem="{Binding SelectedGuardZone}">
                     <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Название" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                                        <TextBlock Text="{Binding GuardZone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Название" Binding="{Binding GuardZone.Name}" />
                     </DataGrid.Columns>
                 </DataGrid>

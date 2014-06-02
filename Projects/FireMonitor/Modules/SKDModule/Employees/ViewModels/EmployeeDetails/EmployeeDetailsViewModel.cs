@@ -17,6 +17,23 @@ namespace SKDModule.ViewModels
 		
 		public EmployeeDetailsViewModel(PersonType personType, Organisation orgnaisation, ShortEmployee employee = null)
 		{
+			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
+			RemoveDepartmentCommand = new RelayCommand(OnRemoveDepartment);
+			SelectEscortCommand = new RelayCommand(OnSelectEscort);
+			RemoveEscortCommand = new RelayCommand(OnRemoveEscort);
+			SelectPositionCommand = new RelayCommand(OnSelectPosition);
+			RemovePositionCommand = new RelayCommand(OnRemovePosition);
+			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
+			SelectGivenDateCommand = new RelayCommand(OnSelectGivenDate);
+			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
+			SelectGenderCommand = new RelayCommand(OnSelectGender);
+			SelectDocumentTypeCommand = new RelayCommand(OnSelectDocumentType);
+			SelectAppointedCommand = new RelayCommand(OnSelectAppointed);
+			SelectDismissedCommand = new RelayCommand(OnSelectDismissed);
+			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
+			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
+			RemoveScheduleCommand = new RelayCommand(OnRemoveSchedule);
+
 			Organisation = orgnaisation;
 			IsEmployee = personType == PersonType.Employee;
 			if (employee == null)
@@ -45,23 +62,8 @@ namespace SKDModule.ViewModels
 				else
 					Title = string.Format("Свойства посетителя: {0}", employee.FirstName);
 			}
+			EmployeeGuardZones = new EmployeeGuardZonesViewModel(Employee);
 			CopyProperties();
-			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
-			RemoveDepartmentCommand = new RelayCommand(OnRemoveDepartment);
-			SelectEscortCommand = new RelayCommand(OnSelectEscort);
-			RemoveEscortCommand = new RelayCommand(OnRemoveEscort);
-			SelectPositionCommand = new RelayCommand(OnSelectPosition);
-			RemovePositionCommand = new RelayCommand(OnRemovePosition);
-			SelectBirthDateCommand = new RelayCommand(OnSelectBirthDate);
-			SelectGivenDateCommand = new RelayCommand(OnSelectGivenDate);
-			SelectValidToCommand = new RelayCommand(OnSelectValidTo);
-			SelectGenderCommand = new RelayCommand(OnSelectGender);
-			SelectDocumentTypeCommand = new RelayCommand(OnSelectDocumentType);
-			SelectAppointedCommand = new RelayCommand(OnSelectAppointed);
-			SelectDismissedCommand = new RelayCommand(OnSelectDismissed);
-			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
-			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
-			RemoveScheduleCommand = new RelayCommand(OnRemoveSchedule);
 		}
 
 		void CopyProperties()
@@ -333,7 +335,7 @@ namespace SKDModule.ViewModels
 			get { return CredentialsStartDate.ToString("dd/MM/yyyy"); }
 		}
 
-		
+		public EmployeeGuardZonesViewModel EmployeeGuardZones { get; private set; }
 
 		#region Document
 		string _number;

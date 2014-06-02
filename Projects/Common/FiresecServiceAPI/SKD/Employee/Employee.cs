@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
@@ -14,6 +15,7 @@ namespace FiresecAPI.SKD
 			Cards = new List<SKDCard>();
 			ReplacementUIDs = new List<Guid>();
 			AdditionalColumns = new List<AdditionalColumn>();
+			GuardZoneAccesses = new List<XGuardZoneAccess>();
 		}
 
 		[DataMember]
@@ -102,6 +104,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public EmployeeDocumentType DocumentType { get; set; }
+
+		[DataMember]
+		public List<XGuardZoneAccess> GuardZoneAccesses { get; set; }
 
 		public bool IsReplaced
 		{

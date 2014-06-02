@@ -74,6 +74,7 @@
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
     <Compile Include="Employees\ViewModels\AccessZonesSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZoneViewModel.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
@@ -182,6 +183,8 @@
     <Compile Include="Organisations\ViewModels\OrganisationZonesViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationZoneViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationUsersViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationGuardZonesViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationGuardZoneViewModel.cs" />
     <Compile Include="PassCard\Designer\PassCardCanvas.cs" />
     <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
     <Compile Include="PassCard\ViewModels\PassCardViewModel.cs" />

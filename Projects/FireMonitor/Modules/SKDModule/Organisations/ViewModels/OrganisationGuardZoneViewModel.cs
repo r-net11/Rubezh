@@ -9,21 +9,21 @@ using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeGuardZoneViewModel : BaseViewModel
+	public class OrganisationGuardZoneViewModel : BaseViewModel
 	{
-		public Employee Employee { get; private set; }
+		public Organisation Organisation { get; private set; }
 		public XGuardZone GuardZone { get; private set; }
 
-		public EmployeeGuardZoneViewModel(Employee employee, XGuardZone guardZone)
+		public OrganisationGuardZoneViewModel(Organisation organisation, XGuardZone guardZone)
 		{
-			Employee = employee;
+			Organisation = organisation;
 			GuardZone = guardZone;
-			if (Employee != null)
+			if (Organisation != null)
 			{
-				if (Employee.GuardZoneAccesses == null)
-					Employee.GuardZoneAccesses = new List<XGuardZoneAccess>();
+				if (Organisation.GuardZoneUIDs == null)
+					Organisation.GuardZoneUIDs = new List<Guid>();
 			}
-			_isChecked = Employee != null && Employee.GuardZoneAccesses != null && Employee.GuardZoneAccesses.Any(x => x.ZoneUID == guardZone.UID);
+			_isChecked = Organisation != null && Organisation.GuardZoneUIDs != null && Organisation.GuardZoneUIDs.Contains(guardZone.UID);
 		}
 
 		internal bool _isChecked;
