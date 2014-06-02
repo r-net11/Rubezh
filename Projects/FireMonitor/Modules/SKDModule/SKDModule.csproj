@@ -178,6 +178,8 @@
     <Compile Include="Journal\Views\ArchiveView.xaml.cs">
       <DependentUpon>ArchiveView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Organisations\ViewModels\OrganisationZonesViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationZoneViewModel.cs" />
     <Compile Include="PassCard\Designer\PassCardCanvas.cs" />
     <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
     <Compile Include="PassCard\ViewModels\PassCardViewModel.cs" />
@@ -344,6 +346,15 @@
     </Compile>
     <Compile Include="Zones\Views\ZoneView.xaml.cs">
       <DependentUpon>ZoneView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Organisations\ViewModels\OrganisationDetailsViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationsViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="Organisations\Views\OrganisationDetailsView.xaml.cs">
+      <DependentUpon>OrganisationDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Organisations\Views\OrganisationsView.xaml.cs">
+      <DependentUpon>OrganisationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Departments\ViewModels\DepartmentsViewModel.cs" />
     <Compile Include="Departments\Views\DepartmentsView.xaml.cs">
@@ -607,6 +618,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Organisations\Views\OrganisationDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Organisations\Views\OrganisationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Positions\Views\PositionDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -660,6 +679,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Zones\Views\ZoneView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Organisations\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

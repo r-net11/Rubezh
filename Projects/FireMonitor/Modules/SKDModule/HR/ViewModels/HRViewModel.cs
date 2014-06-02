@@ -23,6 +23,7 @@ namespace SKDModule.ViewModels
 		public AdditionalColumnTypesViewModel AdditionalColumnTypesViewModel { get; private set; }
 		public CardsViewModel CardsViewModel { get; private set; }
 		public AccessTemplatesViewModel AccessTemplatesViewModel { get; private set; }
+		public OrganisationsViewModel OrganisationsViewModel { get; private set; }
 		public DocumentsViewModel DocumentsViewModel { get; private set; }
 
 		public HRViewModel()
@@ -35,6 +36,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypesViewModel = new AdditionalColumnTypesViewModel();
 			CardsViewModel = new CardsViewModel();
 			AccessTemplatesViewModel = new AccessTemplatesViewModel();
+			OrganisationsViewModel = new OrganisationsViewModel();
 			DocumentsViewModel = new DocumentsViewModel();
 			IsEmployeesSelected = true;
 
@@ -54,6 +56,7 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
 			CardsViewModel.Initialize(CardFilter);
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
+			OrganisationsViewModel.Initialize();
 			DocumentsViewModel.Initialize(DocumentFilter);
 		}
 
@@ -120,6 +123,17 @@ namespace SKDModule.ViewModels
 			{
 				_isAccessTemplatesSelected = value;
 				OnPropertyChanged(() => IsAccessTemplatesSelected);
+			}
+		}
+
+		bool _isOrganisationsSelected;
+		public bool IsOrganisationsSelected
+		{
+			get { return _isOrganisationsSelected; }
+			set
+			{
+				_isOrganisationsSelected = value;
+				OnPropertyChanged(() => IsOrganisationsSelected);
 			}
 		}
 

@@ -12,22 +12,17 @@ using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationsViewModel : MenuViewPartViewModel, IEditingViewModel
+	public class OrganisationsViewModel : BaseViewModel
 	{
 		public OrganisationsViewModel()
 		{
-			Menu = new OrganisationsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
-			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			RefreshCommand = new RelayCommand(OnRefresh);
-			RegisterShortcuts();
-			SetRibbonItems();
+			RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
+			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 		}
 
 		public void Initialize()
@@ -45,12 +40,6 @@ namespace SKDModule.ViewModels
 			SelectedOrganisation = Organisations.FirstOrDefault();
 
 			ValidateUsers();
-		}
-
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			Initialize();
 		}
 
 		ObservableCollection<OrganisationViewModel> _organisation;
@@ -91,7 +80,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool CanEditDelete()
+		bool CanEditRemove()
 		{
 			return SelectedOrganisation != null;
 		}
@@ -112,8 +101,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
+		public RelayCommand RemoveCommand { get; private set; }
+		void OnRemove()
 		{
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить огранизацию " + SelectedOrganisation.Organisation.Name);
 			if (dialogResult == MessageBoxResult.Yes)
@@ -152,43 +141,11 @@ namespace SKDModule.ViewModels
 				{
 					if (Organisations.Any(x => x.Organisation.UID == organisationUID))
 						organisationUIDs.Add(organisationUID);
-					else
-						ServiceFactory.SaveService.SecurityChanged = true;
+					//else
+					//    ServiceFactory.SaveService.SecurityChanged = true;
 				}
 				user.OrganisationUIDs = organisationUIDs;
 			}
-		}
-
-		public override void OnShow()
-		{
-			base.OnShow();
-			SelectedOrganisation = SelectedOrganisation;
-		}
-
-		public override void OnHide()
-		{
-			base.OnHide();
-		}
-
-		private void RegisterShortcuts()
-		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-		}
-
-
-		private void SetRibbonItems()
-		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
-			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
-				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
-				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
-			};
 		}
 	}
 }
