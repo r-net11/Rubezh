@@ -188,7 +188,6 @@
       <Association Name="Organisation_ScheduleScheme" Member="ScheduleSchemes" ThisKey="UID" OtherKey="OrganisationUID" Type="ScheduleScheme" />
       <Association Name="Organisation_Employee" Member="Employees" ThisKey="UID" OtherKey="OrganisationUID" Type="Employee" />
       <Association Name="Organisation_OrganisationUser" Member="OrganisationUsers" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationUser" />
-      <Association Name="Organisation_Password" Member="Passwords" ThisKey="UID" OtherKey="OrganisationUID" Type="Password" />
       <Association Name="Photo_Organisation" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
   </Table>
@@ -372,17 +371,6 @@
       <Column Name="UserUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_OrganisationUser" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Password" Member="Passwords">
-    <Type Name="Password">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="PasswordString" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="Organisation_Password" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

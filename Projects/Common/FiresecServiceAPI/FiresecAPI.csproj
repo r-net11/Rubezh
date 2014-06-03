@@ -168,8 +168,6 @@
     <Compile Include="IFiresecService.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
-    <Compile Include="SKD\Password\Password.cs" />
-    <Compile Include="SKD\Password\PasswordFilter.cs" />
     <Compile Include="SKD\Settings\GlobalSettings.cs" />
     <Compile Include="XModels\Automation\AutomationConfiguration.cs" />
     <Compile Include="Models\Automation\AutomationSound.cs" />

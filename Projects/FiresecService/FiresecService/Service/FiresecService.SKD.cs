@@ -192,21 +192,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		#region Password
-		public OperationResult<IEnumerable<Password>> GetPasswords(PasswordFilter filter)
-		{
-			return SKDDatabaseService.PasswordTranslator.Get(filter);
-		}
-		public OperationResult SavePassword(Password item)
-		{
-			return SKDDatabaseService.PasswordTranslator.Save(item);
-		}
-		public OperationResult MarkDeletedPassword(Guid uid)
-		{
-			return SKDDatabaseService.PasswordTranslator.MarkDeleted(uid);
-		}
-		#endregion
-
 		#region Devices
 		public OperationResult<SKDStates> SKDGetStates()
 		{
