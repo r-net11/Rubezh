@@ -16,13 +16,13 @@ namespace GKModule.ViewModels
 			AddZoneCommand = new RelayCommand(OnAddZone, CanAdd);
 			RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemove);
 
-			Zones = new ObservableCollection<ZoneViewModel>();
-			SourceZones = new ObservableCollection<ZoneViewModel>();
+			Zones = new ObservableCollection<GuardZoneViewModel>();
+			SourceZones = new ObservableCollection<GuardZoneViewModel>();
 
-			foreach (var zone in XManager.Zones)
+			foreach (var guardZone in XManager.DeviceConfiguration.GuardZones)
 			{
-				var zoneViewModel = new ZoneViewModel(zone);
-				if (GuardUser.ZoneUIDs.Contains(zone.BaseUID))
+				var zoneViewModel = new GuardZoneViewModel(guardZone);
+				if (GuardUser.ZoneUIDs.Contains(guardZone.BaseUID))
 					Zones.Add(zoneViewModel);
 				else
 					SourceZones.Add(zoneViewModel);
@@ -48,10 +48,10 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("GuardUser");
 		}
 
-		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+		public ObservableCollection<GuardZoneViewModel> Zones { get; private set; }
 
-		ZoneViewModel _selectedZone;
-		public ZoneViewModel SelectedZone
+		GuardZoneViewModel _selectedZone;
+		public GuardZoneViewModel SelectedZone
 		{
 			get { return _selectedZone; }
 			set
@@ -61,10 +61,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<ZoneViewModel> SourceZones { get; private set; }
+		public ObservableCollection<GuardZoneViewModel> SourceZones { get; private set; }
 
-		ZoneViewModel _selectedSourceZone;
-		public ZoneViewModel SelectedSourceZone
+		GuardZoneViewModel _selectedSourceZone;
+		public GuardZoneViewModel SelectedSourceZone
 		{
 			get { return _selectedSourceZone; }
 			set

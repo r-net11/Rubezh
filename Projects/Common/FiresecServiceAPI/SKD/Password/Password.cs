@@ -9,7 +9,7 @@ namespace FiresecAPI.SKD
 	{
 		public Password()
 		{
-			GuardZoneUIDs = new List<Guid>();
+			//GuardZoneUIDs = new List<Guid>();
 		}
 
 		[DataMember]

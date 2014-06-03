@@ -70,13 +70,6 @@
 					<ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
 				</StackPanel>
 			</Grid>
-            <Grid Visibility="{Binding IsPasswordsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                <StackPanel Orientation="Horizontal" DataContext="{Binding PasswordsViewModel}">
-                    <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-                    <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-                    <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
-                </StackPanel>
-            </Grid>
             <Grid Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal" DataContext="{Binding OrganisationsViewModel}">
                     <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
@@ -113,9 +106,6 @@
 			<TabItem Header="Уровни доступа" IsSelected="{Binding IsAccessTemplatesSelected}">
 				<Views:AccessTemplatesView DataContext="{Binding AccessTemplatesViewModel}" />
 			</TabItem>
-            <TabItem Header="Пароли" IsSelected="{Binding IsPasswordsSelected}">
-                <Views:PasswordsView DataContext="{Binding PasswordsViewModel}" />
-            </TabItem>
             <TabItem Header="Организации" IsSelected="{Binding IsOrganisationsSelected}">
                 <Views:OrganisationsView DataContext="{Binding OrganisationsViewModel}" />
             </TabItem>
