@@ -8,6 +8,7 @@ namespace FiresecAPI.SKD
 	{
 		public SKDConfiguration()
 		{
+			Doors = new List<Door>();
 			TimeIntervalsConfiguration = new TimeIntervalsConfiguration();
 			SKDSystemConfiguration = new SKDSystemConfiguration();
 		}
@@ -20,6 +21,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public SKDZone RootZone { get; set; }
+
+		[DataMember]
+		public List<Door> Doors { get; set; }
 
 		[DataMember]
 		public TimeIntervalsConfiguration TimeIntervalsConfiguration { get; set; }
@@ -109,6 +113,12 @@ namespace FiresecAPI.SKD
 			if (SKDSystemConfiguration == null)
 			{
 				SKDSystemConfiguration = new SKDSystemConfiguration();
+				result = false;
+			}
+
+			if (Doors == null)
+			{
+				Doors = new List<Door>();
 				result = false;
 			}
 

@@ -46,6 +46,7 @@ namespace FiresecAPI.Models
 			ElementSKDDevices = new List<ElementSKDDevice>();
 			ElementRectangleSKDZones = new List<ElementRectangleSKDZone>();
 			ElementPolygonSKDZones = new List<ElementPolygonSKDZone>();
+			ElementRectangleDoors = new List<ElementRectangleDoor>();
 
 			ElementExtensions = new List<ElementBase>();
 		}
@@ -111,6 +112,8 @@ namespace FiresecAPI.Models
 		public List<ElementRectangleSKDZone> ElementRectangleSKDZones { get; set; }
 		[DataMember]
 		public List<ElementPolygonSKDZone> ElementPolygonSKDZones { get; set; }
+		[DataMember]
+		public List<ElementRectangleDoor> ElementRectangleDoors { get; set; }
 
 		[DataMember]
 		public List<ElementBase> ElementExtensions { get; set; }

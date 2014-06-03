@@ -9,12 +9,14 @@ namespace SKDModule.Plans.Designer
 {
 	internal static class Helper
 	{
-		private static Dictionary<Guid, SKDZone> _zoneMap;
 		private static Dictionary<Guid, SKDDevice> _deviceMap;
+		private static Dictionary<Guid, SKDZone> _zoneMap;
+		private static Dictionary<Guid, Door> _doorMap;
 		public static void BuildMap()
 		{
 			BuildDeviceMap();
 			BuildZoneMap();
+			BuildDoorMap();
 		}
 		public static void BuildDeviceMap()
 		{
@@ -32,6 +34,15 @@ namespace SKDModule.Plans.Designer
 			{
 				if (!_zoneMap.ContainsKey(zone.UID))
 					_zoneMap.Add(zone.UID, zone);
+			}
+		}
+		public static void BuildDoorMap()
+		{
+			_doorMap = new Dictionary<Guid, Door>();
+			foreach (var door in SKDManager.SKDConfiguration.Doors)
+			{
+				if (!_doorMap.ContainsKey(door.UID))
+					_doorMap.Add(door.UID, door);
 			}
 		}
 
@@ -57,6 +68,10 @@ namespace SKDModule.Plans.Designer
 			SKDZone zone = GetSKDZone(element);
 			SetSKDZone(element, zone);
 		}
+		public static Door GetDoor(Guid doorUID)
+		{
+			return doorUID != Guid.Empty && _doorMap.ContainsKey(doorUID) ? _doorMap[doorUID] : null;
+		}
 		public static void SetSKDZone(IElementZone element, SKDZone zone)
 		{
 			ResetSKDZone(element);
@@ -77,6 +92,12 @@ namespace SKDModule.Plans.Designer
 			if (zone != null)
 				color = Colors.Green;
 			return color;
+		}
+		public static void ResetDoor(ElementRectangleDoor element)
+		{
+			Door door = GetDoor(element.DoorUID);
+			if (door != null)
+				door.PlanElementUIDs.Remove(element.UID);
 		}
 
 		public static SKDDevice GetSKDDevice(ElementSKDDevice element)
