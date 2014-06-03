@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
 using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Client.Layout;

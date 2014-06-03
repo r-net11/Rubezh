@@ -44,6 +44,7 @@ namespace SKDDriver.DataAccess
 	public partial class NamedInterval : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Phone : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Position : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
+	public partial class Password : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Schedule : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class ScheduleScheme : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class AccessTemplate : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }

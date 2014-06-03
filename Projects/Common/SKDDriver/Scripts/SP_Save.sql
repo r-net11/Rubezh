@@ -669,6 +669,32 @@ BEGIN
 END
 
 GO
+CREATE PROCEDURE [dbo].[SavePassword]
+	@Uid [uniqueidentifier] ,
+	@OrganisationUid uniqueidentifier = NULL,
+	@Name [nvarchar](50) ,
+	@PasswordString [nvarchar](max) ,
+	@IsDeleted [bit] ,
+	@RemovalDate [datetime] 
+AS
+BEGIN
+	INSERT INTO [dbo].[Password] (
+		[Uid],
+		[IsDeleted] ,
+		[RemovalDate],
+		[Name],
+		[PasswordString],
+		OrganisationUid )
+	VALUES (
+		@Uid,
+		@IsDeleted,
+		@RemovalDate,
+		@Name,
+		@PasswordString,
+		@OrganisationUid)
+END
+
+GO
 CREATE PROCEDURE [dbo].[SaveOrganisation]
 	@Uid [uniqueidentifier] ,
 	@Name [nvarchar](50) = NULL,

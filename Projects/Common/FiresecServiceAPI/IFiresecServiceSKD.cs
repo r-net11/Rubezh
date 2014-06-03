@@ -114,6 +114,15 @@ namespace FiresecAPI
 		OperationResult MarkDeletedEmployeeReplacement(Guid uid);
 		#endregion
 
+		#region Password
+		[OperationContract]
+		OperationResult<IEnumerable<Password>> GetPasswords(PasswordFilter filter);
+		[OperationContract]
+		OperationResult SavePassword(Password item);
+		[OperationContract]
+		OperationResult MarkDeletedPassword(Guid uid);
+		#endregion
+
 		#region DeviceCommands
 		[OperationContract]
 		OperationResult<SKDStates> SKDGetStates();

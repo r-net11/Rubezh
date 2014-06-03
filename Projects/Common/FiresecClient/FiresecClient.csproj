@@ -129,6 +129,7 @@
     <Compile Include="FiresecManager\SKDHelpers\AdditionalColumnTypeHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\CardHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\Common.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\PasswordHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\ScheduleZoneHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\ScheduleHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\DayIntervalHelper.cs" />

@@ -189,6 +189,21 @@ namespace FiresecService.Service
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployeeReplacement(uid));
 		}
 		#endregion
+
+		#region Password
+		public OperationResult<IEnumerable<Password>> GetPasswords(PasswordFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<Password>>>(() => FiresecService.GetPasswords(filter));
+		}
+		public OperationResult SavePassword(Password item)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SavePassword(item));
+		}
+		public OperationResult MarkDeletedPassword(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedPassword(uid));
+		}
+		#endregion
 		
 		public OperationResult<SKDStates> SKDGetStates()
 		{

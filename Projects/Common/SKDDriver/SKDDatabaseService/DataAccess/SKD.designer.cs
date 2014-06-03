@@ -102,6 +102,9 @@ namespace SKDDriver.DataAccess
     partial void InsertOrganisationUser(OrganisationUser instance);
     partial void UpdateOrganisationUser(OrganisationUser instance);
     partial void DeleteOrganisationUser(OrganisationUser instance);
+    partial void InsertPassword(Password instance);
+    partial void UpdatePassword(Password instance);
+    partial void DeletePassword(Password instance);
     #endregion
 		
 		public SKDDataContext() : 
@@ -323,6 +326,14 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<OrganisationUser>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Password> Passwords
+		{
+			get
+			{
+				return this.GetTable<Password>();
 			}
 		}
 	}
@@ -4137,6 +4148,8 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<OrganisationUser> _OrganisationUsers;
 		
+		private EntitySet<Password> _Passwords;
+		
 		private EntityRef<Photo> _Photo;
 		
     #region Определения метода расширяемости
@@ -4173,6 +4186,7 @@ namespace SKDDriver.DataAccess
 			this._ScheduleSchemes = new EntitySet<ScheduleScheme>(new Action<ScheduleScheme>(this.attach_ScheduleSchemes), new Action<ScheduleScheme>(this.detach_ScheduleSchemes));
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
 			this._OrganisationUsers = new EntitySet<OrganisationUser>(new Action<OrganisationUser>(this.attach_OrganisationUsers), new Action<OrganisationUser>(this.detach_OrganisationUsers));
+			this._Passwords = new EntitySet<Password>(new Action<Password>(this.attach_Passwords), new Action<Password>(this.detach_Passwords));
 			this._Photo = default(EntityRef<Photo>);
 			OnCreated();
 		}
@@ -4483,6 +4497,19 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Password", Storage="_Passwords", ThisKey="UID", OtherKey="OrganisationUID")]
+		public EntitySet<Password> Passwords
+		{
+			get
+			{
+				return this._Passwords;
+			}
+			set
+			{
+				this._Passwords.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Photo_Organisation", Storage="_Photo", ThisKey="PhotoUID", OtherKey="UID", IsForeignKey=true)]
 		public Photo Photo
 		{
@@ -4700,6 +4727,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_OrganisationUsers(OrganisationUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organisation = null;
+		}
+		
+		private void attach_Passwords(Password entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organisation = this;
+		}
+		
+		private void detach_Passwords(Password entity)
 		{
 			this.SendPropertyChanging();
 			entity.Organisation = null;
@@ -8759,6 +8798,229 @@ namespace SKDDriver.DataAccess
 					else
 					{
 						this._OrganisationUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("Organisation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Password")]
+	public partial class Password : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private string _Name;
+		
+		private string _PasswordString;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private System.Nullable<System.Guid> _OrganisationUID;
+		
+		private EntityRef<Organisation> _Organisation;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnPasswordStringChanging(string value);
+    partial void OnPasswordStringChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
+		
+		public Password()
+		{
+			this._Organisation = default(EntityRef<Organisation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PasswordString", DbType="NVarChar(MAX)")]
+		public string PasswordString
+		{
+			get
+			{
+				return this._PasswordString;
+			}
+			set
+			{
+				if ((this._PasswordString != value))
+				{
+					this.OnPasswordStringChanging(value);
+					this.SendPropertyChanging();
+					this._PasswordString = value;
+					this.SendPropertyChanged("PasswordString");
+					this.OnPasswordStringChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
+		{
+			get
+			{
+				return this._OrganisationUID;
+			}
+			set
+			{
+				if ((this._OrganisationUID != value))
+				{
+					if (this._Organisation.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrganisationUIDChanging(value);
+					this.SendPropertyChanging();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_Password", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
+		{
+			get
+			{
+				return this._Organisation.Entity;
+			}
+			set
+			{
+				Organisation previousValue = this._Organisation.Entity;
+				if (((previousValue != value) 
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Organisation.Entity = null;
+						previousValue.Passwords.Remove(this);
+					}
+					this._Organisation.Entity = value;
+					if ((value != null))
+					{
+						value.Passwords.Add(this);
+						this._OrganisationUID = value.UID;
+					}
+					else
+					{
+						this._OrganisationUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Organisation");
 				}

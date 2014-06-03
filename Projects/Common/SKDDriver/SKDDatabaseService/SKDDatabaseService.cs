@@ -17,6 +17,7 @@ namespace SKDDriver
 			PhotoTranslator = new PhotoTranslator(Context);
 			OrganisationTranslator = new OrganisationTranslator(Context, PhotoTranslator);
 			PositionTranslator = new PositionTranslator(Context, PhotoTranslator);
+			PasswordTranslator = new PasswordTranslator(Context);
 			DepartmentTranslator = new DepartmentTranslator(Context, PhotoTranslator);
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context, PhotoTranslator, AdditionalColumnTypeTranslator);
@@ -33,6 +34,7 @@ namespace SKDDriver
 
 		public static DocumentTranslator DocumentTranslator { get; private set; }
 		public static PositionTranslator PositionTranslator { get; private set; }
+		public static PasswordTranslator PasswordTranslator { get; private set; }
 		public static CardTranslator CardTranslator { get; private set; }
 		public static CardZoneTranslator CardZoneTranslator { get; private set; }
 		public static AccessTemplateTranslator AccessTemplateTranslator { get; private set; }
@@ -51,5 +53,6 @@ namespace SKDDriver
 		public static DayIntervalTranslator DayIntervalTranslator { get; private set; }
 		public static ScheduleZoneTranslator ScheduleZoneTranslator { get; private set; }
 		public static ScheduleTranslator ScheduleTranslator { get; private set; }
+		
 	}
 }
