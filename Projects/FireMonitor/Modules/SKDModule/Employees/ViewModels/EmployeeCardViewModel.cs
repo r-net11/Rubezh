@@ -33,7 +33,7 @@ namespace SKDModule.ViewModels
 
 		public string Name
 		{
-			get { return "Карат " + Card.PresentationName; }
+			get { return "Пропуск " + Card.PresentationName; }
 		}
 
 		List<CardZone> GetCardZones(SKDCard card)

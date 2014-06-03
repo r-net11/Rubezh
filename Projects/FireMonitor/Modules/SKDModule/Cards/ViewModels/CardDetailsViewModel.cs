@@ -11,7 +11,7 @@ namespace SKDModule.ViewModels
 
 		public CardDetailsViewModel()
 		{
-			Title = "Создание карт";
+			Title = "Создание пропуска";
 			Cards = new List<SKDCard>();
 		}
 

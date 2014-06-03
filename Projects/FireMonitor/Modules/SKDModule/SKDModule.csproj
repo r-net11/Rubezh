@@ -64,6 +64,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZonesViewModel.cs" />
+    <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZoneViewModel.cs" />
     <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Common\Views\DateSelectionView.xaml.cs">
       <DependentUpon>DateSelectionView.xaml</DependentUpon>

@@ -55,8 +55,8 @@
 							</Hyperlink>
 						</TextBlock>
 						<Controls:ToolBarButton Margin="2" ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" 
-												Visibility="{Binding HasSelectedPosition, Converter={StaticResource BoolToVisibilityConverter}}"
-												Command="{Binding RemovePositionCommand}" />
+						    Visibility="{Binding HasSelectedPosition, Converter={StaticResource BoolToVisibilityConverter}}"
+							Command="{Binding RemovePositionCommand}" />
 					</StackPanel>
 					
 					<Label Grid.Row="4" Grid.Column="0" Content="Отдел" HorizontalAlignment="Right" VerticalAlignment="Center" />
@@ -78,8 +78,8 @@
 							</Hyperlink>
 						</TextBlock>
 						<Controls:ToolBarButton Margin="2" ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" 
-												Visibility="{Binding HasSelectedDepartment, Converter={StaticResource BoolToVisibilityConverter}}"
-												Command="{Binding RemoveDepartmentCommand}" />
+							Visibility="{Binding HasSelectedDepartment, Converter={StaticResource BoolToVisibilityConverter}}"
+							Command="{Binding RemoveDepartmentCommand}" />
 					</StackPanel>
 					
 					<Label Grid.Row="5" Grid.Column="0" Content="Сопровождающий" HorizontalAlignment="Right" VerticalAlignment="Center" 
@@ -103,8 +103,8 @@
 							</Hyperlink>
 						</TextBlock>
 						<Controls:ToolBarButton Margin="2" ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" 
-												Visibility="{Binding HasSelectedEscort, Converter={StaticResource BoolToVisibilityConverter}}"
-												Command="{Binding RemoveEscortCommand}" />
+							Visibility="{Binding HasSelectedEscort, Converter={StaticResource BoolToVisibilityConverter}}"
+							Command="{Binding RemoveEscortCommand}" />
 					</StackPanel>
 
 					<Label Grid.Row="6" Grid.Column="0" Content="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" 
@@ -128,8 +128,8 @@
 							</Hyperlink>
 						</TextBlock>
 						<Controls:ToolBarButton Margin="2" ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" 
-												Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}"
-												Command="{Binding RemoveScheduleCommand}" />
+							Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}"
+							Command="{Binding RemoveScheduleCommand}" />
 					</StackPanel>
 
 					<Label Grid.Row="7" Grid.Column="0" Content="Назначен" HorizontalAlignment="Right"
@@ -255,7 +255,11 @@
 		</TabItem>
         <TabItem Header="Охранные зоны">
             <Grid DataContext="{Binding EmployeeGuardZones}">
-                <DataGrid Grid.Column="0" ItemsSource="{Binding GuardZones}" SelectedItem="{Binding SelectedGuardZone}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0" ItemsSource="{Binding GuardZones}" SelectedItem="{Binding SelectedGuardZone}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Название" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
@@ -268,9 +272,13 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Название" Binding="{Binding GuardZone.Name}" />
+                        <DataGridTextColumn Header="Описание" Binding="{Binding GuardZone.Description}" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
+                <StackPanel Grid.Row="1" DataContext="{Binding SelectedGuardZone}">
+                    <CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Margin="2" Foreground="White" />
+                    <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Margin="2" Foreground="White" />
+                </StackPanel>
             </Grid>
         </TabItem>
     </TabControl>

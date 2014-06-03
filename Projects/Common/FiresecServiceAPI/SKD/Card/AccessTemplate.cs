@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
@@ -10,6 +11,7 @@ namespace FiresecAPI.SKD
 			: base()
 		{
 			CardZones = new List<CardZone>();
+			GuardZoneAccesses = new List<XGuardZoneAccess>();
 		}
 
 		[DataMember]
@@ -20,5 +22,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<CardZone> CardZones { get; set; }
+
+		[DataMember]
+		public List<XGuardZoneAccess> GuardZoneAccesses { get; set; }
 	}
 }

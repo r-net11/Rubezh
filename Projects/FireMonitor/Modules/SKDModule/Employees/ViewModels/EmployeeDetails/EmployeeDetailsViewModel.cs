@@ -8,6 +8,7 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {
@@ -759,6 +760,21 @@ namespace SKDModule.ViewModels
 			else
 			{
 				Employee.EscortUID = SelectedEscort != null ? SelectedEscort.Employee.UID : Employee.EscortUID = null;
+			}
+
+			var guardZoneAccesses = new List<XGuardZoneAccess>();
+
+			foreach (var guardZone in EmployeeGuardZones.GuardZones)
+			{
+				if (guardZone.IsChecked)
+				{
+					var guardZoneAccess = new XGuardZoneAccess()
+					{
+						ZoneUID = guardZone.GuardZone.BaseUID,
+						CanSet = guardZone.CanSetZone,
+						CanReset = guardZone.CanUnSetZone
+					};
+				}
 			}
 
 			return EmployeeHelper.Save(Employee);

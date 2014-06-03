@@ -20,7 +20,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Тип карты" />
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Тип пропуска" />
 				<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding CardTypes}" SelectedItem="{Binding SelectedCardType}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>

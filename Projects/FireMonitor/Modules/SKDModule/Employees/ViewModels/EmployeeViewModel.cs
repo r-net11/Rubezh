@@ -90,7 +90,7 @@ namespace SKDModule.ViewModels
 		{
 			if (Cards.Count > 10)
 			{
-				MessageBoxService.ShowWarning("У сотрудника не может быть больше 10 карт");
+				MessageBoxService.ShowWarning("У сотрудника не может быть более 10 пропусков");
 				return;
 			}
 			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation);

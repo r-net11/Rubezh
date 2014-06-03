@@ -9,21 +9,21 @@ using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeGuardZoneViewModel : BaseViewModel
+	public class AccessTemplateGuardZoneViewModel : BaseViewModel
 	{
-		public Employee Employee { get; private set; }
+		public AccessTemplate AccessTemplate { get; private set; }
 		public XGuardZone GuardZone { get; private set; }
 
-		public EmployeeGuardZoneViewModel(Employee employee, XGuardZone guardZone)
+		public AccessTemplateGuardZoneViewModel(AccessTemplate accessTemplate, XGuardZone guardZone)
 		{
-			Employee = employee;
+			AccessTemplate = accessTemplate;
 			GuardZone = guardZone;
-			if (Employee != null)
+			if (AccessTemplate != null)
 			{
-				if (Employee.GuardZoneAccesses == null)
-					Employee.GuardZoneAccesses = new List<XGuardZoneAccess>();
+				if (AccessTemplate.GuardZoneAccesses == null)
+					AccessTemplate.GuardZoneAccesses = new List<XGuardZoneAccess>();
 			}
-			IsChecked = Employee != null && Employee.GuardZoneAccesses != null && Employee.GuardZoneAccesses.Any(x => x.ZoneUID == guardZone.UID);
+			IsChecked = AccessTemplate != null && AccessTemplate.GuardZoneAccesses != null && AccessTemplate.GuardZoneAccesses.Any(x => x.ZoneUID == guardZone.UID);
 		}
 
 		internal bool _isChecked;

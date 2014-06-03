@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 			if (card == null)
 			{
 				IsNewCard = true;
-				Title = "Создание карты";
+				Title = "Создание пропуска";
 				card = new SKDCard()
 				{
 					Series = 0,
@@ -39,7 +39,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = string.Format("Свойства карты: {0}", card.PresentationName);
+				Title = string.Format("Свойства пропуска: {0}", card.PresentationName);
 			}
 			Card = card;
 			Series = Card.Series;
@@ -276,14 +276,14 @@ namespace SKDModule.ViewModels
 		{
 			if (EndDate < StartDate)
 			{
-				MessageBoxService.ShowWarning("Дата конца действия карты не может быть раньше даты начала действия");
+				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
 				return false;
 			}
 
 			if (UseStopList && SelectedStopListCard != null)
 			{
 				if (!IsNewCard)
-					CardHelper.ToStopList(Card, "Заменена на карту " + Series + @"\" + Number);
+					CardHelper.ToStopList(Card, "Заменен на пропуск " + Series + @"\" + Number);
 				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
 				Card.StopReason = null;
