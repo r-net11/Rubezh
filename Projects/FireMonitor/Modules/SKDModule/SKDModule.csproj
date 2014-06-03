@@ -74,6 +74,7 @@
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
+    <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
     <Compile Include="Employees\ViewModels\AccessZonesSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZonesViewModel.cs" />

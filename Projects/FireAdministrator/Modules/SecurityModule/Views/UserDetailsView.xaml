@@ -24,8 +24,8 @@
 					<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Login}" IsEnabled="{Binding CanChangeLogin}" VerticalAlignment="Center" MaxLength="100" Margin="5" />
 
 					<CheckBox Grid.Column="1" Grid.Row="2" Content="Сменить пароль" Foreground="White"
-							  Visibility="{Binding IsNotNew, Converter={StaticResource BoolToVisibilityConverter}}"
-							  IsChecked="{Binding IsChangePassword}" />
+						Visibility="{Binding IsNotNew, Converter={StaticResource BoolToVisibilityConverter}}"
+						IsChecked="{Binding IsChangePassword}" />
 				</Grid>
 				<Grid Visibility="{Binding IsChangePassword, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Grid.ColumnDefinitions>
@@ -70,26 +70,13 @@
 				</ListBox>
 			</Grid>
 		</TabItem>
-		<TabItem Header="Удаленный доступ">
-			<Views:RemoteAccessView DataContext="{Binding RemoteAccess}" />
-		</TabItem>
-		<TabItem Header="СКД" Visibility="{Binding IsSKDEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*"/>
-					<RowDefinition Height="Auto"/>
-				</Grid.RowDefinitions>
-				<StackPanel Grid.Row="1">
-					<StackPanel Orientation="Horizontal" Margin="2 0">
-						<CheckBox IsChecked="{Binding IsEmployeesAllowed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2 0" />
-						<TextBlock Text="Отображать сотрудников" VerticalAlignment="Center" Margin="2" FontSize="14" Foreground="White" />
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Margin="2 0">
-						<CheckBox IsChecked="{Binding IsGuestsAllowed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2 0" />
-						<TextBlock Text="Отображать посетителей" VerticalAlignment="Center" Margin="2" FontSize="14" Foreground="White" />
-					</StackPanel>
-				</StackPanel>
-			</Grid>
+		<TabItem Header="Соединение">
+            <StackPanel>
+                <CheckBox IsChecked="{Binding AllowAdministratorAutoConnect}"  Content="Разрешить автозапуск Администратора" Foreground="White" Margin="2" />
+                <CheckBox IsChecked="{Binding AllowMonitorAutoConnect}"  Content="Разрешить автозапуск ОЗ" Foreground="White" Margin="2" />
+                <TextBlock Text="Удаленный доступ" FontWeight="Bold"  Foreground="White" Margin="2 5 2 2" />
+                <Views:RemoteAccessView DataContext="{Binding RemoteAccess}" Margin="2" />
+            </StackPanel>
 		</TabItem>
 	</TabControl>
 </UserControl>

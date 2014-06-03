@@ -24,7 +24,9 @@ namespace SKDModule.ViewModels
 		public ZoneDetailsViewModel(SKDZone zone)
 		{
 			ShowCommand = new RelayCommand(OnShow);
-			ZoneCommand = new RelayCommand(OnZone, CanZone);
+			OpenAllCommand = new RelayCommand(OnOpenAll, CanOpenAll);
+			CloseAllCommand = new RelayCommand(OnCloseAll, CanCloseAll);
+			DetectEmployeesCommand = new RelayCommand(OnDetectEmployees, CanDetectEmployees);
 
 			Zone = zone;
 			State.StateChanged += new Action(OnStateChanged);
@@ -74,19 +76,40 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand ZoneCommand { get; private set; }
-		void OnZone()
+		public RelayCommand OpenAllCommand { get; private set; }
+		void OnOpenAll()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				//FiresecManager.FiresecService.SKDReset(Zone);
 			}
 		}
-		bool CanZone()
+		bool CanOpenAll()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
+		public RelayCommand CloseAllCommand { get; private set; }
+		void OnCloseAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				//FiresecManager.FiresecService.SKDReset(Zone);
+			}
+		}
+		bool CanCloseAll()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+		}
+
+		public RelayCommand DetectEmployeesCommand { get; private set; }
+		void OnDetectEmployees()
+		{
+		}
+		bool CanDetectEmployees()
+		{
+			return true;
+		}
 
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()

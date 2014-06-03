@@ -85,10 +85,6 @@ namespace VideoModule
 			base.RegisterResource();
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 		}
-		public override void Dispose()
-		{
-			VideoService.Close();
-		}
 
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()

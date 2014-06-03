@@ -153,20 +153,24 @@ namespace GKModule
 			_journalNavigationItem = new NavigationItem<ShowXJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
 			UnreadJournalCount = 0;
 
-			return new List<NavigationItem>()
+			return new List<NavigationItem>
 				{
-					new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
-					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					_zonesNavigationItem,
-					_guardZonesNavigationItem,
-					_directionsNavigationItem,
-					_delaysNavigationItem,
-					_pimsNavigationItem,
-					_pumpStationsNavigationItem,
-					_mptsNavigationItem,
-					_journalNavigationItem,
-					new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
-				};
+				new NavigationItem("ГК", "/Controls;component/Images/tree.png",
+					new List<NavigationItem>()
+					{
+						new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
+						new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						_zonesNavigationItem,
+						_guardZonesNavigationItem,
+						_directionsNavigationItem,
+						_delaysNavigationItem,
+						_pimsNavigationItem,
+						_pumpStationsNavigationItem,
+						_mptsNavigationItem,
+						_journalNavigationItem,
+						new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
+					})
+			};
 		}
 
 		public override string Name

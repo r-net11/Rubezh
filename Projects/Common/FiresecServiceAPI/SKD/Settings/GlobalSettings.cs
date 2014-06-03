@@ -18,7 +18,6 @@ namespace FiresecAPI
 
 			IsGKAsAService = false;
 			UseHasp = false;
-			UseSKD = false;
 
 			FS_RemoteAddress = "localhost";
 			FS_Port = 211;
@@ -57,9 +56,6 @@ namespace FiresecAPI
 
 		[DataMember]
 		public bool UseHasp { get; set; }
-
-		[DataMember]
-		public bool UseSKD { get; set; }
 
 		[DataMember]
 		public bool DoNotAutoconnectAdm { get; set; }

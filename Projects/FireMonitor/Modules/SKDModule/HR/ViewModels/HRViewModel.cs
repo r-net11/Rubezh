@@ -3,6 +3,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Models;
 
 namespace SKDModule.ViewModels
 {
@@ -147,6 +148,15 @@ namespace SKDModule.ViewModels
 				_isDocumentsSelected = value;
 				OnPropertyChanged(() => IsDocumentsSelected);
 			}
+		}
+
+		public bool CanSelectHR
+		{
+			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_HR); }
+		}
+		public bool CanSelectOrganisations
+		{
+			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Organisations); }
 		}
 
 		public RelayCommand EditFilterCommand { get; private set; }

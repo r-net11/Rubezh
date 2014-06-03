@@ -74,17 +74,14 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Разрешить удаленные соединения на сервере" HorizontalAlignment="Right" Margin="2" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Использовать сервер ГК" HorizontalAlignment="Right" Margin="2" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Использовать HASP" HorizontalAlignment="Right" Margin="2" />
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Использовать СКД" HorizontalAlignment="Right" Margin="2" />
 
                 <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding Server_EnableRemoteConnections}" HorizontalAlignment="Left" Margin="2" />
                 <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsGKAsAService}" HorizontalAlignment="Left" Margin="2" />
                 <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding UseHasp}" HorizontalAlignment="Left" Margin="2" />
-                <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding UseSKD}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
         <TabItem Header="Автозапуск">
@@ -97,11 +94,15 @@
             </StackPanel>
         </TabItem>
         <TabItem Header="Логи">
-            <StackPanel Margin="2">
-                <TextBox Text="{Binding LogsFolderPath, Mode=OneWay}" Margin="2" />
-                <Button Content="Собрать логи" Command="{Binding SaveLogsCommand}" Height="25" FontSize="13" Margin="2" />
-                <Button Content="Удалить логи" Command="{Binding RemoveLogsCommand}" Height="25" FontSize="13" Margin="2" />
-            </StackPanel>
+            <Border CornerRadius="5" Background="White" Margin="2">
+                <StackPanel Margin="2">
+                    <TextBox Text="{Binding LogsFolderPath, Mode=OneWay}" Background="LightGray" Margin="2" />
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Собрать логи" Command="{Binding SaveLogsCommand}" Width="100" FontSize="13" Margin="2" />
+                        <Button Content="Удалить логи" Command="{Binding RemoveLogsCommand}" Width="100" FontSize="13" Margin="2" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
         </TabItem>
         <TabItem Header="Соединение" DataContext="{Binding GlobalSettings}">
             <Grid Margin="2">
@@ -135,30 +136,21 @@
                 <CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding RunRevisor}" HorizontalAlignment="Left" Margin="2" />
             </Grid>
         </TabItem>
-        <TabItem Header="Отладка" DataContext="{Binding GlobalSettings}" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid Margin="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Использовать СКД" HorizontalAlignment="Right" Margin="2" />
-
-                <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding UseSKD}" HorizontalAlignment="Left" Margin="2" />
-            </Grid>
-        </TabItem>
         <TabItem Header="Модули" DataContext="{Binding ModulesViewModel}">
-            <ItemsControl ItemsSource="{Binding Modules}" Margin="2">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox IsChecked="{Binding IsSelected}" Content="{Binding Name}" Foreground="White" Margin="5 2" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <DataGrid ItemsSource="{Binding Modules}" IsReadOnly="False" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Наименование" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" IsEnabled="{Binding CanChange}">
+                                    <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5 2" />
+                                    <TextBlock Text="{Binding Description}" Margin="2 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </TabItem>
         <TabItem Header="FS1" DataContext="{Binding GlobalSettings}">
             <Grid Margin="2">
@@ -187,13 +179,26 @@
             </Grid>
         </TabItem>
         <TabItem Header="Сброс">
-            <StackPanel Margin="2">
-                <Button Content="Сбросить базу данных" Command="{Binding ResetDatabaseCommand}" Width="300" Margin="2" />
-                <Button Content="Сбросить конфигурацию" Command="{Binding ResetConfigurationCommand}" Width="300" Margin="2" />
-                <Button Content="Сбросить библиотеку устройств" Command="{Binding ResetXLibaryCommand}" Width="300" Margin="2" />
-                <Button Content="Сбросить библиотеку СКД" Command="{Binding ResetSKDLibaryCommand}" Width="300" Margin="2" />
-                <Button Content="Сбросить настройки" Command="{Binding ResetSettingsCommand}" Width="300" Margin="2" />
-            </StackPanel>
+            <Border CornerRadius="5" Background="White" Margin="2">
+                <StackPanel Margin="2">
+                    <Button Content="Сбросить базу данных" Command="{Binding ResetDatabaseCommand}" Width="300" Margin="2" />
+                    <Button Content="Сбросить конфигурацию" Command="{Binding ResetConfigurationCommand}" Width="300" Margin="2" />
+                    <Button Content="Сбросить библиотеку устройств" Command="{Binding ResetXLibaryCommand}" Width="300" Margin="2" />
+                    <Button Content="Сбросить библиотеку СКД" Command="{Binding ResetSKDLibaryCommand}" Width="300" Margin="2" />
+                    <Button Content="Сбросить настройки" Command="{Binding ResetSettingsCommand}" Width="300" Margin="2" />
+                </StackPanel>
+            </Border>
+        </TabItem>
+        <TabItem Header="Отладка" DataContext="{Binding GlobalSettings}" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+            </Grid>
         </TabItem>
     </TabControl>
 </UserControl>

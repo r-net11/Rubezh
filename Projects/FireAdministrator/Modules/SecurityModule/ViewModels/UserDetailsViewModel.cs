@@ -45,36 +45,6 @@ namespace SecurityModule.ViewModels
 			}
 
 			CopyProperties();
-
-			IsEmployeesAllowed = User.IsEmployeesAllowed;
-			IsGuestsAllowed = User.IsGuestsAllowed;
-			Organisations = new ObservableCollection<OrganisationViewModel>();
-			if (IsSKDEnabled)
-			{
-				bool isSQLFound = false;
-				RegistryView registryView = Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32;
-				using (RegistryKey hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView))
-				{
-					RegistryKey instanceKey = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL", false);
-					isSQLFound = instanceKey != null && instanceKey.GetValueNames().Length > 0;
-				}
-
-				if (isSQLFound)
-				{
-					try
-					{
-						var organisations = OrganisationHelper.Get(new OrganisationFilter());
-						foreach (var organisation in organisations)
-						{
-							var organisationViewModel = new OrganisationViewModel(organisation);
-							Organisations.Add(organisationViewModel);
-						}
-					}
-					catch { }
-				}
-				else
-					MessageBoxService.Show("Не обнаружен Microsoft SQL Server");
-			}
 		}
 
 		void CopyProperties()
@@ -98,6 +68,9 @@ namespace SecurityModule.ViewModels
 			RemoteAccess = (IsNew || User.RemoreAccess == null) ?
 				new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
 				new RemoteAccessViewModel(User.RemoreAccess);
+
+			AllowAdministratorAutoConnect = User.AllowAdministratorAutoConnect;
+			AllowMonitorAutoConnect = User.AllowMonitorAutoConnect;
 		}
 
 		string _login;
@@ -152,28 +125,6 @@ namespace SecurityModule.ViewModels
 			{
 				_isChangePassword = value;
 				OnPropertyChanged("IsChangePassword");
-			}
-		}
-
-		bool _isEmployeesAllowed;
-		public bool IsEmployeesAllowed
-		{
-			get { return _isEmployeesAllowed; }
-			set
-			{
-				_isEmployeesAllowed = value;
-				OnPropertyChanged(()=>IsEmployeesAllowed);
-			}
-		}
-
-		bool _isGuestsAllowed;
-		public bool IsGuestsAllowed
-		{
-			get { return _isGuestsAllowed; }
-			set
-			{
-				_isGuestsAllowed = value;
-				OnPropertyChanged(() => IsGuestsAllowed);
 			}
 		}
 
@@ -236,6 +187,28 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
+		bool _allowAdministratorAutoConnect;
+		public bool AllowAdministratorAutoConnect
+		{
+			get { return _allowAdministratorAutoConnect; }
+			set
+			{
+				_allowAdministratorAutoConnect = value;
+				OnPropertyChanged("AllowAdministratorAutoConnect");
+			}
+		}
+
+		bool _allowMonitorAutoConnect;
+		public bool AllowMonitorAutoConnect
+		{
+			get { return _allowMonitorAutoConnect; }
+			set
+			{
+				_allowMonitorAutoConnect = value;
+				OnPropertyChanged("AllowMonitorAutoConnect");
+			}
+		}
+
 		bool CheckLogin()
 		{
 			if (string.IsNullOrWhiteSpace(Login))
@@ -289,14 +262,6 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		public bool IsSKDEnabled
-		{
-			get { return GlobalSettingsHelper.GlobalSettings.UseSKD; }
-		}
-
-		public ObservableCollection<OrganisationViewModel> Organisations { get; private set; }
-		public ObservableCollection<PersonTypeViewModel> PersonTypes { get; private set; }
-
 		void SaveProperties()
 		{
 			User.Login = Login;
@@ -316,8 +281,9 @@ namespace SecurityModule.ViewModels
 				}
 			}
 			User.RemoreAccess = RemoteAccess.GetModel();
-			User.IsEmployeesAllowed = IsEmployeesAllowed;
-			User.IsGuestsAllowed = IsGuestsAllowed;
+
+			User.AllowAdministratorAutoConnect = AllowAdministratorAutoConnect;
+			User.AllowMonitorAutoConnect = AllowMonitorAutoConnect;
 		}
 
 		protected override bool Save()
