@@ -1,10 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.AdditionalColumnTypesView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Converters="clr-namespace:SKDModule.Converters"
-			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+﻿<UserControl x:Class="SKDModule.Views.AdditionalColumnTypesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:SKDModule.Converters" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 	<UserControl.Resources>
 		<viewModel:AdditionalColumnTypeViewModelNameComparer x:Key="AdditionalColumnTypeViewModelNameComparer" />
 		<viewModel:AdditionalColumnTypeViewModelDescriptionComparer x:Key="AdditionalColumnTypeViewModelDescriptionComparer" />
@@ -14,12 +8,12 @@
 	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedAdditionalColumnType}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
+				<GridViewColumn Width="200" Header="Название" tree:SortBehavior.SortComparer="{StaticResource AdditionalColumnTypeViewModelNameComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
-								<Image Width="16" Source="/Controls;component/Images/AdditionalColumn.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<Image Width="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/AdditionalColumn.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 								<TextBlock Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Threading;
 using Entities.DeviceOriented;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -120,9 +119,7 @@ namespace VideoModule.ViewModels
 		public void Select(Guid cameraUID)
 		{
 			if (cameraUID != Guid.Empty)
-			{
 				SelectedCamera = AllCameras.FirstOrDefault(x => x.Camera.UID == cameraUID);
-			}
 		}
 
 		public List<CameraViewModel> AllCameras;

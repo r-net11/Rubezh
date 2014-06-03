@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 

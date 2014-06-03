@@ -15,12 +15,12 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<!--<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Тип отчета" />-->
+		<!--  <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Тип отчета" />  -->
 		<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Период отчета" />
 		<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Дата начала" />
 		<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Дата конца" />
 
-		<!--<ComboBox Grid.Row="0" Grid.Column="1" Margin="2" ItemsSource="{Binding TimeTrackingTypes}" ItemTemplate="{StaticResource EnumDescription}" SelectedItem="{Binding TimeTrackingType}" />-->
+		<!--  <ComboBox Grid.Row="0" Grid.Column="1" Margin="2" ItemsSource="{Binding TimeTrackingTypes}" ItemTemplate="{StaticResource EnumDescription}" SelectedItem="{Binding TimeTrackingType}" />  -->
 		<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" ItemsSource="{Binding Periods}" ItemTemplate="{StaticResource EnumDescription}" SelectedItem="{Binding Period}" />
 		<Calendar Grid.Row="2" Grid.Column="1" DisplayDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFreePeriod}" SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
 		<Calendar Grid.Row="3" Grid.Column="1" DisplayDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFreePeriod}" SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />

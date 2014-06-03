@@ -13,7 +13,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				
+
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Наименование" />
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 

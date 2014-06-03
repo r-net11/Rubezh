@@ -128,7 +128,8 @@ namespace SKDModule.ViewModels
 			Schedule.IsIgnoreHoliday = IsIgnoreHoliday;
 			Schedule.IsOnlyFirstEnter = IsOnlyFirstEnter;
 			Schedule.ScheduleSchemeUID = SelectedScheduleScheme == null ? Guid.Empty : SelectedScheduleScheme.UID;
-			return ScheduleHelper.Save(Schedule); ;
+			return ScheduleHelper.Save(Schedule);
+			;
 		}
 	}
 }

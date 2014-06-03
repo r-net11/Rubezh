@@ -1,10 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.ScheduleZoneDetailsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-			 Width="400" Height="400">
+﻿<UserControl x:Class="SKDModule.Views.ScheduleZoneDetailsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" Width="400" Height="400">
 
 	<TabControl>
 		<TabItem Header="Основные">
@@ -13,7 +7,7 @@
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<Grid Grid.Row="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
+				<Grid Grid.Row="0" Margin="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
 					<tree:TreeList Name="_zonesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedZone}" Source="{Binding RootZones}">
 						<tree:TreeList.View>
 							<GridView>
@@ -21,8 +15,8 @@
 									<GridViewColumn.CellTemplate>
 										<DataTemplate>
 											<StackPanel Orientation="Horizontal">
-												<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-												<TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+												<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+												<TextBlock Width="200" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Zone.Name}" />
 											</StackPanel>
 										</DataTemplate>
 									</GridViewColumn.CellTemplate>
@@ -42,8 +36,8 @@
 						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 
-					<TextBlock Grid.Row="1" Grid.Column="0" Text="Контроль нарушений дисциплины в течение рабочего дня" Foreground="White" Margin="2" />
-					<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsControl, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+					<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Контроль нарушений дисциплины в течение рабочего дня" />
+					<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" IsChecked="{Binding IsControl, UpdateSourceTrigger=PropertyChanged}" />
 				</Grid>
 			</Grid>
 		</TabItem>

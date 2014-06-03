@@ -95,7 +95,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return SelectedZone!= null && !SelectedZone.Zone.IsRootZone;
+			return SelectedZone != null && !SelectedZone.Zone.IsRootZone;
 		}
 		protected override bool Save()
 		{

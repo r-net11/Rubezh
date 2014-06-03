@@ -93,7 +93,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_dataType = value;
-				OnPropertyChanged(()=>DataType);
+				OnPropertyChanged(() => DataType);
 				OnPropertyChanged(() => IsTextType);
 			}
 		}
