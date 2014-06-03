@@ -13,6 +13,11 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static IEnumerable<Organisation> GetByCurrentUser()
+		{
+			return Get(new OrganisationFilter() { UserUID = FiresecManager.CurrentUser.UID });
+		}
+
 		public static bool Save(OrganisationDetails organisation)
 		{
 			var result = FiresecManager.FiresecService.SaveOrganisation(organisation);

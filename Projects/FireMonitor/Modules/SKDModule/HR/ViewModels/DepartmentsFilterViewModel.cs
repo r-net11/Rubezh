@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -11,8 +10,8 @@ namespace SKDModule.ViewModels
 	{
 		public DepartmentsFilterViewModel(DepartmentFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
-			var departments = DepartmentHelper.Get(new DepartmentFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.GetByCurrentUser();
+			var departments = DepartmentHelper.GetByCurrentUser();
 
 			AllDepartments = new List<DepartmentFilterItemViewModel>();
 			Organisations = new List<DepartmentFilterItemViewModel>();

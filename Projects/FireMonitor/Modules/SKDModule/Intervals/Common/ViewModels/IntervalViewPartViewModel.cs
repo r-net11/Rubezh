@@ -37,7 +37,7 @@ namespace SKDModule.ViewModels
 
 		public IEnumerable<Organisation> GetOrganisations()
 		{
-			return OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			return OrganisationHelper.GetByCurrentUser();
 		}
 
 		private ObservableCollection<TOrganisationInterval> _organisations;

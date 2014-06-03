@@ -12,6 +12,11 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static IEnumerable<AccessTemplate> GetByCurrentUser()
+		{
+			return Get(new AccessTemplateFilter() { UserUID = FiresecManager.CurrentUser.UID });
+		}
+
 		public static bool Save(AccessTemplate accessTemplate)
 		{
 			var result = FiresecManager.FiresecService.SaveAccessTemplate(accessTemplate);

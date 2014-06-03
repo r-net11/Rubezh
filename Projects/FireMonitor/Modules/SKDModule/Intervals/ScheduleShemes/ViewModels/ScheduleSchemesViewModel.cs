@@ -27,13 +27,13 @@ namespace SKDModule.ViewModels
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			ReloadNamedIntervals();
-			Filter = new ScheduleSchemeFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs, Type = Type };
+			Filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID, Type = Type };
 			Initialize(Filter);
 		}
 
 		public void Initialize(ScheduleSchemeFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new FiresecAPI.SKD.OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.GetByCurrentUser();
 			var scheduleSchemes = ScheduleSchemaHelper.Get(filter);
 
 			AllScheduleSchemes = new List<ScheduleSchemeViewModel>();
@@ -61,7 +61,7 @@ namespace SKDModule.ViewModels
 		{
 			var namedIntervals = NamedIntervalHelper.Get(new NamedIntervalFilter()
 			{
-				OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs
+				UserUID = FiresecManager.CurrentUser.UID
 			});
 			NamedIntervals = new ObservableCollection<NamedInterval>(namedIntervals);
 			NamedIntervals.Insert(0, new NamedInterval()

@@ -33,6 +33,11 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static IEnumerable<ShortDepartment> GetByCurrentUser()
+		{
+			return Get(new DepartmentFilter() { UserUID = FiresecManager.CurrentUser.UID });
+		}
+
 		public static Department GetDetails(Guid? uid)
 		{
 			if (uid == null)

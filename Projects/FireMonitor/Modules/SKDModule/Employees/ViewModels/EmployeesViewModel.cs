@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -25,7 +24,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(EmployeeFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.GetByCurrentUser();
 			var employees = EmployeeHelper.Get(filter);
 			PersonType = filter.PersonType;
 			AllEmployees = new List<EmployeeViewModel>();
@@ -136,8 +135,7 @@ namespace SKDModule.ViewModels
 		public void InitializeAdditionalColumns()
 		{
 			AdditionalColumnNames = new ObservableCollection<string>();
-			var additionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
-			var columnTypes = AdditionalColumnTypeHelper.Get(additionalColumnTypeFilter);
+			var columnTypes = AdditionalColumnTypeHelper.GetByCurrentUser();
 			if (columnTypes == null)
 				return;
 			AdditionalColumnTypes = columnTypes.ToList();

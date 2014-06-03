@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(PositionFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.GetByCurrentUser();
 			var positions = PositionHelper.Get(filter);
 
 			AllPositions = new List<PositionViewModel>();

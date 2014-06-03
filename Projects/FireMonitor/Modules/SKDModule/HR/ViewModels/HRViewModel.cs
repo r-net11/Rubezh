@@ -40,10 +40,11 @@ namespace SKDModule.ViewModels
 			DocumentsViewModel = new DocumentsViewModel();
 			IsEmployeesSelected = true;
 
-			Filter = new HRFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
-			Filter.EmployeeFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
-			Filter.DepartmentFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
-			Filter.PositionFilter.OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs;
+			var userUID = FiresecManager.CurrentUser.UID;
+			Filter = new HRFilter() { UserUID = userUID };
+			Filter.EmployeeFilter.UserUID = userUID;
+			Filter.DepartmentFilter.UserUID = userUID;
+			Filter.PositionFilter.UserUID = userUID;
 			InitializeFilters();
 			Initialize();
 		}

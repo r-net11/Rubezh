@@ -8,7 +8,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
-using OrganisationFilter = FiresecAPI.SKD.OrganisationFilter;
 
 namespace SKDModule.ViewModels
 {
@@ -24,13 +23,13 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			Filter = new NamedIntervalFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs };
+			Filter = new NamedIntervalFilter() { UserUID = FiresecManager.CurrentUser.UID };
 			Initialize(Filter);
 		}
 
 		public void Initialize(NamedIntervalFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.GetByCurrentUser();
 			var namedIntervals = NamedIntervalHelper.Get(filter);
 
 			AllNamedIntervals = new List<NamedIntervalViewModel>();

@@ -67,7 +67,6 @@ namespace SecurityModule.ViewModels
 						foreach (var organisation in organisations)
 						{
 							var organisationViewModel = new OrganisationViewModel(organisation);
-							organisationViewModel.IsChecked = User.OrganisationUIDs.Contains(organisation.UID);
 							Organisations.Add(organisationViewModel);
 						}
 					}
@@ -317,14 +316,6 @@ namespace SecurityModule.ViewModels
 				}
 			}
 			User.RemoreAccess = RemoteAccess.GetModel();
-
-			User.OrganisationUIDs = new List<Guid>();
-			foreach (var organisation in Organisations)
-			{
-				if (organisation.IsChecked)
-					User.OrganisationUIDs.Add(organisation.Organisation.UID);
-			}
-
 			User.IsEmployeesAllowed = IsEmployeesAllowed;
 			User.IsGuestsAllowed = IsGuestsAllowed;
 		}

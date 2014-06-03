@@ -32,6 +32,11 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
+		public static IEnumerable<ShortAdditionalColumnType> GetByCurrentUser()
+		{
+			return Get(new AdditionalColumnTypeFilter() { UserUID = FiresecManager.CurrentUser.UID });
+		}
+
 		public static IEnumerable<ShortAdditionalColumnType> GetByOrganisation(Guid organisationUID)
 		{
 			var result = FiresecManager.FiresecService.GetAdditionalColumnTypeList(new AdditionalColumnTypeFilter

@@ -47,11 +47,6 @@ namespace FiresecAPI.Models
 					user.PermissionStrings = new List<string>();
 					result = false;
 				}
-				if (user.OrganisationUIDs == null)
-				{
-					user.OrganisationUIDs = new List<Guid>();
-					result = false;
-				}
 			}
 			return result;
 		}

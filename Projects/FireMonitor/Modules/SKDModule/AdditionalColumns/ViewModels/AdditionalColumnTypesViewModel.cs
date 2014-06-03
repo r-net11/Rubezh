@@ -21,8 +21,9 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(AdditionalColumnTypeFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.GetByCurrentUser();
 			var additionalColumnTypes = AdditionalColumnTypeHelper.Get(filter);
+			var types = AdditionalColumnTypeHelper.Get(new AdditionalColumnTypeFilter { UserUID = FiresecManager.CurrentUser.UID, PersonType = PersonType.Guest });
 
 			AllAdditionalColumnTypes = new List<AdditionalColumnTypeViewModel>();
 			Organisations = new List<AdditionalColumnTypeViewModel>();

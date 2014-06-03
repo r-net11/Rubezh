@@ -79,21 +79,6 @@
 					<RowDefinition Height="*"/>
 					<RowDefinition Height="Auto"/>
 				</Grid.RowDefinitions>
-				<DataGrid Grid.Row="0" ItemsSource="{Binding Organisations}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Организация" Width="*">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal" Margin="2 0">
-										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2 0" />
-										<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-										<TextBlock Text="{Binding Organisation.Name}" VerticalAlignment="Center" Margin="2" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-					</DataGrid.Columns>
-				</DataGrid>
 				<StackPanel Grid.Row="1">
 					<StackPanel Orientation="Horizontal" Margin="2 0">
 						<CheckBox IsChecked="{Binding IsEmployeesAllowed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Margin="2 0" />
