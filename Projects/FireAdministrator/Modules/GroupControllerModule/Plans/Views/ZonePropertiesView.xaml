@@ -10,7 +10,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-        <ComboBox Grid.Row="0" ItemsSource="{Binding ZoneTypes}" SelectedItem="{Binding SelectedZoneType}" Margin="2">
+        <ComboBox Grid.Row="0" ItemsSource="{Binding ZoneTypes}" SelectedItem="{Binding SelectedZoneType}" Margin="0 5">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding ., Converter={StaticResource ElementZoneTypeToStringConverter}}" />

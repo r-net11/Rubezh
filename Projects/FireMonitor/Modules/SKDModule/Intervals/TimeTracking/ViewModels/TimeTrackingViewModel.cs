@@ -20,7 +20,7 @@ namespace SKDModule.ViewModels
 		{
 			_employeeFilter = new EmployeeFilter()
 			{
-				OrganisationUIDs = FiresecClient.FiresecManager.CurrentUser.OrganisationUIDs,
+				UserUID = FiresecClient.FiresecManager.CurrentUser.UID,
 			};
 			_settings = new TimeTrackingSettings()
 			{

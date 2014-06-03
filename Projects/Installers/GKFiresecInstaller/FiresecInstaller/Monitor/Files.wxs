@@ -23,6 +23,7 @@
         <File Id="Monitor.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Common.TargetDir)" />
         
         <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.AutomationModule.dll" Name="AutomationModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.CodeReason.Loya.Dameer.dll" Name="Loya.Dameer.dll" Source="$(var.Monitor.TargetDir)" />

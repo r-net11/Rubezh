@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+
+namespace SettingsModule.ViewModels
+{
+	public class ModulesViewModel : BaseViewModel
+	{
+		public ModulesViewModel()
+		{
+			Modules = new List<ModuleViewModel>();
+
+			Modules.Add(new ModuleViewModel("PlansModule.dll", "Планы"));
+			Modules.Add(new ModuleViewModel("PlansModule.Kursk.dll", "Планы. Курск"));
+			Modules.Add(new ModuleViewModel("SecurityModule.dll", "Пользователи"));
+			Modules.Add(new ModuleViewModel("SoundsModule.dll", "Звуки"));
+			Modules.Add(new ModuleViewModel("SettingsModule.dll", "Настройки", false));
+			Modules.Add(new ModuleViewModel("GKModule.dll", "Глобал"));
+			Modules.Add(new ModuleViewModel("OPCModule.dll", "OPC сервер"));
+			Modules.Add(new ModuleViewModel("NotificationModule.dll", "Нотификация"));
+			Modules.Add(new ModuleViewModel("VideoModule.dll", "Видео"));
+			Modules.Add(new ModuleViewModel("DiagnosticsModule.dll", "Диагостика"));
+			Modules.Add(new ModuleViewModel("ReportsModule.dll", "Отчеты"));
+			Modules.Add(new ModuleViewModel("SKDModule.dll", "СКД"));
+			Modules.Add(new ModuleViewModel("LayoutModule.dll", "Макеты"));
+			Modules.Add(new ModuleViewModel("AutomationModule.dll", "Автоматизация"));
+
+			Modules.Add(new ModuleViewModel("DevicesModule.dll", "Устройства FS1"));
+			Modules.Add(new ModuleViewModel("LibraryModule.dll", "Библиотека устройств FS1"));
+			Modules.Add(new ModuleViewModel("FiltersModule.dll", "Фильтры FS1"));
+			Modules.Add(new ModuleViewModel("InstructionsModule.dll", "Инструкции FS1"));
+			Modules.Add(new ModuleViewModel("AlarmModule.dll", "Состояния FS1"));
+			Modules.Add(new ModuleViewModel("JournalModule.dll", "Журнал событий FS1"));
+
+			if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
+				GlobalSettingsHelper.GlobalSettings.SetDefaultModules();
+			foreach (var moduleName in GlobalSettingsHelper.GlobalSettings.ModuleItems)
+			{
+				var moduleViewModel = Modules.FirstOrDefault(x => x.Name == moduleName);
+				if (moduleViewModel != null)
+				{
+					moduleViewModel.IsSelected = true;
+				}
+			}
+		}
+
+		public List<ModuleViewModel> Modules { get; private set; }
+
+		public void Save()
+		{
+			GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
+			foreach (var moduleViewModel in Modules)
+			{
+				if (moduleViewModel.IsSelected)
+				{
+					GlobalSettingsHelper.GlobalSettings.ModuleItems.Add(moduleViewModel.Name);
+				}
+			}
+		}
+	}
+}

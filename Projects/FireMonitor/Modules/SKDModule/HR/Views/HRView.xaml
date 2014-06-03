@@ -19,11 +19,11 @@
 							<Controls:ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить пользователя" />
 							<Controls:ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать пользователя" />
 						</StackPanel>
-						<Controls:ToolBarButton Command="{Binding SelectedEmployee.AddCardCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить карту" />
+						<Controls:ToolBarButton Command="{Binding SelectedEmployee.AddCardCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить пропуск" />
 						<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedEmployee.IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 							<StackPanel DataContext="{Binding SelectedEmployee}" Orientation="Horizontal">
-								<Controls:ToolBarButton Command="{Binding SelectedCard.RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить карту" />
-								<Controls:ToolBarButton Command="{Binding SelectedCard.EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать карту" />
+								<Controls:ToolBarButton Command="{Binding SelectedCard.RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить пропуск" />
+								<Controls:ToolBarButton Command="{Binding SelectedCard.EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать пропуск" />
 								<Controls:ToolBarButton Command="{Binding SelectedCard.PrintCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать удостоверения" />
 							</StackPanel>
 						</StackPanel>
@@ -88,25 +88,25 @@
 		</StackPanel>
 
 		<TabControl Grid.Row="1">
-			<TabItem Header="Сотрудники" IsSelected="{Binding IsEmployeesSelected}">
-				<Views:EmployeesView DataContext="{Binding EmployeesViewModel}" />
+            <TabItem Header="Сотрудники" IsSelected="{Binding IsEmployeesSelected}">
+                <Views:EmployeesView DataContext="{Binding EmployeesViewModel}" />
 			</TabItem>
-			<TabItem Header="Отделы" IsSelected="{Binding IsDepartmentsSelected}">
-				<Views:DepartmentsView DataContext="{Binding DepartmentsViewModel}" />
+            <TabItem Header="Отделы" IsSelected="{Binding IsDepartmentsSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Views:DepartmentsView DataContext="{Binding DepartmentsViewModel}" />
 			</TabItem>
-			<TabItem Header="Должности" IsSelected="{Binding IsPositionsSelected}">
-				<Views:PositionsView DataContext="{Binding PositionsViewModel}" />
+            <TabItem Header="Должности" IsSelected="{Binding IsPositionsSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Views:PositionsView DataContext="{Binding PositionsViewModel}" />
 			</TabItem>
-			<TabItem Header="Дополнительные колонки" IsSelected="{Binding IsAdditionalColumnTypesSelected}">
-				<Views:AdditionalColumnTypesView DataContext="{Binding AdditionalColumnTypesViewModel}" />
+            <TabItem Header="Дополнительные колонки" IsSelected="{Binding IsAdditionalColumnTypesSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Views:AdditionalColumnTypesView DataContext="{Binding AdditionalColumnTypesViewModel}" />
 			</TabItem>
-			<TabItem Header="Карты" IsSelected="{Binding IsCardsSelected}">
-				<Views:CardsView DataContext="{Binding CardsViewModel}" />
+            <TabItem Header="Пропуска" IsSelected="{Binding IsCardsSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Views:CardsView DataContext="{Binding CardsViewModel}" />
 			</TabItem>
-			<TabItem Header="Уровни доступа" IsSelected="{Binding IsAccessTemplatesSelected}">
-				<Views:AccessTemplatesView DataContext="{Binding AccessTemplatesViewModel}" />
+            <TabItem Header="Уровни доступа" IsSelected="{Binding IsAccessTemplatesSelected}" Visibility="{Binding CanSelectHR, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Views:AccessTemplatesView DataContext="{Binding AccessTemplatesViewModel}" />
 			</TabItem>
-            <TabItem Header="Организации" IsSelected="{Binding IsOrganisationsSelected}">
+            <TabItem Header="Организации" IsSelected="{Binding IsOrganisationsSelected}" Visibility="{Binding CanSelectOrganisations, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Views:OrganisationsView DataContext="{Binding OrganisationsViewModel}" />
             </TabItem>
             <TabItem Header="Документы" IsSelected="{Binding IsDocumentsSelected}" Visibility="Collapsed">

@@ -12,15 +12,15 @@
 			</Grid.RowDefinitions>
 			<DockPanel Grid.Row="0">
 				<Label DockPanel.Dock="Left" Content="Название" FontWeight="Bold" VerticalAlignment="Center" />
-				<TextBox DockPanel.Dock="Right" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" Margin="2" VerticalAlignment="Center" />
+                <TextBox DockPanel.Dock="Right" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" VerticalAlignment="Center" Margin="2" />
 			</DockPanel>
-			<Label Grid.Row="1" Content="Права:" FontWeight="Bold" Margin="0,11,0,3" />
-			<ListBox Grid.Row="2" ItemsSource="{Binding Permissions, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=PermissionTypeName}" Padding="7">
+			<Label Grid.Row="1" Content="Права:" FontWeight="Bold" Margin="0 11 0 3" />
+			<ListBox Grid.Row="2" ItemsSource="{Binding Permissions}" Padding="7">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
 							<CheckBox IsChecked="{Binding IsEnable}" />
-							<TextBlock Text="{Binding Desciption}" Margin="4, 1, 1, 1" />
+							<TextBlock Text="{Binding Desciption}" Margin="4 1 1 1" />
 						</StackPanel>
 					</DataTemplate>
 				</ListBox.ItemTemplate>

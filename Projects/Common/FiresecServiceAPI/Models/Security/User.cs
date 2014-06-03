@@ -11,7 +11,6 @@ namespace FiresecAPI.Models
 		{
 			UID = Guid.NewGuid();
 			PermissionStrings = new List<string>();
-			OrganisationUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -35,18 +34,15 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public RemoteAccess RemoreAccess { get; set; }
 
+		[DataMember]
+		public bool AllowAdministratorAutoConnect { get; set; }
+
+		[DataMember]
+		public bool AllowMonitorAutoConnect { get; set; }
+
 		public bool HasPermission(PermissionType permissionType)
 		{
 			return PermissionStrings.Contains(permissionType.ToString());
 		}
-
-		[DataMember]
-		public List<Guid> OrganisationUIDs { get; set; }
-
-		[DataMember]
-		public bool IsEmployeesAllowed { get; set; }
-
-		[DataMember]
-		public bool IsGuestsAllowed { get; set; }
 	}
 }

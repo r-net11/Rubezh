@@ -27,7 +27,7 @@
 		</Grid>
 		<Grid Grid.Row="1" Margin="2" DataContext="{Binding SelectedZone}">
 			<StackPanel IsEnabled="{Binding IsChecked}" Visibility="{Binding CanSelect, Converter={StaticResource BoolToVisibilityConverter}}">
-				<CheckBox Margin="2" Content="Защита от передачи карт(Antipassback)" Foreground="White" IsChecked="{Binding IsAntiPassback}" />
+				<CheckBox Margin="2" Content="Защита от передачи пропусков(Antipassback)" Foreground="White" IsChecked="{Binding IsAntiPassback}" />
 				<CheckBox Margin="2" Content="Доступ с комиссионированием" Foreground="White" IsChecked="{Binding IsComission}" />
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий" />

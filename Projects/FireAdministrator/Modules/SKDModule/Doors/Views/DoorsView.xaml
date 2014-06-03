@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="SKDModule.Views.DoorsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:Conv="clr-namespace:Controls.Converters;assembly=Controls"
+             xmlns:Converters="clr-namespace:SKDModule.Converters"
+             xmlns:drag="clr-namespace:Infrastructure.Common.Services.DragDrop;assembly=Infrastructure.Common"
+             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+             xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+             xmlns:Views="clr-namespace:SKDModule.Views">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="200" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="180" MinHeight="150" MaxHeight="300" />
+        </Grid.RowDefinitions>
+
+        <Controls:XDataGrid Grid.Row="0" CanUserSortColumns="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="№" SortMemberPath="Door.No" Width="Auto" CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+                                <TextBlock Margin="2, 0, 5, 0" VerticalAlignment="Center" Text="{Binding Door.No}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="2*" Binding="{Binding Door.Name}" Header="Наименование" />
+                <DataGridTextColumn Width="2*" Binding="{Binding Door.Description}" Header="Примечание" />
+            </DataGrid.Columns>
+        </Controls:XDataGrid>
+
+        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+        <Border Grid.Row="2" DataContext="{Binding SelectedDoor}" Background="{DynamicResource BackgroundBrush}" CornerRadius="5 0 0 5" Margin="0 5 0 0">
+            
+        </Border>
+    </Grid>
+</UserControl>

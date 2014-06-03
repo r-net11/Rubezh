@@ -40,5 +40,11 @@ namespace FiresecClient.SKDHelpers
 			});
 			return Common.ShowErrorIfExists(result);
 		}
+
+		public static IEnumerable<ShortDocument> GetByCurrentUser()
+		{
+			return Get(new DocumentFilter() { UserUID = FiresecManager.CurrentUser.UID });
+		}
+
 	}
 }

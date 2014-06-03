@@ -309,10 +309,6 @@
     <Compile Include="RelayCommand\RelayCommand.cs" />
     <Compile Include="SingleLaunchHelper.cs" />
     <Compile Include="TreeList\TreeBaseViewModel.cs" />
-    <Compile Include="Video\VideoService.cs" />
-    <Compile Include="Video\VideoWindow.xaml.cs">
-      <DependentUpon>VideoWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Wait\WaitHelper.cs" />
     <Compile Include="Wait\WaitWrapper.cs" />
     <Compile Include="Windows\SaveSizeAttribute.cs" />
@@ -398,10 +394,6 @@
     <Page Include="Video\RVI_VSS\CellPlayerWrap.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Video\VideoWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

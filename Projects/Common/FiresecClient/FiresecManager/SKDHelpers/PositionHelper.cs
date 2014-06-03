@@ -40,5 +40,10 @@ namespace FiresecClient.SKDHelpers
 			var operationResult = FiresecManager.FiresecService.GetPositionList(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}
+
+		public static IEnumerable<ShortPosition> GetByCurrentUser()
+		{
+			return Get(new PositionFilter() { UserUID = FiresecManager.CurrentUser.UID });
+		}
 	}
 }

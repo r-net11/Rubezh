@@ -38,8 +38,6 @@ namespace SKDModule.ViewModels
 				}
 			}
 			SelectedOrganisation = Organisations.FirstOrDefault();
-
-			ValidateUsers();
 		}
 
 		ObservableCollection<OrganisationViewModel> _organisation;
@@ -65,11 +63,13 @@ namespace SKDModule.ViewModels
 				if (value != null)
 				{
 					OrganisationZonesViewModel = new OrganisationZonesViewModel(SelectedOrganisation.Organisation);
+					OrganisationGuardZonesViewModel = new OrganisationGuardZonesViewModel(SelectedOrganisation.Organisation);
 					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation);
 				}
 				else
 				{
 					OrganisationZonesViewModel = null;
+					OrganisationGuardZonesViewModel = null;
 					OrganisationUsersViewModel = null;
 				}
 			}
@@ -83,6 +83,17 @@ namespace SKDModule.ViewModels
 			{
 				_organisationZonesViewModel = value;
 				OnPropertyChanged("OrganisationZonesViewModel");
+			}
+		}
+
+		OrganisationGuardZonesViewModel _organisationGuardZonesViewModel;
+		public OrganisationGuardZonesViewModel OrganisationGuardZonesViewModel
+		{
+			get { return _organisationGuardZonesViewModel; }
+			set
+			{
+				_organisationGuardZonesViewModel = value;
+				OnPropertyChanged("OrganisationGuardZonesViewModel");
 			}
 		}
 
@@ -127,7 +138,6 @@ namespace SKDModule.ViewModels
 					return;
 				Organisations.Remove(SelectedOrganisation);
 				SelectedOrganisation = Organisations.FirstOrDefault();
-				ValidateUsers();
 			}
 		}
 
@@ -140,22 +150,6 @@ namespace SKDModule.ViewModels
 				var organisation = organisationDetailsViewModel.Organisation;
 				SelectedOrganisation.Organisation = organisation;
 				SelectedOrganisation.Update();
-			}
-		}
-
-		void ValidateUsers()
-		{
-			foreach (var user in FiresecManager.SecurityConfiguration.Users)
-			{
-				var organisationUIDs = new List<Guid>();
-				foreach (var organisationUID in user.OrganisationUIDs)
-				{
-					if (Organisations.Any(x => x.Organisation.UID == organisationUID))
-						organisationUIDs.Add(organisationUID);
-					//else
-					//    ServiceFactory.SaveService.SecurityChanged = true;
-				}
-				user.OrganisationUIDs = organisationUIDs;
 			}
 		}
 	}

@@ -12,12 +12,12 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<ItemsControl Grid.Row="0" ItemsSource="{Binding RemoteAccessTypes}" Margin="0,17,0,7">
+		<ItemsControl Grid.Row="0" ItemsSource="{Binding RemoteAccessTypes}" Margin="2">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<RadioButton IsChecked="{Binding IsActive}"
-							  Content="{Binding RemoteAccessType, Converter={StaticResource RemoteAccessTypeToStringConverter}}"
-							  Margin="1.5" Foreground="White" />
+						Content="{Binding RemoteAccessType, Converter={StaticResource RemoteAccessTypeToStringConverter}}"
+						Margin="1.5" Foreground="White" />
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
@@ -27,7 +27,7 @@
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
-			<ListBox Grid.Row="0" ItemsSource="{Binding HostNameOrAddressList}" SelectedItem="{Binding SelectedHostNameOrAddress}" Margin="3" />
+			<ListBox Grid.Row="0" ItemsSource="{Binding HostNameOrAddressList}" SelectedItem="{Binding SelectedHostNameOrAddress}" Margin="2" />
 
 			<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left">
 				<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />

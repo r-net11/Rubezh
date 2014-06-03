@@ -9,8 +9,7 @@ namespace SKDModule.ViewModels
 	public class OrganisationDetailsViewModel : SaveCancelDialogViewModel
 	{
 		OrganisationsViewModel OrganisationsViewModel;
-		bool IsNew;
-		public OrganisationDetails OrganisationDetails { get; set; }
+		public OrganisationDetails OrganisationDetails { get; private set; }
 
 		public OrganisationDetailsViewModel(OrganisationsViewModel organisationsViewModel, Organisation organisation = null)
 		{

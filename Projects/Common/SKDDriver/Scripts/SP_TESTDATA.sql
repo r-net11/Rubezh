@@ -176,7 +176,6 @@ DECLARE @DirectorPositionUid uniqueidentifier;
 SET @DirectorPositionUid = NEWID();
 EXEC [dbo].[SavePosition] @DirectorPositionUid , @Organisation1Uid, 'Директор', 'Руководитель компании',0,'01/01/1900'
 
-
 DECLARE @photo1 varbinary(MAX);
 SET @photo1 = (SELECT * FROM OPENROWSET(BULK N'C:\image1.jpg', SINGLE_BLOB) as _file);
 
@@ -612,5 +611,6 @@ SET @Uid = NEWID();
 EXEC [dbo].[SaveDocument] @Uid, @Organisation2Uid, 729, 'Документ2', 'Документ2Организации2', '08/01/2014', '25/01/2013',0,'01/01/1900'
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveDocument] @Uid, @Organisation2Uid, 123, 'Документ3', 'Документ3Организации2', '30/01/2014', '05/02/2013',0,'01/01/1900'
+
 
 

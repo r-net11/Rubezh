@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.CheckBoxList;
 
@@ -16,7 +15,7 @@ namespace SKDModule.ViewModels
 		public OrganisationFilterBaseViewModel(T filter)
 			: base(filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.GetByCurrentUser();
 			Organisations = new CheckBoxItemList<FilterOrganisationViewModel>();
 			if (organisations != null)
 			{

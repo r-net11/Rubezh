@@ -50,6 +50,18 @@ namespace FiresecAPI.Models
 		Oper_ChangeView = 109,
 
 		[DescriptionAttribute("ОЗ: Разрешить не подтверждать команды паролем")]
-		Oper_MayNotConfirmCommands = 110
+		Oper_MayNotConfirmCommands = 110,
+
+		[DescriptionAttribute("ОЗ: Сотрудники картотеки СКД")]
+		Oper_SKD_Employees = 111,
+
+		[DescriptionAttribute("ОЗ: Посетители картотеки СКД")]
+		Oper_SKD_Guests = 112,
+
+		[DescriptionAttribute("ОЗ: Справочники картотеки СКД")]
+		Oper_SKD_HR = 113,
+
+		[DescriptionAttribute("ОЗ: Организации картотеки СКД")]
+		Oper_SKD_Organisations = 114,
 	}
 }

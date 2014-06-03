@@ -22,6 +22,7 @@ namespace GKModule.ViewModels
 		public Guid ElementUID { get; set; }
 		public XDevice Device { get; set; }
 		public XZone Zone { get; set; }
+		public XGuardZone GuardZone { get; set; }
 		public XDirection Direction { get; set; }
 
 		public string Name

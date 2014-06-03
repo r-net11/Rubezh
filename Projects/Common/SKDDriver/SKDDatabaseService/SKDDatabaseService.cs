@@ -51,5 +51,6 @@ namespace SKDDriver
 		public static DayIntervalTranslator DayIntervalTranslator { get; private set; }
 		public static ScheduleZoneTranslator ScheduleZoneTranslator { get; private set; }
 		public static ScheduleTranslator ScheduleTranslator { get; private set; }
+		
 	}
 }

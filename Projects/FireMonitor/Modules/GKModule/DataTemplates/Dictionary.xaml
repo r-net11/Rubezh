@@ -16,7 +16,15 @@
 		<Views:ZoneDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:GuardZonesViewModel}">
+        <Views:GuardZonesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardZoneDetailsViewModel}">
+        <Views:GuardZoneDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
 		<Views:DeviceDetailsView />
 	</DataTemplate>
 

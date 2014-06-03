@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
-using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -26,7 +25,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(AccessTemplateFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.GetByCurrentUser();
 			var accessTemplates = AccessTemplateHelper.Get(filter);
 
 			AllAccessTemplates = new List<AccessTemplateViewModel>();

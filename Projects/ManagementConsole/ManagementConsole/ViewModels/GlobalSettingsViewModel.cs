@@ -18,7 +18,6 @@ namespace ManagementConsole
 			AutoConnect = GlobalSettingsHelper.GlobalSettings.AutoConnect;
 			IsGKAsAService = GlobalSettingsHelper.GlobalSettings.IsGKAsAService;
 			UseHasp = GlobalSettingsHelper.GlobalSettings.UseHasp;
-			UseSKD = GlobalSettingsHelper.GlobalSettings.UseSKD;
 			DoNotOverrideFS1 = GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1;
 			DoNotAutoconnectAdm = GlobalSettingsHelper.GlobalSettings.DoNotAutoconnectAdm;
 			RunRevisor = GlobalSettingsHelper.GlobalSettings.RunRevisor;
@@ -221,17 +220,6 @@ namespace ManagementConsole
 			}
 		}
 
-		bool _useSKD;
-		public bool UseSKD
-		{
-			get { return _useSKD; }
-			set
-			{
-				_useSKD = value;
-				OnPropertyChanged("UseSKD");
-			}
-		}
-
 		public bool IsDebug
 		{
 			get
@@ -262,7 +250,6 @@ namespace ManagementConsole
 
 			GlobalSettingsHelper.GlobalSettings.IsGKAsAService = IsGKAsAService;
 			GlobalSettingsHelper.GlobalSettings.UseHasp = UseHasp;
-			GlobalSettingsHelper.GlobalSettings.UseSKD = UseSKD;
 
 			GlobalSettingsHelper.GlobalSettings.ModuleItems = new List<string>();
 			foreach (var moduleViewModel in Modules)

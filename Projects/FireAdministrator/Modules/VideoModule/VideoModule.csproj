@@ -111,7 +111,6 @@
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.Video.cs" />
     <Compile Include="Validation\VideoValidationError.cs" />
-    <Compile Include="VideoClass.cs" />
     <Compile Include="VideoModule.cs" />
     <Compile Include="ViewModels\CameraViewModel.cs" />
     <Compile Include="ViewModels\CamerasMenuViewModel.cs" />

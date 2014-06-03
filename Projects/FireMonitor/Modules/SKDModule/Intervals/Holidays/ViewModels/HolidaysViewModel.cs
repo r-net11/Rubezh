@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(HolidayFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new FiresecAPI.SKD.OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
+			var organisations = OrganisationHelper.GetByCurrentUser();
 			var holidays = HolidayHelper.Get(filter);
 
 			AllHolidays = new List<HolidayViewModel>();
@@ -232,7 +232,7 @@ namespace SKDModule.ViewModels
 				_selectedYear = value;
 				OnPropertyChanged(() => SelectedYear);
 
-				Filter = new HolidayFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs, Year = value };
+				Filter = new HolidayFilter() { UserUID = FiresecManager.CurrentUser.UID, Year = value };
 				Initialize(Filter);
 			}
 		}

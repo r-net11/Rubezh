@@ -63,13 +63,6 @@ namespace SKDDriver
 			tableItem.Description = apiItem.Description;
 		}
 
-		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(OrganisationFilter filter)
-		{
-			var result = PredicateBuilder.True<DataAccess.Organisation>();
-			result = result.And(base.IsInFilter(filter));
-			return result;
-		}
-
 		public OperationResult<OrganisationDetails> GetDetails(Guid uid)
 		{
 			try
@@ -214,5 +207,14 @@ namespace SKDDriver
 				return new OperationResult(e.Message);
 			}
 		}
+
+		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(OrganisationFilter filter)
+		{
+			var result = PredicateBuilder.True<DataAccess.Organisation>();
+			result = result.And(base.IsInFilter(filter));
+			if(filter.UserUID != null)
+				result = result.And(e => e.OrganisationUsers.Any(x => x.UserUID == filter.UserUID));
+			return result;
+		}		
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.SKD;
-using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -10,9 +9,8 @@ namespace SKDModule.ViewModels
 	{
 		public PositionsFilterViewModel(PositionFilter filter)
 		{
-			var organisations = OrganisationHelper.Get(new OrganisationFilter() { UIDs = FiresecManager.CurrentUser.OrganisationUIDs });
-			var positions = PositionHelper.Get(new PositionFilter() { OrganisationUIDs = FiresecManager.CurrentUser.OrganisationUIDs });
-
+			var organisations = OrganisationHelper.GetByCurrentUser();
+			var positions = PositionHelper.GetByCurrentUser();
 			AllPositions = new List<PositionFilterItemViewModel>();
 			Organisations = new List<PositionFilterItemViewModel>();
 			foreach (var organisation in organisations)
