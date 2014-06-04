@@ -1,11 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
+﻿using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
 using Infrastructure.ViewModels;
 using FiresecClient;
 using Infrastructure.Common.Windows;
@@ -65,7 +60,6 @@ namespace AutomationModule.ViewModels
 				Procedures.Add(procedureViewModel);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
-
 		}
 
 		public RelayCommand EditCommand { get; private set; }

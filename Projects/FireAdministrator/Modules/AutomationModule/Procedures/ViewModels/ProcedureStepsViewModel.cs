@@ -1,21 +1,27 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.XModels.Automation;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
-	public class ProcedureStepsViewModel : BaseViewModel
+	public class ProcedureStepsViewModel : SaveCancelDialogViewModel
 	{
-		public ObservableCollection<ProcedureStepViewModel> ProcedureSteps { get; private set; }
+		public ObservableCollection<ProcedureStep>  ProcedureSteps { get; private set; }
+
 		public ProcedureStepsViewModel()
 		{
-			DeleteCommand = new RelayCommand(OnDelete, CanDeleted);
-			AddCommand = new RelayCommand(OnAdd);
+			Title = "Список действий";
+			ProcedureSteps = new ObservableCollection<ProcedureStep>
+			{
+				new ProcedureStep {ProcedureStepType = ProcedureStepType.PlaySound},
+				new ProcedureStep {ProcedureStepType = ProcedureStepType.DoAction}
+			};
+			SelectedProcedureStep = ProcedureSteps.FirstOrDefault();
 		}
 
-		ProcedureStepViewModel _selectedProcedureStep;
-		public ProcedureStepViewModel SelectedProcedureStep
+		ProcedureStep _selectedProcedureStep;
+		public ProcedureStep SelectedProcedureStep
 		{
 			get { return _selectedProcedureStep; }
 			set
@@ -25,21 +31,9 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
+		protected override bool Save()
 		{
-			ProcedureSteps.Remove(SelectedProcedureStep);
-		}
-		bool CanDeleted()
-		{
-			return SelectedProcedureStep != null;
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var procedureStepViewModel = new ProcedureStepViewModel(new ProcedureStep());
-			ProcedureSteps.Add(procedureStepViewModel);
+			return base.Save();
 		}
 	}
 }
