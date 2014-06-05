@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Threading;
 using Infrastructure;
@@ -12,6 +13,7 @@ using Ionic.Zip;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common.Windows;
+using FiresecAPI.GK;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -22,6 +24,7 @@ namespace DiagnosticsModule.ViewModels
 		public DiagnosticsViewModel()
 		{
 			SetConfigCommand = new RelayCommand(OnSetConfig);
+			WriteConfigCommand = new RelayCommand(OnWriteConfig);
 		}
 
 		public RelayCommand SetConfigCommand { get; private set; }
@@ -34,8 +37,6 @@ namespace DiagnosticsModule.ViewModels
 						Dispatcher.Invoke(new Action(() =>
 							{
 								SetNewConfig();
-								//var cancelEventArgs = new CancelEventArgs();
-								//ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
 
 								Count++;
 								Text = "SetNewConfig count = " + Count;
@@ -48,6 +49,28 @@ namespace DiagnosticsModule.ViewModels
 			thread.Start();
 		}
 
+		public RelayCommand WriteConfigCommand { get; private set; }
+		void OnWriteConfig()
+		{
+			var thread = new Thread(() =>
+			{
+				while (true)
+				{
+					Dispatcher.Invoke(new Action(() =>
+					{
+						var gkdevice = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+						var result = FiresecManager.FiresecService.GKWriteConfiguration(gkdevice);
+
+						Count++;
+						Text = "SetNewConfig count = " + Count;
+
+						Thread.Sleep(TimeSpan.FromSeconds(1));
+					}));
+				}
+			}
+				);
+			thread.Start();
+		}
 
 
 		public void StopThreads()

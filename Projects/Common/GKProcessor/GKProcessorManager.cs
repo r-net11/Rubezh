@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
+using System.Text;
 
 namespace GKProcessor
 {
@@ -172,8 +173,15 @@ namespace GKProcessor
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device);
 			Start();
-			if (gkDescriptorsWriter.Error != null)
-				return new OperationResult<bool>(gkDescriptorsWriter.Error) { Result = false };
+			if (gkDescriptorsWriter.Errors.Count > 0)
+			{
+				var errors = new StringBuilder();
+				foreach (var error in gkDescriptorsWriter.Errors)
+				{
+					errors.AppendLine(error);
+				}
+				return new OperationResult<bool>(errors.ToString()) { Result = false };
+			}
 			return new OperationResult<bool>() { Result = true };
 		}
 
