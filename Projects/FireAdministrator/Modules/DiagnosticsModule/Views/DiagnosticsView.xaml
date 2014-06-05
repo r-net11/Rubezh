@@ -19,10 +19,7 @@
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
 					<StackPanel Grid.Row="0" Margin="10" Orientation="Horizontal">
-						<Button Width="300" Margin="2" Command="{Binding TestXMLCommand}" Content="TestXML" />
-						<Button Width="300" Margin="2" Command="{Binding StartCommand}" Content="Start" />
-						<Button Width="300" Margin="2" Command="{Binding StopCommand}" Content="Stop" />
-						<Button Width="300" Margin="2" Command="{Binding SaveCommand}" Content="Save to ..//Pictures" />
+						<Button Width="300" Margin="2" Command="{Binding SetConfigCommand}" Content="Применять" />
 					</StackPanel>
 					<ScrollViewer Grid.Row="1">
 						<TextBox Text="{Binding Text}" />

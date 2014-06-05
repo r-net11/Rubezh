@@ -22,6 +22,7 @@ namespace SKDModule.ViewModels
 		public EmployeeCardDetailsViewModel(Organisation organisation, SKDCard card = null)
 		{
 			ChangeReaderCommand = new RelayCommand(OnChangeReader);
+			ShowUSBCardReaderCommand = new RelayCommand(OnShowUSBCardReader);
 
 			Organisation = organisation;
 			Card = card;
@@ -269,6 +270,16 @@ namespace SKDModule.ViewModels
 				{
 					return "Нажмите для выбора считывателя";
 				}
+			}
+		}
+
+		public RelayCommand ShowUSBCardReaderCommand { get; private set; }
+		void OnShowUSBCardReader()
+		{
+			var cardNumberViewModel = new CardNumberViewModel();
+			if (DialogService.ShowModalWindow(cardNumberViewModel))
+			{
+				Number = cardNumberViewModel.Number;
 			}
 		}
 

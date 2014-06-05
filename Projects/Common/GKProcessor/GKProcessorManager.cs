@@ -428,29 +428,25 @@ namespace GKProcessor
 			var journalItemType = JournalItemType.System;
 			if (xBase != null)
 			{
+				uid = xBase.BaseUID;
 				if (xBase is XDevice)
 				{
-					uid = (xBase as XDevice).BaseUID;
 					journalItemType = JournalItemType.Device;
 				}
 				if (xBase is XZone)
 				{
-					uid = (xBase as XZone).BaseUID;
 					journalItemType = JournalItemType.Zone;
 				}
 				if (xBase is XDirection)
 				{
-					uid = (xBase as XDirection).BaseUID;
 					journalItemType = JournalItemType.Direction;
 				}
 				if (xBase is XDelay)
 				{
-					uid = (xBase as XDelay).BaseUID;
 					journalItemType = JournalItemType.Delay;
 				}
 				if (xBase is XPim)
 				{
-					uid = (xBase as XPim).BaseUID;
 					journalItemType = JournalItemType.Pim;
 				}
 			}

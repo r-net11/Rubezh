@@ -72,7 +72,7 @@ namespace GKProcessor
 				No = 3,
 				Name = "Состояние для режима Включено",
 				Caption = "Состояние для режима Включено",
-				Default = 0,
+				Default = 16,
 				IsLowByte = true,
 				Mask = 0x30
 			};
