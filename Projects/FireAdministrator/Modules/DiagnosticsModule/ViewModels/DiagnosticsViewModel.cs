@@ -1,112 +1,78 @@
 ﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
+using System.Linq;
+using System.ComponentModel;
+using System.Threading;
+using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Video;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using FiresecAPI.Models;
+using System.IO;
+using FiresecAPI;
+using Ionic.Zip;
+using FiresecAPI.SKD;
+using FiresecClient;
+using Infrastructure.Common.Windows;
+using FiresecAPI.GK;
 
 namespace DiagnosticsModule.ViewModels
 {
 	public class DiagnosticsViewModel : ViewPartViewModel
 	{
-		private bool IsNowPlaying { get; set; }
-		CameraFramesWatcher CameraFramesWatcher { get; set; }
+		int Count = 0;
+
 		public DiagnosticsViewModel()
 		{
-			var camera = new Camera();
-			camera.Login = "admin";
-			camera.Password = "admin";
-			camera.Ip = "172.16.7.88";
-			CameraFramesWatcher = new CameraFramesWatcher(camera);
-			TestXMLCommand = new RelayCommand(OnTestXML);
-			StartCommand = new RelayCommand(OnStart, () => !IsNowPlaying);
-			StopCommand = new RelayCommand(OnStop, () => IsNowPlaying);
-			SaveCommand = new RelayCommand(OnSave);
+			SetConfigCommand = new RelayCommand(OnSetConfig);
+			WriteConfigCommand = new RelayCommand(OnWriteConfig);
 		}
 
-		public RelayCommand TestXMLCommand { get; private set; }
-		void OnTestXML()
+		public RelayCommand SetConfigCommand { get; private set; }
+		void OnSetConfig()
 		{
-			//XmlDocument query_xml = new XmlDocument();
-			//query_xml.Load("D://Config/XDeviceConfiguration.xml");
-			//query_xml = RemoveXmlns(query_xml);
-			//query_xml.Save("D://Config/XDeviceConfiguration_1.xml");
+			var thread = new Thread(() =>
+				{
+					while (true)
+					{
+						Dispatcher.Invoke(new Action(() =>
+							{
+								SetNewConfig();
 
-			//var configuration = DeSerialize<FiresecAPI.GK.XDeviceConfiguration>("D://Config/XDeviceConfiguration_3.xml");
+								Count++;
+								Text = "SetNewConfig count = " + Count;
+
+								Thread.Sleep(TimeSpan.FromSeconds(15));
+							}));
+					}
+				}
+				);
+			thread.Start();
 		}
 
-		//public static XmlDocument RemoveXmlns(XmlDocument doc)
-		//{
-			//XDocument d;
-			//using (var nodeReader = new XmlNodeReader(doc))
-			//	d = XDocument.Load(nodeReader);
-
-			//d.Root.Attributes().Where(x => x.IsNamespaceDeclaration).Remove();
-			//d.Root.Descendants().Attributes().Where(x => x.IsNamespaceDeclaration).Remove();
-
-			//foreach (var elem in d.Descendants())
-			//	elem.Name = elem.Name.LocalName;
-
-			//d.Save("D://Config/XDeviceConfiguration_2.xml");
-
-			//var xmlDocument = new XmlDocument();
-			//using (var xmlReader = d.CreateReader())
-			//	xmlDocument.Load(xmlReader);
-
-			//return xmlDocument;
-		//}
-
-		public static T DeSerialize<T>(string fileName)
-			 where T : VersionedConfiguration, new()
+		public RelayCommand WriteConfigCommand { get; private set; }
+		void OnWriteConfig()
 		{
-			using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+			var thread = new Thread(() =>
 			{
-				T configuration = null;
-				var dataContractSerializer = new DataContractSerializer(typeof(T));
-				configuration = (T)dataContractSerializer.ReadObject(fileStream);
-				fileStream.Close();
-				configuration.ValidateVersion();
-				configuration.AfterLoad();
-				return configuration;
+				while (true)
+				{
+					Dispatcher.Invoke(new Action(() =>
+					{
+						var gkdevice = XManager.Devices.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+						var result = FiresecManager.FiresecService.GKWriteConfiguration(gkdevice);
+
+						Count++;
+						Text = "SetNewConfig count = " + Count;
+
+						Thread.Sleep(TimeSpan.FromSeconds(1));
+					}));
+				}
 			}
+				);
+			thread.Start();
 		}
 
-		public static T DeSerialize<T>(MemoryStream memoryStream)
-			 where T : VersionedConfiguration, new()
-		{
-			T configuration = null;
-			var dataContractSerializer = new DataContractSerializer(typeof(T));
-			configuration = (T)dataContractSerializer.ReadObject(memoryStream);
-			configuration.ValidateVersion();
-			configuration.AfterLoad();
-			return configuration;
-		}
 
-		public RelayCommand StartCommand { get; private set; }
-		void OnStart()
-		{
-			Logger.Error("Test Error");
-			IsNowPlaying = true;
-			CameraFramesWatcher.StartVideo();
-		}
-
-		public RelayCommand StopCommand { get; private set; }
-		void OnStop()
-		{
-			CameraFramesWatcher.StopVideo();
-			IsNowPlaying = false;
-		}
-
-		public RelayCommand SaveCommand { get; private set; }
-		void OnSave()
-		{
-			var guid = Guid.NewGuid();
-			CameraFramesWatcher.Save(guid);
-		}
-		
 		public void StopThreads()
 		{
 			IsThreadStoping = true;
@@ -122,6 +88,124 @@ namespace DiagnosticsModule.ViewModels
 				_text = value;
 				OnPropertyChanged("Text");
 			}
+		}
+
+
+
+
+
+		public static bool SetNewConfig()
+		{
+			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
+
+			WaitHelper.Execute(() =>
+			{
+				//FiresecManager.FiresecService.GKAddMessage(EventNameEnum.Применение_конфигурации, "");
+				LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
+				if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged)
+				{
+					//if (FiresecManager.IsFS2Enabled)
+					//{
+					//	FiresecManager.FS2ClientContract.SetNewConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration, FiresecManager.CurrentUser.Name);
+					//}
+					//else
+					{
+						if (!GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1)
+						{
+							LoadingService.DoStep("Применение конфигурации устройств");
+							if (FiresecManager.FiresecDriver != null)
+							{
+								var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+								LoadingService.DoStep("Синхронизация конфигурации");
+								FiresecManager.FiresecDriver.Synchronyze(false);
+							}
+						}
+					}
+				}
+
+				var tempFileName = SaveAllConfigToFile();
+				using (var fileStream = new FileStream(tempFileName, FileMode.Open))
+				{
+					FiresecManager.FiresecService.SetConfig(fileStream);
+				}
+				File.Delete(tempFileName);
+
+				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+			});
+			LoadingService.Close();
+			ServiceFactory.SaveService.Reset();
+			return true;
+		}
+
+		public static string SaveAllConfigToFile(bool saveAnyway = false)
+		{
+			var tempFolderName = AppDataFolderHelper.GetTempFolder();
+			if (!Directory.Exists(tempFolderName))
+				Directory.CreateDirectory(tempFolderName);
+
+			var tempFileName = AppDataFolderHelper.GetTempFileName();
+			if (File.Exists(tempFileName))
+				File.Delete(tempFileName);
+
+			TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
+
+			if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "DeviceConfiguration.xml", FiresecManager.FiresecConfiguration.DeviceConfiguration, 1, 1);
+			if (ServiceFactory.SaveService.PlansChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "PlansConfiguration.xml", FiresecManager.PlansConfiguration, 1, 1);
+			if (ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SoundsChanged || ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.CamerasChanged || ServiceFactory.SaveService.EmailsChanged || ServiceFactory.SaveService.AutomationChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "SystemConfiguration.xml", FiresecManager.SystemConfiguration, 1, 1);
+			if (ServiceFactory.SaveService.GKChanged || ServiceFactory.SaveService.XInstructionsChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "XDeviceConfiguration.xml", XManager.DeviceConfiguration, 1, 1);
+			AddConfiguration(tempFolderName, "ZipConfigurationItemsCollection.xml", TempZipConfigurationItemsCollection, 1, 1);
+			if (ServiceFactory.SaveService.SecurityChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "SecurityConfiguration.xml", FiresecManager.SecurityConfiguration, 1, 1);
+			if (ServiceFactory.SaveService.LibraryChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "DeviceLibraryConfiguration.xml", FiresecManager.DeviceLibraryConfiguration, 1, 1);
+			if (ServiceFactory.SaveService.XLibraryChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "XDeviceLibraryConfiguration.xml", XManager.DeviceLibraryConfiguration, 1, 1);
+			if (ServiceFactory.SaveService.SKDChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "SKDConfiguration.xml", SKDManager.SKDConfiguration, 1, 1);
+			if (ServiceFactory.SaveService.SKDLibraryChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "SKDLibraryConfiguration.xml", SKDManager.SKDLibraryConfiguration, 1, 1);
+			if (ServiceFactory.SaveService.SKDPassCardLibraryChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "SKDPassCardLibraryConfiguration.xml", SKDManager.SKDPassCardLibraryConfiguration, 1, 1);
+			if (ServiceFactory.SaveService.LayoutsChanged || saveAnyway)
+				AddConfiguration(tempFolderName, "LayoutsConfiguration.xml", FiresecManager.LayoutsConfiguration, 1, 1);
+
+			var destinationImagesDirectory = AppDataFolderHelper.GetFolder(Path.Combine(tempFolderName, "Content"));
+			if (Directory.Exists(ServiceFactory.ContentService.ContentFolder))
+			{
+				if (Directory.Exists(destinationImagesDirectory))
+					Directory.Delete(destinationImagesDirectory);
+				if (!Directory.Exists(destinationImagesDirectory))
+					Directory.CreateDirectory(destinationImagesDirectory);
+				var sourceImagesDirectoryInfo = new DirectoryInfo(ServiceFactory.ContentService.ContentFolder);
+				foreach (var fileInfo in sourceImagesDirectoryInfo.GetFiles())
+				{
+					fileInfo.CopyTo(Path.Combine(destinationImagesDirectory, fileInfo.Name));
+				}
+			}
+
+			var zipFile = new ZipFile(tempFileName);
+			zipFile.AddDirectory(tempFolderName);
+			zipFile.Save(tempFileName);
+			zipFile.Dispose();
+			if (Directory.Exists(tempFolderName))
+				Directory.Delete(tempFolderName, true);
+
+			return tempFileName;
+		}
+
+		static ZipConfigurationItemsCollection TempZipConfigurationItemsCollection = new ZipConfigurationItemsCollection();
+
+		static void AddConfiguration(string folderName, string name, VersionedConfiguration configuration, int minorVersion, int majorVersion)
+		{
+			configuration.BeforeSave();
+			configuration.Version = new ConfigurationVersion() { MinorVersion = minorVersion, MajorVersion = majorVersion };
+			ZipSerializeHelper.Serialize(configuration, Path.Combine(folderName, name));
+
+			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
 	}
 }

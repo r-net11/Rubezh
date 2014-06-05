@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
+using System.Text;
 
 namespace GKProcessor
 {
@@ -172,8 +173,15 @@ namespace GKProcessor
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device);
 			Start();
-			if (gkDescriptorsWriter.Error != null)
-				return new OperationResult<bool>(gkDescriptorsWriter.Error) { Result = false };
+			if (gkDescriptorsWriter.Errors.Count > 0)
+			{
+				var errors = new StringBuilder();
+				foreach (var error in gkDescriptorsWriter.Errors)
+				{
+					errors.AppendLine(error);
+				}
+				return new OperationResult<bool>(errors.ToString()) { Result = false };
+			}
 			return new OperationResult<bool>() { Result = true };
 		}
 
@@ -428,29 +436,25 @@ namespace GKProcessor
 			var journalItemType = JournalItemType.System;
 			if (xBase != null)
 			{
+				uid = xBase.BaseUID;
 				if (xBase is XDevice)
 				{
-					uid = (xBase as XDevice).BaseUID;
 					journalItemType = JournalItemType.Device;
 				}
 				if (xBase is XZone)
 				{
-					uid = (xBase as XZone).BaseUID;
 					journalItemType = JournalItemType.Zone;
 				}
 				if (xBase is XDirection)
 				{
-					uid = (xBase as XDirection).BaseUID;
 					journalItemType = JournalItemType.Direction;
 				}
 				if (xBase is XDelay)
 				{
-					uid = (xBase as XDelay).BaseUID;
 					journalItemType = JournalItemType.Delay;
 				}
 				if (xBase is XPim)
 				{
-					uid = (xBase as XPim).BaseUID;
 					journalItemType = JournalItemType.Pim;
 				}
 			}

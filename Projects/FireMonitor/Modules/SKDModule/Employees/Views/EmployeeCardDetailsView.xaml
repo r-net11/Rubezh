@@ -24,6 +24,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Тип пропуска" Margin="2" />
@@ -73,7 +74,9 @@
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
-			</Grid>
+
+                <Button Grid.Row="6" Grid.Column="1" Command="{Binding ShowUSBCardReaderCommand}" Content="От USB-считывателя" HorizontalAlignment="Left" Width="150" Margin="2" />
+            </Grid>
 		</TabItem>
 		<TabItem Header="Зоны доступа">
 			<Views:AccessZonesSelectationView DataContext="{Binding AccessZones}" />

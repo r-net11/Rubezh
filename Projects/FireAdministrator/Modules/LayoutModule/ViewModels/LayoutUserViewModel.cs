@@ -9,11 +9,10 @@ namespace LayoutModule.ViewModels
 		private Action<LayoutUserViewModel> _isActiveChanged;
 		public User User { get; private set; }
 
-		public LayoutUserViewModel(User user, string roleName, Action<LayoutUserViewModel> isActiveChanged)
+		public LayoutUserViewModel(User user, Action<LayoutUserViewModel> isActiveChanged)
 		{
 			_isActiveChanged = isActiveChanged;
 			User = user;
-			RoleName = roleName;
 			Update();
 		}
 
@@ -25,7 +24,6 @@ namespace LayoutModule.ViewModels
 		{
 			get { return User.Login; }
 		}
-		public string RoleName { get; private set; }
 
 		private bool _isActive;
 		public bool IsActive
@@ -44,7 +42,6 @@ namespace LayoutModule.ViewModels
 		{
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => Login);
-			OnPropertyChanged(() => RoleName);
 		}
 	}
 }

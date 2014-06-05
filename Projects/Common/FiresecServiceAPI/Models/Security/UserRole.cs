@@ -9,8 +9,8 @@ namespace FiresecAPI.Models
 	{
 		public UserRole()
 		{
-			PermissionStrings = new List<string>();
 			UID = Guid.NewGuid();
+			PermissionStrings = new List<string>();
 		}
 
 		[DataMember]

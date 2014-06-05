@@ -43,40 +43,18 @@
 				</Grid>
 			</StackPanel>
 		</TabItem>
-		<TabItem Header="Роль">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
-				<ComboBox Grid.Row="0" ItemsSource="{Binding Roles}" SelectedItem="{Binding UserRole}" IsEditable="False">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding Name}" />
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-				<Label Grid.Row="1" Content="Права:" FontWeight="Bold" Margin="0,11,0,3" />
-				<ListBox Grid.Row="2" ItemsSource="{Binding Permissions}" Padding="7" Background="White">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding IsEnable}" />
-								<TextBlock Text="{Binding Desciption}" Margin="4, 1, 1, 1" />
-							</StackPanel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</Grid>
-		</TabItem>
-		<TabItem Header="Соединение">
-            <StackPanel>
-                <CheckBox IsChecked="{Binding AllowAdministratorAutoConnect}"  Content="Разрешить автозапуск Администратора" Foreground="White" Margin="2" />
-                <CheckBox IsChecked="{Binding AllowMonitorAutoConnect}"  Content="Разрешить автозапуск ОЗ" Foreground="White" Margin="2" />
-                <TextBlock Text="Удаленный доступ" FontWeight="Bold"  Foreground="White" Margin="2 5 2 2" />
-                <Views:RemoteAccessView DataContext="{Binding RemoteAccess}" Margin="2" />
-            </StackPanel>
-		</TabItem>
+        <TabItem Header="Права">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Views:PermissionsView Grid.Row="0" DataContext="{Binding PermissionsViewModel}" Margin="2" />
+                <Button Grid.Row="1" Content="Применить права из шаблона" Command="{Binding SetRolePermissionsCommand}" HorizontalAlignment="Left" Width="200" Margin="2" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Удаленный доступ">
+            <Views:RemoteAccessView DataContext="{Binding RemoteAccess}" HorizontalAlignment="Left" Margin="2" />
+        </TabItem>
 	</TabControl>
 </UserControl>

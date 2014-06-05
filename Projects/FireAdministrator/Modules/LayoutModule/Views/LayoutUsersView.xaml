@@ -53,7 +53,6 @@
 				</GridViewColumn>
 				<GridViewColumn DisplayMemberBinding="{Binding Login}" Header="Логин" />
 				<GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Имя" />
-				<GridViewColumn DisplayMemberBinding="{Binding RoleName}" Header="Роль" />
 			</GridView>
 		</ListView.View>
 	</ListView>

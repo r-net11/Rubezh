@@ -17,13 +17,10 @@ namespace FiresecAPI.Models
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public Guid RoleUID { get; set; }
+		public string Name { get; set; }
 
 		[DataMember]
 		public string Login { get; set; }
-
-		[DataMember]
-		public string Name { get; set; }
 
 		[DataMember]
 		public string PasswordHash { get; set; }
@@ -33,12 +30,6 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public RemoteAccess RemoreAccess { get; set; }
-
-		[DataMember]
-		public bool AllowAdministratorAutoConnect { get; set; }
-
-		[DataMember]
-		public bool AllowMonitorAutoConnect { get; set; }
 
 		public bool HasPermission(PermissionType permissionType)
 		{

@@ -121,7 +121,6 @@ namespace FiresecService.Service
 
 		public string Test(string arg)
 		{
-			VideoWatcher.Flash();
 			return "Test";
 		}
 
