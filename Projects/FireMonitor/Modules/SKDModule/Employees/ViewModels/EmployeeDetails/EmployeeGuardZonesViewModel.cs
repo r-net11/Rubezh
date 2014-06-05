@@ -9,13 +9,17 @@ namespace SKDModule.ViewModels
 	public class EmployeeGuardZonesViewModel : BaseViewModel
 	{
 		public Employee Employee { get; private set; }
+		Organisation Organisation;
 
-		public EmployeeGuardZonesViewModel(Employee employee)
+		public EmployeeGuardZonesViewModel(Employee employee, Organisation organisation)
 		{
 			Employee = employee;
+			Organisation = organisation;
 			GuardZones = new ObservableCollection<EmployeeGuardZoneViewModel>();
 			foreach (var guardZone in XManager.DeviceConfiguration.GuardZones)
 			{
+				if (!Organisation.GuardZoneUIDs.Any(x => x == guardZone.UID))
+					continue;
 				var guardZoneViewModel = new EmployeeGuardZoneViewModel(employee, guardZone);
 				GuardZones.Add(guardZoneViewModel);
 			}

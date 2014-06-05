@@ -22,8 +22,7 @@ namespace SKDDriver.Translators
 
 		protected override Expression<Func<DataAccess.Holiday, bool>> IsInFilter(HolidayFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.Holiday>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			if (filter.Year != 0)
 				result = result.And(e => e.Date.Year == filter.Year);
 			return result;

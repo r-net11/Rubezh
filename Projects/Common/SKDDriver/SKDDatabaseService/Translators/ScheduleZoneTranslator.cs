@@ -17,8 +17,7 @@ namespace SKDDriver.Translators
 		}
 		protected override Expression<Func<DataAccess.ScheduleZone, bool>> IsInFilter(ScheduleZoneFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.ScheduleZone>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			result = result.And(e => filter.ScheduleUIDs.Contains(e.ScheduleUID));
 			return result;
 		}

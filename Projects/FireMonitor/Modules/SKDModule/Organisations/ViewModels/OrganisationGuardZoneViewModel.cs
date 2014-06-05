@@ -1,11 +1,9 @@
-﻿using FiresecAPI.Models;
+﻿using System;
+using System.Collections.Generic;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {
@@ -34,6 +32,17 @@ namespace SKDModule.ViewModels
 			{
 				_isChecked = value;
 				OnPropertyChanged("IsChecked");
+				if (value)
+				{
+					if (!Organisation.GuardZoneUIDs.Contains(GuardZone.UID))
+						Organisation.GuardZoneUIDs.Add(GuardZone.UID);
+				}
+				else
+				{
+					if (Organisation.GuardZoneUIDs.Contains(GuardZone.UID))
+						Organisation.GuardZoneUIDs.Remove(GuardZone.UID);
+				}
+				var saveResult = OrganisationHelper.SaveGuardZones(Organisation);
 			}
 		}
 	}

@@ -25,8 +25,7 @@ namespace SKDDriver
 		}
 		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
-			var result = PredicateBuilder.True<TableT>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			var IsDeletedExpression = PredicateBuilder.True<TableT>();
 			switch (filter.LogicalDeletationType)
 			{

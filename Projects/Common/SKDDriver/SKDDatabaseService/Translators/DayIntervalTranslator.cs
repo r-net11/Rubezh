@@ -22,8 +22,7 @@ namespace SKDDriver.Translators
 		}
 		protected override Expression<Func<DataAccess.Day, bool>> IsInFilter(DayIntervalFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.Day>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			result = result.And(e => filter.ScheduleSchemeUIDs.Contains(e.ScheduleSchemeUID));
 			return result;
 		}

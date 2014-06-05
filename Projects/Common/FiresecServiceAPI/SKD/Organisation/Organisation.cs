@@ -11,6 +11,7 @@ namespace FiresecAPI.SKD
 		{
 			ZoneUIDs = new List<Guid>();
 			UserUIDs = new List<Guid>();
+			GuardZoneUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -39,6 +40,7 @@ namespace FiresecAPI.SKD
 		{
 			ZoneUIDs = new List<Guid>();
 			UserUIDs = new List<Guid>();
+			GuardZoneUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -55,6 +57,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> UserUIDs { get; set; }
+
+		[DataMember]
+		public List<Guid> GuardZoneUIDs { get; set; }
 	}
 
 }

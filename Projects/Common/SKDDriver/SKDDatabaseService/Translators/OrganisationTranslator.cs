@@ -53,6 +53,7 @@ namespace SKDDriver
 			result.PhotoUID = tableItem.PhotoUID;
 			result.ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID) select x.ZoneUID).ToList();
 			result.UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID) select x.UserUID).ToList();
+			result.GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == result.UID) select x.ZoneUID).ToList();
 			return result;
 		}
 
@@ -80,7 +81,8 @@ namespace SKDDriver
 						RemovalDate = tableItem.RemovalDate,
 						UID = tableItem.UID,
 						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList(),
-						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList()
+						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
+						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList()
 					};
 				var photoResult = PhotoTranslator.GetSingle(tableItem.PhotoUID);
 				if (photoResult.HasError)
@@ -132,6 +134,39 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
+		public OperationResult SaveGuardZones(Organisation apiItem)
+		{
+			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneUIDs);
+		}
+
+		public OperationResult SaveGuardZones(OrganisationDetails apiItem)
+		{
+			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneUIDs);
+		}
+
+		OperationResult SaveGuardZonesInternal(Guid organisationUID, List<Guid> GuardZoneUIDs)
+		{
+			try
+			{
+				var tableOrganisationGuardZones = Context.GuardZones.Where(x => x.ParentUID == organisationUID);
+				Context.GuardZones.DeleteAllOnSubmit(tableOrganisationGuardZones);
+				foreach (var GuardZoneUID in GuardZoneUIDs)
+				{
+					var tableOrganisationGuardZone = new DataAccess.GuardZone();
+					tableOrganisationGuardZone.UID = Guid.NewGuid();
+					tableOrganisationGuardZone.ParentUID = organisationUID;
+					tableOrganisationGuardZone.ZoneUID = GuardZoneUID;
+					Context.GuardZones.InsertOnSubmit(tableOrganisationGuardZone);
+				}
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
 		public OperationResult SaveUsers(Organisation apiItem)
 		{
 			return SaveUsersInternal(apiItem.UID, apiItem.UserUIDs);
@@ -170,6 +205,9 @@ namespace SKDDriver
 			var saveZonesResult = SaveZones(apiItem);
 			if (saveZonesResult.HasError)
 				return saveZonesResult;
+			var saveGuardZonesResult = SaveGuardZones(apiItem);
+			if (saveGuardZonesResult.HasError)
+				return saveGuardZonesResult;
 			var saveUsersResult = SaveUsers(apiItem);
 			if (saveUsersResult.HasError)
 				return saveUsersResult;
@@ -210,9 +248,8 @@ namespace SKDDriver
 
 		protected override Expression<Func<DataAccess.Organisation, bool>> IsInFilter(OrganisationFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.Organisation>();
-			result = result.And(base.IsInFilter(filter));
-			if(filter.UserUID != null)
+			var result = base.IsInFilter(filter);
+			if(filter.UserUID != Guid.Empty)
 				result = result.And(e => e.OrganisationUsers.Any(x => x.UserUID == filter.UserUID));
 			return result;
 		}		

@@ -119,8 +119,7 @@ namespace SKDDriver
 
 		protected override Expression<Func<DataAccess.CardZone, bool>> IsInFilter(CardZoneFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.CardZone>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			var cardUIDs = filter.CardUIDs;
 			if (cardUIDs != null && cardUIDs.Count != 0)
 				result = result.And(e => e.ParentUID.HasValue && cardUIDs.Contains(e.ParentUID.Value));

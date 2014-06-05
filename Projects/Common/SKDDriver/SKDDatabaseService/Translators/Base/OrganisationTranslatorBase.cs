@@ -30,11 +30,10 @@ namespace SKDDriver
 
 		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
-			var result = PredicateBuilder.True<TableT>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			if(filter.OrganisationUIDs.IsNotNullOrEmpty())
 				result = result.And(e => e.OrganisationUID != null && filter.OrganisationUIDs.Contains(e.OrganisationUID.Value));
-			if (filter.UserUID != null)
+			if (filter.UserUID != Guid.Empty)
 				result = result.And(e => (Context.Organisations.Any(x => x.OrganisationUsers.Any(y => y.UserUID == filter.UserUID))));
 			return result;
 		}

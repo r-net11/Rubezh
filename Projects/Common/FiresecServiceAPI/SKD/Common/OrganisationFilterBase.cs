@@ -11,7 +11,7 @@ namespace FiresecAPI.SKD
 		public List<Guid> OrganisationUIDs { get; set; }
 
 		[DataMember]
-		public Guid? UserUID { get; set; }
+		public Guid UserUID { get; set; }
 
 		public OrganisationFilterBase()
 			: base()
