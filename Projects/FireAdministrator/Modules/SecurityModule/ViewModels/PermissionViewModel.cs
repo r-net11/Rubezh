@@ -1,40 +1,66 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Services;
+using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows;
+using FiresecAPI.SKD;
 
 namespace SecurityModule.ViewModels
 {
-	public class PermissionViewModel : BaseViewModel
+	public class PermissionViewModel : TreeNodeViewModel<PermissionViewModel>
 	{
-		public PermissionViewModel(PermissionType permissionType)
-		{
-			Name = permissionType.ToString();
-			Desciption = permissionType.ToDescription();
-		}
+		public PermissionType PermissionType { get; private set; }
 
-		public PermissionViewModel(string name)
+		public PermissionViewModel(PermissionType permissionType, List<PermissionViewModel> children = null)
 		{
-			Name = name;
-			PermissionType permissionType;
-			var result = Enum.TryParse<PermissionType>(name, out permissionType);
-			if (result)
+			PermissionType = permissionType;
+			Name = permissionType.ToDescription();
+
+			if (children != null)
 			{
-				Desciption = permissionType.ToDescription();
+				foreach (var child in children)
+				{
+					AddChild(child);
+				}
 			}
 		}
 
 		public string Name { get; private set; }
-		public string Desciption { get; private set; }
 
-		bool _isEnable;
-		public bool IsEnable
+		public bool _isChecked;
+		public bool IsChecked
 		{
-			get { return _isEnable; }
+			get { return _isChecked; }
 			set
 			{
-				_isEnable = value;
-				OnPropertyChanged("IsEnable");
+				_isChecked = value;
+				OnPropertyChanged("IsChecked");
+				foreach (var child in Children)
+				{
+					child.IsChecked = value;
+				}
+				if (!value)
+				{
+					if (Parent != null)
+					{
+						Parent.UnsetParent();
+					}
+				}
+			}
+		}
+
+		public void UnsetParent()
+		{
+			_isChecked = false;
+			OnPropertyChanged("IsChecked");
+			if (Parent != null)
+			{
+				Parent.UnsetParent();
 			}
 		}
 	}

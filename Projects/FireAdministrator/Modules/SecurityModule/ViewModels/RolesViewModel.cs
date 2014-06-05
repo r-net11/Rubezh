@@ -74,13 +74,11 @@ namespace SecurityModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var result = MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить роль \"{0}\" из списка? Тогда будут удалены и все пользователи с этой ролью", SelectedRole.Role.Name));
+			var result = MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить шаблон прав \"{0}\" из списка?", SelectedRole.Role.Name));
 			if (result == MessageBoxResult.Yes)
 			{
 				FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
-				FiresecManager.SecurityConfiguration.Users = FiresecManager.SecurityConfiguration.Users.Where(x => x.RoleUID != SelectedRole.Role.UID).ToList();
 				Roles.Remove(SelectedRole);
-
 				ServiceFactory.SaveService.SecurityChanged = true;
 			}
 		}
@@ -91,32 +89,11 @@ namespace SecurityModule.ViewModels
 			var roleDetailsViewModel = new RoleDetailsViewModel(SelectedRole.Role);
 			if (DialogService.ShowModalWindow(roleDetailsViewModel))
 			{
-				RemovePermissionsFromUsersWithRole(SelectedRole.Role.UID, SelectedRole.Role.PermissionStrings, roleDetailsViewModel.Role.PermissionStrings);
-				AddPermissionsToUsersWithRole(SelectedRole.Role.UID, SelectedRole.Role.PermissionStrings, roleDetailsViewModel.Role.PermissionStrings);
-
 				FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
 				SelectedRole.Role = roleDetailsViewModel.Role;
 				FiresecManager.SecurityConfiguration.UserRoles.Add(SelectedRole.Role);
 
 				ServiceFactory.SaveService.SecurityChanged = true;
-			}
-		}
-
-		void RemovePermissionsFromUsersWithRole(Guid roleUID, List<string> oldPermissions, List<string> newPermissions)
-		{
-			foreach (var permissionType in oldPermissions.Where(x => newPermissions.Contains(x) == false))
-			{
-				foreach (var user in FiresecManager.SecurityConfiguration.Users.Where(x => x.RoleUID == roleUID))
-					user.PermissionStrings.Remove(permissionType);
-			}
-		}
-
-		void AddPermissionsToUsersWithRole(Guid roleUID, List<string> oldPermissions, List<string> newPermissions)
-		{
-			foreach (var permissionType in newPermissions.Where(x => oldPermissions.Contains(x) == false))
-			{
-				foreach (var user in FiresecManager.SecurityConfiguration.Users.Where(x => x.RoleUID == roleUID))
-					user.PermissionStrings.Add(permissionType);
 			}
 		}
 

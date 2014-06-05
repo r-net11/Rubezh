@@ -34,7 +34,7 @@ namespace SecurityModule
 			{
 				new NavigationItem("Права доступа", "/Controls;component/Images/users.png", new List<NavigationItem>(){
 					new NavigationItem<ShowUsersEvent>(UsersViewModel, "Пользователи", "/Controls;component/Images/user.png"),
-					new NavigationItem<ShowUserGroupsEvent>(RolesViewModel, "Группы", "/Controls;component/Images/users.png"),
+					new NavigationItem<ShowUserGroupsEvent>(RolesViewModel, "Шаблоны прав", "/Controls;component/Images/users.png"),
 				}),
 			};
 		}

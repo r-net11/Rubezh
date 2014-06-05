@@ -13,39 +13,29 @@ namespace SecurityModule.ViewModels
 	{
 		public UserRole Role { get; private set; }
 		public Guid UID { get; private set; }
+		public PermissionsViewModel PermissionsViewModel { get; private set; }
 
 		public RoleDetailsViewModel(UserRole role = null)
 		{
 			if (role != null)
 			{
-				Title = string.Format("Свойства роли: {0}", role.Name);
+				Title = string.Format("Свойства шаблона прав: {0}", role.Name);
 				Role = role;
 			}
 			else
 			{
-				Title = "Создание новой роли";
+				Title = "Создание нового шаблона прав";
 				Role = new UserRole();
 			}
 
+			PermissionsViewModel = new PermissionsViewModel(Role.PermissionStrings);
 			CopyProperties();
 		}
 
 		void CopyProperties()
 		{
-			Permissions = new ObservableCollection<PermissionViewModel>();
-			foreach (PermissionType permissionType in Enum.GetValues(typeof(PermissionType)))
-				Permissions.Add(new PermissionViewModel(permissionType));
-
 			UID = Role.UID;
 			Name = Role.Name;
-			foreach (var permissionString in Role.PermissionStrings)
-			{
-				var permission = Permissions.FirstOrDefault(x => x.Name == permissionString);
-				if (permission != null)
-				{
-					permission.IsEnable = true;
-				}
-			}
 		}
 
 		string _name;
@@ -59,28 +49,24 @@ namespace SecurityModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<PermissionViewModel> Permissions { get; private set; }
-
 		void SaveProperties()
 		{
 			Role = new UserRole();
 			Role.UID = UID;
 			Role.Name = Name;
-			Role.PermissionStrings = new List<string>(
-				Permissions.Where(x => x.IsEnable).Select(x => x.Name)
-			);
+			Role.PermissionStrings = PermissionsViewModel.GetPermissionStrings();
 		}
 
 		protected override bool Save()
 		{
 			if (string.IsNullOrWhiteSpace(Name))
 			{
-				MessageBoxService.Show("Сначала введите название роли");
+				MessageBoxService.Show("Сначала введите название шаблона прав");
 				return false;
 			}
 			else if (Name != Role.Name && FiresecManager.SecurityConfiguration.UserRoles.Any(role => role.Name == Name))
 			{
-				MessageBoxService.Show("Роль с таким названием уже существует");
+				MessageBoxService.Show("Шаблон прав с таким названием уже существует");
 				return false;
 			}
 
