@@ -76,24 +76,20 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
-			using (new TimeCounter("PlansViewModel.Initialize: {0}"))
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				using (new TimeCounter("\tPlansViewModel.CacheBrushes: {0}"))
-					foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-					{
-						if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
-							plan.BackgroundImageSource = null;
-						Helper.UpgradeBackground(plan);
-						foreach (var elementBase in PlanEnumerator.Enumerate(plan))
-							Helper.UpgradeBackground(elementBase);
-					}
-				SelectedPlan = null;
-				Plans = new ObservableCollection<PlanViewModel>();
-				foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-					AddPlan(plan, null);
-				if (SelectedPlan != null)
-					SelectedPlan.ExpandToThis();
+				if (plan.BackgroundImageSource.HasValue && !ServiceFactory.ContentService.CheckIfExists(plan.BackgroundImageSource.Value.ToString()))
+					plan.BackgroundImageSource = null;
+				Helper.UpgradeBackground(plan);
+				foreach (var elementBase in PlanEnumerator.Enumerate(plan))
+					Helper.UpgradeBackground(elementBase);
 			}
+			SelectedPlan = null;
+			Plans = new ObservableCollection<PlanViewModel>();
+			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+				AddPlan(plan, null);
+			if (SelectedPlan != null)
+				SelectedPlan.ExpandToThis();
 		}
 		private PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
 		{
@@ -127,21 +123,15 @@ namespace PlansModule.ViewModels
 			get { return _selectedPlan; }
 			set
 			{
-				//if (SelectedPlan == value)
-				//	return;
-				using (new TimeCounter("PlansViewModel.SelectedPlan: {0}", true, true))
-				{
-					_selectedPlan = value;
-					OnPropertyChanged("SelectedPlan");
-					DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null && SelectedPlan.PlanFolder == null;
-					PlanDesignerViewModel.Save();
-					PlanDesignerViewModel.Initialize(value == null || value.PlanFolder != null ? null : value.Plan);
-					using (new TimeCounter("\tPlansViewModel.UpdateElements: {0}"))
-						ElementsViewModel.Update();
-					DesignerCanvas.Toolbox.SetDefault();
-					DesignerCanvas.DeselectAll();
-					UpdateTabIndex();
-				}
+				_selectedPlan = value;
+				OnPropertyChanged("SelectedPlan");
+				DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null && SelectedPlan.PlanFolder == null;
+				PlanDesignerViewModel.Save();
+				PlanDesignerViewModel.Initialize(value == null || value.PlanFolder != null ? null : value.Plan);
+				ElementsViewModel.Update();
+				DesignerCanvas.Toolbox.SetDefault();
+				DesignerCanvas.DeselectAll();
+				UpdateTabIndex();
 			}
 		}
 

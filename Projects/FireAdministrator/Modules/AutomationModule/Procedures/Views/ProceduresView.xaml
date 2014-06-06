@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="AutomationModule.Views.ProceduresView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:Views="clr-namespace:AutomationModule.Views">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -64,7 +65,8 @@
 				<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить шаг" ImageSource="/Controls;component/Images/Add.png" />
 				<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="/Controls;component/Images/Delete.png" />
 			</StackPanel>
-			<DataGrid Grid.Row="1" ItemsSource="{Binding ProcedureSteps}" SelectedItem="{Binding SelectedProcedureStep}">
+            <Views:StepsView Grid.Row="1" DataContext="{Binding StepsViewModel}" Margin="2" />
+			<!--<DataGrid Grid.Row="1" ItemsSource="{Binding ProcedureSteps}" SelectedItem="{Binding SelectedProcedureStep}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Шаг" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
@@ -74,7 +76,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
-			</DataGrid>
+			</DataGrid>-->
 		</Grid>
 	</Grid>
 </UserControl>

@@ -10,14 +10,17 @@ namespace AutomationModule.ViewModels
 	public class ProcedureViewModel : BaseViewModel
 	{
 		public Procedure Procedure { get; private set; }
+		public StepsViewModel StepsViewModel { get; private set; }
 
 		public ProcedureViewModel(Procedure procedure)
 		{
-			Procedure = procedure;
-			InputObjects = new ProcedureInputObjectsViewModel(procedure);
-			ProcedureSteps = new ObservableCollection<ProcedureStepViewModel>();
-			DeleteCommand = new RelayCommand(OnDelete, CanDeleted);
 			AddCommand = new RelayCommand(OnAdd);
+			DeleteCommand = new RelayCommand(OnDelete, CanDeleted);
+
+			Procedure = procedure;
+			StepsViewModel = new StepsViewModel(procedure);
+			InputObjects = new ProcedureInputObjectsViewModel(procedure);
+			ProcedureSteps = new ObservableCollection<ProcedureStepViewModel>();			
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -30,8 +33,10 @@ namespace AutomationModule.ViewModels
 				{
 					var procedureStep = new ProcedureStep();
 					procedureStep.ProcedureStepType = stepTypeSelectationViewModel.SelectedStepType.ProcedureStepType;
-					var selectedProcedureStep = new ProcedureStepViewModel(procedureStep);
-					ProcedureSteps.Add(SelectedProcedureStep);
+					var stepViewModel = new StepViewModel(StepsViewModel, procedureStep);
+					StepsViewModel.RootSteps.Add(stepViewModel);
+					//ProcedureSteps.Add(procedureStepViewModel);
+					//SelectedProcedureStep = procedureStepViewModel;
 				}
 			}
 		}
