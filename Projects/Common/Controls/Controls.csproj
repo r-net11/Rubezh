@@ -1128,6 +1128,14 @@
   <ItemGroup>
     <Resource Include="Images\SKDUser.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Day.png" />
+    <Resource Include="Images\Holiday.png" />
+    <Resource Include="Images\Interval.png" />
+    <Resource Include="Images\Month.png" />
+    <Resource Include="Images\Schedule.png" />
+    <Resource Include="Images\Week.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
