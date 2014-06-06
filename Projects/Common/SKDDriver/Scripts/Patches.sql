@@ -31,23 +31,37 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('AlterPatches')    
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationGuardZone')
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GuardZone')
 BEGIN
-	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationGuardZone')
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationGuardZone')
 	BEGIN
-		CREATE TABLE OrganisationGuardZone(
+		DROP TABLE OrganisationGuardZone
+	END
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'GuardZone')
+	BEGIN
+		CREATE TABLE [dbo].[GuardZone](
 			[UID] [uniqueidentifier] NOT NULL,
-			[UserUID] [uniqueidentifier] NOT NULL,
-			[OrganisationUID] [uniqueidentifier] NOT NULL,
-		CONSTRAINT [PK_OrganisationGuardZone] PRIMARY KEY CLUSTERED 
+			[ZoneUID] [uniqueidentifier] NOT NULL,
+			[ParentUID] [uniqueidentifier] NOT NULL,
+			[CanSet] [bit] NOT NULL,
+			[CanReset] [bit] NOT NULL,
+		CONSTRAINT [PK_GuardZone] PRIMARY KEY CLUSTERED 
 		(
 			[UID] ASC
 		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-		) ON [PRIMARY]	
-		ALTER TABLE [dbo].[OrganisationGuardZone] WITH NOCHECK ADD CONSTRAINT [FK_OrganisationGuardZone_Organisation] FOREIGN KEY([OrganisationUid])
+		) ON [PRIMARY]
+		ALTER TABLE [dbo].[GuardZone] WITH NOCHECK ADD CONSTRAINT [FK_GuardZone_Organisation] FOREIGN KEY([ParentUid])
 		REFERENCES [dbo].[Organisation] ([Uid])
 		NOT FOR REPLICATION 
-		ALTER TABLE [dbo].[OrganisationGuardZone] NOCHECK CONSTRAINT [FK_OrganisationGuardZone_Organisation]
+		ALTER TABLE [dbo].[GuardZone] NOCHECK CONSTRAINT [FK_GuardZone_Organisation]
+		ALTER TABLE [dbo].[GuardZone] WITH NOCHECK ADD CONSTRAINT [FK_GuardZone_Employee] FOREIGN KEY([ParentUid])
+		REFERENCES [dbo].[Employee] ([Uid])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[GuardZone] NOCHECK CONSTRAINT [FK_GuardZone_Employee]
+		ALTER TABLE [dbo].[GuardZone] WITH NOCHECK ADD CONSTRAINT [FK_GuardZone_AccessTemplate] FOREIGN KEY([ParentUid])
+		REFERENCES [dbo].[AccessTemplate] ([Uid])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[GuardZone] NOCHECK CONSTRAINT [FK_GuardZone_AccessTemplate]
 	END
-	INSERT INTO Patches (Id) VALUES ('OrganisationGuardZone')    
+	INSERT INTO Patches (Id) VALUES ('GuardZone')    
 END
