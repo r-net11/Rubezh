@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 					Name = "Новая зона",
 					No = 1
 				};
-				if (XManager.Zones.Count != 0)
+				if (XManager.DeviceConfiguration.GuardZones.Count != 0)
 					Zone.No = (ushort)(XManager.DeviceConfiguration.GuardZones.Select(x => x.No).Max() + 1);
 			}
 			else
