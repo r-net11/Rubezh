@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Models
+namespace FiresecAPI.Automation
 {
 	public enum ProcedureObjectType
 	{

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.XModels.Automation;
 
-namespace FiresecAPI.Models
+namespace FiresecAPI.Automation
 {
 	[DataContract]
 	public class Procedure

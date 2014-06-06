@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI;
-using FiresecAPI.Models;
+using FiresecAPI.Automation;
 
 namespace AutomationModule.Converters
 {

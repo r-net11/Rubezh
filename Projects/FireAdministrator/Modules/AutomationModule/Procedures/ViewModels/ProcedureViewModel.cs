@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecAPI.Models;
-using FiresecAPI.XModels.Automation;
+using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -24,12 +23,16 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var proceduresStepsViewModel = new ProcedureStepsViewModel();
-			if (DialogService.ShowModalWindow(proceduresStepsViewModel))
+			var stepTypeSelectationViewModel = new StepTypeSelectationViewModel();
+			if (DialogService.ShowModalWindow(stepTypeSelectationViewModel))
 			{
-				SelectedProcedureStep = new ProcedureStepViewModel(proceduresStepsViewModel.SelectedProcedureStep);
-				ProcedureSteps.Add(SelectedProcedureStep);
-				OnPropertyChanged(()=>ProcedureSteps);
+				if (stepTypeSelectationViewModel.SelectedStepType != null && !stepTypeSelectationViewModel.SelectedStepType.IsFolder)
+				{
+					var procedureStep = new ProcedureStep();
+					procedureStep.ProcedureStepType = stepTypeSelectationViewModel.SelectedStepType.ProcedureStepType;
+					var selectedProcedureStep = new ProcedureStepViewModel(procedureStep);
+					ProcedureSteps.Add(SelectedProcedureStep);
+				}
 			}
 		}
 

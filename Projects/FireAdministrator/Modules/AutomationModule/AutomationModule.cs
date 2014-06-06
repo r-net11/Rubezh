@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutomationModule.Events;
 using AutomationModule.Validation;
+using AutomationModule.ViewModels;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using AutomationModule.ViewModels;
-using AutomationModule.Events;
 using Infrastructure.Common.Validation;
 
 namespace AutomationModule

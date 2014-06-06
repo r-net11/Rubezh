@@ -1,6 +1,6 @@
 ﻿using System;
 using AutomationModule.Events;
-using FiresecAPI.Models;
+using FiresecAPI.Automation;
 using Infrastructure.Common.Validation;
 
 namespace AutomationModule.Validation

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models;
+using FiresecAPI.Automation;
 using FiresecClient;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {

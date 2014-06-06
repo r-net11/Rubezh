@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
 
-namespace FiresecAPI.Models
+namespace FiresecAPI.Automation
 {
 	[DataContract]
 	public class ProcedureInputObject

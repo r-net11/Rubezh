@@ -2,9 +2,9 @@
 
 namespace AutomationModule.Views
 {
-	public partial class ProcedureObjectsSelectationView : UserControl
+	public partial class StepTypeSelectationView : UserControl
 	{
-		public ProcedureObjectsSelectationView()
+		public StepTypeSelectationView()
 		{
 			InitializeComponent();
 		}
