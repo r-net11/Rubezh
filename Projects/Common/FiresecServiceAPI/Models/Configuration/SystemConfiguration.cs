@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Automation;
 
 namespace FiresecAPI.Models
 {
@@ -25,6 +26,12 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<AutomationSchedule> AutomationSchedules { get; set; }
+
+		[DataMember]
+		public List<Mask> Masks { get; set; }
+
+		[DataMember]
+		public List<GlobalVariable> GlobalVariables { get; set; }
 		
 		[DataMember]
 		public List<JournalFilter> JournalFilters { get; set; }

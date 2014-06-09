@@ -48,7 +48,7 @@ namespace LayoutModule.ViewModels
 			var roles = new Dictionary<Guid, UserRole>();
 			_map = new Dictionary<Guid, LayoutUserViewModel>();
 			FiresecManager.SecurityConfiguration.UserRoles.ForEach(item => roles.Add(item.UID, item));
-			FiresecManager.SecurityConfiguration.Users.ForEach(item => _map.Add(item.UID, new LayoutUserViewModel(item, roles.ContainsKey(item.RoleUID) ? roles[item.RoleUID].Name : string.Empty, IsActiveChanged)));
+			FiresecManager.SecurityConfiguration.Users.ForEach(item => _map.Add(item.UID, new LayoutUserViewModel(item, IsActiveChanged)));
 			var list = _map.Values.ToList();
 			list.Sort(Comparison);
 			Users = new ObservableCollection<LayoutUserViewModel>(list);

@@ -71,8 +71,7 @@ namespace SKDDriver
 
 		protected override Expression<Func<DataAccess.Document, bool>> IsInFilter(DocumentFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.Document>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			var issueDates = filter.IssueDate;
 			if (issueDates != null)
 				result = result.And(e => e.RemovalDate >= issueDates.StartDate && e.RemovalDate <= issueDates.EndDate);

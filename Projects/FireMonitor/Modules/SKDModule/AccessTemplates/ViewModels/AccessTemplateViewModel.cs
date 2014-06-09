@@ -11,7 +11,7 @@ namespace SKDModule.ViewModels
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 		public AccessTemplate AccessTemplate { get; private set; }
-		public CardZonesViewModel CardZonesViewModel { get; private set; }
+		public CardDoorsViewModel CardZonesViewModel { get; private set; }
 
 		public AccessTemplateViewModel(Organisation organisation)
 		{
@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 			IsOrganisation = true;
 			Name = organisation.Name;
 			IsExpanded = true;
-			CardZonesViewModel = new CardZonesViewModel(new List<CardZone>());
+			CardZonesViewModel = new CardDoorsViewModel(new List<CardDoor>());
 		}
 
 		public AccessTemplateViewModel(Organisation organisation, AccessTemplate accessTemplate)
@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 			IsOrganisation = false;
 			Name = accessTemplate.Name;
 			Description = accessTemplate.Description;
-			CardZonesViewModel = new CardZonesViewModel(accessTemplate.CardZones);
+			CardZonesViewModel = new CardDoorsViewModel(accessTemplate.CardDoors);
 		}
 
 		public void Update(AccessTemplate accessTemplate)

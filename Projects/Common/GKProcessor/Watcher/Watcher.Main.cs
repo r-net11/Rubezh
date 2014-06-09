@@ -104,7 +104,7 @@ namespace GKProcessor
 
 		void SetDescriptorsSuspending(bool isSuspending)
 		{
-			lock (CallbackResultLocker)
+			Monitor.TryEnter(CallbackResultLocker, TimeSpan.FromSeconds(30));
 			{
 				GKCallbackResult = new GKCallbackResult();
 				foreach (var descriptor in GkDatabase.Descriptors)
@@ -117,6 +117,7 @@ namespace GKProcessor
 				NotifyAllObjectsStateChanged();
 				OnGKCallbackResult(GKCallbackResult);
 			}
+			Monitor.Exit(CallbackResultLocker);
 		}
 
 		void OnRunThread()
@@ -143,15 +144,19 @@ namespace GKProcessor
 					if (IsStopping)
 						return;
 
-					lock (CallbackResultLocker)
+					Monitor.TryEnter(CallbackResultLocker, TimeSpan.FromSeconds(30));
 					{
 						GKCallbackResult = new GKCallbackResult();
 					}
+					Monitor.Exit(CallbackResultLocker);
+
 					RunMonitoring();
-					lock (CallbackResultLocker)
+
+					Monitor.TryEnter(CallbackResultLocker, TimeSpan.FromSeconds(30));
 					{
 						OnGKCallbackResult(GKCallbackResult);
 					}
+					Monitor.Exit(CallbackResultLocker);
 
 					if (IsStopping)
 						return;

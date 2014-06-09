@@ -43,8 +43,7 @@ namespace SKDDriver
 
 		protected override Expression<Func<DataAccess.Journal, bool>> IsInFilter(SKDJournalFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.Journal>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 
 			var eventNames = filter.EventNames;
 			if (eventNames != null && eventNames.Count != 0)

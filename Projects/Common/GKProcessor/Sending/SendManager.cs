@@ -117,11 +117,11 @@ namespace GKProcessor
 				}
 				recievedBytes = udpClient.Receive(ref endPoint).ToList();
 			}
-			catch (SocketException e)
+			catch (SocketException)
 			{
 				OnConnectionLost();
 				udpClient.Close();
-				return new SendResult("От устройства не получен ответ в заданный таймаут");
+				return new SendResult("Устройство недоступно или IP-адрес компьютера отсутствует в списке разрешенных адресов прибора");
 			}
 			udpClient.Close();
 

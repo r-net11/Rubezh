@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {
@@ -41,16 +41,15 @@ namespace SKDModule.ViewModels
 			{
 				Employee = new Employee();
 				Employee.OrganisationUID = orgnaisation.UID;
-				if (IsEmployee)
-				{
-					Title = "Добавить сотрудника";
-					Employee.FirstName = "Новый сотрудник";
-				}
-				else
-				{
-					Title = "Добавить посетителя";
-					Employee.FirstName = "Новый посетитель";
-				}
+				Title = IsEmployee ? "Добавить сотрудника" : "Добавить посетителя";
+				Employee.BirthDate = DateTime.Now;
+				Employee.Appointed = DateTime.Now;
+				Employee.CredentialsStartDate = DateTime.Now;
+				Employee.Dismissed = DateTime.Now;
+				Employee.DocumentGivenDate = DateTime.Now;
+				Employee.DocumentValidTo = DateTime.Now;
+				Employee.RemovalDate = DateTime.Now;
+				Employee.ScheduleStartDate = DateTime.Now;
 			}
 			else
 			{
@@ -63,7 +62,7 @@ namespace SKDModule.ViewModels
 				else
 					Title = string.Format("Свойства посетителя: {0}", employee.FirstName);
 			}
-			EmployeeGuardZones = new EmployeeGuardZonesViewModel(Employee);
+			EmployeeGuardZones = new EmployeeGuardZonesViewModel(Employee, Organisation);
 			CopyProperties();
 		}
 
@@ -733,28 +732,15 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			if (SelectedDepartment == null)
-			{
-				MessageBoxService.ShowWarning("Выберите отдел");
-				return false;
-			}
-			Employee.Department = SelectedDepartment;
+			if (SelectedDepartment != null)
+				Employee.Department = SelectedDepartment;
 
 			if (IsEmployee)
 			{
-
-				if (SelectedPosition == null)
-				{
-					MessageBoxService.ShowWarning("Выберите должность");
-					return false;
-				}
-				Employee.Position = SelectedPosition;
-				if (SelectedSchedule == null)
-				{
-					MessageBoxService.ShowWarning("Выберите график работы");
-					return false;
-				}
-				Employee.Schedule = SelectedSchedule;
+				if (SelectedPosition != null)
+					Employee.Position = SelectedPosition;
+				if (SelectedSchedule != null)
+					Employee.Schedule = SelectedSchedule;
 				Employee.ScheduleStartDate = ScheduleStartDate;
 			}
 			else
@@ -774,9 +760,10 @@ namespace SKDModule.ViewModels
 						CanSet = guardZone.CanSetZone,
 						CanReset = guardZone.CanUnSetZone
 					};
+					guardZoneAccesses.Add(guardZoneAccess);
 				}
 			}
-
+			Employee.GuardZoneAccesses = guardZoneAccesses;
 			return EmployeeHelper.Save(Employee);
 		}
 	}

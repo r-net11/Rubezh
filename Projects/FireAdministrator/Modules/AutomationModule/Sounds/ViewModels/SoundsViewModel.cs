@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;

@@ -72,8 +72,7 @@ namespace SKDDriver
 
 		protected override Expression<Func<DataAccess.EmployeeReplacement, bool>> IsInFilter(EmployeeReplacementFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.EmployeeReplacement>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			var employeeUIDs = filter.EmployeeUIDs;
 			if (employeeUIDs.IsNotNullOrEmpty())
 				result = result.And(e => e.EmployeeUID != null && employeeUIDs.Contains(e.EmployeeUID.Value));

@@ -22,6 +22,12 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
+		public Guid InDeviceUID { get; set; }
+
+		[DataMember]
+		public Guid OutDeviceUID { get; set; }
+
+		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
 
 

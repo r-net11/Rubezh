@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI;
-using FiresecAPI.XModels.Automation;
-
+using FiresecAPI.Automation;
 
 namespace Controls.Converters
 {

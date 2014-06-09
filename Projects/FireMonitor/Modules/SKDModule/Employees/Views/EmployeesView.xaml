@@ -18,8 +18,8 @@
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
-									<Image Width="16" Source="/Controls;component/Images/Employee.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
+									<Image Width="16" Source="/Controls;component/Images/Employee.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
 									<TextBlock Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>
@@ -130,7 +130,7 @@
 
 				<Grid Grid.Column="1" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Grid DataContext="{Binding SelectedCard}">
-						<Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
+						<Views:CardDoorsView Grid.Row="1" DataContext="{Binding CardDoorsViewModel}" />
 					</Grid>
 				</Grid>
 			</Grid>

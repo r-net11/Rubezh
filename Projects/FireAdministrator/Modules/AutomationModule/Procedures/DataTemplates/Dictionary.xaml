@@ -19,8 +19,8 @@
         <Views:ProcedureObjectsSelectationView />
     </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ProcedureStepsViewModel}">
-		<Views:ProcedureStepsView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:StepTypeSelectationViewModel}">
+        <Views:StepTypeSelectationView />
+    </DataTemplate>
 
 </ResourceDictionary>

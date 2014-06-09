@@ -1,13 +1,18 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
-	public class ProceduresViewModel : MenuViewPartViewModel
+	public class ProceduresViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public ProceduresViewModel()
 		{
@@ -20,6 +25,8 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			Procedures = new ObservableCollection<ProcedureViewModel>();
+			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
+				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();
 			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)
 			{
 				var procedureViewModel = new ProcedureViewModel(procedure);
@@ -88,6 +95,14 @@ namespace AutomationModule.ViewModels
 		bool CanDelete()
 		{
 			return SelectedProcedure != null;
+		}
+
+		public void Select(Guid procedureUid)
+		{
+			if (procedureUid != Guid.Empty)
+			{
+				SelectedProcedure = Procedures.FirstOrDefault(item => item.Procedure.Uid == procedureUid);
+			}
 		}
 
 		public override void OnShow()

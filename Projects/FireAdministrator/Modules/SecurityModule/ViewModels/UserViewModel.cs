@@ -19,20 +19,8 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_user = value;
-
-				RoleName = string.Empty;
-				if (value != null)
-				{
-					var role = FiresecManager.SecurityConfiguration.UserRoles.FirstOrDefault(x => x.UID == value.RoleUID);
-					if (role != null)
-						RoleName = role.Name;
-				}
-
 				OnPropertyChanged("User");
-				OnPropertyChanged("RoleName");
 			}
 		}
-
-		public string RoleName { get; private set; }
 	}
 }

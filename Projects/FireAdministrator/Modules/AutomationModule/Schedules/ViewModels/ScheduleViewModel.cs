@@ -1,4 +1,4 @@
-﻿using FiresecAPI.Models;
+﻿using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 

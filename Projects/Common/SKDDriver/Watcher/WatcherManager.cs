@@ -26,8 +26,6 @@ namespace SKDDriver
 				}
 			}
 
-			VideoWatcher.Start();
-
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			ApplicationService.Restarting += new Action(ApplicationService_Restarting);
 		}
@@ -39,8 +37,6 @@ namespace SKDDriver
 				if (Watchers != null)
 					foreach (var watcher in Watchers)
 						watcher.StopThread();
-
-				VideoWatcher.Stop();
 			}
 			catch (Exception e)
 			{

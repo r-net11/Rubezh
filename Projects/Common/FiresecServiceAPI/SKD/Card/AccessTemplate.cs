@@ -10,7 +10,7 @@ namespace FiresecAPI.SKD
 		public AccessTemplate()
 			: base()
 		{
-			CardZones = new List<CardZone>();
+			CardDoors = new List<CardDoor>();
 			GuardZoneAccesses = new List<XGuardZoneAccess>();
 		}
 
@@ -21,7 +21,7 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
-		public List<CardZone> CardZones { get; set; }
+		public List<CardDoor> CardDoors { get; set; }
 
 		[DataMember]
 		public List<XGuardZoneAccess> GuardZoneAccesses { get; set; }

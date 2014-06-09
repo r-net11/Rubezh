@@ -20,7 +20,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<Image Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" />
 									<TextBlock Text="{Binding Organisation.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
@@ -29,14 +29,14 @@
 					<DataGridTextColumn Header="Описание" Width="*" Binding="{Binding Organisation.Description}" />
 				</DataGrid.Columns>
 			</Controls:XDataGrid>
-            <Grid Grid.Column="1" DataContext="{Binding OrganisationUsersViewModel}" Margin="5 0 0 0">
+			<Grid Grid.Column="1" DataContext="{Binding OrganisationUsersViewModel}" Margin="5 0 0 0">
 				<DataGrid ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Header="Пользователь" Width="*">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<Image Source="/Controls;component/Images/SKDUser.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+										<Image Source="/Controls;component/Images/SKDUser.png" VerticalAlignment="Center" Margin="1 0" />
 										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 										<TextBlock Text="{Binding User.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
 									</StackPanel>
@@ -48,48 +48,48 @@
 			</Grid>
 		</Grid>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-		    <Grid Grid.Column="0" DataContext="{Binding OrganisationZonesViewModel}">
-			    <tree:TreeList Name="_zonesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedZone}" Source="{Binding RootZones}">
-				    <tree:TreeList.View>
-					    <GridView>
-						    <GridViewColumn Width="250" Header="Зоны СКД">
-							    <GridViewColumn.CellTemplate>
-								    <DataTemplate>
-									    <StackPanel Orientation="Horizontal">
-										    <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-										    <CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding CanSelect, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-										    <TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
-									    </StackPanel>
-								    </DataTemplate>
-							    </GridViewColumn.CellTemplate>
-						    </GridViewColumn>
-						    <GridViewColumn Width="100" DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
-					    </GridView>
-				    </tree:TreeList.View>
-			    </tree:TreeList>
-		    </Grid>
-            <Grid Grid.Column="1" DataContext="{Binding OrganisationGuardZonesViewModel}" Margin="5 0 0 0">
-                <DataGrid ItemsSource="{Binding GuardZones}" SelectedItem="{Binding SelectedGuardZone}">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Охранные зоны" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-                                        <TextBlock Text="{Binding GuardZone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
-        </Grid>
-    </Grid>
+		<Grid Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid Grid.Column="0" DataContext="{Binding OrganisationZonesViewModel}">
+				<tree:TreeList Name="_zonesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedZone}" Source="{Binding RootZones}">
+					<tree:TreeList.View>
+						<GridView>
+							<GridViewColumn Width="250" Header="Зоны СКД">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0" />
+											<CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding CanSelect, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+											<TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+										</StackPanel>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Width="100" DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
+						</GridView>
+					</tree:TreeList.View>
+				</tree:TreeList>
+			</Grid>
+			<Grid Grid.Column="1" DataContext="{Binding OrganisationGuardZonesViewModel}" Margin="5 0 0 0">
+				<DataGrid ItemsSource="{Binding GuardZones}" SelectedItem="{Binding SelectedGuardZone}">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="Охранные зоны" Width="*">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" />
+										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+										<TextBlock Text="{Binding GuardZone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+		</Grid>
+	</Grid>
 </UserControl>

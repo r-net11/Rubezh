@@ -6,6 +6,6 @@ namespace FiresecAPI.SKD
 	public class OrganisationFilter : IsDeletedFilter
 	{
 		[DataMember]
-		public Guid? UserUID { get; set; }
+		public Guid UserUID { get; set; }
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.Models
+namespace FiresecAPI.Automation
 {
 	[DataContract]
 	public class AutomationSound

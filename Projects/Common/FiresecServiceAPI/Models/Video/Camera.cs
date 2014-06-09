@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.GK;
 using Entities.DeviceOriented;
+using FiresecAPI.GK;
 
 namespace FiresecAPI.Models
 {

@@ -5,3 +5,6 @@ INSERT INTO Patches (Id) VALUES
 GO
 INSERT INTO Patches (Id) VALUES
 	('OrganisationUser')
+GO
+INSERT INTO Patches (Id) VALUES
+	('OrganisationGuardZone')

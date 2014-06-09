@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-using FiresecAPI.SKD;
-using LinqKit;
+﻿using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
@@ -20,13 +17,6 @@ namespace SKDDriver
 		protected override void TranslateBack(DataAccess.Photo tableItem, Photo apiItem)
 		{
 			tableItem.Data = apiItem.Data;
-		}
-
-		protected override Expression<Func<DataAccess.Photo, bool>> IsInFilter(PhotoFilter filter)
-		{
-			var result = PredicateBuilder.True<DataAccess.Photo>();
-			result = result.And(base.IsInFilter(filter));
-			return result;
 		}
 	}
 }

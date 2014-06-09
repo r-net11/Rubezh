@@ -24,8 +24,7 @@ namespace SKDDriver.Translators
 
 		protected override Expression<Func<DataAccess.Interval, bool>> IsInFilter(TimeIntervalFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.Interval>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			result = result.And(e => filter.NamedIntervalUIDs.Contains(e.NamedIntervalUID));
 			return result;
 		}

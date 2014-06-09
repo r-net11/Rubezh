@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models;
+using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -53,17 +53,6 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedSchedule = value;
 				OnPropertyChanged("SelectedSchedule");
-			}
-		}
-
-		bool _isNowPlaying;
-		public bool IsNowPlaying
-		{
-			get { return _isNowPlaying; }
-			set
-			{
-				_isNowPlaying = value;
-				OnPropertyChanged("IsNowPlaying");
 			}
 		}
 

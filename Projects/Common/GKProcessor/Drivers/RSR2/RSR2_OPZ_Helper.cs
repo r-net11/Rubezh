@@ -43,7 +43,7 @@ namespace GKProcessor
 				No = 2,
 				Name = "Режим после удержания",
 				Caption = "Режим после удержания",
-				Default = 0,
+				Default = 1,
 				IsLowByte = true,
 				Mask = 0x01
 			};

@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 			ParentDeviceViewModel.Device.Children.Add(device);
 			ParentDeviceViewModel.AddChild(AddedDevice);
 			ParentDeviceViewModel.Update();
-			XManager.DeviceConfiguration.Update();
+			SKDManager.SKDConfiguration.Update();
 			return true;
 		}
 	}

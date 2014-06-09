@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using FiresecAPI;
 using FiresecAPI.SKD;
-using LinqKit;
 
 namespace SKDDriver
 {
@@ -65,14 +63,7 @@ namespace SKDDriver
 			};
 			return shortPosition;
 		}
-
-		protected override Expression<Func<DataAccess.Position, bool>> IsInFilter(PositionFilter filter)
-		{
-			var result = PredicateBuilder.True<DataAccess.Position>();
-			result = result.And(base.IsInFilter(filter));
-			return result;
-		}
-
+		
 		public override OperationResult Save(Position apiItem)
 		{
 			var photoSaveResult = PhotoTranslator.Save(new List<Photo> { apiItem.Photo });

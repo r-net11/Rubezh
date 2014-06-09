@@ -62,6 +62,10 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
+    <Compile Include="Doors\ViewModels\DeviceSelectationViewModel.cs" />
+    <Compile Include="Doors\Views\DeviceSelectationView.xaml.cs">
+      <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Events\CreateDoorEvent.cs" />
     <Compile Include="Events\ShowSKDDoorEvent.cs" />
     <Compile Include="Filters\ViewModels\FilterDetails\DeviceFilterViewModel.cs" />
@@ -392,6 +396,10 @@
     <Page Include="Devices\Views\ZoneSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Doors\Views\DeviceSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Filters\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>

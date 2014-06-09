@@ -93,7 +93,7 @@ namespace SKDModule.ViewModels
 				var doorViewModel = new DoorViewModel(doorDetailsViewModel.Door);
 				Doors.Add(doorViewModel);
 				SelectedDoor = doorViewModel;
-				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 				Helper.BuildMap();
 				return doorDetailsViewModel;
 			}
@@ -112,7 +112,7 @@ namespace SKDModule.ViewModels
 				index = Math.Min(index, Doors.Count - 1);
 				if (index > -1)
 					SelectedDoor = Doors[index];
-				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 				Helper.BuildMap();
 			}
 		}
@@ -129,7 +129,7 @@ namespace SKDModule.ViewModels
 			{
 				//XManager.EditDoor(SelectedDoor.Door);
 				SelectedDoor.Update(doorDetailsViewModel.Door);
-				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 

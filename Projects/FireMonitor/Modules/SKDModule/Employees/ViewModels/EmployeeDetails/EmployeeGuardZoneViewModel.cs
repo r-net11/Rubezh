@@ -1,11 +1,8 @@
-﻿using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using FiresecClient.SKDHelpers;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
-using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
+using FiresecAPI.SKD;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -23,7 +20,18 @@ namespace SKDModule.ViewModels
 				if (Employee.GuardZoneAccesses == null)
 					Employee.GuardZoneAccesses = new List<XGuardZoneAccess>();
 			}
-			IsChecked = Employee != null && Employee.GuardZoneAccesses != null && Employee.GuardZoneAccesses.Any(x => x.ZoneUID == guardZone.UID);
+			if(Employee != null && Employee.GuardZoneAccesses != null)
+			{
+				var cardZoneAccess = Employee.GuardZoneAccesses.FirstOrDefault(x => x.ZoneUID == guardZone.UID);
+				if(cardZoneAccess != null)
+				{
+					IsChecked = true;
+					CanSetZone = cardZoneAccess.CanSet;
+					CanUnSetZone = cardZoneAccess.CanReset;
+				}
+				
+			}
+			
 		}
 
 		internal bool _isChecked;

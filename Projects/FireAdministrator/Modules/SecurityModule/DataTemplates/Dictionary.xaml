@@ -5,21 +5,31 @@
 	<DataTemplate DataType="{x:Type ViewModels:UsersViewModel}">
 		<Views:UsersView />
 	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
 		<Views:UserDetailsView />
 	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:UsersMenuViewModel}">
 		<Views:UsersMenuView />
 	</DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:RoleSelectationViewModel}">
+        <Views:RoleSelectationView />
+    </DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:RolesViewModel}">
 		<Views:RolesView />
 	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:RoleDetailsViewModel}">
 		<Views:RoleDetailsView />
 	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:RolesMenuViewModel}">
 		<Views:RolesMenuView />
 	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:RemoteMachineViewModel}">
 		<Views:RemoteMachineView />
 	</DataTemplate>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -17,11 +18,14 @@ namespace SKDModule.ViewModels
 	public class DoorViewModel : BaseViewModel
 	{
 		private VisualizationState _visualizetionState;
-		public Door Door { get; set; }
+		public Door Door { get; private set; }
+		public SKDDevice InDevice { get; private set; }
+		public SKDDevice OutDevice { get; private set; }
 
 		public DoorViewModel(Door door)
 		{
-			SelectInpitDeviceCommand = new RelayCommand(OnSelectInpitDevice);
+			ChangeInDeviceCommand = new RelayCommand(OnChangeInDevice);
+			ChangeOutDeviceCommand = new RelayCommand(OnChangeOutDevice);
 			Door = door;
 			Update();
 		}
@@ -34,7 +38,7 @@ namespace SKDModule.ViewModels
 				Door.Name = value;
 				Door.OnChanged();
 				OnPropertyChanged("Name");
-				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 		public string Description
@@ -45,13 +49,75 @@ namespace SKDModule.ViewModels
 				Door.Description = value;
 				Door.OnChanged();
 				OnPropertyChanged("Description");
-				ServiceFactory.SaveService.GKChanged = true;
+				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 
-		public RelayCommand SelectInpitDeviceCommand { get; private set; }
-		void OnSelectInpitDevice()
+		public string InDeviceName
 		{
+			get
+			{
+				if (InDevice != null)
+					return InDevice.Name;
+				return "Нажмите для выбора устройства";
+			}
+		}
+
+		public string OutDeviceName
+		{
+			get
+			{
+				if (OutDevice != null)
+					return OutDevice.Name;
+				return "Нажмите для выбора устройства";
+			}
+		}
+
+		public bool IsInDeviceGrayed
+		{
+			get { return InDevice == null; }
+		}
+
+		public bool IsOutDeviceGrayed
+		{
+			get { return OutDevice == null; }
+		}
+
+		public RelayCommand ChangeInDeviceCommand { get; private set; }
+		void OnChangeInDevice()
+		{
+			//IsSelected = true;
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(Door.InDeviceUID);
+			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
+			{
+				if (deviceSelectationViewModel.SelectedDevice != null)
+				{
+					InDevice = deviceSelectationViewModel.SelectedDevice;
+					Door.InDeviceUID = InDevice.UID;
+				}
+				OnPropertyChanged("InDevice");
+				OnPropertyChanged("InDeviceName");
+				OnPropertyChanged("IsInDeviceGrayed");
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
+		}
+
+		public RelayCommand ChangeOutDeviceCommand { get; private set; }
+		void OnChangeOutDevice()
+		{
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(Door.OutDeviceUID);
+			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
+			{
+				if (deviceSelectationViewModel.SelectedDevice != null)
+				{
+					OutDevice = deviceSelectationViewModel.SelectedDevice;
+					Door.OutDeviceUID = OutDevice.UID;
+				}
+				OnPropertyChanged("OutDevice");
+				OnPropertyChanged("OutDeviceName");
+				OnPropertyChanged("IsOutDeviceGrayed");
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
 		}
 
 		public VisualizationState VisualizationState
@@ -69,6 +135,9 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
+			InDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.InDeviceUID);
+			OutDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.OutDeviceUID);
+
 			if (Door.PlanElementUIDs == null)
 				Door.PlanElementUIDs = new List<Guid>();
 			_visualizetionState = Door.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Door.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);

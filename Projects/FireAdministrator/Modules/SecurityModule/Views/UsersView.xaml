@@ -7,7 +7,6 @@
 		<DataGrid.Columns>
 			<DataGridTextColumn Header="Логин" Width="1*" Binding="{Binding User.Login}" />
 			<DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding User.Name}" />
-			<DataGridTextColumn Header="Роль" Width="1*" Binding="{Binding RoleName}" />
 		</DataGrid.Columns>
 	</Controls:XDataGrid>
 </UserControl>

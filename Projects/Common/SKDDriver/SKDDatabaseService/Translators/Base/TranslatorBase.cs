@@ -46,7 +46,6 @@ namespace SKDDriver
 		{
 			var result = PredicateBuilder.True<TableT>();
 			result = result.And(e => e != null);
-
 			var uids = filter.UIDs;
 			if (uids != null && uids.Count != 0)
 				result = result.And(e => uids.Contains(e.UID));
@@ -55,7 +54,8 @@ namespace SKDDriver
 
 		protected virtual IQueryable<TableT> GetQuery(FilterT filter)
 		{
-			return Table.Where(IsInFilter(filter));
+			var result = Table.Where(IsInFilter(filter));
+			return result;
 		}
 		protected virtual IEnumerable<TableT> GetTableItems(FilterT filter)
 		{
@@ -234,5 +234,6 @@ namespace SKDDriver
 				return new OperationResult<ApiT>(e.Message);
 			}
 		}
+
 	}
 }

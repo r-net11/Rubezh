@@ -102,6 +102,9 @@ namespace SKDDriver.DataAccess
     partial void InsertOrganisationUser(OrganisationUser instance);
     partial void UpdateOrganisationUser(OrganisationUser instance);
     partial void DeleteOrganisationUser(OrganisationUser instance);
+    partial void InsertGuardZone(GuardZone instance);
+    partial void UpdateGuardZone(GuardZone instance);
+    partial void DeleteGuardZone(GuardZone instance);
     #endregion
 		
 		public SKDDataContext() : 
@@ -325,6 +328,14 @@ namespace SKDDriver.DataAccess
 				return this.GetTable<OrganisationUser>();
 			}
 		}
+		
+		public System.Data.Linq.Table<GuardZone> GuardZones
+		{
+			get
+			{
+				return this.GetTable<GuardZone>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AccessTemplate")]
@@ -348,6 +359,8 @@ namespace SKDDriver.DataAccess
 		private EntitySet<Card> _Cards;
 		
 		private EntitySet<CardZone> _CardZones;
+		
+		private EntitySet<GuardZone> _GuardZones;
 		
 		private EntityRef<Organisation> _Organisation;
 		
@@ -373,6 +386,7 @@ namespace SKDDriver.DataAccess
 		{
 			this._Cards = new EntitySet<Card>(new Action<Card>(this.attach_Cards), new Action<Card>(this.detach_Cards));
 			this._CardZones = new EntitySet<CardZone>(new Action<CardZone>(this.attach_CardZones), new Action<CardZone>(this.detach_CardZones));
+			this._GuardZones = new EntitySet<GuardZone>(new Action<GuardZone>(this.attach_GuardZones), new Action<GuardZone>(this.detach_GuardZones));
 			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
@@ -527,6 +541,19 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_GuardZone", Storage="_GuardZones", ThisKey="UID", OtherKey="ParentUID")]
+		public EntitySet<GuardZone> GuardZones
+		{
+			get
+			{
+				return this._GuardZones;
+			}
+			set
+			{
+				this._GuardZones.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_AccessTemplate", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
 		public Organisation Organisation
 		{
@@ -600,6 +627,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_CardZones(CardZone entity)
+		{
+			this.SendPropertyChanging();
+			entity.AccessTemplate = null;
+		}
+		
+		private void attach_GuardZones(GuardZone entity)
+		{
+			this.SendPropertyChanging();
+			entity.AccessTemplate = this;
+		}
+		
+		private void detach_GuardZones(GuardZone entity)
 		{
 			this.SendPropertyChanging();
 			entity.AccessTemplate = null;
@@ -4137,6 +4176,8 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<OrganisationUser> _OrganisationUsers;
 		
+		private EntitySet<GuardZone> _GuardZones;
+		
 		private EntityRef<Photo> _Photo;
 		
     #region Определения метода расширяемости
@@ -4173,6 +4214,7 @@ namespace SKDDriver.DataAccess
 			this._ScheduleSchemes = new EntitySet<ScheduleScheme>(new Action<ScheduleScheme>(this.attach_ScheduleSchemes), new Action<ScheduleScheme>(this.detach_ScheduleSchemes));
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
 			this._OrganisationUsers = new EntitySet<OrganisationUser>(new Action<OrganisationUser>(this.attach_OrganisationUsers), new Action<OrganisationUser>(this.detach_OrganisationUsers));
+			this._GuardZones = new EntitySet<GuardZone>(new Action<GuardZone>(this.attach_GuardZones), new Action<GuardZone>(this.detach_GuardZones));
 			this._Photo = default(EntityRef<Photo>);
 			OnCreated();
 		}
@@ -4483,6 +4525,19 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_GuardZone", Storage="_GuardZones", ThisKey="UID", OtherKey="ParentUID")]
+		public EntitySet<GuardZone> GuardZones
+		{
+			get
+			{
+				return this._GuardZones;
+			}
+			set
+			{
+				this._GuardZones.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Photo_Organisation", Storage="_Photo", ThisKey="PhotoUID", OtherKey="UID", IsForeignKey=true)]
 		public Photo Photo
 		{
@@ -4700,6 +4755,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_OrganisationUsers(OrganisationUser entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organisation = null;
+		}
+		
+		private void attach_GuardZones(GuardZone entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organisation = this;
+		}
+		
+		private void detach_GuardZones(GuardZone entity)
 		{
 			this.SendPropertyChanging();
 			entity.Organisation = null;
@@ -5404,7 +5471,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX)", CanBeNull=true, UpdateCheck=UpdateCheck.Never)]
 		public System.Data.Linq.Binary Data
 		{
 			get
@@ -6661,6 +6728,8 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<Employee> _Employees;
 		
+		private EntitySet<GuardZone> _GuardZones;
+		
 		private EntityRef<Department> _Department;
 		
 		private EntityRef<Employee> _Employee1;
@@ -6744,6 +6813,7 @@ namespace SKDDriver.DataAccess
 			this._EmployeeReplacements = new EntitySet<EmployeeReplacement>(new Action<EmployeeReplacement>(this.attach_EmployeeReplacements), new Action<EmployeeReplacement>(this.detach_EmployeeReplacements));
 			this._PassJournals = new EntitySet<PassJournal>(new Action<PassJournal>(this.attach_PassJournals), new Action<PassJournal>(this.detach_PassJournals));
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
+			this._GuardZones = new EntitySet<GuardZone>(new Action<GuardZone>(this.attach_GuardZones), new Action<GuardZone>(this.detach_GuardZones));
 			this._Department = default(EntityRef<Department>);
 			this._Employee1 = default(EntityRef<Employee>);
 			this._Organisation = default(EntityRef<Organisation>);
@@ -7428,6 +7498,19 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_GuardZone", Storage="_GuardZones", ThisKey="UID", OtherKey="ParentUID")]
+		public EntitySet<GuardZone> GuardZones
+		{
+			get
+			{
+				return this._GuardZones;
+			}
+			set
+			{
+				this._GuardZones.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Department_Employee", Storage="_Department", ThisKey="DepartmentUID", OtherKey="UID", IsForeignKey=true)]
 		public Department Department
 		{
@@ -7734,6 +7817,18 @@ namespace SKDDriver.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.Employee1 = null;
+		}
+		
+		private void attach_GuardZones(GuardZone entity)
+		{
+			this.SendPropertyChanging();
+			entity.Employee = this;
+		}
+		
+		private void detach_GuardZones(GuardZone entity)
+		{
+			this.SendPropertyChanging();
+			entity.Employee = null;
 		}
 	}
 	
@@ -8759,6 +8854,280 @@ namespace SKDDriver.DataAccess
 					else
 					{
 						this._OrganisationUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("Organisation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GuardZone")]
+	public partial class GuardZone : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.Guid _ZoneUID;
+		
+		private System.Guid _ParentUID;
+		
+		private bool _CanSet;
+		
+		private bool _CanReset;
+		
+		private EntityRef<AccessTemplate> _AccessTemplate;
+		
+		private EntityRef<Employee> _Employee;
+		
+		private EntityRef<Organisation> _Organisation;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnZoneUIDChanging(System.Guid value);
+    partial void OnZoneUIDChanged();
+    partial void OnParentUIDChanging(System.Guid value);
+    partial void OnParentUIDChanged();
+    partial void OnCanSetChanging(bool value);
+    partial void OnCanSetChanged();
+    partial void OnCanResetChanging(bool value);
+    partial void OnCanResetChanged();
+    #endregion
+		
+		public GuardZone()
+		{
+			this._AccessTemplate = default(EntityRef<AccessTemplate>);
+			this._Employee = default(EntityRef<Employee>);
+			this._Organisation = default(EntityRef<Organisation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ZoneUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ZoneUID
+		{
+			get
+			{
+				return this._ZoneUID;
+			}
+			set
+			{
+				if ((this._ZoneUID != value))
+				{
+					this.OnZoneUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ZoneUID = value;
+					this.SendPropertyChanged("ZoneUID");
+					this.OnZoneUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ParentUID
+		{
+			get
+			{
+				return this._ParentUID;
+			}
+			set
+			{
+				if ((this._ParentUID != value))
+				{
+					if (((this._AccessTemplate.HasLoadedOrAssignedValue || this._Employee.HasLoadedOrAssignedValue) 
+								|| this._Organisation.HasLoadedOrAssignedValue))
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParentUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ParentUID = value;
+					this.SendPropertyChanged("ParentUID");
+					this.OnParentUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanSet", DbType="Bit NOT NULL")]
+		public bool CanSet
+		{
+			get
+			{
+				return this._CanSet;
+			}
+			set
+			{
+				if ((this._CanSet != value))
+				{
+					this.OnCanSetChanging(value);
+					this.SendPropertyChanging();
+					this._CanSet = value;
+					this.SendPropertyChanged("CanSet");
+					this.OnCanSetChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanReset", DbType="Bit NOT NULL")]
+		public bool CanReset
+		{
+			get
+			{
+				return this._CanReset;
+			}
+			set
+			{
+				if ((this._CanReset != value))
+				{
+					this.OnCanResetChanging(value);
+					this.SendPropertyChanging();
+					this._CanReset = value;
+					this.SendPropertyChanged("CanReset");
+					this.OnCanResetChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_GuardZone", Storage="_AccessTemplate", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
+		public AccessTemplate AccessTemplate
+		{
+			get
+			{
+				return this._AccessTemplate.Entity;
+			}
+			set
+			{
+				AccessTemplate previousValue = this._AccessTemplate.Entity;
+				if (((previousValue != value) 
+							|| (this._AccessTemplate.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AccessTemplate.Entity = null;
+						previousValue.GuardZones.Remove(this);
+					}
+					this._AccessTemplate.Entity = value;
+					if ((value != null))
+					{
+						value.GuardZones.Add(this);
+						this._ParentUID = value.UID;
+					}
+					else
+					{
+						this._ParentUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("AccessTemplate");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_GuardZone", Storage="_Employee", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
+		public Employee Employee
+		{
+			get
+			{
+				return this._Employee.Entity;
+			}
+			set
+			{
+				Employee previousValue = this._Employee.Entity;
+				if (((previousValue != value) 
+							|| (this._Employee.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Employee.Entity = null;
+						previousValue.GuardZones.Remove(this);
+					}
+					this._Employee.Entity = value;
+					if ((value != null))
+					{
+						value.GuardZones.Add(this);
+						this._ParentUID = value.UID;
+					}
+					else
+					{
+						this._ParentUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("Employee");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_GuardZone", Storage="_Organisation", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
+		{
+			get
+			{
+				return this._Organisation.Entity;
+			}
+			set
+			{
+				Organisation previousValue = this._Organisation.Entity;
+				if (((previousValue != value) 
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Organisation.Entity = null;
+						previousValue.GuardZones.Remove(this);
+					}
+					this._Organisation.Entity = value;
+					if ((value != null))
+					{
+						value.GuardZones.Add(this);
+						this._ParentUID = value.UID;
+					}
+					else
+					{
+						this._ParentUID = default(System.Guid);
 					}
 					this.SendPropertyChanged("Organisation");
 				}

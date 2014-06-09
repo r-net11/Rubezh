@@ -118,8 +118,7 @@ namespace SKDDriver
 
 		protected override Expression<Func<DataAccess.Card, bool>> IsInFilter(CardFilter filter)
 		{
-			var result = PredicateBuilder.True<DataAccess.Card>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 
 			switch (filter.DeactivationType)
 			{

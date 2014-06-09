@@ -1,11 +1,10 @@
-﻿using FiresecAPI;
+﻿using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
-
 namespace AutomationModule.ViewModels
 {
-	public class SoundDetailsViewModel: SaveCancelDialogViewModel
+	public class SoundDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public AutomationSound Sound { get; private set; }
 

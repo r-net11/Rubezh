@@ -30,15 +30,7 @@
       <Feature Id="Video.Features" Title="Видео" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео. Необходимы компоненты VLC">
         <Condition Level="2">INSTALL_VIDEO</Condition>
         <ComponentRef Id="Administrator.VIDEO_MODULE" />
-        <ComponentRef Id="Administrator.VIDEO_MODULE_DLL" />
-        <ComponentRef Id="Administrator.VIDEO_MODULE_DLL.Dahua" />
-        <ComponentRef Id="Administrator.VIDEO_MODULE_DLL.Hik" />
-        <ComponentRef Id="Administrator.VIDEO_MODULE_DLL.Sunell" />
         <ComponentRef Id="Monitor.VIDEO_MODULE" />
-        <ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />
-        <ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Dahua" />
-        <ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Hik" />
-        <ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Sunell" />
       </Feature>
 
       <ComponentRef Id="ProgramMenuDir.Additional" />

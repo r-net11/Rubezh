@@ -114,7 +114,6 @@
         <File Id="Administrator.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
       </Component>
     </DirectoryRef>
-
     <DirectoryRef Id="Administrator.Dll.Dahua">
       <Component Id="Administrator.VIDEO_MODULE_DLL.Dahua" Guid="1997AAAF-E8A5-4cde-846B-9366E1469F9F">
         <File Id="Administrator.Dll.Dahua.aacdec.dll" Name="aacdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
@@ -141,7 +140,6 @@
         <File Id="Administrator.Dll.Dahua.postproc.dll" Name="postproc.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
       </Component>
     </DirectoryRef>
-
     <DirectoryRef Id="Administrator.Dll.Hik">
       <Component Id="Administrator.VIDEO_MODULE_DLL.Hik" Guid="6B1D51CC-5043-4a08-9697-3B3B419C84B0">
         <File Id="Administrator.Dll.Hik.AudioIntercom.dll" Name="AudioIntercom.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
@@ -155,7 +153,6 @@
         <File Id="Administrator.Dll.Hik.SystemTransform.dll" Name="SystemTransform.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
       </Component>
     </DirectoryRef>
-
     <DirectoryRef Id="Administrator.Dll.Sunell">
       <Component Id="Administrator.VIDEO_MODULE_DLL.Sunell" Guid="BED7A447-5E8D-43e2-A74A-9D3D38051223">
         <File Id="Administrator.Dll.Sunell.NvdaiDll.dll" Name="NvdaiDll.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />

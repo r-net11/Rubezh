@@ -1,8 +1,9 @@
-﻿using Microsoft.Practices.Prism.Events;
+﻿using System;
+using Microsoft.Practices.Prism.Events;
 
 namespace AutomationModule.Events
 {
-	public class ShowAutomationSchedulesEvents : CompositePresentationEvent<object>
+	public class ShowAutomationSchedulesEvents : CompositePresentationEvent<Guid>
 	{
 	}
 }

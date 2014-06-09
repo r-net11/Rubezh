@@ -60,30 +60,64 @@
   <ItemGroup>
     <Compile Include="Events\ShowAutomationSchedulesEvents.cs" />
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
+    <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
+    <Compile Include="Events\ShowMasksEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
+    <Compile Include="GlobalVariables\ViewModels\GlobalVariableDetailsViewModel.cs" />
+    <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
+    <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
+    <Compile Include="GlobalVariables\ViewModels\GlobalVariableViewModel.cs" />
+    <Compile Include="GlobalVariables\Views\GlobalVariableDetailsView.xaml.cs">
+      <DependentUpon>GlobalVariableDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalVariables\Views\GlobalVariablesMenuView.xaml.cs">
+      <DependentUpon>GlobalVariablesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalVariables\Views\GlobalVariablesView.xaml.cs">
+      <DependentUpon>GlobalVariablesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Masks\ViewModels\MaskDetailsViewModel.cs" />
+    <Compile Include="Masks\ViewModels\MasksMenuViewModel.cs" />
+    <Compile Include="Masks\ViewModels\MasksViewModel.cs" />
+    <Compile Include="Masks\ViewModels\MaskViewModel.cs" />
+    <Compile Include="Masks\Views\MaskDetailsView.xaml.cs">
+      <DependentUpon>MaskDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Masks\Views\MasksMenuView.xaml.cs">
+      <DependentUpon>MasksMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Masks\Views\MasksView.xaml.cs">
+      <DependentUpon>MasksView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Converters\ObjectTypeToStringConverter.cs" />
     <Compile Include="Procedures\ViewModels\CameraSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\CameraViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DeviceSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureInputObjectViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureInputObjectsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureObjectsSelectationViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\ProcedureStepsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StepTypeSelectationViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StepsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StepViewModel.cs" />
     <Compile Include="Procedures\Views\ProcedureDetailsView.xaml.cs">
       <DependentUpon>ProcedureDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\ProcedureObjectsSelectationView.xaml.cs">
       <DependentUpon>ProcedureObjectsSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\ProcedureStepsView.xaml.cs">
-      <DependentUpon>ProcedureStepsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Procedures\Views\Steps\SoundStepView.xaml.cs">
       <DependentUpon>SoundStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\StepTypeSelectationView.xaml.cs">
+      <DependentUpon>StepTypeSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\StepsView.xaml.cs">
+      <DependentUpon>StepsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomationModule.cs" />
@@ -122,8 +156,16 @@
     <Compile Include="Sounds\Views\SoundDetailsView.xaml.cs">
       <DependentUpon>SoundDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\GlobalVariableValidationError.cs" />
+    <Compile Include="Validation\MaskValidationError.cs" />
+    <Compile Include="Validation\ProcedureValidationError.cs" />
+    <Compile Include="Validation\ScheduleValidationError.cs" />
     <Compile Include="Validation\SoundValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\Validator.GlobalVariable.cs" />
+    <Compile Include="Validation\Validator.Mask.cs" />
+    <Compile Include="Validation\Validator.Procedure.cs" />
+    <Compile Include="Validation\Validator.Schedule.cs" />
     <Compile Include="Validation\Validator.Sound.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +211,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="GlobalVariables\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GlobalVariables\Views\GlobalVariableDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GlobalVariables\Views\GlobalVariablesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GlobalVariables\Views\GlobalVariablesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Masks\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Masks\Views\MaskDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Masks\Views\MasksMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Masks\Views\MasksView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Procedures\Views\ProcedureDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,13 +251,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\ProcedureStepsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Procedures\Views\Steps\SoundStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\StepTypeSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\StepsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Schedules\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>

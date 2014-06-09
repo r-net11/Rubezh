@@ -123,8 +123,8 @@
     <Compile Include="ViewModels\RemoteAccessViewModel.cs" />
     <Compile Include="ViewModels\RemoteMachineViewModel.cs" />
     <Compile Include="ViewModels\RoleDetailsViewModel.cs" />
+    <Compile Include="ViewModels\RoleSelectationViewModel.cs" />
     <Compile Include="ViewModels\RoleViewModel.cs" />
-    <Compile Include="ViewModels\PermissionViewModel.cs" />
     <Compile Include="ViewModels\RolesMenuViewModel.cs" />
     <Compile Include="ViewModels\RolesViewModel.cs" />
     <Compile Include="ViewModels\UserDetailsViewModel.cs">
@@ -133,11 +133,19 @@
     <Compile Include="ViewModels\UsersMenuViewModel.cs" />
     <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\PermissionsViewModel.cs" />
+    <Compile Include="ViewModels\PermissionViewModel.cs" />
+    <Compile Include="Views\PermissionsView.xaml.cs">
+      <DependentUpon>PermissionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RemoteAccessView.xaml.cs">
       <DependentUpon>RemoteAccessView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RemoteMachineView.xaml.cs">
       <DependentUpon>RemoteMachineView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RoleSelectationView.xaml.cs">
+      <DependentUpon>RoleSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RolesView.xaml.cs">
       <DependentUpon>RolesView.xaml</DependentUpon>
@@ -203,11 +211,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PermissionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RemoteAccessView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RemoteMachineView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RoleSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -5,7 +5,7 @@
 
 	<Controls:XDataGrid ItemsSource="{Binding Roles}" SelectedItem="{Binding SelectedRole}">
 		<DataGrid.Columns>
-			<DataGridTextColumn Header="Название" Width="1*" Binding="{Binding Role.Name}" />
+			<DataGridTextColumn Header="Название" Width="*" Binding="{Binding Role.Name}" />
 		</DataGrid.Columns>
 	</Controls:XDataGrid>
 </UserControl>

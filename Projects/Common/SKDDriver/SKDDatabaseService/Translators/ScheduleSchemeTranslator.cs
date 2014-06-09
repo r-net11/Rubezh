@@ -24,8 +24,7 @@ namespace SKDDriver.Translators
 		protected override Expression<Func<DataAccess.ScheduleScheme, bool>> IsInFilter(ScheduleSchemeFilter filter)
 		{
 			_withDays = filter.WithDays;
-			var result = PredicateBuilder.True<DataAccess.ScheduleScheme>();
-			result = result.And(base.IsInFilter(filter));
+			var result = base.IsInFilter(filter);
 			var type = (int)filter.Type;
 			if (type != 0)
 				result = result.And(e => (type & e.Type) == e.Type);

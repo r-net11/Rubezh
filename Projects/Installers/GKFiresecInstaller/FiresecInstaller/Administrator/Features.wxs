@@ -11,6 +11,11 @@
       <ComponentRef Id="Administrator.ProgramsMenuShortcut" />
       <ComponentRef Id="Administrator.DesktopShortcut" />
       <ComponentRef Id="Administrator.Firmwhare.Files" />
+
+      <ComponentRef Id="Administrator.VIDEO_MODULE_DLL" />
+      <ComponentRef Id="Administrator.VIDEO_MODULE_DLL.Dahua" />
+      <ComponentRef Id="Administrator.VIDEO_MODULE_DLL.Hik" />
+      <ComponentRef Id="Administrator.VIDEO_MODULE_DLL.Sunell" />
     </Feature>
   </Fragment>
 </Wix>
