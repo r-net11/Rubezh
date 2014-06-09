@@ -6,7 +6,7 @@ namespace AutomationModule.Validation
 {
 	public partial class Validator
 	{
-		private void ValidateName()
+		private void ValidateSoundName()
 		{
 			var nameList = new List<string>();
 			foreach (var sound in FiresecManager.SystemConfiguration.AutomationSounds)

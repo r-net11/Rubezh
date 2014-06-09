@@ -166,6 +166,8 @@
     <Compile Include="IFiresecServiceSKD.cs" />
     <Compile Include="IGKService.cs" />
     <Compile Include="IFiresecService.cs" />
+    <Compile Include="Models\Automation\GlobalVariable.cs" />
+    <Compile Include="Models\Automation\Mask.cs" />
     <Compile Include="Models\Plans\ElementRectangleDoor.cs" />
     <Compile Include="SKD\Door\Door.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />

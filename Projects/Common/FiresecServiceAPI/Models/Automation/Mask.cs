@@ -4,16 +4,19 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class AutomationSchedule
+	public class Mask
 	{
-		public AutomationSchedule()
+		public Mask()
 		{
-			Name = "Новое расписание";
+			Name = "Новая маска";
 			Uid = Guid.NewGuid();
 		}
 
 		[DataMember]
 		public string Name { get; set; }
+
+		[DataMember]
+		public string Description { get; set; }
 
 		[DataMember]
 		public Guid Uid { get; set; }

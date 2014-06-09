@@ -56,17 +56,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		bool _isNowPlaying;
-		public bool IsNowPlaying
-		{
-			get { return _isNowPlaying; }
-			set
-			{
-				_isNowPlaying = value;
-				OnPropertyChanged("IsNowPlaying");
-			}
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
