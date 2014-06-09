@@ -197,6 +197,11 @@ namespace GKModule.ViewModels
 						if (device != null)
 							cache.UpdateDeviceBinding(device);
 					}
+					if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
+					{
+						XManager.RebuildRSR2Addresses(SelectedDevice.Device.KAURSR2Parent);
+						XManager.UpdateConfiguration();
+					}
 				}
 				XManager.DeviceConfiguration.Update();
 				Plans.Designer.Helper.BuildMap();
@@ -214,7 +219,7 @@ namespace GKModule.ViewModels
 						return false;
 					foreach (var deviceToCopy in DevicesToCopy)
 					{
-						if (!SelectedDevice.Parent.Driver.Children.Contains(deviceToCopy.DriverType))
+						if (!SelectedDevice.Driver.Children.Contains(deviceToCopy.DriverType) && !SelectedDevice.Parent.Driver.Children.Contains(deviceToCopy.DriverType))
 							return false;
 					}
 					return true;
@@ -239,13 +244,22 @@ namespace GKModule.ViewModels
 			if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 			{
 				int maxAddress = NewDeviceHelper.GetMinAddress(device.Driver, SelectedDevice.Parent.Device);
-				XDevice addedDevice = XManager.	AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress % 256 + 1));
-				XManager.CopyDevice(device, addedDevice);
-				addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
-				var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
-				XManager.RebuildRSR2Addresses(SelectedDevice.Device.KAURSR2Parent);
-				XManager.UpdateConfiguration();
-				return addedDevice;
+				if (SelectedDevice.Device.DriverType == XDriverType.RSR2_KAU_Shleif)
+				{
+					var addedDevice = XManager.AddChild(SelectedDevice.Device, null, device.Driver, (byte)(maxAddress % 256 + 1));
+					XManager.CopyDevice(device, addedDevice);
+					addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice);
+					return addedDevice;
+				}
+				else
+				{
+					var addedDevice = XManager.AddChild(SelectedDevice.Parent.Device, SelectedDevice.Device, device.Driver, (byte)(maxAddress % 256 + 1));
+					XManager.CopyDevice(device, addedDevice);
+					addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
+					var addedDeviceViewModel = NewDeviceHelper.InsertDevice(addedDevice, SelectedDevice);
+					return addedDevice;
+				}
 			}
 			else
 			{

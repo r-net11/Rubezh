@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -70,13 +71,16 @@ namespace GKModule.ViewModels
 			{
 				if (deviceOnShleif.IsActive)
 				{
-					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == deviceOnShleif.Device);
+					var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == deviceOnShleif.Device.UID);
 					if (deviceViewModel != null)
 					{
-						deviceViewModel.RemoveCommand.Execute();
+						deviceViewModel.Remove();
 					}
 				}
 			}
+			if (ShleifDevice.KAURSR2Parent != null)
+				XManager.RebuildRSR2Addresses(ShleifDevice.KAURSR2Parent);
+
 			Devices = new ObservableCollection<DeviceOnShleifViewModel>(Devices.Where(x => !x.IsActive));
 			OnPropertyChanged("Devices");
 		}

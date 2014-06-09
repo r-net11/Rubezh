@@ -83,6 +83,60 @@
       </Component>
     </DirectoryRef>
 
+    <DirectoryRef Id="SERVERLOCATION">
+      <Component Id="Server.VIDEO_MODULE_DLL" Guid="4E1D0D35-DD67-4e60-AE56-41E912E3C9B9">
+        <File Id="Server.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
+        <File Id="Server.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="Server.Dll.Dahua">
+      <Component Id="Server.VIDEO_MODULE_DLL.Dahua" Guid="23A7B25E-AC5F-4f54-898F-11FFF05E1FAE">
+        <File Id="Server.Dll.Dahua.aacdec.dll" Name="aacdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.AACDecoder.dll" Name="AACDecoder.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.amrdec.dll" Name="amrdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.AmrDll.dll" Name="AmrDll.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.DhDecode.dll" Name="DhDecode.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dhdvr.dll" Name="dhdvr.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dhnetsdk.dll" Name="dhnetsdk.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dhplay.dll" Name="dhplay.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.DllDeinterlace.dll" Name="DllDeinterlace.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dllh264.dll" Name="dllh264.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dllmpeg4.dll" Name="dllmpeg4.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.h264dec.dll" Name="h264dec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.IvsDrawer.dll" Name="IvsDrawer.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.IvsDrawer_64.dll" Name="IvsDrawer_64.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.jpegdec.dll" Name="jpegdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.mjpegdec.dll" Name="mjpegdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.mp3dec.dll" Name="mp3dec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.MP3Decoder.dll" Name="MP3Decoder.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.mpeg4dec.dll" Name="mpeg4dec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.mpeg4enc.dll" Name="mpeg4enc.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.postproc.dll" Name="postproc.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="Server.Dll.Hik">
+      <Component Id="Server.VIDEO_MODULE_DLL.Hik" Guid="CBEB266C-B46F-4c7b-89D6-62BB025F07E6">
+        <File Id="Server.Dll.Hik.AudioIntercom.dll" Name="AudioIntercom.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.DsSdk.dll" Name="DsSdk.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.gdiplus.dll" Name="gdiplus.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.HCNetSDK.dll" Name="HCNetSDK.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.OpenAL32.dll" Name="OpenAL32.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.PlayCtrl.dll" Name="PlayCtrl.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.QosControl.dll" Name="QosControl.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.StreamTransClient.dll" Name="StreamTransClient.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.SystemTransform.dll" Name="SystemTransform.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="Server.Dll.Sunell">
+      <Component Id="Server.VIDEO_MODULE_DLL.Sunell" Guid="092A6EFF-F755-4826-9D0E-6CEF108DBD01">
+        <File Id="Server.Dll.Sunell.NvdaiDll.dll" Name="NvdaiDll.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+        <File Id="Server.Dll.Sunell.NvdalDll.dll" Name="NvdalDll.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+        <File Id="Server.Dll.Sunell.Nvdcdll.dll" Name="Nvdcdll.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+        <File Id="Server.Dll.Sunell.SensorUI.dll" Name="SensorUI.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+      </Component>
+    </DirectoryRef>
+
     <DirectoryRef Id="AppData.EmptyLocation">
       <Component Id="Server.AppData.EmptyLocation" Guid="EBFF4919-E86E-48C2-88C7-C91E7133EE37">
         <File Id="Server.AppData.EmptyLocation.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" />

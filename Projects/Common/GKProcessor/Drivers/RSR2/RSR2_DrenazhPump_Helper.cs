@@ -13,7 +13,7 @@ namespace GKProcessor
 				DriverType = XDriverType.RSR2_Bush,
 				UID = new Guid("1743FA7E-EF69-45B7-90CD-D9BF2B44644C"),
 				Name = "Блок управления ДН",
-				ShortName = "БУШ ДН RSR2",
+				ShortName = "ППУ ДН RSR2",
 				IsControlDevice = true,
 				HasLogic = true,
 				IgnoreHasLogic = true,

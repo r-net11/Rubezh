@@ -194,13 +194,21 @@ namespace GKModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			Remove();
+			if (Device.KAURSR2Parent != null)
+				XManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
+		}
+		bool CanRemove()
+		{
+			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.IsGroupDevice);
+		}
+		public void Remove()
+		{
 			var allDevices = Device.AllChildrenAndSelf;
 			foreach (var device in allDevices)
 			{
 				XManager.RemoveDevice(device);
 			}
-			if (Device.KAURSR2Parent != null)
-				XManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
 			allDevices.ForEach(device => device.OnChanged());
 
 			var parent = Parent;
@@ -220,10 +228,6 @@ namespace GKModule.ViewModels
 			}
 			Plans.Designer.Helper.BuildMap();
 			ServiceFactory.SaveService.GKChanged = true;
-		}
-		bool CanRemove()
-		{
-			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.IsGroupDevice);
 		}
 
 		public RelayCommand SelectCommand { get; private set; }
