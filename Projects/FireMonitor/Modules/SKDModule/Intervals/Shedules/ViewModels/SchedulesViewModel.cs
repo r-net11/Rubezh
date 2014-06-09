@@ -13,8 +13,8 @@ namespace SKDModule.ViewModels
 {
 	public class SchedulesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		ScheduleFilter Filter;
-		Schedule _clipboard;
+		private bool _isInitialized;
+		private Schedule _clipboard;
 
 		public SchedulesViewModel()
 		{
@@ -23,13 +23,17 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			Filter = new ScheduleFilter() { UserUID = FiresecManager.CurrentUser.UID };
-			Initialize(Filter);
+			_isInitialized = false;
 		}
 
-		public void Initialize(ScheduleFilter filter)
+		public void Initialize()
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			var filter = new ScheduleFilter()
+			{
+				UserUID = FiresecManager.CurrentUser.UID,
+				OrganisationUIDs = organisations.Select(item => item.UID).ToList(),
+			};
 			var schedules = ScheduleHelper.Get(filter);
 
 			AllSchedules = new List<ScheduleViewModel>();
@@ -52,9 +56,18 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged("Organisations");
 			SelectedSchedule = Organisations.FirstOrDefault();
 		}
+		public override void OnShow()
+		{
+			base.OnShow();
+			if (!_isInitialized)
+			{
+				Initialize();
+				_isInitialized = true;
+			}
+		}
 
 		public List<ScheduleViewModel> Organisations { get; private set; }
-		List<ScheduleViewModel> AllSchedules { get; set; }
+		private List<ScheduleViewModel> AllSchedules { get; set; }
 
 		public void Select(Guid scheduleUID)
 		{
@@ -67,7 +80,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ScheduleViewModel _selectedSchedule;
+		private ScheduleViewModel _selectedSchedule;
 		public ScheduleViewModel SelectedSchedule
 		{
 			get { return _selectedSchedule; }
@@ -75,7 +88,10 @@ namespace SKDModule.ViewModels
 			{
 				_selectedSchedule = value;
 				if (value != null)
+				{
 					value.ExpandToThis();
+					value.Initialize();
+				}
 				OnPropertyChanged("SelectedSchedule");
 			}
 		}
@@ -96,7 +112,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var scheduleDetailsViewModel = new ScheduleDetailsViewModel(SelectedSchedule.Organisation);
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
@@ -114,13 +130,13 @@ namespace SKDModule.ViewModels
 				SelectedSchedule = scheduleViewModel;
 			}
 		}
-		bool CanAdd()
+		private bool CanAdd()
 		{
 			return SelectedSchedule != null;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		private void OnRemove()
 		{
 			ScheduleViewModel OrganisationViewModel = SelectedSchedule;
 			if (!OrganisationViewModel.IsOrganisation)
@@ -141,21 +157,19 @@ namespace SKDModule.ViewModels
 			else
 				SelectedSchedule = OrganisationViewModel;
 		}
-		bool CanRemove()
+		private bool CanRemove()
 		{
 			return SelectedSchedule != null && !SelectedSchedule.IsOrganisation;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var scheduleDetailsViewModel = new ScheduleDetailsViewModel(SelectedSchedule.Organisation, SelectedSchedule.Schedule);
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
-			{
-				SelectedSchedule.Update(scheduleDetailsViewModel.Schedule);
-			}
+				SelectedSchedule.Update();
 		}
-		bool CanEdit()
+		private bool CanEdit()
 		{
 			return SelectedSchedule != null && SelectedSchedule.Parent != null && !SelectedSchedule.IsOrganisation;
 		}

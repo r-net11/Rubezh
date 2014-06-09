@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Common;
 using Infrastructure.Common.TreeList;
+using System.Windows.Input;
 
 namespace Controls.TreeList
 {
@@ -22,6 +23,7 @@ namespace Controls.TreeList
 			var treeList = (TreeList)d;
 			treeList.Root.SetSource((IEnumerable)e.NewValue);
 		}
+
 		public static DependencyProperty RootProperty = DependencyProperty.Register("Root", typeof(RootTreeNodeViewModel), typeof(TreeList), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnRootChanged)));
 		public RootTreeNodeViewModel Root
 		{
@@ -49,6 +51,19 @@ namespace Controls.TreeList
 			treeList.SelectedItem = e.NewValue;
 			treeList.ScrollIntoView(treeList.SelectedTreeNode);
 			treeList.Root.SelectedTreeNode = e.NewValue;
+		}
+
+		public static DependencyProperty ItemActivatedCommandProperty = DependencyProperty.Register("ItemActivatedCommand", typeof(ICommand), typeof(TreeList));
+		public ICommand ItemActivatedCommand
+		{
+			get { return (ICommand)GetValue(ItemActivatedCommandProperty); }
+			set { SetValue(ItemActivatedCommandProperty, value); }
+		}
+		public static DependencyProperty ItemActivatedCommandParameterProperty = DependencyProperty.Register("ItemActivatedCommandParameter", typeof(object), typeof(TreeList));
+		public object ItemActivatedCommandParameter
+		{
+			get { return GetValue(ItemActivatedCommandParameterProperty); }
+			set { SetValue(ItemActivatedCommandParameterProperty, value); }
 		}
 
 		internal TreeNodeViewModel PendingFocusNode { get; set; }

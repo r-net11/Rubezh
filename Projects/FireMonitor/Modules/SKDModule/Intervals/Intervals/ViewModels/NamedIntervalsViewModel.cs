@@ -13,8 +13,8 @@ namespace SKDModule.ViewModels
 {
 	public class NamedIntervalsViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		NamedIntervalFilter Filter;
-		NamedInterval _clipboard;
+		private NamedInterval _clipboard;
+		private bool _isInitialized;
 
 		public NamedIntervalsViewModel()
 		{
@@ -23,13 +23,18 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			Filter = new NamedIntervalFilter() { UserUID = FiresecManager.CurrentUser.UID };
-			Initialize(Filter);
+
+			_isInitialized = false;
 		}
 
-		public void Initialize(NamedIntervalFilter filter)
+		public void Initialize()
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			var filter = new NamedIntervalFilter()
+			{
+				UserUID = FiresecManager.CurrentUser.UID,
+				OrganisationUIDs = organisations.Select(item => item.UID).ToList(),
+			};
 			var namedIntervals = NamedIntervalHelper.Get(filter);
 
 			AllNamedIntervals = new List<NamedIntervalViewModel>();
@@ -52,9 +57,18 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged("Organisations");
 			SelectedNamedInterval = Organisations.FirstOrDefault();
 		}
+		public override void OnShow()
+		{
+			base.OnShow();
+			if (!_isInitialized)
+			{
+				Initialize();
+				_isInitialized = true;
+			}
+		}
 
+		private List<NamedIntervalViewModel> AllNamedIntervals { get; set; }
 		public List<NamedIntervalViewModel> Organisations { get; private set; }
-		List<NamedIntervalViewModel> AllNamedIntervals { get; set; }
 
 		public void Select(Guid namedIntervalUID)
 		{
@@ -67,7 +81,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		NamedIntervalViewModel _selectedNamedInterval;
+		private NamedIntervalViewModel _selectedNamedInterval;
 		public NamedIntervalViewModel SelectedNamedInterval
 		{
 			get { return _selectedNamedInterval; }
@@ -75,7 +89,10 @@ namespace SKDModule.ViewModels
 			{
 				_selectedNamedInterval = value;
 				if (value != null)
+				{
 					value.ExpandToThis();
+					value.Initialize();
+				}
 				OnPropertyChanged("SelectedNamedInterval");
 			}
 		}
@@ -151,9 +168,7 @@ namespace SKDModule.ViewModels
 		{
 			var namedIntervalDetailsViewModel = new NamedIntervalDetailsViewModel(SelectedNamedInterval.Organisation, SelectedNamedInterval.NamedInterval);
 			if (DialogService.ShowModalWindow(namedIntervalDetailsViewModel))
-			{
-				SelectedNamedInterval.Update(namedIntervalDetailsViewModel.NamedInterval);
-			}
+				SelectedNamedInterval.Update();
 		}
 		bool CanEdit()
 		{

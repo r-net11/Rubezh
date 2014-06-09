@@ -28,6 +28,8 @@ namespace Controls.TreeList
 		{
 			if (e.ChangedButton == MouseButton.Left && e.Source.GetType() != typeof(RowExpander) && Node != null && Node.HasChildren)
 				Node.IsExpanded = !Node.IsExpanded;
+			if (Tree != null && Tree.ItemActivatedCommand != null && Tree.ItemActivatedCommand.CanExecute(Tree.ItemActivatedCommandParameter))
+				Tree.ItemActivatedCommand.Execute(Tree.ItemActivatedCommandParameter);
 		}
 		protected override void OnKeyDown(KeyEventArgs e)
 		{

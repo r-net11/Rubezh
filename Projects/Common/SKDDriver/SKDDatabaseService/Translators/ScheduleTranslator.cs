@@ -27,6 +27,13 @@ namespace SKDDriver.Translators
 			return base.CanSave(item);
 		}
 
+		protected override OperationResult CanDelete(Schedule schedule)
+		{
+			if (Context.Employees.Any(item => !item.IsDeleted && item.ScheduleUID == schedule.UID))
+				return new OperationResult("Не могу удалить график работ, т.к. он назначен одному из сотрудников");
+			return base.CanDelete(schedule);
+		}
+
 		protected override Schedule Translate(DataAccess.Schedule tableItem)
 		{
 			var result = base.Translate(tableItem);

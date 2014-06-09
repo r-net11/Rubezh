@@ -53,6 +53,9 @@ namespace SKDDriver
 					var verifyResult = CanDelete(item);
 					if (verifyResult.HasError)
 						return verifyResult;
+					verifyResult = CanDelete(item.UID);
+					if (verifyResult.HasError)
+						return verifyResult;
 					if (item != null)
 					{
 						var databaseItem = (from x in Table where x.UID.Equals(item.UID) select x).FirstOrDefault();

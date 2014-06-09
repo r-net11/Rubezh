@@ -39,6 +39,12 @@ namespace SKDDriver.Translators
 				return new OperationResult("График с таким же названием уже содержится в базе данных");
 			return base.CanSave(item);
 		}
+		protected override OperationResult CanDelete(Guid uid)
+		{
+			if (Context.Schedules.Any(item => !item.IsDeleted && item.ScheduleSchemeUID == uid))
+				return new OperationResult("Нельзя удалить режим работы, так как он привязан к одному из графиков");
+			return base.CanDelete(uid);
+		}
 
 		protected override ScheduleScheme Translate(DataAccess.ScheduleScheme tableItem)
 		{

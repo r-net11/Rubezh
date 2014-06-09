@@ -5,16 +5,16 @@ using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
+using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
 	public class ScheduleSchemeViewModel : TreeNodeViewModel<ScheduleSchemeViewModel>
 	{
+		private bool _isInitialized;
 		public ScheduleSchemesViewModel ScheduleSchemesViewModel;
 		public FiresecAPI.SKD.Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
-		public string Name { get; private set; }
-		public string Description { get; private set; }
 		public ScheduleScheme ScheduleScheme { get; private set; }
 
 		public ScheduleSchemeViewModel(ScheduleSchemesViewModel scheduleSchemesViewModel, FiresecAPI.SKD.Organisation organisation)
@@ -22,10 +22,9 @@ namespace SKDModule.ViewModels
 			ScheduleSchemesViewModel = scheduleSchemesViewModel;
 			Organisation = organisation;
 			IsOrganisation = true;
-			Name = organisation.Name;
 			IsExpanded = true;
+			_isInitialized = true;
 		}
-
 		public ScheduleSchemeViewModel(ScheduleSchemesViewModel scheduleSchemesViewModel, FiresecAPI.SKD.Organisation organisation, ScheduleScheme scheduleScheme)
 		{
 			AddCommand = new RelayCommand(OnAdd);
@@ -35,21 +34,40 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			ScheduleScheme = scheduleScheme;
 			IsOrganisation = false;
-			Name = scheduleScheme.Name;
-			Description = scheduleScheme.Description;
+			Update();
 
-			DayIntervals = new SortableObservableCollection<DayIntervalViewModel>(scheduleScheme.DayIntervals.Select(item => new DayIntervalViewModel(this, item)));
+			_isInitialized = false;
 		}
 
-		public void Update(ScheduleScheme scheduleScheme)
+		public void Initialize()
 		{
-			Name = scheduleScheme.Name;
-			Description = scheduleScheme.Description;
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			if (!_isInitialized)
+			{
+				_isInitialized = true;
+				if (!IsOrganisation)
+					DayIntervals = new SortableObservableCollection<DayIntervalViewModel>(ScheduleScheme.DayIntervals.Select(item => new DayIntervalViewModel(this, item)));
+			}
+			OnPropertyChanged(() => NamedIntervals);
+		}
+		public void Update()
+		{
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
+		}
+		public string Name
+		{
+			get { return IsOrganisation ? Organisation.Name : ScheduleScheme.Name; }
+		}
+		public string Description
+		{
+			get { return IsOrganisation ? Organisation.Description : ScheduleScheme.Description; }
 		}
 
 		public SortableObservableCollection<DayIntervalViewModel> DayIntervals { get; private set; }
+		public ObservableCollection<NamedInterval> NamedIntervals
+		{
+			get { return ScheduleSchemesViewModel.GetNamedIntervals(Organisation.UID); }
+		}
 
 		public bool IsSlide
 		{

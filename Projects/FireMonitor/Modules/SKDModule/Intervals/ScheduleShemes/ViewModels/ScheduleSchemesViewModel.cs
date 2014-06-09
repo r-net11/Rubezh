@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
@@ -15,9 +16,9 @@ namespace SKDModule.ViewModels
 	public abstract class ScheduleSchemesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public abstract ScheduleSchemeType Type { get; }
-		ScheduleSchemeFilter Filter;
-		ScheduleScheme _clipboard;
-		public ObservableCollection<NamedInterval> NamedIntervals { get; private set; }
+		private ScheduleScheme _clipboard;
+		private bool _isInitialized;
+		private Dictionary<Guid, ObservableCollection<NamedInterval>> _namedIntervals;
 
 		public ScheduleSchemesViewModel()
 		{
@@ -26,14 +27,18 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
-			ReloadNamedIntervals();
-			Filter = new ScheduleSchemeFilter() { UserUID = FiresecManager.CurrentUser.UID, Type = Type };
-			Initialize(Filter);
+			_isInitialized = false;
 		}
 
-		public void Initialize(ScheduleSchemeFilter filter)
+		public void Initialize()
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			var filter = new ScheduleSchemeFilter()
+			{
+				UserUID = FiresecManager.CurrentUser.UID,
+				OrganisationUIDs = organisations.Select(item => item.UID).ToList(),
+				Type = Type,
+			};
 			var scheduleSchemes = ScheduleSchemaHelper.Get(filter);
 
 			AllScheduleSchemes = new List<ScheduleSchemeViewModel>();
@@ -56,24 +61,40 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged("Organisations");
 			SelectedScheduleScheme = Organisations.FirstOrDefault();
 		}
+		public override void OnShow()
+		{
+			base.OnShow();
+			if (!_isInitialized)
+			{
+				Initialize();
+				_isInitialized = true;
+			}
+			ReloadNamedIntervals();
+		}
 
 		public void ReloadNamedIntervals()
 		{
 			var namedIntervals = NamedIntervalHelper.Get(new NamedIntervalFilter()
 			{
-				UserUID = FiresecManager.CurrentUser.UID
+				UserUID = FiresecManager.CurrentUser.UID,
+				OrganisationUIDs = Organisations.Select(item => item.Organisation.UID).ToList(),
 			});
-			NamedIntervals = new ObservableCollection<NamedInterval>(namedIntervals);
-			NamedIntervals.Insert(0, new NamedInterval()
+			_namedIntervals = new Dictionary<Guid, ObservableCollection<NamedInterval>>();
+			Organisations.ForEach(item => _namedIntervals.Add(item.Organisation.UID, new ObservableCollection<NamedInterval>()));
+			namedIntervals.ForEach(item => _namedIntervals[item.OrganisationUID].Add(item));
+			_namedIntervals.Values.ForEach(item => item.Insert(0, new NamedInterval()
 			{
 				UID = Guid.Empty,
 				Name = "Никогда",
-			});
-			OnPropertyChanged(() => NamedIntervals);
+			}));
+		}
+		public ObservableCollection<NamedInterval> GetNamedIntervals(Guid organisationUID)
+		{
+			return _namedIntervals.ContainsKey(organisationUID) ? _namedIntervals[organisationUID] : new ObservableCollection<NamedInterval>();
 		}
 
 		public List<ScheduleSchemeViewModel> Organisations { get; private set; }
-		List<ScheduleSchemeViewModel> AllScheduleSchemes { get; set; }
+		private List<ScheduleSchemeViewModel> AllScheduleSchemes { get; set; }
 
 		public void Select(Guid scheduleSchemelUID)
 		{
@@ -86,7 +107,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ScheduleSchemeViewModel _selectedScheduleScheme;
+		private ScheduleSchemeViewModel _selectedScheduleScheme;
 		public ScheduleSchemeViewModel SelectedScheduleScheme
 		{
 			get { return _selectedScheduleScheme; }
@@ -94,7 +115,10 @@ namespace SKDModule.ViewModels
 			{
 				_selectedScheduleScheme = value;
 				if (value != null)
+				{
 					value.ExpandToThis();
+					value.Initialize();
+				}
 				OnPropertyChanged("SelectedScheduleScheme");
 			}
 		}
@@ -115,7 +139,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var ScheduleSchemeDetailsViewModel = new ScheduleSchemeDetailsViewModel(SelectedScheduleScheme.Organisation, Type);
 			if (DialogService.ShowModalWindow(ScheduleSchemeDetailsViewModel))
@@ -133,13 +157,13 @@ namespace SKDModule.ViewModels
 				SelectedScheduleScheme = scheduleSchemeViewModel;
 			}
 		}
-		bool CanAdd()
+		private bool CanAdd()
 		{
 			return SelectedScheduleScheme != null;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
+		private void OnRemove()
 		{
 			ScheduleSchemeViewModel OrganisationViewModel = SelectedScheduleScheme;
 			if (!OrganisationViewModel.IsOrganisation)
@@ -160,27 +184,25 @@ namespace SKDModule.ViewModels
 			else
 				SelectedScheduleScheme = OrganisationViewModel;
 		}
-		bool CanRemove()
+		private bool CanRemove()
 		{
 			return SelectedScheduleScheme != null && !SelectedScheduleScheme.IsOrganisation;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var scheduleSchemeDetailsViewModel = new ScheduleSchemeDetailsViewModel(SelectedScheduleScheme.Organisation, Type, SelectedScheduleScheme.ScheduleScheme);
 			if (DialogService.ShowModalWindow(scheduleSchemeDetailsViewModel))
-			{
-				SelectedScheduleScheme.Update(scheduleSchemeDetailsViewModel.ScheduleScheme);
-			}
+				SelectedScheduleScheme.Update();
 		}
-		bool CanEdit()
+		private bool CanEdit()
 		{
 			return SelectedScheduleScheme != null && SelectedScheduleScheme.Parent != null && !SelectedScheduleScheme.IsOrganisation;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
+		private void OnCopy()
 		{
 			_clipboard = CopyScheduleScheme(SelectedScheduleScheme.ScheduleScheme, false);
 		}
@@ -190,7 +212,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
+		private void OnPaste()
 		{
 			var newInterval = CopyScheduleScheme(_clipboard);
 			if (ScheduleSchemaHelper.Save(newInterval))
@@ -209,7 +231,7 @@ namespace SKDModule.ViewModels
 			return _clipboard != null;
 		}
 
-		ScheduleScheme CopyScheduleScheme(ScheduleScheme source, bool newName = true)
+		private ScheduleScheme CopyScheduleScheme(ScheduleScheme source, bool newName = true)
 		{
 			var copy = new ScheduleScheme();
 			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;

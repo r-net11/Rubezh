@@ -29,6 +29,12 @@ namespace SKDDriver.Translators
 				return new OperationResult("Именнованный интервал с таким же названием уже содержится в базе данных");
 			return base.CanSave(item);
 		}
+		protected override OperationResult CanDelete(Guid uid)
+		{
+			if (Context.Days.Any(item => !item.IsDeleted && item.NamedIntervalUID == uid))
+				return new OperationResult("Именованый интервал не может быть удален, так как имеет привязку одного из графиков");
+			return base.CanDelete(uid);
+		}
 
 		protected override NamedInterval Translate(DataAccess.NamedInterval tableItem)
 		{

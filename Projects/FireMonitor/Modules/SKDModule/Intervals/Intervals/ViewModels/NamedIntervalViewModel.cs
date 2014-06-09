@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Common;
 using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
@@ -11,20 +12,18 @@ namespace SKDModule.ViewModels
 {
 	public class NamedIntervalViewModel : TreeNodeViewModel<NamedIntervalViewModel>, IEditingViewModel
 	{
+		private bool _isInitialized;
 		public FiresecAPI.SKD.Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
-		public string Name { get; private set; }
-		public string Description { get; private set; }
 		public NamedInterval NamedInterval { get; private set; }
 
 		public NamedIntervalViewModel(FiresecAPI.SKD.Organisation organisation)
 		{
 			Organisation = organisation;
 			IsOrganisation = true;
-			Name = organisation.Name;
 			IsExpanded = true;
+			_isInitialized = true;
 		}
-
 		public NamedIntervalViewModel(FiresecAPI.SKD.Organisation organisation, NamedInterval namedInterval)
 		{
 			AddCommand = new RelayCommand(OnAdd);
@@ -34,22 +33,40 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			NamedInterval = namedInterval;
 			IsOrganisation = false;
-			Name = namedInterval.Name;
 
-			TimeIntervals = new SortableObservableCollection<TimeIntervalViewModel>();
-			foreach (var timeInterval in namedInterval.TimeIntervals)
-			{
-				var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
-				TimeIntervals.Add(timeIntervalViewModel);
-			}
+			_isInitialized = false;
 		}
 
-		public void Update(NamedInterval namedInterval)
+		public void Initialize()
 		{
-			Name = namedInterval.Name;
-			//Description = namedInterval.Description;
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			if (!_isInitialized)
+			{
+				_isInitialized = true;
+				if (!IsOrganisation)
+				{
+					TimeIntervals = new SortableObservableCollection<TimeIntervalViewModel>();
+					foreach (var timeInterval in NamedInterval.TimeIntervals)
+					{
+						var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
+						TimeIntervals.Add(timeIntervalViewModel);
+					}
+					SelectedTimeInterval = TimeIntervals.FirstOrDefault();
+				}
+			}
+		}
+		public void Update()
+		{
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
+		}
+
+		public string Name
+		{
+			get { return IsOrganisation ? Organisation.Name : NamedInterval.Name; }
+		}
+		public string Description
+		{
+			get { return IsOrganisation ? Organisation.Description : NamedInterval.Description; }
 		}
 
 		public SortableObservableCollection<TimeIntervalViewModel> TimeIntervals { get; private set; }

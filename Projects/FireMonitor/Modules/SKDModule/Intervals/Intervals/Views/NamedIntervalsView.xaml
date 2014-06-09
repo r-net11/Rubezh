@@ -22,7 +22,7 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<tree:TreeList Grid.Column="0" Focusable="True" SelectedTreeNode="{Binding SelectedNamedInterval}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+			<tree:TreeList Grid.Column="0" Focusable="True" ItemActivatedCommand="{Binding EditCommand}" SelectedTreeNode="{Binding SelectedNamedInterval}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
 						<GridViewColumn Width="200" Header="Название" tree:SortBehavior.SortComparer="{StaticResource NamedIntervalViewModelNameComparer}">
