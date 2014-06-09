@@ -24,8 +24,8 @@
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="Зоны СКД">
-			<Views:AccessZonesSelectationView DataContext="{Binding AccessZonesSelectationViewModel}" />
+		<TabItem Header="Точки прохода">
+			<Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
         <TabItem Header="Охранные зоны">
             <Grid DataContext="{Binding AccessTemplateGuardZones}">

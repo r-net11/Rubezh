@@ -130,7 +130,7 @@
 
 				<Grid Grid.Column="1" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Grid DataContext="{Binding SelectedCard}">
-						<Views:CardZonesView Grid.Row="1" DataContext="{Binding CardZonesViewModel}" />
+						<Views:CardDoorsView Grid.Row="1" DataContext="{Binding CardDoorsViewModel}" />
 					</Grid>
 				</Grid>
 			</Grid>

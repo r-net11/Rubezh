@@ -9,7 +9,7 @@ namespace SKDModule.ViewModels
 	{
 		Organisation Organisation { get; set; }
 		public AccessTemplate AccessTemplate { get; private set; }
-		public AccessZonesSelectationViewModel AccessZonesSelectationViewModel { get; private set; }
+		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 
 		public AccessTemplateDetailsViewModel(Organisation orgnaisation, AccessTemplate accessTemplate = null)
 		{
@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 			AccessTemplate = accessTemplate;
 			AccessTemplateGuardZones = new AccessTemplateGuardZonesViewModel(AccessTemplate);
 			CopyProperties();
-			AccessZonesSelectationViewModel = new AccessZonesSelectationViewModel(Organisation, AccessTemplate.CardZones, AccessTemplate.UID);
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, AccessTemplate.CardDoors, AccessTemplate.UID);
 		}
 
 		public void CopyProperties()
@@ -83,7 +83,7 @@ namespace SKDModule.ViewModels
 
 			AccessTemplate.Name = Name;
 			AccessTemplate.Description = Description;
-			AccessTemplate.CardZones = AccessZonesSelectationViewModel.GetCardZones();
+			AccessTemplate.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			AccessTemplate.OrganisationUID = Organisation.UID;
 			return AccessTemplateHelper.Save(AccessTemplate);
 		}

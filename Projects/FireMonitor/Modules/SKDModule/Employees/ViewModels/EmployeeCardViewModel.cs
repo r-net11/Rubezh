@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 		public Organisation Organisation { get; private set; }
 		public SKDCard Card { get; private set; }
 		public EmployeeViewModel EmployeeViewModel { get; private set; }
-		public CardZonesViewModel CardZonesViewModel { get; private set; }
+		public CardDoorsViewModel CardDoorsViewModel { get; private set; }
 
 		public EmployeeCardViewModel(Organisation organisation, EmployeeViewModel employeeViewModel, SKDCard card)
 		{
@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 			Card = card;
 
 			var cardZones = GetCardZones(Card);
-			CardZonesViewModel = new CardZonesViewModel(cardZones);
+			CardDoorsViewModel = new CardDoorsViewModel(cardZones);
 		}
 
 		public string Name
@@ -36,9 +36,9 @@ namespace SKDModule.ViewModels
 			get { return "Пропуск " + Card.PresentationName; }
 		}
 
-		List<CardZone> GetCardZones(SKDCard card)
+		List<CardDoor> GetCardZones(SKDCard card)
 		{
-			var cardZones = new List<CardZone>();
+			var cardZones = new List<CardDoor>();
 			cardZones.AddRange(card.CardZones);
 			if (card.AccessTemplateUID != null)
 			{
@@ -48,9 +48,9 @@ namespace SKDModule.ViewModels
 					var accessTemplate = accessTemplates.FirstOrDefault(x => x.UID == card.AccessTemplateUID);
 					if (accessTemplate != null)
 					{
-						foreach (var cardZone in accessTemplate.CardZones)
+						foreach (var cardZone in accessTemplate.CardDoors)
 						{
-							if (!cardZones.Any(x => x.ZoneUID == cardZone.ZoneUID))
+							if (!cardZones.Any(x => x.DoorUID == cardZone.DoorUID))
 								cardZones.Add(cardZone);
 						}
 					}
@@ -87,7 +87,7 @@ namespace SKDModule.ViewModels
 				Card = card;
 				OnPropertyChanged("Card");
 				OnPropertyChanged("Name");
-				CardZonesViewModel.Update(Card.CardZones);
+				CardDoorsViewModel.Update(Card.CardZones);
 			}
 		}
 

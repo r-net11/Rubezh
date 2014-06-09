@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 	{
 		Organisation Organisation;
 		public SKDCard Card { get; private set; }
-		public AccessZonesSelectationViewModel AccessZones { get; private set; }
+		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 		bool IsNewCard;
 
 		public EmployeeCardDetailsViewModel(Organisation organisation, SKDCard card = null)
@@ -48,7 +48,7 @@ namespace SKDModule.ViewModels
 			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
 
-			AccessZones = new AccessZonesSelectationViewModel(Organisation, Card.CardZones, Card.UID);
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardZones, Card.UID);
 
 			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
 			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "НЕТ" });
@@ -304,7 +304,7 @@ namespace SKDModule.ViewModels
 			Card.CardType = SelectedCardType;
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
-			Card.CardZones = AccessZones.GetCardZones();
+			Card.CardZones = AccessDoorsSelectationViewModel.GetCardDoors();
 
 			if (SelectedAccessTemplate != null)
 				Card.AccessTemplateUID = SelectedAccessTemplate.UID;

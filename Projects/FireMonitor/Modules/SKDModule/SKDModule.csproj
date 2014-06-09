@@ -75,8 +75,8 @@
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
-    <Compile Include="Employees\ViewModels\AccessZonesSelectationViewModel.cs" />
-    <Compile Include="Employees\ViewModels\AccessZoneViewModel.cs" />
+    <Compile Include="Employees\ViewModels\AccessDoorsSelectationViewModel.cs" />
+    <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZoneViewModel.cs" />
@@ -90,7 +90,7 @@
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectEscortViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\SelectScheduleViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\TextColumnViewModel.cs" />
-    <Compile Include="Employees\ViewModels\CardZonesViewModel.cs" />
+    <Compile Include="Employees\ViewModels\CardDoorsViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardDetailsViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardRemovalReasonViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardViewModel.cs" />
@@ -195,16 +195,16 @@
     <Compile Include="PassCard\Designer\PassCardCanvas.cs" />
     <Compile Include="PassCard\Designer\PassCardImagePropertyPainter.cs" />
     <Compile Include="PassCard\ViewModels\PassCardViewModel.cs" />
-    <Compile Include="Employees\Views\AccessZonesSelectationView.xaml.cs">
-      <DependentUpon>AccessZonesSelectationView.xaml</DependentUpon>
+    <Compile Include="Employees\Views\AccessDoorsSelectationView.xaml.cs">
+      <DependentUpon>AccessDoorsSelectationView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Employees\Views\CardRemovalReasonView.xaml.cs">
       <DependentUpon>CardRemovalReasonView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Employees\Views\CardZonesView.xaml.cs">
-      <DependentUpon>CardZonesView.xaml</DependentUpon>
+    <Compile Include="Employees\Views\CardDoorsView.xaml.cs">
+      <DependentUpon>CardDoorsView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Employees\Views\EmployeeCardDetailsView.xaml.cs">
@@ -482,7 +482,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Employees\Views\AccessZonesSelectationView.xaml">
+    <Page Include="Employees\Views\AccessDoorsSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -494,7 +494,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Employees\Views\CardZonesView.xaml">
+    <Page Include="Employees\Views\CardDoorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

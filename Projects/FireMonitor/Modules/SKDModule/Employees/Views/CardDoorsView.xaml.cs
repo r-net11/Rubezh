@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class CardZonesView : UserControl
+	public partial class CardDoorsView : UserControl
 	{
-		public CardZonesView()
+		public CardDoorsView()
 		{
 			InitializeComponent();
 		}

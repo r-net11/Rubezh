@@ -78,8 +78,8 @@
                 <Button Grid.Row="6" Grid.Column="1" Command="{Binding ShowUSBCardReaderCommand}" Content="От USB-считывателя" HorizontalAlignment="Left" Width="150" Margin="2" />
             </Grid>
 		</TabItem>
-		<TabItem Header="Зоны доступа">
-			<Views:AccessZonesSelectationView DataContext="{Binding AccessZones}" />
+		<TabItem Header="Точки прохода">
+            <Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
 		<TabItem Header="Шаблон доступа">
 			<DataGrid ItemsSource="{Binding AvailableAccessTemplates}" SelectedItem="{Binding SelectedAccessTemplate}">

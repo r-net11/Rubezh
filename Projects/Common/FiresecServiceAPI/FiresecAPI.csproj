@@ -230,7 +230,7 @@
     <Compile Include="SKD\Department\ShortDepartment.cs" />
     <Compile Include="SKD\Document\DocumentFilter.cs" />
     <Compile Include="Models\Video\IVSSContract.cs" />
-    <Compile Include="SKD\Card\CardZone.cs" />
+    <Compile Include="SKD\Card\CardDoor.cs" />
     <Compile Include="SKD\Document\ShortDocument.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleZoneFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleFilter.cs" />
@@ -265,7 +265,7 @@
     <Compile Include="SKD\EmployeeTimeIntervals\DayInterval.cs" />
     <Compile Include="SKD\AdditionalColumn\AdditionalColumn.cs" />
     <Compile Include="SKD\Card\Card.cs" />
-    <Compile Include="SKD\Card\CardZoneFilter.cs" />
+    <Compile Include="SKD\Card\CardDoorFilter.cs" />
     <Compile Include="SKD\Card\CardFilter.cs" />
     <Compile Include="SKD\Common\DateTimePeriod.cs" />
     <Compile Include="SKD\Schedule\Day.cs" />

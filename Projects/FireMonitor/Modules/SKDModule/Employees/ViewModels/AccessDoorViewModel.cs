@@ -8,24 +8,17 @@ using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels
 {
-	public class AccessZoneViewModel : TreeNodeViewModel<AccessZoneViewModel>
+	public class AccessDoorViewModel : TreeNodeViewModel<AccessDoorViewModel>
 	{
-		public SKDZone Zone { get; private set; }
-		public List<CardZone> CardZones { get; private set; }
-		Action<AccessZoneViewModel> OnChecked;
+		public Door Door { get; private set; }
+		public List<CardDoor> CardDoors { get; private set; }
+		Action<AccessDoorViewModel> OnChecked;
 
-		public AccessZoneViewModel(SKDZone zone, List<CardZone> cardZones, Action<AccessZoneViewModel> onChecked)
+		public AccessDoorViewModel(Door door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
 		{
-			Zone = zone;
-			CardZones = cardZones;
+			Door = door;
+			CardDoors = cardDoors;
 			OnChecked = onChecked;
-
-			CanSelect = false;
-			foreach (var device in SKDManager.Devices)
-			{
-				if (device.OuterZoneUID == Zone.UID)
-					CanSelect = true;
-			}
 
 			TimeCreterias = new ObservableCollection<IntervalTypeViewModel>();
 			foreach (IntervalType item in Enum.GetValues(typeof(IntervalType)))
@@ -34,21 +27,20 @@ namespace SKDModule.ViewModels
 			}
 			SelectedTimeCreteria = TimeCreterias.FirstOrDefault();
 
-			if (CardZones == null)
-				CardZones = new List<CardZone>();
+			if (CardDoors == null)
+				CardDoors = new List<CardDoor>();
 
-			var cardZone = CardZones.FirstOrDefault(x => x.ZoneUID == zone.UID);
-			if (cardZone != null)
+			var cardDoor = CardDoors.FirstOrDefault(x => x.DoorUID == door.UID);
+			if (cardDoor != null)
 			{
 				_isChecked = true;
-				IsAntiPassback = cardZone.IsAntiPassback;
-				IsComission = cardZone.IsComission;
-				SelectedTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardZone.IntervalType);
-				SelectedTimeType = TimeTypes.FirstOrDefault(x => x.UID == cardZone.IntervalUID);
+				IsAntiPassback = cardDoor.IsAntiPassback;
+				IsComission = cardDoor.IsComission;
+				SelectedTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.IntervalType);
+				SelectedTimeType = TimeTypes.FirstOrDefault(x => x.UID == cardDoor.IntervalUID);
 			}
 		}
 
-		public bool CanSelect { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked

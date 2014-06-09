@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class AccessZonesSelectationView : UserControl
+	public partial class DeviceSelectationView : UserControl
 	{
-		public AccessZonesSelectationView()
+		public DeviceSelectationView()
 		{
 			InitializeComponent();
 		}

@@ -5,21 +5,21 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class CardZoneFilter : IsDeletedFilter
+	public class CardDoorFilter : IsDeletedFilter
 	{
 		[DataMember]
 		public List<Guid> CardUIDs { get; set; }
 
 		[DataMember]
-		public List<Guid> ZoneUIDs { get; set; }
+		public List<Guid> DoorUIDs { get; set; }
 
 		[DataMember]
 		public List<Guid> IntervalUIDs { get; set; }
 
-		public CardZoneFilter():base()
+		public CardDoorFilter():base()
 		{
 			CardUIDs = new List<Guid>();
-			ZoneUIDs = new List<Guid>();
+			DoorUIDs = new List<Guid>();
 			IntervalUIDs = new List<Guid>();
 		}
 	}

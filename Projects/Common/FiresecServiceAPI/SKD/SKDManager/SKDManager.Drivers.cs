@@ -32,7 +32,7 @@ namespace FiresecAPI.SKD
 				IsPlaceable = true
 			};
 			controllerDriver.Children.Add(SKDDriverType.Reader);
-			controllerDriver.Children.Add(SKDDriverType.Gate);
+			//controllerDriver.Children.Add(SKDDriverType.Gate);
 			controllerDriver.AvailableStateClasses.Add(XStateClass.Norm);
 			controllerDriver.AvailableStateClasses.Add(XStateClass.Failure);
 			controllerDriver.AvailableStateClasses.Add(XStateClass.Unknown);

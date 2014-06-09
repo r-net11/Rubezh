@@ -49,7 +49,7 @@ namespace SKDDriver
 		protected override AccessTemplate Translate(DataAccess.AccessTemplate tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.CardZones = CardZonesTranslator.Get(tableItem.UID);
+			result.CardDoors = CardZonesTranslator.Get(tableItem.UID);
 			result.Name = tableItem.Name;
 			var zones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
 			foreach (var item in zones)

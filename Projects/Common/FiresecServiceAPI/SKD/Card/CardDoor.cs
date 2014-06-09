@@ -4,10 +4,10 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class CardZone : SKDIsDeletedModel
+	public class CardDoor : SKDIsDeletedModel
 	{
 		[DataMember]
-		public Guid ZoneUID { get; set; }
+		public Guid DoorUID { get; set; }
 
 		[DataMember]
 		public bool IsAntiPassback { get; set; }
