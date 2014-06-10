@@ -113,6 +113,7 @@ namespace GKModule.ViewModels
 			}
 			UpdateDeviceParameterMissmatchType();
 			Device.OnChanged();
+			Device.OnAUParametersChanged();
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace GKProcessor
 				DriverTypeNo = 0xE0,
 				DriverType = XDriverType.RSR2_Bush,
 				UID = new Guid("1743FA7E-EF69-45B7-90CD-D9BF2B44644C"),
-				Name = "Блок управления ДН",
+				Name = "Прибор пожарный управлления Дренажным Насосом",
 				ShortName = "ППУ ДН RSR2",
 				IsControlDevice = true,
 				HasLogic = true,
