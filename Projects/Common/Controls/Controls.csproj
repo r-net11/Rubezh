@@ -139,6 +139,8 @@
     <Compile Include="Converters\BoolToMinimizeTextConverter.cs" />
     <Compile Include="Converters\BoolToGridLengthConverter.cs" />
     <Compile Include="Converters\ConnectionStateToImageSourceConverter.cs" />
+    <Compile Include="Converters\DateToStringConverter.cs" />
+    <Compile Include="Converters\DayOfWeekToStringConverter.cs" />
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />
     <Compile Include="Converters\DelayRegimeToStringConverter.cs" />
     <Compile Include="Converters\DescriptionTypeToIconConverter.cs" />
@@ -1133,8 +1135,25 @@
     <Resource Include="Images\Holiday.png" />
     <Resource Include="Images\Interval.png" />
     <Resource Include="Images\Month.png" />
-    <Resource Include="Images\Schedule.png" />
     <Resource Include="Images\Week.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Calendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Schedules.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Mask.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Masks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GlobalVariable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GlobalVariables.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

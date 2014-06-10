@@ -1,15 +1,27 @@
 ﻿<UserControl x:Class="AutomationModule.Views.MasksView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<DataGrid ItemsSource="{Binding Masks}" SelectedItem="{Binding SelectedMask}" IsReadOnly="False">
-		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Маска" Width="1*">
-				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" />
-					</DataTemplate>
-				</DataGridTemplateColumn.CellTemplate>
-			</DataGridTemplateColumn>
-		</DataGrid.Columns>
-	</DataGrid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="150" />
+		</Grid.RowDefinitions>
+		<DataGrid ItemsSource="{Binding Masks}" SelectedItem="{Binding SelectedMask}" IsReadOnly="False">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="Название" Width="1*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Source="/Controls;component/Images/Mask.png" Width="16" Margin="2 0 0 0" />
+								<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<GridSplitter Grid.Row="1" Height="5" Background="Transparent" />
+		<Border Grid.Row="2" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5" DataContext="{Binding SelectedSchedule}" />
+	</Grid>
 </UserControl>

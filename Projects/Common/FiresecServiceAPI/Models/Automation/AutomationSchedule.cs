@@ -17,5 +17,26 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Guid Uid { get; set; }
+
+		[DataMember]
+		public int Year { get; set; }
+
+		[DataMember]
+		public int Month { get; set; }
+
+		[DataMember]
+		public int Day { get; set; }
+
+		[DataMember]
+		public int Hour { get; set; }
+
+		[DataMember]
+		public int Minute { get; set; }
+
+		[DataMember]
+		public int Second { get; set; }
+
+		[DataMember]
+		public DayOfWeekType DayOfWeek { get; set; }
 	}
 }

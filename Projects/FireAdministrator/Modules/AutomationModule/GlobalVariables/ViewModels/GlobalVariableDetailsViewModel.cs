@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
@@ -11,6 +12,7 @@ namespace AutomationModule.ViewModels
 			Title = "Свойства глобальной переменной";
 			GlobalVariable = globalVariable;
 			Name = globalVariable.Name;
+			Value = globalVariable.Value;
 		}
 
 		public GlobalVariableDetailsViewModel()
@@ -18,6 +20,7 @@ namespace AutomationModule.ViewModels
 			Title = "Добавить глобальную переменную";
 			GlobalVariable = new GlobalVariable();
 			Name = GlobalVariable.Name;
+			Value = GlobalVariable.Value;
 		}
 
 		string _name;
@@ -31,9 +34,26 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		int _value;
+		public int Value
+		{
+			get { return _value; }
+			set
+			{
+				_value = value;
+				OnPropertyChanged(() => Value);
+			}
+		}
+
 		protected override bool Save()
 		{
+			if (string.IsNullOrEmpty(Name))
+			{
+				MessageBoxService.ShowWarning("Название не может быть пустым");
+				return false;
+			}
 			GlobalVariable.Name = Name;
+			GlobalVariable.Value = Value;
 			return base.Save();
 		}
 	}
