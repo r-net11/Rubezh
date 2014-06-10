@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllerSDK", "Controller
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "..\Common\Infrastructure.Common\Infrastructure.Common.csproj", "{D57CB190-A30E-4A3D-A674-F1766CE1CC72}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{33DF6BA1-9DEC-4597-B1A1-380CA8AB951F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D57CB190-A30E-4A3D-A674-F1766CE1CC72} = {33DF6BA1-9DEC-4597-B1A1-380CA8AB951F}
 	EndGlobalSection
 EndGlobal

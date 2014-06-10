@@ -72,13 +72,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="API.cs" />
-    <Compile Include="CardsViewModel.cs" />
-    <Compile Include="CardViewModel.cs" />
+    <Compile Include="SDK\API.cs" />
+    <Compile Include="ViewModels\PasswordsViewModel.cs" />
+    <Compile Include="Views\CardsView.xaml.cs">
+      <DependentUpon>CardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\CardsViewModel.cs" />
+    <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="NativeSDKWrap.cs" />
-    <Compile Include="SDKImport.cs" />
-    <Compile Include="SDKWrapper.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="SDK\SDKImport.cs" />
+    <Compile Include="SDK\SDKWrapper.cs" />
+    <Compile Include="Views\PasswordsView.xaml.cs">
+      <DependentUpon>PasswordsView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\CardsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -86,10 +97,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PasswordsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
