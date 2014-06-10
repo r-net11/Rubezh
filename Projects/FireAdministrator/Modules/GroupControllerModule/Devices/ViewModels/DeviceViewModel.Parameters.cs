@@ -175,8 +175,10 @@ namespace GKModule.ViewModels
 				if (Validate(device))
 				{
 					LoadingService.Show("Запись параметров в устройствo " + Device.PresentationName, null, 1, true);
-					WriteDevices(device);
-					SyncFromSystemToDeviceProperties(device);
+					if (WriteDevices(device))
+					{
+						SyncFromSystemToDeviceProperties(device);
+					}
 				}
 			}
 		}
@@ -190,8 +192,10 @@ namespace GKModule.ViewModels
 				if (Validate(devices))
 				{
 					LoadingService.Show("Запись параметров в дочерние устройства " + Device.PresentationName, null, 1, true);
-					WriteDevices(devices);
-					SyncFromSystemToDeviceProperties(devices);
+					if (WriteDevices(devices))
+					{
+						SyncFromSystemToDeviceProperties(devices);
+					}
 				}
 			}
 		}
@@ -401,7 +405,7 @@ namespace GKModule.ViewModels
 				MessageBoxService.ShowError("Ошибка при получении параметров следующих устройств:" + errorLog);
 		}
 
-		static void WriteDevices(IEnumerable<XDevice> devices)
+		static bool WriteDevices(IEnumerable<XDevice> devices)
 		{
 			var errorLog = "";
 			DescriptorsManager.Create();
@@ -429,7 +433,11 @@ namespace GKModule.ViewModels
 			}
 			LoadingService.Close();
 			if (errorLog != "")
+			{
 				MessageBoxService.ShowWarning("Ошибка при записи параметров в следующие устройства:" + errorLog);
+				return false;
+			}
+			return true;
 		}
 
 		public RelayCommand ResetAUPropertiesCommand { get; private set; }
