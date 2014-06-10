@@ -111,7 +111,7 @@ namespace LayoutModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			if (MessageBoxService.ShowConfirmation2(string.Format("Вы уверены, что хотите удалить шаблон '{0}'?", SelectedLayout.Caption)))
+			if (MessageBoxService.ShowConfirmation2(string.Format("Вы уверены, что хотите удалить макет '{0}'?", SelectedLayout.Caption)))
 				OnLayoutRemove();
 		}
 		public RelayCommand EditCommand { get; private set; }
@@ -200,7 +200,7 @@ namespace LayoutModule.ViewModels
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить шаблон", AddCommand, "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Добавить макет", AddCommand, "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
 					new RibbonMenuItemViewModel("Удалить", RemoveCommand, "/Controls;component/Images/BDelete.png"),
 					new RibbonMenuItemViewModel("Копировать", LayoutCopyCommand, "/Controls;component/Images/BCopy.png") {IsNewGroup=true},

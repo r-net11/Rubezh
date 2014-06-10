@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="LayoutModule.Views.MonitorLayoutsMenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<StackPanel DataContext="{Binding Context}" Orientation="Horizontal">
-		<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить шаблон" />
-		<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать шаблон" />
-		<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить шаблон" />
+		<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить макет" />
+		<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать макет" />
+		<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить макет" />
 
 		<ToolBarButton Command="{Binding LayoutCopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
 		<ToolBarButton Command="{Binding LayoutCutCommand}" ImageSource="/Controls;component/Images/Cut.png" ToolTip="Вырезать" />

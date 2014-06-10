@@ -14,6 +14,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
+using FiresecAPI.Automation;
 
 namespace FireAdministrator
 {
@@ -185,6 +186,7 @@ namespace FireAdministrator
 					FiresecManager.PlansConfiguration = new PlansConfiguration();
 					FiresecManager.SystemConfiguration.Instructions = new List<Instruction>();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
+					FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 					FiresecManager.PlansConfiguration.Update();
 					SKDManager.SetEmptyConfiguration();
 					FiresecManager.LayoutsConfiguration = new LayoutsConfiguration();

@@ -47,7 +47,7 @@ namespace AutomationModule
 							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(SchedulesViewModel, "Редактор расписаний", "/Controls;component/Images/SelectNone.png"),
 							new NavigationItem<ShowGlobalVariablesEvent, Guid>(GlobalVariablesViewModel, "Список глобальных переменных", "/Controls;component/Images/SelectNone.png"),
 							new NavigationItem<ShowMasksEvent, Guid>(MasksViewModel, "Создание масок", "/Controls;component/Images/SelectNone.png")
-						}),
+						}) {IsExpanded = true},
 				};
 		}
 		public override string Name
