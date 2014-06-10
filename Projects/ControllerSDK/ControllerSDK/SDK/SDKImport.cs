@@ -889,5 +889,16 @@ namespace ControllerSDK.SDK
 
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_GetAllCards(int lLoginId, IntPtr result);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct PasswordsCollection
+		{
+			public int Count;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1000)]
+			public NET_RECORDSET_ACCESS_CTL_PWD[] Passwords;
+		}
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_GetAllPasswords(int lLoginId, IntPtr result);
 	}
 }

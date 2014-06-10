@@ -13,6 +13,9 @@
             <TabItem Header="Карты" DataContext="{Binding CardsViewModel}">
                 <Views:CardsView />
             </TabItem>
+            <TabItem Header="Пароли" DataContext="{Binding PasswordsViewModel}">
+                <Views:PasswordsView />
+            </TabItem>
             <TabItem Header="All">
                 <Grid>
                     <Grid.ColumnDefinitions>

@@ -8,6 +8,48 @@ namespace ControllerSDK.SDK
 {
 	public static class SDKWrapper
 	{
+		#region Common
+		public static string CharArrayToString(char[] charArray)
+		{
+			var result = new string(charArray);
+			int i = result.IndexOf('\0');
+			if (i >= 0)
+				result = result.Substring(0, i);
+			return result;
+		}
+
+		public static string CharArrayToStringNoTrim(char[] charArray)
+		{
+			var result = new string(charArray);
+			//int i = result.IndexOf('\0');
+			//if (i >= 0)
+			//    result = result.Substring(0, i);
+			return result;
+		}
+
+		public static char[] StringToCharArray(string str, int size)
+		{
+			var result = new char[size];
+			var charArray = str.ToCharArray();
+			for (int i = 0; i < Math.Min(charArray.Count(), size); i++)
+			{
+				result[i] = charArray[i];
+			}
+			return result;
+		}
+
+		public static DateTime NET_TIMEToDateTime(ControllerSDK.SDK.SDKImport.NET_TIME netTime)
+		{
+			DateTime dateTime = DateTime.MinValue;
+			try
+			{
+				dateTime = new DateTime(netTime.dwYear, netTime.dwMonth, netTime.dwDay, netTime.dwHour, netTime.dwMinute, netTime.dwSecond);
+			}
+			catch { }
+			return dateTime;
+		}
+		#endregion
+
 		public static int AddCard(int loginID, Card card)
 		{
 			SDKImport.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new SDKImport.NET_RECORDSET_ACCESS_CTL_CARD();
@@ -91,44 +133,54 @@ namespace ControllerSDK.SDK
 			return cards;
 		}
 
-		public static string CharArrayToString(char[] charArray)
+		public static int AddPassword(int loginID, Password password)
 		{
-			var result = new string(charArray);
-			int i = result.IndexOf('\0');
-			if (i >= 0)
-				result = result.Substring(0, i);
+			SDKImport.NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd = new SDKImport.NET_RECORDSET_ACCESS_CTL_PWD();
+			stuAccessCtlPwd.stuCreateTime.dwYear = password.CreationDateTime.Year;
+			stuAccessCtlPwd.stuCreateTime.dwMonth = password.CreationDateTime.Month;
+			stuAccessCtlPwd.stuCreateTime.dwDay = password.CreationDateTime.Day;
+			stuAccessCtlPwd.stuCreateTime.dwHour = password.CreationDateTime.Hour;
+			stuAccessCtlPwd.stuCreateTime.dwMinute = password.CreationDateTime.Minute;
+			stuAccessCtlPwd.stuCreateTime.dwSecond = password.CreationDateTime.Second;
+			stuAccessCtlPwd.szUserID = SDKWrapper.StringToCharArray(password.UserID, 32);
+			stuAccessCtlPwd.szDoorOpenPwd = SDKWrapper.StringToCharArray(password.DoorOpenPassword, 64);
+			stuAccessCtlPwd.szAlarmPwd = SDKWrapper.StringToCharArray(password.AlarmPassword, 64);
+			stuAccessCtlPwd.nDoorNum = password.DoorsCount;
+			stuAccessCtlPwd.sznDoors = new int[32];
+			stuAccessCtlPwd.sznDoors[0] = 1;
+			stuAccessCtlPwd.sznDoors[1] = 2;
+
+			var result = SDKImport.WRAP_Insert_Pwd(loginID, ref stuAccessCtlPwd);
 			return result;
 		}
 
-		public static string CharArrayToStringNoTrim(char[] charArray)
+		public static List<Password> GetAllPasswords(int loginID)
 		{
-			var result = new string(charArray);
-			//int i = result.IndexOf('\0');
-			//if (i >= 0)
-			//    result = result.Substring(0, i);
-			return result;
-		}
+			int structSize = Marshal.SizeOf(typeof(SDKImport.PasswordsCollection));
+			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-		public static char[] StringToCharArray(string str, int size)
-		{
-			var result = new char[size];
-			var charArray = str.ToCharArray();
-			for (int i = 0; i < Math.Min(charArray.Count(), size); i++)
+			var result = SDKImport.WRAP_GetAllPasswords(loginID, intPtr);
+
+			SDKImport.PasswordsCollection passwordsCollection = (SDKImport.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(SDKImport.PasswordsCollection)));
+			Marshal.FreeCoTaskMem(intPtr);
+			intPtr = IntPtr.Zero;
+
+			var passwords = new List<Password>();
+
+			for (int i = 0; i < Math.Min(passwordsCollection.Count, 500); i++)
 			{
-				result[i] = charArray[i];
+				var sdkPassword = passwordsCollection.Passwords[i];
+				var password = new Password();
+				password.RecordNo = sdkPassword.nRecNo;
+				password.CreationDateTime = NET_TIMEToDateTime(sdkPassword.stuCreateTime);
+				password.UserID = CharArrayToString(sdkPassword.szUserID);
+				password.DoorOpenPassword = CharArrayToString(sdkPassword.szDoorOpenPwd);
+				password.AlarmPassword = CharArrayToString(sdkPassword.szAlarmPwd);
+				password.DoorsCount = sdkPassword.nDoorNum;
+				password.Doors = sdkPassword.sznDoors;
+				passwords.Add(password);
 			}
-			return result;
-		}
-
-		public static DateTime NET_TIMEToDateTime(ControllerSDK.SDK.SDKImport.NET_TIME netTime)
-		{
-			DateTime dateTime = DateTime.MinValue;
-			try
-			{
-				dateTime = new DateTime(netTime.dwYear, netTime.dwMonth, netTime.dwDay, netTime.dwHour, netTime.dwMinute, netTime.dwSecond);
-			}
-			catch { }
-			return dateTime;
+			return passwords;
 		}
 	}
 }

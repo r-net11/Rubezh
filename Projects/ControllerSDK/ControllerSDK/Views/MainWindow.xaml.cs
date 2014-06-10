@@ -17,11 +17,13 @@ namespace ControllerSDK.Views
 			InitializeComponent();
 			DataContext = this;
 			CardsViewModel = new CardsViewModel();
+			PasswordsViewModel = new PasswordsViewModel();
 			OnConnect(this, null);
 		}
 
 		public static Int32 LoginID = 0;
 		public CardsViewModel CardsViewModel { get; private set; }
+		public PasswordsViewModel PasswordsViewModel { get; private set; }
 
 		string CharArrayToString(char[] charArray)
 		{
