@@ -32,7 +32,7 @@ namespace SKDModule.Validation
 				}
 				if (device.DriverType == SKDDriverType.Reader)
 				{
-					if (device.OuterZone == null)
+					if (device.Zone == null)
 					{
 						Errors.Add(new DeviceValidationError(device, "Считыватель не ведет ни к какой зоне", ValidationErrorLevel.CannotWrite));
 					}

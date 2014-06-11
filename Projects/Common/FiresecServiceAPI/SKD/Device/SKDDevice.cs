@@ -26,7 +26,6 @@ namespace FiresecAPI.SKD
 		public SKDDevice Parent { get; set; }
 		public SKDDeviceState State { get; set; }
 		public SKDZone Zone { get; set; }
-		public SKDZone OuterZone { get; set; }
 		public int IntAddress { get; set; }
 
 		[DataMember]
@@ -55,9 +54,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid ZoneUID { get; set; }
-
-		[DataMember]
-		public Guid OuterZoneUID { get; set; }
 
 		[DataMember]
 		public SKDReaderProperty SKDReaderProperty { get; set; }

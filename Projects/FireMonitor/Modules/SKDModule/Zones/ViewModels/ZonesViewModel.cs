@@ -17,48 +17,16 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			BuildTree();
-			if (RootZone != null)
+			Zones = new ObservableCollection<ZoneViewModel>();
+			foreach (var zone in SKDManager.Zones)
 			{
-				RootZone.IsExpanded = true;
-				SelectedZone = RootZone;
+				var zoneViewModel = new ZoneViewModel(zone);
+				Zones.Add(zoneViewModel);
 			}
-
-			foreach (var zone in AllZones)
-			{
-				zone.ExpandToThis();
-			}
-
-			OnPropertyChanged("RootZones");
+			SelectedZone = Zones.FirstOrDefault();
 		}
 
-		#region ZoneSelection
-		public List<ZoneViewModel> AllZones;
-
-		public void FillAllZones()
-		{
-			AllZones = new List<ZoneViewModel>();
-			AddChildPlainZones(RootZone);
-		}
-
-		void AddChildPlainZones(ZoneViewModel parentViewModel)
-		{
-			AllZones.Add(parentViewModel);
-			foreach (var childViewModel in parentViewModel.Children)
-				AddChildPlainZones(childViewModel);
-		}
-
-		public void Select(Guid zoneUID)
-		{
-			if (zoneUID != Guid.Empty)
-			{
-				var zoneViewModel = AllZones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-				if (zoneViewModel != null)
-					zoneViewModel.ExpandToThis();
-				SelectedZone = zoneViewModel;
-			}
-		}
-		#endregion
+		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
 		ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone
@@ -67,46 +35,17 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedZone = value;
-				if (value != null)
-					value.ExpandToThis();
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 				InitializeDevices();
 			}
 		}
 
-		ZoneViewModel _rootZone;
-		public ZoneViewModel RootZone
+		public void Select(Guid zoneUID)
 		{
-			get { return _rootZone; }
-			private set
+			if (zoneUID != Guid.Empty)
 			{
-				_rootZone = value;
-				OnPropertyChanged("RootZone");
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			}
-		}
-
-		public ZoneViewModel[] RootZones
-		{
-			get { return new ZoneViewModel[] { RootZone }; }
-		}
-
-		void BuildTree()
-		{
-			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
-			FillAllZones();
-		}
-
-		private ZoneViewModel AddZoneInternal(SKDZone zone, ZoneViewModel parentZoneViewModel)
-		{
-			var zoneViewModel = new ZoneViewModel(zone);
-			if (parentZoneViewModel != null)
-				parentZoneViewModel.AddChild(zoneViewModel);
-
-			foreach (var childZone in zone.Children)
-			{
-				AddZoneInternal(childZone, zoneViewModel);
-			}
-			return zoneViewModel;
 		}
 
 		ObservableCollection<DeviceViewModel> _devices;
@@ -125,9 +64,9 @@ namespace SKDModule.ViewModels
 			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in SKDManager.Devices)
 			{
-				if (device.Driver.HasOuterZone)
+				if (device.Driver.HasZone)
 				{
-					if (device.OuterZoneUID == SelectedZone.Zone.UID)
+					if (device.ZoneUID == SelectedZone.Zone.UID)
 					{
 						var deviceViewModel = new DeviceViewModel(device);
 						Devices.Add(deviceViewModel);

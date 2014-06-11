@@ -22,30 +22,10 @@
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
 						<GridViewColumn Width="75" DisplayMemberBinding="{Binding PresentationAddress}" Header="Адрес" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}" />
-						<GridViewColumn Width="300" Header="Расположено в зоне" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
+                        <GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock HorizontalAlignment="Stretch" Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}">
-										<TextBlock.Resources>
-											<Style TargetType="ToolTip">
-												<Style.Triggers>
-													<Trigger Property="Content" Value="{x:Static sys:String.Empty}">
-														<Setter Property="Visibility" Value="Collapsed" />
-													</Trigger>
-													<Trigger Property="Content" Value="{x:Null}">
-														<Setter Property="Visibility" Value="Collapsed" />
-													</Trigger>
-												</Style.Triggers>
-											</Style>
-										</TextBlock.Resources>
-									</TextBlock>
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-						<GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Stretch" Text="{Binding OuterPresentationZone}" ToolTip="{Binding OuterPresentationZone}">
 										<TextBlock.Resources>
 											<Style TargetType="ToolTip">
 												<Style.Triggers>

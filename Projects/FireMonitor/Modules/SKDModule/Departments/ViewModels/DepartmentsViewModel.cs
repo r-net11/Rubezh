@@ -147,11 +147,9 @@ namespace SKDModule.ViewModels
 				if (!removeResult)
 					return;
 
-				var index = ZonesViewModel.Current.SelectedZone.VisualIndex;
 				parent.Nodes.Remove(SelectedDepartment);
 				parent.Update();
 
-				index = Math.Min(index, parent.ChildrenCount - 1);
 				AllDepartments.Remove(SelectedDepartment);
 				//var children = GetAllChildrenModels(SelectedDepartment);
 				//SelectedDepartment = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;

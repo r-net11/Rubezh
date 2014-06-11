@@ -10,7 +10,6 @@ namespace FiresecAPI.SKD
 		public SKDZone()
 		{
 			UID = Guid.NewGuid();
-			Children = new List<SKDZone>();
 			PlanElementUIDs = new List<Guid>();
 			Devices = new List<SKDDevice>();
 		}
@@ -29,13 +28,7 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
-		public List<SKDZone> Children { get; set; }
-
-		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
-
-		[DataMember]
-		public bool IsRootZone { get; set; }
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }

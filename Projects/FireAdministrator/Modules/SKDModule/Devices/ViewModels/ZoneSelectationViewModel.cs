@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
@@ -10,48 +10,18 @@ namespace SKDModule.ViewModels
 	[SaveSizeAttribute]
 	public class ZoneSelectationViewModel : SaveCancelDialogViewModel
 	{
-		bool CanSelectRoot;
-
-		public ZoneSelectationViewModel(Guid zoneUID, bool canSelectRoot)
+		public ZoneSelectationViewModel(Guid zoneUID)
 		{
 			Title = "Выбор зоны";
-			CanSelectRoot = canSelectRoot;
-			BuildTree();
-			foreach (var zone in AllZones)
+			Zones = new ObservableCollection<ZoneViewModel>();
+			foreach (var zone in SKDManager.Zones)
 			{
-				zone.ExpandToThis();
+				var zoneViewModel = new ZoneViewModel(zone);
+				Zones.Add(zoneViewModel);
 			}
-
-			Select(zoneUID);
+			SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 		}
-
-		#region ZoneSelection
-		public List<ZoneViewModel> AllZones;
-
-		public void FillAllZones()
-		{
-			AllZones = new List<ZoneViewModel>();
-			AddChildPlainZones(RootZone);
-		}
-
-		void AddChildPlainZones(ZoneViewModel parentViewModel)
-		{
-			AllZones.Add(parentViewModel);
-			foreach (var childViewModel in parentViewModel.Children)
-				AddChildPlainZones(childViewModel);
-		}
-
-		public void Select(Guid zoneUID)
-		{
-			if (zoneUID != Guid.Empty)
-			{
-				var deviceViewModel = AllZones.FirstOrDefault(x => x.Zone.UID == zoneUID);
-				if (deviceViewModel != null)
-					deviceViewModel.ExpandToThis();
-				SelectedZone = deviceViewModel;
-			}
-		}
-		#endregion
+		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
 		ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone
@@ -64,42 +34,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ZoneViewModel _rootZone;
-		public ZoneViewModel RootZone
-		{
-			get { return _rootZone; }
-			private set
-			{
-				_rootZone = value;
-				OnPropertyChanged("RootZone");
-			}
-		}
-
-		public ZoneViewModel[] RootZones
-		{
-			get { return new ZoneViewModel[] { RootZone }; }
-		}
-
-		void BuildTree()
-		{
-			RootZone = AddZoneInternal(SKDManager.SKDConfiguration.RootZone, null);
-			FillAllZones();
-		}
-
-		ZoneViewModel AddZoneInternal(SKDZone zone, ZoneViewModel parentZoneViewModel)
-		{
-			var zoneViewModel = new ZoneViewModel(zone);
-			if (parentZoneViewModel != null)
-				parentZoneViewModel.AddChild(zoneViewModel);
-
-			foreach (var childZone in zone.Children)
-				AddZoneInternal(childZone, zoneViewModel);
-			return zoneViewModel;
-		}
-
 		protected override bool CanSave()
 		{
-			return SelectedZone != null && (CanSelectRoot || !SelectedZone.Zone.IsRootZone);
+			return SelectedZone != null;
 		}
 
 		protected override bool Save()

@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.EmployeeTimeIntervals;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
@@ -11,75 +12,42 @@ namespace SKDModule.ViewModels
 		private Schedule _schedule;
 		public ScheduleZone ScheduleZone { get; private set; }
 
-		public ScheduleZoneDetailsViewModel(Schedule schedule, ScheduleZone zone = null)
+		public ScheduleZoneDetailsViewModel(Schedule schedule, ScheduleZone sheduleZone = null)
 		{
 			_schedule = schedule;
-			if (zone == null)
+			if (sheduleZone == null)
 			{
 				Title = "Выбор помещения";
-				zone = new ScheduleZone()
+				sheduleZone = new ScheduleZone()
 				{
 					ScheduleUID = schedule.UID,
 				};
 			}
 			else
 				Title = "Редактирование помещения";
-			ScheduleZone = zone;
-			IsControl = zone.IsControl;
+			ScheduleZone = sheduleZone;
+			IsControl = sheduleZone.IsControl;
 
-			AllZones = new List<ZoneViewModel>();
-			RootZone = AddZoneInternal(FiresecAPI.SKD.SKDManager.SKDConfiguration.RootZone, null);
-			SelectedZone = AllZones.FirstOrDefault(x => x.Zone.UID == ScheduleZone.ZoneUID);
-
-			foreach (var z in AllZones)
+			Zones = new ObservableCollection<ZoneViewModel>();
+			foreach (var zone in FiresecAPI.SKD.SKDManager.Zones)
 			{
-				z.ExpandToThis();
+				var zoneViewModel = new ZoneViewModel(zone);
+				Zones.Add(zoneViewModel);
 			}
+			SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == ScheduleZone.ZoneUID);
+
 		}
+		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
-		public List<ZoneViewModel> AllZones;
-
-		private ZoneViewModel _selectedZone;
+		ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone
 		{
 			get { return _selectedZone; }
 			set
 			{
 				_selectedZone = value;
-				if (value != null)
-					value.ExpandToThis();
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 			}
-		}
-
-		private ZoneViewModel _rootZone;
-		public ZoneViewModel RootZone
-		{
-			get { return _rootZone; }
-			private set
-			{
-				_rootZone = value;
-				OnPropertyChanged("RootZone");
-			}
-		}
-
-		public ZoneViewModel[] RootZones
-		{
-			get { return new ZoneViewModel[] { RootZone }; }
-		}
-
-		private ZoneViewModel AddZoneInternal(FiresecAPI.SKD.SKDZone zone, ZoneViewModel parentZoneViewModel)
-		{
-			var zoneViewModel = new ZoneViewModel(zone);
-			AllZones.Add(zoneViewModel);
-			if (parentZoneViewModel != null)
-				parentZoneViewModel.AddChild(zoneViewModel);
-
-			foreach (var childZone in zone.Children)
-			{
-				AddZoneInternal(childZone, zoneViewModel);
-			}
-			return zoneViewModel;
 		}
 
 		private bool _isControl;
@@ -95,7 +63,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return SelectedZone != null && !SelectedZone.Zone.IsRootZone;
+			return SelectedZone != null;
 		}
 		protected override bool Save()
 		{

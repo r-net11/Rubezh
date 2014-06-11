@@ -97,7 +97,7 @@
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 
-					<GridViewColumn Width="300" Header="Расположено в зоне" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
+                    <GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<Controls:EditorPresenter>
@@ -119,38 +119,6 @@
 												<TextBlock.ToolTip>
 													<WrapPanel>
 														<TextBlock Text="{Binding EditingPresentationZone}" TextWrapping="Wrap" />
-													</WrapPanel>
-												</TextBlock.ToolTip>
-											</TextBlock>
-										</ControlTemplate>
-									</Controls:EditorPresenter.ViewTemplate>
-								</Controls:EditorPresenter>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-
-					<GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Controls:EditorPresenter>
-									<Controls:EditorPresenter.ViewTemplate>
-										<ControlTemplate>
-											<TextBlock MinWidth="100" VerticalAlignment="Center" Cursor="Hand" Text="{Binding EditingPresentationOuterZone}" TextWrapping="NoWrap" Visibility="{Binding Driver.HasOuterZone, Converter={StaticResource BoolToVisibilityConverter}}">
-												<TextBlock.Style>
-													<Style TargetType="TextBlock">
-														<Style.Triggers>
-															<DataTrigger Binding="{Binding IsOuterZoneGrayed}" Value="True">
-																<Setter Property="TextBlock.Foreground" Value="Gray" />
-															</DataTrigger>
-														</Style.Triggers>
-													</Style>
-												</TextBlock.Style>
-												<TextBlock.InputBindings>
-													<MouseBinding Command="{Binding ChangeOuterZoneCommand}" MouseAction="LeftClick" />
-												</TextBlock.InputBindings>
-												<TextBlock.ToolTip>
-													<WrapPanel>
-														<TextBlock Text="{Binding EditingPresentationOuterZone}" TextWrapping="Wrap" />
 													</WrapPanel>
 												</TextBlock.ToolTip>
 											</TextBlock>
@@ -197,7 +165,7 @@
 							</StackPanel.Style>
 						</StackPanel>
 						<WrapPanel Orientation="Horizontal" Visibility="{Binding Driver.HasZone, Converter={StaticResource BoolToVisibilityConverter}}">
-							<TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="Расположено в зоне " />
+                            <TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="Ведет в зону " />
 							<TextBlock Margin="2 2 5 2" FontStyle="Italic" Foreground="White" Text="Зона не указана">
 								<TextBlock.Style>
 									<Style>
@@ -228,45 +196,6 @@
 										</Style.Setters>
 										<Style.Triggers>
 											<DataTrigger Binding="{Binding PresentationZone}" Value="">
-												<Setter Property="TextBlock.Visibility" Value="Collapsed" />
-											</DataTrigger>
-										</Style.Triggers>
-									</Style>
-								</TextBlock.Style>
-							</TextBlock>
-						</WrapPanel>
-						<WrapPanel Orientation="Horizontal" Visibility="{Binding Driver.HasOuterZone, Converter={StaticResource BoolToVisibilityConverter}}">
-							<TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="Ведет в зону " />
-							<TextBlock Margin="2 2 5 2" FontStyle="Italic" Foreground="White" Text="Зона не указана">
-								<TextBlock.Style>
-									<Style>
-										<Setter Property="TextBlock.Visibility" Value="Collapsed" />
-										<Style.Triggers>
-											<DataTrigger Binding="{Binding PresentationOuterZone}" Value="">
-												<Setter Property="TextBlock.Visibility" Value="Visible" />
-											</DataTrigger>
-										</Style.Triggers>
-									</Style>
-								</TextBlock.Style>
-							</TextBlock>
-							<TextBlock VerticalAlignment="Center">
-								<Hyperlink Command="{Binding ShowOuterZoneCommand}" Style="{StaticResource HyperlinkStyle}">
-									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/zone.png" />
-										<TextBlock Margin="2" Text="{Binding PresentationOuterZone}" TextWrapping="Wrap" />
-									</StackPanel>
-								</Hyperlink>
-								<TextBlock.Style>
-									<Style>
-										<Style.Setters>
-											<Setter Property="TextBlock.ToolTip">
-												<Setter.Value>
-													<TextBlock Text="{Binding PresentationOuterZone}" TextWrapping="Wrap" />
-												</Setter.Value>
-											</Setter>
-										</Style.Setters>
-										<Style.Triggers>
-											<DataTrigger Binding="{Binding PresentationOuterZone}" Value="">
 												<Setter Property="TextBlock.Visibility" Value="Collapsed" />
 											</DataTrigger>
 										</Style.Triggers>

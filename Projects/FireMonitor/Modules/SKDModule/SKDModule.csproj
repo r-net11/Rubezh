@@ -349,7 +349,6 @@
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Zones\ViewModels\ZoneViewModelComparer.cs" />
     <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>

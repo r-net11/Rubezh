@@ -10,20 +10,17 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using FiresecAPI.SKD;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ZoneViewModel : TreeNodeViewModel<ZoneViewModel>
+	public class ZoneViewModel : BaseViewModel
 	{
 		private VisualizationState _visualizetionState;
 		public SKDZone Zone { get; private set; }
 
 		public ZoneViewModel(SKDZone zone)
 		{
-			AddCommand = new RelayCommand(OnAdd);
-			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 
@@ -52,7 +49,6 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged(() => HasChildren);
 			OnPropertyChanged(() => IsOnPlan);
 
 			if (Zone.PlanElementUIDs == null)
@@ -69,98 +65,6 @@ namespace SKDModule.ViewModels
 		public string Description
 		{
 			get { return Zone.Description; }
-		}
-
-		public SKDZone AddChildZone()
-		{
-			var zoneDetailsViewModel = new ZoneDetailsViewModel();
-			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
-			{
-				var zone = zoneDetailsViewModel.Zone;
-				SKDManager.Zones.Add(zone);
-				var zoneViewModel = new ZoneViewModel(zone);
-				this.Zone.Children.Add(zone);
-				this.AddChild(zoneViewModel);
-				IsExpanded = true;
-				SKDManager.SKDConfiguration.Update();
-				ZonesViewModel.Current.AllZones.Add(zoneViewModel);
-				Plans.Designer.Helper.BuildMap();
-				ServiceFactory.SaveService.SKDChanged = true;
-				Update();
-				return zone;
-			}
-			return null;
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			AddChildZone();
-		}
-
-		public RelayCommand AddToParentCommand { get; private set; }
-		void OnAddToParent()
-		{
-			Parent.AddCommand.Execute();
-		}
-		public bool CanAddToParent()
-		{
-			return Parent != null;
-		}
-
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
-		{
-			var allDevices = Zone.Children;
-			foreach (var device in allDevices)
-			{
-				SKDManager.Zones.Remove(device);
-			}
-			var parent = Parent;
-			if (parent != null)
-			{
-				var index = ZonesViewModel.Current.SelectedZone.VisualIndex;
-				parent.Nodes.Remove(this);
-				parent.Update();
-
-				index = Math.Min(index, parent.ChildrenCount - 1);
-				foreach (var device in allDevices)
-				{
-					ZonesViewModel.Current.AllZones.RemoveAll(x => x.Zone.UID == device.UID);
-				}
-				ZonesViewModel.Current.AllZones.Remove(this);
-				ZonesViewModel.Current.SelectedZone = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
-			}
-			if (Zone.Parent != null)
-			{
-				Zone.Parent.Children.Remove(Zone);
-			}
-			Plans.Designer.Helper.BuildMap();
-			ServiceFactory.SaveService.SKDChanged = true;
-		}
-		bool CanRemove()
-		{
-			return !Zone.IsRootZone;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
-		{
-			var zoneDetailsViewModel = new ZoneDetailsViewModel(this.Zone);
-			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
-			{
-				Update(Zone);
-				foreach (var device in Zone.Devices)
-				{
-					device.OnChanged();
-				}
-				Zone.OnChanged();
-				ServiceFactory.SaveService.SKDChanged = true;
-			}
-		}
-		public bool CanEdit()
-		{
-			return !Zone.IsRootZone;
 		}
 
 		public bool IsOnPlan
