@@ -43,6 +43,8 @@ namespace ControllerSDK.SDK
 			DateTime dateTime = DateTime.MinValue;
 			try
 			{
+				if (netTime.dwYear == 0 || netTime.dwMonth == 0 || netTime.dwDay == 0)
+					return new DateTime();
 				dateTime = new DateTime(netTime.dwYear, netTime.dwMonth, netTime.dwDay, netTime.dwHour, netTime.dwMinute, netTime.dwSecond);
 			}
 			catch { }
@@ -181,6 +183,37 @@ namespace ControllerSDK.SDK
 				passwords.Add(password);
 			}
 			return passwords;
+		}
+
+		public static int AddHoliday(int loginID, Holiday holiday)
+		{
+			SDKImport.NET_RECORDSET_HOLIDAY stuHoliday = new SDKImport.NET_RECORDSET_HOLIDAY();
+			stuHoliday.nDoorNum = holiday.DoorsCount;
+			stuHoliday.sznDoors = new int[32];
+			stuHoliday.sznDoors[0] = 1;
+			stuHoliday.sznDoors[1] = 2;
+
+			stuHoliday.stuStartTime.dwYear = holiday.StartDateTime.Year;
+			stuHoliday.stuStartTime.dwMonth = holiday.StartDateTime.Month;
+			stuHoliday.stuStartTime.dwDay = holiday.StartDateTime.Day;
+			stuHoliday.stuStartTime.dwHour = holiday.StartDateTime.Hour;
+			stuHoliday.stuStartTime.dwMinute = holiday.StartDateTime.Minute;
+			stuHoliday.stuStartTime.dwSecond = holiday.StartDateTime.Second;
+
+			stuHoliday.stuEndTime.dwYear = holiday.EndDateTime.Year;
+			stuHoliday.stuEndTime.dwMonth = holiday.EndDateTime.Month;
+			stuHoliday.stuEndTime.dwDay = holiday.EndDateTime.Day;
+			stuHoliday.stuEndTime.dwHour = holiday.EndDateTime.Hour;
+			stuHoliday.stuEndTime.dwMinute = holiday.EndDateTime.Minute;
+			stuHoliday.stuEndTime.dwSecond = holiday.EndDateTime.Second;
+			stuHoliday.bEnable = holiday.IsEnabled;
+			var result = SDKImport.WRAP_Insert_Holiday(loginID, ref stuHoliday);
+			return result;
+		}
+
+		public static List<Holiday> GetAllHolidays(int loginID)
+		{
+			return new List<Holiday>();
 		}
 	}
 }

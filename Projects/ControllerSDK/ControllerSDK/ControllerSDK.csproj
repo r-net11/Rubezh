@@ -76,6 +76,8 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PasswordsViewModel.cs" />
     <Compile Include="ViewModels\PasswordViewModel.cs" />
+    <Compile Include="ViewModels\HolidaysViewModel.cs" />
+    <Compile Include="ViewModels\HolidayViewModel.cs" />
     <Compile Include="Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>
@@ -86,6 +88,9 @@
     <Compile Include="SDK\SDKWrapper.cs" />
     <Compile Include="Views\PasswordsView.xaml.cs">
       <DependentUpon>PasswordsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HolidaysView.xaml.cs">
+      <DependentUpon>HolidaysView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\CardsView.xaml">
       <SubType>Designer</SubType>
@@ -106,6 +111,10 @@
     <Page Include="Views\PasswordsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HolidaysView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

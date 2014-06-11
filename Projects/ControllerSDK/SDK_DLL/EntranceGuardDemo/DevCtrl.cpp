@@ -744,7 +744,7 @@ void testRecordSetFind_CardRec(LLONG lLoginId, LLONG& lFinderId)
 	else
 	{
 		printf("testRecordSetFind_CardRec failed:0x%08x!\n", CLIENT_GetLastError());
-	}	
+	}
 }
 
 void testRecordSetFindNext_CardRec(LLONG lFinderId)

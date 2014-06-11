@@ -16,6 +16,9 @@
             <TabItem Header="Пароли" DataContext="{Binding PasswordsViewModel}">
                 <Views:PasswordsView />
             </TabItem>
+            <TabItem Header="Праздники" DataContext="{Binding HolidaysViewModel}">
+                <Views:HolidaysView />
+            </TabItem>
             <TabItem Header="All">
                 <Grid>
                     <Grid.ColumnDefinitions>

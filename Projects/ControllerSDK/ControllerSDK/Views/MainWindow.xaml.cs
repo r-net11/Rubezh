@@ -18,12 +18,14 @@ namespace ControllerSDK.Views
 			DataContext = this;
 			CardsViewModel = new CardsViewModel();
 			PasswordsViewModel = new PasswordsViewModel();
+			HolidaysViewModel = new HolidaysViewModel();
 			OnConnect(this, null);
 		}
 
 		public static Int32 LoginID = 0;
 		public CardsViewModel CardsViewModel { get; private set; }
 		public PasswordsViewModel PasswordsViewModel { get; private set; }
+		public HolidaysViewModel HolidaysViewModel { get; private set; }
 
 		string CharArrayToString(char[] charArray)
 		{
@@ -731,30 +733,30 @@ namespace ControllerSDK.Views
 				_textBox.Text += "Card Error" + "\n";
 			}
 
-			var result = SDKImport.WRAP_DevCtrl_Get_Password_RecordSetCount(LoginID);
-			if (result)
+			var passwordsCount = SDKImport.WRAP_DevCtrl_Get_Password_RecordSetCount(LoginID);
+			if (passwordsCount > 0)
 			{
-				_textBox.Text += "Password Success" + "\n";
+				_textBox.Text += "Password Success " + passwordsCount.ToString() + "\n";
 			}
 			else
 			{
 				_textBox.Text += "Password Error" + "\n";
 			}
 
-			result = SDKImport.WRAP_DevCtrl_Get_RecordSet_RecordSetCount(LoginID);
-			if (result)
+			var recordsetCount = SDKImport.WRAP_DevCtrl_Get_RecordSet_RecordSetCount(LoginID);
+			if (recordsetCount > 0)
 			{
-				_textBox.Text += "CardRecord Success" + "\n";
+				_textBox.Text += "CardRecord Success " + recordsetCount.ToString() + "\n";
 			}
 			else
 			{
 				_textBox.Text += "CardRecord Error" + "\n";
 			}
 
-			result = SDKImport.WRAP_DevCtrl_Get_Holiday_RecordSetCount(LoginID);
-			if (result)
+			var holidaysCount = SDKImport.WRAP_DevCtrl_Get_Holiday_RecordSetCount(LoginID);
+			if (holidaysCount > 0)
 			{
-				_textBox.Text += "Holiday Success" + "\n";
+				_textBox.Text += "Holiday Success " + holidaysCount.ToString() + "\n";
 			}
 			else
 			{

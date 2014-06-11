@@ -880,7 +880,7 @@ void WRAP_testRecordSetFinder_Holiday(LLONG lLoginId)
 // 	}	
 }
 
-BOOL CALL_METHOD WRAP_DevCtrl_Get_Password_RecordSetCount(int lLoginID)
+int CALL_METHOD WRAP_DevCtrl_Get_Password_RecordSetCount(int lLoginID)
 {
 	if (NULL == lLoginID)
 	{
@@ -896,13 +896,12 @@ BOOL CALL_METHOD WRAP_DevCtrl_Get_Password_RecordSetCount(int lLoginID)
     {
 		int count = test_GetCountRecordSetFind(lFindID);
 		WRAP_test_RecordSetFindClose(lFindID);
-		if(count > 0)
-			return TRUE;
+		return count;
     }
-	return FALSE;
+	return -1;
 }
 
-BOOL CALL_METHOD WRAP_DevCtrl_Get_RecordSet_RecordSetCount(int lLoginID)
+int CALL_METHOD WRAP_DevCtrl_Get_RecordSet_RecordSetCount(int lLoginID)
 {
 	if (NULL == lLoginID)
 	{
@@ -930,13 +929,12 @@ BOOL CALL_METHOD WRAP_DevCtrl_Get_RecordSet_RecordSetCount(int lLoginID)
     {
 		int count = test_GetCountRecordSetFind(lFindID);
 		WRAP_test_RecordSetFindClose(lFindID);
-		if(count > 0)
-			return TRUE;
+		return count;
     }
-	return FALSE;
+	return -1;
 }
 
-BOOL CALL_METHOD WRAP_DevCtrl_Get_Holiday_RecordSetCount(int lLoginID)
+int CALL_METHOD WRAP_DevCtrl_Get_Holiday_RecordSetCount(int lLoginID)
 {
 	if (NULL == lLoginID)
 	{
@@ -948,10 +946,9 @@ BOOL CALL_METHOD WRAP_DevCtrl_Get_Holiday_RecordSetCount(int lLoginID)
     {
 		int count = test_GetCountRecordSetFind(lFindID);
 		WRAP_test_RecordSetFindClose(lFindID);
-		if(count > 0)
-			return TRUE;
+		return count;
     }
-	return FALSE;
+	return -1;
 }
 
 BOOL DevCtrl_GetRecordSetInfo(LLONG lLoginID, int nRecordSetType, int nRecordNo)
@@ -1290,14 +1287,14 @@ void WRAP_testRecordSetFinder_Card(LLONG lLoginId)
 
 BOOL CALL_METHOD WRAP_GetAllCards(int lLoginId, CardsCollection* result)
 {
+	CardsCollection cardsCollection = {sizeof(CardsCollection)};
+
 	LLONG lFinderID = 0;
 
 	FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = {sizeof(stuParam)};
 	stuParam.bIsValid = TRUE;
 	strcpy(stuParam.szCardNo, "1");
 	strcpy(stuParam.szUserID, "1");
-
-	CardsCollection cardsCollection = {sizeof(CardsCollection)};
 
 	WRAP_testRecordSetFind_Card(lLoginId, lFinderID, stuParam);
 	if (lFinderID != 0)
@@ -1333,5 +1330,125 @@ BOOL CALL_METHOD WRAP_GetAllCards(int lLoginId, CardsCollection* result)
 	}
 
 	memcpy(result, &cardsCollection, sizeof(CardsCollection));
+	return lFinderID != 0;
+}
+
+BOOL CALL_METHOD WRAP_GetAllPasswords(int lLoginId, PasswordsCollection* result)
+{
+	PasswordsCollection passwordsCollection = {sizeof(PasswordsCollection)};
+
+	LLONG lFinderID = 0;
+
+	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
+	NET_OUT_FIND_RECORD_PARAM stuOut = {sizeof(stuOut)};
+	
+	stuIn.emType = NET_RECORD_ACCESSCTLPWD;
+	
+	FIND_RECORD_ACCESSCTLPWD_CONDITION stuParam = {sizeof(FIND_RECORD_ACCESSCTLPWD_CONDITION)};
+	strcpy(stuParam.szUserID, "1357924680");
+	
+	stuIn.pQueryCondition = &stuParam;
+	
+	if (CLIENT_FindRecord(lLoginId, &stuIn, &stuOut, SDK_API_WAITTIME))
+	{
+		lFinderID = stuOut.lFindeHandle;
+
+		int i = 0, j = 0;
+	
+		NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
+		stuIn.lFindeHandle = lFinderID;
+		stuIn.nFileCount = QUERY_COUNT;
+	
+		NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
+		stuOut.nMaxRecordNum = stuIn.nFileCount;
+	
+		NET_RECORDSET_ACCESS_CTL_PWD stuPwd[500] = {0};
+		for (i = 0; i < sizeof(stuPwd)/sizeof(stuPwd[0]); i++)
+		{
+			stuPwd[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
+		}
+		stuOut.pRecordList = (void*)&stuPwd[0];
+	
+		if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
+		{
+			for (i = 0; i <  __min(500, stuOut.nRetRecordNum); i++)
+			{
+				NET_RECORDSET_ACCESS_CTL_PWD* pPwd = (NET_RECORDSET_ACCESS_CTL_PWD*)stuOut.pRecordList;
+				memcpy(&passwordsCollection.Passwords[i], &pPwd[i], sizeof(NET_RECORDSET_ACCESS_CTL_CARD));
+			}
+		}
+
+		WRAP_test_RecordSetFindClose(lFinderID);
+	}
+
+	memcpy(result, &passwordsCollection, sizeof(PasswordsCollection));
+	return lFinderID != 0;
+}
+
+BOOL CALL_METHOD WRAP_GetAllCardRecords(int lLoginId, CardRecordsCollection* result)
+{
+	CardRecordsCollection cardRecordsCollection = {sizeof(CardRecordsCollection)};
+
+	LLONG lFinderID = 0;
+
+	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
+	NET_OUT_FIND_RECORD_PARAM stuOut = {sizeof(stuOut)};
+	
+	stuIn.emType = NET_RECORD_ACCESSCTLCARDREC;
+	
+	FIND_RECORD_ACCESSCTLCARDREC_CONDITION stuParam = {sizeof(FIND_RECORD_ACCESSCTLCARDREC_CONDITION)};
+	strcpy(stuParam.szCardNo, "987654321");
+	stuParam.stStartTime.dwYear = 2013;
+	stuParam.stStartTime.dwMonth = 1;
+	stuParam.stStartTime.dwDay = 2;
+	stuParam.stStartTime.dwHour = 3;
+	stuParam.stStartTime.dwMinute = 4;
+	stuParam.stStartTime.dwSecond = 5;
+	stuParam.stEndTime.dwYear = 2014;
+	stuParam.stEndTime.dwMonth = 2;
+	stuParam.stEndTime.dwDay = 3;
+	stuParam.stEndTime.dwHour = 4;
+	stuParam.stEndTime.dwMinute = 5;
+	stuParam.stEndTime.dwSecond = 6;
+	
+	stuIn.pQueryCondition = &stuParam;
+	
+	if (CLIENT_FindRecord(lLoginId, &stuIn, &stuOut, SDK_API_WAITTIME))
+	{
+		lFinderID = stuOut.lFindeHandle;
+	}
+
+	if (lFinderID != 0)
+	{
+		NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
+		stuIn.lFindeHandle = lFinderID;
+		stuIn.nFileCount = QUERY_COUNT;
+	
+		NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
+		stuOut.nMaxRecordNum = stuIn.nFileCount;
+	
+		NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec[500] = {0};
+		for (int i = 0; i < sizeof(stuCardRec)/sizeof(stuCardRec[0]); i++)
+		{
+			stuCardRec[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_CARDREC);
+		}
+		stuOut.pRecordList = (void*)&stuCardRec[0];
+	
+		if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
+		{
+			for (int j = 0; j < stuOut.nRetRecordNum; j++)
+			{
+				memcpy(&cardRecordsCollection.CardRecords[j], &stuCardRec[j], sizeof(NET_RECORDSET_ACCESS_CTL_CARDREC));
+			}
+		}
+		
+		WRAP_test_RecordSetFindClose(lFinderID);
+	}
+	else
+	{
+		// testRecordSetFind_CardRec()本身会提示...
+	}
+
+	memcpy(result, &cardRecordsCollection, sizeof(CardRecordsCollection));
 	return lFinderID != 0;
 }

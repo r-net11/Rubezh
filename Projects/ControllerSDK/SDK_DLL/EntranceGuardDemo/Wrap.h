@@ -131,9 +131,9 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_RemoveRecordSet(int lLoginID
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_ClearRecordSet(int lLoginID, int nRecordSetType);
 
 extern "C" CLIENT_API int CALL_METHOD WRAP_DevCtrl_Get_Card_RecordSetCount(int lLoginID, FIND_RECORD_ACCESSCTLCARD_CONDITION* stuParam);
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_Get_Password_RecordSetCount(int lLoginID);
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_Get_RecordSet_RecordSetCount(int lLoginID);
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_Get_Holiday_RecordSetCount(int lLoginID);
+extern "C" CLIENT_API int CALL_METHOD WRAP_DevCtrl_Get_Password_RecordSetCount(int lLoginID);
+extern "C" CLIENT_API int CALL_METHOD WRAP_DevCtrl_Get_RecordSet_RecordSetCount(int lLoginID);
+extern "C" CLIENT_API int CALL_METHOD WRAP_DevCtrl_Get_Holiday_RecordSetCount(int lLoginID);
 
 typedef struct tagNET_CardsCollection
 {
@@ -142,5 +142,21 @@ typedef struct tagNET_CardsCollection
 }CardsCollection;
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAllCards(int lLoginId, CardsCollection* result);
+
+typedef struct tagNET_PasswordsCollection
+{
+	int Count;
+	NET_RECORDSET_ACCESS_CTL_PWD Passwords[1000];
+}PasswordsCollection;
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAllPasswords(int lLoginId, PasswordsCollection* result);
+
+typedef struct tagNET_CardRecordsCollection
+{
+	int Count;
+	NET_RECORDSET_ACCESS_CTL_CARDREC CardRecords[1000];
+}CardRecordsCollection;
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAllCardRecords(int lLoginId, CardRecordsCollection* result);
 
 #endif // !defined(__WRAP_H__)

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace ControllerSDK.ViewModels
 {
-	public class PasswordsViewModel  : BaseViewModel
+	public class PasswordsViewModel : BaseViewModel
 	{
 		public PasswordsViewModel()
 		{
