@@ -1,16 +1,15 @@
-﻿using FiresecAPI;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Microsoft.Win32;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using Ionic.Zip;
-using System.Diagnostics;
-using System;
-using System.Windows.Input;
 using System.Windows;
 using System.Windows.Forms;
+using FiresecAPI;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Ionic.Zip;
+using Microsoft.Win32;
 
 namespace SettingsModule.ViewModels
 {

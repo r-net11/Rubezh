@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.GK;
+using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
 
 namespace GKModule.ViewModels
 {

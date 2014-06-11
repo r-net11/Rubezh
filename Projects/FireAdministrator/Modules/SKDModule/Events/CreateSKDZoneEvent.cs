@@ -1,5 +1,4 @@
-﻿using System;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using Microsoft.Practices.Prism.Events;
 
 namespace SKDModule.Events

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Common;
 using FiresecAPI;
+using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -14,7 +15,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
-using FiresecAPI.Automation;
 
 namespace FireAdministrator
 {

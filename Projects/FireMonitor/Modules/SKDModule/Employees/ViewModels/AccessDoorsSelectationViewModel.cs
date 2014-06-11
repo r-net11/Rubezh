@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.GK;
 using System.Windows.Data;
 using System.Windows.Media;
+using FiresecAPI.GK;
 
 namespace GKModule.Converters
 {
