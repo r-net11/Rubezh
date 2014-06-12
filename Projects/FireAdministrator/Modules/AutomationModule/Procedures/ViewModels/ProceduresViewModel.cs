@@ -32,6 +32,7 @@ namespace AutomationModule.ViewModels
 				var procedureViewModel = new ProcedureViewModel(procedure);
 				Procedures.Add(procedureViewModel);
 			}
+			SelectedProcedure = Procedures.FirstOrDefault();
 		}
 
 		ObservableCollection<ProcedureViewModel> _procedures;

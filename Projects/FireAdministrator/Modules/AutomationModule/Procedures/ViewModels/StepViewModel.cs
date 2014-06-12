@@ -31,6 +31,7 @@ namespace AutomationModule.ViewModels
 		void OnChanged()
 		{
 			OnPropertyChanged("Name");
+			OnPropertyChanged("Description");
 		}
 
 		public void Update(ProcedureStep step)
@@ -49,12 +50,12 @@ namespace AutomationModule.ViewModels
 
 		public string Name
 		{
-			get { return Step.Name; }
+			get { return Step.ProcedureStepType.ToDescription(); }
 		}
 
 		public string Description
 		{
-			get { return Step.Description; }
+			get { return ""; }
 		}
 
 		public ProcedureStep AddChildStep()
@@ -113,6 +114,20 @@ namespace AutomationModule.ViewModels
 				Step.Parent.Children.Remove(Step);
 			}
 			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+
+		public bool IsVirtual
+		{
+			get
+			{
+				return //Step.ProcedureStepType == ProcedureStepType.If ||
+					Step.ProcedureStepType == ProcedureStepType.IfYes ||
+					Step.ProcedureStepType == ProcedureStepType.IfNo ||
+					//Step.ProcedureStepType == ProcedureStepType.Foreach ||
+					Step.ProcedureStepType == ProcedureStepType.ForeachBody ||
+					Step.ProcedureStepType == ProcedureStepType.ForeachList ||
+					Step.ProcedureStepType == ProcedureStepType.ForeachElement;
+			}
 		}
 	}
 }

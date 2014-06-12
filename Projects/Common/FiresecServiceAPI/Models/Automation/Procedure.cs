@@ -11,7 +11,7 @@ namespace FiresecAPI.Automation
 		{
 			Name = "Новая процедура";
 			InputObjects = new List<ProcedureInputObject>();
-			Step = new List<ProcedureStep>();
+			Steps = new List<ProcedureStep>();
 			Uid = Guid.NewGuid();
 		}
 
@@ -25,7 +25,7 @@ namespace FiresecAPI.Automation
 		public List<ProcedureInputObject> InputObjects { get; set; }
 
 		[DataMember]
-		public List<ProcedureStep> Step { get; set; }
+		public List<ProcedureStep> Steps { get; set; }
 
 		[DataMember]
 		public Guid Uid { get; set; }

@@ -29,7 +29,7 @@
 			</tree:TreeList.Resources>
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Width="250" Header="Зона">
+					<GridViewColumn Width="250" Header="Функция">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
                                 <DockPanel ContextMenu="{StaticResource StepContextMenu}">
@@ -48,7 +48,7 @@
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 
-					<GridViewColumn Width="100" Header="Примечание">
+					<GridViewColumn Width="100" Header="Значение">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<Controls:EditorPresenter>

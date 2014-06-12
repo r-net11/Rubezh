@@ -4,6 +4,27 @@ namespace FiresecAPI.Automation
 {
 	public enum ProcedureStepType
 	{
+		[DescriptionAttribute("Условие")]
+		If,
+
+		[DescriptionAttribute("Выполняется")]
+		IfYes,
+
+		[DescriptionAttribute("Не выполняется")]
+		IfNo,
+
+		[DescriptionAttribute("Цикл по списку")]
+		Foreach,
+
+		[DescriptionAttribute("Тело цикла")]
+		ForeachBody,
+
+		[DescriptionAttribute("Список")]
+		ForeachList,
+
+		[DescriptionAttribute("Текущий элемент списка")]
+		ForeachElement,
+
 		[DescriptionAttribute("Функция выбора процедур")]
 		ProcedureSelectation,
 

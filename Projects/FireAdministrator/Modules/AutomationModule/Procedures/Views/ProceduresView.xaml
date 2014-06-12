@@ -61,22 +61,15 @@
 				<RowDefinition Height="50"/>
 				<RowDefinition/>
 			</Grid.RowDefinitions>
-			<StackPanel Grid.Row="0" Orientation="Horizontal">
-				<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить шаг" ImageSource="/Controls;component/Images/Add.png" />
+            <StackPanel Grid.Row="0" Orientation="Horizontal" DataContext="{Binding StepsViewModel}">
+				<Controls:ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="/Controls;component/Images/Add.png" />
 				<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="/Controls;component/Images/Delete.png" />
+                <Controls:ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="/Controls;component/Images/Settings.png" />
+                <Controls:ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="/Controls;component/Images/Settings.png" />
+                <Controls:ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/Settings.png" />
+                <Controls:ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/Settings.png" />
 			</StackPanel>
-            <Views:StepsView Grid.Row="1" DataContext="{Binding StepsViewModel}" Margin="2" />
-			<!--<DataGrid Grid.Row="1" ItemsSource="{Binding ProcedureSteps}" SelectedItem="{Binding SelectedProcedureStep}">
-				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Шаг" Width="*">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding ProcedureStepType, Converter={StaticResource ProcedureStepTypeToStringConverter}}" />
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-				</DataGrid.Columns>
-			</DataGrid>-->
+            <Views:StepsView Grid.Row="1" DataContext="{Binding StepsViewModel}" Margin="2 0" />
 		</Grid>
 	</Grid>
 </UserControl>

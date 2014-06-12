@@ -45,6 +45,10 @@ namespace FiresecService
 				GKProcessor.Start();
 				UILogger.Log("Создание конфигурации СКД");
 				SKDProcessor.Create();
+
+				UILogger.Log("Запуск автоматизации");
+				AutomationProcessor.Start();
+
 				UILogger.Log("Готово");
 			}
 			catch (Exception e)

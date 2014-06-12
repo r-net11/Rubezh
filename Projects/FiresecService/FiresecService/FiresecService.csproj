@@ -117,6 +117,7 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="PatchManager.cs" />
+    <Compile Include="Processor\AutomationProcessor.cs" />
     <Compile Include="Processor\ConfigurationCash.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
