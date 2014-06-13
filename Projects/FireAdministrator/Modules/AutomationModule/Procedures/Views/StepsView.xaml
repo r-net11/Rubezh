@@ -15,12 +15,21 @@
 	</UserControl.Resources>
 
 	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" MinWidth="200" />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" MinWidth="200" />
-		</Grid.ColumnDefinitions>
-        <tree:TreeList Grid.Column="0" Focusable="True" SelectedTreeNode="{Binding SelectedStep}" Source="{Binding RootSteps}" tree:SortBehavior.CanUserSortColumns="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" MinHeight="200" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" MinHeight="100"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Controls:ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="/Controls;component/Images/Add.png" />
+            <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="/Controls;component/Images/Delete.png" />
+            <Controls:ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="/Controls;component/Images/Settings.png" />
+            <Controls:ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="/Controls;component/Images/Settings.png" />
+            <Controls:ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/Settings.png" />
+            <Controls:ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/Settings.png" />
+        </StackPanel>
+        <tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedStep}" Source="{Binding RootSteps}" tree:SortBehavior.CanUserSortColumns="False">
 			<tree:TreeList.Resources>
 				<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
 					<Setter Property="MinWidth" Value="0" />
@@ -64,8 +73,9 @@
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
-        <Grid Grid.Column="2" DataContext="{Binding SelectedStep}">
-		</Grid>
-	</Grid>
+		<GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+        <Grid Grid.Row="2" DataContext="{Binding SelectedStep}" Margin="2 0">
+            <ContentPresenter Content="{Binding Content}" ContentTemplateSelector="{StaticResource stepTypeTemplateSelector}" />
+        </Grid>
+    </Grid>
 </UserControl>

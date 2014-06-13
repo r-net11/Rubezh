@@ -97,6 +97,8 @@
     <Compile Include="Procedures\ViewModels\CameraViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DeviceSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureInputObjectViewModel.cs" />
@@ -112,6 +114,9 @@
     </Compile>
     <Compile Include="Procedures\Views\ProcedureObjectsSelectationView.xaml.cs">
       <DependentUpon>ProcedureObjectsSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\JournalStepView.xaml.cs">
+      <DependentUpon>JournalStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\SoundStepView.xaml.cs">
       <DependentUpon>SoundStepView.xaml</DependentUpon>
@@ -251,6 +256,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\ProcedureObjectsSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\JournalStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

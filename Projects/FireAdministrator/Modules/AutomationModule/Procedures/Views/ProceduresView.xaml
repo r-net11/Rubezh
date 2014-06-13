@@ -56,10 +56,16 @@
                 </DataGrid>
             </Grid>
         </Grid>
-		<Grid Grid.Column="1" DataContext="{Binding SelectedProcedure}" Margin="0, -50, 0, 0">
+
+        <Grid Grid.Column="1" DataContext="{Binding SelectedProcedure}" Margin="4, -50, 0, 0">
+            <Views:StepsView DataContext="{Binding StepsViewModel}" />
+        </Grid>
+
+        <!--<Grid Grid.Column="1" DataContext="{Binding SelectedProcedure}" Margin="0, -50, 0, 0">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="50"/>
-				<RowDefinition/>
+				<RowDefinition Height="50" />
+				<RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal" DataContext="{Binding StepsViewModel}">
 				<Controls:ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="/Controls;component/Images/Add.png" />
@@ -70,6 +76,9 @@
                 <Controls:ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/Settings.png" />
 			</StackPanel>
             <Views:StepsView Grid.Row="1" DataContext="{Binding StepsViewModel}" Margin="2 0" />
-		</Grid>
+            <Grid Grid.Row="2" Margin="2 0">
+                <ContentPresenter Content="{Binding StepsViewModel.SelectedStep.Content}" ContentTemplateSelector="{StaticResource stepTypeTemplateSelector}" />
+            </Grid>
+		</Grid>-->
 	</Grid>
 </UserControl>
