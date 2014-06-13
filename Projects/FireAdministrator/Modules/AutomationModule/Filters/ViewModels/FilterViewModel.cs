@@ -4,29 +4,29 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
-	public class MaskViewModel : BaseViewModel
+	public class FilterViewModel : BaseViewModel
 	{
-		public Mask Mask { get; set; }
+		public AutomationFilter Filter { get; set; }
 
-		public MaskViewModel(Mask mask)
+		public FilterViewModel(AutomationFilter filter)
 		{
-			Mask = mask;
+			Filter = filter;
 		}
 
 		public string Name
 		{
-			get { return Mask.Name; }
+			get { return Filter.Name; }
 			set
 			{
-				Mask.Name = value;
+				Filter.Name = value;
 				OnPropertyChanged("Name");
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
-		public void Update(Mask mask)
+		public void Update(AutomationFilter filter)
 		{
-			Mask = mask;
+			Filter = filter;
 			OnPropertyChanged("Name");
 		}
 	}

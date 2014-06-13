@@ -64,7 +64,7 @@
     <Compile Include="Events\ShowAutomationSchedulesEvents.cs" />
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
-    <Compile Include="Events\ShowMasksEvent.cs" />
+    <Compile Include="Events\ShowFiltersEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariableDetailsViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
@@ -79,18 +79,18 @@
     <Compile Include="GlobalVariables\Views\GlobalVariablesView.xaml.cs">
       <DependentUpon>GlobalVariablesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Masks\ViewModels\MaskDetailsViewModel.cs" />
-    <Compile Include="Masks\ViewModels\MasksMenuViewModel.cs" />
-    <Compile Include="Masks\ViewModels\MasksViewModel.cs" />
-    <Compile Include="Masks\ViewModels\MaskViewModel.cs" />
-    <Compile Include="Masks\Views\MaskDetailsView.xaml.cs">
-      <DependentUpon>MaskDetailsView.xaml</DependentUpon>
+    <Compile Include="Filters\ViewModels\FilterDetailsViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FiltersViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FilterViewModel.cs" />
+    <Compile Include="Filters\Views\FilterDetailsView.xaml.cs">
+      <DependentUpon>FilterDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Masks\Views\MasksMenuView.xaml.cs">
-      <DependentUpon>MasksMenuView.xaml</DependentUpon>
+    <Compile Include="Filters\Views\FiltersMenuView.xaml.cs">
+      <DependentUpon>FiltersMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Masks\Views\MasksView.xaml.cs">
-      <DependentUpon>MasksView.xaml</DependentUpon>
+    <Compile Include="Filters\Views\FiltersView.xaml.cs">
+      <DependentUpon>FiltersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Converters\ObjectTypeToStringConverter.cs" />
     <Compile Include="Procedures\ViewModels\CameraSelectationViewModel.cs" />
@@ -160,13 +160,13 @@
       <DependentUpon>SoundDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\GlobalVariableValidationError.cs" />
-    <Compile Include="Validation\MaskValidationError.cs" />
+    <Compile Include="Validation\FilterValidationError.cs" />
     <Compile Include="Validation\ProcedureValidationError.cs" />
     <Compile Include="Validation\ScheduleValidationError.cs" />
     <Compile Include="Validation\SoundValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.GlobalVariable.cs" />
-    <Compile Include="Validation\Validator.Mask.cs" />
+    <Compile Include="Validation\Validator.Filter.cs" />
     <Compile Include="Validation\Validator.Procedure.cs" />
     <Compile Include="Validation\Validator.Schedule.cs" />
     <Compile Include="Validation\Validator.Sound.cs" />
@@ -230,19 +230,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Masks\DataTemplates\Dictionary.xaml">
+    <Page Include="Filters\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Masks\Views\MaskDetailsView.xaml">
+    <Page Include="Filters\Views\FilterDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Masks\Views\MasksMenuView.xaml">
+    <Page Include="Filters\Views\FiltersMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Masks\Views\MasksView.xaml">
+    <Page Include="Filters\Views\FiltersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

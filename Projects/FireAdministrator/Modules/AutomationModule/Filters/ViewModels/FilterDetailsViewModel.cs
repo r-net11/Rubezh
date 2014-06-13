@@ -4,21 +4,21 @@ using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
-	public class MaskDetailsViewModel : SaveCancelDialogViewModel
+	public class FilterDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public Mask Mask { get; private set; }
-		public MaskDetailsViewModel(Mask mask)
+		public AutomationFilter Filter { get; private set; }
+		public FilterDetailsViewModel(AutomationFilter filter)
 		{
-			Title = "Свойства маски";
-			Mask = mask;
-			Name = mask.Name;
+			Title = "Свойства фильтра";
+			Filter = filter;
+			Name = filter.Name;
 		}
 
-		public MaskDetailsViewModel()
+		public FilterDetailsViewModel()
 		{
-			Title = "Добавить маску";
-			Mask = new Mask();
-			Name = Mask.Name;
+			Title = "Добавить фильтр";
+			Filter = new AutomationFilter();
+			Name = Filter.Name;
 		}
 
 		string _name;
@@ -39,7 +39,7 @@ namespace AutomationModule.ViewModels
 				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
-			Mask.Name = Name;
+			Filter.Name = Name;
 			return base.Save();
 		}
 	}

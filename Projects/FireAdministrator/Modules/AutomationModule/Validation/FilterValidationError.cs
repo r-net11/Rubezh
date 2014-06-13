@@ -5,16 +5,16 @@ using Infrastructure.Common.Validation;
 
 namespace AutomationModule.Validation
 {
-	class MaskValidationError : ObjectValidationError<Mask, ShowMasksEvent, Guid>
+	class FilterValidationError : ObjectValidationError<AutomationFilter, ShowFiltersEvent, Guid>
 	{
-		public MaskValidationError(Mask mask, string error, ValidationErrorLevel level)
-			: base(mask, error, level)
+		public FilterValidationError(AutomationFilter filter, string error, ValidationErrorLevel level)
+			: base(filter, error, level)
 		{
 		}
 
 		public override string Module
 		{
-			get { return "Mask"; }
+			get { return "Filter"; }
 		}
 		protected override Guid Key
 		{

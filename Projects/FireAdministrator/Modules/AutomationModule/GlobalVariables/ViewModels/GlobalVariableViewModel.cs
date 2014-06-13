@@ -38,7 +38,7 @@ namespace AutomationModule.ViewModels
 		public void Update(GlobalVariable globalVariable)
 		{
 			GlobalVariable = globalVariable;
-			OnPropertyChanged("Name"); 
+			OnPropertyChanged("Name");
 			OnPropertyChanged("Value");
 		}
 	}

@@ -4,11 +4,11 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class Mask
+	public class AutomationFilter
 	{
-		public Mask()
+		public AutomationFilter()
 		{
-			Name = "Новая маска";
+			Name = "Новый фильтр";
 			Uid = Guid.NewGuid();
 		}
 

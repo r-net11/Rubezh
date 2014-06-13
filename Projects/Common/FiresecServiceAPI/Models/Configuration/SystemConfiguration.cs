@@ -28,7 +28,7 @@ namespace FiresecAPI.Models
 		public List<AutomationSchedule> AutomationSchedules { get; set; }
 
 		[DataMember]
-		public List<Mask> Masks { get; set; }
+		public List<AutomationFilter> Filters { get; set; }
 
 		[DataMember]
 		public List<GlobalVariable> GlobalVariables { get; set; }

@@ -16,7 +16,7 @@ namespace AutomationModule
 		ProceduresViewModel ProceduresViewModel;
 		SchedulesViewModel SchedulesViewModel;
 		GlobalVariablesViewModel GlobalVariablesViewModel;
-		MasksViewModel MasksViewModel;
+		FiltersViewModel FiltersViewModel;
 
 		public override void CreateViewModels()
 		{
@@ -24,7 +24,7 @@ namespace AutomationModule
 			ProceduresViewModel = new ProceduresViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
 			GlobalVariablesViewModel = new GlobalVariablesViewModel();
-			MasksViewModel = new MasksViewModel();
+			FiltersViewModel = new FiltersViewModel();
 		}
 
 		public override void Initialize()
@@ -33,7 +33,7 @@ namespace AutomationModule
 			ProceduresViewModel.Initialize();
 			SchedulesViewModel.Initialize();
 			GlobalVariablesViewModel.Initialize();
-			MasksViewModel.Initialize();
+			FiltersViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -46,7 +46,7 @@ namespace AutomationModule
 							new NavigationItem<ShowProceduresEvent, Guid>(ProceduresViewModel, "Процедуры", "/Controls;component/Images/Tree.png"),
 							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(SchedulesViewModel, "Редактор расписаний", "/Controls;component/Images/SelectNone.png"),
 							new NavigationItem<ShowGlobalVariablesEvent, Guid>(GlobalVariablesViewModel, "Список глобальных переменных", "/Controls;component/Images/SelectNone.png"),
-							new NavigationItem<ShowMasksEvent, Guid>(MasksViewModel, "Создание масок", "/Controls;component/Images/SelectNone.png")
+							new NavigationItem<ShowFiltersEvent, Guid>(FiltersViewModel, "Фильтры", "/Controls;component/Images/SelectNone.png")
 						}) {IsExpanded = true},
 				};
 		}
@@ -62,7 +62,7 @@ namespace AutomationModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Procedures/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Schedules/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "GlobalVariables/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Masks/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Filters/DataTemplates/Dictionary.xaml"));
 		}
 
 		public IEnumerable<IValidationError> Validate()

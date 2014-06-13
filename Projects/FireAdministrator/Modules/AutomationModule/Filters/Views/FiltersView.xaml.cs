@@ -1,8 +1,8 @@
 ﻿namespace AutomationModule.Views
 {
-	public partial class MasksView
+	public partial class FiltersView
 	{
-		public MasksView()
+		public FiltersView()
 		{
 			InitializeComponent();
 		}

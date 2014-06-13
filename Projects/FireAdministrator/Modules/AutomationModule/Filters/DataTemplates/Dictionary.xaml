@@ -3,15 +3,15 @@
 					xmlns:Views="clr-namespace:AutomationModule.Views"
 					xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels">
 
-	<DataTemplate DataType="{x:Type ViewModels:MasksViewModel}">
-		<Views:MasksView />
+	<DataTemplate DataType="{x:Type ViewModels:FiltersViewModel}">
+		<Views:FiltersView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:MasksMenuViewModel}">
-		<Views:MasksMenuView />
+	<DataTemplate DataType="{x:Type ViewModels:FiltersMenuViewModel}">
+		<Views:FiltersMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:MaskDetailsViewModel}">
-		<Views:MaskDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:FilterDetailsViewModel}">
+		<Views:FilterDetailsView />
 	</DataTemplate>
 </ResourceDictionary>
