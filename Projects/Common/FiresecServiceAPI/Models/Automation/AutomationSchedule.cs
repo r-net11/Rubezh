@@ -10,6 +10,13 @@ namespace FiresecAPI.Automation
 		{
 			Name = "Новое расписание";
 			Uid = Guid.NewGuid();
+			Year = -1;
+			Month = -1;
+			Day = -1;
+			Hour = -1;
+			Minute = -1;
+			Second = -1;
+			DayOfWeek = DayOfWeekType.Any;
 		}
 
 		[DataMember]
@@ -38,5 +45,11 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public DayOfWeekType DayOfWeek { get; set; }
+
+		[DataMember]
+		public int Period { get; set; }
+
+		[DataMember]
+		public bool IsPeriodSelected { get; set; }
 	}
 }

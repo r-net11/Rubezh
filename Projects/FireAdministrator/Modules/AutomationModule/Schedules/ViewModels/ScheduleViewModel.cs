@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using FiresecAPI.Automation;
-using FiresecClient;
+﻿using FiresecAPI.Automation;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
 using System.Collections.ObjectModel;
@@ -12,10 +12,14 @@ namespace AutomationModule.ViewModels
 	{
 		public const string DefaultName = "<нет>";
 		public AutomationSchedule Schedule { get; set; }
-
+		public ObservableCollection<ProcedureViewModel> Procedures { get; private set; }
+		
 		public ScheduleViewModel(AutomationSchedule schedule)
 		{
 			Schedule = schedule;
+			Procedures = new ObservableCollection<ProcedureViewModel>();
+			AddCommand = new RelayCommand(OnAdd);
+			DeleteCommand = new RelayCommand(OnDelete, CanDeleted);
 		}
 
 		static ScheduleViewModel()
@@ -153,10 +157,67 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public int Period
+		{
+			get { return Schedule.Period; }
+			set
+			{
+				Schedule.Period = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => Period);
+			}
+		}
+
+		private ProcedureViewModel _selectedProcedure;
+		public ProcedureViewModel SelectedProcedure
+		{
+			get { return _selectedProcedure; }
+			set
+			{
+				_selectedProcedure = value;
+				OnPropertyChanged(() => SelectedProcedure);
+			}
+		}
+
+		public bool IsPeriodSelected
+		{
+			get { return Schedule.IsPeriodSelected; }
+			set
+			{
+				Schedule.IsPeriodSelected = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => IsPeriodSelected);
+			}
+		}
+
 		public void Update()
 		{
 			OnPropertyChanged(() => Schedule);
 			OnPropertyChanged(() => Name);
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			var procedureSelectionViewModel = new ProcedureSelectionViewModel(Procedures);
+			if (DialogService.ShowModalWindow(procedureSelectionViewModel))
+			{
+				if (procedureSelectionViewModel.SelectedProcedure != null)
+				{
+					Procedures.Add(procedureSelectionViewModel.SelectedProcedure);
+					SelectedProcedure = new ProcedureViewModel(procedureSelectionViewModel.SelectedProcedure.Procedure);
+				}
+			}
+		}
+
+		public RelayCommand DeleteCommand { get; private set; }
+		void OnDelete()
+		{
+			Procedures.Remove(SelectedProcedure);
+		}
+		bool CanDeleted()
+		{
+			return SelectedProcedure != null;
 		}
 	}
 }
