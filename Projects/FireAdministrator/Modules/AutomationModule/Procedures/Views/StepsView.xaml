@@ -8,9 +8,8 @@
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="StepContextMenu">
-			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить дочернюю зону (Ctrl+N)" />
-			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="/Controls;component/Images/BAddChild.png" Text="Добавить к родительской зоне (Ctrl+M)" />
-			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" />
+			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить функкцию" />
+			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить функцию" />
 		</ContextMenu>
 	</UserControl.Resources>
 
@@ -28,8 +27,6 @@
             <Controls:ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="/Controls;component/Images/Settings.png" />
             <Controls:ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/Settings.png" />
             <Controls:ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/Settings.png" />
-
-            <ToggleButton Width="50" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Hello" IsChecked="{Binding IsCollapsed}" ToolTip="tooltip" />
 
         </StackPanel>
         <tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedStep}" Source="{Binding RootSteps}" tree:SortBehavior.CanUserSortColumns="False">

@@ -258,16 +258,5 @@ namespace AutomationModule.ViewModels
 		{
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
-
-		bool _isCollapsed;
-		public bool IsCollapsed
-		{
-			get { return _isCollapsed; }
-			set
-			{
-				_isCollapsed = value;
-				OnPropertyChanged("IsCollapsed");
-			}
-		}
 	}
 }
