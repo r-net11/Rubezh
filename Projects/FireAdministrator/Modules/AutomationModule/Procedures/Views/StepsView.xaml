@@ -28,6 +28,9 @@
             <Controls:ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="/Controls;component/Images/Settings.png" />
             <Controls:ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/Settings.png" />
             <Controls:ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/Settings.png" />
+
+            <ToggleButton Width="50" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Hello" IsChecked="{Binding IsCollapsed}" ToolTip="tooltip" />
+
         </StackPanel>
         <tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedStep}" Source="{Binding RootSteps}" tree:SortBehavior.CanUserSortColumns="False">
 			<tree:TreeList.Resources>
