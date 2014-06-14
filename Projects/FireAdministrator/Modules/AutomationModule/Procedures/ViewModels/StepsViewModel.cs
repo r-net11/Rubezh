@@ -28,8 +28,8 @@ namespace AutomationModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanDeleted);
 			AddIfCommand = new RelayCommand(OnAddIf, CanAdd);
 			AddForeachCommand = new RelayCommand(OnAddForeach, CanAdd);
-			UpCommand = new RelayCommand(OnUp);
-			DownCommand = new RelayCommand(OnDown);
+			UpCommand = new RelayCommand(OnUp, CanUp);
+			DownCommand = new RelayCommand(OnDown, CanDown);
 
 			Procedure = procedure;
 
@@ -194,6 +194,7 @@ namespace AutomationModule.ViewModels
 			var procedureStep = new ProcedureStep();
 			procedureStep.ProcedureStepType = ProcedureStepType.If;
 			var stepViewModel = new StepViewModel(this, procedureStep);
+			stepViewModel.IsExpanded = true;
 			AllSteps.Add(stepViewModel);
 
 			var procedureStepIfYes = new ProcedureStep();
@@ -220,6 +221,7 @@ namespace AutomationModule.ViewModels
 			var procedureStep = new ProcedureStep();
 			procedureStep.ProcedureStepType = ProcedureStepType.Foreach;
 			var stepViewModel = new StepViewModel(this, procedureStep);
+			stepViewModel.IsExpanded = true;
 			AllSteps.Add(stepViewModel);
 
 			var procedureStepForeachBody = new ProcedureStep();
@@ -250,13 +252,84 @@ namespace AutomationModule.ViewModels
 		public RelayCommand UpCommand { get; private set; }
 		void OnUp()
 		{
+			Mode(-1);
 			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+		bool CanUp()
+		{
+			if (SelectedStep == null)
+				return false;
+			if (SelectedStep.IsVirtual)
+				return false;
+			if (SelectedStep.Parent == null)
+			{
+				var index = RootSteps.IndexOf(SelectedStep);
+				if (index < 1)
+					return false;
+			}
+			else
+			{
+				var index = SelectedStep.Index;
+				if (index < 2)
+					return false;
+			}
+			return true;
 		}
 
 		public RelayCommand DownCommand { get; private set; }
 		void OnDown()
 		{
+			Mode(+1);
 			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+		bool CanDown()
+		{
+			if (SelectedStep == null)
+				return false;
+			if (SelectedStep.IsVirtual)
+				return false;
+			if (SelectedStep.Parent == null)
+			{
+				var index = RootSteps.IndexOf(SelectedStep);
+				if (index > RootSteps.Count - 2)
+					return false;
+			}
+			else
+			{
+				var index = SelectedStep.Index;
+				if (index > SelectedStep.Parent.Children.Count() - 2)
+					return false;
+			}
+			return true;
+		}
+
+		void Mode(int delta)
+		{
+			if (SelectedStep.Parent == null)
+			{
+				var stepViewModel = SelectedStep;
+				var index = RootSteps.IndexOf(SelectedStep);
+				RootSteps.Remove(SelectedStep);
+				RootSteps.Insert(index + delta, stepViewModel);
+				SelectedStep = stepViewModel;
+
+				var step = stepViewModel.Step;
+				Procedure.Steps.Remove(stepViewModel.Step);
+				Procedure.Steps.Insert(index + delta, step);
+			}
+			else
+			{
+				var stepViewModel = SelectedStep;
+				var parentViewModel = SelectedStep.Parent;
+				var index = SelectedStep.Index;
+				parentViewModel.RemoveChild(SelectedStep);
+				parentViewModel[index + delta - 1].InsertChild(stepViewModel);
+				SelectedStep = stepViewModel;
+
+				var step = stepViewModel.Step;
+				parentViewModel.Step.Children.Remove(stepViewModel.Step);
+				parentViewModel.Step.Children.Insert(index + delta, step);
+			}
 		}
 	}
 }

@@ -59,7 +59,7 @@
 
         <Grid Grid.Column="1" DataContext="{Binding SelectedProcedure}" Margin="4, -50, 0, 0">
             <Grid>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="300 0 0 0">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="300 4 0 0">
                     <Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="150" Margin="2" />
                     <Button Content="Переменные" Command="{Binding ShowVariablesCommand}" Width="150" Margin="2" />
                     <Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="150" Margin="2" />
