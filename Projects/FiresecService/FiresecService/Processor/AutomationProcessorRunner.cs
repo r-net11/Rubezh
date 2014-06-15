@@ -9,12 +9,20 @@ namespace FiresecService.Processor
 {
 	public static class AutomationProcessorRunner
 	{
-		public static void Run(Procedure procedure)
+		public static bool Run(Procedure procedure, List<string> args)
 		{
-			foreach (var step in procedure.Steps)
+			try
 			{
-				RunStep(step);
+				foreach (var step in procedure.Steps)
+				{
+					RunStep(step);
+				}
 			}
+			catch
+			{
+				return false;
+			}
+			return true;
 		}
 
 		static void RunStep(ProcedureStep procedureStep)

@@ -168,6 +168,7 @@
     <Compile Include="Service\SafeFiresecService.Poll.cs" />
     <Compile Include="Service\SafeFiresecService.Threading.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.cs" />
+    <Compile Include="Service\SafeFiresecService.Automation.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

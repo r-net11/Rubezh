@@ -144,6 +144,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="CallbackResult.cs" />
+    <Compile Include="IFiresecServiceSKD.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeInterval.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AM1_O_Helper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AM1_T_Helper.cs" />

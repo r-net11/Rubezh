@@ -66,6 +66,9 @@
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
     <Compile Include="Events\ShowFiltersEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
+    <Compile Include="Filters\ViewModels\DateTimePairViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FilterNamesViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FilterNameViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariableDetailsViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
@@ -207,6 +210,10 @@
     <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\GKProcessor\GKProcessor.csproj">
+      <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
+      <Name>GKProcessor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
       <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>

@@ -7,7 +7,7 @@ namespace FiresecService
 {
 	public static class AutomationProcessor
 	{
-		static SystemConfiguration SystemConfiguration { get; set; }
+		public static SystemConfiguration SystemConfiguration { get; private set; }
 
 		public static void Start()
 		{

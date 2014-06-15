@@ -8,9 +8,15 @@ namespace FiresecAPI.Automation
 	{
 		public AutomationFilter()
 		{
-			Name = "Новый фильтр";
 			Uid = Guid.NewGuid();
+			Name = "Новый фильтр";
+
+			StartDate = DateTime.Now.AddDays(-1);
+			EndDate = DateTime.Now;
 		}
+
+		[DataMember]
+		public Guid Uid { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -19,6 +25,12 @@ namespace FiresecAPI.Automation
 		public string Description { get; set; }
 
 		[DataMember]
-		public Guid Uid { get; set; }
+		public DateTime StartDate { get; set; }
+
+		[DataMember]
+		public DateTime EndDate { get; set; }
+
+		[DataMember]
+		public bool UseDeviceDateTime { get; set; }
 	}
 }

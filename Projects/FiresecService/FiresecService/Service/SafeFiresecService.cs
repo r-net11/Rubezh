@@ -358,5 +358,12 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetDistinctGKJournalDescriptions(); }, "GetDistinctGKJournalDescriptions");
 		}
 		#endregion
+
+		#region Automation
+		public OperationResult<bool> RunProcedure(Guid procedureUID, List<string> args)
+		{
+			return SafeOperationCall(() => { return FiresecService.RunProcedure(procedureUID, args); }, "RunProcedure");
+		}
+		#endregion
 	}
 }
