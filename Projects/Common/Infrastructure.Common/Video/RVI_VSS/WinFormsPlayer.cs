@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Entities.DeviceOriented;
 using FiresecAPI.Models;
-//using GalaSoft.MvvmLight.Threading;
+using GalaSoft.MvvmLight.Threading;
 
 namespace Infrastructure.Common.Video.RVI_VSS
 {
@@ -22,7 +22,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 
 		static WinFormsPlayer()
 		{
-			//DispatcherHelper.Initialize();
+			DispatcherHelper.Initialize();
 		}
 
 		private int _speed;

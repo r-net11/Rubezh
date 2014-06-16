@@ -1,4 +1,6 @@
-﻿using FiresecAPI.Automation;
+﻿using System.Linq;
+using FiresecAPI.Automation;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -20,6 +22,19 @@ namespace AutomationModule.ViewModels
 			Procedures = new ObservableCollection<ProcedureViewModel>();
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDeleted);
+			InitializeProcedure();
+		}
+
+		void InitializeProcedure()
+		{
+			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)
+			{
+				if (!Schedule.ProceduresUids.Contains(procedure.Uid))
+					continue;
+				var procedureViewModel = new ProcedureViewModel(procedure);
+				Procedures.Add(procedureViewModel);
+			}
+			SelectedProcedure = Procedures.FirstOrDefault();
 		}
 
 		static ScheduleViewModel()
@@ -35,24 +50,32 @@ namespace AutomationModule.ViewModels
 				Months.Add(i);				
 			}
 			Days = new ObservableCollection<int> { -1 };
+			PeriodDays = new ObservableCollection<int> { 0 };
 			for (int i = 1; i <= 31 ; i++)
 			{
-				Days.Add(i);				
+				Days.Add(i);
+				PeriodDays.Add(i);
 			}
 			Hours = new ObservableCollection<int> { -1 };
+			PeriodHours = new ObservableCollection<int>();
 			for (int i = 0; i <= 24; i++)
 			{
-				Hours.Add(i);				
+				Hours.Add(i);
+				PeriodHours.Add(i);
 			}
 			Minutes = new ObservableCollection<int> { -1 };
+			PeriodMinutes = new ObservableCollection<int>();
 			for (int i = 0; i <= 59; i++)
 			{
-				Minutes.Add(i);				
+				Minutes.Add(i);
+				PeriodMinutes.Add(i);
 			}
 			Seconds = new ObservableCollection<int> { -1 };
+			PeriodSeconds = new ObservableCollection<int>();
 			for (int i = 0; i <= 59; i++)
 			{
-				Seconds.Add(i);				
+				Seconds.Add(i);
+				PeriodSeconds.Add(i);
 			}
 			DaysOfWeek = new ObservableCollection<DayOfWeekType>
 				{
@@ -78,6 +101,10 @@ namespace AutomationModule.ViewModels
 		public static ObservableCollection<int> Hours { get; private set; }
 		public static ObservableCollection<int> Minutes { get; private set; }
 		public static ObservableCollection<int> Seconds { get; private set; }
+		public static ObservableCollection<int> PeriodDays { get; private set; }
+		public static ObservableCollection<int> PeriodHours { get; private set; }
+		public static ObservableCollection<int> PeriodMinutes { get; private set; }
+		public static ObservableCollection<int> PeriodSeconds { get; private set; }
 		public static ObservableCollection<DayOfWeekType> DaysOfWeek { get; private set; }
 
 		public int SelectedYear
@@ -157,14 +184,47 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public int Period
+		public int SelectedPeriodDay
 		{
-			get { return Schedule.Period; }
+			get { return Schedule.PeriodDay; }
 			set
 			{
-				Schedule.Period = value;
+				Schedule.PeriodDay = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => Period);
+				OnPropertyChanged(() => SelectedPeriodDay);
+			}
+		}
+
+		public int SelectedPeriodHour
+		{
+			get { return Schedule.PeriodHour; }
+			set
+			{
+				Schedule.PeriodHour = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => SelectedPeriodHour);
+			}
+		}
+
+		public int SelectedPeriodMinute
+		{
+			get { return Schedule.PeriodMinute; }
+			set
+			{
+				Schedule.PeriodMinute = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => SelectedPeriodMinute);
+			}
+		}
+
+		public int SelectedPeriodSecond
+		{
+			get { return Schedule.PeriodSecond; }
+			set
+			{
+				Schedule.PeriodSecond = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => SelectedPeriodSecond);
 			}
 		}
 
@@ -205,6 +265,7 @@ namespace AutomationModule.ViewModels
 				if (procedureSelectionViewModel.SelectedProcedure != null)
 				{
 					Procedures.Add(procedureSelectionViewModel.SelectedProcedure);
+					Schedule.ProceduresUids.Add(procedureSelectionViewModel.SelectedProcedure.Procedure.Uid);
 					SelectedProcedure = new ProcedureViewModel(procedureSelectionViewModel.SelectedProcedure.Procedure);
 				}
 			}
@@ -214,6 +275,7 @@ namespace AutomationModule.ViewModels
 		void OnDelete()
 		{
 			Procedures.Remove(SelectedProcedure);
+			Schedule.ProceduresUids.Remove(SelectedProcedure.Procedure.Uid);
 		}
 		bool CanDeleted()
 		{

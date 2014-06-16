@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Data;
-using FiresecAPI;
 
 namespace Controls.Converters
 {
@@ -12,7 +11,7 @@ namespace Controls.Converters
 			{
 				if ((int)value == -1)
 					return "Любой";
-				return value;	
+				return value;
 			}
 			catch (Exception)
 			{

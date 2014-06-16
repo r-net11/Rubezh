@@ -9,121 +9,159 @@
 			<ColumnDefinition Width="2*"/>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<Grid Grid.Column="0">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" MinHeight="200" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="150" />
-			</Grid.RowDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="150" />
+		</Grid.RowDefinitions>
 
-			<DataGrid ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" IsReadOnly="False">
-				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Название" Width="1*">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/Calendar.png" Width="16" Margin="2 0 0 0" />
-									<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
-								</StackPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-				</DataGrid.Columns>
-			</DataGrid>
-
-			<GridSplitter Grid.Row="1" Height="5" Background="Transparent" />
-
-			<Border Grid.Row="2" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5" DataContext="{Binding SelectedSchedule}">
-				<StackPanel Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Orientation="Horizontal">
-					<StackPanel Orientation="Vertical" Margin="5 0 0 0">
-						<StackPanel Orientation="Vertical">
-							<Label Content="Год"/>
-							<ComboBox ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" VerticalAlignment="Center" Margin="2">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</StackPanel>
-						<StackPanel Orientation="Vertical">
-							<Label Content="Час"/>
-							<ComboBox ItemsSource="{Binding Hours}" SelectedItem="{Binding SelectedHour}" VerticalAlignment="Center" Margin="2">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</StackPanel>
-					</StackPanel>
-					<StackPanel Orientation="Vertical" Margin="5 0 0 0">
-						<StackPanel Orientation="Vertical">
-							<Label Content="Месяц"/>
-							<ComboBox ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth}" VerticalAlignment="Center" Margin="2">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</StackPanel>
-						<StackPanel Orientation="Vertical">
-							<Label Content="Минута"/>
-							<ComboBox ItemsSource="{Binding Minutes}" SelectedItem="{Binding SelectedMinute}" VerticalAlignment="Center" Margin="2">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</StackPanel>
-					</StackPanel>
-					<StackPanel Orientation="Vertical" Margin="5 0 0 0">
-						<StackPanel Orientation="Vertical">
-							<Label Content="День"/>
-							<ComboBox ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}" VerticalAlignment="Center" Margin="2">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</StackPanel>
-						<StackPanel Orientation="Vertical">
-							<Label Content="Секунда"/>
-							<ComboBox ItemsSource="{Binding Seconds}" SelectedItem="{Binding SelectedSecond}" VerticalAlignment="Center" Margin="2">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</StackPanel>
-					</StackPanel>
-					<StackPanel Orientation="Vertical" Margin="5 0 0 0">
-						<StackPanel Orientation="Vertical">
-							<Label Content="День недели"/>
-							<ComboBox ItemsSource="{Binding DaysOfWeek}" SelectedItem="{Binding SelectedDayOfWeek}" VerticalAlignment="Center" Margin="2">
-								<ComboBox.ItemTemplate>
-									<DataTemplate>
-										<TextBlock Text="{Binding ., Converter={StaticResource DayOfWeekToStringConverter}}" />
-									</DataTemplate>
-								</ComboBox.ItemTemplate>
-							</ComboBox>
-						</StackPanel>
-						<StackPanel Orientation="Vertical">
-							<StackPanel Orientation="Horizontal" Margin="5 0 0 0" >
-								<Label Content="Задать период (сек)"/>
-								<CheckBox IsChecked="{Binding IsPeriodSelected}" Margin="5" />
+		<DataGrid Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" IsReadOnly="False">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="Название" Width="1*">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Source="/Controls;component/Images/Calendar.png" Width="16" Margin="2 0 0 0" />
+								<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 							</StackPanel>
-							<extToolkit:IntegerUpDown Value="{Binding Period}" Margin="2" IsEnabled ="{Binding IsPeriodSelected}" Minimum="1" Maximum="2147483647"  Height="20" Width="200" VerticalAlignment="Top"/>
-						</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<GridSplitter Grid.Row="1" Grid.ColumnSpan="2" Height="5" Background="Transparent" />
+
+		<Border Grid.Row="2" Grid.ColumnSpan="2" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5" DataContext="{Binding SelectedSchedule}">
+			<StackPanel Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Orientation="Horizontal">
+				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
+					<StackPanel Orientation="Vertical">
+						<Label Content="Год"/>
+						<ComboBox ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Час"/>
+						<ComboBox ItemsSource="{Binding Hours}" SelectedItem="{Binding SelectedHour}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
 					</StackPanel>
 				</StackPanel>
-			</Border>
-		</Grid>
-		<Grid Grid.Column="1" DataContext="{Binding SelectedSchedule}" Margin="0, -50, 0, 0">
+				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
+					<StackPanel Orientation="Vertical">
+						<Label Content="Месяц"/>
+						<ComboBox ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Минута"/>
+						<ComboBox ItemsSource="{Binding Minutes}" SelectedItem="{Binding SelectedMinute}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
+					<StackPanel Orientation="Vertical">
+						<Label Content="День"/>
+						<ComboBox ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Секунда"/>
+						<ComboBox ItemsSource="{Binding Seconds}" SelectedItem="{Binding SelectedSecond}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
+					<StackPanel Orientation="Vertical">
+						<Label Content="День недели"/>
+						<ComboBox ItemsSource="{Binding DaysOfWeek}" SelectedItem="{Binding SelectedDayOfWeek}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DayOfWeekToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal" Margin="5 0 0 0" >
+						<Label Content="Задать период"/>
+						<CheckBox IsChecked="{Binding IsPeriodSelected}" Margin="5" />
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Дней" IsEnabled="{Binding IsPeriodSelected}"/>
+						<ComboBox ItemsSource="{Binding PeriodDays}" SelectedItem="{Binding SelectedPeriodDay}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Часов" IsEnabled="{Binding IsPeriodSelected}"/>
+						<ComboBox ItemsSource="{Binding PeriodHours}" SelectedItem="{Binding SelectedPeriodHour}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Минут" IsEnabled="{Binding IsPeriodSelected}"/>
+						<ComboBox ItemsSource="{Binding PeriodMinutes}" SelectedItem="{Binding SelectedPeriodMinute}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					<StackPanel Orientation="Vertical">
+						<Label Content="Секунд" IsEnabled="{Binding IsPeriodSelected}"/>
+						<ComboBox ItemsSource="{Binding PeriodSeconds}" SelectedItem="{Binding SelectedPeriodSecond}" IsEnabled="{Binding IsPeriodSelected}" VerticalAlignment="Center" Margin="2">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource DateToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+
+		<Grid Grid.Column="1" Grid.Row="0" DataContext="{Binding SelectedSchedule}" Margin="0, -50, 0, 0">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="50"/>
 				<RowDefinition/>

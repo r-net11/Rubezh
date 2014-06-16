@@ -28,6 +28,9 @@ namespace FiresecAPI.Models
 		public List<AutomationSchedule> AutomationSchedules { get; set; }
 
 		[DataMember]
+		public List<Procedure> Procedures { get; set; }
+
+		[DataMember]
 		public List<AutomationFilter> Filters { get; set; }
 
 		[DataMember]

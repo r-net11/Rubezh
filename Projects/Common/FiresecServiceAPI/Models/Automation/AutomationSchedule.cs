@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -16,8 +17,16 @@ namespace FiresecAPI.Automation
 			Hour = -1;
 			Minute = -1;
 			Second = -1;
+			PeriodDay = 0;
+			PeriodHour = 0;
+			PeriodMinute = 0;
+			PeriodSecond = 1;
+			ProceduresUids = new List<Guid>();
 			DayOfWeek = DayOfWeekType.Any;
 		}
+
+		[DataMember]
+		public List<Guid> ProceduresUids { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -44,10 +53,19 @@ namespace FiresecAPI.Automation
 		public int Second { get; set; }
 
 		[DataMember]
-		public DayOfWeekType DayOfWeek { get; set; }
+		public int PeriodDay { get; set; }
 
 		[DataMember]
-		public int Period { get; set; }
+		public int PeriodHour { get; set; }
+
+		[DataMember]
+		public int PeriodMinute { get; set; }
+
+		[DataMember]
+		public int PeriodSecond { get; set; }
+
+		[DataMember]
+		public DayOfWeekType DayOfWeek { get; set; }
 
 		[DataMember]
 		public bool IsPeriodSelected { get; set; }

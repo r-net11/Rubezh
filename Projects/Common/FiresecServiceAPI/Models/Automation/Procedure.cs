@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -29,5 +30,10 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Guid Uid { get; set; }
+
+		public void Start()
+		{
+			
+		}
 	}
 }
