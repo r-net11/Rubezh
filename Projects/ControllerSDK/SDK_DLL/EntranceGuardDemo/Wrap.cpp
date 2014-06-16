@@ -1,5 +1,9 @@
 #include "StdAfx.h"
 #include "Wrap.h"
+
+#include <iostream>
+#include <fstream>
+using namespace std;
  
 #define QUERY_COUNT	(3)
 
@@ -473,18 +477,6 @@ BOOL CALL_METHOD WRAP_Update_Holiday(int lLoginID, NET_RECORDSET_HOLIDAY* stuHol
 	
     BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
     return bResult;
-}
-
-BOOL CALL_METHOD WRAP_DevCtrl_OpenDoor(int lLoginID)
-{
-	if (NULL == lLoginID)
-	{
-		return FALSE;
-	}
-	NET_CTRL_ACCESS_OPEN stuInert = {sizeof(stuInert)};
-	stuInert.nChannelID = 0;
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_ACCESS_OPEN, &stuInert, SDK_API_WAITTIME);
-	return TRUE;
 }
 
 BOOL CALL_METHOD WRAP_DevCtrl_ReBoot(int lLoginID)
@@ -1019,6 +1011,87 @@ BOOL DevCtrl_GetRecordSetInfo(LLONG lLoginID, int nRecordSetType, int nRecordNo)
 	return TRUE;
 }
 
+BOOL CALL_METHOD WRAP_GetCardInfo(int lLoginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_CARD* result)
+{
+	if (NULL == lLoginID)
+	{
+		return FALSE;
+	}
+	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
+	NET_RECORDSET_ACCESS_CTL_CARD stuCard = {sizeof(stuCard)};
+
+	stuCard.nRecNo = nRecordNo;
+	stuInert.emType = NET_RECORD_ACCESSCTLCARD;
+	stuInert.pBuf = &stuCard;
+
+	int nRet = 0;
+	BOOL bRet = CLIENT_QueryDevState(lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
+
+	memcpy(result, &stuCard, sizeof(stuCard));
+	return bRet;
+}
+
+BOOL CALL_METHOD WRAP_GetCardRecInfo(int lLoginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_CARDREC* result)
+{
+	if (NULL == lLoginID)
+	{
+		return FALSE;
+	}
+	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
+	NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec = {sizeof(stuCardRec)};
+	
+	stuCardRec.nRecNo = nRecordNo;
+	stuInert.emType = NET_RECORD_ACCESSCTLCARDREC;
+	stuInert.pBuf = &stuCardRec;
+
+	int nRet = 0;
+	BOOL bRet = CLIENT_QueryDevState(lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
+
+	memcpy(result, &stuCardRec, sizeof(stuCardRec));
+	return bRet;
+}
+
+BOOL CALL_METHOD WRAP_GetPasswordInfo(int lLoginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_PWD* result)
+{
+	if (NULL == lLoginID)
+	{
+		return FALSE;
+	}
+	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
+	NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd = {sizeof(stuAccessCtlPwd)};
+
+	stuAccessCtlPwd.nRecNo = nRecordNo;
+	stuInert.emType = NET_RECORD_ACCESSCTLPWD;
+	stuInert.pBuf = &stuAccessCtlPwd;
+
+	int nRet = 0;
+	BOOL bRet = CLIENT_QueryDevState(lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
+
+	memcpy(result, &stuAccessCtlPwd, sizeof(stuAccessCtlPwd));
+	return bRet;
+}
+
+BOOL CALL_METHOD WRAP_GetHolidayInfo(int lLoginID, int nRecordNo, NET_RECORDSET_HOLIDAY* result)
+{
+	if (NULL == lLoginID)
+	{
+		return FALSE;
+	}
+	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
+	NET_RECORDSET_HOLIDAY stuHoliday = {sizeof(stuHoliday)};
+
+	stuHoliday.nRecNo = nRecordNo;
+	stuInert.emType = NET_RECORD_ACCESSCTLHOLIDAY;
+	stuInert.pBuf = &stuHoliday;
+
+	int nRet = 0;
+	BOOL bRet = CLIENT_QueryDevState(lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
+
+	memcpy(result, &stuHoliday, sizeof(stuHoliday));
+	return bRet;
+}
+
+
 void WRAP_ShowCardInfo(NET_RECORDSET_ACCESS_CTL_CARD& stuCard)
 {
 	unsigned int i = 0;
@@ -1451,4 +1524,100 @@ BOOL CALL_METHOD WRAP_GetAllCardRecords(int lLoginId, CardRecordsCollection* res
 
 	memcpy(result, &cardRecordsCollection, sizeof(CardRecordsCollection));
 	return lFinderID != 0;
+}
+
+BOOL CALL_METHOD WRAP_GetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO* result)
+{	
+	CFG_ACCESS_TIMESCHEDULE_INFO stuInfo = {0};
+	CFG_ACCESS_TIMESCHEDULE_INFO resultStuInfo = {0};
+
+	char szJsonBuf[1024 * 40] = {0};
+	int nerror = 0;
+	int nChannel = 0;
+
+	BOOL bRet = CLIENT_GetNewDevConfig(lLoginId, CFG_CMD_ACCESSTIMESCHEDULE, nChannel, szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
+	//if (bRet)
+	{
+		int nRetLen = 0;
+		bRet = CLIENT_ParseData(CFG_CMD_ACCESSTIMESCHEDULE, szJsonBuf, &stuInfo, sizeof(stuInfo), &nRetLen);
+	}
+
+	ofstream myfile;
+	myfile.open ("D://example.txt");
+		
+	for(int i = 0; i < 7; i++)
+	{
+		for(int j = 0; j < 4; j++)
+		{
+			memcpy(&resultStuInfo.stuTime[i, j], &stuInfo.stuTime[i, j], sizeof(CFG_TIME_SECTION));
+			myfile << stuInfo.stuTime[i, j]->dwRecordMask;
+			myfile << stuInfo.stuTime[i, j]->nBeginHour;
+			myfile << stuInfo.stuTime[i, j]->nBeginMin;
+			myfile << stuInfo.stuTime[i, j]->nBeginSec;
+			myfile << stuInfo.stuTime[i, j]->nEndHour;
+			myfile << stuInfo.stuTime[i, j]->nEndMin;
+			myfile << stuInfo.stuTime[i, j]->nEndSec;
+			myfile << "\n";
+		}
+	}
+
+	myfile.close();
+
+	memcpy(result, &resultStuInfo, sizeof(CFG_ACCESS_TIMESCHEDULE_INFO));
+	return bRet;
+}
+
+BOOL CALL_METHOD WRAP_DevCtrl_OpenDoor(int lLoginID)
+{
+	if (NULL == lLoginID)
+	{
+		return FALSE;
+	}
+	NET_CTRL_ACCESS_OPEN stuInert = {sizeof(stuInert)};
+	stuInert.nChannelID = 0;
+    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_ACCESS_OPEN, &stuInert, SDK_API_WAITTIME);
+	return bResult;
+}
+
+BOOL CALL_METHOD WRAP_DevCtrl_CloseDoor(int lLoginId)
+{
+	if (NULL == lLoginId)
+	{
+		return FALSE;
+	}
+	NET_CTRL_ACCESS_CLOSE stuParam = {sizeof(stuParam)};
+	stuParam.nChannelID = 0;
+    BOOL bResult = CLIENT_ControlDevice(lLoginId, DH_CTRL_ACCESS_CLOSE, &stuParam, SDK_API_WAITTIME);
+	return bResult;
+}
+
+int CALL_METHOD WRAP_DevState_DoorStatus(int lLoginId)
+{
+	if (NULL == lLoginId)
+	{
+		return - 1;
+	}
+	NET_DOOR_STATUS_INFO stuParam = {sizeof(stuParam)};
+	stuParam.nChannel = 0;
+	int nRetLen = 0;
+	BOOL bResult = CLIENT_QueryDevState(lLoginId, DH_DEVSTATE_DOOR_STATE, (char*)&stuParam, sizeof(stuParam), &nRetLen, SDK_API_WAITTIME);
+	if (bResult)
+	{
+		switch (stuParam.emStateType)
+		{
+		case EM_NET_DOOR_STATUS_OPEN:
+			return 1;
+			break;
+		case EM_NET_DOOR_STATUS_CLOSE:
+			return 2;
+			break;
+		default:
+			return 0;
+			break;
+		}
+	}
+	else
+	{
+		return - 1;
+	}
 }

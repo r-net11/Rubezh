@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="ControllerSDK.Views.TimeShedulesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <StackPanel>
+            <Button Content="Get" Command="{Binding GetTimeShedulesCommand}" Width="100" Margin="2" />
+            <Button Content="Set" Command="{Binding SetTimeShedulesCommand}" Width="100" Margin="2" />
+        </StackPanel>
+    </Grid>
+</UserControl>

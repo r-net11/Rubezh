@@ -7,6 +7,7 @@ using System.Windows.Documents;
 using ControllerSDK.API;
 using ControllerSDK.SDK;
 using ControllerSDK.ViewModels;
+using System.IO;
 
 namespace ControllerSDK.Views
 {
@@ -19,6 +20,8 @@ namespace ControllerSDK.Views
 			CardsViewModel = new CardsViewModel();
 			PasswordsViewModel = new PasswordsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
+			TimeShedulesViewModel = new TimeShedulesViewModel();
+			ControlViewModel = new ControlViewModel();
 			OnConnect(this, null);
 		}
 
@@ -26,6 +29,8 @@ namespace ControllerSDK.Views
 		public CardsViewModel CardsViewModel { get; private set; }
 		public PasswordsViewModel PasswordsViewModel { get; private set; }
 		public HolidaysViewModel HolidaysViewModel { get; private set; }
+		public TimeShedulesViewModel TimeShedulesViewModel { get; private set; }
+		public ControlViewModel ControlViewModel { get; private set; }
 
 		string CharArrayToString(char[] charArray)
 		{
@@ -69,6 +74,8 @@ namespace ControllerSDK.Views
 
 		void OnConnect(object sender, RoutedEventArgs e)
 		{
+			File.Copy(@"D:\Projects\Projects\ControllerSDK\SDK_DLL\EntranceGuardDemo\Bin\EntranceGuardDemo.dll", @"D:\Projects\Projects\ControllerSDK\ControllerSDK\bin\Debug\EntranceGuardDemo.dll", true);
+
 			SDKImport.fDisConnectDelegate dCbFunc = new SDKImport.fDisConnectDelegate(OnfDisConnect);
 			var result = SDKImport.CLIENT_Init(dCbFunc, (UInt32)0);
 
@@ -632,19 +639,6 @@ namespace ControllerSDK.Views
 			if (result)
 			{
 				_textBox.Text += "Success " + "\n";
-			}
-			else
-			{
-				_textBox.Text += "Error" + "\n";
-			}
-		}
-
-		void OnOpenDoor(object sender, RoutedEventArgs e)
-		{
-			var result = SDKImport.WRAP_DevCtrl_OpenDoor(LoginID);
-			if (result)
-			{
-				_textBox.Text += "Success" + "\n";
 			}
 			else
 			{

@@ -1,0 +1,27 @@
+Вопросы по китайскому контроллеру
+
+- В контроллер можно записать Card, Password, CardRec, Holiday
+Card - это карта доступа. А что такое CardRec? Название созвучное с Card, но физический смысл не ясен
+
+- Вопрос не к китайцам. При записи карт использеутся номер(как в mifare), но не используется серия(как в HID). Контроллер не работает с картами HID?
+
+- Добавление карты. Нужно развернутое описание и смысл значений перечислений tagNET_ACCESSCTLCARD_STATE, tagNET_ACCESSCTLCARD_TYPE
+
+- Добавление карты. Структура NET_RECORDSET_ACCESS_CTL_CARD
+Что такое nUserTime?
+Массив sznDoors заполняется значениями 1 и 2. Что значат эти значения? А если указать не 1 и 2, а 3 и 4?
+Что такое szUserID?
+
+- Я добавляю карту
+Затем я хочу найти все карты с помощью testRecordSetFindNext_Card
+При этом значения структуры tagNET_RECORDSET_ACCESS_CTL_CARD оказываются
+stuCreateTime все по нулям. Время у stuValidStartTime и stuValidEndTime по нулям
+
+- Почему при запросе всех карт возвращаются только первые десять
+
+- Для чего служат аргументы структуры поиска карты. Изменение из значений не приводит к изменению результатов поиска
+
+- What's the role of dwRecordMask in structure tagCFG_TIME_SECTION?
+
+- I call void DevConfig_AccessTimeSchedule(LLONG lLoginId)
+First bRet is true. But second is always false. Why CLIENT_ParseData return false? I look at the szJsonBuf and stuInfo and it seems valid.

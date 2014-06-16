@@ -15,6 +15,7 @@ namespace ControllerSDK.ViewModels
 		public CardsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
+			GetInfoCommand = new RelayCommand(OnGetInfo);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
 			GetCountCommand = new RelayCommand(OnGetCount);
@@ -77,6 +78,12 @@ namespace ControllerSDK.ViewModels
 			card.CardType = CardType;
 			var newCardNo = SDKWrapper.AddCard(MainWindow.LoginID, card);
 			MessageBox.Show("newCardNo = " + newCardNo);
+		}
+
+		public RelayCommand GetInfoCommand { get; private set; }
+		void OnGetInfo()
+		{
+			var result = SDKWrapper.GetCardInfo(MainWindow.LoginID, 2);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

@@ -15,6 +15,7 @@ namespace ControllerSDK.ViewModels
 		public PasswordsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
+			GetInfoCommand = new RelayCommand(OnGetInfo);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
 			GetCountCommand = new RelayCommand(OnGetCount);
@@ -50,6 +51,12 @@ namespace ControllerSDK.ViewModels
 			password.DoorsCount = DoorsCount;
 			var newPasswordNo = SDKWrapper.AddPassword(MainWindow.LoginID, password);
 			MessageBox.Show("newPasswordNo = " + newPasswordNo);
+		}
+
+		public RelayCommand GetInfoCommand { get; private set; }
+		void OnGetInfo()
+		{
+			var result = SDKWrapper.GetPasswordInfo(MainWindow.LoginID, 0);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

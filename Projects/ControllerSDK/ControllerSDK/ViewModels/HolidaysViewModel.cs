@@ -15,6 +15,7 @@ namespace ControllerSDK.ViewModels
 		public HolidaysViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
+			GetInfoCommand = new RelayCommand(OnGetInfo);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
 			GetCountCommand = new RelayCommand(OnGetCount);
@@ -47,6 +48,12 @@ namespace ControllerSDK.ViewModels
 			holiday.DoorsCount = DoorsCount;
 			var newHolidayNo = SDKWrapper.AddHoliday(MainWindow.LoginID, holiday);
 			MessageBox.Show("newHolidayNo = " + newHolidayNo);
+		}
+
+		public RelayCommand GetInfoCommand { get; private set; }
+		void OnGetInfo()
+		{
+			var result = SDKWrapper.GetHolidayInfo(MainWindow.LoginID, 0);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

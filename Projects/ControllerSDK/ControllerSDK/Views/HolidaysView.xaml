@@ -10,6 +10,7 @@
         <StackPanel Grid.Row="0">
             <StackPanel Orientation="Horizontal">
                 <Button Content="Add" Command="{Binding AddCommand}" Width="100" Margin="2" />
+                <Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
                 <Button Content="Remove" Command="{Binding RemoveCommand}" Width="100" Margin="2" />
                 <Button Content="RemoveAll" Command="{Binding RemoveAllCommand}" Width="100" Margin="2" />
                 <Button Content="GetCount" Command="{Binding GetCountCommand}" Width="100" Margin="2" />

@@ -19,6 +19,12 @@
             <TabItem Header="Праздники" DataContext="{Binding HolidaysViewModel}">
                 <Views:HolidaysView />
             </TabItem>
+            <TabItem Header="Графики работ" DataContext="{Binding TimeShedulesViewModel}">
+                <Views:TimeShedulesView />
+            </TabItem>
+            <TabItem Header="Управление" DataContext="{Binding ControlViewModel}">
+                <Views:ControlView />
+            </TabItem>
             <TabItem Header="All">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -51,7 +57,7 @@
                         <Button Content="UpdatePassword" Click="OnUpdatePassword" Width="300" Margin="2" />
                         <Button Content="UpdateCardRecord" Click="OnUpdateCardRecord" Width="300" Margin="2" />
                         <Button Content="UpdateHoliday" Click="OnUpdateHoliday" Width="300" Margin="2" />
-                        <Button Content="OpenDoor" Click="OnOpenDoor" Width="300" Margin="2" />
+
                         <Button Content="ReBoot" Click="OnReBoot" Width="300" Margin="2" />
                         <Button Content="DeleteCfgFile" Click="OnDeleteCfgFile" Width="300" Margin="2" />
                         <Button Content="GetLogsCount" Click="OnGetLogsCount" Width="300" Margin="2" />
