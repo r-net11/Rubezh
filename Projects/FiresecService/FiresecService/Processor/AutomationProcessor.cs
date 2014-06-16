@@ -25,7 +25,7 @@ namespace FiresecService
 		static int TimeDelta
 		{
 			get { return  (int)((DateTime.Now - startTime).TotalSeconds) % 100000; }
-		}
+		}   
 
 		static void OnRun()
 		{

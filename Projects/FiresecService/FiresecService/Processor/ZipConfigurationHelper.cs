@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
@@ -36,6 +37,10 @@ namespace FiresecService.Processor
 				if (systemConfiguration != null)
 				{
 					systemConfiguration.AfterLoad();
+				}
+				if (systemConfiguration.AutomationSchedules == null)
+				{
+					systemConfiguration.AutomationSchedules = new List<FiresecAPI.Automation.AutomationSchedule>();
 				}
 				zipFile.Dispose();
 				return systemConfiguration;

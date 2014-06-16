@@ -61,6 +61,8 @@ namespace SKDModule.ViewModels
 		void InitializeDevices()
 		{
 			Devices = new ObservableCollection<DeviceViewModel>();
+			if (SelectedZone == null)
+				return;
 			foreach (var device in SKDManager.Devices)
 			{
 				if (device.Driver.HasZone)

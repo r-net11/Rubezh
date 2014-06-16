@@ -9,6 +9,7 @@ namespace FiresecAPI.SKD
 		public SKDConfiguration()
 		{
 			Doors = new List<Door>();
+			Zones = new List<SKDZone>();
 			TimeIntervalsConfiguration = new TimeIntervalsConfiguration();
 			SKDSystemConfiguration = new SKDSystemConfiguration();
 		}
