@@ -28,7 +28,6 @@ namespace FiresecAPI.SKD
 				DriverType = SKDDriverType.Controller,
 				CanEditAddress = true,
 				IsControlDevice = true,
-				HasZone = true,
 				IsPlaceable = true
 			};
 			controllerDriver.Children.Add(SKDDriverType.Reader);
@@ -76,7 +75,6 @@ namespace FiresecAPI.SKD
 				DriverType = SKDDriverType.Reader,
 				CanEditAddress = false,
 				HasZone = true,
-				HasOuterZone = true,
 				IsPlaceable = true
 			};
 			readerDriver.AvailableStateClasses.Add(XStateClass.Norm);
@@ -92,7 +90,6 @@ namespace FiresecAPI.SKD
 				DriverType = SKDDriverType.Gate,
 				CanEditAddress = false,
 				HasZone = true,
-				HasOuterZone = true,
 				IsPlaceable = true
 			};
 			gateDriver.AvailableStateClasses.Add(XStateClass.Norm);

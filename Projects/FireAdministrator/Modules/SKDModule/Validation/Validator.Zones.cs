@@ -20,15 +20,12 @@ namespace SKDModule.Validation
 
 		void ValidateZonesEquality()
 		{
+			var zoneNames = new HashSet<string>();
 			foreach (var zone in SKDManager.Zones)
 			{
-				var zoneNames = new HashSet<string>();
-				foreach (var childZone in zone.Children)
+				if (!zoneNames.Add(zone.Name))
 				{
-					if (!zoneNames.Add(childZone.Name))
-					{
-						Errors.Add(new ZoneValidationError(childZone, "Дублируется название зоны", ValidationErrorLevel.CannotWrite));
-					}
+					Errors.Add(new ZoneValidationError(zone, "Дублируется название зоны", ValidationErrorLevel.CannotWrite));
 				}
 			}
 		}

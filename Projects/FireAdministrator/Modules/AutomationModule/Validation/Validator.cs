@@ -13,7 +13,7 @@ namespace AutomationModule.Validation
 			XManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
 			ValidateGlobalVariableName();
-			ValidateMaskName();
+			ValidateFilterName();
 			ValidateProcedureName();
 			ValidateScheduleName();
 			ValidateSoundName();

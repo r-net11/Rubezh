@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
@@ -28,6 +29,11 @@ namespace AutomationModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (string.IsNullOrEmpty(Name))
+			{
+				MessageBoxService.ShowWarning("Название не может быть пустым");
+				return false;
+			}
 			Sound.Name = Name;
 			return base.Save();
 		}

@@ -41,7 +41,6 @@ namespace AutomationModule.ViewModels
 				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
-
 			Procedure.Name = Name;
 			return true;
 		}

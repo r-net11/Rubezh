@@ -4,12 +4,12 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ZoneViewModel : TreeNodeViewModel<ZoneViewModel>
+	public class ZoneViewModel : BaseViewModel
 	{
 		public SKDZone Zone { get; private set; }
 		public SKDZoneState State

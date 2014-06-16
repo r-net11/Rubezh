@@ -10,6 +10,7 @@
 		<Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
 		<Converters:ClauseOperationConverter x:Key="ClauseOperationConverter" />
 		<Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
+        <Converters:ClauseJoinOperatorToColorConverter x:Key="ClauseJoinOperatorToColorConverter" />
 	</UserControl.Resources>
 
 	<Grid>
@@ -17,35 +18,36 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<Border Grid.Column="0" CornerRadius="2" Background="DarkGray" Margin="2">
+		<Border Grid.Column="0" CornerRadius="2" Background="DarkGray" Margin="2" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Button Grid.Row="0"
-					Command="{Binding ChangeJoinOperatorCommand}"
-					Width="100" Foreground="White" Background="DarkGray" Style="{StaticResource ToolBarButtonStyle}">
-					<TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" />				
+					Width="100" Foreground="White" Style="{StaticResource ToolBarButtonStyle}"
+                    Command="{Binding ChangeJoinOperatorCommand}"
+                    Background="{Binding JoinOperator, Converter={StaticResource ClauseJoinOperatorToColorConverter}}">
+					    <TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" FontWeight="Bold" />
 				</Button>
 				<StackPanel Grid.Row="1" Orientation="Horizontal">
 					<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить условие" Height="32" Width="32" />
 					<ToolBarButton Command="{Binding AddGroupCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить группу условий" Height="32" Width="32" />
 					<ToolBarButton Command="{Binding RemoveGroupCommand2}" ImageSource="/Controls;component/Images/DeleteCross.png" ToolTip="Удалить группу условий" Height="32" Width="32" />
 				</StackPanel>
-			</Grid>
-		</Border>
-		<StackPanel Grid.Column="1">
+            </Grid>
+        </Border>
+        <StackPanel Grid.Column="1" x:Name="stackPanel">
 			<ItemsControl ItemsSource="{Binding Clauses}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Controls:ToolBarButton Margin="2" ToolTip="Удалить условие"
+							<Controls:ToolBarButton ToolTip="Удалить условие"
 								Command="{Binding
 								RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
 								Path=DataContext.RemoveCommand}"
 								CommandParameter="{Binding}"
-								ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Background="DarkGray" />
+								ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Margin="2" Background="DarkGray" />
 
 							<ComboBox ItemsSource="{Binding ClauseConditionTypes}" SelectedItem="{Binding SelectedClauseConditionType}" Width="30" Margin="2">
 								<ComboBox.ItemTemplate>
@@ -65,7 +67,7 @@
 							</ComboBox>
 
 							<ComboBox Width="150" Height="30" VerticalAlignment="Center" Margin="2"
-											ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
+									ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
 										<Controls:IconLabel ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"

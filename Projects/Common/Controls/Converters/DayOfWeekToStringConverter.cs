@@ -1,0 +1,27 @@
+﻿using System;
+using System.Windows.Data;
+using FiresecAPI;
+using FiresecAPI.Automation;
+
+namespace Controls.Converters
+{
+	public class DayOfWeekToStringConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			try
+			{
+				return ((DayOfWeekType)value).ToDescription();
+			}
+			catch (Exception)
+			{
+				return "";
+			}
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			return (DayOfWeekType)value;
+		}
+	}
+}

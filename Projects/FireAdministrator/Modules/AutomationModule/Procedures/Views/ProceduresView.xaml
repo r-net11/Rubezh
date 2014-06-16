@@ -56,27 +56,24 @@
                 </DataGrid>
             </Grid>
         </Grid>
-		<Grid Grid.Column="1" DataContext="{Binding SelectedProcedure}" Margin="0, -50, 0, 0">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="50"/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-			<StackPanel Grid.Row="0" Orientation="Horizontal">
-				<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить шаг" ImageSource="/Controls;component/Images/Add.png" />
-				<Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="/Controls;component/Images/Delete.png" />
-			</StackPanel>
-            <Views:StepsView Grid.Row="1" DataContext="{Binding StepsViewModel}" Margin="2" />
-			<!--<DataGrid Grid.Row="1" ItemsSource="{Binding ProcedureSteps}" SelectedItem="{Binding SelectedProcedureStep}">
-				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Шаг" Width="*">
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding ProcedureStepType, Converter={StaticResource ProcedureStepTypeToStringConverter}}" />
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-				</DataGrid.Columns>
-			</DataGrid>-->
-		</Grid>
+
+        <Grid Grid.Column="1" DataContext="{Binding SelectedProcedure}" Margin="4, -50, 0, 0">
+            <Grid>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="300 4 0 0">
+                    <Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="150" Margin="2" />
+                    <Button Content="Переменные" Command="{Binding ShowVariablesCommand}" Width="150" Margin="2" />
+                    <Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="150" Margin="2" />
+                </StackPanel>
+                <Grid Visibility="{Binding IsStepsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Views:StepsView DataContext="{Binding StepsViewModel}" />
+                </Grid>
+                <Grid Visibility="{Binding IsVariablesVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Views:VariablesView DataContext="{Binding VariablesViewModel}" />
+                </Grid>
+                <Grid Visibility="{Binding IsConditionsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Views:ConditionsView DataContext="{Binding ConditionsViewModel}" />
+                </Grid>
+            </Grid>
+        </Grid>
 	</Grid>
 </UserControl>

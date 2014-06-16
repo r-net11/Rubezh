@@ -56,13 +56,19 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ShowAutomationSchedulesEvents.cs" />
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
-    <Compile Include="Events\ShowMasksEvent.cs" />
+    <Compile Include="Events\ShowFiltersEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
+    <Compile Include="Filters\ViewModels\DateTimePairViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FilterNamesViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FilterNameViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariableDetailsViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
@@ -76,24 +82,27 @@
     <Compile Include="GlobalVariables\Views\GlobalVariablesView.xaml.cs">
       <DependentUpon>GlobalVariablesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Masks\ViewModels\MaskDetailsViewModel.cs" />
-    <Compile Include="Masks\ViewModels\MasksMenuViewModel.cs" />
-    <Compile Include="Masks\ViewModels\MasksViewModel.cs" />
-    <Compile Include="Masks\ViewModels\MaskViewModel.cs" />
-    <Compile Include="Masks\Views\MaskDetailsView.xaml.cs">
-      <DependentUpon>MaskDetailsView.xaml</DependentUpon>
+    <Compile Include="Filters\ViewModels\FilterDetailsViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FiltersViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FilterViewModel.cs" />
+    <Compile Include="Filters\Views\FilterDetailsView.xaml.cs">
+      <DependentUpon>FilterDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Masks\Views\MasksMenuView.xaml.cs">
-      <DependentUpon>MasksMenuView.xaml</DependentUpon>
+    <Compile Include="Filters\Views\FiltersMenuView.xaml.cs">
+      <DependentUpon>FiltersMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Masks\Views\MasksView.xaml.cs">
-      <DependentUpon>MasksView.xaml</DependentUpon>
+    <Compile Include="Filters\Views\FiltersView.xaml.cs">
+      <DependentUpon>FiltersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Converters\ObjectTypeToStringConverter.cs" />
     <Compile Include="Procedures\ViewModels\CameraSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\CameraViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DeviceSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureInputObjectViewModel.cs" />
@@ -104,11 +113,18 @@
     <Compile Include="Procedures\ViewModels\StepTypeSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\VariablesViewModel.cs" />
+    <Compile Include="Procedures\Views\ConditionsView.xaml.cs">
+      <DependentUpon>ConditionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\ProcedureDetailsView.xaml.cs">
       <DependentUpon>ProcedureDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\ProcedureObjectsSelectationView.xaml.cs">
       <DependentUpon>ProcedureObjectsSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\JournalStepView.xaml.cs">
+      <DependentUpon>JournalStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\SoundStepView.xaml.cs">
       <DependentUpon>SoundStepView.xaml</DependentUpon>
@@ -119,12 +135,22 @@
     <Compile Include="Procedures\Views\StepsView.xaml.cs">
       <DependentUpon>StepsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Procedures\Views\VariablesView.xaml.cs">
+      <DependentUpon>VariablesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomationModule.cs" />
+    <Compile Include="Schedules\ViewModels\ProcedureSelectionViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleDetailsViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulesMenuViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulesViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="Schedules\Views\ProcedureSelectionView.xaml.cs">
+      <DependentUpon>ProcedureSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Schedules\Views\ProceduresView.xaml.cs">
+      <DependentUpon>ProceduresView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Schedules\Views\SchedulesMenuView.xaml.cs">
       <DependentUpon>SchedulesMenuView.xaml</DependentUpon>
     </Compile>
@@ -157,13 +183,13 @@
       <DependentUpon>SoundDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\GlobalVariableValidationError.cs" />
-    <Compile Include="Validation\MaskValidationError.cs" />
+    <Compile Include="Validation\FilterValidationError.cs" />
     <Compile Include="Validation\ProcedureValidationError.cs" />
     <Compile Include="Validation\ScheduleValidationError.cs" />
     <Compile Include="Validation\SoundValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.GlobalVariable.cs" />
-    <Compile Include="Validation\Validator.Mask.cs" />
+    <Compile Include="Validation\Validator.Filter.cs" />
     <Compile Include="Validation\Validator.Procedure.cs" />
     <Compile Include="Validation\Validator.Schedule.cs" />
     <Compile Include="Validation\Validator.Sound.cs" />
@@ -184,6 +210,10 @@
     <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\GKProcessor\GKProcessor.csproj">
+      <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
+      <Name>GKProcessor</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
       <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>
@@ -227,19 +257,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Masks\DataTemplates\Dictionary.xaml">
+    <Page Include="Filters\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Masks\Views\MaskDetailsView.xaml">
+    <Page Include="Filters\Views\FilterDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Masks\Views\MasksMenuView.xaml">
+    <Page Include="Filters\Views\FiltersMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Masks\Views\MasksView.xaml">
+    <Page Include="Filters\Views\FiltersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ConditionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -248,6 +282,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\ProcedureObjectsSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\JournalStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -263,7 +301,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Procedures\Views\VariablesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Schedules\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Schedules\Views\ProcedureSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Schedules\Views\ProceduresView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,66 @@
+﻿<Window x:Class="ControllerSDK.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Views="clr-namespace:ControllerSDK.Views"
+        Title="SDK Test" Height="800" Width="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0">
+            <TabItem Header="Карты" DataContext="{Binding CardsViewModel}">
+                <Views:CardsView />
+            </TabItem>
+            <TabItem Header="Пароли" DataContext="{Binding PasswordsViewModel}">
+                <Views:PasswordsView />
+            </TabItem>
+            <TabItem Header="Праздники" DataContext="{Binding HolidaysViewModel}">
+                <Views:HolidaysView />
+            </TabItem>
+            <TabItem Header="All">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <Button Content="Connect" Click="OnConnect" Width="300" Margin="2" />
+                        <Button Content="Disconnect" Click="OnDisconnect" Width="300" Margin="2" />
+                        <Button Content="GetTypeAndSoft" Click="OnGetTypeAndSoft" Width="300" Margin="2" />
+                        <Button Content="GetIpMask" Click="OnGetIpMask" Width="300" Margin="2" />
+                        <Button Content="SetIpMask" Click="OnSetIpMask" Width="300" Margin="2" />
+                        <Button Content="GetMac" Click="OnGetMac" Width="300" Margin="2" />
+                        <Button Content="GetMaxPageSize" Click="OnGetMaxPageSize" Width="300" Margin="2" />
+                        <Button Content="GetCurrentTime" Click="OnGetCurrentTime" Width="300" Margin="2" />
+                        <Button Content="SetCurrentTime" Click="OnSetCurrentTime" Width="300" Margin="2" />
+                        <Button Content="QueryLogList" Click="OnQueryLogList" Width="300" Margin="2" />
+                        <Button Content="GetAccessGeneral" Click="OnGetAccessGeneral" Width="300" Margin="2" />
+                        <Button Content="GetDevConfig_AccessControl" Click="OnGetDevConfig_AccessControl" Width="300" Margin="2" />
+                        <Button Content="SetDevConfig_AccessControl" Click="OnSetDevConfig_AccessControl" Width="300" Margin="2" />
+                        <Button Content="GetTimeSchedule" Click="OnGetTimeSchedule" Width="300" Margin="2" />
+                        <Button Content="SetTimeSchedule" Click="OnSetTimeSchedule" Width="300" Margin="2" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <Button Content="InsertCard" Click="OnInsertCard" Width="300" Margin="2" />
+                        <Button Content="InsertPassword" Click="OnInsertPassword" Width="300" Margin="2" />
+                        <Button Content="InsertCardRecord" Click="OnInsertCardRecord" Width="300" Margin="2" />
+                        <Button Content="InsertHoliday" Click="OnInsertHoliday" Width="300" Margin="2" />
+                        <Button Content="UpdateCard" Click="OnUpdateCard" Width="300" Margin="2" />
+                        <Button Content="UpdatePassword" Click="OnUpdatePassword" Width="300" Margin="2" />
+                        <Button Content="UpdateCardRecord" Click="OnUpdateCardRecord" Width="300" Margin="2" />
+                        <Button Content="UpdateHoliday" Click="OnUpdateHoliday" Width="300" Margin="2" />
+                        <Button Content="OpenDoor" Click="OnOpenDoor" Width="300" Margin="2" />
+                        <Button Content="ReBoot" Click="OnReBoot" Width="300" Margin="2" />
+                        <Button Content="DeleteCfgFile" Click="OnDeleteCfgFile" Width="300" Margin="2" />
+                        <Button Content="GetLogsCount" Click="OnGetLogsCount" Width="300" Margin="2" />
+                        <Button Content="RemoveRecordSet" Click="OnRemoveRecordSet" Width="300" Margin="2" />
+                        <Button Content="ClearRecordSet" Click="OnClearRecordSet" Width="300" Margin="2" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <TextBox Grid.Row="1" Name="_textBox" TextWrapping="Wrap" />
+    </Grid>
+</Window>

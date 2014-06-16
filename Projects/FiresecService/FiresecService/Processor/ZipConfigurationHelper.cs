@@ -25,6 +25,24 @@ namespace FiresecService.Processor
 			return securityConfiguration;
 		}
 
+		public static SystemConfiguration GetSystemConfiguration()
+		{
+			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
+			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+
+			if (zipFile != null)
+			{
+				var systemConfiguration = (SystemConfiguration)GetConfigurationFomZip(zipFile, "SystemConfiguration.xml", typeof(SystemConfiguration));
+				if (systemConfiguration != null)
+				{
+					systemConfiguration.AfterLoad();
+				}
+				zipFile.Dispose();
+				return systemConfiguration;
+			}
+			return new SystemConfiguration();
+		}
+
 		public static XDeviceConfiguration GetDeviceConfiguration()
 		{
 			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");

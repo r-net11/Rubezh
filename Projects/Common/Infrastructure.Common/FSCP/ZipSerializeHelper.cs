@@ -53,15 +53,23 @@ namespace Infrastructure.Common
 		public static T DeSerialize<T>(string fileName)
 			 where T : VersionedConfiguration, new()
 		{
-			using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+			try
 			{
-				T configuration = null;
-				var dataContractSerializer = new DataContractSerializer(typeof(T));
-				configuration = (T)dataContractSerializer.ReadObject(fileStream);
-				fileStream.Close();
-				configuration.ValidateVersion();
-				configuration.AfterLoad();
-				return configuration;
+				using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+				{
+					T configuration = null;
+					var dataContractSerializer = new DataContractSerializer(typeof(T));
+					configuration = (T)dataContractSerializer.ReadObject(fileStream);
+					fileStream.Close();
+					configuration.ValidateVersion();
+					configuration.AfterLoad();
+					return configuration;
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error("ZipSerializeHelper.DeSerialize " + fileName + " " + e.Message);
+				return new T();
 			}
 		}
 	}

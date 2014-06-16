@@ -117,6 +117,8 @@
     </Compile>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="PatchManager.cs" />
+    <Compile Include="Processor\AutomationProcessor.cs" />
+    <Compile Include="Processor\AutomationProcessorRunner.cs" />
     <Compile Include="Processor\ConfigurationCash.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
@@ -134,6 +136,7 @@
     <Compile Include="Service\FiresecService.Journal.cs" />
     <Compile Include="Service\PollAsyncResult.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.cs" />
+    <Compile Include="Service\FiresecService.Automation.cs" />
     <Compile Include="SKDPatchManager.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />

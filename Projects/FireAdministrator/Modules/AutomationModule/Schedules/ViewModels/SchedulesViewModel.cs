@@ -80,6 +80,7 @@ namespace AutomationModule.ViewModels
 		{
 			FiresecClient.FiresecManager.SystemConfiguration.AutomationSchedules.Remove(SelectedSchedule.Schedule);
 			Schedules.Remove(SelectedSchedule);
+			SelectedSchedule = Schedules.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 

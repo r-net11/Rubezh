@@ -32,6 +32,7 @@ namespace AutomationModule.ViewModels
 				var procedureViewModel = new ProcedureViewModel(procedure);
 				Procedures.Add(procedureViewModel);
 			}
+			SelectedProcedure = Procedures.FirstOrDefault();
 		}
 
 		ObservableCollection<ProcedureViewModel> _procedures;
@@ -75,7 +76,6 @@ namespace AutomationModule.ViewModels
 			var procedureDetailsViewModel = new ProcedureDetailsViewModel(SelectedProcedure.Procedure);
 			if (DialogService.ShowModalWindow(procedureDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureDetailsViewModel.Procedure);
 				SelectedProcedure.Update(procedureDetailsViewModel.Procedure);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}

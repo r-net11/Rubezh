@@ -8,6 +8,8 @@ namespace AutomationModule.ViewModels
 	{
 		public StepTypeSelectationViewModel()
 		{
+			Title = "Выбор типа функции";
+
 			BuildStepTypeTree();
 			FillAllStepTypes();
 

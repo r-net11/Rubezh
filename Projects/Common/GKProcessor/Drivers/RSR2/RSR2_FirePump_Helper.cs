@@ -12,7 +12,7 @@ namespace GKProcessor
 				DriverTypeNo = 0x03,
 				DriverType = XDriverType.RSR2_Bush_Fire,
 				UID = new Guid("6C9192C9-2841-46b6-B653-7834EFA41041"),
-				Name = "Блок управления ПН",
+				Name = "Прибор пожарный управлления Пожарным Насосом",
 				ShortName = "ППУ ПН RSR2",
 				IsControlDevice = true,
 				HasLogic = true,

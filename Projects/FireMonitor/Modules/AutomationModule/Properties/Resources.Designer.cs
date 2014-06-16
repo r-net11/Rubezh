@@ -8,11 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AutomationModule.Properties {
-    using System;
-    
-    
-    /// <summary>
+namespace AutomationModule.Properties
+{
+
+
+	/// <summary>
     ///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
     /// </summary>
     // Этот класс создан автоматически классом StronglyTypedResourceBuilder

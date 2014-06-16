@@ -52,7 +52,6 @@ namespace GKModule.ViewModels
 			InitializeParamsCommands();
 			Device.Changed += OnChanged;
 			Device.AUParametersChanged += UpdateDeviceParameterMissmatch;
-			Device.Changed += UpdateDeviceParameterMissmatch;
 		}
 
 		void OnChanged()
@@ -210,6 +209,10 @@ namespace GKModule.ViewModels
 				XManager.RemoveDevice(device);
 			}
 			allDevices.ForEach(device => device.OnChanged());
+			if (Parent != null)
+			{
+				Parent.Device.OnAUParametersChanged();
+			}
 
 			var parent = Parent;
 			if (parent != null)
@@ -217,13 +220,11 @@ namespace GKModule.ViewModels
 				var index = DevicesViewModel.Current.SelectedDevice.VisualIndex;
 				parent.Nodes.Remove(this);
 				parent.Update();
-
 				index = Math.Min(index, parent.ChildrenCount - 1);
-				foreach (var device in allDevices)
+				foreach (var childDeviceViewModel in GetAllChildren(true))
 				{
-					DevicesViewModel.Current.AllDevices.RemoveAll(x => x.Device.BaseUID == device.BaseUID);
+					DevicesViewModel.Current.AllDevices.Remove(childDeviceViewModel);
 				}
-				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 			Plans.Designer.Helper.BuildMap();

@@ -9,6 +9,7 @@ namespace AutomationModule.ViewModels
 	public class SoundStepViewModel : BaseViewModel
 	{
 		public ObservableCollection<SoundViewModel> Sounds;
+
 		public SoundStepViewModel(ProcedureStep procedureStep)
 		{
 			Initialize();
@@ -36,7 +37,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedSound = value;
-				OnPropertyChanged(()=>SelectedSound);
+				OnPropertyChanged(() => SelectedSound);
 			}
 		}
 	}

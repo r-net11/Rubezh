@@ -43,7 +43,6 @@ namespace FiresecAPI.SKD
 		public byte MaxAddress { get; set; }
 
 		public bool HasZone { get; set; }
-		public bool HasOuterZone { get; set; }
 		public bool IsControlDevice { get; set; }
 		public bool IsPlaceable { get; set; }
 

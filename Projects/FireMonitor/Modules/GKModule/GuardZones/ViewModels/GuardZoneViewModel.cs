@@ -1,6 +1,5 @@
 ﻿using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;

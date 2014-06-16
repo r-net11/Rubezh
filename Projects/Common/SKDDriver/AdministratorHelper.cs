@@ -84,7 +84,7 @@ namespace SKDDriver
 					{
 						foreach (var cardZone in card.CardDoors)
 						{
-							if (readerDevice.OuterZoneUID == cardZone.DoorUID)
+							if (readerDevice.ZoneUID == cardZone.DoorUID)
 							{
 								bytes.Add((byte)card.Series);
 								bytes.Add((byte)card.Number);

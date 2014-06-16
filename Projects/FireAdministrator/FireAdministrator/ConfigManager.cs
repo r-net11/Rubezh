@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Common;
 using FiresecAPI;
+using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -185,6 +186,7 @@ namespace FireAdministrator
 					FiresecManager.PlansConfiguration = new PlansConfiguration();
 					FiresecManager.SystemConfiguration.Instructions = new List<Instruction>();
 					FiresecManager.SystemConfiguration.Cameras = new List<Camera>();
+					FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 					FiresecManager.PlansConfiguration.Update();
 					SKDManager.SetEmptyConfiguration();
 					FiresecManager.LayoutsConfiguration = new LayoutsConfiguration();

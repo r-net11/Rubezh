@@ -14,13 +14,12 @@ namespace FiresecAPI.SKD
 		}
 
 		public List<SKDDevice> Devices { get; set; }
-		public List<SKDZone> Zones { get; set; }
 
 		[DataMember]
 		public SKDDevice RootDevice { get; set; }
 
 		[DataMember]
-		public SKDZone RootZone { get; set; }
+		public List<SKDZone> Zones { get; set; }
 
 		[DataMember]
 		public List<Door> Doors { get; set; }
@@ -40,14 +39,6 @@ namespace FiresecAPI.SKD
 				Devices.Add(RootDevice);
 				AddChildDevice(RootDevice);
 			}
-
-			Zones = new List<SKDZone>();
-			if (RootZone != null)
-			{
-				RootZone.Parent = null;
-				Zones.Add(RootZone);
-				AddChildZone(RootZone);
-			}
 		}
 
 		void AddChildDevice(SKDDevice parentDevice)
@@ -57,16 +48,6 @@ namespace FiresecAPI.SKD
 				device.Parent = parentDevice;
 				Devices.Add(device);
 				AddChildDevice(device);
-			}
-		}
-
-		void AddChildZone(SKDZone parentZone)
-		{
-			foreach (var zone in parentZone.Children)
-			{
-				zone.Parent = parentZone;
-				Zones.Add(zone);
-				AddChildZone(zone);
 			}
 		}
 
@@ -119,6 +100,12 @@ namespace FiresecAPI.SKD
 			if (Doors == null)
 			{
 				Doors = new List<Door>();
+				result = false;
+			}
+
+			if (Zones == null)
+			{
+				Zones = new List<SKDZone>();
 				result = false;
 			}
 

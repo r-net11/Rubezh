@@ -17,7 +17,7 @@ namespace SKDDriver
 				{
 					foreach (var device in SKDManager.Devices)
 					{
-						if (device.OuterZoneUID == cardZone.DoorUID)
+						if (device.ZoneUID == cardZone.DoorUID)
 						{
 							WriteCardToReader(device, card, cardZone);
 						}
