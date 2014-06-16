@@ -4,11 +4,11 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class GlobalVariable
+	public class Variable
 	{
-		public GlobalVariable()
+		public Variable()
 		{
-			Name = "Глобальная переменная";
+			Name = "Локальная переменная";
 			Uid = Guid.NewGuid();
 		}
 
@@ -23,5 +23,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Guid Uid { get; set; }
+
+		[DataMember]
+		public VariableType VariableType { get; set; }
 	}
 }

@@ -24,9 +24,9 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			Filters = new ObservableCollection<FilterViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.Filters == null)
-				FiresecClient.FiresecManager.SystemConfiguration.Filters = new List<AutomationFilter>();
-			foreach (var filter in FiresecClient.FiresecManager.SystemConfiguration.Filters)
+			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters == null)
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters = new List<AutomationFilter>();
+			foreach (var filter in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters)
 			{
 				var filterViewModel = new FilterViewModel(filter);
 				Filters.Add(filterViewModel);
@@ -62,7 +62,7 @@ namespace AutomationModule.ViewModels
 			var filterDetailsViewModel = new FilterDetailsViewModel();
 			if (DialogService.ShowModalWindow(filterDetailsViewModel))
 			{
-				FiresecClient.FiresecManager.SystemConfiguration.Filters.Add(filterDetailsViewModel.Filter);
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters.Add(filterDetailsViewModel.Filter);
 				ServiceFactory.SaveService.AutomationChanged = true;
 				var filterViewModel = new FilterViewModel(filterDetailsViewModel.Filter);
 				Filters.Add(filterViewModel);
@@ -78,8 +78,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			FiresecClient.FiresecManager.SystemConfiguration.Filters.Remove(SelectedFilter.Filter);
+			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters.Remove(SelectedFilter.Filter);
 			Filters.Remove(SelectedFilter);
+			SelectedFilter = Filters.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 

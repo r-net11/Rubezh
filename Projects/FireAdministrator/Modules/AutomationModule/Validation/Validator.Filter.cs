@@ -9,7 +9,7 @@ namespace AutomationModule.Validation
 		private void ValidateFilterName()
 		{
 			var nameList = new List<string>();
-			foreach (var filter in FiresecManager.SystemConfiguration.Filters)
+			foreach (var filter in FiresecManager.SystemConfiguration.AutomationConfiguration.Filters)
 			{
 				if (nameList.Contains(filter.Name))
 					Errors.Add(new FilterValidationError(filter, "Фильтр с таким именем уже существует " + filter.Name, ValidationErrorLevel.CannotSave));

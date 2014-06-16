@@ -31,9 +31,9 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			Sounds = new ObservableCollection<SoundViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationSounds == null)
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationSounds = new List<AutomationSound>();
-			foreach (var sound in FiresecClient.FiresecManager.SystemConfiguration.AutomationSounds)
+			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds == null)
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds = new List<AutomationSound>();
+			foreach (var sound in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
 			{
 				var soundViewModel = new SoundViewModel(sound);
 				Sounds.Add(soundViewModel);
@@ -106,7 +106,7 @@ namespace AutomationModule.ViewModels
 					sound.Name = Path.GetFileNameWithoutExtension(openFileDialog.SafeFileName);
 					sound.Uid = ServiceFactoryBase.ContentService.AddContent(openFileDialog.FileName);
 				}
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationSounds.Add(sound);
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Add(sound);
 				ServiceFactory.SaveService.AutomationChanged = true;
 				var soundViewModel = new SoundViewModel(sound);
 				Sounds.Add(soundViewModel);
@@ -122,8 +122,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			FiresecClient.FiresecManager.SystemConfiguration.AutomationSounds.Remove(SelectedSound.Sound);
+			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Remove(SelectedSound.Sound);
 			Sounds.Remove(SelectedSound);
+			SelectedSound = Sounds.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 

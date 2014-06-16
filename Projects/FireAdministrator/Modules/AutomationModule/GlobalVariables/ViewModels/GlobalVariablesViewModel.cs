@@ -24,9 +24,9 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.GlobalVariables == null)
-				FiresecClient.FiresecManager.SystemConfiguration.GlobalVariables = new List<GlobalVariable>();
-			foreach (var GlobalVariable in FiresecClient.FiresecManager.SystemConfiguration.GlobalVariables)
+			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables == null)
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables = new List<GlobalVariable>();
+			foreach (var GlobalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
 				var globalVariableViewModel = new GlobalVariableViewModel(GlobalVariable);
 				GlobalVariables.Add(globalVariableViewModel);
@@ -62,7 +62,7 @@ namespace AutomationModule.ViewModels
 			var globalVariableDetailsViewModel = new GlobalVariableDetailsViewModel();
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
-				FiresecClient.FiresecManager.SystemConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.GlobalVariable);
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.GlobalVariable);
 				ServiceFactory.SaveService.AutomationChanged = true;
 				var globalVariableViewModel = new GlobalVariableViewModel(globalVariableDetailsViewModel.GlobalVariable);
 				GlobalVariables.Add(globalVariableViewModel);
@@ -78,8 +78,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			FiresecClient.FiresecManager.SystemConfiguration.GlobalVariables.Remove(SelectedGlobalVariable.GlobalVariable);
+			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Remove(SelectedGlobalVariable.GlobalVariable);
 			GlobalVariables.Remove(SelectedGlobalVariable);
+			SelectedGlobalVariable = GlobalVariables.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 

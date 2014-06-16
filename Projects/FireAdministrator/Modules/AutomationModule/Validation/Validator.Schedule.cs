@@ -10,7 +10,7 @@ namespace AutomationModule.Validation
 		private void ValidateScheduleName()
 		{
 			var nameList = new List<string>();
-			foreach (var schedule in FiresecManager.SystemConfiguration.AutomationSchedules)
+			foreach (var schedule in FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules)
 			{
 				if (nameList.Contains(schedule.Name))
 					Errors.Add(new ScheduleValidationError(schedule, "Расписание с таким именем уже существует " + schedule.Name, ValidationErrorLevel.CannotSave));

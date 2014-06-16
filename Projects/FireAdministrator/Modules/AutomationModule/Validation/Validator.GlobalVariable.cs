@@ -9,7 +9,7 @@ namespace AutomationModule.Validation
 		private void ValidateGlobalVariableName()
 		{
 			var nameList = new List<string>();
-			foreach (var globalVariable in FiresecManager.SystemConfiguration.GlobalVariables)
+			foreach (var globalVariable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
 				if (nameList.Contains(globalVariable.Name))
 					Errors.Add(new GlobalVariableValidationError(globalVariable, "Глобальная переменная с таким именем уже существует " + globalVariable.Name, ValidationErrorLevel.CannotSave));

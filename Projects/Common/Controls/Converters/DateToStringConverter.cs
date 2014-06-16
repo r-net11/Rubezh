@@ -7,16 +7,11 @@ namespace Controls.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			try
-			{
-				if ((int)value == -1)
-					return "Любой";
-				return value;
-			}
-			catch (Exception)
-			{
+			if (!(value is int))
 				return "";
-			}
+			if ((int)value == -1)
+				return "Любой";
+			return value;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

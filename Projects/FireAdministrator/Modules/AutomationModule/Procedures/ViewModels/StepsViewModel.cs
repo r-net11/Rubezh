@@ -181,6 +181,7 @@ namespace AutomationModule.ViewModels
 				SelectedStep.Parent.Step.Children.Remove(SelectedStep.Step);
 				SelectedStep.Parent.RemoveChild(SelectedStep);
 			}
+			SelectedStep = RootSteps.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDeleted()

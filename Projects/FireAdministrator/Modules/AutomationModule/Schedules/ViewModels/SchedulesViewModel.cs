@@ -24,9 +24,9 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			Schedules = new ObservableCollection<ScheduleViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationSchedules == null)
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationSchedules = new List<AutomationSchedule>();
-			foreach (var schedule in FiresecClient.FiresecManager.SystemConfiguration.AutomationSchedules)
+			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules == null)
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules = new List<AutomationSchedule>();
+			foreach (var schedule in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules)
 			{
 				var scheduleViewModel = new ScheduleViewModel(schedule);
 				Schedules.Add(scheduleViewModel);
@@ -62,11 +62,11 @@ namespace AutomationModule.ViewModels
 			var scheduleDetailsViewModel = new ScheduleDetailsViewModel();
 			if (DialogService.ShowModalWindow(scheduleDetailsViewModel))
 			{
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationSchedules.Add(scheduleDetailsViewModel.Schedule);
-				ServiceFactory.SaveService.AutomationChanged = true;
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Add(scheduleDetailsViewModel.Schedule);
 				var scheduleViewModel = new ScheduleViewModel(scheduleDetailsViewModel.Schedule);
 				Schedules.Add(scheduleViewModel);
 				SelectedSchedule = scheduleViewModel;
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			FiresecClient.FiresecManager.SystemConfiguration.AutomationSchedules.Remove(SelectedSchedule.Schedule);
+			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSchedules.Remove(SelectedSchedule.Schedule);
 			Schedules.Remove(SelectedSchedule);
 			SelectedSchedule = Schedules.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;

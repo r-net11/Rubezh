@@ -96,6 +96,7 @@
       <DependentUpon>FiltersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Converters\ObjectTypeToStringConverter.cs" />
+    <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\CameraSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\CameraViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DeviceSelectationViewModel.cs" />
@@ -113,7 +114,12 @@
     <Compile Include="Procedures\ViewModels\StepTypeSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\VariableDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariablesViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\VariableViewModel.cs" />
+    <Compile Include="Procedures\Views\ArgumentsView.xaml.cs">
+      <DependentUpon>ArgumentsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\ConditionsView.xaml.cs">
       <DependentUpon>ConditionsView.xaml</DependentUpon>
     </Compile>
@@ -134,6 +140,9 @@
     </Compile>
     <Compile Include="Procedures\Views\StepsView.xaml.cs">
       <DependentUpon>StepsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\VariableDetailsView.xaml.cs">
+      <DependentUpon>VariableDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\VariablesView.xaml.cs">
       <DependentUpon>VariablesView.xaml</DependentUpon>
@@ -273,6 +282,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Procedures\Views\ArgumentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Procedures\Views\ConditionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -300,6 +313,10 @@
     <Page Include="Procedures\Views\StepsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Procedures\Views\VariableDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\VariablesView.xaml">
       <SubType>Designer</SubType>

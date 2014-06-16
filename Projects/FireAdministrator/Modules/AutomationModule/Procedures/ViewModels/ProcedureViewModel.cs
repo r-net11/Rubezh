@@ -18,6 +18,7 @@ namespace AutomationModule.ViewModels
 		{
 			ShowStepsCommand = new RelayCommand(OnShowSteps);
 			ShowVariablesCommand = new RelayCommand(OnShowVariables);
+			ShowArgumentsCommand = new RelayCommand(OnShowArguments);
 			ShowConditionsCommand = new RelayCommand(OnShowConditions);
 
 			Procedure = procedure;
@@ -50,6 +51,7 @@ namespace AutomationModule.ViewModels
 		{
 			IsStepsVisible = true;
 			IsVariablesVisible = false;
+			IsArgumentsVisible = false;
 			IsConditionsVisible = false;
 		}
 
@@ -58,6 +60,16 @@ namespace AutomationModule.ViewModels
 		{
 			IsStepsVisible = false;
 			IsVariablesVisible = true;
+			IsArgumentsVisible = false;
+			IsConditionsVisible = false;
+		}
+
+		public RelayCommand ShowArgumentsCommand { get; private set; }
+		void OnShowArguments()
+		{
+			IsStepsVisible = false;
+			IsVariablesVisible = false;
+			IsArgumentsVisible = true;
 			IsConditionsVisible = false;
 		}
 
@@ -66,7 +78,19 @@ namespace AutomationModule.ViewModels
 		{
 			IsStepsVisible = false;
 			IsVariablesVisible = false;
+			IsArgumentsVisible = false;
 			IsConditionsVisible = true;
+		}
+
+		bool _isEnabled;
+		public bool IsEnabled
+		{
+			get { return _isEnabled; }
+			set
+			{
+				_isEnabled = value;
+				OnPropertyChanged(() => IsEnabled);
+			}
 		}
 
 		bool _isStepsVisible;
@@ -88,6 +112,17 @@ namespace AutomationModule.ViewModels
 			{
 				_isVariablesVisible = value;
 				OnPropertyChanged(() => IsVariablesVisible);
+			}
+		}
+
+		bool _isArgumentsVisible;
+		public bool IsArgumentsVisible
+		{
+			get { return _isArgumentsVisible; }
+			set
+			{
+				_isArgumentsVisible = value;
+				OnPropertyChanged(() => IsArgumentsVisible);
 			}
 		}
 

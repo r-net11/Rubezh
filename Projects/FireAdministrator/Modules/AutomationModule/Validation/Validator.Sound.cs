@@ -9,7 +9,7 @@ namespace AutomationModule.Validation
 		private void ValidateSoundName()
 		{
 			var nameList = new List<string>();
-			foreach (var sound in FiresecManager.SystemConfiguration.AutomationSounds)
+			foreach (var sound in FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
 			{
 				if (nameList.Contains(sound.Name))
 					Errors.Add(new SoundValidationError(sound, "Звуковой элемент с таким именем уже существует " + sound.Name, ValidationErrorLevel.CannotSave));

@@ -66,6 +66,7 @@ namespace AutomationModule.ViewModels
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureDetailsViewModel.Procedure);
 				var procedureViewModel = new ProcedureViewModel(procedureDetailsViewModel.Procedure);
 				Procedures.Add(procedureViewModel);
+				SelectedProcedure = procedureViewModel;
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -90,6 +91,7 @@ namespace AutomationModule.ViewModels
 		{
 			FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);
 			Procedures.Remove(SelectedProcedure);
+			SelectedProcedure = Procedures.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDelete()

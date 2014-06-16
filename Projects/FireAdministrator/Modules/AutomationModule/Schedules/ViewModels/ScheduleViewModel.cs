@@ -107,6 +107,17 @@ namespace AutomationModule.ViewModels
 		public static ObservableCollection<int> PeriodSeconds { get; private set; }
 		public static ObservableCollection<DayOfWeekType> DaysOfWeek { get; private set; }
 
+		bool _isEnabled;
+		public bool IsEnabled
+		{
+			get { return _isEnabled; }
+			set
+			{
+				_isEnabled = value;
+				OnPropertyChanged(() => IsEnabled);
+			}
+		}
+
 		public int SelectedYear
 		{
 			get { return Schedule.Year; }
@@ -264,9 +275,11 @@ namespace AutomationModule.ViewModels
 			{
 				if (procedureSelectionViewModel.SelectedProcedure != null)
 				{
-					Procedures.Add(procedureSelectionViewModel.SelectedProcedure);
-					Schedule.ProceduresUids.Add(procedureSelectionViewModel.SelectedProcedure.Procedure.Uid);
-					SelectedProcedure = new ProcedureViewModel(procedureSelectionViewModel.SelectedProcedure.Procedure);
+					var procedureViewModel = new ProcedureViewModel(procedureSelectionViewModel.SelectedProcedure.Procedure);
+					Procedures.Add(procedureViewModel);
+					Schedule.ProceduresUids.Add(procedureViewModel.Procedure.Uid);
+					SelectedProcedure = procedureViewModel;
+					ServiceFactory.SaveService.AutomationChanged = true;
 				}
 			}
 		}
@@ -274,8 +287,10 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			Procedures.Remove(SelectedProcedure);
 			Schedule.ProceduresUids.Remove(SelectedProcedure.Procedure.Uid);
+			Procedures.Remove(SelectedProcedure);			
+			SelectedProcedure = Procedures.FirstOrDefault();
+			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDeleted()
 		{

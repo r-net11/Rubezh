@@ -149,9 +149,11 @@
     <Compile Include="Converters\InversedBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
+    <Compile Include="Converters\ObjectTypeToStringConverter.cs" />
     <Compile Include="Converters\ProcedureStepTypeToStringConverter.cs" />
     <Compile Include="Converters\StringToImageConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToStringConverter.cs" />
+    <Compile Include="Converters\VariableTypeToStringConverter.cs" />
     <Compile Include="Converters\XSubsystemTypeToIconConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
     <Compile Include="Converters\VisualizationStateToImageSourceConverter.cs" />

@@ -10,7 +10,6 @@ namespace FiresecAPI.Models
 		public SystemConfiguration()
 		{
 			Sounds = new List<Sound>();
-			AutomationSounds = new List<AutomationSound>();
 			JournalFilters = new List<JournalFilter>();
 			Instructions = new List<Instruction>();
 			Cameras = new List<Camera>();
@@ -21,22 +20,7 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<Sound> Sounds { get; set; }
-
-		[DataMember]
-		public List<AutomationSound> AutomationSounds { get; set; }
-
-		[DataMember]
-		public List<AutomationSchedule> AutomationSchedules { get; set; }
-
-		[DataMember]
-		public List<Procedure> Procedures { get; set; }
-
-		[DataMember]
-		public List<AutomationFilter> Filters { get; set; }
-
-		[DataMember]
-		public List<GlobalVariable> GlobalVariables { get; set; }
-		
+	
 		[DataMember]
 		public List<JournalFilter> JournalFilters { get; set; }
 

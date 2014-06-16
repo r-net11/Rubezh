@@ -23,7 +23,11 @@
         <Views:StepTypeSelectationView />
     </DataTemplate>
 
-    <DataTemplate x:Key="soundsTemplate">
+	<DataTemplate DataType="{x:Type ViewModels:VariableDetailsViewModel}">
+		<Views:VariableDetailsView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="soundsTemplate">
         <Views:SoundStepView />
     </DataTemplate>
 

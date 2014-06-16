@@ -61,6 +61,8 @@
 	<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 	<Converters:DayOfWeekToStringConverter x:Key="DayOfWeekToStringConverter" />
+	<Converters:VariableTypeToStringConverter x:Key="VariableTypeToStringConverter" />
+	<Converters:ObjectTypeToStringConverter x:Key="ObjectTypeToStringConverter" />
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
 		<Converters:SwitchCase Then="Заполнить" When="Fill" />
 		<Converters:SwitchCase Then="Как есть" When="None" />
