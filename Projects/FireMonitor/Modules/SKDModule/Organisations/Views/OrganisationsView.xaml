@@ -53,7 +53,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<Grid Grid.Column="0" DataContext="{Binding OrganisationZonesViewModel}">
+			<!--<Grid Grid.Column="0" DataContext="{Binding OrganisationZonesViewModel}">
 				<tree:TreeList Name="_zonesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedZone}" Source="{Binding RootZones}">
 					<tree:TreeList.View>
 						<GridView>
@@ -72,8 +72,27 @@
 						</GridView>
 					</tree:TreeList.View>
 				</tree:TreeList>
-			</Grid>
-			<Grid Grid.Column="1" DataContext="{Binding OrganisationGuardZonesViewModel}" Margin="5 0 0 0">
+			</Grid>-->
+
+            <Grid Grid.Column="0" DataContext="{Binding OrganisationDoorsViewModel}" Margin="5 0 0 0">
+                <DataGrid ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Точки прохода" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" />
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                                        <TextBlock Text="{Binding Door.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+            <Grid Grid.Column="1" DataContext="{Binding OrganisationGuardZonesViewModel}" Margin="5 0 0 0">
 				<DataGrid ItemsSource="{Binding GuardZones}" SelectedItem="{Binding SelectedGuardZone}">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Header="Охранные зоны" Width="*">

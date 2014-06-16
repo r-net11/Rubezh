@@ -30,7 +30,8 @@ namespace SKDModule.ViewModels
 		void InitializeDoors()
 		{
 			Doors = new ObservableCollection<AccessDoorViewModel>();
-			foreach (var door in SKDManager.SKDConfiguration.Doors)
+			var organisationDoors = SKDManager.SKDConfiguration.Doors.Where(x => Organisation.DoorUIDs.Any(y => y == x.UID));
+			foreach (var door in organisationDoors)
 			{
 				var accessDoorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
 				Doors.Add(accessDoorViewModel);

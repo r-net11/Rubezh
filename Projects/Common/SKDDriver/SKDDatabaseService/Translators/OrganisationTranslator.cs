@@ -51,7 +51,7 @@ namespace SKDDriver
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.PhotoUID = tableItem.PhotoUID;
-			result.ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID) select x.ZoneUID).ToList();
+			result.DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == result.UID) select x.DoorUID).ToList();
 			result.UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID) select x.UserUID).ToList();
 			result.GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == result.UID) select x.ZoneUID).ToList();
 			return result;
@@ -80,7 +80,7 @@ namespace SKDDriver
 						Photo = PhotoTranslator.GetSingle(tableItem.PhotoUID).Result,
 						RemovalDate = tableItem.RemovalDate,
 						UID = tableItem.UID,
-						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList(),
+						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
 						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
 						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList()
 					};
@@ -101,29 +101,29 @@ namespace SKDDriver
 		}
 			
 
-		public OperationResult SaveZones(Organisation apiItem)
+		public OperationResult SaveDoors(Organisation apiItem)
 		{
-			return SaveZonesInternal(apiItem.UID, apiItem.ZoneUIDs);
+			return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
 		}
 
-		public OperationResult SaveZones(OrganisationDetails apiItem)
+		public OperationResult SaveDoors(OrganisationDetails apiItem)
 		{
-			return SaveZonesInternal(apiItem.UID, apiItem.ZoneUIDs);
+			return SaveDoorsInternal(apiItem.UID, apiItem.DoorUIDs);
 		}
 
-		OperationResult SaveZonesInternal(Guid organisationUID, List<Guid> zoneUIDs)
+		OperationResult SaveDoorsInternal(Guid organisationUID, List<Guid> doorUIDs)
 		{
 			try
 			{
-				var tableOrganisationZones = Context.OrganisationZones.Where(x => x.OrganisationUID == organisationUID);
-				Context.OrganisationZones.DeleteAllOnSubmit(tableOrganisationZones);
-				foreach (var zoneUID in zoneUIDs)
+				var tableOrganisationZones = Context.OrganisationDoors.Where(x => x.OrganisationUID == organisationUID);
+				Context.OrganisationDoors.DeleteAllOnSubmit(tableOrganisationZones);
+				foreach (var zoneUID in doorUIDs)
 				{
-					var tableOrganisationZone = new DataAccess.OrganisationZone();
+					var tableOrganisationZone = new DataAccess.OrganisationDoor();
 					tableOrganisationZone.UID = Guid.NewGuid();
 					tableOrganisationZone.OrganisationUID = organisationUID;
-					tableOrganisationZone.ZoneUID = zoneUID;
-					Context.OrganisationZones.InsertOnSubmit(tableOrganisationZone);
+					tableOrganisationZone.DoorUID = zoneUID;
+					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationZone);
 				}
 				Table.Context.SubmitChanges();
 			}
@@ -202,7 +202,7 @@ namespace SKDDriver
 
 		public OperationResult Save(OrganisationDetails apiItem)
 		{
-			var saveZonesResult = SaveZones(apiItem);
+			var saveZonesResult = SaveDoors(apiItem);
 			if (saveZonesResult.HasError)
 				return saveZonesResult;
 			var saveGuardZonesResult = SaveGuardZones(apiItem);

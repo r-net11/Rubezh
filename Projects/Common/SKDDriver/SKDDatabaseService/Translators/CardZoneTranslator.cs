@@ -8,33 +8,33 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class CardZoneTranslator : IsDeletedTranslator<DataAccess.CardZone, CardDoor, CardDoorFilter>
+	public class CardDoorTranslator : IsDeletedTranslator<DataAccess.CardDoor, CardDoor, CardDoorFilter>
 	{
-		public CardZoneTranslator(DataAccess.SKDDataContext context)
+		public CardDoorTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 
 		}
 
-		protected override CardDoor Translate(DataAccess.CardZone tableItem)
+		protected override CardDoor Translate(DataAccess.CardDoor tableItem)
 		{
 			var result = base.Translate(tableItem);
 			result.IntervalType = (IntervalType)tableItem.IntervalType;
 			result.IntervalUID = tableItem.IntervalUID;
 			result.IsComission = tableItem.IsWithEscort;
-			result.DoorUID = tableItem.ZoneUID;
+			result.DoorUID = tableItem.DoorUID;
 			result.ParentUID = tableItem.ParentUID;
 			result.IsAntiPassback = tableItem.IsAntipass;
 			return result;
 		}
 
-		protected override void TranslateBack(DataAccess.CardZone tableItem, CardDoor apiItem)
+		protected override void TranslateBack(DataAccess.CardDoor tableItem, CardDoor apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.IntervalType = (int?)apiItem.IntervalType;
 			tableItem.IntervalUID = apiItem.IntervalUID;
 			tableItem.IsWithEscort = apiItem.IsComission;
-			tableItem.ZoneUID = apiItem.DoorUID;
+			tableItem.DoorUID = apiItem.DoorUID;
 			tableItem.ParentUID = apiItem.ParentUID;
 			tableItem.IsAntipass = apiItem.IsAntiPassback;
 		}
@@ -42,16 +42,16 @@ namespace SKDDriver
 		public List<CardDoor> Get(Guid parentUID)
 		{
 			var result = new List<CardDoor>();
-			foreach (var cardZoneLink in Table.Where(x => x != null &&
+			foreach (var CardDoorLink in Table.Where(x => x != null &&
 				!x.IsDeleted &&
 				x.ParentUID == parentUID))
 			{
-				result.Add(Translate(cardZoneLink));
+				result.Add(Translate(CardDoorLink));
 			}
 			return result;
 		}
 
-		public OperationResult MarkDeleted(DataAccess.CardZone databaseItem)
+		public OperationResult MarkDeleted(DataAccess.CardDoor databaseItem)
 		{
 			var operationResult = new OperationResult();
 			try
@@ -77,7 +77,7 @@ namespace SKDDriver
 			{
 				var databaseItems = Table.Where(x => x.ParentUID == card.UID);
 				databaseItems.ForEach(x => MarkDeleted(x));
-				Save(card.CardZones);
+				Save(card.CardDoors);
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -117,15 +117,15 @@ namespace SKDDriver
 			}
 		}
 
-		protected override Expression<Func<DataAccess.CardZone, bool>> IsInFilter(CardDoorFilter filter)
+		protected override Expression<Func<DataAccess.CardDoor, bool>> IsInFilter(CardDoorFilter filter)
 		{
 			var result = base.IsInFilter(filter);
 			var cardUIDs = filter.CardUIDs;
 			if (cardUIDs != null && cardUIDs.Count != 0)
 				result = result.And(e => e.ParentUID.HasValue && cardUIDs.Contains(e.ParentUID.Value));
-			var zoneUIDs = filter.DoorUIDs;
-			if (zoneUIDs != null && zoneUIDs.Count != 0)
-				result = result.And(e => zoneUIDs.Contains(e.ZoneUID));
+			var DoorUIDs = filter.DoorUIDs;
+			if (DoorUIDs != null && DoorUIDs.Count != 0)
+				result = result.And(e => DoorUIDs.Contains(e.DoorUID));
 			var intervalUIDs = filter.IntervalUIDs;
 			if (intervalUIDs != null && intervalUIDs.Count != 0)
 				result = result.And(e => e.IntervalUID.HasValue && intervalUIDs.Contains(e.IntervalUID.Value));

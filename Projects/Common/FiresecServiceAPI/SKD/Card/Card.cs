@@ -9,7 +9,7 @@ namespace FiresecAPI.SKD
 	{
 		public SKDCard()
 		{
-			CardZones = new List<CardDoor>();
+			CardDoors = new List<CardDoor>();
 			CardType = CardType.Constant;
 		}
 
@@ -29,7 +29,7 @@ namespace FiresecAPI.SKD
 		public DateTime EndDate { get; set; }
 
 		[DataMember]
-		public List<CardDoor> CardZones { get; set; }
+		public List<CardDoor> CardDoors { get; set; }
 
 		[DataMember]
 		public Guid? CardTemplateUID { get; set; }

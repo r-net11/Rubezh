@@ -32,7 +32,7 @@ namespace SKDDriver.DataAccess
 	public partial class ScheduleZone : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Organisation : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Interval : IDatabaseElement, IIsDeletedDatabaseElement { }
-	public partial class CardZone : IDatabaseElement, IIsDeletedDatabaseElement { }
+	public partial class CardDoor : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Card : IDatabaseElement, IIsDeletedDatabaseElement, ILinkedToEmployee { }
 	
 	public partial class AdditionalColumnType : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }

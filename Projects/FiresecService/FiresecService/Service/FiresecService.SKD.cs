@@ -125,9 +125,9 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.OrganisationTranslator.MarkDeleted(uid);
 		}
-		public OperationResult SaveOrganisationZones(Organisation organisation)
+		public OperationResult SaveOrganisationDoors(Organisation organisation)
 		{
-			return SKDDatabaseService.OrganisationTranslator.SaveZones(organisation);
+			return SKDDatabaseService.OrganisationTranslator.SaveDoors(organisation);
 		}
 		public OperationResult SaveOrganisationGuardZones(Organisation organisation)
 		{

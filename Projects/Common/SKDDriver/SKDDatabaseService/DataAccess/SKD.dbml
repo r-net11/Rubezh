@@ -9,8 +9,8 @@
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="AccessTemplate_Card" Member="Cards" ThisKey="UID" OtherKey="AccessTemplateUID" Type="Card" />
-      <Association Name="AccessTemplate_CardZone" Member="CardZones" ThisKey="UID" OtherKey="ParentUID" Type="CardZone" />
       <Association Name="AccessTemplate_GuardZone" Member="GuardZones" ThisKey="UID" OtherKey="ParentUID" Type="GuardZone" />
+      <Association Name="AccessTemplate_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="ParentUID" Type="CardDoor" />
       <Association Name="Organisation_AccessTemplate" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
@@ -56,8 +56,8 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="CardTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="Card_CardZone" Member="CardZones" ThisKey="UID" OtherKey="ParentUID" Type="CardZone" />
       <Association Name="Card_Journal" Member="Journals" ThisKey="UID" OtherKey="CardUID" Type="Journal" />
+      <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="ParentUID" Type="CardDoor" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
     </Type>
@@ -182,7 +182,6 @@
       <Association Name="Organisation_EmployeeReplacement" Member="EmployeeReplacements" ThisKey="UID" OtherKey="OrganisationUID" Type="EmployeeReplacement" />
       <Association Name="Organisation_Holiday" Member="Holidays" ThisKey="UID" OtherKey="OrganisationUID" Type="Holiday" />
       <Association Name="Organisation_NamedInterval" Member="NamedIntervals" ThisKey="UID" OtherKey="OrganisationUID" Type="NamedInterval" />
-      <Association Name="Organisation_OrganisationZone" Member="OrganisationZones" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationZone" />
       <Association Name="Organisation_Phone" Member="Phones" ThisKey="UID" OtherKey="OrganisationUID" Type="Phone" />
       <Association Name="Organisation_Position" Member="Positions" ThisKey="UID" OtherKey="OrganisationUID" Type="Position" />
       <Association Name="Organisation_Schedule" Member="Schedules" ThisKey="UID" OtherKey="OrganisationUID" Type="Schedule" />
@@ -190,15 +189,8 @@
       <Association Name="Organisation_Employee" Member="Employees" ThisKey="UID" OtherKey="OrganisationUID" Type="Employee" />
       <Association Name="Organisation_OrganisationUser" Member="OrganisationUsers" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationUser" />
       <Association Name="Organisation_GuardZone" Member="GuardZones" ThisKey="UID" OtherKey="ParentUID" Type="GuardZone" />
+      <Association Name="Organisation_OrganisationDoor" Member="OrganisationDoors" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationDoor" />
       <Association Name="Photo_Organisation" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.OrganisationZone" Member="OrganisationZones">
-    <Type Name="OrganisationZone">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Association Name="Organisation_OrganisationZone" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.PassJournal" Member="PassJournals">
@@ -337,22 +329,6 @@
       <Association Name="Schedule_ScheduleZone" Member="Schedule" ThisKey="ScheduleUID" OtherKey="UID" Type="Schedule" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.CardZone" Member="CardZones">
-    <Type Name="CardZone">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ParentUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="ParentType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsWithEscort" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsAntipass" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IntervalUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="IntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Association Name="AccessTemplate_CardZone" Member="AccessTemplate" ThisKey="ParentUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
-      <Association Name="Card_CardZone" Member="Card" ThisKey="ParentUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Journal" Member="Journals">
     <Type Name="Journal">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -386,6 +362,30 @@
       <Association Name="AccessTemplate_GuardZone" Member="AccessTemplate" ThisKey="ParentUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Employee_GuardZone" Member="Employee" ThisKey="ParentUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Organisation_GuardZone" Member="Organisation" ThisKey="ParentUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CardDoor" Member="CardDoors">
+    <Type Name="CardDoor">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DoorUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ParentUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ParentType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsWithEscort" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsAntipass" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IntervalUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="AccessTemplate_CardDoor" Member="AccessTemplate" ThisKey="ParentUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
+      <Association Name="Card_CardDoor" Member="Card" ThisKey="ParentUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrganisationDoor" Member="OrganisationDoors">
+    <Type Name="OrganisationDoor">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DoorUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="Organisation_OrganisationDoor" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

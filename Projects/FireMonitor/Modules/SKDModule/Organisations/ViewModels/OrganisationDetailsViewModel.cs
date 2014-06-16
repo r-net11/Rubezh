@@ -51,7 +51,7 @@ namespace SKDModule.ViewModels
 					PhotoUID = OrganisationDetails.Photo.UID,
 					RemovalDate = OrganisationDetails.RemovalDate,
 					UID = OrganisationDetails.UID,
-					ZoneUIDs = OrganisationDetails.ZoneUIDs
+					DoorUIDs = OrganisationDetails.DoorUIDs
 				};
 			}
 		}

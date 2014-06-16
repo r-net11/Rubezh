@@ -11,7 +11,7 @@ namespace FiresecClient.SKDHelpers
 			card.IsInStopList = true;
 			card.StopReason = reason;
 			card.HolderUID = null;
-			card.CardZones = null;
+			card.CardDoors = null;
 			var result = FiresecManager.FiresecService.SaveCard(card);
 			return Common.ShowErrorIfExists(result);
 		}
@@ -29,7 +29,7 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.GetCards(filter);
 			return Common.ShowErrorIfExists(result);
 		}
-
+		 
 		public static bool Save(SKDCard card, bool showError = true)
 		{
 			var result = FiresecManager.FiresecService.SaveCard(card);

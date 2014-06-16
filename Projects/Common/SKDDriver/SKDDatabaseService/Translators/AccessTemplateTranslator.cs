@@ -11,13 +11,13 @@ namespace SKDDriver
 {
 	public class AccessTemplateTranslator : OrganisationElementTranslator<DataAccess.AccessTemplate, AccessTemplate, AccessTemplateFilter>
 	{
-		public AccessTemplateTranslator(DataAccess.SKDDataContext context, CardZoneTranslator cardsTranslator)
+		public AccessTemplateTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardsTranslator)
 			: base(context)
 		{
 			CardZonesTranslator = cardsTranslator;
 		}
 
-		CardZoneTranslator CardZonesTranslator;
+		CardDoorTranslator CardZonesTranslator;
 
 		protected override OperationResult CanSave(AccessTemplate item)
 		{
