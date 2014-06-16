@@ -211,9 +211,12 @@ namespace SKDDriver
 			var saveUsersResult = SaveUsers(apiItem);
 			if (saveUsersResult.HasError)
 				return saveUsersResult;
-			var savePhotoResult = PhotoTranslator.Save(apiItem.Photo);
-			if(savePhotoResult.HasError)
-				return savePhotoResult;
+			if (apiItem.Photo != null)
+			{
+				var savePhotoResult = PhotoTranslator.Save(apiItem.Photo);
+				if (savePhotoResult.HasError)
+					return savePhotoResult;
+			}
 			try
 			{
 				if (apiItem == null)
@@ -228,14 +231,20 @@ namespace SKDDriver
 					tableItem.UID = apiItem.UID;
 					tableItem.Name = apiItem.Name;
 					tableItem.Description = apiItem.Description;
-					tableItem.PhotoUID = apiItem.Photo.UID;
+					if (apiItem.Photo != null)
+						tableItem.PhotoUID = apiItem.Photo.UID;
+					tableItem.IsDeleted = apiItem.IsDeleted;
+					tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
 					Table.InsertOnSubmit(tableItem);
 				}
 				else
 				{
 					tableItem.Name = apiItem.Name;
 					tableItem.Description = apiItem.Description;
-					tableItem.PhotoUID = apiItem.Photo.UID;
+					if (apiItem.Photo != null)
+						tableItem.PhotoUID = apiItem.Photo.UID;
+					tableItem.IsDeleted = apiItem.IsDeleted;
+					tableItem.RemovalDate = CheckDate(apiItem.RemovalDate);
 				}
 				Context.SubmitChanges();
 				return new OperationResult();

@@ -3,6 +3,7 @@ using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace SKDModule.ViewModels
 {
@@ -48,7 +49,7 @@ namespace SKDModule.ViewModels
 					Description = OrganisationDetails.Description,
 					IsDeleted = OrganisationDetails.IsDeleted,
 					Name = OrganisationDetails.Name,
-					PhotoUID = OrganisationDetails.Photo.UID,
+					PhotoUID = OrganisationDetails.Photo != null ? OrganisationDetails.Photo.UID : Guid.Empty,
 					RemovalDate = OrganisationDetails.RemovalDate,
 					UID = OrganisationDetails.UID,
 					DoorUIDs = OrganisationDetails.DoorUIDs
