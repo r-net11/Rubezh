@@ -925,6 +925,10 @@ namespace ControllerSDK.SDK
 		public static extern bool WRAP_GetAccessTimeSchedule(int lLoginId, IntPtr result);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_SetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO timeShedule); // CFG_ACCESS_TIMESCHEDULE_INFO
+
+
+		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_DevCtrl_OpenDoor(int lLoginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]

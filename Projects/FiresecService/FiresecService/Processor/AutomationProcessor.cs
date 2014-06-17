@@ -31,7 +31,7 @@ namespace FiresecService
 		{
 			while (true)
 			{
-				var shedules = SystemConfiguration.AutomationSchedules;
+				var shedules = SystemConfiguration.AutomationConfiguration.AutomationSchedules;
 				timeValidator++;
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				foreach (var schedule in shedules)

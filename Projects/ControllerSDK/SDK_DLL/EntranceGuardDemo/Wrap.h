@@ -165,6 +165,8 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAllCardRecords(int lLoginId, Card
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO* result);
 
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo);
+
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_OpenDoor(int lLoginID);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_CloseDoor(int lLoginId);

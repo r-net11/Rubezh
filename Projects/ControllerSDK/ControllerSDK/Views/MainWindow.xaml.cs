@@ -18,6 +18,7 @@ namespace ControllerSDK.Views
 			InitializeComponent();
 			DataContext = this;
 			CardsViewModel = new CardsViewModel();
+			CardRecsViewModel = new CardRecsViewModel();
 			PasswordsViewModel = new PasswordsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
 			TimeShedulesViewModel = new TimeShedulesViewModel();
@@ -27,6 +28,7 @@ namespace ControllerSDK.Views
 
 		public static Int32 LoginID = 0;
 		public CardsViewModel CardsViewModel { get; private set; }
+		public CardRecsViewModel CardRecsViewModel { get; private set; }
 		public PasswordsViewModel PasswordsViewModel { get; private set; }
 		public HolidaysViewModel HolidaysViewModel { get; private set; }
 		public TimeShedulesViewModel TimeShedulesViewModel { get; private set; }

@@ -77,8 +77,6 @@
                 <DataGridTextColumn Header="DoorsCount" Binding="{Binding Card.DoorsCount}" />
                 <DataGridTextColumn Header="TimeSectionsCount" Binding="{Binding Card.TimeSectionsCount}" />
                 <DataGridTextColumn Header="UserTime" Binding="{Binding Card.UserTime}" />
-                <DataGridTextColumn Header="ValidStartTime" Binding="{Binding ValidStartDateTime}" />
-                <DataGridTextColumn Header="ValidEndTime" Binding="{Binding ValidEndDateTime}" />
                 <DataGridTextColumn Header="IsValid" Binding="{Binding Card.IsValid}" />
             </DataGrid.Columns>
         </DataGrid>

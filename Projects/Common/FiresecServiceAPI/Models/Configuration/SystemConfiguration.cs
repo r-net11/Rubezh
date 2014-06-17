@@ -15,7 +15,6 @@ namespace FiresecAPI.Models
 			Cameras = new List<Camera>();
 			EmailData = new EmailData();
 			AutomationConfiguration = new AutomationConfiguration();
-			AutomationSchedules = new List<AutomationSchedule>();
 		}
 
 		[DataMember]

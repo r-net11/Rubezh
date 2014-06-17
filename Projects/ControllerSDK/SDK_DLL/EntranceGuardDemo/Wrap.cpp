@@ -1528,36 +1528,64 @@ BOOL CALL_METHOD WRAP_GetAllCardRecords(int lLoginId, CardRecordsCollection* res
 
 BOOL CALL_METHOD WRAP_GetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO* result)
 {	
-	CFG_ACCESS_TIMESCHEDULE_INFO stuInfo = {0};
+	ofstream myfile;
+	myfile.open ("D://SDKOutput.txt");
+
 	CFG_ACCESS_TIMESCHEDULE_INFO resultStuInfo = {0};
 
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
 	int nChannel = 0;
 
-	BOOL bRet = CLIENT_GetNewDevConfig(lLoginId, CFG_CMD_ACCESSTIMESCHEDULE, nChannel, szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
-	//if (bRet)
+	BOOL bRet = CLIENT_GetNewDevConfig(lLoginId, CFG_CMD_ACCESSTIMESCHEDULE, nChannel, 
+		szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
+	if (bRet)
 	{
-		int nRetLen = 0;
-		bRet = CLIENT_ParseData(CFG_CMD_ACCESSTIMESCHEDULE, szJsonBuf, &stuInfo, sizeof(stuInfo), &nRetLen);
+		myfile << "Get AccessTimeSchedule Config ok!\n";
+	}
+	else
+	{
+		myfile << "Get AccessTimeSchedule Config failed...0x%08x\n" << CLIENT_GetLastError();
 	}
 
-	ofstream myfile;
-	myfile.open ("D://example.txt");
-		
-	for(int i = 0; i < 7; i++)
+	if (bRet)
 	{
-		for(int j = 0; j < 4; j++)
+		int nRetLen = 0;
+		CFG_ACCESS_TIMESCHEDULE_INFO stuInfo = {0};
+		bRet = CLIENT_ParseData(CFG_CMD_ACCESSTIMESCHEDULE, szJsonBuf,
+			&stuInfo, sizeof(stuInfo), &nRetLen);
+		if (bRet)
 		{
-			memcpy(&resultStuInfo.stuTime[i, j], &stuInfo.stuTime[i, j], sizeof(CFG_TIME_SECTION));
-			myfile << stuInfo.stuTime[i, j]->dwRecordMask;
-			myfile << stuInfo.stuTime[i, j]->nBeginHour;
-			myfile << stuInfo.stuTime[i, j]->nBeginMin;
-			myfile << stuInfo.stuTime[i, j]->nBeginSec;
-			myfile << stuInfo.stuTime[i, j]->nEndHour;
-			myfile << stuInfo.stuTime[i, j]->nEndMin;
-			myfile << stuInfo.stuTime[i, j]->nEndSec;
-			myfile << "\n";
+			myfile << "Parse AccessTimeSchedule Config ok!\n";
+		}
+		else
+		{
+			myfile << "Parse AccessTimeSchedule Config failed!\n";
+		}
+
+
+		for(int i = 0; i < 7; i++)
+		{
+			for(int j = 0; j < 4; j++)
+			{
+				resultStuInfo.stuTime[i][j].dwRecordMask = stuInfo.stuTime[i][j].dwRecordMask;
+				resultStuInfo.stuTime[i][j].nBeginHour = stuInfo.stuTime[i][j].nBeginHour;
+				resultStuInfo.stuTime[i][j].nBeginMin = stuInfo.stuTime[i][j].nBeginMin;
+				resultStuInfo.stuTime[i][j].nBeginSec = stuInfo.stuTime[i][j].nBeginSec;
+				resultStuInfo.stuTime[i][j].nEndHour = stuInfo.stuTime[i][j].nEndHour;
+				resultStuInfo.stuTime[i][j].nEndMin = stuInfo.stuTime[i][j].nEndMin;
+				resultStuInfo.stuTime[i][j].nEndSec = stuInfo.stuTime[i][j].nEndSec;
+
+				DWORD hour = stuInfo.stuTime[i][j].nBeginHour;
+				myfile << stuInfo.stuTime[i][j].dwRecordMask;
+				myfile << stuInfo.stuTime[i][j].nBeginHour;
+				myfile << stuInfo.stuTime[i][j].nBeginMin;
+				myfile << stuInfo.stuTime[i][j].nBeginSec;
+				myfile << stuInfo.stuTime[i][j].nEndHour;
+				myfile << stuInfo.stuTime[i][j].nEndMin;
+				myfile << stuInfo.stuTime[i][j].nEndSec;
+				myfile << "\n";
+			}
 		}
 	}
 
@@ -1565,6 +1593,98 @@ BOOL CALL_METHOD WRAP_GetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDUL
 
 	memcpy(result, &resultStuInfo, sizeof(CFG_ACCESS_TIMESCHEDULE_INFO));
 	return bRet;
+}
+
+BOOL CALL_METHOD WRAP_SetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo)
+{
+	ofstream myfile;
+	myfile.open ("D://SDKOutput.txt");
+
+	CFG_ACCESS_TIMESCHEDULE_INFO stuInfo1 = timeSheduleInfo;
+
+	for(int i = 0; i < 7; i++)
+		{
+			for(int j = 0; j < 4; j++)
+			{
+				myfile << stuInfo1.stuTime[i][j].dwRecordMask;
+				myfile << stuInfo1.stuTime[i][j].nBeginHour;
+				myfile << stuInfo1.stuTime[i][j].nBeginMin;
+				myfile << stuInfo1.stuTime[i][j].nBeginSec;
+				myfile << stuInfo1.stuTime[i][j].nEndHour;
+				myfile << stuInfo1.stuTime[i][j].nEndMin;
+				myfile << stuInfo1.stuTime[i][j].nEndSec;
+				myfile << "\n";
+			}
+		}
+	myfile.close();
+
+
+	char szJsonBuf[1024 * 40] = {0};
+	int nerror = 0;
+	int nChannel = 0;
+
+	//// 获取
+	//BOOL bRet = CLIENT_GetNewDevConfig(lLoginId, CFG_CMD_ACCESSTIMESCHEDULE, nChannel, 
+	//	szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
+	//if (bRet)
+	//{
+	//	printf("Get AccessTimeSchedule Config ok!\n");
+	//}
+	//else
+	//{
+	//	printf("Get AccessTimeSchedule Config failed...0x%08x\n", 
+	//		CLIENT_GetLastError());
+	//}
+
+	//// 解析
+	//if (bRet)
+	{
+		int nRetLen = 0;
+		CFG_ACCESS_TIMESCHEDULE_INFO stuInfo = timeSheduleInfo;
+		//BOOL bRet = CLIENT_ParseData(CFG_CMD_ACCESSTIMESCHEDULE, szJsonBuf,
+		//	&stuInfo, sizeof(stuInfo), &nRetLen);
+		//if (bRet)
+		//{
+		//	printf("Parse AccessTimeSchedule Config ok!\n");
+		//}
+		//else
+		//{
+		//	printf("Parse AccessTimeSchedule Config failed!\n");
+		//}
+		//
+		//// 设置
+		//if (bRet)
+		{
+			char szJsonBufSet[1024 * 40] = {0};
+
+			{
+				// 修改参数，在这里
+			}
+			
+			BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESSTIMESCHEDULE, &stuInfo, sizeof(stuInfo), szJsonBufSet, sizeof(szJsonBufSet));
+			if (!bRet)
+			{
+				printf("Packet AccessTimeSchedule Config failed!\n");
+			} 
+			else
+			{
+				printf("Packet AccessTimeSchedule Config ok!\n");
+				int nerror = 0;
+				int nrestart = 0;
+				bRet = CLIENT_SetNewDevConfig(lLoginId, CFG_CMD_ACCESSTIMESCHEDULE, nChannel, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
+				if (!bRet)
+				{
+					printf("Set AccessTimeSchedule Config failed...0x%08x\n", CLIENT_GetLastError());
+				}
+				else
+				{
+					printf("Set AccessTimeSchedule Config ok!\n");
+				}
+			}
+		}
+	}
+
+	return TRUE;
 }
 
 BOOL CALL_METHOD WRAP_DevCtrl_OpenDoor(int lLoginID)
