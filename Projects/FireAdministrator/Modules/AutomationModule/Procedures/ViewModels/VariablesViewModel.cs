@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FiresecClient;
 using System.Collections.ObjectModel;
 using Infrastructure;
 
@@ -27,6 +23,7 @@ namespace AutomationModule.ViewModels
 			}
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
 		}
 
 		VariableViewModel _selectedVariable;
@@ -58,7 +55,7 @@ namespace AutomationModule.ViewModels
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				var varialbeViewModel = new VariableViewModel(variableDetailsViewModel.SelectedVariable.Variable);
-				Procedure.Variables.Add(variableDetailsViewModel.SelectedVariable.Variable);
+				Procedure.Variables.Add(varialbeViewModel.Variable);
 				Variables.Add(varialbeViewModel);
 				SelectedVariable = varialbeViewModel;
 				ServiceFactory.SaveService.AutomationChanged = true;
@@ -74,6 +71,24 @@ namespace AutomationModule.ViewModels
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDelete()
+		{
+			return SelectedVariable != null;
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable);
+			if (DialogService.ShowModalWindow(variableDetailsViewModel))
+			{
+				var i = Procedure.Variables.FindIndex(x => x.Uid == SelectedVariable.Variable.Uid);
+				Procedure.Variables[i] = variableDetailsViewModel.SelectedVariable.Variable;
+				SelectedVariable.Variable = variableDetailsViewModel.SelectedVariable.Variable;
+				SelectedVariable.Update();
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+		bool CanEdit()
 		{
 			return SelectedVariable != null;
 		}

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
@@ -10,22 +7,47 @@ namespace AutomationModule.ViewModels
 {
 	public class VariableDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public VariableDetailsViewModel()
+		public VariableDetailsViewModel(string title = "Добавить переменную", string defaultName = "Локальная переменная")
 		{
-			Title = "Добавить переменную";
-			Initialize();
+			Title = title;
+			Initialize(defaultName);
 		}
 
-		void Initialize()
+		public VariableDetailsViewModel(VariableViewModel variableViewModel, string title = "Добавить переменную", string defaultName = "Локальная переменная")
+		{
+			Title = title;
+			Initialize(variableViewModel, defaultName);
+		}
+
+		void Initialize(VariableViewModel variableViewModel, string name)
 		{
 			Variables = new ObservableCollection<VariableViewModel>
 			{
-				new VariableViewModel { VariableType = VariableType.Boolean },
-				new VariableViewModel { VariableType = VariableType.DateTime },
-				new VariableViewModel { VariableType = VariableType.Integer },
-				new VariableViewModel { VariableType = VariableType.Object },
-				new VariableViewModel { VariableType = VariableType.String }
+				variableViewModel.VariableType != VariableType.Boolean
+					? new VariableViewModel(name) {VariableType = VariableType.Boolean} : new VariableViewModel(variableViewModel.Variable),
+				variableViewModel.VariableType != VariableType.DateTime
+					? new VariableViewModel(name) {VariableType = VariableType.DateTime} : new VariableViewModel(variableViewModel.Variable),
+				variableViewModel.VariableType != VariableType.Integer
+					? new VariableViewModel(name) {VariableType = VariableType.Integer} : new VariableViewModel(variableViewModel.Variable),
+				variableViewModel.VariableType != VariableType.Object
+					? new VariableViewModel(name) {VariableType = VariableType.Object} : new VariableViewModel(variableViewModel.Variable),
+				variableViewModel.VariableType != VariableType.String
+					? new VariableViewModel(name) {VariableType = VariableType.String} : new VariableViewModel(variableViewModel.Variable)
 			};
+			SelectedVariable = Variables.FirstOrDefault(x => x.VariableType == variableViewModel.VariableType);
+		}
+
+		void Initialize(string name)
+		{
+			Variables = new ObservableCollection<VariableViewModel>
+			{
+				new VariableViewModel(name) { VariableType = VariableType.Boolean },
+				new VariableViewModel(name) { VariableType = VariableType.DateTime },
+				new VariableViewModel(name) { VariableType = VariableType.Integer },
+				new VariableViewModel(name) { VariableType = VariableType.Object },
+				new VariableViewModel(name) { VariableType = VariableType.String }
+			};
+			SelectedVariable = Variables.FirstOrDefault();
 		}
 		
 		VariableViewModel _selectedVariable;

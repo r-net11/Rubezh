@@ -6,10 +6,15 @@ namespace FiresecAPI.Automation
 	[DataContract]
 	public class Variable
 	{
-		public Variable()
+		public Variable(string name)
 		{
-			Name = "Локальная переменная";
+			Name = name;
 			Uid = Guid.NewGuid();
+			BoolValue = false;
+			DateTimeValue = DateTime.Now;
+			IntValue = 0;
+			ObjectValue = ObjectType.Card;
+			StringValue = "";
 		}
 
 		[DataMember]
@@ -19,7 +24,19 @@ namespace FiresecAPI.Automation
 		public string Description { get; set; }
 
 		[DataMember]
-		public int Value { get; set; }
+		public bool BoolValue { get; set; }
+
+		[DataMember]
+		public DateTime DateTimeValue { get; set; }
+
+		[DataMember]
+		public int IntValue { get; set; }
+		
+		[DataMember]
+		public ObjectType ObjectValue { get; set; }
+
+		[DataMember]
+		public string StringValue { get; set; }
 
 		[DataMember]
 		public Guid Uid { get; set; }

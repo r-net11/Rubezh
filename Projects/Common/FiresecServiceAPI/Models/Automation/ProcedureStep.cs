@@ -29,5 +29,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public string Description { get; set; }
+
+		[DataMember]
+		public SoundArguments SoundArguments { get; set; }
 	}
 }

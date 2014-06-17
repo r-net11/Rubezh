@@ -96,6 +96,7 @@
       <DependentUpon>FiltersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Converters\ObjectTypeToStringConverter.cs" />
+    <Compile Include="Procedures\Converters\VariableTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\CameraSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\CameraViewModel.cs" />
@@ -109,7 +110,6 @@
     <Compile Include="Procedures\ViewModels\ProcedureInputObjectViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureInputObjectsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureObjectsSelectationViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\ProcedureStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepsViewModel.cs" />
@@ -117,9 +117,6 @@
     <Compile Include="Procedures\ViewModels\VariableDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariablesViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariableViewModel.cs" />
-    <Compile Include="Procedures\Views\ArgumentsView.xaml.cs">
-      <DependentUpon>ArgumentsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Procedures\Views\ConditionsView.xaml.cs">
       <DependentUpon>ConditionsView.xaml</DependentUpon>
     </Compile>
@@ -279,10 +276,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Filters\Views\FiltersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Procedures\Views\ArgumentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
