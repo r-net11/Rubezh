@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using AutomationModule.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
@@ -8,6 +7,7 @@ namespace AutomationModule.ViewModels
 	{
 		public DataTemplate SoundsTemplate { get; set; }
 		public DataTemplate JournalTemplate { get; set; }
+		public DataTemplate ArithmeticTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -15,11 +15,14 @@ namespace AutomationModule.ViewModels
 			{
 				return SoundsTemplate;
 			}
-			else if (item is JournalStepViewModel)
+			if (item is JournalStepViewModel)
 			{
 				return JournalTemplate;
 			}
-
+			if (item is ArithmeticStepViewModel)
+			{
+				return ArithmeticTemplate;
+			}
 			return null;
 		}
 	}

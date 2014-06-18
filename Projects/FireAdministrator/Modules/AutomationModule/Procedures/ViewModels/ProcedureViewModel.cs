@@ -49,6 +49,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand ShowStepsCommand { get; private set; }
 		void OnShowSteps()
 		{
+			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
+			StepsViewModel.UpdateContent();
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			IsStepsVisible = true;
 			IsVariablesVisible = false;
 			IsArgumentsVisible = false;
