@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using ControllerSDK.API;
-using ControllerSDK.SDK;
+using ChinaSKDDriver;
+using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
 using ControllerSDK.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -76,14 +77,14 @@ namespace ControllerSDK.ViewModels
 			card.IsValid = IsValid;
 			card.CardStatus = CardStatus;
 			card.CardType = CardType;
-			var newCardNo = SDKWrapper.AddCard(MainWindow.LoginID, card);
+			var newCardNo = Wrapper.AddCard(MainWindow.LoginID, card);
 			MessageBox.Show("newCardNo = " + newCardNo);
 		}
 
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = SDKWrapper.GetCardInfo(MainWindow.LoginID, 2);
+			var result = Wrapper.GetCardInfo(MainWindow.LoginID, 2);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -91,7 +92,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedCard != null)
 			{
-				var result = SDKImport.WRAP_DevCtrl_RemoveRecordSet(MainWindow.LoginID, SelectedCard.Card.RecordNo, 1);
+				var result = SDKImport.WRAP_RemoveCard(MainWindow.LoginID, SelectedCard.Card.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -99,7 +100,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = SDKImport.WRAP_DevCtrl_ClearRecordSet(MainWindow.LoginID, 1);
+			var result = SDKImport.WRAP_RemoveAllCards(MainWindow.LoginID);
 			MessageBox.Show("result = " + result);
 		}
 
@@ -107,8 +108,8 @@ namespace ControllerSDK.ViewModels
 		void OnGetCount()
 		{
 			SDKImport.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new SDKImport.FIND_RECORD_ACCESSCTLCARD_CONDITION();
-			stuParam.szCardNo = SDKWrapper.StringToCharArray("1", 32);
-			stuParam.szUserID = SDKWrapper.StringToCharArray("1", 32);
+			stuParam.szCardNo = Wrapper.StringToCharArray("1", 32);
+			stuParam.szUserID = Wrapper.StringToCharArray("1", 32);
 			var cardsCount = SDKImport.WRAP_Get_CardsCount(MainWindow.LoginID, ref stuParam);
 			MessageBox.Show("cardsCount = " + cardsCount);
 		}
@@ -116,7 +117,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var cards = SDKWrapper.GetAllCards(MainWindow.LoginID);
+			var cards = Wrapper.GetAllCards(MainWindow.LoginID);
 
 			Cards.Clear();
 			foreach (var card in cards)
@@ -172,10 +173,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public ObservableCollection<ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_STATE> AvailableCardStatuses { get; private set; }
+		public ObservableCollection<SDKImport.NET_ACCESSCTLCARD_STATE> AvailableCardStatuses { get; private set; }
 
-		ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_STATE _cardStatus;
-		public ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_STATE CardStatus
+		SDKImport.NET_ACCESSCTLCARD_STATE _cardStatus;
+		public SDKImport.NET_ACCESSCTLCARD_STATE CardStatus
 		{
 			get { return _cardStatus; }
 			set
@@ -185,10 +186,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public ObservableCollection<ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_TYPE> AvailableCardTypes { get; private set; }
+		public ObservableCollection<SDKImport.NET_ACCESSCTLCARD_TYPE> AvailableCardTypes { get; private set; }
 
-		ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_TYPE _cardType;
-		public ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_TYPE CardType
+		SDKImport.NET_ACCESSCTLCARD_TYPE _cardType;
+		public SDKImport.NET_ACCESSCTLCARD_TYPE CardType
 		{
 			get { return _cardType; }
 			set

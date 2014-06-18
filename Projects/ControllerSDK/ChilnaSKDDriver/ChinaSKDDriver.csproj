@@ -8,8 +8,8 @@
     <ProjectGuid>{77C8D1E5-51B4-45F9-93DF-D114433771E2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ChilnaSKDDriver</RootNamespace>
-    <AssemblyName>ChilnaSKDDriver</AssemblyName>
+    <RootNamespace>ChinaSKDDriver</RootNamespace>
+    <AssemblyName>ChinaSKDDriver</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,13 +42,13 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SDK\API.cs" />
-    <Compile Include="SDK\CardRecsWrapper.cs" />
-    <Compile Include="SDK\CarsdsWrapper.cs" />
-    <Compile Include="SDK\HolidysWrapper.cs" />
-    <Compile Include="SDK\PasswordsWrapper.cs" />
+    <Compile Include="SDK\Wrapper.CardRecs.cs" />
+    <Compile Include="SDK\Wrapper.Carsds.cs" />
+    <Compile Include="SDK\Wrapper.Holidys.cs" />
+    <Compile Include="SDK\Wrapper.Passwords.cs" />
     <Compile Include="SDK\SDKImport.cs" />
-    <Compile Include="SDK\SDKWrapper.cs" />
-    <Compile Include="SDK\TimeShedulesWrapper.cs" />
+    <Compile Include="SDK\Wrapper.Common.cs" />
+    <Compile Include="SDK\Wrapper.TimeShedules.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

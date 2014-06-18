@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using ControllerSDK.API;
-using ControllerSDK.SDK;
+using ChinaSKDDriver;
+using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
 using ControllerSDK.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -58,14 +59,14 @@ namespace ControllerSDK.ViewModels
 			cardRec.DoorNo = DoorNo;
 			cardRec.IsStatus = IsStatus;
 			cardRec.DoorOpenMethod = DoorOpenMethod;
-			var newCardNo = SDKWrapper.AddCardRec(MainWindow.LoginID, cardRec);
+			var newCardNo = Wrapper.AddCardRec(MainWindow.LoginID, cardRec);
 			MessageBox.Show("newCardNo = " + newCardNo);
 		}
 
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = SDKWrapper.GetCardInfo(MainWindow.LoginID, 2);
+			var result = Wrapper.GetCardInfo(MainWindow.LoginID, 2);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -73,7 +74,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedCard != null)
 			{
-				var result = SDKImport.WRAP_DevCtrl_RemoveRecordSet(MainWindow.LoginID, SelectedCard.CardRec.RecordNo, 2);
+				var result = SDKImport.WRAP_RemoveCardRec(MainWindow.LoginID, SelectedCard.CardRec.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -81,7 +82,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = SDKImport.WRAP_DevCtrl_ClearRecordSet(MainWindow.LoginID, 2);
+			var result = SDKImport.WRAP_RemoveAllCardRecs(MainWindow.LoginID);
 			MessageBox.Show("result = " + result);
 		}
 
@@ -95,7 +96,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var cardRecs = SDKWrapper.GetAllCardRecs(MainWindow.LoginID);
+			var cardRecs = Wrapper.GetAllCardRecs(MainWindow.LoginID);
 
 			Cards.Clear();
 			foreach (var cardRec in cardRecs)
@@ -173,10 +174,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public ObservableCollection<ControllerSDK.SDK.SDKImport.NET_ACCESS_DOOROPEN_METHOD> AvailableDoorOpenMethods { get; private set; }
+		public ObservableCollection<SDKImport.NET_ACCESS_DOOROPEN_METHOD> AvailableDoorOpenMethods { get; private set; }
 
-		ControllerSDK.SDK.SDKImport.NET_ACCESS_DOOROPEN_METHOD _doorOpenMethod;
-		public ControllerSDK.SDK.SDKImport.NET_ACCESS_DOOROPEN_METHOD DoorOpenMethod
+		SDKImport.NET_ACCESS_DOOROPEN_METHOD _doorOpenMethod;
+		public SDKImport.NET_ACCESS_DOOROPEN_METHOD DoorOpenMethod
 		{
 			get { return _doorOpenMethod; }
 			set

@@ -1,12 +1,13 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System.Collections.ObjectModel;
-using System;
-using ControllerSDK.SDK;
-using ControllerSDK.Views;
-using ControllerSDK.API;
-using System.Windows;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
+using ChinaSKDDriver;
+using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
+using ControllerSDK.Views;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels
 {
@@ -49,14 +50,14 @@ namespace ControllerSDK.ViewModels
 			password.DoorOpenPassword = DoorOpenPassword;
 			password.AlarmPassword = AlarmPassword;
 			password.DoorsCount = DoorsCount;
-			var newPasswordNo = SDKWrapper.AddPassword(MainWindow.LoginID, password);
+			var newPasswordNo = Wrapper.AddPassword(MainWindow.LoginID, password);
 			MessageBox.Show("newPasswordNo = " + newPasswordNo);
 		}
 
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = SDKWrapper.GetPasswordInfo(MainWindow.LoginID, 0);
+			var result = Wrapper.GetPasswordInfo(MainWindow.LoginID, 0);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -64,7 +65,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedPassword != null)
 			{
-				var result = SDKImport.WRAP_DevCtrl_RemoveRecordSet(MainWindow.LoginID, SelectedPassword.Password.RecordNo, 2);
+				var result = SDKImport.WRAP_RemoveCardRec(MainWindow.LoginID, SelectedPassword.Password.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -72,7 +73,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = SDKImport.WRAP_DevCtrl_ClearRecordSet(MainWindow.LoginID, 2);
+			var result = SDKImport.WRAP_RemoveAllPasswords(MainWindow.LoginID);
 			MessageBox.Show("result = " + result);
 		}
 
@@ -86,7 +87,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var passwords = SDKWrapper.GetAllPasswords(MainWindow.LoginID);
+			var passwords = Wrapper.GetAllPasswords(MainWindow.LoginID);
 
 			Passwords.Clear();
 			foreach (var password in passwords)

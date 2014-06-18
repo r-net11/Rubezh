@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using ChinaSKDDriverNativeApi;
 
-namespace ControllerSDK.API
+namespace ChinaSKDDriverAPI
 {
 	public class DeviceSoftwareInfo
 	{
@@ -34,8 +35,8 @@ namespace ControllerSDK.API
 		public string PauseUsedAudioPath { get; set; }
 		public string NotClosedAudioPath { get; set; }
 		public string WaitingAudioPath { get; set; }
-		public Int32 UnlockReloadTime { get; set; }
-		public Int32 UnlockHoldTime { get; set; }
+		public int UnlockReloadTime { get; set; }
+		public int UnlockHoldTime { get; set; }
 		public bool IsProjectPassword { get; set; }
 		public string ProjectPassword { get; set; }
 	}
@@ -72,8 +73,8 @@ namespace ControllerSDK.API
 		public DateTime CreationDateTime { get; set; }
 		public string CardNo { get; set; }
 		public string UserID { get; set; }
-		public ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_STATE CardStatus { get; set; }
-		public ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_TYPE CardType { get; set; }
+		public SDKImport.NET_ACCESSCTLCARD_STATE CardStatus { get; set; }
+		public SDKImport.NET_ACCESSCTLCARD_TYPE CardType { get; set; }
 		public string Password { get; set; }
 		public int DoorsCount { get; set; }
 		public int[] Doors { get; set; }
@@ -92,7 +93,7 @@ namespace ControllerSDK.API
 		public string Password { get; set; }
 		public DateTime DateTime { get; set; }
 		public bool IsStatus { get; set; }
-		public ControllerSDK.SDK.SDKImport.NET_ACCESS_DOOROPEN_METHOD DoorOpenMethod { get; set; }
+		public SDKImport.NET_ACCESS_DOOROPEN_METHOD DoorOpenMethod { get; set; }
 		public int DoorNo { get; set; }
 	}
 

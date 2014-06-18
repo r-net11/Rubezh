@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System.Windows;
-using ControllerSDK.Views;
-using ControllerSDK.SDK;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using ControllerSDK.API;
+using System.Linq;
+using ChinaSKDDriver;
+using ChinaSKDDriverAPI;
+using ControllerSDK.Views;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels
 {
@@ -23,7 +20,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetTimeShedulesCommand { get; private set; }
 		void OnGetTimeShedules()
 		{
-			var timeShedules = SDKWrapper.GetTimeShedules(MainWindow.LoginID);
+			var timeShedules = Wrapper.GetTimeShedules(MainWindow.LoginID);
 
 			foreach (var timeShedule in timeShedules)
 			{
@@ -60,7 +57,7 @@ namespace ControllerSDK.ViewModels
 					timeShedules.Add(timeShedule);
 				}
 			}
-			var result = SDKWrapper.SetTimeShedules(MainWindow.LoginID, timeShedules);
+			var result = Wrapper.SetTimeShedules(MainWindow.LoginID, timeShedules);
 		}
 
 		ObservableRangeCollection<TimeSheduleViewModel> _timeShedules;

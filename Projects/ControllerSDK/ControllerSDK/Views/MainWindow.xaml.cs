@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Documents;
-using ControllerSDK.API;
-using ControllerSDK.SDK;
+using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
 using ControllerSDK.ViewModels;
-using System.IO;
 
 namespace ControllerSDK.Views
 {
@@ -63,7 +63,7 @@ namespace ControllerSDK.Views
 			return result;
 		}
 
-		public DateTime NET_TIMEToDateTime(ControllerSDK.SDK.SDKImport.NET_TIME netTime)
+		public DateTime NET_TIMEToDateTime(SDKImport.NET_TIME netTime)
 		{
 			DateTime dateTime = DateTime.MinValue;
 			try
@@ -81,7 +81,7 @@ namespace ControllerSDK.Views
 			SDKImport.fDisConnectDelegate dCbFunc = new SDKImport.fDisConnectDelegate(OnfDisConnect);
 			var result = SDKImport.CLIENT_Init(dCbFunc, (UInt32)0);
 
-			ControllerSDK.SDK.SDKImport.NET_DEVICEINFO deviceInfo;
+			SDKImport.NET_DEVICEINFO deviceInfo;
 			int error = 0;
 			LoginID = SDKImport.CLIENT_Login("172.16.2.56", (UInt16)37777, "admin", "123456", out deviceInfo, out error);
 
@@ -690,28 +690,28 @@ namespace ControllerSDK.Views
 
 		void OnRemoveRecordSet(object sender, RoutedEventArgs e)
 		{
-			var result = SDKImport.WRAP_DevCtrl_RemoveRecordSet(LoginID, 1, 1);
-			if (result)
-			{
-				_textBox.Text += "Success" + "\n";
-			}
-			else
-			{
-				_textBox.Text += "Error" + "\n";
-			}
+			//var result = SDKImport.WRAP_DevCtrl_RemoveRecordSet(LoginID, 1, 1);
+			//if (result)
+			//{
+			//    _textBox.Text += "Success" + "\n";
+			//}
+			//else
+			//{
+			//    _textBox.Text += "Error" + "\n";
+			//}
 		}
 
 		void OnClearRecordSet(object sender, RoutedEventArgs e)
 		{
-			var result = SDKImport.WRAP_DevCtrl_ClearRecordSet(LoginID, 1);
-			if (result)
-			{
-				_textBox.Text += "Success" + "\n";
-			}
-			else
-			{
-				_textBox.Text += "Error" + "\n";
-			}
+			//var result = SDKImport.WRAP_DevCtrl_ClearRecordSet(LoginID, 1);
+			//if (result)
+			//{
+			//    _textBox.Text += "Success" + "\n";
+			//}
+			//else
+			//{
+			//    _textBox.Text += "Error" + "\n";
+			//}
 		}
 
 		void OnGetCount(object sender, RoutedEventArgs e)

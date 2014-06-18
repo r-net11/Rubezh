@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ChinaSKDDriverAPI;
 using Infrastructure.Common.Windows.ViewModels;
-using ControllerSDK.API;
 
 namespace ControllerSDK.ViewModels
 {
