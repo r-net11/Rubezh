@@ -157,6 +157,35 @@ namespace ControllerSDK.SDK
 			var result = SDKImport.WRAP_Insert_CardRec(loginID, ref stuCardRec);
 			return result;
 		}
+
+		public static List<CardRec> GetAllCardRecs(int loginID)
+		{
+			int structSize = Marshal.SizeOf(typeof(SDKImport.CardRecsCollection));
+			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+
+			var result = SDKImport.WRAP_GetAllCardRecs(loginID, intPtr);
+
+			SDKImport.CardRecsCollection cardRecsCollection = (SDKImport.CardRecsCollection)(Marshal.PtrToStructure(intPtr, typeof(SDKImport.CardRecsCollection)));
+			Marshal.FreeCoTaskMem(intPtr);
+			intPtr = IntPtr.Zero;
+
+			var cardRecs = new List<CardRec>();
+
+			for (int i = 0; i < Math.Min(cardRecsCollection.Count, 500); i++)
+			{
+				var sdkCard = cardRecsCollection.CardRecs[i];
+				var card = new CardRec();
+				card.RecordNo = sdkCard.nRecNo;
+				card.DateTime = NET_TIMEToDateTime(sdkCard.stuTime);
+				card.CardNo = CharArrayToString(sdkCard.szCardNo);
+				card.Password = CharArrayToString(sdkCard.szPwd);
+				card.DoorNo = sdkCard.nDoor;
+				card.IsStatus = sdkCard.bStatus;
+				card.DoorOpenMethod = sdkCard.emMethod;
+				cardRecs.Add(card);
+			}
+			return cardRecs;
+		}
 		#endregion
 
 		#region Passwords
@@ -277,9 +306,6 @@ namespace ControllerSDK.SDK
 
 		public static bool SetTimeShedules(int loginID, List<TimeShedule> timeShedules)
 		{
-			//int structSize = Marshal.SizeOf(typeof(SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO));
-			//IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
-
 			SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfos = new SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO();
 			timeSheduleInfos.stuTime = new SDKImport.CFG_TIME_SECTION[7 * 4];
 			timeSheduleInfos.bEnable = true;
@@ -294,9 +320,6 @@ namespace ControllerSDK.SDK
 			}
 
 			var result = SDKImport.WRAP_SetAccessTimeSchedule(loginID, timeSheduleInfos);
-
-			//Marshal.FreeCoTaskMem(intPtr);
-			//intPtr = IntPtr.Zero;
 
 			return result;
 		}

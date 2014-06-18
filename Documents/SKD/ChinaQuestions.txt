@@ -71,3 +71,18 @@ SDK supports adding, aditing, deleting and searching of CardRecs. Do i realy nee
 When i add a Card, CardRec is adding automaticly? If so. what will happen to Card, if i will delete corresponding CardRec
 
 - IMHO, nCannel is't so good for naming time shedule index, and MAX_DOOR_TIME_SECTION is't good for max time intervals per day. So i was a bit confused
+
+- Functions
+BOOL DevCtrl_OpenDoor(LLONG lLoginId)
+BOOL DevCtrl_CloseDoor(LLONG lLoginId)
+void DevState_DoorStatus(LLONG lLoginId)
+have
+stuParam.nChannelID = 0;
+in their body
+What is nChannelID?
+
+- You said that i have to pay no attention to stuCard.szUserID when adding a Card. And what about adding a Password? Should I ignore it too. And is the best value for that szUserID? Null, empty string, "0". After all, what does szUserID for?
+
+- We are using Microsoft .NET Framework technology stack in our development. Your SDK uses C++. So we have to have some wrapper. Mybee you,v already have binding to C#?
+
+- We are planning stress tests on your SDK. Something like writing and deliting large amount of cards. I am not shure about the perfomance and behaviour on connection lost and reconnection logic. If we would't be sattisfied whith SDK, could you give us low-level protocols over tcp-ip or udp(don't know your are using, but i gues one of theese)

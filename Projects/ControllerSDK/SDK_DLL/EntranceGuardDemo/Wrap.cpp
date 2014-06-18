@@ -294,12 +294,6 @@ BOOL CALL_METHOD WRAP_SetDevConfig_AccessControl(int lLoginId, CFG_ACCESS_EVENT_
 	}
 }
 
-BOOL CALL_METHOD WRAP_SetDevConfig_AccessControl2(int lLoginId, CFG_ACCESS_EVENT_INFO* stuGeneralInfo)
-{
-	return TRUE;
-}
-
-
 BOOL CALL_METHOD WRAP_GetDevConfig_AccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO* result)
 {	
 	char szJsonBuf[1024 * 40] = {0};
@@ -589,17 +583,7 @@ BOOL CALL_METHOD WRAP_DevCtrl_ClearRecordSet(int lLoginID, int nRecordSetType)
 	return bResult;
 }
 
-//////////////////////////////////////////////////////////////////////////
-//
-// card
-//
-//////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////////////
-//
-// Pwd
-//
-//////////////////////////////////////////////////////////////////////////
 void WRAP_testRecordSetFind_Pwd(LLONG lLoginId, LLONG& lFinderId, FIND_RECORD_ACCESSCTLPWD_CONDITION stuParam)
 {
 	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
@@ -1406,6 +1390,80 @@ BOOL CALL_METHOD WRAP_GetAllCards(int lLoginId, CardsCollection* result)
 	return lFinderID != 0;
 }
 
+//*****************************************************************
+
+void WRAP_testRecordSetFind_CardRec(LLONG lLoginId, LLONG& lFinderId)
+{
+	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
+	NET_OUT_FIND_RECORD_PARAM stuOut = {sizeof(stuOut)};
+	
+	stuIn.emType = NET_RECORD_ACCESSCTLCARDREC;
+	
+	FIND_RECORD_ACCESSCTLCARDREC_CONDITION stuParam = {sizeof(FIND_RECORD_ACCESSCTLCARDREC_CONDITION)};
+	strcpy(stuParam.szCardNo, "987654321");
+	stuParam.stStartTime.dwYear = 2013;
+	stuParam.stStartTime.dwMonth = 1;
+	stuParam.stStartTime.dwDay = 2;
+	stuParam.stStartTime.dwHour = 3;
+	stuParam.stStartTime.dwMinute = 4;
+	stuParam.stStartTime.dwSecond = 5;
+	stuParam.stEndTime.dwYear = 2014;
+	stuParam.stEndTime.dwMonth = 2;
+	stuParam.stEndTime.dwDay = 3;
+	stuParam.stEndTime.dwHour = 4;
+	stuParam.stEndTime.dwMinute = 5;
+	stuParam.stEndTime.dwSecond = 6;
+	
+	stuIn.pQueryCondition = &stuParam;
+	
+	if (CLIENT_FindRecord(lLoginId, &stuIn, &stuOut, SDK_API_WAITTIME))
+	{
+		lFinderId = stuOut.lFindeHandle;
+	}
+}
+
+BOOL CALL_METHOD WRAP_GetAllCardRecs(int lLoginId, CardRecsCollection* result)
+{
+	CardRecsCollection cardRecsCollection = {sizeof(CardRecsCollection)};
+
+	LLONG lFinderID = 0;
+	WRAP_testRecordSetFind_CardRec(lLoginId, lFinderID);
+	if (lFinderID != 0)
+	{
+		NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
+		stuIn.lFindeHandle = lFinderID;
+		stuIn.nFileCount = QUERY_COUNT;
+	
+		NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
+		stuOut.nMaxRecordNum = stuIn.nFileCount;
+	
+		NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec[QUERY_COUNT] = {0};
+		for (int i = 0; i < sizeof(stuCardRec)/sizeof(stuCardRec[0]); i++)
+		{
+			stuCardRec[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_CARDREC);
+		}
+		stuOut.pRecordList = (void*)&stuCardRec[0];
+	
+		if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
+		{
+			printf("testRecordSetFindNext_CardRec ok!\n");
+		
+			for (int j = 0; j < stuOut.nRetRecordNum; j++)
+			{
+				NET_RECORDSET_ACCESS_CTL_CARDREC* pCardRec = (NET_RECORDSET_ACCESS_CTL_CARDREC*)stuOut.pRecordList;
+				memcpy(&cardRecsCollection.CardRecs[j], &pCardRec[j], sizeof(NET_RECORDSET_ACCESS_CTL_CARD));
+			}
+		}
+
+		CLIENT_FindRecordClose(lFinderID);
+	}
+
+	memcpy(result, &cardRecsCollection, sizeof(CardRecsCollection));
+	return lFinderID != 0;
+}
+
+//*******************************************************************
+
 BOOL CALL_METHOD WRAP_GetAllPasswords(int lLoginId, PasswordsCollection* result)
 {
 	PasswordsCollection passwordsCollection = {sizeof(PasswordsCollection)};
@@ -1618,68 +1676,32 @@ BOOL CALL_METHOD WRAP_SetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDUL
 		}
 	myfile.close();
 
-
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
 	int nChannel = 0;
 
-	//// 获取
-	//BOOL bRet = CLIENT_GetNewDevConfig(lLoginId, CFG_CMD_ACCESSTIMESCHEDULE, nChannel, 
-	//	szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
-	//if (bRet)
-	//{
-	//	printf("Get AccessTimeSchedule Config ok!\n");
-	//}
-	//else
-	//{
-	//	printf("Get AccessTimeSchedule Config failed...0x%08x\n", 
-	//		CLIENT_GetLastError());
-	//}
-
-	//// 解析
-	//if (bRet)
+	int nRetLen = 0;
+	CFG_ACCESS_TIMESCHEDULE_INFO stuInfo = timeSheduleInfo;
 	{
-		int nRetLen = 0;
-		CFG_ACCESS_TIMESCHEDULE_INFO stuInfo = timeSheduleInfo;
-		//BOOL bRet = CLIENT_ParseData(CFG_CMD_ACCESSTIMESCHEDULE, szJsonBuf,
-		//	&stuInfo, sizeof(stuInfo), &nRetLen);
-		//if (bRet)
-		//{
-		//	printf("Parse AccessTimeSchedule Config ok!\n");
-		//}
-		//else
-		//{
-		//	printf("Parse AccessTimeSchedule Config failed!\n");
-		//}
-		//
-		//// 设置
-		//if (bRet)
+		char szJsonBufSet[1024 * 40] = {0};
+		BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESSTIMESCHEDULE, &stuInfo, sizeof(stuInfo), szJsonBufSet, sizeof(szJsonBufSet));
+		if (!bRet)
 		{
-			char szJsonBufSet[1024 * 40] = {0};
-
-			{
-				// 修改参数，在这里
-			}
-			
-			BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESSTIMESCHEDULE, &stuInfo, sizeof(stuInfo), szJsonBufSet, sizeof(szJsonBufSet));
+			printf("Packet AccessTimeSchedule Config failed!\n");
+		} 
+		else
+		{
+			printf("Packet AccessTimeSchedule Config ok!\n");
+			int nerror = 0;
+			int nrestart = 0;
+			bRet = CLIENT_SetNewDevConfig(lLoginId, CFG_CMD_ACCESSTIMESCHEDULE, nChannel, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
 			if (!bRet)
 			{
-				printf("Packet AccessTimeSchedule Config failed!\n");
-			} 
+				printf("Set AccessTimeSchedule Config failed...0x%08x\n", CLIENT_GetLastError());
+			}
 			else
 			{
-				printf("Packet AccessTimeSchedule Config ok!\n");
-				int nerror = 0;
-				int nrestart = 0;
-				bRet = CLIENT_SetNewDevConfig(lLoginId, CFG_CMD_ACCESSTIMESCHEDULE, nChannel, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
-				if (!bRet)
-				{
-					printf("Set AccessTimeSchedule Config failed...0x%08x\n", CLIENT_GetLastError());
-				}
-				else
-				{
-					printf("Set AccessTimeSchedule Config ok!\n");
-				}
+				printf("Set AccessTimeSchedule Config ok!\n");
 			}
 		}
 	}

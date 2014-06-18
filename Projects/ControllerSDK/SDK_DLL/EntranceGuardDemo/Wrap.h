@@ -65,39 +65,6 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDevConfig_AccessControl(int lLogi
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDevConfig_AccessControl(int lLoginId, CFG_ACCESS_EVENT_INFO* stuGeneralInfo);
 
-
-typedef struct tagCFG_ACCESS_EVENT_INFO2
-{
-	CFG_ACCESS_STATE    emState;						// 门禁状态
-	CFG_ACCESS_MODE     emMode;							// 门禁模式
-	int					nEnableMode;					// 门禁使能电平值, 0:低电平有效(断电启动); 1:高电平有效(通电启动);
-	BOOL                bSnapshotEnable;				// 事件联动抓图使能
-	bool                abDoorOpenMethod;
-	bool                abUnlockHoldInterval;
-	bool                abCloseTimeout;
-	bool                abOpenAlwaysTimeIndex;
-	bool                abHolidayTimeIndex;
-	bool                abBreakInAlarmEnable;
-	bool				abRepeatEnterAlarmEnable;
-	bool                abDoorNotClosedAlarmEnable;
-	bool				abDuressAlarmEnable;
-	bool                abDoorTimeSection;
-	bool				abSensorEnable;
-	BYTE				byReserved;
-	CFG_DOOR_OPEN_METHOD	emDoorOpenMethod;			// 开门方式
-	int					nUnlockHoldInterval;			// 门锁保持时间(自动关门时间),单位毫秒,[250, 20000]
-	int					nCloseTimeout;					// 关门超时时间, 超过阈值未关会触发报警，单位秒,[0,9999];0表示不检测超时
-	int					nOpenAlwaysTimeIndex;			// 常开时间段, 值为CFG_ACCESS_TIMESCHEDULE_INFO配置的数组下标
-	int					nHolidayTimeRecoNo;				// 假期内时间段, 值为假日记录集的记录编号，对应NET_RECORDSET_HOLIDAY的nRecNo
-	BOOL				bBreakInAlarmEnable;			// 闯入报警使能
-	BOOL				bRepeatEnterAlarm;				// 反潜报警使能
-	BOOL				bDoorNotClosedAlarmEnable;		// 门未关报警使能
-	BOOL				bDuressAlarmEnable;				// 胁迫报警使能
-	BOOL				bSensorEnable;					// 门磁使能
-}CFG_ACCESS_EVENT_INFO2;
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDevConfig_AccessControl2(int lLoginId, CFG_ACCESS_EVENT_INFO* stuGeneralInfo);
-
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDevConfig_AccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO* result);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDevConfig_AccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO* stuInfo);
@@ -146,6 +113,14 @@ typedef struct tagNET_CardsCollection
 }CardsCollection;
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAllCards(int lLoginId, CardsCollection* result);
+
+typedef struct tagNET_CardRecsCollection
+{
+	int Count;
+	NET_RECORDSET_ACCESS_CTL_CARDREC CardRecs[1000];
+}CardRecsCollection;
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAllCardRecs(int lLoginId, CardRecsCollection* result);
 
 typedef struct tagNET_PasswordsCollection
 {

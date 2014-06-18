@@ -92,9 +92,8 @@ namespace ControllerSDK.API
 		public string Password { get; set; }
 		public DateTime DateTime { get; set; }
 		public bool IsStatus { get; set; }
-
-		public ControllerSDK.SDK.SDKImport.NET_ACCESS_DOOROPEN_METHOD DoorOpenMethod;
-		public int DoorNo;
+		public ControllerSDK.SDK.SDKImport.NET_ACCESS_DOOROPEN_METHOD DoorOpenMethod { get; set; }
+		public int DoorNo { get; set; }
 	}
 
 	public class Password
