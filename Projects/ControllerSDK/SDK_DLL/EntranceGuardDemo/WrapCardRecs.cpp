@@ -182,18 +182,6 @@ void WRAP_testRecordSetFind_CardRec(LLONG lLoginId, LLONG& lFinderId, FIND_RECOR
 	}	
 }
 
-void CloseCardRecsFinder(LLONG lFinderId)
-{
-	if (CLIENT_FindRecordClose(lFinderId))
-	{
-		printf("CLIENT_FindRecordClose_Card ok!\n");
-	}
-	else
-	{
-		printf("CLIENT_FindRecordClose_Card failed:0x%08x!\n", CLIENT_GetLastError());
-	}
-}
-
 int GetCardRecsCountRecordSetFind(LLONG& lFinderId)
 {
 	NET_IN_QUEYT_RECORD_COUNT_PARAM stuIn = {sizeof(stuIn)};
@@ -236,7 +224,7 @@ int CALL_METHOD WRAP_Get_CardRecordsCount(int lLoginID)
     if (NULL != lFindID)
     {
 		int count = GetCardRecsCountRecordSetFind(lFindID);
-		CloseCardRecsFinder(lFindID);
+		CLIENT_FindRecordClose(lFindID);
 		return count;
     }
 	return -1;
@@ -299,7 +287,7 @@ BOOL CALL_METHOD WRAP_GetAllCardRecords(int lLoginId, CardRecordsCollection* res
 			}
 		}
 		
-		CloseCardRecsFinder(lFinderID);
+		CLIENT_FindRecordClose(lFinderID);
 	}
 	else
 	{

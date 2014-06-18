@@ -18,21 +18,21 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand OpenDoorCommand { get; private set; }
 		void OnOpenDoor()
 		{
-			var result = SDKImport.WRAP_DevCtrl_OpenDoor(MainWindow.LoginID);
+			var result = NativeWrapper.WRAP_DevCtrl_OpenDoor(MainWindow.LoginID);
 			MessageBox.Show(result.ToString());
 		}
 
 		public RelayCommand CloseDoorCommand { get; private set; }
 		void OnCloseDoor()
 		{
-			var result = SDKImport.WRAP_DevCtrl_CloseDoor(MainWindow.LoginID);
+			var result = NativeWrapper.WRAP_DevCtrl_CloseDoor(MainWindow.LoginID);
 			MessageBox.Show(result.ToString());
 		}
 
 		public RelayCommand GetDoorStatusCommand { get; private set; }
 		void OnGetDoorStatus()
 		{
-			var result = SDKImport.WRAP_DevState_DoorStatus(MainWindow.LoginID);
+			var result = NativeWrapper.WRAP_DevState_DoorStatus(MainWindow.LoginID);
 			switch(result)
 			{
 				case -1:

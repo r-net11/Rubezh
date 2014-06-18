@@ -15,18 +15,12 @@
                 <Button Content="RemoveAll" Command="{Binding RemoveAllCommand}" Width="100" Margin="2" />
                 <Button Content="GetCount" Command="{Binding GetCountCommand}" Width="100" Margin="2" />
                 <Button Content="GetAll" Command="{Binding GetAllCommand}" Width="100" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="CreationDateTime" Width="200" Margin="2" />
-                <DatePicker SelectedDate="{Binding CreationDateTime}" Width="100" Margin="2" />
+                <TextBlock Text="Index" Margin="2" />
+                <TextBox Text="{Binding Index}" Width="100" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="CardNo" Width="200" Margin="2" />
                 <TextBox Text="{Binding CardNo}" Width="100" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="UserID" Width="200" Margin="2" />
-                <TextBox Text="{Binding UserID}" Width="100" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Password" Width="200" Margin="2" />
@@ -53,14 +47,6 @@
                 <DatePicker SelectedDate="{Binding ValidEndTime}" Width="100" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="IsValid" Width="200" Margin="2" />
-                <CheckBox IsChecked="{Binding IsValid}" Width="100" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="CardStatus" Width="200" Margin="2" />
-                <ComboBox ItemsSource="{Binding AvailableCardStatuses}" SelectedItem="{Binding CardStatus}" Width="100" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
                 <TextBlock Text="CardType" Width="200" Margin="2" />
                 <ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="100" Margin="2" />
             </StackPanel>
@@ -68,16 +54,14 @@
         <DataGrid Grid.Row="1" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="RecordNo" Binding="{Binding Card.RecordNo}" />
-                <DataGridTextColumn Header="CreationDateTime" Binding="{Binding CreationDateTime}" />
                 <DataGridTextColumn Header="CardNo" Binding="{Binding Card.CardNo}" />
-                <DataGridTextColumn Header="UserID" Binding="{Binding Card.UserID}" />
-                <DataGridTextColumn Header="CardStatus" Binding="{Binding Card.CardStatus}" />
                 <DataGridTextColumn Header="CardType" Binding="{Binding Card.CardType}" />
                 <DataGridTextColumn Header="Password" Binding="{Binding Card.Password}" />
                 <DataGridTextColumn Header="DoorsCount" Binding="{Binding Card.DoorsCount}" />
                 <DataGridTextColumn Header="TimeSectionsCount" Binding="{Binding Card.TimeSectionsCount}" />
                 <DataGridTextColumn Header="UserTime" Binding="{Binding Card.UserTime}" />
-                <DataGridTextColumn Header="IsValid" Binding="{Binding Card.IsValid}" />
+                <DataGridTextColumn Header="ValidStartDateTime" Binding="{Binding ValidStartDateTime}" />
+                <DataGridTextColumn Header="ValidEndDateTime" Binding="{Binding ValidEndDateTime}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

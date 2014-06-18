@@ -160,18 +160,6 @@ void WRAP_testRecordSetFindNext_Pwd(LLONG lFinderId)
 	}
 }
 
-void ClosePasswordsFinder(LLONG lFinderId)
-{
-	if (CLIENT_FindRecordClose(lFinderId))
-	{
-		printf("CLIENT_FindRecordClose_Card ok!\n");
-	}
-	else
-	{
-		printf("CLIENT_FindRecordClose_Card failed:0x%08x!\n", CLIENT_GetLastError());
-	}
-}
-
 int GetPaswordsCountRecordSetFind(LLONG& lFinderId)
 {
 	NET_IN_QUEYT_RECORD_COUNT_PARAM stuIn = {sizeof(stuIn)};
@@ -202,7 +190,7 @@ int CALL_METHOD WRAP_Get_PasswordsCount(int lLoginID)
     if (NULL != lFindID)
     {
 		int count = GetPaswordsCountRecordSetFind(lFindID);
-		ClosePasswordsFinder(lFindID);
+		CLIENT_FindRecordClose(lFindID);
 		return count;
     }
 	return -1;
@@ -253,7 +241,7 @@ BOOL CALL_METHOD WRAP_GetAllPasswords(int lLoginId, PasswordsCollection* result)
 			}
 		}
 
-		ClosePasswordsFinder(lFinderID);
+		CLIENT_FindRecordClose(lFinderID);
 	}
 
 	memcpy(result, &passwordsCollection, sizeof(PasswordsCollection));

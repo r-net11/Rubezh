@@ -23,32 +23,23 @@ namespace ControllerSDK.ViewModels
 			GetAllCommand = new RelayCommand(OnGetAll);
 			Cards = new ObservableCollection<CardViewModel>();
 
-			CreationDateTime = DateTime.Now;
 			CardNo = "1";
-			UserID = "1";
 			Password = "1";
 			DoorsCount = 1;
 			TimeSectionsCount = 1;
 			UserTime = 1;
 			ValidStartTime = DateTime.Now;
 			ValidEndTime = DateTime.Now;
-			IsValid = true;
 
-			AvailableCardStatuses = new ObservableCollection<SDKImport.NET_ACCESSCTLCARD_STATE>();
-			AvailableCardStatuses.Add(SDKImport.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_FREEZE);
-			AvailableCardStatuses.Add(SDKImport.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL);
-			AvailableCardStatuses.Add(SDKImport.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_LOSE);
-			AvailableCardStatuses.Add(SDKImport.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_LOGOFF);
-			AvailableCardStatuses.Add(SDKImport.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_FREEZE);
-			AvailableCardTypes = new ObservableCollection<SDKImport.NET_ACCESSCTLCARD_TYPE>();
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_UNKNOWN);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_GENERAL);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_VIP);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_GUEST);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_PATROL);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_BLACKLIST);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_CORCE);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_MOTHERCARD);
+			AvailableCardTypes = new ObservableCollection<NativeWrapper.NET_ACCESSCTLCARD_TYPE>();
+			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_UNKNOWN);
+			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_GENERAL);
+			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_VIP);
+			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_GUEST);
+			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_PATROL);
+			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_BLACKLIST);
+			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_CORCE);
+			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_MOTHERCARD);
 		}
 
 		public void Initialize(List<Card> cards)
@@ -65,17 +56,13 @@ namespace ControllerSDK.ViewModels
 		void OnAdd()
 		{
 			var card = new Card();
-			card.CreationDateTime = CreationDateTime;
 			card.CardNo = CardNo;
-			card.UserID = UserID;
 			card.Password = Password;
 			card.DoorsCount = DoorsCount;
 			card.TimeSectionsCount = TimeSectionsCount;
 			card.UserTime = UserTime;
 			card.ValidStartDateTime = ValidStartTime;
 			card.ValidEndDateTime = ValidEndTime;
-			card.IsValid = IsValid;
-			card.CardStatus = CardStatus;
 			card.CardType = CardType;
 			var newCardNo = Wrapper.AddCard(MainWindow.LoginID, card);
 			MessageBox.Show("newCardNo = " + newCardNo);
@@ -84,7 +71,8 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = Wrapper.GetCardInfo(MainWindow.LoginID, 2);
+			var result = Wrapper.GetCardInfo(MainWindow.LoginID, Index);
+			Initialize(new List<Card>() { result });
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -92,7 +80,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedCard != null)
 			{
-				var result = SDKImport.WRAP_RemoveCard(MainWindow.LoginID, SelectedCard.Card.RecordNo);
+				var result = NativeWrapper.WRAP_RemoveCard(MainWindow.LoginID, Index);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -100,17 +88,17 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = SDKImport.WRAP_RemoveAllCards(MainWindow.LoginID);
+			var result = NativeWrapper.WRAP_RemoveAllCards(MainWindow.LoginID);
 			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			SDKImport.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new SDKImport.FIND_RECORD_ACCESSCTLCARD_CONDITION();
+			NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION();
 			stuParam.szCardNo = Wrapper.StringToCharArray("1", 32);
 			stuParam.szUserID = Wrapper.StringToCharArray("1", 32);
-			var cardsCount = SDKImport.WRAP_Get_CardsCount(MainWindow.LoginID, ref stuParam);
+			var cardsCount = NativeWrapper.WRAP_Get_CardsCount(MainWindow.LoginID, ref stuParam);
 			MessageBox.Show("cardsCount = " + cardsCount);
 		}
 
@@ -127,6 +115,17 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged("Index");
+			}
+		}
+
 		public ObservableCollection<CardViewModel> Cards { get; private set; }
 
 		CardViewModel _selectedCard;
@@ -137,17 +136,6 @@ namespace ControllerSDK.ViewModels
 			{
 				_selectedCard = value;
 				OnPropertyChanged(() => SelectedCard);
-			}
-		}
-
-		DateTime _creationDateTime;
-		public DateTime CreationDateTime
-		{
-			get { return _creationDateTime; }
-			set
-			{
-				_creationDateTime = value;
-				OnPropertyChanged(() => CreationDateTime);
 			}
 		}
 
@@ -162,34 +150,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		string _userID;
-		public string UserID
-		{
-			get { return _userID; }
-			set
-			{
-				_userID = value;
-				OnPropertyChanged(() => UserID);
-			}
-		}
+		public ObservableCollection<NativeWrapper.NET_ACCESSCTLCARD_TYPE> AvailableCardTypes { get; private set; }
 
-		public ObservableCollection<SDKImport.NET_ACCESSCTLCARD_STATE> AvailableCardStatuses { get; private set; }
-
-		SDKImport.NET_ACCESSCTLCARD_STATE _cardStatus;
-		public SDKImport.NET_ACCESSCTLCARD_STATE CardStatus
-		{
-			get { return _cardStatus; }
-			set
-			{
-				_cardStatus = value;
-				OnPropertyChanged(() => CardStatus);
-			}
-		}
-
-		public ObservableCollection<SDKImport.NET_ACCESSCTLCARD_TYPE> AvailableCardTypes { get; private set; }
-
-		SDKImport.NET_ACCESSCTLCARD_TYPE _cardType;
-		public SDKImport.NET_ACCESSCTLCARD_TYPE CardType
+		NativeWrapper.NET_ACCESSCTLCARD_TYPE _cardType;
+		public NativeWrapper.NET_ACCESSCTLCARD_TYPE CardType
 		{
 			get { return _cardType; }
 			set
@@ -262,17 +226,6 @@ namespace ControllerSDK.ViewModels
 			{
 				_validEndTime = value;
 				OnPropertyChanged(() => ValidEndTime);
-			}
-		}
-
-		bool _isValid;
-		public bool IsValid
-		{
-			get { return _isValid; }
-			set
-			{
-				_isValid = value;
-				OnPropertyChanged(() => SelectedCard);
 			}
 		}
 	}

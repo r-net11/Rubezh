@@ -10,7 +10,7 @@ namespace ChinaSKDDriver
 	{
 		public static int AddPassword(int loginID, Password password)
 		{
-			SDKImport.NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd = new SDKImport.NET_RECORDSET_ACCESS_CTL_PWD();
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD();
 			stuAccessCtlPwd.stuCreateTime.dwYear = password.CreationDateTime.Year;
 			stuAccessCtlPwd.stuCreateTime.dwMonth = password.CreationDateTime.Month;
 			stuAccessCtlPwd.stuCreateTime.dwDay = password.CreationDateTime.Day;
@@ -25,18 +25,18 @@ namespace ChinaSKDDriver
 			stuAccessCtlPwd.sznDoors[0] = 1;
 			stuAccessCtlPwd.sznDoors[1] = 2;
 
-			var result = SDKImport.WRAP_Insert_Pwd(loginID, ref stuAccessCtlPwd);
+			var result = NativeWrapper.WRAP_Insert_Pwd(loginID, ref stuAccessCtlPwd);
 			return result;
 		}
 
 		public static Password GetPasswordInfo(int loginID, int recordNo)
 		{
-			int structSize = Marshal.SizeOf(typeof(SDKImport.NET_RECORDSET_ACCESS_CTL_PWD));
+			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = SDKImport.WRAP_GetPasswordInfo(loginID, recordNo, intPtr);
+			var result = NativeWrapper.WRAP_GetPasswordInfo(loginID, recordNo, intPtr);
 
-			SDKImport.NET_RECORDSET_ACCESS_CTL_PWD sdkPassword = (SDKImport.NET_RECORDSET_ACCESS_CTL_PWD)(Marshal.PtrToStructure(intPtr, typeof(SDKImport.NET_RECORDSET_ACCESS_CTL_PWD)));
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD sdkPassword = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD)));
 			Marshal.FreeCoTaskMem(intPtr);
 			intPtr = IntPtr.Zero;
 
@@ -54,12 +54,12 @@ namespace ChinaSKDDriver
 
 		public static List<Password> GetAllPasswords(int loginID)
 		{
-			int structSize = Marshal.SizeOf(typeof(SDKImport.PasswordsCollection));
+			int structSize = Marshal.SizeOf(typeof(NativeWrapper.PasswordsCollection));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = SDKImport.WRAP_GetAllPasswords(loginID, intPtr);
+			var result = NativeWrapper.WRAP_GetAllPasswords(loginID, intPtr);
 
-			SDKImport.PasswordsCollection passwordsCollection = (SDKImport.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(SDKImport.PasswordsCollection)));
+			NativeWrapper.PasswordsCollection passwordsCollection = (NativeWrapper.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.PasswordsCollection)));
 			Marshal.FreeCoTaskMem(intPtr);
 			intPtr = IntPtr.Zero;
 

@@ -36,7 +36,7 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
-		public static DateTime NET_TIMEToDateTime(SDKImport.NET_TIME netTime)
+		public static DateTime NET_TIMEToDateTime(NativeWrapper.NET_TIME netTime)
 		{
 			DateTime dateTime = DateTime.MinValue;
 			try

@@ -48,24 +48,11 @@
                         <Button Content="GetAccessGeneral" Click="OnGetAccessGeneral" Width="300" Margin="2" />
                         <Button Content="GetDevConfig_AccessControl" Click="OnGetDevConfig_AccessControl" Width="300" Margin="2" />
                         <Button Content="SetDevConfig_AccessControl" Click="OnSetDevConfig_AccessControl" Width="300" Margin="2" />
-                        <Button Content="GetTimeSchedule" Click="OnGetTimeSchedule" Width="300" Margin="2" />
-                        <Button Content="SetTimeSchedule" Click="OnSetTimeSchedule" Width="300" Margin="2" />
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <Button Content="InsertCard" Click="OnInsertCard" Width="300" Margin="2" />
-                        <Button Content="InsertPassword" Click="OnInsertPassword" Width="300" Margin="2" />
-                        <Button Content="InsertCardRecord" Click="OnInsertCardRecord" Width="300" Margin="2" />
-                        <Button Content="InsertHoliday" Click="OnInsertHoliday" Width="300" Margin="2" />
-                        <Button Content="UpdateCard" Click="OnUpdateCard" Width="300" Margin="2" />
-                        <Button Content="UpdatePassword" Click="OnUpdatePassword" Width="300" Margin="2" />
-                        <Button Content="UpdateCardRecord" Click="OnUpdateCardRecord" Width="300" Margin="2" />
-                        <Button Content="UpdateHoliday" Click="OnUpdateHoliday" Width="300" Margin="2" />
-
                         <Button Content="ReBoot" Click="OnReBoot" Width="300" Margin="2" />
                         <Button Content="DeleteCfgFile" Click="OnDeleteCfgFile" Width="300" Margin="2" />
                         <Button Content="GetLogsCount" Click="OnGetLogsCount" Width="300" Margin="2" />
-                        <Button Content="RemoveRecordSet" Click="OnRemoveRecordSet" Width="300" Margin="2" />
-                        <Button Content="ClearRecordSet" Click="OnClearRecordSet" Width="300" Margin="2" />
                     </StackPanel>
                 </Grid>
             </TabItem>

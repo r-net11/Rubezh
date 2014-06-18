@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace ChinaSKDDriverNativeApi
 {
-	public class SDKImport
+	public class NativeWrapper
 	{
 		#region Common
 		//[UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -579,16 +579,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetDevConfig_AccessTimeSchedule(int lLoginId, out CFG_ACCESS_TIMESCHEDULE_INFO result);
+		public static extern bool WRAP_GetTimeSchedule(int lLoginId, int index, out CFG_ACCESS_TIMESCHEDULE_INFO result);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_SetDevConfig_AccessTimeSchedule(int lLoginId, ref CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo);
-
-		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetAccessTimeSchedule(int lLoginId, IntPtr result);
-
-		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_SetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO timeShedule); // CFG_ACCESS_TIMESCHEDULE_INFO
+		public static extern bool WRAP_SetTimeSchedule(int lLoginId, int index, ref CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo);
 		#endregion
 	}
 }

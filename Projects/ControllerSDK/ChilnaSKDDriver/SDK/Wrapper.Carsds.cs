@@ -10,33 +10,33 @@ namespace ChinaSKDDriver
 	{
 		public static int AddCard(int loginID, Card card)
 		{
-			SDKImport.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new SDKImport.NET_RECORDSET_ACCESS_CTL_CARD();
-			stuCard.bIsValid = card.IsValid;
-			stuCard.emStatus = card.CardStatus;
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
+			stuCard.bIsValid = true;
+			stuCard.emStatus = NativeWrapper.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL;
 			stuCard.emType = card.CardType;
 			stuCard.nTimeSectionNum = card.TimeSectionsCount;
 			stuCard.nUserTime = card.UserTime;
 
-			stuCard.stuCreateTime.dwYear = card.CreationDateTime.Year;
-			stuCard.stuCreateTime.dwMonth = card.CreationDateTime.Month;
-			stuCard.stuCreateTime.dwDay = card.CreationDateTime.Day;
-			stuCard.stuCreateTime.dwHour = card.CreationDateTime.Hour;
-			stuCard.stuCreateTime.dwMinute = card.CreationDateTime.Minute;
-			stuCard.stuCreateTime.dwSecond = card.CreationDateTime.Second;
+			stuCard.stuCreateTime.dwYear = DateTime.Now.Year;
+			stuCard.stuCreateTime.dwMonth = DateTime.Now.Month;
+			stuCard.stuCreateTime.dwDay = DateTime.Now.Day;
+			stuCard.stuCreateTime.dwHour = DateTime.Now.Hour;
+			stuCard.stuCreateTime.dwMinute = DateTime.Now.Minute;
+			stuCard.stuCreateTime.dwSecond = DateTime.Now.Second;
 
 			stuCard.stuValidStartTime.dwYear = card.ValidStartDateTime.Year;
 			stuCard.stuValidStartTime.dwMonth = card.ValidStartDateTime.Month;
 			stuCard.stuValidStartTime.dwDay = card.ValidStartDateTime.Day;
-			stuCard.stuValidStartTime.dwHour = card.ValidStartDateTime.Hour;
-			stuCard.stuValidStartTime.dwMinute = card.ValidStartDateTime.Minute;
-			stuCard.stuValidStartTime.dwSecond = card.ValidStartDateTime.Second;
+			stuCard.stuValidStartTime.dwHour = 0;
+			stuCard.stuValidStartTime.dwMinute = 0;
+			stuCard.stuValidStartTime.dwSecond = 0;
 
 			stuCard.stuValidEndTime.dwYear = card.ValidEndDateTime.Year;
 			stuCard.stuValidEndTime.dwMonth = card.ValidEndDateTime.Month;
 			stuCard.stuValidEndTime.dwDay = card.ValidEndDateTime.Day;
-			stuCard.stuValidEndTime.dwHour = card.ValidEndDateTime.Hour;
-			stuCard.stuValidEndTime.dwMinute = card.ValidEndDateTime.Minute;
-			stuCard.stuValidEndTime.dwSecond = card.ValidEndDateTime.Second;
+			stuCard.stuValidEndTime.dwHour = 0;
+			stuCard.stuValidEndTime.dwMinute = 0;
+			stuCard.stuValidEndTime.dwSecond = 0;
 
 			stuCard.szCardNo = StringToCharArray(card.CardNo, 32);
 			stuCard.nDoorNum = card.DoorsCount;
@@ -48,29 +48,26 @@ namespace ChinaSKDDriver
 			stuCard.sznTimeSectionNo[0] = 1;
 			stuCard.sznTimeSectionNo[1] = 2;
 			stuCard.szPsw = Wrapper.StringToCharArray(card.Password, 64);
-			stuCard.szUserID = Wrapper.StringToCharArray(card.UserID, 32);
+			stuCard.szUserID = Wrapper.StringToCharArray("1", 32);
 
-			var result = SDKImport.WRAP_Insert_Card(loginID, ref stuCard);
+			var result = NativeWrapper.WRAP_Insert_Card(loginID, ref stuCard);
 			return result;
 		}
 
 		public static Card GetCardInfo(int loginID, int recordNo)
 		{
-			int structSize = Marshal.SizeOf(typeof(SDKImport.NET_RECORDSET_ACCESS_CTL_CARD));
+			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = SDKImport.WRAP_GetCardInfo(loginID, recordNo, intPtr);
+			var result = NativeWrapper.WRAP_GetCardInfo(loginID, recordNo, intPtr);
 
-			SDKImport.NET_RECORDSET_ACCESS_CTL_CARD sdkCard = (SDKImport.NET_RECORDSET_ACCESS_CTL_CARD)(Marshal.PtrToStructure(intPtr, typeof(SDKImport.NET_RECORDSET_ACCESS_CTL_CARD)));
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD sdkCard = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)));
 			Marshal.FreeCoTaskMem(intPtr);
 			intPtr = IntPtr.Zero;
 
 			var card = new Card();
 			card.RecordNo = sdkCard.nRecNo;
-			card.CreationDateTime = NET_TIMEToDateTime(sdkCard.stuCreateTime);
 			card.CardNo = CharArrayToString(sdkCard.szCardNo);
-			card.UserID = CharArrayToString(sdkCard.szUserID);
-			card.CardStatus = sdkCard.emStatus;
 			card.CardType = sdkCard.emType;
 			card.Password = CharArrayToString(sdkCard.szPsw);
 			card.DoorsCount = sdkCard.nDoorNum;
@@ -80,19 +77,18 @@ namespace ChinaSKDDriver
 			card.UserTime = sdkCard.nUserTime;
 			card.ValidStartDateTime = NET_TIMEToDateTime(sdkCard.stuValidStartTime);
 			card.ValidEndDateTime = NET_TIMEToDateTime(sdkCard.stuValidEndTime);
-			card.IsValid = sdkCard.bIsValid;
 
 			return card;
 		}
 
 		public static List<Card> GetAllCards(int loginID)
 		{
-			int structSize = Marshal.SizeOf(typeof(SDKImport.CardsCollection));
+			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CardsCollection));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = SDKImport.WRAP_GetAllCards(loginID, intPtr);
+			var result = NativeWrapper.WRAP_GetAllCards(loginID, intPtr);
 
-			SDKImport.CardsCollection cardsCollection = (SDKImport.CardsCollection)(Marshal.PtrToStructure(intPtr, typeof(SDKImport.CardsCollection)));
+			NativeWrapper.CardsCollection cardsCollection = (NativeWrapper.CardsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardsCollection)));
 			Marshal.FreeCoTaskMem(intPtr);
 			intPtr = IntPtr.Zero;
 
@@ -103,10 +99,7 @@ namespace ChinaSKDDriver
 				var sdkCard = cardsCollection.Cards[i];
 				var card = new Card();
 				card.RecordNo = sdkCard.nRecNo;
-				card.CreationDateTime = NET_TIMEToDateTime(sdkCard.stuCreateTime);
 				card.CardNo = CharArrayToString(sdkCard.szCardNo);
-				card.UserID = CharArrayToString(sdkCard.szUserID);
-				card.CardStatus = sdkCard.emStatus;
 				card.CardType = sdkCard.emType;
 				card.Password = CharArrayToString(sdkCard.szPsw);
 				card.DoorsCount = sdkCard.nDoorNum;
@@ -116,7 +109,6 @@ namespace ChinaSKDDriver
 				card.UserTime = sdkCard.nUserTime;
 				card.ValidStartDateTime = NET_TIMEToDateTime(sdkCard.stuValidStartTime);
 				card.ValidEndDateTime = NET_TIMEToDateTime(sdkCard.stuValidEndTime);
-				card.IsValid = sdkCard.bIsValid;
 				cards.Add(card);
 			}
 			return cards;

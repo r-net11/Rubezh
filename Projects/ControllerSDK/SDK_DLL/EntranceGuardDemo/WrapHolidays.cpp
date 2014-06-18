@@ -145,18 +145,6 @@ void WRAP_testRecordSetFindNext_Holiday(LLONG lFinderId)
 	}		
 }
 
-void CloseHolidaysFinder(LLONG lFinderId)
-{
-	if (CLIENT_FindRecordClose(lFinderId))
-	{
-		printf("CLIENT_FindRecordClose_Card ok!\n");
-	}
-	else
-	{
-		printf("CLIENT_FindRecordClose_Card failed:0x%08x!\n", CLIENT_GetLastError());
-	}
-}
-
 int GetHolidaysCountRecordSetFind(LLONG& lFinderId)
 {
 	NET_IN_QUEYT_RECORD_COUNT_PARAM stuIn = {sizeof(stuIn)};
@@ -183,7 +171,7 @@ int CALL_METHOD WRAP_Get_HolidaysCount(int lLoginID)
     if (NULL != lFindID)
     {
 		int count = GetHolidaysCountRecordSetFind(lFindID);
-		CloseHolidaysFinder(lFindID);
+		CLIENT_FindRecordClose(lFindID);
 		return count;
     }
 	return -1;

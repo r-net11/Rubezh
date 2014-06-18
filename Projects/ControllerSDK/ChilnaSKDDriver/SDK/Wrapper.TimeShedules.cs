@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 
@@ -9,52 +7,64 @@ namespace ChinaSKDDriver
 {
 	public static partial class Wrapper
 	{
-		public static List<TimeShedule> GetTimeShedules(int loginID)
+		public static List<TimeShedule> GetTimeShedules(int loginID, int index)
 		{
-			int structSize = Marshal.SizeOf(typeof(SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO));
-			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+			NativeWrapper.CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo;
+			var result = NativeWrapper.WRAP_GetTimeSchedule(loginID, index, out timeSheduleInfo);
 
-			var result = SDKImport.WRAP_GetAccessTimeSchedule(loginID, intPtr);
-
-			SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo = (SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO)(Marshal.PtrToStructure(intPtr, typeof(SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO)));
-			Marshal.FreeCoTaskMem(intPtr);
-			intPtr = IntPtr.Zero;
-
-			var timeShedules = new List<TimeShedule>();
+			var timeSheduleIntervals = new List<TimeSheduleInterval>();
 
 			for (int i = 0; i < timeSheduleInfo.stuTime.Count(); i++)
 			{
 				var cfg_TIME_SECTION = timeSheduleInfo.stuTime[i];
+				var timeSheduleInterval = new TimeSheduleInterval();
+				timeSheduleInterval.BeginHours = cfg_TIME_SECTION.nBeginHour;
+				timeSheduleInterval.BeginMinutes = cfg_TIME_SECTION.nBeginMin;
+				timeSheduleInterval.BeginSeconds = cfg_TIME_SECTION.nBeginSec;
+				timeSheduleInterval.EndHours = cfg_TIME_SECTION.nEndHour;
+				timeSheduleInterval.EndMinutes = cfg_TIME_SECTION.nEndMin;
+				timeSheduleInterval.EndSeconds = cfg_TIME_SECTION.nEndSec;
+				timeSheduleIntervals.Add(timeSheduleInterval);
+			}
+
+			var timeShedules = new List<TimeShedule>();
+			for (int i = 0; i < 7; i++)
+			{
 				var timeShedule = new TimeShedule();
-				timeShedule.Mask = cfg_TIME_SECTION.dwRecordMask;
-				timeShedule.BeginHours = cfg_TIME_SECTION.nBeginHour;
-				timeShedule.BeginMinutes = cfg_TIME_SECTION.nBeginMin;
-				timeShedule.BeginSeconds = cfg_TIME_SECTION.nBeginSec;
-				timeShedule.EndHours = cfg_TIME_SECTION.nEndHour;
-				timeShedule.EndMinutes = cfg_TIME_SECTION.nEndMin;
-				timeShedule.EndSeconds = cfg_TIME_SECTION.nEndSec;
+				for (int j = 0; j < 4; j++)
+				{
+					var timeSheduleInterval = timeSheduleIntervals[i * 4 + j];
+					timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
+				}
 				timeShedules.Add(timeShedule);
 			}
+
 			return timeShedules;
 		}
 
-		public static bool SetTimeShedules(int loginID, List<TimeShedule> timeShedules)
+		public static bool SetTimeShedules(int loginID, int index, List<TimeShedule> timeShedules)
 		{
-			SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfos = new SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO();
-			timeSheduleInfos.stuTime = new SDKImport.CFG_TIME_SECTION[7 * 4];
+			NativeWrapper.CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfos = new NativeWrapper.CFG_ACCESS_TIMESCHEDULE_INFO();
+			timeSheduleInfos.stuTime = new NativeWrapper.CFG_TIME_SECTION[7 * 4];
 			timeSheduleInfos.bEnable = true;
 			for (int i = 0; i < timeShedules.Count; i++)
 			{
-				timeSheduleInfos.stuTime[i].nBeginHour = timeShedules[i].BeginHours;
-				timeSheduleInfos.stuTime[i].nBeginMin = timeShedules[i].BeginMinutes;
-				timeSheduleInfos.stuTime[i].nBeginSec = timeShedules[i].BeginSeconds;
-				timeSheduleInfos.stuTime[i].nEndHour = timeShedules[i].EndHours;
-				timeSheduleInfos.stuTime[i].nEndMin = timeShedules[i].EndMinutes;
-				timeSheduleInfos.stuTime[i].nEndSec = timeShedules[i].EndSeconds;
+				var timeShedule = timeShedules[i];
+				for (int j = 0; j < timeShedule.TimeSheduleIntervals.Count; j++)
+				{
+					var timeSheduleInterval = timeShedule.TimeSheduleIntervals[j];
+					var nativeIndex = i * 4 + j;
+
+					timeSheduleInfos.stuTime[nativeIndex].nBeginHour = timeSheduleInterval.BeginHours;
+					timeSheduleInfos.stuTime[nativeIndex].nBeginMin = timeSheduleInterval.BeginMinutes;
+					timeSheduleInfos.stuTime[nativeIndex].nBeginSec = timeSheduleInterval.BeginSeconds;
+					timeSheduleInfos.stuTime[nativeIndex].nEndHour = timeSheduleInterval.EndHours;
+					timeSheduleInfos.stuTime[nativeIndex].nEndMin = timeSheduleInterval.EndMinutes;
+					timeSheduleInfos.stuTime[nativeIndex].nEndSec = timeSheduleInterval.EndSeconds;
+				}
 			}
 
-			var result = SDKImport.WRAP_SetAccessTimeSchedule(loginID, timeSheduleInfos);
-
+			var result = NativeWrapper.WRAP_SetTimeSchedule(loginID, index, ref timeSheduleInfos);
 			return result;
 		}
 	}

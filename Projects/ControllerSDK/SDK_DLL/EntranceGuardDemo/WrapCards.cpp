@@ -161,18 +161,6 @@ void WRAP_testRecordSetFindNext_Card(LLONG lFinderId)
 	}
 }
 
-void CloseCardsFinder(LLONG lFinderId)
-{
-	if (CLIENT_FindRecordClose(lFinderId))
-	{
-		printf("CLIENT_FindRecordClose_Card ok!\n");
-	}
-	else
-	{
-		printf("CLIENT_FindRecordClose_Card failed:0x%08x!\n", CLIENT_GetLastError());
-	}
-}
-
 int GetCardsCountRecordSetFind(LLONG& lFinderId)
 {
 	NET_IN_QUEYT_RECORD_COUNT_PARAM stuIn = {sizeof(stuIn)};
@@ -200,8 +188,56 @@ int CALL_METHOD WRAP_Get_CardsCount(int lLoginID, FIND_RECORD_ACCESSCTLCARD_COND
     if (NULL != lFindID)
     {
 		int count = GetCardsCountRecordSetFind(lFindID);
-		CloseCardsFinder(lFindID);
+		CLIENT_FindRecordClose(lFindID);
 		return count;
     }
 	return -1;
 }
+
+BOOL CALL_METHOD WRAP_GetAllCards(int lLoginId, CardsCollection* result)
+ {
+ 	CardsCollection cardsCollection = {sizeof(CardsCollection)};
+ 
+ 	LLONG lFinderID = 0;
+ 
+ 	FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = {sizeof(stuParam)};
+ 	stuParam.bIsValid = TRUE;
+ 	strcpy(stuParam.szCardNo, "1");
+ 	strcpy(stuParam.szUserID, "1");
+ 
+ 	WRAP_testRecordSetFind_Card(lLoginId, lFinderID, stuParam);
+ 	if (lFinderID != 0)
+ 	{
+ 		int i = 0, j = 0;
+ 	
+ 		NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
+ 		stuIn.lFindeHandle = lFinderID;
+ 		stuIn.nFileCount = 500;
+ 	
+ 		NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
+ 		stuOut.nMaxRecordNum = stuIn.nFileCount;
+ 	
+ 		NET_RECORDSET_ACCESS_CTL_CARD stuCard[500] = {0};
+ 		for (i = 0; i < sizeof(stuCard)/sizeof(stuCard[0]); i++)
+ 		{
+ 			stuCard[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
+ 		}
+ 		stuOut.pRecordList = (void*)&stuCard[0];
+ 	
+ 		if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
+ 		{
+ 			cardsCollection.Count = stuOut.nRetRecordNum;
+ 			char szDoorTemp[500][MAX_NAME_LEN] = {0};
+ 			for (i = 0; i < __min(500, stuOut.nRetRecordNum); i++)
+ 			{
+ 				NET_RECORDSET_ACCESS_CTL_CARD* pCard = (NET_RECORDSET_ACCESS_CTL_CARD*)stuOut.pRecordList;
+ 				memcpy(&cardsCollection.Cards[i], &pCard[i], sizeof(NET_RECORDSET_ACCESS_CTL_CARD));
+ 			}
+ 		}
+
+		CLIENT_FindRecordClose(lFinderID);
+ 	}
+ 
+ 	memcpy(result, &cardsCollection, sizeof(CardsCollection));
+ 	return lFinderID != 0;
+ }

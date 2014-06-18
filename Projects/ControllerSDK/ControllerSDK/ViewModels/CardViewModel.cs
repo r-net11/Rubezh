@@ -10,12 +10,10 @@ namespace ControllerSDK.ViewModels
 		public CardViewModel(Card card)
 		{
 			Card = card;
-			CreationDateTime = card.CreationDateTime.ToString();
 			ValidStartDateTime = card.ValidStartDateTime.ToString();
 			ValidEndDateTime = card.ValidEndDateTime.ToString();
 		}
 
-		public string CreationDateTime { get; private set; }
 		public string ValidStartDateTime { get; private set; }
 		public string ValidEndDateTime { get; private set; }
 	}

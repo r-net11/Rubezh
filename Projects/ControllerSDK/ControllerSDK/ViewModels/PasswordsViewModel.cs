@@ -65,7 +65,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedPassword != null)
 			{
-				var result = SDKImport.WRAP_RemoveCardRec(MainWindow.LoginID, SelectedPassword.Password.RecordNo);
+				var result = NativeWrapper.WRAP_RemoveCardRec(MainWindow.LoginID, SelectedPassword.Password.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -73,14 +73,14 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = SDKImport.WRAP_RemoveAllPasswords(MainWindow.LoginID);
+			var result = NativeWrapper.WRAP_RemoveAllPasswords(MainWindow.LoginID);
 			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var passwordsCount = SDKImport.WRAP_Get_PasswordsCount(MainWindow.LoginID);
+			var passwordsCount = NativeWrapper.WRAP_Get_PasswordsCount(MainWindow.LoginID);
 			MessageBox.Show("passwordsCount = " + passwordsCount);
 		}
 

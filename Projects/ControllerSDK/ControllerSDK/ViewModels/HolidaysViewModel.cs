@@ -62,7 +62,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedHoliday != null)
 			{
-				var result = SDKImport.WRAP_RemoveHoliday(MainWindow.LoginID, SelectedHoliday.Holiday.RecordNo);
+				var result = NativeWrapper.WRAP_RemoveHoliday(MainWindow.LoginID, SelectedHoliday.Holiday.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -70,14 +70,14 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = SDKImport.WRAP_RemoveAllHolidays(MainWindow.LoginID);
+			var result = NativeWrapper.WRAP_RemoveAllHolidays(MainWindow.LoginID);
 			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var holidaysCount = SDKImport.WRAP_Get_HolidaysCount(MainWindow.LoginID);
+			var holidaysCount = NativeWrapper.WRAP_Get_HolidaysCount(MainWindow.LoginID);
 			MessageBox.Show("holidaysCount = " + holidaysCount);
 		}
 
