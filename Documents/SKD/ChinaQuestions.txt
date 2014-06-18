@@ -57,3 +57,17 @@ Is it right behaviour?
 - One more time about SznDoors. I have two doors with two card readers on every door. Four card readers in total. I am adding a card to controller and i want to give access for the first card reader of the first door and for the second card reader on the second door. My sznDoors wheel be 1 and 4. Am i right?
 
 - I don't get usage of CardRec. I want to add, edit and remove cards. Do I need cardRec? What are they for?
+
+
+
+
+A few notes
+- Your sad
+dwHour?dwMinute?dwSecond of stuValidStartTime and stuValidEndTime are also not supported by BSC
+I gues, when adding a card, only hour, minute and second properties of stuValidStartTime and stuValidEndTime does't matter. And year, month and second are steen needed. Correct?
+
+- About CardRec
+SDK supports adding, aditing, deleting and searching of CardRecs. Do i realy need all these functions, if i only want to add. remove and edit cards(not card recs)?
+When i add a Card, CardRec is adding automaticly? If so. what will happen to Card, if i will delete corresponding CardRec
+
+- IMHO, nCannel is't so good for naming time shedule index, and MAX_DOOR_TIME_SECTION is't good for max time intervals per day. So i was a bit confused
