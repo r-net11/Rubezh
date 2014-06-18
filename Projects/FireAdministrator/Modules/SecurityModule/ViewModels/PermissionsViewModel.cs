@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Input;
+﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using FiresecAPI.SKD;
-using Infrastructure;
-using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
 
 namespace SecurityModule.ViewModels
 {

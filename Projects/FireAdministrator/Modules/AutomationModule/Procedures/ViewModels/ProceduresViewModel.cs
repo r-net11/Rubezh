@@ -14,8 +14,10 @@ namespace AutomationModule.ViewModels
 {
 	public class ProceduresViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		public static ProceduresViewModel Current { get; private set; }
 		public ProceduresViewModel()
 		{
+			Current = this;
 			Menu = new ProceduresMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
@@ -32,6 +34,7 @@ namespace AutomationModule.ViewModels
 				var procedureViewModel = new ProcedureViewModel(procedure);
 				Procedures.Add(procedureViewModel);
 			}
+			SelectedProcedure = Procedures.FirstOrDefault();
 		}
 
 		ObservableCollection<ProcedureViewModel> _procedures;
@@ -65,6 +68,7 @@ namespace AutomationModule.ViewModels
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureDetailsViewModel.Procedure);
 				var procedureViewModel = new ProcedureViewModel(procedureDetailsViewModel.Procedure);
 				Procedures.Add(procedureViewModel);
+				SelectedProcedure = procedureViewModel;
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -75,7 +79,6 @@ namespace AutomationModule.ViewModels
 			var procedureDetailsViewModel = new ProcedureDetailsViewModel(SelectedProcedure.Procedure);
 			if (DialogService.ShowModalWindow(procedureDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureDetailsViewModel.Procedure);
 				SelectedProcedure.Update(procedureDetailsViewModel.Procedure);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
@@ -90,6 +93,7 @@ namespace AutomationModule.ViewModels
 		{
 			FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);
 			Procedures.Remove(SelectedProcedure);
+			SelectedProcedure = Procedures.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDelete()
@@ -107,6 +111,8 @@ namespace AutomationModule.ViewModels
 
 		public override void OnShow()
 		{
+			if (SelectedProcedure != null)
+				SelectedProcedure.StepsViewModel.UpdateContent();
 			base.OnShow();
 		}
 

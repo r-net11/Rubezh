@@ -1,5 +1,4 @@
 ﻿using System.Windows.Data;
-using FiresecAPI;
 using FiresecAPI.SKD;
 
 namespace SKDModule.Converters

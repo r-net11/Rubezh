@@ -296,12 +296,9 @@
     <Compile Include="Validation\Validator.Zones.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Validation\Validator.Devices.cs" />
-    <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
-    <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Zones\ViewModels\ZoneViewModelComparer.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\Views\ZonesMenuView.xaml.cs">
       <DependentUpon>ZonesMenuView.xaml</DependentUpon>

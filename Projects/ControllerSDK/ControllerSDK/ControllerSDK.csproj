@@ -72,13 +72,46 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="API.cs" />
-    <Compile Include="CardsViewModel.cs" />
-    <Compile Include="CardViewModel.cs" />
+    <Compile Include="ViewModels\ControlViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PasswordsViewModel.cs" />
+    <Compile Include="ViewModels\PasswordViewModel.cs" />
+    <Compile Include="ViewModels\HolidaysViewModel.cs" />
+    <Compile Include="ViewModels\HolidayViewModel.cs" />
+    <Compile Include="ViewModels\TimeShedulesViewModel.cs" />
+    <Compile Include="ViewModels\TimeSheduleViewModel.cs" />
+    <Compile Include="ViewModels\CardRecsViewModel.cs" />
+    <Compile Include="ViewModels\CardRecViewModel.cs" />
+    <Compile Include="Views\CardsView.xaml.cs">
+      <DependentUpon>CardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\CardsViewModel.cs" />
+    <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="NativeSDKWrap.cs" />
-    <Compile Include="SDKImport.cs" />
-    <Compile Include="SDKWrapper.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Views\ControlView.xaml.cs">
+      <DependentUpon>ControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PasswordsView.xaml.cs">
+      <DependentUpon>PasswordsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HolidaysView.xaml.cs">
+      <DependentUpon>HolidaysView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TimeShedulesView.xaml.cs">
+      <DependentUpon>TimeShedulesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardRecsView.xaml.cs">
+      <DependentUpon>CardRecsView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\CardsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -86,10 +119,26 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PasswordsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HolidaysView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TimeShedulesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardRecsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -142,6 +191,10 @@
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChilnaSKDDriver\ChilnaSKDDriver.csproj">
+      <Project>{77C8D1E5-51B4-45F9-93DF-D114433771E2}</Project>
+      <Name>ChilnaSKDDriver</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

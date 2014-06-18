@@ -13,4 +13,3 @@ namespace AutomationModule.ViewModels
 		public GlobalVariablesViewModel Context { get; private set; }
 	}
 }
-

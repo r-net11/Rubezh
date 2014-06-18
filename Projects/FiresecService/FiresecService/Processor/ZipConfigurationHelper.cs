@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
@@ -9,6 +10,7 @@ using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Ionic.Zip;
+using FiresecAPI.Automation;
 
 namespace FiresecService.Processor
 {
@@ -23,6 +25,28 @@ namespace FiresecService.Processor
 			securityConfiguration.AfterLoad();
 			zipFile.Dispose();
 			return securityConfiguration;
+		}
+
+		public static SystemConfiguration GetSystemConfiguration()
+		{
+			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
+			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
+
+			if (zipFile != null)
+			{
+				var systemConfiguration = (SystemConfiguration)GetConfigurationFomZip(zipFile, "SystemConfiguration.xml", typeof(SystemConfiguration));
+				if (systemConfiguration != null)
+				{
+					systemConfiguration.AfterLoad();
+				}
+				if (systemConfiguration.AutomationConfiguration.AutomationSchedules == null)
+				{
+					systemConfiguration.AutomationConfiguration.AutomationSchedules = new List<AutomationSchedule>();
+				}
+				zipFile.Dispose();
+				return systemConfiguration;
+			}
+			return new SystemConfiguration();
 		}
 
 		public static XDeviceConfiguration GetDeviceConfiguration()

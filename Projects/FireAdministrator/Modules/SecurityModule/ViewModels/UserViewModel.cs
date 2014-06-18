@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using FiresecAPI.Models;
-using FiresecClient;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SecurityModule.ViewModels

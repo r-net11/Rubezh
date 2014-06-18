@@ -8,7 +8,7 @@ namespace FiresecAPI.Automation
 	{
 		public GlobalVariable()
 		{
-			Name = "Новая глобальная переменная";
+			Name = "Глобальная переменная";
 			Uid = Guid.NewGuid();
 		}
 

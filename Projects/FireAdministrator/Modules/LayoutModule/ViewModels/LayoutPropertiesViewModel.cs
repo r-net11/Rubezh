@@ -17,7 +17,7 @@ namespace LayoutModule.ViewModels
 
 		public LayoutPropertiesViewModel(Layout layout, LayoutUsersViewModel layoutUsersViewModel)
 		{
-			Title = "Свойства элемента: Шаблон интерфейса ОЗ";
+			Title = "Свойства элемента: Макет интерфейса ОЗ";
 			Layout = layout ?? new Layout();
 			LayoutUsersViewModel = layoutUsersViewModel;
 			LayoutUsersViewModel.Update(Layout);

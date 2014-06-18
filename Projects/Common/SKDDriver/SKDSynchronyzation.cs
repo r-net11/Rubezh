@@ -10,14 +10,14 @@ namespace SKDDriver
 	{
 		public static void AddCard(SKDCard card)
 		{
-			foreach (var cardZone in card.CardZones)
+			foreach (var cardZone in card.CardDoors)
 			{
 				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == cardZone.DoorUID);
 				if (zone != null)
 				{
 					foreach (var device in SKDManager.Devices)
 					{
-						if (device.OuterZoneUID == cardZone.DoorUID)
+						if (device.ZoneUID == cardZone.DoorUID)
 						{
 							WriteCardToReader(device, card, cardZone);
 						}

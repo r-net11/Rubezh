@@ -76,7 +76,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult MarkDeletedOrganisation(Guid uid);
 		[OperationContract]
-		OperationResult SaveOrganisationZones(Organisation organisation);
+		OperationResult SaveOrganisationDoors(Organisation organisation);
 		[OperationContract]
 		OperationResult SaveOrganisationGuardZones(Organisation organisation);
 		[OperationContract]

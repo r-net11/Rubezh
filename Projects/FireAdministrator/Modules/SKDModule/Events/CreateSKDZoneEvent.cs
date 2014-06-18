@@ -1,5 +1,4 @@
-﻿using System;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using Microsoft.Practices.Prism.Events;
 
 namespace SKDModule.Events
@@ -10,7 +9,6 @@ namespace SKDModule.Events
 
 	public class CreateSKDZoneEventArg
 	{
-		public Guid ParentZoneUID { get; set; }
 		public SKDZone Zone { get; set; }
 	}
 }

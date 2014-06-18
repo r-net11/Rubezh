@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Linq;
-using System.ComponentModel;
-using System.Threading;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
-using FiresecAPI.Models;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using FiresecAPI;
-using Ionic.Zip;
+using FiresecAPI.GK;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FiresecAPI.GK;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using Ionic.Zip;
 
 namespace DiagnosticsModule.ViewModels
 {

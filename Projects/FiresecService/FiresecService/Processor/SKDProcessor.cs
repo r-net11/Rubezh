@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Common;
 using FiresecAPI.SKD;
 using FiresecService.Processor;
@@ -12,7 +13,10 @@ namespace FiresecService
 		{
 			try
 			{
-				SKDManager.SKDConfiguration = ZipConfigurationHelper.GetSKDConfiguration();
+				var configuration = ZipConfigurationHelper.GetSKDConfiguration();
+				if(configuration.Zones == null)
+					configuration.Zones = new List<SKDZone>();
+				SKDManager.SKDConfiguration = configuration;
 				if (SKDManager.SKDConfiguration != null)
 				{
 					SKDManager.CreateDrivers();

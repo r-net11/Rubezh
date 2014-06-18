@@ -9,7 +9,7 @@ namespace FiresecAPI.SKD
 	{
 		public Organisation()
 		{
-			ZoneUIDs = new List<Guid>();
+			DoorUIDs = new List<Guid>();
 			UserUIDs = new List<Guid>();
 			GuardZoneUIDs = new List<Guid>();
 		}
@@ -24,7 +24,7 @@ namespace FiresecAPI.SKD
 		public Guid? PhotoUID { get; set; }
 
 		[DataMember]
-		public List<Guid> ZoneUIDs { get; set; }
+		public List<Guid> DoorUIDs { get; set; }
 
 		[DataMember]
 		public List<Guid> GuardZoneUIDs { get; set; }
@@ -38,7 +38,7 @@ namespace FiresecAPI.SKD
 	{
 		public OrganisationDetails()
 		{
-			ZoneUIDs = new List<Guid>();
+			DoorUIDs = new List<Guid>();
 			UserUIDs = new List<Guid>();
 			GuardZoneUIDs = new List<Guid>();
 		}
@@ -53,7 +53,7 @@ namespace FiresecAPI.SKD
 		public Photo Photo { get; set; }
 
 		[DataMember]
-		public List<Guid> ZoneUIDs { get; set; }
+		public List<Guid> DoorUIDs { get; set; }
 
 		[DataMember]
 		public List<Guid> UserUIDs { get; set; }

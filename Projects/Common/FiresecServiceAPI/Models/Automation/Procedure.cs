@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -11,7 +12,9 @@ namespace FiresecAPI.Automation
 		{
 			Name = "Новая процедура";
 			InputObjects = new List<ProcedureInputObject>();
-			Step = new List<ProcedureStep>();
+			Variables = new List<Variable>();
+			Arguments = new List<Variable>();
+			Steps = new List<ProcedureStep>();
 			Uid = Guid.NewGuid();
 		}
 
@@ -25,9 +28,20 @@ namespace FiresecAPI.Automation
 		public List<ProcedureInputObject> InputObjects { get; set; }
 
 		[DataMember]
-		public List<ProcedureStep> Step { get; set; }
+		public List<ProcedureStep> Steps { get; set; }
 
 		[DataMember]
 		public Guid Uid { get; set; }
+
+		[DataMember]
+		public List<Variable> Variables { get; set; }
+
+		[DataMember]
+		public List<Variable> Arguments { get; set; }
+
+		public void Start()
+		{
+			
+		}
 	}
 }

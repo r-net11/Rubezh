@@ -55,15 +55,6 @@ namespace FiresecAPI.SKD
 				};
 			}
 
-			if (SKDConfiguration.RootZone == null)
-			{
-				SKDConfiguration.RootZone = new SKDZone()
-				{
-					IsRootZone = true,
-					Name = "Неконтролируемая территория"
-				};
-			}
-
 			SKDConfiguration.Update();
 			foreach (var device in SKDConfiguration.Devices)
 			{
@@ -82,13 +73,6 @@ namespace FiresecAPI.SKD
 		{
 			if (device.Zone != null)
 				return device.Zone.Name;
-			return "";
-		}
-
-		public static string GetPresentationOuterZone(SKDDevice device)
-		{
-			if (device.OuterZone != null)
-				return device.OuterZone.Name;
 			return "";
 		}
 
@@ -139,7 +123,6 @@ namespace FiresecAPI.SKD
 			foreach (var device in Devices)
 			{
 				device.Zone = null;
-				device.OuterZone = null;
 			}
 			foreach (var zone in Zones)
 			{
@@ -163,19 +146,6 @@ namespace FiresecAPI.SKD
 				}
 				else
 					device.ZoneUID = Guid.Empty;
-
-				if (device.Driver.HasOuterZone)
-				{
-					device.OuterZone = Zones.FirstOrDefault(x => x.UID == device.OuterZoneUID);
-					if (device.OuterZone != null)
-					{
-						device.OuterZone.Devices.Add(device);
-					}
-					else
-						device.OuterZoneUID = Guid.Empty;
-				}
-				else
-					device.OuterZoneUID = Guid.Empty;
 			}
 		}
 

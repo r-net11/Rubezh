@@ -1,7 +1,7 @@
-﻿using FiresecAPI.SKD;
+﻿using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models;
 
 namespace SKDModule.ViewModels
 {
@@ -13,7 +13,10 @@ namespace SKDModule.ViewModels
 			LastName = employeeFilter.LastName;
 			SecondName = employeeFilter.SecondName;
 
-			HasManyPersonTypes = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees) && FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests);
+			var hasEmployeePermission = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees);
+			var hasGuestPermission = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests);
+
+			HasManyPersonTypes = hasEmployeePermission && hasGuestPermission;
 			if (HasManyPersonTypes)
 			{
 				if (employeeFilter.PersonType == PersonType.Guest)
@@ -21,6 +24,10 @@ namespace SKDModule.ViewModels
 				else
 					IsEmployeesAllowed = true;
 			}
+			else if (hasEmployeePermission)
+				IsEmployeesAllowed = true;
+			else if (hasGuestPermission)
+				IsGuestsAllowed = true;
 		}
 
 		string _firstName;

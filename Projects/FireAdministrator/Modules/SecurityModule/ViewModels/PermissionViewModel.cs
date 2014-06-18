@@ -1,14 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
 using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Windows;
-using FiresecAPI.SKD;
 
 namespace SecurityModule.ViewModels
 {

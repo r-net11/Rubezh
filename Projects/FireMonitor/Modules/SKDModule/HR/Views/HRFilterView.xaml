@@ -90,9 +90,9 @@
 					<TextBlock Text="Отчество" Width="200" Foreground="White" Margin="2" />
 					<TextBox Text="{Binding SecondName}" Margin="2" />
 				</StackPanel>
-				<StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal" Visibility="{Binding HasManyPersonTypes, Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock Text="Тип" Width="200" Foreground="White" Margin="2" />
-					<StackPanel Visibility="{Binding HasManyPersonTypes, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+					<StackPanel Margin="2">
 						<RadioButton GroupName="PersonTypes" Content="Сотрудники" IsChecked="{Binding IsEmployeesAllowed, Mode=TwoWay}" Foreground="White" FontSize="14" />
 						<RadioButton GroupName="PersonTypes" Content="Посетители" IsChecked="{Binding IsGuestsAllowed, Mode=TwoWay}" Foreground="White" FontSize="14" />
 					</StackPanel>

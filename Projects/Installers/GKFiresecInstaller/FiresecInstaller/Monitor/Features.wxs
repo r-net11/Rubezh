@@ -5,17 +5,17 @@
 		<Feature Id="Monitor.Features" Title="Оперативная задача" Description="Установка приложения Оперативная задача" Level="1" Display="hidden"
 						 ConfigurableDirectory="MONITORLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Monitor.Files" />
-      <ComponentRef Id="Monitor.DB" />
-      <ComponentRef Id="Monitor.Integrate" />
-      <ComponentRef Id="Monitor.Hasp" />
+			<ComponentRef Id="Monitor.DB" />
+			<ComponentRef Id="Monitor.Integrate" />
+			<ComponentRef Id="Monitor.Hasp" />
 			<ComponentRef Id="Monitor.ProgramsMenuShortcut" />
 			<ComponentRef Id="Monitor.DesktopShortcut" />
-      <ComponentRef Id="Monitor.Revisor" />
+			<ComponentRef Id="Monitor.Revisor" />
 
-      <ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />
-      <ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Dahua" />
-      <ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Hik" />
-      <ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Sunell" />
-    </Feature>
+			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL" />
+			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Dahua" />
+			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Hik" />
+			<ComponentRef Id="Monitor.VIDEO_MODULE_DLL.Sunell" />
+		</Feature>
 	</Fragment>
 </Wix>

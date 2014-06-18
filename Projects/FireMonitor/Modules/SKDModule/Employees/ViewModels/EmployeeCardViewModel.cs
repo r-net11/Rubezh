@@ -39,7 +39,7 @@ namespace SKDModule.ViewModels
 		List<CardDoor> GetCardZones(SKDCard card)
 		{
 			var cardZones = new List<CardDoor>();
-			cardZones.AddRange(card.CardZones);
+			cardZones.AddRange(card.CardDoors);
 			if (card.AccessTemplateUID != null)
 			{
 				var accessTemplates = AccessTemplateHelper.Get(new AccessTemplateFilter());
@@ -87,7 +87,7 @@ namespace SKDModule.ViewModels
 				Card = card;
 				OnPropertyChanged("Card");
 				OnPropertyChanged("Name");
-				CardDoorsViewModel.Update(Card.CardZones);
+				CardDoorsViewModel.Update(Card.CardDoors);
 			}
 		}
 

@@ -23,4 +23,26 @@
         <Views:StepTypeSelectationView />
     </DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:VariableDetailsViewModel}">
+		<Views:VariableDetailsView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="soundsTemplate">
+        <Views:SoundStepView />
+    </DataTemplate>
+
+    <DataTemplate x:Key="journalTemplate">
+        <Views:JournalStepView />
+    </DataTemplate>
+
+	<DataTemplate x:Key="arithmeticTemplate">
+		<Views:ArithmeticStepView />
+	</DataTemplate>
+
+	<ViewModels:StepTypeTemplateSelector
+		SoundsTemplate="{StaticResource soundsTemplate}"
+		JournalTemplate="{StaticResource journalTemplate}"
+		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
+		x:Key="stepTypeTemplateSelector" />
+
 </ResourceDictionary>

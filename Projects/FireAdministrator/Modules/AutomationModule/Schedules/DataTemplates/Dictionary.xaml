@@ -14,4 +14,9 @@
 	<DataTemplate DataType="{x:Type ViewModels:ScheduleDetailsViewModel}">
 		<Views:ScheduleDetailsView />
 	</DataTemplate>
+	
+	<DataTemplate DataType="{x:Type ViewModels:ProcedureSelectionViewModel}">
+		<Views:ProcedureSelectionView/>
+	</DataTemplate>
+	
 </ResourceDictionary>

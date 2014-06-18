@@ -187,8 +187,8 @@
       <DependentUpon>ArchiveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Organisations\ViewModels\OrganisationUserViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationZonesViewModel.cs" />
-    <Compile Include="Organisations\ViewModels\OrganisationZoneViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationDoorsViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationDoorViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationUsersViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationGuardZonesViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationGuardZoneViewModel.cs" />
@@ -349,7 +349,6 @@
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Zones\ViewModels\ZoneViewModelComparer.cs" />
     <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>

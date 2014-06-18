@@ -1,0 +1,29 @@
+﻿using System.Windows;
+using System.Windows.Controls;
+
+namespace AutomationModule.ViewModels
+{
+	public class StepTypeTemplateSelector : DataTemplateSelector
+	{
+		public DataTemplate SoundsTemplate { get; set; }
+		public DataTemplate JournalTemplate { get; set; }
+		public DataTemplate ArithmeticTemplate { get; set; }
+
+		public override DataTemplate SelectTemplate(object item, DependencyObject container)
+		{
+			if (item is SoundStepViewModel)
+			{
+				return SoundsTemplate;
+			}
+			if (item is JournalStepViewModel)
+			{
+				return JournalTemplate;
+			}
+			if (item is ArithmeticStepViewModel)
+			{
+				return ArithmeticTemplate;
+			}
+			return null;
+		}
+	}
+}

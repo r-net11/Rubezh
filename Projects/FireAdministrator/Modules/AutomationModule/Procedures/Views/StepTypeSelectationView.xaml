@@ -3,40 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             MinWidth="400" MinHeight="400">
+             MinWidth="500" MinHeight="500">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <tree:TreeList Grid.Row="0" Focusable="True" SelectedTreeNode="{Binding SelectedStepType}" Source="{Binding RootStepTypes}" tree:SortBehavior.CanUserSortColumns="False">
-            <tree:TreeList.Resources>
-                <Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
-                    <Setter Property="MinWidth" Value="0" />
-                    <Setter Property="MinHeight" Value="0" />
-                </Style>
-            </tree:TreeList.Resources>
-            <tree:TreeList.View>
-                <GridView>
-                    <GridViewColumn Width="250" Header="Тип операции">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Controls:EditorPresenter>
-                                    <Controls:EditorPresenter.ViewTemplate>
-                                        <ControlTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
-                                                <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
-                                            </StackPanel>
-                                        </ControlTemplate>
-                                    </Controls:EditorPresenter.ViewTemplate>
-                                </Controls:EditorPresenter>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </tree:TreeList.View>
-        </tree:TreeList>
-    </Grid>
+    <tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedStepType}" Source="{Binding RootStepTypes}">
+        <tree:TreeList.Resources>
+            <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                <MouseBinding Command="{Binding DataContext.SaveCommand,RelativeSource={RelativeSource AncestorType={x:Type tree:TreeList}}}" MouseAction="LeftDoubleClick" />
+            </InputBindingCollection>
+        </tree:TreeList.Resources>
+        <tree:TreeList.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
+                <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+            </Style>
+        </tree:TreeList.ItemContainerStyle>
+        <tree:TreeList.View>
+            <GridView>
+                <GridViewColumn Header="Тип операции">
+                    <GridViewColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+                                <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </GridViewColumn.CellTemplate>
+                </GridViewColumn>
+            </GridView>
+        </tree:TreeList.View>
+    </tree:TreeList>
 </UserControl>

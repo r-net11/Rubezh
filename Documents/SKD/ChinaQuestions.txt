@@ -1,0 +1,59 @@
+Вопросы по китайскому контроллеру
+
+- В контроллер можно записать Card, Password, CardRec, Holiday
+Card - это карта доступа. А что такое CardRec? Название созвучное с Card, но физический смысл не ясен
+
+- Вопрос не к китайцам. При записи карт использеутся номер(как в mifare), но не используется серия(как в HID). Контроллер не работает с картами HID?
+
+- Добавление карты. Нужно развернутое описание и смысл значений перечислений tagNET_ACCESSCTLCARD_STATE, tagNET_ACCESSCTLCARD_TYPE
+
+- Добавление карты. Структура NET_RECORDSET_ACCESS_CTL_CARD
+Что такое nUserTime?
+Массив sznDoors заполняется значениями 1 и 2. Что значат эти значения? А если указать не 1 и 2, а 3 и 4?
+Что такое szUserID?
+
+- Я добавляю карту
+Затем я хочу найти все карты с помощью testRecordSetFindNext_Card
+При этом значения структуры tagNET_RECORDSET_ACCESS_CTL_CARD оказываются
+stuCreateTime все по нулям. Время у stuValidStartTime и stuValidEndTime по нулям
+
+- Почему при запросе всех карт возвращаются только первые десять
+
+- Для чего служат аргументы структуры поиска карты. Изменение из значений не приводит к изменению результатов поиска
+
+- What's the role of dwRecordMask in structure tagCFG_TIME_SECTION?
+
+- I call void DevConfig_AccessTimeSchedule(LLONG lLoginId)
+First bRet is true. But second is always false. Why CLIENT_ParseData return false? I look at the szJsonBuf and stuInfo and it seems valid.
+
+- Есть к тебе несколько вопросов
+1. Сколько максимум карт поддерживает контроллер?
+2. Сколько максимум паролей контроллер?
+3. Нужны ли нам пароли?
+4. Есть возможность с помошью SDK сменить IP-адрес. Ходиков Саша(огядываясь на свой опыт) и я считаем, что для этой функции должна быть специальная утилита конфигурирования. Какого твое мнение?
+5. Есть мнение минимизировать риски затянуть проект таким образом: выделить первоочередные требования и сосредоточиться на них в ближайшие 3 месяца и второстепенные требования, которые мы будем реализовывать только после того, как будет уверенность в работоспособности первых. Прикинь примерный список.
+6. У меня есть функции Открыть дверь, Закрыть дверь, получить статус двери(открыто, закрыть, неизвестно). Как бы я ни открывал/закрывал, статус двери неизменно остается закрытым. Подсоедините к контроллеру что-то реальное, что закрывалось бы и открывалось, чтобы реально менялся статус
+
+- I call
+void DevConfig_AccessTimeSchedule(LLONG lLoginId)
+what does "nChannel" stands for?
+
+- I notised, that controller can store only four weekly time shedules, one per door. Im i right? If so, then it's a very poor functionality
+
+
+
+- I call
+void Insert_Card(LLONG lLoginID, int& nRecrdNo)
+setting bIsValid = TRUE and
+emStatus = NET_ACCESSCTLCARD_STATE_LOSE
+has no effect. When i call
+BOOL DevCtrl_GetRecordSetInfo(LLONG lLoginID, int nRecordSetType)
+on just added card bIsValid is set to FALSE and emStatus is NET_ACCESSCTLCARD_STATE_NORMAL
+Alsaw, UserId is always empty, nUserTime is always 0, stuCreateTime is filled with zerros, stuValidStartTime and stuValidEndTime dwHour, dwMinute and dwSecond are zerros too.
+Is it right behaviour?
+
+- I set emType to NET_ACCESSCTLCARD_TYPE_GENERAL. Does nUserTime affect anything now? I gues it does only if emType is NET_ACCESSCTLCARD_TYPE_GUEST.
+
+- One more time about SznDoors. I have two doors with two card readers on every door. Four card readers in total. I am adding a card to controller and i want to give access for the first card reader of the first door and for the second card reader on the second door. My sznDoors wheel be 1 and 4. Am i right?
+
+- I don't get usage of CardRec. I want to add, edit and remove cards. Do I need cardRec? What are they for?

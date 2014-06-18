@@ -40,21 +40,21 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveZones(Organisation Organisation)
+		public static bool SaveDoors(Organisation organisation)
 		{
-			var result = FiresecManager.FiresecService.SaveOrganisationZones(Organisation);
+			var result = FiresecManager.FiresecService.SaveOrganisationDoors(organisation);
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveGuardZones(Organisation Organisation)
+		public static bool SaveGuardZones(Organisation organisation)
 		{
-			var result = FiresecManager.FiresecService.SaveOrganisationGuardZones(Organisation);
+			var result = FiresecManager.FiresecService.SaveOrganisationGuardZones(organisation);
 			return Common.ShowErrorIfExists(result);
 		}
 
-		public static bool SaveUsers(Organisation Organisation)
+		public static bool SaveUsers(Organisation organisation)
 		{
-			var result = FiresecManager.FiresecService.SaveOrganisationUsers(Organisation);
+			var result = FiresecManager.FiresecService.SaveOrganisationUsers(organisation);
 			return Common.ShowErrorIfExists(result);
 		}
 

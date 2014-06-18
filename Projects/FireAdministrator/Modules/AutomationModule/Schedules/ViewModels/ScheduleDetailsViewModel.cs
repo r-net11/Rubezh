@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace AutomationModule.ViewModels
 {
@@ -33,6 +34,11 @@ namespace AutomationModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (string.IsNullOrEmpty(Name))
+			{
+				MessageBoxService.ShowWarning("Название не может быть пустым");
+				return false;
+			}
 			Schedule.Name = Name;
 			return base.Save();
 		}

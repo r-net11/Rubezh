@@ -123,9 +123,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedOrganisation(uid));
 		}
-		public OperationResult SaveOrganisationZones(Organisation organisation)
+		public OperationResult SaveOrganisationDoors(Organisation organisation)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(organisation));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationDoors(organisation));
 		}
 		public OperationResult SaveOrganisationGuardZones(Organisation organisation)
 		{

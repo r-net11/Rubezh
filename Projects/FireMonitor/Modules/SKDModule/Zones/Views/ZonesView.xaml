@@ -6,10 +6,7 @@
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Views="clr-namespace:SKDModule.Views"
 			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
-	<UserControl.Resources>
-		<viewModel:ZoneViewModelNameComparer x:Key="ZoneViewModelNameComparer" />
-		<viewModel:ZoneViewModelDescriptionComparer x:Key="ZoneViewModelDescriptionComparer" />
-	</UserControl.Resources>
+
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" MinWidth="200" />
@@ -17,16 +14,15 @@
 			<ColumnDefinition Width="*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
 		<Grid Grid.Column="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-			<tree:TreeList Name="_zonesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedZone}" Source="{Binding RootZones}" tree:SortBehavior.CanUserSortColumns="True">
-				<tree:TreeList.View>
-					<GridView>
-						<GridViewColumn Width="250" Header="Зона" tree:SortBehavior.SortComparer="{StaticResource ZoneViewModelNameComparer}">
-							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-										<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-										<TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
+            <DataGrid Name="_zonesDataGrid" Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Зона" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                    <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                    <TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
 											<TextBlock.ContextMenu>
 												<ContextMenu>
 													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Команда" Command="{Binding ZoneCommand}" />
@@ -41,15 +37,14 @@
 												</StackPanel>
 											</TextBlock.ToolTip>
 										</TextBlock>
-									</StackPanel>
-								</DataTemplate>
-							</GridViewColumn.CellTemplate>
-						</GridViewColumn>
-						<GridViewColumn Width="100" DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" tree:SortBehavior.SortComparer="{StaticResource ZoneViewModelDescriptionComparer}" />
-					</GridView>
-				</tree:TreeList.View>
-			</tree:TreeList>
-		</Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
 		<GridSplitter Grid.Column="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<Grid Grid.Column="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="4 0 0 0">
 			<DataGrid ItemsSource="{Binding Devices}">

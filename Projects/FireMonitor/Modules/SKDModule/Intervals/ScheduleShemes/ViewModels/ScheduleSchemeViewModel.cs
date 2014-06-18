@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
-using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {

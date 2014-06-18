@@ -4,7 +4,7 @@ namespace AutomationModule.ViewModels
 {
 	public class SchedulesMenuViewModel : BaseViewModel
 	{
-		public SchedulesMenuViewModel (SchedulesViewModel context)
+		public SchedulesMenuViewModel(SchedulesViewModel context)
 		{
 			Context = context;
 		}

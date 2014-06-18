@@ -73,21 +73,21 @@ namespace GKProcessor
 						if (bitArray[6])
 							AddAdditionalState(XStateClass.Failure, "Вскрытие корпуса");
 						if (bitArray[8])
-							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 1");
+							AddAdditionalState(XStateClass.Failure, "Неисправность АЛС 1");
 						if (bitArray[9])
-							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 2");
+							AddAdditionalState(XStateClass.Failure, "Неисправность АЛС 2");
 						if (bitArray[10])
-							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 3");
+							AddAdditionalState(XStateClass.Failure, "Неисправность АЛС 3");
 						if (bitArray[11])
-							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 4");
+							AddAdditionalState(XStateClass.Failure, "Неисправность АЛС 4");
 						if (bitArray[12])
-							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 5");
+							AddAdditionalState(XStateClass.Failure, "Неисправность АЛС 5");
 						if (bitArray[13])
-							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 6");
+							AddAdditionalState(XStateClass.Failure, "Неисправность АЛС 6");
 						if (bitArray[14])
-							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 7");
+							AddAdditionalState(XStateClass.Failure, "Неисправность АЛС 7");
 						if (bitArray[15])
-							AddAdditionalState(XStateClass.Failure, "КЗ АЛС 8");
+							AddAdditionalState(XStateClass.Failure, "Неисправность АЛС 8");
 						break;
 
 					case XDriverType.GK:

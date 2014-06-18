@@ -48,7 +48,7 @@ namespace SKDModule.ViewModels
 			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
 
-			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardZones, Card.UID);
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors, Card.UID);
 
 			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
 			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "НЕТ" });
@@ -304,7 +304,7 @@ namespace SKDModule.ViewModels
 			Card.CardType = SelectedCardType;
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
-			Card.CardZones = AccessDoorsSelectationViewModel.GetCardDoors();
+			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 
 			if (SelectedAccessTemplate != null)
 				Card.AccessTemplateUID = SelectedAccessTemplate.UID;
