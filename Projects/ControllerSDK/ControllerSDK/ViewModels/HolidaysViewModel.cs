@@ -76,7 +76,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var holidaysCount = SDKImport.WRAP_DevCtrl_Get_Holiday_RecordSetCount(MainWindow.LoginID);
+			var holidaysCount = SDKImport.WRAP_Get_HolidaysCount(MainWindow.LoginID);
 			MessageBox.Show("holidaysCount = " + holidaysCount);
 		}
 

@@ -42,8 +42,13 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SDK\API.cs" />
+    <Compile Include="SDK\CardRecsWrapper.cs" />
+    <Compile Include="SDK\CarsdsWrapper.cs" />
+    <Compile Include="SDK\HolidysWrapper.cs" />
+    <Compile Include="SDK\PasswordsWrapper.cs" />
     <Compile Include="SDK\SDKImport.cs" />
     <Compile Include="SDK\SDKWrapper.cs" />
+    <Compile Include="SDK\TimeShedulesWrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

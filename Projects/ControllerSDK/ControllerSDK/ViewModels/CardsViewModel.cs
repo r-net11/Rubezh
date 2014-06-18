@@ -109,7 +109,7 @@ namespace ControllerSDK.ViewModels
 			SDKImport.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new SDKImport.FIND_RECORD_ACCESSCTLCARD_CONDITION();
 			stuParam.szCardNo = SDKWrapper.StringToCharArray("1", 32);
 			stuParam.szUserID = SDKWrapper.StringToCharArray("1", 32);
-			var cardsCount = SDKImport.WRAP_DevCtrl_Get_Card_RecordSetCount(MainWindow.LoginID, ref stuParam);
+			var cardsCount = SDKImport.WRAP_Get_CardsCount(MainWindow.LoginID, ref stuParam);
 			MessageBox.Show("cardsCount = " + cardsCount);
 		}
 

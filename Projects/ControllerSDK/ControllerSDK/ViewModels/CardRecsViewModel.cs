@@ -88,7 +88,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var cardsCount = SDKImport.WRAP_DevCtrl_Get_RecordSet_RecordSetCount(MainWindow.LoginID);
+			var cardsCount = SDKImport.WRAP_Get_CardRecordsCount(MainWindow.LoginID);
 			MessageBox.Show("cardsRecCount = " + cardsCount);
 		}
 

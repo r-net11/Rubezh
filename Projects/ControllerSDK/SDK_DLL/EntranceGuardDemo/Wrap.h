@@ -65,26 +65,6 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDevConfig_AccessControl(int lLogi
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDevConfig_AccessControl(int lLoginId, CFG_ACCESS_EVENT_INFO* stuGeneralInfo);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDevConfig_AccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO* result);
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDevConfig_AccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO* stuInfo);
-
-extern "C" CLIENT_API int CALL_METHOD WRAP_Insert_Card(int lLoginID, NET_RECORDSET_ACCESS_CTL_CARD* stuCard);
-
-extern "C" CLIENT_API int CALL_METHOD WRAP_Insert_Pwd(int lLoginID, NET_RECORDSET_ACCESS_CTL_PWD* stuAccessCtlPwd);
-
-extern "C" CLIENT_API int CALL_METHOD WRAP_Insert_CardRec(int lLoginID, NET_RECORDSET_ACCESS_CTL_CARDREC* stuCardRec);
-
-extern "C" CLIENT_API int CALL_METHOD WRAP_Insert_Holiday(int lLoginID, NET_RECORDSET_HOLIDAY* stuHoliday);
-
-extern "C" CLIENT_API int CALL_METHOD WRAP_Update_Card(int lLoginID, NET_RECORDSET_ACCESS_CTL_CARD* stuCard);
-
-extern "C" CLIENT_API int CALL_METHOD WRAP_Update_Pwd(int lLoginID, NET_RECORDSET_ACCESS_CTL_PWD* stuAccessCtlPwd);
-
-extern "C" CLIENT_API int CALL_METHOD WRAP_Update_CardRec(int lLoginID, NET_RECORDSET_ACCESS_CTL_CARDREC* stuCardRec);
-
-extern "C" CLIENT_API int CALL_METHOD WRAP_Update_Holiday(int lLoginID, NET_RECORDSET_HOLIDAY* stuHoliday);
-
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_ReBoot(int lLoginID);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_DeleteCfgFile(int lLoginID);
@@ -94,53 +74,6 @@ extern "C" CLIENT_API int CALL_METHOD WRAP_DevCtrl_GetLogCount(int lLoginID, QUE
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_RemoveRecordSet(int lLoginID, int nRecordNo, int nRecordSetType);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_ClearRecordSet(int lLoginID, int nRecordSetType);
-
-extern "C" CLIENT_API int CALL_METHOD WRAP_DevCtrl_Get_Card_RecordSetCount(int lLoginID, FIND_RECORD_ACCESSCTLCARD_CONDITION* stuParam);
-extern "C" CLIENT_API int CALL_METHOD WRAP_DevCtrl_Get_Password_RecordSetCount(int lLoginID);
-extern "C" CLIENT_API int CALL_METHOD WRAP_DevCtrl_Get_RecordSet_RecordSetCount(int lLoginID);
-extern "C" CLIENT_API int CALL_METHOD WRAP_DevCtrl_Get_Holiday_RecordSetCount(int lLoginID);
-
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetCardInfo(int lLoginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_CARD* result);
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetCardRecInfo(int lLoginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_CARDREC* result);
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetPasswordInfo(int lLoginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_PWD* result);
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetHolidayInfo(int lLoginID, int nRecordNo, NET_RECORDSET_HOLIDAY* result);
-
-typedef struct tagNET_CardsCollection
-{
-	int Count;
-	NET_RECORDSET_ACCESS_CTL_CARD Cards[1000];
-}CardsCollection;
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAllCards(int lLoginId, CardsCollection* result);
-
-typedef struct tagNET_CardRecsCollection
-{
-	int Count;
-	NET_RECORDSET_ACCESS_CTL_CARDREC CardRecs[1000];
-}CardRecsCollection;
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAllCardRecs(int lLoginId, CardRecsCollection* result);
-
-typedef struct tagNET_PasswordsCollection
-{
-	int Count;
-	NET_RECORDSET_ACCESS_CTL_PWD Passwords[1000];
-}PasswordsCollection;
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAllPasswords(int lLoginId, PasswordsCollection* result);
-
-typedef struct tagNET_CardRecordsCollection
-{
-	int Count;
-	NET_RECORDSET_ACCESS_CTL_CARDREC CardRecords[1000];
-}CardRecordsCollection;
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAllCardRecords(int lLoginId, CardRecordsCollection* result);
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO* result);
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetAccessTimeSchedule(int lLoginId, CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_OpenDoor(int lLoginID);
 

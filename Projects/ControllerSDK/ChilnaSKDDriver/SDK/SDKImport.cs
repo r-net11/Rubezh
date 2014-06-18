@@ -865,16 +865,16 @@ namespace ControllerSDK.SDK
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_DevCtrl_Get_Card_RecordSetCount(int lLoginID, ref FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam);
+		public static extern int WRAP_Get_CardsCount(int lLoginID, ref FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_DevCtrl_Get_Password_RecordSetCount(int lLoginID);
+		public static extern int WRAP_Get_PasswordsCount(int lLoginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_DevCtrl_Get_RecordSet_RecordSetCount(int lLoginID);
+		public static extern int WRAP_Get_CardRecordsCount(int lLoginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_DevCtrl_Get_Holiday_RecordSetCount(int lLoginID);
+		public static extern int WRAP_Get_HolidaysCount(int lLoginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_GetCardInfo(int lLoginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_CARD

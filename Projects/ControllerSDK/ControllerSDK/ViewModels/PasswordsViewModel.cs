@@ -79,7 +79,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var passwordsCount = SDKImport.WRAP_DevCtrl_Get_Password_RecordSetCount(MainWindow.LoginID);
+			var passwordsCount = SDKImport.WRAP_Get_PasswordsCount(MainWindow.LoginID);
 			MessageBox.Show("passwordsCount = " + passwordsCount);
 		}
 
