@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Data;
 using SKDModule.ViewModels;
+using System.Windows;
 
 namespace SKDModule.Views
 {
@@ -28,10 +29,21 @@ namespace SKDModule.Views
 				grid.Columns.RemoveAt(i);
 			for (int i = 0; i < viewModel.TotalDays; i++)
 			{
-				DataGridTextColumn textColumn = new DataGridTextColumn();
-				textColumn.Header = date.ToShortDateString();
-				textColumn.Binding = new Binding(string.Format("Model.Hours[{0}]", i));
-				grid.Columns.Add(textColumn);
+				//DataGridTextColumn textColumn = new DataGridTextColumn();
+				//textColumn.Header = date.ToShortDateString();
+				//textColumn.Binding = new Binding(string.Format("Model.Hours[{0}]", i));
+				//grid.Columns.Add(textColumn);
+				var factory = new FrameworkElementFactory(typeof(TextBox));
+				factory.SetValue(TextBox.TextProperty, new Binding(string.Format("Model.Hours[{0}]", i)));
+				var column = new DataGridTemplateColumn()
+				{
+					Header = date.ToShortDateString(),
+					CellTemplate = new DataTemplate()
+					{
+						VisualTree = factory,
+					},
+				};
+				grid.Columns.Add(column);
 				date = date.AddDays(1);
 			}
 		}

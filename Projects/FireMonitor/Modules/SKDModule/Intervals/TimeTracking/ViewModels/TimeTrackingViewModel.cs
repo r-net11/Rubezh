@@ -79,8 +79,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-
-
 		public RelayCommand ShowFilterCommand { get; private set; }
 		private void OnShowFilter()
 		{

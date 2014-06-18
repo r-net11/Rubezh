@@ -45,6 +45,11 @@ namespace SKDModule.ViewModels
 
 		public ObservableCollection<TimeTrackingPeriod> Periods { get; private set; }
 
+		public bool IsFreePeriod
+		{
+			get { return Period == TimeTrackingPeriod.Period; }
+		}
+
 		private TimeTrackingPeriod _period;
 		public TimeTrackingPeriod Period
 		{
@@ -55,11 +60,6 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => Period);
 				OnPropertyChanged(() => IsFreePeriod);
 			}
-		}
-
-		public bool IsFreePeriod
-		{
-			get { return Period == TimeTrackingPeriod.Period; }
 		}
 
 		protected override bool CanSave()
