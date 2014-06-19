@@ -10,6 +10,7 @@ using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Ionic.Zip;
+using FiresecAPI.Automation;
 
 namespace FiresecService.Processor
 {
@@ -37,6 +38,10 @@ namespace FiresecService.Processor
 				if (systemConfiguration != null)
 				{
 					systemConfiguration.AfterLoad();
+				}
+				if (systemConfiguration.AutomationConfiguration.AutomationSchedules == null)
+				{
+					systemConfiguration.AutomationConfiguration.AutomationSchedules = new List<AutomationSchedule>();
 				}
 				zipFile.Dispose();
 				return systemConfiguration;

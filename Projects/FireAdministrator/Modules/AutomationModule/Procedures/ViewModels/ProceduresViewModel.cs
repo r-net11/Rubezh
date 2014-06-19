@@ -14,8 +14,10 @@ namespace AutomationModule.ViewModels
 {
 	public class ProceduresViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
+		public static ProceduresViewModel Current { get; private set; }
 		public ProceduresViewModel()
 		{
+			Current = this;
 			Menu = new ProceduresMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
@@ -109,6 +111,8 @@ namespace AutomationModule.ViewModels
 
 		public override void OnShow()
 		{
+			if (SelectedProcedure != null)
+				SelectedProcedure.StepsViewModel.UpdateContent();
 			base.OnShow();
 		}
 

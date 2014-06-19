@@ -1,8 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
+﻿using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -12,6 +10,7 @@ namespace AutomationModule.ViewModels
 		public Procedure Procedure { get; private set; }
 		public StepsViewModel StepsViewModel { get; private set; }
 		public VariablesViewModel VariablesViewModel { get; private set; }
+		public ArgumentsViewModel ArgumentsViewModel { get; private set; }
 		public ConditionsViewModel ConditionsViewModel { get; private set; }
 
 		public ProcedureViewModel(Procedure procedure)
@@ -24,10 +23,11 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			StepsViewModel = new StepsViewModel(procedure);
 			VariablesViewModel = new VariablesViewModel(procedure);
+			ArgumentsViewModel = new ArgumentsViewModel(procedure);
 			ConditionsViewModel = new ConditionsViewModel(procedure);
 			InputObjects = new ProcedureInputObjectsViewModel(procedure);
 
-			IsStepsVisible = true;
+			OnShowSteps();
 		}
 
 		public string Name
@@ -49,6 +49,9 @@ namespace AutomationModule.ViewModels
 		public RelayCommand ShowStepsCommand { get; private set; }
 		void OnShowSteps()
 		{
+			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
+			StepsViewModel.UpdateContent();
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			IsStepsVisible = true;
 			IsVariablesVisible = false;
 			IsArgumentsVisible = false;

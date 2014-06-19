@@ -31,8 +31,6 @@ namespace FiresecService
 		{
 			while (true)
 			{
-				if (SystemConfiguration.AutomationConfiguration == null)
-					SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 				var shedules = SystemConfiguration.AutomationConfiguration.AutomationSchedules;
 				timeValidator++;
 				Thread.Sleep(TimeSpan.FromSeconds(1));

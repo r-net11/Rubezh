@@ -171,6 +171,8 @@
     <Compile Include="Models\Automation\GlobalVariable.cs" />
     <Compile Include="Models\Automation\Filter.cs" />
     <Compile Include="Models\Automation\ObjectType.cs" />
+    <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\VariableType.cs" />
     <Compile Include="Models\Plans\ElementRectangleDoor.cs" />

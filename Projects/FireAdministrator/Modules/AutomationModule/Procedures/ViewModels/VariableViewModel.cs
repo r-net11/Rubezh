@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
@@ -10,15 +8,27 @@ namespace AutomationModule.ViewModels
 {
 	public class VariableViewModel : BaseViewModel
 	{
-		public Variable Variable { get; private set; }
+		public Variable Variable { get; set; }
 
 		public VariableViewModel(Variable variable)
 		{
 			Variable = variable;
+			Initialize();
 		}
-		public VariableViewModel()
+
+		public VariableViewModel(string name)
 		{
-			Variable = new Variable();
+			Variable = new Variable(name);
+			Initialize();
+		}
+
+		void Initialize()
+		{
+			ObjectValues = new ObservableCollection<ObjectType>
+			{
+				ObjectType.Card, ObjectType.Device, ObjectType.Direction, ObjectType.GuardZone, ObjectType.Person, ObjectType.Plan,
+				ObjectType.SKDDevice, ObjectType.SKDZone, ObjectType.VideoDevice, ObjectType.Zone
+			};
 		}
 
 		public string Name
@@ -32,14 +42,55 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public int Value
+		public bool BoolValue
 		{
-			get { return Variable.Value; }
+			get { return Variable.BoolValue; }
 			set
 			{
-				Variable.Value = value;
+				Variable.BoolValue = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged("Value");
+			}
+		}
+
+		public DateTime DateTimeValue
+		{
+			get { return Variable.DateTimeValue; }
+			set
+			{
+				Variable.DateTimeValue = value;
+				OnPropertyChanged(() => DateTimeValue);
+			}
+		}
+
+		public int IntValue
+		{
+			get { return Variable.IntValue; }
+			set
+			{
+				Variable.IntValue = value;
+				OnPropertyChanged(() => IntValue);
+			}
+		}
+
+		public ObservableCollection<ObjectType> ObjectValues { get; private set; }
+		public ObjectType ObjectValue
+		{
+			get { return Variable.ObjectValue; }
+			set
+			{
+				Variable.ObjectValue = value;
+				OnPropertyChanged(() => ObjectValue);
+			}
+		}
+
+		public string StringValue
+		{
+			get { return Variable.StringValue; }
+			set
+			{
+				Variable.StringValue = value;
+				OnPropertyChanged(() => StringValue);
 			}
 		}
 
@@ -52,6 +103,18 @@ namespace AutomationModule.ViewModels
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged("VariableType");
 			}
+		}
+
+		public void Update()
+		{
+			OnPropertyChanged(() => Variable);
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => BoolValue);
+			OnPropertyChanged(() => DateTimeValue);
+			OnPropertyChanged(() => IntValue);
+			OnPropertyChanged(() => ObjectValue);
+			OnPropertyChanged(() => StringValue);
+			OnPropertyChanged(() => VariableType);
 		}
 	}
 }

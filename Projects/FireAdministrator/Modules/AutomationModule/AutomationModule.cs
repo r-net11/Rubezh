@@ -7,6 +7,8 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Validation;
+using FiresecClient;
+using FiresecAPI.Automation;
 
 namespace AutomationModule
 {

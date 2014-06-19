@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using FiresecAPI;
-using FiresecAPI.Models;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
+﻿using FiresecAPI;
 using Infrastructure.Common.TreeList;
-using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Events;
-using FiresecAPI.SKD;
 using FiresecAPI.Automation;
 
 namespace AutomationModule.ViewModels
@@ -17,13 +8,13 @@ namespace AutomationModule.ViewModels
 	{
 		public ProcedureStep Step { get; private set; }
 		public StepsViewModel StepsViewModel { get; private set; }
-
-		public StepViewModel(StepsViewModel stepsViewModel, ProcedureStep step)
+		public Procedure Procedure { get; private set; }
+		public StepViewModel(StepsViewModel stepsViewModel, ProcedureStep step, Procedure procedure)
 		{
 			//AddCommand = new RelayCommand(OnAdd);
 			//AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			//RemoveCommand = new RelayCommand(OnRemove);
-
+			Procedure = procedure;
 			StepsViewModel = stepsViewModel;
 			Step = step;
 
@@ -33,9 +24,23 @@ namespace AutomationModule.ViewModels
 					Content = new SoundStepViewModel(step);
 					break;
 
+				case ProcedureStepType.Arithmetics:
+					Content = new ArithmeticStepViewModel(step, procedure);
+					break;
+
 				case ProcedureStepType.SendMessage:
 					Content = new JournalStepViewModel(step);
 					break;
+			}
+		}
+
+		public void UpdateContent()
+		{
+			if (Step.ProcedureStepType == ProcedureStepType.Arithmetics)
+			{
+				var arithmeticStepViewModel = Content as ArithmeticStepViewModel;
+				if (arithmeticStepViewModel != null)
+					arithmeticStepViewModel.UpdateContent(Procedure.Variables);
 			}
 		}
 

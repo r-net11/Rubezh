@@ -35,9 +35,14 @@
         <Views:JournalStepView />
     </DataTemplate>
 
-    <ViewModels:StepTypeTemplateSelector
-            SoundsTemplate="{StaticResource soundsTemplate}"
-            JournalTemplate="{StaticResource journalTemplate}"
-            x:Key="stepTypeTemplateSelector" />
+	<DataTemplate x:Key="arithmeticTemplate">
+		<Views:ArithmeticStepView />
+	</DataTemplate>
+
+	<ViewModels:StepTypeTemplateSelector
+		SoundsTemplate="{StaticResource soundsTemplate}"
+		JournalTemplate="{StaticResource journalTemplate}"
+		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
+		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

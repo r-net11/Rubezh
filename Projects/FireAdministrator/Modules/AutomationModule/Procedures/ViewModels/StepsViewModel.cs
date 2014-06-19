@@ -2,15 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
 using Infrastructure;
-using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
 using FiresecAPI.Automation;
 using Infrastructure.Common;
@@ -83,6 +76,12 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public void UpdateContent()
+		{
+			if (SelectedStep != null)
+				SelectedStep.UpdateContent();
+		}
+
 		StepViewModel _selectedStep;
 		public StepViewModel SelectedStep
 		{
@@ -90,6 +89,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedStep = value;
+				if (_selectedStep != null)
+					_selectedStep.UpdateContent();
 				OnPropertyChanged(() => SelectedStep);
 			}
 		}
@@ -113,7 +114,7 @@ namespace AutomationModule.ViewModels
 		}
 		private StepViewModel AddStepInternal(ProcedureStep step, StepViewModel parentStepViewModel)
 		{
-			var stepViewModel = new StepViewModel(this, step);
+			var stepViewModel = new StepViewModel(this, step, Procedure);
 			if (parentStepViewModel != null)
 				parentStepViewModel.AddChild(stepViewModel);
 
@@ -160,7 +161,7 @@ namespace AutomationModule.ViewModels
 				{
 					var procedureStep = new ProcedureStep();
 					procedureStep.ProcedureStepType = stepTypeSelectationViewModel.SelectedStepType.ProcedureStepType;
-					var stepViewModel = new StepViewModel(this, procedureStep);
+					var stepViewModel = new StepViewModel(this, procedureStep, Procedure);
 					Add(stepViewModel);
 					ServiceFactory.SaveService.AutomationChanged = true;
 				}
@@ -194,21 +195,21 @@ namespace AutomationModule.ViewModels
 		{
 			var procedureStep = new ProcedureStep();
 			procedureStep.ProcedureStepType = ProcedureStepType.If;
-			var stepViewModel = new StepViewModel(this, procedureStep);
+			var stepViewModel = new StepViewModel(this, procedureStep, Procedure);
 			stepViewModel.IsExpanded = true;
 			AllSteps.Add(stepViewModel);
 
 			var procedureStepIfYes = new ProcedureStep();
 			procedureStepIfYes.ProcedureStepType = ProcedureStepType.IfYes;
 			procedureStep.Children.Add(procedureStepIfYes);
-			var stepIfYesViewModel = new StepViewModel(this, procedureStepIfYes);
+			var stepIfYesViewModel = new StepViewModel(this, procedureStepIfYes, Procedure);
 			stepViewModel.AddChild(stepIfYesViewModel);
 			AllSteps.Add(stepIfYesViewModel);
 
 			var procedureStepIfNo = new ProcedureStep();
 			procedureStepIfNo.ProcedureStepType = ProcedureStepType.IfNo;
 			procedureStep.Children.Add(procedureStepIfNo);
-			var stepIfNoViewModel = new StepViewModel(this, procedureStepIfNo);
+			var stepIfNoViewModel = new StepViewModel(this, procedureStepIfNo, Procedure);
 			stepViewModel.AddChild(stepIfNoViewModel);
 			AllSteps.Add(stepIfNoViewModel);
 
@@ -221,28 +222,28 @@ namespace AutomationModule.ViewModels
 		{
 			var procedureStep = new ProcedureStep();
 			procedureStep.ProcedureStepType = ProcedureStepType.Foreach;
-			var stepViewModel = new StepViewModel(this, procedureStep);
+			var stepViewModel = new StepViewModel(this, procedureStep, Procedure);
 			stepViewModel.IsExpanded = true;
 			AllSteps.Add(stepViewModel);
 
 			var procedureStepForeachBody = new ProcedureStep();
 			procedureStepForeachBody.ProcedureStepType = ProcedureStepType.ForeachBody;
 			procedureStep.Children.Add(procedureStepForeachBody);
-			var stepForeachBodyViewModel = new StepViewModel(this, procedureStepForeachBody);
+			var stepForeachBodyViewModel = new StepViewModel(this, procedureStepForeachBody, Procedure);
 			stepViewModel.AddChild(stepForeachBodyViewModel);
 			AllSteps.Add(stepForeachBodyViewModel);
 
 			var procedureStepForeachList = new ProcedureStep();
 			procedureStepForeachList.ProcedureStepType = ProcedureStepType.ForeachList;
 			procedureStep.Children.Add(procedureStepForeachList);
-			var stepForeachListViewModel = new StepViewModel(this, procedureStepForeachList);
+			var stepForeachListViewModel = new StepViewModel(this, procedureStepForeachList, Procedure);
 			stepViewModel.AddChild(stepForeachListViewModel);
 			AllSteps.Add(stepForeachListViewModel);
 
 			var procedureStepForeachElement = new ProcedureStep();
 			procedureStepForeachElement.ProcedureStepType = ProcedureStepType.ForeachElement;
 			procedureStep.Children.Add(procedureStepForeachElement);
-			var stepForeachElementViewModel = new StepViewModel(this, procedureStepForeachElement);
+			var stepForeachElementViewModel = new StepViewModel(this, procedureStepForeachElement, Procedure);
 			stepViewModel.AddChild(stepForeachElementViewModel);
 			AllSteps.Add(stepForeachElementViewModel);
 

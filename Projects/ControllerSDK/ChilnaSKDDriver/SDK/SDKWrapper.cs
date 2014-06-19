@@ -57,7 +57,7 @@ namespace ControllerSDK.SDK
 		{
 			SDKImport.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new SDKImport.NET_RECORDSET_ACCESS_CTL_CARD();
 			stuCard.bIsValid = card.IsValid;
-			stuCard.emStatus = card.CardStatus; ;
+			stuCard.emStatus = card.CardStatus;
 			stuCard.emType = card.CardType;
 			stuCard.nTimeSectionNum = card.TimeSectionsCount;
 			stuCard.nUserTime = card.UserTime;
@@ -134,6 +134,28 @@ namespace ControllerSDK.SDK
 				cards.Add(card);
 			}
 			return cards;
+		}
+		#endregion
+
+		#region CardRecs
+		public static int AddCardRec(int loginID, CardRec cardRec)
+		{
+			SDKImport.NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec = new SDKImport.NET_RECORDSET_ACCESS_CTL_CARDREC();
+			stuCardRec.szCardNo = SDKWrapper.StringToCharArray(cardRec.CardNo, 32);
+			stuCardRec.szPwd = SDKWrapper.StringToCharArray(cardRec.Password, 64);
+
+			stuCardRec.stuTime.dwYear = cardRec.DateTime.Year;
+			stuCardRec.stuTime.dwMonth = cardRec.DateTime.Month;
+			stuCardRec.stuTime.dwDay = cardRec.DateTime.Day;
+			stuCardRec.stuTime.dwHour = cardRec.DateTime.Hour;
+			stuCardRec.stuTime.dwMinute = cardRec.DateTime.Minute;
+			stuCardRec.stuTime.dwSecond = cardRec.DateTime.Second;
+
+			stuCardRec.bStatus = cardRec.IsStatus;
+			stuCardRec.emMethod = cardRec.DoorOpenMethod;
+			stuCardRec.nDoor = cardRec.DoorNo;
+			var result = SDKImport.WRAP_Insert_CardRec(loginID, ref stuCardRec);
+			return result;
 		}
 		#endregion
 
@@ -251,6 +273,32 @@ namespace ControllerSDK.SDK
 				timeShedules.Add(timeShedule);
 			}
 			return timeShedules;
+		}
+
+		public static bool SetTimeShedules(int loginID, List<TimeShedule> timeShedules)
+		{
+			//int structSize = Marshal.SizeOf(typeof(SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO));
+			//IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+
+			SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfos = new SDKImport.CFG_ACCESS_TIMESCHEDULE_INFO();
+			timeSheduleInfos.stuTime = new SDKImport.CFG_TIME_SECTION[7 * 4];
+			timeSheduleInfos.bEnable = true;
+			for(int i = 0; i< timeShedules.Count; i++)
+			{
+				timeSheduleInfos.stuTime[i].nBeginHour = timeShedules[i].BeginHours;
+				timeSheduleInfos.stuTime[i].nBeginMin = timeShedules[i].BeginMinutes;
+				timeSheduleInfos.stuTime[i].nBeginSec = timeShedules[i].BeginSeconds;
+				timeSheduleInfos.stuTime[i].nEndHour = timeShedules[i].EndHours;
+				timeSheduleInfos.stuTime[i].nEndMin = timeShedules[i].EndMinutes;
+				timeSheduleInfos.stuTime[i].nEndSec = timeShedules[i].EndSeconds;
+			}
+
+			var result = SDKImport.WRAP_SetAccessTimeSchedule(loginID, timeSheduleInfos);
+
+			//Marshal.FreeCoTaskMem(intPtr);
+			//intPtr = IntPtr.Zero;
+
+			return result;
 		}
 
 		#region GetDetails

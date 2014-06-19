@@ -16,6 +16,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("СКД-устройство")]
 		SKDDevice,
 
+		[DescriptionAttribute("СКД-зона")]
+		SKDZone,
+
 		[DescriptionAttribute("Охранная зона")]
 		GuardZone,
 		
