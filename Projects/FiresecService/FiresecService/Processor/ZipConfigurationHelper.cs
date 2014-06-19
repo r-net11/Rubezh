@@ -39,6 +39,8 @@ namespace FiresecService.Processor
 				{
 					systemConfiguration.AfterLoad();
 				}
+				if (systemConfiguration.AutomationConfiguration == null)
+					systemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 				if (systemConfiguration.AutomationConfiguration.AutomationSchedules == null)
 				{
 					systemConfiguration.AutomationConfiguration.AutomationSchedules = new List<AutomationSchedule>();
