@@ -5,12 +5,12 @@ using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
-	public static partial class Wrapper
+	public partial class Wrapper
 	{
-		public static List<TimeShedule> GetTimeShedules(int loginID, int index)
+		public List<TimeShedule> GetTimeShedules(int index)
 		{
 			NativeWrapper.CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo;
-			var result = NativeWrapper.WRAP_GetTimeSchedule(loginID, index, out timeSheduleInfo);
+			var result = NativeWrapper.WRAP_GetTimeSchedule(LoginID, index, out timeSheduleInfo);
 
 			var timeSheduleIntervals = new List<TimeSheduleInterval>();
 
@@ -42,7 +42,7 @@ namespace ChinaSKDDriver
 			return timeShedules;
 		}
 
-		public static bool SetTimeShedules(int loginID, int index, List<TimeShedule> timeShedules)
+		public bool SetTimeShedules(int index, List<TimeShedule> timeShedules)
 		{
 			NativeWrapper.CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfos = new NativeWrapper.CFG_ACCESS_TIMESCHEDULE_INFO();
 			timeSheduleInfos.stuTime = new NativeWrapper.CFG_TIME_SECTION[7 * 4];
@@ -64,7 +64,7 @@ namespace ChinaSKDDriver
 				}
 			}
 
-			var result = NativeWrapper.WRAP_SetTimeSchedule(loginID, index, ref timeSheduleInfos);
+			var result = NativeWrapper.WRAP_SetTimeSchedule(LoginID, index, ref timeSheduleInfos);
 			return result;
 		}
 	}

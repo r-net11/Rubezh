@@ -64,14 +64,14 @@ namespace ControllerSDK.ViewModels
 			card.ValidStartDateTime = ValidStartTime;
 			card.ValidEndDateTime = ValidEndTime;
 			card.CardType = CardType;
-			var newCardNo = Wrapper.AddCard(MainWindow.LoginID, card);
+			var newCardNo = MainViewModel.Wrapper.AddCard(card);
 			MessageBox.Show("newCardNo = " + newCardNo);
 		}
 
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = Wrapper.GetCardInfo(MainWindow.LoginID, Index);
+			var result = MainViewModel.Wrapper.GetCardInfo(Index);
 			Initialize(new List<Card>() { result });
 		}
 
@@ -80,7 +80,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedCard != null)
 			{
-				var result = NativeWrapper.WRAP_RemoveCard(MainWindow.LoginID, Index);
+				var result = NativeWrapper.WRAP_RemoveCard(MainViewModel.Wrapper.LoginID, Index);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -88,7 +88,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = NativeWrapper.WRAP_RemoveAllCards(MainWindow.LoginID);
+			var result = NativeWrapper.WRAP_RemoveAllCards(MainViewModel.Wrapper.LoginID);
 			MessageBox.Show("result = " + result);
 		}
 
@@ -98,14 +98,14 @@ namespace ControllerSDK.ViewModels
 			NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION();
 			stuParam.szCardNo = Wrapper.StringToCharArray("1", 32);
 			stuParam.szUserID = Wrapper.StringToCharArray("1", 32);
-			var cardsCount = NativeWrapper.WRAP_Get_CardsCount(MainWindow.LoginID, ref stuParam);
+			var cardsCount = NativeWrapper.WRAP_Get_CardsCount(MainViewModel.Wrapper.LoginID, ref stuParam);
 			MessageBox.Show("cardsCount = " + cardsCount);
 		}
 
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var cards = Wrapper.GetAllCards(MainWindow.LoginID);
+			var cards = MainViewModel.Wrapper.GetAllCards();
 
 			Cards.Clear();
 			foreach (var card in cards)

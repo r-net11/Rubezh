@@ -6,9 +6,9 @@ using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
-	public static partial class Wrapper
+	public partial class Wrapper
 	{
-		public static int AddHoliday(int loginID, Holiday holiday)
+		public int AddHoliday(Holiday holiday)
 		{
 			NativeWrapper.NET_RECORDSET_HOLIDAY stuHoliday = new NativeWrapper.NET_RECORDSET_HOLIDAY();
 			stuHoliday.nDoorNum = holiday.DoorsCount;
@@ -30,16 +30,16 @@ namespace ChinaSKDDriver
 			stuHoliday.stuEndTime.dwMinute = holiday.EndDateTime.Minute;
 			stuHoliday.stuEndTime.dwSecond = holiday.EndDateTime.Second;
 			stuHoliday.bEnable = holiday.IsEnabled;
-			var result = NativeWrapper.WRAP_Insert_Holiday(loginID, ref stuHoliday);
+			var result = NativeWrapper.WRAP_Insert_Holiday(LoginID, ref stuHoliday);
 			return result;
 		}
 
-		public static Holiday GetHolidayInfo(int loginID, int recordNo)
+		public Holiday GetHolidayInfo(int recordNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_HOLIDAY));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetHolidayInfo(loginID, recordNo, intPtr);
+			var result = NativeWrapper.WRAP_GetHolidayInfo(LoginID, recordNo, intPtr);
 
 			NativeWrapper.NET_RECORDSET_HOLIDAY sdkHoliday = (NativeWrapper.NET_RECORDSET_HOLIDAY)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_HOLIDAY)));
 			Marshal.FreeCoTaskMem(intPtr);
@@ -55,7 +55,7 @@ namespace ChinaSKDDriver
 			return holiday;
 		}
 
-		public static List<Holiday> GetAllHolidays(int loginID)
+		public List<Holiday> GetAllHolidays()
 		{
 			return new List<Holiday>();
 		}

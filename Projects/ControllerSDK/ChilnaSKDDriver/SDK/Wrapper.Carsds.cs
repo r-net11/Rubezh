@@ -6,9 +6,9 @@ using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
-	public static partial class Wrapper
+	public partial class Wrapper
 	{
-		public static int AddCard(int loginID, Card card)
+		public int AddCard(Card card)
 		{
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
 			stuCard.bIsValid = true;
@@ -50,16 +50,16 @@ namespace ChinaSKDDriver
 			stuCard.szPsw = Wrapper.StringToCharArray(card.Password, 64);
 			stuCard.szUserID = Wrapper.StringToCharArray("1", 32);
 
-			var result = NativeWrapper.WRAP_Insert_Card(loginID, ref stuCard);
+			var result = NativeWrapper.WRAP_Insert_Card(LoginID, ref stuCard);
 			return result;
 		}
 
-		public static Card GetCardInfo(int loginID, int recordNo)
+		public Card GetCardInfo(int recordNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetCardInfo(loginID, recordNo, intPtr);
+			var result = NativeWrapper.WRAP_GetCardInfo(LoginID, recordNo, intPtr);
 
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD sdkCard = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)));
 			Marshal.FreeCoTaskMem(intPtr);
@@ -81,12 +81,12 @@ namespace ChinaSKDDriver
 			return card;
 		}
 
-		public static List<Card> GetAllCards(int loginID)
+		public List<Card> GetAllCards()
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CardsCollection));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetAllCards(loginID, intPtr);
+			var result = NativeWrapper.WRAP_GetAllCards(LoginID, intPtr);
 
 			NativeWrapper.CardsCollection cardsCollection = (NativeWrapper.CardsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardsCollection)));
 			Marshal.FreeCoTaskMem(intPtr);

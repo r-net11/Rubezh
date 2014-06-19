@@ -6,9 +6,9 @@ using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
-	public static partial class Wrapper
+	public partial class Wrapper
 	{
-		public static int AddCardRec(int loginID, CardRec cardRec)
+		public int AddCardRec(CardRec cardRec)
 		{
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC();
 			stuCardRec.szCardNo = StringToCharArray(cardRec.CardNo, 32);
@@ -24,16 +24,16 @@ namespace ChinaSKDDriver
 			stuCardRec.bStatus = cardRec.IsStatus;
 			stuCardRec.emMethod = cardRec.DoorOpenMethod;
 			stuCardRec.nDoor = cardRec.DoorNo;
-			var result = NativeWrapper.WRAP_Insert_CardRec(loginID, ref stuCardRec);
+			var result = NativeWrapper.WRAP_Insert_CardRec(LoginID, ref stuCardRec);
 			return result;
 		}
 
-		public static CardRec GetCardRecInfo(int loginID, int recordNo)
+		public CardRec GetCardRecInfo(int recordNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetCardRecInfo(loginID, recordNo, intPtr);
+			var result = NativeWrapper.WRAP_GetCardRecInfo(LoginID, recordNo, intPtr);
 
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC sdkCardRec = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)));
 			Marshal.FreeCoTaskMem(intPtr);
@@ -51,12 +51,12 @@ namespace ChinaSKDDriver
 			return cardRec;
 		}
 
-		public static List<CardRec> GetAllCardRecs(int loginID)
+		public List<CardRec> GetAllCardRecs()
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CardRecsCollection));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetAllCardRecs(loginID, intPtr);
+			var result = NativeWrapper.WRAP_GetAllCardRecs(LoginID, intPtr);
 
 			NativeWrapper.CardRecsCollection cardRecsCollection = (NativeWrapper.CardRecsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardRecsCollection)));
 			Marshal.FreeCoTaskMem(intPtr);

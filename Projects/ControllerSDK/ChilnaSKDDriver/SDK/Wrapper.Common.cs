@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace ChinaSKDDriver
 {
-	public static partial class Wrapper
+	public partial class Wrapper
 	{
 		#region Helpers
 		public static string CharArrayToString(char[] charArray)
@@ -56,9 +56,9 @@ namespace ChinaSKDDriver
 
 		#region Common
 
-		static int LoginID;
+		public int LoginID { get; private set; }
 
-		static void OnfDisConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
+		void OnfDisConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
 		{
 			if (dwUser == 0)
 			{
@@ -66,12 +66,12 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		static void OnfHaveReConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
+		void OnfHaveReConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
 		{
 			return;
 		}
 
-		public static int Connect(string ipAddress, int port, string login, string password)
+		public int Connect(string ipAddress, int port, string login, string password)
 		{
 			NativeWrapper.fDisConnectDelegate dCbFunc = new NativeWrapper.fDisConnectDelegate(OnfDisConnect);
 			var result = NativeWrapper.CLIENT_Init(dCbFunc, (UInt32)0);
@@ -86,7 +86,7 @@ namespace ChinaSKDDriver
 			return LoginID;
 		}
 
-		public static void StartListen()
+		public void StartListen()
 		{
 			NativeWrapper.fMessCallBack onfMessCallBack = new NativeWrapper.fMessCallBack(OnfMessCallBack);
 			NativeWrapper.CLIENT_SetDVRMessCallBack(onfMessCallBack, 0);
@@ -94,7 +94,7 @@ namespace ChinaSKDDriver
 			NativeWrapper.CLIENT_StartListenEx(LoginID);
 		}
 
-		static bool OnfMessCallBack(Int32 lCommand, Int32 lLoginID, IntPtr pBuf, Int32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
+		bool OnfMessCallBack(Int32 lCommand, Int32 lLoginID, IntPtr pBuf, Int32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
 		{
 			if (lCommand == 0x3181)
 			{
@@ -140,9 +140,9 @@ namespace ChinaSKDDriver
 		}
 
 
-		public static event Action<SKDJournalItem> NewJournalItem;
+		public event Action<SKDJournalItem> NewJournalItem;
 
-		public static bool Disconnect()
+		public bool Disconnect()
 		{
 			var result = NativeWrapper.CLIENT_Cleanup();
 			return result;

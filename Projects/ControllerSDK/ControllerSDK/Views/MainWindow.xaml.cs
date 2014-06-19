@@ -24,25 +24,25 @@ namespace ControllerSDK.Views
 			OnConnect(this, null);
 		}
 
-		public static Int32 LoginID = 0;
 		public MainViewModel MainViewModel { get; private set; }
 
 		void OnConnect(object sender, RoutedEventArgs e)
 		{
 			File.Copy(@"D:\Projects\Projects\ControllerSDK\SDK_DLL\EntranceGuardDemo\Bin\EntranceGuardDemo.dll", @"D:\Projects\Projects\ControllerSDK\ControllerSDK\bin\Debug\EntranceGuardDemo.dll", true);
-			LoginID = Wrapper.Connect("172.16.6.58", 37777, "admin", "123456");
-			_textBox.Text += "LoginID = " + LoginID + "\n";
+			MainViewModel.Wrapper = new Wrapper();
+			var loginID = MainViewModel.Wrapper.Connect("172.16.6.58", 37777, "admin", "123456");
+			_textBox.Text += "LoginID = " + loginID + "\n";
 		}
 
 		void OnDisconnect(object sender, RoutedEventArgs e)
 		{
-			Wrapper.Disconnect();
+			MainViewModel.Wrapper.Disconnect();
 		}
 
 		void OnGetTypeAndSoft(object sender, RoutedEventArgs e)
 		{
 			NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo(MainViewModel.Wrapper.LoginID, out outResult);
 
 			DeviceSoftwareInfo deviceSoftwareInfo = null;
 			if (result)
@@ -67,7 +67,7 @@ namespace ControllerSDK.Views
 		void OnGetIpMask(object sender, RoutedEventArgs e)
 		{
 			NativeWrapper.WRAP_CFG_NETWORK_INFO_Result outResult;
-			var result = NativeWrapper.WRAP_Get_DevConfig_IPMaskGate(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_Get_DevConfig_IPMaskGate(MainViewModel.Wrapper.LoginID, out outResult);
 
 			DeviceNetInfo deviceNetInfo = null;
 			if (result)
@@ -94,13 +94,13 @@ namespace ControllerSDK.Views
 		void OnSetIpMask(object sender, RoutedEventArgs e)
 		{
 			return;
-			var result = NativeWrapper.WRAP_Set_DevConfig_IPMaskGate(LoginID, "172.5.2.65", "255.255.255.0", "172.5.1.1", 1000);
+			var result = NativeWrapper.WRAP_Set_DevConfig_IPMaskGate(MainViewModel.Wrapper.LoginID, "172.5.2.65", "255.255.255.0", "172.5.1.1", 1000);
 		}
 
 		void OnGetMac(object sender, RoutedEventArgs e)
 		{
 			NativeWrapper.WRAP_DevConfig_MAC_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_MAC(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_DevConfig_MAC(MainViewModel.Wrapper.LoginID, out outResult);
 			if (result)
 			{
 				var macAddress = Wrapper.CharArrayToString(outResult.szMAC);
@@ -115,7 +115,7 @@ namespace ControllerSDK.Views
 		void OnGetMaxPageSize(object sender, RoutedEventArgs e)
 		{
 			NativeWrapper.WRAP_DevConfig_RecordFinderCaps_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_RecordFinderCaps(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_DevConfig_RecordFinderCaps(MainViewModel.Wrapper.LoginID, out outResult);
 			if (result)
 			{
 				var maxPageSize = outResult.nMaxPageSize;
@@ -130,7 +130,7 @@ namespace ControllerSDK.Views
 		void OnGetCurrentTime(object sender, RoutedEventArgs e)
 		{
 			NativeWrapper.NET_TIME outResult;
-			var result = NativeWrapper.WRAP_DevConfig_GetCurrentTime(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_DevConfig_GetCurrentTime(MainViewModel.Wrapper.LoginID, out outResult);
 			if (result)
 			{
 				var dateTime = new DateTime(outResult.dwYear, outResult.dwMonth, outResult.dwDay, outResult.dwHour, outResult.dwMinute, outResult.dwSecond);
@@ -144,7 +144,7 @@ namespace ControllerSDK.Views
 
 		void OnSetCurrentTime(object sender, RoutedEventArgs e)
 		{
-			var result = NativeWrapper.WRAP_DevConfig_SetCurrentTime(LoginID, 2014, 5, 23, 13, 14, 01);
+			var result = NativeWrapper.WRAP_DevConfig_SetCurrentTime(MainViewModel.Wrapper.LoginID, 2014, 5, 23, 13, 14, 01);
 			if (result)
 			{
 				_textBox.Text += "Success" + "\n";
@@ -158,7 +158,7 @@ namespace ControllerSDK.Views
 		void OnQueryLogList(object sender, RoutedEventArgs e)
 		{
 			NativeWrapper.WRAP_Dev_QueryLogList_Result outResult;
-			var result = NativeWrapper.WRAP_Dev_QueryLogList(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_Dev_QueryLogList(MainViewModel.Wrapper.LoginID, out outResult);
 			List<DeviceJournalItem> deviceJournalItems = new List<DeviceJournalItem>();
 			if (result)
 			{
@@ -193,7 +193,7 @@ namespace ControllerSDK.Views
 		void OnGetAccessGeneral(object sender, RoutedEventArgs e)
 		{
 			NativeWrapper.CFG_ACCESS_GENERAL_INFO outResult;
-			var result = NativeWrapper.WRAP_DevConfig_AccessGeneral(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_DevConfig_AccessGeneral(MainViewModel.Wrapper.LoginID, out outResult);
 			DeviceGeneralInfo deviceGeneralInfo = null;
 			if (result)
 			{
@@ -219,7 +219,7 @@ namespace ControllerSDK.Views
 		void OnGetDevConfig_AccessControl(object sender, RoutedEventArgs e)
 		{
 			NativeWrapper.CFG_ACCESS_EVENT_INFO outResult;
-			var result = NativeWrapper.WRAP_GetDevConfig_AccessControl(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_GetDevConfig_AccessControl(MainViewModel.Wrapper.LoginID, out outResult);
 			if (result)
 			{
 				_textBox.Text += "Success" + "\n";
@@ -262,7 +262,7 @@ namespace ControllerSDK.Views
 				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = 2;
 				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = 2;
 			}
-			var result = NativeWrapper.WRAP_SetDevConfig_AccessControl2(LoginID, ref info);
+			var result = NativeWrapper.WRAP_SetDevConfig_AccessControl2(MainViewModel.Wrapper.LoginID, ref info);
 			if (result)
 			{
 				_textBox.Text += "Success" + "\n";
@@ -275,7 +275,7 @@ namespace ControllerSDK.Views
 
 		void OnReBoot(object sender, RoutedEventArgs e)
 		{
-			var result = NativeWrapper.WRAP_DevCtrl_ReBoot(LoginID);
+			var result = NativeWrapper.WRAP_DevCtrl_ReBoot(MainViewModel.Wrapper.LoginID);
 			if (result)
 			{
 				_textBox.Text += "Success" + "\n";
@@ -288,7 +288,7 @@ namespace ControllerSDK.Views
 
 		void OnDeleteCfgFile(object sender, RoutedEventArgs e)
 		{
-			var result = NativeWrapper.WRAP_DevCtrl_DeleteCfgFile(LoginID);
+			var result = NativeWrapper.WRAP_DevCtrl_DeleteCfgFile(MainViewModel.Wrapper.LoginID);
 			if (result)
 			{
 				_textBox.Text += "Success" + "\n";
@@ -302,7 +302,7 @@ namespace ControllerSDK.Views
 		void OnGetLogsCount(object sender, RoutedEventArgs e)
 		{
 			NativeWrapper.QUERY_DEVICE_LOG_PARAM logParam = new NativeWrapper.QUERY_DEVICE_LOG_PARAM();
-			var result = NativeWrapper.WRAP_DevCtrl_GetLogCount(LoginID, ref logParam);
+			var result = NativeWrapper.WRAP_DevCtrl_GetLogCount(MainViewModel.Wrapper.LoginID, ref logParam);
 			if (result > 0)
 			{
 				_textBox.Text += "Success " + result.ToString() + "\n";

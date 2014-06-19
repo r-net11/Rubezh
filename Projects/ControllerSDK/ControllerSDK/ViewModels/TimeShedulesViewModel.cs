@@ -21,7 +21,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetTimeShedulesCommand { get; private set; }
 		void OnGetTimeShedules()
 		{
-			var timeShedules = Wrapper.GetTimeShedules(MainWindow.LoginID, Index);
+			var timeShedules = MainViewModel.Wrapper.GetTimeShedules(Index);
 
 			TimeShedules = new ObservableRangeCollection<TimeSheduleViewModel>();
 			foreach (var timeShedule in timeShedules)
@@ -50,7 +50,7 @@ namespace ControllerSDK.ViewModels
 					timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
 				}
 			}
-			var result = Wrapper.SetTimeShedules(MainWindow.LoginID, Index, timeShedules);
+			var result = MainViewModel.Wrapper.SetTimeShedules(Index, timeShedules);
 		}
 
 		int _index;

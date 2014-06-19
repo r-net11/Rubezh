@@ -47,14 +47,14 @@ namespace ControllerSDK.ViewModels
 			holiday.EndDateTime = EndDateTime;
 			holiday.IsEnabled = IsEnabled;
 			holiday.DoorsCount = DoorsCount;
-			var newHolidayNo = Wrapper.AddHoliday(MainWindow.LoginID, holiday);
+			var newHolidayNo = MainViewModel.Wrapper.AddHoliday(holiday);
 			MessageBox.Show("newHolidayNo = " + newHolidayNo);
 		}
 
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = Wrapper.GetHolidayInfo(MainWindow.LoginID, 0);
+			var result = MainViewModel.Wrapper.GetHolidayInfo(0);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -62,7 +62,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedHoliday != null)
 			{
-				var result = NativeWrapper.WRAP_RemoveHoliday(MainWindow.LoginID, SelectedHoliday.Holiday.RecordNo);
+				var result = NativeWrapper.WRAP_RemoveHoliday(MainViewModel.Wrapper.LoginID, SelectedHoliday.Holiday.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -70,21 +70,21 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = NativeWrapper.WRAP_RemoveAllHolidays(MainWindow.LoginID);
+			var result = NativeWrapper.WRAP_RemoveAllHolidays(MainViewModel.Wrapper.LoginID);
 			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var holidaysCount = NativeWrapper.WRAP_Get_HolidaysCount(MainWindow.LoginID);
+			var holidaysCount = NativeWrapper.WRAP_Get_HolidaysCount(MainViewModel.Wrapper.LoginID);
 			MessageBox.Show("holidaysCount = " + holidaysCount);
 		}
 
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var holidays = Wrapper.GetAllHolidays(MainWindow.LoginID);
+			var holidays = MainViewModel.Wrapper.GetAllHolidays();
 
 			Holidays.Clear();
 			foreach (var holiday in holidays)

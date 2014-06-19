@@ -50,14 +50,14 @@ namespace ControllerSDK.ViewModels
 			password.DoorOpenPassword = DoorOpenPassword;
 			password.AlarmPassword = AlarmPassword;
 			password.DoorsCount = DoorsCount;
-			var newPasswordNo = Wrapper.AddPassword(MainWindow.LoginID, password);
+			var newPasswordNo = MainViewModel.Wrapper.AddPassword(password);
 			MessageBox.Show("newPasswordNo = " + newPasswordNo);
 		}
 
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = Wrapper.GetPasswordInfo(MainWindow.LoginID, 0);
+			var result = MainViewModel.Wrapper.GetPasswordInfo(0);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -65,7 +65,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedPassword != null)
 			{
-				var result = NativeWrapper.WRAP_RemoveCardRec(MainWindow.LoginID, SelectedPassword.Password.RecordNo);
+				var result = NativeWrapper.WRAP_RemoveCardRec(MainViewModel.Wrapper.LoginID, SelectedPassword.Password.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -73,21 +73,21 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = NativeWrapper.WRAP_RemoveAllPasswords(MainWindow.LoginID);
+			var result = NativeWrapper.WRAP_RemoveAllPasswords(MainViewModel.Wrapper.LoginID);
 			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var passwordsCount = NativeWrapper.WRAP_Get_PasswordsCount(MainWindow.LoginID);
+			var passwordsCount = NativeWrapper.WRAP_Get_PasswordsCount(MainViewModel.Wrapper.LoginID);
 			MessageBox.Show("passwordsCount = " + passwordsCount);
 		}
 
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var passwords = Wrapper.GetAllPasswords(MainWindow.LoginID);
+			var passwords = MainViewModel.Wrapper.GetAllPasswords();
 
 			Passwords.Clear();
 			foreach (var password in passwords)

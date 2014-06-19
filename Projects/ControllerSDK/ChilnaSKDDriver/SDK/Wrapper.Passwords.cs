@@ -6,9 +6,9 @@ using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
-	public static partial class Wrapper
+	public partial class Wrapper
 	{
-		public static int AddPassword(int loginID, Password password)
+		public int AddPassword(Password password)
 		{
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD();
 			stuAccessCtlPwd.stuCreateTime.dwYear = password.CreationDateTime.Year;
@@ -25,16 +25,16 @@ namespace ChinaSKDDriver
 			stuAccessCtlPwd.sznDoors[0] = 1;
 			stuAccessCtlPwd.sznDoors[1] = 2;
 
-			var result = NativeWrapper.WRAP_Insert_Pwd(loginID, ref stuAccessCtlPwd);
+			var result = NativeWrapper.WRAP_Insert_Pwd(LoginID, ref stuAccessCtlPwd);
 			return result;
 		}
 
-		public static Password GetPasswordInfo(int loginID, int recordNo)
+		public Password GetPasswordInfo(int recordNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetPasswordInfo(loginID, recordNo, intPtr);
+			var result = NativeWrapper.WRAP_GetPasswordInfo(LoginID, recordNo, intPtr);
 
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD sdkPassword = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD)));
 			Marshal.FreeCoTaskMem(intPtr);
@@ -52,12 +52,12 @@ namespace ChinaSKDDriver
 			return password;
 		}
 
-		public static List<Password> GetAllPasswords(int loginID)
+		public List<Password> GetAllPasswords()
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.PasswordsCollection));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetAllPasswords(loginID, intPtr);
+			var result = NativeWrapper.WRAP_GetAllPasswords(LoginID, intPtr);
 
 			NativeWrapper.PasswordsCollection passwordsCollection = (NativeWrapper.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.PasswordsCollection)));
 			Marshal.FreeCoTaskMem(intPtr);

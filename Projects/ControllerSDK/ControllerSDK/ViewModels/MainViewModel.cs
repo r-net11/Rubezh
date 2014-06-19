@@ -1,9 +1,12 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
+using ChinaSKDDriver;
 
 namespace ControllerSDK.ViewModels
 {
 	public class MainViewModel : BaseViewModel
 	{
+		public static Wrapper Wrapper { get; set; }
+
 		public CardsViewModel CardsViewModel { get; private set; }
 		public CardRecsViewModel CardRecsViewModel { get; private set; }
 		public PasswordsViewModel PasswordsViewModel { get; private set; }
@@ -14,6 +17,8 @@ namespace ControllerSDK.ViewModels
 
 		public MainViewModel()
 		{
+			Wrapper = new Wrapper();
+
 			CardsViewModel = new CardsViewModel();
 			CardRecsViewModel = new CardRecsViewModel();
 			PasswordsViewModel = new PasswordsViewModel();

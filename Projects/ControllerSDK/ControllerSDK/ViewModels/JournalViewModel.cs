@@ -21,7 +21,7 @@ namespace ControllerSDK.ViewModels
 		{
 			StartCommand = new RelayCommand(OnStart);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
-			Wrapper.NewJournalItem += new Action<SKDJournalItem>(Wrapper_NewJournalItem);
+			MainViewModel.Wrapper.NewJournalItem += new Action<SKDJournalItem>(Wrapper_NewJournalItem);
 		}
 
 		void Wrapper_NewJournalItem(SKDJournalItem journalItem)
@@ -51,7 +51,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand StartCommand { get; private set; }
 		void OnStart()
 		{
-			Wrapper.StartListen();
+			MainViewModel.Wrapper.StartListen();
 		}
 	}
 }

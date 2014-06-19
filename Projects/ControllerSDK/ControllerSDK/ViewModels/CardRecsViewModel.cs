@@ -59,14 +59,14 @@ namespace ControllerSDK.ViewModels
 			cardRec.DoorNo = DoorNo;
 			cardRec.IsStatus = IsStatus;
 			cardRec.DoorOpenMethod = DoorOpenMethod;
-			var newCardNo = Wrapper.AddCardRec(MainWindow.LoginID, cardRec);
+			var newCardNo = MainViewModel.Wrapper.AddCardRec(cardRec);
 			MessageBox.Show("newCardNo = " + newCardNo);
 		}
 
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = Wrapper.GetCardInfo(MainWindow.LoginID, 2);
+			var result = MainViewModel.Wrapper.GetCardInfo(2);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -74,7 +74,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedCard != null)
 			{
-				var result = NativeWrapper.WRAP_RemoveCardRec(MainWindow.LoginID, SelectedCard.CardRec.RecordNo);
+				var result = NativeWrapper.WRAP_RemoveCardRec(MainViewModel.Wrapper.LoginID, SelectedCard.CardRec.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -82,21 +82,21 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = NativeWrapper.WRAP_RemoveAllCardRecs(MainWindow.LoginID);
+			var result = NativeWrapper.WRAP_RemoveAllCardRecs(MainViewModel.Wrapper.LoginID);
 			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var cardsCount = NativeWrapper.WRAP_Get_CardRecordsCount(MainWindow.LoginID);
+			var cardsCount = NativeWrapper.WRAP_Get_CardRecordsCount(MainViewModel.Wrapper.LoginID);
 			MessageBox.Show("cardsRecCount = " + cardsCount);
 		}
 
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var cardRecs = Wrapper.GetAllCardRecs(MainWindow.LoginID);
+			var cardRecs = MainViewModel.Wrapper.GetAllCardRecs();
 
 			Cards.Clear();
 			foreach (var cardRec in cardRecs)
