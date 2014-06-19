@@ -30,6 +30,21 @@
     <ClCompile Include="Wrap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WrapCards.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WrapCardRecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WrapPasswords.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WrapHolidays.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WrapTimeShedules.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commons.h">
@@ -45,6 +60,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Wrap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WrapCardRecs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WrapCards.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WrapPasswords.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WrapHolidays.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WrapTimeShedules.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

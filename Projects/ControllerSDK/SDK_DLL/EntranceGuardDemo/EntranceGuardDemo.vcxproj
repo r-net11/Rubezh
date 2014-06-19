@@ -133,6 +133,11 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Wrap.cpp" />
+    <ClCompile Include="WrapCardRecs.cpp" />
+    <ClCompile Include="WrapCards.cpp" />
+    <ClCompile Include="WrapHolidays.cpp" />
+    <ClCompile Include="WrapPasswords.cpp" />
+    <ClCompile Include="WrapTimeShedules.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commons.h" />
@@ -140,6 +145,11 @@
     <ClInclude Include="DevCtrl.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="Wrap.h" />
+    <ClInclude Include="WrapCardRecs.h" />
+    <ClInclude Include="WrapCards.h" />
+    <ClInclude Include="WrapHolidays.h" />
+    <ClInclude Include="WrapPasswords.h" />
+    <ClInclude Include="WrapTimeShedules.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ReadMe.txt" />
