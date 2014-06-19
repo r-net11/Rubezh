@@ -19,8 +19,10 @@ namespace SKDDriver
 		protected override CardDoor Translate(DataAccess.CardDoor tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.IntervalType = (IntervalType)tableItem.IntervalType;
-			result.IntervalUID = tableItem.IntervalUID;
+			result.EnterIntervalType = (IntervalType)tableItem.EnterIntervalType;
+			result.EnterIntervalUID = tableItem.EnterIntervalUID;
+			result.ExitIntervalType = (IntervalType)tableItem.ExitIntervalType;
+			result.ExitIntervalUID = tableItem.ExitIntervalUID;
 			result.IsComission = tableItem.IsWithEscort;
 			result.DoorUID = tableItem.DoorUID;
 			result.ParentUID = tableItem.ParentUID;
@@ -31,8 +33,10 @@ namespace SKDDriver
 		protected override void TranslateBack(DataAccess.CardDoor tableItem, CardDoor apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);
-			tableItem.IntervalType = (int?)apiItem.IntervalType;
-			tableItem.IntervalUID = apiItem.IntervalUID;
+			tableItem.EnterIntervalType = (int?)apiItem.EnterIntervalType;
+			tableItem.EnterIntervalUID = apiItem.EnterIntervalUID;
+			tableItem.ExitIntervalType = (int?)apiItem.ExitIntervalType;
+			tableItem.ExitIntervalUID = apiItem.ExitIntervalUID;
 			tableItem.IsWithEscort = apiItem.IsComission;
 			tableItem.DoorUID = apiItem.DoorUID;
 			tableItem.ParentUID = apiItem.ParentUID;
@@ -128,7 +132,7 @@ namespace SKDDriver
 				result = result.And(e => DoorUIDs.Contains(e.DoorUID));
 			var intervalUIDs = filter.IntervalUIDs;
 			if (intervalUIDs != null && intervalUIDs.Count != 0)
-				result = result.And(e => e.IntervalUID.HasValue && intervalUIDs.Contains(e.IntervalUID.Value));
+				result = result.And(e => e.EnterIntervalUID.HasValue && intervalUIDs.Contains(e.EnterIntervalUID.Value));
 			return result;
 		}
 	}

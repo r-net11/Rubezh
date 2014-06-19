@@ -35,9 +35,13 @@ namespace SKDModule.PassCard.ViewModels
 			Card = card;
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			Employee = EmployeeHelper.GetDetails(employeeUID);
-			Department = DepartmentHelper.GetDetails(Employee.Department.UID);
+			var shortDepartment = Employee.Department;
+			if(shortDepartment != null)
+				Department = DepartmentHelper.GetDetails(shortDepartment.UID);
+			var shortPosition = Employee.Position;
+			if (shortPosition != null)
+				Position = PositionHelper.GetDetails(shortPosition.UID);
 			Organisation = OrganisationHelper.GetDetails(Employee.OrganisationUID);
-			Position = PositionHelper.GetDetails(Employee.Position.UID);
 			PassCardCanvas = new PassCardCanvas();
 			SKDManager.SKDPassCardLibraryConfiguration.Templates.Sort((item1, item2) => string.Compare(item1.Caption, item2.Caption));
 			PassCardTemplates = new ObservableCollection<PassCardTemplate>(SKDManager.SKDPassCardLibraryConfiguration.Templates);
@@ -138,7 +142,8 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = "[Пока нет в БД]";
 					break;
 				case PassCardTextPropertyType.Department:
-					elementTextProperty.Text = Department.Name;
+					if(Department != null)
+						elementTextProperty.Text = Department.Name;
 					break;
 				case PassCardTextPropertyType.EndDate:
 					elementTextProperty.Text = Card.EndDate.ToShortDateString();
@@ -153,7 +158,8 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = Organisation.Name;
 					break;
 				case PassCardTextPropertyType.Position:
-					elementTextProperty.Text = Position.Name;
+					if(Position != null)
+						elementTextProperty.Text = Position.Name;
 					break;
 				case PassCardTextPropertyType.SecondName:
 					elementTextProperty.Text = Employee.SecondName;

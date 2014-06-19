@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Tools.WindowsInstallerXml.Bootstrapper;
@@ -19,11 +20,11 @@ namespace UI
 			Bootstrapper.ApplyComplete += this.OnApplyComplete;
 			Bootstrapper.DetectPackageComplete += this.OnDetectPackageComplete;
 			Bootstrapper.PlanComplete += this.OnPlanComplete;
-			
-			
+
 			try
 			{
-				IsSQLEnabled = Bootstrapper.Engine.StringVariables["InstallSQL"] == "1";
+				IsSQLEnabled = (Bootstrapper.Engine.StringVariables["InstallSQL"] == "1" || 
+					Bootstrapper.Engine.StringVariables["InstallSQL_64"] == "1");
 			}
 			catch (System.Exception e)
 			{
@@ -171,7 +172,12 @@ namespace UI
 			try
 			{
 				if (IsSQLEnabled)
-					Bootstrapper.Engine.StringVariables["InstallSQL"] = "1";
+				{
+					if (Environment.Is64BitOperatingSystem)
+						Bootstrapper.Engine.StringVariables["InstallSQL_64"] = "1";
+					else
+						Bootstrapper.Engine.StringVariables["InstallSQL"] = "1";
+				}
 				if (IsInstallHasp)
 					Bootstrapper.Engine.StringVariables["InstallHasp"] = "1";
 				if (IsInstallOPC)

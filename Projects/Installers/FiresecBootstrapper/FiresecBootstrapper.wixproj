@@ -24,6 +24,8 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\64 SQLEXPR_RUS.EXE" />
+    <Content Include="Data\SQLEXPR32_RUS.EXE" />
     <Content Include="License.rtf" />
     <Content Include="Logo.png" />
   </ItemGroup>
@@ -39,6 +41,9 @@
       <HintPath>C:\Program Files\WiX Toolset v3.8\bin\WixBalExtension.dll</HintPath>
       <Name>WixBalExtension</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

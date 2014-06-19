@@ -79,6 +79,10 @@
   <ItemGroup>
     <None Include="BootstrapperCore.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\64 SQLEXPR_RUS.EXE" />
+    <Content Include="Data\SQLEXPR32_RUS.EXE" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -12,11 +12,11 @@
 		<Views:EmployeeCardDetailsView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CardNumberViewModel}">
-        <Views:CardNumberView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:CardNumberViewModel}">
+		<Views:CardNumberView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CardRemovalReasonViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:CardRemovalReasonViewModel}">
 		<Views:CardRemovalReasonView />
 	</DataTemplate>
 

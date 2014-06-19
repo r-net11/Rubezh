@@ -75,7 +75,7 @@
             <Grid Grid.Column="0" DataContext="{Binding OrganisationDoorsViewModel}" Margin="5 0 0 0">
                 <DataGrid ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Точки прохода" Width="*">
+                        <DataGridTemplateColumn Header="Точки доступа" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">

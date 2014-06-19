@@ -11,10 +11,10 @@ namespace SKDModule.ViewModels
 		{
 			if (door == null)
 			{
-				Title = "Создание точки прохода";
+				Title = "Создание точки доступа";
 				Door = new Door()
 				{
-					Name = "Новая точка прохода",
+					Name = "Новая точка доступа",
 				};
 			}
 			else

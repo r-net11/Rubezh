@@ -38,10 +38,6 @@ namespace FiresecService.Processor
 				{
 					systemConfiguration.AfterLoad();
 				}
-				if (systemConfiguration.AutomationSchedules == null)
-				{
-					systemConfiguration.AutomationSchedules = new List<FiresecAPI.Automation.AutomationSchedule>();
-				}
 				zipFile.Dispose();
 				return systemConfiguration;
 			}

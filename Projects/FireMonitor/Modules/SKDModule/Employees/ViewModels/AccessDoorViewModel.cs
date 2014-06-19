@@ -21,12 +21,12 @@ namespace SKDModule.ViewModels
 			OnChecked = onChecked;
 
 			TimeCreterias = new ObservableCollection<IntervalTypeViewModel>();
-			foreach (IntervalType item in Enum.GetValues(typeof(IntervalType)))
-			{
-				TimeCreterias.Add(new IntervalTypeViewModel(item));
-			}
-			SelectedTimeCreteria = TimeCreterias.FirstOrDefault();
-
+			TimeCreterias.Add(new IntervalTypeViewModel(IntervalType.Weekly));
+			//foreach (IntervalType item in Enum.GetValues(typeof(IntervalType)))
+			//{
+			//    TimeCreterias.Add(new IntervalTypeViewModel(item));
+			//}
+			
 			if (CardDoors == null)
 				CardDoors = new List<CardDoor>();
 
@@ -36,8 +36,15 @@ namespace SKDModule.ViewModels
 				_isChecked = true;
 				IsAntiPassback = cardDoor.IsAntiPassback;
 				IsComission = cardDoor.IsComission;
-				SelectedTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.IntervalType);
-				SelectedTimeType = TimeTypes.FirstOrDefault(x => x.UID == cardDoor.IntervalUID);
+				SelectedEnterTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.EnterIntervalType);
+				SelectedExitTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.ExitIntervalType);
+				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault(x => x.UID == cardDoor.EnterIntervalUID);
+				SelectedExitTimeType = ExitTimeTypes.FirstOrDefault(x => x.UID == cardDoor.ExitIntervalUID);
+			}
+			else
+			{
+				SelectedEnterTimeCreteria = TimeCreterias.FirstOrDefault();
+				SelectedExitTimeCreteria = TimeCreterias.FirstOrDefault();
 			}
 		}
 
@@ -79,70 +86,115 @@ namespace SKDModule.ViewModels
 
 		public ObservableCollection<IntervalTypeViewModel> TimeCreterias { get; private set; }
 
-		IntervalTypeViewModel _selectedTimeCreteria;
-		public IntervalTypeViewModel SelectedTimeCreteria
+		IntervalTypeViewModel _selectedEnterTimeCreteria;
+		public IntervalTypeViewModel SelectedEnterTimeCreteria
 		{
-			get { return _selectedTimeCreteria; }
+			get { return _selectedEnterTimeCreteria; }
 			set
 			{
-				_selectedTimeCreteria = value;
-				OnPropertyChanged(() => SelectedTimeCreteria);
-				TimeTypes = new ObservableCollection<CardTimeItem>();
-				switch (value.IntervalType)
+				_selectedEnterTimeCreteria = value;
+				OnPropertyChanged(() => SelectedEnterTimeCreteria);
+				EnterTimeTypes = GetTimeTypes(value);
+				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault();
+			}
+		}
+
+		IntervalTypeViewModel _selectedExitTimeCreteria;
+		public IntervalTypeViewModel SelectedExitTimeCreteria
+		{
+			get { return _selectedExitTimeCreteria; }
+			set
+			{
+				_selectedExitTimeCreteria = value;
+				OnPropertyChanged(() => SelectedExitTimeCreteria);
+				ExitTimeTypes = GetTimeTypes(value);
+				SelectedEnterTimeType = ExitTimeTypes.FirstOrDefault();
+			}
+		}
+		
+		ObservableCollection<CardTimeItem> _enterTimeTypes;
+		public ObservableCollection<CardTimeItem> EnterTimeTypes
+		{
+			get { return _enterTimeTypes; }
+			set
+			{
+				_enterTimeTypes = value;
+				OnPropertyChanged(()=>EnterTimeTypes);
+			}
+		}
+
+		CardTimeItem _selectedEnterTimeType;
+		public CardTimeItem SelectedEnterTimeType
+		{
+			get { return _selectedEnterTimeType; }
+			set
+			{
+				_selectedEnterTimeType = value;
+				OnPropertyChanged(()=>SelectedEnterTimeType);
+
+			}
+		}
+
+		ObservableCollection<CardTimeItem> _exitTimeTypes;
+		public ObservableCollection<CardTimeItem> ExitTimeTypes
+		{
+			get { return _exitTimeTypes; }
+			set
+			{
+				_exitTimeTypes = value;
+				OnPropertyChanged(()=>ExitTimeTypes);
+			}
+		}
+
+		CardTimeItem _selectedExitTimeType;
+		public CardTimeItem SelectedExitTimeType
+		{
+			get { return _selectedExitTimeType; }
+			set
+			{
+				_selectedExitTimeType = value;
+				OnPropertyChanged(() => SelectedExitTimeType);
+
+			}
+		}
+
+		ObservableCollection<CardTimeItem> GetTimeTypes(IntervalTypeViewModel timeCriteria)
+		{
+			var result = new ObservableCollection<CardTimeItem>();
+			if (timeCriteria != null)
+			{
+				switch (timeCriteria.IntervalType)
 				{
 					case IntervalType.Time:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals)
 						{
-							TimeTypes.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
+							result.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
 						}
 						break;
 
 					case IntervalType.Weekly:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
 						{
-							TimeTypes.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
+							result.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
 						}
 						break;
 
 					case IntervalType.SlideDay:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideDayIntervals)
 						{
-							TimeTypes.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
+							result.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
 						}
 						break;
 
 					case IntervalType.SlideWeekly:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideWeeklyIntervals)
 						{
-							TimeTypes.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
+							result.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
 						}
 						break;
-				}
-				SelectedTimeType = TimeTypes.FirstOrDefault();
-			}
-		}
-
-		ObservableCollection<CardTimeItem> _timeTypes;
-		public ObservableCollection<CardTimeItem> TimeTypes
-		{
-			get { return _timeTypes; }
-			set
-			{
-				_timeTypes = value;
-				OnPropertyChanged("TimeTypes");
-			}
-		}
-
-		CardTimeItem _selectedTimeType;
-		public CardTimeItem SelectedTimeType
-		{
-			get { return _selectedTimeType; }
-			set
-			{
-				_selectedTimeType = value;
-				OnPropertyChanged("SelectedTimeType");
-
-			}
+				};
+			};
+			return result;
 		}
 	}
 

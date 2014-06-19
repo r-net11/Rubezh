@@ -1,9 +1,4 @@
 USE [SKD]
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Test')
-BEGIN
-	INSERT INTO Patches (Id) VALUES ('Test')    
-END
-GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationUser')
 BEGIN
 	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationUser')
@@ -68,7 +63,6 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('GuardZone')    
 END
 GO
-
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Doors')
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationZone')
@@ -126,3 +120,16 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('Doors')    
 END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DoorsEnterExit')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardDoor')
+	BEGIN
+		ALTER TABLE CardDoor DROP COLUMN IntervalUID
+		ALTER TABLE CardDoor DROP COLUMN IntervalType
+		ALTER TABLE CardDoor ADD [EnterIntervalUID] uniqueidentifier NULL
+		ALTER TABLE CardDoor ADD [EnterIntervalType] int NULL
+		ALTER TABLE CardDoor ADD [ExitIntervalUID] uniqueidentifier NULL
+		ALTER TABLE CardDoor ADD [ExitIntervalType] int NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('DoorsEnterExit')    
+END

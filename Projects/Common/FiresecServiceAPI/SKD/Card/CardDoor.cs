@@ -16,10 +16,16 @@ namespace FiresecAPI.SKD
 		public bool IsComission { get; set; }
 
 		[DataMember]
-		public IntervalType IntervalType { get; set; }
+		public IntervalType EnterIntervalType { get; set; }
 
 		[DataMember]
-		public Guid? IntervalUID { get; set; }
+		public Guid? EnterIntervalUID { get; set; }
+
+		[DataMember]
+		public IntervalType ExitIntervalType { get; set; }
+
+		[DataMember]
+		public Guid? ExitIntervalUID { get; set; }
 
 		[DataMember]
 		public Guid? ParentUID { get; set; }

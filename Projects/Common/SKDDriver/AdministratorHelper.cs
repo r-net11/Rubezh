@@ -89,7 +89,7 @@ namespace SKDDriver
 								bytes.Add((byte)card.Series);
 								bytes.Add((byte)card.Number);
 
-								bytes.Add((byte)cardZone.IntervalType);
+								bytes.Add((byte)cardZone.EnterIntervalType);
 								//bytes.Add((byte)cardZone.IntervalUID);
 								bytes.Add((byte)(cardZone.IsAntiPassback ? 1 : 0));
 								bytes.Add((byte)(cardZone.IsComission ? 1 : 0));

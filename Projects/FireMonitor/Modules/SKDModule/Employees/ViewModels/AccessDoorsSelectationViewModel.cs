@@ -36,13 +36,6 @@ namespace SKDModule.ViewModels
 				var accessDoorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
 				Doors.Add(accessDoorViewModel);
 			}
-			//foreach (var zoneUID in Organisation.ZoneUIDs)
-			//{
-			//    var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
-			//    if (zone != null)
-			//    {
-			//    }
-			//}
 		}
 
 		public ObservableCollection<AccessDoorViewModel> Doors { get; private set; }
@@ -72,8 +65,10 @@ namespace SKDModule.ViewModels
 						DoorUID = door.Door.UID,
 						IsAntiPassback = door.IsAntiPassback,
 						IsComission = door.IsComission,
-						IntervalType = door.SelectedTimeCreteria.IntervalType,
-						IntervalUID = door.SelectedTimeType.UID,
+						EnterIntervalType = door.SelectedEnterTimeCreteria.IntervalType,
+						EnterIntervalUID = door.SelectedEnterTimeType.UID,
+						ExitIntervalType = door.SelectedExitTimeCreteria.IntervalType,
+						ExitIntervalUID = door.SelectedExitTimeType.UID,
 						ParentUID = ParentUID
 					};
 					CardDoors.Add(cardDoor);
