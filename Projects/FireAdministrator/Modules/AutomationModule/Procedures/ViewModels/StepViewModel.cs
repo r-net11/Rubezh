@@ -42,6 +42,12 @@ namespace AutomationModule.ViewModels
 				if (arithmeticStepViewModel != null)
 					arithmeticStepViewModel.UpdateContent(Procedure.Variables);
 			}
+			if (Step.ProcedureStepType == ProcedureStepType.PlaySound)
+			{
+				var soundStepViewModel = Content as SoundStepViewModel;
+				if (soundStepViewModel != null)
+					soundStepViewModel.UpdateContent();
+			}
 		}
 
 		void OnChanged()

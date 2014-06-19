@@ -7,7 +7,7 @@ namespace FiresecAPI.Automation
 	{
 		public SoundArguments()
 		{
-			
+			SoundUid = new Guid();
 		}
 
 		[DataMember]
