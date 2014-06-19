@@ -6,8 +6,14 @@ namespace ChinaSKDDriverNativeApi
 	public class NativeWrapper
 	{
 		#region Common
-		//[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate void fDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		public delegate void fHaveReConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		public delegate bool fMessCallBack(Int32 lCommand, Int32 lLoginID, IntPtr pBuf, Int32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
 
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern Boolean CLIENT_Init(fDisConnectDelegate cbDisConnect, UInt32 dwUser);
@@ -29,6 +35,47 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern bool CLIENT_Cleanup();
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern void CLIENT_SetAutoReconnect(fHaveReConnect cbAutoConnect, UInt32 dwUser);
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern void CLIENT_SetDVRMessCallBack(fMessCallBack cbMessage, UInt32 dwUser);
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern bool CLIENT_StartListenEx(Int32 lLoginID);
+
+		public enum NET_ACCESS_CTL_EVENT_TYPE
+		{
+			NET_ACCESS_CTL_EVENT_UNKNOWN = 0,
+			NET_ACCESS_CTL_EVENT_ENTRY,
+			NET_ACCESS_CTL_EVENT_EXIT,
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_EVENT_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+			public char[] szDoorName;
+			public NET_TIME stuTime;
+			public NET_ACCESS_CTL_EVENT_TYPE emEventType;
+			public bool bStatus;
+			public NET_ACCESSCTLCARD_TYPE emCardType;
+			public NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+			public char[] szCardNo;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+			public char[] szPwd;
+		}
+
+
+
+
+
+
+
 
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern bool CLIENT_QueryDevState(Int32 lLoginID, Int32 nType, IntPtr pBuf, Int32 nBufLen, out Int32 pRetLen, Int32 waittime);

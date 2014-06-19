@@ -73,6 +73,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\ControlViewModel.cs" />
+    <Compile Include="ViewModels\JournalItemViewModel.cs" />
+    <Compile Include="ViewModels\JournalViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PasswordsViewModel.cs" />
     <Compile Include="ViewModels\PasswordViewModel.cs" />
@@ -91,6 +93,9 @@
     <Compile Include="Views\ControlView.xaml.cs">
       <DependentUpon>ControlView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\JournalView.xaml.cs">
+      <DependentUpon>JournalView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PasswordsView.xaml.cs">
       <DependentUpon>PasswordsView.xaml</DependentUpon>
     </Compile>
@@ -108,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

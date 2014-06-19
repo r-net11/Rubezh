@@ -28,7 +28,10 @@
             <TabItem Header="Управление" DataContext="{Binding ControlViewModel}">
                 <Views:ControlView />
             </TabItem>
-            <TabItem Header="All">
+            <TabItem Header="Журнал" DataContext="{Binding JournalViewModel}">
+                <Views:JournalView />
+            </TabItem>
+            <TabItem Header="Общее">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

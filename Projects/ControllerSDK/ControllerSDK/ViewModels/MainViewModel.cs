@@ -10,6 +10,7 @@ namespace ControllerSDK.ViewModels
 		public HolidaysViewModel HolidaysViewModel { get; private set; }
 		public TimeShedulesViewModel TimeShedulesViewModel { get; private set; }
 		public ControlViewModel ControlViewModel { get; private set; }
+		public JournalViewModel JournalViewModel { get; private set; }
 
 		public MainViewModel()
 		{
@@ -19,6 +20,7 @@ namespace ControllerSDK.ViewModels
 			HolidaysViewModel = new HolidaysViewModel();
 			TimeShedulesViewModel = new TimeShedulesViewModel();
 			ControlViewModel = new ControlViewModel();
+			JournalViewModel = new JournalViewModel();
 		}
 	}
 }

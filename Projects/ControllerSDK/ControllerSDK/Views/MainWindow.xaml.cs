@@ -19,6 +19,8 @@ namespace ControllerSDK.Views
 			InitializeComponent();
 			MainViewModel = new MainViewModel();
 			DataContext = MainViewModel;
+
+			//Watcher.Run();
 			OnConnect(this, null);
 		}
 
@@ -28,28 +30,13 @@ namespace ControllerSDK.Views
 		void OnConnect(object sender, RoutedEventArgs e)
 		{
 			File.Copy(@"D:\Projects\Projects\ControllerSDK\SDK_DLL\EntranceGuardDemo\Bin\EntranceGuardDemo.dll", @"D:\Projects\Projects\ControllerSDK\ControllerSDK\bin\Debug\EntranceGuardDemo.dll", true);
-
-			NativeWrapper.fDisConnectDelegate dCbFunc = new NativeWrapper.fDisConnectDelegate(OnfDisConnect);
-			var result = NativeWrapper.CLIENT_Init(dCbFunc, (UInt32)0);
-
-			NativeWrapper.NET_DEVICEINFO deviceInfo;
-			int error = 0;
-			LoginID = NativeWrapper.CLIENT_Login("172.16.2.56", (UInt16)37777, "admin", "123456", out deviceInfo, out error);
-
+			LoginID = Wrapper.Connect("172.16.6.58", 37777, "admin", "123456");
 			_textBox.Text += "LoginID = " + LoginID + "\n";
-		}
-
-		void OnfDisConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
-		{
-			if (dwUser == 0)
-			{
-				return;
-			}
 		}
 
 		void OnDisconnect(object sender, RoutedEventArgs e)
 		{
-			var result = NativeWrapper.CLIENT_Cleanup();
+			Wrapper.Disconnect();
 		}
 
 		void OnGetTypeAndSoft(object sender, RoutedEventArgs e)
