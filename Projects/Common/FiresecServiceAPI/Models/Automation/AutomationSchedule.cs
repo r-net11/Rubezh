@@ -21,12 +21,12 @@ namespace FiresecAPI.Automation
 			PeriodHour = 0;
 			PeriodMinute = 0;
 			PeriodSecond = 1;
-			ProceduresUids = new List<Guid>();
+			ScheduleProcedures = new List<ScheduleProcedure>();
 			DayOfWeek = DayOfWeekType.Any;
 		}
 
 		[DataMember]
-		public List<Guid> ProceduresUids { get; set; }
+		public List<ScheduleProcedure> ScheduleProcedures { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

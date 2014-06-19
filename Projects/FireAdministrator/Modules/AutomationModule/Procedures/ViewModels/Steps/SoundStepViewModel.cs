@@ -32,8 +32,8 @@ namespace AutomationModule.ViewModels
 			}
 			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Any(x => x.Uid == SoundArguments.SoundUid))
 				SelectedSound = Sounds.FirstOrDefault(x => x.Sound.Uid == SoundArguments.SoundUid);
-			//else
-			//    SelectedSound = Sounds.FirstOrDefault();
+			else
+			    SelectedSound = Sounds.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			OnPropertyChanged(() => Sounds);
 		}

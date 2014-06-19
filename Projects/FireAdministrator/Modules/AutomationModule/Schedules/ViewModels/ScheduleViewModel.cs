@@ -14,27 +14,21 @@ namespace AutomationModule.ViewModels
 	{
 		public const string DefaultName = "<нет>";
 		public AutomationSchedule Schedule { get; set; }
-		public ObservableCollection<ProcedureViewModel> Procedures { get; private set; }
+		public ObservableCollection<ScheduleProcedureViewModel> ScheduleProcedures { get; private set; }
 		
 		public ScheduleViewModel(AutomationSchedule schedule)
 		{
 			Schedule = schedule;
-			Procedures = new ObservableCollection<ProcedureViewModel>();
+			ScheduleProcedures = new ObservableCollection<ScheduleProcedureViewModel>();
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDeleted);
-			InitializeProcedure();
-		}
 
-		void InitializeProcedure()
-		{
-			foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)
+			foreach (var scheduleProcedure in schedule.ScheduleProcedures)
 			{
-				if (!Schedule.ProceduresUids.Contains(procedure.Uid))
-					continue;
-				var procedureViewModel = new ProcedureViewModel(procedure);
-				Procedures.Add(procedureViewModel);
+				var scheduleProcedureViewModel = new ScheduleProcedureViewModel(scheduleProcedure.ProcedureUid);
+				ScheduleProcedures.Add(scheduleProcedureViewModel);
 			}
-			SelectedProcedure = Procedures.FirstOrDefault();
+			SelectedScheduleProcedure = ScheduleProcedures.FirstOrDefault();
 		}
 
 		static ScheduleViewModel()
@@ -114,6 +108,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_isEnabled = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => IsEnabled);
 			}
 		}
@@ -239,14 +234,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		private ProcedureViewModel _selectedProcedure;
-		public ProcedureViewModel SelectedProcedure
+		private ScheduleProcedureViewModel _selectedScheduleProcedure;
+		public ScheduleProcedureViewModel SelectedScheduleProcedure
 		{
-			get { return _selectedProcedure; }
+			get { return _selectedScheduleProcedure; }
 			set
 			{
-				_selectedProcedure = value;
-				OnPropertyChanged(() => SelectedProcedure);
+				_selectedScheduleProcedure = value;
+				OnPropertyChanged(() => SelectedScheduleProcedure);
 			}
 		}
 
@@ -270,15 +265,15 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var procedureSelectionViewModel = new ProcedureSelectionViewModel(Procedures);
+			var procedureSelectionViewModel = new ProcedureSelectionViewModel();
 			if (DialogService.ShowModalWindow(procedureSelectionViewModel))
 			{
 				if (procedureSelectionViewModel.SelectedProcedure != null)
 				{
-					var procedureViewModel = new ProcedureViewModel(procedureSelectionViewModel.SelectedProcedure.Procedure);
-					Procedures.Add(procedureViewModel);
-					Schedule.ProceduresUids.Add(procedureViewModel.Procedure.Uid);
-					SelectedProcedure = procedureViewModel;
+					var scheduleProcedureViewModel = new ScheduleProcedureViewModel(procedureSelectionViewModel.SelectedProcedure.Procedure.Uid);
+					ScheduleProcedures.Add(scheduleProcedureViewModel);
+					Schedule.ScheduleProcedures.Add(scheduleProcedureViewModel.ScheduleProcedure);
+					SelectedScheduleProcedure = scheduleProcedureViewModel;
 					ServiceFactory.SaveService.AutomationChanged = true;
 				}
 			}
@@ -287,14 +282,14 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			Schedule.ProceduresUids.Remove(SelectedProcedure.Procedure.Uid);
-			Procedures.Remove(SelectedProcedure);			
-			SelectedProcedure = Procedures.FirstOrDefault();
+			Schedule.ScheduleProcedures.Remove(SelectedScheduleProcedure.ScheduleProcedure);
+			ScheduleProcedures.Remove(SelectedScheduleProcedure);
+			SelectedScheduleProcedure = ScheduleProcedures.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDeleted()
 		{
-			return SelectedProcedure != null;
+			return SelectedScheduleProcedure != null;
 		}
 	}
 }

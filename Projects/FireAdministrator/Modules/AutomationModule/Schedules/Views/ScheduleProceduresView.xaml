@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="AutomationModule.Schedules.Views.ProceduresView"
+﻿<UserControl x:Class="AutomationModule.Schedules.Views.ScheduleProceduresView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<DataGrid ItemsSource="{Binding Procedures}" SelectedItem="{Binding SelectedProcedure}" IsReadOnly="False">
+	<DataGrid ItemsSource="{Binding ScheduleProcedures}" SelectedItem="{Binding SelectedScheduleProcedure}" IsReadOnly="False">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Header="Название" Width="*">
 				<DataGridTemplateColumn.CellTemplate>

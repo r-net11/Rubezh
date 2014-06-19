@@ -9,9 +9,12 @@ namespace AutomationModule.ViewModels
 {
 	public class ArithmeticStepViewModel : BaseViewModel
 	{
-		public ObservableCollection<ArithmeticType> ArithmeticTypes { get; private set; }
 		public ArithmeticArguments ArithmeticArguments { get; private set; }
 		public Procedure Procedure { get; private set; }
+		public ArithmeticParameterViewModel Variable1 { get; set; }
+		public ArithmeticParameterViewModel Variable2 { get; set; }
+		public ArithmeticParameterViewModel Result { get; set; }
+
 		public ArithmeticStepViewModel(ProcedureStep procedureStep, Procedure procedure)
 		{
 			Procedure = procedure;
@@ -20,7 +23,7 @@ namespace AutomationModule.ViewModels
 			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1, Procedure.Variables);
 			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2, Procedure.Variables);
 			Result = new ArithmeticParameterViewModel(ArithmeticArguments.Result, Procedure.Variables, true);
-			Initialize();
+			ArithmeticTypes = new ObservableCollection<ArithmeticType> { ArithmeticType.Add, ArithmeticType.Sub, ArithmeticType.Multi, ArithmeticType.Div };
 		}
 
 		public void UpdateContent(List<Variable> localVariables)
@@ -30,11 +33,7 @@ namespace AutomationModule.ViewModels
 			Result.Update(localVariables);
 		}
 
-		void Initialize()
-		{
-			ArithmeticTypes = new ObservableCollection<ArithmeticType> { ArithmeticType.Add, ArithmeticType.Sub, ArithmeticType.Multi, ArithmeticType.Div };
-		}
-
+		public ObservableCollection<ArithmeticType> ArithmeticTypes { get; private set; }
 		public ArithmeticType SelectedArithmeticType
 		{
 			get { return ArithmeticArguments.ArithmeticType; }
@@ -44,10 +43,6 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => SelectedArithmeticType);
 			}
 		}
-
-		public ArithmeticParameterViewModel Variable1 { get; set; }
-		public ArithmeticParameterViewModel Variable2 { get; set; }
-		public ArithmeticParameterViewModel Result { get; set; }
 	}
 
 	public class ArithmeticParameterViewModel : BaseViewModel
@@ -60,18 +55,12 @@ namespace AutomationModule.ViewModels
 		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, List<Variable> localVariables, bool isResult = false)
 		{
 			ArithmeticParameter = arithmeticParameter;
-			Initialize(localVariables, isResult);
-		}
-
-		void Initialize(List<Variable> localVariables, bool isResult)
-		{
 			ValueTypes = new List<ValueType>();
 			if (!isResult)
 				ValueTypes.Add(ValueType.IsValue);
 			ValueTypes.Add(ValueType.IsGlobalVariable);
 			ValueTypes.Add(ValueType.IsLocalVariable);
 			Update(localVariables);
-			SelectedValueType = ValueTypes.FirstOrDefault();
 		}
 
 		public void Update(List<Variable> localVariables)
@@ -103,6 +92,7 @@ namespace AutomationModule.ViewModels
 				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.GlobalVariable.Uid == ArithmeticParameter.GlobalVariableUid);
 			else
 				SelectedGlobalVariable = GlobalVariables.FirstOrDefault();
+			SelectedValueType = ValueTypes.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => Variables);
@@ -114,6 +104,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.ValueType = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedValueType);
 			}
 		}
@@ -124,6 +115,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.Value = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => Value);
 			}
 		}
@@ -135,7 +127,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedGlobalVariable = value;
-				ArithmeticParameter.GlobalVariableUid = value.GlobalVariable.Uid;
+				if (_selectedGlobalVariable != null)
+					ArithmeticParameter.GlobalVariableUid = value.GlobalVariable.Uid;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedGlobalVariable);
 			}

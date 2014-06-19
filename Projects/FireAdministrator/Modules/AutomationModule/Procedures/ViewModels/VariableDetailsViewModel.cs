@@ -7,49 +7,57 @@ namespace AutomationModule.ViewModels
 {
 	public class VariableDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public VariableDetailsViewModel(string title = "Добавить переменную", string defaultName = "Локальная переменная")
-		{
-			Title = title;
-			Initialize(defaultName);
-		}
+		public Variable Variable { get; private set; }
 
-		public VariableDetailsViewModel(VariableViewModel variableViewModel, string title = "Добавить переменную", string defaultName = "Локальная переменная")
+		public VariableDetailsViewModel(bool isArgument = false)
 		{
+			var defaultName = "Локальная переменная";
+			var title = "Добавить переменную";
+			if (isArgument)
+			{
+				defaultName = "Аргумент";
+				title = "Добавить аргумент";
+			}
 			Title = title;
-			Initialize(variableViewModel, defaultName);
-		}
-
-		void Initialize(VariableViewModel variableViewModel, string name)
-		{
+			Variable = new Variable(defaultName);
 			Variables = new ObservableCollection<VariableViewModel>
 			{
-				variableViewModel.VariableType != VariableType.Boolean
-					? new VariableViewModel(name) {VariableType = VariableType.Boolean} : new VariableViewModel(variableViewModel.Variable),
-				variableViewModel.VariableType != VariableType.DateTime
-					? new VariableViewModel(name) {VariableType = VariableType.DateTime} : new VariableViewModel(variableViewModel.Variable),
-				variableViewModel.VariableType != VariableType.Integer
-					? new VariableViewModel(name) {VariableType = VariableType.Integer} : new VariableViewModel(variableViewModel.Variable),
-				variableViewModel.VariableType != VariableType.Object
-					? new VariableViewModel(name) {VariableType = VariableType.Object} : new VariableViewModel(variableViewModel.Variable),
-				variableViewModel.VariableType != VariableType.String
-					? new VariableViewModel(name) {VariableType = VariableType.String} : new VariableViewModel(variableViewModel.Variable)
-			};
-			SelectedVariable = Variables.FirstOrDefault(x => x.VariableType == variableViewModel.VariableType);
-		}
-
-		void Initialize(string name)
-		{
-			Variables = new ObservableCollection<VariableViewModel>
-			{
-				new VariableViewModel(name) { VariableType = VariableType.Boolean },
-				new VariableViewModel(name) { VariableType = VariableType.DateTime },
-				new VariableViewModel(name) { VariableType = VariableType.Integer },
-				new VariableViewModel(name) { VariableType = VariableType.Object },
-				new VariableViewModel(name) { VariableType = VariableType.String }
+				new VariableViewModel(defaultName, VariableType.Integer),
+				new VariableViewModel(defaultName, VariableType.Boolean),
+				new VariableViewModel(defaultName, VariableType.String),
+				new VariableViewModel(defaultName, VariableType.DateTime),
+				new VariableViewModel(defaultName, VariableType.Object)
 			};
 			SelectedVariable = Variables.FirstOrDefault();
 		}
-		
+
+		public VariableDetailsViewModel(Variable variable, bool isArgument = false)
+		{
+			var defaultName = "Локальная переменная";
+			var title = "Редактировать переменную";
+			if (isArgument)
+			{
+				defaultName = "Аргумент";
+				title = "Редактировать аргумент";
+			}
+			Title = title;
+			Variable = new Variable(variable);
+			Variables = new ObservableCollection<VariableViewModel>
+			{
+				variable.VariableType != VariableType.Integer
+					? new VariableViewModel(defaultName, VariableType.Integer) : new VariableViewModel(variable),
+				variable.VariableType != VariableType.Boolean
+					? new VariableViewModel(defaultName, VariableType.Boolean) : new VariableViewModel(variable),
+				variable.VariableType != VariableType.String
+					? new VariableViewModel(defaultName, VariableType.String) : new VariableViewModel(variable),
+				variable.VariableType != VariableType.DateTime
+					? new VariableViewModel(defaultName, VariableType.DateTime) : new VariableViewModel(variable),
+				variable.VariableType != VariableType.Object
+					? new VariableViewModel(defaultName, VariableType.Object) : new VariableViewModel(variable)
+			};
+			SelectedVariable = Variables.FirstOrDefault(x => x.VariableType == variable.VariableType);
+		}
+	
 		VariableViewModel _selectedVariable;
 		public VariableViewModel SelectedVariable
 		{
@@ -74,6 +82,15 @@ namespace AutomationModule.ViewModels
 
 		protected override bool Save()
 		{
+			Variable.Name = SelectedVariable.Name;
+			Variable.BoolValue = SelectedVariable.BoolValue;
+			Variable.DateTimeValue = SelectedVariable.DateTimeValue;
+			Variable.IntValue = SelectedVariable.IntValue;
+			Variable.Name = SelectedVariable.Name;
+			Variable.ObjectType = SelectedVariable.ObjectType;
+			Variable.StringValue = SelectedVariable.StringValue;
+			Variable.VariableType = SelectedVariable.VariableType;
+			Variable.IsList = SelectedVariable.IsList;
 			return base.Save();
 		}
 	}	

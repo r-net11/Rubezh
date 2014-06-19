@@ -54,7 +54,7 @@ namespace AutomationModule.ViewModels
 			var variableDetailsViewModel = new VariableDetailsViewModel();
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				var varialbeViewModel = new VariableViewModel(variableDetailsViewModel.SelectedVariable.Variable);
+				var varialbeViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
 				Procedure.Variables.Add(varialbeViewModel.Variable);
 				Variables.Add(varialbeViewModel);
 				SelectedVariable = varialbeViewModel;
@@ -78,12 +78,10 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable);
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				var i = Procedure.Variables.FindIndex(x => x.Uid == SelectedVariable.Variable.Uid);
-				Procedure.Variables[i] = variableDetailsViewModel.SelectedVariable.Variable;
-				SelectedVariable.Variable = variableDetailsViewModel.SelectedVariable.Variable;
+				SelectedVariable.Variable.Copy(variableDetailsViewModel.Variable);
 				SelectedVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}

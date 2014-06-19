@@ -51,13 +51,13 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel("Добавить аргумент", "Аргумент");
+			var variableDetailsViewModel = new VariableDetailsViewModel(true);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				var argumentViewModel = new VariableViewModel(variableDetailsViewModel.SelectedVariable.Variable);
-				Procedure.Arguments.Add(variableDetailsViewModel.SelectedVariable.Variable);
-				Variables.Add(argumentViewModel);
-				SelectedVariable = argumentViewModel;
+				var varialbeViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
+				Procedure.Arguments.Add(varialbeViewModel.Variable);
+				Variables.Add(varialbeViewModel);
+				SelectedVariable = varialbeViewModel;
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -78,12 +78,10 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable);
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, true);
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				var i = Procedure.Arguments.FindIndex(x => x.Uid == SelectedVariable.Variable.Uid);
-				Procedure.Arguments[i] = variableDetailsViewModel.SelectedVariable.Variable;
-				SelectedVariable.Variable = variableDetailsViewModel.SelectedVariable.Variable;
+				SelectedVariable.Variable.Copy(variableDetailsViewModel.Variable);
 				SelectedVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}

@@ -8,71 +8,75 @@
 	<UserControl.Resources>
 		<converters:VariableTypeToVisibilityConverter x:Key="VariableTypeToVisibilityConverter" />
 	</UserControl.Resources>
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition/>
-		</Grid.ColumnDefinitions>
+	<TabControl>
+		<TabItem Header="Основные">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition Width="5" />
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
 
-		<DataGrid Grid.Column="0" ItemsSource="{Binding Variables}" SelectedItem="{Binding SelectedVariable}" IsReadOnly="False">
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Тип" Width="1*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding VariableType, Converter={StaticResource VariableTypeToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-		</DataGrid>
+				<DataGrid Grid.Column="0" ItemsSource="{Binding Variables}" SelectedItem="{Binding SelectedVariable}" IsReadOnly="False">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="Тип" Width="1*">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Grid>
+										<TextBlock Text="{Binding VariableType, Converter={StaticResource VariableTypeToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+										<CheckBox Content="Список" IsChecked="{Binding IsList, UpdateSourceTrigger=PropertyChanged}" Margin="5,0" HorizontalAlignment="Right" />
+									</Grid>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+					</DataGrid.Columns>
+				</DataGrid>
 
-		<GridSplitter Grid.Column="1" Width="5" Background="Transparent" />
+				<StackPanel Orientation="Vertical" Grid.Column="2" DataContext="{Binding SelectedVariable}" HorizontalAlignment="Right" >
+					
+					<StackPanel Orientation="Horizontal" Margin="2" HorizontalAlignment="Right">
+						<Label Content="Имя" HorizontalAlignment="Right" />
+						<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" Width="200"/>
+					</StackPanel>
 
-		<Grid Grid.Column="2" DataContext="{Binding SelectedVariable}">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="2*"/>
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
+					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter},
+						ConverterParameter={x:Static automation:VariableType.Integer}}">
+						<Label Content="Значение" HorizontalAlignment="Right"/>
+						<extToolkit:IntegerUpDown Width="200" Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+					</StackPanel>
 
-			<Label Grid.Row="0" Grid.Column="0" Content="Имя" HorizontalAlignment="Right" />
-			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter}, 
+						ConverterParameter={x:Static automation:VariableType.Boolean}}">
+						<Label Content="Значение" HorizontalAlignment="Right" Margin="-30,0,0,0"/>
+						<CheckBox IsChecked="{Binding BoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2,7,0,0" />
+					</StackPanel>
 
-			<Label Grid.Row="1" Grid.Column="0" Content="Значение" HorizontalAlignment="Right"/>
-			
-			<CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding BoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2,7,0,0" 
-					 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter}, 
-				ConverterParameter={x:Static automation:VariableType.Boolean}}"/>
+					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter},
+						ConverterParameter={x:Static automation:VariableType.String}}">
+						<Label Content="Значение" HorizontalAlignment="Right"/>
+						<TextBox Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
+					</StackPanel>
 
-			<extToolkit:DateTimePicker Grid.Row="1" Grid.Column="1" Value = "{Binding DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
-					 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter}, 
-				ConverterParameter={x:Static automation:VariableType.DateTime}}">
-			</extToolkit:DateTimePicker>
+					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter},
+						ConverterParameter={x:Static automation:VariableType.DateTime}}">
+						<Label Content="Значение" HorizontalAlignment="Right"/>
+						<extToolkit:DateTimePicker Value = "{Binding DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
+					</StackPanel>
 
-			<extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
-					 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter}, 
-				ConverterParameter={x:Static automation:VariableType.Integer}}"/>
-
-			<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ObjectValues}" SelectedItem="{Binding ObjectValue}" Margin="2"
-					  Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter},
-				ConverterParameter={x:Static automation:VariableType.Object}}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding ., Converter={StaticResource ObjectTypeToStringConverter}}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-
-			<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
-					 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter}, 
-				ConverterParameter={x:Static automation:VariableType.String}}"/>
-		</Grid>
-	</Grid>
+					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter},
+						ConverterParameter={x:Static automation:VariableType.Object}}">
+						<Label Content="Тип" HorizontalAlignment="Right"/>
+						<ComboBox ItemsSource="{Binding ObjectTypes}" SelectedItem="{Binding ObjectType}" Width="200" Margin="2" >
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding ., Converter={StaticResource ObjectTypeToStringConverter}}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+					</StackPanel>
+					
+				</StackPanel>
+			</Grid>
+		</TabItem>
+	</TabControl>
 </UserControl>
