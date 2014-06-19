@@ -40,8 +40,8 @@
                     <StackPanel Grid.Column="0">
                         <Button Content="Connect" Click="OnConnect" Width="300" Margin="2" />
                         <Button Content="Disconnect" Click="OnDisconnect" Width="300" Margin="2" />
-                        <Button Content="GetTypeAndSoft" Click="OnGetTypeAndSoft" Width="300" Margin="2" />
-                        <Button Content="GetIpMask" Click="OnGetIpMask" Width="300" Margin="2" />
+                        <Button Content="GetDeviceSoftwareInfoCommand" Command="{Binding GetDeviceSoftwareInfoCommand}" Width="300" Margin="2" />
+                        <Button Content="GetDeviceNetInfoCommand" Command="{Binding GetDeviceNetInfoCommand}" Width="300" Margin="2" />
                         <Button Content="SetIpMask" Click="OnSetIpMask" Width="300" Margin="2" />
                         <Button Content="GetMac" Click="OnGetMac" Width="300" Margin="2" />
                         <Button Content="GetMaxPageSize" Click="OnGetMaxPageSize" Width="300" Margin="2" />

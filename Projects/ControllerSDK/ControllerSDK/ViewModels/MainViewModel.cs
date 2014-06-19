@@ -1,5 +1,7 @@
 ﻿using Infrastructure.Common.Windows.ViewModels;
 using ChinaSKDDriver;
+using System.Windows;
+using Infrastructure.Common;
 
 namespace ControllerSDK.ViewModels
 {
@@ -26,6 +28,46 @@ namespace ControllerSDK.ViewModels
 			TimeShedulesViewModel = new TimeShedulesViewModel();
 			ControlViewModel = new ControlViewModel();
 			JournalViewModel = new JournalViewModel();
+
+			GetDeviceSoftwareInfoCommand = new RelayCommand(OnGetDeviceSoftwareInfo);
+			GetDeviceNetInfoCommand = new RelayCommand(OnGetDeviceNetInfo);
+		}
+
+		public RelayCommand GetDeviceSoftwareInfoCommand { get; private set; }
+		void OnGetDeviceSoftwareInfo()
+		{
+			string text;
+			var deviceSoftwareInfo = MainViewModel.Wrapper.GetDeviceSoftwareInfo();
+			if (deviceSoftwareInfo != null)
+			{
+				text = "SoftwareBuildDate = " + deviceSoftwareInfo.SoftwareBuildDate.ToString() + "\n";
+				text += "DeviceType = " + deviceSoftwareInfo.DeviceType + "\n";
+				text += "SoftwareBuildDate = " + deviceSoftwareInfo.SoftwareBuildDate + "\n";
+			}
+			else
+			{
+				text = "Error" + "\n";
+			}
+			MessageBox.Show(text);
+		}
+
+		public RelayCommand GetDeviceNetInfoCommand { get; private set; }
+		void OnGetDeviceNetInfo()
+		{
+			string text;
+			var deviceNetInfo = MainViewModel.Wrapper.GetDeviceNetInfo();
+			if (deviceNetInfo != null)
+			{
+				text = "IP = " + deviceNetInfo.IP + "\n";
+				text += "SubnetMask = " + deviceNetInfo.SubnetMask + "\n";
+				text += "DefaultGateway = " + deviceNetInfo.DefaultGateway + "\n";
+				text += "MTU = " + deviceNetInfo.MTU.ToString() + "\n";
+			}
+			else
+			{
+				text = "Error" + "\n";
+			}
+			MessageBox.Show(text);
 		}
 	}
 }

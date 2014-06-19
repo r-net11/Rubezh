@@ -54,6 +54,41 @@ namespace ChinaSKDDriver
 		}
 		#endregion
 
+		#region CommonDevice
+		public DeviceSoftwareInfo GetDeviceSoftwareInfo()
+		{
+			NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo_Result outResult;
+			var result = NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo(LoginID, out outResult);
+
+			DeviceSoftwareInfo deviceSoftwareInfo = null;
+			if (result)
+			{
+				deviceSoftwareInfo = new DeviceSoftwareInfo();
+				deviceSoftwareInfo.SoftwareBuildDate = new DateTime(outResult.dwSoftwareBuildDate_1, outResult.dwSoftwareBuildDate_2, outResult.dwSoftwareBuildDate_3);
+				deviceSoftwareInfo.DeviceType = Wrapper.CharArrayToString(outResult.szDevType);
+				deviceSoftwareInfo.SoftwareVersion = Wrapper.CharArrayToString(outResult.szSoftWareVersion);
+			}
+			return deviceSoftwareInfo;
+		}
+
+		public DeviceNetInfo GetDeviceNetInfo()
+		{
+			NativeWrapper.WRAP_CFG_NETWORK_INFO_Result outResult;
+			var result = NativeWrapper.WRAP_Get_DevConfig_IPMaskGate(LoginID, out outResult);
+
+			DeviceNetInfo deviceNetInfo = null;
+			if (result)
+			{
+				deviceNetInfo = new DeviceNetInfo();
+				deviceNetInfo.IP = Wrapper.CharArrayToString(outResult.szIP);
+				deviceNetInfo.SubnetMask = Wrapper.CharArrayToString(outResult.szSubnetMask);
+				deviceNetInfo.DefaultGateway = Wrapper.CharArrayToString(outResult.szDefGateway);
+				deviceNetInfo.MTU = outResult.nMTU;
+			}
+			return deviceNetInfo;
+		}
+		#endregion
+
 		#region Common
 
 		public int LoginID { get; private set; }

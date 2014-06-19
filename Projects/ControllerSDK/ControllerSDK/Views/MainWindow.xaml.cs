@@ -39,58 +39,6 @@ namespace ControllerSDK.Views
 			MainViewModel.Wrapper.Disconnect();
 		}
 
-		void OnGetTypeAndSoft(object sender, RoutedEventArgs e)
-		{
-			NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo(MainViewModel.Wrapper.LoginID, out outResult);
-
-			DeviceSoftwareInfo deviceSoftwareInfo = null;
-			if (result)
-			{
-				deviceSoftwareInfo = new DeviceSoftwareInfo();
-				deviceSoftwareInfo.SoftwareBuildDate = new DateTime(outResult.dwSoftwareBuildDate_1, outResult.dwSoftwareBuildDate_2, outResult.dwSoftwareBuildDate_3);
-				deviceSoftwareInfo.DeviceType = Wrapper.CharArrayToString(outResult.szDevType);
-				deviceSoftwareInfo.SoftwareVersion = Wrapper.CharArrayToString(outResult.szSoftWareVersion);
-			}
-			if (result)
-			{
-				_textBox.Text += "SoftwareBuildDate = " + deviceSoftwareInfo.SoftwareBuildDate.ToString() + "\n";
-				_textBox.Text += "DeviceType = " + deviceSoftwareInfo.DeviceType + "\n";
-				_textBox.Text += "SoftwareBuildDate = " + deviceSoftwareInfo.SoftwareBuildDate + "\n";
-			}
-			else
-			{
-				_textBox.Text += "Error" + "\n";
-			}
-		}
-
-		void OnGetIpMask(object sender, RoutedEventArgs e)
-		{
-			NativeWrapper.WRAP_CFG_NETWORK_INFO_Result outResult;
-			var result = NativeWrapper.WRAP_Get_DevConfig_IPMaskGate(MainViewModel.Wrapper.LoginID, out outResult);
-
-			DeviceNetInfo deviceNetInfo = null;
-			if (result)
-			{
-				deviceNetInfo = new DeviceNetInfo();
-				deviceNetInfo.IP = Wrapper.CharArrayToString(outResult.szIP);
-				deviceNetInfo.SubnetMask = Wrapper.CharArrayToString(outResult.szSubnetMask);
-				deviceNetInfo.DefaultGateway = Wrapper.CharArrayToString(outResult.szDefGateway);
-				deviceNetInfo.MTU = outResult.nMTU;
-			}
-			if (result)
-			{
-				_textBox.Text += "IP = " + deviceNetInfo.IP + "\n";
-				_textBox.Text += "SubnetMask = " + deviceNetInfo.SubnetMask + "\n";
-				_textBox.Text += "DefaultGateway = " + deviceNetInfo.DefaultGateway + "\n";
-				_textBox.Text += "MTU = " + deviceNetInfo.MTU.ToString() + "\n";
-			}
-			else
-			{
-				_textBox.Text += "Error" + "\n";
-			}
-		}
-
 		void OnSetIpMask(object sender, RoutedEventArgs e)
 		{
 			return;
