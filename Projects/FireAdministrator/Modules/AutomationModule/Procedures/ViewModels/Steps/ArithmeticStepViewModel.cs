@@ -81,8 +81,6 @@ namespace AutomationModule.ViewModels
 				SelectedVariable = Variables.FirstOrDefault();
 
 			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables == null)
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables = new List<GlobalVariable>();
 			foreach (var globalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
 				var globalVariableViewModel = new GlobalVariableViewModel(globalVariable);

@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -12,6 +13,7 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<SoundViewModel> Sounds { get; private set; }
 		public ProcedureStep ProcedureStep { get; private set; }
 		public SoundArguments SoundArguments { get; private set; }
+
 		public SoundStepViewModel(ProcedureStep procedureStep)
 		{
 			ProcedureStep = procedureStep;
@@ -23,9 +25,7 @@ namespace AutomationModule.ViewModels
 		{
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			Sounds = new ObservableCollection<SoundViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds == null)
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds = new List<AutomationSound>();
-			foreach (var sound in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
+			foreach (var sound in FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
 			{
 				var soundViewModel = new SoundViewModel(sound);
 				Sounds.Add(soundViewModel);

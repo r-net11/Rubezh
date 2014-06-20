@@ -104,7 +104,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
-		
+
 		ObjectType _objectType;
 		public ObjectType ObjectType
 		{

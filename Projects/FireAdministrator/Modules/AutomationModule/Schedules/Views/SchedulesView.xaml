@@ -17,7 +17,7 @@
 
 		<DataGrid Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" IsReadOnly="False">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Название" Width="1*">
+				<DataGridTemplateColumn Header="Название" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -27,7 +27,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Активно" Width="1*">
+				<DataGridTemplateColumn Header="Активно" Width="Auto">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<CheckBox IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -37,7 +37,7 @@
 			</DataGrid.Columns>
 		</DataGrid>
 
-		<Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5" DataContext="{Binding SelectedSchedule}">
+        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" DataContext="{Binding SelectedSchedule}" Background="{DynamicResource BackgroundBrush}" CornerRadius="5 0 0 5" Margin="0 5 0 0">
 			<StackPanel Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" Orientation="Horizontal">
 				<StackPanel Orientation="Vertical" Margin="5 0 0 0">
 					<StackPanel Orientation="Vertical">

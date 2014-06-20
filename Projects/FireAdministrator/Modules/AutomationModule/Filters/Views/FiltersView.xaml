@@ -9,7 +9,7 @@
 		</Grid.RowDefinitions>
         <DataGrid ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter}" IsReadOnly="False">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Название" Width="1*">
+				<DataGridTemplateColumn Header="Название" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

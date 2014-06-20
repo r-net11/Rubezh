@@ -18,7 +18,7 @@
 		</StackPanel>
 		<DataGrid Grid.Row="1" ItemsSource="{Binding Variables}" SelectedItem="{Binding SelectedVariable}" IsReadOnly="False">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Тип" Width="1*">
+				<DataGridTemplateColumn Header="Тип" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -28,32 +28,32 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Имя" Width="1*">
+				<DataGridTemplateColumn Header="Имя" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Значение" Width="1*">
+				<DataGridTemplateColumn Header="Значение" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel>
 								<TextBlock Text="{Binding BoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 									 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter}, 
-									ConverterParameter={x:Static automation:VariableType.Boolean}}"/>
+									ConverterParameter={x:Static automation:VariableType.Boolean}}" />
 								<TextBlock Text="{Binding DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Margin="2"
 										 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter}, 
-									ConverterParameter={x:Static automation:VariableType.DateTime}}"/>
+									ConverterParameter={x:Static automation:VariableType.DateTime}}" />
 								<TextBlock Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 										 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter}, 
-									ConverterParameter={x:Static automation:VariableType.Integer}}"/>
+									ConverterParameter={x:Static automation:VariableType.Integer}}" />
 								<TextBlock Text="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectTypeToStringConverter}}" Margin="2"
 										 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter},
-									ConverterParameter={x:Static automation:VariableType.Object}}"/>
+									ConverterParameter={x:Static automation:VariableType.Object}}" />
 								<TextBlock Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 										 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter}, 
-									ConverterParameter={x:Static automation:VariableType.String}}"/>
+									ConverterParameter={x:Static automation:VariableType.String}}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

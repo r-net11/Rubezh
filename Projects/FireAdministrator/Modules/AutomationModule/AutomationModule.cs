@@ -22,6 +22,7 @@ namespace AutomationModule
 
 		public override void CreateViewModels()
 		{
+			//FiresecManager.SystemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 			SoundsViewModel = new SoundsViewModel();
 			ProceduresViewModel = new ProceduresViewModel();
 			SchedulesViewModel = new SchedulesViewModel();

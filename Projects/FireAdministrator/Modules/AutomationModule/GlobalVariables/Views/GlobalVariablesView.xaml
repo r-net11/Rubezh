@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<DataGrid ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Название" Width="1*">
+			<DataGridTemplateColumn Header="Название" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -13,7 +13,7 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Width="1*" Binding="{Binding Value}" Header="Значение" />
+			<DataGridTextColumn Width="*" Binding="{Binding Value}" Header="Значение" />
 		</DataGrid.Columns>
 	</DataGrid>
 </UserControl>
