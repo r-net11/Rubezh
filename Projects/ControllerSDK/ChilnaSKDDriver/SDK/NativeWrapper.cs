@@ -70,13 +70,6 @@ namespace ChinaSKDDriverNativeApi
 			public char[] szPwd;
 		}
 
-
-
-
-
-
-
-
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern bool CLIENT_QueryDevState(Int32 lLoginID, Int32 nType, IntPtr pBuf, Int32 nBufLen, out Int32 pRetLen, Int32 waittime);
 
@@ -631,5 +624,113 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_SetTimeSchedule(int lLoginId, int index, ref CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo);
 		#endregion
+
+		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		public delegate void WRAP_ProgressCallback(Int32 index);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_StartProgress(WRAP_ProgressCallback progressCallback);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_StartListen(int lLoginId);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct NET_GPS_STATUS_INFO
+		{
+			NET_TIME revTime;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 50)]
+			char[] DvrSerial;
+			double longitude;
+			double latidude;
+			double height;
+			double angle;
+			double speed;
+			int starCount;
+			bool antennaState;
+			bool orientationState;
+			bool workStae;
+			int nAlarmCount;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+			int[] nAlarmState;
+			byte bOffline;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+			byte[] byRserved;
+		}
+
+		public enum EM_TALKING_CALLER
+		{
+			EM_TALKING_CALLER_UNKNOWN = 0,
+			EM_TALKING_CALLER_PLATFORM,
+		}
+
+		public enum NET_SENSE_METHOD
+		{
+			NET_SENSE_UNKNOWN = -1,
+			NET_SENSE_DOOR = 0,
+			NET_SENSE_PASSIVEINFRA,
+			NET_SENSE_GAS,
+			NET_SENSE_SMOKING,
+			NET_SENSE_WATER,
+			NET_SENSE_ACTIVEFRA,
+			NET_SENSE_GLASS,
+			NET_SENSE_EMERGENCYSWITCH,
+			NET_SENSE_SHOCK,
+			NET_SENSE_DOUBLEMETHOD,
+			NET_SENSE_THREEMETHOD,
+			NET_SENSE_TEMP,
+			NET_SENSE_HUMIDITY,
+			NET_SENSE_CALLBUTTON,
+			NET_SENSE_OTHER,
+			NET_SENSE_NUM,
+		}
+
+		public enum EM_POWER_TYPE
+		{
+			EM_POWER_TYPE_MAIN = 0,
+			EM_POWER_TYPE_BACKUP,
+		}
+
+		public enum EM_POWERFAULT_EVENT_TYPE
+		{
+			EM_POWERFAULT_EVENT_LOST = 0
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_JournalItem
+		{
+			public int EventType;
+			public NET_TIME DeviceDateTime;
+			public NET_GPS_STATUS_INFO stGPSStatusInfo;
+			public byte bEventAction;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+			public char[] szInfo;
+			public EM_TALKING_CALLER emCaller;
+			public int nChannelID;
+			public int nAction;
+			public NET_SENSE_METHOD emSenseType;
+			public int nBatteryLeft;
+			public float fTemperature;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+			public char[] szSensorName;
+			public EM_POWER_TYPE emPowerType;
+			public EM_POWERFAULT_EVENT_TYPE emPowerFaultEvent;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
+			public char[] szDoorName;
+			public NET_ACCESS_CTL_EVENT_TYPE emEventType;
+			public bool bStatus;
+			public NET_ACCESSCTLCARD_TYPE emCardType;
+			public NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+			public char[] szCardNo;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
+			public char[] szPwd;
+		}
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern int WRAP_GetLastIndex();
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_GetJournalItem(int index, out WRAP_JournalItem journalItem);
 	}
 }

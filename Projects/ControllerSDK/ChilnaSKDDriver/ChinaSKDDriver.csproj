@@ -59,6 +59,7 @@
     <Compile Include="SDK\NativeWrapper.cs" />
     <Compile Include="SDK\Wrapper.Common.cs" />
     <Compile Include="SDK\Wrapper.TimeShedules.cs" />
+    <Compile Include="SDK\Wrapper.Watcher.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
