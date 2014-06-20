@@ -7,11 +7,10 @@ namespace FiresecAPI.Automation
 	[DataContract]
 	public class ScheduleProcedure
 	{
-		public ScheduleProcedure(Guid procedureUid)
+		public ScheduleProcedure()
 		{
 			Arguments = new List<Variable>();
 			Uid = Guid.NewGuid();
-			ProcedureUid = procedureUid;
 		}
 
 		[DataMember]

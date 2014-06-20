@@ -12,7 +12,8 @@ namespace AutomationModule.ViewModels
 
 		public ScheduleProcedureViewModel(Guid procedureUid)
 		{
-			ScheduleProcedure = new ScheduleProcedure(procedureUid);
+			ScheduleProcedure = new ScheduleProcedure();
+			ScheduleProcedure.ProcedureUid = procedureUid;
 		}
 
 		Procedure Procedure

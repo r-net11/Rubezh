@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
@@ -72,8 +73,9 @@ namespace FiresecService
 		{
 			foreach (var procedure in SystemConfiguration.AutomationConfiguration.Procedures)
 			{
-				if (schedule.ProceduresUids.Contains(procedure.Uid))
-					procedure.Start();
+				var scheduleProcedure = schedule.ScheduleProcedures.FirstOrDefault(x => x.ProcedureUid == procedure.Uid);
+				if (scheduleProcedure != null)
+					procedure.Start(scheduleProcedure.Arguments);
 			}
 		}
 	}
