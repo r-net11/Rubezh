@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using FiresecAPI.Automation;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -101,13 +100,12 @@ namespace AutomationModule.ViewModels
 		public static ObservableCollection<int> PeriodSeconds { get; private set; }
 		public static ObservableCollection<DayOfWeekType> DaysOfWeek { get; private set; }
 
-		bool _isEnabled;
 		public bool IsEnabled
 		{
-			get { return _isEnabled; }
+			get { return Schedule.IsActive; }
 			set
 			{
-				_isEnabled = value;
+				Schedule.IsActive = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => IsEnabled);
 			}

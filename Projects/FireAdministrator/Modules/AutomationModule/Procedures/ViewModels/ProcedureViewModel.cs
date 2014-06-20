@@ -90,6 +90,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_isEnabled = value;
+				Procedure.IsActive = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => IsEnabled);
 			}

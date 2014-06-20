@@ -69,5 +69,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public bool IsPeriodSelected { get; set; }
+
+		[DataMember]
+		public bool IsActive { get; set; }
 	}
 }

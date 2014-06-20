@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
@@ -8,15 +7,13 @@ using FiresecClient;
 
 namespace AutomationModule.ViewModels
 {
-	public class SoundStepViewModel : BaseViewModel
+	public class SoundStepViewModel : BaseViewModel, IStepViewModel
 	{
-		public ObservableCollection<SoundViewModel> Sounds { get; private set; }
-		public ProcedureStep ProcedureStep { get; private set; }
 		public SoundArguments SoundArguments { get; private set; }
+		public ObservableCollection<SoundLayoutViewModel> Layouts { get; private set; }
 
 		public SoundStepViewModel(ProcedureStep procedureStep)
 		{
-			ProcedureStep = procedureStep;
 			SoundArguments = procedureStep.SoundArguments;
 			UpdateContent();
 		}
@@ -30,14 +27,24 @@ namespace AutomationModule.ViewModels
 				var soundViewModel = new SoundViewModel(sound);
 				Sounds.Add(soundViewModel);
 			}
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Any(x => x.Uid == SoundArguments.SoundUid))
+			if (FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.Any(x => x.Uid == SoundArguments.SoundUid))
 				SelectedSound = Sounds.FirstOrDefault(x => x.Sound.Uid == SoundArguments.SoundUid);
 			else
-			    SelectedSound = Sounds.FirstOrDefault();
+				SelectedSound = null;
+			Layouts = new ObservableCollection<SoundLayoutViewModel>();
+			foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
+			{
+				var soundLayoutViewModel = new SoundLayoutViewModel(SoundArguments, layout);
+				soundLayoutViewModel.IsChecked = SoundArguments.LayoutsUids.Contains(layout.UID);
+				Layouts.Add(soundLayoutViewModel);
+			}
+
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
+			OnPropertyChanged(() => Layouts);
 			OnPropertyChanged(() => Sounds);
 		}
 
+		public ObservableCollection<SoundViewModel> Sounds { get; private set; }
 		SoundViewModel _selectedSound;
 		public SoundViewModel SelectedSound
 		{

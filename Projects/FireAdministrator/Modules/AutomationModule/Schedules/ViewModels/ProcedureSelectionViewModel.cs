@@ -11,6 +11,7 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<ProcedureViewModel> Procedures { get; private set; }
 		public ProcedureSelectionViewModel()
 		{
+			Title = "Выбор процедуры";
 			Procedures = new ObservableCollection<ProcedureViewModel>();
 			if (FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures == null)
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures = new List<Procedure>();

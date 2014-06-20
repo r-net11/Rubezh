@@ -45,11 +45,11 @@ namespace AutomationModule
 					new NavigationItem("Автоматизация", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
-							new NavigationItem<ShowAutomationSoundsEvent, Guid>(SoundsViewModel, "Звуки", "/Controls;component/Images/Music.png"),
 							new NavigationItem<ShowProceduresEvent, Guid>(ProceduresViewModel, "Процедуры", "/Controls;component/Images/Tree.png"),
-							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(SchedulesViewModel, "Редактор расписаний", "/Controls;component/Images/Schedules.png"),
-							new NavigationItem<ShowGlobalVariablesEvent, Guid>(GlobalVariablesViewModel, "Список глобальных переменных", "/Controls;component/Images/SelectNone.png"),
-							new NavigationItem<ShowFiltersEvent, Guid>(FiltersViewModel, "Фильтры", "/Controls;component/Images/Filter.png")
+							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(SchedulesViewModel, "Расписания", "/Controls;component/Images/Schedules.png"),
+							new NavigationItem<ShowGlobalVariablesEvent, Guid>(GlobalVariablesViewModel, "Глобальные переменные", "/Controls;component/Images/SelectNone.png"),
+							new NavigationItem<ShowFiltersEvent, Guid>(FiltersViewModel, "Фильтры", "/Controls;component/Images/Filter.png"),
+							new NavigationItem<ShowAutomationSoundsEvent, Guid>(SoundsViewModel, "Звуки", "/Controls;component/Images/Music.png")
 						}) {IsExpanded = true},
 				};
 		}

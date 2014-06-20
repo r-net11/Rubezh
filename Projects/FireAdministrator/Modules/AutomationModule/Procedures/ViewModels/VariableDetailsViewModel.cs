@@ -56,6 +56,11 @@ namespace AutomationModule.ViewModels
 					? new VariableViewModel(defaultName, VariableType.Object) : new VariableViewModel(variable)
 			};
 			SelectedVariable = Variables.FirstOrDefault(x => x.VariableType == variable.VariableType);
+			if (SelectedVariable != null)
+			{
+				Name = SelectedVariable.Name;
+				IsList = SelectedVariable.IsList;
+			}
 		}
 	
 		VariableViewModel _selectedVariable;
@@ -80,17 +85,39 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		string _name;
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged(() => Name);
+			}
+		}
+
+		bool _isList;
+		public bool IsList
+		{
+			get { return _isList; }
+			set
+			{
+				_isList = value;
+				OnPropertyChanged(() => IsList);
+			}
+		}
+
 		protected override bool Save()
 		{
 			Variable.Name = SelectedVariable.Name;
 			Variable.BoolValue = SelectedVariable.BoolValue;
 			Variable.DateTimeValue = SelectedVariable.DateTimeValue;
 			Variable.IntValue = SelectedVariable.IntValue;
-			Variable.Name = SelectedVariable.Name;
+			Variable.Name = Name;
 			Variable.ObjectType = SelectedVariable.ObjectType;
 			Variable.StringValue = SelectedVariable.StringValue;
 			Variable.VariableType = SelectedVariable.VariableType;
-			Variable.IsList = SelectedVariable.IsList;
+			Variable.IsList = IsList;
 			return base.Save();
 		}
 	}	

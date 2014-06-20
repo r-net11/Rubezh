@@ -7,7 +7,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
-	public class ArithmeticStepViewModel : BaseViewModel
+	public class ArithmeticStepViewModel : BaseViewModel, IStepViewModel
 	{
 		public ArithmeticArguments ArithmeticArguments { get; private set; }
 		public Procedure Procedure { get; private set; }
@@ -26,11 +26,11 @@ namespace AutomationModule.ViewModels
 			ArithmeticTypes = new ObservableCollection<ArithmeticType> { ArithmeticType.Add, ArithmeticType.Sub, ArithmeticType.Multi, ArithmeticType.Div };
 		}
 
-		public void UpdateContent(List<Variable> localVariables)
+		public void UpdateContent()
 		{
-			Variable1.Update(localVariables);
-			Variable2.Update(localVariables);
-			Result.Update(localVariables);
+			Variable1.Update(Procedure.Variables);
+			Variable2.Update(Procedure.Variables);
+			Result.Update(Procedure.Variables);
 		}
 
 		public ObservableCollection<ArithmeticType> ArithmeticTypes { get; private set; }
@@ -48,18 +48,15 @@ namespace AutomationModule.ViewModels
 	public class ArithmeticParameterViewModel : BaseViewModel
 	{
 		public ArithmeticParameter ArithmeticParameter { get; private set; }
-		public List<ValueType> ValueTypes { get; private set; }
-		public ObservableCollection<VariableViewModel> Variables { get; private set; }
-		public ObservableCollection<GlobalVariableViewModel> GlobalVariables { get; private set; }
 
 		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, List<Variable> localVariables, bool isResult = false)
 		{
 			ArithmeticParameter = arithmeticParameter;
-			ValueTypes = new List<ValueType>();
-			if (!isResult)
-				ValueTypes.Add(ValueType.IsValue);
+			ValueTypes = new ObservableCollection<ValueType>();
 			ValueTypes.Add(ValueType.IsGlobalVariable);
 			ValueTypes.Add(ValueType.IsLocalVariable);
+			if (!isResult)
+				ValueTypes.Add(ValueType.IsValue);
 			Update(localVariables);
 		}
 
@@ -78,8 +75,7 @@ namespace AutomationModule.ViewModels
 			if (localVariables.Any(x => x.Uid == ArithmeticParameter.VariableUid))
 				SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == ArithmeticParameter.VariableUid);
 			else
-				SelectedVariable = Variables.FirstOrDefault();
-
+				SelectedVariable = null;
 			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
 			foreach (var globalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
@@ -89,13 +85,15 @@ namespace AutomationModule.ViewModels
 			if (GlobalVariables.Any(x => x.GlobalVariable.Uid == ArithmeticParameter.GlobalVariableUid))
 				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.GlobalVariable.Uid == ArithmeticParameter.GlobalVariableUid);
 			else
-				SelectedGlobalVariable = GlobalVariables.FirstOrDefault();
-			SelectedValueType = ValueTypes.FirstOrDefault();
+				SelectedGlobalVariable = null;
+
+			SelectedValueType = ArithmeticParameter.ValueType;
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => Variables);
 		}
 
+		public ObservableCollection<ValueType> ValueTypes { get; private set; }
 		public ValueType SelectedValueType
 		{
 			get { return ArithmeticParameter.ValueType; }
@@ -118,6 +116,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<GlobalVariableViewModel> GlobalVariables { get; private set; }
 		GlobalVariableViewModel _selectedGlobalVariable;
 		public GlobalVariableViewModel SelectedGlobalVariable
 		{
@@ -132,6 +131,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<VariableViewModel> Variables { get; private set; }
 		VariableViewModel _selectedVariable;
 		public VariableViewModel SelectedVariable
 		{
