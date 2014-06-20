@@ -33,10 +33,5 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public List<Variable> Arguments { get; set; }
-
-		public void Start(List<Variable> arguments)
-		{
-			
-		}
 	}
 }

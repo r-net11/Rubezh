@@ -9,7 +9,7 @@ namespace FiresecService.Processor
 {
 	public static class AutomationProcessorRunner
 	{
-		public static bool Run(Procedure procedure, List<string> args)
+		public static bool Run(Procedure procedure, List<Variable> arguments)
 		{
 			try
 			{

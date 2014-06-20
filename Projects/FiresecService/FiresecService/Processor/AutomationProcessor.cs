@@ -75,7 +75,7 @@ namespace FiresecService
 			{
 				var scheduleProcedure = schedule.ScheduleProcedures.FirstOrDefault(x => x.ProcedureUid == procedure.Uid);
 				if (scheduleProcedure != null)
-					procedure.Start(scheduleProcedure.Arguments);
+					AutomationProcessorRunner.Run(procedure, scheduleProcedure.Arguments);
 			}
 		}
 	}
