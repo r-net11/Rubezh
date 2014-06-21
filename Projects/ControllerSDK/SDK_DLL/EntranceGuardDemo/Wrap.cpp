@@ -241,7 +241,7 @@ BOOL CALL_METHOD WRAP_Dev_QueryLogList(int lLoginID, WRAP_Dev_QueryLogList_Resul
 	return TRUE;
 }
 
-BOOL CALL_METHOD WRAP_DevConfig_AccessGeneral(int lLoginId, CFG_ACCESS_GENERAL_INFO* result)
+BOOL CALL_METHOD WRAP_GetProjectPassword(int lLoginId, WRAP_GeneralConfig_Password* result)
 {
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
@@ -253,19 +253,32 @@ BOOL CALL_METHOD WRAP_DevConfig_AccessGeneral(int lLoginId, CFG_ACCESS_GENERAL_I
 		int nRetLen = 0;
 		CFG_ACCESS_GENERAL_INFO stuInfo = {0};
 		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_GENERAL, szJsonBuf, &stuInfo, sizeof(stuInfo), &nRetLen);
-		memcpy(result, &stuInfo, sizeof(stuInfo));
+		strcpy(result->szProjectPassword, stuInfo.szProjectPassword);
 		return bRet;
 	}
 	return FALSE;
 }
 
-BOOL CALL_METHOD WRAP_GetDevConfig_AccessControl(int lLoginId, CFG_ACCESS_EVENT_INFO* result)
+BOOL CALL_METHOD WRAP_SetProjectPassword(int lLoginId, char password[])
+{
+	char szJsonBufSet[1024 * 40] = {0};
+	int nerror = 0;
+	int nrestart = 0;
+
+	CFG_ACCESS_GENERAL_INFO stuInfo = {sizeof(stuInfo)};
+	stuInfo.abProjectPassword = true;
+	strncpy(stuInfo.szProjectPassword, password, __min(strlen(password), sizeof(stuInfo.szProjectPassword)));
+	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_GENERAL, &stuInfo, sizeof(stuInfo), szJsonBufSet, sizeof(szJsonBufSet));
+	bRet = CLIENT_SetNewDevConfig(lLoginId, CFG_CMD_ACCESS_GENERAL, -1, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
+	return bRet;
+}
+
+BOOL CALL_METHOD WRAP_GetDoorConfiguration(int lLoginId, int channelNo, CFG_ACCESS_EVENT_INFO* result)
 {
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
-	int nChannel = 0;
 
-	BOOL bRet = CLIENT_GetNewDevConfig(lLoginId, CFG_CMD_ACCESS_EVENT, nChannel, szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
+	BOOL bRet = CLIENT_GetNewDevConfig(lLoginId, CFG_CMD_ACCESS_EVENT, channelNo, szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
 
 	if (bRet)
 	{
@@ -278,10 +291,8 @@ BOOL CALL_METHOD WRAP_GetDevConfig_AccessControl(int lLoginId, CFG_ACCESS_EVENT_
 	return FALSE;
 }
 
-BOOL CALL_METHOD WRAP_SetDevConfig_AccessControl(int lLoginId, CFG_ACCESS_EVENT_INFO* stuGeneralInfo)
+BOOL CALL_METHOD WRAP_SetDoorConfiguration(int lLoginId, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo)
 {
-	int nChannel = 0;
-	//CFG_ACCESS_EVENT_INFO stuGeneralInfo = {0};
 	char szJsonBufSet[1024 * 40] = {0};
 			
 	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_EVENT, stuGeneralInfo, sizeof(CFG_ACCESS_EVENT_INFO), szJsonBufSet, sizeof(szJsonBufSet));
@@ -289,7 +300,7 @@ BOOL CALL_METHOD WRAP_SetDevConfig_AccessControl(int lLoginId, CFG_ACCESS_EVENT_
 	{
 		int nerror = 0;
 		int nrestart = 0;
-		bRet = CLIENT_SetNewDevConfig(lLoginId, CFG_CMD_ACCESS_EVENT, nChannel, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
+		bRet = CLIENT_SetNewDevConfig(lLoginId, CFG_CMD_ACCESS_EVENT, channelNo, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
 		return bRet;
 	}
 }

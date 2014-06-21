@@ -24,9 +24,10 @@ namespace ControllerSDK.ViewModels
 			SetCurrentTimeCommand = new RelayCommand(OnSetCurrentTime);
 			GetLogsCountCommand = new RelayCommand(OnGetLogsCount);
 			QueryLogListCommand = new RelayCommand(OnQueryLogList);
-			GetAccessGeneralCommand = new RelayCommand(OnGetAccessGeneral);
-			GetDevConfig_AccessControlCommand = new RelayCommand(OnGetDevConfig_AccessControl);
-			SetDevConfig_AccessControlCommand = new RelayCommand(OnSetDevConfig_AccessControl);
+			GetProjectPasswordCommand = new RelayCommand(OnGetProjectPassword);
+			SetProjectPasswordCommand = new RelayCommand(OnSetProjectPassword);
+			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
+			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
 			ReBootCommand = new RelayCommand(OnReBoot);
 			DeleteCfgFileCommand = new RelayCommand(OnDeleteCfgFile);
 		}
@@ -69,27 +70,26 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand SetDeviceNetInfoCommand { get; private set; }
 		void OnSetDeviceNetInfo()
 		{
-			return;
-			var result = NativeWrapper.WRAP_Set_DevConfig_IPMaskGate(MainViewModel.Wrapper.LoginID, "172.5.2.65", "255.255.255.0", "172.5.1.1", 1000);
-			if (result != null)
+			if (MessageBox.Show("Вы уверены, что хотите перезаписать сетевые настройки?") == MessageBoxResult.OK)
 			{
-				MessageBox.Show("Successs");
-			}
-			else
-			{
-				MessageBox.Show("Error");
+				var deviceNetInfo = new DeviceNetInfo()
+				{
+					IP = "172.5.2.65",
+					SubnetMask = "255.255.255.0",
+					DefaultGateway = "172.5.1.1",
+					MTU = 1000
+				};
+				MainViewModel.Wrapper.SetDeviceNetInfo(deviceNetInfo);
 			}
 		}
 
 		public RelayCommand GetMacAddressCommand { get; private set; }
 		void OnGetMacAddress()
 		{
-			NativeWrapper.WRAP_DevConfig_MAC_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_MAC(MainViewModel.Wrapper.LoginID, out outResult);
-			if (result)
+			var result = MainViewModel.Wrapper.GetDeviceMacAddress();
+			if (result != null)
 			{
-				var macAddress = Wrapper.CharArrayToString(outResult.szMAC);
-				MessageBox.Show("macAddress = " + macAddress);
+				MessageBox.Show("macAddress = " + result);
 			}
 			else
 			{
@@ -100,12 +100,10 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetMaxPageSizeCommand { get; private set; }
 		void OnGetMaxPageSize()
 		{
-			NativeWrapper.WRAP_DevConfig_RecordFinderCaps_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_RecordFinderCaps(MainViewModel.Wrapper.LoginID, out outResult);
-			if (result)
+			var result = MainViewModel.Wrapper.GetMaxPageSize();
+			if (result > 0)
 			{
-				var maxPageSize = outResult.nMaxPageSize;
-				MessageBox.Show("maxPageSize = " + maxPageSize);
+				MessageBox.Show("maxPageSize = " + result);
 			}
 			else
 			{
@@ -116,12 +114,10 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetCurrentTimeCommand { get; private set; }
 		void OnGetCurrentTime()
 		{
-			NativeWrapper.NET_TIME outResult;
-			var result = NativeWrapper.WRAP_DevConfig_GetCurrentTime(MainViewModel.Wrapper.LoginID, out outResult);
-			if (result)
+			var result = MainViewModel.Wrapper.GetDateTime();
+			if (result > DateTime.MinValue)
 			{
-				var dateTime = new DateTime(outResult.dwYear, outResult.dwMonth, outResult.dwDay, outResult.dwHour, outResult.dwMinute, outResult.dwSecond);
-				MessageBox.Show("dateTime = " + dateTime.ToString());
+				MessageBox.Show("dateTime = " + result.ToString());
 			}
 			else
 			{
@@ -132,7 +128,174 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand SetCurrentTimeCommand { get; private set; }
 		void OnSetCurrentTime()
 		{
-			var result = NativeWrapper.WRAP_DevConfig_SetCurrentTime(MainViewModel.Wrapper.LoginID, 2014, 5, 23, 13, 14, 01);
+			var result = MainViewModel.Wrapper.SetDateTime(DateTime.Now);
+			if (result)
+			{
+				MessageBox.Show("Success");
+			}
+			else
+			{
+				MessageBox.Show("Error");
+			}
+		}
+
+		public RelayCommand GetProjectPasswordCommand { get; private set; }
+		void OnGetProjectPassword()
+		{
+			var projectPassword = MainViewModel.Wrapper.GetProjectPassword();
+			if (!string.IsNullOrEmpty(projectPassword))
+			{
+				MessageBox.Show(projectPassword);
+			}
+			else
+			{
+				MessageBox.Show("Error");
+			}
+		}
+
+		public RelayCommand SetProjectPasswordCommand { get; private set; }
+		void OnSetProjectPassword()
+		{
+			var projectPassword = "99999999";
+			var result = MainViewModel.Wrapper.SetProjectPassword(projectPassword);
+			if (result)
+			{
+				MessageBox.Show("Success");
+			}
+			else
+			{
+				MessageBox.Show("Error");
+			}
+		}
+
+		public RelayCommand GetDoorConfigurationCommand { get; private set; }
+		void OnGetDoorConfiguration()
+		{
+			NativeWrapper.CFG_ACCESS_EVENT_INFO outResult;
+			var result = NativeWrapper.WRAP_GetDoorConfiguration(MainViewModel.Wrapper.LoginID, 0, out outResult);
+			if (result)
+			{
+				var controllerConfig = new ControllerConfig();
+
+				var text = "";
+				text += "abBreakInAlarmEnable = " + outResult.abBreakInAlarmEnable.ToString() + "\n";
+				text += "szChannelName = " + Wrapper.CharArrayToString(outResult.szChannelName) + "\n";
+				text += "emState = " + outResult.emState.ToString() + "\n";
+				text += "emMode = " + outResult.emMode.ToString() + "\n";
+				text += "nEnableMode = " + outResult.nEnableMode.ToString() + "\n";
+				text += "bSnapshotEnable = " + outResult.bSnapshotEnable.ToString() + "\n";
+				text += "abDoorOpenMethod = " + outResult.abDoorOpenMethod.ToString() + "\n";
+				text += "abUnlockHoldInterval = " + outResult.abUnlockHoldInterval.ToString() + "\n";
+				text += "abCloseTimeout = " + outResult.abCloseTimeout.ToString() + "\n";
+				text += "abOpenAlwaysTimeIndex = " + outResult.abOpenAlwaysTimeIndex.ToString() + "\n";
+				text += "abHolidayTimeIndex = " + outResult.abHolidayTimeIndex.ToString() + "\n";
+				text += "abBreakInAlarmEnable = " + outResult.abBreakInAlarmEnable.ToString() + "\n";
+				text += "abRepeatEnterAlarmEnable = " + outResult.abRepeatEnterAlarmEnable.ToString() + "\n";
+				text += "abDoorNotClosedAlarmEnable = " + outResult.abDoorNotClosedAlarmEnable.ToString() + "\n";
+				text += "abDuressAlarmEnable = " + outResult.abDuressAlarmEnable.ToString() + "\n";
+				text += "abDoorTimeSection = " + outResult.abDoorTimeSection.ToString() + "\n";
+				text += "abSensorEnable = " + outResult.abSensorEnable.ToString() + "\n";
+				text += "byReserved = " + outResult.byReserved.ToString() + "\n";
+				text += "emDoorOpenMethod = " + outResult.emDoorOpenMethod.ToString() + "\n";
+				text += "nUnlockHoldInterval = " + outResult.nUnlockHoldInterval.ToString() + "\n";
+				text += "nCloseTimeout = " + outResult.nCloseTimeout.ToString() + "\n";
+				text += "nOpenAlwaysTimeIndex = " + outResult.nOpenAlwaysTimeIndex.ToString() + "\n";
+				text += "nHolidayTimeRecoNo = " + outResult.nHolidayTimeRecoNo.ToString() + "\n";
+				text += "bBreakInAlarmEnable = " + outResult.bBreakInAlarmEnable.ToString() + "\n";
+				text += "bRepeatEnterAlarm = " + outResult.bRepeatEnterAlarm.ToString() + "\n";
+				text += "bDoorNotClosedAlarmEnable = " + outResult.bDoorNotClosedAlarmEnable.ToString() + "\n";
+				text += "bDuressAlarmEnable = " + outResult.bDuressAlarmEnable.ToString() + "\n";
+				text += "bSensorEnable = " + outResult.bSensorEnable.ToString() + "\n";
+
+
+				var timeSheduleIntervals = new List<TimeSheduleInterval>();
+				for (int i = 0; i < outResult.stuDoorTimeSection.Count(); i++)
+				{
+					var cfg_DOOROPEN_TIMESECTION_INFO = outResult.stuDoorTimeSection[i];
+					var timeSheduleInterval = new TimeSheduleInterval();
+					timeSheduleInterval.BeginHours = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwHour;
+					timeSheduleInterval.BeginMinutes = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwMinute;
+					timeSheduleInterval.BeginSeconds = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwSecond;
+					timeSheduleInterval.EndHours = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwHour;
+					timeSheduleInterval.EndMinutes = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwMinute;
+					timeSheduleInterval.EndSeconds = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwSecond;
+					timeSheduleIntervals.Add(timeSheduleInterval);
+				}
+
+				var timeShedules = new List<TimeShedule>();
+				for (int i = 0; i < 7; i++)
+				{
+					var timeShedule = new TimeShedule();
+					for (int j = 0; j < 4; j++)
+					{
+						var timeSheduleInterval = timeSheduleIntervals[i * 4 + j];
+						timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
+					}
+					timeShedules.Add(timeShedule);
+				}
+
+				foreach (var timeShedule in timeShedules)
+				{
+					foreach (var timeSheduleInterval in timeShedule.TimeSheduleIntervals)
+					{
+						text += timeSheduleInterval.BeginHours + ":" + timeSheduleInterval.BeginMinutes + ":" + timeSheduleInterval.BeginSeconds + " - " +
+						timeSheduleInterval.EndHours + ":" + timeSheduleInterval.EndMinutes + ":" + timeSheduleInterval.EndSeconds + " ||||||| ";
+					}
+					text += "\n";
+				}
+
+				MessageBox.Show(text);
+			}
+			else
+			{
+				MessageBox.Show("Error");
+			}
+		}
+
+		public RelayCommand SetDoorConfigurationCommand { get; private set; }
+		void OnSetDoorConfiguration()
+		{
+			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
+			info.stuDoorTimeSection = new NativeWrapper.CFG_DOOROPEN_TIMESECTION_INFO[7 * 4];
+			for (int i = 0; i < info.stuDoorTimeSection.Count(); i++)
+			{
+				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwHour = 1;
+				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwMinute = i;
+				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwSecond = i;
+
+				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwHour = 2;
+				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = i * 2;
+				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = i * 2;
+			}
+			var result = NativeWrapper.WRAP_SetDoorConfiguration(MainViewModel.Wrapper.LoginID, 0, ref info);
+			if (result)
+			{
+				MessageBox.Show("Success");
+			}
+			else
+			{
+				MessageBox.Show("Error");
+			}
+		}
+
+		public RelayCommand ReBootCommand { get; private set; }
+		void OnReBoot()
+		{
+			var result = MainViewModel.Wrapper.Reboot();
+			if (result)
+			{
+				MessageBox.Show("Success");
+			}
+			else
+			{
+				MessageBox.Show("Error");
+			}
+		}
+
+		public RelayCommand DeleteCfgFileCommand { get; private set; }
+		void OnDeleteCfgFile()
+		{
+			var result = MainViewModel.Wrapper.DeleteAll();
 			if (result)
 			{
 				MessageBox.Show("Success");
@@ -146,11 +309,10 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetLogsCountCommand { get; private set; }
 		void OnGetLogsCount()
 		{
-			NativeWrapper.QUERY_DEVICE_LOG_PARAM logParam = new NativeWrapper.QUERY_DEVICE_LOG_PARAM();
-			var result = NativeWrapper.WRAP_DevCtrl_GetLogCount(MainViewModel.Wrapper.LoginID, ref logParam);
+			var result = MainViewModel.Wrapper.GetLogsCount();
 			if (result > 0)
 			{
-				MessageBox.Show("Success " + result.ToString());
+				MessageBox.Show("LogsCount = " + result.ToString());
 			}
 			else
 			{
@@ -188,119 +350,6 @@ namespace ControllerSDK.ViewModels
 					text += "Description = " + deviceJournalItem.Description.ToString() + "\n";
 				}
 				MessageBox.Show(text);
-			}
-			else
-			{
-				MessageBox.Show("Error");
-			}
-		}
-
-		public RelayCommand GetAccessGeneralCommand { get; private set; }
-		void OnGetAccessGeneral()
-		{
-			NativeWrapper.CFG_ACCESS_GENERAL_INFO outResult;
-			var result = NativeWrapper.WRAP_DevConfig_AccessGeneral(MainViewModel.Wrapper.LoginID, out outResult);
-			DeviceGeneralInfo deviceGeneralInfo = null;
-			if (result)
-			{
-				MessageBox.Show("Success");
-				deviceGeneralInfo = new DeviceGeneralInfo();
-				deviceGeneralInfo.OpenDoorAudioPath = Wrapper.CharArrayToString(outResult.szOpenDoorAudioPath);
-				deviceGeneralInfo.CloseDoorAudioPath = Wrapper.CharArrayToString(outResult.szCloseDoorAudioPath);
-				deviceGeneralInfo.InUsedAuidoPath = Wrapper.CharArrayToString(outResult.szInUsedAuidoPath);
-				deviceGeneralInfo.PauseUsedAudioPath = Wrapper.CharArrayToString(outResult.szPauseUsedAudioPath);
-				deviceGeneralInfo.NotClosedAudioPath = Wrapper.CharArrayToString(outResult.szNotClosedAudioPath);
-				deviceGeneralInfo.WaitingAudioPath = Wrapper.CharArrayToString(outResult.szWaitingAudioPath);
-				deviceGeneralInfo.UnlockReloadTime = outResult.nUnlockReloadTime;
-				deviceGeneralInfo.UnlockHoldTime = outResult.nUnlockHoldTime;
-				deviceGeneralInfo.IsProjectPassword = outResult.abProjectPassword;
-				deviceGeneralInfo.ProjectPassword = Wrapper.CharArrayToString(outResult.szProjectPassword);
-			}
-			else
-			{
-				MessageBox.Show("Error");
-			}
-		}
-
-		public RelayCommand GetDevConfig_AccessControlCommand { get; private set; }
-		void OnGetDevConfig_AccessControl()
-		{
-			NativeWrapper.CFG_ACCESS_EVENT_INFO outResult;
-			var result = NativeWrapper.WRAP_GetDevConfig_AccessControl(MainViewModel.Wrapper.LoginID, out outResult);
-			if (result)
-			{
-				var controllerConfig = new ControllerConfig();
-
-				var text = "";
-				for (int i = 0; i < 7; i++)
-				{
-					var namedTimeInterval = new NamedTimeInterval();
-					for (int j = 0; j < 4; j++)
-					{
-						var section = outResult.stuDoorTimeSection[i * 4 + j];
-						var timeInterval = new TimeInterval();
-						timeInterval.StartDateTime = new TimeSpan(section.stuTime.stuStartTime.dwHour, section.stuTime.stuStartTime.dwMinute, section.stuTime.stuStartTime.dwSecond);
-						timeInterval.EndDateTime = new TimeSpan(section.stuTime.stuEndTime.dwHour, section.stuTime.stuEndTime.dwMinute, section.stuTime.stuEndTime.dwSecond);
-						namedTimeInterval.Intervals.Add(timeInterval);
-						text += timeInterval.StartDateTime.ToString() + " - " + timeInterval.EndDateTime.ToString() + " / ";
-					}
-					text += "\n";
-				}
-				MessageBox.Show(text);
-			}
-			else
-			{
-				MessageBox.Show("Error");
-			}
-		}
-
-		public RelayCommand SetDevConfig_AccessControlCommand { get; private set; }
-		void OnSetDevConfig_AccessControl()
-		{
-			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
-			info.stuDoorTimeSection = new NativeWrapper.CFG_DOOROPEN_TIMESECTION_INFO[7 * 4];
-			for (int i = 0; i < info.stuDoorTimeSection.Count(); i++)
-			{
-				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwHour = 1;
-				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwMinute = i;
-				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwSecond = i;
-
-				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwHour = 2;
-				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = i * 2;
-				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = i * 2;
-			}
-			var result = NativeWrapper.WRAP_SetDevConfig_AccessControl2(MainViewModel.Wrapper.LoginID, ref info);
-			if (result)
-			{
-				MessageBox.Show("Success");
-			}
-			else
-			{
-				MessageBox.Show("Error");
-			}
-		}
-
-		public RelayCommand ReBootCommand { get; private set; }
-		void OnReBoot()
-		{
-			var result = NativeWrapper.WRAP_DevCtrl_ReBoot(MainViewModel.Wrapper.LoginID);
-			if (result)
-			{
-				MessageBox.Show("Success");
-			}
-			else
-			{
-				MessageBox.Show("Error");
-			}
-		}
-
-		public RelayCommand DeleteCfgFileCommand { get; private set; }
-		void OnDeleteCfgFile()
-		{
-			var result = NativeWrapper.WRAP_DevCtrl_DeleteCfgFile(MainViewModel.Wrapper.LoginID);
-			if (result)
-			{
-				MessageBox.Show("Success");
 			}
 			else
 			{

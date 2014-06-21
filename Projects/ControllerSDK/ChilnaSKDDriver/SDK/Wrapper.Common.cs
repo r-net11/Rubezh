@@ -87,6 +87,99 @@ namespace ChinaSKDDriver
 			}
 			return deviceNetInfo;
 		}
+
+		public bool SetDeviceNetInfo(DeviceNetInfo deviceNetInfo)
+		{
+			var result = NativeWrapper.WRAP_Set_DevConfig_IPMaskGate(LoginID, deviceNetInfo.IP, deviceNetInfo.SubnetMask, deviceNetInfo.DefaultGateway, deviceNetInfo.MTU);
+			return result;
+		}
+
+		public string GetDeviceMacAddress()
+		{
+			NativeWrapper.WRAP_DevConfig_MAC_Result outResult;
+			var result = NativeWrapper.WRAP_DevConfig_MAC(LoginID, out outResult);
+			if (result)
+			{
+				var macAddress = Wrapper.CharArrayToString(outResult.szMAC);
+				return macAddress;
+			}
+			return null;
+		}
+
+		public int GetMaxPageSize()
+		{
+			NativeWrapper.WRAP_DevConfig_RecordFinderCaps_Result outResult;
+			var result = NativeWrapper.WRAP_DevConfig_RecordFinderCaps(LoginID, out outResult);
+			if (result)
+			{
+				var maxPageSize = outResult.nMaxPageSize;
+				return maxPageSize;
+			}
+			return -1;
+		}
+
+		public DateTime GetDateTime()
+		{
+			NativeWrapper.NET_TIME outResult;
+			var result = NativeWrapper.WRAP_DevConfig_GetCurrentTime(LoginID, out outResult);
+			if (result)
+			{
+				try
+				{
+					var dateTime = new DateTime(outResult.dwYear, outResult.dwMonth, outResult.dwDay, outResult.dwHour, outResult.dwMinute, outResult.dwSecond);
+					return dateTime;
+				}
+				catch { }
+			}
+			return DateTime.MinValue;
+		}
+
+		public bool SetDateTime(DateTime dateTime)
+		{
+			var result = NativeWrapper.WRAP_DevConfig_SetCurrentTime(LoginID, dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+			return result;
+		}
+
+		public bool DeleteAll()
+		{
+			var result = NativeWrapper.WRAP_DevCtrl_DeleteCfgFile(LoginID);
+			return result;
+		}
+
+		public bool Reboot()
+		{
+			var result = NativeWrapper.WRAP_DevCtrl_ReBoot(LoginID);
+			return result;
+		}
+
+		public string GetProjectPassword()
+		{
+			NativeWrapper.WRAP_GeneralConfig_Password outResult;
+			var result = NativeWrapper.WRAP_GetProjectPassword(LoginID, out outResult);
+			if (result)
+			{
+				var projectPassword = Wrapper.CharArrayToString(outResult.szProjectPassword);
+				return projectPassword;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		public bool SetProjectPassword(string projectPassword)
+		{
+			var result = NativeWrapper.WRAP_SetProjectPassword(LoginID, projectPassword);
+			return result;
+		}
+
+		public int GetLogsCount()
+		{
+			NativeWrapper.QUERY_DEVICE_LOG_PARAM logParam = new NativeWrapper.QUERY_DEVICE_LOG_PARAM();
+			var result = NativeWrapper.WRAP_DevCtrl_GetLogCount(LoginID, ref logParam);
+			return result;
+		}
+
 		#endregion
 
 		#region Common

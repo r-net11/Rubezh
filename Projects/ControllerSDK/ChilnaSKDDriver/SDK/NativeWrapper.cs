@@ -270,31 +270,17 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_Dev_QueryLogList(int lLoginID, out WRAP_Dev_QueryLogList_Result result);
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct CFG_ACCESS_GENERAL_INFO
+		public struct WRAP_GeneralConfig_Password
 		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			public Char[] szOpenDoorAudioPath;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			public Char[] szCloseDoorAudioPath;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			public Char[] szInUsedAuidoPath;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			public Char[] szPauseUsedAudioPath;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			public Char[] szNotClosedAudioPath;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			public Char[] szWaitingAudioPath;
-			public Int32 nUnlockReloadTime;
-			public Int32 nUnlockHoldTime;
-			public bool abProjectPassword;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-			public Byte[] byReserved;
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-			public Char[] szProjectPassword;
+			public char[] szProjectPassword;
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_DevConfig_AccessGeneral(int lLoginId, out CFG_ACCESS_GENERAL_INFO result);
+		public static extern bool WRAP_GetProjectPassword(int lLoginId, out WRAP_GeneralConfig_Password result);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_SetProjectPassword(int lLoginId, string password);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO
@@ -332,13 +318,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetDevConfig_AccessControl(int lLoginId, out CFG_ACCESS_EVENT_INFO result);
+		public static extern bool WRAP_GetDoorConfiguration(int lLoginId, int channelNo, out CFG_ACCESS_EVENT_INFO result);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_SetDevConfig_AccessControl(int lLoginId, ref CFG_ACCESS_EVENT_INFO stuGeneralInfo);
-
-		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_SetDevConfig_AccessControl2(int lLoginId, ref CFG_ACCESS_EVENT_INFO result);
+		public static extern bool WRAP_SetDoorConfiguration(int lLoginId, int channelNo, ref CFG_ACCESS_EVENT_INFO accessEventInfo);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_DevCtrl_ReBoot(int lLoginID);
@@ -625,6 +608,7 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_SetTimeSchedule(int lLoginId, int index, ref CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo);
 		#endregion
 
+		#region Events
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate void WRAP_ProgressCallback(Int32 index);
 
@@ -732,5 +716,6 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_GetJournalItem(int index, out WRAP_JournalItem journalItem);
+		#endregion
 	}
 }
