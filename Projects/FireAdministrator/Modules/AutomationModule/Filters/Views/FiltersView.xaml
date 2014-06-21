@@ -13,7 +13,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/Filter.png" Width="16" Margin="2 0 0 0" />
+								<Image Source="/Controls;component/Images/BlueFilter.png" Width="16" Margin="2 0 0 0" />
 								<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 							</StackPanel>
 						</DataTemplate>

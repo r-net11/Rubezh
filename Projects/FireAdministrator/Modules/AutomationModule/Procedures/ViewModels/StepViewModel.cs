@@ -1,4 +1,5 @@
-﻿using FiresecAPI;
+﻿using System;
+using FiresecAPI;
 using Infrastructure.Common.TreeList;
 using FiresecAPI.Automation;
 
@@ -18,11 +19,11 @@ namespace AutomationModule.ViewModels
 			switch(step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:
-					Content = new SoundStepViewModel(step);
+					Content = new SoundStepViewModel(step, Update);
 					break;
 
 				case ProcedureStepType.Arithmetics:
-					Content = new ArithmeticStepViewModel(step, procedure);
+					Content = new ArithmeticStepViewModel(step, procedure, Update);
 					break;
 
 				case ProcedureStepType.SendMessage:
@@ -33,9 +34,8 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			var content = Content as IStepViewModel;
-			if (content != null)
-				content.UpdateContent();
+			if (Content != null)
+				Content.UpdateContent();
 		}
 
 		void OnChanged()
@@ -49,12 +49,12 @@ namespace AutomationModule.ViewModels
 			Step = step;
 			OnPropertyChanged(() => Step);
 			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
 			Update();
 		}
 
 		public void Update()
 		{
+			OnPropertyChanged(() => Description);
 			OnPropertyChanged(() => HasChildren);
 		}
 
@@ -65,10 +65,15 @@ namespace AutomationModule.ViewModels
 
 		public string Description
 		{
-			get { return ""; }
+			get
+			{
+				if (Content != null)
+					return Content.Description;
+				return "";
+			}
 		}
 
-		public object Content { get; private set; }
+		public IStepViewModel Content { get; private set; }
 
 		public bool IsVirtual
 		{

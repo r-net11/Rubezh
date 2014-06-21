@@ -78,8 +78,10 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			if (SelectedStep != null)
-				SelectedStep.UpdateContent();
+			foreach (var step in AllSteps)
+			{
+				step.UpdateContent();
+			}
 		}
 
 		StepViewModel _selectedStep;

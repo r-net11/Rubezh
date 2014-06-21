@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
@@ -11,11 +12,20 @@ namespace AutomationModule.ViewModels
 	{
 		public SoundArguments SoundArguments { get; private set; }
 		public ObservableCollection<SoundLayoutViewModel> Layouts { get; private set; }
-
-		public SoundStepViewModel(ProcedureStep procedureStep)
+		public Action UpdateDescriptionHandler { get; set; }
+		public SoundStepViewModel(ProcedureStep procedureStep, Action updateDescriptionHandler)
 		{
+			UpdateDescriptionHandler = updateDescriptionHandler;
 			SoundArguments = procedureStep.SoundArguments;
 			UpdateContent();
+		}
+
+		public string Description
+		{
+			get
+			{
+				return SelectedSound == null ? "нет" : SelectedSound.Name;
+			}
 		}
 
 		public void UpdateContent()
@@ -54,6 +64,8 @@ namespace AutomationModule.ViewModels
 				_selectedSound = value;
 				if (value != null)
 					SoundArguments.SoundUid = value.Sound.Uid;
+				if (UpdateDescriptionHandler != null)
+					UpdateDescriptionHandler();
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedSound);
 			}

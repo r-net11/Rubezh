@@ -23,10 +23,10 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Controls:ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="/Controls;component/Images/Add.png" />
             <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="/Controls;component/Images/Delete.png" />
-            <Controls:ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="/Controls;component/Images/Settings.png" />
-            <Controls:ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="/Controls;component/Images/Settings.png" />
-            <Controls:ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/Settings.png" />
-            <Controls:ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/Settings.png" />
+            <Controls:ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="/Controls;component/Images/AddCondition.png" />
+            <Controls:ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="/Controls;component/Images/AddCycle.png" />
+            <Controls:ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/ArrowUp.png" />
+            <Controls:ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/ArrowDown.png" />
 
         </StackPanel>
         <tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedStep}" Source="{Binding RootSteps}" tree:SortBehavior.CanUserSortColumns="False">
