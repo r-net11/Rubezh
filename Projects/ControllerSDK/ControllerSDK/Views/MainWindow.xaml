@@ -31,33 +31,14 @@
             <TabItem Header="Журнал" DataContext="{Binding JournalViewModel}">
                 <Views:JournalView />
             </TabItem>
-            <TabItem Header="Общее">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <Button Content="Connect" Click="OnConnect" Width="300" Margin="2" />
-                        <Button Content="Disconnect" Click="OnDisconnect" Width="300" Margin="2" />
-                        <Button Content="GetDeviceSoftwareInfoCommand" Command="{Binding GetDeviceSoftwareInfoCommand}" Width="300" Margin="2" />
-                        <Button Content="GetDeviceNetInfoCommand" Command="{Binding GetDeviceNetInfoCommand}" Width="300" Margin="2" />
-                        <Button Content="SetIpMask" Click="OnSetIpMask" Width="300" Margin="2" />
-                        <Button Content="GetMac" Click="OnGetMac" Width="300" Margin="2" />
-                        <Button Content="GetMaxPageSize" Click="OnGetMaxPageSize" Width="300" Margin="2" />
-                        <Button Content="GetCurrentTime" Click="OnGetCurrentTime" Width="300" Margin="2" />
-                        <Button Content="SetCurrentTime" Click="OnSetCurrentTime" Width="300" Margin="2" />
-                        <Button Content="QueryLogList" Click="OnQueryLogList" Width="300" Margin="2" />
-                        <Button Content="GetAccessGeneral" Click="OnGetAccessGeneral" Width="300" Margin="2" />
-                        <Button Content="GetDevConfig_AccessControl" Click="OnGetDevConfig_AccessControl" Width="300" Margin="2" />
-                        <Button Content="SetDevConfig_AccessControl" Click="OnSetDevConfig_AccessControl" Width="300" Margin="2" />
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
-                        <Button Content="ReBoot" Click="OnReBoot" Width="300" Margin="2" />
-                        <Button Content="DeleteCfgFile" Click="OnDeleteCfgFile" Width="300" Margin="2" />
-                        <Button Content="GetLogsCount" Click="OnGetLogsCount" Width="300" Margin="2" />
-                    </StackPanel>
-                </Grid>
+            <TabItem Header="Общее" DataContext="{Binding CommonViewModel}">
+                <Views:CommonView />
+            </TabItem>
+            <TabItem Header="Соединение">
+                <StackPanel>
+                    <Button Content="Connect" Click="OnConnect" Width="300" Margin="2" />
+                    <Button Content="Disconnect" Click="OnDisconnect" Width="300" Margin="2" />
+                </StackPanel>
             </TabItem>
         </TabControl>
         <TextBox Grid.Row="1" Name="_textBox" TextWrapping="Wrap" />
