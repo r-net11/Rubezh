@@ -10,35 +10,38 @@
         <StackPanel Grid.Row="0">
             <StackPanel Orientation="Horizontal">
                 <Button Content="Add" Command="{Binding AddCommand}" Width="100" Margin="2" />
-                <Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
+                <Button Content="Edit" Command="{Binding EditCommand}" Width="100" Margin="2" />
                 <Button Content="Remove" Command="{Binding RemoveCommand}" Width="100" Margin="2" />
                 <Button Content="RemoveAll" Command="{Binding RemoveAllCommand}" Width="100" Margin="2" />
+                <Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
                 <Button Content="GetCount" Command="{Binding GetCountCommand}" Width="100" Margin="2" />
                 <Button Content="GetAll" Command="{Binding GetAllCommand}" Width="100" Margin="2" />
+                <TextBlock Text="Index" Margin="2" />
+                <TextBox Text="{Binding Index}" Width="100" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="CreationDateTime" Width="200" Margin="2" />
-                <DatePicker SelectedDate="{Binding CreationDateTime}" Width="100" Margin="2" />
+                <DatePicker SelectedDate="{Binding CreationDateTime}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="CardNo" Width="200" Margin="2" />
-                <TextBox Text="{Binding CardNo}" Width="100" Margin="2" />
+                <TextBox Text="{Binding CardNo}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Password" Width="200" Margin="2" />
-                <TextBox Text="{Binding Password}" Width="100" Margin="2" />
+                <TextBox Text="{Binding Password}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="DoorNo" Width="200" Margin="2" />
-                <TextBox Text="{Binding DoorNo}" Width="100" Margin="2" />
+                <TextBox Text="{Binding DoorNo}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="IsStatus" Width="200" Margin="2" />
-                <CheckBox IsChecked="{Binding IsStatus}" Width="100" Margin="2" />
+                <CheckBox IsChecked="{Binding IsStatus}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="DoorOpenMethod" Width="200" Margin="2" />
-                <ComboBox ItemsSource="{Binding AvailableDoorOpenMethods}" SelectedItem="{Binding DoorOpenMethod}" Width="100" Margin="2" />
+                <ComboBox ItemsSource="{Binding AvailableDoorOpenMethods}" SelectedItem="{Binding DoorOpenMethod}" Width="250" Margin="2" />
             </StackPanel>
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False">

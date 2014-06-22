@@ -16,9 +16,10 @@ namespace ControllerSDK.ViewModels
 		public CardsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
-			GetInfoCommand = new RelayCommand(OnGetInfo);
+			EditCommand = new RelayCommand(OnEdit);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
+			GetInfoCommand = new RelayCommand(OnGetInfo);
 			GetCountCommand = new RelayCommand(OnGetCount);
 			GetAllCommand = new RelayCommand(OnGetAll);
 			Cards = new ObservableCollection<CardViewModel>();
@@ -68,11 +69,20 @@ namespace ControllerSDK.ViewModels
 			MessageBox.Show("newCardNo = " + newCardNo);
 		}
 
-		public RelayCommand GetInfoCommand { get; private set; }
-		void OnGetInfo()
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
 		{
-			var result = MainViewModel.Wrapper.GetCardInfo(Index);
-			Initialize(new List<Card>() { result });
+			var card = new Card();
+			card.CardNo = CardNo;
+			card.Password = Password;
+			card.DoorsCount = DoorsCount;
+			card.TimeSectionsCount = TimeSectionsCount;
+			card.UserTime = UserTime;
+			card.ValidStartDateTime = ValidStartTime;
+			card.ValidEndDateTime = ValidEndTime;
+			card.CardType = CardType;
+			var result = MainViewModel.Wrapper.EditCard(card);
+			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -90,6 +100,13 @@ namespace ControllerSDK.ViewModels
 		{
 			var result = MainViewModel.Wrapper.RemoveAllCards();
 			MessageBox.Show("result = " + result);
+		}
+
+		public RelayCommand GetInfoCommand { get; private set; }
+		void OnGetInfo()
+		{
+			var result = MainViewModel.Wrapper.GetCardInfo(Index);
+			Initialize(new List<Card>() { result });
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }

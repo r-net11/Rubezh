@@ -28,6 +28,26 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		public bool EditCardRec(CardRec cardRec)
+		{
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC();
+			stuCardRec.szCardNo = StringToCharArray(cardRec.CardNo, 32);
+			stuCardRec.szPwd = StringToCharArray(cardRec.Password, 64);
+
+			stuCardRec.stuTime.dwYear = cardRec.DateTime.Year;
+			stuCardRec.stuTime.dwMonth = cardRec.DateTime.Month;
+			stuCardRec.stuTime.dwDay = cardRec.DateTime.Day;
+			stuCardRec.stuTime.dwHour = cardRec.DateTime.Hour;
+			stuCardRec.stuTime.dwMinute = cardRec.DateTime.Minute;
+			stuCardRec.stuTime.dwSecond = cardRec.DateTime.Second;
+
+			stuCardRec.bStatus = cardRec.IsStatus;
+			stuCardRec.emMethod = (ChinaSKDDriverNativeApi.NativeWrapper.NET_ACCESS_DOOROPEN_METHOD)cardRec.DoorOpenMethod;
+			stuCardRec.nDoor = cardRec.DoorNo;
+			var result = NativeWrapper.WRAP_Update_CardRec(LoginID, ref stuCardRec);
+			return result;
+		}
+
 		public CardRec GetCardRecInfo(int recordNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC));

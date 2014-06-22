@@ -16,9 +16,10 @@ namespace ControllerSDK.ViewModels
 		public CardRecsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
-			GetInfoCommand = new RelayCommand(OnGetInfo);
+			EditCommand = new RelayCommand(OnEdit);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
+			GetInfoCommand = new RelayCommand(OnGetInfo);
 			GetCountCommand = new RelayCommand(OnGetCount);
 			GetAllCommand = new RelayCommand(OnGetAll);
 			Cards = new ObservableCollection<CardRecViewModel>();
@@ -63,10 +64,18 @@ namespace ControllerSDK.ViewModels
 			MessageBox.Show("newCardNo = " + newCardNo);
 		}
 
-		public RelayCommand GetInfoCommand { get; private set; }
-		void OnGetInfo()
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
 		{
-			var result = MainViewModel.Wrapper.GetCardInfo(2);
+			var cardRec = new CardRec();
+			cardRec.DateTime = CreationDateTime;
+			cardRec.CardNo = CardNo;
+			cardRec.Password = Password;
+			cardRec.DoorNo = DoorNo;
+			cardRec.IsStatus = IsStatus;
+			cardRec.DoorOpenMethod = DoorOpenMethod;
+			var result = MainViewModel.Wrapper.EditCardRec(cardRec);
+			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -84,6 +93,12 @@ namespace ControllerSDK.ViewModels
 		{
 			var result = MainViewModel.Wrapper.RemoveAllCardRecs();
 			MessageBox.Show("result = " + result);
+		}
+
+		public RelayCommand GetInfoCommand { get; private set; }
+		void OnGetInfo()
+		{
+			var result = MainViewModel.Wrapper.GetCardInfo(2);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
@@ -184,6 +199,17 @@ namespace ControllerSDK.ViewModels
 			{
 				_doorOpenMethod = value;
 				OnPropertyChanged(() => DoorOpenMethod);
+			}
+		}
+
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged("Index");
 			}
 		}
 	}

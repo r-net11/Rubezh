@@ -14,7 +14,6 @@ namespace ChinaSKDDriver
 			stuCard.bIsValid = true;
 			stuCard.emStatus = NativeWrapper.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL;
 			stuCard.emType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)card.CardType;
-			stuCard.nTimeSectionNum = card.TimeSectionsCount;
 			stuCard.nUserTime = card.UserTime;
 
 			stuCard.stuCreateTime.dwYear = DateTime.Now.Year;
@@ -51,6 +50,51 @@ namespace ChinaSKDDriver
 			stuCard.szUserID = Wrapper.StringToCharArray("1", 32);
 
 			var result = NativeWrapper.WRAP_Insert_Card(LoginID, ref stuCard);
+			return result;
+		}
+
+		public bool EditCard(Card card)
+		{
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
+			stuCard.bIsValid = true;
+			stuCard.emStatus = NativeWrapper.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL;
+			stuCard.emType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)card.CardType;
+			stuCard.nUserTime = card.UserTime;
+
+			stuCard.stuCreateTime.dwYear = DateTime.Now.Year;
+			stuCard.stuCreateTime.dwMonth = DateTime.Now.Month;
+			stuCard.stuCreateTime.dwDay = DateTime.Now.Day;
+			stuCard.stuCreateTime.dwHour = DateTime.Now.Hour;
+			stuCard.stuCreateTime.dwMinute = DateTime.Now.Minute;
+			stuCard.stuCreateTime.dwSecond = DateTime.Now.Second;
+
+			stuCard.stuValidStartTime.dwYear = card.ValidStartDateTime.Year;
+			stuCard.stuValidStartTime.dwMonth = card.ValidStartDateTime.Month;
+			stuCard.stuValidStartTime.dwDay = card.ValidStartDateTime.Day;
+			stuCard.stuValidStartTime.dwHour = 0;
+			stuCard.stuValidStartTime.dwMinute = 0;
+			stuCard.stuValidStartTime.dwSecond = 0;
+
+			stuCard.stuValidEndTime.dwYear = card.ValidEndDateTime.Year;
+			stuCard.stuValidEndTime.dwMonth = card.ValidEndDateTime.Month;
+			stuCard.stuValidEndTime.dwDay = card.ValidEndDateTime.Day;
+			stuCard.stuValidEndTime.dwHour = 0;
+			stuCard.stuValidEndTime.dwMinute = 0;
+			stuCard.stuValidEndTime.dwSecond = 0;
+
+			stuCard.szCardNo = StringToCharArray(card.CardNo, 32);
+			stuCard.nDoorNum = card.DoorsCount;
+			stuCard.sznDoors = new int[32];
+			stuCard.sznDoors[0] = 1;
+			stuCard.sznDoors[1] = 2;
+			stuCard.nTimeSectionNum = card.TimeSectionsCount;
+			stuCard.sznTimeSectionNo = new int[32];
+			stuCard.sznTimeSectionNo[0] = 1;
+			stuCard.sznTimeSectionNo[1] = 2;
+			stuCard.szPsw = Wrapper.StringToCharArray(card.Password, 64);
+			stuCard.szUserID = Wrapper.StringToCharArray("1", 32);
+
+			var result = NativeWrapper.WRAP_Update_Card(LoginID, ref stuCard);
 			return result;
 		}
 

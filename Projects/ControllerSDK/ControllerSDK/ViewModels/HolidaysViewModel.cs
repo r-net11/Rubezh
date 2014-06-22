@@ -16,9 +16,9 @@ namespace ControllerSDK.ViewModels
 		public HolidaysViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
-			GetInfoCommand = new RelayCommand(OnGetInfo);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
+			GetInfoCommand = new RelayCommand(OnGetInfo);
 			GetCountCommand = new RelayCommand(OnGetCount);
 			GetAllCommand = new RelayCommand(OnGetAll);
 			Holidays = new ObservableCollection<HolidayViewModel>();
@@ -51,12 +51,6 @@ namespace ControllerSDK.ViewModels
 			MessageBox.Show("newHolidayNo = " + newHolidayNo);
 		}
 
-		public RelayCommand GetInfoCommand { get; private set; }
-		void OnGetInfo()
-		{
-			var result = MainViewModel.Wrapper.GetHolidayInfo(0);
-		}
-
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
@@ -72,6 +66,12 @@ namespace ControllerSDK.ViewModels
 		{
 			var result = MainViewModel.Wrapper.RemoveAllHolidays();
 			MessageBox.Show("result = " + result);
+		}
+
+		public RelayCommand GetInfoCommand { get; private set; }
+		void OnGetInfo()
+		{
+			var result = MainViewModel.Wrapper.GetHolidayInfo(0);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }

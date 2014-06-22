@@ -10,9 +10,10 @@
         <StackPanel Grid.Row="0">
             <StackPanel Orientation="Horizontal">
                 <Button Content="Add" Command="{Binding AddCommand}" Width="100" Margin="2" />
-                <Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
+                <Button Content="Edit" Command="{Binding EditCommand}" Width="100" Margin="2" />
                 <Button Content="Remove" Command="{Binding RemoveCommand}" Width="100" Margin="2" />
                 <Button Content="RemoveAll" Command="{Binding RemoveAllCommand}" Width="100" Margin="2" />
+                <Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
                 <Button Content="GetCount" Command="{Binding GetCountCommand}" Width="100" Margin="2" />
                 <Button Content="GetAll" Command="{Binding GetAllCommand}" Width="100" Margin="2" />
                 <TextBlock Text="Index" Margin="2" />
@@ -20,35 +21,35 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="CardNo" Width="200" Margin="2" />
-                <TextBox Text="{Binding CardNo}" Width="100" Margin="2" />
+                <TextBox Text="{Binding CardNo}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Password" Width="200" Margin="2" />
-                <TextBox Text="{Binding Password}" Width="100" Margin="2" />
+                <TextBox Text="{Binding Password}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="DoorsCount" Width="200" Margin="2" />
-                <TextBox Text="{Binding DoorsCount}" Width="100" Margin="2" />
+                <TextBox Text="{Binding DoorsCount}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="TimeSectionsCount" Width="200" Margin="2" />
-                <TextBox Text="{Binding TimeSectionsCount}" Width="100" Margin="2" />
+                <TextBox Text="{Binding TimeSectionsCount}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="UserTime" Width="200" Margin="2" />
-                <TextBox Text="{Binding UserTime}" Width="100" Margin="2" />
+                <TextBox Text="{Binding UserTime}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="ValidStartTime" Width="200" Margin="2" />
-                <DatePicker SelectedDate="{Binding ValidStartTime}" Width="100" Margin="2" />
+                <DatePicker SelectedDate="{Binding ValidStartTime}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="ValidEndTime" Width="200" Margin="2" />
-                <DatePicker SelectedDate="{Binding ValidEndTime}" Width="100" Margin="2" />
+                <DatePicker SelectedDate="{Binding ValidEndTime}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="CardType" Width="200" Margin="2" />
-                <ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="100" Margin="2" />
+                <ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="200" Margin="2" />
             </StackPanel>
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False">
