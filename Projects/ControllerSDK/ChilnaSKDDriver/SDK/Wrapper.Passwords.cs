@@ -29,6 +29,18 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		public bool RemovePassword(int index)
+		{
+			var result = NativeWrapper.WRAP_RemovePassword(LoginID, index);
+			return result;
+		}
+
+		public bool RemoveAllPasswords()
+		{
+			var result = NativeWrapper.WRAP_RemoveAllPasswords(LoginID);
+			return result;
+		}
+
 		public Password GetPasswordInfo(int recordNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD));
@@ -50,6 +62,12 @@ namespace ChinaSKDDriver
 			password.Doors = sdkPassword.sznDoors;
 
 			return password;
+		}
+
+		public int GetPasswordsCount()
+		{
+			var passwordsCount = NativeWrapper.WRAP_Get_PasswordsCount(LoginID);
+			return passwordsCount;
 		}
 
 		public List<Password> GetAllPasswords()

@@ -45,6 +45,7 @@
     <Compile Include="API\DeviceJournalItem.cs" />
     <Compile Include="API\DeviceNetInfo.cs" />
     <Compile Include="API\DeviceSoftwareInfo.cs" />
+    <Compile Include="API\DoorConfiguration.cs" />
     <Compile Include="API\Holiday.cs" />
     <Compile Include="API\Password.cs" />
     <Compile Include="API\SKDJournalItem.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="SDK\Wrapper.Common.cs" />
     <Compile Include="SDK\Wrapper.TimeShedules.cs" />
     <Compile Include="SDK\Wrapper.Watcher.cs" />
+    <Compile Include="SDK\Wrapper.Control.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

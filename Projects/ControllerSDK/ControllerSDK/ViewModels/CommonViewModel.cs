@@ -40,7 +40,7 @@ namespace ControllerSDK.ViewModels
 			{
 				var text = "SoftwareBuildDate = " + deviceSoftwareInfo.SoftwareBuildDate.ToString() + "\n";
 				text += "DeviceType = " + deviceSoftwareInfo.DeviceType + "\n";
-				text += "SoftwareBuildDate = " + deviceSoftwareInfo.SoftwareBuildDate + "\n";
+				text += "SoftwareVersion = " + deviceSoftwareInfo.SoftwareVersion + "\n";
 				MessageBox.Show(text);
 			}
 			else
@@ -171,70 +171,38 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
-			NativeWrapper.CFG_ACCESS_EVENT_INFO outResult;
-			var result = NativeWrapper.WRAP_GetDoorConfiguration(MainViewModel.Wrapper.LoginID, 0, out outResult);
-			if (result)
+			var result = MainViewModel.Wrapper.GetDoorConfiguration();
+			if (result != null)
 			{
-				var controllerConfig = new ControllerConfig();
-
 				var text = "";
-				text += "abBreakInAlarmEnable = " + outResult.abBreakInAlarmEnable.ToString() + "\n";
-				text += "szChannelName = " + Wrapper.CharArrayToString(outResult.szChannelName) + "\n";
-				text += "emState = " + outResult.emState.ToString() + "\n";
-				text += "emMode = " + outResult.emMode.ToString() + "\n";
-				text += "nEnableMode = " + outResult.nEnableMode.ToString() + "\n";
-				text += "bSnapshotEnable = " + outResult.bSnapshotEnable.ToString() + "\n";
-				text += "abDoorOpenMethod = " + outResult.abDoorOpenMethod.ToString() + "\n";
-				text += "abUnlockHoldInterval = " + outResult.abUnlockHoldInterval.ToString() + "\n";
-				text += "abCloseTimeout = " + outResult.abCloseTimeout.ToString() + "\n";
-				text += "abOpenAlwaysTimeIndex = " + outResult.abOpenAlwaysTimeIndex.ToString() + "\n";
-				text += "abHolidayTimeIndex = " + outResult.abHolidayTimeIndex.ToString() + "\n";
-				text += "abBreakInAlarmEnable = " + outResult.abBreakInAlarmEnable.ToString() + "\n";
-				text += "abRepeatEnterAlarmEnable = " + outResult.abRepeatEnterAlarmEnable.ToString() + "\n";
-				text += "abDoorNotClosedAlarmEnable = " + outResult.abDoorNotClosedAlarmEnable.ToString() + "\n";
-				text += "abDuressAlarmEnable = " + outResult.abDuressAlarmEnable.ToString() + "\n";
-				text += "abDoorTimeSection = " + outResult.abDoorTimeSection.ToString() + "\n";
-				text += "abSensorEnable = " + outResult.abSensorEnable.ToString() + "\n";
-				text += "byReserved = " + outResult.byReserved.ToString() + "\n";
-				text += "emDoorOpenMethod = " + outResult.emDoorOpenMethod.ToString() + "\n";
-				text += "nUnlockHoldInterval = " + outResult.nUnlockHoldInterval.ToString() + "\n";
-				text += "nCloseTimeout = " + outResult.nCloseTimeout.ToString() + "\n";
-				text += "nOpenAlwaysTimeIndex = " + outResult.nOpenAlwaysTimeIndex.ToString() + "\n";
-				text += "nHolidayTimeRecoNo = " + outResult.nHolidayTimeRecoNo.ToString() + "\n";
-				text += "bBreakInAlarmEnable = " + outResult.bBreakInAlarmEnable.ToString() + "\n";
-				text += "bRepeatEnterAlarm = " + outResult.bRepeatEnterAlarm.ToString() + "\n";
-				text += "bDoorNotClosedAlarmEnable = " + outResult.bDoorNotClosedAlarmEnable.ToString() + "\n";
-				text += "bDuressAlarmEnable = " + outResult.bDuressAlarmEnable.ToString() + "\n";
-				text += "bSensorEnable = " + outResult.bSensorEnable.ToString() + "\n";
+				text += "ChannelName = " + result.ChannelName.ToString() + "\n";
+				text += "AceessState = " + result.AceessState.ToString() + "\n";
+				text += "AceessMode = " + result.AceessMode.ToString() + "\n";
+				text += "EnableMode = " + result.EnableMode.ToString() + "\n";
+				text += "IsSnapshotEnable = " + result.IsSnapshotEnable.ToString() + "\n";
+				text += "IsDoorOpenMethod = " + result.IsDoorOpenMethod.ToString() + "\n";
+				text += "IsUnlockHoldInterval = " + result.IsUnlockHoldInterval.ToString() + "\n";
+				text += "IsCloseTimeout = " + result.IsCloseTimeout.ToString() + "\n";
+				text += "IsOpenAlwaysTimeIndex = " + result.IsOpenAlwaysTimeIndex.ToString() + "\n";
+				text += "IsHolidayTimeIndex = " + result.IsHolidayTimeIndex.ToString() + "\n";
+				text += "IsBreakInAlarmEnable = " + result.IsBreakInAlarmEnable.ToString() + "\n";
+				text += "IsRepeatEnterAlarmEnable = " + result.IsRepeatEnterAlarmEnable.ToString() + "\n";
+				text += "IsDoorNotClosedAlarmEnable = " + result.IsDoorNotClosedAlarmEnable.ToString() + "\n";
+				text += "IsDuressAlarmEnable = " + result.IsDuressAlarmEnable.ToString() + "\n";
+				text += "IsDoorTimeSection = " + result.IsDoorTimeSection.ToString() + "\n";
+				text += "IsSensorEnable = " + result.IsSensorEnable.ToString() + "\n";
+				text += "DoorOpenMethod = " + result.DoorOpenMethod.ToString() + "\n";
+				text += "UnlockHoldInterval = " + result.UnlockHoldInterval.ToString() + "\n";
+				text += "CloseTimeout = " + result.CloseTimeout.ToString() + "\n";
+				text += "OpenAlwaysTimeIndex = " + result.OpenAlwaysTimeIndex.ToString() + "\n";
+				text += "HolidayTimeRecoNo = " + result.HolidayTimeRecoNo.ToString() + "\n";
+				text += "IsBreakInAlarmEnable2 = " + result.IsBreakInAlarmEnable2.ToString() + "\n";
+				text += "IsRepeatEnterAlarmEnable2 = " + result.IsRepeatEnterAlarmEnable2.ToString() + "\n";
+				text += "IsDoorNotClosedAlarmEnable2 = " + result.IsDoorNotClosedAlarmEnable2.ToString() + "\n";
+				text += "IsDuressAlarmEnable2 = " + result.IsDuressAlarmEnable2.ToString() + "\n";
+				text += "IsSensorEnable2 = " + result.IsSensorEnable2.ToString() + "\n";
 
-
-				var timeSheduleIntervals = new List<TimeSheduleInterval>();
-				for (int i = 0; i < outResult.stuDoorTimeSection.Count(); i++)
-				{
-					var cfg_DOOROPEN_TIMESECTION_INFO = outResult.stuDoorTimeSection[i];
-					var timeSheduleInterval = new TimeSheduleInterval();
-					timeSheduleInterval.BeginHours = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwHour;
-					timeSheduleInterval.BeginMinutes = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwMinute;
-					timeSheduleInterval.BeginSeconds = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwSecond;
-					timeSheduleInterval.EndHours = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwHour;
-					timeSheduleInterval.EndMinutes = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwMinute;
-					timeSheduleInterval.EndSeconds = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwSecond;
-					timeSheduleIntervals.Add(timeSheduleInterval);
-				}
-
-				var timeShedules = new List<TimeShedule>();
-				for (int i = 0; i < 7; i++)
-				{
-					var timeShedule = new TimeShedule();
-					for (int j = 0; j < 4; j++)
-					{
-						var timeSheduleInterval = timeSheduleIntervals[i * 4 + j];
-						timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
-					}
-					timeShedules.Add(timeShedule);
-				}
-
-				foreach (var timeShedule in timeShedules)
+				foreach (var timeShedule in result.TimeShedules)
 				{
 					foreach (var timeSheduleInterval in timeShedule.TimeSheduleIntervals)
 					{
@@ -255,19 +223,9 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand SetDoorConfigurationCommand { get; private set; }
 		void OnSetDoorConfiguration()
 		{
-			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
-			info.stuDoorTimeSection = new NativeWrapper.CFG_DOOROPEN_TIMESECTION_INFO[7 * 4];
-			for (int i = 0; i < info.stuDoorTimeSection.Count(); i++)
-			{
-				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwHour = 1;
-				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwMinute = i;
-				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwSecond = i;
-
-				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwHour = 2;
-				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = i * 2;
-				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = i * 2;
-			}
-			var result = NativeWrapper.WRAP_SetDoorConfiguration(MainViewModel.Wrapper.LoginID, 0, ref info);
+			var doorConfiguration = new DoorConfiguration();
+			doorConfiguration.ChannelName = "0";
+			var result = MainViewModel.Wrapper.SetDoorConfiguration(doorConfiguration);
 			if (result)
 			{
 				MessageBox.Show("Success");

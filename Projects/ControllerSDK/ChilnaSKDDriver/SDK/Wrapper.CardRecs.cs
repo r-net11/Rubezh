@@ -22,7 +22,7 @@ namespace ChinaSKDDriver
 			stuCardRec.stuTime.dwSecond = cardRec.DateTime.Second;
 
 			stuCardRec.bStatus = cardRec.IsStatus;
-			stuCardRec.emMethod = cardRec.DoorOpenMethod;
+			stuCardRec.emMethod = (ChinaSKDDriverNativeApi.NativeWrapper.NET_ACCESS_DOOROPEN_METHOD)cardRec.DoorOpenMethod;
 			stuCardRec.nDoor = cardRec.DoorNo;
 			var result = NativeWrapper.WRAP_Insert_CardRec(LoginID, ref stuCardRec);
 			return result;
@@ -45,10 +45,28 @@ namespace ChinaSKDDriver
 			cardRec.Password = CharArrayToString(sdkCardRec.szPwd);
 			cardRec.DateTime = NET_TIMEToDateTime(sdkCardRec.stuTime);
 			cardRec.IsStatus = sdkCardRec.bStatus;
-			cardRec.DoorOpenMethod = sdkCardRec.emMethod;
+			cardRec.DoorOpenMethod = (CardRecDoorOpenMethod)sdkCardRec.emMethod;
 			cardRec.DoorNo = sdkCardRec.nDoor;
 
 			return cardRec;
+		}
+
+		public bool RemoveCardRec(int index)
+		{
+			var result = NativeWrapper.WRAP_RemoveCardRec(LoginID, index);
+			return result;
+		}
+
+		public bool RemoveAllCardRecs()
+		{
+			var result = NativeWrapper.WRAP_RemoveAllCardRecs(LoginID);
+			return result;
+		}
+
+		public int GetCardRecsCount()
+		{
+			var cardsCount = NativeWrapper.WRAP_Get_CardRecordsCount(LoginID);
+			return cardsCount;
 		}
 
 		public List<CardRec> GetAllCardRecs()
@@ -74,7 +92,7 @@ namespace ChinaSKDDriver
 				card.Password = CharArrayToString(sdkCard.szPwd);
 				card.DoorNo = sdkCard.nDoor;
 				card.IsStatus = sdkCard.bStatus;
-				card.DoorOpenMethod = sdkCard.emMethod;
+				card.DoorOpenMethod = (CardRecDoorOpenMethod)sdkCard.emMethod;
 				cardRecs.Add(card);
 			}
 			return cardRecs;

@@ -34,6 +34,18 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		public bool RemoveHoliday(int index)
+		{
+			var result = NativeWrapper.WRAP_RemoveHoliday(LoginID, index);
+			return result;
+		}
+
+		public bool RemoveAllHolidays()
+		{
+			var result = NativeWrapper.WRAP_RemoveAllHolidays(LoginID);
+			return result;
+		}
+
 		public Holiday GetHolidayInfo(int recordNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_HOLIDAY));
@@ -53,6 +65,12 @@ namespace ChinaSKDDriver
 			holiday.IsEnabled = sdkHoliday.bEnable;
 
 			return holiday;
+		}
+
+		public int GetHolidaysCount()
+		{
+			var holidaysCount = NativeWrapper.WRAP_Get_HolidaysCount(LoginID);
+			return holidaysCount;
 		}
 
 		public List<Holiday> GetAllHolidays()

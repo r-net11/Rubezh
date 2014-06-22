@@ -18,22 +18,22 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand OpenDoorCommand { get; private set; }
 		void OnOpenDoor()
 		{
-			var result = NativeWrapper.WRAP_DevCtrl_OpenDoor(MainViewModel.Wrapper.LoginID);
+			var result = MainViewModel.Wrapper.OpenDoor(Index);
 			MessageBox.Show(result.ToString());
 		}
 
 		public RelayCommand CloseDoorCommand { get; private set; }
 		void OnCloseDoor()
 		{
-			var result = NativeWrapper.WRAP_DevCtrl_CloseDoor(MainViewModel.Wrapper.LoginID);
+			var result = MainViewModel.Wrapper.CloseDoor(Index);
 			MessageBox.Show(result.ToString());
 		}
 
 		public RelayCommand GetDoorStatusCommand { get; private set; }
 		void OnGetDoorStatus()
 		{
-			var result = NativeWrapper.WRAP_DevState_DoorStatus(MainViewModel.Wrapper.LoginID);
-			switch(result)
+			var result = MainViewModel.Wrapper.GetDoorStatus(Index);
+			switch (result)
 			{
 				case -1:
 					MessageBox.Show("Error");
@@ -50,6 +50,17 @@ namespace ControllerSDK.ViewModels
 				case 2:
 					MessageBox.Show("Closed");
 					break;
+			}
+		}
+
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged(() => Index);
 			}
 		}
 	}

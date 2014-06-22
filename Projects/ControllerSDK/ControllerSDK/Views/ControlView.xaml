@@ -6,6 +6,8 @@
             <Button Content="OpenDoor" Command="{Binding OpenDoorCommand}" Width="100" Margin="2" />
             <Button Content="CloseDoor" Command="{Binding CloseDoorCommand}" Width="100" Margin="2" />
             <Button Content="GetDoorStatus" Command="{Binding GetDoorStatusCommand}" Width="100" Margin="2" />
+            <TextBlock Text="Index" Margin="2" />
+            <TextBox Text="{Binding Index}" Width="100" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

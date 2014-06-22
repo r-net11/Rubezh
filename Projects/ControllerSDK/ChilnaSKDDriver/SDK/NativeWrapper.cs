@@ -333,13 +333,13 @@ namespace ChinaSKDDriverNativeApi
 		public static extern int WRAP_DevCtrl_GetLogCount(int lLoginID, ref QUERY_DEVICE_LOG_PARAM logParam);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_DevCtrl_OpenDoor(int lLoginID);
+		public static extern bool WRAP_OpenDoor(int lLoginID, int channelNo);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_DevCtrl_CloseDoor(int lLoginId);
+		public static extern bool WRAP_CloseDoor(int lLoginId, int channelNo);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_DevState_DoorStatus(int lLoginId);
+		public static extern int WRAP_GetDoorStatus(int lLoginId, int channelNo);
 		#endregion
 
 		#region Cards

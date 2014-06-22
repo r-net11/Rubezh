@@ -31,15 +31,15 @@ namespace ControllerSDK.ViewModels
 			ValidStartTime = DateTime.Now;
 			ValidEndTime = DateTime.Now;
 
-			AvailableCardTypes = new ObservableCollection<NativeWrapper.NET_ACCESSCTLCARD_TYPE>();
-			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_UNKNOWN);
-			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_GENERAL);
-			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_VIP);
-			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_GUEST);
-			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_PATROL);
-			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_BLACKLIST);
-			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_CORCE);
-			AvailableCardTypes.Add(NativeWrapper.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_MOTHERCARD);
+			AvailableCardTypes = new ObservableCollection<CardType>();
+			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_UNKNOWN);
+			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_GENERAL);
+			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_VIP);
+			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_GUEST);
+			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_PATROL);
+			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_BLACKLIST);
+			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_CORCE);
+			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_MOTHERCARD);
 		}
 
 		public void Initialize(List<Card> cards)
@@ -80,7 +80,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedCard != null)
 			{
-				var result = NativeWrapper.WRAP_RemoveCard(MainViewModel.Wrapper.LoginID, Index);
+				var result = MainViewModel.Wrapper.RemoveCard(Index);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -88,17 +88,14 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = NativeWrapper.WRAP_RemoveAllCards(MainViewModel.Wrapper.LoginID);
+			var result = MainViewModel.Wrapper.RemoveAllCards();
 			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION();
-			stuParam.szCardNo = Wrapper.StringToCharArray("1", 32);
-			stuParam.szUserID = Wrapper.StringToCharArray("1", 32);
-			var cardsCount = NativeWrapper.WRAP_Get_CardsCount(MainViewModel.Wrapper.LoginID, ref stuParam);
+			var cardsCount = MainViewModel.Wrapper.GetCardsCount();
 			MessageBox.Show("cardsCount = " + cardsCount);
 		}
 
@@ -150,10 +147,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public ObservableCollection<NativeWrapper.NET_ACCESSCTLCARD_TYPE> AvailableCardTypes { get; private set; }
+		public ObservableCollection<CardType> AvailableCardTypes { get; private set; }
 
-		NativeWrapper.NET_ACCESSCTLCARD_TYPE _cardType;
-		public NativeWrapper.NET_ACCESSCTLCARD_TYPE CardType
+		CardType _cardType;
+		public CardType CardType
 		{
 			get { return _cardType; }
 			set

@@ -29,14 +29,14 @@ namespace ControllerSDK.ViewModels
 			DoorNo = 1;
 			IsStatus = true;
 
-			AvailableDoorOpenMethods = new ObservableCollection<NativeWrapper.NET_ACCESS_DOOROPEN_METHOD>();
-			AvailableDoorOpenMethods.Add(NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_UNKNOWN);
-			AvailableDoorOpenMethods.Add(NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY);
-			AvailableDoorOpenMethods.Add(NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD);
-			AvailableDoorOpenMethods.Add(NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST);
-			AvailableDoorOpenMethods.Add(NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST);
-			AvailableDoorOpenMethods.Add(NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_REMOTE);
-			AvailableDoorOpenMethods.Add(NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_BUTTON);
+			AvailableDoorOpenMethods = new ObservableCollection<CardRecDoorOpenMethod>();
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_UNKNOWN);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_CARD);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_REMOTE);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_BUTTON);
 		}
 
 		public void Initialize(List<CardRec> cardRecs)
@@ -74,7 +74,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedCard != null)
 			{
-				var result = NativeWrapper.WRAP_RemoveCardRec(MainViewModel.Wrapper.LoginID, SelectedCard.CardRec.RecordNo);
+				var result = MainViewModel.Wrapper.RemoveCardRec(SelectedCard.CardRec.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -82,14 +82,14 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = NativeWrapper.WRAP_RemoveAllCardRecs(MainViewModel.Wrapper.LoginID);
+			var result = MainViewModel.Wrapper.RemoveAllCardRecs();
 			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var cardsCount = NativeWrapper.WRAP_Get_CardRecordsCount(MainViewModel.Wrapper.LoginID);
+			var cardsCount = MainViewModel.Wrapper.GetCardRecsCount();
 			MessageBox.Show("cardsRecCount = " + cardsCount);
 		}
 
@@ -174,10 +174,10 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public ObservableCollection<NativeWrapper.NET_ACCESS_DOOROPEN_METHOD> AvailableDoorOpenMethods { get; private set; }
+		public ObservableCollection<CardRecDoorOpenMethod> AvailableDoorOpenMethods { get; private set; }
 
-		NativeWrapper.NET_ACCESS_DOOROPEN_METHOD _doorOpenMethod;
-		public NativeWrapper.NET_ACCESS_DOOROPEN_METHOD DoorOpenMethod
+		CardRecDoorOpenMethod _doorOpenMethod;
+		public CardRecDoorOpenMethod DoorOpenMethod
 		{
 			get { return _doorOpenMethod; }
 			set

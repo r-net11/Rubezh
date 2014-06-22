@@ -180,6 +180,120 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		public DoorConfiguration GetDoorConfiguration()
+		{
+			NativeWrapper.CFG_ACCESS_EVENT_INFO outResult;
+			var result = NativeWrapper.WRAP_GetDoorConfiguration(LoginID, 0, out outResult);
+			if (result)
+			{
+				var doorConfiguration = new DoorConfiguration();
+				doorConfiguration.IsBreakInAlarmEnable = outResult.abBreakInAlarmEnable;
+				doorConfiguration.ChannelName = Wrapper.CharArrayToString(outResult.szChannelName);
+				doorConfiguration.AceessState = (AceessState)outResult.emState;
+				doorConfiguration.AceessMode = (AceessMode)outResult.emMode;
+				doorConfiguration.EnableMode = outResult.nEnableMode;
+				doorConfiguration.IsSnapshotEnable = outResult.bSnapshotEnable;
+				doorConfiguration.IsDoorOpenMethod = outResult.abDoorOpenMethod;
+				doorConfiguration.IsUnlockHoldInterval = outResult.abUnlockHoldInterval;
+				doorConfiguration.IsCloseTimeout = outResult.abCloseTimeout;
+				doorConfiguration.IsOpenAlwaysTimeIndex = outResult.abOpenAlwaysTimeIndex;
+				doorConfiguration.IsHolidayTimeIndex = outResult.abHolidayTimeIndex;
+				doorConfiguration.IsBreakInAlarmEnable = outResult.abBreakInAlarmEnable;
+				doorConfiguration.IsRepeatEnterAlarmEnable = outResult.abRepeatEnterAlarmEnable;
+				doorConfiguration.IsDoorNotClosedAlarmEnable = outResult.abDoorNotClosedAlarmEnable;
+				doorConfiguration.IsDuressAlarmEnable = outResult.abDuressAlarmEnable;
+				doorConfiguration.IsDoorTimeSection = outResult.abDoorTimeSection;
+				doorConfiguration.IsSensorEnable = outResult.abSensorEnable;
+				doorConfiguration.DoorOpenMethod = (DoorOpenMethod)outResult.emDoorOpenMethod;
+				doorConfiguration.UnlockHoldInterval = outResult.nUnlockHoldInterval;
+				doorConfiguration.CloseTimeout = outResult.nCloseTimeout;
+				doorConfiguration.OpenAlwaysTimeIndex = outResult.nOpenAlwaysTimeIndex;
+				doorConfiguration.HolidayTimeRecoNo = outResult.nHolidayTimeRecoNo;
+				doorConfiguration.IsBreakInAlarmEnable2 = outResult.bBreakInAlarmEnable;
+				doorConfiguration.IsRepeatEnterAlarmEnable2 = outResult.bRepeatEnterAlarm;
+				doorConfiguration.IsDoorNotClosedAlarmEnable2 = outResult.bDoorNotClosedAlarmEnable;
+				doorConfiguration.IsDuressAlarmEnable2 = outResult.bDuressAlarmEnable;
+				doorConfiguration.IsSensorEnable2 = outResult.bSensorEnable;
+
+
+				var timeSheduleIntervals = new List<TimeSheduleInterval>();
+				for (int i = 0; i < outResult.stuDoorTimeSection.Count(); i++)
+				{
+					var cfg_DOOROPEN_TIMESECTION_INFO = outResult.stuDoorTimeSection[i];
+					var timeSheduleInterval = new TimeSheduleInterval();
+					timeSheduleInterval.BeginHours = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwHour;
+					timeSheduleInterval.BeginMinutes = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwMinute;
+					timeSheduleInterval.BeginSeconds = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwSecond;
+					timeSheduleInterval.EndHours = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwHour;
+					timeSheduleInterval.EndMinutes = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwMinute;
+					timeSheduleInterval.EndSeconds = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwSecond;
+					timeSheduleIntervals.Add(timeSheduleInterval);
+				}
+
+				var timeShedules = new List<TimeShedule>();
+				for (int i = 0; i < 7; i++)
+				{
+					var timeShedule = new TimeShedule();
+					for (int j = 0; j < 4; j++)
+					{
+						var timeSheduleInterval = timeSheduleIntervals[i * 4 + j];
+						timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
+					}
+					timeShedules.Add(timeShedule);
+				}
+				doorConfiguration.TimeShedules = timeShedules;
+				return doorConfiguration;
+			}
+			return null;
+		}
+
+		public bool SetDoorConfiguration(DoorConfiguration doorConfiguration)
+		{
+			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
+
+			info.abBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
+			info.szChannelName = StringToCharArray(doorConfiguration.ChannelName, 128);
+			info.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AceessState;
+			info.emMode = (NativeWrapper.CFG_ACCESS_MODE)doorConfiguration.AceessMode;
+			info.nEnableMode = doorConfiguration.EnableMode;
+			info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable;
+			info.abDoorOpenMethod = doorConfiguration.IsDoorOpenMethod;
+			info.abUnlockHoldInterval = doorConfiguration.IsUnlockHoldInterval;
+			info.abCloseTimeout = doorConfiguration.IsCloseTimeout;
+			info.abOpenAlwaysTimeIndex = doorConfiguration.IsOpenAlwaysTimeIndex;
+			info.abHolidayTimeIndex = doorConfiguration.IsHolidayTimeIndex;
+			info.abBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
+			info.abRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
+			info.abDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
+			info.abDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
+			info.abDoorTimeSection = doorConfiguration.IsDoorTimeSection;
+			info.abSensorEnable = doorConfiguration.IsSensorEnable;
+			info.emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorOpenMethod;
+			info.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
+			info.nCloseTimeout = doorConfiguration.CloseTimeout;
+			info.nOpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+			info.nHolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
+			info.bBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable2;
+			info.bRepeatEnterAlarm = doorConfiguration.IsRepeatEnterAlarmEnable2;
+			info.bDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable2;
+			info.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable2;
+			info.bSensorEnable = doorConfiguration.IsSensorEnable2;
+
+			info.stuDoorTimeSection = new NativeWrapper.CFG_DOOROPEN_TIMESECTION_INFO[7 * 4];
+			for (int i = 0; i < info.stuDoorTimeSection.Count(); i++)
+			{
+				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwHour = 1;
+				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwMinute = i;
+				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwSecond = i;
+
+				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwHour = 2;
+				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = i * 2;
+				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = i * 2;
+			}
+			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, 0, ref info);
+			return result;
+		}
+
 		#endregion
 
 		#region Common

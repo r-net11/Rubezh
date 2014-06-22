@@ -13,7 +13,7 @@ namespace ChinaSKDDriver
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
 			stuCard.bIsValid = true;
 			stuCard.emStatus = NativeWrapper.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL;
-			stuCard.emType = card.CardType;
+			stuCard.emType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)card.CardType;
 			stuCard.nTimeSectionNum = card.TimeSectionsCount;
 			stuCard.nUserTime = card.UserTime;
 
@@ -54,6 +54,18 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		public bool RemoveCard(int index)
+		{
+			var result = NativeWrapper.WRAP_RemoveCard(LoginID, index);
+			return result;
+		}
+
+		public bool RemoveAllCards()
+		{
+			var result = NativeWrapper.WRAP_RemoveAllCards(LoginID);
+			return result;
+		}
+
 		public Card GetCardInfo(int recordNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD));
@@ -68,7 +80,7 @@ namespace ChinaSKDDriver
 			var card = new Card();
 			card.RecordNo = sdkCard.nRecNo;
 			card.CardNo = CharArrayToString(sdkCard.szCardNo);
-			card.CardType = sdkCard.emType;
+			card.CardType = (CardType)sdkCard.emType;
 			card.Password = CharArrayToString(sdkCard.szPsw);
 			card.DoorsCount = sdkCard.nDoorNum;
 			card.Doors = sdkCard.sznDoors;
@@ -79,6 +91,15 @@ namespace ChinaSKDDriver
 			card.ValidEndDateTime = NET_TIMEToDateTime(sdkCard.stuValidEndTime);
 
 			return card;
+		}
+
+		public int GetCardsCount()
+		{
+			NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION();
+			stuParam.szCardNo = Wrapper.StringToCharArray("1", 32);
+			stuParam.szUserID = Wrapper.StringToCharArray("1", 32);
+			var cardsCount = NativeWrapper.WRAP_Get_CardsCount(LoginID, ref stuParam);
+			return cardsCount;
 		}
 
 		public List<Card> GetAllCards()
@@ -100,7 +121,7 @@ namespace ChinaSKDDriver
 				var card = new Card();
 				card.RecordNo = sdkCard.nRecNo;
 				card.CardNo = CharArrayToString(sdkCard.szCardNo);
-				card.CardType = sdkCard.emType;
+				card.CardType = (CardType)sdkCard.emType;
 				card.Password = CharArrayToString(sdkCard.szPsw);
 				card.DoorsCount = sdkCard.nDoorNum;
 				card.Doors = sdkCard.sznDoors;
