@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using ChinaSKDDriverAPI;
@@ -10,91 +11,15 @@ namespace ChinaSKDDriver
 	{
 		public int AddCard(Card card)
 		{
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
-			stuCard.bIsValid = true;
-			stuCard.emStatus = NativeWrapper.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL;
-			stuCard.emType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)card.CardType;
-			stuCard.nUserTime = card.UserTime;
-
-			stuCard.stuCreateTime.dwYear = DateTime.Now.Year;
-			stuCard.stuCreateTime.dwMonth = DateTime.Now.Month;
-			stuCard.stuCreateTime.dwDay = DateTime.Now.Day;
-			stuCard.stuCreateTime.dwHour = DateTime.Now.Hour;
-			stuCard.stuCreateTime.dwMinute = DateTime.Now.Minute;
-			stuCard.stuCreateTime.dwSecond = DateTime.Now.Second;
-
-			stuCard.stuValidStartTime.dwYear = card.ValidStartDateTime.Year;
-			stuCard.stuValidStartTime.dwMonth = card.ValidStartDateTime.Month;
-			stuCard.stuValidStartTime.dwDay = card.ValidStartDateTime.Day;
-			stuCard.stuValidStartTime.dwHour = 0;
-			stuCard.stuValidStartTime.dwMinute = 0;
-			stuCard.stuValidStartTime.dwSecond = 0;
-
-			stuCard.stuValidEndTime.dwYear = card.ValidEndDateTime.Year;
-			stuCard.stuValidEndTime.dwMonth = card.ValidEndDateTime.Month;
-			stuCard.stuValidEndTime.dwDay = card.ValidEndDateTime.Day;
-			stuCard.stuValidEndTime.dwHour = 0;
-			stuCard.stuValidEndTime.dwMinute = 0;
-			stuCard.stuValidEndTime.dwSecond = 0;
-
-			stuCard.szCardNo = StringToCharArray(card.CardNo, 32);
-			stuCard.nDoorNum = card.DoorsCount;
-			stuCard.sznDoors = new int[32];
-			stuCard.sznDoors[0] = 1;
-			stuCard.sznDoors[1] = 2;
-			stuCard.nTimeSectionNum = card.TimeSectionsCount;
-			stuCard.sznTimeSectionNo = new int[32];
-			stuCard.sznTimeSectionNo[0] = 1;
-			stuCard.sznTimeSectionNo[1] = 2;
-			stuCard.szPsw = Wrapper.StringToCharArray(card.Password, 64);
-			stuCard.szUserID = Wrapper.StringToCharArray("1", 32);
-
-			var result = NativeWrapper.WRAP_Insert_Card(LoginID, ref stuCard);
+			var nativeCard = CardToNativeCard(card);
+			var result = NativeWrapper.WRAP_Insert_Card(LoginID, ref nativeCard);
 			return result;
 		}
 
 		public bool EditCard(Card card)
 		{
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD stuCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
-			stuCard.bIsValid = true;
-			stuCard.emStatus = NativeWrapper.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL;
-			stuCard.emType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)card.CardType;
-			stuCard.nUserTime = card.UserTime;
-
-			stuCard.stuCreateTime.dwYear = DateTime.Now.Year;
-			stuCard.stuCreateTime.dwMonth = DateTime.Now.Month;
-			stuCard.stuCreateTime.dwDay = DateTime.Now.Day;
-			stuCard.stuCreateTime.dwHour = DateTime.Now.Hour;
-			stuCard.stuCreateTime.dwMinute = DateTime.Now.Minute;
-			stuCard.stuCreateTime.dwSecond = DateTime.Now.Second;
-
-			stuCard.stuValidStartTime.dwYear = card.ValidStartDateTime.Year;
-			stuCard.stuValidStartTime.dwMonth = card.ValidStartDateTime.Month;
-			stuCard.stuValidStartTime.dwDay = card.ValidStartDateTime.Day;
-			stuCard.stuValidStartTime.dwHour = 0;
-			stuCard.stuValidStartTime.dwMinute = 0;
-			stuCard.stuValidStartTime.dwSecond = 0;
-
-			stuCard.stuValidEndTime.dwYear = card.ValidEndDateTime.Year;
-			stuCard.stuValidEndTime.dwMonth = card.ValidEndDateTime.Month;
-			stuCard.stuValidEndTime.dwDay = card.ValidEndDateTime.Day;
-			stuCard.stuValidEndTime.dwHour = 0;
-			stuCard.stuValidEndTime.dwMinute = 0;
-			stuCard.stuValidEndTime.dwSecond = 0;
-
-			stuCard.szCardNo = StringToCharArray(card.CardNo, 32);
-			stuCard.nDoorNum = card.DoorsCount;
-			stuCard.sznDoors = new int[32];
-			stuCard.sznDoors[0] = 1;
-			stuCard.sznDoors[1] = 2;
-			stuCard.nTimeSectionNum = card.TimeSectionsCount;
-			stuCard.sznTimeSectionNo = new int[32];
-			stuCard.sznTimeSectionNo[0] = 1;
-			stuCard.sznTimeSectionNo[1] = 2;
-			stuCard.szPsw = Wrapper.StringToCharArray(card.Password, 64);
-			stuCard.szUserID = Wrapper.StringToCharArray("1", 32);
-
-			var result = NativeWrapper.WRAP_Update_Card(LoginID, ref stuCard);
+			var nativeCard = CardToNativeCard(card);
+			var result = NativeWrapper.WRAP_Update_Card(LoginID, ref nativeCard);
 			return result;
 		}
 
@@ -117,23 +42,11 @@ namespace ChinaSKDDriver
 
 			var result = NativeWrapper.WRAP_GetCardInfo(LoginID, recordNo, intPtr);
 
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD sdkCard = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)));
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)));
 			Marshal.FreeCoTaskMem(intPtr);
 			intPtr = IntPtr.Zero;
 
-			var card = new Card();
-			card.RecordNo = sdkCard.nRecNo;
-			card.CardNo = CharArrayToString(sdkCard.szCardNo);
-			card.CardType = (CardType)sdkCard.emType;
-			card.Password = CharArrayToString(sdkCard.szPsw);
-			card.DoorsCount = sdkCard.nDoorNum;
-			card.Doors = sdkCard.sznDoors;
-			card.TimeSectionsCount = sdkCard.nTimeSectionNum;
-			card.TimeSections = sdkCard.sznTimeSectionNo;
-			card.UserTime = sdkCard.nUserTime;
-			card.ValidStartDateTime = NET_TIMEToDateTime(sdkCard.stuValidStartTime);
-			card.ValidEndDateTime = NET_TIMEToDateTime(sdkCard.stuValidEndTime);
-
+			var card = NativeCardToCard(nativeCard);
 			return card;
 		}
 
@@ -158,25 +71,80 @@ namespace ChinaSKDDriver
 			intPtr = IntPtr.Zero;
 
 			var cards = new List<Card>();
-
 			for (int i = 0; i < Math.Min(cardsCollection.Count, 500); i++)
 			{
-				var sdkCard = cardsCollection.Cards[i];
-				var card = new Card();
-				card.RecordNo = sdkCard.nRecNo;
-				card.CardNo = CharArrayToString(sdkCard.szCardNo);
-				card.CardType = (CardType)sdkCard.emType;
-				card.Password = CharArrayToString(sdkCard.szPsw);
-				card.DoorsCount = sdkCard.nDoorNum;
-				card.Doors = sdkCard.sznDoors;
-				card.TimeSectionsCount = sdkCard.nTimeSectionNum;
-				card.TimeSections = sdkCard.sznTimeSectionNo;
-				card.UserTime = sdkCard.nUserTime;
-				card.ValidStartDateTime = NET_TIMEToDateTime(sdkCard.stuValidStartTime);
-				card.ValidEndDateTime = NET_TIMEToDateTime(sdkCard.stuValidEndTime);
+				var nativeCard = cardsCollection.Cards[i];
+				var card = NativeCardToCard(nativeCard);
 				cards.Add(card);
 			}
 			return cards;
+		}
+
+		NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD CardToNativeCard(Card card)
+		{
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
+			nativeCard.bIsValid = true;
+			nativeCard.nUserTime = card.UserTime;
+			nativeCard.emStatus = NativeWrapper.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL;
+			nativeCard.emType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)card.CardType;
+
+			nativeCard.stuCreateTime.dwYear = DateTime.Now.Year;
+			nativeCard.stuCreateTime.dwMonth = DateTime.Now.Month;
+			nativeCard.stuCreateTime.dwDay = DateTime.Now.Day;
+			nativeCard.stuCreateTime.dwHour = DateTime.Now.Hour;
+			nativeCard.stuCreateTime.dwMinute = DateTime.Now.Minute;
+			nativeCard.stuCreateTime.dwSecond = DateTime.Now.Second;
+
+			nativeCard.stuValidStartTime.dwYear = card.ValidStartDateTime.Year;
+			nativeCard.stuValidStartTime.dwMonth = card.ValidStartDateTime.Month;
+			nativeCard.stuValidStartTime.dwDay = card.ValidStartDateTime.Day;
+			nativeCard.stuValidStartTime.dwHour = 0;
+			nativeCard.stuValidStartTime.dwMinute = 0;
+			nativeCard.stuValidStartTime.dwSecond = 0;
+
+			nativeCard.stuValidEndTime.dwYear = card.ValidEndDateTime.Year;
+			nativeCard.stuValidEndTime.dwMonth = card.ValidEndDateTime.Month;
+			nativeCard.stuValidEndTime.dwDay = card.ValidEndDateTime.Day;
+			nativeCard.stuValidEndTime.dwHour = 0;
+			nativeCard.stuValidEndTime.dwMinute = 0;
+			nativeCard.stuValidEndTime.dwSecond = 0;
+
+			nativeCard.szCardNo = StringToCharArray(card.CardNo, 32);
+			nativeCard.szPsw = Wrapper.StringToCharArray(card.Password, 64);
+			nativeCard.szUserID = Wrapper.StringToCharArray("1", 32);
+
+			nativeCard.nDoorNum = card.DoorsCount;
+			nativeCard.sznDoors = new int[32];
+			for (int i = 0; i < card.Doors.Count; i++)
+			{
+				nativeCard.sznDoors[i] = card.Doors[i];
+			}
+
+			nativeCard.nTimeSectionNum = card.TimeSectionsCount;
+			nativeCard.sznTimeSectionNo = new int[32];
+			for (int i = 0; i < card.TimeSections.Count; i++)
+			{
+				nativeCard.sznTimeSectionNo[i] = card.TimeSections[i];
+			}
+
+			return nativeCard;
+		}
+
+		Card NativeCardToCard(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard)
+		{
+			var card = new Card();
+			card.RecordNo = nativeCard.nRecNo;
+			card.CardNo = CharArrayToString(nativeCard.szCardNo);
+			card.CardType = (CardType)nativeCard.emType;
+			card.Password = CharArrayToString(nativeCard.szPsw);
+			card.DoorsCount = nativeCard.nDoorNum;
+			card.Doors = nativeCard.sznDoors.ToList();
+			card.TimeSectionsCount = nativeCard.nTimeSectionNum;
+			card.TimeSections = nativeCard.sznTimeSectionNo.ToList();
+			card.UserTime = nativeCard.nUserTime;
+			card.ValidStartDateTime = NET_TIMEToDateTime(nativeCard.stuValidStartTime);
+			card.ValidEndDateTime = NET_TIMEToDateTime(nativeCard.stuValidEndTime);
+			return card;
 		}
 	}
 }

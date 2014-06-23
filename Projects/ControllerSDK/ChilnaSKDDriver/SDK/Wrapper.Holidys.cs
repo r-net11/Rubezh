@@ -10,27 +10,15 @@ namespace ChinaSKDDriver
 	{
 		public int AddHoliday(Holiday holiday)
 		{
-			NativeWrapper.NET_RECORDSET_HOLIDAY stuHoliday = new NativeWrapper.NET_RECORDSET_HOLIDAY();
-			stuHoliday.nDoorNum = holiday.DoorsCount;
-			stuHoliday.sznDoors = new int[32];
-			stuHoliday.sznDoors[0] = 1;
-			stuHoliday.sznDoors[1] = 2;
+			var nativeHoliday = HolidayToNativeHoliday(holiday);
+			var result = NativeWrapper.WRAP_Insert_Holiday(LoginID, ref nativeHoliday);
+			return result;
+		}
 
-			stuHoliday.stuStartTime.dwYear = holiday.StartDateTime.Year;
-			stuHoliday.stuStartTime.dwMonth = holiday.StartDateTime.Month;
-			stuHoliday.stuStartTime.dwDay = holiday.StartDateTime.Day;
-			stuHoliday.stuStartTime.dwHour = holiday.StartDateTime.Hour;
-			stuHoliday.stuStartTime.dwMinute = holiday.StartDateTime.Minute;
-			stuHoliday.stuStartTime.dwSecond = holiday.StartDateTime.Second;
-
-			stuHoliday.stuEndTime.dwYear = holiday.EndDateTime.Year;
-			stuHoliday.stuEndTime.dwMonth = holiday.EndDateTime.Month;
-			stuHoliday.stuEndTime.dwDay = holiday.EndDateTime.Day;
-			stuHoliday.stuEndTime.dwHour = holiday.EndDateTime.Hour;
-			stuHoliday.stuEndTime.dwMinute = holiday.EndDateTime.Minute;
-			stuHoliday.stuEndTime.dwSecond = holiday.EndDateTime.Second;
-			stuHoliday.bEnable = holiday.IsEnabled;
-			var result = NativeWrapper.WRAP_Insert_Holiday(LoginID, ref stuHoliday);
+		public bool EditHoliday(Holiday holiday)
+		{
+			var nativeHoliday = HolidayToNativeHoliday(holiday);
+			var result = NativeWrapper.WRAP_Update_Holiday(LoginID, ref nativeHoliday);
 			return result;
 		}
 
@@ -53,17 +41,11 @@ namespace ChinaSKDDriver
 
 			var result = NativeWrapper.WRAP_GetHolidayInfo(LoginID, recordNo, intPtr);
 
-			NativeWrapper.NET_RECORDSET_HOLIDAY sdkHoliday = (NativeWrapper.NET_RECORDSET_HOLIDAY)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_HOLIDAY)));
+			NativeWrapper.NET_RECORDSET_HOLIDAY nativeHoliday = (NativeWrapper.NET_RECORDSET_HOLIDAY)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_HOLIDAY)));
 			Marshal.FreeCoTaskMem(intPtr);
 			intPtr = IntPtr.Zero;
 
-			var holiday = new Holiday();
-			holiday.RecordNo = sdkHoliday.nRecNo;
-			holiday.DoorsCount = sdkHoliday.nDoorNum;
-			holiday.StartDateTime = NET_TIMEToDateTime(sdkHoliday.stuStartTime);
-			holiday.EndDateTime = NET_TIMEToDateTime(sdkHoliday.stuEndTime);
-			holiday.IsEnabled = sdkHoliday.bEnable;
-
+			var holiday = NativeHolidayToHoliday(nativeHoliday);
 			return holiday;
 		}
 
@@ -76,6 +58,44 @@ namespace ChinaSKDDriver
 		public List<Holiday> GetAllHolidays()
 		{
 			return new List<Holiday>();
+		}
+
+		NativeWrapper.NET_RECORDSET_HOLIDAY HolidayToNativeHoliday(Holiday holiday)
+		{
+			NativeWrapper.NET_RECORDSET_HOLIDAY nativeHoliday = new NativeWrapper.NET_RECORDSET_HOLIDAY();
+			nativeHoliday.nDoorNum = holiday.DoorsCount;
+			nativeHoliday.sznDoors = new int[32];
+			for (int i = 0; i < holiday.Doors.Count; i++)
+			{
+				nativeHoliday.sznDoors[i] = holiday.Doors[i];
+			}
+
+			nativeHoliday.stuStartTime.dwYear = holiday.StartDateTime.Year;
+			nativeHoliday.stuStartTime.dwMonth = holiday.StartDateTime.Month;
+			nativeHoliday.stuStartTime.dwDay = holiday.StartDateTime.Day;
+			nativeHoliday.stuStartTime.dwHour = holiday.StartDateTime.Hour;
+			nativeHoliday.stuStartTime.dwMinute = holiday.StartDateTime.Minute;
+			nativeHoliday.stuStartTime.dwSecond = holiday.StartDateTime.Second;
+
+			nativeHoliday.stuEndTime.dwYear = holiday.EndDateTime.Year;
+			nativeHoliday.stuEndTime.dwMonth = holiday.EndDateTime.Month;
+			nativeHoliday.stuEndTime.dwDay = holiday.EndDateTime.Day;
+			nativeHoliday.stuEndTime.dwHour = holiday.EndDateTime.Hour;
+			nativeHoliday.stuEndTime.dwMinute = holiday.EndDateTime.Minute;
+			nativeHoliday.stuEndTime.dwSecond = holiday.EndDateTime.Second;
+			nativeHoliday.bEnable = holiday.IsEnabled;
+			return nativeHoliday;
+		}
+
+		Holiday NativeHolidayToHoliday(NativeWrapper.NET_RECORDSET_HOLIDAY nativeHoliday)
+		{
+			var holiday = new Holiday();
+			holiday.RecordNo = nativeHoliday.nRecNo;
+			holiday.DoorsCount = nativeHoliday.nDoorNum;
+			holiday.StartDateTime = NET_TIMEToDateTime(nativeHoliday.stuStartTime);
+			holiday.EndDateTime = NET_TIMEToDateTime(nativeHoliday.stuEndTime);
+			holiday.IsEnabled = nativeHoliday.bEnable;
+			return holiday;
 		}
 	}
 }

@@ -10,41 +10,15 @@ namespace ChinaSKDDriver
 	{
 		public int AddCardRec(CardRec cardRec)
 		{
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC();
-			stuCardRec.szCardNo = StringToCharArray(cardRec.CardNo, 32);
-			stuCardRec.szPwd = StringToCharArray(cardRec.Password, 64);
-
-			stuCardRec.stuTime.dwYear = cardRec.DateTime.Year;
-			stuCardRec.stuTime.dwMonth = cardRec.DateTime.Month;
-			stuCardRec.stuTime.dwDay = cardRec.DateTime.Day;
-			stuCardRec.stuTime.dwHour = cardRec.DateTime.Hour;
-			stuCardRec.stuTime.dwMinute = cardRec.DateTime.Minute;
-			stuCardRec.stuTime.dwSecond = cardRec.DateTime.Second;
-
-			stuCardRec.bStatus = cardRec.IsStatus;
-			stuCardRec.emMethod = (ChinaSKDDriverNativeApi.NativeWrapper.NET_ACCESS_DOOROPEN_METHOD)cardRec.DoorOpenMethod;
-			stuCardRec.nDoor = cardRec.DoorNo;
-			var result = NativeWrapper.WRAP_Insert_CardRec(LoginID, ref stuCardRec);
+			var nativeCardRec = CardRecToNativeCardRec(cardRec);
+			var result = NativeWrapper.WRAP_Insert_CardRec(LoginID, ref nativeCardRec);
 			return result;
 		}
 
 		public bool EditCardRec(CardRec cardRec)
 		{
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC();
-			stuCardRec.szCardNo = StringToCharArray(cardRec.CardNo, 32);
-			stuCardRec.szPwd = StringToCharArray(cardRec.Password, 64);
-
-			stuCardRec.stuTime.dwYear = cardRec.DateTime.Year;
-			stuCardRec.stuTime.dwMonth = cardRec.DateTime.Month;
-			stuCardRec.stuTime.dwDay = cardRec.DateTime.Day;
-			stuCardRec.stuTime.dwHour = cardRec.DateTime.Hour;
-			stuCardRec.stuTime.dwMinute = cardRec.DateTime.Minute;
-			stuCardRec.stuTime.dwSecond = cardRec.DateTime.Second;
-
-			stuCardRec.bStatus = cardRec.IsStatus;
-			stuCardRec.emMethod = (ChinaSKDDriverNativeApi.NativeWrapper.NET_ACCESS_DOOROPEN_METHOD)cardRec.DoorOpenMethod;
-			stuCardRec.nDoor = cardRec.DoorNo;
-			var result = NativeWrapper.WRAP_Update_CardRec(LoginID, ref stuCardRec);
+			var nativeCardRec = CardRecToNativeCardRec(cardRec);
+			var result = NativeWrapper.WRAP_Update_CardRec(LoginID, ref nativeCardRec);
 			return result;
 		}
 
@@ -55,19 +29,11 @@ namespace ChinaSKDDriver
 
 			var result = NativeWrapper.WRAP_GetCardRecInfo(LoginID, recordNo, intPtr);
 
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC sdkCardRec = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)));
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)));
 			Marshal.FreeCoTaskMem(intPtr);
 			intPtr = IntPtr.Zero;
 
-			var cardRec = new CardRec();
-			cardRec.RecordNo = sdkCardRec.nRecNo;
-			cardRec.CardNo = CharArrayToString(sdkCardRec.szCardNo);
-			cardRec.Password = CharArrayToString(sdkCardRec.szPwd);
-			cardRec.DateTime = NET_TIMEToDateTime(sdkCardRec.stuTime);
-			cardRec.IsStatus = sdkCardRec.bStatus;
-			cardRec.DoorOpenMethod = (CardRecDoorOpenMethod)sdkCardRec.emMethod;
-			cardRec.DoorNo = sdkCardRec.nDoor;
-
+			var cardRec = NativeCardRecToCardRec(nativeCardRec);
 			return cardRec;
 		}
 
@@ -116,6 +82,38 @@ namespace ChinaSKDDriver
 				cardRecs.Add(card);
 			}
 			return cardRecs;
+		}
+
+		NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC CardRecToNativeCardRec(CardRec cardRec)
+		{
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC();
+			nativeCardRec.szCardNo = StringToCharArray(cardRec.CardNo, 32);
+			nativeCardRec.szPwd = StringToCharArray(cardRec.Password, 64);
+
+			nativeCardRec.stuTime.dwYear = cardRec.DateTime.Year;
+			nativeCardRec.stuTime.dwMonth = cardRec.DateTime.Month;
+			nativeCardRec.stuTime.dwDay = cardRec.DateTime.Day;
+			nativeCardRec.stuTime.dwHour = cardRec.DateTime.Hour;
+			nativeCardRec.stuTime.dwMinute = cardRec.DateTime.Minute;
+			nativeCardRec.stuTime.dwSecond = cardRec.DateTime.Second;
+
+			nativeCardRec.bStatus = cardRec.IsStatus;
+			nativeCardRec.emMethod = (ChinaSKDDriverNativeApi.NativeWrapper.NET_ACCESS_DOOROPEN_METHOD)cardRec.DoorOpenMethod;
+			nativeCardRec.nDoor = cardRec.DoorNo;
+			return nativeCardRec;
+		}
+
+		CardRec NativeCardRecToCardRec(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec)
+		{
+			var cardRec = new CardRec();
+			cardRec.RecordNo = nativeCardRec.nRecNo;
+			cardRec.CardNo = CharArrayToString(nativeCardRec.szCardNo);
+			cardRec.Password = CharArrayToString(nativeCardRec.szPwd);
+			cardRec.DateTime = NET_TIMEToDateTime(nativeCardRec.stuTime);
+			cardRec.IsStatus = nativeCardRec.bStatus;
+			cardRec.DoorOpenMethod = (CardRecDoorOpenMethod)nativeCardRec.emMethod;
+			cardRec.DoorNo = nativeCardRec.nDoor;
+			return cardRec;
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using ChinaSKDDriverAPI;
@@ -10,22 +11,15 @@ namespace ChinaSKDDriver
 	{
 		public int AddPassword(Password password)
 		{
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD();
-			stuAccessCtlPwd.stuCreateTime.dwYear = password.CreationDateTime.Year;
-			stuAccessCtlPwd.stuCreateTime.dwMonth = password.CreationDateTime.Month;
-			stuAccessCtlPwd.stuCreateTime.dwDay = password.CreationDateTime.Day;
-			stuAccessCtlPwd.stuCreateTime.dwHour = password.CreationDateTime.Hour;
-			stuAccessCtlPwd.stuCreateTime.dwMinute = password.CreationDateTime.Minute;
-			stuAccessCtlPwd.stuCreateTime.dwSecond = password.CreationDateTime.Second;
-			stuAccessCtlPwd.szUserID = StringToCharArray(password.UserID, 32);
-			stuAccessCtlPwd.szDoorOpenPwd = StringToCharArray(password.DoorOpenPassword, 64);
-			stuAccessCtlPwd.szAlarmPwd = StringToCharArray(password.AlarmPassword, 64);
-			stuAccessCtlPwd.nDoorNum = password.DoorsCount;
-			stuAccessCtlPwd.sznDoors = new int[32];
-			stuAccessCtlPwd.sznDoors[0] = 1;
-			stuAccessCtlPwd.sznDoors[1] = 2;
+			var nativePassword = PasswordToNativePassword(password);
+			var result = NativeWrapper.WRAP_Insert_Pwd(LoginID, ref nativePassword);
+			return result;
+		}
 
-			var result = NativeWrapper.WRAP_Insert_Pwd(LoginID, ref stuAccessCtlPwd);
+		public bool EditPassword(Password password)
+		{
+			var nativePassword = PasswordToNativePassword(password);
+			var result = NativeWrapper.WRAP_Update_Pwd(LoginID, ref nativePassword);
 			return result;
 		}
 
@@ -48,19 +42,11 @@ namespace ChinaSKDDriver
 
 			var result = NativeWrapper.WRAP_GetPasswordInfo(LoginID, recordNo, intPtr);
 
-			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD sdkPassword = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD)));
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD nativePassword = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD)));
 			Marshal.FreeCoTaskMem(intPtr);
 			intPtr = IntPtr.Zero;
 
-			var password = new Password();
-			password.RecordNo = sdkPassword.nRecNo;
-			password.CreationDateTime = NET_TIMEToDateTime(sdkPassword.stuCreateTime);
-			password.UserID = CharArrayToString(sdkPassword.szUserID);
-			password.DoorOpenPassword = CharArrayToString(sdkPassword.szDoorOpenPwd);
-			password.AlarmPassword = CharArrayToString(sdkPassword.szAlarmPwd);
-			password.DoorsCount = sdkPassword.nDoorNum;
-			password.Doors = sdkPassword.sznDoors;
-
+			var password = NativePasswordToPassword(nativePassword);
 			return password;
 		}
 
@@ -82,21 +68,47 @@ namespace ChinaSKDDriver
 			intPtr = IntPtr.Zero;
 
 			var passwords = new List<Password>();
-
 			for (int i = 0; i < Math.Min(passwordsCollection.Count, 500); i++)
 			{
-				var sdkPassword = passwordsCollection.Passwords[i];
-				var password = new Password();
-				password.RecordNo = sdkPassword.nRecNo;
-				password.CreationDateTime = NET_TIMEToDateTime(sdkPassword.stuCreateTime);
-				password.UserID = CharArrayToString(sdkPassword.szUserID);
-				password.DoorOpenPassword = CharArrayToString(sdkPassword.szDoorOpenPwd);
-				password.AlarmPassword = CharArrayToString(sdkPassword.szAlarmPwd);
-				password.DoorsCount = sdkPassword.nDoorNum;
-				password.Doors = sdkPassword.sznDoors;
+				var nativePassword = passwordsCollection.Passwords[i];
+				var password = NativePasswordToPassword(nativePassword);
 				passwords.Add(password);
 			}
 			return passwords;
+		}
+
+		NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD PasswordToNativePassword(Password password)
+		{
+			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD nativePassword = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD();
+			nativePassword.stuCreateTime.dwYear = password.CreationDateTime.Year;
+			nativePassword.stuCreateTime.dwMonth = password.CreationDateTime.Month;
+			nativePassword.stuCreateTime.dwDay = password.CreationDateTime.Day;
+			nativePassword.stuCreateTime.dwHour = password.CreationDateTime.Hour;
+			nativePassword.stuCreateTime.dwMinute = password.CreationDateTime.Minute;
+			nativePassword.stuCreateTime.dwSecond = password.CreationDateTime.Second;
+			nativePassword.szUserID = StringToCharArray(password.UserID, 32);
+			nativePassword.szDoorOpenPwd = StringToCharArray(password.DoorOpenPassword, 64);
+			nativePassword.szAlarmPwd = StringToCharArray(password.AlarmPassword, 64);
+			nativePassword.nDoorNum = password.DoorsCount;
+			nativePassword.sznDoors = new int[32];
+			for (int i = 0; i < password.Doors.Count; i++)
+			{
+				nativePassword.sznDoors[i] = password.Doors[i];
+			}
+			return nativePassword;
+		}
+
+		Password NativePasswordToPassword(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD nativePassword)
+		{
+			var password = new Password();
+			password.RecordNo = nativePassword.nRecNo;
+			password.CreationDateTime = NET_TIMEToDateTime(nativePassword.stuCreateTime);
+			password.UserID = CharArrayToString(nativePassword.szUserID);
+			password.DoorOpenPassword = CharArrayToString(nativePassword.szDoorOpenPwd);
+			password.AlarmPassword = CharArrayToString(nativePassword.szAlarmPwd);
+			password.DoorsCount = nativePassword.nDoorNum;
+			password.Doors = nativePassword.sznDoors.ToList();
+			return password;
 		}
 	}
 }

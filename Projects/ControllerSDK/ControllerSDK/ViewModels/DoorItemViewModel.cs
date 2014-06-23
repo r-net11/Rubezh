@@ -6,9 +6,9 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels
 {
-	public class DoorViewModel : BaseViewModel
+	public class DoorItemViewModel : BaseViewModel
 	{
-		public DoorViewModel(int no)
+		public DoorItemViewModel(int no)
 		{
 			No = no;
 		}

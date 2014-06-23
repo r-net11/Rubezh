@@ -27,8 +27,6 @@ namespace ControllerSDK.ViewModels
 
 			CardNo = "1";
 			Password = "1";
-			DoorsCount = 1;
-			TimeSectionsCount = 1;
 			UserTime = 1;
 			ValidStartTime = DateTime.Now;
 			ValidEndTime = DateTime.Now;
@@ -43,11 +41,19 @@ namespace ControllerSDK.ViewModels
 			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_CORCE);
 			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_MOTHERCARD);
 
-			Doors = new ObservableCollection<DoorViewModel>();
-			for (int i = 0; i < 20; i++)
+			Doors = new ObservableCollection<DoorItemViewModel>();
+			for (int i = 1; i <= 4; i++)
 			{
-				Doors.Add(new DoorViewModel(i));
+				Doors.Add(new DoorItemViewModel(i));
 			}
+			Doors[0].IsChecked = true;
+
+			TimeShedules = new ObservableCollection<TimeSheduleItemViewModel>();
+			for (int i = 1; i <= 10; i++)
+			{
+				TimeShedules.Add(new TimeSheduleItemViewModel(i));
+			}
+			TimeShedules[0].IsChecked = true;
 		}
 
 		public void Initialize(List<Card> cards)
@@ -63,27 +69,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var card = new Card();
-			card.CardNo = CardNo;
-			card.Password = Password;
-			card.DoorsCount = DoorsCount;
-			card.TimeSectionsCount = TimeSectionsCount;
-			card.UserTime = UserTime;
-			card.ValidStartDateTime = ValidStartTime;
-			card.ValidEndDateTime = ValidEndTime;
-			card.CardType = CardType;
-
-			var doors = new List<int>();
-			foreach (var door in Doors)
-			{
-				if (door.IsChecked)
-				{
-					doors.Add(door.No);
-				}
-			}
-			card.Doors = doors.ToArray();
-			card.DoorsCount = card.Doors.Count();
-
+			var card = GetModel();
 			var newCardNo = MainViewModel.Wrapper.AddCard(card);
 			MessageBox.Show("newCardNo = " + newCardNo);
 		}
@@ -91,15 +77,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var card = new Card();
-			card.CardNo = CardNo;
-			card.Password = Password;
-			card.DoorsCount = DoorsCount;
-			card.TimeSectionsCount = TimeSectionsCount;
-			card.UserTime = UserTime;
-			card.ValidStartDateTime = ValidStartTime;
-			card.ValidEndDateTime = ValidEndTime;
-			card.CardType = CardType;
+			var card = GetModel();
 			var result = MainViewModel.Wrapper.EditCard(card);
 			MessageBox.Show("result = " + result);
 		}
@@ -143,6 +121,36 @@ namespace ControllerSDK.ViewModels
 				var cardViewModel = new CardViewModel(card);
 				Cards.Add(cardViewModel);
 			}
+		}
+
+		Card GetModel()
+		{
+			var card = new Card();
+			card.CardNo = CardNo;
+			card.Password = Password;
+			card.UserTime = UserTime;
+			card.ValidStartDateTime = ValidStartTime;
+			card.ValidEndDateTime = ValidEndTime;
+			card.CardType = CardType;
+
+			foreach (var door in Doors)
+			{
+				if (door.IsChecked)
+				{
+					card.Doors.Add(door.No);
+				}
+			}
+			card.DoorsCount = card.Doors.Count;
+
+			foreach (var timeShedule in TimeShedules)
+			{
+				if (timeShedule.IsChecked)
+				{
+					card.TimeSections.Add(timeShedule.No);
+				}
+			}
+			card.TimeSectionsCount = card.TimeSections.Count;
+			return card;
 		}
 
 		public ObservableCollection<CardViewModel> Cards { get; private set; }
@@ -204,28 +212,6 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		int _doorsCount;
-		public int DoorsCount
-		{
-			get { return _doorsCount; }
-			set
-			{
-				_doorsCount = value;
-				OnPropertyChanged(() => DoorsCount);
-			}
-		}
-
-		int _timeSectionsCount;
-		public int TimeSectionsCount
-		{
-			get { return _timeSectionsCount; }
-			set
-			{
-				_timeSectionsCount = value;
-				OnPropertyChanged(() => TimeSectionsCount);
-			}
-		}
-
 		int _userTime;
 		public int UserTime
 		{
@@ -259,6 +245,8 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public ObservableCollection<DoorViewModel> Doors { get; private set; }
+		public ObservableCollection<DoorItemViewModel> Doors { get; private set; }
+
+		public ObservableCollection<TimeSheduleItemViewModel> TimeShedules { get; private set; }
 	}
 }

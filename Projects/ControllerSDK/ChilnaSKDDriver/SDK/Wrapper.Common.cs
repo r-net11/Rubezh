@@ -32,6 +32,8 @@ namespace ChinaSKDDriver
 		public static char[] StringToCharArray(string str, int size)
 		{
 			var result = new char[size];
+			if (str == null)
+				str = "";
 			var charArray = str.ToCharArray();
 			for (int i = 0; i < Math.Min(charArray.Count(), size); i++)
 			{
