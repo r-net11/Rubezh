@@ -46,6 +46,12 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 
+		public static bool SaveZones(Organisation organisation)
+		{
+			var result = FiresecManager.FiresecService.SaveOrganisationZones(organisation);
+			return Common.ShowErrorIfExists(result);
+		}
+
 		public static bool SaveGuardZones(Organisation organisation)
 		{
 			var result = FiresecManager.FiresecService.SaveOrganisationGuardZones(organisation);

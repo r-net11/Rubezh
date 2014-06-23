@@ -17,6 +17,7 @@
       <Column Name="CardTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="ParentUID" Type="CardDoor" />
       <Association Name="Card_Journal" Member="Journals" ThisKey="UID" OtherKey="CardUID" Type="Journal" />
+      <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
     </Type>
@@ -136,6 +137,7 @@
       <Association Name="Organisation_EmployeeReplacement" Member="EmployeeReplacements" ThisKey="UID" OtherKey="OrganisationUID" Type="EmployeeReplacement" />
       <Association Name="Organisation_GuardZone" Member="GuardZones" ThisKey="UID" OtherKey="ParentUID" Type="GuardZone" />
       <Association Name="Organisation_Phone" Member="Phones" ThisKey="UID" OtherKey="OrganisationUID" Type="Phone" />
+      <Association Name="Organisation_OrganisationZone" Member="OrganisationZones" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationZone" />
       <Association Name="Photo_Organisation" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
   </Table>
@@ -393,6 +395,22 @@
       <Association Name="Photo_Organisation" Member="Organisations" ThisKey="UID" OtherKey="PhotoUID" Type="Organisation" />
       <Association Name="Photo_AdditionalColumn" Member="AdditionalColumns" ThisKey="UID" OtherKey="PhotoUID" Type="AdditionalColumn" />
       <Association Name="Photo_Department" Member="Departments" ThisKey="UID" OtherKey="PhotoUID" Type="Department" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrganisationZone" Member="OrganisationZones">
+    <Type Name="OrganisationZone">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ZoneUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="Organisation_OrganisationZone" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PendingCard" Member="PendingCards">
+    <Type Name="PendingCard">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CardUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Action" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Card_PendingCard" Member="Card" ThisKey="CardUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

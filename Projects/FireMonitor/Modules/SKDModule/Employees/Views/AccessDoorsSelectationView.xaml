@@ -7,7 +7,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
-			<RowDefinition Height="200" />
+			<RowDefinition Height="150" />
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0" Margin="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<DataGrid ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}" Margin="2">
@@ -30,47 +30,45 @@
 			<StackPanel IsEnabled="{Binding IsChecked}">
 				<CheckBox Margin="2" Content="Защита от передачи пропусков(Antipassback)" Foreground="White" IsChecked="{Binding IsAntiPassback}" />
 				<CheckBox Margin="2" Content="Доступ с комиссионированием" Foreground="White" IsChecked="{Binding IsComission}" />
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для входа" />
-					<ComboBox Margin="2" ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedEnterTimeCreteria}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Margin="2" Text="{Binding Description}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
+				<StackPanel Visibility="{Binding HasEnter, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для входа" HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal">
+						<ComboBox Margin="2" ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedEnterTimeCreteria}">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Margin="2" Text="{Binding Description}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
+                        <ComboBox Margin="2" ItemsSource="{Binding EnterTimeTypes}" SelectedItem="{Binding SelectedEnterTimeType}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="2" Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
 				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Width="200" Margin="2" Text="" />
-					<ComboBox Margin="2" ItemsSource="{Binding EnterTimeTypes}" SelectedItem="{Binding SelectedEnterTimeType}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Margin="2" Text="{Binding Name}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-				</StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для выхода" />
-                    <ComboBox Margin="2" ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedExitTimeCreteria}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="2" Text="{Binding Description}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+				<StackPanel Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для выхода" HorizontalAlignment="Left"/>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox Margin="2" ItemsSource="{Binding TimeCreterias}" SelectedItem="{Binding SelectedExitTimeCreteria}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="2" Text="{Binding Description}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox Margin="2" ItemsSource="{Binding ExitTimeTypes}" SelectedItem="{Binding SelectedExitTimeType}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="2" Text="{Binding Name}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Width="200" Margin="2" Text="" />
-                    <ComboBox Margin="2" ItemsSource="{Binding ExitTimeTypes}" SelectedItem="{Binding SelectedExitTimeType}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Margin="2" Text="{Binding Name}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </StackPanel>
-            </StackPanel>
+			</StackPanel>
 		</Grid>
 	</Grid>
 </UserControl>

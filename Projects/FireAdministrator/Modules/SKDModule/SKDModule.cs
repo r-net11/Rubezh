@@ -90,7 +90,7 @@ namespace SKDModule
 					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDFiltersEvent, Guid>(FiltersViewModel, "Фильтры", "/Controls;component/Images/Book.png", null, null, Guid.Empty),
-					new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков",null,null,null, Guid.Empty),
+					new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков","/Controls;component/Images/PassCardDesigner.png",null,null, Guid.Empty),
 					new NavigationItem<ShowSKDSettingsEvent, object>(SettingsViewModel, "Настройки", "/Controls;component/Images/Book.png"),
 					new NavigationItem("Интервалы", null, new List<NavigationItem>()
 					{

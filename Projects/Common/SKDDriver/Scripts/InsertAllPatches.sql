@@ -8,3 +8,12 @@ INSERT INTO Patches (Id) VALUES
 GO
 INSERT INTO Patches (Id) VALUES
 	('Doors')
+GO
+INSERT INTO Patches (Id) VALUES
+	('OrganisationZone')
+GO
+INSERT INTO Patches (Id) VALUES
+	('DoorsEnterExit')
+GO
+INSERT INTO Patches (Id) VALUES
+	('PendingCard')

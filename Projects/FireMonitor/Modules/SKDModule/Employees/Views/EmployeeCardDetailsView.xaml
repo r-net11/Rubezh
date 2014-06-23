@@ -1,13 +1,13 @@
 ﻿<UserControl x:Class="SKDModule.Views.EmployeeCardDetailsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:SKDModule.Converters"
-             xmlns:Views="clr-namespace:SKDModule.Views"
-             MinWidth="600" MinHeight="500">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Converters="clr-namespace:SKDModule.Converters"
+			 xmlns:Views="clr-namespace:SKDModule.Views"
+			 MinWidth="600" MinHeight="500">
 
 	<UserControl.Resources>
 		<Converters:CardTypeToStringConverter x:Key="CardTypeToStringConverter" />
-        <Converters:CardTypeToLongStringConverter x:Key="CardTypeToLongStringConverter" />
+		<Converters:CardTypeToLongStringConverter x:Key="CardTypeToLongStringConverter" />
 	</UserControl.Resources>
 
 	<TabControl>
@@ -24,22 +24,22 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Тип пропуска" Margin="2" />
-                <StackPanel Grid.Row="0" Grid.Column="1" Margin="2">
-				    <ComboBox ItemsSource="{Binding CardTypes}" SelectedItem="{Binding SelectedCardType}">
-					    <ComboBox.ItemTemplate>
-						    <DataTemplate>
-							    <TextBlock Text="{Binding ., Converter={StaticResource CardTypeToStringConverter}}" />
-						    </DataTemplate>
-					    </ComboBox.ItemTemplate>
-				    </ComboBox>
-                    <TextBlock Text="{Binding SelectedCardType, Converter={StaticResource CardTypeToLongStringConverter}}" TextWrapping="Wrap" Foreground="White" Margin="2" />
-                </StackPanel>
+				<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Тип пропуска" Margin="2" />
+				<StackPanel Grid.Row="0" Grid.Column="1" Margin="2">
+					<ComboBox ItemsSource="{Binding CardTypes}" SelectedItem="{Binding SelectedCardType}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding ., Converter={StaticResource CardTypeToStringConverter}}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+					<TextBlock Text="{Binding SelectedCardType, Converter={StaticResource CardTypeToLongStringConverter}}" TextWrapping="Wrap" Foreground="White" Margin="2" />
+				</StackPanel>
 
-                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+				<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
 					<StackPanel>
 						<TextBlock Margin="2" HorizontalAlignment="Center" Foreground="White" Text="Начало действия" />
 						<Calendar Margin="2" VerticalAlignment="Top" BorderBrush="#66ff9829" BorderThickness="2" DisplayDate="{Binding StartDate}" IsTodayHighlighted="False" SelectedDate="{Binding StartDate}" SelectionMode="SingleDate" />
@@ -75,11 +75,11 @@
 					</TextBlock>
 				</StackPanel>
 
-                <Button Grid.Row="6" Grid.Column="1" Command="{Binding ShowUSBCardReaderCommand}" Content="От USB-считывателя" HorizontalAlignment="Left" Width="150" Margin="2" />
-            </Grid>
+				<Button Grid.Row="6" Grid.Column="1" Command="{Binding ShowUSBCardReaderCommand}" Content="От USB-считывателя" HorizontalAlignment="Left" Width="150" Margin="2" />
+			</Grid>
 		</TabItem>
-        <TabItem Header="Точки доступа">
-            <Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
+		<TabItem Header="Точки доступа">
+			<Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
 		<TabItem Header="Шаблон доступа">
 			<DataGrid ItemsSource="{Binding AvailableAccessTemplates}" SelectedItem="{Binding SelectedAccessTemplate}">

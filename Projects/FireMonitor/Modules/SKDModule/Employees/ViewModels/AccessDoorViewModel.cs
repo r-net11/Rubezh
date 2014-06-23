@@ -48,6 +48,15 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public bool HasEnter
+		{
+			get { return Door.InDeviceUID != Guid.Empty; }
+		}
+
+		public bool HasExit
+		{
+			get { return Door.OutDeviceUID != Guid.Empty; }
+		}
 
 		bool _isChecked;
 		public bool IsChecked

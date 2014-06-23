@@ -52,6 +52,7 @@ namespace SKDDriver
 			result.Description = tableItem.Description;
 			result.PhotoUID = tableItem.PhotoUID;
 			result.DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == result.UID) select x.DoorUID).ToList();
+			result.ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == result.UID) select x.ZoneUID).ToList();
 			result.UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == result.UID) select x.UserUID).ToList();
 			result.GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == result.UID) select x.ZoneUID).ToList();
 			return result;
@@ -81,6 +82,7 @@ namespace SKDDriver
 						RemovalDate = tableItem.RemovalDate,
 						UID = tableItem.UID,
 						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
+						ZoneUIDs = (from x in Context.OrganisationZones.Where(x => x.OrganisationUID == tableItem.UID) select x.ZoneUID).ToList(),
 						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
 						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList()
 					};
@@ -124,6 +126,39 @@ namespace SKDDriver
 					tableOrganisationZone.OrganisationUID = organisationUID;
 					tableOrganisationZone.DoorUID = zoneUID;
 					Context.OrganisationDoors.InsertOnSubmit(tableOrganisationZone);
+				}
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
+		public OperationResult SaveZones(Organisation apiItem)
+		{
+			return SaveZonesInternal(apiItem.UID, apiItem.ZoneUIDs);
+		}
+
+		public OperationResult SaveZones(OrganisationDetails apiItem)
+		{
+			return SaveZonesInternal(apiItem.UID, apiItem.ZoneUIDs);
+		}
+
+		OperationResult SaveZonesInternal(Guid organisationUID, List<Guid> ZoneUIDs)
+		{
+			try
+			{
+				var tableOrganisationZones = Context.OrganisationZones.Where(x => x.OrganisationUID == organisationUID);
+				Context.OrganisationZones.DeleteAllOnSubmit(tableOrganisationZones);
+				foreach (var zoneUID in ZoneUIDs)
+				{
+					var tableOrganisationZone = new DataAccess.OrganisationZone();
+					tableOrganisationZone.UID = Guid.NewGuid();
+					tableOrganisationZone.OrganisationUID = organisationUID;
+					tableOrganisationZone.ZoneUID = zoneUID;
+					Context.OrganisationZones.InsertOnSubmit(tableOrganisationZone);
 				}
 				Table.Context.SubmitChanges();
 			}
@@ -202,7 +237,10 @@ namespace SKDDriver
 
 		public OperationResult Save(OrganisationDetails apiItem)
 		{
-			var saveZonesResult = SaveDoors(apiItem);
+			var saveDoorsResult = SaveDoors(apiItem);
+			if (saveDoorsResult.HasError)
+				return saveDoorsResult;
+			var saveZonesResult = SaveZones(apiItem);
 			if (saveZonesResult.HasError)
 				return saveZonesResult;
 			var saveGuardZonesResult = SaveGuardZones(apiItem);

@@ -96,7 +96,18 @@ namespace SKDDriver
 			var updateZonesResult = CardZonesTranslator.SaveFromCard(item);
 			if (updateZonesResult.HasError)
 				return updateZonesResult;
+			var savePendingCardResult = WriteSaveToController(item.UID);
+			if (savePendingCardResult.HasError)
+				return savePendingCardResult;
 			return base.Save(item);
+		}
+
+		public override OperationResult MarkDeleted(Guid uid)
+		{
+			var savePendingCardResult = WriteDeleteToController(uid);
+			if (savePendingCardResult.HasError)
+				return savePendingCardResult;
+			return base.MarkDeleted(uid);
 		}
 
 		public OperationResult SaveTemplate(SKDCard apiItem)
@@ -149,5 +160,78 @@ namespace SKDDriver
 
 			return result;
 		}
+
+		OperationResult WriteSaveToController(Guid cardUID)
+		{
+			try
+			{
+				DeleteAllPendingCards(cardUID);	
+				WriteToController(cardUID, Table.Any(x => x.UID == cardUID && !x.IsDeleted) ? PendingCardAction.Edit : PendingCardAction.Add);
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+		
+		OperationResult WriteDeleteToController(Guid cardUID)
+		{
+			try
+			{
+				var pendingCard = Context.PendingCards.FirstOrDefault(x => x.CardUID == cardUID);
+				if(pendingCard == null)
+				{
+					WriteToController(cardUID, PendingCardAction.Delete);
+					return new OperationResult();
+				}
+				switch ((PendingCardAction)pendingCard.Action)
+				{
+					case PendingCardAction.Add:
+						DeleteAllPendingCards(cardUID);
+						break;
+					case PendingCardAction.Delete:
+					case PendingCardAction.Edit:
+						DeleteAllPendingCards(cardUID);
+						WriteToController(cardUID, PendingCardAction.Delete);
+						break;
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
+		void DeleteAllPendingCards(Guid cardUID)
+		{
+			var pendingCardsToRemove = Context.PendingCards.Where(x => x.CardUID == cardUID);
+			Context.PendingCards.DeleteAllOnSubmit(pendingCardsToRemove);
+			Context.SubmitChanges();
+		}
+
+		void WriteToController(Guid cardUID, PendingCardAction action)
+		{
+			var writeToControllerResult = true;
+			if (writeToControllerResult)
+			{
+				var pendingCard = new DataAccess.PendingCard
+				{
+					UID = Guid.NewGuid(),
+					CardUID = cardUID,
+					Action = (int)action
+				};
+				Context.PendingCards.InsertOnSubmit(pendingCard);
+				Context.SubmitChanges();
+			}
+		}
+	}
+
+	public enum PendingCardAction
+	{
+		Add,
+		Edit,
+		Delete
 	}
 }

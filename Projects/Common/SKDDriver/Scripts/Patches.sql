@@ -133,3 +133,59 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('DoorsEnterExit')    
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationZone')
+BEGIN
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationZone')
+	BEGIN
+		CREATE TABLE [dbo].[OrganisationZone](
+		[UID] [uniqueidentifier] NOT NULL,
+		[ZoneUID] [uniqueidentifier] NOT NULL,
+		[OrganisationUID] [uniqueidentifier] NOT NULL,
+		CONSTRAINT [PK_OrganisationZone] PRIMARY KEY CLUSTERED 
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		ALTER TABLE [dbo].[OrganisationZone] WITH NOCHECK ADD CONSTRAINT [FK_OrganisationZone_Organisation] FOREIGN KEY([OrganisationUid])
+		REFERENCES [dbo].[Organisation] ([Uid])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[OrganisationZone] NOCHECK CONSTRAINT [FK_OrganisationZone_Organisation]
+	END
+	INSERT INTO Patches (Id) VALUES ('OrganisationZone')    
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DoorsEnterExit')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardDoor')
+	BEGIN
+		ALTER TABLE CardDoor DROP COLUMN IntervalUID
+		ALTER TABLE CardDoor DROP COLUMN IntervalType
+		ALTER TABLE CardDoor ADD [EnterIntervalUID] uniqueidentifier NULL
+		ALTER TABLE CardDoor ADD [EnterIntervalType] int NULL
+		ALTER TABLE CardDoor ADD [ExitIntervalUID] uniqueidentifier NULL
+		ALTER TABLE CardDoor ADD [ExitIntervalType] int NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('DoorsEnterExit')    
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'PendingCard')
+BEGIN
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'PendingCard')
+	BEGIN
+		CREATE TABLE [dbo].[PendingCard](
+			[UID] [uniqueidentifier] NOT NULL,
+			[CardUID] [uniqueidentifier] NOT NULL,
+			[Action] [int] NOT NULL,
+		CONSTRAINT [PK_PendingCard] PRIMARY KEY CLUSTERED 
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		ALTER TABLE [dbo].[PendingCard]  WITH NOCHECK ADD  CONSTRAINT [FK_PendingCard_Card] FOREIGN KEY([CardUid])
+		REFERENCES [dbo].[Card] ([Uid])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[PendingCard] NOCHECK CONSTRAINT [FK_PendingCard_Card]
+	END
+	INSERT INTO Patches (Id) VALUES ('PendingCard')    
+END

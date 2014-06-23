@@ -55,13 +55,14 @@ namespace SKDModule.ViewModels
 
 				if (value != null)
 				{
-					//OrganisationZonesViewModel = new OrganisationZonesViewModel(SelectedOrganisation.Organisation);
+					OrganisationZonesViewModel = new OrganisationZonesViewModel(SelectedOrganisation.Organisation);
 					OrganisationDoorsViewModel = new OrganisationDoorsViewModel(SelectedOrganisation.Organisation);
 					OrganisationGuardZonesViewModel = new OrganisationGuardZonesViewModel(SelectedOrganisation.Organisation);
 					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation);
 				}
 				else
 				{
+					OrganisationZonesViewModel = null;
 					OrganisationDoorsViewModel = null;
 					OrganisationGuardZonesViewModel = null;
 					OrganisationUsersViewModel = null;
@@ -69,16 +70,16 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		//OrganisationZonesViewModel _organisationZonesViewModel;
-		//public OrganisationZonesViewModel OrganisationZonesViewModel
-		//{
-		//    get { return _organisationZonesViewModel; }
-		//    set
-		//    {
-		//        _organisationZonesViewModel = value;
-		//        OnPropertyChanged("OrganisationZonesViewModel");
-		//    }
-		//}
+		OrganisationZonesViewModel _organisationZonesViewModel;
+		public OrganisationZonesViewModel OrganisationZonesViewModel
+		{
+			get { return _organisationZonesViewModel; }
+			set
+			{
+				_organisationZonesViewModel = value;
+				OnPropertyChanged("OrganisationZonesViewModel");
+			}
+		}
 
 		OrganisationDoorsViewModel _OrganisationDoorsViewModel;
 		public OrganisationDoorsViewModel OrganisationDoorsViewModel
