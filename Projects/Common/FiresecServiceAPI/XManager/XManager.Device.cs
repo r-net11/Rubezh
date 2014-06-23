@@ -27,6 +27,7 @@ namespace FiresecClient
 			deviceTo.Driver = deviceFrom.Driver;
 			deviceTo.IntAddress = deviceFrom.IntAddress;
 			deviceTo.Description = deviceFrom.Description;
+			deviceTo.PredefinedName = deviceFrom.PredefinedName;
 
 			deviceTo.Properties = new List<XProperty>();
 			foreach (var property in deviceFrom.Properties)

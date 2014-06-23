@@ -82,24 +82,27 @@ namespace GKModule.ViewModels
 			return Math.Max((byte)1, maxAddress);
 		}
 
-		public static DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
+		public static DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel, bool addAutoCreate = true)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 			{
-				AddDevice(childDevice, deviceViewModel);
+				AddDevice(childDevice, deviceViewModel, addAutoCreate);
 			}
 
-			if (device.Driver.IsGroupDevice)
+			if (addAutoCreate)
 			{
-				var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
-
-				for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
+				if (device.Driver.IsGroupDevice)
 				{
-					var autoDevice = XManager.AddChild(device, null, driver, (byte)(device.IntAddress + i));
-					AddDevice(autoDevice, deviceViewModel);
+					var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == device.Driver.GroupDeviceChildType);
+
+					for (byte i = 0; i < device.Driver.GroupDeviceChildrenCount; i++)
+					{
+						var autoDevice = XManager.AddChild(device, null, driver, (byte)(device.IntAddress + i));
+						AddDevice(autoDevice, deviceViewModel, addAutoCreate);
+					}
 				}
 			}
 			return deviceViewModel;

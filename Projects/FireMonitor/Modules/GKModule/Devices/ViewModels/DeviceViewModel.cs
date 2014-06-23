@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -122,7 +123,8 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnore()
 		{
-			return Device.IsRealDevice && !Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return Device.AllParents.Any(x => x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && Device.IsRealDevice &&
+				!Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -135,7 +137,8 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-			return Device.IsRealDevice && Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return Device.AllParents.Any(x => x.DriverType == XDriverType.KAU_Shleif || x.DriverType == XDriverType.RSR2_KAU_Shleif) && Device.IsRealDevice &&
+				Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 		#endregion
 
