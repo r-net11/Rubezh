@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -41,6 +42,12 @@ namespace ControllerSDK.ViewModels
 			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_BLACKLIST);
 			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_CORCE);
 			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_MOTHERCARD);
+
+			Doors = new ObservableCollection<DoorViewModel>();
+			for (int i = 0; i < 20; i++)
+			{
+				Doors.Add(new DoorViewModel(i));
+			}
 		}
 
 		public void Initialize(List<Card> cards)
@@ -65,6 +72,18 @@ namespace ControllerSDK.ViewModels
 			card.ValidStartDateTime = ValidStartTime;
 			card.ValidEndDateTime = ValidEndTime;
 			card.CardType = CardType;
+
+			var doors = new List<int>();
+			foreach (var door in Doors)
+			{
+				if (door.IsChecked)
+				{
+					doors.Add(door.No);
+				}
+			}
+			card.Doors = doors.ToArray();
+			card.DoorsCount = card.Doors.Count();
+
 			var newCardNo = MainViewModel.Wrapper.AddCard(card);
 			MessageBox.Show("newCardNo = " + newCardNo);
 		}
@@ -88,11 +107,8 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (SelectedCard != null)
-			{
-				var result = MainViewModel.Wrapper.RemoveCard(Index);
-				MessageBox.Show("result = " + result);
-			}
+			var result = MainViewModel.Wrapper.RemoveCard(Index);
+			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand RemoveAllCommand { get; private set; }
@@ -129,17 +145,6 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		int _index;
-		public int Index
-		{
-			get { return _index; }
-			set
-			{
-				_index = value;
-				OnPropertyChanged("Index");
-			}
-		}
-
 		public ObservableCollection<CardViewModel> Cards { get; private set; }
 
 		CardViewModel _selectedCard;
@@ -150,6 +155,17 @@ namespace ControllerSDK.ViewModels
 			{
 				_selectedCard = value;
 				OnPropertyChanged(() => SelectedCard);
+			}
+		}
+
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged("Index");
 			}
 		}
 
@@ -242,5 +258,7 @@ namespace ControllerSDK.ViewModels
 				OnPropertyChanged(() => ValidEndTime);
 			}
 		}
+
+		public ObservableCollection<DoorViewModel> Doors { get; private set; }
 	}
 }

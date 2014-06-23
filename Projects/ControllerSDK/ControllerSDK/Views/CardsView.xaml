@@ -28,6 +28,22 @@
                 <TextBox Text="{Binding Password}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Doors" Width="200" Margin="2" />
+                <ItemsControl ItemsSource="{Binding Doors}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding No}" Margin="2" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                <TextBox Text="{Binding DoorsCount}" Width="250" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <TextBlock Text="DoorsCount" Width="200" Margin="2" />
                 <TextBox Text="{Binding DoorsCount}" Width="250" Margin="2" />
             </StackPanel>
@@ -49,7 +65,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="CardType" Width="200" Margin="2" />
-                <ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="200" Margin="2" />
+                <ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="250" Margin="2" />
             </StackPanel>
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False">

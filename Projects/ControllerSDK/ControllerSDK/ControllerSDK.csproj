@@ -74,6 +74,7 @@
     </ApplicationDefinition>
     <Compile Include="ViewModels\CommonViewModel.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
+    <Compile Include="ViewModels\DoorViewModel.cs" />
     <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\JournalViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

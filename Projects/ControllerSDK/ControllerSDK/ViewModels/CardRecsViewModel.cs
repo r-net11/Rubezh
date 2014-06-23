@@ -134,6 +134,17 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged("Index");
+			}
+		}
+
 		string _cardNo;
 		public string CardNo
 		{
@@ -199,17 +210,6 @@ namespace ControllerSDK.ViewModels
 			{
 				_doorOpenMethod = value;
 				OnPropertyChanged(() => DoorOpenMethod);
-			}
-		}
-
-		int _index;
-		public int Index
-		{
-			get { return _index; }
-			set
-			{
-				_index = value;
-				OnPropertyChanged("Index");
 			}
 		}
 	}
