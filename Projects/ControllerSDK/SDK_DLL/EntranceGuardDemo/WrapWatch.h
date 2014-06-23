@@ -5,7 +5,7 @@ typedef void(__stdcall * WRAP_ProgressCallback)(int);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_StartProgress(WRAP_ProgressCallback progressCallback);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_StartListen(int lLoginId);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_StartListen(int loginID);
 
 typedef struct
 {

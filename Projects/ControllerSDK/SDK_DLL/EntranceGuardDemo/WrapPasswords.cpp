@@ -7,9 +7,9 @@ using namespace std;
 
 #define QUERY_COUNT	(3)
 
-int CALL_METHOD WRAP_Insert_Pwd(int lLoginID, NET_RECORDSET_ACCESS_CTL_PWD* stuAccessCtlPwd)
+int CALL_METHOD WRAP_Insert_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD* stuAccessCtlPwd)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return 0;
 	}
@@ -21,7 +21,7 @@ int CALL_METHOD WRAP_Insert_Pwd(int lLoginID, NET_RECORDSET_ACCESS_CTL_PWD* stuA
 	stuInert.stuCtrlRecordSetInfo.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
 	
 	stuInert.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_RECORDSET_INSERT, &stuInert, 3000);
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_INSERT, &stuInert, 3000);
 	int nRecrdNo = stuInert.stuCtrlRecordSetResult.nRecNo;
 	if (bResult)
 	{
@@ -30,9 +30,9 @@ int CALL_METHOD WRAP_Insert_Pwd(int lLoginID, NET_RECORDSET_ACCESS_CTL_PWD* stuA
 	return 0;
 }
 
-BOOL CALL_METHOD WRAP_Update_Pwd(int lLoginID, NET_RECORDSET_ACCESS_CTL_PWD* stuAccessCtlPwd)
+BOOL CALL_METHOD WRAP_Update_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD* stuAccessCtlPwd)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
@@ -41,13 +41,39 @@ BOOL CALL_METHOD WRAP_Update_Pwd(int lLoginID, NET_RECORDSET_ACCESS_CTL_PWD* stu
     stuInert.emType = NET_RECORD_ACCESSCTLPWD;
 	stuInert.pBuf = stuAccessCtlPwd;
 	stuInert.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
     return bResult;
 }
 
-BOOL CALL_METHOD WRAP_GetPasswordInfo(int lLoginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_PWD* result)
+BOOL CALL_METHOD WRAP_Remove_Password(int loginID, int nRecordNo)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
+	{
+		return FALSE;
+	}
+	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
+	stuInert.pBuf = &nRecordNo;
+	stuInert.nBufLen = sizeof(nRecordNo);
+	stuInert.emType = NET_RECORD_ACCESSCTLPWD;
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_REMOVE, &stuInert, SDK_API_WAITTIME);
+	return bResult;
+}
+
+BOOL CALL_METHOD WRAP_RemoveAll_Passwords(int loginID)
+{
+	if (NULL == loginID)
+	{
+		return FALSE;
+	}
+	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
+	stuInert.emType = NET_RECORD_ACCESSCTLPWD;
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_CLEAR, &stuInert, SDK_API_WAITTIME);
+	return bResult;
+}
+
+BOOL CALL_METHOD WRAP_Get_Password_Info(int loginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_PWD* result)
+{
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
@@ -59,39 +85,13 @@ BOOL CALL_METHOD WRAP_GetPasswordInfo(int lLoginID, int nRecordNo, NET_RECORDSET
 	stuInert.pBuf = &stuAccessCtlPwd;
 
 	int nRet = 0;
-	BOOL bRet = CLIENT_QueryDevState(lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
+	BOOL bRet = CLIENT_QueryDevState(loginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
 
 	memcpy(result, &stuAccessCtlPwd, sizeof(stuAccessCtlPwd));
 	return bRet;
 }
 
-BOOL CALL_METHOD WRAP_RemovePassword(int lLoginID, int nRecordNo)
-{
-	if (NULL == lLoginID)
-	{
-		return FALSE;
-	}
-	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	stuInert.pBuf = &nRecordNo;
-	stuInert.nBufLen = sizeof(nRecordNo);
-	stuInert.emType = NET_RECORD_ACCESSCTLPWD;
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_RECORDSET_REMOVE, &stuInert, SDK_API_WAITTIME);
-	return bResult;
-}
-
-BOOL CALL_METHOD WRAP_RemoveAllPasswords(int lLoginID)
-{
-	if (NULL == lLoginID)
-	{
-		return FALSE;
-	}
-	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	stuInert.emType = NET_RECORD_ACCESSCTLPWD;
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_RECORDSET_CLEAR, &stuInert, SDK_API_WAITTIME);
-	return bResult;
-}
-
-void WRAP_testRecordSetFind_Pwd(LLONG lLoginId, LLONG& lFinderId, FIND_RECORD_ACCESSCTLPWD_CONDITION stuParam)
+void WRAP_testRecordSetFind_Pwd(LLONG loginID, LLONG& lFinderId, FIND_RECORD_ACCESSCTLPWD_CONDITION stuParam)
 {
 	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
 	NET_OUT_FIND_RECORD_PARAM stuOut = {sizeof(stuOut)};
@@ -100,7 +100,7 @@ void WRAP_testRecordSetFind_Pwd(LLONG lLoginId, LLONG& lFinderId, FIND_RECORD_AC
 	
 	stuIn.pQueryCondition = &stuParam;
 	
-	if (CLIENT_FindRecord(lLoginId, &stuIn, &stuOut, SDK_API_WAITTIME))
+	if (CLIENT_FindRecord(loginID, &stuIn, &stuOut, SDK_API_WAITTIME))
 	{
 		lFinderId = stuOut.lFindeHandle;
 		printf("WRAP_testRecordSetFind_Pwd ok!\n");
@@ -175,9 +175,9 @@ int GetPaswordsCountRecordSetFind(LLONG& lFinderId)
 	}
 }
 
-int CALL_METHOD WRAP_Get_PasswordsCount(int lLoginID)
+int CALL_METHOD WRAP_Get_Passwords_Count(int loginID)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
@@ -186,7 +186,7 @@ int CALL_METHOD WRAP_Get_PasswordsCount(int lLoginID)
 	FIND_RECORD_ACCESSCTLPWD_CONDITION stuParam = {sizeof(FIND_RECORD_ACCESSCTLPWD_CONDITION)};
 	strcpy(stuParam.szUserID, "1357924680");
 
-	WRAP_testRecordSetFind_Pwd(lLoginID, lFindID, stuParam);
+	WRAP_testRecordSetFind_Pwd(loginID, lFindID, stuParam);
     if (NULL != lFindID)
     {
 		int count = GetPaswordsCountRecordSetFind(lFindID);
@@ -196,7 +196,7 @@ int CALL_METHOD WRAP_Get_PasswordsCount(int lLoginID)
 	return -1;
 }
 
-BOOL CALL_METHOD WRAP_GetAllPasswords(int lLoginId, PasswordsCollection* result)
+BOOL CALL_METHOD WRAP_GetAll_Passwords(int loginID, PasswordsCollection* result)
 {
 	PasswordsCollection passwordsCollection = {sizeof(PasswordsCollection)};
 
@@ -212,7 +212,7 @@ BOOL CALL_METHOD WRAP_GetAllPasswords(int lLoginId, PasswordsCollection* result)
 	
 	stuIn.pQueryCondition = &stuParam;
 	
-	if (CLIENT_FindRecord(lLoginId, &stuIn, &stuOut, SDK_API_WAITTIME))
+	if (CLIENT_FindRecord(loginID, &stuIn, &stuOut, SDK_API_WAITTIME))
 	{
 		lFinderID = stuOut.lFindeHandle;
 

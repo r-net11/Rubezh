@@ -60,7 +60,7 @@ namespace ChinaSKDDriver
 		public DeviceSoftwareInfo GetDeviceSoftwareInfo()
 		{
 			NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_GetSoftwareInfo(LoginID, out outResult);
 
 			DeviceSoftwareInfo deviceSoftwareInfo = null;
 			if (result)
@@ -76,7 +76,7 @@ namespace ChinaSKDDriver
 		public DeviceNetInfo GetDeviceNetInfo()
 		{
 			NativeWrapper.WRAP_CFG_NETWORK_INFO_Result outResult;
-			var result = NativeWrapper.WRAP_Get_DevConfig_IPMaskGate(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_Get_NetInfo(LoginID, out outResult);
 
 			DeviceNetInfo deviceNetInfo = null;
 			if (result)
@@ -92,14 +92,14 @@ namespace ChinaSKDDriver
 
 		public bool SetDeviceNetInfo(DeviceNetInfo deviceNetInfo)
 		{
-			var result = NativeWrapper.WRAP_Set_DevConfig_IPMaskGate(LoginID, deviceNetInfo.IP, deviceNetInfo.SubnetMask, deviceNetInfo.DefaultGateway, deviceNetInfo.MTU);
+			var result = NativeWrapper.WRAP_Set_NetInfo(LoginID, deviceNetInfo.IP, deviceNetInfo.SubnetMask, deviceNetInfo.DefaultGateway, deviceNetInfo.MTU);
 			return result;
 		}
 
 		public string GetDeviceMacAddress()
 		{
 			NativeWrapper.WRAP_DevConfig_MAC_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_MAC(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_GetMacAddress(LoginID, out outResult);
 			if (result)
 			{
 				var macAddress = Wrapper.CharArrayToString(outResult.szMAC);
@@ -111,7 +111,7 @@ namespace ChinaSKDDriver
 		public int GetMaxPageSize()
 		{
 			NativeWrapper.WRAP_DevConfig_RecordFinderCaps_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_RecordFinderCaps(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_GetMaxPageSize(LoginID, out outResult);
 			if (result)
 			{
 				var maxPageSize = outResult.nMaxPageSize;
@@ -123,7 +123,7 @@ namespace ChinaSKDDriver
 		public DateTime GetDateTime()
 		{
 			NativeWrapper.NET_TIME outResult;
-			var result = NativeWrapper.WRAP_DevConfig_GetCurrentTime(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_GetCurrentTime(LoginID, out outResult);
 			if (result)
 			{
 				try
@@ -138,19 +138,19 @@ namespace ChinaSKDDriver
 
 		public bool SetDateTime(DateTime dateTime)
 		{
-			var result = NativeWrapper.WRAP_DevConfig_SetCurrentTime(LoginID, dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+			var result = NativeWrapper.WRAP_SetCurrentTime(LoginID, dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
 			return result;
 		}
 
 		public bool DeleteAll()
 		{
-			var result = NativeWrapper.WRAP_DevCtrl_DeleteCfgFile(LoginID);
+			var result = NativeWrapper.WRAP_DeleteCfgFile(LoginID);
 			return result;
 		}
 
 		public bool Reboot()
 		{
-			var result = NativeWrapper.WRAP_DevCtrl_ReBoot(LoginID);
+			var result = NativeWrapper.WRAP_ReBoot(LoginID);
 			return result;
 		}
 
@@ -178,7 +178,7 @@ namespace ChinaSKDDriver
 		public int GetLogsCount()
 		{
 			NativeWrapper.QUERY_DEVICE_LOG_PARAM logParam = new NativeWrapper.QUERY_DEVICE_LOG_PARAM();
-			var result = NativeWrapper.WRAP_DevCtrl_GetLogCount(LoginID, ref logParam);
+			var result = NativeWrapper.WRAP_GetLogCount(LoginID, ref logParam);
 			return result;
 		}
 

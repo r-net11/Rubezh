@@ -7,16 +7,16 @@ using namespace std;
  
 #define QUERY_COUNT	(3)
 
-BOOL CALL_METHOD WRAP_DevConfig_TypeAndSoftInfo(int lLoginID, WRAP_DevConfig_TypeAndSoftInfo_Result* result)
+BOOL CALL_METHOD WRAP_GetSoftwareInfo(int loginID, WRAP_DevConfig_TypeAndSoftInfo_Result* result)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
 
 	DHDEV_VERSION_INFO stuInfo = {0};
 	int nRet = 0;
-	BOOL bRet = CLIENT_QueryDevState(lLoginID, DH_DEVSTATE_SOFTWARE, (char*)&stuInfo, sizeof(stuInfo), &nRet, 3000);
+	BOOL bRet = CLIENT_QueryDevState(loginID, DH_DEVSTATE_SOFTWARE, (char*)&stuInfo, sizeof(stuInfo), &nRet, 3000);
 	if (bRet)
 	{
 		strncpy(result->szDevType, stuInfo.szDevType, sizeof(stuInfo.szDevType));
@@ -28,16 +28,16 @@ BOOL CALL_METHOD WRAP_DevConfig_TypeAndSoftInfo(int lLoginID, WRAP_DevConfig_Typ
 	return bRet;
 }
 
-BOOL CALL_METHOD WRAP_Get_DevConfig_IPMaskGate(int lLoginID, WRAP_CFG_NETWORK_INFO_Result* result)
+BOOL CALL_METHOD WRAP_Get_NetInfo(int loginID, WRAP_CFG_NETWORK_INFO_Result* result)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
 
 	int nError = 0;
 	char szBuffer[32 * 1024] = {0};
-	BOOL bRet = CLIENT_GetNewDevConfig(lLoginID, CFG_CMD_NETWORK, -1, szBuffer, 32 * 1024, &nError, 3000);
+	BOOL bRet = CLIENT_GetNewDevConfig(loginID, CFG_CMD_NETWORK, -1, szBuffer, 32 * 1024, &nError, 3000);
 	if (bRet)
 	{
 		int nRetLen = 0;
@@ -53,9 +53,9 @@ BOOL CALL_METHOD WRAP_Get_DevConfig_IPMaskGate(int lLoginID, WRAP_CFG_NETWORK_IN
 	return FALSE;
 }
 
-BOOL CALL_METHOD WRAP_Set_DevConfig_IPMaskGate(int lLoginID, char* ip, char* mask, char* gate, int mtu)
+BOOL CALL_METHOD WRAP_Set_NetInfo(int loginID, char* ip, char* mask, char* gate, int mtu)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
@@ -75,22 +75,22 @@ BOOL CALL_METHOD WRAP_Set_DevConfig_IPMaskGate(int lLoginID, char* ip, char* mas
 	BOOL bRet = CLIENT_PacketData(CFG_CMD_NETWORK, &stuNetwork, sizeof(stuNetwork), szOutBuffer, 32 * 1024);
 	if (bRet)
 	{
-		bRet = CLIENT_SetNewDevConfig(lLoginID, CFG_CMD_NETWORK, -1, szOutBuffer, 32 * 1024, &nError, &nRestart, 3000);
+		bRet = CLIENT_SetNewDevConfig(loginID, CFG_CMD_NETWORK, -1, szOutBuffer, 32 * 1024, &nError, &nRestart, 3000);
 		return bRet;
 	}
 	return FALSE;
 }
 
-BOOL CALL_METHOD WRAP_DevConfig_MAC(int lLoginID, WRAP_DevConfig_MAC_Result* result)
+BOOL CALL_METHOD WRAP_GetMacAddress(int loginID, WRAP_DevConfig_MAC_Result* result)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
 
 	DHDEV_NETINTERFACE_INFO stuInfo = {sizeof(stuInfo)};
 	int nRet = 0;
-	BOOL bRet = CLIENT_QueryDevState(lLoginID, DH_DEVSTATE_NETINTERFACE, (char*)&stuInfo, sizeof(stuInfo), &nRet, 3000);
+	BOOL bRet = CLIENT_QueryDevState(loginID, DH_DEVSTATE_NETINTERFACE, (char*)&stuInfo, sizeof(stuInfo), &nRet, 3000);
 	if (bRet)
 	{
 		strncpy(result->szMAC, stuInfo.szMAC, sizeof(stuInfo.szMAC));
@@ -98,16 +98,16 @@ BOOL CALL_METHOD WRAP_DevConfig_MAC(int lLoginID, WRAP_DevConfig_MAC_Result* res
 	return bRet;
 }
 
-BOOL CALL_METHOD WRAP_DevConfig_RecordFinderCaps(int lLoginID, WRAP_DevConfig_RecordFinderCaps_Result* result)
+BOOL CALL_METHOD WRAP_GetMaxPageSize(int loginID, WRAP_DevConfig_RecordFinderCaps_Result* result)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
 	int nError = 0;
 	char szBuffer[32 * 1024] = {0};
 	memset(szBuffer, 0, 32 * 1024);
-	BOOL bRet = CLIENT_QueryNewSystemInfo(lLoginID, CFG_CAP_CMD_RECORDFINDER, -1, szBuffer, 32 * 1024, &nError, SDK_API_WAITTIME);
+	BOOL bRet = CLIENT_QueryNewSystemInfo(loginID, CFG_CAP_CMD_RECORDFINDER, -1, szBuffer, 32 * 1024, &nError, SDK_API_WAITTIME);
 	if (bRet)
 	{
 		int nRetLen = 0;
@@ -122,14 +122,14 @@ BOOL CALL_METHOD WRAP_DevConfig_RecordFinderCaps(int lLoginID, WRAP_DevConfig_Re
 	return FALSE;
 }
 
-BOOL CALL_METHOD WRAP_DevConfig_GetCurrentTime(int lLoginID, NET_TIME* result)
+BOOL CALL_METHOD WRAP_GetCurrentTime(int loginID, NET_TIME* result)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
 	NET_TIME stuNetTime = {0};
-	BOOL bRet = CLIENT_QueryDeviceTime(lLoginID, &stuNetTime, SDK_API_WAITTIME);
+	BOOL bRet = CLIENT_QueryDeviceTime(loginID, &stuNetTime, SDK_API_WAITTIME);
 	result->dwYear = stuNetTime.dwYear;
 	result->dwMonth = stuNetTime.dwMonth;
 	result->dwDay = stuNetTime.dwDay;
@@ -139,9 +139,9 @@ BOOL CALL_METHOD WRAP_DevConfig_GetCurrentTime(int lLoginID, NET_TIME* result)
 	return bRet;
 }
 
-BOOL CALL_METHOD WRAP_DevConfig_SetCurrentTime(int lLoginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond)
+BOOL CALL_METHOD WRAP_SetCurrentTime(int loginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
@@ -152,15 +152,13 @@ BOOL CALL_METHOD WRAP_DevConfig_SetCurrentTime(int lLoginID, int dwYear, int dwM
 	stuNetTime.dwHour = dwHour;
 	stuNetTime.dwMinute = dwMinute;
 	stuNetTime.dwSecond = dwSecond;
-	BOOL bRet = CLIENT_SetupDeviceTime(lLoginID, &stuNetTime);
+	BOOL bRet = CLIENT_SetupDeviceTime(loginID, &stuNetTime);
 	return bRet;
 }
 
-BOOL CALL_METHOD WRAP_Dev_QueryLogList(int lLoginID, WRAP_Dev_QueryLogList_Result* result)
+BOOL CALL_METHOD WRAP_QueryLogList(int loginID, WRAP_Dev_QueryLogList_Result* result)
 {
-	printf("WRAP_Dev_QueryLogList");
-
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
@@ -190,7 +188,7 @@ BOOL CALL_METHOD WRAP_Dev_QueryLogList(int lLoginID, WRAP_Dev_QueryLogList_Resul
 	
 	DH_DEVICE_LOG_ITEM_EX* szLogInfos = new DH_DEVICE_LOG_ITEM_EX[32];
 	int nRetLogNum = 0;
-	BOOL bRet = CLIENT_QueryDeviceLog(lLoginID, &stuGetLog, (char*)szLogInfos, 32 * sizeof(DH_DEVICE_LOG_ITEM_EX), &nRetLogNum, SDK_API_WAITTIME);
+	BOOL bRet = CLIENT_QueryDeviceLog(loginID, &stuGetLog, (char*)szLogInfos, 32 * sizeof(DH_DEVICE_LOG_ITEM_EX), &nRetLogNum, SDK_API_WAITTIME);
 	if (bRet)
 	{
 		if (nRetLogNum <= 0)
@@ -220,7 +218,7 @@ BOOL CALL_METHOD WRAP_Dev_QueryLogList(int lLoginID, WRAP_Dev_QueryLogList_Resul
 			memset(szLogInfos, 0, sizeof(DH_DEVICE_LOG_ITEM_EX) * 32);
 			stuGetLog.nStartNum += nRetLogNum;  
 			nRetLogNum = 0;
-			bRet = CLIENT_QueryDeviceLog(lLoginID, &stuGetLog, (char*)szLogInfos, 32 * sizeof(DH_DEVICE_LOG_ITEM_EX), &nRetLogNum, SDK_API_WAITTIME);
+			bRet = CLIENT_QueryDeviceLog(loginID, &stuGetLog, (char*)szLogInfos, 32 * sizeof(DH_DEVICE_LOG_ITEM_EX), &nRetLogNum, SDK_API_WAITTIME);
 			if (bRet)
 			{
 				if (nRetLogNum <= 0)
@@ -241,12 +239,12 @@ BOOL CALL_METHOD WRAP_Dev_QueryLogList(int lLoginID, WRAP_Dev_QueryLogList_Resul
 	return TRUE;
 }
 
-BOOL CALL_METHOD WRAP_GetProjectPassword(int lLoginId, WRAP_GeneralConfig_Password* result)
+BOOL CALL_METHOD WRAP_GetProjectPassword(int loginID, WRAP_GeneralConfig_Password* result)
 {
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
 	
-	BOOL bRet = CLIENT_GetNewDevConfig(lLoginId, CFG_CMD_ACCESS_GENERAL, -1, szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
+	BOOL bRet = CLIENT_GetNewDevConfig(loginID, CFG_CMD_ACCESS_GENERAL, -1, szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
 
 	if (bRet)
 	{
@@ -259,7 +257,7 @@ BOOL CALL_METHOD WRAP_GetProjectPassword(int lLoginId, WRAP_GeneralConfig_Passwo
 	return FALSE;
 }
 
-BOOL CALL_METHOD WRAP_SetProjectPassword(int lLoginId, char password[])
+BOOL CALL_METHOD WRAP_SetProjectPassword(int loginID, char password[])
 {
 	char szJsonBufSet[1024 * 40] = {0};
 	int nerror = 0;
@@ -269,16 +267,16 @@ BOOL CALL_METHOD WRAP_SetProjectPassword(int lLoginId, char password[])
 	stuInfo.abProjectPassword = true;
 	strncpy(stuInfo.szProjectPassword, password, __min(strlen(password), sizeof(stuInfo.szProjectPassword)));
 	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_GENERAL, &stuInfo, sizeof(stuInfo), szJsonBufSet, sizeof(szJsonBufSet));
-	bRet = CLIENT_SetNewDevConfig(lLoginId, CFG_CMD_ACCESS_GENERAL, -1, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
+	bRet = CLIENT_SetNewDevConfig(loginID, CFG_CMD_ACCESS_GENERAL, -1, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
 	return bRet;
 }
 
-BOOL CALL_METHOD WRAP_GetDoorConfiguration(int lLoginId, int channelNo, CFG_ACCESS_EVENT_INFO* result)
+BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result)
 {
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
 
-	BOOL bRet = CLIENT_GetNewDevConfig(lLoginId, CFG_CMD_ACCESS_EVENT, channelNo, szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
+	BOOL bRet = CLIENT_GetNewDevConfig(loginID, CFG_CMD_ACCESS_EVENT, channelNo, szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
 
 	if (bRet)
 	{
@@ -291,7 +289,7 @@ BOOL CALL_METHOD WRAP_GetDoorConfiguration(int lLoginId, int channelNo, CFG_ACCE
 	return FALSE;
 }
 
-BOOL CALL_METHOD WRAP_SetDoorConfiguration(int lLoginId, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo)
+BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo)
 {
 	char szJsonBufSet[1024 * 40] = {0};
 			
@@ -300,34 +298,34 @@ BOOL CALL_METHOD WRAP_SetDoorConfiguration(int lLoginId, int channelNo, CFG_ACCE
 	{
 		int nerror = 0;
 		int nrestart = 0;
-		bRet = CLIENT_SetNewDevConfig(lLoginId, CFG_CMD_ACCESS_EVENT, channelNo, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
+		bRet = CLIENT_SetNewDevConfig(loginID, CFG_CMD_ACCESS_EVENT, channelNo, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
 		return bRet;
 	}
 }
 
-BOOL CALL_METHOD WRAP_DevCtrl_ReBoot(int lLoginID)
+BOOL CALL_METHOD WRAP_ReBoot(int loginID)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_REBOOT, NULL, SDK_API_WAITTIME);
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_REBOOT, NULL, SDK_API_WAITTIME);
 	return TRUE;
 }
 
-BOOL CALL_METHOD WRAP_DevCtrl_DeleteCfgFile(int lLoginID)
+BOOL CALL_METHOD WRAP_DeleteCfgFile(int loginID)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
-	BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_RESTOREDEFAULT, NULL, SDK_API_WAITTIME);
+	BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RESTOREDEFAULT, NULL, SDK_API_WAITTIME);
 	return TRUE;
 }
 
-int CALL_METHOD WRAP_DevCtrl_GetLogCount(int lLoginID, QUERY_DEVICE_LOG_PARAM* logParam)
+int CALL_METHOD WRAP_GetLogCount(int loginID, QUERY_DEVICE_LOG_PARAM* logParam)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return 0;
 	}
@@ -353,44 +351,44 @@ int CALL_METHOD WRAP_DevCtrl_GetLogCount(int lLoginID, QUERY_DEVICE_LOG_PARAM* l
 	stuGetLog.nLogStuType = logParam->nLogStuType;
 	stuGetLog.nEndNum = logParam->nEndNum;
 	
-	BOOL bResult = CLIENT_QueryDevLogCount(lLoginID, &stuInLogCount, &stuOutLogCount, SDK_API_WAITTIME);
+	BOOL bResult = CLIENT_QueryDevLogCount(loginID, &stuInLogCount, &stuOutLogCount, SDK_API_WAITTIME);
  	return stuOutLogCount.nLogCount;
 }
 
-BOOL CALL_METHOD WRAP_OpenDoor(int lLoginID, int channelNo)
+BOOL CALL_METHOD WRAP_OpenDoor(int loginID, int channelNo)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
 	NET_CTRL_ACCESS_OPEN stuInert = {sizeof(stuInert)};
 	stuInert.nChannelID = channelNo;
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_ACCESS_OPEN, &stuInert, SDK_API_WAITTIME);
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_ACCESS_OPEN, &stuInert, SDK_API_WAITTIME);
 	return bResult;
 }
 
-BOOL CALL_METHOD WRAP_CloseDoor(int lLoginId, int channelNo)
+BOOL CALL_METHOD WRAP_CloseDoor(int loginID, int channelNo)
 {
-	if (NULL == lLoginId)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
 	NET_CTRL_ACCESS_CLOSE stuParam = {sizeof(stuParam)};
 	stuParam.nChannelID = channelNo;
-    BOOL bResult = CLIENT_ControlDevice(lLoginId, DH_CTRL_ACCESS_CLOSE, &stuParam, SDK_API_WAITTIME);
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_ACCESS_CLOSE, &stuParam, SDK_API_WAITTIME);
 	return bResult;
 }
 
-int CALL_METHOD WRAP_GetDoorStatus(int lLoginId, int channelNo)
+int CALL_METHOD WRAP_GetDoorStatus(int loginID, int channelNo)
 {
-	if (NULL == lLoginId)
+	if (NULL == loginID)
 	{
 		return - 1;
 	}
 	NET_DOOR_STATUS_INFO stuParam = {sizeof(stuParam)};
 	stuParam.nChannel = channelNo;
 	int nRetLen = 0;
-	BOOL bResult = CLIENT_QueryDevState(lLoginId, DH_DEVSTATE_DOOR_STATE, (char*)&stuParam, sizeof(stuParam), &nRetLen, SDK_API_WAITTIME);
+	BOOL bResult = CLIENT_QueryDevState(loginID, DH_DEVSTATE_DOOR_STATE, (char*)&stuParam, sizeof(stuParam), &nRetLen, SDK_API_WAITTIME);
 	if (bResult)
 	{
 		switch (stuParam.emStateType)

@@ -25,13 +25,13 @@ namespace ChinaSKDDriver
 
 		public bool RemoveCard(int index)
 		{
-			var result = NativeWrapper.WRAP_RemoveCard(LoginID, index);
+			var result = NativeWrapper.WRAP_Remove_Card(LoginID, index);
 			return result;
 		}
 
 		public bool RemoveAllCards()
 		{
-			var result = NativeWrapper.WRAP_RemoveAllCards(LoginID);
+			var result = NativeWrapper.WRAP_RemoveAll_Cards(LoginID);
 			return result;
 		}
 
@@ -40,7 +40,7 @@ namespace ChinaSKDDriver
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetCardInfo(LoginID, recordNo, intPtr);
+			var result = NativeWrapper.WRAP_Get_Card_Info(LoginID, recordNo, intPtr);
 
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD)));
 			Marshal.FreeCoTaskMem(intPtr);
@@ -55,7 +55,7 @@ namespace ChinaSKDDriver
 			NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION();
 			stuParam.szCardNo = Wrapper.StringToCharArray("1", 32);
 			stuParam.szUserID = Wrapper.StringToCharArray("1", 32);
-			var cardsCount = NativeWrapper.WRAP_Get_CardsCount(LoginID, ref stuParam);
+			var cardsCount = NativeWrapper.WRAP_Get_Cards_Count(LoginID, ref stuParam);
 			return cardsCount;
 		}
 
@@ -64,7 +64,7 @@ namespace ChinaSKDDriver
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CardsCollection));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetAllCards(LoginID, intPtr);
+			var result = NativeWrapper.WRAP_GetAll_Cards(LoginID, intPtr);
 
 			NativeWrapper.CardsCollection cardsCollection = (NativeWrapper.CardsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardsCollection)));
 			Marshal.FreeCoTaskMem(intPtr);

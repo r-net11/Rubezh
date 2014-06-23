@@ -24,13 +24,13 @@ namespace ChinaSKDDriver
 
 		public bool RemoveHoliday(int index)
 		{
-			var result = NativeWrapper.WRAP_RemoveHoliday(LoginID, index);
+			var result = NativeWrapper.WRAP_Remove_Holiday(LoginID, index);
 			return result;
 		}
 
 		public bool RemoveAllHolidays()
 		{
-			var result = NativeWrapper.WRAP_RemoveAllHolidays(LoginID);
+			var result = NativeWrapper.WRAP_RemoveAll_Holidays(LoginID);
 			return result;
 		}
 
@@ -39,7 +39,7 @@ namespace ChinaSKDDriver
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_HOLIDAY));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetHolidayInfo(LoginID, recordNo, intPtr);
+			var result = NativeWrapper.WRAP_Get_Holiday_Info(LoginID, recordNo, intPtr);
 
 			NativeWrapper.NET_RECORDSET_HOLIDAY nativeHoliday = (NativeWrapper.NET_RECORDSET_HOLIDAY)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_HOLIDAY)));
 			Marshal.FreeCoTaskMem(intPtr);
@@ -51,7 +51,7 @@ namespace ChinaSKDDriver
 
 		public int GetHolidaysCount()
 		{
-			var holidaysCount = NativeWrapper.WRAP_Get_HolidaysCount(LoginID);
+			var holidaysCount = NativeWrapper.WRAP_Get_Holidays_Count(LoginID);
 			return holidaysCount;
 		}
 

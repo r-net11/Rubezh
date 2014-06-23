@@ -10,7 +10,7 @@ typedef struct
 	DWORD dwSoftwareBuildDate_3;
 } WRAP_DevConfig_TypeAndSoftInfo_Result;
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevConfig_TypeAndSoftInfo(int lLoginID, WRAP_DevConfig_TypeAndSoftInfo_Result* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetSoftwareInfo(int loginID, WRAP_DevConfig_TypeAndSoftInfo_Result* result);
 
 typedef struct  
 {
@@ -20,27 +20,27 @@ typedef struct
 	int	nMTU;
 } WRAP_CFG_NETWORK_INFO_Result;
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Get_DevConfig_IPMaskGate(int lLoginID, WRAP_CFG_NETWORK_INFO_Result* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Get_NetInfo(int loginID, WRAP_CFG_NETWORK_INFO_Result* result);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Set_DevConfig_IPMaskGate(int lLoginID, char* ip, char* mask, char* gate, int mtu);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Set_NetInfo(int loginID, char* ip, char* mask, char* gate, int mtu);
 
 typedef struct
 {
 	char szMAC[DH_MACADDR_LEN];
 } WRAP_DevConfig_MAC_Result;
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevConfig_MAC(int lLoginID, WRAP_DevConfig_MAC_Result* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetMacAddress(int loginID, WRAP_DevConfig_MAC_Result* result);
 
 typedef struct
 {
 	int nMaxPageSize;
 } WRAP_DevConfig_RecordFinderCaps_Result;
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevConfig_RecordFinderCaps(int lLoginID, WRAP_DevConfig_RecordFinderCaps_Result* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetMaxPageSize(int loginID, WRAP_DevConfig_RecordFinderCaps_Result* result);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevConfig_GetCurrentTime(int lLoginID, NET_TIME* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetCurrentTime(int loginID, NET_TIME* result);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevConfig_SetCurrentTime(int lLoginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetCurrentTime(int loginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond);
 
 typedef struct
 {
@@ -57,35 +57,31 @@ typedef struct
 	int Test;
 } WRAP_Dev_QueryLogList_Result;
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Dev_QueryLogList(int lLoginID, WRAP_Dev_QueryLogList_Result* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_QueryLogList(int loginID, WRAP_Dev_QueryLogList_Result* result);
 
 typedef struct
 {
 	char szProjectPassword[MAX_PASSWORD_LEN];
 } WRAP_GeneralConfig_Password;
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetProjectPassword(int lLoginId, WRAP_GeneralConfig_Password* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetProjectPassword(int loginID, WRAP_GeneralConfig_Password* result);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetProjectPassword(int lLoginId, char password[]);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetProjectPassword(int loginID, char password[]);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDoorConfiguration(int lLoginId, int channelNo, CFG_ACCESS_EVENT_INFO* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDoorConfiguration(int lLoginId, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_ReBoot(int lLoginID);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_ReBoot(int loginID);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_DeleteCfgFile(int lLoginID);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DeleteCfgFile(int loginID);
 
-extern "C" CLIENT_API int CALL_METHOD WRAP_DevCtrl_GetLogCount(int lLoginID, QUERY_DEVICE_LOG_PARAM* logParam);
+extern "C" CLIENT_API int CALL_METHOD WRAP_GetLogCount(int loginID, QUERY_DEVICE_LOG_PARAM* logParam);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_RemoveRecordSet(int lLoginID, int nRecordNo, int nRecordSetType);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_OpenDoor(int loginID, int channelNo);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DevCtrl_ClearRecordSet(int lLoginID, int nRecordSetType);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_CloseDoor(int loginID, int channelNo);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_OpenDoor(int lLoginID, int channelNo);
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_CloseDoor(int lLoginId, int channelNo);
-
-extern "C" CLIENT_API int CALL_METHOD WRAP_GetDoorStatus(int lLoginId, int channelNo);
+extern "C" CLIENT_API int CALL_METHOD WRAP_GetDoorStatus(int loginID, int channelNo);
 
 #endif // !defined(__WRAP_H__)

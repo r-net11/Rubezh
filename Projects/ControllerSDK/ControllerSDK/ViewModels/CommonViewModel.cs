@@ -282,7 +282,7 @@ namespace ControllerSDK.ViewModels
 		void OnQueryLogList()
 		{
 			NativeWrapper.WRAP_Dev_QueryLogList_Result outResult;
-			var result = NativeWrapper.WRAP_Dev_QueryLogList(MainViewModel.Wrapper.LoginID, out outResult);
+			var result = NativeWrapper.WRAP_QueryLogList(MainViewModel.Wrapper.LoginID, out outResult);
 			List<DeviceJournalItem> deviceJournalItems = new List<DeviceJournalItem>();
 			if (result)
 			{

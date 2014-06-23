@@ -12,26 +12,26 @@ namespace ChinaSKDDriver
 		public int AddPassword(Password password)
 		{
 			var nativePassword = PasswordToNativePassword(password);
-			var result = NativeWrapper.WRAP_Insert_Pwd(LoginID, ref nativePassword);
+			var result = NativeWrapper.WRAP_Insert_Password(LoginID, ref nativePassword);
 			return result;
 		}
 
 		public bool EditPassword(Password password)
 		{
 			var nativePassword = PasswordToNativePassword(password);
-			var result = NativeWrapper.WRAP_Update_Pwd(LoginID, ref nativePassword);
+			var result = NativeWrapper.WRAP_Update_Password(LoginID, ref nativePassword);
 			return result;
 		}
 
 		public bool RemovePassword(int index)
 		{
-			var result = NativeWrapper.WRAP_RemovePassword(LoginID, index);
+			var result = NativeWrapper.WRAP_Remove_Password(LoginID, index);
 			return result;
 		}
 
 		public bool RemoveAllPasswords()
 		{
-			var result = NativeWrapper.WRAP_RemoveAllPasswords(LoginID);
+			var result = NativeWrapper.WRAP_RemoveAll_Passwords(LoginID);
 			return result;
 		}
 
@@ -40,7 +40,7 @@ namespace ChinaSKDDriver
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetPasswordInfo(LoginID, recordNo, intPtr);
+			var result = NativeWrapper.WRAP_Get_Password_Info(LoginID, recordNo, intPtr);
 
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD nativePassword = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD)));
 			Marshal.FreeCoTaskMem(intPtr);
@@ -52,7 +52,7 @@ namespace ChinaSKDDriver
 
 		public int GetPasswordsCount()
 		{
-			var passwordsCount = NativeWrapper.WRAP_Get_PasswordsCount(LoginID);
+			var passwordsCount = NativeWrapper.WRAP_Get_Passwords_Count(LoginID);
 			return passwordsCount;
 		}
 
@@ -61,7 +61,7 @@ namespace ChinaSKDDriver
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.PasswordsCollection));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetAllPasswords(LoginID, intPtr);
+			var result = NativeWrapper.WRAP_GetAll_Passwords(LoginID, intPtr);
 
 			NativeWrapper.PasswordsCollection passwordsCollection = (NativeWrapper.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.PasswordsCollection)));
 			Marshal.FreeCoTaskMem(intPtr);

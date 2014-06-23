@@ -27,7 +27,7 @@ namespace ChinaSKDDriver
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetCardRecInfo(LoginID, recordNo, intPtr);
+			var result = NativeWrapper.WRAP_Get_CardRec_Info(LoginID, recordNo, intPtr);
 
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec = (NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC)));
 			Marshal.FreeCoTaskMem(intPtr);
@@ -39,19 +39,19 @@ namespace ChinaSKDDriver
 
 		public bool RemoveCardRec(int index)
 		{
-			var result = NativeWrapper.WRAP_RemoveCardRec(LoginID, index);
+			var result = NativeWrapper.WRAP_Remove_CardRec(LoginID, index);
 			return result;
 		}
 
 		public bool RemoveAllCardRecs()
 		{
-			var result = NativeWrapper.WRAP_RemoveAllCardRecs(LoginID);
+			var result = NativeWrapper.WRAP_RemoveAll_CardRecs(LoginID);
 			return result;
 		}
 
 		public int GetCardRecsCount()
 		{
-			var cardsCount = NativeWrapper.WRAP_Get_CardRecordsCount(LoginID);
+			var cardsCount = NativeWrapper.WRAP_Get_CardRecs_Count(LoginID);
 			return cardsCount;
 		}
 
@@ -60,7 +60,7 @@ namespace ChinaSKDDriver
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CardRecsCollection));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetAllCardRecs(LoginID, intPtr);
+			var result = NativeWrapper.WRAP_GetAll_CardRecs(LoginID, intPtr);
 
 			NativeWrapper.CardRecsCollection cardRecsCollection = (NativeWrapper.CardRecsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardRecsCollection)));
 			Marshal.FreeCoTaskMem(intPtr);

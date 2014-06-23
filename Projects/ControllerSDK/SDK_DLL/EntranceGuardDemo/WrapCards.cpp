@@ -7,9 +7,9 @@ using namespace std;
 
 #define QUERY_COUNT	(3)
 
-int CALL_METHOD WRAP_Insert_Card(int lLoginID, NET_RECORDSET_ACCESS_CTL_CARD* stuCard)
+int CALL_METHOD WRAP_Insert_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* stuCard)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return 0;
 	}
@@ -22,7 +22,7 @@ int CALL_METHOD WRAP_Insert_Card(int lLoginID, NET_RECORDSET_ACCESS_CTL_CARD* st
 	
 	stuInert.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
 	
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_RECORDSET_INSERT, &stuInert, 3000);
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_INSERT, &stuInert, 3000);
 	int nRecrdNo = stuInert.stuCtrlRecordSetResult.nRecNo;
 	if (bResult)
 	{
@@ -31,9 +31,9 @@ int CALL_METHOD WRAP_Insert_Card(int lLoginID, NET_RECORDSET_ACCESS_CTL_CARD* st
 	return 0;
 }
 
-BOOL CALL_METHOD WRAP_Update_Card(int lLoginID, NET_RECORDSET_ACCESS_CTL_CARD* stuCard)
+BOOL CALL_METHOD WRAP_Update_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* stuCard)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
@@ -42,13 +42,39 @@ BOOL CALL_METHOD WRAP_Update_Card(int lLoginID, NET_RECORDSET_ACCESS_CTL_CARD* s
     stuInert.emType = NET_RECORD_ACCESSCTLCARD;
 	stuInert.pBuf = stuCard;
 	stuInert.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
 	return bResult;
 }
 
-BOOL CALL_METHOD WRAP_GetCardInfo(int lLoginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_CARD* result)
+BOOL CALL_METHOD WRAP_Remove_Card(int loginID, int nRecordNo)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
+	{
+		return FALSE;
+	}
+	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
+	stuInert.pBuf = &nRecordNo;
+	stuInert.nBufLen = sizeof(nRecordNo);
+	stuInert.emType = NET_RECORD_ACCESSCTLCARD;
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_REMOVE, &stuInert, SDK_API_WAITTIME);
+	return bResult;
+}
+
+BOOL CALL_METHOD WRAP_RemoveAll_Cards(int loginID)
+{
+	if (NULL == loginID)
+	{
+		return FALSE;
+	}
+	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
+	stuInert.emType = NET_RECORD_ACCESSCTLCARD;
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_CLEAR, &stuInert, SDK_API_WAITTIME);
+	return bResult;
+}
+
+BOOL CALL_METHOD WRAP_Get_Card_Info(int loginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_CARD* result)
+{
+	if (NULL == loginID)
 	{
 		return FALSE;
 	}
@@ -60,39 +86,13 @@ BOOL CALL_METHOD WRAP_GetCardInfo(int lLoginID, int nRecordNo, NET_RECORDSET_ACC
 	stuInert.pBuf = &stuCard;
 
 	int nRet = 0;
-	BOOL bRet = CLIENT_QueryDevState(lLoginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
+	BOOL bRet = CLIENT_QueryDevState(loginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
 
 	memcpy(result, &stuCard, sizeof(stuCard));
 	return bRet;
 }
 
-BOOL CALL_METHOD WRAP_RemoveCard(int lLoginID, int nRecordNo)
-{
-	if (NULL == lLoginID)
-	{
-		return FALSE;
-	}
-	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	stuInert.pBuf = &nRecordNo;
-	stuInert.nBufLen = sizeof(nRecordNo);
-	stuInert.emType = NET_RECORD_ACCESSCTLCARD;
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_RECORDSET_REMOVE, &stuInert, SDK_API_WAITTIME);
-	return bResult;
-}
-
-BOOL CALL_METHOD WRAP_RemoveAllCards(int lLoginID)
-{
-	if (NULL == lLoginID)
-	{
-		return FALSE;
-	}
-	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	stuInert.emType = NET_RECORD_ACCESSCTLCARD;
-    BOOL bResult = CLIENT_ControlDevice(lLoginID, DH_CTRL_RECORDSET_CLEAR, &stuInert, SDK_API_WAITTIME);
-	return bResult;
-}
-
-void WRAP_testRecordSetFind_Card(LLONG lLoginId, LLONG& lFinderId, FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam)
+void WRAP_testRecordSetFind_Card(LLONG loginID, LLONG& lFinderId, FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam)
 {
 	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
 	NET_OUT_FIND_RECORD_PARAM stuOut = {sizeof(stuOut)};
@@ -101,7 +101,7 @@ void WRAP_testRecordSetFind_Card(LLONG lLoginId, LLONG& lFinderId, FIND_RECORD_A
 
 	stuIn.pQueryCondition = &stuParam;
 	
-	if (CLIENT_FindRecord(lLoginId, &stuIn, &stuOut, SDK_API_WAITTIME))
+	if (CLIENT_FindRecord(loginID, &stuIn, &stuOut, SDK_API_WAITTIME))
 	{
 		lFinderId = stuOut.lFindeHandle;
 	}
@@ -176,15 +176,15 @@ int GetCardsCountRecordSetFind(LLONG& lFinderId)
 	}
 }
 
-int CALL_METHOD WRAP_Get_CardsCount(int lLoginID, FIND_RECORD_ACCESSCTLCARD_CONDITION* stuParam)
+int CALL_METHOD WRAP_Get_Cards_Count(int loginID, FIND_RECORD_ACCESSCTLCARD_CONDITION* stuParam)
 {
-	if (NULL == lLoginID)
+	if (NULL == loginID)
 	{
 		return -1;
 	}
 	LLONG lFindID = 0;
 
-	WRAP_testRecordSetFind_Card(lLoginID, lFindID, *stuParam);
+	WRAP_testRecordSetFind_Card(loginID, lFindID, *stuParam);
     if (NULL != lFindID)
     {
 		int count = GetCardsCountRecordSetFind(lFindID);
@@ -194,7 +194,7 @@ int CALL_METHOD WRAP_Get_CardsCount(int lLoginID, FIND_RECORD_ACCESSCTLCARD_COND
 	return -1;
 }
 
-BOOL CALL_METHOD WRAP_GetAllCards(int lLoginId, CardsCollection* result)
+BOOL CALL_METHOD WRAP_GetAll_Cards(int loginID, CardsCollection* result)
  {
  	CardsCollection cardsCollection = {sizeof(CardsCollection)};
  
@@ -205,7 +205,7 @@ BOOL CALL_METHOD WRAP_GetAllCards(int lLoginId, CardsCollection* result)
  	strcpy(stuParam.szCardNo, "1");
  	strcpy(stuParam.szUserID, "1");
  
- 	WRAP_testRecordSetFind_Card(lLoginId, lFinderID, stuParam);
+ 	WRAP_testRecordSetFind_Card(loginID, lFinderID, stuParam);
  	if (lFinderID != 0)
  	{
  		int i = 0, j = 0;

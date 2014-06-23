@@ -7,13 +7,13 @@ namespace ChinaSKDDriverNativeApi
 	{
 		#region Common
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate void fDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+		public delegate void fDisConnectDelegate(Int32 loginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate void fHaveReConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+		public delegate void fHaveReConnect(Int32 loginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
 
 		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate bool fMessCallBack(Int32 lCommand, Int32 lLoginID, IntPtr pBuf, Int32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+		public delegate bool fMessCallBack(Int32 lCommand, Int32 loginID, IntPtr pBuf, Int32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
 
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern Boolean CLIENT_Init(fDisConnectDelegate cbDisConnect, UInt32 dwUser);
@@ -43,7 +43,7 @@ namespace ChinaSKDDriverNativeApi
 		public static extern void CLIENT_SetDVRMessCallBack(fMessCallBack cbMessage, UInt32 dwUser);
 
 		[DllImport(@"dhnetsdk.dll")]
-		public static extern bool CLIENT_StartListenEx(Int32 lLoginID);
+		public static extern bool CLIENT_StartListenEx(Int32 loginID);
 
 		public enum NET_ACCESS_CTL_EVENT_TYPE
 		{
@@ -71,10 +71,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"dhnetsdk.dll")]
-		public static extern bool CLIENT_QueryDevState(Int32 lLoginID, Int32 nType, IntPtr pBuf, Int32 nBufLen, out Int32 pRetLen, Int32 waittime);
+		public static extern bool CLIENT_QueryDevState(Int32 loginID, Int32 nType, IntPtr pBuf, Int32 nBufLen, out Int32 pRetLen, Int32 waittime);
 
 		[DllImport(@"dhnetsdk.dll")]
-		public static extern bool CLIENT_GetNewDevConfig(Int32 lLoginID, string szCommand, Int32 nChannelID, char[] szOutBuffer, UInt32 dwOutBufferSize, out Int32 error, Int32 waittime);
+		public static extern bool CLIENT_GetNewDevConfig(Int32 loginID, string szCommand, Int32 nChannelID, char[] szOutBuffer, UInt32 dwOutBufferSize, out Int32 error, Int32 waittime);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_CAP_RECORDFINDER_INFO
@@ -94,10 +94,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"dhnetsdk.dll")]
-		public static extern bool CLIENT_QueryDeviceTime(Int32 lLoginID, IntPtr pDeviceTime, Int32 waittime);
+		public static extern bool CLIENT_QueryDeviceTime(Int32 loginID, IntPtr pDeviceTime, Int32 waittime);
 
 		[DllImport(@"dhnetsdk.dll")]
-		public static extern bool CLIENT_SetupDeviceTime(Int32 lLoginID, IntPtr pDeviceTime);
+		public static extern bool CLIENT_SetupDeviceTime(Int32 loginID, IntPtr pDeviceTime);
 
 		public enum DH_LOG_QUERY_TYPE
 		{
@@ -200,7 +200,7 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_DevConfig_TypeAndSoftInfo(Int32 lLoginID, out WRAP_DevConfig_TypeAndSoftInfo_Result result);
+		public static extern bool WRAP_GetSoftwareInfo(Int32 loginID, out WRAP_DevConfig_TypeAndSoftInfo_Result result);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_CFG_NETWORK_INFO_Result
@@ -215,10 +215,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_Get_DevConfig_IPMaskGate(int lLoginID, out WRAP_CFG_NETWORK_INFO_Result stuNetwork);
+		public static extern bool WRAP_Get_NetInfo(int loginID, out WRAP_CFG_NETWORK_INFO_Result stuNetwork);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_Set_DevConfig_IPMaskGate(int lLoginID, string ip, string mask, string gate, int mtu);
+		public static extern bool WRAP_Set_NetInfo(int loginID, string ip, string mask, string gate, int mtu);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_DevConfig_MAC_Result
@@ -228,7 +228,7 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_DevConfig_MAC(int lLoginID, out WRAP_DevConfig_MAC_Result result);
+		public static extern bool WRAP_GetMacAddress(int loginID, out WRAP_DevConfig_MAC_Result result);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_DevConfig_RecordFinderCaps_Result
@@ -237,13 +237,13 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_DevConfig_RecordFinderCaps(int lLoginID, out WRAP_DevConfig_RecordFinderCaps_Result result);
+		public static extern bool WRAP_GetMaxPageSize(int loginID, out WRAP_DevConfig_RecordFinderCaps_Result result);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_DevConfig_GetCurrentTime(int lLoginID, out NET_TIME result);
+		public static extern bool WRAP_GetCurrentTime(int loginID, out NET_TIME result);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_DevConfig_SetCurrentTime(int lLoginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond);
+		public static extern bool WRAP_SetCurrentTime(int loginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_LogItem
@@ -267,7 +267,7 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_Dev_QueryLogList(int lLoginID, out WRAP_Dev_QueryLogList_Result result);
+		public static extern bool WRAP_QueryLogList(int loginID, out WRAP_Dev_QueryLogList_Result result);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_GeneralConfig_Password
@@ -277,10 +277,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetProjectPassword(int lLoginId, out WRAP_GeneralConfig_Password result);
+		public static extern bool WRAP_GetProjectPassword(int loginID, out WRAP_GeneralConfig_Password result);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_SetProjectPassword(int lLoginId, string password);
+		public static extern bool WRAP_SetProjectPassword(int loginID, string password);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO
@@ -318,28 +318,28 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetDoorConfiguration(int lLoginId, int channelNo, out CFG_ACCESS_EVENT_INFO result);
+		public static extern bool WRAP_GetDoorConfiguration(int loginID, int channelNo, out CFG_ACCESS_EVENT_INFO result);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_SetDoorConfiguration(int lLoginId, int channelNo, ref CFG_ACCESS_EVENT_INFO accessEventInfo);
+		public static extern bool WRAP_SetDoorConfiguration(int loginID, int channelNo, ref CFG_ACCESS_EVENT_INFO accessEventInfo);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_DevCtrl_ReBoot(int lLoginID);
+		public static extern bool WRAP_ReBoot(int loginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_DevCtrl_DeleteCfgFile(int lLoginID);
+		public static extern bool WRAP_DeleteCfgFile(int loginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_DevCtrl_GetLogCount(int lLoginID, ref QUERY_DEVICE_LOG_PARAM logParam);
+		public static extern int WRAP_GetLogCount(int loginID, ref QUERY_DEVICE_LOG_PARAM logParam);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_OpenDoor(int lLoginID, int channelNo);
+		public static extern bool WRAP_OpenDoor(int loginID, int channelNo);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_CloseDoor(int lLoginId, int channelNo);
+		public static extern bool WRAP_CloseDoor(int loginID, int channelNo);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_GetDoorStatus(int lLoginId, int channelNo);
+		public static extern int WRAP_GetDoorStatus(int loginID, int channelNo);
 		#endregion
 
 		#region Cards
@@ -391,19 +391,19 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_Insert_Card(int lLoginID, ref NET_RECORDSET_ACCESS_CTL_CARD stuCard);
+		public static extern int WRAP_Insert_Card(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARD nativeCard);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_Update_Card(int lLoginID, ref NET_RECORDSET_ACCESS_CTL_CARD stuCard);
+		public static extern bool WRAP_Update_Card(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARD nativeCard);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_RemoveCard(int lLoginID, int nRecordNo);
+		public static extern bool WRAP_Remove_Card(int loginID, int recordNo);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_RemoveAllCards(int lLoginID);
+		public static extern bool WRAP_RemoveAll_Cards(int loginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetCardInfo(int lLoginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_CARD
+		public static extern bool WRAP_Get_Card_Info(int loginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_CARD
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct FIND_RECORD_ACCESSCTLCARD_CONDITION
@@ -417,7 +417,7 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_Get_CardsCount(int lLoginID, ref FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam);
+		public static extern int WRAP_Get_Cards_Count(int loginID, ref FIND_RECORD_ACCESSCTLCARD_CONDITION condition);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CardsCollection
@@ -428,7 +428,7 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetAllCards(int lLoginId, IntPtr result);
+		public static extern bool WRAP_GetAll_Cards(int loginID, IntPtr result);
 		#endregion
 
 		#region CardRecs
@@ -459,22 +459,22 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_Insert_CardRec(int lLoginID, ref NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec);
+		public static extern int WRAP_Insert_CardRec(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_Update_CardRec(int lLoginID, ref NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec);
+		public static extern bool WRAP_Update_CardRec(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_RemoveCardRec(int lLoginID, int nRecordNo);
+		public static extern bool WRAP_Remove_CardRec(int loginID, int recordNo);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_RemoveAllCardRecs(int lLoginID);
+		public static extern bool WRAP_RemoveAll_CardRecs(int loginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetCardRecInfo(int lLoginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_CARDREC
+		public static extern bool WRAP_Get_CardRec_Info(int loginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_CARDREC
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_Get_CardRecordsCount(int lLoginID);
+		public static extern int WRAP_Get_CardRecs_Count(int loginID);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CardRecsCollection
@@ -485,18 +485,7 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetAllCardRecs(int lLoginId, IntPtr result);
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CardRecordsCollection
-		{
-			int Count;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1000)]
-			NET_RECORDSET_ACCESS_CTL_CARDREC[] CardRecords;
-		};
-
-		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetAllCardRecords(int lLoginId, IntPtr result);
+		public static extern bool WRAP_GetAll_CardRecs(int loginID, IntPtr result);
 		#endregion
 
 		#region Passwords
@@ -518,22 +507,22 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_Insert_Pwd(int lLoginID, ref NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd);
+		public static extern int WRAP_Insert_Password(int loginID, ref NET_RECORDSET_ACCESS_CTL_PWD nativePassword);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_Update_Pwd(int lLoginID, ref NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd);
+		public static extern bool WRAP_Update_Password(int loginID, ref NET_RECORDSET_ACCESS_CTL_PWD nativePassword);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_RemovePassword(int lLoginID, int nRecordNo);
+		public static extern bool WRAP_Remove_Password(int loginID, int recordNo);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_RemoveAllPasswords(int lLoginID);
+		public static extern bool WRAP_RemoveAll_Passwords(int loginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetPasswordInfo(int lLoginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_PWD
+		public static extern bool WRAP_Get_Password_Info(int loginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_PWD
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_Get_PasswordsCount(int lLoginID);
+		public static extern int WRAP_Get_Passwords_Count(int loginID);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct PasswordsCollection
@@ -544,7 +533,7 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetAllPasswords(int lLoginId, IntPtr result);
+		public static extern bool WRAP_GetAll_Passwords(int loginID, IntPtr result);
 		#endregion
 
 		#region Holidays
@@ -562,22 +551,22 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_Insert_Holiday(int lLoginID, ref NET_RECORDSET_HOLIDAY stuHoliday);
+		public static extern int WRAP_Insert_Holiday(int loginID, ref NET_RECORDSET_HOLIDAY nativeHoliday);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_Update_Holiday(int lLoginID, ref NET_RECORDSET_HOLIDAY stuHoliday);
+		public static extern bool WRAP_Update_Holiday(int loginID, ref NET_RECORDSET_HOLIDAY nativeHoliday);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_RemoveHoliday(int lLoginID, int nRecordNo);
+		public static extern bool WRAP_Remove_Holiday(int loginID, int recordNo);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_RemoveAllHolidays(int lLoginID);
+		public static extern bool WRAP_RemoveAll_Holidays(int loginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetHolidayInfo(int lLoginID, int recordNo, IntPtr result); // NET_RECORDSET_HOLIDAY
+		public static extern bool WRAP_Get_Holiday_Info(int loginID, int recordNo, IntPtr result); // NET_RECORDSET_HOLIDAY
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_Get_HolidaysCount(int lLoginID);
+		public static extern int WRAP_Get_Holidays_Count(int loginID);
 		#endregion
 
 		#region TimeShedules
@@ -602,10 +591,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetTimeSchedule(int lLoginId, int index, out CFG_ACCESS_TIMESCHEDULE_INFO result);
+		public static extern bool WRAP_GetTimeSchedule(int loginID, int index, out CFG_ACCESS_TIMESCHEDULE_INFO result);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_SetTimeSchedule(int lLoginId, int index, ref CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo);
+		public static extern bool WRAP_SetTimeSchedule(int loginID, int index, ref CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo);
 		#endregion
 
 		#region Events
@@ -616,7 +605,7 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_StartProgress(WRAP_ProgressCallback progressCallback);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_StartListen(int lLoginId);
+		public static extern bool WRAP_StartListen(int loginID);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct NET_GPS_STATUS_INFO

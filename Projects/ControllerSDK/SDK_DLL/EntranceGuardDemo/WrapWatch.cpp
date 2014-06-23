@@ -58,7 +58,7 @@ BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result)
 	return TRUE;
 }
 
-BOOL CALLBACK MessageCallBack(LONG lCommand, LLONG lLoginID, char *pBuf, DWORD dwBufLen, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
+BOOL CALLBACK MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWORD dwBufLen, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
 {
 	JournalLastIndex++;
 	WRAP_JournalItems[JournalLastIndex].EventType = lCommand;
@@ -209,9 +209,9 @@ BOOL CALLBACK MessageCallBack(LONG lCommand, LLONG lLoginID, char *pBuf, DWORD d
 	return TRUE;
 }
 
-BOOL CALL_METHOD CALL_METHOD WRAP_StartListen(int lLoginId)
+BOOL CALL_METHOD CALL_METHOD WRAP_StartListen(int loginID)
 {
 	CLIENT_SetDVRMessCallBack(MessageCallBack, NULL);
-	CLIENT_StartListenEx(lLoginId);
+	CLIENT_StartListenEx(loginID);
 	return TRUE;
 }
