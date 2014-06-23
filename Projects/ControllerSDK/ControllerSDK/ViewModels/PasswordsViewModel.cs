@@ -1,12 +1,13 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System.Collections.ObjectModel;
-using System;
-using ControllerSDK.SDK;
-using ControllerSDK.Views;
-using ControllerSDK.API;
-using System.Windows;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
+using ChinaSKDDriver;
+using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
+using ControllerSDK.Views;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels
 {
@@ -15,9 +16,9 @@ namespace ControllerSDK.ViewModels
 		public PasswordsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
-			GetInfoCommand = new RelayCommand(OnGetInfo);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
+			GetInfoCommand = new RelayCommand(OnGetInfo);
 			GetCountCommand = new RelayCommand(OnGetCount);
 			GetAllCommand = new RelayCommand(OnGetAll);
 			Passwords = new ObservableCollection<PasswordViewModel>();
@@ -49,14 +50,8 @@ namespace ControllerSDK.ViewModels
 			password.DoorOpenPassword = DoorOpenPassword;
 			password.AlarmPassword = AlarmPassword;
 			password.DoorsCount = DoorsCount;
-			var newPasswordNo = SDKWrapper.AddPassword(MainWindow.LoginID, password);
+			var newPasswordNo = MainViewModel.Wrapper.AddPassword(password);
 			MessageBox.Show("newPasswordNo = " + newPasswordNo);
-		}
-
-		public RelayCommand GetInfoCommand { get; private set; }
-		void OnGetInfo()
-		{
-			var result = SDKWrapper.GetPasswordInfo(MainWindow.LoginID, 0);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -64,7 +59,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedPassword != null)
 			{
-				var result = SDKImport.WRAP_DevCtrl_RemoveRecordSet(MainWindow.LoginID, SelectedPassword.Password.RecordNo, 2);
+				var result = MainViewModel.Wrapper.RemovePassword(SelectedPassword.Password.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -72,21 +67,27 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = SDKImport.WRAP_DevCtrl_ClearRecordSet(MainWindow.LoginID, 2);
+			var result = MainViewModel.Wrapper.RemoveAllPasswords();
 			MessageBox.Show("result = " + result);
+		}
+
+		public RelayCommand GetInfoCommand { get; private set; }
+		void OnGetInfo()
+		{
+			var result = MainViewModel.Wrapper.GetPasswordInfo(0);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var passwordsCount = SDKImport.WRAP_DevCtrl_Get_Password_RecordSetCount(MainWindow.LoginID);
+			var passwordsCount = MainViewModel.Wrapper.GetPasswordsCount();
 			MessageBox.Show("passwordsCount = " + passwordsCount);
 		}
 
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var passwords = SDKWrapper.GetAllPasswords(MainWindow.LoginID);
+			var passwords = MainViewModel.Wrapper.GetAllPasswords();
 
 			Passwords.Clear();
 			foreach (var password in passwords)

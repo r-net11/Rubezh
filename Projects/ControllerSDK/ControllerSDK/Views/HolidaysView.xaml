@@ -10,27 +10,27 @@
         <StackPanel Grid.Row="0">
             <StackPanel Orientation="Horizontal">
                 <Button Content="Add" Command="{Binding AddCommand}" Width="100" Margin="2" />
-                <Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
                 <Button Content="Remove" Command="{Binding RemoveCommand}" Width="100" Margin="2" />
                 <Button Content="RemoveAll" Command="{Binding RemoveAllCommand}" Width="100" Margin="2" />
+                <Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
                 <Button Content="GetCount" Command="{Binding GetCountCommand}" Width="100" Margin="2" />
                 <Button Content="GetAll" Command="{Binding GetAllCommand}" Width="100" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="StartDateTime" Width="200" Margin="2" />
-                <DatePicker SelectedDate="{Binding StartDateTime}" Width="100" Margin="2" />
+                <DatePicker SelectedDate="{Binding StartDateTime}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="EndDateTime" Width="200" Margin="2" />
-                <DatePicker SelectedDate="{Binding EndDateTime}" Width="100" Margin="2" />
+                <DatePicker SelectedDate="{Binding EndDateTime}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="DoorsCount" Width="200" Margin="2" />
-                <TextBox Text="{Binding DoorsCount}" Width="100" Margin="2" />
+                <TextBox Text="{Binding DoorsCount}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="IsEnabled" Width="200" Margin="2" />
-                <CheckBox IsEnabled="{Binding IsEnabled}" Width="100" Margin="2" />
+                <CheckBox IsEnabled="{Binding IsEnabled}" Width="250" Margin="2" />
             </StackPanel>
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}" AutoGenerateColumns="False">

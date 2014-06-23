@@ -25,8 +25,6 @@ namespace AutomationModule.ViewModels
 			VariablesViewModel = new VariablesViewModel(procedure);
 			ArgumentsViewModel = new ArgumentsViewModel(procedure);
 			ConditionsViewModel = new ConditionsViewModel(procedure);
-			InputObjects = new ProcedureInputObjectsViewModel(procedure);
-
 			OnShowSteps();
 		}
 
@@ -92,6 +90,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_isEnabled = value;
+				Procedure.IsActive = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => IsEnabled);
 			}
 		}
@@ -139,7 +139,5 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => IsConditionsVisible);
 			}
 		}
-
-		public ProcedureInputObjectsViewModel InputObjects { get; private set; }
 	}
 }

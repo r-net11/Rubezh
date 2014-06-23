@@ -1,77 +1,106 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection.Emit;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class ArithmeticStepViewModel : BaseViewModel
+	public class ArithmeticStepViewModel : BaseViewModel, IStepViewModel
 	{
-		public ObservableCollection<ArithmeticType> ArithmeticTypes { get; private set; }
 		public ArithmeticArguments ArithmeticArguments { get; private set; }
 		public Procedure Procedure { get; private set; }
-		public ArithmeticStepViewModel(ProcedureStep procedureStep, Procedure procedure)
+		public ArithmeticParameterViewModel Variable1 { get; set; }
+		public ArithmeticParameterViewModel Variable2 { get; set; }
+		public ArithmeticParameterViewModel Result { get; set; }
+		public Action UpdateDescriptionHandler { get; set; }
+		public ArithmeticStepViewModel(ProcedureStep procedureStep, Procedure procedure, Action updateDescriptionHandler)
 		{
 			Procedure = procedure;
+			UpdateDescriptionHandler = updateDescriptionHandler;
 			ArithmeticArguments = procedureStep.ArithmeticArguments;
 			SelectedArithmeticType = ArithmeticArguments.ArithmeticType;
 			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1, Procedure.Variables);
 			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2, Procedure.Variables);
 			Result = new ArithmeticParameterViewModel(ArithmeticArguments.Result, Procedure.Variables, true);
-			Initialize();
-		}
-
-		public void UpdateContent(List<Variable> localVariables)
-		{
-			Variable1.Update(localVariables);
-			Variable2.Update(localVariables);
-			Result.Update(localVariables);
-		}
-
-		void Initialize()
-		{
+			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
+			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
+			Result.UpdateDescriptionHandler = updateDescriptionHandler;
 			ArithmeticTypes = new ObservableCollection<ArithmeticType> { ArithmeticType.Add, ArithmeticType.Sub, ArithmeticType.Multi, ArithmeticType.Div };
 		}
 
+		public void UpdateContent()
+		{
+			Variable1.Update(Procedure.Variables);
+			Variable2.Update(Procedure.Variables);
+			Result.Update(Procedure.Variables);
+		}
+
+		public string Description
+		{
+			get
+			{
+				string var1 = Variable1.DescriptionValue;
+				if (String.IsNullOrEmpty(var1))
+					var1 = "пусто";
+				string var2 = Variable2.DescriptionValue;
+				if (String.IsNullOrEmpty(var2))
+					var2 = "пусто";
+				string res = Result.DescriptionValue;
+				if (String.IsNullOrEmpty(res))
+					res = "пусто";
+				var op = "";
+				switch (SelectedArithmeticType)
+				{
+					case ArithmeticType.Add:
+						op = "+";
+						break;
+					case ArithmeticType.Sub:
+						op = "-";
+						break;
+					case ArithmeticType.Div:
+						op = ":";
+						break;
+					case ArithmeticType.Multi:
+						op = "*";
+						break;
+				}
+
+				return "<" + var1 + "> " + op + " " + "<" + var2 + "> " + "=" + " <" + res + "> ";
+			}
+		}
+
+		public ObservableCollection<ArithmeticType> ArithmeticTypes { get; private set; }
 		public ArithmeticType SelectedArithmeticType
 		{
 			get { return ArithmeticArguments.ArithmeticType; }
 			set
 			{
 				ArithmeticArguments.ArithmeticType = value;
+				if (UpdateDescriptionHandler!=null)
+					UpdateDescriptionHandler();
 				OnPropertyChanged(() => SelectedArithmeticType);
 			}
 		}
-
-		public ArithmeticParameterViewModel Variable1 { get; set; }
-		public ArithmeticParameterViewModel Variable2 { get; set; }
-		public ArithmeticParameterViewModel Result { get; set; }
 	}
 
 	public class ArithmeticParameterViewModel : BaseViewModel
 	{
 		public ArithmeticParameter ArithmeticParameter { get; private set; }
-		public List<ValueType> ValueTypes { get; private set; }
-		public ObservableCollection<VariableViewModel> Variables { get; private set; }
-		public ObservableCollection<GlobalVariableViewModel> GlobalVariables { get; private set; }
-
+		public Action UpdateDescriptionHandler { get; set; }
 		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, List<Variable> localVariables, bool isResult = false)
 		{
 			ArithmeticParameter = arithmeticParameter;
-			Initialize(localVariables, isResult);
-		}
-
-		void Initialize(List<Variable> localVariables, bool isResult)
-		{
-			ValueTypes = new List<ValueType>();
-			if (!isResult)
-				ValueTypes.Add(ValueType.IsValue);
+			ValueTypes = new ObservableCollection<ValueType>();
 			ValueTypes.Add(ValueType.IsGlobalVariable);
 			ValueTypes.Add(ValueType.IsLocalVariable);
+			if (!isResult)
+				ValueTypes.Add(ValueType.IsValue);
 			Update(localVariables);
-			SelectedValueType = ValueTypes.FirstOrDefault();
 		}
 
 		public void Update(List<Variable> localVariables)
@@ -89,11 +118,8 @@ namespace AutomationModule.ViewModels
 			if (localVariables.Any(x => x.Uid == ArithmeticParameter.VariableUid))
 				SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == ArithmeticParameter.VariableUid);
 			else
-				SelectedVariable = Variables.FirstOrDefault();
-
+				SelectedVariable = null;
 			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables == null)
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables = new List<GlobalVariable>();
 			foreach (var globalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
 				var globalVariableViewModel = new GlobalVariableViewModel(globalVariable);
@@ -102,19 +128,39 @@ namespace AutomationModule.ViewModels
 			if (GlobalVariables.Any(x => x.GlobalVariable.Uid == ArithmeticParameter.GlobalVariableUid))
 				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.GlobalVariable.Uid == ArithmeticParameter.GlobalVariableUid);
 			else
-				SelectedGlobalVariable = GlobalVariables.FirstOrDefault();
+				SelectedGlobalVariable = null;
+
+			SelectedValueType = ArithmeticParameter.ValueType;
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => Variables);
 		}
 
+		public ObservableCollection<ValueType> ValueTypes { get; private set; }
 		public ValueType SelectedValueType
 		{
 			get { return ArithmeticParameter.ValueType; }
 			set
 			{
 				ArithmeticParameter.ValueType = value;
+				if (value == ValueType.IsGlobalVariable)
+					DescriptionValue = SelectedGlobalVariable != null ? SelectedGlobalVariable.Name : "";
+				if (value == ValueType.IsLocalVariable)
+					DescriptionValue = SelectedVariable != null ? SelectedVariable.Name : "";
+				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedValueType);
+			}
+		}
+
+		string _desctriptionValue;
+		public string DescriptionValue 
+		{
+			get { return _desctriptionValue; }
+			private set
+			{
+				_desctriptionValue = value;
+				if (UpdateDescriptionHandler != null)
+					UpdateDescriptionHandler();
 			}
 		}
 
@@ -124,10 +170,13 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.Value = value;
+				DescriptionValue = value.ToString();
+				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => Value);
 			}
 		}
 
+		public ObservableCollection<GlobalVariableViewModel> GlobalVariables { get; private set; }
 		GlobalVariableViewModel _selectedGlobalVariable;
 		public GlobalVariableViewModel SelectedGlobalVariable
 		{
@@ -135,12 +184,20 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedGlobalVariable = value;
-				ArithmeticParameter.GlobalVariableUid = value.GlobalVariable.Uid;
+				if (_selectedGlobalVariable != null)
+				{
+					DescriptionValue = value.Name;
+					ArithmeticParameter.VariableUid = Guid.Empty;
+					ArithmeticParameter.GlobalVariableUid = value.GlobalVariable.Uid;
+				}
+				else if (SelectedValueType == ValueType.IsGlobalVariable)
+					DescriptionValue = "";
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedGlobalVariable);
 			}
 		}
 
+		public ObservableCollection<VariableViewModel> Variables { get; private set; }
 		VariableViewModel _selectedVariable;
 		public VariableViewModel SelectedVariable
 		{
@@ -149,7 +206,13 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedVariable = value;
 				if (_selectedVariable != null)
+				{
+					DescriptionValue = value.Name;
+					ArithmeticParameter.GlobalVariableUid = Guid.Empty;
 					ArithmeticParameter.VariableUid = value.Variable.Uid;
+				}
+				else if (SelectedValueType == ValueType.IsLocalVariable)
+					DescriptionValue = "";
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariable);
 			}

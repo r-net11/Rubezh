@@ -31,3 +31,5 @@ _ReSharper*/
 *.gpState
 *-Results.xml
 *dotNetInstallerLog.txt
+*.opensdf
+*.ipch

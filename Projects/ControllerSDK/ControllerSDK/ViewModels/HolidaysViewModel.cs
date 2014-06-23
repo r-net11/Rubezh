@@ -1,12 +1,13 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System.Collections.ObjectModel;
-using System;
-using ControllerSDK.SDK;
-using ControllerSDK.Views;
-using ControllerSDK.API;
-using System.Windows;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
+using ChinaSKDDriver;
+using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
+using ControllerSDK.Views;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels
 {
@@ -15,9 +16,9 @@ namespace ControllerSDK.ViewModels
 		public HolidaysViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
-			GetInfoCommand = new RelayCommand(OnGetInfo);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
+			GetInfoCommand = new RelayCommand(OnGetInfo);
 			GetCountCommand = new RelayCommand(OnGetCount);
 			GetAllCommand = new RelayCommand(OnGetAll);
 			Holidays = new ObservableCollection<HolidayViewModel>();
@@ -46,14 +47,8 @@ namespace ControllerSDK.ViewModels
 			holiday.EndDateTime = EndDateTime;
 			holiday.IsEnabled = IsEnabled;
 			holiday.DoorsCount = DoorsCount;
-			var newHolidayNo = SDKWrapper.AddHoliday(MainWindow.LoginID, holiday);
+			var newHolidayNo = MainViewModel.Wrapper.AddHoliday(holiday);
 			MessageBox.Show("newHolidayNo = " + newHolidayNo);
-		}
-
-		public RelayCommand GetInfoCommand { get; private set; }
-		void OnGetInfo()
-		{
-			var result = SDKWrapper.GetHolidayInfo(MainWindow.LoginID, 0);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -61,7 +56,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedHoliday != null)
 			{
-				var result = SDKImport.WRAP_DevCtrl_RemoveRecordSet(MainWindow.LoginID, SelectedHoliday.Holiday.RecordNo, 4);
+				var result = MainViewModel.Wrapper.RemoveHoliday(SelectedHoliday.Holiday.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -69,21 +64,27 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = SDKImport.WRAP_DevCtrl_ClearRecordSet(MainWindow.LoginID, 4);
+			var result = MainViewModel.Wrapper.RemoveAllHolidays();
 			MessageBox.Show("result = " + result);
+		}
+
+		public RelayCommand GetInfoCommand { get; private set; }
+		void OnGetInfo()
+		{
+			var result = MainViewModel.Wrapper.GetHolidayInfo(0);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			var holidaysCount = SDKImport.WRAP_DevCtrl_Get_Holiday_RecordSetCount(MainWindow.LoginID);
+			var holidaysCount = MainViewModel.Wrapper.GetHolidaysCount(); ;
 			MessageBox.Show("holidaysCount = " + holidaysCount);
 		}
 
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var holidays = SDKWrapper.GetAllHolidays(MainWindow.LoginID);
+			var holidays = MainViewModel.Wrapper.GetAllHolidays();
 
 			Holidays.Clear();
 			foreach (var holiday in holidays)

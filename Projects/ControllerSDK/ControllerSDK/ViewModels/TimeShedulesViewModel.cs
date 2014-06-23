@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System.Windows;
-using ControllerSDK.Views;
-using ControllerSDK.SDK;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using ControllerSDK.API;
+using System.Linq;
+using ChinaSKDDriver;
+using ChinaSKDDriverAPI;
+using ControllerSDK.Views;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace ControllerSDK.ViewModels
 {
@@ -23,24 +21,13 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetTimeShedulesCommand { get; private set; }
 		void OnGetTimeShedules()
 		{
-			var timeShedules = SDKWrapper.GetTimeShedules(MainWindow.LoginID);
-
-			foreach (var timeShedule in timeShedules)
-			{
-				Trace.WriteLine(timeShedule.Mask + " " + timeShedule.BeginHours + " " + timeShedule.BeginMinutes + " " + timeShedule.BeginSeconds + " " + timeShedule.EndHours + " " + timeShedule.EndMinutes + " " + timeShedule.EndSeconds);
-			}
+			var timeShedules = MainViewModel.Wrapper.GetTimeShedules(Index);
 
 			TimeShedules = new ObservableRangeCollection<TimeSheduleViewModel>();
-			for (int i = 0; i < 7; i++)
+			foreach (var timeShedule in timeShedules)
 			{
-				for (int j = 0; j < 4; j++)
-				{
-					var timeShedule = timeShedules[i * 4 + j];
-					var timeSheduleViewModel = new TimeSheduleViewModel(timeShedule);
-					timeSheduleViewModel.DayNo = i;
-					timeSheduleViewModel.DoorNo = j;
-					TimeShedules.Add(timeSheduleViewModel);
-				}
+				var timeSheduleViewModel = new TimeSheduleViewModel(timeShedule);
+				TimeShedules.Add(timeSheduleViewModel);
 			}
 			SelectedTimeShedule = TimeShedules.FirstOrDefault();
 		}
@@ -51,16 +38,30 @@ namespace ControllerSDK.ViewModels
 			var timeShedules = new List<TimeShedule>();
 			for (int i = 0; i < 7; i++)
 			{
+				var timeShedule = new TimeShedule();
+				timeShedules.Add(timeShedule);
 				for (int j = 0; j < 4; j++)
 				{
-					var timeShedule = new TimeShedule();
-					timeShedule.BeginHours = j + 4;
-					timeShedule.EndHours = i + 10;
-					timeShedule.EndMinutes = 10 + j * 10;
-					timeShedules.Add(timeShedule);
+					var timeSheduleInterval = new TimeSheduleInterval();
+					timeSheduleInterval.BeginHours = j + 4;
+					timeSheduleInterval.EndHours = i + 10;
+					timeSheduleInterval.EndMinutes = 10 + j * 10;
+					timeSheduleInterval.EndMinutes = DateTime.Now.Second;
+					timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
 				}
 			}
-			var result = SDKWrapper.SetTimeShedules(MainWindow.LoginID, timeShedules);
+			var result = MainViewModel.Wrapper.SetTimeShedules(Index, timeShedules);
+		}
+
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged("Index");
+			}
 		}
 
 		ObservableRangeCollection<TimeSheduleViewModel> _timeShedules;

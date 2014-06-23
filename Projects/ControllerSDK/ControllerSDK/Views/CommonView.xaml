@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="ControllerSDK.Views.CommonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel Grid.Column="0">
+        <Button Content="GetDeviceSoftwareInfo" Command="{Binding GetDeviceSoftwareInfoCommand}" Width="300" Margin="2" />
+        <Button Content="GetMacAddress" Command="{Binding GetMacAddressCommand}" Width="300" Margin="2" />
+        <Button Content="GetMaxPageSize" Command="{Binding GetMaxPageSizeCommand}" Width="300" Margin="2" />
+        <Button Content="DeleteCfgFile" Command="{Binding DeleteCfgFileCommand}" Width="300" Margin="2" />
+        <Button Content="ReBoot" Command="{Binding ReBootCommand}" Width="300" Margin="2" />
+
+        <StackPanel Orientation="Horizontal">
+            <Button Content="GetProjectPassword" Command="{Binding GetProjectPasswordCommand}" Width="300" Margin="2" />
+            <Button Content="SetProjectPassword" Command="{Binding SetProjectPasswordCommand}" Width="300" Margin="2" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="GetDoorConfiguration" Command="{Binding GetDoorConfigurationCommand}" Width="300" Margin="2" />
+            <Button Content="SetDoorConfiguration" Command="{Binding SetDoorConfigurationCommand}" Width="300" Margin="2" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="GetDeviceNetInfo" Command="{Binding GetDeviceNetInfoCommand}" Width="300" Margin="2" />
+            <Button Content="SetDeviceNetInfo" Command="{Binding SetDeviceNetInfoCommand}" Width="300" Margin="2" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="GetCurrentTime" Command="{Binding GetCurrentTimeCommand}" Width="300" Margin="2" />
+            <Button Content="SetCurrentTime" Command="{Binding SetCurrentTimeCommand}" Width="300" Margin="2" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="GetLogsCount" Command="{Binding GetLogsCountCommand}" Width="300" Margin="2" />
+            <Button Content="QueryLogList" Command="{Binding QueryLogListCommand}" Width="300" Margin="2" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

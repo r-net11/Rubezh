@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using ControllerSDK.SDK;
+﻿using System.Windows;
+using ChinaSKDDriverNativeApi;
 using ControllerSDK.Views;
-using System.Windows;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels
 {
@@ -22,22 +18,22 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand OpenDoorCommand { get; private set; }
 		void OnOpenDoor()
 		{
-			var result = SDKImport.WRAP_DevCtrl_OpenDoor(MainWindow.LoginID);
+			var result = MainViewModel.Wrapper.OpenDoor(Index);
 			MessageBox.Show(result.ToString());
 		}
 
 		public RelayCommand CloseDoorCommand { get; private set; }
 		void OnCloseDoor()
 		{
-			var result = SDKImport.WRAP_DevCtrl_CloseDoor(MainWindow.LoginID);
+			var result = MainViewModel.Wrapper.CloseDoor(Index);
 			MessageBox.Show(result.ToString());
 		}
 
 		public RelayCommand GetDoorStatusCommand { get; private set; }
 		void OnGetDoorStatus()
 		{
-			var result = SDKImport.WRAP_DevState_DoorStatus(MainWindow.LoginID);
-			switch(result)
+			var result = MainViewModel.Wrapper.GetDoorStatus(Index);
+			switch (result)
 			{
 				case -1:
 					MessageBox.Show("Error");
@@ -54,6 +50,17 @@ namespace ControllerSDK.ViewModels
 				case 2:
 					MessageBox.Show("Closed");
 					break;
+			}
+		}
+
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged(() => Index);
 			}
 		}
 	}

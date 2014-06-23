@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using ControllerSDK.API;
-using ControllerSDK.SDK;
+using ChinaSKDDriver;
+using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
 using ControllerSDK.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -15,30 +16,28 @@ namespace ControllerSDK.ViewModels
 		public CardRecsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
-			GetInfoCommand = new RelayCommand(OnGetInfo);
+			EditCommand = new RelayCommand(OnEdit);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
+			GetInfoCommand = new RelayCommand(OnGetInfo);
 			GetCountCommand = new RelayCommand(OnGetCount);
 			GetAllCommand = new RelayCommand(OnGetAll);
 			Cards = new ObservableCollection<CardRecViewModel>();
 
 			CreationDateTime = DateTime.Now;
 			CardNo = "1";
-			UserID = "1";
 			Password = "1";
-			DoorsCount = 1;
-			TimeSectionsCount = 1;
-			IsValid = true;
+			DoorNo = 1;
+			IsStatus = true;
 
-			AvailableCardTypes = new ObservableCollection<SDKImport.NET_ACCESSCTLCARD_TYPE>();
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_UNKNOWN);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_GENERAL);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_VIP);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_GUEST);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_PATROL);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_BLACKLIST);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_CORCE);
-			AvailableCardTypes.Add(SDKImport.NET_ACCESSCTLCARD_TYPE.NET_ACCESSCTLCARD_TYPE_MOTHERCARD);
+			AvailableDoorOpenMethods = new ObservableCollection<CardRecDoorOpenMethod>();
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_UNKNOWN);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_CARD);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_REMOTE);
+			AvailableDoorOpenMethods.Add(CardRecDoorOpenMethod.NET_ACCESS_DOOROPEN_METHOD_BUTTON);
 		}
 
 		public void Initialize(List<CardRec> cardRecs)
@@ -54,23 +53,29 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var card = new Card();
-			card.CreationDateTime = CreationDateTime;
-			card.CardNo = CardNo;
-			card.UserID = UserID;
-			card.Password = Password;
-			card.DoorsCount = DoorsCount;
-			card.TimeSectionsCount = TimeSectionsCount;
-			card.IsValid = IsValid;
-			card.CardType = CardType;
-			var newCardNo = SDKWrapper.AddCard(MainWindow.LoginID, card);
+			var cardRec = new CardRec();
+			cardRec.DateTime = CreationDateTime;
+			cardRec.CardNo = CardNo;
+			cardRec.Password = Password;
+			cardRec.DoorNo = DoorNo;
+			cardRec.IsStatus = IsStatus;
+			cardRec.DoorOpenMethod = DoorOpenMethod;
+			var newCardNo = MainViewModel.Wrapper.AddCardRec(cardRec);
 			MessageBox.Show("newCardNo = " + newCardNo);
 		}
 
-		public RelayCommand GetInfoCommand { get; private set; }
-		void OnGetInfo()
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
 		{
-			var result = SDKWrapper.GetCardInfo(MainWindow.LoginID, 2);
+			var cardRec = new CardRec();
+			cardRec.DateTime = CreationDateTime;
+			cardRec.CardNo = CardNo;
+			cardRec.Password = Password;
+			cardRec.DoorNo = DoorNo;
+			cardRec.IsStatus = IsStatus;
+			cardRec.DoorOpenMethod = DoorOpenMethod;
+			var result = MainViewModel.Wrapper.EditCardRec(cardRec);
+			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -78,7 +83,7 @@ namespace ControllerSDK.ViewModels
 		{
 			if (SelectedCard != null)
 			{
-				var result = SDKImport.WRAP_DevCtrl_RemoveRecordSet(MainWindow.LoginID, SelectedCard.CardRec.RecordNo, 1);
+				var result = MainViewModel.Wrapper.RemoveCardRec(SelectedCard.CardRec.RecordNo);
 				MessageBox.Show("result = " + result);
 			}
 		}
@@ -86,29 +91,32 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			var result = SDKImport.WRAP_DevCtrl_ClearRecordSet(MainWindow.LoginID, 1);
+			var result = MainViewModel.Wrapper.RemoveAllCardRecs();
 			MessageBox.Show("result = " + result);
+		}
+
+		public RelayCommand GetInfoCommand { get; private set; }
+		void OnGetInfo()
+		{
+			var result = MainViewModel.Wrapper.GetCardInfo(2);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
 		void OnGetCount()
 		{
-			SDKImport.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new SDKImport.FIND_RECORD_ACCESSCTLCARD_CONDITION();
-			stuParam.szCardNo = SDKWrapper.StringToCharArray("1", 32);
-			stuParam.szUserID = SDKWrapper.StringToCharArray("1", 32);
-			var cardsCount = SDKImport.WRAP_DevCtrl_Get_Card_RecordSetCount(MainWindow.LoginID, ref stuParam);
-			MessageBox.Show("cardsCount = " + cardsCount);
+			var cardsCount = MainViewModel.Wrapper.GetCardRecsCount();
+			MessageBox.Show("cardsRecCount = " + cardsCount);
 		}
 
 		public RelayCommand GetAllCommand { get; private set; }
 		void OnGetAll()
 		{
-			var cardRecs = new List<CardRec>();//SDKWrapper.GetAllCards(MainWindow.LoginID);
+			var cardRecs = MainViewModel.Wrapper.GetAllCardRecs();
 
 			Cards.Clear();
-			foreach (var card in cardRecs)
+			foreach (var cardRec in cardRecs)
 			{
-				var cardViewModel = new CardRecViewModel(card);
+				var cardViewModel = new CardRecViewModel(cardRec);
 				Cards.Add(cardViewModel);
 			}
 		}
@@ -126,17 +134,6 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		DateTime _creationDateTime;
-		public DateTime CreationDateTime
-		{
-			get { return _creationDateTime; }
-			set
-			{
-				_creationDateTime = value;
-				OnPropertyChanged(() => CreationDateTime);
-			}
-		}
-
 		string _cardNo;
 		public string CardNo
 		{
@@ -148,27 +145,14 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		string _userID;
-		public string UserID
+		DateTime _creationDateTime;
+		public DateTime CreationDateTime
 		{
-			get { return _userID; }
+			get { return _creationDateTime; }
 			set
 			{
-				_userID = value;
-				OnPropertyChanged(() => UserID);
-			}
-		}
-
-		public ObservableCollection<ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_TYPE> AvailableCardTypes { get; private set; }
-
-		ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_TYPE _cardType;
-		public ControllerSDK.SDK.SDKImport.NET_ACCESSCTLCARD_TYPE CardType
-		{
-			get { return _cardType; }
-			set
-			{
-				_cardType = value;
-				OnPropertyChanged(() => CardType);
+				_creationDateTime = value;
+				OnPropertyChanged(() => CreationDateTime);
 			}
 		}
 
@@ -183,36 +167,49 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		int _doorsCount;
-		public int DoorsCount
+		int _doorNo;
+		public int DoorNo
 		{
-			get { return _doorsCount; }
+			get { return _doorNo; }
 			set
 			{
-				_doorsCount = value;
-				OnPropertyChanged(() => DoorsCount);
+				_doorNo = value;
+				OnPropertyChanged(() => DoorNo);
 			}
 		}
 
-		int _timeSectionsCount;
-		public int TimeSectionsCount
+		bool _isStatus;
+		public bool IsStatus
 		{
-			get { return _timeSectionsCount; }
+			get { return _isStatus; }
 			set
 			{
-				_timeSectionsCount = value;
-				OnPropertyChanged(() => TimeSectionsCount);
-			}
-		}
-
-		bool _isValid;
-		public bool IsValid
-		{
-			get { return _isValid; }
-			set
-			{
-				_isValid = value;
+				_isStatus = value;
 				OnPropertyChanged(() => SelectedCard);
+			}
+		}
+
+		public ObservableCollection<CardRecDoorOpenMethod> AvailableDoorOpenMethods { get; private set; }
+
+		CardRecDoorOpenMethod _doorOpenMethod;
+		public CardRecDoorOpenMethod DoorOpenMethod
+		{
+			get { return _doorOpenMethod; }
+			set
+			{
+				_doorOpenMethod = value;
+				OnPropertyChanged(() => DoorOpenMethod);
+			}
+		}
+
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged("Index");
 			}
 		}
 	}

@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using FiresecClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -24,11 +25,9 @@ namespace AutomationModule.ViewModels
 		public void Initialize()
 		{
 			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables == null)
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables = new List<GlobalVariable>();
-			foreach (var GlobalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
+			foreach (var globalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
-				var globalVariableViewModel = new GlobalVariableViewModel(GlobalVariable);
+				var globalVariableViewModel = new GlobalVariableViewModel(globalVariable);
 				GlobalVariables.Add(globalVariableViewModel);
 			}
 			SelectedGlobalVariable = GlobalVariables.FirstOrDefault();
@@ -62,11 +61,11 @@ namespace AutomationModule.ViewModels
 			var globalVariableDetailsViewModel = new GlobalVariableDetailsViewModel();
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.GlobalVariable);
-				ServiceFactory.SaveService.AutomationChanged = true;
+				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.GlobalVariable);
 				var globalVariableViewModel = new GlobalVariableViewModel(globalVariableDetailsViewModel.GlobalVariable);
 				GlobalVariables.Add(globalVariableViewModel);
 				SelectedGlobalVariable = globalVariableViewModel;
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -78,7 +77,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Remove(SelectedGlobalVariable.GlobalVariable);
+			FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Remove(SelectedGlobalVariable.GlobalVariable);
 			GlobalVariables.Remove(SelectedGlobalVariable);
 			SelectedGlobalVariable = GlobalVariables.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;

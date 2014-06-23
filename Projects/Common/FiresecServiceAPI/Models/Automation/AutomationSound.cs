@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -6,6 +7,11 @@ namespace FiresecAPI.Automation
 	[DataContract]
 	public class AutomationSound
 	{
+		public AutomationSound()
+		{
+			Uid = Guid.NewGuid();
+		}
+
 		[DataMember]
 		public string Name { get; set; }
 

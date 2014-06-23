@@ -18,15 +18,15 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*" MinHeight="200" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="100" MinHeight="100"/>
+            <RowDefinition Height="200" MinHeight="150"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Controls:ToolBarButton Command="{Binding AddStepCommand}" ToolTip="Добавить шаг" ImageSource="/Controls;component/Images/Add.png" />
             <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить шаг" ImageSource="/Controls;component/Images/Delete.png" />
-            <Controls:ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="/Controls;component/Images/Settings.png" />
-            <Controls:ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="/Controls;component/Images/Settings.png" />
-            <Controls:ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/Settings.png" />
-            <Controls:ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/Settings.png" />
+            <Controls:ToolBarButton Command="{Binding AddIfCommand}" ToolTip="Добавить условие" ImageSource="/Controls;component/Images/AddCondition.png" />
+            <Controls:ToolBarButton Command="{Binding AddForeachCommand}" ToolTip="Добавить цикл для" ImageSource="/Controls;component/Images/AddCycle.png" />
+            <Controls:ToolBarButton Command="{Binding UpCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/ArrowUp.png" />
+            <Controls:ToolBarButton Command="{Binding DownCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/ArrowDown.png" />
 
         </StackPanel>
         <tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedStep}" Source="{Binding RootSteps}" tree:SortBehavior.CanUserSortColumns="False">
@@ -46,8 +46,8 @@
 										<Controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
-													<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
-													<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+                                                    <Image VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" Margin="1 0 0 0" />
+                                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}" Margin="2" />
 												</StackPanel>
 											</ControlTemplate>
 										</Controls:EditorPresenter.ViewTemplate>
@@ -74,8 +74,8 @@
 			</tree:TreeList.View>
 		</tree:TreeList>
 		<GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-        <Grid Grid.Row="2" DataContext="{Binding SelectedStep}" Margin="2 0">
-            <ContentPresenter Content="{Binding Content}" ContentTemplateSelector="{StaticResource stepTypeTemplateSelector}" />
-        </Grid>
+		<Border Grid.Row="3" Background="{DynamicResource BackgroundBrush}" CornerRadius="5,0,0,5" DataContext="{Binding SelectedStep}">
+            <ContentPresenter Margin="5" Content="{Binding Content}" ContentTemplateSelector="{StaticResource stepTypeTemplateSelector}" />
+        </Border>
     </Grid>
 </UserControl>

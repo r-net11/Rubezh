@@ -10,7 +10,6 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
             <ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-
         </StackPanel>
         <Grid Grid.Row="1">
             <TextBlock Text="Условия" Foreground="White" Margin="2" />

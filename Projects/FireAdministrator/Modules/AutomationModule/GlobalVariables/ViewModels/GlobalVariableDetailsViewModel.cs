@@ -7,6 +7,7 @@ namespace AutomationModule.ViewModels
 	public class GlobalVariableDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public GlobalVariable GlobalVariable { get; private set; }
+
 		public GlobalVariableDetailsViewModel(GlobalVariable globalVariable)
 		{
 			Title = "Свойства глобальной переменной";

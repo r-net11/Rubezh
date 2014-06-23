@@ -47,18 +47,6 @@ namespace FiresecAPI.Automation
 		public Guid VariableUid { get; set; }
 	}
 
-	public enum ValueType
-	{
-		[Description("Явное значение")]
-		IsValue,
-
-		[Description("Глобальная переменная")]
-		IsGlobalVariable,
-
-		[Description("Локальная переменнаяя")]
-		IsLocalVariable
-	}
-
 	public enum ArithmeticType
 	{
 		[Description("Сложение")]

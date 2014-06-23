@@ -57,3 +57,86 @@ Is it right behaviour?
 - One more time about SznDoors. I have two doors with two card readers on every door. Four card readers in total. I am adding a card to controller and i want to give access for the first card reader of the first door and for the second card reader on the second door. My sznDoors wheel be 1 and 4. Am i right?
 
 - I don't get usage of CardRec. I want to add, edit and remove cards. Do I need cardRec? What are they for?
+
+
+
+
+A few notes
+- Your sad
+dwHour?dwMinute?dwSecond of stuValidStartTime and stuValidEndTime are also not supported by BSC
+I gues, when adding a card, only hour, minute and second properties of stuValidStartTime and stuValidEndTime does't matter. And year, month and second are steen needed. Correct?
+
+- About CardRec
+SDK supports adding, aditing, deleting and searching of CardRecs. Do i realy need all these functions, if i only want to add. remove and edit cards(not card recs)?
+When i add a Card, CardRec is adding automaticly? If so. what will happen to Card, if i will delete corresponding CardRec
+
+- IMHO, nCannel is't so good for naming time shedule index, and MAX_DOOR_TIME_SECTION is't good for max time intervals per day. So i was a bit confused
+
+- Functions
+BOOL DevCtrl_OpenDoor(LLONG lLoginId)
+BOOL DevCtrl_CloseDoor(LLONG lLoginId)
+void DevState_DoorStatus(LLONG lLoginId)
+have
+stuParam.nChannelID = 0;
+in their body
+What is nChannelID?
+
+- You said that i have to pay no attention to stuCard.szUserID when adding a Card. And what about adding a Password? Should I ignore it too. And is the best value for that szUserID? Null, empty string, "0". After all, what does szUserID for?
+
+- We are using Microsoft .NET Framework technology stack in our development. Your SDK uses C++. So we have to have some wrapper. Mybee you,v already have binding to C#?
+
+- We are planning stress tests on your SDK. Something like writing and deliting large amount of cards. I am not shure about the perfomance and behaviour on connection lost and reconnection logic. If we would't be sattisfied whith SDK, could you give us low-level protocols over tcp-ip or udp(don't know your are using, but i gues one of theese)
+
+
+//**************************************************
+
+- I call
+BOOL DevCtrl_GetLogCount(LLONG lLoginID)
+Number of logs is always 2 whatever QUERY_DEVICE_LOG_PARAM fields are. I tried to set stuStartTime and stuEndTime to futire or to the past, I playd with nStartNum, nEndNum and nLogStuType - but I always get 2.
+By the way, what is nLogStuType?
+
+
+- Both
+BOOL DevCtrl_GetLogCount(LLONG lLoginID)
+and
+BOOL Dev_QueryLogList(LLONG lLoginID)
+use nStartNum and nEndNum. I gues it acts like a through unique identifier of event log.
+But, _DH_DEVICE_LOG_ITEM_EX has no integer field that could take a role of such an identifier.
+I alsaw don't see it in in
+BOOL CALLBACK MessageCallBack(LONG lCommand, LLONG lLoginID, char *pBuf, DWORD dwBufLen, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
+So, how should I use nStartNum and nEndNum?
+
+
+- Functions like Insert_Holiday and Update_Holiday are operation with holidays. But there is no reference to holiday in Card, CarsRec or Password(like they are linked with TimeShedule, for example). It seems like holiday is kind of isolated object. It takes no role in buisness logic on the controller level. Are you using controller as a data storage for holidays data to use in futher time tracking or so?
+
+
+- One more time about the usage of CardRec (NET_RECORDSET_ACCESS_CTL_CARDREC)
+I found only one case, when CardRec can help me
+I want to add a NET_RECORDSET_ACCESS_CTL_CARD,
+and set stuCard.szPsw
+Now, because the card has a password, I have to tell controller the secuence of passing person through the door. Should he pass a card abd then enter his personal password, or vice vera.
+This could be done by setting
+stuCardRec.emMethod
+of NET_RECORDSET_ACCESS_CTL_CARDREC
+in Update_CardRec() function.
+Im I richt? Should i add a Card and then edit CardRec?
+
+
+- EventAttach project
+section
+// access event
+else if (DH_ALARM_ACCESS_CTL_EVENT == lCommand)
+What is pstuAlarmInfo->szDoorName? How can I set this name?
+Does BOOL CALLBACK MessageCallBack(LONG lCommand, LLONG lLoginID, char *pBuf, DWORD dwBufLen, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
+is a complete example of all possible evens. Or can i recieve event with different lCommand?
+
+
+- I am using WPF/C#. I subscribed
+CLIENT_SetDVRMessCallBack
+in my C# code. But sometimes i get "null reference exception" uncathed exception. I'v already found walkaround, but anyway, have you any ideas of what could happen?
+
+
+- void DevConfig_AccessControl(LLONG lLoginId)
+What is nChannel? Door number?
+
+

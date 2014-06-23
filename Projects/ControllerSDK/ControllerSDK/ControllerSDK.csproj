@@ -72,7 +72,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\CommonViewModel.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
+    <Compile Include="ViewModels\JournalItemViewModel.cs" />
+    <Compile Include="ViewModels\JournalViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PasswordsViewModel.cs" />
     <Compile Include="ViewModels\PasswordViewModel.cs" />
@@ -88,8 +91,14 @@
     <Compile Include="ViewModels\CardsViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="NativeSDKWrap.cs" />
+    <Compile Include="Views\CommonView.xaml.cs">
+      <DependentUpon>CommonView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ControlView.xaml.cs">
       <DependentUpon>ControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JournalView.xaml.cs">
+      <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PasswordsView.xaml.cs">
       <DependentUpon>PasswordsView.xaml</DependentUpon>
@@ -107,7 +116,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CommonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -192,9 +209,9 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ChilnaSKDDriver\ChilnaSKDDriver.csproj">
+    <ProjectReference Include="..\ChilnaSKDDriver\ChinaSKDDriver.csproj">
       <Project>{77C8D1E5-51B4-45F9-93DF-D114433771E2}</Project>
-      <Name>ChilnaSKDDriver</Name>
+      <Name>ChinaSKDDriver</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

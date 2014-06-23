@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -7,10 +8,14 @@ namespace FiresecAPI.Automation
 	{
 		public SoundArguments()
 		{
-			
+			SoundUid = new Guid();
+			LayoutsUids = new List<Guid>();
 		}
 
 		[DataMember]
 		public Guid SoundUid { get; set; }
+
+		[DataMember]
+		public List<Guid> LayoutsUids { get; set; }
 	}
 }

@@ -171,8 +171,10 @@
     <Compile Include="Models\Automation\GlobalVariable.cs" />
     <Compile Include="Models\Automation\Filter.cs" />
     <Compile Include="Models\Automation\ObjectType.cs" />
+    <Compile Include="Models\Automation\ScheduleProcedure.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
+    <Compile Include="Models\Automation\ValueType.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\VariableType.cs" />
     <Compile Include="Models\Plans\ElementRectangleDoor.cs" />
@@ -183,7 +185,6 @@
     <Compile Include="Models\Automation\AutomationConfiguration.cs" />
     <Compile Include="Models\Automation\AutomationSound.cs" />
     <Compile Include="Models\Automation\Procedure.cs" />
-    <Compile Include="Models\Automation\ProcedureInputObject.cs" />
     <Compile Include="Models\Automation\ProcedureObjectType.cs" />
     <Compile Include="Models\Automation\ProcedureStep.cs" />
     <Compile Include="Models\Automation\ProcedureStepType.cs" />
