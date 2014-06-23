@@ -4,6 +4,7 @@ using System.IO;
 using System.ServiceModel;
 using Common;
 using FiresecAPI;
+using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 
@@ -360,7 +361,7 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Automation
-		public OperationResult<bool> RunProcedure(Guid procedureUID, List<string> args)
+		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Variable> args)
 		{
 			return SafeOperationCall(() => { return FiresecService.RunProcedure(procedureUID, args); }, "RunProcedure");
 		}
