@@ -23,6 +23,10 @@
 		<Views:VariableDetailsView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:FilterSelectionViewModel}">
+		<Views:FilterSelectionView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="soundsTemplate">
         <Views:SoundStepView />
     </DataTemplate>

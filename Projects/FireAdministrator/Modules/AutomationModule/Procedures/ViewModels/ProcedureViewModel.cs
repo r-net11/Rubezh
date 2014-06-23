@@ -1,7 +1,11 @@
-﻿using FiresecAPI.Automation;
+﻿using System;
+using AutomationModule.Events;
+using FiresecAPI.Automation;
 using Infrastructure;
+using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Practices.Prism.Events;
 
 namespace AutomationModule.ViewModels
 {
@@ -25,6 +29,7 @@ namespace AutomationModule.ViewModels
 			VariablesViewModel = new VariablesViewModel(procedure);
 			ArgumentsViewModel = new ArgumentsViewModel(procedure);
 			ConditionsViewModel = new ConditionsViewModel(procedure);
+
 			OnShowSteps();
 		}
 

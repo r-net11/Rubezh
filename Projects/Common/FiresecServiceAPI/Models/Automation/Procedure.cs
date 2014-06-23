@@ -14,6 +14,7 @@ namespace FiresecAPI.Automation
 			Arguments = new List<Variable>();
 			Steps = new List<ProcedureStep>();
 			Uid = Guid.NewGuid();
+			FiltersUids = new List<Guid>();
 		}
 
 		[DataMember]
@@ -33,6 +34,9 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public List<Variable> Arguments { get; set; }
+
+		[DataMember]
+		public List<Guid> FiltersUids { get; set; }
 
 		[DataMember]
 		public bool IsActive { get; set; }

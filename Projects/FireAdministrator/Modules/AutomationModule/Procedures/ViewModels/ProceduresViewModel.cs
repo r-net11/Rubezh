@@ -101,11 +101,42 @@ namespace AutomationModule.ViewModels
 			return SelectedProcedure != null;
 		}
 
-		public void Select(Guid procedureUid)
+		public void Select(Guid inputUid)
 		{
-			if (procedureUid != Guid.Empty)
+			if (inputUid == Guid.Empty)
+				return;
+			var variables = new List<Variable>();
+			var arguments = new List<Variable>();
+
+			foreach (var procedure in Procedures)
 			{
-				SelectedProcedure = Procedures.FirstOrDefault(item => item.Procedure.Uid == procedureUid);
+				variables.AddRange(procedure.Procedure.Variables);
+				arguments.AddRange(procedure.Procedure.Arguments);
+			}
+
+			if (Procedures.Any(item => item.Procedure.Uid == inputUid))
+			{
+				SelectedProcedure = Procedures.FirstOrDefault(item => item.Procedure.Uid == inputUid);
+			}
+			else if (variables.Any(item => item.Uid == inputUid))
+			{
+				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Variables.Any(z => z.Uid == inputUid));
+				if (selectedProcedure != null)
+				{
+					SelectedProcedure = selectedProcedure;
+					SelectedProcedure.ShowVariablesCommand.Execute();
+				}
+				SelectedProcedure.VariablesViewModel.SelectedVariable = SelectedProcedure.VariablesViewModel.Variables.FirstOrDefault(item => item.Variable.Uid == inputUid);
+			}
+			else if (arguments.Any(item => item.Uid == inputUid))
+			{
+				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Arguments.Any(z => z.Uid == inputUid));
+				if (selectedProcedure != null)
+				{
+					SelectedProcedure = selectedProcedure;
+					SelectedProcedure.ShowArgumentsCommand.Execute();
+				}
+				SelectedProcedure.ArgumentsViewModel.SelectedVariable = SelectedProcedure.ArgumentsViewModel.Variables.FirstOrDefault(item => item.Variable.Uid == inputUid);
 			}
 		}
 

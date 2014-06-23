@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -11,24 +13,49 @@ namespace AutomationModule.ViewModels
 	public class ConditionsViewModel : BaseViewModel
 	{
 		public Procedure Procedure { get; private set; }
-		public List<FilterViewModel> Filtes { get; private set; }
 		public ConditionsViewModel(Procedure procedure)
 		{
 			Procedure = procedure;
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			Initialize();
+		}
+
+		void Initialize()
+		{
+			Filters = new ObservableCollection<FilterViewModel>();
+			foreach (var filter in FiresecManager.SystemConfiguration.AutomationConfiguration.Filters)
+			{
+				if (Procedure.FiltersUids.Contains(filter.Uid))
+				{
+					var filterViewModel = new FilterViewModel(filter);
+					Filters.Add(filterViewModel);
+				}
+			}
+		}
+
+		public ObservableCollection<FilterViewModel> Filters { get; private set; }
+		FilterViewModel _selectedFilter;
+		public FilterViewModel SelectedFilter
+		{
+			get { return _selectedFilter; }
+			set
+			{
+				_selectedFilter = value;
+				OnPropertyChanged(() => SelectedFilter);
+			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var procedureDetailsViewModel = new ProcedureDetailsViewModel();
-			if (DialogService.ShowModalWindow(procedureDetailsViewModel))
+			var procedureFilterDetailsViewModel = new FilterSelectionViewModel(Procedure);
+			if (DialogService.ShowModalWindow(procedureFilterDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Add(procedureDetailsViewModel.Procedure);
-				var procedureViewModel = new ProcedureViewModel(procedureDetailsViewModel.Procedure);
-				//Procedures.Add(procedureViewModel);
-				//SelectedProcedure = procedureViewModel;
+				var filterViewModel = procedureFilterDetailsViewModel.SelectedFilter;
+				Filters.Add(filterViewModel);
+				SelectedFilter = filterViewModel;
+				Procedure.FiltersUids.Add(filterViewModel.Filter.Uid);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -36,15 +63,14 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			//FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Remove(SelectedProcedure.Procedure);
-			//Procedures.Remove(SelectedProcedure);
-			//SelectedProcedure = Procedures.FirstOrDefault();
+			Procedure.FiltersUids.Remove(SelectedFilter.Filter.Uid);
+			Filters.Remove(SelectedFilter);
+			SelectedFilter = Filters.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 		bool CanDelete()
 		{
-			return true;
-			//return SelectedProcedure != null;
+			return SelectedFilter != null;
 		}
 	}
 }
