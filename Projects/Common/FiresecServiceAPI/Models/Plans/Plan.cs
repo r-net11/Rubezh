@@ -40,13 +40,15 @@ namespace FiresecAPI.Models
 			ElementXDevices = new List<ElementXDevice>();
 			ElementRectangleXZones = new List<ElementRectangleXZone>();
 			ElementPolygonXZones = new List<ElementPolygonXZone>();
+			ElementRectangleXGuardZones = new List<ElementRectangleXGuardZone>();
+			ElementPolygonXGuardZones = new List<ElementPolygonXGuardZone>();
 			ElementRectangleXDirections = new List<ElementRectangleXDirection>();
 			ElementPolygonXDirections = new List<ElementPolygonXDirection>();
 
 			ElementSKDDevices = new List<ElementSKDDevice>();
 			ElementRectangleSKDZones = new List<ElementRectangleSKDZone>();
 			ElementPolygonSKDZones = new List<ElementPolygonSKDZone>();
-			ElementRectangleDoors = new List<ElementRectangleDoor>();
+			ElementDoors = new List<ElementDoor>();
 
 			ElementExtensions = new List<ElementBase>();
 		}
@@ -101,11 +103,13 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<ElementPolygonXZone> ElementPolygonXZones { get; set; }
 		[DataMember]
+		public List<ElementRectangleXGuardZone> ElementRectangleXGuardZones { get; set; }
+		[DataMember]
+		public List<ElementPolygonXGuardZone> ElementPolygonXGuardZones { get; set; }
+		[DataMember]
 		public List<ElementRectangleXDirection> ElementRectangleXDirections { get; set; }
 		[DataMember]
 		public List<ElementPolygonXDirection> ElementPolygonXDirections { get; set; }
-
-
 		[DataMember]
 		public List<ElementSKDDevice> ElementSKDDevices { get; set; }
 		[DataMember]
@@ -113,7 +117,7 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public List<ElementPolygonSKDZone> ElementPolygonSKDZones { get; set; }
 		[DataMember]
-		public List<ElementRectangleDoor> ElementRectangleDoors { get; set; }
+		public List<ElementDoor> ElementDoors { get; set; }
 
 		[DataMember]
 		public List<ElementBase> ElementExtensions { get; set; }
@@ -126,6 +130,7 @@ namespace FiresecAPI.Models
 				union.AddRange(ElementDevices);
 				union.AddRange(ElementXDevices);
 				union.AddRange(ElementSKDDevices);
+				union.AddRange(ElementDoors);
 				return union;
 			}
 		}

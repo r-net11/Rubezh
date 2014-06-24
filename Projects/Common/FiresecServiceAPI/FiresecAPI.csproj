@@ -178,7 +178,9 @@
     <Compile Include="Models\Automation\ValueType.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\VariableType.cs" />
-    <Compile Include="Models\Plans\ElementRectangleDoor.cs" />
+    <Compile Include="Models\Plans\ElementPolygonXGuardZone.cs" />
+    <Compile Include="Models\Plans\ElementRectangleXGuardZone.cs" />
+    <Compile Include="Models\Plans\ElementDoor.cs" />
     <Compile Include="SKD\Door\Door.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />

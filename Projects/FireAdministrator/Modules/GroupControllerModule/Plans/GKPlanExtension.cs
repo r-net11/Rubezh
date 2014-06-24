@@ -27,15 +27,15 @@ namespace GKModule.Plans
 {
 	class GKPlanExtension : IPlanExtension<Plan>
 	{
-		bool _processChanges;
-		DevicesViewModel _devicesViewModel;
-		ZonesViewModel _zonesViewModel;
-		DirectionsViewModel _directionsViewModel;
-		GuardZonesViewModel _guardZonesViewModel;
-		CommonDesignerCanvas _designerCanvas;
-		IEnumerable<IInstrument> _instruments;
-		List<DesignerItem> _designerItems;
-		static GKPlanExtension _current;
+		private bool _processChanges;
+		private DevicesViewModel _devicesViewModel;
+		private ZonesViewModel _zonesViewModel;
+		private DirectionsViewModel _directionsViewModel;
+		private GuardZonesViewModel _guardZonesViewModel;
+		private CommonDesignerCanvas _designerCanvas;
+		private IEnumerable<IInstrument> _instruments;
+		private List<DesignerItem> _designerItems;
+		private static GKPlanExtension _current;
 
 		public GKPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, DirectionsViewModel directionsViewModel, GuardZonesViewModel guardZonesViewModel)
 		{
@@ -85,7 +85,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="/Controls;component/Images/ZoneRectangle.png",
 							ToolTip="Зона",
-							Adorner = new XZoneRectangleAdorner(_designerCanvas, _zonesViewModel, _guardZonesViewModel),
+							Adorner = new XZoneRectangleAdorner(_designerCanvas, _zonesViewModel),
 							Index = 200,
 							Autostart = true
 						},
@@ -93,7 +93,7 @@ namespace GKModule.Plans
 						{
 							ImageSource="/Controls;component/Images/ZonePolygon.png",
 							ToolTip="Зона",
-							Adorner = new XZonePolygonAdorner(_designerCanvas, _zonesViewModel, _guardZonesViewModel),
+							Adorner = new XZonePolygonAdorner(_designerCanvas, _zonesViewModel),
 							Index = 201,
 							Autostart = true
 						},
@@ -113,7 +113,23 @@ namespace GKModule.Plans
 							Index = 203,
 							Autostart = true
 						},
-					};
+						new InstrumentViewModel()
+						{
+							ImageSource="/Controls;component/Images/ZoneRectangle.png",
+							ToolTip="Охранная зона",
+							Adorner = new XGuardZoneRectangleAdorner(_designerCanvas, _guardZonesViewModel),
+							Index = 204,
+							Autostart = true
+						},
+						new InstrumentViewModel()
+						{
+							ImageSource="/Controls;component/Images/ZonePolygon.png",
+							ToolTip="Охранная зона",
+							Adorner = new XGuardZonePolygonAdorner(_designerCanvas,  _guardZonesViewModel),
+							Index = 205,
+							Autostart = true
+						},
+	};
 				return _instruments;
 			}
 		}
@@ -130,12 +146,27 @@ namespace GKModule.Plans
 			else if (element is IElementZone)
 			{
 				if (element is ElementRectangleXZone)
+				{
 					plan.ElementRectangleXZones.Add((ElementRectangleXZone)element);
+					Designer.Helper.SetXZone((IElementZone)element);
+				}
 				else if (element is ElementPolygonXZone)
+				{
 					plan.ElementPolygonXZones.Add((ElementPolygonXZone)element);
+					Designer.Helper.SetXZone((IElementZone)element);
+				}
+				else if (element is ElementRectangleXGuardZone)
+				{
+					plan.ElementRectangleXGuardZones.Add((ElementRectangleXGuardZone)element);
+					Designer.Helper.SetXGuardZone((IElementZone)element);
+				}
+				else if (element is ElementPolygonXGuardZone)
+				{
+					plan.ElementPolygonXGuardZones.Add((ElementPolygonXGuardZone)element);
+					Designer.Helper.SetXGuardZone((IElementZone)element);
+				}
 				else
 					return false;
-				Designer.Helper.SetXZone((IElementZone)element);
 				return true;
 			}
 			else if (element is IElementDirection)
@@ -165,6 +196,10 @@ namespace GKModule.Plans
 					plan.ElementRectangleXZones.Remove((ElementRectangleXZone)element);
 				else if (element is ElementPolygonXZone)
 					plan.ElementPolygonXZones.Remove((ElementPolygonXZone)element);
+				else if (element is ElementRectangleXGuardZone)
+					plan.ElementRectangleXGuardZones.Remove((ElementRectangleXGuardZone)element);
+				else if (element is ElementPolygonXGuardZone)
+					plan.ElementPolygonXGuardZones.Remove((ElementPolygonXGuardZone)element);
 				else
 					return false;
 				return true;
@@ -193,6 +228,15 @@ namespace GKModule.Plans
 				designerItem.UpdateProperties += UpdateDesignerItemXZone;
 				UpdateDesignerItemXZone(designerItem);
 			}
+			else if (designerItem.Element is ElementRectangleXGuardZone || designerItem.Element is ElementPolygonXGuardZone)
+			{
+				designerItem.ItemPropertyChanged += XGuardZonePropertyChanged;
+				OnXZonePropertyChanged(designerItem);
+				designerItem.Group = "XGuardZone";
+				designerItem.IconSource = "/Controls;component/Images/zone.png";
+				designerItem.UpdateProperties += UpdateDesignerItemXGuardZone;
+				UpdateDesignerItemXGuardZone(designerItem);
+			}
 			else if (designerItem.Element is ElementXDevice)
 			{
 				designerItem.ItemPropertyChanged += XDevicePropertyChanged;
@@ -220,6 +264,10 @@ namespace GKModule.Plans
 				plan.ElementPolygonXZones = new List<ElementPolygonXZone>();
 			if (plan.ElementRectangleXZones == null)
 				plan.ElementRectangleXZones = new List<ElementRectangleXZone>();
+			if (plan.ElementPolygonXGuardZones == null)
+				plan.ElementPolygonXGuardZones = new List<ElementPolygonXGuardZone>();
+			if (plan.ElementRectangleXGuardZones == null)
+				plan.ElementRectangleXGuardZones = new List<ElementRectangleXGuardZone>();
 			if (plan.ElementRectangleXDirections == null)
 				plan.ElementRectangleXDirections = new List<ElementRectangleXDirection>();
 			if (plan.ElementPolygonXDirections == null)
@@ -229,6 +277,10 @@ namespace GKModule.Plans
 			foreach (var element in plan.ElementRectangleXZones)
 				yield return element;
 			foreach (var element in plan.ElementPolygonXZones)
+				yield return element;
+			foreach (var element in plan.ElementRectangleXGuardZones)
+				yield return element;
+			foreach (var element in plan.ElementPolygonXGuardZones)
 				yield return element;
 			foreach (var element in plan.ElementRectangleXDirections)
 				yield return element;
@@ -242,6 +294,7 @@ namespace GKModule.Plans
 			LayerGroupService.Instance.RegisterGroup("GK", "Устройства", 2);
 			LayerGroupService.Instance.RegisterGroup("XZone", "Зоны", 3);
 			LayerGroupService.Instance.RegisterGroup("XDirection", "Направления", 4);
+			LayerGroupService.Instance.RegisterGroup("XGuardZone", "Охранные зоны", 5);
 		}
 		public void ExtensionAttached()
 		{
@@ -268,6 +321,15 @@ namespace GKModule.Plans
 			elementZone.BackgroundColor = Designer.Helper.GetXZoneColor(xzone);
 			elementZone.SetZLayer(xzone == null ? 50 : 60);
 		}
+		private void UpdateDesignerItemXGuardZone(CommonDesignerItem designerItem)
+		{
+			IElementZone elementZone = designerItem.Element as IElementZone;
+			var xguardZone = Designer.Helper.GetXGuardZone(elementZone);
+			Designer.Helper.SetXGuardZone(elementZone, xguardZone);
+			designerItem.Title = Designer.Helper.GetXGuardZoneTitle(xguardZone);
+			elementZone.BackgroundColor = Designer.Helper.GetXGuardZoneColor(xguardZone);
+			elementZone.SetZLayer(xguardZone == null ? 50 : 60);
+		}
 		private void UpdateDesignerItemXDirection(CommonDesignerItem designerItem)
 		{
 			var elementXDirection = designerItem.Element as IElementDirection;
@@ -293,6 +355,27 @@ namespace GKModule.Plans
 					{
 						Helper.BuildXZoneMap();
 						UpdateDesignerItemXZone(designerItem);
+						designerItem.Painter.Invalidate();
+						_designerCanvas.Refresh();
+					}
+				};
+		}
+
+		private void XGuardZonePropertyChanged(object sender, EventArgs e)
+		{
+			DesignerItem designerItem = (DesignerItem)sender;
+			OnXGuardZonePropertyChanged(designerItem);
+		}
+		private void OnXGuardZonePropertyChanged(DesignerItem designerItem)
+		{
+			var zone = Designer.Helper.GetXGuardZone((IElementZone)designerItem.Element);
+			if (zone != null)
+				zone.Changed += () =>
+				{
+					if (_designerCanvas.IsPresented(designerItem))
+					{
+						Helper.BuildXGuardZoneMap();
+						UpdateDesignerItemXGuardZone(designerItem);
 						designerItem.Painter.Invalidate();
 						_designerCanvas.Refresh();
 					}
@@ -353,7 +436,9 @@ namespace GKModule.Plans
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
 			else if (e.Element is ElementRectangleXZone || e.Element is ElementPolygonXZone)
-				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel, _guardZonesViewModel);
+				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
+			else if (e.Element is ElementRectangleXGuardZone || e.Element is ElementPolygonXGuardZone)
+				e.PropertyViewModel = new GuardZonePropertiesViewModel((IElementZone)e.Element, _guardZonesViewModel);
 			else if (e.Element is ElementRectangleXDirection || e.Element is ElementPolygonXDirection)
 				e.PropertyViewModel = new DirectionPropertiesViewModel((IElementDirection)e.Element, _directionsViewModel);
 		}

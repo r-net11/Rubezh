@@ -23,7 +23,7 @@ namespace SKDModule.Plans.ViewModels
 			IElementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			Title = "Свойства фигуры: Зона";
+			Title = "Свойства фигуры: Зона СКД";
 			if (iElementZone.ZoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
 			IsHiddenZone = iElementZone.IsHiddenZone;
@@ -61,9 +61,8 @@ namespace SKDModule.Plans.ViewModels
 			ServiceFactory.Events.GetEvent<CreateSKDZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
 			{
-				IElementZone.ZoneUID = createZoneEventArg.Zone.UID;
 				Helper.BuildMap();
-				Helper.SetSKDZone(IElementZone);
+				Helper.SetSKDZone(IElementZone, createZoneEventArg.Zone.UID);
 				UpdateZones(zoneUID);
 				Close(true);
 			}
@@ -80,10 +79,6 @@ namespace SKDModule.Plans.ViewModels
 			return SelectedZone != null;
 		}
 
-		//protected override bool CanSave()
-		//{
-		//    return SelectedZone == null;
-		//}
 		protected override bool Save()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;

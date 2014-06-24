@@ -107,6 +107,7 @@
     <Compile Include="Devices\Views\RSR2NewDeviceView.xaml.cs">
       <DependentUpon>RSR2NewDeviceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\EditXGuardZoneEvent.cs" />
     <Compile Include="Events\CreateXDirectionEvent.cs" />
     <Compile Include="Events\CreateXGuardZoneEvent.cs" />
     <Compile Include="Events\CreateXZoneEvent.cs" />
@@ -192,8 +193,13 @@
       <DependentUpon>MPTDeviceTypeSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Parameters\ViewModels\DeviceParameterViewModel.cs" />
-    <Compile Include="Plans\Converters\ElementZoneTypeToStringConverter.cs" />
     <Compile Include="Plans\Designer\ElementXDeviceUpdater.cs" />
+    <Compile Include="Plans\InstrumentAdorners\XGuardZonePolygonAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\XGuardZoneRectangleAdorner.cs" />
+    <Compile Include="Plans\ViewModels\GuardZonePropertiesViewModel.cs" />
+    <Compile Include="Plans\Views\GuardZonePropertiesView.xaml.cs">
+      <DependentUpon>GuardZonePropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Selectation\ViewModels\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\ConfigurationCompareView.xaml.cs">
       <DependentUpon>ConfigurationCompareView.xaml</DependentUpon>
@@ -552,6 +558,10 @@
     <Page Include="MPTs\Views\MPTDeviceTypeSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Plans\Views\GuardZonePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Selectation\Views\DevicesSelectationView.xaml">
       <SubType>Designer</SubType>

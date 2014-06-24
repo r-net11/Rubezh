@@ -56,6 +56,19 @@ namespace FiresecClient
 							elementPolygonXZones.Add(elementPolygonXZone);
 					Plan.ElementPolygonXZones = elementPolygonXZones;
 
+					keys = XManager.DeviceConfiguration.GuardZones.Select(item => item.BaseUID).ToList();
+					var elementRectangleXGuardZones = new List<ElementRectangleXGuardZone>();
+					foreach (var elementRectangleXGuardZone in Plan.ElementRectangleXGuardZones.Where(x => x.ZoneUID != Guid.Empty))
+						if (keys.Contains(elementRectangleXGuardZone.ZoneUID))
+							elementRectangleXGuardZones.Add(elementRectangleXGuardZone);
+					Plan.ElementRectangleXGuardZones = elementRectangleXGuardZones;
+
+					var elementPolygonXGuardZones = new List<ElementPolygonXGuardZone>();
+					foreach (var elementPolygonXGuardZone in Plan.ElementPolygonXGuardZones.Where(x => x.ZoneUID != Guid.Empty))
+						if (keys.Contains(elementPolygonXGuardZone.ZoneUID))
+							elementPolygonXGuardZones.Add(elementPolygonXGuardZone);
+					Plan.ElementPolygonXGuardZones = elementPolygonXGuardZones;
+
 					keys = XManager.Devices.Select(item => item.BaseUID).ToList();
 					var elementXDevices = new List<ElementXDevice>();
 					foreach (var elementXDevice in Plan.ElementXDevices.Where(x => x.XDeviceUID != Guid.Empty))
@@ -82,6 +95,13 @@ namespace FiresecClient
 						if (keys.Contains(elementSKDDevice.DeviceUID))
 							elementSKDDevices.Add(elementSKDDevice);
 					Plan.ElementSKDDevices = elementSKDDevices;
+
+					keys = SKDManager.SKDConfiguration.Doors.Select(item => item.UID).ToList();
+					var elementDoors = new List<ElementDoor>();
+					foreach (var elementDoor in Plan.ElementDoors.Where(x => x.DoorUID != Guid.Empty))
+						if (keys.Contains(elementDoor.DoorUID))
+							elementDoors.Add(elementDoor);
+					Plan.ElementDoors = elementDoors;
 
 					keys = XManager.Devices.Select(item => item.BaseUID).ToList();
 					var cameraKeys = SystemConfiguration.AllCameras.Select(item => item.UID).ToList();

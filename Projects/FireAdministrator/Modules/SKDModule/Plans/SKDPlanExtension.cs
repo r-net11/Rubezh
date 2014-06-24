@@ -96,6 +96,13 @@ namespace SKDModule.Plans
 				plan.ElementSKDDevices.Add(elementSKDDevice);
 				return true;
 			}
+			else if (element is ElementDoor)
+			{
+				var elementDoor = element as ElementDoor;
+				Helper.SetDoor(elementDoor);
+				plan.ElementDoors.Add(elementDoor);
+				return true;
+			}
 			else if (element is IElementZone)
 			{
 				if (element is ElementRectangleSKDZone)
@@ -115,6 +122,12 @@ namespace SKDModule.Plans
 			{
 				var elementSKDDevice = (ElementSKDDevice)element;
 				plan.ElementSKDDevices.Remove(elementSKDDevice);
+				return true;
+			}
+			else if (element is ElementDoor)
+			{
+				var elementDoor = (ElementDoor)element;
+				plan.ElementDoors.Remove(elementDoor);
 				return true;
 			}
 			else if (element is IElementZone)
@@ -158,6 +171,8 @@ namespace SKDModule.Plans
 			if (plan.ElementRectangleSKDZones == null)
 				plan.ElementRectangleSKDZones = new List<ElementRectangleSKDZone>();
 			foreach (var element in plan.ElementSKDDevices)
+				yield return element;
+			foreach (var element in plan.ElementDoors)
 				yield return element;
 			foreach (var element in plan.ElementRectangleSKDZones)
 				yield return element;

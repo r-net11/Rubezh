@@ -213,7 +213,7 @@ namespace SKDModule.ViewModels
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
-			elements.OfType<ElementRectangleDoor>().ToList().ForEach(element => Helper.ResetDoor(element));
+			elements.OfType<ElementDoor>().ToList().ForEach(element => Helper.ResetDoor(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
@@ -245,9 +245,9 @@ namespace SKDModule.ViewModels
 				_lockSelection = false;
 			}
 		}
-		private ElementRectangleDoor GetElementDoor(ElementBase element)
+		private ElementDoor GetElementDoor(ElementBase element)
 		{
-			ElementRectangleDoor elementDoor = element as ElementRectangleDoor;
+			ElementDoor elementDoor = element as ElementDoor;
 			return elementDoor;
 		}
 

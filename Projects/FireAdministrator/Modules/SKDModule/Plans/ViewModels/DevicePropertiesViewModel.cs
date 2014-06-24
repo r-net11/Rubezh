@@ -52,14 +52,14 @@ namespace SKDModule.Plans.ViewModels
 			get { return new DeviceViewModel[] { RootDevice }; }
 		}
 
-		DeviceViewModel _selectedDevice;
+		private DeviceViewModel _selectedDevice;
 		public DeviceViewModel SelectedDevice
 		{
 			get { return _selectedDevice; }
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 

@@ -48,6 +48,8 @@ namespace GKModule
 		{
 			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Subscribe(OnCreateXZone);
 			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Subscribe(OnEditXZone);
+			ServiceFactory.Events.GetEvent<CreateXGuardZoneEvent>().Subscribe(OnCreateXGuardZone);
+			ServiceFactory.Events.GetEvent<EditXGuardZoneEvent>().Subscribe(OnEditXGuardZone);
 			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Subscribe(OnCreateXDirection);
 			ServiceFactory.Events.GetEvent<EditXDirectionEvent>().Subscribe(OnEditXDirection);
 
@@ -157,6 +159,15 @@ namespace GKModule
 		private void OnEditXZone(Guid zoneUID)
 		{
 			ZonesViewModel.EditZone(zoneUID);
+		}
+
+		private void OnCreateXGuardZone(CreateXGuardZoneEventArg createZoneEventArg)
+		{
+			GuardZonesViewModel.CreateZone(createZoneEventArg);
+		}
+		private void OnEditXGuardZone(Guid zoneUID)
+		{
+			GuardZonesViewModel.EditZone(zoneUID);
 		}
 
 		private void OnCreateXDirection(CreateXDirectionEventArg createDirectionEventArg)

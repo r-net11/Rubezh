@@ -8,23 +8,23 @@ using Infrustructure.Plans.InstrumentAdorners;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
-	public class XZoneRectangleAdorner : BaseRectangleAdorner
+	public class XGuardZoneRectangleAdorner : BaseRectangleAdorner
 	{
-		ZonesViewModel _zonesViewModel;
+		GuardZonesViewModel _guardZonesViewModel;
 
-		public XZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
+		public XGuardZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, GuardZonesViewModel guardZonesViewModel)
 			: base(designerCanvas)
 		{
-			_zonesViewModel = zonesViewModel;
+			_guardZonesViewModel = guardZonesViewModel;
 		}
 
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
-			var element = new ElementRectangleXZone();
-			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
+			var element = new ElementRectangleXGuardZone();
+			var propertiesViewModel = new GuardZonePropertiesViewModel(element, _guardZonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			Helper.SetXZone(element);
+			Helper.SetXGuardZone(element);
 			return element;
 		}
 	}

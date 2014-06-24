@@ -24,6 +24,13 @@ namespace FiresecAPI.SKD
 			device.OnChanged();
 		}
 
+		public static void EditZone(SKDZone zone)
+		{
+			foreach (var device in zone.Devices)
+				device.OnChanged();
+			zone.OnChanged();
+		}
+
 		public static void RemoveDeviceFromZone(SKDDevice device, SKDZone zone)
 		{
 			if (zone != null)
