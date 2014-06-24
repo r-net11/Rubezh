@@ -172,6 +172,7 @@
     <Compile Include="Models\Automation\Filter.cs" />
     <Compile Include="Models\Automation\ObjectType.cs" />
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
+    <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
     <Compile Include="Models\Automation\ValueType.cs" />

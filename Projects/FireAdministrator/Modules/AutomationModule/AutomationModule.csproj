@@ -155,10 +155,14 @@
     <Compile Include="AutomationModule.cs" />
     <Compile Include="Schedules\ViewModels\ProcedureSelectionViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleDetailsViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\ArgumentViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleProcedureViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulesMenuViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulesViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="Schedules\Views\ArgumentsView.xaml.cs">
+      <DependentUpon>ArgumentsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Schedules\Views\ProcedureSelectionView.xaml.cs">
       <DependentUpon>ProcedureSelectionView.xaml</DependentUpon>
     </Compile>
@@ -328,6 +332,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Schedules\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Schedules\Views\ArgumentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

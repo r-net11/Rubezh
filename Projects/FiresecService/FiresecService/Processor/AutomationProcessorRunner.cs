@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using FiresecAPI.Automation;
 using GKProcessor;
 
@@ -9,7 +6,7 @@ namespace FiresecService.Processor
 {
 	public static class AutomationProcessorRunner
 	{
-		public static bool Run(Procedure procedure, List<Variable> arguments)
+		public static bool Run(Procedure procedure, List<Argument> arguments)
 		{
 			try
 			{

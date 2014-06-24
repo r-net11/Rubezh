@@ -9,6 +9,6 @@ namespace FiresecAPI
 	public partial interface IFiresecServiceSKD
 	{
 		[OperationContract]
-		OperationResult<bool> RunProcedure(Guid procedureUID, List<Variable> args);
+		OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args);
 	}
 }

@@ -1,8 +1,8 @@
 ﻿namespace AutomationModule.Views
 {
-	public partial class SchedulesView
+	public partial class ArgumentsView
 	{
-		public SchedulesView()
+		public ArgumentsView()
 		{
 			InitializeComponent();
 		}

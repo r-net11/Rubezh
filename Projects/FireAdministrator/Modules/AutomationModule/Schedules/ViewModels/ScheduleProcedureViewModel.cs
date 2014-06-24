@@ -1,7 +1,8 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -9,18 +10,19 @@ namespace AutomationModule.ViewModels
 	public class ScheduleProcedureViewModel : BaseViewModel
 	{
 		public ScheduleProcedure ScheduleProcedure { get; private set; }
-
-		public ScheduleProcedureViewModel(Guid procedureUid)
+		public List<ArgumentViewModel> Arguments { get; private set; }
+		public Procedure Procedure { get; private set; }
+		public ScheduleProcedureViewModel(ScheduleProcedure scheduleProcedure)
 		{
-			ScheduleProcedure = new ScheduleProcedure();
-			ScheduleProcedure.ProcedureUid = procedureUid;
-		}
+			ScheduleProcedure = scheduleProcedure;
+			Procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+			ScheduleProcedure.ProcedureUid = scheduleProcedure.ProcedureUid;
 
-		Procedure Procedure
-		{
-			get
+			Arguments = new List<ArgumentViewModel>();
+			foreach (var argument in scheduleProcedure.Arguments)
 			{
-				return FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == ScheduleProcedure.ProcedureUid);
+				var argumentViewModel = new ArgumentViewModel(argument);
+				Arguments.Add(argumentViewModel);
 			}
 		}
 

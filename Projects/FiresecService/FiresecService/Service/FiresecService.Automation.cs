@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Automation;
-using FiresecAPI.SKD;
-using SKDDriver;
 using FiresecService.Processor;
 
 namespace FiresecService.Service
 {
 	public partial class FiresecService : IFiresecService
 	{
-		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Variable> args)
+		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args)
 		{
 			var procedure = AutomationProcessor.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);
 			if (procedure != null)

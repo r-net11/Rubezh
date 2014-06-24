@@ -1,4 +1,4 @@
-﻿namespace AutomationModule.Schedules.Views
+﻿namespace AutomationModule.Views
 {
 	public partial class ScheduleProceduresView
 	{

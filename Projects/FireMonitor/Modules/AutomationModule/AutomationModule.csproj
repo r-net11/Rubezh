@@ -54,8 +54,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\VariableTypeToVisibilityConverter.cs" />
     <Compile Include="Events\ShowAutomationEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -71,9 +75,15 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="AutomationModuleLoader.cs" />
+    <Compile Include="ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="ViewModels\ProceduresViewModel.cs" />
+    <Compile Include="ViewModels\ProcedureViewModel.cs" />
+    <Compile Include="ViewModels\ArgumentViewModel.cs" />
     <Compile Include="Views\ProceduresView.xaml.cs">
       <DependentUpon>ProceduresView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ArgumentsView.xaml.cs">
+      <DependentUpon>ArgumentsView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -93,6 +103,10 @@
     <Page Include="Views\ProceduresView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ArgumentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
