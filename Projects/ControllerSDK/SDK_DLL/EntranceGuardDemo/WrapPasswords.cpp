@@ -184,7 +184,7 @@ int CALL_METHOD WRAP_Get_Passwords_Count(int loginID)
 	LLONG lFindID = 0;
 
 	FIND_RECORD_ACCESSCTLPWD_CONDITION stuParam = {sizeof(FIND_RECORD_ACCESSCTLPWD_CONDITION)};
-	strcpy(stuParam.szUserID, "1357924680");
+	strcpy(stuParam.szUserID, "1");
 
 	WRAP_testRecordSetFind_Pwd(loginID, lFindID, stuParam);
     if (NULL != lFindID)
@@ -208,7 +208,7 @@ BOOL CALL_METHOD WRAP_GetAll_Passwords(int loginID, PasswordsCollection* result)
 	stuIn.emType = NET_RECORD_ACCESSCTLPWD;
 	
 	FIND_RECORD_ACCESSCTLPWD_CONDITION stuParam = {sizeof(FIND_RECORD_ACCESSCTLPWD_CONDITION)};
-	strcpy(stuParam.szUserID, "1357924680");
+	strcpy(stuParam.szUserID, "1");
 	
 	stuIn.pQueryCondition = &stuParam;
 	
@@ -225,7 +225,7 @@ BOOL CALL_METHOD WRAP_GetAll_Passwords(int loginID, PasswordsCollection* result)
 		NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
 		stuOut.nMaxRecordNum = stuIn.nFileCount;
 	
-		NET_RECORDSET_ACCESS_CTL_PWD stuPwd[500] = {0};
+		NET_RECORDSET_ACCESS_CTL_PWD stuPwd[10] = {0};
 		for (i = 0; i < sizeof(stuPwd)/sizeof(stuPwd[0]); i++)
 		{
 			stuPwd[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
@@ -234,7 +234,7 @@ BOOL CALL_METHOD WRAP_GetAll_Passwords(int loginID, PasswordsCollection* result)
 	
 		if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
 		{
-			for (i = 0; i <  __min(500, stuOut.nRetRecordNum); i++)
+			for (i = 0; i < __min(10, stuOut.nRetRecordNum); i++)
 			{
 				NET_RECORDSET_ACCESS_CTL_PWD* pPwd = (NET_RECORDSET_ACCESS_CTL_PWD*)stuOut.pRecordList;
 				memcpy(&passwordsCollection.Passwords[i], &pPwd[i], sizeof(NET_RECORDSET_ACCESS_CTL_CARD));

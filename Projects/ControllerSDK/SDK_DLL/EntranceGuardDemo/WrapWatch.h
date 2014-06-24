@@ -26,7 +26,6 @@ typedef struct tag_WRAP_JournalItem
 	EM_POWER_TYPE emPowerType;
 	EM_POWERFAULT_EVENT_TYPE emPowerFaultEvent;
 	int nDoor;
-	char szDoorName[DH_MAX_DOORNAME_LEN];
 	NET_ACCESS_CTL_EVENT_TYPE emEventType;
 	BOOL bStatus;
 	NET_ACCESSCTLCARD_TYPE emCardType;

@@ -99,7 +99,7 @@ void WRAP_testRecordSetFind_CardRec(LLONG loginID, LLONG& lFinderId)
 	stuIn.emType = NET_RECORD_ACCESSCTLCARDREC;
 	
 	FIND_RECORD_ACCESSCTLCARDREC_CONDITION stuParam = {sizeof(FIND_RECORD_ACCESSCTLCARDREC_CONDITION)};
-	strcpy(stuParam.szCardNo, "987654321");
+	strcpy(stuParam.szCardNo, "1");
 	stuParam.stStartTime.dwYear = 2013;
 	stuParam.stStartTime.dwMonth = 1;
 	stuParam.stStartTime.dwDay = 2;
@@ -133,12 +133,7 @@ void WRAP_testRecordSetFind_CardRec(LLONG loginID, LLONG& lFinderId, FIND_RECORD
 	if (CLIENT_FindRecord(loginID, &stuIn, &stuOut, SDK_API_WAITTIME))
 	{
 		lFinderId = stuOut.lFindeHandle;
-		printf("WRAP_testRecordSetFind_CardRec ok!\n");
 	}
-	else
-	{
-		printf("WRAP_testRecordSetFind_CardRec failed:0x%08x!\n", CLIENT_GetLastError());
-	}	
 }
 
 int GetCardRecsCountRecordSetFind(LLONG& lFinderId)
@@ -165,7 +160,7 @@ int CALL_METHOD WRAP_Get_CardRecs_Count(int loginID)
 	LLONG lFindID = 0;
 
 	FIND_RECORD_ACCESSCTLCARDREC_CONDITION stuParam = {sizeof(FIND_RECORD_ACCESSCTLCARDREC_CONDITION)};
-	strcpy(stuParam.szCardNo, "987654321");
+	strcpy(stuParam.szCardNo, "1");
 	stuParam.stStartTime.dwYear = 2013;
 	stuParam.stStartTime.dwMonth = 1;
 	stuParam.stStartTime.dwDay = 2;
@@ -213,8 +208,6 @@ BOOL CALL_METHOD WRAP_GetAll_CardRecs(int loginID, CardRecsCollection* result)
 	
 		if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
 		{
-			printf("testRecordSetFindNext_CardRec ok!\n");
-		
 			for (int j = 0; j < stuOut.nRetRecordNum; j++)
 			{
 				NET_RECORDSET_ACCESS_CTL_CARDREC* pCardRec = (NET_RECORDSET_ACCESS_CTL_CARDREC*)stuOut.pRecordList;

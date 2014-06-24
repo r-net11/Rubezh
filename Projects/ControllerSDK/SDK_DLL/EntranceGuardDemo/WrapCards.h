@@ -11,12 +11,12 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_RemoveAll_Cards(int loginID);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Get_Card_Info(int loginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_CARD* result);
 
-extern "C" CLIENT_API int CALL_METHOD WRAP_Get_Cards_Count(int loginID, FIND_RECORD_ACCESSCTLCARD_CONDITION* stuParam);
+extern "C" CLIENT_API int CALL_METHOD WRAP_Get_Cards_Count(int loginID);
 
 typedef struct tagNET_CardsCollection
 {
 	int Count;
-	NET_RECORDSET_ACCESS_CTL_CARD Cards[1000];
+	NET_RECORDSET_ACCESS_CTL_CARD Cards[10];
 }CardsCollection;
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAll_Cards(int loginID, CardsCollection* result);

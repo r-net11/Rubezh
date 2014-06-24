@@ -160,7 +160,6 @@ namespace ChinaSKDDriver
 						name = "Проход";
 						var nDoor = wrapJournalItem.nDoor;
 						var emEventType = wrapJournalItem.emEventType;
-						var szDoorName = CharArrayToString(wrapJournalItem.szDoorName);
 						var bStatus = wrapJournalItem.bStatus;
 						var emCardType = wrapJournalItem.emCardType;
 						var emOpenMethod = wrapJournalItem.emOpenMethod;
@@ -172,25 +171,21 @@ namespace ChinaSKDDriver
 						name = "door not close";
 						nDoor = wrapJournalItem.nDoor;
 						nAction = wrapJournalItem.nAction;
-						szDoorName = CharArrayToString(wrapJournalItem.szDoorName);
 						break;
 
 				case DH_ALARM_ACCESS_CTL_BREAK_IN:
 						name = "break in";
 						nDoor = wrapJournalItem.nDoor;
-						szDoorName = CharArrayToString(wrapJournalItem.szDoorName);
 						break;
 
 				case DH_ALARM_ACCESS_CTL_REPEAT_ENTER:
 						name = "repeat enter";
 						nDoor = wrapJournalItem.nDoor;
-						szDoorName = CharArrayToString(wrapJournalItem.szDoorName);
 						break;
 
 				case DH_ALARM_ACCESS_CTL_DURESS:
 						name = "duress";
 						nDoor = wrapJournalItem.nDoor;
-						szDoorName = CharArrayToString(wrapJournalItem.szDoorName);
 						szCardNo = CharArrayToString(wrapJournalItem.szCardNo);
 						break;
 

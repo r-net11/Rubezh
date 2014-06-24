@@ -57,7 +57,23 @@ namespace ChinaSKDDriver
 
 		public List<Holiday> GetAllHolidays()
 		{
-			return new List<Holiday>();
+			int structSize = Marshal.SizeOf(typeof(NativeWrapper.HolidaysCollection));
+			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+
+			var result = NativeWrapper.WRAP_GetAll_Holidays(LoginID, intPtr);
+
+			NativeWrapper.HolidaysCollection holidaysCollection = (NativeWrapper.HolidaysCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.HolidaysCollection)));
+			Marshal.FreeCoTaskMem(intPtr);
+			intPtr = IntPtr.Zero;
+
+			var holidays = new List<Holiday>();
+			for (int i = 0; i < Math.Min(holidaysCollection.Count, 10); i++)
+			{
+				var nativeHoliday = holidaysCollection.Holidays[i];
+				var holiday = NativeHolidayToHoliday(nativeHoliday);
+				holidays.Add(holiday);
+			}
+			return holidays;
 		}
 
 		NativeWrapper.NET_RECORDSET_HOLIDAY HolidayToNativeHoliday(Holiday holiday)

@@ -16,7 +16,7 @@ extern "C" CLIENT_API int CALL_METHOD WRAP_Get_Passwords_Count(int loginID);
 typedef struct tagNET_PasswordsCollection
 {
 	int Count;
-	NET_RECORDSET_ACCESS_CTL_PWD Passwords[1000];
+	NET_RECORDSET_ACCESS_CTL_PWD Passwords[10];
 }PasswordsCollection;
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAll_Passwords(int loginID, PasswordsCollection* result);

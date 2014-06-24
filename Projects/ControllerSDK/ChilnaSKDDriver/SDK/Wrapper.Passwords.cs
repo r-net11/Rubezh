@@ -68,7 +68,7 @@ namespace ChinaSKDDriver
 			intPtr = IntPtr.Zero;
 
 			var passwords = new List<Password>();
-			for (int i = 0; i < Math.Min(passwordsCollection.Count, 500); i++)
+			for (int i = 0; i < Math.Min(passwordsCollection.Count, 10); i++)
 			{
 				var nativePassword = passwordsCollection.Passwords[i];
 				var password = NativePasswordToPassword(nativePassword);

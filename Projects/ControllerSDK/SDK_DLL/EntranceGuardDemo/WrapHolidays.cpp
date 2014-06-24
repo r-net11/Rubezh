@@ -176,3 +176,49 @@ int CALL_METHOD WRAP_Get_Holidays_Count(int loginID)
     }
 	return -1;
 }
+
+BOOL CALL_METHOD WRAP_GetAll_Holidays(int loginID, HolidaysCollection* result)
+{
+	HolidaysCollection holidaysCollection = {sizeof(HolidaysCollection)};
+
+	LLONG lFinderID = 0;
+
+	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
+	NET_OUT_FIND_RECORD_PARAM stuOut = {sizeof(stuOut)};
+	
+	stuIn.emType = NET_RECORD_ACCESSCTLHOLIDAY;
+	
+	stuIn.pQueryCondition = NULL;
+	
+	if (CLIENT_FindRecord(loginID, &stuIn, &stuOut, SDK_API_WAITTIME))
+	{
+
+		NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
+		stuIn.lFindeHandle = lFinderID;
+		stuIn.nFileCount = QUERY_COUNT;
+	
+		NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
+		stuOut.nMaxRecordNum = stuIn.nFileCount;
+	
+		NET_RECORDSET_ACCESS_CTL_CARDREC stuCardRec[QUERY_COUNT] = {0};
+		for (int i = 0; i < sizeof(stuCardRec)/sizeof(stuCardRec[0]); i++)
+		{
+			stuCardRec[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_CARDREC);
+		}
+		stuOut.pRecordList = (void*)&stuCardRec[0];
+	
+		if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
+		{
+			for (int i = 0; i < __min(10, stuOut.nRetRecordNum); i++)
+			{
+				NET_RECORDSET_HOLIDAY* pHoliday = (NET_RECORDSET_HOLIDAY*)stuOut.pRecordList;
+				memcpy(&holidaysCollection.Holidays[i], &pHoliday[i], sizeof(NET_RECORDSET_HOLIDAY));
+			}
+		}
+
+		CLIENT_FindRecordClose(lFinderID);
+	}
+
+	memcpy(result, &holidaysCollection, sizeof(HolidaysCollection));
+	return lFinderID != 0;
+}

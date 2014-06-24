@@ -68,7 +68,7 @@ namespace ChinaSKDDriver
 
 			var cardRecs = new List<CardRec>();
 
-			for (int i = 0; i < Math.Min(cardRecsCollection.Count, 500); i++)
+			for (int i = 0; i < Math.Min(cardRecsCollection.Count, 10); i++)
 			{
 				var sdkCard = cardRecsCollection.CardRecs[i];
 				var card = new CardRec();

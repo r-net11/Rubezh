@@ -52,10 +52,7 @@ namespace ChinaSKDDriver
 
 		public int GetCardsCount()
 		{
-			NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION stuParam = new NativeWrapper.FIND_RECORD_ACCESSCTLCARD_CONDITION();
-			stuParam.szCardNo = Wrapper.StringToCharArray("1", 32);
-			stuParam.szUserID = Wrapper.StringToCharArray("1", 32);
-			var cardsCount = NativeWrapper.WRAP_Get_Cards_Count(LoginID, ref stuParam);
+			var cardsCount = NativeWrapper.WRAP_Get_Cards_Count(LoginID);
 			return cardsCount;
 		}
 
@@ -71,7 +68,7 @@ namespace ChinaSKDDriver
 			intPtr = IntPtr.Zero;
 
 			var cards = new List<Card>();
-			for (int i = 0; i < Math.Min(cardsCollection.Count, 500); i++)
+			for (int i = 0; i < Math.Min(cardsCollection.Count, 10); i++)
 			{
 				var nativeCard = cardsCollection.Cards[i];
 				var card = NativeCardToCard(nativeCard);

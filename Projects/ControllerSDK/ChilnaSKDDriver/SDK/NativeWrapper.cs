@@ -18,37 +18,6 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern int WRAP_Reconnect(string ipAddress, int port, string userName, string password);
 
-		public enum NET_ACCESS_CTL_EVENT_TYPE
-		{
-			NET_ACCESS_CTL_EVENT_UNKNOWN = 0,
-			NET_ACCESS_CTL_EVENT_ENTRY,
-			NET_ACCESS_CTL_EVENT_EXIT,
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct ALARM_ACCESS_CTL_EVENT_INFO
-		{
-			public int dwSize;
-			public int nDoor;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-			public char[] szDoorName;
-			public NET_TIME stuTime;
-			public NET_ACCESS_CTL_EVENT_TYPE emEventType;
-			public bool bStatus;
-			public NET_ACCESSCTLCARD_TYPE emCardType;
-			public NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public char[] szCardNo;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-			public char[] szPwd;
-		}
-
-		[DllImport(@"dhnetsdk.dll")]
-		public static extern bool CLIENT_QueryDevState(Int32 loginID, Int32 nType, IntPtr pBuf, Int32 nBufLen, out Int32 pRetLen, Int32 waittime);
-
-		[DllImport(@"dhnetsdk.dll")]
-		public static extern bool CLIENT_GetNewDevConfig(Int32 loginID, string szCommand, Int32 nChannelID, char[] szOutBuffer, UInt32 dwOutBufferSize, out Int32 error, Int32 waittime);
-
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_CAP_RECORDFINDER_INFO
 		{
@@ -378,25 +347,14 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern bool WRAP_Get_Card_Info(int loginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_CARD
 
-		[StructLayout(LayoutKind.Sequential)]
-		public struct FIND_RECORD_ACCESSCTLCARD_CONDITION
-		{
-			public int dwSize;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public char[] szCardNo;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public char[] szUserID;
-			public bool bIsValid;
-		}
-
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_Get_Cards_Count(int loginID, ref FIND_RECORD_ACCESSCTLCARD_CONDITION condition);
+		public static extern int WRAP_Get_Cards_Count(int loginID);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CardsCollection
 		{
 			public int Count;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1000)]
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
 			public NET_RECORDSET_ACCESS_CTL_CARD[] Cards;
 		}
 
@@ -453,7 +411,7 @@ namespace ChinaSKDDriverNativeApi
 		public struct CardRecsCollection
 		{
 			public int Count;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1000)]
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
 			public NET_RECORDSET_ACCESS_CTL_CARDREC[] CardRecs;
 		}
 
@@ -501,7 +459,7 @@ namespace ChinaSKDDriverNativeApi
 		public struct PasswordsCollection
 		{
 			public int Count;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 1000)]
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
 			public NET_RECORDSET_ACCESS_CTL_PWD[] Passwords;
 		}
 
@@ -540,6 +498,17 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"EntranceGuardDemo.dll")]
 		public static extern int WRAP_Get_Holidays_Count(int loginID);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct HolidaysCollection
+		{
+			public int Count;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+			public NET_RECORDSET_HOLIDAY[] Holidays;
+		}
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_GetAll_Holidays(int loginID, IntPtr result);
 		#endregion
 
 		#region TimeShedules
@@ -571,7 +540,6 @@ namespace ChinaSKDDriverNativeApi
 		#endregion
 
 		#region Events
-
 		[StructLayout(LayoutKind.Sequential)]
 		public struct NET_GPS_STATUS_INFO
 		{
@@ -633,6 +601,13 @@ namespace ChinaSKDDriverNativeApi
 			EM_POWERFAULT_EVENT_LOST = 0
 		}
 
+		public enum NET_ACCESS_CTL_EVENT_TYPE
+		{
+			NET_ACCESS_CTL_EVENT_UNKNOWN = 0,
+			NET_ACCESS_CTL_EVENT_ENTRY,
+			NET_ACCESS_CTL_EVENT_EXIT,
+		}
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_JournalItem
 		{
@@ -654,7 +629,6 @@ namespace ChinaSKDDriverNativeApi
 			public EM_POWERFAULT_EVENT_TYPE emPowerFaultEvent;
 			public int nDoor;
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-			public char[] szDoorName;
 			public NET_ACCESS_CTL_EVENT_TYPE emEventType;
 			public bool bStatus;
 			public NET_ACCESSCTLCARD_TYPE emCardType;

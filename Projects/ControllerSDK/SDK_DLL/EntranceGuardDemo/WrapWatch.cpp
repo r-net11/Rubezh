@@ -24,21 +24,15 @@ void CALL_METHOD WRAP_Initialize()
 
 void CALLBACK WRAP_DisConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
 {
-	ofstream myfile;
-	myfile.open ("D://SDKOutput.txt");
-	myfile << "WRAP_DisConnectFunc " << lLoginID << "\n";
 	for(int i = 0; i < 1000; i++)
 	{
 		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
-		myfile << watchInfo->LoginId << "\n";
 		if(watchInfo->LoginId == lLoginID)
 		{
-			myfile << "Found" << "\n";
 			watchInfo->LoginId = 0;
 			watchInfo->IsConnected = false;
 		}
 	}
-	myfile.close();
 	return;
 }
 
@@ -156,7 +150,6 @@ BOOL CALLBACK WRAP_MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWO
 				ALARM_ACCESS_CTL_EVENT_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_EVENT_INFO*)pBuf;
 				journalItem.nDoor = pstuAlarmInfo->nDoor;
 				journalItem.emEventType = pstuAlarmInfo->emEventType;
-				strcpy(journalItem.szDoorName, pstuAlarmInfo->szDoorName);
 				journalItem.bStatus = pstuAlarmInfo->bStatus;
 				journalItem.emCardType = pstuAlarmInfo->emCardType;
 				journalItem.emOpenMethod = pstuAlarmInfo->emOpenMethod;
@@ -170,7 +163,6 @@ BOOL CALLBACK WRAP_MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWO
 				ALARM_ACCESS_CTL_NOT_CLOSE_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_NOT_CLOSE_INFO*)pBuf;
 				journalItem.nDoor = pstuAlarmInfo->nDoor;
 				journalItem.nAction = pstuAlarmInfo->nAction;
-				strcpy(journalItem.szDoorName, pstuAlarmInfo->szDoorName);
 				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
 			}
 			// break in
@@ -178,7 +170,6 @@ BOOL CALLBACK WRAP_MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWO
 			{
 				ALARM_ACCESS_CTL_BREAK_IN_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_BREAK_IN_INFO*)pBuf;
 				journalItem.nDoor = pstuAlarmInfo->nDoor;
-				strcpy(journalItem.szDoorName, pstuAlarmInfo->szDoorName);
 				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
 			}
 			// repeat enter
@@ -186,7 +177,6 @@ BOOL CALLBACK WRAP_MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWO
 			{
 				ALARM_ACCESS_CTL_REPEAT_ENTER_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_REPEAT_ENTER_INFO*)pBuf;
 				journalItem.nDoor = pstuAlarmInfo->nDoor;
-				strcpy(journalItem.szDoorName, pstuAlarmInfo->szDoorName);
 				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
 			}
 			// duress
@@ -194,7 +184,6 @@ BOOL CALLBACK WRAP_MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWO
 			{
 				ALARM_ACCESS_CTL_DURESS_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_DURESS_INFO*)pBuf;
 				journalItem.nDoor = pstuAlarmInfo->nDoor;
-				strcpy(journalItem.szDoorName, pstuAlarmInfo->szDoorName);
 				strcpy(journalItem.szCardNo, pstuAlarmInfo->szCardNo);
 				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
 			}
@@ -223,9 +212,6 @@ int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], ch
 	memset(&stDevInfo, 0, sizeof(NET_DEVICEINFO));
 	LONG lLoginHandle = CLIENT_Login(ipAddress, port, userName, password, &stDevInfo, &nError);
 
-	ofstream myfile;
-	myfile.open ("D://SDKOutput.txt");
-
 	LastWatchInfoIndex ++;
 	WRAP_WatchInfo* watchInfo = &WatchInfos[LastWatchInfoIndex];
 
@@ -240,20 +226,7 @@ int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], ch
 		watchInfo->IsConnected = true;
 		watchInfo->JournalLastIndex = -1;
 		watchInfo->IsConnected = true;
-
-		myfile << watchInfo->LoginId;
-		myfile << "\n";
 	}
-
-
-	for(int i = 0; i < 1000; i++)
-	{
-		WRAP_WatchInfo __watchInfo = WatchInfos[i];
-		myfile << __watchInfo.LoginId;
-		myfile << "\n";
-	}
-	myfile.close();
-
 
 	if (0 == lLoginHandle)
 	{
@@ -313,7 +286,6 @@ BOOL CALL_METHOD WRAP_GetJournalItem(int loginID, int index, WRAP_JournalItem* r
 			result->emPowerType = watchInfo->WRAP_JournalItems[index].emPowerType;
 			result->emPowerFaultEvent = watchInfo->WRAP_JournalItems[index].emPowerFaultEvent;
 			result->nDoor = watchInfo->WRAP_JournalItems[index].nDoor;
-			strcpy(result->szDoorName, watchInfo->WRAP_JournalItems[index].szDoorName);
 			result->emEventType = watchInfo->WRAP_JournalItems[index].emEventType;
 			result->bStatus = watchInfo->WRAP_JournalItems[index].bStatus;
 			result->emCardType = watchInfo->WRAP_JournalItems[index].emCardType;
@@ -328,20 +300,13 @@ BOOL CALL_METHOD WRAP_GetJournalItem(int loginID, int index, WRAP_JournalItem* r
 
 BOOL CALL_METHOD WRAP_IsConnected(int loginID)
 {
-	ofstream myfile;
-	myfile.open ("D://SDKOutput.txt");
-	myfile << "WRAP_IsConnected " << loginID << "\n";
 	for(int i = 0; i < 1000; i++)
 	{
 		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
-		myfile << watchInfo->LoginId << watchInfo->IsConnected << "\n";
-		myfile << watchInfo->IsConnected << "\n";
 		if(watchInfo->LoginId == loginID)
 		{
-			myfile << "Found" << "\n";
 			return watchInfo->IsConnected;
 		}
 	}
-	myfile.close();
 	return FALSE;
 }
