@@ -34,6 +34,6 @@ BOOL CALL_METHOD WRAP_SetTimeSchedule(int loginID, int index, CFG_ACCESS_TIMESCH
 
 //ofstream myfile;
 //myfile.open ("D://SDKOutput.txt");
-//myfile << stuInfo.stuTime[i][j].nEndSec;
+//myfile << x << "\n";
 //myfile << "\n";
 //myfile.close();

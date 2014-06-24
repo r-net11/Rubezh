@@ -3,11 +3,13 @@
 
 typedef void(__stdcall * WRAP_ProgressCallback)(int);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_StartProgress(WRAP_ProgressCallback progressCallback);
+extern "C" CLIENT_API void CALL_METHOD WRAP_Initialize();
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_StartListen(int loginID);
+extern "C" CLIENT_API int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], char password[25]);
 
-typedef struct
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Disconnect(int loginID);
+
+typedef struct tag_WRAP_JournalItem
 {
 	int	EventType;
 	NET_TIME DeviceDateTime;
@@ -33,8 +35,18 @@ typedef struct
 	char szPwd[DH_MAX_CARDPWD_LEN];
 } WRAP_JournalItem;
 
-extern "C" CLIENT_API int CALL_METHOD WRAP_GetLastIndex();
+typedef struct tag_WRAP_WatchInfo
+{
+	int LoginId;
+	WRAP_JournalItem* WRAP_JournalItems;
+	int JournalLastIndex;
+	BOOL IsConnected;
+} WRAP_WatchInfo;
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result);
+extern "C" CLIENT_API int CALL_METHOD WRAP_GetLastIndex(int loginID);
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetJournalItem(int loginID, int index, WRAP_JournalItem* result);
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_IsConnected(int loginID);
 
 #endif // !defined(__WRAP_WATCH_H__)

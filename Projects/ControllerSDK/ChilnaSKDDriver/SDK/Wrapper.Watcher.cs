@@ -15,8 +15,6 @@ namespace ChinaSKDDriver
 
 		public void StartWatcher()
 		{
-			NativeWrapper.WRAP_StartListen(LoginID);
-
 			IsStopping = false;
 			WatcherThread = new Thread(RunMonitoring);
 			WatcherThread.Start();
@@ -40,13 +38,13 @@ namespace ChinaSKDDriver
 					return;
 				Thread.Sleep(100);
 
-				var index = NativeWrapper.WRAP_GetLastIndex();
+				var index = NativeWrapper.WRAP_GetLastIndex(LoginID);
 				if (index > lastIndex)
 				{
 					for (int i = lastIndex + 1; i <= index; i++)
 					{
 						var wrapJournalItem = new NativeWrapper.WRAP_JournalItem();
-						NativeWrapper.WRAP_GetJournalItem(i, out wrapJournalItem);
+						NativeWrapper.WRAP_GetJournalItem(LoginID, i, out wrapJournalItem);
 						var journalItem = ParceJournal(wrapJournalItem);
 
 						if (NewJournalItem != null)

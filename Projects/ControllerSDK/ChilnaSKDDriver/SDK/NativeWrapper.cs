@@ -6,44 +6,17 @@ namespace ChinaSKDDriverNativeApi
 	public class NativeWrapper
 	{
 		#region Common
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate void fDisConnectDelegate(Int32 loginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern void WRAP_Initialize();
 
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate void fHaveReConnect(Int32 loginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern int WRAP_Connect(string ipAddress, int port, string userName, string password);
 
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate bool fMessCallBack(Int32 lCommand, Int32 loginID, IntPtr pBuf, Int32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_Disconnect(int loginID);
 
-		[DllImport(@"dhnetsdk.dll")]
-		public static extern Boolean CLIENT_Init(fDisConnectDelegate cbDisConnect, UInt32 dwUser);
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct NET_DEVICEINFO
-		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 48)]
-			public Byte[] sSerialNumber;
-			public Byte byAlarmInPortNum;
-			public Byte byAlarmOutPortNum;
-			public Byte byDiskNum;
-			public Byte byDVRType;
-			public Byte byChanNum;
-		}
-
-		[DllImport(@"dhnetsdk.dll")]
-		public static extern Int32 CLIENT_Login(String pchDVRIP, UInt16 wDVRPort, String pchUserName, String pchPassword, out NET_DEVICEINFO lpDeviceInfo, out Int32 error);
-
-		[DllImport(@"dhnetsdk.dll")]
-		public static extern bool CLIENT_Cleanup();
-
-		[DllImport(@"dhnetsdk.dll")]
-		public static extern void CLIENT_SetAutoReconnect(fHaveReConnect cbAutoConnect, UInt32 dwUser);
-
-		[DllImport(@"dhnetsdk.dll")]
-		public static extern void CLIENT_SetDVRMessCallBack(fMessCallBack cbMessage, UInt32 dwUser);
-
-		[DllImport(@"dhnetsdk.dll")]
-		public static extern bool CLIENT_StartListenEx(Int32 loginID);
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern int WRAP_Reconnect(string ipAddress, int port, string userName, string password);
 
 		public enum NET_ACCESS_CTL_EVENT_TYPE
 		{
@@ -598,14 +571,6 @@ namespace ChinaSKDDriverNativeApi
 		#endregion
 
 		#region Events
-		[UnmanagedFunctionPointer(CallingConvention.StdCall)]
-		public delegate void WRAP_ProgressCallback(Int32 index);
-
-		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_StartProgress(WRAP_ProgressCallback progressCallback);
-
-		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_StartListen(int loginID);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct NET_GPS_STATUS_INFO
@@ -701,10 +666,13 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern int WRAP_GetLastIndex();
+		public static extern int WRAP_GetLastIndex(int loginID);
 
 		[DllImport(@"EntranceGuardDemo.dll")]
-		public static extern bool WRAP_GetJournalItem(int index, out WRAP_JournalItem journalItem);
+		public static extern bool WRAP_GetJournalItem(int loginID, int index, out WRAP_JournalItem journalItem);
+
+		[DllImport(@"EntranceGuardDemo.dll")]
+		public static extern bool WRAP_IsConnected(int loginID);
 		#endregion
 	}
 }

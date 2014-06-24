@@ -8,7 +8,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Content="Start" Command="{Binding StartCommand}" Width="150" Margin="2" />
-            <Button Content="GetJournalItemIndexCommand" Command="{Binding GetJournalItemIndexCommand}" Width="150" Margin="2" />
+            <Button Content="GetConnectionStatus" Command="{Binding GetConnectionStatusCommand}" Width="150" Margin="2" />
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" Margin="2">
             <DataGrid.Columns>

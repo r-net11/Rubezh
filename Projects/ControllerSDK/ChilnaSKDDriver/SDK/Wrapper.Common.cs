@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
-using ChinaSKDDriverNativeApi;
-using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
-using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
+using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
@@ -53,6 +51,29 @@ namespace ChinaSKDDriver
 			}
 			catch { }
 			return dateTime;
+		}
+		#endregion
+
+		#region Common
+		public int LoginID { get; private set; }
+		public event Action<SKDJournalItem> NewJournalItem;
+
+		public int Connect(string ipAddress, int port, string login, string password)
+		{
+			LoginID = NativeWrapper.WRAP_Connect(ipAddress, port, login, password);
+			return LoginID;
+		}
+
+		public bool Disconnect()
+		{
+			var result = NativeWrapper.WRAP_Disconnect(LoginID);
+			return result;
+		}
+
+		public bool IsConnected()
+		{
+			var result = NativeWrapper.WRAP_IsConnected(LoginID);
+			return result;
 		}
 		#endregion
 
@@ -296,101 +317,6 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
-		#endregion
-
-		#region Common
-
-		public int LoginID { get; private set; }
-
-		void OnfDisConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
-		{
-			if (dwUser == 0)
-			{
-				return;
-			}
-		}
-
-		void OnfHaveReConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
-		{
-			return;
-		}
-
-		public int Connect(string ipAddress, int port, string login, string password)
-		{
-			NativeWrapper.fDisConnectDelegate dCbFunc = new NativeWrapper.fDisConnectDelegate(OnfDisConnect);
-			var result = NativeWrapper.CLIENT_Init(dCbFunc, (UInt32)0);
-
-			NativeWrapper.NET_DEVICEINFO deviceInfo;
-			int error = 0;
-			LoginID = NativeWrapper.CLIENT_Login(ipAddress, (UInt16)37777, login, password, out deviceInfo, out error);
-
-			NativeWrapper.fHaveReConnect onHaveReConnect = new NativeWrapper.fHaveReConnect(OnfHaveReConnect);
-			NativeWrapper.CLIENT_SetAutoReconnect(onHaveReConnect, 0);
-
-			return LoginID;
-		}
-
-		public void StartListen()
-		{
-			NativeWrapper.fMessCallBack onfMessCallBack = new NativeWrapper.fMessCallBack(OnfMessCallBack);
-			NativeWrapper.CLIENT_SetDVRMessCallBack(onfMessCallBack, 0);
-
-			NativeWrapper.CLIENT_StartListenEx(LoginID);
-		}
-
-		bool OnfMessCallBack(Int32 lCommand, Int32 lLoginID, IntPtr pBuf, Int32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
-		{
-			if (lCommand == 0x3181)
-			{
-				var nativeJournalItem = (NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO)Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO));
-
-				var doorNo = nativeJournalItem.nDoor;
-				var status = nativeJournalItem.bStatus;
-				var eventType = nativeJournalItem.emEventType;
-				var cardType = nativeJournalItem.emCardType;
-				var openMethod = nativeJournalItem.emOpenMethod;
-				var doorName = Wrapper.CharArrayToString(nativeJournalItem.szDoorName);
-				var cardNo = Wrapper.CharArrayToString(nativeJournalItem.szCardNo);
-				var password = Wrapper.CharArrayToString(nativeJournalItem.szPwd);
-				var dateTime = Wrapper.NET_TIMEToDateTime(nativeJournalItem.stuTime);
-
-				var journalItem = new SKDJournalItem();
-				journalItem.SystemDateTime = DateTime.Now;
-				journalItem.DeviceDateTime = dateTime;
-				journalItem.Name = "Проход через считыватель";
-
-				var description = "";
-				switch (eventType)
-				{
-					case NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE.NET_ACCESS_CTL_EVENT_ENTRY:
-						description = "Вход через дверь";
-						break;
-
-					case NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE.NET_ACCESS_CTL_EVENT_EXIT:
-						description = "Выход через дверь";
-						break;
-
-					case NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE.NET_ACCESS_CTL_EVENT_UNKNOWN:
-						description = "Неизвестно";
-						break;
-				}
-				journalItem.Description = description;
-
-				if (NewJournalItem != null)
-					NewJournalItem(journalItem);
-			}
-
-			return true;
-		}
-
-
-		public event Action<SKDJournalItem> NewJournalItem;
-
-		public bool Disconnect()
-		{
-			var result = NativeWrapper.CLIENT_Cleanup();
-			return result;
-		}
 		#endregion
 	}
 }
