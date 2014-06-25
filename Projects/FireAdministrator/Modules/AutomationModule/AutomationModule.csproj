@@ -97,10 +97,12 @@
     </Compile>
     <Compile Include="Procedures\Converters\ArithmeticTypeToStringConverter.cs" />
     <Compile Include="Procedures\Converters\ConditionTypeToStringConverter.cs" />
+    <Compile Include="Procedures\Converters\MenuTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\Converters\ObjectTypeToStringConverter.cs" />
     <Compile Include="Procedures\Converters\ValueTypeToStringConverter.cs" />
     <Compile Include="Procedures\Converters\ValueTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\Converters\VariableTypeToVisibilityConverter.cs" />
+    <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\CameraSelectationViewModel.cs" />

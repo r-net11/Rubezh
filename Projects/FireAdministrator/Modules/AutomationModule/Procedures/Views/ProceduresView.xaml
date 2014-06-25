@@ -1,12 +1,17 @@
 ﻿<UserControl x:Class="AutomationModule.Views.ProceduresView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:Views="clr-namespace:AutomationModule.Views">
+			 xmlns:Views="clr-namespace:AutomationModule.Views"
+			 xmlns:converters="clr-namespace:AutomationModule.Converters"
+			 xmlns:procedures="clr-namespace:AutomationModule.Procedures">
+	<UserControl.Resources>
+		<converters:MenuTypeToVisibilityConverter x:Key="MenuTypeToVisibilityConverter" />
+	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" MinWidth="300" />
+			<ColumnDefinition Width="7*" MinWidth="300" />
 			<ColumnDefinition Width= "5" />
-			<ColumnDefinition Width="2*" MinWidth="400"/>
+			<ColumnDefinition Width="15*" MinWidth="400"/>
 		</Grid.ColumnDefinitions>
 		<Grid Grid.Column="0">
 			<Grid.RowDefinitions>
@@ -47,18 +52,24 @@
 						<Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="120" Margin="2,0" />
 					</StackPanel>
 				</StackPanel>
-				<Grid Visibility="{Binding IsStepsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+
+				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource MenuTypeToVisibilityConverter},
+					ConverterParameter={x:Static procedures:MenuType.IsSteps}}">
 					<Views:StepsView DataContext="{Binding StepsViewModel}" />
 				</Grid>
-				<Grid Visibility="{Binding IsVariablesVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource MenuTypeToVisibilityConverter},
+					ConverterParameter={x:Static procedures:MenuType.IsVariables}}">					
 					<Views:VariablesView DataContext="{Binding VariablesViewModel}" />
+				</Grid >
+				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource MenuTypeToVisibilityConverter},
+					ConverterParameter={x:Static procedures:MenuType.IsArguments}}">
+				<Views:VariablesView DataContext="{Binding ArgumentsViewModel}" />
 				</Grid>
-				<Grid Visibility="{Binding IsArgumentsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-					<Views:VariablesView DataContext="{Binding ArgumentsViewModel}" />
-				</Grid>
-				<Grid Visibility="{Binding IsConditionsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource MenuTypeToVisibilityConverter},
+					ConverterParameter={x:Static procedures:MenuType.IsConditions}}">
 					<Views:ConditionsView DataContext="{Binding ConditionsViewModel}" />
 				</Grid>
+				
 			</Grid>
 		</Grid>
 	</Grid>

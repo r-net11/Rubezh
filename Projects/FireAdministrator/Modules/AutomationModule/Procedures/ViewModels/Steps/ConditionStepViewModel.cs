@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
@@ -23,9 +22,30 @@ namespace AutomationModule.ViewModels
 				var conditionViewModel = new ConditionViewModel(condition, procedure);
 				Conditions.Add(conditionViewModel);
 			}
+			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
+			JoinOperator = ConditionArguments.JoinOperator;
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ConditionViewModel>(OnRemove);
+			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
+		}
+
+		public RelayCommand ChangeJoinOperatorCommand { get; private set; }
+		void OnChangeJoinOperator()
+		{
+			JoinOperator = JoinOperator == JoinOperator.And ? JoinOperator.Or : JoinOperator.And;
+		}
+
+		public JoinOperator JoinOperator
+		{
+			get { return ConditionArguments.JoinOperator; }
+			set
+			{
+				ConditionArguments.JoinOperator = value;
+				OnPropertyChanged(()=>JoinOperator);
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
 		}
 
 		public RelayCommand<ConditionViewModel> RemoveCommand { get; private set; }
@@ -92,6 +112,7 @@ namespace AutomationModule.ViewModels
 			{
 				Condition.ConditionType = value;
 				OnPropertyChanged(() => SelectedConditionType);
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 	}

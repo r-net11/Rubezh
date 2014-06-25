@@ -1,33 +1,33 @@
 ﻿<UserControl x:Class="AutomationModule.Views.ConditionStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-             xmlns:converters="clr-namespace:AutomationModule.Converters"
-             xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
+			 xmlns:converters="clr-namespace:AutomationModule.Converters"
+			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
 	<UserControl.Resources>
 		<converters:ConditionTypeToStringConverter x:Key="ConditionTypeToStringConverter" />
 		<converters:ValueTypeToStringConverter x:Key="ValueTypeToStringConverter" />
 		<converters:ValueTypeToVisibilityConverter x:Key="ValueTypeToVisibilityConverter" />
 	</UserControl.Resources>
 	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" />
-			<ColumnDefinition Width="*" />
-		</Grid.ColumnDefinitions>
-		<ToolBarButton Grid.Column="0" Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить условие" Height="32" Width="32" />
-		<ItemsControl Grid.Column="1" ItemsSource="{Binding Conditions}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Orientation="Horizontal" Grid.Row="0">
+			<ToolBarButton HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить условие" Height="32" Width="32" />
+			<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="White" Command="{Binding ChangeJoinOperatorCommand}">
+				<TextBlock Text="{Binding JoinOperator, Converter={StaticResource JoinOperatorToStringConverter}}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
+			</ToolBarButton>
+		</StackPanel>
+		<ItemsControl Grid.Row="1" ItemsSource="{Binding Conditions}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<StackPanel Orientation="Horizontal">
-						<ToolBarButton ToolTip="Удалить условие"
-								Command="{Binding
-								RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
-								Path=DataContext.RemoveCommand}"
-								CommandParameter="{Binding}"
-								ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Margin="2" Background="DarkGray" />
-
+						<ToolBarButton ToolTip="Удалить условие" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+							Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Background="DarkGray" />
 						<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding ValueTypes}" Margin="2"
-				  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" Width="100">
+								  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding ., Converter={StaticResource ValueTypeToStringConverter}}" />
@@ -35,9 +35,9 @@
 							</ComboBox.ItemTemplate>
 						</ComboBox>
 						<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-				  SelectedItem="{Binding SelectedGlobalVariable, UpdateSourceTrigger=PropertyChanged}"
-				  Visibility="{Binding Path=SelectedValueType, Converter={StaticResource ValueTypeToVisibilityConverter},
-			ConverterParameter={x:Static automation:ValueType.IsGlobalVariable}}" Width="100">
+								  SelectedItem="{Binding SelectedGlobalVariable, UpdateSourceTrigger=PropertyChanged}"
+								  Visibility="{Binding Path=SelectedValueType, Converter={StaticResource ValueTypeToVisibilityConverter},
+							ConverterParameter={x:Static automation:ValueType.IsGlobalVariable}}" MinWidth="163" MaxWidth="163">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Name}" />
@@ -45,9 +45,9 @@
 							</ComboBox.ItemTemplate>
 						</ComboBox>
 						<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding Variables}" Margin="2"
-				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-				  Visibility="{Binding Path=SelectedValueType, Converter={StaticResource ValueTypeToVisibilityConverter},
-			ConverterParameter={x:Static automation:ValueType.IsLocalVariable}}" Width="100">
+								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
+								  Visibility="{Binding Path=SelectedValueType, Converter={StaticResource ValueTypeToVisibilityConverter},
+							ConverterParameter={x:Static automation:ValueType.IsLocalVariable}}" MinWidth="163" MaxWidth="163">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Name}" />
@@ -56,7 +56,7 @@
 						</ComboBox>
 
 						<ComboBox ItemsSource="{Binding ConditionTypes}" Margin="2"
-								  SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}" Width="60">
+								  SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}" MinWidth="87" MaxWidth="87">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding ., Converter={StaticResource ConditionTypeToStringConverter}}" />
@@ -65,7 +65,7 @@
 						</ComboBox>
 
 						<ComboBox DataContext="{Binding Variable2}" ItemsSource="{Binding ValueTypes}" Margin="2"
-								  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" Width="100">
+								  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding ., Converter={StaticResource ValueTypeToStringConverter}}" />
@@ -75,7 +75,7 @@
 						<ComboBox DataContext="{Binding Variable2}" ItemsSource="{Binding GlobalVariables}" Margin="2"
 								  SelectedItem="{Binding SelectedGlobalVariable, UpdateSourceTrigger=PropertyChanged}"
 								  Visibility="{Binding Path=SelectedValueType, Converter={StaticResource ValueTypeToVisibilityConverter},
-							ConverterParameter={x:Static automation:ValueType.IsGlobalVariable}}" Width="100">
+							ConverterParameter={x:Static automation:ValueType.IsGlobalVariable}}" MinWidth="163" MaxWidth="163">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Name}" />
@@ -85,7 +85,7 @@
 						<ComboBox DataContext="{Binding Variable2}" ItemsSource="{Binding Variables}" Margin="2"
 								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 								  Visibility="{Binding Path=SelectedValueType, Converter={StaticResource ValueTypeToVisibilityConverter},
-							ConverterParameter={x:Static automation:ValueType.IsLocalVariable}}" Width="100">
+							ConverterParameter={x:Static automation:ValueType.IsLocalVariable}}" MinWidth="163" MaxWidth="163">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding Name}" />
@@ -94,8 +94,7 @@
 						</ComboBox>
 						<extToolkit:IntegerUpDown  DataContext="{Binding Variable2}" Value="{Binding Value}" Margin="2"
 							Visibility="{Binding Path=SelectedValueType, Converter={StaticResource ValueTypeToVisibilityConverter},
-							ConverterParameter={x:Static automation:ValueType.IsValue}}" Width="100"/>
-
+							ConverterParameter={x:Static automation:ValueType.IsValue}}" MinWidth="163" MaxWidth="163"/>
 					</StackPanel>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>

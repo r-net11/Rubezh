@@ -1,4 +1,6 @@
-﻿using FiresecAPI.Automation;
+﻿using System.Linq;
+using AutomationModule.Procedures;
+using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -26,7 +28,26 @@ namespace AutomationModule.ViewModels
 			ArgumentsViewModel = new ArgumentsViewModel(procedure);
 			ConditionsViewModel = new ConditionsViewModel(procedure);
 
-			OnShowSteps();
+			MenuTypes = new ObservableRangeCollection<MenuType>
+			{
+				MenuType.IsSteps,
+				MenuType.IsVariables,
+				MenuType.IsArguments,
+				MenuType.IsConditions
+			};
+			SelectedMenuType = MenuTypes.FirstOrDefault();
+		}
+
+		public ObservableRangeCollection<MenuType> MenuTypes { get; private set; }
+		MenuType _selectedMenuType;
+		public MenuType SelectedMenuType
+		{
+			get { return _selectedMenuType; }
+			set
+			{
+				_selectedMenuType = value;
+				OnPropertyChanged(() => SelectedMenuType);
+			}
 		}
 
 		public string Name
@@ -51,37 +72,25 @@ namespace AutomationModule.ViewModels
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			StepsViewModel.UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
-			IsStepsVisible = true;
-			IsVariablesVisible = false;
-			IsArgumentsVisible = false;
-			IsConditionsVisible = false;
+			SelectedMenuType = MenuType.IsSteps;
 		}
 
 		public RelayCommand ShowVariablesCommand { get; private set; }
 		void OnShowVariables()
 		{
-			IsStepsVisible = false;
-			IsVariablesVisible = true;
-			IsArgumentsVisible = false;
-			IsConditionsVisible = false;
+			SelectedMenuType = MenuType.IsVariables;
 		}
 
 		public RelayCommand ShowArgumentsCommand { get; private set; }
 		void OnShowArguments()
 		{
-			IsStepsVisible = false;
-			IsVariablesVisible = false;
-			IsArgumentsVisible = true;
-			IsConditionsVisible = false;
+			SelectedMenuType = MenuType.IsArguments;
 		}
 
 		public RelayCommand ShowConditionsCommand { get; private set; }
 		void OnShowConditions()
 		{
-			IsStepsVisible = false;
-			IsVariablesVisible = false;
-			IsArgumentsVisible = false;
-			IsConditionsVisible = true;
+			SelectedMenuType = MenuType.IsConditions;
 		}
 
 		bool _isEnabled;
@@ -94,50 +103,6 @@ namespace AutomationModule.ViewModels
 				Procedure.IsActive = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => IsEnabled);
-			}
-		}
-
-		bool _isStepsVisible;
-		public bool IsStepsVisible
-		{
-			get { return _isStepsVisible; }
-			set
-			{
-				_isStepsVisible = value;
-				OnPropertyChanged(() => IsStepsVisible);
-			}
-		}
-
-		bool _isVariablesVisible;
-		public bool IsVariablesVisible
-		{
-			get { return _isVariablesVisible; }
-			set
-			{
-				_isVariablesVisible = value;
-				OnPropertyChanged(() => IsVariablesVisible);
-			}
-		}
-
-		bool _isArgumentsVisible;
-		public bool IsArgumentsVisible
-		{
-			get { return _isArgumentsVisible; }
-			set
-			{
-				_isArgumentsVisible = value;
-				OnPropertyChanged(() => IsArgumentsVisible);
-			}
-		}
-
-		bool _isConditionsVisible;
-		public bool IsConditionsVisible
-		{
-			get { return _isConditionsVisible; }
-			set
-			{
-				_isConditionsVisible = value;
-				OnPropertyChanged(() => IsConditionsVisible);
 			}
 		}
 	}

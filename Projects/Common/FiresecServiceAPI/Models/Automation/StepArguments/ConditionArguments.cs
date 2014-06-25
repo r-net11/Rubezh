@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Windows.Documents;
 
 namespace FiresecAPI.Automation
 {
@@ -19,5 +18,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public List<Condition> Conditions { get; set; }
+
+		[DataMember]
+		public JoinOperator JoinOperator { get; set; }
 	}
 }
