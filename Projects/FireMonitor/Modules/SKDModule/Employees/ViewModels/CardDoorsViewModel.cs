@@ -39,10 +39,10 @@ namespace SKDModule.ViewModels
 
 			//foreach (var cardZone in CardDoors)
 			//{
-			//    var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == cardZone.DoorUID);
-			//    if (zone != null)
-			//    {
-			//    }
+			//	var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == cardZone.DoorUID);
+			//	if (zone != null)
+			//	{
+			//	}
 			//}
 		}
 

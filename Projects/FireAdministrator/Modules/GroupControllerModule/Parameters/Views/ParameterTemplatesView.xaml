@@ -31,11 +31,11 @@
 								<TextBlock Text="{Binding Name}" Margin="5 0 0 0" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <TextBox Text="{Binding Name}" IsEnabled="{Binding IsEnabled}" Foreground="Black" Margin="5 0 0 0" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
+						<DataGridTemplateColumn.CellEditingTemplate>
+							<DataTemplate>
+								<TextBox Text="{Binding Name}" IsEnabled="{Binding IsEnabled}" Foreground="Black" Margin="5 0 0 0" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellEditingTemplate>
 					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>

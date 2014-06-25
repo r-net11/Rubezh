@@ -3,21 +3,21 @@
 					xmlns:Views="clr-namespace:AutomationModule.Views"
 					xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:ProceduresViewModel}">
-        <Views:ProceduresView />
+	<DataTemplate DataType="{x:Type ViewModels:ProceduresViewModel}">
+		<Views:ProceduresView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ProceduresMenuViewModel}">
-        <Views:ProceduresMenuView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:ProcedureDetailsViewModel}">
-        <Views:ProcedureDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:ProceduresMenuViewModel}">
+		<Views:ProceduresMenuView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:StepTypeSelectationViewModel}">
-        <Views:StepTypeSelectationView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ProcedureDetailsViewModel}">
+		<Views:ProcedureDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:StepTypeSelectationViewModel}">
+		<Views:StepTypeSelectationView />
+	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:VariableDetailsViewModel}">
 		<Views:VariableDetailsView />
@@ -28,12 +28,12 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="soundsTemplate">
-        <Views:SoundStepView />
-    </DataTemplate>
+		<Views:SoundStepView />
+	</DataTemplate>
 
-    <DataTemplate x:Key="journalTemplate">
-        <Views:JournalStepView />
-    </DataTemplate>
+	<DataTemplate x:Key="journalTemplate">
+		<Views:JournalStepView />
+	</DataTemplate>
 
 	<DataTemplate x:Key="arithmeticTemplate">
 		<Views:ArithmeticStepView />

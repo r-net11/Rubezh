@@ -138,8 +138,8 @@ namespace GKModule.ViewModels
 				//var emptyZones = Zones.Where(x => x.Zone.Devices.Count == 0).ToList();
 				//foreach (var emptyZone in emptyZones)
 				//{
-				//    XManager.RemoveZone(emptyZone.Zone);
-				//    Zones.Remove(emptyZone);
+				//	XManager.RemoveZone(emptyZone.Zone);
+				//	Zones.Remove(emptyZone);
 				//}
 				SelectedZone = Zones.FirstOrDefault();
 				ServiceFactory.SaveService.GKChanged = true;

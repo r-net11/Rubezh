@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="GKModule.Plans.Views.DevicePropertiesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-             MinHeight="400" MinWidth="400">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 MinHeight="400" MinWidth="400">
 
 	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}">
 		<tree:TreeList.View>

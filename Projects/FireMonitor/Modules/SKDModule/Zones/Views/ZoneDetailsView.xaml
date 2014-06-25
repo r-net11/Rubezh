@@ -55,8 +55,8 @@
 			<TabItem Header="Управление">
 				<StackPanel Background="White">
 					<Button Content="Открыть все двери" Command="{Binding OpenAllCommand}" Width="200" Height="50" Margin="2" />
-                    <Button Content="Закрыть все двери" Command="{Binding CloseAllCommand}" Width="200" Height="50" Margin="2" />
-                    <Button Content="Обнаружение сотрудников" Command="{Binding DetectEmployeesCommand}" Width="200" Height="50" Margin="2" />
+					<Button Content="Закрыть все двери" Command="{Binding CloseAllCommand}" Width="200" Height="50" Margin="2" />
+					<Button Content="Обнаружение сотрудников" Command="{Binding DetectEmployeesCommand}" Width="200" Height="50" Margin="2" />
 				</StackPanel>
 			</TabItem>
 		</TabControl>

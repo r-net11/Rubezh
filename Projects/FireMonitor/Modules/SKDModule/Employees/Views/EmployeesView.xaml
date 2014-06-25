@@ -67,31 +67,31 @@
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<TextBlock>
-								    <Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
-									    <StackPanel Orientation="Horizontal">
-										    <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Card.png" />
-										    <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}">
-											    <TextBlock.Style>
-												    <Style>
-													    <Style.Triggers>
-														    <DataTrigger Binding="{Binding IsCardSelected}" Value="True">
-															    <DataTrigger.Setters>
-																    <Setter Property="TextBlock.FontWeight" Value="Bold" />
-																    <Setter Property="TextBlock.Foreground" Value="Orange" />
-															    </DataTrigger.Setters>
-														    </DataTrigger>
-														    <DataTrigger Binding="{Binding IsCardSelected}" Value="False">
-															    <DataTrigger.Setters>
-																    <Setter Property="TextBlock.Foreground" Value="White" />
-															    </DataTrigger.Setters>
-														    </DataTrigger>
-													    </Style.Triggers>
-												    </Style>
-											    </TextBlock.Style>
-										    </TextBlock>
-									    </StackPanel>
-								    </Hyperlink>
-							    </TextBlock>
+									<Hyperlink Command="{Binding SelectCardCommand}" Style="{StaticResource HyperlinkStyle2}">
+										<StackPanel Orientation="Horizontal">
+											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Card.png" />
+											<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}">
+												<TextBlock.Style>
+													<Style>
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding IsCardSelected}" Value="True">
+																<DataTrigger.Setters>
+																	<Setter Property="TextBlock.FontWeight" Value="Bold" />
+																	<Setter Property="TextBlock.Foreground" Value="Orange" />
+																</DataTrigger.Setters>
+															</DataTrigger>
+															<DataTrigger Binding="{Binding IsCardSelected}" Value="False">
+																<DataTrigger.Setters>
+																	<Setter Property="TextBlock.Foreground" Value="White" />
+																</DataTrigger.Setters>
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</TextBlock.Style>
+											</TextBlock>
+										</StackPanel>
+									</Hyperlink>
+								</TextBlock>
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>

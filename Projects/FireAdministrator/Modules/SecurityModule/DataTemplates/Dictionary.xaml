@@ -14,9 +14,9 @@
 		<Views:UsersMenuView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:RoleSelectationViewModel}">
-        <Views:RoleSelectationView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:RoleSelectationViewModel}">
+		<Views:RoleSelectationView />
+	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:RolesViewModel}">
 		<Views:RolesView />
