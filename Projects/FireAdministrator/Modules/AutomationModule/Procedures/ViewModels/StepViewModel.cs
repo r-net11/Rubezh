@@ -19,11 +19,15 @@ namespace AutomationModule.ViewModels
 			switch(step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:
-					Content = new SoundStepViewModel(step, Update);
+					Content = new SoundStepViewModel(step.SoundArguments, Update);
 					break;
 
 				case ProcedureStepType.Arithmetics:
-					Content = new ArithmeticStepViewModel(step, procedure, Update);
+					Content = new ArithmeticStepViewModel(step.ArithmeticArguments, procedure, Update);
+					break;
+
+				case ProcedureStepType.If:
+					Content = new ConditionStepViewModel(step.ConditionArguments, procedure);
 					break;
 
 				case ProcedureStepType.SendMessage:

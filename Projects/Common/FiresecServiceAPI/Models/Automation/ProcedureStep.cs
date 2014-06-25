@@ -13,6 +13,7 @@ namespace FiresecAPI.Automation
 			Children = new List<ProcedureStep>();
 			SoundArguments = new SoundArguments();
 			ArithmeticArguments = new ArithmeticArguments();
+			ConditionArguments = new ConditionArguments();
 		}
 
 		public ProcedureStep Parent { get; set; }
@@ -37,5 +38,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ArithmeticArguments ArithmeticArguments { get; set; }
+
+		[DataMember]
+		public ConditionArguments ConditionArguments { get; set; }
 	}
 }

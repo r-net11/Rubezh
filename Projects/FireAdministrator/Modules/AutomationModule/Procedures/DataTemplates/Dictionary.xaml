@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:Views="clr-namespace:AutomationModule.Views"
-					xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels">
+					xmlns:ViewModels="clr-namespace:AutomationModule.ViewModels" >
 
 	<DataTemplate DataType="{x:Type ViewModels:ProceduresViewModel}">
 		<Views:ProceduresView />
@@ -39,10 +39,15 @@
 		<Views:ArithmeticStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="conditionTemplate">
+		<Views:ConditionStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
+		ConditionTemplate="{StaticResource conditionTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

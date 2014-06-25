@@ -8,6 +8,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate SoundsTemplate { get; set; }
 		public DataTemplate JournalTemplate { get; set; }
 		public DataTemplate ArithmeticTemplate { get; set; }
+		public DataTemplate ConditionTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -22,6 +23,10 @@ namespace AutomationModule.ViewModels
 			if (item is ArithmeticStepViewModel)
 			{
 				return ArithmeticTemplate;
+			}
+			if (item is ConditionStepViewModel)
+			{
+				return ConditionTemplate;
 			}
 			return null;
 		}

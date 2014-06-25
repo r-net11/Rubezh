@@ -167,6 +167,9 @@
     <Compile Include="IFiresecServiceSKD.cs" />
     <Compile Include="IGKService.cs" />
     <Compile Include="IFiresecService.cs" />
+    <Compile Include="Models\Automation\Condition.cs" />
+    <Compile Include="Models\Automation\ConditionType.cs" />
+    <Compile Include="Models\Automation\StepArguments\ConditionArguments.cs" />
     <Compile Include="Models\Automation\DayOfWeekType.cs" />
     <Compile Include="Models\Automation\GlobalVariable.cs" />
     <Compile Include="Models\Automation\Filter.cs" />

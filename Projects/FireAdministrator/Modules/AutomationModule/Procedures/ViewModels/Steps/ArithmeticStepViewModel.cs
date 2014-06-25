@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection.Emit;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
@@ -18,11 +17,11 @@ namespace AutomationModule.ViewModels
 		public ArithmeticParameterViewModel Variable2 { get; set; }
 		public ArithmeticParameterViewModel Result { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
-		public ArithmeticStepViewModel(ProcedureStep procedureStep, Procedure procedure, Action updateDescriptionHandler)
+		public ArithmeticStepViewModel(ArithmeticArguments arithmeticArguments, Procedure procedure, Action updateDescriptionHandler)
 		{
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
-			ArithmeticArguments = procedureStep.ArithmeticArguments;
+			ArithmeticArguments = arithmeticArguments;
 			SelectedArithmeticType = ArithmeticArguments.ArithmeticType;
 			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1, Procedure.Variables);
 			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2, Procedure.Variables);

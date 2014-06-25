@@ -96,6 +96,7 @@
       <DependentUpon>FiltersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Converters\ArithmeticTypeToStringConverter.cs" />
+    <Compile Include="Procedures\Converters\ConditionTypeToStringConverter.cs" />
     <Compile Include="Procedures\Converters\ObjectTypeToStringConverter.cs" />
     <Compile Include="Procedures\Converters\ValueTypeToStringConverter.cs" />
     <Compile Include="Procedures\Converters\ValueTypeToVisibilityConverter.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\CameraSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\CameraViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\ConditionStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\DeviceSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
@@ -132,6 +134,9 @@
     </Compile>
     <Compile Include="Procedures\Views\Steps\ArithmeticStepView.xaml.cs">
       <DependentUpon>ArithmeticStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\ConditionStepView.xaml.cs">
+      <DependentUpon>ConditionStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\JournalStepView.xaml.cs">
       <DependentUpon>JournalStepView.xaml</DependentUpon>
@@ -304,6 +309,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\ArithmeticStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\ConditionStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
