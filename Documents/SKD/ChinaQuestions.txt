@@ -171,3 +171,96 @@ What am I doung wrong?
 
 MessageCallBack
 In your example lCommand can be equal to DH_ALARM_VEHICLE_CONFIRM or DH_ALARM_VEHICLE_LARGE_ANGLE. I don't think my controller can generate such events that contains NET_GPS_STATUS_INFO. Does my controller supports this?
+
+//************************************************************************************
+
+- Thanks alot for new SDK redistributables. Bug with HaveReConnectFunc has gone avay.
+No bebugger steps into HaveReConnectFunc
+I modified your example like this
+void CALLBACK HaveReConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
+{
+	BOOL bRet = CLIENT_StartListenEx(lLoginID);
+}
+Without recalling CLIENT_StartListenEx I don't get events any more.
+Is it a bug, or a feature? If it's a feature, then why don,t you recall CLIENT_StartListenEx in you original example, which 's main purpose is to demonstrate event log monitorin even after reconnection
+
+
+I'll descripbe my controller's behaviour
+Sutuation one
+- I pull out ethernet wire
+- DisConnectFunc fired
+- I IMMEDIALELY plug in ethernet wire
+- DisConnectFunc fired 3-5 times
+- HaveReConnectFunc
+
+Sutuation two
+- I pull out ethernet wire
+- DisConnectFunc fired
+- I wait few minutes
+- I plug in ethernet wire
+- HaveReConnectFunc
+
+The difference between these two cases as you can see is that I get few DisConnectFunc if I don't pause between pulling out  and plugging in again
+Is it expected behavior? Does it correlate whit as you said
+"etc: Since accounts of BSC is not reusable, BSC do not allow user to reconnect right after disconnected. So reconnection will not be successful until roughly 40 seconds after disconnection."?
+
+
+After I replaced SDK redistributable dlls, I get error when calling
+DevConfig_AccessGeneral,
+DevConfig_AccessControl,
+DevConfig_AccessTimeSchedule,
+Insert_CardRec
+testRecordSetFindNext_Card finds no cards
+and so on
+Maybe I have to update firmware?
+The set of thees bugs paralyse my work
+
+
+Insert_Card
+whatever values I set to nDoorNum, sznDoors[], nTimeSectionNum, sznTimeSectionNo[], it always adds 2 doors(1 and 2)
+
+
+//**************************************************
+
+
+- I actualy don't like callback from managed C# code to unmanaged code C++ code. I'd prefere polling model, if you don't mind. Here's an idea:
+1) We want to monitore controller's event logs
+2) Every log has ins own through identifier that increments on every new event log
+3) I have stored last identifier, corresponding to last event I get
+4) Every time programm starts, I get controller,s last event identifier
+5) I compare new last identifier to one, I stored befre
+6) If new last identifier if greater the the stored one, then I read missing event logs with identifier graeter then stored one and less or equal then new one
+7) Do steps 4-6 in the infinite loop
+I have an experience in driver development(like you SDK) and I used described scheme in practice many times with many devices.
+Can you provide me an example, that works like this?
+I'm afraid I'm confused with the limitation of SDK, and the tip mentiond in the last answer does't make me happy. I'v already have problem with callback to my C# code. Now I have a C++ DLL, that incapsulates all callback and reconnection logic and a C# project that polls this C++ DLL for new events. I don't think it's a best practice - it's a worst workaround. So I hope to improve my mazy code with polling model
+
+
+- Do you have Web service to SDK or somethig?
+
+
+- You said
+"sznDoors and sznTimeSectionNo are connected params. nDoorNum and nTimeSectionNum should be equal"
+Imagine I have a controller with 4 card readers and 100 TimeShedules
+I want give a person a card, that can pass through first and second door withit 10-20 TimeShedules
+My code will be like this
+stuCard.nDoorNum = 2;
+stuCard.sznDoors[0] = 1;
+stuCard.sznDoors[1] = 2;
+stuCard.nTimeSectionNum = 11;
+stuCard.sznTimeSectionNo[0] = 10;
+stuCard.sznTimeSectionNo[1] = 11;
+stuCard.sznTimeSectionNo[2] = 12;
+stuCard.sznTimeSectionNo[3] = 13;
+stuCard.sznTimeSectionNo[4] = 14;
+stuCard.sznTimeSectionNo[5] = 15;
+stuCard.sznTimeSectionNo[6] = 16;
+stuCard.sznTimeSectionNo[7] = 17;
+stuCard.sznTimeSectionNo[8] = 18;
+stuCard.sznTimeSectionNo[9] = 19;
+stuCard.sznTimeSectionNo[10] = 20;
+As you can see, doors and time sections are not equal
+Or I don't understand the meaning of NET_RECORDSET_ACCESS_CTL_CARD structire again?
+
+
+- JianJun, don't forget to answer

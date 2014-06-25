@@ -12,6 +12,7 @@ namespace ControllerSDK.Views
 			InitializeComponent();
 			File.Copy(@"D:\Projects\Projects\ControllerSDK\SDK_DLL\EntranceGuardDemo\Bin\EntranceGuardDemo.dll", @"D:\Projects\Projects\ControllerSDK\ControllerSDK\bin\Debug\EntranceGuardDemo.dll", true);
 			ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
+			MainViewModel.Wrapper = new Wrapper();
 			MainViewModel = new MainViewModel();
 			DataContext = MainViewModel;
 			OnConnect(this, null);
@@ -21,7 +22,6 @@ namespace ControllerSDK.Views
 
 		void OnConnect(object sender, RoutedEventArgs e)
 		{
-			MainViewModel.Wrapper = new Wrapper();
 			var loginID = MainViewModel.Wrapper.Connect("172.16.6.58", 37777, "admin", "123456");
 			_textBox.Text += "LoginID = " + loginID + "\n";
 			MainViewModel.Wrapper.StartWatcher();

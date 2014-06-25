@@ -7,13 +7,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Content="Start" Command="{Binding StartCommand}" Width="150" Margin="2" />
             <Button Content="GetConnectionStatus" Command="{Binding GetConnectionStatusCommand}" Width="150" Margin="2" />
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournalItem}" AutoGenerateColumns="False" Margin="2">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="SystemDateTime" Binding="{Binding JournalItem.SystemDateTime}" Width="*" />
-                <DataGridTextColumn Header="DeviceDateTime" Binding="{Binding JournalItem.DeviceDateTime}" Width="*" />
+                <DataGridTextColumn Header="SystemDateTime" Binding="{Binding JournalItem.SystemDateTime}" Width="Auto" />
+                <DataGridTextColumn Header="DeviceDateTime" Binding="{Binding JournalItem.DeviceDateTime}" Width="Auto" />
                 <DataGridTextColumn Header="Name" Binding="{Binding JournalItem.Name}" Width="*" />
                 <DataGridTextColumn Header="Description" Binding="{Binding JournalItem.Description}" Width="*" />
             </DataGrid.Columns>

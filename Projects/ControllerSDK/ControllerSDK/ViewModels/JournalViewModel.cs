@@ -20,7 +20,6 @@ namespace ControllerSDK.ViewModels
 	{
 		public JournalViewModel()
 		{
-			StartCommand = new RelayCommand(OnStart);
 			GetConnectionStatusCommand = new RelayCommand(OnConnectionStatus);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 			MainViewModel.Wrapper.NewJournalItem += new Action<SKDJournalItem>(Wrapper_NewJournalItem);
@@ -47,12 +46,6 @@ namespace ControllerSDK.ViewModels
 				_selectedJournalItem = value;
 				OnPropertyChanged(() => SelectedJournalItem);
 			}
-		}
-
-		public RelayCommand StartCommand { get; private set; }
-		void OnStart()
-		{
-			MainViewModel.Wrapper.NewJournalItem += new Action<SKDJournalItem>(Wrapper_NewJournalItem);
 		}
 
 		public RelayCommand GetConnectionStatusCommand { get; private set; }
