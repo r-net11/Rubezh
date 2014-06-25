@@ -15,6 +15,7 @@ namespace DeviceControls
 		public static XDevicePicture XDevicePicture { get; private set; }
 		public static SKDDevicePicture SKDDevicePicture { get; private set; }
 		public static CameraPicture CameraPicture { get; private set; }
+		public static DoorPicture DoorPicture { get; private set; }
 
 		static PictureCacheSource()
 		{
@@ -30,6 +31,7 @@ namespace DeviceControls
 			XDevicePicture = new XDevicePicture();
 			SKDDevicePicture = new SKDDevicePicture();
 			CameraPicture = new CameraPicture();
+			DoorPicture = new DoorPicture();
 		}
 
 		public static Brush CreateDynamicBrush<TLibraryFrame>(List<TLibraryFrame> frames)

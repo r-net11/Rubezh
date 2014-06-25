@@ -8,4 +8,8 @@
 		<Views:ZonePropertiesView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:DoorPropertiesViewModel}">
+		<Views:DoorPropertiesView />
+	</DataTemplate>
+
 </ResourceDictionary>

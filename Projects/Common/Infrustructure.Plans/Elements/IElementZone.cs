@@ -22,6 +22,9 @@ namespace Infrustructure.Plans.Elements
 		GK,
 
 		[Description("Охранная зона")]
-		Guard
+		Guard,
+
+		[Description("СКД зона")]
+		SKD,
 	}
 }

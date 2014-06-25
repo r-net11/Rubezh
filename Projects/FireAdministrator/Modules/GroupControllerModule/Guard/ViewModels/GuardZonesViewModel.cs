@@ -248,8 +248,8 @@ namespace GKModule.ViewModels
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
-			elements.OfType<ElementRectangleXZone>().ToList().ForEach(element => Helper.ResetXZone(element));
-			elements.OfType<ElementPolygonXZone>().ToList().ForEach(element => Helper.ResetXZone(element));
+			elements.OfType<ElementRectangleXGuardZone>().ToList().ForEach(element => Helper.ResetXGuardZone(element));
+			elements.OfType<ElementPolygonXGuardZone>().ToList().ForEach(element => Helper.ResetXGuardZone(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
@@ -258,7 +258,7 @@ namespace GKModule.ViewModels
 			_lockSelection = true;
 			elements.ForEach(element =>
 			{
-				var elementZone = GetElementXZone(element);
+				var elementZone = GetElementXGuardZone(element);
 				if (elementZone != null)
 				{
 					OnZoneChanged(elementZone.ZoneUID);
@@ -273,7 +273,7 @@ namespace GKModule.ViewModels
 		}
 		private void OnElementSelected(ElementBase element)
 		{
-			var elementZone = GetElementXZone(element);
+			var elementZone = GetElementXGuardZone(element);
 			if (elementZone != null)
 			{
 				_lockSelection = true;
@@ -281,11 +281,11 @@ namespace GKModule.ViewModels
 				_lockSelection = false;
 			}
 		}
-		private IElementZone GetElementXZone(ElementBase element)
+		private IElementZone GetElementXGuardZone(ElementBase element)
 		{
-			IElementZone elementZone = element as ElementRectangleXZone;
+			IElementZone elementZone = element as ElementRectangleXGuardZone;
 			if (elementZone == null)
-				elementZone = element as ElementPolygonXZone;
+				elementZone = element as ElementPolygonXGuardZone;
 			return elementZone;
 		}
 

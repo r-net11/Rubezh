@@ -3,7 +3,6 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<DataGrid Grid.Column="0" Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
 			<DataGrid.Resources>
@@ -21,22 +20,21 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Зона" Width="*">
+				<DataGridTemplateColumn Width="*" Header="Зона">
 					<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 2 0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
-								</StackPanel>
-							</DataTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Image Margin="1 0 2 0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+							</StackPanel>
+						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
+				<DataGridTextColumn Width="*" Binding="{Binding Description}" Header="Примечание" />
 			</DataGrid.Columns>
 		</DataGrid>
-		<CheckBox Grid.Row="1" Margin="5" VerticalAlignment="Center" Content="Невидимая зона" Foreground="White" IsChecked="{Binding IsHiddenZone, UpdateSourceTrigger=PropertyChanged}" />
-		<StackPanel Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
+		<StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
 			<Button Width="100" Margin="2" Command="{Binding EditCommand}" Content="Редактировать" />
 			<Button Width="100" Margin="2" Command="{Binding CreateCommand}" Content="Создать" />
 		</StackPanel>

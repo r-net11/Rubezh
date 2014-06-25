@@ -137,28 +137,28 @@ namespace SKDModule.Plans.Designer
 		}
 		public static string GetDoorTitle(ElementDoor element)
 		{
-			var device = GetDoor(element);
-			return device == null ? "Неизвестное устройство" : device.Name;
+			var door = GetDoor(element);
+			return door == null ? "Неизвестная дверь" : door.Name;
 		}
 		public static Door SetDoor(ElementDoor element)
 		{
-			Door device = GetDoor(element);
-			if (device != null)
-				device.PlanElementUIDs.Add(element.UID);
-			return device;
+			Door door = GetDoor(element);
+			if (door != null)
+				door.PlanElementUIDs.Add(element.UID);
+			return door;
 		}
-		public static void SetDoor(ElementDoor element, Door device)
+		public static void SetDoor(ElementDoor element, Door door)
 		{
 			ResetDoor(element);
-			element.DoorUID = device == null ? Guid.Empty : device.UID;
-			if (device != null)
-				device.PlanElementUIDs.Add(element.UID);
+			element.DoorUID = door == null ? Guid.Empty : door.UID;
+			if (door != null)
+				door.PlanElementUIDs.Add(element.UID);
 		}
 		public static void ResetDoor(ElementDoor element)
 		{
-			Door device = GetDoor(element);
-			if (device != null)
-				device.PlanElementUIDs.Remove(element.UID);
+			Door door = GetDoor(element);
+			if (door != null)
+				door.PlanElementUIDs.Remove(element.UID);
 		}
 
 	}

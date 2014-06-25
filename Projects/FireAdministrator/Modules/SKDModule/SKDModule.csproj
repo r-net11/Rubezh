@@ -66,6 +66,7 @@
     <Compile Include="Doors\Views\DeviceSelectationView.xaml.cs">
       <DependentUpon>DeviceSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\EditDoorEvent.cs" />
     <Compile Include="Events\CreateDoorEvent.cs" />
     <Compile Include="Events\ShowSKDDoorEvent.cs" />
     <Compile Include="Filters\ViewModels\FilterDetails\DeviceFilterViewModel.cs" />
@@ -168,13 +169,18 @@
     <Compile Include="PassCard\Views\PassCardTextPropertyView.xaml.cs">
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plans\Designer\DoorPainter.cs" />
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\Painter.cs" />
     <Compile Include="Plans\SKDPlanExtension.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZoneRectangleAdorner.cs" />
+    <Compile Include="Plans\ViewModels\DoorPropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
+    <Compile Include="Plans\Views\DoorPropertiesView.xaml.cs">
+      <DependentUpon>DoorPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
       <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
     </Compile>
@@ -463,6 +469,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\DoorPropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

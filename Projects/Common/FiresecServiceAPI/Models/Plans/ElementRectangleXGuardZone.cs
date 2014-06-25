@@ -9,8 +9,11 @@ namespace FiresecAPI.Models
 	{
 		[DataMember]
 		public Guid ZoneUID { get; set; }
-		[DataMember]
-		public bool IsHiddenZone { get; set; }
+		public bool IsHiddenZone
+		{
+			get { return false; }
+			set { }
+		}
 		[DataMember]
 		public ElementZoneType ElementZoneType { get; set; }
 

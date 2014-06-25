@@ -43,6 +43,8 @@ namespace SKDModule
 			SKDManager.UpdateConfiguration();
 			ServiceFactory.Events.GetEvent<CreateSKDZoneEvent>().Subscribe(OnCreateSKDZone);
 			ServiceFactory.Events.GetEvent<EditSKDZoneEvent>().Subscribe(OnEditSKDZone);
+			ServiceFactory.Events.GetEvent<CreateDoorEvent>().Subscribe(OnCreateDoor);
+			ServiceFactory.Events.GetEvent<EditDoorEvent>().Subscribe(OnEditDoor);
 
 			PassCardDesignerViewModel = new PassCardsDesignerViewModel();
 			DevicesViewModel = new DevicesViewModel();
@@ -56,7 +58,7 @@ namespace SKDModule
 			HolidaysViewModel = new HolidaysViewModel();
 			SettingsViewModel = new SettingsViewModel();
 			FiltersViewModel = new FiltersViewModel();
-			_planExtension = new SKDPlanExtension(DevicesViewModel, ZonesViewModel);
+			_planExtension = new SKDPlanExtension(DevicesViewModel, ZonesViewModel, DoorsViewModel);
 		}
 
 		public override void Initialize()
@@ -142,6 +144,14 @@ namespace SKDModule
 		private void OnEditSKDZone(Guid zoneUID)
 		{
 			ZonesViewModel.EditZone(zoneUID);
+		}
+		private void OnCreateDoor(CreateDoorEventArg createDoorEventArg)
+		{
+			DoorsViewModel.CreateDoor(createDoorEventArg);
+		}
+		private void OnEditDoor(Guid doorUID)
+		{
+			DoorsViewModel.EditDoor(doorUID);
 		}
 
 		#region ILayoutDeclarationModule Members

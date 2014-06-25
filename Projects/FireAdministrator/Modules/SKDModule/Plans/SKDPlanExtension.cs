@@ -22,10 +22,11 @@ namespace SKDModule.Plans
 	{
 		private DevicesViewModel _devicesViewModel;
 		private ZonesViewModel _zonesViewModel;
+		private DoorsViewModel _doorsViewModel;
 		private CommonDesignerCanvas _designerCanvas;
 		private IEnumerable<IInstrument> _instruments;
 
-		public SKDPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel)
+		public SKDPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, DoorsViewModel doorsViewModel)
 		{
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
@@ -34,6 +35,7 @@ namespace SKDModule.Plans
 
 			_devicesViewModel = devicesViewModel;
 			_zonesViewModel = zonesViewModel;
+			_doorsViewModel = doorsViewModel;
 			_instruments = null;
 		}
 
@@ -52,11 +54,6 @@ namespace SKDModule.Plans
 		public string Title
 		{
 			get { return "СКД Устройства"; }
-		}
-
-		public object TabPage
-		{
-			get { return _devicesViewModel; }
 		}
 
 		public IEnumerable<IInstrument> Instruments
@@ -162,6 +159,15 @@ namespace SKDModule.Plans
 				designerItem.UpdateProperties += UpdateDesignerItemSKDDevice;
 				UpdateDesignerItemSKDDevice(designerItem);
 			}
+			else if (designerItem.Element is ElementDoor)
+			{
+				designerItem.ItemPropertyChanged += DoorPropertyChanged;
+				OnDoorPropertyChanged(designerItem);
+				designerItem.Group = "Doors";
+				designerItem.IconSource = "/Controls;component/Images/Door.png";
+				designerItem.UpdateProperties += UpdateDesignerItemDoor;
+				UpdateDesignerItemDoor(designerItem);
+			}
 		}
 
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)
@@ -185,6 +191,7 @@ namespace SKDModule.Plans
 			_designerCanvas = designerCanvas;
 			LayerGroupService.Instance.RegisterGroup("SKD", "СКД Устройства", 5);
 			LayerGroupService.Instance.RegisterGroup("SKDZone", "СКД Зоны", 6);
+			LayerGroupService.Instance.RegisterGroup("Doors", "Двери", 7);
 		}
 		public void ExtensionAttached()
 		{
@@ -210,6 +217,13 @@ namespace SKDModule.Plans
 			designerItem.Title = Designer.Helper.GetSKDZoneTitle(zone);
 			elementZone.BackgroundColor = Designer.Helper.GetSKDZoneColor(zone);
 			elementZone.SetZLayer(zone == null ? 50 : 60);
+		}
+		private void UpdateDesignerItemDoor(CommonDesignerItem designerItem)
+		{
+			ElementDoor elementDoor = designerItem.Element as ElementDoor;
+			Door door = Designer.Helper.GetDoor(elementDoor);
+			Designer.Helper.SetDoor(elementDoor, door);
+			designerItem.Title = Helper.GetDoorTitle(elementDoor);
 		}
 
 		private void SKDZonePropertyChanged(object sender, EventArgs e)
@@ -254,17 +268,42 @@ namespace SKDModule.Plans
 				};
 		}
 
+		private void DoorPropertyChanged(object sender, EventArgs e)
+		{
+			DesignerItem designerItem = (DesignerItem)sender;
+			OnDoorPropertyChanged(designerItem);
+		}
+		private void OnDoorPropertyChanged(DesignerItem designerItem)
+		{
+			var door = Designer.Helper.GetDoor((ElementDoor)designerItem.Element);
+			if (door != null)
+				door.Changed += () =>
+				{
+					if (_designerCanvas.IsPresented(designerItem))
+					{
+						Helper.BuildDeviceMap();
+						UpdateDesignerItemDoor(designerItem);
+						designerItem.Painter.Invalidate();
+						_designerCanvas.Refresh();
+					}
+				};
+		}
+
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
 			var elementSKDDevice = args.Element as ElementSKDDevice;
 			if (elementSKDDevice != null)
 				args.Painter = new Painter(_designerCanvas, elementSKDDevice);
+			else if (args.Element is ElementDoor)
+				args.Painter = new DoorPainter(_designerCanvas, (ElementDoor)args.Element);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
 			ElementSKDDevice element = e.Element as ElementSKDDevice;
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
+			else if (e.Element is ElementDoor)
+				e.PropertyViewModel = new DoorPropertiesViewModel(_doorsViewModel, (ElementDoor)e.Element);
 			else if (e.Element is ElementRectangleSKDZone || e.Element is ElementPolygonSKDZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
 		}

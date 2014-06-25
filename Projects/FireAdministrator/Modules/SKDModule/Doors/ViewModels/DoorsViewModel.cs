@@ -135,17 +135,7 @@ namespace SKDModule.ViewModels
 		public void CreateDoor(CreateDoorEventArg createDoorEventArg)
 		{
 			DoorDetailsViewModel result = OnAddResult();
-			if (result == null)
-			{
-				createDoorEventArg.Cancel = true;
-				createDoorEventArg.DoorUID = Guid.Empty;
-			}
-			else
-			{
-				createDoorEventArg.Cancel = false;
-				createDoorEventArg.DoorUID = result.Door.UID;
-				createDoorEventArg.Door = result.Door;
-			}
+			createDoorEventArg.Door = result == null ? null : result.Door;
 		}
 		public void EditDoor(Guid doorUID)
 		{
@@ -159,7 +149,6 @@ namespace SKDModule.ViewModels
 			base.OnShow();
 			SelectedDoor = SelectedDoor;
 		}
-
 		public override void OnHide()
 		{
 			base.OnHide();

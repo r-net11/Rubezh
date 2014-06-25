@@ -32,7 +32,6 @@ namespace GKModule.Plans.ViewModels
 			}
 			if (iElementZone.ZoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.BaseUID == iElementZone.ZoneUID);
-			IsHiddenZone = iElementZone.IsHiddenZone;
 		}
 
 		public ObservableCollection<GuardZoneViewModel> Zones { get; private set; }
@@ -45,17 +44,6 @@ namespace GKModule.Plans.ViewModels
 			{
 				_selectedZone = value;
 				OnPropertyChanged(() => SelectedZone);
-			}
-		}
-
-		private bool _isHiddenZone;
-		public bool IsHiddenZone
-		{
-			get { return _isHiddenZone; }
-			set
-			{
-				_isHiddenZone = value;
-				OnPropertyChanged(() => IsHiddenZone);
 			}
 		}
 
@@ -95,7 +83,6 @@ namespace GKModule.Plans.ViewModels
 		}
 		private void UpdateZones(Guid xguardZoneUID)
 		{
-			IElementZone.IsHiddenZone = IsHiddenZone;
 			if (_zonesViewModel != null)
 			{
 				if (xguardZoneUID != IElementZone.ZoneUID)

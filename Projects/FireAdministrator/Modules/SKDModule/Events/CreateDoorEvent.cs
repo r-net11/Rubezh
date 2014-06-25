@@ -10,8 +10,6 @@ namespace SKDModule.Events
 
 	public class CreateDoorEventArg
 	{
-		public bool Cancel { get; set; }
-		public Guid DoorUID { get; set; }
 		public Door Door { get; set; }
 	}
 }

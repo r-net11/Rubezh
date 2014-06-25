@@ -26,7 +26,6 @@ namespace SKDModule.Plans.ViewModels
 			Title = "Свойства фигуры: Зона СКД";
 			if (iElementZone.ZoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == iElementZone.ZoneUID);
-			IsHiddenZone = iElementZone.IsHiddenZone;
 		}
 
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
@@ -39,17 +38,6 @@ namespace SKDModule.Plans.ViewModels
 			{
 				_selectedZone = value;
 				OnPropertyChanged(() => SelectedZone);
-			}
-		}
-
-		private bool _isHiddenZone;
-		public bool IsHiddenZone
-		{
-			get { return _isHiddenZone; }
-			set
-			{
-				_isHiddenZone = value;
-				OnPropertyChanged(() => IsHiddenZone);
 			}
 		}
 
@@ -88,7 +76,6 @@ namespace SKDModule.Plans.ViewModels
 		}
 		private void UpdateZones(Guid zoneUID)
 		{
-			IElementZone.IsHiddenZone = IsHiddenZone;
 			if (Zones != null)
 			{
 				if (zoneUID != IElementZone.ZoneUID)
