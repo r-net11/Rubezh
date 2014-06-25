@@ -4,6 +4,9 @@ INSERT INTO Patches (Id) VALUES
 	('OrganisationUser')
 GO
 INSERT INTO Patches (Id) VALUES
+	('AlterPatches')
+GO
+INSERT INTO Patches (Id) VALUES
 	('GuardZone')
 GO
 INSERT INTO Patches (Id) VALUES
@@ -17,3 +20,6 @@ INSERT INTO Patches (Id) VALUES
 GO
 INSERT INTO Patches (Id) VALUES
 	('PendingCard')
+GO
+INSERT INTO Patches (Id) VALUES
+	('CommonJournal')

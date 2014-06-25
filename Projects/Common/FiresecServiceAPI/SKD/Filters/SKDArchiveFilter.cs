@@ -18,7 +18,7 @@ namespace FiresecAPI.SKD
 			Descriptions = new List<string>();
 			UseDeviceDateTime = false;
 
-			SubsystemTypes = new List<SKDSubsystemType>();
+			SubsystemTypes = new List<SubsystemType>();
 			DeviceUIDs = new List<Guid>();
 		}
 
@@ -47,7 +47,7 @@ namespace FiresecAPI.SKD
 		public List<Guid> DeviceUIDs { get; set; }
 
 		[DataMember]
-		public List<SKDSubsystemType> SubsystemTypes { get; set; }
+		public List<SubsystemType> SubsystemTypes { get; set; }
 
 		[DataMember]
 		public int PageSize { get; set; }

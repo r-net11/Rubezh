@@ -26,7 +26,7 @@ namespace FiresecAPI
 		public GKProgressCallback GKProgressCallback { get; set; }
 
 		[DataMember]
-		public List<JournalItem> JournalItems { get; set; }
+		public List<FiresecAPI.GK.JournalItem> JournalItems { get; set; }
 
 		[DataMember]
 		public SKDCallbackResult SKDCallbackResult { get; set; }

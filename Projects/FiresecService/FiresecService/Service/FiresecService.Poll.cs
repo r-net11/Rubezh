@@ -80,7 +80,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyGKArchiveCompleted(List<JournalItem> journallItems, Guid archivePortionUID)
+		public static void NotifyGKArchiveCompleted(List<FiresecAPI.GK.JournalItem> journallItems, Guid archivePortionUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -91,7 +91,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifySKDArchiveCompleted(List<SKDJournalItem> journallItems)
+		public static void NotifySKDArchiveCompleted(List<FiresecAPI.SKD.JournalItem> journallItems)
 		{
 			var callbackResult = new CallbackResult()
 			{

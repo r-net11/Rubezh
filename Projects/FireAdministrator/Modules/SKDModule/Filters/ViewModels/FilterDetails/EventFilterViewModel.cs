@@ -1,17 +1,20 @@
-﻿using FiresecAPI.GK;
+﻿using FiresecAPI;
+using FiresecAPI.GK;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class EventFilterViewModel : BaseViewModel
 	{
-		public EventFilterViewModel(string name, XStateClass stateClass)
+		public EventFilterViewModel(EventNameEnum eventNameEnum, XStateClass stateClass)
 		{
-			Name = name;
+			EventNameEnum = eventNameEnum;
+			Name = EventNameEnum.ToDescription();
 			StateClass = stateClass;
 		}
 
 		public string Name { get; private set; }
+		public EventNameEnum EventNameEnum { get; private set; }
 		public XStateClass StateClass { get; private set; }
 
 		bool _isChecked;

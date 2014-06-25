@@ -18,8 +18,8 @@ namespace FiresecClient
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
-		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
-		public static event Action<IEnumerable<SKDJournalItem>> GetFilteredSKDArchiveCompletedEvent;
+		public static event Action<IEnumerable<FiresecAPI.GK.JournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
+		public static event Action<IEnumerable<FiresecAPI.SKD.JournalItem>> GetFilteredSKDArchiveCompletedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;

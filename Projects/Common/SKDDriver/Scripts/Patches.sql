@@ -27,7 +27,6 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('AlterPatches')    
 END
 GO
-
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GuardZone')
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationGuardZone')
@@ -67,11 +66,11 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Doors')
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationZone')
 	BEGIN
-		DROP TABLE OrganisationGuardZone
+		DROP TABLE OrganisationZone
 	END
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardZone')
 	BEGIN
-		DROP TABLE OrganisationGuardZone
+		DROP TABLE CardZone
 	END
 	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardDoor')
 	BEGIN
@@ -188,4 +187,38 @@ BEGIN
 		ALTER TABLE [dbo].[PendingCard] NOCHECK CONSTRAINT [FK_PendingCard_Card]
 	END
 	INSERT INTO Patches (Id) VALUES ('PendingCard')    
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CommonJournal')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Journal')
+	BEGIN
+		DROP TABLE Journal
+		CREATE TABLE [dbo].[Journal](
+			[UID] [uniqueidentifier] NOT NULL,
+			[SystemDate] [datetime] NOT NULL,
+			[DeviceDate] [datetime] NOT NULL,
+			[Subsystem] [int] NOT NULL,
+			[Name] [int] NOT NULL,
+			[Description] [int] NOT NULL,
+			[NameText] [nvarchar](50) NULL,
+			[DescriptionText] [nvarchar](max) NULL,
+			[State] [int] NOT NULL, 
+			[ObjectType] [int] NOT NULL,
+			[ObjectName] [nvarchar](50) NULL, 
+			[ObjectUID] [uniqueidentifier] NOT NULL,
+			[UserName] [nvarchar](50) NULL, 
+			[CardSeries] int NOT NULL, 
+			[CardNo] int NOT NULL, 
+		CONSTRAINT [PK_Journal] PRIMARY KEY CLUSTERED 
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		ALTER TABLE [dbo].[Journal]  WITH NOCHECK ADD  CONSTRAINT [FK_Journal_Card] FOREIGN KEY([ObjectUID])
+		REFERENCES [dbo].[Card] ([Uid])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[Journal] NOCHECK CONSTRAINT [FK_Journal_Card]
+	END
+	
 END

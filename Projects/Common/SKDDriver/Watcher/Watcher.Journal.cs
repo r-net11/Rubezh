@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
-using FiresecAPI.SKD;
+using JournalItem = FiresecAPI.SKD.JournalItem;
 
 namespace SKDDriver
 {
@@ -41,7 +41,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		SKDJournalItem ReadJournal(int index)
+		JournalItem ReadJournal(int index)
 		{
 			LastUpdateTime = DateTime.Now;
 			if (IsStopping)
@@ -61,7 +61,7 @@ namespace SKDDriver
 
 		void ReadAndPublish(int startIndex, int endIndex)
 		{
-			var journalItems = new List<SKDJournalItem>();
+			var journalItems = new List<JournalItem>();
 			for (int index = startIndex + 1; index <= endIndex; index++)
 			{
 				var journalItem = ReadJournal(index);
@@ -82,22 +82,22 @@ namespace SKDDriver
 			return true;
 		}
 
-		void UpdateDeviceStateOnJournalItem(SKDJournalItem journalItem)
+		void UpdateDeviceStateOnJournalItem(JournalItem journalItem)
 		{
-			if (journalItem.Device != null)
-			{
-				if (journalItem.Name == "Неисправность")
-				{
-					if (!journalItem.Device.State.StateClasses.Contains(XStateClass.Failure))
-						journalItem.Device.State.StateClasses.Add(XStateClass.Failure);
-					OnDeviceStateChanged(journalItem.Device);
-				}
-				if (journalItem.Name == "Неисправность устранена")
-				{
-					journalItem.Device.State.StateClasses.Remove(XStateClass.Failure);
-					OnDeviceStateChanged(journalItem.Device);
-				}
-			}
+			//if (journalItem.ObjectUID != Guid.Empty)
+			//{
+			//    if (journalItem.NameText == "Неисправность")
+			//    {
+			//        if (!journalItem.Device.State.StateClasses.Contains(XStateClass.Failure))
+			//            journalItem.Device.State.StateClasses.Add(XStateClass.Failure);
+			//        OnDeviceStateChanged(journalItem.Device);
+			//    }
+			//    if (journalItem.NameText == "Неисправность устранена")
+			//    {
+			//        journalItem.Device.State.StateClasses.Remove(XStateClass.Failure);
+			//        OnDeviceStateChanged(journalItem.Device);
+			//    }
+			//}
 		}
 	}
 }

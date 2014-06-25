@@ -383,7 +383,7 @@ namespace SKDModule.ViewModels
 			UpdateThread = null;
 		}
 
-		void OnGetFilteredArchiveCompleted(IEnumerable<SKDJournalItem> journalItems)
+		void OnGetFilteredArchiveCompleted(IEnumerable<JournalItem> journalItems)
 		{
 			var archivePageViewModel = new ArchivePageViewModel(journalItems);
 			Pages.Add(archivePageViewModel);

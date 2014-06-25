@@ -56,7 +56,7 @@ namespace SKDModule.ViewModels
 
 			foreach (var eventName in JournalFilter.EventNames)
 			{
-				var eventFilterViewModel = EventNames.FirstOrDefault(x => x.Name == eventName);
+				var eventFilterViewModel = EventNames.FirstOrDefault(x => x.EventNameEnum == eventName);
 				if (eventFilterViewModel != null)
 				{
 					eventFilterViewModel.IsChecked = true;
@@ -113,7 +113,7 @@ namespace SKDModule.ViewModels
 		{
 			JournalFilter.Name = Name;
 			JournalFilter.Description = Description;
-			JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.Name).ToList();
+			JournalFilter.EventNames = EventNames.Where(x => x.IsChecked).Select(x => x.EventNameEnum).ToList();
 			JournalFilter.DeviceUIDs = Devices.Where(x => x.IsChecked).Select(x => x.Device.UID).ToList();
 			return base.Save();
 		}

@@ -4,12 +4,12 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecService.Processor;
 using FiresecService.Properties;
 using FiresecService.ViewModels;
 using GKProcessor;
-using SKDDriver;
 
 namespace FiresecService.Service
 {

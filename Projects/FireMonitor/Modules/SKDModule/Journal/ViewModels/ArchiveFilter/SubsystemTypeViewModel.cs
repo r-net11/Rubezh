@@ -5,11 +5,11 @@ namespace SKDModule.ViewModels
 {
 	public class SubsystemTypeViewModel : CheckBoxItemViewModel
 	{
-		public SubsystemTypeViewModel(SKDSubsystemType subsystemType)
+		public SubsystemTypeViewModel(SubsystemType subsystemType)
 		{
 			SubsystemType = subsystemType;
 		}
 
-		public SKDSubsystemType SubsystemType { get; private set; }
+		public SubsystemType SubsystemType { get; private set; }
 	}
 }

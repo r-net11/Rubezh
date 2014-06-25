@@ -4,7 +4,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events
 {
-	public class GetFilteredSKDArchiveCompletedEvent : CompositePresentationEvent<IEnumerable<SKDJournalItem>>
+	public class GetFilteredSKDArchiveCompletedEvent : CompositePresentationEvent<IEnumerable<JournalItem>>
 	{
 	}
 }

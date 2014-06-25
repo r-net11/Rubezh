@@ -66,11 +66,11 @@ namespace FiresecClient
 		#endregion
 
 		#region Journal
-		public OperationResult<IEnumerable<SKDJournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
+		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<SKDJournalItem>>>(() => FiresecService.GetSKDJournalItems(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<JournalItem>>>(() => FiresecService.GetSKDJournalItems(filter));
 		}
-		public OperationResult SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
+		public OperationResult SaveSKDJournalItems(IEnumerable<JournalItem> journalItems)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveSKDJournalItems(journalItems));
 		}

@@ -144,9 +144,6 @@
     <Compile Include="GKProcessorManager.cs" />
     <Compile Include="Journal\Description.cs" />
     <Compile Include="Journal\DescriptionsHelper.cs" />
-    <Compile Include="Journal\EventDescription.cs" />
-    <Compile Include="Journal\EventNameEnum.cs" />
-    <Compile Include="Journal\EventNameEnumHelper.cs" />
     <Compile Include="Journal\GKDBHelper\GKDBHelper.Common.cs" />
     <Compile Include="Journal\GKDBHelper\GKDBHelper.cs" />
     <Compile Include="Journal\GKDBHelper\GKDBHelper.Patches.cs" />

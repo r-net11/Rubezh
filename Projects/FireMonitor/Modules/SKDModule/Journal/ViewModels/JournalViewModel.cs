@@ -39,7 +39,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void OnNewJournal(List<SKDJournalItem> journalItems)
+		public void OnNewJournal(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{

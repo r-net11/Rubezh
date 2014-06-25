@@ -6,9 +6,9 @@ namespace SKDModule.ViewModels
 {
 	public class ArchivePageViewModel : BaseViewModel
 	{
-		IEnumerable<SKDJournalItem> JournalItemsList;
+		IEnumerable<JournalItem> JournalItemsList;
 
-		public ArchivePageViewModel(IEnumerable<SKDJournalItem> journalItems)
+		public ArchivePageViewModel(IEnumerable<JournalItem> journalItems)
 		{
 			JournalItemsList = journalItems;
 		}

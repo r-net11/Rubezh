@@ -2,12 +2,18 @@
 
 namespace FiresecAPI.SKD
 {
-	public enum SKDSubsystemType
+	public enum SubsystemType
 	{
 		[DescriptionAttribute("Система")]
-		System = 0,
+		Система,
 
 		[DescriptionAttribute("Прибор")]
-		Device = 1,
+		ГК,
+
+		[DescriptionAttribute("СКД")]
+		СКД,
+
+		[DescriptionAttribute("Видео")]
+		Видео,
 	}
 }

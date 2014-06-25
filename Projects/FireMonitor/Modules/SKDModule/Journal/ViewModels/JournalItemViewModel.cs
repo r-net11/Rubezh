@@ -10,17 +10,17 @@ namespace SKDModule.ViewModels
 {
 	public class JournalItemViewModel : BaseViewModel
 	{
-		public SKDJournalItem JournalItem { get; private set; }
+		public JournalItem JournalItem { get; private set; }
 		public SKDDevice Device { get; private set; }
-		
-		public JournalItemViewModel(SKDJournalItem journalItem)
+
+		public JournalItemViewModel(JournalItem journalItem)
 		{
 			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			JournalItem = journalItem;
-			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
+			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 		}
 
 		public bool IsExistsInConfig
@@ -55,7 +55,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowObjectCommand { get; private set; }
 		void OnShowObject()
 		{
-			ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>().Publish(JournalItem.DeviceUID);
+			ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>().Publish(JournalItem.ObjectUID);
 		}
 		bool CanShowObject()
 		{

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using JournalItem = FiresecAPI.SKD.JournalItem;
 
 namespace SKDDriver
 {
 	public class JournalParser
 	{
-		public SKDJournalItem JournalItem { get; private set; }
+		public JournalItem JournalItem { get; private set; }
 
 		public JournalParser(SKDDevice device, List<byte> bytes)
 		{
@@ -28,10 +30,8 @@ namespace SKDDriver
 			var cardSeries = BytesHelper.SubstructInt(bytes, 14);
 			var cardNo = BytesHelper.SubstructInt(bytes, 18);
 
-			JournalItem = new SKDJournalItem();
+			JournalItem = new JournalItem();
 			JournalItem.DeviceDateTime = deviceDateTime;
-			JournalItem.IpAddress = device.Address;
-			JournalItem.DeviceJournalRecordNo = no;
 			JournalItem.CardSeries = cardSeries;
 			JournalItem.CardNo = cardNo;
 
@@ -39,35 +39,35 @@ namespace SKDDriver
 			if (skdEvent != null)
 			{
 				JournalItem.Name = skdEvent.Name;
-				JournalItem.StateClass = skdEvent.StateClass;
+				JournalItem.State = skdEvent.StateClass;
 				switch (eventNameCode)
 				{
 					case 22:
 						switch (evenDescriptionCode)
 						{
 							case 1:
-								JournalItem.Description = "Установить режим ОТКРЫТО";
+								JournalItem.Description = EventDescription.Установить_режим_ОТКРЫТО;
 								break;
 							case 2:
-								JournalItem.Description = "Установить режим ЗАКРЫТО";
+								JournalItem.Description = EventDescription.Установить_режим_ЗАКРЫТО;
 								break;
 							case 3:
-								JournalItem.Description = "Установить режим КОНТРОЛЬ";
+								JournalItem.Description = EventDescription.Установить_режим_КОНТРОЛЬ;
 								break;
 							case 4:
-								JournalItem.Description = "Установить режим СОВЕЩАНИЕ";
+								JournalItem.Description = EventDescription.Установить_режим_СОВЕЩАНИЕ;
 								break;
 							case 5:
-								JournalItem.Description = "Открыть";
+								JournalItem.Description = EventDescription.Открыть;
 								break;
 							case 6:
-								JournalItem.Description = "Закрыть";
+								JournalItem.Description = EventDescription.Закрыть;
 								break;
 							case 7:
-								JournalItem.Description = "Разрешить проход";
+								JournalItem.Description = EventDescription.Разрешить_проход;
 								break;
 							case 8:
-								JournalItem.Description = "Запретить проход";
+								JournalItem.Description = EventDescription.Запретить_проход;
 								break;
 						}
 						break;
@@ -76,16 +76,16 @@ namespace SKDDriver
 						switch (evenDescriptionCode)
 						{
 							case 1:
-								JournalItem.Description = "Запись одного идентификатора";
+								JournalItem.Description = EventDescription.Запись_одного_идентификатора;
 								break;
 							case 2:
-								JournalItem.Description = "Запись всех временнх интервалов";
+								JournalItem.Description = EventDescription.Запись_всех_временных_интервалов;
 								break;
 						}
 						break;
 
 					default:
-						JournalItem.Description = evenDescriptionCode.ToString();
+						JournalItem.DescriptionText = evenDescriptionCode.ToString();
 						break;
 				}
 			}
@@ -106,9 +106,8 @@ namespace SKDDriver
 
 		void SetDevice(SKDDevice device)
 		{
-			JournalItem.DeviceUID = device.UID;
-			JournalItem.DeviceName = device.Name;
-			JournalItem.Device = device;
+			JournalItem.ObjectUID = device.UID;
+			JournalItem.ObjectName = device.Name;
 		}
 	}
 }

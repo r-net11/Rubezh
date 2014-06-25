@@ -27,11 +27,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void OnNewJournal(List<SKDJournalItem> journalItems)
+		public void OnNewJournal(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.DeviceUID == Device.UID)
+				if (journalItem.ObjectUID == Device.UID)
 				{
 					var verificationItemViewModel = new VerificationItemViewModel();
 					verificationItemViewModel.EmployeeCardID = journalItem.CardNo.ToString();

@@ -181,6 +181,7 @@
     <Compile Include="SKD\Door\Door.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
+    <Compile Include="SKD\Filters\ObjectType.cs" />
     <Compile Include="SKD\Settings\GlobalSettings.cs" />
     <Compile Include="Models\Automation\AutomationConfiguration.cs" />
     <Compile Include="Models\Automation\AutomationSound.cs" />
@@ -337,7 +338,7 @@
     <Compile Include="SKD\Driver\SKDDriverType.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Drivers.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.cs" />
-    <Compile Include="SKD\Journal\SKDJournalFilter.cs" />
+    <Compile Include="SKD\Journal\JournalFilter.cs" />
     <Compile Include="SKD\States\SKDStates.cs" />
     <Compile Include="SKD\States\SKDZoneState.cs" />
     <Compile Include="SKD\TimeIntervals\SKDHoliday.cs" />
@@ -348,7 +349,7 @@
     <Compile Include="SKD\TimeIntervals\SKDWeeklyInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDWeeklyIntervalPart.cs" />
     <Compile Include="SKD\TimeIntervals\TimeIntervalsConfiguration.cs" />
-    <Compile Include="SKD\Zone\SKDZone.cs" />
+    <Compile Include="SKD\TimeIntervals\Zone\SKDZone.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />
@@ -440,8 +441,11 @@
     <Compile Include="XModels\Guard\XGuardUser.cs" />
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
+    <Compile Include="XModels\Journal\EventDescription.cs" />
     <Compile Include="XModels\Journal\EventName.cs" />
-    <Compile Include="SKD\Journal\SKDJournalItem.cs" />
+    <Compile Include="SKD\Journal\JournalItem.cs" />
+    <Compile Include="XModels\Journal\EventNameEnum.cs" />
+    <Compile Include="XModels\Journal\EventNameEnumHelper.cs" />
     <Compile Include="XModels\Journal\JournalItem.cs" />
     <Compile Include="XModels\Journal\JournalItemType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />

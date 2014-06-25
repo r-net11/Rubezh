@@ -68,11 +68,11 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Journal
-		public OperationResult<IEnumerable<SKDJournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
+		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
 		{
 			return SKDDatabaseService.JournalItemTranslator.Get(filter);
 		}
-		public OperationResult SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems)
+		public OperationResult SaveSKDJournalItems(IEnumerable<JournalItem> journalItems)
 		{
 			return SKDDatabaseService.JournalItemTranslator.Save(journalItems);
 		}
@@ -390,7 +390,7 @@ namespace FiresecService.Service
 			thread.Start();
 		}
 
-		void DatabaseHelper_ArchivePortionReady(List<SKDJournalItem> journalItems)
+		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems)
 		{
 			FiresecService.NotifySKDArchiveCompleted(journalItems);
 		}

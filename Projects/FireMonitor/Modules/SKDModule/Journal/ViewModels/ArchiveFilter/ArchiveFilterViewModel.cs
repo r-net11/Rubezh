@@ -109,7 +109,7 @@ namespace SKDModule.ViewModels
 		void InitializeSubsystemTypes(SKDArchiveFilter archiveFilter)
 		{
 			SubsystemTypes = new CheckBoxItemList<SubsystemTypeViewModel>();
-			foreach (SKDSubsystemType item in Enum.GetValues(typeof(SKDSubsystemType)))
+			foreach (SubsystemType item in Enum.GetValues(typeof(SubsystemType)))
 			{
 				SubsystemTypes.Add(new SubsystemTypeViewModel(item));
 			}

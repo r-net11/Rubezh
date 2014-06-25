@@ -4,7 +4,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using Common;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using JournalItem = FiresecAPI.SKD.JournalItem;
 
 namespace SKDDriver
 {
@@ -13,17 +15,17 @@ namespace SKDDriver
 		public static object locker = new object();
 		public static object databaseLocker = new object();
 		public static bool IsAbort { get; set; }
-		public static event Action<List<SKDJournalItem>> ArchivePortionReady;
+		public static event Action<List<JournalItem>> ArchivePortionReady;
 
-		public static void Add(SKDJournalItem journalItem)
+		public static void Add(JournalItem journalItem)
 		{
 			lock (databaseLocker)
 			{
-				SKDDatabaseService.JournalItemTranslator.Save(new List<SKDJournalItem> { journalItem });
+				SKDDatabaseService.JournalItemTranslator.Save(new List<JournalItem> { journalItem });
 			}
 		}
 
-		public static void AddMany(List<SKDJournalItem> journalItems)
+		public static void AddMany(List<JournalItem> journalItems)
 		{
 			lock (databaseLocker)
 			{
@@ -31,18 +33,18 @@ namespace SKDDriver
 			}
 		}
 
-		public static SKDJournalItem AddMessage(string name, string userName)
+		public static JournalItem AddMessage(EventNameEnum name, string userName)
 		{
-			var result = new SKDJournalItem();
+			var result = new JournalItem();
 			result.Name = name;
 			result.UserName = userName;
 			return result;
 		}
 
-		public static List<SKDJournalItem> BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, bool isReport)
+		public static List<JournalItem> BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, bool isReport)
 		{
-			var journalItems = new List<SKDJournalItem>();
-			var result = new List<SKDJournalItem>();
+			var journalItems = new List<JournalItem>();
+			var result = new List<JournalItem>();
 
 			try
 			{
@@ -88,7 +90,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		static void PublishNewItemsPortion(List<SKDJournalItem> journalItems)
+		static void PublishNewItemsPortion(List<JournalItem> journalItems)
 		{
 			if (ArchivePortionReady != null)
 				ArchivePortionReady(journalItems.ToList());
@@ -202,9 +204,9 @@ namespace SKDDriver
 			return query;
 		}
 
-		static SKDJournalItem ReadOneJournalItem(SqlDataReader reader)
+		static JournalItem ReadOneJournalItem(SqlDataReader reader)
 		{
-			var journalItem = new SKDJournalItem();
+			var journalItem = new JournalItem();
 			//if (!reader.IsDBNull(reader.GetOrdinal("JournalItemType")))
 			//	journalItem.JournalItemType = (SKDJournalItemType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
 
@@ -218,10 +220,10 @@ namespace SKDDriver
 			//	journalItem.DeviceUID = reader.GetGuid(reader.GetOrdinal("DeviceUID"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
-				journalItem.Name = reader.GetString(reader.GetOrdinal("Name"));
+				journalItem.Name = (EventNameEnum)reader.GetOrdinal("NameNo");
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
-				journalItem.Description = reader.GetString(reader.GetOrdinal("Description"));
+				journalItem.Description = (EventDescription)reader.GetOrdinal("DescriptionNo");
 
 			//if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
 			//	journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
@@ -229,7 +231,7 @@ namespace SKDDriver
 			return journalItem;
 		}
 
-		static void UpdateNamesDescriptions(List<SKDJournalItem> journalItems)
+		static void UpdateNamesDescriptions(List<JournalItem> journalItems)
 		{
 			//var commands = new List<string>();
 			//foreach (var item in journalItems)

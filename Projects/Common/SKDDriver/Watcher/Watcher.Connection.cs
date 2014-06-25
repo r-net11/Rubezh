@@ -1,6 +1,7 @@
 ﻿using System;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using JournalItem = FiresecAPI.SKD.JournalItem;
 
 namespace SKDDriver
 {
@@ -25,15 +26,13 @@ namespace SKDDriver
 
 				if (IsConnected != isConnected)
 				{
-					var journalItem = new SKDJournalItem()
+					var journalItem = new JournalItem()
 					{
 						SystemDateTime = DateTime.Now,
 						DeviceDateTime = DateTime.Now,
-						//GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
-						JournalItemType = SKDJournalItemType.System,
-						StateClass = XStateClass.Unknown,
-						DeviceStateClass = XStateClass.Norm,
-						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором"
+						SubsystemType = SubsystemType.Система,
+						State = XStateClass.Unknown,
+						Name = isConnected ? EventNameEnum.Восстановление_связи_с_прибором : EventNameEnum.Потеря_связи_с_прибором
 					};
 					AddJournalItem(journalItem);
 

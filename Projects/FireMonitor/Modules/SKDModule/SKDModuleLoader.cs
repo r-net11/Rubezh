@@ -19,6 +19,7 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
+using JournalItem = FiresecAPI.SKD.JournalItem;
 
 namespace SKDModule
 {
@@ -142,7 +143,7 @@ namespace SKDModule
 		{
 			UnreadJournalCount = 0;
 		}
-		void OnNewJournalRecord(List<SKDJournalItem> journalItems)
+		void OnNewJournalRecord(List<JournalItem> journalItems)
 		{
 			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
 				UnreadJournalCount += journalItems.Count;
@@ -161,14 +162,14 @@ namespace SKDModule
 			SafeFiresecService.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResult);
 			SafeFiresecService.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResult);
 
-			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent -= new Action<IEnumerable<SKDJournalItem>>(OnGetFilteredSKDArchiveCompletedEvent);
-			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent += new Action<IEnumerable<SKDJournalItem>>(OnGetFilteredSKDArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>>(OnGetFilteredSKDArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent += new Action<IEnumerable<JournalItem>>(OnGetFilteredSKDArchiveCompletedEvent);
 
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
 			AutoActivationWatcher.Run();
 		}
 
-		void OnGetFilteredSKDArchiveCompletedEvent(IEnumerable<SKDJournalItem> journalItems)
+		void OnGetFilteredSKDArchiveCompletedEvent(IEnumerable<JournalItem> journalItems)
 		{
 			ApplicationService.Invoke(() =>
 			{

@@ -232,11 +232,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void OnNewJournal(List<SKDJournalItem> journalItems)
+		public void OnNewJournal(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.DeviceUID == ClientSettings.SKDSettings.CardCreatorReaderUID)
+				if (journalItem.ObjectUID == ClientSettings.SKDSettings.CardCreatorReaderUID)
 				{
 					if (journalItem.CardSeries > 0 && journalItem.CardNo > 0)
 					{

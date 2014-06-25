@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using JournalItem = FiresecAPI.SKD.JournalItem;
 
 namespace SKDDriver
 {
@@ -70,7 +72,7 @@ namespace SKDDriver
 
 		public static string SKDGetDeviceInfo(SKDDevice device, string userName)
 		{
-			AddMessage("Запрос информации об устройсве", "", device, userName, true);
+			AddMessage(EventNameEnum.Запрос_информации_об_устройстве, device, userName, true);
 			var result = AdministratorHelper.GetInfo(device);
 			if (result == null)
 				result = "Устройство недоступно";
@@ -79,13 +81,13 @@ namespace SKDDriver
 
 		public static bool SKDSyncronyseTime(SKDDevice device, string userName)
 		{
-			AddMessage("Синхронизация времени", "", device, userName, true);
+			AddMessage(EventNameEnum.Синхронизация_времени, device, userName, true);
 			return AdministratorHelper.SynchroniseTime(device);
 		}
 
 		public static OperationResult<bool> SKDWriteConfiguration(SKDDevice device, string userName)
 		{
-			AddMessage("Запись конфигурации в прибор", "", device, userName, true);
+			AddMessage(EventNameEnum.Запись_конфигурации_в_прибор, device, userName, true);
 			OperationResult<bool> result;
 			Stop();
 			result = AdministratorHelper.WriteConfig(device);
@@ -95,7 +97,7 @@ namespace SKDDriver
 
 		public static OperationResult<bool> SKDUpdateFirmware(SKDDevice device, string fileName, string userName)
 		{
-			AddMessage("Обновление ПО прибора", "", device, userName, true);
+			AddMessage(EventNameEnum.Обновление_ПО_прибора, device, userName, true);
 			OperationResult<bool> result;
 			Stop();
 			result = AdministratorHelper.UpdateFirmware(device);
@@ -105,7 +107,7 @@ namespace SKDDriver
 
 		public static OperationResult<bool> SKDWriteAllIdentifiers(SKDDevice device, string userName)
 		{
-			AddMessage("Зпись всех идентификаторов", "", device, userName, true);
+			AddMessage(EventNameEnum.Запись_всех_идентификаторов, device, userName, true);
 			OperationResult<bool> result;
 			Stop();
 			result = AdministratorHelper.WriteAllIdentifiers(device);
@@ -113,14 +115,22 @@ namespace SKDDriver
 			return result;
 		}
 
-		public static void AddMessage(string name, string description, SKDDevice device, string userName, bool isAdministrator = false)
+		public static void AddMessage(EventNameEnum name, SKDDevice device, string userName, bool isAdministrator = false)
 		{
-			var journalItem = new SKDJournalItem()
+			AddMessage(name, EventDescription.Нет, device, userName, isAdministrator);
+		}
+		
+		public static void AddMessage(EventNameEnum name, EventDescription description, SKDDevice device, string userName, bool isAdministrator = false)
+		{
+			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
 				Name = name,
 				Description = description,
+				ObjectName = device.Name,
+				ObjectUID = device.UID,
+				ObjectType = ObjectType.Устройство_СКД,
 				UserName = userName,
 			};
 

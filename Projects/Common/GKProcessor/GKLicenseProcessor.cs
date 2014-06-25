@@ -3,6 +3,7 @@ using System.Threading;
 using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using FiresecAPI.GK;
 
 namespace GKProcessor
 {

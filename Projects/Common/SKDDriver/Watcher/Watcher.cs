@@ -5,6 +5,7 @@ using System.Threading;
 using Common;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using JournalItem = FiresecAPI.SKD.JournalItem;
 
 namespace SKDDriver
 {
@@ -126,7 +127,7 @@ namespace SKDDriver
 				}
 				catch (Exception e)
 				{
-					AddMessage("Ошибка инициализации мониторинга", "");
+					AddMessage(EventNameEnum.Ошибка_инициализации_мониторинга, "");
 					Logger.Error(e, "JournalWatcher.InitializeMonitoring");
 				}
 
@@ -198,9 +199,9 @@ namespace SKDDriver
 					SKDCallbackResult = new SKDCallbackResult();
 					IsPingFailure = result;
 					if (IsPingFailure)
-						AddFailureJournalItem("Нет связи с ГК", "Старт мониторинга");
+						AddFailureJournalItem(EventNameEnum.Нет_связи_с_ГК, EventDescription.Старт_мониторинга);
 					else
-						AddFailureJournalItem("Связь с ГК восстановлена", "Старт_мониторинга");
+						AddFailureJournalItem(EventNameEnum.Связь_с_ГК_восстановлена, EventDescription.Старт_мониторинга);
 
 					foreach (var device in AllDevices)
 					{
@@ -224,9 +225,9 @@ namespace SKDDriver
 					SKDCallbackResult = new SKDCallbackResult();
 					IsInTechnologicalRegime = result;
 					if (IsInTechnologicalRegime)
-						AddFailureJournalItem("ГК в технологическом режиме", "Старт мониторинга");
+						AddFailureJournalItem(EventNameEnum.ГК_в_технологическом_режиме, EventDescription.Старт_мониторинга);
 					else
-						AddFailureJournalItem("ГК в рабочем режиме", "Старт мониторинга");
+						AddFailureJournalItem(EventNameEnum.ГК_в_рабочем_режиме, EventDescription.Старт_мониторинга);
 
 					NotifyAllObjectsStateChanged();
 					OnSKDCallbackResult(SKDCallbackResult);
@@ -247,9 +248,9 @@ namespace SKDDriver
 					SKDCallbackResult = new SKDCallbackResult();
 					IsHashFailure = result;
 					if (IsHashFailure)
-						AddFailureJournalItem("Конфигурация прибора не соответствует конфигурации ПК", "Не совпадает хэш");
+						AddFailureJournalItem(EventNameEnum.Конфигурация_прибора_не_соответствует_конфигурации_ПК, EventDescription.Не_совпадает_хэш);
 					else
-						AddFailureJournalItem("Конфигурация прибора соответствует конфигурации ПК", "Совпадает хэш");
+						AddFailureJournalItem(EventNameEnum.Конфигурация_прибора_соответствует_конфигурации_ПК, EventDescription.Совпадает_хэш);
 
 					foreach (var device in AllDevices)
 					{
@@ -269,7 +270,7 @@ namespace SKDDriver
 
 				SKDCallbackResult = new SKDCallbackResult();
 				if (!ReadMissingJournalItems())
-					AddFailureJournalItem("Ошибка при синхронизации журнала");
+					AddFailureJournalItem(EventNameEnum.Ошибка_при_синхронизации_журнала);
 				OnSKDCallbackResult(SKDCallbackResult);
 
 				SKDCallbackResult = new SKDCallbackResult();
@@ -279,9 +280,9 @@ namespace SKDDriver
 				{
 					IsGetStatesFailure = result;
 					if (IsGetStatesFailure)
-						AddFailureJournalItem("Ошибка при опросе состояний компонентов ГК");
+						AddFailureJournalItem(EventNameEnum.Ошибка_при_опросе_состояний_компонентов_ГК);
 					else
-						AddFailureJournalItem("Устранена ошибка при опросе состояний компонентов ГК");
+						AddFailureJournalItem(EventNameEnum.Устранена_ошибка_при_опросе_состояний_компонентов_ГК);
 				}
 				OnSKDCallbackResult(SKDCallbackResult);
 
@@ -298,9 +299,9 @@ namespace SKDDriver
 				{
 					IsIntervalsSynchroniztionFailure = result;
 					if (IsIntervalsSynchroniztionFailure)
-						AddFailureJournalItem("Ошибка при синхронизации временных интервалов");
+						AddFailureJournalItem(EventNameEnum.Ошибка_при_синхронизации_временных_интервалов);
 					else
-						AddFailureJournalItem("Устранена ошибка при синхронизации временных интервалов");
+						AddFailureJournalItem(EventNameEnum.Устранена_ошибка_при_синхронизации_временных_интервалов);
 				}
 				OnSKDCallbackResult(SKDCallbackResult);
 
@@ -377,33 +378,32 @@ namespace SKDDriver
 			}
 		}
 
-		void AddFailureJournalItem(string name, string description = "")
+		void AddFailureJournalItem(EventNameEnum name, EventDescription description = EventDescription.Нет)
 		{
-			var journalItem = new SKDJournalItem()
+			var journalItem = new JournalItem()
 			{
 				Name = name,
 				Description = description,
-				StateClass = XStateClass.Unknown,
-				DeviceStateClass = XStateClass.Norm,
+				State = XStateClass.Unknown,
 				//GKIpAddress = Device.GetGKIpAddress()
 			};
 			SKDDBHelper.Add(journalItem);
 			SKDCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		internal void AddMessage(string name, string userName)
+		internal void AddMessage(EventNameEnum name, string userName)
 		{
 			var journalItem = SKDDBHelper.AddMessage(name, userName);
 			SKDCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void AddJournalItem(SKDJournalItem journalItem)
+		void AddJournalItem(JournalItem journalItem)
 		{
 			SKDDBHelper.Add(journalItem);
 			SKDCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void AddJournalItems(List<SKDJournalItem> journalItems)
+		void AddJournalItems(List<JournalItem> journalItems)
 		{
 			SKDDBHelper.AddMany(journalItems);
 			SKDCallbackResult.JournalItems.AddRange(journalItems);

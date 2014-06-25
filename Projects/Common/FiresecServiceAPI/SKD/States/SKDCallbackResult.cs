@@ -7,14 +7,14 @@ namespace FiresecAPI.SKD
 	public class SKDCallbackResult
 	{
 		[DataMember]
-		public List<SKDJournalItem> JournalItems { get; set; }
+		public List<JournalItem> JournalItems { get; set; }
 
 		[DataMember]
 		public SKDStates SKDStates { get; set; }
 
 		public SKDCallbackResult()
 		{
-			JournalItems = new List<SKDJournalItem>();
+			JournalItems = new List<JournalItem>();
 			SKDStates = new SKDStates();
 		}
 	}

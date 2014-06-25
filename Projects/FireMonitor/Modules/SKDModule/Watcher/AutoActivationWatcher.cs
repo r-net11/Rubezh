@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using SKDModule.Events;
 using SKDModule.ViewModels;
+using JournalItem = FiresecAPI.SKD.JournalItem;
 
 namespace SKDModule
 {
@@ -18,7 +19,7 @@ namespace SKDModule
 			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Subscribe(OnNewJournal);
 		}
 
-		public static void OnNewJournal(List<SKDJournalItem> journalItems)
+		public static void OnNewJournal(List<JournalItem> journalItems)
 		{
 			if (ClientSettings.AutoActivationSettings.IsAutoActivation)
 			{
@@ -36,14 +37,14 @@ namespace SKDModule
 
 					var globalStateClass = SKDManager.GetMinStateClass();
 
-					if (journalItem.StateClass <= globalStateClass ||
+					if (journalItem.State <= globalStateClass ||
 						(globalStateClass != XStateClass.Fire1 && globalStateClass != XStateClass.Fire2 && globalStateClass != XStateClass.Attention))
 					{
-						switch (journalItem.JournalItemType)
+						switch (journalItem.ObjectType)
 						{
-							case SKDJournalItemType.Controller:
-							case SKDJournalItemType.Reader:
-								var device = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.DeviceUID);
+							case ObjectType.Контроллер_СКД:
+							case ObjectType.Считыватель_СКД:
+								var device = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (device != null)
 								{
 									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementSKDDevices.Any(y => y.DeviceUID == device.UID); });

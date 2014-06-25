@@ -43,9 +43,9 @@ namespace FiresecAPI
 
 		#region Journal
 		[OperationContract]
-		OperationResult<IEnumerable<SKDJournalItem>> GetSKDJournalItems(SKDJournalFilter filter);
+		OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(SKDJournalFilter filter);
 		[OperationContract]
-		OperationResult SaveSKDJournalItems(IEnumerable<SKDJournalItem> journalItems);
+		OperationResult SaveSKDJournalItems(IEnumerable<JournalItem> journalItems);
 		#endregion
 
 		#region Card
