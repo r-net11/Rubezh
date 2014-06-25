@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Designer;
 
 namespace Infrastructure.Designer.ViewModels
 {
@@ -79,11 +80,16 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			var historyItem = _historyItems[_offset];
 			_historyAction = true;
+			var list = new List<DesignerItem>();
 			switch (historyItem.ActionType)
 			{
 				case ActionType.Edited:
 					foreach (var elementBase in historyItem.ElementsBefore)
-						DesignerCanvas.UpdateElement(elementBase);
+					{
+						var designerItem = DesignerCanvas.UpdateElement(elementBase);
+						if (designerItem != null)
+							list.Add(designerItem);
+					}
 					DesignerCanvas.UpdateZoom();
 					ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Publish(historyItem.ElementsBefore);
 					break;
@@ -92,13 +98,17 @@ namespace Infrastructure.Designer.ViewModels
 						DesignerCanvas.RemoveDesignerItem(elementBase);
 					ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(historyItem.ElementsAfter);
 					break;
-
 				case ActionType.Removed:
 					foreach (var elementBase in historyItem.ElementsBefore)
-						DesignerCanvas.CreateElement(elementBase);
+					{
+						var designerItem = DesignerCanvas.CreateElement(elementBase);
+						list.Add(designerItem);
+					}
 					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(historyItem.ElementsBefore);
 					break;
 			}
+			DesignerCanvas.DeselectAll();
+			list.ForEach(item => item.IsSelected = true);
 			DesignerCanvas.Refresh();
 			_historyAction = false;
 			DesignerCanvas.Toolbox.SetDefault();
@@ -107,17 +117,25 @@ namespace Infrastructure.Designer.ViewModels
 		{
 			var historyItem = _historyItems[_offset];
 			_historyAction = true;
+			var list = new List<DesignerItem>();
 			switch (historyItem.ActionType)
 			{
 				case ActionType.Edited:
 					foreach (var elementBase in historyItem.ElementsAfter)
-						DesignerCanvas.UpdateElement(elementBase);
+					{
+						var designerItem = DesignerCanvas.UpdateElement(elementBase);
+						if (designerItem != null)
+							list.Add(designerItem);
+					}
 					DesignerCanvas.UpdateZoom();
 					ServiceFactoryBase.Events.GetEvent<ElementChangedEvent>().Publish(historyItem.ElementsAfter);
 					break;
 				case ActionType.Added:
 					foreach (var elementBase in historyItem.ElementsAfter)
-						DesignerCanvas.CreateElement(elementBase);
+					{
+						var designerItem = DesignerCanvas.CreateElement(elementBase);
+						list.Add(designerItem);
+					}
 					ServiceFactoryBase.Events.GetEvent<ElementAddedEvent>().Publish(historyItem.ElementsAfter);
 					break;
 				case ActionType.Removed:
@@ -126,6 +144,8 @@ namespace Infrastructure.Designer.ViewModels
 					ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(historyItem.ElementsBefore);
 					break;
 			}
+			DesignerCanvas.DeselectAll();
+			list.ForEach(item => item.IsSelected = true);
 			_historyAction = false;
 			DesignerCanvas.Toolbox.SetDefault();
 		}

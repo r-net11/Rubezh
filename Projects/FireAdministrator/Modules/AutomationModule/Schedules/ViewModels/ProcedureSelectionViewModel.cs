@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.Automation;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
@@ -20,6 +21,7 @@ namespace AutomationModule.ViewModels
 				var procedureViewModel = new ProcedureViewModel(procedure);
 				Procedures.Add(procedureViewModel);
 			}
+			SelectedProcedure = Procedures.FirstOrDefault();
 		}
 
 		private ProcedureViewModel _selectedProcedure;

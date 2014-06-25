@@ -97,7 +97,7 @@
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 
-                    <GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
+					<GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<Controls:EditorPresenter>
@@ -165,7 +165,7 @@
 							</StackPanel.Style>
 						</StackPanel>
 						<WrapPanel Orientation="Horizontal" Visibility="{Binding Driver.HasZone, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="Ведет в зону " />
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="Ведет в зону " />
 							<TextBlock Margin="2 2 5 2" FontStyle="Italic" Foreground="White" Text="Зона не указана">
 								<TextBlock.Style>
 									<Style>

@@ -213,6 +213,9 @@ namespace GKModule.ViewModels
 		{
 			if (DevicesToCopy.Count > 0 && SelectedDevice != null)
 			{
+				if (SelectedDevice.Device.DriverType == XDriverType.RSR2_KAU || SelectedDevice.Device.DriverType == XDriverType.KAUIndicator)
+					return false;
+
 				if (SelectedDevice.Device.IsConnectedToKAURSR2OrIsKAURSR2)
 				{
 					if (SelectedDevice.Parent == null)
@@ -249,7 +252,7 @@ namespace GKModule.ViewModels
 					var addedDevice = XManager.AddChild(SelectedDevice.Device, null, device.Driver, (byte)(maxAddress % 256 + 1));
 					XManager.CopyDevice(device, addedDevice);
 					addedDevice.IntAddress = (byte)(maxAddress % 256 + 1);
-					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice);
+					var addedDeviceViewModel = NewDeviceHelper.AddDevice(addedDevice, SelectedDevice, false);
 					return addedDevice;
 				}
 				else

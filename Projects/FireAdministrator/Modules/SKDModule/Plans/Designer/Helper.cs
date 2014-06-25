@@ -68,9 +68,10 @@ namespace SKDModule.Plans.Designer
 			SKDZone zone = GetSKDZone(element);
 			SetSKDZone(element, zone);
 		}
-		public static Door GetDoor(Guid doorUID)
+		public static void SetSKDZone(IElementZone element, Guid zoneUID)
 		{
-			return doorUID != Guid.Empty && _doorMap.ContainsKey(doorUID) ? _doorMap[doorUID] : null;
+			SKDZone zone = GetSKDZone(zoneUID);
+			SetSKDZone(element, zone);
 		}
 		public static void SetSKDZone(IElementZone element, SKDZone zone)
 		{
@@ -92,12 +93,6 @@ namespace SKDModule.Plans.Designer
 			if (zone != null)
 				color = Colors.Green;
 			return color;
-		}
-		public static void ResetDoor(ElementRectangleDoor element)
-		{
-			Door door = GetDoor(element.DoorUID);
-			if (door != null)
-				door.PlanElementUIDs.Remove(element.UID);
 		}
 
 		public static SKDDevice GetSKDDevice(ElementSKDDevice element)
@@ -134,5 +129,37 @@ namespace SKDModule.Plans.Designer
 			if (device != null)
 				device.PlanElementUIDs.Remove(element.UID);
 		}
+
+
+		public static Door GetDoor(ElementDoor element)
+		{
+			return element.DoorUID != Guid.Empty && _doorMap.ContainsKey(element.DoorUID) ? _doorMap[element.DoorUID] : null;
+		}
+		public static string GetDoorTitle(ElementDoor element)
+		{
+			var device = GetDoor(element);
+			return device == null ? "Неизвестное устройство" : device.Name;
+		}
+		public static Door SetDoor(ElementDoor element)
+		{
+			Door device = GetDoor(element);
+			if (device != null)
+				device.PlanElementUIDs.Add(element.UID);
+			return device;
+		}
+		public static void SetDoor(ElementDoor element, Door device)
+		{
+			ResetDoor(element);
+			element.DoorUID = device == null ? Guid.Empty : device.UID;
+			if (device != null)
+				device.PlanElementUIDs.Add(element.UID);
+		}
+		public static void ResetDoor(ElementDoor element)
+		{
+			Door device = GetDoor(element);
+			if (device != null)
+				device.PlanElementUIDs.Remove(element.UID);
+		}
+
 	}
 }

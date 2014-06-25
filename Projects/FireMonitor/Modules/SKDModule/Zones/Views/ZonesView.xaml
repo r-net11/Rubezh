@@ -14,15 +14,15 @@
 			<ColumnDefinition Width="*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
 		<Grid Grid.Column="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-            <DataGrid Name="_zonesDataGrid" Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Зона" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                    <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                    <TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
+			<DataGrid Name="_zonesDataGrid" Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Зона" Width="*">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+									<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
 											<TextBlock.ContextMenu>
 												<ContextMenu>
 													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Команда" Command="{Binding ZoneCommand}" />
@@ -37,14 +37,14 @@
 												</StackPanel>
 											</TextBlock.ToolTip>
 										</TextBlock>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+								</StackPanel>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
 		<GridSplitter Grid.Column="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<Grid Grid.Column="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="4 0 0 0">
 			<DataGrid ItemsSource="{Binding Devices}">

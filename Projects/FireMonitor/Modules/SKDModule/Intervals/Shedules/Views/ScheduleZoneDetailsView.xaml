@@ -8,21 +8,21 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid Grid.Row="0" Margin="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-                    <DataGrid Name="_zonesDataGrid" Focusable="True" ItemsSource="{Binding RootZones}" SelectedItem="{Binding SelectedZone}" Width="100">
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Width="250" Header="Зона">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
-                                            <TextBlock Width="200" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Zone.Name}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+					<DataGrid Name="_zonesDataGrid" Focusable="True" ItemsSource="{Binding RootZones}" SelectedItem="{Binding SelectedZone}" Width="100">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Width="250" Header="Зона">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+											<TextBlock Width="200" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Zone.Name}" />
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
+						</DataGrid.Columns>
+					</DataGrid>
 				</Grid>
 				<Grid Grid.Row="1" Margin="2">
 					<Grid.ColumnDefinitions>

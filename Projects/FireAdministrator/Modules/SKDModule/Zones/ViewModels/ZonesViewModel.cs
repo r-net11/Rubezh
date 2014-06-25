@@ -15,6 +15,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.Plans.Designer;
 using KeyboardKey = System.Windows.Input.Key;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -50,7 +51,7 @@ namespace SKDModule.ViewModels
 
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
-		ZoneViewModel _selectedZone;
+		private ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone
 		{
 			get { return _selectedZone; }
@@ -73,28 +74,19 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool CanEditRemove()
+		private bool CanEditRemove()
 		{
 			return SelectedZone != null;
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
-			var zoneDetailsViewModel = new ZoneDetailsViewModel();
-			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
-			{
-				SKDManager.Zones.Add(zoneDetailsViewModel.Zone);
-				var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
-				Zones.Add(zoneViewModel);
-				SelectedZone = zoneViewModel;
-				ServiceFactory.SaveService.SKDChanged = true;
-				Helper.BuildMap();
-			}
+			OnAddZone();
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-		void OnDelete()
+		private void OnDelete()
 		{
 				var index = Zones.IndexOf(SelectedZone);
 				SKDManager.Zones.Remove(SelectedZone.Zone);
@@ -107,14 +99,9 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
-			var guardZoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
-			if (DialogService.ShowModalWindow(guardZoneDetailsViewModel))
-			{
-				SelectedZone.Update(guardZoneDetailsViewModel.Zone);
-				ServiceFactory.SaveService.GKChanged = true;
-			}
+			OnEdit(SelectedZone);
 		}
 
 		private void RegisterShortcuts()
@@ -239,6 +226,44 @@ namespace SKDModule.ViewModels
 					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
 				}, "/Controls;component/Images/BEdit.png") { Order = 1 }
 			};
+		}
+
+		public void CreateZone(CreateSKDZoneEventArg createZoneEventArg)
+		{
+			var zoneViewModel = OnAddZone();
+			createZoneEventArg.Zone = zoneViewModel == null ? null : zoneViewModel.Zone;
+		}
+		public void EditZone(Guid zoneUID)
+		{
+			var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			if (zoneViewModel != null)
+				OnEdit(zoneViewModel);
+		}
+
+		private void OnEdit(ZoneViewModel viewModel)
+		{
+			var guardZoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
+			if (DialogService.ShowModalWindow(guardZoneDetailsViewModel))
+			{
+				SKDManager.EditZone(guardZoneDetailsViewModel.Zone);
+				SelectedZone.Update(guardZoneDetailsViewModel.Zone);
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
+		}
+		private ZoneViewModel OnAddZone()
+		{
+			var zoneDetailsViewModel = new ZoneDetailsViewModel();
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
+			{
+				SKDManager.Zones.Add(zoneDetailsViewModel.Zone);
+				var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
+				Zones.Add(zoneViewModel);
+				SelectedZone = zoneViewModel;
+				ServiceFactory.SaveService.SKDChanged = true;
+				Helper.BuildMap();
+				return zoneViewModel;
+			}
+			return null;
 		}
 	}
 }

@@ -32,9 +32,9 @@ namespace GKProcessor
 					{ Errors.Add("Устройство " + gkDatabase.RootDevice.PresentationName + " недоступно"); return; }
 					//foreach (var kauDatabase in gkDatabase.KauDatabases)
 					//{
-					//    result = DeviceBytesHelper.Ping(kauDatabase.RootDevice);
-					//    if (!result)
-					//    { Errors.Add("Устройство " + kauDatabase.RootDevice.PresentationName + " недоступно"); return; }
+					//	result = DeviceBytesHelper.Ping(kauDatabase.RootDevice);
+					//	if (!result)
+					//	{ Errors.Add("Устройство " + kauDatabase.RootDevice.PresentationName + " недоступно"); return; }
 					//}
 					for (int i = 0; i < 3; i++)
 					{

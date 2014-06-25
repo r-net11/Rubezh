@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {

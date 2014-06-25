@@ -11,6 +11,7 @@ namespace GKModule.Plans.Designer
 	internal static class Helper
 	{
 		private static Dictionary<Guid, XZone> _xzoneMap;
+		private static Dictionary<Guid, XGuardZone> _xguardZoneMap;
 		private static Dictionary<Guid, XDevice> _xdeviceMap;
 		private static Dictionary<Guid, XDirection> _xdirectionMap;
 		public static void BuildMap()
@@ -18,6 +19,7 @@ namespace GKModule.Plans.Designer
 			BuildXDeviceMap();
 			BuildXDirectionMap();
 			BuildXZoneMap();
+			BuildXGuardZoneMap();
 		}
 		public static void BuildXDeviceMap()
 		{
@@ -35,6 +37,15 @@ namespace GKModule.Plans.Designer
 			{
 				if (!_xzoneMap.ContainsKey(xzone.BaseUID))
 					_xzoneMap.Add(xzone.BaseUID, xzone);
+			}
+		}
+		public static void BuildXGuardZoneMap()
+		{
+			_xguardZoneMap = new Dictionary<Guid, XGuardZone>();
+			foreach (var xzone in XManager.DeviceConfiguration.GuardZones)
+			{
+				if (!_xguardZoneMap.ContainsKey(xzone.BaseUID))
+					_xguardZoneMap.Add(xzone.BaseUID, xzone);
 			}
 		}
 		public static void BuildXDirectionMap()
@@ -69,6 +80,11 @@ namespace GKModule.Plans.Designer
 			XZone zone = GetXZone(element);
 			SetXZone(element, zone);
 		}
+		public static void SetXZone(IElementZone element, Guid zoneUID)
+		{
+			var zone = GetXZone(zoneUID);
+			SetXZone(element, zone);
+		}
 		public static void SetXZone(IElementZone element, XZone xzone)
 		{
 			ResetXZone(element);
@@ -88,6 +104,55 @@ namespace GKModule.Plans.Designer
 			Color color = Colors.Black;
 			if (zone != null)
 				color = Colors.Green;
+			return color;
+		}
+
+		public static string GetXGuardZoneTitle(IElementZone element)
+		{
+			XGuardZone xguardZone = GetXGuardZone(element);
+			return GetXGuardZoneTitle(xguardZone);
+		}
+		public static string GetXGuardZoneTitle(XGuardZone xguardZone)
+		{
+			return xguardZone == null ? "Несвязанная зона" : xguardZone.PresentationName;
+		}
+		public static XGuardZone GetXGuardZone(IElementZone element)
+		{
+			return GetXGuardZone(element.ZoneUID);
+		}
+		public static XGuardZone GetXGuardZone(Guid xcuardZoneUID)
+		{
+			return xcuardZoneUID != Guid.Empty && _xguardZoneMap.ContainsKey(xcuardZoneUID) ? _xguardZoneMap[xcuardZoneUID] : null;
+		}
+		public static void SetXGuardZone(IElementZone element)
+		{
+			XGuardZone zone = GetXGuardZone(element);
+			SetXGuardZone(element, zone);
+		}
+		public static void SetXGuardZone(IElementZone element, Guid zoneUID)
+		{
+			var zone = GetXGuardZone(zoneUID);
+			SetXGuardZone(element, zone);
+		}
+		public static void SetXGuardZone(IElementZone element, XGuardZone xguardZone)
+		{
+			ResetXGuardZone(element);
+			element.ZoneUID = xguardZone == null ? Guid.Empty : xguardZone.BaseUID;
+			element.BackgroundColor = GetXGuardZoneColor(xguardZone);
+			if (xguardZone != null)
+				xguardZone.PlanElementUIDs.Add(element.UID);
+		}
+		public static void ResetXGuardZone(IElementZone element)
+		{
+			XGuardZone XGuardZone = GetXGuardZone(element);
+			if (XGuardZone != null)
+				XGuardZone.PlanElementUIDs.Remove(element.UID);
+		}
+		public static Color GetXGuardZoneColor(XGuardZone zone)
+		{
+			Color color = Colors.Black;
+			if (zone != null)
+				color = Colors.Brown;
 			return color;
 		}
 

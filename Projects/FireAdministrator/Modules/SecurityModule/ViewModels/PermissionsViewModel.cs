@@ -68,22 +68,22 @@ namespace SecurityModule.ViewModels
 		{
 			RootPermission = new PermissionViewModel(PermissionType.All,
 				new List<PermissionViewModel>()
-			    {
-			        new PermissionViewModel(PermissionType.Adm_All,
-			            new List<PermissionViewModel>()
-			            {
-			                new PermissionViewModel(PermissionType.Adm_ViewConfig),
-			                new PermissionViewModel(PermissionType.Adm_SetNewConfig),
+				{
+					new PermissionViewModel(PermissionType.Adm_All,
+						new List<PermissionViewModel>()
+						{
+							new PermissionViewModel(PermissionType.Adm_ViewConfig),
+							new PermissionViewModel(PermissionType.Adm_SetNewConfig),
 							new PermissionViewModel(PermissionType.Adm_WriteDeviceConfig),
 							new PermissionViewModel(PermissionType.Adm_ChangeDevicesSoft),
 							new PermissionViewModel(PermissionType.Adm_Security),
 							new PermissionViewModel(PermissionType.Adm_SKUD),
-			            }),
-			        new PermissionViewModel(PermissionType.Oper_All,
-			            new List<PermissionViewModel>()
-			            {
-			                new PermissionViewModel(PermissionType.Oper_Login),
-			                new PermissionViewModel(PermissionType.Oper_Logout),
+						}),
+					new PermissionViewModel(PermissionType.Oper_All,
+						new List<PermissionViewModel>()
+						{
+							new PermissionViewModel(PermissionType.Oper_Login),
+							new PermissionViewModel(PermissionType.Oper_Logout),
 							new PermissionViewModel(PermissionType.Oper_LogoutWithoutPassword),
 							new PermissionViewModel(PermissionType.Oper_NoAlarmConfirm),
 							new PermissionViewModel(PermissionType.Oper_AddToIgnoreList),
@@ -100,8 +100,8 @@ namespace SecurityModule.ViewModels
 									new PermissionViewModel(PermissionType.Oper_SKD_HR),
 									new PermissionViewModel(PermissionType.Oper_SKD_Organisations),
 								}),
-			            }),
-			    });
+						}),
+				});
 		}
 
 		public List<string> GetPermissionStrings()

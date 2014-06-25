@@ -15,8 +15,6 @@ namespace ChinaSKDDriver
 
 		public void StartWatcher()
 		{
-			NativeWrapper.WRAP_StartListen(LoginID);
-
 			IsStopping = false;
 			WatcherThread = new Thread(RunMonitoring);
 			WatcherThread.Start();
@@ -40,13 +38,13 @@ namespace ChinaSKDDriver
 					return;
 				Thread.Sleep(100);
 
-				var index = NativeWrapper.WRAP_GetLastIndex();
+				var index = NativeWrapper.WRAP_GetLastIndex(LoginID);
 				if (index > lastIndex)
 				{
 					for (int i = lastIndex + 1; i <= index; i++)
 					{
 						var wrapJournalItem = new NativeWrapper.WRAP_JournalItem();
-						NativeWrapper.WRAP_GetJournalItem(i, out wrapJournalItem);
+						NativeWrapper.WRAP_GetJournalItem(LoginID, i, out wrapJournalItem);
 						var journalItem = ParceJournal(wrapJournalItem);
 
 						if (NewJournalItem != null)
@@ -162,7 +160,6 @@ namespace ChinaSKDDriver
 						name = "Проход";
 						var nDoor = wrapJournalItem.nDoor;
 						var emEventType = wrapJournalItem.emEventType;
-						var szDoorName = CharArrayToString(wrapJournalItem.szDoorName);
 						var bStatus = wrapJournalItem.bStatus;
 						var emCardType = wrapJournalItem.emCardType;
 						var emOpenMethod = wrapJournalItem.emOpenMethod;
@@ -174,25 +171,21 @@ namespace ChinaSKDDriver
 						name = "door not close";
 						nDoor = wrapJournalItem.nDoor;
 						nAction = wrapJournalItem.nAction;
-						szDoorName = CharArrayToString(wrapJournalItem.szDoorName);
 						break;
 
 				case DH_ALARM_ACCESS_CTL_BREAK_IN:
 						name = "break in";
 						nDoor = wrapJournalItem.nDoor;
-						szDoorName = CharArrayToString(wrapJournalItem.szDoorName);
 						break;
 
 				case DH_ALARM_ACCESS_CTL_REPEAT_ENTER:
 						name = "repeat enter";
 						nDoor = wrapJournalItem.nDoor;
-						szDoorName = CharArrayToString(wrapJournalItem.szDoorName);
 						break;
 
 				case DH_ALARM_ACCESS_CTL_DURESS:
 						name = "duress";
 						nDoor = wrapJournalItem.nDoor;
-						szDoorName = CharArrayToString(wrapJournalItem.szDoorName);
 						szCardNo = CharArrayToString(wrapJournalItem.szCardNo);
 						break;
 

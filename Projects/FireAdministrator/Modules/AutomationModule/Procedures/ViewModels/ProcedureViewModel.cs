@@ -25,6 +25,7 @@ namespace AutomationModule.ViewModels
 			VariablesViewModel = new VariablesViewModel(procedure);
 			ArgumentsViewModel = new ArgumentsViewModel(procedure);
 			ConditionsViewModel = new ConditionsViewModel(procedure);
+
 			OnShowSteps();
 		}
 

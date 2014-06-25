@@ -16,6 +16,7 @@ namespace ControllerSDK.ViewModels
 		public HolidaysViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
+			EditCommand = new RelayCommand(OnEdit);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
 			GetInfoCommand = new RelayCommand(OnGetInfo);
@@ -26,7 +27,13 @@ namespace ControllerSDK.ViewModels
 			StartDateTime = DateTime.Now;
 			EndDateTime = DateTime.Now;
 			IsEnabled = true;
-			DoorsCount = 1;
+
+			Doors = new ObservableCollection<DoorItemViewModel>();
+			for (int i = 1; i <= 4; i++)
+			{
+				Doors.Add(new DoorItemViewModel(i));
+			}
+			Doors[0].IsChecked = true;
 		}
 
 		public void Initialize(List<Holiday> holidays)
@@ -42,23 +49,24 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var holiday = new Holiday();
-			holiday.StartDateTime = StartDateTime;
-			holiday.EndDateTime = EndDateTime;
-			holiday.IsEnabled = IsEnabled;
-			holiday.DoorsCount = DoorsCount;
+			var holiday = GetModel();
 			var newHolidayNo = MainViewModel.Wrapper.AddHoliday(holiday);
 			MessageBox.Show("newHolidayNo = " + newHolidayNo);
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var holiday = GetModel();
+			var result = MainViewModel.Wrapper.EditHoliday(holiday);
+			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (SelectedHoliday != null)
-			{
-				var result = MainViewModel.Wrapper.RemoveHoliday(SelectedHoliday.Holiday.RecordNo);
-				MessageBox.Show("result = " + result);
-			}
+			var result = MainViewModel.Wrapper.RemoveHoliday(Index);
+			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand RemoveAllCommand { get; private set; }
@@ -94,6 +102,23 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		Holiday GetModel()
+		{
+			var holiday = new Holiday();
+			holiday.StartDateTime = StartDateTime;
+			holiday.EndDateTime = EndDateTime;
+			holiday.IsEnabled = IsEnabled;
+			foreach (var door in Doors)
+			{
+				if (door.IsChecked)
+				{
+					holiday.Doors.Add(door.No);
+				}
+			}
+			holiday.DoorsCount = holiday.Doors.Count;
+			return holiday;
+		}
+
 		public ObservableCollection<HolidayViewModel> Holidays { get; private set; }
 
 		HolidayViewModel _selectedHoliday;
@@ -104,6 +129,17 @@ namespace ControllerSDK.ViewModels
 			{
 				_selectedHoliday = value;
 				OnPropertyChanged(() => SelectedHoliday);
+			}
+		}
+
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged("Index");
 			}
 		}
 
@@ -140,15 +176,6 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		int _doorsCount;
-		public int DoorsCount
-		{
-			get { return _doorsCount; }
-			set
-			{
-				_doorsCount = value;
-				OnPropertyChanged(() => DoorsCount);
-			}
-		}
+		public ObservableCollection<DoorItemViewModel> Doors { get; private set; }
 	}
 }

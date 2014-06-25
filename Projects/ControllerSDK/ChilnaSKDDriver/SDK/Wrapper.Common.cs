@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
-using ChinaSKDDriverNativeApi;
-using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
-using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
+using ChinaSKDDriverAPI;
+using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
@@ -32,6 +30,8 @@ namespace ChinaSKDDriver
 		public static char[] StringToCharArray(string str, int size)
 		{
 			var result = new char[size];
+			if (str == null)
+				str = "";
 			var charArray = str.ToCharArray();
 			for (int i = 0; i < Math.Min(charArray.Count(), size); i++)
 			{
@@ -54,11 +54,34 @@ namespace ChinaSKDDriver
 		}
 		#endregion
 
+		#region Common
+		public int LoginID { get; private set; }
+		public event Action<SKDJournalItem> NewJournalItem;
+
+		public int Connect(string ipAddress, int port, string login, string password)
+		{
+			LoginID = NativeWrapper.WRAP_Connect(ipAddress, port, login, password);
+			return LoginID;
+		}
+
+		public bool Disconnect()
+		{
+			var result = NativeWrapper.WRAP_Disconnect(LoginID);
+			return result;
+		}
+
+		public bool IsConnected()
+		{
+			var result = NativeWrapper.WRAP_IsConnected(LoginID);
+			return result;
+		}
+		#endregion
+
 		#region CommonDevice
 		public DeviceSoftwareInfo GetDeviceSoftwareInfo()
 		{
 			NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_TypeAndSoftInfo(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_GetSoftwareInfo(LoginID, out outResult);
 
 			DeviceSoftwareInfo deviceSoftwareInfo = null;
 			if (result)
@@ -74,7 +97,7 @@ namespace ChinaSKDDriver
 		public DeviceNetInfo GetDeviceNetInfo()
 		{
 			NativeWrapper.WRAP_CFG_NETWORK_INFO_Result outResult;
-			var result = NativeWrapper.WRAP_Get_DevConfig_IPMaskGate(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_Get_NetInfo(LoginID, out outResult);
 
 			DeviceNetInfo deviceNetInfo = null;
 			if (result)
@@ -90,14 +113,14 @@ namespace ChinaSKDDriver
 
 		public bool SetDeviceNetInfo(DeviceNetInfo deviceNetInfo)
 		{
-			var result = NativeWrapper.WRAP_Set_DevConfig_IPMaskGate(LoginID, deviceNetInfo.IP, deviceNetInfo.SubnetMask, deviceNetInfo.DefaultGateway, deviceNetInfo.MTU);
+			var result = NativeWrapper.WRAP_Set_NetInfo(LoginID, deviceNetInfo.IP, deviceNetInfo.SubnetMask, deviceNetInfo.DefaultGateway, deviceNetInfo.MTU);
 			return result;
 		}
 
 		public string GetDeviceMacAddress()
 		{
 			NativeWrapper.WRAP_DevConfig_MAC_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_MAC(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_GetMacAddress(LoginID, out outResult);
 			if (result)
 			{
 				var macAddress = Wrapper.CharArrayToString(outResult.szMAC);
@@ -109,7 +132,7 @@ namespace ChinaSKDDriver
 		public int GetMaxPageSize()
 		{
 			NativeWrapper.WRAP_DevConfig_RecordFinderCaps_Result outResult;
-			var result = NativeWrapper.WRAP_DevConfig_RecordFinderCaps(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_GetMaxPageSize(LoginID, out outResult);
 			if (result)
 			{
 				var maxPageSize = outResult.nMaxPageSize;
@@ -121,7 +144,7 @@ namespace ChinaSKDDriver
 		public DateTime GetDateTime()
 		{
 			NativeWrapper.NET_TIME outResult;
-			var result = NativeWrapper.WRAP_DevConfig_GetCurrentTime(LoginID, out outResult);
+			var result = NativeWrapper.WRAP_GetCurrentTime(LoginID, out outResult);
 			if (result)
 			{
 				try
@@ -136,19 +159,19 @@ namespace ChinaSKDDriver
 
 		public bool SetDateTime(DateTime dateTime)
 		{
-			var result = NativeWrapper.WRAP_DevConfig_SetCurrentTime(LoginID, dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+			var result = NativeWrapper.WRAP_SetCurrentTime(LoginID, dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
 			return result;
 		}
 
 		public bool DeleteAll()
 		{
-			var result = NativeWrapper.WRAP_DevCtrl_DeleteCfgFile(LoginID);
+			var result = NativeWrapper.WRAP_DeleteCfgFile(LoginID);
 			return result;
 		}
 
 		public bool Reboot()
 		{
-			var result = NativeWrapper.WRAP_DevCtrl_ReBoot(LoginID);
+			var result = NativeWrapper.WRAP_ReBoot(LoginID);
 			return result;
 		}
 
@@ -176,7 +199,7 @@ namespace ChinaSKDDriver
 		public int GetLogsCount()
 		{
 			NativeWrapper.QUERY_DEVICE_LOG_PARAM logParam = new NativeWrapper.QUERY_DEVICE_LOG_PARAM();
-			var result = NativeWrapper.WRAP_DevCtrl_GetLogCount(LoginID, ref logParam);
+			var result = NativeWrapper.WRAP_GetLogCount(LoginID, ref logParam);
 			return result;
 		}
 
@@ -294,101 +317,6 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
-		#endregion
-
-		#region Common
-
-		public int LoginID { get; private set; }
-
-		void OnfDisConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
-		{
-			if (dwUser == 0)
-			{
-				return;
-			}
-		}
-
-		void OnfHaveReConnect(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
-		{
-			return;
-		}
-
-		public int Connect(string ipAddress, int port, string login, string password)
-		{
-			NativeWrapper.fDisConnectDelegate dCbFunc = new NativeWrapper.fDisConnectDelegate(OnfDisConnect);
-			var result = NativeWrapper.CLIENT_Init(dCbFunc, (UInt32)0);
-
-			NativeWrapper.NET_DEVICEINFO deviceInfo;
-			int error = 0;
-			LoginID = NativeWrapper.CLIENT_Login(ipAddress, (UInt16)37777, login, password, out deviceInfo, out error);
-
-			NativeWrapper.fHaveReConnect onHaveReConnect = new NativeWrapper.fHaveReConnect(OnfHaveReConnect);
-			NativeWrapper.CLIENT_SetAutoReconnect(onHaveReConnect, 0);
-
-			return LoginID;
-		}
-
-		public void StartListen()
-		{
-			NativeWrapper.fMessCallBack onfMessCallBack = new NativeWrapper.fMessCallBack(OnfMessCallBack);
-			NativeWrapper.CLIENT_SetDVRMessCallBack(onfMessCallBack, 0);
-
-			NativeWrapper.CLIENT_StartListenEx(LoginID);
-		}
-
-		bool OnfMessCallBack(Int32 lCommand, Int32 lLoginID, IntPtr pBuf, Int32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
-		{
-			if (lCommand == 0x3181)
-			{
-				var nativeJournalItem = (NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO)Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO));
-
-				var doorNo = nativeJournalItem.nDoor;
-				var status = nativeJournalItem.bStatus;
-				var eventType = nativeJournalItem.emEventType;
-				var cardType = nativeJournalItem.emCardType;
-				var openMethod = nativeJournalItem.emOpenMethod;
-				var doorName = Wrapper.CharArrayToString(nativeJournalItem.szDoorName);
-				var cardNo = Wrapper.CharArrayToString(nativeJournalItem.szCardNo);
-				var password = Wrapper.CharArrayToString(nativeJournalItem.szPwd);
-				var dateTime = Wrapper.NET_TIMEToDateTime(nativeJournalItem.stuTime);
-
-				var journalItem = new SKDJournalItem();
-				journalItem.SystemDateTime = DateTime.Now;
-				journalItem.DeviceDateTime = dateTime;
-				journalItem.Name = "Проход через считыватель";
-
-				var description = "";
-				switch (eventType)
-				{
-					case NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE.NET_ACCESS_CTL_EVENT_ENTRY:
-						description = "Вход через дверь";
-						break;
-
-					case NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE.NET_ACCESS_CTL_EVENT_EXIT:
-						description = "Выход через дверь";
-						break;
-
-					case NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE.NET_ACCESS_CTL_EVENT_UNKNOWN:
-						description = "Неизвестно";
-						break;
-				}
-				journalItem.Description = description;
-
-				if (NewJournalItem != null)
-					NewJournalItem(journalItem);
-			}
-
-			return true;
-		}
-
-
-		public event Action<SKDJournalItem> NewJournalItem;
-
-		public bool Disconnect()
-		{
-			var result = NativeWrapper.CLIENT_Cleanup();
-			return result;
-		}
 		#endregion
 	}
 }

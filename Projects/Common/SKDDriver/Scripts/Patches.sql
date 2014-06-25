@@ -17,14 +17,14 @@ BEGIN
 		NOT FOR REPLICATION 
 		ALTER TABLE [dbo].[OrganisationUser] NOCHECK CONSTRAINT [FK_OrganisationUser_Organisation]
 	END
-	INSERT INTO Patches (Id) VALUES ('OrganisationUser')    
+	INSERT INTO Patches (Id) VALUES ('OrganisationUser')	
 END
 GO
 
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AlterPatches')
 BEGIN
 	ALTER TABLE Patches ALTER COLUMN Id nvarchar(100) not null
-	INSERT INTO Patches (Id) VALUES ('AlterPatches')    
+	INSERT INTO Patches (Id) VALUES ('AlterPatches')	
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'GuardZone')
@@ -59,7 +59,7 @@ BEGIN
 		NOT FOR REPLICATION 
 		ALTER TABLE [dbo].[GuardZone] NOCHECK CONSTRAINT [FK_GuardZone_AccessTemplate]
 	END
-	INSERT INTO Patches (Id) VALUES ('GuardZone')    
+	INSERT INTO Patches (Id) VALUES ('GuardZone')	
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Doors')
@@ -116,7 +116,7 @@ BEGIN
 		NOT FOR REPLICATION 
 		ALTER TABLE [dbo].[OrganisationDoor] NOCHECK CONSTRAINT [FK_OrganisationDoor_Organisation]
 	END
-	INSERT INTO Patches (Id) VALUES ('Doors')    
+	INSERT INTO Patches (Id) VALUES ('Doors')	
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DoorsEnterExit')
@@ -130,7 +130,7 @@ BEGIN
 		ALTER TABLE CardDoor ADD [ExitIntervalUID] uniqueidentifier NULL
 		ALTER TABLE CardDoor ADD [ExitIntervalType] int NULL
 	END
-	INSERT INTO Patches (Id) VALUES ('DoorsEnterExit')    
+	INSERT INTO Patches (Id) VALUES ('DoorsEnterExit')	
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationZone')
@@ -151,7 +151,7 @@ BEGIN
 		NOT FOR REPLICATION 
 		ALTER TABLE [dbo].[OrganisationZone] NOCHECK CONSTRAINT [FK_OrganisationZone_Organisation]
 	END
-	INSERT INTO Patches (Id) VALUES ('OrganisationZone')    
+	INSERT INTO Patches (Id) VALUES ('OrganisationZone')	
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DoorsEnterExit')
@@ -165,7 +165,7 @@ BEGIN
 		ALTER TABLE CardDoor ADD [ExitIntervalUID] uniqueidentifier NULL
 		ALTER TABLE CardDoor ADD [ExitIntervalType] int NULL
 	END
-	INSERT INTO Patches (Id) VALUES ('DoorsEnterExit')    
+	INSERT INTO Patches (Id) VALUES ('DoorsEnterExit')	
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'PendingCard')
@@ -186,7 +186,7 @@ BEGIN
 		NOT FOR REPLICATION 
 		ALTER TABLE [dbo].[PendingCard] NOCHECK CONSTRAINT [FK_PendingCard_Card]
 	END
-	INSERT INTO Patches (Id) VALUES ('PendingCard')    
+	INSERT INTO Patches (Id) VALUES ('PendingCard')	
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CommonJournal')

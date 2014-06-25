@@ -16,6 +16,7 @@ namespace ControllerSDK.ViewModels
 		public PasswordsViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
+			EditCommand = new RelayCommand(OnEdit);
 			RemoveCommand = new RelayCommand(OnRemove);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll);
 			GetInfoCommand = new RelayCommand(OnGetInfo);
@@ -24,11 +25,15 @@ namespace ControllerSDK.ViewModels
 			Passwords = new ObservableCollection<PasswordViewModel>();
 
 			CreationDateTime = DateTime.Now;
-			UserID = "1";
 			DoorOpenPassword = "1";
 			AlarmPassword = "1";
-			DoorsCount = 1;
 
+			Doors = new ObservableCollection<DoorItemViewModel>();
+			for (int i = 1; i <= 4; i++)
+			{
+				Doors.Add(new DoorItemViewModel(i));
+			}
+			Doors[0].IsChecked = true;
 		}
 
 		public void Initialize(List<Password> passwords)
@@ -44,24 +49,24 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var password = new Password();
-			password.CreationDateTime = CreationDateTime;
-			password.UserID = UserID;
-			password.DoorOpenPassword = DoorOpenPassword;
-			password.AlarmPassword = AlarmPassword;
-			password.DoorsCount = DoorsCount;
+			var password = GetModel();
 			var newPasswordNo = MainViewModel.Wrapper.AddPassword(password);
 			MessageBox.Show("newPasswordNo = " + newPasswordNo);
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var password = GetModel();
+			var result = MainViewModel.Wrapper.EditPassword(password);
+			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (SelectedPassword != null)
-			{
-				var result = MainViewModel.Wrapper.RemovePassword(SelectedPassword.Password.RecordNo);
-				MessageBox.Show("result = " + result);
-			}
+			var result = MainViewModel.Wrapper.RemovePassword(Index);
+			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand RemoveAllCommand { get; private set; }
@@ -97,6 +102,25 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		Password GetModel()
+		{
+			var password = new Password();
+			password.CreationDateTime = CreationDateTime;
+			password.DoorOpenPassword = DoorOpenPassword;
+			password.AlarmPassword = AlarmPassword;
+			password.DoorsCount = Doors.Count;
+
+			foreach (var door in Doors)
+			{
+				if (door.IsChecked)
+				{
+					password.Doors.Add(door.No);
+				}
+			}
+			password.DoorsCount = password.Doors.Count;
+			return password;
+		}
+
 		public ObservableCollection<PasswordViewModel> Passwords { get; private set; }
 
 		PasswordViewModel _selectedPassword;
@@ -110,6 +134,17 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged("Index");
+			}
+		}
+
 		DateTime _creationDateTime;
 		public DateTime CreationDateTime
 		{
@@ -118,17 +153,6 @@ namespace ControllerSDK.ViewModels
 			{
 				_creationDateTime = value;
 				OnPropertyChanged(() => CreationDateTime);
-			}
-		}
-
-		string _userID;
-		public string UserID
-		{
-			get { return _userID; }
-			set
-			{
-				_userID = value;
-				OnPropertyChanged(() => UserID);
 			}
 		}
 
@@ -154,15 +178,6 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		int _doorsCount;
-		public int DoorsCount
-		{
-			get { return _doorsCount; }
-			set
-			{
-				_doorsCount = value;
-				OnPropertyChanged(() => DoorsCount);
-			}
-		}
+		public ObservableCollection<DoorItemViewModel> Doors { get; private set; }
 	}
 }

@@ -1,8 +1,6 @@
-﻿using System.Windows.Controls;
-
-namespace AutomationModule.Views
+﻿namespace AutomationModule.Views
 {
-	public partial class SchedulesView : UserControl
+	public partial class SchedulesView
 	{
 		public SchedulesView()
 		{

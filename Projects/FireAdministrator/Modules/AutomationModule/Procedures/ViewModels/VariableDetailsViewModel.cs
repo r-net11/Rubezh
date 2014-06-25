@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using System.Collections.ObjectModel;
@@ -29,6 +30,7 @@ namespace AutomationModule.ViewModels
 				new VariableViewModel(defaultName, VariableType.Object)
 			};
 			SelectedVariable = Variables.FirstOrDefault();
+			Name = defaultName;
 		}
 
 		public VariableDetailsViewModel(Variable variable, bool isArgument = false)
@@ -109,6 +111,11 @@ namespace AutomationModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (string.IsNullOrEmpty(Name))
+			{
+				MessageBoxService.ShowWarning("Название не может быть пустым");
+				return false;
+			}
 			Variable.Name = SelectedVariable.Name;
 			Variable.BoolValue = SelectedVariable.BoolValue;
 			Variable.DateTimeValue = SelectedVariable.DateTimeValue;

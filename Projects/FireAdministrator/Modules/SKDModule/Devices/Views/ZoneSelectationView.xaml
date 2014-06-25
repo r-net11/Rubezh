@@ -5,38 +5,38 @@
 		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
 		MinHeight="400" MinWidth="600">
 
-    <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
-        <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Зона" Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Controls:EditorPresenter>
-                            <Controls:EditorPresenter.ViewTemplate>
-                                <ControlTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-                                    </StackPanel>
-                                </ControlTemplate>
-                            </Controls:EditorPresenter.ViewTemplate>
-                        </Controls:EditorPresenter>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+	<DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn Header="Зона" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<Controls:EditorPresenter>
+							<Controls:EditorPresenter.ViewTemplate>
+								<ControlTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+										<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+									</StackPanel>
+								</ControlTemplate>
+							</Controls:EditorPresenter.ViewTemplate>
+						</Controls:EditorPresenter>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
 
-            <DataGridTemplateColumn Header="Примечание" Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Controls:EditorPresenter>
-                            <Controls:EditorPresenter.ViewTemplate>
-                                <ControlTemplate>
-                                    <TextBlock Text="{Binding Description}" />
-                                </ControlTemplate>
-                            </Controls:EditorPresenter.ViewTemplate>
-                        </Controls:EditorPresenter>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
-    </DataGrid>
+			<DataGridTemplateColumn Header="Примечание" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<Controls:EditorPresenter>
+							<Controls:EditorPresenter.ViewTemplate>
+								<ControlTemplate>
+									<TextBlock Text="{Binding Description}" />
+								</ControlTemplate>
+							</Controls:EditorPresenter.ViewTemplate>
+						</Controls:EditorPresenter>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
 </UserControl>

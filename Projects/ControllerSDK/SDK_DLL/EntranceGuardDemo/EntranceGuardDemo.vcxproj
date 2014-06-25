@@ -153,9 +153,6 @@
     <ClInclude Include="WrapTimeShedules.h" />
     <ClInclude Include="WrapWatch.h" />
   </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="ReadMe.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

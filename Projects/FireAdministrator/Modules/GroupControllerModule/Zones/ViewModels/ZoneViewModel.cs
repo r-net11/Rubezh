@@ -44,6 +44,10 @@ namespace GKModule.ViewModels
 		{
 			get { return _visualizetionState; }
 		}
+		public bool IsOnPlan
+		{
+			get { return Zone.PlanElementUIDs.Count > 0; }
+		}
 		public void Update(XZone zone)
 		{
 			Zone = zone;
@@ -58,6 +62,7 @@ namespace GKModule.ViewModels
 			if (Zone.PlanElementUIDs == null)
 				Zone.PlanElementUIDs = new List<Guid>();
 			_visualizetionState = Zone.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Zone.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}
 

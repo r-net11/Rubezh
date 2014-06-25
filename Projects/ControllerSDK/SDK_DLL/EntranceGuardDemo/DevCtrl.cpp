@@ -921,18 +921,17 @@ void testRecordSetFinder_CardRec(LLONG lLoginId)
 
 void testRecordSetFinder_Holiday(LLONG lLoginId)
 {
-	// 暂不支持
-// 	LLONG lFinderID = 0;
-// 	testRecordSetFind_Holiday(lLoginId, lFinderID);
-// 	if (lFinderID != 0)
-// 	{
-// 		testRecordSetFindNext_Holiday(lFinderID);
-// 		test_RecordSetFindClose(lFinderID);
-// 	}
-// 	else
-// 	{
-// 		// testRecordSetFind_Holiday()本身会提示...
-// 	}	
+ 	LLONG lFinderID = 0;
+ 	testRecordSetFind_Holiday(lLoginId, lFinderID);
+ 	if (lFinderID != 0)
+ 	{
+ 		testRecordSetFindNext_Holiday(lFinderID);
+ 		test_RecordSetFindClose(lFinderID);
+ 	}
+ 	else
+ 	{
+ 		// testRecordSetFind_Holiday()本身会提示...
+ 	}	
 }
 
 BOOL DevCtrl_GetRecordSetCount(LLONG lLoginID, int nRecordSetType)

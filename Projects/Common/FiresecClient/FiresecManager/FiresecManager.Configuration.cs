@@ -108,6 +108,7 @@ namespace FiresecClient
 				XManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				XManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				XManager.Directions.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				XManager.DeviceConfiguration.GuardZones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
@@ -131,6 +132,12 @@ namespace FiresecClient
 					if (!xZoneMap.ContainsKey(xzone.BaseUID))
 					xZoneMap.Add(xzone.BaseUID, xzone);
 				}
+				var xGuardZoneMap = new Dictionary<Guid, XGuardZone>();
+				foreach (var xGuardZone in XManager.DeviceConfiguration.GuardZones)
+				{
+					if (!xGuardZoneMap.ContainsKey(xGuardZone.BaseUID))
+						xGuardZoneMap.Add(xGuardZone.BaseUID, xGuardZone);
+				}
 				var xDirectionMap = new Dictionary<Guid, XDirection>();
 				foreach (var xdirection in XManager.Directions)
 				{
@@ -138,6 +145,12 @@ namespace FiresecClient
 						xDirectionMap.Add(xdirection.BaseUID, xdirection);
 				}
 
+				var doorMap = new Dictionary<Guid, Door>();
+				foreach (var door in SKDManager.SKDConfiguration.Doors)
+				{
+					if (!doorMap.ContainsKey(door.UID))
+						doorMap.Add(door.UID, door);
+				}
 				var skdDeviceMap = new Dictionary<Guid, SKDDevice>();				
 				foreach (var skdDevice in SKDManager.Devices)
 				{
@@ -176,7 +189,6 @@ namespace FiresecClient
 						if (xDeviceMap.ContainsKey(elementXDevice.XDeviceUID))
 							xDeviceMap[elementXDevice.XDeviceUID].PlanElementUIDs.Add(elementXDevice.UID);
 					}
-
 					foreach (var elementZone in plan.ElementPolygonZones)
 					{
 						UpdateZoneType(elementZone, elementZone.ZoneUID != Guid.Empty && zoneMap.ContainsKey(elementZone.ZoneUID) ? zoneMap[elementZone.ZoneUID] : null);
@@ -201,6 +213,18 @@ namespace FiresecClient
 						if (xZoneMap.ContainsKey(xzone.ZoneUID))
 							xZoneMap[xzone.ZoneUID].PlanElementUIDs.Add(xzone.UID);
 					}
+					foreach (var xGuardZone in plan.ElementPolygonXGuardZones)
+					{
+						UpdateZoneType(xGuardZone, xGuardZone.ZoneUID != Guid.Empty && xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID) ? xGuardZoneMap[xGuardZone.ZoneUID] : null);
+						if (xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID))
+							xGuardZoneMap[xGuardZone.ZoneUID].PlanElementUIDs.Add(xGuardZone.UID);
+					}
+					foreach (var xGuardZone in plan.ElementRectangleXGuardZones)
+					{
+						UpdateZoneType(xGuardZone, xGuardZone.ZoneUID != Guid.Empty && xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID) ? xGuardZoneMap[xGuardZone.ZoneUID] : null);
+						if (xGuardZoneMap.ContainsKey(xGuardZone.ZoneUID))
+							xGuardZoneMap[xGuardZone.ZoneUID].PlanElementUIDs.Add(xGuardZone.UID);
+					}
 					foreach (var xdirection in plan.ElementRectangleXDirections)
 					{
 						UpdateDirectionType(xdirection, xdirection.DirectionUID != Guid.Empty && xDirectionMap.ContainsKey(xdirection.DirectionUID) ? xDirectionMap[xdirection.DirectionUID] : null);
@@ -220,6 +244,13 @@ namespace FiresecClient
 						elementSKDDevice.UpdateZLayer();
 						if (skdDeviceMap.ContainsKey(elementSKDDevice.DeviceUID))
 							skdDeviceMap[elementSKDDevice.DeviceUID].PlanElementUIDs.Add(elementSKDDevice.UID);
+					}
+					for (int i = plan.ElementDoors.Count(); i > 0; i--)
+					{
+						var elementDoor = plan.ElementDoors[i - 1];
+						elementDoor.UpdateZLayer();
+						if (doorMap.ContainsKey(elementDoor.DoorUID))
+							doorMap[elementDoor.DoorUID].PlanElementUIDs.Add(elementDoor.UID);
 					}
 					foreach (var skdZone in plan.ElementPolygonSKDZones)
 					{
@@ -352,6 +383,11 @@ namespace FiresecClient
 						elementZone.SetZLayer(40);
 						break;
 				}
+		}
+		private static void UpdateZoneType(IElementZone elementZone, XGuardZone zone)
+		{
+			elementZone.SetZLayer(zone == null ? 20 : 40);
+			elementZone.BackgroundColor = zone == null ? System.Windows.Media.Colors.Black : System.Windows.Media.Colors.Brown;
 		}
 		private static void UpdateZoneType(IElementZone elementZone, XZone zone)
 		{

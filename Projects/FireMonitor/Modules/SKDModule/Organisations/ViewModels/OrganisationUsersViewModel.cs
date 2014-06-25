@@ -21,8 +21,8 @@ namespace SKDModule.ViewModels
 			}
 			//foreach (var user in Users)
 			//{
-			//    if (organisation.UserUIDs.Any(x => x == user.User.UID))
-			//        user.IsChecked = true;
+			//	if (organisation.UserUIDs.Any(x => x == user.User.UID))
+			//		user.IsChecked = true;
 			//}
 			SelectedUser = Users.FirstOrDefault();
 		}

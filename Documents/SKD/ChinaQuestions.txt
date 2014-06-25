@@ -140,3 +140,34 @@ in my C# code. But sometimes i get "null reference exception" uncathed exception
 What is nChannel? Door number?
 
 
+//************************************************************************************
+
+Here's what I want from evnt log monitoring
+Steps I want to reproduce in my SDK example
+- I successfully connect to the controller
+- I subscribe to events
+- I pull out ethernet wire
+- Wait for a half a minute untill SDK will understand the connection has lost
+- Pass a card to card reader few times to generate events
+- I plug in ethernet wire
+- Do some reconnect logic
+- Read all missing logs, occured during connection was lost
+- Continue recieving new events
+Whell, I gues I know how to reconnect, but I'm not shour I'm right(I'm not shour if i neet to reconect or cleanup before connecting again, and do i neet to subscribe to events again)
+But I have no idea about reading missing logs
+So, could you please modify EventAttach project to demonstrate steps, described above
+It's a very important feature for us. Whitout it we can't process time tracking
+
+
+- I noticed, that SDK can detect connection lost in about 20 seconds. What is the exact time and how can I modify it
+
+
+- You sad that SDK can automaticaly reconnect. I use EventAttach project. I set breakpoint to
+void CALLBACK HaveReConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
+but debugger never steps into it(when I pull out ethernet wire), thow it does in
+void CALLBACK DisConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
+What am I doung wrong?
+
+
+MessageCallBack
+In your example lCommand can be equal to DH_ALARM_VEHICLE_CONFIRM or DH_ALARM_VEHICLE_LARGE_ANGLE. I don't think my controller can generate such events that contains NET_GPS_STATUS_INFO. Does my controller supports this?

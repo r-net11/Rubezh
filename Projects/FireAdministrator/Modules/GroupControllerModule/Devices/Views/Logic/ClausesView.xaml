@@ -10,7 +10,7 @@
 		<Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
 		<Converters:ClauseOperationConverter x:Key="ClauseOperationConverter" />
 		<Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
-        <Converters:ClauseJoinOperatorToColorConverter x:Key="ClauseJoinOperatorToColorConverter" />
+		<Converters:ClauseJoinOperatorToColorConverter x:Key="ClauseJoinOperatorToColorConverter" />
 	</UserControl.Resources>
 
 	<Grid>
@@ -26,18 +26,18 @@
 				</Grid.RowDefinitions>
 				<Button Grid.Row="0"
 					Width="100" Foreground="White" Style="{StaticResource ToolBarButtonStyle}"
-                    Command="{Binding ChangeJoinOperatorCommand}"
-                    Background="{Binding JoinOperator, Converter={StaticResource ClauseJoinOperatorToColorConverter}}">
-					    <TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" FontWeight="Bold" />
+					Command="{Binding ChangeJoinOperatorCommand}"
+					Background="{Binding JoinOperator, Converter={StaticResource ClauseJoinOperatorToColorConverter}}">
+						<TextBlock Text="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}" FontWeight="Bold" />
 				</Button>
 				<StackPanel Grid.Row="1" Orientation="Horizontal">
 					<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить условие" Height="32" Width="32" />
 					<ToolBarButton Command="{Binding AddGroupCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить группу условий" Height="32" Width="32" />
 					<ToolBarButton Command="{Binding RemoveGroupCommand2}" ImageSource="/Controls;component/Images/DeleteCross.png" ToolTip="Удалить группу условий" Height="32" Width="32" />
 				</StackPanel>
-            </Grid>
-        </Border>
-        <StackPanel Grid.Column="1" x:Name="stackPanel">
+			</Grid>
+		</Border>
+		<StackPanel Grid.Column="1" x:Name="stackPanel">
 			<ItemsControl ItemsSource="{Binding Clauses}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>

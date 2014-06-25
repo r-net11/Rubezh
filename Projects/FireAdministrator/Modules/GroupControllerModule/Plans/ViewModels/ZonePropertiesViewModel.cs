@@ -16,12 +16,10 @@ namespace GKModule.Plans.ViewModels
 	{
 		IElementZone IElementZone;
 		ZonesViewModel _zonesViewModel;
-		GuardZonesViewModel _guardZonesViewModel;
 
-		public ZonePropertiesViewModel(IElementZone iElementZone, ZonesViewModel zonesViewModel, GuardZonesViewModel guardZonesViewModel)
+		public ZonePropertiesViewModel(IElementZone iElementZone, ZonesViewModel zonesViewModel)
 		{
 			_zonesViewModel = zonesViewModel;
-			_guardZonesViewModel = guardZonesViewModel;
 			IElementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -36,23 +34,6 @@ namespace GKModule.Plans.ViewModels
 			if (iElementZone.ZoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.BaseUID == iElementZone.ZoneUID);
 			IsHiddenZone = iElementZone.IsHiddenZone;
-
-			ZoneTypes = new ObservableCollection<ElementZoneType>();
-			ZoneTypes.Add(ElementZoneType.GK);
-			ZoneTypes.Add(ElementZoneType.Guard);
-		}
-
-		public ObservableCollection<ElementZoneType> ZoneTypes { get; private set; }
-
-		ElementZoneType _selectedZoneType;
-		public ElementZoneType SelectedZoneType
-		{
-			get { return _selectedZoneType; }
-			set
-			{
-				_selectedZoneType = value;
-				OnPropertyChanged("SelectedZoneType");
-			}
 		}
 
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
@@ -86,9 +67,10 @@ namespace GKModule.Plans.ViewModels
 			var createZoneEventArg = new CreateXZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
-				IElementZone.ZoneUID = createZoneEventArg.Zone.BaseUID;
-			Helper.BuildMap();
-			Helper.SetXZone(IElementZone);
+			{
+				Helper.BuildMap();
+				Helper.SetXZone(IElementZone, createZoneEventArg.Zone.BaseUID);
+			}
 			UpdateZones(zoneUID);
 			if (!createZoneEventArg.Cancel)
 				Close(true);

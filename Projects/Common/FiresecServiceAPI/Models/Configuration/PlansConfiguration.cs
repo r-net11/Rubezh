@@ -70,6 +70,16 @@ namespace FiresecAPI.Models
 				plan.ElementPolygonXZones = new List<ElementPolygonXZone>();
 				result = false;
 			}
+			if (plan.ElementRectangleXGuardZones == null)
+			{
+				plan.ElementRectangleXGuardZones = new List<ElementRectangleXGuardZone>();
+				result = false;
+			}
+			if (plan.ElementPolygonXGuardZones == null)
+			{
+				plan.ElementPolygonXGuardZones = new List<ElementPolygonXGuardZone>();
+				result = false;
+			}
 			if (plan.ElementRectangleXDirections == null)
 			{
 				plan.ElementRectangleXDirections = new List<ElementRectangleXDirection>();
@@ -89,6 +99,11 @@ namespace FiresecAPI.Models
 			if (plan.ElementSKDDevices == null)
 			{
 				plan.ElementSKDDevices = new List<ElementSKDDevice>();
+				result = false;
+			}
+			if (plan.ElementDoors == null)
+			{
+				plan.ElementDoors = new List<ElementDoor>();
 				result = false;
 			}
 			if (plan.ElementPolygonSKDZones == null)

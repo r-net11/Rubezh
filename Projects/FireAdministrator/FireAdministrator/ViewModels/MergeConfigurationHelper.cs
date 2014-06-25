@@ -202,6 +202,12 @@ namespace FireAdministrator.ViewModels
 				ZoneUIDs.Add(zone.BaseUID, uid);
 				zone.BaseUID = uid;
 			}
+			foreach (var zone in XDeviceConfiguration.GuardZones)
+			{
+				var uid = Guid.NewGuid();
+				GuardZoneUIDs.Add(zone.BaseUID, uid);
+				zone.BaseUID = uid;
+			}
 			foreach (var direction in XDeviceConfiguration.Directions)
 			{
 				var uid = Guid.NewGuid();
@@ -272,6 +278,22 @@ namespace FireAdministrator.ViewModels
 					PlenElementUIDs.Add(element.UID, uid);
 					element.UID = uid;
 				}
+				foreach (var element in plan.ElementRectangleXGuardZones)
+				{
+					if (element.ZoneUID != Guid.Empty)
+						element.ZoneUID = GuardZoneUIDs[element.ZoneUID];
+					var uid = Guid.NewGuid();
+					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
+				foreach (var element in plan.ElementPolygonXGuardZones)
+				{
+					if (element.ZoneUID != Guid.Empty)
+						element.ZoneUID = GuardZoneUIDs[element.ZoneUID];
+					var uid = Guid.NewGuid();
+					PlenElementUIDs.Add(element.UID, uid);
+					element.UID = uid;
+				}
 				foreach (var element in plan.ElementRectangleXDirections)
 				{
 					if (element.DirectionUID != Guid.Empty)
@@ -330,6 +352,7 @@ namespace FireAdministrator.ViewModels
 
 		Dictionary<Guid, Guid> DeviceUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> ZoneUIDs = new Dictionary<Guid, Guid>();
+		Dictionary<Guid, Guid> GuardZoneUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> DirectionUIDs = new Dictionary<Guid, Guid>();
 		Dictionary<Guid, Guid> PlenElementUIDs = new Dictionary<Guid, Guid>();
 	}

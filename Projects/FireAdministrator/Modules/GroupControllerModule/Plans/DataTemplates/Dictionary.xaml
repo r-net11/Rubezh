@@ -8,6 +8,10 @@
 		<Views:ZonePropertiesView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:GuardZonePropertiesViewModel}">
+		<Views:GuardZonePropertiesView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:DirectionPropertiesViewModel}">
 		<Views:DirectionPropertiesView />
 	</DataTemplate>

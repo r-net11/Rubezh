@@ -196,7 +196,7 @@ namespace Infrastructure.Designer
 			Remove(designerItem);
 			Refresh();
 		}
-		public void UpdateElement(ElementBase elementBase)
+		public DesignerItem UpdateElement(ElementBase elementBase)
 		{
 			var designerItem = GetDesignerItem(elementBase);
 			if (designerItem != null)
@@ -207,6 +207,7 @@ namespace Infrastructure.Designer
 			}
 			else
 				Logger.Error("DesignerCanvas Undo/Redo designerItem = null");
+			return designerItem;
 		}
 
 		public DesignerItem Create(ElementBase elementBase)

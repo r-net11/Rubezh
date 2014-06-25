@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 			TimeCreterias.Add(new IntervalTypeViewModel(IntervalType.Weekly));
 			//foreach (IntervalType item in Enum.GetValues(typeof(IntervalType)))
 			//{
-			//    TimeCreterias.Add(new IntervalTypeViewModel(item));
+			//	TimeCreterias.Add(new IntervalTypeViewModel(item));
 			//}
 			
 			if (CardDoors == null)

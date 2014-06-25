@@ -74,6 +74,7 @@
     </ApplicationDefinition>
     <Compile Include="ViewModels\CommonViewModel.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
+    <Compile Include="ViewModels\DoorItemViewModel.cs" />
     <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\JournalViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="ViewModels\TimeSheduleViewModel.cs" />
     <Compile Include="ViewModels\CardRecsViewModel.cs" />
     <Compile Include="ViewModels\CardRecViewModel.cs" />
+    <Compile Include="ViewModels\TimeSheduleItemViewModel.cs" />
     <Compile Include="Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>

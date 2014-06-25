@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
@@ -24,7 +25,7 @@ namespace AutomationModule.ViewModels
 
 			foreach (var scheduleProcedure in schedule.ScheduleProcedures)
 			{
-				var scheduleProcedureViewModel = new ScheduleProcedureViewModel(scheduleProcedure.ProcedureUid);
+				var scheduleProcedureViewModel = new ScheduleProcedureViewModel(scheduleProcedure);
 				ScheduleProcedures.Add(scheduleProcedureViewModel);
 			}
 			SelectedScheduleProcedure = ScheduleProcedures.FirstOrDefault();
@@ -268,7 +269,15 @@ namespace AutomationModule.ViewModels
 			{
 				if (procedureSelectionViewModel.SelectedProcedure != null)
 				{
-					var scheduleProcedureViewModel = new ScheduleProcedureViewModel(procedureSelectionViewModel.SelectedProcedure.Procedure.Uid);
+					var scheduleProcedure = new ScheduleProcedure();
+					scheduleProcedure.ProcedureUid = procedureSelectionViewModel.SelectedProcedure.Procedure.Uid;
+					scheduleProcedure.Arguments = new List<Argument>();
+					foreach (var variable in procedureSelectionViewModel.SelectedProcedure.Procedure.Arguments)
+					{
+						var argument = new Argument(variable);
+						scheduleProcedure.Arguments.Add(argument);
+					}
+					var scheduleProcedureViewModel = new ScheduleProcedureViewModel(scheduleProcedure);
 					ScheduleProcedures.Add(scheduleProcedureViewModel);
 					Schedule.ScheduleProcedures.Add(scheduleProcedureViewModel.ScheduleProcedure);
 					SelectedScheduleProcedure = scheduleProcedureViewModel;

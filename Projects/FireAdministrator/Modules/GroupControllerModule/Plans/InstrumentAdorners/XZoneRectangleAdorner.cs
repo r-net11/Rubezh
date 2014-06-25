@@ -11,19 +11,17 @@ namespace GKModule.Plans.InstrumentAdorners
 	public class XZoneRectangleAdorner : BaseRectangleAdorner
 	{
 		ZonesViewModel _zonesViewModel;
-		GuardZonesViewModel _guardZonesViewModel;
 
-		public XZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel, GuardZonesViewModel guardZonesViewModel)
+		public XZoneRectangleAdorner(CommonDesignerCanvas designerCanvas, ZonesViewModel zonesViewModel)
 			: base(designerCanvas)
 		{
 			_zonesViewModel = zonesViewModel;
-			_guardZonesViewModel = guardZonesViewModel;
 		}
 
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleXZone();
-			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel, _guardZonesViewModel);
+			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
 			Helper.SetXZone(element);

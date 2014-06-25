@@ -137,11 +137,11 @@ namespace SKDModule
 
 		private void OnCreateSKDZone(CreateSKDZoneEventArg createZoneEventArg)
 		{
-			//ZonesViewModel.CreateZone(createZoneEventArg);
+			ZonesViewModel.CreateZone(createZoneEventArg);
 		}
 		private void OnEditSKDZone(Guid zoneUID)
 		{
-			//ZonesViewModel.EditZone(zoneUID);
+			ZonesViewModel.EditZone(zoneUID);
 		}
 
 		#region ILayoutDeclarationModule Members

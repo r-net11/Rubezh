@@ -101,6 +101,7 @@
     <Compile Include="Procedures\Converters\ValueTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\Converters\VariableTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\CameraSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\CameraViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\DeviceSelectationViewModel.cs" />
@@ -125,6 +126,9 @@
     </Compile>
     <Compile Include="Procedures\Views\ProcedureDetailsView.xaml.cs">
       <DependentUpon>ProcedureDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\FilterSelectionView.xaml.cs">
+      <DependentUpon>FilterSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\ArithmeticStepView.xaml.cs">
       <DependentUpon>ArithmeticStepView.xaml</DependentUpon>
@@ -151,10 +155,14 @@
     <Compile Include="AutomationModule.cs" />
     <Compile Include="Schedules\ViewModels\ProcedureSelectionViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleDetailsViewModel.cs" />
+    <Compile Include="Schedules\ViewModels\ArgumentViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleProcedureViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulesMenuViewModel.cs" />
     <Compile Include="Schedules\ViewModels\SchedulesViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleViewModel.cs" />
+    <Compile Include="Schedules\Views\ArgumentsView.xaml.cs">
+      <DependentUpon>ArgumentsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Schedules\Views\ProcedureSelectionView.xaml.cs">
       <DependentUpon>ProcedureSelectionView.xaml</DependentUpon>
     </Compile>
@@ -291,6 +299,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Procedures\Views\FilterSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Procedures\Views\Steps\ArithmeticStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -320,6 +332,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Schedules\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Schedules\Views\ArgumentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

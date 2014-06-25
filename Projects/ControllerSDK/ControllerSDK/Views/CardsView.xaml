@@ -28,14 +28,6 @@
                 <TextBox Text="{Binding Password}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="DoorsCount" Width="200" Margin="2" />
-                <TextBox Text="{Binding DoorsCount}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="TimeSectionsCount" Width="200" Margin="2" />
-                <TextBox Text="{Binding TimeSectionsCount}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
                 <TextBlock Text="UserTime" Width="200" Margin="2" />
                 <TextBox Text="{Binding UserTime}" Width="250" Margin="2" />
             </StackPanel>
@@ -49,7 +41,37 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="CardType" Width="200" Margin="2" />
-                <ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="200" Margin="2" />
+                <ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="250" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Doors" Width="200" Margin="2" />
+                <ItemsControl ItemsSource="{Binding Doors}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding No}" Margin="5 1" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="TimeShedules" Width="200" Margin="2" />
+                <ItemsControl ItemsSource="{Binding TimeShedules}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding No}" Margin="5 1" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </StackPanel>
         </StackPanel>
         <DataGrid Grid.Row="1" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False">
@@ -58,8 +80,8 @@
                 <DataGridTextColumn Header="CardNo" Binding="{Binding Card.CardNo}" />
                 <DataGridTextColumn Header="CardType" Binding="{Binding Card.CardType}" />
                 <DataGridTextColumn Header="Password" Binding="{Binding Card.Password}" />
-                <DataGridTextColumn Header="DoorsCount" Binding="{Binding Card.DoorsCount}" />
-                <DataGridTextColumn Header="TimeSectionsCount" Binding="{Binding Card.TimeSectionsCount}" />
+                <DataGridTextColumn Header="Doors" Binding="{Binding Doors}" />
+                <DataGridTextColumn Header="TimeSections" Binding="{Binding TimeSections}" />
                 <DataGridTextColumn Header="UserTime" Binding="{Binding Card.UserTime}" />
                 <DataGridTextColumn Header="ValidStartDateTime" Binding="{Binding ValidStartDateTime}" />
                 <DataGridTextColumn Header="ValidEndDateTime" Binding="{Binding ValidEndDateTime}" />

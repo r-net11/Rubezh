@@ -53,12 +53,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var cardRec = new CardRec();
-			cardRec.DateTime = CreationDateTime;
-			cardRec.CardNo = CardNo;
-			cardRec.Password = Password;
-			cardRec.DoorNo = DoorNo;
-			cardRec.IsStatus = IsStatus;
+			var cardRec = GetModel();
 			cardRec.DoorOpenMethod = DoorOpenMethod;
 			var newCardNo = MainViewModel.Wrapper.AddCardRec(cardRec);
 			MessageBox.Show("newCardNo = " + newCardNo);
@@ -67,13 +62,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var cardRec = new CardRec();
-			cardRec.DateTime = CreationDateTime;
-			cardRec.CardNo = CardNo;
-			cardRec.Password = Password;
-			cardRec.DoorNo = DoorNo;
-			cardRec.IsStatus = IsStatus;
-			cardRec.DoorOpenMethod = DoorOpenMethod;
+			var cardRec = GetModel();
 			var result = MainViewModel.Wrapper.EditCardRec(cardRec);
 			MessageBox.Show("result = " + result);
 		}
@@ -81,11 +70,8 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (SelectedCard != null)
-			{
-				var result = MainViewModel.Wrapper.RemoveCardRec(SelectedCard.CardRec.RecordNo);
-				MessageBox.Show("result = " + result);
-			}
+			var result = MainViewModel.Wrapper.RemoveCardRec(Index);
+			MessageBox.Show("result = " + result);
 		}
 
 		public RelayCommand RemoveAllCommand { get; private set; }
@@ -121,6 +107,18 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		CardRec GetModel()
+		{
+			var cardRec = new CardRec();
+			cardRec.DateTime = CreationDateTime;
+			cardRec.CardNo = CardNo;
+			cardRec.Password = Password;
+			cardRec.DoorNo = DoorNo;
+			cardRec.IsStatus = IsStatus;
+			cardRec.DoorOpenMethod = DoorOpenMethod;
+			return cardRec;
+		}
+
 		public ObservableCollection<CardRecViewModel> Cards { get; private set; }
 
 		CardRecViewModel _selectedCard;
@@ -131,6 +129,17 @@ namespace ControllerSDK.ViewModels
 			{
 				_selectedCard = value;
 				OnPropertyChanged(() => SelectedCard);
+			}
+		}
+
+		int _index;
+		public int Index
+		{
+			get { return _index; }
+			set
+			{
+				_index = value;
+				OnPropertyChanged("Index");
 			}
 		}
 
@@ -185,7 +194,7 @@ namespace ControllerSDK.ViewModels
 			set
 			{
 				_isStatus = value;
-				OnPropertyChanged(() => SelectedCard);
+				OnPropertyChanged(() => IsStatus);
 			}
 		}
 
@@ -199,17 +208,6 @@ namespace ControllerSDK.ViewModels
 			{
 				_doorOpenMethod = value;
 				OnPropertyChanged(() => DoorOpenMethod);
-			}
-		}
-
-		int _index;
-		public int Index
-		{
-			get { return _index; }
-			set
-			{
-				_index = value;
-				OnPropertyChanged("Index");
 			}
 		}
 	}
