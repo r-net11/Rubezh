@@ -42,7 +42,7 @@ namespace SKDModule.ViewModels
 
 		void OnChanged()
 		{
-			OnPropertyChanged("PresentationAddress");
+			OnPropertyChanged("Address");
 			OnPropertyChanged("PresentationZone");
 			OnPropertyChanged("EditingPresentationZone");
 		}
@@ -60,6 +60,11 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => VisualizationState);
 		}
 
+		public string Address
+		{
+			get { return Device.Address; }
+		}
+
 		public string Name
 		{
 			get { return Device.Name; }
@@ -71,43 +76,45 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public string Address
-		{
-			get { return Device.Address; }
-			set
-			{
-				Device.Address = value;
-				OnPropertyChanged("Ip");
-				ServiceFactory.SaveService.SKDChanged = true;
-			}
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
 			var newDeviceViewModel = new NewDeviceViewModel(this);
-
+			var result = false;
 			if (newDeviceViewModel.Drivers.Count == 1)
 			{
 				newDeviceViewModel.SaveCommand.Execute();
-				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
-				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevice;
-				Plans.Designer.Helper.BuildMap();
-				ServiceFactory.SaveService.SKDChanged = true;
-				return;
+				result = true;
 			}
-			if (DialogService.ShowModalWindow(newDeviceViewModel))
+			else
 			{
-				DevicesViewModel.Current.AllDevices.Add(newDeviceViewModel.AddedDevice);
+				result = DialogService.ShowModalWindow(newDeviceViewModel);
+			}
+
+			if(result)
+			{
+				var deviceViewModel = new DeviceViewModel(newDeviceViewModel.AddedDevice);
+				AddChild(deviceViewModel);
+				DevicesViewModel.Current.AllDevices.Add(deviceViewModel);
+
+				foreach (var childDevice in newDeviceViewModel.AddedDevice.Children)
+				{
+					var childDeviceViewModel = new DeviceViewModel(childDevice);
+					deviceViewModel.AddChild(childDeviceViewModel);
+					DevicesViewModel.Current.AllDevices.Add(childDeviceViewModel);
+				}
+
+				Update();
 				Plans.Designer.Helper.BuildMap();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 		public bool CanAdd()
 		{
-			if (Driver.Children.Count > 0)
-				return true;
-			return false;
+			return Driver.DriverType == SKDDriverType.System;
+			//if (Driver.Children.Count > 0)
+			//    return true;
+			//return false;
 		}
 
 		public RelayCommand AddToParentCommand { get; private set; }
@@ -152,7 +159,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return !(Driver.IsAutoCreate || Parent == null);
+			return Driver.IsController;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

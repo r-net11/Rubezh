@@ -129,6 +129,12 @@ namespace FiresecAPI
 		OperationResult<bool> SKDSyncronyseTime(Guid deviceUID);
 
 		[OperationContract]
+		OperationResult<string> SKDGetPassword(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDSetPassword(Guid deviceUID, string password);
+
+		[OperationContract]
 		OperationResult<bool> SKDWriteConfiguration(Guid deviceUID);
 
 		[OperationContract]

@@ -211,7 +211,8 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x=>x.UID == deviceUID);
 			if(device != null)
 			{
-				return new OperationResult<string>() { Result = SKDProcessorManager.SKDGetDeviceInfo(device, UserName) };
+				//return new OperationResult<string>() { Result = SKDProcessorManager.SKDGetDeviceInfo(device, UserName) };
+				return new OperationResult<string>() { Result = ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID) };
 			}
 			return new OperationResult<string>("Устройство не найдено в конфигурации");
 		}
@@ -221,7 +222,28 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return new OperationResult<bool>() { Result = SKDProcessorManager.SKDSyncronyseTime(device, UserName) };
+				//return new OperationResult<bool>() { Result = SKDProcessorManager.SKDSyncronyseTime(device, UserName) };
+				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SyncronyseTime(deviceUID) };
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<string> SKDGetPassword(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return new OperationResult<string>() { Result = ChinaSKDDriver.Processor.GetPassword(deviceUID) };
+			}
+			return new OperationResult<string>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SKDSetPassword(Guid deviceUID, string password)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SetPassword(deviceUID, password) };
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}

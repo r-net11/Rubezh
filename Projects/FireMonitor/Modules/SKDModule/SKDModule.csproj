@@ -226,12 +226,8 @@
     <Compile Include="AdditionalColumns\Converters\AdditionalColumnTypeToStringConverter.cs" />
     <Compile Include="Cards\ViewModels\CardsViewModel.cs" />
     <Compile Include="Cards\ViewModels\CardViewModel.cs" />
-    <Compile Include="Cards\ViewModels\CardDetailsViewModel.cs" />
     <Compile Include="Cards\Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Cards\Views\CardDetailsView.xaml.cs">
-      <DependentUpon>CardDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\ViewModels\FilterBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\FilterOrganizationViewModel.cs" />
@@ -536,10 +532,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Cards\Views\CardsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Cards\Views\CardDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

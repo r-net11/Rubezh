@@ -7,11 +7,10 @@ namespace SKDModule.ViewModels
 {
 	public class NewDeviceViewModel : SaveCancelDialogViewModel
 	{
-		public NewDeviceViewModel(DeviceViewModel deviceViewModel)
+		public NewDeviceViewModel(DeviceViewModel parentDeviceViewModel)
 		{
 			Title = "Новое устройство";
-			ParentDeviceViewModel = deviceViewModel;
-			ParentDevice = ParentDeviceViewModel.Device;
+			ParentDevice = parentDeviceViewModel.Device;
 			Drivers = new ObservableCollection<SKDDriver>();
 
 			foreach (var driver in SKDManager.Drivers)
@@ -20,15 +19,14 @@ namespace SKDModule.ViewModels
 					Drivers.Add(driver);
 			}
 
-			var driverType = deviceViewModel.Driver.DriverType;
+			var driverType = parentDeviceViewModel.Driver.DriverType;
 			var parentShleif = ParentDevice;
 
 			SelectedDriver = Drivers.FirstOrDefault();
 		}
 
-		DeviceViewModel ParentDeviceViewModel;
 		SKDDevice ParentDevice;
-		public DeviceViewModel AddedDevice { get; protected set; }
+		public SKDDevice AddedDevice { get; protected set; }
 		public ObservableCollection<SKDDriver> Drivers { get; protected set; }
 
 		SKDDriver _selectedDriver;
@@ -40,20 +38,6 @@ namespace SKDModule.ViewModels
 				_selectedDriver = value;
 				OnPropertyChanged("SelectedDriver");
 				Name = value.ShortName;
-			}
-		}
-
-		string _address;
-		public string Address
-		{
-			get { return _address; }
-			set
-			{
-				if (_address != value)
-				{
-					_address = value;
-					OnPropertyChanged("Ip");
-				}
 			}
 		}
 
@@ -75,19 +59,30 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			var device = new SKDDevice()
+			AddedDevice = new SKDDevice()
 			{
 				Driver = SelectedDriver,
 				DriverUID = SelectedDriver.UID,
-				Address = Address,
 				Name = Name,
 				Parent = ParentDevice
 			};
-			SKDManager.Devices.Add(device);
-			AddedDevice = new DeviceViewModel(device);
-			ParentDeviceViewModel.Device.Children.Add(device);
-			ParentDeviceViewModel.AddChild(AddedDevice);
-			ParentDeviceViewModel.Update();
+
+			ParentDevice.Children.Add(AddedDevice);
+			for (int i = 0; i < SelectedDriver.ReadersCount; i++)
+			{
+				var driverType = SelectedDriver.Children.FirstOrDefault();
+				var childDriver = SKDManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
+				var childDevice = new SKDDevice()
+				{
+					Driver = childDriver,
+					DriverUID = childDriver.UID,
+					IntAddress = i,
+					Name = childDriver.Name + " " + (i + 1).ToString(),
+					Parent = AddedDevice
+				};
+				AddedDevice.Children.Add(childDevice);
+			}
+
 			SKDManager.SKDConfiguration.Update();
 			return true;
 		}

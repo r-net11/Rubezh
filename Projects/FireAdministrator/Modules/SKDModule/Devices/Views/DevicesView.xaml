@@ -84,14 +84,6 @@
 											<TextBlock Text="{Binding Address}" />
 										</ControlTemplate>
 									</Controls:EditorPresenter.ViewTemplate>
-									<Controls:EditorPresenter.EditTemplate>
-										<ControlTemplate>
-											<Grid>
-												<TextBox Foreground="Black" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Device.Driver.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
-												<TextBlock Text="{Binding Address}" Visibility="{Binding Device.Driver.CanEditAddress, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-											</Grid>
-										</ControlTemplate>
-									</Controls:EditorPresenter.EditTemplate>
 								</Controls:EditorPresenter>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>

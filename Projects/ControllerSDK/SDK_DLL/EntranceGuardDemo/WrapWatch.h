@@ -11,20 +11,9 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Disconnect(int loginID);
 
 typedef struct tag_WRAP_JournalItem
 {
+	int	ExtraEventType;
 	int	EventType;
 	NET_TIME DeviceDateTime;
-	NET_GPS_STATUS_INFO stGPSStatusInfo;
-	BYTE bEventAction;
-	char szInfo[128];
-	EM_TALKING_CALLER emCaller;
-	int	nChannelID;
-	int	nAction;
-	NET_SENSE_METHOD emSenseType;
-	int nBatteryLeft;
-	float fTemperature;
-	char szSensorName[DH_MACHINE_NAME_NUM];
-	EM_POWER_TYPE emPowerType;
-	EM_POWERFAULT_EVENT_TYPE emPowerFaultEvent;
 	int nDoor;
 	NET_ACCESS_CTL_EVENT_TYPE emEventType;
 	BOOL bStatus;
@@ -32,6 +21,7 @@ typedef struct tag_WRAP_JournalItem
 	NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
 	char szCardNo[DH_MAX_CARDNO_LEN];
 	char szPwd[DH_MAX_CARDPWD_LEN];
+	int	nAction;
 } WRAP_JournalItem;
 
 typedef struct tag_WRAP_WatchInfo

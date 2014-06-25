@@ -224,6 +224,10 @@
       <Project>{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007}</Project>
       <Name>SKDDriver</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ControllerSDK\ChilnaSKDDriver\ChinaSKDDriver.csproj">
+      <Project>{77C8D1E5-51B4-45F9-93DF-D114433771E2}</Project>
+      <Name>ChinaSKDDriver</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

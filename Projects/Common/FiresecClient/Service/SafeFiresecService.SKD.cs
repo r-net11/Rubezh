@@ -213,6 +213,16 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDSyncronyseTime(device.UID); }, "SKDSyncronyseTime");
 		}
 
+		public OperationResult<string> SKDGetPassword(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDGetPassword(deviceUID); }, "SKDGetPassword");
+		}
+
+		public OperationResult<bool> SKDSetPassword(Guid deviceUID, string password)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDSetPassword(deviceUID, password); }, "SKDSetPassword");
+		}
+
 		public OperationResult<bool> SKDWriteConfiguration(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDWriteConfiguration(device.UID); }, "SKDWriteConfiguration");

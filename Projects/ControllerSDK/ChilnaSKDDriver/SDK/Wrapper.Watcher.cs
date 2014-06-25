@@ -55,18 +55,6 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		const int DH_ALARM_VEHICLE_CONFIRM = 0x2169;
-		const int DH_ALARM_VEHICLE_LARGE_ANGLE = 0x2170;
-		const int DH_ALARM_TALKING_INVITE = 0x2171;
-		const int DH_ALARM_ALARM_EX2 = 0x2175;
-		const int DH_ALARM_ALARMEXTENDED = 0x3174;
-		const int DH_URGENCY_ALARM_EX = 0x210B;
-		const int DH_URGENCY_ALARM_EX2 = 0x3182;
-		const int DH_ALARM_BATTERYLOWPOWER = 0x2134;
-		const int DH_ALARM_TEMPERATURE = 0x2135;
-		const int DH_ALARM_POWERFAULT = 0x3172;
-		const int DH_ALARM_CHASSISINTRUDED = 0x3173;
-		const int DH_ALARM_INPUT_SOURCE_SIGNAL = 0x3183;
 		const int DH_ALARM_ACCESS_CTL_EVENT = 0x3181;
 		const int DH_ALARM_ACCESS_CTL_NOT_CLOSE = 0x3177;
 		const int DH_ALARM_ACCESS_CTL_BREAK_IN = 0x3178;
@@ -79,119 +67,60 @@ namespace ChinaSKDDriver
 			journalItem.SystemDateTime = DateTime.Now;
 			journalItem.DeviceDateTime = Wrapper.NET_TIMEToDateTime(wrapJournalItem.DeviceDateTime);
 
+			switch(wrapJournalItem.ExtraEventType)
+			{
+				case 1:
+					journalItem.Name = "Потеря связи";
+					journalItem.DeviceDateTime = DateTime.Now;
+					return journalItem;
+
+				case 2:
+					journalItem.Name = "Восстановление связи";
+					journalItem.DeviceDateTime = DateTime.Now;
+					return journalItem;
+			}
+
 			var name = "";
 			var description = "";
 			switch(wrapJournalItem.EventType)
 			{
-				case DH_ALARM_VEHICLE_CONFIRM:
-					name = "DH_ALARM_VEHICLE_CONFIRM";
-					var stGPSStatusInfo = wrapJournalItem.stGPSStatusInfo;
-					var bEventAction = wrapJournalItem.bEventAction;
-					var szInfo = CharArrayToString(wrapJournalItem.szInfo);
-						break;
-
-				case DH_ALARM_VEHICLE_LARGE_ANGLE:
-						name = "DH_ALARM_VEHICLE_LARGE_ANGLE";
-						stGPSStatusInfo = wrapJournalItem.stGPSStatusInfo;
-						bEventAction = wrapJournalItem.bEventAction;
-					break;
-			
-
-				case DH_ALARM_TALKING_INVITE:
-					name = "TalkingInvite";
-					var emCaller = wrapJournalItem.emCaller;
-					break;
-
-				case DH_ALARM_ALARM_EX2:
-						name = "LocalAlarm";
-						var nChannelID = wrapJournalItem.nChannelID;
-						var nAction = wrapJournalItem.nAction;
-						var emSenseType = wrapJournalItem.emSenseType;
-						break;
-
-				case DH_ALARM_ALARMEXTENDED:
-						name = "AlarmExtend";
-						nChannelID = wrapJournalItem.nChannelID;
-						nAction = wrapJournalItem.nAction;
-						break;
-
-				case DH_URGENCY_ALARM_EX:
-						name = "Urgency";
-						break;
-
-				case DH_URGENCY_ALARM_EX2:
-						name = "UrgencyEx2";
-						break;
-
-				case DH_ALARM_BATTERYLOWPOWER:
-						name = "BatteryLowPower";
-						nAction = wrapJournalItem.nAction;
-						var nBatteryLeft = wrapJournalItem.nBatteryLeft;
-						break;
-
-				case DH_ALARM_TEMPERATURE:
-						name = "Temperature";
-						var szSensorName = CharArrayToString(wrapJournalItem.szSensorName);
-						nChannelID = wrapJournalItem.nChannelID;
-						nAction = wrapJournalItem.nAction;
-						var fTemperature = wrapJournalItem.fTemperature;
-						break;
-
-				case DH_ALARM_POWERFAULT:
-						name = "PowerFault";
-						var emPowerType = wrapJournalItem.emPowerType;
-						var emPowerFaultEvent = wrapJournalItem.emPowerFaultEvent;
-						nAction = wrapJournalItem.nAction;
-						break;
-
-				case DH_ALARM_CHASSISINTRUDED:
-						name = "ChassisIntruded";
-						nAction = wrapJournalItem.nAction;
-						nChannelID = wrapJournalItem.nChannelID;
-						break;
-
-				case DH_ALARM_INPUT_SOURCE_SIGNAL:
-						name = "AlarmInputSourceSignal";
-						nAction = wrapJournalItem.nAction;
-						nChannelID = wrapJournalItem.nChannelID;
-						break;
-
 				case DH_ALARM_ACCESS_CTL_EVENT:
-						name = "Проход";
-						var nDoor = wrapJournalItem.nDoor;
-						var emEventType = wrapJournalItem.emEventType;
-						var bStatus = wrapJournalItem.bStatus;
-						var emCardType = wrapJournalItem.emCardType;
-						var emOpenMethod = wrapJournalItem.emOpenMethod;
-						var szCardNo = CharArrayToString(wrapJournalItem.szCardNo);
-						var szPwd = CharArrayToString(wrapJournalItem.szPwd);
-						break;
+					name = "Проход";
+					var doorNo = wrapJournalItem.nDoor;
+					var eventType = wrapJournalItem.emEventType;
+					var isStatus = wrapJournalItem.bStatus;
+					var cardType = wrapJournalItem.emCardType;
+					var doorOpenMethod = wrapJournalItem.emOpenMethod;
+					var cardNo = CharArrayToString(wrapJournalItem.szCardNo);
+					var password = CharArrayToString(wrapJournalItem.szPwd);
+					description = eventType.ToString() + " " + isStatus.ToString() + " " + cardType.ToString() + " " + doorOpenMethod + " " + cardNo + " " + password;
+					break;
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
-						name = "door not close";
-						nDoor = wrapJournalItem.nDoor;
-						nAction = wrapJournalItem.nAction;
-						break;
+					name = "Дверь не закрыта";
+					doorNo = wrapJournalItem.nDoor;
+					var action = wrapJournalItem.nAction;
+					break;
 
 				case DH_ALARM_ACCESS_CTL_BREAK_IN:
-						name = "break in";
-						nDoor = wrapJournalItem.nDoor;
-						break;
+					name = "Взлом";
+					doorNo = wrapJournalItem.nDoor;
+					break;
 
 				case DH_ALARM_ACCESS_CTL_REPEAT_ENTER:
-						name = "repeat enter";
-						nDoor = wrapJournalItem.nDoor;
-						break;
+					name = "Повторный проход";
+					doorNo = wrapJournalItem.nDoor;
+					break;
 
 				case DH_ALARM_ACCESS_CTL_DURESS:
-						name = "duress";
-						nDoor = wrapJournalItem.nDoor;
-						szCardNo = CharArrayToString(wrapJournalItem.szCardNo);
-						break;
+					name = "Принуждение";
+					doorNo = wrapJournalItem.nDoor;
+					cardNo = CharArrayToString(wrapJournalItem.szCardNo);
+					break;
 
 				default:
-						name = "Неизвестное событие";
-						break;
+					name = "Неизвестное событие";
+					break;
 			}
 			journalItem.Name = name;
 			journalItem.Description = description;

@@ -196,6 +196,11 @@
     <Compile Include="Models\Automation\ProcedureObjectType.cs" />
     <Compile Include="Models\Automation\ProcedureStep.cs" />
     <Compile Include="Models\Automation\ProcedureStepType.cs" />
+    <Compile Include="SKD\SKDManager\ChinaController_1_2Helper.cs" />
+    <Compile Include="SKD\SKDManager\ChinaController_2_2Helper.cs" />
+    <Compile Include="SKD\SKDManager\ChinaController_2_4Helper.cs" />
+    <Compile Include="SKD\SKDManager\ChinaController_4_4Helper.cs" />
+    <Compile Include="SKD\SKDManager\ControllerHelper.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
     <Compile Include="XModels\Guard\XGuardZoneAccess.cs" />
     <Compile Include="XModels\INamedBase.cs" />

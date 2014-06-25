@@ -17,55 +17,16 @@ namespace FiresecAPI.SKD
 				DriverType = SKDDriverType.System,
 				CanEditAddress = false,
 			};
-			systemDriver.Children.Add(SKDDriverType.Controller);
+			systemDriver.Children.Add(SKDDriverType.ChinaController_1_2);
+			systemDriver.Children.Add(SKDDriverType.ChinaController_2_2);
+			systemDriver.Children.Add(SKDDriverType.ChinaController_2_4);
+			systemDriver.Children.Add(SKDDriverType.ChinaController_4_4);
 			Drivers.Add(systemDriver);
 
-			var controllerDriver = new SKDDriver()
-			{
-				UID = new Guid("3D8FEF42-BAF6-422D-9A4A-E6EF0072896D"),
-				Name = "Контроллер",
-				ShortName = "Контроллер",
-				DriverType = SKDDriverType.Controller,
-				CanEditAddress = true,
-				IsControlDevice = true,
-				IsPlaceable = true
-			};
-			controllerDriver.Children.Add(SKDDriverType.Reader);
-			//controllerDriver.Children.Add(SKDDriverType.Gate);
-			controllerDriver.AvailableStateClasses.Add(XStateClass.Norm);
-			controllerDriver.AvailableStateClasses.Add(XStateClass.Failure);
-			controllerDriver.AvailableStateClasses.Add(XStateClass.Unknown);
-
-			var driverProperty = new XDriverProperty()
-			{
-				Name = "Port",
-				Caption = "Порт",
-				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-				Min = 10000,
-				Max = 20000,
-				Default = 10000
-			};
-			controllerDriver.Properties.Add(driverProperty);
-			
-			var loginProperty = new XDriverProperty()
-			{
-				Name = "Login",
-				Caption = "Логин",
-				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
-				StringDefault = ""
-			};
-			controllerDriver.Properties.Add(loginProperty);
-			
-			var passwordProperty = new XDriverProperty()
-			{
-				Name = "Password",
-				Caption = "Пароль",
-				DriverPropertyType = XDriverPropertyTypeEnum.StringType,
-				StringDefault = ""
-			};
-			controllerDriver.Properties.Add(passwordProperty);
-			
-			Drivers.Add(controllerDriver);
+			Drivers.Add(ChinaController_1_2Helper.Create());
+			Drivers.Add(ChinaController_2_2Helper.Create());
+			Drivers.Add(ChinaController_2_4Helper.Create());
+			Drivers.Add(ChinaController_4_4Helper.Create());
 
 			var readerDriver = new SKDDriver()
 			{

@@ -29,8 +29,11 @@ void CALLBACK WRAP_DisConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort,
 		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
 		if(watchInfo->LoginId == lLoginID)
 		{
-			watchInfo->LoginId = 0;
 			watchInfo->IsConnected = false;
+
+			watchInfo->JournalLastIndex++;
+			WRAP_JournalItem* journalItem = &watchInfo->WRAP_JournalItems[watchInfo->JournalLastIndex];
+			journalItem->ExtraEventType = 1;
 		}
 	}
 	return;
@@ -38,6 +41,19 @@ void CALLBACK WRAP_DisConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort,
 
 void CALLBACK WRAP_HaveReConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
 {
+	BOOL bRet = CLIENT_StartListenEx(lLoginID);
+	for(int i = 0; i < 1000; i++)
+	{
+		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
+		if(watchInfo->LoginId == lLoginID)
+		{
+			watchInfo->IsConnected = false;
+
+			watchInfo->JournalLastIndex++;
+			WRAP_JournalItem* journalItem = &watchInfo->WRAP_JournalItems[watchInfo->JournalLastIndex];
+			journalItem->ExtraEventType = 2;
+		}
+	}
     return;
 }
 
@@ -49,143 +65,51 @@ BOOL CALLBACK WRAP_MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWO
 		if(watchInfo->LoginId == loginID)
 		{
 			watchInfo->JournalLastIndex++;
-			WRAP_JournalItem journalItem = watchInfo->WRAP_JournalItems[watchInfo->JournalLastIndex];
-			watchInfo->WRAP_JournalItems[watchInfo->JournalLastIndex].EventType = lCommand;
+			WRAP_JournalItem* journalItem = &watchInfo->WRAP_JournalItems[watchInfo->JournalLastIndex];
+			journalItem->EventType = lCommand;
 
-			if (DH_ALARM_VEHICLE_CONFIRM == lCommand)
-			{
-				ALARM_VEHICEL_CONFIRM_INFO *pstAlarmInfo = (ALARM_VEHICEL_CONFIRM_INFO *)pBuf;
-				journalItem.stGPSStatusInfo = pstAlarmInfo->stGPSStatusInfo;
-				journalItem.bEventAction = pstAlarmInfo->bEventAction;
-				strcpy(journalItem.szInfo, pstAlarmInfo->szInfo);
-			}
-			else if (DH_ALARM_VEHICLE_LARGE_ANGLE == lCommand)
-			{
-				ALARM_VEHICEL_LARGE_ANGLE *pstAlarmInfo = (ALARM_VEHICEL_LARGE_ANGLE *)pBuf;
-				journalItem.stGPSStatusInfo = pstAlarmInfo->stGPSStatusInfo;
-				journalItem.bEventAction = pstAlarmInfo->bEventAction;
-			}
-			//////////////////////////////////////////////////////////////////////////
-			// TalkingInvite
-			else if (DH_ALARM_TALKING_INVITE == lCommand)
-			{
-				ALARM_TALKING_INVITE_INFO* pstuAlarmInfo = (ALARM_TALKING_INVITE_INFO*)pBuf;
-				journalItem.emCaller = pstuAlarmInfo->emCaller;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
-			}
-			// LocalAlarm
-			else if (DH_ALARM_ALARM_EX2 == lCommand)
-			{
-				ALARM_ALARM_INFO_EX2* pstuAlarmInfo = (ALARM_ALARM_INFO_EX2*)pBuf;
-				journalItem.nChannelID = pstuAlarmInfo->nChannelID;
-				journalItem.nAction = pstuAlarmInfo->nAction;
-				journalItem.emSenseType = pstuAlarmInfo->emSenseType;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
-			}
-			// AlarmExtend
-			else if (DH_ALARM_ALARMEXTENDED == lCommand)
-			{
-				ALARM_ALARMEXTENDED_INFO* pstuAlarmInfo = (ALARM_ALARMEXTENDED_INFO*)pBuf;
-				journalItem.nChannelID = pstuAlarmInfo->nChannelID;
-				journalItem.nAction = pstuAlarmInfo->nAction;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
-			}
-			// Urgency
-			else if (DH_URGENCY_ALARM_EX == lCommand)
-			{
-			}
-			// UrgencyEx2
-			else if (DH_URGENCY_ALARM_EX2 == lCommand)
-			{
-				ALARM_URGENCY_ALARM_EX2* pstuAlarmInfo = (ALARM_URGENCY_ALARM_EX2*)pBuf;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
-			}
-			// BatteryLowPower
-			else if (DH_ALARM_BATTERYLOWPOWER == lCommand)
-			{
-				ALARM_BATTERYLOWPOWER_INFO* pstuAlarmInfo = (ALARM_BATTERYLOWPOWER_INFO*)pBuf;
-				journalItem.nAction = pstuAlarmInfo->nAction;
-				journalItem.nBatteryLeft = pstuAlarmInfo->nBatteryLeft;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stTime;
-			}
-			// Temperature
-			else if (DH_ALARM_TEMPERATURE == lCommand)
-			{
-				ALARM_TEMPERATURE_INFO* pstuAlarmInfo = (ALARM_TEMPERATURE_INFO*)pBuf;
-				strcpy(journalItem.szSensorName, pstuAlarmInfo->szSensorName);
-				journalItem.nChannelID = pstuAlarmInfo->nChannelID;
-				journalItem.nAction = pstuAlarmInfo->nAction;
-				journalItem.fTemperature = pstuAlarmInfo->fTemperature;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stTime;
-			}
-			// PowerFault
-			else if (DH_ALARM_POWERFAULT == lCommand)
-			{
-				ALARM_POWERFAULT_INFO* pstuAlarmInfo = (ALARM_POWERFAULT_INFO*)pBuf;
-				journalItem.emPowerType = pstuAlarmInfo->emPowerType;
-				journalItem.emPowerFaultEvent = pstuAlarmInfo->emPowerFaultEvent;
-				journalItem.nAction = pstuAlarmInfo->nAction;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
-			}
-			// ChassisIntruded
-			else if (DH_ALARM_CHASSISINTRUDED == lCommand)
-			{
-				ALARM_CHASSISINTRUDED_INFO* pstuAlarmInfo = (ALARM_CHASSISINTRUDED_INFO*)pBuf;
-				journalItem.nAction = pstuAlarmInfo->nAction;
-				journalItem.nChannelID = pstuAlarmInfo->nChannelID;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
-			}
-			// AlarmInputSourceSignal
-			else if (DH_ALARM_INPUT_SOURCE_SIGNAL == lCommand)
-			{
-				ALARM_INPUT_SOURCE_SIGNAL_INFO* pstuAlarmInfo = (ALARM_INPUT_SOURCE_SIGNAL_INFO*)pBuf;
-				journalItem.nAction = pstuAlarmInfo->nAction;
-				journalItem.nChannelID = pstuAlarmInfo->nChannelID;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
-			}
-			//////////////////////////////////////////////////////////////////////////
 			// access event
-			else if (DH_ALARM_ACCESS_CTL_EVENT == lCommand)
+			if (DH_ALARM_ACCESS_CTL_EVENT == lCommand)
 			{
 				ALARM_ACCESS_CTL_EVENT_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_EVENT_INFO*)pBuf;
-				journalItem.nDoor = pstuAlarmInfo->nDoor;
-				journalItem.emEventType = pstuAlarmInfo->emEventType;
-				journalItem.bStatus = pstuAlarmInfo->bStatus;
-				journalItem.emCardType = pstuAlarmInfo->emCardType;
-				journalItem.emOpenMethod = pstuAlarmInfo->emOpenMethod;
-				strcpy(journalItem.szCardNo, pstuAlarmInfo->szCardNo);
-				strcpy(journalItem.szPwd, pstuAlarmInfo->szPwd);
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
+				journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
+				journalItem->nDoor = pstuAlarmInfo->nDoor;
+				journalItem->emEventType = pstuAlarmInfo->emEventType;
+				journalItem->bStatus = pstuAlarmInfo->bStatus;
+				journalItem->emCardType = pstuAlarmInfo->emCardType;
+				journalItem->emOpenMethod = pstuAlarmInfo->emOpenMethod;
+				strcpy(journalItem->szCardNo, pstuAlarmInfo->szCardNo);
+				strcpy(journalItem->szPwd, pstuAlarmInfo->szPwd);
 			}
 			// door not close
 			else if (DH_ALARM_ACCESS_CTL_NOT_CLOSE == lCommand)
 			{
 				ALARM_ACCESS_CTL_NOT_CLOSE_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_NOT_CLOSE_INFO*)pBuf;
-				journalItem.nDoor = pstuAlarmInfo->nDoor;
-				journalItem.nAction = pstuAlarmInfo->nAction;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
+				journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
+				journalItem->nDoor = pstuAlarmInfo->nDoor;
+				journalItem->nAction = pstuAlarmInfo->nAction;
 			}
 			// break in
 			else if (DH_ALARM_ACCESS_CTL_BREAK_IN == lCommand)
 			{
 				ALARM_ACCESS_CTL_BREAK_IN_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_BREAK_IN_INFO*)pBuf;
-				journalItem.nDoor = pstuAlarmInfo->nDoor;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
+				journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
+				journalItem->nDoor = pstuAlarmInfo->nDoor;
 			}
 			// repeat enter
 			else if (DH_ALARM_ACCESS_CTL_REPEAT_ENTER == lCommand)
 			{
 				ALARM_ACCESS_CTL_REPEAT_ENTER_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_REPEAT_ENTER_INFO*)pBuf;
-				journalItem.nDoor = pstuAlarmInfo->nDoor;
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
+				journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
+				journalItem->nDoor = pstuAlarmInfo->nDoor;
 			}
 			// duress
 			else if (DH_ALARM_ACCESS_CTL_DURESS == lCommand)
 			{
 				ALARM_ACCESS_CTL_DURESS_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_DURESS_INFO*)pBuf;
-				journalItem.nDoor = pstuAlarmInfo->nDoor;
-				strcpy(journalItem.szCardNo, pstuAlarmInfo->szCardNo);
-				journalItem.DeviceDateTime = pstuAlarmInfo->stuTime;
+				journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
+				journalItem->nDoor = pstuAlarmInfo->nDoor;
+				strcpy(journalItem->szCardNo, pstuAlarmInfo->szCardNo);
 			}
 		}
 	}
@@ -274,24 +198,18 @@ BOOL CALL_METHOD WRAP_GetJournalItem(int loginID, int index, WRAP_JournalItem* r
 		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
 		if(watchInfo->LoginId == loginID)
 		{
-			result->EventType = watchInfo->WRAP_JournalItems[index].EventType;
-			result->DeviceDateTime = watchInfo->WRAP_JournalItems[index].DeviceDateTime;
-			result->emCaller = watchInfo->WRAP_JournalItems[index].emCaller;
-			result->nChannelID = watchInfo->WRAP_JournalItems[index].nChannelID;
-			result->nAction = watchInfo->WRAP_JournalItems[index].nAction;
-			result->emSenseType = watchInfo->WRAP_JournalItems[index].emSenseType;
-			result->nBatteryLeft = watchInfo->WRAP_JournalItems[index].nBatteryLeft;
-			result->fTemperature = watchInfo->WRAP_JournalItems[index].fTemperature;
-			strcpy(result->szSensorName, watchInfo->WRAP_JournalItems[index].szSensorName);
-			result->emPowerType = watchInfo->WRAP_JournalItems[index].emPowerType;
-			result->emPowerFaultEvent = watchInfo->WRAP_JournalItems[index].emPowerFaultEvent;
-			result->nDoor = watchInfo->WRAP_JournalItems[index].nDoor;
-			result->emEventType = watchInfo->WRAP_JournalItems[index].emEventType;
-			result->bStatus = watchInfo->WRAP_JournalItems[index].bStatus;
-			result->emCardType = watchInfo->WRAP_JournalItems[index].emCardType;
-			result->emOpenMethod = watchInfo->WRAP_JournalItems[index].emOpenMethod;
-			strcpy(result->szCardNo, watchInfo->WRAP_JournalItems[index].szCardNo);
-			strcpy(result->szPwd, watchInfo->WRAP_JournalItems[index].szPwd);
+			WRAP_JournalItem journalItem = watchInfo->WRAP_JournalItems[index];
+			result->ExtraEventType = journalItem.ExtraEventType;
+			result->EventType = journalItem.EventType;
+			result->DeviceDateTime = journalItem.DeviceDateTime;
+			result->nDoor = journalItem.nDoor;
+			result->emEventType = journalItem.emEventType;
+			result->bStatus = journalItem.bStatus;
+			result->emCardType = journalItem.emCardType;
+			result->emOpenMethod = journalItem.emOpenMethod;
+			strcpy(result->szCardNo, journalItem.szCardNo);
+			strcpy(result->szPwd, journalItem.szPwd);
+			result->nAction = journalItem.nAction;
 			return TRUE;
 		}
 	}

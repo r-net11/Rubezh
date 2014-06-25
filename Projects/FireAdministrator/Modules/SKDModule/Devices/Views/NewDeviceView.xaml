@@ -40,10 +40,6 @@
 			</ListView.View>
 		</ListView>
 		<StackPanel Grid.Row="1" Margin="2">
-			<StackPanel Grid.Row="0" Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" Margin="2">
-				<Label Content="Адрес" Width="100" HorizontalContentAlignment="Right" Margin="5 0" />
-				<TextBox Text="{Binding Address}" Width="200" HorizontalAlignment="Left" />
-			</StackPanel>
 			<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
 				<Label Content="Название" Width="100" HorizontalContentAlignment="Right" Margin="5 0" />
 				<TextBox Text="{Binding Name}" Width="200" HorizontalAlignment="Left" />
