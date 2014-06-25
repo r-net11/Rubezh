@@ -64,7 +64,6 @@ namespace FiresecAPI.SKD
 					//MessageBoxService.Show("Ошибка при сопоставлении драйвера устройств ГК");
 				}
 			}
-			SKDConfiguration.Reorder();
 
 			Invalidate();
 		}

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
@@ -29,6 +30,17 @@ namespace SKDModule.ViewModels
 			{
 				foreach (var driverProperty in Device.Driver.Properties)
 				{
+					var property = Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+					if (property == null)
+					{
+						property = new XProperty();
+						property.DriverProperty = driverProperty;
+						property.Name = driverProperty.Name;
+						property.Value = driverProperty.Default;
+						property.StringValue = driverProperty.StringDefault;
+						Device.Properties.Add(property);
+					}
+
 					if (driverProperty.CanNotEdit)
 						continue;
 

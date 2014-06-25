@@ -42,6 +42,9 @@ namespace FiresecAPI.SKD
 		public byte MinAddress { get; set; }
 		public byte MaxAddress { get; set; }
 
+		public int DoorsCount { get; set; }
+		public int ReadersCount { get; set; }
+
 		public bool HasZone { get; set; }
 		public bool IsControlDevice { get; set; }
 		public bool IsPlaceable { get; set; }

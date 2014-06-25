@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
@@ -26,7 +27,6 @@ namespace FiresecAPI.SKD
 		public SKDDevice Parent { get; set; }
 		public SKDDeviceState State { get; set; }
 		public SKDZone Zone { get; set; }
-		public int IntAddress { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -35,7 +35,7 @@ namespace FiresecAPI.SKD
 		public Guid DriverUID { get; set; }
 
 		[DataMember]
-		public string Address { get; set; }
+		public int IntAddress { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -60,6 +60,37 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid CameraUID { get; set; }
+
+		public string Address
+		{
+			get
+			{
+				switch(DriverType)
+				{
+					case SKDDriverType.System:
+					case SKDDriverType.Controller:
+						case SKDDriverType.Gate:
+						return "";
+
+					case SKDDriverType.ChinaController_1_2:
+					case SKDDriverType.ChinaController_2_2:
+					case SKDDriverType.ChinaController_2_4:
+					case SKDDriverType.ChinaController_4_4:
+						var property = Properties.FirstOrDefault(x => x.Name == "Address");
+						if (property != null)
+						{
+							return property.StringValue;
+						}
+						return "";
+
+					case SKDDriverType.Reader:
+						return (IntAddress+1).ToString();
+
+					default:
+						return "";
+				}
+			}
+		}
 
 		public bool IsRealDevice
 		{
