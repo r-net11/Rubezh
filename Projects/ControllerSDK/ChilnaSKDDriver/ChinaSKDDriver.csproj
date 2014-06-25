@@ -51,6 +51,8 @@
     <Compile Include="API\SKDJournalItem.cs" />
     <Compile Include="API\TimeInterval.cs" />
     <Compile Include="API\TimeShedule.cs" />
+    <Compile Include="DeviceProcessor.cs" />
+    <Compile Include="Processor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SDK\Wrapper.CardRecs.cs" />
     <Compile Include="SDK\Wrapper.Carsds.cs" />
@@ -61,6 +63,12 @@
     <Compile Include="SDK\Wrapper.TimeShedules.cs" />
     <Compile Include="SDK\Wrapper.Watcher.cs" />
     <Compile Include="SDK\Wrapper.Control.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

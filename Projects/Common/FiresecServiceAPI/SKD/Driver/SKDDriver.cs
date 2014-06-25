@@ -49,6 +49,23 @@ namespace FiresecAPI.SKD
 		public bool IsControlDevice { get; set; }
 		public bool IsPlaceable { get; set; }
 
+		public bool IsController
+		{
+			get
+			{
+				switch(DriverType)
+				{
+					case SKDDriverType.Controller:
+					case SKDDriverType.ChinaController_1_2:
+					case SKDDriverType.ChinaController_2_2:
+					case SKDDriverType.ChinaController_2_4:
+					case SKDDriverType.ChinaController_4_4:
+						return true;
+				}
+				return false;
+			}
+		}
+
 		public string ImageSource
 		{
 			get { return "/Controls;component/SKDIcons/" + this.DriverType.ToString() + ".png"; }

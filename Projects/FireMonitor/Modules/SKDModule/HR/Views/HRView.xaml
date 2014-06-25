@@ -57,8 +57,6 @@
 			</Grid>
 			<Grid Visibility="{Binding IsCardsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel Orientation="Horizontal" DataContext="{Binding CardsViewModel}">
-					<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-					<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
 				</StackPanel>
 			</Grid>
 			<Grid Visibility="{Binding IsAccessTemplatesSelected, Converter={StaticResource BoolToVisibilityConverter}}">

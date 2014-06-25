@@ -23,6 +23,7 @@ namespace SKDModule.ViewModels
 			WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
+			ShowPasswordCommand = new RelayCommand(OnShowPassword, CanShowPassword);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 			WriteAllIdentifiersCommand = new RelayCommand(OnWriteAllIdentifiers, CanWriteAllIdentifiers);
 		}
@@ -40,7 +41,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowInfo()
 		{
-			return SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
@@ -58,7 +59,18 @@ namespace SKDModule.ViewModels
 		}
 		bool CanSynchroniseTime()
 		{
-			return SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+		}
+
+		public RelayCommand ShowPasswordCommand { get; private set; }
+		void OnShowPassword()
+		{
+			var passwordViewModel = new PasswordViewModel(SelectedDevice.Device);
+			DialogService.ShowModalWindow(passwordViewModel);
+		}
+		bool CanShowPassword()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}
 
 		public RelayCommand WriteConfigCommand { get; private set; }

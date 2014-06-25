@@ -14,6 +14,25 @@ namespace FiresecService
 			try
 			{
 				var configuration = ZipConfigurationHelper.GetSKDConfiguration();
+				SKDManager.SKDConfiguration = configuration;
+				if (SKDManager.SKDConfiguration != null)
+				{
+					SKDManager.CreateDrivers();
+					SKDManager.UpdateConfiguration();
+				}
+				ChinaSKDDriver.Processor.Run(configuration);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "SKDProcessor.Create");
+			}
+		}
+
+		public static void OLD_Create()
+		{
+			try
+			{
+				var configuration = ZipConfigurationHelper.GetSKDConfiguration();
 				if(configuration.Zones == null)
 					configuration.Zones = new List<SKDZone>();
 				SKDManager.SKDConfiguration = configuration;

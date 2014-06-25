@@ -14,8 +14,6 @@ namespace SKDModule.ViewModels
 
 		public CardsViewModel()
 		{
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			Filter = new CardFilter();
 		}
 
@@ -39,7 +37,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_cards = value;
-				OnPropertyChanged("Cards");
+				OnPropertyChanged(() => Cards);
 			}
 		}
 
@@ -50,40 +48,8 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedCard = value;
-				OnPropertyChanged("SelectedCard");
+				OnPropertyChanged(() => SelectedCard);
 			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var cardDetailsViewModel = new CardDetailsViewModel();
-			if (DialogService.ShowModalWindow(cardDetailsViewModel))
-			{
-				foreach (var card in cardDetailsViewModel.Cards)
-				{
-					var cardViewModel = new CardViewModel(card);
-					Cards.Add(cardViewModel);
-				}
-			}
-		}
-
-		public RelayCommand RemoveCommand { get; private set; }
-		void OnRemove()
-		{
-			var card = SelectedCard.Card;
-			var removeResult = CardHelper.MarkDeleted(card);
-			if (removeResult == false)
-				return;
-			var index = Cards.IndexOf(SelectedCard);
-			Cards.Remove(SelectedCard);
-			index = Math.Min(index, Cards.Count - 1);
-			if (index > -1)
-				SelectedCard = Cards[index];
-		}
-		bool CanRemove()
-		{
-			return SelectedCard != null && SelectedCard.Card.IsInStopList;
 		}
 	}
 }

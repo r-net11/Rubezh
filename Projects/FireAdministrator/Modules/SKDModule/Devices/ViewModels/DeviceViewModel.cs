@@ -159,11 +159,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanRemove()
 		{
-			return Driver.DriverType == SKDDriverType.Controller ||
-				Driver.DriverType == SKDDriverType.ChinaController_1_2 ||
-				Driver.DriverType == SKDDriverType.ChinaController_2_2 ||
-				Driver.DriverType == SKDDriverType.ChinaController_2_4 ||
-				Driver.DriverType == SKDDriverType.ChinaController_4_4;
+			return Driver.IsController;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

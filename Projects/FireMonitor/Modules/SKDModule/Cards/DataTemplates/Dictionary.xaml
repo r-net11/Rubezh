@@ -3,8 +3,4 @@
 					xmlns:Views="clr-namespace:SKDModule.Views"
 					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels">
 
-	<DataTemplate DataType="{x:Type ViewModels:CardDetailsViewModel}">
-		<Views:CardDetailsView />
-	</DataTemplate>
-
 </ResourceDictionary>
