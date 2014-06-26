@@ -206,15 +206,15 @@ namespace FiresecService.Service
 			return new OperationResult<SKDStates>() { Result = SKDProcessorManager.SKDGetStates() };
 		}
 
-		public OperationResult<string> SKDGetDeviceInfo(Guid deviceUID)
+		public OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x=>x.UID == deviceUID);
 			if(device != null)
 			{
 				//return new OperationResult<string>() { Result = SKDProcessorManager.SKDGetDeviceInfo(device, UserName) };
-				return new OperationResult<string>() { Result = ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID) };
+				return new OperationResult<SKDDeviceInfo>() { Result = ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID) };
 			}
-			return new OperationResult<string>("Устройство не найдено в конфигурации");
+			return new OperationResult<SKDDeviceInfo>("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDSyncronyseTime(Guid deviceUID)

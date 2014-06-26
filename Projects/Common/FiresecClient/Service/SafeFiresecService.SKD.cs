@@ -203,7 +203,7 @@ namespace FiresecClient
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetStates(); }, "SKDGetStates");
 		}
-		public OperationResult<string> SKDGetDeviceInfo(SKDDevice device)
+		public OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetDeviceInfo(device.UID); }, "SKDGetDeviceInfo");
 		}

@@ -123,7 +123,7 @@ namespace FiresecAPI
 		OperationResult<SKDStates> SKDGetStates();
 
 		[OperationContract]
-		OperationResult<string> SKDGetDeviceInfo(Guid deviceUID);
+		OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<bool> SKDSyncronyseTime(Guid deviceUID);

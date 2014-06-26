@@ -26,16 +26,29 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		public static string GetdeviceInfo(Guid deviceUID)
+		public static SKDDeviceInfo GetdeviceInfo(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
+				SKDDeviceInfo deviceInfo = new SKDDeviceInfo();
 				var deviceSoftwareInfo = deviceProcessor.Wrapper.GetDeviceSoftwareInfo();
 				if (deviceSoftwareInfo != null)
 				{
-					return deviceSoftwareInfo.DeviceType + "\n" + deviceSoftwareInfo.SoftwareBuildDate.ToString() + "\n" + deviceSoftwareInfo.SoftwareVersion;
+					deviceInfo.DeviceType = deviceSoftwareInfo.DeviceType;
+					deviceInfo.SoftwareBuildDate = deviceSoftwareInfo.SoftwareBuildDate;
+					deviceInfo.SoftwareVersion = deviceSoftwareInfo.SoftwareVersion;
 				}
+				var deviceNetInfo = deviceProcessor.Wrapper.GetDeviceNetInfo();
+				if (deviceNetInfo != null)
+				{
+					deviceInfo.IP = deviceNetInfo.IP;
+					deviceInfo.SubnetMask = deviceNetInfo.SubnetMask;
+					deviceInfo.DefaultGateway = deviceNetInfo.DefaultGateway;
+					deviceInfo.MTU = deviceNetInfo.MTU;
+				}
+				deviceInfo.CurrentDateTime = deviceProcessor.Wrapper.GetDateTime();
+				return deviceInfo;
 			}
 			return null;
 		}
@@ -52,12 +65,22 @@ namespace ChinaSKDDriver
 
 		public static string GetPassword(Guid deviceUID)
 		{
-			return "123";
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				return deviceProcessor.Wrapper.GetProjectPassword();
+			}
+			return null;
 		}
 
 		public static bool SetPassword(Guid deviceUID, string password)
 		{
-			return true;
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				return deviceProcessor.Wrapper.SetProjectPassword(password);
+			}
+			return false;
 		}
 	}
 }

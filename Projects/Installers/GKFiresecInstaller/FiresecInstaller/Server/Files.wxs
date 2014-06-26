@@ -53,6 +53,19 @@
         <File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
       </Component>
 
+      <Component Id="Server.ChinaSKD" Guid="CF260D60-A5C0-4fda-83F2-4F6F8BDF72C6">
+        <File Id="Server.avnetsdk.dll" Name="avnetsdk.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
+        <File Id="Server.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.dhnetsdk.dll" Name="dhnetsdk.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.Infra.dll" Name="Infra.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.json.dll" Name="json.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.NetFramework.dll" Name="NetFramework.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.Stream.dll" Name="Stream.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.EntranceGuardDemo.dll" Name="EntranceGuardDemo.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.ChinaSKDDriver.dll" Name="ChinaSKDDriver.dll" Source="$(var.Server.TargetDir)" />
+      </Component>
+
     </DirectoryRef>
 
     <DirectoryRef Id="AppData.ServerLocation">

@@ -5,6 +5,8 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
+using FiresecClient;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -16,6 +18,8 @@ namespace SKDModule.ViewModels
 		{
 			Device = device;
 			Title = "Изменение пароля контроллера";
+			GetPasswordCommand = new RelayCommand(OnGetPassword);
+			SetPasswordCommand = new RelayCommand(OnSetPassword);
 		}
 
 		string _password;
@@ -32,13 +36,27 @@ namespace SKDModule.ViewModels
 		public RelayCommand GetPasswordCommand { get; private set; }
 		void OnGetPassword()
 		{
-
+			var result = FiresecManager.FiresecService.SKDGetPassword(Device.UID);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error);
+				return;
+			}
+			else
+			{
+				Password = result.Result;
+			}
 		}
 
 		public RelayCommand SetPasswordCommand { get; private set; }
 		void OnSetPassword()
 		{
-
+			var result = FiresecManager.FiresecService.SKDSetPassword(Device.UID, Password);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error);
+				return;
+			}
 		}
 	}
 }
