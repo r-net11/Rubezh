@@ -21,11 +21,30 @@ namespace FiresecService
 					SKDManager.UpdateConfiguration();
 				}
 				ChinaSKDDriver.Processor.Run(configuration);
+				foreach (var deviceProcessor in ChinaSKDDriver.Processor.DeviceProcessors)
+				{
+					deviceProcessor.Wrapper.NewJournalItem += new Action<ChinaSKDDriverAPI.SKDJournalItem>(Wrapper_NewJournalItem);
+				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "SKDProcessor.Create");
 			}
+		}
+
+		static void Wrapper_NewJournalItem(ChinaSKDDriverAPI.SKDJournalItem skdJournalItem)
+		{
+			var skdCallbackResult = new SKDCallbackResult();
+			var journalItem = new JournalItem();
+			journalItem.SystemDateTime = skdJournalItem.SystemDateTime;
+			journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
+			journalItem.NameText = skdJournalItem.Name;
+			journalItem.DescriptionText = skdJournalItem.Description;
+			skdCallbackResult.JournalItems.Add(journalItem);
+
+			SKDDBHelper.Add(journalItem);
+
+			FiresecService.Service.FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
 		}
 
 		public static void OLD_Create()

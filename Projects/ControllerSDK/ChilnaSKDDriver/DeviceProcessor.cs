@@ -24,7 +24,7 @@ namespace ChinaSKDDriver
 		{
 			Thread = new Thread(OnRun);
 			Thread.Start();
-			//Connect();
+			Wrapper.StartWatcher();
 		}
 
 		void OnRun()
