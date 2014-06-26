@@ -123,12 +123,15 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DoorsEnterExit')
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardDoor')
 	BEGIN
-		ALTER TABLE CardDoor DROP COLUMN IntervalUID
-		ALTER TABLE CardDoor DROP COLUMN IntervalType
-		ALTER TABLE CardDoor ADD [EnterIntervalUID] uniqueidentifier NULL
-		ALTER TABLE CardDoor ADD [EnterIntervalType] int NULL
-		ALTER TABLE CardDoor ADD [ExitIntervalUID] uniqueidentifier NULL
-		ALTER TABLE CardDoor ADD [ExitIntervalType] int NULL
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'IntervalUID' and table_name = 'CardDoor')
+		BEGIN
+			ALTER TABLE CardDoor DROP COLUMN IntervalUID
+			ALTER TABLE CardDoor DROP COLUMN IntervalType
+			ALTER TABLE CardDoor ADD [EnterIntervalUID] uniqueidentifier NULL
+			ALTER TABLE CardDoor ADD [EnterIntervalType] int NULL
+			ALTER TABLE CardDoor ADD [ExitIntervalUID] uniqueidentifier NULL
+			ALTER TABLE CardDoor ADD [ExitIntervalType] int NULL
+		END
 	END
 	INSERT INTO Patches (Id) VALUES ('DoorsEnterExit')	
 END

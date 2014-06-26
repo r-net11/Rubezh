@@ -143,18 +143,18 @@ namespace SKDModule.ViewModels
 				var employees = EmployeeHelper.Get(_employeeFilter);
 				var random = new Random();
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>(
-				employees.Select(item =>
-					new TimeTrackViewModel(
-						new TimeTrack()
-						{
-							DepartmentName = item.DepartmentName,
-							EmployeeUID = item.UID,
-							FirstName = item.FirstName,
-							LastName = item.LastName,
-							PositionName = item.PositionName,
-							SecondName = item.SecondName,
-							Hours = Enumerable.Repeat<double>(random.Next(5, 12), TotalDays).ToList(),
-						})));
+					employees.Select(item =>
+						new TimeTrackViewModel(
+							new TimeTrack()
+							{
+								DepartmentName = item.DepartmentName,
+								EmployeeUID = item.UID,
+								FirstName = item.FirstName,
+								LastName = item.LastName,
+								PositionName = item.PositionName,
+								SecondName = item.SecondName,
+								Hours = Enumerable.Repeat<double>(random.Next(5, 12), TotalDays).ToList(),
+							})));
 			}
 		}
 	}
