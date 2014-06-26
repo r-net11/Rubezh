@@ -169,7 +169,9 @@
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\Automation\Condition.cs" />
     <Compile Include="Models\Automation\ConditionType.cs" />
+    <Compile Include="Models\Automation\FindObjectCondition.cs" />
     <Compile Include="Models\Automation\JoinOperator.cs" />
+    <Compile Include="Models\Automation\ProcedureObject.cs" />
     <Compile Include="Models\Automation\StepArguments\ConditionArguments.cs" />
     <Compile Include="Models\Automation\DayOfWeekType.cs" />
     <Compile Include="Models\Automation\GlobalVariable.cs" />
@@ -178,6 +180,7 @@
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
     <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\FindObjectArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
     <Compile Include="Models\Automation\ValueType.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
@@ -193,7 +196,6 @@
     <Compile Include="Models\Automation\AutomationConfiguration.cs" />
     <Compile Include="Models\Automation\AutomationSound.cs" />
     <Compile Include="Models\Automation\Procedure.cs" />
-    <Compile Include="Models\Automation\ProcedureObjectType.cs" />
     <Compile Include="Models\Automation\ProcedureStep.cs" />
     <Compile Include="Models\Automation\ProcedureStepType.cs" />
     <Compile Include="SKD\SKDManager\ChinaController_1_2Helper.cs" />

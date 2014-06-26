@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
+using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -137,5 +139,7 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged("VariableType");
 			}
 		}
+
+		public List<Device> Devices { get; private set; }
 	}
 }

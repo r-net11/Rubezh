@@ -1,15 +1,16 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Data;
-using FiresecAPI;
 using FiresecAPI.Automation;
 
 namespace AutomationModule.Converters
 {
-	public class ObjectTypeToStringConverter : IValueConverter
+	class ObjectTypeToVisibilityConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return ((ProcedureObjectType)value).ToDescription();
+			var valueType = (ObjectType)parameter;
+			return (ObjectType)value == valueType ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

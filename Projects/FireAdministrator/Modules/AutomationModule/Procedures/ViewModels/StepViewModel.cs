@@ -33,6 +33,10 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.SendMessage:
 					Content = new JournalStepViewModel(step);
 					break;
+
+				case ProcedureStepType.FindObjects:
+					Content = new FindObjectStepViewModel(step.FindObjectArguments, procedure);
+					break;
 			}
 		}
 

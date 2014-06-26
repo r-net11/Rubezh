@@ -9,6 +9,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate JournalTemplate { get; set; }
 		public DataTemplate ArithmeticTemplate { get; set; }
 		public DataTemplate ConditionTemplate { get; set; }
+		public DataTemplate FindObjectTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -28,6 +29,11 @@ namespace AutomationModule.ViewModels
 			{
 				return ConditionTemplate;
 			}
+			if (item is FindObjectStepViewModel)
+			{
+				return FindObjectTemplate;
+			}
+			
 			return null;
 		}
 	}
