@@ -11,12 +11,11 @@
 				<MenuItem.Header>
 					<Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
 				</MenuItem.Header>
-				<IconedMenuItem Command="{Binding WriteConfigCommand}" ImageSource="/Controls;component/Images/BParametersWrite.png" Text="Записать конфигурацию" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding ShowInfoCommand}" ImageSource="/Controls;component/Images/BInformation.png" Text="Информация об устройстве" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" ImageSource="/Controls;component/Images/BWatch.png" Text="Синхронизация времени" TotalHeight="32" />
                 <IconedMenuItem Command="{Binding ShowPasswordCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Задание пароля" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding WriteAllIdentifiersCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Запись всех идентификаторов" TotalHeight="32" />
-			</MenuItem>
+                <IconedMenuItem Command="{Binding WriteTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersWrite.png" Text="Записать конфигурацию графиков работ" TotalHeight="32" />
+            </MenuItem>
 		</Menu>
 	</StackPanel>
 </UserControl>

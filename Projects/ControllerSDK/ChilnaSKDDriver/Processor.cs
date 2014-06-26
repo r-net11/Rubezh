@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.SKD;
+using ChinaSKDDriverAPI;
 
 namespace ChinaSKDDriver
 {
@@ -79,6 +80,52 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				return deviceProcessor.Wrapper.SetProjectPassword(password);
+			}
+			return false;
+		}
+
+		public static bool SKDWriteTimeSheduleConfiguration(Guid deviceUID)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				for (int i = 0; i < SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.Count; i++)
+				{
+					var weeklyInterval = SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals[i];
+					var timeShedules = new List<TimeShedule>();
+					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
+					{
+						if (!weeklyIntervalPart.IsHolliday)
+						{
+							var timeShedule = new TimeShedule();
+							var timeInterval = SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == weeklyIntervalPart.TimeIntervalUID);
+							if (timeInterval != null)
+							{
+								foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)
+								{
+									var timeSheduleInterval = new TimeSheduleInterval();
+									timeSheduleInterval.BeginHours = timeIntervalPart.StartTime.Hour;
+									timeSheduleInterval.BeginMinutes = timeIntervalPart.StartTime.Minute;
+									timeSheduleInterval.BeginSeconds = timeIntervalPart.StartTime.Second;
+									timeSheduleInterval.EndHours = timeIntervalPart.EndTime.Hour;
+									timeSheduleInterval.EndMinutes = timeIntervalPart.EndTime.Minute;
+									timeSheduleInterval.EndSeconds = timeIntervalPart.EndTime.Second;
+									timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
+								}
+								for (int j = timeShedule.TimeSheduleIntervals.Count; j < 4; j++)
+								{
+									var timeSheduleInterval = new TimeSheduleInterval();
+									timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
+								}
+							}
+							timeShedules.Add(timeShedule);
+						}
+					}
+					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
+					if (!result)
+						return false;
+				}
+				return true;
 			}
 			return false;
 		}

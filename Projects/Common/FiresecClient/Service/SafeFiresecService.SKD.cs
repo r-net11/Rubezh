@@ -223,19 +223,14 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDSetPassword(deviceUID, password); }, "SKDSetPassword");
 		}
 
-		public OperationResult<bool> SKDWriteConfiguration(SKDDevice device)
+		public OperationResult<bool> SKDWriteTimeSheduleConfiguration(SKDDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDWriteConfiguration(device.UID); }, "SKDWriteConfiguration");
+			return SafeOperationCall(() => { return FiresecService.SKDWriteTimeSheduleConfiguration(device.UID); }, "SKDWriteTimeSheduleConfiguration");
 		}
 
 		public OperationResult<bool> SKDUpdateFirmware(SKDDevice device, string fileName)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDUpdateFirmware(device.UID, fileName); }, "SKDUpdateFirmware");
-		}
-
-		public OperationResult<bool> SKDWriteAllIdentifiers(SKDDevice device)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDWriteAllIdentifiers(device.UID); }, "SKDWriteAllIdentifiers");
 		}
 
 		public OperationResult<bool> SKDSetRegimeOpen(SKDDevice device)

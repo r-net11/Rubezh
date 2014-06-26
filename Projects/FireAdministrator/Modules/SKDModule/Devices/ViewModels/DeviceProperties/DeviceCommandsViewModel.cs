@@ -19,12 +19,10 @@ namespace SKDModule.ViewModels
 		public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
 		{
 			DevicesViewModel = devicesViewModel;
-
-			WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ShowPasswordCommand = new RelayCommand(OnShowPassword, CanShowPassword);
-			WriteAllIdentifiersCommand = new RelayCommand(OnWriteAllIdentifiers, CanWriteAllIdentifiers);
+			WriteTimeSheduleConfigurationCommand = new RelayCommand(OnWriteTimeSheduleConfiguration, CanWriteTimeSheduleConfiguration);
 		}
 
 		public DeviceViewModel SelectedDevice
@@ -87,14 +85,14 @@ namespace SKDModule.ViewModels
 			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}
 
-		public RelayCommand WriteConfigCommand { get; private set; }
-		void OnWriteConfig()
+		public RelayCommand WriteTimeSheduleConfigurationCommand { get; private set; }
+		void OnWriteTimeSheduleConfiguration()
 		{
-			if (CheckNeedSave(true))
+			//if (CheckNeedSave(true))
 			{
-				if (ValidateConfiguration())
+				//if (ValidateConfiguration())
 				{
-					var result = FiresecManager.FiresecService.SKDWriteConfiguration(SelectedDevice.Device);
+					var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(SelectedDevice.Device);
 					if (result.HasError)
 					{
 						MessageBoxService.ShowError(result.Error);
@@ -103,25 +101,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool CanWriteConfig()
+		bool CanWriteTimeSheduleConfiguration()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
-				SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
-		}
-
-		public RelayCommand WriteAllIdentifiersCommand { get; private set; }
-		void OnWriteAllIdentifiers()
-		{
-			if (SelectedDevice.Device.DriverType == SKDDriverType.Controller)
-			{
-				var result = FiresecManager.FiresecService.SKDWriteAllIdentifiers(SelectedDevice.Device);
-				if (result.HasError)
-					MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
-			}
-		}
-		bool CanWriteAllIdentifiers()
-		{
-			return SelectedDevice != null && SelectedDevice.Driver.DriverType == SKDDriverType.Controller;
+				SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}
 
 		bool ValidateConfiguration()

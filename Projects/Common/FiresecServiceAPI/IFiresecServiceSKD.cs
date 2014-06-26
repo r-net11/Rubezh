@@ -135,13 +135,10 @@ namespace FiresecAPI
 		OperationResult<bool> SKDSetPassword(Guid deviceUID, string password);
 
 		[OperationContract]
-		OperationResult<bool> SKDWriteConfiguration(Guid deviceUID);
+		OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName);
-
-		[OperationContract]
-		OperationResult<bool> SKDWriteAllIdentifiers(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<bool> SKDSetRegimeOpen(Guid deviceUID);

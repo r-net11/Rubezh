@@ -105,16 +105,6 @@ namespace SKDDriver
 			return result;
 		}
 
-		public static OperationResult<bool> SKDWriteAllIdentifiers(SKDDevice device, string userName)
-		{
-			AddMessage(EventNameEnum.Запись_всех_идентификаторов, device, userName, true);
-			OperationResult<bool> result;
-			Stop();
-			result = AdministratorHelper.WriteAllIdentifiers(device);
-			Start();
-			return result;
-		}
-
 		public static void AddMessage(EventNameEnum name, SKDDevice device, string userName, bool isAdministrator = false)
 		{
 			AddMessage(name, EventDescription.Нет, device, userName, isAdministrator);

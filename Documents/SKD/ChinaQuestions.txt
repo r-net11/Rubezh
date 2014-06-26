@@ -264,3 +264,22 @@ Or I don't understand the meaning of NET_RECORDSET_ACCESS_CTL_CARD structire aga
 
 
 - JianJun, don't forget to answer
+
+
+//*****************************************************
+
+- Can I update firmware with SDK?
+
+
+- Can I run two SDK exaples on one computer and connect to the same Controller?
+
+
+- Imagine I have two controllers
+So I have to call CLIENT_Login twice
+But to I need to call
+CLIENT_Init
+CLIENT_SetAutoReconnect
+CLIENT_SetDVRMessCallBack
+and
+CLIENT_Cleanup
+I gues I don't. Right?
