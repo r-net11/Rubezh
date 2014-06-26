@@ -12,6 +12,7 @@ namespace GKModule.Plans
 	{
 		List<XState> DeviceStates;
 		List<XState> ZoneStates;
+		List<XState> GuardZoneStates;
 		List<XState> DirectionStates;
 
 		public PlanMonitor(Plan plan, Action callBack)
@@ -19,6 +20,7 @@ namespace GKModule.Plans
 		{
 			DeviceStates = new List<XState>();
 			ZoneStates = new List<XState>();
+			GuardZoneStates = new List<XState>();
 			DirectionStates = new List<XState>();
 			Initialize();
 		}
@@ -27,6 +29,8 @@ namespace GKModule.Plans
 			Plan.ElementXDevices.ForEach(item => Initialize(item));
 			Plan.ElementRectangleXZones.ForEach(item => Initialize(item));
 			Plan.ElementPolygonXZones.ForEach(item => Initialize(item));
+			Plan.ElementRectangleXGuardZones.ForEach(item => InitializeGuard(item));
+			Plan.ElementPolygonXGuardZones.ForEach(item => InitializeGuard(item));
 			Plan.ElementRectangleXDirections.ForEach(item => Initialize(item));
 			Plan.ElementPolygonXDirections.ForEach(item => Initialize(item));
 		}
@@ -44,6 +48,18 @@ namespace GKModule.Plans
 			if (element.ZoneUID != Guid.Empty)
 			{
 				var zone = Helper.GetXZone(element);
+				if (zone != null)
+				{
+					ZoneStates.Add(zone.State);
+					zone.State.StateChanged += CallBack;
+				}
+			}
+		}
+		private void InitializeGuard(IElementZone element)
+		{
+			if (element.ZoneUID != Guid.Empty)
+			{
+				var zone = Helper.GetXGuardZone(element);
 				if (zone != null)
 				{
 					ZoneStates.Add(zone.State);
@@ -81,6 +97,11 @@ namespace GKModule.Plans
 			{
 				if (zoneState.StateClass < result)
 					result = zoneState.StateClass;
+			}
+			foreach (var guardZoneState in GuardZoneStates)
+			{
+				if (guardZoneState.StateClass < result)
+					result = guardZoneState.StateClass;
 			}
 			foreach (var directionState in DirectionStates)
 			{

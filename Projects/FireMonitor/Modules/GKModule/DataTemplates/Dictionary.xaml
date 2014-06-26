@@ -120,4 +120,8 @@
 		<Views:ZoneToolTipView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:GuardZoneTooltipViewModel}">
+		<Views:GuardZoneToolTipView />
+	</DataTemplate>
+
 </ResourceDictionary>

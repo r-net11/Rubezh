@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,27 +15,23 @@ namespace SKDModule.Plans.Designer
 	{
 		static Dictionary<Guid, SKDDevice> _deviceMap;
 		static Dictionary<Guid, SKDZone> _zoneMap;
+		static Dictionary<Guid, Door> _doorMap;
 
 		public static void BuildMap()
 		{
-			_deviceMap = new Dictionary<Guid, SKDDevice>();
-			foreach (var device in SKDManager.Devices)
-			{
-				if (!_deviceMap.ContainsKey(device.UID))
-					_deviceMap.Add(device.UID, device);
-			}
-
-			_zoneMap = new Dictionary<Guid, SKDZone>();
-			foreach (var zone in SKDManager.Zones)
-			{
-				if (!_zoneMap.ContainsKey(zone.UID))
-					_zoneMap.Add(zone.UID, zone);
-			}
+			_deviceMap = SKDManager.Devices.GroupBy(item => item.UID).ToDictionary(group => group.Key, group => group.First());
+			_zoneMap = SKDManager.Zones.GroupBy(item => item.UID).ToDictionary(group => group.Key, group => group.First());
+			_doorMap = SKDManager.SKDConfiguration.Doors.GroupBy(item => item.UID).ToDictionary(group => group.Key, group => group.First());
 		}
 
 		public static SKDDevice GetSKDDevice(ElementSKDDevice element)
 		{
 			return element.DeviceUID != Guid.Empty && _deviceMap.ContainsKey(element.DeviceUID) ? _deviceMap[element.DeviceUID] : null;
+		}
+
+		public static Door GetDoor(ElementDoor element)
+		{
+			return element.DoorUID != Guid.Empty && _doorMap.ContainsKey(element.DoorUID) ? _doorMap[element.DoorUID] : null;
 		}
 
 		public static SKDZone GetSKDZone(IElementZone element)

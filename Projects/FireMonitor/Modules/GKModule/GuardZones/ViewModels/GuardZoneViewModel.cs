@@ -40,14 +40,13 @@ namespace GKModule.ViewModels
 		}
 		
 		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
+		public void OnShowOnPlan()
 		{
-			//ShowOnPlanHelper.ShowGuardZone(Zone);
+			ShowOnPlanHelper.ShowGuardZone(Zone);
 		}
 		public bool CanShowOnPlan()
 		{
-			//return ShowOnPlanHelper.CanShowGuardZone(Zone);
-			return true;
+			return ShowOnPlanHelper.CanShowGuardZone(Zone);
 		}
 
 

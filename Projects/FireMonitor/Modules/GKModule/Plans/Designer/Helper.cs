@@ -14,6 +14,7 @@ namespace GKModule.Plans.Designer
 	internal static class Helper
 	{
 		static Dictionary<Guid, XZone> _xzoneMap;
+		static Dictionary<Guid, XGuardZone> _xguardZoneMap;
 		static Dictionary<Guid, XDevice> _xdeviceMap;
 		static Dictionary<Guid, XDirection> _xdirectionMap;
 		public static void BuildMap()
@@ -23,6 +24,13 @@ namespace GKModule.Plans.Designer
 			{
 				if (!_xzoneMap.ContainsKey(zone.BaseUID))
 					_xzoneMap.Add(zone.BaseUID, zone);
+			}
+
+			_xguardZoneMap = new Dictionary<Guid, XGuardZone>();
+			foreach (var zone in XManager.DeviceConfiguration.GuardZones)
+			{
+				if (!_xguardZoneMap.ContainsKey(zone.BaseUID))
+					_xguardZoneMap.Add(zone.BaseUID, zone);
 			}
 
 			_xdeviceMap = new Dictionary<Guid, XDevice>();
@@ -47,6 +55,15 @@ namespace GKModule.Plans.Designer
 		public static XZone GetXZone(Guid xzoneUID)
 		{
 			return xzoneUID != Guid.Empty && _xzoneMap.ContainsKey(xzoneUID) ? _xzoneMap[xzoneUID] : null;
+		}
+
+		public static XGuardZone GetXGuardZone(IElementZone element)
+		{
+			return GetXGuardZone(element.ZoneUID);
+		}
+		public static XGuardZone GetXGuardZone(Guid xguardZoneUID)
+		{
+			return xguardZoneUID != Guid.Empty && _xguardZoneMap.ContainsKey(xguardZoneUID) ? _xguardZoneMap[xguardZoneUID] : null;
 		}
 
 		public static XDevice GetXDevice(ElementXDevice element)

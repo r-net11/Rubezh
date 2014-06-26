@@ -24,6 +24,7 @@ namespace SKDModule.Plans
 		{
 			ServiceFactory.Events.GetEvent<ShowSKDDeviceOnPlanEvent>().Subscribe(OnShowSKDDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Subscribe(OnShowSKDZoneOnPlan);
+			ServiceFactory.Events.GetEvent<ShowDoorOnPlanEvent>().Subscribe(OnShowDoorOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			_monitors = new Dictionary<Plan, PlanMonitor>();
@@ -49,6 +50,8 @@ namespace SKDModule.Plans
 		{
 			foreach (var element in plan.ElementSKDDevices.Where(x => x.DeviceUID != Guid.Empty))
 				yield return element;
+			foreach (var element in plan.ElementDoors.Where(x => x.DoorUID != Guid.Empty))
+				yield return element;
 			foreach (var element in plan.ElementRectangleSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
 			foreach (var element in plan.ElementPolygonSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
@@ -59,6 +62,8 @@ namespace SKDModule.Plans
 		{
 			if (presenterItem.Element is ElementSKDDevice)
 				presenterItem.OverridePainter(new SKDDevicePainter(presenterItem));
+			else if (presenterItem.Element is ElementDoor)
+				presenterItem.OverridePainter(new DoorPainter(presenterItem));
 			else if (presenterItem.Element is ElementPolygonSKDZone || presenterItem.Element is ElementRectangleSKDZone)
 				presenterItem.OverridePainter(new SKDZonePainter(presenterItem));
 		}
@@ -88,6 +93,16 @@ namespace SKDModule.Plans
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementSKDDevices)
 					if (element.DeviceUID == device.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+		}
+		private void OnShowDoorOnPlan(Door door)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementDoors)
+					if (element.DoorUID == door.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;

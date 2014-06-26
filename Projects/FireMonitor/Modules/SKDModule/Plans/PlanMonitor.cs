@@ -26,6 +26,7 @@ namespace SKDModule.Plans
 			Plan.ElementSKDDevices.ForEach(item => Initialize(item));
 			Plan.ElementRectangleSKDZones.ForEach(item => Initialize(item));
 			Plan.ElementPolygonSKDZones.ForEach(item => Initialize(item));
+			Plan.ElementDoors.ForEach(item => Initialize(item));
 		}
 		private void Initialize(ElementSKDDevice element)
 		{
@@ -34,6 +35,15 @@ namespace SKDModule.Plans
 			{
 				DeviceStates.Add(device.State);
 				device.State.StateChanged += CallBack;
+			}
+		}
+		private void Initialize(ElementDoor element)
+		{
+			var door = Helper.GetDoor(element);
+			if (door != null)
+			{
+				//DoorStates.Add(door.State);
+				//door.State.StateChanged += CallBack;
 			}
 		}
 		private void Initialize(IElementZone element)
@@ -63,6 +73,7 @@ namespace SKDModule.Plans
 				if (zoneState.StateClass < result)
 					result = zoneState.StateClass;
 			}
+			// DoorStates
 			return result;
 		}
 	}

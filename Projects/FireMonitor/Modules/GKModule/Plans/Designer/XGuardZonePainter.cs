@@ -3,38 +3,37 @@ using System.Windows.Input;
 using System.Windows.Media;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using SKDModule.Events;
-using SKDModule.ViewModels;
 
-namespace SKDModule.Plans.Designer
+namespace GKModule.Plans.Designer
 {
-	class SKDZonePainter : PolygonZonePainter, IPainter
+	class XGuardZonePainter : PolygonZonePainter, IPainter
 	{
 		private PresenterItem _presenterItem;
-		private SKDZone _zone;
-		private ZoneViewModel _zoneViewModel;
+		private XGuardZone GuardZone;
+		private GuardZoneViewModel GuardZoneViewModel;
 		private ContextMenu _contextMenu;
-		private SKDZoneTooltipViewModel _tooltip;
+		private GuardZoneTooltipViewModel _tooltip;
 
-		public SKDZonePainter(PresenterItem presenterItem)
+		public XGuardZonePainter(PresenterItem presenterItem)
 			: base(presenterItem.DesignerCanvas, presenterItem.Element)
 		{
 			_contextMenu = null;
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			_zone = Helper.GetSKDZone((IElementZone)_presenterItem.Element);
-			if (_zone != null)
+			GuardZone = Helper.GetXGuardZone((IElementZone)_presenterItem.Element);
+			if (GuardZone != null)
 			{
-				_zoneViewModel = new ViewModels.ZoneViewModel(_zone);
-				_zone.State.StateChanged += OnPropertyChanged;
+				GuardZoneViewModel = new ViewModels.GuardZoneViewModel(GuardZone);
+				GuardZone.State.StateChanged += OnPropertyChanged;
 			}
 			_presenterItem.Cursor = Cursors.Hand;
 			_presenterItem.ClickEvent += (s, e) => ShowProperties();
@@ -52,11 +51,13 @@ namespace SKDModule.Plans.Designer
 		}
 		private void UpdateTooltip()
 		{
-			if (_zone == null)
-				return;
-
-			if (_tooltip == null)
-				_tooltip = new SKDZoneTooltipViewModel(_zone);
+			if (GuardZone != null)
+			{
+				if (_tooltip == null)
+				{
+					_tooltip = new GuardZoneTooltipViewModel(GuardZone);
+				}
+			}
 		}
 
 		#region IPainter Members
@@ -72,7 +73,7 @@ namespace SKDModule.Plans.Designer
 
 		public Color GetStateColor()
 		{
-			switch (_zone.State.StateClass)
+			switch (GuardZone.State.StateClass)
 			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:
@@ -92,7 +93,7 @@ namespace SKDModule.Plans.Designer
 					return Colors.Yellow;
 
 				case XStateClass.Norm:
-					return Colors.Green;
+					return Colors.Brown;
 
 				default:
 					return Colors.White;
@@ -102,23 +103,23 @@ namespace SKDModule.Plans.Designer
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		private void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(_zone.UID);
+			ServiceFactory.Events.GetEvent<ShowXGuardZoneEvent>().Publish(GuardZone.BaseUID);
 		}
 		private bool CanShowInTree()
 		{
-			return _zone != null;
+			return GuardZone != null;
 		}
 
 		void ShowProperties()
 		{
-			DialogService.ShowWindow(new ZoneDetailsViewModel(_zone));
+			DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
 		}
 
 		private ContextMenu CreateContextMenu()
 		{
 			if (_contextMenu == null)
 			{
-				if (_zone != null)
+				if (GuardZone != null)
 				{
 					ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
 
@@ -130,15 +131,14 @@ namespace SKDModule.Plans.Designer
 					));
 
 					_contextMenu.Items.Add(Helper.BuildMenuItem(
-						"Команда",
-						"pack://application:,,,/Controls;component/Images/BTurnOff.png",
-						_zoneViewModel.ZoneCommand
+						"Показать связанные события",
+						"pack://application:,,,/Controls;component/Images/BJournal.png",
+						GuardZoneViewModel.ShowJournalCommand
 					));
-
 					_contextMenu.Items.Add(Helper.BuildMenuItem(
 						"Свойства",
 						"pack://application:,,,/Controls;component/Images/BSettings.png",
-						_zoneViewModel.ShowPropertiesCommand
+						GuardZoneViewModel.ShowPropertiesCommand
 					));
 				}
 			}

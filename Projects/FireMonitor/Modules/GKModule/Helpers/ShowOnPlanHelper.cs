@@ -51,6 +51,22 @@ namespace GKModule
 			return false;
 		}
 
+		public static void ShowGuardZone(XGuardZone zone)
+		{
+			ServiceFactory.Events.GetEvent<ShowXGuardZoneOnPlanEvent>().Publish(zone);
+		}
+		public static bool CanShowGuardZone(XGuardZone zone)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				if (plan.ElementPolygonXGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.BaseUID)))
+					return true;
+				if (plan.ElementRectangleXGuardZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.BaseUID)))
+					return true;
+			}
+			return false;
+		}
+
 		public static void ShowDirection(XDirection direction)
 		{
 			ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Publish(direction);

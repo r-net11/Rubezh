@@ -83,6 +83,7 @@
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
       <DependentUpon>CardNumberView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\ShowDoorOnPlanEvent.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />
@@ -310,13 +311,18 @@
     <Compile Include="Journal\Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plans\Designer\DoorPainter.cs" />
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\SKDDevicePainter.cs" />
     <Compile Include="Plans\Designer\SKDZonePainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
+    <Compile Include="Plans\ViewModels\DoorTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDDeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
+    <Compile Include="Plans\Views\DoorTooltipView.xaml.cs">
+      <DependentUpon>DoorTooltipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\Views\SKDDeviceTooltipView.xaml.cs">
       <DependentUpon>SKDDeviceTooltipView.xaml</DependentUpon>
     </Compile>
@@ -616,6 +622,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Journal\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\DoorTooltipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
