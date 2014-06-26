@@ -5,9 +5,9 @@ typedef struct
 {
 	char szDevType[DH_DEV_TYPE_LEN];
 	char szSoftWareVersion[DH_MAX_URL_LEN];
-	DWORD dwSoftwareBuildDate_1;
-	DWORD dwSoftwareBuildDate_2;
-	DWORD dwSoftwareBuildDate_3;
+	DWORD dwSoftwareBuildDate_Year;
+	DWORD dwSoftwareBuildDate_Month;
+	DWORD dwSoftwareBuildDate_Day;
 } WRAP_DevConfig_TypeAndSoftInfo_Result;
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetSoftwareInfo(int loginID, WRAP_DevConfig_TypeAndSoftInfo_Result* result);

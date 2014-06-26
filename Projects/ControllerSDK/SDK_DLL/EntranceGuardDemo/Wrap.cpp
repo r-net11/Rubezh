@@ -21,9 +21,9 @@ BOOL CALL_METHOD WRAP_GetSoftwareInfo(int loginID, WRAP_DevConfig_TypeAndSoftInf
 	{
 		strncpy(result->szDevType, stuInfo.szDevType, sizeof(stuInfo.szDevType));
 		strncpy(result->szSoftWareVersion, stuInfo.szSoftWareVersion, sizeof(stuInfo.szSoftWareVersion));
-		result->dwSoftwareBuildDate_1 = (stuInfo.dwSoftwareBuildDate>>16) & 0xffff;
-		result->dwSoftwareBuildDate_2 = (stuInfo.dwSoftwareBuildDate>>8) & 0xff;
-		result->dwSoftwareBuildDate_3 = stuInfo.dwSoftwareBuildDate & 0xff;
+		result->dwSoftwareBuildDate_Year = (stuInfo.dwSoftwareBuildDate>>16) & 0xffff;
+		result->dwSoftwareBuildDate_Month = (stuInfo.dwSoftwareBuildDate>>8) & 0xff;
+		result->dwSoftwareBuildDate_Day = stuInfo.dwSoftwareBuildDate & 0xff;
 	}
 	return bRet;
 }

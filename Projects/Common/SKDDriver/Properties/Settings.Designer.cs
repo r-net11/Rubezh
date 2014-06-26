@@ -26,7 +26,7 @@ namespace SKDDriver.Properties {
 		[global::System.Configuration.ApplicationScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-		[global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;Initial Catalog=SKUD;Integrated Security=True")]
+		[global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True")]
 		public string SKUDConnectionString {
 			get {
 				return ((string)(this["SKUDConnectionString"]));

@@ -147,28 +147,10 @@ namespace FiresecAPI
 		OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName);
 
 		[OperationContract]
-		OperationResult<bool> SKDSetRegimeOpen(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDSetRegimeClose(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDSetRegimeControl(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDSetRegimeConversation(Guid deviceUID);
-
-		[OperationContract]
 		OperationResult<bool> SKDOpenDevice(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<bool> SKDCloseDevice(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDAllowReader(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDDenyReader(Guid deviceUID);
 
 		[OperationContract]
 		void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter);

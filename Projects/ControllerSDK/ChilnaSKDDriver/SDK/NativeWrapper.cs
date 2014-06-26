@@ -136,9 +136,9 @@ namespace ChinaSKDDriverNativeApi
 			public char[] szDevType;
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
 			public char[] szSoftWareVersion;
-			public Int32 dwSoftwareBuildDate_1;
-			public Int32 dwSoftwareBuildDate_2;
-			public Int32 dwSoftwareBuildDate_3;
+			public Int32 dwSoftwareBuildDate_Year;
+			public Int32 dwSoftwareBuildDate_Month;
+			public Int32 dwSoftwareBuildDate_Day;
 		}
 
 		[DllImport(@"EntranceGuardDemo.dll")]

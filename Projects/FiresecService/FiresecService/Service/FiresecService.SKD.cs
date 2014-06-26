@@ -211,7 +211,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x=>x.UID == deviceUID);
 			if(device != null)
 			{
-				//return new OperationResult<string>() { Result = SKDProcessorManager.SKDGetDeviceInfo(device, UserName) };
+				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Запрос_информации_об_устройстве, device, UserName);
 				return new OperationResult<SKDDeviceInfo>() { Result = ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID) };
 			}
 			return new OperationResult<SKDDeviceInfo>("Устройство не найдено в конфигурации");
@@ -222,7 +222,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				//return new OperationResult<bool>() { Result = SKDProcessorManager.SKDSyncronyseTime(device, UserName) };
+				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Синхронизация_времени, device, UserName);
 				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SyncronyseTime(deviceUID) };
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -233,6 +233,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
+				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Запрос_пароля, device, UserName);
 				return new OperationResult<string>() { Result = ChinaSKDDriver.Processor.GetPassword(deviceUID) };
 			}
 			return new OperationResult<string>("Устройство не найдено в конфигурации");
@@ -243,6 +244,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
+				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Установка_пароля, device, UserName);
 				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SetPassword(deviceUID, password) };
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -253,6 +255,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
+				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Сброс_Контроллера, device, UserName);
 				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.ResetController(deviceUID) };
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -263,6 +266,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
+				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Перезагрузка_Контроллера, device, UserName);
 				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.RebootController(deviceUID) };
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -273,6 +277,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
+				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Запись_графиков_работы, device, UserName);
 				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(deviceUID) };
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -288,67 +293,12 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
-		public OperationResult<bool> SKDSetRegimeOpen(Guid deviceUID)
-		{
-			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				SKDProcessorManager.SendControlCommand(device, 1);
-				return new OperationResult<bool>() { Result = true };
-			}
-			else
-			{
-				return new OperationResult<bool>("Устройство не найдено в конфигурации");
-			}
-		}
-
-		public OperationResult<bool> SKDSetRegimeClose(Guid deviceUID)
-		{
-			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				SKDProcessorManager.SendControlCommand(device, 2);
-				return new OperationResult<bool>() { Result = true };
-			}
-			else
-			{
-				return new OperationResult<bool>("Устройство не найдено в конфигурации");
-			}
-		}
-
-		public OperationResult<bool> SKDSetRegimeControl(Guid deviceUID)
-		{
-			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				SKDProcessorManager.SendControlCommand(device, 3);
-				return new OperationResult<bool>() { Result = true };
-			}
-			else
-			{
-				return new OperationResult<bool>("Устройство не найдено в конфигурации");
-			}
-		}
-
-		public OperationResult<bool> SKDSetRegimeConversation(Guid deviceUID)
-		{
-			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				SKDProcessorManager.SendControlCommand(device, 4);
-				return new OperationResult<bool>() { Result = true };
-			}
-			else
-			{
-				return new OperationResult<bool>("Устройство не найдено в конфигурации");
-			}
-		}
-
 		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
+				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Команда_на_открытие_двери, device, UserName);
 				SKDProcessorManager.SendControlCommand(device, 5);
 				return new OperationResult<bool>() { Result = true };
 			}
@@ -363,35 +313,8 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
+				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Команда_на_закрытие_двери, device, UserName);
 				SKDProcessorManager.SendControlCommand(device, 6);
-				return new OperationResult<bool>() { Result = true };
-			}
-			else
-			{
-				return new OperationResult<bool>("Устройство не найдено в конфигурации");
-			}
-		}
-
-		public OperationResult<bool> SKDAllowReader(Guid deviceUID)
-		{
-			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				SKDProcessorManager.SendControlCommand(device, 7);
-				return new OperationResult<bool>() { Result = true };
-			}
-			else
-			{
-				return new OperationResult<bool>("Устройство не найдено в конфигурации");
-			}
-		}
-
-		public OperationResult<bool> SKDDenyReader(Guid deviceUID)
-		{
-			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				SKDProcessorManager.SendControlCommand(device, 8);
 				return new OperationResult<bool>() { Result = true };
 			}
 			else
@@ -427,5 +350,31 @@ namespace FiresecService.Service
 			FiresecService.NotifySKDArchiveCompleted(journalItems);
 		}
 		#endregion
+
+		void AddSKDMessage(FiresecAPI.GK.EventNameEnum name, SKDDevice device, string userName)
+		{
+			AddSKDMessage(name, FiresecAPI.GK.EventDescription.Нет, device, userName);
+		}
+
+		void AddSKDMessage(FiresecAPI.GK.EventNameEnum name, FiresecAPI.GK.EventDescription description, SKDDevice device, string userName)
+		{
+			var journalItem = new JournalItem()
+			{
+				SystemDateTime = DateTime.Now,
+				DeviceDateTime = DateTime.Now,
+				Name = name,
+				Description = description,
+				ObjectName = device.Name,
+				ObjectUID = device.UID,
+				ObjectType = ObjectType.Устройство_СКД,
+				UserName = userName,
+			};
+
+			SKDDBHelper.AddMessage(name, userName);
+
+			var skdCallbackResult = new SKDCallbackResult();
+			skdCallbackResult.JournalItems.Add(journalItem);
+			FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
+		}
 	}
 }

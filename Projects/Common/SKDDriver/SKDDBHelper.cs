@@ -38,6 +38,7 @@ namespace SKDDriver
 			var result = new JournalItem();
 			result.Name = name;
 			result.UserName = userName;
+			Add(result);
 			return result;
 		}
 
@@ -104,7 +105,7 @@ namespace SKDDriver
 			if (archiveFilter.UseDeviceDateTime)
 				dateTimeTypeString = "DeviceDate";
 			else
-				dateTimeTypeString = "SysemDate";
+				dateTimeTypeString = "SystemDate";
 
 			var query =
 				"SELECT * FROM Journal WHERE " +
@@ -200,7 +201,7 @@ namespace SKDDriver
 			//	query += ")";
 			//}
 
-			query += "\n ORDER BY " + dateTimeTypeString + " DESC ,DeviceNo DESC";
+			query += "\n ORDER BY " + dateTimeTypeString + " DESC";
 			return query;
 		}
 

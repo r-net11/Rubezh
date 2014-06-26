@@ -59,7 +59,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand DenyCommand { get; private set; }
 		void OnDeny()
 		{
-			FiresecManager.FiresecService.SKDDenyReader(Device);
+			//FiresecManager.FiresecService.SKDDenyReader(Device);
 			IsCommandEnabled = false;
 		}
 		bool CanDeny()
@@ -70,7 +70,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AllowCommand { get; private set; }
 		void OnAllow()
 		{
-			FiresecManager.FiresecService.SKDAllowReader(Device);
+			//FiresecManager.FiresecService.SKDAllowReader(Device);
 			IsCommandEnabled = false;
 		}
 		bool CanAllow()

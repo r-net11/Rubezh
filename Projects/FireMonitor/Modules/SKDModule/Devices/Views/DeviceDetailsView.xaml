@@ -139,23 +139,11 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
-					<Grid Grid.Row="1" Background="White">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition />
-							<ColumnDefinition />
-						</Grid.ColumnDefinitions>
-						<StackPanel Grid.Column="0">
-							<Button Width="250" Height="50" Margin="2" Command="{Binding SetRegimeOpenCommand}" Content="Установить режим работы ОТКРЫТО" />
-							<Button Width="250" Height="50" Margin="2" Command="{Binding SetRegimeCloseCommand}" Content="Установить режим работы ЗАКРЫТЬ" />
-							<Button Width="250" Height="50" Margin="2" Command="{Binding SetRegimeControlCommand}" Content="Установить режим работы КОНТРОЛЬ" />
-							<Button Width="250" Height="50" Margin="2" Command="{Binding SetRegimeConversationCommand}" Content="Установить режим работы СОВЕЩАНИЕ" />
-						</StackPanel>
-						<StackPanel Grid.Column="1">
-							<Button Width="200" Height="50" Margin="2" Command="{Binding OpenCommand}" Content="Открыть" />
-							<Button Width="200" Height="50" Margin="2" Command="{Binding CloseCommand}" Content="Закрыть" />
-						</StackPanel>
-					</Grid>
-				</Grid>
+                    <StackPanel Grid.Row="1" Background="White">
+                        <Button Width="200" Height="50" Margin="2" Command="{Binding OpenCommand}" Content="Открыть" />
+                        <Button Width="200" Height="50" Margin="2" Command="{Binding CloseCommand}" Content="Закрыть" />
+                    </StackPanel>
+                </Grid>
 			</TabItem>
 		</TabControl>
 	</Grid>
