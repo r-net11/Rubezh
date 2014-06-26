@@ -84,6 +84,28 @@ namespace ChinaSKDDriver
 			return false;
 		}
 
+		public static bool ResetController(Guid deviceUID)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				return deviceProcessor.Wrapper.Reset();
+			}
+			return false;
+		}
+
+		public static bool RebootController(Guid deviceUID)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				var result = deviceProcessor.Wrapper.Reboot();
+				deviceProcessor.Reconnect();
+				return result;
+			}
+			return false;
+		}
+
 		public static bool SKDWriteTimeSheduleConfiguration(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);

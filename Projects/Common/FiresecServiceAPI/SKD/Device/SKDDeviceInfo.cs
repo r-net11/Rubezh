@@ -9,13 +9,13 @@ namespace FiresecAPI.SKD
 	public class SKDDeviceInfo
 	{
 		[DataMember]
-		public DateTime SoftwareBuildDate { get; set; }
-
-		[DataMember]
 		public string DeviceType { get; set; }
 
 		[DataMember]
 		public string SoftwareVersion { get; set; }
+
+		[DataMember]
+		public DateTime SoftwareBuildDate { get; set; }
 
 		[DataMember]
 		public string IP { get; set; }
@@ -27,9 +27,9 @@ namespace FiresecAPI.SKD
 		public string DefaultGateway { get; set; }
 
 		[DataMember]
-		public int MTU;
+		public int MTU { get; set; }
 
 		[DataMember]
-		public DateTime CurrentDateTime;
+		public DateTime CurrentDateTime { get; set; }
 	}
 }

@@ -87,9 +87,9 @@ namespace ChinaSKDDriver
 			if (result)
 			{
 				deviceSoftwareInfo = new DeviceSoftwareInfo();
-				deviceSoftwareInfo.SoftwareBuildDate = new DateTime(outResult.dwSoftwareBuildDate_1, outResult.dwSoftwareBuildDate_2, outResult.dwSoftwareBuildDate_3);
 				deviceSoftwareInfo.DeviceType = Wrapper.CharArrayToString(outResult.szDevType);
 				deviceSoftwareInfo.SoftwareVersion = Wrapper.CharArrayToString(outResult.szSoftWareVersion);
+				deviceSoftwareInfo.SoftwareBuildDate = new DateTime(outResult.dwSoftwareBuildDate_1, outResult.dwSoftwareBuildDate_2, outResult.dwSoftwareBuildDate_3);
 			}
 			return deviceSoftwareInfo;
 		}
@@ -163,7 +163,7 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
-		public bool DeleteAll()
+		public bool Reset()
 		{
 			var result = NativeWrapper.WRAP_DeleteCfgFile(LoginID);
 			return result;

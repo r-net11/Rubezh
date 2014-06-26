@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.SKD;
+using System.Threading;
 
 namespace ChinaSKDDriver
 {
@@ -11,16 +12,47 @@ namespace ChinaSKDDriver
 		public Wrapper Wrapper { get; private set; }
 		public SKDDevice Device { get; private set; }
 		public int LoginID { get; private set; }
+		Thread Thread;
 
 		public DeviceProcessor(SKDDevice device)
 		{
 			Device = device;
+			Wrapper = new Wrapper();
 		}
 
 		public void Run()
 		{
-			Wrapper = new Wrapper();
+			Thread = new Thread(OnRun);
+			Thread.Start();
+			//Connect();
+		}
 
+		void OnRun()
+		{
+			while (true)
+			{
+				try
+				{
+					Connect();
+					if (LoginID > 0)
+					{
+						Thread = null;
+						return;
+					}
+					Thread.Sleep(TimeSpan.FromSeconds(5));
+				}
+				catch { }
+			}
+		}
+
+		public void Reconnect()
+		{
+			LoginID = 0;
+			Run();
+		}
+
+		public void Connect()
+		{
 			var addresss = "";
 			var port = 0;
 			var login = "";

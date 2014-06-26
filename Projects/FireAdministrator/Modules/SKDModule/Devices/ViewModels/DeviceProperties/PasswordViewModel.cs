@@ -16,8 +16,8 @@ namespace SKDModule.ViewModels
 
 		public PasswordViewModel(SKDDevice device)
 		{
-			Device = device;
 			Title = "Изменение пароля контроллера";
+			Device = device;
 			GetPasswordCommand = new RelayCommand(OnGetPassword);
 			SetPasswordCommand = new RelayCommand(OnSetPassword);
 		}

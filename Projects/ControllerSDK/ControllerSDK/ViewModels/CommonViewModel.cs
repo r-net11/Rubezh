@@ -253,7 +253,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand DeleteCfgFileCommand { get; private set; }
 		void OnDeleteCfgFile()
 		{
-			var result = MainViewModel.Wrapper.DeleteAll();
+			var result = MainViewModel.Wrapper.Reset();
 			if (result)
 			{
 				MessageBox.Show("Success");

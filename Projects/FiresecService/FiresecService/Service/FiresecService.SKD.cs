@@ -248,12 +248,31 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
+		public OperationResult<bool> SKDResetController(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.ResetController(deviceUID) };
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SKDRebootController(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.RebootController(deviceUID) };
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
 		public OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				//return SKDProcessorManager.SKDWriteConfiguration(device, UserName);
 				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(deviceUID) };
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");

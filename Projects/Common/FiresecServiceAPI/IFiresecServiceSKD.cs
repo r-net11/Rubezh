@@ -135,6 +135,12 @@ namespace FiresecAPI
 		OperationResult<bool> SKDSetPassword(Guid deviceUID, string password);
 
 		[OperationContract]
+		OperationResult<bool> SKDResetController(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDRebootController(Guid deviceUID);
+
+		[OperationContract]
 		OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID);
 
 		[OperationContract]

@@ -14,6 +14,8 @@
 				<IconedMenuItem Command="{Binding ShowInfoCommand}" ImageSource="/Controls;component/Images/BInformation.png" Text="Информация об устройстве" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" ImageSource="/Controls;component/Images/BWatch.png" Text="Синхронизация времени" TotalHeight="32" />
                 <IconedMenuItem Command="{Binding ShowPasswordCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Задание пароля" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding ResetCommand}" ImageSource="/Controls;component/Images/BInformation.png" Text="Сбросить настройки" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding RebootCommand}" ImageSource="/Controls;component/Images/BInformation.png" Text="Перезагрузить" TotalHeight="32" />
                 <IconedMenuItem Command="{Binding WriteTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersWrite.png" Text="Записать конфигурацию графиков работ" TotalHeight="32" />
             </MenuItem>
 		</Menu>

@@ -22,6 +22,8 @@ namespace SKDModule.ViewModels
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ShowPasswordCommand = new RelayCommand(OnShowPassword, CanShowPassword);
+			ResetCommand = new RelayCommand(OnReset, CanReset);
+			RebootCommand = new RelayCommand(OnReboot, CanReboot);
 			WriteTimeSheduleConfigurationCommand = new RelayCommand(OnWriteTimeSheduleConfiguration, CanWriteTimeSheduleConfiguration);
 		}
 
@@ -40,15 +42,8 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				var text = "SoftwareBuildDate = " + result.Result.SoftwareBuildDate.ToString() + "\n" +
-					"DeviceType = " + result.Result.DeviceType + "\n" +
-					"SoftwareVersion = " + result.Result.SoftwareVersion + "\n" +
-					"IP = " + result.Result.IP + "\n" +
-					"SubnetMask = " + result.Result.SubnetMask + "\n" +
-					"DefaultGateway = " + result.Result.DefaultGateway + "\n" +
-					"MTU = " + result.Result.MTU + "\n" +
-					"DateTime = " + result.Result.CurrentDateTime.ToString();
-				MessageBoxService.Show(text);
+				var deviceInfoViewModel = new DeviceInfoViewModel(result.Result);
+				DialogService.ShowModalWindow(deviceInfoViewModel);
 			}
 		}
 		bool CanShowInfo()
@@ -81,6 +76,42 @@ namespace SKDModule.ViewModels
 			DialogService.ShowModalWindow(passwordViewModel);
 		}
 		bool CanShowPassword()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+		}
+
+		public RelayCommand ResetCommand { get; private set; }
+		void OnReset()
+		{
+			var result = FiresecManager.FiresecService.SKDResetController(SelectedDevice.Device);
+			if (result.Result)
+			{
+				MessageBoxService.Show("Операция завершилась успешно");
+			}
+			else
+			{
+				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции");
+			}
+		}
+		bool CanReset()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+		}
+
+		public RelayCommand RebootCommand { get; private set; }
+		void OnReboot()
+		{
+			var result = FiresecManager.FiresecService.SKDRebootController(SelectedDevice.Device);
+			if (result.Result)
+			{
+				MessageBoxService.Show("Операция завершилась успешно");
+			}
+			else
+			{
+				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции");
+			}
+		}
+		bool CanReboot()
 		{
 			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}
