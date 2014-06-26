@@ -168,41 +168,43 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		DoorConfiguration DoorConfiguration;
+
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
-			var result = MainViewModel.Wrapper.GetDoorConfiguration();
-			if (result != null)
+			DoorConfiguration = MainViewModel.Wrapper.GetDoorConfiguration();
+			if (DoorConfiguration != null)
 			{
 				var text = "";
-				text += "ChannelName = " + result.ChannelName.ToString() + "\n";
-				text += "AceessState = " + result.AceessState.ToString() + "\n";
-				text += "AceessMode = " + result.AceessMode.ToString() + "\n";
-				text += "EnableMode = " + result.EnableMode.ToString() + "\n";
-				text += "IsSnapshotEnable = " + result.IsSnapshotEnable.ToString() + "\n";
-				text += "IsDoorOpenMethod = " + result.IsDoorOpenMethod.ToString() + "\n";
-				text += "IsUnlockHoldInterval = " + result.IsUnlockHoldInterval.ToString() + "\n";
-				text += "IsCloseTimeout = " + result.IsCloseTimeout.ToString() + "\n";
-				text += "IsOpenAlwaysTimeIndex = " + result.IsOpenAlwaysTimeIndex.ToString() + "\n";
-				text += "IsHolidayTimeIndex = " + result.IsHolidayTimeIndex.ToString() + "\n";
-				text += "IsBreakInAlarmEnable = " + result.IsBreakInAlarmEnable.ToString() + "\n";
-				text += "IsRepeatEnterAlarmEnable = " + result.IsRepeatEnterAlarmEnable.ToString() + "\n";
-				text += "IsDoorNotClosedAlarmEnable = " + result.IsDoorNotClosedAlarmEnable.ToString() + "\n";
-				text += "IsDuressAlarmEnable = " + result.IsDuressAlarmEnable.ToString() + "\n";
-				text += "IsDoorTimeSection = " + result.IsDoorTimeSection.ToString() + "\n";
-				text += "IsSensorEnable = " + result.IsSensorEnable.ToString() + "\n";
-				text += "DoorOpenMethod = " + result.DoorOpenMethod.ToString() + "\n";
-				text += "UnlockHoldInterval = " + result.UnlockHoldInterval.ToString() + "\n";
-				text += "CloseTimeout = " + result.CloseTimeout.ToString() + "\n";
-				text += "OpenAlwaysTimeIndex = " + result.OpenAlwaysTimeIndex.ToString() + "\n";
-				text += "HolidayTimeRecoNo = " + result.HolidayTimeRecoNo.ToString() + "\n";
-				text += "IsBreakInAlarmEnable2 = " + result.IsBreakInAlarmEnable2.ToString() + "\n";
-				text += "IsRepeatEnterAlarmEnable2 = " + result.IsRepeatEnterAlarmEnable2.ToString() + "\n";
-				text += "IsDoorNotClosedAlarmEnable2 = " + result.IsDoorNotClosedAlarmEnable2.ToString() + "\n";
-				text += "IsDuressAlarmEnable2 = " + result.IsDuressAlarmEnable2.ToString() + "\n";
-				text += "IsSensorEnable2 = " + result.IsSensorEnable2.ToString() + "\n";
+				text += "ChannelName = " + DoorConfiguration.ChannelName.ToString() + "\n";
+				text += "AceessState = " + DoorConfiguration.AceessState.ToString() + "\n";
+				text += "AceessMode = " + DoorConfiguration.AceessMode.ToString() + "\n";
+				text += "EnableMode = " + DoorConfiguration.EnableMode.ToString() + "\n";
+				text += "IsSnapshotEnable = " + DoorConfiguration.IsSnapshotEnable.ToString() + "\n";
+				text += "IsDoorOpenMethod = " + DoorConfiguration.IsDoorOpenMethod.ToString() + "\n";
+				text += "IsUnlockHoldInterval = " + DoorConfiguration.IsUnlockHoldInterval.ToString() + "\n";
+				text += "IsCloseTimeout = " + DoorConfiguration.IsCloseTimeout.ToString() + "\n";
+				text += "IsOpenAlwaysTimeIndex = " + DoorConfiguration.IsOpenAlwaysTimeIndex.ToString() + "\n";
+				text += "IsHolidayTimeIndex = " + DoorConfiguration.IsHolidayTimeIndex.ToString() + "\n";
+				text += "IsBreakInAlarmEnable = " + DoorConfiguration.IsBreakInAlarmEnable.ToString() + "\n";
+				text += "IsRepeatEnterAlarmEnable = " + DoorConfiguration.IsRepeatEnterAlarmEnable.ToString() + "\n";
+				text += "IsDoorNotClosedAlarmEnable = " + DoorConfiguration.IsDoorNotClosedAlarmEnable.ToString() + "\n";
+				text += "IsDuressAlarmEnable = " + DoorConfiguration.IsDuressAlarmEnable.ToString() + "\n";
+				text += "IsDoorTimeSection = " + DoorConfiguration.IsDoorTimeSection.ToString() + "\n";
+				text += "IsSensorEnable = " + DoorConfiguration.IsSensorEnable.ToString() + "\n";
+				text += "DoorOpenMethod = " + DoorConfiguration.DoorOpenMethod.ToString() + "\n";
+				text += "UnlockHoldInterval = " + DoorConfiguration.UnlockHoldInterval.ToString() + "\n";
+				text += "CloseTimeout = " + DoorConfiguration.CloseTimeout.ToString() + "\n";
+				text += "OpenAlwaysTimeIndex = " + DoorConfiguration.OpenAlwaysTimeIndex.ToString() + "\n";
+				text += "HolidayTimeRecoNo = " + DoorConfiguration.HolidayTimeRecoNo.ToString() + "\n";
+				text += "IsBreakInAlarmEnable2 = " + DoorConfiguration.IsBreakInAlarmEnable2.ToString() + "\n";
+				text += "IsRepeatEnterAlarmEnable2 = " + DoorConfiguration.IsRepeatEnterAlarmEnable2.ToString() + "\n";
+				text += "IsDoorNotClosedAlarmEnable2 = " + DoorConfiguration.IsDoorNotClosedAlarmEnable2.ToString() + "\n";
+				text += "IsDuressAlarmEnable2 = " + DoorConfiguration.IsDuressAlarmEnable2.ToString() + "\n";
+				text += "IsSensorEnable2 = " + DoorConfiguration.IsSensorEnable2.ToString() + "\n";
 
-				foreach (var timeShedule in result.TimeShedules)
+				foreach (var timeShedule in DoorConfiguration.TimeShedules)
 				{
 					foreach (var timeSheduleInterval in timeShedule.TimeSheduleIntervals)
 					{
@@ -223,9 +225,21 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand SetDoorConfigurationCommand { get; private set; }
 		void OnSetDoorConfiguration()
 		{
-			var doorConfiguration = new DoorConfiguration();
-			doorConfiguration.ChannelName = "0";
-			var result = MainViewModel.Wrapper.SetDoorConfiguration(doorConfiguration);
+			//var doorConfiguration = new DoorConfiguration();
+			DoorConfiguration.ChannelName = "0";
+			//DoorConfiguration.CloseTimeout = 10;
+			//DoorConfiguration.OpenAlwaysTimeIndex = 11;
+			//DoorConfiguration.HolidayTimeRecoNo = 12;
+			//DoorConfiguration.DoorOpenMethod = DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD;
+			//DoorConfiguration.IsDoorOpenMethod = false;
+			//DoorConfiguration.IsUnlockHoldInterval = false;
+			//DoorConfiguration.IsOpenAlwaysTimeIndex = false;
+			//DoorConfiguration.IsHolidayTimeIndex = false;
+			//DoorConfiguration.IsBreakInAlarmEnable = false;
+			DoorConfiguration.UnlockHoldInterval = 501;
+			DoorConfiguration.HolidayTimeRecoNo = 55;
+			//DoorConfiguration.EnableMode = 503;
+			var result = MainViewModel.Wrapper.SetDoorConfiguration(DoorConfiguration);
 			if (result)
 			{
 				MessageBox.Show("Success");

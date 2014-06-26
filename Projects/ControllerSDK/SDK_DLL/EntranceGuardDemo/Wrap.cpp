@@ -289,10 +289,41 @@ BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCES
 	return FALSE;
 }
 
-BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo)
+BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo, CFG_ACCESS_EVENT_INFO_PART_1* stuShort_Part1, CFG_ACCESS_EVENT_INFO_PART_2* stuShort_Part2)
 {
 	char szJsonBufSet[1024 * 40] = {0};
 			
+
+	//stuGeneralInfo->szChannelName = stuShort_Part1->szChannelName;
+	stuGeneralInfo->emState = stuShort_Part1->emState;
+	stuGeneralInfo->emMode = stuShort_Part1->emMode;
+	stuGeneralInfo->nEnableMode = stuShort_Part1->nEnableMode;
+	stuGeneralInfo->bSnapshotEnable = stuShort_Part1->bSnapshotEnable;
+	stuGeneralInfo->abDoorOpenMethod = stuShort_Part1->abDoorOpenMethod;
+    stuGeneralInfo->abUnlockHoldInterval = stuShort_Part1->abUnlockHoldInterval;
+	stuGeneralInfo->abCloseTimeout = stuShort_Part1->abCloseTimeout;
+	stuGeneralInfo->abOpenAlwaysTimeIndex = stuShort_Part1->abOpenAlwaysTimeIndex;
+	stuGeneralInfo->abHolidayTimeIndex = stuShort_Part1->abHolidayTimeIndex;
+	stuGeneralInfo->abBreakInAlarmEnable = stuShort_Part1->abBreakInAlarmEnable;
+	stuGeneralInfo->abRepeatEnterAlarmEnable = stuShort_Part1->abRepeatEnterAlarmEnable;
+	stuGeneralInfo->abDoorNotClosedAlarmEnable = stuShort_Part1->abDoorNotClosedAlarmEnable;
+	stuGeneralInfo->abDuressAlarmEnable = stuShort_Part1->abDuressAlarmEnable;
+	stuGeneralInfo->abDoorTimeSection = stuShort_Part1->abDoorTimeSection;
+	stuGeneralInfo->abSensorEnable = stuShort_Part1->abSensorEnable;
+	stuGeneralInfo->byReserved = stuShort_Part1->byReserved;
+	stuGeneralInfo->emDoorOpenMethod = stuShort_Part2->emDoorOpenMethod;
+	stuGeneralInfo->nUnlockHoldInterval = stuShort_Part2->nUnlockHoldInterval;
+	stuGeneralInfo->nCloseTimeout = stuShort_Part2->nCloseTimeout;
+	stuGeneralInfo->nOpenAlwaysTimeIndex = stuShort_Part2->nOpenAlwaysTimeIndex;
+	stuGeneralInfo->nHolidayTimeRecoNo = stuShort_Part2->nHolidayTimeRecoNo;
+	stuGeneralInfo->bBreakInAlarmEnable = stuShort_Part2->bBreakInAlarmEnable;
+	stuGeneralInfo->bRepeatEnterAlarm = stuShort_Part2->bRepeatEnterAlarm;
+	stuGeneralInfo->bDoorNotClosedAlarmEnable = stuShort_Part2->bDoorNotClosedAlarmEnable;
+	stuGeneralInfo->bDuressAlarmEnable = stuShort_Part2->bDuressAlarmEnable;
+	//stuGeneralInfo->stuDoorTimeSection = stuShort_Part2->stuDoorTimeSection;
+	stuGeneralInfo->bSensorEnable = stuShort_Part2->bSensorEnable;
+
+
 	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_EVENT, stuGeneralInfo, sizeof(CFG_ACCESS_EVENT_INFO), szJsonBufSet, sizeof(szJsonBufSet));
 	if (bRet)
 	{
@@ -301,6 +332,7 @@ BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCES
 		bRet = CLIENT_SetNewDevConfig(loginID, CFG_CMD_ACCESS_EVENT, channelNo, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
 		return bRet;
 	}
+	return FALSE;
 }
 
 BOOL CALL_METHOD WRAP_ReBoot(int loginID)

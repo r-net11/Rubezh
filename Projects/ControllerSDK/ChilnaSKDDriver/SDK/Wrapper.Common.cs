@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
+using System.Runtime.InteropServices;
 
 namespace ChinaSKDDriver
 {
@@ -205,8 +206,20 @@ namespace ChinaSKDDriver
 
 		public DoorConfiguration GetDoorConfiguration()
 		{
-			NativeWrapper.CFG_ACCESS_EVENT_INFO outResult;
-			var result = NativeWrapper.WRAP_GetDoorConfiguration(LoginID, 0, out outResult);
+			//NativeWrapper.CFG_ACCESS_EVENT_INFO outResult;
+
+
+			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO));
+			//IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+			IntPtr intPtr = Marshal.AllocHGlobal(10000);
+
+			var result = NativeWrapper.WRAP_GetDoorConfiguration(LoginID, 0, intPtr);
+
+			NativeWrapper.CFG_ACCESS_EVENT_INFO outResult = (NativeWrapper.CFG_ACCESS_EVENT_INFO)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO)));
+			//Marshal.FreeCoTaskMem(intPtr);
+			Marshal.FreeHGlobal(intPtr);
+			intPtr = IntPtr.Zero;
+
 			if (result)
 			{
 				var doorConfiguration = new DoorConfiguration();
@@ -273,34 +286,36 @@ namespace ChinaSKDDriver
 		public bool SetDoorConfiguration(DoorConfiguration doorConfiguration)
 		{
 			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
+			var cfgShort_Part1 = new NativeWrapper.CFG_ACCESS_EVENT_INFO_PART_1();
+			var cfgShort_Part2 = new NativeWrapper.CFG_ACCESS_EVENT_INFO_PART_2();
 
-			info.abBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
-			info.szChannelName = StringToCharArray(doorConfiguration.ChannelName, 128);
-			info.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AceessState;
-			info.emMode = (NativeWrapper.CFG_ACCESS_MODE)doorConfiguration.AceessMode;
-			info.nEnableMode = doorConfiguration.EnableMode;
-			info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable;
-			info.abDoorOpenMethod = doorConfiguration.IsDoorOpenMethod;
-			info.abUnlockHoldInterval = doorConfiguration.IsUnlockHoldInterval;
-			info.abCloseTimeout = doorConfiguration.IsCloseTimeout;
-			info.abOpenAlwaysTimeIndex = doorConfiguration.IsOpenAlwaysTimeIndex;
-			info.abHolidayTimeIndex = doorConfiguration.IsHolidayTimeIndex;
-			info.abBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
-			info.abRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
-			info.abDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
-			info.abDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
-			info.abDoorTimeSection = doorConfiguration.IsDoorTimeSection;
-			info.abSensorEnable = doorConfiguration.IsSensorEnable;
-			info.emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorOpenMethod;
-			info.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
-			info.nCloseTimeout = doorConfiguration.CloseTimeout;
-			info.nOpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
-			info.nHolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
-			info.bBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable2;
-			info.bRepeatEnterAlarm = doorConfiguration.IsRepeatEnterAlarmEnable2;
-			info.bDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable2;
-			info.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable2;
-			info.bSensorEnable = doorConfiguration.IsSensorEnable2;
+			cfgShort_Part1.abBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
+			cfgShort_Part1.szChannelName = StringToCharArray(doorConfiguration.ChannelName, 128);
+			cfgShort_Part1.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AceessState;
+			cfgShort_Part1.emMode = (NativeWrapper.CFG_ACCESS_MODE)doorConfiguration.AceessMode;
+			cfgShort_Part1.nEnableMode = doorConfiguration.EnableMode;
+			cfgShort_Part1.bSnapshotEnable = doorConfiguration.IsSnapshotEnable;
+			cfgShort_Part1.abDoorOpenMethod = doorConfiguration.IsDoorOpenMethod;
+			cfgShort_Part1.abUnlockHoldInterval = doorConfiguration.IsUnlockHoldInterval;
+			cfgShort_Part1.abCloseTimeout = doorConfiguration.IsCloseTimeout;
+			cfgShort_Part1.abOpenAlwaysTimeIndex = doorConfiguration.IsOpenAlwaysTimeIndex;
+			cfgShort_Part1.abHolidayTimeIndex = doorConfiguration.IsHolidayTimeIndex;
+			cfgShort_Part1.abBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
+			cfgShort_Part1.abRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
+			cfgShort_Part1.abDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
+			cfgShort_Part1.abDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
+			cfgShort_Part1.abDoorTimeSection = doorConfiguration.IsDoorTimeSection;
+			cfgShort_Part1.abSensorEnable = doorConfiguration.IsSensorEnable;
+			cfgShort_Part2.emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorOpenMethod;
+			cfgShort_Part2.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
+			cfgShort_Part2.nCloseTimeout = doorConfiguration.CloseTimeout;
+			cfgShort_Part2.nOpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+			cfgShort_Part2.nHolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
+			cfgShort_Part2.bBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable2;
+			cfgShort_Part2.bRepeatEnterAlarm = doorConfiguration.IsRepeatEnterAlarmEnable2;
+			cfgShort_Part2.bDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable2;
+			cfgShort_Part2.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable2;
+			cfgShort_Part2.bSensorEnable = doorConfiguration.IsSensorEnable2;
 
 			info.stuDoorTimeSection = new NativeWrapper.CFG_DOOROPEN_TIMESECTION_INFO[7 * 4];
 			for (int i = 0; i < info.stuDoorTimeSection.Count(); i++)
@@ -313,7 +328,8 @@ namespace ChinaSKDDriver
 				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = i * 2;
 				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = i * 2;
 			}
-			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, 0, ref info);
+
+			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, 0, ref info, ref cfgShort_Part1, ref cfgShort_Part2);
 			return result;
 		}
 
