@@ -9,7 +9,7 @@ namespace AutomationModule.ViewModels
 	public class VariableDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Variable Variable { get; private set; }
-
+		public bool IsEditMode { get; private set; }
 		public VariableDetailsViewModel(bool isArgument = false)
 		{
 			var defaultName = "Локальная переменная";
@@ -31,31 +31,21 @@ namespace AutomationModule.ViewModels
 			};
 			SelectedVariable = Variables.FirstOrDefault();
 			Name = defaultName;
+			IsEditMode = false;
 		}
 
 		public VariableDetailsViewModel(Variable variable, bool isArgument = false)
 		{
-			var defaultName = "Локальная переменная";
 			var title = "Редактировать переменную";
 			if (isArgument)
 			{
-				defaultName = "Аргумент";
 				title = "Редактировать аргумент";
 			}
 			Title = title;
 			Variable = new Variable(variable);
 			Variables = new ObservableCollection<VariableViewModel>
 			{
-				variable.VariableType != VariableType.Integer
-					? new VariableViewModel(defaultName, VariableType.Integer) : new VariableViewModel(variable),
-				variable.VariableType != VariableType.Boolean
-					? new VariableViewModel(defaultName, VariableType.Boolean) : new VariableViewModel(variable),
-				variable.VariableType != VariableType.String
-					? new VariableViewModel(defaultName, VariableType.String) : new VariableViewModel(variable),
-				variable.VariableType != VariableType.DateTime
-					? new VariableViewModel(defaultName, VariableType.DateTime) : new VariableViewModel(variable),
-				variable.VariableType != VariableType.Object
-					? new VariableViewModel(defaultName, VariableType.Object) : new VariableViewModel(variable)
+				 new VariableViewModel(variable)
 			};
 			SelectedVariable = Variables.FirstOrDefault(x => x.VariableType == variable.VariableType);
 			if (SelectedVariable != null)
@@ -63,6 +53,7 @@ namespace AutomationModule.ViewModels
 				Name = SelectedVariable.Name;
 				IsList = SelectedVariable.IsList;
 			}
+			IsEditMode = true;
 		}
 	
 		VariableViewModel _selectedVariable;

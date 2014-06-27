@@ -11,7 +11,7 @@
 	<Controls:XDataGrid ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}" CanUserSortColumns="True">
 		<DataGrid.Columns>
 			<DataGridTextColumn Header="Название" Width="200" Binding="{Binding Instruction.Name}" />
-			<DataGridTextColumn Header="Тип инструкции" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource InstructionTypeToStringConverter}}" />
+			<DataGridTextColumn Header="Тип инструкции" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource EnumToDescriptionConverter}}" />
 			<DataGridTextColumn Header="Состояние" Binding="{Binding Instruction.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" />
 			<DataGridTextColumn Header="Зоны" Binding="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" CanUserSort="False" Width="*" />
 			<DataGridTextColumn Header="Устройства" Binding="{Binding Instruction.Devices, Converter={StaticResource DevicesToStringConverter}}" CanUserSort="False" Width="*" />

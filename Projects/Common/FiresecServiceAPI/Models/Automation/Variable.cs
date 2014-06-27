@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Windows.Documents;
 
 namespace FiresecAPI.Automation
 {
@@ -16,7 +15,7 @@ namespace FiresecAPI.Automation
 			IntValue = 0;
 			ObjectType = ObjectType.Card;
 			StringValue = "";
-			ProcedureObjects = new List<ProcedureObject>();
+			ObjectsUids = new List<Guid>();
 		}
 
 		public Variable(Variable variable)
@@ -36,7 +35,7 @@ namespace FiresecAPI.Automation
 			StringValue = variable.StringValue;
 			VariableType = variable.VariableType;
 			IsList = variable.IsList;
-			ProcedureObjects = variable.ProcedureObjects;
+			ObjectsUids = variable.ObjectsUids;
 			Items = new List<object>();
 		}
 
@@ -74,6 +73,6 @@ namespace FiresecAPI.Automation
 		public VariableType VariableType { get; set; }
 
 		[DataMember]
-		public List<ProcedureObject> ProcedureObjects { get; set; }
+		public List<Guid> ObjectsUids { get; set; }
 	}
 }

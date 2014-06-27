@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
-using FiresecAPI.Models;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -15,7 +16,7 @@ namespace AutomationModule.ViewModels
 		FindObjectArguments FindObjectArguments { get; set; }
 		Procedure Procedure { get; set; }
 		public ObservableCollection<FindObjectConditionViewModel> FindObjectConditions { get; private set; }
- 
+
 		public FindObjectStepViewModel(FindObjectArguments findObjectArguments, Procedure procedure)
 		{
 			FindObjectArguments = findObjectArguments;
@@ -34,6 +35,7 @@ namespace AutomationModule.ViewModels
 			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition);
 			FindObjectArguments.FindObjectConditions.Add(findObjectCondition);
 			FindObjectConditions.Add(findObjectConditionViewModel);
+			OnPropertyChanged(() => FindObjectConditions);
 		}
 
 		public RelayCommand<FindObjectConditionViewModel> RemoveCommand { get; private set; }
@@ -41,6 +43,7 @@ namespace AutomationModule.ViewModels
 		{
 			FindObjectConditions.Remove(findObjectConditionViewModel);
 			FindObjectArguments.FindObjectConditions.Remove(findObjectConditionViewModel.FindObjectCondition);
+			OnPropertyChanged(() => FindObjectConditions);
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
@@ -53,7 +56,7 @@ namespace AutomationModule.ViewModels
 		public void UpdateContent()
 		{
 			Variables = new ObservableCollection<VariableViewModel>();
-			foreach (var variable in Procedure.Variables.FindAll(x => ((x.VariableType == VariableType.Object) && (x.IsList == true))))
+			foreach (var variable in Procedure.Variables.FindAll(x => ((x.VariableType == VariableType.Object) && (x.IsList))))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
@@ -63,11 +66,17 @@ namespace AutomationModule.ViewModels
 			JoinOperator = FindObjectArguments.JoinOperator;
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
+			if (SelectedVariable != null)
 			foreach (var findObjectCondition in FindObjectArguments.FindObjectConditions)
 			{
 				var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition);
 				FindObjectConditions.Add(findObjectConditionViewModel);
 			}
+			else
+				FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
+			OnPropertyChanged(()=>Variables);
+			OnPropertyChanged(() => SelectedVariable);
+			OnPropertyChanged(() => FindObjectConditions);
 		}
 
 		public string Description
@@ -96,6 +105,12 @@ namespace AutomationModule.ViewModels
 				_selectedVariable = value;
 				if (value != null)
 				{
+					if (FindObjectArguments.ResultUid != value.Variable.Uid)
+					{
+						FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
+						FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
+						OnPropertyChanged(() => FindObjectConditions);
+					}
 					FindObjectArguments.ResultUid = value.Variable.Uid;
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
@@ -103,109 +118,135 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public void FindDeviceObjectsOr(VariableViewModel result, ObservableCollection<FindObjectConditionViewModel> findObjectConditionsViewModel)
+		public void FindObjectsOr(VariableViewModel result, ObservableCollection<FindObjectConditionViewModel> findObjectConditionsViewModel)
 		{
+			var resultObjects = new List<object>();
+			IEnumerable<object> items;
+			result.Variable.ObjectsUids = new List<Guid>();
+			if (SelectedVariable.ObjectType == ObjectType.Device)
+				items = new List<XDevice>(XManager.DeviceConfiguration.Devices);
+			else
+				items = new List<XDevice>();
+			foreach (var item in items)
+			{
+				var device = new XDevice();
+				var itemUid = new Guid();
+				if (item is XDevice)
+				{
+					device = item as XDevice;
+					itemUid = device.UID;
+				}
 
-						var resultDevices = new List<Device>();
-						foreach (var device in FiresecManager.Devices)
-						{
-							foreach (var findObjectConditionViewModel in findObjectConditionsViewModel)
-							{
-								var findObjectCondition = findObjectConditionViewModel.FindObjectCondition;
-								int propertyValue = 0;
-								switch (findObjectCondition.DevicePropertyType)
-								{
-									case DevicePropertyType.ShleifNo:
-										propertyValue = device.ShleifNo;
-										break;
-									case DevicePropertyType.IntAddress:
-										propertyValue = device.IntAddress;
-										break;
-								}
+				foreach (var findObjectConditionViewModel in findObjectConditionsViewModel)
+				{
+					var findObjectCondition = findObjectConditionViewModel.FindObjectCondition;
+					int intPropertyValue = 0;
+					string stringPropertyValue = "";
+					switch (findObjectCondition.DevicePropertyType)
+					{
+						case DevicePropertyType.ShleifNo:
+							intPropertyValue = device.ShleifNo;
+							break;
+						case DevicePropertyType.IntAddress:
+							intPropertyValue = device.IntAddress;
+							break;
+						case DevicePropertyType.DeviceState:
+							intPropertyValue = (int)device.State.StateClass;
+							break;
+						case DevicePropertyType.Name:
+							stringPropertyValue = device.PresentationName.Trim();
+							break;
+					}
 
-								if (resultDevices.Contains(device))
-									continue;
-								if (((findObjectCondition.ConditionType == ConditionType.IsEqual) && (propertyValue == findObjectCondition.IntValue)) ||
-									((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (propertyValue != findObjectCondition.IntValue)) ||
-									((findObjectCondition.ConditionType == ConditionType.IsMore) && (propertyValue > findObjectCondition.IntValue)) ||
-									((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (propertyValue <= findObjectCondition.IntValue)) ||
-									((findObjectCondition.ConditionType == ConditionType.IsLess) && (propertyValue < findObjectCondition.IntValue)) ||
-									((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (propertyValue >= findObjectCondition.IntValue)))
-									resultDevices.Add(device);
-							}
-						}
-
-						foreach (var device in resultDevices)
-						{
-							var procedureObject = new ProcedureObject();
-							procedureObject.ObjectUid = device.UID;
-							result.Variable.ProcedureObjects.Add(procedureObject);
-						}
-
-
+					if (resultObjects.Contains(item))
+						continue;
+					if (((findObjectConditionViewModel.PropertyType == PropertyType.Integer) &&
+						(((findObjectCondition.ConditionType == ConditionType.IsEqual) && (intPropertyValue == findObjectCondition.IntValue)) ||
+						((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (intPropertyValue != findObjectCondition.IntValue)) ||
+						((findObjectCondition.ConditionType == ConditionType.IsMore) && (intPropertyValue > findObjectCondition.IntValue)) ||
+						((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (intPropertyValue <= findObjectCondition.IntValue)) ||
+						((findObjectCondition.ConditionType == ConditionType.IsLess) && (intPropertyValue < findObjectCondition.IntValue)) ||
+						((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (intPropertyValue >= findObjectCondition.IntValue)))) ||
+						((findObjectConditionViewModel.PropertyType == PropertyType.String) &&
+						(((findObjectCondition.StringConditionType == StringConditionType.StartsWith) && (stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
+						((findObjectCondition.StringConditionType == StringConditionType.EndsWith) && (stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
+						((findObjectCondition.StringConditionType == StringConditionType.Contains) && (stringPropertyValue.Contains(findObjectCondition.StringValue))))))
+							{ resultObjects.Add(item); result.Variable.ObjectsUids.Add(itemUid); }
+				}
+			}
 		}
 
-		public void FindDeviceObjectsAnd(VariableViewModel result, ObservableCollection<FindObjectConditionViewModel> findObjectConditionsViewModel)
+		public void FindObjectsAnd(VariableViewModel result, ObservableCollection<FindObjectConditionViewModel> findObjectConditionsViewModel)
 		{
-			switch (result.ObjectType)
+			var resultObjects = new List<object>();
+			var tempObjects = new List<object>();
+			IEnumerable<object> items;
+
+			if (SelectedVariable.ObjectType == ObjectType.Device)
 			{
-				case ObjectType.Device:
+				items = new List<XDevice>(XManager.DeviceConfiguration.Devices);
+				result.Variable.ObjectsUids = new List<Guid>(XManager.DeviceConfiguration.Devices.Select(x => x.UID));
+			}
+			else
+				items = new List<XDevice>();
+
+			resultObjects = new List<object>(items);
+			tempObjects = new List<object>(resultObjects);
+			foreach (var findObjectConditionViewModel in findObjectConditionsViewModel)
+			{
+				var findObjectCondition = findObjectConditionViewModel.FindObjectCondition;
+				foreach (var item in resultObjects)
+				{
+					var device = new XDevice();
+					var itemUid = new Guid();
+					if (item is XDevice)
 					{
-						var resultDevices = FiresecManager.Devices;
-						var tempDevices = new List<Device>(resultDevices);
-						foreach (var findObjectConditionViewModel in findObjectConditionsViewModel)
-						{
-							var findObjectCondition = findObjectConditionViewModel.FindObjectCondition;
-							foreach (var device in resultDevices)
-							{
-
-								int propertyValue = 0;
-								switch (findObjectCondition.DevicePropertyType)
-								{
-									case DevicePropertyType.ShleifNo:
-										propertyValue = device.ShleifNo;
-										break;
-									case DevicePropertyType.IntAddress:
-										propertyValue = device.IntAddress;
-										break;
-								}
-
-								if (((findObjectCondition.ConditionType == ConditionType.IsEqual) && (propertyValue != findObjectCondition.IntValue)) ||
-									((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (propertyValue == findObjectCondition.IntValue)) ||
-									((findObjectCondition.ConditionType == ConditionType.IsMore) && (propertyValue <= findObjectCondition.IntValue)) ||
-									((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (propertyValue > findObjectCondition.IntValue)) ||
-									((findObjectCondition.ConditionType == ConditionType.IsLess) && (propertyValue >= findObjectCondition.IntValue)) ||
-									((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (propertyValue < findObjectCondition.IntValue)))
-									tempDevices.Remove(device);
-							}
-							resultDevices = new List<Device>(tempDevices);
-						}
-
-						foreach (var device in resultDevices)
-						{
-							var procedureObject = new ProcedureObject();
-							procedureObject.ObjectUid = device.UID;
-							result.Variable.ProcedureObjects.Add(procedureObject);
-						}
-						break;
+						device = item as XDevice;
+						itemUid = device.UID;
 					}
+					int intPropertyValue = 0;
+					string stringPropertyValue = "";
+
+					switch (findObjectCondition.DevicePropertyType)
+					{
+						case DevicePropertyType.ShleifNo:
+							intPropertyValue = device.ShleifNo;
+							break;
+						case DevicePropertyType.IntAddress:
+							intPropertyValue = device.IntAddress;
+							break;
+						case DevicePropertyType.DeviceState:
+							intPropertyValue = (int)device.State.StateClass;
+							break;
+						case DevicePropertyType.Name:
+							stringPropertyValue = device.PresentationName.Trim();
+							break;
+					}
+					
+					if (((findObjectConditionViewModel.PropertyType == PropertyType.Integer) &&
+						(((findObjectCondition.ConditionType == ConditionType.IsEqual) && (intPropertyValue != findObjectCondition.IntValue)) ||
+						((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (intPropertyValue == findObjectCondition.IntValue)) ||
+						((findObjectCondition.ConditionType == ConditionType.IsMore) && (intPropertyValue <= findObjectCondition.IntValue)) ||
+						((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (intPropertyValue > findObjectCondition.IntValue)) ||
+						((findObjectCondition.ConditionType == ConditionType.IsLess) && (intPropertyValue >= findObjectCondition.IntValue)) ||
+						((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (intPropertyValue < findObjectCondition.IntValue)))) ||
+						((findObjectConditionViewModel.PropertyType == PropertyType.String) &&
+						(((findObjectCondition.StringConditionType == StringConditionType.StartsWith) && (!stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
+						((findObjectCondition.StringConditionType == StringConditionType.EndsWith) && (!stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
+						((findObjectCondition.StringConditionType == StringConditionType.Contains) && (!stringPropertyValue.Contains(findObjectCondition.StringValue))))))
+							{ tempObjects.Remove(item); result.Variable.ObjectsUids.Remove(itemUid); }
+				}
+				resultObjects = new List<object>(tempObjects);
 			}
 		}
 
 		public RelayCommand RunCommand { get; private set; }
 		private void OnRun()
 		{
-			switch (SelectedVariable.ObjectType)
-			{
-				case ObjectType.Device:
-				{
-					if (JoinOperator == JoinOperator.Or)
-						FindDeviceObjectsOr(SelectedVariable, FindObjectConditions);
-					else
-						FindDeviceObjectsAnd(SelectedVariable, FindObjectConditions);
-					break;
-				}
-			}
+			if (JoinOperator == JoinOperator.Or)
+				FindObjectsOr(SelectedVariable, FindObjectConditions);
+			else
+				FindObjectsAnd(SelectedVariable, FindObjectConditions);
 		}
 	}
 
@@ -220,12 +261,22 @@ namespace AutomationModule.ViewModels
 			{
 				DevicePropertyType.ShleifNo, DevicePropertyType.IntAddress, DevicePropertyType.Name, DevicePropertyType.DeviceState
 			};
+			ZonePropertyTypes = new ObservableCollection<ZonePropertyType>
+			{
+				ZonePropertyType.No, ZonePropertyType.ZoneType, ZonePropertyType.Name
+			};
 			ConditionTypes = new ObservableCollection<ConditionType>
 			{
 				ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess
 			};
+			StringConditionTypes = new ObservableCollection<StringConditionType>
+			{
+				StringConditionType.StartsWith, StringConditionType.EndsWith, StringConditionType.Contains
+			};
+			
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			SelectedDevicePropertyType = FindObjectCondition.DevicePropertyType;
+			SelectedZonePropertyType = FindObjectCondition.ZonePropertyType;
 			SelectedConditionType = FindObjectCondition.ConditionType;
 			IntValue = FindObjectCondition.IntValue;
 			StringValue = FindObjectCondition.StringValue;
@@ -249,7 +300,27 @@ namespace AutomationModule.ViewModels
 					case DevicePropertyType.Name:
 						PropertyType = PropertyType.String; break;
 				}
-				OnPropertyChanged(()=>SelectedDevicePropertyType);
+				OnPropertyChanged(() => SelectedDevicePropertyType);
+				OnPropertyChanged(() => PropertyType);
+			}
+		}
+
+		public ObservableCollection<ZonePropertyType> ZonePropertyTypes { get; private set; }
+		public ZonePropertyType SelectedZonePropertyType
+		{
+			get { return FindObjectCondition.ZonePropertyType; }
+			set
+			{
+				FindObjectCondition.ZonePropertyType = value;
+				switch (value)
+				{
+					case ZonePropertyType.No:
+					case ZonePropertyType.ZoneType:
+						PropertyType = PropertyType.Integer; break;
+					case ZonePropertyType.Name:
+						PropertyType = PropertyType.String; break;
+				}
+				OnPropertyChanged(() => SelectedZonePropertyType);
 				OnPropertyChanged(() => PropertyType);
 			}
 		}
@@ -262,6 +333,17 @@ namespace AutomationModule.ViewModels
 			{
 				FindObjectCondition.ConditionType = value;
 				OnPropertyChanged(() => SelectedConditionType);
+			}
+		}
+
+		public ObservableCollection<StringConditionType> StringConditionTypes { get; private set; }
+		public StringConditionType SelectedStringConditionType
+		{
+			get { return FindObjectCondition.StringConditionType; }
+			set
+			{
+				FindObjectCondition.StringConditionType = value;
+				OnPropertyChanged(() => SelectedStringConditionType);
 			}
 		}
 

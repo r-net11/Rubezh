@@ -19,7 +19,7 @@
 
 					<StackPanel Grid.Column="0" Orientation="Horizontal" Margin="2" HorizontalAlignment="Left">
 						<Image Source="/Controls;component/Images/GlobalVariable.png" Width="16" Margin="2 0 0 0" />
-						<TextBlock Text="{Binding VariableType, Converter={StaticResource VariableTypeToStringConverter}}" VerticalAlignment="Center" Margin="2 0" Foreground="White" />
+						<TextBlock Text="{Binding VariableType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" Margin="2 0" Foreground="White" />
 						<TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" Foreground="White" />
 					</StackPanel>
 
@@ -53,7 +53,7 @@
 						<ComboBox ItemsSource="{Binding ObjectTypes}" SelectedItem="{Binding ObjectType}" Width="200" Margin="2" >
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource ObjectTypeToStringConverter}}" />
+									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>

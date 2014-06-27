@@ -27,7 +27,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-								<TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
+								<TextBlock Text="{Binding StateType, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2, 0, 0, 0" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -47,7 +47,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTextColumn Header="Класс" Binding="{Binding DriverState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+				<DataGridTextColumn Header="Класс" Binding="{Binding DriverState.StateType, Converter={StaticResource EnumToDescriptionConverter}}" />
 				<DataGridTextColumn Header="Приоритет" Binding="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIntConverter}}" />
 				<DataGridTemplateColumn Header="Есть/Нет">
 					<DataGridTemplateColumn.CellTemplate>

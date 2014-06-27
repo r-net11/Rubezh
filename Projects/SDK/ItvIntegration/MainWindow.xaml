@@ -8,7 +8,6 @@
         Closing="OnClosing">
     <Window.Resources>
         <Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
-        <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
     </Window.Resources>
 
     <TabControl>
@@ -36,7 +35,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+										<TextBlock Text="{Binding StateType, Converter={StaticResource EnumToDescriptionConverter}}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -74,7 +73,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+										<TextBlock Text="{Binding StateType, Converter={StaticResource EnumToDescriptionConverter}}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

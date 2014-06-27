@@ -50,8 +50,8 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="{Binding JournalItem.SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
-								<TextBlock Text="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter }}" VerticalAlignment="Center" />
+								<Image Width="16" Source="{Binding JournalItem.SubsystemType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" Margin="2"/>
+								<TextBlock Text="{Binding JournalItem.SubsystemType, Converter={StaticResource EnumToDescriptionConverter }}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -163,8 +163,8 @@
 					<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.UserName}" VerticalAlignment="Center" Width="Auto" Margin="2" />
 					<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.GKIpAddress}" VerticalAlignment="Center" Width="Auto" Margin="2" />
 					<StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
-						<Image Width="16" Source="{Binding JournalItem.SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2" />
-						<TextBlock Text="{Binding JournalItem.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" VerticalAlignment="Center" />
+						<Image Width="16" Source="{Binding JournalItem.SubsystemType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" Margin="2" />
+						<TextBlock Text="{Binding JournalItem.SubsystemType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" />
 					</StackPanel>
 				</Grid>
 				<Grid Grid.Column="2" Visibility="{Binding ShowAdditionalProperties, Converter={StaticResource BoolToVisibilityConverter}}">

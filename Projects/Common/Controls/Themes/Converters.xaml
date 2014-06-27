@@ -9,14 +9,11 @@
 	<Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
 	<Converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 	<Converters:ColorToNameConverter x:Key="ColorToNameConverter" />
-	<Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
 	<Converters:StateTypeToJournalStringConverter x:Key="StateTypeToJournalStringConverter" />
 	<Converters:StateTypeToColorConverter x:Key="StateTypeToColorConverter" />
 	<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
 	<Converters:StateTypeToIntConverter x:Key="StateTypeToIntConverter" />
-	<Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
 	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
-	<Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
 	<Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
@@ -24,16 +21,13 @@
 	<Converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
 	<Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
 	<Converters:TimeToStringConverter x:Key="TimeToStringConverter" />
-	<Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
 	<Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
 	<Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
-	<Converters:ProcedureStepTypeToStringConverter x:Key="ProcedureStepTypeToStringConverter" />
 	<Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
 	<Converters:XStateClassToZoneColorConverter x:Key="XStateClassToZoneColorConverter" />
 	<Converters:XStateClassToColorConverter2 x:Key="XStateClassToColorConverter2" />
 	<Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
 	<Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
-	<Converters:XInstructionTypeToStringConverter x:Key="XInstructionTypeToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
 	<Converters:MPTDeviceTypeToStringConverter x:Key="MPTDeviceTypeToStringConverter" />
 	<Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
@@ -47,7 +41,6 @@
 	<Converters:VisualizationStateToImageSourceConverter x:Key="VisualizationStateToImageSourceConverter" />
 	<Converters:ConnectionStateToImageSourceConverter x:Key="ConnectionStateToImageSourceConverter" />
 	<Converters:ZoneLogicStateToColorConverter x:Key="ZoneLogicStateToColorConverter" />
-	<Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter " />
 	<Converters:ClauseOperationTypeToIconConverter x:Key="ClauseOperationTypeToIconConverter" />
 	<Converters:AlarmTypeToBIconConverter x:Key="AlarmTypeToBIconConverter" />
 	<Converters:StringToImageConverter x:Key="StringToImageConverter" />
@@ -55,21 +48,16 @@
 	<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 	<Converters:BoolToStringColorConverter x:Key="BoolToStringColorConverter" />
 	<Converters:XSubsystemTypeToIconConverter x:Key="XSubsystemTypeToIconConverter" />
-	<Converters:DelayRegimeToStringConverter x:Key="DelayRegimeToStringConverter" />
 	<Converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
 	<Converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
 	<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
-	<Converters:DayOfWeekToStringConverter x:Key="DayOfWeekToStringConverter" />
-	<Converters:VariableTypeToStringConverter x:Key="VariableTypeToStringConverter" />
-	<Converters:ObjectTypeToStringConverter x:Key="ObjectTypeToStringConverter" />
-	<Converters:JoinOperatorToStringConverter x:Key="JoinOperatorToStringConverter" />
+	
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
 		<Converters:SwitchCase Then="Заполнить" When="Fill" />
 		<Converters:SwitchCase Then="Как есть" When="None" />
 		<Converters:SwitchCase Then="Сохранить пропорции" When="Uniform" />
 		<Converters:SwitchCase Then="Заполнить пропорционально" When="UniformToFill" />
 	</Converters:SwitchConverter>
-	<Converters:DeletedTypeToStringConverter x:Key="DeletedTypeToStringConverter" />
 
 </ResourceDictionary>

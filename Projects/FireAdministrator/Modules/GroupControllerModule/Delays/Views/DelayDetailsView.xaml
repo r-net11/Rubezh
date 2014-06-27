@@ -43,7 +43,7 @@
 				<ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding DelayRegimes}" SelectedItem="{Binding DelayRegime}" Margin="2">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource DelayRegimeToStringConverter}}" />
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>

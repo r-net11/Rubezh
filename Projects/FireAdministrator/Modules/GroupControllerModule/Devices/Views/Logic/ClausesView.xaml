@@ -7,7 +7,6 @@
 
 	<UserControl.Resources>
 		<Converters:ClauseConditionConverter x:Key="ClauseConditionConverter" />
-		<Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
 		<Converters:ClauseOperationConverter x:Key="ClauseOperationConverter" />
 		<Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
 		<Converters:ClauseJoinOperatorToColorConverter x:Key="ClauseJoinOperatorToColorConverter" />
@@ -71,7 +70,7 @@
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
 										<Controls:IconLabel ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}"
-										Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" />
+										Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>

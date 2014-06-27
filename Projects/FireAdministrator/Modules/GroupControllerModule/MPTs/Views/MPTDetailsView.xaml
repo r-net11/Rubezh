@@ -4,9 +4,6 @@
 	xmlns:Converters="clr-namespace:GKModule.Converters"
 	xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 	MinWidth="600" MinHeight="450">
-	<UserControl.Resources>
-		<Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
-	</UserControl.Resources>
 
 	<TabControl>
 		<TabItem Header="Основные">

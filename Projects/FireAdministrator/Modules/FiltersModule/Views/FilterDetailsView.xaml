@@ -6,7 +6,6 @@
 			 xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 			 MinWidth="550" MinHeight="350">
 	<UserControl.Resources>
-		<Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
 		<LacalConverters:CategoryTypeToCategoryNameConverter x:Key="CategoryTypeToCategoryNameConverter" />
 	</UserControl.Resources>
 

@@ -50,7 +50,7 @@ namespace GKModule.ViewModels
 					var stateTypeToIconConverter = new XStateTypeToIconConverter();
 					StateIcon = (string)stateTypeToIconConverter.Convert((XStateBit)FormulaOperation.FirstOperand, null, null, null);
 
-					var stateTypeToStringConverter = new XStateTypeToStringConverter();
+					var stateTypeToStringConverter = new EnumToDescriptionConverter();
 					FirstOperand = (string)stateTypeToStringConverter.Convert((XStateBit)FormulaOperation.FirstOperand, null, null, null);
 
 					var descriptorViewModel = DescriptorsViewModel.Descriptors.FirstOrDefault(x => x.Descriptor.XBase.GKDescriptorNo == FormulaOperation.SecondOperand);

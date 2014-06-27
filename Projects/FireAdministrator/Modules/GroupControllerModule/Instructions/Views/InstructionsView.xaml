@@ -12,7 +12,7 @@
 	<Controls:XDataGrid ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}">
 		<DataGrid.Columns>
 			<DataGridTextColumn Header="Название" Width="100" Binding="{Binding Instruction.Name}" />
-			<DataGridTextColumn Header="Тип инструкции" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource XInstructionTypeToStringConverter}}" />
+			<DataGridTextColumn Header="Тип инструкции" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource EnumToDescriptionConverter}}" />
 			<DataGridTextColumn Header="Состояние" Binding="{Binding Instruction.AlarmType, Converter={StaticResource XAlarmTypeToStringConverter}}" />
 			<DataGridTemplateColumn Header="Устройства" Width="100">
 				<DataGridTemplateColumn.CellTemplate>

@@ -95,9 +95,6 @@
     <Compile Include="Filters\Views\FiltersView.xaml.cs">
       <DependentUpon>FiltersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Converters\ArithmeticTypeToStringConverter.cs" />
-    <Compile Include="Procedures\Converters\ConditionTypeToStringConverter.cs" />
-    <Compile Include="Procedures\Converters\DevicePropertyTypeToStringConverter.cs" />
     <Compile Include="Procedures\Converters\MenuTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\Converters\ObjectTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\Converters\PropertyTypeToVisibilityConverter.cs" />

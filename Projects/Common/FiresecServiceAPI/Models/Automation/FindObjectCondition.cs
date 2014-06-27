@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using FiresecAPI.Models;
 
 namespace FiresecAPI.Automation
 {
@@ -19,7 +20,13 @@ namespace FiresecAPI.Automation
 		public DevicePropertyType DevicePropertyType { get; set; }
 
 		[DataMember]
+		public ZonePropertyType ZonePropertyType { get; set; }
+
+		[DataMember]
 		public ConditionType ConditionType { get; set; }
+
+		[DataMember]
+		public StringConditionType StringConditionType { get; set; }
 
 		[DataMember]
 		public int IntValue{ get; set; }
@@ -48,6 +55,18 @@ namespace FiresecAPI.Automation
 
 		[Description("Состояние")]
 		DeviceState
+	}
+
+	public enum ZonePropertyType
+	{
+		[Description("Имя")]
+		Name,
+
+		[Description("Номер")]
+		No,
+
+		[Description("Тип")]
+		ZoneType
 	}
 
 	public enum PropertyType

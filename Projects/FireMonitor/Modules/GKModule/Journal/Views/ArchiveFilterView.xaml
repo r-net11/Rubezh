@@ -193,7 +193,7 @@
 							<StackPanel Orientation="Horizontal">
 								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
 								<Image Width="16" Source="{Binding SubsystemType, Converter={StaticResource XSubsystemTypeToIconConverter }, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
-								<TextBlock Text="{Binding SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" VerticalAlignment="Center" Margin="2" />
+								<TextBlock Text="{Binding SubsystemType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" Margin="2" />
 							</StackPanel>
 						</DataTemplate>
 					</ListBox.ItemTemplate>

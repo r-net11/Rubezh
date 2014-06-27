@@ -62,7 +62,7 @@
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<CheckBox IsChecked="{Binding IsEnable}" Margin="20, 0, 0, 0" Foreground="White" VerticalAlignment="Center"
-										Content="{Binding Subsystem, Converter={StaticResource SubsystemTypeToStringConverter}}">
+										Content="{Binding Subsystem, Converter={StaticResource EnumToDescriptionConverter}}">
 									</CheckBox>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
@@ -103,7 +103,7 @@
 								<DataTemplate>
 									<WrapPanel>
 										<CheckBox Margin="2" IsChecked="{Binding IsEnable}" Content="{Binding Name}"
-											ToolTip="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}"
+											ToolTip="{Binding StateType, Converter={StaticResource EnumToDescriptionConverter}}"
 											Checked="CheckBox_Checked_1" Unchecked="CheckBox_Checked_1" />
 									</WrapPanel>
 								</DataTemplate>
