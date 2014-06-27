@@ -73,12 +73,10 @@ namespace FiresecAPI.SKD
 		}
 
 		#region IDeviceState<XStateClass> Members
-
 		XStateClass IDeviceState<XStateClass>.StateType
 		{
 			get { return StateClass; }
 		}
-
 		#endregion
 	}
 }

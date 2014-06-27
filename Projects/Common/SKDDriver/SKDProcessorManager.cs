@@ -61,11 +61,13 @@ namespace SKDDriver
 			var skdStates = new SKDStates();
 			foreach (var device in SKDManager.Devices)
 			{
-				Watcher.AddDeviceStateToSKDStates(skdStates, device);
+				skdStates.DeviceStates.Add(device.State);
+				//Watcher.AddDeviceStateToSKDStates(skdStates, device);
 			}
 			foreach (var zone in SKDManager.Zones)
 			{
-				Watcher.AddZoneStateToSKDStates(skdStates, zone);
+				skdStates.ZoneStates.Add(zone.State);
+				//Watcher.AddZoneStateToSKDStates(skdStates, zone);
 			}
 			return skdStates;
 		}

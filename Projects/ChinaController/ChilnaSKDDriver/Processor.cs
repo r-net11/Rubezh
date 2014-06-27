@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.SKD;
 using ChinaSKDDriverAPI;
+using System.IO;
+using FiresecAPI.GK;
 
 namespace ChinaSKDDriver
 {
@@ -11,13 +13,32 @@ namespace ChinaSKDDriver
 	{
 		public static SKDConfiguration SKDConfiguration { get; private set; }
 		public static List<DeviceProcessor> DeviceProcessors { get; private set; }
+		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
+
+		public static void DoCallback(SKDCallbackResult callbackResult)
+		{
+			if (Processor.SKDCallbackResultEvent != null)
+				Processor.SKDCallbackResultEvent(callbackResult);
+		}
 
 		public static void Run(SKDConfiguration skdConfiguration)
 		{
+#if DEBUG
+			File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\FiresecService\bin\Debug\CPPWrapper.dll", true);
+#endif
 			DeviceProcessors = new List<DeviceProcessor>();
 			SKDConfiguration = skdConfiguration;
 
 			ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
+
+
+			foreach (var device in skdConfiguration.Devices)
+			{
+				device.State = new SKDDeviceState();
+				device.State.UID = device.UID;
+				device.State.StateClass = XStateClass.Unknown;
+			}
+			skdConfiguration.RootDevice.State.StateClass = XStateClass.Norm;
 
 			foreach (var device in skdConfiguration.RootDevice.Children)
 			{
@@ -25,6 +46,20 @@ namespace ChinaSKDDriver
 				DeviceProcessors.Add(deviceProcessor);
 				deviceProcessor.Run();
 			}
+		}
+
+		public static SKDStates SKDGetStates()
+		{
+			var skdStates = new SKDStates();
+			foreach (var device in SKDManager.Devices)
+			{
+				skdStates.DeviceStates.Add(device.State);
+			}
+			foreach (var zone in SKDManager.Zones)
+			{
+				skdStates.ZoneStates.Add(zone.State);
+			}
+			return skdStates;
 		}
 
 		public static SKDDeviceInfo GetdeviceInfo(Guid deviceUID)

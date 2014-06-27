@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.SKD;
 using System.Threading;
+using FiresecAPI.GK;
 
 namespace ChinaSKDDriver
 {
@@ -22,6 +23,12 @@ namespace ChinaSKDDriver
 
 		public void Run()
 		{
+			Device.State.StateClass = XStateClass.Unknown;
+			foreach (var child in Device.Children)
+			{
+				child.State.StateClass = XStateClass.Unknown;
+			}
+
 			Thread = new Thread(OnRun);
 			Thread.Start();
 			Wrapper.StartWatcher();
@@ -37,6 +44,19 @@ namespace ChinaSKDDriver
 					if (LoginID > 0)
 					{
 						Thread = null;
+
+						var callbackResult = new SKDCallbackResult();
+						callbackResult.SKDStates = new SKDStates();
+
+						Device.State.StateClass = XStateClass.Norm;
+						callbackResult.SKDStates.DeviceStates.Add(Device.State);
+						foreach (var child in Device.Children)
+						{
+							child.State.StateClass = XStateClass.Norm;
+							callbackResult.SKDStates.DeviceStates.Add(child.State);
+						}
+						
+						Processor.DoCallback(callbackResult);
 						return;
 					}
 					Thread.Sleep(TimeSpan.FromSeconds(5));
