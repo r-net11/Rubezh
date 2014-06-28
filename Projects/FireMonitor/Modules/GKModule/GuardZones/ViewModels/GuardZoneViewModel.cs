@@ -11,6 +11,7 @@ namespace GKModule.ViewModels
 	public class GuardZoneViewModel : BaseViewModel
 	{
 		public XGuardZone Zone { get; private set; }
+		public XGuardZone GuardZone { get { return Zone; } }
 		public XState State
 		{
 			get
@@ -36,9 +37,11 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => Zone);
+			OnPropertyChanged(() => GuardZone);
 		}
-		
+
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		public void OnShowOnPlan()
 		{

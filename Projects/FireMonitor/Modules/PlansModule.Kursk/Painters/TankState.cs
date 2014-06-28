@@ -1,5 +1,5 @@
 ﻿
-namespace PlansModule.Kursk.Designer
+namespace PlansModule.Kursk.Painters
 {
 	public enum TankState
 	{

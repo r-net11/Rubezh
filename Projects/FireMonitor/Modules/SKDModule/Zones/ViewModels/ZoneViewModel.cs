@@ -69,7 +69,6 @@ namespace SKDModule.ViewModels
 			DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
 		}
 
-
 		#region Ignore
 		public RelayCommand ZoneCommand { get; private set; }
 		void OnZone()

@@ -14,106 +14,70 @@ using SKDModule.ViewModels;
 using Infrastructure.Client.Plans;
 using Common;
 using FiresecAPI.GK;
+using Infrastructure.Client.Plans.Presenter;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace SKDModule.Plans.Designer
 {
-	class DoorPainter : PointPainter
+	class DoorPainter : BasePointPainter<Door, ShowDoorEvent>
 	{
-		private PresenterItem _presenterItem;
-		private Door _door;
-		private ContextMenu _contextMenu;
-		private DoorTooltipViewModel _tooltip;
-
 		public DoorPainter(PresenterItem presenterItem)
-			: base(presenterItem.DesignerCanvas, presenterItem.Element)
+			: base(presenterItem)
 		{
-			_contextMenu = null;
-			var elementDoor = presenterItem.Element as ElementDoor;
-			if (elementDoor != null)
-			{
-				_door = PlanPresenter.Cache.Get<Door>(elementDoor.DoorUID);
-				var stateClass = _door as IDeviceState<XStateClass>;
-				if (stateClass != null)
-					stateClass.StateChanged += OnPropertyChanged;
-			}
-			_presenterItem = presenterItem;
-			_presenterItem.IsPoint = true;
-			_presenterItem.ShowBorderOnMouseOver = true;
-			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			_presenterItem.Cursor = Cursors.Hand;
-			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
-			UpdateTooltip();
 		}
 
-		private void OnPropertyChanged()
+		protected override Door CreateItem(PresenterItem presenterItem)
 		{
-			if (_presenterItem != null)
-			{
-				UpdateTooltip();
-				_presenterItem.InvalidatePainter();
-				_presenterItem.DesignerCanvas.Refresh();
-			}
+			var element = presenterItem.Element as ElementDoor;
+			return element == null ? null : PlanPresenter.Cache.Get<Door>(element.DoorUID);
 		}
-		private void UpdateTooltip()
+		protected override StateTooltipViewModel<Door> CreateToolTip()
 		{
-			if (_door == null)
-				return;
+			return new DoorTooltipViewModel(Item);
+		}
+		protected override ContextMenu CreateContextMenu()
+		{
+			var contextMenu = new ContextMenu();
+			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
+			contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
+			return contextMenu;
+		}
+		protected override WindowBaseViewModel CreatePropertiesViewModel()
+		{
+			//return new DoorDetailsViewModel(Item);
+			return null;
+		}
 
-			if (_tooltip == null)
-				_tooltip = new DoorTooltipViewModel(_door);
-			_tooltip.OnStateChanged();
-		}
-
-		public override object GetToolTip(string title)
-		{
-			return _tooltip;
-		}
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.DoorPicture.GetBrush(GetStateBrush());
+			var background = PainterCache.GetBrush(GetStateColor());
+			return PictureCacheSource.DoorPicture.GetBrush(background);
 		}
 
-		public Brush GetStateBrush()
+		private Color GetStateColor()
 		{
-			return Brushes.Green;
-		}
-
-		public RelayCommand ShowInTreeCommand { get; private set; }
-		private void OnShowInTree()
-		{
-			//ServiceFactory.Events.GetEvent<ShowDoorEvent>().Publish(_door.UID);
-		}
-		private bool CanShowInTree()
-		{
-			return _door != null;
-		}
-
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		private void OnShowProperties()
-		{
-			//DialogService.ShowWindow(new DoorDetailsViewModel(_door));
-		}
-
-		private ContextMenu CreateContextMenu()
-		{
-			if (_contextMenu == null)
-			{
-				ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
-				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-
-				_contextMenu = new ContextMenu();
-				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
-					"Показать в дереве",
-					"pack://application:,,,/Controls;component/Images/BTree.png",
-					ShowInTreeCommand
-				));
-				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
-					"Свойства",
-					"pack://application:,,,/Controls;component/Images/BSettings.png",
-					ShowPropertiesCommand
-				));
-			}
-			return _contextMenu;
+			//switch (Item.DoorState)
+			//{
+			//    case XStateClass.Unknown:
+			//    case XStateClass.DBMissmatch:
+			//    case XStateClass.TechnologicalRegime:
+			//    case XStateClass.ConnectionLost:
+			//    case XStateClass.HasNoLicense:
+			//        return Colors.DarkGray;
+			//    case XStateClass.Fire1:
+			//    case XStateClass.Fire2:
+			//        return Colors.Red;
+			//    case XStateClass.Attention:
+			//        return Colors.Yellow;
+			//    case XStateClass.Ignore:
+			//        return Colors.Yellow;
+			//    case XStateClass.Norm:
+			//        return Colors.Green;
+			//    default:
+			//        return Colors.White;
+			//}
+			return Colors.Green;
 		}
 	}
 }

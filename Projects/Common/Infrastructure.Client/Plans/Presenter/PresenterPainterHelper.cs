@@ -50,7 +50,7 @@ namespace Infrastructure.Client.Plans.Presenter
 
 		private void OnShowInTree()
 		{
-			ServiceFactoryBase.Events.GetEvent<TShowEvent>().Publish(_painter.ItemUID);
+			ServiceFactoryBase.Events.GetEvent<TShowEvent>().Publish(Item.UID);
 		}
 		private bool CanShowInTree()
 		{
@@ -59,7 +59,9 @@ namespace Infrastructure.Client.Plans.Presenter
 
 		private void OnShowProperties()
 		{
-			DialogService.ShowWindow(_painter.CreatePropertiesViewModel());
+			var viewModel = _painter.CreatePropertiesViewModel();
+			if (viewModel != null)
+				DialogService.ShowWindow(viewModel);
 		}
 
 		private void OnPropertyChanged()
@@ -79,6 +81,23 @@ namespace Infrastructure.Client.Plans.Presenter
 					_contextMenu = _painter.CreateContextMenu();
 				return _contextMenu;
 			}
+		}
+
+		public MenuItem CreateShowInTreeItem()
+		{
+			return UIHelper.BuildMenuItem(
+				"Показать в дереве",
+				"pack://application:,,,/Controls;component/Images/BTree.png",
+				_painter.ShowInTreeCommand
+			);
+		}
+		public MenuItem CreateShowPropertiesItem()
+		{
+			return UIHelper.BuildMenuItem(
+				"Свойства",
+				"pack://application:,,,/Controls;component/Images/BSettings.png",
+				_painter.ShowPropertiesCommand
+			);
 		}
 	}
 }

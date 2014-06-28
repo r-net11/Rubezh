@@ -17,6 +17,5 @@ namespace Infrastructure.Client.Plans.Presenter
 		RelayCommand ShowInTreeCommand { get; set; }
 		RelayCommand ShowPropertiesCommand { get; set; }
 		bool IsPoint { get; }
-		Guid ItemUID { get; }
 	}
 }

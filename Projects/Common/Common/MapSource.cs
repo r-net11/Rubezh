@@ -9,111 +9,77 @@ namespace Common
 	public class MapSource
 	{
 		private Dictionary<Type, object> _sourceMap;
-		private MethodInfo _addIdentityMapMethod;
-		private MethodInfo _addMapMethod;
 
 		public MapSource()
 		{
 			_sourceMap = new Dictionary<Type, object>();
-			_addMapMethod = GetType().GetMethod("AddMap");
-			_addIdentityMapMethod = GetType().GetMethod("AddIdentityMap", new Type[] { });
-		}
-		public MapSource(params Type[] types)
-		{
-			types.ForEach(type =>
-			{
-				if (typeof(IIdentity).IsAssignableFrom(type))
-				{
-					var generic = _addIdentityMapMethod.MakeGenericMethod(type);
-					generic.Invoke(this, null);
-				}
-				else
-				{
-					var generic = _addMapMethod.MakeGenericMethod(type);
-					generic.Invoke(this, null);
-				}
-			});
 		}
 
-		public void Add<T, TT>()
-		{
-			Add<T>();
-			Add<TT>();
-		}
-		public void Add<T, TT, TTT>()
-		{
-			Add<T>();
-			Add<TT>();
-			Add<TTT>();
-		}
-		public void Add<T, TT, TTT, TTTT>()
-		{
-			Add<T>();
-			Add<TT>();
-			Add<TTT>();
-			Add<TTTT>();
-		}
-		public void Add<T>()
-		{
-			if (typeof(IIdentity).IsAssignableFrom(typeof(T)))
-			{
-				var generic = _addIdentityMapMethod.MakeGenericMethod(typeof(T));
-				generic.Invoke(this, null);
-			}
-			else
-				AddMap<T>();
-		}
-
-		public void AddMap<T>()
-		{
-			_sourceMap.Add(typeof(T), new Map<T>());
-		}
-		public void AddIdentityMap<T>()
+		public void Add<T>(Func<IEnumerable<T>> builder = null)
 			where T : IIdentity
-		{
-			_sourceMap.Add(typeof(T), new IdentityMap<T>());
-		}
-		public void AddIdentityMap<T>(Func<IEnumerable<T>> builder)
-			where T : IIdentity
-		{
-			_sourceMap.Add(typeof(T), new IdentityMap<T>(builder));
-		}
-		public void Build<T>(IEnumerable<T> items, Func<T, Guid> keySelector)
 		{
 			if (_sourceMap.ContainsKey(typeof(T)))
-				((Map<T>)_sourceMap[typeof(T)]).Build(items, keySelector);
+				_sourceMap.Add(typeof(T), new Map<T>(builder));
+			else
+				_sourceMap[typeof(T)] = new Map<T>(builder);
 		}
+		public void Add<T, TT>(Func<IEnumerable<T>> builderT = null, Func<IEnumerable<TT>> builderTT = null)
+			where T : IIdentity
+			where TT : IIdentity
+		{
+			Add<T>(builderT);
+			Add<TT>(builderTT);
+		}
+		public void Add<T, TT, TTT>(Func<IEnumerable<T>> builderT = null, Func<IEnumerable<TT>> builderTT = null, Func<IEnumerable<TTT>> builderTTT = null)
+			where T : IIdentity
+			where TT : IIdentity
+			where TTT : IIdentity
+		{
+			Add<T>(builderT);
+			Add<TT>(builderTT);
+			Add<TTT>(builderTTT);
+		}
+		public void Add<T, TT, TTT, TTTT>(Func<IEnumerable<T>> builderT = null, Func<IEnumerable<TT>> builderTT = null, Func<IEnumerable<TTT>> builderTTT = null, Func<IEnumerable<TTTT>> builderTTTT = null)
+			where T : IIdentity
+			where TT : IIdentity
+			where TTT : IIdentity
+			where TTTT : IIdentity
+		{
+			Add<T>(builderT);
+			Add<TT>(builderTT);
+			Add<TTT>(builderTTT);
+			Add<TTTT>(builderTTTT);
+		}
+
+		public bool Contains<T>()
+		{
+			return _sourceMap.ContainsKey(typeof(T));
+		}
+
 		public void Build<T>(IEnumerable<T> items = null)
 			where T : IIdentity
 		{
 			if (_sourceMap.ContainsKey(typeof(T)))
-				((IdentityMap<T>)_sourceMap[typeof(T)]).Build(items);
+				((Map<T>)_sourceMap[typeof(T)]).Build(items);
+		}
+		public void BuildSafe<T>(IEnumerable<T> items = null)
+			where T : IIdentity
+		{
+			if (_sourceMap.ContainsKey(typeof(T)))
+				((Map<T>)_sourceMap[typeof(T)]).BuildSafe(items);
 		}
 
 		public void BuildAll()
 		{
-			_sourceMap.ForEach(pair =>
-			{
-				if (typeof(IIdentity).IsAssignableFrom(pair.Key))
-				{
-					var method = pair.Value.GetType().GetMethod("BuildIdentity", BindingFlags.Instance | BindingFlags.NonPublic);
-					method.Invoke(pair.Value, new object[] { });
-				}
-			});
+			_sourceMap.ForEach(pair => ((IMap)pair.Value).Build());
 		}
 		public void BuildAllSafe()
 		{
-			_sourceMap.ForEach(pair =>
-			{
-				if (typeof(IIdentity).IsAssignableFrom(pair.Key))
-				{
-					var method = pair.Value.GetType().GetMethod("BuildIdentitySafe", BindingFlags.Instance | BindingFlags.NonPublic);
-					method.Invoke(pair.Value, new object[] { });
-				}
-			});
+			_sourceMap.ForEach(pair => ((IMap)pair.Value).BuildSafe());
 		}
 
 		public T Get<T>(Guid uid)
+			where T : IIdentity
 		{
 			return _sourceMap.ContainsKey(typeof(T)) ? ((Map<T>)_sourceMap[typeof(T)]).GetItem(uid) : default(T);
 		}

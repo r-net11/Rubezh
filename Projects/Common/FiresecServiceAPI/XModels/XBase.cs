@@ -66,6 +66,11 @@ namespace FiresecAPI.GK
 			get { return State; }
 		}
 
+		Guid IIdentity.UID
+		{
+			get { return BaseUID; }
+		}
+
 		#endregion
 	}
 }

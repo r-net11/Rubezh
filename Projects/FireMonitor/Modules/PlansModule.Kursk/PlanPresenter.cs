@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
-using PlansModule.Kursk.Designer;
+using PlansModule.Kursk.Painters;
 
 namespace PlansModule.Kursk
 {
 	class PlanPresenter : IPlanPresenter<Plan, XStateClass>
 	{
+		public static MapSource Cache { get; private set; }
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
+			Cache = new MapSource();
+			Cache.Add(() => XManager.Devices);
+
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			_monitors = new Dictionary<Plan, PlanMonitor>();
@@ -26,7 +32,7 @@ namespace PlansModule.Kursk
 
 		public void SubscribeStateChanged(Plan plan, Action callBack)
 		{
-			Helper.BuildMap();
+			Cache.BuildAll();
 			if (_monitors.ContainsKey(plan))
 				_monitors[plan].AddCallBack(callBack);
 			else
@@ -51,7 +57,7 @@ namespace PlansModule.Kursk
 		}
 		public void ExtensionAttached()
 		{
-			Helper.BuildMap();
+			Cache.BuildAll();
 		}
 
 		#endregion

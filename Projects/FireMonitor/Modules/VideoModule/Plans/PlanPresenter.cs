@@ -17,13 +17,14 @@ namespace VideoModule.Plans
 {
 	class PlanPresenter : IPlanPresenter<Plan, XStateClass>
 	{
-		public static IdentityMap<Camera> Cache { get; private set; }
+		public static MapSource Cache { get; private set; }
 
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
-			Cache = new IdentityMap<Camera>(() => FiresecManager.SystemConfiguration.AllCameras);
-			Cache.Build();
+			Cache = new MapSource();
+			Cache.Add(() => FiresecManager.SystemConfiguration.AllCameras);
+			Cache.BuildAll();
 			ServiceFactory.Events.GetEvent<ShowCameraOnPlanEvent>().Subscribe(OnShowCameraOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
@@ -34,7 +35,7 @@ namespace VideoModule.Plans
 
 		public void SubscribeStateChanged(Plan plan, Action callBack)
 		{
-			Cache.Build();
+			Cache.BuildAll();
 			if (_monitors.ContainsKey(plan))
 				_monitors[plan].AddCallBack(callBack);
 			else
@@ -59,7 +60,7 @@ namespace VideoModule.Plans
 		}
 		public void ExtensionAttached()
 		{
-			Cache.Build();
+			Cache.BuildAll();
 		}
 
 		#endregion

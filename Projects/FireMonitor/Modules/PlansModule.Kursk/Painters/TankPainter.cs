@@ -8,13 +8,12 @@ using FiresecAPI.Models;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 
-namespace PlansModule.Kursk.Designer
+namespace PlansModule.Kursk.Painters
 {
 	class TankPainter : GeometryPainter<GeometryGroup>
 	{
 		private PresenterItem _presenterItem;
 		private XDevice _device;
-		private ContextMenu _contextMenu;
 		private static Brush _brush;
 
 		public TankPainter(PresenterItem presenterItem)
@@ -23,16 +22,12 @@ namespace PlansModule.Kursk.Designer
 			var elementRectangleTank = presenterItem.Element as ElementRectangleTank;
 			if (elementRectangleTank != null)
 			{
-				_device = Helper.GetXDevice(elementRectangleTank);
+				_device = PlanPresenter.Cache.Get<XDevice>(elementRectangleTank.XDeviceUID);
 				if (_device != null && _device.State != null)
 					_device.State.StateChanged += OnPropertyChanged;
 			}
-			_contextMenu = null;
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
-			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			//_presenterItem.Cursor = Cursors.Hand;
-			//_presenterItem.ClickEvent += (s, e) => OnShowProperties();
 			_presenterItem.Title = GetTooltip();
 			UpdateBrush();
 		}
@@ -161,11 +156,6 @@ namespace PlansModule.Kursk.Designer
 		public override Rect Bounds
 		{
 			get { return Pen == null ? Rect : new Rect(Rect.Left - Pen.Thickness / 2, Rect.Top - Pen.Thickness / 2, Rect.Width + Pen.Thickness, Rect.Height + Pen.Thickness); }
-		}
-
-		private ContextMenu CreateContextMenu()
-		{
-			return _contextMenu;
 		}
 	}
 }

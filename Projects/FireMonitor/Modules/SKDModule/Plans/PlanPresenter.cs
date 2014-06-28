@@ -25,9 +25,9 @@ namespace SKDModule.Plans
 		public PlanPresenter()
 		{
 			Cache = new MapSource();
-			Cache.AddIdentityMap<SKDDevice>(() => SKDManager.Devices);
-			Cache.AddIdentityMap<SKDZone>(() => SKDManager.Zones);
-			Cache.AddIdentityMap<Door>(() => SKDManager.SKDConfiguration.Doors);
+			Cache.Add<SKDDevice>(() => SKDManager.Devices);
+			Cache.Add<SKDZone>(() => SKDManager.Zones);
+			Cache.Add<Door>(() => SKDManager.SKDConfiguration.Doors);
 			
 			ServiceFactory.Events.GetEvent<ShowSKDDeviceOnPlanEvent>().Subscribe(OnShowSKDDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Subscribe(OnShowSKDZoneOnPlan);

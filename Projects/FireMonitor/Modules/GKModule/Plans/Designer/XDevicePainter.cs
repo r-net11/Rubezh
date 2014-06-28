@@ -25,8 +25,8 @@ namespace GKModule.Plans.Designer
 
 		protected override XDevice CreateItem(PresenterItem presenterItem)
 		{
-			var elementXDevice = presenterItem.Element as ElementXDevice;
-			return elementXDevice == null ? null : PlanPresenter.Cache.Get<XDevice>(elementXDevice.XDeviceUID);
+			var element = presenterItem.Element as ElementXDevice;
+			return element == null ? null : PlanPresenter.Cache.Get<XDevice>(element.XDeviceUID);
 		}
 		protected override StateTooltipViewModel<XDevice> CreateToolTip()
 		{
@@ -37,30 +37,18 @@ namespace GKModule.Plans.Designer
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 
 			var contextMenu = new ContextMenu();
-			contextMenu.Items.Add(UIHelper.BuildMenuItem(
-				"Показать в дереве",
-				"pack://application:,,,/Controls;component/Images/BTree.png",
-				ShowInTreeCommand
-			));
+			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
 			contextMenu.Items.Add(UIHelper.BuildMenuItem(
 				"Показать связанные события",
 				"pack://application:,,,/Controls;component/Images/BJournal.png",
 				ShowJournalCommand
 			));
-			contextMenu.Items.Add(UIHelper.BuildMenuItem(
-				"Свойства",
-				"pack://application:,,,/Controls;component/Images/BSettings.png",
-				ShowPropertiesCommand
-			));
+			contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
 			return contextMenu;
 		}
 		protected override WindowBaseViewModel CreatePropertiesViewModel()
 		{
 			return new DeviceDetailsViewModel(Item);
-		}
-		protected override Guid ItemUID
-		{
-			get { return Item.BaseUID; }
 		}
 
 		protected override Brush GetBrush()

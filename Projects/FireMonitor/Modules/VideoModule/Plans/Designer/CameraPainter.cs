@@ -12,58 +12,40 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using VideoModule.ViewModels;
 using Infrastructure.Client.Plans;
+using Infrastructure.Common.Windows.ViewModels;
+using System;
+using Infrastructure.Client.Plans.Presenter;
 
 namespace VideoModule.Plans.Designer
 {
-	class CameraPainter : PointPainter
+	class CameraPainter : BasePointPainter<Camera, ShowCameraEvent>
 	{
-		private PresenterItem _presenterItem;
-		private Camera _camera;
-		private ContextMenu _contextMenu;
-		private CameraTooltipViewModel _tooltip;
-
 		public CameraPainter(PresenterItem presenterItem)
-			: base(presenterItem.DesignerCanvas, presenterItem.Element)
+			: base(presenterItem)
 		{
-			_contextMenu = null;
-			var elementCamera = presenterItem.Element as ElementCamera;
-			if (elementCamera != null)
-			{
-				_camera = PlanPresenter.Cache.GetItem(elementCamera.CameraUID);
-				//if (_camera != null && _camera.StateClass != null)
-				//	_camera.StateChanged += OnPropertyChanged;
-			}
-			_presenterItem = presenterItem;
-			_presenterItem.IsPoint = true;
-			_presenterItem.ShowBorderOnMouseOver = true;
-			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			_presenterItem.Cursor = Cursors.Hand;
-			_presenterItem.ClickEvent += (s, e) => OnShowProperties();
-			UpdateTooltip();
 		}
 
-		private void OnPropertyChanged()
+		protected override Camera CreateItem(PresenterItem presenterItem)
 		{
-			if (_presenterItem != null)
-			{
-				UpdateTooltip();
-				_presenterItem.InvalidatePainter();
-				_presenterItem.DesignerCanvas.Refresh();
-			}
+			var element = presenterItem.Element as ElementCamera;
+			return element == null ? null : PlanPresenter.Cache.Get<Camera>(element.CameraUID);
 		}
-		private void UpdateTooltip()
+		protected override StateTooltipViewModel<Camera> CreateToolTip()
 		{
-			if (_camera == null)
-				return;
-			if (_tooltip == null)
-				_tooltip = new CameraTooltipViewModel(_camera);
-			_tooltip.OnStateChanged();
+			return new CameraTooltipViewModel(Item);
+		}
+		protected override ContextMenu CreateContextMenu()
+		{
+			var contextMenu = new ContextMenu();
+			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
+			contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
+			return contextMenu;
+		}
+		protected override WindowBaseViewModel CreatePropertiesViewModel()
+		{
+			return new CameraDetailsViewModel(Item);
 		}
 
-		public override object GetToolTip(string title)
-		{
-			return _tooltip;
-		}
 		protected override Brush GetBrush()
 		{
 			var background = PainterCache.GetBrush(GetStateColor());
@@ -72,7 +54,7 @@ namespace VideoModule.Plans.Designer
 
 		private Color GetStateColor()
 		{
-			switch (_camera.CameraStateStateClass)
+			switch (Item.CameraStateStateClass)
 			{
 				case XStateClass.Unknown:
 				case XStateClass.DBMissmatch:
@@ -92,40 +74,6 @@ namespace VideoModule.Plans.Designer
 				default:
 					return Colors.White;
 			}
-		}
-
-		public RelayCommand ShowInTreeCommand { get; private set; }
-		private void OnShowInTree()
-		{
-			ServiceFactory.Events.GetEvent<ShowCameraEvent>().Publish(_camera.UID);
-		}
-
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		private void OnShowProperties()
-		{
-			DialogService.ShowWindow(new CameraDetailsViewModel(_camera));
-		}
-
-		private ContextMenu CreateContextMenu()
-		{
-			if (_contextMenu == null)
-			{
-				ShowInTreeCommand = new RelayCommand(OnShowInTree);
-				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-
-				_contextMenu = new ContextMenu();
-				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
-					"Показать в дереве",
-					"pack://application:,,,/Controls;component/Images/BTree.png",
-					ShowInTreeCommand
-				));
-				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
-					"Свойства",
-					"pack://application:,,,/Controls;component/Images/BSettings.png",
-					ShowPropertiesCommand
-				));
-			}
-			return _contextMenu;
 		}
 	}
 }

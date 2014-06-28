@@ -12,136 +12,55 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using Infrastructure.Client.Plans;
+using Infrastructure.Client.Plans.Presenter;
+using System;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.Plans.Designer
 {
-	class XGuardZonePainter : PolygonZonePainter, IPainter
+	class XGuardZonePainter : BaseZonePainter<XGuardZone, ShowXGuardZoneEvent>
 	{
-		private PresenterItem _presenterItem;
-		private XGuardZone GuardZone;
-		private GuardZoneViewModel GuardZoneViewModel;
-		private ContextMenu _contextMenu;
-		private GuardZoneTooltipViewModel _tooltip;
+		private GuardZoneViewModel _guardZoneViewModel;
 
 		public XGuardZonePainter(PresenterItem presenterItem)
-			: base(presenterItem.DesignerCanvas, presenterItem.Element)
+			: base(presenterItem)
 		{
-			_contextMenu = null;
-			_presenterItem = presenterItem;
-			_presenterItem.ShowBorderOnMouseOver = true;
-			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			GuardZone = PlanPresenter.Cache.Get<XGuardZone>(((IElementZone)_presenterItem.Element).ZoneUID);
-			if (GuardZone != null)
+			if (Item != null)
+				_guardZoneViewModel = new ViewModels.GuardZoneViewModel(Item);
+		}
+
+		protected override XGuardZone CreateItem(PresenterItem presenterItem)
+		{
+			var element = presenterItem.Element as IElementZone;
+			return element == null ? null : PlanPresenter.Cache.Get<XGuardZone>(element.ZoneUID);
+		}
+		protected override StateTooltipViewModel<XGuardZone> CreateToolTip()
+		{
+			return new GuardZoneTooltipViewModel(Item);
+		}
+		protected override ContextMenu CreateContextMenu()
+		{
+			var contextMenu = new ContextMenu();
+			if (Item != null)
 			{
-				GuardZoneViewModel = new ViewModels.GuardZoneViewModel(GuardZone);
-				GuardZone.State.StateChanged += OnPropertyChanged;
+				contextMenu.Items.Add(Helper.CreateShowInTreeItem());
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(
+					"Показать связанные события",
+					"pack://application:,,,/Controls;component/Images/BJournal.png",
+					_guardZoneViewModel.ShowJournalCommand
+				));
+				contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
 			}
-			_presenterItem.Cursor = Cursors.Hand;
-			_presenterItem.ClickEvent += (s, e) => ShowProperties();
-			UpdateTooltip();
+			return contextMenu;
+		}
+		protected override WindowBaseViewModel CreatePropertiesViewModel()
+		{
+			return new GuardZoneDetailsViewModel(Item);
 		}
 
-		private void OnPropertyChanged()
+		protected override Color GetStateColor()
 		{
-			if (_presenterItem != null)
-			{
-				UpdateTooltip();
-				_presenterItem.InvalidatePainter();
-				_presenterItem.DesignerCanvas.Refresh();
-			}
-		}
-		private void UpdateTooltip()
-		{
-			if (GuardZone == null)
-				return;
-			if (_tooltip == null)
-				_tooltip = new GuardZoneTooltipViewModel(GuardZone);
-			_tooltip.OnStateChanged();
-		}
-
-		#region IPainter Members
-		public override object GetToolTip(string title)
-		{
-			return _tooltip;
-		}
-		protected override Brush GetBrush()
-		{
-			return PainterCache.GetTransparentBrush(GetStateColor());
-		}
-		#endregion
-
-		public Color GetStateColor()
-		{
-			switch (GuardZone.State.StateClass)
-			{
-				case XStateClass.Unknown:
-				case XStateClass.DBMissmatch:
-				case XStateClass.TechnologicalRegime:
-				case XStateClass.ConnectionLost:
-				case XStateClass.HasNoLicense:
-					return Colors.DarkGray;
-
-				case XStateClass.Fire1:
-				case XStateClass.Fire2:
-					return Colors.Red;
-
-				case XStateClass.Attention:
-					return Colors.Yellow;
-
-				case XStateClass.Ignore:
-					return Colors.Yellow;
-
-				case XStateClass.Norm:
-					return Colors.Brown;
-
-				default:
-					return Colors.White;
-			}
-		}
-
-		public RelayCommand ShowInTreeCommand { get; private set; }
-		private void OnShowInTree()
-		{
-			ServiceFactory.Events.GetEvent<ShowXGuardZoneEvent>().Publish(GuardZone.BaseUID);
-		}
-		private bool CanShowInTree()
-		{
-			return GuardZone != null;
-		}
-
-		void ShowProperties()
-		{
-			DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
-		}
-
-		private ContextMenu CreateContextMenu()
-		{
-			if (_contextMenu == null)
-			{
-				if (GuardZone != null)
-				{
-					ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
-
-					_contextMenu = new ContextMenu();
-					_contextMenu.Items.Add(UIHelper.BuildMenuItem(
-						"Показать в дереве",
-						"pack://application:,,,/Controls;component/Images/BTree.png",
-						ShowInTreeCommand
-					));
-
-					_contextMenu.Items.Add(UIHelper.BuildMenuItem(
-						"Показать связанные события",
-						"pack://application:,,,/Controls;component/Images/BJournal.png",
-						GuardZoneViewModel.ShowJournalCommand
-					));
-					_contextMenu.Items.Add(UIHelper.BuildMenuItem(
-						"Свойства",
-						"pack://application:,,,/Controls;component/Images/BSettings.png",
-						GuardZoneViewModel.ShowPropertiesCommand
-					));
-				}
-			}
-			return _contextMenu;
+			return Item.State.StateClass == XStateClass.Norm ? Colors.Brown : base.GetStateColor();
 		}
 	}
 }

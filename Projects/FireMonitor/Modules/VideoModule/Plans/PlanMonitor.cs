@@ -19,7 +19,7 @@ namespace VideoModule.Plans
 		{
 			foreach (var elementCamera in Plan.ElementExtensions.OfType<ElementCamera>())
 			{
-				var camera = PlanPresenter.Cache.GetItem(elementCamera.CameraUID);
+				var camera = PlanPresenter.Cache.Get<Camera>(elementCamera.CameraUID);
 				AddState((IDeviceState<XStateClass>)camera);
 			}
 		}

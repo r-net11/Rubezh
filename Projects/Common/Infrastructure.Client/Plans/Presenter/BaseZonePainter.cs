@@ -32,7 +32,6 @@ namespace Infrastructure.Client.Plans.Presenter
 			Helper.Initialize();
 		}
 
-		protected abstract Guid ItemUID { get; }
 		protected abstract T CreateItem(PresenterItem presenterItem);
 		protected abstract StateTooltipViewModel<T> CreateToolTip();
 		protected abstract ContextMenu CreateContextMenu();
@@ -115,11 +114,6 @@ namespace Infrastructure.Client.Plans.Presenter
 		{
 			get { return ShowPropertiesCommand; }
 			set { ShowPropertiesCommand = value; }
-		}
-
-		Guid IBasePainter<T, TShowEvent>.ItemUID
-		{
-			get { return ItemUID; }
 		}
 
 		#endregion

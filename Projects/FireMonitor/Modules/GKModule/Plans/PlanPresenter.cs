@@ -24,10 +24,10 @@ namespace GKModule.Plans
 		public PlanPresenter()
 		{
 			Cache = new MapSource();
-			Cache.AddIdentityMap<XZone>(() => XManager.Zones);
-			Cache.AddIdentityMap<XGuardZone>(() => XManager.DeviceConfiguration.GuardZones);
-			Cache.AddIdentityMap<XDevice>(() => XManager.Devices);
-			Cache.AddIdentityMap<XDirection>(() => XManager.Directions);
+			Cache.Add<XZone>(() => XManager.Zones);
+			Cache.Add<XGuardZone>(() => XManager.DeviceConfiguration.GuardZones);
+			Cache.Add<XDevice>(() => XManager.Devices);
+			Cache.Add<XDirection>(() => XManager.Directions);
 
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Subscribe(OnShowXZoneOnPlan);

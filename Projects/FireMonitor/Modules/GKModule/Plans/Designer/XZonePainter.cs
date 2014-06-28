@@ -43,11 +43,7 @@ namespace GKModule.Plans.Designer
 			var contextMenu = new ContextMenu();
 			if (Item != null)
 			{
-				contextMenu.Items.Add(UIHelper.BuildMenuItem(
-					"Показать в дереве",
-					"pack://application:,,,/Controls;component/Images/BTree.png",
-					ShowInTreeCommand
-				));
+				contextMenu.Items.Add(Helper.CreateShowInTreeItem());
 				contextMenu.Items.Add(UIHelper.BuildMenuItem(
 					"Отключить все устройства",
 					"pack://application:,,,/Controls;component/Images/BTurnOff.png",
@@ -63,21 +59,13 @@ namespace GKModule.Plans.Designer
 					"pack://application:,,,/Controls;component/Images/BJournal.png",
 					_zoneViewModel.ShowJournalCommand
 				));
-				contextMenu.Items.Add(UIHelper.BuildMenuItem(
-					"Свойства",
-					"pack://application:,,,/Controls;component/Images/BSettings.png",
-					_zoneViewModel.ShowPropertiesCommand
-				));
+				contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
 			}
 			return contextMenu;
 		}
 		protected override WindowBaseViewModel CreatePropertiesViewModel()
 		{
 			return new ZoneDetailsViewModel(Item);
-		}
-		protected override Guid ItemUID
-		{
-			get { return Item.BaseUID; }
 		}
 	}
 }

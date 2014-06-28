@@ -4,9 +4,17 @@ using System.Linq;
 
 namespace Common
 {
-	public class Map<T>
+	public class Map<T> : IMap
+		where T : IIdentity
 	{
 		private Dictionary<Guid, T> _map;
+
+		public Func<IEnumerable<T>> Builder { get; private set; }
+
+		public Map(Func<IEnumerable<T>> builder = null)
+		{
+			Builder = builder;
+		}
 
 		public T GetItem(Guid guid)
 		{
@@ -18,45 +26,41 @@ namespace Common
 			return GetItem(key);
 		}
 
-		public void BuildSafe(IEnumerable<T> items, Func<T, Guid> keySelector)
-		{
-			_map = items == null ? new Dictionary<Guid, T>() : items.GroupBy(keySelector).ToDictionary(group => group.Key, group => group.First());
-		}
-		public void Build(IEnumerable<T> items, Func<T, Guid> keySelector)
-		{
-			_map = items == null ? new Dictionary<Guid, T>() : items.ToDictionary(keySelector);
-		}
-	}
-	public class IdentityMap<T> : Map<T>
-		where T : IIdentity
-	{
-		public Func<IEnumerable<T>> Builder { get; private set; }
-
-		public IdentityMap(Func<IEnumerable<T>> builder = null)
-		{
-			Builder = builder;
-		}
-
 		public void BuildSafe(IEnumerable<T> items = null)
 		{
 			if (items == null && Builder != null)
 				items = Builder();
-			BuildSafe(items, item => item.UID);
+			_map = items == null ? new Dictionary<Guid, T>() : items.GroupBy(KeySelecter).ToDictionary(group => group.Key, group => group.First());
 		}
 		public void Build(IEnumerable<T> items = null)
 		{
 			if (items == null && Builder != null)
 				items = Builder();
-			Build(items, item => item.UID);
+			_map = items == null ? new Dictionary<Guid, T>() : items.ToDictionary(KeySelecter);
 		}
 
-		private void BuildIdentitySafe()
+		private Guid KeySelecter(T item)
 		{
-			BuildSafe();
+			return item.UID;
 		}
-		private void BuildIdentity()
+
+		#region IMap Members
+
+		void IMap.Build()
 		{
 			Build();
 		}
+
+		void IMap.BuildSafe()
+		{
+			BuildSafe();
+		}
+
+		#endregion
+	}
+	internal interface IMap
+	{
+		void Build();
+		void BuildSafe();
 	}
 }

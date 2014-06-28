@@ -83,6 +83,7 @@
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
       <DependentUpon>CardNumberView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\ShowDoorEvent.cs" />
     <Compile Include="Events\ShowDoorOnPlanEvent.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
@@ -312,7 +313,6 @@
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\DoorPainter.cs" />
-    <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\SKDDevicePainter.cs" />
     <Compile Include="Plans\Designer\SKDZonePainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
