@@ -74,10 +74,17 @@
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationItem.cs" />
+    <Compile Include="Plans\Presenter\BasePointPainter.cs" />
+    <Compile Include="Plans\Presenter\BaseZonePainter.cs" />
+    <Compile Include="Plans\Presenter\IBasePainter.cs" />
+    <Compile Include="Plans\Presenter\PresenterPainterHelper.cs" />
+    <Compile Include="Plans\Presenter\StateMonitor.cs" />
+    <Compile Include="Plans\UIHelper.cs" />
     <Compile Include="Plans\ViewModels\ImageTextTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
     <Compile Include="Plans\ViewModels\IPlanDesignerViewModel.cs" />
     <Compile Include="Plans\ViewModels\ImageTextStateTooltipViewModel.cs" />
+    <Compile Include="Plans\Presenter\StateTooltipViewModel.cs" />
     <Compile Include="Plans\Views\ImageTextTooltipView.xaml.cs">
       <DependentUpon>ImageTextTooltipView.xaml</DependentUpon>
     </Compile>

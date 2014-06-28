@@ -18,9 +18,17 @@ namespace GKModule.Plans
 {
 	class PlanPresenter : IPlanPresenter<Plan, XStateClass>
 	{
+		public static MapSource Cache { get; private set; }
+
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
+			Cache = new MapSource();
+			Cache.AddIdentityMap<XZone>(() => XManager.Zones);
+			Cache.AddIdentityMap<XGuardZone>(() => XManager.DeviceConfiguration.GuardZones);
+			Cache.AddIdentityMap<XDevice>(() => XManager.Devices);
+			Cache.AddIdentityMap<XDirection>(() => XManager.Directions);
+
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Subscribe(OnShowXZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXGuardZoneOnPlanEvent>().Subscribe(OnShowXGuardZoneOnPlan);
@@ -34,7 +42,7 @@ namespace GKModule.Plans
 
 		public void SubscribeStateChanged(Plan plan, Action callBack)
 		{
-			Helper.BuildMap();
+			Cache.BuildAllSafe();
 			if (_monitors.ContainsKey(plan))
 				_monitors[plan].AddCallBack(callBack);
 			else
@@ -78,7 +86,7 @@ namespace GKModule.Plans
 		public void ExtensionAttached()
 		{
 			using (new TimeCounter("XDevice.ExtensionAttached.BuildMap: {0}"))
-				Helper.BuildMap();
+				Cache.BuildAllSafe();
 		}
 
 		#endregion

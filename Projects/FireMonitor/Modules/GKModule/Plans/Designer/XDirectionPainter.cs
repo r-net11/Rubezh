@@ -14,6 +14,7 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using Infrastructure.Client.Plans;
 
 namespace GKModule.Plans.Designer
 {
@@ -36,7 +37,7 @@ namespace GKModule.Plans.Designer
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			_direction = Helper.GetXDirection((IElementDirection)_presenterItem.Element);
+			_direction = PlanPresenter.Cache.Get<XDirection>(((IElementDirection)_presenterItem.Element).DirectionUID);
 			_showText = _direction != null && _presenterItem.Element is ElementRectangleXDirection;
 			if (_direction != null)
 				_direction.State.StateChanged += OnPropertyChanged;
@@ -57,9 +58,8 @@ namespace GKModule.Plans.Designer
 				return;
 
 			if (_tooltip == null)
-			{
 				_tooltip = new DirectionTooltipViewModel(_direction);
-			}
+			_tooltip.OnStateChanged();
 		}
 
 		#region IPainter Members
@@ -180,17 +180,17 @@ namespace GKModule.Plans.Designer
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 				_contextMenu = new ContextMenu();
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
+				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 					"Показать в дереве", 
 					"pack://application:,,,/Controls;component/Images/BTree.png", 
 					ShowInTreeCommand
 				));
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
+				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 					"Показать связанные события", 
 					"pack://application:,,,/Controls;component/Images/BJournal.png", 
 					ShowJournalCommand
 				));
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
+				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 					"Свойства", 
 					"pack://application:,,,/Controls;component/Images/BSettings.png", 
 					ShowPropertiesCommand

@@ -259,7 +259,7 @@ namespace GKModule.ViewModels
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
+		private void OnShowOnPlan()
 		{
 			ShowOnPlanHelper.ShowDevice(Device, Plan);
 		}

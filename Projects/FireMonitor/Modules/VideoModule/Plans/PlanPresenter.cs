@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -16,9 +17,13 @@ namespace VideoModule.Plans
 {
 	class PlanPresenter : IPlanPresenter<Plan, XStateClass>
 	{
+		public static IdentityMap<Camera> Cache { get; private set; }
+
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
+			Cache = new IdentityMap<Camera>(() => FiresecManager.SystemConfiguration.AllCameras);
+			Cache.Build();
 			ServiceFactory.Events.GetEvent<ShowCameraOnPlanEvent>().Subscribe(OnShowCameraOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
@@ -29,7 +34,7 @@ namespace VideoModule.Plans
 
 		public void SubscribeStateChanged(Plan plan, Action callBack)
 		{
-			Helper.BuildMap();
+			Cache.Build();
 			if (_monitors.ContainsKey(plan))
 				_monitors[plan].AddCallBack(callBack);
 			else
@@ -54,7 +59,7 @@ namespace VideoModule.Plans
 		}
 		public void ExtensionAttached()
 		{
-			Helper.BuildMap();
+			Cache.Build();
 		}
 
 		#endregion

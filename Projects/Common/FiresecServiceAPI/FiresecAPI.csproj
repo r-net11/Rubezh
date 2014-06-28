@@ -205,6 +205,7 @@
     <Compile Include="SKD\SKDManager\ChinaController_2_4Helper.cs" />
     <Compile Include="SKD\SKDManager\ChinaController_4_4Helper.cs" />
     <Compile Include="SKD\SKDManager\ControllerHelper.cs" />
+    <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
     <Compile Include="XModels\Guard\XGuardZoneAccess.cs" />
     <Compile Include="XModels\INamedBase.cs" />

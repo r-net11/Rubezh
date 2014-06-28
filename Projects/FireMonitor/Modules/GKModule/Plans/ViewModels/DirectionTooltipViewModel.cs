@@ -1,23 +1,18 @@
 ﻿using FiresecAPI.GK;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Client.Plans.Presenter;
 
 namespace GKModule.ViewModels
 {
-	public class DirectionTooltipViewModel : BaseViewModel
+	public class DirectionTooltipViewModel : StateTooltipViewModel<XDirection>
 	{
-		public XState State { get; private set; }
-		public XDirection Direction { get; private set; }
-
-		public DirectionTooltipViewModel(XDirection direction)
+		public XDirection Direction
 		{
-			Direction = direction;
-			State = direction.State;
+			get { return Item; }
 		}
 
-		public void OnStateChanged()
+		public DirectionTooltipViewModel(XDirection direction)
+			: base(direction)
 		{
-			OnPropertyChanged("State");
-			OnPropertyChanged("Direction");
 		}
 	}
 }

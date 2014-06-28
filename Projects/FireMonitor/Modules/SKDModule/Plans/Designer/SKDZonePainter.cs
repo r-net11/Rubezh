@@ -12,6 +12,7 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using SKDModule.Events;
 using SKDModule.ViewModels;
+using Infrastructure.Client.Plans;
 
 namespace SKDModule.Plans.Designer
 {
@@ -30,7 +31,7 @@ namespace SKDModule.Plans.Designer
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			_zone = Helper.GetSKDZone((IElementZone)_presenterItem.Element);
+			_zone = PlanPresenter.Cache.Get<SKDZone>(((IElementZone)_presenterItem.Element).ZoneUID);
 			if (_zone != null)
 			{
 				_zoneViewModel = new ViewModels.ZoneViewModel(_zone);
@@ -123,19 +124,19 @@ namespace SKDModule.Plans.Designer
 					ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
 
 					_contextMenu = new ContextMenu();
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
+					_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 						"Показать в дереве",
 						"pack://application:,,,/Controls;component/Images/BTree.png",
 						ShowInTreeCommand
 					));
 
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
+					_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 						"Команда",
 						"pack://application:,,,/Controls;component/Images/BTurnOff.png",
 						_zoneViewModel.ZoneCommand
 					));
 
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
+					_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 						"Свойства",
 						"pack://application:,,,/Controls;component/Images/BSettings.png",
 						_zoneViewModel.ShowPropertiesCommand

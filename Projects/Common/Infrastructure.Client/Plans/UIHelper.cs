@@ -1,28 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
+using System.Linq;
+using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows;
 using System.Windows.Media.Imaging;
-using FiresecAPI.Models;
-using FiresecClient;
 
-namespace VideoModule.Plans.Designer
+namespace Infrastructure.Client.Plans
 {
-	internal static class Helper
+	public static class UIHelper
 	{
-		static Dictionary<Guid, Camera> _cameraMap;
-		public static void BuildMap()
-		{
-			_cameraMap = new Dictionary<Guid, Camera>();
-			FiresecManager.SystemConfiguration.AllCameras.ForEach(item => _cameraMap.Add(item.UID, item));
-		}
-
-		public static Camera GetCamera(ElementCamera element)
-		{
-			return element.CameraUID != Guid.Empty && _cameraMap.ContainsKey(element.CameraUID) ? _cameraMap[element.CameraUID] : null;
-		}
-
 		public static MenuItem BuildMenuItem(string header, string imageSourceUri, ICommand command)
 		{
 			var menuItem = new MenuItem();

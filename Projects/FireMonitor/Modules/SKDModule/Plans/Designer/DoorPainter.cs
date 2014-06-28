@@ -11,6 +11,9 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using SKDModule.Events;
 using SKDModule.ViewModels;
+using Infrastructure.Client.Plans;
+using Common;
+using FiresecAPI.GK;
 
 namespace SKDModule.Plans.Designer
 {
@@ -28,9 +31,10 @@ namespace SKDModule.Plans.Designer
 			var elementDoor = presenterItem.Element as ElementDoor;
 			if (elementDoor != null)
 			{
-				_door = Helper.GetDoor(elementDoor);
-				//if (_door != null && _door.State != null)
-				//    _door.State.StateChanged += OnPropertyChanged;
+				_door = PlanPresenter.Cache.Get<Door>(elementDoor.DoorUID);
+				var stateClass = _door as IDeviceState<XStateClass>;
+				if (stateClass != null)
+					stateClass.StateChanged += OnPropertyChanged;
 			}
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
@@ -73,7 +77,7 @@ namespace SKDModule.Plans.Designer
 		{
 			return Brushes.Green;
 		}
-		
+
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		private void OnShowInTree()
 		{
@@ -98,14 +102,14 @@ namespace SKDModule.Plans.Designer
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 				_contextMenu = new ContextMenu();
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
-					"Показать в дереве", 
-					"pack://application:,,,/Controls;component/Images/BTree.png", 
+				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
+					"Показать в дереве",
+					"pack://application:,,,/Controls;component/Images/BTree.png",
 					ShowInTreeCommand
 				));
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
-					"Свойства", 
-					"pack://application:,,,/Controls;component/Images/BSettings.png", 
+				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
+					"Свойства",
+					"pack://application:,,,/Controls;component/Images/BSettings.png",
 					ShowPropertiesCommand
 				));
 			}

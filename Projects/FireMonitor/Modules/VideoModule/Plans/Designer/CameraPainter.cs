@@ -11,6 +11,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using VideoModule.ViewModels;
+using Infrastructure.Client.Plans;
 
 namespace VideoModule.Plans.Designer
 {
@@ -28,7 +29,7 @@ namespace VideoModule.Plans.Designer
 			var elementCamera = presenterItem.Element as ElementCamera;
 			if (elementCamera != null)
 			{
-				_camera = Helper.GetCamera(elementCamera);
+				_camera = PlanPresenter.Cache.GetItem(elementCamera.CameraUID);
 				//if (_camera != null && _camera.StateClass != null)
 				//	_camera.StateChanged += OnPropertyChanged;
 			}
@@ -113,12 +114,12 @@ namespace VideoModule.Plans.Designer
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 				_contextMenu = new ContextMenu();
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
+				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 					"Показать в дереве",
 					"pack://application:,,,/Controls;component/Images/BTree.png",
 					ShowInTreeCommand
 				));
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
+				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 					"Свойства",
 					"pack://application:,,,/Controls;component/Images/BSettings.png",
 					ShowPropertiesCommand

@@ -4,11 +4,12 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using FiresecAPI.Models;
+using Common;
 
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XDevice : XBase
+	public class XDevice : XBase, IIdentity
 	{
 		public XDevice()
 		{

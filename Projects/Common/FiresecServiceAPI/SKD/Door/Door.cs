@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Common;
+using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class Door
+	public class Door : IStateProvider, IDeviceState<XStateClass>, IIdentity
 	{
 		public Door()
 		{
@@ -33,12 +35,36 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
-		
+
 		public void OnChanged()
 		{
 			if (Changed != null)
 				Changed();
 		}
 		public event Action Changed;
+
+		#region IStateProvider Members
+
+		IDeviceState<XStateClass> IStateProvider.StateClass
+		{
+			get { return this; }
+		}
+
+		#endregion
+
+		#region IDeviceState<XStateClass> Members
+
+		XStateClass IDeviceState<XStateClass>.StateType
+		{
+			get { return XStateClass.No; }
+		}
+
+		event Action IDeviceState<XStateClass>.StateChanged
+		{
+			add { }
+			remove { }
+		}
+
+		#endregion
 	}
 }

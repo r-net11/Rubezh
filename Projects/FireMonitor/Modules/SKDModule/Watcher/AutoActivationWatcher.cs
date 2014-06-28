@@ -49,9 +49,7 @@ namespace SKDModule
 								{
 									var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementSKDDevices.Any(y => y.DeviceUID == device.UID); });
 									if (existsOnPlan)
-									{
 										ServiceFactory.Events.GetEvent<ShowSKDDeviceOnPlanEvent>().Publish(device);
-									}
 								}
 								break;
 						}

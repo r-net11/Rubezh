@@ -11,13 +11,14 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using SKDModule.Events;
 using SKDModule.ViewModels;
+using Infrastructure.Client.Plans;
 
 namespace SKDModule.Plans.Designer
 {
 	class SKDDevicePainter : PointPainter
 	{
 		private PresenterItem _presenterItem;
-		private SKDDevice Device;
+		private SKDDevice _device;
 		private ContextMenu _contextMenu;
 		private SKDDeviceTooltipViewModel _tooltip;
 
@@ -28,9 +29,9 @@ namespace SKDModule.Plans.Designer
 			var elementSKDDevice = presenterItem.Element as ElementSKDDevice;
 			if (elementSKDDevice != null)
 			{
-				Device = Helper.GetSKDDevice(elementSKDDevice);
-				if (Device != null && Device.State != null)
-					Device.State.StateChanged += OnPropertyChanged;
+				_device = PlanPresenter.Cache.Get<SKDDevice>(elementSKDDevice.DeviceUID);
+				if (_device != null && _device.State != null)
+					_device.State.StateChanged += OnPropertyChanged;
 			}
 			_presenterItem = presenterItem;
 			_presenterItem.IsPoint = true;
@@ -52,12 +53,12 @@ namespace SKDModule.Plans.Designer
 		}
 		private void UpdateTooltip()
 		{
-			if (Device == null)
+			if (_device == null)
 				return;
 
 			if (_tooltip == null)
 			{
-				_tooltip = new SKDDeviceTooltipViewModel(Device);
+				_tooltip = new SKDDeviceTooltipViewModel(_device);
 			}
 			_tooltip.OnStateChanged();
 		}
@@ -68,13 +69,13 @@ namespace SKDModule.Plans.Designer
 		}
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.SKDDevicePicture.GetDynamicBrush(Device);
+			return PictureCacheSource.SKDDevicePicture.GetDynamicBrush(_device);
 		}
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		private void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>().Publish(Device.UID);
+			ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>().Publish(_device.UID);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
@@ -82,7 +83,7 @@ namespace SKDModule.Plans.Designer
 		{
 			var showSKDArchiveEventArgs = new ShowSKDArchiveEventArgs()
 			{
-				Device = Device
+				Device = _device
 			};
 			ServiceFactory.Events.GetEvent<ShowSKDArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
@@ -90,7 +91,7 @@ namespace SKDModule.Plans.Designer
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		private void OnShowProperties()
 		{
-			DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
+			DialogService.ShowWindow(new DeviceDetailsViewModel(_device));
 		}
 
 		private ContextMenu CreateContextMenu()
@@ -102,17 +103,17 @@ namespace SKDModule.Plans.Designer
 				ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
 				_contextMenu = new ContextMenu();
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
+				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 					"Показать в дереве", 
 					"pack://application:,,,/Controls;component/Images/BTree.png", 
 					ShowInTreeCommand
 				));
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
+				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 					"Показать связанные события", 
 					"pack://application:,,,/Controls;component/Images/BJournal.png", 
 					ShowJournalCommand
 				));
-				_contextMenu.Items.Add(Helper.BuildMenuItem(
+				_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 					"Свойства", 
 					"pack://application:,,,/Controls;component/Images/BSettings.png", 
 					ShowPropertiesCommand

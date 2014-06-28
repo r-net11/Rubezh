@@ -1,23 +1,18 @@
 ﻿using FiresecAPI.GK;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Client.Plans.Presenter;
 
 namespace GKModule.ViewModels
 {
-	public class GuardZoneTooltipViewModel : BaseViewModel
+	public class GuardZoneTooltipViewModel : StateTooltipViewModel<XGuardZone>
 	{
-		public XGuardZone GuardZone { get; private set; }
-		public XState State { get; private set; }
-
-		public GuardZoneTooltipViewModel(XGuardZone guardZone)
+		public XGuardZone GuardZone
 		{
-			State = guardZone.State;
-			GuardZone = guardZone;
+			get { return Item; }
 		}
 
-		public void OnStateChanged()
+		public GuardZoneTooltipViewModel(XGuardZone guardZone)
+			: base(guardZone)
 		{
-			OnPropertyChanged(() => State);
-			OnPropertyChanged(() => GuardZone);
 		}
 	}
 }

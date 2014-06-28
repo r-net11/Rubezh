@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.GK;
+using Common;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDZone
+	public class SKDZone : IStateProvider, IIdentity
 	{
 		public SKDZone()
 		{
@@ -39,5 +41,14 @@ namespace FiresecAPI.SKD
 				Changed();
 		}
 		public event Action Changed;
+
+		#region IStateProvider Members
+
+		IDeviceState<XStateClass> IStateProvider.StateClass
+		{
+			get { return State; }
+		}
+
+		#endregion
 	}
 }

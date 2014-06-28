@@ -1,21 +1,18 @@
-﻿using System.Collections.ObjectModel;
-using FiresecAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using FiresecAPI.SKD;
+using Infrastructure.Client.Plans.Presenter;
 
 namespace SKDModule.ViewModels
 {
-	public class DoorTooltipViewModel : BaseViewModel
+	public class DoorTooltipViewModel : StateTooltipViewModel<Door>
 	{
-		public Door Door { get; private set; }
-
-		public DoorTooltipViewModel(Door door)
+		public Door Door
 		{
-			Door = door;
+			get { return Item; }
 		}
 
-		public void OnStateChanged()
+		public DoorTooltipViewModel(Door door)
+			: base(door)
 		{
-			OnPropertyChanged(() => Door);
 		}
 	}
 }

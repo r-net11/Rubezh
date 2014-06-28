@@ -149,9 +149,12 @@
     <Compile Include="HashHelper.cs" />
     <Compile Include="IDeviceState.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
+    <Compile Include="IIdentity.cs" />
     <Compile Include="ImageCapturer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
+    <Compile Include="Map.cs" />
+    <Compile Include="MapSource.cs" />
     <Compile Include="NotifyPropertyChangedHelper.cs" />
     <Compile Include="ObservableCollectionAdv.cs" />
     <Compile Include="PDF\PageEventHelper.cs" />

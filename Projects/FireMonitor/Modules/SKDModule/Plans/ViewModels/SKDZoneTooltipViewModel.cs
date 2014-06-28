@@ -1,23 +1,18 @@
 ﻿using FiresecAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Client.Plans.Presenter;
 
 namespace SKDModule.ViewModels
 {
-	public class SKDZoneTooltipViewModel : BaseViewModel
+	public class SKDZoneTooltipViewModel : StateTooltipViewModel<SKDZone>
 	{
-		public SKDZone Zone { get; private set; }
-		public SKDZoneState State { get; private set; }
-
-		public SKDZoneTooltipViewModel(SKDZone zone)
+		public SKDZone Zone
 		{
-			State = zone.State;
-			Zone = zone;
+			get { return Item; }
 		}
 
-		public void OnStateChanged()
+		public SKDZoneTooltipViewModel(SKDZone zone)
+			: base(zone)
 		{
-			OnPropertyChanged("State");
-			OnPropertyChanged("Zone");
 		}
 	}
 }

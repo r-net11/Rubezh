@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -6,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -25,7 +27,7 @@ namespace SKDModule.ViewModels
 
 			ZoneCommand = new RelayCommand(OnZone, CanZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
 		void OnStateChanged()
@@ -45,24 +47,28 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
+		private void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowZone(Zone);
+			ServiceFactory.OnPublishEvent<SKDZone, ShowSKDZoneOnPlanEvent>(Zone);
 		}
-		public bool CanShowOnPlan()
+		private bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowZone(Zone);
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				if (plan.ElementPolygonSKDZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
+					return true;
+				if (plan.ElementRectangleSKDZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
+					return true;
+			}
+			return false;
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
+		private void OnShowProperties()
 		{
 			DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
 		}
-		public bool CanShowProperties()
-		{
-			return true;
-		}
+
 
 		#region Ignore
 		public RelayCommand ZoneCommand { get; private set; }

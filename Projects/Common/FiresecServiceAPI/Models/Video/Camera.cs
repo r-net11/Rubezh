@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Common;
 using Entities.DeviceOriented;
 using FiresecAPI.GK;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class Camera
+	public class Camera : IStateProvider, IDeviceState<XStateClass>, IIdentity
 	{
 		public Camera()
 		{
@@ -75,7 +76,7 @@ namespace FiresecAPI.Models
 		public bool IgnoreMoveResize { get; set; }
 
 		[DataMember]
-		public XStateClass StateClass {get; set;}
+		public XStateClass StateClass { get; set; }
 
 		[DataMember]
 		public CameraType CameraType { get; set; }
@@ -106,5 +107,29 @@ namespace FiresecAPI.Models
 		}
 
 		public event Action Changed;
+
+		#region IStateProvider Members
+
+		IDeviceState<XStateClass> IStateProvider.StateClass
+		{
+			get { return this; }
+		}
+
+		#endregion
+
+		#region IDeviceState<XStateClass> Members
+
+		XStateClass IDeviceState<XStateClass>.StateType
+		{
+			get { return StateClass; }
+		}
+
+		event Action IDeviceState<XStateClass>.StateChanged
+		{
+			add { }
+			remove { }
+		}
+
+		#endregion
 	}
 }

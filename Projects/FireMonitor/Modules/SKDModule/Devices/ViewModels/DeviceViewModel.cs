@@ -56,17 +56,17 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
-		void OnShowOnPlan()
+		private void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowDevice(Device);
+			ServiceFactory.OnPublishEvent<SKDDevice, ShowSKDDeviceOnPlanEvent>(Device);
 		}
-		public bool CanShowOnPlan()
+		private bool CanShowOnPlan()
 		{
 			return ShowOnPlanHelper.CanShowDevice(Device);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
-		void OnShowJournal()
+		private void OnShowJournal()
 		{
 			var showSKDArchiveEventArgs = new ShowSKDArchiveEventArgs()
 			{
@@ -74,7 +74,7 @@ namespace SKDModule.ViewModels
 			};
 			ServiceFactory.Events.GetEvent<ShowSKDArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
-		public bool CanShowJournal()
+		private bool CanShowJournal()
 		{
 			return Device.IsRealDevice;
 		}

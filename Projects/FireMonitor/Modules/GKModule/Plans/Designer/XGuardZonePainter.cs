@@ -11,6 +11,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using Infrastructure.Client.Plans;
 
 namespace GKModule.Plans.Designer
 {
@@ -29,7 +30,7 @@ namespace GKModule.Plans.Designer
 			_presenterItem = presenterItem;
 			_presenterItem.ShowBorderOnMouseOver = true;
 			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			GuardZone = Helper.GetXGuardZone((IElementZone)_presenterItem.Element);
+			GuardZone = PlanPresenter.Cache.Get<XGuardZone>(((IElementZone)_presenterItem.Element).ZoneUID);
 			if (GuardZone != null)
 			{
 				GuardZoneViewModel = new ViewModels.GuardZoneViewModel(GuardZone);
@@ -51,13 +52,11 @@ namespace GKModule.Plans.Designer
 		}
 		private void UpdateTooltip()
 		{
-			if (GuardZone != null)
-			{
-				if (_tooltip == null)
-				{
-					_tooltip = new GuardZoneTooltipViewModel(GuardZone);
-				}
-			}
+			if (GuardZone == null)
+				return;
+			if (_tooltip == null)
+				_tooltip = new GuardZoneTooltipViewModel(GuardZone);
+			_tooltip.OnStateChanged();
 		}
 
 		#region IPainter Members
@@ -124,18 +123,18 @@ namespace GKModule.Plans.Designer
 					ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
 
 					_contextMenu = new ContextMenu();
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
+					_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 						"Показать в дереве",
 						"pack://application:,,,/Controls;component/Images/BTree.png",
 						ShowInTreeCommand
 					));
 
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
+					_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 						"Показать связанные события",
 						"pack://application:,,,/Controls;component/Images/BJournal.png",
 						GuardZoneViewModel.ShowJournalCommand
 					));
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
+					_contextMenu.Items.Add(UIHelper.BuildMenuItem(
 						"Свойства",
 						"pack://application:,,,/Controls;component/Images/BSettings.png",
 						GuardZoneViewModel.ShowPropertiesCommand

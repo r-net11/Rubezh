@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Common;
 
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public abstract class XBase
+	public abstract class XBase : IStateProvider
 	{
 		public XBase()
 		{
@@ -23,7 +24,7 @@ namespace FiresecAPI.GK
 		public List<XDirection> ClauseInputDirections { get; set; }
 		public List<XMPT> ClauseInputMPTs { get; set; }
 		public List<XDelay> ClauseInputDelays { get; set; }
-		
+
 		public void ClearClauseDependencies()
 		{
 			ClauseInputDevices = new List<XDevice>();
@@ -57,5 +58,14 @@ namespace FiresecAPI.GK
 		public abstract string PresentationName { get; }
 		public XBaseInternalState InternalState { get; set; }
 		public XState State { get; set; }
+
+		#region IStateProvider Members
+
+		IDeviceState<XStateClass> IStateProvider.StateClass
+		{
+			get { return State; }
+		}
+
+		#endregion
 	}
 }

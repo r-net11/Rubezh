@@ -11,149 +11,73 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using Infrastructure.Client.Plans;
+using Infrastructure.Client.Plans.Presenter;
+using System;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.Plans.Designer
 {
-	class XZonePainter : PolygonZonePainter, IPainter
+	class XZonePainter : BaseZonePainter<XZone, ShowXZoneEvent>
 	{
-		private PresenterItem _presenterItem;
-		private XZone Zone;
-		private ZoneViewModel ZoneViewModel;
-		private ContextMenu _contextMenu;
-		private ZoneTooltipViewModel _tooltip;
+		private ZoneViewModel _zoneViewModel;
 
 		public XZonePainter(PresenterItem presenterItem)
-			: base(presenterItem.DesignerCanvas, presenterItem.Element)
+			: base(presenterItem)
 		{
-			_contextMenu = null;
-			_presenterItem = presenterItem;
-			_presenterItem.ShowBorderOnMouseOver = true;
-			_presenterItem.ContextMenuProvider = CreateContextMenu;
-			Zone = Helper.GetXZone((IElementZone)_presenterItem.Element);
-			if (Zone != null)
+			if (Item != null)
+				_zoneViewModel = new ViewModels.ZoneViewModel(Item);
+		}
+
+		protected override XZone CreateItem(PresenterItem presenterItem)
+		{
+			var element = presenterItem.Element as IElementZone;
+			return element == null ? null : PlanPresenter.Cache.Get<XZone>(element.ZoneUID);
+		}
+		protected override StateTooltipViewModel<XZone> CreateToolTip()
+		{
+			return new ZoneTooltipViewModel(Item);
+		}
+		protected override ContextMenu CreateContextMenu()
+		{
+			var contextMenu = new ContextMenu();
+			if (Item != null)
 			{
-				ZoneViewModel = new ViewModels.ZoneViewModel(Zone);
-				Zone.State.StateChanged += OnPropertyChanged;
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(
+					"Показать в дереве",
+					"pack://application:,,,/Controls;component/Images/BTree.png",
+					ShowInTreeCommand
+				));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(
+					"Отключить все устройства",
+					"pack://application:,,,/Controls;component/Images/BTurnOff.png",
+					_zoneViewModel.SetIgnoreAllCommand
+				));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(
+					"Снять отключения всех устройств",
+					"pack://application:,,,/Controls;component/Images/BResetIgnore.png",
+					_zoneViewModel.ResetIgnoreAllCommand
+				));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(
+					"Показать связанные события",
+					"pack://application:,,,/Controls;component/Images/BJournal.png",
+					_zoneViewModel.ShowJournalCommand
+				));
+				contextMenu.Items.Add(UIHelper.BuildMenuItem(
+					"Свойства",
+					"pack://application:,,,/Controls;component/Images/BSettings.png",
+					_zoneViewModel.ShowPropertiesCommand
+				));
 			}
-			_presenterItem.Cursor = Cursors.Hand;
-			_presenterItem.ClickEvent += (s, e) => ShowProperties();
-			UpdateTooltip();
+			return contextMenu;
 		}
-
-		private void OnPropertyChanged()
+		protected override WindowBaseViewModel CreatePropertiesViewModel()
 		{
-			if (_presenterItem != null)
-			{
-				UpdateTooltip();
-				_presenterItem.InvalidatePainter();
-				_presenterItem.DesignerCanvas.Refresh();
-			}
+			return new ZoneDetailsViewModel(Item);
 		}
-		private void UpdateTooltip()
+		protected override Guid ItemUID
 		{
-			if (Zone != null)
-			{
-				if (_tooltip == null)
-				{
-					_tooltip = new ZoneTooltipViewModel(Zone);
-				}
-			}
-		}
-
-		#region IPainter Members
-		public override object GetToolTip(string title)
-		{
-			return _tooltip;
-		}
-		protected override Brush GetBrush()
-		{
-			return PainterCache.GetTransparentBrush(GetStateColor());
-		}
-		#endregion
-
-		public Color GetStateColor()
-		{
-			switch (Zone.State.StateClass)
-			{
-				case XStateClass.Unknown:
-				case XStateClass.DBMissmatch:
-				case XStateClass.TechnologicalRegime:
-				case XStateClass.ConnectionLost:
-				case XStateClass.HasNoLicense:
-					return Colors.DarkGray;
-
-				case XStateClass.Fire1:
-				case XStateClass.Fire2:
-					return Colors.Red;
-
-				case XStateClass.Attention:
-					return Colors.Yellow;
-
-				case XStateClass.Ignore:
-					return Colors.Yellow;
-
-				case XStateClass.Norm:
-					return Colors.Green;
-
-				default:
-					return Colors.White;
-			}
-		}
-
-		public RelayCommand ShowInTreeCommand { get; private set; }
-		private void OnShowInTree()
-		{
-			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Publish(Zone.BaseUID);
-		}
-		private bool CanShowInTree()
-		{
-			return Zone != null;
-		}
-
-		void ShowProperties()
-		{
-			DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
-		}
-
-		private ContextMenu CreateContextMenu()
-		{
-			if (_contextMenu == null)
-			{
-				if (Zone != null)
-				{
-					ShowInTreeCommand = new RelayCommand(OnShowInTree, CanShowInTree);
-
-					_contextMenu = new ContextMenu();
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
-						"Показать в дереве",
-						"pack://application:,,,/Controls;component/Images/BTree.png",
-						ShowInTreeCommand
-					));
-
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
-						"Отключить все устройства",
-						"pack://application:,,,/Controls;component/Images/BTurnOff.png",
-						ZoneViewModel.SetIgnoreAllCommand
-					));
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
-						"Снять отключения всех устройств",
-						"pack://application:,,,/Controls;component/Images/BResetIgnore.png",
-						ZoneViewModel.ResetIgnoreAllCommand
-					));
-
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
-						"Показать связанные события",
-						"pack://application:,,,/Controls;component/Images/BJournal.png",
-						ZoneViewModel.ShowJournalCommand
-					));
-					_contextMenu.Items.Add(Helper.BuildMenuItem(
-						"Свойства",
-						"pack://application:,,,/Controls;component/Images/BSettings.png",
-						ZoneViewModel.ShowPropertiesCommand
-					));
-				}
-			}
-			return _contextMenu;
+			get { return Item.BaseUID; }
 		}
 	}
 }

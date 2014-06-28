@@ -203,7 +203,6 @@
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\XDirectionPainter.cs" />
-    <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\XDevicePainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
