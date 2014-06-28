@@ -24,6 +24,9 @@ namespace FiresecService
 				foreach (var deviceProcessor in ChinaSKDDriver.Processor.DeviceProcessors)
 				{
 					deviceProcessor.Wrapper.NewJournalItem += new Action<ChinaSKDDriverAPI.SKDJournalItem>(Wrapper_NewJournalItem);
+
+					ChinaSKDDriver.Processor.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+					ChinaSKDDriver.Processor.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
 				}
 			}
 			catch (Exception e)
@@ -60,9 +63,6 @@ namespace FiresecService
 					SKDManager.CreateDrivers();
 					SKDManager.UpdateConfiguration();
 					WatcherManager.Start();
-
-					SKDProcessorManager.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
-					SKDProcessorManager.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
 				}
 			}
 			catch (Exception e)

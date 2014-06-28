@@ -203,7 +203,7 @@ namespace FiresecService.Service
 		#region Devices
 		public OperationResult<SKDStates> SKDGetStates()
 		{
-			return new OperationResult<SKDStates>() { Result = SKDProcessorManager.SKDGetStates() };
+			return new OperationResult<SKDStates>() { Result = ChinaSKDDriver.Processor.SKDGetStates() };
 		}
 
 		public OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID)
