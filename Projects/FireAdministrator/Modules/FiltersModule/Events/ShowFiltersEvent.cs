@@ -1,7 +1,7 @@
-﻿using System;
+﻿﻿using System;
 using Microsoft.Practices.Prism.Events;
 
-namespace AutomationModule.Events
+namespace FiltersModule.Events
 {
 	public class ShowFiltersEvent : CompositePresentationEvent<Guid>
 	{

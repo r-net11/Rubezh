@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 
-namespace AutomationModule.ViewModels
+namespace FiltersModule.ViewModels
 {
 	public class DateTimePairViewModel : BaseViewModel
 	{

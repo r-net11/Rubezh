@@ -146,7 +146,6 @@
     <Compile Include="CallbackResult.cs" />
     <Compile Include="Events\EventDescriptionAttribute.cs" />
     <Compile Include="Events\GlobalEventNameEnum.cs" />
-    <Compile Include="Events\GlobalEventsHelper.cs" />
     <Compile Include="Events\GlobalEventType.cs" />
     <Compile Include="Events\GlobalSubsystemType.cs" />
     <Compile Include="IFiresecServiceSKD.Automation.cs" />

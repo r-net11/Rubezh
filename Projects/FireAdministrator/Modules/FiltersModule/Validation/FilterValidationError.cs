@@ -1,9 +1,9 @@
 ﻿using System;
-using AutomationModule.Events;
 using FiresecAPI.Automation;
 using Infrastructure.Common.Validation;
+using FiltersModule.Events;
 
-namespace AutomationModule.Validation
+namespace FilterModule.Validation
 {
 	class FilterValidationError : ObjectValidationError<AutomationFilter, ShowFiltersEvent, Guid>
 	{
