@@ -144,6 +144,11 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="CallbackResult.cs" />
+    <Compile Include="Events\EventDescriptionAttribute.cs" />
+    <Compile Include="Events\GlobalEventNameEnum.cs" />
+    <Compile Include="Events\GlobalEventsHelper.cs" />
+    <Compile Include="Events\GlobalEventType.cs" />
+    <Compile Include="Events\GlobalSubsystemType.cs" />
     <Compile Include="IFiresecServiceSKD.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeInterval.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AM1_O_Helper.cs" />

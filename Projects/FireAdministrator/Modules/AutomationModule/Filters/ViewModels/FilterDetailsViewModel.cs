@@ -22,6 +22,7 @@ namespace AutomationModule.ViewModels
 		{
 			Title = "Добавить фильтр";
 			Filter = new AutomationFilter();
+			FilterNamesViewModel = new FilterNamesViewModel();
 			CopyProperties();
 		}
 
