@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrustructure.Plans.Presenter;
-using FiresecAPI.Models;
-using FiresecAPI.GK;
 using Common;
+using FiresecAPI.GK;
+using FiresecAPI.Models;
+using Infrustructure.Plans.Presenter;
 
 namespace Infrastructure.Client.Plans.Presenter
 {

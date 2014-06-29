@@ -130,7 +130,6 @@ namespace SKDModule.Plans.Designer
 				device.PlanElementUIDs.Remove(element.UID);
 		}
 
-
 		public static Door GetDoor(ElementDoor element)
 		{
 			return element.DoorUID != Guid.Empty && _doorMap.ContainsKey(element.DoorUID) ? _doorMap[element.DoorUID] : null;
@@ -160,6 +159,5 @@ namespace SKDModule.Plans.Designer
 			if (door != null)
 				door.PlanElementUIDs.Remove(element.UID);
 		}
-
 	}
 }

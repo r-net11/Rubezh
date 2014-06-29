@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
-using Common;
 using FiresecAPI.GK;
 using Infrastructure.Common;
-using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Client.Plans.Presenter
 {

@@ -4,9 +4,9 @@ using System.Windows.Input;
 using FiresecAPI.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
+using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Presenter;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Client.Plans.Presenter
 {

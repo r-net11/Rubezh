@@ -20,7 +20,7 @@ namespace SKDModule.Plans
 	class PlanPresenter : IPlanPresenter<Plan, XStateClass>
 	{
 		public static MapSource Cache { get; private set; }
-		
+
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
@@ -28,7 +28,7 @@ namespace SKDModule.Plans
 			Cache.Add<SKDDevice>(() => SKDManager.Devices);
 			Cache.Add<SKDZone>(() => SKDManager.Zones);
 			Cache.Add<Door>(() => SKDManager.SKDConfiguration.Doors);
-			
+
 			ServiceFactory.Events.GetEvent<ShowSKDDeviceOnPlanEvent>().Subscribe(OnShowSKDDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Subscribe(OnShowSKDZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowDoorOnPlanEvent>().Subscribe(OnShowDoorOnPlan);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Media;
 using Common;
 using DeviceControls;
 using FiresecAPI.Models;
@@ -306,6 +307,135 @@ namespace SKDModule.Plans
 				e.PropertyViewModel = new DoorPropertiesViewModel(_doorsViewModel, (ElementDoor)e.Element);
 			else if (e.Element is ElementRectangleSKDZone || e.Element is ElementPolygonSKDZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element, _zonesViewModel);
+		}
+
+
+		public MapSource Cahce { get; private set; }
+
+		public void RegisterDesignerItem<TElement, TItem>(DesignerItem designerItem, string group, string iconSource)
+			where TElement : ElementBase
+			where TItem : IChangedNotification
+		{
+			designerItem.ItemPropertyChanged += DesignerItemPropertyChanged<TElement, TItem>;
+			OnDesignerItemPropertyChanged<TElement, TItem>(designerItem);
+			designerItem.Group = group;
+			designerItem.IconSource = iconSource;
+			designerItem.UpdateProperties += UpdateDesignerItemProperties<TElement, TItem>;
+			UpdateDesignerItemProperties<TElement, TItem>(designerItem);
+		}
+		private void DesignerItemPropertyChanged<TElement, TItem>(object sender, EventArgs e)
+			where TElement : ElementBase
+			where TItem : IChangedNotification
+		{
+			DesignerItem designerItem = (DesignerItem)sender;
+			OnDesignerItemPropertyChanged<TElement, TItem>(designerItem);
+		}
+		private void OnDesignerItemPropertyChanged<TElement, TItem>(DesignerItem designerItem)
+			where TElement : ElementBase
+			where TItem : IChangedNotification
+		{
+			var item = GetItem<TElement, TItem>(designerItem.Element);
+			if (item != null)
+				item.Changed += () =>
+				{
+					if (_designerCanvas.IsPresented(designerItem))
+					{
+						Helper.BuildZoneMap();
+						UpdateDesignerItemProperties<TElement, TItem>(designerItem);
+						designerItem.Painter.Invalidate();
+						_designerCanvas.Refresh();
+					}
+				};
+		}
+		private void UpdateDesignerItemProperties<TElement, TItem>(CommonDesignerItem designerItem)
+			where TElement : ElementBase
+			where TItem : IChangedNotification
+		{
+			TElement element = designerItem.Element as TElement;
+			var item = GetItem<TElement, TItem>(element);
+			if (item != null)
+			{
+
+				// ... HELPER
+				//Door door = Designer.Helper.GetDoor(elementDoor);
+				//Designer.Helper.SetDoor(elementDoor, door);
+				//designerItem.Title = Helper.GetDoorTitle(elementDoor);
+			}
+		}
+		private TItem GetItem<TElement, TItem>(TElement element)
+			where TElement : ElementBase
+			where TItem : IChangedNotification
+		{
+			var uid = GetElementReference<TElement>(element);
+			return Cahce.Get<TItem>(uid);
+		}
+		private Guid GetElementReference<TElement>(TElement element)
+			where TElement : ElementBase
+		{
+			// switch -> return element.DeviceUID
+			return Guid.NewGuid();
+		}
+		public interface IChangedNotification : IIdentity
+		{
+			event Action Changed;
+		}
+
+
+
+		public class PlanHelper<TElement, TItem>
+			where TElement : ElementBase
+			where TItem : IChangedNotification
+		{
+			private static Dictionary<Guid, SKDZone> _zoneMap;
+			
+			public static string GetSKDZoneTitle(IElementZone element)
+			{
+				SKDZone zone = GetSKDZone(element);
+				return GetSKDZoneTitle(zone);
+			}
+			public static string GetSKDZoneTitle(SKDZone zone)
+			{
+				return zone == null ? "Несвязанная зона" : zone.Name;
+			}
+			public static SKDZone GetSKDZone(IElementZone element)
+			{
+				return GetSKDZone(element.ZoneUID);
+			}
+			public static SKDZone GetSKDZone(Guid zoneUID)
+			{
+				return zoneUID != Guid.Empty && _zoneMap.ContainsKey(zoneUID) ? _zoneMap[zoneUID] : null;
+			}
+			public static void SetSKDZone(IElementZone element)
+			{
+				SKDZone zone = GetSKDZone(element);
+				SetSKDZone(element, zone);
+			}
+			public static void SetSKDZone(IElementZone element, Guid zoneUID)
+			{
+				SKDZone zone = GetSKDZone(zoneUID);
+				SetSKDZone(element, zone);
+			}
+			public static void SetSKDZone(IElementZone element, SKDZone zone)
+			{
+				ResetSKDZone(element);
+				element.ZoneUID = zone == null ? Guid.Empty : zone.UID;
+				element.BackgroundColor = GetSKDZoneColor(zone);
+				if (zone != null)
+					zone.PlanElementUIDs.Add(element.UID);
+			}
+			public static void ResetSKDZone(IElementZone element)
+			{
+				SKDZone zone = GetSKDZone(element);
+				if (zone != null)
+					zone.PlanElementUIDs.Remove(element.UID);
+			}
+			public static Color GetSKDZoneColor(SKDZone zone)
+			{
+				Color color = Colors.Black;
+				if (zone != null)
+					color = Colors.Green;
+				return color;
+			}
 		}
 	}
 }
