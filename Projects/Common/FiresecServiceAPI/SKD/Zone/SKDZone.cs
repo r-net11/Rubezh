@@ -43,12 +43,10 @@ namespace FiresecAPI.SKD
 		public event Action Changed;
 
 		#region IStateProvider Members
-
 		IDeviceState<XStateClass> IStateProvider.StateClass
 		{
 			get { return State; }
 		}
-
 		#endregion
 	}
 }

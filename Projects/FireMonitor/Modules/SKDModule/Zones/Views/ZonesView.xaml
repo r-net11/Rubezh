@@ -4,7 +4,6 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:Views="clr-namespace:SKDModule.Views"
 			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 
 	<Grid>
@@ -14,7 +13,7 @@
 			<ColumnDefinition Width="*" MinWidth="200" />
 		</Grid.ColumnDefinitions>
 		<Grid Grid.Column="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-			<DataGrid Name="_zonesDataGrid" Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+			<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Зона" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
