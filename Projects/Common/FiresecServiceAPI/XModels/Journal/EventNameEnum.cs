@@ -193,5 +193,8 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("Команда на закрытие двери")]
 		Команда_на_закрытие_двери,
+
+		[DescriptionAttribute("Добавление карты")]
+		Добавление_карты,
 	}
 }

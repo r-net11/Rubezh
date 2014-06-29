@@ -110,14 +110,14 @@ namespace ChinaSKDDriver
 			nativeCard.szPsw = Wrapper.StringToCharArray(card.Password, 64);
 			nativeCard.szUserID = Wrapper.StringToCharArray("1", 32);
 
-			nativeCard.nDoorNum = card.DoorsCount;
+			nativeCard.nDoorNum = card.Doors.Count;
 			nativeCard.sznDoors = new int[32];
 			for (int i = 0; i < card.Doors.Count; i++)
 			{
 				nativeCard.sznDoors[i] = card.Doors[i];
 			}
 
-			nativeCard.nTimeSectionNum = card.TimeSectionsCount;
+			nativeCard.nTimeSectionNum = card.TimeSections.Count;
 			nativeCard.sznTimeSectionNo = new int[32];
 			for (int i = 0; i < card.TimeSections.Count; i++)
 			{

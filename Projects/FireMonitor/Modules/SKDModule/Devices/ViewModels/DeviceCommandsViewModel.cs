@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return Device.DriverType == SKDDriverType.Controller && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+			get { return Device.DriverType == SKDDriverType.Reader && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
 		}
 
 		public RelayCommand OpenCommand { get; private set; }

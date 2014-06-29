@@ -51,6 +51,7 @@
     <Compile Include="API\SKDJournalItem.cs" />
     <Compile Include="API\TimeInterval.cs" />
     <Compile Include="API\TimeShedule.cs" />
+    <Compile Include="CardWriter.cs" />
     <Compile Include="DeviceProcessor.cs" />
     <Compile Include="Processor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
