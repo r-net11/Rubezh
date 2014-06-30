@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecAPI.SKD;
 using ChinaSKDDriverAPI;
-using System.IO;
 using FiresecAPI.GK;
+using FiresecAPI.SKD;
 
 namespace ChinaSKDDriver
 {
@@ -221,11 +219,11 @@ namespace ChinaSKDDriver
 			return false;
 		}
 
-		public static bool AddCard(SKDCard skdCard)
+		public static CardWriter AddCard(SKDCard skdCard)
 		{
 			var cardWriter = new CardWriter();
 			var result = cardWriter.WriteCard(skdCard);
-			return result;
+			return cardWriter;
 		}
 	}
 }

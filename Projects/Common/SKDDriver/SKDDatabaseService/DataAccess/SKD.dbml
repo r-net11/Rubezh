@@ -16,8 +16,8 @@
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="CardTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="ParentUID" Type="CardDoor" />
-      <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="Card_Journal" Member="Journals" ThisKey="UID" OtherKey="ObjectUID" Type="Journal" />
+      <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
     </Type>
@@ -380,14 +380,6 @@
       <Association Name="Organisation_OrganisationZone" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.PendingCard" Member="PendingCards">
-    <Type Name="PendingCard">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="CardUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="Action" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Card_PendingCard" Member="Card" ThisKey="CardUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Journal" Member="Journals">
     <Type Name="Journal">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -416,6 +408,15 @@
       <Column Name="EnterTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="ExitTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Employee_PassJournal" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PendingCard" Member="PendingCards">
+    <Type Name="PendingCard">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CardUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ControllerUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="Action" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Card_PendingCard" Member="Card" ThisKey="CardUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

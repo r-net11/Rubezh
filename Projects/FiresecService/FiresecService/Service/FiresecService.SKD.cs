@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using ChinaSKDDriver;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using SKDDriver;
@@ -93,7 +94,10 @@ namespace FiresecService.Service
 			if (item.RemovalDate == DateTime.MinValue)
 			{
 				var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
-				var result = ChinaSKDDriver.Processor.AddCard(item);
+				var cardWriter = ChinaSKDDriver.Processor.AddCard(item);
+				var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+				if (pendingResult.HasError)
+					return pendingResult;
 			}
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
@@ -103,7 +107,10 @@ namespace FiresecService.Service
 			if (item.RemovalDate == DateTime.MinValue)
 			{
 				var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
-				var result = ChinaSKDDriver.Processor.AddCard(item);
+				var cardWriter = ChinaSKDDriver.Processor.AddCard(item);
+				var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+				if (pendingResult.HasError)
+					return pendingResult;
 			}
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
@@ -122,7 +129,10 @@ namespace FiresecService.Service
 			if (item.RemovalDate == DateTime.MinValue)
 			{
 				var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
-				var result = ChinaSKDDriver.Processor.AddCard(item);
+				var cardWriter = ChinaSKDDriver.Processor.AddCard(item);
+				var pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+				if (pendingResult.HasError)
+					return pendingResult;
 			}
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
@@ -421,6 +431,11 @@ namespace FiresecService.Service
 			if (!accessTemplateOperationResult.HasError)
 				return accessTemplateOperationResult.Result;
 			return null;
+		}
+
+		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
+		{
+			return cardWriter.ControllerCardItems.Where(x => !x.Result).Select(x => x.ControllerDevice.UID);
 		}
 	}
 }
