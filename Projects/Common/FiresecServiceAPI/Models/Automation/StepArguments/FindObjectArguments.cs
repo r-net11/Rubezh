@@ -9,7 +9,7 @@ namespace FiresecAPI.Automation
 	{
 		public FindObjectArguments()
 		{
-			Uid = new Guid();
+			Uid = Guid.NewGuid();
 			FindObjectConditions = new List<FindObjectCondition>();
 			ResultUid = new Guid();
 		}

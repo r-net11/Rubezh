@@ -47,12 +47,17 @@
 		<Views:ConditionStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="foreachTemplate">
+		<Views:ForeachStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 		ConditionTemplate="{StaticResource conditionTemplate}"
 		FindObjectTemplate="{StaticResource findObjectTemplate}"
+		ForeachTemplate="{StaticResource foreachTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

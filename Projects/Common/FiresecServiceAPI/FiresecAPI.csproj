@@ -185,6 +185,7 @@
     <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\FindObjectArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ForeachArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
     <Compile Include="Models\Automation\StringConditionType.cs" />
     <Compile Include="Models\Automation\ValueType.cs" />

@@ -96,6 +96,7 @@
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ArithmeticStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\FindObjectStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
@@ -126,6 +127,9 @@
     </Compile>
     <Compile Include="Procedures\Views\Steps\FindObjectStepView.xaml.cs">
       <DependentUpon>FindObjectStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\ForeachStepView.xaml.cs">
+      <DependentUpon>ForeachStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\JournalStepView.xaml.cs">
       <DependentUpon>JournalStepView.xaml</DependentUpon>
@@ -288,6 +292,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\FindObjectStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\ForeachStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

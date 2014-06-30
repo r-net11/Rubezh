@@ -9,7 +9,7 @@ namespace FiresecAPI.Automation
 	{
 		public ConditionArguments()
 		{
-			Uid = new Guid();
+			Uid = Guid.NewGuid();
 			Conditions = new List<Condition>();
 		}
 

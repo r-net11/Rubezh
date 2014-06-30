@@ -37,6 +37,10 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.FindObjects:
 					Content = new FindObjectStepViewModel(step.FindObjectArguments, procedure);
 					break;
+
+				case ProcedureStepType.Foreach:
+					Content = new ForeachStepViewModel(step.ForeachArguments, procedure);
+					break;
 			}
 		}
 

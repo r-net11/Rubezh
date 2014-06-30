@@ -165,6 +165,7 @@ namespace AutomationModule.ViewModels
 					procedureStep.ProcedureStepType = stepTypeSelectationViewModel.SelectedStepType.ProcedureStepType;
 					var stepViewModel = new StepViewModel(this, procedureStep, Procedure);
 					Add(stepViewModel);
+					FillAllSteps();
 					ServiceFactory.SaveService.AutomationChanged = true;
 				}
 			}
