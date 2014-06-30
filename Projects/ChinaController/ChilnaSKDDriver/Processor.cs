@@ -225,5 +225,15 @@ namespace ChinaSKDDriver
 			var result = cardWriter.WriteCard(skdCard);
 			return cardWriter;
 		}
+
+		public static bool EditCard(SKDCard skdCard)
+		{
+			return false;
+		}
+
+		public static bool DeleteCard(SKDCard skdCard)
+		{
+			return false;
+		}
 	}
 }

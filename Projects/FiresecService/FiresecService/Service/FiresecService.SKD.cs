@@ -91,27 +91,21 @@ namespace FiresecService.Service
 		public OperationResult AddCard(SKDCard item)
 		{
 			AddSKDMessage(FiresecAPI.GK.EventNameEnum.Добавление_карты, null, UserName);
-			if (item.RemovalDate == DateTime.MinValue)
-			{
-				var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
+			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
 				var cardWriter = ChinaSKDDriver.Processor.AddCard(item);
 				var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
 				if (pendingResult.HasError)
 					return pendingResult;
-			}
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
 		public OperationResult EditCard(SKDCard item)
 		{
-			AddSKDMessage(FiresecAPI.GK.EventNameEnum.Добавление_карты, null, UserName);
-			if (item.RemovalDate == DateTime.MinValue)
-			{
-				var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
+			AddSKDMessage(FiresecAPI.GK.EventNameEnum.Редактирование_карты, null, UserName);
+			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
 				var cardWriter = ChinaSKDDriver.Processor.AddCard(item);
 				var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
 				if (pendingResult.HasError)
 					return pendingResult;
-			}
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
 		public OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null)
@@ -125,15 +119,12 @@ namespace FiresecService.Service
 			item.StopReason = reason;
 			item.StartDate = DateTime.Now;
 			item.EndDate = DateTime.Now;
-			AddSKDMessage(FiresecAPI.GK.EventNameEnum.Добавление_карты, null, UserName);
-			if (item.RemovalDate == DateTime.MinValue)
-			{
-				var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
+			AddSKDMessage(FiresecAPI.GK.EventNameEnum.Удаление_карты, null, UserName);
+			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
 				var cardWriter = ChinaSKDDriver.Processor.AddCard(item);
 				var pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(item.UID, GetFailedControllerUIDs(cardWriter));
 				if (pendingResult.HasError)
 					return pendingResult;
-			}
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
 

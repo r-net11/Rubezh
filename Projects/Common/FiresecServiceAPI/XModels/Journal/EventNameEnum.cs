@@ -196,5 +196,11 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("Добавление карты")]
 		Добавление_карты,
+
+		[DescriptionAttribute("Редактирование карты")]
+		Редактирование_карты,
+
+		[DescriptionAttribute("Удаление карты")]
+		Удаление_карты,
 	}
 }
