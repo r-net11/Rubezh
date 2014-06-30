@@ -85,41 +85,5 @@ namespace FiresecClient
 				FiresecDriver.ExecuteCommand(device, "ClearAllQueries");
 			}
 		}
-
-		public static OperationResult<DateTime> GetArchiveStartDate()
-		{
-			//if (IsFS2Enabled)
-			//{
-			//	return FiresecManager.FS2ClientContract.GetArchiveStartDate();
-			//}
-			//else
-			{
-				return FiresecManager.FiresecService.GetArchiveStartDate();
-			}
-		}
-
-		public static void BeginGetFilteredArchive(ArchiveFilter archiveFilter)
-		{
-			//if (IsFS2Enabled)
-			//{
-			//	FiresecManager.FS2ClientContract.BeginGetFilteredArchive(archiveFilter);
-			//}
-			//else
-			{
-				FiresecManager.FiresecService.BeginGetFilteredArchive(archiveFilter);
-			}
-		}
-
-		public static OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
-		{
-			//if (IsFS2Enabled)
-			//{
-			//	return FiresecManager.FS2ClientContract.GetDistinctDescriptions();
-			//}
-			//else
-			{
-				return FiresecManager.FiresecService.GetDistinctDescriptions();
-			}
-		}
 	}
 }

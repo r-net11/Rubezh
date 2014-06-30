@@ -70,10 +70,7 @@
     <Compile Include="Common\Views\DateSelectionView.xaml.cs">
       <DependentUpon>DateSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToStringConverter.cs" />
-    <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
-    <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
     <Compile Include="Converters\CardTypeToLongStringConverter.cs" />
     <Compile Include="Employees\ViewModels\AccessDoorsSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
@@ -126,7 +123,6 @@
     </Compile>
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\ShowTimeTrackingEvent.cs" />
-    <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
     <Compile Include="Events\ShowHREvent.cs" />
     <Compile Include="HR\ViewModels\EmployeeFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\PositionFilterItemViewModel.cs" />
@@ -165,28 +161,6 @@
     </Compile>
     <Compile Include="Intervals\TimeTracking\Views\TimeTrackingView.xaml.cs">
       <DependentUpon>TimeTrackingView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDeviceViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveFilterViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilter\DateTimePairViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilter\DescriptionViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilter\EventNameViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilter\JournalItemTypeViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilter\StateClassViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveFilter\SubsystemTypeViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchivePageViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveSettings\ArchiveDefaultStateViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveSettings\ArchiveSettingsViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveSettings\JournalColumnTypeViewModel.cs" />
-    <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
-    <Compile Include="Journal\Views\ArchiveFilterView.xaml.cs">
-      <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Journal\Views\ArchiveSettingsView.xaml.cs">
-      <DependentUpon>ArchiveSettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Journal\Views\ArchiveView.xaml.cs">
-      <DependentUpon>ArchiveView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Organisations\ViewModels\OrganisationUserViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationDoorsViewModel.cs" />
@@ -269,8 +243,6 @@
     <Compile Include="PassCard\Views\PassCardView.xaml.cs">
       <DependentUpon>PassCardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\NewSKDJournalEvent.cs" />
-    <Compile Include="Events\ShowSKDArchiveEvent.cs" />
     <Compile Include="Events\ShowSKDDeviceEvent.cs" />
     <Compile Include="Events\ShowSKDDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowHolidaysEvent.cs" />
@@ -306,11 +278,6 @@
     </Compile>
     <Compile Include="Intervals\Shedules\Views\ScheduleZoneDetailsView.xaml.cs">
       <DependentUpon>ScheduleZoneDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
-    <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
-    <Compile Include="Journal\Views\JournalView.xaml.cs">
-      <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\DoorPainter.cs" />
     <Compile Include="Plans\Designer\SKDDevicePainter.cs" />
@@ -594,18 +561,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Journal\Views\ArchiveFilterView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Journal\Views\ArchiveSettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Journal\Views\ArchiveView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="PassCard\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -627,10 +582,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Intervals\Shedules\Views\ScheduleZoneDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Journal\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -811,10 +762,6 @@
     <Page Include="Plans\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Journal\Views\JournalView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup />

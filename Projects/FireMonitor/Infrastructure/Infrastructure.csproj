@@ -100,15 +100,15 @@
     <Compile Include="Events\ShowCameraEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="Events\NewXJournalEvent.cs" />
+    <Compile Include="Events\ShowSKDArchiveEvent.cs" />
     <Compile Include="Events\ShowVideoEvent.cs" />
-    <Compile Include="Events\NewFS2JournalItemsEvent.cs" />
     <Compile Include="Events\ShowDeviceOnPlanEvent.cs" />
     <Compile Include="Events\DevicesStateChangedEvent.cs" />
     <Compile Include="Events\ShowDiagnosticsEvent.cs" />
     <Compile Include="Events\DeviceParametersChangedEvent.cs" />
     <Compile Include="Events\DeviceStateChangedEvent.cs" />
     <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
-    <Compile Include="Events\NewJournalRecordsEvent.cs" />
+    <Compile Include="Events\NewJournalItemsEvent.cs" />
     <Compile Include="Events\ShowAlarmsEvent.cs" />
     <Compile Include="Events\ShowArchiveEvent.cs" />
     <Compile Include="Events\ShowCallEvent.cs" />
@@ -124,8 +124,6 @@
     <Compile Include="Events\ShowZoneOnPlanEvent.cs" />
     <Compile Include="Events\ZoneStateChangedEvent.cs" />
     <Compile Include="Events\UserChangedEvent.cs" />
-    <Compile Include="Events\GetFS2FilteredArchiveCompletedEvent.cs" />
-    <Compile Include="Events\FS2ProgressInfoEvent.cs" />
     <Compile Include="Events\GetFilteredGKArchiveCompletedEvent.cs" />
     <Compile Include="Events\ShowXGuardZoneEvent.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />

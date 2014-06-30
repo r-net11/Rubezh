@@ -48,13 +48,13 @@ namespace Infrastructure
 
 			if (!IsSubcsribed)
 			{
-				SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
-				SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
+				SafeFiresecService.NewJournalItemEvent += new Action<FiresecAPI.SKD.JournalItem>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<FiresecAPI.SKD.JournalItem>() { x }); }); });
+				SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<FiresecAPI.SKD.JournalItem>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
 
 				FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
 				FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
 				FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
-				FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
+				//FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<FiresecAPI.SKD.JournalItem>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
 			}
 			IsSubcsribed = true;
 		}
@@ -93,17 +93,17 @@ namespace Infrastructure
 			}
 		}
 
-		static void OnNewJournalRecordEvent(List<JournalRecord> journalRecords)
+		static void OnNewJournalRecordEvent(List<FiresecAPI.SKD.JournalItem> journalItems)
 		{
-			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
 		}
 
-		static void OnNewServerJournalRecordEvent(List<JournalRecord> journalRecords)
+		static void OnNewServerJournalRecordEvent(List<FiresecAPI.SKD.JournalItem> journalItems)
 		{
-			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
 		}
 
-		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalRecord> journalRecords)
+		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<FiresecAPI.SKD.JournalItem> journalRecords)
 		{
 			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(journalRecords);
 		}

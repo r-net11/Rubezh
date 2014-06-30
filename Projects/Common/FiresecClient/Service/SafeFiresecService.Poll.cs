@@ -16,8 +16,8 @@ namespace FiresecClient
 		public static event Action<GKCallbackResult> GKCallbackResultEvent;
 		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
 		public static event Action ConfigurationChangedEvent;
-		public static event Action<JournalRecord> NewJournalRecordEvent;
-		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
+		public static event Action<FiresecAPI.SKD.JournalItem> NewJournalItemEvent;
+		public static event Action<IEnumerable<FiresecAPI.SKD.JournalItem>> GetFilteredArchiveCompletedEvent;
 		public static event Action<IEnumerable<FiresecAPI.GK.JournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
 		public static event Action<IEnumerable<FiresecAPI.SKD.JournalItem>> GetFilteredSKDArchiveCompletedEvent;
 
@@ -112,12 +112,13 @@ namespace FiresecClient
 						break;
 
 					case CallbackResultType.NewEvents:
-						foreach (var journalRecord in callbackResult.JournalRecords)
+						foreach (var journalItem in callbackResult.GlobalJournalItems)
 						{
 							SafeOperationCall(() =>
 							{
-								if (NewJournalRecordEvent != null)
-									NewJournalRecordEvent(journalRecord);
+								if (NewJournalItemEvent != null)
+									NewJournalItemEvent(journalItem);
+
 							});
 						}
 						break;
@@ -125,9 +126,8 @@ namespace FiresecClient
 					case CallbackResultType.ArchiveCompleted:
 						SafeOperationCall(() =>
 						{
-							callbackResult.JournalRecords.ForEach((x) => { JournalConverter.SetDeviceCatogoryAndDevieUID(x); });
 							if (GetFilteredArchiveCompletedEvent != null)
-								GetFilteredArchiveCompletedEvent(callbackResult.JournalRecords);
+								GetFilteredArchiveCompletedEvent(callbackResult.GlobalJournalItems);
 						});
 						break;
 

@@ -3,7 +3,7 @@ using SKDModule.ViewModels;
 
 namespace SKDModule.Events
 {
-	public class ArchiveDefaultStateCheckedEvent : CompositePresentationEvent<ArchiveDefaultStateViewModel>
-	{
-	}
+	//public class ArchiveDefaultStateCheckedEvent : CompositePresentationEvent<ArchiveDefaultStateViewModel>
+	//{
+	//}
 }

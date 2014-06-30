@@ -121,40 +121,40 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
 		}
 
-		public OperationResult<int> GetJournalLastId()
-		{
-			return SafeOperationCall(() => { return FiresecService.GetJournalLastId(); }, "GetJournalLastId");
-		}
+		//public OperationResult<int> GetJournalLastId()
+		//{
+		//    return SafeOperationCall(() => { return FiresecService.GetJournalLastId(); }, "GetJournalLastId");
+		//}
 
-		public OperationResult<List<FiresecAPI.Models.JournalRecord>> GetFilteredJournal(FiresecAPI.Models.JournalFilter journalFilter)
-		{
-			return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
-		}
+		//public OperationResult<List<FiresecAPI.Models.JournalRecord>> GetFilteredJournal(FiresecAPI.Models.JournalFilter journalFilter)
+		//{
+		//    return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
+		//}
 
-		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
-		{
-			return SafeOperationCall(() => { return FiresecService.GetFilteredArchive(archiveFilter); }, "GetFilteredArchive");
-		}
+		//public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
+		//{
+		//    return SafeOperationCall(() => { return FiresecService.GetFilteredArchive(archiveFilter); }, "GetFilteredArchive");
+		//}
 
-		public void BeginGetFilteredArchive(FiresecAPI.Models.ArchiveFilter archiveFilter)
-		{
-			SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter); }, "BeginGetFilteredArchive");
-		}
+		//public void BeginGetFilteredArchive(FiresecAPI.Models.ArchiveFilter archiveFilter)
+		//{
+		//    SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter); }, "BeginGetFilteredArchive");
+		//}
 
-		public OperationResult<List<FiresecAPI.Models.JournalDescriptionItem>> GetDistinctDescriptions()
-		{
-			return SafeOperationCall(() => { return FiresecService.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
-		}
+		//public OperationResult<List<FiresecAPI.Models.JournalDescriptionItem>> GetDistinctDescriptions()
+		//{
+		//    return SafeOperationCall(() => { return FiresecService.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
+		//}
 
-		public OperationResult<DateTime> GetArchiveStartDate()
-		{
-			return SafeOperationCall(() => { return FiresecService.GetArchiveStartDate(); }, "GetArchiveStartDate");
-		}
+		//public OperationResult<DateTime> GetArchiveStartDate()
+		//{
+		//    return SafeOperationCall(() => { return FiresecService.GetArchiveStartDate(); }, "GetArchiveStartDate");
+		//}
 
-		public void AddJournalRecords(List<JournalRecord> journalRecords)
-		{
-			SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
-		}
+		//public void AddJournalRecords(List<JournalRecord> journalRecords)
+		//{
+		//    SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
+		//}
 
 		public List<string> GetFileNamesList(string directory)
 		{
@@ -179,11 +179,6 @@ namespace FiresecService.Service
 		public void SetConfig(Stream stream)
 		{
 			SafeOperationCall(() => { FiresecService.SetConfig(stream); }, "SetConfig");
-		}
-
-		public void SetJournal(List<JournalRecord> journalRecords)
-		{
-			SafeOperationCall(() => { FiresecService.SetJournal(journalRecords); }, "ConvertJournal");
 		}
 
 		public string Test(string arg)

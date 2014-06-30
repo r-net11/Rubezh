@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using FiresecAPI.SKD;
 
 namespace AlarmModule
 {
@@ -21,8 +22,8 @@ namespace AlarmModule
 			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
 			OnDevicesStateChanged(null);
 
-			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Unsubscribe(OnNewJournalRecords);
-			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecords);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournalItems);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItems);
 		}
 
 		void OnDevicesStateChanged(object obj)
@@ -139,12 +140,11 @@ namespace AlarmModule
 			return alarmType;
 		}
 
-		void OnNewJournalRecords(List<JournalRecord> journalRecords)
+		void OnNewJournalItems(List<JournalItem> journalItems)
 		{
-			foreach (var journalRecord in journalRecords)
+			foreach (var journalItem in journalItems)
 			{
-				//if (journalRecord.StateType == StateType.Fire && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
-				if (journalRecord.StateType == StateType.Fire)
+				if (journalItem.State == FiresecAPI.GK.XStateClass.Fire2 && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
 				{
 					var instructionViewModel = new InstructionViewModel(null, null, AlarmType.Fire);
 					if (instructionViewModel.HasContent)
