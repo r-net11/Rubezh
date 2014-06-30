@@ -297,10 +297,29 @@ namespace SKDDriver
 				var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
 				var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 
-				if (scheduleSchemeType == ScheduleSchemeType.Week)
+				var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
+				int dayNo = -1;
+
+				switch (scheduleSchemeType)
 				{
-					var dayNo = (int)date.DayOfWeek;
+					case ScheduleSchemeType.Week:
+						dayNo = (int)date.DayOfWeek;
+						break;
+					case ScheduleSchemeType.Shift:
+						var daysCount = days.Count();
+						var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
+						dayNo = (int)Math.IEEERemainder((int)period.TotalDays,daysCount);
+						break;
+					case ScheduleSchemeType.Month:
+						dayNo = (int)date.Day;
+						break;
 				}
+				
+					
+				var day = days.FirstOrDefault(x => x.Number == dayNo && !x.IsDeleted);
+				var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID && !x.IsDeleted);
+				var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID && !x.IsDeleted);
+				
 
 				//var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
 				//var daysCount = days.Count();

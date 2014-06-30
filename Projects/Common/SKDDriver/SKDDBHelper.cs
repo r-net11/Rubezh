@@ -211,8 +211,8 @@ namespace SKDDriver
 			//if (!reader.IsDBNull(reader.GetOrdinal("JournalItemType")))
 			//	journalItem.JournalItemType = (SKDJournalItemType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
 
-			if (!reader.IsDBNull(reader.GetOrdinal("SysemDate")))
-				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SysemDate"));
+			if (!reader.IsDBNull(reader.GetOrdinal("SystemDate")))
+				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDate"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("DeviceDate")))
 				journalItem.DeviceDateTime = reader.GetDateTime(reader.GetOrdinal("DeviceDate"));
@@ -221,10 +221,10 @@ namespace SKDDriver
 			//	journalItem.DeviceUID = reader.GetGuid(reader.GetOrdinal("DeviceUID"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
-				journalItem.Name = (EventNameEnum)reader.GetOrdinal("NameNo");
+				journalItem.Name = (EventNameEnum)reader.GetOrdinal("Name");
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
-				journalItem.Description = (EventDescription)reader.GetOrdinal("DescriptionNo");
+				journalItem.Description = (EventDescription)reader.GetOrdinal("Description");
 
 			//if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
 			//	journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));

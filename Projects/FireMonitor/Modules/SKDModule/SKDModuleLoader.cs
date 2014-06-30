@@ -171,6 +171,8 @@ namespace SKDModule
 			}
 			foreach (var remoteZoneState in skdStates.ZoneStates)
 			{
+				if (remoteZoneState == null)
+					continue;
 				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
 				if (zone != null)
 				{

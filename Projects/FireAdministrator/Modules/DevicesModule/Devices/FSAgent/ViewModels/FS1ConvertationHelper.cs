@@ -101,22 +101,7 @@ namespace Infrastructure
 
 			TempZipConfigurationItemsCollection.ZipConfigurationItems.Add(new ZipConfigurationItem(name, minorVersion, majorVersion));
 		}
-
-		public void ConvertJournal()
-		{
-			if (FiresecManager.FiresecDriver == null)
-				return;
-
-			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать журнал событий?") == MessageBoxResult.Yes)
-			{
-				WaitHelper.Execute(() =>
-				{
-					var journalRecords = FiresecManager.FiresecDriver.ConvertJournal();
-					FiresecManager.FiresecService.SetJournal(journalRecords);
-				});
-			}
-		}
-
+		
 		public byte[] ZipStr(String str)
 		{
 			using (MemoryStream output = new MemoryStream())
