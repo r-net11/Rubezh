@@ -9,6 +9,7 @@ using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Diagnostics;
+using FiresecAPI.Events;
 
 namespace GKModule.ViewModels
 {
@@ -85,14 +86,19 @@ namespace GKModule.ViewModels
 		public void InitializeEventNames(XArchiveFilter archiveFilter)
 		{
 			EventNames = new CheckBoxItemList<EventNameViewModel>();
-			foreach (var eventName in EventNameHelper.EventNames)
+			foreach (GlobalEventNameEnum enumValue in Enum.GetValues(typeof(GlobalEventNameEnum)))
 			{
-				EventNames.Add(new EventNameViewModel(eventName, DistinctDatabaseNames));
+				var eventNameViewModel = new EventNameViewModel(enumValue, DistinctDatabaseNames);
+				if (eventNameViewModel.SubsystemType == GlobalSubsystemType.GK)
+				{
+					EventNames.Add(eventNameViewModel);
+				}
 			}
+
 			EventNames.Items.Sort(EventNameViewModel.Compare);
 			foreach (var eventName in archiveFilter.EventNames)
 			{
-				var eventNameViewModel = EventNames.Items.FirstOrDefault(x => (x as EventNameViewModel).EventName.Name == eventName);
+				var eventNameViewModel = EventNames.Items.FirstOrDefault(x => (x as EventNameViewModel).Name == eventName);
 				if (eventNameViewModel != null)
 				{
 					eventNameViewModel.IsChecked = true;
@@ -427,7 +433,7 @@ namespace GKModule.ViewModels
 			foreach (var eventName in EventNames.Items)
 			{
 				if (eventName.IsChecked)
-					archiveFilter.EventNames.Add(eventName.EventName.Name);
+					archiveFilter.EventNames.Add(eventName.Name);
 			}
 			foreach (var archiveDevice in AllDevices.Items)
 			{

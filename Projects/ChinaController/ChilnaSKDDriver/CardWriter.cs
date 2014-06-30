@@ -16,7 +16,7 @@ namespace ChinaSKDDriver
 			ControllerCardItems = new List<ControllerCardItem>();
 		}
 
-		public bool WriteCard(SKDCard skdCard)
+		public bool AddCard(SKDCard skdCard)
 		{
 			var cardDoors = new List<CardDoor>();
 			foreach (var cardDoor in skdCard.CardDoors)

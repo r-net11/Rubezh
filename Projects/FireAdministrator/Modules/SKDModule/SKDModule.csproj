@@ -77,7 +77,6 @@
     <Compile Include="Events\EditDoorEvent.cs" />
     <Compile Include="Events\CreateDoorEvent.cs" />
     <Compile Include="Events\ShowSKDDoorEvent.cs" />
-    <Compile Include="Filters\ViewModels\FilterDetails\DeviceFilterViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartVerificationViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartPropertyVerificationPageViewModel.cs" />
     <Compile Include="Layout\Views\LayoutPartVerificationView.xaml.cs">
@@ -104,7 +103,6 @@
     <Compile Include="Events\EditSKDZoneEvent.cs" />
     <Compile Include="Events\ShowPassCardDesignerEvent.cs" />
     <Compile Include="Events\ShowSKDDeviceEvent.cs" />
-    <Compile Include="Events\ShowSKDFiltersEvent.cs" />
     <Compile Include="Events\ShowSKDHolidaysEvent.cs" />
     <Compile Include="Events\ShowSKDLidraryEvent.cs" />
     <Compile Include="Events\ShowSKDSettingsEvent.cs" />
@@ -113,20 +111,6 @@
     <Compile Include="Events\ShowSKDTimeIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDWeeklyIntervalsEvent.cs" />
     <Compile Include="Events\ShowSKDZoneEvent.cs" />
-    <Compile Include="Filters\ViewModels\FilterDetails\FilterDetailsViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FilterDetails\EventFilterViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FiltersViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FilterViewModel.cs" />
-    <Compile Include="Filters\Views\FilterDetailsView.xaml.cs">
-      <DependentUpon>FilterDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Filters\Views\FiltersMenuView.xaml.cs">
-      <DependentUpon>FiltersMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Filters\Views\FiltersView.xaml.cs">
-      <DependentUpon>FiltersView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Library\Converters\SKDLibraryStateClassToIconConverter.cs" />
     <Compile Include="Library\ViewModels\LibraryDeviceDetailsViewModel.cs" />
     <Compile Include="Library\ViewModels\FrameViewModel.cs" />
@@ -418,22 +402,6 @@
     <Page Include="Doors\Views\DeviceSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Filters\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Filters\Views\FilterDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Filters\Views\FiltersMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Filters\Views\FiltersView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Layout\Views\LayoutPartVerificationView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
+using FiresecAPI.Events;
 
 namespace FiresecAPI.SKD
 {
@@ -24,7 +25,7 @@ namespace FiresecAPI.SKD
 		public SubsystemType SubsystemType { get; set; }
 		
 		[DataMember]
-		public EventNameEnum Name { get; set; }
+		public GlobalEventNameEnum Name { get; set; }
 
 		[DataMember]
 		public EventDescription Description { get; set; }

@@ -5,6 +5,8 @@ using System.Text;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
+using FiresecAPI.Events;
+using System.Reflection;
 
 namespace GKProcessor
 {
@@ -21,7 +23,7 @@ namespace GKProcessor
 				progressCallback.IsCanceled = true;
 				progressCallback.CancelizationDateTime = DateTime.Now;
 				StopProgress(progressCallback);
-				AddGKMessage(EventNameEnum.Отмена_операции, progressCallback.Title, null, userName, true);
+				AddGKMessage(GlobalEventNameEnum.Отмена_операции, progressCallback.Title, null, userName, true);
 			}
 		}
 
@@ -168,7 +170,7 @@ namespace GKProcessor
 		#region Operations
 		public static OperationResult<bool> GKWriteConfiguration(XDevice device, string userName)
 		{
-			AddGKMessage(EventNameEnum.Запись_конфигурации_в_прибор, "", device, userName, true);
+			AddGKMessage(GlobalEventNameEnum.Запись_конфигурации_в_прибор, "", device, userName, true);
 			Stop();
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device);
@@ -187,7 +189,7 @@ namespace GKProcessor
 
 		public static OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device, string userName)
 		{
-			AddGKMessage(EventNameEnum.Чтение_конфигурации_из_прибора, "", device, userName, true);
+			AddGKMessage(GlobalEventNameEnum.Чтение_конфигурации_из_прибора, "", device, userName, true);
 			Stop();
 			DescriptorsManager.Create();
 			var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
@@ -198,7 +200,7 @@ namespace GKProcessor
 
 		public static OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(XDevice device, string userName)
 		{
-			AddGKMessage(EventNameEnum.Чтение_конфигурации_из_прибора, "", device, userName, true);
+			AddGKMessage(GlobalEventNameEnum.Чтение_конфигурации_из_прибора, "", device, userName, true);
 			SuspendMonitoring(device);
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(device);
@@ -230,13 +232,13 @@ namespace GKProcessor
 
 		public static bool GKSyncronyseTime(XDevice device, string userName)
 		{
-			AddGKMessage(EventNameEnum.Синхронизация_времени, "", device, userName, true);
+			AddGKMessage(GlobalEventNameEnum.Синхронизация_времени, "", device, userName, true);
 			return DeviceBytesHelper.WriteDateTime(device);
 		}
 
 		public static string GKGetDeviceInfo(XDevice device, string userName)
 		{
-			AddGKMessage(EventNameEnum.Запрос_информации_об_устройстве, "", device, userName, true);
+			AddGKMessage(GlobalEventNameEnum.Запрос_информации_об_устройстве, "", device, userName, true);
 			var result = DeviceBytesHelper.GetDeviceInfo(device);
 			if (result == null)
 				result = "Устройство недоступно";
@@ -335,73 +337,73 @@ namespace GKProcessor
 		public static void GKExecuteDeviceCommand(XDevice device, XStateBit stateBit, string userName)
 		{
 			Watcher.SendControlCommand(device, stateBit, stateBit.ToDescription());
-			AddGKMessage(EventNameEnum.Команда_оператора, stateBit.ToDescription(), device, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, stateBit.ToDescription(), device, userName);
 		}
 
 		public static void GKReset(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.Reset, "Сброс");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Сброс, xBase, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Сброс, xBase, userName);
 		}
 
 		public static void GKResetFire1(XZone zone, string userName)
 		{
 			Watcher.SendControlCommand(zone, 0x02, "Сброс Пожар-1");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Сброс, zone, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Сброс, zone, userName);
 		}
 
 		public static void GKResetFire2(XZone zone, string userName)
 		{
 			Watcher.SendControlCommand(zone, 0x03, "Сброс Пожар-1");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Сброс, zone, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Сброс, zone, userName);
 		}
 
 		public static void GKSetAutomaticRegime(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Automatic, "Перевод в автоматический режим");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Перевод_в_автоматический_режим, xBase, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Перевод_в_автоматический_режим, xBase, userName);
 		}
 
 		public static void GKSetManualRegime(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Manual, "Перевод в ручной режим");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Перевод_в_ручной_режим, xBase, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Перевод_в_ручной_режим, xBase, userName);
 		}
 
 		public static void GKSetIgnoreRegime(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Off, "Перевод в отключенный режим");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Перевод_в_отключенный_режим, xBase, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Перевод_в_отключенный_режим, xBase, userName);
 		}
 
 		public static void GKTurnOn(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOn_InManual, "Включить");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Включить, xBase, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Включить, xBase, userName);
 		}
 
 		public static void GKTurnOnNow(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOnNow_InManual, "Включить немедленно");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Включить_немедленно, xBase, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Включить_немедленно, xBase, userName);
 		}
 
 		public static void GKTurnOff(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOff_InManual, "Выключить");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Выключить, xBase, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Выключить, xBase, userName);
 		}
 
 		public static void GKTurnOffNow(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOffNow_InManual, "Выключить немедленно");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Выключить_немедленно, xBase, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Выключить_немедленно, xBase, userName);
 		}
 
 		public static void GKStop(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.Stop_InManual, "Остановка пуска");
-			AddGKMessage(EventNameEnum.Команда_оператора, EventDescription.Остановка_пуска, xBase, userName);
+			AddGKMessage(GlobalEventNameEnum.Команда_оператора, EventDescription.Остановка_пуска, xBase, userName);
 		}
 
 		public static void GKStartMeasureMonitoring(XDevice device)
@@ -425,12 +427,12 @@ namespace GKProcessor
 		#endregion
 
 		#region JournalItem Callback
-		public static void AddGKMessage(EventNameEnum message, EventDescription description, XBase xBase, string userName, bool isAdministrator = false)
+		public static void AddGKMessage(GlobalEventNameEnum globalEventNameEnum, EventDescription description, XBase xBase, string userName, bool isAdministrator = false)
 		{
-			AddGKMessage(message, description.ToDescription(), xBase, userName, isAdministrator);
+			AddGKMessage(globalEventNameEnum, description.ToDescription(), xBase, userName, isAdministrator);
 		}
 
-		public static void AddGKMessage(EventNameEnum message, string description, XBase xBase, string userName, bool isAdministrator = false)
+		public static void AddGKMessage(GlobalEventNameEnum globalEventNameEnum, string description, XBase xBase, string userName, bool isAdministrator = false)
 		{
 			Guid uid = Guid.Empty;
 			var journalItemType = JournalItemType.System;
@@ -464,8 +466,9 @@ namespace GKProcessor
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
 				JournalItemType = journalItemType,
-				StateClass = EventNamesHelper.GetStateClass(message),
-				Name = message.ToDescription(),
+				StateClass = EventDescriptionAttributeHelper.ToStateClass(globalEventNameEnum),
+				GlobalEventNameType = globalEventNameEnum,
+				Name = EventDescriptionAttributeHelper.ToName(globalEventNameEnum),
 				Description = description,
 				ObjectUID = uid,
 				ObjectStateClass = XStateClass.Norm,

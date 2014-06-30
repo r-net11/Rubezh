@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using FiresecAPI.Events;
 
 namespace FiresecAPI
 {
@@ -14,7 +15,7 @@ namespace FiresecAPI
 			UID = Guid.NewGuid();
 			SystemDateTime = new DateTimePeriod();
 			DeviceDateTime = new DateTimePeriod();
-			EventNames = new List<EventNameEnum>();
+			EventNames = new List<GlobalEventNameEnum>();
 			DeviceUIDs = new List<Guid>();
 		}
 
@@ -34,7 +35,7 @@ namespace FiresecAPI
 		public DateTimePeriod DeviceDateTime { get; set; }
 
 		[DataMember]
-		public List<EventNameEnum> EventNames { get; set; }
+		public List<GlobalEventNameEnum> EventNames { get; set; }
 
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }

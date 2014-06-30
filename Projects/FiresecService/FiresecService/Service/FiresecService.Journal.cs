@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using SKDDriver;
 using FiresecAPI.SKD;
+using FiresecAPI.Events;
 
 namespace FiresecService.Service
 {
@@ -54,6 +55,25 @@ namespace FiresecService.Service
 		//    FiresecService.NotifyArchivePortionCompleted(journalRecords);
 		//}
 
+		public static void AddGKGlobalJournalItem(FiresecAPI.GK.JournalItem journalItem)
+		{
+			var globalJournalItem = new FiresecAPI.SKD.JournalItem();
+			globalJournalItem.SystemDateTime = journalItem.SystemDateTime;
+			globalJournalItem.DeviceDateTime = journalItem.DeviceDateTime;
+			globalJournalItem.ObjectUID = journalItem.ObjectUID;
+			globalJournalItem.ObjectName = journalItem.ObjectName;
+			globalJournalItem.Name = journalItem.GlobalEventNameType;
+			globalJournalItem.NameText = journalItem.Name;
+			globalJournalItem.DescriptionText = journalItem.Description;
+			AddGlobalJournalItem(globalJournalItem);
+			System.Diagnostics.Trace.WriteLine("AddGlobalJournalItem");
+		}
+
+		public static void AddGlobalJournalItem(JournalItem journalItem)
+		{
+			System.Diagnostics.Trace.WriteLine("AddGlobalJournalItem");
+		}
+
 		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter)
 		{
 			if (CurrentThread != null)
@@ -81,18 +101,18 @@ namespace FiresecService.Service
 			FiresecService.NotifySKDArchiveCompleted(journalItems);
 		}
 
-		void AddSKDMessage(FiresecAPI.GK.EventNameEnum name, SKDDevice device, string userName)
+		void AddSKDMessage(GlobalEventNameEnum globalEventNameEnum, SKDDevice device, string userName)
 		{
-			AddSKDMessage(name, FiresecAPI.GK.EventDescription.Нет, device, userName);
+			AddSKDMessage(globalEventNameEnum, FiresecAPI.GK.EventDescription.Нет, device, userName);
 		}
 
-		void AddSKDMessage(FiresecAPI.GK.EventNameEnum name, FiresecAPI.GK.EventDescription description, SKDDevice device, string userName)
+		void AddSKDMessage(GlobalEventNameEnum globalEventNameEnum, FiresecAPI.GK.EventDescription description, SKDDevice device, string userName)
 		{
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
-				Name = name,
+				Name = globalEventNameEnum,
 				Description = description,
 				ObjectName = device != null ? device.Name : null,
 				ObjectUID = device != null ? device.UID : Guid.Empty,
@@ -100,7 +120,7 @@ namespace FiresecService.Service
 				UserName = userName,
 			};
 
-			SKDDBHelper.AddMessage(name, userName);
+			SKDDBHelper.AddMessage(globalEventNameEnum, userName);
 
 			var skdCallbackResult = new SKDCallbackResult();
 			skdCallbackResult.JournalItems.Add(journalItem);

@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="CallbackResult.cs" />
     <Compile Include="Events\EventDescriptionAttribute.cs" />
+    <Compile Include="Events\EventDescriptionAttributeHelper.cs" />
     <Compile Include="Events\GlobalEventNameEnum.cs" />
     <Compile Include="Events\GlobalEventType.cs" />
     <Compile Include="Events\GlobalSubsystemType.cs" />
@@ -352,7 +353,6 @@
     <Compile Include="SKD\Card\AccessTemplate.cs" />
     <Compile Include="SKD\Schedule\ScheduleSchemeType.cs" />
     <Compile Include="SKD\SKDConfiguration.cs" />
-    <Compile Include="SKD\SKDEventsHelper.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Actions.cs" />
     <Compile Include="SKD\SKDSystemConfiguration.cs" />
     <Compile Include="SKD\Device\SKDDevice.cs" />
@@ -466,10 +466,7 @@
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="XModels\Journal\EventDescription.cs" />
-    <Compile Include="XModels\Journal\EventName.cs" />
     <Compile Include="SKD\Journal\JournalItem.cs" />
-    <Compile Include="XModels\Journal\EventNameEnum.cs" />
-    <Compile Include="XModels\Journal\EventNameEnumHelper.cs" />
     <Compile Include="XModels\Journal\JournalItem.cs" />
     <Compile Include="XModels\Journal\JournalItemType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />

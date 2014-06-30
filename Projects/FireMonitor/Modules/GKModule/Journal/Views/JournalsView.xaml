@@ -34,11 +34,8 @@
 							<ItemsControl ItemsSource="{Binding JournalFilterViewModel.EventNames, Mode=OneWay}" Visibility="{Binding JournalFilterViewModel.HasEvents, Converter={StaticResource BoolToVisibilityConverter}}">
 								<ItemsControl.ItemTemplate>
 									<DataTemplate>
-										<StackPanel Orientation="Horizontal">
-											<Image Width="16" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" />
-											<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-										</StackPanel>
-									</DataTemplate>
+                                        <TextBlock Text="{Binding .}" VerticalAlignment="Center" Margin="2" />
+                                    </DataTemplate>
 								</ItemsControl.ItemTemplate>
 							</ItemsControl>
 							<TextBlock Text="Cостояния:" Visibility="{Binding JournalFilterViewModel.HasStates, Converter={StaticResource BoolToVisibilityConverter}}" FontStyle="Italic" />

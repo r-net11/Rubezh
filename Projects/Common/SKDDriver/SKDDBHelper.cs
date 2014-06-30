@@ -7,6 +7,7 @@ using Common;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using JournalItem = FiresecAPI.SKD.JournalItem;
+using FiresecAPI.Events;
 
 namespace SKDDriver
 {
@@ -33,10 +34,10 @@ namespace SKDDriver
 			}
 		}
 
-		public static JournalItem AddMessage(EventNameEnum name, string userName)
+		public static JournalItem AddMessage(GlobalEventNameEnum globalEventNameEnum, string userName)
 		{
 			var result = new JournalItem();
-			result.Name = name;
+			result.Name = globalEventNameEnum;
 			result.UserName = userName;
 			Add(result);
 			return result;
@@ -221,7 +222,7 @@ namespace SKDDriver
 			//	journalItem.DeviceUID = reader.GetGuid(reader.GetOrdinal("DeviceUID"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
-				journalItem.Name = (EventNameEnum)reader.GetOrdinal("Name");
+				journalItem.Name = (GlobalEventNameEnum)reader.GetOrdinal("NameNo");
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
 				journalItem.Description = (EventDescription)reader.GetOrdinal("Description");

@@ -2,6 +2,7 @@
 using System.Threading;
 using Common;
 using FiresecAPI.GK;
+using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -50,12 +51,12 @@ namespace GKProcessor
 						{
 							if (watcher.IsStopping || watcher.IsSuspending)
 							{
-								watcher.AddMessage(EventNameEnum.Зависание_процесса_отпроса, watcher.GkDatabase.RootDevice.PredefinedName);
+								watcher.AddMessage(GlobalEventNameEnum.Зависание_процесса_отпроса, watcher.GkDatabase.RootDevice.PredefinedName);
 							}
 							else
 							{
 								Logger.Error("LifeTimeWatcher.OnRun watcher");
-								watcher.AddMessage(EventNameEnum.Зависание_процесса_отпроса, watcher.GkDatabase.RootDevice.PredefinedName);
+								watcher.AddMessage(GlobalEventNameEnum.Зависание_процесса_отпроса, watcher.GkDatabase.RootDevice.PredefinedName);
 								watcher.ConnectionChanged(false);
 								watcher.StopThread();
 								watcher.StartThread();

@@ -108,6 +108,114 @@ namespace FiresecAPI.Events
 		[EventDescription(GlobalSubsystemType.GK, "Запись всех идентификаторов", XStateClass.Info)]
 		Запись_всех_идентификаторов,
 
+		[EventDescription(GlobalSubsystemType.GK, "Перевод в технологический режим", XStateClass.Info)]
+		Перевод_в_технологический_режим,
+
+		[EventDescription(GlobalSubsystemType.GK, "Синхронизация времени прибора с временем ПК", XStateClass.Info)]
+		Синхронизация_времени_прибора_с_временем_ПК,
+
+		[EventDescription(GlobalSubsystemType.GK, "Смена ПО", XStateClass.Info)]
+		Смена_ПО,
+
+		[EventDescription(GlobalSubsystemType.GK, "Смена БД", XStateClass.Info)]
+		Смена_БД,
+
+		[EventDescription(GlobalSubsystemType.GK, "Перевод в рабочий режим", XStateClass.Info)]
+		Перевод_в_рабочий_режим,
+
+		[EventDescription(GlobalSubsystemType.GK, "Вход пользователя в прибор", XStateClass.Info)]
+		Вход_пользователя_в_прибор,
+
+		[EventDescription(GlobalSubsystemType.GK, "Выход пользователя из прибора", XStateClass.Info)]
+		Выход_пользователя_из_прибора,
+
+		[EventDescription(GlobalSubsystemType.GK, "Ошибка управления", XStateClass.Info)]
+		Ошибка_управления,
+
+		[EventDescription(GlobalSubsystemType.GK, "Введен новый пользователь", XStateClass.Info)]
+		Введен_новый_пользователь,
+
+		[EventDescription(GlobalSubsystemType.GK, "Изменена учетная информация пользователя", XStateClass.Info)]
+		Изменена_учетная_информация_пользователя,
+
+		[EventDescription(GlobalSubsystemType.GK, "Произведена настройка сети", XStateClass.Info)]
+		Произведена_настройка_сети,
+
+		[EventDescription(GlobalSubsystemType.GK, "Неизвестный код события контроллекра", XStateClass.Info)]
+		Неизвестный_код_события_контроллекра,
+
+		[EventDescription(GlobalSubsystemType.GK, "Неизвестный тип", XStateClass.Info)]
+		Неизвестный_тип,
+
+		[EventDescription(GlobalSubsystemType.GK, "Устройство с таким адресом не описано при конфигурации", XStateClass.Info)]
+		Устройство_с_таким_адресом_не_описано_при_конфигурации,
+
+		[EventDescription(GlobalSubsystemType.GK, "Неизвестный код события устройства", XStateClass.Info)]
+		Неизвестный_код_события_устройства,
+
+		[EventDescription(GlobalSubsystemType.GK, "При конфигурации описан другой тип", XStateClass.Info)]
+		При_конфигурации_описан_другой_тип,
+
+		[EventDescription(GlobalSubsystemType.GK, "Изменился заводской номер", XStateClass.Info)]
+		Изменился_заводской_номер,
+
+		[EventDescription(GlobalSubsystemType.GK, "Пожар-1", XStateClass.Info)]
+		Пожар_1,
+
+		[EventDescription(GlobalSubsystemType.GK, "Сработка-1", XStateClass.Info)]
+		Сработка_1,
+
+		[EventDescription(GlobalSubsystemType.GK, "Пожар-2", XStateClass.Info)]
+		Пожар_2,
+
+		[EventDescription(GlobalSubsystemType.GK, "Сработка-2", XStateClass.Info)]
+		Сработка_2,
+
+		[EventDescription(GlobalSubsystemType.GK, "Внимание", XStateClass.Info)]
+		Внимание,
+
+		[EventDescription(GlobalSubsystemType.GK, "Неисправность", XStateClass.Failure)]
+		Неисправность,
+
+		[EventDescription(GlobalSubsystemType.GK, "Неисправность устранена", XStateClass.Norm)]
+		Неисправность_устранена,
+
+		[EventDescription(GlobalSubsystemType.GK, "Тест", XStateClass.Info)]
+		Тест,
+
+		[EventDescription(GlobalSubsystemType.GK, "Тест устранен", XStateClass.Info)]
+		Тест_устранен,
+
+		[EventDescription(GlobalSubsystemType.GK, "Запыленность", XStateClass.Info)]
+		Запыленность,
+
+		[EventDescription(GlobalSubsystemType.GK, "Запыленность устранена", XStateClass.Info)]
+		Запыленность_устранена,
+
+		[EventDescription(GlobalSubsystemType.GK, "Информация", XStateClass.Info)]
+		Информация,
+
+		[EventDescription(GlobalSubsystemType.GK, "Перевод в автоматический режим", XStateClass.Info)]
+		Перевод_в_автоматический_режим,
+
+		[EventDescription(GlobalSubsystemType.GK, "Перевод в ручной режим", XStateClass.Info)]
+		Перевод_в_ручной_режим,
+
+		[EventDescription(GlobalSubsystemType.GK, "Перевод в отключенный режим", XStateClass.Info)]
+		Перевод_в_отключенный_режим,
+
+		[EventDescription(GlobalSubsystemType.GK, "Перевод в неопределенный режим", XStateClass.Info)]
+		Перевод_в_неопределенный_режим,
+
+		[EventDescription(GlobalSubsystemType.GK, "Запись параметра", XStateClass.Info)]
+		Запись_параметра,
+
+		[EventDescription(GlobalSubsystemType.GK, "Норма", XStateClass.Info)]
+		Норма,
+
+		[EventDescription(GlobalSubsystemType.GK, "Неизвестный код события объекта", XStateClass.Info)]
+		Неизвестный_код_события_объекта,
+
 		[EventDescription(GlobalSubsystemType.SKD, "Ошибка при синхронизации временных интервалов", XStateClass.Info)]
 		Ошибка_при_синхронизации_временных_интервалов,
 
@@ -166,11 +274,11 @@ namespace FiresecAPI.Events
 		[EventDescription(GlobalSubsystemType.SKD, "Ожидание комиссионирования прохода", XStateClass.Info)]
 		Ожидание_комиссионирования_прохода,
 
-		[EventDescription(GlobalSubsystemType.SKD, "Неисправность", XStateClass.Info)]
-		Неисправность,
+		[EventDescription(GlobalSubsystemType.SKD, "Неисправность", XStateClass.Failure)]
+		SKD_Неисправность,
 
-		[EventDescription(GlobalSubsystemType.SKD, "Неисправность устранена", XStateClass.Info)]
-		Неисправность_устранена,
+		[EventDescription(GlobalSubsystemType.SKD, "Неисправность устранена", XStateClass.Norm)]
+		SKD_Неисправность_устранена,
 
 		[EventDescription(GlobalSubsystemType.SKD, "Команда управления", XStateClass.Info)]
 		Команда_управления,
@@ -198,5 +306,14 @@ namespace FiresecAPI.Events
 
 		[EventDescription(GlobalSubsystemType.SKD, "Команда на закрытие двери", XStateClass.Info)]
 		Команда_на_закрытие_двери,
+
+		[EventDescription(GlobalSubsystemType.SKD, "Добавление карты", XStateClass.Info)]
+		Добавление_карты,
+
+		[EventDescription(GlobalSubsystemType.SKD, "Редактирование карты", XStateClass.Info)]
+		Редактирование_карты,
+
+		[EventDescription(GlobalSubsystemType.SKD, "Удаление карты", XStateClass.Info)]
+		Удаление_карты,
 	}
 }
