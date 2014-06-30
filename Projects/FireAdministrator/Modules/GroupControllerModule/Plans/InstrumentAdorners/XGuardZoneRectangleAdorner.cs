@@ -5,6 +5,7 @@ using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
+using FiresecAPI.GK;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
@@ -24,7 +25,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			var propertiesViewModel = new GuardZonePropertiesViewModel(element, _guardZonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			Helper.SetXGuardZone(element);
+			GKPlanExtension.Instance.SetItem<XGuardZone>(element);
 			return element;
 		}
 	}

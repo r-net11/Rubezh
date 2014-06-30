@@ -35,7 +35,7 @@ namespace SKDModule.Plans.InstrumentAdorners
 			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			SKDPlanExtension.Instance.SetItem<ElementPolygonSKDZone, SKDZone>(element);
+			SKDPlanExtension.Instance.SetItem<SKDZone>(element);
 			return element;
 		}
 	}

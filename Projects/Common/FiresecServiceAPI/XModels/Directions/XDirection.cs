@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XDirection : XBase, INamedBase, IIdentity
+	public class XDirection : XBase, INamedBase, IIdentity, IPlanPresentable
 	{
 		public XDirection()
 		{

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementPolygonXDirection : ElementBasePolygon, IPrimitive, IElementDirection
+	public class ElementPolygonXDirection : ElementBasePolygon, IPrimitive, IElementDirection, IElementReference
 	{
 		[DataMember]
 		public Guid DirectionUID { get; set; }
@@ -35,5 +36,15 @@ namespace FiresecAPI.Models
 		{
 			ZLayer = zlayer;
 		}
+
+		#region IElementReference Members
+
+		Guid IElementReference.ItemUID
+		{
+			get { return DirectionUID; }
+			set { DirectionUID = value; }
+		}
+
+		#endregion
 	}
 }

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using FiresecAPI.Models;
 using Common;
+using FiresecAPI.Models;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XDevice : XBase, IIdentity
+	public class XDevice : XBase, IIdentity, IPlanPresentable
 	{
 		public XDevice()
 		{
@@ -131,7 +132,8 @@ namespace FiresecAPI.GK
 				var shleifNo = ShleifNo;
 				if (shleifNo != 0)
 					return shleifNo.ToString() + "." + IntAddress.ToString();
-				return IntAddress.ToString(); ;
+				return IntAddress.ToString();
+				;
 			}
 		}
 

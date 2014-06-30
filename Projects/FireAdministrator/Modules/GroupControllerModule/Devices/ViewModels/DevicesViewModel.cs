@@ -204,8 +204,8 @@ namespace GKModule.ViewModels
 					}
 				}
 				XManager.DeviceConfiguration.Update();
-				Plans.Designer.Helper.BuildMap();
-				GKPlanExtension.InvalidateCanvas();
+				GKPlanExtension.Instance.Cache.BuildSafe<XDevice>();
+				GKPlanExtension.Instance.InvalidateCanvas();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -354,12 +354,12 @@ namespace GKModule.ViewModels
 		private void SubscribeEvents()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
@@ -376,11 +376,6 @@ namespace GKModule.ViewModels
 					SelectedDevice = device;
 				}
 			}
-		}
-		private void OnElementRemoved(List<ElementBase> elements)
-		{
-			elements.OfType<ElementXDevice>().ToList().ForEach(element => Helper.ResetXDevice(element));
-			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{

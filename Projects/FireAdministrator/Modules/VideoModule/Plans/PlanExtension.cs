@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
-using Infrustructure.Plans;
+using Infrastructure.Client.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
@@ -15,37 +16,40 @@ using VideoModule.ViewModels;
 
 namespace VideoModule.Plans
 {
-	class PlanExtension : IPlanExtension<Plan>
+	class PlanExtension : BasePlanExtension
 	{
+		public static PlanExtension Instance { get; private set; }
 		private CamerasViewModel _camerasViewModel;
-		private CommonDesignerCanvas _designerCanvas;
 
 		public PlanExtension(CamerasViewModel camerasViewModel)
 		{
+			Instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
 			_camerasViewModel = camerasViewModel;
+			Cache.Add<Camera>(() => FiresecManager.SystemConfiguration.AllCameras);
 		}
 
 		public void Initialize()
 		{
+			Cache.BuildAllSafe();
 		}
 
 		#region IPlanExtension Members
 
-		public int Index
+		public override int Index
 		{
 			get { return 1; }
 		}
-		public string Title
+		public override string Title
 		{
 			get { return "Видеокамера"; }
 		}
 
-		public IEnumerable<IInstrument> Instruments
+		public override IEnumerable<IInstrument> Instruments
 		{
 			get
 			{
@@ -53,41 +57,36 @@ namespace VideoModule.Plans
 			}
 		}
 
-		public bool ElementAdded(Plan plan, ElementBase element)
+		public override bool ElementAdded(Plan plan, ElementBase element)
 		{
 			if (element is ElementCamera)
 			{
 				var elementCamera = element as ElementCamera;
-				Helper.SetCamera(elementCamera);
 				plan.ElementExtensions.Add(elementCamera);
+				SetItem<Camera>(elementCamera);
 				return true;
 			}
 			return false;
 		}
-		public bool ElementRemoved(Plan plan, ElementBase element)
+		public override bool ElementRemoved(Plan plan, ElementBase element)
 		{
 			if (element is ElementCamera)
 			{
 				var elementCamera = (ElementCamera)element;
 				plan.ElementExtensions.Remove(elementCamera);
+				ResetItem<Camera>(elementCamera);
 				return true;
 			}
 			return false;
 		}
 
-		public void RegisterDesignerItem(DesignerItem designerItem)
+		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			if (designerItem.Element is ElementCamera)
-			{
-				designerItem.ItemPropertyChanged += CameraPropertyChanged;
-				OnCameraPropertyChanged(designerItem);
-				designerItem.Group = "CameraVideo";
-				designerItem.UpdateProperties += UpdateDesignerItemCamera;
-				UpdateDesignerItemCamera(designerItem);
-			}
+				RegisterDesignerItem<Camera>(designerItem, "CameraVideo", "/Controls;component/Images/BVideo.png");
 		}
 
-		public IEnumerable<ElementBase> LoadPlan(Plan plan)
+		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
 			if (plan.ElementExtensions == null)
 				plan.ElementExtensions = new List<ElementBase>();
@@ -96,54 +95,33 @@ namespace VideoModule.Plans
 					yield return element;
 		}
 
-		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
+		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
-			_designerCanvas = designerCanvas;
+			base.ExtensionRegistered(designerCanvas);
 			LayerGroupService.Instance.RegisterGroup("CameraVideo", "Камеры", 7);
 		}
-		public void ExtensionAttached()
+		public override void ExtensionAttached()
 		{
 			using (new TimeCounter("CamerasList.ExtensionAttached.BuildMap: {0}"))
-				Helper.BuildMap();
+				base.ExtensionAttached();
 		}
 
 		#endregion
 
-		private void UpdateDesignerItemCamera(CommonDesignerItem designerItem)
+		protected override void UpdateDesignerItemProperties<TItem>(CommonDesignerItem designerItem, TItem item)
 		{
-			ElementCamera element = designerItem.Element as ElementCamera;
-			var camera = Helper.GetCamera(element);
-			Helper.SetCamera(element, camera);
-			designerItem.Title = Helper.GetCameraTitle(element);
-			designerItem.IconSource = "/Controls;component/Images/BVideo.png";
-		}
-
-		private void CameraPropertyChanged(object sender, EventArgs e)
-		{
-			DesignerItem designerItem = (DesignerItem)sender;
-			OnCameraPropertyChanged(designerItem);
-		}
-		private void OnCameraPropertyChanged(DesignerItem designerItem)
-		{
-			var camera = Helper.GetCamera((ElementCamera)designerItem.Element);
-			if (camera != null)
-				camera.Changed += () =>
-				{
-					if (_designerCanvas.IsPresented(designerItem))
-					{
-						Helper.BuildCameraMap();
-						UpdateDesignerItemCamera(designerItem);
-						designerItem.Painter.Invalidate();
-						_designerCanvas.Refresh();
-					}
-				};
+			if (typeof(TItem) == typeof(Camera))
+			{
+				var camera = item as Camera;
+				designerItem.Title = camera == null ? "Неизвестная камера" : camera.Name;
+			}
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
 			var elementCamera = args.Element as ElementCamera;
 			if (elementCamera != null)
-				args.Painter = new Painter(_designerCanvas, elementCamera);
+				args.Painter = new Painter(DesignerCanvas, elementCamera);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{

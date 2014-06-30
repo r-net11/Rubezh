@@ -34,7 +34,7 @@ namespace GKModule.Plans.Designer
 				{
 					var elementXDevice = _map[planElementUID];
 					if (elementXDevice.XDeviceUID == Guid.Empty)
-						Helper.SetXDevice(elementXDevice, xdevice);
+						GKPlanExtension.Instance.SetItem<XDevice>(elementXDevice, xdevice);
 				}
 			foreach (var child in xdevice.Children)
 				UpdateDeviceBinding(child);

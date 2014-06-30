@@ -69,7 +69,7 @@ namespace VideoModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid cameraUID = _elementCamera.CameraUID;
-			Helper.SetCamera(_elementCamera, SelectedCamera.Camera);
+			PlanExtension.Instance.SetItem<Camera>(_elementCamera, SelectedCamera.Camera);
 
 			if (cameraUID != _elementCamera.CameraUID)
 				Update(cameraUID);

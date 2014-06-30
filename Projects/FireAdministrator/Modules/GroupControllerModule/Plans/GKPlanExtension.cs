@@ -16,30 +16,30 @@ using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
+using Infrustructure.Plans.Interfaces;
 
 namespace GKModule.Plans
 {
-	class GKPlanExtension : IPlanExtension<Plan>
+	class GKPlanExtension : BasePlanExtension
 	{
+		public static GKPlanExtension Instance { get; private set; }
+
 		private bool _processChanges;
 		private DevicesViewModel _devicesViewModel;
 		private ZonesViewModel _zonesViewModel;
 		private DirectionsViewModel _directionsViewModel;
 		private GuardZonesViewModel _guardZonesViewModel;
-		private CommonDesignerCanvas _designerCanvas;
 		private IEnumerable<IInstrument> _instruments;
 		private List<DesignerItem> _designerItems;
-		private static GKPlanExtension _current;
 
 		public GKPlanExtension(DevicesViewModel devicesViewModel, ZonesViewModel zonesViewModel, DirectionsViewModel directionsViewModel, GuardZonesViewModel guardZonesViewModel)
 		{
-			_current = this;
+			Instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
@@ -58,116 +58,125 @@ namespace GKModule.Plans
 			_guardZonesViewModel = guardZonesViewModel;
 			_instruments = null;
 			_processChanges = true;
+			Cache.Add<XDevice>(() => XManager.Devices);
+			Cache.Add<XZone>(() => XManager.Zones);
+			Cache.Add<XGuardZone>(() => XManager.DeviceConfiguration.GuardZones);
+			Cache.Add<XDirection>(() => XManager.Directions);
 			_designerItems = new List<DesignerItem>();
 		}
 
 		public void Initialize()
 		{
+			Cache.BuildAllSafe();
 			using (new TimeCounter("DevicePictureCache.LoadXCache: {0}"))
 				PictureCacheSource.XDevicePicture.LoadCache();
 		}
 
 		#region IPlanExtension Members
 
-		public int Index
+		public override int Index
 		{
 			get { return 1; }
 		}
-		public string Title
+		public override string Title
 		{
 			get { return "Устройства"; }
 		}
 
-		public IEnumerable<IInstrument> Instruments
+		public override IEnumerable<IInstrument> Instruments
 		{
 			get
 			{
 				if (_instruments == null)
 					_instruments = new List<IInstrument>()
-					{
-						new InstrumentViewModel()
-						{
-							ImageSource="/Controls;component/Images/ZoneRectangle.png",
-							ToolTip="Зона",
-							Adorner = new XZoneRectangleAdorner(_designerCanvas, _zonesViewModel),
-							Index = 200,
-							Autostart = true
-						},
-						new InstrumentViewModel()
-						{
-							ImageSource="/Controls;component/Images/ZonePolygon.png",
-							ToolTip="Зона",
-							Adorner = new XZonePolygonAdorner(_designerCanvas, _zonesViewModel),
-							Index = 201,
-							Autostart = true
-						},
-						new InstrumentViewModel()
-						{
-							ImageSource="/Controls;component/Images/DirectionRectangle.png",
-							ToolTip="Направление",
-							Adorner = new XDirectionRectangleAdorner(_designerCanvas, _directionsViewModel),
-							Index = 202,
-							Autostart = true
-						},
-						new InstrumentViewModel()
-						{
-							ImageSource="/Controls;component/Images/DirectionPolygon.png",
-							ToolTip="Направление",
-							Adorner = new XDirectionPolygonAdorner(_designerCanvas, _directionsViewModel),
-							Index = 203,
-							Autostart = true
-						},
-						new InstrumentViewModel()
-						{
-							ImageSource="/Controls;component/Images/ZoneRectangle.png",
-							ToolTip="Охранная зона",
-							Adorner = new XGuardZoneRectangleAdorner(_designerCanvas, _guardZonesViewModel),
-							Index = 204,
-							Autostart = true
-						},
-						new InstrumentViewModel()
-						{
-							ImageSource="/Controls;component/Images/ZonePolygon.png",
-							ToolTip="Охранная зона",
-							Adorner = new XGuardZonePolygonAdorner(_designerCanvas,  _guardZonesViewModel),
-							Index = 205,
-							Autostart = true
-						},
-	};
+                    {
+                        new InstrumentViewModel()
+                        {
+                            ImageSource="/Controls;component/Images/ZoneRectangle.png",
+                            ToolTip="Зона",
+                            Adorner = new XZoneRectangleAdorner(DesignerCanvas, _zonesViewModel),
+                            Index = 200,
+                            Autostart = true
+                        },
+                        new InstrumentViewModel()
+                        {
+                            ImageSource="/Controls;component/Images/ZonePolygon.png",
+                            ToolTip="Зона",
+                            Adorner = new XZonePolygonAdorner(DesignerCanvas, _zonesViewModel),
+                            Index = 201,
+                            Autostart = true
+                        },
+                        new InstrumentViewModel()
+                        {
+                            ImageSource="/Controls;component/Images/DirectionRectangle.png",
+                            ToolTip="Направление",
+                            Adorner = new XDirectionRectangleAdorner(DesignerCanvas, _directionsViewModel),
+                            Index = 202,
+                            Autostart = true
+                        },
+                        new InstrumentViewModel()
+                        {
+                            ImageSource="/Controls;component/Images/DirectionPolygon.png",
+                            ToolTip="Направление",
+                            Adorner = new XDirectionPolygonAdorner(DesignerCanvas, _directionsViewModel),
+                            Index = 203,
+                            Autostart = true
+                        },
+                        new InstrumentViewModel()
+                        {
+                            ImageSource="/Controls;component/Images/ZoneRectangle.png",
+                            ToolTip="Охранная зона",
+                            Adorner = new XGuardZoneRectangleAdorner(DesignerCanvas, _guardZonesViewModel),
+                            Index = 204,
+                            Autostart = true
+                        },
+                        new InstrumentViewModel()
+                        {
+                            ImageSource="/Controls;component/Images/ZonePolygon.png",
+                            ToolTip="Охранная зона",
+                            Adorner = new XGuardZonePolygonAdorner(DesignerCanvas,  _guardZonesViewModel),
+                            Index = 205,
+                            Autostart = true
+                        },
+    };
 				return _instruments;
 			}
 		}
 
-		public bool ElementAdded(Plan plan, ElementBase element)
+		public override bool ElementAdded(Plan plan, ElementBase element)
 		{
 			if (element is ElementXDevice)
 			{
 				var elementXDevice = element as ElementXDevice;
-				Helper.SetXDevice(elementXDevice);
 				plan.ElementXDevices.Add(elementXDevice);
+				SetItem<XDevice>(elementXDevice);
 				return true;
 			}
 			else if (element is IElementZone)
 			{
 				if (element is ElementRectangleXZone)
 				{
-					plan.ElementRectangleXZones.Add((ElementRectangleXZone)element);
-					Designer.Helper.SetXZone((IElementZone)element);
+					var elementRectangleXZone = (ElementRectangleXZone)element;
+					plan.ElementRectangleXZones.Add(elementRectangleXZone);
+					SetItem<XZone>(elementRectangleXZone);
 				}
 				else if (element is ElementPolygonXZone)
 				{
-					plan.ElementPolygonXZones.Add((ElementPolygonXZone)element);
-					Designer.Helper.SetXZone((IElementZone)element);
+					var elementPolygonXZone = (ElementPolygonXZone)element;
+					plan.ElementPolygonXZones.Add(elementPolygonXZone);
+					SetItem<XZone>(elementPolygonXZone);
 				}
 				else if (element is ElementRectangleXGuardZone)
 				{
-					plan.ElementRectangleXGuardZones.Add((ElementRectangleXGuardZone)element);
-					Designer.Helper.SetXGuardZone((IElementZone)element);
+					var elementRectangleXGuardZone = (ElementRectangleXGuardZone)element;
+					plan.ElementRectangleXGuardZones.Add(elementRectangleXGuardZone);
+					SetItem<XGuardZone>(elementRectangleXGuardZone);
 				}
 				else if (element is ElementPolygonXGuardZone)
 				{
-					plan.ElementPolygonXGuardZones.Add((ElementPolygonXGuardZone)element);
-					Designer.Helper.SetXGuardZone((IElementZone)element);
+					var elementPolygonXGuardZone = (ElementPolygonXGuardZone)element;
+					plan.ElementPolygonXGuardZones.Add(elementPolygonXGuardZone);
+					SetItem<XGuardZone>(elementPolygonXGuardZone);
 				}
 				else
 					return false;
@@ -181,17 +190,18 @@ namespace GKModule.Plans
 					plan.ElementPolygonXDirections.Add((ElementPolygonXDirection)element);
 				else
 					return false;
-				Helper.SetXDirection((IElementDirection)element);
+				SetItem<XDirection>((IElementDirection)element);
 				return true;
 			}
 			return false;
 		}
-		public bool ElementRemoved(Plan plan, ElementBase element)
+		public override bool ElementRemoved(Plan plan, ElementBase element)
 		{
 			if (element is ElementXDevice)
 			{
 				var elementXDevice = (ElementXDevice)element;
 				plan.ElementXDevices.Remove(elementXDevice);
+				ResetItem<XDevice>(elementXDevice);
 				return true;
 			}
 			else if (element is IElementZone)
@@ -206,6 +216,8 @@ namespace GKModule.Plans
 					plan.ElementPolygonXGuardZones.Remove((ElementPolygonXGuardZone)element);
 				else
 					return false;
+				ResetItem<XZone>((IElementZone)element);
+				ResetItem<XGuardZone>((IElementZone)element);
 				return true;
 			}
 			else if (element is IElementDirection)
@@ -216,52 +228,28 @@ namespace GKModule.Plans
 					plan.ElementPolygonXDirections.Remove((ElementPolygonXDirection)element);
 				else
 					return false;
+				ResetItem<XDirection>((IElementDirection)element);
 				return true;
 			}
 			return false;
 		}
 
-		public void RegisterDesignerItem(DesignerItem designerItem)
+		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			if (designerItem.Element is ElementRectangleXZone || designerItem.Element is ElementPolygonXZone)
-			{
-				designerItem.ItemPropertyChanged += XZonePropertyChanged;
-				OnXZonePropertyChanged(designerItem);
-				designerItem.Group = "XZone";
-				designerItem.IconSource = "/Controls;component/Images/zone.png";
-				designerItem.UpdateProperties += UpdateDesignerItemXZone;
-				UpdateDesignerItemXZone(designerItem);
-			}
+				RegisterDesignerItem<XZone>(designerItem, "XZone", "/Controls;component/Images/zone.png");
 			else if (designerItem.Element is ElementRectangleXGuardZone || designerItem.Element is ElementPolygonXGuardZone)
-			{
-				designerItem.ItemPropertyChanged += XGuardZonePropertyChanged;
-				OnXZonePropertyChanged(designerItem);
-				designerItem.Group = "XGuardZone";
-				designerItem.IconSource = "/Controls;component/Images/zone.png";
-				designerItem.UpdateProperties += UpdateDesignerItemXGuardZone;
-				UpdateDesignerItemXGuardZone(designerItem);
-			}
+				RegisterDesignerItem<XGuardZone>(designerItem, "XGuardZone", "/Controls;component/Images/zone.png");
 			else if (designerItem.Element is ElementXDevice)
 			{
-				designerItem.ItemPropertyChanged += XDevicePropertyChanged;
-				OnXDevicePropertyChanged(designerItem);
-				designerItem.Group = "GK";
-				designerItem.UpdateProperties += UpdateDesignerItemXDevice;
-				UpdateDesignerItemXDevice(designerItem);
+				RegisterDesignerItem<XDevice>(designerItem, "GK");
 				_designerItems.Add(designerItem);
 			}
 			else if (designerItem.Element is IElementDirection)
-			{
-				designerItem.ItemPropertyChanged += XDirectionPropertyChanged;
-				OnXDirectionPropertyChanged(designerItem);
-				designerItem.Group = "XDirection";
-				designerItem.IconSource = "/Controls;component/Images/Blue_Direction.png";
-				designerItem.UpdateProperties += UpdateDesignerItemXDirection;
-				UpdateDesignerItemXDirection(designerItem);
-			}
+				RegisterDesignerItem<XDirection>(designerItem, "XDirection", "/Controls;component/Images/Blue_Direction.png");
 		}
 
-		public IEnumerable<ElementBase> LoadPlan(Plan plan)
+		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
 			_designerItems = new List<DesignerItem>();
 			if (plan.ElementPolygonXZones == null)
@@ -292,147 +280,77 @@ namespace GKModule.Plans
 				yield return element;
 		}
 
-		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
+		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
-			_designerCanvas = designerCanvas;
+			base.ExtensionRegistered(designerCanvas);
 			LayerGroupService.Instance.RegisterGroup("GK", "Устройства", 2);
 			LayerGroupService.Instance.RegisterGroup("XZone", "Зоны", 3);
 			LayerGroupService.Instance.RegisterGroup("XDirection", "Направления", 4);
 			LayerGroupService.Instance.RegisterGroup("XGuardZone", "Охранные зоны", 5);
 		}
-		public void ExtensionAttached()
+		public override void ExtensionAttached()
 		{
 			using (new TimeCounter("XDevice.ExtensionAttached.BuildMap: {0}"))
-				Helper.BuildMap();
+				base.ExtensionAttached();
 		}
 
 		#endregion
 
-		private void UpdateDesignerItemXDevice(CommonDesignerItem designerItem)
+		protected override void UpdateDesignerItemProperties<TItem>(CommonDesignerItem designerItem, TItem item)
 		{
-			ElementXDevice elementDevice = designerItem.Element as ElementXDevice;
-			XDevice device = Designer.Helper.GetXDevice(elementDevice);
-			Designer.Helper.SetXDevice(elementDevice, device);
-			designerItem.Title = Helper.GetXDeviceTitle(elementDevice);
-			designerItem.IconSource = Helper.GetXDeviceImageSource(elementDevice);
+			if (typeof(TItem) == typeof(XDevice))
+			{
+				var device = item as XDevice;
+				designerItem.Title = device == null ? "Неизвестное устройство" : device.PresentationName;
+				designerItem.IconSource = device == null ? null : device.Driver.ImageSource;
+			}
+			else if (typeof(TItem) == typeof(XZone))
+			{
+				var zone = item as XZone;
+				designerItem.Title = zone == null ? "Несвязанная зона" : zone.PresentationName;
+			}
+			else if (typeof(TItem) == typeof(XGuardZone))
+			{
+				var guardZone = item as XGuardZone;
+				designerItem.Title = guardZone == null ? "Неизвестная дверь" : guardZone.PresentationName;
+			}
+			else if (typeof(TItem) == typeof(XDirection))
+			{
+				var direction = item as XDirection;
+				designerItem.Title = direction == null ? "Несвязанное направление" : direction.PresentationName;
+			}
+			else
+				base.UpdateDesignerItemProperties<TItem>(designerItem, item);
 		}
-		private void UpdateDesignerItemXZone(CommonDesignerItem designerItem)
+		protected override void UpdateElementProperties<TItem>(IElementReference element, TItem item)
 		{
-			IElementZone elementZone = designerItem.Element as IElementZone;
-			var xzone = Designer.Helper.GetXZone(elementZone);
-			Designer.Helper.SetXZone(elementZone, xzone);
-			designerItem.Title = Designer.Helper.GetXZoneTitle(xzone);
-			elementZone.BackgroundColor = Designer.Helper.GetXZoneColor(xzone);
-			elementZone.SetZLayer(xzone == null ? 50 : 60);
-		}
-		private void UpdateDesignerItemXGuardZone(CommonDesignerItem designerItem)
-		{
-			IElementZone elementZone = designerItem.Element as IElementZone;
-			var xguardZone = Designer.Helper.GetXGuardZone(elementZone);
-			Designer.Helper.SetXGuardZone(elementZone, xguardZone);
-			designerItem.Title = Designer.Helper.GetXGuardZoneTitle(xguardZone);
-			elementZone.BackgroundColor = Designer.Helper.GetXGuardZoneColor(xguardZone);
-			elementZone.SetZLayer(xguardZone == null ? 50 : 60);
-		}
-		private void UpdateDesignerItemXDirection(CommonDesignerItem designerItem)
-		{
-			var elementXDirection = designerItem.Element as IElementDirection;
-			var xdirection = Designer.Helper.GetXDirection(elementXDirection);
-			Designer.Helper.SetXDirection(elementXDirection, xdirection);
-			designerItem.Title = Designer.Helper.GetXDirectionTitle(xdirection);
-			elementXDirection.BackgroundColor = Designer.Helper.GetXDirectionColor(xdirection);
-			elementXDirection.SetZLayer(xdirection == null ? 10 : 11);
-		}
-
-		private void XZonePropertyChanged(object sender, EventArgs e)
-		{
-			DesignerItem designerItem = (DesignerItem)sender;
-			OnXZonePropertyChanged(designerItem);
-		}
-		private void OnXZonePropertyChanged(DesignerItem designerItem)
-		{
-			var zone = Designer.Helper.GetXZone((IElementZone)designerItem.Element);
-			if (zone != null)
-				zone.Changed += () =>
-				{
-					if (_designerCanvas.IsPresented(designerItem))
-					{
-						Helper.BuildXZoneMap();
-						UpdateDesignerItemXZone(designerItem);
-						designerItem.Painter.Invalidate();
-						_designerCanvas.Refresh();
-					}
-				};
-		}
-
-		private void XGuardZonePropertyChanged(object sender, EventArgs e)
-		{
-			DesignerItem designerItem = (DesignerItem)sender;
-			OnXGuardZonePropertyChanged(designerItem);
-		}
-		private void OnXGuardZonePropertyChanged(DesignerItem designerItem)
-		{
-			var zone = Designer.Helper.GetXGuardZone((IElementZone)designerItem.Element);
-			if (zone != null)
-				zone.Changed += () =>
-				{
-					if (_designerCanvas.IsPresented(designerItem))
-					{
-						Helper.BuildXGuardZoneMap();
-						UpdateDesignerItemXGuardZone(designerItem);
-						designerItem.Painter.Invalidate();
-						_designerCanvas.Refresh();
-					}
-				};
-		}
-
-		private void XDirectionPropertyChanged(object sender, EventArgs e)
-		{
-			DesignerItem designerItem = (DesignerItem)sender;
-			OnXDirectionPropertyChanged(designerItem);
-		}
-		private void OnXDirectionPropertyChanged(DesignerItem designerItem)
-		{
-			var direction = Designer.Helper.GetXDirection((IElementDirection)designerItem.Element);
-			if (direction != null)
-				direction.Changed += () =>
-				{
-					if (_designerCanvas.IsPresented(designerItem))
-					{
-						Helper.BuildXDirectionMap();
-						UpdateDesignerItemXDirection(designerItem);
-						designerItem.Painter.Invalidate();
-						_designerCanvas.Refresh();
-					}
-				};
-		}
-
-		private void XDevicePropertyChanged(object sender, EventArgs e)
-		{
-			DesignerItem designerItem = (DesignerItem)sender;
-			OnXDevicePropertyChanged(designerItem);
-		}
-		private void OnXDevicePropertyChanged(DesignerItem designerItem)
-		{
-			var device = Designer.Helper.GetXDevice((ElementXDevice)designerItem.Element);
-			if (device != null)
-				device.Changed += () =>
-				{
-					if (_designerCanvas.IsPresented(designerItem))
-					{
-						Helper.BuildXDeviceMap();
-						UpdateDesignerItemXDevice(designerItem);
-						designerItem.Painter.Invalidate();
-						_designerCanvas.Refresh();
-					}
-				};
+			if (typeof(TItem) == typeof(XZone))
+			{
+				var elementZone = (IElementZone)element;
+				elementZone.BackgroundColor = GetXZoneColor(item as XZone);
+				elementZone.SetZLayer(item == null ? 50 : 60);
+			}
+			else if (typeof(TItem) == typeof(XGuardZone))
+			{
+				var elementGuardZone = (IElementZone)element;
+				elementGuardZone.BackgroundColor = GetXGuardZoneColor(item as XGuardZone);
+				elementGuardZone.SetZLayer(item == null ? 50 : 60);
+			}
+			else if (typeof(TItem) == typeof(XDirection))
+			{
+				var elementDirection = (IElementDirection)element;
+				elementDirection.BackgroundColor = GetXDirectionColor(item as XDirection);
+				elementDirection.SetZLayer(item == null ? 10 : 11);
+			}
+			else
+				base.UpdateElementProperties<TItem>(element, item);
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
 			var elementXDevice = args.Element as ElementXDevice;
 			if (elementXDevice != null)
-				args.Painter = new Painter(_designerCanvas, elementXDevice);
+				args.Painter = new Painter(DesignerCanvas, elementXDevice);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
@@ -457,12 +375,12 @@ namespace GKModule.Plans
 				using (new TimeCounter("\tUpdateXDeviceInZones: {0}"))
 				{
 					Dictionary<Geometry, IElementZone> geometries = GetZoneGeometryMap();
-					foreach (var designerItem in _designerCanvas.Items)
+					foreach (var designerItem in DesignerCanvas.Items)
 					{
 						var elementXDevice = designerItem.Element as ElementXDevice;
 						if (elementXDevice != null)
 						{
-							var xdevice = Designer.Helper.GetXDevice(elementXDevice);
+							var xdevice = GetItem<XDevice>(elementXDevice);
 							if (xdevice == null || xdevice.Driver == null || handledXDevices.Contains(xdevice))
 								continue;
 							var point = new Point(elementXDevice.Left, elementXDevice.Top);
@@ -475,7 +393,7 @@ namespace GKModule.Plans
 								case 0:
 									if (zones.Count > 0)
 									{
-										var zone = Helper.GetXZone(GetTopZoneUID(zones));
+										var zone = GetItem<XZone>(GetTopZoneUID(zones));
 										if (zone != null)
 										{
 											XManager.AddDeviceToZone(xdevice, zone);
@@ -506,7 +424,7 @@ namespace GKModule.Plans
 		}
 		private bool IsDeviceInZonesChanged(List<ElementBase> items)
 		{
-			if (_processChanges && !_designerCanvas.IsLocked)
+			if (_processChanges && !DesignerCanvas.IsLocked)
 				foreach (var item in items)
 					if (item is ElementXDevice || item is IElementZone)
 						return true;
@@ -515,7 +433,7 @@ namespace GKModule.Plans
 		private Dictionary<Geometry, IElementZone> GetZoneGeometryMap()
 		{
 			var geometries = new Dictionary<Geometry, IElementZone>();
-			foreach (var designerItem in _designerCanvas.Items)
+			foreach (var designerItem in DesignerCanvas.Items)
 			{
 				var elementZone = designerItem.Element as IElementZone;
 				if (elementZone != null && elementZone.ZoneUID != Guid.Empty)
@@ -536,21 +454,44 @@ namespace GKModule.Plans
 				if (!result)
 				{
 					_processChanges = false;
-					_designerCanvas.RevertLastAction();
+					DesignerCanvas.RevertLastAction();
 					_processChanges = true;
 				}
 			}
 		}
 
-		public static void InvalidateCanvas()
+		public void InvalidateCanvas()
 		{
-			_current._designerItems.ForEach(item =>
+			_designerItems.ForEach(item =>
 			{
-				_current.OnXDevicePropertyChanged(item);
-				_current.UpdateDesignerItemXDevice(item);
+				OnDesignerItemPropertyChanged<XDevice>(item);
+				UpdateProperties<XDevice>(item);
 				item.Painter.Invalidate();
 			});
-			_current._designerCanvas.Refresh();
+			DesignerCanvas.Refresh();
 		}
+
+		private Color GetXDirectionColor(XDirection direction)
+		{
+			Color color = Colors.Black;
+			if (direction != null)
+				color = Colors.LightBlue;
+			return color;
+		}
+		private Color GetXGuardZoneColor(XGuardZone zone)
+		{
+			Color color = Colors.Black;
+			if (zone != null)
+				color = Colors.Brown;
+			return color;
+		}
+		private Color GetXZoneColor(XZone zone)
+		{
+			Color color = Colors.Black;
+			if (zone != null)
+				color = Colors.Green;
+			return color;
+		}
+
 	}
 }

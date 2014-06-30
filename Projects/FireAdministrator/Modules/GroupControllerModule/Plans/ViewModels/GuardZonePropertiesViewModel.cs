@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
+using FiresecAPI.GK;
 
 namespace GKModule.Plans.ViewModels
 {
@@ -55,8 +56,8 @@ namespace GKModule.Plans.ViewModels
 			ServiceFactory.Events.GetEvent<CreateXGuardZoneEvent>().Publish(createZoneEventArg);
 			if (createZoneEventArg.Zone != null)
 			{
-				Helper.BuildMap();
-				Helper.SetXGuardZone(IElementZone, createZoneEventArg.Zone.BaseUID);
+				GKPlanExtension.Instance.Cache.BuildSafe<XGuardZone>();
+				GKPlanExtension.Instance.SetItem<XGuardZone>(IElementZone, createZoneEventArg.Zone.BaseUID);
 			}
 			UpdateZones(zoneUID);
 			if (!createZoneEventArg.Cancel)
@@ -77,7 +78,7 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;
-			Helper.SetXGuardZone(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
+			GKPlanExtension.Instance.SetItem<XGuardZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
 			UpdateZones(zoneUID);
 			return base.Save();
 		}

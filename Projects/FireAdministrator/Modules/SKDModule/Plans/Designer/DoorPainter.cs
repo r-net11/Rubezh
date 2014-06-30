@@ -4,7 +4,6 @@ using FiresecAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
-using FiresecAPI.SKD;
 
 namespace SKDModule.Plans.Designer
 {
@@ -17,12 +16,11 @@ namespace SKDModule.Plans.Designer
 		{
 			_elementDoor = elementDoor;
 			_toolTip = new ImageTextTooltipViewModel();
+			_toolTip.ImageSource = "/Controls;component/Images/Door.png";
 		}
 
 		protected override Brush GetBrush()
 		{
-			var device = SKDPlanExtension.Instance.GetItem<Door>(_elementDoor.DoorUID);
-			_toolTip.ImageSource = "/Controls;component/Images/Door.png";
 			return PictureCacheSource.DoorPicture.GetDefaultBrush();
 		}
 

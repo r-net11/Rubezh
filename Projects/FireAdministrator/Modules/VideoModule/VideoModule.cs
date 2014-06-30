@@ -35,7 +35,7 @@ namespace VideoModule
 			CamerasViewModel.Initialize();
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
-			Helper.BuildMap();
+			_planExtension.Cache.BuildAllSafe();
 		}
 
 		public IEnumerable<IValidationError> Validate()

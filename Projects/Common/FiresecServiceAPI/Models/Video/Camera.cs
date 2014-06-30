@@ -4,11 +4,12 @@ using System.Runtime.Serialization;
 using Common;
 using Entities.DeviceOriented;
 using FiresecAPI.GK;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class Camera : IStateProvider, IDeviceState<XStateClass>, IIdentity
+	public class Camera : IStateProvider, IDeviceState<XStateClass>, IIdentity, IPlanPresentable
 	{
 		public Camera()
 		{

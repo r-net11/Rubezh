@@ -18,6 +18,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
+using GKModule.Plans;
 
 namespace GKModule.ViewModels
 {
@@ -103,7 +104,7 @@ namespace GKModule.ViewModels
 				Directions.Add(directionViewModel);
 				SelectedDirection = directionViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
-				Helper.BuildMap();
+				GKPlanExtension.Instance.Cache.BuildSafe<XDirection>();
 				return directionDetailsViewModel;
 			}
 			return null;
@@ -119,7 +120,7 @@ namespace GKModule.ViewModels
 				Directions.Remove(SelectedDirection);
 				SelectedDirection = Directions.FirstOrDefault();
 				ServiceFactory.SaveService.GKChanged = true;
-				Helper.BuildMap();
+				GKPlanExtension.Instance.Cache.BuildSafe<XDirection>();
 			}
 		}
 
@@ -275,12 +276,12 @@ namespace GKModule.ViewModels
 		void SubscribeEvents()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
@@ -294,12 +295,6 @@ namespace GKModule.ViewModels
 				if (!_lockSelection)
 					SelectedDirection = direction;
 			}
-		}
-		private void OnElementRemoved(List<ElementBase> elements)
-		{
-			elements.OfType<ElementRectangleXDirection>().ToList().ForEach(element => Helper.ResetXDirection(element));
-			elements.OfType<ElementPolygonXDirection>().ToList().ForEach(element => Helper.ResetXDirection(element));
-			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{

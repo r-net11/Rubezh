@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
+using FiresecAPI.GK;
 
 namespace GKModule.Plans.ViewModels
 {
@@ -56,8 +57,8 @@ namespace GKModule.Plans.ViewModels
 			ServiceFactory.Events.GetEvent<CreateXDirectionEvent>().Publish(createDirectionEventArg);
 			if (createDirectionEventArg.Direction != null)
 				_element.DirectionUID = createDirectionEventArg.Direction.BaseUID;
-			Helper.BuildMap();
-			Helper.SetXDirection(_element);
+			GKPlanExtension.Instance.Cache.BuildSafe<XDirection>();
+			GKPlanExtension.Instance.SetItem<XDirection>(_element);
 			UpdateDirections(xdirectionUID);
 			if (!createDirectionEventArg.Cancel)
 				Close(true);
@@ -77,7 +78,7 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid directionUID = _element.DirectionUID;
-			Helper.SetXDirection(_element, SelectedXDirection == null ? null : SelectedXDirection.Direction);
+			GKPlanExtension.Instance.SetItem<XDirection>(_element, SelectedXDirection == null ? null : SelectedXDirection.Direction);
 			UpdateDirections(directionUID);
 			return base.Save();
 		}

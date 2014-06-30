@@ -16,6 +16,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using GKModule.Plans;
 
 namespace GKModule.ViewModels
 {
@@ -144,7 +145,7 @@ namespace GKModule.ViewModels
 					DevicesViewModel.Current.AllDevices.Add(addedDevice);
 				}
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
-				Plans.Designer.Helper.BuildMap();
+				GKPlanExtension.Instance.Cache.BuildSafe<XDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
 				return;
 			}
@@ -159,7 +160,7 @@ namespace GKModule.ViewModels
 					}
 				}
 				DevicesViewModel.Current.SelectedDevice = newDeviceViewModel.AddedDevices.LastOrDefault();
-				Plans.Designer.Helper.BuildMap();
+				GKPlanExtension.Instance.Cache.BuildSafe<XDevice>();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -227,7 +228,7 @@ namespace GKModule.ViewModels
 				}
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
-			Plans.Designer.Helper.BuildMap();
+			GKPlanExtension.Instance.Cache.BuildSafe<XDevice>();
 			ServiceFactory.SaveService.GKChanged = true;
 		}
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using Infrastructure;
@@ -11,23 +12,29 @@ using Infrustructure.Plans.Services;
 using PlansModule.Kursk.Designer;
 using PlansModule.Kursk.InstrumentAdorners;
 using PlansModule.Kursk.ViewModels;
+using FiresecAPI.GK;
+using FiresecClient;
+using System.Windows.Media;
 
 namespace PlansModule.Kursk
 {
-	public class PlanExtension : IPlanExtension<Plan>
+	public class PlanExtension : BasePlanExtension
 	{
 		private const string OthersGroup = "Others";
-		private CommonDesignerCanvas _designerCanvas;
+		public static PlanExtension Instance { get; private set; }
+
 		private IEnumerable<IInstrument> _instruments;
 
 		public PlanExtension()
 		{
+			Instance = this;
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
 
 			_instruments = null;
+			Cache.Add<XDevice>();
 		}
 
 		public void Initialize()
@@ -36,16 +43,16 @@ namespace PlansModule.Kursk
 
 		#region IPlanExtension Members
 
-		public int Index
+		public override int Index
 		{
 			get { return 1; }
 		}
-		public string Title
+		public override string Title
 		{
 			get { return "Устройства - Курск"; }
 		}
 
-		public IEnumerable<IInstrument> Instruments
+		public override IEnumerable<IInstrument> Instruments
 		{
 			get
 			{
@@ -56,7 +63,7 @@ namespace PlansModule.Kursk
 						{
 							ImageSource="/Controls;component/Images/Tank.png",
 							ToolTip="Бак",
-							Adorner = new TankRectangleAdorner(_designerCanvas),
+							Adorner = new TankRectangleAdorner(DesignerCanvas),
 							Index = 299,
 							Autostart = true
 						},
@@ -65,7 +72,7 @@ namespace PlansModule.Kursk
 			}
 		}
 
-		public bool ElementAdded(Plan plan, ElementBase element)
+		public override bool ElementAdded(Plan plan, ElementBase element)
 		{
 			var elementRectangleTank = element as ElementRectangleTank;
 			if (elementRectangleTank != null)
@@ -76,7 +83,7 @@ namespace PlansModule.Kursk
 			}
 			return false;
 		}
-		public bool ElementRemoved(Plan plan, ElementBase element)
+		public override bool ElementRemoved(Plan plan, ElementBase element)
 		{
 			var elementRectangleTank = element as ElementRectangleTank;
 			if (elementRectangleTank != null)
@@ -87,42 +94,33 @@ namespace PlansModule.Kursk
 			return false;
 		}
 
-		public void RegisterDesignerItem(DesignerItem designerItem)
+		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
-			var elementRectangleTank = designerItem.Element as ElementRectangleTank;
-			if (elementRectangleTank != null)
-			{
-				designerItem.Group = OthersGroup;
-				designerItem.UpdateProperties += UpdateDesignerItemXDevice;
-				UpdateDesignerItemXDevice(designerItem);
-				OnXDevicePropertyChanged(designerItem);
-				designerItem.ItemPropertyChanged += new EventHandler(XDevicePropertyChanged);
-			}
+			if (designerItem.Element is ElementRectangleTank)
+				RegisterDesignerItem<XDevice>(designerItem, OthersGroup);
 		}
 
-		public IEnumerable<ElementBase> LoadPlan(Plan plan)
+		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
 			foreach (var element in plan.ElementExtensions)
 				if (element is ElementRectangleTank)
 					yield return element;
 		}
 
-		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
+		public override void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
 		{
-			_designerCanvas = designerCanvas;
+			base.ExtensionRegistered(designerCanvas);
 			LayerGroupService.Instance.RegisterGroup(OthersGroup, "Прочие", 4);
 		}
-		public void ExtensionAttached()
+		public override void ExtensionAttached()
 		{
+			base.ExtensionAttached();
 		}
 
 		#endregion
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
 		{
-			//var elementXDevice = args.Element as ElementXDevice;
-			//if (elementXDevice != null)
-			//	args.Painter = new Painter(elementXDevice);
 		}
 		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
 		{
@@ -131,29 +129,13 @@ namespace PlansModule.Kursk
 				e.PropertyViewModel = new TankPropertiesViewModel(elementRectangleTank);
 		}
 
-		private void UpdateDesignerItemXDevice(CommonDesignerItem designerItem)
+		protected override void UpdateProperties<TItem>(CommonDesignerItem designerItem)
 		{
 			var elementRectangleTank = designerItem.Element as ElementRectangleTank;
 			var xdevice = Helper.GetXDevice(elementRectangleTank);
 			Helper.SetXDevice(elementRectangleTank, xdevice);
 			elementRectangleTank.BackgroundColor = Helper.GetTankColor(xdevice);
 			designerItem.Title = Helper.GetTankTitle(elementRectangleTank);
-		}
-		private void XDevicePropertyChanged(object sender, EventArgs e)
-		{
-			DesignerItem designerItem = (DesignerItem)sender;
-			OnXDevicePropertyChanged(designerItem);
-		}
-		private void OnXDevicePropertyChanged(DesignerItem designerItem)
-		{
-			var device = Helper.GetXDevice((ElementRectangleTank)designerItem.Element);
-			if (device != null)
-				device.Changed += () =>
-				{
-					UpdateDesignerItemXDevice(designerItem);
-					designerItem.Painter.Invalidate();
-					_designerCanvas.Refresh();
-				};
 		}
 	}
 }

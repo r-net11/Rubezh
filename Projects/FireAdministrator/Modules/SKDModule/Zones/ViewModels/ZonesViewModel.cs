@@ -13,10 +13,9 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using SKDModule.Plans.Designer;
-using KeyboardKey = System.Windows.Input.Key;
 using SKDModule.Events;
 using SKDModule.Plans;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
@@ -89,14 +88,14 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnDelete()
 		{
-				var index = Zones.IndexOf(SelectedZone);
-				SKDManager.Zones.Remove(SelectedZone.Zone);
-				Zones.Remove(SelectedZone);
-				index = Math.Min(index, Zones.Count - 1);
-				if (index > -1)
-					SelectedZone = Zones[index];
-				ServiceFactory.SaveService.GKChanged = true;
-				SKDPlanExtension.Instance.Cache.BuildSafe<SKDZone>();
+			var index = Zones.IndexOf(SelectedZone);
+			SKDManager.Zones.Remove(SelectedZone.Zone);
+			Zones.Remove(SelectedZone);
+			index = Math.Min(index, Zones.Count - 1);
+			if (index > -1)
+				SelectedZone = Zones[index];
+			ServiceFactory.SaveService.GKChanged = true;
+			SKDPlanExtension.Instance.Cache.BuildSafe<SKDZone>();
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -143,12 +142,12 @@ namespace SKDModule.ViewModels
 		private void SubscribeEvents()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
@@ -163,12 +162,6 @@ namespace SKDModule.ViewModels
 					SelectedZone = zone;
 				}
 			}
-		}
-		private void OnElementRemoved(List<ElementBase> elements)
-		{
-			elements.OfType<ElementRectangleSKDZone>().ToList().ForEach(element => SKDPlanExtension.Instance.ResetZoneItem<SKDZone>(element));
-			elements.OfType<ElementPolygonSKDZone>().ToList().ForEach(element => SKDPlanExtension.Instance.ResetZoneItem<SKDZone>(element));
-			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{

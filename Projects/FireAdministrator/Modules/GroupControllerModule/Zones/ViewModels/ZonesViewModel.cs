@@ -18,6 +18,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
+using GKModule.Plans;
 
 namespace GKModule.ViewModels
 {
@@ -105,7 +106,7 @@ namespace GKModule.ViewModels
 				Zones.Add(zoneViewModel);
 				SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
-				Helper.BuildMap();
+				GKPlanExtension.Instance.Cache.BuildSafe<XZone>();
 				return zoneDetailsViewModel;
 			}
 			return null;
@@ -125,7 +126,7 @@ namespace GKModule.ViewModels
 					SelectedZone = Zones[index];
 				ZoneDevices.UpdateAvailableDevices();
 				ServiceFactory.SaveService.GKChanged = true;
-				Helper.BuildMap();
+				GKPlanExtension.Instance.Cache.BuildSafe<XZone>();
 			}
 		}
 
@@ -226,12 +227,12 @@ namespace GKModule.ViewModels
 		private void SubscribeEvents()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
@@ -245,12 +246,6 @@ namespace GKModule.ViewModels
 				if (!_lockSelection)
 					SelectedZone = zone;
 			}
-		}
-		private void OnElementRemoved(List<ElementBase> elements)
-		{
-			elements.OfType<ElementRectangleXZone>().ToList().ForEach(element => Helper.ResetXZone(element));
-			elements.OfType<ElementPolygonXZone>().ToList().ForEach(element => Helper.ResetXZone(element));
-			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{

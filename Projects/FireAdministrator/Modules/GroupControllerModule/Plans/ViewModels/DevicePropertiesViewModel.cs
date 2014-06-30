@@ -67,7 +67,7 @@ namespace GKModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid deviceUID = _elementXDevice.XDeviceUID;
-			Helper.SetXDevice(_elementXDevice, SelectedDevice.Device);
+			GKPlanExtension.Instance.SetItem<XDevice>(_elementXDevice, SelectedDevice.Device);
 
 			if (deviceUID != _elementXDevice.XDeviceUID)
 				Update(deviceUID);

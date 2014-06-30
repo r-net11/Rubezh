@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Windows.Media;
 using Common;
 using DeviceControls;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Client.Plans;
-using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Interfaces;
 using Infrustructure.Plans.Services;
 using SKDModule.Plans.Designer;
 using SKDModule.Plans.InstrumentAdorners;
 using SKDModule.Plans.ViewModels;
 using SKDModule.ViewModels;
-using System.Windows.Media;
+using Infrustructure.Plans.Interfaces;
 
 namespace SKDModule.Plans
 {
@@ -98,31 +96,25 @@ namespace SKDModule.Plans
 			{
 				var elementSKDDevice = (ElementSKDDevice)element;
 				plan.ElementSKDDevices.Add(elementSKDDevice);
+				SetItem<SKDDevice>(elementSKDDevice);
 				return true;
 			}
 			else if (element is ElementDoor)
 			{
 				var elementDoor = (ElementDoor)element;
 				plan.ElementDoors.Add(elementDoor);
-				SetItem<ElementDoor, Door>(elementDoor);
+				SetItem<Door>(elementDoor);
 				return true;
 			}
 			else if (element is IElementZone)
 			{
 				if (element is ElementRectangleSKDZone)
-				{
-					var elementRectangleSKDZone = (ElementRectangleSKDZone)element;
-					plan.ElementRectangleSKDZones.Add(elementRectangleSKDZone);
-					SetItem<ElementRectangleSKDZone, SKDZone>(elementRectangleSKDZone);
-				}
+					plan.ElementRectangleSKDZones.Add((ElementRectangleSKDZone)element);
 				else if (element is ElementPolygonSKDZone)
-				{
-					var elementPolygonSKDZone = (ElementPolygonSKDZone)element;
-					plan.ElementPolygonSKDZones.Add(elementPolygonSKDZone);
-					SetItem<ElementPolygonSKDZone, SKDZone>(elementPolygonSKDZone);
-				}
+					plan.ElementPolygonSKDZones.Add((ElementPolygonSKDZone)element);
 				else
 					return false;
+				SetItem<SKDZone>((IElementZone)element);
 				return true;
 			}
 			return false;
@@ -133,12 +125,14 @@ namespace SKDModule.Plans
 			{
 				var elementSKDDevice = (ElementSKDDevice)element;
 				plan.ElementSKDDevices.Remove(elementSKDDevice);
+				ResetItem<SKDDevice>(elementSKDDevice);
 				return true;
 			}
 			else if (element is ElementDoor)
 			{
 				var elementDoor = (ElementDoor)element;
 				plan.ElementDoors.Remove(elementDoor);
+				ResetItem<Door>(elementDoor);
 				return true;
 			}
 			else if (element is IElementZone)
@@ -149,6 +143,7 @@ namespace SKDModule.Plans
 					plan.ElementPolygonSKDZones.Remove((ElementPolygonSKDZone)element);
 				else
 					return false;
+				ResetItem<SKDZone>((IElementZone)element);
 				return true;
 			}
 			return false;
@@ -157,13 +152,11 @@ namespace SKDModule.Plans
 		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			if (designerItem.Element is ElementSKDDevice)
-				RegisterDesignerItem<ElementSKDDevice, SKDDevice>(designerItem, "SKD");
-			else if (designerItem.Element is ElementRectangleSKDZone)
-				RegisterDesignerItem<ElementRectangleSKDZone, SKDZone>(designerItem, "SKDZone", "/Controls;component/Images/zone.png");
-			else if (designerItem.Element is ElementPolygonSKDZone)
-				RegisterDesignerItem<ElementPolygonSKDZone, SKDZone>(designerItem, "SKDZone", "/Controls;component/Images/zone.png");
+				RegisterDesignerItem<SKDDevice>(designerItem, "SKD");
+			else if (designerItem.Element is ElementRectangleSKDZone || designerItem.Element is ElementPolygonSKDZone)
+				RegisterDesignerItem<SKDZone>(designerItem, "SKDZone", "/Controls;component/Images/zone.png");
 			else if (designerItem.Element is ElementDoor)
-				RegisterDesignerItem<ElementDoor, Door>(designerItem, "Doors", "/Controls;component/Images/Door.png");
+				RegisterDesignerItem<Door>(designerItem, "Doors", "/Controls;component/Images/Door.png");
 		}
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
@@ -237,21 +230,16 @@ namespace SKDModule.Plans
 			else
 				base.UpdateDesignerItemProperties<TItem>(designerItem, item);
 		}
-		protected override void UpdateElementProperties<TElement, TItem>(TElement element, TItem item)
-		{
-			if (typeof(TItem) == typeof(SKDZone))
-				UpdateZoneElementProperties<TItem>((IElementZone)element, item);
-			else
-				base.UpdateElementProperties<TElement, TItem>(element, item);
-		}
-		protected override void UpdateZoneElementProperties<TItem>(IElementZone element, TItem item)
+		protected override void UpdateElementProperties<TItem>(IElementReference element, TItem item)
 		{
 			if (typeof(TItem) == typeof(SKDZone))
 			{
-				element.BackgroundColor = GetSKDZoneColor(item as SKDZone);
-				element.SetZLayer(item == null ? 50 : 60);
+				var elementZone = (IElementZone)element;
+				elementZone.BackgroundColor = GetSKDZoneColor(item as SKDZone);
+				elementZone.SetZLayer(item == null ? 50 : 60);
 			}
-			base.UpdateZoneElementProperties<TItem>(element, item);
+			else
+				base.UpdateElementProperties<TItem>(element, item);
 		}
 
 		private Color GetSKDZoneColor(SKDZone zone)

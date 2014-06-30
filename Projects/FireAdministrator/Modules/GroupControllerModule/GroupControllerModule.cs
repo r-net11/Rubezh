@@ -92,7 +92,7 @@ namespace GKModule
 
 			_planExtension.Initialize();
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
-			Helper.BuildMap();
+			_planExtension.Cache.BuildAllSafe();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

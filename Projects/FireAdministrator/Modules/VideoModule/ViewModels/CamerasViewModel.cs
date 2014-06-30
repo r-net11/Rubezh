@@ -15,6 +15,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using VideoModule.Plans.Designer;
 using KeyboardKey = System.Windows.Input.Key;
+using VideoModule.Plans;
 
 namespace VideoModule.ViewModels
 {
@@ -107,7 +108,7 @@ namespace VideoModule.ViewModels
 				else
 					Cameras.Add(cameraViewModel);
 				ServiceFactory.SaveService.CamerasChanged = true;
-				Helper.BuildCameraMap();
+				PlanExtension.Instance.Cache.BuildSafe<Camera>();
 			}
 		}
 
@@ -121,7 +122,7 @@ namespace VideoModule.ViewModels
 			else
 				Cameras.Remove(SelectedCamera);
 			ServiceFactory.SaveService.CamerasChanged = true;
-			Helper.BuildCameraMap();
+			PlanExtension.Instance.Cache.BuildSafe<Camera>();
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -178,12 +179,12 @@ namespace VideoModule.ViewModels
 		private void SubscribeEvents()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 		}
@@ -214,11 +215,6 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		private void OnElementRemoved(List<ElementBase> elements)
-		{
-			elements.OfType<ElementCamera>().ToList().ForEach(element => Helper.ResetCamera(element));
-			OnElementChanged(elements);
-		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
 			_lockSelection = true;

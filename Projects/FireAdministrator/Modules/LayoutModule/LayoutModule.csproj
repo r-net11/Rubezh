@@ -108,6 +108,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
+    <Compile Include="ViewModels\LayoutPartTabControlViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutsMenuViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartDescriptionGroupViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartEmptyViewModel.cs" />
@@ -128,6 +129,9 @@
     <Compile Include="ViewModels\MonitorLayoutsTreeViewModel.cs" />
     <Compile Include="ViewModels\LayoutDesignerViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutsViewModel.cs" />
+    <Compile Include="Views\LayoutPartTabControlView.xaml.cs">
+      <DependentUpon>LayoutPartTabControlView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LayoutPartEmptyView.xaml.cs">
       <DependentUpon>LayoutPartEmptyView.xaml</DependentUpon>
     </Compile>
@@ -227,6 +231,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LayoutPartTabControlView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

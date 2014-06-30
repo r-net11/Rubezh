@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
+using FiresecAPI.GK;
 
 namespace GKModule.Plans.Designer
 {
@@ -20,7 +21,7 @@ namespace GKModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			var xdevice = Helper.GetXDevice(_elementXDevice);
+			var xdevice = GKPlanExtension.Instance.GetItem<XDevice>(_elementXDevice);
 			_toolTip.ImageSource = xdevice == null ? null : xdevice.Driver.ImageSource;
 			return PictureCacheSource.XDevicePicture.GetBrush(xdevice);
 		}

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementRectangleTank : ElementBaseRectangle, IPrimitive
+	public class ElementRectangleTank : ElementBaseRectangle, IPrimitive, IElementReference
 	{
 		[DataMember]
 		public Guid XDeviceUID { get; set; }
@@ -35,5 +36,15 @@ namespace FiresecAPI.Models
 		{
 			ZIndex = 50;
 		}
+
+		#region IElementReference Members
+
+		Guid IElementReference.ItemUID
+		{
+			get { return XDeviceUID; }
+			set { XDeviceUID = value; }
+		}
+
+		#endregion
 	}
 }

@@ -21,7 +21,7 @@ namespace SKDModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			var device = SKDPlanExtension.Instance.GetItem<ElementSKDDevice, SKDDevice>(_elementSKDDevice);
+			var device = SKDPlanExtension.Instance.GetItem<SKDDevice>(_elementSKDDevice);
 			_toolTip.ImageSource = device == null ? null : device.Driver.ImageSource;
 			return PictureCacheSource.SKDDevicePicture.GetBrush(device);
 		}

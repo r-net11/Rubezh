@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows.Media;
 using System.ComponentModel;
+using Infrustructure.Plans.Interfaces;
 
 namespace Infrustructure.Plans.Elements
 {
-	public interface IElementZone
+	public interface IElementZone : IElementReference
 	{
-		Guid UID { get; }
 		Guid ZoneUID { get; set; }
 		Color BackgroundColor { get; set; }
 		void SetZLayer(int zlayer);

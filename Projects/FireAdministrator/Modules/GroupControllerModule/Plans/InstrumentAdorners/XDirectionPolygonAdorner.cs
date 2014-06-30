@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
+using FiresecAPI.GK;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
@@ -34,7 +35,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			var propertiesViewModel = new DirectionPropertiesViewModel(element, _directionsViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			Helper.SetXDirection(element);
+			GKPlanExtension.Instance.SetItem<XDirection>(element);
 			return element;
 		}
 	}

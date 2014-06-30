@@ -50,7 +50,7 @@ namespace SKDModule.Plans.ViewModels
 			if (createZoneEventArg.Zone != null)
 			{
 				SKDPlanExtension.Instance.Cache.BuildSafe<SKDZone>();
-				SKDPlanExtension.Instance.SetZoneItem<SKDZone>(IElementZone, createZoneEventArg.Zone.UID);
+				SKDPlanExtension.Instance.SetItem<SKDZone>(IElementZone, createZoneEventArg.Zone.UID);
 				UpdateZones(zoneUID);
 				Close(true);
 			}
@@ -70,7 +70,7 @@ namespace SKDModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;
-			SKDPlanExtension.Instance.SetZoneItem<SKDZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
+			SKDPlanExtension.Instance.SetItem<SKDZone>(IElementZone, SelectedZone == null ? null : SelectedZone.Zone);
 			UpdateZones(zoneUID);
 			return base.Save();
 		}

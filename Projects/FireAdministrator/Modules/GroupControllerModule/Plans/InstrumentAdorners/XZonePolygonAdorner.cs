@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.InstrumentAdorners;
+using FiresecAPI.GK;
 
 namespace GKModule.Plans.InstrumentAdorners
 {
@@ -35,7 +36,7 @@ namespace GKModule.Plans.InstrumentAdorners
 			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			Helper.SetXZone(element);
+			GKPlanExtension.Instance.SetItem<XZone>(element);
 			return element;
 		}
 	}
