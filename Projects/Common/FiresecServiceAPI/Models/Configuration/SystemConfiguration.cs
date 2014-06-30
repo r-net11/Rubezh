@@ -43,14 +43,14 @@ namespace FiresecAPI.Models
 				Instructions = new List<Instruction>();
 				result = false;
 			}
-			if (EmailData == null)
-			{
-				EmailData = new EmailData();
-				result = false;
-			}
 			if (AutomationConfiguration == null)
 			{
 				AutomationConfiguration = new AutomationConfiguration();
+				result = false;
+			}
+			if (JournalFilters == null)
+			{
+				JournalFilters = new List<JournalFilter>();
 				result = false;
 			}
 			return result;

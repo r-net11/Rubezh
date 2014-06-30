@@ -5,12 +5,13 @@ using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 using FiresecAPI.Events;
 using FiresecAPI.Automation;
+using FiresecAPI.Models;
 
 namespace FiltersModule.ViewModels
 {
 	public class FilterNamesViewModel : BaseViewModel
 	{
-		public FilterNamesViewModel(AutomationFilter filter)
+		public FilterNamesViewModel(JournalFilter filter)
 		{
 			BuildTree();
 			foreach (var eventName in filter.EventNames)

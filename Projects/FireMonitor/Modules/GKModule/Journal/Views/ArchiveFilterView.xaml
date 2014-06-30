@@ -162,7 +162,6 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal"  IsEnabled="{Binding IsEnabled}">
 								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-								<Image Width="16" Source="{Binding Description.DescriptionType, Converter={StaticResource DescriptionTypeToIconConverter}, Mode=OneWay}" VerticalAlignment="Center" Margin="1 0 0 0" />
 								<TextBlock Text="{Binding Description.Name}" VerticalAlignment="Center" Margin="2" />
 							</StackPanel>
 						</DataTemplate>

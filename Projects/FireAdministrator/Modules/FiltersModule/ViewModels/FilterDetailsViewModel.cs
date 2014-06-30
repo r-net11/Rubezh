@@ -2,15 +2,16 @@
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using System;
+using FiresecAPI.Models;
 
 namespace FiltersModule.ViewModels
 {
 	public class FilterDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public AutomationFilter Filter { get; private set; }
+		public JournalFilter Filter { get; private set; }
 		public FilterNamesViewModel FilterNamesViewModel { get; private set; }
 
-		public FilterDetailsViewModel(AutomationFilter filter)
+		public FilterDetailsViewModel(JournalFilter filter)
 		{
 			Title = "Свойства фильтра";
 			Filter = filter;
@@ -21,7 +22,7 @@ namespace FiltersModule.ViewModels
 		public FilterDetailsViewModel()
 		{
 			Title = "Добавить фильтр";
-			Filter = new AutomationFilter();
+			Filter = new JournalFilter();
 			FilterNamesViewModel = new FilterNamesViewModel(Filter);
 			CopyProperties();
 		}

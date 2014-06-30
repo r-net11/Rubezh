@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Events;
 
 namespace FiresecAPI.Models
 {
@@ -9,32 +10,25 @@ namespace FiresecAPI.Models
 	{
 		public JournalFilter()
 		{
-			UID = Guid.NewGuid();
-			LastRecordsCount = 100;
-			LastDaysCount = 10;
-			StateTypes = new List<StateType>();
-			Categories = new List<DeviceCategoryType>();
+			Uid = Guid.NewGuid();
+			Name = "Новый фильтр";
+			EventNames = new List<GlobalEventNameEnum>();
+			SubsystemTypes = new List<GlobalSubsystemType>();
 		}
 
 		[DataMember]
-		public Guid UID { get; set; }
+		public Guid Uid { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
 
 		[DataMember]
-		public int LastRecordsCount { get; set; }
+		public string Description { get; set; }
 
 		[DataMember]
-		public int LastDaysCount { get; set; }
+		public List<GlobalEventNameEnum> EventNames { get; set; }
 
 		[DataMember]
-		public bool IsLastDaysCountActive { get; set; }
-
-		[DataMember]
-		public List<StateType> StateTypes { get; set; }
-
-		[DataMember]
-		public List<DeviceCategoryType> Categories { get; set; }
+		public List<GlobalSubsystemType> SubsystemTypes { get; set; }
 	}
 }

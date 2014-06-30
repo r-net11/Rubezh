@@ -126,15 +126,5 @@ namespace FiresecService.Service
 			skdCallbackResult.JournalItems.Add(journalItem);
 			FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
 		}
-
-		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
-		{
-			return FiresecDB.DatabaseHelper.GetDistinctDescriptions();
-		}
-
-		public OperationResult<DateTime> GetArchiveStartDate()
-		{
-			return FiresecDB.DatabaseHelper.GetArchiveStartDate();
-		}
 	}
 }

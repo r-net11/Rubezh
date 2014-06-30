@@ -28,7 +28,6 @@ void Insert_Card(LLONG lLoginID, int& nRecrdNo)
 	stuCard.bIsValid = TRUE;
 	stuCard.emStatus = NET_ACCESSCTLCARD_STATE_NORMAL;
 	stuCard.emType = NET_ACCESSCTLCARD_TYPE_GENERAL;
-	stuCard.nTimeSectionNum = 1;
 	stuCard.nUserTime = 10;
 
 	stuCard.stuCreateTime.dwYear = 2013;
@@ -55,13 +54,12 @@ void Insert_Card(LLONG lLoginID, int& nRecrdNo)
 	strTemp = "1";
 	memcpy(stuCard.szCardNo, strTemp.c_str(), __min(DH_MAX_CARDNO_LEN,strTemp.length()));
 	stuCard.nDoorNum = 2;
-	stuCard.sznDoors[0] = 2;
+	stuCard.sznDoors[0] = 1;
 	stuCard.sznDoors[1] = 2;
-	stuCard.nTimeSectionNum = 3;
+	stuCard.nTimeSectionNum = 2;
 	stuCard.sznTimeSectionNo[0] = 1;
 	stuCard.sznTimeSectionNo[1] = 2;
-	stuCard.sznTimeSectionNo[2] = 3;
-	strTemp = "123456";
+	strTemp = "1";
 	memcpy(stuCard.szPsw, strTemp.c_str(), __min(DH_MAX_CARDPWD_LEN,strTemp.length()));
 	strTemp = "1";
 	memcpy(stuCard.szUserID, strTemp.c_str(), __min(DH_MAX_USERID_LEN,strTemp.length()));

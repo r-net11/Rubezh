@@ -180,7 +180,6 @@
     <Compile Include="Models\Automation\StepArguments\ConditionArguments.cs" />
     <Compile Include="Models\Automation\DayOfWeekType.cs" />
     <Compile Include="Models\Automation\GlobalVariable.cs" />
-    <Compile Include="Models\Automation\Filter.cs" />
     <Compile Include="Models\Automation\ObjectType.cs" />
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
     <Compile Include="Models\Automation\Argument.cs" />
@@ -218,9 +217,6 @@
     <Compile Include="XModels\Guard\XGuardZoneAccess.cs" />
     <Compile Include="XModels\INamedBase.cs" />
     <Compile Include="Models\AddressConverter.cs" />
-    <Compile Include="Models\Archive\DescriptionType.cs" />
-    <Compile Include="Models\Archive\JournalDescriptionItem.cs" />
-    <Compile Include="Models\Archive\JournalDeviceItem.cs" />
     <Compile Include="Models\Binary\BinaryDevice.cs" />
     <Compile Include="Models\Binary\BinaryDirection.cs" />
     <Compile Include="Models\Binary\BinaryPanel.cs" />
@@ -415,7 +411,6 @@
     <Compile Include="Models\Security\PermissionType.cs" />
     <Compile Include="Models\Security\RemoteAccessType.cs" />
     <Compile Include="Models\Security\UserRole.cs" />
-    <Compile Include="Models\Archive\ArchiveFilter.cs" />
     <Compile Include="Models\States\ChildDeviceState.cs" />
     <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\System\InstructionType.cs" />

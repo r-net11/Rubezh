@@ -11,7 +11,6 @@ namespace FiresecAPI.Automation
 			Procedures = new List<Procedure>();
 			AutomationSchedules = new List<AutomationSchedule>();
 			AutomationSounds = new List<AutomationSound>();
-			Filters = new List<AutomationFilter>();
 			GlobalVariables = new List<GlobalVariable>();
 		}
 
@@ -23,9 +22,6 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public List<AutomationSound> AutomationSounds { get; set; }
-
-		[DataMember]
-		public List<AutomationFilter> Filters { get; set; }
 
 		[DataMember]
 		public List<GlobalVariable> GlobalVariables { get; set; }

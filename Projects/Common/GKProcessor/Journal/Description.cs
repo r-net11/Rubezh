@@ -5,12 +5,10 @@ namespace GKProcessor
 	public class Description
 	{
 		public string Name { get; set; }
-		public DescriptionType DescriptionType { get; set; }
 
-		public Description(string name, DescriptionType descriptionType)
+		public Description(string name)
 		{
 			Name = name;
-			DescriptionType = descriptionType;
 		}
 	}
 }
