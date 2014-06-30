@@ -24,14 +24,6 @@ namespace JournalModule.ViewModels
 					JournalItems.Add(journalItemViewModel);
 				}
 			}
-			//if (JournalItemsList != null)
-			//{
-			//	foreach (var journalItem in JournalItemsList)
-			//	{
-			//		var journalRecordViewModel = new JournalRecordViewModel(journalItem);
-			//		JournalRecords.Add(journalRecordViewModel);
-			//	}
-			//}
 		}
 
 		public List<JournalItemViewModel> JournalItems { get; private set; }
