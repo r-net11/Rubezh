@@ -48,14 +48,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public RelayCommand<ConditionViewModel> RemoveCommand { get; private set; }
-		void OnRemove(ConditionViewModel conditionViewModel)
-		{
-			Conditions.Remove(conditionViewModel);
-			ConditionArguments.Conditions.Remove(conditionViewModel.Condition);
-			ServiceFactory.SaveService.AutomationChanged = true;
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		public void OnAdd()
 		{
@@ -63,6 +55,14 @@ namespace AutomationModule.ViewModels
 			var conditionViewModel = new ConditionViewModel(condition, Procedure);
 			ConditionArguments.Conditions.Add(condition);
 			Conditions.Add(conditionViewModel);
+		}
+
+		public RelayCommand<ConditionViewModel> RemoveCommand { get; private set; }
+		void OnRemove(ConditionViewModel conditionViewModel)
+		{
+			Conditions.Remove(conditionViewModel);
+			ConditionArguments.Conditions.Remove(conditionViewModel.Condition);
+			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
 		public void UpdateContent()

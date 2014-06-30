@@ -140,7 +140,7 @@
                     <ItemsControl Grid.Column="0" ItemsSource="{Binding StateBits}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox Content="{Binding StateBit, Converter={StaticResource XStateTypeToStringConverter}}" IsChecked="{Binding IsActive}" Margin="1" />
+								<CheckBox Content="{Binding StateBit, Converter={StaticResource EnumToDescriptionConverter}}" IsChecked="{Binding IsActive}" Margin="1" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

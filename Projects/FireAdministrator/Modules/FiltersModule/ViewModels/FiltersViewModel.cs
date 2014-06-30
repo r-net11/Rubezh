@@ -1,34 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
+using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
-using KeyboardKey = System.Windows.Input.Key;
 
 namespace FiltersModule.ViewModels
 {
-	public class FiltersViewModel : MenuViewPartViewModel, IEditingViewModel
+	public class FiltersViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public FiltersViewModel()
 		{
 			Menu = new FiltersMenuViewModel(this);
-			AddCommand = new RelayCommand(OnAdd);
-			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
-			RegisterShortcuts();
-			SetRibbonItems();
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 		}
 
 		public void Initialize()
 		{
-			Filters = new ObservableCollection<FilterViewModel>(
-				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Select(journalFilter => new FilterViewModel(journalFilter))
-			);
+			Filters = new ObservableCollection<FilterViewModel>();
+			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters == null)
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters = new List<AutomationFilter>();
+			foreach (var filter in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters)
+			{
+				var filterViewModel = new FilterViewModel(filter);
+				Filters.Add(filterViewModel);
+			}
 			SelectedFilter = Filters.FirstOrDefault();
 		}
 
@@ -60,60 +62,50 @@ namespace FiltersModule.ViewModels
 			var filterDetailsViewModel = new FilterDetailsViewModel();
 			if (DialogService.ShowModalWindow(filterDetailsViewModel))
 			{
-				var filter = filterDetailsViewModel.GetModel();
-				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filter);
-				var filterViewModel = new FilterViewModel(filter);
+				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters.Add(filterDetailsViewModel.Filter);
+				ServiceFactory.SaveService.AutomationChanged = true;
+				var filterViewModel = new FilterViewModel(filterDetailsViewModel.Filter);
 				Filters.Add(filterViewModel);
 				SelectedFilter = filterViewModel;
-				ServiceFactory.SaveService.FilterChanged = true;
 			}
 		}
 
-		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		bool CanAdd()
 		{
-			var filterDetailsViewModel = new FilterDetailsViewModel(SelectedFilter.JournalFilter);
-			if (DialogService.ShowModalWindow(filterDetailsViewModel))
-			{
-				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
-				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());
-				SelectedFilter.JournalFilter = filterDetailsViewModel.GetModel();
-				ServiceFactory.SaveService.FilterChanged = true;
-			}
-		}
-
-		bool CanEditRemove()
-		{
-			return SelectedFilter != null;
+			return true;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
+			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters.Remove(SelectedFilter.Filter);
 			Filters.Remove(SelectedFilter);
 			SelectedFilter = Filters.FirstOrDefault();
-			ServiceFactory.SaveService.FilterChanged = true;
+			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
-		void RegisterShortcuts()
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
 		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-		}
-
-		private void SetRibbonItems()
-		{
-			RibbonItems = new List<RibbonMenuItemViewModel>()
+			var filterDetailsViewModel = new FilterDetailsViewModel(SelectedFilter.Filter);
+			if (DialogService.ShowModalWindow(filterDetailsViewModel))
 			{
-				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
-				{
-					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
-					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
-				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
-			};
+				SelectedFilter.Update(filterDetailsViewModel.Filter);
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+
+		bool CanEditDelete()
+		{
+			return SelectedFilter != null;
+		}
+
+		public void Select(Guid filterUid)
+		{
+			if (filterUid != Guid.Empty)
+			{
+				SelectedFilter = Filters.FirstOrDefault(item => item.Filter.Uid == filterUid);
+			}
 		}
 	}
 }

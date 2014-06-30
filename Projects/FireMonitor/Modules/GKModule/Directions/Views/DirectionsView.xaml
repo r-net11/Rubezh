@@ -160,7 +160,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Margin="2" Width="16" Source="{Binding StateBit, Converter={StaticResource XStateTypeToIconConverter}}" />
-								<TextBlock Text="{Binding StateBit, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
+								<TextBlock Text="{Binding StateBit, Converter={StaticResource EnumToDescriptionConverter}}" Foreground="Black" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -220,7 +220,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Margin="1 0 0 0" Width="16" Source="{Binding StateType, Converter={StaticResource XStateTypeToIconConverter}}" />
-								<TextBlock Margin="2" Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" Foreground="Black" VerticalAlignment="Center" />
+								<TextBlock Margin="2" Text="{Binding StateType, Converter={StaticResource EnumToDescriptionConverter}}" Foreground="Black" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

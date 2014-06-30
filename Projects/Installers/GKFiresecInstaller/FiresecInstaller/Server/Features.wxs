@@ -3,10 +3,11 @@
 	<?include Variables.wxi?>
 	<Fragment>
     <Feature Id="Server.Features" Title="Сервер приложений" Description="Установка приложения Сервер приложений" Level="1" Display="hidden"
-						 ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+			    ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Server.Files" />
       <ComponentRef Id="Server.DB.Common" />
       <ComponentRef Id="Server.DB" />
+      <ComponentRef Id="Server.ChinaSKD" />
       <ComponentRef Id="Server.Config.fscp" />
       <ComponentRef Id="Server.AppData.EmptyLocation" />
       <ComponentRef Id="Server.SKD_MODULE" />

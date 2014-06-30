@@ -118,6 +118,7 @@ namespace FiresecService.Service
 			File.Delete(newFileName);
 
 			GKProcessor.SetNewConfig();
+			SKDProcessor.SetNewConfig();
 		}
 
 		ZipConfigurationItemsCollection GetConfigurationList(ZipFile zipFile)

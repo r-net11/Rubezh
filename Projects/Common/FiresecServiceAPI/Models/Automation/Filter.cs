@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
+using FiresecAPI.Events;
 
 namespace FiresecAPI.Automation
 {
@@ -10,9 +12,8 @@ namespace FiresecAPI.Automation
 		{
 			Uid = Guid.NewGuid();
 			Name = "Новый фильтр";
-
-			StartDate = DateTime.Now.AddDays(-1);
-			EndDate = DateTime.Now;
+			EventNames = new List<GlobalEventNameEnum>();
+			SubsystemTypes = new List<GlobalSubsystemType>();
 		}
 
 		[DataMember]
@@ -25,12 +26,9 @@ namespace FiresecAPI.Automation
 		public string Description { get; set; }
 
 		[DataMember]
-		public DateTime StartDate { get; set; }
+		public List<GlobalEventNameEnum> EventNames { get; set; }
 
 		[DataMember]
-		public DateTime EndDate { get; set; }
-
-		[DataMember]
-		public bool UseDeviceDateTime { get; set; }
+		public List<GlobalSubsystemType> SubsystemTypes { get; set; }
 	}
 }

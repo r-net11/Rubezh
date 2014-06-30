@@ -35,6 +35,10 @@
 		<Views:JournalStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="findObjectTemplate">
+		<Views:FindObjectStepView />
+	</DataTemplate>
+	
 	<DataTemplate x:Key="arithmeticTemplate">
 		<Views:ArithmeticStepView />
 	</DataTemplate>
@@ -48,6 +52,7 @@
 		JournalTemplate="{StaticResource journalTemplate}"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 		ConditionTemplate="{StaticResource conditionTemplate}"
+		FindObjectTemplate="{StaticResource findObjectTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

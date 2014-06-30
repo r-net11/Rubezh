@@ -46,7 +46,7 @@
 					<DataGridTemplateColumn Header="Режим" Width="Auto">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Delay.DelayRegime, Converter={StaticResource DelayRegimeToStringConverter}}" Margin="2" />
+								<TextBlock Text="{Binding Delay.DelayRegime, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

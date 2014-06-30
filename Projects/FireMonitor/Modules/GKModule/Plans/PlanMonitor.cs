@@ -1,93 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
-using GKModule.Plans.Designer;
+using Infrastructure.Client.Plans.Presenter;
 using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Presenter;
 
 namespace GKModule.Plans
 {
-	internal class PlanMonitor : BaseMonitor<Plan>
+	internal class PlanMonitor : StateMonitor
 	{
-		List<XState> DeviceStates;
-		List<XState> ZoneStates;
-		List<XState> DirectionStates;
-
 		public PlanMonitor(Plan plan, Action callBack)
 			: base(plan, callBack)
-		{
-			DeviceStates = new List<XState>();
-			ZoneStates = new List<XState>();
-			DirectionStates = new List<XState>();
-			Initialize();
-		}
-		private void Initialize()
 		{
 			Plan.ElementXDevices.ForEach(item => Initialize(item));
 			Plan.ElementRectangleXZones.ForEach(item => Initialize(item));
 			Plan.ElementPolygonXZones.ForEach(item => Initialize(item));
+			Plan.ElementRectangleXGuardZones.ForEach(item => InitializeGuard(item));
+			Plan.ElementPolygonXGuardZones.ForEach(item => InitializeGuard(item));
 			Plan.ElementRectangleXDirections.ForEach(item => Initialize(item));
 			Plan.ElementPolygonXDirections.ForEach(item => Initialize(item));
 		}
+
 		private void Initialize(ElementXDevice element)
 		{
-			var device = Helper.GetXDevice(element);
-			if (device != null)
-			{
-				DeviceStates.Add(device.State);
-				device.State.StateChanged += CallBack;
-			}
+			var device = PlanPresenter.Cache.Get<XDevice>(element.XDeviceUID);
+			AddState(device);
 		}
 		private void Initialize(IElementZone element)
 		{
-			if (element.ZoneUID != Guid.Empty)
-			{
-				var zone = Helper.GetXZone(element);
-				if (zone != null)
-				{
-					ZoneStates.Add(zone.State);
-					zone.State.StateChanged += CallBack;
-				}
-			}
+			var zone = PlanPresenter.Cache.Get<XZone>(element.ZoneUID);
+			AddState(zone);
+		}
+		private void InitializeGuard(IElementZone element)
+		{
+			var zone = PlanPresenter.Cache.Get<XGuardZone>(element.ZoneUID);
+			AddState(zone);
 		}
 		private void Initialize(IElementDirection element)
 		{
-			if (element.DirectionUID != Guid.Empty)
-			{
-				var direction = Helper.GetXDirection(element);
-				if (direction != null)
-				{
-					DirectionStates.Add(direction.State);
-					direction.State.StateChanged += CallBack;
-				}
-			}
-		}
-
-		public XStateClass GetState()
-		{
-			var result = XStateClass.No;
-			foreach (var deviceState in DeviceStates)
-			{
-				var stateClass = deviceState.StateClass;
-				if (deviceState.Device.DriverType == XDriverType.AM1_T && stateClass == XStateClass.Fire2)
-				{
-					stateClass = XStateClass.Info;
-				}
-				if (stateClass < result)
-					result = stateClass;
-			}
-			foreach (var zoneState in ZoneStates)
-			{
-				if (zoneState.StateClass < result)
-					result = zoneState.StateClass;
-			}
-			foreach (var directionState in DirectionStates)
-			{
-				if (directionState.StateClass < result)
-					result = directionState.StateClass;
-			}
-			return result;
+			var direction = PlanPresenter.Cache.Get<XDirection>(element.DirectionUID);
+			AddState(direction);
 		}
 	}
 }

@@ -1,22 +1,26 @@
 ﻿using FiresecAPI.GK;
 using FiresecAPI.Models;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Client.Plans.Presenter;
 
 namespace VideoModule.ViewModels
 {
-	public class CameraTooltipViewModel : BaseViewModel
+	public class CameraTooltipViewModel : StateTooltipViewModel<Camera>
 	{
 		public XStateClass StateClass { get; private set; }
-		public Camera Camera { get; private set; }
+		public Camera Camera
+		{
+			get { return Item; }
+		}
 
 		public CameraTooltipViewModel(Camera camera)
+			: base(camera)
 		{
-			Camera = camera;
 			StateClass = camera.CameraStateStateClass;
 		}
 
-		public void OnStateChanged()
+		public override void OnStateChanged()
 		{
+			base.OnStateChanged();
 			OnPropertyChanged(() => StateClass);
 		}
 	}

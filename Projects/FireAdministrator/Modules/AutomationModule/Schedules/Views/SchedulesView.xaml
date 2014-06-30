@@ -111,7 +111,7 @@
 						<ComboBox ItemsSource="{Binding DaysOfWeek}" SelectedItem="{Binding SelectedDayOfWeek}" VerticalAlignment="Center" Margin="2">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource DayOfWeekToStringConverter}}" />
+									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>

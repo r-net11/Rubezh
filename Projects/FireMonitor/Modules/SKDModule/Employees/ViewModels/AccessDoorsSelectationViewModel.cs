@@ -66,9 +66,9 @@ namespace SKDModule.ViewModels
 						IsAntiPassback = door.IsAntiPassback,
 						IsComission = door.IsComission,
 						EnterIntervalType = door.SelectedEnterTimeCreteria.IntervalType,
-						EnterIntervalUID = door.SelectedEnterTimeType.UID,
+						EnterIntervalUID = door.SelectedEnterTimeType != null ? door.SelectedEnterTimeType.UID : Guid.Empty,
 						ExitIntervalType = door.SelectedExitTimeCreteria.IntervalType,
-						ExitIntervalUID = door.SelectedExitTimeType.UID,
+						ExitIntervalUID = door.SelectedExitTimeType != null ? door.SelectedExitTimeType.UID : Guid.Empty,
 						ParentUID = ParentUID
 					};
 					CardDoors.Add(cardDoor);

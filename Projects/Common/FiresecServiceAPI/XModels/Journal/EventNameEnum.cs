@@ -40,11 +40,11 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Чтение конфигурации из прибора")]
 		Чтение_конфигурации_из_прибора,
 
-		[DescriptionAttribute("Синхронизация времени")]
-		Синхронизация_времени,
-
 		[DescriptionAttribute("Запрос информации об устройстве")]
 		Запрос_информации_об_устройстве,
+
+		[DescriptionAttribute("Синхронизация времени")]
+		Синхронизация_времени,
 
 		[DescriptionAttribute("Команда оператора")]
 		Команда_оператора,
@@ -172,5 +172,29 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("Конфигурирование")]
 		Конфигурирование,
+
+		[DescriptionAttribute("Запрос пароля")]
+		Запрос_пароля,
+
+		[DescriptionAttribute("Установка пароля")]
+		Установка_пароля,
+
+		[DescriptionAttribute("Сброс Контроллера")]
+		Сброс_Контроллера,
+
+		[DescriptionAttribute("Перезагрузка Контроллера")]
+		Перезагрузка_Контроллера,
+
+		[DescriptionAttribute("Запись графиков работы")]
+		Запись_графиков_работы,
+
+		[DescriptionAttribute("Команда на открытие двери")]
+		Команда_на_открытие_двери,
+
+		[DescriptionAttribute("Команда на закрытие двери")]
+		Команда_на_закрытие_двери,
+
+		[DescriptionAttribute("Добавление карты")]
+		Добавление_карты,
 	}
 }

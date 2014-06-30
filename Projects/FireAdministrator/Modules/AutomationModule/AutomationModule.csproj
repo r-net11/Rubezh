@@ -64,11 +64,7 @@
     <Compile Include="Events\ShowAutomationSchedulesEvents.cs" />
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
-    <Compile Include="Events\ShowFiltersEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
-    <Compile Include="Filters\ViewModels\DateTimePairViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FilterNamesViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FilterNameViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariableDetailsViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
@@ -82,29 +78,16 @@
     <Compile Include="GlobalVariables\Views\GlobalVariablesView.xaml.cs">
       <DependentUpon>GlobalVariablesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Filters\ViewModels\FilterDetailsViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FiltersViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FilterViewModel.cs" />
-    <Compile Include="Filters\Views\FilterDetailsView.xaml.cs">
-      <DependentUpon>FilterDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Filters\Views\FiltersMenuView.xaml.cs">
-      <DependentUpon>FiltersMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Filters\Views\FiltersView.xaml.cs">
-      <DependentUpon>FiltersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Procedures\Converters\ArithmeticTypeToStringConverter.cs" />
-    <Compile Include="Procedures\Converters\ConditionTypeToStringConverter.cs" />
     <Compile Include="Procedures\Converters\MenuTypeToVisibilityConverter.cs" />
-    <Compile Include="Procedures\Converters\ObjectTypeToStringConverter.cs" />
+    <Compile Include="Procedures\Converters\ObjectTypeToVisibilityConverter.cs" />
+    <Compile Include="Procedures\Converters\PropertyTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\Converters\ValueTypeToStringConverter.cs" />
     <Compile Include="Procedures\Converters\ValueTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\Converters\VariableTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\FilterViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\CameraSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\CameraViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ConditionStepViewModel.cs" />
@@ -112,6 +95,7 @@
     <Compile Include="Procedures\ViewModels\Steps\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ArithmeticStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\FindObjectStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
@@ -139,6 +123,9 @@
     </Compile>
     <Compile Include="Procedures\Views\Steps\ConditionStepView.xaml.cs">
       <DependentUpon>ConditionStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\FindObjectStepView.xaml.cs">
+      <DependentUpon>FindObjectStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\JournalStepView.xaml.cs">
       <DependentUpon>JournalStepView.xaml</DependentUpon>
@@ -208,13 +195,11 @@
       <DependentUpon>SoundDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\GlobalVariableValidationError.cs" />
-    <Compile Include="Validation\FilterValidationError.cs" />
     <Compile Include="Validation\ProcedureValidationError.cs" />
     <Compile Include="Validation\ScheduleValidationError.cs" />
     <Compile Include="Validation\SoundValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.GlobalVariable.cs" />
-    <Compile Include="Validation\Validator.Filter.cs" />
     <Compile Include="Validation\Validator.Procedure.cs" />
     <Compile Include="Validation\Validator.Schedule.cs" />
     <Compile Include="Validation\Validator.Sound.cs" />
@@ -282,22 +267,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Filters\DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Filters\Views\FilterDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Filters\Views\FiltersMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Filters\Views\FiltersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Procedures\Views\ConditionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -315,6 +284,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\ConditionStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\FindObjectStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,12 +1,7 @@
 ﻿<UserControl x:Class="GKModule.Views.DirectionsView"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:Converters="clr-namespace:GKModule.Converters"
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-
-	<UserControl.Resources>
-		<Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
-	</UserControl.Resources>
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -114,7 +109,7 @@
 													<DataTemplate>
 														<Controls:IconLabel
 															ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" 
-															Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" 
+															Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" 
 															Foreground="Black" />
 													</DataTemplate>
 												</ComboBox.ItemTemplate>
@@ -166,7 +161,7 @@
 														<StackPanel Orientation="Horizontal">
 															<Controls:IconLabel
 																ImageSource="{Binding ., Converter={StaticResource XStateTypeToIconConverter}}" 
-																Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" 
+																Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" 
 																Foreground="Black" />
 														</StackPanel>
 													</DataTemplate>

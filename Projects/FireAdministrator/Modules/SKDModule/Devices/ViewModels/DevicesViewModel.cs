@@ -13,6 +13,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using SKDModule.Plans.Designer;
 using KeyboardKey = System.Windows.Input.Key;
+using SKDModule.Plans;
 
 namespace SKDModule.ViewModels
 {
@@ -219,7 +220,7 @@ namespace SKDModule.ViewModels
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
-			elements.OfType<ElementSKDDevice>().ToList().ForEach(element => Helper.ResetSKDDevice(element));
+			elements.OfType<ElementSKDDevice>().ToList().ForEach(element => SKDPlanExtension.Instance.ResetItem<ElementSKDDevice, SKDDevice>(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
@@ -272,10 +273,9 @@ namespace SKDModule.ViewModels
 				}, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
 				new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Записать конфигурацию", DeviceCommandsViewModel.WriteConfigCommand, "/Controls;component/Images/BParametersWrite.png"),
+					new RibbonMenuItemViewModel("Записать конфигурацию", DeviceCommandsViewModel.WriteTimeSheduleConfigurationCommand, "/Controls;component/Images/BParametersWrite.png"),
 					new RibbonMenuItemViewModel("Информация об устройстве", DeviceCommandsViewModel.ShowInfoCommand, "/Controls;component/Images/BInformation.png") { IsNewGroup = true },
 					new RibbonMenuItemViewModel("Синхронизация времени", DeviceCommandsViewModel.SynchroniseTimeCommand, "/Controls;component/Images/BWatch.png"),
-					new RibbonMenuItemViewModel("Обновление ПО", DeviceCommandsViewModel.UpdateFirmwhareCommand, "/Controls;component/Images/BParametersSync.png"),
 				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
 			};
 		}

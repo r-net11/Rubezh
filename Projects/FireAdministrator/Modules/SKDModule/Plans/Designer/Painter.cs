@@ -1,6 +1,7 @@
 ﻿using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
@@ -20,7 +21,7 @@ namespace SKDModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			var device = Helper.GetSKDDevice(_elementSKDDevice);
+			var device = SKDPlanExtension.Instance.GetItem<ElementSKDDevice, SKDDevice>(_elementSKDDevice);
 			_toolTip.ImageSource = device == null ? null : device.Driver.ImageSource;
 			return PictureCacheSource.SKDDevicePicture.GetBrush(device);
 		}

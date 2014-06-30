@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -14,6 +15,7 @@ namespace FiresecAPI.Automation
 			IntValue = 0;
 			ObjectType = ObjectType.Card;
 			StringValue = "";
+			ObjectsUids = new List<Guid>();
 		}
 
 		public Variable(Variable variable)
@@ -33,6 +35,8 @@ namespace FiresecAPI.Automation
 			StringValue = variable.StringValue;
 			VariableType = variable.VariableType;
 			IsList = variable.IsList;
+			ObjectsUids = variable.ObjectsUids;
+			Items = new List<object>();
 		}
 
 		[DataMember]
@@ -57,6 +61,9 @@ namespace FiresecAPI.Automation
 		public ObjectType ObjectType { get; set; }
 
 		[DataMember]
+		public List<object> Items { get; set; }
+
+		[DataMember]
 		public string StringValue { get; set; }
 
 		[DataMember]
@@ -64,5 +71,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public VariableType VariableType { get; set; }
+
+		[DataMember]
+		public List<Guid> ObjectsUids { get; set; }
 	}
 }

@@ -16,6 +16,7 @@ using Infrustructure.Plans.Events;
 using SKDModule.Plans.Designer;
 using KeyboardKey = System.Windows.Input.Key;
 using SKDModule.Events;
+using SKDModule.Plans;
 
 namespace SKDModule.ViewModels
 {
@@ -95,7 +96,7 @@ namespace SKDModule.ViewModels
 				if (index > -1)
 					SelectedZone = Zones[index];
 				ServiceFactory.SaveService.GKChanged = true;
-				Helper.BuildMap();
+				SKDPlanExtension.Instance.Cache.BuildSafe<SKDZone>();
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -165,8 +166,8 @@ namespace SKDModule.ViewModels
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
-			elements.OfType<ElementRectangleSKDZone>().ToList().ForEach(element => Helper.ResetSKDZone(element));
-			elements.OfType<ElementPolygonSKDZone>().ToList().ForEach(element => Helper.ResetSKDZone(element));
+			elements.OfType<ElementRectangleSKDZone>().ToList().ForEach(element => SKDPlanExtension.Instance.ResetZoneItem<SKDZone>(element));
+			elements.OfType<ElementPolygonSKDZone>().ToList().ForEach(element => SKDPlanExtension.Instance.ResetZoneItem<SKDZone>(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
@@ -260,7 +261,7 @@ namespace SKDModule.ViewModels
 				Zones.Add(zoneViewModel);
 				SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.SKDChanged = true;
-				Helper.BuildMap();
+				SKDPlanExtension.Instance.Cache.BuildSafe<SKDZone>();
 				return zoneViewModel;
 			}
 			return null;

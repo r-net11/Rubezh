@@ -11,4 +11,8 @@
 		<Views:SKDZoneTooltipView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:DoorTooltipViewModel}">
+		<Views:DoorTooltipView />
+	</DataTemplate>
+
 </ResourceDictionary>

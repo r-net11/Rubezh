@@ -19,11 +19,19 @@ namespace SKDModule.Plans
 {
 	class PlanPresenter : IPlanPresenter<Plan, XStateClass>
 	{
+		public static MapSource Cache { get; private set; }
+
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
+			Cache = new MapSource();
+			Cache.Add<SKDDevice>(() => SKDManager.Devices);
+			Cache.Add<SKDZone>(() => SKDManager.Zones);
+			Cache.Add<Door>(() => SKDManager.SKDConfiguration.Doors);
+
 			ServiceFactory.Events.GetEvent<ShowSKDDeviceOnPlanEvent>().Subscribe(OnShowSKDDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Subscribe(OnShowSKDZoneOnPlan);
+			ServiceFactory.Events.GetEvent<ShowDoorOnPlanEvent>().Subscribe(OnShowDoorOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			_monitors = new Dictionary<Plan, PlanMonitor>();
@@ -33,7 +41,7 @@ namespace SKDModule.Plans
 
 		public void SubscribeStateChanged(Plan plan, Action callBack)
 		{
-			Helper.BuildMap();
+			Cache.BuildAllSafe();
 			if (_monitors.ContainsKey(plan))
 				_monitors[plan].AddCallBack(callBack);
 			else
@@ -49,6 +57,8 @@ namespace SKDModule.Plans
 		{
 			foreach (var element in plan.ElementSKDDevices.Where(x => x.DeviceUID != Guid.Empty))
 				yield return element;
+			foreach (var element in plan.ElementDoors.Where(x => x.DoorUID != Guid.Empty))
+				yield return element;
 			foreach (var element in plan.ElementRectangleSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
 			foreach (var element in plan.ElementPolygonSKDZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
@@ -59,13 +69,15 @@ namespace SKDModule.Plans
 		{
 			if (presenterItem.Element is ElementSKDDevice)
 				presenterItem.OverridePainter(new SKDDevicePainter(presenterItem));
+			else if (presenterItem.Element is ElementDoor)
+				presenterItem.OverridePainter(new DoorPainter(presenterItem));
 			else if (presenterItem.Element is ElementPolygonSKDZone || presenterItem.Element is ElementRectangleSKDZone)
 				presenterItem.OverridePainter(new SKDZonePainter(presenterItem));
 		}
 		public void ExtensionAttached()
 		{
 			using (new TimeCounter("SKDDevice.ExtensionAttached.BuildMap: {0}"))
-				Helper.BuildMap();
+				Cache.BuildAllSafe();
 		}
 
 		#endregion
@@ -88,6 +100,16 @@ namespace SKDModule.Plans
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementSKDDevices)
 					if (element.DeviceUID == device.UID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+		}
+		private void OnShowDoorOnPlan(Door door)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+				foreach (var element in plan.ElementDoors)
+					if (element.DoorUID == door.UID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
 						return;

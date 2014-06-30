@@ -54,7 +54,7 @@
 					  SelectedItem="{Binding InstructionType, UpdateSourceTrigger=PropertyChanged}" Text="{Binding InstructionType}">
 						<ComboBox.ItemTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding ., Converter={StaticResource XInstructionTypeToStringConverter}}" />
+								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 							</DataTemplate>
 						</ComboBox.ItemTemplate>
 					</ComboBox>

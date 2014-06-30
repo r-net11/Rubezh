@@ -12,7 +12,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/zone.png" />
-			<TextBlock Text="{Binding Zone.PresentationName}" FontWeight="Bold" />
+			<TextBlock Text="{Binding GuardZone.PresentationName}" FontWeight="Bold" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<Image Margin="0 0 2 0" Width="16" Height="16" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />

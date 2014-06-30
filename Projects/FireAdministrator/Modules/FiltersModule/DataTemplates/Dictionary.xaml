@@ -8,11 +8,10 @@
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:FiltersMenuViewModel}">
-		<Views:FilterMenuView />
+		<Views:FiltersMenuView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:FilterDetailsViewModel}">
 		<Views:FilterDetailsView />
 	</DataTemplate>
-
 </ResourceDictionary>

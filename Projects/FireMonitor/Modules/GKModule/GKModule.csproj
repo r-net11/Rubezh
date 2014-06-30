@@ -88,6 +88,7 @@
     <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
+    <Compile Include="Events\ShowXGuardZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowXAlarmsEvent.cs" />
     <Compile Include="Events\ShowXArchiveEvent.cs" />
     <Compile Include="Events\ShowXDelayEvent.cs" />
@@ -132,6 +133,8 @@
     <Compile Include="MPTs\Views\MPTToolTipView.xaml.cs">
       <DependentUpon>MPTToolTipView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plans\Designer\XGuardZonePainter.cs" />
+    <Compile Include="Plans\ViewModels\GuardZoneTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\DirectionTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZoneTooltipViewModel.cs" />
@@ -200,7 +203,6 @@
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\XDirectionPainter.cs" />
-    <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\XDevicePainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />

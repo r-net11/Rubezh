@@ -32,4 +32,5 @@ _ReSharper*/
 *-Results.xml
 *dotNetInstallerLog.txt
 *.opensdf
+*.sdf
 *.ipch

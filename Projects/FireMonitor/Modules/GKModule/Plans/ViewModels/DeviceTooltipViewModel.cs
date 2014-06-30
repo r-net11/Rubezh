@@ -1,31 +1,31 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.GK;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Client.Plans.Presenter;
 
 namespace GKModule.ViewModels
 {
-	public class DeviceTooltipViewModel : BaseViewModel
+	public class DeviceTooltipViewModel : StateTooltipViewModel<XDevice>
 	{
-		public XState State { get; private set; }
-		public XDevice Device { get; private set; }
+		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
+		public XDevice Device
+		{
+			get { return Item; }
+		}
+		private XState _state;
 
 		public DeviceTooltipViewModel(XDevice device)
+			: base(device)
 		{
-			Device = device;
-			State = device.State;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
+			_state = device.State;
 		}
 
-		public void OnStateChanged()
+		public override void OnStateChanged()
 		{
-			OnPropertyChanged("State");
+			base.OnStateChanged();
 			StateClasses.Clear();
-			foreach (var stateClass in State.StateClasses)
-			{
-				StateClasses.Add(new XStateClassViewModel(State.Device, stateClass));
-			}
+			foreach (var stateClass in _state.StateClasses)
+				StateClasses.Add(new XStateClassViewModel(_state.Device, stateClass));
 		}
-
-		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
 	}
 }

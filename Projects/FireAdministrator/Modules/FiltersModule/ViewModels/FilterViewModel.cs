@@ -1,36 +1,33 @@
-﻿using FiresecAPI.Models;
+﻿using FiresecAPI.Automation;
+using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiltersModule.ViewModels
 {
 	public class FilterViewModel : BaseViewModel
 	{
-		public FilterViewModel(JournalFilter journalFilter)
+		public AutomationFilter Filter { get; set; }
+
+		public FilterViewModel(AutomationFilter filter)
 		{
-			JournalFilter = journalFilter;
+			Filter = filter;
 		}
 
-		JournalFilter _journalFilter;
-		public JournalFilter JournalFilter
+		public string Name
 		{
-			get { return _journalFilter; }
+			get { return Filter.Name; }
 			set
 			{
-				_journalFilter = value;
-				OnPropertyChanged("JournalFilter");
-				OnPropertyChanged("CountDescription");
+				Filter.Name = value;
+				OnPropertyChanged("Name");
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
-		public string CountDescription
+		public void Update(AutomationFilter filter)
 		{
-			get
-			{
-				string result = JournalFilter.LastRecordsCount.ToString() + " записей";
-				if (JournalFilter.IsLastDaysCountActive)
-					result += " за " + JournalFilter.LastDaysCount.ToString() + " последних дней";
-				return result;
-			}
+			Filter = filter;
+			OnPropertyChanged("Name");
 		}
 	}
 }

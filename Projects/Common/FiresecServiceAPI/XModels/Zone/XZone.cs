@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Common;
 
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XZone : XBase, INamedBase
+	public class XZone : XBase, INamedBase, IIdentity
 	{
 		public XZone()
 		{

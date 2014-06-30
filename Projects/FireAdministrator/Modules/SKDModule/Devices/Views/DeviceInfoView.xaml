@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="SKDModule.Views.DeviceInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinWidth="400" MinHeight="200">
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Тип устройства" Width="200" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBlock Text="{Binding DeviceInfo.DeviceType}" Foreground="White" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Дата выпуска ПО" Width="200" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBlock Text="{Binding DeviceInfo.SoftwareBuildDate}" Foreground="White" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Версия ПО" Width="200" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBlock Text="{Binding DeviceInfo.SoftwareVersion}" Foreground="White" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="IP-адрес" Width="200" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBlock Text="{Binding DeviceInfo.IP}" Foreground="White" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Маска подсети" Width="200" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBlock Text="{Binding DeviceInfo.SubnetMask}" Foreground="White" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Основной шлюз" Width="200" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBlock Text="{Binding DeviceInfo.DefaultGateway}" Foreground="White" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="MTU" Width="200" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBlock Text="{Binding DeviceInfo.MTU}" Foreground="White" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Время прибора" Width="200" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBlock Text="{Binding DeviceInfo.CurrentDateTime}" Foreground="White" Margin="2" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

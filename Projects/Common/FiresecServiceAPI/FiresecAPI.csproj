@@ -144,6 +144,10 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="CallbackResult.cs" />
+    <Compile Include="Events\EventDescriptionAttribute.cs" />
+    <Compile Include="Events\GlobalEventNameEnum.cs" />
+    <Compile Include="Events\GlobalEventType.cs" />
+    <Compile Include="Events\GlobalSubsystemType.cs" />
     <Compile Include="IFiresecServiceSKD.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeInterval.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AM1_O_Helper.cs" />
@@ -169,7 +173,9 @@
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\Automation\Condition.cs" />
     <Compile Include="Models\Automation\ConditionType.cs" />
+    <Compile Include="Models\Automation\FindObjectCondition.cs" />
     <Compile Include="Models\Automation\JoinOperator.cs" />
+    <Compile Include="Models\Automation\ProcedureObject.cs" />
     <Compile Include="Models\Automation\StepArguments\ConditionArguments.cs" />
     <Compile Include="Models\Automation\DayOfWeekType.cs" />
     <Compile Include="Models\Automation\GlobalVariable.cs" />
@@ -178,13 +184,16 @@
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
     <Compile Include="Models\Automation\Argument.cs" />
     <Compile Include="Models\Automation\StepArguments\ArithmeticArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\FindObjectArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
+    <Compile Include="Models\Automation\StringConditionType.cs" />
     <Compile Include="Models\Automation\ValueType.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\VariableType.cs" />
     <Compile Include="Models\Plans\ElementPolygonXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />
+    <Compile Include="SKD\Device\SKDDeviceInfo.cs" />
     <Compile Include="SKD\Door\Door.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
@@ -194,7 +203,6 @@
     <Compile Include="Models\Automation\AutomationConfiguration.cs" />
     <Compile Include="Models\Automation\AutomationSound.cs" />
     <Compile Include="Models\Automation\Procedure.cs" />
-    <Compile Include="Models\Automation\ProcedureObjectType.cs" />
     <Compile Include="Models\Automation\ProcedureStep.cs" />
     <Compile Include="Models\Automation\ProcedureStepType.cs" />
     <Compile Include="SKD\SKDManager\ChinaController_1_2Helper.cs" />
@@ -202,6 +210,8 @@
     <Compile Include="SKD\SKDManager\ChinaController_2_4Helper.cs" />
     <Compile Include="SKD\SKDManager\ChinaController_4_4Helper.cs" />
     <Compile Include="SKD\SKDManager\ControllerHelper.cs" />
+    <Compile Include="SKD\States\DoorState.cs" />
+    <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
     <Compile Include="XModels\Guard\XGuardZoneAccess.cs" />
     <Compile Include="XModels\INamedBase.cs" />
@@ -362,7 +372,7 @@
     <Compile Include="SKD\TimeIntervals\SKDWeeklyInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDWeeklyIntervalPart.cs" />
     <Compile Include="SKD\TimeIntervals\TimeIntervalsConfiguration.cs" />
-    <Compile Include="SKD\TimeIntervals\Zone\SKDZone.cs" />
+    <Compile Include="SKD\Zone\SKDZone.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />

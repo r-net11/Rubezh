@@ -18,11 +18,20 @@ namespace GKModule.Plans
 {
 	class PlanPresenter : IPlanPresenter<Plan, XStateClass>
 	{
+		public static MapSource Cache { get; private set; }
+
 		private Dictionary<Plan, PlanMonitor> _monitors;
 		public PlanPresenter()
 		{
+			Cache = new MapSource();
+			Cache.Add<XZone>(() => XManager.Zones);
+			Cache.Add<XGuardZone>(() => XManager.DeviceConfiguration.GuardZones);
+			Cache.Add<XDevice>(() => XManager.Devices);
+			Cache.Add<XDirection>(() => XManager.Directions);
+
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Subscribe(OnShowXZoneOnPlan);
+			ServiceFactory.Events.GetEvent<ShowXGuardZoneOnPlanEvent>().Subscribe(OnShowXGuardZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXDirectionOnPlanEvent>().Subscribe(OnShowXDirectionOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
@@ -33,7 +42,7 @@ namespace GKModule.Plans
 
 		public void SubscribeStateChanged(Plan plan, Action callBack)
 		{
-			Helper.BuildMap();
+			Cache.BuildAllSafe();
 			if (_monitors.ContainsKey(plan))
 				_monitors[plan].AddCallBack(callBack);
 			else
@@ -53,6 +62,10 @@ namespace GKModule.Plans
 				yield return element;
 			foreach (var element in plan.ElementPolygonXZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
 				yield return element;
+			foreach (var element in plan.ElementRectangleXGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+				yield return element;
+			foreach (var element in plan.ElementPolygonXGuardZones.Where(x => x.ZoneUID != Guid.Empty && !x.IsHidden))
+				yield return element;
 			foreach (var element in plan.ElementRectangleXDirections.Where(x => x.DirectionUID != Guid.Empty))
 				yield return element;
 			foreach (var element in plan.ElementPolygonXDirections.Where(x => x.DirectionUID != Guid.Empty))
@@ -65,13 +78,15 @@ namespace GKModule.Plans
 				presenterItem.OverridePainter(new XDevicePainter(presenterItem));
 			else if (presenterItem.Element is ElementPolygonXZone || presenterItem.Element is ElementRectangleXZone)
 				presenterItem.OverridePainter(new XZonePainter(presenterItem));
+			else if (presenterItem.Element is ElementPolygonXGuardZone || presenterItem.Element is ElementRectangleXGuardZone)
+				presenterItem.OverridePainter(new XGuardZonePainter(presenterItem));
 			else if (presenterItem.Element is ElementRectangleXDirection || presenterItem.Element is ElementPolygonXDirection)
 				presenterItem.OverridePainter(new XDirectionPainter(presenterItem));
 		}
 		public void ExtensionAttached()
 		{
 			using (new TimeCounter("XDevice.ExtensionAttached.BuildMap: {0}"))
-				Helper.BuildMap();
+				Cache.BuildAllSafe();
 		}
 
 		#endregion
@@ -110,6 +125,24 @@ namespace GKModule.Plans
 						return;
 					}
 				foreach (var element in plan.ElementPolygonXZones)
+					if (element.ZoneUID == zone.BaseUID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+			}
+		}
+		private void OnShowXGuardZoneOnPlan(XGuardZone zone)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				foreach (var element in plan.ElementRectangleXGuardZones)
+					if (element.ZoneUID == zone.BaseUID)
+					{
+						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));
+						return;
+					}
+				foreach (var element in plan.ElementPolygonXGuardZones)
 					if (element.ZoneUID == zone.BaseUID)
 					{
 						ServiceFactory.Events.GetEvent<NavigateToPlanElementEvent>().Publish(new NavigateToPlanElementEventArgs(plan.UID, element.UID));

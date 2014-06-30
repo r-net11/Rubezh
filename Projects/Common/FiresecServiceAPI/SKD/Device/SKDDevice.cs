@@ -3,11 +3,13 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
+using Common;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDDevice
+	public class SKDDevice : IStateProvider, IIdentity, IPlanPresentable
 	{
 		public SKDDevice()
 		{
@@ -121,5 +123,14 @@ namespace FiresecAPI.SKD
 				Changed();
 		}
 		public event Action Changed;
+
+		#region IStateProvider Members
+
+		IDeviceState<XStateClass> IStateProvider.StateClass
+		{
+			get { return State; }
+		}
+
+		#endregion
 	}
 }

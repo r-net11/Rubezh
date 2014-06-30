@@ -129,7 +129,7 @@ namespace FiresecAPI
 		OperationResult<SKDStates> SKDGetStates();
 
 		[OperationContract]
-		OperationResult<string> SKDGetDeviceInfo(Guid deviceUID);
+		OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<bool> SKDSyncronyseTime(Guid deviceUID);
@@ -141,37 +141,22 @@ namespace FiresecAPI
 		OperationResult<bool> SKDSetPassword(Guid deviceUID, string password);
 
 		[OperationContract]
-		OperationResult<bool> SKDWriteConfiguration(Guid deviceUID);
+		OperationResult<bool> SKDResetController(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDRebootController(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName);
-
-		[OperationContract]
-		OperationResult<bool> SKDWriteAllIdentifiers(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDSetRegimeOpen(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDSetRegimeClose(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDSetRegimeControl(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDSetRegimeConversation(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<bool> SKDOpenDevice(Guid deviceUID);
 
 		[OperationContract]
 		OperationResult<bool> SKDCloseDevice(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDAllowReader(Guid deviceUID);
-
-		[OperationContract]
-		OperationResult<bool> SKDDenyReader(Guid deviceUID);
 
 		[OperationContract]
 		void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter);

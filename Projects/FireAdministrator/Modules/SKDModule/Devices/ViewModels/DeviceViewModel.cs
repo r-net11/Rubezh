@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using SKDModule.Events;
+using SKDModule.Plans;
 
 namespace SKDModule.ViewModels
 {
@@ -105,7 +106,7 @@ namespace SKDModule.ViewModels
 				}
 
 				Update();
-				Plans.Designer.Helper.BuildMap();
+				SKDPlanExtension.Instance.Cache.BuildSafe<SKDDevice>();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -154,7 +155,7 @@ namespace SKDModule.ViewModels
 			{
 				Device.Parent.Children.Remove(Device);
 			}
-			Plans.Designer.Helper.BuildMap();
+			SKDPlanExtension.Instance.Cache.BuildSafe<SKDDevice>();
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		bool CanRemove()

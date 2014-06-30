@@ -19,13 +19,12 @@ namespace SKDModule.ViewModels
 		public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
 		{
 			DevicesViewModel = devicesViewModel;
-
-			WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ShowPasswordCommand = new RelayCommand(OnShowPassword, CanShowPassword);
-			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
-			WriteAllIdentifiersCommand = new RelayCommand(OnWriteAllIdentifiers, CanWriteAllIdentifiers);
+			ResetCommand = new RelayCommand(OnReset, CanReset);
+			RebootCommand = new RelayCommand(OnReboot, CanReboot);
+			WriteTimeSheduleConfigurationCommand = new RelayCommand(OnWriteTimeSheduleConfiguration, CanWriteTimeSheduleConfiguration);
 		}
 
 		public DeviceViewModel SelectedDevice
@@ -37,7 +36,15 @@ namespace SKDModule.ViewModels
 		void OnShowInfo()
 		{
 			var result = FiresecManager.FiresecService.SKDGetDeviceInfo(SelectedDevice.Device);
-			MessageBoxService.Show(result.Result);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции");
+			}
+			else
+			{
+				var deviceInfoViewModel = new DeviceInfoViewModel(result.Result);
+				DialogService.ShowModalWindow(deviceInfoViewModel);
+			}
 		}
 		bool CanShowInfo()
 		{
@@ -54,7 +61,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.Show("Ошибка во время операции синхронизации времени");
+				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции синхронизации времени");
 			}
 		}
 		bool CanSynchroniseTime()
@@ -73,14 +80,50 @@ namespace SKDModule.ViewModels
 			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}
 
-		public RelayCommand WriteConfigCommand { get; private set; }
-		void OnWriteConfig()
+		public RelayCommand ResetCommand { get; private set; }
+		void OnReset()
 		{
-			if (CheckNeedSave(true))
+			var result = FiresecManager.FiresecService.SKDResetController(SelectedDevice.Device);
+			if (result.Result)
 			{
-				if (ValidateConfiguration())
+				MessageBoxService.Show("Операция завершилась успешно");
+			}
+			else
+			{
+				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции");
+			}
+		}
+		bool CanReset()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+		}
+
+		public RelayCommand RebootCommand { get; private set; }
+		void OnReboot()
+		{
+			var result = FiresecManager.FiresecService.SKDRebootController(SelectedDevice.Device);
+			if (result.Result)
+			{
+				MessageBoxService.Show("Операция завершилась успешно");
+			}
+			else
+			{
+				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции");
+			}
+		}
+		bool CanReboot()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+		}
+
+		public RelayCommand WriteTimeSheduleConfigurationCommand { get; private set; }
+		void OnWriteTimeSheduleConfiguration()
+		{
+			//if (CheckNeedSave(true))
+			{
+				//if (ValidateConfiguration())
 				{
-					var result = FiresecManager.FiresecService.SKDWriteConfiguration(SelectedDevice.Device);
+					var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(SelectedDevice.Device);
 					if (result.HasError)
 					{
 						MessageBoxService.ShowError(result.Error);
@@ -89,49 +132,10 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool CanWriteConfig()
+		bool CanWriteTimeSheduleConfiguration()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig) &&
-				SelectedDevice != null && SelectedDevice.Device.DriverType == SKDDriverType.Controller;
-		}
-
-		public RelayCommand UpdateFirmwhareCommand { get; private set; }
-		void OnUpdateFirmwhare()
-		{
-			var result = new OperationResult<bool>();
-			if (SelectedDevice.Device.DriverType == SKDDriverType.Controller)
-			{
-				var openDialog = new OpenFileDialog()
-				{
-					Filter = "FSCS updater|*.fscs",
-					DefaultExt = "FSCS updater|*.fscs"
-				};
-				if (openDialog.ShowDialog().Value)
-				{
-					result = FiresecManager.FiresecService.SKDUpdateFirmware(SelectedDevice.Device, openDialog.FileName);
-				}
-			}
-			if (result.HasError)
-				MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
-		}
-		bool CanUpdateFirmwhare()
-		{
-			return SelectedDevice != null && SelectedDevice.Driver.DriverType == SKDDriverType.Controller;
-		}
-
-		public RelayCommand WriteAllIdentifiersCommand { get; private set; }
-		void OnWriteAllIdentifiers()
-		{
-			if (SelectedDevice.Device.DriverType == SKDDriverType.Controller)
-			{
-				var result = FiresecManager.FiresecService.SKDWriteAllIdentifiers(SelectedDevice.Device);
-				if (result.HasError)
-					MessageBoxService.ShowError(result.Error, "Ошибка при обновление ПО");
-			}
-		}
-		bool CanWriteAllIdentifiers()
-		{
-			return SelectedDevice != null && SelectedDevice.Driver.DriverType == SKDDriverType.Controller;
+				SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}
 
 		bool ValidateConfiguration()

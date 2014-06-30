@@ -78,8 +78,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Converters\CategoriesToStringConverter.cs" />
-    <Compile Include="Converters\CategoryTypeToCategoryNameConverter.cs" />
+    <Compile Include="Events\ShowFiltersEvent.cs" />
     <Compile Include="FiltersModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -94,20 +93,24 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\CategoryViewModel.cs" />
-    <Compile Include="ViewModels\StateTypeViewModel.cs" />
+    <Compile Include="Validation\FilterValidationError.cs" />
+    <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\Validator.Filter.cs" />
+    <Compile Include="ViewModels\DateTimePairViewModel.cs" />
+    <Compile Include="ViewModels\FilterDetailsViewModel.cs" />
+    <Compile Include="ViewModels\FilterNamesViewModel.cs" />
+    <Compile Include="ViewModels\FilterNameViewModel.cs" />
     <Compile Include="ViewModels\FiltersMenuViewModel.cs" />
     <Compile Include="ViewModels\FiltersViewModel.cs" />
-    <Compile Include="ViewModels\FilterDetailsViewModel.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />
-    <Compile Include="Views\FilterMenuView.xaml.cs">
-      <DependentUpon>FilterMenuView.xaml</DependentUpon>
+    <Compile Include="Views\FilterDetailsView.xaml.cs">
+      <DependentUpon>FilterDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FiltersMenuView.xaml.cs">
+      <DependentUpon>FiltersMenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FiltersView.xaml.cs">
       <DependentUpon>FiltersView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FilterDetailsView.xaml.cs">
-      <DependentUpon>FilterDetailsView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -152,20 +155,20 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FilterMenuView.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FiltersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FilterDetailsView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FiltersMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FiltersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

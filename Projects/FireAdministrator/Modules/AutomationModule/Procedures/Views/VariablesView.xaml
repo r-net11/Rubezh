@@ -32,7 +32,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding VariableType, Converter={StaticResource VariableTypeToStringConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+								<TextBlock Text="{Binding VariableType, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -50,7 +50,7 @@
 								<TextBlock Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 										 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:VariableType.Integer}}" />
-								<TextBlock Text="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ObjectTypeToStringConverter}}" Margin="2"
+								<TextBlock Text="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
 										 Visibility="{Binding Path=VariableType, Converter={StaticResource VariableTypeToVisibilityConverter},
 									ConverterParameter={x:Static automation:VariableType.Object}}" />
 								<TextBlock Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
