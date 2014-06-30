@@ -60,7 +60,9 @@ DROP PROCEDURE [dbo].[SaveAccessTemplate]
 GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SaveAdditionalColumnType]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 DROP PROCEDURE [dbo].[SaveAdditionalColumnType]
-
+GO
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[SavePassJournal]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[SavePassJournal]
 
 GO
 CREATE PROCEDURE [dbo].[SaveInterval]
@@ -799,10 +801,19 @@ CREATE PROCEDURE SavePhoto
 	@Data varbinary(MAX)
 AS
 BEGIN
-	INSERT INTO Photo (
-		UID,
-		Data )
-	VALUES (
-		@UID ,
-		@Data )
+	INSERT INTO Photo (UID, Data)
+	VALUES (@UID, @Data)
 END	
+
+GO
+CREATE PROCEDURE SavePassJournal
+	@UID uniqueidentifier ,
+	@EmployeeUID uniqueidentifier ,
+	@ZoneUID uniqueidentifier ,
+	@EnterTime datetime ,
+	@ExitTime datetime	
+AS
+BEGIN
+	INSERT INTO PassJournal (UID,EmployeeUID,ZoneUID,EnterTime,ExitTime)
+	VALUES (@UID,@EmployeeUID,@ZoneUID,@EnterTime,@ExitTime)
+END

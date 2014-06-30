@@ -17,6 +17,8 @@ namespace FiresecAPI
 		OperationResult SaveEmployee(Employee item);
 		[OperationContract]
 		OperationResult MarkDeletedEmployee(Guid uid);
+		[OperationContract]
+		OperationResult<EmployeeTimeTrack> GetEmployeeTimeTrack(Guid employeeUID, DateTime date);
 		#endregion
 
 		#region Department
@@ -52,7 +54,11 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
 		[OperationContract]
-		OperationResult SaveCard(SKDCard item);
+		OperationResult AddCard(SKDCard item);
+		[OperationContract]
+		OperationResult EditCard(SKDCard item);
+		[OperationContract]
+		OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null);
 		[OperationContract]
 		OperationResult MarkDeletedCard(Guid uid);
 		[OperationContract]

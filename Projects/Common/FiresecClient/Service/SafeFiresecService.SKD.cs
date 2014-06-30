@@ -81,9 +81,17 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
-		public OperationResult SaveCard(SKDCard item)
+		public OperationResult AddCard(SKDCard item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveCard(item));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.AddCard(item));
+		}
+		public OperationResult EditCard(SKDCard item)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.EditCard(item));
+		}
+		public OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteCardFromEmployee(item, reason));
 		}
 		public OperationResult MarkDeletedCard(Guid uid)
 		{

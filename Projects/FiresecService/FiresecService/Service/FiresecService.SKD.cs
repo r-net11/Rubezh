@@ -27,6 +27,10 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(uid);
 		}
+		public OperationResult<EmployeeTimeTrack> GetEmployeeTimeTrack(Guid employeeUID, DateTime date)
+		{
+			return SKDDatabaseService.EmployeeTranslator.GetTimeTrack(employeeUID, date);
+		}
 		#endregion
 
 		#region Department
@@ -83,10 +87,28 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.CardTranslator.Get(filter);
 		}
-		public OperationResult SaveCard(SKDCard item)
+		public OperationResult AddCard(SKDCard item)
 		{
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
+		public OperationResult EditCard(SKDCard item)
+		{
+			return SKDDatabaseService.CardTranslator.Save(item);
+		}
+		public OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null)
+		{
+			item.AccessTemplateUID = null;
+			item.CardDoors = new List<CardDoor>();
+			item.CardTemplateUID = null;
+			item.EmployeeName = null;
+			item.HolderUID = null;
+			item.IsInStopList = true;
+			item.StopReason = reason;
+			item.StartDate = DateTime.Now;
+			item.EndDate = DateTime.Now;
+			return SKDDatabaseService.CardTranslator.Save(item);
+		}
+
 		public OperationResult MarkDeletedCard(Guid uid)
 		{
 			return SKDDatabaseService.CardTranslator.MarkDeleted(uid);

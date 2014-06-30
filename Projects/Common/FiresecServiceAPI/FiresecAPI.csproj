@@ -188,6 +188,7 @@
     <Compile Include="SKD\Door\Door.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
+    <Compile Include="SKD\Employee\EmployeeTimeTrack.cs" />
     <Compile Include="SKD\Filters\ObjectType.cs" />
     <Compile Include="SKD\Settings\GlobalSettings.cs" />
     <Compile Include="Models\Automation\AutomationConfiguration.cs" />

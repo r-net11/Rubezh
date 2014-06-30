@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(employeeCardDetailsViewModel))
 			{
 				var card = employeeCardDetailsViewModel.Card;
-				var saveResult = CardHelper.Save(card);
+				var saveResult = CardHelper.Add(card);
 				if (!saveResult)
 					return;
 				Card = card;

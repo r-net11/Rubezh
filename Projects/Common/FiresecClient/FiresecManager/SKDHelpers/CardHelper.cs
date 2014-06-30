@@ -8,11 +8,7 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool ToStopList(SKDCard card, string reason)
 		{
-			card.IsInStopList = true;
-			card.StopReason = reason;
-			card.HolderUID = null;
-			card.CardDoors = null;
-			var result = FiresecManager.FiresecService.SaveCard(card);
+			var result = FiresecManager.FiresecService.DeleteCardFromEmployee(card, reason);
 			return Common.ShowErrorIfExists(result);
 		}
 
@@ -30,9 +26,15 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 		 
-		public static bool Save(SKDCard card, bool showError = true)
+		public static bool Add(SKDCard card, bool showError = true)
 		{
-			var result = FiresecManager.FiresecService.SaveCard(card);
+			var result = FiresecManager.FiresecService.AddCard(card);
+			return Common.ShowErrorIfExists(result, showError);
+		}
+
+		public static bool Edit(SKDCard card, bool showError = true)
+		{
+			var result = FiresecManager.FiresecService.EditCard(card);
 			return Common.ShowErrorIfExists(result, showError);
 		}
 

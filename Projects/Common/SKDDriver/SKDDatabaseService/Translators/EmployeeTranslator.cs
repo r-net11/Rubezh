@@ -276,5 +276,39 @@ namespace SKDDriver
 			}
 			return new OperationResult();
 		}
+
+		public OperationResult<EmployeeTimeTrack> GetTimeTrack(Guid employeeUID, DateTime date)
+		{
+			try
+			{
+				var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime.Date == date.Date).ToList();
+				var result = new EmployeeTimeTrack();
+				result.EmployeeUID = employeeUID;
+				result.Date = date;
+				var firstEnterTime = passJournals.Select(x => x.EnterTime).Min();
+				var lastExitTime = passJournals.Select(x => x.ExitTime).Max();
+				var totalNotMiss = new DateTime();
+				foreach (var item in passJournals)
+				{
+					totalNotMiss = new DateTime(totalNotMiss.Ticks + item.ExitTime.Ticks - item.EnterTime.Ticks);
+				}
+				var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
+				var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
+				var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
+				var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
+				var daysCount = days.Count();
+				var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
+				var dayNumber = Math.IEEERemainder((int)period.TotalDays,daysCount);
+
+				result.Total = new DateTime(lastExitTime.Ticks - firstEnterTime.Ticks);
+				result.TotalMiss = new DateTime(result.Total.Ticks - totalNotMiss.Ticks);
+
+				return new OperationResult<EmployeeTimeTrack> { Result = result };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<EmployeeTimeTrack>(e.Message);
+			}
+		}
 	}
 }

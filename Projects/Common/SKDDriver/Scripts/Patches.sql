@@ -197,31 +197,58 @@ BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Journal')
 	BEGIN
 		DROP TABLE Journal
-		CREATE TABLE [dbo].[Journal](
-			[UID] [uniqueidentifier] NOT NULL,
-			[SystemDate] [datetime] NOT NULL,
-			[DeviceDate] [datetime] NOT NULL,
-			[Subsystem] [int] NOT NULL,
-			[Name] [int] NOT NULL,
-			[Description] [int] NOT NULL,
-			[NameText] [nvarchar](50) NULL,
-			[DescriptionText] [nvarchar](max) NULL,
-			[State] [int] NOT NULL, 
-			[ObjectType] [int] NOT NULL,
-			[ObjectName] [nvarchar](50) NULL, 
-			[ObjectUID] [uniqueidentifier] NOT NULL,
-			[UserName] [nvarchar](50) NULL, 
-			[CardSeries] int NOT NULL, 
-			[CardNo] int NOT NULL, 
-		CONSTRAINT [PK_Journal] PRIMARY KEY CLUSTERED 
-		(
-			[UID] ASC
-		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-		) ON [PRIMARY]
-		ALTER TABLE [dbo].[Journal]  WITH NOCHECK ADD  CONSTRAINT [FK_Journal_Card] FOREIGN KEY([ObjectUID])
-		REFERENCES [dbo].[Card] ([Uid])
-		NOT FOR REPLICATION 
-		ALTER TABLE [dbo].[Journal] NOCHECK CONSTRAINT [FK_Journal_Card]
 	END
-	
+	CREATE TABLE [dbo].[Journal](
+		[UID] [uniqueidentifier] NOT NULL,
+		[SystemDate] [datetime] NOT NULL,
+		[DeviceDate] [datetime] NOT NULL,
+		[Subsystem] [int] NOT NULL,
+		[Name] [int] NOT NULL,
+		[Description] [int] NOT NULL,
+		[NameText] [nvarchar](50) NULL,
+		[DescriptionText] [nvarchar](max) NULL,
+		[State] [int] NOT NULL, 
+		[ObjectType] [int] NOT NULL,
+		[ObjectName] [nvarchar](50) NULL, 
+		[ObjectUID] [uniqueidentifier] NOT NULL,
+		[UserName] [nvarchar](50) NULL, 
+		[CardSeries] int NOT NULL, 
+		[CardNo] int NOT NULL, 
+	CONSTRAINT [PK_Journal] PRIMARY KEY CLUSTERED 
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	ALTER TABLE [dbo].[Journal]  WITH NOCHECK ADD  CONSTRAINT [FK_Journal_Card] FOREIGN KEY([ObjectUID])
+	REFERENCES [dbo].[Card] ([Uid])
+	NOT FOR REPLICATION 
+	ALTER TABLE [dbo].[Journal] NOCHECK CONSTRAINT [FK_Journal_Card]
+	INSERT INTO Patches (Id) VALUES ('CommonJournal')	
+END
+
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'PassJournal')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'PassJournal')
+	BEGIN
+		DROP TABLE PassJournal
+	END
+	CREATE TABLE [dbo].[PassJournal](
+	[UID] [uniqueidentifier] NOT NULL,
+	[EmployeeUID] [uniqueidentifier] NOT NULL,
+	[ZoneUID] [uniqueidentifier] NOT NULL,
+	[EnterTime] [datetime] NOT NULL,
+	[ExitTime] [datetime] NOT NULL,
+	 CONSTRAINT [PK_PassJournal] PRIMARY KEY CLUSTERED 
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	ALTER TABLE [dbo].[PassJournal]  WITH NOCHECK ADD  CONSTRAINT [FK_PassJournal_Employee] FOREIGN KEY([EmployeeUID])
+	REFERENCES [dbo].[Employee] ([UID])
+	ON UPDATE CASCADE
+	ON DELETE CASCADE
+	NOT FOR REPLICATION 
+	ALTER TABLE [dbo].[PassJournal] CHECK CONSTRAINT [FK_PassJournal_Employee]
+	INSERT INTO Patches (Id) VALUES ('PassJournal')
 END

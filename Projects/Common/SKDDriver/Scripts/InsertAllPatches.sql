@@ -23,3 +23,6 @@ INSERT INTO Patches (Id) VALUES
 GO
 INSERT INTO Patches (Id) VALUES
 	('CommonJournal')
+GO
+INSERT INTO Patches (Id) VALUES
+	('PassJournal')

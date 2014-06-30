@@ -5,6 +5,7 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<Grid>
 		<Grid.ColumnDefinitions>
+			<ColumnDefinition MinWidth="150" Width="Auto" />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
@@ -19,7 +20,8 @@
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		<TabControl Grid.Column="1" >
+		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
+		<TabControl Grid.Column="2" >
 			<TabItem Header="Пользователи" DataContext="{Binding OrganisationUsersViewModel}" >
 				<ListBox ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
 					<ListBox.ItemTemplate>

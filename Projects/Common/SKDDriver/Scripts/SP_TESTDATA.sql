@@ -119,7 +119,6 @@ EXEC [dbo].[SaveDay] @Uid, NULL, @WeeklyScheduleSchemeUid, 5,0
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveDay] @Uid, NULL, @WeeklyScheduleSchemeUid, 6,0
 
-
 DECLARE @GuardScheduleUid uniqueidentifier;
 SET @GuardScheduleUid = NEWID();
 EXEC [dbo].[SaveSchedule] @GuardScheduleUid, @Organisation1Uid, 'Охрана', @GuardScheduleSchemeUid,0,'01/01/1900'
@@ -612,5 +611,36 @@ EXEC [dbo].[SaveDocument] @Uid, @Organisation2Uid, 729, 'Документ2', 'Документ2О
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveDocument] @Uid, @Organisation2Uid, 123, 'Документ3', 'Документ3Организации2', '30/01/2014', '05/02/2013',0,'01/01/1900'
 
+DECLARE @Zone1Uid uniqueidentifier;
+SET @Zone1Uid = '4aa2fc38-eb3e-49cf-841d-90be6daf4a6e';
+DECLARE @Zone2Uid uniqueidentifier;
+SET @Zone2Uid = '5036a265-adf7-4279-900a-465b4a2b13f0';
+DECLARE @Zone3Uid uniqueidentifier;
+SET @Zone3Uid = 'a5f9372e-7ca2-46cb-946c-a69e7d5d736b';
+
+SET @Uid = NEWID(); 
+EXEC [dbo].[SavePassJournal] @Uid, @Programmer1EmployeeUid, @Zone1Uid, '23/06/2014 08:11:01','23/06/2014 12:20:01'
+SET @Uid = NEWID(); 
+EXEC [dbo].[SavePassJournal] @Uid, @Programmer1EmployeeUid, @Zone2Uid, '23/06/2014 14:05:01','23/06/2014 17:02:01'
+
+SET @Uid = NEWID(); 
+EXEC [dbo].[SavePassJournal] @Uid, @Programmer1EmployeeUid, @Zone1Uid, '24/06/2014 07:55:01','24/06/2014 17:20:01'
+
+SET @Uid = NEWID(); 
+EXEC [dbo].[SavePassJournal] @Uid, @Programmer1EmployeeUid, @Zone1Uid, '25/06/2014 08:11:01','25/06/2014 12:20:01'
+SET @Uid = NEWID(); 
+EXEC [dbo].[SavePassJournal] @Uid, @Programmer1EmployeeUid, @Zone3Uid, '25/06/2014 13:05:01','25/06/2014 16:33:01'
+
+SET @Uid = NEWID(); 
+EXEC [dbo].[SavePassJournal] @Uid, @Programmer1EmployeeUid, @Zone1Uid, '26/06/2014 08:11:01','26/06/2014 12:20:01'
+SET @Uid = NEWID(); 
+EXEC [dbo].[SavePassJournal] @Uid, @Programmer1EmployeeUid, @Zone2Uid, '26/06/2014 13:05:01','26/06/2014 15:33:01'
+SET @Uid = NEWID(); 
+EXEC [dbo].[SavePassJournal] @Uid, @Programmer1EmployeeUid, @Zone3Uid, '26/06/2014 16:11:01','26/06/2014 17:10:01'
+
+SET @Uid = NEWID(); 
+EXEC [dbo].[SavePassJournal] @Uid, @Programmer1EmployeeUid, @Zone1Uid, '27/06/2014 08:11:01','27/06/2014 12:20:01'
+SET @Uid = NEWID(); 
+EXEC [dbo].[SavePassJournal] @Uid, @Programmer1EmployeeUid, @Zone3Uid, '27/06/2014 13:11:01','27/06/2014 19:10:01'
 
 

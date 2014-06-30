@@ -98,7 +98,7 @@ namespace SKDModule.ViewModels
 			{
 				var card = cardDetailsViewModel.Card;
 				card.HolderUID = ShortEmployee.UID;
-				var saveResult = CardHelper.Save(card);
+				var saveResult = CardHelper.Add(card);
 				if (!saveResult)
 					return;
 				var cardViewModel = new EmployeeCardViewModel(Organisation, this, card);
