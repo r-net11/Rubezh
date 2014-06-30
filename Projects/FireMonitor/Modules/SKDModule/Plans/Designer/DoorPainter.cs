@@ -9,14 +9,19 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using SKDModule.Events;
 using SKDModule.ViewModels;
+using Infrastructure.Client.Plans;
 
 namespace SKDModule.Plans.Designer
 {
 	class DoorPainter : BasePointPainter<Door, ShowDoorEvent>
 	{
+		private DoorViewModel _doorViewModel;
+
 		public DoorPainter(PresenterItem presenterItem)
 			: base(presenterItem)
 		{
+			if (Item != null)
+				_doorViewModel = new ViewModels.DoorViewModel(Item);
 		}
 
 		protected override Door CreateItem(PresenterItem presenterItem)
@@ -32,13 +37,14 @@ namespace SKDModule.Plans.Designer
 		{
 			var contextMenu = new ContextMenu();
 			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
+			contextMenu.Items.Add(UIHelper.BuildMenuItem("Открыть", "pack://application:,,,/Controls;component/Images/BTurnOn.png", _doorViewModel.OpenCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem("Закрыть", "pack://application:,,,/Controls;component/Images/BTurnOff.png", _doorViewModel.CloseCommand));
 			contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
 			return contextMenu;
 		}
 		protected override WindowBaseViewModel CreatePropertiesViewModel()
 		{
-			//return new DoorDetailsViewModel(Item);
-			return null;
+			return new DoorDetailsViewModel(Item);
 		}
 
 		protected override Brush GetBrush()
@@ -49,26 +55,6 @@ namespace SKDModule.Plans.Designer
 
 		private Color GetStateColor()
 		{
-			//switch (Item.DoorState)
-			//{
-			//    case XStateClass.Unknown:
-			//    case XStateClass.DBMissmatch:
-			//    case XStateClass.TechnologicalRegime:
-			//    case XStateClass.ConnectionLost:
-			//    case XStateClass.HasNoLicense:
-			//        return Colors.DarkGray;
-			//    case XStateClass.Fire1:
-			//    case XStateClass.Fire2:
-			//        return Colors.Red;
-			//    case XStateClass.Attention:
-			//        return Colors.Yellow;
-			//    case XStateClass.Ignore:
-			//        return Colors.Yellow;
-			//    case XStateClass.Norm:
-			//        return Colors.Green;
-			//    default:
-			//        return Colors.White;
-			//}
 			return Colors.Green;
 		}
 	}

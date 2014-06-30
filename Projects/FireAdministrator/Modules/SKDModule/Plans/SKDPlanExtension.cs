@@ -262,6 +262,4 @@ namespace SKDModule.Plans
 			return color;
 		}
 	}
-
-
 }
