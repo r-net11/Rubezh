@@ -295,10 +295,17 @@ namespace SKDDriver
 				var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
 				var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
 				var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
-				var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
-				var daysCount = days.Count();
-				var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
-				var dayNumber = Math.IEEERemainder((int)period.TotalDays,daysCount);
+				var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
+
+				if (scheduleSchemeType == ScheduleSchemeType.Week)
+				{
+					var dayNo = (int)date.DayOfWeek;
+				}
+
+				//var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
+				//var daysCount = days.Count();
+				//var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
+				//var dayNumber = Math.IEEERemainder((int)period.TotalDays,daysCount);
 
 				result.Total = new DateTime(lastExitTime.Ticks - firstEnterTime.Ticks);
 				result.TotalMiss = new DateTime(result.Total.Ticks - totalNotMiss.Ticks);
