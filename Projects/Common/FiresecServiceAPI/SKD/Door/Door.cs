@@ -15,6 +15,8 @@ namespace FiresecAPI.SKD
 			UID = Guid.NewGuid();
 		}
 
+		public DoorState State { get; set; }
+
 		[DataMember]
 		public Guid UID { get; set; }
 
@@ -45,21 +47,17 @@ namespace FiresecAPI.SKD
 		public event Action Changed;
 
 		#region IStateProvider Members
-
 		IDeviceState<XStateClass> IStateProvider.StateClass
 		{
-			get { return this; }
+			get { return State; }
 		}
-
 		#endregion
 
 		#region IDeviceState<XStateClass> Members
-
 		XStateClass IDeviceState<XStateClass>.StateType
 		{
-			get { return XStateClass.No; }
+			get { return State.StateClass; }
 		}
-
 		event Action IDeviceState<XStateClass>.StateChanged
 		{
 			add { }

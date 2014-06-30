@@ -1,8 +1,6 @@
-﻿using System.Windows.Controls;
-
-namespace FiltersModule.Views
+﻿namespace FiltersModule.Views
 {
-	public partial class FiltersView : UserControl
+	public partial class FiltersView
 	{
 		public FiltersView()
 		{

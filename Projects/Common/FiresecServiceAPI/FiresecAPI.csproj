@@ -144,6 +144,10 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="CallbackResult.cs" />
+    <Compile Include="Events\EventDescriptionAttribute.cs" />
+    <Compile Include="Events\GlobalEventNameEnum.cs" />
+    <Compile Include="Events\GlobalEventType.cs" />
+    <Compile Include="Events\GlobalSubsystemType.cs" />
     <Compile Include="IFiresecServiceSKD.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeInterval.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AM1_O_Helper.cs" />
@@ -205,6 +209,7 @@
     <Compile Include="SKD\SKDManager\ChinaController_2_4Helper.cs" />
     <Compile Include="SKD\SKDManager\ChinaController_4_4Helper.cs" />
     <Compile Include="SKD\SKDManager\ControllerHelper.cs" />
+    <Compile Include="SKD\States\DoorState.cs" />
     <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
     <Compile Include="XModels\Guard\XGuardZoneAccess.cs" />
@@ -366,7 +371,7 @@
     <Compile Include="SKD\TimeIntervals\SKDWeeklyInterval.cs" />
     <Compile Include="SKD\TimeIntervals\SKDWeeklyIntervalPart.cs" />
     <Compile Include="SKD\TimeIntervals\TimeIntervalsConfiguration.cs" />
-    <Compile Include="SKD\TimeIntervals\Zone\SKDZone.cs" />
+    <Compile Include="SKD\Zone\SKDZone.cs" />
     <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />

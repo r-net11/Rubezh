@@ -2,7 +2,7 @@
 using FiresecClient;
 using Infrastructure.Common.Validation;
 
-namespace AutomationModule.Validation
+namespace FilterModule.Validation
 {
 	public partial class Validator
 	{

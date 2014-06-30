@@ -2,7 +2,7 @@
 using FiresecClient;
 using Infrastructure.Common.Validation;
 
-namespace AutomationModule.Validation
+namespace FilterModule.Validation
 {
 	public partial class Validator
 	{
@@ -12,10 +12,7 @@ namespace AutomationModule.Validation
 		{
 			XManager.UpdateConfiguration();
 			Errors = new List<IValidationError>();
-			ValidateGlobalVariableName();
-			ValidateProcedureName();
-			ValidateScheduleName();
-			ValidateSoundName();
+			ValidateFilterName();
 			return Errors;
 		}
 	}

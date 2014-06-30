@@ -1,4 +1,4 @@
-﻿namespace AutomationModule.Views
+﻿namespace FiltersModule.Views
 {
 	public partial class FiltersMenuView
 	{

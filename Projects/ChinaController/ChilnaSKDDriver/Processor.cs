@@ -15,6 +15,13 @@ namespace ChinaSKDDriver
 		public static List<DeviceProcessor> DeviceProcessors { get; private set; }
 		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
 
+		static Processor()
+		{
+#if DEBUG
+			File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\FiresecService\bin\Debug\CPPWrapper.dll", true);
+#endif
+		}
+
 		public static void DoCallback(SKDCallbackResult callbackResult)
 		{
 			if (Processor.SKDCallbackResultEvent != null)
@@ -23,9 +30,6 @@ namespace ChinaSKDDriver
 
 		public static void Run(SKDConfiguration skdConfiguration)
 		{
-#if DEBUG
-			File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\FiresecService\bin\Debug\CPPWrapper.dll", true);
-#endif
 			DeviceProcessors = new List<DeviceProcessor>();
 			SKDConfiguration = skdConfiguration;
 
@@ -45,6 +49,14 @@ namespace ChinaSKDDriver
 				var deviceProcessor = new DeviceProcessor(device);
 				DeviceProcessors.Add(deviceProcessor);
 				deviceProcessor.Run();
+			}
+		}
+
+		public static void Stop()
+		{
+			foreach (var deviceProcessor in DeviceProcessors)
+			{
+				deviceProcessor.Wrapper.StopWatcher();
 			}
 		}
 
@@ -185,6 +197,35 @@ namespace ChinaSKDDriver
 				return true;
 			}
 			return false;
+		}
+
+		public static bool OpenDoor(Guid deviceUID)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				var result = deviceProcessor.Wrapper.OpenDoor(deviceProcessor.Device.IntAddress);
+				return result;
+			}
+			return false;
+		}
+
+		public static bool CloseDoor(Guid deviceUID)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				var result = deviceProcessor.Wrapper.CloseDoor(deviceProcessor.Device.IntAddress);
+				return result;
+			}
+			return false;
+		}
+
+		public static bool AddCard(SKDCard skdCard)
+		{
+			var cardWriter = new CardWriter();
+			var result = cardWriter.WriteCard(skdCard);
+			return result;
 		}
 	}
 }

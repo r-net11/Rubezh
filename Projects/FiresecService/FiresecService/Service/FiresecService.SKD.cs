@@ -85,6 +85,12 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveCard(SKDCard item)
 		{
+			AddSKDMessage(FiresecAPI.GK.EventNameEnum.Добавление_карты, null, UserName);
+			if (item.RemovalDate == DateTime.MinValue)
+			{
+				//var accessTemplate = GetAllAccessTemplates();
+				var result = ChinaSKDDriver.Processor.AddCard(item);
+			}
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
 		public OperationResult MarkDeletedCard(Guid uid)
@@ -299,8 +305,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Команда_на_открытие_двери, device, UserName);
-				SKDProcessorManager.SendControlCommand(device, 5);
-				return new OperationResult<bool>() { Result = true };
+				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.OpenDoor(deviceUID) };
 			}
 			else
 			{
@@ -314,8 +319,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Команда_на_закрытие_двери, device, UserName);
-				SKDProcessorManager.SendControlCommand(device, 6);
-				return new OperationResult<bool>() { Result = true };
+				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.CloseDoor(deviceUID) };
 			}
 			else
 			{
@@ -364,8 +368,8 @@ namespace FiresecService.Service
 				DeviceDateTime = DateTime.Now,
 				Name = name,
 				Description = description,
-				ObjectName = device.Name,
-				ObjectUID = device.UID,
+				ObjectName = device != null ? device.Name : null,
+				ObjectUID = device != null ? device.UID : Guid.Empty,
 				ObjectType = ObjectType.Устройство_СКД,
 				UserName = userName,
 			};

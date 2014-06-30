@@ -29,6 +29,11 @@ namespace FiresecAPI.SKD
 			get { return SKDConfiguration.Zones; }
 		}
 
+		public static List<Door> Doors
+		{
+			get { return SKDConfiguration.Doors; }
+		}
+
 		public static TimeIntervalsConfiguration TimeIntervalsConfiguration
 		{
 			get { return SKDConfiguration.TimeIntervalsConfiguration; }
@@ -87,6 +92,11 @@ namespace FiresecAPI.SKD
 			foreach (var zone in Zones)
 			{
 				zone.State = new SKDZoneState(zone);
+			}
+			foreach (var door in Doors)
+			{
+				door.State = new DoorState(door);
+				door.State.StateClass = XStateClass.Norm;
 			}
 		}
 

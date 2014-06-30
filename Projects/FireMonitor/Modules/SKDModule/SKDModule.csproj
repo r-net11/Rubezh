@@ -433,6 +433,15 @@
     <Compile Include="HR\Views\HRView.xaml.cs">
       <DependentUpon>HRView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Doors\ViewModels\DoorDetailsViewModel.cs" />
+    <Compile Include="Doors\ViewModels\DoorsViewModel.cs" />
+    <Compile Include="Doors\ViewModels\DoorViewModel.cs" />
+    <Compile Include="Doors\Views\DoorDetailsView.xaml.cs">
+      <DependentUpon>DoorDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Doors\Views\DoorsView.xaml.cs">
+      <DependentUpon>DoorsView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
@@ -762,6 +771,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="HR\Views\HRView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Doors\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Doors\Views\DoorDetailsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Doors\Views\DoorsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
