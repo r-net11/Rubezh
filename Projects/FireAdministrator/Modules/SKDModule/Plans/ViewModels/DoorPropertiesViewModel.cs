@@ -52,8 +52,8 @@ namespace SKDModule.Plans.ViewModels
 			ServiceFactory.Events.GetEvent<CreateDoorEvent>().Publish(createDoorEventArg);
 			if (createDoorEventArg.Door != null)
 			{
-				Helper.BuildMap();
-				Helper.SetDoor(_elementDoor, createDoorEventArg.Door);
+				SKDPlanExtension.Instance.Cache.BuildSafe<Door>();
+				SKDPlanExtension.Instance.SetItem<ElementDoor, Door>(_elementDoor, createDoorEventArg.Door);
 				Update(doorUID);
 				Close(true);
 			}
@@ -73,7 +73,7 @@ namespace SKDModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid doorUID = _elementDoor.DoorUID;
-			Helper.SetDoor(_elementDoor, SelectedDoor.Door);
+			SKDPlanExtension.Instance.SetItem<ElementDoor, Door>(_elementDoor, SelectedDoor.Door);
 
 			if (doorUID != _elementDoor.DoorUID)
 				Update(doorUID);

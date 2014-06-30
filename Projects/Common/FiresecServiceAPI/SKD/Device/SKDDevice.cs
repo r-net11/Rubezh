@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using Common;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDDevice : IStateProvider, IIdentity
+	public class SKDDevice : IStateProvider, IIdentity, IPlanPresentable
 	{
 		public SKDDevice()
 		{

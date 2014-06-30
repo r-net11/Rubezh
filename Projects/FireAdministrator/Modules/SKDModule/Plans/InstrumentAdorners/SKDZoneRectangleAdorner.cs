@@ -1,8 +1,8 @@
 ﻿using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
-using SKDModule.Plans.Designer;
 using SKDModule.Plans.ViewModels;
 using SKDModule.ViewModels;
 
@@ -23,7 +23,7 @@ namespace SKDModule.Plans.InstrumentAdorners
 			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			Helper.SetSKDZone(element);
+			SKDPlanExtension.Instance.SetItem<ElementRectangleSKDZone, SKDZone>(element);
 			return element;
 		}
 	}

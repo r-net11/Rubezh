@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.GK;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class Door : IStateProvider, IDeviceState<XStateClass>, IIdentity
+	public class Door : IStateProvider, IDeviceState<XStateClass>, IIdentity, IPlanPresentable
 	{
 		public Door()
 		{

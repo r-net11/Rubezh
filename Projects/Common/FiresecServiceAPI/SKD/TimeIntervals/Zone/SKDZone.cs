@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using Common;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class SKDZone : IStateProvider, IIdentity
+	public class SKDZone : IStateProvider, IIdentity, IPlanPresentable
 	{
 		public SKDZone()
 		{

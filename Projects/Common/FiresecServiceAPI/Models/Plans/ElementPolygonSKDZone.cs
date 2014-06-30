@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementPolygonSKDZone : ElementBasePolygon, IElementZone, IPrimitive
+	public class ElementPolygonSKDZone : ElementBasePolygon, IElementZone, IPrimitive, IElementReference
 	{
 		[DataMember]
 		public Guid ZoneUID { get; set; }
@@ -47,5 +48,15 @@ namespace FiresecAPI.Models
 		{
 			ZLayer = zlayer;
 		}
+
+		#region IElementReference Members
+
+		Guid IElementReference.ItemUID
+		{
+			get { return ZoneUID; }
+			set { ZoneUID = value; }
+		}
+
+		#endregion
 	}
 }

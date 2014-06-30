@@ -8,6 +8,7 @@ using Infrustructure.Plans.InstrumentAdorners;
 using SKDModule.Plans.Designer;
 using SKDModule.Plans.ViewModels;
 using SKDModule.ViewModels;
+using FiresecAPI.SKD;
 
 namespace SKDModule.Plans.InstrumentAdorners
 {
@@ -34,7 +35,7 @@ namespace SKDModule.Plans.InstrumentAdorners
 			var propertiesViewModel = new ZonePropertiesViewModel(element, _zonesViewModel);
 			if (!DialogService.ShowModalWindow(propertiesViewModel))
 				return null;
-			Helper.SetSKDZone(element);
+			SKDPlanExtension.Instance.SetItem<ElementPolygonSKDZone, SKDZone>(element);
 			return element;
 		}
 	}

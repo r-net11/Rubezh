@@ -178,7 +178,6 @@
       <DependentUpon>PassCardTextPropertyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\DoorPainter.cs" />
-    <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\Painter.cs" />
     <Compile Include="Plans\SKDPlanExtension.cs" />
     <Compile Include="Plans\InstrumentAdorners\SKDZonePolygonAdorner.cs" />

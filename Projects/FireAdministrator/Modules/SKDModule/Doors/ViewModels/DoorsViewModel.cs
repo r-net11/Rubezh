@@ -17,6 +17,7 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans.Designer;
 using KeyboardKey = System.Windows.Input.Key;
+using SKDModule.Plans;
 
 namespace SKDModule.ViewModels
 {
@@ -93,7 +94,7 @@ namespace SKDModule.ViewModels
 				Doors.Add(doorViewModel);
 				SelectedDoor = doorViewModel;
 				ServiceFactory.SaveService.SKDChanged = true;
-				Helper.BuildMap();
+				SKDPlanExtension.Instance.Cache.BuildSafe<Door>();
 				return doorDetailsViewModel;
 			}
 			return null;
@@ -112,7 +113,7 @@ namespace SKDModule.ViewModels
 				if (index > -1)
 					SelectedDoor = Doors[index];
 				ServiceFactory.SaveService.SKDChanged = true;
-				Helper.BuildMap();
+				SKDPlanExtension.Instance.Cache.BuildSafe<Door>();
 			}
 		}
 
@@ -202,7 +203,7 @@ namespace SKDModule.ViewModels
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
-			elements.OfType<ElementDoor>().ToList().ForEach(element => Helper.ResetDoor(element));
+			elements.OfType<ElementDoor>().ToList().ForEach(element => SKDPlanExtension.Instance.ResetItem<ElementDoor,Door>(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)

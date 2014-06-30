@@ -36,6 +36,10 @@ namespace PlansModule.Kursk
 
 		#region IPlanExtension Members
 
+		public int Index
+		{
+			get { return 1; }
+		}
 		public string Title
 		{
 			get { return "Устройства - Курск"; }

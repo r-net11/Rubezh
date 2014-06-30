@@ -66,7 +66,7 @@ namespace SKDModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid deviceUID = _elementSKDDevice.DeviceUID;
-			Helper.SetSKDDevice(_elementSKDDevice, SelectedDevice.Device);
+			SKDPlanExtension.Instance.SetItem<ElementSKDDevice, SKDDevice>(_elementSKDDevice, SelectedDevice.Device);
 
 			if (deviceUID != _elementSKDDevice.DeviceUID)
 				Update(deviceUID);

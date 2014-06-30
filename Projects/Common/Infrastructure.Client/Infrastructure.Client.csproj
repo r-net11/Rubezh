@@ -74,6 +74,7 @@
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NavigationItem.cs" />
+    <Compile Include="Plans\BasePlanExtension.cs" />
     <Compile Include="Plans\Presenter\BasePointPainter.cs" />
     <Compile Include="Plans\Presenter\BaseZonePainter.cs" />
     <Compile Include="Plans\Presenter\IBasePainter.cs" />
