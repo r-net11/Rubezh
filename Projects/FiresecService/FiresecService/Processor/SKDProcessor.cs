@@ -43,13 +43,11 @@ namespace FiresecService
 
 		static void Wrapper_NewJournalItem(ChinaSKDDriverAPI.SKDJournalItem skdJournalItem)
 		{
-			var skdCallbackResult = new SKDCallbackResult();
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = skdJournalItem.SystemDateTime;
 			journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
 			journalItem.NameText = skdJournalItem.Name;
 			journalItem.DescriptionText = skdJournalItem.Description;
-			skdCallbackResult.JournalItems.Add(journalItem);
 
 			var journalItems = new List<JournalItem>();
 			journalItems.Add(journalItem);

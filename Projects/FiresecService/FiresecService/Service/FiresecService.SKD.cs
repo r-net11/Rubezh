@@ -248,8 +248,8 @@ namespace FiresecService.Service
 
 		public OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID)
 		{
-			var device = SKDManager.Devices.FirstOrDefault(x=>x.UID == deviceUID);
-			if(device != null)
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
 			{
 				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Запрос_информации_об_устройстве, device, UserName);
 				return new OperationResult<SKDDeviceInfo>() { Result = ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID) };
@@ -361,7 +361,6 @@ namespace FiresecService.Service
 			}
 		}
 		#endregion
-		}
 
 		AccessTemplate GetAccessTemplate(Guid? uid)
 		{
@@ -369,5 +368,6 @@ namespace FiresecService.Service
 			if (!accessTemplateOperationResult.HasError)
 				return accessTemplateOperationResult.Result;
 			return null;
+		}
 	}
 }
