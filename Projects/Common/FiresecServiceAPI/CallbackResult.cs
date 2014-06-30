@@ -17,7 +17,7 @@ namespace FiresecAPI
 		public CallbackResultType CallbackResultType { get; set; }
 
 		[DataMember]
-		public List<JournalRecord> JournalRecords { get; set; }
+		public List<FiresecAPI.SKD.JournalItem> GlobalJournalItems { get; set; }
 
 		[DataMember]
 		public GKCallbackResult GKCallbackResult { get; set; }

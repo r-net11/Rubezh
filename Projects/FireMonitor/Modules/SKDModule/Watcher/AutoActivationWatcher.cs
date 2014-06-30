@@ -8,6 +8,7 @@ using Infrastructure;
 using SKDModule.Events;
 using SKDModule.ViewModels;
 using JournalItem = FiresecAPI.SKD.JournalItem;
+using Infrastructure.Events;
 
 namespace SKDModule
 {
@@ -15,8 +16,8 @@ namespace SKDModule
 	{
 		public static void Run()
 		{
-			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Unsubscribe(OnNewJournal);
-			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Subscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
 		}
 
 		public static void OnNewJournal(List<JournalItem> journalItems)
@@ -33,8 +34,6 @@ namespace SKDModule
 			{
 				foreach (var journalItem in journalItems)
 				{
-					var journalItemViewModel = new JournalItemViewModel(journalItem);
-
 					var globalStateClass = SKDManager.GetMinStateClass();
 
 					if (journalItem.State <= globalStateClass ||

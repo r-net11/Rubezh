@@ -29,28 +29,5 @@ namespace FiresecClient
 				return new OperationResult<bool>(e.Message);
 			}
 		}
-
-		public static void SynchrinizeJournal()
-		{
-			try
-			{
-				var result = FiresecService.FiresecService.GetJournalLastId();
-				if (result.HasError)
-				{
-					LoadingErrorManager.Add("Ошибка при получении индекса последней записи с сервера");
-				}
-
-				var journalRecords = FiresecDriver.Watcher.SynchrinizeJournal(result.Result);
-				if (journalRecords.Count > 0)
-				{
-					FiresecService.AddJournalRecords(journalRecords);
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecManager.SynchrinizeJournal");
-				LoadingErrorManager.Add(e);
-			}
-		}
 	}
 }

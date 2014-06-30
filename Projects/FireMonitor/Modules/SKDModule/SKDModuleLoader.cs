@@ -28,8 +28,6 @@ namespace SKDModule
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
 		DoorsViewModel DoorsViewModel;
-		JournalViewModel JournalViewModel;
-		ArchiveViewModel ArchiveViewModel;
 		HRViewModel HRViewModel;
 		NamedIntervalsViewModel NamedIntervalsViewModel;
 		ScheduleSchemesWeeklyViewModel ScheduleSchemesWeeklyViewModel;
@@ -37,9 +35,8 @@ namespace SKDModule
 		ScheduleSchemesSlideViewModel ScheduleSchemesSlideViewModel;
 		HolidaysViewModel HolidaysViewModel;
 		SchedulesViewModel SchedulesViewModel;
-		private TimeTrackingViewModel _timeTrackingViewModel;
-		NavigationItem _journalNavigationItem;
-		private PlanPresenter _planPresenter;
+		TimeTrackingViewModel _timeTrackingViewModel;
+		PlanPresenter _planPresenter;
 
 		public SKDModuleLoader()
 		{
@@ -48,16 +45,9 @@ namespace SKDModule
 
 		public override void CreateViewModels()
 		{
-			ServiceFactory.Events.GetEvent<ShowSKDJournalEvent>().Unsubscribe(OnShowJournal);
-			ServiceFactory.Events.GetEvent<ShowSKDJournalEvent>().Subscribe(OnShowJournal);
-			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Unsubscribe(OnNewJournalRecord);
-			ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Subscribe(OnNewJournalRecord);
-
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
-			JournalViewModel = new JournalViewModel();
-			ArchiveViewModel = new ArchiveViewModel();
 			HRViewModel = new HRViewModel();
 			NamedIntervalsViewModel = new NamedIntervalsViewModel();
 			ScheduleSchemesWeeklyViewModel = new ScheduleSchemesWeeklyViewModel();
@@ -70,8 +60,6 @@ namespace SKDModule
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_journalNavigationItem = new NavigationItem<ShowSKDJournalEvent>(JournalViewModel, "Журнал", "/Controls;component/Images/levels.png");
-
 			return new List<NavigationItem>
 				{
 				new NavigationItem("СКД", "/Controls;component/Images/tree.png",
@@ -80,8 +68,6 @@ namespace SKDModule
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-						_journalNavigationItem,
-						new NavigationItem<ShowSKDArchiveEvent, ShowSKDArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/Levels.png"),
 						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/Tree.png"),
 						new NavigationItem("Учет рабочего времени", null, new List<NavigationItem>()
 						{
@@ -117,7 +103,6 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Doors/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Journal/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "HR/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Employees/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Departments/DataTemplates/Dictionary.xaml"));
@@ -131,27 +116,6 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Intervals/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
-		}
-
-		int _unreadJournalCount;
-		private int UnreadJournalCount
-		{
-			get { return _unreadJournalCount; }
-			set
-			{
-				_unreadJournalCount = value;
-				if (_journalNavigationItem != null)
-					_journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
-			}
-		}
-		void OnShowJournal(object obj)
-		{
-			UnreadJournalCount = 0;
-		}
-		void OnNewJournalRecord(List<JournalItem> journalItems)
-		{
-			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-				UnreadJournalCount += journalItems.Count;
 		}
 
 		public override bool BeforeInitialize(bool firstTime)
@@ -188,7 +152,7 @@ namespace SKDModule
 			{
 				if (skdCallbackResult.JournalItems.Count > 0)
 				{
-					ServiceFactory.Events.GetEvent<NewSKDJournalEvent>().Publish(skdCallbackResult.JournalItems);
+					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(skdCallbackResult.JournalItems);
 				}
 				CopySKDStates(skdCallbackResult.SKDStates);
 				ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
@@ -222,7 +186,6 @@ namespace SKDModule
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "СКД устройства", "Tree.png", (p) => DevicesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "СКД зоны", "Tree.png", (p) => ZonesViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDJournal, "Журнал", "Levels.png", (p) => JournalViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Пропуск", "Levels.png", (p) => HRViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartSKDVerificationProperties));
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDNamedIntervals, "Именованные интервалы", "Tree.png", (p) => NamedIntervalsViewModel);

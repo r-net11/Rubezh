@@ -3,8 +3,8 @@
 					xmlns:Views="clr-namespace:JournalModule.Views"
 					xmlns:ViewModels="clr-namespace:JournalModule.ViewModels">
 
-	<DataTemplate DataType="{x:Type ViewModels:JournalsViewModel}">
-		<Views:JournalsView />
+	<DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
+		<Views:JournalView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:ArchiveViewModel}">
@@ -19,7 +19,4 @@
 		<Views:ArchiveSettingsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ConfirmationViewModel}">
-		<Views:ConfirmationView />
-	</DataTemplate>
 </ResourceDictionary>

@@ -22,10 +22,8 @@ namespace FireMonitor.Views
 			ChangeAutoActivationCommand = new RelayCommand(OnChangeAutoActivation);
 			ChangePlansAutoActivationCommand = new RelayCommand(OnChangePlansAutoActivation);
 
-			//ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Unsubscribe(OnNewFS2JournalItemsEvent);
-			//ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Subscribe(OnNewFS2JournalItemsEvent);
-			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Unsubscribe(OnNewJournalRecord);
-			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecord);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournalItem);
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItem);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
 			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 		}
@@ -73,7 +71,7 @@ namespace FireMonitor.Views
 			OnPropertyChanged("IsPlansAutoActivation");
 		}
 
-		void OnNewJournalRecord(List<JournalRecord> journalRecords)
+		void OnNewJournalItem(List<FiresecAPI.SKD.JournalItem> journalItems)
 		{
 			if (IsAutoActivation)
 			{
@@ -89,38 +87,30 @@ namespace FireMonitor.Views
 			}
 			if (IsPlansAutoActivation)
 			{
-				foreach (var journalRecord in journalRecords)
+				foreach (var journalRecord in journalItems)
 				{
-					if (journalRecord.DeviceDatabaseUID != Guid.Empty)
+					var globalStateType = StateType.No;
+					foreach (var device in FiresecManager.Devices)
 					{
-						var globalStateType = StateType.No;
-						foreach (var device in FiresecManager.Devices)
-						{
-							if (device.DeviceState.StateType < globalStateType)
-								globalStateType = device.DeviceState.StateType;
-						}
-
-						var journalDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalRecord.DeviceDatabaseUID);
-						if (journalDevice != null)
-						{
-							if (journalDevice.DeviceState.StateType <= globalStateType || (globalStateType != StateType.Fire && globalStateType != StateType.Attention) || journalDevice.Driver.DriverType == DriverType.AM1_O)
-							{
-								var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == journalDevice.UID); });
-								if (existsOnPlan)
-								{
-									ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(journalDevice.UID);
-								}
-							}
-						}
+						if (device.DeviceState.StateType < globalStateType)
+							globalStateType = device.DeviceState.StateType;
 					}
+
+					//var journalDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == journalRecord.DeviceDatabaseUID);
+					//if (journalDevice != null)
+					//{
+					//    if (journalDevice.DeviceState.StateType <= globalStateType || (globalStateType != StateType.Fire && globalStateType != StateType.Attention) || journalDevice.Driver.DriverType == DriverType.AM1_O)
+					//    {
+					//        var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == journalDevice.UID); });
+					//        if (existsOnPlan)
+					//        {
+					//            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(journalDevice.UID);
+					//        }
+					//    }
+					//}
 				}
 			}
 		}
-
-		//void OnNewFS2JournalItemsEvent(List<FS2JournalItem> journalItems)
-		//{
-
-		//}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		void OnPropertyChanged(string name)

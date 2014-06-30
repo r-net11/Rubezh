@@ -54,7 +54,6 @@ namespace FiresecService.Service
 			if (ClientsManager.Add(uid, clientCredentials))
 			{
 				GKProcessorManager.AddGKMessage(EventNameEnum.Вход_пользователя_в_систему, "", null, clientCredentials.FriendlyUserName);
-				AddInfoMessage(clientCredentials.FriendlyUserName, "Вход пользователя в систему(Firesec)");
 			}
 
 			CurrentClientCredentials = clientCredentials;
@@ -83,11 +82,9 @@ namespace FiresecService.Service
 
 			MainViewModel.Current.EditClient(uid, login);
 			GKProcessorManager.AddGKMessage(EventNameEnum.Дежурство_сдал, "", null, oldUserName);
-			AddInfoMessage(oldUserName, "Дежурство сдал(Firesec)");
 			clientCredentials.UserName = login;
 			SetUserFullName(clientCredentials);
 			GKProcessorManager.AddGKMessage(EventNameEnum.Дежурство_принял, "", null, clientCredentials.FriendlyUserName);
-			AddInfoMessage(clientCredentials.FriendlyUserName, "Дежурство принял(Firesec)");
 
 			CurrentClientCredentials = clientCredentials;
 			operationResult.Result = true;
@@ -113,7 +110,6 @@ namespace FiresecService.Service
 				if (clientInfo.ClientCredentials != null)
 				{
 					GKProcessorManager.AddGKMessage(EventNameEnum.Выход_пользователя_из_системы, "", null, clientInfo.ClientCredentials.FriendlyUserName);
-					AddInfoMessage(clientInfo.ClientCredentials.FriendlyUserName, "Выход пользователя из системы(Firesec)");
 				}
 			}
 			ClientsManager.Remove(uid);

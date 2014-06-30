@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Presenter;
 using SKDModule.Events;
 using SKDModule.ViewModels;
+using Infrastructure.Events;
 
 namespace SKDModule.Plans.Designer
 {

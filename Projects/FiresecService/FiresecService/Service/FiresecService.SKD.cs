@@ -258,8 +258,8 @@ namespace FiresecService.Service
 
 		public OperationResult<SKDDeviceInfo> SKDGetDeviceInfo(Guid deviceUID)
 		{
-			var device = SKDManager.Devices.FirstOrDefault(x=>x.UID == deviceUID);
-			if(device != null)
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
 			{
 				AddSKDMessage(FiresecAPI.GK.EventNameEnum.Запрос_информации_об_устройстве, device, UserName);
 				return new OperationResult<SKDDeviceInfo>() { Result = ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID) };
@@ -370,60 +370,7 @@ namespace FiresecService.Service
 				return new OperationResult<bool>("Устройство не найдено в конфигурации");
 			}
 		}
-
-		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter)
-		{
-			if (CurrentThread != null)
-			{
-				SKDDBHelper.IsAbort = true;
-				CurrentThread.Join(TimeSpan.FromMinutes(1));
-				CurrentThread = null;
-			}
-			SKDDBHelper.IsAbort = false;
-			var thread = new Thread(new ThreadStart((new Action(() =>
-			{
-				SKDDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
-				SKDDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				SKDDBHelper.BeginGetSKDFilteredArchive(archiveFilter, false);
-
-			}))));
-			thread.Name = "SKD GetFilteredArchive";
-			thread.IsBackground = true;
-			CurrentThread = thread;
-			thread.Start();
-		}
-
-		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems)
-		{
-			FiresecService.NotifySKDArchiveCompleted(journalItems);
-		}
 		#endregion
-
-		void AddSKDMessage(FiresecAPI.GK.EventNameEnum name, SKDDevice device, string userName)
-		{
-			AddSKDMessage(name, FiresecAPI.GK.EventDescription.Нет, device, userName);
-		}
-
-		void AddSKDMessage(FiresecAPI.GK.EventNameEnum name, FiresecAPI.GK.EventDescription description, SKDDevice device, string userName)
-		{
-			var journalItem = new JournalItem()
-			{
-				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
-				Name = name,
-				Description = description,
-				ObjectName = device != null ? device.Name : null,
-				ObjectUID = device != null ? device.UID : Guid.Empty,
-				ObjectType = ObjectType.Устройство_СКД,
-				UserName = userName,
-			};
-
-			SKDDBHelper.AddMessage(name, userName);
-
-			var skdCallbackResult = new SKDCallbackResult();
-			skdCallbackResult.JournalItems.Add(journalItem);
-			FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
-		}
 
 		AccessTemplate GetAccessTemplate(Guid? uid)
 		{

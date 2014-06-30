@@ -1,45 +1,31 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace JournalModule.ViewModels
 {
 	public class ArchivePageViewModel : BaseViewModel
 	{
-		IEnumerable<JournalRecord> JournalRecordsList;
-		//IEnumerable<FS2JournalItem> JournalItemsList;
+		IEnumerable<JournalItem> JournalItemsList;
 
-		public ArchivePageViewModel(IEnumerable<JournalRecord> journalRecords)
+		public ArchivePageViewModel(IEnumerable<JournalItem> journalItems)
 		{
-			JournalRecordsList = journalRecords;
+			JournalItemsList = journalItems;
 		}
-
-		//public ArchivePageViewModel(IEnumerable<FS2JournalItem> journalItems)
-		//{
-		//	JournalItemsList = journalItems;
-		//}
 
 		public void Create()
 		{
-			JournalRecords = new List<JournalRecordViewModel>();
-			if (JournalRecordsList != null)
+			JournalItems = new List<JournalItemViewModel>();
+			if (JournalItemsList != null)
 			{
-				foreach (var journalRecord in JournalRecordsList)
+				foreach (var journalItem in JournalItemsList)
 				{
-					var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-					JournalRecords.Add(journalRecordViewModel);
+					var journalItemViewModel = new JournalItemViewModel(journalItem);
+					JournalItems.Add(journalItemViewModel);
 				}
 			}
-			//if (JournalItemsList != null)
-			//{
-			//	foreach (var journalItem in JournalItemsList)
-			//	{
-			//		var journalRecordViewModel = new JournalRecordViewModel(journalItem);
-			//		JournalRecords.Add(journalRecordViewModel);
-			//	}
-			//}
 		}
 
-		public List<JournalRecordViewModel> JournalRecords { get; private set; }
+		public List<JournalItemViewModel> JournalItems { get; private set; }
 	}
 }

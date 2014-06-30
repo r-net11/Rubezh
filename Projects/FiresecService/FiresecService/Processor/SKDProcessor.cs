@@ -43,38 +43,15 @@ namespace FiresecService
 
 		static void Wrapper_NewJournalItem(ChinaSKDDriverAPI.SKDJournalItem skdJournalItem)
 		{
-			var skdCallbackResult = new SKDCallbackResult();
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = skdJournalItem.SystemDateTime;
 			journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
 			journalItem.NameText = skdJournalItem.Name;
 			journalItem.DescriptionText = skdJournalItem.Description;
-			skdCallbackResult.JournalItems.Add(journalItem);
 
-			SKDDBHelper.Add(journalItem);
-
-			FiresecService.Service.FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
-		}
-
-		public static void OLD_Create()
-		{
-			try
-			{
-				var configuration = ZipConfigurationHelper.GetSKDConfiguration();
-				if(configuration.Zones == null)
-					configuration.Zones = new List<SKDZone>();
-				SKDManager.SKDConfiguration = configuration;
-				if (SKDManager.SKDConfiguration != null)
-				{
-					SKDManager.CreateDrivers();
-					SKDManager.UpdateConfiguration();
-					WatcherManager.Start();
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "SKDProcessor.Create");
-			}
+			var journalItems = new List<JournalItem>();
+			journalItems.Add(journalItem);
+			FiresecService.Service.FiresecService.NotifyNewJournalItems(journalItems);
 		}
 
 		static void OnSKDCallbackResultEvent(SKDCallbackResult skdCallbackResult)

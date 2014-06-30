@@ -60,22 +60,22 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public void NotifyNewJournal(List<JournalRecord> journalRecords)
+		public static void NotifyNewJournalItems(List<FiresecAPI.SKD.JournalItem> journalItems)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.NewEvents,
-				JournalRecords = journalRecords
+				GlobalJournalItems = journalItems
 			};
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyArchivePortionCompleted(List<JournalRecord> journalRecords)
+		public static void NotifyArchivePortionCompleted(List<FiresecAPI.SKD.JournalItem> journalItems)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.ArchiveCompleted,
-				JournalRecords = journalRecords
+				GlobalJournalItems = journalItems
 			};
 			CallbackManager.Add(callbackResult);
 		}

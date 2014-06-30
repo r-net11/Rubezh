@@ -1,28 +1,29 @@
-﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FiresecAPI.SKD;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using JournalModule.Reports;
 using JournalModule.ViewModels;
 
 namespace JournalModule
 {
-	public class JournalModuleLoader : ModuleBase, IReportProviderModule
+	public class JournalModuleLoader : ModuleBase
 	{
 		private NavigationItem _journalNavigationItem;
-		JournalsViewModel JournalsViewModel;
+		JournalViewModel JournalViewModel;
 		ArchiveViewModel ArchiveViewModel;
 
 		public override void CreateViewModels()
 		{
 			ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
-			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecord);
-			//ServiceFactory.Events.GetEvent<NewFS2JournalItemsEvent>().Subscribe(OnNewFS2JournalItems);
-			JournalsViewModel = new JournalsViewModel();
+			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItem);
+			JournalViewModel = new JournalViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
 		}
 
@@ -41,28 +42,22 @@ namespace JournalModule
 		void OnShowJournal(object obj)
 		{
 			UnreadJournalCount = 0;
-			JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
+			JournalViewModel.SelectedJournal = JournalViewModel.JournalItems.FirstOrDefault();
 		}
-		void OnNewJournalRecord(List<JournalRecord> journalRecords)
+		void OnNewJournalItem(List<FiresecAPI.SKD.JournalItem> journalItems)
 		{
 			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-				UnreadJournalCount += journalRecords.Count;
+				UnreadJournalCount += journalItems.Count;
 		}
-
-		//void OnNewFS2JournalItems(List<FS2JournalItem> journalItems)
-		//{
-		//	if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
-		//		UnreadJournalCount += journalItems.Count;
-		//}
 
 		public override void Initialize()
 		{
-			JournalsViewModel.Initialize();
+			JournalViewModel.Initialize();
 			ArchiveViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
+			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalViewModel, "Журнал событий", "/Controls;component/Images/book.png");
 			UnreadJournalCount = 0;
 			return new List<NavigationItem>()
 			{
@@ -75,14 +70,20 @@ namespace JournalModule
 			get { return "Журнал событий и Архив"; }
 		}
 
-		#region IReportProviderModule Members
-		public IEnumerable<IReportProvider> GetReportProviders()
+		public override void AfterInitialize()
 		{
-			return new List<IReportProvider>()
-			{
-				new JournalReport()
-			};
+			SafeFiresecService.NewJournalItemEvent -= new Action<FiresecAPI.SKD.JournalItem>(OnNewJournalItem);
+			SafeFiresecService.NewJournalItemEvent += new Action<FiresecAPI.SKD.JournalItem>(OnNewJournalItem);
 		}
-		#endregion
+
+		void OnNewJournalItem(FiresecAPI.SKD.JournalItem journalItem)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				var journalItems = new List<JournalItem>();
+				journalItems.Add(journalItem);
+				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
+			});
+		}
 	}
 }
