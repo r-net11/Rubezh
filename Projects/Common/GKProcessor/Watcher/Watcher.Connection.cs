@@ -2,6 +2,7 @@
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
+using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -34,7 +35,8 @@ namespace GKProcessor
 						JournalItemType = JournalItemType.System,
 						StateClass = XStateClass.Unknown,
 						ObjectStateClass = XStateClass.Norm,
-						Name = isConnected ? EventNameEnum.Восстановление_связи_с_прибором.ToDescription() : EventNameEnum.Потеря_связи_с_прибором.ToDescription()
+						GlobalEventNameType = isConnected ? GlobalEventNameEnum.Восстановление_связи_с_прибором : GlobalEventNameEnum.Потеря_связи_с_прибором,
+						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором",
 					};
 					AddJournalItem(journalItem);
 

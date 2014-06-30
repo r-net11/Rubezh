@@ -35,7 +35,6 @@ namespace SKDModule
 		HolidaysViewModel HolidaysViewModel;
 		PassCardsDesignerViewModel PassCardDesignerViewModel;
 		SettingsViewModel SettingsViewModel;
-		FiltersViewModel FiltersViewModel;
 		SKDPlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -57,7 +56,6 @@ namespace SKDModule
 			SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
 			SettingsViewModel = new SettingsViewModel();
-			FiltersViewModel = new FiltersViewModel();
 			_planExtension = new SKDPlanExtension(DevicesViewModel, ZonesViewModel, DoorsViewModel);
 		}
 
@@ -67,7 +65,6 @@ namespace SKDModule
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			DoorsViewModel.Initialize();
-			FiltersViewModel.Initialize();
 
 			TimeIntervalsViewModel.Initialize();
 			WeeklyIntervalsViewModel.Initialize();
@@ -91,7 +88,6 @@ namespace SKDModule
 					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowSKDFiltersEvent, Guid>(FiltersViewModel, "Фильтры", "/Controls;component/Images/Book.png", null, null, Guid.Empty),
 					new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков","/Controls;component/Images/PassCardDesigner.png",null,null, Guid.Empty),
 					new NavigationItem<ShowSKDSettingsEvent, object>(SettingsViewModel, "Настройки", "/Controls;component/Images/Book.png"),
 					new NavigationItem("Интервалы", null, new List<NavigationItem>()
@@ -120,7 +116,6 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Doors/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Library/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Filters/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Intervals/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Settings/DataTemplates/Dictionary.xaml"));

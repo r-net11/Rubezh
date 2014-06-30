@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FiresecAPI.GK;
+using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -24,7 +25,7 @@ namespace GKProcessor
 					{
 						if (sendResult.HasError)
 						{
-							GKProcessorManager.AddGKMessage(EventNameEnum.Ошибка_при_выполнении_команды, description, xBase, null);
+							GKProcessorManager.AddGKMessage(GlobalEventNameEnum.Ошибка_при_выполнении_команды, description, xBase, null);
 						}
 					}),
 					xBase.GkDatabaseParent, 3, 13, 0, bytes);
@@ -48,7 +49,7 @@ namespace GKProcessor
 		{
 			if (sendResult.HasError)
 			{
-				GKProcessorManager.AddGKMessage(EventNameEnum.Ошибка_при_выполнении_команды, "", null, null);
+				GKProcessorManager.AddGKMessage(GlobalEventNameEnum.Ошибка_при_выполнении_команды, "", null, null);
 			}
 		}
 	}

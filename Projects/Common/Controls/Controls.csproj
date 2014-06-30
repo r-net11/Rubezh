@@ -141,7 +141,6 @@
     <Compile Include="Converters\ConnectionStateToImageSourceConverter.cs" />
     <Compile Include="Converters\DateToStringConverter.cs" />
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />
-    <Compile Include="Converters\DescriptionTypeToIconConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\InversedBoolToVisibilityConverter.cs" />

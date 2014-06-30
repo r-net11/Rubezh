@@ -5,6 +5,7 @@ using Common;
 using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows;
+using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -85,7 +86,7 @@ namespace GKProcessor
 			}
 			else
 			{
-				GKProcessorManager.AddGKMessage(EventNameEnum.Ошибка_при_выполнении_команды_над_устройством, EventDescription.Не_найдено_родительское_устройство_ГК, null, null);
+				GKProcessorManager.AddGKMessage(GlobalEventNameEnum.Ошибка_при_выполнении_команды_над_устройством, EventDescription.Не_найдено_родительское_устройство_ГК, null, null);
 			}
 		}
 	}

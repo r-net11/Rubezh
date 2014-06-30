@@ -353,6 +353,7 @@ namespace FiresecService.Service
 		public void AddJournalItem(JournalItem journalItem)
 		{
 			GKDBHelper.Add(journalItem);
+			AddGKGlobalJournalItem(journalItem);
 			var gkCallbackResult = new GKCallbackResult();
 			gkCallbackResult.JournalItems.Add(journalItem);
 			NotifyGKObjectStateChanged(gkCallbackResult);

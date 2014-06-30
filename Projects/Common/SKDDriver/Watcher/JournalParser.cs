@@ -35,61 +35,6 @@ namespace SKDDriver
 			JournalItem.CardSeries = cardSeries;
 			JournalItem.CardNo = cardNo;
 
-			var skdEvent = SKDEventsHelper.SKDEvents.FirstOrDefault(x => x.No == eventNameCode);
-			if (skdEvent != null)
-			{
-				JournalItem.Name = skdEvent.Name;
-				JournalItem.State = skdEvent.StateClass;
-				switch (eventNameCode)
-				{
-					case 22:
-						switch (evenDescriptionCode)
-						{
-							case 1:
-								JournalItem.Description = EventDescription.Установить_режим_ОТКРЫТО;
-								break;
-							case 2:
-								JournalItem.Description = EventDescription.Установить_режим_ЗАКРЫТО;
-								break;
-							case 3:
-								JournalItem.Description = EventDescription.Установить_режим_КОНТРОЛЬ;
-								break;
-							case 4:
-								JournalItem.Description = EventDescription.Установить_режим_СОВЕЩАНИЕ;
-								break;
-							case 5:
-								JournalItem.Description = EventDescription.Открыть;
-								break;
-							case 6:
-								JournalItem.Description = EventDescription.Закрыть;
-								break;
-							case 7:
-								JournalItem.Description = EventDescription.Разрешить_проход;
-								break;
-							case 8:
-								JournalItem.Description = EventDescription.Запретить_проход;
-								break;
-						}
-						break;
-
-					case 23:
-						switch (evenDescriptionCode)
-						{
-							case 1:
-								JournalItem.Description = EventDescription.Запись_одного_идентификатора;
-								break;
-							case 2:
-								JournalItem.Description = EventDescription.Запись_всех_временных_интервалов;
-								break;
-						}
-						break;
-
-					default:
-						JournalItem.DescriptionText = evenDescriptionCode.ToString();
-						break;
-				}
-			}
-
 			if (source == 1)
 			{
 				SetDevice(device);

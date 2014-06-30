@@ -32,7 +32,6 @@ namespace GKModule
 		PumpStationsViewModel PumpStationsViewModel;
 		MPTsViewModel MPTsViewModel;
 		DelaysViewModel DelaysViewModel;
-		FiltersViewModel FiltersViewModel;
 		GuardViewModel GuardViewModel;
 		GuardZonesViewModel GuardZonesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
@@ -60,7 +59,6 @@ namespace GKModule
 			PumpStationsViewModel = new PumpStationsViewModel();
 			MPTsViewModel = new MPTsViewModel();
 			DelaysViewModel = new DelaysViewModel();
-			FiltersViewModel = new FiltersViewModel();
 			GuardViewModel = new GuardViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
@@ -84,7 +82,6 @@ namespace GKModule
 			DelaysViewModel.Initialize();
 			GuardViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
-			FiltersViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 			OPCDevicesViewModel.Initialize();
 			OPCZonesViewModel.Initialize();
@@ -115,7 +112,6 @@ namespace GKModule
 							new NavigationItem<ShowXGuardZonesEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 						}),
 
-					new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
 					new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
 					new NavigationItem("OPC Сервер", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()

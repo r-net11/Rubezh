@@ -149,7 +149,6 @@
     <Compile Include="Journal\GKDBHelper\GKDBHelper.Patches.cs" />
     <Compile Include="Journal\GKDBHelper\GKDBHelperNamesDescriptions.cs" />
     <Compile Include="Journal\JournalParser.cs" />
-    <Compile Include="Journal\EventNameHelper.cs" />
     <Compile Include="Journal\JournalItemsCollection.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Journal\JournalStringsHelper.cs" />

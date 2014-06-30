@@ -8,6 +8,8 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
 using Infrastructure.Common;
+using System.Reflection;
+using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -50,7 +52,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static JournalItem AddMessage(EventNameEnum name, string userName)
+		public static JournalItem AddMessage(GlobalEventNameEnum globalEventNameEnum, string userName)
 		{
 			var journalItem = new JournalItem()
 			{
@@ -58,7 +60,8 @@ namespace GKProcessor
 				DeviceDateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
-				Name = name.ToDescription(),
+				GlobalEventNameType = globalEventNameEnum,
+				Name = EventDescriptionAttributeHelper.ToName(globalEventNameEnum),
 				ObjectStateClass = XStateClass.Norm,
 				UserName = userName,
 				SubsystemType = XSubsystemType.System

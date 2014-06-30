@@ -5,6 +5,7 @@ using FiresecClient;
 using FiresecService.Processor;
 using GKProcessor;
 using Infrastructure.Common;
+using FiresecAPI.Events;
 
 namespace FiresecService
 {
@@ -71,7 +72,7 @@ namespace FiresecService
 					allHashesAreEqual = false;
 				}
 
-				GKProcessorManager.AddGKMessage(EventNameEnum.Применение_конфигурации, "", null, null);
+				GKProcessorManager.AddGKMessage(GlobalEventNameEnum.Применение_конфигурации, "", null, null);
 				//if (!allHashesAreEqual)
 				{
 					Stop();
@@ -88,6 +89,13 @@ namespace FiresecService
 
 		static void OnGKCallbackResultEvent(GKCallbackResult gkCallbackResult)
 		{
+			if (gkCallbackResult.JournalItems.Count > 0)
+			{
+				foreach(var journalItem in gkCallbackResult.JournalItems)
+				{
+					FiresecService.Service.FiresecService.AddGKGlobalJournalItem(journalItem);
+				}
+			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);
 		}
 	}

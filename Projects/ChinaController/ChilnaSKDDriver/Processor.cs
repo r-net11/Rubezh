@@ -222,7 +222,21 @@ namespace ChinaSKDDriver
 		public static CardWriter AddCard(SKDCard skdCard)
 		{
 			var cardWriter = new CardWriter();
-			var result = cardWriter.WriteCard(skdCard);
+			var result = cardWriter.AddCard(skdCard);
+			return cardWriter;
+		}
+
+		public static CardWriter EditCard(SKDCard skdCard)
+		{
+			var cardWriter = new CardWriter();
+			//var result = cardWriter.AddCard(skdCard);
+			return cardWriter;
+		}
+
+		public static CardWriter DeleteCard(SKDCard skdCard)
+		{
+			var cardWriter = new CardWriter();
+			//var result = cardWriter.AddCard(skdCard);
 			return cardWriter;
 		}
 	}

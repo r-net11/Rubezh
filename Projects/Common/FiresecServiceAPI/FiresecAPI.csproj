@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="CallbackResult.cs" />
     <Compile Include="Events\EventDescriptionAttribute.cs" />
+    <Compile Include="Events\EventDescriptionAttributeHelper.cs" />
     <Compile Include="Events\GlobalEventNameEnum.cs" />
     <Compile Include="Events\GlobalEventType.cs" />
     <Compile Include="Events\GlobalSubsystemType.cs" />
@@ -179,7 +180,6 @@
     <Compile Include="Models\Automation\StepArguments\ConditionArguments.cs" />
     <Compile Include="Models\Automation\DayOfWeekType.cs" />
     <Compile Include="Models\Automation\GlobalVariable.cs" />
-    <Compile Include="Models\Automation\Filter.cs" />
     <Compile Include="Models\Automation\ObjectType.cs" />
     <Compile Include="Models\Automation\ScheduleProcedure.cs" />
     <Compile Include="Models\Automation\Argument.cs" />
@@ -217,9 +217,6 @@
     <Compile Include="XModels\Guard\XGuardZoneAccess.cs" />
     <Compile Include="XModels\INamedBase.cs" />
     <Compile Include="Models\AddressConverter.cs" />
-    <Compile Include="Models\Archive\DescriptionType.cs" />
-    <Compile Include="Models\Archive\JournalDescriptionItem.cs" />
-    <Compile Include="Models\Archive\JournalDeviceItem.cs" />
     <Compile Include="Models\Binary\BinaryDevice.cs" />
     <Compile Include="Models\Binary\BinaryDirection.cs" />
     <Compile Include="Models\Binary\BinaryPanel.cs" />
@@ -352,7 +349,6 @@
     <Compile Include="SKD\Card\AccessTemplate.cs" />
     <Compile Include="SKD\Schedule\ScheduleSchemeType.cs" />
     <Compile Include="SKD\SKDConfiguration.cs" />
-    <Compile Include="SKD\SKDEventsHelper.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Actions.cs" />
     <Compile Include="SKD\SKDSystemConfiguration.cs" />
     <Compile Include="SKD\Device\SKDDevice.cs" />
@@ -415,7 +411,6 @@
     <Compile Include="Models\Security\PermissionType.cs" />
     <Compile Include="Models\Security\RemoteAccessType.cs" />
     <Compile Include="Models\Security\UserRole.cs" />
-    <Compile Include="Models\Archive\ArchiveFilter.cs" />
     <Compile Include="Models\States\ChildDeviceState.cs" />
     <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\System\InstructionType.cs" />
@@ -466,10 +461,7 @@
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="XModels\Journal\EventDescription.cs" />
-    <Compile Include="XModels\Journal\EventName.cs" />
     <Compile Include="SKD\Journal\JournalItem.cs" />
-    <Compile Include="XModels\Journal\EventNameEnum.cs" />
-    <Compile Include="XModels\Journal\EventNameEnumHelper.cs" />
     <Compile Include="XModels\Journal\JournalItem.cs" />
     <Compile Include="XModels\Journal\JournalItemType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />

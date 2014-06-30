@@ -131,7 +131,6 @@
     <Compile Include="Events\ShowXPumpStationEvent.cs" />
     <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Events\ShowXDelayStationEvent.cs" />
-    <Compile Include="Filters\ViewModels\FilterDetails\XEventViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZoneDetailsViewModel.cs" />
@@ -426,20 +425,6 @@
     <Compile Include="Directions\Views\DirectionsView.xaml.cs">
       <DependentUpon>DirectionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Filters\ViewModels\FilterDetails\FilterDetailsViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FiltersViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FilterViewModel.cs" />
-    <Compile Include="Filters\ViewModels\FilterStateClassViewModel.cs" />
-    <Compile Include="Filters\Views\FilterDetailsView.xaml.cs">
-      <DependentUpon>FilterDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Filters\Views\FiltersMenuView.xaml.cs">
-      <DependentUpon>FiltersMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Filters\Views\FiltersView.xaml.cs">
-      <DependentUpon>FiltersView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTsMenuViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTsViewModel.cs" />
@@ -725,18 +710,6 @@
     <Page Include="Directions\Views\DirectionsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Filters\Views\FilterDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Filters\Views\FiltersMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Filters\Views\FiltersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MPTs\Views\MPTDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>

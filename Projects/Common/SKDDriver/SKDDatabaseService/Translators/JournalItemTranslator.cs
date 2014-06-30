@@ -5,6 +5,7 @@ using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using LinqKit;
 using JournalItem = FiresecAPI.SKD.JournalItem;
+using FiresecAPI.Events;
 
 namespace SKDDriver
 {
@@ -23,7 +24,7 @@ namespace SKDDriver
 				Description = (EventDescription)tableItem.Description,
 				DescriptionText = tableItem.DescriptionText,
 				DeviceDateTime = tableItem.DeviceDate,
-				Name = (EventNameEnum)tableItem.Name,
+				Name = (GlobalEventNameEnum)tableItem.Name,
 				NameText = tableItem.NameText,
 				ObjectName = tableItem.ObjectName,
 				ObjectType = (ObjectType)tableItem.ObjectType,
@@ -62,7 +63,7 @@ namespace SKDDriver
 
 			var eventNames = filter.EventNames;
 			if (eventNames != null && eventNames.Count != 0)
-				result = result.And(e => eventNames.Contains((EventNameEnum)e.Name));
+				result = result.And(e => eventNames.Contains((GlobalEventNameEnum)e.Name));
 
 			var deviceDates = filter.DeviceDateTime;
 			if (deviceDates != null)

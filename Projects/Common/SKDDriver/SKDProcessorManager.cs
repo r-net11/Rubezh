@@ -5,6 +5,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using JournalItem = FiresecAPI.SKD.JournalItem;
+using FiresecAPI.Events;
 
 namespace SKDDriver
 {
@@ -74,7 +75,7 @@ namespace SKDDriver
 
 		public static string SKDGetDeviceInfo(SKDDevice device, string userName)
 		{
-			AddMessage(EventNameEnum.Запрос_информации_об_устройстве, device, userName, true);
+			AddMessage(GlobalEventNameEnum.Запрос_информации_об_устройстве, device, userName, true);
 			var result = AdministratorHelper.GetInfo(device);
 			if (result == null)
 				result = "Устройство недоступно";
@@ -83,13 +84,13 @@ namespace SKDDriver
 
 		public static bool SKDSyncronyseTime(SKDDevice device, string userName)
 		{
-			AddMessage(EventNameEnum.Синхронизация_времени, device, userName, true);
+			AddMessage(GlobalEventNameEnum.Синхронизация_времени, device, userName, true);
 			return AdministratorHelper.SynchroniseTime(device);
 		}
 
 		public static OperationResult<bool> SKDWriteConfiguration(SKDDevice device, string userName)
 		{
-			AddMessage(EventNameEnum.Запись_конфигурации_в_прибор, device, userName, true);
+			AddMessage(GlobalEventNameEnum.Запись_конфигурации_в_прибор, device, userName, true);
 			OperationResult<bool> result;
 			Stop();
 			result = AdministratorHelper.WriteConfig(device);
@@ -99,7 +100,7 @@ namespace SKDDriver
 
 		public static OperationResult<bool> SKDUpdateFirmware(SKDDevice device, string fileName, string userName)
 		{
-			AddMessage(EventNameEnum.Обновление_ПО_прибора, device, userName, true);
+			AddMessage(GlobalEventNameEnum.Обновление_ПО_прибора, device, userName, true);
 			OperationResult<bool> result;
 			Stop();
 			result = AdministratorHelper.UpdateFirmware(device);
@@ -107,18 +108,18 @@ namespace SKDDriver
 			return result;
 		}
 
-		public static void AddMessage(EventNameEnum name, SKDDevice device, string userName, bool isAdministrator = false)
+		public static void AddMessage(GlobalEventNameEnum globalEventNameEnum, SKDDevice device, string userName, bool isAdministrator = false)
 		{
-			AddMessage(name, EventDescription.Нет, device, userName, isAdministrator);
+			AddMessage(globalEventNameEnum, EventDescription.Нет, device, userName, isAdministrator);
 		}
-		
-		public static void AddMessage(EventNameEnum name, EventDescription description, SKDDevice device, string userName, bool isAdministrator = false)
+
+		public static void AddMessage(GlobalEventNameEnum globalEventNameEnum, EventDescription description, SKDDevice device, string userName, bool isAdministrator = false)
 		{
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
-				Name = name,
+				Name = globalEventNameEnum,
 				Description = description,
 				ObjectName = device.Name,
 				ObjectUID = device.UID,

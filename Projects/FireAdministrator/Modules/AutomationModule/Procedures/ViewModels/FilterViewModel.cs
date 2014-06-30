@@ -1,14 +1,15 @@
 ﻿using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Models;
 
 namespace AutomationModule.ViewModels
 {
 	public class FilterViewModel : BaseViewModel
 	{
-		public AutomationFilter Filter { get; set; }
+		public JournalFilter Filter { get; set; }
 
-		public FilterViewModel(AutomationFilter filter)
+		public FilterViewModel(JournalFilter filter)
 		{
 			Filter = filter;
 		}
@@ -24,7 +25,7 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public void Update(AutomationFilter filter)
+		public void Update(JournalFilter filter)
 		{
 			Filter = filter;
 			OnPropertyChanged("Name");

@@ -328,7 +328,6 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
 		}
 
-
 		public void AddJournalItem(JournalItem journalItem)
 		{
 			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");

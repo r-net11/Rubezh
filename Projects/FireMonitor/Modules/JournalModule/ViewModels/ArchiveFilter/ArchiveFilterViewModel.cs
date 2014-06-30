@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Events;
 
 namespace JournalModule.ViewModels
 {
@@ -28,19 +30,21 @@ namespace JournalModule.ViewModels
 		public void InitializeEventNames(SKDArchiveFilter archiveFilter)
 		{
 			EventNames = new CheckBoxItemList<EventNameViewModel>();
-			//foreach (var eventName in EventNameHelper.EventNames)
-			//{
-			//    EventNames.Add(new EventNameViewModel(eventName, DistinctDatabaseNames));
-			//}
-			//EventNames.Items.Sort(EventNameViewModel.Compare);
-			//foreach (var eventName in archiveFilter.EventNames)
-			//{
-			//    var eventNameViewModel = EventNames.Items.FirstOrDefault(x => (x as EventNameViewModel).EventName.Name == eventName);
-			//    if (eventNameViewModel != null)
-			//    {
-			//        eventNameViewModel.IsChecked = true;
-			//    }
-			//}
+			foreach (GlobalEventNameEnum enumValue in Enum.GetValues(typeof(GlobalEventNameEnum)))
+			{
+				var eventNameViewModel = new EventNameViewModel(enumValue);
+				if (eventNameViewModel.SubsystemType == GlobalSubsystemType.GK)
+					EventNames.Add(eventNameViewModel);
+			}
+
+			foreach (var eventName in archiveFilter.EventNames)
+			{
+				var eventNameViewModel = EventNames.Items.FirstOrDefault(x => (x as EventNameViewModel).Name == eventName);
+				if (eventNameViewModel != null)
+				{
+					eventNameViewModel.IsChecked = true;
+				}
+			}
 		}
 
 		public DateTime ArchiveFirstDate
@@ -99,7 +103,7 @@ namespace JournalModule.ViewModels
 			foreach (var eventName in EventNames.Items)
 			{
 				if (eventName.IsChecked)
-					archiveFilter.EventNames.Add(eventName.EventName.Name);
+					archiveFilter.EventNames.Add(eventName.Name);
 			}
 			return archiveFilter;
 		}

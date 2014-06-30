@@ -6,6 +6,8 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
+using FiresecAPI.Events;
+using System.Reflection;
 
 namespace GKProcessor
 {
@@ -135,7 +137,7 @@ namespace GKProcessor
 				}
 				catch (Exception e)
 				{
-					AddMessage(EventNameEnum.Ошибка_инициализации_мониторинга, "");
+					AddMessage(GlobalEventNameEnum.Ошибка_инициализации_мониторинга, "");
 					Logger.Error(e, "JournalWatcher.InitializeMonitoring");
 				}
 
@@ -210,9 +212,9 @@ namespace GKProcessor
 					GKCallbackResult = new GKCallbackResult();
 					IsPingFailure = result;
 					if (IsPingFailure)
-						AddFailureJournalItem(EventNameEnum.Нет_связи_с_ГК, EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(GlobalEventNameEnum.Нет_связи_с_ГК, EventDescription.Старт_мониторинга);
 					else
-						AddFailureJournalItem(EventNameEnum.Связь_с_ГК_восстановлена, EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(GlobalEventNameEnum.Связь_с_ГК_восстановлена, EventDescription.Старт_мониторинга);
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
@@ -236,9 +238,9 @@ namespace GKProcessor
 					GKCallbackResult = new GKCallbackResult();
 					IsInTechnologicalRegime = result;
 					if (IsInTechnologicalRegime)
-						AddFailureJournalItem(EventNameEnum.ГК_в_технологическом_режиме, "Старт мониторинга");
+						AddFailureJournalItem(GlobalEventNameEnum.ГК_в_технологическом_режиме, "Старт мониторинга");
 					else
-						AddFailureJournalItem(EventNameEnum.ГК_в_рабочем_режиме, "Старт мониторинга");
+						AddFailureJournalItem(GlobalEventNameEnum.ГК_в_рабочем_режиме, "Старт мониторинга");
 
 					NotifyAllObjectsStateChanged();
 					OnGKCallbackResult(GKCallbackResult);
@@ -260,9 +262,9 @@ namespace GKProcessor
 					GKCallbackResult = new GKCallbackResult();
 					IsHashFailure = result;
 					if (IsHashFailure)
-						AddFailureJournalItem(EventNameEnum.Конфигурация_прибора_не_соответствует_конфигурации_ПК, EventDescription.Не_совпадает_хэш);
+						AddFailureJournalItem(GlobalEventNameEnum.Конфигурация_прибора_не_соответствует_конфигурации_ПК, EventDescription.Не_совпадает_хэш);
 					else
-						AddFailureJournalItem(EventNameEnum.Конфигурация_прибора_соответствует_конфигурации_ПК, EventDescription.Совпадает_хэш);
+						AddFailureJournalItem(GlobalEventNameEnum.Конфигурация_прибора_соответствует_конфигурации_ПК, EventDescription.Совпадает_хэш);
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
@@ -282,7 +284,7 @@ namespace GKProcessor
 
 				GKCallbackResult = new GKCallbackResult();
 				if (!ReadMissingJournalItems())
-					AddFailureJournalItem(EventNameEnum.Ошибка_при_синхронизации_журнала);
+					AddFailureJournalItem(GlobalEventNameEnum.Ошибка_при_синхронизации_журнала);
 				OnGKCallbackResult(GKCallbackResult);
 
 				GKCallbackResult = new GKCallbackResult();
@@ -292,9 +294,9 @@ namespace GKProcessor
 				{
 					IsGetStatesFailure = result;
 					if (IsGetStatesFailure)
-						AddFailureJournalItem(EventNameEnum.Ошибка_при_опросе_состояний_компонентов_ГК, DBMissmatchDuringMonitoringReason);
+						AddFailureJournalItem(GlobalEventNameEnum.Ошибка_при_опросе_состояний_компонентов_ГК, DBMissmatchDuringMonitoringReason);
 					else
-						AddFailureJournalItem(EventNameEnum.Устранена_ошибка_при_опросе_состояний_компонентов_ГК);
+						AddFailureJournalItem(GlobalEventNameEnum.Устранена_ошибка_при_опросе_состояний_компонентов_ГК);
 				}
 				OnGKCallbackResult(GKCallbackResult);
 
@@ -417,11 +419,12 @@ namespace GKProcessor
 			}
 		}
 
-		void AddFailureJournalItem(EventNameEnum name, string description = "")
+		void AddFailureJournalItem(GlobalEventNameEnum globalEventNameEnum, string description = "")
 		{
 			var journalItem = new JournalItem()
 			{
-				Name = name.ToDescription(),
+				GlobalEventNameType = globalEventNameEnum,
+				Name = EventDescriptionAttributeHelper.ToName(globalEventNameEnum),
 				Description = description,
 				StateClass = XStateClass.Unknown,
 				ObjectStateClass = XStateClass.Norm,
@@ -430,12 +433,13 @@ namespace GKProcessor
 			GKDBHelper.Add(journalItem);
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
-		
-		void AddFailureJournalItem(EventNameEnum name, EventDescription description)
+
+		void AddFailureJournalItem(GlobalEventNameEnum globalEventNameEnum, EventDescription description)
 		{
 			var journalItem = new JournalItem()
 			{
-				Name = name.ToDescription(),
+				GlobalEventNameType = globalEventNameEnum,
+				Name = EventDescriptionAttributeHelper.ToName(globalEventNameEnum),
 				Description = description.ToDescription(),
 				StateClass = XStateClass.Unknown,
 				ObjectStateClass = XStateClass.Norm,
@@ -494,9 +498,9 @@ namespace GKProcessor
 			GKCallbackResult.GKStates.DeviceMeasureParameters.Add(deviceMeasureParameters);
 		}
 
-		internal void AddMessage(EventNameEnum name, string userName)
+		internal void AddMessage(GlobalEventNameEnum globalEventNameEnum, string userName)
 		{
-			var journalItem = GKDBHelper.AddMessage(name, userName);
+			var journalItem = GKDBHelper.AddMessage(globalEventNameEnum, userName);
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 

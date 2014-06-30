@@ -17,12 +17,10 @@ namespace GKModule.ViewModels
 			StateClasses = new List<StateClassViewModel>();
 			JournalFilter.StateClasses.ForEach(x => StateClasses.Add(new StateClassViewModel(x)));
 
-			EventNames = new List<EventName>();
+			EventNames = new List<string>();
 			foreach (var stringEventName in journalFilter.EventNames)
 			{
-				var eventName = EventNameHelper.EventNames.FirstOrDefault(x => x.Name == stringEventName);
-				if (eventName != null)
-					EventNames.Add(eventName);
+				EventNames.Add(stringEventName);
 			}
 		}
 
@@ -64,6 +62,6 @@ namespace GKModule.ViewModels
 			return true;
 		}
 
-		public List<EventName> EventNames { get; private set; }
+		public List<string> EventNames { get; private set; }
 	}
 }

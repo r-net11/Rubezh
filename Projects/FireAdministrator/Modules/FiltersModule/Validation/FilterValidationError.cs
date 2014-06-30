@@ -2,13 +2,14 @@
 using FiresecAPI.Automation;
 using Infrastructure.Common.Validation;
 using FiltersModule.Events;
+using FiresecAPI.Models;
 
 namespace FilterModule.Validation
 {
-	class FilterValidationError : ObjectValidationError<AutomationFilter, ShowFiltersEvent, Guid>
+	class FilterValidationError : ObjectValidationError<JournalFilter, ShowFiltersEvent, Guid>
 	{
-		public FilterValidationError(AutomationFilter filter, string error, ValidationErrorLevel level)
-			: base(filter, error, level)
+		public FilterValidationError(JournalFilter journalFilter, string error, ValidationErrorLevel level)
+			: base(journalFilter, error, level)
 		{
 		}
 

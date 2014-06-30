@@ -2,6 +2,7 @@
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using JournalItem = FiresecAPI.SKD.JournalItem;
+using FiresecAPI.Events;
 
 namespace SKDDriver
 {
@@ -32,7 +33,7 @@ namespace SKDDriver
 						DeviceDateTime = DateTime.Now,
 						SubsystemType = SubsystemType.Система,
 						State = XStateClass.Unknown,
-						Name = isConnected ? EventNameEnum.Восстановление_связи_с_прибором : EventNameEnum.Потеря_связи_с_прибором
+						Name = isConnected ? GlobalEventNameEnum.Восстановление_связи_с_прибором : GlobalEventNameEnum.Потеря_связи_с_прибором
 					};
 					AddJournalItem(journalItem);
 

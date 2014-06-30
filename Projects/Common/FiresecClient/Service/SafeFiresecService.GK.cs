@@ -4,6 +4,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using GKProcessor;
 using Infrastructure.Common;
+using FiresecAPI.Events;
 
 namespace FiresecClient
 {
@@ -356,14 +357,14 @@ namespace FiresecClient
 			}
 		}
 
-		public void GKAddMessage(EventNameEnum name, string description)
+		public void GKAddMessage(GlobalEventNameEnum globalEventNameEnum, string description)
 		{
 			if (IsGKAsAService)
 			{
 			}
 			else
 			{
-				GKProcessorManager.AddGKMessage(name, description, null, FiresecManager.CurrentUser.Name, true);
+				GKProcessorManager.AddGKMessage(globalEventNameEnum, description, null, FiresecManager.CurrentUser.Name, true);
 			}
 		}
 

@@ -24,9 +24,7 @@ namespace FiltersModule.ViewModels
 		public void Initialize()
 		{
 			Filters = new ObservableCollection<FilterViewModel>();
-			if (FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters == null)
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters = new List<AutomationFilter>();
-			foreach (var filter in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters)
+			foreach (var filter in FiresecClient.FiresecManager.SystemConfiguration.JournalFilters)
 			{
 				var filterViewModel = new FilterViewModel(filter);
 				Filters.Add(filterViewModel);
@@ -62,8 +60,8 @@ namespace FiltersModule.ViewModels
 			var filterDetailsViewModel = new FilterDetailsViewModel();
 			if (DialogService.ShowModalWindow(filterDetailsViewModel))
 			{
-				FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters.Add(filterDetailsViewModel.Filter);
-				ServiceFactory.SaveService.AutomationChanged = true;
+				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.Filter);
+				ServiceFactory.SaveService.FilterChanged = true;
 				var filterViewModel = new FilterViewModel(filterDetailsViewModel.Filter);
 				Filters.Add(filterViewModel);
 				SelectedFilter = filterViewModel;
@@ -78,10 +76,10 @@ namespace FiltersModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.Filters.Remove(SelectedFilter.Filter);
+			FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.Filter);
 			Filters.Remove(SelectedFilter);
 			SelectedFilter = Filters.FirstOrDefault();
-			ServiceFactory.SaveService.AutomationChanged = true;
+			ServiceFactory.SaveService.FilterChanged = true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -91,7 +89,7 @@ namespace FiltersModule.ViewModels
 			if (DialogService.ShowModalWindow(filterDetailsViewModel))
 			{
 				SelectedFilter.Update(filterDetailsViewModel.Filter);
-				ServiceFactory.SaveService.AutomationChanged = true;
+				ServiceFactory.SaveService.FilterChanged = true;
 			}
 		}
 
