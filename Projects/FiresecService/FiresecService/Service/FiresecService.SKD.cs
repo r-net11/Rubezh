@@ -89,6 +89,12 @@ namespace FiresecService.Service
 		}
 		public OperationResult AddCard(SKDCard item)
 		{
+			AddSKDMessage(FiresecAPI.GK.EventNameEnum.Добавление_карты, null, UserName);
+			if (item.RemovalDate == DateTime.MinValue)
+			{
+				var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
+				var result = ChinaSKDDriver.Processor.AddCard(item);
+			}
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
 		public OperationResult EditCard(SKDCard item)
@@ -96,7 +102,7 @@ namespace FiresecService.Service
 			AddSKDMessage(FiresecAPI.GK.EventNameEnum.Добавление_карты, null, UserName);
 			if (item.RemovalDate == DateTime.MinValue)
 			{
-				//var accessTemplate = GetAllAccessTemplates();
+				var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
 				var result = ChinaSKDDriver.Processor.AddCard(item);
 			}
 			return SKDDatabaseService.CardTranslator.Save(item);
@@ -112,6 +118,12 @@ namespace FiresecService.Service
 			item.StopReason = reason;
 			item.StartDate = DateTime.Now;
 			item.EndDate = DateTime.Now;
+			AddSKDMessage(FiresecAPI.GK.EventNameEnum.Добавление_карты, null, UserName);
+			if (item.RemovalDate == DateTime.MinValue)
+			{
+				var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
+				var result = ChinaSKDDriver.Processor.AddCard(item);
+			}
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
 
@@ -401,6 +413,14 @@ namespace FiresecService.Service
 			var skdCallbackResult = new SKDCallbackResult();
 			skdCallbackResult.JournalItems.Add(journalItem);
 			FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
+		}
+
+		AccessTemplate GetAccessTemplate(Guid? uid)
+		{
+			var accessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(uid);
+			if (!accessTemplateOperationResult.HasError)
+				return accessTemplateOperationResult.Result;
+			return null;
 		}
 	}
 }
