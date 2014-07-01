@@ -8,7 +8,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
-using GKModule.Plans.Designer;
+using GKModule.Plans;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -18,7 +18,6 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
-using GKModule.Plans;
 
 namespace GKModule.ViewModels
 {
@@ -115,18 +114,18 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName);
+			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить охранную зону " + SelectedZone.Zone.PresentationName);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var index = Zones.IndexOf(SelectedZone);
 				XManager.DeviceConfiguration.GuardZones.Remove(SelectedZone.Zone);
+				SelectedZone.Zone.OnChanged();
 				Zones.Remove(SelectedZone);
 				index = Math.Min(index, Zones.Count - 1);
 				if (index > -1)
 					SelectedZone = Zones[index];
 				ZoneDevices.UpdateAvailableDevices();
 				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<XGuardZone>();
 			}
 		}
 
@@ -164,6 +163,7 @@ namespace GKModule.ViewModels
 			{
 				//XManager.EditZone(SelectedZone.Zone);
 				SelectedZone.Update(guardZoneDetailsViewModel.Zone);
+				guardZoneDetailsViewModel.Zone.OnChanged();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

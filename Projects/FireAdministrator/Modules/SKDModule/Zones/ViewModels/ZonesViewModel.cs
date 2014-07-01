@@ -19,7 +19,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
-	public class ZonesViewModel : MenuViewPartViewModel, ISelectable<Guid>
+	public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public static ZonesViewModel Current { get; private set; }
 		private bool _lockSelection;
@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 			_lockSelection = false;
 			Menu = new ZonesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand(OnDelete, CanEditRemove);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			Current = this;
 			RegisterShortcuts();
@@ -85,17 +85,17 @@ namespace SKDModule.ViewModels
 			OnAddZone();
 		}
 
-		public RelayCommand RemoveCommand { get; private set; }
+		public RelayCommand DeleteCommand { get; private set; }
 		private void OnDelete()
 		{
 			var index = Zones.IndexOf(SelectedZone);
 			SKDManager.Zones.Remove(SelectedZone.Zone);
+			SelectedZone.Zone.OnChanged();
 			Zones.Remove(SelectedZone);
 			index = Math.Min(index, Zones.Count - 1);
 			if (index > -1)
 				SelectedZone = Zones[index];
 			ServiceFactory.SaveService.GKChanged = true;
-			SKDPlanExtension.Instance.Cache.BuildSafe<SKDZone>();
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -118,8 +118,8 @@ namespace SKDModule.ViewModels
 			{
 				if (SelectedZone != null)
 				{
-					if (RemoveCommand.CanExecute(null))
-						RemoveCommand.Execute();
+					if (DeleteCommand.CanExecute(null))
+						DeleteCommand.Execute();
 				}
 			});
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), () =>
@@ -207,7 +207,7 @@ namespace SKDModule.ViewModels
 			base.UpdateRibbonItems();
 			RibbonItems[0][0].Command = AddCommand;
 			RibbonItems[0][1].Command = SelectedZone == null ? null : EditCommand;
-			RibbonItems[0][2].Command = SelectedZone == null ? null : RemoveCommand;
+			RibbonItems[0][2].Command = SelectedZone == null ? null : DeleteCommand;
 		}
 		private void SetRibbonItems()
 		{
@@ -236,11 +236,12 @@ namespace SKDModule.ViewModels
 
 		private void OnEdit(ZoneViewModel viewModel)
 		{
-			var guardZoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
-			if (DialogService.ShowModalWindow(guardZoneDetailsViewModel))
+			var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				SKDManager.EditZone(guardZoneDetailsViewModel.Zone);
-				SelectedZone.Update(guardZoneDetailsViewModel.Zone);
+				SKDManager.EditZone(zoneDetailsViewModel.Zone);
+				SelectedZone.Update(zoneDetailsViewModel.Zone);
+				zoneDetailsViewModel.Zone.OnChanged();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}

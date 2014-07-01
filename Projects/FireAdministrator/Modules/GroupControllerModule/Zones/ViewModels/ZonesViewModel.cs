@@ -126,7 +126,6 @@ namespace GKModule.ViewModels
 					SelectedZone = Zones[index];
 				ZoneDevices.UpdateAvailableDevices();
 				ServiceFactory.SaveService.GKChanged = true;
-				GKPlanExtension.Instance.Cache.BuildSafe<XZone>();
 			}
 		}
 

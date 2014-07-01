@@ -83,5 +83,15 @@ namespace Common
 		{
 			return _sourceMap.ContainsKey(typeof(T)) ? ((Map<T>)_sourceMap[typeof(T)]).GetItem(uid) : default(T);
 		}
+		public Map<T> Map<T>()
+				where T : IIdentity
+		{
+			return _sourceMap.ContainsKey(typeof(T)) ? (Map<T>)_sourceMap[typeof(T)] : null;
+		}
+		public ICollection<T> Items<T>()
+				where T : IIdentity
+		{
+			return _sourceMap.ContainsKey(typeof(T)) ? ((Map<T>)_sourceMap[typeof(T)]).Values : null;
+		}
 	}
 }

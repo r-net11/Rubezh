@@ -59,7 +59,7 @@ namespace VideoModule.ViewModels
 
 		public void UpdateChildren()
 		{
-			if((Camera!=null)&&(Camera.CameraType == CameraType.Dvr))
+			if ((Camera != null) && (Camera.CameraType == CameraType.Dvr))
 				foreach (var child in Camera.Children)
 				{
 					var cameraViewModel = new CameraViewModel(_camerasViewModel, child);
@@ -99,7 +99,7 @@ namespace VideoModule.ViewModels
 				return null;
 			}
 		}
-		
+
 		public void Update()
 		{
 			OnPropertyChanged(() => Camera);
@@ -119,7 +119,12 @@ namespace VideoModule.ViewModels
 		{
 			get
 			{
-				return IsOnPlan ? (Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single) : VisualizationState.NotPresent; 
+				if (Camera.CameraType == CameraType.Dvr)
+					return VisualizationState.Prohibit;
+				else if (IsOnPlan)
+					return Camera.AllowMultipleVizualization ? VisualizationState.Multiple : VisualizationState.Single;
+				else
+					return VisualizationState.NotPresent;
 			}
 		}
 

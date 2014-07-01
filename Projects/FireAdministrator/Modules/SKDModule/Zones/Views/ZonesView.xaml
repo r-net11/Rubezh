@@ -13,12 +13,12 @@
 		<ContextMenu x:Key="ZoneContextMenu">
 			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить дочернюю зону (Ctrl+N)" />
 			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="/Controls;component/Images/BAddChild.png" Text="Добавить к родительской зоне (Ctrl+M)" />
-			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" />
+			<Controls:IconedMenuItem Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" />
 			<Controls:IconedMenuItem Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Редактировать" />
 		</ContextMenu>
 	</UserControl.Resources>
 
-	<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+	<XDataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
 		<DataGrid.Resources>
 				<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
 					<Setter Property="MinWidth" Value="0" />
@@ -60,5 +60,5 @@
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 		</DataGrid.Columns>
-	</DataGrid>
+	</XDataGrid>
 </UserControl>

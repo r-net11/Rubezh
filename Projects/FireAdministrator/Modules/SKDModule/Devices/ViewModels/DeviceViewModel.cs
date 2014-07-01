@@ -72,7 +72,8 @@ namespace SKDModule.ViewModels
 			set
 			{
 				Device.Name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
+				Device.OnChanged();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -92,7 +93,7 @@ namespace SKDModule.ViewModels
 				result = DialogService.ShowModalWindow(newDeviceViewModel);
 			}
 
-			if(result)
+			if (result)
 			{
 				var deviceViewModel = new DeviceViewModel(newDeviceViewModel.AddedDevice);
 				AddChild(deviceViewModel);
@@ -133,9 +134,7 @@ namespace SKDModule.ViewModels
 		{
 			var allDevices = Device.Children;
 			foreach (var device in allDevices)
-			{
 				SKDManager.Devices.Remove(device);
-			}
 			var parent = Parent;
 			if (parent != null)
 			{
@@ -145,17 +144,13 @@ namespace SKDModule.ViewModels
 
 				index = Math.Min(index, parent.ChildrenCount - 1);
 				foreach (var device in allDevices)
-				{
 					DevicesViewModel.Current.AllDevices.RemoveAll(x => x.Device.UID == device.UID);
-				}
 				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
+			allDevices.ForEach(item => item.OnChanged());
 			if (Device.Parent != null)
-			{
 				Device.Parent.Children.Remove(Device);
-			}
-			SKDPlanExtension.Instance.Cache.BuildSafe<SKDDevice>();
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		bool CanRemove()
@@ -169,6 +164,7 @@ namespace SKDModule.ViewModels
 			var readerDetailsViewModel = new ReaderDetailsViewModel(Device);
 			if (DialogService.ShowModalWindow(readerDetailsViewModel))
 			{
+				Device.OnChanged();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -294,7 +290,8 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowZone()
 		{
-			return Device.Driver.HasZone && Device.ZoneUID != Guid.Empty; ;
+			return Device.Driver.HasZone && Device.ZoneUID != Guid.Empty;
+			;
 		}
 		#endregion
 

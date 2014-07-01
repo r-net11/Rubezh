@@ -36,9 +36,9 @@ namespace DeviceControls
 			_brushes = new Dictionary<Brush, Brush>();
 		}
 
-		public Brush GetDefaultBrush()
+		public Brush GetDefaultBrush(bool withCamera = true)
 		{
-			return GetBrush(Brushes.Transparent);
+			return GetBrush(withCamera ? Brushes.Transparent : Brushes.Gray);
 		}
 		public Brush GetBrush(Brush backgroundBrush)
 		{

@@ -25,6 +25,10 @@ namespace Common
 			var key = keySelector(item);
 			return GetItem(key);
 		}
+		public ICollection<T> Values
+		{
+			get { return _map.Values; }
+		}
 
 		public void BuildSafe(IEnumerable<T> items = null)
 		{

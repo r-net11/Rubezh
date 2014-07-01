@@ -66,11 +66,8 @@ namespace Infrastructure.Client.Plans
 		{
 			var elementReference = designerItem.Element as IElementReference;
 			var item = GetItem<TItem>(elementReference);
-			if (item != null)
-			{
-				SetItem<TItem>(elementReference, item);
-				UpdateDesignerItemProperties<TItem>(designerItem, item);
-			}
+			SetItem<TItem>(elementReference, item);
+			UpdateDesignerItemProperties<TItem>(designerItem, item);
 		}
 
 		public TItem GetItem<TItem>(IElementReference element)

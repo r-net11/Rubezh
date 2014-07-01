@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Controls.TreeList
 {
@@ -28,8 +29,17 @@ namespace Controls.TreeList
 		{
 			if (e.ChangedButton == MouseButton.Left && e.Source.GetType() != typeof(RowExpander) && Node != null && Node.HasChildren)
 				Node.IsExpanded = !Node.IsExpanded;
-			if (Tree != null && Tree.ItemActivatedCommand != null && Tree.ItemActivatedCommand.CanExecute(Tree.ItemActivatedCommandParameter))
-				Tree.ItemActivatedCommand.Execute(Tree.ItemActivatedCommandParameter);
+			if (Tree != null)
+			{
+				if (Tree.ItemActivatedCommand != null && Tree.ItemActivatedCommand.CanExecute(Tree.ItemActivatedCommandParameter))
+					Tree.ItemActivatedCommand.Execute(Tree.ItemActivatedCommandParameter);
+				else
+				{
+					var viewModel = Tree.DataContext as IEditingViewModel;
+					if (viewModel != null && viewModel.EditCommand != null && viewModel.EditCommand.CanExecute(null))
+						viewModel.EditCommand.Execute();
+				}
+			}
 		}
 		protected override void OnKeyDown(KeyEventArgs e)
 		{

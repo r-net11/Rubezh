@@ -79,7 +79,7 @@ namespace VideoModule.Plans.ViewModels
 
 		protected override bool CanSave()
 		{
-			if (SelectedCamera.IsDvr)
+			if (SelectedCamera == null || SelectedCamera.IsDvr)
 				return false;
 			if (SelectedCamera.IsOnPlan && !SelectedCamera.Camera.AllowMultipleVizualization && SelectedCamera.Camera.UID != _elementCamera.CameraUID)
 				return false;

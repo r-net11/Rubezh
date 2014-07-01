@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
+using System;
 
 namespace SKDModule.Plans.Designer
 {
@@ -21,7 +22,7 @@ namespace SKDModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.DoorPicture.GetDefaultBrush();
+			return PictureCacheSource.DoorPicture.GetDefaultBrush(_elementDoor.DoorUID != Guid.Empty);
 		}
 
 		public override object GetToolTip(string title)

@@ -59,9 +59,9 @@ namespace DeviceControls
 			_brushes = new Dictionary<Brush, Brush>();
 		}
 
-		public Brush GetDefaultBrush()
+		public Brush GetDefaultBrush(bool withDoor = true)
 		{
-			return GetBrush(Brushes.Transparent);
+			return GetBrush(withDoor ? Brushes.Transparent : Brushes.Gray);
 		}
 		public Brush GetBrush(Brush backgroundBrush)
 		{

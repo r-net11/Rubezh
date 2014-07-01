@@ -90,7 +90,7 @@ namespace VideoModule.ViewModels
 						cameraViewModel.Camera.Password = SelectedCamera.Camera.Password;
 						SelectedCamera.AddChild(cameraViewModel);
 						var rootDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == SelectedCamera.Camera.UID);
-						if(rootDevice != null)
+						if (rootDevice != null)
 							rootDevice.Children.Add(cameraViewModel.Camera);
 					}
 					else
@@ -107,6 +107,8 @@ namespace VideoModule.ViewModels
 				}
 				else
 					Cameras.Add(cameraViewModel);
+				if (SelectedCamera == null)
+					SelectedCamera = cameraViewModel;
 				ServiceFactory.SaveService.CamerasChanged = true;
 				PlanExtension.Instance.Cache.BuildSafe<Camera>();
 			}
@@ -115,14 +117,22 @@ namespace VideoModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			SelectedCamera.Camera.OnChanged();
-			FiresecManager.SystemConfiguration.Cameras.Remove(SelectedCamera.Camera);
-			if(SelectedCamera.IsChannel)
-				SelectedCamera.Parent.RemoveChild(SelectedCamera);
+			var camera = SelectedCamera.Camera;
+			if (SelectedCamera.IsChannel)
+			{
+				var parent = SelectedCamera.Parent;
+				parent.RemoveChild(SelectedCamera);
+				parent.Camera.Children.Remove(camera);
+			}
 			else
+			{
 				Cameras.Remove(SelectedCamera);
+				FiresecManager.SystemConfiguration.Cameras.Remove(camera);
+				camera.Children.ForEach(item => item.OnChanged());
+			}
+			camera.OnChanged();
 			ServiceFactory.SaveService.CamerasChanged = true;
-			PlanExtension.Instance.Cache.BuildSafe<Camera>();
+			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -242,7 +252,7 @@ namespace VideoModule.ViewModels
 			if (cameraUID != Guid.Empty)
 			{
 				SelectedCamera = AllCameras.FirstOrDefault(item => item.Camera.UID == cameraUID);
-				if(SelectedCamera != null)
+				if (SelectedCamera != null)
 					SelectedCamera.ExpandToThis();
 			}
 		}

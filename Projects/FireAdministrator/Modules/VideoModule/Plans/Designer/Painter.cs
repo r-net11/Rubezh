@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using Infrastructure.Client.Plans.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
+using System;
 
 namespace VideoModule.Plans.Designer
 {
@@ -21,7 +22,7 @@ namespace VideoModule.Plans.Designer
 
 		protected override Brush GetBrush()
 		{
-			return PictureCacheSource.CameraPicture.GetDefaultBrush();
+			return PictureCacheSource.CameraPicture.GetDefaultBrush(_elementCamera.CameraUID != Guid.Empty);
 		}
 
 		public override object GetToolTip(string title)

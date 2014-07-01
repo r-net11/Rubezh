@@ -67,7 +67,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedDoor = value;
-				OnPropertyChanged("SelectedDoor");
+				OnPropertyChanged(() => SelectedDoor);
 				if (!_lockSelection && _selectedDoor != null && _selectedDoor.Door.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDoor.Door.PlanElementUIDs);
 			}
@@ -102,17 +102,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedDoor.Door.Name);
+			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите точку доступа " + SelectedDoor.Door.Name);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var index = Doors.IndexOf(SelectedDoor);
 				SKDManager.SKDConfiguration.Doors.Remove(SelectedDoor.Door);
+				SelectedDoor.Door.OnChanged();
 				Doors.Remove(SelectedDoor);
 				index = Math.Min(index, Doors.Count - 1);
 				if (index > -1)
 					SelectedDoor = Doors[index];
 				ServiceFactory.SaveService.SKDChanged = true;
-				SKDPlanExtension.Instance.Cache.BuildSafe<Door>();
 			}
 		}
 
@@ -126,8 +126,8 @@ namespace SKDModule.ViewModels
 			var doorDetailsViewModel = new DoorDetailsViewModel(door);
 			if (DialogService.ShowModalWindow(doorDetailsViewModel))
 			{
-				//XManager.EditDoor(SelectedDoor.Door);
 				SelectedDoor.Update(doorDetailsViewModel.Door);
+				doorDetailsViewModel.Door.OnChanged();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
