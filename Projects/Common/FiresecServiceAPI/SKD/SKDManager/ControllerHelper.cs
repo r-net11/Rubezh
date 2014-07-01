@@ -16,11 +16,8 @@ namespace FiresecAPI.SKD
 				Name = "Контроллер СКД",
 				ShortName = "Контроллер",
 				DriverType = SKDDriverType.Controller,
-				CanEditAddress = true,
 				IsControlDevice = true,
-				IsPlaceable = true,
-				DoorsCount = 1,
-				ReadersCount = 2
+				IsPlaceable = true
 			};
 			driver.Children.Add(SKDDriverType.Reader);
 			driver.AvailableStateClasses.Add(XStateClass.Norm);

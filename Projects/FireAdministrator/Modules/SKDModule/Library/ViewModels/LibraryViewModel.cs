@@ -42,7 +42,7 @@ namespace SKDModule.ViewModels
 			}
 			if (devicesToRemove.Count > 0)
 				ServiceFactory.SaveService.SKDLibraryChanged = true;
-			var devices = from SKDLibraryDevice libraryDevice in SKDManager.SKDLibraryConfiguration.Devices.Where(x => x.Driver != null) orderby libraryDevice.Driver.DeviceClassName select libraryDevice;
+			var devices = from SKDLibraryDevice libraryDevice in SKDManager.SKDLibraryConfiguration.Devices.Where(x => x.Driver != null) orderby libraryDevice.Driver.Name select libraryDevice;
 			Devices = new ObservableCollection<LibraryDeviceViewModel>();
 			foreach (var device in devices)
 			{

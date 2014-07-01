@@ -1186,6 +1186,15 @@
   <ItemGroup>
     <Resource Include="SKDIcons\ChinaController_2_4.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SKDIcons\Lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SKDIcons\LockControl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SKDIcons\Button.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

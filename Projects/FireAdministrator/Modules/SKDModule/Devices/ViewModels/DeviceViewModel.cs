@@ -113,9 +113,6 @@ namespace SKDModule.ViewModels
 		public bool CanAdd()
 		{
 			return Driver.DriverType == SKDDriverType.System;
-			//if (Driver.Children.Count > 0)
-			//    return true;
-			//return false;
 		}
 
 		public RelayCommand AddToParentCommand { get; private set; }
