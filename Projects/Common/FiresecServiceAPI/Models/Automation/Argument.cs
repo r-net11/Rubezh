@@ -9,7 +9,6 @@ namespace FiresecAPI.Automation
 		public Argument(Variable variable)
 		{
 			Uid = Guid.NewGuid();
-			Name = variable.Name;
 			ArgumentUid = variable.Uid;
 			VariableType = variable.VariableType;
 			BoolValue = variable.BoolValue;
@@ -20,9 +19,6 @@ namespace FiresecAPI.Automation
 			VariableType = variable.VariableType;
 			IsList = variable.IsList;
 		}
-
-		[DataMember]
-		public string Name { get; set; }
 
 		[DataMember]
 		public string Description { get; set; }

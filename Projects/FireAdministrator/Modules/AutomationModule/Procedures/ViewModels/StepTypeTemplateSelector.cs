@@ -11,6 +11,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ConditionTemplate { get; set; }
 		public DataTemplate FindObjectTemplate { get; set; }
 		public DataTemplate ForeachTemplate { get; set; }
+		public DataTemplate PauseTemplate { get; set; }
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
 			if (item is SoundStepViewModel)
@@ -36,6 +37,10 @@ namespace AutomationModule.ViewModels
 			if (item is ForeachStepViewModel)
 			{
 				return ForeachTemplate;
+			}
+			if (item is PauseStepViewModel)
+			{
+				return PauseTemplate;
 			}
 			
 			return null;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -22,13 +23,25 @@ namespace AutomationModule.ViewModels
 			ScheduleProcedures = new ObservableCollection<ScheduleProcedureViewModel>();
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDeleted);
+			UpdateContent();
+		}
 
-			foreach (var scheduleProcedure in schedule.ScheduleProcedures)
+		public void UpdateContent()
+		{
+			ScheduleProcedures = new ObservableCollection<ScheduleProcedureViewModel>();
+			foreach (var scheduleProcedure in Schedule.ScheduleProcedures)
 			{
-				var scheduleProcedureViewModel = new ScheduleProcedureViewModel(scheduleProcedure);
-				ScheduleProcedures.Add(scheduleProcedureViewModel);
+				var procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+				if (procedure != null)
+				{
+					var scheduleProcedureViewModel = new ScheduleProcedureViewModel(scheduleProcedure);
+					scheduleProcedureViewModel.UpdateArguments(procedure);
+					ScheduleProcedures.Add(scheduleProcedureViewModel);
+				}
 			}
 			SelectedScheduleProcedure = ScheduleProcedures.FirstOrDefault();
+			OnPropertyChanged(() => SelectedScheduleProcedure);
+			OnPropertyChanged(() => ScheduleProcedures);
 		}
 
 		static ScheduleViewModel()

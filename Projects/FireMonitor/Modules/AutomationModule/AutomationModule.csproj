@@ -59,7 +59,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\VariableTypeToVisibilityConverter.cs" />
     <Compile Include="Events\ShowAutomationEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

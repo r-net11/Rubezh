@@ -78,12 +78,7 @@
     <Compile Include="GlobalVariables\Views\GlobalVariablesView.xaml.cs">
       <DependentUpon>GlobalVariablesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Converters\MenuTypeToVisibilityConverter.cs" />
-    <Compile Include="Procedures\Converters\ObjectTypeToVisibilityConverter.cs" />
-    <Compile Include="Procedures\Converters\PropertyTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\Converters\ValueTypeToStringConverter.cs" />
-    <Compile Include="Procedures\Converters\ValueTypeToVisibilityConverter.cs" />
-    <Compile Include="Procedures\Converters\VariableTypeToVisibilityConverter.cs" />
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
@@ -99,6 +94,7 @@
     <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\PauseStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
@@ -133,6 +129,9 @@
     </Compile>
     <Compile Include="Procedures\Views\Steps\JournalStepView.xaml.cs">
       <DependentUpon>JournalStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\PauseStepView.xaml.cs">
+      <DependentUpon>PauseStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\SoundStepView.xaml.cs">
       <DependentUpon>SoundStepView.xaml</DependentUpon>
@@ -300,6 +299,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\JournalStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\PauseStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

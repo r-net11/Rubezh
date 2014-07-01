@@ -32,19 +32,11 @@ namespace AutomationModule.ViewModels
 				Schedules.Add(scheduleViewModel);
 			}
 			SelectedSchedule = Schedules.FirstOrDefault();
+			OnPropertyChanged(()=>Schedules);
 		}
 
-		ObservableCollection<ScheduleViewModel> _schedules;
-		public ObservableCollection<ScheduleViewModel> Schedules
-		{
-			get { return _schedules; }
-			set
-			{
-				_schedules = value;
-				OnPropertyChanged("Schedules");
-			}
-		}
 
+		public ObservableCollection<ScheduleViewModel> Schedules { get; private set; }
 		ScheduleViewModel _selectedSchedule;
 		public ScheduleViewModel SelectedSchedule
 		{
@@ -53,6 +45,7 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedSchedule = value;
 				OnPropertyChanged("SelectedSchedule");
+				
 			}
 		}
 
@@ -107,6 +100,13 @@ namespace AutomationModule.ViewModels
 			{
 				SelectedSchedule = Schedules.FirstOrDefault(item => item.Schedule.Uid == scheduleUid);
 			}
+		}
+
+		public override void OnShow()
+		{
+			if (SelectedSchedule != null)
+				SelectedSchedule.UpdateContent();
+			base.OnShow();
 		}
 	}
 }

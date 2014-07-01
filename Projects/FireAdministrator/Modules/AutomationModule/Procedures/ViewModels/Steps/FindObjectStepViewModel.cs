@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
-using FiresecAPI.GK;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -119,135 +116,10 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public void InitializeProperties(ref int intPropertyValue, ref string stringPropertyValue, ref Guid itemUid, FindObjectCondition findObjectCondition, object item)
-		{
-			if (item is XDevice)
-			{
-				switch (findObjectCondition.DevicePropertyType)
-				{
-					case DevicePropertyType.ShleifNo:
-						intPropertyValue = (item as XDevice).ShleifNo;
-						break;
-					case DevicePropertyType.IntAddress:
-						intPropertyValue = (item as XDevice).IntAddress;
-						break;
-					case DevicePropertyType.DeviceState:
-						intPropertyValue = (int) (item as XDevice).State.StateClass;
-						break;
-					case DevicePropertyType.Name:
-						stringPropertyValue = (item as XDevice).PresentationName.Trim();
-						break;
-				}
-				itemUid = (item as XDevice).UID;
-			}
-
-			if (item is XZone)
-			{
-				switch (findObjectCondition.ZonePropertyType)
-				{
-					case ZonePropertyType.No:
-						intPropertyValue = (item as XZone).No;
-						break;
-					case ZonePropertyType.ZoneType:
-						intPropertyValue = (int) (item as XZone).ObjectType;
-						break;
-					case ZonePropertyType.Name:
-						stringPropertyValue = (item as XZone).Name.Trim();
-						break;
-				}
-				itemUid = (item as XZone).UID;
-			}
-		}
-
-		void InitializeItems(ref IEnumerable<object> items, ref VariableViewModel result)
-		{
-			result.Variable.ObjectsUids = new List<Guid>();
-			if (SelectedVariable.ObjectType == ObjectType.Device)
-			{
-				items = new List<XDevice>(XManager.DeviceConfiguration.Devices);
-				result.Variable.ObjectsUids = new List<Guid>(XManager.DeviceConfiguration.Devices.Select(x => x.UID));
-			}
-			if (SelectedVariable.ObjectType == ObjectType.Zone)
-			{
-				items = new List<XZone>(XManager.Zones);
-				result.Variable.ObjectsUids = new List<Guid>(XManager.Zones.Select(x => x.UID));
-			}
-		}
-
-		public void FindObjectsOr(VariableViewModel result, ObservableCollection<FindObjectConditionViewModel> findObjectConditionsViewModel)
-		{
-			IEnumerable<object> items = new List<object>();
-			InitializeItems(ref items, ref result);
-			var resultObjects = new List<object>();
-			int intPropertyValue = 0;
-			string stringPropertyValue = "";
-			var itemUid = new Guid();
-
-			foreach (var findObjectConditionViewModel in findObjectConditionsViewModel)
-			{
-				var findObjectCondition = findObjectConditionViewModel.FindObjectCondition;
-
-				foreach (var item in items)
-				{
-					InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, findObjectCondition, item);
-					if (resultObjects.Contains(item))
-						continue;
-					if (((findObjectConditionViewModel.PropertyType == PropertyType.Integer) &&
-						(((findObjectCondition.ConditionType == ConditionType.IsEqual) && (intPropertyValue == findObjectCondition.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (intPropertyValue != findObjectCondition.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsMore) && (intPropertyValue > findObjectCondition.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (intPropertyValue <= findObjectCondition.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsLess) && (intPropertyValue < findObjectCondition.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (intPropertyValue >= findObjectCondition.IntValue)))) ||
-						((findObjectConditionViewModel.PropertyType == PropertyType.String) &&
-						(((findObjectCondition.StringConditionType == StringConditionType.StartsWith) && (stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
-						((findObjectCondition.StringConditionType == StringConditionType.EndsWith) && (stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
-						((findObjectCondition.StringConditionType == StringConditionType.Contains) && (stringPropertyValue.Contains(findObjectCondition.StringValue))))))
-					{ resultObjects.Add(item); result.Variable.ObjectsUids.Add(itemUid); }
-				}
-			}
-		}
-
-		public void FindObjectsAnd(VariableViewModel result, ObservableCollection<FindObjectConditionViewModel> findObjectConditionsViewModel)
-		{
-			IEnumerable<object> items = new List<object>();
-			InitializeItems(ref items, ref result);
-			var resultObjects = new List<object>(items);
-			var tempObjects = new List<object>(resultObjects);
-			int intPropertyValue = 0;
-			string stringPropertyValue = "";
-			var itemUid = new Guid();
-
-			foreach (var findObjectConditionViewModel in findObjectConditionsViewModel)
-			{
-				var findObjectCondition = findObjectConditionViewModel.FindObjectCondition;
-				foreach (var item in resultObjects)
-				{
-					InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, findObjectCondition, item);
-					if (((findObjectConditionViewModel.PropertyType == PropertyType.Integer) &&
-						(((findObjectCondition.ConditionType == ConditionType.IsEqual) && (intPropertyValue != findObjectCondition.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (intPropertyValue == findObjectCondition.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsMore) && (intPropertyValue <= findObjectCondition.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (intPropertyValue > findObjectCondition.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsLess) && (intPropertyValue >= findObjectCondition.IntValue)) ||
-						((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (intPropertyValue < findObjectCondition.IntValue)))) ||
-						((findObjectConditionViewModel.PropertyType == PropertyType.String) &&
-						(((findObjectCondition.StringConditionType == StringConditionType.StartsWith) && (!stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
-						((findObjectCondition.StringConditionType == StringConditionType.EndsWith) && (!stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
-						((findObjectCondition.StringConditionType == StringConditionType.Contains) && (!stringPropertyValue.Contains(findObjectCondition.StringValue))))))
-					{ tempObjects.Remove(item); result.Variable.ObjectsUids.Remove(itemUid); }
-				}
-				resultObjects = new List<object>(tempObjects);
-			}
-		}
-
 		public RelayCommand RunCommand { get; private set; }
 		private void OnRun()
 		{
-			if (JoinOperator == JoinOperator.Or)
-				FindObjectsOr(SelectedVariable, FindObjectConditions);
-			else
-				FindObjectsAnd(SelectedVariable, FindObjectConditions);
+			FiresecManager.FiresecService.RunProcedure(Procedure.Uid, new List<Argument>());
 		}
 	}
 

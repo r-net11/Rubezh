@@ -1,5 +1,4 @@
-﻿using System;
-using FiresecAPI;
+﻿using FiresecAPI;
 using Infrastructure.Common.TreeList;
 using FiresecAPI.Automation;
 
@@ -41,6 +40,10 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.Foreach:
 					Content = new ForeachStepViewModel(step.ForeachArguments, procedure);
 					break;
+
+				case ProcedureStepType.Pause:
+				    Content = new PauseStepViewModel(step.PauseArguments, procedure);
+				    break;
 			}
 		}
 

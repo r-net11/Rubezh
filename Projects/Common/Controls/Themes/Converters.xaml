@@ -50,6 +50,8 @@
 	<Converters:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
 	<Converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
 	<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
+	<Converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+	
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 	
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">

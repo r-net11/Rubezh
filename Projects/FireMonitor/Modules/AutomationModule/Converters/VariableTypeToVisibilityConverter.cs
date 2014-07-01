@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace AutomationModule.Converters
 {
-	class VariableTypeToVisibilityConverter : IValueConverter
+	class EnumToVisibilityConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{

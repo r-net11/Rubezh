@@ -108,7 +108,7 @@ namespace AutomationModule.ViewModels
 			Variables = new ObservableCollection<VariableViewModel>();
 			if (localVariables == null)
 				localVariables = new List<Variable>();
-			foreach (var variable in localVariables.FindAll(x => x.VariableType == VariableType.Integer))
+			foreach (var variable in localVariables.FindAll(x => (x.VariableType == VariableType.Integer) && (!x.IsList)))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);

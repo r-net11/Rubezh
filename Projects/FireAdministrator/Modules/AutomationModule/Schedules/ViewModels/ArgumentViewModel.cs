@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.Automation;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -9,10 +11,11 @@ namespace AutomationModule.ViewModels
 	public class ArgumentViewModel : BaseViewModel
 	{
 		public Argument Argument { get; private set; }
-
-		public ArgumentViewModel(Argument argument)
+		Procedure Procedure { get; set; }
+		public ArgumentViewModel(Argument argument, Procedure procedure)
 		{
 			Argument = argument;
+			Procedure = procedure;
 			ObjectTypes = new ObservableCollection<ObjectType>
 			{
 				ObjectType.Card, ObjectType.Device, ObjectType.Direction, ObjectType.GuardZone, ObjectType.Person, ObjectType.Plan,
@@ -27,7 +30,13 @@ namespace AutomationModule.ViewModels
 
 		public string Name
 		{
-			get { return Argument.Name; }
+			get
+			{
+				var variable = Procedure.Arguments.FirstOrDefault(x => x.Uid == Argument.ArgumentUid);
+				if (variable != null)
+					return variable.Name;
+				return "";
+			}
 		}
 
 		public bool BoolValue

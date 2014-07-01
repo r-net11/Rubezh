@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using FiresecAPI.Automation;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
@@ -14,6 +15,7 @@ namespace AutomationModule.ViewModels
 			ForeachArguments = foreachArguments;
 			Procedure = procedure;
 			UpdateContent();
+			var d = XManager.DeviceConfiguration;
 		}
 
 		public void UpdateContent()
