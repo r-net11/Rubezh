@@ -9,8 +9,6 @@ namespace ControllerSDK.Views
 		public MainWindow()
 		{
 			InitializeComponent();
-			//File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\ChinaController\ChilnaSKDDriverTest\bin\Debug\CPPWrapper.dll", true);
-			ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
 			MainViewModel.Wrapper = new Wrapper();
 			MainViewModel = new MainViewModel();
 			DataContext = MainViewModel;

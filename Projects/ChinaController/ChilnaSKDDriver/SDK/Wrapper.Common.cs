@@ -206,40 +206,41 @@ namespace ChinaSKDDriver
 
 		public DoorConfiguration GetDoorConfiguration()
 		{
-			//NativeWrapper.CFG_ACCESS_EVENT_INFO outResult;
-
-
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO));
-			//IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
-			IntPtr intPtr = Marshal.AllocHGlobal(10000);
+			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
 
-			var result = NativeWrapper.WRAP_GetDoorConfiguration(LoginID, 0, intPtr);
+			int structSize2 = Marshal.SizeOf(typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO_Bools));
+			IntPtr intPtr2 = Marshal.AllocCoTaskMem(structSize2);
+
+			var result = NativeWrapper.WRAP_GetDoorConfiguration(LoginID, 0, intPtr, intPtr2);
 
 			NativeWrapper.CFG_ACCESS_EVENT_INFO outResult = (NativeWrapper.CFG_ACCESS_EVENT_INFO)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO)));
-			//Marshal.FreeCoTaskMem(intPtr);
+			NativeWrapper.CFG_ACCESS_EVENT_INFO_Bools outResult2 = (NativeWrapper.CFG_ACCESS_EVENT_INFO_Bools)(Marshal.PtrToStructure(intPtr2, typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO_Bools)));
+
 			Marshal.FreeHGlobal(intPtr);
 			intPtr = IntPtr.Zero;
+			Marshal.FreeHGlobal(intPtr2);
+			intPtr2 = IntPtr.Zero;
 
 			if (result)
 			{
 				var doorConfiguration = new DoorConfiguration();
-				doorConfiguration.IsBreakInAlarmEnable = outResult.abBreakInAlarmEnable;
 				doorConfiguration.ChannelName = Wrapper.CharArrayToString(outResult.szChannelName);
 				doorConfiguration.AceessState = (AceessState)outResult.emState;
 				doorConfiguration.AceessMode = (AceessMode)outResult.emMode;
 				doorConfiguration.EnableMode = outResult.nEnableMode;
-				doorConfiguration.IsSnapshotEnable = outResult.bSnapshotEnable;
-				doorConfiguration.IsDoorOpenMethod = outResult.abDoorOpenMethod;
-				doorConfiguration.IsUnlockHoldInterval = outResult.abUnlockHoldInterval;
-				doorConfiguration.IsCloseTimeout = outResult.abCloseTimeout;
-				doorConfiguration.IsOpenAlwaysTimeIndex = outResult.abOpenAlwaysTimeIndex;
-				doorConfiguration.IsHolidayTimeIndex = outResult.abHolidayTimeIndex;
-				doorConfiguration.IsBreakInAlarmEnable = outResult.abBreakInAlarmEnable;
-				doorConfiguration.IsRepeatEnterAlarmEnable = outResult.abRepeatEnterAlarmEnable;
-				doorConfiguration.IsDoorNotClosedAlarmEnable = outResult.abDoorNotClosedAlarmEnable;
-				doorConfiguration.IsDuressAlarmEnable = outResult.abDuressAlarmEnable;
-				doorConfiguration.IsDoorTimeSection = outResult.abDoorTimeSection;
-				doorConfiguration.IsSensorEnable = outResult.abSensorEnable;
+				doorConfiguration.IsSnapshotEnable = outResult2.bSnapshotEnable;
+				doorConfiguration.IsDoorOpenMethod = outResult2.abDoorOpenMethod;
+				doorConfiguration.IsUnlockHoldInterval = outResult2.abUnlockHoldInterval;
+				doorConfiguration.IsCloseTimeout = outResult2.abCloseTimeout;
+				doorConfiguration.IsOpenAlwaysTimeIndex = outResult2.abOpenAlwaysTimeIndex;
+				doorConfiguration.IsHolidayTimeIndex = outResult2.abHolidayTimeIndex;
+				doorConfiguration.IsBreakInAlarmEnable = outResult2.abBreakInAlarmEnable;
+				doorConfiguration.IsRepeatEnterAlarmEnable = outResult2.abRepeatEnterAlarmEnable;
+				doorConfiguration.IsDoorNotClosedAlarmEnable = outResult2.abDoorNotClosedAlarmEnable;
+				doorConfiguration.IsDuressAlarmEnable = outResult2.abDuressAlarmEnable;
+				doorConfiguration.IsDoorTimeSection = outResult2.abDoorTimeSection;
+				doorConfiguration.IsSensorEnable = outResult2.abSensorEnable;
 				doorConfiguration.DoorOpenMethod = (DoorOpenMethod)outResult.emDoorOpenMethod;
 				doorConfiguration.UnlockHoldInterval = outResult.nUnlockHoldInterval;
 				doorConfiguration.CloseTimeout = outResult.nCloseTimeout;
@@ -286,36 +287,46 @@ namespace ChinaSKDDriver
 		public bool SetDoorConfiguration(DoorConfiguration doorConfiguration)
 		{
 			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
-			var cfgShort_Part1 = new NativeWrapper.CFG_ACCESS_EVENT_INFO_PART_1();
-			var cfgShort_Part2 = new NativeWrapper.CFG_ACCESS_EVENT_INFO_PART_2();
+			info.szChannelName = StringToCharArray(doorConfiguration.ChannelName, 128);
+			info.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AceessState;
+			info.emMode = (NativeWrapper.CFG_ACCESS_MODE)doorConfiguration.AceessMode;
+			info.nEnableMode = doorConfiguration.EnableMode;
+			info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable ? (byte)0 : (byte)1;
+			info.abDoorOpenMethod = doorConfiguration.IsDoorOpenMethod ? (byte)0 : (byte)1;
+			info.abUnlockHoldInterval = doorConfiguration.IsUnlockHoldInterval ? (byte)0 : (byte)1;
+			info.abCloseTimeout = doorConfiguration.IsCloseTimeout ? (byte)0 : (byte)1;
+			info.abOpenAlwaysTimeIndex = doorConfiguration.IsOpenAlwaysTimeIndex ? (byte)0 : (byte)1;
+			info.abHolidayTimeIndex = doorConfiguration.IsHolidayTimeIndex ? (byte)0 : (byte)1;
+			info.abBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable ? (byte)0 : (byte)1;
+			info.abRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable ? (byte)0 : (byte)1;
+			info.abDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable ? (byte)0 : (byte)1;
+			info.abDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable ? (byte)0 : (byte)1;
+			info.abDoorTimeSection = doorConfiguration.IsDoorTimeSection ? (byte)0 : (byte)1;
+			info.abSensorEnable = doorConfiguration.IsSensorEnable ? (byte)0 : (byte)1;
+			info.emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorOpenMethod;
+			info.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
+			info.nCloseTimeout = doorConfiguration.CloseTimeout;
+			info.nOpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+			info.nHolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
+			info.bBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable2;
+			info.bRepeatEnterAlarm = doorConfiguration.IsRepeatEnterAlarmEnable2;
+			info.bDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable2;
+			info.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable2;
+			info.bSensorEnable = doorConfiguration.IsSensorEnable2;
 
-			cfgShort_Part1.abBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
-			cfgShort_Part1.szChannelName = StringToCharArray(doorConfiguration.ChannelName, 128);
-			cfgShort_Part1.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AceessState;
-			cfgShort_Part1.emMode = (NativeWrapper.CFG_ACCESS_MODE)doorConfiguration.AceessMode;
-			cfgShort_Part1.nEnableMode = doorConfiguration.EnableMode;
-			cfgShort_Part1.bSnapshotEnable = doorConfiguration.IsSnapshotEnable;
-			cfgShort_Part1.abDoorOpenMethod = doorConfiguration.IsDoorOpenMethod;
-			cfgShort_Part1.abUnlockHoldInterval = doorConfiguration.IsUnlockHoldInterval;
-			cfgShort_Part1.abCloseTimeout = doorConfiguration.IsCloseTimeout;
-			cfgShort_Part1.abOpenAlwaysTimeIndex = doorConfiguration.IsOpenAlwaysTimeIndex;
-			cfgShort_Part1.abHolidayTimeIndex = doorConfiguration.IsHolidayTimeIndex;
-			cfgShort_Part1.abBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
-			cfgShort_Part1.abRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
-			cfgShort_Part1.abDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
-			cfgShort_Part1.abDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
-			cfgShort_Part1.abDoorTimeSection = doorConfiguration.IsDoorTimeSection;
-			cfgShort_Part1.abSensorEnable = doorConfiguration.IsSensorEnable;
-			cfgShort_Part2.emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorOpenMethod;
-			cfgShort_Part2.nUnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
-			cfgShort_Part2.nCloseTimeout = doorConfiguration.CloseTimeout;
-			cfgShort_Part2.nOpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
-			cfgShort_Part2.nHolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
-			cfgShort_Part2.bBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable2;
-			cfgShort_Part2.bRepeatEnterAlarm = doorConfiguration.IsRepeatEnterAlarmEnable2;
-			cfgShort_Part2.bDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable2;
-			cfgShort_Part2.bDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable2;
-			cfgShort_Part2.bSensorEnable = doorConfiguration.IsSensorEnable2;
+			var boolsConfig = new NativeWrapper.CFG_ACCESS_EVENT_INFO_Bools();
+			boolsConfig.bSnapshotEnable = doorConfiguration.IsSnapshotEnable;
+			boolsConfig.abDoorOpenMethod = doorConfiguration.IsDoorOpenMethod;
+			boolsConfig.abUnlockHoldInterval = doorConfiguration.IsUnlockHoldInterval;
+			boolsConfig.abCloseTimeout = doorConfiguration.IsCloseTimeout;
+			boolsConfig.abOpenAlwaysTimeIndex = doorConfiguration.IsOpenAlwaysTimeIndex;
+			boolsConfig.abHolidayTimeIndex = doorConfiguration.IsHolidayTimeIndex;
+			boolsConfig.abBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
+			boolsConfig.abRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
+			boolsConfig.abDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
+			boolsConfig.abDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
+			boolsConfig.abDoorTimeSection = doorConfiguration.IsDoorTimeSection;
+			boolsConfig.abSensorEnable = doorConfiguration.IsSensorEnable;
 
 			info.stuDoorTimeSection = new NativeWrapper.CFG_DOOROPEN_TIMESECTION_INFO[7 * 4];
 			for (int i = 0; i < info.stuDoorTimeSection.Count(); i++)
@@ -329,7 +340,7 @@ namespace ChinaSKDDriver
 				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = i * 2;
 			}
 
-			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, 0, ref info, ref cfgShort_Part1, ref cfgShort_Part2);
+			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, 0, ref info, ref boolsConfig);
 			return result;
 		}
 
