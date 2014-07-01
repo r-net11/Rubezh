@@ -16,16 +16,18 @@ namespace FiresecAPI.SKD
 				Name = "Контроллер на одну дверь и два считывателя",
 				ShortName = "Контроллер",
 				DriverType = SKDDriverType.ChinaController_1_2,
-				CanEditAddress = true,
 				IsControlDevice = true,
-				IsPlaceable = true,
-				DoorsCount = 1,
-				ReadersCount = 2
+				IsPlaceable = true
 			};
 			driver.Children.Add(SKDDriverType.Reader);
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
 			driver.AvailableStateClasses.Add(XStateClass.Failure);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
+
+			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.Reader, 2));
+			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.Lock, 1));
+			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.LockControl, 1));
+			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.Button, 1));
 
 			var addressProperty = new XDriverProperty()
 			{

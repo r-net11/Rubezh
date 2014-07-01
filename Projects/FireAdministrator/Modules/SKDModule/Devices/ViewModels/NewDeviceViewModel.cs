@@ -68,19 +68,23 @@ namespace SKDModule.ViewModels
 			};
 
 			ParentDevice.Children.Add(AddedDevice);
-			for (int i = 0; i < SelectedDriver.ReadersCount; i++)
+
+			foreach (var autocreationItem in SelectedDriver.AutocreationItems)
 			{
-				var driverType = SelectedDriver.Children.FirstOrDefault();
-				var childDriver = SKDManager.Drivers.FirstOrDefault(x => x.DriverType == driverType);
-				var childDevice = new SKDDevice()
+				var childDriver = SKDManager.Drivers.FirstOrDefault(x => x.DriverType == autocreationItem.DriverType);
+
+				for (int i = 0; i < autocreationItem.Count; i++)
 				{
-					Driver = childDriver,
-					DriverUID = childDriver.UID,
-					IntAddress = i,
-					Name = childDriver.Name + " " + (i + 1).ToString(),
-					Parent = AddedDevice
-				};
-				AddedDevice.Children.Add(childDevice);
+					var childDevice = new SKDDevice()
+					{
+						Driver = childDriver,
+						DriverUID = childDriver.UID,
+						IntAddress = i,
+						Name = childDriver.Name + " " + (i + 1).ToString(),
+						Parent = AddedDevice
+					};
+					AddedDevice.Children.Add(childDevice);
+				}
 			}
 
 			SKDManager.SKDConfiguration.Update();

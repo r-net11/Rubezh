@@ -86,6 +86,9 @@ namespace FiresecAPI.SKD
 						return "";
 
 					case SKDDriverType.Reader:
+					case SKDDriverType.Lock:
+					case SKDDriverType.LockControl:
+					case SKDDriverType.Button:
 						return (IntAddress+1).ToString();
 
 					default:

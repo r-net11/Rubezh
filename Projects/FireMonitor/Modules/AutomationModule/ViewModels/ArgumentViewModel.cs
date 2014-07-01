@@ -29,16 +29,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string Name
-		{
-			get { return Argument.Name; }
-			set
-			{
-				Argument.Name = value;
-				OnPropertyChanged(() => Name);
-			}
-		}
-
 		public bool BoolValue
 		{
 			get { return Argument.BoolValue; }

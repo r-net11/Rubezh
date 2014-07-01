@@ -10,5 +10,8 @@
 		ChinaController_4_4,
 		Reader,
 		Gate,
+		Lock,
+		LockControl,
+		Button,
 	}
 }

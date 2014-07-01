@@ -212,6 +212,11 @@
     <Compile Include="SKD\SKDManager\ChinaController_2_4Helper.cs" />
     <Compile Include="SKD\SKDManager\ChinaController_4_4Helper.cs" />
     <Compile Include="SKD\SKDManager\ControllerHelper.cs" />
+    <Compile Include="SKD\SKDManager\GateHelper.cs" />
+    <Compile Include="SKD\SKDManager\ReaderHelper.cs" />
+    <Compile Include="SKD\SKDManager\LockHelper.cs" />
+    <Compile Include="SKD\SKDManager\LockControlHelper.cs" />
+    <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\DoorState.cs" />
     <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
