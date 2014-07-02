@@ -10,30 +10,59 @@ namespace FiresecService
 {
 	public static class AutomationProcessor
 	{
-		public static SystemConfiguration SystemConfiguration { get; private set; }
-
-		public static void Start()
-		{
-			SystemConfiguration = ZipConfigurationHelper.GetSystemConfiguration();
-			timeValidator = 0;
-			startTime = DateTime.Now;
-			var thread = new Thread(OnRun);
-			thread.Start();
-		}
-
 		static int timeValidator;
 		static DateTime startTime;
 		static int TimeDelta
 		{
-			get { return  (int)((DateTime.Now - startTime).TotalSeconds) % 100000; }
-		}   
+			get { return (int)((DateTime.Now - startTime).TotalSeconds) % 100000; }
+		}
+
+		static Thread Thread;
+		static bool IsStopping = false;
+		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
+
+		public static void Start()
+		{
+			timeValidator = 0;
+			startTime = DateTime.Now;
+			Thread = new Thread(OnRun);
+			Thread.Start();
+		}
+
+		public static void Stop()
+		{
+			IsStopping = true;
+			if (AutoResetEvent != null)
+			{
+				AutoResetEvent.Set();
+				if (Thread != null)
+				{
+					Thread.Join(TimeSpan.FromSeconds(2));
+				}
+
+			}
+		}
+
+		public static void SetNewConfig()
+		{
+			Stop();
+			Start();
+		}
 
 		static void OnRun()
 		{
+			AutoResetEvent = new AutoResetEvent(false);
 			while (true)
 			{
-				var shedules = SystemConfiguration.AutomationConfiguration.AutomationSchedules;
+				var shedules = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.AutomationSchedules;
 				timeValidator++;
+
+
+				if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
+				{
+					return;
+				}
+
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				foreach (var schedule in shedules)
 				{
@@ -73,7 +102,7 @@ namespace FiresecService
 		{
 			if (!schedule.IsActive)
 				return;
-			foreach (var procedure in SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.IsActive))
+			foreach (var procedure in ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FindAll(x => x.IsActive))
 			{
 				var scheduleProcedure = schedule.ScheduleProcedures.FirstOrDefault(x => (x.ProcedureUid == procedure.Uid));
 				if (scheduleProcedure != null)

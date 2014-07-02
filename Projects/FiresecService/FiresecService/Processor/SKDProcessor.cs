@@ -13,14 +13,12 @@ namespace FiresecService
 		{
 			try
 			{
-				var configuration = ZipConfigurationHelper.GetSKDConfiguration();
-				SKDManager.SKDConfiguration = configuration;
 				if (SKDManager.SKDConfiguration != null)
 				{
 					SKDManager.CreateDrivers();
 					SKDManager.UpdateConfiguration();
 				}
-				ChinaSKDDriver.Processor.Run(configuration);
+				ChinaSKDDriver.Processor.Run(SKDManager.SKDConfiguration);
 				foreach (var deviceProcessor in ChinaSKDDriver.Processor.DeviceProcessors)
 				{
 					deviceProcessor.Wrapper.NewJournalItem -= new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewJournalItem);

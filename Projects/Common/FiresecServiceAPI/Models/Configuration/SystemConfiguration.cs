@@ -35,6 +35,11 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public AutomationConfiguration AutomationConfiguration { get; set; }
 
+		public void UpdateConfiguration()
+		{
+			AutomationConfiguration.UpdateConfiguration();
+		}
+
 		public override bool ValidateVersion()
 		{
 			var result = true;

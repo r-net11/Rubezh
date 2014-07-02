@@ -6,6 +6,9 @@ using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
+using FiresecClient;
+using FiresecService.Processor;
+using FiresecAPI.SKD;
 
 namespace FiresecService.Service
 {
@@ -117,8 +120,10 @@ namespace FiresecService.Service
 
 			File.Delete(newFileName);
 
+			ConfigurationCashHelper.Update();
 			GKProcessor.SetNewConfig();
 			SKDProcessor.SetNewConfig();
+			AutomationProcessor.SetNewConfig();
 		}
 
 		ZipConfigurationItemsCollection GetConfigurationList(ZipFile zipFile)

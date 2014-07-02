@@ -37,7 +37,7 @@ namespace FiresecService.Service
 			if (CheckHostIps(clientCredentials, "127.0.0.1"))
 				return true;
 
-			var remoteAccessPermissions = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName).RemoreAccess;
+			var remoteAccessPermissions = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName).RemoreAccess;
 			if (remoteAccessPermissions == null)
 				return false;
 
@@ -76,7 +76,7 @@ namespace FiresecService.Service
 
 		bool CheckLogin(ClientCredentials clientCredentials)
 		{
-			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
+			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
 			{
 				if (user == null)
 				{
@@ -109,7 +109,7 @@ namespace FiresecService.Service
 			if (addressList.Any(ip => ip.ToString() == userIp))
 				userIp = "localhost";
 
-			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
+			var user = ConfigurationCashHelper.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == clientCredentials.UserName);
 			clientCredentials.FriendlyUserName = user.Name;// +" (" + userIp + ")";
 		}
 	}

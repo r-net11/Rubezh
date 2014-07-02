@@ -25,5 +25,13 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public List<GlobalVariable> GlobalVariables { get; set; }
+
+		public void UpdateConfiguration()
+		{
+			foreach (var procedure in Procedures)
+			{
+
+			}
+		}
 	}
 }
