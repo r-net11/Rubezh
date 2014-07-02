@@ -1,28 +1,18 @@
 ﻿<UserControl x:Class="AutomationModule.Views.ScheduleProceduresView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:views="clr-namespace:AutomationModule.Views">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition />
-			<RowDefinition />
-		</Grid.RowDefinitions>
-		<DataGrid Grid.Row="0" ItemsSource="{Binding ScheduleProcedures}" SelectedItem="{Binding SelectedScheduleProcedure}" IsReadOnly="False">
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Название" Width="*">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image VerticalAlignment="Center" Source="/Controls;component/Images/Procedure.png" Margin="2 0 0 0" />
-								<TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-		</DataGrid>
-		<Grid Grid.Row="1" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" DataContext="{Binding SelectedScheduleProcedure}">
-			<views:ArgumentsView />
-		</Grid>
-	</Grid>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<DataGrid ItemsSource="{Binding ScheduleProcedures}" SelectedItem="{Binding SelectedScheduleProcedure}" IsReadOnly="False">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn Header="Название" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image VerticalAlignment="Center" Source="/Controls;component/Images/Procedure.png" Margin="2 0 0 0" />
+							<TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0"/>
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
 </UserControl>

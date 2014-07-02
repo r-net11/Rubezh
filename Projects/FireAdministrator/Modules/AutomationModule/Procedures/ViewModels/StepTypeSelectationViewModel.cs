@@ -73,7 +73,7 @@ namespace AutomationModule.ViewModels
 					new StepTypeViewModel("Интерактивные функции",
 						new List<StepTypeViewModel>()
 						{
-							new StepTypeViewModel(ProcedureStepType.ProcedureSelectation),
+							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
 						}),
 					new StepTypeViewModel("Поля объектов",
 						new List<StepTypeViewModel>()

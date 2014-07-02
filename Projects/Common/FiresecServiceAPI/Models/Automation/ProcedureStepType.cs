@@ -26,7 +26,7 @@ namespace FiresecAPI.Automation
 		ForeachElement,
 
 		[DescriptionAttribute("Функция выбора процедур")]
-		ProcedureSelectation,
+		ProcedureSelection,
 
 		[DescriptionAttribute("Изменить значение поля объекта")]
 		SetObjectField,

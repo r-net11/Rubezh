@@ -10,6 +10,7 @@ namespace AutomationModule.ViewModels
 	{
 		public ForeachArguments ForeachArguments { get; private set; }
 		Procedure Procedure { get; set; }
+
 		public ForeachStepViewModel(ForeachArguments foreachArguments, Procedure procedure)
 		{
 			ForeachArguments = foreachArguments;

@@ -55,6 +55,10 @@
 		<Views:PauseStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="procedureSelectionTemplate">
+		<Views:ProcedureSelectionStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
@@ -63,6 +67,7 @@
 		FindObjectTemplate="{StaticResource findObjectTemplate}"
 		ForeachTemplate="{StaticResource foreachTemplate}"
 		PauseTemplate="{StaticResource pauseTemplate}"
+		ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

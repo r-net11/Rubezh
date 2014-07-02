@@ -175,7 +175,16 @@
 				<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить процедуру" ImageSource="/Controls;component/Images/Add.png" />
 				<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить процедуру" ImageSource="/Controls;component/Images/Delete.png" />
 			</StackPanel>
-			<views:ScheduleProceduresView Grid.Row="1" Margin="2" />
+			<Grid Grid.Row="1">
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+				<views:ScheduleProceduresView Grid.Row="0" Margin="2" />
+				<Grid Grid.Row="1" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" DataContext="{Binding SelectedScheduleProcedure}">
+					<views:ArgumentsView />
+				</Grid>
+			</Grid>
 		</Grid>
 	</Grid>
 </UserControl>

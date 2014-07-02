@@ -17,6 +17,7 @@ namespace FiresecAPI.Automation
 			FindObjectArguments = new FindObjectArguments();
 			ForeachArguments = new ForeachArguments();
 			PauseArguments = new PauseArguments();
+			ProcedureSelectionArguments = new ProcedureSelectionArguments();
 		}
 
 		public ProcedureStep Parent { get; set; }
@@ -53,5 +54,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public PauseArguments PauseArguments { get; set; }
+		
+		[DataMember]
+		public ProcedureSelectionArguments ProcedureSelectionArguments { get; set; }
 	}
 }

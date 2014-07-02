@@ -2,7 +2,6 @@
 using System.Linq;
 using FiresecAPI.Automation;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
