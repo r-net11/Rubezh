@@ -24,7 +24,6 @@ namespace SKDModule.ViewModels
 		public DeviceViewModel(SKDDevice device)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ChangeZoneCommand = new RelayCommand(OnChangeZone, CanChangeZone);
@@ -81,7 +80,9 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var newDeviceViewModel = new NewDeviceViewModel(this);
+			var rootDeviceViewModel = DevicesViewModel.Current.RootDevice;
+
+			var newDeviceViewModel = new NewDeviceViewModel(rootDeviceViewModel);
 			var result = false;
 			if (newDeviceViewModel.Drivers.Count == 1)
 			{
@@ -96,7 +97,7 @@ namespace SKDModule.ViewModels
 			if (result)
 			{
 				var deviceViewModel = new DeviceViewModel(newDeviceViewModel.AddedDevice);
-				AddChild(deviceViewModel);
+				rootDeviceViewModel.AddChild(deviceViewModel);
 				DevicesViewModel.Current.AllDevices.Add(deviceViewModel);
 
 				foreach (var childDevice in newDeviceViewModel.AddedDevice.Children)
@@ -106,24 +107,14 @@ namespace SKDModule.ViewModels
 					DevicesViewModel.Current.AllDevices.Add(childDeviceViewModel);
 				}
 
-				Update();
+				rootDeviceViewModel.Update();
 				SKDPlanExtension.Instance.Cache.BuildSafe<SKDDevice>();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
 		public bool CanAdd()
 		{
-			return Driver.DriverType == SKDDriverType.System;
-		}
-
-		public RelayCommand AddToParentCommand { get; private set; }
-		void OnAddToParent()
-		{
-			Parent.AddCommand.Execute();
-		}
-		public bool CanAddToParent()
-		{
-			return ((Parent != null) && (Parent.AddCommand.CanExecute(null)));
+			return true;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

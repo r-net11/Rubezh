@@ -27,7 +27,6 @@ namespace SKDModule
 		DevicesViewModel DevicesViewModel;
 		ZonesViewModel ZonesViewModel;
 		DoorsViewModel DoorsViewModel;
-		LibraryViewModel LibraryViewModel;
 		TimeIntervalsViewModel TimeIntervalsViewModel;
 		WeeklyIntervalsViewModel WeeklyIntervalsViewModel;
 		SlideDayIntervalsViewModel SlideDayIntervalsViewModel;
@@ -35,6 +34,7 @@ namespace SKDModule
 		HolidaysViewModel HolidaysViewModel;
 		PassCardsDesignerViewModel PassCardDesignerViewModel;
 		SettingsViewModel SettingsViewModel;
+		LibraryViewModel LibraryViewModel;
 		SKDPlanExtension _planExtension;
 
 		public override void CreateViewModels()
@@ -49,13 +49,13 @@ namespace SKDModule
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
-			LibraryViewModel = new LibraryViewModel();
 			TimeIntervalsViewModel = new TimeIntervalsViewModel();
 			WeeklyIntervalsViewModel = new WeeklyIntervalsViewModel();
 			SlideDayIntervalsViewModel = new SlideDayIntervalsViewModel();
 			SlideWeekIntervalsViewModel = new SlideWeekIntervalsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
 			SettingsViewModel = new SettingsViewModel();
+			LibraryViewModel = new LibraryViewModel();
 			_planExtension = new SKDPlanExtension(DevicesViewModel, ZonesViewModel, DoorsViewModel);
 		}
 
@@ -89,7 +89,6 @@ namespace SKDModule
 					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков","/Controls;component/Images/PassCardDesigner.png",null,null, Guid.Empty),
-					new NavigationItem<ShowSKDSettingsEvent, object>(SettingsViewModel, "Настройки", "/Controls;component/Images/Book.png"),
 					new NavigationItem("Интервалы", null, new List<NavigationItem>()
 					{
 						new NavigationItem<ShowSKDTimeIntervalsEvent, Guid>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
@@ -99,6 +98,7 @@ namespace SKDModule
 						new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					}),
 					#if DEBUG
+					new NavigationItem<ShowSKDSettingsEvent, object>(SettingsViewModel, "Настройки", "/Controls;component/Images/Book.png"),
 					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/Book.png"),
 					#endif
 				}) {IsExpanded = true},

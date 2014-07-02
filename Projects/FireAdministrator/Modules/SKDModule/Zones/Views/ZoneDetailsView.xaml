@@ -3,7 +3,7 @@
 			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-			MinWidth="600" MinHeight="500">
+			MinWidth="600" MinHeight="300">
 
 	<TabControl>
 		<TabItem Header="Основные">
@@ -19,7 +19,7 @@
 				<Label Grid.Row="0" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
 				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 
-				<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+                <TextBox Name="nameTextBox" Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 			</Grid>
 		</TabItem>

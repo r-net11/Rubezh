@@ -49,7 +49,16 @@ namespace SKDModule.ViewModels
 			SelectedZone = Zones.FirstOrDefault();
 		}
 
-		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+		ObservableCollection<ZoneViewModel> _zones;
+		public ObservableCollection<ZoneViewModel> Zones
+		{
+			get { return _zones; }
+			set
+			{
+				_zones = value;
+				OnPropertyChanged(() => Zones);
+			}
+		}
 
 		private ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone
