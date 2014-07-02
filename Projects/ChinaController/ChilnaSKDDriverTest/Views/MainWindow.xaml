@@ -41,7 +41,11 @@
                     <Button Content="Disconnect" Click="OnDisconnect" Width="300" Margin="2" />
                 </StackPanel>
             </TabItem>
+            <TabItem Header="Конфигурация двери" DataContext="{Binding DoorConfigurationViewModel}">
+                <Views:DoorConfigurationView />
+            </TabItem>
         </TabControl>
+
         <TextBox Grid.Row="1" Name="_textBox" TextWrapping="Wrap" />
     </Grid>
 </Window>

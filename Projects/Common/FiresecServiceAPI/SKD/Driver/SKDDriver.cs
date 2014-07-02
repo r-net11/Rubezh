@@ -14,7 +14,6 @@ namespace FiresecAPI.SKD
 			AvailableStateClasses = new List<XStateClass>();
 			AutocreationItems = new List<SKDDriverAutocreationItem>();
 			HasZone = false;
-			IsControlDevice = false;
 			IsPlaceable = false;
 		}
 
@@ -33,7 +32,6 @@ namespace FiresecAPI.SKD
 		public List<SKDDriverAutocreationItem> AutocreationItems { get; set; }
 
 		public bool HasZone { get; set; }
-		public bool IsControlDevice { get; set; }
 		public bool IsPlaceable { get; set; }
 
 		public bool IsController

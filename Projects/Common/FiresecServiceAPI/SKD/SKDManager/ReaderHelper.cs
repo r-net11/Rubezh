@@ -16,6 +16,7 @@ namespace FiresecAPI.SKD
 				Name = "Считыватель",
 				ShortName = "Считыватель",
 				DriverType = SKDDriverType.Reader,
+				HasZone = true,
 				IsPlaceable = true
 			};
 			driver.AvailableStateClasses.Add(XStateClass.Norm);
