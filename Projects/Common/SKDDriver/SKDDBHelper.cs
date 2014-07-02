@@ -4,10 +4,10 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using Common;
+using FiresecAPI.Events;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using JournalItem = FiresecAPI.SKD.JournalItem;
-using FiresecAPI.Events;
 
 namespace SKDDriver
 {
@@ -223,13 +223,18 @@ namespace SKDDriver
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
 			{
-				var name = reader.GetOrdinal("Name");
-				journalItem.Name = (GlobalEventNameEnum)reader.GetOrdinal("Name");
+				var intValue  = (int)reader.GetValue(reader.GetOrdinal("Name"));
+				if (Enum.IsDefined(typeof(GlobalEventNameEnum), intValue))
+					journalItem.Name = (GlobalEventNameEnum)intValue;
 			}
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
-				journalItem.Description = (EventDescription)reader.GetOrdinal("Description");
-
+			{
+				var intValue = (int)reader.GetValue(reader.GetOrdinal("Description"));
+				if (Enum.IsDefined(typeof(EventDescription), intValue))
+					journalItem.Description = (EventDescription)intValue;
+			}
+			
 			//if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
 			//	journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
 
