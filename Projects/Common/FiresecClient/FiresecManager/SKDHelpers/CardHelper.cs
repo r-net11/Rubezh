@@ -6,7 +6,7 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class CardHelper
 	{
-		public static bool ToStopList(SKDCard card, string reason)
+		public static bool DeleteFromEmployee(SKDCard card, string reason)
 		{
 			var result = FiresecManager.FiresecService.DeleteCardFromEmployee(card, reason);
 			return Common.ShowErrorIfExists(result);
@@ -42,11 +42,6 @@ namespace FiresecClient.SKDHelpers
 		{
 			var operationResult = FiresecManager.FiresecService.SaveCardTemplate(card);
 			return Common.ShowErrorIfExists(operationResult);
-		}
-
-		public static bool MarkDeleted(SKDCard card)
-		{
-			return MarkDeleted(card.UID);
 		}
 
 		public static bool MarkDeleted(Guid uid)

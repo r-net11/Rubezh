@@ -66,7 +66,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardRemovalReasonViewModel))
 			{
 				var cardRemovalReason = cardRemovalReasonViewModel.RemovalReason;
-				var toStopListResult = CardHelper.ToStopList(Card, cardRemovalReason);
+				var toStopListResult = CardHelper.DeleteFromEmployee(Card, cardRemovalReason);
 				if (!toStopListResult)
 					return;
 				EmployeeViewModel.Cards.Remove(this);
@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(employeeCardDetailsViewModel))
 			{
 				var card = employeeCardDetailsViewModel.Card;
-				var saveResult = CardHelper.Add(card);
+				var saveResult = CardHelper.Edit(card);
 				if (!saveResult)
 					return;
 				Card = card;

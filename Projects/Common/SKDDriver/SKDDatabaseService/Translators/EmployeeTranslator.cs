@@ -292,6 +292,7 @@ namespace SKDDriver
 				{
 					totalNotMiss = new DateTime(totalNotMiss.Ticks + item.ExitTime.Ticks - item.EnterTime.Ticks);
 				}
+				 
 				var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
 				var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
 				var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
@@ -319,15 +320,39 @@ namespace SKDDriver
 				var day = days.FirstOrDefault(x => x.Number == dayNo && !x.IsDeleted);
 				var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID && !x.IsDeleted);
 				var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID && !x.IsDeleted);
-				
-
-				//var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
-				//var daysCount = days.Count();
-				//var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
-				//var dayNumber = Math.IEEERemainder((int)period.TotalDays,daysCount);
+				var totalInSchedule = new TimeSpan();
+				var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).Select(x => x.ZoneUID).ToList();
+				foreach (var interval in intervals)
+				{
+					foreach (var passJournal in passJournals)
+					{
+						if (!scheduleZones.Any(x => x == passJournal.ZoneUID))
+							continue;
+						var enterTimeSpan = new TimeSpan(passJournal.EnterTime.TimeOfDay.Ticks);
+						var exitTimeSpan = new TimeSpan(passJournal.ExitTime.TimeOfDay.Ticks);
+						if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
+						{
+							if (exitTimeSpan.TotalSeconds <= interval.EndTime)
+								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
+							else
+								totalInSchedule.Add(new TimeSpan(Math.BigMul(interval.EndTime, 10000000) - enterTimeSpan.Ticks));
+						}
+						else if (exitTimeSpan.TotalSeconds <= interval.EndTime)
+						{
+							if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
+								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
+							else
+							{
+								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - Math.BigMul(interval.BeginTime, 10000000)));
+							}
+						}
+					}
+				}
 
 				result.Total = new DateTime(lastExitTime.Ticks - firstEnterTime.Ticks);
 				result.TotalMiss = new DateTime(result.Total.Ticks - totalNotMiss.Ticks);
+				result.TotalInSchedule = new DateTime(totalInSchedule.Ticks);
+				result.TotalOutSchedule = new DateTime(result.Total.Ticks - result.TotalInSchedule.Ticks);
 
 				return new OperationResult<EmployeeTimeTrack> { Result = result };
 			}

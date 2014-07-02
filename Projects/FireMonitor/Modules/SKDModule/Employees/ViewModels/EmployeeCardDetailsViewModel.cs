@@ -295,7 +295,7 @@ namespace SKDModule.ViewModels
 			if (UseStopList && SelectedStopListCard != null)
 			{
 				if (!IsNewCard)
-					CardHelper.ToStopList(Card, "Заменен на пропуск " + Series + @"\" + Number);
+					CardHelper.DeleteFromEmployee(Card, "Заменен на пропуск " + Series + @"\" + Number);
 				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
 				Card.StopReason = null;
