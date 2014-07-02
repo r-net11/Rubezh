@@ -71,7 +71,34 @@ namespace FiresecService.Service
 
 		public static void AddGlobalJournalItem(JournalItem journalItem)
 		{
-			System.Diagnostics.Trace.WriteLine("AddGlobalJournalItem");
+			int xxx = (int)journalItem.Name;
+			SKDDBHelper.Add(journalItem);
+		}
+
+		void AddSKDMessage(GlobalEventNameEnum globalEventNameEnum, SKDDevice device, string userName)
+		{
+			AddSKDMessage(globalEventNameEnum, FiresecAPI.GK.EventDescription.Нет, device, userName);
+		}
+
+		void AddSKDMessage(GlobalEventNameEnum globalEventNameEnum, FiresecAPI.GK.EventDescription description, SKDDevice device, string userName)
+		{
+			var journalItem = new JournalItem()
+			{
+				SystemDateTime = DateTime.Now,
+				DeviceDateTime = DateTime.Now,
+				Name = globalEventNameEnum,
+				Description = description,
+				ObjectName = device != null ? device.Name : null,
+				ObjectUID = device != null ? device.UID : Guid.Empty,
+				ObjectType = ObjectType.Устройство_СКД,
+				UserName = userName,
+			};
+
+			SKDDBHelper.AddMessage(globalEventNameEnum, userName);
+
+			var skdCallbackResult = new SKDCallbackResult();
+			skdCallbackResult.JournalItems.Add(journalItem);
+			FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
 		}
 
 		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter)
@@ -99,32 +126,6 @@ namespace FiresecService.Service
 		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems)
 		{
 			FiresecService.NotifySKDArchiveCompleted(journalItems);
-		}
-
-		void AddSKDMessage(GlobalEventNameEnum globalEventNameEnum, SKDDevice device, string userName)
-		{
-			AddSKDMessage(globalEventNameEnum, FiresecAPI.GK.EventDescription.Нет, device, userName);
-		}
-
-		void AddSKDMessage(GlobalEventNameEnum globalEventNameEnum, FiresecAPI.GK.EventDescription description, SKDDevice device, string userName)
-		{
-			var journalItem = new JournalItem()
-			{
-				SystemDateTime = DateTime.Now,
-				DeviceDateTime = DateTime.Now,
-				Name = globalEventNameEnum,
-				Description = description,
-				ObjectName = device != null ? device.Name : null,
-				ObjectUID = device != null ? device.UID : Guid.Empty,
-				ObjectType = ObjectType.Устройство_СКД,
-				UserName = userName,
-			};
-
-			SKDDBHelper.AddMessage(globalEventNameEnum, userName);
-
-			var skdCallbackResult = new SKDCallbackResult();
-			skdCallbackResult.JournalItems.Add(journalItem);
-			FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
 		}
 	}
 }

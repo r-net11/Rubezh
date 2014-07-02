@@ -23,8 +23,8 @@ namespace FiresecService
 				ChinaSKDDriver.Processor.Run(configuration);
 				foreach (var deviceProcessor in ChinaSKDDriver.Processor.DeviceProcessors)
 				{
-					deviceProcessor.Wrapper.NewJournalItem -= new Action<ChinaSKDDriverAPI.SKDJournalItem>(Wrapper_NewJournalItem);
-					deviceProcessor.Wrapper.NewJournalItem += new Action<ChinaSKDDriverAPI.SKDJournalItem>(Wrapper_NewJournalItem);
+					deviceProcessor.Wrapper.NewJournalItem -= new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewJournalItem);
+					deviceProcessor.Wrapper.NewJournalItem += new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewJournalItem);
 
 					ChinaSKDDriver.Processor.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
 					ChinaSKDDriver.Processor.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
@@ -41,14 +41,15 @@ namespace FiresecService
 			ChinaSKDDriver.Processor.Stop();
 		}
 
-		static void Wrapper_NewJournalItem(ChinaSKDDriverAPI.SKDJournalItem skdJournalItem)
+		static void OnNewJournalItem(ChinaSKDDriverAPI.SKDJournalItem skdJournalItem)
 		{
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = skdJournalItem.SystemDateTime;
 			journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
-			journalItem.NameText = skdJournalItem.Name;
+			journalItem.Name = skdJournalItem.EventNameType;
 			journalItem.DescriptionText = skdJournalItem.Description;
 
+			FiresecService.Service.FiresecService.AddGlobalJournalItem(journalItem);
 			var journalItems = new List<JournalItem>();
 			journalItems.Add(journalItem);
 			FiresecService.Service.FiresecService.NotifyNewJournalItems(journalItems);

@@ -48,6 +48,11 @@ namespace FiresecAPI.Models
 				AutomationConfiguration = new AutomationConfiguration();
 				result = false;
 			}
+			if (AutomationConfiguration.GlobalVariables == null)
+			{
+				AutomationConfiguration.GlobalVariables = new List<GlobalVariable>();
+				result = false;
+			}
 			if (JournalFilters == null)
 			{
 				JournalFilters = new List<JournalFilter>();

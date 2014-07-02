@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FiresecAPI.Events;
 
 namespace ChinaSKDDriverAPI
 {
@@ -14,7 +15,7 @@ namespace ChinaSKDDriverAPI
 
 		public DateTime SystemDateTime { get; set;}
 		public DateTime DeviceDateTime { get; set; }
-		public string Name { get; set; }
+		public GlobalEventNameEnum EventNameType { get; set; }
 		public string Description { get; set; }
 	}
 }

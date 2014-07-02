@@ -176,7 +176,6 @@ namespace SKDDriver
 			bool IsPingFailure = false;
 			bool IsInTechnologicalRegime = false;
 			bool IsGetStatesFailure = false;
-			bool IsIntervalsSynchroniztionFailure = false;
 			IsHashFailure = false;
 
 			foreach (var device in AllDevices)
@@ -295,25 +294,6 @@ namespace SKDDriver
 				}
 
 				SKDCallbackResult = new SKDCallbackResult();
-				result = !SyncronyzeIntervals();
-				if (IsIntervalsSynchroniztionFailure != result)
-				{
-					IsIntervalsSynchroniztionFailure = result;
-					if (IsIntervalsSynchroniztionFailure)
-						AddFailureJournalItem(GlobalEventNameEnum.Ошибка_при_синхронизации_временных_интервалов);
-					else
-						AddFailureJournalItem(GlobalEventNameEnum.Устранена_ошибка_при_синхронизации_временных_интервалов);
-				}
-				OnSKDCallbackResult(SKDCallbackResult);
-
-				if (IsIntervalsSynchroniztionFailure)
-				{
-					if (ReturnArterWait(5000))
-						return false;
-					continue;
-				}
-
-				SKDCallbackResult = new SKDCallbackResult();
 				foreach (var device in AllDevices)
 				{
 					device.State.IsInitialState = false;
@@ -323,26 +303,6 @@ namespace SKDDriver
 
 				return true;
 			}
-		}
-
-		bool SyncronyzeIntervals()
-		{
-			var bytes = new List<byte>();
-			bytes.Add(11);
-			var result = SKDDeviceProcessor.SendBytes(Device, bytes);
-			if (result.HasError)
-				return false;
-			if(result.Bytes.Count < 16)
-				return false;
-
-			var localHash = SKDSynchronyzation.GetTimeIntervalsHash(SKDManager.SKDConfiguration.TimeIntervalsConfiguration);
-			var remoteHash = result.Bytes;
-			//if (!localHash.SequenceEqual(remoteHash))
-			if (!CompreHashes(localHash, remoteHash))
-			{
-				return SKDSynchronyzation.WriteIntervals(Device);
-			}
-			return true;
 		}
 
 		bool CompreHashes(List<byte> hash1, List<byte> hash2)

@@ -13,7 +13,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="SystemDateTime" Binding="{Binding JournalItem.SystemDateTime}" Width="Auto" />
                 <DataGridTextColumn Header="DeviceDateTime" Binding="{Binding JournalItem.DeviceDateTime}" Width="Auto" />
-                <DataGridTextColumn Header="Name" Binding="{Binding JournalItem.Name}" Width="*" />
+                <DataGridTextColumn Header="EventNameType" Binding="{Binding JournalItem.EventNameType}" Width="*" />
                 <DataGridTextColumn Header="Description" Binding="{Binding JournalItem.Description}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>

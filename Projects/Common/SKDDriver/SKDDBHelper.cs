@@ -22,7 +22,7 @@ namespace SKDDriver
 		{
 			lock (databaseLocker)
 			{
-				SKDDatabaseService.JournalItemTranslator.Save(new List<JournalItem> { journalItem });
+				SKDDatabaseService.JournalItemTranslator.Save(journalItem);
 			}
 		}
 
@@ -222,7 +222,10 @@ namespace SKDDriver
 			//	journalItem.DeviceUID = reader.GetGuid(reader.GetOrdinal("DeviceUID"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
-				journalItem.Name = (GlobalEventNameEnum)reader.GetOrdinal("NameNo");
+			{
+				var name = reader.GetOrdinal("Name");
+				journalItem.Name = (GlobalEventNameEnum)reader.GetOrdinal("Name");
+			}
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
 				journalItem.Description = (EventDescription)reader.GetOrdinal("Description");

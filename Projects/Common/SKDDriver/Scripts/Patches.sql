@@ -257,7 +257,10 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'PendingCardControllerUID')
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'PendingCard')
 	BEGIN
-		ALTER TABLE PendingCard ADD [ControllerUID] [uniqueidentifier] NOT NULL
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = '" + columnName + "' and table_name = '" + tableName + "')
+		BEGIN
+			ALTER TABLE PendingCard ADD [ControllerUID] [uniqueidentifier] NOT NULL
+		END
 	END
 	INSERT INTO Patches (Id) VALUES ('PendingCardControllerUID')	
 END
