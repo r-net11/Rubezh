@@ -70,22 +70,21 @@ namespace ChinaSKDDriver
 			switch(wrapJournalItem.ExtraEventType)
 			{
 				case 1:
-					journalItem.Name = "Потеря связи";
+					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Потеря_связи;
 					journalItem.DeviceDateTime = DateTime.Now;
 					return journalItem;
 
 				case 2:
-					journalItem.Name = "Восстановление связи";
+					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Восстановление_связи;
 					journalItem.DeviceDateTime = DateTime.Now;
 					return journalItem;
 			}
 
-			var name = "";
 			var description = "";
 			switch(wrapJournalItem.EventType)
 			{
 				case DH_ALARM_ACCESS_CTL_EVENT:
-					name = "Проход";
+					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Проход;
 					var doorNo = wrapJournalItem.nDoor;
 					var eventType = wrapJournalItem.emEventType;
 					var isStatus = wrapJournalItem.bStatus;
@@ -97,32 +96,31 @@ namespace ChinaSKDDriver
 					break;
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
-					name = "Дверь не закрыта";
+					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Дверь_не_закрыта;
 					doorNo = wrapJournalItem.nDoor;
 					var action = wrapJournalItem.nAction;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_BREAK_IN:
-					name = "Взлом";
+					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Взлом;
 					doorNo = wrapJournalItem.nDoor;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_REPEAT_ENTER:
-					name = "Повторный проход";
+					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Повторный_проход;
 					doorNo = wrapJournalItem.nDoor;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_DURESS:
-					name = "Принуждение";
+					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Принуждение;
 					doorNo = wrapJournalItem.nDoor;
 					cardNo = CharArrayToString(wrapJournalItem.szCardNo);
 					break;
 
 				default:
-					name = "Неизвестное событие";
+					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Неизвестное_событие;
 					break;
 			}
-			journalItem.Name = name;
 			journalItem.Description = description;
 
 			return journalItem;

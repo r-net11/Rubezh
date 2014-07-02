@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <StackPanel Grid.Column="0">
+        <Button Content="Test" Command="{Binding TestCommand}" Width="300" Margin="2" />
         <Button Content="GetDeviceSoftwareInfo" Command="{Binding GetDeviceSoftwareInfoCommand}" Width="300" Margin="2" />
         <Button Content="GetMacAddress" Command="{Binding GetMacAddressCommand}" Width="300" Margin="2" />
         <Button Content="GetMaxPageSize" Command="{Binding GetMaxPageSizeCommand}" Width="300" Margin="2" />

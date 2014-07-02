@@ -234,6 +234,5 @@ namespace SKDDriver
 				return new OperationResult<ApiT>(e.Message);
 			}
 		}
-
 	}
 }

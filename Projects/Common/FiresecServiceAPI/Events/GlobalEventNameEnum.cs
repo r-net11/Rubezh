@@ -9,6 +9,9 @@ namespace FiresecAPI.Events
 {
 	public enum GlobalEventNameEnum
 	{
+		[EventDescription(GlobalSubsystemType.System, "Неизвестное событие", XStateClass.Info)]
+		Неизвестное_событие,
+
 		[EventDescription(GlobalSubsystemType.System, "Подтверждение тревоги", XStateClass.Info)]
 		Подтверждение_тревоги,
 
@@ -216,75 +219,26 @@ namespace FiresecAPI.Events
 		[EventDescription(GlobalSubsystemType.GK, "Неизвестный код события объекта", XStateClass.Info)]
 		Неизвестный_код_события_объекта,
 
-		[EventDescription(GlobalSubsystemType.SKD, "Ошибка при синхронизации временных интервалов", XStateClass.Info)]
-		Ошибка_при_синхронизации_временных_интервалов,
+		[EventDescription(GlobalSubsystemType.SKD, "Потеря связи", XStateClass.Info)]
+		Потеря_связи,
 
-		[EventDescription(GlobalSubsystemType.SKD, "Устранена ошибка при синхронизации временных интервалов", XStateClass.Info)]
-		Устранена_ошибка_при_синхронизации_временных_интервалов,
+		[EventDescription(GlobalSubsystemType.SKD, "Восстановление связи", XStateClass.Info)]
+		Восстановление_связи,
 
 		[EventDescription(GlobalSubsystemType.SKD, "Проход", XStateClass.Info)]
 		Проход,
 
-		[EventDescription(GlobalSubsystemType.SKD, "Проход с нарушением ВРЕМЕНИ", XStateClass.Info)]
-		Проход_с_нарушением_ВРЕМЕНИ,
+		[EventDescription(GlobalSubsystemType.SKD, "Дверь не закрыта", XStateClass.Info)]
+		Дверь_не_закрыта,
 
+		[EventDescription(GlobalSubsystemType.SKD, "Взлом", XStateClass.Info)]
+		Взлом,
 
-		[EventDescription(GlobalSubsystemType.SKD, "Проход с нарушением ЗОНАЛЬНОСТИ", XStateClass.Info)]
-		Проход_с_нарушением_ЗОНАЛЬНОСТИ,
+		[EventDescription(GlobalSubsystemType.SKD, "Повторный_проход", XStateClass.Info)]
+		Повторный_проход,
 
-		[EventDescription(GlobalSubsystemType.SKD, "Проход с нарушением ВРЕМЕНИ и ЗОНАЛЬНОСТИ", XStateClass.Info)]
-		Проход_с_нарушением_ВРЕМЕНИ_и_ЗОНАЛЬНОСТИ,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Проход разрешен", XStateClass.Info)]
-		Проход_разрешен,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Нарушение ВРЕМЕНИ", XStateClass.Info)]
-		Нарушение_ВРЕМЕНИ,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Нарушение ЗОНАЛЬНОСТИ", XStateClass.Info)]
-		Нарушение_ЗОНАЛЬНОСТИ,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Нарушение ВРЕМЕНИ и ЗОНАЛЬНОСТИ", XStateClass.Info)]
-		Нарушение_ВРЕМЕНИ_и_ЗОНАЛЬНОСТИ,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Идентификатор НЕ ЗАРЕГИСТРИРОВАН", XStateClass.Info)]
-		Идентификатор_НЕ_ЗАРЕГИСТРИРОВАН,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Идентификатор_ЗАБЛОКИРОВАН", XStateClass.Info)]
-		Идентификатор_ЗАБЛОКИРОВАН,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Деактивированный идентификатор", XStateClass.Info)]
-		Деактивированный_идентификатор,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Идентификатор ПРОСРОЧЕН", XStateClass.Info)]
-		Идентификатор_ПРОСРОЧЕН,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Нарушение режима доступа", XStateClass.Info)]
-		Нарушение_режима_доступа,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Взлом ИУ", XStateClass.Info)]
-		Взлом_ИУ,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Проход от ДУ", XStateClass.Info)]
-		Проход_от_ДУ,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Запрос прохода от ДУ", XStateClass.Info)]
-		Запрос_прохода_от_ДУ,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Ожидание комиссионирования прохода", XStateClass.Info)]
-		Ожидание_комиссионирования_прохода,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Неисправность", XStateClass.Failure)]
-		SKD_Неисправность,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Неисправность устранена", XStateClass.Norm)]
-		SKD_Неисправность_устранена,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Команда управления", XStateClass.Info)]
-		Команда_управления,
-
-		[EventDescription(GlobalSubsystemType.SKD, "Конфигурирование", XStateClass.Info)]
-		Конфигурирование,
+		[EventDescription(GlobalSubsystemType.SKD, "Принуждение", XStateClass.Info)]
+		Принуждение,
 
 		[EventDescription(GlobalSubsystemType.SKD, "Запрос пароля", XStateClass.Info)]
 		Запрос_пароля,

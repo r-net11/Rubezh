@@ -17,6 +17,7 @@ namespace ChinaSKDDriverAPI
 		public AceessMode AceessMode { get; set; }
 		public int EnableMode { get; set; }
 		public bool IsSnapshotEnable { get; set; }
+
 		public bool IsDoorOpenMethod { get; set; }
 		public bool IsUnlockHoldInterval { get; set; }
 		public bool IsCloseTimeout { get; set; }
@@ -28,6 +29,7 @@ namespace ChinaSKDDriverAPI
 		public bool IsDuressAlarmEnable { get; set; }
 		public bool IsDoorTimeSection { get; set; }
 		public bool IsSensorEnable { get; set; }
+
 		public DoorOpenMethod DoorOpenMethod { get; set; }
 		public int UnlockHoldInterval { get; set; }
 		public int CloseTimeout { get; set; }

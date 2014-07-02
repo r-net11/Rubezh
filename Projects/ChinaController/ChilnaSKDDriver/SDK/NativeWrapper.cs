@@ -212,7 +212,7 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetProjectPassword(int loginID, string password);
 
-		[StructLayout(LayoutKind.Sequential, Size = 10000)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO
 		{
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
@@ -220,19 +220,21 @@ namespace ChinaSKDDriverNativeApi
 			public CFG_ACCESS_STATE emState;
 			public CFG_ACCESS_MODE emMode;
 			public int nEnableMode;
-			public bool bSnapshotEnable;
-			public bool abDoorOpenMethod;
-			public bool abUnlockHoldInterval;
-			public bool abCloseTimeout;
-			public bool abOpenAlwaysTimeIndex;
-			public bool abHolidayTimeIndex;
-			public bool abBreakInAlarmEnable;
-			public bool abRepeatEnterAlarmEnable;
-			public bool abDoorNotClosedAlarmEnable;
-			public bool abDuressAlarmEnable;
-			public bool abDoorTimeSection;
-			public bool abSensorEnable;
+			public byte bSnapshotEnable;
+
+			public byte abDoorOpenMethod;
+			public byte abUnlockHoldInterval;
+			public byte abCloseTimeout;
+			public byte abOpenAlwaysTimeIndex;
+			public byte abHolidayTimeIndex;
+			public byte abBreakInAlarmEnable;
+			public byte abRepeatEnterAlarmEnable;
+			public byte abDoorNotClosedAlarmEnable;
+			public byte abDuressAlarmEnable;
+			public byte abDoorTimeSection;
+			public byte abSensorEnable;
 			public byte byReserved;
+
 			public CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
 			public int nUnlockHoldInterval;
 			public int nCloseTimeout;
@@ -247,18 +249,9 @@ namespace ChinaSKDDriverNativeApi
 			public bool bSensorEnable;
 		}
 
-		[DllImport(@"CPPWrapper.dll")]
-		//public static extern bool WRAP_GetDoorConfiguration(int loginID, int channelNo, out CFG_ACCESS_EVENT_INFO result);
-		public static extern bool WRAP_GetDoorConfiguration(int loginID, int channelNo, IntPtr result);
-
-		[StructLayout(LayoutKind.Sequential, Size=2000)]
-		public struct CFG_ACCESS_EVENT_INFO_PART_1
+		[StructLayout(LayoutKind.Sequential)]
+		public struct CFG_ACCESS_EVENT_INFO_Bools
 		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-			public char[] szChannelName;
-			public CFG_ACCESS_STATE emState;
-			public CFG_ACCESS_MODE emMode;
-			public int nEnableMode;
 			public bool bSnapshotEnable;
 			public bool abDoorOpenMethod;
 			public bool abUnlockHoldInterval;
@@ -271,28 +264,13 @@ namespace ChinaSKDDriverNativeApi
 			public bool abDuressAlarmEnable;
 			public bool abDoorTimeSection;
 			public bool abSensorEnable;
-			public byte byReserved;
-		}
-
-		[StructLayout(LayoutKind.Sequential, Size = 2000)]
-		public struct CFG_ACCESS_EVENT_INFO_PART_2
-		{
-			public CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
-			public int nUnlockHoldInterval;
-			public int nCloseTimeout;
-			public int nOpenAlwaysTimeIndex;
-			public int nHolidayTimeRecoNo;
-			public bool bBreakInAlarmEnable;
-			public bool bRepeatEnterAlarm;
-			public bool bDoorNotClosedAlarmEnable;
-			public bool bDuressAlarmEnable;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 7 * 4)]
-			public CFG_DOOROPEN_TIMESECTION_INFO[] stuDoorTimeSection;
-			public bool bSensorEnable;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_SetDoorConfiguration(int loginID, int channelNo, ref CFG_ACCESS_EVENT_INFO accessEventInfo, ref CFG_ACCESS_EVENT_INFO_PART_1 cfgShort_Part1, ref CFG_ACCESS_EVENT_INFO_PART_2 cfgShort_Part2);
+		public static extern bool WRAP_GetDoorConfiguration(int loginID, int channelNo, IntPtr result, IntPtr result2);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_SetDoorConfiguration(int loginID, int channelNo, ref CFG_ACCESS_EVENT_INFO accessEventInfo, ref CFG_ACCESS_EVENT_INFO_Bools boolsConfig);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_ReBoot(int loginID);
@@ -311,6 +289,9 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_GetDoorStatus(int loginID, int channelNo);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool TestStruct(IntPtr result);
 		#endregion
 
 		#region Cards

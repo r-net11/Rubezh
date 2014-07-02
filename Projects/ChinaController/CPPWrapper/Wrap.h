@@ -68,45 +68,25 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetProjectPassword(int loginID, WRAP
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetProjectPassword(int loginID, char password[]);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result);
-
-typedef struct tagCFG_ACCESS_EVENT_INFO_PART_1
+typedef struct tagCFG_ACCESS_EVENT_INFO_Bools
 {
-	char szChannelName[MAX_NAME_LEN];
-	CFG_ACCESS_STATE emState;
-	CFG_ACCESS_MODE emMode;
-	int nEnableMode;
 	BOOL bSnapshotEnable;
-	bool abDoorOpenMethod;
-    bool abUnlockHoldInterval;
-	bool abCloseTimeout;
-	bool abOpenAlwaysTimeIndex;
-	bool abHolidayTimeIndex;
-	bool abBreakInAlarmEnable;
-	bool abRepeatEnterAlarmEnable;
-	bool abDoorNotClosedAlarmEnable;
-	bool abDuressAlarmEnable;
-	bool abDoorTimeSection;
-	bool abSensorEnable;
-	BYTE byReserved;
-}CFG_ACCESS_EVENT_INFO_PART_1;
+	BOOL abDoorOpenMethod;
+    BOOL abUnlockHoldInterval;
+	BOOL abCloseTimeout;
+	BOOL abOpenAlwaysTimeIndex;
+	BOOL abHolidayTimeIndex;
+	BOOL abBreakInAlarmEnable;
+	BOOL abRepeatEnterAlarmEnable;
+	BOOL abDoorNotClosedAlarmEnable;
+	BOOL abDuressAlarmEnable;
+	BOOL abDoorTimeSection;
+	BOOL abSensorEnable;
+}CFG_ACCESS_EVENT_INFO_Bools;
 
-typedef struct tagCFG_ACCESS_EVENT_INFO_PART_2
-{
-	CFG_DOOR_OPEN_METHOD emDoorOpenMethod;
-	int	 nUnlockHoldInterval;
-	int	nCloseTimeout;
-	int	nOpenAlwaysTimeIndex;
-	int	nHolidayTimeRecoNo;
-	BOOL bBreakInAlarmEnable;
-	BOOL bRepeatEnterAlarm;
-	BOOL bDoorNotClosedAlarmEnable;
-	BOOL bDuressAlarmEnable;
-	CFG_DOOROPEN_TIMESECTION_INFO stuDoorTimeSection[WEEK_DAY_NUM][MAX_DOOR_TIME_SECTION];
-	BOOL bSensorEnable;
-}CFG_ACCESS_EVENT_INFO_PART_2;
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result, CFG_ACCESS_EVENT_INFO_Bools* resultBools);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo, CFG_ACCESS_EVENT_INFO_PART_1* stuShort_Part1, CFG_ACCESS_EVENT_INFO_PART_2* stuShort_Part2);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo, CFG_ACCESS_EVENT_INFO_Bools* resultBools);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_ReBoot(int loginID);
 
@@ -119,5 +99,7 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_OpenDoor(int loginID, int channelNo)
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_CloseDoor(int loginID, int channelNo);
 
 extern "C" CLIENT_API int CALL_METHOD WRAP_GetDoorStatus(int loginID, int channelNo);
+
+extern "C" CLIENT_API BOOL CALL_METHOD TestStruct(CFG_ACCESS_EVENT_INFO* result);
 
 #endif // !defined(__WRAP_H__)

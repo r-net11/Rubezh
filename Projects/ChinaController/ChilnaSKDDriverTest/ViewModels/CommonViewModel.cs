@@ -8,6 +8,7 @@ using System.Windows;
 using ChinaSKDDriverNativeApi;
 using ChinaSKDDriver;
 using ChinaSKDDriverAPI;
+using System.Runtime.InteropServices;
 
 namespace ControllerSDK.ViewModels
 {
@@ -30,6 +31,7 @@ namespace ControllerSDK.ViewModels
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
 			ReBootCommand = new RelayCommand(OnReBoot);
 			DeleteCfgFileCommand = new RelayCommand(OnDeleteCfgFile);
+			TestCommand = new RelayCommand(OnTest);
 		}
 
 		public RelayCommand GetDeviceSoftwareInfoCommand { get; private set; }
@@ -182,6 +184,7 @@ namespace ControllerSDK.ViewModels
 				text += "AceessMode = " + DoorConfiguration.AceessMode.ToString() + "\n";
 				text += "EnableMode = " + DoorConfiguration.EnableMode.ToString() + "\n";
 				text += "IsSnapshotEnable = " + DoorConfiguration.IsSnapshotEnable.ToString() + "\n";
+				text += "\n";
 				text += "IsDoorOpenMethod = " + DoorConfiguration.IsDoorOpenMethod.ToString() + "\n";
 				text += "IsUnlockHoldInterval = " + DoorConfiguration.IsUnlockHoldInterval.ToString() + "\n";
 				text += "IsCloseTimeout = " + DoorConfiguration.IsCloseTimeout.ToString() + "\n";
@@ -193,6 +196,7 @@ namespace ControllerSDK.ViewModels
 				text += "IsDuressAlarmEnable = " + DoorConfiguration.IsDuressAlarmEnable.ToString() + "\n";
 				text += "IsDoorTimeSection = " + DoorConfiguration.IsDoorTimeSection.ToString() + "\n";
 				text += "IsSensorEnable = " + DoorConfiguration.IsSensorEnable.ToString() + "\n";
+				text += "\n";
 				text += "DoorOpenMethod = " + DoorConfiguration.DoorOpenMethod.ToString() + "\n";
 				text += "UnlockHoldInterval = " + DoorConfiguration.UnlockHoldInterval.ToString() + "\n";
 				text += "CloseTimeout = " + DoorConfiguration.CloseTimeout.ToString() + "\n";
@@ -225,20 +229,11 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand SetDoorConfigurationCommand { get; private set; }
 		void OnSetDoorConfiguration()
 		{
-			//var doorConfiguration = new DoorConfiguration();
 			DoorConfiguration.ChannelName = "0";
-			//DoorConfiguration.CloseTimeout = 10;
-			//DoorConfiguration.OpenAlwaysTimeIndex = 11;
-			//DoorConfiguration.HolidayTimeRecoNo = 12;
-			//DoorConfiguration.DoorOpenMethod = DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD;
-			//DoorConfiguration.IsDoorOpenMethod = false;
-			//DoorConfiguration.IsUnlockHoldInterval = false;
-			//DoorConfiguration.IsOpenAlwaysTimeIndex = false;
-			//DoorConfiguration.IsHolidayTimeIndex = false;
-			//DoorConfiguration.IsBreakInAlarmEnable = false;
-			DoorConfiguration.UnlockHoldInterval = 501;
-			DoorConfiguration.HolidayTimeRecoNo = 55;
-			//DoorConfiguration.EnableMode = 503;
+			DoorConfiguration.IsDoorNotClosedAlarmEnable2 = true;
+
+			DoorConfiguration.UnlockHoldInterval = 444;
+			DoorConfiguration.HolidayTimeRecoNo = 44;
 			var result = MainViewModel.Wrapper.SetDoorConfiguration(DoorConfiguration);
 			if (result)
 			{
@@ -327,6 +322,20 @@ namespace ControllerSDK.ViewModels
 			{
 				MessageBox.Show("Error");
 			}
+		}
+
+		public RelayCommand TestCommand { get; private set; }
+		void OnTest()
+		{
+			NativeWrapper.CFG_ACCESS_EVENT_INFO testStruct = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
+			testStruct.nCloseTimeout = 123;
+
+			IntPtr pValue = new IntPtr();
+			var size = Marshal.SizeOf(typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO));
+			pValue = Marshal.AllocHGlobal(size);
+			Marshal.StructureToPtr(testStruct, pValue, true);
+
+			NativeWrapper.TestStruct(pValue);
 		}
 	}
 }

@@ -478,6 +478,7 @@ void DevConfig_AccessControl(LLONG lLoginId)
 			char szJsonBufSet[1024 * 40] = {0};
 			
 			{
+				stuGeneralInfo.abDoorOpenMethod = FALSE;
 				stuGeneralInfo.nUnlockHoldInterval = 555;
 			}
 			
