@@ -16,7 +16,7 @@ namespace ChinaSKDDriver
 		static Processor()
 		{
 #if DEBUG
-			//File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\FiresecService\bin\Debug\CPPWrapper.dll", true);
+			System.IO.File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\FiresecService\bin\Debug\CPPWrapper.dll", true);
 #endif
 		}
 
@@ -193,6 +193,76 @@ namespace ChinaSKDDriver
 						return false;
 				}
 				return true;
+			}
+			return false;
+		}
+
+		public static SKDDoorConfiguration GetDoorConfiguration(Guid deviceUID)
+		{
+			var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (readerDevice == null)
+				return null;
+			var controllerDevice = readerDevice.Parent;
+			if (controllerDevice == null)
+				return null;
+
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == controllerDevice.UID);
+			if (deviceProcessor != null)
+			{
+				var nativeDoorConfiguration = deviceProcessor.Wrapper.GetDoorConfiguration(readerDevice.IntAddress);
+
+				var doorConfiguration = new SKDDoorConfiguration();
+				doorConfiguration.UnlockHoldInterval = nativeDoorConfiguration.UnlockHoldInterval;
+				doorConfiguration.CloseTimeout = nativeDoorConfiguration.CloseTimeout;
+				doorConfiguration.OpenAlwaysTimeIndex = nativeDoorConfiguration.OpenAlwaysTimeIndex;
+				doorConfiguration.HolidayTimeRecoNo = nativeDoorConfiguration.HolidayTimeRecoNo;
+				doorConfiguration.IsBreakInAlarmEnable = nativeDoorConfiguration.IsBreakInAlarmEnable;
+				doorConfiguration.IsRepeatEnterAlarmEnable = nativeDoorConfiguration.IsRepeatEnterAlarmEnable;
+				doorConfiguration.IsDoorNotClosedAlarmEnable = nativeDoorConfiguration.IsDoorNotClosedAlarmEnable;
+				doorConfiguration.IsDuressAlarmEnable = nativeDoorConfiguration.IsDuressAlarmEnable;
+				doorConfiguration.IsSensorEnable = nativeDoorConfiguration.IsSensorEnable;
+				return doorConfiguration;
+			}
+			return null;
+		}
+
+		public static bool SetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration)
+		{
+			var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (readerDevice == null)
+				return false;
+			var controllerDevice = readerDevice.Parent;
+			if (controllerDevice == null)
+				return false;
+
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == controllerDevice.UID);
+			if (deviceProcessor != null)
+			{
+				var nativeDoorConfiguration = new DoorConfiguration();
+				nativeDoorConfiguration.UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
+				nativeDoorConfiguration.CloseTimeout = doorConfiguration.CloseTimeout;
+				nativeDoorConfiguration.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
+				nativeDoorConfiguration.HolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
+				nativeDoorConfiguration.IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
+				nativeDoorConfiguration.IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
+				nativeDoorConfiguration.IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
+				nativeDoorConfiguration.IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
+				nativeDoorConfiguration.IsSensorEnable = doorConfiguration.IsSensorEnable;
+
+				nativeDoorConfiguration.UseDoorOpenMethod = true;
+				nativeDoorConfiguration.UseUnlockHoldInterval = true;
+				nativeDoorConfiguration.UseCloseTimeout = true;
+				nativeDoorConfiguration.UseOpenAlwaysTimeIndex = true;
+				nativeDoorConfiguration.UseHolidayTimeIndex = true;
+				nativeDoorConfiguration.UseBreakInAlarmEnable = true;
+				nativeDoorConfiguration.UseRepeatEnterAlarmEnable = true;
+				nativeDoorConfiguration.UseDoorNotClosedAlarmEnable = true;
+				nativeDoorConfiguration.UseDuressAlarmEnable = true;
+				nativeDoorConfiguration.UseDoorTimeSection = false;
+				nativeDoorConfiguration.UseSensorEnable = true;
+
+				var result = deviceProcessor.Wrapper.SetDoorConfiguration(nativeDoorConfiguration, readerDevice.IntAddress);
+				return result;
 			}
 			return false;
 		}

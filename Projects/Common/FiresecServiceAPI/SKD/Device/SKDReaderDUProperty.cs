@@ -5,11 +5,6 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class SKDReaderDUProperty
 	{
-		public SKDReaderDUProperty()
-		{
-
-		}
-
 		[DataMember]
 		public bool IsDU { get; set; }
 

@@ -255,6 +255,15 @@ namespace FiresecAPI.Events
 		[EventDescription(GlobalSubsystemType.SKD, "Запись графиков работы", XStateClass.Info)]
 		Запись_графиков_работы,
 
+		[EventDescription(GlobalSubsystemType.SKD, "Обновление ПО Контроллера", XStateClass.Info)]
+		Обновление_ПО_Контроллера,
+
+		[EventDescription(GlobalSubsystemType.SKD, "Запрос конфигурации двери", XStateClass.Info)]
+		Запрос_конфигурации_двери,
+
+		[EventDescription(GlobalSubsystemType.SKD, "Запись конфигурации двери", XStateClass.Info)]
+		Запись_конфигурации_двери,
+
 		[EventDescription(GlobalSubsystemType.SKD, "Команда на открытие двери", XStateClass.Info)]
 		Команда_на_открытие_двери,
 

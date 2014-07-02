@@ -175,7 +175,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
-			DoorConfiguration = MainViewModel.Wrapper.GetDoorConfiguration();
+			DoorConfiguration = MainViewModel.Wrapper.GetDoorConfiguration(0);
 			if (DoorConfiguration != null)
 			{
 				var text = "";
@@ -234,7 +234,7 @@ namespace ControllerSDK.ViewModels
 
 			DoorConfiguration.UnlockHoldInterval = 444;
 			DoorConfiguration.HolidayTimeRecoNo = 44;
-			var result = MainViewModel.Wrapper.SetDoorConfiguration(DoorConfiguration);
+			var result = MainViewModel.Wrapper.SetDoorConfiguration(DoorConfiguration, 0);
 			if (result)
 			{
 				MessageBox.Show("Success");

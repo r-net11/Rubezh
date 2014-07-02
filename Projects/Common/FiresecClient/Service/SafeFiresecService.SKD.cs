@@ -251,6 +251,16 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDUpdateFirmware(device.UID, fileName); }, "SKDUpdateFirmware");
 		}
 
+		public OperationResult<SKDDoorConfiguration> SKDGetDoorConfiguration(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDGetDoorConfiguration(deviceUID); }, "SKDGetDoorConfiguration");
+		}
+
+		public OperationResult<bool> SKDSetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDSetDoorConfiguration(deviceUID, doorConfiguration); }, "SKDSetDoorConfiguration");
+		}
+
 		public OperationResult<bool> SKDOpenDevice(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(device.UID); }, "SKDOpenDevice");

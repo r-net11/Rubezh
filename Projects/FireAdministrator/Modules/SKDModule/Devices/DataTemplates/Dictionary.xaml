@@ -8,6 +8,10 @@
         <Views:PasswordView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DoorConfigurationViewModel}">
+        <Views:DoorConfigurationView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:DeviceInfoViewModel}">
         <Views:DeviceInfoView />
     </DataTemplate>

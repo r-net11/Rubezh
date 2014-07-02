@@ -330,7 +330,29 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				return SKDProcessorManager.SKDUpdateFirmware(device, fileName, UserName);
+				AddSKDMessage(GlobalEventNameEnum.Обновление_ПО_Контроллера, device, UserName);
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<SKDDoorConfiguration> SKDGetDoorConfiguration(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDMessage(GlobalEventNameEnum.Запрос_конфигурации_двери, device, UserName);
+				return new OperationResult<SKDDoorConfiguration>() { Result = ChinaSKDDriver.Processor.GetDoorConfiguration(deviceUID) };
+			}
+			return new OperationResult<SKDDoorConfiguration>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SKDSetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDMessage(GlobalEventNameEnum.Запись_конфигурации_двери, device, UserName);
+				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, doorConfiguration) };
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}

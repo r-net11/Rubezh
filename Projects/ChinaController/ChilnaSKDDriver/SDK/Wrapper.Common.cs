@@ -4,6 +4,7 @@ using System.Linq;
 using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 using System.Runtime.InteropServices;
+using FiresecAPI.SKD;
 
 namespace ChinaSKDDriver
 {
@@ -204,7 +205,7 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
-		public DoorConfiguration GetDoorConfiguration()
+		public DoorConfiguration GetDoorConfiguration(int doorNo)
 		{
 			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO));
 			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
@@ -212,7 +213,7 @@ namespace ChinaSKDDriver
 			int structSize2 = Marshal.SizeOf(typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO_Bools));
 			IntPtr intPtr2 = Marshal.AllocCoTaskMem(structSize2);
 
-			var result = NativeWrapper.WRAP_GetDoorConfiguration(LoginID, 0, intPtr, intPtr2);
+			var result = NativeWrapper.WRAP_GetDoorConfiguration(LoginID, doorNo, intPtr, intPtr2);
 
 			NativeWrapper.CFG_ACCESS_EVENT_INFO outResult = (NativeWrapper.CFG_ACCESS_EVENT_INFO)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO)));
 			NativeWrapper.CFG_ACCESS_EVENT_INFO_Bools outResult2 = (NativeWrapper.CFG_ACCESS_EVENT_INFO_Bools)(Marshal.PtrToStructure(intPtr2, typeof(NativeWrapper.CFG_ACCESS_EVENT_INFO_Bools)));
@@ -284,7 +285,7 @@ namespace ChinaSKDDriver
 			return null;
 		}
 
-		public bool SetDoorConfiguration(DoorConfiguration doorConfiguration)
+		public bool SetDoorConfiguration(DoorConfiguration doorConfiguration, int doorNo)
 		{
 			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
 			info.szChannelName = StringToCharArray(doorConfiguration.ChannelName, 128);
@@ -340,7 +341,7 @@ namespace ChinaSKDDriver
 				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = i * 2;
 			}
 
-			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, 0, ref info, ref boolsConfig);
+			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, doorNo, ref info, ref boolsConfig);
 			return result;
 		}
 
