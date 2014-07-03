@@ -13,6 +13,6 @@ namespace FiresecAPI.SKD
 		public bool IsHolliday { get; set; }
 
 		[DataMember]
-		public Guid TimeIntervalUID { get; set; }
+		public int TimeIntervalID { get; set; }
 	}
 }

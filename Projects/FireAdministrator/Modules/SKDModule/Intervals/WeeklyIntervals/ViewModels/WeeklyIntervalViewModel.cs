@@ -56,15 +56,15 @@ namespace SKDModule.ViewModels
 			{
 				if (timeInterval.SelectedTimeInterval != null)
 				{
-					timeInterval.WeeklyIntervalPart.TimeIntervalUID = timeInterval.SelectedTimeInterval.UID;
+					timeInterval.WeeklyIntervalPart.TimeIntervalID = timeInterval.SelectedTimeInterval.ID;
 					WeeklyInterval.WeeklyIntervalParts.Add(timeInterval.WeeklyIntervalPart);
 				}
 			}
 		}
 
-		public bool IsEnabled
-		{
-			get { return !WeeklyInterval.IsDefault; }
-		}
+		//public bool IsEnabled
+		//{
+		//    get { return !WeeklyInterval.IsDefault; }
+		//}
 	}
 }

@@ -15,7 +15,7 @@ namespace SKDModule.Validation
 				{
 					Errors.Add(new SlideDayIntervalValidationError(slideDayInterval, "Отсутствует название интервала", ValidationErrorLevel.CannotWrite));
 				}
-				if (slideDayInterval.TimeIntervalUIDs.Count == 0)
+				if (slideDayInterval.TimeIntervalIDs.Count == 0)
 				{
 					Errors.Add(new SlideDayIntervalValidationError(slideDayInterval, "Отсутствуют составляющие части интервала", ValidationErrorLevel.CannotWrite));
 				}

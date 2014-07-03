@@ -24,9 +24,9 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			TimeIntervals = new ObservableCollection<SlideDayIntervalPartViewModel>();
-			foreach (var timeIntervalUID in SlideDayInterval.TimeIntervalUIDs)
+			foreach (var timeIntervalID in SlideDayInterval.TimeIntervalIDs)
 			{
-				var timeInterval = SKDManager.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
+				var timeInterval = SKDManager.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.ID == timeIntervalID);
 				if (timeInterval != null)
 				{
 					var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(this, timeInterval);
@@ -61,10 +61,10 @@ namespace SKDModule.ViewModels
 		{
 			OnPropertyChanged("SlideDayInterval");
 
-			SlideDayInterval.TimeIntervalUIDs = new List<Guid>();
+			SlideDayInterval.TimeIntervalIDs = new List<int>();
 			foreach (var timeInterval in TimeIntervals)
 			{
-				SlideDayInterval.TimeIntervalUIDs.Add(timeInterval.SelectedTimeInterval.UID);
+				SlideDayInterval.TimeIntervalIDs.Add(timeInterval.SelectedTimeInterval.ID);
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var timeInterval = SKDManager.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault();
-			SlideDayInterval.TimeIntervalUIDs.Add(timeInterval.UID);
+			SlideDayInterval.TimeIntervalIDs.Add(timeInterval.ID);
 			var slideDayIntervalPartViewModel = new SlideDayIntervalPartViewModel(this, timeInterval);
 			TimeIntervals.Add(slideDayIntervalPartViewModel);
 			ServiceFactory.SaveService.SKDChanged = true;
@@ -85,7 +85,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			SlideDayInterval.TimeIntervalUIDs.Add(SelectedTimeInterval.TimeInterval.UID);
+			SlideDayInterval.TimeIntervalIDs.Add(SelectedTimeInterval.TimeInterval.ID);
 			TimeIntervals.Remove(SelectedTimeInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}

@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 					var neverTimeInterval = SKDManager.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.Name == "Никогда");
 					if (neverTimeInterval != null)
 					{
-						weeklyIntervalPart.TimeIntervalUID = neverTimeInterval.UID;
+						weeklyIntervalPart.TimeIntervalID = neverTimeInterval.ID;
 					}
 				}
 			}

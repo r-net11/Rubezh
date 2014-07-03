@@ -25,9 +25,9 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("TimeInterval");
-			OnPropertyChanged("StartTime");
-			OnPropertyChanged("EndTime");
+			OnPropertyChanged(() => TimeIntervalPart);
+			OnPropertyChanged(() => StartTime);
+			OnPropertyChanged(() => EndTime);
 		}
 	}
 }

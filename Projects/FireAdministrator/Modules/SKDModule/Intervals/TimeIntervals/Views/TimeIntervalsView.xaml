@@ -9,14 +9,14 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}">
+		<XDataGrid Grid.Column="0" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Наименование" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-								<TextBlock Text="{Binding TimeInterval.Name}" VerticalAlignment="Center" Margin="2" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -24,12 +24,12 @@
 				<DataGridTemplateColumn Header="Описание" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding TimeInterval.Description}" />
+							<TextBlock Text="{Binding Description}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
-		</Controls:XDataGrid>
+		</XDataGrid>
 
 		<Grid Grid.Column="1" DataContext="{Binding SelectedTimeInterval}" IsEnabled="{Binding IsEnabled}" Margin="4 0 0 0">
 			<Grid.RowDefinitions>

@@ -9,7 +9,6 @@ namespace FiresecAPI.SKD
 	{
 		public SKDWeeklyInterval()
 		{
-			UID = Guid.NewGuid();
 			WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
 			for (int i = 1; i <= 7; i++)
 			{
@@ -22,16 +21,13 @@ namespace FiresecAPI.SKD
 		}
 
 		[DataMember]
-		public Guid UID { get; set; }
+		public int ID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
 
 		[DataMember]
 		public string Description { get; set; }
-
-		[DataMember]
-		public bool IsDefault { get; set; }
 
 		[DataMember]
 		public List<SKDWeeklyIntervalPart> WeeklyIntervalParts { get; set; }

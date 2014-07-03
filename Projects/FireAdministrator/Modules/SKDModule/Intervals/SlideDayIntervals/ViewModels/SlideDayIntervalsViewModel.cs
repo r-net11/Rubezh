@@ -14,7 +14,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
-	public class SlideDayIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class SlideDayIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<int>
 	{
 		public SlideDayIntervalsViewModel()
 		{
@@ -67,11 +67,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Select(Guid intervalUID)
+		public void Select(int intervalID)
 		{
-			if (intervalUID != Guid.Empty)
+			if (intervalID > -1)
 			{
-				var intervalViewModel = SlideDayIntervals.FirstOrDefault(x => x.SlideDayInterval.UID == intervalUID);
+				var intervalViewModel = SlideDayIntervals.FirstOrDefault(x => x.SlideDayInterval.ID == intervalID);
 				if (intervalViewModel != null)
 				{
 					SelectedSlideDayInterval = intervalViewModel;
@@ -153,9 +153,9 @@ namespace SKDModule.ViewModels
 		{
 			var copy = new SKDSlideDayInterval();
 			copy.Name = source.Name;
-			foreach (var timeIntervalUID in source.TimeIntervalUIDs)
+			foreach (var timeIntervalID in source.TimeIntervalIDs)
 			{
-				copy.TimeIntervalUIDs.Add(timeIntervalUID);
+				copy.TimeIntervalIDs.Add(timeIntervalID);
 			}
 			return copy;
 		}

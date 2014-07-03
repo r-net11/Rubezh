@@ -17,28 +17,32 @@ namespace SKDModule.ViewModels
 			EndTime = timeIntervalPart.EndTime;
 		}
 
-		DateTime _startTime;
+		private DateTime _startTime;
 		public DateTime StartTime
 		{
 			get { return _startTime; }
 			set
 			{
 				_startTime = value;
-				OnPropertyChanged("StartTime");
+				OnPropertyChanged(() => StartTime);
 			}
 		}
 
-		DateTime _endTime;
+		private DateTime _endTime;
 		public DateTime EndTime
 		{
 			get { return _endTime; }
 			set
 			{
 				_endTime = value;
-				OnPropertyChanged("EndTime");
+				OnPropertyChanged(() => EndTime);
 			}
 		}
 
+		protected override bool CanSave()
+		{
+			return StartTime.TimeOfDay < EndTime.TimeOfDay;
+		}
 		protected override bool Save()
 		{
 			TimeIntervalPart.StartTime = StartTime;

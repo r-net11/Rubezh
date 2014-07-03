@@ -24,9 +24,9 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			WeeklyIntervals = new ObservableCollection<SlideWeekIntervalPartViewModel>();
-			foreach (var weeklyIntervalUID in SlideWeekInterval.WeeklyIntervalUIDs)
+			foreach (var weeklyIntervalID in SlideWeekInterval.WeeklyIntervalIDs)
 			{
-				var weeklyInterval = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.UID == weeklyIntervalUID);
+				var weeklyInterval = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == weeklyIntervalID);
 				if (weeklyInterval != null)
 				{
 					var slideWeekIntervalPartViewModel = new SlideWeekIntervalPartViewModel(this, weeklyInterval);
@@ -61,10 +61,10 @@ namespace SKDModule.ViewModels
 		{
 			OnPropertyChanged("SlideWeekInterval");
 
-			SlideWeekInterval.WeeklyIntervalUIDs = new List<Guid>();
+			SlideWeekInterval.WeeklyIntervalIDs = new List<int>();
 			foreach (var timeInterval in WeeklyIntervals)
 			{
-				SlideWeekInterval.WeeklyIntervalUIDs.Add(timeInterval.SelectedWeeklyInterval.UID);
+				SlideWeekInterval.WeeklyIntervalIDs.Add(timeInterval.SelectedWeeklyInterval.ID);
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var weeklyInterval = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault();
-			SlideWeekInterval.WeeklyIntervalUIDs.Add(weeklyInterval.UID);
+			SlideWeekInterval.WeeklyIntervalIDs.Add(weeklyInterval.ID);
 			var slideWeekIntervalPartViewModel = new SlideWeekIntervalPartViewModel(this, weeklyInterval);
 			WeeklyIntervals.Add(slideWeekIntervalPartViewModel);
 			ServiceFactory.SaveService.SKDChanged = true;
@@ -85,7 +85,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			SlideWeekInterval.WeeklyIntervalUIDs.Add(SelectedWeeklyInterval.WeeklyInterval.UID);
+			SlideWeekInterval.WeeklyIntervalIDs.Add(SelectedWeeklyInterval.WeeklyInterval.ID);
 			WeeklyIntervals.Remove(SelectedWeeklyInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}

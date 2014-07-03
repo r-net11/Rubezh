@@ -37,7 +37,7 @@ namespace SKDModule.ViewModels
 			{
 				AvailableTimeIntervals.Add(namedTimeInterval);
 			}
-			_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault(x => x.UID == WeeklyIntervalPart.TimeIntervalUID);
+			_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.TimeIntervalID);
 			if (_selectedTimeInterval == null)
 			{
 				_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault();

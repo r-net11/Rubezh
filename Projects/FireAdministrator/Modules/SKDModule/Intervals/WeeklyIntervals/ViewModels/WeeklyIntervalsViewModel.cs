@@ -14,7 +14,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
-	public class WeeklyIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class WeeklyIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<int>
 	{
 		public WeeklyIntervalsViewModel()
 		{
@@ -67,11 +67,11 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Select(Guid intervalUID)
+		public void Select(int intervalID)
 		{
-			if (intervalUID != Guid.Empty)
+			if (intervalID > 0)
 			{
-				var intervalViewModel = WeeklyIntervals.FirstOrDefault(x => x.WeeklyInterval.UID == intervalUID);
+				var intervalViewModel = WeeklyIntervals.FirstOrDefault(x => x.WeeklyInterval.ID == intervalID);
 				if (intervalViewModel != null)
 				{
 					SelectedWeeklyInterval = intervalViewModel;
@@ -106,7 +106,8 @@ namespace SKDModule.ViewModels
 		}
 		bool CanDelete()
 		{
-			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
+			//return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
+			return true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -121,7 +122,8 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
+			//return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
+			return true;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -131,7 +133,8 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCopy()
 		{
-			return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
+			//return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
+			return true;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -159,7 +162,7 @@ namespace SKDModule.ViewModels
 				{
 					No = weeklyIntervalPart.No,
 					IsHolliday = weeklyIntervalPart.IsHolliday,
-					TimeIntervalUID = weeklyIntervalPart.TimeIntervalUID,
+					TimeIntervalID = weeklyIntervalPart.TimeIntervalID,
 				};
 				copy.WeeklyIntervalParts.Add(copyWeeklyIntervalPart);
 			}
