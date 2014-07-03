@@ -9,6 +9,9 @@ namespace FiresecAPI.Events
 {
 	public enum GlobalEventNameEnum
 	{
+		[DescriptionAttribute("")]
+		NULL,
+
 		[EventDescription(GlobalSubsystemType.System, "Неизвестное событие", XStateClass.Info)]
 		Неизвестное_событие,
 
@@ -197,6 +200,96 @@ namespace FiresecAPI.Events
 
 		[EventDescription(GlobalSubsystemType.GK, "Информация", XStateClass.Info)]
 		Информация,
+
+		[EventDescription(GlobalSubsystemType.GK, "Отсчет задержки", XStateClass.Info)]
+		Отсчет_задержки,
+
+		[EventDescription(GlobalSubsystemType.GK, "Включено", XStateClass.Info)]
+		Включено,
+
+		[EventDescription(GlobalSubsystemType.GK, "Выключено", XStateClass.Info)]
+		Выключено,
+
+		[EventDescription(GlobalSubsystemType.GK, "Включается", XStateClass.Info)]
+		Включается,
+
+		[EventDescription(GlobalSubsystemType.GK, "Выключается", XStateClass.Info)]
+		Выключается,
+
+		[EventDescription(GlobalSubsystemType.GK, "Кнопка", XStateClass.Info)]
+		Кнопка,
+
+		[EventDescription(GlobalSubsystemType.GK, "Изменение автоматики по неисправности", XStateClass.Info)]
+		Изменение_автоматики_по_неисправности,
+
+		[EventDescription(GlobalSubsystemType.GK, "Изменение автоматики по кнопке СТОП", XStateClass.Info)]
+		Изменение_автоматики_по_кнопке_СТОП,
+
+		[EventDescription(GlobalSubsystemType.GK, "Изменение автоматики по датчику ДВЕРИ-ОКНА", XStateClass.Info)]
+		Изменение_автоматики_по_датчику_ДВЕРИ_ОКНА,
+
+		[EventDescription(GlobalSubsystemType.GK, "Изменение автоматики по ТМ", XStateClass.Info)]
+		Изменение_автоматики_по_ТМ,
+
+		[EventDescription(GlobalSubsystemType.GK, "Автоматика включена", XStateClass.Info)]
+		Автоматика_включена,
+
+		[EventDescription(GlobalSubsystemType.GK, "Ручной пуск АУП от ИПР", XStateClass.Info)]
+		Ручной_пуск_АУП_от_ИПР,
+
+		[EventDescription(GlobalSubsystemType.GK, "Отложенный пуск АУП по датчику ДВЕРИ-ОКНА", XStateClass.Info)]
+		Отложенный_пуск_АУП_по_датчику_ДВЕРИ_ОКНА,
+
+		[EventDescription(GlobalSubsystemType.GK, "Пуск АУП завершен", XStateClass.Info)]
+		Пуск_АУП_завершен,
+
+		[EventDescription(GlobalSubsystemType.GK, "Останов тушения по кнопке СТОП", XStateClass.Info)]
+		Останов_тушения_по_кнопке_СТОП,
+
+		[EventDescription(GlobalSubsystemType.GK, "Программирование мастер-ключа", XStateClass.Info)]
+		Программирование_мастер_ключа,
+
+		[EventDescription(GlobalSubsystemType.GK, "Отсчет удержания", XStateClass.Info)]
+		Отсчет_удержания,
+
+		[EventDescription(GlobalSubsystemType.GK, "Уровень высокий", XStateClass.Info)]
+		Уровень_высокий,
+
+		[EventDescription(GlobalSubsystemType.GK, "Уровень низкий", XStateClass.Info)]
+		Уровень_низкий,
+
+		[EventDescription(GlobalSubsystemType.GK, "Ход по команде с УЗЗ", XStateClass.Info)]
+		Ход_по_команде_с_УЗЗ,
+
+		[EventDescription(GlobalSubsystemType.GK, "У ДУ сообщение ПУСК НЕВОЗМОЖЕН", XStateClass.Info)]
+		У_ДУ_сообщение_ПУСК_НЕВОЗМОЖЕН,
+
+		[EventDescription(GlobalSubsystemType.GK, "Авария пневмоемкости", XStateClass.Info)]
+		Авария_пневмоемкости,
+
+		[EventDescription(GlobalSubsystemType.GK, "Уровень аварийный", XStateClass.Info)]
+		Уровень_аварийный,
+
+		[EventDescription(GlobalSubsystemType.GK, "Запрет пуска НС", XStateClass.Info)]
+		Запрет_пуска_НС,
+
+		[EventDescription(GlobalSubsystemType.GK, "Запрет пуска компрессора", XStateClass.Info)]
+		Запрет_пуска_компрессора,
+
+		[EventDescription(GlobalSubsystemType.GK, "Команда с УЗН", XStateClass.Info)]
+		Команда_с_УЗН,
+
+		[EventDescription(GlobalSubsystemType.GK, "Перевод в режим ручного управления", XStateClass.Info)]
+		Перевод_в_режим_ручного_управления,
+
+		[EventDescription(GlobalSubsystemType.GK, "Состояние не определено", XStateClass.Info)]
+		Состояние_не_определено,
+
+		[EventDescription(GlobalSubsystemType.GK, "Остановлено", XStateClass.Info)]
+		Остановлено,
+
+		[EventDescription(GlobalSubsystemType.GK, "Состояние Неизвестно", XStateClass.Info)]
+		Состояние_Неизвестно,
 
 		[EventDescription(GlobalSubsystemType.GK, "Перевод в автоматический режим", XStateClass.Info)]
 		Перевод_в_автоматический_режим,

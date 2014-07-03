@@ -1,4 +1,6 @@
 ﻿
+using FiresecAPI.Events;
+using FiresecAPI.GK;
 namespace GKProcessor
 {
 	public static class JournalStringsHelper
@@ -15,44 +17,44 @@ namespace GKProcessor
 			return "";
 		}
 
-		public static string ToState(byte b)
+		public static GlobalEventNameEnum ToState(byte b)
 		{
 			switch (b)
 			{
-				case 1: return "Отсчет задержки";
-				case 2: return "Включено";
-				case 3: return "Выключено";
-				case 4: return "Включается";
-				case 5: return "Выключается";
-				case 6: return "Кнопка";
-				case 7: return "Изменение автоматики по неисправности";
-				case 8: return "Изменение автоматики по кнопке СТОП";
-				case 9: return "Изменение автоматики по датчику ДВЕРИ-ОКНА";
-				case 10: return "Изменение автоматики по ТМ";
-				case 11: return "Автоматика включена";
-				case 12: return "Ручной пуск АУП от ИПР";
-				case 13: return "Отложенный пуск АУП по датчику ДВЕРИ-ОКНА";
-				case 14: return "Пуск АУП завершен";
-				case 15: return "Останов тушения по кнопке СТОП";
-				case 16: return "Программирование мастер-ключа";
+				case 1: return GlobalEventNameEnum.Отсчет_задержки;
+				case 2: return GlobalEventNameEnum.Включено;
+				case 3: return GlobalEventNameEnum.Выключено;
+				case 4: return GlobalEventNameEnum.Включается;
+				case 5: return GlobalEventNameEnum.Выключается;
+				case 6: return GlobalEventNameEnum.Кнопка;
+				case 7: return GlobalEventNameEnum.Изменение_автоматики_по_неисправности;
+				case 8: return GlobalEventNameEnum.Изменение_автоматики_по_кнопке_СТОП;
+				case 9: return GlobalEventNameEnum.Изменение_автоматики_по_датчику_ДВЕРИ_ОКНА;
+				case 10: return GlobalEventNameEnum.Изменение_автоматики_по_ТМ;
+				case 11: return GlobalEventNameEnum.Автоматика_включена;
+				case 12: return GlobalEventNameEnum.Ручной_пуск_АУП_от_ИПР;
+				case 13: return GlobalEventNameEnum.Отложенный_пуск_АУП_по_датчику_ДВЕРИ_ОКНА;
+				case 14: return GlobalEventNameEnum.Пуск_АУП_завершен;
+				case 15: return GlobalEventNameEnum.Останов_тушения_по_кнопке_СТОП;
+				case 16: return GlobalEventNameEnum.Программирование_мастер_ключа;
 
-				case 17: return "Отсчет удержания";
-				case 18: return "Уровень высокий";
-				case 19: return "Уровень низкий";
-				case 20: return "Ход по команде с УЗЗ";
+				case 17: return GlobalEventNameEnum.Отсчет_удержания;
+				case 18: return GlobalEventNameEnum.Уровень_высокий;
+				case 19: return GlobalEventNameEnum.Уровень_низкий;
+				case 20: return GlobalEventNameEnum.Ход_по_команде_с_УЗЗ;
 
-				case 21: return "У ДУ сообщение ПУСК НЕВОЗМОЖЕН";
-				case 22: return "Авария пневмоемкости";
-				case 23: return "Уровень аварийный";
-				case 24: return "Запрет пуска НС";
-				case 25: return "Запрет пуска компрессора";
-				case 26: return "Команда с УЗН";
-				case 27: return "Перевод в режим ручного управления";
+				case 21: return GlobalEventNameEnum.У_ДУ_сообщение_ПУСК_НЕВОЗМОЖЕН;
+				case 22: return GlobalEventNameEnum.Авария_пневмоемкости;
+				case 23: return GlobalEventNameEnum.Уровень_аварийный;
+				case 24: return GlobalEventNameEnum.Запрет_пуска_НС;
+				case 25: return GlobalEventNameEnum.Запрет_пуска_компрессора;
+				case 26: return GlobalEventNameEnum.Команда_с_УЗН;
+				case 27: return GlobalEventNameEnum.Перевод_в_режим_ручного_управления;
 
-				case 30: return "Состояние не определено";
-				case 31: return "Остановлено";
+				case 30: return GlobalEventNameEnum.Состояние_не_определено;
+				case 31: return GlobalEventNameEnum.Остановлено;
 			}
-			return "Состояние";
+			return GlobalEventNameEnum.Состояние_Неизвестно;
 		}
 
 		public static string ToFailure(byte b)

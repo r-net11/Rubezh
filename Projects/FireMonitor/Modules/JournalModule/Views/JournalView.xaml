@@ -16,7 +16,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -25,7 +25,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding JournalItem.Description}" VerticalAlignment="Center" />
+								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -110,8 +110,8 @@
 
 					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
 					<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
-					<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
-					<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
+					<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Name}" Margin="2" />
+					<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Description}" Margin="2" />
 				</Grid>
 			</Grid>
 		</StackPanel>

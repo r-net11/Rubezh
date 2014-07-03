@@ -26,7 +26,6 @@ namespace GKProcessor
 						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
 						StateClass = XStateClass.Unknown,
 						GlobalEventNameType = value ? GlobalEventNameEnum.База_данных_прибора_не_соответствует_базе_данных_ПК : GlobalEventNameEnum.База_данных_прибора_соответствует_базе_данных_ПК,
-						Name = value ? "База данных прибора не соответствует базе данных ПК" : "База данных прибора соответствует базе данных ПК"
 					};
 					AddJournalItem(journalItem);
 				}

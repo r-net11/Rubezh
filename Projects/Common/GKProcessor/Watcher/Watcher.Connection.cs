@@ -36,7 +36,6 @@ namespace GKProcessor
 						StateClass = XStateClass.Unknown,
 						ObjectStateClass = XStateClass.Norm,
 						GlobalEventNameType = isConnected ? GlobalEventNameEnum.Восстановление_связи_с_прибором : GlobalEventNameEnum.Потеря_связи_с_прибором,
-						Name = isConnected ? "Восстановление связи с прибором" : "Потеря связи с прибором",
 					};
 					AddJournalItem(journalItem);
 
