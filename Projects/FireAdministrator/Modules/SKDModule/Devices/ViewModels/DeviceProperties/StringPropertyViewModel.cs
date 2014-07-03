@@ -7,7 +7,7 @@ namespace SKDModule.ViewModels
 {
 	public class StringPropertyViewModel : BasePropertyViewModel
 	{
-		public StringPropertyViewModel(XDriverProperty driverProperty, SKDDevice device)
+		public StringPropertyViewModel(SKDDriverProperty driverProperty, SKDDevice device)
 			: base(driverProperty, device)
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				var newProperty = new XProperty()
+				var newProperty = new SKDProperty()
 				{
 					Name = DriverProperty.Name,
 					StringValue = value

@@ -15,7 +15,7 @@ namespace FiresecAPI.SKD
 		{
 			UID = Guid.NewGuid();
 			Children = new List<SKDDevice>();
-			Properties = new List<XProperty>();
+			Properties = new List<SKDProperty>();
 			PlanElementUIDs = new List<Guid>();
 			AllowMultipleVizualization = false;
 			SKDReaderProperty = new SKDReaderProperty();
@@ -46,7 +46,7 @@ namespace FiresecAPI.SKD
 		public List<SKDDevice> Children { get; set; }
 
 		[DataMember]
-		public List<XProperty> Properties { get; set; }
+		public List<SKDProperty> Properties { get; set; }
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }

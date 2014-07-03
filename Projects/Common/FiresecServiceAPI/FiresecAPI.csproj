@@ -198,7 +198,10 @@
     <Compile Include="Models\Plans\ElementDoor.cs" />
     <Compile Include="SKD\Device\SKDDeviceInfo.cs" />
     <Compile Include="SKD\Device\SKDDoorConfiguration.cs" />
+    <Compile Include="SKD\Device\SKDProperty.cs" />
     <Compile Include="SKD\Door\Door.cs" />
+    <Compile Include="SKD\Driver\SKDDriverProperty.cs" />
+    <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
     <Compile Include="SKD\Employee\EmployeeTimeTrack.cs" />

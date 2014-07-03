@@ -6,7 +6,7 @@ namespace SKDModule.ViewModels
 {
 	public class ShortPropertyViewModel : BasePropertyViewModel
 	{
-		public ShortPropertyViewModel(XDriverProperty driverProperty, SKDDevice device)
+		public ShortPropertyViewModel(SKDDriverProperty driverProperty, SKDDevice device)
 			: base(driverProperty, device)
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
@@ -16,8 +16,8 @@ namespace SKDModule.ViewModels
 				_text = driverProperty.Default;
 		}
 
-		ushort _text;
-		public ushort Text
+		int _text;
+		public int Text
 		{
 			get { return _text; }
 			set

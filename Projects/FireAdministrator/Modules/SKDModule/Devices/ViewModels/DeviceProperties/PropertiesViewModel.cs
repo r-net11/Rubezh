@@ -33,16 +33,13 @@ namespace SKDModule.ViewModels
 					var property = Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 					if (property == null)
 					{
-						property = new XProperty();
+						property = new SKDProperty();
 						property.DriverProperty = driverProperty;
 						property.Name = driverProperty.Name;
 						property.Value = driverProperty.Default;
 						property.StringValue = driverProperty.StringDefault;
 						Device.Properties.Add(property);
 					}
-
-					if (driverProperty.CanNotEdit)
-						continue;
 
 					switch (driverProperty.DriverPropertyType)
 					{
