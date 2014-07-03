@@ -10,9 +10,9 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
+using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
-using GKProcessor;
 
 namespace FiresecService
 {
@@ -118,7 +118,9 @@ namespace FiresecService
 					configurationMemoryStream.Position = 0;
 
 					var dataContractSerializer = new DataContractSerializer(type);
-					return (VersionedConfiguration)dataContractSerializer.ReadObject(configurationMemoryStream);
+					var versionedConfiguration = (VersionedConfiguration)dataContractSerializer.ReadObject(configurationMemoryStream);
+					versionedConfiguration.ValidateVersion();
+					return versionedConfiguration;
 				}
 			}
 			catch (Exception e)

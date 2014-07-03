@@ -5,10 +5,11 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class AccessDoorViewModel : TreeNodeViewModel<AccessDoorViewModel>
+	public class AccessDoorViewModel : BaseViewModel
 	{
 		public Door Door { get; private set; }
 		public List<CardDoor> CardDoors { get; private set; }
@@ -55,7 +56,7 @@ namespace SKDModule.ViewModels
 
 		public bool HasExit
 		{
-			get { return Door.OutDeviceUID != Guid.Empty; }
+			get { return Door.OutDeviceUID != Guid.Empty && Door.DoorType == DoorType.TwoWay; }
 		}
 
 		bool _isChecked;

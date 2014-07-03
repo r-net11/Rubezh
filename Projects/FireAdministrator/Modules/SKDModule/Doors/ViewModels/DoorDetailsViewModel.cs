@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
@@ -19,9 +20,14 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = string.Format("Свойства точки прохода: {0}", door.Name);
+				Title = string.Format("Свойства точки доступа: {0}", door.Name);
 				Door = door;
 			}
+
+			AvailableDoorTypes = new ObservableCollection<DoorType>();
+			AvailableDoorTypes.Add(DoorType.OneWay);
+			AvailableDoorTypes.Add(DoorType.TwoWay);
+
 			CopyProperties();
 		}
 
@@ -29,6 +35,7 @@ namespace SKDModule.ViewModels
 		{
 			Name = Door.Name;
 			Description = Door.Description;
+			SelectedDoorType = Door.DoorType;
 		}
 
 		string _name;
@@ -37,11 +44,8 @@ namespace SKDModule.ViewModels
 			get { return _name; }
 			set
 			{
-				if (_name != value)
-				{
 					_name = value;
 					OnPropertyChanged("Name");
-				}
 			}
 		}
 
@@ -51,11 +55,21 @@ namespace SKDModule.ViewModels
 			get { return _description; }
 			set
 			{
-				if (_description != value)
-				{
 					_description = value;
 					OnPropertyChanged("Description");
-				}
+			}
+		}
+
+		public ObservableCollection<DoorType> AvailableDoorTypes { get; private set; }
+
+		DoorType _selectedDoorType;
+		public DoorType SelectedDoorType
+		{
+			get { return _selectedDoorType; }
+			set
+			{
+				_selectedDoorType = value;
+				OnPropertyChanged(() => SelectedDoorType);
 			}
 		}
 
@@ -68,6 +82,7 @@ namespace SKDModule.ViewModels
 		{
 			Door.Name = Name;
 			Door.Description = Description;
+			Door.DoorType = SelectedDoorType;
 			return true;
 		}
 	}

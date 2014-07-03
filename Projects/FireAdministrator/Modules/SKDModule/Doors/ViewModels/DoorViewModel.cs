@@ -25,7 +25,6 @@ namespace SKDModule.ViewModels
 		public DoorViewModel(Door door)
 		{
 			ChangeInDeviceCommand = new RelayCommand(OnChangeInDevice);
-			ChangeOutDeviceCommand = new RelayCommand(OnChangeOutDevice);
 			Door = door;
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
@@ -71,7 +70,7 @@ namespace SKDModule.ViewModels
 			{
 				if (OutDevice != null)
 					return OutDevice.Name;
-				return "Нажмите для выбора устройства";
+				return "";
 			}
 		}
 
@@ -88,36 +87,35 @@ namespace SKDModule.ViewModels
 		public RelayCommand ChangeInDeviceCommand { get; private set; }
 		void OnChangeInDevice()
 		{
-			//IsSelected = true;
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(Door.InDeviceUID);
+			var deviceSelectationViewModel = new DeviceSelectationViewModel(Door.InDeviceUID, Door.DoorType);
 			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
 			{
 				if (deviceSelectationViewModel.SelectedDevice != null)
 				{
 					InDevice = deviceSelectationViewModel.SelectedDevice;
 					Door.InDeviceUID = InDevice.UID;
+
+					switch (Door.DoorType)
+					{
+						case DoorType.OneWay:
+							OutDevice = InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Button && x.IntAddress == InDevice.IntAddress / 2);
+							break;
+
+						case DoorType.TwoWay:
+							OutDevice = InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && x.IntAddress == InDevice.IntAddress + 1);
+							break;
+					}
+					Door.OutDeviceUID = OutDevice.UID;
 				}
+
 				OnPropertyChanged("InDevice");
 				OnPropertyChanged("InDeviceName");
 				OnPropertyChanged("IsInDeviceGrayed");
-				ServiceFactory.SaveService.SKDChanged = true;
-			}
-		}
 
-		public RelayCommand ChangeOutDeviceCommand { get; private set; }
-		void OnChangeOutDevice()
-		{
-			var deviceSelectationViewModel = new DeviceSelectationViewModel(Door.OutDeviceUID);
-			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
-			{
-				if (deviceSelectationViewModel.SelectedDevice != null)
-				{
-					OutDevice = deviceSelectationViewModel.SelectedDevice;
-					Door.OutDeviceUID = OutDevice.UID;
-				}
 				OnPropertyChanged("OutDevice");
 				OnPropertyChanged("OutDeviceName");
 				OnPropertyChanged("IsOutDeviceGrayed");
+
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}

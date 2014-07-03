@@ -200,6 +200,7 @@
     <Compile Include="SKD\Device\SKDDoorConfiguration.cs" />
     <Compile Include="SKD\Device\SKDProperty.cs" />
     <Compile Include="SKD\Door\Door.cs" />
+    <Compile Include="SKD\Door\DoorType.cs" />
     <Compile Include="SKD\Driver\SKDDriverProperty.cs" />
     <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />

@@ -7,8 +7,8 @@
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<Grid Grid.Row="0" Margin="2" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
-					<DataGrid Name="_zonesDataGrid" Focusable="True" ItemsSource="{Binding RootZones}" SelectedItem="{Binding SelectedZone}" Width="100">
+                <Grid Grid.Row="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
+					<DataGrid Focusable="True" ItemsSource="{Binding RootZones}" SelectedItem="{Binding SelectedZone}">
 						<DataGrid.Columns>
 							<DataGridTemplateColumn Width="250" Header="Зона">
 								<DataGridTemplateColumn.CellTemplate>
@@ -24,19 +24,7 @@
 						</DataGrid.Columns>
 					</DataGrid>
 				</Grid>
-				<Grid Grid.Row="1" Margin="2">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-
-					<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Контроль нарушений дисциплины в течение рабочего дня" />
-					<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" IsChecked="{Binding IsControl, UpdateSourceTrigger=PropertyChanged}" />
-				</Grid>
+                <CheckBox Grid.Row="1" Content="Контроль нарушений дисциплины в течение рабочего дня" IsChecked="{Binding IsControl, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Margin="2" />
 			</Grid>
 		</TabItem>
 	</TabControl>

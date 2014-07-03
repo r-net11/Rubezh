@@ -27,6 +27,9 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
+		public DoorType DoorType { get; set; }
+
+		[DataMember]
 		public Guid InDeviceUID { get; set; }
 
 		[DataMember]
@@ -34,7 +37,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<Guid> PlanElementUIDs { get; set; }
-
 
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }

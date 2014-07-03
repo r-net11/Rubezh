@@ -3,25 +3,35 @@
 			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-			MinWidth="600" MinHeight="500">
+			MinWidth="500" MinHeight="300">
 
 	<TabControl>
 		<TabItem Header="Основные">
 			<Grid>
-				<Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
 				<Label Grid.Row="0" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
-				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
-
                 <TextBox Name="nameTextBox" Grid.Row="0" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+
+				<Label Grid.Row="1" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 				<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-			</Grid>
+
+                <Label Grid.Row="2" Grid.Column="0" Content="Тип" HorizontalAlignment="Right" />
+                <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding AvailableDoorTypes}" SelectedItem="{Binding SelectedDoorType}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
 		</TabItem>
 	</TabControl>
 </UserControl>

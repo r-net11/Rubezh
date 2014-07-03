@@ -20,11 +20,6 @@ namespace SKDModule.ViewModels
 
 			InitializeDoors();
 			ParentUID = parentUID;
-
-			foreach (var zone in Doors)
-			{
-				zone.ExpandToThis();
-			}
 		}
 
 		void InitializeDoors()
@@ -47,8 +42,6 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedDoor = value;
-				if (value != null)
-					value.ExpandToThis();
 				OnPropertyChanged("SelectedDoor");
 			}
 		}

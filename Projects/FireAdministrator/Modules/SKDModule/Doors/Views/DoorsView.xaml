@@ -59,23 +59,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding OutDevice.Driver.ImageSource}" />
-								<TextBlock MinWidth="100" VerticalAlignment="Center" Cursor="Hand" Text="{Binding OutDeviceName}" TextWrapping="NoWrap">
-									<TextBlock.Style>
-										<Style TargetType="TextBlock">
-											<Style.Triggers>
-												<DataTrigger Binding="{Binding IsOutDeviceGrayed}" Value="True">
-													<Setter Property="TextBlock.Foreground" Value="Gray" />
-												</DataTrigger>
-											</Style.Triggers>
-										</Style>
-									</TextBlock.Style>
-									<TextBlock.InputBindings>
-										<MouseBinding Command="{Binding ChangeOutDeviceCommand}" MouseAction="LeftClick" />
-									</TextBlock.InputBindings>
-									<TextBlock.ToolTip>
-										<TextBlock Text="{Binding OutDeviceName}" TextWrapping="Wrap" />
-									</TextBlock.ToolTip>
-								</TextBlock>
+                                <TextBlock Text="{Binding OutDeviceName}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
