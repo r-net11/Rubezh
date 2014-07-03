@@ -88,6 +88,7 @@ namespace FiresecClient
 					LayoutsConfiguration = new LayoutsConfiguration();
 				LayoutsConfiguration.Update();
 				PlansConfiguration.Update();
+				SystemConfiguration.UpdateConfiguration();
 				FiresecConfiguration.UpdateConfiguration();
 				SKDManager.UpdateConfiguration();
 				UpdatePlansConfiguration();

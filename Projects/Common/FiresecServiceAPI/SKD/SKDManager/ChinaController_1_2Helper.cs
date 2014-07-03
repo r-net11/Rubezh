@@ -16,7 +16,6 @@ namespace FiresecAPI.SKD
 				Name = "Контроллер на одну дверь и два считывателя",
 				ShortName = "Контроллер",
 				DriverType = SKDDriverType.ChinaController_1_2,
-				IsControlDevice = true,
 				IsPlaceable = true
 			};
 			driver.Children.Add(SKDDriverType.Reader);
@@ -29,7 +28,7 @@ namespace FiresecAPI.SKD
 			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.LockControl, 1));
 			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.Button, 1));
 
-			var addressProperty = new XDriverProperty()
+			var addressProperty = new SKDDriverProperty()
 			{
 				Name = "Address",
 				Caption = "Адрес",
@@ -38,7 +37,7 @@ namespace FiresecAPI.SKD
 			};
 			driver.Properties.Add(addressProperty);
 
-			var driverProperty = new XDriverProperty()
+			var driverProperty = new SKDDriverProperty()
 			{
 				Name = "Port",
 				Caption = "Порт",
@@ -46,8 +45,8 @@ namespace FiresecAPI.SKD
 				Default = 37777
 			};
 			driver.Properties.Add(driverProperty);
-			
-			var loginProperty = new XDriverProperty()
+
+			var loginProperty = new SKDDriverProperty()
 			{
 				Name = "Login",
 				Caption = "Логин",
@@ -55,8 +54,8 @@ namespace FiresecAPI.SKD
 				StringDefault = "admin"
 			};
 			driver.Properties.Add(loginProperty);
-			
-			var passwordProperty = new XDriverProperty()
+
+			var passwordProperty = new SKDDriverProperty()
 			{
 				Name = "Password",
 				Caption = "Пароль",

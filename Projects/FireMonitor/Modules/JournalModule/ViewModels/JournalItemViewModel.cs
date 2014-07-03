@@ -2,6 +2,8 @@
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Events;
+using FiresecAPI;
 
 namespace JournalModule.ViewModels
 {
@@ -16,9 +18,31 @@ namespace JournalModule.ViewModels
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+
 			JournalItem = journalItem;
 			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+
+			if (journalItem.Name != GlobalEventNameEnum.NULL)
+			{
+				Name = EventDescriptionAttributeHelper.ToName(journalItem.Name);
+			}
+			else
+			{
+				Name = journalItem.NameText;
+			}
+
+			if (journalItem.Description != FiresecAPI.GK.EventDescription.NULL)
+			{
+				Description = journalItem.Description.ToDescription();
+			}
+			else
+			{
+				Description = journalItem.DescriptionText;
+			}
 		}
+
+		public string Name { get; private set; }
+		public string Description { get; private set; }
 
 		public bool IsExistsInConfig
 		{

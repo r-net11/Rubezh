@@ -9,12 +9,10 @@ namespace FiresecAPI.SKD
 		public SKDDriver()
 		{
 			Children = new List<SKDDriverType>();
-			Properties = new List<XDriverProperty>();
-			AvailableStateBits = new List<XStateBit>();
+			Properties = new List<SKDDriverProperty>();
 			AvailableStateClasses = new List<XStateClass>();
 			AutocreationItems = new List<SKDDriverAutocreationItem>();
 			HasZone = false;
-			IsControlDevice = false;
 			IsPlaceable = false;
 		}
 
@@ -23,17 +21,14 @@ namespace FiresecAPI.SKD
 		public Guid UID { get; set; }
 		public string Name { get; set; }
 		public string ShortName { get; set; }
-		public List<XDriverState> XStates { get; set; }
 
-		public List<XDriverProperty> Properties { get; set; }
-		public List<XStateBit> AvailableStateBits { get; set; }
+		public List<SKDDriverProperty> Properties { get; set; }
 		public List<XStateClass> AvailableStateClasses { get; set; }
 
 		public List<SKDDriverType> Children { get; set; }
 		public List<SKDDriverAutocreationItem> AutocreationItems { get; set; }
 
 		public bool HasZone { get; set; }
-		public bool IsControlDevice { get; set; }
 		public bool IsPlaceable { get; set; }
 
 		public bool IsController

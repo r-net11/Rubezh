@@ -18,29 +18,29 @@ namespace ChinaSKDDriverAPI
 		public int EnableMode { get; set; }
 		public bool IsSnapshotEnable { get; set; }
 
-		public bool IsDoorOpenMethod { get; set; }
-		public bool IsUnlockHoldInterval { get; set; }
-		public bool IsCloseTimeout { get; set; }
-		public bool IsOpenAlwaysTimeIndex { get; set; }
-		public bool IsHolidayTimeIndex { get; set; }
-		public bool IsBreakInAlarmEnable { get; set; }
-		public bool IsRepeatEnterAlarmEnable { get; set; }
-		public bool IsDoorNotClosedAlarmEnable { get; set; }
-		public bool IsDuressAlarmEnable { get; set; }
-		public bool IsDoorTimeSection { get; set; }
-		public bool IsSensorEnable { get; set; }
+		public bool UseDoorOpenMethod { get; set; }
+		public bool UseUnlockHoldInterval { get; set; }
+		public bool UseCloseTimeout { get; set; }
+		public bool UseOpenAlwaysTimeIndex { get; set; }
+		public bool UseHolidayTimeIndex { get; set; }
+		public bool UseBreakInAlarmEnable { get; set; }
+		public bool UseRepeatEnterAlarmEnable { get; set; }
+		public bool UseDoorNotClosedAlarmEnable { get; set; }
+		public bool UseDuressAlarmEnable { get; set; }
+		public bool UseDoorTimeSection { get; set; }
+		public bool UseSensorEnable { get; set; }
 
 		public DoorOpenMethod DoorOpenMethod { get; set; }
 		public int UnlockHoldInterval { get; set; }
 		public int CloseTimeout { get; set; }
 		public int OpenAlwaysTimeIndex { get; set; }
 		public int HolidayTimeRecoNo { get; set; }
-		public bool IsBreakInAlarmEnable2 { get; set; }
-		public bool IsRepeatEnterAlarmEnable2 { get; set; }
-		public bool IsDoorNotClosedAlarmEnable2 { get; set; }
-		public bool IsDuressAlarmEnable2 { get; set; }
+		public bool IsBreakInAlarmEnable { get; set; }
+		public bool IsRepeatEnterAlarmEnable { get; set; }
+		public bool IsDoorNotClosedAlarmEnable { get; set; }
+		public bool IsDuressAlarmEnable { get; set; }
 		public List<TimeShedule> TimeShedules { get; set; }
-		public bool IsSensorEnable2 { get; set; }
+		public bool IsSensorEnable { get; set; }
 	}
 
 	public enum AceessState

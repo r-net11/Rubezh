@@ -74,6 +74,7 @@
     </ApplicationDefinition>
     <Compile Include="ViewModels\CommonViewModel.cs" />
     <Compile Include="ViewModels\ControlViewModel.cs" />
+    <Compile Include="ViewModels\DoorConfigurationViewModel.cs" />
     <Compile Include="ViewModels\DoorItemViewModel.cs" />
     <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\JournalViewModel.cs" />
@@ -99,6 +100,9 @@
     <Compile Include="Views\ControlView.xaml.cs">
       <DependentUpon>ControlView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DoorConfigurationView.xaml.cs">
+      <DependentUpon>DoorConfigurationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
@@ -123,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DoorConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -16,6 +16,7 @@
                 <IconedMenuItem Command="{Binding ShowPasswordCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Задание пароля" TotalHeight="32" />
                 <IconedMenuItem Command="{Binding ResetCommand}" ImageSource="/Controls;component/Images/BInformation.png" Text="Сбросить настройки" TotalHeight="32" />
                 <IconedMenuItem Command="{Binding RebootCommand}" ImageSource="/Controls;component/Images/BInformation.png" Text="Перезагрузить" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding ShowDoorConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Параметры двери" TotalHeight="32" />
                 <IconedMenuItem Command="{Binding WriteTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersWrite.png" Text="Записать конфигурацию графиков работ" TotalHeight="32" />
             </MenuItem>
 		</Menu>

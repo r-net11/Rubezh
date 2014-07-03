@@ -128,7 +128,6 @@ namespace SKDDriver
 				}
 				catch (Exception e)
 				{
-					AddMessage(GlobalEventNameEnum.Ошибка_инициализации_мониторинга, "");
 					Logger.Error(e, "JournalWatcher.InitializeMonitoring");
 				}
 
@@ -348,25 +347,16 @@ namespace SKDDriver
 				State = XStateClass.Unknown,
 				//GKIpAddress = Device.GetGKIpAddress()
 			};
-			SKDDBHelper.Add(journalItem);
-			SKDCallbackResult.JournalItems.Add(journalItem);
-		}
-
-		internal void AddMessage(GlobalEventNameEnum globalEventNameEnum, string userName)
-		{
-			var journalItem = SKDDBHelper.AddMessage(globalEventNameEnum, userName);
 			SKDCallbackResult.JournalItems.Add(journalItem);
 		}
 
 		void AddJournalItem(JournalItem journalItem)
 		{
-			SKDDBHelper.Add(journalItem);
 			SKDCallbackResult.JournalItems.Add(journalItem);
 		}
 
 		void AddJournalItems(List<JournalItem> journalItems)
 		{
-			SKDDBHelper.AddMany(journalItems);
 			SKDCallbackResult.JournalItems.AddRange(journalItems);
 		}
 

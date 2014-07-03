@@ -17,6 +17,7 @@ namespace ControllerSDK.ViewModels
 		public ControlViewModel ControlViewModel { get; private set; }
 		public JournalViewModel JournalViewModel { get; private set; }
 		public CommonViewModel CommonViewModel { get; private set; }
+		public DoorConfigurationViewModel DoorConfigurationViewModel { get; private set; }
 
 		public MainViewModel()
 		{
@@ -30,6 +31,7 @@ namespace ControllerSDK.ViewModels
 			ControlViewModel = new ControlViewModel();
 			JournalViewModel = new JournalViewModel();
 			CommonViewModel = new CommonViewModel();
+			DoorConfigurationViewModel = new DoorConfigurationViewModel();
 		}
 	}
 }

@@ -14,41 +14,38 @@ namespace SKDModule.ViewModels
 
 			foreach (var driverProperty in device.Driver.Properties)
 			{
-				if (driverProperty.IsAUParameter)
+				var deviceProperty = new DeviceProperty()
 				{
-					var deviceProperty = new DeviceProperty()
+					Name = driverProperty.Caption
+				};
+
+				var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+				if (property != null)
+				{
+					switch (driverProperty.DriverPropertyType)
 					{
-						Name = driverProperty.Caption
-					};
+						case XDriverPropertyTypeEnum.EnumType:
+							var parameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
+							if (parameter != null)
+								deviceProperty.Value = parameter.Name;
+							break;
 
-					var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-					if (property != null)
-					{
-						switch (driverProperty.DriverPropertyType)
-						{
-							case XDriverPropertyTypeEnum.EnumType:
-								var parameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
-								if (parameter != null)
-									deviceProperty.Value = parameter.Name;
-								break;
+						case XDriverPropertyTypeEnum.IntType:
+							deviceProperty.Value = property.Value.ToString();
+							break;
 
-							case XDriverPropertyTypeEnum.IntType:
-								deviceProperty.Value = property.Value.ToString();
-								break;
+						case XDriverPropertyTypeEnum.BoolType:
+							var isTrue = property.Value > 0;
+							deviceProperty.Value = isTrue ? "Есть" : "Нет";
+							break;
 
-							case XDriverPropertyTypeEnum.BoolType:
-								var isTrue = property.Value > 0;
-								deviceProperty.Value = isTrue ? "Есть" : "Нет";
-								break;
-
-							case XDriverPropertyTypeEnum.StringType:
-								deviceProperty.Value = property.StringValue;
-								break;
-						}
+						case XDriverPropertyTypeEnum.StringType:
+							deviceProperty.Value = property.StringValue;
+							break;
 					}
-
-					Properties.Add(deviceProperty);
 				}
+
+				Properties.Add(deviceProperty);
 			}
 		}
 

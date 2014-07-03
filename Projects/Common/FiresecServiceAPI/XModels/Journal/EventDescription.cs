@@ -4,6 +4,9 @@ namespace FiresecAPI.GK
 {
 	public enum EventDescription
 	{
+		[DescriptionAttribute("")]
+		NULL,
+
 		[DescriptionAttribute("Подтверждение тревоги")]
 		Подтверждение_тревоги,
 
@@ -81,35 +84,5 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("")]
 		Нет,
-
-		[DescriptionAttribute("Установить режим ОТКРЫТО")]
-		Установить_режим_ОТКРЫТО,
-
-		[DescriptionAttribute("Установить режим ЗАКРЫТО")]
-		Установить_режим_ЗАКРЫТО,
-
-		[DescriptionAttribute("Установить режим КОНТРОЛЬ")]
-		Установить_режим_КОНТРОЛЬ,
-
-		[DescriptionAttribute("Установить режим СОВЕЩАНИЕ")]
-		Установить_режим_СОВЕЩАНИЕ,
-
-		[DescriptionAttribute("Открыть")]
-		Открыть,
-		
-		[DescriptionAttribute("Закрыть")]
-		Закрыть,
-		
-		[DescriptionAttribute("Разрешить проход")]
-		Разрешить_проход,
-		
-		[DescriptionAttribute("Запретить проход")]
-		Запретить_проход,	
-	
-		[DescriptionAttribute("Запись_одного_идентификатора")]
-		Запись_одного_идентификатора,
-		
-		[DescriptionAttribute("Запись_всех_временных_интервалов")]
-		Запись_всех_временных_интервалов,	
 	}
 }

@@ -119,10 +119,9 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="Processor\AutomationProcessor.cs" />
     <Compile Include="Processor\AutomationProcessorRunner.cs" />
-    <Compile Include="Processor\ConfigurationCash.cs" />
+    <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
-    <Compile Include="Processor\ZipConfigurationHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeInterval.cs" />

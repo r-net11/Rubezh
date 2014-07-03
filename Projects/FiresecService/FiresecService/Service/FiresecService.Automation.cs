@@ -11,7 +11,7 @@ namespace FiresecService.Service
 	{
 		public OperationResult<bool> RunProcedure(Guid procedureUID, List<Argument> args)
 		{
-			var procedure = AutomationProcessor.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);
+			var procedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == procedureUID);
 			if (procedure != null)
 			{
 				var result = AutomationProcessorRunner.Run(procedure, args);

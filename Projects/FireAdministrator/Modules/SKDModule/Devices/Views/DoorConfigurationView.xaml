@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="SKDModule.Views.DoorConfigurationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinWidth="450" MinHeight="300">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" DataContext="{Binding DoorConfiguration}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="UnlockHoldInterval" Foreground="White" Width="200" Margin="2" />
+                <TextBox Text="{Binding UnlockHoldInterval}" Width="200" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="CloseTimeout" Foreground="White" Width="200" Margin="2" />
+                <TextBox Text="{Binding CloseTimeout}" Width="200" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="OpenAlwaysTimeIndex" Foreground="White" Width="200" Margin="2" />
+                <TextBox Text="{Binding OpenAlwaysTimeIndex}" Width="200" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="HolidayTimeIndex" Foreground="White" Width="200" Margin="2" />
+                <TextBox Text="{Binding HolidayTimeRecoNo}" Width="200" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="BreakInAlarmEnable" Foreground="White" Width="200" Margin="2" />
+                <CheckBox IsChecked="{Binding IsBreakInAlarmEnable}" Width="200" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="RepeatEnterAlarmEnable" Foreground="White" Width="200" Margin="2" />
+                <CheckBox IsChecked="{Binding IsRepeatEnterAlarmEnable}" Width="200" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="DoorNotClosedAlarmEnable" Foreground="White" Width="200" Margin="2" />
+                <CheckBox IsChecked="{Binding IsDoorNotClosedAlarmEnable}" Width="200" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="DuressAlarmEnable" Foreground="White" Width="200" Margin="2" />
+                <CheckBox IsChecked="{Binding IsDuressAlarmEnable}" Width="200" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="SensorEnable" Foreground="White" Width="200" Margin="2" />
+                <CheckBox IsChecked="{Binding IsSensorEnable}" Width="200" Margin="2" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Считать" Command="{Binding GetDoorConfigurationCommand}" Width="100" Margin="2" />
+            <Button Content="Записать" Command="{Binding SetDoorConfigurationCommand}" Width="100" Margin="2" />
+        </StackPanel>
+    </Grid>
+</UserControl>

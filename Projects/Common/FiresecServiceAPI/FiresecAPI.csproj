@@ -149,7 +149,7 @@
     <Compile Include="Events\GlobalEventNameEnum.cs" />
     <Compile Include="Events\GlobalEventType.cs" />
     <Compile Include="Events\GlobalSubsystemType.cs" />
-    <Compile Include="IFiresecServiceSKD.Automation.cs" />
+    <Compile Include="IFiresecService.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeInterval.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AM1_O_Helper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AM1_T_Helper.cs" />
@@ -197,7 +197,12 @@
     <Compile Include="Models\Plans\ElementRectangleXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />
     <Compile Include="SKD\Device\SKDDeviceInfo.cs" />
+    <Compile Include="SKD\Device\SKDDoorConfiguration.cs" />
+    <Compile Include="SKD\Device\SKDProperty.cs" />
     <Compile Include="SKD\Door\Door.cs" />
+    <Compile Include="SKD\Door\DoorType.cs" />
+    <Compile Include="SKD\Driver\SKDDriverProperty.cs" />
+    <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
     <Compile Include="SKD\Employee\EmployeeTimeTrack.cs" />
@@ -348,7 +353,7 @@
     <Compile Include="Models\Zone\ZoneLogicMROMessageNo.cs" />
     <Compile Include="Models\Zone\ZoneLogicMROMessageType.cs" />
     <Compile Include="SKD\Device\SKDReaderDUProperty.cs" />
-    <Compile Include="SKD\Device\SKDCReaderProperty.cs" />
+    <Compile Include="SKD\Device\SKDReaderProperty.cs" />
     <Compile Include="SKD\Library\SKDLibraryConfiguration.cs" />
     <Compile Include="SKD\Library\SKDLibraryDevice.cs" />
     <Compile Include="SKD\Library\SKDLibraryFrame.cs" />

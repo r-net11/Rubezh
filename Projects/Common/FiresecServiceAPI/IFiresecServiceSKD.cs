@@ -153,6 +153,12 @@ namespace FiresecAPI
 		OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName);
 
 		[OperationContract]
+		OperationResult<SKDDoorConfiguration> SKDGetDoorConfiguration(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDSetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration);
+
+		[OperationContract]
 		OperationResult<bool> SKDOpenDevice(Guid deviceUID);
 
 		[OperationContract]

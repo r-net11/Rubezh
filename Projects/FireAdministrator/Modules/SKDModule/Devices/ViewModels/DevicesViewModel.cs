@@ -148,14 +148,6 @@ namespace SKDModule.ViewModels
 						SelectedDevice.AddCommand.Execute();
 				}
 			});
-			RegisterShortcut(new KeyGesture(KeyboardKey.M, ModifierKeys.Control), () =>
-			{
-				if (SelectedDevice != null)
-				{
-					if (SelectedDevice.AddToParentCommand.CanExecute(null))
-						SelectedDevice.AddToParentCommand.Execute();
-				}
-			});
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), () =>
 			{
 				if (SelectedDevice != null)

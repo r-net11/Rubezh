@@ -8,8 +8,7 @@
 			<Conv:SwitchCase Then="Устройство уже размещено на плане" When="Single" />
 		</Conv:SwitchConverter>
 		<ContextMenu x:Key="DeviceContextMenu">
-			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить дочернее устройство (Ctrl+N)" />
-			<Controls:IconedMenuItem Command="{Binding AddToParentCommand}" ImageSource="/Controls;component/Images/BAddChild.png" Text="Добавить к родительскому устройству (Ctrl+M)" />
+			<Controls:IconedMenuItem Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/BAdd.png" Text="Добавить устройство (Ctrl+N)" />
 			<Controls:IconedMenuItem Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/BDelete.png" Text="Удалить (Ctrl+Del)" />
 			<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Вставить (Ctrl+V)" />
 			<Separator Visibility="{Binding Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}" />

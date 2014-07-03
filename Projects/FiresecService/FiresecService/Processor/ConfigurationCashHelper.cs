@@ -5,17 +5,41 @@ using System.Runtime.Serialization;
 using System.Text;
 using Common;
 using FiresecAPI;
+using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
+using FiresecClient;
+using GKProcessor;
 using Infrastructure.Common;
 using Ionic.Zip;
-using FiresecAPI.Automation;
 
-namespace FiresecService.Processor
+namespace FiresecService
 {
-	public static class ZipConfigurationHelper
+	public static class ConfigurationCashHelper
 	{
+		public static SecurityConfiguration SecurityConfiguration { get; private set; }
+		public static SystemConfiguration SystemConfiguration { get; private set; }
+
+		public static void Update()
+		{
+			SecurityConfiguration = GetSecurityConfiguration();
+			SystemConfiguration = GetSystemConfiguration();
+			XManager.DeviceConfiguration = GetDeviceConfiguration();
+			SKDManager.SKDConfiguration = GetSKDConfiguration();
+
+			SystemConfiguration.UpdateConfiguration();
+
+			GKDriversCreator.Create();
+			XManager.UpdateConfiguration();
+			XManager.CreateStates();
+			DescriptorsManager.Create();
+			DescriptorsManager.CreateDynamicObjectsInXManager();
+			XManager.UpdateConfiguration();
+
+			SKDManager.UpdateConfiguration();
+		}
+
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
 			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
@@ -27,7 +51,7 @@ namespace FiresecService.Processor
 			return securityConfiguration;
 		}
 
-		public static SystemConfiguration GetSystemConfiguration()
+		static SystemConfiguration GetSystemConfiguration()
 		{
 			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
@@ -51,7 +75,7 @@ namespace FiresecService.Processor
 			return new SystemConfiguration();
 		}
 
-		public static XDeviceConfiguration GetDeviceConfiguration()
+		static XDeviceConfiguration GetDeviceConfiguration()
 		{
 			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
@@ -64,7 +88,7 @@ namespace FiresecService.Processor
 			return deviceConfiguration;
 		}
 
-		public static SKDConfiguration GetSKDConfiguration()
+		static SKDConfiguration GetSKDConfiguration()
 		{
 			var fileName = Path.Combine(AppDataFolderHelper.GetServerAppDataPath(), "Config.fscp");
 			var zipFile = ZipFile.Read(fileName, new ReadOptions { Encoding = Encoding.GetEncoding("cp866") });
@@ -94,7 +118,9 @@ namespace FiresecService.Processor
 					configurationMemoryStream.Position = 0;
 
 					var dataContractSerializer = new DataContractSerializer(type);
-					return (VersionedConfiguration)dataContractSerializer.ReadObject(configurationMemoryStream);
+					var versionedConfiguration = (VersionedConfiguration)dataContractSerializer.ReadObject(configurationMemoryStream);
+					versionedConfiguration.ValidateVersion();
+					return versionedConfiguration;
 				}
 			}
 			catch (Exception e)

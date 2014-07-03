@@ -16,7 +16,6 @@ namespace FiresecAPI.SKD
 				Name = "Контроллер СКД",
 				ShortName = "Контроллер",
 				DriverType = SKDDriverType.Controller,
-				IsControlDevice = true,
 				IsPlaceable = true
 			};
 			driver.Children.Add(SKDDriverType.Reader);
@@ -24,7 +23,7 @@ namespace FiresecAPI.SKD
 			driver.AvailableStateClasses.Add(XStateClass.Failure);
 			driver.AvailableStateClasses.Add(XStateClass.Unknown);
 
-			var addressProperty = new XDriverProperty()
+			var addressProperty = new SKDDriverProperty()
 			{
 				Name = "Address",
 				Caption = "Адрес",
@@ -33,7 +32,7 @@ namespace FiresecAPI.SKD
 			};
 			driver.Properties.Add(addressProperty);
 
-			var driverProperty = new XDriverProperty()
+			var driverProperty = new SKDDriverProperty()
 			{
 				Name = "Port",
 				Caption = "Порт",
@@ -43,8 +42,8 @@ namespace FiresecAPI.SKD
 				Default = 10000
 			};
 			driver.Properties.Add(driverProperty);
-			
-			var loginProperty = new XDriverProperty()
+
+			var loginProperty = new SKDDriverProperty()
 			{
 				Name = "Login",
 				Caption = "Логин",
@@ -52,8 +51,8 @@ namespace FiresecAPI.SKD
 				StringDefault = ""
 			};
 			driver.Properties.Add(loginProperty);
-			
-			var passwordProperty = new XDriverProperty()
+
+			var passwordProperty = new SKDDriverProperty()
 			{
 				Name = "Password",
 				Caption = "Пароль",

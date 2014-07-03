@@ -64,11 +64,15 @@
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\DeviceInfoViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\PasswordViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\DoorConfigurationViewModel.cs" />
     <Compile Include="Devices\Views\DeviceInfoView.xaml.cs">
       <DependentUpon>DeviceInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PasswordView.xaml.cs">
       <DependentUpon>PasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DoorConfigurationView.xaml.cs">
+      <DependentUpon>DoorConfigurationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Doors\ViewModels\DeviceSelectationViewModel.cs" />
     <Compile Include="Doors\Views\DeviceSelectationView.xaml.cs">
@@ -388,6 +392,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\PasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\DoorConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

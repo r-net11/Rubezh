@@ -43,8 +43,6 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Connect(Guid uid, ClientCredentials clientCredentials, bool isNew)
 		{
-			ConfigurationCash.SecurityConfiguration = ZipConfigurationHelper.GetSecurityConfiguration();
-
 			clientCredentials.ClientUID = uid;
 			InitializeClientCredentials(clientCredentials);
 
@@ -128,7 +126,7 @@ namespace FiresecService.Service
 
 		public SecurityConfiguration GetSecurityConfiguration()
 		{
-			return ZipConfigurationHelper.GetSecurityConfiguration();
+			return ConfigurationCashHelper.GetSecurityConfiguration();
 		}
 
 		public string Ping()

@@ -24,6 +24,7 @@ namespace SKDModule.ViewModels
 			ShowPasswordCommand = new RelayCommand(OnShowPassword, CanShowPassword);
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 			RebootCommand = new RelayCommand(OnReboot, CanReboot);
+			ShowDoorConfigurationCommand = new RelayCommand(OnShowDoorConfiguration, CanShowDoorConfiguration);
 			WriteTimeSheduleConfigurationCommand = new RelayCommand(OnWriteTimeSheduleConfiguration, CanWriteTimeSheduleConfiguration);
 		}
 
@@ -114,6 +115,17 @@ namespace SKDModule.ViewModels
 		bool CanReboot()
 		{
 			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+		}
+
+		public RelayCommand ShowDoorConfigurationCommand { get; private set; }
+		void OnShowDoorConfiguration()
+		{
+			var doorConfigurationViewModel = new DoorConfigurationViewModel(SelectedDevice.Device);
+			DialogService.ShowModalWindow(doorConfigurationViewModel);
+		}
+		bool CanShowDoorConfiguration()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == SKDDriverType.Lock;
 		}
 
 		public RelayCommand WriteTimeSheduleConfigurationCommand { get; private set; }
