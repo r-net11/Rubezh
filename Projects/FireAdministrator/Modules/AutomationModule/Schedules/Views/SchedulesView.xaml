@@ -181,9 +181,9 @@
 					<RowDefinition />
 				</Grid.RowDefinitions>
 				<views:ScheduleProceduresView Grid.Row="0" Margin="2" />
-				<Grid Grid.Row="1" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" DataContext="{Binding SelectedScheduleProcedure}">
+				<Border CornerRadius="5" Background="White" Margin="2" Grid.Row="1" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" DataContext="{Binding SelectedScheduleProcedure}">
 					<views:ArgumentsView />
-				</Grid>
+				</Border>
 			</Grid>
 		</Grid>
 	</Grid>

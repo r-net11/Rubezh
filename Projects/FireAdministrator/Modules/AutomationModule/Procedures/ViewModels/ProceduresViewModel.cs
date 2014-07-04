@@ -55,6 +55,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedProcedure = value;
+				if (value != null)
+					value.StepsViewModel.SelectedStep = value.StepsViewModel.AllSteps.FirstOrDefault();
 				OnPropertyChanged("SelectedProcedure");
 			}
 		}

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FiresecAPI.Automation;
-using FiresecAPI.Models;
 using FiresecService.Processor;
 
 namespace FiresecService
@@ -14,7 +14,7 @@ namespace FiresecService
 		static DateTime startTime;
 		static int TimeDelta
 		{
-			get { return (int)((DateTime.Now - startTime).TotalSeconds) % 100000; }
+			get { return (int)((DateTime.Now - startTime).TotalSeconds); }
 		}
 
 		static Thread Thread;
@@ -55,30 +55,27 @@ namespace FiresecService
 			while (true)
 			{
 				var shedules = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.AutomationSchedules;
-				timeValidator++;
-
-
+				
 				if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(1)))
 				{
 					return;
 				}
 
-				Thread.Sleep(TimeSpan.FromSeconds(1));
+				timeValidator++;
 				foreach (var schedule in shedules)
 				{
-					if (CheckSchedule(schedule, DateTime.Now))
-						RunProcedures(schedule);
-					timeValidator = timeValidator % 100000;
-					if (timeValidator < TimeDelta - 1)
+					if (timeValidator <= TimeDelta)
 					{
 						var dateList = new List<DateTime>();
-						for (int i = 0; i < TimeDelta - 1 - timeValidator; i++)
+						for (int i = 0; i <= TimeDelta - timeValidator; i++)
 						{
 							dateList.Add(DateTime.Now - TimeSpan.FromSeconds(i));
 						}
+						dateList.Reverse();
 						timeValidator = TimeDelta;
 						foreach (var date in dateList)
 						{
+							//Trace.WriteLine(date.TimeOfDay);
 							if (CheckSchedule(schedule, date))
 								RunProcedures(schedule);
 						}

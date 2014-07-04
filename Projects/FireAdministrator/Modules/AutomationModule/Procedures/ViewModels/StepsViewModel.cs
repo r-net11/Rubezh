@@ -31,7 +31,9 @@ namespace AutomationModule.ViewModels
 			{
 				step.ExpandToThis();
 			}
+			SelectedStep = AllSteps.FirstOrDefault();
 			OnPropertyChanged("RootSteps");
+			OnPropertyChanged("SelectedStep");
 		}
 
 		#region Tree

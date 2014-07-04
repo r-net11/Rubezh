@@ -22,6 +22,9 @@ namespace FiresecAPI.Automation
 		public ZonePropertyType ZonePropertyType { get; set; }
 
 		[DataMember]
+		public DirectionPropertyType DirectionPropertyType { get; set; }
+
+		[DataMember]
 		public ConditionType ConditionType { get; set; }
 
 		[DataMember]
@@ -37,7 +40,7 @@ namespace FiresecAPI.Automation
 		public StateType StateTypeValue { get; set; }
 
 		[DataMember]
-		public PropertyType PropertyType { get; private set; }
+		public PropertyType PropertyType { get; set; }
 
 	}
 
@@ -66,6 +69,24 @@ namespace FiresecAPI.Automation
 
 		[Description("Тип")]
 		ZoneType
+	}
+
+	public enum DirectionPropertyType
+	{
+		[Description("Имя")]
+		Name,
+
+		[Description("Номер")]
+		No,
+
+		[Description("Задержка")]
+		Delay,
+		
+		[Description("Удержание")]
+		Hold,
+
+		[Description("Режим")]
+		DelayRegime
 	}
 
 	public enum PropertyType

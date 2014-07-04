@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecClient;
@@ -11,7 +12,15 @@ namespace FiresecService.Processor
 {
 	public static class AutomationProcessorRunner
 	{
-		public static bool Run(Procedure procedure, List<Argument> arguments)
+		public static List<Thread> ProceduresThreads { get; private set; }
+
+		static AutomationProcessorRunner()
+		{
+			ProceduresThreads = new List<Thread>();
+			
+		}
+
+		public static bool RunInThread(Procedure procedure, List<Argument> arguments)
 		{
 			try
 			{
@@ -24,6 +33,15 @@ namespace FiresecService.Processor
 			{
 				return false;
 			}
+			return true;
+		}
+		
+		public static bool Run(Procedure procedure, List<Argument> arguments)
+		{
+			var procedureThread = new Thread(() => RunInThread(procedure, arguments));
+			procedureThread.Start();
+			ProceduresThreads.Add(procedureThread);
+			ProceduresThreads = new List<Thread>(ProceduresThreads.FindAll(x => x.IsAlive));
 			return true;
 		}
 
