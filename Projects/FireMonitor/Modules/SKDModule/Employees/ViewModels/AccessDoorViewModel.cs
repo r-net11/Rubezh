@@ -178,28 +178,28 @@ namespace SKDModule.ViewModels
 					case IntervalType.Time:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals)
 						{
-							result.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
+							result.Add(new CardTimeItem(0, interval.Name) { ScheduleID = interval.ID });
 						}
 						break;
 
 					case IntervalType.Weekly:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
 						{
-							result.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
+							result.Add(new CardTimeItem(0, interval.Name) { ScheduleID = interval.ID });
 						}
 						break;
 
 					case IntervalType.SlideDay:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideDayIntervals)
 						{
-							result.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
+							result.Add(new CardTimeItem(0, interval.Name) { ScheduleID = interval.ID });
 						}
 						break;
 
 					case IntervalType.SlideWeekly:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideWeeklyIntervals)
 						{
-							result.Add(new CardTimeItem(0, interval.Name) { UID = interval.UID });
+							result.Add(new CardTimeItem(0, interval.Name) { ScheduleID = interval.ID });
 						}
 						break;
 				};
@@ -234,5 +234,7 @@ namespace SKDModule.ViewModels
 		public int ID { get; set; }
 		public Guid UID { get; set; }
 		public string Name { get; set; }
+		public IntervalType ScheduleType { get; set; }
+		public int ScheduleID { get; set; }
 	}
 }

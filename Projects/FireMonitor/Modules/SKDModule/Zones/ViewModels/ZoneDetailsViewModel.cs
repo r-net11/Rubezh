@@ -57,7 +57,7 @@ namespace SKDModule.ViewModels
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
-				elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
+				elementBase = plan.ElementRectangleSKDZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -66,7 +66,7 @@ namespace SKDModule.ViewModels
 					continue;
 				}
 
-				elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
+				elementBase = plan.ElementPolygonSKDZones.FirstOrDefault(x => x.ZoneUID == Zone.UID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);

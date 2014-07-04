@@ -9,7 +9,7 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Image Width="16" Height="16" Margin="2" Source="/Controls;component/Images/zone.png" />
+			<Image Width="16" Height="16" Margin="2" Source="/Controls;component/Images/Door.png" />
 			<TextBlock FontWeight="Bold" Text="{Binding Door.Name}" />
 		</StackPanel>
 		<!--

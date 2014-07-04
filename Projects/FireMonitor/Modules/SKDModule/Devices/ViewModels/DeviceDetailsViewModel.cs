@@ -105,7 +105,7 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				var planes = FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementXDevices.Any(element => element.XDeviceUID == Device.UID));
+				var planes = FiresecManager.PlansConfiguration.AllPlans.Where(item => item.ElementSKDDevices.Any(element => element.DeviceUID == Device.UID));
 				var planViewModels = new ObservableCollection<PlanViewModel>();
 				foreach (var plan in planes)
 				{

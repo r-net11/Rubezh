@@ -161,14 +161,15 @@ namespace SKDModule
 		void CopySKDStates(SKDStates skdStates)
 		{
 			foreach (var remoteDeviceState in skdStates.DeviceStates)
-			{
-				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
-				if (device != null)
+				if (remoteDeviceState != null)
 				{
-					remoteDeviceState.CopyToState(device.State);
-					device.State.OnStateChanged();
+					var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+					if (device != null)
+					{
+						remoteDeviceState.CopyToState(device.State);
+						device.State.OnStateChanged();
+					}
 				}
-			}
 			foreach (var remoteZoneState in skdStates.ZoneStates)
 			{
 				if (remoteZoneState == null)
