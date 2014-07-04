@@ -131,19 +131,8 @@ namespace SKDModule
 			SafeFiresecService.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResult);
 			SafeFiresecService.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResult);
 
-			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>>(OnGetFilteredSKDArchiveCompletedEvent);
-			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent += new Action<IEnumerable<JournalItem>>(OnGetFilteredSKDArchiveCompletedEvent);
-
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
 			AutoActivationWatcher.Run();
-		}
-
-		void OnGetFilteredSKDArchiveCompletedEvent(IEnumerable<JournalItem> journalItems)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				ServiceFactory.Events.GetEvent<GetFilteredSKDArchiveCompletedEvent>().Publish(journalItems);
-			});
 		}
 
 		void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)

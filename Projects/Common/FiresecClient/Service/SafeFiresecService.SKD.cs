@@ -271,9 +271,9 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(device.UID); }, "SKDCloseDevice");
 		}
 
-		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter)
+		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
-			SafeOperationCall(() => FiresecService.BeginGetSKDFilteredArchive(archiveFilter), "BeginGetSKDFilteredArchive");
+			SafeOperationCall(() => FiresecService.BeginGetSKDFilteredArchive(archiveFilter, archivePortionUID), "BeginGetSKDFilteredArchive");
 		}
 		#endregion
 	}

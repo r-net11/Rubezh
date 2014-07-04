@@ -49,7 +49,6 @@ namespace Infrastructure
 			if (!IsSubcsribed)
 			{
 				SafeFiresecService.NewJournalItemEvent += new Action<FiresecAPI.SKD.JournalItem>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<FiresecAPI.SKD.JournalItem>() { x }); }); });
-				SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<FiresecAPI.SKD.JournalItem>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
 
 				FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
 				FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
@@ -101,11 +100,6 @@ namespace Infrastructure
 		static void OnNewServerJournalRecordEvent(List<FiresecAPI.SKD.JournalItem> journalItems)
 		{
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
-		}
-
-		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<FiresecAPI.SKD.JournalItem> journalRecords)
-		{
-			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(journalRecords);
 		}
 
 		public static void SafeCall(Action action)

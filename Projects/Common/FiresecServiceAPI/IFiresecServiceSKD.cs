@@ -165,7 +165,7 @@ namespace FiresecAPI
 		OperationResult<bool> SKDCloseDevice(Guid deviceUID);
 
 		[OperationContract]
-		void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter);
+		void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID);
 		#endregion
 	}
 }

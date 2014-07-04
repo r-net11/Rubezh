@@ -95,13 +95,10 @@ namespace FiresecService.Service
 			};
 
 			SKDDBHelper.AddMessage(globalEventNameEnum, userName);
-
-			var skdCallbackResult = new SKDCallbackResult();
-			skdCallbackResult.JournalItems.Add(journalItem);
-			FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
+			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
 		}
 
-		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter)
+		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			if (CurrentThread != null)
 			{
@@ -114,7 +111,7 @@ namespace FiresecService.Service
 			{
 				SKDDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
 				SKDDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				SKDDBHelper.BeginGetSKDFilteredArchive(archiveFilter, false);
+				SKDDBHelper.BeginGetSKDFilteredArchive(archiveFilter, archivePortionUID, false);
 
 			}))));
 			thread.Name = "SKD GetFilteredArchive";
@@ -123,9 +120,9 @@ namespace FiresecService.Service
 			thread.Start();
 		}
 
-		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems)
+		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
 		{
-			FiresecService.NotifySKDArchiveCompleted(journalItems);
+			FiresecService.NotifySKDArchiveCompleted(journalItems, archivePortionUID);
 		}
 	}
 }
