@@ -101,7 +101,6 @@ namespace FiresecService
 					skdConfiguration.AfterLoad();
 				}
 				zipFile.Dispose();
-				skdConfiguration.Zones = new List<SKDZone>();
 				return skdConfiguration;
 			}
 			return new SKDConfiguration();
