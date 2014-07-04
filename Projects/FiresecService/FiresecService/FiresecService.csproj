@@ -121,6 +121,7 @@
     <Compile Include="Processor\AutomationProcessorRunner.cs" />
     <Compile Include="Processor\ConfigurationCashHelper.cs" />
     <Compile Include="Processor\GKProcessor.cs" />
+    <Compile Include="Processor\ProcedureHelper.cs" />
     <Compile Include="Processor\SKDProcessor.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\ClientsManager.cs" />

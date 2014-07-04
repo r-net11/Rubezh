@@ -59,6 +59,10 @@
 		<Views:ProcedureSelectionStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="exitTemplate">
+		<Views:ExitStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
@@ -68,6 +72,7 @@
 		ForeachTemplate="{StaticResource foreachTemplate}"
 		PauseTemplate="{StaticResource pauseTemplate}"
 		ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
+		ExitTemplate="{StaticResource exitTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

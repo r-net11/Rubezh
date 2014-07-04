@@ -48,6 +48,10 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.ProcedureSelection:
 					Content = new ProcedureSelectionStepViewModel(step.ProcedureSelectionArguments, procedure);
 					break;
+
+				case ProcedureStepType.Exit:
+					Content = new ExitStepViewModel(step.ExitArguments, procedure);
+					break;
 			}
 		}
 

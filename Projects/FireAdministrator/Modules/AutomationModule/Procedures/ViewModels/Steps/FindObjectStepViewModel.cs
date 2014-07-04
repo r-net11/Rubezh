@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -119,6 +120,8 @@ namespace AutomationModule.ViewModels
 		public RelayCommand RunCommand { get; private set; }
 		private void OnRun()
 		{
+			
+			//FiresecManager.SystemConfiguration.AutomationConfiguration.UpdateConfiguration();
 			FiresecManager.FiresecService.RunProcedure(Procedure.Uid, new List<Argument>());
 		}
 	}

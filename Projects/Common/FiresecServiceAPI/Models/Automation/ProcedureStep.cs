@@ -18,6 +18,7 @@ namespace FiresecAPI.Automation
 			ForeachArguments = new ForeachArguments();
 			PauseArguments = new PauseArguments();
 			ProcedureSelectionArguments = new ProcedureSelectionArguments();
+			ExitArguments = new ExitArguments();
 		}
 
 		public ProcedureStep Parent { get; set; }
@@ -57,5 +58,8 @@ namespace FiresecAPI.Automation
 		
 		[DataMember]
 		public ProcedureSelectionArguments ProcedureSelectionArguments { get; set; }
+
+		[DataMember]
+		public ExitArguments ExitArguments { get; set; }
 	}
 }
