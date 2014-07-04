@@ -4,16 +4,12 @@
 		<Views:DevicesView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:PasswordViewModel}">
-        <Views:PasswordView />
+    <DataTemplate DataType="{x:Type ViewModels:ControllerPropertiesViewModel}">
+        <Views:ControllerPropertiesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DoorConfigurationViewModel}">
-        <Views:DoorConfigurationView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:DeviceInfoViewModel}">
-        <Views:DeviceInfoView />
+    <DataTemplate DataType="{x:Type ViewModels:LockPropertiesViewModel}">
+        <Views:LockPropertiesView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
@@ -24,8 +20,8 @@
 		<Views:DevicesMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ReaderDetailsViewModel}">
-		<Views:ReaderDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:ReaderPropertiesViewModel}">
+		<Views:ReaderPropertiesView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:CameraSelectationViewModel}">

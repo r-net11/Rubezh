@@ -149,8 +149,8 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			var readerDetailsViewModel = new ReaderDetailsViewModel(Device);
-			if (DialogService.ShowModalWindow(readerDetailsViewModel))
+			var readerPropertiesViewModel = new ReaderPropertiesViewModel(Device);
+			if (DialogService.ShowModalWindow(readerPropertiesViewModel))
 			{
 				Device.OnChanged();
 				ServiceFactory.SaveService.SKDChanged = true;
@@ -158,7 +158,8 @@ namespace SKDModule.ViewModels
 		}
 		bool CanShowProperties()
 		{
-			return Device.DriverType == SKDDriverType.Reader;
+			return false;
+			//return Device.DriverType == SKDDriverType.Reader;
 		}
 
 		public bool IsOnPlan

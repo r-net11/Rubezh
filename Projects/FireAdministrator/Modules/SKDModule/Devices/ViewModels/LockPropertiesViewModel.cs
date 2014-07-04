@@ -10,11 +10,11 @@ using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
-	public class DoorConfigurationViewModel : DialogViewModel
+	public class LockPropertiesViewModel : DialogViewModel
 	{
 		public SKDDevice Device { get; private set; }
 
-		public DoorConfigurationViewModel(SKDDevice device)
+		public LockPropertiesViewModel(SKDDevice device)
 		{
 			Title = "Параметры двери";
 			Device = device;

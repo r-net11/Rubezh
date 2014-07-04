@@ -62,17 +62,13 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
-    <Compile Include="Devices\ViewModels\DeviceProperties\DeviceInfoViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceProperties\PasswordViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceProperties\DoorConfigurationViewModel.cs" />
-    <Compile Include="Devices\Views\DeviceInfoView.xaml.cs">
-      <DependentUpon>DeviceInfoView.xaml</DependentUpon>
+    <Compile Include="Devices\ViewModels\ControllerPropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\LockPropertiesViewModel.cs" />
+    <Compile Include="Devices\Views\ControllerPropertiesView.xaml.cs">
+      <DependentUpon>ControllerPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\PasswordView.xaml.cs">
-      <DependentUpon>PasswordView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\DoorConfigurationView.xaml.cs">
-      <DependentUpon>DoorConfigurationView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\LockPropertiesView.xaml.cs">
+      <DependentUpon>LockPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Doors\ViewModels\DeviceSelectationViewModel.cs" />
     <Compile Include="Doors\Views\DeviceSelectationView.xaml.cs">
@@ -93,13 +89,13 @@
     <Compile Include="PassCard\Designer\DesignerCanvas.cs" />
     <Compile Include="Devices\ViewModels\CameraSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\DeviceCommandsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ReaderDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ReaderPropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\ZoneSelectationViewModel.cs" />
     <Compile Include="Devices\Views\CameraSelectationView.xaml.cs">
       <DependentUpon>CameraSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\ReaderDetailsView.xaml.cs">
-      <DependentUpon>ReaderDetailsView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\ReaderPropertiesView.xaml.cs">
+      <DependentUpon>ReaderPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\ZoneSelectationView.xaml.cs">
       <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
@@ -388,19 +384,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\DeviceInfoView.xaml">
+    <Page Include="Devices\Views\ControllerPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\PasswordView.xaml">
+    <Page Include="Devices\Views\LockPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\DoorConfigurationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\ReaderDetailsView.xaml">
+    <Page Include="Devices\Views\ReaderPropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class DeviceInfoView : UserControl
+	public partial class ControllerPropertiesView : UserControl
 	{
-		public DeviceInfoView()
+		public ControllerPropertiesView()
 		{
 			InitializeComponent();
 		}

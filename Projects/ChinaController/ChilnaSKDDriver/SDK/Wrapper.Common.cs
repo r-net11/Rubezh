@@ -91,7 +91,12 @@ namespace ChinaSKDDriver
 				deviceSoftwareInfo = new DeviceSoftwareInfo();
 				deviceSoftwareInfo.DeviceType = Wrapper.CharArrayToString(outResult.szDevType);
 				deviceSoftwareInfo.SoftwareVersion = Wrapper.CharArrayToString(outResult.szSoftWareVersion);
-				deviceSoftwareInfo.SoftwareBuildDate = new DateTime(outResult.dwSoftwareBuildDate_Year, outResult.dwSoftwareBuildDate_Month, outResult.dwSoftwareBuildDate_Day);
+				try
+				{
+					if (outResult.dwSoftwareBuildDate_Year > 0 && outResult.dwSoftwareBuildDate_Month > 0 && outResult.dwSoftwareBuildDate_Day > 0)
+						deviceSoftwareInfo.SoftwareBuildDate = new DateTime(outResult.dwSoftwareBuildDate_Year, outResult.dwSoftwareBuildDate_Month, outResult.dwSoftwareBuildDate_Day);
+				}
+				catch { }
 			}
 			return deviceSoftwareInfo;
 		}

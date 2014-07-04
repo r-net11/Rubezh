@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class DoorConfigurationView : UserControl
+	public partial class LockPropertiesView : UserControl
 	{
-		public DoorConfigurationView()
+		public LockPropertiesView()
 		{
 			InitializeComponent();
 		}

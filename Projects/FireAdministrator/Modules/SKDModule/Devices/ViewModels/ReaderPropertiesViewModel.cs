@@ -9,13 +9,13 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ReaderDetailsViewModel : SaveCancelDialogViewModel
+	public class ReaderPropertiesViewModel : SaveCancelDialogViewModel
 	{
 		public SKDDevice Device { get; private set; }
 		public SKDReaderDUPropertyViewModel DUControl { get; private set; }
 		public SKDReaderDUPropertyViewModel DUConversation { get; private set; }
 
-		public ReaderDetailsViewModel(SKDDevice device)
+		public ReaderPropertiesViewModel(SKDDevice device)
 		{
 			Device = device;
 			Title = "Свойства считывателя " + Device.Name;

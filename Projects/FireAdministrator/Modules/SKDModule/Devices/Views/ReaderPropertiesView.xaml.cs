@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class PasswordView : UserControl
+	public partial class ReaderPropertiesView : UserControl
 	{
-		public PasswordView()
+		public ReaderPropertiesView()
 		{
 			InitializeComponent();
 		}

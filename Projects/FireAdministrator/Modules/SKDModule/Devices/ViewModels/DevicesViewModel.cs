@@ -258,9 +258,8 @@ namespace SKDModule.ViewModels
 				}, "/Controls;component/Images/BEdit.png") { Order = 1 } ,
 				new RibbonMenuItemViewModel("Устройство", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Записать конфигурацию", DeviceCommandsViewModel.WriteTimeSheduleConfigurationCommand, "/Controls;component/Images/BParametersWrite.png"),
-					new RibbonMenuItemViewModel("Информация об устройстве", DeviceCommandsViewModel.ShowInfoCommand, "/Controls;component/Images/BInformation.png") { IsNewGroup = true },
-					new RibbonMenuItemViewModel("Синхронизация времени", DeviceCommandsViewModel.SynchroniseTimeCommand, "/Controls;component/Images/BWatch.png"),
+					new RibbonMenuItemViewModel("Параметры контроллера", DeviceCommandsViewModel.ShowControllerConfigurationCommand, "/Controls;component/Images/BParametersWrite.png"),
+					new RibbonMenuItemViewModel("Параметры двери", DeviceCommandsViewModel.ShowLockConfigurationCommand, "/Controls;component/Images/BInformation.png") { IsNewGroup = true },
 				}, "/Controls;component/Images/BDevice.png") { Order = 2 }
 			};
 		}
