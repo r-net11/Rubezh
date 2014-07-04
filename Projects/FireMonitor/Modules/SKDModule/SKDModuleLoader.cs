@@ -62,22 +62,22 @@ namespace SKDModule
 		{
 			return new List<NavigationItem>
 				{
-				new NavigationItem("СКД", "/Controls;component/Images/tree.png",
+				new NavigationItem("СКД", "/Controls;component/Images/SKDW.png",
 					new List<NavigationItem>()
 					{
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/Tree.png"),
-						new NavigationItem("Учет рабочего времени", null, new List<NavigationItem>()
+						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+						new NavigationItem<ShowDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
+						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/Kartoteka2W.png"),
+						new NavigationItem("Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", new List<NavigationItem>()
 						{
-							new NavigationItem<ShowTimeIntervalsEvent, Guid>(NamedIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesWeeklyViewModel, "Недельные графики", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowSlideDayIntervalsEvent, Guid>(ScheduleSchemesSlideViewModel, "Суточные графики", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowMonthlyIntervalsEvent, Guid>(ScheduleSchemesMonthlyViewModel, "Месячные графики", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-							new NavigationItem<ShowTimeTrackingEvent>(_timeTrackingViewModel, "Учет рабочего времени", "/Controls;component/Images/Tree.png", null, null),
+							new NavigationItem<ShowTimeIntervalsEvent, Guid>(NamedIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/ShedulesDaylyW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesWeeklyViewModel, "Недельные графики", "/Controls;component/Images/SheduleWeeklyW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowSlideDayIntervalsEvent, Guid>(ScheduleSchemesSlideViewModel, "Суточные графики", "/Controls;component/Images/SheduleSlideDaylyW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowMonthlyIntervalsEvent, Guid>(ScheduleSchemesMonthlyViewModel, "Месячные графики", "/Controls;component/Images/ShedulesMonthlyW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/HolidaysW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowShedulesEvent, Guid>(SchedulesViewModel, "Графики работ", "/Controls;component/Images/ShedulesW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowTimeTrackingEvent>(_timeTrackingViewModel, "Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", null, null),
 						}),
 					})
 				};

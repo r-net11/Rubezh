@@ -19,7 +19,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+                                <Image Source="/Controls;component/Images/Shedule.png" VerticalAlignment="Center" Margin="1 0 0 0" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>

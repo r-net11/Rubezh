@@ -47,33 +47,6 @@
 								</StackPanel>
 							</MenuItem.Header>
 						</MenuItem>
-						<!--
-							<Separator />
-							<MenuItem Command="{Binding PlanCopyCommand}">
-							<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BCopy.png" Width="16" VerticalAlignment="Center" />
-							<TextBlock Margin="2" Text="Копировать" VerticalAlignment="Center" />
-							</StackPanel>
-							</MenuItem.Header>
-							</MenuItem>
-							<MenuItem Command="{Binding PlanCutCommand}">
-							<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BCut.png" Width="16" VerticalAlignment="Center" />
-							<TextBlock Margin="2" Text="Вырезать" VerticalAlignment="Center" />
-							</StackPanel>
-							</MenuItem.Header>
-							</MenuItem>
-							<MenuItem Command="{Binding PlanPasteCommand}">
-							<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />
-							<TextBlock Margin="2" Text="Вставить" VerticalAlignment="Center" />
-							</StackPanel>
-							</MenuItem.Header>
-							</MenuItem>
-						-->
 					</ContextMenu>
 				</ListView.Resources>
 				<ListView.ItemContainerStyle>
@@ -93,17 +66,6 @@
 								</StackPanel>
 							</MenuItem.Header>
 						</MenuItem>
-						<!--
-							<Separator />
-							<MenuItem Command="{Binding PlansViewModel.PlanPasteCommand}">
-							<MenuItem.Header>
-							<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/BPaste.png" Width="16" VerticalAlignment="Center" />
-							<TextBlock Margin="2" Text="Вставить" VerticalAlignment="Center" />
-							</StackPanel>
-							</MenuItem.Header>
-							</MenuItem>
-						-->
 					</ContextMenu>
 				</ListView.ContextMenu>
 				<ListView.View>
@@ -112,12 +74,14 @@
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<Border Background="Transparent">
-										<TextBlock VerticalAlignment="Center" Text="{Binding Caption}" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image VerticalAlignment="Center" Source="/Controls;component/Images/PassCardB.png" Margin="2 0" />
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Caption}" Margin="2 0" />
+                                        </StackPanel>
 									</Border>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-						<!--  <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Описание" />  -->
 					</GridView>
 				</ListView.View>
 			</ListView>

@@ -10,7 +10,7 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+							<Image Source="/Controls;component/Images/Shedule.png" VerticalAlignment="Center" Margin="1 0 0 0" />
 							<TextBlock Text="{Binding Holiday.Name}" VerticalAlignment="Center" Margin="2" />
 						</StackPanel>
 					</DataTemplate>

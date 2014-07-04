@@ -35,7 +35,7 @@
 									<ControlTemplate>
 										<StackPanel Orientation="Horizontal">
 											<Image Margin="1 0 2 0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
 											<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 										</StackPanel>
 									</ControlTemplate>

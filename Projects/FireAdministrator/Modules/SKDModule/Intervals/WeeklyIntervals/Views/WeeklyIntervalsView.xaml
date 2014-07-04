@@ -19,7 +19,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+                                <Image Source="/Controls;component/Images/Shedule.png" VerticalAlignment="Center" Margin="1 0 0 0" />
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>
@@ -41,7 +41,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+                                    <Image Source="/Controls;component/Images/Shedule.png" VerticalAlignment="Center" Margin="1 0 0 0" />
 									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>
@@ -51,7 +51,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+                                    <Image Source="/Controls;component/Images/Shedule.png" VerticalAlignment="Center" Margin="1 0 0 0" />
 									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedTimeInterval.Name}" />
 								</StackPanel>
 							</DataTemplate>
@@ -62,7 +62,7 @@
 									<ComboBox.ItemTemplate>
 										<DataTemplate>
 											<DockPanel Background="Transparent">
-												<Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" DockPanel.Dock="Left" />
+                                                <Image Source="/Controls;component/Images/Shedule.png" Height="16" VerticalAlignment="Center" Margin="1 0 0 0" />
 												<TextBlock Margin="2" VerticalAlignment="Center" Foreground="Black" Text="{Binding Name}" />
 											</DockPanel>
 										</DataTemplate>

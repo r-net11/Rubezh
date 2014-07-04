@@ -1134,7 +1134,7 @@
     <Resource Include="Images\Calendar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Schedules.png" />
+    <Resource Include="Images\Shedules.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Mask.png" />
@@ -1149,7 +1149,7 @@
     <Resource Include="Images\GlobalVariables.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Schedule.png" />
+    <Resource Include="Images\Shedule.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Door.png" />
@@ -1200,13 +1200,28 @@
     <Resource Include="Images\BMapOn.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\BMapOff.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\BLock.png" />
+    <Resource Include="Images\SheduleSlideDaylyW.png" />
+    <Resource Include="Images\ShedulesW.png" />
+    <Resource Include="Images\SheduleWeeklyW.png" />
+    <Resource Include="Images\SheduleWeeklyWW.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\BUnlock.png" />
+    <Resource Include="Images\HolidaysW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SheduleSlideWeeklyW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Kartoteka2W.png" />
+    <Resource Include="Images\ShedulesDaylyW.png" />
+    <Resource Include="Images\ShedulesMonthlyW.png" />
+    <Resource Include="Images\SKDW.png" />
+    <Resource Include="Images\stock_macro-stop-after-procedure.png" />
+    <Resource Include="Images\TimeTrackingW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PassCardB.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
