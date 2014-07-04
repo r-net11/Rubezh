@@ -172,7 +172,7 @@ namespace ChinaSKDDriver
 						if (!weeklyIntervalPart.IsHolliday)
 						{
 							var timeShedule = new TimeShedule();
-							var timeInterval = SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == weeklyIntervalPart.TimeIntervalUID);
+							var timeInterval = SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.ID == weeklyIntervalPart.TimeIntervalID);
 							if (timeInterval != null)
 							{
 								foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)

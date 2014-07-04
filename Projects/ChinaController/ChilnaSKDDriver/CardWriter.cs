@@ -96,7 +96,7 @@ namespace ChinaSKDDriver
 					var weeklyInterval = Processor.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.UID == intervalUID);
 					if (weeklyInterval != null)
 					{
-						if (!controllerCardItem.WeeklyIntervals.Any(x => x.UID == weeklyInterval.UID))
+						if (!controllerCardItem.WeeklyIntervals.Any(x => x.ID == weeklyInterval.ID))
 						{
 							controllerCardItem.WeeklyIntervals.Add(weeklyInterval);
 						}

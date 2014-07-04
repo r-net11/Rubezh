@@ -74,7 +74,7 @@ namespace SKDDriver
 				bytes.Add((byte)weeklyTimeInterval.WeeklyIntervalParts.Count);
 				foreach (var weeklyIntervalPart in weeklyTimeInterval.WeeklyIntervalParts)
 				{
-					var timeInterval = Intervals.TimeIntervals.FirstOrDefault(x => x.UID == weeklyIntervalPart.TimeIntervalUID);
+					var timeInterval = Intervals.TimeIntervals.FirstOrDefault(x => x.ID == weeklyIntervalPart.TimeIntervalID);
 					if (timeInterval != null)
 					{
 						bytes.Add((byte)weeklyIntervalPart.No);
@@ -87,13 +87,13 @@ namespace SKDDriver
 			bytes.Add((byte)SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideDayIntervals.Count);
 			foreach (var slideDayInterval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideDayIntervals)
 			{
-				bytes.Add((byte)slideDayInterval.TimeIntervalUIDs.Count);
+				bytes.Add((byte)slideDayInterval.TimeIntervalIDs.Count);
 				bytes.Add((byte)(slideDayInterval.StartDate.Year - 2000));
 				bytes.Add((byte)slideDayInterval.StartDate.Month);
 				bytes.Add((byte)slideDayInterval.StartDate.Day);
-				foreach (var timeIntervalUID in slideDayInterval.TimeIntervalUIDs)
+				foreach (var timeIntervalUID in slideDayInterval.TimeIntervalIDs)
 				{
-					var timeInterval = Intervals.TimeIntervals.FirstOrDefault(x => x.UID == timeIntervalUID);
+					var timeInterval = Intervals.TimeIntervals.FirstOrDefault(x => x.ID == timeIntervalUID);
 					if (timeInterval != null)
 					{
 						bytes.Add((byte)Intervals.TimeIntervals.IndexOf(timeInterval));
@@ -105,13 +105,13 @@ namespace SKDDriver
 			bytes.Add((byte)Intervals.SlideWeeklyIntervals.Count);
 			foreach (var slideWeeklyInterval in Intervals.SlideWeeklyIntervals)
 			{
-				bytes.Add((byte)slideWeeklyInterval.WeeklyIntervalUIDs.Count);
+				bytes.Add((byte)slideWeeklyInterval.WeeklyIntervalIDs.Count);
 				bytes.Add((byte)(slideWeeklyInterval.StartDate.Year - 2000));
 				bytes.Add((byte)slideWeeklyInterval.StartDate.Month);
 				bytes.Add((byte)slideWeeklyInterval.StartDate.Day);
-				foreach (var weeklyIntervalUID in slideWeeklyInterval.WeeklyIntervalUIDs)
+				foreach (var weeklyIntervalUID in slideWeeklyInterval.WeeklyIntervalIDs)
 				{
-					var weeklyInterval = Intervals.WeeklyIntervals.FirstOrDefault(x => x.UID == weeklyIntervalUID);
+					var weeklyInterval = Intervals.WeeklyIntervals.FirstOrDefault(x => x.ID == weeklyIntervalUID);
 					if (weeklyInterval != null)
 					{
 						bytes.Add((byte)Intervals.WeeklyIntervals.IndexOf(weeklyInterval));
