@@ -369,17 +369,6 @@ namespace FiresecClient
 		}
 
 		#region Journal
-		public void AddJournalItem(JournalItem journalItem)
-		{
-			if (IsGKAsAService)
-			{
-				SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
-			}
-			else
-			{
-			}
-		}
-
 		public List<JournalItem> GetGKTopLastJournalItems(int count)
 		{
 			if (IsGKAsAService)

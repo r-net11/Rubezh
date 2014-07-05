@@ -43,15 +43,17 @@ namespace JournalModule.ViewModels
 			ServiceFactory.Events.GetEvent<GetFilteredSKDArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 		}
 
-		public DateTime GetFirstDate()
-		{
-			return DateTime.Now.AddYears(-1);
-			//return GKDBHelper.GetMinDate();
-		}
-
 		public void Initialize()
 		{
-			ArchiveFirstDate = GetFirstDate(); // DateTime.Now.AddDays(-1);
+			var result = FiresecManager.FiresecService.GetMinDateTime();
+			if (!result.HasError)
+			{
+				ArchiveFirstDate = result.Result;
+			}
+			else
+			{
+				ArchiveFirstDate = DateTime.Now.AddYears(-10);
+			}
 			_isFilterOn = false;
 		}
 

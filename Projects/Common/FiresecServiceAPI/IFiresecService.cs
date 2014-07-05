@@ -35,28 +35,9 @@ namespace FiresecAPI
 		string Ping();
 		#endregion
 
-		//#region Journal
-		//[OperationContract]
-		//OperationResult<int> GetJournalLastId();
-
 		//[OperationContract]
 		//OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter);
 
-		//[OperationContract]
-		//OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter);
-
-		//[OperationContract]
-		//void BeginGetFilteredArchive(ArchiveFilter archiveFilter);
-
-		//[OperationContract]
-		//OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions();
-
-		//[OperationContract]
-		//OperationResult<DateTime> GetArchiveStartDate();
-
-		//[OperationContract()]
-		//void AddJournalRecords(List<JournalRecord> journalRecords);
-		//#endregion
 
 		#region Files
 		[OperationContract]

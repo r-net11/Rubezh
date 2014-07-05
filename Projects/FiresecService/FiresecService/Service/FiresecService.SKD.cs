@@ -78,10 +78,6 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.JournalItemTranslator.Get(filter);
 		}
-		public OperationResult SaveSKDJournalItems(IEnumerable<JournalItem> journalItems)
-		{
-			return SKDDatabaseService.JournalItemTranslator.Save(journalItems);
-		}
 		#endregion
 
 		#region Card

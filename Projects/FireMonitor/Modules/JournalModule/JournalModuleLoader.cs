@@ -10,6 +10,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
+using FiresecAPI;
 
 namespace JournalModule
 {
@@ -77,6 +78,13 @@ namespace JournalModule
 
 			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
 			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
+
+			var journalFilter = new SKDJournalFilter();
+			var result = FiresecManager.FiresecService.GetSKDJournalItems(journalFilter);
+			if (!result.HasError)
+			{
+				JournalViewModel.OnNewJournalItems(new List<JournalItem>(result.Result));
+			}
 		}
 
 		void OnNewJournalItem(FiresecAPI.SKD.JournalItem journalItem)

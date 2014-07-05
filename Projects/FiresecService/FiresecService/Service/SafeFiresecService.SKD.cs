@@ -74,9 +74,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<JournalItem>>>(() => FiresecService.GetSKDJournalItems(filter));
 		}
-		public OperationResult SaveSKDJournalItems(IEnumerable<JournalItem> SKDJournalItems)
+		public OperationResult<DateTime> GetMinDateTime()
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveSKDJournalItems(SKDJournalItems));
+			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinDateTime());
 		}
 		#endregion
 
