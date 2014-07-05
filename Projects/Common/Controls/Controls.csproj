@@ -185,6 +185,7 @@
     <Compile Include="HeaderedScrollViewer.cs" />
     <Compile Include="IconedMenuItem.cs" />
     <Compile Include="IconTextBlock.cs" />
+    <Compile Include="ImageHelper.cs" />
     <Compile Include="IPValidationRule.cs" />
     <Compile Include="Layout\RubezhTheme.cs" />
     <Compile Include="ListViewLayoutManager.cs" />
@@ -1194,6 +1195,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="SKDIcons\Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMapOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMapOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BLock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BUnlock.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

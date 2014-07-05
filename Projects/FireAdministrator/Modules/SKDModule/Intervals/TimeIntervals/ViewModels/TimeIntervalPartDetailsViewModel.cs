@@ -11,10 +11,10 @@ namespace SKDModule.ViewModels
 		public TimeIntervalPartDetailsViewModel(SKDTimeIntervalPart timeIntervalPart = null)
 		{
 			Title = "Задание интервала";
-			TimeIntervalPart = timeIntervalPart;
+			TimeIntervalPart = timeIntervalPart ?? new SKDTimeIntervalPart();
 
-			StartTime = timeIntervalPart.StartTime;
-			EndTime = timeIntervalPart.EndTime;
+			StartTime = TimeIntervalPart.StartTime;
+			EndTime = TimeIntervalPart.EndTime;
 		}
 
 		private DateTime _startTime;

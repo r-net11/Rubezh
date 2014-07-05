@@ -38,19 +38,26 @@ namespace ChinaSKDDriver
 					return;
 				Thread.Sleep(100);
 
-				var index = NativeWrapper.WRAP_GetLastIndex(LoginID);
-				if (index > lastIndex)
+				try
 				{
-					for (int i = lastIndex + 1; i <= index; i++)
+					var index = NativeWrapper.WRAP_GetLastIndex(LoginID);
+					if (index > lastIndex)
 					{
-						var wrapJournalItem = new NativeWrapper.WRAP_JournalItem();
-						NativeWrapper.WRAP_GetJournalItem(LoginID, i, out wrapJournalItem);
-						var journalItem = ParceJournal(wrapJournalItem);
+						for (int i = lastIndex + 1; i <= index; i++)
+						{
+							var wrapJournalItem = new NativeWrapper.WRAP_JournalItem();
+							NativeWrapper.WRAP_GetJournalItem(LoginID, i, out wrapJournalItem);
+							var journalItem = ParceJournal(wrapJournalItem);
 
-						if (NewJournalItem != null)
-							NewJournalItem(journalItem);
+							if (NewJournalItem != null)
+								NewJournalItem(journalItem);
+						}
+						lastIndex = index;
 					}
-					lastIndex = index;
+				}
+				catch
+				{
+					//
 				}
 			}
 		}

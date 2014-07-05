@@ -59,13 +59,13 @@ namespace FiresecAPI.SKD
 				Holidays = new List<SKDHoliday>();
 				result = false;
 			}
-			if (TimeIntervals.RemoveAll(item => item.ID < 0 || item.ID > 127) > 0)
+			if (TimeIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
 				result = false;
-			if (WeeklyIntervals.RemoveAll(item => item.ID < 0 || item.ID > 127) > 0)
+			if (WeeklyIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
 				result = false;
-			if (SlideWeeklyIntervals.RemoveAll(item => item.ID < 0 || item.ID > 127) > 0)
+			if (SlideWeeklyIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
 				result = false;
-			if (SlideDayIntervals.RemoveAll(item => item.ID < 0 || item.ID > 127) > 0)
+			if (SlideDayIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
 				result = false;
 			TimeIntervals = TimeIntervals.GroupBy(item => item.ID).Select(group => group.First()).ToList();
 			WeeklyIntervals = WeeklyIntervals.GroupBy(item => item.ID).Select(group => group.First()).ToList();
@@ -83,7 +83,7 @@ namespace FiresecAPI.SKD
 					slideWeeklyInterval.WeeklyIntervalIDs = new List<int>();
 					result = false;
 				}
-				else if (slideWeeklyInterval.WeeklyIntervalIDs.RemoveAll(id => id < 0 || id > 127) > 0)
+				else if (slideWeeklyInterval.WeeklyIntervalIDs.RemoveAll(id => id < 0 || id > 128) > 0)
 					result = false;
 			foreach (var slideDayInterval in SlideDayIntervals)
 				if (slideDayInterval.TimeIntervalIDs == null)
@@ -91,7 +91,7 @@ namespace FiresecAPI.SKD
 					slideDayInterval.TimeIntervalIDs = new List<int>();
 					result = false;
 				}
-				else if (slideDayInterval.TimeIntervalIDs.RemoveAll(id => id < 0 || id > 127) > 0)
+				else if (slideDayInterval.TimeIntervalIDs.RemoveAll(id => id < 0 || id > 128) > 0)
 					result = false;
 
 			if (Holidays.Count == 0)

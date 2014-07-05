@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -39,9 +38,7 @@ namespace SKDModule.ViewModels
 			SelectedWeeklyInterval = WeeklyIntervals.FirstOrDefault();
 		}
 
-		SKDWeeklyInterval IntervalToCopy;
-
-		ObservableCollection<WeeklyIntervalViewModel> _weeklyIntervals;
+		private ObservableCollection<WeeklyIntervalViewModel> _weeklyIntervals;
 		public ObservableCollection<WeeklyIntervalViewModel> WeeklyIntervals
 		{
 			get { return _weeklyIntervals; }
@@ -52,7 +49,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		WeeklyIntervalViewModel _selectedWeeklyInterval;
+		private WeeklyIntervalViewModel _selectedWeeklyInterval;
 		public WeeklyIntervalViewModel SelectedWeeklyInterval
 		{
 			get { return _selectedWeeklyInterval; }
@@ -80,7 +77,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
 			var weeklyIntervalDetailsViewModel = new WeeklyIntervalDetailsViewModel();
 			if (DialogService.ShowModalWindow(weeklyIntervalDetailsViewModel))
@@ -92,26 +89,26 @@ namespace SKDModule.ViewModels
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
-		bool CanAdd()
+		private bool CanAdd()
 		{
 			return WeeklyIntervals.Count < 256;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
+		private void OnDelete()
 		{
 			SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Remove(SelectedWeeklyInterval.WeeklyInterval);
 			WeeklyIntervals.Remove(SelectedWeeklyInterval);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
-		bool CanDelete()
+		private bool CanDelete()
 		{
 			//return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
 			return true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var weeklyIntervalDetailsViewModel = new WeeklyIntervalDetailsViewModel(SelectedWeeklyInterval.WeeklyInterval);
 			if (DialogService.ShowModalWindow(weeklyIntervalDetailsViewModel))
@@ -120,39 +117,40 @@ namespace SKDModule.ViewModels
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
-		bool CanEdit()
+		private bool CanEdit()
 		{
 			//return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
 			return true;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
+		private void OnCopy()
 		{
-			IntervalToCopy = CopyInterval(SelectedWeeklyInterval.WeeklyInterval);
+			_copy = CopyInterval(SelectedWeeklyInterval.WeeklyInterval);
 		}
-		bool CanCopy()
+		private bool CanCopy()
 		{
 			//return SelectedWeeklyInterval != null && !SelectedWeeklyInterval.WeeklyInterval.IsDefault;
 			return true;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
+		private void OnPaste()
 		{
-			var newInterval = CopyInterval(IntervalToCopy);
+			var newInterval = CopyInterval(_copy);
 			SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Add(newInterval);
 			var timeInrervalViewModel = new WeeklyIntervalViewModel(newInterval);
 			WeeklyIntervals.Add(timeInrervalViewModel);
 			SelectedWeeklyInterval = timeInrervalViewModel;
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
-		bool CanPaste()
+		private bool CanPaste()
 		{
-			return IntervalToCopy != null && WeeklyIntervals.Count < 256;
+			return _copy != null && WeeklyIntervals.Count < 256;
 		}
 
-		SKDWeeklyInterval CopyInterval(SKDWeeklyInterval source)
+		private SKDWeeklyInterval _copy;
+		private SKDWeeklyInterval CopyInterval(SKDWeeklyInterval source)
 		{
 			var copy = new SKDWeeklyInterval();
 			copy.Name = source.Name;
@@ -175,7 +173,7 @@ namespace SKDModule.ViewModels
 			base.OnShow();
 		}
 
-		void RegisterShortcuts()
+		private void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
@@ -184,7 +182,7 @@ namespace SKDModule.ViewModels
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 		}
 
-		void SetRibbonItems()
+		private void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
