@@ -51,6 +51,44 @@
 					</StackPanel>
 				</StackPanel>
 			</TabItem>
-		</TabControl>
+            <TabItem Header="Событие" DataContext="{Binding FilterNamesViewModel}">
+                <tree:TreeList Focusable="True" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False">
+                    <tree:TreeList.View>
+                        <GridView>
+                            <GridViewColumn Header="Наименование">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+                                            <CheckBox IsChecked="{Binding IsChecked}" Margin="2" />
+                                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </tree:TreeList.View>
+                </tree:TreeList>
+            </TabItem>
+            <TabItem Header="Объект" DataContext="{Binding FilterObjectsViewModel}">
+                <tree:TreeList Focusable="True" Source="{Binding RootFilters}" SelectedTreeNode="{Binding SelectedFilter}" tree:SortBehavior.CanUserSortColumns="False">
+                    <tree:TreeList.View>
+                        <GridView>
+                            <GridViewColumn Header="Наименование">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Width="16" Height="16" Source="{Binding ImageSource}" HorizontalAlignment="Left" Margin="5 0" />
+                                            <CheckBox IsChecked="{Binding IsChecked}" Margin="2" />
+                                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Width="1000" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </tree:TreeList.View>
+                </tree:TreeList>
+            </TabItem>
+        </TabControl>
 	</DockPanel>
 </UserControl>
