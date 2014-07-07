@@ -43,7 +43,10 @@ namespace SKDModule.ViewModels
 		void OnShowLockConfiguration()
 		{
 			var lockPropertiesViewModel = new LockPropertiesViewModel(SelectedDevice.Device);
-			DialogService.ShowModalWindow(lockPropertiesViewModel);
+			if (DialogService.ShowModalWindow(lockPropertiesViewModel))
+			{
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
 		}
 		bool CanShowLockConfiguration()
 		{

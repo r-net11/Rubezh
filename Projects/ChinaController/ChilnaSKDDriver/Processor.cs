@@ -219,6 +219,10 @@ namespace ChinaSKDDriver
 				var nativeDoorConfiguration = deviceProcessor.Wrapper.GetDoorConfiguration(readerDevice.IntAddress);
 
 				var doorConfiguration = new SKDDoorConfiguration();
+				doorConfiguration.AccessState = (SKDDoorConfiguration_AccessState)nativeDoorConfiguration.AccessState;
+				doorConfiguration.AccessMode = (SKDDoorConfiguration_AccessMode)nativeDoorConfiguration.AccessMode;
+				doorConfiguration.DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod)nativeDoorConfiguration.DoorOpenMethod;
+
 				doorConfiguration.UnlockHoldInterval = nativeDoorConfiguration.UnlockHoldInterval;
 				doorConfiguration.CloseTimeout = nativeDoorConfiguration.CloseTimeout;
 				doorConfiguration.OpenAlwaysTimeIndex = nativeDoorConfiguration.OpenAlwaysTimeIndex;
@@ -246,6 +250,10 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				var nativeDoorConfiguration = new DoorConfiguration();
+				nativeDoorConfiguration.AccessState = (AccessState)doorConfiguration.AccessState;
+				nativeDoorConfiguration.AccessMode = (AccessMode)doorConfiguration.AccessMode;
+				nativeDoorConfiguration.DoorOpenMethod = (DoorOpenMethod)doorConfiguration.DoorOpenMethod;
+
 				nativeDoorConfiguration.UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
 				nativeDoorConfiguration.CloseTimeout = doorConfiguration.CloseTimeout;
 				nativeDoorConfiguration.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;

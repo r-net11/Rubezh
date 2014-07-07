@@ -82,7 +82,7 @@ namespace SKDModule
 
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("СКД", null, new List<NavigationItem>()
+				new NavigationItem("СКД", "/Controls;component/Images/SKD.png", new List<NavigationItem>()
 				{
 					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),

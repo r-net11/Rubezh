@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
     <Compile Include="Devices\ViewModels\ControllerPropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\LockIntervalsViewModel.cs" />
     <Compile Include="Devices\ViewModels\LockPropertiesViewModel.cs" />
     <Compile Include="Devices\Views\ControllerPropertiesView.xaml.cs">
       <DependentUpon>ControllerPropertiesView.xaml</DependentUpon>

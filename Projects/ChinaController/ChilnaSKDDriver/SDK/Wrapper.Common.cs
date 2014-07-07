@@ -232,8 +232,8 @@ namespace ChinaSKDDriver
 			{
 				var doorConfiguration = new DoorConfiguration();
 				doorConfiguration.ChannelName = Wrapper.CharArrayToString(outResult.szChannelName);
-				doorConfiguration.AceessState = (AceessState)outResult.emState;
-				doorConfiguration.AceessMode = (AceessMode)outResult.emMode;
+				doorConfiguration.AccessState = (AccessState)outResult.emState;
+				doorConfiguration.AccessMode = (AccessMode)outResult.emMode;
 				doorConfiguration.EnableMode = outResult.nEnableMode;
 				doorConfiguration.IsSnapshotEnable = outResult2.bSnapshotEnable;
 				doorConfiguration.UseDoorOpenMethod = outResult2.abDoorOpenMethod;
@@ -294,8 +294,8 @@ namespace ChinaSKDDriver
 		{
 			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
 			info.szChannelName = StringToCharArray(doorConfiguration.ChannelName, 128);
-			info.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AceessState;
-			info.emMode = (NativeWrapper.CFG_ACCESS_MODE)doorConfiguration.AceessMode;
+			info.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AccessState;
+			info.emMode = (NativeWrapper.CFG_ACCESS_MODE)doorConfiguration.AccessMode;
 			info.nEnableMode = doorConfiguration.EnableMode;
 			info.bSnapshotEnable = doorConfiguration.IsSnapshotEnable ? (byte)0 : (byte)1;
 			info.abDoorOpenMethod = doorConfiguration.UseDoorOpenMethod ? (byte)0 : (byte)1;
