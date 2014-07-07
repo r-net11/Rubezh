@@ -7,23 +7,39 @@ namespace FiresecAPI.SKD
 	public enum SKDJournalItemType
 	{
 		[EnumMember]
-		[DescriptionAttribute("Система")]
-		System,
-
-		[EnumMember]
-		[DescriptionAttribute("Устройство ГК")]
+		[DescriptionAttribute("Устройства ГК")]
 		GKDevice,
 
 		[EnumMember]
-		[DescriptionAttribute("Зона ГК")]
+		[DescriptionAttribute("Зоны ГК")]
 		GKZone,
 
 		[EnumMember]
-		[DescriptionAttribute("Контроллер")]
-		Controller,
+		[DescriptionAttribute("Направления ГК")]
+		GKDirection,
 
 		[EnumMember]
-		[DescriptionAttribute("Считыватель")]
-		Reader,
+		[DescriptionAttribute("МПТ ГК")]
+		GKMPT,
+
+		[EnumMember]
+		[DescriptionAttribute("Насосные станции ГК")]
+		GKPumpStation,
+
+		[EnumMember]
+		[DescriptionAttribute("Задержки ГК")]
+		GKDelay,
+
+		[EnumMember]
+		[DescriptionAttribute("Устройство СКД")]
+		SKDDevice,
+
+		[EnumMember]
+		[DescriptionAttribute("Зона СКД")]
+		SKDZone,
+
+		[EnumMember]
+		[DescriptionAttribute("Видеоустройство")]
+		VideoDevice,
 	}
 }
