@@ -59,6 +59,7 @@ namespace SKDModule.ViewModels
 					OrganisationDoorsViewModel = new OrganisationDoorsViewModel(SelectedOrganisation.Organisation);
 					OrganisationGuardZonesViewModel = new OrganisationGuardZonesViewModel(SelectedOrganisation.Organisation);
 					OrganisationUsersViewModel = new OrganisationUsersViewModel(SelectedOrganisation.Organisation);
+					OrganisationCardTemplatesViewModel = new OrganisationCardTemplatesViewModel(SelectedOrganisation.Organisation);
 				}
 				else
 				{
@@ -66,6 +67,7 @@ namespace SKDModule.ViewModels
 					OrganisationDoorsViewModel = null;
 					OrganisationGuardZonesViewModel = null;
 					OrganisationUsersViewModel = null;
+					OrganisationCardTemplatesViewModel = null;
 				}
 			}
 		}
@@ -111,6 +113,17 @@ namespace SKDModule.ViewModels
 			{
 				_organisationUsersViewModel = value;
 				OnPropertyChanged("OrganisationUsersViewModel");
+			}
+		}
+
+		OrganisationCardTemplatesViewModel _organisationCardTemplatesViewModel;
+		public OrganisationCardTemplatesViewModel OrganisationCardTemplatesViewModel
+		{
+			get { return _organisationCardTemplatesViewModel; }
+			set
+			{
+				_organisationCardTemplatesViewModel = value;
+				OnPropertyChanged("OrganisationCardTemplatesViewModel");
 			}
 		}
 

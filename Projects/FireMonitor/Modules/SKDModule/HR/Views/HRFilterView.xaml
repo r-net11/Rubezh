@@ -102,13 +102,6 @@
 		<TabItem Header="Идентификатор" DataContext="{Binding CardFilterViewModel}">
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Диапазон серий" Width="150" Foreground="White" Margin="2" />
-					<TextBlock Text="От" Foreground="White" Margin="2" />
-					<TextBox Text="{Binding FirstSeries}" Margin="2" />
-					<TextBlock Text="До" Foreground="White" Margin="2" />
-					<TextBox Text="{Binding LastSeries}" Margin="2" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
 					<TextBlock Text="Диапазон номеров" Width="150" Foreground="White" Margin="2" />
 					<TextBlock Text="От" Foreground="White" Margin="2" />
 					<TextBox Text="{Binding FirstNos}" Margin="2" />

@@ -34,7 +34,7 @@ namespace SKDModule.Views
 				//textColumn.Binding = new Binding(string.Format("Model.Hours[{0}]", i));
 				//grid.Columns.Add(textColumn);
 				var factory = new FrameworkElementFactory(typeof(TextBox));
-				factory.SetValue(TextBox.TextProperty, new Binding(string.Format("Model.Hours[{0}]", i)));
+				factory.SetValue(TextBox.TextProperty, new Binding(string.Format("Model.EmployeeTimeTracks[{0}].Total", i)));
 				var column = new DataGridTemplateColumn()
 				{
 					Header = date.ToShortDateString(),

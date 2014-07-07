@@ -7,7 +7,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationGuardZoneViewModel : BaseViewModel
+	public class OrganisationGuardZoneViewModel : BaseViewModel, IOrganisationItemViewModel
 	{
 		public Organisation Organisation { get; private set; }
 		public XGuardZone GuardZone { get; private set; }

@@ -18,7 +18,7 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult MarkDeletedEmployee(Guid uid);
 		[OperationContract]
-		OperationResult<EmployeeTimeTrack> GetEmployeeTimeTrack(Guid employeeUID, DateTime date);
+		OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate);
 		#endregion
 
 		#region Department
@@ -85,6 +85,8 @@ namespace FiresecAPI
 		OperationResult SaveOrganisationDoors(Organisation organisation);
 		[OperationContract]
 		OperationResult SaveOrganisationZones(Organisation organisation);
+		[OperationContract]
+		OperationResult SaveOrganisationCardTemplates(Organisation organisation);
 		[OperationContract]
 		OperationResult SaveOrganisationGuardZones(Organisation organisation);
 		[OperationContract]

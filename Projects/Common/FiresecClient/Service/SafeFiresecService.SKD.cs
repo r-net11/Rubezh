@@ -25,6 +25,10 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedEmployee(uid));
 		}
+		public OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid uid, DateTime startDate, DateTime endDate)
+		{
+			return SafeContext.Execute(() => FiresecService.GetEmployeeTimeTracks(uid, startDate, endDate));
+		}
 		#endregion
 
 		#region Department
@@ -138,6 +142,10 @@ namespace FiresecClient
 		public OperationResult SaveOrganisationZones(Organisation item)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(item));
+		}
+		public OperationResult SaveOrganisationCardTemplates(Organisation item)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationCardTemplates(item));
 		}
 		public OperationResult SaveOrganisationGuardZones(Organisation item)
 		{

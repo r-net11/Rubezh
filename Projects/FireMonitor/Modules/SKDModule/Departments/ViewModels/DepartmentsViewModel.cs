@@ -112,17 +112,15 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			Guid? parentDepartmentUID = null;
-			if (SelectedDepartment.Parent != null && !SelectedDepartment.Parent.IsOrganisation)
-				parentDepartmentUID = SelectedDepartment.Parent.Department.UID;
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(SelectedDepartment.Organisation.UID, null, parentDepartmentUID);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel(SelectedDepartment.Organisation.UID, null, 
+				SelectedDepartment.IsOrganisation ? SelectedDepartment.Organisation.UID : SelectedDepartment.Department.UID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var departmentViewModel = new DepartmentViewModel(SelectedDepartment.Organisation, departmentDetailsViewModel.ShortDepartment);
 
 				DepartmentViewModel OrganisationViewModel = SelectedDepartment;
 				if (!OrganisationViewModel.IsOrganisation)
-					OrganisationViewModel = SelectedDepartment.Parent;
+					OrganisationViewModel = SelectedDepartment;
 
 				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 					return;

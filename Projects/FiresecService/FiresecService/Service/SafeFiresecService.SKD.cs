@@ -25,9 +25,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployee(uid));
 		}
-		public OperationResult<EmployeeTimeTrack> GetEmployeeTimeTrack(Guid employeeUID, DateTime date)
+		public OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
-			return SafeContext.Execute<OperationResult<EmployeeTimeTrack>>(() => FiresecService.GetEmployeeTimeTrack(employeeUID, date));
+			return SafeContext.Execute<OperationResult<List<EmployeeTimeTrack>>>(() => FiresecService.GetEmployeeTimeTracks(employeeUID, startDate, endDate));
 		}
 		#endregion
 
@@ -142,6 +142,10 @@ namespace FiresecService.Service
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationZones(organisation));
+		}
+		public OperationResult SaveOrganisationCardTemplates(Organisation organisation)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveOrganisationCardTemplates(organisation));
 		}
 		public OperationResult SaveOrganisationGuardZones(Organisation organisation)
 		{

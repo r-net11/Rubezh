@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using FiresecAPI.SKD;
 using FiresecAPI.SKD.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
@@ -25,8 +24,8 @@ namespace SKDModule.ViewModels
 			_settings = new TimeTrackingSettings()
 			{
 				Period = TimeTrackingPeriod.PreviosMonth,
-				StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day),
-				EndDate = DateTime.Today,
+				StartDate = new DateTime(2014, 6, 23),
+				EndDate = new DateTime(2014, 6, 27),
 			};
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
@@ -141,20 +140,22 @@ namespace SKDModule.ViewModels
 				TotalDays = (int)(_settings.EndDate - _settings.StartDate).TotalDays + 1;
 				FirstDay = _settings.StartDate;
 				var employees = EmployeeHelper.Get(_employeeFilter);
-				var random = new Random();
-				TimeTracks = new ObservableCollection<TimeTrackViewModel>(
-					employees.Select(item =>
-						new TimeTrackViewModel(
-							new TimeTrack()
-							{
-								DepartmentName = item.DepartmentName,
-								EmployeeUID = item.UID,
-								FirstName = item.FirstName,
-								LastName = item.LastName,
-								PositionName = item.PositionName,
-								SecondName = item.SecondName,
-								Hours = Enumerable.Repeat<double>(random.Next(5, 12), TotalDays).ToList(),
-							})));
+				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
+				foreach (var employee in employees)
+				{
+					var employeeTimeTracks = EmployeeHelper.GetTimeTracks(employee.UID, _settings.StartDate, _settings.EndDate);
+					TimeTracks.Add(new TimeTrackViewModel(
+						new TimeTrack()
+						{
+							DepartmentName = employee.DepartmentName,
+							EmployeeUID = employee.UID,
+							FirstName = employee.FirstName,
+							LastName = employee.LastName,
+							PositionName = employee.PositionName,
+							SecondName = employee.SecondName,
+							EmployeeTimeTracks = employeeTimeTracks
+						}));
+				}
 			}
 		}
 	}

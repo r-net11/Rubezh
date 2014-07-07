@@ -29,3 +29,12 @@ INSERT INTO Patches (Id) VALUES
 GO
 INSERT INTO Patches (Id) VALUES
 	('PendingCardControllerUID')
+GO
+INSERT INTO Patches (Id) VALUES
+	('OrganisationCardTemplate')
+GO
+INSERT INTO Patches (Id) VALUES
+	('RemoveCardSeries')
+GO
+INSERT INTO Patches (Id) VALUES
+	('RemoveJournalCardSeries')

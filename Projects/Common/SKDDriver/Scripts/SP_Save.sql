@@ -698,7 +698,6 @@ CREATE PROCEDURE SaveCard
 	@UID uniqueidentifier,
 	@IsDeleted bit,
 	@RemovalDate datetime,	
-	@Series int,
 	@Number int,
 	@EmployeeUID uniqueidentifier = NULL,
 	@AccessTemplateUID uniqueidentifier = NULL,
@@ -708,8 +707,8 @@ CREATE PROCEDURE SaveCard
 	@StopReason text = NULL
 AS
 BEGIN
-	INSERT INTO Card (UID,IsDeleted,RemovalDate,Series,Number,EmployeeUID,AccessTemplateUID,StartDate,EndDate,IsInStopList,StopReason,CardType)
-	VALUES (@UID,@IsDeleted,@RemovalDate,@Series,@Number,@EmployeeUID,@AccessTemplateUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason,0)
+	INSERT INTO Card (UID,IsDeleted,RemovalDate,Number,EmployeeUID,AccessTemplateUID,StartDate,EndDate,IsInStopList,StopReason,CardType)
+	VALUES (@UID,@IsDeleted,@RemovalDate,@Number,@EmployeeUID,@AccessTemplateUID,@ValidFrom,@ValidTo,@IsInStopList,@StopReason,0)
 END
 
 GO

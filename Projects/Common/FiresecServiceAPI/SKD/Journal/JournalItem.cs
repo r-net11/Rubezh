@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using FiresecAPI.GK;
 using FiresecAPI.Events;
+using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {
@@ -53,8 +53,5 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public int CardNo { get; set; }
-
-		[DataMember]
-		public int CardSeries { get; set; }
 	}
 }

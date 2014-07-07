@@ -277,89 +277,110 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
-		public OperationResult<EmployeeTimeTrack> GetTimeTrack(Guid employeeUID, DateTime date)
+		public OperationResult<List<EmployeeTimeTrack>> GetTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
 			try
 			{
-				var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime.Date == date.Date).ToList();
-				var result = new EmployeeTimeTrack();
-				result.EmployeeUID = employeeUID;
-				result.Date = date;
-				var firstEnterTime = passJournals.Select(x => x.EnterTime).Min();
-				var lastExitTime = passJournals.Select(x => x.ExitTime).Max();
-				var totalNotMiss = new DateTime();
-				foreach (var item in passJournals)
+				var timeTracks = new List<EmployeeTimeTrack>();
+				for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
 				{
-					totalNotMiss = new DateTime(totalNotMiss.Ticks + item.ExitTime.Ticks - item.EnterTime.Ticks);
-				}
-				 
-				var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
-				var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
-				var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
-				var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
-
-				var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
-				int dayNo = -1;
-
-				switch (scheduleSchemeType)
-				{
-					case ScheduleSchemeType.Week:
-						dayNo = (int)date.DayOfWeek;
-						break;
-					case ScheduleSchemeType.Shift:
-						var daysCount = days.Count();
-						var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
-						dayNo = (int)Math.IEEERemainder((int)period.TotalDays,daysCount);
-						break;
-					case ScheduleSchemeType.Month:
-						dayNo = (int)date.Day;
-						break;
-				}
-				
 					
-				var day = days.FirstOrDefault(x => x.Number == dayNo && !x.IsDeleted);
-				var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID && !x.IsDeleted);
-				var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID && !x.IsDeleted);
-				var totalInSchedule = new TimeSpan();
-				var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).Select(x => x.ZoneUID).ToList();
-				foreach (var interval in intervals)
-				{
-					foreach (var passJournal in passJournals)
-					{
-						if (!scheduleZones.Any(x => x == passJournal.ZoneUID))
-							continue;
-						var enterTimeSpan = new TimeSpan(passJournal.EnterTime.TimeOfDay.Ticks);
-						var exitTimeSpan = new TimeSpan(passJournal.ExitTime.TimeOfDay.Ticks);
-						if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
-						{
-							if (exitTimeSpan.TotalSeconds <= interval.EndTime)
-								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
-							else
-								totalInSchedule.Add(new TimeSpan(Math.BigMul(interval.EndTime, 10000000) - enterTimeSpan.Ticks));
-						}
-						else if (exitTimeSpan.TotalSeconds <= interval.EndTime)
-						{
-							if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
-								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
-							else
-							{
-								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - Math.BigMul(interval.BeginTime, 10000000)));
-							}
-						}
-					}
+					timeTracks.Add(GetTimeTrack(employeeUID, date));
 				}
-
-				result.Total = new DateTime(lastExitTime.Ticks - firstEnterTime.Ticks);
-				result.TotalMiss = new DateTime(result.Total.Ticks - totalNotMiss.Ticks);
-				result.TotalInSchedule = new DateTime(totalInSchedule.Ticks);
-				result.TotalOutSchedule = new DateTime(result.Total.Ticks - result.TotalInSchedule.Ticks);
-
-				return new OperationResult<EmployeeTimeTrack> { Result = result };
+				return new OperationResult<List<EmployeeTimeTrack>> { Result = timeTracks };
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<EmployeeTimeTrack>(e.Message);
+				return new OperationResult<List<EmployeeTimeTrack>>(e.Message);
 			}
+		}
+
+		EmployeeTimeTrack GetTimeTrack(Guid employeeUID, DateTime date)
+		{
+			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime.Date == date.Date).ToList();
+			if (passJournals == null || passJournals.Count == 0)
+				return new EmployeeTimeTrack();
+			var timeTrack = new EmployeeTimeTrack();
+			timeTrack.EmployeeUID = employeeUID;
+			timeTrack.Date = date;
+			var firstEnterTime = passJournals.Select(x => x.EnterTime).Min();
+			var lastExitTime = passJournals.Select(x => x.ExitTime).Max();
+			var totalNotMiss = new DateTime();
+			foreach (var item in passJournals)
+			{
+				totalNotMiss = new DateTime(totalNotMiss.Ticks + item.ExitTime.Ticks - item.EnterTime.Ticks);
+			}
+
+			var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
+			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
+			if(schedule == null)
+				return new EmployeeTimeTrack();
+			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
+			if (scheduleScheme == null)
+				return new EmployeeTimeTrack();
+			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
+
+			var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
+			if (days == null || days.Count() == 0)
+				return new EmployeeTimeTrack();
+			int dayNo = -1;
+
+			switch (scheduleSchemeType)
+			{
+				case ScheduleSchemeType.Week:
+					dayNo = (int)date.DayOfWeek;
+					break;
+				case ScheduleSchemeType.Shift:
+					var daysCount = days.Count();
+					var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
+					dayNo = (int)Math.IEEERemainder((int)period.TotalDays, daysCount);
+					break;
+				case ScheduleSchemeType.Month:
+					dayNo = (int)date.Day;
+					break;
+			}
+			var day = days.FirstOrDefault(x => x.Number == dayNo && !x.IsDeleted);
+			if (day == null)
+				return new EmployeeTimeTrack();
+			var nIs = Context.NamedIntervals.ToList();
+			var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID && !x.IsDeleted);
+			if (namedInterval == null)
+				return new EmployeeTimeTrack();
+			var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID && !x.IsDeleted);
+			var totalInSchedule = new TimeSpan();
+			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).Select(x => x.ZoneUID).ToList();
+			foreach (var interval in intervals)
+			{
+				foreach (var passJournal in passJournals)
+				{
+					if (!scheduleZones.Any(x => x == passJournal.ZoneUID))
+						continue;
+					var enterTimeSpan = new TimeSpan(passJournal.EnterTime.TimeOfDay.Ticks);
+					var exitTimeSpan = new TimeSpan(passJournal.ExitTime.TimeOfDay.Ticks);
+					if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
+					{
+						if (exitTimeSpan.TotalSeconds <= interval.EndTime)
+							totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
+						else
+							totalInSchedule.Add(new TimeSpan(Math.BigMul(interval.EndTime, 10000000) - enterTimeSpan.Ticks));
+					}
+					else if (exitTimeSpan.TotalSeconds <= interval.EndTime)
+					{
+						if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
+							totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
+						else
+						{
+							totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - Math.BigMul(interval.BeginTime, 10000000)));
+						}
+					}
+				}
+			}
+
+			timeTrack.Total = new DateTime(lastExitTime.Ticks - firstEnterTime.Ticks);
+			timeTrack.TotalMiss = new DateTime(timeTrack.Total.Ticks - totalNotMiss.Ticks);
+			timeTrack.TotalInSchedule = new DateTime(totalInSchedule.Ticks);
+			timeTrack.TotalOutSchedule = new DateTime(timeTrack.Total.Ticks - timeTrack.TotalInSchedule.Ticks);
+			return timeTrack;
 		}
 	}
 }

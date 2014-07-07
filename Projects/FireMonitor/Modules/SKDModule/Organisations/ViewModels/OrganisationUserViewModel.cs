@@ -7,7 +7,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationUserViewModel : BaseViewModel
+	public class OrganisationUserViewModel : BaseViewModel, IOrganisationItemViewModel
 	{
 		public Organisation Organisation { get; private set; }
 		public User User { get; private set; }

@@ -86,7 +86,6 @@ namespace SKDDriver
 						{
 							if (readerDevice.ZoneUID == cardZone.DoorUID)
 							{
-								bytes.Add((byte)card.Series);
 								bytes.Add((byte)card.Number);
 
 								bytes.Add((byte)cardZone.EnterIntervalType);

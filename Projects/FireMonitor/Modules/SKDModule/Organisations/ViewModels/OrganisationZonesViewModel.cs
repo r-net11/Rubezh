@@ -1,49 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
-using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationZonesViewModel : BaseViewModel
+	public class OrganisationZonesViewModel : OrganisationItemsViewModel<OrganisationZoneViewModel>
 	{
-		public Organisation Organisation { get; private set; }
-
-		public OrganisationZonesViewModel(Organisation organisation)
+		public OrganisationZonesViewModel(Organisation organisation):base(organisation)
 		{
-			Organisation = organisation;
-
 			var zones = SKDManager.SKDConfiguration.Zones;
-
-			Zones = new ObservableCollection<OrganisationZoneViewModel>();
+			Items = new ObservableCollection<OrganisationZoneViewModel>();
 			foreach (var zone in zones)
 			{
-				Zones.Add(new OrganisationZoneViewModel(Organisation, zone));
-			}
-		}
-
-		ObservableCollection<OrganisationZoneViewModel> _Zones;
-		public ObservableCollection<OrganisationZoneViewModel> Zones
-		{
-			get { return _Zones; }
-			private set
-			{
-				_Zones = value;
-				OnPropertyChanged(() => Zones);
-			}
-		}
-
-		OrganisationZoneViewModel _selectedZone;
-		public OrganisationZoneViewModel SelectedZone
-		{
-			get { return _selectedZone; }
-			set
-			{
-				_selectedZone = value;
-				OnPropertyChanged(() => SelectedZone);
+				Items.Add(new OrganisationZoneViewModel(Organisation, zone));
 			}
 		}
 	}

@@ -2,51 +2,20 @@
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationUsersViewModel : BaseViewModel
+	public class OrganisationUsersViewModel : OrganisationItemsViewModel<OrganisationUserViewModel>
 	{
-		public Organisation Organisation { get; private set; }
-
-		public OrganisationUsersViewModel(Organisation organisation)
+		public OrganisationUsersViewModel(Organisation organisation):base(organisation)
 		{
-			Organisation = organisation;
-			Users = new ObservableCollection<OrganisationUserViewModel>();
+			Items = new ObservableCollection<OrganisationUserViewModel>();
 			foreach (var user in FiresecManager.SecurityConfiguration.Users)
 			{
 				var userViewModel = new OrganisationUserViewModel(organisation, user);
-				Users.Add(userViewModel);
+				Items.Add(userViewModel);
 			}
-			//foreach (var user in Users)
-			//{
-			//	if (organisation.UserUIDs.Any(x => x == user.User.UID))
-			//		user.IsChecked = true;
-			//}
-			SelectedUser = Users.FirstOrDefault();
-		}
-
-		ObservableCollection<OrganisationUserViewModel> _users;
-		public ObservableCollection<OrganisationUserViewModel> Users
-		{
-			get { return _users; }
-			private set
-			{
-				_users = value;
-				OnPropertyChanged("Users");
-			}
-		}
-
-		OrganisationUserViewModel _selectedUser;
-		public OrganisationUserViewModel SelectedUser
-		{
-			get { return _selectedUser; }
-			set
-			{
-				_selectedUser = value;
-				OnPropertyChanged("SelectedUser");
-			}
+			SelectedItem = Items.FirstOrDefault();
 		}
 	}
 }

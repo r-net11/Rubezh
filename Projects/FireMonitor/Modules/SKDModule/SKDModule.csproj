@@ -162,6 +162,10 @@
     <Compile Include="Intervals\TimeTracking\Views\TimeTrackingView.xaml.cs">
       <DependentUpon>TimeTrackingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Organisations\ViewModels\IOrganisationItemViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationCardTemplatesViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationCardTemplateViewModel.cs" />
+    <Compile Include="Organisations\ViewModels\OrganisationItemsViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationUserViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationDoorsViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationDoorViewModel.cs" />

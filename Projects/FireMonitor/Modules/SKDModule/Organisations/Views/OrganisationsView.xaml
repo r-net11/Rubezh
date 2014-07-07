@@ -9,7 +9,6 @@
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-
 		<ListBox Grid.Column="0" ItemsSource="{Binding Organisations}" SelectedItem="{Binding SelectedOrganisation}">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
@@ -23,61 +22,124 @@
 		<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" />
 		<TabControl Grid.Column="2" >
 			<TabItem Header="Пользователи" DataContext="{Binding OrganisationUsersViewModel}" >
-				<ListBox ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/SKDUser.png" VerticalAlignment="Center" Margin="1 0" />
-								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-								<TextBlock Text="{Binding User.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
-							</StackPanel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/Controls;component/Images/SKDUser.png" VerticalAlignment="Center" Margin="1 0" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+									<TextBlock Text="{Binding User.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<StackPanel Grid.Row="1" Orientation="Horizontal">
+						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
+						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
+					</StackPanel>
+				</Grid>
 			</TabItem>
 			<TabItem Header="Точки доступа" DataContext="{Binding OrganisationDoorsViewModel}" >
-				<ListBox ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
-								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-								<TextBlock Text="{Binding Door.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
-							</StackPanel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+									<TextBlock Text="{Binding Door.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<StackPanel Grid.Row="1" Orientation="Horizontal">
+						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
+						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
+					</StackPanel>
+				</Grid>
 			</TabItem>
 			<TabItem Header="Охранные зоны" DataContext="{Binding OrganisationGuardZonesViewModel}" >
-				<ListBox ItemsSource="{Binding GuardZones}" SelectedItem="{Binding SelectedGuardZone}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
-								<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-								<TextBlock Text="{Binding GuardZone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
-							</StackPanel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+									<TextBlock Text="{Binding GuardZone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<StackPanel Grid.Row="1" Orientation="Horizontal">
+						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
+						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
+					</StackPanel>
+				</Grid>
 			</TabItem>
 			<TabItem Header="Зоны СКД" DataContext="{Binding OrganisationZonesViewModel}" >
-				<DataGrid Name="_zonesDataGrid" Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Width="250" Header="Название">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
-										<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0" />
-										<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
-										<TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-						<DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
-					</DataGrid.Columns>
-				</DataGrid>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<DataGrid Grid.Row="0" Name="_zonesDataGrid" Focusable="True" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Width="250" Header="Название">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal">
+											<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0" />
+											<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+											<TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
+						</DataGrid.Columns>
+					</DataGrid>
+					<StackPanel Grid.Row="1" Orientation="Horizontal">
+						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
+						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
+					</StackPanel>
+				</Grid>
+			</TabItem>
+			<TabItem Header="Шаблоны карт" DataContext="{Binding OrganisationCardTemplatesViewModel}" >
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<ListBox Grid.Row="0" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel Orientation="Horizontal">
+									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" Width="16" />
+									<CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+									<TextBlock Text="{Binding CardTemplate.Caption}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200" Margin="2" />
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+					<StackPanel Grid.Row="1" Orientation="Horizontal">
+						<Controls:ToolBarButton Command="{Binding SelectAllCommand}" ToolTip="Выделить всё" ImageSource="/Controls;component/Images/SelectAll.png" />
+						<Controls:ToolBarButton Command="{Binding SelectNoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/SelectNone.png" />
+					</StackPanel>
+				</Grid>
 			</TabItem>
 		</TabControl>
 	</Grid>

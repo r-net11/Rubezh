@@ -31,7 +31,7 @@ namespace SKDModule.PassCard.ViewModels
 
 		public PassCardViewModel(Guid employeeUID, SKDCard card)
 		{
-			Title = "Печать удостоверения " + card.PresentationName;
+			Title = "Печать удостоверения " + card.Number;
 			Card = card;
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			Employee = EmployeeHelper.GetDetails(employeeUID);
@@ -44,7 +44,8 @@ namespace SKDModule.PassCard.ViewModels
 			Organisation = OrganisationHelper.GetDetails(Employee.OrganisationUID);
 			PassCardCanvas = new PassCardCanvas();
 			SKDManager.SKDPassCardLibraryConfiguration.Templates.Sort((item1, item2) => string.Compare(item1.Caption, item2.Caption));
-			PassCardTemplates = new ObservableCollection<PassCardTemplate>(SKDManager.SKDPassCardLibraryConfiguration.Templates);
+			PassCardTemplates = new ObservableCollection<PassCardTemplate>(SKDManager.SKDPassCardLibraryConfiguration.Templates.Where(x=> Organisation.CardTemplateUIDs.Any(y => y == x.UID)));
+
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 

@@ -21,7 +21,6 @@ namespace SKDDriver
 		protected override OperationResult CanSave(SKDCard item)
 		{
 			bool isSameSeriesNo = Table.Any(x => x.Number == item.Number &&
-				x.Series == item.Series &&
 				!x.IsDeleted &&
 				x.UID != item.UID);
 			if (isSameSeriesNo)
@@ -60,7 +59,6 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.HolderUID = tableItem.EmployeeUID;
 			result.Number = tableItem.Number;
-			result.Series = tableItem.Series;
 			result.CardType = (CardType)tableItem.CardType;
 			result.StartDate = tableItem.StartDate;
 			result.EndDate = tableItem.EndDate;
@@ -80,7 +78,6 @@ namespace SKDDriver
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.Number = apiItem.Number;
-			tableItem.Series = apiItem.Series;
 			tableItem.EmployeeUID = apiItem.HolderUID;
 			tableItem.CardType = (int)apiItem.CardType;
 			tableItem.StartDate = CheckDate(apiItem.StartDate);
@@ -130,14 +127,6 @@ namespace SKDDriver
 					break;
 			}
 
-			if (filter.FirstSeries > 0)
-			{
-				result = result.And(e => e.Series >= filter.FirstSeries);
-			}
-			if (filter.LastSeries > 0)
-			{
-				result = result.And(e => e.Series <= filter.LastSeries);
-			}
 			if (filter.FirstNos > 0)
 			{
 				result = result.And(e => e.Number >= filter.FirstNos);

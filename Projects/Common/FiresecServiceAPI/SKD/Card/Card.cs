@@ -14,9 +14,6 @@ namespace FiresecAPI.SKD
 		}
 
 		[DataMember]
-		public int Series { get; set; }
-
-		[DataMember]
 		public int Number { get; set; }
 
 		[DataMember]
@@ -48,10 +45,5 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string EmployeeName { get; set; }
-
-		public string PresentationName
-		{
-			get { return Series.ToString() + "/" + Number; }
-		}
 	}
 }

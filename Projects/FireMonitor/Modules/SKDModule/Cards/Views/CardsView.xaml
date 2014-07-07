@@ -6,16 +6,6 @@
 
 	<DataGrid ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" CanUserSortColumns="True">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Семейство" CanUserSort="True" SortMemberPath="Card.Series" Width="Auto">
-				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Horizontal">
-							<Image Width="16" Source="/Controls;component/Images/Card.png" VerticalAlignment="Center" Margin="1 0" />
-							<TextBlock Text="{Binding Card.Series}" />
-						</StackPanel>
-					</DataTemplate>
-				</DataGridTemplateColumn.CellTemplate>
-			</DataGridTemplateColumn>
 			<DataGridTemplateColumn Header="Номер" CanUserSort="True" SortMemberPath="Card.Number" Width="Auto">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>

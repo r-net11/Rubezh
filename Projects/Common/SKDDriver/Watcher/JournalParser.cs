@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using JournalItem = FiresecAPI.SKD.JournalItem;
 
@@ -32,7 +31,6 @@ namespace SKDDriver
 
 			JournalItem = new JournalItem();
 			JournalItem.DeviceDateTime = deviceDateTime;
-			JournalItem.CardSeries = cardSeries;
 			JournalItem.CardNo = cardNo;
 
 			if (source == 1)

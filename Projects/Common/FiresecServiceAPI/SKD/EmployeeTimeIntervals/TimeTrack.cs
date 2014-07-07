@@ -27,5 +27,8 @@ namespace FiresecAPI.SKD.EmployeeTimeIntervals
 
 		[DataMember]
 		public List<double> Hours { get; set; }
+
+		[DataMember]
+		public List<EmployeeTimeTrack> EmployeeTimeTracks { get; set; }
 	}
 }

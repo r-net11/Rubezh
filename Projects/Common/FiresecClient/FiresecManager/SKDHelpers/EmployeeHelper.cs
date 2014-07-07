@@ -42,5 +42,11 @@ namespace FiresecClient.SKDHelpers
 			var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(uid.Value);
 			return Common.ShowErrorIfExists(operationResult);
 		}
+
+		public static List<EmployeeTimeTrack> GetTimeTracks(Guid uid, DateTime startDate, DateTime endDate)
+		{
+			var operationResult = FiresecManager.FiresecService.GetEmployeeTimeTracks(uid, startDate, endDate);
+			return Common.ShowErrorIfExists(operationResult);
+		}
 	}
 }

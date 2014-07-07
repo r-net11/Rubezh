@@ -4,7 +4,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class OrganisationZoneViewModel : BaseViewModel
+	public class OrganisationZoneViewModel : BaseViewModel, IOrganisationItemViewModel
 	{
 		public Organisation Organisation { get; private set; }
 		public SKDZone Zone { get; private set; }

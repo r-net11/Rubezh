@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using ChinaSKDDriver;
 using FiresecAPI;
+using FiresecAPI.Events;
 using FiresecAPI.SKD;
 using SKDDriver;
-using FiresecAPI.Events;
 
 namespace FiresecService.Service
 {
@@ -29,9 +28,9 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(uid);
 		}
-		public OperationResult<EmployeeTimeTrack> GetEmployeeTimeTrack(Guid employeeUID, DateTime date)
+		public OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
-			return SKDDatabaseService.EmployeeTranslator.GetTimeTrack(employeeUID, date);
+			return SKDDatabaseService.EmployeeTranslator.GetTimeTracks(employeeUID, startDate, endDate);
 		}
 		#endregion
 
@@ -174,6 +173,10 @@ namespace FiresecService.Service
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
 			return SKDDatabaseService.OrganisationTranslator.SaveZones(organisation);
+		}
+		public OperationResult SaveOrganisationCardTemplates(Organisation organisation)
+		{
+			return SKDDatabaseService.OrganisationTranslator.SaveCardTemplates(organisation);
 		}
 		public OperationResult SaveOrganisationGuardZones(Organisation organisation)
 		{

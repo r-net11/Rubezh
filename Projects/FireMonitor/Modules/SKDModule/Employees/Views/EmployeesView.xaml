@@ -25,6 +25,8 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
+					<GridViewColumn Header="Отдел" Width="150" DisplayMemberBinding="{Binding DepartmentName}" />
+					<GridViewColumn Header="Должность" Width="150" DisplayMemberBinding="{Binding PositionName}" />
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>

@@ -1,11 +1,11 @@
-﻿ using System;
+﻿using System;
 using System.Linq.Expressions;
 using FiresecAPI;
+using FiresecAPI.Events;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using LinqKit;
 using JournalItem = FiresecAPI.SKD.JournalItem;
-using FiresecAPI.Events;
 
 namespace SKDDriver
 {
@@ -34,8 +34,7 @@ namespace SKDDriver
 				SystemDateTime = tableItem.SystemDate,
 				UID = tableItem.UID,
 				UserName = tableItem.UserName,
-				CardNo = tableItem.CardNo,
-				CardSeries = tableItem.CardSeries
+				CardNo = tableItem.CardNo
 			};
 		}
 
@@ -54,7 +53,6 @@ namespace SKDDriver
 			tableItem.SystemDate = CheckDate(apiItem.SystemDateTime);
 			tableItem.UserName = apiItem.UserName;
 			tableItem.CardNo = tableItem.CardNo;
-			tableItem.CardSeries = tableItem.CardSeries;
 		}
 
 		protected override Expression<Func<DataAccess.Journal, bool>> IsInFilter(SKDJournalFilter filter)

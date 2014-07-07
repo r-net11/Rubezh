@@ -257,10 +257,55 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'PendingCardControllerUID')
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'PendingCard')
 	BEGIN
-		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = '" + columnName + "' and table_name = '" + tableName + "')
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'ControllerUID' and table_name = 'PendingCard')
 		BEGIN
 			ALTER TABLE PendingCard ADD [ControllerUID] [uniqueidentifier] NOT NULL
 		END
 	END
 	INSERT INTO Patches (Id) VALUES ('PendingCardControllerUID')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'OrganisationCardTemplate')
+BEGIN
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'OrganisationCardTemplate')
+	BEGIN
+		CREATE TABLE [dbo].[OrganisationCardTemplate](
+		[UID] [uniqueidentifier] NOT NULL,
+		[CardTemplateUID] [uniqueidentifier] NOT NULL,
+		[OrganisationUID] [uniqueidentifier] NOT NULL,
+		CONSTRAINT [PK_OrganisationCardTemplate] PRIMARY KEY CLUSTERED 
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		ALTER TABLE [dbo].[OrganisationCardTemplate] WITH NOCHECK ADD CONSTRAINT [FK_OrganisationCardTemplate_Organisation] FOREIGN KEY([OrganisationUid])
+		REFERENCES [dbo].[Organisation] ([Uid])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[OrganisationCardTemplate] NOCHECK CONSTRAINT [FK_OrganisationCardTemplate_Organisation]
+	END
+	INSERT INTO Patches (Id) VALUES ('OrganisationCardTemplate')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveCardSeries')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'Series' and table_name = 'Card')
+		BEGIN
+			ALTER TABLE [Card] DROP COLUMN [Series]
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveCardSeries')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveJournalCardSeries')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Journal')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardSeries' and table_name = 'Journal')
+		BEGIN
+			ALTER TABLE Journal DROP COLUMN [CardSeries]
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveJournalCardSeries')
 END

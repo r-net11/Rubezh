@@ -8,7 +8,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Events;
 using Infrastructure.Events;
 
 namespace SKDModule.ViewModels
@@ -33,7 +32,6 @@ namespace SKDModule.ViewModels
 				Title = "Создание пропуска";
 				card = new SKDCard()
 				{
-					Series = 0,
 					Number = 0,
 					StartDate = DateTime.Now,
 					EndDate = DateTime.Now.AddYears(1)
@@ -41,10 +39,9 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				Title = string.Format("Свойства пропуска: {0}", card.PresentationName);
+				Title = string.Format("Свойства пропуска: {0}", card.Number);
 			}
 			Card = card;
-			Series = Card.Series;
 			Number = Card.Number;
 			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
@@ -73,17 +70,6 @@ namespace SKDModule.ViewModels
 
 			CardTypes = new ObservableCollection<CardType>(Enum.GetValues(typeof(CardType)).OfType<CardType>());
 			SelectedCardType = Card.CardType;
-		}
-
-		int _series;
-		public int Series
-		{
-			get { return _series; }
-			set
-			{
-				_series = value;
-				OnPropertyChanged("Series");
-			}
 		}
 
 		int _number;
@@ -209,7 +195,6 @@ namespace SKDModule.ViewModels
 		{
 			if (UseStopList && SelectedStopListCard != null)
 			{
-				Series = SelectedStopListCard.Series;
 				Number = SelectedStopListCard.Number;
 			}
 		}
@@ -239,9 +224,8 @@ namespace SKDModule.ViewModels
 			{
 				if (journalItem.ObjectUID == ClientSettings.SKDSettings.CardCreatorReaderUID)
 				{
-					if (journalItem.CardSeries > 0 && journalItem.CardNo > 0)
+					if (journalItem.CardNo > 0)
 					{
-						Series = journalItem.CardSeries;
 						Number = journalItem.CardNo;
 					}
 				}
@@ -295,12 +279,11 @@ namespace SKDModule.ViewModels
 			if (UseStopList && SelectedStopListCard != null)
 			{
 				if (!IsNewCard)
-					CardHelper.DeleteFromEmployee(Card, "Заменен на пропуск " + Series + @"\" + Number);
+					CardHelper.DeleteFromEmployee(Card, "Заменен на пропуск " + Number);
 				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
 				Card.StopReason = null;
 			}
-			Card.Series = Series;
 			Card.Number = Number;
 			Card.CardType = SelectedCardType;
 			Card.StartDate = StartDate;
