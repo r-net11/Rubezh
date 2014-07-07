@@ -131,19 +131,8 @@ namespace SKDModule
 			SafeFiresecService.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResult);
 			SafeFiresecService.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResult);
 
-			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>>(OnGetFilteredSKDArchiveCompletedEvent);
-			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent += new Action<IEnumerable<JournalItem>>(OnGetFilteredSKDArchiveCompletedEvent);
-
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
 			AutoActivationWatcher.Run();
-		}
-
-		void OnGetFilteredSKDArchiveCompletedEvent(IEnumerable<JournalItem> journalItems)
-		{
-			ApplicationService.Invoke(() =>
-			{
-				ServiceFactory.Events.GetEvent<GetFilteredSKDArchiveCompletedEvent>().Publish(journalItems);
-			});
 		}
 
 		void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)
@@ -161,14 +150,15 @@ namespace SKDModule
 		void CopySKDStates(SKDStates skdStates)
 		{
 			foreach (var remoteDeviceState in skdStates.DeviceStates)
-			{
-				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
-				if (device != null)
+				if (remoteDeviceState != null)
 				{
-					remoteDeviceState.CopyToState(device.State);
-					device.State.OnStateChanged();
+					var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
+					if (device != null)
+					{
+						remoteDeviceState.CopyToState(device.State);
+						device.State.OnStateChanged();
+					}
 				}
-			}
 			foreach (var remoteZoneState in skdStates.ZoneStates)
 			{
 				if (remoteZoneState == null)

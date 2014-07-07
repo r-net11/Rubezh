@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using FiresecAPI.SKD;
+﻿using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -8,52 +7,33 @@ namespace SKDModule.ViewModels
 	{
 		public SKDWeeklyInterval WeeklyInterval { get; private set; }
 
-		public WeeklyIntervalDetailsViewModel(SKDWeeklyInterval weeklyInterval = null)
+		public WeeklyIntervalDetailsViewModel(SKDWeeklyInterval weeklyInterval)
 		{
-			if (weeklyInterval == null)
-			{
-				Title = "Новый понедельный график";
-				weeklyInterval = new SKDWeeklyInterval()
-				{
-					Name = "Понедельный график",
-				};
-				foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
-				{
-					var neverTimeInterval = SKDManager.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.Name == "Никогда");
-					if (neverTimeInterval != null)
-					{
-						weeklyIntervalPart.TimeIntervalUID = neverTimeInterval.UID;
-					}
-				}
-			}
-			else
-			{
-				Title = "Редактирование понедельногор графика";
-			}
+			Title = "Редактирование понедельногор графика";
 			WeeklyInterval = weeklyInterval;
 			Name = WeeklyInterval.Name;
 			Description = WeeklyInterval.Description;
 		}
 
-		string _name;
+		private string _name;
 		public string Name
 		{
 			get { return _name; }
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
-		string _description;
+		private string _description;
 		public string Description
 		{
 			get { return _description; }
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 

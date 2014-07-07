@@ -94,9 +94,6 @@ namespace FiresecAPI
 
 		#region Journal
 		[OperationContract]
-		void AddJournalItem(JournalItem journalItem);
-
-		[OperationContract]
 		List<JournalItem> GetGKTopLastJournalItems(int count);
 
 		[OperationContract]

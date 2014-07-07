@@ -13,6 +13,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ForeachTemplate { get; set; }
 		public DataTemplate PauseTemplate { get; set; }
 		public DataTemplate ProcedureSelectionTemplate { get; set; }
+		public DataTemplate ExitTemplate { get; set; }
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
 			if (item is SoundStepViewModel)
@@ -46,6 +47,10 @@ namespace AutomationModule.ViewModels
 			if (item is ProcedureSelectionStepViewModel)
 			{
 				return ProcedureSelectionTemplate;
+			}
+			if (item is ExitStepViewModel)
+			{
+				return ExitTemplate;
 			}
 			
 			return null;

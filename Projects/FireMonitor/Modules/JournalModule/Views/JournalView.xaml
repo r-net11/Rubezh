@@ -12,11 +12,11 @@
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Дата в приборе" Binding="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" />
 				<DataGridTextColumn Header="Дата в системе" Binding="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" />
-				<DataGridTemplateColumn Header="Название" Width="Auto">
+				<DataGridTemplateColumn Header="Название" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding JournalItem.Name}" VerticalAlignment="Center" />
+								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -25,20 +25,19 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding JournalItem.Description}" VerticalAlignment="Center" />
+								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Устройство" Width="Auto">
+				<DataGridTemplateColumn Header="Объект" Width="Auto">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="{Binding JournalItem.DeviceStateClass, Converter={StaticResource XStateClassToIconConverter2}}" VerticalAlignment="Center" Margin="2" />
-								<Image Width="16" Height="16" Source="{Binding Device.Driver.ImageSource}" VerticalAlignment="Center" Margin="2" />
+								<Image Width="16" Height="16" Source="{Binding ObjectImageSource}" VerticalAlignment="Center" Margin="2" />
 								<TextBlock VerticalAlignment="Center" Background="{Binding IsExistsInConfig, Converter={StaticResource BoolToStringColorConverter}}">
 									<Hyperlink Command="{Binding ShowObjectOrPlanCommand}" Style="{StaticResource HyperlinkStyle2}" IsEnabled="{Binding IsExistsInConfig}">
-										<TextBlock Text="{Binding Device.Name}" />
+										<TextBlock Text="{Binding ObjectName}" />
 									</Hyperlink>
 								</TextBlock>
 							</StackPanel>
@@ -73,7 +72,7 @@
 								</ControlTemplate>
 							</Setter.Value>
 						</Setter>
-						<Setter Property="Background" Value="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToColorConverter}}" />
+						<Setter Property="Background" Value="{Binding StateClass, Converter={StaticResource XStateClassToColorConverter}}" />
 					</Style.Setters>
 					<Style.Triggers>
 						<Trigger Property="IsSelected" Value="True">
@@ -110,8 +109,8 @@
 
 					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
 					<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
-					<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
-					<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
+					<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Name}" Margin="2" />
+					<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Description}" Margin="2" />
 				</Grid>
 			</Grid>
 		</StackPanel>

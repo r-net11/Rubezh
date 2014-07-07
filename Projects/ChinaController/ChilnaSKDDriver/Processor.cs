@@ -16,7 +16,11 @@ namespace ChinaSKDDriver
 		static Processor()
 		{
 #if DEBUG
-//			System.IO.File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\FiresecService\bin\Debug\CPPWrapper.dll", true);
+			try
+			{
+				System.IO.File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\FiresecService\bin\Debug\CPPWrapper.dll", true);
+			}
+			catch { }
 #endif
 		}
 
@@ -31,8 +35,11 @@ namespace ChinaSKDDriver
 			DeviceProcessors = new List<DeviceProcessor>();
 			SKDConfiguration = skdConfiguration;
 
-			ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
-
+			try
+			{
+				ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
+			}
+			catch { }
 
 			foreach (var device in skdConfiguration.Devices)
 			{
@@ -165,7 +172,7 @@ namespace ChinaSKDDriver
 						if (!weeklyIntervalPart.IsHolliday)
 						{
 							var timeShedule = new TimeShedule();
-							var timeInterval = SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.UID == weeklyIntervalPart.TimeIntervalUID);
+							var timeInterval = SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.ID == weeklyIntervalPart.TimeIntervalID);
 							if (timeInterval != null)
 							{
 								foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)

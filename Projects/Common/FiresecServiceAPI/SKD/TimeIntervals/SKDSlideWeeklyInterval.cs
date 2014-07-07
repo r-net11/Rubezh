@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD
@@ -9,12 +10,11 @@ namespace FiresecAPI.SKD
 	{
 		public SKDSlideWeeklyInterval()
 		{
-			UID = Guid.NewGuid();
-			WeeklyIntervalUIDs = new List<Guid>();
+			WeeklyIntervalIDs = new List<int>();
 		}
 
 		[DataMember]
-		public Guid UID { get; set; }
+		public int ID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -29,6 +29,14 @@ namespace FiresecAPI.SKD
 		public bool IsDefault { get; set; }
 
 		[DataMember]
-		public List<Guid> WeeklyIntervalUIDs { get; set; }
+		public List<int> WeeklyIntervalIDs { get; set; }
+
+		public void InvalidateWeekIntervals()
+		{
+			var ids = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Select(item => item.ID).ToList();
+			for (int i = 0; i < WeeklyIntervalIDs.Count; i++)
+				if (!ids.Contains(WeeklyIntervalIDs[i]))
+					WeeklyIntervalIDs[i] = 0;
+		}
 	}
 }

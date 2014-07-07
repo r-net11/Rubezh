@@ -9,12 +9,11 @@ namespace SKDModule.ViewModels
 	public class BasePropertyViewModel : BaseViewModel
 	{
 		protected SKDDevice Device;
-		protected XDriverProperty DriverProperty;
+		protected SKDDriverProperty DriverProperty;
 
-		public BasePropertyViewModel(XDriverProperty driverProperty, SKDDevice device)
+		public BasePropertyViewModel(SKDDriverProperty driverProperty, SKDDevice device)
 		{
 			DriverProperty = driverProperty;
-			IsAUParameter = driverProperty.IsAUParameter;
 			Device = device;
 
 			if (!Device.Properties.Any(x => x.Name == driverProperty.Name))
@@ -23,7 +22,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public bool IsAUParameter { get; set; }
 		public string Caption
 		{
 			get { return DriverProperty.Caption; }
@@ -36,10 +34,10 @@ namespace SKDModule.ViewModels
 
 		public bool IsEnabled
 		{
-			get { return !DriverProperty.IsReadOnly; }
+			get { return true; }
 		}
 
-		protected void Save(ushort value, bool useSaveService = true)
+		protected void Save(int value, bool useSaveService = true)
 		{
 			if (useSaveService)
 			{
@@ -54,7 +52,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				var newProperty = new XProperty()
+				var newProperty = new SKDProperty()
 				{
 					Name = DriverProperty.Name,
 					Value = value,

@@ -8,56 +8,45 @@ namespace SKDModule.ViewModels
 	{
 		public SKDSlideDayInterval SlideDayInterval { get; private set; }
 
-		public SlideDayIntervalDetailsViewModel(SKDSlideDayInterval slideDayInterval = null)
+		public SlideDayIntervalDetailsViewModel(SKDSlideDayInterval slideDayInterval)
 		{
-			if (slideDayInterval == null)
-			{
-				Title = "Новый скользящий посуточный график";
-				slideDayInterval = new SKDSlideDayInterval()
-				{
-					Name = "Скользящий посуточный график"
-				};
-			}
-			else
-			{
-				Title = "Редактирование скользящего посуточного графика";
-			}
+			Title = "Редактирование скользящего посуточного графика";
 			SlideDayInterval = slideDayInterval;
 			Name = SlideDayInterval.Name;
 			Description = SlideDayInterval.Description;
 			StartDate = SlideDayInterval.StartDate;
 		}
 
-		string _name;
+		private string _name;
 		public string Name
 		{
 			get { return _name; }
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
-		string _description;
+		private string _description;
 		public string Description
 		{
 			get { return _description; }
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 
-		DateTime _startDate;
+		private DateTime _startDate;
 		public DateTime StartDate
 		{
 			get { return _startDate; }
 			set
 			{
 				_startDate = value;
-				OnPropertyChanged("StartDate");
+				OnPropertyChanged(() => StartDate);
 			}
 		}
 
@@ -65,7 +54,6 @@ namespace SKDModule.ViewModels
 		{
 			return !string.IsNullOrEmpty(Name) && Name != "Доступ запрещен";
 		}
-
 		protected override bool Save()
 		{
 			SlideDayInterval.Name = Name;

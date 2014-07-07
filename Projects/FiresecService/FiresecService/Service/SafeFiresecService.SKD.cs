@@ -74,9 +74,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<JournalItem>>>(() => FiresecService.GetSKDJournalItems(filter));
 		}
-		public OperationResult SaveSKDJournalItems(IEnumerable<JournalItem> SKDJournalItems)
+		public OperationResult<DateTime> GetMinDateTime()
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveSKDJournalItems(SKDJournalItems));
+			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinDateTime());
 		}
 		#endregion
 
@@ -267,9 +267,9 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
 		}
 
-		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter)
+		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
-			SafeOperationCall(() => { FiresecService.BeginGetSKDFilteredArchive(archiveFilter); }, "BeginGetSKDFilteredArchive");
+			SafeOperationCall(() => { FiresecService.BeginGetSKDFilteredArchive(archiveFilter, archivePortionUID); }, "BeginGetSKDFilteredArchive");
 		}
 	}
 }

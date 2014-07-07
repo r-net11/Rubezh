@@ -7,53 +7,39 @@ using FiresecAPI.Models;
 using SKDDriver;
 using FiresecAPI.SKD;
 using FiresecAPI.Events;
+using System.Data.SqlClient;
 
 namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
 		public static Thread CurrentThread;
-		//public OperationResult<int> GetJournalLastId()
-		//{
-		//    return new OperationResult<int>()
-		//        {
-		//            Result = FiresecDB.DatabaseHelper.GetLastOldId()
-		//        };
-		//}
 
 		//public OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter)
 		//{
 		//    return FiresecDB.DatabaseHelper.GetFilteredJournal(journalFilter);
 		//}
-
-		//public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
-		//{
-		//    return FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter, true);
-		//}
-		//public void BeginGetFilteredArchive(ArchiveFilter archiveFilter)
-		//{
-		//    if (CurrentThread != null)
-		//    {
-		//        FiresecDB.DatabaseHelper.IsAbort = true;
-		//        CurrentThread.Join(TimeSpan.FromMinutes(1));
-		//        CurrentThread = null;
-		//    }
-		//    FiresecDB.DatabaseHelper.IsAbort = false;
-		//    var thread = new Thread(new ThreadStart((new Action(() =>
-		//    {
-		//        FiresecDB.DatabaseHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
-		//        FiresecDB.DatabaseHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-		//        FiresecDB.DatabaseHelper.OnGetFilteredArchive(archiveFilter, false);
-		//    }))));
-		//    thread.Name = "FS1 GetFilteredArchive";
-		//    CurrentThread = thread;
-		//    thread.Start();
-		//}
-
-		//void DatabaseHelper_ArchivePortionReady(List<JournalRecord> journalRecords)
-		//{
-		//    FiresecService.NotifyArchivePortionCompleted(journalRecords);
-		//}
+		
+		public OperationResult<DateTime> GetMinDateTime()
+		{
+			using (var dataContext = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True;Language='English'"))
+			{
+				var query = "SELECT MIN(SystemDate) FROM Journal";
+				var sqlCeCommand = new SqlCommand(query, dataContext);
+				dataContext.Open();
+				var reader = sqlCeCommand.ExecuteReader();
+				var result = DateTime.Now;
+				if (reader.Read())
+				{
+					if (!reader.IsDBNull(0))
+					{
+						result = reader.GetDateTime(0);
+					}
+				}
+				dataContext.Close();
+				return new OperationResult<DateTime>() { Result = result };
+			}
+		}
 
 		public static void AddGKGlobalJournalItem(FiresecAPI.GK.JournalItem journalItem)
 		{
@@ -95,13 +81,10 @@ namespace FiresecService.Service
 			};
 
 			SKDDBHelper.AddMessage(globalEventNameEnum, userName);
-
-			var skdCallbackResult = new SKDCallbackResult();
-			skdCallbackResult.JournalItems.Add(journalItem);
-			FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
+			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
 		}
 
-		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter)
+		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			if (CurrentThread != null)
 			{
@@ -114,7 +97,7 @@ namespace FiresecService.Service
 			{
 				SKDDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
 				SKDDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				SKDDBHelper.BeginGetSKDFilteredArchive(archiveFilter, false);
+				SKDDBHelper.BeginGetSKDFilteredArchive(archiveFilter, archivePortionUID, false);
 
 			}))));
 			thread.Name = "SKD GetFilteredArchive";
@@ -123,9 +106,9 @@ namespace FiresecService.Service
 			thread.Start();
 		}
 
-		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems)
+		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
 		{
-			FiresecService.NotifySKDArchiveCompleted(journalItems);
+			FiresecService.NotifySKDArchiveCompleted(journalItems, archivePortionUID);
 		}
 	}
 }

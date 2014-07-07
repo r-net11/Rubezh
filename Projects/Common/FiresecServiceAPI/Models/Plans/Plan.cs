@@ -128,9 +128,21 @@ namespace FiresecAPI.Models
 			{
 				var union = new List<ElementBase>();
 				union.AddRange(ElementDevices);
-				union.AddRange(ElementXDevices);
-				union.AddRange(ElementSKDDevices);
 				union.AddRange(ElementDoors);
+				union.AddRange(ElementExtensions);
+				union.AddRange(ElementPolygonSKDZones);
+				union.AddRange(ElementPolygonXDirections);
+				union.AddRange(ElementPolygonXGuardZones);
+				union.AddRange(ElementPolygonXZones);
+				union.AddRange(ElementPolygonZones);
+				union.AddRange(ElementRectangleSKDZones);
+				union.AddRange(ElementRectangleXDirections);
+				union.AddRange(ElementRectangleXGuardZones);
+				union.AddRange(ElementRectangleXZones);
+				union.AddRange(ElementRectangleZones);
+				union.AddRange(ElementSKDDevices);
+				union.AddRange(ElementSubPlans);
+				union.AddRange(ElementXDevices);
 				return union;
 			}
 		}

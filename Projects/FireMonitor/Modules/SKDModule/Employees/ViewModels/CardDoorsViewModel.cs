@@ -19,12 +19,6 @@ namespace SKDModule.ViewModels
 		{
 			CardDoors = cardDoors;
 			InitializeDoors();
-
-			foreach (var zone in Doors)
-			{
-				if (zone.IsChecked)
-					zone.ExpandToThis();
-			}
 			SelectedDoor = Doors.FirstOrDefault(x => x.IsChecked);
 		}
 
@@ -36,14 +30,6 @@ namespace SKDModule.ViewModels
 				var doorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
 				Doors.Add(doorViewModel);
 			}
-
-			//foreach (var cardZone in CardDoors)
-			//{
-			//	var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == cardZone.DoorUID);
-			//	if (zone != null)
-			//	{
-			//	}
-			//}
 		}
 
 		public ObservableCollection<AccessDoorViewModel> Doors;
@@ -55,8 +41,6 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedDoor = value;
-				if (value != null)
-					value.ExpandToThis();
 				OnPropertyChanged("Selecteddoor");
 			}
 		}

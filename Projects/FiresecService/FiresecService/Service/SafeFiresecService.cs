@@ -121,39 +121,15 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
 		}
 
-		//public OperationResult<int> GetJournalLastId()
-		//{
-		//    return SafeOperationCall(() => { return FiresecService.GetJournalLastId(); }, "GetJournalLastId");
-		//}
-
 		//public OperationResult<List<FiresecAPI.Models.JournalRecord>> GetFilteredJournal(FiresecAPI.Models.JournalFilter journalFilter)
 		//{
 		//    return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
 		//}
 
-		//public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
-		//{
-		//    return SafeOperationCall(() => { return FiresecService.GetFilteredArchive(archiveFilter); }, "GetFilteredArchive");
-		//}
 
 		//public void BeginGetFilteredArchive(FiresecAPI.Models.ArchiveFilter archiveFilter)
 		//{
 		//    SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter); }, "BeginGetFilteredArchive");
-		//}
-
-		//public OperationResult<List<FiresecAPI.Models.JournalDescriptionItem>> GetDistinctDescriptions()
-		//{
-		//    return SafeOperationCall(() => { return FiresecService.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
-		//}
-
-		//public OperationResult<DateTime> GetArchiveStartDate()
-		//{
-		//    return SafeOperationCall(() => { return FiresecService.GetArchiveStartDate(); }, "GetArchiveStartDate");
-		//}
-
-		//public void AddJournalRecords(List<JournalRecord> journalRecords)
-		//{
-		//    SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
 		//}
 
 		public List<string> GetFileNamesList(string directory)
@@ -326,11 +302,6 @@ namespace FiresecService.Service
 		public void GKStopMeasureMonitoring(Guid deviceUID)
 		{
 			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
-		}
-
-		public void AddJournalItem(JournalItem journalItem)
-		{
-			SafeOperationCall(() => { FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
 		}
 
 		public List<JournalItem> GetGKTopLastJournalItems(int count)

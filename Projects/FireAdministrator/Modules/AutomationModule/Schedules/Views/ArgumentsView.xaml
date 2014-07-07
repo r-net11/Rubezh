@@ -3,7 +3,7 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
-	<Border CornerRadius="5,0,0,5" Background="White" Margin="2">
+	<Border CornerRadius="5,0,0,5" Background="White">
 		<ScrollViewer VerticalScrollBarVisibility="Auto">
 			<ItemsControl ItemsSource="{Binding Arguments}" Margin="5" >
 			<ItemsControl.ItemTemplate>

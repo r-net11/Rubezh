@@ -15,7 +15,7 @@ namespace SKDModule.Validation
 				{
 					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Отсутствует название интервала", ValidationErrorLevel.CannotWrite));
 				}
-				if (slideWeeklyInterval.WeeklyIntervalUIDs.Count == 0)
+				if (slideWeeklyInterval.WeeklyIntervalIDs.Count == 0)
 				{
 					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Отсутствуют составляющие части интервала", ValidationErrorLevel.CannotWrite));
 				}

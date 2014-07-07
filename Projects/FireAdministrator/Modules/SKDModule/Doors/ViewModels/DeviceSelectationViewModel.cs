@@ -8,7 +8,7 @@ namespace SKDModule.ViewModels
 {
 	public class DeviceSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public DeviceSelectationViewModel(Guid deviceUID)
+		public DeviceSelectationViewModel(Guid deviceUID, DoorType doorType)
 		{
 			Title = "Выбор устройства";
 			Devices = new ObservableCollection<SKDDevice>();
@@ -16,6 +16,9 @@ namespace SKDModule.ViewModels
 			{
 				if (skdDevice.DriverType == SKDDriverType.Reader)
 				{
+					if (doorType == DoorType.TwoWay && (skdDevice.IntAddress % 2) == 1)
+						continue;
+
 					Devices.Add(skdDevice);
 				}
 			}

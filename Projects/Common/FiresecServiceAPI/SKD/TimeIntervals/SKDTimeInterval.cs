@@ -9,15 +9,11 @@ namespace FiresecAPI.SKD
 	{
 		public SKDTimeInterval()
 		{
-			UID = Guid.NewGuid();
 			TimeIntervalParts = new List<SKDTimeIntervalPart>();
 		}
 
 		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
-		public bool IsDefault { get; set; }
+		public int ID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -27,5 +23,16 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<SKDTimeIntervalPart> TimeIntervalParts { get; set; }
+
+		public override bool Equals(object obj)
+		{
+			if (obj is SKDTimeInterval)
+				return ((SKDTimeInterval)obj).ID == ID;
+			return base.Equals(obj);
+		}
+		public override int GetHashCode()
+		{
+			return ID.GetHashCode();
+		}
 	}
 }

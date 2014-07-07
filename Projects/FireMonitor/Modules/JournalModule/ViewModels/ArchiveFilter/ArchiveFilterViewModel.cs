@@ -11,12 +11,17 @@ namespace JournalModule.ViewModels
 {
 	public class ArchiveFilterViewModel : DialogViewModel
 	{
+		public FilterNamesViewModel FilterNamesViewModel { get; private set; }
+		public FilterObjectsViewModel FilterObjectsViewModel { get; private set; }
+
 		public ArchiveFilterViewModel(SKDArchiveFilter archiveFilter)
 		{
 			Title = "Настройки фильтра";
 			ClearCommand = new RelayCommand(OnClear);
 			SaveCommand = new RelayCommand(OnSave);
 			CancelCommand = new RelayCommand(OnCancel);
+			FilterNamesViewModel = new FilterNamesViewModel(archiveFilter);
+			FilterObjectsViewModel = new FilterObjectsViewModel(archiveFilter);
 			Initialize(archiveFilter);
 		}
 
@@ -24,27 +29,8 @@ namespace JournalModule.ViewModels
 		{
 			StartDateTime = new DateTimePairViewModel(archiveFilter.StartDate);
 			EndDateTime = new DateTimePairViewModel(archiveFilter.EndDate);
-			InitializeEventNames(archiveFilter);
-		}
-
-		public void InitializeEventNames(SKDArchiveFilter archiveFilter)
-		{
-			EventNames = new CheckBoxItemList<EventNameViewModel>();
-			foreach (GlobalEventNameEnum enumValue in Enum.GetValues(typeof(GlobalEventNameEnum)))
-			{
-				var eventNameViewModel = new EventNameViewModel(enumValue);
-				if (eventNameViewModel.SubsystemType == GlobalSubsystemType.GK)
-					EventNames.Add(eventNameViewModel);
-			}
-
-			foreach (var eventName in archiveFilter.EventNames)
-			{
-				var eventNameViewModel = EventNames.Items.FirstOrDefault(x => (x as EventNameViewModel).Name == eventName);
-				if (eventNameViewModel != null)
-				{
-					eventNameViewModel.IsChecked = true;
-				}
-			}
+			FilterNamesViewModel.Initialize(archiveFilter);
+			FilterObjectsViewModel.Initialize(archiveFilter);
 		}
 
 		public DateTime ArchiveFirstDate
@@ -90,21 +76,12 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public CheckBoxItemList<EventNameViewModel> EventNames { get; private set; }
-
 		public SKDArchiveFilter GetModel()
 		{
-			var archiveFilter = new SKDArchiveFilter()
-			{
-				StartDate = StartDateTime.DateTime,
-				EndDate = EndDateTime.DateTime,
-				UseDeviceDateTime = UseDeviceDateTime
-			};
-			foreach (var eventName in EventNames.Items)
-			{
-				if (eventName.IsChecked)
-					archiveFilter.EventNames.Add(eventName.Name);
-			}
+			var archiveFilter = FilterNamesViewModel.GetModel();
+			archiveFilter.StartDate = StartDateTime.DateTime;
+			archiveFilter.EndDate = EndDateTime.DateTime;
+			archiveFilter.UseDeviceDateTime = UseDeviceDateTime;
 			return archiveFilter;
 		}
 
@@ -112,7 +89,6 @@ namespace JournalModule.ViewModels
 		void OnClear()
 		{
 			Initialize(new SKDArchiveFilter());
-			OnPropertyChanged(()=>EventNames);
 		}
 
 		public RelayCommand SaveCommand { get; private set; }

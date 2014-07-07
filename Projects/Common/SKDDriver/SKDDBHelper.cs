@@ -16,7 +16,7 @@ namespace SKDDriver
 		public static object locker = new object();
 		public static object databaseLocker = new object();
 		public static bool IsAbort { get; set; }
-		public static event Action<List<JournalItem>> ArchivePortionReady;
+		public static event Action<List<JournalItem>, Guid> ArchivePortionReady;
 
 		public static void Add(JournalItem journalItem)
 		{
@@ -43,7 +43,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		public static List<JournalItem> BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, bool isReport)
+		public static List<JournalItem> BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
 		{
 			var journalItems = new List<JournalItem>();
 			var result = new List<JournalItem>();
@@ -71,7 +71,7 @@ namespace SKDDriver
 								{
 									journalItems.Add(journalItem);
 									if (journalItems.Count >= archiveFilter.PageSize)
-										PublishNewItemsPortion(journalItems);
+										PublishNewItemsPortion(journalItems, archivePortionUID);
 								}
 							}
 							catch (Exception e)
@@ -80,7 +80,7 @@ namespace SKDDriver
 							}
 						}
 						if (!isReport)
-							PublishNewItemsPortion(journalItems);
+							PublishNewItemsPortion(journalItems, archivePortionUID);
 					}
 				}
 			}
@@ -92,10 +92,10 @@ namespace SKDDriver
 			return result;
 		}
 
-		static void PublishNewItemsPortion(List<JournalItem> journalItems)
+		static void PublishNewItemsPortion(List<JournalItem> journalItems, Guid archivePortionUID)
 		{
 			if (ArchivePortionReady != null)
-				ArchivePortionReady(journalItems.ToList());
+				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
 			UpdateNamesDescriptions(journalItems);
 			journalItems.Clear();
 		}

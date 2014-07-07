@@ -5,7 +5,7 @@ using SKDModule.Events;
 
 namespace SKDModule.Validation
 {
-	public class TimeIntervalValidationError : ObjectValidationError<SKDTimeInterval, ShowSKDTimeIntervalsEvent, Guid>
+	public class TimeIntervalValidationError : ObjectValidationError<SKDTimeInterval, ShowSKDTimeIntervalsEvent, int>
 	{
 		public TimeIntervalValidationError(SKDTimeInterval interval, string error, ValidationErrorLevel level)
 			: base(interval, error, level)
@@ -16,9 +16,9 @@ namespace SKDModule.Validation
 		{
 			get { return "SKD"; }
 		}
-		protected override Guid Key
+		protected override int Key
 		{
-			get { return Object.UID; }
+			get { return Object.ID; }
 		}
 		public override string Source
 		{

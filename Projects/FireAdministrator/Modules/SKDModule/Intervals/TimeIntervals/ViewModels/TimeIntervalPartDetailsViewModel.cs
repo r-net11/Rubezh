@@ -11,34 +11,38 @@ namespace SKDModule.ViewModels
 		public TimeIntervalPartDetailsViewModel(SKDTimeIntervalPart timeIntervalPart = null)
 		{
 			Title = "Задание интервала";
-			TimeIntervalPart = timeIntervalPart;
+			TimeIntervalPart = timeIntervalPart ?? new SKDTimeIntervalPart();
 
-			StartTime = timeIntervalPart.StartTime;
-			EndTime = timeIntervalPart.EndTime;
+			StartTime = TimeIntervalPart.StartTime;
+			EndTime = TimeIntervalPart.EndTime;
 		}
 
-		DateTime _startTime;
+		private DateTime _startTime;
 		public DateTime StartTime
 		{
 			get { return _startTime; }
 			set
 			{
 				_startTime = value;
-				OnPropertyChanged("StartTime");
+				OnPropertyChanged(() => StartTime);
 			}
 		}
 
-		DateTime _endTime;
+		private DateTime _endTime;
 		public DateTime EndTime
 		{
 			get { return _endTime; }
 			set
 			{
 				_endTime = value;
-				OnPropertyChanged("EndTime");
+				OnPropertyChanged(() => EndTime);
 			}
 		}
 
+		protected override bool CanSave()
+		{
+			return StartTime.TimeOfDay < EndTime.TimeOfDay;
+		}
 		protected override bool Save()
 		{
 			TimeIntervalPart.StartTime = StartTime;

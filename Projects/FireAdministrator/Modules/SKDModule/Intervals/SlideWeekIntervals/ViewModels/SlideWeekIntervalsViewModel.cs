@@ -1,4 +1,5 @@
 ﻿using System;
+using Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,7 +15,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
-	public class SlideWeekIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class SlideWeekIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<int>
 	{
 		public SlideWeekIntervalsViewModel()
 		{
@@ -22,95 +23,82 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			CopyCommand = new RelayCommand(OnCopy, CanEdit);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			ActivateCommand = new RelayCommand(OnActivate, CanActivate);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
 
 		public void Initialize()
 		{
+			BuildIntervals();
+			var map = SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.ToDictionary(item => item.ID);
 			SlideWeekIntervals = new ObservableCollection<SlideWeekIntervalViewModel>();
-			foreach (var slideWeekInterval in SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals)
-			{
-				var timeInrervalViewModel = new SlideWeekIntervalViewModel(slideWeekInterval);
-				SlideWeekIntervals.Add(timeInrervalViewModel);
-			}
-			SelectedSlideWeekInterval = SlideWeekIntervals.FirstOrDefault();
+			for (int i = 1; i <= 128; i++)
+				SlideWeekIntervals.Add(new SlideWeekIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null, this));
+			SelectedSlideWeekInterval = SlideWeekIntervals.First();
 		}
 
-		SKDSlideWeeklyInterval IntervalToCopy;
-
-		ObservableCollection<SlideWeekIntervalViewModel> _slideWeekIntervals;
+		private ObservableCollection<SlideWeekIntervalViewModel> _slideWeekIntervals;
 		public ObservableCollection<SlideWeekIntervalViewModel> SlideWeekIntervals
 		{
 			get { return _slideWeekIntervals; }
 			set
 			{
 				_slideWeekIntervals = value;
-				OnPropertyChanged("SlideWeekIntervals");
+				OnPropertyChanged(() => SlideWeekIntervals);
 			}
 		}
 
-		SlideWeekIntervalViewModel _selectedSlideWeekInterval;
+		private SlideWeekIntervalViewModel _selectedSlideWeekInterval;
 		public SlideWeekIntervalViewModel SelectedSlideWeekInterval
 		{
 			get { return _selectedSlideWeekInterval; }
 			set
 			{
-				_selectedSlideWeekInterval = value;
-				OnPropertyChanged("SelectedSlideWeekInterval");
-				if (value != null)
+				if (value == null)
+					_selectedSlideWeekInterval = SlideWeekIntervals.First();
+				else
 				{
-					value.Initialize();
+					_selectedSlideWeekInterval = value;
+					OnPropertyChanged(() => SelectedSlideWeekInterval);
+					SelectedSlideWeekInterval.WeekIntervals.ForEach(item => item.Update());
+					UpdateRibbonItems();
 				}
 			}
 		}
 
-		public void Select(Guid intervalUID)
+		public ObservableCollection<SKDWeeklyInterval> AvailableWeekIntervals { get; private set; }
+
+		public void Select(int intervalID)
 		{
-			if (intervalUID != Guid.Empty)
-			{
-				var intervalViewModel = SlideWeekIntervals.FirstOrDefault(x => x.SlideWeekInterval.UID == intervalUID);
-				if (intervalViewModel != null)
-				{
-					SelectedSlideWeekInterval = intervalViewModel;
-				}
-			}
+			if (intervalID >= 0 && intervalID <= 128)
+				SelectedSlideWeekInterval = SlideWeekIntervals.First(item => item.Index == intervalID);
+			else if (SelectedSlideWeekInterval == null)
+				SelectedSlideWeekInterval = SlideWeekIntervals.First();
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		private void OnAdd()
 		{
-			var slideWeekIntervalDetailsViewModel = new SlideWeekIntervalDetailsViewModel();
-			if (DialogService.ShowModalWindow(slideWeekIntervalDetailsViewModel))
-			{
-				SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Add(slideWeekIntervalDetailsViewModel.SlideWeekInterval);
-				var timeInrervalViewModel = new SlideWeekIntervalViewModel(slideWeekIntervalDetailsViewModel.SlideWeekInterval);
-				SlideWeekIntervals.Add(timeInrervalViewModel);
-				SelectedSlideWeekInterval = timeInrervalViewModel;
-				ServiceFactory.SaveService.SKDChanged = true;
-			}
 		}
-		bool CanAdd()
+		private bool CanAdd()
 		{
-			return SlideWeekIntervals.Count < 256;
+			return false;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
+		private void OnDelete()
 		{
-			SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Remove(SelectedSlideWeekInterval.SlideWeekInterval);
-			SlideWeekIntervals.Remove(SelectedSlideWeekInterval);
-			ServiceFactory.SaveService.SKDChanged = true;
 		}
-		bool CanDelete()
+		private bool CanDelete()
 		{
-			return SelectedSlideWeekInterval != null && !SelectedSlideWeekInterval.SlideWeekInterval.IsDefault;
+			return false;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var slideWeekIntervalDetailsViewModel = new SlideWeekIntervalDetailsViewModel(SelectedSlideWeekInterval.SlideWeekInterval);
 			if (DialogService.ShowModalWindow(slideWeekIntervalDetailsViewModel))
@@ -119,71 +107,93 @@ namespace SKDModule.ViewModels
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
-		bool CanEdit()
+		private bool CanEdit()
 		{
-			return SelectedSlideWeekInterval != null && !SelectedSlideWeekInterval.SlideWeekInterval.IsDefault;
+			return SelectedSlideWeekInterval != null && SelectedSlideWeekInterval.IsEnabled;
 		}
 
-		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
+		public RelayCommand ActivateCommand { get; private set; }
+		private void OnActivate()
 		{
-			IntervalToCopy = CopyInterval(SelectedSlideWeekInterval.SlideWeekInterval);
+			SelectedSlideWeekInterval.IsActive = !SelectedSlideWeekInterval.IsActive;
+			OnPropertyChanged(() => SelectedSlideWeekInterval);
+			UpdateRibbonItems();
 		}
-		bool CanCopy()
+		private bool CanActivate()
 		{
-			return SelectedSlideWeekInterval != null && !SelectedSlideWeekInterval.SlideWeekInterval.IsDefault;
+			return SelectedSlideWeekInterval != null && !SelectedSlideWeekInterval.IsDefault;
+		}
+
+
+		public RelayCommand CopyCommand { get; private set; }
+		private void OnCopy()
+		{
+			_copy = CopyInterval(SelectedSlideWeekInterval.SlideWeekInterval);
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
+		private void OnPaste()
 		{
-			var newInterval = CopyInterval(IntervalToCopy);
-			SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Add(newInterval);
-			var timeInrervalViewModel = new SlideWeekIntervalViewModel(newInterval);
-			SlideWeekIntervals.Add(timeInrervalViewModel);
-			SelectedSlideWeekInterval = timeInrervalViewModel;
-			ServiceFactory.SaveService.SKDChanged = true;
+			var newInterval = CopyInterval(_copy);
+			SelectedSlideWeekInterval.Paste(newInterval);
 		}
-		bool CanPaste()
+		private bool CanPaste()
 		{
-			return IntervalToCopy != null && SlideWeekIntervals.Count < 256;
+			return _copy != null && SelectedSlideWeekInterval != null && !SelectedSlideWeekInterval.IsDefault;
 		}
 
-		SKDSlideWeeklyInterval CopyInterval(SKDSlideWeeklyInterval source)
+		private SKDSlideWeeklyInterval _copy;
+		private SKDSlideWeeklyInterval CopyInterval(SKDSlideWeeklyInterval source)
 		{
-			var copy = new SKDSlideWeeklyInterval();
-			copy.Name = source.Name;
-			foreach (var timeIntervalUID in source.WeeklyIntervalUIDs)
+			return new SKDSlideWeeklyInterval()
 			{
-				copy.WeeklyIntervalUIDs.Add(timeIntervalUID);
-			}
-			return copy;
+				Name = source.Name,
+				Description = source.Description,
+				StartDate = source.StartDate,
+				WeeklyIntervalIDs = new List<int>(source.WeeklyIntervalIDs),
+			};
 		}
 
 		public override void OnShow()
 		{
-			SelectedSlideWeekInterval = SelectedSlideWeekInterval;
+			BuildIntervals();
 			base.OnShow();
 		}
-
-		void RegisterShortcuts()
+		private void BuildIntervals()
 		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			AvailableWeekIntervals = new ObservableCollection<SKDWeeklyInterval>(SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.OrderBy(item => item.ID));
+			AvailableWeekIntervals.Insert(0, new SKDWeeklyInterval()
+			{
+				ID = 0,
+				Name = "Никогда",
+			});
+			OnPropertyChanged(() => AvailableWeekIntervals);
+			if (SelectedSlideWeekInterval != null)
+				SelectedSlideWeekInterval.WeekIntervals.ForEach(item => item.Update());
 		}
 
-		void SetRibbonItems()
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.A, ModifierKeys.Control), ActivateCommand);
+		}
+
+		protected override void UpdateRibbonItems()
+		{
+			base.UpdateRibbonItems();
+			RibbonItems[0][1].Text = SelectedSlideWeekInterval.ActivateActionTitle;
+			RibbonItems[0][1].ImageSource = SelectedSlideWeekInterval.GetActiveImage(!SelectedSlideWeekInterval.IsActive, true);
+		}
+		private void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
+					new RibbonMenuItemViewModel("", ActivateCommand),
 					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
 					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
 				}, "/Controls;component/Images/BEdit.png") { Order = 1 }

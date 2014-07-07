@@ -8,69 +8,51 @@ namespace SKDModule.ViewModels
 {
 	public class WeeklyIntervalPartViewModel : BaseViewModel
 	{
-		WeeklyIntervalViewModel WeeklyIntervalViewModel;
+		private WeeklyIntervalsViewModel _weeklyIntervalsViewModel;
 		public SKDWeeklyIntervalPart WeeklyIntervalPart { get; private set; }
 
-		public WeeklyIntervalPartViewModel(WeeklyIntervalViewModel weeklyIntervalViewModel, SKDWeeklyIntervalPart weeklyIntervalPart)
+		public WeeklyIntervalPartViewModel(WeeklyIntervalsViewModel weeklyIntervalsViewModel, SKDWeeklyIntervalPart weeklyIntervalPart)
 		{
-			WeeklyIntervalViewModel = weeklyIntervalViewModel;
+			_weeklyIntervalsViewModel = weeklyIntervalsViewModel;
 			WeeklyIntervalPart = weeklyIntervalPart;
-
 			if (weeklyIntervalPart.IsHolliday)
-			{
 				Name = "Тип праздника " + weeklyIntervalPart.No;
-			}
 			else
-			{
 				Name = IntToWeekDay(weeklyIntervalPart.No);
-			}
-
 			Update();
 		}
 
 		public string Name { get; private set; }
 
-		public void Update()
-		{
-			AvailableTimeIntervals = new ObservableCollection<SKDTimeInterval>();
-			foreach (var namedTimeInterval in SKDManager.TimeIntervalsConfiguration.TimeIntervals)
-			{
-				AvailableTimeIntervals.Add(namedTimeInterval);
-			}
-			_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault(x => x.UID == WeeklyIntervalPart.TimeIntervalUID);
-			if (_selectedTimeInterval == null)
-			{
-				_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault();
-			}
-		}
-
-		ObservableCollection<SKDTimeInterval> _availableTimeIntervals;
-		public ObservableCollection<SKDTimeInterval> AvailableTimeIntervals
-		{
-			get { return _availableTimeIntervals; }
-			set
-			{
-				_availableTimeIntervals = value;
-				OnPropertyChanged("AvailableTimeIntervals");
-			}
-		}
-
-		SKDTimeInterval _selectedTimeInterval;
+		private SKDTimeInterval _selectedTimeInterval;
 		public SKDTimeInterval SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
 			set
 			{
-				_selectedTimeInterval = value;
-				OnPropertyChanged("SelectedTimeInterval");
-				WeeklyIntervalViewModel.Update();
-				ServiceFactory.SaveService.SKDChanged = true;
+				if (value == null)
+					SelectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.First();
+				else
+				{
+					_selectedTimeInterval = value;
+					OnPropertyChanged(() => SelectedTimeInterval);
+					WeeklyIntervalPart.TimeIntervalID = SelectedTimeInterval.ID;
+					ServiceFactory.SaveService.SKDChanged = true;
+				}
 			}
 		}
 
-		string IntToWeekDay(int dayNo)
+		public void Update()
 		{
-			switch(dayNo)
+			_selectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.TimeIntervalID);
+			if (_selectedTimeInterval == null)
+				_selectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.First();
+			OnPropertyChanged(() => SelectedTimeInterval);
+		}
+
+		private string IntToWeekDay(int dayNo)
+		{
+			switch (dayNo)
 			{
 				case 1:
 					return "Понедельник";

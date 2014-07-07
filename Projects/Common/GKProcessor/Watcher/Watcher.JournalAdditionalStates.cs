@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
+using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -13,7 +14,7 @@ namespace GKProcessor
 			if (descriptor != null && descriptor.Device != null)
 			{
 				var deviceState = descriptor.Device.InternalState;
-				if (journalItem.Name == "Неисправность")
+				if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Неисправность)
 				{
 					if (!string.IsNullOrEmpty(journalItem.Description))
 					{
@@ -34,7 +35,7 @@ namespace GKProcessor
 						}
 					}
 				}
-				if (journalItem.Name == "Неисправность устранена")
+				if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Неисправность_устранена)
 				{
 					if (string.IsNullOrEmpty(journalItem.Description))
 					{
@@ -56,7 +57,7 @@ namespace GKProcessor
 						}
 					}
 				}
-				if (journalItem.Name == "Информация")
+				if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Информация)
 				{
 					switch (journalItem.Description)
 					{

@@ -33,12 +33,6 @@ namespace FiresecAPI.SKD
 
 		public bool ValidateIntervals()
 		{
-			//TimeIntervals = new List<SKDTimeInterval>();
-			//WeeklyIntervals = new List<SKDWeeklyInterval>();
-			//SlideDayIntervals = new List<SKDSlideDayInterval>();
-			//SlideWeeklyIntervals = new List<SKDSlideWeeklyInterval>();
-			//Holidays = new List<SKDHoliday>();
-
 			var result = true;
 			if (TimeIntervals == null)
 			{
@@ -65,82 +59,40 @@ namespace FiresecAPI.SKD
 				Holidays = new List<SKDHoliday>();
 				result = false;
 			}
+			if (TimeIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
+				result = false;
+			if (WeeklyIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
+				result = false;
+			if (SlideWeeklyIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
+				result = false;
+			if (SlideDayIntervals.RemoveAll(item => item.ID < 1 || item.ID > 128) > 0)
+				result = false;
+			TimeIntervals = TimeIntervals.GroupBy(item => item.ID).Select(group => group.First()).ToList();
+			WeeklyIntervals = WeeklyIntervals.GroupBy(item => item.ID).Select(group => group.First()).ToList();
+			SlideWeeklyIntervals = SlideWeeklyIntervals.GroupBy(item => item.ID).Select(group => group.First()).ToList();
+			SlideDayIntervals = SlideDayIntervals.GroupBy(item => item.ID).Select(group => group.First()).ToList();
 			foreach (var weeklyInterval in WeeklyIntervals)
-			{
 				if (weeklyInterval.WeeklyIntervalParts == null)
 				{
-					weeklyInterval.WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
+					weeklyInterval.WeeklyIntervalParts = SKDWeeklyInterval.CreateParts();
 					result = false;
 				}
-			}
 			foreach (var slideWeeklyInterval in SlideWeeklyIntervals)
-			{
-				if (slideWeeklyInterval.WeeklyIntervalUIDs == null)
+				if (slideWeeklyInterval.WeeklyIntervalIDs == null)
 				{
-					slideWeeklyInterval.WeeklyIntervalUIDs = new List<Guid>();
+					slideWeeklyInterval.WeeklyIntervalIDs = new List<int>();
 					result = false;
 				}
-			}
-
-			var neverTimeInterval = TimeIntervals.FirstOrDefault(x => x.Name == "Никогда" && x.IsDefault);
-			if (neverTimeInterval == null)
-			{
-				neverTimeInterval = new SKDTimeInterval() { Name = "Никогда", IsDefault = true };
-				neverTimeInterval.TimeIntervalParts.Add(new SKDTimeIntervalPart() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue });
-				TimeIntervals.Add(neverTimeInterval);
-				result = false;
-			}
-
-			var alwaysTimeInterval = TimeIntervals.FirstOrDefault(x => x.Name == "Всегда" && x.IsDefault);
-			if (alwaysTimeInterval == null)
-			{
-				alwaysTimeInterval = new SKDTimeInterval() { Name = "Всегда", IsDefault = true };
-				alwaysTimeInterval.TimeIntervalParts.Add(new SKDTimeIntervalPart() { StartTime = DateTime.MinValue, EndTime = DateTime.MinValue.AddHours(23).AddMinutes(59) });
-				TimeIntervals.Add(alwaysTimeInterval);
-				result = false;
-			}
-
-			var neverWeeklyInterval = WeeklyIntervals.FirstOrDefault(x => x.Name == "Доступ запрещен" && x.IsDefault);
-			if (neverWeeklyInterval == null)
-			{
-				neverWeeklyInterval = new SKDWeeklyInterval() { Name = "Доступ запрещен", IsDefault = true };
-				foreach (var weeklyIntervalPart in neverWeeklyInterval.WeeklyIntervalParts)
+				else if (slideWeeklyInterval.WeeklyIntervalIDs.RemoveAll(id => id < 0 || id > 128) > 0)
+					result = false;
+			foreach (var slideDayInterval in SlideDayIntervals)
+				if (slideDayInterval.TimeIntervalIDs == null)
 				{
-					weeklyIntervalPart.TimeIntervalUID = neverTimeInterval.UID;
+					slideDayInterval.TimeIntervalIDs = new List<int>();
+					result = false;
 				}
-				WeeklyIntervals.Add(neverWeeklyInterval);
-				result = false;
-			}
-
-			var alwaysWeeklyInterval = WeeklyIntervals.FirstOrDefault(x => x.Name == "Доступ разрешен" && x.IsDefault);
-			if (alwaysWeeklyInterval == null)
-			{
-				alwaysWeeklyInterval = new SKDWeeklyInterval() { Name = "Доступ разрешен", IsDefault = true };
-				foreach (var weeklyIntervalPart in alwaysWeeklyInterval.WeeklyIntervalParts)
-				{
-					weeklyIntervalPart.TimeIntervalUID = alwaysTimeInterval.UID;
-				}
-				WeeklyIntervals.Add(alwaysWeeklyInterval);
-				result = false;
-			}
-
-			var neverSlideDayInterval = SlideDayIntervals.FirstOrDefault(x => x.Name == "Доступ запрещен" && x.IsDefault);
-			if (neverSlideDayInterval == null)
-			{
-				neverSlideDayInterval = new SKDSlideDayInterval() { Name = "Доступ запрещен", IsDefault = true };
-				neverSlideDayInterval.TimeIntervalUIDs.Add(neverTimeInterval.UID);
-				SlideDayIntervals.Add(neverSlideDayInterval);
-				result = false;
-			}
-
-			var neverSlideWeeklyInterval = SlideWeeklyIntervals.FirstOrDefault(x => x.Name == "Доступ запрещен" && x.IsDefault);
-			if (neverSlideWeeklyInterval == null)
-			{
-				neverSlideWeeklyInterval = new SKDSlideWeeklyInterval() { Name = "Доступ запрещен", IsDefault = true };
-				neverSlideWeeklyInterval.WeeklyIntervalUIDs.Add(neverWeeklyInterval.UID);
-				SlideWeeklyIntervals.Add(neverSlideWeeklyInterval);
-				result = false;
-			}
+				else if (slideDayInterval.TimeIntervalIDs.RemoveAll(id => id < 0 || id > 128) > 0)
+					result = false;
 
 			if (Holidays.Count == 0)
 			{

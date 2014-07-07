@@ -70,12 +70,13 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyArchivePortionCompleted(List<FiresecAPI.SKD.JournalItem> journalItems)
+		public static void NotifySKDArchiveCompleted(List<FiresecAPI.SKD.JournalItem> journallItems, Guid archivePortionUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
-				CallbackResultType = CallbackResultType.ArchiveCompleted,
-				GlobalJournalItems = journalItems
+				ArchivePortionUID = archivePortionUID,
+				CallbackResultType = CallbackResultType.SKDArchiveCompleted,
+				GlobalJournalItems = journallItems,
 			};
 			CallbackManager.Add(callbackResult);
 		}
@@ -87,19 +88,6 @@ namespace FiresecService.Service
 				ArchivePortionUID = archivePortionUID,
 				CallbackResultType = CallbackResultType.GKArchiveCompleted,
 				JournalItems = journallItems
-			};
-			CallbackManager.Add(callbackResult);
-		}
-
-		public static void NotifySKDArchiveCompleted(List<FiresecAPI.SKD.JournalItem> journallItems)
-		{
-			var callbackResult = new CallbackResult()
-			{
-				CallbackResultType = CallbackResultType.SKDArchiveCompleted,
-				SKDCallbackResult = new SKDCallbackResult()
-				{
-					JournalItems = journallItems
-				}
 			};
 			CallbackManager.Add(callbackResult);
 		}

@@ -1,66 +1,70 @@
-﻿<UserControl x:Class="SKDModule.Views.WeeklyIntervalsView"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-
+﻿<UserControl x:Class="SKDModule.Views.WeeklyIntervalsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding WeeklyIntervals}" SelectedItem="{Binding SelectedWeeklyInterval}">
+		<XDataGrid Grid.Column="0" ItemsSource="{Binding WeeklyIntervals}" SelectedItem="{Binding SelectedWeeklyInterval}">
+			<DataGrid.RowStyle>
+				<Style TargetType="DataGridRow">
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding IsActive}" Value="false">
+							<Setter Property="Background" Value="LightGray" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</DataGrid.RowStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Наименование" Width="*">
+				<DataGridTemplateColumn Width="*" Header="Наименование">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-								<TextBlock Text="{Binding WeeklyInterval.Name}" VerticalAlignment="Center" Margin="2" />
+								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Header="Описание" Width="*">
+				<DataGridTemplateColumn Width="*" Header="Описание">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding WeeklyInterval.Description}" />
+							<TextBlock Text="{Binding Description}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
-		</Controls:XDataGrid>
-		<Grid Grid.Column="1" DataContext="{Binding SelectedWeeklyInterval}" IsEnabled="{Binding IsEnabled}" Margin="4 0 0 0">
-			<DataGrid ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}" IsReadOnly="False">
+		</XDataGrid>
+		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedWeeklyInterval}" IsEnabled="{Binding IsEnabled}">
+			<DataGrid IsReadOnly="False" ItemsSource="{Binding TimeIntervals}" SelectedItem="{Binding SelectedTimeInterval}">
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Наименование" Width="*">
+					<DataGridTemplateColumn Width="*" Header="Наименование">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-									<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-					<DataGridTemplateColumn Header="Интервал" Width="*">
+					<DataGridTemplateColumn Width="*" Header="Интервал">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-									<TextBlock Text="{Binding SelectedTimeInterval.Name}" VerticalAlignment="Center" Margin="2" />
+									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" />
+									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedTimeInterval.Name}" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 						<DataGridTemplateColumn.CellEditingTemplate>
 							<DataTemplate>
-								<ComboBox HorizontalAlignment="Stretch" Width="Auto" ItemsSource="{Binding AvailableTimeIntervals}" SelectedItem="{Binding SelectedTimeInterval, UpdateSourceTrigger=PropertyChanged}">
+								<ComboBox Width="Auto" HorizontalAlignment="Stretch" ItemsSource="{Binding DataContext.AvailableTimeIntervals, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" SelectedItem="{Binding SelectedTimeInterval, UpdateSourceTrigger=PropertyChanged}">
 									<ComboBox.ItemTemplate>
 										<DataTemplate>
-											<StackPanel Orientation="Horizontal">
-												<Image Source="/Controls;component/Images/zone.png" Height="16" VerticalAlignment="Center" Margin="1 0 0 0" />
-												<TextBlock Text="{Binding Name}" Foreground="Black" VerticalAlignment="Center" Margin="2" />
-											</StackPanel>
+											<DockPanel Background="Transparent">
+												<Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" DockPanel.Dock="Left" />
+												<TextBlock Margin="2" VerticalAlignment="Center" Foreground="Black" Text="{Binding Name}" />
+											</DockPanel>
 										</DataTemplate>
 									</ComboBox.ItemTemplate>
 								</ComboBox>

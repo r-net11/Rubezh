@@ -6,7 +6,7 @@ namespace SKDModule.ViewModels
 {
 	public class BoolPropertyViewModel : BasePropertyViewModel
 	{
-		public BoolPropertyViewModel(XDriverProperty driverProperty, SKDDevice device)
+		public BoolPropertyViewModel(SKDDriverProperty driverProperty, SKDDevice device)
 			: base(driverProperty, device)
 		{
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);

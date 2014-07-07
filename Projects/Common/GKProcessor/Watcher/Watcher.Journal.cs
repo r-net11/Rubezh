@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
+using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -95,7 +96,7 @@ namespace GKProcessor
 						}
 					}
 
-					if (journalItem.Name == "Перевод в технологический режим" || journalItem.Name == "Перевод в рабочий режим")
+					if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Перевод_в_технологический_режим || journalItem.GlobalEventNameType == GlobalEventNameEnum.Перевод_в_рабочий_режим)
 					{
 						MustCheckTechnologicalRegime = true;
 						LastTechnologicalRegimeCheckTime = DateTime.Now;
@@ -119,7 +120,7 @@ namespace GKProcessor
 				var device = descriptor.Device;
 				if (device.DriverType == XDriverType.AM1_T)
 				{
-					if (journalItem.Name == "Сработка-2")
+					if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Сработка_2)
 					{
 						var property = device.Properties.FirstOrDefault(x => x.Name == "OnMessage");
 						if (property != null)
@@ -127,7 +128,7 @@ namespace GKProcessor
 							journalItem.Description = property.StringValue;
 						}
 					}
-					if (journalItem.Name == "Норма")
+					if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Норма)
 					{
 						var property = device.Properties.FirstOrDefault(x => x.Name == "NormMessage");
 						if (property != null)
@@ -162,14 +163,14 @@ namespace GKProcessor
 
 		void CheckServiceRequired(XBase xBase, JournalItem journalItem)
 		{
-			if (journalItem.Name == "Запыленность" || journalItem.Name == "Запыленность устранена")
+			if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Запыленность || journalItem.GlobalEventNameType == GlobalEventNameEnum.Запыленность_устранена)
 			{
 				if (xBase is XDevice)
 				{
 					var device = xBase as XDevice;
-					if (journalItem.Name == "Запыленность")
+					if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Запыленность)
 						device.InternalState.IsService = true;
-					if (journalItem.Name == "Запыленность устранена")
+					if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Запыленность_устранена)
 						device.InternalState.IsService = false;
 				}
 			}

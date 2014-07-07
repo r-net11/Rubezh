@@ -81,6 +81,7 @@
     <Compile Include="Events\EditDoorEvent.cs" />
     <Compile Include="Events\CreateDoorEvent.cs" />
     <Compile Include="Events\ShowSKDDoorEvent.cs" />
+    <Compile Include="Intervals\Base\BaseIntervalViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartVerificationViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartPropertyVerificationPageViewModel.cs" />
     <Compile Include="Layout\Views\LayoutPartVerificationView.xaml.cs">

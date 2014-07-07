@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -14,7 +13,7 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class TimeIntervalsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<int>
 	{
 		public TimeIntervalsViewModel()
 		{
@@ -22,8 +21,9 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
+			CopyCommand = new RelayCommand(OnCopy, CanEdit);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			ActivateCommand = new RelayCommand(OnActivate, CanActivate);
 			RegisterShortcuts();
 			SetRibbonItems();
 		}
@@ -31,82 +31,69 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			TimeIntervals = new ObservableCollection<TimeIntervalViewModel>();
-			foreach (var timeInterval in SKDManager.TimeIntervalsConfiguration.TimeIntervals)
-			{
-				var timeInrervalViewModel = new TimeIntervalViewModel(timeInterval);
-				TimeIntervals.Add(timeInrervalViewModel);
-			}
-			SelectedTimeInterval = TimeIntervals.FirstOrDefault();
+			var map = SKDManager.TimeIntervalsConfiguration.TimeIntervals.ToDictionary(item => item.ID);
+			//TimeIntervals.Add(new TimeIntervalViewModel(0, null));
+			for (int i = 1; i <= 128; i++)
+				TimeIntervals.Add(new TimeIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null));
+			SelectedTimeInterval = TimeIntervals.First();
 		}
 
-		SKDTimeInterval IntervalToCopy;
-
-		ObservableCollection<TimeIntervalViewModel> _timeIntervals;
+		private ObservableCollection<TimeIntervalViewModel> _timeIntervals;
 		public ObservableCollection<TimeIntervalViewModel> TimeIntervals
 		{
 			get { return _timeIntervals; }
 			set
 			{
 				_timeIntervals = value;
-				OnPropertyChanged("TimeIntervals");
+				OnPropertyChanged(() => TimeIntervals);
 			}
 		}
 
-		TimeIntervalViewModel _selectedTimeInterval;
+		private TimeIntervalViewModel _selectedTimeInterval;
 		public TimeIntervalViewModel SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
 			set
 			{
-				_selectedTimeInterval = value;
-				OnPropertyChanged("SelectedTimeInterval");
-			}
-		}
-
-		public void Select(Guid timeIntervalUID)
-		{
-			if (timeIntervalUID != Guid.Empty)
-			{
-				var timeIntervalViewModel = TimeIntervals.FirstOrDefault(x => x.TimeInterval.UID == timeIntervalUID);
-				if (timeIntervalViewModel != null)
+				if (value == null)
+					SelectedTimeInterval = TimeIntervals.First();
+				else
 				{
-					SelectedTimeInterval = timeIntervalViewModel;
+					_selectedTimeInterval = value;
+					OnPropertyChanged(() => SelectedTimeInterval);
+					UpdateRibbonItems();
 				}
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		public void Select(int intervalID)
 		{
-			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel();
-			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel))
-			{
-				SKDManager.TimeIntervalsConfiguration.TimeIntervals.Add(timeIntervalDetailsViewModel.TimeInterval);
-				var timeIntervalViewModel = new TimeIntervalViewModel(timeIntervalDetailsViewModel.TimeInterval);
-				TimeIntervals.Add(timeIntervalViewModel);
-				SelectedTimeInterval = timeIntervalViewModel;
-				ServiceFactory.SaveService.SKDChanged = true;
-			}
+			if (intervalID >= 0 && intervalID <= 128)
+				SelectedTimeInterval = TimeIntervals.First(item => item.Index == intervalID);
+			else if (SelectedTimeInterval == null)
+				SelectedTimeInterval = TimeIntervals.First();
 		}
-		bool CanAdd()
+
+		public RelayCommand AddCommand { get; private set; }
+		private void OnAdd()
 		{
-			return TimeIntervals.Count < 256;
+		}
+		private bool CanAdd()
+		{
+			return false;
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
-		void OnDelete()
+		private void OnDelete()
 		{
-			SKDManager.TimeIntervalsConfiguration.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
-			TimeIntervals.Remove(SelectedTimeInterval);
-			ServiceFactory.SaveService.SKDChanged = true;
 		}
-		bool CanDelete()
+		private bool CanDelete()
 		{
-			return SelectedTimeInterval != null && !SelectedTimeInterval.TimeInterval.IsDefault;
+			return false;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		void OnEdit()
+		private void OnEdit()
 		{
 			var timeInrervalDetailsViewModel = new TimeIntervalDetailsViewModel(SelectedTimeInterval.TimeInterval);
 			if (DialogService.ShowModalWindow(timeInrervalDetailsViewModel))
@@ -115,40 +102,48 @@ namespace SKDModule.ViewModels
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
-		bool CanEdit()
+		private bool CanEdit()
 		{
-			return SelectedTimeInterval != null && !SelectedTimeInterval.TimeInterval.IsDefault;
+			return SelectedTimeInterval != null && SelectedTimeInterval.IsEnabled;
+		}
+
+		public RelayCommand ActivateCommand { get; private set; }
+		private void OnActivate()
+		{
+			SelectedTimeInterval.IsActive = !SelectedTimeInterval.IsActive;
+			OnPropertyChanged(() => SelectedTimeInterval);
+			UpdateRibbonItems();
+		}
+		private bool CanActivate()
+		{
+			return SelectedTimeInterval != null && !SelectedTimeInterval.IsDefault;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
+		private void OnCopy()
 		{
-			IntervalToCopy = CopyInterval(SelectedTimeInterval.TimeInterval);
-		}
-		bool CanCopy()
-		{
-			return SelectedTimeInterval != null && !SelectedTimeInterval.TimeInterval.IsDefault;
+			_copy = CopyInterval(SelectedTimeInterval.TimeInterval);
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
+		private void OnPaste()
 		{
-			var newInterval = CopyInterval(IntervalToCopy);
-			SKDManager.TimeIntervalsConfiguration.TimeIntervals.Add(newInterval);
-			var timeInrervalViewModel = new TimeIntervalViewModel(newInterval);
-			TimeIntervals.Add(timeInrervalViewModel);
-			SelectedTimeInterval = timeInrervalViewModel;
-			ServiceFactory.SaveService.SKDChanged = true;
+			var newInterval = CopyInterval(_copy);
+			SelectedTimeInterval.Paste(newInterval);
 		}
-		bool CanPaste()
+		private bool CanPaste()
 		{
-			return IntervalToCopy != null && TimeIntervals.Count < 256;
+			return _copy != null && SelectedTimeInterval != null && !SelectedTimeInterval.IsDefault;
 		}
 
-		SKDTimeInterval CopyInterval(SKDTimeInterval source)
+		private SKDTimeInterval _copy;
+		private SKDTimeInterval CopyInterval(SKDTimeInterval source)
 		{
-			var copy = new SKDTimeInterval();
-			copy.Name = source.Name;
+			var copy = new SKDTimeInterval()
+			{
+				Name = source.Name,
+				Description = source.Description,
+			};
 			foreach (var timeIntervalPart in source.TimeIntervalParts)
 			{
 				var copyTimeIntervalPart = new SKDTimeIntervalPart()
@@ -161,24 +156,28 @@ namespace SKDModule.ViewModels
 			return copy;
 		}
 
-		void RegisterShortcuts()
+		private void RegisterShortcuts()
 		{
-			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.A, ModifierKeys.Control), ActivateCommand);
 		}
 
-		void SetRibbonItems()
+		protected override void UpdateRibbonItems()
+		{
+			base.UpdateRibbonItems();
+			RibbonItems[0][1].Text = SelectedTimeInterval.ActivateActionTitle;
+			RibbonItems[0][1].ImageSource = SelectedTimeInterval.GetActiveImage(!SelectedTimeInterval.IsActive, true);
+		}
+		private void SetRibbonItems()
 		{
 			RibbonItems = new List<RibbonMenuItemViewModel>()
 			{
 				new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
 				{
-					new RibbonMenuItemViewModel("Добавить", "/Controls;component/Images/BAdd.png"),
 					new RibbonMenuItemViewModel("Редактировать", "/Controls;component/Images/BEdit.png"),
-					new RibbonMenuItemViewModel("Удалить", "/Controls;component/Images/BDelete.png"),
+					new RibbonMenuItemViewModel("", ActivateCommand),
 					new RibbonMenuItemViewModel("Копировать", CopyCommand, "/Controls;component/Images/BCopy.png"),
 					new RibbonMenuItemViewModel("Вставить", PasteCommand, "/Controls;component/Images/BPaste.png"),
 				}, "/Controls;component/Images/BEdit.png") { Order = 1 }

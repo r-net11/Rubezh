@@ -46,8 +46,9 @@ namespace FiresecAPI
 		#region Journal
 		[OperationContract]
 		OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(SKDJournalFilter filter);
+
 		[OperationContract]
-		OperationResult SaveSKDJournalItems(IEnumerable<JournalItem> journalItems);
+		OperationResult<DateTime> GetMinDateTime();
 		#endregion
 
 		#region Card
@@ -167,7 +168,7 @@ namespace FiresecAPI
 		OperationResult<bool> SKDCloseDevice(Guid deviceUID);
 
 		[OperationContract]
-		void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter);
+		void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID);
 		#endregion
 	}
 }
