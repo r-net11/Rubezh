@@ -42,13 +42,13 @@ namespace ManagementConsole
 			Modules.Add(new ModuleViewModel("SKDModule.dll"));
 			Modules.Add(new ModuleViewModel("LayoutModule.dll"));
 			Modules.Add(new ModuleViewModel("AutomationModule.dll"));
+			Modules.Add(new ModuleViewModel("FiltersModule.dll"));
+			Modules.Add(new ModuleViewModel("JournalModule.dll"));
 
 			Modules.Add(new ModuleViewModel("DevicesModule.dll"));
 			Modules.Add(new ModuleViewModel("LibraryModule.dll"));
-			Modules.Add(new ModuleViewModel("FiltersModule.dll"));
 			Modules.Add(new ModuleViewModel("InstructionsModule.dll"));
 			Modules.Add(new ModuleViewModel("AlarmModule.dll"));
-			Modules.Add(new ModuleViewModel("JournalModule.dll"));
 
 			if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
 				GlobalSettingsHelper.GlobalSettings.SetDefaultModules();

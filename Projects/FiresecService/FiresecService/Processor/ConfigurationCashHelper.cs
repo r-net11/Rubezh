@@ -63,6 +63,10 @@ namespace FiresecService
 				{
 					systemConfiguration.AfterLoad();
 				}
+				else
+				{
+					systemConfiguration = new SystemConfiguration();
+				}
 				if (systemConfiguration.AutomationConfiguration == null)
 					systemConfiguration.AutomationConfiguration = new AutomationConfiguration();
 				if (systemConfiguration.AutomationConfiguration.AutomationSchedules == null)
@@ -99,6 +103,10 @@ namespace FiresecService
 				if (skdConfiguration != null)
 				{
 					skdConfiguration.AfterLoad();
+				}
+				else
+				{
+					skdConfiguration = new SKDConfiguration();
 				}
 				zipFile.Dispose();
 				return skdConfiguration;

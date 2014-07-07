@@ -25,13 +25,13 @@ namespace SettingsModule.ViewModels
 			Modules.Add(new ModuleViewModel("SKDModule.dll", "СКД"));
 			Modules.Add(new ModuleViewModel("LayoutModule.dll", "Макеты"));
 			Modules.Add(new ModuleViewModel("AutomationModule.dll", "Автоматизация"));
+			Modules.Add(new ModuleViewModel("FiltersModule.dll", "Фильтры"));
+			Modules.Add(new ModuleViewModel("JournalModule.dll", "Журнал событий"));
 
 			Modules.Add(new ModuleViewModel("DevicesModule.dll", "Устройства FS1"));
-			Modules.Add(new ModuleViewModel("LibraryModule.dll", "Библиотека устройств FS1"));
-			Modules.Add(new ModuleViewModel("FiltersModule.dll", "Фильтры FS1"));
+			Modules.Add(new ModuleViewModel("LibraryModule.dll", "Библиотека устройств FS1"));			
 			Modules.Add(new ModuleViewModel("InstructionsModule.dll", "Инструкции FS1"));
 			Modules.Add(new ModuleViewModel("AlarmModule.dll", "Состояния FS1"));
-			Modules.Add(new ModuleViewModel("JournalModule.dll", "Журнал событий FS1"));
 
 			if (GlobalSettingsHelper.GlobalSettings.ModuleItems == null)
 				GlobalSettingsHelper.GlobalSettings.SetDefaultModules();

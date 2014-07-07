@@ -46,25 +46,18 @@ namespace FireAdministrator
 					LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
 					if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged)
 					{
-						//if (FiresecManager.IsFS2Enabled)
-						//{
-						//	FiresecManager.FS2ClientContract.SetNewConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration, FiresecManager.CurrentUser.Name);
-						//}
-						//else
+						if (!GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1)
 						{
-							if (!GlobalSettingsHelper.GlobalSettings.DoNotOverrideFS1)
+							LoadingService.DoStep("Применение конфигурации устройств");
+							if (FiresecManager.FiresecDriver != null)
 							{
-								LoadingService.DoStep("Применение конфигурации устройств");
-								if (FiresecManager.FiresecDriver != null)
+								var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+								if (fsResult.HasError)
 								{
-									var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-									if (fsResult.HasError)
-									{
-										MessageBoxService.ShowError(fsResult.Error);
-									}
-									LoadingService.DoStep("Синхронизация конфигурации");
-									FiresecManager.FiresecDriver.Synchronyze(false);
+									MessageBoxService.ShowError(fsResult.Error);
 								}
+								LoadingService.DoStep("Синхронизация конфигурации");
+								FiresecManager.FiresecDriver.Synchronyze(false);
 							}
 						}
 					}

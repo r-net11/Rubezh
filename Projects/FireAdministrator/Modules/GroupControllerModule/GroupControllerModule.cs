@@ -201,7 +201,7 @@ namespace GKModule
 		{
 			if (isAdministrator)
 			{
-				FiresecManager.FiresecService.AddJournalItem(journalItem);
+				//FiresecManager.FiresecService.AddJournalItem(journalItem);
 			}
 		}
 

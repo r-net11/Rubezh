@@ -16,7 +16,7 @@ namespace FiresecAPI
 			DoNotOverrideFS1 = true;
 			Server_EnableRemoteConnections = false;
 
-			IsGKAsAService = false;
+			IsGKAsAService = true;
 			UseHasp = false;
 
 			FS_RemoteAddress = "localhost";

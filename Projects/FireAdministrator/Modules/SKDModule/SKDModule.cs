@@ -84,22 +84,22 @@ namespace SKDModule
 			{
 				new NavigationItem("СКД", null, new List<NavigationItem>()
 				{
-					//new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
 					new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков", "/Controls;component/Images/PassCardDesigner.png", null, null, Guid.Empty),
 					new NavigationItem("Интервалы", "/Controls;component/Images/ShedulesW.png", new List<NavigationItem>()
-					//{
+					{
 						new NavigationItem<ShowSKDTimeIntervalsEvent, int>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/ShedulesDaylyW.png", null, null, -1),
 						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/SheduleWeeklyW.png", null, null, -1),
 						new NavigationItem<ShowSKDSlideDayIntervalsEvent, int>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/SheduleSlideDaylyW.png", null, null, -1),
 						new NavigationItem<ShowSKDSlideWeekIntervalsEvent, int>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/SheduleSlideWeeklyW.png", null, null, -1),
 						new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/HolidaysW.png", null, null, Guid.Empty),
-					//}),
-					//#if DEBUG
+					}),
+					#if DEBUG
 					new NavigationItem<ShowSKDSettingsEvent, object>(SettingsViewModel, "Настройки", "/Controls;component/Images/Settings.png"),
-					//new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/Book.png"),
-					//#endif
+					new NavigationItem<ShowSKDLidraryEvent, object>(LibraryViewModel, "Библиотека", "/Controls;component/Images/Book.png"),
+					#endif
 				}) {IsExpanded = true},
 			};
 		}
