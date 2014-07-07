@@ -39,10 +39,15 @@ namespace JournalModule.ViewModels
 			{
 				Description = journalItem.DescriptionText;
 			}
+			StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.Name);
+			ObjectImageSource = "/Controls;component/Images/blank.png";
 		}
 
 		public string Name { get; private set; }
 		public string Description { get; private set; }
+		public string ObjectImageSource { get; private set; }
+		public string ObjectName { get; private set; }
+		public FiresecAPI.GK.XStateClass StateClass { get; private set; }
 
 		public bool IsExistsInConfig
 		{

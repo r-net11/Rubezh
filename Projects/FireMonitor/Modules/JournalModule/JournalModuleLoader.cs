@@ -10,6 +10,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
+using FiresecAPI;
 
 namespace JournalModule
 {
@@ -74,6 +75,16 @@ namespace JournalModule
 		{
 			SafeFiresecService.NewJournalItemEvent -= new Action<FiresecAPI.SKD.JournalItem>(OnNewJournalItem);
 			SafeFiresecService.NewJournalItemEvent += new Action<FiresecAPI.SKD.JournalItem>(OnNewJournalItem);
+
+			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
+
+			var journalFilter = new SKDJournalFilter();
+			var result = FiresecManager.FiresecService.GetSKDJournalItems(journalFilter);
+			if (!result.HasError)
+			{
+				JournalViewModel.OnNewJournalItems(new List<JournalItem>(result.Result));
+			}
 		}
 
 		void OnNewJournalItem(FiresecAPI.SKD.JournalItem journalItem)
@@ -83,6 +94,19 @@ namespace JournalModule
 				var journalItems = new List<JournalItem>();
 				journalItems.Add(journalItem);
 				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
+			});
+		}
+
+		void OnGetFilteredSKDArchiveCompletedEvent(IEnumerable<JournalItem> journalItems, Guid archivePortionUID)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				var archiveResult = new SKDArchiveResult()
+				{
+					ArchivePortionUID = archivePortionUID,
+					JournalItems = journalItems
+				};
+				ServiceFactory.Events.GetEvent<GetFilteredSKDArchiveCompletedEvent>().Publish(archiveResult);
 			});
 		}
 	}

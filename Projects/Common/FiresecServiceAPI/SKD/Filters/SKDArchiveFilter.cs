@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
+using FiresecAPI.Events;
 
 namespace FiresecAPI.SKD
 {
@@ -14,11 +15,11 @@ namespace FiresecAPI.SKD
 			EndDate = DateTime.Now;
 			JournalItemTypes = new List<SKDJournalItemType>();
 			StateClasses = new List<XStateClass>();
-			EventNames = new List<string>();
 			Descriptions = new List<string>();
 			UseDeviceDateTime = false;
 
-			SubsystemTypes = new List<SubsystemType>();
+			EventNames = new List<GlobalEventNameEnum>();
+			SubsystemTypes = new List<GlobalSubsystemType>();
 			DeviceUIDs = new List<Guid>();
 		}
 
@@ -38,16 +39,16 @@ namespace FiresecAPI.SKD
 		public List<XStateClass> StateClasses { get; set; }
 
 		[DataMember]
-		public List<string> EventNames { get; set; }
-
-		[DataMember]
 		public List<string> Descriptions { get; set; }
 
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }
 
 		[DataMember]
-		public List<SubsystemType> SubsystemTypes { get; set; }
+		public List<GlobalEventNameEnum> EventNames { get; set; }
+
+		[DataMember]
+		public List<GlobalSubsystemType> SubsystemTypes { get; set; }
 
 		[DataMember]
 		public int PageSize { get; set; }

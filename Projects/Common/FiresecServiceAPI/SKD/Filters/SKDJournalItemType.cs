@@ -11,6 +11,14 @@ namespace FiresecAPI.SKD
 		System,
 
 		[EnumMember]
+		[DescriptionAttribute("Устройство ГК")]
+		GKDevice,
+
+		[EnumMember]
+		[DescriptionAttribute("Зона ГК")]
+		GKZone,
+
+		[EnumMember]
 		[DescriptionAttribute("Контроллер")]
 		Controller,
 

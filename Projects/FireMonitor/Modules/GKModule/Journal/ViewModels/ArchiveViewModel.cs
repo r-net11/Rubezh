@@ -44,14 +44,9 @@ namespace GKModule.ViewModels
 			ServiceFactory.Events.GetEvent<GetFilteredGKArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 		}
 
-		public DateTime GetFirstDate()
-		{
-			return GKDBHelper.GetMinDate();
-		}
-
 		public void Initialize()
 		{
-			ArchiveFirstDate = GetFirstDate(); // DateTime.Now.AddDays(-1);
+			ArchiveFirstDate = GKDBHelper.GetMinDate(); // DateTime.Now.AddDays(-1);
 			_isFilterOn = false;
 		}
 
