@@ -8,56 +8,45 @@ namespace SKDModule.ViewModels
 	{
 		public SKDSlideWeeklyInterval SlideWeekInterval { get; private set; }
 
-		public SlideWeekIntervalDetailsViewModel(SKDSlideWeeklyInterval slideWeekInterval = null)
+		public SlideWeekIntervalDetailsViewModel(SKDSlideWeeklyInterval slideWeekInterval)
 		{
-			if (slideWeekInterval == null)
-			{
-				Title = "Новый скользящий понедельный график";
-				slideWeekInterval = new SKDSlideWeeklyInterval()
-				{
-					Name = "Скользящий понедельный график"
-				};
-			}
-			else
-			{
-				Title = "Редактирование скользящего понедельного графика";
-			}
+			Title = "Редактирование скользящего понедельного графика";
 			SlideWeekInterval = slideWeekInterval;
 			Name = SlideWeekInterval.Name;
 			Description = SlideWeekInterval.Description;
 			StartDate = SlideWeekInterval.StartDate;
 		}
 
-		string _name;
+		private string _name;
 		public string Name
 		{
 			get { return _name; }
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
-		string _description;
+		private string _description;
 		public string Description
 		{
 			get { return _description; }
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 
-		DateTime _startDate;
+		private DateTime _startDate;
 		public DateTime StartDate
 		{
 			get { return _startDate; }
 			set
 			{
 				_startDate = value;
-				OnPropertyChanged("StartDate");
+				OnPropertyChanged(() => StartDate);
 			}
 		}
 
@@ -65,7 +54,6 @@ namespace SKDModule.ViewModels
 		{
 			return !string.IsNullOrEmpty(Name) && Name != "Доступ запрещен";
 		}
-
 		protected override bool Save()
 		{
 			SlideWeekInterval.Name = Name;

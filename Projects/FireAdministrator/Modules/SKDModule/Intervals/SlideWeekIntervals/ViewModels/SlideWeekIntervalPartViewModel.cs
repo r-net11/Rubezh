@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
+using Common;
 using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
@@ -7,35 +9,46 @@ namespace SKDModule.ViewModels
 {
 	public class SlideWeekIntervalPartViewModel : BaseViewModel
 	{
-		SlideWeekIntervalViewModel SlideWeekIntervalViewModel;
-		public SKDWeeklyInterval WeeklyInterval { get; private set; }
+		private SlideWeekIntervalsViewModel _slideWeekIntervalsViewModel;
+		private SKDSlideWeeklyInterval _slideWeekInterval;
+		public int Index { get; private set; }
 
-		public SlideWeekIntervalPartViewModel(SlideWeekIntervalViewModel slideWeekIntervalViewModel, SKDWeeklyInterval weeklyInterval)
+		public SlideWeekIntervalPartViewModel(SlideWeekIntervalsViewModel slideWeekIntervalsViewModel, SKDSlideWeeklyInterval slideWeekInterval, int index)
 		{
-			SlideWeekIntervalViewModel = slideWeekIntervalViewModel;
-			WeeklyInterval = weeklyInterval;
-
-			AvailableWeeklyIntervals = new ObservableCollection<SKDWeeklyInterval>();
-			foreach (var skdWeeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
-			{
-				AvailableWeeklyIntervals.Add(skdWeeklyInterval);
-			}
-			_selectedWeeklyInterval = WeeklyInterval;
+			_slideWeekIntervalsViewModel = slideWeekIntervalsViewModel;
+			_slideWeekInterval = slideWeekInterval;
+			Index = index;
+			Update();
 		}
 
-		public ObservableCollection<SKDWeeklyInterval> AvailableWeeklyIntervals { get; private set; }
+		public string Name { get; private set; }
 
-		SKDWeeklyInterval _selectedWeeklyInterval;
-		public SKDWeeklyInterval SelectedWeeklyInterval
+		private SKDWeeklyInterval _selectedWeekInterval;
+		public SKDWeeklyInterval SelectedWeekInterval
 		{
-			get { return _selectedWeeklyInterval; }
+			get { return _selectedWeekInterval; }
 			set
 			{
-				_selectedWeeklyInterval = value;
-				OnPropertyChanged("SelectedWeeklyInterval");
-				SlideWeekIntervalViewModel.Update();
-				ServiceFactory.SaveService.SKDChanged = true;
+				if (value == null)
+					SelectedWeekInterval = _slideWeekIntervalsViewModel.AvailableWeekIntervals.First();
+				else
+				{
+					_selectedWeekInterval = value;
+					OnPropertyChanged(() => SelectedWeekInterval);
+					_slideWeekInterval.WeeklyIntervalIDs[Index] = SelectedWeekInterval.ID;
+					ServiceFactory.SaveService.SKDChanged = true;
+				}
 			}
+		}
+
+		public void Update()
+		{
+			Name = string.Format("{0}", Index + 1);
+			_selectedWeekInterval = _slideWeekIntervalsViewModel.AvailableWeekIntervals.FirstOrDefault(x => x.ID == _slideWeekInterval.WeeklyIntervalIDs[Index]);
+			if (_selectedWeekInterval == null)
+				_selectedWeekInterval = _slideWeekIntervalsViewModel.AvailableWeekIntervals.First();
+			OnPropertyChanged(() => SelectedWeekInterval);
+			OnPropertyChanged(() => Name);
 		}
 	}
 }

@@ -23,5 +23,16 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<SKDTimeIntervalPart> TimeIntervalParts { get; set; }
+
+		public override bool Equals(object obj)
+		{
+			if (obj is SKDTimeInterval)
+				return ((SKDTimeInterval)obj).ID == ID;
+			return base.Equals(obj);
+		}
+		public override int GetHashCode()
+		{
+			return ID.GetHashCode();
+		}
 	}
 }

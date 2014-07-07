@@ -74,7 +74,7 @@ namespace FiresecAPI.SKD
 			foreach (var weeklyInterval in WeeklyIntervals)
 				if (weeklyInterval.WeeklyIntervalParts == null)
 				{
-					weeklyInterval.WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
+					weeklyInterval.WeeklyIntervalParts = SKDWeeklyInterval.CreateParts();
 					result = false;
 				}
 			foreach (var slideWeeklyInterval in SlideWeeklyIntervals)

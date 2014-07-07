@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -29,5 +30,13 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<int> TimeIntervalIDs { get; set; }
+
+		public void InvalidateDayIntervals()
+		{
+			var ids = SKDManager.TimeIntervalsConfiguration.TimeIntervals.Select(item => item.ID).ToList();
+			for (int i = 0; i < TimeIntervalIDs.Count; i++)
+				if (!ids.Contains(TimeIntervalIDs[i]))
+					TimeIntervalIDs[i] = 0;
+		}
 	}
 }

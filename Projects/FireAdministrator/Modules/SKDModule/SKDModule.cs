@@ -90,10 +90,10 @@ namespace SKDModule
 					//new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков","/Controls;component/Images/PassCardDesigner.png",null,null, Guid.Empty),
 					//new NavigationItem("Интервалы", null, new List<NavigationItem>()
 					//{
-						new NavigationItem<ShowSKDTimeIntervalsEvent, int>(TimeIntervalsViewModel, "Дневной график", "/Controls;component/Images/tree.png", null, null, 0),
-						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, 0),
-						new NavigationItem<ShowSKDSlideDayIntervalsEvent, int>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, 0),
-						new NavigationItem<ShowSKDSlideWeekIntervalsEvent, int>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/tree.png", null, null, 0),
+						new NavigationItem<ShowSKDTimeIntervalsEvent, int>(TimeIntervalsViewModel, "Дневной график", "/Controls;component/Images/tree.png", null, null, -1),
+						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/tree.png", null, null, -1),
+						new NavigationItem<ShowSKDSlideDayIntervalsEvent, int>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/tree.png", null, null, -1),
+						new NavigationItem<ShowSKDSlideWeekIntervalsEvent, int>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/tree.png", null, null, -1),
 						new NavigationItem<ShowSKDHolidaysEvent, Guid>(HolidaysViewModel, "Праздничные дни", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					//}),
 					//#if DEBUG

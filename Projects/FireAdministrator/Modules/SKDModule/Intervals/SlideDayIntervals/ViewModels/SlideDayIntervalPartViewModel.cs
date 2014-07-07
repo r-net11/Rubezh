@@ -2,40 +2,52 @@
 using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
 	public class SlideDayIntervalPartViewModel : BaseViewModel
 	{
-		SlideDayIntervalViewModel SlideDayIntervalViewModel;
-		public SKDTimeInterval TimeInterval { get; private set; }
+		private SlideDayIntervalsViewModel _slideDayIntervalsViewModel;
+		private SKDSlideDayInterval _slideDayInterval;
+		public int Index { get; private set; }
 
-		public SlideDayIntervalPartViewModel(SlideDayIntervalViewModel slideDayIntervalViewModel, SKDTimeInterval timeInterval)
+		public SlideDayIntervalPartViewModel(SlideDayIntervalsViewModel slideDayIntervalsViewModel, SKDSlideDayInterval slideDayInterval, int index)
 		{
-			SlideDayIntervalViewModel = slideDayIntervalViewModel;
-			TimeInterval = timeInterval;
-
-			AvailableTimeIntervals = new ObservableCollection<SKDTimeInterval>();
-			foreach (var interval in SKDManager.TimeIntervalsConfiguration.TimeIntervals)
-			{
-				AvailableTimeIntervals.Add(interval);
-			}
-			_selectedTimeInterval = TimeInterval;
+			_slideDayIntervalsViewModel = slideDayIntervalsViewModel;
+			_slideDayInterval = slideDayInterval;
+			Index = index;
+			Update();
 		}
 
-		public ObservableCollection<SKDTimeInterval> AvailableTimeIntervals { get; private set; }
+		public string Name { get; private set; }
 
-		SKDTimeInterval _selectedTimeInterval;
+		private SKDTimeInterval _selectedTimeInterval;
 		public SKDTimeInterval SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
 			set
 			{
-				_selectedTimeInterval = value;
-				OnPropertyChanged("SelectedTimeInterval");
-				SlideDayIntervalViewModel.Update();
-				ServiceFactory.SaveService.SKDChanged = true;
+				if (value == null)
+					SelectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.First();
+				else
+				{
+					_selectedTimeInterval = value;
+					OnPropertyChanged(() => SelectedTimeInterval);
+					_slideDayInterval.TimeIntervalIDs[Index] = SelectedTimeInterval.ID;
+					ServiceFactory.SaveService.SKDChanged = true;
+				}
 			}
+		}
+
+		public void Update()
+		{
+			Name = string.Format("{0}", Index + 1);
+			_selectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == _slideDayInterval.TimeIntervalIDs[Index]);
+			if (_selectedTimeInterval == null)
+				_selectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.First();
+			OnPropertyChanged(() => SelectedTimeInterval);
+			OnPropertyChanged(() => Name);
 		}
 	}
 }

@@ -2,69 +2,114 @@
 using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Intervals.Base;
+using Infrastructure;
 
 namespace SKDModule.ViewModels
 {
-	public class WeeklyIntervalViewModel : BaseViewModel
+	public class WeeklyIntervalViewModel : BaseIntervalViewModel
 	{
+		private WeeklyIntervalsViewModel _weeklyIntervalsViewModel;
 		public SKDWeeklyInterval WeeklyInterval { get; private set; }
 
-		public WeeklyIntervalViewModel(SKDWeeklyInterval weeklyInterval)
+		public WeeklyIntervalViewModel(int index, SKDWeeklyInterval weeklyInterval, WeeklyIntervalsViewModel weeklyIntervalsViewModel)
+			: base(index, weeklyInterval != null)
 		{
+			_weeklyIntervalsViewModel = weeklyIntervalsViewModel;
 			WeeklyInterval = weeklyInterval;
 			Initialize();
+			Update();
 		}
 
-		public void Initialize()
+		private void Initialize()
 		{
 			TimeIntervals = new ObservableCollection<WeeklyIntervalPartViewModel>();
-			foreach (var weeklyIntervalPart in WeeklyInterval.WeeklyIntervalParts)
-			{
-				var weeklyIntervalPartViewModel = new WeeklyIntervalPartViewModel(this, weeklyIntervalPart);
-				TimeIntervals.Add(weeklyIntervalPartViewModel);
-			}
+			if (WeeklyInterval != null)
+				foreach (var weeklyIntervalPart in WeeklyInterval.WeeklyIntervalParts)
+				{
+					var weeklyIntervalPartViewModel = new WeeklyIntervalPartViewModel(_weeklyIntervalsViewModel, weeklyIntervalPart);
+					TimeIntervals.Add(weeklyIntervalPartViewModel);
+				}
 		}
 
-		ObservableCollection<WeeklyIntervalPartViewModel> _timeIntervals;
-		public ObservableCollection<WeeklyIntervalPartViewModel> TimeIntervals
-		{
-			get { return _timeIntervals; }
-			set
-			{
-				_timeIntervals = value;
-				OnPropertyChanged("TimeIntervals");
-			}
-		}
+		public ObservableCollection<WeeklyIntervalPartViewModel> TimeIntervals { get; private set; }
 
-		WeeklyIntervalPartViewModel _selectedTimeInterval;
+		private WeeklyIntervalPartViewModel _selectedTimeInterval;
 		public WeeklyIntervalPartViewModel SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
 			set
 			{
 				_selectedTimeInterval = value;
-				OnPropertyChanged("SelectedTimeInterval");
+				OnPropertyChanged(() => SelectedTimeInterval);
 			}
 		}
 
-		public void Update()
+		private string _name;
+		public string Name
 		{
-			OnPropertyChanged("WeeklyInterval");
-
-			WeeklyInterval.WeeklyIntervalParts = new List<SKDWeeklyIntervalPart>();
-			foreach (var timeInterval in TimeIntervals)
+			get { return _name; }
+			set
 			{
-				if (timeInterval.SelectedTimeInterval != null)
+				_name = value;
+				OnPropertyChanged(() => Name);
+			}
+		}
+
+		private string _description;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				_description = value;
+				OnPropertyChanged(() => Description);
+			}
+		}
+
+		public override void Update()
+		{
+			base.Update();
+			Name = IsActive ? WeeklyInterval.Name : string.Format("Понедельный график {0}", Index);
+			Description = IsEnabled ? WeeklyInterval.Description : string.Empty;
+			OnPropertyChanged(() => WeeklyInterval);
+			OnPropertyChanged(() => TimeIntervals);
+		}
+		protected override void Activate()
+		{
+			if (!IsDefault)
+			{
+				if (IsActive && WeeklyInterval == null)
 				{
-					timeInterval.WeeklyIntervalPart.TimeIntervalID = timeInterval.SelectedTimeInterval.ID;
-					WeeklyInterval.WeeklyIntervalParts.Add(timeInterval.WeeklyIntervalPart);
+					WeeklyInterval = new SKDWeeklyInterval()
+					{
+						ID = Index,
+						Name = Name,
+					};
+					Initialize();
+					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Add(WeeklyInterval);
+					ServiceFactory.SaveService.SKDChanged = true;
+				}
+				else if (!IsActive && WeeklyInterval != null)
+				{
+					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Remove(WeeklyInterval);
+					WeeklyInterval = null;
+					Initialize();
+					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.ForEach(week => week.InvalidateWeekIntervals());
+					ServiceFactory.SaveService.SKDChanged = true;
 				}
 			}
+			base.Activate();
 		}
 
-		//public bool IsEnabled
-		//{
-		//    get { return !WeeklyInterval.IsDefault; }
-		//}
+		public void Paste(SKDWeeklyInterval interval)
+		{
+			IsActive = true;
+			for (int i = 0; i < interval.WeeklyIntervalParts.Count; i++)
+				WeeklyInterval.WeeklyIntervalParts[i].TimeIntervalID = interval.WeeklyIntervalParts[i].TimeIntervalID;
+			Initialize();
+			ServiceFactory.SaveService.SKDChanged = true;
+			Update();
+		}
 	}
 }

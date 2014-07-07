@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using SKDModule.Intervals.Base;
+using Common;
 
 namespace SKDModule.ViewModels
 {
@@ -13,14 +14,13 @@ namespace SKDModule.ViewModels
 		public SKDTimeInterval TimeInterval { get; private set; }
 
 		public TimeIntervalViewModel(int index, SKDTimeInterval timeInterval)
-			: base(index)
+			: base(index, timeInterval != null)
 		{
 			TimeInterval = timeInterval;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanEdit);
 			InitParts();
-			IsActive = TimeInterval != null;
 			Update();
 		}
 
@@ -88,6 +88,8 @@ namespace SKDModule.ViewModels
 					SKDManager.TimeIntervalsConfiguration.TimeIntervals.Remove(TimeInterval);
 					TimeInterval = null;
 					InitParts();
+					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ForEach(week => week.InvalidateDayIntervals());
+					SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.ForEach(week => week.InvalidateDayIntervals());
 					ServiceFactory.SaveService.SKDChanged = true;
 				}
 			}
@@ -130,7 +132,7 @@ namespace SKDModule.ViewModels
 			ServiceFactory.SaveService.SKDChanged = true;
 			Update();
 		}
-		public void InitParts()
+		private void InitParts()
 		{
 			TimeIntervalParts = new ObservableCollection<TimeIntervalPartViewModel>();
 			if (TimeInterval != null)

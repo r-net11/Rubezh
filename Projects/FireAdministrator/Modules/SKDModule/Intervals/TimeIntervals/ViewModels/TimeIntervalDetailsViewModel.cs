@@ -7,7 +7,7 @@ namespace SKDModule.ViewModels
 	{
 		public SKDTimeInterval TimeInterval { get; private set; }
 
-		public TimeIntervalDetailsViewModel(SKDTimeInterval timeInterval = null)
+		public TimeIntervalDetailsViewModel(SKDTimeInterval timeInterval)
 		{
 			Title = "Редактирование именованного интервала";
 			TimeInterval = timeInterval;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -11,7 +10,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using KeyboardKey = System.Windows.Input.Key;
-using Common;
 
 namespace SKDModule.ViewModels
 {
@@ -37,7 +35,7 @@ namespace SKDModule.ViewModels
 			//TimeIntervals.Add(new TimeIntervalViewModel(0, null));
 			for (int i = 1; i <= 128; i++)
 				TimeIntervals.Add(new TimeIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null));
-			SelectedTimeInterval = TimeIntervals.FirstOrDefault();
+			SelectedTimeInterval = TimeIntervals.First();
 		}
 
 		private ObservableCollection<TimeIntervalViewModel> _timeIntervals;
@@ -58,7 +56,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				if (value == null)
-					SelectedTimeInterval = TimeIntervals.FirstOrDefault(item => item.IsDefault) ?? TimeIntervals.First();
+					SelectedTimeInterval = TimeIntervals.First();
 				else
 				{
 					_selectedTimeInterval = value;
@@ -68,9 +66,12 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Select(int timeIntervalID)
+		public void Select(int intervalID)
 		{
-			SelectedTimeInterval = TimeIntervals.First(item => timeIntervalID >= 1 && timeIntervalID <= 128 ? item.Index == timeIntervalID : true);
+			if (intervalID >= 0 && intervalID <= 128)
+				SelectedTimeInterval = TimeIntervals.First(item => item.Index == intervalID);
+			else if (SelectedTimeInterval == null)
+				SelectedTimeInterval = TimeIntervals.First();
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -138,7 +139,11 @@ namespace SKDModule.ViewModels
 		private SKDTimeInterval _copy;
 		private SKDTimeInterval CopyInterval(SKDTimeInterval source)
 		{
-			var copy = new SKDTimeInterval();
+			var copy = new SKDTimeInterval()
+			{
+				Name = source.Name,
+				Description = source.Description,
+			};
 			foreach (var timeIntervalPart in source.TimeIntervalParts)
 			{
 				var copyTimeIntervalPart = new SKDTimeIntervalPart()
@@ -154,7 +159,6 @@ namespace SKDModule.ViewModels
 		private void RegisterShortcuts()
 		{
 			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
-			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
 			RegisterShortcut(new KeyGesture(KeyboardKey.A, ModifierKeys.Control), ActivateCommand);

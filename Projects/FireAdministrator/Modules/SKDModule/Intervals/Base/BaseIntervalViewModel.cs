@@ -7,9 +7,10 @@ namespace SKDModule.Intervals.Base
 	{
 		public int Index { get; private set; }
 
-		public BaseIntervalViewModel(int index)
+		public BaseIntervalViewModel(int index, bool isActive)
 		{
 			Index = index;
+			_isActive = isActive;
 		}
 
 		private bool _isActive;

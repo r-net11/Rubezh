@@ -1,7 +1,11 @@
 ﻿<UserControl x:Class="SKDModule.Views.TimeIntervalsMenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 		<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать (Ctrl+E)" ImageSource="/Controls;component/Images/Edit.png" />
-		<Controls:ToolBarButton Command="{Binding ActivateCommand}" ToolTip="{Binding SelectedTimeInterval.ActivateActionTitle, StringFormat='\{0\} (Ctrl+A)'}" ImageSource="{Binding SelectedTimeInterval.ActivateActionImage}" />
+		<Controls:ToolBarButton Command="{Binding ActivateCommand}" ImageSource="{Binding SelectedTimeInterval.ActivateActionImage}">
+			<Controls:ToolBarButton.ToolTip>
+				<ToolTip Content="{Binding SelectedTimeInterval.ActivateActionTitle}" ContentStringFormat="{}{0} (Ctrl+A)" />
+			</Controls:ToolBarButton.ToolTip>
+		</Controls:ToolBarButton>
 		<Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать (Ctrl+C)" ImageSource="/Controls;component/Images/Copy.png" />
 		<Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить (Ctrl+V)" ImageSource="/Controls;component/Images/Paste.png" />
 	</StackPanel>
