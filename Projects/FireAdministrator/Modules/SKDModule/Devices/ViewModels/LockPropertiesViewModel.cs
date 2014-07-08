@@ -37,7 +37,6 @@ namespace SKDModule.ViewModels
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_FIRST);
-			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_OR_CARD);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
 

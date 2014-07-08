@@ -11,15 +11,17 @@ namespace FiresecService
 	{
 		public static void Create()
 		{
-			//for (int i = 0; i < 1000; i++)
-			//{
-			//    var journalItem = new JournalItem();
-			//    journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
-			//    journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
-			//    journalItem.Name = FiresecAPI.Events.GlobalEventNameEnum.Проход;
-			//    journalItem.DescriptionText = "Description " + i;
-			//    FiresecService.Service.FiresecService.AddGlobalJournalItem(journalItem);
-			//}
+//#if DEBUG
+//            for (int i = 0; i < 1000; i++)
+//            {
+//                var journalItem = new JournalItem();
+//                journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
+//                journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
+//                journalItem.Name = FiresecAPI.Events.GlobalEventNameEnum.Проход;
+//                journalItem.DescriptionText = "Description " + i;
+//                FiresecService.Service.FiresecService.AddGlobalJournalItem(journalItem);
+//            }
+//#endif
 
 			try
 			{

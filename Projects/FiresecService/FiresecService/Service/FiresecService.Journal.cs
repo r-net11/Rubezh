@@ -57,7 +57,6 @@ namespace FiresecService.Service
 
 		public static void AddGlobalJournalItem(JournalItem journalItem)
 		{
-			int xxx = (int)journalItem.Name;
 			SKDDBHelper.Add(journalItem);
 		}
 
