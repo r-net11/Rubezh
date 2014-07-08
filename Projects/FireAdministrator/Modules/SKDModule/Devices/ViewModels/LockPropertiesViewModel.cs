@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 
 		public LockPropertiesViewModel(SKDDevice device)
 		{
-			Title = "Параметры двери";
+			Title = "Параметры замка";
 			Device = device;
 			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);

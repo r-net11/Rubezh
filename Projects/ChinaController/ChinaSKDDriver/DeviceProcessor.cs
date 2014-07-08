@@ -13,6 +13,7 @@ namespace ChinaSKDDriver
 		public Wrapper Wrapper { get; private set; }
 		public SKDDevice Device { get; private set; }
 		public int LoginID { get; private set; }
+		public bool IsConnected { get; private set; }
 		Thread Thread;
 
 		public DeviceProcessor(SKDDevice device)
@@ -57,6 +58,7 @@ namespace ChinaSKDDriver
 						}
 						
 						Processor.DoCallback(callbackResult);
+						IsConnected = true;
 						return;
 					}
 					Thread.Sleep(TimeSpan.FromSeconds(5));

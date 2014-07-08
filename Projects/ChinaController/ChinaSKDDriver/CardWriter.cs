@@ -66,6 +66,20 @@ namespace ChinaSKDDriver
 						}
 						var cardRecordNo = deviceProcessor.Wrapper.AddCard(card);
 						controllerCardItem.Result = cardRecordNo >= 0;
+						if (cardRecordNo >= skdCard.Number)
+						{
+							controllerCardItem.Result = true;
+						}
+						else
+						{
+							controllerCardItem.Result = false;
+							controllerCardItem.Error = "Не найден контроллер в конфигурации";
+						}
+					}
+					else
+					{
+						controllerCardItem.Result = false;
+						controllerCardItem.Error = "Ошибка при выполнении операции в приборе";
 					}
 				}
 			}
@@ -112,12 +126,14 @@ namespace ChinaSKDDriver
 				Doors = new List<SKDDevice>();
 				WeeklyIntervals = new List<SKDWeeklyInterval>();
 				Result = false;
+				Error = null;
 			}
 
 			public SKDDevice ControllerDevice { get; set; }
 			public List<SKDDevice> Doors { get; set; }
 			public List<SKDWeeklyInterval> WeeklyIntervals { get; set; }
 			public bool Result { get; set; }
+			public string Error { get; set; }
 		}
 	}
 }

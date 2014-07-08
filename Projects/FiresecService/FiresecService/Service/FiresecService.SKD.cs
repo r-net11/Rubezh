@@ -253,7 +253,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Запрос_информации_об_устройстве, device, UserName);
-				return new OperationResult<SKDDeviceInfo>() { Result = ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID) };
+				return ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID);
 			}
 			return new OperationResult<SKDDeviceInfo>("Устройство не найдено в конфигурации");
 		}
@@ -264,7 +264,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Синхронизация_времени, device, UserName);
-				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SyncronyseTime(deviceUID) };
+				return ChinaSKDDriver.Processor.SyncronyseTime(deviceUID);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -275,7 +275,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Запрос_пароля, device, UserName);
-				return new OperationResult<string>() { Result = ChinaSKDDriver.Processor.GetPassword(deviceUID) };
+				return ChinaSKDDriver.Processor.GetPassword(deviceUID);
 			}
 			return new OperationResult<string>("Устройство не найдено в конфигурации");
 		}
@@ -286,7 +286,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Установка_пароля, device, UserName);
-				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SetPassword(deviceUID, password) };
+				return ChinaSKDDriver.Processor.SetPassword(deviceUID, password);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -297,7 +297,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Сброс_Контроллера, device, UserName);
-				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.ResetController(deviceUID) };
+				return ChinaSKDDriver.Processor.ResetController(deviceUID);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -308,7 +308,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Перезагрузка_Контроллера, device, UserName);
-				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.RebootController(deviceUID) };
+				return ChinaSKDDriver.Processor.RebootController(deviceUID);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -319,7 +319,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Запись_графиков_работы, device, UserName);
-				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(deviceUID) };
+				return ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(deviceUID);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -333,8 +333,8 @@ namespace FiresecService.Service
 				{
 					AddSKDMessage(GlobalEventNameEnum.Запись_графиков_работы, device, UserName);
 					var result = ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(device.UID);
-					if (!result)
-						errors += "Не уалось записать конфигурурацию графиков в прибор " + device.Name + "\n";
+					if (result.HasError)
+						errors += result.Error + " (" + device.Name + ")\n";
 				}
 			}
 			if (string.IsNullOrEmpty(errors))
@@ -348,6 +348,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Обновление_ПО_Контроллера, device, UserName);
+				return new OperationResult<bool>("Функция обновления ПО не доступна");
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -358,7 +359,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Запрос_конфигурации_двери, device, UserName);
-				return new OperationResult<SKDDoorConfiguration>() { Result = ChinaSKDDriver.Processor.GetDoorConfiguration(deviceUID) };
+				return ChinaSKDDriver.Processor.GetDoorConfiguration(deviceUID);
 			}
 			return new OperationResult<SKDDoorConfiguration>("Устройство не найдено в конфигурации");
 		}
@@ -369,7 +370,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Запись_конфигурации_двери, device, UserName);
-				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, doorConfiguration) };
+				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, doorConfiguration);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -380,7 +381,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Команда_на_открытие_двери, device, UserName);
-				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.OpenDoor(deviceUID) };
+				return ChinaSKDDriver.Processor.OpenDoor(deviceUID);
 			}
 			else
 			{
@@ -394,7 +395,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDMessage(GlobalEventNameEnum.Команда_на_закрытие_двери, device, UserName);
-				return new OperationResult<bool>() { Result = ChinaSKDDriver.Processor.CloseDoor(deviceUID) };
+				return ChinaSKDDriver.Processor.CloseDoor(deviceUID);
 			}
 			else
 			{

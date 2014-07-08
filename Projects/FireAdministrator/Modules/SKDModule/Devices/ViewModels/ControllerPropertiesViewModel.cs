@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 			var deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
 			if (deviceInfoResult.HasError)
 			{
-				Close();
+				Close(true);
 				MessageBoxService.ShowWarning(deviceInfoResult.Error, "Нет связи с устройством");
 				return;
 			}
@@ -43,7 +43,7 @@ namespace SKDModule.ViewModels
 			var passwordResult = FiresecManager.FiresecService.SKDGetPassword(Device.UID);
 			if (passwordResult.HasError)
 			{
-				Close();
+				Close(true);
 				MessageBoxService.ShowWarning(deviceInfoResult.Error, "Нет связи с устройством");
 				return;
 			}

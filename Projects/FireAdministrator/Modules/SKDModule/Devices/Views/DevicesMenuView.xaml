@@ -13,7 +13,7 @@
 					<Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" ToolTip="Устройство" />
 				</MenuItem.Header>
                 <IconedMenuItem Command="{Binding ShowControllerConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Параметры контроллера" TotalHeight="32" />
-                <IconedMenuItem Command="{Binding ShowLockConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Параметры двери" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding ShowLockConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Параметры замка" TotalHeight="32" />
                 <IconedMenuItem Command="{Binding WriteTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Записать графики работ" TotalHeight="32" />
                 <IconedMenuItem Command="{Binding WriteAllTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Записать графики работ во все приборы" TotalHeight="32" />
             </MenuItem>

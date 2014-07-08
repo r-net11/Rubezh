@@ -4,10 +4,11 @@ using System.Linq;
 using ChinaSKDDriverAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using FiresecAPI;
 
 namespace ChinaSKDDriver
 {
-	public static class Processor
+	public static partial class Processor
 	{
 		public static SKDConfiguration SKDConfiguration { get; private set; }
 		public static List<DeviceProcessor> DeviceProcessors { get; private set; }
@@ -79,235 +80,38 @@ namespace ChinaSKDDriver
 			return skdStates;
 		}
 
-		public static SKDDeviceInfo GetdeviceInfo(Guid deviceUID)
+		public static OperationResult<bool> OpenDoor(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
-				SKDDeviceInfo deviceInfo = new SKDDeviceInfo();
-				var deviceSoftwareInfo = deviceProcessor.Wrapper.GetDeviceSoftwareInfo();
-				if (deviceSoftwareInfo != null)
-				{
-					deviceInfo.DeviceType = deviceSoftwareInfo.DeviceType;
-					deviceInfo.SoftwareBuildDate = deviceSoftwareInfo.SoftwareBuildDate;
-					deviceInfo.SoftwareVersion = deviceSoftwareInfo.SoftwareVersion;
-				}
-				var deviceNetInfo = deviceProcessor.Wrapper.GetDeviceNetInfo();
-				if (deviceNetInfo != null)
-				{
-					deviceInfo.IP = deviceNetInfo.IP;
-					deviceInfo.SubnetMask = deviceNetInfo.SubnetMask;
-					deviceInfo.DefaultGateway = deviceNetInfo.DefaultGateway;
-					deviceInfo.MTU = deviceNetInfo.MTU;
-				}
-				deviceInfo.CurrentDateTime = deviceProcessor.Wrapper.GetDateTime();
-				return deviceInfo;
-			}
-			return null;
-		}
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<bool>("Нет связи с контроллером");
 
-		public static bool SyncronyseTime(Guid deviceUID)
-		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
-			{
-				return deviceProcessor.Wrapper.SetDateTime(DateTime.Now);
-			}
-			return false;
-		}
-
-		public static string GetPassword(Guid deviceUID)
-		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
-			{
-				return deviceProcessor.Wrapper.GetProjectPassword();
-			}
-			return null;
-		}
-
-		public static bool SetPassword(Guid deviceUID, string password)
-		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
-			{
-				return deviceProcessor.Wrapper.SetProjectPassword(password);
-			}
-			return false;
-		}
-
-		public static bool ResetController(Guid deviceUID)
-		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
-			{
-				return deviceProcessor.Wrapper.Reset();
-			}
-			return false;
-		}
-
-		public static bool RebootController(Guid deviceUID)
-		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
-			{
-				var result = deviceProcessor.Wrapper.Reboot();
-				deviceProcessor.Reconnect();
-				return result;
-			}
-			return false;
-		}
-
-		public static bool SKDWriteTimeSheduleConfiguration(Guid deviceUID)
-		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
-			{
-				for (int i = 1; i <= 128; i++)
-				{
-					var weeklyInterval = SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == i);
-					if (weeklyInterval == null)
-						weeklyInterval = new SKDWeeklyInterval();
-
-					var timeShedules = new List<TimeShedule>();
-					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
-					{
-						if (!weeklyIntervalPart.IsHolliday)
-						{
-							var timeShedule = new TimeShedule();
-							var timeInterval = SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.ID == weeklyIntervalPart.TimeIntervalID);
-							if (timeInterval != null)
-							{
-								foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)
-								{
-									var timeSheduleInterval = new TimeSheduleInterval();
-									timeSheduleInterval.BeginHours = timeIntervalPart.StartTime.Hour;
-									timeSheduleInterval.BeginMinutes = timeIntervalPart.StartTime.Minute;
-									timeSheduleInterval.BeginSeconds = timeIntervalPart.StartTime.Second;
-									timeSheduleInterval.EndHours = timeIntervalPart.EndTime.Hour;
-									timeSheduleInterval.EndMinutes = timeIntervalPart.EndTime.Minute;
-									timeSheduleInterval.EndSeconds = timeIntervalPart.EndTime.Second;
-									timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
-								}
-								for (int j = timeShedule.TimeSheduleIntervals.Count; j < 4; j++)
-								{
-									var timeSheduleInterval = new TimeSheduleInterval();
-									timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
-								}
-							}
-							timeShedules.Add(timeShedule);
-						}
-					}
-					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
-					if (!result)
-						return false;
-				}
-				return true;
-			}
-			return false;
-		}
-
-		public static SKDDoorConfiguration GetDoorConfiguration(Guid deviceUID)
-		{
-			var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (readerDevice == null)
-				return null;
-			var controllerDevice = readerDevice.Parent;
-			if (controllerDevice == null)
-				return null;
-
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == controllerDevice.UID);
-			if (deviceProcessor != null)
-			{
-				var nativeDoorConfiguration = deviceProcessor.Wrapper.GetDoorConfiguration(readerDevice.IntAddress);
-
-				var doorConfiguration = new SKDDoorConfiguration();
-				doorConfiguration.AccessState = (SKDDoorConfiguration_AccessState)nativeDoorConfiguration.AccessState;
-				doorConfiguration.AccessMode = (SKDDoorConfiguration_AccessMode)nativeDoorConfiguration.AccessMode;
-				doorConfiguration.DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod)nativeDoorConfiguration.DoorOpenMethod;
-
-				doorConfiguration.UnlockHoldInterval = nativeDoorConfiguration.UnlockHoldInterval;
-				doorConfiguration.CloseTimeout = nativeDoorConfiguration.CloseTimeout;
-				doorConfiguration.OpenAlwaysTimeIndex = nativeDoorConfiguration.OpenAlwaysTimeIndex;
-				doorConfiguration.HolidayTimeRecoNo = nativeDoorConfiguration.HolidayTimeRecoNo;
-				doorConfiguration.IsBreakInAlarmEnable = nativeDoorConfiguration.IsBreakInAlarmEnable;
-				doorConfiguration.IsRepeatEnterAlarmEnable = nativeDoorConfiguration.IsRepeatEnterAlarmEnable;
-				doorConfiguration.IsDoorNotClosedAlarmEnable = nativeDoorConfiguration.IsDoorNotClosedAlarmEnable;
-				doorConfiguration.IsDuressAlarmEnable = nativeDoorConfiguration.IsDuressAlarmEnable;
-				doorConfiguration.IsSensorEnable = nativeDoorConfiguration.IsSensorEnable;
-				doorConfiguration.DoorDayIntervalsCollection = nativeDoorConfiguration.DoorDayIntervalsCollection;
-
-				return doorConfiguration;
-			}
-			return null;
-		}
-
-		public static bool SetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration)
-		{
-			var readerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (readerDevice == null)
-				return false;
-			var controllerDevice = readerDevice.Parent;
-			if (controllerDevice == null)
-				return false;
-
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == controllerDevice.UID);
-			if (deviceProcessor != null)
-			{
-				var nativeDoorConfiguration = new DoorConfiguration();
-				nativeDoorConfiguration.AccessState = (AccessState)doorConfiguration.AccessState;
-				nativeDoorConfiguration.AccessMode = (AccessMode)doorConfiguration.AccessMode;
-				nativeDoorConfiguration.DoorOpenMethod = (DoorOpenMethod)doorConfiguration.DoorOpenMethod;
-
-				nativeDoorConfiguration.UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
-				nativeDoorConfiguration.CloseTimeout = doorConfiguration.CloseTimeout;
-				nativeDoorConfiguration.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
-				nativeDoorConfiguration.HolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
-				nativeDoorConfiguration.IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
-				nativeDoorConfiguration.IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
-				nativeDoorConfiguration.IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
-				nativeDoorConfiguration.IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
-				nativeDoorConfiguration.IsSensorEnable = doorConfiguration.IsSensorEnable;
-				nativeDoorConfiguration.DoorDayIntervalsCollection = doorConfiguration.DoorDayIntervalsCollection;
-
-				nativeDoorConfiguration.UseDoorOpenMethod = true;
-				nativeDoorConfiguration.UseUnlockHoldInterval = true;
-				nativeDoorConfiguration.UseCloseTimeout = true;
-				nativeDoorConfiguration.UseOpenAlwaysTimeIndex = true;
-				nativeDoorConfiguration.UseHolidayTimeIndex = true;
-				nativeDoorConfiguration.UseBreakInAlarmEnable = true;
-				nativeDoorConfiguration.UseRepeatEnterAlarmEnable = true;
-				nativeDoorConfiguration.UseDoorNotClosedAlarmEnable = true;
-				nativeDoorConfiguration.UseDuressAlarmEnable = true;
-				nativeDoorConfiguration.UseDoorTimeSection = false;
-				nativeDoorConfiguration.UseSensorEnable = true;
-
-				var result = deviceProcessor.Wrapper.SetDoorConfiguration(nativeDoorConfiguration, readerDevice.IntAddress);
-				return result;
-			}
-			return false;
-		}
-
-		public static bool OpenDoor(Guid deviceUID)
-		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
-			{
 				var result = deviceProcessor.Wrapper.OpenDoor(deviceProcessor.Device.IntAddress);
-				return result;
+				if (result)
+					return new OperationResult<bool>() { Result = true };
+				else
+					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
 			}
-			return false;
+			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}
 
-		public static bool CloseDoor(Guid deviceUID)
+		public static OperationResult<bool> CloseDoor(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<bool>("Нет связи с контроллером");
+
 				var result = deviceProcessor.Wrapper.CloseDoor(deviceProcessor.Device.IntAddress);
-				return result;
+				if (result)
+					return new OperationResult<bool>() { Result = true };
+				else
+					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
 			}
-			return false;
+			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}
 
 		public static CardWriter AddCard(SKDCard skdCard)
