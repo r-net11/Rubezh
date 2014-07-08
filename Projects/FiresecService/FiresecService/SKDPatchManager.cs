@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
@@ -63,8 +64,8 @@ namespace FiresecService
 
 			var server = new Server(new ServerConnection(connection));
 			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+			var organisation = new OrganisationDetails { Name = "Организация", UserUIDs = new List<Guid> { new Guid("10e591fb-e017-442d-b176-f05756d984bb") } };
 
-			var organisation = new OrganisationDetails { Name = "Организация" };
 			FiresecServiceManager.SafeFiresecService.SaveOrganisation(organisation);
 		}
 
