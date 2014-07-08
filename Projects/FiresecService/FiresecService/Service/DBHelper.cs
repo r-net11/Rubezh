@@ -12,7 +12,7 @@ using SKDDriver;
 
 namespace FiresecService
 {
-	public static class SKDDBHelper
+	public static class DBHelper
 	{
 		public static object locker = new object();
 		public static object databaseLocker = new object();

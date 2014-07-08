@@ -81,8 +81,5 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("Не совпадает описание компонента")]
 		Не_совпадает_описание_компонента,
-
-		[DescriptionAttribute("")]
-		Нет,
 	}
 }
