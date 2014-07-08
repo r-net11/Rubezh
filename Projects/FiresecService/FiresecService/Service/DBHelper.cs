@@ -7,8 +7,8 @@ using Common;
 using FiresecAPI.Events;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using JournalItem = FiresecAPI.SKD.JournalItem;
 using SKDDriver;
+using JournalItem = FiresecAPI.SKD.JournalItem;
 
 namespace FiresecService
 {
@@ -151,6 +151,48 @@ namespace FiresecService
 		{
 			var journalItem = new JournalItem();
 
+			if (!reader.IsDBNull(reader.GetOrdinal("DescriptionText")))
+				journalItem.DescriptionText = reader.GetString(reader.GetOrdinal("DescriptionText"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("NameText")))
+				journalItem.NameText = reader.GetString(reader.GetOrdinal("NameText"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("ObjectName")))
+				journalItem.ObjectName = reader.GetString(reader.GetOrdinal("ObjectName"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("ObjectType")))
+			{
+				var intValue = (int)reader.GetValue(reader.GetOrdinal("ObjectType"));
+				if (Enum.IsDefined(typeof(ObjectType), intValue))
+					journalItem.ObjectType = (ObjectType)intValue;
+			}
+
+			if (!reader.IsDBNull(reader.GetOrdinal("ObjectUID")))
+				journalItem.ObjectUID = reader.GetGuid(reader.GetOrdinal("ObjectUID"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("State")))
+			{
+				var intValue = (int)reader.GetValue(reader.GetOrdinal("State"));
+				if (Enum.IsDefined(typeof(XStateClass), intValue))
+					journalItem.State = (XStateClass)intValue;
+			}
+
+			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
+			{
+				var intValue = (int)reader.GetValue(reader.GetOrdinal("Subsystem"));
+				if (Enum.IsDefined(typeof(SubsystemType), intValue))
+					journalItem.SubsystemType = (SubsystemType)intValue;
+			}
+
+			if (!reader.IsDBNull(reader.GetOrdinal("UID")))
+				journalItem.UID = reader.GetGuid(reader.GetOrdinal("UID"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
+				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
+
+			if (!reader.IsDBNull(reader.GetOrdinal("CardNo")))
+				journalItem.CardNo = (int)reader.GetValue(reader.GetOrdinal("CardNo"));
+			
 			if (!reader.IsDBNull(reader.GetOrdinal("SystemDate")))
 				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDate"));
 
