@@ -14,19 +14,28 @@ namespace SKDModule.ViewModels
 	{
 		public PersonType PersonType { get; private set; }
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
+		EmployeeFilter _filter;
+		HRViewModel _hrViewModel;
 
-		public EmployeesViewModel()
+		public EmployeesViewModel(HRViewModel hrViewModel)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			_hrViewModel = hrViewModel;
 		}
 
 		public void Initialize(EmployeeFilter filter)
 		{
+			_filter = filter;
+			InitializeInternal();
+		}
+
+		void InitializeInternal()
+		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
-			var employees = EmployeeHelper.Get(filter);
-			PersonType = filter.PersonType;
+			var employees = EmployeeHelper.Get(_filter);
+			PersonType = _filter.PersonType;
 			AllEmployees = new List<EmployeeViewModel>();
 			Organisations = new List<EmployeeViewModel>();
 			foreach (var organisation in organisations)
@@ -34,7 +43,7 @@ namespace SKDModule.ViewModels
 				var organisationViewModel = new EmployeeViewModel(organisation);
 				Organisations.Add(organisationViewModel);
 				AllEmployees.Add(organisationViewModel);
-				foreach (var employee  in employees)
+				foreach (var employee in employees)
 				{
 					if (employee.OrganisationUID == organisation.UID)
 					{
@@ -46,7 +55,6 @@ namespace SKDModule.ViewModels
 			}
 			OnPropertyChanged("Organisations");
 			SelectedEmployee = Organisations.FirstOrDefault();
-
 			InitializeAdditionalColumns();
 		}
 
@@ -84,7 +92,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var employeeDetailsViewModel = new EmployeeDetailsViewModel(PersonType, SelectedEmployee.Organisation);
+			var employeeDetailsViewModel = new EmployeeDetailsViewModel(PersonType, SelectedEmployee.Organisation, _hrViewModel);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				var employeeViewModel = new EmployeeViewModel(SelectedEmployee.Organisation, employeeDetailsViewModel.ShortEmployee);
@@ -102,10 +110,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var employeeDetailsViewModel = new EmployeeDetailsViewModel(PersonType, SelectedEmployee.Organisation, SelectedEmployee.ShortEmployee);
+			var employeeDetailsViewModel = new EmployeeDetailsViewModel(PersonType, SelectedEmployee.Organisation, _hrViewModel, SelectedEmployee.ShortEmployee);
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				SelectedEmployee.Update(employeeDetailsViewModel.ShortEmployee);
+				InitializeInternal();
 			}
 		}
 		bool CanEdit()

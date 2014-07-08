@@ -20,8 +20,8 @@ namespace SKDModule.ViewModels
 		void InitializeFilter(HRFilter filter)
 		{
 			EmployeeFilterViewModel = new EmployeeFilterViewModel(filter.EmployeeFilter);
-			DepartmentsFilterViewModel = new DepartmentsFilterViewModel(filter.DepartmentFilter);
-			PositionsFilterViewModel = new PositionsFilterViewModel(filter.PositionFilter);
+			DepartmentsFilterViewModel = new DepartmentsFilterViewModel(filter.EmployeeFilter);
+			PositionsFilterViewModel = new PositionsFilterViewModel(filter.EmployeeFilter);
 			CardFilterViewModel = new CardFilterViewModel(filter.CardFilter);
 		}
 
@@ -29,14 +29,12 @@ namespace SKDModule.ViewModels
 		{
 			base.Save();
 			Filter.EmployeeFilter = EmployeeFilterViewModel.Save();
-			Filter.DepartmentFilter = DepartmentsFilterViewModel.Save();
-			Filter.PositionFilter = PositionsFilterViewModel.Save();
 			Filter.CardFilter = CardFilterViewModel.Save();
 
-			Filter.EmployeeFilter.DepartmentUIDs = Filter.DepartmentFilter.UIDs.ToList();
-			Filter.EmployeeFilter.PositionUIDs = Filter.PositionFilter.UIDs.ToList();
+			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs.ToList();
+			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();
 
-			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs;
+			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs; 
 			Filter.DepartmentFilter.OrganisationUIDs = Filter.OrganisationUIDs;
 			Filter.PositionFilter.OrganisationUIDs = Filter.OrganisationUIDs;
 

@@ -19,7 +19,6 @@ namespace FiresecServiceRunner
 		{
 			base.OnStartup(e);
 			PatchManager.Patch();
-			SKDPatchManager.Patch();
 			ThemeHelper.LoadThemeFromRegister();
 			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
 			ServerLoadHelper.SetStatus(FSServerState.Opening);

@@ -4,8 +4,11 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Windows;
 using Common;
+using FiresecAPI.SKD;
+using FiresecService.Service;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
+
 
 namespace FiresecService
 {
@@ -60,6 +63,9 @@ namespace FiresecService
 
 			var server = new Server(new ServerConnection(connection));
 			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+
+			var organisation = new OrganisationDetails { Name = "Организация" };
+			FiresecServiceManager.SafeFiresecService.SaveOrganisation(organisation);
 		}
 
 		static void ApplyPatches()

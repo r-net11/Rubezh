@@ -13,37 +13,43 @@ namespace SKDModule.ViewModels
 	public class SelectDepartmentViewModel : SaveCancelDialogViewModel
 	{
 		Employee Employee;
+		HRViewModel _hrViewModel;
 
-		public SelectDepartmentViewModel(Employee employee)
+		public SelectDepartmentViewModel(Employee employee, ShortDepartment department, HRViewModel hrViewModel)
 		{
 			Title = "Отдел";
 			Employee = employee;
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			_hrViewModel = hrViewModel;
+			AddCommand = new RelayCommand(OnAdd);
 			Departments = new List<SelectationDepartmentViewModel>();
 			var departments = DepartmentHelper.GetByOrganisation(Employee.OrganisationUID);
+			var organisation = OrganisationHelper.GetSingle(employee.OrganisationUID);
 			if (departments == null || departments.Count() == 0)
 			{
 				MessageBoxService.Show("Для данной организации не указано не одного отдела");
 				return;
 			}
-			foreach (var department in departments)
+			foreach (var item in departments)
 			{
-				Departments.Add(new SelectationDepartmentViewModel(department, this));
+				Departments.Add(new SelectationDepartmentViewModel(item, this));
 			}
-			RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
-			if (RootDepartments.IsNotNullOrEmpty())
+			_organisation = new SelectationDepartmentViewModel(organisation, this);
+			OnPropertyChanged(() => RootDepartments);
+			var rootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
+			if (rootDepartments.IsNotNullOrEmpty())
 			{
-				foreach (var rootDepartment in RootDepartments)
-				{
+				foreach (var rootDepartment in rootDepartments)
+				{	
+					_organisation.AddChild(rootDepartment);
 					SetChildren(rootDepartment);
 				}
 			}
 			SelectationDepartmentViewModel selectedDepartment;
-			if (employee.Department == null)
+			if (department == null)
 				selectedDepartment = Departments.FirstOrDefault();
 			else
 			{
-				selectedDepartment = Departments.FirstOrDefault(x => x.Department.UID == Employee.Department.UID);
+				selectedDepartment = Departments.FirstOrDefault(x => x.Department.UID == department.UID);
 				if (selectedDepartment == null)
 					selectedDepartment = Departments.FirstOrDefault();
 			}
@@ -74,6 +80,8 @@ namespace SKDModule.ViewModels
 			get { return Departments.FirstOrDefault(x => x.IsChecked); }
 		}
 
+		SelectationDepartmentViewModel _organisation;
+		
 		SelectationDepartmentViewModel _highlightedDepartment;
 		public SelectationDepartmentViewModel HighlightedDepartment
 		{
@@ -95,16 +103,10 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => Departments);
 			}
 		}
-
-		SelectationDepartmentViewModel[] rootDepartments;
+		
 		public SelectationDepartmentViewModel[] RootDepartments
 		{
-			get { return rootDepartments; }
-			set
-			{
-				rootDepartments = value;
-				OnPropertyChanged(() => RootDepartments);
-			}
+			get { return new SelectationDepartmentViewModel[] { _organisation }; }
 		}
 
 		List<SelectationDepartmentViewModel> GetAllChildren(SelectationDepartmentViewModel department)
@@ -127,23 +129,29 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			Guid? parentDepartmentUID = null;
-			if (HighlightedDepartment.Parent != null)
-				parentDepartmentUID = HighlightedDepartment.Parent.Department.UID;
+			var hasParentDepartment = HighlightedDepartment != null && HighlightedDepartment.IsDepartment;
+			if (hasParentDepartment)
+				parentDepartmentUID = HighlightedDepartment.Department.UID;
 			var departmentDetailsViewModel = new DepartmentDetailsViewModel(Employee.OrganisationUID, null, parentDepartmentUID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
 				var departmentViewModel = new SelectationDepartmentViewModel(departmentDetailsViewModel.ShortDepartment, this);
-				HighlightedDepartment.AddChild(departmentViewModel);
 				Departments.Add(departmentViewModel);
-				departmentViewModel.SelectCommand.Execute();
-				HighlightedDepartment.ExpandToThis();
+				if (hasParentDepartment)
+				{
+					HighlightedDepartment.AddChild(departmentViewModel);
+					departmentViewModel.ExpandToThis();
+					departmentViewModel.SelectCommand.Execute();
+				}
+				else
+				{
+					_organisation.AddChild(departmentViewModel);
+					departmentViewModel.SelectCommand.Execute();
+				}
+				_hrViewModel.UpdateDepartments();
 			}
 		}
-		bool CanAdd()
-		{
-			return HighlightedDepartment != null;
-		}
-
+		
 		protected override bool Save()
 		{
 			if(SelectedDepartment == null)

@@ -15,11 +15,11 @@ namespace SKDModule.ViewModels
 	{
 		public Employee Employee { get; private set; }
 
-		public SelectScheduleViewModel(Employee employee)
+		public SelectScheduleViewModel(Employee employee, ShortSchedule schedule, DateTime startDate)
 		{
 			Title = "Должность";
 			Employee = employee;
-			StartDate = employee.ScheduleStartDate;
+			StartDate = startDate;
 			Schedules = new ObservableCollection<SelectationScheduleViewModel>();
 			var schedules = ScheduleHelper.GetShortByOrganisation(Employee.OrganisationUID);
 			if (schedules == null || schedules.Count() == 0)
@@ -27,12 +27,12 @@ namespace SKDModule.ViewModels
 				MessageBoxService.Show("Для данной организации не указано не одного графика работы");
 				return;
 			}
-			foreach (var schedule in schedules)
-				Schedules.Add(new SelectationScheduleViewModel(schedule, this));
+			foreach (var item in schedules)
+				Schedules.Add(new SelectationScheduleViewModel(item, this));
 			SelectationScheduleViewModel selectedSchedule;
-			if (Employee.Schedule != null)
+			if (schedule != null)
 			{
-				selectedSchedule = Schedules.FirstOrDefault(x => x.Schedule.UID == Employee.Schedule.UID);
+				selectedSchedule = Schedules.FirstOrDefault(x => x.Schedule.UID == schedule.UID);
 				if (selectedSchedule == null)
 					selectedSchedule = Schedules.FirstOrDefault();
 			}

@@ -14,9 +14,10 @@ namespace SKDModule.ViewModels
 {
 	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		Organisation Organisation { get; set; }
+		Organisation _organisation;
+		HRViewModel _hrViewModel;
 		
-		public EmployeeDetailsViewModel(PersonType personType, Organisation orgnaisation, ShortEmployee employee = null)
+		public EmployeeDetailsViewModel(PersonType personType, Organisation orgnaisation, HRViewModel hrViewModel, ShortEmployee employee = null)
 		{
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
 			RemoveDepartmentCommand = new RelayCommand(OnRemoveDepartment);
@@ -35,7 +36,8 @@ namespace SKDModule.ViewModels
 			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
 			RemoveScheduleCommand = new RelayCommand(OnRemoveSchedule);
 
-			Organisation = orgnaisation;
+			_organisation = orgnaisation;
+			_hrViewModel = hrViewModel;
 			IsEmployee = personType == PersonType.Employee;
 			if (employee == null)
 			{
@@ -62,7 +64,7 @@ namespace SKDModule.ViewModels
 				else
 					Title = string.Format("Свойства посетителя: {0}", employee.FirstName);
 			}
-			EmployeeGuardZones = new EmployeeGuardZonesViewModel(Employee, Organisation);
+			EmployeeGuardZones = new EmployeeGuardZonesViewModel(Employee, _organisation);
 			CopyProperties();
 		}
 
@@ -577,7 +579,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectScheduleCommand { get; private set; }
 		void OnSelectSchedule()
 		{
-			var selectScheduleViewModel = new SelectScheduleViewModel(Employee);
+			var selectScheduleViewModel = new SelectScheduleViewModel(Employee, SelectedSchedule, ScheduleStartDate);
 			if (DialogService.ShowModalWindow(selectScheduleViewModel))
 			{
 				var selectedSchedule = selectScheduleViewModel.SelectedSchedule;
@@ -638,7 +640,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectDepartmentCommand { get; private set; }
 		void OnSelectDepartment()
 		{
-			var selectDepartmentViewModel = new SelectDepartmentViewModel(Employee);
+			var selectDepartmentViewModel = new SelectDepartmentViewModel(Employee, SelectedDepartment, _hrViewModel);
 			if (DialogService.ShowModalWindow(selectDepartmentViewModel))
 			{
 				SelectedDepartment = selectDepartmentViewModel.SelectedDepartment.Department;
@@ -654,7 +656,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand SelectPositionCommand { get; private set; }
 		void OnSelectPosition()
 		{
-			var selectPositionViewModel = new SelectPositionViewModel(Employee);
+			var selectPositionViewModel = new SelectPositionViewModel(Employee, SelectedPosition, _hrViewModel);
 			if (DialogService.ShowModalWindow(selectPositionViewModel))
 			{
 				SelectedPosition = selectPositionViewModel.SelectedPosition.Position;
@@ -715,7 +717,7 @@ namespace SKDModule.ViewModels
 			Employee.DocumentValidTo = ValidTo;
 			Employee.Citizenship = Citizenship;
 			Employee.DocumentType = DocumentType;
-			Employee.OrganisationUID = Organisation.UID;
+			Employee.OrganisationUID = _organisation.UID;
 			Employee.AdditionalColumns = (from x in TextColumns select x.AdditionalColumn).ToList();
 			foreach (var item in GraphicsColumns)
 			{

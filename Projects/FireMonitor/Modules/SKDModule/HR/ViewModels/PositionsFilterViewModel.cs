@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
@@ -7,7 +8,7 @@ namespace SKDModule.ViewModels
 {
 	public class PositionsFilterViewModel : BaseViewModel
 	{
-		public PositionsFilterViewModel(PositionFilter filter)
+		public PositionsFilterViewModel(EmployeeFilter filter)
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
 			var positions = PositionHelper.GetByCurrentUser();
@@ -23,7 +24,7 @@ namespace SKDModule.ViewModels
 					if (position.OrganisationUID == organisation.UID)
 					{
 						var positionViewModel = new PositionFilterItemViewModel(position.Name, position.Description, position.UID);
-						positionViewModel.IsChecked = filter.UIDs.Contains(position.UID);
+						positionViewModel.IsChecked = filter.PositionUIDs.Contains(position.UID);
 						organisationViewModel.AddChild(positionViewModel);
 						AllPositions.Add(positionViewModel);
 					}
@@ -39,17 +40,20 @@ namespace SKDModule.ViewModels
 			get { return Organisations.ToArray(); }
 		}
 
-		public PositionFilter Save()
+		public List<Guid> UIDs
 		{
-			var positionFilter = new PositionFilter();
-			foreach (var position in AllPositions)
+			get
 			{
-				if (position.IsChecked && !position.IsOrganisation)
+				var result = new List<Guid>();
+				foreach (var department in AllPositions)
 				{
-					positionFilter.UIDs.Add(position.UID);
+					if (department.IsChecked && !department.IsOrganisation)
+					{
+						result.Add(department.UID);
+					}
 				}
+				return result;
 			}
-			return positionFilter;
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace FiresecService.Service
 	public static class FiresecServiceManager
 	{
 		static ServiceHost ServiceHost;
-		static SafeFiresecService SafeFiresecService;
+		public static SafeFiresecService SafeFiresecService;
 
 		public static bool Open()
 		{
