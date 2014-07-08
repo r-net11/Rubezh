@@ -61,6 +61,9 @@ namespace FiresecAPI.SKD
 		public SKDReaderProperty SKDReaderProperty { get; set; }
 
 		[DataMember]
+		public SKDDoorConfiguration SKDDoorConfiguration { get; set; }
+
+		[DataMember]
 		public Guid CameraUID { get; set; }
 
 		public string Address

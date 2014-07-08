@@ -180,8 +180,8 @@ namespace ControllerSDK.ViewModels
 			{
 				var text = "";
 				text += "ChannelName = " + DoorConfiguration.ChannelName + "\n";
-				text += "AceessState = " + DoorConfiguration.AceessState.ToString() + "\n";
-				text += "AceessMode = " + DoorConfiguration.AceessMode.ToString() + "\n";
+				text += "AceessState = " + DoorConfiguration.AccessState.ToString() + "\n";
+				text += "AceessMode = " + DoorConfiguration.AccessMode.ToString() + "\n";
 				text += "EnableMode = " + DoorConfiguration.EnableMode.ToString() + "\n";
 				text += "IsSnapshotEnable = " + DoorConfiguration.IsSnapshotEnable.ToString() + "\n";
 				text += "\n";

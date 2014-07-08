@@ -13,8 +13,8 @@ namespace ChinaSKDDriverAPI
 		}
 
 		public string ChannelName { get; set; }
-		public AceessState AceessState { get; set; }
-		public AceessMode AceessMode { get; set; }
+		public AccessState AccessState { get; set; }
+		public AccessMode AccessMode { get; set; }
 		public int EnableMode { get; set; }
 		public bool IsSnapshotEnable { get; set; }
 
@@ -43,14 +43,14 @@ namespace ChinaSKDDriverAPI
 		public bool IsSensorEnable { get; set; }
 	}
 
-	public enum AceessState
+	public enum AccessState
 	{
 		ACCESS_STATE_NORMAL,
 		ACCESS_STATE_CLOSEALWAYS,
 		ACCESS_STATE_OPENALWAYS,
 	}
 
-	public enum AceessMode
+	public enum AccessMode
 	{
 		ACCESS_MODE_HANDPROTECTED,
 		ACCESS_MODE_SAFEROOM,
