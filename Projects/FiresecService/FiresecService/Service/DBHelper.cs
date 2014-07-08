@@ -8,10 +8,11 @@ using FiresecAPI.Events;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using JournalItem = FiresecAPI.SKD.JournalItem;
+using SKDDriver;
 
-namespace SKDDriver
+namespace FiresecService
 {
-	public static class SKDDBHelper
+	public static class DBHelper
 	{
 		public static object locker = new object();
 		public static object databaseLocker = new object();
@@ -52,7 +53,8 @@ namespace SKDDriver
 			{
 				lock (locker)
 				{
-					var connectionString = global::SKDDriver.Properties.Settings.Default.SKUDConnectionString;
+					//var connectionString = global::SKDDriver.Properties.Settings.Default.SKUDConnectionString;
+					var connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True;Language='English'";
 					using (var dataContext = new SqlConnection(connectionString))
 					{
 						var query = BuildQuery(archiveFilter);
@@ -113,34 +115,6 @@ namespace SKDDriver
 				"\n " + dateTimeTypeString + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
 				"\n AND " + dateTimeTypeString + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
 
-			//if (archiveFilter.JournalItemTypes.Count > 0)
-			//{
-			//	query += "\n AND (";
-			//	int index = 0;
-			//	foreach (var journalItemType in archiveFilter.JournalItemTypes)
-			//	{
-			//		if (index > 0)
-			//			query += "\n OR ";
-			//		index++;
-			//		query += "JournalItemType = '" + ((int)journalItemType).ToString() + "'";
-			//	}
-			//	query += ")";
-			//}
-
-			//if (archiveFilter.StateClasses.Count > 0)
-			//{
-			//	query += "\n AND (";
-			//	int index = 0;
-			//	foreach (var stateClass in archiveFilter.StateClasses)
-			//	{
-			//		if (index > 0)
-			//			query += "\n OR ";
-			//		index++;
-			//		query += "StateClass = '" + ((int)stateClass).ToString() + "'";
-			//	}
-			//	query += ")";
-			//}
-
 			if (archiveFilter.EventNames.Count > 0)
 			{
 				query += "\n and (";
@@ -169,39 +143,6 @@ namespace SKDDriver
 				query += ")";
 			}
 
-			//if (archiveFilter.SubsystemTypes.Count > 0)
-			//{
-			//	query += "\n AND (";
-			//	int index = 0;
-			//	foreach (var subsystem in archiveFilter.SubsystemTypes)
-			//	{
-			//		if (index > 0)
-			//			query += "\n OR ";
-			//		index++;
-			//		if (subsystem == SKDSubsystemType.System)
-			//			query += "Subsystem = 0";
-			//		else
-			//			query += "Subsystem = 1";
-			//	}
-			//	query += ")";
-			//}
-
-			//var objectUIDs = new List<Guid>();
-			//objectUIDs.AddRange(archiveFilter.DeviceUIDs);
-			//if (objectUIDs.Count > 0)
-			//{
-			//	int index = 0;
-			//	query += "\n AND (";
-			//	foreach (var objectUID in objectUIDs)
-			//	{
-			//		if (index > 0)
-			//			query += "\n OR ";
-			//		index++;
-			//		query += "ObjectUID = '" + objectUID + "'";
-			//	}
-			//	query += ")";
-			//}
-
 			query += "\n ORDER BY " + dateTimeTypeString + " DESC";
 			return query;
 		}
@@ -209,8 +150,6 @@ namespace SKDDriver
 		static JournalItem ReadOneJournalItem(SqlDataReader reader)
 		{
 			var journalItem = new JournalItem();
-			//if (!reader.IsDBNull(reader.GetOrdinal("JournalItemType")))
-			//	journalItem.JournalItemType = (SKDJournalItemType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
 
 			if (!reader.IsDBNull(reader.GetOrdinal("SystemDate")))
 				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDate"));
@@ -218,12 +157,9 @@ namespace SKDDriver
 			if (!reader.IsDBNull(reader.GetOrdinal("DeviceDate")))
 				journalItem.DeviceDateTime = reader.GetDateTime(reader.GetOrdinal("DeviceDate"));
 
-			//if (!reader.IsDBNull(reader.GetOrdinal("DeviceUID")))
-			//	journalItem.DeviceUID = reader.GetGuid(reader.GetOrdinal("DeviceUID"));
-
 			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
 			{
-				var intValue  = (int)reader.GetValue(reader.GetOrdinal("Name"));
+				var intValue = (int)reader.GetValue(reader.GetOrdinal("Name"));
 				if (Enum.IsDefined(typeof(GlobalEventNameEnum), intValue))
 					journalItem.Name = (GlobalEventNameEnum)intValue;
 			}
@@ -234,9 +170,6 @@ namespace SKDDriver
 				if (Enum.IsDefined(typeof(EventDescription), intValue))
 					journalItem.Description = (EventDescription)intValue;
 			}
-			
-			//if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
-			//	journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
 
 			return journalItem;
 		}

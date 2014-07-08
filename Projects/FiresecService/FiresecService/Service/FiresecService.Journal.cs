@@ -41,6 +41,7 @@ namespace FiresecService.Service
 			}
 		}
 
+		#region Add
 		public static void AddGKGlobalJournalItem(FiresecAPI.GK.JournalItem journalItem)
 		{
 			var globalJournalItem = new FiresecAPI.SKD.JournalItem();
@@ -57,13 +58,12 @@ namespace FiresecService.Service
 
 		public static void AddGlobalJournalItem(JournalItem journalItem)
 		{
-			int xxx = (int)journalItem.Name;
-			SKDDBHelper.Add(journalItem);
+			DBHelper.Add(journalItem);
 		}
 
 		void AddSKDMessage(GlobalEventNameEnum globalEventNameEnum, SKDDevice device, string userName)
 		{
-			AddSKDMessage(globalEventNameEnum, FiresecAPI.GK.EventDescription.Нет, device, userName);
+			AddSKDMessage(globalEventNameEnum, FiresecAPI.GK.EventDescription.NULL, device, userName);
 		}
 
 		void AddSKDMessage(GlobalEventNameEnum globalEventNameEnum, FiresecAPI.GK.EventDescription description, SKDDevice device, string userName)
@@ -80,27 +80,28 @@ namespace FiresecService.Service
 				UserName = userName,
 			};
 
-			SKDDBHelper.AddMessage(globalEventNameEnum, userName);
+			DBHelper.AddMessage(globalEventNameEnum, userName);
 			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
 		}
+		#endregion
 
 		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			if (CurrentThread != null)
 			{
-				SKDDBHelper.IsAbort = true;
+				DBHelper.IsAbort = true;
 				CurrentThread.Join(TimeSpan.FromMinutes(1));
 				CurrentThread = null;
 			}
-			SKDDBHelper.IsAbort = false;
+			DBHelper.IsAbort = false;
 			var thread = new Thread(new ThreadStart((new Action(() =>
 			{
-				SKDDBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
-				SKDDBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				SKDDBHelper.BeginGetSKDFilteredArchive(archiveFilter, archivePortionUID, false);
+				DBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
+				DBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
+				DBHelper.BeginGetSKDFilteredArchive(archiveFilter, archivePortionUID, false);
 
 			}))));
-			thread.Name = "SKD GetFilteredArchive";
+			thread.Name = "FiresecService.GetFilteredArchive";
 			thread.IsBackground = true;
 			CurrentThread = thread;
 			thread.Start();

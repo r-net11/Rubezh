@@ -208,12 +208,12 @@ namespace ControllerSDK.ViewModels
 				text += "IsDuressAlarmEnable = " + DoorConfiguration.IsDuressAlarmEnable.ToString() + "\n";
 				text += "IsSensorEnable = " + DoorConfiguration.IsSensorEnable.ToString() + "\n";
 
-				foreach (var timeShedule in DoorConfiguration.TimeShedules)
+				foreach (var doorDayInterval in DoorConfiguration.DoorDayIntervalsCollection.DoorDayIntervals)
 				{
-					foreach (var timeSheduleInterval in timeShedule.TimeSheduleIntervals)
+					foreach (var doorDayIntervalPart in doorDayInterval.DoorDayIntervalParts)
 					{
-						text += timeSheduleInterval.BeginHours + ":" + timeSheduleInterval.BeginMinutes + ":" + timeSheduleInterval.BeginSeconds + " - " +
-						timeSheduleInterval.EndHours + ":" + timeSheduleInterval.EndMinutes + ":" + timeSheduleInterval.EndSeconds + " ||||||| ";
+						text += doorDayIntervalPart.StartHour + ":" + doorDayIntervalPart.StartMinute + " - " +
+						doorDayIntervalPart.EndHour + ":" + doorDayIntervalPart.EndMinute + " ||||||| ";
 					}
 					text += "\n";
 				}

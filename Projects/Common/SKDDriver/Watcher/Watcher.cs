@@ -338,7 +338,7 @@ namespace SKDDriver
 			}
 		}
 
-		void AddFailureJournalItem(GlobalEventNameEnum globalEventNameEnum, EventDescription description = EventDescription.Нет)
+		void AddFailureJournalItem(GlobalEventNameEnum globalEventNameEnum, EventDescription description = EventDescription.NULL)
 		{
 			var journalItem = new JournalItem()
 			{

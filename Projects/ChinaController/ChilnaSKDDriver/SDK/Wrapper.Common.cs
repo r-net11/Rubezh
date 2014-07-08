@@ -258,7 +258,6 @@ namespace ChinaSKDDriver
 				doorConfiguration.IsDuressAlarmEnable = outResult.bDuressAlarmEnable;
 				doorConfiguration.IsSensorEnable = outResult.bSensorEnable;
 
-
 				var timeSheduleIntervals = new List<TimeSheduleInterval>();
 				for (int i = 0; i < outResult.stuDoorTimeSection.Count(); i++)
 				{
@@ -273,18 +272,25 @@ namespace ChinaSKDDriver
 					timeSheduleIntervals.Add(timeSheduleInterval);
 				}
 
-				var timeShedules = new List<TimeShedule>();
+				var doorDayIntervalsCollection = new DoorDayIntervalsCollection();
+				doorDayIntervalsCollection.DoorDayIntervals = new List<DoorDayInterval>();
 				for (int i = 0; i < 7; i++)
 				{
-					var timeShedule = new TimeShedule();
+					var doorDayInterval = new DoorDayInterval();
+					doorDayInterval.DoorDayIntervalParts = new List<DoorDayIntervalPart>();
 					for (int j = 0; j < 4; j++)
 					{
 						var timeSheduleInterval = timeSheduleIntervals[i * 4 + j];
-						timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
+						var doorDayIntervalPart = new DoorDayIntervalPart();
+						doorDayIntervalPart.StartHour = timeSheduleInterval.BeginHours;
+						doorDayIntervalPart.StartMinute = timeSheduleInterval.BeginMinutes;
+						doorDayIntervalPart.EndHour = timeSheduleInterval.EndHours;
+						doorDayIntervalPart.EndMinute = timeSheduleInterval.EndMinutes;
+						doorDayInterval.DoorDayIntervalParts.Add(doorDayIntervalPart);
 					}
-					timeShedules.Add(timeShedule);
+					doorDayIntervalsCollection.DoorDayIntervals.Add(doorDayInterval);
 				}
-				doorConfiguration.TimeShedules = timeShedules;
+				doorConfiguration.DoorDayIntervalsCollection = doorDayIntervalsCollection;
 				return doorConfiguration;
 			}
 			return null;
@@ -335,15 +341,18 @@ namespace ChinaSKDDriver
 			boolsConfig.abSensorEnable = doorConfiguration.UseSensorEnable;
 
 			info.stuDoorTimeSection = new NativeWrapper.CFG_DOOROPEN_TIMESECTION_INFO[7 * 4];
-			for (int i = 0; i < info.stuDoorTimeSection.Count(); i++)
+			for (int i = 0; i < 7; i++)
 			{
-				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwHour = 1;
-				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwMinute = i;
-				info.stuDoorTimeSection[i].stuTime.stuStartTime.dwSecond = i;
-
-				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwHour = 2;
-				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = i * 2;
-				info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = i * 2;
+				for (int j = 0; j < 4; j++)
+				{
+					var doorDayIntervalPart = doorConfiguration.DoorDayIntervalsCollection.DoorDayIntervals[i].DoorDayIntervalParts[j];
+					info.stuDoorTimeSection[i].stuTime.stuStartTime.dwHour = doorDayIntervalPart.StartHour;
+					info.stuDoorTimeSection[i].stuTime.stuStartTime.dwMinute = doorDayIntervalPart.StartMinute;
+					info.stuDoorTimeSection[i].stuTime.stuStartTime.dwSecond = 0;
+					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwHour = doorDayIntervalPart.EndHour;
+					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = doorDayIntervalPart.EndMinute;
+					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = 0;
+				}
 			}
 
 			var result = NativeWrapper.WRAP_SetDoorConfiguration(LoginID, doorNo, ref info, ref boolsConfig);

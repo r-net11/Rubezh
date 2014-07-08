@@ -137,6 +137,7 @@
     <Compile Include="Service\PollAsyncResult.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.cs" />
     <Compile Include="Service\FiresecService.Automation.cs" />
+    <Compile Include="Service\DBHelper.cs" />
     <Compile Include="SKDPatchManager.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />

@@ -110,7 +110,7 @@ namespace SKDDriver
 
 		public static void AddMessage(GlobalEventNameEnum globalEventNameEnum, SKDDevice device, string userName, bool isAdministrator = false)
 		{
-			AddMessage(globalEventNameEnum, EventDescription.Нет, device, userName, isAdministrator);
+			AddMessage(globalEventNameEnum, EventDescription.NULL, device, userName, isAdministrator);
 		}
 
 		public static void AddMessage(GlobalEventNameEnum globalEventNameEnum, EventDescription description, SKDDevice device, string userName, bool isAdministrator = false)
