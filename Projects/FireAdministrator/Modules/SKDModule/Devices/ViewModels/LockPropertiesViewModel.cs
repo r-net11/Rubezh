@@ -62,7 +62,6 @@ namespace SKDModule.ViewModels
 			IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
 			IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 			IsSensorEnable = doorConfiguration.IsSensorEnable;
-			WeeklySheduleNo = doorConfiguration.WeeklySheduleNo;
 
 			LockIntervalsViewModel = new LockIntervalsViewModel(doorConfiguration);
 			OnPropertyChanged(() => LockIntervalsViewModel);
@@ -230,17 +229,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		int _weeklySheduleNo;
-		public int WeeklySheduleNo
-		{
-			get { return _weeklySheduleNo; }
-			set
-			{
-				_weeklySheduleNo = value;
-				OnPropertyChanged(() => WeeklySheduleNo);
-			}
-		}
-
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
@@ -286,7 +274,7 @@ namespace SKDModule.ViewModels
 			doorConfiguration.IsDoorNotClosedAlarmEnable = IsDoorNotClosedAlarmEnable;
 			doorConfiguration.IsDuressAlarmEnable = IsDuressAlarmEnable;
 			doorConfiguration.IsSensorEnable = IsSensorEnable;
-			doorConfiguration.WeeklySheduleNo = WeeklySheduleNo;
+			doorConfiguration.DoorDayIntervalsCollection = LockIntervalsViewModel.GetModel();
 			return doorConfiguration;
 		}
 

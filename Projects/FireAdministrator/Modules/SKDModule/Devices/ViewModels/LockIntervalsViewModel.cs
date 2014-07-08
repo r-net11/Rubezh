@@ -12,31 +12,64 @@ namespace SKDModule.ViewModels
 	{
 		public LockIntervalsViewModel(SKDDoorConfiguration doorConfiguration)
 		{
-			DayIntervals = new ObservableCollection<DayInterval>();
-			for (int i = 1; i <= 7; i++)
+			DayIntervals = new ObservableCollection<DayIntervalViewModel>();
+			for (int i = 0; i < 7; i++)
 			{
-				var dayInterval = new DayInterval(i);
-				DayIntervals.Add(dayInterval);
+				var doorDayInterval = doorConfiguration.DoorDayIntervalsCollection.DoorDayIntervals[i];
+				var dayIntervalViewModel = new DayIntervalViewModel(i+1);
+				DayIntervals.Add(dayIntervalViewModel);
+
+				foreach (var doorDayIntervalPart in doorDayInterval.DoorDayIntervalParts)
+				{
+					var intervalPartViewModel = new IntervalPartViewModel();
+					intervalPartViewModel.StartHour = doorDayIntervalPart.StartHour;
+					intervalPartViewModel.StartMinute = doorDayIntervalPart.StartMinute;
+					intervalPartViewModel.EndHour = doorDayIntervalPart.EndHour;
+					intervalPartViewModel.EndMinute = doorDayIntervalPart.EndMinute;
+					dayIntervalViewModel.IntervalParts.Add(intervalPartViewModel);
+				}
 			}
 		}
 
-		public ObservableCollection<DayInterval> DayIntervals { get; private set; }
+		public ObservableCollection<DayIntervalViewModel> DayIntervals { get; private set; }
 
-		public class DayInterval : BaseViewModel
+		public DoorDayIntervalsCollection GetModel()
 		{
-			public DayInterval(int dayNo)
+			var doorDayIntervalsCollection = new DoorDayIntervalsCollection();
+			doorDayIntervalsCollection.DoorDayIntervals = new List<DoorDayInterval>();
+			foreach (var dayInterval in DayIntervals)
+			{
+				var doorDayInterval = new DoorDayInterval();
+				doorDayInterval.DoorDayIntervalParts = new List<DoorDayIntervalPart>();
+				doorDayIntervalsCollection.DoorDayIntervals.Add(doorDayInterval);
+				foreach (var interval in dayInterval.IntervalParts)
+				{
+					var doorDayIntervalPart = new DoorDayIntervalPart();
+					doorDayIntervalPart.StartHour = interval.StartHour;
+					doorDayIntervalPart.StartMinute = interval.StartMinute;
+					doorDayIntervalPart.EndHour = interval.EndHour;
+					doorDayIntervalPart.EndMinute = interval.EndMinute;
+					doorDayInterval.DoorDayIntervalParts.Add(doorDayIntervalPart);
+				}
+			}
+			return doorDayIntervalsCollection;
+		}
+
+		public class DayIntervalViewModel : BaseViewModel
+		{
+			public DayIntervalViewModel(int dayNo)
 			{
 				Name = IntToWeekDay(dayNo);
-				Intervals = new ObservableCollection<Interval>();
-				for (int i = 0; i < 4; i++)
-				{
-					var interval = new Interval();
-					Intervals.Add(interval);
-				}
+				IntervalParts = new ObservableCollection<IntervalPartViewModel>();
+				//for (int i = 0; i < 4; i++)
+				//{
+				//    var interval = new IntervalPartViewModel();
+				//    IntervalParts.Add(interval);
+				//}
 			}
 
 			public string Name { get; private set; }
-			public ObservableCollection<Interval> Intervals { get; private set; }
+			public ObservableCollection<IntervalPartViewModel> IntervalParts { get; private set; }
 
 			string IntToWeekDay(int dayNo)
 			{
@@ -61,9 +94,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public class Interval : BaseViewModel
+		public class IntervalPartViewModel : BaseViewModel
 		{
-			public Interval()
+			public IntervalPartViewModel()
 			{
 				StartHours = new ObservableCollection<int>();
 				StartMinutes = new ObservableCollection<int>();

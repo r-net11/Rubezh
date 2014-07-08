@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FiresecAPI.SKD;
 
 namespace ChinaSKDDriverAPI
 {
@@ -9,7 +10,7 @@ namespace ChinaSKDDriverAPI
 	{
 		public DoorConfiguration()
 		{
-			TimeShedules = new List<TimeShedule>();
+			DoorDayIntervalsCollection = new DoorDayIntervalsCollection();
 		}
 
 		public string ChannelName { get; set; }
@@ -39,7 +40,7 @@ namespace ChinaSKDDriverAPI
 		public bool IsRepeatEnterAlarmEnable { get; set; }
 		public bool IsDoorNotClosedAlarmEnable { get; set; }
 		public bool IsDuressAlarmEnable { get; set; }
-		public List<TimeShedule> TimeShedules { get; set; }
+		public DoorDayIntervalsCollection DoorDayIntervalsCollection { get; set; }
 		public bool IsSensorEnable { get; set; }
 	}
 
