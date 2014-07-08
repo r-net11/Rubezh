@@ -193,7 +193,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ChinaController\ChilnaSKDDriver\ChinaSKDDriver.csproj">
+    <ProjectReference Include="..\..\ChinaController\ChinaSKDDriver\ChinaSKDDriver.csproj">
       <Project>{77C8D1E5-51B4-45F9-93DF-D114433771E2}</Project>
       <Name>ChinaSKDDriver</Name>
     </ProjectReference>

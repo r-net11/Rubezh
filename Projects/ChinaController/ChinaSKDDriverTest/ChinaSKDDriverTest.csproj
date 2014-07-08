@@ -222,7 +222,7 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ChilnaSKDDriver\ChinaSKDDriver.csproj">
+    <ProjectReference Include="..\ChinaSKDDriver\ChinaSKDDriver.csproj">
       <Project>{77C8D1E5-51B4-45F9-93DF-D114433771E2}</Project>
       <Name>ChinaSKDDriver</Name>
     </ProjectReference>
