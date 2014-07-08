@@ -13,7 +13,7 @@ namespace FiresecService
 	{
 		public static void Create()
 		{
-			if (GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
+			//if (GlobalSettingsHelper.GlobalSettings.IsGKAsAService)
 			{
 				GKProcessorManager.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 				GKProcessorManager.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);

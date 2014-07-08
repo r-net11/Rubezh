@@ -223,7 +223,7 @@ namespace SKDDriver
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
 			{
-				var intValue  = (int)reader.GetValue(reader.GetOrdinal("Name"));
+				var intValue = (int)reader.GetValue(reader.GetOrdinal("Name"));
 				if (Enum.IsDefined(typeof(GlobalEventNameEnum), intValue))
 					journalItem.Name = (GlobalEventNameEnum)intValue;
 			}
@@ -234,7 +234,7 @@ namespace SKDDriver
 				if (Enum.IsDefined(typeof(EventDescription), intValue))
 					journalItem.Description = (EventDescription)intValue;
 			}
-			
+
 			//if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
 			//	journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
 
