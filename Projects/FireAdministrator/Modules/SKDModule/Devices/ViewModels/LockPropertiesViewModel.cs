@@ -40,10 +40,7 @@ namespace SKDModule.ViewModels
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_OR_CARD);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
 
-			if (device.SKDDoorConfiguration == null)
-			{
-				device.SKDDoorConfiguration = new SKDDoorConfiguration();
-			}
+			SKDManager.InvalidateOneLockConfiguration(device);
 			Update(device.SKDDoorConfiguration);
 		}
 

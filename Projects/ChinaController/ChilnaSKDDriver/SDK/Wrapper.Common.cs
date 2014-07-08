@@ -273,11 +273,9 @@ namespace ChinaSKDDriver
 				}
 
 				var doorDayIntervalsCollection = new DoorDayIntervalsCollection();
-				doorDayIntervalsCollection.DoorDayIntervals = new List<DoorDayInterval>();
 				for (int i = 0; i < 7; i++)
 				{
 					var doorDayInterval = new DoorDayInterval();
-					doorDayInterval.DoorDayIntervalParts = new List<DoorDayIntervalPart>();
 					for (int j = 0; j < 4; j++)
 					{
 						var timeSheduleInterval = timeSheduleIntervals[i * 4 + j];

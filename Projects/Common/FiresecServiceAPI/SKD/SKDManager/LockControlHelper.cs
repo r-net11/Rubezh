@@ -13,8 +13,8 @@ namespace FiresecAPI.SKD
 			var driver = new SKDDriver()
 			{
 				UID = new Guid("4DFF9DDD-BCB3-4089-AD98-AE925ECFFB44"),
-				Name = "СМК двери",
-				ShortName = "СМК двери",
+				Name = "Датчик контроля двери",
+				ShortName = "Датчик контроля двери",
 				DriverType = SKDDriverType.LockControl
 			};
 			driver.AvailableStateClasses.Add(XStateClass.Norm);

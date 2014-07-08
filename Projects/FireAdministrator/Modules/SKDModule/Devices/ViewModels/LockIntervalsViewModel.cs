@@ -36,12 +36,9 @@ namespace SKDModule.ViewModels
 		public DoorDayIntervalsCollection GetModel()
 		{
 			var doorDayIntervalsCollection = new DoorDayIntervalsCollection();
-			doorDayIntervalsCollection.DoorDayIntervals = new List<DoorDayInterval>();
 			foreach (var dayInterval in DayIntervals)
 			{
 				var doorDayInterval = new DoorDayInterval();
-				doorDayInterval.DoorDayIntervalParts = new List<DoorDayIntervalPart>();
-				doorDayIntervalsCollection.DoorDayIntervals.Add(doorDayInterval);
 				foreach (var interval in dayInterval.IntervalParts)
 				{
 					var doorDayIntervalPart = new DoorDayIntervalPart();
@@ -51,6 +48,7 @@ namespace SKDModule.ViewModels
 					doorDayIntervalPart.EndMinute = interval.EndMinute;
 					doorDayInterval.DoorDayIntervalParts.Add(doorDayIntervalPart);
 				}
+				doorDayIntervalsCollection.DoorDayIntervals.Add(doorDayInterval);
 			}
 			return doorDayIntervalsCollection;
 		}
@@ -61,11 +59,6 @@ namespace SKDModule.ViewModels
 			{
 				Name = IntToWeekDay(dayNo);
 				IntervalParts = new ObservableCollection<IntervalPartViewModel>();
-				//for (int i = 0; i < 4; i++)
-				//{
-				//    var interval = new IntervalPartViewModel();
-				//    IntervalParts.Add(interval);
-				//}
 			}
 
 			public string Name { get; private set; }

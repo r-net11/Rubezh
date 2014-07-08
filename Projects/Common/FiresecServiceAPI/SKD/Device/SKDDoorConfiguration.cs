@@ -109,11 +109,6 @@ namespace FiresecAPI.SKD
 		public DoorDayIntervalsCollection()
 		{
 			DoorDayIntervals = new List<DoorDayInterval>();
-			for (int i = 0; i < 7; i++)
-			{
-				var doorWeeklyInterval = new DoorDayInterval();
-				DoorDayIntervals.Add(doorWeeklyInterval);
-			}
 		}
 
 		[DataMember]
@@ -126,11 +121,6 @@ namespace FiresecAPI.SKD
 		public DoorDayInterval()
 		{
 			DoorDayIntervalParts = new List<DoorDayIntervalPart>();
-			for (int i = 0; i < 4; i++)
-			{
-				var doorDayInterval = new DoorDayIntervalPart();
-				DoorDayIntervalParts.Add(doorDayInterval);
-			}
 		}
 
 		[DataMember]
