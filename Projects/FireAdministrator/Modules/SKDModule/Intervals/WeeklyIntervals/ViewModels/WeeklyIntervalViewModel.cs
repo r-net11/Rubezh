@@ -4,96 +4,58 @@ using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Intervals.Base;
 using Infrastructure;
+using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class WeeklyIntervalViewModel : BaseIntervalViewModel
+	public class WeeklyIntervalViewModel : BaseIntervalViewModel<WeeklyIntervalPartViewModel, SKDWeeklyInterval>
 	{
 		private WeeklyIntervalsViewModel _weeklyIntervalsViewModel;
-		public SKDWeeklyInterval WeeklyInterval { get; private set; }
 
 		public WeeklyIntervalViewModel(int index, SKDWeeklyInterval weeklyInterval, WeeklyIntervalsViewModel weeklyIntervalsViewModel)
-			: base(index, weeklyInterval != null)
+			: base(index, weeklyInterval)
 		{
 			_weeklyIntervalsViewModel = weeklyIntervalsViewModel;
-			WeeklyInterval = weeklyInterval;
 			Initialize();
 			Update();
 		}
 
 		private void Initialize()
 		{
-			TimeIntervals = new ObservableCollection<WeeklyIntervalPartViewModel>();
-			if (WeeklyInterval != null)
-				foreach (var weeklyIntervalPart in WeeklyInterval.WeeklyIntervalParts)
+			Parts = new ObservableCollection<WeeklyIntervalPartViewModel>();
+			if (Model != null)
+				foreach (var weeklyIntervalPart in Model.WeeklyIntervalParts)
 				{
 					var weeklyIntervalPartViewModel = new WeeklyIntervalPartViewModel(_weeklyIntervalsViewModel, weeklyIntervalPart);
-					TimeIntervals.Add(weeklyIntervalPartViewModel);
+					Parts.Add(weeklyIntervalPartViewModel);
 				}
-		}
-
-		public ObservableCollection<WeeklyIntervalPartViewModel> TimeIntervals { get; private set; }
-
-		private WeeklyIntervalPartViewModel _selectedTimeInterval;
-		public WeeklyIntervalPartViewModel SelectedTimeInterval
-		{
-			get { return _selectedTimeInterval; }
-			set
-			{
-				_selectedTimeInterval = value;
-				OnPropertyChanged(() => SelectedTimeInterval);
-			}
-		}
-
-		private string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged(() => Name);
-			}
-		}
-
-		private string _description;
-		public string Description
-		{
-			get { return _description; }
-			set
-			{
-				_description = value;
-				OnPropertyChanged(() => Description);
-			}
 		}
 
 		public override void Update()
 		{
 			base.Update();
-			Name = IsActive ? WeeklyInterval.Name : string.Format("Понедельный график {0}", Index);
-			Description = IsEnabled ? WeeklyInterval.Description : string.Empty;
-			OnPropertyChanged(() => WeeklyInterval);
-			OnPropertyChanged(() => TimeIntervals);
+			Name = IsActive ? Model.Name : string.Format("Понедельный график {0}", Index);
+			Description = IsEnabled ? Model.Description : string.Empty;
 		}
 		protected override void Activate()
 		{
 			if (!IsDefault)
 			{
-				if (IsActive && WeeklyInterval == null)
+				if (IsActive && Model == null)
 				{
-					WeeklyInterval = new SKDWeeklyInterval()
+					Model = new SKDWeeklyInterval()
 					{
 						ID = Index,
 						Name = Name,
 					};
 					Initialize();
-					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Add(WeeklyInterval);
+					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Add(Model);
 					ServiceFactory.SaveService.SKDChanged = true;
 				}
-				else if (!IsActive && WeeklyInterval != null)
+				else if (!IsActive && Model != null)
 				{
-					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Remove(WeeklyInterval);
-					WeeklyInterval = null;
+					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Remove(Model);
+					Model = null;
 					Initialize();
 					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.ForEach(week => week.InvalidateWeekIntervals());
 					ServiceFactory.SaveService.SKDChanged = true;
@@ -106,7 +68,7 @@ namespace SKDModule.ViewModels
 		{
 			IsActive = true;
 			for (int i = 0; i < interval.WeeklyIntervalParts.Count; i++)
-				WeeklyInterval.WeeklyIntervalParts[i].TimeIntervalID = interval.WeeklyIntervalParts[i].TimeIntervalID;
+				Model.WeeklyIntervalParts[i].TimeIntervalID = interval.WeeklyIntervalParts[i].TimeIntervalID;
 			Initialize();
 			ServiceFactory.SaveService.SKDChanged = true;
 			Update();

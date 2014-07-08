@@ -4,10 +4,11 @@ using Common;
 using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class SlideWeekIntervalPartViewModel : BaseViewModel
+	public class SlideWeekIntervalPartViewModel : BaseIntervalPartViewModel
 	{
 		private SlideWeekIntervalsViewModel _slideWeekIntervalsViewModel;
 		private SKDSlideWeeklyInterval _slideWeekInterval;
@@ -41,7 +42,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Update()
+		public override void Update()
 		{
 			Name = string.Format("{0}", Index + 1);
 			_selectedWeekInterval = _slideWeekIntervalsViewModel.AvailableWeekIntervals.FirstOrDefault(x => x.ID == _slideWeekInterval.WeeklyIntervalIDs[Index]);

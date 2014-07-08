@@ -82,15 +82,15 @@ namespace SKDModule
 
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("СКД", "/Controls;component/Images/SKD.png", new List<NavigationItem>()
+				new NavigationItem("СКД", "/Controls;component/Images/SKDW.png", new List<NavigationItem>()
 				{
 					new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 					new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
 					new NavigationItem<ShowPassCardDesignerEvent, Guid>(PassCardDesignerViewModel, "Дизайнер пропусков", "/Controls;component/Images/PassCardDesigner.png", null, null, Guid.Empty),
-					new NavigationItem("Интервалы", "/Controls;component/Images/ShedulesW.png", new List<NavigationItem>()
+					new NavigationItem("Графики", "/Controls;component/Images/ShedulesW.png", new List<NavigationItem>()
 					{
-						new NavigationItem<ShowSKDTimeIntervalsEvent, int>(TimeIntervalsViewModel, "Именованные интервалы", "/Controls;component/Images/ShedulesDaylyW.png", null, null, -1),
+						new NavigationItem<ShowSKDTimeIntervalsEvent, int>(TimeIntervalsViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, -1),
 						new NavigationItem<ShowSKDWeeklyIntervalsEvent, int>(WeeklyIntervalsViewModel, "Недельные графики", "/Controls;component/Images/SheduleWeeklyW.png", null, null, -1),
 						new NavigationItem<ShowSKDSlideDayIntervalsEvent, int>(SlideDayIntervalsViewModel, "Скользящие посуточные графики", "/Controls;component/Images/SheduleSlideDaylyW.png", null, null, -1),
 						new NavigationItem<ShowSKDSlideWeekIntervalsEvent, int>(SlideWeekIntervalsViewModel, "Скользящие понедельные графики", "/Controls;component/Images/SheduleSlideWeeklyW.png", null, null, -1),

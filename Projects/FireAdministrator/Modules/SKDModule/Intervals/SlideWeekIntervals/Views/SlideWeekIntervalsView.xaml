@@ -1,26 +1,26 @@
 ﻿<UserControl x:Class="SKDModule.Views.SlideWeekIntervalsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
+	<UserControl.Resources>
+		<Style x:Key="ActiveStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding IsActive}" Value="false">
+					<Setter Property="Foreground" Value="LightGray" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
+	</UserControl.Resources>
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<XDataGrid Grid.Column="0" ItemsSource="{Binding SlideWeekIntervals}" SelectedItem="{Binding SelectedSlideWeekInterval}">
-			<DataGrid.RowStyle>
-				<Style TargetType="DataGridRow">
-					<Style.Triggers>
-						<DataTrigger Binding="{Binding IsActive}" Value="false">
-							<Setter Property="Background" Value="LightGray" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-			</DataGrid.RowStyle>
+		<XDataGrid Grid.Column="0" ItemsSource="{Binding Intervals}" SelectedItem="{Binding SelectedInterval}">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Width="*" Header="Наименование">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-                                <Image Source="/Controls;component/Images/Shedule.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+								<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
+								<TextBlock Margin="2" VerticalAlignment="Center" Style="{StaticResource ActiveStyle}" Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -28,20 +28,20 @@
 				<DataGridTemplateColumn Width="*" Header="Описание">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding Description}" />
+							<TextBlock Style="{StaticResource ActiveStyle}" Text="{Binding Description}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 				<DataGridTemplateColumn Width="*" Header="1-й день">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding StartDate, StringFormat=dd-MM-yy}" />
+							<TextBlock Style="{StaticResource ActiveStyle}" Text="{Binding StartDate, StringFormat=dd-MM-yy}" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</XDataGrid>
-		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedSlideWeekInterval}" IsEnabled="{Binding IsEnabled}">
+		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedInterval}" IsEnabled="{Binding IsEnabled}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
@@ -50,14 +50,14 @@
 				<Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
 				<Controls:ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
 			</StackPanel>
-			<DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding WeekIntervals}" SelectedItem="{Binding SelectedWeekInterval}">
+			<DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
 				<DataGrid.Columns>
 					<DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Неделя" />
 					<DataGridTemplateColumn Width="*" Header="Наименование">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-                                    <Image Source="/Controls;component/Images/Shedule.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
 									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedWeekInterval.Name}" />
 								</StackPanel>
 							</DataTemplate>
@@ -68,7 +68,7 @@
 									<ComboBox.ItemTemplate>
 										<DataTemplate>
 											<DockPanel Background="Transparent">
-                                                <Image Source="/Controls;component/Images/Shedule.png" Height="16" VerticalAlignment="Center" Margin="1 0 0 0" />
+												<Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Shedule.png" />
 												<TextBlock Margin="2" VerticalAlignment="Center" Foreground="Black" Text="{Binding Name}" />
 											</DockPanel>
 										</DataTemplate>

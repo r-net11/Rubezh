@@ -1,16 +1,55 @@
 ﻿using Controls;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
-namespace SKDModule.Intervals.Base
+namespace SKDModule.Intervals.Base.ViewModels
 {
-	public class BaseIntervalViewModel : BaseViewModel
+	public class BaseIntervalViewModel<TPart, TModel> : BaseViewModel
+		where TPart : BaseIntervalPartViewModel
 	{
 		public int Index { get; private set; }
+		public TModel Model { get; protected set; }
 
-		public BaseIntervalViewModel(int index, bool isActive)
+		public BaseIntervalViewModel(int index, TModel model)
 		{
+			Model = model;
 			Index = index;
-			_isActive = isActive;
+			_isActive = Model != null;
+		}
+
+		public ObservableCollection<TPart> Parts { get; protected set; }
+
+		private TPart _selectedPart;
+		public TPart SelectedPart
+		{
+			get { return _selectedPart; }
+			set
+			{
+				_selectedPart = value;
+				OnPropertyChanged(() => SelectedPart);
+			}
+		}
+
+		private string _name;
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged(() => Name);
+			}
+		}
+
+		private string _description;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				_description = value;
+				OnPropertyChanged(() => Description);
+			}
 		}
 
 		private bool _isActive;
@@ -67,10 +106,16 @@ namespace SKDModule.Intervals.Base
 			OnPropertyChanged(() => ActiveTitle);
 			OnPropertyChanged(() => ActiveImage);
 			OnPropertyChanged(() => IsEnabled);
+			OnPropertyChanged(() => Model);
+			OnPropertyChanged(() => Parts);
 		}
 		protected virtual void Activate()
 		{
 			Update();
+		}
+
+		public virtual void Paste(TModel source)
+		{
 		}
 	}
 }

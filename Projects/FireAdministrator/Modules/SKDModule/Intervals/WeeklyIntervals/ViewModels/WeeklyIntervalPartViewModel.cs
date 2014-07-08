@@ -3,10 +3,11 @@ using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class WeeklyIntervalPartViewModel : BaseViewModel
+	public class WeeklyIntervalPartViewModel : BaseIntervalPartViewModel
 	{
 		private WeeklyIntervalsViewModel _weeklyIntervalsViewModel;
 		public SKDWeeklyIntervalPart WeeklyIntervalPart { get; private set; }
@@ -42,7 +43,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Update()
+		public override void Update()
 		{
 			_selectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.TimeIntervalID);
 			if (_selectedTimeInterval == null)

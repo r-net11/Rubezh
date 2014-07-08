@@ -1,10 +1,11 @@
 ﻿using System;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeIntervalPartViewModel : BaseViewModel
+	public class TimeIntervalPartViewModel : BaseIntervalPartViewModel
 	{
 		public SKDTimeIntervalPart TimeIntervalPart { get; set; }
 
@@ -23,7 +24,7 @@ namespace SKDModule.ViewModels
 			get { return TimeIntervalPart.EndTime; }
 		}
 
-		public void Update()
+		public override void Update()
 		{
 			OnPropertyChanged(() => TimeIntervalPart);
 			OnPropertyChanged(() => StartTime);

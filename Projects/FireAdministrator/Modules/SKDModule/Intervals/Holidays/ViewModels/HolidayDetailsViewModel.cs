@@ -13,15 +13,15 @@ namespace SKDModule.ViewModels
 		{
 			if (holiday == null)
 			{
-				Title = "Новый приаздничный день";
+				Title = "Новый праздничный день";
 				holiday = new SKDHoliday()
 				{
-					Name = "Приаздничный день",
+					Name = "Праздничный день",
 				};
 			}
 			else
 			{
-				Title = "Редактирование понедельногор графика";
+				Title = "Редактирование праздничного дня";
 			}
 
 			AvailableTypeNos = new ObservableCollection<int>();

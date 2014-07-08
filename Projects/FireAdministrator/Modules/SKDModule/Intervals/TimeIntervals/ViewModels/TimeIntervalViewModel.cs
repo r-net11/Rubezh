@@ -6,17 +6,15 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using SKDModule.Intervals.Base;
 using Common;
+using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeIntervalViewModel : BaseIntervalViewModel
+	public class TimeIntervalViewModel : BaseIntervalViewModel<TimeIntervalPartViewModel, SKDTimeInterval>
 	{
-		public SKDTimeInterval TimeInterval { get; private set; }
-
 		public TimeIntervalViewModel(int index, SKDTimeInterval timeInterval)
-			: base(index, timeInterval != null)
+			: base(index, timeInterval)
 		{
-			TimeInterval = timeInterval;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanEdit);
@@ -24,69 +22,32 @@ namespace SKDModule.ViewModels
 			Update();
 		}
 
-		public ObservableCollection<TimeIntervalPartViewModel> TimeIntervalParts { get; private set; }
-
-		private TimeIntervalPartViewModel _selectedTimeIntervalPart;
-		public TimeIntervalPartViewModel SelectedTimeIntervalPart
-		{
-			get { return _selectedTimeIntervalPart; }
-			set
-			{
-				_selectedTimeIntervalPart = value;
-				OnPropertyChanged(() => SelectedTimeIntervalPart);
-			}
-		}
-
-		private string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged(() => Name);
-			}
-		}
-
-		private string _description;
-		public string Description
-		{
-			get { return _description; }
-			set
-			{
-				_description = value;
-				OnPropertyChanged(() => Description);
-			}
-		}
-
 		public override void Update()
 		{
 			base.Update();
-			Name = IsDefault ? "Никогда" : (IsActive ? TimeInterval.Name : string.Format("Дневной график {0}", Index));
-			Description = IsEnabled ? TimeInterval.Description : string.Empty;
-			OnPropertyChanged(() => TimeInterval);
-			OnPropertyChanged(() => TimeIntervalParts);
+			Name = IsDefault ? "Никогда" : (IsActive ? Model.Name : string.Format("Дневной график {0}", Index));
+			Description = IsEnabled ? Model.Description : string.Empty;
 		}
 		protected override void Activate()
 		{
 			if (!IsDefault)
 			{
-				if (IsActive && TimeInterval == null)
+				if (IsActive && Model == null)
 				{
-					TimeInterval = new SKDTimeInterval()
+					Model = new SKDTimeInterval()
 					{
 						ID = Index,
 						Name = Name,
 						TimeIntervalParts = new List<SKDTimeIntervalPart>(),
 					};
 					InitParts();
-					SKDManager.TimeIntervalsConfiguration.TimeIntervals.Add(TimeInterval);
+					SKDManager.TimeIntervalsConfiguration.TimeIntervals.Add(Model);
 					ServiceFactory.SaveService.SKDChanged = true;
 				}
-				else if (!IsActive && TimeInterval != null)
+				else if (!IsActive && Model != null)
 				{
-					SKDManager.TimeIntervalsConfiguration.TimeIntervals.Remove(TimeInterval);
-					TimeInterval = null;
+					SKDManager.TimeIntervalsConfiguration.TimeIntervals.Remove(Model);
+					Model = null;
 					InitParts();
 					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ForEach(week => week.InvalidateDayIntervals());
 					SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.ForEach(week => week.InvalidateDayIntervals());
@@ -103,43 +64,43 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanAdd()
 		{
-			return TimeIntervalParts.Count < 4;
+			return Parts.Count < 4;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			TimeInterval.TimeIntervalParts.Remove(SelectedTimeIntervalPart.TimeIntervalPart);
-			TimeIntervalParts.Remove(SelectedTimeIntervalPart);
+			Model.TimeIntervalParts.Remove(SelectedPart.TimeIntervalPart);
+			Parts.Remove(SelectedPart);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			Edit(SelectedTimeIntervalPart);
+			Edit(SelectedPart);
 		}
 		private bool CanEdit()
 		{
-			return !IsDefault && SelectedTimeIntervalPart != null;
+			return !IsDefault && SelectedPart != null;
 		}
 
-		public void Paste(SKDTimeInterval timeInterval)
+		public override void Paste(SKDTimeInterval timeInterval)
 		{
 			IsActive = true;
-			TimeInterval.TimeIntervalParts = timeInterval.TimeIntervalParts;
+			Model.TimeIntervalParts = timeInterval.TimeIntervalParts;
 			InitParts();
 			ServiceFactory.SaveService.SKDChanged = true;
 			Update();
 		}
 		private void InitParts()
 		{
-			TimeIntervalParts = new ObservableCollection<TimeIntervalPartViewModel>();
-			if (TimeInterval != null)
-				foreach (var timeIntervalPart in TimeInterval.TimeIntervalParts)
+			Parts = new ObservableCollection<TimeIntervalPartViewModel>();
+			if (Model != null)
+				foreach (var timeIntervalPart in Model.TimeIntervalParts)
 				{
 					var timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPart);
-					TimeIntervalParts.Add(timeIntervalPartViewModel);
+					Parts.Add(timeIntervalPartViewModel);
 				}
 		}
 
@@ -150,12 +111,12 @@ namespace SKDModule.ViewModels
 			{
 				if (timeIntervalPartViewModel == null)
 				{
-					TimeInterval.TimeIntervalParts.Add(timeIntervalPartDetailsViewModel.TimeIntervalPart);
+					Model.TimeIntervalParts.Add(timeIntervalPartDetailsViewModel.TimeIntervalPart);
 					timeIntervalPartViewModel = new TimeIntervalPartViewModel(timeIntervalPartDetailsViewModel.TimeIntervalPart);
-					TimeIntervalParts.Add(timeIntervalPartViewModel);
-					SelectedTimeIntervalPart = timeIntervalPartViewModel;
+					Parts.Add(timeIntervalPartViewModel);
+					SelectedPart = timeIntervalPartViewModel;
 				}
-				SelectedTimeIntervalPart.Update();
+				SelectedPart.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}

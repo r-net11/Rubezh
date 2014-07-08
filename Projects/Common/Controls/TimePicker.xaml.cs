@@ -183,6 +183,7 @@ namespace Controls
 				Minutes = MinutesMax;
 			if (Minutes < MinutesMin)
 				Minutes = MinutesMin;
+			Time = new DateTime(Time.Year, Time.Month, Time.Day, Hours, Minutes, 0);
 		}
 		private void TextBox_LostFocus(object sender, RoutedEventArgs e)
 		{

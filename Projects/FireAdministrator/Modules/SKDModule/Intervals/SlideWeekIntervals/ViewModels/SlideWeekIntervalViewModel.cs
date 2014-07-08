@@ -8,19 +8,18 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Intervals.Base;
+using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class SlideWeekIntervalViewModel : BaseIntervalViewModel
+	public class SlideWeekIntervalViewModel : BaseIntervalViewModel<SlideWeekIntervalPartViewModel, SKDSlideWeeklyInterval>
 	{
 		private SlideWeekIntervalsViewModel _slideWeekIntervalsViewModel;
-		public SKDSlideWeeklyInterval SlideWeekInterval { get; private set; }
 
 		public SlideWeekIntervalViewModel(int index, SKDSlideWeeklyInterval slideWeekInterval, SlideWeekIntervalsViewModel slideWeekIntervalsViewModel)
-			: base(index, slideWeekInterval != null)
+			: base(index, slideWeekInterval)
 		{
 			_slideWeekIntervalsViewModel = slideWeekIntervalsViewModel;
-			SlideWeekInterval = slideWeekInterval;
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			Initialize();
@@ -29,48 +28,13 @@ namespace SKDModule.ViewModels
 
 		public void Initialize()
 		{
-			WeekIntervals = new ObservableCollection<SlideWeekIntervalPartViewModel>();
-			if (SlideWeekInterval != null)
-				for (int i = 0; i < SlideWeekInterval.WeeklyIntervalIDs.Count; i++)
+			Parts = new ObservableCollection<SlideWeekIntervalPartViewModel>();
+			if (Model != null)
+				for (int i = 0; i < Model.WeeklyIntervalIDs.Count; i++)
 				{
-					var slideWeekIntervalPartViewModel = new SlideWeekIntervalPartViewModel(_slideWeekIntervalsViewModel, SlideWeekInterval, i);
-					WeekIntervals.Add(slideWeekIntervalPartViewModel);
+					var slideWeekIntervalPartViewModel = new SlideWeekIntervalPartViewModel(_slideWeekIntervalsViewModel, Model, i);
+					Parts.Add(slideWeekIntervalPartViewModel);
 				}
-		}
-
-		public ObservableCollection<SlideWeekIntervalPartViewModel> WeekIntervals { get; private set; }
-
-		private SlideWeekIntervalPartViewModel _selectedWeekInterval;
-		public SlideWeekIntervalPartViewModel SelectedWeekInterval
-		{
-			get { return _selectedWeekInterval; }
-			set
-			{
-				_selectedWeekInterval = value;
-				OnPropertyChanged(() => SelectedWeekInterval);
-			}
-		}
-
-		private string _name;
-		public string Name
-		{
-			get { return _name; }
-			set
-			{
-				_name = value;
-				OnPropertyChanged(() => Name);
-			}
-		}
-
-		private string _description;
-		public string Description
-		{
-			get { return _description; }
-			set
-			{
-				_description = value;
-				OnPropertyChanged(() => Description);
-			}
 		}
 
 		private DateTime? _startDate;
@@ -87,32 +51,30 @@ namespace SKDModule.ViewModels
 		public override void Update()
 		{
 			base.Update();
-			Name = IsActive ? SlideWeekInterval.Name : string.Format("Скользящий понедельный график {0}", Index);
-			Description = IsEnabled ? SlideWeekInterval.Description : string.Empty;
-			StartDate = IsEnabled ? (DateTime?)SlideWeekInterval.StartDate : null;
-			OnPropertyChanged(() => SlideWeekInterval);
-			OnPropertyChanged(() => WeekIntervals);
+			Name = IsActive ? Model.Name : string.Format("Скользящий понедельный график {0}", Index);
+			Description = IsEnabled ? Model.Description : string.Empty;
+			StartDate = IsEnabled ? (DateTime?)Model.StartDate : null;
 		}
 		protected override void Activate()
 		{
 			if (!IsDefault)
 			{
-				if (IsActive && SlideWeekInterval == null)
+				if (IsActive && Model == null)
 				{
-					SlideWeekInterval = new SKDSlideWeeklyInterval()
+					Model = new SKDSlideWeeklyInterval()
 					{
 						ID = Index,
 						Name = Name,
 						StartDate = DateTime.Today,
 					};
 					Initialize();
-					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Add(SlideWeekInterval);
+					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Add(Model);
 					ServiceFactory.SaveService.SKDChanged = true;
 				}
-				else if (!IsActive && SlideWeekInterval != null)
+				else if (!IsActive && Model != null)
 				{
-					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Remove(SlideWeekInterval);
-					SlideWeekInterval = null;
+					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Remove(Model);
+					Model = null;
 					Initialize();
 					ServiceFactory.SaveService.SKDChanged = true;
 				}
@@ -123,8 +85,8 @@ namespace SKDModule.ViewModels
 		public void Paste(SKDSlideWeeklyInterval interval)
 		{
 			IsActive = true;
-			SlideWeekInterval.StartDate = interval.StartDate;
-			SlideWeekInterval.WeeklyIntervalIDs = interval.WeeklyIntervalIDs;
+			Model.StartDate = interval.StartDate;
+			Model.WeeklyIntervalIDs = interval.WeeklyIntervalIDs;
 			Initialize();
 			ServiceFactory.SaveService.SKDChanged = true;
 			Update();
@@ -133,30 +95,30 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-			SlideWeekInterval.WeeklyIntervalIDs.Add(0);
-			var slideWeekIntervalPartViewModel = new SlideWeekIntervalPartViewModel(_slideWeekIntervalsViewModel, SlideWeekInterval, SlideWeekInterval.WeeklyIntervalIDs.Count - 1);
-			WeekIntervals.Add(slideWeekIntervalPartViewModel);
-			SelectedWeekInterval = slideWeekIntervalPartViewModel;
+			Model.WeeklyIntervalIDs.Add(0);
+			var slideWeekIntervalPartViewModel = new SlideWeekIntervalPartViewModel(_slideWeekIntervalsViewModel, Model, Model.WeeklyIntervalIDs.Count - 1);
+			Parts.Add(slideWeekIntervalPartViewModel);
+			SelectedPart = slideWeekIntervalPartViewModel;
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		private bool CanAdd()
 		{
-			return WeekIntervals.Count < 31;
+			return Parts.Count < 31;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
 		private void OnRemove()
 		{
-			SlideWeekInterval.WeeklyIntervalIDs.RemoveAt(SelectedWeekInterval.Index);
-			WeekIntervals.RemoveAt(WeekIntervals.Count - 1);
-			WeekIntervals.ForEach(item => item.Update());
+			Model.WeeklyIntervalIDs.RemoveAt(SelectedPart.Index);
+			Parts.RemoveAt(Parts.Count - 1);
+			Parts.ForEach(item => item.Update());
 			ServiceFactory.SaveService.SKDChanged = true;
-			if (SelectedWeekInterval == null)
-				SelectedWeekInterval = WeekIntervals.FirstOrDefault();
+			if (SelectedPart == null)
+				SelectedPart = Parts.FirstOrDefault();
 		}
 		private bool CanRemove()
 		{
-			return SelectedWeekInterval != null && WeekIntervals.Count > 1;
+			return SelectedPart != null && Parts.Count > 1;
 		}
 	}
 }

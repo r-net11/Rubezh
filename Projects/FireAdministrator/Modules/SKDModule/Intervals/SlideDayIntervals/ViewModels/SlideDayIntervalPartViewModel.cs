@@ -3,10 +3,11 @@ using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Linq;
+using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class SlideDayIntervalPartViewModel : BaseViewModel
+	public class SlideDayIntervalPartViewModel : BaseIntervalPartViewModel
 	{
 		private SlideDayIntervalsViewModel _slideDayIntervalsViewModel;
 		private SKDSlideDayInterval _slideDayInterval;
@@ -40,7 +41,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Update()
+		public override void Update()
 		{
 			Name = string.Format("{0}", Index + 1);
 			_selectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == _slideDayInterval.TimeIntervalIDs[Index]);
