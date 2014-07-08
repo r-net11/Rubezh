@@ -66,73 +66,93 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		public static SKDStates SKDGetStates()
+		#region Callback
+		public static List<GKProgressCallback> GKProgressCallbacks = new List<GKProgressCallback>();
+
+		public static void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
-			var skdStates = new SKDStates();
-			foreach (var device in SKDManager.Devices)
+			var progressCallback = GKProgressCallbacks.FirstOrDefault(x => x.UID == progressCallbackUID);
+			if (progressCallback != null)
 			{
-				skdStates.DeviceStates.Add(device.State);
+				progressCallback.IsCanceled = true;
+				progressCallback.CancelizationDateTime = DateTime.Now;
+				StopProgress(progressCallback);
+				//AddGKMessage(GlobalEventNameEnum.Отмена_операции, progressCallback.Title, null, userName, true);
 			}
-			foreach (var zone in SKDManager.Zones)
+		}
+
+		public static GKProgressCallback StartProgress(string title, string text, int stepCount, bool canCancel, GKProgressClientType progressClientType)
+		{
+			var gkProgressCallback = new GKProgressCallback()
 			{
-				skdStates.ZoneStates.Add(zone.State);
-			}
-			return skdStates;
+				GKProgressCallbackType = GKProgressCallbackType.Start,
+				Title = title,
+				Text = text,
+				StepCount = stepCount,
+				CanCancel = canCancel,
+				GKProgressClientType = progressClientType
+			};
+			GKProgressCallbacks.Add(gkProgressCallback);
+			OnGKCallbackResult(gkProgressCallback);
+			return gkProgressCallback;
 		}
 
-		public static OperationResult<bool> OpenDoor(Guid deviceUID)
+		public static void DoProgress(string text, GKProgressCallback progressCallback)
 		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
+			var gkProgressCallback = new GKProgressCallback()
 			{
-				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
-
-				var result = deviceProcessor.Wrapper.OpenDoor(deviceProcessor.Device.IntAddress);
-				if (result)
-					return new OperationResult<bool>() { Result = true };
-				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
-			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+				UID = progressCallback.UID,
+				LastActiveDateTime = DateTime.Now,
+				GKProgressCallbackType = GKProgressCallbackType.Progress,
+				Title = progressCallback.Title,
+				Text = text,
+				StepCount = progressCallback.StepCount,
+				CanCancel = progressCallback.CanCancel,
+				GKProgressClientType = progressCallback.GKProgressClientType
+			};
+			OnGKCallbackResult(gkProgressCallback);
 		}
 
-		public static OperationResult<bool> CloseDoor(Guid deviceUID)
+		public static void StopProgress(GKProgressCallback progressCallback)
 		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
+			var gkProgressCallback = new GKProgressCallback()
 			{
-				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+				UID = progressCallback.UID,
+				LastActiveDateTime = DateTime.Now,
+				GKProgressCallbackType = GKProgressCallbackType.Stop,
+			};
+			GKProgressCallbacks.Remove(gkProgressCallback);
+			OnGKCallbackResult(gkProgressCallback);
+		}
 
-				var result = deviceProcessor.Wrapper.CloseDoor(deviceProcessor.Device.IntAddress);
-				if (result)
-					return new OperationResult<bool>() { Result = true };
-				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+		static void OnGKCallbackResult(GKProgressCallback gkProgressCallback)
+		{
+			GKProgressCallbacks.RemoveAll(x => x.IsCanceled && (DateTime.Now - x.CancelizationDateTime).TotalMinutes > 5);
+			if (gkProgressCallback.GKProgressCallbackType == GKProgressCallbackType.Stop || !gkProgressCallback.IsCanceled)
+			{
+				if (GKProgressCallbackEvent != null)
+					GKProgressCallbackEvent(gkProgressCallback);
 			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}
+		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 
-		public static CardWriter AddCard(SKDCard skdCard)
+		public static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
-			var cardWriter = new CardWriter();
-			var result = cardWriter.AddCard(skdCard);
-			return cardWriter;
+			if (gkCallbackResult.JournalItems.Count +
+				gkCallbackResult.GKStates.DeviceStates.Count +
+				gkCallbackResult.GKStates.ZoneStates.Count +
+				gkCallbackResult.GKStates.DirectionStates.Count +
+				gkCallbackResult.GKStates.PumpStationStates.Count +
+				gkCallbackResult.GKStates.MPTStates.Count +
+				gkCallbackResult.GKStates.DelayStates.Count +
+				gkCallbackResult.GKStates.PimStates.Count +
+				gkCallbackResult.GKStates.DeviceMeasureParameters.Count > 0)
+			{
+				if (GKCallbackResultEvent != null)
+					GKCallbackResultEvent(gkCallbackResult);
+			}
 		}
-
-		public static CardWriter EditCard(SKDCard skdCard)
-		{
-			var cardWriter = new CardWriter();
-			//var result = cardWriter.AddCard(skdCard);
-			return cardWriter;
-		}
-
-		public static CardWriter DeleteCard(SKDCard skdCard)
-		{
-			var cardWriter = new CardWriter();
-			//var result = cardWriter.AddCard(skdCard);
-			return cardWriter;
-		}
+		public static event Action<GKCallbackResult> GKCallbackResultEvent;
+		#endregion
 	}
 }

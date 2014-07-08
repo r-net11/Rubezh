@@ -65,6 +65,7 @@
     <Compile Include="SDK\Wrapper.TimeShedules.cs" />
     <Compile Include="SDK\Wrapper.Watcher.cs" />
     <Compile Include="SDK\Wrapper.Control.cs" />
+    <Compile Include="Processor.Monitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">

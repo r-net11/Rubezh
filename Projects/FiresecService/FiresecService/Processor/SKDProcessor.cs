@@ -4,6 +4,7 @@ using Common;
 using FiresecAPI.SKD;
 using FiresecService.Processor;
 using SKDDriver;
+using FiresecAPI;
 
 namespace FiresecService
 {
@@ -35,10 +36,13 @@ namespace FiresecService
 				{
 					deviceProcessor.Wrapper.NewJournalItem -= new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewJournalItem);
 					deviceProcessor.Wrapper.NewJournalItem += new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewJournalItem);
-
-					ChinaSKDDriver.Processor.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
-					ChinaSKDDriver.Processor.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
 				}
+
+				ChinaSKDDriver.Processor.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+				ChinaSKDDriver.Processor.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+
+				ChinaSKDDriver.Processor.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+				ChinaSKDDriver.Processor.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 			}
 			catch (Exception e)
 			{
@@ -68,6 +72,11 @@ namespace FiresecService
 		static void OnSKDCallbackResultEvent(SKDCallbackResult skdCallbackResult)
 		{
 			FiresecService.Service.FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
+		}
+
+		static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
+		{
+			FiresecService.Service.FiresecService.NotifyGKProgress(gkProgressCallback);
 		}
 
 		public static void SetNewConfig()

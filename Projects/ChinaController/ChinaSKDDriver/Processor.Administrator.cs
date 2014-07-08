@@ -6,7 +6,6 @@ using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecAPI;
 
-
 namespace ChinaSKDDriver
 {
 	public static partial class Processor
@@ -155,8 +154,10 @@ namespace ChinaSKDDriver
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
-				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+				//if (!deviceProcessor.IsConnected)
+				//    return new OperationResult<bool>("Нет связи с контроллером");
+
+				var progressCallback = Processor.StartProgress("Запись графиков работ в прибор " + deviceProcessor.Device.Name, "", 128, true, GKProgressClientType.Administrator);
 
 				for (int i = 1; i <= 128; i++)
 				{
@@ -193,10 +194,22 @@ namespace ChinaSKDDriver
 							timeShedules.Add(timeShedule);
 						}
 					}
-					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
+
+					if (progressCallback.IsCanceled)
+						return new OperationResult<bool>("Операция обновления прибора " + deviceProcessor.Device.Name + " отменена");
+					Processor.DoProgress("Запись графика " + i, progressCallback);
+
+					System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+					var result = true;
+					//var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
 					if (!result)
+					{
+						Processor.StopProgress(progressCallback);
 						return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					}
 				}
+
+				Processor.StopProgress(progressCallback);
 				return new OperationResult<bool>() { Result = true };
 			}
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");

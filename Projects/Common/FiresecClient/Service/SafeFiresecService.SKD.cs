@@ -216,6 +216,12 @@ namespace FiresecClient
 		#endregion
 
 		#region Devices
+
+		public void CancelSKDProgress(Guid progressCallbackUID, string userName)
+		{
+			SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID, userName), "CancelSKDProgress");
+		}
+
 		public OperationResult<SKDStates> SKDGetStates()
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetStates(); }, "SKDGetStates");
