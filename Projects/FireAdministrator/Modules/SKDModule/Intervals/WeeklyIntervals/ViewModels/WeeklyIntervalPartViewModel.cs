@@ -50,7 +50,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => SelectedTimeInterval);
 		}
 
-		private string IntToWeekDay(int dayNo)
+		public static string IntToWeekDay(int dayNo)
 		{
 			switch (dayNo)
 			{

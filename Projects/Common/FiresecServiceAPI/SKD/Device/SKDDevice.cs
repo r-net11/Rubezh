@@ -18,7 +18,6 @@ namespace FiresecAPI.SKD
 			Properties = new List<SKDProperty>();
 			PlanElementUIDs = new List<Guid>();
 			AllowMultipleVizualization = false;
-			SKDReaderProperty = new SKDReaderProperty();
 		}
 
 		public SKDDriver Driver { get; set; }
@@ -56,9 +55,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid ZoneUID { get; set; }
-
-		[DataMember]
-		public SKDReaderProperty SKDReaderProperty { get; set; }
 
 		[DataMember]
 		public SKDDoorConfiguration SKDDoorConfiguration { get; set; }

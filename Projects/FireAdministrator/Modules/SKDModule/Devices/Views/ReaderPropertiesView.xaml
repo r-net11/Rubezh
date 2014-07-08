@@ -5,36 +5,6 @@
 			 MinWidth="600" MinHeight="400">
 
 	<TabControl>
-		<TabItem Header="Основные">
-			<StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Время ожидания подтверждения при верификации" Foreground="White" Margin="2" />
-					<TextBox Text="{Binding VerificationTime}" Margin="2" />
-				</StackPanel>
-				<StackPanel DataContext="{Binding DUControl}">
-					<CheckBox Content="Подтверждение от ДУ в режиме контроль" IsChecked="{Binding IsDU}" Foreground="White" Margin="2" />
-					<StackPanel Visibility="{Binding IsDU, Converter={StaticResource BoolToVisibilityConverter}}">
-						<CheckBox Content="Верифицировать идентификаторы СОТРУДНИКОВ при проходе" IsChecked="{Binding IsEmployeeDU}" Foreground="White" Margin="2" />
-						<CheckBox Content="Верифицировать идентификаторы СОТРУДНИКОВ при проходе с НАРУШЕНИЕМ ВРЕМЕНИ" IsChecked="{Binding IsEmployeeDUTime}" Foreground="White" Margin="2" />
-						<CheckBox Content="Верифицировать идентификаторы СОТРУДНИКОВ при проходе с НАРУШЕНИЕМ ЗОНАЛЬНОСТИ" IsChecked="{Binding IsEmployeeDUZone}" Foreground="White" Margin="2" />
-						<CheckBox Content="Верифицировать идентификаторы ПОСЕТИТЕЛЕЙ при проходе" IsChecked="{Binding IsGuestDU}" Foreground="White" Margin="2" />
-						<CheckBox Content="Верифицировать идентификаторы ПОСЕТИТЕЛЕЙ при проходе с НАРУШЕНИЕМ ВРЕМЕНИ" IsChecked="{Binding IsGuestDUTime}" Foreground="White" Margin="2" />
-						<CheckBox Content="Верифицировать идентификаторы ПОСЕТИТЕЛЕЙ при проходе с НАРУШЕНИЕМ ЗОНАЛЬНОСТИ" IsChecked="{Binding IsGuestDUZone}" Foreground="White" Margin="2" />
-					</StackPanel>
-				</StackPanel>
-				<StackPanel DataContext="{Binding DUConversation}">
-					<CheckBox Content="Подтверждение от ДУ в режиме совещание" IsChecked="{Binding IsDU}" Foreground="White" Margin="2" />
-					<StackPanel Visibility="{Binding IsDU, Converter={StaticResource BoolToVisibilityConverter}}">
-						<CheckBox Content="Верифицировать идентификаторы СОТРУДНИКОВ при проходе" IsChecked="{Binding IsEmployeeDU}" Foreground="White" Margin="2" />
-						<CheckBox Content="Верифицировать идентификаторы СОТРУДНИКОВ при проходе с НАРУШЕНИЕМ ВРЕМЕНИ" IsChecked="{Binding IsEmployeeDUTime}" Foreground="White" Margin="2" />
-						<CheckBox Content="Верифицировать идентификаторы СОТРУДНИКОВ при проходе с НАРУШЕНИЕМ ЗОНАЛЬНОСТИ" IsChecked="{Binding IsEmployeeDUZone}" Foreground="White" Margin="2" />
-						<CheckBox Content="Верифицировать идентификаторы ПОСЕТИТЕЛЕЙ при проходе" IsChecked="{Binding IsGuestDU}" Foreground="White" Margin="2" />
-						<CheckBox Content="Верифицировать идентификаторы ПОСЕТИТЕЛЕЙ при проходе с НАРУШЕНИЕМ ВРЕМЕНИ" IsChecked="{Binding IsGuestDUTime}" Foreground="White" Margin="2" />
-						<CheckBox Content="Верифицировать идентификаторы ПОСЕТИТЕЛЕЙ при проходе с НАРУШЕНИЕМ ЗОНАЛЬНОСТИ" IsChecked="{Binding IsGuestDUZone}" Foreground="White" Margin="2" />
-					</StackPanel>
-				</StackPanel>
-			</StackPanel>
-		</TabItem>
 		<TabItem Header="Камера">
 			<StackPanel>
 				<StackPanel Orientation="Horizontal">

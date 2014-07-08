@@ -5,10 +5,10 @@ using SKDModule.Events;
 
 namespace SKDModule.Validation
 {
-	public class ZoneValidationError : ObjectValidationError<SKDZone, ShowSKDZoneEvent, Guid>
+	public class DoorValidationError : ObjectValidationError<Door, ShowSKDDoorEvent, Guid>
 	{
-		public ZoneValidationError(SKDZone zone, string error, ValidationErrorLevel level)
-			: base(zone, error, level)
+		public DoorValidationError(Door door, string error, ValidationErrorLevel level)
+			: base(door, error, level)
 		{
 		}
 
@@ -30,7 +30,7 @@ namespace SKDModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/Zone.png"; }
+			get { return "/Controls;component/Images/Door.png"; }
 		}
 	}
 }

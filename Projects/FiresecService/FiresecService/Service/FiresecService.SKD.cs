@@ -324,6 +324,24 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
+		public OperationResult<bool> SKDWriteAllTimeSheduleConfiguration()
+		{
+			var errors = "";
+			foreach (var device in SKDManager.Devices)
+			{
+				if (device.Driver.IsController)
+				{
+					AddSKDMessage(GlobalEventNameEnum.Запись_графиков_работы, device, UserName);
+					var result = ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(device.UID);
+					if (!result)
+						errors += "Не уалось записать конфигурурацию графиков в прибор " + device.Name + "\n";
+				}
+			}
+			if (string.IsNullOrEmpty(errors))
+				return new OperationResult<bool>() { Result = true };
+			else return new OperationResult<bool>(errors);
+		}
+
 		public OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);

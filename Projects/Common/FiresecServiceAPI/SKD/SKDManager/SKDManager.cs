@@ -125,6 +125,7 @@ namespace FiresecAPI.SKD
 			ClearAllReferences();
 			InitializeDevicesInZone();
 			InvalidateLockConfiguration();
+			InvalidateDoors();
 			InvalidateIntervals();
 		}
 
@@ -144,6 +145,7 @@ namespace FiresecAPI.SKD
 		{
 			foreach (var device in Devices)
 			{
+				InvalidateOneLockConfiguration(device);
 			}
 		}
 
@@ -192,6 +194,20 @@ namespace FiresecAPI.SKD
 				}
 				else
 					device.ZoneUID = Guid.Empty;
+			}
+		}
+
+		static void InvalidateDoors()
+		{
+			foreach (var door in SKDManager.Doors)
+			{
+				var inDevice = SKDManager.Devices.FirstOrDefault(x=>x.UID == door.InDeviceUID);
+				if (inDevice == null)
+					door.InDeviceUID = Guid.Empty;
+
+				var outDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == door.OutDeviceUID);
+				if (outDevice == null)
+					door.OutDeviceUID = Guid.Empty;
 			}
 		}
 

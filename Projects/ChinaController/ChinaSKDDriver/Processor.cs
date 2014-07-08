@@ -163,9 +163,12 @@ namespace ChinaSKDDriver
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
-				for (int i = 0; i < SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.Count; i++)
+				for (int i = 1; i <= 128; i++)
 				{
-					var weeklyInterval = SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals[i];
+					var weeklyInterval = SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == i);
+					if (weeklyInterval == null)
+						weeklyInterval = new SKDWeeklyInterval();
+
 					var timeShedules = new List<TimeShedule>();
 					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 					{

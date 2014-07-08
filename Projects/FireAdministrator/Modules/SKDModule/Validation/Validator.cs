@@ -12,6 +12,7 @@ namespace SKDModule.Validation
 			Errors = new List<IValidationError>();
 			ValidateDevices();
 			ValidateZones();
+			ValidateDoors();
 			ValidateTimeIntervals();
 			ValidateWeklyIntervals();
 			ValidateSlideDayIntervals();

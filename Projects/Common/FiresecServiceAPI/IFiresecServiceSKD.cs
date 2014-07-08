@@ -153,6 +153,9 @@ namespace FiresecAPI
 		OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID);
 
 		[OperationContract]
+		OperationResult<bool> SKDWriteAllTimeSheduleConfiguration();
+
+		[OperationContract]
 		OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName);
 
 		[OperationContract]

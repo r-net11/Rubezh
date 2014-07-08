@@ -255,6 +255,11 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDWriteTimeSheduleConfiguration(device.UID); }, "SKDWriteTimeSheduleConfiguration");
 		}
 
+		public OperationResult<bool> SKDWriteAllTimeSheduleConfiguration()
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDWriteAllTimeSheduleConfiguration(); }, "SKDWriteAllTimeSheduleConfiguration");
+		}
+
 		public OperationResult<bool> SKDUpdateFirmware(SKDDevice device, string fileName)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDUpdateFirmware(device.UID, fileName); }, "SKDUpdateFirmware");
