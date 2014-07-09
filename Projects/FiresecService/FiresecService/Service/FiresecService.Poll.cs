@@ -60,7 +60,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyNewJournalItems(List<FiresecAPI.SKD.JournalItem> journalItems)
+		public static void NotifyNewJournalItems(List<FiresecAPI.Journal.JournalItem> journalItems)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -70,7 +70,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifySKDArchiveCompleted(List<FiresecAPI.SKD.JournalItem> journallItems, Guid archivePortionUID)
+		public static void NotifySKDArchiveCompleted(List<FiresecAPI.Journal.JournalItem> journallItems, Guid archivePortionUID)
 		{
 			var callbackResult = new CallbackResult()
 			{

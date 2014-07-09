@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -20,20 +20,30 @@ namespace JournalModule.ViewModels
 
 		public void Initialize(SKDArchiveFilter filter)
 		{
-			foreach (var eventName in filter.EventNames)
+			AllFilters.ForEach(x => x.SetIsChecked(false));
+			foreach (var subsystemType in filter.JournalSubsystemTypes)
 			{
-				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.GlobalEventNameEnum == eventName);
+				var filterNameViewModel = RootFilters.FirstOrDefault(x => x.IsSubsystem && x.JournalSubsystemType == subsystemType);
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
 				}
 			}
-			foreach (var subsystemType in filter.SubsystemTypes)
+			foreach (var journalObjectType in filter.JournalObjectTypes)
 			{
-				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.IsSubsystem && x.SubsystemType == subsystemType);
+				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.IsObjectGroup && x.JournalObjectType == journalObjectType);
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
+				}
+			}
+			foreach (var uid in filter.ObjectUIDs)
+			{
+				if (uid != Guid.Empty)
+				{
+					var filterNameViewModel = AllFilters.FirstOrDefault(x => x.UID == uid);
+					if (filterNameViewModel != null)
+						filterNameViewModel.IsChecked = true;
 				}
 			}
 		}
@@ -41,23 +51,34 @@ namespace JournalModule.ViewModels
 		public SKDArchiveFilter GetModel()
 		{
 			var filter = new SKDArchiveFilter();
-			foreach (var rootFilter in RootFilters)
+			foreach (var subsystemFilter in RootFilters)
 			{
-				if (rootFilter.IsChecked)
+				if (subsystemFilter.IsChecked)
 				{
-					filter.SubsystemTypes.Add(rootFilter.SubsystemType);
+					filter.JournalSubsystemTypes.Add(subsystemFilter.JournalSubsystemType);
 				}
 				else
 				{
-					foreach (var filterViewModel in rootFilter.Children)
+					foreach (var objectTypeFilter in subsystemFilter.Children)
 					{
-						if (filterViewModel.IsChecked)
+						if (objectTypeFilter.IsChecked)
 						{
-							filter.EventNames.Add(filterViewModel.GlobalEventNameEnum);
+							filter.JournalObjectTypes.Add(objectTypeFilter.JournalObjectType);
+						}
+						else
+						{
+							foreach (var filterViewModel in objectTypeFilter.GetAllChildren())
+							{
+								if (filterViewModel.IsChecked && filterViewModel.UID != Guid.Empty)
+								{
+									filter.ObjectUIDs.Add(filterViewModel.UID);
+								}
+							}
 						}
 					}
 				}
 			}
+
 			return filter;
 		}
 
@@ -81,95 +102,94 @@ namespace JournalModule.ViewModels
 			RootFilters = new ObservableCollection<FilterObjectViewModel>();
 			AllFilters = new List<FilterObjectViewModel>();
 
-			var gkViewModel = new FilterObjectViewModel(GlobalSubsystemType.GK);
+			var gkViewModel = new FilterObjectViewModel(JournalSubsystemType.GK);
 			gkViewModel.IsExpanded = true;
 			RootFilters.Add(gkViewModel);
 
-			var gkDevicesViewModel = new FilterObjectViewModel(SKDJournalItemType.GKDevice);
-			gkViewModel.AddChild(gkDevicesViewModel);
+			var gkDevicesViewModel = new FilterObjectViewModel(JournalObjectType.GKDevice);
+			AddChild(gkViewModel, gkDevicesViewModel);
 			foreach (var childDevice in FiresecClient.XManager.DeviceConfiguration.RootDevice.Children)
 			{
 				AddGKDeviceInternal(childDevice, gkDevicesViewModel);
 			}
 
-			var gkZonesViewModel = new FilterObjectViewModel(SKDJournalItemType.GKZone);
-			gkViewModel.AddChild(gkZonesViewModel);
+			var gkZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKZone);
+			AddChild(gkViewModel, gkZonesViewModel);
 			foreach (var zone in FiresecClient.XManager.Zones)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(zone);
-				gkZonesViewModel.AddChild(filterObjectViewModel);
+				AddChild(gkZonesViewModel, filterObjectViewModel);
 			}
 
-			var gkDirectionsViewModel = new FilterObjectViewModel(SKDJournalItemType.GKDirection);
-			gkViewModel.AddChild(gkDirectionsViewModel);
+			var gkDirectionsViewModel = new FilterObjectViewModel(JournalObjectType.GKDirection);
+			AddChild(gkViewModel, gkDirectionsViewModel);
 			foreach (var direction in FiresecClient.XManager.Directions)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(direction);
-				gkDirectionsViewModel.AddChild(filterObjectViewModel);
+				AddChild(gkDirectionsViewModel, filterObjectViewModel);
 			}
 
-			var gkMPTsViewModel = new FilterObjectViewModel(SKDJournalItemType.GKMPT);
-			gkViewModel.AddChild(gkMPTsViewModel);
+			var gkMPTsViewModel = new FilterObjectViewModel(JournalObjectType.GKMPT);
+			AddChild(gkViewModel, gkMPTsViewModel);
 			foreach (var mpt in FiresecClient.XManager.MPTs)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(mpt);
-				gkMPTsViewModel.AddChild(filterObjectViewModel);
+				AddChild(gkMPTsViewModel, filterObjectViewModel);
 			}
 
-			var gkPumpStationsViewModel = new FilterObjectViewModel(SKDJournalItemType.GKPumpStation);
-			gkViewModel.AddChild(gkPumpStationsViewModel);
+			var gkPumpStationsViewModel = new FilterObjectViewModel(JournalObjectType.GKPumpStation);
+			AddChild(gkViewModel, gkPumpStationsViewModel);
 			foreach (var pumpStation in FiresecClient.XManager.PumpStations)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(pumpStation);
-				gkPumpStationsViewModel.AddChild(filterObjectViewModel);
+				AddChild(gkPumpStationsViewModel, filterObjectViewModel);
 			}
 
-			var gkDelaysViewModel = new FilterObjectViewModel(SKDJournalItemType.GKDelay);
-			gkViewModel.AddChild(gkDelaysViewModel);
+			var gkDelaysViewModel = new FilterObjectViewModel(JournalObjectType.GKDelay);
+			AddChild(gkViewModel, gkDelaysViewModel);
 			foreach (var delay in FiresecClient.XManager.Delays)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(delay);
-				gkDelaysViewModel.AddChild(filterObjectViewModel);
+				AddChild(gkDelaysViewModel, filterObjectViewModel);
 			}
 
-			var skdViewModel = new FilterObjectViewModel(GlobalSubsystemType.SKD);
+			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD);
 			skdViewModel.IsExpanded = true;
 			RootFilters.Add(skdViewModel);
 
-			var skdDevicesViewModel = new FilterObjectViewModel(SKDJournalItemType.SKDDevice);
-			skdViewModel.AddChild(skdDevicesViewModel);
+			var skdDevicesViewModel = new FilterObjectViewModel(JournalObjectType.SKDDevice);
+			AddChild(skdViewModel, skdDevicesViewModel);
 			foreach (var childDevice in SKDManager.SKDConfiguration.RootDevice.Children)
 			{
 				AddSKDDeviceInternal(childDevice, skdDevicesViewModel);
 			}
 
-			var skdZonesViewModel = new FilterObjectViewModel(SKDJournalItemType.SKDZone);
-			skdViewModel.AddChild(skdZonesViewModel);
+			var skdZonesViewModel = new FilterObjectViewModel(JournalObjectType.SKDZone);
+			AddChild(skdViewModel, skdZonesViewModel);
 			foreach (var zone in SKDManager.Zones)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(zone);
-				skdZonesViewModel.AddChild(filterObjectViewModel);
+				AddChild(skdZonesViewModel, filterObjectViewModel);
 			}
 
-			var videoViewModel = new FilterObjectViewModel(GlobalSubsystemType.Video);
+			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video);
 			videoViewModel.IsExpanded = true;
 			RootFilters.Add(videoViewModel);
 
-			var videoDevicesViewModel = new FilterObjectViewModel(SKDJournalItemType.VideoDevice);
-			videoViewModel.AddChild(videoDevicesViewModel);
+			var videoDevicesViewModel = new FilterObjectViewModel(JournalObjectType.VideoDevice);
+			AddChild(videoViewModel, videoDevicesViewModel);
 			foreach (var camera in FiresecClient.FiresecManager.SystemConfiguration.Cameras)
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(camera);
-				videoDevicesViewModel.AddChild(filterObjectViewModel);
+				AddChild(videoDevicesViewModel, filterObjectViewModel);
 			}
-
 		}
 
 		FilterObjectViewModel AddGKDeviceInternal(FiresecAPI.GK.XDevice device, FilterObjectViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new FilterObjectViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.AddChild(deviceViewModel);
+				AddChild(parentDeviceViewModel, deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 			{
@@ -185,13 +205,19 @@ namespace JournalModule.ViewModels
 		{
 			var deviceViewModel = new FilterObjectViewModel(device);
 			if (parentDeviceViewModel != null)
-				parentDeviceViewModel.AddChild(deviceViewModel);
+				AddChild(parentDeviceViewModel, deviceViewModel);
 
 			foreach (var childDevice in device.Children)
 			{
 				AddSKDDeviceInternal(childDevice, deviceViewModel);
 			}
 			return deviceViewModel;
+		}
+
+		void AddChild(FilterObjectViewModel parentDeviceViewModel, FilterObjectViewModel childDeviceViewModel)
+		{
+			parentDeviceViewModel.AddChild(childDeviceViewModel);
+			AllFilters.Add(childDeviceViewModel);
 		}
 	}
 }

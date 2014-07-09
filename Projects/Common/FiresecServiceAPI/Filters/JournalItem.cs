@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 using FiresecAPI.GK;
+using FiresecAPI.SKD;
 
-namespace FiresecAPI.SKD
+namespace FiresecAPI.Journal
 {
 	[DataContract]
 	public class JournalItem : SKDModelBase
@@ -12,7 +13,7 @@ namespace FiresecAPI.SKD
 		{
 			DeviceDateTime = DateTime.Now;
 			SystemDateTime = DateTime.Now;
-			State = XStateClass.Norm;
+			StateClass = XStateClass.Norm;
 		}
 
 		[DataMember]
@@ -22,10 +23,7 @@ namespace FiresecAPI.SKD
 		public DateTime DeviceDateTime { get; set; }
 		
 		[DataMember]
-		public SubsystemType SubsystemType { get; set; }
-		
-		[DataMember]
-		public GlobalEventNameEnum Name { get; set; }
+		public JournalEventNameType JournalEventNameType { get; set; }
 
 		[DataMember]
 		public EventDescription Description { get; set; }
@@ -37,16 +35,19 @@ namespace FiresecAPI.SKD
 		public string DescriptionText { get; set; }
 
 		[DataMember]
-		public XStateClass State { get; set; }
+		public XStateClass StateClass { get; set; }
 
 		[DataMember]
-		public ObjectType ObjectType { get; set; }
+		public JournalSubsystemType JournalSubsystemType { get; set; }
 
 		[DataMember]
-		public string ObjectName { get; set; }
+		public JournalObjectType JournalObjectType { get; set; }
 
 		[DataMember]
 		public Guid ObjectUID { get; set; }
+
+		[DataMember]
+		public string ObjectName { get; set; }
 
 		[DataMember]
 		public string UserName { get; set; }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 
 namespace FiresecAPI.GK
 {
@@ -25,7 +25,7 @@ namespace FiresecAPI.GK
 		public int? GKJournalRecordNo { get; set; }
 
 		[DataMember]
-		public GlobalEventNameEnum GlobalEventNameType { get; set; }
+		public JournalEventNameType JournalEventNameType { get; set; }
 		[DataMember]
 		public string Name { get; set; }
 		[DataMember]

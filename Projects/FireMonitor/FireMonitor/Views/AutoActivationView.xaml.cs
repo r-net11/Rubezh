@@ -71,7 +71,7 @@ namespace FireMonitor.Views
 			OnPropertyChanged("IsPlansAutoActivation");
 		}
 
-		void OnNewJournalItem(List<FiresecAPI.SKD.JournalItem> journalItems)
+		void OnNewJournalItem(List<FiresecAPI.Journal.JournalItem> journalItems)
 		{
 			if (IsAutoActivation)
 			{

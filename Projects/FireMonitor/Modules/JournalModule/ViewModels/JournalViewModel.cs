@@ -43,7 +43,7 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public void OnNewJournalItems(List<JournalItem> journalItems)
+		public void OnNewJournalItems(List<FiresecAPI.Journal.JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{

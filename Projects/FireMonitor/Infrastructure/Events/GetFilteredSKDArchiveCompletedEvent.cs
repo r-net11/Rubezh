@@ -2,6 +2,7 @@
 using FiresecAPI.SKD;
 using Microsoft.Practices.Prism.Events;
 using System;
+using FiresecAPI.Journal;
 
 namespace Infrastructure.Events
 {

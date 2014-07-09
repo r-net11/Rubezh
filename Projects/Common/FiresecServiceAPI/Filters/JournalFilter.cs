@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 
-namespace FiresecAPI
+namespace FiresecAPI.Journal
 {
 	[DataContract]
-	public class SKDJournalFilter : FilterBase
+	public class JournalFilter : FilterBase
 	{
-		public SKDJournalFilter()
+		public JournalFilter()
 		{
 			UID = Guid.NewGuid();
 			SystemDateTime = new DateTimePeriod();
 			DeviceDateTime = new DateTimePeriod();
-			EventNames = new List<GlobalEventNameEnum>();
+			JournalEventNameTypes = new List<JournalEventNameType>();
+			JournalSubsystemTypes = new List<JournalSubsystemType>();
 			DeviceUIDs = new List<Guid>();
 		}
 
@@ -35,7 +36,10 @@ namespace FiresecAPI
 		public DateTimePeriod DeviceDateTime { get; set; }
 
 		[DataMember]
-		public List<GlobalEventNameEnum> EventNames { get; set; }
+		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
+
+		[DataMember]
+		public List<JournalSubsystemType> JournalSubsystemTypes { get; set; }
 
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }

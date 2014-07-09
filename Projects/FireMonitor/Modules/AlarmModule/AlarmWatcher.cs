@@ -140,11 +140,11 @@ namespace AlarmModule
 			return alarmType;
 		}
 
-		void OnNewJournalItems(List<JournalItem> journalItems)
+		void OnNewJournalItems(List<FiresecAPI.Journal.JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.State == FiresecAPI.GK.XStateClass.Fire2 && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+				if (journalItem.StateClass == FiresecAPI.GK.XStateClass.Fire2 && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
 				{
 					var instructionViewModel = new InstructionViewModel(null, null, AlarmType.Fire);
 					if (instructionViewModel.HasContent)

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ChinaSKDDriver;
 using FiresecAPI;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
 
@@ -72,13 +72,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		#region Journal
-		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
-		{
-			return SKDDatabaseService.JournalItemTranslator.Get(filter);
-		}
-		#endregion
-
 		#region Card
 		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
 		{
@@ -86,7 +79,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult AddCard(SKDCard item)
 		{
-			AddSKDMessage(GlobalEventNameEnum.Добавление_карты, null, UserName);
+			AddSKDMessage(JournalEventNameType.Добавление_карты, null, UserName);
 			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
 			var cardWriter = ChinaSKDDriver.Processor.AddCard(item);
 			var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
@@ -96,7 +89,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult EditCard(SKDCard item)
 		{
-			AddSKDMessage(GlobalEventNameEnum.Редактирование_карты, null, UserName);
+			AddSKDMessage(JournalEventNameType.Редактирование_карты, null, UserName);
 			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
 			var cardWriter = ChinaSKDDriver.Processor.EditCard(item);
 			var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
@@ -115,7 +108,7 @@ namespace FiresecService.Service
 			item.StopReason = reason;
 			item.StartDate = DateTime.Now;
 			item.EndDate = DateTime.Now;
-			AddSKDMessage(GlobalEventNameEnum.Удаление_карты, null, UserName);
+			AddSKDMessage(JournalEventNameType.Удаление_карты, null, UserName);
 			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
 			var cardWriter = ChinaSKDDriver.Processor.DeleteCard(item);
 			var pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(item.UID, GetFailedControllerUIDs(cardWriter));
@@ -252,7 +245,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Запрос_информации_об_устройстве, device, UserName);
+				AddSKDMessage(JournalEventNameType.Запрос_информации_об_устройстве, device, UserName);
 				return ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID);
 			}
 			return new OperationResult<SKDDeviceInfo>("Устройство не найдено в конфигурации");
@@ -263,7 +256,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Синхронизация_времени, device, UserName);
+				AddSKDMessage(JournalEventNameType.Синхронизация_времени, device, UserName);
 				return ChinaSKDDriver.Processor.SyncronyseTime(deviceUID);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -274,7 +267,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Запрос_пароля, device, UserName);
+				AddSKDMessage(JournalEventNameType.Запрос_пароля, device, UserName);
 				return ChinaSKDDriver.Processor.GetPassword(deviceUID);
 			}
 			return new OperationResult<string>("Устройство не найдено в конфигурации");
@@ -285,7 +278,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Установка_пароля, device, UserName);
+				AddSKDMessage(JournalEventNameType.Установка_пароля, device, UserName);
 				return ChinaSKDDriver.Processor.SetPassword(deviceUID, password);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -296,7 +289,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Сброс_Контроллера, device, UserName);
+				AddSKDMessage(JournalEventNameType.Сброс_Контроллера, device, UserName);
 				return ChinaSKDDriver.Processor.ResetController(deviceUID);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -307,7 +300,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Перезагрузка_Контроллера, device, UserName);
+				AddSKDMessage(JournalEventNameType.Перезагрузка_Контроллера, device, UserName);
 				return ChinaSKDDriver.Processor.RebootController(deviceUID);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -318,7 +311,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Запись_графиков_работы, device, UserName);
+				AddSKDMessage(JournalEventNameType.Запись_графиков_работы, device, UserName);
 				return ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(deviceUID);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -331,7 +324,7 @@ namespace FiresecService.Service
 			{
 				if (device.Driver.IsController)
 				{
-					AddSKDMessage(GlobalEventNameEnum.Запись_графиков_работы, device, UserName);
+					AddSKDMessage(JournalEventNameType.Запись_графиков_работы, device, UserName);
 					var result = ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(device.UID);
 					if (result.HasError)
 						errors += result.Error + " (" + device.Name + ")\n";
@@ -347,7 +340,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Обновление_ПО_Контроллера, device, UserName);
+				AddSKDMessage(JournalEventNameType.Обновление_ПО_Контроллера, device, UserName);
 				return new OperationResult<bool>("Функция обновления ПО не доступна");
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -358,7 +351,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Запрос_конфигурации_двери, device, UserName);
+				AddSKDMessage(JournalEventNameType.Запрос_конфигурации_двери, device, UserName);
 				return ChinaSKDDriver.Processor.GetDoorConfiguration(deviceUID);
 			}
 			return new OperationResult<SKDDoorConfiguration>("Устройство не найдено в конфигурации");
@@ -369,7 +362,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Запись_конфигурации_двери, device, UserName);
+				AddSKDMessage(JournalEventNameType.Запись_конфигурации_двери, device, UserName);
 				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, doorConfiguration);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -380,7 +373,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Команда_на_открытие_двери, device, UserName);
+				AddSKDMessage(JournalEventNameType.Команда_на_открытие_двери, device, UserName);
 				return ChinaSKDDriver.Processor.OpenDoor(deviceUID);
 			}
 			else
@@ -394,7 +387,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDMessage(GlobalEventNameEnum.Команда_на_закрытие_двери, device, UserName);
+				AddSKDMessage(JournalEventNameType.Команда_на_закрытие_двери, device, UserName);
 				return ChinaSKDDriver.Processor.CloseDoor(deviceUID);
 			}
 			else

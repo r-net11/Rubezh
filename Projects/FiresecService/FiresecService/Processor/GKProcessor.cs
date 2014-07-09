@@ -5,7 +5,6 @@ using FiresecClient;
 using FiresecService.Processor;
 using GKProcessor;
 using Infrastructure.Common;
-using FiresecAPI.Events;
 
 namespace FiresecService
 {
@@ -62,7 +61,7 @@ namespace FiresecService
 					allHashesAreEqual = false;
 				}
 
-				GKProcessorManager.AddGKMessage(GlobalEventNameEnum.Применение_конфигурации, "", null, null);
+				GKProcessorManager.AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Применение_конфигурации, "", null, null);
 				//if (!allHashesAreEqual)
 				{
 					Stop();

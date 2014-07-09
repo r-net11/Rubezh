@@ -5,6 +5,7 @@ using FiresecAPI.SKD;
 using FiresecService.Processor;
 using SKDDriver;
 using FiresecAPI;
+using FiresecAPI.Journal;
 
 namespace FiresecService
 {
@@ -18,7 +19,7 @@ namespace FiresecService
 //                var journalItem = new JournalItem();
 //                journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
 //                journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
-//                journalItem.Name = FiresecAPI.Events.GlobalEventNameEnum.Проход;
+//                journalItem.JournalEventNameType = JournalEventNameType.Проход;
 //                journalItem.DescriptionText = "Description " + i;
 //                FiresecService.Service.FiresecService.AddGlobalJournalItem(journalItem);
 //            }
@@ -63,7 +64,7 @@ namespace FiresecService
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = skdJournalItem.SystemDateTime;
 			journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
-			journalItem.Name = skdJournalItem.EventNameType;
+			journalItem.JournalEventNameType = skdJournalItem.JournalEventNameType;
 			journalItem.DescriptionText = skdJournalItem.Description;
 			OnNewJournalItem(journalItem);
 		}

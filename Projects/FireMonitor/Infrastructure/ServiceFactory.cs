@@ -48,12 +48,12 @@ namespace Infrastructure
 
 			if (!IsSubcsribed)
 			{
-				SafeFiresecService.NewJournalItemEvent += new Action<FiresecAPI.SKD.JournalItem>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<FiresecAPI.SKD.JournalItem>() { x }); }); });
+				SafeFiresecService.NewJournalItemEvent += new Action<FiresecAPI.Journal.JournalItem>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<FiresecAPI.Journal.JournalItem>() { x }); }); });
 
 				FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
 				FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
 				FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
-				//FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<FiresecAPI.SKD.JournalItem>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
+				//FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<FiresecAPI.Journal.JournalItem>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
 			}
 			IsSubcsribed = true;
 		}
@@ -92,12 +92,12 @@ namespace Infrastructure
 			}
 		}
 
-		static void OnNewJournalRecordEvent(List<FiresecAPI.SKD.JournalItem> journalItems)
+		static void OnNewJournalRecordEvent(List<FiresecAPI.Journal.JournalItem> journalItems)
 		{
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
 		}
 
-		static void OnNewServerJournalRecordEvent(List<FiresecAPI.SKD.JournalItem> journalItems)
+		static void OnNewServerJournalRecordEvent(List<FiresecAPI.Journal.JournalItem> journalItems)
 		{
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
 		}

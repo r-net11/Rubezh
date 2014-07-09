@@ -2,7 +2,7 @@
 
 namespace FiresecAPI.Models
 {
-	public enum SubsystemType
+	public enum FS1SubsystemType
 	{
 		[DescriptionAttribute("Прочие")]
 		Other = 0,

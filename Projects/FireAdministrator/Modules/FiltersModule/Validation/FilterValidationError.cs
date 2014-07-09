@@ -3,6 +3,8 @@ using FiresecAPI.Automation;
 using Infrastructure.Common.Validation;
 using FiltersModule.Events;
 using FiresecAPI.Models;
+using FiresecAPI;
+using FiresecAPI.Journal;
 
 namespace FilterModule.Validation
 {
@@ -19,7 +21,7 @@ namespace FilterModule.Validation
 		}
 		protected override Guid Key
 		{
-			get { return Object.Uid; }
+			get { return Object.UID; }
 		}
 		public override string Address
 		{

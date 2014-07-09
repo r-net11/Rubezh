@@ -218,7 +218,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void OnNewJournal(List<JournalItem> journalItems)
+		public void OnNewJournal(List<FiresecAPI.Journal.JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{

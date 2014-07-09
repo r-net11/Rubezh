@@ -4,7 +4,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using GKProcessor;
 using Infrastructure.Common;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 
 namespace FiresecClient
 {
@@ -129,7 +129,7 @@ namespace FiresecClient
 			}
 		}
 
-		public OperationResult<JournalItem> GKReadJournalItem(XDevice device, int no)
+		public OperationResult<FiresecAPI.GK.JournalItem> GKReadJournalItem(XDevice device, int no)
 		{
 			if (IsGKAsAService)
 			{
@@ -357,19 +357,19 @@ namespace FiresecClient
 			}
 		}
 
-		public void GKAddMessage(GlobalEventNameEnum globalEventNameEnum, string description)
+		public void GKAddMessage(JournalEventNameType journalEventNameType, string description)
 		{
 			if (IsGKAsAService)
 			{
 			}
 			else
 			{
-				GKProcessorManager.AddGKMessage(globalEventNameEnum, description, null, FiresecManager.CurrentUser.Name, true);
+				GKProcessorManager.AddGKMessage(journalEventNameType, description, null, FiresecManager.CurrentUser.Name, true);
 			}
 		}
 
 		#region Journal
-		public List<JournalItem> GetGKTopLastJournalItems(int count)
+		public List<FiresecAPI.GK.JournalItem> GetGKTopLastJournalItems(int count)
 		{
 			if (IsGKAsAService)
 			{

@@ -3,6 +3,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
 using System;
 using FiresecAPI.Models;
+using FiresecAPI;
+using FiresecAPI.Journal;
 
 namespace FiltersModule.ViewModels
 {
@@ -57,7 +59,7 @@ namespace FiltersModule.ViewModels
 			{
 				if (filterNameViewModel.IsChecked)
 				{
-					Filter.EventNames.Add(filterNameViewModel.GlobalEventNameEnum);
+					Filter.JournalEventNameTypes.Add(filterNameViewModel.JournalEventNameType);
 				}
 			}
 

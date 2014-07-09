@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace FiresecAPI.Events
+namespace FiresecAPI.Journal
 {
-	public enum GlobalSubsystemType
+	public enum JournalSubsystemType
 	{
 		[Description("Система")]
 		System,

@@ -4,7 +4,7 @@ using System.Linq;
 using ChinaSKDDriverAPI;
 using FiresecAPI.SKD;
 using FiresecAPI;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 
 namespace ChinaSKDDriver
 {
@@ -77,7 +77,7 @@ namespace ChinaSKDDriver
 				StopProgress(progressCallback);
 
 				var journalItem = new JournalItem();
-				journalItem.Name = GlobalEventNameEnum.Отмена_операции;
+				journalItem.JournalEventNameType = JournalEventNameType.Отмена_операции;
 				journalItem.DescriptionText = progressCallback.Title;
 				journalItem.UserName = userName;
 				OnNewJournalItem(journalItem);

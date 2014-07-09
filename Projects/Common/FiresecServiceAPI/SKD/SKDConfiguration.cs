@@ -11,7 +11,6 @@ namespace FiresecAPI.SKD
 			Doors = new List<Door>();
 			Zones = new List<SKDZone>();
 			TimeIntervalsConfiguration = new TimeIntervalsConfiguration();
-			SKDSystemConfiguration = new SKDSystemConfiguration();
 		}
 
 		public List<SKDDevice> Devices { get; set; }
@@ -27,9 +26,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public TimeIntervalsConfiguration TimeIntervalsConfiguration { get; set; }
-
-		[DataMember]
-		public SKDSystemConfiguration SKDSystemConfiguration { get; set; }
 
 		public void Update()
 		{
@@ -61,12 +57,6 @@ namespace FiresecAPI.SKD
 				result = false;
 			}
 			result &= TimeIntervalsConfiguration.ValidateIntervals();
-
-			if (SKDSystemConfiguration == null)
-			{
-				SKDSystemConfiguration = new SKDSystemConfiguration();
-				result = false;
-			}
 
 			if (Doors == null)
 			{

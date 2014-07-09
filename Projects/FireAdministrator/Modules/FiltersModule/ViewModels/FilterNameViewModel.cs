@@ -5,21 +5,20 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 using System.Reflection;
-using FiresecAPI.GK;
 using FiresecAPI;
 
 namespace FiltersModule.ViewModels
 {
 	public class FilterNameViewModel : TreeNodeViewModel<FilterNameViewModel>
 	{
-		public FilterNameViewModel(GlobalEventNameEnum globalEventNameEnum)
+		public FilterNameViewModel(JournalEventNameType journalEventNameType)
 		{
 			AddCommand = new RelayCommand(OnAdd);
-			GlobalEventNameEnum = globalEventNameEnum;
+			JournalEventNameType = journalEventNameType;
 
-			FieldInfo fieldInfo = globalEventNameEnum.GetType().GetField(globalEventNameEnum.ToString());
+			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
 				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
@@ -27,9 +26,9 @@ namespace FiltersModule.ViewModels
 				{
 					EventDescriptionAttribute eventDescriptionAttribute = descriptionAttributes[0];
 					Name = eventDescriptionAttribute.Name;
-					SubsystemType = eventDescriptionAttribute.SubsystemType;
+					JournalSubsystemType = eventDescriptionAttribute.JournalSubsystemType;
 					StateClass = eventDescriptionAttribute.StateClass;
-					if (StateClass == XStateClass.Norm)
+					if (StateClass == FiresecAPI.GK.XStateClass.Norm)
 						ImageSource = null;
 
 					ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
@@ -38,18 +37,18 @@ namespace FiltersModule.ViewModels
 			IsSubsystem = false;
 		}
 
-		public FilterNameViewModel(GlobalSubsystemType subsystemType)
+		public FilterNameViewModel(JournalSubsystemType journalSubsystemType)
 		{
-			SubsystemType = subsystemType;
+			JournalSubsystemType = journalSubsystemType;
 			IsSubsystem = true;
-			Name = subsystemType.ToDescription();
+			Name = journalSubsystemType.ToDescription();
 		}
 
-		public GlobalEventNameEnum GlobalEventNameEnum { get; private set; }
+		public JournalEventNameType JournalEventNameType { get; private set; }
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
-		public XStateClass StateClass { get; private set; }
-		public GlobalSubsystemType SubsystemType { get; private set; }
+		public FiresecAPI.GK.XStateClass StateClass { get; private set; }
+		public JournalSubsystemType JournalSubsystemType { get; private set; }
 		public bool IsSubsystem { get; private set; }
 
 		bool _isChecked;

@@ -5,6 +5,7 @@ using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 using System.Threading;
 using System.Diagnostics;
+using FiresecAPI.Journal;
 
 namespace ChinaSKDDriver
 {
@@ -86,12 +87,12 @@ namespace ChinaSKDDriver
 			switch(wrapJournalItem.ExtraEventType)
 			{
 				case 1:
-					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Потеря_связи;
+					journalItem.JournalEventNameType = JournalEventNameType.Потеря_связи;
 					journalItem.DeviceDateTime = DateTime.Now;
 					return journalItem;
 
 				case 2:
-					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Восстановление_связи;
+					journalItem.JournalEventNameType = JournalEventNameType.Восстановление_связи;
 					journalItem.DeviceDateTime = DateTime.Now;
 					return journalItem;
 			}
@@ -100,7 +101,7 @@ namespace ChinaSKDDriver
 			switch(wrapJournalItem.EventType)
 			{
 				case DH_ALARM_ACCESS_CTL_EVENT:
-					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Проход;
+					journalItem.JournalEventNameType = JournalEventNameType.Проход;
 					var doorNo = wrapJournalItem.nDoor;
 					var eventType = wrapJournalItem.emEventType;
 					var isStatus = wrapJournalItem.bStatus;
@@ -112,29 +113,29 @@ namespace ChinaSKDDriver
 					break;
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
-					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Дверь_не_закрыта;
+					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;
 					doorNo = wrapJournalItem.nDoor;
 					var action = wrapJournalItem.nAction;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_BREAK_IN:
-					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Взлом;
+					journalItem.JournalEventNameType = JournalEventNameType.Взлом;
 					doorNo = wrapJournalItem.nDoor;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_REPEAT_ENTER:
-					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Повторный_проход;
+					journalItem.JournalEventNameType = JournalEventNameType.Повторный_проход;
 					doorNo = wrapJournalItem.nDoor;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_DURESS:
-					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Принуждение;
+					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
 					doorNo = wrapJournalItem.nDoor;
 					cardNo = CharArrayToString(wrapJournalItem.szCardNo);
 					break;
 
 				default:
-					journalItem.EventNameType = FiresecAPI.Events.GlobalEventNameEnum.Неизвестное_событие;
+					journalItem.JournalEventNameType = JournalEventNameType.Неизвестное_событие;
 					break;
 			}
 			journalItem.Description = description;

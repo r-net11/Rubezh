@@ -5,14 +5,14 @@ using System.Text;
 using System.Reflection;
 using FiresecAPI.GK;
 
-namespace FiresecAPI.Events
+namespace FiresecAPI.Journal
 {
 	public static class EventDescriptionAttributeHelper
 	{
-		public static string ToName(GlobalEventNameEnum globalEventNameEnum)
+		public static string ToName(JournalEventNameType journalEventNameType)
 		{
 			string name = null;
-			FieldInfo fieldInfo = globalEventNameEnum.GetType().GetField(globalEventNameEnum.ToString());
+			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
 				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
@@ -25,10 +25,10 @@ namespace FiresecAPI.Events
 			return name;
 		}
 
-		public static XStateClass ToStateClass(GlobalEventNameEnum globalEventNameEnum)
+		public static XStateClass ToStateClass(JournalEventNameType journalEventNameType)
 		{
 			XStateClass stateClass = XStateClass.No;
-			FieldInfo fieldInfo = globalEventNameEnum.GetType().GetField(globalEventNameEnum.ToString());
+			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
 				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
+using FiresecAPI.Journal;
 
 namespace FiresecClient
 {
@@ -70,7 +71,7 @@ namespace FiresecClient
 		#endregion
 
 		#region Journal
-		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
+		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(JournalFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<JournalItem>>>(() => FiresecService.GetSKDJournalItems(filter));
 		}

@@ -2,7 +2,7 @@
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 using FiresecAPI;
 
 namespace JournalModule.ViewModels
@@ -22,9 +22,9 @@ namespace JournalModule.ViewModels
 			JournalItem = journalItem;
 			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 
-			if (journalItem.Name != GlobalEventNameEnum.NULL)
+			if (journalItem.JournalEventNameType != JournalEventNameType.NULL)
 			{
-				Name = EventDescriptionAttributeHelper.ToName(journalItem.Name);
+				Name = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
 			}
 			else
 			{
@@ -39,7 +39,7 @@ namespace JournalModule.ViewModels
 			{
 				Description = journalItem.DescriptionText;
 			}
-			StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.Name);
+			StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 			ObjectImageSource = "/Controls;component/Images/blank.png";
 		}
 

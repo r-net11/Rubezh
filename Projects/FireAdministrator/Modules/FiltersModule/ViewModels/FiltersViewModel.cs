@@ -102,7 +102,7 @@ namespace FiltersModule.ViewModels
 		{
 			if (filterUid != Guid.Empty)
 			{
-				SelectedFilter = Filters.FirstOrDefault(item => item.Filter.Uid == filterUid);
+				SelectedFilter = Filters.FirstOrDefault(item => item.Filter.UID == filterUid);
 			}
 		}
 	}

@@ -8,11 +8,9 @@ namespace SKDModule.ViewModels
 		public VerificationItemViewModel()
 		{
 			PersonTypeName = "Сотрудник";
-			SKDSystemConfiguration = SKDManager.SKDConfiguration.SKDSystemConfiguration;
 		}
 
 		public string PersonTypeName { get; set; }
-		public SKDSystemConfiguration SKDSystemConfiguration { get; private set; }
 
 		public string EmployeeCardID { get; set; }
 		public string EmployeeName { get; set; }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 
-namespace FiresecAPI.SKD
+namespace FiresecAPI.Journal
 {
 	[DataContract]
 	public class SKDArchiveFilter
@@ -13,14 +13,14 @@ namespace FiresecAPI.SKD
 		{
 			StartDate = DateTime.Now.AddDays(-1);
 			EndDate = DateTime.Now;
-			JournalItemTypes = new List<SKDJournalItemType>();
+			JournalObjectTypes = new List<JournalObjectType>();
 			StateClasses = new List<XStateClass>();
 			Descriptions = new List<string>();
 			UseDeviceDateTime = false;
 
-			EventNames = new List<GlobalEventNameEnum>();
-			SubsystemTypes = new List<GlobalSubsystemType>();
-			DeviceUIDs = new List<Guid>();
+			JournalEventNameTypes = new List<JournalEventNameType>();
+			JournalSubsystemTypes = new List<JournalSubsystemType>();
+			ObjectUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -33,24 +33,25 @@ namespace FiresecAPI.SKD
 		public bool UseDeviceDateTime { get; set; }
 
 		[DataMember]
-		public List<SKDJournalItemType> JournalItemTypes { get; set; }
-
-		[DataMember]
-		public List<XStateClass> StateClasses { get; set; }
+		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
 
 		[DataMember]
 		public List<string> Descriptions { get; set; }
 
 		[DataMember]
-		public List<Guid> DeviceUIDs { get; set; }
+		public List<JournalSubsystemType> JournalSubsystemTypes { get; set; }
 
 		[DataMember]
-		public List<GlobalEventNameEnum> EventNames { get; set; }
+		public List<JournalObjectType> JournalObjectTypes { get; set; }
 
 		[DataMember]
-		public List<GlobalSubsystemType> SubsystemTypes { get; set; }
+		public List<Guid> ObjectUIDs { get; set; }
 
 		[DataMember]
 		public int PageSize { get; set; }
+
+
+		[DataMember]
+		public List<XStateClass> StateClasses { get; set; }
 	}
 }

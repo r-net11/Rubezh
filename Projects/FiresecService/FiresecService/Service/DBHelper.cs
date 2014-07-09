@@ -4,11 +4,10 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.Events;
-using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
-using JournalItem = FiresecAPI.SKD.JournalItem;
+using FiresecAPI;
 
 namespace FiresecService
 {
@@ -35,13 +34,43 @@ namespace FiresecService
 			}
 		}
 
-		public static JournalItem AddMessage(GlobalEventNameEnum globalEventNameEnum, string userName)
+		public static JournalItem AddMessage(JournalEventNameType journalEventNameType, string userName)
 		{
 			var result = new JournalItem();
-			result.Name = globalEventNameEnum;
+			result.JournalEventNameType = journalEventNameType;
 			result.UserName = userName;
 			Add(result);
 			return result;
+		}
+
+		public static List<JournalItem> GetSKDTopLastJournalItems(JournalFilter filter, int count)
+		{
+			var journalItems = new List<JournalItem>();
+			try
+			{
+				lock (locker)
+				{
+					var connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True;Language='English'";
+					using (var dataContext = new SqlConnection(connectionString))
+					{
+						var query = "SELECT TOP (" + count.ToString() + ") * FROM Journal ORDER BY SystemDate DESC";
+						var sqlCommand = new SqlCommand(query, dataContext);
+						dataContext.Open();
+						var reader = sqlCommand.ExecuteReader();
+						while (reader.Read())
+						{
+							var journalItem = ReadOneJournalItem(reader);
+							journalItems.Add(journalItem);
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecService.GetTopLast");
+			}
+			journalItems.Reverse();
+			return journalItems;
 		}
 
 		public static List<JournalItem> BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
@@ -115,16 +144,16 @@ namespace FiresecService
 				"\n " + dateTimeTypeString + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
 				"\n AND " + dateTimeTypeString + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
 
-			if (archiveFilter.EventNames.Count > 0)
+			if (archiveFilter.JournalEventNameTypes.Count > 0)
 			{
 				query += "\n and (";
 				int index = 0;
-				foreach (var eventName in archiveFilter.EventNames)
+				foreach (var journalEventNameType in archiveFilter.JournalEventNameTypes)
 				{
 					if (index > 0)
 						query += "\n OR ";
 					index++;
-					query += "Name = '" + eventName + "'";
+					query += "Name = '" + journalEventNameType + "'";
 				}
 				query += ")";
 			}
@@ -139,6 +168,48 @@ namespace FiresecService
 						query += "\n OR ";
 					index++;
 					query += "Description = '" + description + "'";
+				}
+				query += ")";
+			}
+
+			if (archiveFilter.JournalSubsystemTypes.Count > 0)
+			{
+				query += "\n AND (";
+				int index = 0;
+				foreach (var journalSubsystemType in archiveFilter.JournalSubsystemTypes)
+				{
+					if (index > 0)
+						query += "\n OR ";
+					index++;
+					query += "Subsystem = '" + (int)journalSubsystemType + "'";
+				}
+				query += ")";
+			}
+
+			if (archiveFilter.JournalObjectTypes.Count > 0)
+			{
+				query += "\n AND (";
+				int index = 0;
+				foreach (var journalObjectType in archiveFilter.JournalObjectTypes)
+				{
+					if (index > 0)
+						query += "\n OR ";
+					index++;
+					query += "ObjectType = '" + (int)journalObjectType + "'";
+				}
+				query += ")";
+			}
+
+			if (archiveFilter.ObjectUIDs.Count > 0)
+			{
+				query += "\n AND (";
+				int index = 0;
+				foreach (var objectUID in archiveFilter.ObjectUIDs)
+				{
+					if (index > 0)
+						query += "\n OR ";
+					index++;
+					query += "ObjectUID = '" + objectUID + "'";
 				}
 				query += ")";
 			}
@@ -163,8 +234,8 @@ namespace FiresecService
 			if (!reader.IsDBNull(reader.GetOrdinal("ObjectType")))
 			{
 				var intValue = (int)reader.GetValue(reader.GetOrdinal("ObjectType"));
-				if (Enum.IsDefined(typeof(ObjectType), intValue))
-					journalItem.ObjectType = (ObjectType)intValue;
+				if (Enum.IsDefined(typeof(JournalObjectType), intValue))
+					journalItem.JournalObjectType = (JournalObjectType)intValue;
 			}
 
 			if (!reader.IsDBNull(reader.GetOrdinal("ObjectUID")))
@@ -173,15 +244,15 @@ namespace FiresecService
 			if (!reader.IsDBNull(reader.GetOrdinal("State")))
 			{
 				var intValue = (int)reader.GetValue(reader.GetOrdinal("State"));
-				if (Enum.IsDefined(typeof(XStateClass), intValue))
-					journalItem.State = (XStateClass)intValue;
+				if (Enum.IsDefined(typeof(FiresecAPI.GK.XStateClass), intValue))
+					journalItem.StateClass = (FiresecAPI.GK.XStateClass)intValue;
 			}
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
 			{
 				var intValue = (int)reader.GetValue(reader.GetOrdinal("Subsystem"));
-				if (Enum.IsDefined(typeof(SubsystemType), intValue))
-					journalItem.SubsystemType = (SubsystemType)intValue;
+				if (Enum.IsDefined(typeof(JournalSubsystemType), intValue))
+					journalItem.JournalSubsystemType = (JournalSubsystemType)intValue;
 			}
 
 			if (!reader.IsDBNull(reader.GetOrdinal("UID")))
@@ -202,15 +273,15 @@ namespace FiresecService
 			if (!reader.IsDBNull(reader.GetOrdinal("Name")))
 			{
 				var intValue = (int)reader.GetValue(reader.GetOrdinal("Name"));
-				if (Enum.IsDefined(typeof(GlobalEventNameEnum), intValue))
-					journalItem.Name = (GlobalEventNameEnum)intValue;
+				if (Enum.IsDefined(typeof(JournalEventNameType), intValue))
+					journalItem.JournalEventNameType = (JournalEventNameType)intValue;
 			}
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
 			{
 				var intValue = (int)reader.GetValue(reader.GetOrdinal("Description"));
-				if (Enum.IsDefined(typeof(EventDescription), intValue))
-					journalItem.Description = (EventDescription)intValue;
+				if (Enum.IsDefined(typeof(FiresecAPI.GK.EventDescription), intValue))
+					journalItem.Description = (FiresecAPI.GK.EventDescription)intValue;
 			}
 
 			return journalItem;

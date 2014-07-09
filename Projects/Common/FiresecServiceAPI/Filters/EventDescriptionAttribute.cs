@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.GK;
 
-namespace FiresecAPI.Events
+namespace FiresecAPI.Journal
 {
 	public class EventDescriptionAttribute : Attribute
 	{
-		public EventDescriptionAttribute(GlobalSubsystemType subsystemType, string name, XStateClass stateClass)
+		public EventDescriptionAttribute(JournalSubsystemType journalSubsystemType, string name, XStateClass stateClass)
 		{
-			SubsystemType = subsystemType;
+			JournalSubsystemType = journalSubsystemType;
 			Name = name;
 			StateClass = stateClass;
 		}
 
-		public GlobalSubsystemType SubsystemType { get; set; }
+		public JournalSubsystemType JournalSubsystemType { get; set; }
 		public string Name { get; set; }
 		public XStateClass StateClass { get; set; }
 	}

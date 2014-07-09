@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
+using FiresecAPI.Journal;
 
 namespace FiresecAPI
 {
@@ -17,7 +18,7 @@ namespace FiresecAPI
 		public CallbackResultType CallbackResultType { get; set; }
 
 		[DataMember]
-		public List<FiresecAPI.SKD.JournalItem> GlobalJournalItems { get; set; }
+		public List<FiresecAPI.Journal.JournalItem> GlobalJournalItems { get; set; }
 
 		[DataMember]
 		public GKCallbackResult GKCallbackResult { get; set; }

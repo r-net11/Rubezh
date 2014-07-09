@@ -5,7 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 
 namespace JournalModule.ViewModels
 {
@@ -82,6 +82,15 @@ namespace JournalModule.ViewModels
 			archiveFilter.StartDate = StartDateTime.DateTime;
 			archiveFilter.EndDate = EndDateTime.DateTime;
 			archiveFilter.UseDeviceDateTime = UseDeviceDateTime;
+
+			var objectsFilter = FilterObjectsViewModel.GetModel();
+			foreach (var journalSubsystemTypes in objectsFilter.JournalSubsystemTypes)
+			{
+				if (!archiveFilter.JournalSubsystemTypes.Contains(journalSubsystemTypes))
+					archiveFilter.JournalSubsystemTypes.Add(journalSubsystemTypes);
+			}
+			archiveFilter.JournalObjectTypes = objectsFilter.JournalObjectTypes;
+			archiveFilter.ObjectUIDs = objectsFilter.ObjectUIDs;
 			return archiveFilter;
 		}
 

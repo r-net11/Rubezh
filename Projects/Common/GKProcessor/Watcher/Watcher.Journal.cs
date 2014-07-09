@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
-using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -39,7 +38,7 @@ namespace GKProcessor
 			return journalParser.JournalItem.GKJournalRecordNo.Value;
 		}
 
-		JournalItem ReadJournal(int index)
+		FiresecAPI.GK.JournalItem ReadJournal(int index)
 		{
 			LastUpdateTime = DateTime.Now;
 			if (IsStopping)
@@ -61,7 +60,7 @@ namespace GKProcessor
 
 		void ReadAndPublish(int startIndex, int endIndex)
 		{
-			var journalItems = new List<JournalItem>();
+			var journalItems = new List<FiresecAPI.GK.JournalItem>();
 			for (int index = startIndex + 1; index <= endIndex; index++)
 			{
 				var journalItem = ReadJournal(index);
@@ -96,7 +95,7 @@ namespace GKProcessor
 						}
 					}
 
-					if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Перевод_в_технологический_режим || journalItem.GlobalEventNameType == GlobalEventNameEnum.Перевод_в_рабочий_режим)
+					if (journalItem.JournalEventNameType == FiresecAPI.Journal.JournalEventNameType.Перевод_в_технологический_режим || journalItem.JournalEventNameType == FiresecAPI.Journal.JournalEventNameType.Перевод_в_рабочий_режим)
 					{
 						MustCheckTechnologicalRegime = true;
 						LastTechnologicalRegimeCheckTime = DateTime.Now;
@@ -113,14 +112,14 @@ namespace GKProcessor
 			}
 		}
 
-		void ChangeJournalOnDevice(BaseDescriptor descriptor, JournalItem journalItem)
+		void ChangeJournalOnDevice(BaseDescriptor descriptor, FiresecAPI.GK.JournalItem journalItem)
 		{
 			if (descriptor.Device != null)
 			{
 				var device = descriptor.Device;
 				if (device.DriverType == XDriverType.AM1_T)
 				{
-					if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Сработка_2)
+					if (journalItem.JournalEventNameType == FiresecAPI.Journal.JournalEventNameType.Сработка_2)
 					{
 						var property = device.Properties.FirstOrDefault(x => x.Name == "OnMessage");
 						if (property != null)
@@ -128,7 +127,7 @@ namespace GKProcessor
 							journalItem.Description = property.StringValue;
 						}
 					}
-					if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Норма)
+					if (journalItem.JournalEventNameType == FiresecAPI.Journal.JournalEventNameType.Норма)
 					{
 						var property = device.Properties.FirstOrDefault(x => x.Name == "NormMessage");
 						if (property != null)
@@ -163,14 +162,14 @@ namespace GKProcessor
 
 		void CheckServiceRequired(XBase xBase, JournalItem journalItem)
 		{
-			if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Запыленность || journalItem.GlobalEventNameType == GlobalEventNameEnum.Запыленность_устранена)
+			if (journalItem.JournalEventNameType == FiresecAPI.Journal.JournalEventNameType.Запыленность || journalItem.JournalEventNameType == FiresecAPI.Journal.JournalEventNameType.Запыленность_устранена)
 			{
 				if (xBase is XDevice)
 				{
 					var device = xBase as XDevice;
-					if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Запыленность)
+					if (journalItem.JournalEventNameType == FiresecAPI.Journal.JournalEventNameType.Запыленность)
 						device.InternalState.IsService = true;
-					if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Запыленность_устранена)
+					if (journalItem.JournalEventNameType == FiresecAPI.Journal.JournalEventNameType.Запыленность_устранена)
 						device.InternalState.IsService = false;
 				}
 			}
