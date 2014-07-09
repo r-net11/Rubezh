@@ -42,6 +42,9 @@ namespace FiresecAPI.Events
 		[EventDescription(GlobalSubsystemType.System, "Ошибка инициализации мониторинга", XStateClass.Unknown)]
 		Ошибка_инициализации_мониторинга,
 
+		[EventDescription(GlobalSubsystemType.System, "Отмена операции", XStateClass.Info)]
+		Отмена_операции,
+
 		[EventDescription(GlobalSubsystemType.GK, "Обновление ПО прибора", XStateClass.Info)]
 		Обновление_ПО_прибора,
 
@@ -101,9 +104,6 @@ namespace FiresecAPI.Events
 
 		[EventDescription(GlobalSubsystemType.GK, "Применение конфигурации", XStateClass.Info)]
 		Применение_конфигурации,
-
-		[EventDescription(GlobalSubsystemType.GK, "Отмена операции", XStateClass.Info)]
-		Отмена_операции,
 
 		[EventDescription(GlobalSubsystemType.GK, "ГК в технологическом режиме", XStateClass.TechnologicalRegime)]
 		ГК_в_технологическом_режиме,

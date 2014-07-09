@@ -157,7 +157,7 @@ namespace ChinaSKDDriver
 				//if (!deviceProcessor.IsConnected)
 				//    return new OperationResult<bool>("Нет связи с контроллером");
 
-				var progressCallback = Processor.StartProgress("Запись графиков работ в прибор " + deviceProcessor.Device.Name, "", 128, true, GKProgressClientType.Administrator);
+				var progressCallback = Processor.StartProgress("ТЕСТ. Запись графиков работ в прибор " + deviceProcessor.Device.Name, "", 128, true, GKProgressClientType.Administrator);
 
 				for (int i = 1; i <= 128; i++)
 				{
@@ -196,10 +196,10 @@ namespace ChinaSKDDriver
 					}
 
 					if (progressCallback.IsCanceled)
-						return new OperationResult<bool>("Операция обновления прибора " + deviceProcessor.Device.Name + " отменена");
-					Processor.DoProgress("Запись графика " + i, progressCallback);
+						return new OperationResult<bool>("ТЕСТ. Операция обновления прибора " + deviceProcessor.Device.Name + " отменена");
+					Processor.DoProgress("ТЕСТ. Запись графика " + i, progressCallback);
 
-					System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(200));
+					System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
 					var result = true;
 					//var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
 					if (!result)

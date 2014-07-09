@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using ChinaSKDDriverAPI;
-using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecAPI;
+using FiresecAPI.Events;
 
 namespace ChinaSKDDriver
 {
@@ -13,6 +13,12 @@ namespace ChinaSKDDriver
 		public static SKDConfiguration SKDConfiguration { get; private set; }
 		public static List<DeviceProcessor> DeviceProcessors { get; private set; }
 		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
+		public static event Action<JournalItem> NewJournalItem;
+		static void OnNewJournalItem(JournalItem journalItem)
+		{
+			if (NewJournalItem != null)
+				NewJournalItem(journalItem);
+		}
 
 		static Processor()
 		{
@@ -46,9 +52,9 @@ namespace ChinaSKDDriver
 			{
 				device.State = new SKDDeviceState();
 				device.State.UID = device.UID;
-				device.State.StateClass = XStateClass.Unknown;
+				device.State.StateClass = FiresecAPI.GK.XStateClass.Unknown;
 			}
-			skdConfiguration.RootDevice.State.StateClass = XStateClass.Norm;
+			skdConfiguration.RootDevice.State.StateClass = FiresecAPI.GK.XStateClass.Norm;
 
 			foreach (var device in skdConfiguration.RootDevice.Children)
 			{
@@ -77,7 +83,12 @@ namespace ChinaSKDDriver
 				progressCallback.IsCanceled = true;
 				progressCallback.CancelizationDateTime = DateTime.Now;
 				StopProgress(progressCallback);
-				//AddGKMessage(GlobalEventNameEnum.Отмена_операции, progressCallback.Title, null, userName, true);
+
+				var journalItem = new JournalItem();
+				journalItem.Name = GlobalEventNameEnum.Отмена_операции;
+				journalItem.DescriptionText = progressCallback.Title;
+				journalItem.UserName = userName;
+				OnNewJournalItem(journalItem);
 			}
 		}
 
@@ -136,7 +147,7 @@ namespace ChinaSKDDriver
 		}
 		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 
-		public static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
+		public static void OnGKCallbackResult(FiresecAPI.GK.GKCallbackResult gkCallbackResult)
 		{
 			if (gkCallbackResult.JournalItems.Count +
 				gkCallbackResult.GKStates.DeviceStates.Count +
@@ -152,7 +163,7 @@ namespace ChinaSKDDriver
 					GKCallbackResultEvent(gkCallbackResult);
 			}
 		}
-		public static event Action<GKCallbackResult> GKCallbackResultEvent;
+		public static event Action<FiresecAPI.GK.GKCallbackResult> GKCallbackResultEvent;
 		#endregion
 	}
 }

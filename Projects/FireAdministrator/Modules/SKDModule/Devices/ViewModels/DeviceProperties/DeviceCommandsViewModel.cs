@@ -65,14 +65,21 @@ namespace SKDModule.ViewModels
 			{
 				//if (ValidateConfiguration())
 				{
-					WriteTimeSheduleWithProgress();
-					//WriteTimeSheduleWithProgress();
+					var thread = new Thread(() =>
+					{
+						var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(SelectedDevice.Device);
 
-					//var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(SelectedDevice.Device);
-					//if (result.HasError)
-					//{
-					//    MessageBoxService.ShowError(result.Error);
-					//}
+						ApplicationService.Invoke(new Action(() =>
+						{
+							if (result.HasError)
+							{
+								LoadingService.Close();
+								MessageBoxService.ShowError(result.Error);
+							}
+						}));
+					});
+					thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
+					thread.Start();
 				}
 			}
 		}
@@ -81,40 +88,28 @@ namespace SKDModule.ViewModels
 			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}
 
-
-		void WriteTimeSheduleWithProgress()
-		{
-			var thread = new Thread(() =>
-			{
-				var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(SelectedDevice.Device);
-
-				ApplicationService.Invoke(new Action(() =>
-				{
-					if (result.HasError)
-					{
-						LoadingService.Close();
-						MessageBoxService.ShowError(result.Error);
-					}
-				}));
-			});
-			thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
-			thread.Start();
-		}
-
-
-
 		public RelayCommand WriteAllTimeSheduleConfigurationCommand { get; private set; }
 		void OnWriteAllTimeSheduleConfiguration()
 		{
 			if (CheckNeedSave(true))
 			{
-				if (ValidateConfiguration())
+				//if (ValidateConfiguration())
 				{
-					var result = FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration();
-					if (result.HasError)
+					var thread = new Thread(() =>
 					{
-						MessageBoxService.ShowError(result.Error);
-					}
+						var result = FiresecManager.FiresecService.SKDWriteAllTimeSheduleConfiguration();
+
+						ApplicationService.Invoke(new Action(() =>
+						{
+							if (result.HasError)
+							{
+								LoadingService.Close();
+								MessageBoxService.ShowError(result.Error);
+							}
+						}));
+					});
+					thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
+					thread.Start();
 				}
 			}
 		}
