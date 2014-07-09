@@ -15,6 +15,8 @@ namespace ChinaSKDDriver
 		public int LoginID { get; private set; }
 		public bool IsConnected { get; private set; }
 		Thread Thread;
+		bool IsStopping;
+		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 
 		public DeviceProcessor(SKDDevice device)
 		{
@@ -22,7 +24,7 @@ namespace ChinaSKDDriver
 			Wrapper = new Wrapper();
 		}
 
-		public void Run()
+		public void Start()
 		{
 			Device.State.StateClass = XStateClass.Unknown;
 			foreach (var child in Device.Children)
@@ -30,12 +32,29 @@ namespace ChinaSKDDriver
 				child.State.StateClass = XStateClass.Unknown;
 			}
 
-			Thread = new Thread(OnRun);
+			IsStopping = false;
+			AutoResetEvent = new AutoResetEvent(false);
+			Thread = new Thread(OnStart);
 			Thread.Start();
-			Wrapper.StartWatcher();
+			Wrapper.Start();
 		}
 
-		void OnRun()
+		public void Stop()
+		{
+			IsStopping = true;
+			if (AutoResetEvent != null)
+			{
+				AutoResetEvent.Set();
+				if (Thread != null)
+				{
+					Thread.Join(TimeSpan.FromSeconds(1));
+				}
+			}
+
+			Wrapper.Stop();
+		}
+
+		void OnStart()
 		{
 			while (true)
 			{
@@ -61,7 +80,13 @@ namespace ChinaSKDDriver
 						IsConnected = true;
 						return;
 					}
-					Thread.Sleep(TimeSpan.FromSeconds(5));
+
+					if (IsStopping)
+						return;
+					if (AutoResetEvent.WaitOne(TimeSpan.FromSeconds(5)))
+					{
+						return;
+					}
 				}
 				catch { }
 			}
@@ -70,7 +95,7 @@ namespace ChinaSKDDriver
 		public void Reconnect()
 		{
 			LoginID = 0;
-			Run();
+			Start();
 		}
 
 		public void Connect()

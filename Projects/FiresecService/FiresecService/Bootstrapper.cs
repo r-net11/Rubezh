@@ -47,7 +47,7 @@ namespace FiresecService
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
 				UILogger.Log("Создание конфигурации СКД");
-				SKDProcessor.Create();
+				SKDProcessor.Start();
 
 				UILogger.Log("Запуск автоматизации");
 				AutomationProcessor.Start();

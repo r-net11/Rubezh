@@ -10,9 +10,15 @@ namespace ChinaSKDDriver
 {
 	public static partial class Processor
 	{
-		public static SKDConfiguration SKDConfiguration { get; private set; }
 		public static List<DeviceProcessor> DeviceProcessors { get; private set; }
+
 		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
+		public static void DoCallback(SKDCallbackResult callbackResult)
+		{
+			if (Processor.SKDCallbackResultEvent != null)
+				Processor.SKDCallbackResultEvent(callbackResult);
+		}
+
 		public static event Action<JournalItem> NewJournalItem;
 		static void OnNewJournalItem(JournalItem journalItem)
 		{
@@ -25,42 +31,28 @@ namespace ChinaSKDDriver
 #if DEBUG
 			try
 			{
-				System.IO.File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\FiresecService\bin\Debug\CPPWrapper.dll", true);
+				//System.IO.File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\FiresecService\bin\Debug\CPPWrapper.dll", true);
 			}
 			catch { }
 #endif
-		}
-
-		public static void DoCallback(SKDCallbackResult callbackResult)
-		{
-			if (Processor.SKDCallbackResultEvent != null)
-				Processor.SKDCallbackResultEvent(callbackResult);
-		}
-
-		public static void Run(SKDConfiguration skdConfiguration)
-		{
-			DeviceProcessors = new List<DeviceProcessor>();
-			SKDConfiguration = skdConfiguration;
 
 			try
 			{
 				ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
 			}
 			catch { }
+		}
 
-			foreach (var device in skdConfiguration.Devices)
-			{
-				device.State = new SKDDeviceState();
-				device.State.UID = device.UID;
-				device.State.StateClass = FiresecAPI.GK.XStateClass.Unknown;
-			}
-			skdConfiguration.RootDevice.State.StateClass = FiresecAPI.GK.XStateClass.Norm;
+		public static void Start()
+		{
+			SKDManager.CreateStates();
 
-			foreach (var device in skdConfiguration.RootDevice.Children)
+			DeviceProcessors = new List<DeviceProcessor>();
+			foreach (var device in SKDManager.SKDConfiguration.RootDevice.Children)
 			{
 				var deviceProcessor = new DeviceProcessor(device);
 				DeviceProcessors.Add(deviceProcessor);
-				deviceProcessor.Run();
+				deviceProcessor.Start();
 			}
 		}
 
@@ -68,7 +60,7 @@ namespace ChinaSKDDriver
 		{
 			foreach (var deviceProcessor in DeviceProcessors)
 			{
-				deviceProcessor.Wrapper.StopWatcher();
+				deviceProcessor.Stop();
 			}
 		}
 

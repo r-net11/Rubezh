@@ -161,7 +161,7 @@ namespace ChinaSKDDriver
 
 				for (int i = 1; i <= 128; i++)
 				{
-					var weeklyInterval = SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == i);
+					var weeklyInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == i);
 					if (weeklyInterval == null)
 						weeklyInterval = new SKDWeeklyInterval();
 
@@ -171,7 +171,7 @@ namespace ChinaSKDDriver
 						if (!weeklyIntervalPart.IsHolliday)
 						{
 							var timeShedule = new TimeShedule();
-							var timeInterval = SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.ID == weeklyIntervalPart.TimeIntervalID);
+							var timeInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.ID == weeklyIntervalPart.TimeIntervalID);
 							if (timeInterval != null)
 							{
 								foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)

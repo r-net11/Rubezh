@@ -86,12 +86,18 @@ namespace FiresecAPI.SKD
 			{
 				
 				device.State = new SKDDeviceState(device);
+				device.State.UID = device.UID;
+				device.State.StateClass = FiresecAPI.GK.XStateClass.Unknown;
 				if (device.DriverType == SKDDriverType.System)
+				{
 					device.State.IsInitialState = false;
+					device.State.StateClass = FiresecAPI.GK.XStateClass.Norm;
+				}
 			}
 			foreach (var zone in Zones)
 			{
 				zone.State = new SKDZoneState(zone);
+				zone.State.StateClass = XStateClass.Norm;
 			}
 			foreach (var door in Doors)
 			{

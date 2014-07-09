@@ -10,22 +10,28 @@ namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
-		Thread WatcherThread;
+		Thread Thread;
 		bool IsStopping;
+		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 
-		public void StartWatcher()
+		public void Start()
 		{
 			IsStopping = false;
-			WatcherThread = new Thread(RunMonitoring);
-			WatcherThread.Start();
+			AutoResetEvent = new AutoResetEvent(false);
+			Thread = new Thread(RunMonitoring);
+			Thread.Start();
 		}
 
-		public void StopWatcher()
+		public void Stop()
 		{
 			IsStopping = true;
-			if (WatcherThread != null)
+			if (AutoResetEvent != null)
 			{
-				WatcherThread.Join(TimeSpan.FromSeconds(2));
+				AutoResetEvent.Set();
+				if (Thread != null)
+				{
+					Thread.Join(TimeSpan.FromSeconds(1));
+				}
 			}
 		}
 
@@ -36,7 +42,10 @@ namespace ChinaSKDDriver
 			{
 				if (IsStopping)
 					return;
-				Thread.Sleep(100);
+				if (AutoResetEvent.WaitOne(TimeSpan.FromMilliseconds(100)))
+				{
+					return;
+				}
 
 				try
 				{

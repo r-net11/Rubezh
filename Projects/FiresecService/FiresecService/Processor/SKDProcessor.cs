@@ -10,7 +10,7 @@ namespace FiresecService
 {
 	public static class SKDProcessor
 	{
-		public static void Create()
+		public static void Start()
 		{
 //#if DEBUG
 //            for (int i = 0; i < 1000; i++)
@@ -31,7 +31,7 @@ namespace FiresecService
 					SKDManager.CreateDrivers();
 					SKDManager.UpdateConfiguration();
 				}
-				ChinaSKDDriver.Processor.Run(SKDManager.SKDConfiguration);
+				ChinaSKDDriver.Processor.Start();
 				foreach (var deviceProcessor in ChinaSKDDriver.Processor.DeviceProcessors)
 				{
 					deviceProcessor.Wrapper.NewJournalItem -= new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewSKDJournalItem);
@@ -89,7 +89,7 @@ namespace FiresecService
 		public static void SetNewConfig()
 		{
 			Stop();
-			Create();
+			Start();
 		}
 	}
 }
