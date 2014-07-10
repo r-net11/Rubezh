@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Common;
-using FiresecAPI.GK;
 using FiresecAPI.Journal;
 
 namespace FiresecService
@@ -37,9 +36,9 @@ namespace FiresecService
 			return result;
 		}
 
-		public static List<EventDescription> GetDistinctEventDescriptions()
+		public static List<JournalEventDescriptionType> GetDistinctEventDescriptions()
 		{
-			var result = new List<EventDescription>();
+			var result = new List<JournalEventDescriptionType>();
 			try
 			{
 				lock (locker)
@@ -52,7 +51,7 @@ namespace FiresecService
 						while (reader.Read())
 						{
 							if (!reader.IsDBNull(0))
-								result.Add((EventDescription)reader.GetValue(0));
+								result.Add((JournalEventDescriptionType)reader.GetValue(0));
 						}
 					}
 				}
@@ -64,7 +63,7 @@ namespace FiresecService
 			return result;
 		}
 
-		public static void UpdateNamesDescriptions(List<FiresecAPI.Journal.JournalItem> journalItems)
+		public static void UpdateNamesDescriptions(List<JournalItem> journalItems)
 		{
 			try
 			{
@@ -80,7 +79,7 @@ namespace FiresecService
 						commands.Add(@"Insert Into EventNames (EventName) Values ('" + name + "')");
 					}
 
-					var description = item.Description;
+					var description = item.JournalEventDescriptionType;
 					if (!eventDescription.Any(x => description == x))
 					{
 						eventDescription.Add(description);

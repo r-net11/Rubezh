@@ -1,10 +1,6 @@
-﻿using FiresecAPI.Automation;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using FiresecAPI.Journal;
 using Infrastructure.Common.Windows;
-using System;
-using FiresecAPI.Models;
-using FiresecAPI;
-using FiresecAPI.Journal;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiltersModule.ViewModels
 {
@@ -32,6 +28,8 @@ namespace FiltersModule.ViewModels
 		void CopyProperties()
 		{
 			Name = Filter.Name;
+			Description = Filter.Description;
+			LastItemsCount = Filter.LastItemsCount;
 		}
 
 		string _name;
@@ -45,6 +43,28 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
+		string _description;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				_description = value;
+				OnPropertyChanged(() => Description);
+			}
+		}
+
+		int _lastItemsCount;
+		public int LastItemsCount
+		{
+			get { return _lastItemsCount; }
+			set
+			{
+				_lastItemsCount = value;
+				OnPropertyChanged(() => LastItemsCount);
+			}
+		}
+
 		protected override bool Save()
 		{
 			if (string.IsNullOrEmpty(Name))
@@ -54,6 +74,8 @@ namespace FiltersModule.ViewModels
 			}
 
 			Filter.Name = Name;
+			Filter.Description = Description;
+			Filter.LastItemsCount = LastItemsCount;
 
 			foreach (var filterNameViewModel in FilterNamesViewModel.AllFilters)
 			{

@@ -85,7 +85,7 @@ namespace GKProcessor
 			}
 		}
 
-		static void UpdateNamesDescriptions(List<JournalItem> journalItems)
+		static void UpdateNamesDescriptions(List<XJournalItem> journalItems)
 		{
 			var commands = new List<string>();
 			foreach (var item in journalItems)

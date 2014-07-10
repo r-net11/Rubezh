@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Journal;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace JournalModule.ViewModels
 {

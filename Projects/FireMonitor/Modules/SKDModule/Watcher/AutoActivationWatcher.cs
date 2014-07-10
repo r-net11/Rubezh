@@ -2,13 +2,12 @@
 using System.Linq;
 using System.Windows;
 using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
-using SKDModule.Events;
-using SKDModule.ViewModels;
-//using JournalItem = FiresecAPI.Journal.JournalItem;
 using Infrastructure.Events;
+using SKDModule.Events;
 
 namespace SKDModule
 {
@@ -20,7 +19,7 @@ namespace SKDModule
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
 		}
 
-		public static void OnNewJournal(List<FiresecAPI.Journal.JournalItem> journalItems)
+		public static void OnNewJournal(List<JournalItem> journalItems)
 		{
 			if (ClientSettings.AutoActivationSettings.IsAutoActivation)
 			{
@@ -41,7 +40,7 @@ namespace SKDModule
 					{
 						switch (journalItem.JournalObjectType)
 						{
-							case FiresecAPI.Journal.JournalObjectType.SKDDevice:
+							case JournalObjectType.SKDDevice:
 								var device = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 								if (device != null)
 								{

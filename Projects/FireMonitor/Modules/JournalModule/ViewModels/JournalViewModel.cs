@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.SKD;
+using FiresecAPI.Journal;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
@@ -43,7 +43,7 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public void OnNewJournalItems(List<FiresecAPI.Journal.JournalItem> journalItems)
+		public void OnNewJournalItems(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{

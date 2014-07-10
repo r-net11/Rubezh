@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using FiresecAPI;
+﻿using System.Collections.Generic;
 using FiresecAPI.Models;
 
 namespace FiresecClient

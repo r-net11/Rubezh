@@ -1,7 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using ChinaSKDDriver;
-using System.Windows;
-using Infrastructure.Common;
+﻿using ChinaSKDDriver;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels
 {

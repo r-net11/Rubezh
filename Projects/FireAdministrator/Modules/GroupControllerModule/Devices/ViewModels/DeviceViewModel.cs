@@ -8,6 +8,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
+using GKModule.Plans;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
@@ -16,7 +17,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
-using GKModule.Plans;
 
 namespace GKModule.ViewModels
 {

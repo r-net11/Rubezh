@@ -1,9 +1,9 @@
 ﻿using System;
-using Common;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.Serialization;
+using Common;
 
 namespace FiresecAPI.SKD
 {

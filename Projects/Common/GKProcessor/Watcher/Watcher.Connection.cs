@@ -2,6 +2,7 @@
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
+using FiresecAPI.Journal;
 
 namespace GKProcessor
 {
@@ -26,15 +27,15 @@ namespace GKProcessor
 
 				if (IsConnected != isConnected)
 				{
-					var journalItem = new JournalItem()
+					var journalItem = new XJournalItem()
 					{
 						SystemDateTime = DateTime.Now,
 						DeviceDateTime = DateTime.Now,
 						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
-						JournalItemType = JournalItemType.System,
+						JournalItemType = XJournalItemType.System,
 						StateClass = XStateClass.Unknown,
 						ObjectStateClass = XStateClass.Norm,
-						JournalEventNameType = isConnected ? FiresecAPI.Journal.JournalEventNameType.Восстановление_связи_с_прибором : FiresecAPI.Journal.JournalEventNameType.Потеря_связи_с_прибором,
+						JournalEventNameType = isConnected ? JournalEventNameType.Восстановление_связи_с_прибором : JournalEventNameType.Потеря_связи_с_прибором,
 					};
 					AddJournalItem(journalItem);
 

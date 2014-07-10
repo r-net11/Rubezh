@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Linq;
-using FiresecAPI.SKD;
+using FiresecAPI.Journal;
 using Infrastructure.Common;
-using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Journal;
 
 namespace JournalModule.ViewModels
 {
@@ -14,7 +11,7 @@ namespace JournalModule.ViewModels
 		public FilterNamesViewModel FilterNamesViewModel { get; private set; }
 		public FilterObjectsViewModel FilterObjectsViewModel { get; private set; }
 
-		public ArchiveFilterViewModel(SKDArchiveFilter archiveFilter)
+		public ArchiveFilterViewModel(ArchiveFilter archiveFilter)
 		{
 			Title = "Настройки фильтра";
 			ClearCommand = new RelayCommand(OnClear);
@@ -25,7 +22,7 @@ namespace JournalModule.ViewModels
 			Initialize(archiveFilter);
 		}
 
-		void Initialize(SKDArchiveFilter archiveFilter)
+		void Initialize(ArchiveFilter archiveFilter)
 		{
 			StartDateTime = new DateTimePairViewModel(archiveFilter.StartDate);
 			EndDateTime = new DateTimePairViewModel(archiveFilter.EndDate);
@@ -76,7 +73,7 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public SKDArchiveFilter GetModel()
+		public ArchiveFilter GetModel()
 		{
 			var archiveFilter = FilterNamesViewModel.GetModel();
 			archiveFilter.StartDate = StartDateTime.DateTime;
@@ -97,7 +94,7 @@ namespace JournalModule.ViewModels
 		public RelayCommand ClearCommand { get; private set; }
 		void OnClear()
 		{
-			Initialize(new SKDArchiveFilter());
+			Initialize(new ArchiveFilter());
 		}
 
 		public RelayCommand SaveCommand { get; private set; }

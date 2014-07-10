@@ -9,6 +9,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using Infrastructure.Common;
 using System.Reflection;
+using FiresecAPI.Journal;
 
 namespace GKProcessor
 {
@@ -18,14 +19,14 @@ namespace GKProcessor
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
 		public static bool IsAbort { get; set; }
-		public static event Action<List<FiresecAPI.GK.JournalItem>, Guid> ArchivePortionReady;
+		public static event Action<List<XJournalItem>, Guid> ArchivePortionReady;
 
 
-		public static void Add(FiresecAPI.GK.JournalItem journalItem)
+		public static void Add(XJournalItem journalItem)
 		{
 			try
 			{
-				AddMany(new List<FiresecAPI.GK.JournalItem>() { journalItem });
+				AddMany(new List<XJournalItem>() { journalItem });
 			}
 			catch (Exception e)
 			{
@@ -33,7 +34,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static void AddMany(List<FiresecAPI.GK.JournalItem> journalItems)
+		public static void AddMany(List<XJournalItem> journalItems)
 		{
 			try
 			{
@@ -51,16 +52,16 @@ namespace GKProcessor
 			}
 		}
 
-		public static FiresecAPI.GK.JournalItem AddMessage(FiresecAPI.Journal.JournalEventNameType journalEventNameType, string userName)
+		public static XJournalItem AddMessage(JournalEventNameType journalEventNameType, string userName)
 		{
-			var journalItem = new FiresecAPI.GK.JournalItem()
+			var journalItem = new XJournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
-				JournalItemType = JournalItemType.System,
+				JournalItemType = XJournalItemType.System,
 				StateClass = XStateClass.Norm,
 				JournalEventNameType = journalEventNameType,
-				Name = FiresecAPI.Journal.EventDescriptionAttributeHelper.ToName(journalEventNameType),
+				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
 				ObjectStateClass = XStateClass.Norm,
 				UserName = userName,
 				SubsystemType = XSubsystemType.System
@@ -69,7 +70,7 @@ namespace GKProcessor
 			return journalItem;
 		}
 
-		static List<FiresecAPI.GK.JournalItem> UpdateItemLengths(List<FiresecAPI.GK.JournalItem> journalItems)
+		static List<XJournalItem> UpdateItemLengths(List<XJournalItem> journalItems)
 		{
 			foreach (var item in journalItems)
 			{
@@ -87,7 +88,7 @@ namespace GKProcessor
 			return journalItems;
 		}
 
-		static void InsertJournalRecordToDb(List<FiresecAPI.GK.JournalItem> journalItems)
+		static void InsertJournalRecordToDb(List<XJournalItem> journalItems)
 		{
 			journalItems = UpdateItemLengths(journalItems);
 			UpdateNamesDescriptions(journalItems);
@@ -128,10 +129,10 @@ namespace GKProcessor
 			}
 		}
 
-		public static List<FiresecAPI.GK.JournalItem> BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
+		public static List<XJournalItem> BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
 		{
-			var journalItems = new List<FiresecAPI.GK.JournalItem>();
-			var result = new List<FiresecAPI.GK.JournalItem>();
+			var journalItems = new List<XJournalItem>();
+			var result = new List<XJournalItem>();
 
 			try
 			{
@@ -180,7 +181,7 @@ namespace GKProcessor
 			return result;
 		}
 
-		static void PublishNewItemsPortion(List<FiresecAPI.GK.JournalItem> journalItems, Guid archivePortionUID)
+		static void PublishNewItemsPortion(List<XJournalItem> journalItems, Guid archivePortionUID)
 		{
 			if (ArchivePortionReady != null)
 				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
@@ -370,9 +371,9 @@ namespace GKProcessor
 			return DateTime.Now;
 		}
 
-		public static List<FiresecAPI.GK.JournalItem> GetGKTopLastJournalItems(int count)
+		public static List<XJournalItem> GetGKTopLastJournalItems(int count)
 		{
-			var journalItems = new List<FiresecAPI.GK.JournalItem>();
+			var journalItems = new List<XJournalItem>();
 			try
 			{
 				lock (locker)
@@ -403,11 +404,11 @@ namespace GKProcessor
 			return journalItems;
 		}
 
-		static JournalItem ReadOneJournalItem(SqlCeDataReader reader)
+		static XJournalItem ReadOneJournalItem(SqlCeDataReader reader)
 		{
-			var journalItem = new JournalItem();
+			var journalItem = new XJournalItem();
 			if (!reader.IsDBNull(reader.GetOrdinal("JournalItemType")))
-				journalItem.JournalItemType = (JournalItemType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
+				journalItem.JournalItemType = (XJournalItemType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
 			
 			if (!reader.IsDBNull(reader.GetOrdinal("SystemDateTime")))
 				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDateTime"));

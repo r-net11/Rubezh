@@ -11,7 +11,7 @@ namespace Infrastructure.Events
 
 	public class ArchiveResult
 	{
-		public IEnumerable<JournalItem> JournalItems { get; set; }
+		public IEnumerable<XJournalItem> JournalItems { get; set; }
 		public Guid ArchivePortionUID { get; set; }
 	}
 }

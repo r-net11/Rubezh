@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using FilterModule.Validation;
+using FiltersModule.Events;
 using FiltersModule.ViewModels;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Events;
 using Infrastructure.Common.Validation;
-using System;
-using FiltersModule.Events;
-using FilterModule.Validation;
 
 namespace FiltersModule
 {

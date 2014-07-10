@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using Common;
-using Firesec;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecAPI.Models;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 
 namespace FiresecClient
@@ -16,9 +15,9 @@ namespace FiresecClient
 		public static event Action<GKCallbackResult> GKCallbackResultEvent;
 		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
 		public static event Action ConfigurationChangedEvent;
-		public static event Action<FiresecAPI.Journal.JournalItem> NewJournalItemEvent;
-		public static event Action<IEnumerable<FiresecAPI.GK.JournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
-		public static event Action<IEnumerable<FiresecAPI.Journal.JournalItem>, Guid> GetFilteredSKDArchiveCompletedEvent;
+		public static event Action<JournalItem> NewJournalItemEvent;
+		public static event Action<IEnumerable<XJournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
+		public static event Action<IEnumerable<JournalItem>, Guid> GetFilteredSKDArchiveCompletedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;

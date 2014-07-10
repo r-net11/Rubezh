@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
-using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
-using FiresecAPI.SKD;
 using LinqKit;
 
 namespace SKDDriver
@@ -19,7 +18,7 @@ namespace SKDDriver
 		{
 			return new JournalItem
 			{
-				Description = (FiresecAPI.GK.EventDescription)tableItem.Description,
+				JournalEventDescriptionType = (JournalEventDescriptionType)tableItem.Description,
 				DescriptionText = tableItem.DescriptionText,
 				DeviceDateTime = tableItem.DeviceDate,
 				JournalEventNameType = (JournalEventNameType)tableItem.Name,
@@ -27,7 +26,7 @@ namespace SKDDriver
 				ObjectName = tableItem.ObjectName,
 				JournalObjectType = (JournalObjectType)tableItem.ObjectType,
 				ObjectUID = tableItem.ObjectUID,
-				StateClass = (FiresecAPI.GK.XStateClass)tableItem.State,
+				StateClass = (XStateClass)tableItem.State,
 				JournalSubsystemType = (JournalSubsystemType)tableItem.Subsystem,
 				SystemDateTime = tableItem.SystemDate,
 				UID = tableItem.UID,
@@ -38,7 +37,7 @@ namespace SKDDriver
 
 		protected override void TranslateBack(DataAccess.Journal tableItem, JournalItem apiItem)
 		{
-			tableItem.Description = (int)apiItem.Description;
+			tableItem.Description = (int)apiItem.JournalEventDescriptionType;
 			tableItem.DescriptionText = apiItem.DescriptionText;
 			tableItem.DeviceDate = CheckDate(apiItem.DeviceDateTime);
 			tableItem.Name = (int)apiItem.JournalEventNameType;
@@ -60,18 +59,6 @@ namespace SKDDriver
 			var journalEventNameTypes = filter.JournalEventNameTypes;
 			if (journalEventNameTypes != null && journalEventNameTypes.Count != 0)
 				result = result.And(e => journalEventNameTypes.Contains((JournalEventNameType)e.Name));
-
-			var deviceDates = filter.DeviceDateTime;
-			if (deviceDates != null)
-				result = result.And(e => e.DeviceDate != null &&
-					e.DeviceDate >= deviceDates.StartDate &&
-					e.DeviceDate <= deviceDates.EndDate);
-
-			var systemDates = filter.SystemDateTime;
-			if (systemDates != null)
-				result = result.And(e => e.SystemDate != null &&
-					e.SystemDate >= systemDates.StartDate &&
-					e.SystemDate <= systemDates.EndDate);
 
 			return result;
 		}

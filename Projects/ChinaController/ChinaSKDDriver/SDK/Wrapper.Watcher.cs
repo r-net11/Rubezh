@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Threading;
 using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
-using System.Threading;
-using System.Diagnostics;
 using FiresecAPI.Journal;
 
 namespace ChinaSKDDriver

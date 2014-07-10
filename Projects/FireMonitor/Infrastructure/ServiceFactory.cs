@@ -11,6 +11,7 @@ using Infrastructure.Common.Services.Content;
 using Infrastructure.Common.Services.DragDrop;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
+using FiresecAPI.Journal;
 
 namespace Infrastructure
 {
@@ -48,12 +49,12 @@ namespace Infrastructure
 
 			if (!IsSubcsribed)
 			{
-				SafeFiresecService.NewJournalItemEvent += new Action<FiresecAPI.Journal.JournalItem>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<FiresecAPI.Journal.JournalItem>() { x }); }); });
+				SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalItem>() { x }); }); });
 
 				FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
 				FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
 				FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
-				//FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<FiresecAPI.Journal.JournalItem>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
+				//FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalItem>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
 			}
 			IsSubcsribed = true;
 		}
@@ -92,12 +93,12 @@ namespace Infrastructure
 			}
 		}
 
-		static void OnNewJournalRecordEvent(List<FiresecAPI.Journal.JournalItem> journalItems)
+		static void OnNewJournalRecordEvent(List<JournalItem> journalItems)
 		{
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
 		}
 
-		static void OnNewServerJournalRecordEvent(List<FiresecAPI.Journal.JournalItem> journalItems)
+		static void OnNewServerJournalRecordEvent(List<JournalItem> journalItems)
 		{
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
 		}

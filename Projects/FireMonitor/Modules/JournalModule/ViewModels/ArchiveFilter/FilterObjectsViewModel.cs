@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
 using FiresecAPI.SKD;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace JournalModule.ViewModels
 {
 	public class FilterObjectsViewModel : BaseViewModel
 	{
-		public FilterObjectsViewModel(SKDArchiveFilter filter)
+		public FilterObjectsViewModel(ArchiveFilter filter)
 		{
 			BuildTree();
 			Initialize(filter);
 		}
 
-		public void Initialize(SKDArchiveFilter filter)
+		public void Initialize(ArchiveFilter filter)
 		{
 			AllFilters.ForEach(x => x.SetIsChecked(false));
 			foreach (var subsystemType in filter.JournalSubsystemTypes)
@@ -48,9 +47,9 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public SKDArchiveFilter GetModel()
+		public ArchiveFilter GetModel()
 		{
-			var filter = new SKDArchiveFilter();
+			var filter = new ArchiveFilter();
 			foreach (var subsystemFilter in RootFilters)
 			{
 				if (subsystemFilter.IsChecked)
@@ -185,7 +184,7 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		FilterObjectViewModel AddGKDeviceInternal(FiresecAPI.GK.XDevice device, FilterObjectViewModel parentDeviceViewModel)
+		FilterObjectViewModel AddGKDeviceInternal(XDevice device, FilterObjectViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new FilterObjectViewModel(device);
 			if (parentDeviceViewModel != null)

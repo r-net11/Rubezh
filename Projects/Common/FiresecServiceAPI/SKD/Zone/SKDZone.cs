@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.GK;
 using Common;
+using FiresecAPI.GK;
 using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.SKD

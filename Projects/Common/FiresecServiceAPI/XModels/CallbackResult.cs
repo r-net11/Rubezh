@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
 using FiresecAPI.Journal;
+using FiresecAPI.SKD;
 
 namespace FiresecAPI
 {
@@ -18,7 +17,7 @@ namespace FiresecAPI
 		public CallbackResultType CallbackResultType { get; set; }
 
 		[DataMember]
-		public List<FiresecAPI.Journal.JournalItem> GlobalJournalItems { get; set; }
+		public List<JournalItem> GlobalJournalItems { get; set; }
 
 		[DataMember]
 		public GKCallbackResult GKCallbackResult { get; set; }
@@ -27,7 +26,7 @@ namespace FiresecAPI
 		public GKProgressCallback GKProgressCallback { get; set; }
 
 		[DataMember]
-		public List<FiresecAPI.GK.JournalItem> JournalItems { get; set; }
+		public List<XJournalItem> JournalItems { get; set; }
 
 		[DataMember]
 		public SKDCallbackResult SKDCallbackResult { get; set; }

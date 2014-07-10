@@ -7,7 +7,7 @@ namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		void ParseAdditionalStates(FiresecAPI.GK.JournalItem journalItem)
+		void ParseAdditionalStates(XJournalItem journalItem)
 		{
 			var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
 

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.GK
+namespace FiresecAPI.Journal
 {
-	public enum EventDescription
+	public enum JournalEventDescriptionType
 	{
 		[DescriptionAttribute("")]
 		NULL,

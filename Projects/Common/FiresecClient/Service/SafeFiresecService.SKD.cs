@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using JournalItem = FiresecAPI.Journal.JournalItem;
 
 namespace FiresecClient
 {
@@ -81,9 +79,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinDateTime());
 		}
-		public List<EventDescription> GetDistinctEventDescriptions()
+		public List<JournalEventDescriptionType> GetDistinctEventDescriptions()
 		{
-			return SafeContext.Execute<List<EventDescription>>(() => FiresecService.GetDistinctEventDescriptions());
+			return SafeContext.Execute<List<JournalEventDescriptionType>>(() => FiresecService.GetDistinctEventDescriptions());
 		}
 		public List<JournalEventNameType> GetDistinctEventNames()
 		{
@@ -301,7 +299,7 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(device.UID); }, "SKDCloseDevice");
 		}
 
-		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID)
+		public void BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			SafeOperationCall(() => FiresecService.BeginGetSKDFilteredArchive(archiveFilter, archivePortionUID), "BeginGetSKDFilteredArchive");
 		}

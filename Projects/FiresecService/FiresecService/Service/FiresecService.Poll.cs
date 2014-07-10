@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.GK;
-using FiresecAPI.Models;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 
 namespace FiresecService.Service
@@ -60,7 +60,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyNewJournalItems(List<FiresecAPI.Journal.JournalItem> journalItems)
+		public static void NotifyNewJournalItems(List<JournalItem> journalItems)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -70,7 +70,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifySKDArchiveCompleted(List<FiresecAPI.Journal.JournalItem> journallItems, Guid archivePortionUID)
+		public static void NotifySKDArchiveCompleted(List<JournalItem> journallItems, Guid archivePortionUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
@@ -81,7 +81,7 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifyGKArchiveCompleted(List<FiresecAPI.GK.JournalItem> journallItems, Guid archivePortionUID)
+		public static void NotifyGKArchiveCompleted(List<XJournalItem> journallItems, Guid archivePortionUID)
 		{
 			var callbackResult = new CallbackResult()
 			{

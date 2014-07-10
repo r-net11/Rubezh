@@ -36,7 +36,7 @@ namespace FiresecAPI
 		OperationResult<int> GKGetJournalItemsCount(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no);
+		OperationResult<XJournalItem> GKReadJournalItem(Guid deviceUID, int no);
 
 		[OperationContract]
 		OperationResult<bool> GKSetSingleParameter(Guid objectUID, List<byte> parameterBytes);
@@ -94,7 +94,7 @@ namespace FiresecAPI
 
 		#region Journal
 		[OperationContract]
-		List<JournalItem> GetGKTopLastJournalItems(int count);
+		List<XJournalItem> GetGKTopLastJournalItems(int count);
 
 		[OperationContract]
 		void BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID);

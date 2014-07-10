@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using JournalItem = FiresecAPI.Journal.JournalItem;
 
 namespace FiresecAPI
 {
@@ -54,7 +52,7 @@ namespace FiresecAPI
 		OperationResult<DateTime> GetMinDateTime();
 
 		[OperationContract]
-		List<EventDescription> GetDistinctEventDescriptions();
+		List<JournalEventDescriptionType> GetDistinctEventDescriptions();
 
 		[OperationContract]
 		List<JournalEventNameType> GetDistinctEventNames();
@@ -180,7 +178,7 @@ namespace FiresecAPI
 		OperationResult<bool> SKDCloseDevice(Guid deviceUID);
 
 		[OperationContract]
-		void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID);
+		void BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID);
 		#endregion
 	}
 }

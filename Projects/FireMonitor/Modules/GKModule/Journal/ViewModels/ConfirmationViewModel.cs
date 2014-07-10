@@ -1,7 +1,7 @@
 ﻿using System;
 using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecClient;
-using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 	{
 		DateTime StartDateTime = DateTime.Now;
 
-		public ConfirmationViewModel(JournalItem journalItem)
+		public ConfirmationViewModel(XJournalItem journalItem)
 		{
 			Title = "Подтверждение критических событий";
 			ConfirmCommand = new RelayCommand(OnConfirm);
@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 		void OnConfirm()
 		{
 			var deltaSeconds = (int)(DateTime.Now - StartDateTime).TotalSeconds;
-			FiresecManager.FiresecService.GKAddMessage(FiresecAPI.Journal.JournalEventNameType.Подтверждение_тревоги,
+			FiresecManager.FiresecService.GKAddMessage(JournalEventNameType.Подтверждение_тревоги,
 				JournalItemViewModel.JournalItem.Name + " " + JournalItemViewModel.JournalItem.Description +
 				" (время реакции " + deltaSeconds.ToString() + " сек)");
 			Close();

@@ -1,5 +1,4 @@
 ﻿using System;
-using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriverAPI
 {

@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using FiresecAPI.Automation;
-using TimeIntervals = FiresecAPI.EmployeeTimeIntervals;
-using System;
 
 namespace FiresecAPI
 {

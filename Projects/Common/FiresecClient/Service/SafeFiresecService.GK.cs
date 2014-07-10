@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using FiresecAPI;
 using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using GKProcessor;
 using Infrastructure.Common;
-using FiresecAPI.Journal;
 
 namespace FiresecClient
 {
@@ -129,7 +129,7 @@ namespace FiresecClient
 			}
 		}
 
-		public OperationResult<FiresecAPI.GK.JournalItem> GKReadJournalItem(XDevice device, int no)
+		public OperationResult<XJournalItem> GKReadJournalItem(XDevice device, int no)
 		{
 			if (IsGKAsAService)
 			{
@@ -369,7 +369,7 @@ namespace FiresecClient
 		}
 
 		#region Journal
-		public List<FiresecAPI.GK.JournalItem> GetGKTopLastJournalItems(int count)
+		public List<XJournalItem> GetGKTopLastJournalItems(int count)
 		{
 			if (IsGKAsAService)
 			{

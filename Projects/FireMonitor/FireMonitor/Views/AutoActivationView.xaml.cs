@@ -9,6 +9,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using FiresecAPI.Journal;
 
 namespace FireMonitor.Views
 {
@@ -71,7 +72,7 @@ namespace FireMonitor.Views
 			OnPropertyChanged("IsPlansAutoActivation");
 		}
 
-		void OnNewJournalItem(List<FiresecAPI.Journal.JournalItem> journalItems)
+		void OnNewJournalItem(List<JournalItem> journalItems)
 		{
 			if (IsAutoActivation)
 			{

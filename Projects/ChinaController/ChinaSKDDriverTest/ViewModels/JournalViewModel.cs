@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections.ObjectModel;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using ChinaSKDDriverNativeApi;
-using System.Runtime.InteropServices;
-using ChinaSKDDriver;
-using ControllerSDK.Views;
-using ChinaSKDDriverAPI;
-using System.Threading;
 using System.Diagnostics;
 using System.Windows;
+using ChinaSKDDriverAPI;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ControllerSDK.ViewModels
 {

@@ -6,9 +6,6 @@ using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Ionic.Zip;
-using FiresecClient;
-using FiresecService.Processor;
-using FiresecAPI.SKD;
 
 namespace FiresecService.Service
 {

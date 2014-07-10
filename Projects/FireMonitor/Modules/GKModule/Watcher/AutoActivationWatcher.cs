@@ -18,7 +18,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
 		}
 
-		public static void OnNewJournal(List<JournalItem> journalItems)
+		public static void OnNewJournal(List<XJournalItem> journalItems)
 		{
 			if (ClientSettings.AutoActivationSettings.IsAutoActivation)
 			{
@@ -41,7 +41,7 @@ namespace GKModule
 					{
 						switch (journalItem.JournalItemType)
 						{
-							case JournalItemType.Device:
+							case XJournalItemType.Device:
 								var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 								if (device != null)
 								{
@@ -53,7 +53,7 @@ namespace GKModule
 								}
 								break;
 
-							case JournalItemType.Zone:
+							case XJournalItemType.Zone:
 								var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 								if (zone != null)
 								{
@@ -70,7 +70,7 @@ namespace GKModule
 								}
 								break;
 
-							case JournalItemType.Direction:
+							case XJournalItemType.Direction:
 								var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 								if (direction != null)
 								{

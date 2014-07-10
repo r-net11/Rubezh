@@ -1,9 +1,6 @@
-﻿using FiresecAPI.Automation;
+﻿using FiresecAPI.Journal;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models;
-using FiresecAPI;
-using FiresecAPI.Journal;
 
 namespace FiltersModule.ViewModels
 {

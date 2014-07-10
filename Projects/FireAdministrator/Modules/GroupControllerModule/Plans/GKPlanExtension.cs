@@ -19,9 +19,9 @@ using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Interfaces;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Services;
-using Infrustructure.Plans.Interfaces;
 
 namespace GKModule.Plans
 {

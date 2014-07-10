@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.Journal;
 
 namespace GKProcessor
 {
@@ -22,7 +23,7 @@ namespace GKProcessor
 				AddToResult(JournalStringsHelper.ToInformation((byte)i));
 				AddToResult(JournalStringsHelper.ToUser((byte)i));
 			}
-			foreach (EventDescription item in Enum.GetValues(typeof(EventDescription)))
+			foreach (JournalEventDescriptionType item in Enum.GetValues(typeof(JournalEventDescriptionType)))
 			{
 				AddToResult(item.ToDescription());
 			}

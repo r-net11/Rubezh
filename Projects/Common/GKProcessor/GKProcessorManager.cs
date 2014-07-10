@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
 using System.Reflection;
+using FiresecAPI.Journal;
 
 namespace GKProcessor
 {
@@ -22,7 +23,7 @@ namespace GKProcessor
 				progressCallback.IsCanceled = true;
 				progressCallback.CancelizationDateTime = DateTime.Now;
 				StopProgress(progressCallback);
-				AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Отмена_операции, progressCallback.Title, null, userName, true);
+				AddGKMessage(JournalEventNameType.Отмена_операции, progressCallback.Title, null, userName, true);
 			}
 		}
 
@@ -169,7 +170,7 @@ namespace GKProcessor
 		#region Operations
 		public static OperationResult<bool> GKWriteConfiguration(XDevice device, string userName)
 		{
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Запись_конфигурации_в_прибор, "", device, userName, true);
+			AddGKMessage(JournalEventNameType.Запись_конфигурации_в_прибор, "", device, userName, true);
 			Stop();
 			var gkDescriptorsWriter = new GkDescriptorsWriter();
 			gkDescriptorsWriter.WriteConfig(device);
@@ -188,7 +189,7 @@ namespace GKProcessor
 
 		public static OperationResult<XDeviceConfiguration> GKReadConfiguration(XDevice device, string userName)
 		{
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Чтение_конфигурации_из_прибора, "", device, userName, true);
+			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, "", device, userName, true);
 			Stop();
 			DescriptorsManager.Create();
 			var descriptorReader = device.Driver.IsKauOrRSR2Kau ? (DescriptorReaderBase)new KauDescriptorsReaderBase() : new GkDescriptorsReaderBase();
@@ -199,7 +200,7 @@ namespace GKProcessor
 
 		public static OperationResult<XDeviceConfiguration> GKReadConfigurationFromGKFile(XDevice device, string userName)
 		{
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Чтение_конфигурации_из_прибора, "", device, userName, true);
+			AddGKMessage(JournalEventNameType.Чтение_конфигурации_из_прибора, "", device, userName, true);
 			SuspendMonitoring(device);
 			var gkFileReaderWriter = new GKFileReaderWriter();
 			var deviceConfiguration = gkFileReaderWriter.ReadConfigFileFromGK(device);
@@ -231,13 +232,13 @@ namespace GKProcessor
 
 		public static bool GKSyncronyseTime(XDevice device, string userName)
 		{
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Синхронизация_времени, "", device, userName, true);
+			AddGKMessage(JournalEventNameType.Синхронизация_времени, "", device, userName, true);
 			return DeviceBytesHelper.WriteDateTime(device);
 		}
 
 		public static string GKGetDeviceInfo(XDevice device, string userName)
 		{
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Запрос_информации_об_устройстве, "", device, userName, true);
+			AddGKMessage(JournalEventNameType.Запрос_информации_об_устройстве, "", device, userName, true);
 			var result = DeviceBytesHelper.GetDeviceInfo(device);
 			if (result == null)
 				result = "Устройство недоступно";
@@ -256,22 +257,22 @@ namespace GKProcessor
 			return new OperationResult<int>() { Result = result };
 		}
 
-		public static OperationResult<JournalItem> GKReadJournalItem(XDevice device, int no)
+		public static OperationResult<XJournalItem> GKReadJournalItem(XDevice device, int no)
 		{
 			var data = BitConverter.GetBytes(no).ToList();
 			var sendResult = SendManager.Send(device, 4, 7, 64, data);
 			if (sendResult.HasError)
 			{
-				return new OperationResult<JournalItem>("Устройство недоступно");
+				return new OperationResult<XJournalItem>("Устройство недоступно");
 			}
 			if (sendResult.Bytes.Count == 64)
 			{
 				var journalParser = new JournalParser(device, sendResult.Bytes);
-				return new OperationResult<JournalItem>() { Result = journalParser.JournalItem };
+				return new OperationResult<XJournalItem>() { Result = journalParser.JournalItem };
 			}
 			else
 			{
-				return new OperationResult<JournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
+				return new OperationResult<XJournalItem>("Ошибка. Недостаточное количество байт в записи журнала");
 			}
 		}
 
@@ -336,73 +337,73 @@ namespace GKProcessor
 		public static void GKExecuteDeviceCommand(XDevice device, XStateBit stateBit, string userName)
 		{
 			Watcher.SendControlCommand(device, stateBit, stateBit.ToDescription());
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, stateBit.ToDescription(), device, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, stateBit.ToDescription(), device, userName);
 		}
 
 		public static void GKReset(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.Reset, "Сброс");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Сброс, xBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, xBase, userName);
 		}
 
 		public static void GKResetFire1(XZone zone, string userName)
 		{
 			Watcher.SendControlCommand(zone, 0x02, "Сброс Пожар-1");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Сброс, zone, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, zone, userName);
 		}
 
 		public static void GKResetFire2(XZone zone, string userName)
 		{
 			Watcher.SendControlCommand(zone, 0x03, "Сброс Пожар-1");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Сброс, zone, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Сброс, zone, userName);
 		}
 
 		public static void GKSetAutomaticRegime(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Automatic, "Перевод в автоматический режим");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Перевод_в_автоматический_режим, xBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_автоматический_режим, xBase, userName);
 		}
 
 		public static void GKSetManualRegime(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Manual, "Перевод в ручной режим");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Перевод_в_ручной_режим, xBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_ручной_режим, xBase, userName);
 		}
 
 		public static void GKSetIgnoreRegime(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.SetRegime_Off, "Перевод в отключенный режим");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Перевод_в_отключенный_режим, xBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Перевод_в_отключенный_режим, xBase, userName);
 		}
 
 		public static void GKTurnOn(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOn_InManual, "Включить");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Включить, xBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить, xBase, userName);
 		}
 
 		public static void GKTurnOnNow(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOnNow_InManual, "Включить немедленно");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Включить_немедленно, xBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Включить_немедленно, xBase, userName);
 		}
 
 		public static void GKTurnOff(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOff_InManual, "Выключить");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Выключить, xBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить, xBase, userName);
 		}
 
 		public static void GKTurnOffNow(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.TurnOffNow_InManual, "Выключить немедленно");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Выключить_немедленно, xBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Выключить_немедленно, xBase, userName);
 		}
 
 		public static void GKStop(XBase xBase, string userName)
 		{
 			Watcher.SendControlCommand(xBase, XStateBit.Stop_InManual, "Остановка пуска");
-			AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, EventDescription.Остановка_пуска, xBase, userName);
+			AddGKMessage(JournalEventNameType.Команда_оператора, JournalEventDescriptionType.Остановка_пуска, xBase, userName);
 		}
 
 		public static void GKStartMeasureMonitoring(XDevice device)
@@ -426,48 +427,48 @@ namespace GKProcessor
 		#endregion
 
 		#region JournalItem Callback
-		public static void AddGKMessage(FiresecAPI.Journal.JournalEventNameType journalEventNameType, EventDescription description, XBase xBase, string userName, bool isAdministrator = false)
+		public static void AddGKMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType description, XBase xBase, string userName, bool isAdministrator = false)
 		{
 			AddGKMessage(journalEventNameType, description.ToDescription(), xBase, userName, isAdministrator);
 		}
 
-		public static void AddGKMessage(FiresecAPI.Journal.JournalEventNameType journalEventNameType, string description, XBase xBase, string userName, bool isAdministrator = false)
+		public static void AddGKMessage(JournalEventNameType journalEventNameType, string description, XBase xBase, string userName, bool isAdministrator = false)
 		{
 			Guid uid = Guid.Empty;
-			var journalItemType = JournalItemType.System;
+			var journalItemType = XJournalItemType.System;
 			if (xBase != null)
 			{
 				uid = xBase.BaseUID;
 				if (xBase is XDevice)
 				{
-					journalItemType = JournalItemType.Device;
+					journalItemType = XJournalItemType.Device;
 				}
 				if (xBase is XZone)
 				{
-					journalItemType = JournalItemType.Zone;
+					journalItemType = XJournalItemType.Zone;
 				}
 				if (xBase is XDirection)
 				{
-					journalItemType = JournalItemType.Direction;
+					journalItemType = XJournalItemType.Direction;
 				}
 				if (xBase is XDelay)
 				{
-					journalItemType = JournalItemType.Delay;
+					journalItemType = XJournalItemType.Delay;
 				}
 				if (xBase is XPim)
 				{
-					journalItemType = JournalItemType.Pim;
+					journalItemType = XJournalItemType.Pim;
 				}
 			}
 
-			var journalItem = new JournalItem()
+			var journalItem = new XJournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
 				JournalItemType = journalItemType,
-				StateClass = FiresecAPI.Journal.EventDescriptionAttributeHelper.ToStateClass(journalEventNameType),
+				StateClass = EventDescriptionAttributeHelper.ToStateClass(journalEventNameType),
 				JournalEventNameType = journalEventNameType,
-				Name = FiresecAPI.Journal.EventDescriptionAttributeHelper.ToName(journalEventNameType),
+				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
 				Description = description,
 				ObjectUID = uid,
 				ObjectStateClass = XStateClass.Norm,
@@ -487,8 +488,8 @@ namespace GKProcessor
 			OnGKCallbackResult(gkCallbackResult);
 		}
 
-		public static event Action<JournalItem, bool> NewJournalItem;
-		static void OnNewJournalItem(JournalItem journalItem, bool isAdministrator)
+		public static event Action<XJournalItem, bool> NewJournalItem;
+		static void OnNewJournalItem(XJournalItem journalItem, bool isAdministrator)
 		{
 			if (NewJournalItem != null)
 				NewJournalItem(journalItem, isAdministrator);

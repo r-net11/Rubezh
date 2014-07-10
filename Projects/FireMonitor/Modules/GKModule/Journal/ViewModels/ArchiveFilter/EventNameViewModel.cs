@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.GK;
-using Infrastructure.Common.CheckBoxList;
-using FiresecAPI.Journal;
 using System.Reflection;
+using FiresecAPI.GK;
+using FiresecAPI.Journal;
+using Infrastructure.Common.CheckBoxList;
 
 namespace GKModule.ViewModels
 {

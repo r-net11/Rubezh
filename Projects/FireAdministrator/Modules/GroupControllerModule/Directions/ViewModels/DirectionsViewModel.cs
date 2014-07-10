@@ -8,7 +8,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
-using GKModule.Plans.Designer;
+using GKModule.Plans;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Ribbon;
@@ -18,7 +18,6 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
-using GKModule.Plans;
 
 namespace GKModule.ViewModels
 {

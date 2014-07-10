@@ -6,13 +6,13 @@ namespace GKModule.ViewModels
 {
 	public class JournalItemTypeViewModel : CheckBoxItemViewModel
 	{
-		public JournalItemTypeViewModel(JournalItemType journalItemType)
+		public JournalItemTypeViewModel(XJournalItemType journalItemType)
 		{
 			JournalItemType = journalItemType;
 			Name = journalItemType.ToDescription();
 		}
 
-		public JournalItemType JournalItemType { get; private set; }
+		public XJournalItemType JournalItemType { get; private set; }
 		public string Name { get; private set; }
 
 		public string ImageSource
@@ -21,34 +21,34 @@ namespace GKModule.ViewModels
 			{
 				switch (JournalItemType)
 				{
-					case JournalItemType.Device:
+					case XJournalItemType.Device:
 						return "/Controls;component/GKIcons/RSR2_RM_1.png";
 
-					case JournalItemType.Zone:
+					case XJournalItemType.Zone:
 						return "/Controls;component/Images/zone.png";
 
-					case JournalItemType.Direction:
+					case XJournalItemType.Direction:
 						return "/Controls;component/Images/Blue_Direction.png";
 
-					case JournalItemType.GK:
+					case XJournalItemType.GK:
 						return "/Controls;component/GKIcons/GK.png";
 
-					case JournalItemType.GkUser:
+					case XJournalItemType.GkUser:
 						return "/Controls;component/Images/Chip.png";
 
-					case JournalItemType.System:
+					case XJournalItemType.System:
 						return "/Controls;component/Images/PC.png";
 
-					case JournalItemType.PumpStation:
+					case XJournalItemType.PumpStation:
 						return "/Controls;component/Images/BPumpStation.png";
 
-					case JournalItemType.MPT:
+					case XJournalItemType.MPT:
 						return "/Controls;component/Images/BMPT.png";
 
-					case JournalItemType.Delay:
+					case XJournalItemType.Delay:
 						return "/Controls;component/Images/Delay.png";
 
-					case JournalItemType.Pim:
+					case XJournalItemType.Pim:
 						return "/Controls;component/Images/Pim.png";
 
 					default:

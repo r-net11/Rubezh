@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.SKD;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
@@ -196,9 +197,9 @@ namespace SKDDriver
 					SKDCallbackResult = new SKDCallbackResult();
 					IsPingFailure = result;
 					if (IsPingFailure)
-						AddFailureJournalItem(JournalEventNameType.Нет_связи_с_ГК, FiresecAPI.GK.EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(JournalEventNameType.Нет_связи_с_ГК, JournalEventDescriptionType.Старт_мониторинга);
 					else
-						AddFailureJournalItem(JournalEventNameType.Связь_с_ГК_восстановлена, FiresecAPI.GK.EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(JournalEventNameType.Связь_с_ГК_восстановлена, JournalEventDescriptionType.Старт_мониторинга);
 
 					foreach (var device in AllDevices)
 					{
@@ -222,9 +223,9 @@ namespace SKDDriver
 					SKDCallbackResult = new SKDCallbackResult();
 					IsInTechnologicalRegime = result;
 					if (IsInTechnologicalRegime)
-						AddFailureJournalItem(JournalEventNameType.ГК_в_технологическом_режиме, FiresecAPI.GK.EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(JournalEventNameType.ГК_в_технологическом_режиме, JournalEventDescriptionType.Старт_мониторинга);
 					else
-						AddFailureJournalItem(JournalEventNameType.ГК_в_рабочем_режиме, FiresecAPI.GK.EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(JournalEventNameType.ГК_в_рабочем_режиме, JournalEventDescriptionType.Старт_мониторинга);
 
 					NotifyAllObjectsStateChanged();
 					OnSKDCallbackResult(SKDCallbackResult);
@@ -245,9 +246,9 @@ namespace SKDDriver
 					SKDCallbackResult = new SKDCallbackResult();
 					IsHashFailure = result;
 					if (IsHashFailure)
-						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, FiresecAPI.GK.EventDescription.Не_совпадает_хэш);
+						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, JournalEventDescriptionType.Не_совпадает_хэш);
 					else
-						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_соответствует_конфигурации_ПК, FiresecAPI.GK.EventDescription.Совпадает_хэш);
+						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_соответствует_конфигурации_ПК, JournalEventDescriptionType.Совпадает_хэш);
 
 					foreach (var device in AllDevices)
 					{
@@ -336,13 +337,13 @@ namespace SKDDriver
 			}
 		}
 
-		void AddFailureJournalItem(JournalEventNameType journalEventNameType, FiresecAPI.GK.EventDescription description = FiresecAPI.GK.EventDescription.NULL)
+		void AddFailureJournalItem(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType = JournalEventDescriptionType.NULL)
 		{
 			var journalItem = new JournalItem()
 			{
 				JournalEventNameType = journalEventNameType,
-				Description = description,
-				StateClass = FiresecAPI.GK.XStateClass.Unknown,
+				JournalEventDescriptionType = journalEventDescriptionType,
+				StateClass = XStateClass.Unknown,
 				//GKIpAddress = Device.GetGKIpAddress()
 			};
 			SKDCallbackResult.JournalItems.Add(journalItem);

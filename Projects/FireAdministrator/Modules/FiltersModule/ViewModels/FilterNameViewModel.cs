@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.TreeList;
-using Infrastructure.Common;
-using FiresecAPI.Journal;
-using System.Reflection;
+﻿using System.Reflection;
 using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.Journal;
+using Infrastructure.Common;
+using Infrastructure.Common.TreeList;
 
 namespace FiltersModule.ViewModels
 {
@@ -28,7 +24,7 @@ namespace FiltersModule.ViewModels
 					Name = eventDescriptionAttribute.Name;
 					JournalSubsystemType = eventDescriptionAttribute.JournalSubsystemType;
 					StateClass = eventDescriptionAttribute.StateClass;
-					if (StateClass == FiresecAPI.GK.XStateClass.Norm)
+					if (StateClass == XStateClass.Norm)
 						ImageSource = null;
 
 					ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
@@ -47,7 +43,7 @@ namespace FiltersModule.ViewModels
 		public JournalEventNameType JournalEventNameType { get; private set; }
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
-		public FiresecAPI.GK.XStateClass StateClass { get; private set; }
+		public XStateClass StateClass { get; private set; }
 		public JournalSubsystemType JournalSubsystemType { get; private set; }
 		public bool IsSubsystem { get; private set; }
 

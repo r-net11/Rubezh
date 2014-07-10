@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using ChinaSKDDriver;
 using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
-using ControllerSDK.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 

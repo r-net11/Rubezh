@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD
 {

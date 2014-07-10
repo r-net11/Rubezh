@@ -7,6 +7,7 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
 using System.Reflection;
+using FiresecAPI.Journal;
 
 namespace GKProcessor
 {
@@ -136,7 +137,7 @@ namespace GKProcessor
 				}
 				catch (Exception e)
 				{
-					AddMessage(FiresecAPI.Journal.JournalEventNameType.Ошибка_инициализации_мониторинга, "");
+					AddMessage(JournalEventNameType.Ошибка_инициализации_мониторинга, "");
 					Logger.Error(e, "JournalWatcher.InitializeMonitoring");
 				}
 
@@ -211,9 +212,9 @@ namespace GKProcessor
 					GKCallbackResult = new GKCallbackResult();
 					IsPingFailure = result;
 					if (IsPingFailure)
-						AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType.Нет_связи_с_ГК, EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(JournalEventNameType.Нет_связи_с_ГК, JournalEventDescriptionType.Старт_мониторинга);
 					else
-						AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType.Связь_с_ГК_восстановлена, EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(JournalEventNameType.Связь_с_ГК_восстановлена, JournalEventDescriptionType.Старт_мониторинга);
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
@@ -237,9 +238,9 @@ namespace GKProcessor
 					GKCallbackResult = new GKCallbackResult();
 					IsInTechnologicalRegime = result;
 					if (IsInTechnologicalRegime)
-						AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType.ГК_в_технологическом_режиме, "Старт мониторинга");
+						AddFailureJournalItem(JournalEventNameType.ГК_в_технологическом_режиме, "Старт мониторинга");
 					else
-						AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType.ГК_в_рабочем_режиме, "Старт мониторинга");
+						AddFailureJournalItem(JournalEventNameType.ГК_в_рабочем_режиме, "Старт мониторинга");
 
 					NotifyAllObjectsStateChanged();
 					OnGKCallbackResult(GKCallbackResult);
@@ -261,9 +262,9 @@ namespace GKProcessor
 					GKCallbackResult = new GKCallbackResult();
 					IsHashFailure = result;
 					if (IsHashFailure)
-						AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, EventDescription.Не_совпадает_хэш);
+						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, JournalEventDescriptionType.Не_совпадает_хэш);
 					else
-						AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType.Конфигурация_прибора_соответствует_конфигурации_ПК, EventDescription.Совпадает_хэш);
+						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_соответствует_конфигурации_ПК, JournalEventDescriptionType.Совпадает_хэш);
 
 					foreach (var descriptor in GkDatabase.Descriptors)
 					{
@@ -283,7 +284,7 @@ namespace GKProcessor
 
 				GKCallbackResult = new GKCallbackResult();
 				if (!ReadMissingJournalItems())
-					AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType.Ошибка_при_синхронизации_журнала);
+					AddFailureJournalItem(JournalEventNameType.Ошибка_при_синхронизации_журнала);
 				OnGKCallbackResult(GKCallbackResult);
 
 				GKCallbackResult = new GKCallbackResult();
@@ -293,9 +294,9 @@ namespace GKProcessor
 				{
 					IsGetStatesFailure = result;
 					if (IsGetStatesFailure)
-						AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК, DBMissmatchDuringMonitoringReason);
+						AddFailureJournalItem(JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК, DBMissmatchDuringMonitoringReason);
 					else
-						AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType.Устранена_ошибка_при_опросе_состояний_компонентов_ГК);
+						AddFailureJournalItem(JournalEventNameType.Устранена_ошибка_при_опросе_состояний_компонентов_ГК);
 				}
 				OnGKCallbackResult(GKCallbackResult);
 
@@ -418,12 +419,12 @@ namespace GKProcessor
 			}
 		}
 
-		void AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType journalEventNameType, string description = "")
+		void AddFailureJournalItem(JournalEventNameType journalEventNameType, string description = "")
 		{
-			var journalItem = new FiresecAPI.GK.JournalItem()
+			var journalItem = new XJournalItem()
 			{
 				JournalEventNameType = journalEventNameType,
-				Name = FiresecAPI.Journal.EventDescriptionAttributeHelper.ToName(journalEventNameType),
+				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
 				Description = description,
 				StateClass = XStateClass.Unknown,
 				ObjectStateClass = XStateClass.Norm,
@@ -433,12 +434,12 @@ namespace GKProcessor
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void AddFailureJournalItem(FiresecAPI.Journal.JournalEventNameType journalEventNameType, EventDescription description)
+		void AddFailureJournalItem(JournalEventNameType journalEventNameType, JournalEventDescriptionType description)
 		{
-			var journalItem = new JournalItem()
+			var journalItem = new XJournalItem()
 			{
 				JournalEventNameType = journalEventNameType,
-				Name = FiresecAPI.Journal.EventDescriptionAttributeHelper.ToName(journalEventNameType),
+				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
 				Description = description.ToDescription(),
 				StateClass = XStateClass.Unknown,
 				ObjectStateClass = XStateClass.Norm,
@@ -497,19 +498,19 @@ namespace GKProcessor
 			GKCallbackResult.GKStates.DeviceMeasureParameters.Add(deviceMeasureParameters);
 		}
 
-		internal void AddMessage(FiresecAPI.Journal.JournalEventNameType journalEventNameType, string userName)
+		internal void AddMessage(JournalEventNameType journalEventNameType, string userName)
 		{
 			var journalItem = GKDBHelper.AddMessage(journalEventNameType, userName);
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void AddJournalItem(FiresecAPI.GK.JournalItem journalItem)
+		void AddJournalItem(XJournalItem journalItem)
 		{
 			GKDBHelper.Add(journalItem);
 			GKCallbackResult.JournalItems.Add(journalItem);
 		}
 
-		void AddJournalItems(List<FiresecAPI.GK.JournalItem> journalItems)
+		void AddJournalItems(List<XJournalItem> journalItems)
 		{
 			GKDBHelper.AddMany(journalItems);
 			GKCallbackResult.JournalItems.AddRange(journalItems);

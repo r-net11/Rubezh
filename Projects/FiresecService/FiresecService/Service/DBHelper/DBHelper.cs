@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using Common;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using SKDDriver;
 
@@ -42,7 +43,7 @@ namespace FiresecService
 			return result;
 		}
 
-		public static List<JournalItem> GetSKDTopLastJournalItems(JournalFilter filter, int count)
+		public static List<JournalItem> GetSKDTopLastJournalItems(JournalFilter filter)
 		{
 			var journalItems = new List<JournalItem>();
 			try
@@ -51,7 +52,7 @@ namespace FiresecService
 				{
 					using (var dataContext = new SqlConnection(ConnectionString))
 					{
-						var query = "SELECT TOP (" + count.ToString() + ") * FROM Journal ORDER BY SystemDate DESC";
+						var query = "SELECT TOP (" + filter.LastItemsCount.ToString() + ") * FROM Journal ORDER BY SystemDate DESC";
 						var sqlCommand = new SqlCommand(query, dataContext);
 						dataContext.Open();
 						var reader = sqlCommand.ExecuteReader();
@@ -71,7 +72,7 @@ namespace FiresecService
 			return journalItems;
 		}
 
-		public static List<JournalItem> BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
+		public static List<JournalItem> BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
 		{
 			var journalItems = new List<JournalItem>();
 			var result = new List<JournalItem>();
@@ -127,7 +128,7 @@ namespace FiresecService
 			journalItems.Clear();
 		}
 
-		static string BuildQuery(SKDArchiveFilter archiveFilter)
+		static string BuildQuery(ArchiveFilter archiveFilter)
 		{
 			string dateTimeTypeString;
 			if (archiveFilter.UseDeviceDateTime)
@@ -240,8 +241,8 @@ namespace FiresecService
 			if (!reader.IsDBNull(reader.GetOrdinal("State")))
 			{
 				var intValue = (int)reader.GetValue(reader.GetOrdinal("State"));
-				if (Enum.IsDefined(typeof(FiresecAPI.GK.XStateClass), intValue))
-					journalItem.StateClass = (FiresecAPI.GK.XStateClass)intValue;
+				if (Enum.IsDefined(typeof(XStateClass), intValue))
+					journalItem.StateClass = (XStateClass)intValue;
 			}
 
 			if (!reader.IsDBNull(reader.GetOrdinal("Subsystem")))
@@ -276,8 +277,8 @@ namespace FiresecService
 			if (!reader.IsDBNull(reader.GetOrdinal("Description")))
 			{
 				var intValue = (int)reader.GetValue(reader.GetOrdinal("Description"));
-				if (Enum.IsDefined(typeof(FiresecAPI.GK.EventDescription), intValue))
-					journalItem.Description = (FiresecAPI.GK.EventDescription)intValue;
+				if (Enum.IsDefined(typeof(JournalEventDescriptionType), intValue))
+					journalItem.JournalEventDescriptionType = (JournalEventDescriptionType)intValue;
 			}
 
 			return journalItem;

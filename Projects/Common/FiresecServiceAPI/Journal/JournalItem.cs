@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using FiresecAPI.Journal;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 
@@ -26,7 +25,7 @@ namespace FiresecAPI.Journal
 		public JournalEventNameType JournalEventNameType { get; set; }
 
 		[DataMember]
-		public EventDescription Description { get; set; }
+		public JournalEventDescriptionType JournalEventDescriptionType { get; set; }
 
 		[DataMember]
 		public string NameText { get; set; }

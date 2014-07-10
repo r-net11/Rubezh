@@ -1,6 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.SKD
 {

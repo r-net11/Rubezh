@@ -2,12 +2,13 @@
 using System.Linq;
 using AlarmModule.ViewModels;
 using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using FiresecAPI.SKD;
 
 namespace AlarmModule
 {
@@ -140,11 +141,11 @@ namespace AlarmModule
 			return alarmType;
 		}
 
-		void OnNewJournalItems(List<FiresecAPI.Journal.JournalItem> journalItems)
+		void OnNewJournalItems(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.StateClass == FiresecAPI.GK.XStateClass.Fire2 && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+				if (journalItem.StateClass == XStateClass.Fire2 && FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
 				{
 					var instructionViewModel = new InstructionViewModel(null, null, AlarmType.Fire);
 					if (instructionViewModel.HasContent)

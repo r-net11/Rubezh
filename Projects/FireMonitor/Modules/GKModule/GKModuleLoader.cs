@@ -113,7 +113,7 @@ namespace GKModule
 			UnreadJournalCount = 0;
 			JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
 		}
-		void OnNewJournalRecord(List<JournalItem> journalItems)
+		void OnNewJournalRecord(List<XJournalItem> journalItems)
 		{
 			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
 				UnreadJournalCount += journalItems.Count;

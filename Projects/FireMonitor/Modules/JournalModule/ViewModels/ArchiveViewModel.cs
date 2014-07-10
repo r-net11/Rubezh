@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.SKD;
+using FiresecAPI.Journal;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -13,7 +13,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
 using JournalModule.Events;
-using FiresecAPI.Journal;
 
 namespace JournalModule.ViewModels
 {
@@ -21,7 +20,7 @@ namespace JournalModule.ViewModels
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public ArchiveDefaultState ArchiveDefaultState;
-		SKDArchiveFilter ArchiveFilter;
+		ArchiveFilter ArchiveFilter;
 		bool FirstTime = true;
 		Guid ArchivePortionUID;
 
@@ -82,7 +81,7 @@ namespace JournalModule.ViewModels
 
 		public void Sort(ShowSKDArchiveEventArgs showSKDArchiveEventArgs)
 		{
-			ArchiveFilter = new SKDArchiveFilter();
+			ArchiveFilter = new ArchiveFilter();
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 			if (showSKDArchiveEventArgs.Device != null)
@@ -179,9 +178,9 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		SKDArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
+		ArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
 		{
-			var archiveFilter = new SKDArchiveFilter()
+			var archiveFilter = new ArchiveFilter()
 			{
 				StartDate = ArchiveFirstDate,
 				EndDate = DateTime.Now,
@@ -353,7 +352,7 @@ namespace JournalModule.ViewModels
 
 			try
 			{
-				SKDArchiveFilter archiveFilter = null;
+				ArchiveFilter archiveFilter = null;
 				if (IsFilterOn)
 					archiveFilter = ArchiveFilter;
 				else

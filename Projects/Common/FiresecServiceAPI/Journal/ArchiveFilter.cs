@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
-using FiresecAPI.Journal;
 
 namespace FiresecAPI.Journal
 {
 	[DataContract]
-	public class SKDArchiveFilter
+	public class ArchiveFilter
 	{
-		public SKDArchiveFilter()
+		public ArchiveFilter()
 		{
 			StartDate = DateTime.Now.AddDays(-1);
 			EndDate = DateTime.Now;

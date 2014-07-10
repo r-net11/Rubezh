@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
@@ -218,7 +219,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void OnNewJournal(List<FiresecAPI.Journal.JournalItem> journalItems)
+		public void OnNewJournal(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{

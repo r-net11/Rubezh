@@ -167,7 +167,7 @@ namespace GKModule.ViewModels
 					var dataContractSerializer = new DataContractSerializer(typeof(JournalItemsCollection));
 					using (var fileStream = new FileStream(saveDialog.FileName, FileMode.CreateNew))
 					{
-						var journalItems = new System.Collections.Generic.List<JournalItem>();
+						var journalItems = new System.Collections.Generic.List<XJournalItem>();
 						JournalItems.ToList().ForEach(x => journalItems.Add(x.JournalItem));
 						var journalItemsCollection = new JournalItemsCollection
 						{

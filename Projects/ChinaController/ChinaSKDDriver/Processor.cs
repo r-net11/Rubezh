@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ChinaSKDDriverAPI;
-using FiresecAPI.SKD;
 using FiresecAPI;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using FiresecAPI.SKD;
 
 namespace ChinaSKDDriver
 {
@@ -139,7 +139,7 @@ namespace ChinaSKDDriver
 		}
 		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 
-		public static void OnGKCallbackResult(FiresecAPI.GK.GKCallbackResult gkCallbackResult)
+		public static void OnGKCallbackResult(GKCallbackResult gkCallbackResult)
 		{
 			if (gkCallbackResult.JournalItems.Count +
 				gkCallbackResult.GKStates.DeviceStates.Count +
@@ -155,7 +155,7 @@ namespace ChinaSKDDriver
 					GKCallbackResultEvent(gkCallbackResult);
 			}
 		}
-		public static event Action<FiresecAPI.GK.GKCallbackResult> GKCallbackResultEvent;
+		public static event Action<GKCallbackResult> GKCallbackResultEvent;
 		#endregion
 	}
 }

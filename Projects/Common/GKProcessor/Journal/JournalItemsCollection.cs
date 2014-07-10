@@ -15,7 +15,7 @@ namespace GKProcessor
 		public int? RecordCount { get; set; }
 
 		[DataMember]
-		public List<JournalItem> JournalItems { get; set; }
+		public List<XJournalItem> JournalItems { get; set; }
 
 		[DataMember]
 		public string GkIP { get; set; }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
-using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 
@@ -72,17 +71,17 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Journal
-		public OperationResult<IEnumerable<FiresecAPI.Journal.JournalItem>> GetSKDJournalItems(FiresecAPI.Journal.JournalFilter filter)
+		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(JournalFilter filter)
 		{
-			return SafeContext.Execute<OperationResult<IEnumerable<FiresecAPI.Journal.JournalItem>>>(() => FiresecService.GetSKDJournalItems(filter));
+			return SafeContext.Execute<OperationResult<IEnumerable<JournalItem>>>(() => FiresecService.GetSKDJournalItems(filter));
 		}
 		public OperationResult<DateTime> GetMinDateTime()
 		{
 			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinDateTime());
 		}
-		public List<EventDescription> GetDistinctEventDescriptions()
+		public List<JournalEventDescriptionType> GetDistinctEventDescriptions()
 		{
-			return SafeContext.Execute<List<EventDescription>>(()=>FiresecService.GetDistinctEventDescriptions());
+			return SafeContext.Execute<List<JournalEventDescriptionType>>(() => FiresecService.GetDistinctEventDescriptions());
 		}
 		public List<JournalEventNameType> GetDistinctEventNames()
 		{
@@ -281,7 +280,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
 		}
 
-		public void BeginGetSKDFilteredArchive(FiresecAPI.Journal.SKDArchiveFilter archiveFilter, Guid archivePortionUID)
+		public void BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			SafeOperationCall(() => { FiresecService.BeginGetSKDFilteredArchive(archiveFilter, archivePortionUID); }, "BeginGetSKDFilteredArchive");
 		}

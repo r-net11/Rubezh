@@ -1,10 +1,7 @@
 ﻿using System;
-using FiresecAPI.Automation;
-using Infrastructure.Common.Validation;
 using FiltersModule.Events;
-using FiresecAPI.Models;
-using FiresecAPI;
 using FiresecAPI.Journal;
+using Infrastructure.Common.Validation;
 
 namespace FilterModule.Validation
 {

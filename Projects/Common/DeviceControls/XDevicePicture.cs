@@ -13,12 +13,12 @@ namespace DeviceControls
 		{
 		}
 
-		public Brush GetBrush(FiresecAPI.GK.XDevice device)
+		public Brush GetBrush(XDevice device)
 		{
 			Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
 			return GetBrush(driverUID);
 		}
-		public Brush GetDynamicBrush(FiresecAPI.GK.XDevice device)
+		public Brush GetDynamicBrush(XDevice device)
 		{
 			return device == null || device.DriverUID == Guid.Empty || device.State == null ? GetBrush(device) : GetDynamicBrush(device.DriverUID, device.State);
 		}

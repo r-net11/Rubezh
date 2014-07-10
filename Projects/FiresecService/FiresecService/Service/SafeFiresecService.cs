@@ -210,7 +210,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GKGetJournalItemsCount(deviceUID); }, "GKGetJournalItemsCount");
 		}
 
-		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no)
+		public OperationResult<XJournalItem> GKReadJournalItem(Guid deviceUID, int no)
 		{
 			return SafeOperationCall(() => { return FiresecService.GKReadJournalItem(deviceUID, no); }, "GKReadJournalItem");
 		}
@@ -304,7 +304,7 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.GKStopMeasureMonitoring(deviceUID); }, "GKStopMeasureMonitoring");
 		}
 
-		public List<JournalItem> GetGKTopLastJournalItems(int count)
+		public List<XJournalItem> GetGKTopLastJournalItems(int count)
 		{
 			return SafeOperationCall(() => { return FiresecService.GetGKTopLastJournalItems(count); }, "GetGKTopLastJournalItems");
 		}

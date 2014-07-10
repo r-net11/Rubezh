@@ -134,7 +134,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<JournalItem> GKReadJournalItem(Guid deviceUID, int no)
+		public OperationResult<XJournalItem> GKReadJournalItem(Guid deviceUID, int no)
 		{
 			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
 			if (device != null)
@@ -143,7 +143,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				return new OperationResult<JournalItem>("Не найдено устройство в конфигурации");
+				return new OperationResult<XJournalItem>("Не найдено устройство в конфигурации");
 			}
 		}
 
@@ -351,7 +351,7 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void AddJournalItem(JournalItem journalItem)
+		public void AddJournalItem(XJournalItem journalItem)
 		{
 			GKDBHelper.Add(journalItem);
 			AddGKGlobalJournalItem(journalItem);
@@ -360,7 +360,7 @@ namespace FiresecService.Service
 			NotifyGKObjectStateChanged(gkCallbackResult);
 		}
 
-		public List<JournalItem> GetGKTopLastJournalItems(int count)
+		public List<XJournalItem> GetGKTopLastJournalItems(int count)
 		{
 			return GKDBHelper.GetGKTopLastJournalItems(count);
 		}
@@ -387,7 +387,7 @@ namespace FiresecService.Service
 			thread.Start();
 		}
 
-		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
+		void DatabaseHelper_ArchivePortionReady(List<XJournalItem> journalItems, Guid archivePortionUID)
 		{
 			FiresecService.NotifyGKArchiveCompleted(journalItems, archivePortionUID);
 		}

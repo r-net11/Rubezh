@@ -6,7 +6,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Events;
 using GKModule.Plans;
-using GKModule.Plans.Designer;
 using GKModule.Validation;
 using GKModule.ViewModels;
 using GKProcessor;
@@ -181,8 +180,8 @@ namespace GKModule
 			GKDriversCreator.Create();
 			XManager.UpdateConfiguration();
 
-			GKProcessorManager.NewJournalItem -= new Action<JournalItem, bool>(OnNewJournalItems);
-			GKProcessorManager.NewJournalItem += new Action<JournalItem, bool>(OnNewJournalItems);
+			GKProcessorManager.NewJournalItem -= new Action<XJournalItem, bool>(OnNewJournalItems);
+			GKProcessorManager.NewJournalItem += new Action<XJournalItem, bool>(OnNewJournalItems);
 
 			//SafeFiresecService.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 			//SafeFiresecService.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
@@ -197,7 +196,7 @@ namespace GKModule
 		//    FiresecManager.StartPoll(true);
 		//}
 
-		void OnNewJournalItems(JournalItem journalItem, bool isAdministrator)
+		void OnNewJournalItems(XJournalItem journalItem, bool isAdministrator)
 		{
 			if (isAdministrator)
 			{

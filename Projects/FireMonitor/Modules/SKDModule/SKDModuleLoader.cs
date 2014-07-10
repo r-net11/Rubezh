@@ -19,7 +19,7 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
-//using JournalItem = FiresecAPI.Journal.JournalItem;
+//using JournalItem = JournalItem;
 
 namespace SKDModule
 {

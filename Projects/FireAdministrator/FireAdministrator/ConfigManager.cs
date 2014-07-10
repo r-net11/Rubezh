@@ -15,6 +15,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
+using FiresecAPI.Journal;
 
 namespace FireAdministrator
 {
@@ -41,7 +42,7 @@ namespace FireAdministrator
 
 				WaitHelper.Execute(() =>
 				{
-					FiresecManager.FiresecService.GKAddMessage(FiresecAPI.Journal.JournalEventNameType.Применение_конфигурации, "");
+					FiresecManager.FiresecService.GKAddMessage(JournalEventNameType.Применение_конфигурации, "");
 					LoadingService.Show("Применение конфигурации", "Применение конфигурации", 10);
 					if (ServiceFactory.SaveService.FSChanged || ServiceFactory.SaveService.FSParametersChanged)
 					{

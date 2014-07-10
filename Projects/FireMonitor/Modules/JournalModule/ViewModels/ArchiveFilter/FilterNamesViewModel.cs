@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.Journal;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
-using FiresecAPI.SKD;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace JournalModule.ViewModels
 {
 	public class FilterNamesViewModel : BaseViewModel
 	{
-		public FilterNamesViewModel(SKDArchiveFilter filter)
+		public FilterNamesViewModel(ArchiveFilter filter)
 		{
 			BuildTree();
 			Initialize(filter);
 		}
 
-		public void Initialize(SKDArchiveFilter filter)
+		public void Initialize(ArchiveFilter filter)
 		{
 			AllFilters.ForEach(x => x.IsChecked = false);
 			foreach (var eventName in filter.JournalEventNameTypes)
@@ -39,9 +36,9 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public SKDArchiveFilter GetModel()
+		public ArchiveFilter GetModel()
 		{
-			var filter = new SKDArchiveFilter();
+			var filter = new ArchiveFilter();
 			foreach (var rootFilter in RootFilters)
 			{
 				if (rootFilter.IsChecked)

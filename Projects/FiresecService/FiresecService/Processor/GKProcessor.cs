@@ -1,8 +1,8 @@
 ﻿using System;
 using FiresecAPI;
 using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecClient;
-using FiresecService.Processor;
 using GKProcessor;
 using Infrastructure.Common;
 
@@ -61,7 +61,7 @@ namespace FiresecService
 					allHashesAreEqual = false;
 				}
 
-				GKProcessorManager.AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Применение_конфигурации, "", null, null);
+				GKProcessorManager.AddGKMessage(JournalEventNameType.Применение_конфигурации, "", null, null);
 				//if (!allHashesAreEqual)
 				{
 					Stop();

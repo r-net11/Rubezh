@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using ChinaSKDDriverNativeApi;
-using ControllerSDK.Views;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 

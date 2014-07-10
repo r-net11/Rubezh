@@ -5,18 +5,18 @@ using FiresecAPI.Journal;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class JournalItem
+	public class XJournalItem
 	{
-		public JournalItem()
+		public XJournalItem()
 		{
 			DeviceDateTime = DateTime.Now;
 			SystemDateTime = DateTime.Now;
 			ObjectStateClass = XStateClass.Norm;
-			JournalItemType = JournalItemType.System;
+			JournalItemType = XJournalItemType.System;
 		}
 
 		[DataMember]
-		public JournalItemType JournalItemType { get; set; }
+		public XJournalItemType JournalItemType { get; set; }
 		[DataMember]
 		public DateTime DeviceDateTime { get; set; }
 		[DataMember]

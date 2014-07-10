@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
-using FiresecAPI.SKD;
 using FiresecAPI.Journal;
+using FiresecAPI.SKD;
 
 namespace SKDDriver
 {
@@ -108,17 +108,17 @@ namespace SKDDriver
 
 		public static void AddMessage(JournalEventNameType journalEventNameType, SKDDevice device, string userName, bool isAdministrator = false)
 		{
-			AddMessage(journalEventNameType, FiresecAPI.GK.EventDescription.NULL, device, userName, isAdministrator);
+			AddMessage(journalEventNameType, JournalEventDescriptionType.NULL, device, userName, isAdministrator);
 		}
 
-		public static void AddMessage(JournalEventNameType journalEventNameType, FiresecAPI.GK.EventDescription description, SKDDevice device, string userName, bool isAdministrator = false)
+		public static void AddMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType journalEventDescriptionType, SKDDevice device, string userName, bool isAdministrator = false)
 		{
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
-				Description = description,
+				JournalEventDescriptionType = journalEventDescriptionType,
 				ObjectName = device.Name,
 				ObjectUID = device.UID,
 				JournalObjectType = JournalObjectType.GKDevice,

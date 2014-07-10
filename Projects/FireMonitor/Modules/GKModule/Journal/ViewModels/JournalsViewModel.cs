@@ -67,11 +67,11 @@ namespace GKModule.ViewModels
 			SelectedJournal = selectedJournal;
 		}
 		
-		void OnNewJournal(List<JournalItem> journalItems)
+		void OnNewJournal(List<XJournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if ((journalItem.JournalItemType == JournalItemType.Zone || journalItem.JournalItemType == JournalItemType.Direction) &&
+				if ((journalItem.JournalItemType == XJournalItemType.Zone || journalItem.JournalItemType == XJournalItemType.Direction) &&
 					(journalItem.StateClass == XStateClass.Fire1 || journalItem.StateClass == XStateClass.Fire2 || journalItem.StateClass == XStateClass.Attention))
 				{
 					if (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)

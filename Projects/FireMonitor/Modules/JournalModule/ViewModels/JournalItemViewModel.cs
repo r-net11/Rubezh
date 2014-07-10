@@ -1,9 +1,10 @@
 ﻿using System.Linq;
+using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Journal;
-using FiresecAPI;
 
 namespace JournalModule.ViewModels
 {
@@ -31,9 +32,9 @@ namespace JournalModule.ViewModels
 				Name = journalItem.NameText;
 			}
 
-			if (journalItem.Description != FiresecAPI.GK.EventDescription.NULL)
+			if (journalItem.JournalEventDescriptionType != JournalEventDescriptionType.NULL)
 			{
-				Description = journalItem.Description.ToDescription();
+				Description = journalItem.JournalEventDescriptionType.ToDescription();
 			}
 			else
 			{
@@ -47,7 +48,7 @@ namespace JournalModule.ViewModels
 		public string Description { get; private set; }
 		public string ObjectImageSource { get; private set; }
 		public string ObjectName { get; private set; }
-		public FiresecAPI.GK.XStateClass StateClass { get; private set; }
+		public XStateClass StateClass { get; private set; }
 
 		public bool IsExistsInConfig
 		{

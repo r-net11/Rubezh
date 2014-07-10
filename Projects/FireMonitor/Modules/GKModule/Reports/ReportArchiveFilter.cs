@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FiresecAPI.GK;
-using FiresecClient;
 using GKModule.ViewModels;
 using GKProcessor;
 
@@ -25,11 +24,11 @@ namespace GKModule.Reports
 
 		void Initialize()
 		{
-			JournalItems = new List<JournalItem>();
+			JournalItems = new List<XJournalItem>();
 		}
 
 		public readonly DateTime ArchiveFirstDate;// = FiresecManager.GetArchiveStartDate().Result;
-		public List<JournalItem> JournalItems { get; set; }
+		public List<XJournalItem> JournalItems { get; set; }
 		public XArchiveFilter ArchiveFilter { get; set; }
 		public bool IsFilterOn { get; set; }
 		public DateTime StartDate { get; private set; }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using ChinaSKDDriverAPI;
-using ChinaSKDDriverNativeApi;
+﻿using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {

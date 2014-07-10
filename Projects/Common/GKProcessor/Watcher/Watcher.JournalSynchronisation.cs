@@ -25,7 +25,7 @@ namespace GKProcessor
 			{
 				var progressCallback = GKProcessorManager.StartProgress("Синхронизация журнала ГК " + gkIpAddress, "", remoteLastId - localLastDBNo, true, GKProgressClientType.Monitor);
 
-				var journalItems = new List<JournalItem>();
+				var journalItems = new List<XJournalItem>();
 				for (int index = localLastDBNo; index <= remoteLastId; index++)
 				{
 					LastUpdateTime = DateTime.Now;
@@ -47,7 +47,7 @@ namespace GKProcessor
 						if (journalItems.Count > 100)
 						{
 							AddJournalItems(journalItems);
-							journalItems = new List<JournalItem>();
+							journalItems = new List<XJournalItem>();
 						}
 					}
 				}

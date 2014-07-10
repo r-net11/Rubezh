@@ -3,13 +3,14 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
+using FiresecAPI.Journal;
 
 namespace GKProcessor
 {
 	public partial class Watcher
 	{
 		bool IsDBMissmatchDuringMonitoring = false;
-		EventDescription DBMissmatchDuringMonitoringReason;
+		JournalEventDescriptionType DBMissmatchDuringMonitoringReason;
 
 		bool _isJournalAnyDBMissmatch = false;
 		bool IsJournalAnyDBMissmatch
@@ -20,11 +21,11 @@ namespace GKProcessor
 				if (_isJournalAnyDBMissmatch != value)
 				{
 					_isJournalAnyDBMissmatch = value;
-					var journalItem = new JournalItem()
+					var journalItem = new XJournalItem()
 					{
 						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
 						StateClass = XStateClass.Unknown,
-						JournalEventNameType = value ? FiresecAPI.Journal.JournalEventNameType.База_данных_прибора_не_соответствует_базе_данных_ПК : FiresecAPI.Journal.JournalEventNameType.База_данных_прибора_соответствует_базе_данных_ПК,
+						JournalEventNameType = value ? JournalEventNameType.База_данных_прибора_не_соответствует_базе_данных_ПК : JournalEventNameType.База_данных_прибора_соответствует_базе_данных_ПК,
 					};
 					AddJournalItem(journalItem);
 				}
@@ -195,7 +196,7 @@ namespace GKProcessor
 				if (device.Driver.DriverTypeNo != descriptorStateHelper.TypeNo)
 				{
 					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_устройства;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_устройства;
 				}
 
 				ushort physicalAddress = device.IntAddress;
@@ -205,7 +206,7 @@ namespace GKProcessor
 					&& device.Driver.HasAddress && physicalAddress != descriptorStateHelper.PhysicalAddress)
 				{
 					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_физический_адрес_устройства;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_физический_адрес_устройства;
 				}
 
 				var nearestDescriptorNo = 0;
@@ -216,7 +217,7 @@ namespace GKProcessor
 				if (nearestDescriptorNo != descriptorStateHelper.AddressOnController)
 				{
 					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_адрес_на_контроллере;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_адрес_на_контроллере;
 				}
 			}
 			if (xBase is XZone)
@@ -224,7 +225,7 @@ namespace GKProcessor
 				if (descriptorStateHelper.TypeNo != 0x100)
 				{
 					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_зоны;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_зоны;
 				}
 			}
 			if (xBase is XDirection)
@@ -232,7 +233,7 @@ namespace GKProcessor
 				if (descriptorStateHelper.TypeNo != 0x106)
 				{
 					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_направления;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_направления;
 				}
 			}
 			if (xBase is XPumpStation)
@@ -240,7 +241,7 @@ namespace GKProcessor
 				if (descriptorStateHelper.TypeNo != 0x106)
 				{
 					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_НС;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_НС;
 				}
 			}
 			if (xBase is XMPT)
@@ -248,7 +249,7 @@ namespace GKProcessor
 				if (descriptorStateHelper.TypeNo != 0x106)
 				{
 					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_НС;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_НС;
 				}
 			}
 			if (xBase is XDelay)
@@ -256,7 +257,7 @@ namespace GKProcessor
 				if (descriptorStateHelper.TypeNo != 0x101)
 				{
 					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_Задержки;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_Задержки;
 				}
 			}
 			if (xBase is XPim)
@@ -264,7 +265,7 @@ namespace GKProcessor
 				if (descriptorStateHelper.TypeNo != 0x107)
 				{
 					isMissmatch = true;
-					DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_тип_для_ПИМ;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_ПИМ;
 				}
 			}
 
@@ -273,7 +274,7 @@ namespace GKProcessor
 			if (description.TrimEnd(' ') != descriptorStateHelper.Description)
 			{
 				isMissmatch = true;
-				DBMissmatchDuringMonitoringReason = EventDescription.Не_совпадает_описание_компонента;
+				DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_описание_компонента;
 			}
 
 			xBase.InternalState.IsDBMissmatchDuringMonitoring = isMissmatch;

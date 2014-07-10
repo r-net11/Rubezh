@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
-using FiresecAPI.Automation;
-using FiresecAPI.Models;
-using FiresecAPI;
+using System.Linq;
 using FiresecAPI.Journal;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiltersModule.ViewModels
 {

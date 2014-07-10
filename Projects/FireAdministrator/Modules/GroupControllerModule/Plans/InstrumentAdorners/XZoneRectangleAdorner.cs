@@ -1,11 +1,10 @@
-﻿using FiresecAPI.Models;
-using GKModule.Plans.Designer;
+﻿using FiresecAPI.GK;
+using FiresecAPI.Models;
 using GKModule.Plans.ViewModels;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.InstrumentAdorners;
-using FiresecAPI.GK;
 
 namespace GKModule.Plans.InstrumentAdorners
 {

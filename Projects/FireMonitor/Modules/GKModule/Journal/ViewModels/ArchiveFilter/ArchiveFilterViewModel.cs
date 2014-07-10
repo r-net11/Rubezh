@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecClient;
 using GKProcessor;
 using Infrastructure.Common;
 using Infrastructure.Common.CheckBoxList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Diagnostics;
-using FiresecAPI.Journal;
 
 namespace GKModule.ViewModels
 {
@@ -46,15 +45,15 @@ namespace GKModule.ViewModels
 		void InitializeJournalItemTypes(XArchiveFilter archiveFilter)
 		{
 			JournalItemTypes = new CheckBoxItemList<JournalItemTypeViewModel>();
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Device));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Direction));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.GK));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.System));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Zone));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.PumpStation));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.MPT));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Delay));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(JournalItemType.Pim));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.Device));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.Direction));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.GK));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.System));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.Zone));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.PumpStation));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.MPT));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.Delay));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.Pim));
 			foreach (var journalItemType in archiveFilter.JournalItemTypes)
 			{
 				var JournalItemTypeViewModel = JournalItemTypes.Items.FirstOrDefault(x => (x as JournalItemTypeViewModel).JournalItemType == journalItemType);

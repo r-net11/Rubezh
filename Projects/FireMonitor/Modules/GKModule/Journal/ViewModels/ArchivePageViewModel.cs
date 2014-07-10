@@ -6,9 +6,9 @@ namespace GKModule.ViewModels
 {
 	public class ArchivePageViewModel : BaseViewModel
 	{
-		IEnumerable<JournalItem> JournalItemsList;
+		IEnumerable<XJournalItem> JournalItemsList;
 
-		public ArchivePageViewModel(IEnumerable<JournalItem> journalItems)
+		public ArchivePageViewModel(IEnumerable<XJournalItem> journalItems)
 		{
 			JournalItemsList = journalItems;
 		}

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.TreeList;
-using Infrastructure.Common;
-using FiresecAPI.Journal;
 using System.Reflection;
-using FiresecAPI.GK;
 using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using Infrastructure.Common.TreeList;
 
 namespace JournalModule.ViewModels
 {
@@ -106,42 +102,42 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public FilterObjectViewModel(FiresecAPI.GK.XDevice device)
+		public FilterObjectViewModel(XDevice device)
 		{
 			Name = device.PresentationName;
 			UID = device.UID;
 			ImageSource = device.Driver.ImageSource;
 		}
 
-		public FilterObjectViewModel(FiresecAPI.GK.XZone zone)
+		public FilterObjectViewModel(XZone zone)
 		{
 			Name = zone.PresentationName;
 			UID = zone.UID;
 			ImageSource = "/Controls;component/Images/Zone.png";
 		}
 
-		public FilterObjectViewModel(FiresecAPI.GK.XDirection direction)
+		public FilterObjectViewModel(XDirection direction)
 		{
 			Name = direction.PresentationName;
 			UID = direction.UID;
 			ImageSource = "/Controls;component/Images/BDirection.png";
 		}
 
-		public FilterObjectViewModel(FiresecAPI.GK.XMPT mpt)
+		public FilterObjectViewModel(XMPT mpt)
 		{
 			Name = mpt.PresentationName;
 			UID = mpt.BaseUID;
 			ImageSource = "/Controls;component/Images/BMPT.png";
 		}
 
-		public FilterObjectViewModel(FiresecAPI.GK.XPumpStation pumpStation)
+		public FilterObjectViewModel(XPumpStation pumpStation)
 		{
 			Name = pumpStation.PresentationName;
 			UID = pumpStation.UID;
 			ImageSource = "/Controls;component/Images/BPumpStation.png";
 		}
 
-		public FilterObjectViewModel(FiresecAPI.GK.XDelay delay)
+		public FilterObjectViewModel(XDelay delay)
 		{
 			Name = delay.PresentationName;
 			UID = delay.BaseUID;

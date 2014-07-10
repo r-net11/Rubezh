@@ -13,8 +13,6 @@ namespace FiresecAPI.Journal
 		public JournalFilter()
 		{
 			UID = Guid.NewGuid();
-			SystemDateTime = new DateTimePeriod();
-			DeviceDateTime = new DateTimePeriod();
 			JournalEventNameTypes = new List<JournalEventNameType>();
 			JournalSubsystemTypes = new List<JournalSubsystemType>();
 			DeviceUIDs = new List<Guid>();
@@ -30,16 +28,13 @@ namespace FiresecAPI.Journal
 		public string Description { get; set; }
 
 		[DataMember]
-		public DateTimePeriod SystemDateTime { get; set; }
-
-		[DataMember]
-		public DateTimePeriod DeviceDateTime { get; set; }
-
-		[DataMember]
-		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
+		public int LastItemsCount { get; set; }
 
 		[DataMember]
 		public List<JournalSubsystemType> JournalSubsystemTypes { get; set; }
+
+		[DataMember]
+		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
 
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }

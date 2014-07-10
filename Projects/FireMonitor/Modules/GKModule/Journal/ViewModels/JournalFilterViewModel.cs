@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
-using GKProcessor;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
@@ -44,7 +43,7 @@ namespace GKModule.ViewModels
 			get { return JournalFilter.Description != null && JournalFilter.Description != ""; }
 		}
 
-		public bool FilterStateClass(JournalItem journalItem)
+		public bool FilterStateClass(XJournalItem journalItem)
 		{
 			if (JournalFilter.StateClasses.Count > 0)
 			{
@@ -53,7 +52,7 @@ namespace GKModule.ViewModels
 			return true;
 		}
 
-		public bool FilterEventName(JournalItem journalItem)
+		public bool FilterEventName(XJournalItem journalItem)
 		{
 			if (JournalFilter.EventNames.Count > 0)
 			{

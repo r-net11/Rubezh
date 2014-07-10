@@ -6,7 +6,6 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using JournalItem = FiresecAPI.Journal.JournalItem;
 
 namespace FiresecService.Service
 {
@@ -15,7 +14,7 @@ namespace FiresecService.Service
 		public static Thread CurrentThread;
 
 		#region Add
-		public static void AddGKGlobalJournalItem(FiresecAPI.GK.JournalItem journalItem)
+		public static void AddGKGlobalJournalItem(XJournalItem journalItem)
 		{
 			var globalJournalItem = new JournalItem();
 			globalJournalItem.SystemDateTime = journalItem.SystemDateTime;
@@ -37,17 +36,17 @@ namespace FiresecService.Service
 
 		void AddSKDMessage(JournalEventNameType journalEventNameType, SKDDevice device, string userName)
 		{
-			AddSKDMessage(journalEventNameType, FiresecAPI.GK.EventDescription.NULL, device, userName);
+			AddSKDMessage(journalEventNameType, JournalEventDescriptionType.NULL, device, userName);
 		}
 
-		void AddSKDMessage(JournalEventNameType journalEventNameType, FiresecAPI.GK.EventDescription description, SKDDevice device, string userName)
+		void AddSKDMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType description, SKDDevice device, string userName)
 		{
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
-				Description = description,
+				JournalEventDescriptionType = description,
 				ObjectName = device != null ? device.Name : null,
 				ObjectUID = device != null ? device.UID : Guid.Empty,
 				JournalObjectType = JournalObjectType.SKDDevice,
@@ -89,12 +88,12 @@ namespace FiresecService.Service
 
 		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(JournalFilter filter)
 		{
-			var journalItems = DBHelper.GetSKDTopLastJournalItems(filter, 100);
+			var journalItems = DBHelper.GetSKDTopLastJournalItems(filter);
 			return new OperationResult<IEnumerable<JournalItem>>() { Result = journalItems };
 			//return SKDDatabaseService.JournalItemTranslator.Get(filter);
 		}
 
-		public void BeginGetSKDFilteredArchive(SKDArchiveFilter archiveFilter, Guid archivePortionUID)
+		public void BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			if (CurrentThread != null)
 			{
@@ -121,7 +120,7 @@ namespace FiresecService.Service
 			FiresecService.NotifySKDArchiveCompleted(journalItems, archivePortionUID);
 		}
 
-		public List<EventDescription> GetDistinctEventDescriptions()
+		public List<JournalEventDescriptionType> GetDistinctEventDescriptions()
 		{
 			return DBHelper.GetDistinctEventDescriptions();
 		}

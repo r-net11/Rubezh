@@ -7,8 +7,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
-using SKDModule.Events;
 using Infrastructure.Events;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {

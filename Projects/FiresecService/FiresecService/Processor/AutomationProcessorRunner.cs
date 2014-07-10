@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using FiresecAPI.Automation;
-using FiresecAPI.GK;
-using FiresecClient;
+using FiresecAPI.Journal;
 using GKProcessor;
 
 namespace FiresecService.Processor
@@ -79,7 +76,7 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.SendMessage:
-					GKProcessorManager.AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, "Запуск процедуры", null, null);
+					GKProcessorManager.AddGKMessage(JournalEventNameType.Команда_оператора, "Запуск процедуры", null, null);
 					break;
 
 				case ProcedureStepType.FindObjects:

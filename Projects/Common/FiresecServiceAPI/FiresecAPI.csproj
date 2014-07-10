@@ -144,10 +144,10 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="XModels\CallbackResult.cs" />
-    <Compile Include="Filters\EventDescriptionAttribute.cs" />
-    <Compile Include="Filters\EventDescriptionAttributeHelper.cs" />
-    <Compile Include="Filters\JournalEventNameType.cs" />
-    <Compile Include="Filters\JournalSubsystemType.cs" />
+    <Compile Include="Journal\EventDescriptionAttribute.cs" />
+    <Compile Include="Journal\EventDescriptionAttributeHelper.cs" />
+    <Compile Include="Journal\JournalEventNameType.cs" />
+    <Compile Include="Journal\JournalSubsystemType.cs" />
     <Compile Include="IFiresecService.Automation.cs" />
     <Compile Include="IFiresecServiceSKD.TimeInterval.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AM1_O_Helper.cs" />
@@ -207,7 +207,7 @@
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
     <Compile Include="SKD\Employee\EmployeeTimeTrack.cs" />
-    <Compile Include="Filters\JournalObjectType.cs" />
+    <Compile Include="Journal\JournalObjectType.cs" />
     <Compile Include="SKD\Settings\GlobalSettings.cs" />
     <Compile Include="Models\Automation\AutomationConfiguration.cs" />
     <Compile Include="Models\Automation\AutomationSound.cs" />
@@ -289,7 +289,7 @@
     <Compile Include="SKD\Employee\ShortEmployee.cs" />
     <Compile Include="SKD\Employee\EmployeeReplacementFilter.cs" />
     <Compile Include="SKD\Employee\PersonType.cs" />
-    <Compile Include="Filters\SKDArchiveFilter.cs" />
+    <Compile Include="Journal\ArchiveFilter.cs" />
     <Compile Include="SKD\Organisation\OrganisationFilter.cs" />
     <Compile Include="SKD\Common\OrganisationFilterBase.cs" />
     <Compile Include="SKD\Organisation\Organisation.cs" />
@@ -366,7 +366,7 @@
     <Compile Include="SKD\Driver\SKDDriverType.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Drivers.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.cs" />
-    <Compile Include="Filters\JournalFilter.cs" />
+    <Compile Include="Journal\JournalFilter.cs" />
     <Compile Include="SKD\States\SKDStates.cs" />
     <Compile Include="SKD\States\SKDZoneState.cs" />
     <Compile Include="SKD\TimeIntervals\SKDHoliday.cs" />
@@ -467,10 +467,10 @@
     <Compile Include="XModels\Guard\XGuardUser.cs" />
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
-    <Compile Include="XModels\Journal\EventDescription.cs" />
-    <Compile Include="Filters\JournalItem.cs" />
-    <Compile Include="XModels\Journal\JournalItem.cs" />
-    <Compile Include="XModels\Journal\JournalItemType.cs" />
+    <Compile Include="Journal\JournalEventDescriptionType.cs" />
+    <Compile Include="Journal\JournalItem.cs" />
+    <Compile Include="XModels\Journal\XJournalItem.cs" />
+    <Compile Include="XModels\Journal\XJournalItemType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />
     <Compile Include="XModels\Library\LibraryXDevice.cs" />
     <Compile Include="XModels\Library\LibraryXFrame.cs" />

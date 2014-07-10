@@ -48,13 +48,13 @@ namespace GKModule
 			GKProcessorManager.GKCallbackResultEvent -= new Action<GKCallbackResult>(OnGKCallbackResult);
 			GKProcessorManager.GKCallbackResultEvent += new Action<GKCallbackResult>(OnGKCallbackResult);
 
-			SafeFiresecService.GetFilteredGKArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredGKArchiveCompletedEvent);
-			SafeFiresecService.GetFilteredGKArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredGKArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredGKArchiveCompletedEvent -= new Action<IEnumerable<XJournalItem>, Guid>(OnGetFilteredGKArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredGKArchiveCompletedEvent += new Action<IEnumerable<XJournalItem>, Guid>(OnGetFilteredGKArchiveCompletedEvent);
 
 			ServiceFactoryBase.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
 		}
 
-		void OnGetFilteredGKArchiveCompletedEvent(IEnumerable<JournalItem> journalItems, Guid archivePortionUID)
+		void OnGetFilteredGKArchiveCompletedEvent(IEnumerable<XJournalItem> journalItems, Guid archivePortionUID)
 		{
 			ApplicationService.Invoke(() =>
 			{
