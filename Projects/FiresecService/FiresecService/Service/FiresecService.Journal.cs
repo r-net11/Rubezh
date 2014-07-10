@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using Common;
-using FiresecAPI;
-using FiresecAPI.Models;
-using SKDDriver;
-using FiresecAPI.SKD;
-using FiresecAPI.Journal;
 using System.Data.SqlClient;
+using System.Threading;
+using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.Journal;
+using FiresecAPI.SKD;
+using JournalItem = FiresecAPI.Journal.JournalItem;
 
 namespace FiresecService.Service
 {
@@ -120,6 +119,16 @@ namespace FiresecService.Service
 		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
 		{
 			FiresecService.NotifySKDArchiveCompleted(journalItems, archivePortionUID);
+		}
+
+		public List<EventDescription> GetDistinctEventDescriptions()
+		{
+			return DBHelper.GetDistinctEventDescriptions();
+		}
+
+		public List<JournalEventNameType> GetDistinctEventNames()
+		{
+			return DBHelper.GetDistinctEventNames();
 		}
 		#endregion
 	}

@@ -5,18 +5,17 @@ using System.Linq;
 using System.Threading;
 using Common;
 using FiresecAPI.Journal;
-using FiresecAPI.SKD;
 using SKDDriver;
-using FiresecAPI;
 
 namespace FiresecService
 {
-	public static class DBHelper
+	public static partial class DBHelper
 	{
 		public static object locker = new object();
 		public static object databaseLocker = new object();
 		public static bool IsAbort { get; set; }
 		public static event Action<List<JournalItem>, Guid> ArchivePortionReady;
+		static string ConnectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True;Language='English'";
 
 		public static void Add(JournalItem journalItem)
 		{
@@ -50,8 +49,7 @@ namespace FiresecService
 			{
 				lock (locker)
 				{
-					var connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True;Language='English'";
-					using (var dataContext = new SqlConnection(connectionString))
+					using (var dataContext = new SqlConnection(ConnectionString))
 					{
 						var query = "SELECT TOP (" + count.ToString() + ") * FROM Journal ORDER BY SystemDate DESC";
 						var sqlCommand = new SqlCommand(query, dataContext);
@@ -82,9 +80,7 @@ namespace FiresecService
 			{
 				lock (locker)
 				{
-					//var connectionString = global::SKDDriver.Properties.Settings.Default.SKUDConnectionString;
-					var connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True;Language='English'";
-					using (var dataContext = new SqlConnection(connectionString))
+					using (var dataContext = new SqlConnection(ConnectionString))
 					{
 						var query = BuildQuery(archiveFilter);
 						var sqlCommand = new SqlCommand(query, dataContext);
@@ -285,28 +281,6 @@ namespace FiresecService
 			}
 
 			return journalItem;
-		}
-
-		static void UpdateNamesDescriptions(List<JournalItem> journalItems)
-		{
-			//var commands = new List<string>();
-			//foreach (var item in journalItems)
-			//{
-			//	var name = item.Name;
-			//	if (!EventNames.Any(x => name == x))
-			//	{
-			//		EventNames.Add(name);
-			//		commands.Add(@"Insert Into EventNames (EventName) Values ('" + name + "')");
-			//	}
-
-			//	var description = item.Description;
-			//	if (!EventDescriptions.Any(x => description == x))
-			//	{
-			//		EventDescriptions.Add(description);
-			//		commands.Add(@"Insert Into EventDescriptions (EventDescription) Values ('" + description + "')");
-			//	}
-			//}
-			//ExecuteNonQuery(commands);
 		}
 	}
 }

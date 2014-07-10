@@ -38,3 +38,9 @@ INSERT INTO Patches (Id) VALUES
 GO
 INSERT INTO Patches (Id) VALUES
 	('RemoveJournalCardSeries')
+GO
+INSERT INTO Patches (Id) VALUES
+	('EventNamesDescription')
+GO
+INSERT INTO Patches (Id) VALUES
+	('DoorsEnterExitUIDtoID')

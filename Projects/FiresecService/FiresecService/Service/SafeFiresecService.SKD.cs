@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
+using FiresecAPI.GK;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 
 namespace FiresecService.Service
@@ -77,6 +79,14 @@ namespace FiresecService.Service
 		public OperationResult<DateTime> GetMinDateTime()
 		{
 			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinDateTime());
+		}
+		public List<EventDescription> GetDistinctEventDescriptions()
+		{
+			return SafeContext.Execute<List<EventDescription>>(()=>FiresecService.GetDistinctEventDescriptions());
+		}
+		public List<JournalEventNameType> GetDistinctEventNames()
+		{
+			return SafeContext.Execute<List<JournalEventNameType>>(() => FiresecService.GetDistinctEventNames());
 		}
 		#endregion
 

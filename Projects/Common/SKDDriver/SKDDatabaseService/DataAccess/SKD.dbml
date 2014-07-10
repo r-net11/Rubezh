@@ -1,23 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SKD" EntityNamespace="SKDDriver.DataAccess" ContextNamespace="SKDDriver.DataAccess" Class="SKDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="AppSettings" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=SKD;Integrated Security=True" SettingsObjectName="SKDDriver.Properties.Settings" SettingsPropertyName="SKUDConnectionString1" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.CardDoor" Member="CardDoors">
-    <Type Name="CardDoor">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="DoorUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="ParentUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="ParentType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IsWithEscort" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsAntipass" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EnterIntervalID" Storage="_EnterIntervalUID" Type="System.Int32" DbType="Int" CanBeNull="false" />
-      <Column Name="EnterIntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ExitIntervalUID" Member="ExitIntervalID" Storage="_ExitIntervalUID" Type="System.Int32" DbType="Int" CanBeNull="false" />
-      <Column Name="ExitIntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="AccessTemplate_CardDoor" Member="AccessTemplate" ThisKey="ParentUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
-      <Association Name="Card_CardDoor" Member="Card" ThisKey="ParentUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.AccessTemplate" Member="AccessTemplates">
     <Type Name="AccessTemplate">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -26,9 +8,9 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="AccessTemplate_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="ParentUID" Type="CardDoor" />
       <Association Name="AccessTemplate_GuardZone" Member="GuardZones" ThisKey="UID" OtherKey="ParentUID" Type="GuardZone" />
       <Association Name="AccessTemplate_Card" Member="Cards" ThisKey="UID" OtherKey="AccessTemplateUID" Type="Card" />
+      <Association Name="AccessTemplate_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="ParentUID" Type="CardDoor" />
       <Association Name="Organisation_AccessTemplate" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
@@ -400,9 +382,9 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="CardTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="ParentUID" Type="CardDoor" />
       <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="Card_Journal" Member="Journals" ThisKey="UID" OtherKey="ObjectUID" Type="Journal" />
+      <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="ParentUID" Type="CardDoor" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
     </Type>
@@ -424,6 +406,24 @@
       <Column Name="UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="CardNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Card_Journal" Member="Card" ThisKey="ObjectUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CardDoor" Member="CardDoors">
+    <Type Name="CardDoor">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DoorUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ParentUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ParentType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsWithEscort" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsAntipass" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="EnterIntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ExitIntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EnterIntervalID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ExitIntervalID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="AccessTemplate_CardDoor" Member="AccessTemplate" ThisKey="ParentUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
+      <Association Name="Card_CardDoor" Member="Card" ThisKey="ParentUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

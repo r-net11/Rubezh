@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using FiresecAPI.SKD;
+using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using FiresecAPI.SKD;
+using JournalItem = FiresecAPI.Journal.JournalItem;
 
 namespace FiresecAPI
 {
@@ -50,6 +52,12 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<DateTime> GetMinDateTime();
+
+		[OperationContract]
+		List<EventDescription> GetDistinctEventDescriptions();
+
+		[OperationContract]
+		List<JournalEventNameType> GetDistinctEventNames();
 		#endregion
 
 		#region Card

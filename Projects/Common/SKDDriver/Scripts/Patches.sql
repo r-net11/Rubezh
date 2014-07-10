@@ -309,3 +309,34 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('RemoveJournalCardSeries')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'EventNamesDescription')
+BEGIN
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'EventNames')
+	BEGIN
+		CREATE TABLE EventNames (EventName int not null)
+	END
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'EventDescriptions')
+	BEGIN
+		CREATE TABLE EventDescriptions (EventDescription int not null)
+	END
+	INSERT INTO Patches (Id) VALUES ('EventNamesDescription')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DoorsEnterExitUIDtoID')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardDoor')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'EnterIntervalUID' and table_name = 'CardDoor')
+		BEGIN
+			IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'ExitIntervalUID' and table_name = 'CardDoor')
+			BEGIN
+				ALTER TABLE CardDoor DROP COLUMN [EnterIntervalUID]
+				ALTER TABLE CardDoor DROP COLUMN [ExitIntervalUID]
+				ALTER TABLE CardDoor ADD [EnterIntervalID] int NOT NULL
+				ALTER TABLE CardDoor ADD [ExitIntervalID] int NOT NULL
+			END
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('DoorsEnterExitUIDtoID')	
+END
