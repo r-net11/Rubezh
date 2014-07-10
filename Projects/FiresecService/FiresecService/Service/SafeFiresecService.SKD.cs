@@ -70,25 +70,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		#region Journal
-		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(JournalFilter filter)
-		{
-			return SafeContext.Execute<OperationResult<IEnumerable<JournalItem>>>(() => FiresecService.GetSKDJournalItems(filter));
-		}
-		public OperationResult<DateTime> GetMinDateTime()
-		{
-			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinDateTime());
-		}
-		public List<JournalEventDescriptionType> GetDistinctEventDescriptions()
-		{
-			return SafeContext.Execute<List<JournalEventDescriptionType>>(() => FiresecService.GetDistinctEventDescriptions());
-		}
-		public List<JournalEventNameType> GetDistinctEventNames()
-		{
-			return SafeContext.Execute<List<JournalEventNameType>>(() => FiresecService.GetDistinctEventNames());
-		}
-		#endregion
-
 		#region Card
 		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
 		{
@@ -278,11 +259,6 @@ namespace FiresecService.Service
 		public OperationResult<bool> SKDCloseDevice(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
-		}
-
-		public void BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
-		{
-			SafeOperationCall(() => { FiresecService.BeginGetSKDFilteredArchive(archiveFilter, archivePortionUID); }, "BeginGetSKDFilteredArchive");
 		}
 	}
 }

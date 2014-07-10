@@ -7,6 +7,7 @@ using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.Journal;
 
 namespace FiresecService.Service
 {
@@ -121,17 +122,6 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetSecurityConfiguration(); }, "GetSecurityConfiguration");
 		}
 
-		//public OperationResult<List<FiresecAPI.Models.JournalRecord>> GetFilteredJournal(FiresecAPI.Models.JournalFilter journalFilter)
-		//{
-		//    return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
-		//}
-
-
-		//public void BeginGetFilteredArchive(FiresecAPI.Models.ArchiveFilter archiveFilter)
-		//{
-		//    SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter); }, "BeginGetFilteredArchive");
-		//}
-
 		public List<string> GetFileNamesList(string directory)
 		{
 			return SafeOperationCall(() => { return FiresecService.GetFileNamesList(directory); }, "GetFileNamesList");
@@ -161,6 +151,29 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
 		}
+
+		#region Journal
+		public OperationResult<DateTime> GetMinJournalDateTime()
+		{
+			return SafeContext.Execute<OperationResult<DateTime>>(() => FiresecService.GetMinJournalDateTime());
+		}
+		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetFilteredJournalItems(filter));
+		}
+		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
+		{
+			SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID); }, "BeginGetFilteredArchive");
+		}
+		public List<JournalEventDescriptionType> GetDistinctEventDescriptions()
+		{
+			return SafeContext.Execute<List<JournalEventDescriptionType>>(() => FiresecService.GetDistinctEventDescriptions());
+		}
+		public List<JournalEventNameType> GetDistinctEventNames()
+		{
+			return SafeContext.Execute<List<JournalEventNameType>>(() => FiresecService.GetDistinctEventNames());
+		}
+		#endregion
 
 		#region GK
 

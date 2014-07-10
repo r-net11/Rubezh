@@ -44,20 +44,6 @@ namespace FiresecAPI
 		OperationResult MarkDeletedPosition(Guid uid);
 		#endregion
 
-		#region Journal
-		[OperationContract]
-		OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(JournalFilter filter);
-
-		[OperationContract]
-		OperationResult<DateTime> GetMinDateTime();
-
-		[OperationContract]
-		List<JournalEventDescriptionType> GetDistinctEventDescriptions();
-
-		[OperationContract]
-		List<JournalEventNameType> GetDistinctEventNames();
-		#endregion
-
 		#region Card
 		[OperationContract]
 		OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter);
@@ -176,9 +162,6 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> SKDCloseDevice(Guid deviceUID);
-
-		[OperationContract]
-		void BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID);
 		#endregion
 	}
 }

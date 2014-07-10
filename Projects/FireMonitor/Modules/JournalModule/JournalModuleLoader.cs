@@ -79,7 +79,7 @@ namespace JournalModule
 			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
 
 			var journalFilter = new JournalFilter();
-			var result = FiresecManager.FiresecService.GetSKDJournalItems(journalFilter);
+			var result = FiresecManager.FiresecService.GetFilteredJournalItems(journalFilter);
 			if (!result.HasError)
 			{
 				JournalViewModel.OnNewJournalItems(new List<JournalItem>(result.Result));

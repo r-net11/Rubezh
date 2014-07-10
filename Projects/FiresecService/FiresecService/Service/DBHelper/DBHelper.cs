@@ -72,7 +72,7 @@ namespace FiresecService
 			return journalItems;
 		}
 
-		public static List<JournalItem> BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
+		public static List<JournalItem> BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
 		{
 			var journalItems = new List<JournalItem>();
 			var result = new List<JournalItem>();

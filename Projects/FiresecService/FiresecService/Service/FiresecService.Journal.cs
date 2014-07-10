@@ -60,12 +60,7 @@ namespace FiresecService.Service
 		#endregion
 
 		#region Get
-		//public OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter)
-		//{
-		//    return FiresecDB.DatabaseHelper.GetFilteredJournal(journalFilter);
-		//}
-
-		public OperationResult<DateTime> GetMinDateTime()
+		public OperationResult<DateTime> GetMinJournalDateTime()
 		{
 			using (var dataContext = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True;Language='English'"))
 			{
@@ -86,14 +81,14 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(JournalFilter filter)
+		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
 			var journalItems = DBHelper.GetFilteredJournalItems(filter);
-			return new OperationResult<IEnumerable<JournalItem>>() { Result = journalItems };
+			return new OperationResult<List<JournalItem>>() { Result = journalItems };
 			//return SKDDatabaseService.JournalItemTranslator.Get(filter);
 		}
 
-		public void BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
+		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
 			if (CurrentThread != null)
 			{
@@ -106,7 +101,7 @@ namespace FiresecService.Service
 			{
 				DBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
 				DBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				DBHelper.BeginGetSKDFilteredArchive(archiveFilter, archivePortionUID, false);
+				DBHelper.BeginGetFilteredArchive(archiveFilter, archivePortionUID, false);
 
 			}))));
 			thread.Name = "FiresecService.GetFilteredArchive";
