@@ -351,10 +351,11 @@ namespace FiresecService.Service
 			}
 		}
 
-		public void AddJournalItem(XJournalItem journalItem)
+		#region Journal
+		public void AddXJournalItem(XJournalItem journalItem)
 		{
 			GKDBHelper.Add(journalItem);
-			AddGKGlobalJournalItem(journalItem);
+			AddGKJournalItem(journalItem);
 			var gkCallbackResult = new GKCallbackResult();
 			gkCallbackResult.JournalItems.Add(journalItem);
 			NotifyGKObjectStateChanged(gkCallbackResult);
@@ -401,5 +402,6 @@ namespace FiresecService.Service
 		{
 			return GKDBHelper.EventDescriptions;
 		}
+		#endregion
 	}
 }

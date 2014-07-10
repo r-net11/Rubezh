@@ -58,7 +58,7 @@ namespace GKProcessor
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
-				JournalItemType = XJournalItemType.System,
+				JournalObjectType = XJournalObjectType.System,
 				StateClass = XStateClass.Norm,
 				JournalEventNameType = journalEventNameType,
 				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),
@@ -105,7 +105,7 @@ namespace GKProcessor
 						sqlCeCommand.CommandText = @"Insert Into Journal" +
 							"(JournalItemType,ObjectUID,Name,Description,ObjectState,GKObjectNo,GKIpAddress,GKJournalRecordNo,StateClass,UserName,SystemDateTime,DeviceDateTime,Subsystem,ObjectStateClass,ObjectName,KAUNo,AdditionalDescription) Values" +
 							"(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14,@p15,@p16,@p17)";
-						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalItemType ?? DBNull.Value);
+						sqlCeCommand.Parameters.AddWithValue("@p1", (object)journalItem.JournalObjectType ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p2", (object)journalItem.ObjectUID ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p3", (object)journalItem.Name ?? DBNull.Value);
 						sqlCeCommand.Parameters.AddWithValue("@p4", (object)journalItem.Description ?? DBNull.Value);
@@ -202,16 +202,16 @@ namespace GKProcessor
 				"\n " + dateTimeTypeString + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
 				"\n AND " + dateTimeTypeString + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
 
-			if (archiveFilter.JournalItemTypes.Count > 0)
+			if (archiveFilter.XJournalObjectTypes.Count > 0)
 			{
 				query += "\n AND (";
 				int index = 0;
-				foreach (var journalItemType in archiveFilter.JournalItemTypes)
+				foreach (var journalObjectType in archiveFilter.XJournalObjectTypes)
 				{
 					if (index > 0)
 						query += "\n OR ";
 					index++;
-					query += "JournalItemType = '" + ((int)journalItemType).ToString() + "'";
+					query += "JournalItemType = '" + ((int)journalObjectType).ToString() + "'";
 				}
 				query += ")";
 			}
@@ -408,7 +408,7 @@ namespace GKProcessor
 		{
 			var journalItem = new XJournalItem();
 			if (!reader.IsDBNull(reader.GetOrdinal("JournalItemType")))
-				journalItem.JournalItemType = (XJournalItemType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
+				journalItem.JournalObjectType = (XJournalObjectType)reader.GetByte(reader.GetOrdinal("JournalItemType"));
 			
 			if (!reader.IsDBNull(reader.GetOrdinal("SystemDateTime")))
 				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDateTime"));

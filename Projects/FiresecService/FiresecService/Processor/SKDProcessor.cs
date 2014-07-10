@@ -69,10 +69,7 @@ namespace FiresecService
 
 		static void OnNewJournalItem(JournalItem journalItem)
 		{
-			FiresecService.Service.FiresecService.AddGlobalJournalItem(journalItem);
-			var journalItems = new List<JournalItem>();
-			journalItems.Add(journalItem);
-			FiresecService.Service.FiresecService.NotifyNewJournalItems(journalItems);
+			FiresecService.Service.FiresecService.AddJournalItem(journalItem);
 		}
 
 		static void OnSKDCallbackResultEvent(SKDCallbackResult skdCallbackResult)

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public enum XJournalItemType
+	public enum XJournalObjectType
 	{
 		[EnumMember]
 		[DescriptionAttribute("Система")]

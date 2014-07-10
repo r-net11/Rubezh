@@ -6,6 +6,10 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
+using System.Collections.Generic;
+using Infrastructure.Common.Ribbon;
 
 namespace FiltersModule.ViewModels
 {
@@ -17,6 +21,8 @@ namespace FiltersModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+			RegisterShortcuts();
+			SetRibbonItems();
 		}
 
 		public void Initialize()
@@ -102,6 +108,26 @@ namespace FiltersModule.ViewModels
 			{
 				SelectedFilter = Filters.FirstOrDefault(item => item.Filter.UID == filterUid);
 			}
+		}
+
+		void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+		}
+
+		void SetRibbonItems()
+		{
+			RibbonItems = new List<RibbonMenuItemViewModel>()
+			{
+					new RibbonMenuItemViewModel("Редактирование", new ObservableCollection<RibbonMenuItemViewModel>()
+				{
+					new RibbonMenuItemViewModel("Добавить", AddCommand, "/Controls;component/Images/BAdd.png"),
+					new RibbonMenuItemViewModel("Редактировать", EditCommand, "/Controls;component/Images/BEdit.png"),
+					new RibbonMenuItemViewModel("Удалить", DeleteCommand, "/Controls;component/Images/BDelete.png"),
+				}, "/Controls;component/Images/BEdit.png") { Order = 2 }
+			};
 		}
 	}
 }

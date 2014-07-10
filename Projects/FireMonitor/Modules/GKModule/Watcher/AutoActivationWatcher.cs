@@ -39,9 +39,9 @@ namespace GKModule
 					if (journalItem.StateClass <= globalStateClass ||
 						(globalStateClass != XStateClass.Fire1 && globalStateClass != XStateClass.Fire2 && globalStateClass != XStateClass.Attention))
 					{
-						switch (journalItem.JournalItemType)
+						switch (journalItem.JournalObjectType)
 						{
-							case XJournalItemType.Device:
+							case XJournalObjectType.Device:
 								var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 								if (device != null)
 								{
@@ -53,7 +53,7 @@ namespace GKModule
 								}
 								break;
 
-							case XJournalItemType.Zone:
+							case XJournalObjectType.Zone:
 								var zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 								if (zone != null)
 								{
@@ -70,7 +70,7 @@ namespace GKModule
 								}
 								break;
 
-							case XJournalItemType.Direction:
+							case XJournalObjectType.Direction:
 								var direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 								if (direction != null)
 								{

@@ -11,33 +11,33 @@ namespace GKModule.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			var journalItem = (XJournalItem)value;
-			switch (journalItem.JournalItemType)
+			switch (journalItem.JournalObjectType)
 			{
-				case XJournalItemType.Device:
+				case XJournalObjectType.Device:
 					var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 					if (device == null)
 						return "/Controls;component/Images/blank.png";
 					return device.Driver.ImageSource;
 
-				case XJournalItemType.Zone:
+				case XJournalObjectType.Zone:
 					return "/Controls;component/Images/zone.png";
 
-				case XJournalItemType.Direction:
+				case XJournalObjectType.Direction:
 					return "/Controls;component/Images/Blue_Direction.png";
 
-				case XJournalItemType.Delay:
+				case XJournalObjectType.Delay:
 					return "/Controls;component/Images/Delay.png";
 
-				case XJournalItemType.Pim:
+				case XJournalObjectType.Pim:
 					return "/Controls;component/Images/Pim.png";
 
-				case XJournalItemType.GkUser:
+				case XJournalObjectType.GkUser:
 					return "/Controls;component/Images/Chip.png";
 
-				case XJournalItemType.PumpStation:
+				case XJournalObjectType.PumpStation:
 					return "/Controls;component/Images/BPumpStation.png";
 
-				case XJournalItemType.MPT:
+				case XJournalObjectType.MPT:
 					return "/Controls;component/Images/BMPT.png";
 
 				default:

@@ -12,11 +12,11 @@ namespace FiresecAPI.GK
 			DeviceDateTime = DateTime.Now;
 			SystemDateTime = DateTime.Now;
 			ObjectStateClass = XStateClass.Norm;
-			JournalItemType = XJournalItemType.System;
+			JournalObjectType = XJournalObjectType.System;
 		}
 
 		[DataMember]
-		public XJournalItemType JournalItemType { get; set; }
+		public XJournalObjectType JournalObjectType { get; set; }
 		[DataMember]
 		public DateTime DeviceDateTime { get; set; }
 		[DataMember]

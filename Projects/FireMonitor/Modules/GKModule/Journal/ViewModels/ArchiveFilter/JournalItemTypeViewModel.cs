@@ -6,13 +6,13 @@ namespace GKModule.ViewModels
 {
 	public class JournalItemTypeViewModel : CheckBoxItemViewModel
 	{
-		public JournalItemTypeViewModel(XJournalItemType journalItemType)
+		public JournalItemTypeViewModel(XJournalObjectType journalObjectType)
 		{
-			JournalItemType = journalItemType;
-			Name = journalItemType.ToDescription();
+			JournalItemType = journalObjectType;
+			Name = journalObjectType.ToDescription();
 		}
 
-		public XJournalItemType JournalItemType { get; private set; }
+		public XJournalObjectType JournalItemType { get; private set; }
 		public string Name { get; private set; }
 
 		public string ImageSource
@@ -21,34 +21,34 @@ namespace GKModule.ViewModels
 			{
 				switch (JournalItemType)
 				{
-					case XJournalItemType.Device:
+					case XJournalObjectType.Device:
 						return "/Controls;component/GKIcons/RSR2_RM_1.png";
 
-					case XJournalItemType.Zone:
+					case XJournalObjectType.Zone:
 						return "/Controls;component/Images/zone.png";
 
-					case XJournalItemType.Direction:
+					case XJournalObjectType.Direction:
 						return "/Controls;component/Images/Blue_Direction.png";
 
-					case XJournalItemType.GK:
+					case XJournalObjectType.GK:
 						return "/Controls;component/GKIcons/GK.png";
 
-					case XJournalItemType.GkUser:
+					case XJournalObjectType.GkUser:
 						return "/Controls;component/Images/Chip.png";
 
-					case XJournalItemType.System:
+					case XJournalObjectType.System:
 						return "/Controls;component/Images/PC.png";
 
-					case XJournalItemType.PumpStation:
+					case XJournalObjectType.PumpStation:
 						return "/Controls;component/Images/BPumpStation.png";
 
-					case XJournalItemType.MPT:
+					case XJournalObjectType.MPT:
 						return "/Controls;component/Images/BMPT.png";
 
-					case XJournalItemType.Delay:
+					case XJournalObjectType.Delay:
 						return "/Controls;component/Images/Delay.png";
 
-					case XJournalItemType.Pim:
+					case XJournalObjectType.Pim:
 						return "/Controls;component/Images/Pim.png";
 
 					default:

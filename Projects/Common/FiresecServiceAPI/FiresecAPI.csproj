@@ -470,7 +470,7 @@
     <Compile Include="Journal\JournalEventDescriptionType.cs" />
     <Compile Include="Journal\JournalItem.cs" />
     <Compile Include="XModels\Journal\XJournalItem.cs" />
-    <Compile Include="XModels\Journal\XJournalItemType.cs" />
+    <Compile Include="XModels\Journal\XJournalObjectType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />
     <Compile Include="XModels\Library\LibraryXDevice.cs" />
     <Compile Include="XModels\Library\LibraryXFrame.cs" />

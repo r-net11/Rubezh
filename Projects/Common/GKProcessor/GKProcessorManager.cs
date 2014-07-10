@@ -435,29 +435,29 @@ namespace GKProcessor
 		public static void AddGKMessage(JournalEventNameType journalEventNameType, string description, XBase xBase, string userName, bool isAdministrator = false)
 		{
 			Guid uid = Guid.Empty;
-			var journalItemType = XJournalItemType.System;
+			var journalObjectType = XJournalObjectType.System;
 			if (xBase != null)
 			{
 				uid = xBase.BaseUID;
 				if (xBase is XDevice)
 				{
-					journalItemType = XJournalItemType.Device;
+					journalObjectType = XJournalObjectType.Device;
 				}
 				if (xBase is XZone)
 				{
-					journalItemType = XJournalItemType.Zone;
+					journalObjectType = XJournalObjectType.Zone;
 				}
 				if (xBase is XDirection)
 				{
-					journalItemType = XJournalItemType.Direction;
+					journalObjectType = XJournalObjectType.Direction;
 				}
 				if (xBase is XDelay)
 				{
-					journalItemType = XJournalItemType.Delay;
+					journalObjectType = XJournalObjectType.Delay;
 				}
 				if (xBase is XPim)
 				{
-					journalItemType = XJournalItemType.Pim;
+					journalObjectType = XJournalObjectType.Pim;
 				}
 			}
 
@@ -465,7 +465,7 @@ namespace GKProcessor
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
-				JournalItemType = journalItemType,
+				JournalObjectType = journalObjectType,
 				StateClass = EventDescriptionAttributeHelper.ToStateClass(journalEventNameType),
 				JournalEventNameType = journalEventNameType,
 				Name = EventDescriptionAttributeHelper.ToName(journalEventNameType),

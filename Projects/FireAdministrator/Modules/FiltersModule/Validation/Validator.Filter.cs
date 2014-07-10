@@ -12,7 +12,7 @@ namespace FilterModule.Validation
 			foreach (var filter in FiresecManager.SystemConfiguration.JournalFilters)
 			{
 				if (nameList.Contains(filter.Name))
-					Errors.Add(new FilterValidationError(filter, "Фильтр с таким именем уже существует " + filter.Name, ValidationErrorLevel.CannotSave));
+					Errors.Add(new FilterValidationError(filter, "Фильтр с таким именем уже существует " + filter.Name, ValidationErrorLevel.CannotWrite));
 				nameList.Add(filter.Name);
 			}
 		}

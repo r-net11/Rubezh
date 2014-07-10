@@ -96,7 +96,6 @@
     <Compile Include="Validation\FilterValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.Filter.cs" />
-    <Compile Include="ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="ViewModels\FilterDetailsViewModel.cs" />
     <Compile Include="ViewModels\FilterNamesViewModel.cs" />
     <Compile Include="ViewModels\FilterNameViewModel.cs" />

@@ -11,7 +11,7 @@ namespace FiresecAPI.GK
 		{
 			StartDate = DateTime.Now.AddDays(-1);
 			EndDate = DateTime.Now;
-			JournalItemTypes = new List<XJournalItemType>();
+			XJournalObjectTypes = new List<XJournalObjectType>();
 			StateClasses = new List<XStateClass>();
 			EventNames = new List<string>();
 			Descriptions = new List<string>();
@@ -37,7 +37,7 @@ namespace FiresecAPI.GK
 		public bool UseDeviceDateTime { get; set; }
 
 		[DataMember]
-		public List<XJournalItemType> JournalItemTypes { get; set; }
+		public List<XJournalObjectType> XJournalObjectTypes { get; set; }
 
 		[DataMember]
 		public List<XStateClass> StateClasses { get; set; }

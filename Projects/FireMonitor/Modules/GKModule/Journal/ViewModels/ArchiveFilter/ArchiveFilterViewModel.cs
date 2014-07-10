@@ -45,16 +45,16 @@ namespace GKModule.ViewModels
 		void InitializeJournalItemTypes(XArchiveFilter archiveFilter)
 		{
 			JournalItemTypes = new CheckBoxItemList<JournalItemTypeViewModel>();
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.Device));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.Direction));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.GK));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.System));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.Zone));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.PumpStation));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.MPT));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.Delay));
-			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalItemType.Pim));
-			foreach (var journalItemType in archiveFilter.JournalItemTypes)
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Device));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Direction));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.GK));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.System));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Zone));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.PumpStation));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.MPT));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Delay));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Pim));
+			foreach (var journalItemType in archiveFilter.XJournalObjectTypes)
 			{
 				var JournalItemTypeViewModel = JournalItemTypes.Items.FirstOrDefault(x => (x as JournalItemTypeViewModel).JournalItemType == journalItemType);
 				if (JournalItemTypeViewModel != null)
@@ -422,7 +422,7 @@ namespace GKModule.ViewModels
 			foreach (var journalItemType in JournalItemTypes.Items)
 			{
 				if (journalItemType.IsChecked)
-					archiveFilter.JournalItemTypes.Add(journalItemType.JournalItemType);
+					archiveFilter.XJournalObjectTypes.Add(journalItemType.JournalItemType);
 			}
 			foreach (var stateClass in StateClasses.Items)
 			{

@@ -4,6 +4,9 @@ namespace FiresecAPI.Journal
 {
 	public enum JournalObjectType
 	{
+		[DescriptionAttribute("Нет")]
+		None,
+
 		[DescriptionAttribute("Устройства ГК")]
 		GKDevice,
 

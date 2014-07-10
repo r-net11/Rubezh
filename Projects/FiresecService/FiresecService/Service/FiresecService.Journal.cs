@@ -14,47 +14,78 @@ namespace FiresecService.Service
 		public static Thread CurrentThread;
 
 		#region Add
-		public static void AddGKGlobalJournalItem(XJournalItem journalItem)
+		public static void AddGKJournalItem(XJournalItem xJournalItem)
 		{
-			var globalJournalItem = new JournalItem();
-			globalJournalItem.SystemDateTime = journalItem.SystemDateTime;
-			globalJournalItem.DeviceDateTime = journalItem.DeviceDateTime;
-			globalJournalItem.ObjectUID = journalItem.ObjectUID;
-			globalJournalItem.ObjectName = journalItem.ObjectName;
-			globalJournalItem.JournalEventNameType = journalItem.JournalEventNameType;
-			globalJournalItem.NameText = journalItem.Name;
-			globalJournalItem.DescriptionText = journalItem.Description;
-			globalJournalItem.StateClass = journalItem.StateClass;
-			AddGlobalJournalItem(globalJournalItem);
-			System.Diagnostics.Trace.WriteLine("AddGlobalJournalItem");
+			var journalItem = new JournalItem();
+			journalItem.SystemDateTime = xJournalItem.SystemDateTime;
+			journalItem.DeviceDateTime = xJournalItem.DeviceDateTime;
+			journalItem.JournalEventNameType = xJournalItem.JournalEventNameType;
+			journalItem.NameText = xJournalItem.Name;
+			journalItem.DescriptionText = xJournalItem.Description;
+			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(xJournalItem.JournalEventNameType);
+			journalItem.ObjectUID = xJournalItem.ObjectUID;
+			journalItem.ObjectName = xJournalItem.ObjectName;
+			journalItem.StateClass = xJournalItem.StateClass;
+
+			switch (xJournalItem.JournalObjectType)
+			{
+				case XJournalObjectType.System:
+					journalItem.JournalObjectType = JournalObjectType.None;
+					break;
+
+				case XJournalObjectType.GK:
+				case XJournalObjectType.Device:
+				case XJournalObjectType.Pim:
+				case XJournalObjectType.GkUser:
+					journalItem.JournalObjectType = JournalObjectType.GKDevice;
+					break;
+
+				case XJournalObjectType.Zone:
+					journalItem.JournalObjectType = JournalObjectType.GKZone;
+					break;
+
+				case XJournalObjectType.Direction:
+					journalItem.JournalObjectType = JournalObjectType.GKDirection;
+					break;
+
+				case XJournalObjectType.Delay:
+					journalItem.JournalObjectType = JournalObjectType.GKDelay;
+					break;
+
+				case XJournalObjectType.PumpStation:
+					journalItem.JournalObjectType = JournalObjectType.GKPumpStation;
+					break;
+
+				case XJournalObjectType.MPT:
+					journalItem.JournalObjectType = JournalObjectType.GKMPT;
+					break;
+			}
+
+			AddJournalItem(journalItem);
 		}
 
-		public static void AddGlobalJournalItem(JournalItem journalItem)
-		{
-			DBHelper.Add(journalItem);
-		}
-
-		void AddSKDMessage(JournalEventNameType journalEventNameType, SKDDevice device, string userName)
-		{
-			AddSKDMessage(journalEventNameType, JournalEventDescriptionType.NULL, device, userName);
-		}
-
-		void AddSKDMessage(JournalEventNameType journalEventNameType, JournalEventDescriptionType description, SKDDevice device, string userName)
+		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDevice device, string userName)
 		{
 			var journalItem = new JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
 				JournalEventNameType = journalEventNameType,
-				JournalEventDescriptionType = description,
-				ObjectName = device != null ? device.Name : null,
+				JournalEventDescriptionType = JournalEventDescriptionType.NULL,
+				JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalEventNameType),
+				JournalObjectType = device != null ? JournalObjectType.SKDDevice : JournalObjectType.None,
 				ObjectUID = device != null ? device.UID : Guid.Empty,
-				JournalObjectType = JournalObjectType.SKDDevice,
+				ObjectName = device != null ? device.Name : null,
 				StateClass = EventDescriptionAttributeHelper.ToStateClass(journalEventNameType),
 				UserName = userName,
 			};
 
-			DBHelper.AddMessage(journalEventNameType, userName);
+			AddJournalItem(journalItem);
+		}
+
+		public static void AddJournalItem(JournalItem journalItem)
+		{
+			DBHelper.Add(journalItem);
 			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
 		}
 		#endregion
@@ -85,7 +116,6 @@ namespace FiresecService.Service
 		{
 			var journalItems = DBHelper.GetFilteredJournalItems(filter);
 			return new OperationResult<List<JournalItem>>() { Result = journalItems };
-			//return SKDDatabaseService.JournalItemTranslator.Get(filter);
 		}
 
 		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)

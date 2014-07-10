@@ -82,7 +82,7 @@ namespace FiresecService
 			{
 				foreach(var journalItem in gkCallbackResult.JournalItems)
 				{
-					FiresecService.Service.FiresecService.AddGKGlobalJournalItem(journalItem);
+					FiresecService.Service.FiresecService.AddGKJournalItem(journalItem);
 				}
 			}
 			FiresecService.Service.FiresecService.NotifyGKObjectStateChanged(gkCallbackResult);

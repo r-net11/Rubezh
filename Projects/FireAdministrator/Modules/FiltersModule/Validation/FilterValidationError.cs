@@ -30,7 +30,7 @@ namespace FilterModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/SelectNone.png"; }
+			get { return "/Controls;component/Images/BlueFilter.png"; }
 		}
 	}
 }

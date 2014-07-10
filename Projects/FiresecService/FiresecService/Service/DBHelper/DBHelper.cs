@@ -26,23 +26,6 @@ namespace FiresecService
 			}
 		}
 
-		public static void AddMany(List<JournalItem> journalItems)
-		{
-			lock (databaseLocker)
-			{
-				SKDDatabaseService.JournalItemTranslator.Save(journalItems);
-			}
-		}
-
-		public static JournalItem AddMessage(JournalEventNameType journalEventNameType, string userName)
-		{
-			var result = new JournalItem();
-			result.JournalEventNameType = journalEventNameType;
-			result.UserName = userName;
-			Add(result);
-			return result;
-		}
-
 		public static List<JournalItem> GetFilteredJournalItems(JournalFilter filter)
 		{
 			var journalItems = new List<JournalItem>();
