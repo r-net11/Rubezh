@@ -167,9 +167,6 @@
     <Compile Include="ViewModels\ArchiveFilter\FilterObjectsViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\FilterObjectViewModel.cs" />
     <Compile Include="ViewModels\ArchiveFilter\DateTimePairViewModel.cs" />
-    <Compile Include="ViewModels\ArchiveFilter\JournalItemTypeViewModel.cs" />
-    <Compile Include="ViewModels\ArchiveFilter\StateClassViewModel.cs" />
-    <Compile Include="ViewModels\ArchiveFilter\SubsystemTypeViewModel.cs" />
     <Compile Include="ViewModels\ArchivePageViewModel.cs" />
     <Compile Include="ViewModels\ArchiveSettings\ArchiveDefaultStateViewModel.cs" />
     <Compile Include="ViewModels\ArchiveSettings\ArchiveSettingsViewModel.cs" />

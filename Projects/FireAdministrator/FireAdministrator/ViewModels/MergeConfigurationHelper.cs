@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Ionic.Zip;
 using Microsoft.Win32;
+using FiresecAPI.SKD;
 
 namespace FireAdministrator.ViewModels
 {
@@ -42,6 +43,8 @@ namespace FireAdministrator.ViewModels
 				ServiceFactory.ContentService.Invalidate();
 
 				FiresecManager.UpdateConfiguration();
+				XManager.UpdateConfiguration();
+				SKDManager.UpdateConfiguration();
 
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 				ServiceFactory.Layout.Close();
@@ -180,6 +183,7 @@ namespace FireAdministrator.ViewModels
 
 			XManager.UpdateConfiguration();
 			FiresecManager.UpdateConfiguration();
+			SKDManager.UpdateConfiguration();
 
 			var errorsString = errors.ToString();
 			if (!string.IsNullOrEmpty(errorsString))

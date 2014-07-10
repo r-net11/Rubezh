@@ -4,22 +4,26 @@ using Common;
 using FiresecAPI.SKD;
 using FiresecService.Processor;
 using SKDDriver;
+using FiresecAPI;
+using FiresecAPI.Journal;
 
 namespace FiresecService
 {
 	public static class SKDProcessor
 	{
-		public static void Create()
+		public static void Start()
 		{
-			//for (int i = 0; i < 1000; i++)
-			//{
-			//    var journalItem = new JournalItem();
-			//    journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
-			//    journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
-			//    journalItem.Name = FiresecAPI.Events.GlobalEventNameEnum.Проход;
-			//    journalItem.DescriptionText = "Description " + i;
-			//    FiresecService.Service.FiresecService.AddGlobalJournalItem(journalItem);
-			//}
+//#if DEBUG
+//            for (int i = 0; i < 1000; i++)
+//            {
+//                var journalItem = new JournalItem();
+//                journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
+//                journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
+//                journalItem.JournalEventNameType = JournalEventNameType.Проход;
+//                journalItem.DescriptionText = "Description " + i;
+//                FiresecService.Service.FiresecService.AddGlobalJournalItem(journalItem);
+//            }
+//#endif
 
 			try
 			{
@@ -28,15 +32,21 @@ namespace FiresecService
 					SKDManager.CreateDrivers();
 					SKDManager.UpdateConfiguration();
 				}
-				ChinaSKDDriver.Processor.Run(SKDManager.SKDConfiguration);
+				ChinaSKDDriver.Processor.Start();
 				foreach (var deviceProcessor in ChinaSKDDriver.Processor.DeviceProcessors)
 				{
-					deviceProcessor.Wrapper.NewJournalItem -= new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewJournalItem);
-					deviceProcessor.Wrapper.NewJournalItem += new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewJournalItem);
-
-					ChinaSKDDriver.Processor.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
-					ChinaSKDDriver.Processor.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+					deviceProcessor.Wrapper.NewJournalItem -= new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewSKDJournalItem);
+					deviceProcessor.Wrapper.NewJournalItem += new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewSKDJournalItem);
 				}
+
+				ChinaSKDDriver.Processor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
+				ChinaSKDDriver.Processor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
+
+				ChinaSKDDriver.Processor.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+				ChinaSKDDriver.Processor.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+
+				ChinaSKDDriver.Processor.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
+				ChinaSKDDriver.Processor.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 			}
 			catch (Exception e)
 			{
@@ -49,14 +59,18 @@ namespace FiresecService
 			ChinaSKDDriver.Processor.Stop();
 		}
 
-		static void OnNewJournalItem(ChinaSKDDriverAPI.SKDJournalItem skdJournalItem)
+		static void OnNewSKDJournalItem(ChinaSKDDriverAPI.SKDJournalItem skdJournalItem)
 		{
 			var journalItem = new JournalItem();
 			journalItem.SystemDateTime = skdJournalItem.SystemDateTime;
 			journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
-			journalItem.Name = skdJournalItem.EventNameType;
+			journalItem.JournalEventNameType = skdJournalItem.JournalEventNameType;
 			journalItem.DescriptionText = skdJournalItem.Description;
+			OnNewJournalItem(journalItem);
+		}
 
+		static void OnNewJournalItem(JournalItem journalItem)
+		{
 			FiresecService.Service.FiresecService.AddGlobalJournalItem(journalItem);
 			var journalItems = new List<JournalItem>();
 			journalItems.Add(journalItem);
@@ -68,10 +82,15 @@ namespace FiresecService
 			FiresecService.Service.FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
 		}
 
+		static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
+		{
+			FiresecService.Service.FiresecService.NotifyGKProgress(gkProgressCallback);
+		}
+
 		public static void SetNewConfig()
 		{
 			Stop();
-			Create();
+			Start();
 		}
 	}
 }

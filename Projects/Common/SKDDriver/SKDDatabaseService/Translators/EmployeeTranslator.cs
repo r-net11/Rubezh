@@ -284,7 +284,6 @@ namespace SKDDriver
 				var timeTracks = new List<EmployeeTimeTrack>();
 				for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
 				{
-					
 					timeTracks.Add(GetTimeTrack(employeeUID, date));
 				}
 				return new OperationResult<List<EmployeeTimeTrack>> { Result = timeTracks };

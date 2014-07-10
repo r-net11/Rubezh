@@ -19,6 +19,7 @@ namespace FiresecService.Service
 		public void CancelGKProgress(Guid progressCallbackUID, string userName)
 		{
 			GKProcessorManager.CancelGKProgress(progressCallbackUID, userName);
+			ChinaSKDDriver.Processor.CancelGKProgress(progressCallbackUID, userName);
 		}
 
 		public OperationResult<bool> GKWriteConfiguration(Guid deviceUID)

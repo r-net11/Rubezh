@@ -86,12 +86,18 @@ namespace FiresecAPI.SKD
 			{
 				
 				device.State = new SKDDeviceState(device);
+				device.State.UID = device.UID;
+				device.State.StateClass = FiresecAPI.GK.XStateClass.Unknown;
 				if (device.DriverType == SKDDriverType.System)
+				{
 					device.State.IsInitialState = false;
+					device.State.StateClass = FiresecAPI.GK.XStateClass.Norm;
+				}
 			}
 			foreach (var zone in Zones)
 			{
 				zone.State = new SKDZoneState(zone);
+				zone.State.StateClass = XStateClass.Norm;
 			}
 			foreach (var door in Doors)
 			{
@@ -124,6 +130,8 @@ namespace FiresecAPI.SKD
 		{
 			ClearAllReferences();
 			InitializeDevicesInZone();
+			InvalidateLockConfiguration();
+			InvalidateDoors();
 			InvalidateIntervals();
 		}
 
@@ -136,6 +144,43 @@ namespace FiresecAPI.SKD
 			foreach (var zone in Zones)
 			{
 				zone.Devices = new List<SKDDevice>();
+			}
+		}
+
+		static void InvalidateLockConfiguration()
+		{
+			foreach (var device in Devices)
+			{
+				InvalidateOneLockConfiguration(device);
+			}
+		}
+
+		public static void InvalidateOneLockConfiguration(SKDDevice device)
+		{
+			if (device.DriverType == SKDDriverType.Lock)
+			{
+				if (device.SKDDoorConfiguration == null)
+					device.SKDDoorConfiguration= new SKDDoorConfiguration();
+				var doorDayIntervalsCollection = device.SKDDoorConfiguration.DoorDayIntervalsCollection;
+				if (doorDayIntervalsCollection.DoorDayIntervals.Count != 7)
+				{
+					doorDayIntervalsCollection.DoorDayIntervals = new List<DoorDayInterval>();
+					for (int i = 0; i < 7; i++)
+					{
+						doorDayIntervalsCollection.DoorDayIntervals.Add(new DoorDayInterval());
+					}
+					foreach (var doorDayInterval in doorDayIntervalsCollection.DoorDayIntervals)
+					{
+						if (doorDayInterval.DoorDayIntervalParts.Count != 4)
+						{
+							doorDayInterval.DoorDayIntervalParts = new List<DoorDayIntervalPart>();
+							for (int i = 0; i < 4; i++)
+							{
+								doorDayInterval.DoorDayIntervalParts.Add(new DoorDayIntervalPart());
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -155,6 +200,20 @@ namespace FiresecAPI.SKD
 				}
 				else
 					device.ZoneUID = Guid.Empty;
+			}
+		}
+
+		static void InvalidateDoors()
+		{
+			foreach (var door in SKDManager.Doors)
+			{
+				var inDevice = SKDManager.Devices.FirstOrDefault(x=>x.UID == door.InDeviceUID);
+				if (inDevice == null)
+					door.InDeviceUID = Guid.Empty;
+
+				var outDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == door.OutDeviceUID);
+				if (outDevice == null)
+					door.OutDeviceUID = Guid.Empty;
 			}
 		}
 

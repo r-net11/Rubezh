@@ -3,7 +3,6 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecClient;
-using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -25,7 +24,7 @@ namespace GKProcessor
 					{
 						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
 						StateClass = XStateClass.Unknown,
-						GlobalEventNameType = value ? GlobalEventNameEnum.База_данных_прибора_не_соответствует_базе_данных_ПК : GlobalEventNameEnum.База_данных_прибора_соответствует_базе_данных_ПК,
+						JournalEventNameType = value ? FiresecAPI.Journal.JournalEventNameType.База_данных_прибора_не_соответствует_базе_данных_ПК : FiresecAPI.Journal.JournalEventNameType.База_данных_прибора_соответствует_базе_данных_ПК,
 					};
 					AddJournalItem(journalItem);
 				}

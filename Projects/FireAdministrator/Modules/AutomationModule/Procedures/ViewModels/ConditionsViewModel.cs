@@ -26,7 +26,7 @@ namespace AutomationModule.ViewModels
 			Filters = new ObservableCollection<FilterViewModel>();
 			foreach (var filter in FiresecManager.SystemConfiguration.JournalFilters)
 			{
-				if (Procedure.FiltersUids.Contains(filter.Uid))
+				if (Procedure.FiltersUids.Contains(filter.UID))
 				{
 					var filterViewModel = new FilterViewModel(filter);
 					Filters.Add(filterViewModel);
@@ -55,7 +55,7 @@ namespace AutomationModule.ViewModels
 				var filterViewModel = procedureFilterDetailsViewModel.SelectedFilter;
 				Filters.Add(filterViewModel);
 				SelectedFilter = filterViewModel;
-				Procedure.FiltersUids.Add(filterViewModel.Filter.Uid);
+				Procedure.FiltersUids.Add(filterViewModel.Filter.UID);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -63,7 +63,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			Procedure.FiltersUids.Remove(SelectedFilter.Filter.Uid);
+			Procedure.FiltersUids.Remove(SelectedFilter.Filter.UID);
 			Filters.Remove(SelectedFilter);
 			SelectedFilter = Filters.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;

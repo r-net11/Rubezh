@@ -285,6 +285,8 @@
     <Compile Include="Validation\Validator.Zones.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Validation\Validator.Devices.cs" />
+    <Compile Include="Validation\DoorValidationError.cs" />
+    <Compile Include="Validation\Validator.Doors.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />

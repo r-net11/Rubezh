@@ -2,18 +2,18 @@
 using System.Linq;
 using FiresecAPI.GK;
 using Infrastructure.Common.CheckBoxList;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 using System.Reflection;
 
 namespace GKModule.ViewModels
 {
 	public class EventNameViewModel : CheckBoxItemViewModel
 	{
-		public EventNameViewModel(GlobalEventNameEnum globalEventNameEnum, List<string> distinctDatabaseDescriptions)
+		public EventNameViewModel(JournalEventNameType journalEventNameType, List<string> distinctDatabaseDescriptions)
 		{
-			EventName = globalEventNameEnum;
+			EventName = journalEventNameType;
 
-			FieldInfo fieldInfo = globalEventNameEnum.GetType().GetField(globalEventNameEnum.ToString());
+			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
 				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 				{
 					EventDescriptionAttribute eventDescriptionAttribute = descriptionAttributes[0];
 					Name = eventDescriptionAttribute.Name;
-					SubsystemType = eventDescriptionAttribute.SubsystemType;
+					JournalSubsystemType = eventDescriptionAttribute.JournalSubsystemType;
 					StateClass = eventDescriptionAttribute.StateClass;
 				}
 			}
@@ -29,10 +29,10 @@ namespace GKModule.ViewModels
 			IsEnabled = distinctDatabaseDescriptions.Any(x => x == Name);
 		}
 
-		public GlobalEventNameEnum EventName { get; private set; }
+		public JournalEventNameType EventName { get; private set; }
 		public string Name { get; private set; }
 		public XStateClass StateClass { get; private set; }
-		public GlobalSubsystemType SubsystemType { get; private set; }
+		public JournalSubsystemType JournalSubsystemType { get; private set; }
 		
 		bool _isEnabled;
 		public bool IsEnabled

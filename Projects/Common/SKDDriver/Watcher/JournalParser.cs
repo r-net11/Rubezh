@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI.Journal;
 using FiresecAPI.SKD;
-using JournalItem = FiresecAPI.SKD.JournalItem;
 
 namespace SKDDriver
 {

@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 
 		public LockPropertiesViewModel(SKDDevice device)
 		{
-			Title = "Параметры двери";
+			Title = "Параметры замка";
 			Device = device;
 			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
@@ -37,14 +37,10 @@ namespace SKDModule.ViewModels
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_FIRST);
-			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_OR_CARD);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
 
-			if (device.SKDDoorConfiguration == null)
-			{
-				device.SKDDoorConfiguration = new SKDDoorConfiguration();
-			}
+			SKDManager.InvalidateOneLockConfiguration(device);
 			Update(device.SKDDoorConfiguration);
 		}
 
@@ -62,7 +58,6 @@ namespace SKDModule.ViewModels
 			IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
 			IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 			IsSensorEnable = doorConfiguration.IsSensorEnable;
-			WeeklySheduleNo = doorConfiguration.WeeklySheduleNo;
 
 			LockIntervalsViewModel = new LockIntervalsViewModel(doorConfiguration);
 			OnPropertyChanged(() => LockIntervalsViewModel);
@@ -230,17 +225,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		int _weeklySheduleNo;
-		public int WeeklySheduleNo
-		{
-			get { return _weeklySheduleNo; }
-			set
-			{
-				_weeklySheduleNo = value;
-				OnPropertyChanged(() => WeeklySheduleNo);
-			}
-		}
-
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
@@ -286,7 +270,7 @@ namespace SKDModule.ViewModels
 			doorConfiguration.IsDoorNotClosedAlarmEnable = IsDoorNotClosedAlarmEnable;
 			doorConfiguration.IsDuressAlarmEnable = IsDuressAlarmEnable;
 			doorConfiguration.IsSensorEnable = IsSensorEnable;
-			doorConfiguration.WeeklySheduleNo = WeeklySheduleNo;
+			doorConfiguration.DoorDayIntervalsCollection = LockIntervalsViewModel.GetModel();
 			return doorConfiguration;
 		}
 

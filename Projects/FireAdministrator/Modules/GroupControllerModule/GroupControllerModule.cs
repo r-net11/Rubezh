@@ -184,18 +184,18 @@ namespace GKModule
 			GKProcessorManager.NewJournalItem -= new Action<JournalItem, bool>(OnNewJournalItems);
 			GKProcessorManager.NewJournalItem += new Action<JournalItem, bool>(OnNewJournalItems);
 
-			SafeFiresecService.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
-			SafeFiresecService.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
+			//SafeFiresecService.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
+			//SafeFiresecService.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 
 			GKProcessorManager.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 			GKProcessorManager.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 			return true;
 		}
 
-		public override void AfterInitialize()
-		{
-			FiresecManager.StartPoll(true);
-		}
+		//public override void AfterInitialize()
+		//{
+		//    FiresecManager.StartPoll(true);
+		//}
 
 		void OnNewJournalItems(JournalItem journalItem, bool isAdministrator)
 		{

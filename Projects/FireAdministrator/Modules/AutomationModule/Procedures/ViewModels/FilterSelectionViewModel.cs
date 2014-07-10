@@ -17,7 +17,7 @@ namespace AutomationModule.ViewModels
 		void Initialize(Procedure procedure)
 		{
 			Filters = new ObservableCollection<FilterViewModel>();
-			foreach (var filter in FiresecManager.SystemConfiguration.JournalFilters.FindAll(x => !procedure.FiltersUids.Contains(x.Uid)))
+			foreach (var filter in FiresecManager.SystemConfiguration.JournalFilters.FindAll(x => !procedure.FiltersUids.Contains(x.UID)))
 			{
 				var filterViewModel = new FilterViewModel(filter);
 				Filters.Add(filterViewModel);

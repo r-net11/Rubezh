@@ -133,7 +133,7 @@ namespace FiresecDB
 			if (!reader.IsDBNull(reader.GetOrdinal("StateType")))
 				journalRecord.StateType = (StateType)reader.GetInt32(reader.GetOrdinal("StateType"));
 			if (!reader.IsDBNull(reader.GetOrdinal("SubsystemType")))
-				journalRecord.SubsystemType = (SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
+				journalRecord.SubsystemType = (FS1SubsystemType)reader.GetInt32(reader.GetOrdinal("SubsystemType"));
 			if (!reader.IsDBNull(reader.GetOrdinal("SystemTime")))
 				journalRecord.SystemTime = reader.GetDateTime(reader.GetOrdinal("SystemTime"));
 			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))

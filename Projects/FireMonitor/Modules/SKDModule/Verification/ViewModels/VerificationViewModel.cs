@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
 using Infrastructure.Events;
+using FiresecAPI.Journal;
 
 namespace SKDModule.ViewModels
 {

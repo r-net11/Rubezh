@@ -3,7 +3,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class UpdatedDeviceViewModel:BaseViewModel
+	public class UpdatedDeviceViewModel : BaseViewModel
 	{
 		public string Name { get; private set; }
 		public string Address { get; private set; }

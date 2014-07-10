@@ -6,7 +6,6 @@ using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecClient;
 using GKProcessor;
-using FiresecAPI.Events;
 
 namespace FiresecService.Processor
 {
@@ -80,7 +79,7 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.SendMessage:
-					GKProcessorManager.AddGKMessage(GlobalEventNameEnum.Команда_оператора, "Запуск процедуры", null, null);
+					GKProcessorManager.AddGKMessage(FiresecAPI.Journal.JournalEventNameType.Команда_оператора, "Запуск процедуры", null, null);
 					break;
 
 				case ProcedureStepType.FindObjects:

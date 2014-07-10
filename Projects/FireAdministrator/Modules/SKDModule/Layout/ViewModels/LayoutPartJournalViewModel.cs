@@ -5,6 +5,8 @@ using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
 using Infrastructure.Client.Layout.ViewModels;
 using Infrastructure.Common.Services.Layout;
+using FiresecClient;
+using FiresecAPI.Journal;
 
 namespace SKDModule.ViewModels
 {
@@ -17,7 +19,7 @@ namespace SKDModule.ViewModels
 			Title = "Журнал событий";
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
 			_properties = properties ?? new LayoutPartSKDJournalProperties();
-			var journalFilter = SKDManager.SKDConfiguration.SKDSystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == _properties.FilterUID);
+			var journalFilter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == _properties.FilterUID);
 			UpdateLayoutPart(journalFilter);
 		}
 
@@ -44,7 +46,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void UpdateLayoutPart(SKDJournalFilter journalFilter)
+		public void UpdateLayoutPart(JournalFilter journalFilter)
 		{
 			FilterTitle = journalFilter == null ? "" : journalFilter.Name;
 		}

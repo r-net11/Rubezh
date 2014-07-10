@@ -9,7 +9,6 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using Infrastructure.Common;
 using System.Reflection;
-using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -19,14 +18,14 @@ namespace GKProcessor
 		public static string ConnectionString = @"Data Source=" + AppDataFolderHelper.GetDBFile("GkJournalDatabase.sdf") + ";Persist Security Info=True;Max Database Size=4000";
 		public static object locker = new object();
 		public static bool IsAbort { get; set; }
-		public static event Action<List<JournalItem>, Guid> ArchivePortionReady;
-		
+		public static event Action<List<FiresecAPI.GK.JournalItem>, Guid> ArchivePortionReady;
 
-		public static void Add(JournalItem journalItem)
+
+		public static void Add(FiresecAPI.GK.JournalItem journalItem)
 		{
 			try
 			{
-				AddMany(new List<JournalItem>() { journalItem });
+				AddMany(new List<FiresecAPI.GK.JournalItem>() { journalItem });
 			}
 			catch (Exception e)
 			{
@@ -34,7 +33,7 @@ namespace GKProcessor
 			}
 		}
 
-		public static void AddMany(List<JournalItem> journalItems)
+		public static void AddMany(List<FiresecAPI.GK.JournalItem> journalItems)
 		{
 			try
 			{
@@ -52,16 +51,16 @@ namespace GKProcessor
 			}
 		}
 
-		public static JournalItem AddMessage(GlobalEventNameEnum globalEventNameEnum, string userName)
+		public static FiresecAPI.GK.JournalItem AddMessage(FiresecAPI.Journal.JournalEventNameType journalEventNameType, string userName)
 		{
-			var journalItem = new JournalItem()
+			var journalItem = new FiresecAPI.GK.JournalItem()
 			{
 				SystemDateTime = DateTime.Now,
 				DeviceDateTime = DateTime.Now,
 				JournalItemType = JournalItemType.System,
 				StateClass = XStateClass.Norm,
-				GlobalEventNameType = globalEventNameEnum,
-				Name = EventDescriptionAttributeHelper.ToName(globalEventNameEnum),
+				JournalEventNameType = journalEventNameType,
+				Name = FiresecAPI.Journal.EventDescriptionAttributeHelper.ToName(journalEventNameType),
 				ObjectStateClass = XStateClass.Norm,
 				UserName = userName,
 				SubsystemType = XSubsystemType.System
@@ -70,7 +69,7 @@ namespace GKProcessor
 			return journalItem;
 		}
 
-		static List<JournalItem> UpdateItemLengths(List<JournalItem> journalItems)
+		static List<FiresecAPI.GK.JournalItem> UpdateItemLengths(List<FiresecAPI.GK.JournalItem> journalItems)
 		{
 			foreach (var item in journalItems)
 			{
@@ -88,7 +87,7 @@ namespace GKProcessor
 			return journalItems;
 		}
 
-		static void InsertJournalRecordToDb(List<JournalItem> journalItems)
+		static void InsertJournalRecordToDb(List<FiresecAPI.GK.JournalItem> journalItems)
 		{
 			journalItems = UpdateItemLengths(journalItems);
 			UpdateNamesDescriptions(journalItems);
@@ -129,10 +128,10 @@ namespace GKProcessor
 			}
 		}
 
-		public static List<JournalItem> BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
+		public static List<FiresecAPI.GK.JournalItem> BeginGetGKFilteredArchive(XArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
 		{
-			var journalItems = new List<JournalItem>();
-			var result = new List<JournalItem>();
+			var journalItems = new List<FiresecAPI.GK.JournalItem>();
+			var result = new List<FiresecAPI.GK.JournalItem>();
 
 			try
 			{
@@ -181,7 +180,7 @@ namespace GKProcessor
 			return result;
 		}
 
-		static void PublishNewItemsPortion(List<JournalItem> journalItems, Guid archivePortionUID)
+		static void PublishNewItemsPortion(List<FiresecAPI.GK.JournalItem> journalItems, Guid archivePortionUID)
 		{
 			if (ArchivePortionReady != null)
 				ArchivePortionReady(journalItems.ToList(), archivePortionUID);
@@ -371,9 +370,9 @@ namespace GKProcessor
 			return DateTime.Now;
 		}
 
-		public static List<JournalItem> GetGKTopLastJournalItems(int count)
+		public static List<FiresecAPI.GK.JournalItem> GetGKTopLastJournalItems(int count)
 		{
-			var journalItems = new List<JournalItem>();
+			var journalItems = new List<FiresecAPI.GK.JournalItem>();
 			try
 			{
 				lock (locker)

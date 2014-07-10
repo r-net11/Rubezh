@@ -4,7 +4,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events
 {
-	public class NewJournalItemsEvent : CompositePresentationEvent<List<FiresecAPI.SKD.JournalItem>>
+	public class NewJournalItemsEvent : CompositePresentationEvent<List<FiresecAPI.Journal.JournalItem>>
 	{
 	}
 }

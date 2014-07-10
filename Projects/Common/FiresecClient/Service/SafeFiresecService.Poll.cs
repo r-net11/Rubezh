@@ -16,9 +16,9 @@ namespace FiresecClient
 		public static event Action<GKCallbackResult> GKCallbackResultEvent;
 		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
 		public static event Action ConfigurationChangedEvent;
-		public static event Action<FiresecAPI.SKD.JournalItem> NewJournalItemEvent;
+		public static event Action<FiresecAPI.Journal.JournalItem> NewJournalItemEvent;
 		public static event Action<IEnumerable<FiresecAPI.GK.JournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
-		public static event Action<IEnumerable<FiresecAPI.SKD.JournalItem>, Guid> GetFilteredSKDArchiveCompletedEvent;
+		public static event Action<IEnumerable<FiresecAPI.Journal.JournalItem>, Guid> GetFilteredSKDArchiveCompletedEvent;
 
 		bool isConnected = true;
 		public bool SuspendPoll = false;

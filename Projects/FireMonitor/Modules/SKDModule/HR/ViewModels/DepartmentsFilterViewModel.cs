@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -8,7 +9,7 @@ namespace SKDModule.ViewModels
 {
 	public class DepartmentsFilterViewModel : BaseViewModel
 	{
-		public DepartmentsFilterViewModel(DepartmentFilter filter)
+		public DepartmentsFilterViewModel(EmployeeFilter filter)
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
 			var departments = DepartmentHelper.GetByCurrentUser();
@@ -25,7 +26,7 @@ namespace SKDModule.ViewModels
 					if (department.OrganisationUID == organisation.UID)
 					{
 						var departmentViewModel = new DepartmentFilterItemViewModel(department);
-						departmentViewModel.IsChecked = filter.UIDs.Contains(department.UID);
+						departmentViewModel.IsChecked = filter.DepartmentUIDs.Contains(department.UID);
 						organisationViewModel.AddChild(departmentViewModel);
 						AllDepartments.Add(departmentViewModel);
 					}
@@ -59,17 +60,20 @@ namespace SKDModule.ViewModels
 			get { return Organisations.ToArray(); }
 		}
 
-		public DepartmentFilter Save()
+		public List<Guid> UIDs
 		{
-			var departmentFilter = new DepartmentFilter();
-			foreach (var department in AllDepartments)
+			get
 			{
-				if (department.IsChecked && !department.IsOrganisation)
+				var result = new List<Guid>();
+				foreach (var department in AllDepartments)
 				{
-					departmentFilter.UIDs.Add(department.UID);
+					if (department.IsChecked && !department.IsOrganisation)
+					{
+						result.Add(department.UID);
+					}
 				}
+				return result;
 			}
-			return departmentFilter;
 		}
 	}
 }

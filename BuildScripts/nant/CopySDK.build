@@ -2,7 +2,7 @@
 <project name="Simple" default="run">
   <property name="nant.settings.currentframework" value="net-4.0" />
   <target name="run">
-    <copy todir="..\..\Projects\ChinaController\ChilnaSKDDriverTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
+    <copy todir="..\..\Projects\ChinaController\ChinaSKDDriverTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\ChinaController\OriginalSDK\EntranceGuardDemo\Bin">
         <include name="**\*" />
       </fileset>
@@ -33,17 +33,17 @@
         <include name="**\*" />
       </fileset>
     </copy>
-    <copy todir="..\..\Projects\ChinaController\ChilnaSKDDriver\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
+    <copy todir="..\..\Projects\ChinaController\ChinaSKDDriver\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
         <include name="**\*" />
       </fileset>
     </copy>
-    <copy todir="..\..\Projects\ChinaController\ChilnaSKDDriverTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
+    <copy todir="..\..\Projects\ChinaController\ChinaSKDDriverTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
         <include name="**\*" />
       </fileset>
     </copy>
-    <copy todir="..\..\Projects\ChinaController\ChilnaSKDDriverConsoleTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
+    <copy todir="..\..\Projects\ChinaController\ChinaSKDDriverConsoleTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
         <include name="**\*" />
       </fileset>

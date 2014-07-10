@@ -30,7 +30,7 @@ namespace SKDModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/zone.png"; }
+			get { return Object.Driver.ImageSource; }
 		}
 	}
 }

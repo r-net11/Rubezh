@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Common;
-using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using JournalItem = FiresecAPI.SKD.JournalItem;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 
 namespace SKDDriver
 {
@@ -198,9 +196,9 @@ namespace SKDDriver
 					SKDCallbackResult = new SKDCallbackResult();
 					IsPingFailure = result;
 					if (IsPingFailure)
-						AddFailureJournalItem(GlobalEventNameEnum.Нет_связи_с_ГК, EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(JournalEventNameType.Нет_связи_с_ГК, FiresecAPI.GK.EventDescription.Старт_мониторинга);
 					else
-						AddFailureJournalItem(GlobalEventNameEnum.Связь_с_ГК_восстановлена, EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(JournalEventNameType.Связь_с_ГК_восстановлена, FiresecAPI.GK.EventDescription.Старт_мониторинга);
 
 					foreach (var device in AllDevices)
 					{
@@ -224,9 +222,9 @@ namespace SKDDriver
 					SKDCallbackResult = new SKDCallbackResult();
 					IsInTechnologicalRegime = result;
 					if (IsInTechnologicalRegime)
-						AddFailureJournalItem(GlobalEventNameEnum.ГК_в_технологическом_режиме, EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(JournalEventNameType.ГК_в_технологическом_режиме, FiresecAPI.GK.EventDescription.Старт_мониторинга);
 					else
-						AddFailureJournalItem(GlobalEventNameEnum.ГК_в_рабочем_режиме, EventDescription.Старт_мониторинга);
+						AddFailureJournalItem(JournalEventNameType.ГК_в_рабочем_режиме, FiresecAPI.GK.EventDescription.Старт_мониторинга);
 
 					NotifyAllObjectsStateChanged();
 					OnSKDCallbackResult(SKDCallbackResult);
@@ -247,9 +245,9 @@ namespace SKDDriver
 					SKDCallbackResult = new SKDCallbackResult();
 					IsHashFailure = result;
 					if (IsHashFailure)
-						AddFailureJournalItem(GlobalEventNameEnum.Конфигурация_прибора_не_соответствует_конфигурации_ПК, EventDescription.Не_совпадает_хэш);
+						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, FiresecAPI.GK.EventDescription.Не_совпадает_хэш);
 					else
-						AddFailureJournalItem(GlobalEventNameEnum.Конфигурация_прибора_соответствует_конфигурации_ПК, EventDescription.Совпадает_хэш);
+						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_соответствует_конфигурации_ПК, FiresecAPI.GK.EventDescription.Совпадает_хэш);
 
 					foreach (var device in AllDevices)
 					{
@@ -269,7 +267,7 @@ namespace SKDDriver
 
 				SKDCallbackResult = new SKDCallbackResult();
 				if (!ReadMissingJournalItems())
-					AddFailureJournalItem(GlobalEventNameEnum.Ошибка_при_синхронизации_журнала);
+					AddFailureJournalItem(JournalEventNameType.Ошибка_при_синхронизации_журнала);
 				OnSKDCallbackResult(SKDCallbackResult);
 
 				SKDCallbackResult = new SKDCallbackResult();
@@ -279,9 +277,9 @@ namespace SKDDriver
 				{
 					IsGetStatesFailure = result;
 					if (IsGetStatesFailure)
-						AddFailureJournalItem(GlobalEventNameEnum.Ошибка_при_опросе_состояний_компонентов_ГК);
+						AddFailureJournalItem(JournalEventNameType.Ошибка_при_опросе_состояний_компонентов_ГК);
 					else
-						AddFailureJournalItem(GlobalEventNameEnum.Устранена_ошибка_при_опросе_состояний_компонентов_ГК);
+						AddFailureJournalItem(JournalEventNameType.Устранена_ошибка_при_опросе_состояний_компонентов_ГК);
 				}
 				OnSKDCallbackResult(SKDCallbackResult);
 
@@ -338,13 +336,13 @@ namespace SKDDriver
 			}
 		}
 
-		void AddFailureJournalItem(GlobalEventNameEnum globalEventNameEnum, EventDescription description = EventDescription.Нет)
+		void AddFailureJournalItem(JournalEventNameType journalEventNameType, FiresecAPI.GK.EventDescription description = FiresecAPI.GK.EventDescription.NULL)
 		{
 			var journalItem = new JournalItem()
 			{
-				Name = globalEventNameEnum,
+				JournalEventNameType = journalEventNameType,
 				Description = description,
-				State = XStateClass.Unknown,
+				StateClass = FiresecAPI.GK.XStateClass.Unknown,
 				//GKIpAddress = Device.GetGKIpAddress()
 			};
 			SKDCallbackResult.JournalItems.Add(journalItem);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Journal;
 
 namespace FiresecAPI.Models.Layouts
 {
@@ -9,7 +10,7 @@ namespace FiresecAPI.Models.Layouts
 	{
 		public LayoutPartSKDVerificationProperties()
 		{
-			JournalFilters = new List<SKDJournalFilter>();
+			JournalFilters = new List<JournalFilter>();
 		}
 
 		[DataMember]
@@ -52,6 +53,6 @@ namespace FiresecAPI.Models.Layouts
 		public bool ShowGuestConvoy { get; set; }
 
 		[DataMember]
-		public List<SKDJournalFilter> JournalFilters { get; set; }
+		public List<JournalFilter> JournalFilters { get; set; }
 	}
 }

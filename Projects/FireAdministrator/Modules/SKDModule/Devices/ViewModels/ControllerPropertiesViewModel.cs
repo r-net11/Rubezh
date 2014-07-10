@@ -22,24 +22,35 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Конфигурация контроллера";
 			Device = device;
-
-			var result = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
-			if (result.HasError)
-			{
-				Close();
-				MessageBoxService.ShowWarning(result.Error, "Нет связи с устройством");
-			}
-			else
-			{
-				DeviceInfo = result.Result;
-			}
-
 			GetPasswordCommand = new RelayCommand(OnGetPassword);
 			SetPasswordCommand = new RelayCommand(OnSetPassword);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime);
 			ResetCommand = new RelayCommand(OnReset);
 			RebootCommand = new RelayCommand(OnReboot);
-			WriteTimeSheduleConfigurationCommand = new RelayCommand(OnWriteTimeSheduleConfiguration);
+
+			var deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
+			if (deviceInfoResult.HasError)
+			{
+				Close(true);
+				MessageBoxService.ShowWarning(deviceInfoResult.Error, "Нет связи с устройством");
+				return;
+			}
+			else
+			{
+				DeviceInfo = deviceInfoResult.Result;
+			}
+
+			var passwordResult = FiresecManager.FiresecService.SKDGetPassword(Device.UID);
+			if (passwordResult.HasError)
+			{
+				Close(true);
+				MessageBoxService.ShowWarning(deviceInfoResult.Error, "Нет связи с устройством");
+				return;
+			}
+			else
+			{
+				Password = passwordResult.Result;
+			}
 		}
 
 		string _password;
@@ -119,51 +130,6 @@ namespace SKDModule.ViewModels
 			{
 				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции");
 			}
-		}
-
-		public RelayCommand WriteTimeSheduleConfigurationCommand { get; private set; }
-		void OnWriteTimeSheduleConfiguration()
-		{
-			if (CheckNeedSave(true))
-			{
-				if (ValidateConfiguration())
-				{
-					var result = FiresecManager.FiresecService.SKDWriteTimeSheduleConfiguration(Device);
-					if (result.HasError)
-					{
-						MessageBoxService.ShowError(result.Error);
-					}
-				}
-			}
-		}
-
-		bool ValidateConfiguration()
-		{
-			var validationResult = ServiceFactory.ValidationService.Validate();
-			if (validationResult.HasErrors("SKD"))
-			{
-				if (validationResult.CannotSave("SKD") || validationResult.CannotWrite("SKD"))
-				{
-					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
-					return false;
-				}
-			}
-			return true;
-		}
-
-		bool CheckNeedSave(bool syncParameters = false)
-		{
-			if (ServiceFactory.SaveService.SKDChanged)
-			{
-				if (MessageBoxService.ShowQuestion("Для выполнения этой операции необходимо применить конфигурацию. Применить сейчас?") == System.Windows.MessageBoxResult.Yes)
-				{
-					var cancelEventArgs = new CancelEventArgs();
-					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
-					return !cancelEventArgs.Cancel;
-				}
-				return false;
-			}
-			return true;
 		}
 	}
 }

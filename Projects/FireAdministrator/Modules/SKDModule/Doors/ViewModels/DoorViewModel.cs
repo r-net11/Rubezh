@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 			{
 				Door.Name = value;
 				Door.OnChanged();
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -49,7 +49,7 @@ namespace SKDModule.ViewModels
 			{
 				Door.Description = value;
 				Door.OnChanged();
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -64,24 +64,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public string OutDeviceName
-		{
-			get
-			{
-				if (OutDevice != null)
-					return OutDevice.Name;
-				return "";
-			}
-		}
-
 		public bool IsInDeviceGrayed
 		{
 			get { return InDevice == null; }
-		}
-
-		public bool IsOutDeviceGrayed
-		{
-			get { return OutDevice == null; }
 		}
 
 		public RelayCommand ChangeInDeviceCommand { get; private set; }
@@ -94,27 +79,12 @@ namespace SKDModule.ViewModels
 				{
 					InDevice = deviceSelectationViewModel.SelectedDevice;
 					Door.InDeviceUID = InDevice.UID;
-
-					switch (Door.DoorType)
-					{
-						case DoorType.OneWay:
-							OutDevice = InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Button && x.IntAddress == InDevice.IntAddress / 2);
-							break;
-
-						case DoorType.TwoWay:
-							OutDevice = InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && x.IntAddress == InDevice.IntAddress + 1);
-							break;
-					}
-					Door.OutDeviceUID = OutDevice.UID;
+					Update(Door);
 				}
 
 				OnPropertyChanged("InDevice");
 				OnPropertyChanged("InDeviceName");
 				OnPropertyChanged("IsInDeviceGrayed");
-
-				OnPropertyChanged("OutDevice");
-				OnPropertyChanged("OutDeviceName");
-				OnPropertyChanged("IsOutDeviceGrayed");
 
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
@@ -123,17 +93,33 @@ namespace SKDModule.ViewModels
 		public void Update(Door door)
 		{
 			Door = door;
+			InDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.InDeviceUID);
+			OutDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.OutDeviceUID);
+
+			if (InDevice != null)
+			{
+				switch (Door.DoorType)
+				{
+					case DoorType.OneWay:
+						OutDevice = InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Button && x.IntAddress == InDevice.IntAddress / 2);
+						break;
+
+					case DoorType.TwoWay:
+						OutDevice = InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && x.IntAddress == InDevice.IntAddress + 1);
+						break;
+				}
+				Door.OutDeviceUID = OutDevice.UID;
+			}
+
 			OnPropertyChanged("Door");
 			OnPropertyChanged("Name");
 			OnPropertyChanged("Description");
+			OnPropertyChanged("OutDevice");
 			Update();
 		}
 
 		public void Update()
 		{
-			InDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.InDeviceUID);
-			OutDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.OutDeviceUID);
-
 			if (Door.PlanElementUIDs == null)
 				Door.PlanElementUIDs = new List<Guid>();
 			OnPropertyChanged(() => IsOnPlan);

@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
 using JournalModule.Events;
+using FiresecAPI.Journal;
 
 namespace JournalModule.ViewModels
 {
@@ -85,7 +86,7 @@ namespace JournalModule.ViewModels
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
 			if (showSKDArchiveEventArgs.Device != null)
-				ArchiveFilter.DeviceUIDs.Add(showSKDArchiveEventArgs.Device.UID);
+				ArchiveFilter.ObjectUIDs.Add(showSKDArchiveEventArgs.Device.UID);
 			IsFilterOn = true;
 			OnPropertyChanged("IsFilterExists");
 		}

@@ -52,7 +52,7 @@ namespace FiresecAPI.Models
 
 		[Column(Name = "SubSystemType", DbType = "Int")]
 		[DataMember]
-		public SubsystemType SubsystemType { get; set; }
+		public FS1SubsystemType SubsystemType { get; set; }
 
 		[Column(DbType = "Int")]
 		[DataMember]

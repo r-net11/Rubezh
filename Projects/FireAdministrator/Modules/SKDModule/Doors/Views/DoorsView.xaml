@@ -59,7 +59,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding OutDevice.Driver.ImageSource}" />
-                                <TextBlock Text="{Binding OutDeviceName}" />
+                                <TextBlock Text="{Binding OutDevice.Name}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

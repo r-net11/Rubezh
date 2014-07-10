@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace FiresecAPI.SKD
 {
@@ -11,6 +12,7 @@ namespace FiresecAPI.SKD
 			AccessMode = SKDDoorConfiguration_AccessMode.ACCESS_MODE_HANDPROTECTED;
 			AccessState = SKDDoorConfiguration_AccessState.ACCESS_STATE_NORMAL;
 			DoorOpenMethod = SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD;
+			DoorDayIntervalsCollection = new DoorDayIntervalsCollection();
 		}
 
 		[DataMember]
@@ -50,7 +52,7 @@ namespace FiresecAPI.SKD
 		public bool IsSensorEnable { get; set; }
 
 		[DataMember]
-		public int WeeklySheduleNo { get; set; }
+		public DoorDayIntervalsCollection DoorDayIntervalsCollection { get; set; }
 	}
 
 	public enum SKDDoorConfiguration_AccessState
@@ -99,5 +101,45 @@ namespace FiresecAPI.SKD
 
 		[Description("Недельный график")]
 		CFG_DOOR_OPEN_METHOD_SECTION,
+	}
+
+	[DataContract]
+	public class DoorDayIntervalsCollection
+	{
+		public DoorDayIntervalsCollection()
+		{
+			DoorDayIntervals = new List<DoorDayInterval>();
+		}
+
+		[DataMember]
+		public List<DoorDayInterval> DoorDayIntervals { get; set; }
+	}
+
+	[DataContract]
+	public class DoorDayInterval
+	{
+		public DoorDayInterval()
+		{
+			DoorDayIntervalParts = new List<DoorDayIntervalPart>();
+		}
+
+		[DataMember]
+		public List<DoorDayIntervalPart> DoorDayIntervalParts { get; set; }
+	}
+
+	[DataContract]
+	public class DoorDayIntervalPart
+	{
+		[DataMember]
+		public int StartHour { get; set; }
+
+		[DataMember]
+		public int StartMinute { get; set; }
+
+		[DataMember]
+		public int EndHour { get; set; }
+
+		[DataMember]
+		public int EndMinute { get; set; }
 	}
 }

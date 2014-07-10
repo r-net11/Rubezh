@@ -45,7 +45,7 @@ namespace JournalModule
 			UnreadJournalCount = 0;
 			JournalViewModel.SelectedJournal = JournalViewModel.JournalItems.FirstOrDefault();
 		}
-		void OnNewJournalItem(List<FiresecAPI.SKD.JournalItem> journalItems)
+		void OnNewJournalItem(List<FiresecAPI.Journal.JournalItem> journalItems)
 		{
 			if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
 				UnreadJournalCount += journalItems.Count;
@@ -73,31 +73,31 @@ namespace JournalModule
 
 		public override void AfterInitialize()
 		{
-			SafeFiresecService.NewJournalItemEvent -= new Action<FiresecAPI.SKD.JournalItem>(OnNewJournalItem);
-			SafeFiresecService.NewJournalItemEvent += new Action<FiresecAPI.SKD.JournalItem>(OnNewJournalItem);
+			SafeFiresecService.NewJournalItemEvent -= new Action<FiresecAPI.Journal.JournalItem>(OnNewJournalItem);
+			SafeFiresecService.NewJournalItemEvent += new Action<FiresecAPI.Journal.JournalItem>(OnNewJournalItem);
 
-			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
-			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent -= new Action<IEnumerable<FiresecAPI.Journal.JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent += new Action<IEnumerable<FiresecAPI.Journal.JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
 
-			var journalFilter = new SKDJournalFilter();
+			var journalFilter = new FiresecAPI.Journal.JournalFilter();
 			var result = FiresecManager.FiresecService.GetSKDJournalItems(journalFilter);
 			if (!result.HasError)
 			{
-				JournalViewModel.OnNewJournalItems(new List<JournalItem>(result.Result));
+				JournalViewModel.OnNewJournalItems(new List<FiresecAPI.Journal.JournalItem>(result.Result));
 			}
 		}
 
-		void OnNewJournalItem(FiresecAPI.SKD.JournalItem journalItem)
+		void OnNewJournalItem(FiresecAPI.Journal.JournalItem journalItem)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				var journalItems = new List<JournalItem>();
+				var journalItems = new List<FiresecAPI.Journal.JournalItem>();
 				journalItems.Add(journalItem);
 				ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
 			});
 		}
 
-		void OnGetFilteredSKDArchiveCompletedEvent(IEnumerable<JournalItem> journalItems, Guid archivePortionUID)
+		void OnGetFilteredSKDArchiveCompletedEvent(IEnumerable<FiresecAPI.Journal.JournalItem> journalItems, Guid archivePortionUID)
 		{
 			ApplicationService.Invoke(() =>
 			{

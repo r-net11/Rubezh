@@ -35,29 +35,32 @@
                         <TextBlock Text="MTU" Width="200" HorizontalAlignment="Right" Margin="2" />
                         <TextBlock Text="{Binding MTU}" Margin="2" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Время прибора" Width="200" HorizontalAlignment="Right" Margin="2" />
-                        <TextBlock Text="{Binding CurrentDateTime}" Margin="2" />
-                    </StackPanel>
                 </StackPanel>
             </Border>
         </TabItem>
         <TabItem Header="Настройки">
             <Border CornerRadius="5" Background="White" Margin="5">
                 <StackPanel HorizontalAlignment="Left" Margin="5">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Пароль" Width="100" Margin="2" />
-                        <TextBox Text="{Binding Password}" Background="LightGray" Width="100" Margin="2" />
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Пароль" Width="150" Margin="2" />
+                            <TextBox Text="{Binding Password}" Background="LightGray" Width="150" Margin="2" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Считать" Command="{Binding GetPasswordCommand}" Width="150" Margin="2" />
+                            <Button Content="Записать" Command="{Binding SetPasswordCommand}" Width="150" Margin="2" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="0 30">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Время прибора" Width="150" Margin="2" />
+                            <TextBlock Text="{Binding DeviceInfo.CurrentDateTime}" Width="150" Margin="2" />
+                        </StackPanel>
+                        <Button Content="Синхронизировать" Command="{Binding SynchroniseTimeCommand}" HorizontalAlignment="Right" Width="150" Margin="2" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="Считать" Command="{Binding GetPasswordCommand}" Width="100" Margin="2" />
-                        <Button Content="Записать" Command="{Binding SetPasswordCommand}" Width="100" Margin="2" />
-                    </StackPanel>
-                    <StackPanel Margin="10 0">
-                        <Button Content="Синхронизировать" Command="{Binding SynchroniseTimeCommand}" Width="250" Margin="2" />
-                        <Button Content="Сбросить настройки" Command="{Binding ResetCommand}" Width="250" Margin="2" />
-                        <Button Content="Перезагрузить" Command="{Binding RebootCommand}" Width="250" Margin="2" />
-                        <Button Content="Записать графики работ" Command="{Binding WriteTimeSheduleConfigurationCommand}" Width="250" Margin="2" />
+                        <Button Content="Сбросить настройки" Command="{Binding ResetCommand}" Width="150" Margin="2" />
+                        <Button Content="Перезагрузить" Command="{Binding RebootCommand}" Width="150" Margin="2" />
                     </StackPanel>
                 </StackPanel>
             </Border>

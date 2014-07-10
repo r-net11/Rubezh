@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
+using FiresecAPI.Journal;
 
 namespace FiresecClient
 {
@@ -70,7 +71,7 @@ namespace FiresecClient
 		#endregion
 
 		#region Journal
-		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(SKDJournalFilter filter)
+		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(JournalFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<JournalItem>>>(() => FiresecService.GetSKDJournalItems(filter));
 		}
@@ -216,6 +217,12 @@ namespace FiresecClient
 		#endregion
 
 		#region Devices
+
+		public void CancelSKDProgress(Guid progressCallbackUID, string userName)
+		{
+			SafeOperationCall(() => FiresecService.CancelGKProgress(progressCallbackUID, userName), "CancelSKDProgress");
+		}
+
 		public OperationResult<SKDStates> SKDGetStates()
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetStates(); }, "SKDGetStates");
@@ -253,6 +260,11 @@ namespace FiresecClient
 		public OperationResult<bool> SKDWriteTimeSheduleConfiguration(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDWriteTimeSheduleConfiguration(device.UID); }, "SKDWriteTimeSheduleConfiguration");
+		}
+
+		public OperationResult<bool> SKDWriteAllTimeSheduleConfiguration()
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDWriteAllTimeSheduleConfiguration(); }, "SKDWriteAllTimeSheduleConfiguration");
 		}
 
 		public OperationResult<bool> SKDUpdateFirmware(SKDDevice device, string fileName)

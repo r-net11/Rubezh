@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 using FiresecAPI.Automation;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
@@ -21,17 +21,17 @@ namespace JournalModule.ViewModels
 		public void Initialize(SKDArchiveFilter filter)
 		{
 			AllFilters.ForEach(x => x.IsChecked = false);
-			foreach (var eventName in filter.EventNames)
+			foreach (var eventName in filter.JournalEventNameTypes)
 			{
-				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.GlobalEventNameEnum == eventName);
+				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.JournalEventNameType == eventName);
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
 				}
 			}
-			foreach (var subsystemType in filter.SubsystemTypes)
+			foreach (var journalSubsystemTypes in filter.JournalSubsystemTypes)
 			{
-				var filterNameViewModel = RootFilters.FirstOrDefault(x => x.IsSubsystem && x.SubsystemType == subsystemType);
+				var filterNameViewModel = RootFilters.FirstOrDefault(x => x.IsSubsystem && x.JournalSubsystemType == journalSubsystemTypes);
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
@@ -46,7 +46,7 @@ namespace JournalModule.ViewModels
 			{
 				if (rootFilter.IsChecked)
 				{
-					filter.SubsystemTypes.Add(rootFilter.SubsystemType);
+					filter.JournalSubsystemTypes.Add(rootFilter.JournalSubsystemType);
 				}
 				else
 				{
@@ -54,7 +54,7 @@ namespace JournalModule.ViewModels
 					{
 						if (filterViewModel.IsChecked)
 						{
-							filter.EventNames.Add(filterViewModel.GlobalEventNameEnum);
+							filter.JournalEventNameTypes.Add(filterViewModel.JournalEventNameType);
 						}
 					}
 				}
@@ -82,37 +82,37 @@ namespace JournalModule.ViewModels
 			RootFilters = new ObservableCollection<FilterNameViewModel>();
 			AllFilters = new List<FilterNameViewModel>();
 
-			var systemViewModel = new FilterNameViewModel(GlobalSubsystemType.System);
+			var systemViewModel = new FilterNameViewModel(JournalSubsystemType.System);
 			systemViewModel.IsExpanded = true;
 			RootFilters.Add(systemViewModel);
 
-			var gkViewModel = new FilterNameViewModel(GlobalSubsystemType.GK);
+			var gkViewModel = new FilterNameViewModel(JournalSubsystemType.GK);
 			gkViewModel.IsExpanded = true;
 			RootFilters.Add(gkViewModel);
 
-			var skdViewModel = new FilterNameViewModel(GlobalSubsystemType.SKD);
+			var skdViewModel = new FilterNameViewModel(JournalSubsystemType.SKD);
 			skdViewModel.IsExpanded = true;
 			RootFilters.Add(skdViewModel);
 
-			foreach (GlobalEventNameEnum enumValue in Enum.GetValues(typeof(GlobalEventNameEnum)))
+			foreach (JournalEventNameType enumValue in Enum.GetValues(typeof(JournalEventNameType)))
 			{
 				var filterNameViewModel = new FilterNameViewModel(enumValue);
-				if (filterNameViewModel.GlobalEventNameEnum == GlobalEventNameEnum.NULL)
+				if (filterNameViewModel.JournalEventNameType == JournalEventNameType.NULL)
 					continue;
 
 				AllFilters.Add(filterNameViewModel);
 
-				switch (filterNameViewModel.SubsystemType)
+				switch (filterNameViewModel.JournalSubsystemType)
 				{
-					case GlobalSubsystemType.System:
+					case JournalSubsystemType.System:
 						systemViewModel.AddChild(filterNameViewModel);
 						break;
 
-					case GlobalSubsystemType.GK:
+					case JournalSubsystemType.GK:
 						gkViewModel.AddChild(filterNameViewModel);
 						break;
 
-					case GlobalSubsystemType.SKD:
+					case JournalSubsystemType.SKD:
 						skdViewModel.AddChild(filterNameViewModel);
 						break;
 				}

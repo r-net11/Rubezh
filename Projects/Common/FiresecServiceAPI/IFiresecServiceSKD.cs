@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using FiresecAPI.SKD;
+using FiresecAPI.Journal;
 
 namespace FiresecAPI
 {
@@ -45,7 +46,7 @@ namespace FiresecAPI
 
 		#region Journal
 		[OperationContract]
-		OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(SKDJournalFilter filter);
+		OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(JournalFilter filter);
 
 		[OperationContract]
 		OperationResult<DateTime> GetMinDateTime();
@@ -151,6 +152,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDWriteAllTimeSheduleConfiguration();
 
 		[OperationContract]
 		OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName);

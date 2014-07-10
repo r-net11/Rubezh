@@ -22,21 +22,21 @@ namespace FiresecAPI.Models
 			}
 		}
 
-		public static SubsystemType StringToSubsystemType(string subsystemId)
+		public static FS1SubsystemType StringToFS1SubsystemType(string subsystemId)
 		{
 			switch (subsystemId)
 			{
 				case "0":
-					return SubsystemType.Other;
+					return FS1SubsystemType.Other;
 
 				case "1":
-					return SubsystemType.Fire;
+					return FS1SubsystemType.Fire;
 
 				case "2":
-					return SubsystemType.Guard;
+					return FS1SubsystemType.Guard;
 
 				default:
-					return SubsystemType.Fire;
+					return FS1SubsystemType.Fire;
 			}
 		}
 	}

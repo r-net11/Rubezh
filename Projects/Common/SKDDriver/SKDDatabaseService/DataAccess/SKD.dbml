@@ -359,26 +359,6 @@
       <Association Name="Organisation_OrganisationZone" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Journal" Member="Journals">
-    <Type Name="Journal">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="SystemDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="DeviceDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="Subsystem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Description" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="NameText" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="DescriptionText" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ObjectType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ObjectName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="ObjectUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
-      <Column Name="UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="CardSeries" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CardNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Card_Journal" Member="Card" ThisKey="ObjectUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.PassJournal" Member="PassJournals">
     <Type Name="PassJournal">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -421,10 +401,29 @@
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="CardTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="Card_CardDoor" Member="CardDoors" ThisKey="UID" OtherKey="ParentUID" Type="CardDoor" />
-      <Association Name="Card_Journal" Member="Journals" ThisKey="UID" OtherKey="ObjectUID" Type="Journal" />
       <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
+      <Association Name="Card_Journal" Member="Journals" ThisKey="UID" OtherKey="ObjectUID" Type="Journal" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Journal" Member="Journals">
+    <Type Name="Journal">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SystemDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DeviceDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Subsystem" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NameText" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DescriptionText" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="State" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ObjectType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ObjectName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ObjectUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CardNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Card_Journal" Member="Card" ThisKey="ObjectUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -5,6 +5,8 @@ using FiresecAPI;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Services.Layout;
+using FiresecClient;
+using FiresecAPI.Journal;
 
 namespace SKDModule.ViewModels
 {
@@ -15,11 +17,11 @@ namespace SKDModule.ViewModels
 		public LayoutPartPropertyJournalPageViewModel(LayoutPartJournalViewModel layoutPartFilterViewModel)
 		{
 			_layoutPartJournalViewModel = layoutPartFilterViewModel;
-			Filters = new ObservableCollection<SKDJournalFilter>(SKDManager.SKDConfiguration.SKDSystemConfiguration.JournalFilters);
+			Filters = new ObservableCollection<JournalFilter>(FiresecManager.SystemConfiguration.JournalFilters);
 		}
 
-		ObservableCollection<SKDJournalFilter> _filters;
-		public ObservableCollection<SKDJournalFilter> Filters
+		ObservableCollection<JournalFilter> _filters;
+		public ObservableCollection<JournalFilter> Filters
 		{
 			get { return _filters; }
 			set
@@ -29,8 +31,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		SKDJournalFilter _selectedFilter;
-		public SKDJournalFilter SelectedFilter
+		JournalFilter _selectedFilter;
+		public JournalFilter SelectedFilter
 		{
 			get { return _selectedFilter; }
 			set
@@ -47,7 +49,7 @@ namespace SKDModule.ViewModels
 		public override void CopyProperties()
 		{
 			var properties = (LayoutPartSKDJournalProperties)_layoutPartJournalViewModel.Properties;
-			SelectedFilter = SKDManager.SKDConfiguration.SKDSystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == properties.FilterUID);
+			SelectedFilter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == properties.FilterUID);
 		}
 		public override bool CanSave()
 		{

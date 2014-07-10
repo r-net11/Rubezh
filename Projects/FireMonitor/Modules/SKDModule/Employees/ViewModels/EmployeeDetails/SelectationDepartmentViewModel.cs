@@ -12,13 +12,28 @@ namespace SKDModule.ViewModels
 		public SelectationDepartmentViewModel(ShortDepartment department, SelectDepartmentViewModel selectDepartmentViewModel)
 		{
 			Department = department;
+			Name = Department.Name;
+			Description = Department.Description;
 			SelectDepartmentViewModel = selectDepartmentViewModel;
 			SelectCommand = new RelayCommand(OnSelect);
+			IsDepartment = true;
+		}
+
+		public SelectationDepartmentViewModel(Organisation organisation, SelectDepartmentViewModel selectDepartmentViewModel)
+		{
+			Organisation = organisation;
+			Name = organisation.Name;
+			Description = organisation.Description;
+			SelectDepartmentViewModel = selectDepartmentViewModel;
+			SelectCommand = new RelayCommand(OnSelect);
+			IsDepartment = false;
 		}
 
 		public ShortDepartment Department { get; private set; }
-		public string Name { get { return Department.Name; } }
-		public string Description { get { return Department.Description; } }
+		public Organisation Organisation { get; private set; }
+		public string Name { get; private set; }
+		public string Description { get; private set; }
+		public bool IsDepartment { get; private set; } 
 
 		bool _isChecked;
 		public bool IsChecked
@@ -40,5 +55,7 @@ namespace SKDModule.ViewModels
 			IsChecked = true;
 			SelectDepartmentViewModel.HighlightedDepartment = this;
 		}
+
+		
 	}
 }

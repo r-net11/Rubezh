@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.GK;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 
 namespace GKProcessor
 {
 	public partial class Watcher
 	{
-		void ParseAdditionalStates(JournalItem journalItem)
+		void ParseAdditionalStates(FiresecAPI.GK.JournalItem journalItem)
 		{
 			var descriptor = GkDatabase.Descriptors.FirstOrDefault(x => x.GetDescriptorNo() == journalItem.GKObjectNo);
 
 			if (descriptor != null && descriptor.Device != null)
 			{
 				var deviceState = descriptor.Device.InternalState;
-				if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Неисправность)
+				if (journalItem.JournalEventNameType == JournalEventNameType.Неисправность)
 				{
 					if (!string.IsNullOrEmpty(journalItem.Description))
 					{
@@ -35,7 +35,7 @@ namespace GKProcessor
 						}
 					}
 				}
-				if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Неисправность_устранена)
+				if (journalItem.JournalEventNameType == JournalEventNameType.Неисправность_устранена)
 				{
 					if (string.IsNullOrEmpty(journalItem.Description))
 					{
@@ -57,7 +57,7 @@ namespace GKProcessor
 						}
 					}
 				}
-				if (journalItem.GlobalEventNameType == GlobalEventNameEnum.Информация)
+				if (journalItem.JournalEventNameType == JournalEventNameType.Информация)
 				{
 					switch (journalItem.Description)
 					{

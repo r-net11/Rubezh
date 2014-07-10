@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 using System.Reflection;
 using FiresecAPI.GK;
 using FiresecAPI;
@@ -14,11 +14,11 @@ namespace JournalModule.ViewModels
 {
 	public class FilterNameViewModel : TreeNodeViewModel<FilterNameViewModel>
 	{
-		public FilterNameViewModel(GlobalEventNameEnum globalEventNameEnum)
+		public FilterNameViewModel(JournalEventNameType journalEventNameType)
 		{
-			GlobalEventNameEnum = globalEventNameEnum;
+			JournalEventNameType = journalEventNameType;
 
-			FieldInfo fieldInfo = globalEventNameEnum.GetType().GetField(globalEventNameEnum.ToString());
+			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
 			if (fieldInfo != null)
 			{
 				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
@@ -26,7 +26,7 @@ namespace JournalModule.ViewModels
 				{
 					EventDescriptionAttribute eventDescriptionAttribute = descriptionAttributes[0];
 					Name = eventDescriptionAttribute.Name;
-					SubsystemType = eventDescriptionAttribute.SubsystemType;
+					JournalSubsystemType = eventDescriptionAttribute.JournalSubsystemType;
 					StateClass = eventDescriptionAttribute.StateClass;
 					if (StateClass == XStateClass.Norm)
 						ImageSource = null;
@@ -37,18 +37,18 @@ namespace JournalModule.ViewModels
 			IsSubsystem = false;
 		}
 
-		public FilterNameViewModel(GlobalSubsystemType subsystemType)
+		public FilterNameViewModel(JournalSubsystemType journalSubsystemType)
 		{
-			SubsystemType = subsystemType;
+			JournalSubsystemType = journalSubsystemType;
 			IsSubsystem = true;
-			Name = subsystemType.ToDescription();
+			Name = journalSubsystemType.ToDescription();
 		}
 
-		public GlobalEventNameEnum GlobalEventNameEnum { get; private set; }
+		public JournalEventNameType JournalEventNameType { get; private set; }
 		public string Name { get; private set; }
 		public string ImageSource { get; private set; }
 		public XStateClass StateClass { get; private set; }
-		public GlobalSubsystemType SubsystemType { get; private set; }
+		public JournalSubsystemType JournalSubsystemType { get; private set; }
 		public bool IsSubsystem { get; private set; }
 
 		bool _isChecked;

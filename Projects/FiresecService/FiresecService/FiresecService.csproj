@@ -137,6 +137,7 @@
     <Compile Include="Service\PollAsyncResult.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.cs" />
     <Compile Include="Service\FiresecService.Automation.cs" />
+    <Compile Include="Service\DBHelper.cs" />
     <Compile Include="SKDPatchManager.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
@@ -192,7 +193,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ChinaController\ChilnaSKDDriver\ChinaSKDDriver.csproj">
+    <ProjectReference Include="..\..\ChinaController\ChinaSKDDriver\ChinaSKDDriver.csproj">
       <Project>{77C8D1E5-51B4-45F9-93DF-D114433771E2}</Project>
       <Name>ChinaSKDDriver</Name>
     </ProjectReference>

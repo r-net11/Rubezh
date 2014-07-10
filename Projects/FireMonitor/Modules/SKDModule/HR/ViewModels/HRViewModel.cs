@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 		{
 			EditFilterCommand = new RelayCommand(OnEditFilter);
 
-			EmployeesViewModel = new EmployeesViewModel();
+			EmployeesViewModel = new EmployeesViewModel(this);
 			DepartmentsViewModel = new DepartmentsViewModel();
 			PositionsViewModel = new PositionsViewModel();
 			AdditionalColumnTypesViewModel = new AdditionalColumnTypesViewModel();
@@ -60,6 +60,16 @@ namespace SKDModule.ViewModels
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
 			OrganisationsViewModel.Initialize();
 			DocumentsViewModel.Initialize(DocumentFilter);
+		}
+
+		public void UpdateDepartments()
+		{
+			DepartmentsViewModel.Initialize(DepartmentFilter);
+		}
+
+		public void UpdatePositions()
+		{
+			PositionsViewModel.Initialize(PositionFilter);
 		}
 
 		bool _isEmployeesSelected;

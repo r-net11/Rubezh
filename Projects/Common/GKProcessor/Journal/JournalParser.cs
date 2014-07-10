@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.GK;
 using FiresecClient;
-using FiresecAPI.Events;
 
 namespace GKProcessor
 {
@@ -45,27 +44,27 @@ namespace GKProcessor
 					switch (code)
 					{
 						case 0:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Перевод_в_технологический_режим;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Перевод_в_технологический_режим;
 							break;
 
 						case 2:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Синхронизация_времени_прибора_с_временем_ПК;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Синхронизация_времени_прибора_с_временем_ПК;
 							break;
 
 						case 4:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Смена_ПО;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Смена_ПО;
 							break;
 
 						case 5:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Смена_БД;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Смена_БД;
 							break;
 
 						case 6:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Перевод_в_рабочий_режим;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Перевод_в_рабочий_режим;
 							break;
 
 						case 7:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Вход_пользователя_в_прибор;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Вход_пользователя_в_прибор;
 							JournalItem.Description = JournalStringsHelper.ToUser(bytes[32 + 15]);
 							var bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							var bytes2 = bytes.GetRange(16, 21 - 16 + 1);
@@ -75,7 +74,7 @@ namespace GKProcessor
 							break;
 
 						case 8:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Выход_пользователя_из_прибора;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Выход_пользователя_из_прибора;
 							JournalItem.Description = JournalStringsHelper.ToUser(bytes[32 + 15]);
 							bytes1 = bytes.GetRange(6, 31 - 6 + 1);
 							bytes2 = bytes.GetRange(48, 53 - 48 + 1);
@@ -85,26 +84,26 @@ namespace GKProcessor
 							break;
 
 						case 9:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Ошибка_управления;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Ошибка_управления;
 							JournalItem.GKObjectNo = BytesHelper.SubstructShort(bytes, 18);
 							break;
 
 						case 10:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Введен_новый_пользователь;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Введен_новый_пользователь;
 							JournalItem.JournalItemType = JournalItemType.GkUser;
 							break;
 
 						case 11:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Изменена_учетная_информация_пользователя;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Изменена_учетная_информация_пользователя;
 							JournalItem.JournalItemType = JournalItemType.GkUser;
 							break;
 
 						case 12:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Произведена_настройка_сети;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Произведена_настройка_сети;
 							break;
 
 						default:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Неизвестный_код_события_контроллекра;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Неизвестный_код_события_контроллекра;
 							JournalItem.Description = code.ToString();
 							break;
 					}
@@ -124,17 +123,17 @@ namespace GKProcessor
 					switch (code)
 					{
 						case 0:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Неизвестный_тип;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Неизвестный_тип;
 							JournalItem.Description = unknownDescription;
 							break;
 
 						case 1:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Устройство_с_таким_адресом_не_описано_при_конфигурации;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Устройство_с_таким_адресом_не_описано_при_конфигурации;
 							JournalItem.Description = unknownDescription;
 							break;
 
 						default:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Неизвестный_код_события_устройства;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Неизвестный_код_события_устройства;
 							JournalItem.Description = code.ToString();
 							break;
 					}
@@ -149,7 +148,7 @@ namespace GKProcessor
 					switch (code)
 					{
 						case 0:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.При_конфигурации_описан_другой_тип;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.При_конфигурации_описан_другой_тип;
 							var realType = BytesHelper.SubstructShort(bytes, 32 + 14);
 							var realDriverString = "Неизвестный тип " + realType.ToString();
 							var realDriver = XManager.Drivers.FirstOrDefault(x => x.DriverTypeNo == realType);
@@ -160,36 +159,36 @@ namespace GKProcessor
 							JournalItem.Description = "Действительный тип: " + realDriverString;
 							break;
 						case 1:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Изменился_заводской_номер;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Изменился_заводской_номер;
 							JournalItem.Description = "Старый заводской номер: " + BytesHelper.SubstructInt(bytes, 32 + 14).ToString();
 							break;
 						case 2:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Пожар_1;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Пожар_1;
 							if (JournalItem.JournalItemType == JournalItemType.Device)
 							{
-								JournalItem.GlobalEventNameType = GlobalEventNameEnum.Сработка_1;
+								JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Сработка_1;
 							}
 							JournalItem.Description = JournalStringsHelper.ToFire(bytes[32 + 15]);
 							break;
 
 						case 3:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Пожар_2;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Пожар_2;
 							if (JournalItem.JournalItemType == JournalItemType.Device)
 							{
-								JournalItem.GlobalEventNameType = GlobalEventNameEnum.Сработка_2;
+								JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Сработка_2;
 							}
 							JournalItem.Description = JournalStringsHelper.ToFire(bytes[32 + 15]);
 							break;
 
 						case 4:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Внимание;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Внимание;
 							break;
 
 						case 5:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Неисправность;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Неисправность;
 							if (bytes[32 + 14] == 0)
 							{
-								JournalItem.GlobalEventNameType = GlobalEventNameEnum.Неисправность_устранена;
+								JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Неисправность_устранена;
 							}
 
 							switch (JournalItem.DescriptorType)
@@ -214,10 +213,10 @@ namespace GKProcessor
 							break;
 
 						case 6:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Тест;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Тест;
 							if (bytes[32 + 14] == 0)
 							{
-								JournalItem.GlobalEventNameType = GlobalEventNameEnum.Тест_устранен;
+								JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Тест_устранен;
 							}
 
 							switch (bytes[32 + 15])
@@ -233,10 +232,10 @@ namespace GKProcessor
 							break;
 
 						case 7:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Запыленность;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Запыленность;
 							if (bytes[32 + 14] == 0)
 							{
-								JournalItem.GlobalEventNameType = GlobalEventNameEnum.Запыленность_устранена;
+								JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Запыленность_устранена;
 							}
 
 							switch (bytes[32 + 15])
@@ -252,57 +251,57 @@ namespace GKProcessor
 							break;
 
 						case 8:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Информация;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Информация;
 							JournalItem.Description = JournalStringsHelper.ToInformation(bytes[32 + 15]);
 							break;
 
 						case 9:
-							JournalItem.GlobalEventNameType = JournalStringsHelper.ToState(bytes[32 + 15]);
+							JournalItem.JournalEventNameType = JournalStringsHelper.ToState(bytes[32 + 15]);
 							break;
 
 						case 10:
 							switch (bytes[32 + 15])
 							{
 								case 0:
-									JournalItem.GlobalEventNameType = GlobalEventNameEnum.Перевод_в_автоматический_режим;
+									JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Перевод_в_автоматический_режим;
 									break;
 
 								case 1:
-									JournalItem.GlobalEventNameType = GlobalEventNameEnum.Перевод_в_ручной_режим;
+									JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Перевод_в_ручной_режим;
 									break;
 
 								case 2:
-									JournalItem.GlobalEventNameType = GlobalEventNameEnum.Перевод_в_отключенный_режим;
+									JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Перевод_в_отключенный_режим;
 									break;
 
 								case 3:
-									JournalItem.GlobalEventNameType = GlobalEventNameEnum.Перевод_в_неопределенный_режим;
+									JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Перевод_в_неопределенный_режим;
 									break;
 
 								default:
-									JournalItem.GlobalEventNameType = GlobalEventNameEnum.Неизвестный_код_события_объекта;
+									JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Неизвестный_код_события_объекта;
 									break;
 							}
 							break;
 
 						case 13:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Запись_параметра;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Запись_параметра;
 							break;
 
 						case 14:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Норма;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Норма;
 							break;
 
 						default:
-							JournalItem.GlobalEventNameType = GlobalEventNameEnum.Неизвестный_код_события_объекта;
+							JournalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Неизвестный_код_события_объекта;
 							JournalItem.Description = code.ToString();
 							break;
 					}
 					break;
 			}
 
-			JournalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(JournalItem.GlobalEventNameType);
-			JournalItem.Name = EventDescriptionAttributeHelper.ToName(JournalItem.GlobalEventNameType);
+			JournalItem.StateClass = FiresecAPI.Journal.EventDescriptionAttributeHelper.ToStateClass(JournalItem.JournalEventNameType);
+			JournalItem.Name = FiresecAPI.Journal.EventDescriptionAttributeHelper.ToName(JournalItem.JournalEventNameType);
 
 			//if (Device != null && Device.DriverType == XDriverType.Pump && JournalItem.Name == "Неисправность")
 			//{

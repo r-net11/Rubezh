@@ -42,11 +42,12 @@ namespace FiresecService
 				GKProcessor.Create();
 				UILogger.Log("Открытие хоста");
 				FiresecServiceManager.Open();
+				SKDPatchManager.Patch();
 				ServerLoadHelper.SetStatus(FSServerState.Opened);
 				UILogger.Log("Запуск ГК");
 				GKProcessor.Start();
 				UILogger.Log("Создание конфигурации СКД");
-				SKDProcessor.Create();
+				SKDProcessor.Start();
 
 				UILogger.Log("Запуск автоматизации");
 				AutomationProcessor.Start();

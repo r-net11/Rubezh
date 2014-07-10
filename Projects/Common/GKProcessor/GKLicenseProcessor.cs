@@ -4,7 +4,7 @@ using Common;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using FiresecAPI.GK;
-using FiresecAPI.Events;
+using FiresecAPI.Journal;
 
 namespace GKProcessor
 {
@@ -73,9 +73,9 @@ namespace GKProcessor
 
 						if (CurrentHasLicense)
 
-							GKProcessorManager.AddGKMessage(GlobalEventNameEnum.Лицензия_обнаружена, "", null, null);
+							GKProcessorManager.AddGKMessage(JournalEventNameType.Лицензия_обнаружена, "", null, null);
 						else
-							GKProcessorManager.AddGKMessage(GlobalEventNameEnum.Отсутствует_лицензия, "", null, null);
+							GKProcessorManager.AddGKMessage(JournalEventNameType.Отсутствует_лицензия, "", null, null);
 
 						DiagnosticsManager.Add("hasLicense=" + CurrentHasLicense);
 					}
