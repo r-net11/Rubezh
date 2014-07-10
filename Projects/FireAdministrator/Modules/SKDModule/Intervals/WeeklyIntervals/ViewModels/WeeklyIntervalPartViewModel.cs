@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -15,6 +15,11 @@ namespace SKDModule.ViewModels
 		public WeeklyIntervalPartViewModel(WeeklyIntervalsViewModel weeklyIntervalsViewModel, SKDWeeklyIntervalPart weeklyIntervalPart)
 		{
 			_weeklyIntervalsViewModel = weeklyIntervalsViewModel;
+			_weeklyIntervalsViewModel.PropertyChanged += (s, e) =>
+				{
+					if (e.PropertyName == "AvailableHolidays" || e.PropertyName == "AvailableTimeIntervals")
+						OnPropertyChanged(() => AvailableTimeIntervals);
+				};
 			WeeklyIntervalPart = weeklyIntervalPart;
 			if (weeklyIntervalPart.IsHolliday)
 				Name = "Тип праздника " + weeklyIntervalPart.No;
@@ -25,19 +30,32 @@ namespace SKDModule.ViewModels
 
 		public string Name { get; private set; }
 
-		private SKDTimeInterval _selectedTimeInterval;
-		public SKDTimeInterval SelectedTimeInterval
+		public ObservableCollection<object> AvailableTimeIntervals
+		{
+			get { return WeeklyIntervalPart.IsHolliday ? new ObservableCollection<object>(_weeklyIntervalsViewModel.AvailableHolidays) : new ObservableCollection<object>(_weeklyIntervalsViewModel.AvailableTimeIntervals); }
+		}
+		private object _selectedTimeInterval;
+		public object SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
 			set
 			{
 				if (value == null)
-					SelectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.First();
+					SelectedTimeInterval = AvailableTimeIntervals.First();
 				else
 				{
 					_selectedTimeInterval = value;
 					OnPropertyChanged(() => SelectedTimeInterval);
-					WeeklyIntervalPart.TimeIntervalID = SelectedTimeInterval.ID;
+					if (WeeklyIntervalPart.IsHolliday)
+					{
+						WeeklyIntervalPart.TimeIntervalID = 0;
+						WeeklyIntervalPart.HolidayUID = ((SKDHoliday)SelectedTimeInterval).UID;
+					}
+					else
+					{
+						WeeklyIntervalPart.TimeIntervalID = ((SKDTimeInterval)SelectedTimeInterval).ID;
+						WeeklyIntervalPart.HolidayUID = Guid.Empty;
+					}
 					ServiceFactory.SaveService.SKDChanged = true;
 				}
 			}
@@ -45,9 +63,12 @@ namespace SKDModule.ViewModels
 
 		public override void Update()
 		{
-			_selectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.TimeIntervalID);
+			if (WeeklyIntervalPart.IsHolliday)
+				_selectedTimeInterval = _weeklyIntervalsViewModel.AvailableHolidays.FirstOrDefault(x => x.UID == WeeklyIntervalPart.HolidayUID);
+			else
+				_selectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.TimeIntervalID);
 			if (_selectedTimeInterval == null)
-				_selectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.First();
+				_selectedTimeInterval = AvailableTimeIntervals.First();
 			OnPropertyChanged(() => SelectedTimeInterval);
 		}
 

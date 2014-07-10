@@ -11,7 +11,7 @@ using Common;
 
 namespace SKDModule.Intervals.Base.ViewModels
 {
-	public class BaseIntervalsViewModel<TInterval, TPart, TModel> : MenuViewPartViewModel, ISelectable<int>
+	public class BaseIntervalsViewModel<TInterval, TPart, TModel> : MenuViewPartViewModel, ISelectable<int>, IEditingBaseViewModel
 		where TInterval : BaseIntervalViewModel<TPart, TModel>
 		where TPart : BaseIntervalPartViewModel
 	{
@@ -80,9 +80,11 @@ namespace SKDModule.Intervals.Base.ViewModels
 		public RelayCommand ActivateCommand { get; private set; }
 		private void OnActivate()
 		{
+			var isBeforeActive = SelectedInterval.IsActive;
 			SelectedInterval.IsActive = !SelectedInterval.IsActive;
 			OnPropertyChanged(() => SelectedInterval);
-			EditCommand.Execute();
+			if (!isBeforeActive)
+				EditCommand.Execute();
 			UpdateRibbonItems();
 		}
 		private bool CanActivate()

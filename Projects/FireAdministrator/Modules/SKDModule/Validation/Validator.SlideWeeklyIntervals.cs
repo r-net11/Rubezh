@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
 
@@ -12,13 +13,11 @@ namespace SKDModule.Validation
 			foreach (var slideWeeklyInterval in SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals)
 			{
 				if (string.IsNullOrEmpty(slideWeeklyInterval.Name))
-				{
-					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Отсутствует название интервала", ValidationErrorLevel.CannotWrite));
-				}
+					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Отсутствует название скользящего понедельного графика", ValidationErrorLevel.CannotWrite));
 				if (slideWeeklyInterval.WeeklyIntervalIDs.Count == 0)
-				{
-					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Отсутствуют составляющие части интервала", ValidationErrorLevel.CannotWrite));
-				}
+					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Отсутствуют составляющие части скользящего понедельного графика", ValidationErrorLevel.CannotWrite));
+				else if (slideWeeklyInterval.WeeklyIntervalIDs.All(item => item == 0))
+					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Все составляющие части скользящего понедельного графика пустые", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
@@ -26,12 +25,8 @@ namespace SKDModule.Validation
 		{
 			var slideWeeklyIntervals = new HashSet<string>();
 			foreach (var slideWeeklyInterval in SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals)
-			{
 				if (!slideWeeklyIntervals.Add(slideWeeklyInterval.Name))
-				{
-					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Дублируется название интервала", ValidationErrorLevel.CannotWrite));
-				}
-			}
+					Errors.Add(new SlideWeeklyIntervalValidationError(slideWeeklyInterval, "Дублируется название скользящего понедельного графика", ValidationErrorLevel.CannotWrite));
 		}
 	}
 }

@@ -49,7 +49,7 @@ namespace Controls
 				return;
 
 			var dataGrid = sender as DataGrid;
-			var viewModel = dataGrid.DataContext as IEditingViewModel;
+			var viewModel = dataGrid.DataContext as IEditingBaseViewModel;
 			if (viewModel != null)
 			{
 				if (viewModel.EditCommand.CanExecute(null))

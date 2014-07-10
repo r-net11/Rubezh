@@ -20,9 +20,9 @@ namespace SKDDriver
 		{
 			var result = base.Translate(tableItem);
 			result.EnterIntervalType = (IntervalType)tableItem.EnterIntervalType;
-			result.EnterIntervalUID = tableItem.EnterIntervalUID;
+			result.EnterIntervalID = tableItem.EnterIntervalID;
 			result.ExitIntervalType = (IntervalType)tableItem.ExitIntervalType;
-			result.ExitIntervalUID = tableItem.ExitIntervalUID;
+			result.ExitIntervalID = tableItem.ExitIntervalID;
 			result.IsComission = tableItem.IsWithEscort;
 			result.DoorUID = tableItem.DoorUID;
 			result.ParentUID = tableItem.ParentUID;
@@ -34,9 +34,9 @@ namespace SKDDriver
 		{
 			base.TranslateBack(tableItem, apiItem);
 			tableItem.EnterIntervalType = (int?)apiItem.EnterIntervalType;
-			tableItem.EnterIntervalUID = apiItem.EnterIntervalUID;
+			tableItem.EnterIntervalID = apiItem.EnterIntervalID;
 			tableItem.ExitIntervalType = (int?)apiItem.ExitIntervalType;
-			tableItem.ExitIntervalUID = apiItem.ExitIntervalUID;
+			tableItem.ExitIntervalID = apiItem.ExitIntervalID;
 			tableItem.IsWithEscort = apiItem.IsComission;
 			tableItem.DoorUID = apiItem.DoorUID;
 			tableItem.ParentUID = apiItem.ParentUID;
@@ -130,9 +130,9 @@ namespace SKDDriver
 			var DoorUIDs = filter.DoorUIDs;
 			if (DoorUIDs != null && DoorUIDs.Count != 0)
 				result = result.And(e => DoorUIDs.Contains(e.DoorUID));
-			var intervalUIDs = filter.IntervalUIDs;
-			if (intervalUIDs != null && intervalUIDs.Count != 0)
-				result = result.And(e => e.EnterIntervalUID.HasValue && intervalUIDs.Contains(e.EnterIntervalUID.Value));
+			var intervalIDs = filter.IntervalIDs;
+			if (intervalIDs != null && intervalIDs.Count != 0)
+				result = result.And(e => e.EnterIntervalID > 0 && intervalIDs.Contains(e.EnterIntervalID));
 			return result;
 		}
 	}

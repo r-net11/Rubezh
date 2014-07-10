@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.SKD;
-using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Intervals.Base;
 using Infrastructure;
+using Infrastructure.Common.Windows;
 using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -54,24 +53,38 @@ namespace SKDModule.ViewModels
 				}
 				else if (!IsActive && Model != null)
 				{
-					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Remove(Model);
-					Model = null;
-					Initialize();
-					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.ForEach(week => week.InvalidateWeekIntervals());
-					ServiceFactory.SaveService.SKDChanged = true;
+					if (ConfirmDeactivation())
+					{
+						SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Remove(Model);
+						Model = null;
+						Initialize();
+						SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.ForEach(week => week.InvalidateWeekIntervals());
+						ServiceFactory.SaveService.SKDChanged = true;
+					}
+					else
+						IsActive = true;
 				}
 			}
 			base.Activate();
 		}
 
-		public void Paste(SKDWeeklyInterval interval)
+		public override void Paste(SKDWeeklyInterval interval)
 		{
 			IsActive = true;
 			for (int i = 0; i < interval.WeeklyIntervalParts.Count; i++)
+			{
 				Model.WeeklyIntervalParts[i].TimeIntervalID = interval.WeeklyIntervalParts[i].TimeIntervalID;
+				Model.WeeklyIntervalParts[i].HolidayUID = interval.WeeklyIntervalParts[i].HolidayUID;
+			}
 			Initialize();
 			ServiceFactory.SaveService.SKDChanged = true;
 			Update();
+		}
+
+		private bool ConfirmDeactivation()
+		{
+			var hasReference = SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Any(item => item.WeeklyIntervalIDs.Contains(Index));
+			return !hasReference || MessageBoxService.ShowConfirmation2("Данный недельный график используется в одном или нескольких скользящих недельных графиках, Вы уверены что хотите его деактивировать?");
 		}
 	}
 }

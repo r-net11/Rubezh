@@ -58,7 +58,7 @@
 						</DataGridTemplateColumn.CellTemplate>
 						<DataGridTemplateColumn.CellEditingTemplate>
 							<DataTemplate>
-								<ComboBox Width="Auto" HorizontalAlignment="Stretch" ItemsSource="{Binding DataContext.AvailableTimeIntervals, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" SelectedItem="{Binding SelectedTimeInterval, UpdateSourceTrigger=PropertyChanged}">
+								<ComboBox Width="Auto" HorizontalAlignment="Stretch" ItemsSource="{Binding AvailableTimeIntervals}" SelectedItem="{Binding SelectedTimeInterval, UpdateSourceTrigger=PropertyChanged}">
 									<ComboBox.ItemTemplate>
 										<DataTemplate>
 											<DockPanel Background="Transparent">

@@ -27,7 +27,7 @@ namespace SKDModule.ViewModels
 			//{
 			//	TimeCreterias.Add(new IntervalTypeViewModel(item));
 			//}
-			
+
 			if (CardDoors == null)
 				CardDoors = new List<CardDoor>();
 
@@ -39,8 +39,8 @@ namespace SKDModule.ViewModels
 				IsComission = cardDoor.IsComission;
 				SelectedEnterTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.EnterIntervalType);
 				SelectedExitTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.ExitIntervalType);
-				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault(x => x.UID == cardDoor.EnterIntervalUID);
-				SelectedExitTimeType = ExitTimeTypes.FirstOrDefault(x => x.UID == cardDoor.ExitIntervalUID);
+				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault(x => x.ScheduleID == cardDoor.EnterIntervalID);
+				SelectedExitTimeType = ExitTimeTypes.FirstOrDefault(x => x.ScheduleID == cardDoor.ExitIntervalID);
 			}
 			else
 			{
@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 				SelectedEnterTimeType = ExitTimeTypes.FirstOrDefault();
 			}
 		}
-		
+
 		ObservableCollection<CardTimeItem> _enterTimeTypes;
 		public ObservableCollection<CardTimeItem> EnterTimeTypes
 		{
@@ -129,7 +129,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_enterTimeTypes = value;
-				OnPropertyChanged(()=>EnterTimeTypes);
+				OnPropertyChanged(() => EnterTimeTypes);
 			}
 		}
 
@@ -140,7 +140,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedEnterTimeType = value;
-				OnPropertyChanged(()=>SelectedEnterTimeType);
+				OnPropertyChanged(() => SelectedEnterTimeType);
 
 			}
 		}
@@ -152,7 +152,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_exitTimeTypes = value;
-				OnPropertyChanged(()=>ExitTimeTypes);
+				OnPropertyChanged(() => ExitTimeTypes);
 			}
 		}
 
@@ -177,30 +177,19 @@ namespace SKDModule.ViewModels
 				{
 					case IntervalType.Time:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals)
-						{
-							result.Add(new CardTimeItem(0, interval.Name) { ScheduleID = interval.ID });
-						}
+							result.Add(new CardTimeItem(IntervalType.Time, interval.ID, interval.Name));
 						break;
-
 					case IntervalType.Weekly:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals)
-						{
-							result.Add(new CardTimeItem(0, interval.Name) { ScheduleID = interval.ID });
-						}
+							result.Add(new CardTimeItem(IntervalType.Weekly, interval.ID, interval.Name));
 						break;
-
 					case IntervalType.SlideDay:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideDayIntervals)
-						{
-							result.Add(new CardTimeItem(0, interval.Name) { ScheduleID = interval.ID });
-						}
+							result.Add(new CardTimeItem(IntervalType.SlideDay, interval.ID, interval.Name));
 						break;
-
 					case IntervalType.SlideWeekly:
 						foreach (var interval in SKDManager.SKDConfiguration.TimeIntervalsConfiguration.SlideWeeklyIntervals)
-						{
-							result.Add(new CardTimeItem(0, interval.Name) { ScheduleID = interval.ID });
-						}
+							result.Add(new CardTimeItem(IntervalType.SlideWeekly, interval.ID, interval.Name));
 						break;
 				};
 			};
@@ -225,16 +214,15 @@ namespace SKDModule.ViewModels
 
 	public class CardTimeItem
 	{
-		public CardTimeItem(int id, string name)
+		public CardTimeItem(IntervalType scheduleType, int scheduleID, string name)
 		{
-			ID = id;
+			ScheduleID = scheduleID;
+			ScheduleType = scheduleType;
 			Name = name;
 		}
 
-		public int ID { get; set; }
-		public Guid UID { get; set; }
-		public string Name { get; set; }
-		public IntervalType ScheduleType { get; set; }
-		public int ScheduleID { get; set; }
+		public string Name { get; private set; }
+		public IntervalType ScheduleType { get; private set; }
+		public int ScheduleID { get; private set; }
 	}
 }

@@ -19,13 +19,13 @@ namespace FiresecAPI.SKD
 		public IntervalType EnterIntervalType { get; set; }
 
 		[DataMember]
-		public Guid? EnterIntervalUID { get; set; }
+		public int EnterIntervalID { get; set; }
 
 		[DataMember]
 		public IntervalType ExitIntervalType { get; set; }
 
 		[DataMember]
-		public Guid? ExitIntervalUID { get; set; }
+		public int ExitIntervalID { get; set; }
 
 		[DataMember]
 		public Guid? ParentUID { get; set; }

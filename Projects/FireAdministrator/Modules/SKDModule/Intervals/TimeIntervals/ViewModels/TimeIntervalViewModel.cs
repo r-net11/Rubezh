@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using SKDModule.Intervals.Base;
-using Common;
 using SKDModule.Intervals.Base.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -46,12 +45,17 @@ namespace SKDModule.ViewModels
 				}
 				else if (!IsActive && Model != null)
 				{
-					SKDManager.TimeIntervalsConfiguration.TimeIntervals.Remove(Model);
-					Model = null;
-					InitParts();
-					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ForEach(week => week.InvalidateDayIntervals());
-					SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.ForEach(week => week.InvalidateDayIntervals());
-					ServiceFactory.SaveService.SKDChanged = true;
+					if (ConfirmDeactivation())
+					{
+						SKDManager.TimeIntervalsConfiguration.TimeIntervals.Remove(Model);
+						Model = null;
+						InitParts();
+						SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ForEach(week => week.InvalidateDayIntervals());
+						SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.ForEach(week => week.InvalidateDayIntervals());
+						ServiceFactory.SaveService.SKDChanged = true;
+					}
+					else
+						IsActive = true;
 				}
 			}
 			base.Activate();
@@ -119,6 +123,14 @@ namespace SKDModule.ViewModels
 				SelectedPart.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
+		}
+
+		private bool ConfirmDeactivation()
+		{
+			var hasReference = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Any(item => item.WeeklyIntervalParts.Any(part => part.TimeIntervalID == Index));
+			if (!hasReference)
+				hasReference = SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.Any(item => item.TimeIntervalIDs.Contains(Index));
+			return !hasReference || MessageBoxService.ShowConfirmation2("Данный дневной график используется в одном или нескольких недельных графиках или скользящих посуточных графиках, Вы уверены что хотите его деактивировать?");
 		}
 	}
 }

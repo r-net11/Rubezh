@@ -16,9 +16,6 @@ namespace FiresecAPI.SKD
 		}
 
 		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
 		public int ID { get; set; }
 
 		[DataMember]
@@ -53,10 +50,19 @@ namespace FiresecAPI.SKD
 		public void InvalidateDayIntervals()
 		{
 			var ids = SKDManager.TimeIntervalsConfiguration.TimeIntervals.Select(item => item.ID).ToList();
-			WeeklyIntervalParts.ForEach(part =>
+			WeeklyIntervalParts.Where(part => !part.IsHolliday).ForEach(part =>
 			{
 				if (!ids.Contains(part.TimeIntervalID))
 					part.TimeIntervalID = 0;
+			});
+		}
+		public void InvalidateHolidays()
+		{
+			var uids = SKDManager.TimeIntervalsConfiguration.Holidays.Select(item => item.UID).ToList();
+			WeeklyIntervalParts.Where(part => part.IsHolliday).ForEach(part =>
+			{
+				if (!uids.Contains(part.HolidayUID))
+					part.HolidayUID = Guid.Empty;
 			});
 		}
 	}

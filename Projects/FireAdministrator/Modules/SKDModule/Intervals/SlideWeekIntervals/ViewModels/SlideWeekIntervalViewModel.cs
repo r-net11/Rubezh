@@ -82,7 +82,7 @@ namespace SKDModule.ViewModels
 			base.Activate();
 		}
 
-		public void Paste(SKDSlideWeeklyInterval interval)
+		public override void Paste(SKDSlideWeeklyInterval interval)
 		{
 			IsActive = true;
 			Model.StartDate = interval.StartDate;

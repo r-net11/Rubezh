@@ -14,5 +14,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public int TimeIntervalID { get; set; }
+
+		[DataMember]
+		public Guid HolidayUID { get; set; }
 	}
 }

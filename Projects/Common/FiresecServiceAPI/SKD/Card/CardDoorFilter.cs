@@ -14,13 +14,13 @@ namespace FiresecAPI.SKD
 		public List<Guid> DoorUIDs { get; set; }
 
 		[DataMember]
-		public List<Guid> IntervalUIDs { get; set; }
+		public List<int> IntervalIDs { get; set; }
 
 		public CardDoorFilter():base()
 		{
 			CardUIDs = new List<Guid>();
 			DoorUIDs = new List<Guid>();
-			IntervalUIDs = new List<Guid>();
+			IntervalIDs = new List<int>();
 		}
 	}
 }

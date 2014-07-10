@@ -37,8 +37,8 @@ namespace ChinaSKDDriver
 				var door = Processor.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
 				if (door != null)
 				{
-					Add(door.InDeviceUID, cardDoor.EnterIntervalUID);
-					Add(door.OutDeviceUID, cardDoor.ExitIntervalUID);
+					Add(door.InDeviceUID, cardDoor.EnterIntervalID);
+					Add(door.OutDeviceUID, cardDoor.ExitIntervalID);
 				}
 			}
 
@@ -73,7 +73,7 @@ namespace ChinaSKDDriver
 			return true;
 		}
 
-		void Add(Guid readerUID, Guid? intervalUID)
+		void Add(Guid readerUID, int intervalID)
 		{
 			var readerDevice = Processor.SKDConfiguration.Devices.FirstOrDefault(x => x.UID == readerUID);
 			if (readerDevice != null && readerDevice.Parent != null)
@@ -91,16 +91,11 @@ namespace ChinaSKDDriver
 					controllerCardItem.Doors.Add(readerDevice);
 				}
 
-				if (intervalUID.HasValue)
+				if (intervalID > 0)
 				{
-					var weeklyInterval = Processor.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.UID == intervalUID);
-					if (weeklyInterval != null)
-					{
-						if (!controllerCardItem.WeeklyIntervals.Any(x => x.ID == weeklyInterval.ID))
-						{
-							controllerCardItem.WeeklyIntervals.Add(weeklyInterval);
-						}
-					}
+					var weeklyInterval = Processor.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == intervalID);
+					if (weeklyInterval != null && !controllerCardItem.WeeklyIntervals.Any(x => x.ID == weeklyInterval.ID))
+						controllerCardItem.WeeklyIntervals.Add(weeklyInterval);
 				}
 			}
 		}

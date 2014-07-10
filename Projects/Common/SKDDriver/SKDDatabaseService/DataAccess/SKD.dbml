@@ -10,9 +10,9 @@
       <Column Name="IsAntipass" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="EnterIntervalUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="EnterIntervalID" Storage="_EnterIntervalUID" Type="System.Int32" DbType="Int" CanBeNull="false" />
       <Column Name="EnterIntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ExitIntervalUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="ExitIntervalUID" Member="ExitIntervalID" Storage="_ExitIntervalUID" Type="System.Int32" DbType="Int" CanBeNull="false" />
       <Column Name="ExitIntervalType" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="AccessTemplate_CardDoor" Member="AccessTemplate" ThisKey="ParentUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Card_CardDoor" Member="Card" ThisKey="ParentUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
