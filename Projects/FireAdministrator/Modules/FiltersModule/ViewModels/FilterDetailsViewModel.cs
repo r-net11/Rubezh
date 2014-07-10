@@ -8,20 +8,22 @@ namespace FiltersModule.ViewModels
 	{
 		public JournalFilter Filter { get; private set; }
 		public FilterNamesViewModel FilterNamesViewModel { get; private set; }
+		public FilterObjectsViewModel FilterObjectsViewModel { get; private set; }
 
-		public FilterDetailsViewModel(JournalFilter filter)
+		public FilterDetailsViewModel(JournalFilter filter = null)
 		{
-			Title = "Свойства фильтра";
-			Filter = filter;
+			if (filter == null)
+			{
+				Title = "Добавить фильтр";
+				Filter = new JournalFilter();
+			}
+			else
+			{
+				Title = "Свойства фильтра";
+				Filter = filter;
+			}
 			FilterNamesViewModel = new FilterNamesViewModel(Filter);
-			CopyProperties();
-		}
-
-		public FilterDetailsViewModel()
-		{
-			Title = "Добавить фильтр";
-			Filter = new JournalFilter();
-			FilterNamesViewModel = new FilterNamesViewModel(Filter);
+			FilterObjectsViewModel = new FilterObjectsViewModel(Filter);
 			CopyProperties();
 		}
 
@@ -77,13 +79,18 @@ namespace FiltersModule.ViewModels
 			Filter.Description = Description;
 			Filter.LastItemsCount = LastItemsCount;
 
-			foreach (var filterNameViewModel in FilterNamesViewModel.AllFilters)
+			var namesFilter = FilterNamesViewModel.GetModel();
+			Filter.JournalEventNameTypes = namesFilter.JournalEventNameTypes;
+			Filter.JournalSubsystemTypes = namesFilter.JournalSubsystemTypes;
+
+			var objectsFilter = FilterObjectsViewModel.GetModel();
+			foreach (var journalSubsystemTypes in objectsFilter.JournalSubsystemTypes)
 			{
-				if (filterNameViewModel.IsChecked)
-				{
-					Filter.JournalEventNameTypes.Add(filterNameViewModel.JournalEventNameType);
-				}
+				if (!namesFilter.JournalSubsystemTypes.Contains(journalSubsystemTypes))
+					namesFilter.JournalSubsystemTypes.Add(journalSubsystemTypes);
 			}
+			namesFilter.JournalObjectTypes = objectsFilter.JournalObjectTypes;
+			namesFilter.ObjectUIDs = objectsFilter.ObjectUIDs;
 
 			return base.Save();
 		}

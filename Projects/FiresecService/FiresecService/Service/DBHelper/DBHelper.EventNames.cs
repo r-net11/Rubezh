@@ -76,14 +76,14 @@ namespace FiresecService
 					if (!eventNames.Any(x => name == x))
 					{
 						eventNames.Add(name);
-						commands.Add(@"Insert Into EventNames (EventName) Values ('" + name + "')");
+						commands.Add(@"Insert Into EventNames (EventName) Values ('" + (int)name + "')");
 					}
 
 					var description = item.JournalEventDescriptionType;
 					if (!eventDescription.Any(x => description == x))
 					{
 						eventDescription.Add(description);
-						commands.Add(@"Insert Into EventDescriptions (EventDescription) Values ('" + description + "')");
+						commands.Add(@"Insert Into EventDescriptions (EventDescription) Values ('" + (int)description + "')");
 					}
 				}
 				using (var dataContext = new SqlConnection(ConnectionString))

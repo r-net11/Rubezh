@@ -12,13 +12,10 @@ namespace FiresecAPI.Journal
 		{
 			StartDate = DateTime.Now.AddDays(-1);
 			EndDate = DateTime.Now;
-			JournalObjectTypes = new List<JournalObjectType>();
-			StateClasses = new List<XStateClass>();
-			Descriptions = new List<string>();
 			UseDeviceDateTime = false;
-
-			JournalEventNameTypes = new List<JournalEventNameType>();
 			JournalSubsystemTypes = new List<JournalSubsystemType>();
+			JournalEventNameTypes = new List<JournalEventNameType>();
+			JournalObjectTypes = new List<JournalObjectType>();
 			ObjectUIDs = new List<Guid>();
 		}
 
@@ -32,13 +29,10 @@ namespace FiresecAPI.Journal
 		public bool UseDeviceDateTime { get; set; }
 
 		[DataMember]
-		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
-
-		[DataMember]
-		public List<string> Descriptions { get; set; }
-
-		[DataMember]
 		public List<JournalSubsystemType> JournalSubsystemTypes { get; set; }
+
+		[DataMember]
+		public List<JournalEventNameType> JournalEventNameTypes { get; set; }
 
 		[DataMember]
 		public List<JournalObjectType> JournalObjectTypes { get; set; }
@@ -48,9 +42,5 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public int PageSize { get; set; }
-
-
-		[DataMember]
-		public List<XStateClass> StateClasses { get; set; }
 	}
 }

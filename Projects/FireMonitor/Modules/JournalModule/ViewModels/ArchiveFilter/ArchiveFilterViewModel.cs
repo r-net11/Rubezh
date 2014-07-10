@@ -11,23 +11,23 @@ namespace JournalModule.ViewModels
 		public FilterNamesViewModel FilterNamesViewModel { get; private set; }
 		public FilterObjectsViewModel FilterObjectsViewModel { get; private set; }
 
-		public ArchiveFilterViewModel(ArchiveFilter archiveFilter)
+		public ArchiveFilterViewModel(ArchiveFilter filter)
 		{
 			Title = "Настройки фильтра";
 			ClearCommand = new RelayCommand(OnClear);
 			SaveCommand = new RelayCommand(OnSave);
 			CancelCommand = new RelayCommand(OnCancel);
-			FilterNamesViewModel = new FilterNamesViewModel(archiveFilter);
-			FilterObjectsViewModel = new FilterObjectsViewModel(archiveFilter);
-			Initialize(archiveFilter);
+			FilterNamesViewModel = new FilterNamesViewModel(filter);
+			FilterObjectsViewModel = new FilterObjectsViewModel(filter);
+			Initialize(filter);
 		}
 
-		void Initialize(ArchiveFilter archiveFilter)
+		void Initialize(ArchiveFilter filter)
 		{
-			StartDateTime = new DateTimePairViewModel(archiveFilter.StartDate);
-			EndDateTime = new DateTimePairViewModel(archiveFilter.EndDate);
-			FilterNamesViewModel.Initialize(archiveFilter);
-			FilterObjectsViewModel.Initialize(archiveFilter);
+			StartDateTime = new DateTimePairViewModel(filter.StartDate);
+			EndDateTime = new DateTimePairViewModel(filter.EndDate);
+			FilterNamesViewModel.Initialize(filter);
+			FilterObjectsViewModel.Initialize(filter);
 		}
 
 		public DateTime ArchiveFirstDate

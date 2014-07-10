@@ -1,8 +1,8 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
-using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 
 namespace FiltersModule.ViewModels
@@ -11,7 +11,6 @@ namespace FiltersModule.ViewModels
 	{
 		public FilterNameViewModel(JournalEventNameType journalEventNameType)
 		{
-			AddCommand = new RelayCommand(OnAdd);
 			JournalEventNameType = journalEventNameType;
 
 			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
@@ -55,13 +54,26 @@ namespace FiltersModule.ViewModels
 			{
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);
+
+				if (IsSubsystem)
+				{
+					foreach (var child in Children)
+					{
+						child.SetIsChecked(value);
+					}
+				}
+				else if (Parent != null)
+				{
+					var isAllChecked = Parent.Children.All(x => x.IsChecked == true);
+					Parent.SetIsChecked(isAllChecked);
+				}
 			}
 		}
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
+		public void SetIsChecked(bool value)
 		{
-
+			_isChecked = value;
+			OnPropertyChanged(() => IsChecked);
 		}
 	}
 }

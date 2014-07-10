@@ -43,7 +43,7 @@ namespace FiresecService
 			return result;
 		}
 
-		public static List<JournalItem> GetSKDTopLastJournalItems(JournalFilter filter)
+		public static List<JournalItem> GetFilteredJournalItems(JournalFilter filter)
 		{
 			var journalItems = new List<JournalItem>();
 			try
@@ -52,7 +52,7 @@ namespace FiresecService
 				{
 					using (var dataContext = new SqlConnection(ConnectionString))
 					{
-						var query = "SELECT TOP (" + filter.LastItemsCount.ToString() + ") * FROM Journal ORDER BY SystemDate DESC";
+						var query = BuildQuery(filter);
 						var sqlCommand = new SqlCommand(query, dataContext);
 						dataContext.Open();
 						var reader = sqlCommand.ExecuteReader();
@@ -128,6 +128,103 @@ namespace FiresecService
 			journalItems.Clear();
 		}
 
+		static string BuildQuery(JournalFilter journalFilter)
+		{
+			var query = "SELECT TOP (" + journalFilter.LastItemsCount.ToString() + ") * FROM Journal ";
+
+			bool hasWhere = false;
+			if (journalFilter.JournalEventNameTypes.Count > 0)
+			{
+				if (!hasWhere)
+				{
+					query += "\n Where (";
+					hasWhere = true;
+				}
+				else
+				{
+					query += "\n AND (";
+				}
+				int index = 0;
+				foreach (var journalEventNameType in journalFilter.JournalEventNameTypes)
+				{
+					if (index > 0)
+						query += "\n OR ";
+					index++;
+					query += "Name = '" + journalEventNameType + "'";
+				}
+				query += ")";
+			}
+
+			if (journalFilter.JournalSubsystemTypes.Count > 0)
+			{
+				if (!hasWhere)
+				{
+					query += "\n Where (";
+					hasWhere = true;
+				}
+				else
+				{
+					query += "\n AND (";
+				}
+				int index = 0;
+				foreach (var journalSubsystemType in journalFilter.JournalSubsystemTypes)
+				{
+					if (index > 0)
+						query += "\n OR ";
+					index++;
+					query += "Subsystem = '" + (int)journalSubsystemType + "'";
+				}
+				query += ")";
+			}
+
+			if (journalFilter.JournalObjectTypes.Count > 0)
+			{
+				if (!hasWhere)
+				{
+					query += "\n Where (";
+					hasWhere = true;
+				}
+				else
+				{
+					query += "\n AND (";
+				}
+				int index = 0;
+				foreach (var journalObjectType in journalFilter.JournalObjectTypes)
+				{
+					if (index > 0)
+						query += "\n OR ";
+					index++;
+					query += "ObjectType = '" + (int)journalObjectType + "'";
+				}
+				query += ")";
+			}
+
+			if (journalFilter.ObjectUIDs.Count > 0)
+			{
+				if (!hasWhere)
+				{
+					query += "\n Where (";
+					hasWhere = true;
+				}
+				else
+				{
+					query += "\n AND (";
+				}
+				int index = 0;
+				foreach (var objectUID in journalFilter.ObjectUIDs)
+				{
+					if (index > 0)
+						query += "\n OR ";
+					index++;
+					query += "ObjectUID = '" + objectUID + "'";
+				}
+				query += ")";
+			}
+
+			query += "\n ORDER BY SystemDate DESC";
+			return query;
+		}
+
 		static string BuildQuery(ArchiveFilter archiveFilter)
 		{
 			string dateTimeTypeString;
@@ -151,20 +248,6 @@ namespace FiresecService
 						query += "\n OR ";
 					index++;
 					query += "Name = '" + journalEventNameType + "'";
-				}
-				query += ")";
-			}
-
-			if (archiveFilter.Descriptions.Count > 0)
-			{
-				query += "\n AND (";
-				int index = 0;
-				foreach (var description in archiveFilter.Descriptions)
-				{
-					if (index > 0)
-						query += "\n OR ";
-					index++;
-					query += "Description = '" + description + "'";
 				}
 				query += ")";
 			}

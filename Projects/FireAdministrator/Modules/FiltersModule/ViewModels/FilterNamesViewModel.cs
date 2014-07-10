@@ -12,14 +12,51 @@ namespace FiltersModule.ViewModels
 		public FilterNamesViewModel(JournalFilter filter)
 		{
 			BuildTree();
-			foreach (var journalEventNameType in filter.JournalEventNameTypes)
+			Initialize(filter);
+		}
+
+		public void Initialize(JournalFilter filter)
+		{
+			AllFilters.ForEach(x => x.IsChecked = false);
+			foreach (var eventName in filter.JournalEventNameTypes)
 			{
-				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.JournalEventNameType == journalEventNameType);
+				var filterNameViewModel = AllFilters.FirstOrDefault(x => x.JournalEventNameType == eventName);
 				if (filterNameViewModel != null)
 				{
 					filterNameViewModel.IsChecked = true;
 				}
 			}
+			foreach (var journalSubsystemTypes in filter.JournalSubsystemTypes)
+			{
+				var filterNameViewModel = RootFilters.FirstOrDefault(x => x.IsSubsystem && x.JournalSubsystemType == journalSubsystemTypes);
+				if (filterNameViewModel != null)
+				{
+					filterNameViewModel.IsChecked = true;
+				}
+			}
+		}
+
+		public ArchiveFilter GetModel()
+		{
+			var filter = new ArchiveFilter();
+			foreach (var rootFilter in RootFilters)
+			{
+				if (rootFilter.IsChecked)
+				{
+					filter.JournalSubsystemTypes.Add(rootFilter.JournalSubsystemType);
+				}
+				else
+				{
+					foreach (var filterViewModel in rootFilter.Children)
+					{
+						if (filterViewModel.IsChecked)
+						{
+							filter.JournalEventNameTypes.Add(filterViewModel.JournalEventNameType);
+						}
+					}
+				}
+			}
+			return filter;
 		}
 
 		public List<FilterNameViewModel> AllFilters;
@@ -57,6 +94,9 @@ namespace FiltersModule.ViewModels
 			foreach (JournalEventNameType enumValue in Enum.GetValues(typeof(JournalEventNameType)))
 			{
 				var filterNameViewModel = new FilterNameViewModel(enumValue);
+				if (filterNameViewModel.JournalEventNameType == JournalEventNameType.NULL)
+					continue;
+
 				AllFilters.Add(filterNameViewModel);
 
 				switch (filterNameViewModel.JournalSubsystemType)

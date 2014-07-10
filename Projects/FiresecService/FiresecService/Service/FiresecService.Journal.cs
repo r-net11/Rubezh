@@ -88,7 +88,7 @@ namespace FiresecService.Service
 
 		public OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(JournalFilter filter)
 		{
-			var journalItems = DBHelper.GetSKDTopLastJournalItems(filter);
+			var journalItems = DBHelper.GetFilteredJournalItems(filter);
 			return new OperationResult<IEnumerable<JournalItem>>() { Result = journalItems };
 			//return SKDDatabaseService.JournalItemTranslator.Get(filter);
 		}
