@@ -4,7 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
 	xmlns:Controls="clr-namespace:Controls;assembly=Controls" 
 	xmlns:Views="clr-namespace:GKModule.Views"
-	xmlns:Converters="clr-namespace:GKModule.Converters" >
+	xmlns:Converters="clr-namespace:GKModule.Converters">
 
 	<DataGrid ItemsSource="{Binding Pims}" SelectedItem="{Binding SelectedPim}">
 		<DataGrid.Resources>

@@ -56,7 +56,49 @@ namespace SKDModule
 			HolidaysViewModel = new HolidaysViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
 			_timeTrackingViewModel = new TimeTrackingViewModel();
+
+			SubscribeShowDelailsEvent();
 		}
+
+		#region ShowDelailsEvent
+		void SubscribeShowDelailsEvent()
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDDeviceDetailsEvent>().Unsubscribe(OnShowDeviceDetails);
+			ServiceFactory.Events.GetEvent<ShowSKDZoneDetailsEvent>().Unsubscribe(OnShowZoneDetails);
+			ServiceFactory.Events.GetEvent<ShowSKDDoorDetailsEvent>().Unsubscribe(OnShowDoorDetails);
+
+			ServiceFactory.Events.GetEvent<ShowSKDDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
+			ServiceFactory.Events.GetEvent<ShowSKDZoneDetailsEvent>().Subscribe(OnShowZoneDetails);
+			ServiceFactory.Events.GetEvent<ShowSKDDoorDetailsEvent>().Subscribe(OnShowDoorDetails);
+		}
+
+		void OnShowDeviceDetails(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				DialogService.ShowWindow(new DeviceDetailsViewModel(device));
+			}
+		}
+
+		void OnShowZoneDetails(Guid zoneUID)
+		{
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone != null)
+			{
+				DialogService.ShowWindow(new ZoneDetailsViewModel(zone));
+			}
+		}
+
+		void OnShowDoorDetails(Guid doorUID)
+		{
+			var direction = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
+			if (direction != null)
+			{
+				DialogService.ShowWindow(new DoorDetailsViewModel(direction));
+			}
+		}
+		#endregion
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

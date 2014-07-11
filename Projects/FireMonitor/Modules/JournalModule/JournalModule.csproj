@@ -176,6 +176,7 @@
     <Compile Include="ViewModels\ArchiveFilter\FilterNameViewModel.cs" />
     <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\JournalViewModel.cs" />
+    <Compile Include="ViewModels\ShowOnPlanHelper.cs" />
     <Compile Include="Views\ArchiveFilterView.xaml.cs">
       <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
     </Compile>

@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using Infrastructure.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -52,18 +53,13 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
-		private void OnShowOnPlan()
+		void OnShowOnPlan()
 		{
-			ServiceFactory.OnPublishEvent<Door, ShowDoorOnPlanEvent>(Door);
+			ShowOnPlanHelper.ShowDoor(Door);
 		}
-		private bool CanShowOnPlan()
+		public bool CanShowOnPlan()
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-			{
-				if (plan.ElementDoors.Any(x => (x.DoorUID != Guid.Empty) && (x.DoorUID == Door.UID)))
-					return true;
-			}
-			return false;
+			return ShowOnPlanHelper.CanShowDoor(Door);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

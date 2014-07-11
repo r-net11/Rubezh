@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using Infrastructure.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -49,18 +50,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		private void OnShowOnPlan()
 		{
-			ServiceFactory.OnPublishEvent<SKDZone, ShowSKDZoneOnPlanEvent>(Zone);
+			ShowOnPlanHelper.ShowZone(Zone);
 		}
 		private bool CanShowOnPlan()
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-			{
-				if (plan.ElementPolygonSKDZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
-					return true;
-				if (plan.ElementRectangleSKDZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
-					return true;
-			}
-			return false;
+			return ShowOnPlanHelper.CanShowZone(Zone);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

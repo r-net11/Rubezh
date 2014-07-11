@@ -15,6 +15,9 @@ namespace GKModule.ViewModels
 	public class JournalItemViewModel : BaseViewModel
 	{
 		public XJournalItem JournalItem { get; private set; }
+		public bool IsExistsInConfig { get; private set; }
+		public string PresentationName { get; private set; }
+
 		public XDevice Device { get; private set; }
 		public XZone Zone { get; private set; }
 		public XDirection Direction { get; private set; }
@@ -22,7 +25,6 @@ namespace GKModule.ViewModels
 		public XMPT MPT { get; private set; }
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
-		public string PresentationName { get; private set; }
 
 		public JournalItemViewModel(XJournalItem journalItem)
 		{
@@ -330,8 +332,6 @@ namespace GKModule.ViewModels
 					break;
 			}
 		}
-
-		public bool IsExistsInConfig { get; private set; }
 
 		bool CanShowInTree()
 		{

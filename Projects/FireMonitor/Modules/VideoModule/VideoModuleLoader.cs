@@ -34,7 +34,26 @@ namespace VideoModule
 				zone.State.StateChanged -= new Action(OnZoneStateChanged);
 				zone.State.StateChanged += new Action(OnZoneStateChanged);
 			}
+
+			SubscribeShowDelailsEvent();
 		}
+
+		#region ShowDelailsEvent
+		void SubscribeShowDelailsEvent()
+		{
+			ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>().Unsubscribe(OnShowDeviceDetails);
+			ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>().Subscribe(OnShowDeviceDetails);
+		}
+
+		void OnShowDeviceDetails(Guid videoUID)
+		{
+			var videoDevice = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == videoUID);
+			if (videoDevice != null)
+			{
+				DialogService.ShowWindow(new CameraDetailsViewModel(videoDevice));
+			}
+		}
+		#endregion
 
 		void OnZoneStateChanged()
 		{

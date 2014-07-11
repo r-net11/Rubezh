@@ -5,23 +5,49 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
+using Infrastructure.Events;
+using FiresecClient;
+using System;
+using FiresecAPI.Models;
+using Microsoft.Practices.Prism.Events;
 
 namespace JournalModule.ViewModels
 {
 	public class JournalItemViewModel : BaseViewModel
 	{
 		public JournalItem JournalItem { get; private set; }
-		public SKDDevice Device { get; private set; }
+		public bool IsExistsInConfig { get; private set; }
+
+		public string Name { get; private set; }
+		public string Description { get; private set; }
+		public string ObjectImageSource { get; private set; }
+		public string ObjectName { get; private set; }
+		public XStateClass StateClass { get; private set; }
+
+		CompositePresentationEvent<Guid> ShowObjectEvent;
+		CompositePresentationEvent<Guid> ShowObjectDetailsEvent;
+
+		XDevice Device { get; set; }
+		XZone Zone { get; set; }
+		XDirection Direction { get; set; }
+		XPumpStation PumpStation { get; set; }
+		XMPT MPT { get; set; }
+		XDelay Delay { get; set; }
+		XPim Pim { get; set; }
+		SKDDevice SKDDevice { get; set; }
+		SKDZone SKDZone { get; set; }
+		Door Door { get; set; }
+		Camera Camera { get; set; }
 
 		public JournalItemViewModel(JournalItem journalItem)
 		{
-			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
-			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			ShowObjectOrPlanCommand = new RelayCommand(OnShowObjectOrPlan);
 
 			JournalItem = journalItem;
-			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
 
 			if (journalItem.JournalEventNameType != JournalEventNameType.NULL)
 			{
@@ -40,19 +66,193 @@ namespace JournalModule.ViewModels
 			{
 				Description = journalItem.DescriptionText;
 			}
-			StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
+
+			IsExistsInConfig = true;
 			ObjectImageSource = "/Controls;component/Images/blank.png";
-		}
+			StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 
-		public string Name { get; private set; }
-		public string Description { get; private set; }
-		public string ObjectImageSource { get; private set; }
-		public string ObjectName { get; private set; }
-		public XStateClass StateClass { get; private set; }
+			switch (JournalItem.JournalObjectType)
+			{
+				case JournalObjectType.GKDevice:
+					Device = XManager.Devices.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+					if (Device != null)
+					{
+						ObjectName = Device.PresentationName;
+						ObjectImageSource = Device.Driver.ImageSource;
+						ShowObjectEvent = new ShowXDeviceEvent();
+						ShowObjectDetailsEvent = new ShowXDeviceDetailsEvent();
+					}
+					break;
 
-		public bool IsExistsInConfig
-		{
-			get { return Device != null; }
+				case JournalObjectType.GKZone:
+					Zone = XManager.Zones.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+					if (Zone != null)
+					{
+						ObjectName = Zone.PresentationName;
+						ShowObjectEvent = new ShowXZoneEvent();
+						ShowObjectDetailsEvent = new ShowXZoneDetailsEvent();
+					}
+					ObjectImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
+				case JournalObjectType.GKDirection:
+					Direction = XManager.Directions.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+					if (Direction != null)
+					{
+						ObjectName = Direction.PresentationName;
+						ShowObjectEvent = new ShowXDirectionEvent();
+						ShowObjectDetailsEvent = new ShowXDirectionDetailsEvent();
+					}
+					ObjectImageSource = "/Controls;component/Images/Blue_Direction.png";
+					break;
+
+				case JournalObjectType.GKPumpStation:
+					PumpStation = XManager.PumpStations.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+					if (PumpStation != null)
+					{
+						ObjectName = PumpStation.PresentationName;
+						ShowObjectEvent = new ShowXPumpStationEvent();
+						ShowObjectDetailsEvent = new ShowXPumpStationDetailsEvent();
+					}
+					ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
+					break;
+
+				case JournalObjectType.GKMPT:
+					MPT = XManager.MPTs.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+					if (MPT != null)
+					{
+						ObjectName = MPT.PresentationName;
+						ShowObjectEvent = new ShowXMPTEvent();
+						ShowObjectDetailsEvent = new ShowXMPTDetailsEvent();
+					}
+					ObjectImageSource = "/Controls;component/Images/BMPT.png";
+					break;
+
+				case JournalObjectType.GKDelay:
+					Delay = XManager.Delays.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+					if (Delay != null)
+					{
+						ObjectName = Delay.PresentationName;
+						ShowObjectEvent = new ShowXDelayEvent();
+						ShowObjectDetailsEvent = new ShowXDelayDetailsEvent();
+						ObjectImageSource = "/Controls;component/Images/Delay.png";
+					}
+					else
+					{
+						Delay = XManager.AutoGeneratedDelays.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+						if (Delay != null)
+						{
+							ObjectName = Delay.PresentationName;
+							ShowObjectEvent = new ShowXDelayEvent();
+							ShowObjectDetailsEvent = new ShowXDelayDetailsEvent();
+							if (Delay.PumpStationUID != Guid.Empty)
+							{
+								PumpStation = XManager.PumpStations.FirstOrDefault(x => x.BaseUID == Delay.PumpStationUID);
+								if (PumpStation != null)
+								{
+									ObjectName += " (" + PumpStation.PresentationName + ")";
+									ShowObjectEvent = new ShowXPumpStationEvent();
+									ShowObjectDetailsEvent = new ShowXPumpStationDetailsEvent();
+									ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
+									break;
+								}
+							}
+						}
+					}
+					break;
+
+				case JournalObjectType.GKPim:
+					Pim = XManager.AutoGeneratedPims.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+					if (Pim != null)
+					{
+						ObjectName = Pim.PresentationName;
+						ShowObjectEvent = new ShowXPimEvent();
+						ShowObjectDetailsEvent = new ShowXPIMDetailsEvent();
+						ObjectImageSource = "/Controls;component/Images/Pim.png";
+						if (Pim.PumpStationUID != Guid.Empty)
+						{
+							PumpStation = XManager.PumpStations.FirstOrDefault(x => x.BaseUID == Pim.PumpStationUID);
+							if (PumpStation != null)
+							{
+								ObjectName += " (" + PumpStation.PresentationName + ")";
+								ShowObjectEvent = new ShowXPumpStationEvent();
+								ShowObjectDetailsEvent = new ShowXPumpStationDetailsEvent();
+								ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
+								break;
+							}
+						}
+						if (Pim.MPTUID != Guid.Empty)
+						{
+							MPT = XManager.MPTs.FirstOrDefault(x => x.BaseUID == Pim.MPTUID);
+							if (MPT != null)
+							{
+								ObjectName += " (" + MPT.PresentationName + ")";
+								ShowObjectEvent = new ShowXMPTEvent();
+								ShowObjectDetailsEvent = new ShowXMPTDetailsEvent();
+								ObjectImageSource = "/Controls;component/Images/BMPT.png";
+								break;
+							}
+						}
+					}
+					break;
+
+				case JournalObjectType.SKDDevice:
+					SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (SKDDevice != null)
+					{
+						ObjectName = SKDDevice.Name;
+						ShowObjectEvent = new ShowSKDDeviceEvent();
+						ShowObjectDetailsEvent = new ShowSKDDeviceDetailsEvent();
+						ObjectImageSource = SKDDevice.Driver.ImageSource;
+					}
+					break;
+
+				case JournalObjectType.SKDZone:
+					SKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (SKDZone != null)
+					{
+						ObjectName = SKDZone.Name;
+						ShowObjectEvent = new ShowSKDZoneEvent();
+						ShowObjectDetailsEvent = new ShowSKDZoneDetailsEvent();
+					}
+					ObjectImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
+				case JournalObjectType.SKDDoor:
+					Door = SKDManager.Doors.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (Door != null)
+					{
+						ObjectName = Door.Name;
+						ShowObjectEvent = new ShowDoorEvent();
+						ShowObjectDetailsEvent = new ShowSKDDoorDetailsEvent();
+					}
+					ObjectImageSource = "/Controls;component/Images/Door.png";
+					break;
+
+				case JournalObjectType.VideoDevice:
+					Camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (Camera != null)
+					{
+						ObjectName = Camera.Name;
+						ShowObjectEvent = new ShowCameraEvent();
+						ShowObjectDetailsEvent = new ShowCameraDetailsEvent();
+					}
+					ObjectImageSource = "/Controls;component/Images/camera.png";
+					break;
+
+				case JournalObjectType.None:
+					ObjectName = "";
+					break;
+			}
+
+			if (ObjectName == null)
+			{
+				ObjectName = JournalItem.ObjectName;
+				IsExistsInConfig = false;
+			}
+
+			if (ObjectName == null)
+				ObjectName = "<Нет в конфигурации>";
 		}
 
 		public bool CanShow
@@ -69,35 +269,116 @@ namespace JournalModule.ViewModels
 				OnShowObject();
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
-		{
-			//DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
-		}
-		bool CanShowProperties()
-		{
-			return Device != null;
-		}
-
 		public RelayCommand ShowObjectCommand { get; private set; }
 		void OnShowObject()
 		{
-			//ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>().Publish(JournalItem.ObjectUID);
+			if (ShowObjectEvent != null)
+				ShowObjectEvent.Publish(JournalItem.ObjectUID);
 		}
 		bool CanShowObject()
 		{
-			return Device != null;
+			return IsExistsInConfig && ShowObjectEvent != null;
+		}
+
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		void OnShowProperties()
+		{
+			if (ShowObjectDetailsEvent != null)
+				ShowObjectDetailsEvent.Publish(JournalItem.ObjectUID);
+		}
+		bool CanShowProperties()
+		{
+			return IsExistsInConfig && ShowObjectDetailsEvent != null;
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
-		private void OnShowOnPlan()
+		void OnShowOnPlan()
 		{
-			//ServiceFactory.OnPublishEvent<SKDDevice, ShowSKDDeviceOnPlanEvent>(Device);
+			switch (JournalItem.JournalObjectType)
+			{
+				case JournalObjectType.GKDevice:
+					if (Device != null)
+					{
+						ShowOnPlanHelper.ShowDevice(Device);
+					}
+					break;
+				case JournalObjectType.GKZone:
+					if (Zone != null)
+					{
+						ShowOnPlanHelper.ShowZone(Zone);
+					}
+					break;
+				case JournalObjectType.GKDirection:
+					if (Direction != null)
+					{
+						ShowOnPlanHelper.ShowDirection(Direction);
+					}
+					break;
+				case JournalObjectType.SKDDevice:
+					if (SKDDevice != null)
+					{
+						ShowOnPlanHelper.ShowSKDDevice(SKDDevice);
+					}
+					break;
+				case JournalObjectType.SKDZone:
+					if (SKDZone != null)
+					{
+						ShowOnPlanHelper.ShowSKDZone(SKDZone);
+					}
+					break;
+				case JournalObjectType.SKDDoor:
+					if (Door != null)
+					{
+						ShowOnPlanHelper.ShowDoor(Door);
+					}
+					break;
+			}
 		}
-		private bool CanShowOnPlan()
+		bool CanShowOnPlan()
 		{
+			if (!IsExistsInConfig)
+				return false;
+
+			switch (JournalItem.JournalObjectType)
+			{
+				case JournalObjectType.GKDevice:
+					if (Device != null)
+					{
+						return ShowOnPlanHelper.CanShowDevice(Device);
+					}
+					break;
+				case JournalObjectType.GKZone:
+					if (Zone != null)
+					{
+						return ShowOnPlanHelper.CanShowZone(Zone);
+					}
+					break;
+				case JournalObjectType.GKDirection:
+					if (Direction != null)
+					{
+						return ShowOnPlanHelper.CanShowDirection(Direction);
+					}
+					break;
+				case JournalObjectType.SKDDevice:
+					if (SKDDevice != null)
+					{
+						return ShowOnPlanHelper.CanShowSKDDevice(SKDDevice);
+					}
+					break;
+				case JournalObjectType.SKDZone:
+					if (SKDZone != null)
+					{
+						return ShowOnPlanHelper.CanShowSKDZone(SKDZone);
+					}
+					break;
+				case JournalObjectType.SKDDoor:
+					if (Door != null)
+					{
+						return ShowOnPlanHelper.CanShowDoor(Door);
+					}
+					break;
+			}
 			return false;
-			//return Device != null && ShowOnPlanHelper.CanShowDevice(Device);
 		}
 	}
 }

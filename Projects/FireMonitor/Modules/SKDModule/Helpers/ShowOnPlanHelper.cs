@@ -5,6 +5,8 @@ using FiresecClient;
 using Infrastructure;
 using Infrustructure.Plans.Events;
 using SKDModule.Events;
+using Infrastructure.Events;
+using System;
 
 namespace SKDModule
 {
@@ -23,6 +25,36 @@ namespace SKDModule
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				if (plan.ElementSKDDevices.Any(x => x.DeviceUID == device.UID))
 					return true;
+			return false;
+		}
+
+		public static void ShowZone(SKDZone zone)
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Publish(zone);
+		}
+		public static bool CanShowZone(SKDZone zone)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				if (plan.ElementPolygonSKDZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
+					return true;
+				if (plan.ElementRectangleSKDZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == zone.UID)))
+					return true;
+			}
+			return false;
+		}
+
+		public static void ShowDoor(Door door)
+		{
+			ServiceFactory.Events.GetEvent<ShowDoorOnPlanEvent>().Publish(door);
+		}
+		public static bool CanShowDoor(Door door)
+		{
+			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
+				if (plan.ElementDoors.Any(x => (x.DoorUID != Guid.Empty) && (x.DoorUID == door.UID)))
+					return true;
+			}
 			return false;
 		}
 	}
