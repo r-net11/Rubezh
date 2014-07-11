@@ -104,11 +104,11 @@ namespace JournalModule.ViewModels
 			return false;
 		}
 
-		public static void ShowDoor(Door door)
+		public static void ShowSKDDoor(SKDDoor door)
 		{
-			ServiceFactory.Events.GetEvent<ShowDoorOnPlanEvent>().Publish(door);
+			ServiceFactory.Events.GetEvent<ShowSKDDoorOnPlanEvent>().Publish(door);
 		}
-		public static bool CanShowDoor(Door door)
+		public static bool CanShowSKDDoor(SKDDoor door)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{

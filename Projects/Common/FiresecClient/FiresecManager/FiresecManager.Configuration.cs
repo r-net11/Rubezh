@@ -146,7 +146,7 @@ namespace FiresecClient
 						xDirectionMap.Add(xdirection.BaseUID, xdirection);
 				}
 
-				var doorMap = new Dictionary<Guid, Door>();
+				var doorMap = new Dictionary<Guid, SKDDoor>();
 				foreach (var door in SKDManager.SKDConfiguration.Doors)
 				{
 					if (!doorMap.ContainsKey(door.UID))

@@ -16,7 +16,7 @@ namespace FiresecAPI
 			DoNotOverrideFS1 = true;
 			Server_EnableRemoteConnections = false;
 
-			IsGKAsAService = true;
+			//IsGKAsAService = true;
 			UseHasp = false;
 
 			FS_RemoteAddress = "localhost";
@@ -51,8 +51,9 @@ namespace FiresecAPI
 		[DataMember]
 		public bool AutoConnect { get; set; }
 
-		[DataMember]
-		public bool IsGKAsAService { get; set; }
+		//[DataMember]
+		//public bool IsGKAsAService { get; set; }
+		public bool IsGKAsAService { get { return true; } set { } }
 
 		[DataMember]
 		public bool UseHasp { get; set; }

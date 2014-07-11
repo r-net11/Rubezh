@@ -37,7 +37,7 @@ namespace JournalModule.ViewModels
 		XPim Pim { get; set; }
 		SKDDevice SKDDevice { get; set; }
 		SKDZone SKDZone { get; set; }
-		Door Door { get; set; }
+		SKDDoor Door { get; set; }
 		Camera Camera { get; set; }
 
 		public JournalItemViewModel(JournalItem journalItem)
@@ -223,7 +223,7 @@ namespace JournalModule.ViewModels
 					if (Door != null)
 					{
 						ObjectName = Door.Name;
-						ShowObjectEvent = new ShowDoorEvent();
+						ShowObjectEvent = new ShowSKDDoorEvent();
 						ShowObjectDetailsEvent = new ShowSKDDoorDetailsEvent();
 					}
 					ObjectImageSource = "/Controls;component/Images/Door.png";
@@ -329,7 +329,7 @@ namespace JournalModule.ViewModels
 				case JournalObjectType.SKDDoor:
 					if (Door != null)
 					{
-						ShowOnPlanHelper.ShowDoor(Door);
+						ShowOnPlanHelper.ShowSKDDoor(Door);
 					}
 					break;
 			}
@@ -374,7 +374,7 @@ namespace JournalModule.ViewModels
 				case JournalObjectType.SKDDoor:
 					if (Door != null)
 					{
-						return ShowOnPlanHelper.CanShowDoor(Door);
+						return ShowOnPlanHelper.CanShowSKDDoor(Door);
 					}
 					break;
 			}

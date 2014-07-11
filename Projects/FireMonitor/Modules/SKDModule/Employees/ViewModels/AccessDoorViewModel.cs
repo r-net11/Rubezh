@@ -10,11 +10,11 @@ namespace SKDModule.ViewModels
 {
 	public class AccessDoorViewModel : BaseViewModel
 	{
-		public Door Door { get; private set; }
+		public SKDDoor Door { get; private set; }
 		public List<CardDoor> CardDoors { get; private set; }
 		Action<AccessDoorViewModel> OnChecked;
 
-		public AccessDoorViewModel(Door door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
+		public AccessDoorViewModel(SKDDoor door, List<CardDoor> cardDoors, Action<AccessDoorViewModel> onChecked)
 		{
 			Door = door;
 			CardDoors = cardDoors;

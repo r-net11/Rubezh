@@ -8,9 +8,9 @@ using Infrustructure.Plans.Interfaces;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class Door : IStateProvider, IDeviceState<XStateClass>, IIdentity, IPlanPresentable
+	public class SKDDoor : IStateProvider, IDeviceState<XStateClass>, IIdentity, IPlanPresentable
 	{
-		public Door()
+		public SKDDoor()
 		{
 			UID = Guid.NewGuid();
 		}

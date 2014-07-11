@@ -29,7 +29,7 @@ namespace FiresecAPI.SKD
 			get { return SKDConfiguration.Zones; }
 		}
 
-		public static List<Door> Doors
+		public static List<SKDDoor> Doors
 		{
 			get { return SKDConfiguration.Doors; }
 		}

@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 {
 	public class DoorViewModel : BaseViewModel
 	{
-		public Door Door { get; private set; }
+		public SKDDoor Door { get; private set; }
 		public SKDDevice InDevice { get; private set; }
 		public SKDDevice OutDevice { get; private set; }
 		public DoorState State
@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 			get { return Door.State; }
 		}
 
-		public DoorViewModel(Door door)
+		public DoorViewModel(SKDDoor door)
 		{
 			Door = door;
 			InDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.InDeviceUID);
@@ -55,11 +55,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ShowOnPlanHelper.ShowDoor(Door);
+			ShowOnPlanHelper.ShowSKDDoor(Door);
 		}
 		public bool CanShowOnPlan()
 		{
-			return ShowOnPlanHelper.CanShowDoor(Door);
+			return ShowOnPlanHelper.CanShowSKDDoor(Door);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

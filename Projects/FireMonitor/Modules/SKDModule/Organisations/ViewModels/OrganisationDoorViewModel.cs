@@ -7,9 +7,9 @@ namespace SKDModule.ViewModels
 	public class OrganisationDoorViewModel : BaseViewModel, IOrganisationItemViewModel
 	{
 		public Organisation Organisation { get; private set; }
-		public Door Door { get; private set; }
+		public SKDDoor Door { get; private set; }
 
-		public OrganisationDoorViewModel(Organisation organisation, Door door)
+		public OrganisationDoorViewModel(Organisation organisation, SKDDoor door)
 		{
 			Organisation = organisation;
 			Door = door;

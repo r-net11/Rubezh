@@ -17,13 +17,13 @@ namespace SKDModule.ViewModels
 {
 	public class DoorDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
-		public Door Door { get; private set; }
+		public SKDDoor Door { get; private set; }
 		public DoorState State
 		{
 			get { return Door.State; }
 		}
 
-		public DoorDetailsViewModel(Door door)
+		public DoorDetailsViewModel(SKDDoor door)
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
@@ -114,7 +114,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowCommand { get; private set; }
 		void OnShow()
 		{
-			ServiceFactory.Events.GetEvent<ShowDoorEvent>().Publish(Door.UID);
+			ServiceFactory.Events.GetEvent<ShowSKDDoorEvent>().Publish(Door.UID);
 		}
 
 		public bool CanControl

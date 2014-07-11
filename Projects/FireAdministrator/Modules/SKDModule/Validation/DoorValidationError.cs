@@ -5,9 +5,9 @@ using SKDModule.Events;
 
 namespace SKDModule.Validation
 {
-	public class DoorValidationError : ObjectValidationError<Door, ShowSKDDoorEvent, Guid>
+	public class DoorValidationError : ObjectValidationError<SKDDoor, ShowSKDDoorEvent, Guid>
 	{
-		public DoorValidationError(Door door, string error, ValidationErrorLevel level)
+		public DoorValidationError(SKDDoor door, string error, ValidationErrorLevel level)
 			: base(door, error, level)
 		{
 		}

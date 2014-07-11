@@ -18,11 +18,11 @@ namespace SKDModule.ViewModels
 {
 	public class DoorViewModel : BaseViewModel
 	{
-		public Door Door { get; private set; }
+		public SKDDoor Door { get; private set; }
 		public SKDDevice InDevice { get; private set; }
 		public SKDDevice OutDevice { get; private set; }
 
-		public DoorViewModel(Door door)
+		public DoorViewModel(SKDDoor door)
 		{
 			ChangeInDeviceCommand = new RelayCommand(OnChangeInDevice);
 			Door = door;
@@ -90,7 +90,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public void Update(Door door)
+		public void Update(SKDDoor door)
 		{
 			Door = door;
 			InDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.InDeviceUID);

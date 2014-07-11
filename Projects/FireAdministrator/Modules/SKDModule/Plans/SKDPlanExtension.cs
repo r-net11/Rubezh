@@ -41,7 +41,7 @@ namespace SKDModule.Plans
 			_instruments = null;
 			Cache.Add<SKDDevice>(() => SKDManager.Devices);
 			Cache.Add<SKDZone>(() => SKDManager.Zones);
-			Cache.Add<Door>(() => SKDManager.SKDConfiguration.Doors);
+			Cache.Add<SKDDoor>(() => SKDManager.SKDConfiguration.Doors);
 		}
 
 		public void Initialize()
@@ -103,7 +103,7 @@ namespace SKDModule.Plans
 			{
 				var elementDoor = (ElementDoor)element;
 				plan.ElementDoors.Add(elementDoor);
-				SetItem<Door>(elementDoor);
+				SetItem<SKDDoor>(elementDoor);
 				return true;
 			}
 			else if (element is IElementZone)
@@ -132,7 +132,7 @@ namespace SKDModule.Plans
 			{
 				var elementDoor = (ElementDoor)element;
 				plan.ElementDoors.Remove(elementDoor);
-				ResetItem<Door>(elementDoor);
+				ResetItem<SKDDoor>(elementDoor);
 				return true;
 			}
 			else if (element is IElementZone)
@@ -156,7 +156,7 @@ namespace SKDModule.Plans
 			else if (designerItem.Element is ElementRectangleSKDZone || designerItem.Element is ElementPolygonSKDZone)
 				RegisterDesignerItem<SKDZone>(designerItem, "SKDZone", "/Controls;component/Images/zone.png");
 			else if (designerItem.Element is ElementDoor)
-				RegisterDesignerItem<Door>(designerItem, "Doors", "/Controls;component/Images/Door.png");
+				RegisterDesignerItem<SKDDoor>(designerItem, "Doors", "/Controls;component/Images/Door.png");
 		}
 
 		public override IEnumerable<ElementBase> LoadPlan(Plan plan)
@@ -222,9 +222,9 @@ namespace SKDModule.Plans
 				var zone = item as SKDZone;
 				designerItem.Title = zone == null ? "Несвязанная зона" : zone.Name;
 			}
-			else if (typeof(TItem) == typeof(Door))
+			else if (typeof(TItem) == typeof(SKDDoor))
 			{
-				var door = item as Door;
+				var door = item as SKDDoor;
 				designerItem.Title = door == null ? "Неизвестная дверь" : door.Name;
 			}
 			else

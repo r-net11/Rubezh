@@ -109,7 +109,7 @@ namespace SKDModule
 					{
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
-						new NavigationItem<ShowDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
 						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/Kartoteka2W.png"),
 						new NavigationItem("Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", new List<NavigationItem>()
 						{

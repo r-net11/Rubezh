@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 		public Guid ElementUID { get; set; }
 		public SKDDevice Device { get; set; }
 		public SKDZone Zone { get; set; }
-		public Door Door { get; set; }
+		public SKDDoor Door { get; set; }
 
 		public string Name
 		{

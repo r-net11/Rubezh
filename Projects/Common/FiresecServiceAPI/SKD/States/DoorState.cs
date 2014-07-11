@@ -28,9 +28,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public List<XAdditionalState> AdditionalStates { get; set; }
 
-		public Door Door { get; private set; }
+		public SKDDoor Door { get; private set; }
 
-		public DoorState(Door door)
+		public DoorState(SKDDoor door)
 			: this()
 		{
 			Door = door;

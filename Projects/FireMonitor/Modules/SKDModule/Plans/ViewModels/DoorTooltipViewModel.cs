@@ -3,14 +3,14 @@ using Infrastructure.Client.Plans.Presenter;
 
 namespace SKDModule.ViewModels
 {
-	public class DoorTooltipViewModel : StateTooltipViewModel<Door>
+	public class DoorTooltipViewModel : StateTooltipViewModel<SKDDoor>
 	{
-		public Door Door
+		public SKDDoor Door
 		{
 			get { return Item; }
 		}
 
-		public DoorTooltipViewModel(Door door)
+		public DoorTooltipViewModel(SKDDoor door)
 			: base(door)
 		{
 		}

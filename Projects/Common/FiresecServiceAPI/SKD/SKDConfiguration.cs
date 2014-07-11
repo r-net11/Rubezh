@@ -8,7 +8,7 @@ namespace FiresecAPI.SKD
 	{
 		public SKDConfiguration()
 		{
-			Doors = new List<Door>();
+			Doors = new List<SKDDoor>();
 			Zones = new List<SKDZone>();
 			TimeIntervalsConfiguration = new TimeIntervalsConfiguration();
 		}
@@ -22,7 +22,7 @@ namespace FiresecAPI.SKD
 		public List<SKDZone> Zones { get; set; }
 
 		[DataMember]
-		public List<Door> Doors { get; set; }
+		public List<SKDDoor> Doors { get; set; }
 
 		[DataMember]
 		public TimeIntervalsConfiguration TimeIntervalsConfiguration { get; set; }
@@ -60,7 +60,7 @@ namespace FiresecAPI.SKD
 
 			if (Doors == null)
 			{
-				Doors = new List<Door>();
+				Doors = new List<SKDDoor>();
 				result = false;
 			}
 

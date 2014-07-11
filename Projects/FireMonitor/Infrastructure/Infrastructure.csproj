@@ -111,7 +111,7 @@
     <Compile Include="Events\ShowDetails\ShowSKDDoorDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowXDelayDetailsEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowCameraDetailsEvent.cs" />
-    <Compile Include="Events\ShowObject\ShowDoorEvent.cs" />
+    <Compile Include="Events\ShowObject\ShowSKDDoorEvent.cs" />
     <Compile Include="Events\ShowObject\ShowSKDDeviceEvent.cs" />
     <Compile Include="Events\ShowObject\ShowSKDZoneEvent.cs" />
     <Compile Include="Events\ShowObject\ShowXDelayEvent.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="Events\ShowObject\ShowXMPTEvent.cs" />
     <Compile Include="Events\ShowObject\ShowXPimEvent.cs" />
     <Compile Include="Events\ShowObject\ShowXPumpStationEvent.cs" />
-    <Compile Include="Events\ShowOnPlan\ShowDoorOnPlanEvent.cs" />
+    <Compile Include="Events\ShowOnPlan\ShowSKDDoorOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowSKDDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowSKDZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowXDeviceOnPlanEvent.cs" />
