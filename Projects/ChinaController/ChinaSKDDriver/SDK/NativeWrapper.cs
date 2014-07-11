@@ -448,10 +448,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_Insert_Password(int loginID, ref NET_RECORDSET_ACCESS_CTL_PWD nativePassword);
+		public static extern int WRAP_Insert_Password(int loginID, ref NET_RECORDSET_ACCESS_CTL_PWD param);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Update_Password(int loginID, ref NET_RECORDSET_ACCESS_CTL_PWD nativePassword);
+		public static extern bool WRAP_Update_Password(int loginID, ref NET_RECORDSET_ACCESS_CTL_PWD param);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_Remove_Password(int loginID, int recordNo);
@@ -460,7 +460,7 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_RemoveAll_Passwords(int loginID);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Get_Password_Info(int loginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_PWD
+		public static extern bool WRAP_Get_Password_Info(int loginID, int recordNo, IntPtr result);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_Get_Passwords_Count(int loginID);
@@ -546,7 +546,7 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_GetTimeSchedule(int loginID, int index, out CFG_ACCESS_TIMESCHEDULE_INFO result);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_SetTimeSchedule(int loginID, int index, ref CFG_ACCESS_TIMESCHEDULE_INFO timeSheduleInfo);
+		public static extern bool WRAP_SetTimeSchedule(int loginID, int index, ref CFG_ACCESS_TIMESCHEDULE_INFO param);
 		#endregion
 
 		#region Events

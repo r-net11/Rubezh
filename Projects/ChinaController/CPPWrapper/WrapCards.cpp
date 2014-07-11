@@ -7,7 +7,7 @@ using namespace std;
 
 #define QUERY_COUNT	(3)
 
-int CALL_METHOD WRAP_Insert_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* stuCard)
+int CALL_METHOD WRAP_Insert_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* param)
 {
 	if (NULL == loginID)
 	{
@@ -17,7 +17,7 @@ int CALL_METHOD WRAP_Insert_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* stu
 	NET_CTRL_RECORDSET_INSERT_PARAM stuInert = {sizeof(stuInert)};
 	stuInert.stuCtrlRecordSetInfo.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_IN);
     stuInert.stuCtrlRecordSetInfo.emType = NET_RECORD_ACCESSCTLCARD;
-	stuInert.stuCtrlRecordSetInfo.pBuf = stuCard;
+	stuInert.stuCtrlRecordSetInfo.pBuf = param;
 	stuInert.stuCtrlRecordSetInfo.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
 	
 	stuInert.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
@@ -31,7 +31,7 @@ int CALL_METHOD WRAP_Insert_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* stu
 	return 0;
 }
 
-BOOL CALL_METHOD WRAP_Update_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* stuCard)
+BOOL CALL_METHOD WRAP_Update_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* param)
 {
 	if (NULL == loginID)
 	{
@@ -40,21 +40,21 @@ BOOL CALL_METHOD WRAP_Update_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* st
 
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
     stuInert.emType = NET_RECORD_ACCESSCTLCARD;
-	stuInert.pBuf = stuCard;
+	stuInert.pBuf = param;
 	stuInert.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
 	return bResult;
 }
 
-BOOL CALL_METHOD WRAP_Remove_Card(int loginID, int nRecordNo)
+BOOL CALL_METHOD WRAP_Remove_Card(int loginID, int recordNo)
 {
 	if (NULL == loginID)
 	{
 		return FALSE;
 	}
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	stuInert.pBuf = &nRecordNo;
-	stuInert.nBufLen = sizeof(nRecordNo);
+	stuInert.pBuf = &recordNo;
+	stuInert.nBufLen = sizeof(recordNo);
 	stuInert.emType = NET_RECORD_ACCESSCTLCARD;
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_REMOVE, &stuInert, SDK_API_WAITTIME);
 	return bResult;
@@ -72,7 +72,7 @@ BOOL CALL_METHOD WRAP_RemoveAll_Cards(int loginID)
 	return bResult;
 }
 
-BOOL CALL_METHOD WRAP_Get_Card_Info(int loginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_CARD* result)
+BOOL CALL_METHOD WRAP_Get_Card_Info(int loginID, int recordNo, NET_RECORDSET_ACCESS_CTL_CARD* result)
 {
 	if (NULL == loginID)
 	{
@@ -81,7 +81,7 @@ BOOL CALL_METHOD WRAP_Get_Card_Info(int loginID, int nRecordNo, NET_RECORDSET_AC
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
 	NET_RECORDSET_ACCESS_CTL_CARD stuCard = {sizeof(stuCard)};
 
-	stuCard.nRecNo = nRecordNo;
+	stuCard.nRecNo = recordNo;
 	stuInert.emType = NET_RECORD_ACCESSCTLCARD;
 	stuInert.pBuf = &stuCard;
 

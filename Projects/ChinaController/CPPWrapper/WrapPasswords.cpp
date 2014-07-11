@@ -7,7 +7,7 @@ using namespace std;
 
 #define QUERY_COUNT	(3)
 
-int CALL_METHOD WRAP_Insert_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD* stuAccessCtlPwd)
+int CALL_METHOD WRAP_Insert_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD* param)
 {
 	if (NULL == loginID)
 	{
@@ -17,7 +17,7 @@ int CALL_METHOD WRAP_Insert_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD* 
 	NET_CTRL_RECORDSET_INSERT_PARAM stuInert = {sizeof(stuInert)};
 	stuInert.stuCtrlRecordSetInfo.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_IN);
     stuInert.stuCtrlRecordSetInfo.emType = NET_RECORD_ACCESSCTLPWD;
-	stuInert.stuCtrlRecordSetInfo.pBuf = stuAccessCtlPwd;
+	stuInert.stuCtrlRecordSetInfo.pBuf = param;
 	stuInert.stuCtrlRecordSetInfo.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
 	
 	stuInert.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
@@ -30,7 +30,7 @@ int CALL_METHOD WRAP_Insert_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD* 
 	return 0;
 }
 
-BOOL CALL_METHOD WRAP_Update_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD* stuAccessCtlPwd)
+BOOL CALL_METHOD WRAP_Update_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD* param)
 {
 	if (NULL == loginID)
 	{
@@ -39,21 +39,21 @@ BOOL CALL_METHOD WRAP_Update_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD*
 	
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
     stuInert.emType = NET_RECORD_ACCESSCTLPWD;
-	stuInert.pBuf = stuAccessCtlPwd;
+	stuInert.pBuf = param;
 	stuInert.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
     return bResult;
 }
 
-BOOL CALL_METHOD WRAP_Remove_Password(int loginID, int nRecordNo)
+BOOL CALL_METHOD WRAP_Remove_Password(int loginID, int recordNo)
 {
 	if (NULL == loginID)
 	{
 		return FALSE;
 	}
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	stuInert.pBuf = &nRecordNo;
-	stuInert.nBufLen = sizeof(nRecordNo);
+	stuInert.pBuf = &recordNo;
+	stuInert.nBufLen = sizeof(recordNo);
 	stuInert.emType = NET_RECORD_ACCESSCTLPWD;
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_REMOVE, &stuInert, SDK_API_WAITTIME);
 	return bResult;
@@ -71,7 +71,7 @@ BOOL CALL_METHOD WRAP_RemoveAll_Passwords(int loginID)
 	return bResult;
 }
 
-BOOL CALL_METHOD WRAP_Get_Password_Info(int loginID, int nRecordNo, NET_RECORDSET_ACCESS_CTL_PWD* result)
+BOOL CALL_METHOD WRAP_Get_Password_Info(int loginID, int recordNo, NET_RECORDSET_ACCESS_CTL_PWD* result)
 {
 	if (NULL == loginID)
 	{
@@ -80,7 +80,7 @@ BOOL CALL_METHOD WRAP_Get_Password_Info(int loginID, int nRecordNo, NET_RECORDSE
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
 	NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd = {sizeof(stuAccessCtlPwd)};
 
-	stuAccessCtlPwd.nRecNo = nRecordNo;
+	stuAccessCtlPwd.nRecNo = recordNo;
 	stuInert.emType = NET_RECORD_ACCESSCTLPWD;
 	stuInert.pBuf = &stuAccessCtlPwd;
 
@@ -111,12 +111,12 @@ void WRAP_testRecordSetFind_Pwd(LLONG loginID, LLONG& lFinderId, FIND_RECORD_ACC
 	}
 }
 
-void WRAP_testRecordSetFindNext_Pwd(LLONG lFinderId)
+void WRAP_testRecordSetFindNext_Pwd(LLONG lFinderID)
 {
 	int i = 0, j = 0;
 	
 	NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
-	stuIn.lFindeHandle = lFinderId;
+	stuIn.lFindeHandle = lFinderID;
 	stuIn.nFileCount = QUERY_COUNT;
 	
 	NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
@@ -160,11 +160,11 @@ void WRAP_testRecordSetFindNext_Pwd(LLONG lFinderId)
 	}
 }
 
-int GetPaswordsCountRecordSetFind(LLONG& lFinderId)
+int GetPaswordsCountRecordSetFind(LLONG& lFinderID)
 {
 	NET_IN_QUEYT_RECORD_COUNT_PARAM stuIn = {sizeof(stuIn)};
 	NET_OUT_QUEYT_RECORD_COUNT_PARAM stuOut = {sizeof(stuOut)};
-	stuIn.lFindeHandle = lFinderId;
+	stuIn.lFindeHandle = lFinderID;
 	if (CLIENT_QueryRecordCount(&stuIn, &stuOut, SDK_API_WAITTIME))
 	{
 		return stuOut.nRecordCount;

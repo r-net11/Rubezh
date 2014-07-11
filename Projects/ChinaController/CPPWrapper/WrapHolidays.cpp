@@ -7,7 +7,7 @@ using namespace std;
 
 #define QUERY_COUNT	(3)
 
-int CALL_METHOD WRAP_Insert_Holiday(int loginID, NET_RECORDSET_HOLIDAY* stuHoliday)
+int CALL_METHOD WRAP_Insert_Holiday(int loginID, NET_RECORDSET_HOLIDAY* param)
 {
 	if (NULL == loginID)
 	{
@@ -17,7 +17,7 @@ int CALL_METHOD WRAP_Insert_Holiday(int loginID, NET_RECORDSET_HOLIDAY* stuHolid
 	NET_CTRL_RECORDSET_INSERT_PARAM stuInert = {sizeof(stuInert)};
 	stuInert.stuCtrlRecordSetInfo.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_IN);
     stuInert.stuCtrlRecordSetInfo.emType = NET_RECORD_ACCESSCTLHOLIDAY;
-	stuInert.stuCtrlRecordSetInfo.pBuf = stuHoliday;
+	stuInert.stuCtrlRecordSetInfo.pBuf = param;
 	stuInert.stuCtrlRecordSetInfo.nBufLen = sizeof(NET_RECORDSET_HOLIDAY);
 	
 	stuInert.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
@@ -30,7 +30,7 @@ int CALL_METHOD WRAP_Insert_Holiday(int loginID, NET_RECORDSET_HOLIDAY* stuHolid
 	return 0;
 }
 
-BOOL CALL_METHOD WRAP_Update_Holiday(int loginID, NET_RECORDSET_HOLIDAY* stuHoliday)
+BOOL CALL_METHOD WRAP_Update_Holiday(int loginID, NET_RECORDSET_HOLIDAY* param)
 {
 	if (NULL == loginID)
 	{
@@ -39,22 +39,22 @@ BOOL CALL_METHOD WRAP_Update_Holiday(int loginID, NET_RECORDSET_HOLIDAY* stuHoli
 
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
     stuInert.emType = NET_RECORD_ACCESSCTLHOLIDAY;
-	stuInert.pBuf = stuHoliday;
+	stuInert.pBuf = param;
 	stuInert.nBufLen = sizeof(NET_RECORDSET_HOLIDAY);
 	
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
     return bResult;
 }
 
-BOOL CALL_METHOD WRAP_Remove_Holiday(int loginID, int nRecordNo)
+BOOL CALL_METHOD WRAP_Remove_Holiday(int loginID, int recordNo)
 {
 	if (NULL == loginID)
 	{
 		return FALSE;
 	}
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	stuInert.pBuf = &nRecordNo;
-	stuInert.nBufLen = sizeof(nRecordNo);
+	stuInert.pBuf = &recordNo;
+	stuInert.nBufLen = sizeof(recordNo);
 	stuInert.emType = NET_RECORD_ACCESSCTLHOLIDAY;
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_REMOVE, &stuInert, SDK_API_WAITTIME);
 	return bResult;
@@ -72,7 +72,7 @@ BOOL CALL_METHOD WRAP_RemoveAll_Holidays(int loginID)
 	return bResult;
 }
 
-BOOL CALL_METHOD WRAP_Get_Holiday_Info(int loginID, int nRecordNo, NET_RECORDSET_HOLIDAY* result)
+BOOL CALL_METHOD WRAP_Get_Holiday_Info(int loginID, int recordNo, NET_RECORDSET_HOLIDAY* result)
 {
 	if (NULL == loginID)
 	{
@@ -81,7 +81,7 @@ BOOL CALL_METHOD WRAP_Get_Holiday_Info(int loginID, int nRecordNo, NET_RECORDSET
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
 	NET_RECORDSET_HOLIDAY stuHoliday = {sizeof(stuHoliday)};
 
-	stuHoliday.nRecNo = nRecordNo;
+	stuHoliday.nRecNo = recordNo;
 	stuInert.emType = NET_RECORD_ACCESSCTLHOLIDAY;
 	stuInert.pBuf = &stuHoliday;
 
