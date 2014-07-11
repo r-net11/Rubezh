@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
 		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
 	<Fragment>
 		<Icon Id="Fscp.Icon" src="Data\Administrator.ico"/>
@@ -32,9 +32,9 @@
 				</RegistryKey>
 
 			</RegistryKey>
-      <sql:SqlDatabase Id="SKDDatabase" Database="SKD" Server=".\SQLEXPRESS" CreateOnInstall="yes" DropOnUninstall="yes">
-        <sql:SqlScript Id="SKDScript" ExecuteOnInstall="yes" BinaryKey="SKDScript" />
-      </sql:SqlDatabase>
+			<sql:SqlDatabase Id="SKDDatabase" Database="SKD" Server=".\SQLEXPRESS" CreateOnInstall="yes" DropOnUninstall="yes">
+				<sql:SqlScript Id="SKDScript" ExecuteOnInstall="yes" BinaryKey="SKDScript" />
+			</sql:SqlDatabase>
 		</Component>
 	</Fragment>
 </Wix>
