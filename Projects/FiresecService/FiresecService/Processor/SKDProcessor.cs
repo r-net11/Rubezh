@@ -33,8 +33,8 @@ namespace FiresecService
 				ChinaSKDDriver.Processor.Start();
 				foreach (var deviceProcessor in ChinaSKDDriver.Processor.DeviceProcessors)
 				{
-					deviceProcessor.Wrapper.NewJournalItem -= new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewSKDJournalItem);
-					deviceProcessor.Wrapper.NewJournalItem += new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewSKDJournalItem);
+					deviceProcessor.NewJournalItem -= new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewSKDJournalItem);
+					deviceProcessor.NewJournalItem += new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewSKDJournalItem);
 				}
 
 				ChinaSKDDriver.Processor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);

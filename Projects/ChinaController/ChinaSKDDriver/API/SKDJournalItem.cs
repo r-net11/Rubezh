@@ -10,6 +10,7 @@ namespace ChinaSKDDriverAPI
 
 		}
 
+		public int LoginID { get; set; }
 		public DateTime SystemDateTime { get; set;}
 		public DateTime DeviceDateTime { get; set; }
 		public JournalEventNameType JournalEventNameType { get; set; }

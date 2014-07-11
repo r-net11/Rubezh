@@ -58,7 +58,6 @@ namespace ChinaSKDDriver
 
 		#region Common
 		public int LoginID { get; private set; }
-		public event Action<SKDJournalItem> NewJournalItem;
 
 		public int Connect(string ipAddress, int port, string login, string password)
 		{

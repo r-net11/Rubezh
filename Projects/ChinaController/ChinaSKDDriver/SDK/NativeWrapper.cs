@@ -560,6 +560,7 @@ namespace ChinaSKDDriverNativeApi
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_JournalItem
 		{
+			public int LoginID;
 			public int ExtraEventType;
 			public int EventType;
 			public NET_TIME DeviceDateTime;
@@ -576,10 +577,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_GetLastIndex(int loginID);
+		public static extern int WRAP_GetLastIndex();
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_GetJournalItem(int loginID, int index, out WRAP_JournalItem journalItem);
+		public static extern bool WRAP_GetJournalItem(int index, out WRAP_JournalItem journalItem);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_IsConnected(int loginID);

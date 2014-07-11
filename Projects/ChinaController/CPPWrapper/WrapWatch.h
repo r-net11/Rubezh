@@ -11,6 +11,7 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Disconnect(int loginID);
 
 typedef struct tag_WRAP_JournalItem
 {
+	int LoginID;
 	int	ExtraEventType;
 	int	EventType;
 	NET_TIME DeviceDateTime;
@@ -24,17 +25,23 @@ typedef struct tag_WRAP_JournalItem
 	int	nAction;
 } WRAP_JournalItem;
 
+typedef struct tag_WRAP_JournalInfo
+{
+	int Index;
+	WRAP_JournalItem JournalItem;
+} WRAP_JournalInfo;
+
 typedef struct tag_WRAP_WatchInfo
 {
 	int LoginId;
-	WRAP_JournalItem* WRAP_JournalItems;
-	int JournalLastIndex;
+	//WRAP_JournalItem* WRAP_JournalItems;
+	//int JournalLastIndex;
 	BOOL IsConnected;
 } WRAP_WatchInfo;
 
-extern "C" CLIENT_API int CALL_METHOD WRAP_GetLastIndex(int loginID);
+extern "C" CLIENT_API int CALL_METHOD WRAP_GetLastIndex();
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetJournalItem(int loginID, int index, WRAP_JournalItem* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_IsConnected(int loginID);
 
