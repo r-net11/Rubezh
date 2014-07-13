@@ -15,15 +15,6 @@ namespace FiresecAPI.SKD
 			return true;
 		}
 
-		public static void AddDeviceToZone(SKDDevice device, SKDZone zone)
-		{
-			device.ZoneUID = zone.UID;
-			device.Zone = zone;
-			zone.Devices.Add(device);
-			zone.OnChanged();
-			device.OnChanged();
-		}
-
 		public static void EditZone(SKDZone zone)
 		{
 			foreach (var device in zone.Devices)
@@ -31,15 +22,33 @@ namespace FiresecAPI.SKD
 			zone.OnChanged();
 		}
 
-		public static void RemoveDeviceFromZone(SKDDevice device, SKDZone zone)
+		public static void RemoceZone(SKDZone zone)
 		{
-			if (zone != null)
+			foreach (var device in zone.Devices)
 			{
 				device.Zone = null;
 				device.ZoneUID = Guid.Empty;
-				zone.Devices.Remove(device);
-				zone.OnChanged();
 				device.OnChanged();
+			}
+			Zones.Remove(zone);
+		}
+
+		public static void EditDevice(SKDDevice device)
+		{
+			if (device.Door != null)
+			{
+				device.Door.OnChanged();
+			}
+		}
+
+		public static void DeleteDevice(SKDDevice device)
+		{
+			Devices.Remove(device);
+			if (device.Door != null)
+			{
+				device.Door.InDeviceUID = Guid.Empty;
+				device.Door.OutDeviceUID = Guid.Empty;
+				device.Door.OnChanged();
 			}
 		}
 	}

@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 			{
 				Device.Name = value;
 				OnPropertyChanged(() => Name);
-				Device.OnChanged();
+				SKDManager.EditDevice(Device);
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -122,7 +122,7 @@ namespace SKDModule.ViewModels
 		{
 			var allDevices = Device.Children;
 			foreach (var device in allDevices)
-				SKDManager.Devices.Remove(device);
+				SKDManager.DeleteDevice(device);
 			var parent = Parent;
 			if (parent != null)
 			{
@@ -260,7 +260,8 @@ namespace SKDModule.ViewModels
 			{
 				if (zoneSelectationViewModel.SelectedZone != null)
 				{
-					SKDManager.AddDeviceToZone(Device, zoneSelectationViewModel.SelectedZone.Zone);
+					Device.ZoneUID = zoneSelectationViewModel.SelectedZone.Zone.UID;
+					Device.Zone = zoneSelectationViewModel.SelectedZone.Zone;
 				}
 				OnPropertyChanged("PresentationZone");
 				OnPropertyChanged("EditingPresentationZone");

@@ -208,12 +208,24 @@ namespace FiresecAPI.SKD
 			foreach (var door in SKDManager.Doors)
 			{
 				var inDevice = SKDManager.Devices.FirstOrDefault(x=>x.UID == door.InDeviceUID);
-				if (inDevice == null)
+				if (inDevice != null)
+				{
+					inDevice.Door = door;
+				}
+				else
+				{
 					door.InDeviceUID = Guid.Empty;
+				}
 
 				var outDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == door.OutDeviceUID);
-				if (outDevice == null)
+				if (outDevice != null)
+				{
+					outDevice.Door = door;
+				}
+				else
+				{
 					door.OutDeviceUID = Guid.Empty;
+				}
 			}
 		}
 

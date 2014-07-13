@@ -24,11 +24,18 @@ namespace SKDModule.ViewModels
 
 		public DoorViewModel(SKDDoor door)
 		{
-			ChangeInDeviceCommand = new RelayCommand(OnChangeInDevice);
 			Door = door;
+			ChangeInDeviceCommand = new RelayCommand(OnChangeInDevice);
 			CreateDragObjectCommand = new RelayCommand<DataObject>(OnCreateDragObjectCommand, CanCreateDragObjectCommand);
 			CreateDragVisual = OnCreateDragVisual;
-			Update();
+			Update(door);
+
+			door.Changed += new Action(door_Changed);
+		}
+
+		void door_Changed()
+		{
+			Update(Door);
 		}
 
 		public string Name
@@ -113,6 +120,8 @@ namespace SKDModule.ViewModels
 
 			OnPropertyChanged("Door");
 			OnPropertyChanged("Name");
+			OnPropertyChanged("InDeviceName");
+			OnPropertyChanged("IsInDeviceGrayed");
 			OnPropertyChanged("Description");
 			OnPropertyChanged("OutDevice");
 			Update();

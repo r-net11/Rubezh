@@ -83,15 +83,18 @@ namespace FiresecService.Service
 			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
 			var cardWriter = ChinaSKDDriver.Processor.AddCard(item, accessTemplate);
 			var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+			var saveResult = SKDDatabaseService.CardTranslator.Save(item);
+
 			if (pendingResult.HasError)
 				return pendingResult;
-			return SKDDatabaseService.CardTranslator.Save(item);
+			return saveResult;
 		}
 		public OperationResult EditCard(SKDCard item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_карты, null, UserName);
 			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
 
+			OperationResult pendingResult;
 			var operationResult = SKDDatabaseService.CardTranslator.Get(new CardFilter() { FirstNos = item.Number, LastNos = item.Number });
 			var oldCard = operationResult.Result.FirstOrDefault();
 			if (oldCard != null)
@@ -99,10 +102,15 @@ namespace FiresecService.Service
 				var oldAccessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
 
 				var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, item, accessTemplate);
-				var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
-				if (pendingResult.HasError)
-					return pendingResult;
+				pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
 			}
+			else
+			{
+				pendingResult = new OperationResult("Не найдена предидушая карта");
+			}
+
+			if (pendingResult.HasError)
+				return pendingResult;
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
 		public OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null)
@@ -118,6 +126,7 @@ namespace FiresecService.Service
 			item.EndDate = DateTime.Now;
 			AddSKDJournalMessage(JournalEventNameType.Удаление_карты, null, UserName);
 
+			OperationResult pendingResult;
 			var operationResult = SKDDatabaseService.CardTranslator.Get(new CardFilter() { FirstNos = item.Number, LastNos = item.Number });
 			if (!operationResult.HasError && operationResult.Result != null)
 			{
@@ -126,12 +135,22 @@ namespace FiresecService.Service
 				{
 					var accessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
 					var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, accessTemplate);
-					var pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
+					pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
 					if (pendingResult.HasError)
 						return pendingResult;
 				}
+				else
+				{
+					pendingResult = new OperationResult("Не найдена предидушая карта");
+				}
+			}
+			else
+			{
+				pendingResult = new OperationResult("Не найдена предидушая карта");
 			}
 
+			if (pendingResult.HasError)
+				return pendingResult;
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
 

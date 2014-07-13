@@ -28,6 +28,7 @@ namespace FiresecAPI.SKD
 		public SKDDevice Parent { get; set; }
 		public SKDDeviceState State { get; set; }
 		public SKDZone Zone { get; set; }
+		public SKDDoor Door { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }

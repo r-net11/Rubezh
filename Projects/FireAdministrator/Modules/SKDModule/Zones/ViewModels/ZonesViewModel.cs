@@ -98,8 +98,7 @@ namespace SKDModule.ViewModels
 		private void OnDelete()
 		{
 			var index = Zones.IndexOf(SelectedZone);
-			SKDManager.Zones.Remove(SelectedZone.Zone);
-			SelectedZone.Zone.OnChanged();
+			SKDManager.RemoceZone(SelectedZone.Zone);
 			Zones.Remove(SelectedZone);
 			index = Math.Min(index, Zones.Count - 1);
 			if (index > -1)
@@ -250,7 +249,6 @@ namespace SKDModule.ViewModels
 			{
 				SKDManager.EditZone(zoneDetailsViewModel.Zone);
 				SelectedZone.Update(zoneDetailsViewModel.Zone);
-				zoneDetailsViewModel.Zone.OnChanged();
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
