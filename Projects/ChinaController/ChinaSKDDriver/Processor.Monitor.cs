@@ -55,24 +55,24 @@ namespace ChinaSKDDriver
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}
 
-		public static CardWriter AddCard(SKDCard skdCard)
+		public static CardWriter AddCard(SKDCard skdCard, AccessTemplate accessTemplate)
 		{
 			var cardWriter = new CardWriter();
-			var result = cardWriter.AddCard(skdCard);
+			cardWriter.AddCard(skdCard, accessTemplate);
 			return cardWriter;
 		}
 
-		public static CardWriter EditCard(SKDCard skdCard)
+		public static CardWriter EditCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate)
 		{
 			var cardWriter = new CardWriter();
-			//var result = cardWriter.AddCard(skdCard);
+			cardWriter.EditCard(oldCard, oldAccessTemplate, newCard, newAccessTemplate);
 			return cardWriter;
 		}
 
-		public static CardWriter DeleteCard(SKDCard skdCard)
+		public static CardWriter DeleteCard(SKDCard skdCard, AccessTemplate accessTemplate)
 		{
 			var cardWriter = new CardWriter();
-			//var result = cardWriter.AddCard(skdCard);
+			cardWriter.DeleteCard(skdCard, accessTemplate);
 			return cardWriter;
 		}
 	}

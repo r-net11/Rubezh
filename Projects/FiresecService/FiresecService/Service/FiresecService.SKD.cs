@@ -81,7 +81,7 @@ namespace FiresecService.Service
 		{
 			AddSKDJournalMessage(JournalEventNameType.Добавление_карты, null, UserName);
 			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
-			var cardWriter = ChinaSKDDriver.Processor.AddCard(item);
+			var cardWriter = ChinaSKDDriver.Processor.AddCard(item, accessTemplate);
 			var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
 			if (pendingResult.HasError)
 				return pendingResult;
@@ -91,10 +91,18 @@ namespace FiresecService.Service
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_карты, null, UserName);
 			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
-			var cardWriter = ChinaSKDDriver.Processor.EditCard(item);
-			var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
-			if (pendingResult.HasError)
-				return pendingResult;
+
+			var operationResult = SKDDatabaseService.CardTranslator.Get(new CardFilter() { FirstNos = item.Number, LastNos = item.Number });
+			var oldCard = operationResult.Result.FirstOrDefault();
+			if (oldCard != null)
+			{
+				var oldAccessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
+
+				var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, item, accessTemplate);
+				var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+				if (pendingResult.HasError)
+					return pendingResult;
+			}
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
 		public OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null)
@@ -109,11 +117,21 @@ namespace FiresecService.Service
 			item.StartDate = DateTime.Now;
 			item.EndDate = DateTime.Now;
 			AddSKDJournalMessage(JournalEventNameType.Удаление_карты, null, UserName);
-			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
-			var cardWriter = ChinaSKDDriver.Processor.DeleteCard(item);
-			var pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(item.UID, GetFailedControllerUIDs(cardWriter));
-			if (pendingResult.HasError)
-				return pendingResult;
+
+			var operationResult = SKDDatabaseService.CardTranslator.Get(new CardFilter() { FirstNos = item.Number, LastNos = item.Number });
+			if (!operationResult.HasError && operationResult.Result != null)
+			{
+				var oldCard = operationResult.Result.FirstOrDefault();
+				if (oldCard != null)
+				{
+					var accessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
+					var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, accessTemplate);
+					var pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
+					if (pendingResult.HasError)
+						return pendingResult;
+				}
+			}
+
 			return SKDDatabaseService.CardTranslator.Save(item);
 		}
 
@@ -124,6 +142,19 @@ namespace FiresecService.Service
 		public OperationResult SaveCardTemplate(SKDCard card)
 		{
 			return SKDDatabaseService.CardTranslator.SaveTemplate(card);
+		}
+
+		AccessTemplate GetAccessTemplate(Guid? uid)
+		{
+			var accessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(uid);
+			if (!accessTemplateOperationResult.HasError)
+				return accessTemplateOperationResult.Result;
+			return null;
+		}
+
+		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
+		{
+			return cardWriter.ControllerCardItems.Where(x => !x.HasError).Select(x => x.ControllerDevice.UID);
 		}
 		#endregion
 
@@ -396,18 +427,5 @@ namespace FiresecService.Service
 			}
 		}
 		#endregion
-
-		AccessTemplate GetAccessTemplate(Guid? uid)
-		{
-			var accessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(uid);
-			if (!accessTemplateOperationResult.HasError)
-				return accessTemplateOperationResult.Result;
-			return null;
-		}
-
-		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
-		{
-			return cardWriter.ControllerCardItems.Where(x => !x.Result).Select(x => x.ControllerDevice.UID);
-		}
 	}
 }
