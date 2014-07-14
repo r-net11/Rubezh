@@ -260,8 +260,7 @@ namespace SKDModule.ViewModels
 			{
 				if (zoneSelectationViewModel.SelectedZone != null)
 				{
-					Device.ZoneUID = zoneSelectationViewModel.SelectedZone.Zone.UID;
-					Device.Zone = zoneSelectationViewModel.SelectedZone.Zone;
+					SKDManager.ChangeDeviceZone(Device, zoneSelectationViewModel.SelectedZone.Zone);
 				}
 				OnPropertyChanged("PresentationZone");
 				OnPropertyChanged("EditingPresentationZone");
@@ -281,7 +280,6 @@ namespace SKDModule.ViewModels
 		bool CanShowZone()
 		{
 			return Device.Driver.HasZone && Device.ZoneUID != Guid.Empty;
-			;
 		}
 		#endregion
 

@@ -41,6 +41,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public bool AllowMultipleVizualization { get; set; }
 
+		public SKDDevice InDevice { get; set; }
+		public SKDDevice OutDevice { get; set; }
+
 		public void OnChanged()
 		{
 			if (Changed != null)
