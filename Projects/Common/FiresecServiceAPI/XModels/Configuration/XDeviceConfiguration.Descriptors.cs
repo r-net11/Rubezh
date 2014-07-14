@@ -13,6 +13,7 @@ namespace FiresecAPI.GK
 			PreparePumpStations();
 			PrepareMPTs();
 			PrepareDelays();
+			PrepareGuardZones();
 		}
 
 		void PrepareZones()
@@ -62,6 +63,10 @@ namespace FiresecAPI.GK
 			foreach (var delay in Delays)
 			{
 				delay.ClearDescriptor();
+			}
+			foreach (var guardZone in GuardZones)
+			{
+				guardZone.ClearDescriptor();
 			}
 
 			foreach (var device in Devices)
@@ -239,6 +244,15 @@ namespace FiresecAPI.GK
 				{
 					delay.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 				}
+			}
+		}
+
+		void PrepareGuardZones()
+		{
+			foreach (var guardZone in GuardZones)
+			{
+				guardZone.KauDatabaseParent = null;
+				guardZone.GkDatabaseParent = Devices.FirstOrDefault(x=>x.DriverType == XDriverType.GK);
 			}
 		}
 

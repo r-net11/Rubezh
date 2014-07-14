@@ -51,6 +51,11 @@ namespace GKModule.ViewModels
 				case DescriptorType.Pim:
 					ImageSource = "/Controls;component/Images/Pim.png";
 					break;
+
+				case DescriptorType.GuardZone:
+					ImageSource = "/Controls;component/Images/Zone.png";
+					Description = descriptor.GuardZone.Description;
+					break;
 			}
 
 			IsFormulaInvalid = Descriptor.Formula.CalculateStackLevels();

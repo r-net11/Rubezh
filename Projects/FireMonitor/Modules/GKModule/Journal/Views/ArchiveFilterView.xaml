@@ -7,7 +7,7 @@
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 		xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
 		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-		MinWidth="1050" MinHeight="500">
+		MinWidth="1200" MinHeight="500">
 
 	<UserControl.Resources>
 		<Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
@@ -266,7 +266,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
-								<Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<Image Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
 								<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
 							</StackPanel>
 						</DataTemplate>
@@ -427,6 +427,37 @@
 					</ListBox.ItemTemplate>
 				</ListBox>
 			</TabItem>
-		</TabControl>
+
+            <TabItem>
+                <TabItem.Header>
+                    <TextBlock Text="Охранные Зоны" FontWeight="Bold">
+						<TextBlock.Style>
+							<Style>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding ArchiveGuardZones.HasCheckedItems}" Value="True">
+										<Setter Property="TextBlock.FontStyle" Value="Italic" />
+										<Setter Property="TextBlock.Foreground" Value="Orange" />
+									</DataTrigger>
+									<DataTrigger Binding="{Binding ArchiveGuardZones.HasCheckedItems}" Value="False">
+										<Setter Property="TextBlock.Foreground" Value="White" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+                    </TextBlock>
+                </TabItem.Header>
+                <ListBox ItemsSource="{Binding ArchiveGuardZones.Items}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" />
+                                <Image Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+        </TabControl>
 	</DockPanel>
 </UserControl>

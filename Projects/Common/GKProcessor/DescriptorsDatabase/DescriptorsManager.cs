@@ -12,7 +12,7 @@ namespace GKProcessor
 		public static void Create()
 		{
 			XManager.UpdateConfiguration();
-			XManager.Prepare();
+			XManager.PrepareDescriptors();
 
 			GkDatabases = new List<GkDatabase>();
 			KauDatabases = new List<KauDatabase>();

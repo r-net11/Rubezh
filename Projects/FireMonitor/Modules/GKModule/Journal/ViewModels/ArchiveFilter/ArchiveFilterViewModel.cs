@@ -40,6 +40,7 @@ namespace GKModule.ViewModels
 			InitializeMPTs(archiveFilter);
 			InitializeDelays(archiveFilter);
 			InitializePIMs(archiveFilter);
+			InitializeGuardZones(archiveFilter);
 		}
 
 		void InitializeJournalItemTypes(XArchiveFilter archiveFilter)
@@ -54,6 +55,7 @@ namespace GKModule.ViewModels
 			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.MPT));
 			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Delay));
 			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.Pim));
+			JournalItemTypes.Add(new JournalItemTypeViewModel(XJournalObjectType.GuardZone));
 			foreach (var journalItemType in archiveFilter.XJournalObjectTypes)
 			{
 				var JournalItemTypeViewModel = JournalItemTypes.Items.FirstOrDefault(x => (x as JournalItemTypeViewModel).JournalItemType == journalItemType);
@@ -248,6 +250,24 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public void InitializeGuardZones(XArchiveFilter archiveFilter)
+		{
+			ArchiveGuardZones = new CheckBoxItemList<ArchiveGuardZoneViewModel>();
+			foreach (var guardZone in XManager.GuardZones)
+			{
+				var archiveGuardZoneViewModel = new ArchiveGuardZoneViewModel(guardZone);
+				ArchiveGuardZones.Add(archiveGuardZoneViewModel);
+			}
+			foreach (var guardZoneUID in archiveFilter.GuardZoneUIDs)
+			{
+				var archiveGuardZone = ArchiveGuardZones.Items.FirstOrDefault(x => (x as ArchiveGuardZoneViewModel).GuardZone.BaseUID == guardZoneUID);
+				if (archiveGuardZone != null)
+				{
+					archiveGuardZone.IsChecked = true;
+				}
+			}
+		}
+
 		#region Devices
 		public void InitializeDevices(XArchiveFilter archiveFilter)
 		{
@@ -408,6 +428,7 @@ namespace GKModule.ViewModels
 		public CheckBoxItemList<ArchiveMPTViewModel> MPTs { get; private set; }
 		public CheckBoxItemList<ArchiveDelayViewModel> Delays { get; private set; }
 		public CheckBoxItemList<ArchivePimViewModel> PIMs { get; private set; }
+		public CheckBoxItemList<ArchiveGuardZoneViewModel> ArchiveGuardZones { get; private set; }
 		List<string> DistinctDatabaseNames = FiresecManager.FiresecService.GetGkEventNames();
 		List<string> DistinctDatabaseDescriptions = FiresecManager.FiresecService.GetGkEventDescriptions();
 
@@ -479,6 +500,11 @@ namespace GKModule.ViewModels
 				if (pim.IsChecked)
 					archiveFilter.PimUIDs.Add(pim.Pim.BaseUID);
 			}
+			foreach (var archiveGuardZone in ArchiveGuardZones.Items)
+			{
+				if (archiveGuardZone.IsChecked)
+					archiveFilter.GuardZoneUIDs.Add(archiveGuardZone.GuardZone.BaseUID);
+			}
 			return archiveFilter;
 		}
 
@@ -498,6 +524,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => MPTs);
 			OnPropertyChanged(() => Delays);
 			OnPropertyChanged(() => PIMs);
+			OnPropertyChanged(() => ArchiveGuardZones);
 		}
 
 		public RelayCommand SaveCommand { get; private set; }

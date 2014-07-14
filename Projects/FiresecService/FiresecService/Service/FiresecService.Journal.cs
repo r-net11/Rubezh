@@ -59,6 +59,10 @@ namespace FiresecService.Service
 				case XJournalObjectType.MPT:
 					journalItem.JournalObjectType = JournalObjectType.GKMPT;
 					break;
+
+				case XJournalObjectType.GuardZone:
+					journalItem.JournalObjectType = JournalObjectType.GKGuardZone;
+					break;
 			}
 
 			AddJournalItem(journalItem);

@@ -107,6 +107,7 @@
     <Compile Include="Journal\ViewModels\ArchiveFilter\SubsystemTypeViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveMPTViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDelayViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveGuardZoneViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchivePageViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettings\JournalColumnTypeViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />

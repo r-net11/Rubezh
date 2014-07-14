@@ -283,6 +283,7 @@ namespace GKProcessor
 			objectUIDs.AddRange(archiveFilter.PimUIDs);
 			objectUIDs.AddRange(archiveFilter.PumpStationUIDs);
 			objectUIDs.AddRange(archiveFilter.MPTUIDs);
+			objectUIDs.AddRange(archiveFilter.GuardZoneUIDs);
 			if (objectUIDs.Count > 0)
 			{
 				int index = 0;

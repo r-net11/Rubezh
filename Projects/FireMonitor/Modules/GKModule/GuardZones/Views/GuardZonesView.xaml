@@ -59,7 +59,7 @@
 									</Grid.InputBindings>
 									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Zone.No}" />
 								</Grid>
-							</DataTemplate>
+                            </DataTemplate>
 						</ListBox.ItemTemplate>
 						<ListBox.ItemsPanel>
 							<ItemsPanelTemplate>

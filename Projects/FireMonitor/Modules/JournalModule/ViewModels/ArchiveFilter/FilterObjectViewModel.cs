@@ -88,6 +88,10 @@ namespace JournalModule.ViewModels
 					ImageSource = "/Controls;component/Images/Delay.png";
 					break;
 
+				case JournalObjectType.GKGuardZone:
+					ImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
 				case JournalObjectType.SKDDevice:
 					ImageSource = "/Controls;component/SKDIcons/Controller.png";
 					break;
@@ -142,6 +146,13 @@ namespace JournalModule.ViewModels
 			Name = delay.PresentationName;
 			UID = delay.BaseUID;
 			ImageSource = "/Controls;component/Images/Delay.png";
+		}
+
+		public FilterObjectViewModel(XGuardZone guardZone)
+		{
+			Name = guardZone.PresentationName;
+			UID = guardZone.UID;
+			ImageSource = "/Controls;component/Images/Zone.png";
 		}
 
 		public FilterObjectViewModel(SKDDevice device)

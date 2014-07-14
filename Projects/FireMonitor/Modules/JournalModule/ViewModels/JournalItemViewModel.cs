@@ -35,6 +35,7 @@ namespace JournalModule.ViewModels
 		XMPT MPT { get; set; }
 		XDelay Delay { get; set; }
 		XPim Pim { get; set; }
+		XGuardZone GuardZone { get; set; }
 		SKDDevice SKDDevice { get; set; }
 		SKDZone SKDZone { get; set; }
 		SKDDoor Door { get; set; }
@@ -196,6 +197,17 @@ namespace JournalModule.ViewModels
 					}
 					break;
 
+				case JournalObjectType.GKGuardZone:
+					GuardZone = XManager.GuardZones.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+					if (Zone != null)
+					{
+						ObjectName = GuardZone.PresentationName;
+						ShowObjectEvent = new ShowXGuardZoneEvent();
+						ShowObjectDetailsEvent = new ShowXGuardZoneDetailsEvent();
+					}
+					ObjectImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
 				case JournalObjectType.SKDDevice:
 					SKDDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (SKDDevice != null)
@@ -314,6 +326,12 @@ namespace JournalModule.ViewModels
 						ShowOnPlanHelper.ShowDirection(Direction);
 					}
 					break;
+				case JournalObjectType.GKGuardZone:
+					if (GuardZone != null)
+					{
+						ShowOnPlanHelper.ShowGuardZone(GuardZone);
+					}
+					break;
 				case JournalObjectType.SKDDevice:
 					if (SKDDevice != null)
 					{
@@ -357,6 +375,12 @@ namespace JournalModule.ViewModels
 					if (Direction != null)
 					{
 						return ShowOnPlanHelper.CanShowDirection(Direction);
+					}
+					break;
+				case JournalObjectType.GKGuardZone:
+					if (GuardZone != null)
+					{
+						return ShowOnPlanHelper.CanShowGuardZone(GuardZone);
 					}
 					break;
 				case JournalObjectType.SKDDevice:

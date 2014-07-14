@@ -6,13 +6,14 @@ namespace GKProcessor
 {
 	public class GkDatabase : CommonDatabase
 	{
-		public List<XDevice> Devices { get; set; }
-		public List<XZone> Zones { get; set; }
-		public List<XDirection> Directions { get; set; }
-		public List<XPumpStation> PumpStations { get; set; }
-		public List<XMPT> MPTs { get; set; }
-		public List<XDelay> Delays { get; set; }
-		public List<XPim> Pims { get; set; }
+		List<XDevice> Devices { get; set; }
+		List<XZone> Zones { get; set; }
+		List<XDirection> Directions { get; set; }
+		List<XPumpStation> PumpStations { get; set; }
+		List<XMPT> MPTs { get; set; }
+		public List<XDelay> Delays { get; private set; }
+		public List<XPim> Pims { get; private set; }
+		List<XGuardZone> GuardZones { get; set; }
 		public List<KauDatabase> KauDatabases { get; set; }
 
 		public GkDatabase(XDevice gkDevice)
@@ -24,6 +25,7 @@ namespace GKProcessor
 			MPTs = new List<XMPT>();
 			Delays = new List<XDelay>();
 			Pims = new List<XPim>();
+			GuardZones = new List<XGuardZone>();
 			KauDatabases = new List<KauDatabase>();
 			DatabaseType = DatabaseType.Gk;
 			RootDevice = gkDevice;
@@ -117,6 +119,15 @@ namespace GKProcessor
 				}
 			}
 
+			foreach (var guardZone in XManager.GuardZones)
+			{
+				if (guardZone.GkDatabaseParent == RootDevice)
+				{
+					guardZone.GKDescriptorNo = NextDescriptorNo;
+					GuardZones.Add(guardZone);
+				}
+			}
+
 			Descriptors = new List<BaseDescriptor>();
 			foreach (var device in Devices)
 			{
@@ -165,6 +176,12 @@ namespace GKProcessor
 					var delayDescriptor = new DelayDescriptor(delay);
 					Descriptors.Add(delayDescriptor);
 				}
+			}
+
+			foreach (var guardZone in GuardZones)
+			{
+				var guardZoneDescriptor = new GuardZoneDescriptor(guardZone);
+				Descriptors.Add(guardZoneDescriptor);
 			}
 
 			foreach (var descriptor in Descriptors)

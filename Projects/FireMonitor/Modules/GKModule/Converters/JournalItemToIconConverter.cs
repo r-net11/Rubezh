@@ -16,11 +16,11 @@ namespace GKModule.Converters
 				case XJournalObjectType.Device:
 					var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == journalItem.ObjectUID);
 					if (device == null)
-						return "/Controls;component/Images/blank.png";
+						return "/Controls;component/Images/Blank.png";
 					return device.Driver.ImageSource;
 
 				case XJournalObjectType.Zone:
-					return "/Controls;component/Images/zone.png";
+					return "/Controls;component/Images/Zone.png";
 
 				case XJournalObjectType.Direction:
 					return "/Controls;component/Images/Blue_Direction.png";
@@ -40,8 +40,11 @@ namespace GKModule.Converters
 				case XJournalObjectType.MPT:
 					return "/Controls;component/Images/BMPT.png";
 
+				case XJournalObjectType.GuardZone:
+					return "/Controls;component/Images/Zone.png";
+
 				default:
-					return "/Controls;component/Images/blank.png";
+					return "/Controls;component/Images/Blank.png";
 			}
 		}
 

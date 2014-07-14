@@ -96,6 +96,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
     <Compile Include="Events\GetFilteredSKDArchiveCompletedEvent.cs" />
+    <Compile Include="Events\ShowDetails\ShowXGuardZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowCameraOnPlanEvent.cs" />
     <Compile Include="Events\ShowObject\ShowCameraEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />

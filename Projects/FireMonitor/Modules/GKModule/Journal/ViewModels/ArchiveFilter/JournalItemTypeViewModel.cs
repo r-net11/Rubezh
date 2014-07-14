@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 						return "/Controls;component/GKIcons/RSR2_RM_1.png";
 
 					case XJournalObjectType.Zone:
-						return "/Controls;component/Images/zone.png";
+						return "/Controls;component/Images/Zone.png";
 
 					case XJournalObjectType.Direction:
 						return "/Controls;component/Images/Blue_Direction.png";
@@ -50,6 +50,9 @@ namespace GKModule.ViewModels
 
 					case XJournalObjectType.Pim:
 						return "/Controls;component/Images/Pim.png";
+
+					case XJournalObjectType.GuardZone:
+						return "/Controls;component/Images/Zone.png";
 
 					default:
 						return null;

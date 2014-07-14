@@ -43,6 +43,10 @@ namespace FiresecAPI.GK
 		Pim,
 
 		[EnumMember]
+		[DescriptionAttribute("Охранная Зона")]
+		GuardZone,
+
+		[EnumMember]
 		[DescriptionAttribute("Пользователь прибора")]
 		GkUser
 	}

@@ -91,6 +91,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowXPumpStationDetailsEvent>().Unsubscribe(OnShowPumpStationDetails);
 			ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>().Unsubscribe(OnShowDelayDetails);
 			ServiceFactory.Events.GetEvent<ShowXPIMDetailsEvent>().Unsubscribe(OnShowPIMDetails);
+			ServiceFactory.Events.GetEvent<ShowXGuardZoneDetailsEvent>().Unsubscribe(OnShowGuardZoneDetails);
 
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
 			ServiceFactory.Events.GetEvent<ShowXZoneDetailsEvent>().Subscribe(OnShowZoneDetails);
@@ -99,6 +100,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowXPumpStationDetailsEvent>().Subscribe(OnShowPumpStationDetails);
 			ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>().Subscribe(OnShowDelayDetails);
 			ServiceFactory.Events.GetEvent<ShowXPIMDetailsEvent>().Subscribe(OnShowPIMDetails);
+			ServiceFactory.Events.GetEvent<ShowXGuardZoneDetailsEvent>().Subscribe(OnShowGuardZoneDetails);
 		}
 
 		void OnShowDeviceDetails(Guid deviceUID)
@@ -161,6 +163,14 @@ namespace GKModule
 			if (pim != null)
 			{
 				DialogService.ShowWindow(new PimDetailsViewModel(pim));
+			}
+		}
+		void OnShowGuardZoneDetails(Guid guardZoneUID)
+		{
+			var guardZone = XManager.GuardZones.FirstOrDefault(x => x.BaseUID == guardZoneUID);
+			if (guardZone != null)
+			{
+				DialogService.ShowWindow(new GuardZoneDetailsViewModel(guardZone));
 			}
 		}
 		#endregion

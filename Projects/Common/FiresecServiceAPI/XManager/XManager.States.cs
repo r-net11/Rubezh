@@ -31,6 +31,11 @@ namespace FiresecClient
 				mpt.InternalState = new XMPTInternalState(mpt);
 				mpt.State = new XState(mpt);
 			}
+			foreach (var guardZone in GuardZones)
+			{
+				guardZone.InternalState = new XGuardZoneInternalState(guardZone);
+				guardZone.State = new XState(guardZone);
+			}
 		}
 
 		public static XStateClass GetMinStateClass()

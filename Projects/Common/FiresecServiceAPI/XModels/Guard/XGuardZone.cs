@@ -29,6 +29,12 @@ namespace FiresecAPI.GK
 		[DataMember]
 		public string Description { get; set; }
 
+		[DataMember]
+		public int Level { get; set; }
+
+		[DataMember]
+		public int Delay { get; set; }
+
 		public override string PresentationName
 		{
 			get { return No + "." + Name; }

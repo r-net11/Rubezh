@@ -2,7 +2,8 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
 		<Binary Id="FiresecDBSql" SourceFile="Data\FiresecDataBaseStructureSql.sql" />
-		<Binary Id="SKDScript" SourceFile="..\..\..\Common\SKDDriver\Scripts\Create.sql" />
+		<Binary Id="SKDCreateScript" SourceFile="..\..\..\Common\SKDDriver\Scripts\Create.sql" />
+    <Binary Id="SKDUpdateScript" SourceFile="..\..\..\Common\SKDDriver\Scripts\Patches.sql" />
 		<Binary Id="DestFolder.ico" SourceFile="Data\DestinationFolder.ico" />
 		<Binary Id="Up.ico" SourceFile="Data\Up.ico" />
 		<Binary Id="NewFolder.ico" SourceFile="Data\NewFolder.ico" />

@@ -25,6 +25,7 @@ namespace GKModule.ViewModels
 		public XMPT MPT { get; private set; }
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
+		public XGuardZone GuardZone { get; private set; }
 
 		public JournalItemViewModel(XJournalItem journalItem)
 		{
@@ -33,7 +34,6 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			JournalItem = journalItem;
-			IsExistsInConfig = true;
 
 			try
 			{
@@ -130,6 +130,14 @@ namespace GKModule.ViewModels
 						}
 						break;
 
+					case XJournalObjectType.GuardZone:
+						GuardZone = XManager.GuardZones.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+						if (GuardZone != null)
+						{
+							PresentationName = GuardZone.PresentationName;
+						}
+						break;
+
 					case XJournalObjectType.GkUser:
 						PresentationName = JournalItem.UserName;
 						break;
@@ -140,6 +148,7 @@ namespace GKModule.ViewModels
 						break;
 				}
 
+				IsExistsInConfig = true;
 				if (PresentationName == null)
 				{
 					PresentationName = JournalItem.ObjectName;
@@ -250,6 +259,10 @@ namespace GKModule.ViewModels
 						}
 					}
 					break;
+
+				case XJournalObjectType.GuardZone:
+					DialogService.ShowWindow(new GuardZoneDetailsViewModel(GuardZone));
+					break;
 			}
 		}
 		bool CanShowProperties()
@@ -266,6 +279,7 @@ namespace GKModule.ViewModels
 				case XJournalObjectType.MPT:
 				case XJournalObjectType.Delay:
 				case XJournalObjectType.Pim:
+				case XJournalObjectType.GuardZone:
 					return true;
 			}
 			return false;
@@ -330,6 +344,10 @@ namespace GKModule.ViewModels
 						}
 					}
 					break;
+
+				case XJournalObjectType.GuardZone:
+					ServiceFactory.Events.GetEvent<ShowXGuardZoneEvent>().Publish(JournalItem.ObjectUID);
+					break;
 			}
 		}
 
@@ -347,6 +365,7 @@ namespace GKModule.ViewModels
 				case XJournalObjectType.MPT:
 				case XJournalObjectType.Delay:
 				case XJournalObjectType.Pim:
+				case XJournalObjectType.GuardZone:
 				case XJournalObjectType.GK:
 					return true;
 			}
@@ -376,6 +395,12 @@ namespace GKModule.ViewModels
 						ShowOnPlanHelper.ShowDirection(Direction);
 					}
 					break;
+				case XJournalObjectType.GuardZone:
+					if (GuardZone != null)
+					{
+						ShowOnPlanHelper.ShowGuardZone(GuardZone);
+					}
+					break;
 			}
 		}
 		bool CanShowOnPlan()
@@ -401,6 +426,12 @@ namespace GKModule.ViewModels
 					if (Direction != null)
 					{
 						return ShowOnPlanHelper.CanShowDirection(Direction);
+					}
+					break;
+				case XJournalObjectType.GuardZone:
+					if (GuardZone != null)
+					{
+						return ShowOnPlanHelper.CanShowGuardZone(GuardZone);
 					}
 					break;
 			}

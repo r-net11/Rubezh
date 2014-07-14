@@ -19,6 +19,7 @@ namespace GKProcessor
 		public XMPT MPT { get; private set; }
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
+		public XGuardZone GuardZone { get; private set; }
 
 		public JournalParser(XDevice gkDevice, List<byte> bytes)
 		{
@@ -387,6 +388,13 @@ namespace GKProcessor
 					JournalItem.JournalObjectType = XJournalObjectType.Pim;
 					JournalItem.ObjectUID = Pim.BaseUID;
 					JournalItem.ObjectName = Pim.PresentationName;
+				}
+				GuardZone = XManager.GuardZones.FirstOrDefault(x => x.GKDescriptorNo == JournalItem.GKObjectNo);
+				if (GuardZone != null)
+				{
+					JournalItem.JournalObjectType = XJournalObjectType.GuardZone;
+					JournalItem.ObjectUID = GuardZone.BaseUID;
+					JournalItem.ObjectName = GuardZone.PresentationName;
 				}
 			}
 		}
