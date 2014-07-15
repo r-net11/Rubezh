@@ -74,6 +74,9 @@ namespace GKProcessor
 			AddDriverToKau_RSR2(RSR2_MVP_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(RSR2_MVP_Part_Helper.Create());
 
+			AddDriverToKau_RSR2(RSR2_CodeReader_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_GuardDetector_Helper.Create());
+
 			var kauShleifDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
 			var mvpPartDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_MVP_Part);
 			foreach (var driver in kauShleifDriver.Children)

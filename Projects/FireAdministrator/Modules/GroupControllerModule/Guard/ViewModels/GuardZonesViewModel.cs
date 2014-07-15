@@ -118,7 +118,7 @@ namespace GKModule.ViewModels
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var index = Zones.IndexOf(SelectedZone);
-				XManager.DeviceConfiguration.GuardZones.Remove(SelectedZone.Zone);
+				XManager.GuardZones.Remove(SelectedZone.Zone);
 				SelectedZone.Zone.OnChanged();
 				Zones.Remove(SelectedZone);
 				index = Math.Min(index, Zones.Count - 1);
@@ -135,12 +135,12 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?");
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				//var emptyZones = Zones.Where(x => x.Zone.Devices.Count == 0).ToList();
-				//foreach (var emptyZone in emptyZones)
-				//{
-				//	XManager.RemoveZone(emptyZone.Zone);
-				//	Zones.Remove(emptyZone);
-				//}
+				var emptyZones = Zones.Where(x => x.Zone.Devices.Count == 0).ToList();
+				foreach (var emptyZone in emptyZones)
+				{
+					XManager.GuardZones.Remove(emptyZone.Zone);
+					Zones.Remove(emptyZone);
+				}
 				SelectedZone = Zones.FirstOrDefault();
 				ServiceFactory.SaveService.GKChanged = true;
 			}
@@ -148,7 +148,7 @@ namespace GKModule.ViewModels
 
 		bool CanDeleteAllEmpty()
 		{
-			return false;// Zones.Any(x => x.Zone.Devices.Count == 0);
+			return Zones.Any(x => x.Zone.Devices.Count == 0);
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -161,7 +161,6 @@ namespace GKModule.ViewModels
 			var guardZoneDetailsViewModel = new GuardZoneDetailsViewModel(zone);
 			if (DialogService.ShowModalWindow(guardZoneDetailsViewModel))
 			{
-				//XManager.EditZone(SelectedZone.Zone);
 				SelectedZone.Update(guardZoneDetailsViewModel.Zone);
 				guardZoneDetailsViewModel.Zone.OnChanged();
 				ServiceFactory.SaveService.GKChanged = true;
@@ -257,14 +256,9 @@ namespace GKModule.ViewModels
 				if (elementZone != null)
 				{
 					OnZoneChanged(elementZone.ZoneUID);
-					//if (guid != Guid.Empty)
-					//	OnZoneChanged(guid);
-					//guid = elementZone.ZoneUID;
 				}
 			});
 			_lockSelection = false;
-			//if (guid != Guid.Empty)
-			//	OnZoneChanged(guid);
 		}
 		private void OnElementSelected(ElementBase element)
 		{

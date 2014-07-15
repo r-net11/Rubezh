@@ -11,6 +11,7 @@ namespace GKModule.Validation
 		void ValidateGuardZones()
 		{
 			ValidateGuardZoneNoEquality();
+			ValidateDevicesinGuardZone();
 
 			foreach (var guardZone in XManager.GuardZones)
 			{
@@ -38,10 +39,25 @@ namespace GKModule.Validation
 
 		void ValidateGuardZoneHasNoDevices(XGuardZone guardZone)
 		{
-			//if (guardZone.Devices.Count == 0)
-			//{
-			//    Errors.Add(new GuardZoneValidationError(guardZone, "К зоне не подключено ни одного устройства", ValidationErrorLevel.CannotWrite));
-			//}
+			if (guardZone.Devices.Count == 0)
+			{
+				Errors.Add(new GuardZoneValidationError(guardZone, "К зоне не подключено ни одного устройства", ValidationErrorLevel.CannotWrite));
+			}
+		}
+
+		void ValidateDevicesinGuardZone()
+		{
+			var devices = new HashSet<XDevice>();
+			foreach (var guardZone in XManager.GuardZones)
+			{
+				foreach (var device in guardZone.Devices)
+				{
+					if (!devices.Add(device))
+					{
+						Errors.Add(new GuardZoneValidationError(guardZone, "Устройство " + device.PresentationName + " уже подключено к другой зоне", ValidationErrorLevel.CannotWrite));
+					}
+				}
+			}
 		}
 	}
 }

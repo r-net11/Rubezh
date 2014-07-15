@@ -118,6 +118,8 @@
     <Compile Include="Drivers\GroupDevices\RM_3_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_4_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_5_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_CodeReader_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_GuardDetector_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_AM_1_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_AM_4_Group_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\Battery_Helper.cs" />

@@ -74,6 +74,7 @@ namespace FiresecAPI.GK
 			InitializePumpStations();
 			InitializeMPTs();
 			InitializeDelays();
+			InitializeGuardZones();
 			InitializeCodes();
 			UpdateGKChildrenDescription();
 		}
@@ -369,6 +370,25 @@ namespace FiresecAPI.GK
 					result.Clauses.Add(clause);
 			}
 			return result;
+		}
+
+		void InitializeGuardZones()
+		{
+			foreach (var guardZone in GuardZones)
+			{
+				var deviceUIDs = new List<Guid>();
+				guardZone.Devices = new List<XDevice>();
+				foreach (var deviceUID in guardZone.DeviceUIDs)
+				{
+					var device = Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+					if (device != null)
+					{
+						guardZone.Devices.Add(device);
+						deviceUIDs.Add(deviceUID);
+					}
+				}
+				guardZone.DeviceUIDs = deviceUIDs;
+			}
 		}
 
 		void InitializeCodes()

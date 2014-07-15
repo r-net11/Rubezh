@@ -27,79 +27,28 @@ namespace GKModule.ViewModels
 		{
 			Zone = zone;
 
-			var devices = new HashSet<XDevice>();
-			var availableDevices = new HashSet<XDevice>();
-
+			Devices = new ObservableCollection<GuardZoneDeviceViewModel>();
+			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.IsInMPT)
-					continue;
-
-				if (device.Driver.HasLogic)
+				if (device.DriverType == XDriverType.RSR2_GuardDetector)
 				{
-					foreach (var clause in device.DeviceLogic.ClausesGroup.Clauses)
+					var deviceViewModel = new GuardZoneDeviceViewModel(device);
+					if (Zone.DeviceUIDs.Contains(device.UID))
 					{
-						foreach (var clauseZone in clause.Zones)
-						{
-							if (clauseZone.BaseUID == zone.BaseUID)
-							{
-								devices.Add(device);
-							}
-						}
-					}
-				}
-
-				if (device.Driver.HasZone)
-				{
-					if (device.ZoneUIDs.Contains(Zone.BaseUID))
-					{
-						devices.Add(device);
+						Devices.Add(deviceViewModel);
 					}
 					else
 					{
-						if (device.ZoneUIDs.Count == 0)
-						{
-							availableDevices.Add(device);
-						}
+						AvailableDevices.Add(deviceViewModel);
 					}
 				}
 			}
-
-			Devices = new ObservableCollection<GuardZoneDeviceViewModel>();
-			foreach (var device in devices)
-			{
-				var deviceViewModel = new GuardZoneDeviceViewModel(device)
-				{
-					IsBold = device.ZoneUIDs.Contains(Zone.BaseUID)
-				};
-				Devices.Add(deviceViewModel);
-			}
-
-			var selectedDevice = Devices.LastOrDefault();
-			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
-			foreach (var device in availableDevices)
-			{
-				if ((device.DriverType == XDriverType.GKIndicator) ||
-					(device.DriverType == XDriverType.GKLine) ||
-					(device.DriverType == XDriverType.GKRele) ||
-					(device.DriverType == XDriverType.KAUIndicator))
-					continue;
-
-				var deviceViewModel = new GuardZoneDeviceViewModel(device)
-				{
-					IsBold = device.Driver.HasZone
-				};
-
-				AvailableDevices.Add(deviceViewModel);
-			}
-
-			var selectedAvailableDevice = AvailableDevices.LastOrDefault();
-			//AvailableDevices = new ObservableCollection<ZoneDeviceViewModel>(AvailableDevices.Where(x => x.Device.Parent == null));
 			OnPropertyChanged(() => Devices);
 			OnPropertyChanged(() => AvailableDevices);
 
-			SelectedDevice = selectedDevice;
-			SelectedAvailableDevice = selectedAvailableDevice;
+			SelectedDevice = Devices.LastOrDefault();
+			SelectedAvailableDevice = AvailableDevices.LastOrDefault();
 		}
 
 		public void Clear()
@@ -112,7 +61,7 @@ namespace GKModule.ViewModels
 
 		public void UpdateAvailableDevices()
 		{
-			OnPropertyChanged("AvailableDevices");
+			OnPropertyChanged(() => AvailableDevices);
 		}
 
 		public ObservableCollection<GuardZoneDeviceViewModel> Devices { get; private set; }
@@ -124,7 +73,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 
@@ -137,7 +86,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedAvailableDevice = value;
-				OnPropertyChanged("SelectedAvailableDevice");
+				OnPropertyChanged(() => SelectedAvailableDevice);
 			}
 		}
 
@@ -160,7 +109,8 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(availabledeviceViewModel);
 				AvailableDevices.Remove(availabledeviceViewModel);
-				//XManager.AddDeviceToZone(availabledeviceViewModel.Device, Zone);
+				Zone.DeviceUIDs.Add(availabledeviceViewModel.Device.UID);
+				Zone.Devices.Add(availabledeviceViewModel.Device);
 			}
 
 			Initialize(Zone);
@@ -199,7 +149,8 @@ namespace GKModule.ViewModels
 			{
 				AvailableDevices.Add(deviceViewModel);
 				Devices.Remove(deviceViewModel);
-				//XManager.RemoveDeviceFromZone(deviceViewModel.Device, Zone);
+				Zone.DeviceUIDs.Remove(deviceViewModel.Device.UID);
+				Zone.Devices.Remove(deviceViewModel.Device);
 			}
 
 			Initialize(Zone);

@@ -733,14 +733,14 @@
     <Resource Include="StateIcons\Unknown.png" />
     <Resource Include="Images\Alarm_MPT.png" />
     <Resource Include="StateIcons\No.png" />
-    <Resource Include="Images\write.png" />
-    <Resource Include="Images\read.png" />
+    <Resource Include="Images\Write.png" />
+    <Resource Include="Images\Read.png" />
     <Resource Include="Images\WidthToPage.png" />
     <Resource Include="Images\HeightToPage.png" />
-    <Resource Include="Images\readconfig.png" />
-    <Resource Include="Images\writeconfig.png" />
-    <Resource Include="Images\adrparameters.png" />
-    <Resource Include="Images\devparameters.png" />
+    <Resource Include="Images\Readconfig.png" />
+    <Resource Include="Images\Writeconfig.png" />
+    <Resource Include="Images\Adrparameters.png" />
+    <Resource Include="Images\Devparameters.png" />
     <Resource Include="Images\map2.png" />
     <Resource Include="Images\map3.png" />
     <Resource Include="Images\map1.png" />
@@ -749,7 +749,7 @@
     <Resource Include="Images\Arrow-up-left.png" />
     <Resource Include="FSIcons\FanControl.png" />
     <Resource Include="Images\Lamp.png" />
-    <Resource Include="Images\defconfig.png" />
+    <Resource Include="Images\Defconfig.png" />
     <Resource Include="FSIcons\PDU_PT.png" />
     <Resource Include="FSIcons\PDU_PTDirection.png" />
     <Resource Include="StateClassIcons\Failure.png" />
@@ -880,8 +880,8 @@
     <Resource Include="Images\BLogic.png" />
     <Resource Include="Images\BPasteAll.png" />
     <Resource Include="Images\BBriefcaseAll.png" />
-    <Resource Include="Images\writeconfig_all.png" />
-    <Resource Include="Images\readconfig_all.png" />
+    <Resource Include="Images\Writeconfig_all.png" />
+    <Resource Include="Images\Readconfig_all.png" />
     <Resource Include="Images\BMoveBack.png" />
     <Resource Include="Images\BMoveBackward.png" />
     <Resource Include="Images\BMoveForward.png" />
@@ -980,8 +980,8 @@
     <Resource Include="FSIcons\RSR2_Siren.png" />
     <Resource Include="FSIcons\RSR2_Table.png" />
     <Resource Include="Images\blank.png" />
-    <Resource Include="GKIcons\battery.png" />
-    <Resource Include="Images\nextDifference.png" />
+    <Resource Include="GKIcons\Battery.png" />
+    <Resource Include="Images\NextDifference.png" />
     <Resource Include="Images\previousDifference.png" />
     <Resource Include="Images\Exit.png" />
     <Resource Include="Images\Watch.png" />
@@ -1219,7 +1219,7 @@
     <Resource Include="Images\ShedulesDaylyW.png" />
     <Resource Include="Images\ShedulesMonthlyW.png" />
     <Resource Include="Images\SKDW.png" />
-    <Resource Include="Images\stock_macro-stop-after-procedure.png" />
+    <Resource Include="Images\Stock_macro-stop-after-procedure.png" />
     <Resource Include="Images\TimeTrackingW.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1230,6 +1230,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\GuardZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_GuardDetector.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\RSR2_CodeReader.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
