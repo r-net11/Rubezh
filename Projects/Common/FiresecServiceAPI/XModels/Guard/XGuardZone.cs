@@ -13,9 +13,12 @@ namespace FiresecAPI.GK
 		{
 			UID = BaseUID;
 			PlanElementUIDs = new List<Guid>();
+			Devices = new List<XDevice>();
 		}
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.GuardZone; } }
+
+		public List<XDevice> Devices { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }

@@ -14,10 +14,10 @@ namespace FiresecAPI.GK
 			UID = BaseUID;// Guid.NewGuid();
 			Fire1Count = 2;
 			Fire2Count = 3;
+			PlanElementUIDs = new List<Guid>();
 			Devices = new List<XDevice>();
 			Directions = new List<XDirection>();
 			DevicesInLogic = new List<XDevice>();
-			PlanElementUIDs = new List<Guid>();
 		}
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Zone; } }

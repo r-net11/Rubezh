@@ -20,7 +20,7 @@ namespace GKModule.Validation
 			ValidatePumpStations();
 			ValidateMPTs();
 			ValidateDelays();
-			ValidateGuardUsers();
+			ValidateCodes();
 			ValidateGuardZones();
 			return Errors;
 		}

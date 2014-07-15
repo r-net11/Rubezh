@@ -8,11 +8,11 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class UserViewModel : BaseViewModel
+	public class CodeViewModel : BaseViewModel
 	{
-		public UserViewModel(XGuardUser guardUser)
+		public CodeViewModel(XCode code)
 		{
-			GuardUser = guardUser;
+			Code = code;
 			AddZoneCommand = new RelayCommand(OnAddZone, CanAdd);
 			RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemove);
 
@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 			foreach (var guardZone in XManager.DeviceConfiguration.GuardZones)
 			{
 				var zoneViewModel = new GuardZoneViewModel(guardZone);
-				if (GuardUser.ZoneUIDs.Contains(guardZone.BaseUID))
+				if (Code.GuardZoneUIDs.Contains(guardZone.BaseUID))
 					Zones.Add(zoneViewModel);
 				else
 					SourceZones.Add(zoneViewModel);
@@ -32,20 +32,20 @@ namespace GKModule.ViewModels
 			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
-		XGuardUser _guardUser;
-		public XGuardUser GuardUser
+		XCode _code;
+		public XCode Code
 		{
-			get { return _guardUser; }
+			get { return _code; }
 			set
 			{
-				_guardUser = value;
-				OnPropertyChanged("GuardUser");
+				_code = value;
+				OnPropertyChanged(() => Code);
 			}
 		}
 
 		public void Update()
 		{
-			OnPropertyChanged("GuardUser");
+			OnPropertyChanged(() => Code);
 		}
 
 		public ObservableCollection<GuardZoneViewModel> Zones { get; private set; }
@@ -83,7 +83,7 @@ namespace GKModule.ViewModels
 		{
 			int oldIndex = SourceZones.IndexOf(SelectedSourceZone);
 
-			GuardUser.ZoneUIDs.Add(SelectedSourceZone.Zone.BaseUID);
+			Code.GuardZoneUIDs.Add(SelectedSourceZone.Zone.BaseUID);
 			Zones.Add(SelectedSourceZone);
 			SourceZones.Remove(SelectedSourceZone);
 
@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 		{
 			int oldIndex = Zones.IndexOf(SelectedZone);
 
-			GuardUser.ZoneUIDs.Remove(SelectedZone.Zone.BaseUID);
+			Code.GuardZoneUIDs.Remove(SelectedZone.Zone.BaseUID);
 			SourceZones.Add(SelectedZone);
 			Zones.Remove(SelectedZone);
 

@@ -4,11 +4,11 @@ namespace GKModule.ViewModels
 {
 	class GuardMenuViewModel : BaseViewModel
 	{
-		public GuardMenuViewModel(GuardViewModel context)
+		public GuardMenuViewModel(CodesViewModel context)
 		{
 			Context = context;
 		}
 
-		public GuardViewModel Context { get; private set; }
+		public CodesViewModel Context { get; private set; }
 	}
 }

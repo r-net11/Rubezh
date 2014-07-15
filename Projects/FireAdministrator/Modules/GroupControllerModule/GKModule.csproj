@@ -119,7 +119,7 @@
     <Compile Include="Events\ShowXDiagnosticsEvent.cs" />
     <Compile Include="Events\ShowXDirectionEvent.cs" />
     <Compile Include="Events\ShowXGuardEvent.cs" />
-    <Compile Include="Events\ShowXGuardUserEvent.cs" />
+    <Compile Include="Events\ShowXCodeEvent.cs" />
     <Compile Include="Events\ShowXGuardZoneEvent.cs" />
     <Compile Include="Events\ShowXInstructionsEvent.cs" />
     <Compile Include="Events\ShowXJournalFilterEvent.cs" />
@@ -131,21 +131,21 @@
     <Compile Include="Events\ShowXPumpStationEvent.cs" />
     <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Events\ShowXDelayStationEvent.cs" />
-    <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
+    <Compile Include="Guard\ViewModels\CodesMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\CodesViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZoneDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZoneDevicesViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZoneDeviceViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZonesMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZonesViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardZoneViewModel.cs" />
-    <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
-    <Compile Include="Guard\ViewModels\UserViewModel.cs" />
-    <Compile Include="Guard\Views\GuardMenuView.xaml.cs">
-      <DependentUpon>GuardMenuView.xaml</DependentUpon>
+    <Compile Include="Guard\ViewModels\CodeDetailsViewModel.cs" />
+    <Compile Include="Guard\ViewModels\CodeViewModel.cs" />
+    <Compile Include="Guard\Views\CodesMenuView.xaml.cs">
+      <DependentUpon>CodesMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\GuardView.xaml.cs">
-      <DependentUpon>GuardView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\CodesView.xaml.cs">
+      <DependentUpon>CodesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Guard\Views\GuardZoneDetailsView.xaml.cs">
       <DependentUpon>GuardZoneDetailsView.xaml</DependentUpon>
@@ -156,8 +156,8 @@
     <Compile Include="Guard\Views\GuardZonesView.xaml.cs">
       <DependentUpon>GuardZonesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\UserDetailsView.xaml.cs">
-      <DependentUpon>UserDetailsView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\CodeDetailsView.xaml.cs">
+      <DependentUpon>CodeDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Instructions\Converters\DirectionsToStringConverter.cs" />
     <Compile Include="Journal\ViewModels\JournalFromFileViewModel.cs" />
@@ -370,8 +370,8 @@
     <Compile Include="Selectation\Views\DelaysSelectationView.xaml.cs">
       <DependentUpon>DelaysSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Validation\GuardUserValidationError.cs" />
-    <Compile Include="Validation\Validator.GuardUsers.cs" />
+    <Compile Include="Validation\CodeValidationError.cs" />
+    <Compile Include="Validation\Validator.Codes.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Validation\DirectionValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
@@ -581,15 +581,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\GuardMenuView.xaml">
+    <Page Include="Guard\Views\CodesMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Guard\Views\GuardView.xaml">
+    <Page Include="Guard\Views\CodesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\UserDetailsView.xaml">
+    <Page Include="Guard\Views\CodeDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

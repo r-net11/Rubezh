@@ -31,7 +31,7 @@ namespace GKModule
 		PumpStationsViewModel PumpStationsViewModel;
 		MPTsViewModel MPTsViewModel;
 		DelaysViewModel DelaysViewModel;
-		GuardViewModel GuardViewModel;
+		CodesViewModel CodesViewModel;
 		GuardZonesViewModel GuardZonesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
@@ -58,7 +58,7 @@ namespace GKModule
 			PumpStationsViewModel = new PumpStationsViewModel();
 			MPTsViewModel = new MPTsViewModel();
 			DelaysViewModel = new DelaysViewModel();
-			GuardViewModel = new GuardViewModel();
+			CodesViewModel = new CodesViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
@@ -79,7 +79,7 @@ namespace GKModule
 			PumpStationsViewModel.Initialize();
 			MPTsViewModel.Initialize();
 			DelaysViewModel.Initialize();
-			GuardViewModel.Initialize();
+			CodesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 			OPCDevicesViewModel.Initialize();
@@ -107,7 +107,7 @@ namespace GKModule
 					new NavigationItem("Охрана", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
-							new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/User.png", null, null, Guid.Empty),
+							new NavigationItem<ShowXGuardEvent, Guid>(CodesViewModel, "Коды", "/Controls;component/Images/User.png", null, null, Guid.Empty),
 							new NavigationItem<ShowXGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 						}),
 

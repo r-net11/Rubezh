@@ -5,12 +5,12 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.GK
 {
 	[DataContract]
-	public class XGuardUser
+	public class XCode
 	{
-		public XGuardUser()
+		public XCode()
 		{
 			UID = Guid.NewGuid();
-			ZoneUIDs = new List<Guid>();
+			GuardZoneUIDs = new List<Guid>();
 		}
 
 		[DataMember]
@@ -23,20 +23,14 @@ namespace FiresecAPI.GK
 		public string Password { get; set; }
 
 		[DataMember]
-		public string FIO { get; set; }
-
-		[DataMember]
-		public string Function { get; set; }
-
-		[DataMember]
 		public bool CanSetZone { get; set; }
 
 		[DataMember]
 		public bool CanUnSetZone { get; set; }
 
 		[DataMember]
-		public List<Guid> ZoneUIDs { get; set; }
+		public List<Guid> GuardZoneUIDs { get; set; }
 
-		public List<XZone> Zones { get; set; }
+		public List<XGuardZone> GuardZones { get; set; }
 	}
 }

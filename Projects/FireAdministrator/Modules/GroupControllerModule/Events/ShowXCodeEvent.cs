@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace GKModule.Events
 {
-	public class ShowXGuardUserEvent : CompositePresentationEvent<Guid>
+	public class ShowXCodeEvent : CompositePresentationEvent<Guid>
 	{
 	}
 }

@@ -2,9 +2,9 @@
 
 namespace GKModule.Views
 {
-	public partial class UserDetailsView : UserControl
+	public partial class CodesMenuView : UserControl
 	{
-		public UserDetailsView()
+		public CodesMenuView()
 		{
 			InitializeComponent();
 		}

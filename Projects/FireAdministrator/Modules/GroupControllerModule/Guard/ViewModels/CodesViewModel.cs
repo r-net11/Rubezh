@@ -14,9 +14,9 @@ using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
-	public class GuardViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
+	public class CodesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
-		public GuardViewModel()
+		public CodesViewModel()
 		{
 			Menu = new GuardMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
@@ -28,38 +28,38 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			Users = new ObservableCollection<UserViewModel>();
-			foreach (var guardUser in XManager.DeviceConfiguration.GuardUsers)
+			Codes = new ObservableCollection<CodeViewModel>();
+			foreach (var code in XManager.DeviceConfiguration.Codes)
 			{
-				var userViewModel = new UserViewModel(guardUser);
-				Users.Add(userViewModel);
+				var codeViewModel = new CodeViewModel(code);
+				Codes.Add(codeViewModel);
 			}
-			SelectedUser = Users.FirstOrDefault();
+			SelectedCode = Codes.FirstOrDefault();
 		}
 
-		public ObservableCollection<UserViewModel> Users { get; private set; }
+		public ObservableCollection<CodeViewModel> Codes { get; private set; }
 
-		UserViewModel _selectedUser;
-		public UserViewModel SelectedUser
+		CodeViewModel _selectedCode;
+		public CodeViewModel SelectedCode
 		{
-			get { return _selectedUser; }
+			get { return _selectedCode; }
 			set
 			{
-				_selectedUser = value;
-				OnPropertyChanged("SelectedUser");
+				_selectedCode = value;
+				OnPropertyChanged(() => SelectedCode);
 			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var userDetailsViewModel = new UserDetailsViewModel();
-			if (DialogService.ShowModalWindow(userDetailsViewModel))
+			var codeDetailsViewModel = new CodeDetailsViewModel();
+			if (DialogService.ShowModalWindow(codeDetailsViewModel))
 			{
-				XManager.DeviceConfiguration.GuardUsers.Add(userDetailsViewModel.GuardUser);
-				var userViewModel = new UserViewModel(userDetailsViewModel.GuardUser);
-				Users.Add(userViewModel);
-				SelectedUser = userViewModel;
+				XManager.DeviceConfiguration.Codes.Add(codeDetailsViewModel.Code);
+				var codeViewModel = new CodeViewModel(codeDetailsViewModel.Code);
+				Codes.Add(codeViewModel);
+				SelectedCode = codeViewModel;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -67,31 +67,31 @@ namespace GKModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			int oldIndex = Users.IndexOf(SelectedUser);
+			int oldIndex = Codes.IndexOf(SelectedCode);
 
-			XManager.DeviceConfiguration.GuardUsers.Remove(SelectedUser.GuardUser);
-			Users.Remove(SelectedUser);
-			SelectedUser = Users.FirstOrDefault();
+			XManager.DeviceConfiguration.Codes.Remove(SelectedCode.Code);
+			Codes.Remove(SelectedCode);
+			SelectedCode = Codes.FirstOrDefault();
 			ServiceFactory.SaveService.GKChanged = true;
 
-			if (Users.Count > 0)
-				SelectedUser = Users[System.Math.Min(oldIndex, Users.Count - 1)];
+			if (Codes.Count > 0)
+				SelectedCode = Codes[System.Math.Min(oldIndex, Codes.Count - 1)];
 		}
 
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var userDetailsViewModel = new UserDetailsViewModel(SelectedUser.GuardUser);
-			if (DialogService.ShowModalWindow(userDetailsViewModel))
+			var codeDetailsViewModel = new CodeDetailsViewModel(SelectedCode.Code);
+			if (DialogService.ShowModalWindow(codeDetailsViewModel))
 			{
-				SelectedUser.GuardUser = userDetailsViewModel.GuardUser;
+				SelectedCode.Code = codeDetailsViewModel.Code;
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
 		bool CanEditDelete()
 		{
-			return (SelectedUser != null);
+			return (SelectedCode != null);
 		}
 
 		void RegisterShortcuts()
@@ -115,10 +115,10 @@ namespace GKModule.ViewModels
 		}
 
 		#region ISelectable<Guid> Members
-		public void Select(Guid userUID)
+		public void Select(Guid codeUID)
 		{
-			if (userUID != Guid.Empty)
-				SelectedUser = Users.FirstOrDefault(x => x.GuardUser.UID == userUID);
+			if (codeUID != Guid.Empty)
+				SelectedCode = Codes.FirstOrDefault(x => x.Code.UID == codeUID);
 		}
 		#endregion
 	}

@@ -5,21 +5,21 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class UserDetailsViewModel : SaveCancelDialogViewModel
+	public class CodeDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public XGuardUser GuardUser { get; private set; }
+		public XCode Code { get; private set; }
 
-		public UserDetailsViewModel(XGuardUser guardUser = null)
+		public CodeDetailsViewModel(XCode code = null)
 		{
-			if (guardUser == null)
+			if (code == null)
 			{
-				Title = "Создать пользователя";
-				GuardUser = new XGuardUser();
+				Title = "Создать код";
+				Code = new XCode();
 			}
 			else
 			{
-				Title = "Редактировать пользователя";
-				GuardUser = guardUser;
+				Title = "Редактировать код";
+				Code = code;
 			}
 
 			CopyProperies();
@@ -27,22 +27,18 @@ namespace GKModule.ViewModels
 
 		void CopyProperies()
 		{
-			Name = GuardUser.Name;
-			Password = GuardUser.Password;
-			FIO = GuardUser.FIO;
-			Function = GuardUser.Function;
-			CanSetZone = GuardUser.CanSetZone;
-			CanUnSetZone = GuardUser.CanUnSetZone;
+			Name = Code.Name;
+			Password = Code.Password;
+			CanSetZone = Code.CanSetZone;
+			CanUnSetZone = Code.CanUnSetZone;
 		}
 
 		void SaveProperies()
 		{
-			GuardUser.Name = Name;
-			GuardUser.Password = Password;
-			GuardUser.FIO = FIO;
-			GuardUser.Function = Function;
-			GuardUser.CanSetZone = CanSetZone;
-			GuardUser.CanUnSetZone = CanUnSetZone;
+			Code.Name = Name;
+			Code.Password = Password;
+			Code.CanSetZone = CanSetZone;
+			Code.CanUnSetZone = CanUnSetZone;
 		}
 
 		string _name;
@@ -68,28 +64,6 @@ namespace GKModule.ViewModels
 				if ((_password != null) && (_password.Length > 6))
 					_password = _password.Substring(0, 6);
 				OnPropertyChanged("Password");
-			}
-		}
-
-		string _FIO;
-		public string FIO
-		{
-			get { return _FIO; }
-			set
-			{
-				_FIO = value;
-				OnPropertyChanged("FIO");
-			}
-		}
-
-		string _function;
-		public string Function
-		{
-			get { return _function; }
-			set
-			{
-				_function = value;
-				OnPropertyChanged("Function");
 			}
 		}
 

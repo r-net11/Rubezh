@@ -5,10 +5,10 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	public class GuardUserValidationError : ObjectValidationError<XGuardUser, ShowXGuardEvent, Guid>
+	public class CodeValidationError : ObjectValidationError<XCode, ShowXGuardEvent, Guid>
 	{
-		public GuardUserValidationError(XGuardUser guardUser, string error, ValidationErrorLevel level)
-			: base(guardUser, error, level)
+		public CodeValidationError(XCode code, string error, ValidationErrorLevel level)
+			: base(code, error, level)
 		{
 		}
 
