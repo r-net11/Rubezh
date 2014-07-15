@@ -57,7 +57,7 @@ namespace GKModule.ViewModels
 				{
 					case 0x100:
 						TypeName = "Зона";
-						ImageSource = "/Controls;component/Images/zone.png";
+						ImageSource = "/Controls;component/Images/Zone.png";
 						break;
 
 					case 0x101:
@@ -73,6 +73,11 @@ namespace GKModule.ViewModels
 					case 0x107:
 						TypeName = "ПИМ";
 						ImageSource = "/Controls;component/Images/Pim.png";
+						break;
+
+					case 0x108:
+						TypeName = "Охранная зона";
+						ImageSource = "/Controls;component/Images/GuardZone.png";
 						break;
 				}
 			}
@@ -133,6 +138,14 @@ namespace GKModule.ViewModels
 						}
 						break;
 
+					case XJournalObjectType.GuardZone:
+						var guardZone = XManager.GuardZones.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
+						if (guardZone != null)
+						{
+							PresentationName = guardZone.PresentationName;
+						}
+						break;
+
 					case XJournalObjectType.GkUser:
 						PresentationName = JournalItem.UserName;
 						break;
@@ -189,6 +202,13 @@ namespace GKModule.ViewModels
 						ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>().Publish(JournalItem.ObjectUID);
 					}
 					break;
+
+				case XJournalObjectType.GuardZone:
+					if (XManager.GuardZones.Any(x => x.BaseUID == JournalItem.ObjectUID))
+					{
+						ServiceFactory.Events.GetEvent<ShowXGuardZoneEvent>().Publish(JournalItem.ObjectUID);
+					}
+					break;
 			}
 		}
 		bool CanShowObject()
@@ -199,6 +219,7 @@ namespace GKModule.ViewModels
 				case XJournalObjectType.Zone:
 				case XJournalObjectType.Direction:
 				case XJournalObjectType.PumpStation:
+				case XJournalObjectType.GuardZone:
 					return true;
 			}
 			return false;

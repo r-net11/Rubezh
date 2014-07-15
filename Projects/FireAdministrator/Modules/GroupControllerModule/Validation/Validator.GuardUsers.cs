@@ -7,7 +7,7 @@ namespace GKModule.Validation
 {
 	public partial class Validator
 	{
-		void ValidateGuard()
+		void ValidateGuardUsers()
 		{
 			ValidateGuardPasswordEquality();
 

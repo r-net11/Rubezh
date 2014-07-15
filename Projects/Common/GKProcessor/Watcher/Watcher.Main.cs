@@ -490,6 +490,10 @@ namespace GKProcessor
 					xBase.State.PresentationName = xBase.PresentationName;
 					gkStates.PimStates.Add(xBase.State);
 				}
+				if (xBase is XGuardZone)
+				{
+					gkStates.GuardZoneStates.Add(xBase.State);
+				}
 			}
 		}
 

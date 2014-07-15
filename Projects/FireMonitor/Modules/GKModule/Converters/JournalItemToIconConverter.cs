@@ -41,7 +41,7 @@ namespace GKModule.Converters
 					return "/Controls;component/Images/BMPT.png";
 
 				case XJournalObjectType.GuardZone:
-					return "/Controls;component/Images/Zone.png";
+					return "/Controls;component/Images/GuardZone.png";
 
 				default:
 					return "/Controls;component/Images/Blank.png";

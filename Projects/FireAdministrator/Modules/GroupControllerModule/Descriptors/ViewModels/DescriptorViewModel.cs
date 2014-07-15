@@ -53,7 +53,7 @@ namespace GKModule.ViewModels
 					break;
 
 				case DescriptorType.GuardZone:
-					ImageSource = "/Controls;component/Images/Zone.png";
+					ImageSource = "/Controls;component/Images/GuardZone.png";
 					Description = descriptor.GuardZone.Description;
 					break;
 			}

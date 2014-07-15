@@ -17,7 +17,7 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" Visibility="{Binding HasOldZone, Converter={StaticResource BoolToVisibilityConverter}}"/>
+							<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" Visibility="{Binding HasOldZone, Converter={StaticResource BoolToVisibilityConverter}}"/>
 							<TextBlock Text="{Binding OldZoneName}" VerticalAlignment="Center"/>	
 						</StackPanel>
 					</DataTemplate>
@@ -27,7 +27,7 @@
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
-							<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/zone.png" Visibility="{Binding HasNewZone, Converter={StaticResource BoolToVisibilityConverter}}"/>
+							<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" Visibility="{Binding HasNewZone, Converter={StaticResource BoolToVisibilityConverter}}"/>
 							<TextBlock Text="{Binding NewZoneName}" VerticalAlignment="Center"/>
 						</StackPanel>
 					</DataTemplate>

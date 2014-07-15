@@ -234,7 +234,7 @@ namespace GKProcessor
 				return true;
 			}
 
-			if(internalType == 0x100 || internalType == 0x106)
+			if (internalType == 0x100 || internalType == 0x106 || internalType == 0x108)
 			{
 				var isMPT = false;
 				var isPumpStation = false;
@@ -302,6 +302,17 @@ namespace GKProcessor
 						};
 						DeviceConfiguration.Directions.Add(direction);
 					}
+					return true;
+				}
+				if (internalType == 0x108)
+				{
+					var guardZone = new XGuardZone
+					{
+						Name = description,
+						No = no,
+						GkDatabaseParent = GkDevice
+					};
+					DeviceConfiguration.GuardZones.Add(guardZone);
 					return true;
 				}
 			}

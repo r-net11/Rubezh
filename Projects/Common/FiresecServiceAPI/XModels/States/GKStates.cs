@@ -15,6 +15,7 @@ namespace FiresecAPI.GK
 			MPTStates = new List<XState>();
 			DelayStates = new List<XState>();
 			PimStates = new List<XState>();
+			GuardZoneStates = new List<XState>();
 			DeviceMeasureParameters = new List<XDeviceMeasureParameters>();
 		}
 
@@ -38,6 +39,9 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public List<XState> PimStates { get; set; }
+
+		[DataMember]
+		public List<XState> GuardZoneStates { get; set; }
 
 		[DataMember]
 		public List<XDeviceMeasureParameters> DeviceMeasureParameters { get; set; }

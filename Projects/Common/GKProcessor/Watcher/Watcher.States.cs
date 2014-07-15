@@ -87,6 +87,10 @@ namespace GKProcessor
 			{
 				CheckDelay(delay);
 			}
+			foreach (var guardZone in XManager.GuardZones)
+			{
+				CheckDelay(guardZone);
+			}
 		}
 
 		void CheckDelay(XBase xBase)
@@ -268,6 +272,14 @@ namespace GKProcessor
 					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_ПИМ;
 				}
 			}
+			if (xBase is XGuardZone)
+			{
+				if (descriptorStateHelper.TypeNo != 0x108)
+				{
+					isMissmatch = true;
+					DBMissmatchDuringMonitoringReason = JournalEventDescriptionType.Не_совпадает_тип_для_охранной_зоны;
+				}
+			}
 
 			var stringLength = Math.Min(xBase.PresentationName.Length, 32);
 			var description = xBase.PresentationName.Substring(0, stringLength);
@@ -369,6 +381,13 @@ namespace GKProcessor
 				if (pim.GkDatabaseParent == gkDevice)
 				{
 					OnObjectStateChanged(pim);
+				}
+			}
+			foreach (var guardZone in XManager.GuardZones)
+			{
+				if (guardZone.GkDatabaseParent == gkDevice)
+				{
+					OnObjectStateChanged(guardZone);
 				}
 			}
 		}

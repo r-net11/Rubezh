@@ -93,6 +93,8 @@ namespace GKModule.ViewModels
 				ArchiveFilter.MPTUIDs.Add(showXArchiveEventArgs.MPT.BaseUID);
 			if (showXArchiveEventArgs.Delay != null)
 				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.BaseUID);
+			if (showXArchiveEventArgs.GuardZone != null)
+				ArchiveFilter.GuardZoneUIDs.Add(showXArchiveEventArgs.GuardZone.BaseUID);
 			IsFilterOn = true;
 			OnPropertyChanged("IsFilterExists");
 		}

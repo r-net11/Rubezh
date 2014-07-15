@@ -120,7 +120,7 @@
     <Compile Include="Events\ShowXDirectionEvent.cs" />
     <Compile Include="Events\ShowXGuardEvent.cs" />
     <Compile Include="Events\ShowXGuardUserEvent.cs" />
-    <Compile Include="Events\ShowXGuardZonesEvent.cs" />
+    <Compile Include="Events\ShowXGuardZoneEvent.cs" />
     <Compile Include="Events\ShowXInstructionsEvent.cs" />
     <Compile Include="Events\ShowXJournalFilterEvent.cs" />
     <Compile Include="Events\ShowXMPTEvent.cs" />
@@ -371,7 +371,7 @@
       <DependentUpon>DelaysSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\GuardUserValidationError.cs" />
-    <Compile Include="Validation\Validator.Guard.cs" />
+    <Compile Include="Validation\Validator.GuardUsers.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Validation\DirectionValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
@@ -385,6 +385,8 @@
     <Compile Include="Validation\Validator.MPTs.cs" />
     <Compile Include="Validation\DelayValidationError.cs" />
     <Compile Include="Validation\Validator.Delays.cs" />
+    <Compile Include="Validation\GuardZoneValidationError.cs" />
+    <Compile Include="Validation\Validator.GuardZones.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDeviceViewModel.cs" />

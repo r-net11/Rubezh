@@ -237,9 +237,9 @@ namespace GKModule.Plans
 		public override void RegisterDesignerItem(DesignerItem designerItem)
 		{
 			if (designerItem.Element is ElementRectangleXZone || designerItem.Element is ElementPolygonXZone)
-				RegisterDesignerItem<XZone>(designerItem, "XZone", "/Controls;component/Images/zone.png");
+				RegisterDesignerItem<XZone>(designerItem, "XZone", "/Controls;component/Images/Zone.png");
 			else if (designerItem.Element is ElementRectangleXGuardZone || designerItem.Element is ElementPolygonXGuardZone)
-				RegisterDesignerItem<XGuardZone>(designerItem, "XGuardZone", "/Controls;component/Images/zone.png");
+				RegisterDesignerItem<XGuardZone>(designerItem, "XGuardZone", "/Controls;component/Images/GuardZone.png");
 			else if (designerItem.Element is ElementXDevice)
 			{
 				RegisterDesignerItem<XDevice>(designerItem, "GK");

@@ -37,6 +37,7 @@ namespace GKModule.ViewModels
 		public XPumpStation PumpStation;
 		public XMPT MPT;
 		public XDelay Delay;
+		public XGuardZone GuardZone;
 		public string ImageSource { get; private set; }
 		public ObjectType ObjectType { get; private set; }
 		public object Clone()
@@ -58,7 +59,7 @@ namespace GKModule.ViewModels
 		{
 			Zone = zone;
 			Name = zone.PresentationName;
-			ImageSource = "/Controls;component/Images/zone.png";
+			ImageSource = "/Controls;component/Images/Zone.png";
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Zone;
@@ -102,6 +103,16 @@ namespace GKModule.ViewModels
 			Address = "";
 			PresentationZone = "";
 			ObjectType = ObjectType.Delay;
+		}
+
+		public ObjectViewModel(XGuardZone guardZone)
+		{
+			GuardZone = guardZone;
+			Name = guardZone.PresentationName;
+			ImageSource = "/Controls;component/Images/GuardZone.png";
+			Address = "";
+			PresentationZone = "";
+			ObjectType = ObjectType.GuardZone;
 		}
 
 		int IComparable.CompareTo(object a)
@@ -169,6 +180,15 @@ namespace GKModule.ViewModels
 			{
 				return string.Compare(object1.Delay.Name, object2.Delay.Name);
 			}
+
+			if (object1.ObjectType == ObjectType.GuardZone)
+			{
+				if (object1.GuardZone.No > object2.GuardZone.No)
+					return 1;
+				if (object1.GuardZone.No < object2.GuardZone.No)
+					return -1;
+				return 0;
+			}
 			return 0;
 		}
 	}
@@ -180,6 +200,7 @@ namespace GKModule.ViewModels
 		Direction = 2,
 		PumpStation = 3,
 		MPT = 4,
-		Delay = 5
+		Delay = 5,
+		GuardZone = 6,
 	}
 }

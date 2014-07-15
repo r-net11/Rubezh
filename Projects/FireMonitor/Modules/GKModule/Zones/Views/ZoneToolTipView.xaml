@@ -11,7 +11,7 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/zone.png" />
+			<Image Margin="2" Width="16" Height="16" Source="/Controls;component/Images/Zone.png" />
 			<TextBlock Text="{Binding Zone.PresentationName}" FontWeight="Bold" />
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">

@@ -80,8 +80,8 @@ namespace JournalModule.ViewModels
 					{
 						ObjectName = Device.PresentationName;
 						ObjectImageSource = Device.Driver.ImageSource;
-						ShowObjectEvent = new ShowXDeviceEvent();
-						ShowObjectDetailsEvent = new ShowXDeviceDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXDeviceEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>();
 					}
 					break;
 
@@ -90,8 +90,8 @@ namespace JournalModule.ViewModels
 					if (Zone != null)
 					{
 						ObjectName = Zone.PresentationName;
-						ShowObjectEvent = new ShowXZoneEvent();
-						ShowObjectDetailsEvent = new ShowXZoneDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXZoneEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXZoneDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/Zone.png";
 					break;
@@ -101,8 +101,8 @@ namespace JournalModule.ViewModels
 					if (Direction != null)
 					{
 						ObjectName = Direction.PresentationName;
-						ShowObjectEvent = new ShowXDirectionEvent();
-						ShowObjectDetailsEvent = new ShowXDirectionDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXDirectionEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDirectionDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/Blue_Direction.png";
 					break;
@@ -112,8 +112,8 @@ namespace JournalModule.ViewModels
 					if (PumpStation != null)
 					{
 						ObjectName = PumpStation.PresentationName;
-						ShowObjectEvent = new ShowXPumpStationEvent();
-						ShowObjectDetailsEvent = new ShowXPumpStationDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXPumpStationDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
 					break;
@@ -123,8 +123,8 @@ namespace JournalModule.ViewModels
 					if (MPT != null)
 					{
 						ObjectName = MPT.PresentationName;
-						ShowObjectEvent = new ShowXMPTEvent();
-						ShowObjectDetailsEvent = new ShowXMPTDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXMPTEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXMPTDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/BMPT.png";
 					break;
@@ -134,8 +134,8 @@ namespace JournalModule.ViewModels
 					if (Delay != null)
 					{
 						ObjectName = Delay.PresentationName;
-						ShowObjectEvent = new ShowXDelayEvent();
-						ShowObjectDetailsEvent = new ShowXDelayDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXDelayEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>();
 						ObjectImageSource = "/Controls;component/Images/Delay.png";
 					}
 					else
@@ -144,16 +144,16 @@ namespace JournalModule.ViewModels
 						if (Delay != null)
 						{
 							ObjectName = Delay.PresentationName;
-							ShowObjectEvent = new ShowXDelayEvent();
-							ShowObjectDetailsEvent = new ShowXDelayDetailsEvent();
+							ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXDelayEvent>();
+							ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXDelayDetailsEvent>();
 							if (Delay.PumpStationUID != Guid.Empty)
 							{
 								PumpStation = XManager.PumpStations.FirstOrDefault(x => x.BaseUID == Delay.PumpStationUID);
 								if (PumpStation != null)
 								{
 									ObjectName += " (" + PumpStation.PresentationName + ")";
-									ShowObjectEvent = new ShowXPumpStationEvent();
-									ShowObjectDetailsEvent = new ShowXPumpStationDetailsEvent();
+									ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>();
+									ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXPumpStationDetailsEvent>();
 									ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
 									break;
 								}
@@ -167,8 +167,8 @@ namespace JournalModule.ViewModels
 					if (Pim != null)
 					{
 						ObjectName = Pim.PresentationName;
-						ShowObjectEvent = new ShowXPimEvent();
-						ShowObjectDetailsEvent = new ShowXPIMDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXPimEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXPIMDetailsEvent>();
 						ObjectImageSource = "/Controls;component/Images/Pim.png";
 						if (Pim.PumpStationUID != Guid.Empty)
 						{
@@ -176,8 +176,8 @@ namespace JournalModule.ViewModels
 							if (PumpStation != null)
 							{
 								ObjectName += " (" + PumpStation.PresentationName + ")";
-								ShowObjectEvent = new ShowXPumpStationEvent();
-								ShowObjectDetailsEvent = new ShowXPumpStationDetailsEvent();
+								ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXPumpStationEvent>();
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXPumpStationDetailsEvent>();
 								ObjectImageSource = "/Controls;component/Images/BPumpStation.png";
 								break;
 							}
@@ -188,8 +188,8 @@ namespace JournalModule.ViewModels
 							if (MPT != null)
 							{
 								ObjectName += " (" + MPT.PresentationName + ")";
-								ShowObjectEvent = new ShowXMPTEvent();
-								ShowObjectDetailsEvent = new ShowXMPTDetailsEvent();
+								ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXMPTEvent>();
+								ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXMPTDetailsEvent>();
 								ObjectImageSource = "/Controls;component/Images/BMPT.png";
 								break;
 							}
@@ -199,11 +199,11 @@ namespace JournalModule.ViewModels
 
 				case JournalObjectType.GKGuardZone:
 					GuardZone = XManager.GuardZones.FirstOrDefault(x => x.BaseUID == JournalItem.ObjectUID);
-					if (Zone != null)
+					if (GuardZone != null)
 					{
 						ObjectName = GuardZone.PresentationName;
-						ShowObjectEvent = new ShowXGuardZoneEvent();
-						ShowObjectDetailsEvent = new ShowXGuardZoneDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowXGuardZoneEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowXGuardZoneDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/Zone.png";
 					break;
@@ -213,8 +213,8 @@ namespace JournalModule.ViewModels
 					if (SKDDevice != null)
 					{
 						ObjectName = SKDDevice.Name;
-						ShowObjectEvent = new ShowSKDDeviceEvent();
-						ShowObjectDetailsEvent = new ShowSKDDeviceDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDDeviceDetailsEvent>();
 						ObjectImageSource = SKDDevice.Driver.ImageSource;
 					}
 					break;
@@ -224,8 +224,8 @@ namespace JournalModule.ViewModels
 					if (SKDZone != null)
 					{
 						ObjectName = SKDZone.Name;
-						ShowObjectEvent = new ShowSKDZoneEvent();
-						ShowObjectDetailsEvent = new ShowSKDZoneDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDZoneDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/Zone.png";
 					break;
@@ -235,8 +235,8 @@ namespace JournalModule.ViewModels
 					if (Door != null)
 					{
 						ObjectName = Door.Name;
-						ShowObjectEvent = new ShowSKDDoorEvent();
-						ShowObjectDetailsEvent = new ShowSKDDoorDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowSKDDoorEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowSKDDoorDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/Door.png";
 					break;
@@ -246,8 +246,8 @@ namespace JournalModule.ViewModels
 					if (Camera != null)
 					{
 						ObjectName = Camera.Name;
-						ShowObjectEvent = new ShowCameraEvent();
-						ShowObjectDetailsEvent = new ShowCameraDetailsEvent();
+						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowCameraEvent>();
+						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
 					}
 					ObjectImageSource = "/Controls;component/Images/camera.png";
 					break;

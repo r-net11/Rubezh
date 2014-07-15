@@ -92,6 +92,7 @@ namespace GKProcessor
 				gkCallbackResult.GKStates.MPTStates.Count +
 				gkCallbackResult.GKStates.DelayStates.Count +
 				gkCallbackResult.GKStates.PimStates.Count +
+				gkCallbackResult.GKStates.GuardZoneStates.Count +
 				gkCallbackResult .GKStates.DeviceMeasureParameters.Count > 0)
 			{
 				if (GKCallbackResultEvent != null)
@@ -331,6 +332,10 @@ namespace GKProcessor
 			{
 				Watcher.AddObjectStateToGKStates(gkStates, pim);
 			}
+			foreach (var guardZone in XManager.GuardZones)
+			{
+				Watcher.AddObjectStateToGKStates(gkStates, guardZone);
+			}
 			return gkStates;
 		}
 
@@ -458,6 +463,10 @@ namespace GKProcessor
 				if (xBase is XPim)
 				{
 					journalObjectType = XJournalObjectType.Pim;
+				}
+				if (xBase is XGuardZone)
+				{
+					journalObjectType = XJournalObjectType.GuardZone;
 				}
 			}
 

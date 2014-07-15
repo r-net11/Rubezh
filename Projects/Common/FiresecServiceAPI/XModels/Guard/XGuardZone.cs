@@ -15,7 +15,7 @@ namespace FiresecAPI.GK
 			PlanElementUIDs = new List<Guid>();
 		}
 
-		public override XBaseObjectType ObjectType { get { return XBaseObjectType.Zone; } }
+		public override XBaseObjectType ObjectType { get { return XBaseObjectType.GuardZone; } }
 
 		[DataMember]
 		public Guid UID { get; set; }

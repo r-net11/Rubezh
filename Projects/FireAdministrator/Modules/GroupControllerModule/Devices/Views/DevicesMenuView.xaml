@@ -19,9 +19,9 @@
 				<IconedMenuItem Command="{Binding WriteConfigCommand}" ImageSource="/Controls;component/Images/BParametersWrite.png" Text="Записать конфигурацию" TotalHeight="32" />
 				<Separator />
 				<IconedMenuItem Command="{Binding ShowInfoCommand}" ImageSource="/Controls;component/Images/BInformation.png" Text="Информация об устройстве" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" ImageSource="/Controls;component/Images/BWatch.png" Text="Добавить (Ctrl+N)" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding SynchroniseTimeCommand}" ImageSource="/Controls;component/Images/BWatch.png" Text="Синзронизация времени" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding ReadJournalCommand}" ImageSource="/Controls;component/Images/BJournal.png" Text="Журнал событий" TotalHeight="32" />
-				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Журнал событий" TotalHeight="32" />
+				<IconedMenuItem Command="{Binding UpdateFirmwhareCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Обновление ПО" TotalHeight="32" />
 			</MenuItem>
 		</Menu>
 	</StackPanel>

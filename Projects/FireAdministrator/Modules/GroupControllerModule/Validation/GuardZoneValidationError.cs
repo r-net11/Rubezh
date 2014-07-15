@@ -5,10 +5,10 @@ using Infrastructure.Common.Validation;
 
 namespace GKModule.Validation
 {
-	class ZoneValidationError : ObjectValidationError<XZone, ShowXZoneEvent, Guid>
+	class GuardZoneValidationError : ObjectValidationError<XGuardZone, ShowXGuardZoneEvent, Guid>
 	{
-		public ZoneValidationError(XZone zone, string error, ValidationErrorLevel level)
-			: base(zone, error, level)
+		public GuardZoneValidationError(XGuardZone guardZone, string error, ValidationErrorLevel level)
+			: base(guardZone, error, level)
 		{
 		}
 
@@ -30,7 +30,7 @@ namespace GKModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/Zone.png"; }
+			get { return "/Controls;component/Images/GuardZone.png"; }
 		}
 	}
 }

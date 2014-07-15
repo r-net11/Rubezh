@@ -53,7 +53,35 @@ namespace GKModule.Plans.Designer
 
 		protected override Color GetStateColor()
 		{
-			return Item.State.StateClass == XStateClass.Norm ? Colors.Brown : base.GetStateColor();
+			if (Item == null)
+				return Colors.Transparent;
+
+			switch (Item.State.StateClass)
+			{
+				case XStateClass.Unknown:
+				case XStateClass.DBMissmatch:
+				case XStateClass.TechnologicalRegime:
+				case XStateClass.ConnectionLost:
+				case XStateClass.HasNoLicense:
+					return Colors.DarkGray;
+				case XStateClass.On:
+					return Colors.Green;
+				case XStateClass.TurningOn:
+					return Colors.LightGreen;
+				case XStateClass.AutoOff:
+					return Colors.Gray;
+				case XStateClass.Ignore:
+					return Colors.Yellow;
+				case XStateClass.Norm:
+				case XStateClass.Off:
+					return Colors.Blue;
+				case XStateClass.Fire1:
+				case XStateClass.Fire2:
+				case XStateClass.Attention:
+					return Colors.Red;
+				default:
+					return Colors.White;
+			}
 		}
 	}
 }

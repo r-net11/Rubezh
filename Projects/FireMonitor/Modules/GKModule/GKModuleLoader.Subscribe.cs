@@ -193,6 +193,15 @@ namespace GKModule
 					pim.State.OnStateChanged();
 				}
 			}
+			foreach (var remoteGuardZoneState in gkStates.GuardZoneStates)
+			{
+				var guardZone = XManager.GuardZones.FirstOrDefault(x => x.BaseUID == remoteGuardZoneState.UID);
+				if (guardZone != null)
+				{
+					remoteGuardZoneState.CopyTo(guardZone.State);
+					guardZone.State.OnStateChanged();
+				}
+			}
 			foreach (var deviceMeasureParameter in gkStates.DeviceMeasureParameters)
 			{
 				var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceMeasureParameter.DeviceUID);

@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -44,14 +45,23 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("StateClasses");
-			OnPropertyChanged("StateClass");
-			OnPropertyChanged("ControlRegime");
-			OnPropertyChanged("IsControlRegime");
-			OnPropertyChanged("State");
-			OnPropertyChanged("HasOnDelay");
-			OnPropertyChanged("HasHoldDelay");
+			OnPropertyChanged(() => StateClasses);
+			OnPropertyChanged(() => ControlRegime);
+			OnPropertyChanged(() => IsControlRegime);
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => HasOnDelay);
+			OnPropertyChanged(() => HasHoldDelay);
 			CommandManager.InvalidateRequerySuggested();
+		}
+
+		public List<XStateClass> StateClasses
+		{
+			get
+			{
+				var stateClasses = State.StateClasses.ToList();
+				stateClasses.Sort();
+				return stateClasses;
+			}
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }

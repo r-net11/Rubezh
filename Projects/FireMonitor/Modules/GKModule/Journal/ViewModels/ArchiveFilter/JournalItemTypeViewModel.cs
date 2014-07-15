@@ -52,7 +52,7 @@ namespace GKModule.ViewModels
 						return "/Controls;component/Images/Pim.png";
 
 					case XJournalObjectType.GuardZone:
-						return "/Controls;component/Images/Zone.png";
+						return "/Controls;component/Images/GuardZone.png";
 
 					default:
 						return null;

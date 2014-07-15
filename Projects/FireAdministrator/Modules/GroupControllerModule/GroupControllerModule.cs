@@ -108,7 +108,7 @@ namespace GKModule
 						new List<NavigationItem>()
 						{
 							new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/User.png", null, null, Guid.Empty),
-							new NavigationItem<ShowXGuardZonesEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+							new NavigationItem<ShowXGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 						}),
 
 					new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),

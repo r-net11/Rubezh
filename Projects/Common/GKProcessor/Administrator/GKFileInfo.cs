@@ -102,6 +102,12 @@ namespace GKProcessor
 					stringBuilder.Append(delay.PresentationName).Append("@");
 				}
 			}
+			stringBuilder.Append("guardZones:");
+			foreach (var guardZone in deviceConfiguration.GuardZones)
+			{
+				if (guardZone.GkDatabaseParent == gkDevice)
+					stringBuilder.Append(guardZone.PresentationName).Append("@");
+			}
 			return SHA256.Create().ComputeHash(Encoding.GetEncoding(1251).GetBytes(stringBuilder.ToString())).ToList();
 		}
 		public static List<byte> CreateHash2(XDeviceConfiguration deviceConfiguration)

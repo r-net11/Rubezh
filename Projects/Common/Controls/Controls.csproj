@@ -181,6 +181,7 @@
     <Compile Include="Converters\XStateClassToZoneColorConverter.cs" />
     <Compile Include="Converters\MPTDeviceTypeToStringConverter.cs" />
     <Compile Include="Converters\XGuardZoneStateClassToStringConverter.cs" />
+    <Compile Include="Converters\XStateClassToGuardZoneColorConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
@@ -871,7 +872,7 @@
     <Resource Include="StateClassIcons\TechnologicalRegime.png" />
     <Resource Include="Images\Blue_Direction.png" />
     <Resource Include="Images\Chip.png" />
-    <Resource Include="Images\zone.png" />
+    <Resource Include="Images\Zone.png" />
     <Resource Include="Images\PC.png" />
     <Resource Include="Images\map_black.png" />
     <Resource Include="Images\Delay.png" />
@@ -1226,6 +1227,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\DoorW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GuardZone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
