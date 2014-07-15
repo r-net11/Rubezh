@@ -172,7 +172,7 @@
 							<TextBlock VerticalAlignment="Center">
 								<Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/zone.png" />
+										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/Zone.png" />
 										<TextBlock Margin="2" Text="{Binding PresentationZone}" TextWrapping="Wrap" />
 									</StackPanel>
 								</Hyperlink>
@@ -194,7 +194,19 @@
 								</TextBlock.Style>
 							</TextBlock>
 						</WrapPanel>
-						<Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
+
+                        <WrapPanel Orientation="Horizontal" Visibility="{Binding HasDoor, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="Точка доступа " />
+                            <TextBlock VerticalAlignment="Center">
+								<Hyperlink Command="{Binding ShowDoorCommand}" Style="{StaticResource HyperlinkStyle}">
+									<StackPanel Orientation="Horizontal">
+										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/Door.png" />
+										<TextBlock Margin="2" Text="{Binding Door.Name}" ToolTip="{Binding Door.Name}" TextWrapping="Wrap" />
+									</StackPanel>
+								</Hyperlink>
+							</TextBlock>
+                        </WrapPanel>
+                        <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
 					</StackPanel>
 				</ScrollViewer>
 			</Grid>
