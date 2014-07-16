@@ -17,11 +17,11 @@ int CALL_METHOD WRAP_Insert_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD* 
 	NET_CTRL_RECORDSET_INSERT_PARAM stuInert = {sizeof(stuInert)};
 	stuInert.stuCtrlRecordSetInfo.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_IN);
     stuInert.stuCtrlRecordSetInfo.emType = NET_RECORD_ACCESSCTLPWD;
-	stuInert.stuCtrlRecordSetInfo.pBuf = param;
+	stuInert.stuCtrlRecordSetInfo.pBuf = (void*)param;
 	stuInert.stuCtrlRecordSetInfo.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
 	
 	stuInert.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
-    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_INSERT, &stuInert, 3000);
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_INSERT, &stuInert, SDK_API_WAITTIME);
 	int nRecrdNo = stuInert.stuCtrlRecordSetResult.nRecNo;
 	if (bResult)
 	{
@@ -39,7 +39,7 @@ BOOL CALL_METHOD WRAP_Update_Password(int loginID, NET_RECORDSET_ACCESS_CTL_PWD*
 	
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
     stuInert.emType = NET_RECORD_ACCESSCTLPWD;
-	stuInert.pBuf = param;
+	stuInert.pBuf = (void*)param;
 	stuInert.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
     return bResult;
@@ -52,9 +52,9 @@ BOOL CALL_METHOD WRAP_Remove_Password(int loginID, int recordNo)
 		return FALSE;
 	}
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	stuInert.pBuf = &recordNo;
-	stuInert.nBufLen = sizeof(recordNo);
 	stuInert.emType = NET_RECORD_ACCESSCTLPWD;
+	stuInert.pBuf = (void*)&recordNo;
+	stuInert.nBufLen = sizeof(recordNo);
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_REMOVE, &stuInert, SDK_API_WAITTIME);
 	return bResult;
 }
@@ -78,14 +78,14 @@ BOOL CALL_METHOD WRAP_Get_Password_Info(int loginID, int recordNo, NET_RECORDSET
 		return FALSE;
 	}
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd = {sizeof(stuAccessCtlPwd)};
-
-	stuAccessCtlPwd.nRecNo = recordNo;
 	stuInert.emType = NET_RECORD_ACCESSCTLPWD;
+
+	NET_RECORDSET_ACCESS_CTL_PWD stuAccessCtlPwd = {sizeof(stuAccessCtlPwd)};
+	stuAccessCtlPwd.nRecNo = recordNo;
 	stuInert.pBuf = &stuAccessCtlPwd;
 
 	int nRet = 0;
-	BOOL bRet = CLIENT_QueryDevState(loginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
+	BOOL bRet = CLIENT_QueryDevState(loginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, SDK_API_WAITTIME);
 
 	memcpy(result, &stuAccessCtlPwd, sizeof(stuAccessCtlPwd));
 	return bRet;

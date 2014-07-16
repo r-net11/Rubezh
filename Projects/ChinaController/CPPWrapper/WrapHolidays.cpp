@@ -17,11 +17,11 @@ int CALL_METHOD WRAP_Insert_Holiday(int loginID, NET_RECORDSET_HOLIDAY* param)
 	NET_CTRL_RECORDSET_INSERT_PARAM stuInert = {sizeof(stuInert)};
 	stuInert.stuCtrlRecordSetInfo.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_IN);
     stuInert.stuCtrlRecordSetInfo.emType = NET_RECORD_ACCESSCTLHOLIDAY;
-	stuInert.stuCtrlRecordSetInfo.pBuf = param;
+	stuInert.stuCtrlRecordSetInfo.pBuf = (void*)param;
 	stuInert.stuCtrlRecordSetInfo.nBufLen = sizeof(NET_RECORDSET_HOLIDAY);
 	
 	stuInert.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
-    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_INSERT, &stuInert, 3000);
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_INSERT, &stuInert, SDK_API_WAITTIME);
 	int nRecrdNo = stuInert.stuCtrlRecordSetResult.nRecNo;
 	if (bResult)
 	{
@@ -39,7 +39,7 @@ BOOL CALL_METHOD WRAP_Update_Holiday(int loginID, NET_RECORDSET_HOLIDAY* param)
 
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
     stuInert.emType = NET_RECORD_ACCESSCTLHOLIDAY;
-	stuInert.pBuf = param;
+	stuInert.pBuf = (void*)param;
 	stuInert.nBufLen = sizeof(NET_RECORDSET_HOLIDAY);
 	
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
@@ -53,9 +53,9 @@ BOOL CALL_METHOD WRAP_Remove_Holiday(int loginID, int recordNo)
 		return FALSE;
 	}
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	stuInert.pBuf = &recordNo;
-	stuInert.nBufLen = sizeof(recordNo);
 	stuInert.emType = NET_RECORD_ACCESSCTLHOLIDAY;
+	stuInert.pBuf = (void*)&recordNo;
+	stuInert.nBufLen = sizeof(recordNo);
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_REMOVE, &stuInert, SDK_API_WAITTIME);
 	return bResult;
 }

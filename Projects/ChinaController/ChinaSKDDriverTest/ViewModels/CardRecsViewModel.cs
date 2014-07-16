@@ -81,7 +81,8 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = MainViewModel.Wrapper.GetCardInfo(2);
+			var result = MainViewModel.Wrapper.GetCardRecInfo(Index);
+			Initialize(new List<CardRec>() { result });
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }

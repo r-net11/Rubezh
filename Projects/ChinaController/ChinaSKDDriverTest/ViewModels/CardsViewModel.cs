@@ -40,14 +40,14 @@ namespace ControllerSDK.ViewModels
 			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_MOTHERCARD);
 
 			Doors = new ObservableCollection<DoorItemViewModel>();
-			for (int i = 1; i <= 4; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				Doors.Add(new DoorItemViewModel(i));
 			}
 			Doors[0].IsChecked = true;
 
 			TimeShedules = new ObservableCollection<TimeSheduleItemViewModel>();
-			for (int i = 1; i <= 10; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				TimeShedules.Add(new TimeSheduleItemViewModel(i));
 			}

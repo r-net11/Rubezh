@@ -27,7 +27,7 @@ namespace ControllerSDK.ViewModels
 			AlarmPassword = "123456";
 
 			Doors = new ObservableCollection<DoorItemViewModel>();
-			for (int i = 1; i <= 4; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				Doors.Add(new DoorItemViewModel(i));
 			}
@@ -77,7 +77,8 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = MainViewModel.Wrapper.GetPasswordInfo(0);
+			var result = MainViewModel.Wrapper.GetPasswordInfo(Index);
+			Initialize(new List<Password>() { result });
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }

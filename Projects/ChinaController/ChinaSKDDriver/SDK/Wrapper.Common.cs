@@ -47,7 +47,7 @@ namespace ChinaSKDDriver
 			DateTime dateTime = DateTime.MinValue;
 			try
 			{
-				if (netTime.dwYear == 0 || netTime.dwMonth == 0 || netTime.dwDay == 0)
+				if (netTime.dwYear <= 0 || netTime.dwMonth <= 0 || netTime.dwDay <= 0)
 					return new DateTime();
 				dateTime = new DateTime(netTime.dwYear, netTime.dwMonth, netTime.dwDay, netTime.dwHour, netTime.dwMinute, netTime.dwSecond);
 			}
@@ -257,33 +257,20 @@ namespace ChinaSKDDriver
 				doorConfiguration.IsDuressAlarmEnable = outResult.bDuressAlarmEnable;
 				doorConfiguration.IsSensorEnable = outResult.bSensorEnable;
 
-				var timeSheduleIntervals = new List<TimeSheduleInterval>();
-				for (int i = 0; i < outResult.stuDoorTimeSection.Count(); i++)
-				{
-					var cfg_DOOROPEN_TIMESECTION_INFO = outResult.stuDoorTimeSection[i];
-					var timeSheduleInterval = new TimeSheduleInterval();
-					timeSheduleInterval.BeginHours = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwHour;
-					timeSheduleInterval.BeginMinutes = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwMinute;
-					timeSheduleInterval.BeginSeconds = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwSecond;
-					timeSheduleInterval.EndHours = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwHour;
-					timeSheduleInterval.EndMinutes = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwMinute;
-					timeSheduleInterval.EndSeconds = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwSecond;
-					timeSheduleIntervals.Add(timeSheduleInterval);
-				}
-
 				var doorDayIntervalsCollection = new DoorDayIntervalsCollection();
 				for (int i = 0; i < 7; i++)
 				{
 					var doorDayInterval = new DoorDayInterval();
 					for (int j = 0; j < 4; j++)
 					{
-						var timeSheduleInterval = timeSheduleIntervals[i * 4 + j];
+						var cfg_DOOROPEN_TIMESECTION_INFO = outResult.stuDoorTimeSection[i * 4 + j];
 						var doorDayIntervalPart = new DoorDayIntervalPart();
-						doorDayIntervalPart.StartHour = timeSheduleInterval.BeginHours;
-						doorDayIntervalPart.StartMinute = timeSheduleInterval.BeginMinutes;
-						doorDayIntervalPart.EndHour = timeSheduleInterval.EndHours;
-						doorDayIntervalPart.EndMinute = timeSheduleInterval.EndMinutes;
+						doorDayIntervalPart.StartHour = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwHour;
+						doorDayIntervalPart.StartMinute = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwMinute;
+						doorDayIntervalPart.EndHour = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwHour;
+						doorDayIntervalPart.EndMinute = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwMinute;
 						doorDayInterval.DoorDayIntervalParts.Add(doorDayIntervalPart);
+						doorDayInterval.DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod)cfg_DOOROPEN_TIMESECTION_INFO.emDoorOpenMethod;
 					}
 					doorDayIntervalsCollection.DoorDayIntervals.Add(doorDayInterval);
 				}
@@ -349,6 +336,7 @@ namespace ChinaSKDDriver
 					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwHour = doorDayIntervalPart.EndHour;
 					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = doorDayIntervalPart.EndMinute;
 					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = 0;
+					info.stuDoorTimeSection[i].emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorDayIntervalsCollection.DoorDayIntervals[i].DoorOpenMethod;
 				}
 			}
 

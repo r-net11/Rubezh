@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using ChinaSKDDriverAPI;
@@ -108,6 +109,7 @@ namespace ChinaSKDDriver
 			var holiday = new Holiday();
 			holiday.RecordNo = nativeHoliday.nRecNo;
 			holiday.DoorsCount = nativeHoliday.nDoorNum;
+			holiday.Doors = nativeHoliday.sznDoors.ToList();
 			holiday.StartDateTime = NET_TIMEToDateTime(nativeHoliday.stuStartTime);
 			holiday.EndDateTime = NET_TIMEToDateTime(nativeHoliday.stuEndTime);
 			holiday.HolidayNo = CharArrayToString(nativeHoliday.szHolidayNo);

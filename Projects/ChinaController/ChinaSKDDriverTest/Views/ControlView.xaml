@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="ControllerSDK.Views.ControlView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
+    <StackPanel>
         <StackPanel Orientation="Horizontal">
             <Button Content="OpenDoor" Command="{Binding OpenDoorCommand}" Width="100" Margin="2" />
             <Button Content="CloseDoor" Command="{Binding CloseDoorCommand}" Width="100" Margin="2" />
@@ -9,5 +9,5 @@
             <TextBlock Text="Index" Margin="2" />
             <TextBox Text="{Binding Index}" Width="100" Margin="2" />
         </StackPanel>
-    </Grid>
+    </StackPanel>
 </UserControl>

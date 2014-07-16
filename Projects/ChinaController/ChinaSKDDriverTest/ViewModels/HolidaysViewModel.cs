@@ -26,7 +26,7 @@ namespace ControllerSDK.ViewModels
 			EndDateTime = DateTime.Now;
 
 			Doors = new ObservableCollection<DoorItemViewModel>();
-			for (int i = 1; i <= 4; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				Doors.Add(new DoorItemViewModel(i));
 			}
@@ -77,6 +77,7 @@ namespace ControllerSDK.ViewModels
 		void OnGetInfo()
 		{
 			var result = MainViewModel.Wrapper.GetHolidayInfo(Index);
+			Initialize(new List<Holiday>() { result });
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }

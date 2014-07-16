@@ -17,12 +17,12 @@ int CALL_METHOD WRAP_Insert_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* par
 	NET_CTRL_RECORDSET_INSERT_PARAM stuInert = {sizeof(stuInert)};
 	stuInert.stuCtrlRecordSetInfo.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_IN);
     stuInert.stuCtrlRecordSetInfo.emType = NET_RECORD_ACCESSCTLCARD;
-	stuInert.stuCtrlRecordSetInfo.pBuf = param;
+	stuInert.stuCtrlRecordSetInfo.pBuf = (void*)param;
 	stuInert.stuCtrlRecordSetInfo.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
 	
 	stuInert.stuCtrlRecordSetResult.dwSize = sizeof(NET_CTRL_RECORDSET_INSERT_OUT);
 	
-    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_INSERT, &stuInert, 3000);
+    BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_INSERT, &stuInert, SDK_API_WAITTIME);
 	int nRecrdNo = stuInert.stuCtrlRecordSetResult.nRecNo;
 	if (bResult)
 	{
@@ -40,7 +40,7 @@ BOOL CALL_METHOD WRAP_Update_Card(int loginID, NET_RECORDSET_ACCESS_CTL_CARD* pa
 
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
     stuInert.emType = NET_RECORD_ACCESSCTLCARD;
-	stuInert.pBuf = param;
+	stuInert.pBuf = (void*)param;
 	stuInert.nBufLen = sizeof(NET_RECORDSET_ACCESS_CTL_CARD);
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_UPDATE, &stuInert, SDK_API_WAITTIME);
 	return bResult;
@@ -53,9 +53,9 @@ BOOL CALL_METHOD WRAP_Remove_Card(int loginID, int recordNo)
 		return FALSE;
 	}
 	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
-	stuInert.pBuf = &recordNo;
-	stuInert.nBufLen = sizeof(recordNo);
 	stuInert.emType = NET_RECORD_ACCESSCTLCARD;
+	stuInert.pBuf = (void*)&recordNo;
+	stuInert.nBufLen = sizeof(recordNo);
     BOOL bResult = CLIENT_ControlDevice(loginID, DH_CTRL_RECORDSET_REMOVE, &stuInert, SDK_API_WAITTIME);
 	return bResult;
 }
@@ -86,7 +86,7 @@ BOOL CALL_METHOD WRAP_Get_Card_Info(int loginID, int recordNo, NET_RECORDSET_ACC
 	stuInert.pBuf = &stuCard;
 
 	int nRet = 0;
-	BOOL bRet = CLIENT_QueryDevState(loginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
+	BOOL bRet = CLIENT_QueryDevState(loginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, SDK_API_WAITTIME);
 
 	memcpy(result, &stuCard, sizeof(stuCard));
 	return bRet;
