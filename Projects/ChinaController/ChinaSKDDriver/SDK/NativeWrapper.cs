@@ -369,7 +369,19 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_GetAll_Cards(int loginID, IntPtr result);
+		public static extern bool WRAP_GetAll_Cards2(int loginID, IntPtr result);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_BeginGetAll_Cards(int loginID, ref int finderId);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_GetAll_Cards(int finderID, IntPtr result);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_EndGetAll_Cards(int finderID);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_GetAllCount(int finderID);
 		#endregion
 
 		#region CardRecs
