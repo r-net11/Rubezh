@@ -99,7 +99,7 @@ namespace ChinaSKDDriver
 			nativeHoliday.stuEndTime.dwHour = holiday.EndDateTime.Hour;
 			nativeHoliday.stuEndTime.dwMinute = holiday.EndDateTime.Minute;
 			nativeHoliday.stuEndTime.dwSecond = holiday.EndDateTime.Second;
-			nativeHoliday.bEnable = holiday.IsEnabled;
+			nativeHoliday.szHolidayNo = Wrapper.StringToCharArray(holiday.HolidayNo, 32);
 			return nativeHoliday;
 		}
 
@@ -110,7 +110,7 @@ namespace ChinaSKDDriver
 			holiday.DoorsCount = nativeHoliday.nDoorNum;
 			holiday.StartDateTime = NET_TIMEToDateTime(nativeHoliday.stuStartTime);
 			holiday.EndDateTime = NET_TIMEToDateTime(nativeHoliday.stuEndTime);
-			holiday.IsEnabled = nativeHoliday.bEnable;
+			holiday.HolidayNo = CharArrayToString(nativeHoliday.szHolidayNo);
 			return holiday;
 		}
 	}

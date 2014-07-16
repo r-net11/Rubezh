@@ -78,16 +78,16 @@ BOOL CALL_METHOD WRAP_Get_Holiday_Info(int loginID, int recordNo, NET_RECORDSET_
 	{
 		return FALSE;
 	}
-	NET_CTRL_RECORDSET_PARAM stuInert = {sizeof(stuInert)};
+
+	NET_CTRL_RECORDSET_PARAM stuParam = {sizeof(stuParam)};
+	stuParam.emType = NET_RECORD_ACCESSCTLHOLIDAY;
+		
 	NET_RECORDSET_HOLIDAY stuHoliday = {sizeof(stuHoliday)};
-
 	stuHoliday.nRecNo = recordNo;
-	stuInert.emType = NET_RECORD_ACCESSCTLHOLIDAY;
-	stuInert.pBuf = &stuHoliday;
-
+	stuParam.pBuf = &stuHoliday;
+		
 	int nRet = 0;
-	BOOL bRet = CLIENT_QueryDevState(loginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuInert, sizeof(stuInert), &nRet, 3000);
-
+	BOOL bRet = CLIENT_QueryDevState(loginID, DH_DEVSTATE_DEV_RECORDSET, (char*)&stuParam, sizeof(stuParam), &nRet, SDK_API_WAITTIME);
 	memcpy(result, &stuHoliday, sizeof(stuHoliday));
 	return bRet;
 }

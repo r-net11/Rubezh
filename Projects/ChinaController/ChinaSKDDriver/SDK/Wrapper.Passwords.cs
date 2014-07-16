@@ -50,31 +50,59 @@ namespace ChinaSKDDriver
 			return password;
 		}
 
-		public int GetPasswordsCount()
-		{
-			var passwordsCount = NativeWrapper.WRAP_Get_Passwords_Count(LoginID);
-			return passwordsCount;
-		}
-
 		public List<Password> GetAllPasswords()
 		{
-			int structSize = Marshal.SizeOf(typeof(NativeWrapper.PasswordsCollection));
-			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+			var resultPasswords = new List<Password>();
+			int finderID = 0;
+			NativeWrapper.WRAP_BeginGetAll_Passwords(LoginID, ref finderID);
 
-			var result = NativeWrapper.WRAP_GetAll_Passwords(LoginID, intPtr);
-
-			NativeWrapper.PasswordsCollection passwordsCollection = (NativeWrapper.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.PasswordsCollection)));
-			Marshal.FreeCoTaskMem(intPtr);
-			intPtr = IntPtr.Zero;
-
-			var passwords = new List<Password>();
-			for (int i = 0; i < Math.Min(passwordsCollection.Count, 10); i++)
+			if (finderID > 0)
 			{
-				var nativePassword = passwordsCollection.Passwords[i];
-				var password = NativePasswordToPassword(nativePassword);
-				passwords.Add(password);
+				while (true)
+				{
+					int structSize = Marshal.SizeOf(typeof(NativeWrapper.PasswordsCollection));
+					IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+
+					var result = NativeWrapper.WRAP_GetAll_Passwords(finderID, intPtr);
+
+					NativeWrapper.PasswordsCollection passwordsCollection = (NativeWrapper.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.PasswordsCollection)));
+					Marshal.FreeCoTaskMem(intPtr);
+					intPtr = IntPtr.Zero;
+
+					var passwords = new List<Password>();
+					for (int i = 0; i < Math.Min(passwordsCollection.Count, 10); i++)
+					{
+						var nativePassword = passwordsCollection.Passwords[i];
+						if (nativePassword.nRecNo > 0)
+						{
+							var password = NativePasswordToPassword(nativePassword);
+							passwords.Add(password);
+						}
+					}
+					if (result == 0)
+						break;
+					resultPasswords.AddRange(passwords);
+				}
+
+				NativeWrapper.WRAP_EndGetAll(finderID);
 			}
-			return passwords;
+
+			return resultPasswords;
+		}
+
+		public int GetPasswordsCount()
+		{
+			int finderID = 0;
+			NativeWrapper.WRAP_BeginGetAll_Passwords(LoginID, ref finderID);
+
+			if (finderID > 0)
+			{
+				var result = NativeWrapper.WRAP_GetAllCount(finderID);
+				NativeWrapper.WRAP_EndGetAll(finderID);
+				return result;
+			}
+
+			return -1;
 		}
 
 		NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD PasswordToNativePassword(Password password)

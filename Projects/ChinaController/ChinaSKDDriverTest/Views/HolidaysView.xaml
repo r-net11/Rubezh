@@ -20,16 +20,16 @@
                 <TextBox Text="{Binding Index}" Width="100" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
+                <TextBlock Text="HolidayNo" Width="200" Margin="2" />
+                <TextBox Text="{Binding HolidayNo}" Width="250" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
                 <TextBlock Text="StartDateTime" Width="200" Margin="2" />
                 <DatePicker SelectedDate="{Binding StartDateTime}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="EndDateTime" Width="200" Margin="2" />
                 <DatePicker SelectedDate="{Binding EndDateTime}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="IsEnabled" Width="200" Margin="2" />
-                <CheckBox IsEnabled="{Binding IsEnabled}" Width="250" Margin="2" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Doors" Width="200" Margin="2" />
@@ -50,6 +50,7 @@
         <DataGrid Grid.Row="1" ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="RecordNo" Binding="{Binding Holiday.RecordNo}" />
+                <DataGridTextColumn Header="HolidayNo" Binding="{Binding Holiday.HolidayNo}" />
                 <DataGridTextColumn Header="StartDateTime" Binding="{Binding StartDateTime}" />
                 <DataGridTextColumn Header="EndDateTime" Binding="{Binding Holiday.EndDateTime}" />
                 <DataGridTextColumn Header="IsEnabled" Binding="{Binding Holiday.IsEnabled}" />

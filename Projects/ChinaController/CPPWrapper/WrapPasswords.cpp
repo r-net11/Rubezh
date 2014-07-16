@@ -91,159 +91,59 @@ BOOL CALL_METHOD WRAP_Get_Password_Info(int loginID, int recordNo, NET_RECORDSET
 	return bRet;
 }
 
-void WRAP_testRecordSetFind_Pwd(LLONG loginID, LLONG& lFinderId, FIND_RECORD_ACCESSCTLPWD_CONDITION stuParam)
+BOOL CALL_METHOD WRAP_BeginGetAll_Passwords(int loginID, int& finderID)
 {
 	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
 	NET_OUT_FIND_RECORD_PARAM stuOut = {sizeof(stuOut)};
 	
 	stuIn.emType = NET_RECORD_ACCESSCTLPWD;
-	
-	stuIn.pQueryCondition = &stuParam;
-	
+		
 	if (CLIENT_FindRecord(loginID, &stuIn, &stuOut, SDK_API_WAITTIME))
 	{
-		lFinderId = stuOut.lFindeHandle;
-		printf("WRAP_testRecordSetFind_Pwd ok!\n");
+		finderID = stuOut.lFindeHandle;
 	}
-	else
-	{
-		printf("WRAP_testRecordSetFind_Pwd failed:0x%08x!\n", CLIENT_GetLastError());
-	}
+
+	return finderID > 0;
 }
 
-void WRAP_testRecordSetFindNext_Pwd(LLONG lFinderID)
-{
-	int i = 0, j = 0;
-	
-	NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
-	stuIn.lFindeHandle = lFinderID;
-	stuIn.nFileCount = QUERY_COUNT;
-	
-	NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
-	stuOut.nMaxRecordNum = stuIn.nFileCount;
-	
-	NET_RECORDSET_ACCESS_CTL_PWD stuPwd[QUERY_COUNT] = {0};
-	for (i = 0; i < sizeof(stuPwd)/sizeof(stuPwd[0]); i++)
-	{
-		stuPwd[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
-	}
-	stuOut.pRecordList = (void*)&stuPwd[0];
-	
-	if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
-	{
-		printf("WRAP_testRecordSetFindNext_Pwd ok!\n");
-		
-		char szDoorTemp[QUERY_COUNT][MAX_NAME_LEN] = {0};
-		for (i = 0; i <  __min(QUERY_COUNT, stuOut.nRetRecordNum); i++)
-		{
-			NET_RECORDSET_ACCESS_CTL_PWD* pPwd = (NET_RECORDSET_ACCESS_CTL_PWD*)stuOut.pRecordList;
-			for (j = 0; j < pPwd[i].nDoorNum; j++)
-			{
-				sprintf(szDoorTemp[i], "%s%d", szDoorTemp[i], pPwd[i].sznDoors[j]);
-			}
-		}
-		
-		for (j = 0; j < stuOut.nRetRecordNum; j++)
-		{
-			printf("DoorNum:%d, Doors:{%s}, RecNo:%d, AlarmPwd:%s, DoorOpenPwd:%s, UserID:%s\n",
-				stuPwd[j].nDoorNum,
-				szDoorTemp[j],
-				stuPwd[j].nRecNo,
-				stuPwd[j].szAlarmPwd,
-				stuPwd[j].szDoorOpenPwd,
-				stuPwd[j].szUserID);
-		}
-	}
-	else
-	{
-		printf("WRAP_testRecordSetFindNext_Pwd failed:0x%08x!\n", CLIENT_GetLastError());
-	}
-}
-
-int GetPaswordsCountRecordSetFind(LLONG& lFinderID)
-{
-	NET_IN_QUEYT_RECORD_COUNT_PARAM stuIn = {sizeof(stuIn)};
-	NET_OUT_QUEYT_RECORD_COUNT_PARAM stuOut = {sizeof(stuOut)};
-	stuIn.lFindeHandle = lFinderID;
-	if (CLIENT_QueryRecordCount(&stuIn, &stuOut, SDK_API_WAITTIME))
-	{
-		return stuOut.nRecordCount;
-	}
-	else
-	{
-		return 0;
-	}
-}
-
-int CALL_METHOD WRAP_Get_Passwords_Count(int loginID)
-{
-	if (NULL == loginID)
-	{
-		return FALSE;
-	}
-	LLONG lFindID = 0;
-
-	FIND_RECORD_ACCESSCTLPWD_CONDITION stuParam = {sizeof(FIND_RECORD_ACCESSCTLPWD_CONDITION)};
-	strcpy(stuParam.szUserID, "1");
-
-	WRAP_testRecordSetFind_Pwd(loginID, lFindID, stuParam);
-    if (NULL != lFindID)
-    {
-		int count = GetPaswordsCountRecordSetFind(lFindID);
-		CLIENT_FindRecordClose(lFindID);
-		return count;
-    }
-	return -1;
-}
-
-BOOL CALL_METHOD WRAP_GetAll_Passwords(int loginID, PasswordsCollection* result)
+int CALL_METHOD WRAP_GetAll_Passwords(int finderID, PasswordsCollection* result)
 {
 	PasswordsCollection passwordsCollection = {sizeof(PasswordsCollection)};
 
-	LLONG lFinderID = 0;
-
-	NET_IN_FIND_RECORD_PARAM stuIn = {sizeof(stuIn)};
-	NET_OUT_FIND_RECORD_PARAM stuOut = {sizeof(stuOut)};
+	int i = 0, j = 0;
+	int nMaxNum = 10;
 	
-	stuIn.emType = NET_RECORD_ACCESSCTLPWD;
+	NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
+	stuIn.lFindeHandle = finderID;
+	stuIn.nFileCount = nMaxNum;
 	
-	FIND_RECORD_ACCESSCTLPWD_CONDITION stuParam = {sizeof(FIND_RECORD_ACCESSCTLPWD_CONDITION)};
-	strcpy(stuParam.szUserID, "1");
+	NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
+	stuOut.nMaxRecordNum = nMaxNum;
 	
-	stuIn.pQueryCondition = &stuParam;
-	
-	if (CLIENT_FindRecord(loginID, &stuIn, &stuOut, SDK_API_WAITTIME))
+	NET_RECORDSET_ACCESS_CTL_PWD* pstuPwd = new NET_RECORDSET_ACCESS_CTL_PWD[nMaxNum];
+	if (NULL == pstuPwd)
 	{
-		lFinderID = stuOut.lFindeHandle;
-
-		int i = 0, j = 0;
-	
-		NET_IN_FIND_NEXT_RECORD_PARAM stuIn = {sizeof(stuIn)};
-		stuIn.lFindeHandle = lFinderID;
-		stuIn.nFileCount = QUERY_COUNT;
-	
-		NET_OUT_FIND_NEXT_RECORD_PARAM stuOut = {sizeof(stuOut)};
-		stuOut.nMaxRecordNum = stuIn.nFileCount;
-	
-		NET_RECORDSET_ACCESS_CTL_PWD stuPwd[10] = {0};
-		for (i = 0; i < sizeof(stuPwd)/sizeof(stuPwd[0]); i++)
-		{
-			stuPwd[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
-		}
-		stuOut.pRecordList = (void*)&stuPwd[0];
-	
-		if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
-		{
-			for (i = 0; i < __min(10, stuOut.nRetRecordNum); i++)
-			{
-				NET_RECORDSET_ACCESS_CTL_PWD* pPwd = (NET_RECORDSET_ACCESS_CTL_PWD*)stuOut.pRecordList;
-				memcpy(&passwordsCollection.Passwords[i], &pPwd[i], sizeof(NET_RECORDSET_ACCESS_CTL_CARD));
-			}
-		}
-
-		CLIENT_FindRecordClose(lFinderID);
+		return -1;
 	}
+	memset(pstuPwd, 0, sizeof(NET_RECORDSET_ACCESS_CTL_PWD) * nMaxNum);
+	
+	for (i = 0; i < nMaxNum; i++)
+	{
+		pstuPwd[i].dwSize = sizeof(NET_RECORDSET_ACCESS_CTL_PWD);
+	}
+	stuOut.pRecordList = (void*)pstuPwd;
+	
+	if (CLIENT_FindNextRecord(&stuIn, &stuOut, SDK_API_WAITTIME) >= 0)
+	{
+		for (i = 0; i < __min(stuOut.nMaxRecordNum, stuOut.nRetRecordNum); i++)
+		{
+			memcpy(&passwordsCollection.Passwords[i], &pstuPwd[i], sizeof(NET_RECORDSET_ACCESS_CTL_PWD));
+		}
+	}
+	
+	delete[] pstuPwd;
+	pstuPwd = NULL;
 
 	memcpy(result, &passwordsCollection, sizeof(PasswordsCollection));
-	return lFinderID != 0;
+	return stuOut.nRetRecordNum;
 }

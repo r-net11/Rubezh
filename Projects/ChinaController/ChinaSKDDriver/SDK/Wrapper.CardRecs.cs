@@ -49,39 +49,59 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
-		public int GetCardRecsCount()
-		{
-			var cardsCount = NativeWrapper.WRAP_Get_CardRecs_Count(LoginID);
-			return cardsCount;
-		}
-
 		public List<CardRec> GetAllCardRecs()
 		{
-			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CardRecsCollection));
-			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+			var resultCardRecs = new List<CardRec>();
+			int finderID = 0;
+			NativeWrapper.WRAP_BeginGetAll_CardRecs(LoginID, ref finderID);
 
-			var result = NativeWrapper.WRAP_GetAll_CardRecs(LoginID, intPtr);
-
-			NativeWrapper.CardRecsCollection cardRecsCollection = (NativeWrapper.CardRecsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardRecsCollection)));
-			Marshal.FreeCoTaskMem(intPtr);
-			intPtr = IntPtr.Zero;
-
-			var cardRecs = new List<CardRec>();
-
-			for (int i = 0; i < Math.Min(cardRecsCollection.Count, 10); i++)
+			if (finderID > 0)
 			{
-				var sdkCard = cardRecsCollection.CardRecs[i];
-				var card = new CardRec();
-				card.RecordNo = sdkCard.nRecNo;
-				card.DateTime = NET_TIMEToDateTime(sdkCard.stuTime);
-				card.CardNo = CharArrayToString(sdkCard.szCardNo);
-				card.Password = CharArrayToString(sdkCard.szPwd);
-				card.DoorNo = sdkCard.nDoor;
-				card.IsStatus = sdkCard.bStatus;
-				card.DoorOpenMethod = (CardRecDoorOpenMethod)sdkCard.emMethod;
-				cardRecs.Add(card);
+				while (true)
+				{
+					int structSize = Marshal.SizeOf(typeof(NativeWrapper.CardRecsCollection));
+					IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+
+					var result = NativeWrapper.WRAP_GetAll_CardRecs(finderID, intPtr);
+
+					NativeWrapper.CardRecsCollection cardRecsCollection = (NativeWrapper.CardRecsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardRecsCollection)));
+					Marshal.FreeCoTaskMem(intPtr);
+					intPtr = IntPtr.Zero;
+
+					var cardRecs = new List<CardRec>();
+					for (int i = 0; i < Math.Min(cardRecsCollection.Count, 10); i++)
+					{
+						var nativeCardRec = cardRecsCollection.CardRecs[i];
+						if (nativeCardRec.nRecNo > 0)
+						{
+							var cardRec = NativeCardRecToCardRec(nativeCardRec);
+							cardRecs.Add(cardRec);
+						}
+					}
+					if (result == 0)
+						break;
+					resultCardRecs.AddRange(cardRecs);
+				}
+
+				NativeWrapper.WRAP_EndGetAll(finderID);
 			}
-			return cardRecs;
+
+			return resultCardRecs;
+		}
+
+		public int GetCardRecsCount()
+		{
+			int finderID = 0;
+			NativeWrapper.WRAP_BeginGetAll_CardRecs(LoginID, ref finderID);
+
+			if (finderID > 0)
+			{
+				var result = NativeWrapper.WRAP_GetAllCount(finderID);
+				NativeWrapper.WRAP_EndGetAll(finderID);
+				return result;
+			}
+
+			return -1;
 		}
 
 		NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC CardRecToNativeCardRec(CardRec cardRec)

@@ -11,14 +11,13 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_RemoveAll_Passwords(int loginID);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Get_Password_Info(int loginID, int recordNo, NET_RECORDSET_ACCESS_CTL_PWD* result);
 
-extern "C" CLIENT_API int CALL_METHOD WRAP_Get_Passwords_Count(int loginID);
-
 typedef struct tagNET_PasswordsCollection
 {
 	int Count;
 	NET_RECORDSET_ACCESS_CTL_PWD Passwords[10];
 }PasswordsCollection;
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetAll_Passwords(int loginID, PasswordsCollection* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_BeginGetAll_Passwords(int loginID, int& finderID);
+extern "C" CLIENT_API int CALL_METHOD WRAP_GetAll_Passwords(int finderID, PasswordsCollection* result);
 
 #endif // !defined(__WRAP_PASSWORDS_H__)

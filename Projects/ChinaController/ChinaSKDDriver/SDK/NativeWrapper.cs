@@ -355,10 +355,7 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_RemoveAll_Cards(int loginID);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Get_Card_Info(int loginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_CARD
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_Get_Cards_Count(int loginID);
+		public static extern bool WRAP_Get_Card_Info(int loginID, int recordNo, IntPtr result);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CardsCollection
@@ -369,16 +366,13 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_GetAll_Cards2(int loginID, IntPtr result);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_BeginGetAll_Cards(int loginID, ref int finderId);
+		public static extern bool WRAP_BeginGetAll_Cards(int loginID, ref int finderID);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_GetAll_Cards(int finderID, IntPtr result);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_EndGetAll_Cards(int finderID);
+		public static extern bool WRAP_EndGetAll(int finderID);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_GetAllCount(int finderID);
@@ -424,10 +418,7 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_RemoveAll_CardRecs(int loginID);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Get_CardRec_Info(int loginID, int recordNo, IntPtr result); // NET_RECORDSET_ACCESS_CTL_CARDREC
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_Get_CardRecs_Count(int loginID);
+		public static extern bool WRAP_Get_CardRec_Info(int loginID, int recordNo, IntPtr result);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CardRecsCollection
@@ -438,7 +429,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_GetAll_CardRecs(int loginID, IntPtr result);
+		public static extern bool WRAP_BeginGetAll_CardRecs(int loginID, ref int finderID);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_GetAll_CardRecs(int finderID, IntPtr result);
 		#endregion
 
 		#region Passwords
@@ -474,9 +468,6 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_Get_Password_Info(int loginID, int recordNo, IntPtr result);
 
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_Get_Passwords_Count(int loginID);
-
 		[StructLayout(LayoutKind.Sequential)]
 		public struct PasswordsCollection
 		{
@@ -486,7 +477,10 @@ namespace ChinaSKDDriverNativeApi
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_GetAll_Passwords(int loginID, IntPtr result);
+		public static extern bool WRAP_BeginGetAll_Passwords(int loginID, ref int finderID);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_GetAll_Passwords(int finderID, IntPtr result);
 		#endregion
 
 		#region Holidays
@@ -501,6 +495,8 @@ namespace ChinaSKDDriverNativeApi
 			public NET_TIME stuStartTime;
 			public NET_TIME stuEndTime;
 			public bool bEnable;
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+			public Char[] szHolidayNo;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]

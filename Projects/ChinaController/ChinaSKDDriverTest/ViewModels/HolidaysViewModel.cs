@@ -21,9 +21,9 @@ namespace ControllerSDK.ViewModels
 			GetAllCommand = new RelayCommand(OnGetAll);
 			Holidays = new ObservableCollection<HolidayViewModel>();
 
+			HolidayNo = "1";
 			StartDateTime = DateTime.Now;
 			EndDateTime = DateTime.Now;
-			IsEnabled = true;
 
 			Doors = new ObservableCollection<DoorItemViewModel>();
 			for (int i = 1; i <= 4; i++)
@@ -76,7 +76,7 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = MainViewModel.Wrapper.GetHolidayInfo(0);
+			var result = MainViewModel.Wrapper.GetHolidayInfo(Index);
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
@@ -104,7 +104,7 @@ namespace ControllerSDK.ViewModels
 			var holiday = new Holiday();
 			holiday.StartDateTime = StartDateTime;
 			holiday.EndDateTime = EndDateTime;
-			holiday.IsEnabled = IsEnabled;
+			holiday.HolidayNo = HolidayNo;
 			foreach (var door in Doors)
 			{
 				if (door.IsChecked)
@@ -140,6 +140,17 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
+		string _holidayNo;
+		public string HolidayNo
+		{
+			get { return _holidayNo; }
+			set
+			{
+				_holidayNo = value;
+				OnPropertyChanged(() => HolidayNo);
+			}
+		}
+
 		DateTime _startDateTime;
 		public DateTime StartDateTime
 		{
@@ -159,17 +170,6 @@ namespace ControllerSDK.ViewModels
 			{
 				_endDateTime = value;
 				OnPropertyChanged(() => EndDateTime);
-			}
-		}
-
-		bool _isEnabled;
-		public bool IsEnabled
-		{
-			get { return _isEnabled; }
-			set
-			{
-				_isEnabled = value;
-				OnPropertyChanged(() => IsEnabled);
 			}
 		}
 
