@@ -12,15 +12,13 @@ namespace FiresecAPI.GK
 		public XGuardZone()
 		{
 			UID = BaseUID;
-			DeviceUIDs = new List<Guid>();
 			PlanElementUIDs = new List<Guid>();
-			Devices = new List<XDevice>();
+			GuardZoneDevices = new List<XGuardZoneDevice>();
 		}
 
 		public override XBaseObjectType ObjectType { get { return XBaseObjectType.GuardZone; } }
 
 		public List<Guid> PlanElementUIDs { get; set; }
-		public List<XDevice> Devices { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -42,6 +40,9 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }
+
+		[DataMember]
+		public List<XGuardZoneDevice> GuardZoneDevices { get; set; }
 
 		public override string PresentationName
 		{

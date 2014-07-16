@@ -42,9 +42,12 @@ namespace GKModule.Validation
 			if (IsManyGK())
 			{
 				var devicesInZones = new List<XDevice>();
-				foreach (var zone in code.GuardZones)
+				foreach (var guardZone in code.GuardZones)
 				{
-					devicesInZones.AddRange(zone.Devices);
+					foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+					{
+						devicesInZones.Add(guardZoneDevice.Device);
+					}
 				}
 				if (AreDevicesInSameGK(devicesInZones))
 						Errors.Add(new CodeValidationError(code, "Код содержит зоны разных ГК", ValidationErrorLevel.CannotWrite));

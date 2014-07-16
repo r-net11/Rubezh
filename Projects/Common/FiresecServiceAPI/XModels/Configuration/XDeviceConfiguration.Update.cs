@@ -376,18 +376,17 @@ namespace FiresecAPI.GK
 		{
 			foreach (var guardZone in GuardZones)
 			{
-				var deviceUIDs = new List<Guid>();
-				guardZone.Devices = new List<XDevice>();
-				foreach (var deviceUID in guardZone.DeviceUIDs)
+				var guardZoneDevices = new List<XGuardZoneDevice>();
+				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
 				{
-					var device = Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+					var device = Devices.FirstOrDefault(x => x.BaseUID == guardZoneDevice.DeviceUID);
 					if (device != null)
 					{
-						guardZone.Devices.Add(device);
-						deviceUIDs.Add(deviceUID);
+						guardZoneDevice.Device = device;
+						guardZoneDevices.Add(guardZoneDevice);
 					}
 				}
-				guardZone.DeviceUIDs = deviceUIDs;
+				guardZone.GuardZoneDevices = guardZoneDevices;
 			}
 		}
 

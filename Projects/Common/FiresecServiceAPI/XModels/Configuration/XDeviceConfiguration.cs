@@ -180,6 +180,14 @@ namespace FiresecAPI.GK
 				GuardZones = new List<XGuardZone>();
 				result = false;
 			}
+			foreach (var guardZone in GuardZones)
+			{
+				if (guardZone.GuardZoneDevices == null)
+				{
+					guardZone.GuardZoneDevices = new List<XGuardZoneDevice>();
+					result = false;
+				}
+			}
 
 			if (Codes == null)
 			{

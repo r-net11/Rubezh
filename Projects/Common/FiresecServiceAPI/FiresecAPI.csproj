@@ -225,6 +225,7 @@
     <Compile Include="SKD\SKDManager\LockControlHelper.cs" />
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\DoorState.cs" />
+    <Compile Include="XModels\Guard\XGuardZoneDevice.cs" />
     <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
     <Compile Include="XModels\Guard\XGuardZoneAccess.cs" />

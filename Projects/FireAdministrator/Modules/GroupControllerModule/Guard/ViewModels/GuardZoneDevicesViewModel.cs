@@ -31,15 +31,22 @@ namespace GKModule.ViewModels
 			AvailableDevices = new ObservableCollection<GuardZoneDeviceViewModel>();
 			foreach (var device in XManager.Devices)
 			{
-				if (device.DriverType == XDriverType.RSR2_GuardDetector)
+				if (device.DriverType == XDriverType.RSR2_GuardDetector || device.DriverType == XDriverType.RSR2_AM_1 || device.DriverType == XDriverType.RSR2_HandDetector)
 				{
-					var deviceViewModel = new GuardZoneDeviceViewModel(device);
-					if (Zone.DeviceUIDs.Contains(device.UID))
+					var guardZoneDevice = Zone.GuardZoneDevices.FirstOrDefault(x => x.DeviceUID == device.UID);
+					if (guardZoneDevice != null)
 					{
+						var deviceViewModel = new GuardZoneDeviceViewModel(guardZoneDevice);
 						Devices.Add(deviceViewModel);
 					}
 					else
 					{
+						guardZoneDevice = new XGuardZoneDevice()
+						{
+							DeviceUID = device.UID,
+							Device = device
+						};
+						var deviceViewModel = new GuardZoneDeviceViewModel(guardZoneDevice);
 						AvailableDevices.Add(deviceViewModel);
 					}
 				}
@@ -109,8 +116,7 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(availabledeviceViewModel);
 				AvailableDevices.Remove(availabledeviceViewModel);
-				Zone.DeviceUIDs.Add(availabledeviceViewModel.Device.UID);
-				Zone.Devices.Add(availabledeviceViewModel.Device);
+				Zone.GuardZoneDevices.Add(availabledeviceViewModel.GuardZoneDevice);
 			}
 
 			Initialize(Zone);
@@ -149,8 +155,7 @@ namespace GKModule.ViewModels
 			{
 				AvailableDevices.Add(deviceViewModel);
 				Devices.Remove(deviceViewModel);
-				Zone.DeviceUIDs.Remove(deviceViewModel.Device.UID);
-				Zone.Devices.Remove(deviceViewModel.Device);
+				Zone.GuardZoneDevices.RemoveAll(x=>x.DeviceUID == deviceViewModel.GuardZoneDevice.Device.UID);
 			}
 
 			Initialize(Zone);
@@ -167,7 +172,7 @@ namespace GKModule.ViewModels
 		}
 		public bool CanRemove(object parameter)
 		{
-			return SelectedDevice != null && SelectedDevice.Device.Driver.HasZone;
+			return SelectedDevice != null;
 		}
 	}
 }

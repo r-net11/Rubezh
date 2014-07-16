@@ -1,39 +1,36 @@
 ﻿using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.TreeList;
+using System.Collections.ObjectModel;
+using System;
+using System.Linq;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
 	public class GuardZoneDeviceViewModel : TreeNodeViewModel<ZoneDeviceViewModel>
 	{
-		public XDevice Device { get; private set; }
+		public XGuardZoneDevice GuardZoneDevice { get; private set; }
 
-		public GuardZoneDeviceViewModel(XDevice device)
+		public GuardZoneDeviceViewModel(XGuardZoneDevice guardZoneDevice)
 		{
-			Device = device;
+			GuardZoneDevice = guardZoneDevice;
+			ActionTypes = new ObservableCollection<XGuardZoneDeviceActionType>(Enum.GetValues(typeof(XGuardZoneDeviceActionType)).Cast<XGuardZoneDeviceActionType>());
 		}
 
-		public XDriver Driver
+		public bool IsBold { get; set; }
+
+		public ObservableCollection<XGuardZoneDeviceActionType> ActionTypes { get; private set; }
+
+		public XGuardZoneDeviceActionType SelectedActionType
 		{
-			get { return Device.Driver; }
-		}
-		public string PresentationAddress
-		{
-			get { return Device.DottedPresentationAddress; }
-		}
-		public string PresentationZone
-		{
-			get
+			get { return GuardZoneDevice.ActionType; }
+			set
 			{
-				if (Device.Driver.HasLogic)
-					return XManager.GetPresentationZone(Device);
-				return null;
+				GuardZoneDevice.ActionType = value;
+				OnPropertyChanged(() => SelectedActionType);
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
-		public string Description
-		{
-			get { return Device.Description; }
-		}
-		public bool IsBold { get; set; }
 	}
 }
