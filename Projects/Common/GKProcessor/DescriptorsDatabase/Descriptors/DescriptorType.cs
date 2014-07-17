@@ -10,5 +10,6 @@
 		Delay,
 		Pim,
 		GuardZone,
+		Code,
 	}
 }

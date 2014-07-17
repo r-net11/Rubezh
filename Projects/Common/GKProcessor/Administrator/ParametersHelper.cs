@@ -131,6 +131,11 @@ namespace GKProcessor
 				properties.Add(new XProperty() { Value = binProperties[1].Value });
 				properties.Add(new XProperty() { Value = binProperties[2].Value });
 			}
+			if (descriptor.Code != null && binProperties.Count >= 2)
+			{
+				properties.Add(new XProperty() { Value = binProperties[0].Value });
+				properties.Add(new XProperty() { Value = binProperties[1].Value });
+			}
 			return new OperationResult<List<XProperty>>() { Result = properties };
 		}
 		static string SetDeviceParameters(CommonDatabase commonDatabase, BaseDescriptor descriptor, List<byte> parameterBytes)

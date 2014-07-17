@@ -118,7 +118,15 @@ namespace FiresecAPI.GK
 		{
 			GuardZone = guardZone;
 			UID = guardZone.BaseUID;
-			BaseObjectType = XBaseObjectType.Zone;
+			BaseObjectType = XBaseObjectType.GuardZone;
+		}
+
+		public XState(XCode code)
+			: this()
+		{
+			Code = code;
+			UID = code.BaseUID;
+			BaseObjectType = XBaseObjectType.Code;
 		}
 
 		public XDevice Device { get; private set; }
@@ -129,6 +137,7 @@ namespace FiresecAPI.GK
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
 		public XGuardZone GuardZone { get; private set; }
+		public XCode Code { get; private set; }
 		public XBaseObjectType BaseObjectType { get; private set; }
 
 		public void CopyTo(XState state)

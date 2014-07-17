@@ -155,6 +155,10 @@ namespace FiresecService.Service
 			{
 				xBase = XManager.Directions.FirstOrDefault(x => x.BaseUID == objectUID);
 			}
+			if (xBase == null)
+			{
+				xBase = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.BaseUID == objectUID);
+			}
 
 			if (xBase != null)
 			{
@@ -173,6 +177,10 @@ namespace FiresecService.Service
 			if (xBase == null)
 			{
 				xBase = XManager.Directions.FirstOrDefault(x => x.BaseUID == objectUID);
+			}
+			if (xBase == null)
+			{
+				xBase = XManager.DeviceConfiguration.Codes.FirstOrDefault(x => x.BaseUID == objectUID);
 			}
 
 			if (xBase != null)

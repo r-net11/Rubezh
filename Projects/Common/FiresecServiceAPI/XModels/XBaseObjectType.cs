@@ -27,5 +27,8 @@ namespace FiresecAPI.GK
 
 		[DescriptionAttribute("Охранная Зона")]
 		GuardZone,
+
+		[DescriptionAttribute("Код")]
+		Code,
 	}
 }

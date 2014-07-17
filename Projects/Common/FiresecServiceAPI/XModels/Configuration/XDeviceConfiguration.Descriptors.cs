@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FiresecClient;
 
 namespace FiresecAPI.GK
 {
@@ -14,6 +15,7 @@ namespace FiresecAPI.GK
 			PrepareMPTs();
 			PrepareDelays();
 			PrepareGuardZones();
+			PrepareCodes();
 		}
 
 		void PrepareZones()
@@ -67,6 +69,10 @@ namespace FiresecAPI.GK
 			foreach (var guardZone in GuardZones)
 			{
 				guardZone.ClearDescriptor();
+			}
+			foreach (var code in Codes)
+			{
+				code.ClearDescriptor();
 			}
 
 			foreach (var device in Devices)
@@ -279,6 +285,15 @@ namespace FiresecAPI.GK
 				{
 					guardZone.GkDatabaseParent = gkDevice;
 				}
+			}
+		}
+
+		void PrepareCodes()
+		{
+			foreach (var code in Codes)
+			{
+				code.KauDatabaseParent = null;
+				code.GkDatabaseParent = XManager.Devices.FirstOrDefault(x=>x.DriverType == XDriverType.GK);
 			}
 		}
 

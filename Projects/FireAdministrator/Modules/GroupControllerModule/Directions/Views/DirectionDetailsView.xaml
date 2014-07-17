@@ -48,8 +48,8 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 				<StackPanel Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
-					<Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding ReadPropertiesCommand}" ImageSource="/Controls;component/Images/readconfig.png" ToolTip="Считать параметры направления" />
-					<Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding WritePropertiesCommand}" ImageSource="/Controls;component/Images/writeconfig.png" ToolTip="Записать параметры направления" />
+					<Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding ReadPropertiesCommand}" ImageSource="/Controls;component/Images/Readconfig.png" ToolTip="Считать параметры направления" />
+					<Controls:ToolBarButton Width="36" Height="36" Margin="0,0,0,-8" Command="{Binding WritePropertiesCommand}" ImageSource="/Controls;component/Images/Writeconfig.png" ToolTip="Записать параметры направления" />
 					<Controls:ToolBarButton Width="36" Height="36" Command="{Binding ResetPropertiesCommand}" ImageSource="/Controls;component/Images/defconfig.png" ToolTip="Параметры по умолчанию" />
 				</StackPanel>
 			</Grid>

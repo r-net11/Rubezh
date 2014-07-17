@@ -17,6 +17,7 @@ namespace GKProcessor
 		public XDelay Delay { get; protected set; }
 		public XPim Pim { get; protected set; }
 		public XGuardZone GuardZone { get; protected set; }
+		public XCode Code { get; protected set; }
 		public ushort ControllerAdress { get; protected set; }
 		public ushort AdressOnController { get; protected set; }
 		public ushort PhysicalAdress { get; protected set; }
@@ -178,6 +179,9 @@ namespace GKProcessor
 
 					case DescriptorType.GuardZone:
 						return GuardZone;
+
+					case DescriptorType.Code:
+						return Code;
 				}
 				return null;
 			}

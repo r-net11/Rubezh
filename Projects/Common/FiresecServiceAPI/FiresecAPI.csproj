@@ -501,6 +501,7 @@
     <Compile Include="XModels\States\XZoneInternalState.cs" />
     <Compile Include="XModels\States\XMPTInternalState.cs" />
     <Compile Include="XModels\States\XGuardZoneInternalState.cs" />
+    <Compile Include="XModels\States\XCodeInternalState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />

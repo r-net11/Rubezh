@@ -23,18 +23,18 @@ namespace GKModule.Validation
 
 		void ValidateGuardPasswordEquality()
 		{
-			var codeNos = new HashSet<string>();
+			var codeNames = new HashSet<string>();
 			foreach (var code in XManager.DeviceConfiguration.Codes)
 			{
-				if (!codeNos.Add(code.Password))
-					Errors.Add(new CodeValidationError(code, "Дублируется пароль кода", ValidationErrorLevel.CannotWrite));
+				if (!codeNames.Add(code.Name))
+					Errors.Add(new CodeValidationError(code, "Дублируется название кода", ValidationErrorLevel.CannotWrite));
 			}
 		}
 
 		void ValidateEmptyPassword(XCode code)
 		{
-			if (string.IsNullOrEmpty(code.Password))
-				Errors.Add(new CodeValidationError(code, "Пустой пароль кода", ValidationErrorLevel.CannotWrite));
+			//if (string.IsNullOrEmpty(code.Password))
+			//    Errors.Add(new CodeValidationError(code, "Пустой пароль кода", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateCodeDifferentGK(XCode code)
@@ -56,8 +56,8 @@ namespace GKModule.Validation
 
 		void ValidateEmptyCode(XCode code)
 		{
-			if(code.GuardZoneUIDs.Count == 0)
-				Errors.Add(new CodeValidationError(code, "У кода отсутствуют зоны", ValidationErrorLevel.CannotWrite));
+			//if(code.GuardZoneUIDs.Count == 0)
+			//    Errors.Add(new CodeValidationError(code, "У кода отсутствуют зоны", ValidationErrorLevel.CannotWrite));
 		}
 	}
 }
