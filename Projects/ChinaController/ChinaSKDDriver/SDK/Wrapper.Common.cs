@@ -269,8 +269,8 @@ namespace ChinaSKDDriver
 						doorDayIntervalPart.StartMinute = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuStartTime.dwMinute;
 						doorDayIntervalPart.EndHour = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwHour;
 						doorDayIntervalPart.EndMinute = cfg_DOOROPEN_TIMESECTION_INFO.stuTime.stuEndTime.dwMinute;
+						doorDayIntervalPart.DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod)cfg_DOOROPEN_TIMESECTION_INFO.emDoorOpenMethod;
 						doorDayInterval.DoorDayIntervalParts.Add(doorDayIntervalPart);
-						doorDayInterval.DoorOpenMethod = (SKDDoorConfiguration_DoorOpenMethod)cfg_DOOROPEN_TIMESECTION_INFO.emDoorOpenMethod;
 					}
 					doorDayIntervalsCollection.DoorDayIntervals.Add(doorDayInterval);
 				}
@@ -336,7 +336,7 @@ namespace ChinaSKDDriver
 					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwHour = doorDayIntervalPart.EndHour;
 					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = doorDayIntervalPart.EndMinute;
 					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = 0;
-					info.stuDoorTimeSection[i].emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorConfiguration.DoorDayIntervalsCollection.DoorDayIntervals[i].DoorOpenMethod;
+					info.stuDoorTimeSection[i].emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorDayIntervalPart.DoorOpenMethod;
 				}
 			}
 
