@@ -103,25 +103,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ConvertExitToReleCommand { get; private set; }
 		void OnConvertExitToRele()
 		{
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DriverType == XDriverType.GKLine)
-				{
-					var driver = XManager.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GKRele);
-					device.Driver = driver;
-					device.DriverUID = driver.UID;
-				}
-			}
-			foreach (var device in XManager.Devices)
-			{
-				if (device.DriverType == XDriverType.GK)
-				{
-					XManager.DeviceConfiguration.UpdateGKPredefinedName(device);
-				}
-			}
-			XManager.UpdateConfiguration();
-			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-			ServiceFactory.SaveService.GKChanged = true;
+			MessageBoxService.Show("Obsolete");
 		}
 
 		public RelayCommand GoToTechnologicalCommand { get; private set; }

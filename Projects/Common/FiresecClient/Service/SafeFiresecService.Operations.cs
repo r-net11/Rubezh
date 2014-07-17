@@ -40,44 +40,6 @@ namespace FiresecClient
 			return SafeOperationCall(() => config, filename);
 		}
 
-		//public OperationResult<int> GetJournalLastId()
-		//{
-		//    return SafeOperationCall(() => { return FiresecService.GetJournalLastId(); }, "GetJournalLastId");
-		//}
-
-		//public OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter)
-		//{
-		//    return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
-		//}
-
-		//public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
-		//{
-		//    return SafeOperationCall(() => { return FiresecService.GetFilteredArchive(archiveFilter); }, "GetFilteredArchive");
-		//}
-
-		//public void BeginGetFilteredArchive(ArchiveFilter archiveFilter)
-		//{
-		//    SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter); }, "BeginGetFilteredArchive");
-		//}
-
-		//public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
-		//{
-		//    return SafeOperationCall(() => { return FiresecService.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
-		//}
-
-		//public OperationResult<DateTime> GetArchiveStartDate()
-		//{
-		//    return SafeOperationCall(() => { return FiresecService.GetArchiveStartDate(); }, "GetArchiveStartDate");
-		//}
-
-		//public void AddJournalRecords(List<JournalRecord> journalRecords)
-		//{
-		//    AddTask(() =>
-		//        {
-		//            SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
-		//        });
-		//}
-
 		public List<string> GetFileNamesList(string directory)
 		{
 			return SafeOperationCall(() => { return FiresecService.GetFileNamesList(directory); }, "GetFileNamesList");

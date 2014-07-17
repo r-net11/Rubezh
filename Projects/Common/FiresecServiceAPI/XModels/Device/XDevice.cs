@@ -39,6 +39,7 @@ namespace FiresecAPI.GK
 		public XDevice Parent { get; set; }
 		public List<XZone> Zones { get; set; }
 		public List<XDirection> Directions { get; set; }
+		public XGuardZone GuardZone { get; set; }
 		public bool HasDifferences { get; set; }
 		public bool HasMissingDifferences { get; set; }
 		public bool IsInMPT { get; set; }

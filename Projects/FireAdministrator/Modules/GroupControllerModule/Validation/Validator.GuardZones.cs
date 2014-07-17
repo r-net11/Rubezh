@@ -33,8 +33,13 @@ namespace GKModule.Validation
 
 		void ValidateDifferentGK(XGuardZone guardZone)
 		{
-			//if (AreDevicesInSameGK(guardZone.Devices))
-			//    Errors.Add(new GuardZoneValidationError(guardZone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
+			var devices = new List<XDevice>();
+			foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+			{
+				devices.Add(guardZoneDevice.Device);
+			}
+			if (AreDevicesInSameGK(devices))
+			    Errors.Add(new GuardZoneValidationError(guardZone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateGuardZoneHasNoDevices(XGuardZone guardZone)
@@ -54,7 +59,7 @@ namespace GKModule.Validation
 				{
 					if (!devices.Add(guardZoneDevice.Device))
 					{
-						Errors.Add(new GuardZoneValidationError(guardZone, "Устройство " + guardZoneDevice.Device.PresentationName + " уже подключено к другой зоне", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new GuardZoneValidationError(guardZone, "Устройство " + guardZoneDevice.Device.PresentationName + " уже подключено к другой охранной зоне", ValidationErrorLevel.CannotWrite));
 					}
 				}
 			}

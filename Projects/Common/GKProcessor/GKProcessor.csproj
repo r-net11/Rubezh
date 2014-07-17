@@ -101,7 +101,6 @@
     <Compile Include="Drivers\AddressDevices\Shu_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\SmokeDetector_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKIndicator_Helper.cs" />
-    <Compile Include="Drivers\GKDevices\GKLine_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKRele_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKSystem_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GK_Helper.cs" />

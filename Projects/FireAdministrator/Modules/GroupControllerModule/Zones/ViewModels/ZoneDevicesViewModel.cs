@@ -80,7 +80,6 @@ namespace GKModule.ViewModels
 			foreach (var device in availableDevices)
 			{
 				if ((device.DriverType == XDriverType.GKIndicator) ||
-					(device.DriverType == XDriverType.GKLine) ||
 					(device.DriverType == XDriverType.GKRele) ||
 					(device.DriverType == XDriverType.KAUIndicator))
 					continue;

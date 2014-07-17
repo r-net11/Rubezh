@@ -15,7 +15,23 @@ namespace GKModule.ViewModels
 		public GuardZoneDeviceViewModel(XGuardZoneDevice guardZoneDevice)
 		{
 			GuardZoneDevice = guardZoneDevice;
-			ActionTypes = new ObservableCollection<XGuardZoneDeviceActionType>(Enum.GetValues(typeof(XGuardZoneDeviceActionType)).Cast<XGuardZoneDeviceActionType>());
+
+			ActionTypes = new ObservableCollection<XGuardZoneDeviceActionType>();
+			switch (guardZoneDevice.Device.DriverType)
+			{
+				case XDriverType.RSR2_GuardDetector:
+					ActionTypes.Add(XGuardZoneDeviceActionType.SetAlarm);
+					break;
+
+				case XDriverType.RSR2_AM_1:
+				case XDriverType.RSR2_HandDetector:
+					ActionTypes.Add(XGuardZoneDeviceActionType.SetGuard);
+					ActionTypes.Add(XGuardZoneDeviceActionType.ResetGuard);
+					ActionTypes.Add(XGuardZoneDeviceActionType.SetAlarm);
+					break;
+			}
+			if (!ActionTypes.Contains(SelectedActionType))
+				GuardZoneDevice.ActionType = ActionTypes.FirstOrDefault();
 		}
 
 		public bool IsBold { get; set; }

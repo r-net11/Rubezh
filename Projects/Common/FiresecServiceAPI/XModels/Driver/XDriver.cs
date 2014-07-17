@@ -46,6 +46,8 @@ namespace FiresecAPI.GK
 		public bool IsAutoCreate { get; set; }
 		public byte MinAddress { get; set; }
 		public byte MaxAddress { get; set; }
+		public byte MinAddress2 { get; set; }
+		public byte MaxAddress2 { get; set; }
 		public byte MaxAddressOnShleif { get; set; }
 		public bool IsDeviceOnShleif { get; set; }
 		public bool IsReal { get; set; }

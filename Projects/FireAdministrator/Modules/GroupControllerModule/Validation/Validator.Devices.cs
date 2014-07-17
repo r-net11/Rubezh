@@ -36,6 +36,7 @@ namespace GKModule.Validation
 				ValidateDeviceSelfLogic(device);
 				ValidateRSR2AddressFollowing(device);
 				ValidateKAUAddressFollowing(device);
+				ValidateGuardDevice(device);
 			}
 		}
 
@@ -104,7 +105,7 @@ namespace GKModule.Validation
 			if(device.IsInMPT)
 				return;
 
-			if (device.DriverType == XDriverType.GKLine || device.DriverType == XDriverType.GKRele)
+			if (device.DriverType == XDriverType.GKRele)
 				return;
 
 			if (device.Driver.HasLogic && !device.Driver.IgnoreHasLogic && !device.IsChildMPTOrMRO())
@@ -232,6 +233,17 @@ namespace GKModule.Validation
 				{
 					Errors.Add(new DeviceValidationError(kauDevice, string.Format("Последовательность адресов КАУ, подключенных к ГК, должна быть неразрывна начиная с 1"), ValidationErrorLevel.CannotWrite));
 					break;
+				}
+			}
+		}
+
+		void ValidateGuardDevice(XDevice device)
+		{
+			if (device.DriverType == XDriverType.RSR2_GuardDetector)
+			{
+				if (device.GuardZone == null)
+				{
+					Errors.Add(new DeviceValidationError(device, string.Format("Охранное устройство но участвует в охранной зоне"), ValidationErrorLevel.Warning));
 				}
 			}
 		}

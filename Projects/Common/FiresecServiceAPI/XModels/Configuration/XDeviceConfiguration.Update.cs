@@ -86,6 +86,7 @@ namespace FiresecAPI.GK
 				device.ClearClauseDependencies();
 				device.Zones = new List<XZone>();
 				device.Directions = new List<XDirection>();
+				device.GuardZone = null;
 			}
 			foreach (var zone in Zones)
 			{
@@ -382,8 +383,12 @@ namespace FiresecAPI.GK
 					var device = Devices.FirstOrDefault(x => x.BaseUID == guardZoneDevice.DeviceUID);
 					if (device != null)
 					{
+						if (device.DriverType == XDriverType.RSR2_HandDetector || device.DriverType == XDriverType.RSR2_AM_1 || device.DriverType == XDriverType.RSR2_GuardDetector)
+							continue;
+
 						guardZoneDevice.Device = device;
 						guardZoneDevices.Add(guardZoneDevice);
+						device.GuardZone = guardZone;
 					}
 				}
 				guardZone.GuardZoneDevices = guardZoneDevices;

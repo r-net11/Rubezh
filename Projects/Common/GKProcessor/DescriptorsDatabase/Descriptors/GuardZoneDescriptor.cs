@@ -26,8 +26,91 @@ namespace GKProcessor
 		{
 			Formula = new FormulaBuilder();
 
+			List<XDevice> onDevices = new List<XDevice>();
+			List<XDevice> offDevices = new List<XDevice>();
+			List<XDevice> alarmDevices = new List<XDevice>();
+			foreach (var guardZoneDevice in GuardZone.GuardZoneDevices)
+			{
+				switch(guardZoneDevice.ActionType)
+				{
+					case XGuardZoneDeviceActionType.SetGuard:
+						onDevices.Add(guardZoneDevice.Device);
+						break;
+
+					case XGuardZoneDeviceActionType.ResetGuard:
+						offDevices.Add(guardZoneDevice.Device);
+						break;
+
+					case XGuardZoneDeviceActionType.SetAlarm:
+						alarmDevices.Add(guardZoneDevice.Device);
+						break;
+				}
+			}
+
+			if (onDevices.Count > 0)
+			{
+				var count = 0;
+				foreach (var device in onDevices)
+				{
+					Formula.AddGetBit(GetDeviceStateBit(device), device);
+					if (count > 0)
+					{
+						Formula.Add(FormulaOperationType.OR);
+					}
+					count++;
+				}
+				Formula.AddPutBit(XStateBit.TurnOn_InAutomatic, GuardZone);
+			}
+
+			if (offDevices.Count > 0)
+			{
+				var count = 0;
+				foreach (var device in offDevices)
+				{
+					Formula.AddGetBit(GetDeviceStateBit(device), device);
+					if (count > 0)
+					{
+						Formula.Add(FormulaOperationType.OR);
+					}
+					count++;
+				}
+				Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, GuardZone);
+			}
+
+			if (alarmDevices.Count > 0)
+			{
+				var count = 0;
+				foreach (var device in alarmDevices)
+				{
+					Formula.AddGetBit(GetDeviceStateBit(device), device);
+					if (count > 0)
+					{
+						Formula.Add(FormulaOperationType.OR);
+					}
+					count++;
+				}
+
+				Formula.AddGetBit(XStateBit.Fire1, GuardZone);
+				Formula.Add(FormulaOperationType.OR);
+				Formula.AddPutBit(XStateBit.Fire1, GuardZone);
+			}
+
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
+		}
+
+		XStateBit GetDeviceStateBit(XDevice device)
+		{
+			switch (device.DriverType)
+			{
+				case XDriverType.RSR2_AM_1:
+				case XDriverType.RSR2_GuardDetector:
+					return XStateBit.Fire1;
+
+				case XDriverType.RSR2_HandDetector:
+					return XStateBit.Fire2;
+			}
+			return XStateBit.Fire1;
 		}
 
 		void SetPropertiesBytes()
