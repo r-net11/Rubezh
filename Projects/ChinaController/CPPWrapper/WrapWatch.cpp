@@ -13,6 +13,16 @@ int LastWatchInfoIndex = -1;
 WRAP_JournalInfo* JournalInfos;
 int LastJournalIndex = -1;
 
+void AddCustomJournalItem(int loginID, int extraEventType)
+{
+	LastJournalIndex++;
+	WRAP_JournalInfo* journalInfo = &JournalInfos[LastJournalIndex];
+	journalInfo->Index = LastJournalIndex;
+	WRAP_JournalItem* journalItem = &journalInfo->JournalItem;
+	journalItem->LoginID = loginID;
+	journalItem->ExtraEventType = extraEventType;
+}
+
 void CALLBACK WRAP_DisConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
 {
 	for(int i = 0; i < 1000; i++)
@@ -21,47 +31,23 @@ void CALLBACK WRAP_DisConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort,
 		if(watchInfo->LoginId == lLoginID)
 		{
 			watchInfo->IsConnected = false;
-
-			//watchInfo->JournalLastIndex++;
-			//WRAP_JournalItem* journalItem = &watchInfo->WRAP_JournalItems[watchInfo->JournalLastIndex];
-			//journalItem->ExtraEventType = 1;
 		}
 	}
-
-	LastJournalIndex++;
-	WRAP_JournalInfo* journalInfo = &JournalInfos[LastJournalIndex];
-	journalInfo->Index = LastJournalIndex;
-	WRAP_JournalItem* journalItem = &journalInfo->JournalItem;
-	journalItem->LoginID = lLoginID;
-	journalItem->ExtraEventType = 1;
-
-	return;
+	AddCustomJournalItem(lLoginID, 1);
 }
 
 void CALLBACK WRAP_HaveReConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
 {
-	BOOL bRet = CLIENT_StartListenEx(lLoginID);
 	for(int i = 0; i < 1000; i++)
 	{
 		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
 		if(watchInfo->LoginId == lLoginID)
 		{
 			watchInfo->IsConnected = false;
-
-			//watchInfo->JournalLastIndex++;
-			//WRAP_JournalItem* journalItem = &watchInfo->WRAP_JournalItems[watchInfo->JournalLastIndex];
-			//journalItem->ExtraEventType = 2;
+			watchInfo->NeedToRestartListening = true;
 		}
 	}
-
-	LastJournalIndex++;
-	WRAP_JournalInfo* journalInfo = &JournalInfos[LastJournalIndex];
-	journalInfo->Index = LastJournalIndex;
-	WRAP_JournalItem* journalItem = &journalInfo->JournalItem;
-	journalItem->LoginID = lLoginID;
-	journalItem->ExtraEventType = 2;
-
-    return;
+	AddCustomJournalItem(lLoginID, 2);
 }
 
 BOOL CALLBACK WRAP_MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWORD dwBufLen, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
@@ -70,58 +56,48 @@ BOOL CALLBACK WRAP_MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWO
 	WRAP_JournalInfo* journalInfo = &JournalInfos[LastJournalIndex];
 	journalInfo->Index = LastJournalIndex;
 
-	//for(int i = 0; i < 1000; i++)
-	//{
-	//	WRAP_WatchInfo* watchInfo = &WatchInfos[i];
-	//	if(watchInfo->LoginId == loginID)
-	//	{
-	//		watchInfo->JournalLastIndex++;
-	//		WRAP_JournalItem* journalItem = &watchInfo->WRAP_JournalItems[watchInfo->JournalLastIndex];
-	//		journalItem->EventType = lCommand;
-
 	WRAP_JournalItem* journalItem = &journalInfo->JournalItem;
 	journalItem->LoginID = loginID;
+	journalItem->EventType = lCommand;
 
-			if (DH_ALARM_ACCESS_CTL_EVENT == lCommand)
-			{
-				ALARM_ACCESS_CTL_EVENT_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_EVENT_INFO*)pBuf;
-				journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
-				journalItem->nDoor = pstuAlarmInfo->nDoor;
-				journalItem->emEventType = pstuAlarmInfo->emEventType;
-				journalItem->bStatus = pstuAlarmInfo->bStatus;
-				journalItem->emCardType = pstuAlarmInfo->emCardType;
-				journalItem->emOpenMethod = pstuAlarmInfo->emOpenMethod;
-				strcpy(journalItem->szCardNo, pstuAlarmInfo->szCardNo);
-				strcpy(journalItem->szPwd, pstuAlarmInfo->szPwd);
-			}
-			else if (DH_ALARM_ACCESS_CTL_NOT_CLOSE == lCommand)
-			{
-				ALARM_ACCESS_CTL_NOT_CLOSE_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_NOT_CLOSE_INFO*)pBuf;
-				journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
-				journalItem->nDoor = pstuAlarmInfo->nDoor;
-				journalItem->nAction = pstuAlarmInfo->nAction;
-			}
-			else if (DH_ALARM_ACCESS_CTL_BREAK_IN == lCommand)
-			{
-				ALARM_ACCESS_CTL_BREAK_IN_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_BREAK_IN_INFO*)pBuf;
-				journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
-				journalItem->nDoor = pstuAlarmInfo->nDoor;
-			}
-			else if (DH_ALARM_ACCESS_CTL_REPEAT_ENTER == lCommand)
-			{
-				ALARM_ACCESS_CTL_REPEAT_ENTER_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_REPEAT_ENTER_INFO*)pBuf;
-				journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
-				journalItem->nDoor = pstuAlarmInfo->nDoor;
-			}
-			else if (DH_ALARM_ACCESS_CTL_DURESS == lCommand)
-			{
-				ALARM_ACCESS_CTL_DURESS_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_DURESS_INFO*)pBuf;
-				journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
-				journalItem->nDoor = pstuAlarmInfo->nDoor;
-				strcpy(journalItem->szCardNo, pstuAlarmInfo->szCardNo);
-			}
-	//	}
-	//}
+	if (DH_ALARM_ACCESS_CTL_EVENT == lCommand)
+	{
+		ALARM_ACCESS_CTL_EVENT_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_EVENT_INFO*)pBuf;
+		journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
+		journalItem->nDoor = pstuAlarmInfo->nDoor;
+		journalItem->emEventType = pstuAlarmInfo->emEventType;
+		journalItem->bStatus = pstuAlarmInfo->bStatus;
+		journalItem->emCardType = pstuAlarmInfo->emCardType;
+		journalItem->emOpenMethod = pstuAlarmInfo->emOpenMethod;
+		strcpy(journalItem->szCardNo, pstuAlarmInfo->szCardNo);
+		strcpy(journalItem->szPwd, pstuAlarmInfo->szPwd);
+	}
+	else if (DH_ALARM_ACCESS_CTL_NOT_CLOSE == lCommand)
+	{
+		ALARM_ACCESS_CTL_NOT_CLOSE_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_NOT_CLOSE_INFO*)pBuf;
+		journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
+		journalItem->nDoor = pstuAlarmInfo->nDoor;
+		journalItem->nAction = pstuAlarmInfo->nAction;
+	}
+	else if (DH_ALARM_ACCESS_CTL_BREAK_IN == lCommand)
+	{
+		ALARM_ACCESS_CTL_BREAK_IN_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_BREAK_IN_INFO*)pBuf;
+		journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
+		journalItem->nDoor = pstuAlarmInfo->nDoor;
+	}
+	else if (DH_ALARM_ACCESS_CTL_REPEAT_ENTER == lCommand)
+	{
+		ALARM_ACCESS_CTL_REPEAT_ENTER_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_REPEAT_ENTER_INFO*)pBuf;
+		journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
+		journalItem->nDoor = pstuAlarmInfo->nDoor;
+	}
+	else if (DH_ALARM_ACCESS_CTL_DURESS == lCommand)
+	{
+		ALARM_ACCESS_CTL_DURESS_INFO* pstuAlarmInfo = (ALARM_ACCESS_CTL_DURESS_INFO*)pBuf;
+		journalItem->DeviceDateTime = pstuAlarmInfo->stuTime;
+		journalItem->nDoor = pstuAlarmInfo->nDoor;
+		strcpy(journalItem->szCardNo, pstuAlarmInfo->szCardNo);
+	}
 
 	return TRUE;
 }
@@ -132,22 +108,24 @@ void CALL_METHOD WRAP_Initialize()
     CLIENT_SetAutoReconnect(WRAP_HaveReConnectFunc, 0);
 	CLIENT_SetDVRMessCallBack(WRAP_MessageCallBack, NULL);
 
-
 	WatchInfos = new WRAP_WatchInfo[1000];
 	for(int i = 0; i < 1000; i++)
 	{
-		//WatchInfos[i].WRAP_JournalItems = new WRAP_JournalItem[1000]();
-		WatchInfos[i].IsConnected = FALSE;
 		WatchInfos[i].LoginId = 0;
-		//WatchInfos[i].JournalLastIndex = -1;
+		WatchInfos[i].IsConnected = FALSE;
+		WatchInfos[i].NeedToRestartListening = FALSE;
 	}
-
 
 	JournalInfos = new WRAP_JournalInfo[1000];
 	for(int i = 0; i < 1000; i++)
 	{
 		JournalInfos[i].Index = -1;
 	}
+}
+
+void CALL_METHOD WRAP_Deinitialize()
+{
+	CLIENT_Cleanup();
 }
 
 int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], char password[25])
@@ -177,8 +155,6 @@ int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], ch
 	{
 		watchInfo->LoginId = lLoginHandle;
 		watchInfo->IsConnected = true;
-		//watchInfo->JournalLastIndex = -1;
-		watchInfo->IsConnected = true;
 	}
 
 	if (0 == lLoginHandle)
@@ -203,22 +179,23 @@ BOOL CALL_METHOD WRAP_Disconnect(int loginID)
 	}
 
 	BOOL result = CLIENT_Logout(loginID);
-	//CLIENT_Cleanup();
 	return result;
 }
 
 int CALL_METHOD WRAP_GetLastIndex()
 {
+	for(int i = 0; i < 1000; i++)
+	{
+		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
+		if(watchInfo->NeedToRestartListening == true)
+		{
+			CLIENT_StopListen(watchInfo->LoginId);
+			BOOL bRet = CLIENT_StartListenEx(watchInfo->LoginId);
+			watchInfo->NeedToRestartListening = !bRet;
+		}
+	}
+
 	return LastJournalIndex;
-	//for(int i = 0; i < 1000; i++)
-	//{
-	//	WRAP_WatchInfo* watchInfo = &WatchInfos[i];
-	//	if(watchInfo->LoginId == loginID)
-	//	{
-	//		return watchInfo->JournalLastIndex;
-	//	}
-	//}
-	return -1;
 }
 
 BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result)
@@ -237,28 +214,7 @@ BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result)
 	strcpy(result->szCardNo, journalItem.szCardNo);
 	strcpy(result->szPwd, journalItem.szPwd);
 	result->nAction = journalItem.nAction;
-
-	//for(int i = 0; i < 1000; i++)
-	//{
-	//	WRAP_WatchInfo* watchInfo = &WatchInfos[i];
-	//	if(watchInfo->LoginId == loginID)
-	//	{
-	//		WRAP_JournalItem journalItem = watchInfo->WRAP_JournalItems[index];
-	//		result->ExtraEventType = journalItem.ExtraEventType;
-	//		result->EventType = journalItem.EventType;
-	//		result->DeviceDateTime = journalItem.DeviceDateTime;
-	//		result->nDoor = journalItem.nDoor;
-	//		result->emEventType = journalItem.emEventType;
-	//		result->bStatus = journalItem.bStatus;
-	//		result->emCardType = journalItem.emCardType;
-	//		result->emOpenMethod = journalItem.emOpenMethod;
-	//		strcpy(result->szCardNo, journalItem.szCardNo);
-	//		strcpy(result->szPwd, journalItem.szPwd);
-	//		result->nAction = journalItem.nAction;
-	//		return TRUE;
-	//	}
-	//}
-	return FALSE;
+	return TRUE;
 }
 
 BOOL CALL_METHOD WRAP_IsConnected(int loginID)

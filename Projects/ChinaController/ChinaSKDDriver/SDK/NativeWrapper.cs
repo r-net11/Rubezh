@@ -10,6 +10,9 @@ namespace ChinaSKDDriverNativeApi
 		public static extern void WRAP_Initialize();
 
 		[DllImport(@"CPPWrapper.dll")]
+		public static extern void WRAP_Deinitialize();
+
+		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_Connect(string ipAddress, int port, string userName, string password);
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -249,28 +252,11 @@ namespace ChinaSKDDriverNativeApi
 			public bool bSensorEnable;
 		}
 
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CFG_ACCESS_EVENT_INFO_Bools
-		{
-			public bool bSnapshotEnable;
-			public bool abDoorOpenMethod;
-			public bool abUnlockHoldInterval;
-			public bool abCloseTimeout;
-			public bool abOpenAlwaysTimeIndex;
-			public bool abHolidayTimeIndex;
-			public bool abBreakInAlarmEnable;
-			public bool abRepeatEnterAlarmEnable;
-			public bool abDoorNotClosedAlarmEnable;
-			public bool abDuressAlarmEnable;
-			public bool abDoorTimeSection;
-			public bool abSensorEnable;
-		}
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_GetDoorConfiguration(int loginID, int channelNo, IntPtr result);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_GetDoorConfiguration(int loginID, int channelNo, IntPtr result, IntPtr result2);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_SetDoorConfiguration(int loginID, int channelNo, ref CFG_ACCESS_EVENT_INFO accessEventInfo, ref CFG_ACCESS_EVENT_INFO_Bools boolsConfig);
+		public static extern bool WRAP_SetDoorConfiguration(int loginID, int channelNo, ref CFG_ACCESS_EVENT_INFO accessEventInfo);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_ReBoot(int loginID);

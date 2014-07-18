@@ -63,10 +63,7 @@ namespace ChinaSKDDriver
 						lastIndex = index;
 					}
 				}
-				catch
-				{
-					//
-				}
+				catch { }
 			}
 		}
 

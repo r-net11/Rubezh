@@ -84,9 +84,9 @@ typedef struct tagCFG_ACCESS_EVENT_INFO_Bools
 	BOOL abSensorEnable;
 }CFG_ACCESS_EVENT_INFO_Bools;
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result, CFG_ACCESS_EVENT_INFO_Bools* resultBools);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo, CFG_ACCESS_EVENT_INFO_Bools* resultBools);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_ReBoot(int loginID);
 

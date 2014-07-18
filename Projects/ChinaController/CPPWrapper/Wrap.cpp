@@ -271,7 +271,7 @@ BOOL CALL_METHOD WRAP_SetProjectPassword(int loginID, char password[])
 	return bRet;
 }
 
-BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result, CFG_ACCESS_EVENT_INFO_Bools* resultBools)
+BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result)
 {
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
@@ -283,42 +283,26 @@ BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCES
 		int nRetLen = 0;
 		CFG_ACCESS_EVENT_INFO stuGeneralInfo = {0};
 		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_EVENT, szJsonBuf, &stuGeneralInfo, sizeof(stuGeneralInfo), &nRetLen);
-
-		CFG_ACCESS_EVENT_INFO_Bools boolsStruct = {sizeof(CFG_ACCESS_EVENT_INFO_Bools)};
-		boolsStruct.bSnapshotEnable = stuGeneralInfo.bSnapshotEnable;
-		boolsStruct.abDoorOpenMethod = stuGeneralInfo.abDoorOpenMethod;
-		boolsStruct.abUnlockHoldInterval = stuGeneralInfo.abUnlockHoldInterval;
-		boolsStruct.abCloseTimeout = stuGeneralInfo.abCloseTimeout;
-		boolsStruct.abOpenAlwaysTimeIndex = stuGeneralInfo.abOpenAlwaysTimeIndex;
-		boolsStruct.abHolidayTimeIndex = stuGeneralInfo.abHolidayTimeIndex;
-		boolsStruct.abBreakInAlarmEnable = stuGeneralInfo.abBreakInAlarmEnable;
-		boolsStruct.abRepeatEnterAlarmEnable = stuGeneralInfo.abRepeatEnterAlarmEnable;
-		boolsStruct.abDoorNotClosedAlarmEnable = stuGeneralInfo.abDoorNotClosedAlarmEnable;
-		boolsStruct.abDuressAlarmEnable = stuGeneralInfo.abDuressAlarmEnable;
-		boolsStruct.abDoorTimeSection = stuGeneralInfo.abDoorTimeSection;
-		boolsStruct.abSensorEnable = stuGeneralInfo.abSensorEnable;
-		
 		memcpy(result, &stuGeneralInfo, sizeof(CFG_ACCESS_EVENT_INFO));
-		memcpy(resultBools, &boolsStruct, sizeof(CFG_ACCESS_EVENT_INFO_Bools));
 		return bRet;
 	}
 	return FALSE;
 }
 
-BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo, CFG_ACCESS_EVENT_INFO_Bools* resultBools)
+BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo)
 {
-	stuGeneralInfo->bSnapshotEnable = resultBools->bSnapshotEnable;
-	stuGeneralInfo->abDoorOpenMethod = resultBools->abDoorOpenMethod;
-	stuGeneralInfo->abUnlockHoldInterval = resultBools->abUnlockHoldInterval;
-	stuGeneralInfo->abCloseTimeout = resultBools->abCloseTimeout;
-	stuGeneralInfo->abOpenAlwaysTimeIndex = resultBools->abOpenAlwaysTimeIndex;
-	stuGeneralInfo->abHolidayTimeIndex = resultBools->abHolidayTimeIndex;
-	stuGeneralInfo->abBreakInAlarmEnable = resultBools->abBreakInAlarmEnable;
-	stuGeneralInfo->abRepeatEnterAlarmEnable = resultBools->abRepeatEnterAlarmEnable;
-	stuGeneralInfo->abDoorNotClosedAlarmEnable = resultBools->abDoorNotClosedAlarmEnable;
-	stuGeneralInfo->abDuressAlarmEnable = resultBools->abDuressAlarmEnable;
-	stuGeneralInfo->abDoorTimeSection = resultBools->abDoorTimeSection;
-	stuGeneralInfo->abSensorEnable = resultBools->abSensorEnable;
+	stuGeneralInfo->bSnapshotEnable = true;
+	stuGeneralInfo->abDoorOpenMethod = true;
+	stuGeneralInfo->abUnlockHoldInterval = true;
+	stuGeneralInfo->abCloseTimeout = true;
+	stuGeneralInfo->abOpenAlwaysTimeIndex = true;
+	stuGeneralInfo->abHolidayTimeIndex = true;
+	stuGeneralInfo->abBreakInAlarmEnable = true;
+	stuGeneralInfo->abRepeatEnterAlarmEnable = true;
+	stuGeneralInfo->abDoorNotClosedAlarmEnable = true;
+	stuGeneralInfo->abDuressAlarmEnable = true;
+	stuGeneralInfo->abDoorTimeSection = true;
+	stuGeneralInfo->abSensorEnable = true;
 
 	char szJsonBufSet[1024 * 40] = {0};
 			
