@@ -429,6 +429,12 @@ namespace GKProcessor
 			}
 		}
 
+		public static bool GKAddUser(XDevice device, string userName)
+		{
+			//AddGKMessage(JournalEventNameType.Синхронизация_времени, "", device, userName, true);
+			return DeviceBytesHelper.AddUser(device);
+		}
+
 		#endregion
 
 		#region JournalItem Callback

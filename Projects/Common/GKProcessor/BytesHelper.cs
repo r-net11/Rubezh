@@ -13,6 +13,11 @@ namespace GKProcessor
 			return BitConverter.GetBytes(shortValue).ToList();
 		}
 
+		public static List<byte> IntToBytes(int intValue)
+		{
+			return BitConverter.GetBytes(intValue).ToList();
+		}
+
 		public static List<byte> StringDescriptionToBytes(string str, int length = 32)
 		{
 			if (str == null)

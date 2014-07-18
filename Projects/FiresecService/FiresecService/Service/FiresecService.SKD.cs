@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
+using FiresecClient;
 
 namespace FiresecService.Service
 {
@@ -22,6 +23,10 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveEmployee(Employee item)
 		{
+			//foreach (var gkDevice in XManager.DeviceConfiguration.RootDevice.Children)
+			//{
+			//    GKAddUser(gkDevice.UID);
+			//}
 			return SKDDatabaseService.EmployeeTranslator.Save(item);
 		}
 		public OperationResult MarkDeletedEmployee(Guid uid)

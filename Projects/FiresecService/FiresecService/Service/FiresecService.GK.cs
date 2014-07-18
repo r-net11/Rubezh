@@ -361,6 +361,25 @@ namespace FiresecService.Service
 			}
 		}
 
+		#region Users
+		public OperationResult<bool> GKAddUser(Guid deviceUID)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.BaseUID == deviceUID);
+			if (device != null)
+			{
+				var result = GKProcessorManager.GKAddUser(device, UserName);
+				if (result)
+					return new OperationResult<bool>() { Result = true };
+				else
+					return new OperationResult<bool>("Устройство недоступно") { Result = false };
+			}
+			else
+			{
+				return new OperationResult<bool>("Не найдено устройство в конфигурации");
+			}
+		}
+		#endregion
+
 		#region Journal
 		public void AddXJournalItem(XJournalItem journalItem)
 		{

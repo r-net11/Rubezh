@@ -174,5 +174,25 @@ namespace GKProcessor
 			}
 			return true;
 		}
+
+		public static bool AddUser(XDevice device)
+		{
+			var bytes = new List<byte>();
+			bytes.AddRange(BytesHelper.ShortToBytes(4));
+			bytes.Add(2);
+			bytes.Add(1);
+			var userNameBytes = BytesHelper.StringDescriptionToBytes("New User Name 2");
+			bytes.AddRange(userNameBytes);
+			bytes.AddRange(BytesHelper.IntToBytes(123));
+			bytes.Add(99);
+			for (int i = 0; i < 215; i++)
+			{
+				bytes.Add(0);
+			}
+			var sendResult = SendManager.Send(device, 256, 26, 0, bytes);
+			if (sendResult.Bytes.Count == 256)
+				return false;
+			return !sendResult.HasError;
+		}
 	}
 }
