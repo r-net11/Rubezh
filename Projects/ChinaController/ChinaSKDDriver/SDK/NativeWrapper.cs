@@ -123,10 +123,10 @@ namespace ChinaSKDDriverNativeApi
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_DevConfig_TypeAndSoftInfo_Result
 		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public char[] szDevType;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-			public char[] szSoftWareVersion;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szDevType;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szSoftWareVersion;
 			public Int32 dwSoftwareBuildDate_Year;
 			public Int32 dwSoftwareBuildDate_Month;
 			public Int32 dwSoftwareBuildDate_Day;
@@ -138,12 +138,12 @@ namespace ChinaSKDDriverNativeApi
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_CFG_NETWORK_INFO_Result
 		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			public char[] szIP;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			public char[] szSubnetMask;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 256)]
-			public char[] szDefGateway;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+			public string szIP;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+			public string szSubnetMask;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+			public string szDefGateway;
 			public Int32 nMTU;
 		}
 
@@ -156,8 +156,8 @@ namespace ChinaSKDDriverNativeApi
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_DevConfig_MAC_Result
 		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 40)]
-			public char[] szMAC;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
+			public string szMAC;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -183,12 +183,12 @@ namespace ChinaSKDDriverNativeApi
 		{
 			public int nLogType;
 			public DHDEVTIME stuOperateTime;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-			public char[] szOperator;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public char[] szOperation;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 4 * 1024)]
-			public char[] szDetailContext;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+			public string szOperator;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szOperation;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 4 * 1024)]
+			public string szDetailContext;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -205,8 +205,8 @@ namespace ChinaSKDDriverNativeApi
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_GeneralConfig_Password
 		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-			public char[] szProjectPassword;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szProjectPassword;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -218,8 +218,8 @@ namespace ChinaSKDDriverNativeApi
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO
 		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-			public char[] szChannelName;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szChannelName;
 			public CFG_ACCESS_STATE emState;
 			public CFG_ACCESS_MODE emMode;
 			public int nEnableMode;
@@ -381,10 +381,10 @@ namespace ChinaSKDDriverNativeApi
 		{
 			public int dwSize;
 			public int nRecNo;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public char[] szCardNo;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-			public char[] szPwd;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szCardNo;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szPwd;
 			public NET_TIME stuTime;
 			public bool bStatus;
 			public NET_ACCESS_DOOROPEN_METHOD emMethod;
@@ -428,12 +428,12 @@ namespace ChinaSKDDriverNativeApi
 			public int dwSize;
 			public int nRecNo;
 			public NET_TIME stuCreateTime;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public char[] szUserID;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-			public char[] szDoorOpenPwd;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-			public char[] szAlarmPwd;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szUserID;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szDoorOpenPwd;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szAlarmPwd;
 			public int nDoorNum;
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
 			public int[] sznDoors;
@@ -481,8 +481,8 @@ namespace ChinaSKDDriverNativeApi
 			public NET_TIME stuStartTime;
 			public NET_TIME stuEndTime;
 			public bool bEnable;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public Char[] szHolidayNo;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szHolidayNo;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -563,10 +563,10 @@ namespace ChinaSKDDriverNativeApi
 			public bool bStatus;
 			public NET_ACCESSCTLCARD_TYPE emCardType;
 			public NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public char[] szCardNo;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-			public char[] szPwd;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szCardNo;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szPwd;
 			public int nAction;
 		}
 

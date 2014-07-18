@@ -103,8 +103,8 @@ namespace ChinaSKDDriver
 					var isStatus = wrapJournalItem.bStatus;
 					var cardType = wrapJournalItem.emCardType;
 					var doorOpenMethod = wrapJournalItem.emOpenMethod;
-					var cardNo = CharArrayToString(wrapJournalItem.szCardNo);
-					var password = CharArrayToString(wrapJournalItem.szPwd);
+					var cardNo = wrapJournalItem.szCardNo;
+					var password = wrapJournalItem.szPwd;
 					description = eventType.ToString() + " " + isStatus.ToString() + " " + cardType.ToString() + " " + doorOpenMethod + " " + cardNo + " " + password;
 					break;
 
@@ -127,7 +127,7 @@ namespace ChinaSKDDriver
 				case DH_ALARM_ACCESS_CTL_DURESS:
 					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
 					doorNo = wrapJournalItem.nDoor;
-					cardNo = CharArrayToString(wrapJournalItem.szCardNo);
+					cardNo = wrapJournalItem.szCardNo;
 					break;
 
 				default:

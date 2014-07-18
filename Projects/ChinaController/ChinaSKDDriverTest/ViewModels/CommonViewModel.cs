@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
-using ChinaSKDDriver;
 using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 using Infrastructure.Common;
@@ -297,9 +296,9 @@ namespace ControllerSDK.ViewModels
 				{
 					var deviceJournalItem = new DeviceJournalItem();
 					//deviceJournalItem.DateTime = new DateTime(log.stuOperateTime.year, log.stuOperateTime.month, log.stuOperateTime.day, log.stuOperateTime.hour, log.stuOperateTime.minute, log.stuOperateTime.second);
-					deviceJournalItem.OperatorName = Wrapper.CharArrayToStringNoTrim(log.szOperator);
-					deviceJournalItem.Name = Wrapper.CharArrayToStringNoTrim(log.szOperation);
-					deviceJournalItem.Description = Wrapper.CharArrayToStringNoTrim(log.szDetailContext);
+					deviceJournalItem.OperatorName = log.szOperator;
+					deviceJournalItem.Name = log.szOperation;
+					deviceJournalItem.Description = log.szDetailContext;
 					deviceJournalItems.Add(deviceJournalItem);
 				}
 			}

@@ -114,9 +114,9 @@ namespace ChinaSKDDriver
 			nativePassword.stuCreateTime.dwHour = password.CreationDateTime.Hour;
 			nativePassword.stuCreateTime.dwMinute = password.CreationDateTime.Minute;
 			nativePassword.stuCreateTime.dwSecond = password.CreationDateTime.Second;
-			nativePassword.szUserID = StringToCharArray(password.UserID, 32);
-			nativePassword.szDoorOpenPwd = StringToCharArray(password.DoorOpenPassword, 64);
-			nativePassword.szAlarmPwd = StringToCharArray(password.AlarmPassword, 64);
+			nativePassword.szUserID = password.UserID;
+			nativePassword.szDoorOpenPwd = password.DoorOpenPassword;
+			nativePassword.szAlarmPwd = password.AlarmPassword;
 			nativePassword.nDoorNum = password.DoorsCount;
 			nativePassword.sznDoors = new int[32];
 			for (int i = 0; i < password.Doors.Count; i++)
@@ -131,9 +131,9 @@ namespace ChinaSKDDriver
 			var password = new Password();
 			password.RecordNo = nativePassword.nRecNo;
 			password.CreationDateTime = NET_TIMEToDateTime(nativePassword.stuCreateTime);
-			password.UserID = CharArrayToString(nativePassword.szUserID);
-			password.DoorOpenPassword = CharArrayToString(nativePassword.szDoorOpenPwd);
-			password.AlarmPassword = CharArrayToString(nativePassword.szAlarmPwd);
+			password.UserID = nativePassword.szUserID;
+			password.DoorOpenPassword = nativePassword.szDoorOpenPwd;
+			password.AlarmPassword = nativePassword.szAlarmPwd;
 			password.DoorsCount = nativePassword.nDoorNum;
 			password.Doors = nativePassword.sznDoors.ToList();
 			return password;

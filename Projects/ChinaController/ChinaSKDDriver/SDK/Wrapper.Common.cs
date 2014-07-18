@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
@@ -11,37 +9,6 @@ namespace ChinaSKDDriver
 	public partial class Wrapper
 	{
 		#region Helpers
-		public static string CharArrayToString(char[] charArray)
-		{
-			var result = new string(charArray);
-			int i = result.IndexOf('\0');
-			if (i >= 0)
-				result = result.Substring(0, i);
-			return result;
-		}
-
-		public static string CharArrayToStringNoTrim(char[] charArray)
-		{
-			var result = new string(charArray);
-			//int i = result.IndexOf('\0');
-			//if (i >= 0)
-			//    result = result.Substring(0, i);
-			return result;
-		}
-
-		public static char[] StringToCharArray(string str, int size)
-		{
-			var result = new char[size];
-			if (str == null)
-				str = "";
-			var charArray = str.ToCharArray();
-			for (int i = 0; i < Math.Min(charArray.Count(), size); i++)
-			{
-				result[i] = charArray[i];
-			}
-			return result;
-		}
-
 		public static DateTime NET_TIMEToDateTime(NativeWrapper.NET_TIME netTime)
 		{
 			DateTime dateTime = DateTime.MinValue;
@@ -88,8 +55,8 @@ namespace ChinaSKDDriver
 			if (result)
 			{
 				deviceSoftwareInfo = new DeviceSoftwareInfo();
-				deviceSoftwareInfo.DeviceType = Wrapper.CharArrayToString(outResult.szDevType);
-				deviceSoftwareInfo.SoftwareVersion = Wrapper.CharArrayToString(outResult.szSoftWareVersion);
+				deviceSoftwareInfo.DeviceType = outResult.szDevType;
+				deviceSoftwareInfo.SoftwareVersion = outResult.szSoftWareVersion;
 				try
 				{
 					if (outResult.dwSoftwareBuildDate_Year > 0 && outResult.dwSoftwareBuildDate_Month > 0 && outResult.dwSoftwareBuildDate_Day > 0)
@@ -109,9 +76,9 @@ namespace ChinaSKDDriver
 			if (result)
 			{
 				deviceNetInfo = new DeviceNetInfo();
-				deviceNetInfo.IP = Wrapper.CharArrayToString(outResult.szIP);
-				deviceNetInfo.SubnetMask = Wrapper.CharArrayToString(outResult.szSubnetMask);
-				deviceNetInfo.DefaultGateway = Wrapper.CharArrayToString(outResult.szDefGateway);
+				deviceNetInfo.IP = outResult.szIP;
+				deviceNetInfo.SubnetMask = outResult.szSubnetMask;
+				deviceNetInfo.DefaultGateway = outResult.szDefGateway;
 				deviceNetInfo.MTU = outResult.nMTU;
 			}
 			return deviceNetInfo;
@@ -129,7 +96,7 @@ namespace ChinaSKDDriver
 			var result = NativeWrapper.WRAP_GetMacAddress(LoginID, out outResult);
 			if (result)
 			{
-				var macAddress = Wrapper.CharArrayToString(outResult.szMAC);
+				var macAddress = outResult.szMAC;
 				return macAddress;
 			}
 			return null;
@@ -187,7 +154,7 @@ namespace ChinaSKDDriver
 			var result = NativeWrapper.WRAP_GetProjectPassword(LoginID, out outResult);
 			if (result)
 			{
-				var projectPassword = Wrapper.CharArrayToString(outResult.szProjectPassword);
+				var projectPassword = outResult.szProjectPassword;
 				return projectPassword;
 			}
 			else
@@ -224,7 +191,7 @@ namespace ChinaSKDDriver
 			if (result)
 			{
 				var doorConfiguration = new DoorConfiguration();
-				doorConfiguration.ChannelName = Wrapper.CharArrayToString(outResult.szChannelName);
+				doorConfiguration.ChannelName = outResult.szChannelName;
 				doorConfiguration.AccessState = (AccessState)outResult.emState;
 				doorConfiguration.AccessMode = (AccessMode)outResult.emMode;
 				doorConfiguration.EnableMode = outResult.nEnableMode;
@@ -265,7 +232,7 @@ namespace ChinaSKDDriver
 		public bool SetDoorConfiguration(DoorConfiguration doorConfiguration, int doorNo)
 		{
 			NativeWrapper.CFG_ACCESS_EVENT_INFO info = new NativeWrapper.CFG_ACCESS_EVENT_INFO();
-			info.szChannelName = StringToCharArray(doorConfiguration.ChannelName, 128);
+			info.szChannelName = doorConfiguration.ChannelName;
 			info.emState = (NativeWrapper.CFG_ACCESS_STATE)doorConfiguration.AccessState;
 			info.emMode = (NativeWrapper.CFG_ACCESS_MODE)doorConfiguration.AccessMode;
 			info.nEnableMode = doorConfiguration.EnableMode;

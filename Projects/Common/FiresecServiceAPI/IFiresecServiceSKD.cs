@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 
 namespace FiresecAPI

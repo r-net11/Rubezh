@@ -107,8 +107,8 @@ namespace ChinaSKDDriver
 		NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC CardRecToNativeCardRec(CardRec cardRec)
 		{
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARDREC();
-			nativeCardRec.szCardNo = StringToCharArray(cardRec.CardNo, 32);
-			nativeCardRec.szPwd = StringToCharArray(cardRec.Password, 64);
+			nativeCardRec.szCardNo = cardRec.CardNo;
+			nativeCardRec.szPwd = cardRec.Password;
 
 			nativeCardRec.stuTime.dwYear = cardRec.DateTime.Year;
 			nativeCardRec.stuTime.dwMonth = cardRec.DateTime.Month;
@@ -127,8 +127,8 @@ namespace ChinaSKDDriver
 		{
 			var cardRec = new CardRec();
 			cardRec.RecordNo = nativeCardRec.nRecNo;
-			cardRec.CardNo = CharArrayToString(nativeCardRec.szCardNo);
-			cardRec.Password = CharArrayToString(nativeCardRec.szPwd);
+			cardRec.CardNo = nativeCardRec.szCardNo;
+			cardRec.Password = nativeCardRec.szPwd;
 			cardRec.DateTime = NET_TIMEToDateTime(nativeCardRec.stuTime);
 			cardRec.IsStatus = nativeCardRec.bStatus;
 			cardRec.DoorOpenMethod = (CardRecDoorOpenMethod)nativeCardRec.emMethod;

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
-using FiresecAPI.Models;
 using FiresecAPI.Journal;
+using FiresecAPI.Models;
 
 namespace FiresecAPI
 {

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
@@ -100,7 +100,7 @@ namespace ChinaSKDDriver
 			nativeHoliday.stuEndTime.dwHour = holiday.EndDateTime.Hour;
 			nativeHoliday.stuEndTime.dwMinute = holiday.EndDateTime.Minute;
 			nativeHoliday.stuEndTime.dwSecond = holiday.EndDateTime.Second;
-			nativeHoliday.szHolidayNo = Wrapper.StringToCharArray(holiday.HolidayNo, 32);
+			nativeHoliday.szHolidayNo = holiday.HolidayNo;
 			return nativeHoliday;
 		}
 
@@ -112,7 +112,7 @@ namespace ChinaSKDDriver
 			holiday.Doors = nativeHoliday.sznDoors.ToList();
 			holiday.StartDateTime = NET_TIMEToDateTime(nativeHoliday.stuStartTime);
 			holiday.EndDateTime = NET_TIMEToDateTime(nativeHoliday.stuEndTime);
-			holiday.HolidayNo = CharArrayToString(nativeHoliday.szHolidayNo);
+			holiday.HolidayNo = nativeHoliday.szHolidayNo;
 			return holiday;
 		}
 	}
