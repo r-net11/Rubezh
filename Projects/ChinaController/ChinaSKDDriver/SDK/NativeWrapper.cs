@@ -579,5 +579,31 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_IsConnected(int loginID);
 		#endregion
+
+		#region Native
+		//[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+		public delegate void fDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern Boolean CLIENT_Init(fDisConnectDelegate cbDisConnect, UInt32 dwUser);
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct NET_DEVICEINFO
+		{
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 48)]
+			public Byte[] sSerialNumber;
+			public Byte byAlarmInPortNum;
+			public Byte byAlarmOutPortNum;
+			public Byte byDiskNum;
+			public Byte byDVRType;
+			public Byte byChanNum;
+		}
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern Int32 CLIENT_Login(String pchDVRIP, UInt16 wDVRPort, String pchUserName, String pchPassword, out NET_DEVICEINFO lpDeviceInfo, out Int32 error);
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern bool CLIENT_Cleanup();
+		#endregion
 	}
 }

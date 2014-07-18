@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CPPWrapper", "CPPWrapper\CP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\Common\FiresecServiceAPI\FiresecAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleSDK", "ChinaSKDDriverConsoleTest\ConsoleSDK.csproj", "{A715CE9A-319F-4CE6-917A-B09E6BE899F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,20 @@ Global
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x64.Build.0 = Release|x64
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x86.ActiveCfg = Release|x86
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x86.Build.0 = Release|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Debug|Win32.ActiveCfg = Debug|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Debug|x64.ActiveCfg = Debug|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Debug|x86.ActiveCfg = Debug|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Debug|x86.Build.0 = Debug|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Release|Any CPU.ActiveCfg = Release|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Release|Win32.ActiveCfg = Release|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Release|x64.ActiveCfg = Release|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Release|x86.ActiveCfg = Release|x86
+		{A715CE9A-319F-4CE6-917A-B09E6BE899F3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
