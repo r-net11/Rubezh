@@ -134,9 +134,9 @@ namespace ChinaSKDDriver
 			nativeCard.stuValidEndTime.dwMinute = 0;
 			nativeCard.stuValidEndTime.dwSecond = 0;
 
-			nativeCard.szCardNo = StringToCharArray(card.CardNo, 32);
-			nativeCard.szPsw = Wrapper.StringToCharArray(card.Password, 64);
-			nativeCard.szUserID = Wrapper.StringToCharArray("1", 32);
+			nativeCard.szCardNo = card.CardNo;
+			nativeCard.szPsw = card.Password;
+			nativeCard.szUserID = "1";
 
 			nativeCard.nDoorNum = card.Doors.Count;
 			nativeCard.sznDoors = new int[32];
@@ -159,9 +159,9 @@ namespace ChinaSKDDriver
 		{
 			var card = new Card();
 			card.RecordNo = nativeCard.nRecNo;
-			card.CardNo = CharArrayToString(nativeCard.szCardNo);
+			card.CardNo = nativeCard.szCardNo;
 			card.CardType = (CardType)nativeCard.emType;
-			card.Password = CharArrayToString(nativeCard.szPsw);
+			card.Password = nativeCard.szPsw;
 			card.DoorsCount = nativeCard.nDoorNum;
 			card.Doors = nativeCard.sznDoors.ToList();
 			card.TimeSectionsCount = nativeCard.nTimeSectionNum;

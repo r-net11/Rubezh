@@ -308,14 +308,14 @@ namespace ChinaSKDDriverNativeApi
 			public Int32 dwSize;
 			public Int32 nRecNo;
 			public NET_TIME stuCreateTime;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public Char[] szCardNo;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
-			public Char[] szUserID;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szCardNo;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szUserID;
 			public NET_ACCESSCTLCARD_STATE emStatus;
 			public NET_ACCESSCTLCARD_TYPE emType;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-			public Char[] szPsw;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szPsw;
 			public Int32 nDoorNum;
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
 			public Int32[] sznDoors;
