@@ -39,6 +39,9 @@ namespace FiresecAPI.SKD
 		public DateTimePeriod Dismissed { get; set; }
 
 		[DataMember]
-		public PersonType PersonType { get; set; } 
+		public PersonType PersonType { get; set; }
+
+		[DataMember]
+		public int CardNo { get; set; }
 	}
 }

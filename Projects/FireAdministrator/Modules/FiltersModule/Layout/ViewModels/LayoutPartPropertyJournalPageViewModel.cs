@@ -8,7 +8,7 @@ using Infrastructure.Common.Services.Layout;
 using FiresecClient;
 using FiresecAPI.Journal;
 
-namespace SKDModule.ViewModels
+namespace FiltersModule.ViewModels
 {
 	public class LayoutPartPropertyJournalPageViewModel : LayoutPartPropertyPageViewModel
 	{

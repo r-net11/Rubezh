@@ -37,7 +37,7 @@
 					<Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center"
 					   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
 					<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
-								Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
+							Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
 								<TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" />
@@ -244,7 +244,7 @@
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+								<Image Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
 								<TextBlock Text="{Binding Name}" />
 							</StackPanel>
 						</DataTemplate>

@@ -9,13 +9,13 @@ namespace SKDModule.ViewModels
 		bool HasPhoto { get { return AdditionalColumn.Photo != null && AdditionalColumn.Photo.Data != null; } }
 		public AdditionalColumn AdditionalColumn { get; private set; }
 
-		public byte[] Data 
+		public byte[] Data
 		{
-			get 
+			get
 			{
 				if (!HasPhoto)
 					return null;
-				return AdditionalColumn.Photo.Data; 
+				return AdditionalColumn.Photo.Data;
 			}
 			set
 			{
@@ -36,26 +36,26 @@ namespace SKDModule.ViewModels
 	public class PhotoColumnViewModel : BaseViewModel, IGraphicsColumnViewModel
 	{
 		public string Name { get; private set; }
-		bool HasPhoto { get { return Photo != null && Photo.Data != null; } } 
+		bool HasPhoto { get { return Photo != null && Photo.Data != null; } }
 		public Photo Photo { get; private set; }
 
-		public byte[] Data 
+		public byte[] Data
 		{
-			get 
+			get
 			{
 				if (!HasPhoto)
 					return null;
-				return Photo.Data; 
+				return Photo.Data;
 			}
 			set
 			{
-				if(Photo == null)
+				if (Photo == null)
 					Photo = new Photo();
 				Photo.Data = value;
 				OnPropertyChanged(() => Data);
 				OnPropertyChanged(() => HasPhoto);
 			}
-		} 
+		}
 
 		public PhotoColumnViewModel(Photo photo)
 		{

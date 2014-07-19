@@ -7,10 +7,13 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Client.Layout;
+using FiresecAPI.Models.Layouts;
 
 namespace FiltersModule
 {
-	public class FilterModule : ModuleBase, IValidationModule
+	public class FilterModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
 		FiltersViewModel FiltersViewModel;
 
@@ -40,5 +43,15 @@ namespace FiltersModule
 			var validator = new Validator();
 			return validator.Validate();
 		}
+
+		#region ILayoutDeclarationModule Members
+
+		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
+		{
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Journal, 120, "Журнал", "Панель журнал", "BLevels.png") { Factory = (p) => new LayoutPartJournalViewModel(p as LayoutPartJournalProperties), };
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.Archive, 121, "Архив", "Панель архив", "BLevels.png");
+		}
+
+		#endregion
 	}
 }

@@ -35,13 +35,16 @@ namespace SKDModule.ViewModels
 				var organisationViewModel = new AccessTemplateViewModel(organisation);
 				Organisations.Add(organisationViewModel);
 				AllAccessTemplates.Add(organisationViewModel);
-				foreach (var accessTemplate in accessTemplates)
+				if (accessTemplates != null)
 				{
-					if (accessTemplate.OrganisationUID == organisation.UID)
+					foreach (var accessTemplate in accessTemplates)
 					{
-						var accessTemplateViewModel = new AccessTemplateViewModel(organisation, accessTemplate);
-						organisationViewModel.AddChild(accessTemplateViewModel);
-						AllAccessTemplates.Add(accessTemplateViewModel);
+						if (accessTemplate.OrganisationUID == organisation.UID)
+						{
+							var accessTemplateViewModel = new AccessTemplateViewModel(organisation, accessTemplate);
+							organisationViewModel.AddChild(accessTemplateViewModel);
+							AllAccessTemplates.Add(accessTemplateViewModel);
+						}
 					}
 				}
 			}

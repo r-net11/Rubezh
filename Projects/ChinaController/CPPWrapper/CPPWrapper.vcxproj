@@ -124,9 +124,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DevConfig.cpp" />
-    <ClCompile Include="DevCtrl.cpp" />
-    <ClCompile Include="EntranceGuardDemo.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -143,8 +140,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Commons.h" />
-    <ClInclude Include="DevConfig.h" />
-    <ClInclude Include="DevCtrl.h" />
     <ClInclude Include="StdAfx.h" />
     <ClInclude Include="Wrap.h" />
     <ClInclude Include="WrapCardRecs.h" />

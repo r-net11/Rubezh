@@ -21,6 +21,9 @@ namespace ConsoleSDK
 			NativeWrapper.CLIENT_Cleanup();
 		}
 
-		static void OnDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+		static void OnDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
+		{
+			;
+		}
 	}
 }

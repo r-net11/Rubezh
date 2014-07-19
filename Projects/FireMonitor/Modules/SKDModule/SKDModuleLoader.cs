@@ -19,7 +19,6 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
-//using JournalItem = JournalItem;
 
 namespace SKDModule
 {

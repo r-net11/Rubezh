@@ -12,6 +12,10 @@ namespace Infrastructure.Client.Layout
 
 		public static readonly Guid Image = new Guid("{230B5A83-15B9-4F32-B3A4-6E00B430227E}");
 
+		public static readonly Guid Journal = new Guid("{649103B7-794A-44CF-9019-39E0BF0C1986}");
+		public static readonly Guid Archive = new Guid("{803B107F-66FD-46A8-B839-1814C43A5EE2}");
+		public static readonly Guid Plans = new Guid("{7E9E5110-4E52-43CB-902D-DE2F715529EF}");
+
 		public static readonly Guid Alarms = new Guid("{A8C3AA98-2684-41E8-8248-BD27E206DB81}");
 		public static readonly Guid GDevices = new Guid("{C23D21B1-950D-40C8-A283-00FD0CF6AFB1}");
 		public static readonly Guid Zones = new Guid("{753B008A-D326-4A1D-B67D-DAE7A4A6CD1B}");
@@ -19,10 +23,8 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid Directions = new Guid("{020501DC-00A7-4EA7-B251-D4C98B7C796F}");
 		public static readonly Guid PumpStations = new Guid("{C96EB8B0-E6DA-482c-B19C-3BD862768713}");
 		public static readonly Guid MPTs = new Guid("{BE50C86B-75C2-4850-8894-A325B14F946A}");
-		public static readonly Guid Journals = new Guid("{7CA2FB98-264B-4157-8BD0-0881723BE0CA}");
-		public static readonly Guid Archive = new Guid("{B8202F86-5ADD-4AB2-AAED-CBC10505E25A}");
-		public static readonly Guid Plans = new Guid("{61333BFC-6B02-467F-A2BA-E57E748908AC}");
-		public static readonly Guid PlansEx = new Guid("{7E9E5110-4E52-43CB-902D-DE2F715529EF}");
+		public static readonly Guid GKJournals = new Guid("{7CA2FB98-264B-4157-8BD0-0881723BE0CA}");
+		public static readonly Guid GKArchive = new Guid("{B8202F86-5ADD-4AB2-AAED-CBC10505E25A}");
 		public static readonly Guid Reports = new Guid("{AF658FD9-1EDF-4418-AB5F-AC32426ED114}");
 		public static readonly Guid Diagnostics = new Guid("{FD516EB7-CF78-4783-AFD4-08AC7A840550}");
 		public static readonly Guid CamerasList = new Guid("{738AECD7-A02F-490D-B352-7306C2257866}");
@@ -32,7 +34,6 @@ namespace Infrastructure.Client.Layout
 		// SKD
 		public static readonly Guid SKDDevices = new Guid("{41B13062-368D-40D7-B0C5-BCEE16429518}");
 		public static readonly Guid SKDZones = new Guid("{64FB191F-004A-4F52-A0D0-A739031EDBF5}");
-		public static readonly Guid SKDJournal = new Guid("{649103B7-794A-44CF-9019-39E0BF0C1986}");
 		public static readonly Guid SKDHR = new Guid("{CADC9059-9868-4B31-A072-992776677C57}");
 		public static readonly Guid SKDVerification = new Guid("{3223085C-F808-49DC-B215-45875DA67833}");
 		public static readonly Guid SKDNamedIntervals = new Guid("{3BB6AB5A-4CD8-4D12-B46C-27E8F9DB8A51}");

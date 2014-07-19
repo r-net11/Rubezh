@@ -10,10 +10,12 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Client.Layout;
 
 namespace JournalModule
 {
-	public class JournalModuleLoader : ModuleBase
+	public class JournalModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		private NavigationItem _journalNavigationItem;
 		JournalViewModel JournalViewModel;
@@ -108,5 +110,15 @@ namespace JournalModule
 				ServiceFactory.Events.GetEvent<GetFilteredSKDArchiveCompletedEvent>().Publish(archiveResult);
 			});
 		}
+
+		#region ILayoutProviderModule Members
+
+		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
+		{
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "Book.png", (p) => JournalViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) => ArchiveViewModel);
+		}
+
+		#endregion
 	}
 }
