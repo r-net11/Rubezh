@@ -42,7 +42,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			#region Setup DockWidth/Height for children
 			if (_model.Orientation == Orientation.Horizontal)
 			{
-				if (_model.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>())
+				if (_model.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup, LayoutDocumentPaneTab>())
 				{
 					for (int i = 0; i < _model.Children.Count; i++)
 					{
@@ -50,8 +50,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 						var childPositionableModel = _model.Children[i] as ILayoutPositionableElement;
 
 						if (childContainerModel != null &&
-							(childContainerModel.IsOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>() ||
-							 childContainerModel.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>()))
+							(childContainerModel.IsOfType<LayoutDocumentPane, LayoutDocumentPaneGroup, LayoutDocumentPaneTab>() ||
+							 childContainerModel.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup, LayoutDocumentPaneTab>()))
 						{
 							childPositionableModel.DockWidth = new GridLength(1.0, GridUnitType.Star);
 						}
@@ -84,7 +84,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			}
 			else
 			{
-				if (_model.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>())
+				if (_model.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup, LayoutDocumentPaneTab>())
 				{
 					for (int i = 0; i < _model.Children.Count; i++)
 					{
@@ -92,8 +92,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 						var childPositionableModel = _model.Children[i] as ILayoutPositionableElement;
 
 						if (childContainerModel != null &&
-							(childContainerModel.IsOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>() ||
-							 childContainerModel.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>()))
+							(childContainerModel.IsOfType<LayoutDocumentPane, LayoutDocumentPaneGroup, LayoutDocumentPaneTab>() ||
+							 childContainerModel.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup, LayoutDocumentPaneTab>()))
 						{
 							childPositionableModel.DockHeight = new GridLength(1.0, GridUnitType.Star);
 						}

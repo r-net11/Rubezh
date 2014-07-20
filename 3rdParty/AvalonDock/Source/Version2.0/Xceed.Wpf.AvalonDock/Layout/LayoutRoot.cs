@@ -594,11 +594,24 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
 			}
 			while (!exitFlag);
-
-
-
 			#endregion
 
+			#region collapse single child document pane tabs
+			do
+			{
+				exitFlag = true;
+				//for each tab that is empty
+				foreach (var paneTabToCollapse in this.Descendents().OfType<LayoutDocumentPaneTab>().Where(p => p.ChildrenCount == 1).ToArray())
+				{
+					var child = paneTabToCollapse.Children.First();
+					paneTabToCollapse.Parent .ReplaceChild(paneTabToCollapse,child);
+					exitFlag = false;
+					break;
+				}
+
+			}
+			while (!exitFlag);
+			#endregion
 			#region collapse single child layout panels
 			do
 			{
@@ -627,11 +640,8 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			UpdateActiveContentProperty();
 			#endregion
 #if DEBUG
-			System.Diagnostics.Debug.Assert(
-				!this.Descendents().OfType<LayoutAnchorablePane>().Any(a => a.ChildrenCount == 0 && a.IsVisible));
-#if TRACE
-            RootPanel.ConsoleDump(4);
-#endif
+			System.Diagnostics.Debug.Assert(!this.Descendents().OfType<LayoutAnchorablePane>().Any(a => a.ChildrenCount == 0 && a.IsVisible));
+			RootPanel.ConsoleDump(4);
 #endif
 		}
 
@@ -669,26 +679,26 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
 		#endregion
 
-#if TRACE
-        public override void ConsoleDump(int tab)
-        {
-          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
-          System.Diagnostics.Trace.WriteLine( "RootPanel()" );
+#if DEBUG
+		public override void ConsoleDump(int tab)
+		{
+			System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+			System.Diagnostics.Debug.WriteLine("RootPanel()");
 
-          RootPanel.ConsoleDump(tab + 1);
+			RootPanel.ConsoleDump(tab + 1);
 
-          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
-          System.Diagnostics.Trace.WriteLine( "FloatingWindows()" );
+			System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+			System.Diagnostics.Debug.WriteLine("FloatingWindows()");
 
-          foreach (LayoutFloatingWindow fw in FloatingWindows)
-              fw.ConsoleDump(tab + 1);
+			foreach (LayoutFloatingWindow fw in FloatingWindows)
+				fw.ConsoleDump(tab + 1);
 
-          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
-          System.Diagnostics.Trace.WriteLine( "Hidden()" );
+			System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+			System.Diagnostics.Debug.WriteLine("Hidden()");
 
-          foreach (LayoutAnchorable hidden in Hidden)
-              hidden.ConsoleDump(tab + 1);
-        }
+			foreach (LayoutAnchorable hidden in Hidden)
+				hidden.ConsoleDump(tab + 1);
+		}
 #endif
 
 

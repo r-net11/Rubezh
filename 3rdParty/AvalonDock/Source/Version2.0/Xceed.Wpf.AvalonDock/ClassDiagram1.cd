@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutPositionableGroup&lt;T&gt;" Collapsed="true">
+    <Position X="0.75" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ASBgSmAgAiEAAAEBAACggAAKEAAACBIAEQoEoAAAAAA=</HashCode>
+      <FileName>Layout\LayoutPositionableGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutDocumentPane" Collapsed="true">
+    <Position X="5.75" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAABAAAAAAABCAAEhABABCAAAAAAQAIEAAgAAAAAA=</HashCode>
+      <FileName>Layout\LayoutDocumentPane.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutDocumentPaneTab" Collapsed="true">
+    <Position X="3.25" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAQAAEAAgAAAAAA=</HashCode>
+      <FileName>Layout\LayoutDocumentPaneTab.cs</FileName>
+      <NewMemberFileName>Layout\LayoutDocumentPaneGroup.cs</NewMemberFileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutPanel" Collapsed="true">
+    <Position X="4.5" Y="7.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAIAAAAAAAAAACAAAAAAQAAEAAgAAAAAA=</HashCode>
+      <FileName>Layout\LayoutPanel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Controls.DocumentPaneDropTarget" Collapsed="true">
+    <Position X="9.25" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAIAAAAQAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\DocumentPaneDropTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Controls.DropTarget&lt;T&gt;" Collapsed="true">
+    <Position X="8.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAAgAABQAIQAAAAAAAAAAAAgQAAAAUAAAAAAAAA=</HashCode>
+      <FileName>Controls\DropTarget.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutGroup&lt;T&gt;" Collapsed="true">
+    <Position X="1.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAFBAACgAEQAAAEBEACACAAJAQAQAAAEAoAAAgCA=</HashCode>
+      <FileName>Layout\LayoutGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutGroupBase" Collapsed="true">
+    <Position X="1" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAACAAAAAAACgCAAAAAAAAAAA=</HashCode>
+      <FileName>Layout\LayoutGroupBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Controls.DockingManagerDropTarget" Collapsed="true">
+    <Position X="9.25" Y="4.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAQAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\DockingManagerDropTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Controls.DocumentPaneDropAsAnchorableTarget" Collapsed="true">
+    <Position X="9" Y="6" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAIAAAAQAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\DocumentPaneDropAsAnchorableTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Controls.DocumentPaneGroupDropTarget" Collapsed="true">
+    <Position X="12" Y="2.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAIAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\DocumentPaneGroupDropTarget.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutContent" Collapsed="true">
+    <Position X="5.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCADEBACIjBIEEQBEJKAwAiCPARgKiNEMSgApAioiKA=</HashCode>
+      <FileName>Layout\LayoutContent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutElement" Collapsed="true">
+    <Position X="3.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SAAAAAACAAAQACAAAAAAQAARgAAAAAAgAEAAAAAAgAA=</HashCode>
+      <FileName>Layout\LayoutElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutAnchorable" Collapsed="true">
+    <Position X="5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABQBABAAAgAUABAkAhQEACCIAAkAAAAAEgEgAAxkAA=</HashCode>
+      <FileName>Layout\LayoutAnchorable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutDocument" Collapsed="true">
+    <Position X="6.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgEAAEAAAAAAACIAAAAAAAAEAAgAAAAAA=</HashCode>
+      <FileName>Layout\LayoutDocument.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Xceed.Wpf.AvalonDock.Controls.IDropTarget" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAUAAAAAAABQAAAAAAAAAAAAAAAgAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Controls\IDropTarget.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Xceed.Wpf.AvalonDock.Controls.IOverlayWindow" Collapsed="true">
+    <Position X="6.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAQAAAAAABAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\IOverlayWindow.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Xceed.Wpf.AvalonDock.Controls.IOverlayWindowArea" Collapsed="true">
+    <Position X="8.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Controls\IOverlayWindowArea.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Xceed.Wpf.AvalonDock.Controls.IOverlayWindowDropTarget" Collapsed="true">
+    <Position X="9" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAACAA=</HashCode>
+      <FileName>Controls\IOverlayWindowDropTarget.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Xceed.Wpf.AvalonDock.Controls.IOverlayWindowHost" Collapsed="true">
+    <Position X="6.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAABAAAAAAAAAAAAACAACBAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controls\IOverlayWindowHost.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

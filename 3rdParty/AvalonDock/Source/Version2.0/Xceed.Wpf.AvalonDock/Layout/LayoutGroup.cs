@@ -243,7 +243,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			foreach (var child in Children)
 			{
 				var type = child.GetType();
-				XmlSerializer serializer = new XmlSerializer(type);
+				XmlSerializer serializer = XmlSerializerCache.Get(type);
 				serializer.Serialize(writer, child);
 			}
 

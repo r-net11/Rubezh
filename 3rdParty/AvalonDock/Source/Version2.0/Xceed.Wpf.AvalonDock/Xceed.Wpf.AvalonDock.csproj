@@ -152,6 +152,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="DockingManager.cs" />
     <Compile Include="Layout\ChildrenTreeChangedEventArgs.cs" />
+    <Compile Include="Layout\LayoutDocumentPaneTab.cs" />
     <Compile Include="Layout\Extentions.cs" />
     <Compile Include="Layout\ILayoutAnchorablePane.cs" />
     <Compile Include="Layout\ILayoutContainer.cs" />
@@ -253,7 +254,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
   Other similar extension points exist, see Microsoft.Common.targets.

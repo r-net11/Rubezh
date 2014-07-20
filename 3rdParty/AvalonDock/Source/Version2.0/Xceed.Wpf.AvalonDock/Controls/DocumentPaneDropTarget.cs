@@ -190,7 +190,6 @@ namespace Xceed.Wpf.AvalonDock.Controls
                     }
                     break;
                     #endregion
-
                 case DropTargetType.DocumentPaneDockInside:
                     #region DropTargetType.DocumentPaneDockInside
                     {
@@ -204,8 +203,6 @@ namespace Xceed.Wpf.AvalonDock.Controls
                     }
                     break;
                     #endregion
-
-
             }
 
             base.Drop(floatingWindow);

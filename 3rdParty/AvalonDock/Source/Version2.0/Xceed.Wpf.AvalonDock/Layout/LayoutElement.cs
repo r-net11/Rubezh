@@ -125,11 +125,11 @@ namespace Xceed.Wpf.AvalonDock.Layout
 		}
 
 
-#if TRACE
+#if DEBUG
         public virtual void ConsoleDump(int tab)
         {
-          System.Diagnostics.Trace.Write( new String( ' ', tab * 4 ) );
-          System.Diagnostics.Trace.WriteLine( this.ToString() );
+          System.Diagnostics.Debug.Write( new String( ' ', tab * 4 ) );
+		  System.Diagnostics.Debug.WriteLine(this.ToString());
         }
 #endif
 	}

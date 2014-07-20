@@ -91,14 +91,14 @@ namespace Xceed.Wpf.AvalonDock.Layout
 		}
 
 
-#if TRACE
-        public override void ConsoleDump(int tab)
-        {
-          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
-          System.Diagnostics.Trace.WriteLine( "FloatingDocumentWindow()" );
+#if DEBUG
+		public override void ConsoleDump(int tab)
+		{
+			System.Diagnostics.Debug.Write(new string(' ', tab * 4));
+			System.Diagnostics.Debug.WriteLine("FloatingDocumentWindow()");
 
-          RootDocument.ConsoleDump(tab + 1);
-        }
+			RootDocument.ConsoleDump(tab + 1);
+		}
 #endif
 	}
 

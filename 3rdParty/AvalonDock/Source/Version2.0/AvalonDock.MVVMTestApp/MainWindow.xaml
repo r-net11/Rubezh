@@ -23,7 +23,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
         x:Name="mainWindow"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="600" Width="700">
     <Window.Resources>
         <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
         <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -57,6 +57,7 @@
                                    AnchorablesSource="{Binding Tools}" 
                                    DocumentsSource="{Binding Files}"
                                    ActiveContent="{Binding ActiveDocument, Mode=TwoWay, Converter={StaticResource ActiveDocumentConverter}}"
+								   AllowMixedOrientation="True"
                                    Grid.Row="1">
             <!--<avalonDock:DockingManager.Theme>
                 <avalonDock:AeroTheme/>

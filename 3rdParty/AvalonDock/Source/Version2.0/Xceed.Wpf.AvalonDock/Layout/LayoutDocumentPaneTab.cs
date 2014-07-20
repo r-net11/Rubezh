@@ -22,35 +22,16 @@ namespace Xceed.Wpf.AvalonDock.Layout
 {
 	[ContentProperty("Children")]
 	[Serializable]
-	public class LayoutDocumentPaneGroup : LayoutPositionableGroup<ILayoutDocumentPane>, ILayoutDocumentPane, ILayoutOrientableGroup
+	public class LayoutDocumentPaneTab : LayoutPositionableGroup<ILayoutDocumentPane>, ILayoutDocumentPane
 	{
-		public LayoutDocumentPaneGroup()
+		public LayoutDocumentPaneTab()
 		{
 		}
 
-		public LayoutDocumentPaneGroup(LayoutDocumentPane documentPane)
+		public LayoutDocumentPaneTab(LayoutDocumentPane documentPane)
 		{
 			Children.Add(documentPane);
 		}
-
-		#region Orientation
-
-		private Orientation _orientation;
-		public Orientation Orientation
-		{
-			get { return _orientation; }
-			set
-			{
-				if (_orientation != value)
-				{
-					RaisePropertyChanging("Orientation");
-					_orientation = value;
-					RaisePropertyChanged("Orientation");
-				}
-			}
-		}
-
-		#endregion
 
 		protected override bool GetVisibility()
 		{
@@ -59,14 +40,11 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
 		public override void WriteXml(System.Xml.XmlWriter writer)
 		{
-			writer.WriteAttributeString("Orientation", Orientation.ToString());
 			base.WriteXml(writer);
 		}
 
 		public override void ReadXml(System.Xml.XmlReader reader)
 		{
-			if (reader.MoveToAttribute("Orientation"))
-				Orientation = (Orientation)Enum.Parse(typeof(Orientation), reader.Value, true);
 			base.ReadXml(reader);
 		}
 
@@ -74,7 +52,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 		public override void ConsoleDump(int tab)
 		{
 			System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-			System.Diagnostics.Debug.WriteLine(string.Format("DocumentPaneGroup({0})", Orientation));
+			System.Diagnostics.Debug.WriteLine(string.Format("LayoutDocumentPaneTab({0})", ChildrenCount));
 
 			foreach (LayoutElement child in Children)
 				child.ConsoleDump(tab + 1);
