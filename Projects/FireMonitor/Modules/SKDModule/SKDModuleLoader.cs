@@ -19,7 +19,6 @@ using Infrustructure.Plans.Events;
 using SKDModule.Events;
 using SKDModule.Plans;
 using SKDModule.ViewModels;
-//using JournalItem = JournalItem;
 
 namespace SKDModule
 {
@@ -56,7 +55,49 @@ namespace SKDModule
 			HolidaysViewModel = new HolidaysViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
 			_timeTrackingViewModel = new TimeTrackingViewModel();
+
+			SubscribeShowDelailsEvent();
 		}
+
+		#region ShowDelailsEvent
+		void SubscribeShowDelailsEvent()
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDDeviceDetailsEvent>().Unsubscribe(OnShowDeviceDetails);
+			ServiceFactory.Events.GetEvent<ShowSKDZoneDetailsEvent>().Unsubscribe(OnShowZoneDetails);
+			ServiceFactory.Events.GetEvent<ShowSKDDoorDetailsEvent>().Unsubscribe(OnShowDoorDetails);
+
+			ServiceFactory.Events.GetEvent<ShowSKDDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
+			ServiceFactory.Events.GetEvent<ShowSKDZoneDetailsEvent>().Subscribe(OnShowZoneDetails);
+			ServiceFactory.Events.GetEvent<ShowSKDDoorDetailsEvent>().Subscribe(OnShowDoorDetails);
+		}
+
+		void OnShowDeviceDetails(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				DialogService.ShowWindow(new DeviceDetailsViewModel(device));
+			}
+		}
+
+		void OnShowZoneDetails(Guid zoneUID)
+		{
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone != null)
+			{
+				DialogService.ShowWindow(new ZoneDetailsViewModel(zone));
+			}
+		}
+
+		void OnShowDoorDetails(Guid doorUID)
+		{
+			var direction = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
+			if (direction != null)
+			{
+				DialogService.ShowWindow(new DoorDetailsViewModel(direction));
+			}
+		}
+		#endregion
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -67,7 +108,7 @@ namespace SKDModule
 					{
 						new NavigationItem<ShowSKDDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						new NavigationItem<ShowSKDZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
-						new NavigationItem<ShowDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
+						new NavigationItem<ShowSKDDoorEvent, Guid>(DoorsViewModel, "Точки доступа", "/Controls;component/Images/DoorW.png", null, null, Guid.Empty),
 						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/Kartoteka2W.png"),
 						new NavigationItem("Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", new List<NavigationItem>()
 						{

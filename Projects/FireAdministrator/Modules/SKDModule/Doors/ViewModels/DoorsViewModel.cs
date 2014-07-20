@@ -93,7 +93,7 @@ namespace SKDModule.ViewModels
 				Doors.Add(doorViewModel);
 				SelectedDoor = doorViewModel;
 				ServiceFactory.SaveService.SKDChanged = true;
-				SKDPlanExtension.Instance.Cache.BuildSafe<Door>();
+				SKDPlanExtension.Instance.Cache.BuildSafe<SKDDoor>();
 				return doorDetailsViewModel;
 			}
 			return null;
@@ -121,7 +121,7 @@ namespace SKDModule.ViewModels
 		{
 			OnEdit(SelectedDoor.Door);
 		}
-		void OnEdit(Door door)
+		void OnEdit(SKDDoor door)
 		{
 			var doorDetailsViewModel = new DoorDetailsViewModel(door);
 			if (DialogService.ShowModalWindow(doorDetailsViewModel))

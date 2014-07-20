@@ -4,6 +4,9 @@ namespace FiresecAPI.Journal
 {
 	public enum JournalObjectType
 	{
+		[DescriptionAttribute("Нет")]
+		None,
+
 		[DescriptionAttribute("Устройства ГК")]
 		GKDevice,
 
@@ -22,11 +25,20 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("Задержки ГК")]
 		GKDelay,
 
+		[DescriptionAttribute("ПИМ ГК")]
+		GKPim,
+
+		[DescriptionAttribute("Охранная Зона ГК")]
+		GKGuardZone,
+
 		[DescriptionAttribute("Устройство СКД")]
 		SKDDevice,
 
 		[DescriptionAttribute("Зона СКД")]
 		SKDZone,
+
+		[DescriptionAttribute("Точка доступа СКД")]
+		SKDDoor,
 
 		[DescriptionAttribute("Видеоустройство")]
 		VideoDevice,

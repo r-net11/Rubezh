@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows;
 using Common;
-using FiresecAPI.SKD;
-using FiresecService.Service;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 
@@ -48,25 +45,15 @@ namespace FiresecService
 
 		static void Create()
 		{
-			SqlConnection connection = new SqlConnection(connectionString); 
+			var connection = new SqlConnection(connectionString); 
 			string commandText = "";
 			var stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Create.sql"));
 			using (StreamReader sr = new StreamReader(stream.Stream))
 			{
 				commandText = sr.ReadToEnd();
 			}
-
-			stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/InsertAllPatches.sql"));
-			using (StreamReader sr = new StreamReader(stream.Stream))
-			{
-				commandText = commandText + " " + sr.ReadToEnd();
-			}
-
 			var server = new Server(new ServerConnection(connection));
 			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
-			var organisation = new OrganisationDetails { Name = "Организация", UserUIDs = new List<Guid> { new Guid("10e591fb-e017-442d-b176-f05756d984bb") } };
-
-			FiresecServiceManager.SafeFiresecService.SaveOrganisation(organisation);
 		}
 
 		static void ApplyPatches()

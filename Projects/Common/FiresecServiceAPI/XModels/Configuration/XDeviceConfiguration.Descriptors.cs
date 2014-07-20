@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FiresecClient;
 
 namespace FiresecAPI.GK
 {
@@ -13,6 +14,8 @@ namespace FiresecAPI.GK
 			PreparePumpStations();
 			PrepareMPTs();
 			PrepareDelays();
+			PrepareGuardZones();
+			PrepareCodes();
 		}
 
 		void PrepareZones()
@@ -63,6 +66,14 @@ namespace FiresecAPI.GK
 			{
 				delay.ClearDescriptor();
 			}
+			foreach (var guardZone in GuardZones)
+			{
+				guardZone.ClearDescriptor();
+			}
+			foreach (var code in Codes)
+			{
+				code.ClearDescriptor();
+			}
 
 			foreach (var device in Devices)
 			{
@@ -72,11 +83,11 @@ namespace FiresecAPI.GK
 
 			foreach (var zone in Zones)
 			{
-				LinkXBases(zone, zone);
 				foreach (var device in zone.Devices)
 				{
 					LinkXBases(zone, device);
 				}
+				LinkXBases(zone, zone);
 			}
 
 			foreach (var direction in Directions)
@@ -107,6 +118,19 @@ namespace FiresecAPI.GK
 			foreach (var delay in Delays)
 			{
 				LinkDeviceLogic(delay, delay.DeviceLogic.ClausesGroup.Clauses);
+			}
+
+			foreach (var guardZone in GuardZones)
+			{
+				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+				{
+					LinkXBases(guardZone, guardZoneDevice.Device);
+					if (guardZoneDevice.Device.DriverType == XDriverType.RSR2_GuardDetector)
+					{
+						LinkXBases(guardZoneDevice.Device, guardZone);
+					}
+				}
+				LinkXBases(guardZone, guardZone);
 			}
 		}
 
@@ -239,6 +263,37 @@ namespace FiresecAPI.GK
 				{
 					delay.GkDatabaseParent = inputDevice.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 				}
+			}
+		}
+
+		void PrepareGuardZones()
+		{
+			foreach (var guardZone in GuardZones)
+			{
+				guardZone.KauDatabaseParent = null;
+				guardZone.GkDatabaseParent = null;
+
+				var gkParents = new HashSet<XDevice>();
+				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+				{
+					var gkParent = guardZoneDevice.Device.AllParents.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+					gkParents.Add(gkParent);
+				}
+
+				var gkDevice = gkParents.FirstOrDefault();
+				if (gkDevice != null)
+				{
+					guardZone.GkDatabaseParent = gkDevice;
+				}
+			}
+		}
+
+		void PrepareCodes()
+		{
+			foreach (var code in Codes)
+			{
+				code.KauDatabaseParent = null;
+				code.GkDatabaseParent = XManager.Devices.FirstOrDefault(x=>x.DriverType == XDriverType.GK);
 			}
 		}
 

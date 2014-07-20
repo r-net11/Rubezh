@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 	{
 		public PersonType PersonType { get; private set; }
 		public List<ShortAdditionalColumnType> AdditionalColumnTypes { get; private set; }
-		EmployeeFilter _filter;
+		EmployeeFilter Filter;
 		HRViewModel _hrViewModel;
 
 		public EmployeesViewModel(HRViewModel hrViewModel)
@@ -27,15 +27,15 @@ namespace SKDModule.ViewModels
 
 		public void Initialize(EmployeeFilter filter)
 		{
-			_filter = filter;
+			Filter = filter;
 			InitializeInternal();
 		}
 
 		void InitializeInternal()
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
-			var employees = EmployeeHelper.Get(_filter);
-			PersonType = _filter.PersonType;
+			var employees = EmployeeHelper.Get(Filter);
+			PersonType = Filter.PersonType;
 			AllEmployees = new List<EmployeeViewModel>();
 			Organisations = new List<EmployeeViewModel>();
 			foreach (var organisation in organisations)

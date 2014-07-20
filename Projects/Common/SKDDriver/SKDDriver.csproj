@@ -149,9 +149,6 @@
     <Resource Include="Scripts\Patches.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Scripts\InsertAllPatches.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="ActiveDs">
       <Guid>{97D25DB0-0363-11CF-ABC4-02608C9E7553}</Guid>
       <VersionMajor>1</VersionMajor>

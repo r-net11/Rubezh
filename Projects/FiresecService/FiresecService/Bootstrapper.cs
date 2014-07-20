@@ -9,6 +9,7 @@ using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.BalloonTrayTip;
 using Infrastructure.Common.Windows;
+using FiresecAPI.Journal;
 
 namespace FiresecService
 {
@@ -53,6 +54,16 @@ namespace FiresecService
 				AutomationProcessor.Start();
 
 				UILogger.Log("Готово");
+
+				//var journalItem = new JournalItem();
+				//journalItem.SystemDateTime = DateTime.Now;
+				//journalItem.DeviceDateTime = DateTime.Now;
+				//journalItem.JournalEventNameType = JournalEventNameType.Авария_пневмоемкости;
+				//journalItem.JournalEventDescriptionType = JournalEventDescriptionType.Включить;
+				//journalItem.DescriptionText = "xxx";
+				//journalItem.ObjectName = "yyy";
+				//journalItem.UserName = "zzz";
+				//DBHelper.Add(journalItem);
 			}
 			catch (Exception e)
 			{

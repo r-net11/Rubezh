@@ -10,10 +10,11 @@ using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
 using SKDModule.Events;
 using SKDModule.ViewModels;
+using Infrastructure.Events;
 
 namespace SKDModule.Plans.Designer
 {
-	class DoorPainter : BasePointPainter<Door, ShowDoorEvent>
+	class DoorPainter : BasePointPainter<SKDDoor, ShowSKDDoorEvent>
 	{
 		private DoorViewModel _doorViewModel;
 
@@ -24,12 +25,12 @@ namespace SKDModule.Plans.Designer
 				_doorViewModel = new ViewModels.DoorViewModel(Item);
 		}
 
-		protected override Door CreateItem(PresenterItem presenterItem)
+		protected override SKDDoor CreateItem(PresenterItem presenterItem)
 		{
 			var element = presenterItem.Element as ElementDoor;
-			return element == null ? null : PlanPresenter.Cache.Get<Door>(element.DoorUID);
+			return element == null ? null : PlanPresenter.Cache.Get<SKDDoor>(element.DoorUID);
 		}
-		protected override StateTooltipViewModel<Door> CreateToolTip()
+		protected override StateTooltipViewModel<SKDDoor> CreateToolTip()
 		{
 			return new DoorTooltipViewModel(Item);
 		}

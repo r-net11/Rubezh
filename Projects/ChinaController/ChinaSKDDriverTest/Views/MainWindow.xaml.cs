@@ -19,21 +19,21 @@ namespace ControllerSDK.Views
 
 		void OnConnect(object sender, RoutedEventArgs e)
 		{
-			var loginID = MainViewModel.Wrapper.Connect("172.16.6.58", 37777, "admin", "123456");
+			var loginID = MainViewModel.Wrapper.Connect("172.16.6.53", 37777, "system", "123456");
 			_textBox.Text += "LoginID = " + loginID + "\n";
-			MainViewModel.Wrapper.Start();
+			Wrapper.Start();
 		}
 
 		void OnDisconnect(object sender, RoutedEventArgs e)
 		{
-			MainViewModel.Wrapper.Stop();
+			Wrapper.Stop();
 			var result = MainViewModel.Wrapper.Disconnect();
 			_textBox.Text += "result = " + result + "\n";
 		}
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			MainViewModel.Wrapper.Stop();
+			Wrapper.Stop();
 			MainViewModel.Wrapper.Disconnect();
 		}
 	}

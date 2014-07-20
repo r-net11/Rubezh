@@ -130,6 +130,11 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class DoorDayIntervalPart
 	{
+		public DoorDayIntervalPart()
+		{
+			DoorOpenMethod = SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD;
+		}
+
 		[DataMember]
 		public int StartHour { get; set; }
 
@@ -141,5 +146,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public int EndMinute { get; set; }
+
+		[DataMember]
+		public SKDDoorConfiguration_DoorOpenMethod DoorOpenMethod { get; set; }
 	}
 }

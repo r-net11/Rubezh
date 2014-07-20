@@ -1,39 +1,52 @@
 ﻿using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.TreeList;
+using System.Collections.ObjectModel;
+using System;
+using System.Linq;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
 	public class GuardZoneDeviceViewModel : TreeNodeViewModel<ZoneDeviceViewModel>
 	{
-		public XDevice Device { get; private set; }
+		public XGuardZoneDevice GuardZoneDevice { get; private set; }
 
-		public GuardZoneDeviceViewModel(XDevice device)
+		public GuardZoneDeviceViewModel(XGuardZoneDevice guardZoneDevice)
 		{
-			Device = device;
-		}
+			GuardZoneDevice = guardZoneDevice;
 
-		public XDriver Driver
-		{
-			get { return Device.Driver; }
-		}
-		public string PresentationAddress
-		{
-			get { return Device.DottedPresentationAddress; }
-		}
-		public string PresentationZone
-		{
-			get
+			ActionTypes = new ObservableCollection<XGuardZoneDeviceActionType>();
+			switch (guardZoneDevice.Device.DriverType)
 			{
-				if(Device.Driver.HasLogic)
-					return XManager.GetPresentationZone(Device);
-				return null;
+				case XDriverType.RSR2_GuardDetector:
+					ActionTypes.Add(XGuardZoneDeviceActionType.SetAlarm);
+					break;
+
+				case XDriverType.RSR2_AM_1:
+				case XDriverType.RSR2_HandDetector:
+					ActionTypes.Add(XGuardZoneDeviceActionType.SetGuard);
+					ActionTypes.Add(XGuardZoneDeviceActionType.ResetGuard);
+					ActionTypes.Add(XGuardZoneDeviceActionType.SetAlarm);
+					break;
+			}
+			if (!ActionTypes.Contains(SelectedActionType))
+				GuardZoneDevice.ActionType = ActionTypes.FirstOrDefault();
+		}
+
+		public bool IsBold { get; set; }
+
+		public ObservableCollection<XGuardZoneDeviceActionType> ActionTypes { get; private set; }
+
+		public XGuardZoneDeviceActionType SelectedActionType
+		{
+			get { return GuardZoneDevice.ActionType; }
+			set
+			{
+				GuardZoneDevice.ActionType = value;
+				OnPropertyChanged(() => SelectedActionType);
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
-		public string Description
-		{
-			get { return Device.Description; }
-		}
-		public bool IsBold { get; set; }
 	}
 }

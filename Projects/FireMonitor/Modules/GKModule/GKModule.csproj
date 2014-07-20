@@ -88,19 +88,10 @@
     <Compile Include="Converters\DeviceControlRegimeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToIconConverter.cs" />
     <Compile Include="Converters\JournalColumnTypeToStringConverter.cs" />
-    <Compile Include="Events\ShowXGuardZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowXAlarmsEvent.cs" />
     <Compile Include="Events\ShowXArchiveEvent.cs" />
-    <Compile Include="Events\ShowXDelayEvent.cs" />
-    <Compile Include="Events\ShowXDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowXDeviceParametersEvent.cs" />
-    <Compile Include="Events\ShowXDirectionEvent.cs" />
-    <Compile Include="Events\ShowXDirectionOnPlanEvent.cs" />
     <Compile Include="Events\ShowXJournalEvent.cs" />
-    <Compile Include="Events\ShowXMPTEvent.cs" />
-    <Compile Include="Events\ShowXPimEvent.cs" />
-    <Compile Include="Events\ShowXPumpStationEvent.cs" />
-    <Compile Include="Events\ShowXZoneOnPlanEvent.cs" />
     <Compile Include="GKModuleLoader.Subscribe.cs" />
     <Compile Include="Diagnostics\ViewModels\DiagnosticsViewModel.cs" />
     <Compile Include="Diagnostics\Views\DiagnosticsView.xaml.cs">
@@ -116,6 +107,7 @@
     <Compile Include="Journal\ViewModels\ArchiveFilter\SubsystemTypeViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveMPTViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveDelayViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilter\ArchiveGuardZoneViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchivePageViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveSettings\JournalColumnTypeViewModel.cs" />
     <Compile Include="MPTs\ViewModels\MPTDetailsViewModel.cs" />

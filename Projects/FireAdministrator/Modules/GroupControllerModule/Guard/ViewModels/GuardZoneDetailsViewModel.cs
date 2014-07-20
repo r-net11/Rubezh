@@ -10,8 +10,6 @@ namespace GKModule.ViewModels
 {
 	public class GuardZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
-		static int LastFire1Count = 2;
-		static int LastFire2Count = 3;
 		public XGuardZone Zone;
 
 		public GuardZoneDetailsViewModel(XGuardZone zone = null)
@@ -52,6 +50,8 @@ namespace GKModule.ViewModels
 			No = Zone.No;
 			Name = Zone.Name;
 			Description = Zone.Description;
+			Level = Zone.Level;
+			Delay = Zone.Delay;
 		}
 
 		ushort _no;
@@ -61,7 +61,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_no = value;
-				OnPropertyChanged("No");
+				OnPropertyChanged(() => No);
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -83,7 +83,29 @@ namespace GKModule.ViewModels
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
+			}
+		}
+
+		int _level;
+		public int Level
+		{
+			get { return _level; }
+			set
+			{
+				_level = value;
+				OnPropertyChanged(() => Level);
+			}
+		}
+
+		int _delay;
+		public int Delay
+		{
+			get { return _delay; }
+			set
+			{
+				_delay = value;
+				OnPropertyChanged(() => Delay);
 			}
 		}
 
@@ -101,6 +123,8 @@ namespace GKModule.ViewModels
 			Zone.No = No;
 			Zone.Name = Name;
 			Zone.Description = Description;
+			Zone.Level = Level;
+			Zone.Delay = Delay;
 			return base.Save();
 		}
 	}

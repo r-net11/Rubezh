@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
-using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 
 namespace FiresecAPI
@@ -42,20 +41,6 @@ namespace FiresecAPI
 		OperationResult SavePosition(Position item);
 		[OperationContract]
 		OperationResult MarkDeletedPosition(Guid uid);
-		#endregion
-
-		#region Journal
-		[OperationContract]
-		OperationResult<IEnumerable<JournalItem>> GetSKDJournalItems(JournalFilter filter);
-
-		[OperationContract]
-		OperationResult<DateTime> GetMinDateTime();
-
-		[OperationContract]
-		List<JournalEventDescriptionType> GetDistinctEventDescriptions();
-
-		[OperationContract]
-		List<JournalEventNameType> GetDistinctEventNames();
 		#endregion
 
 		#region Card
@@ -176,9 +161,6 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> SKDCloseDevice(Guid deviceUID);
-
-		[OperationContract]
-		void BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID);
 		#endregion
 	}
 }

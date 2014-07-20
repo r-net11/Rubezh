@@ -11,11 +11,11 @@ namespace GKModule.Events
 	{
 		public XDevice Device { get; set; }
 		public XZone Zone { get; set; }
-		public XGuardZone GuardZone { get; set; }
 		public XDirection Direction { get; set; }
 		public XPumpStation PumpStation { get; set; }
 		public XMPT MPT { get; set; }
 		public XDelay Delay { get; set; }
 		public XPim Pim { get; set; }
+		public XGuardZone GuardZone { get; set; }
 	}
 }

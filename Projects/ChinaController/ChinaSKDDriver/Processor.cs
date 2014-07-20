@@ -54,6 +54,8 @@ namespace ChinaSKDDriver
 				DeviceProcessors.Add(deviceProcessor);
 				deviceProcessor.Start();
 			}
+
+			Wrapper.Start();
 		}
 
 		public static void Stop()
@@ -62,6 +64,8 @@ namespace ChinaSKDDriver
 			{
 				deviceProcessor.Stop();
 			}
+
+			Wrapper.Stop();
 		}
 
 		#region Callback

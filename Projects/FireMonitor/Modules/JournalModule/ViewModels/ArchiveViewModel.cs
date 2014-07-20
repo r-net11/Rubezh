@@ -45,7 +45,7 @@ namespace JournalModule.ViewModels
 
 		public void Initialize()
 		{
-			var result = FiresecManager.FiresecService.GetMinDateTime();
+			var result = FiresecManager.FiresecService.GetMinJournalDateTime();
 			if (!result.HasError)
 			{
 				ArchiveFirstDate = result.Result;
@@ -362,7 +362,7 @@ namespace JournalModule.ViewModels
 
 				JournalItems = new ObservableCollection<JournalItemViewModel>();
 				ArchivePortionUID = Guid.NewGuid();
-				FiresecManager.FiresecService.BeginGetSKDFilteredArchive(archiveFilter, ArchivePortionUID);
+				FiresecManager.FiresecService.BeginGetFilteredArchive(archiveFilter, ArchivePortionUID);
 			}
 			catch (ThreadAbortException) { }
 			catch (Exception e)

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
+using ChinaSKDDriver;
 using ChinaSKDDriverAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -14,7 +15,7 @@ namespace ControllerSDK.ViewModels
 		{
 			GetConnectionStatusCommand = new RelayCommand(OnConnectionStatus);
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
-			MainViewModel.Wrapper.NewJournalItem += new Action<SKDJournalItem>(Wrapper_NewJournalItem);
+			Wrapper.NewJournalItem += new Action<SKDJournalItem>(Wrapper_NewJournalItem);
 		}
 
 		void Wrapper_NewJournalItem(SKDJournalItem journalItem)

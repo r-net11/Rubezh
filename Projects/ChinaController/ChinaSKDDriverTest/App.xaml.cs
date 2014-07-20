@@ -7,7 +7,12 @@ namespace ControllerSDK
 	{
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			System.IO.File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\ChinaController\ChinaSKDDriverTest\bin\Debug\CPPWrapper.dll", true);
+			try
+			{
+				System.IO.File.Copy(@"..\..\..\CPPWrapper\Bin\CPPWrapper.dll", @"CPPWrapper.dll", true);
+			}
+			catch { }
+
 			ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
 			var mainWindow = new MainWindow();
 			mainWindow.Show();

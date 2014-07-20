@@ -6,6 +6,7 @@ using FiresecClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrustructure.Plans.Events;
+using Infrastructure.Events;
 
 namespace GKModule
 {

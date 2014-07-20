@@ -50,31 +50,59 @@ namespace ChinaSKDDriver
 			return password;
 		}
 
-		public int GetPasswordsCount()
-		{
-			var passwordsCount = NativeWrapper.WRAP_Get_Passwords_Count(LoginID);
-			return passwordsCount;
-		}
-
 		public List<Password> GetAllPasswords()
 		{
-			int structSize = Marshal.SizeOf(typeof(NativeWrapper.PasswordsCollection));
-			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+			var resultPasswords = new List<Password>();
+			int finderID = 0;
+			NativeWrapper.WRAP_BeginGetAll_Passwords(LoginID, ref finderID);
 
-			var result = NativeWrapper.WRAP_GetAll_Passwords(LoginID, intPtr);
-
-			NativeWrapper.PasswordsCollection passwordsCollection = (NativeWrapper.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.PasswordsCollection)));
-			Marshal.FreeCoTaskMem(intPtr);
-			intPtr = IntPtr.Zero;
-
-			var passwords = new List<Password>();
-			for (int i = 0; i < Math.Min(passwordsCollection.Count, 10); i++)
+			if (finderID > 0)
 			{
-				var nativePassword = passwordsCollection.Passwords[i];
-				var password = NativePasswordToPassword(nativePassword);
-				passwords.Add(password);
+				while (true)
+				{
+					int structSize = Marshal.SizeOf(typeof(NativeWrapper.PasswordsCollection));
+					IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+
+					var result = NativeWrapper.WRAP_GetAll_Passwords(finderID, intPtr);
+
+					NativeWrapper.PasswordsCollection passwordsCollection = (NativeWrapper.PasswordsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.PasswordsCollection)));
+					Marshal.FreeCoTaskMem(intPtr);
+					intPtr = IntPtr.Zero;
+
+					var passwords = new List<Password>();
+					for (int i = 0; i < Math.Min(passwordsCollection.Count, 10); i++)
+					{
+						var nativePassword = passwordsCollection.Passwords[i];
+						if (nativePassword.nRecNo > 0)
+						{
+							var password = NativePasswordToPassword(nativePassword);
+							passwords.Add(password);
+						}
+					}
+					if (result == 0)
+						break;
+					resultPasswords.AddRange(passwords);
+				}
+
+				NativeWrapper.WRAP_EndGetAll(finderID);
 			}
-			return passwords;
+
+			return resultPasswords;
+		}
+
+		public int GetPasswordsCount()
+		{
+			int finderID = 0;
+			NativeWrapper.WRAP_BeginGetAll_Passwords(LoginID, ref finderID);
+
+			if (finderID > 0)
+			{
+				var result = NativeWrapper.WRAP_GetAllCount(finderID);
+				NativeWrapper.WRAP_EndGetAll(finderID);
+				return result;
+			}
+
+			return -1;
 		}
 
 		NativeWrapper.NET_RECORDSET_ACCESS_CTL_PWD PasswordToNativePassword(Password password)
@@ -86,9 +114,9 @@ namespace ChinaSKDDriver
 			nativePassword.stuCreateTime.dwHour = password.CreationDateTime.Hour;
 			nativePassword.stuCreateTime.dwMinute = password.CreationDateTime.Minute;
 			nativePassword.stuCreateTime.dwSecond = password.CreationDateTime.Second;
-			nativePassword.szUserID = StringToCharArray(password.UserID, 32);
-			nativePassword.szDoorOpenPwd = StringToCharArray(password.DoorOpenPassword, 64);
-			nativePassword.szAlarmPwd = StringToCharArray(password.AlarmPassword, 64);
+			nativePassword.szUserID = password.UserID;
+			nativePassword.szDoorOpenPwd = password.DoorOpenPassword;
+			nativePassword.szAlarmPwd = password.AlarmPassword;
 			nativePassword.nDoorNum = password.DoorsCount;
 			nativePassword.sznDoors = new int[32];
 			for (int i = 0; i < password.Doors.Count; i++)
@@ -103,9 +131,9 @@ namespace ChinaSKDDriver
 			var password = new Password();
 			password.RecordNo = nativePassword.nRecNo;
 			password.CreationDateTime = NET_TIMEToDateTime(nativePassword.stuCreateTime);
-			password.UserID = CharArrayToString(nativePassword.szUserID);
-			password.DoorOpenPassword = CharArrayToString(nativePassword.szDoorOpenPwd);
-			password.AlarmPassword = CharArrayToString(nativePassword.szAlarmPwd);
+			password.UserID = nativePassword.szUserID;
+			password.DoorOpenPassword = nativePassword.szDoorOpenPwd;
+			password.AlarmPassword = nativePassword.szAlarmPwd;
 			password.DoorsCount = nativePassword.nDoorNum;
 			password.Doors = nativePassword.sznDoors.ToList();
 			return password;

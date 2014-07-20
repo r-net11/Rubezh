@@ -9,13 +9,15 @@ namespace GKProcessor
 	{
 		public DatabaseType DatabaseType { get; set; }
 		public DescriptorType DescriptorType { get; protected set; }
-		public XZone Zone { get; protected set; }
 		public XDevice Device { get; protected set; }
+		public XZone Zone { get; protected set; }
 		public XDirection Direction { get; protected set; }
 		public XPumpStation PumpStation { get; protected set; }
 		public XMPT MPT { get; protected set; }
 		public XDelay Delay { get; protected set; }
 		public XPim Pim { get; protected set; }
+		public XGuardZone GuardZone { get; protected set; }
+		public XCode Code { get; protected set; }
 		public ushort ControllerAdress { get; protected set; }
 		public ushort AdressOnController { get; protected set; }
 		public ushort PhysicalAdress { get; protected set; }
@@ -174,6 +176,12 @@ namespace GKProcessor
 
 					case DescriptorType.Pim:
 						return Pim;
+
+					case DescriptorType.GuardZone:
+						return GuardZone;
+
+					case DescriptorType.Code:
+						return Code;
 				}
 				return null;
 			}

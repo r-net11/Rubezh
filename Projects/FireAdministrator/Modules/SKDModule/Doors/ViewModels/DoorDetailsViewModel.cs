@@ -6,14 +6,14 @@ namespace SKDModule.ViewModels
 {
 	public class DoorDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public Door Door { get; private set; }
+		public SKDDoor Door { get; private set; }
 
-		public DoorDetailsViewModel(Door door = null)
+		public DoorDetailsViewModel(SKDDoor door = null)
 		{
 			if (door == null)
 			{
 				Title = "Создание точки доступа";
-				Door = new Door()
+				Door = new SKDDoor()
 				{
 					Name = "Новая точка доступа",
 				};

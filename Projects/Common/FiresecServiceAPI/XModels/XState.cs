@@ -113,6 +113,22 @@ namespace FiresecAPI.GK
 			BaseObjectType = XBaseObjectType.Pim;
 		}
 
+		public XState(XGuardZone guardZone)
+			: this()
+		{
+			GuardZone = guardZone;
+			UID = guardZone.BaseUID;
+			BaseObjectType = XBaseObjectType.GuardZone;
+		}
+
+		public XState(XCode code)
+			: this()
+		{
+			Code = code;
+			UID = code.BaseUID;
+			BaseObjectType = XBaseObjectType.Code;
+		}
+
 		public XDevice Device { get; private set; }
 		public XZone Zone { get; private set; }
 		public XDirection Direction { get; private set; }
@@ -120,6 +136,8 @@ namespace FiresecAPI.GK
 		public XMPT MPT { get; private set; }
 		public XDelay Delay { get; private set; }
 		public XPim Pim { get; private set; }
+		public XGuardZone GuardZone { get; private set; }
+		public XCode Code { get; private set; }
 		public XBaseObjectType BaseObjectType { get; private set; }
 
 		public void CopyTo(XState state)
@@ -133,12 +151,10 @@ namespace FiresecAPI.GK
 		}
 
 		#region IDeviceState<XStateClass> Members
-
 		XStateClass IDeviceState<XStateClass>.StateType
 		{
 			get { return StateClass; }
 		}
-
 		#endregion
 	}
 }

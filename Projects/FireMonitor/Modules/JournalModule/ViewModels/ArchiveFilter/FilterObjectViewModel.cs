@@ -88,6 +88,10 @@ namespace JournalModule.ViewModels
 					ImageSource = "/Controls;component/Images/Delay.png";
 					break;
 
+				case JournalObjectType.GKGuardZone:
+					ImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
 				case JournalObjectType.SKDDevice:
 					ImageSource = "/Controls;component/SKDIcons/Controller.png";
 					break;
@@ -144,6 +148,13 @@ namespace JournalModule.ViewModels
 			ImageSource = "/Controls;component/Images/Delay.png";
 		}
 
+		public FilterObjectViewModel(XGuardZone guardZone)
+		{
+			Name = guardZone.PresentationName;
+			UID = guardZone.UID;
+			ImageSource = "/Controls;component/Images/Zone.png";
+		}
+
 		public FilterObjectViewModel(SKDDevice device)
 		{
 			Name = device.Name;
@@ -188,29 +199,6 @@ namespace JournalModule.ViewModels
 					child.IsChecked = value;
 				}
 				UpdateParent();
-
-
-
-				//if (IsSubsystem)
-				//{
-				//    foreach (var child in Children)
-				//    {
-				//        child.IsChecked = value;
-				//    }
-				//}
-
-				//if (IsObjectGroup)
-				//{
-				//    foreach (var child in Children)
-				//    {
-				//        child.SetIsChecked(value);
-				//    }
-				//}
-				
-				//if (Parent != null && (Parent.IsSubsystem || Parent.IsObjectGroup))
-				//{
-				//    Parent.UpdateIsChecked();
-				//}
 			}
 		}
 
@@ -223,18 +211,6 @@ namespace JournalModule.ViewModels
 				Parent.UpdateParent();
 			}
 		}
-
-		//public void UpdateIsChecked()
-		//{
-		//    var isAllChecked = Children.All(x => x.IsChecked);
-		//    _isChecked = isAllChecked;
-		//    OnPropertyChanged(() => IsChecked);
-
-		//    if (Parent != null && (Parent.IsSubsystem || Parent.IsObjectGroup))
-		//    {
-		//        Parent.UpdateIsChecked();
-		//    }
-		//}
 
 		public void SetIsChecked(bool value)
 		{

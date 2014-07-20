@@ -225,6 +225,7 @@
     <Compile Include="SKD\SKDManager\LockControlHelper.cs" />
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\DoorState.cs" />
+    <Compile Include="XModels\Guard\XGuardZoneDevice.cs" />
     <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
     <Compile Include="XModels\Guard\XGuardZoneAccess.cs" />
@@ -258,7 +259,7 @@
     <Compile Include="Models\Layouts\Layout.cs" />
     <Compile Include="Models\Layouts\LayoutPartPlansProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartPlansType.cs" />
-    <Compile Include="Models\Layouts\LayoutPartSKDJournalProperties.cs" />
+    <Compile Include="Models\Layouts\LayoutPartJournalProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartSKDVerificationProperties.cs" />
     <Compile Include="Models\Library\LibraryDevicePresenter.cs" />
     <Compile Include="Models\Plans\ElementCamera.cs" />
@@ -464,13 +465,13 @@
     <Compile Include="XModels\Firmware\HEXFileInfo.cs" />
     <Compile Include="XModels\Formula\FormulaOperation.cs" />
     <Compile Include="XModels\Formula\FormulaOperationType.cs" />
-    <Compile Include="XModels\Guard\XGuardUser.cs" />
+    <Compile Include="XModels\Guard\XCode.cs" />
     <Compile Include="XModels\Instructions\XInstruction.cs" />
     <Compile Include="XModels\Instructions\XInstructionType.cs" />
     <Compile Include="Journal\JournalEventDescriptionType.cs" />
     <Compile Include="Journal\JournalItem.cs" />
     <Compile Include="XModels\Journal\XJournalItem.cs" />
-    <Compile Include="XModels\Journal\XJournalItemType.cs" />
+    <Compile Include="XModels\Journal\XJournalObjectType.cs" />
     <Compile Include="XModels\Journal\XSubsystemType.cs" />
     <Compile Include="XModels\Library\LibraryXDevice.cs" />
     <Compile Include="XModels\Library\LibraryXFrame.cs" />
@@ -499,6 +500,8 @@
     <Compile Include="XModels\States\XStateBit.cs" />
     <Compile Include="XModels\States\XZoneInternalState.cs" />
     <Compile Include="XModels\States\XMPTInternalState.cs" />
+    <Compile Include="XModels\States\XGuardZoneInternalState.cs" />
+    <Compile Include="XModels\States\XCodeInternalState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBase.cs" />
     <Compile Include="XModels\States\XStatesHelper.cs" />

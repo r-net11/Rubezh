@@ -14,6 +14,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
 using SKDModule.Events;
 using SKDModule.Plans.Designer;
+using Infrastructure.Events;
 
 namespace SKDModule.Plans
 {
@@ -27,11 +28,11 @@ namespace SKDModule.Plans
 			Cache = new MapSource();
 			Cache.Add<SKDDevice>(() => SKDManager.Devices);
 			Cache.Add<SKDZone>(() => SKDManager.Zones);
-			Cache.Add<Door>(() => SKDManager.SKDConfiguration.Doors);
+			Cache.Add<SKDDoor>(() => SKDManager.SKDConfiguration.Doors);
 
 			ServiceFactory.Events.GetEvent<ShowSKDDeviceOnPlanEvent>().Subscribe(OnShowSKDDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowSKDZoneOnPlanEvent>().Subscribe(OnShowSKDZoneOnPlan);
-			ServiceFactory.Events.GetEvent<ShowDoorOnPlanEvent>().Subscribe(OnShowDoorOnPlan);
+			ServiceFactory.Events.GetEvent<ShowSKDDoorOnPlanEvent>().Subscribe(OnShowDoorOnPlan);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			_monitors = new Dictionary<Plan, PlanMonitor>();
@@ -105,7 +106,7 @@ namespace SKDModule.Plans
 						return;
 					}
 		}
-		private void OnShowDoorOnPlan(Door door)
+		private void OnShowDoorOnPlan(SKDDoor door)
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 				foreach (var element in plan.ElementDoors)

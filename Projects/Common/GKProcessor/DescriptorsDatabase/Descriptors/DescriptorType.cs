@@ -8,6 +8,8 @@
 		PumpStation,
 		MPT,
 		Delay,
-		Pim
+		Pim,
+		GuardZone,
+		Code,
 	}
 }

@@ -22,7 +22,6 @@ namespace FiresecAPI.GK
 		public bool IsHieghByte { get; set; }
 		public bool IsLowByte { get; set; }
 		public short Mask { get; set; }
-		public bool HighByte { get; set; }
 		public List<XDriverPropertyParameter> Parameters { get; set; }
 		public XDriverPropertyTypeEnum DriverPropertyType { get; set; }
 		public ushort Min { get; set; }

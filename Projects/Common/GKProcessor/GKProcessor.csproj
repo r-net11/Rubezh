@@ -66,6 +66,8 @@
     <Compile Include="DescriptorsDatabase\Descriptors\PimDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\PumpStationDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\MPTDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\GuardZoneDescriptor.cs" />
+    <Compile Include="DescriptorsDatabase\Descriptors\CodeDescriptor.cs" />
     <Compile Include="DescriptorsDatabase\GkDatabase.cs" />
     <Compile Include="DescriptorsDatabase\KauDatabase.cs" />
     <Compile Include="DescriptorsDatabase\Descriptors\BaseDescriptor.cs" />
@@ -100,7 +102,6 @@
     <Compile Include="Drivers\AddressDevices\Shu_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\SmokeDetector_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKIndicator_Helper.cs" />
-    <Compile Include="Drivers\GKDevices\GKLine_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKRele_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GKSystem_Helper.cs" />
     <Compile Include="Drivers\GKDevices\GK_Helper.cs" />
@@ -117,6 +118,8 @@
     <Compile Include="Drivers\GroupDevices\RM_3_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_4_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_5_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_CodeReader_Helper.cs" />
+    <Compile Include="Drivers\RSR2\RSR2_GuardDetector_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_AM_1_Helper.cs" />
     <Compile Include="Drivers\RSR2\RSR2_AM_4_Group_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\Battery_Helper.cs" />

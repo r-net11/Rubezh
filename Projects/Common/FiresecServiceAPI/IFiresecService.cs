@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
+using FiresecAPI.Journal;
 using FiresecAPI.Models;
 
 namespace FiresecAPI
@@ -35,9 +36,22 @@ namespace FiresecAPI
 		string Ping();
 		#endregion
 
-		//[OperationContract]
-		//OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter);
+		#region Journal
+		[OperationContract]
+		OperationResult<DateTime> GetMinJournalDateTime();
 
+		[OperationContract]
+		OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter journalFilter);
+
+		[OperationContract]
+		void BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID);
+
+		[OperationContract]
+		List<JournalEventDescriptionType> GetDistinctEventDescriptions();
+
+		[OperationContract]
+		List<JournalEventNameType> GetDistinctEventNames();
+		#endregion
 
 		#region Files
 		[OperationContract]

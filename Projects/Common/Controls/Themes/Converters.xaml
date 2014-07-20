@@ -25,9 +25,11 @@
 	<Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
 	<Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
 	<Converters:XStateClassToZoneColorConverter x:Key="XStateClassToZoneColorConverter" />
+    <Converters:XStateClassToGuardZoneColorConverter x:Key="XStateClassToGuardZoneColorConverter" />
 	<Converters:XStateClassToColorConverter2 x:Key="XStateClassToColorConverter2" />
 	<Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
 	<Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
+    <Converters:XGuardZoneStateClassToStringConverter x:Key="XGuardZoneStateClassToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
 	<Converters:MPTDeviceTypeToStringConverter x:Key="MPTDeviceTypeToStringConverter" />
 	<Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
@@ -51,6 +53,7 @@
 	<Converters:BoolToGridLengthConverter x:Key="BoolToGridLengthConverter" />
 	<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 	<Converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+    <Converters:XGuardZoneDeviceActionTypeToIconConverter x:Key="XGuardZoneDeviceActionTypeToIconConverter" />
 	
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 	

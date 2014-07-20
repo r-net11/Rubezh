@@ -22,11 +22,12 @@ namespace ControllerSDK.ViewModels
 			Passwords = new ObservableCollection<PasswordViewModel>();
 
 			CreationDateTime = DateTime.Now;
-			DoorOpenPassword = "1";
-			AlarmPassword = "1";
+			UserID = "1";
+			DoorOpenPassword = "123456";
+			AlarmPassword = "123456";
 
 			Doors = new ObservableCollection<DoorItemViewModel>();
-			for (int i = 1; i <= 4; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				Doors.Add(new DoorItemViewModel(i));
 			}
@@ -76,7 +77,8 @@ namespace ControllerSDK.ViewModels
 		public RelayCommand GetInfoCommand { get; private set; }
 		void OnGetInfo()
 		{
-			var result = MainViewModel.Wrapper.GetPasswordInfo(0);
+			var result = MainViewModel.Wrapper.GetPasswordInfo(Index);
+			Initialize(new List<Password>() { result });
 		}
 
 		public RelayCommand GetCountCommand { get; private set; }
@@ -102,6 +104,7 @@ namespace ControllerSDK.ViewModels
 		Password GetModel()
 		{
 			var password = new Password();
+			password.UserID = UserID;
 			password.CreationDateTime = CreationDateTime;
 			password.DoorOpenPassword = DoorOpenPassword;
 			password.AlarmPassword = AlarmPassword;
@@ -150,6 +153,17 @@ namespace ControllerSDK.ViewModels
 			{
 				_creationDateTime = value;
 				OnPropertyChanged(() => CreationDateTime);
+			}
+		}
+
+		string _userID;
+		public string UserID
+		{
+			get { return _userID; }
+			set
+			{
+				_userID = value;
+				OnPropertyChanged("UserID");
 			}
 		}
 

@@ -105,6 +105,8 @@ namespace GKModule.ViewModels
 				LocalConfiguration.MPTs.AddRange(RemoteConfiguration.MPTs);
 				LocalConfiguration.Delays.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
 				LocalConfiguration.Delays.AddRange(RemoteConfiguration.Delays);
+				LocalConfiguration.GuardZones.RemoveAll(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == LocalDevice.Address);
+				LocalConfiguration.GuardZones.AddRange(RemoteConfiguration.GuardZones);
 			}
 			ServiceFactory.SaveService.GKChanged = true;
 			XManager.UpdateConfiguration();
@@ -185,8 +187,12 @@ namespace GKModule.ViewModels
 							newObject.DifferenceDiscription = GetDelaysDifferences(sameObject1, sameObject2);
 							newObject.Name = sameObject1.Name;
 						}
+						if (sameObject1.ObjectType == ObjectType.GuardZone)
+						{
+							newObject.DifferenceDiscription = GetGuardZonesDifferences(sameObject1, sameObject2);
+							newObject.Name = sameObject1.Name;
+						}
 					}
-
 				}
 				unionObjects1.Add(newObject);
 			}
@@ -338,6 +344,21 @@ namespace GKModule.ViewModels
 				delaysDifferences.Append(String.Join(", ", parameters));
 			}
 			return delaysDifferences.ToString() == "" ? null : delaysDifferences.ToString();
+		}
+
+		string GetGuardZonesDifferences(ObjectViewModel object1, ObjectViewModel object2)
+		{
+			var guardZonesDifferences = new StringBuilder();
+			if (object1.Name != object2.Name)
+				guardZonesDifferences.Append("Не совпадает название");
+			var fire1CountDiff = object1.GuardZone.Delay != object2.GuardZone.Delay;
+			if (fire1CountDiff)
+			{
+				if (guardZonesDifferences.Length != 0)
+					guardZonesDifferences.Append(". ");
+				guardZonesDifferences.Append("Не совпадает задержка");
+			}
+			return guardZonesDifferences.ToString() == "" ? null : guardZonesDifferences.ToString();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using ChinaSKDDriverAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 
@@ -15,11 +16,24 @@ namespace ChinaSKDDriver
 		Thread Thread;
 		bool IsStopping;
 		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
+		public event Action<SKDJournalItem> NewJournalItem;
 
 		public DeviceProcessor(SKDDevice device)
 		{
 			Device = device;
 			Wrapper = new Wrapper();
+			Wrapper.NewJournalItem -= new Action<SKDJournalItem>(Wrapper_NewJournalItem);
+			Wrapper.NewJournalItem += new Action<SKDJournalItem>(Wrapper_NewJournalItem);
+		}
+
+		void Wrapper_NewJournalItem(SKDJournalItem skdJournalItem)
+		{
+			if (skdJournalItem.LoginID == LoginID)
+			{
+				if (NewJournalItem != null)
+					NewJournalItem(skdJournalItem);
+			}
+			throw new NotImplementedException();
 		}
 
 		public void Start()
@@ -34,7 +48,6 @@ namespace ChinaSKDDriver
 			AutoResetEvent = new AutoResetEvent(false);
 			Thread = new Thread(OnStart);
 			Thread.Start();
-			Wrapper.Start();
 		}
 
 		public void Stop()
@@ -48,8 +61,6 @@ namespace ChinaSKDDriver
 					Thread.Join(TimeSpan.FromSeconds(1));
 				}
 			}
-
-			Wrapper.Stop();
 		}
 
 		void OnStart()

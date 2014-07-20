@@ -15,6 +15,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
+using Infrastructure.Events;
 
 namespace GKModule.Plans.Designer
 {

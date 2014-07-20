@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using ChinaSKDDriverAPI;
 using Infrastructure.Common;
@@ -19,6 +20,7 @@ namespace ControllerSDK.ViewModels
 			GetInfoCommand = new RelayCommand(OnGetInfo);
 			GetCountCommand = new RelayCommand(OnGetCount);
 			GetAllCommand = new RelayCommand(OnGetAll);
+			AddManyCommand = new RelayCommand(OnAddMany);
 			Cards = new ObservableCollection<CardViewModel>();
 
 			CardNo = "1";
@@ -38,14 +40,14 @@ namespace ControllerSDK.ViewModels
 			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_MOTHERCARD);
 
 			Doors = new ObservableCollection<DoorItemViewModel>();
-			for (int i = 1; i <= 4; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				Doors.Add(new DoorItemViewModel(i));
 			}
 			Doors[0].IsChecked = true;
 
 			TimeShedules = new ObservableCollection<TimeSheduleItemViewModel>();
-			for (int i = 1; i <= 10; i++)
+			for (int i = 0; i < 10; i++)
 			{
 				TimeShedules.Add(new TimeSheduleItemViewModel(i));
 			}
@@ -116,6 +118,18 @@ namespace ControllerSDK.ViewModels
 			{
 				var cardViewModel = new CardViewModel(card);
 				Cards.Add(cardViewModel);
+			}
+		}
+
+		public RelayCommand AddManyCommand { get; private set; }
+		void OnAddMany()
+		{
+			for (int i = 1; i <= 100; i++)
+			{
+				var card = GetModel();
+				card.CardNo = (i*11).ToString();
+				var newCardNo = MainViewModel.Wrapper.AddCard(card);
+				Trace.WriteLine("Card Added " + card.CardNo);
 			}
 		}
 

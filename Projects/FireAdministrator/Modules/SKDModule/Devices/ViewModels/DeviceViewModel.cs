@@ -28,6 +28,7 @@ namespace SKDModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ChangeZoneCommand = new RelayCommand(OnChangeZone, CanChangeZone);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
+			ShowDoorCommand = new RelayCommand(OnShowDoor, CanShowDoor);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 			ShowParentCommand = new RelayCommand(OnShowParent, CanShowParent);
 
@@ -42,15 +43,17 @@ namespace SKDModule.ViewModels
 
 		void OnChanged()
 		{
-			OnPropertyChanged("Address");
-			OnPropertyChanged("PresentationZone");
-			OnPropertyChanged("EditingPresentationZone");
+			OnPropertyChanged(() => Address);
+			OnPropertyChanged(() => PresentationZone);
+			OnPropertyChanged(() => EditingPresentationZone);
+			OnPropertyChanged(() => Door);
+			OnPropertyChanged(() => HasDoor);
 		}
 
 		public void UpdateProperties()
 		{
 			PropertiesViewModel = new PropertiesViewModel(Device);
-			OnPropertyChanged("PropertiesViewModel");
+			OnPropertyChanged(() => PropertiesViewModel);
 		}
 
 		public void Update()
@@ -72,9 +75,24 @@ namespace SKDModule.ViewModels
 			{
 				Device.Name = value;
 				OnPropertyChanged(() => Name);
-				Device.OnChanged();
+				SKDManager.EditDevice(Device);
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
+		}
+
+		public SKDDoor Door
+		{
+			get { return Device.Door; }
+		}
+
+		public bool HasDoor
+		{
+			get { return Device.Door != null; }
+		}
+
+		public SKDDriver Driver
+		{
+			get { return Device.Driver; }
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -122,7 +140,7 @@ namespace SKDModule.ViewModels
 		{
 			var allDevices = Device.Children;
 			foreach (var device in allDevices)
-				SKDManager.Devices.Remove(device);
+				SKDManager.DeleteDevice(device);
 			var parent = Parent;
 			if (parent != null)
 			{
@@ -159,9 +177,9 @@ namespace SKDModule.ViewModels
 		bool CanShowProperties()
 		{
 			return false;
-			//return Device.DriverType == SKDDriverType.Reader;
 		}
 
+		#region Plan
 		public bool IsOnPlan
 		{
 			get { return Device.PlanElementUIDs.Count > 0; }
@@ -219,6 +237,7 @@ namespace SKDModule.ViewModels
 		{
 			return Device.AllowMultipleVizualization != isAllow;
 		}
+		#endregion
 
 		#region Zone
 		public string PresentationZone
@@ -248,7 +267,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isZoneGrayed = value;
-				OnPropertyChanged("IsZoneGrayed");
+				OnPropertyChanged(() => IsZoneGrayed);
 			}
 		}
 
@@ -260,10 +279,10 @@ namespace SKDModule.ViewModels
 			{
 				if (zoneSelectationViewModel.SelectedZone != null)
 				{
-					SKDManager.AddDeviceToZone(Device, zoneSelectationViewModel.SelectedZone.Zone);
+					SKDManager.ChangeDeviceZone(Device, zoneSelectationViewModel.SelectedZone.Zone);
 				}
-				OnPropertyChanged("PresentationZone");
-				OnPropertyChanged("EditingPresentationZone");
+				OnPropertyChanged(() => PresentationZone);
+				OnPropertyChanged(() => EditingPresentationZone);
 				ServiceFactory.SaveService.SKDChanged = true;
 			}
 		}
@@ -280,13 +299,17 @@ namespace SKDModule.ViewModels
 		bool CanShowZone()
 		{
 			return Device.Driver.HasZone && Device.ZoneUID != Guid.Empty;
-			;
 		}
 		#endregion
 
-		public SKDDriver Driver
+		public RelayCommand ShowDoorCommand { get; private set; }
+		void OnShowDoor()
 		{
-			get { return Device.Driver; }
+			ServiceFactory.Events.GetEvent<ShowSKDDoorEvent>().Publish(Device.Door.UID);
+		}
+		bool CanShowDoor()
+		{
+			return Device.Door != null;
 		}
 
 		public RelayCommand ShowParentCommand { get; private set; }

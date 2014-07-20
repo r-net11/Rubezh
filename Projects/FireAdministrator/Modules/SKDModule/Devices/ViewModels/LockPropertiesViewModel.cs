@@ -7,6 +7,7 @@ using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using FiresecClient;
+using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
@@ -22,17 +23,17 @@ namespace SKDModule.ViewModels
 			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
 
-			AccessStates = new ObservableRangeCollection<SKDDoorConfiguration_AccessState>();
+			AccessStates = new ObservableCollection<SKDDoorConfiguration_AccessState>();
 			AccessStates.Add(SKDDoorConfiguration_AccessState.ACCESS_STATE_NORMAL);
 			AccessStates.Add(SKDDoorConfiguration_AccessState.ACCESS_STATE_CLOSEALWAYS);
 			AccessStates.Add(SKDDoorConfiguration_AccessState.ACCESS_STATE_OPENALWAYS);
 
-			AccessModes = new ObservableRangeCollection<SKDDoorConfiguration_AccessMode>();
+			AccessModes = new ObservableCollection<SKDDoorConfiguration_AccessMode>();
 			AccessModes.Add(SKDDoorConfiguration_AccessMode.ACCESS_MODE_HANDPROTECTED);
 			AccessModes.Add(SKDDoorConfiguration_AccessMode.ACCESS_MODE_OTHER);
 			AccessModes.Add(SKDDoorConfiguration_AccessMode.ACCESS_MODE_SAFEROOM);
 
-			DoorOpenMethods = new ObservableRangeCollection<SKDDoorConfiguration_DoorOpenMethod>();
+			DoorOpenMethods = new ObservableCollection<SKDDoorConfiguration_DoorOpenMethod>();
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST);
@@ -63,7 +64,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => LockIntervalsViewModel);
 		}
 
-		public ObservableRangeCollection<SKDDoorConfiguration_AccessState> AccessStates { get; private set; }
+		public ObservableCollection<SKDDoorConfiguration_AccessState> AccessStates { get; private set; }
 
 		SKDDoorConfiguration_AccessMode _selectedAccessMode;
 		public SKDDoorConfiguration_AccessMode SelectedAccessMode
@@ -88,9 +89,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableRangeCollection<SKDDoorConfiguration_AccessMode> AccessModes { get; private set; }
+		public ObservableCollection<SKDDoorConfiguration_AccessMode> AccessModes { get; private set; }
 
-		public ObservableRangeCollection<SKDDoorConfiguration_DoorOpenMethod> DoorOpenMethods { get; private set; }
+		public ObservableCollection<SKDDoorConfiguration_DoorOpenMethod> DoorOpenMethods { get; private set; }
 
 		SKDDoorConfiguration_DoorOpenMethod _selectedDoorOpenMethod;
 		public SKDDoorConfiguration_DoorOpenMethod SelectedDoorOpenMethod

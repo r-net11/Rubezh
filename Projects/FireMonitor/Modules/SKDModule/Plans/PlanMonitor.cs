@@ -25,7 +25,7 @@ namespace SKDModule.Plans
 		}
 		private void Initialize(ElementDoor element)
 		{
-			var door = PlanPresenter.Cache.Get<Door>(element.DoorUID);
+			var door = PlanPresenter.Cache.Get<SKDDoor>(element.DoorUID);
 			AddState((IStateProvider)door);
 		}
 		private void Initialize(IElementZone element)

@@ -6,28 +6,17 @@ namespace FiltersModule.ViewModels
 {
 	public class FilterViewModel : BaseViewModel
 	{
-		public JournalFilter Filter { get; set; }
+		public JournalFilter Filter { get; private set; }
 
 		public FilterViewModel(JournalFilter filter)
 		{
 			Filter = filter;
 		}
 
-		public string Name
-		{
-			get { return Filter.Name; }
-			set
-			{
-				Filter.Name = value;
-				OnPropertyChanged("Name");
-				ServiceFactory.SaveService.FilterChanged = true;
-			}
-		}
-
 		public void Update(JournalFilter filter)
 		{
 			Filter = filter;
-			OnPropertyChanged("Name");
+			OnPropertyChanged("Filter");
 		}
 	}
 }

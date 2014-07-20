@@ -74,7 +74,8 @@ namespace FiresecAPI.GK
 			InitializePumpStations();
 			InitializeMPTs();
 			InitializeDelays();
-			InitializeGuardUsers();
+			InitializeGuardZones();
+			InitializeCodes();
 			UpdateGKChildrenDescription();
 		}
 
@@ -85,6 +86,7 @@ namespace FiresecAPI.GK
 				device.ClearClauseDependencies();
 				device.Zones = new List<XZone>();
 				device.Directions = new List<XDirection>();
+				device.GuardZone = null;
 			}
 			foreach (var zone in Zones)
 			{
@@ -371,23 +373,45 @@ namespace FiresecAPI.GK
 			return result;
 		}
 
-		void InitializeGuardUsers()
+		void InitializeGuardZones()
 		{
-			foreach (var guardUser in GuardUsers)
+			foreach (var guardZone in GuardZones)
 			{
-				var zoneUIDs = new List<Guid>();
-				guardUser.Zones = new List<XZone>();
-				if (guardUser.ZoneUIDs != null)
-					foreach (var zoneUID in guardUser.ZoneUIDs)
+				var guardZoneDevices = new List<XGuardZoneDevice>();
+				foreach (var guardZoneDevice in guardZone.GuardZoneDevices)
+				{
+					var device = Devices.FirstOrDefault(x => x.BaseUID == guardZoneDevice.DeviceUID);
+					if (device != null)
 					{
-						var zone = Zones.FirstOrDefault(x => x.BaseUID == zoneUID);
-						if (zone != null)
+						if (device.DriverType == XDriverType.RSR2_HandDetector || device.DriverType == XDriverType.RSR2_AM_1 || device.DriverType == XDriverType.RSR2_GuardDetector)
 						{
-							guardUser.Zones.Add(zone);
-							zoneUIDs.Add(zoneUID);
+							guardZoneDevice.Device = device;
+							guardZoneDevices.Add(guardZoneDevice);
+							device.GuardZone = guardZone;
 						}
 					}
-				guardUser.ZoneUIDs = zoneUIDs;
+				}
+				guardZone.GuardZoneDevices = guardZoneDevices;
+			}
+		}
+
+		void InitializeCodes()
+		{
+			foreach (var code in Codes)
+			{
+				var guardZoneUIDs = new List<Guid>();
+				code.GuardZones = new List<XGuardZone>();
+				if (code.GuardZoneUIDs != null)
+					foreach (var guardZoneUID in code.GuardZoneUIDs)
+					{
+						var guardZone = GuardZones.FirstOrDefault(x => x.BaseUID == guardZoneUID);
+						if (guardZone != null)
+						{
+							code.GuardZones.Add(guardZone);
+							guardZoneUIDs.Add(guardZoneUID);
+						}
+					}
+				code.GuardZoneUIDs = guardZoneUIDs;
 			}
 		}
 

@@ -188,29 +188,6 @@ namespace FiltersModule.ViewModels
 					child.IsChecked = value;
 				}
 				UpdateParent();
-
-
-
-				//if (IsSubsystem)
-				//{
-				//    foreach (var child in Children)
-				//    {
-				//        child.IsChecked = value;
-				//    }
-				//}
-
-				//if (IsObjectGroup)
-				//{
-				//    foreach (var child in Children)
-				//    {
-				//        child.SetIsChecked(value);
-				//    }
-				//}
-
-				//if (Parent != null && (Parent.IsSubsystem || Parent.IsObjectGroup))
-				//{
-				//    Parent.UpdateIsChecked();
-				//}
 			}
 		}
 
@@ -223,18 +200,6 @@ namespace FiltersModule.ViewModels
 				Parent.UpdateParent();
 			}
 		}
-
-		//public void UpdateIsChecked()
-		//{
-		//    var isAllChecked = Children.All(x => x.IsChecked);
-		//    _isChecked = isAllChecked;
-		//    OnPropertyChanged(() => IsChecked);
-
-		//    if (Parent != null && (Parent.IsSubsystem || Parent.IsObjectGroup))
-		//    {
-		//        Parent.UpdateIsChecked();
-		//    }
-		//}
 
 		public void SetIsChecked(bool value)
 		{

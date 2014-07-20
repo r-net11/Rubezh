@@ -32,7 +32,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" />
+									<Image Margin="1 0 0 0" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" />
 									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
 								</StackPanel>
 							</DataTemplate>
@@ -65,7 +65,7 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Margin="1 0 0 0" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" />
+									<Image Margin="1 0 0 0" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" />
 									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding No}" />
 								</StackPanel>
 							</DataTemplate>

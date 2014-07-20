@@ -1,5 +1,4 @@
-﻿
-namespace GKModule.ViewModels
+﻿namespace GKModule.ViewModels
 {
 	public enum StackDirection
 	{

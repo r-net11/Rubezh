@@ -31,7 +31,7 @@ namespace GKModule
 		PumpStationsViewModel PumpStationsViewModel;
 		MPTsViewModel MPTsViewModel;
 		DelaysViewModel DelaysViewModel;
-		GuardViewModel GuardViewModel;
+		CodesViewModel CodesViewModel;
 		GuardZonesViewModel GuardZonesViewModel;
 		LibraryViewModel DeviceLidraryViewModel;
 		InstructionsViewModel InstructionsViewModel;
@@ -58,7 +58,7 @@ namespace GKModule
 			PumpStationsViewModel = new PumpStationsViewModel();
 			MPTsViewModel = new MPTsViewModel();
 			DelaysViewModel = new DelaysViewModel();
-			GuardViewModel = new GuardViewModel();
+			CodesViewModel = new CodesViewModel();
 			GuardZonesViewModel = new GuardZonesViewModel();
 			DeviceLidraryViewModel = new LibraryViewModel();
 			InstructionsViewModel = new InstructionsViewModel();
@@ -79,7 +79,7 @@ namespace GKModule
 			PumpStationsViewModel.Initialize();
 			MPTsViewModel.Initialize();
 			DelaysViewModel.Initialize();
-			GuardViewModel.Initialize();
+			CodesViewModel.Initialize();
 			GuardZonesViewModel.Initialize();
 			InstructionsViewModel.Initialize();
 			OPCDevicesViewModel.Initialize();
@@ -107,8 +107,8 @@ namespace GKModule
 					new NavigationItem("Охрана", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
-							new NavigationItem<ShowXGuardEvent, Guid>(GuardViewModel, "Охрана", "/Controls;component/Images/User.png", null, null, Guid.Empty),
-							new NavigationItem<ShowXGuardZonesEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
+							new NavigationItem<ShowXGuardEvent, Guid>(CodesViewModel, "Коды", "/Controls;component/Images/User.png", null, null, Guid.Empty),
+							new NavigationItem<ShowXGuardZoneEvent, Guid>(GuardZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 						}),
 
 					new NavigationItem<ShowXInstructionsEvent, Guid>(InstructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
@@ -243,8 +243,8 @@ namespace GKModule
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Directions, 113, "Направления", "Панель направления", "BDirection.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.PumpStations, 114, "НС", "Панель НС", "BPumpStation.png");
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.MPTs, 115, "МПТ", "Панель МПТ", "BMPT.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Journals, 116, "Журнал событий", "Панель журнал событий", "BBook.png");
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.Archive, 117, "Архив", "Панель архив", "BArchive.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GKJournals, 116, "Журнал событий", "Панель журнал событий", "BBook.png");
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.GK, LayoutPartIdentities.GKArchive, 117, "Архив", "Панель архив", "BArchive.png");
 		}
 
 		#endregion

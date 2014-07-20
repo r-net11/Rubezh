@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.SKD;
 using System.Collections.ObjectModel;
+using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
@@ -16,7 +17,7 @@ namespace SKDModule.ViewModels
 			for (int i = 0; i < 7; i++)
 			{
 				var doorDayInterval = doorConfiguration.DoorDayIntervalsCollection.DoorDayIntervals[i];
-				var dayIntervalViewModel = new DayIntervalViewModel(i+1);
+				var dayIntervalViewModel = new DayIntervalViewModel(i + 1);
 				DayIntervals.Add(dayIntervalViewModel);
 
 				foreach (var doorDayIntervalPart in doorDayInterval.DoorDayIntervalParts)
@@ -26,6 +27,7 @@ namespace SKDModule.ViewModels
 					intervalPartViewModel.StartMinute = doorDayIntervalPart.StartMinute;
 					intervalPartViewModel.EndHour = doorDayIntervalPart.EndHour;
 					intervalPartViewModel.EndMinute = doorDayIntervalPart.EndMinute;
+					intervalPartViewModel.SelectedDoorOpenMethod = doorDayIntervalPart.DoorOpenMethod;
 					dayIntervalViewModel.IntervalParts.Add(intervalPartViewModel);
 				}
 			}
@@ -46,6 +48,7 @@ namespace SKDModule.ViewModels
 					doorDayIntervalPart.StartMinute = interval.StartMinute;
 					doorDayIntervalPart.EndHour = interval.EndHour;
 					doorDayIntervalPart.EndMinute = interval.EndMinute;
+					doorDayIntervalPart.DoorOpenMethod = interval.SelectedDoorOpenMethod;
 					doorDayInterval.DoorDayIntervalParts.Add(doorDayIntervalPart);
 				}
 				doorDayIntervalsCollection.DoorDayIntervals.Add(doorDayInterval);
@@ -106,6 +109,15 @@ namespace SKDModule.ViewModels
 					StartMinutes.Add(i);
 					EndMinutes.Add(i);
 				}
+
+				DoorOpenMethods = new ObservableCollection<SKDDoorConfiguration_DoorOpenMethod>();
+				DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD);
+				DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY);
+				DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST);
+				DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_FIRST);
+				DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_OR_CARD);
+				DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
+				SelectedDoorOpenMethod = DoorOpenMethods.FirstOrDefault();
 			}
 
 			public ObservableCollection<int> StartHours { get; private set; }
@@ -117,6 +129,19 @@ namespace SKDModule.ViewModels
 			public int StartMinute { get; set; }
 			public int EndHour { get; set; }
 			public int EndMinute { get; set; }
+
+			public ObservableCollection<SKDDoorConfiguration_DoorOpenMethod> DoorOpenMethods { get; private set; }
+
+			SKDDoorConfiguration_DoorOpenMethod _selectedDoorOpenMethod;
+			public SKDDoorConfiguration_DoorOpenMethod SelectedDoorOpenMethod
+			{
+				get { return _selectedDoorOpenMethod; }
+				set
+				{
+					_selectedDoorOpenMethod = value;
+					OnPropertyChanged(() => SelectedDoorOpenMethod);
+				}
+			}
 		}
 	}
 }

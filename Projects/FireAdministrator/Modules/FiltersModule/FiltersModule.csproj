@@ -80,6 +80,14 @@
     </Compile>
     <Compile Include="Events\ShowFiltersEvent.cs" />
     <Compile Include="FiltersModule.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartJournalViewModel.cs" />
+    <Compile Include="Layout\ViewModels\LayoutPartPropertyJournalPageViewModel.cs" />
+    <Compile Include="Layout\Views\LayoutPartJournalView.xaml.cs">
+      <DependentUpon>LayoutPartJournalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Layout\Views\LayoutPartPropertyJournalPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyJournalPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -96,7 +104,6 @@
     <Compile Include="Validation\FilterValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\Validator.Filter.cs" />
-    <Compile Include="ViewModels\DateTimePairViewModel.cs" />
     <Compile Include="ViewModels\FilterDetailsViewModel.cs" />
     <Compile Include="ViewModels\FilterNamesViewModel.cs" />
     <Compile Include="ViewModels\FilterNameViewModel.cs" />
@@ -161,6 +168,18 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartJournalView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartPropertyJournalPageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

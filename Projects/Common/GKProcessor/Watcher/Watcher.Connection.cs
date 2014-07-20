@@ -32,7 +32,7 @@ namespace GKProcessor
 						SystemDateTime = DateTime.Now,
 						DeviceDateTime = DateTime.Now,
 						GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
-						JournalItemType = XJournalItemType.System,
+						JournalObjectType = XJournalObjectType.System,
 						StateClass = XStateClass.Unknown,
 						ObjectStateClass = XStateClass.Norm,
 						JournalEventNameType = isConnected ? JournalEventNameType.Восстановление_связи_с_прибором : JournalEventNameType.Потеря_связи_с_прибором,

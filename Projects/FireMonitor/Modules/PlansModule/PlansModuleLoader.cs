@@ -69,7 +69,7 @@ namespace PlansModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_planNavigationItem = new NavigationItem<ShowPlansEvent>(_plansViewModel, "Планы", "/Controls;component/Images/map.png");
+			_planNavigationItem = new NavigationItem<ShowPlansEvent>(_plansViewModel, "Планы", "/Controls;component/Images/Map.png");
 			return new List<NavigationItem>() { _planNavigationItem };
 		}
 
@@ -77,7 +77,6 @@ namespace PlansModule
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Plans, "Планы", "Map.png", CreatePlansViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.PlansEx, "Планы", "Map.png", CreatePlansViewModel);
 		}
 		#endregion
 

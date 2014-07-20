@@ -175,16 +175,16 @@
 		<Views:DescriptorsMenuView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:GuardViewModel}">
-		<Views:GuardView />
+	<DataTemplate DataType="{x:Type ViewModels:CodesViewModel}">
+		<Views:CodesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
-		<Views:UserDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:CodeDetailsViewModel}">
+		<Views:CodeDetailsView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:GuardMenuViewModel}">
-		<Views:GuardMenuView />
+		<Views:CodesMenuView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:GuardZonesViewModel}">

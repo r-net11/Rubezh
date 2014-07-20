@@ -15,6 +15,6 @@ namespace ChinaSKDDriverAPI
 		public List<int> Doors { get; set; }
 		public DateTime StartDateTime { get; set; }
 		public DateTime EndDateTime { get; set; }
-		public bool IsEnabled { get; set; }
+		public string HolidayNo { get; set; }
 	}
 }

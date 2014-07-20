@@ -20,27 +20,54 @@ namespace FiresecService
 
 		public static void Add(JournalItem journalItem)
 		{
+			//journalItem.UID = Guid.NewGuid();
+
+			//try
+			//{
+			//    lock (locker)
+			//    {
+			//        using (var dataContext = new SqlConnection(ConnectionString))
+			//        {
+			//            dataContext.ConnectionString = ConnectionString;
+			//            dataContext.Open();
+
+			//            var sqCommand = new SqlCommand();
+			//            sqCommand.Connection = dataContext;
+
+			//            sqCommand.CommandText = @"Insert Into Journal" +
+			//                "(SystemDate,DeviceDate,Subsystem,Name,Description,NameText,DescriptionText,State,ObjectType,ObjectName,ObjectUID,UserName,CardNo,UID) Values" +
+			//                "(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14)";
+			//            sqCommand.Parameters.AddWithValue("@p1", (object)journalItem.SystemDateTime);
+			//            sqCommand.Parameters.AddWithValue("@p2", (object)journalItem.DeviceDateTime);
+			//            sqCommand.Parameters.AddWithValue("@p3", (object)((int)journalItem.JournalSubsystemType));
+			//            sqCommand.Parameters.AddWithValue("@p4", (object)((int)journalItem.JournalEventNameType));
+			//            sqCommand.Parameters.AddWithValue("@p5", (object)((int)journalItem.JournalEventDescriptionType));
+			//            sqCommand.Parameters.AddWithValue("@p6", (object)journalItem.NameText ?? DBNull.Value);
+			//            sqCommand.Parameters.AddWithValue("@p7", (object)journalItem.DescriptionText ?? DBNull.Value);
+			//            sqCommand.Parameters.AddWithValue("@p8", (object)((int)journalItem.StateClass));
+			//            sqCommand.Parameters.AddWithValue("@p9", (object)((int)journalItem.JournalObjectType));
+			//            sqCommand.Parameters.AddWithValue("@p10", (object)journalItem.ObjectName ?? DBNull.Value);
+			//            sqCommand.Parameters.AddWithValue("@p11", (object)journalItem.ObjectUID);
+			//            sqCommand.Parameters.AddWithValue("@p12", (object)journalItem.UserName ?? DBNull.Value);
+			//            sqCommand.Parameters.AddWithValue("@p13", (object)journalItem.CardNo);
+			//            sqCommand.Parameters.AddWithValue("@p14", (object)journalItem.UID);
+			//            sqCommand.ExecuteNonQuery();
+
+			//            sqCommand.ExecuteNonQuery();
+
+			//            dataContext.Close();
+			//        }
+			//    }
+			//}
+			//catch (Exception e)
+			//{
+			//    Logger.Error(e, "FiresecService.GetTopLast");
+			//}
+
 			lock (databaseLocker)
 			{
 				SKDDatabaseService.JournalItemTranslator.Save(journalItem);
 			}
-		}
-
-		public static void AddMany(List<JournalItem> journalItems)
-		{
-			lock (databaseLocker)
-			{
-				SKDDatabaseService.JournalItemTranslator.Save(journalItems);
-			}
-		}
-
-		public static JournalItem AddMessage(JournalEventNameType journalEventNameType, string userName)
-		{
-			var result = new JournalItem();
-			result.JournalEventNameType = journalEventNameType;
-			result.UserName = userName;
-			Add(result);
-			return result;
 		}
 
 		public static List<JournalItem> GetFilteredJournalItems(JournalFilter filter)
@@ -72,7 +99,7 @@ namespace FiresecService
 			return journalItems;
 		}
 
-		public static List<JournalItem> BeginGetSKDFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
+		public static List<JournalItem> BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
 		{
 			var journalItems = new List<JournalItem>();
 			var result = new List<JournalItem>();

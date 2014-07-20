@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -26,7 +27,12 @@ namespace GKModule.ViewModels
 		{
 			ShowCommand = new RelayCommand(OnShow);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
-			SetCommand = new RelayCommand(OnSet, CanSet);
+			SetAutomaticStateCommand = new RelayCommand(OnSetAutomaticState, CanSetAutomaticState);
+			SetManualStateCommand = new RelayCommand(OnSetManualState, CanSetManualState);
+			SetIgnoreStateCommand = new RelayCommand(OnSetIgnoreState, CanSetIgnoreState);
+			TurnOnCommand = new RelayCommand(OnTurnOn);
+			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
+			TurnOffCommand = new RelayCommand(OnTurnOff);
 			ResetCommand = new RelayCommand(OnReset, CanReset);
 
 			Zone = zone;
@@ -39,11 +45,23 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
-			OnPropertyChanged("ResetFireCommand");
-			OnPropertyChanged("SetIgnoreCommand");
-			OnPropertyChanged("ResetIgnoreCommand");
+			OnPropertyChanged(() => StateClasses);
+			OnPropertyChanged(() => ControlRegime);
+			OnPropertyChanged(() => IsControlRegime);
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => HasOnDelay);
+			OnPropertyChanged(() => HasHoldDelay);
 			CommandManager.InvalidateRequerySuggested();
+		}
+
+		public List<XStateClass> StateClasses
+		{
+			get
+			{
+				var stateClasses = State.StateClasses.ToList();
+				stateClasses.Sort();
+				return stateClasses;
+			}
 		}
 
 		public ObservableCollection<PlanLinkViewModel> Plans { get; private set; }
@@ -58,7 +76,7 @@ namespace GKModule.ViewModels
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				ElementBase elementBase;
-				elementBase = plan.ElementRectangleXZones.FirstOrDefault(x => x.ZoneUID == Zone.BaseUID);
+				elementBase = plan.ElementRectangleXGuardZones.FirstOrDefault(x => x.ZoneUID == Zone.BaseUID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -67,7 +85,7 @@ namespace GKModule.ViewModels
 					continue;
 				}
 
-				elementBase = plan.ElementPolygonXZones.FirstOrDefault(x => x.ZoneUID == Zone.BaseUID);
+				elementBase = plan.ElementPolygonXGuardZones.FirstOrDefault(x => x.ZoneUID == Zone.BaseUID);
 				if (elementBase != null)
 				{
 					var alarmPlanViewModel = new PlanLinkViewModel(plan, elementBase);
@@ -77,17 +95,98 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public RelayCommand SetCommand { get; private set; }
-		void OnSet()
+		public DeviceControlRegime ControlRegime
+		{
+			get
+			{
+				if (State.StateClasses.Contains(XStateClass.Ignore))
+					return DeviceControlRegime.Ignore;
+
+				if (!State.StateClasses.Contains(XStateClass.AutoOff))
+					return DeviceControlRegime.Automatic;
+
+				return DeviceControlRegime.Manual;
+			}
+		}
+
+		public bool IsControlRegime
+		{
+			get { return ControlRegime == DeviceControlRegime.Manual; }
+		}
+
+		public RelayCommand SetAutomaticStateCommand { get; private set; }
+		void OnSetAutomaticState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKSetAutomaticRegime(Zone);
+			}
+		}
+		bool CanSetAutomaticState()
+		{
+			return ControlRegime != DeviceControlRegime.Automatic;
+		}
+
+		public RelayCommand SetManualStateCommand { get; private set; }
+		void OnSetManualState()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKSetManualRegime(Zone);
+			}
+		}
+		bool CanSetManualState()
+		{
+			return ControlRegime != DeviceControlRegime.Manual;
+		}
+
+		public RelayCommand SetIgnoreStateCommand { get; private set; }
+		void OnSetIgnoreState()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
 				FiresecManager.FiresecService.GKSetIgnoreRegime(Zone);
 			}
 		}
-		bool CanSet()
+		bool CanSetIgnoreState()
 		{
-			return true;
+			return ControlRegime != DeviceControlRegime.Ignore;
+		}
+
+		public RelayCommand TurnOnCommand { get; private set; }
+		void OnTurnOn()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOn(Zone);
+			}
+		}
+
+		public RelayCommand TurnOnNowCommand { get; private set; }
+		void OnTurnOnNow()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOnNow(Zone);
+			}
+		}
+
+		public RelayCommand TurnOffCommand { get; private set; }
+		void OnTurnOff()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				FiresecManager.FiresecService.GKTurnOff(Zone);
+			}
+		}
+
+		public bool HasOnDelay
+		{
+			get { return State.StateClasses.Contains(XStateClass.TurningOn) && State.OnDelay > 0; }
+		}
+		public bool HasHoldDelay
+		{
+			get { return State.StateClasses.Contains(XStateClass.On) && State.HoldDelay > 0; }
 		}
 
 		public RelayCommand ResetCommand { get; private set; }
@@ -95,12 +194,12 @@ namespace GKModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.GKSetAutomaticRegime(Zone);
+				FiresecManager.FiresecService.GKReset(Zone);
 			}
 		}
 		bool CanReset()
 		{
-			return true;
+			return State.StateClasses.Contains(XStateClass.Fire2) || State.StateClasses.Contains(XStateClass.Fire1) || State.StateClasses.Contains(XStateClass.Attention);
 		}
 
 		public RelayCommand ShowCommand { get; private set; }

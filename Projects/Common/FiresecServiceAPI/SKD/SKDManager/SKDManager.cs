@@ -29,7 +29,7 @@ namespace FiresecAPI.SKD
 			get { return SKDConfiguration.Zones; }
 		}
 
-		public static List<Door> Doors
+		public static List<SKDDoor> Doors
 		{
 			get { return SKDConfiguration.Doors; }
 		}
@@ -207,13 +207,15 @@ namespace FiresecAPI.SKD
 		{
 			foreach (var door in SKDManager.Doors)
 			{
-				var inDevice = SKDManager.Devices.FirstOrDefault(x=>x.UID == door.InDeviceUID);
-				if (inDevice == null)
+				UpdateDoor(door);
+				if (door.InDevice == null)
+				{
 					door.InDeviceUID = Guid.Empty;
-
-				var outDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == door.OutDeviceUID);
-				if (outDevice == null)
+				}
+				if (door.OutDevice == null)
+				{
 					door.OutDeviceUID = Guid.Empty;
+				}
 			}
 		}
 

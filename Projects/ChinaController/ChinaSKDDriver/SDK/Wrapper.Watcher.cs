@@ -8,19 +8,20 @@ namespace ChinaSKDDriver
 {
 	public partial class Wrapper
 	{
-		Thread Thread;
-		bool IsStopping;
+		public static event Action<SKDJournalItem> NewJournalItem;
+		static Thread Thread;
+		static bool IsStopping;
 		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 
-		public void Start()
+		public static void Start()
 		{
 			IsStopping = false;
 			AutoResetEvent = new AutoResetEvent(false);
-			Thread = new Thread(RunMonitoring);
+			Thread = new Thread(OnStart);
 			Thread.Start();
 		}
 
-		public void Stop()
+		public static void Stop()
 		{
 			IsStopping = true;
 			if (AutoResetEvent != null)
@@ -33,7 +34,7 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		void RunMonitoring()
+		static void OnStart()
 		{
 			var lastIndex = -1;
 			while (true)
@@ -47,13 +48,13 @@ namespace ChinaSKDDriver
 
 				try
 				{
-					var index = NativeWrapper.WRAP_GetLastIndex(LoginID);
+					var index = NativeWrapper.WRAP_GetLastIndex();
 					if (index > lastIndex)
 					{
 						for (int i = lastIndex + 1; i <= index; i++)
 						{
 							var wrapJournalItem = new NativeWrapper.WRAP_JournalItem();
-							NativeWrapper.WRAP_GetJournalItem(LoginID, i, out wrapJournalItem);
+							NativeWrapper.WRAP_GetJournalItem(i, out wrapJournalItem);
 							var journalItem = ParceJournal(wrapJournalItem);
 
 							if (NewJournalItem != null)
@@ -62,10 +63,7 @@ namespace ChinaSKDDriver
 						lastIndex = index;
 					}
 				}
-				catch
-				{
-					//
-				}
+				catch { }
 			}
 		}
 
@@ -75,9 +73,10 @@ namespace ChinaSKDDriver
 		const int DH_ALARM_ACCESS_CTL_REPEAT_ENTER = 0x3179;
 		const int DH_ALARM_ACCESS_CTL_DURESS = 0x3180;
 
-		SKDJournalItem ParceJournal(NativeWrapper.WRAP_JournalItem wrapJournalItem)
+		static SKDJournalItem ParceJournal(NativeWrapper.WRAP_JournalItem wrapJournalItem)
 		{
 			var journalItem = new SKDJournalItem();
+			journalItem.LoginID = wrapJournalItem.LoginID;
 			journalItem.SystemDateTime = DateTime.Now;
 			journalItem.DeviceDateTime = Wrapper.NET_TIMEToDateTime(wrapJournalItem.DeviceDateTime);
 
@@ -104,8 +103,8 @@ namespace ChinaSKDDriver
 					var isStatus = wrapJournalItem.bStatus;
 					var cardType = wrapJournalItem.emCardType;
 					var doorOpenMethod = wrapJournalItem.emOpenMethod;
-					var cardNo = CharArrayToString(wrapJournalItem.szCardNo);
-					var password = CharArrayToString(wrapJournalItem.szPwd);
+					var cardNo = wrapJournalItem.szCardNo;
+					var password = wrapJournalItem.szPwd;
 					description = eventType.ToString() + " " + isStatus.ToString() + " " + cardType.ToString() + " " + doorOpenMethod + " " + cardNo + " " + password;
 					break;
 
@@ -128,7 +127,7 @@ namespace ChinaSKDDriver
 				case DH_ALARM_ACCESS_CTL_DURESS:
 					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
 					doorNo = wrapJournalItem.nDoor;
-					cardNo = CharArrayToString(wrapJournalItem.szCardNo);
+					cardNo = wrapJournalItem.szCardNo;
 					break;
 
 				default:

@@ -10,9 +10,6 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Зона")]
 		Zone,
 
-		[DescriptionAttribute("Охранная Зона")]
-		GuardZone,
-
 		[DescriptionAttribute("Направление")]
 		Direction,
 
@@ -26,6 +23,12 @@ namespace FiresecAPI.GK
 		Delay,
 
 		[DescriptionAttribute("ПИМ")]
-		Pim
+		Pim,
+
+		[DescriptionAttribute("Охранная Зона")]
+		GuardZone,
+
+		[DescriptionAttribute("Код")]
+		Code,
 	}
 }

@@ -80,8 +80,6 @@
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
       <DependentUpon>CardNumberView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\ShowDoorEvent.cs" />
-    <Compile Include="Events\ShowDoorOnPlanEvent.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />
@@ -247,8 +245,6 @@
     <Compile Include="PassCard\Views\PassCardView.xaml.cs">
       <DependentUpon>PassCardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Events\ShowSKDDeviceEvent.cs" />
-    <Compile Include="Events\ShowSKDDeviceOnPlanEvent.cs" />
     <Compile Include="Events\ShowHolidaysEvent.cs" />
     <Compile Include="Events\ShowSKDJournalEvent.cs" />
     <Compile Include="Events\ShowSlideDayIntervalsEvent.cs" />
@@ -256,8 +252,6 @@
     <Compile Include="Events\ShowTimeIntervalsEvent.cs" />
     <Compile Include="Events\ShowVerificationEvent.cs" />
     <Compile Include="Events\ShowWeeklyIntervalsEvent.cs" />
-    <Compile Include="Events\ShowSKDZoneEvent.cs" />
-    <Compile Include="Events\ShowSKDZoneOnPlanEvent.cs" />
     <Compile Include="Events\SKDObjectsStateChangedEvent.cs" />
     <Compile Include="Events\ShowShedulesEvent.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />

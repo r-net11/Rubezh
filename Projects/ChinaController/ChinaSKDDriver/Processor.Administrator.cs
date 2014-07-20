@@ -285,18 +285,6 @@ namespace ChinaSKDDriver
 				nativeDoorConfiguration.IsSensorEnable = doorConfiguration.IsSensorEnable;
 				nativeDoorConfiguration.DoorDayIntervalsCollection = doorConfiguration.DoorDayIntervalsCollection;
 
-				nativeDoorConfiguration.UseDoorOpenMethod = true;
-				nativeDoorConfiguration.UseUnlockHoldInterval = true;
-				nativeDoorConfiguration.UseCloseTimeout = true;
-				nativeDoorConfiguration.UseOpenAlwaysTimeIndex = true;
-				nativeDoorConfiguration.UseHolidayTimeIndex = true;
-				nativeDoorConfiguration.UseBreakInAlarmEnable = true;
-				nativeDoorConfiguration.UseRepeatEnterAlarmEnable = true;
-				nativeDoorConfiguration.UseDoorNotClosedAlarmEnable = true;
-				nativeDoorConfiguration.UseDuressAlarmEnable = true;
-				nativeDoorConfiguration.UseDoorTimeSection = false;
-				nativeDoorConfiguration.UseSensorEnable = true;
-
 				var result = deviceProcessor.Wrapper.SetDoorConfiguration(nativeDoorConfiguration, readerDevice.IntAddress);
 				if (result)
 					return new OperationResult<bool>() { Result = true };

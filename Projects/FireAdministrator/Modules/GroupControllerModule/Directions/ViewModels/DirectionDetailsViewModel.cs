@@ -18,8 +18,8 @@ namespace GKModule.ViewModels
 
 		public DirectionDetailsViewModel(XDirection direction = null)
 		{
-			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
 			ReadPropertiesCommand = new RelayCommand(OnReadProperties);
+			WritePropertiesCommand = new RelayCommand(OnWriteProperties);
 			ResetPropertiesCommand = new RelayCommand(OnResetProperties);
 			DelayRegimes = Enum.GetValues(typeof(DelayRegime)).Cast<DelayRegime>().ToList();
 

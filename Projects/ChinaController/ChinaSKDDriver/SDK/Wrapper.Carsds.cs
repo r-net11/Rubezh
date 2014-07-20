@@ -50,31 +50,59 @@ namespace ChinaSKDDriver
 			return card;
 		}
 
-		public int GetCardsCount()
-		{
-			var cardsCount = NativeWrapper.WRAP_Get_Cards_Count(LoginID);
-			return cardsCount;
-		}
-
 		public List<Card> GetAllCards()
 		{
-			int structSize = Marshal.SizeOf(typeof(NativeWrapper.CardsCollection));
-			IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+			var resultCards = new List<Card>();
+			int finderID = 0;
+			NativeWrapper.WRAP_BeginGetAll_Cards(LoginID, ref finderID);
 
-			var result = NativeWrapper.WRAP_GetAll_Cards(LoginID, intPtr);
-
-			NativeWrapper.CardsCollection cardsCollection = (NativeWrapper.CardsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardsCollection)));
-			Marshal.FreeCoTaskMem(intPtr);
-			intPtr = IntPtr.Zero;
-
-			var cards = new List<Card>();
-			for (int i = 0; i < Math.Min(cardsCollection.Count, 10); i++)
+			if (finderID > 0)
 			{
-				var nativeCard = cardsCollection.Cards[i];
-				var card = NativeCardToCard(nativeCard);
-				cards.Add(card);
+				while (true)
+				{
+					int structSize = Marshal.SizeOf(typeof(NativeWrapper.CardsCollection));
+					IntPtr intPtr = Marshal.AllocCoTaskMem(structSize);
+
+					var result = NativeWrapper.WRAP_GetAll_Cards(finderID, intPtr);
+
+					NativeWrapper.CardsCollection cardsCollection = (NativeWrapper.CardsCollection)(Marshal.PtrToStructure(intPtr, typeof(NativeWrapper.CardsCollection)));
+					Marshal.FreeCoTaskMem(intPtr);
+					intPtr = IntPtr.Zero;
+
+					var cards = new List<Card>();
+					for (int i = 0; i < Math.Min(cardsCollection.Count, 10); i++)
+					{
+						var nativeCard = cardsCollection.Cards[i];
+						if (nativeCard.nRecNo > 0)
+						{
+							var card = NativeCardToCard(nativeCard);
+							cards.Add(card);
+						}
+					}
+					if (result == 0)
+						break;
+					resultCards.AddRange(cards);
+				}
+
+				NativeWrapper.WRAP_EndGetAll(finderID);
 			}
-			return cards;
+
+			return resultCards;
+		}
+
+		public int GetCardsCount()
+		{
+			int finderID = 0;
+			NativeWrapper.WRAP_BeginGetAll_Cards(LoginID, ref finderID);
+
+			if (finderID > 0)
+			{
+				var result = NativeWrapper.WRAP_GetAllCount(finderID);
+				NativeWrapper.WRAP_EndGetAll(finderID);
+				return result;
+			}
+
+			return -1;
 		}
 
 		NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD CardToNativeCard(Card card)
@@ -106,9 +134,9 @@ namespace ChinaSKDDriver
 			nativeCard.stuValidEndTime.dwMinute = 0;
 			nativeCard.stuValidEndTime.dwSecond = 0;
 
-			nativeCard.szCardNo = StringToCharArray(card.CardNo, 32);
-			nativeCard.szPsw = Wrapper.StringToCharArray(card.Password, 64);
-			nativeCard.szUserID = Wrapper.StringToCharArray("1", 32);
+			nativeCard.szCardNo = card.CardNo;
+			nativeCard.szPsw = card.Password;
+			nativeCard.szUserID = "1";
 
 			nativeCard.nDoorNum = card.Doors.Count;
 			nativeCard.sznDoors = new int[32];
@@ -131,9 +159,9 @@ namespace ChinaSKDDriver
 		{
 			var card = new Card();
 			card.RecordNo = nativeCard.nRecNo;
-			card.CardNo = CharArrayToString(nativeCard.szCardNo);
+			card.CardNo = nativeCard.szCardNo;
 			card.CardType = (CardType)nativeCard.emType;
-			card.Password = CharArrayToString(nativeCard.szPsw);
+			card.Password = nativeCard.szPsw;
 			card.DoorsCount = nativeCard.nDoorNum;
 			card.Doors = nativeCard.sznDoors.ToList();
 			card.TimeSectionsCount = nativeCard.nTimeSectionNum;

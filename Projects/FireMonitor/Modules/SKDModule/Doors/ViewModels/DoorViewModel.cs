@@ -8,12 +8,13 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using Infrastructure.Events;
 
 namespace SKDModule.ViewModels
 {
 	public class DoorViewModel : BaseViewModel
 	{
-		public Door Door { get; private set; }
+		public SKDDoor Door { get; private set; }
 		public SKDDevice InDevice { get; private set; }
 		public SKDDevice OutDevice { get; private set; }
 		public DoorState State
@@ -21,7 +22,7 @@ namespace SKDModule.ViewModels
 			get { return Door.State; }
 		}
 
-		public DoorViewModel(Door door)
+		public DoorViewModel(SKDDoor door)
 		{
 			Door = door;
 			InDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.InDeviceUID);
@@ -52,18 +53,13 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
-		private void OnShowOnPlan()
+		void OnShowOnPlan()
 		{
-			ServiceFactory.OnPublishEvent<Door, ShowDoorOnPlanEvent>(Door);
+			ShowOnPlanHelper.ShowSKDDoor(Door);
 		}
-		private bool CanShowOnPlan()
+		public bool CanShowOnPlan()
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-			{
-				if (plan.ElementDoors.Any(x => (x.DoorUID != Guid.Empty) && (x.DoorUID == Door.UID)))
-					return true;
-			}
-			return false;
+			return ShowOnPlanHelper.CanShowSKDDoor(Door);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

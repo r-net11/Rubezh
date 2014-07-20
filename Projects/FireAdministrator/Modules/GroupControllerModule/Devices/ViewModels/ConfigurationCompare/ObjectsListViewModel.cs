@@ -49,6 +49,12 @@ namespace GKModule.ViewModels
 					var objectViewModel = new ObjectViewModel(delay);
 					Objects.Add(objectViewModel);
 				}
+			if (deviceConfiguration.GuardZones != null)
+				foreach (var guardZone in deviceConfiguration.GuardZones.Where(x => x.GkDatabaseParent != null && x.GkDatabaseParent.Address == device.Address))
+				{
+					var objectViewModel = new ObjectViewModel(guardZone);
+					Objects.Add(objectViewModel);
+				}
 		}
 
 		public List<ObjectViewModel> Objects { get; set; }

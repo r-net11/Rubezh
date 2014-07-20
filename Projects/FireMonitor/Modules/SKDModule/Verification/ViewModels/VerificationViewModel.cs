@@ -8,11 +8,16 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using FiresecClient.SKDHelpers;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
 	public class VerificationViewModel : ViewPartViewModel
 	{
+		public ShortEmployee ShortEmployee { get; private set; }
+		public PhotoColumnViewModel PhotoColumnViewModel { get; private set; }
+
 		public VerificationViewModel(LayoutPartSKDVerificationProperties layoutPartSKDVerificationProperties)
 		{
 			DenyCommand = new RelayCommand(OnDeny);
@@ -33,6 +38,34 @@ namespace SKDModule.ViewModels
 			{
 				if (journalItem.ObjectUID == Device.UID)
 				{
+					var cardFilter = new CardFilter()
+					{
+						FirstNos = journalItem.CardNo,
+						LastNos = journalItem.CardNo
+					};
+					var cards = CardHelper.Get(cardFilter);
+					var card = cards.FirstOrDefault();
+					if (card != null)
+					{
+						var employeeFilter = new EmployeeFilter()
+						{
+							CardNo = journalItem.CardNo
+						};
+						var employees = EmployeeHelper.Get(employeeFilter);
+						var shortEmployee = employees.FirstOrDefault();
+						if (shortEmployee != null)
+						{
+							ShortEmployee = shortEmployee;
+							var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(shortEmployee.UID);
+							if (!operationResult.HasError)
+							{
+								var employee = operationResult.Result;
+								var photo = employee.Photo;
+								PhotoColumnViewModel = new PhotoColumnViewModel(employee.Photo);
+							}
+						}
+					}
+
 					var verificationItemViewModel = new VerificationItemViewModel();
 					verificationItemViewModel.EmployeeCardID = journalItem.CardNo.ToString();
 					VerificationItemViewModel = verificationItemViewModel;

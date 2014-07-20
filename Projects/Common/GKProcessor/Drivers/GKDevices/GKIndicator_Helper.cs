@@ -19,6 +19,8 @@ namespace GKProcessor
 				IsAutoCreate = true,
 				MinAddress = 2,
 				MaxAddress = 11,
+				MinAddress2 = 17,
+				MaxAddress2 = 22,
 				IsDeviceOnShleif = false,
 				IsPlaceable = true,
 			};

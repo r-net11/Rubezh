@@ -21,6 +21,22 @@ namespace FiresecAPI.Journal
 			return name;
 		}
 
+		public static JournalSubsystemType ToSubsystem(JournalEventNameType journalEventNameType)
+		{
+			JournalSubsystemType subsystemType = JournalSubsystemType.GK;
+			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
+			if (fieldInfo != null)
+			{
+				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
+				if (descriptionAttributes.Length > 0)
+				{
+					EventDescriptionAttribute eventDescriptionAttribute = descriptionAttributes[0];
+					subsystemType = eventDescriptionAttribute.JournalSubsystemType;
+				}
+			}
+			return subsystemType;
+		}
+
 		public static XStateClass ToStateClass(JournalEventNameType journalEventNameType)
 		{
 			XStateClass stateClass = XStateClass.No;

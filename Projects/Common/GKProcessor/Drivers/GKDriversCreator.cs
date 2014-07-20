@@ -13,7 +13,6 @@ namespace GKProcessor
 			XManager.DriversConfiguration.XDrivers.Add(GKSystem_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(GK_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(GKIndicator_Helper.Create());
-			XManager.DriversConfiguration.XDrivers.Add(GKLine_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(GKRele_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAU_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(KAU_RSR2_Helper.Create());
@@ -73,6 +72,9 @@ namespace GKProcessor
 			AddDriverToKau_RSR2(RSR2_OPZ_Helper.Create());
 			AddDriverToKau_RSR2(RSR2_MVP_Helper.Create());
 			XManager.DriversConfiguration.XDrivers.Add(RSR2_MVP_Part_Helper.Create());
+
+			AddDriverToKau_RSR2(RSR2_CodeReader_Helper.Create());
+			AddDriverToKau_RSR2(RSR2_GuardDetector_Helper.Create());
 
 			var kauShleifDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_KAU_Shleif);
 			var mvpPartDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.RSR2_MVP_Part);
