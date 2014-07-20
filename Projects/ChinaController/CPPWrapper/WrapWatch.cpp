@@ -7,8 +7,8 @@ using namespace std;
  
 #define QUERY_COUNT	(3)
 
-WRAP_WatchInfo* WatchInfos;
-int LastWatchInfoIndex = -1;
+typedef list<WRAP_WatchInfo> WatchInfoList;
+WatchInfoList watchInfoList;
 
 WRAP_JournalInfo* JournalInfos;
 int LastJournalIndex = -1;
@@ -16,8 +16,9 @@ int LastJournalIndex = -1;
 void AddCustomJournalItem(int loginID, int extraEventType)
 {
 	LastJournalIndex++;
-	WRAP_JournalInfo* journalInfo = &JournalInfos[LastJournalIndex];
-	journalInfo->Index = LastJournalIndex;
+	int localLastJournalIndex = LastJournalIndex % 1000;
+	WRAP_JournalInfo* journalInfo = &JournalInfos[localLastJournalIndex];
+	journalInfo->Index = localLastJournalIndex;
 	WRAP_JournalItem* journalItem = &journalInfo->JournalItem;
 	journalItem->LoginID = loginID;
 	journalItem->ExtraEventType = extraEventType;
@@ -25,12 +26,13 @@ void AddCustomJournalItem(int loginID, int extraEventType)
 
 void CALLBACK WRAP_DisConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
 {
-	for(int i = 0; i < 1000; i++)
+	WatchInfoList::iterator i;
+	for (i =  watchInfoList.begin(); i != watchInfoList.end(); ++i)
 	{
-		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
-		if(watchInfo->LoginId == lLoginID)
+		WRAP_WatchInfo watchInfo = *i;
+		if(watchInfo.LoginId == lLoginID)
 		{
-			watchInfo->IsConnected = false;
+			watchInfo.IsConnected = false;
 		}
 	}
 	AddCustomJournalItem(lLoginID, 1);
@@ -38,13 +40,14 @@ void CALLBACK WRAP_DisConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort,
 
 void CALLBACK WRAP_HaveReConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
 {
-	for(int i = 0; i < 1000; i++)
+	WatchInfoList::iterator i;
+	for (i =  watchInfoList.begin(); i != watchInfoList.end(); ++i)
 	{
-		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
-		if(watchInfo->LoginId == lLoginID)
+		WRAP_WatchInfo watchInfo = *i;
+		if(watchInfo.LoginId == lLoginID)
 		{
-			watchInfo->IsConnected = false;
-			watchInfo->NeedToRestartListening = true;
+			watchInfo.IsConnected = false;
+			watchInfo.NeedToRestartListening = true;
 		}
 	}
 	AddCustomJournalItem(lLoginID, 2);
@@ -53,8 +56,9 @@ void CALLBACK WRAP_HaveReConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPo
 BOOL CALLBACK WRAP_MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWORD dwBufLen, char *pchDVRIP, LONG nDVRPort, LDWORD dwUser)
 {
 	LastJournalIndex++;
-	WRAP_JournalInfo* journalInfo = &JournalInfos[LastJournalIndex];
-	journalInfo->Index = LastJournalIndex;
+	int localLastJournalIndex = LastJournalIndex % 1000;
+	WRAP_JournalInfo* journalInfo = &JournalInfos[localLastJournalIndex];
+	journalInfo->Index = localLastJournalIndex;
 
 	WRAP_JournalItem* journalItem = &journalInfo->JournalItem;
 	journalItem->LoginID = loginID;
@@ -108,14 +112,6 @@ void CALL_METHOD WRAP_Initialize()
     CLIENT_SetAutoReconnect(WRAP_HaveReConnectFunc, 0);
 	CLIENT_SetDVRMessCallBack(WRAP_MessageCallBack, NULL);
 
-	WatchInfos = new WRAP_WatchInfo[1000];
-	for(int i = 0; i < 1000; i++)
-	{
-		WatchInfos[i].LoginId = 0;
-		WatchInfos[i].IsConnected = FALSE;
-		WatchInfos[i].NeedToRestartListening = FALSE;
-	}
-
 	JournalInfos = new WRAP_JournalInfo[1000];
 	for(int i = 0; i < 1000; i++)
 	{
@@ -143,18 +139,16 @@ int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], ch
 	memset(&stDevInfo, 0, sizeof(NET_DEVICEINFO));
 	LONG lLoginHandle = CLIENT_Login(ipAddress, port, userName, password, &stDevInfo, &nError);
 
-	LastWatchInfoIndex ++;
-	WRAP_WatchInfo* watchInfo = &WatchInfos[LastWatchInfoIndex];
-
 	if (0 == lLoginHandle)
 	{
-		watchInfo->IsConnected = false;
 		return -1;
     }
 	else
 	{
-		watchInfo->LoginId = lLoginHandle;
-		watchInfo->IsConnected = true;
+		WRAP_WatchInfo watchInfo;
+		watchInfo.LoginId = lLoginHandle;
+		watchInfo.IsConnected = true;
+		watchInfoList.insert(watchInfoList.end(), watchInfo);
 	}
 
 	if (0 == lLoginHandle)
@@ -169,29 +163,35 @@ int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], ch
 
 BOOL CALL_METHOD WRAP_Disconnect(int loginID)
 {
-	for(int i = 0; i < 1000; i++)
+	WatchInfoList::iterator i = watchInfoList.begin();
+	while (i != watchInfoList.end())
 	{
-		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
-		if(watchInfo->LoginId == loginID)
+		WRAP_WatchInfo watchInfo = *i;
+		if(watchInfo.LoginId == loginID)
 		{
-			watchInfo->IsConnected = false;
+			watchInfoList.erase(i++);
+		}
+		else
+		{
+			++i;
 		}
 	}
-
+	//watchInfoList.remove_if([](WRAP_WatchInfo x){ return x.LoginId == loginID; });
 	BOOL result = CLIENT_Logout(loginID);
 	return result;
 }
 
 int CALL_METHOD WRAP_GetLastIndex()
 {
-	for(int i = 0; i < 1000; i++)
+	WatchInfoList::iterator i;
+	for (i =  watchInfoList.begin(); i != watchInfoList.end(); ++i)
 	{
-		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
-		if(watchInfo->NeedToRestartListening == true)
+		WRAP_WatchInfo watchInfo = *i;
+		if(watchInfo.NeedToRestartListening == true)
 		{
-			CLIENT_StopListen(watchInfo->LoginId);
-			BOOL bRet = CLIENT_StartListenEx(watchInfo->LoginId);
-			watchInfo->NeedToRestartListening = !bRet;
+			CLIENT_StopListen(watchInfo.LoginId);
+			BOOL bRet = CLIENT_StartListenEx(watchInfo.LoginId);
+			watchInfo.NeedToRestartListening = !bRet;
 		}
 	}
 
@@ -200,7 +200,8 @@ int CALL_METHOD WRAP_GetLastIndex()
 
 BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result)
 {
-	WRAP_JournalInfo* journalInfo = &JournalInfos[index];
+	int localIndex = index % 1000;
+	WRAP_JournalInfo* journalInfo = &JournalInfos[localIndex];
 	WRAP_JournalItem journalItem = journalInfo->JournalItem;
 	result->LoginID = journalItem.LoginID;
 	result->ExtraEventType = journalItem.ExtraEventType;
@@ -219,12 +220,13 @@ BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result)
 
 BOOL CALL_METHOD WRAP_IsConnected(int loginID)
 {
-	for(int i = 0; i < 1000; i++)
+	WatchInfoList::iterator i;
+	for (i =  watchInfoList.begin(); i != watchInfoList.end(); ++i)
 	{
-		WRAP_WatchInfo* watchInfo = &WatchInfos[i];
-		if(watchInfo->LoginId == loginID)
+		WRAP_WatchInfo watchInfo = *i;
+		if(watchInfo.LoginId == loginID)
 		{
-			return watchInfo->IsConnected;
+			return watchInfo.IsConnected;
 		}
 	}
 	return FALSE;

@@ -23,29 +23,5 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</TabItem>
-		<TabItem Header="Отображаемые данные сотрудников">
-			<Border CornerRadius="5" Background="White">
-				<StackPanel Margin="5">
-					<CheckBox Content="Идентификатор" IsChecked="{Binding ShowEmployeeCardID}" Margin="2" />
-					<CheckBox Content="ФИО" IsChecked="{Binding ShowEmployeeName}" Margin="2" />
-					<CheckBox Content="Паспорт" IsChecked="{Binding ShowEmployeePassport}" Margin="2" />
-					<CheckBox Content="Время работы" IsChecked="{Binding ShowEmployeeTime}" Margin="2" />
-					<CheckBox Content="Табельный номер" IsChecked="{Binding ShowEmployeeNo}" Margin="2" />
-					<CheckBox Content="Должность" IsChecked="{Binding ShowEmployeePosition}" Margin="2" />
-					<CheckBox Content="График работы" IsChecked="{Binding ShowEmployeeShedule}" Margin="2" />
-					<CheckBox Content="Подразделение" IsChecked="{Binding ShowEmployeeDepartment}" Margin="2" />
-				</StackPanel>
-			</Border>
-		</TabItem>
-		<TabItem Header="Отображаемые данные посетителей">
-			<Border CornerRadius="5" Background="White">
-				<StackPanel Margin="5">
-					<CheckBox Content="Идентификатор" IsChecked="{Binding ShowGuestCardID}" Margin="2" />
-					<CheckBox Content="ФИО" IsChecked="{Binding ShowGuestName}" Margin="2" />
-					<CheckBox Content="Куда" IsChecked="{Binding ShowGuestWhere}" Margin="2" />
-					<CheckBox Content="Сопровождающий" IsChecked="{Binding ShowGuestConvoy}" Margin="2" />
-				</StackPanel>
-			</Border>
-		</TabItem>
 	</TabControl>
 </UserControl>

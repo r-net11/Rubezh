@@ -10,8 +10,8 @@
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 			<Grid Grid.Row="0">
-				<Image />
-			</Grid>
+                <Controls:PhotoSelectation Data="{Binding PhotoColumnViewModel.Data}" Margin="2" />
+            </Grid>
 			<StackPanel Grid.Row="1" Margin="2">
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -20,53 +20,32 @@
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
 					<Button Grid.Column="0" Content="0 | Запретить" Command="{Binding DenyCommand}" Visibility="Collapsed" Width="100" Height="100" Margin="2" />
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Controls:PhotoSelectation Grid.Row="0" Data="{Binding PhotoColumnViewModel.Data}" Margin="2" />
-                        <StackPanel Grid.Row="1" Margin="5">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Имя" />
-                                <TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Фамилия" />
-                                <TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Отчество" />
-                                <TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Отдел" />
-                                <TextBlock Margin="2" Text="{Binding DepartmentName}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Должность" />
-                                <TextBlock Margin="2" Text="{Binding PositionName}" />
-                            </StackPanel>
+                    <StackPanel Grid.Row="1" Margin="5">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="100" Margin="2" Text="Имя" />
+                            <TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
                         </StackPanel>
-                    </Grid>
-					<!--<StackPanel Grid.Column="1" DataContext="{Binding VerificationItemViewModel}">
-						<TextBlock Text="{Binding EmployeeCardID}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeCardID, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding EmployeeName}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeName, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding EmployeePassport}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeePassport, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding EmployeeTime}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeTime, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding EmployeeNo}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeNo, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding EmployeePosition}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeePosition, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding EmployeeShedule}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeShedule, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding EmployeeDepartment}" Visibility="{Binding SKDSystemConfiguration.ShowEmployeeDepartment, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding GuestCardID}" Visibility="{Binding SKDSystemConfiguration.ShowGuestCardID, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding GuestName}" Visibility="{Binding SKDSystemConfiguration.ShowGuestName, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding GuestWhere}" Visibility="{Binding SKDSystemConfiguration.ShowGuestWhere, Converter={StaticResource BoolToVisibilityConverter}}" />
-						<TextBlock Text="{Binding GuestConvoy}" Visibility="{Binding SKDSystemConfiguration.ShowGuestConvoy, Converter={StaticResource BoolToVisibilityConverter}}" />
-					</StackPanel>-->
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="100" Margin="2" Text="Фамилия" />
+                            <TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="100" Margin="2" Text="Отчество" />
+                            <TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="100" Margin="2" Text="Отдел" />
+                            <TextBlock Margin="2" Text="{Binding DepartmentName}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="100" Margin="2" Text="Должность" />
+                            <TextBlock Margin="2" Text="{Binding PositionName}" />
+                        </StackPanel>
+                    </StackPanel>
                     <Button Grid.Column="2" Content="+ | Разрешить" Command="{Binding AllowCommand}" Visibility="Collapsed" Width="100" Height="100" Margin="2" />
 				</Grid>
 			</StackPanel>

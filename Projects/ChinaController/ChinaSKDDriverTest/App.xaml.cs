@@ -9,7 +9,7 @@ namespace ControllerSDK
 		{
 			try
 			{
-				System.IO.File.Copy(@"D:\Projects\Projects\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"D:\Projects\Projects\ChinaController\ChinaSKDDriverTest\bin\Debug\CPPWrapper.dll", true);
+				System.IO.File.Copy(@"..\..\..\CPPWrapper\Bin\CPPWrapper.dll", @"CPPWrapper.dll", true);
 			}
 			catch { }
 

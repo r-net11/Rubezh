@@ -300,14 +300,6 @@
     <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Layout\ViewModels\LayoutPartJournalViewModel.cs" />
-    <Compile Include="Layout\ViewModels\LayoutPartPropertyJournalPageViewModel.cs" />
-    <Compile Include="Layout\Views\LayoutPartJournalView.xaml.cs">
-      <DependentUpon>LayoutPartJournalView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Layout\Views\LayoutPartPropertyJournalPageView.xaml.cs">
-      <DependentUpon>LayoutPartPropertyJournalPageView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Doors\ViewModels\DoorDetailsViewModel.cs" />
     <Compile Include="Doors\ViewModels\DoorsMenuViewModel.cs" />
     <Compile Include="Doors\ViewModels\DoorsViewModel.cs" />
@@ -554,14 +546,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Layout\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Layout\Views\LayoutPartJournalView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Layout\Views\LayoutPartPropertyJournalPageView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
