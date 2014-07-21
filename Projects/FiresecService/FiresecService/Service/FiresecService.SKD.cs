@@ -429,7 +429,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_открытие_двери, device, UserName);
-				return ChinaSKDDriver.Processor.OpenDoor(deviceUID);
+				return ChinaSKDDriver.Processor.OpenDoor(device);
 			}
 			else
 			{
@@ -443,7 +443,7 @@ namespace FiresecService.Service
 			if (device != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_закрытие_двери, device, UserName);
-				return ChinaSKDDriver.Processor.CloseDoor(deviceUID);
+				return ChinaSKDDriver.Processor.CloseDoor(device);
 			}
 			else
 			{

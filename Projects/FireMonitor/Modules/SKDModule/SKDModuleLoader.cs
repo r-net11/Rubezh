@@ -180,10 +180,6 @@ namespace SKDModule
 		{
 			ApplicationService.Invoke(() =>
 			{
-				if (skdCallbackResult.JournalItems.Count > 0)
-				{
-					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(skdCallbackResult.JournalItems);
-				}
 				CopySKDStates(skdCallbackResult.SKDStates);
 				ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
 			});
@@ -196,7 +192,9 @@ namespace SKDModule
 					var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
 					if (device != null)
 					{
-						remoteDeviceState.CopyToState(device.State);
+						device.State.UID = remoteDeviceState.UID;
+						device.State.StateClasses = remoteDeviceState.StateClasses.ToList();
+						device.State.StateClass = remoteDeviceState.StateClass;
 						device.State.OnStateChanged();
 					}
 				}

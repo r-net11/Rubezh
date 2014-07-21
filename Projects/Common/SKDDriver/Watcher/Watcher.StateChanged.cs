@@ -82,7 +82,7 @@ namespace SKDDriver
 			{
 				return new List<XStateClass>() { XStateClass.Unknown };
 			}
-			return deviceState.InternalStateClasses;
+			return deviceState.StateClasses;
 		}
 	}
 }

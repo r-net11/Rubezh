@@ -11,15 +11,5 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<ItemsControl ItemsSource="{Binding AdditionalStates}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<StackPanel Orientation="Horizontal">
-						<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-						<TextBlock Margin="5, 1, 1, 1" VerticalAlignment="Center" FontStyle="Italic" Text="{Binding Name}" />
-					</StackPanel>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
 	</StackPanel>
 </UserControl>

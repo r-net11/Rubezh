@@ -22,12 +22,5 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<ItemsControl ItemsSource="{Binding State.AdditionalStates}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<TextBlock Margin="2" VerticalAlignment="Center" FontStyle="Italic" Text="{Binding Name}" />
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
 	</StackPanel>
 </UserControl>

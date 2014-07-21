@@ -95,18 +95,26 @@ namespace ChinaSKDDriver
 			}
 
 			var description = "";
-			switch(wrapJournalItem.EventType)
+			switch (wrapJournalItem.EventType)
 			{
 				case DH_ALARM_ACCESS_CTL_EVENT:
 					journalItem.JournalEventNameType = JournalEventNameType.Проход;
 					var doorNo = wrapJournalItem.nDoor;
+					journalItem.DoorNo = doorNo;
 					var eventType = wrapJournalItem.emEventType;
 					var isStatus = wrapJournalItem.bStatus;
 					var cardType = wrapJournalItem.emCardType;
 					var doorOpenMethod = wrapJournalItem.emOpenMethod;
-					var cardNo = wrapJournalItem.szCardNo;
+
+					var cardNoString = wrapJournalItem.szCardNo;
+					int cardNo;
+					if (int.TryParse(cardNoString, out cardNo))
+					{
+						journalItem.CardNo = cardNo;
+					}
+
 					var password = wrapJournalItem.szPwd;
-					description = eventType.ToString() + " " + isStatus.ToString() + " " + cardType.ToString() + " " + doorOpenMethod + " " + cardNo + " " + password;
+					description = eventType.ToString() + " " + isStatus.ToString() + " " + cardType.ToString() + " " + doorOpenMethod + " " + cardNoString + " " + password;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
@@ -128,14 +136,27 @@ namespace ChinaSKDDriver
 				case DH_ALARM_ACCESS_CTL_DURESS:
 					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
 					doorNo = wrapJournalItem.nDoor;
-					cardNo = wrapJournalItem.szCardNo;
+					cardNoString = wrapJournalItem.szCardNo;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_STATUS:
-					journalItem.JournalEventNameType = JournalEventNameType.Изменение_статуса;
-					doorNo = wrapJournalItem.nDoor;
 					NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE status = wrapJournalItem.emStatus;
-					description = status.ToString();
+					switch (status)
+					{
+						case NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE.NET_ACCESS_CTL_STATUS_TYPE_OPEN:
+							journalItem.JournalEventNameType = JournalEventNameType.Открытие_двери;
+							break;
+
+						case NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE.NET_ACCESS_CTL_STATUS_TYPE_CLOSE:
+							journalItem.JournalEventNameType = JournalEventNameType.Закрытие_двери;
+							break;
+
+						default:
+							journalItem.JournalEventNameType = JournalEventNameType.Неизвестный_статус_двери;
+							break;
+					}
+
+					doorNo = wrapJournalItem.nDoor;
 					break;
 
 				default:

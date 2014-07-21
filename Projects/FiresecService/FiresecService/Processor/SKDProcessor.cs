@@ -9,6 +9,17 @@ namespace FiresecService
 {
 	public static class SKDProcessor
 	{
+		static SKDProcessor()
+		{
+#if DEBUG
+			try
+			{
+				System.IO.File.Copy(@"..\..\..\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"CPPWrapper.dll", true);
+			}
+			catch { }
+#endif
+		}
+
 		public static void Start()
 		{
 //#if DEBUG
@@ -23,14 +34,6 @@ namespace FiresecService
 //            }
 //#endif
 
-#if DEBUG
-			try
-			{
-				System.IO.File.Copy(@"..\..\..\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"CPPWrapper.dll", true);
-			}
-			catch { }
-#endif
-
 			try
 			{
 				if (SKDManager.SKDConfiguration != null)
@@ -41,8 +44,8 @@ namespace FiresecService
 				ChinaSKDDriver.Processor.Start();
 				foreach (var deviceProcessor in ChinaSKDDriver.Processor.DeviceProcessors)
 				{
-					deviceProcessor.NewJournalItem -= new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewSKDJournalItem);
-					deviceProcessor.NewJournalItem += new Action<ChinaSKDDriverAPI.SKDJournalItem>(OnNewSKDJournalItem);
+					deviceProcessor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
+					deviceProcessor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
 				}
 
 				ChinaSKDDriver.Processor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
@@ -65,18 +68,9 @@ namespace FiresecService
 			ChinaSKDDriver.Processor.Stop();
 		}
 
-		static void OnNewSKDJournalItem(ChinaSKDDriverAPI.SKDJournalItem skdJournalItem)
-		{
-			var journalItem = new JournalItem();
-			journalItem.SystemDateTime = skdJournalItem.SystemDateTime;
-			journalItem.DeviceDateTime = skdJournalItem.DeviceDateTime;
-			journalItem.JournalEventNameType = skdJournalItem.JournalEventNameType;
-			journalItem.DescriptionText = skdJournalItem.Description;
-			OnNewJournalItem(journalItem);
-		}
-
 		static void OnNewJournalItem(JournalItem journalItem)
 		{
+			journalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 			FiresecService.Service.FiresecService.AddJournalItem(journalItem);
 		}
 

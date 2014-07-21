@@ -14,8 +14,6 @@ namespace FiresecAPI.SKD
 		{
 			Clear();
 			StateClasses = new List<XStateClass>();
-			AdditionalStates = new List<XAdditionalState>();
-			InternalStateClasses = new List<XStateClass>();
 		}
 
 		public SKDDeviceState(SKDDevice device)
@@ -34,12 +32,7 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public XStateClass StateClass { get; set; }
 
-		[DataMember]
-		public List<XAdditionalState> AdditionalStates { get; set; }
-
 		public SKDDevice Device { get; private set; }
-
-		public List<XStateClass> InternalStateClasses { get; set; }
 		public bool IsSuspending { get; set; }
 		public bool IsInitialState { get; set; }
 		public bool IsConnectionLost { get; set; }
@@ -50,19 +43,6 @@ namespace FiresecAPI.SKD
 			IsInitialState = true;
 			IsConnectionLost = false;
 			IsDBMissmatch = false;
-		}
-
-		public void CopyToState(SKDDeviceState state)
-		{
-			state.UID = UID;
-			state.StateClasses = StateClasses.ToList();
-			state.StateClass = StateClass;
-			state.AdditionalStates = AdditionalStates.ToList();
-		}
-
-		public void CopyTo(SKDDeviceState state)
-		{
-			state.UID = UID;
 		}
 
 		public event Action StateChanged;
