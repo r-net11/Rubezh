@@ -72,6 +72,7 @@ namespace ChinaSKDDriver
 		const int DH_ALARM_ACCESS_CTL_BREAK_IN = 0x3178;
 		const int DH_ALARM_ACCESS_CTL_REPEAT_ENTER = 0x3179;
 		const int DH_ALARM_ACCESS_CTL_DURESS = 0x3180;
+		const int DH_ALARM_ACCESS_CTL_STATUS = 0x3185;
 
 		static SKDJournalItem ParceJournal(NativeWrapper.WRAP_JournalItem wrapJournalItem)
 		{
@@ -128,6 +129,13 @@ namespace ChinaSKDDriver
 					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
 					doorNo = wrapJournalItem.nDoor;
 					cardNo = wrapJournalItem.szCardNo;
+					break;
+
+				case DH_ALARM_ACCESS_CTL_STATUS:
+					journalItem.JournalEventNameType = JournalEventNameType.Изменение_статуса;
+					doorNo = wrapJournalItem.nDoor;
+					NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE status = wrapJournalItem.emStatus;
+					description = status.ToString();
 					break;
 
 				default:

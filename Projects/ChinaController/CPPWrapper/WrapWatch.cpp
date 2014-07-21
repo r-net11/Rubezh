@@ -102,6 +102,13 @@ BOOL CALLBACK WRAP_MessageCallBack(LONG lCommand, LLONG loginID, char *pBuf, DWO
 		journalItem->nDoor = pstuAlarmInfo->nDoor;
 		strcpy(journalItem->szCardNo, pstuAlarmInfo->szCardNo);
 	}
+	else if (DH_ALARM_ACCESS_CTL_STATUS == lCommand)
+	{
+		ALARM_ACCESS_CTL_STATUS_INFO* pstuStatusnfo = (ALARM_ACCESS_CTL_STATUS_INFO*)pBuf;
+		journalItem->DeviceDateTime = pstuStatusnfo->stuTime;
+		journalItem->nDoor = pstuStatusnfo->nDoor;
+		journalItem->emStatus = pstuStatusnfo->emStatus;
+	}
 
 	return TRUE;
 }
@@ -215,6 +222,7 @@ BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result)
 	strcpy(result->szCardNo, journalItem.szCardNo);
 	strcpy(result->szPwd, journalItem.szPwd);
 	result->nAction = journalItem.nAction;
+	result->emStatus = journalItem.emStatus;
 	return TRUE;
 }
 

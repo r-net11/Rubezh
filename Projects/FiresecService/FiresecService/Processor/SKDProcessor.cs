@@ -23,6 +23,14 @@ namespace FiresecService
 //            }
 //#endif
 
+#if DEBUG
+			try
+			{
+				System.IO.File.Copy(@"..\..\..\ChinaController\CPPWrapper\Bin\CPPWrapper.dll", @"CPPWrapper.dll", true);
+			}
+			catch { }
+#endif
+
 			try
 			{
 				if (SKDManager.SKDConfiguration != null)

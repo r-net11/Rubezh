@@ -33,7 +33,6 @@ namespace ChinaSKDDriver
 				if (NewJournalItem != null)
 					NewJournalItem(skdJournalItem);
 			}
-			throw new NotImplementedException();
 		}
 
 		public void Start()

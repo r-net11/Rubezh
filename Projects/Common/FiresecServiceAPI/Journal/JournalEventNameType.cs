@@ -329,6 +329,9 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.SKD, "Принуждение", XStateClass.Attention)]
 		Принуждение,
 
+		[EventDescription(JournalSubsystemType.SKD, "Изменение статуса", XStateClass.Attention)]
+		Изменение_статуса,
+
 		[EventDescription(JournalSubsystemType.SKD, "Запрос пароля", XStateClass.TechnologicalRegime)]
 		Запрос_пароля,
 
