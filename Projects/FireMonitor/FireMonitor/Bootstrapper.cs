@@ -52,7 +52,7 @@ namespace FireMonitor
 					BeforeInitialize(true);
 
 					LoadingService.DoStep("Старт полинга сервера");
-					FiresecManager.StartPoll(false);
+					FiresecManager.StartPoll();
 
 					LoadingService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CheckPermission(PermissionType.Oper_Login))

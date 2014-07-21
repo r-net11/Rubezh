@@ -22,11 +22,9 @@ namespace FiresecClient
 		bool isConnected = true;
 		public bool SuspendPoll = false;
 		Thread PollThread;
-		bool MustReactOnCallback;
 
-		public void StartPoll(bool mustReactOnCallback)
+		public void StartPoll()
 		{
-			MustReactOnCallback = mustReactOnCallback;
 			PollThread = new Thread(OnPoll);
 			PollThread.Name = "SafeFiresecService Poll";
 			PollThread.IsBackground = true;
@@ -64,10 +62,7 @@ namespace FiresecClient
 					}
 
 					var callbackResults = Poll(FiresecServiceFactory.UID);
-					//if (!MustReactOnCallback)
-					{
-						ProcessCallbackResult(callbackResults);
-					}
+					ProcessCallbackResult(callbackResults);
 				}
 				catch (Exception e)
 				{
@@ -110,7 +105,7 @@ namespace FiresecClient
 						break;
 
 					case CallbackResultType.NewEvents:
-						foreach (var journalItem in callbackResult.GlobalJournalItems)
+						foreach (var journalItem in callbackResult.JournalItems)
 						{
 							SafeOperationCall(() =>
 							{
@@ -125,7 +120,7 @@ namespace FiresecClient
 						SafeOperationCall(() =>
 						{
 							if (GetFilteredSKDArchiveCompletedEvent != null)
-								GetFilteredSKDArchiveCompletedEvent(callbackResult.GlobalJournalItems, callbackResult.ArchivePortionUID);
+								GetFilteredSKDArchiveCompletedEvent(callbackResult.JournalItems, callbackResult.ArchivePortionUID);
 						});
 						break;
 
@@ -133,7 +128,7 @@ namespace FiresecClient
 						SafeOperationCall(() =>
 						{
 							if (GetFilteredGKArchiveCompletedEvent != null)
-								GetFilteredGKArchiveCompletedEvent(callbackResult.JournalItems, callbackResult.ArchivePortionUID);
+								GetFilteredGKArchiveCompletedEvent(callbackResult.GKJournalItemsArchiveCompleted, callbackResult.ArchivePortionUID);
 						});
 						break;
 

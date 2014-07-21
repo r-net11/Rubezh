@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
+using FiresecAPI.GK;
 
 namespace FiresecService
 {
@@ -22,18 +24,6 @@ namespace FiresecService
 
 		public static void Start()
 		{
-//#if DEBUG
-//            for (int i = 0; i < 1000; i++)
-//            {
-//                var journalItem = new JournalItem();
-//                journalItem.SystemDateTime = DateTime.Now.AddMinutes(-i);
-//                journalItem.DeviceDateTime = DateTime.Now.AddMinutes(-i);
-//                journalItem.JournalEventNameType = JournalEventNameType.Проход;
-//                journalItem.DescriptionText = "Description " + i;
-//                FiresecService.Service.FiresecService.AddGlobalJournalItem(journalItem);
-//            }
-//#endif
-
 			try
 			{
 				if (SKDManager.SKDConfiguration != null)
@@ -76,7 +66,102 @@ namespace FiresecService
 
 		static void OnSKDCallbackResultEvent(SKDCallbackResult skdCallbackResult)
 		{
+			if (skdCallbackResult.SKDStates.DeviceStates.Count > 0)
+			{
+				foreach (var zone in SKDManager.Zones)
+				{
+					var stateClasses = GetZoneStateClasses(zone);
+
+					var hasChanges = stateClasses.Count != zone.State.StateClasses.Count;
+					if (!hasChanges)
+					{
+						foreach (var stateClass in stateClasses)
+						{
+							if (!zone.State.StateClasses.Contains(stateClass))
+								hasChanges = true;
+						}
+					}
+
+					if (hasChanges)
+					{
+						zone.State.StateClasses = stateClasses;
+						zone.State.StateClass = zone.State.StateClasses.Min();
+						skdCallbackResult.SKDStates.ZoneStates.Add(zone.State);
+					}
+				}
+				foreach (var door in SKDManager.Doors)
+				{
+					var stateClasses = GetDoorStateClasses(door);
+
+					var hasChanges = stateClasses.Count != door.State.StateClasses.Count;
+					if (!hasChanges)
+					{
+						foreach (var stateClass in stateClasses)
+						{
+							if (!door.State.StateClasses.Contains(stateClass))
+								hasChanges = true;
+						}
+					}
+
+					if (hasChanges)
+					{
+						door.State.StateClasses = stateClasses;
+						door.State.StateClass = door.State.StateClasses.Min();
+						skdCallbackResult.SKDStates.DoorStates.Add(door.State);
+					}
+				}
+			}
+
 			FiresecService.Service.FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
+		}
+
+		static List<XStateClass> GetZoneStateClasses(SKDZone zone)
+		{
+			var stateClasses = new List<XStateClass>();
+			foreach (var device in zone.Devices)
+			{
+				if (!stateClasses.Contains(device.State.StateClass))
+					stateClasses.Add(device.State.StateClass);
+			}
+			stateClasses.Sort();
+			if (stateClasses.Count == 0)
+				stateClasses.Add(XStateClass.Norm);
+			return stateClasses;
+		}
+
+		static List<XStateClass> GetDoorStateClasses(SKDDoor door)
+		{
+			var stateClasses = new List<XStateClass>();
+
+			if (door.InDevice != null)
+			{
+				if (!stateClasses.Contains(door.InDevice.State.StateClass))
+					stateClasses.Add(door.InDevice.State.StateClass);
+			}
+			if (door.OutDevice != null)
+			{
+				if (!stateClasses.Contains(door.OutDevice.State.StateClass))
+					stateClasses.Add(door.OutDevice.State.StateClass);
+			}
+
+			stateClasses.Sort();
+			if (stateClasses.Count == 0)
+				stateClasses.Add(XStateClass.Norm);
+			return stateClasses;
+		}
+
+		public static SKDStates SKDGetStates()
+		{
+			var skdStates = new SKDStates();
+			foreach (var device in SKDManager.Devices)
+			{
+				skdStates.DeviceStates.Add(device.State);
+			}
+			foreach (var zone in SKDManager.Zones)
+			{
+				skdStates.ZoneStates.Add(zone.State);
+			}
+			return skdStates;
 		}
 
 		static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)

@@ -65,7 +65,7 @@ namespace FiresecService.Service
 			var callbackResult = new CallbackResult()
 			{
 				CallbackResultType = CallbackResultType.NewEvents,
-				GlobalJournalItems = journalItems
+				JournalItems = journalItems
 			};
 			CallbackManager.Add(callbackResult);
 		}
@@ -76,7 +76,7 @@ namespace FiresecService.Service
 			{
 				ArchivePortionUID = archivePortionUID,
 				CallbackResultType = CallbackResultType.SKDArchiveCompleted,
-				GlobalJournalItems = journallItems,
+				JournalItems = journallItems,
 			};
 			CallbackManager.Add(callbackResult);
 		}
@@ -87,7 +87,7 @@ namespace FiresecService.Service
 			{
 				ArchivePortionUID = archivePortionUID,
 				CallbackResultType = CallbackResultType.GKArchiveCompleted,
-				JournalItems = journallItems
+				GKJournalItemsArchiveCompleted = journallItems
 			};
 			CallbackManager.Add(callbackResult);
 		}

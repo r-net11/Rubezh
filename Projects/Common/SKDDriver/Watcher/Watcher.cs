@@ -21,6 +21,7 @@ namespace SKDDriver
 		Thread RunThread;
 		public DateTime LastUpdateTime { get; private set; }
 		SKDCallbackResult SKDCallbackResult { get; set; }
+		List<JournalItem> JournalItems { get; set; }
 		bool IsHashFailure { get; set; }
 
 		public Watcher(SKDDevice device)
@@ -138,11 +139,13 @@ namespace SKDDriver
 					lock (CallbackResultLocker)
 					{
 						SKDCallbackResult = new SKDCallbackResult();
+						JournalItems = new List<JournalItem>();
 					}
 					RunMonitoring();
 					lock (CallbackResultLocker)
 					{
 						OnSKDCallbackResult(SKDCallbackResult);
+						SKDProcessorManager.OnNewJournalItems(JournalItems);
 					}
 
 					if (IsStopping)
@@ -344,19 +347,18 @@ namespace SKDDriver
 				JournalEventNameType = journalEventNameType,
 				JournalEventDescriptionType = journalEventDescriptionType,
 				StateClass = XStateClass.Unknown,
-				//GKIpAddress = Device.GetGKIpAddress()
 			};
-			SKDCallbackResult.JournalItems.Add(journalItem);
+			JournalItems.Add(journalItem);
 		}
 
 		void AddJournalItem(JournalItem journalItem)
 		{
-			SKDCallbackResult.JournalItems.Add(journalItem);
+			JournalItems.Add(journalItem);
 		}
 
 		void AddJournalItems(List<JournalItem> journalItems)
 		{
-			SKDCallbackResult.JournalItems.AddRange(journalItems);
+			JournalItems.AddRange(journalItems);
 		}
 
 		void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)

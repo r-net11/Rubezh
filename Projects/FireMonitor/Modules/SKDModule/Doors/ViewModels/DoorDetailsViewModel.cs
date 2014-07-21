@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 	public class DoorDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public SKDDoor Door { get; private set; }
-		public DoorState State
+		public SKDDoorState State
 		{
 			get { return Door.State; }
 		}

@@ -56,7 +56,7 @@ namespace FireAdministrator
 					LoadingService.Close();
 
 					AterInitialize();
-					FiresecManager.StartPoll(true);
+					FiresecManager.StartPoll();
 
 					SafeFiresecService.GKProgressCallbackEvent -= new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);
 					SafeFiresecService.GKProgressCallbackEvent += new Action<FiresecAPI.GKProgressCallback>(OnGKProgressCallbackEvent);

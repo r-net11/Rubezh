@@ -93,6 +93,64 @@ namespace ChinaSKDDriver
 			}
 		}
 
+		void OnConnectionChanged(bool isConnectionLost)
+		{
+			var journalItem = new JournalItem();
+			journalItem.SystemDateTime = DateTime.Now;
+			journalItem.DeviceDateTime = DateTime.Now;
+			if (isConnectionLost)
+				journalItem.JournalEventNameType = JournalEventNameType.Потеря_связи;
+			else
+				journalItem.JournalEventNameType = JournalEventNameType.Восстановление_связи;
+			journalItem.JournalObjectType = JournalObjectType.SKDDevice;
+			journalItem.ObjectUID = Device.UID;
+			journalItem.ObjectName = Device.Name;
+			if (NewJournalItem != null)
+				NewJournalItem(journalItem);
+
+			var connectionLostCallbackResult = new SKDCallbackResult();
+
+			var allDevices = new List<SKDDevice>(Device.Children);
+			allDevices.Add(Device);
+
+			foreach (var device in allDevices)
+			{
+				if (isConnectionLost)
+				{
+					device.State.StateClass = XStateClass.ConnectionLost;
+				}
+				else
+				{
+					if (device.DriverType == SKDDriverType.Lock)
+					{
+						var result = Wrapper.GetDoorStatus(device.IntAddress);
+						switch (result)
+						{
+							case 1:
+								device.State.StateClass = XStateClass.On;
+								break;
+
+							case 2:
+								device.State.StateClass = XStateClass.Off;
+								break;
+
+							default:
+								device.State.StateClass = XStateClass.Unknown;
+								break;
+						}
+					}
+					else
+					{
+						device.State.StateClass = XStateClass.Norm;
+					}
+				}
+				device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
+				connectionLostCallbackResult.SKDStates.DeviceStates.Add(device.State);
+			}
+
+			Processor.DoCallback(connectionLostCallbackResult);
+		}
+
 		public void Start()
 		{
 			Device.State.StateClass = XStateClass.Unknown;
@@ -161,64 +219,6 @@ namespace ChinaSKDDriver
 				}
 				catch { }
 			}
-		}
-
-		void OnConnectionChanged(bool isConnectionLost)
-		{
-			var journalItem = new JournalItem();
-			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.DeviceDateTime = DateTime.Now;
-			if (isConnectionLost)
-				journalItem.JournalEventNameType = JournalEventNameType.Потеря_связи;
-			else
-				journalItem.JournalEventNameType = JournalEventNameType.Восстановление_связи;
-			journalItem.JournalObjectType = JournalObjectType.SKDDevice;
-			journalItem.ObjectUID = Device.UID;
-			journalItem.ObjectName = Device.Name;
-			if (NewJournalItem != null)
-				NewJournalItem(journalItem);
-
-			var connectionLostCallbackResult = new SKDCallbackResult();
-
-			var allDevices = new List<SKDDevice>(Device.Children);
-			allDevices.Add(Device);
-
-			foreach (var device in allDevices)
-			{
-				if (isConnectionLost)
-				{
-					device.State.StateClass = XStateClass.ConnectionLost;
-				}
-				else
-				{
-					if (device.DriverType == SKDDriverType.Lock)
-					{
-						var result = Wrapper.GetDoorStatus(device.IntAddress);
-						switch (result)
-						{
-							case 1:
-								device.State.StateClass = XStateClass.On;
-								break;
-
-							case 2:
-								device.State.StateClass = XStateClass.Off;
-								break;
-
-							default:
-								device.State.StateClass = XStateClass.Unknown;
-								break;
-						}
-					}
-					else
-					{
-						device.State.StateClass = XStateClass.Norm;
-					}
-				}
-				device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
-				connectionLostCallbackResult.SKDStates.DeviceStates.Add(device.State);
-			}
-
-			Processor.DoCallback(connectionLostCallbackResult);
 		}
 
 		public void Reconnect()

@@ -209,6 +209,17 @@ namespace SKDModule
 					zone.State.OnStateChanged();
 				}
 			}
+			foreach (var remoteDoorState in skdStates.DoorStates)
+			{
+				if (remoteDoorState == null)
+					continue;
+				var door = SKDManager.Doors.FirstOrDefault(x => x.UID == remoteDoorState.UID);
+				if (door != null)
+				{
+					remoteDoorState.CopyToState(door.State);
+					door.State.OnStateChanged();
+				}
+			}
 		}
 
 		#region ILayoutProviderModule Members

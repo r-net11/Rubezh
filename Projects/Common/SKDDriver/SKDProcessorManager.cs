@@ -11,14 +11,22 @@ namespace SKDDriver
 	{
 		public static void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)
 		{
-			if (skdCallbackResult.JournalItems.Count +
-				skdCallbackResult.SKDStates.DeviceStates.Count > 0)
+			if (skdCallbackResult.SKDStates.DeviceStates.Count > 0)
 			{
 				if (SKDCallbackResultEvent != null)
 					SKDCallbackResultEvent(skdCallbackResult);
 			}
 		}
+		public static void OnNewJournalItems(List<JournalItem> journalItems)
+		{
+			if (journalItems.Count > 0)
+			{
+				if (NewJournalItemsEvent != null)
+					NewJournalItemsEvent(journalItems);
+			}
+		}
 		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
+		public static event Action<List<JournalItem>> NewJournalItemsEvent;
 
 		#region Main
 		public static bool MustMonitor = false;
@@ -126,7 +134,7 @@ namespace SKDDriver
 			};
 
 			var skdCallbackResult = new SKDCallbackResult();
-			skdCallbackResult.JournalItems.Add(journalItem);
+			OnNewJournalItems(new List<JournalItem>() { journalItem });
 			OnSKDCallbackResult(skdCallbackResult);
 		}
 
