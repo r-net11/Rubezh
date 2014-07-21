@@ -41,8 +41,8 @@ namespace FiresecService
 				ChinaSKDDriver.Processor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
 				ChinaSKDDriver.Processor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
 
-				ChinaSKDDriver.Processor.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
-				ChinaSKDDriver.Processor.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResultEvent);
+				ChinaSKDDriver.Processor.skdStatesEvent -= new Action<SKDStates>(OnSKDStates);
+				ChinaSKDDriver.Processor.skdStatesEvent += new Action<SKDStates>(OnSKDStates);
 
 				ChinaSKDDriver.Processor.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 				ChinaSKDDriver.Processor.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
@@ -64,9 +64,9 @@ namespace FiresecService
 			FiresecService.Service.FiresecService.AddJournalItem(journalItem);
 		}
 
-		static void OnSKDCallbackResultEvent(SKDCallbackResult skdCallbackResult)
+		static void OnSKDStates(SKDStates skdStates)
 		{
-			if (skdCallbackResult.SKDStates.DeviceStates.Count > 0)
+			if (skdStates.DeviceStates.Count > 0)
 			{
 				foreach (var zone in SKDManager.Zones)
 				{
@@ -86,7 +86,7 @@ namespace FiresecService
 					{
 						zone.State.StateClasses = stateClasses;
 						zone.State.StateClass = zone.State.StateClasses.Min();
-						skdCallbackResult.SKDStates.ZoneStates.Add(zone.State);
+						skdStates.ZoneStates.Add(zone.State);
 					}
 				}
 				foreach (var door in SKDManager.Doors)
@@ -107,12 +107,12 @@ namespace FiresecService
 					{
 						door.State.StateClasses = stateClasses;
 						door.State.StateClass = door.State.StateClasses.Min();
-						skdCallbackResult.SKDStates.DoorStates.Add(door.State);
+						skdStates.DoorStates.Add(door.State);
 					}
 				}
 			}
 
-			FiresecService.Service.FiresecService.NotifySKDObjectStateChanged(skdCallbackResult);
+			FiresecService.Service.FiresecService.NotifySKDObjectStateChanged(skdStates);
 		}
 
 		static List<XStateClass> GetZoneStateClasses(SKDZone zone)
@@ -159,7 +159,15 @@ namespace FiresecService
 			}
 			foreach (var zone in SKDManager.Zones)
 			{
+				zone.State.StateClasses = GetZoneStateClasses(zone);
+				zone.State.StateClass = zone.State.StateClasses.Min();
 				skdStates.ZoneStates.Add(zone.State);
+			}
+			foreach (var door in SKDManager.Doors)
+			{
+				door.State.StateClasses = GetDoorStateClasses(door);
+				door.State.StateClass = door.State.StateClasses.Min();
+				skdStates.DoorStates.Add(door.State);
 			}
 			return skdStates;
 		}

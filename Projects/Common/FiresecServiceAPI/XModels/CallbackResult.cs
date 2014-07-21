@@ -29,7 +29,7 @@ namespace FiresecAPI
 		public List<XJournalItem> GKJournalItemsArchiveCompleted { get; set; }
 
 		[DataMember]
-		public SKDCallbackResult SKDCallbackResult { get; set; }
+		public SKDStates SKDStates { get; set; }
 	}
 
 	public enum CallbackResultType

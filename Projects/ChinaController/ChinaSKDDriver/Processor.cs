@@ -12,11 +12,11 @@ namespace ChinaSKDDriver
 	{
 		public static List<DeviceProcessor> DeviceProcessors { get; private set; }
 
-		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
-		public static void DoCallback(SKDCallbackResult callbackResult)
+		public static event Action<SKDStates> skdStatesEvent;
+		public static void DoCallback(SKDStates skdStates)
 		{
-			if (Processor.SKDCallbackResultEvent != null)
-				Processor.SKDCallbackResultEvent(callbackResult);
+			if (Processor.skdStatesEvent != null)
+				Processor.skdStatesEvent(skdStates);
 		}
 
 		public static event Action<JournalItem> NewJournalItem;

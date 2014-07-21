@@ -9,7 +9,7 @@ namespace SKDDriver
 	{
 		void OnDeviceStateChanged(SKDDevice device)
 		{
-			AddDeviceStateToSKDStates(SKDCallbackResult.SKDStates, device);
+			AddDeviceStateToSKDStates(SKDStates, device);
 			if (device.Zone != null)
 			{
 				OnZoneStateChanged(device.Zone);
@@ -40,7 +40,7 @@ namespace SKDDriver
 				zone.State.StateClasses = stateClasses.ToList();
 			}
 			zone.State.StateClass = XStatesHelper.GetMinStateClass(zone.State.StateClasses);
-			AddZoneStateToSKDStates(SKDCallbackResult.SKDStates, zone);
+			AddZoneStateToSKDStates(SKDStates, zone);
 		}
 
 		public static void AddDeviceStateToSKDStates(SKDStates skdStates, SKDDevice device)

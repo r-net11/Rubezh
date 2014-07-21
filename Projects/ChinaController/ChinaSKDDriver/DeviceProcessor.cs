@@ -81,9 +81,9 @@ namespace ChinaSKDDriver
 
 							doorDevice.State.StateClass = EventDescriptionAttributeHelper.ToStateClass(skdJournalItem.JournalEventNameType);
 							doorDevice.State.StateClasses = new List<XStateClass>() { doorDevice.State.StateClass };
-							var callbackResult = new SKDCallbackResult();
-							callbackResult.SKDStates.DeviceStates.Add(doorDevice.State);
-							Processor.DoCallback(callbackResult);
+							var skdStates = new SKDStates();
+							skdStates.DeviceStates.Add(doorDevice.State);
+							Processor.DoCallback(skdStates);
 						}
 						break;
 				}
@@ -108,7 +108,7 @@ namespace ChinaSKDDriver
 			if (NewJournalItem != null)
 				NewJournalItem(journalItem);
 
-			var connectionLostCallbackResult = new SKDCallbackResult();
+			var connectionLostSKDStates = new SKDStates();
 
 			var allDevices = new List<SKDDevice>(Device.Children);
 			allDevices.Add(Device);
@@ -145,10 +145,10 @@ namespace ChinaSKDDriver
 					}
 				}
 				device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
-				connectionLostCallbackResult.SKDStates.DeviceStates.Add(device.State);
+				connectionLostSKDStates.DeviceStates.Add(device.State);
 			}
 
-			Processor.DoCallback(connectionLostCallbackResult);
+			Processor.DoCallback(connectionLostSKDStates);
 		}
 
 		public void Start()

@@ -169,18 +169,18 @@ namespace SKDModule
 		}
 		public override void AfterInitialize()
 		{
-			SafeFiresecService.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResult);
-			SafeFiresecService.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResult);
+			SafeFiresecService.SKDStatesEvent -= new Action<SKDStates>(OnSKDStates);
+			SafeFiresecService.SKDStatesEvent += new Action<SKDStates>(OnSKDStates);
 
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
 			AutoActivationWatcher.Run();
 		}
 
-		void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)
+		void OnSKDStates(SKDStates skdStates)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				CopySKDStates(skdCallbackResult.SKDStates);
+				CopySKDStates(skdStates);
 				ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
 			});
 		}

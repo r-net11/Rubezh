@@ -13,7 +13,7 @@ namespace FiresecClient
 	{
 		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 		public static event Action<GKCallbackResult> GKCallbackResultEvent;
-		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
+		public static event Action<SKDStates> SKDStatesEvent;
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<JournalItem> NewJournalItemEvent;
 		public static event Action<IEnumerable<XJournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
@@ -99,8 +99,8 @@ namespace FiresecClient
 					case CallbackResultType.SKDObjectStateChanged:
 						SafeOperationCall(() =>
 						{
-							if (SKDCallbackResultEvent != null)
-								SKDCallbackResultEvent(callbackResult.SKDCallbackResult);
+							if (SKDStatesEvent != null)
+								SKDStatesEvent(callbackResult.SKDStates);
 						});
 						break;
 

@@ -54,7 +54,6 @@ namespace FiresecAPI.SKD
 			state.UID = UID;
 			state.StateClasses = StateClasses.ToList();
 			state.StateClass = StateClass;
-			state.AdditionalStates = AdditionalStates.ToList();
 		}
 
 		public void CopyTo(SKDDoorState state)
