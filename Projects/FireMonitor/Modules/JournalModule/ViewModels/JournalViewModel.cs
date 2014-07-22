@@ -12,8 +12,11 @@ namespace JournalModule.ViewModels
 {
 	public class JournalViewModel : ViewPartViewModel
 	{
-		public JournalViewModel()
+		public JournalFilter JournalFilter { get; private set; }
+
+		public JournalViewModel(JournalFilter journalFilter = null)
 		{
+			JournalFilter = journalFilter;
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 		}
 

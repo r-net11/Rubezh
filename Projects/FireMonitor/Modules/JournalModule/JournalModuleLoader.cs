@@ -12,6 +12,7 @@ using Infrastructure.Events;
 using JournalModule.ViewModels;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Client.Layout;
+using FiresecAPI.Models.Layouts;
 
 namespace JournalModule
 {
@@ -125,8 +126,30 @@ namespace JournalModule
 
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "Book.png", (p) => JournalViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) => ArchiveViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "Book.png", (p) =>
+			{
+				LayoutPartJournalProperties layoutPartJournalProperties = p as LayoutPartJournalProperties;
+				var filter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.FilterUID);
+				if(filter == null)
+					filter = new JournalFilter();
+
+				var journalViewModel = new JournalViewModel(filter);
+				journalViewModel.Initialize();
+				var result = FiresecManager.FiresecService.GetFilteredJournalItems(filter);
+				if (!result.HasError)
+				{
+					JournalViewModel.OnNewJournalItems(new List<JournalItem>(result.Result));
+				}
+
+				return journalViewModel;
+			});
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) =>
+			{
+				var archiveViewModel = new ArchiveViewModel();
+				archiveViewModel.Initialize();
+				archiveViewModel.Update();
+				return archiveViewModel;
+			});
 		}
 
 		#endregion
