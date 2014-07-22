@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 		public SKDDoor Door { get; private set; }
 		public SKDDevice InDevice { get; private set; }
 		public SKDDevice OutDevice { get; private set; }
-		public DoorState State
+		public SKDDoorState State
 		{
 			get { return Door.State; }
 		}

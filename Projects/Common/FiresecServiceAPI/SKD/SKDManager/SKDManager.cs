@@ -101,7 +101,7 @@ namespace FiresecAPI.SKD
 			}
 			foreach (var door in Doors)
 			{
-				door.State = new DoorState(door);
+				door.State = new SKDDoorState(door);
 				door.State.StateClass = XStateClass.Norm;
 			}
 		}

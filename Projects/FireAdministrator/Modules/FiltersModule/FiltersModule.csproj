@@ -171,10 +171,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Layout\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Layout\Views\LayoutPartJournalView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

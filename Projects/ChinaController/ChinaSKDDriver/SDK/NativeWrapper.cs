@@ -551,6 +551,13 @@ namespace ChinaSKDDriverNativeApi
 			NET_ACCESS_CTL_EVENT_EXIT,
 		}
 
+		public enum NET_ACCESS_CTL_STATUS_TYPE
+		{
+			NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN = 0,
+			NET_ACCESS_CTL_STATUS_TYPE_OPEN,
+			NET_ACCESS_CTL_STATUS_TYPE_CLOSE,
+		}
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_JournalItem
 		{
@@ -568,6 +575,7 @@ namespace ChinaSKDDriverNativeApi
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
 			public string szPwd;
 			public int nAction;
+			public NET_ACCESS_CTL_STATUS_TYPE emStatus;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]

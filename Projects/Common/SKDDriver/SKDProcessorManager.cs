@@ -9,16 +9,24 @@ namespace SKDDriver
 {
 	public static class SKDProcessorManager
 	{
-		public static void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)
+		public static void OnSKDCallbackResult(SKDStates skdStates)
 		{
-			if (skdCallbackResult.JournalItems.Count +
-				skdCallbackResult.SKDStates.DeviceStates.Count > 0)
+			if (skdStates.DeviceStates.Count > 0)
 			{
-				if (SKDCallbackResultEvent != null)
-					SKDCallbackResultEvent(skdCallbackResult);
+				if (SKDStatesEvent != null)
+					SKDStatesEvent(skdStates);
 			}
 		}
-		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
+		public static void OnNewJournalItems(List<JournalItem> journalItems)
+		{
+			if (journalItems.Count > 0)
+			{
+				if (NewJournalItemsEvent != null)
+					NewJournalItemsEvent(journalItems);
+			}
+		}
+		public static event Action<SKDStates> SKDStatesEvent;
+		public static event Action<List<JournalItem>> NewJournalItemsEvent;
 
 		#region Main
 		public static bool MustMonitor = false;
@@ -125,9 +133,9 @@ namespace SKDDriver
 				UserName = userName,
 			};
 
-			var skdCallbackResult = new SKDCallbackResult();
-			skdCallbackResult.JournalItems.Add(journalItem);
-			OnSKDCallbackResult(skdCallbackResult);
+			var skdStates = new SKDStates();
+			OnNewJournalItems(new List<JournalItem>() { journalItem });
+			OnSKDCallbackResult(skdStates);
 		}
 
 		public static void SendControlCommand(SKDDevice device, byte code)

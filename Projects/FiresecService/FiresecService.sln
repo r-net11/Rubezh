@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaSKDDriver", "..\ChinaC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChinaSKDDriverTest", "..\ChinaController\ChinaSKDDriverTest\ChinaSKDDriverTest.csproj", "{594FC4CC-2EF9-485A-B621-55321463C0A2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CPPWrapper", "..\ChinaController\CPPWrapper\CPPWrapper.vcxproj", "{91CF4E2D-DCBC-D53B-5181-82380DD625BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -208,6 +210,20 @@ Global
 		{594FC4CC-2EF9-485A-B621-55321463C0A2}.Release|x64.ActiveCfg = Release|x86
 		{594FC4CC-2EF9-485A-B621-55321463C0A2}.Release|x86.ActiveCfg = Release|x86
 		{594FC4CC-2EF9-485A-B621-55321463C0A2}.Release|x86.Build.0 = Release|x86
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Debug|Win32.Build.0 = Debug|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Debug|x64.ActiveCfg = Debug|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Debug|x86.ActiveCfg = Debug|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Release|Any CPU.ActiveCfg = Release|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Release|Win32.ActiveCfg = Release|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Release|Win32.Build.0 = Release|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Release|x64.ActiveCfg = Release|Win32
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -223,5 +239,6 @@ Global
 		{E1D3CDA0-1DE6-47D3-8D2F-C56B297E8007} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{77C8D1E5-51B4-45F9-93DF-D114433771E2} = {D37D6B40-83B0-424E-B406-3D8FF7D9B017}
 		{594FC4CC-2EF9-485A-B621-55321463C0A2} = {D37D6B40-83B0-424E-B406-3D8FF7D9B017}
+		{91CF4E2D-DCBC-D53B-5181-82380DD625BD} = {D37D6B40-83B0-424E-B406-3D8FF7D9B017}
 	EndGlobalSection
 EndGlobal

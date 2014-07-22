@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="SKDModule.Views.DeviceView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Views="clr-namespace:SKDModule.Views">
 
 	<StackPanel Orientation="Horizontal">
-		<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
+		<Image Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
 		<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding Device.Driver.ImageSource}" />
 		<TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Device.Name}">
 			<TextBlock.ContextMenu>

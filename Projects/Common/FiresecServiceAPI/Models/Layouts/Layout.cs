@@ -14,7 +14,7 @@ namespace FiresecAPI.Models.Layouts
 			Users = new List<Guid>();
 			Parts = new List<LayoutPart>();
 			IPs = new List<string>();
-			Caption = "Шаблон";
+			Caption = "Макет";
 			SplitterSize = 4;
 			SplitterColor = Colors.Transparent;
 		}

@@ -13,7 +13,7 @@ namespace FiresecClient
 	{
 		public static event Action<GKProgressCallback> GKProgressCallbackEvent;
 		public static event Action<GKCallbackResult> GKCallbackResultEvent;
-		public static event Action<SKDCallbackResult> SKDCallbackResultEvent;
+		public static event Action<SKDStates> SKDStatesEvent;
 		public static event Action ConfigurationChangedEvent;
 		public static event Action<JournalItem> NewJournalItemEvent;
 		public static event Action<IEnumerable<XJournalItem>, Guid> GetFilteredGKArchiveCompletedEvent;
@@ -22,11 +22,9 @@ namespace FiresecClient
 		bool isConnected = true;
 		public bool SuspendPoll = false;
 		Thread PollThread;
-		bool MustReactOnCallback;
 
-		public void StartPoll(bool mustReactOnCallback)
+		public void StartPoll()
 		{
-			MustReactOnCallback = mustReactOnCallback;
 			PollThread = new Thread(OnPoll);
 			PollThread.Name = "SafeFiresecService Poll";
 			PollThread.IsBackground = true;
@@ -64,10 +62,7 @@ namespace FiresecClient
 					}
 
 					var callbackResults = Poll(FiresecServiceFactory.UID);
-					//if (!MustReactOnCallback)
-					{
-						ProcessCallbackResult(callbackResults);
-					}
+					ProcessCallbackResult(callbackResults);
 				}
 				catch (Exception e)
 				{
@@ -104,13 +99,13 @@ namespace FiresecClient
 					case CallbackResultType.SKDObjectStateChanged:
 						SafeOperationCall(() =>
 						{
-							if (SKDCallbackResultEvent != null)
-								SKDCallbackResultEvent(callbackResult.SKDCallbackResult);
+							if (SKDStatesEvent != null)
+								SKDStatesEvent(callbackResult.SKDStates);
 						});
 						break;
 
 					case CallbackResultType.NewEvents:
-						foreach (var journalItem in callbackResult.GlobalJournalItems)
+						foreach (var journalItem in callbackResult.JournalItems)
 						{
 							SafeOperationCall(() =>
 							{
@@ -125,7 +120,7 @@ namespace FiresecClient
 						SafeOperationCall(() =>
 						{
 							if (GetFilteredSKDArchiveCompletedEvent != null)
-								GetFilteredSKDArchiveCompletedEvent(callbackResult.GlobalJournalItems, callbackResult.ArchivePortionUID);
+								GetFilteredSKDArchiveCompletedEvent(callbackResult.JournalItems, callbackResult.ArchivePortionUID);
 						});
 						break;
 
@@ -133,7 +128,7 @@ namespace FiresecClient
 						SafeOperationCall(() =>
 						{
 							if (GetFilteredGKArchiveCompletedEvent != null)
-								GetFilteredGKArchiveCompletedEvent(callbackResult.JournalItems, callbackResult.ArchivePortionUID);
+								GetFilteredGKArchiveCompletedEvent(callbackResult.GKJournalItemsArchiveCompleted, callbackResult.ArchivePortionUID);
 						});
 						break;
 

@@ -25,6 +25,7 @@ typedef struct tag_WRAP_JournalItem
 	char szCardNo[DH_MAX_CARDNO_LEN];
 	char szPwd[DH_MAX_CARDPWD_LEN];
 	int	nAction;
+	NET_ACCESS_CTL_STATUS_TYPE	emStatus;
 } WRAP_JournalItem;
 
 typedef struct tag_WRAP_JournalInfo

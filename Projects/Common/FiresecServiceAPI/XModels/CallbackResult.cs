@@ -17,29 +17,29 @@ namespace FiresecAPI
 		public CallbackResultType CallbackResultType { get; set; }
 
 		[DataMember]
-		public List<JournalItem> GlobalJournalItems { get; set; }
-
-		[DataMember]
-		public GKCallbackResult GKCallbackResult { get; set; }
+		public List<JournalItem> JournalItems { get; set; }
 
 		[DataMember]
 		public GKProgressCallback GKProgressCallback { get; set; }
 
 		[DataMember]
-		public List<XJournalItem> JournalItems { get; set; }
+		public GKCallbackResult GKCallbackResult { get; set; }
 
 		[DataMember]
-		public SKDCallbackResult SKDCallbackResult { get; set; }
+		public List<XJournalItem> GKJournalItemsArchiveCompleted { get; set; }
+
+		[DataMember]
+		public SKDStates SKDStates { get; set; }
 	}
 
 	public enum CallbackResultType
 	{
 		GKProgress,
 		GKObjectStateChanged,
+		GKArchiveCompleted,
 		SKDObjectStateChanged,
 		NewEvents,
 		SKDArchiveCompleted,
-		GKArchiveCompleted,
 		ConfigurationChanged,
 		Disconnecting
 	}

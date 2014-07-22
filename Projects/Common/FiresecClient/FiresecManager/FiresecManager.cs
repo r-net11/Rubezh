@@ -112,9 +112,6 @@ namespace FiresecClient
 						if (FSAgent != null)
 							FSAgent.Stop();
 
-						//if (FS2ClientContract != null)
-						//	FS2ClientContract.Stop();
-
 						if (FiresecService != null)
 						{
 							FiresecService.Dispose();
@@ -129,11 +126,11 @@ namespace FiresecClient
 			}
 		}
 
-		public static void StartPoll(bool mustReactOnCallback)
+		public static void StartPoll()
 		{
 			try
 			{
-				FiresecService.StartPoll(mustReactOnCallback);
+				FiresecService.StartPoll();
 			}
 			catch (Exception e)
 			{

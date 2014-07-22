@@ -21,36 +21,42 @@ namespace ChinaSKDDriver
 			return skdStates;
 		}
 
-		public static OperationResult<bool> OpenDoor(Guid deviceUID)
+		public static OperationResult<bool> OpenDoor(SKDDevice device)
 		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
+			if (device.Parent != null)
 			{
-				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+				var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == device.Parent.UID);
+				if (deviceProcessor != null)
+				{
+					if (!deviceProcessor.IsConnected)
+						return new OperationResult<bool>("Нет связи с контроллером");
 
-				var result = deviceProcessor.Wrapper.OpenDoor(deviceProcessor.Device.IntAddress);
-				if (result)
-					return new OperationResult<bool>() { Result = true };
-				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					var result = deviceProcessor.Wrapper.OpenDoor(device.IntAddress);
+					if (result)
+						return new OperationResult<bool>() { Result = true };
+					else
+						return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+				}
 			}
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}
 
-		public static OperationResult<bool> CloseDoor(Guid deviceUID)
+		public static OperationResult<bool> CloseDoor(SKDDevice device)
 		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
+			if (device.Parent != null)
 			{
-				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+				var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == device.Parent.UID);
+				if (deviceProcessor != null)
+				{
+					if (!deviceProcessor.IsConnected)
+						return new OperationResult<bool>("Нет связи с контроллером");
 
-				var result = deviceProcessor.Wrapper.CloseDoor(deviceProcessor.Device.IntAddress);
-				if (result)
-					return new OperationResult<bool>() { Result = true };
-				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+					var result = deviceProcessor.Wrapper.CloseDoor(device.IntAddress);
+					if (result)
+						return new OperationResult<bool>() { Result = true };
+					else
+						return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+				}
 			}
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}

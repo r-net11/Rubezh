@@ -15,7 +15,6 @@ namespace SKDModule.ViewModels
 		{
 			State = deviceState;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
-			AdditionalStates = new ObservableCollection<XAdditionalState>();
 			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 		}
@@ -29,16 +28,9 @@ namespace SKDModule.ViewModels
 			{
 				StateClasses.Add(new XStateClassViewModel(State.Device, stateClass));
 			}
-
-			AdditionalStates.Clear();
-			foreach (var additionalState in State.AdditionalStates)
-			{
-				AdditionalStates.Add(additionalState);
-			}
 		}
 
 		public ObservableCollection<XStateClassViewModel> StateClasses { get; private set; }
-		public ObservableCollection<XAdditionalState> AdditionalStates { get; private set; }
 	}
 
 	public class XStateClassViewModel : BaseViewModel
@@ -63,6 +55,19 @@ namespace SKDModule.ViewModels
 
 		public static string GetStateName(XStateClass stateClass, SKDDevice device)
 		{
+			if (device.DriverType == SKDDriverType.Lock)
+			{
+				switch(stateClass)
+				{
+					case XStateClass.Off:
+						return "Закрыто";
+
+					case XStateClass.On:
+						return "Открыто";
+				}
+				return stateClass.ToDescription();
+			}
+
 			if (stateClass == XStateClass.Fire1)
 			{
 				return "Сработка 1";

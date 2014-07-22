@@ -10,6 +10,7 @@ namespace FiresecAPI.SKD
 		{
 			DeviceStates = new List<SKDDeviceState>();
 			ZoneStates = new List<SKDZoneState>();
+			DoorStates = new List<SKDDoorState>();
 		}
 
 		[DataMember]
@@ -17,5 +18,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<SKDZoneState> ZoneStates { get; set; }
+
+		[DataMember]
+		public List<SKDDoorState> DoorStates { get; set; }
 	}
 }

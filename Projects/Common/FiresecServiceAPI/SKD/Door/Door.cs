@@ -15,7 +15,7 @@ namespace FiresecAPI.SKD
 			UID = Guid.NewGuid();
 		}
 
-		public DoorState State { get; set; }
+		public SKDDoorState State { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }

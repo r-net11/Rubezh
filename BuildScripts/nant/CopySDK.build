@@ -18,6 +18,11 @@
       </fileset>
     </copy>
 
+    <copy todir="..\..\Projects\ChinaController\OriginalSDK\AccessControl\Bin\" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
+        <include name="**\*" />
+      </fileset>
+    </copy>
     <copy todir="..\..\Projects\ChinaController\OriginalSDK\EntranceGuardDemo\Bin\" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
         <include name="**\*" />

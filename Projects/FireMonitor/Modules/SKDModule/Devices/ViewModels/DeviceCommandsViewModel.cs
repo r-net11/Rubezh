@@ -5,6 +5,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.GK;
+using System.Windows.Input;
 
 namespace SKDModule.ViewModels
 {
@@ -28,7 +30,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return Device.DriverType == SKDDriverType.Reader && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
+			get { return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices); }
 		}
 
 		public RelayCommand OpenCommand { get; private set; }
@@ -45,7 +47,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanOpen()
 		{
-			return true;
+			return DeviceState.StateClass != XStateClass.On;
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
@@ -62,11 +64,12 @@ namespace SKDModule.ViewModels
 		}
 		bool CanClose()
 		{
-			return true;
+			return DeviceState.StateClass != XStateClass.Off;
 		}
 
 		void OnStateChanged()
 		{
+			CommandManager.InvalidateRequerySuggested();
 		}
 	}
 }

@@ -224,7 +224,7 @@
     <Compile Include="SKD\SKDManager\LockHelper.cs" />
     <Compile Include="SKD\SKDManager\LockControlHelper.cs" />
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
-    <Compile Include="SKD\States\DoorState.cs" />
+    <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="XModels\Guard\XGuardZoneDevice.cs" />
     <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
@@ -361,7 +361,6 @@
     <Compile Include="SKD\SKDConfiguration.cs" />
     <Compile Include="SKD\SKDManager\SKDManager.Actions.cs" />
     <Compile Include="SKD\Device\SKDDevice.cs" />
-    <Compile Include="SKD\States\SKDCallbackResult.cs" />
     <Compile Include="SKD\States\SKDDeviceState.cs" />
     <Compile Include="SKD\Driver\SKDDriver.cs" />
     <Compile Include="SKD\Driver\SKDDriverType.cs" />

@@ -49,8 +49,6 @@ namespace Infrastructure
 
 			if (!IsSubcsribed)
 			{
-				SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalItem>() { x }); }); });
-
 				FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
 				FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
 				FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
@@ -91,16 +89,6 @@ namespace Infrastructure
 					zoneState.OnStateChanged();
 				}
 			}
-		}
-
-		static void OnNewJournalRecordEvent(List<JournalItem> journalItems)
-		{
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
-		}
-
-		static void OnNewServerJournalRecordEvent(List<JournalItem> journalItems)
-		{
-			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(journalItems);
 		}
 
 		public static void SafeCall(Action action)

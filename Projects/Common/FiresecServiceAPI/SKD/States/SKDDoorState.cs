@@ -8,9 +8,9 @@ using FiresecAPI.GK;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class DoorState : IDeviceState<XStateClass>
+	public class SKDDoorState : IDeviceState<XStateClass>
 	{
-		public DoorState()
+		public SKDDoorState()
 		{
 			Clear();
 			StateClasses = new List<XStateClass>();
@@ -30,7 +30,7 @@ namespace FiresecAPI.SKD
 
 		public SKDDoor Door { get; private set; }
 
-		public DoorState(SKDDoor door)
+		public SKDDoorState(SKDDoor door)
 			: this()
 		{
 			Door = door;
@@ -49,15 +49,14 @@ namespace FiresecAPI.SKD
 			IsDBMissmatch = false;
 		}
 
-		public void CopyToState(DoorState state)
+		public void CopyToState(SKDDoorState state)
 		{
 			state.UID = UID;
 			state.StateClasses = StateClasses.ToList();
 			state.StateClass = StateClass;
-			state.AdditionalStates = AdditionalStates.ToList();
 		}
 
-		public void CopyTo(DoorState state)
+		public void CopyTo(SKDDoorState state)
 		{
 			state.UID = UID;
 		}

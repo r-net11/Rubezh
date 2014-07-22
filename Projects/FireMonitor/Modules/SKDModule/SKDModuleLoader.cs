@@ -169,22 +169,18 @@ namespace SKDModule
 		}
 		public override void AfterInitialize()
 		{
-			SafeFiresecService.SKDCallbackResultEvent -= new Action<SKDCallbackResult>(OnSKDCallbackResult);
-			SafeFiresecService.SKDCallbackResultEvent += new Action<SKDCallbackResult>(OnSKDCallbackResult);
+			SafeFiresecService.SKDStatesEvent -= new Action<SKDStates>(OnSKDStates);
+			SafeFiresecService.SKDStatesEvent += new Action<SKDStates>(OnSKDStates);
 
 			ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
 			AutoActivationWatcher.Run();
 		}
 
-		void OnSKDCallbackResult(SKDCallbackResult skdCallbackResult)
+		void OnSKDStates(SKDStates skdStates)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				if (skdCallbackResult.JournalItems.Count > 0)
-				{
-					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Publish(skdCallbackResult.JournalItems);
-				}
-				CopySKDStates(skdCallbackResult.SKDStates);
+				CopySKDStates(skdStates);
 				ServiceFactoryBase.Events.GetEvent<SKDObjectsStateChangedEvent>().Publish(null);
 			});
 		}
@@ -196,7 +192,9 @@ namespace SKDModule
 					var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
 					if (device != null)
 					{
-						remoteDeviceState.CopyToState(device.State);
+						device.State.UID = remoteDeviceState.UID;
+						device.State.StateClasses = remoteDeviceState.StateClasses.ToList();
+						device.State.StateClass = remoteDeviceState.StateClass;
 						device.State.OnStateChanged();
 					}
 				}
@@ -209,6 +207,17 @@ namespace SKDModule
 				{
 					remoteZoneState.CopyToState(zone.State);
 					zone.State.OnStateChanged();
+				}
+			}
+			foreach (var remoteDoorState in skdStates.DoorStates)
+			{
+				if (remoteDoorState == null)
+					continue;
+				var door = SKDManager.Doors.FirstOrDefault(x => x.UID == remoteDoorState.UID);
+				if (door != null)
+				{
+					remoteDoorState.CopyToState(door.State);
+					door.State.OnStateChanged();
 				}
 			}
 		}

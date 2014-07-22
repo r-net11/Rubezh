@@ -15,5 +15,7 @@ namespace ChinaSKDDriverAPI
 		public DateTime DeviceDateTime { get; set; }
 		public JournalEventNameType JournalEventNameType { get; set; }
 		public string Description { get; set; }
+		public int CardNo { get; set; }
+		public int DoorNo { get; set; }
 	}
 }
