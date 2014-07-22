@@ -32,7 +32,7 @@ namespace SKDModule.Plans.Designer
 		}
 		protected override StateTooltipViewModel<SKDDoor> CreateToolTip()
 		{
-			return new DoorTooltipViewModel(Item);
+			return new SKDDoorTooltipViewModel(Item);
 		}
 		protected override ContextMenu CreateContextMenu()
 		{

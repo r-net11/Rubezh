@@ -30,7 +30,7 @@
 							<TextBlock>
 								<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Source="/Controls;component/Images/zone.png" Margin="0 0 0 2" />
+										<Image Width="16" Source="/Controls;component/Images/Zone.png" Margin="0 0 0 2" />
 										<TextBlock Text="{Binding Zone.PresentationName}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
 									</StackPanel>
 								</Hyperlink>

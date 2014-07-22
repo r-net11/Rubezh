@@ -25,9 +25,6 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public XStateClass StateClass { get; set; }
 
-		[DataMember]
-		public List<XAdditionalState> AdditionalStates { get; set; }
-
 		public SKDDoor Door { get; private set; }
 
 		public SKDDoorState(SKDDoor door)
@@ -47,18 +44,6 @@ namespace FiresecAPI.SKD
 			IsInitialState = true;
 			IsConnectionLost = false;
 			IsDBMissmatch = false;
-		}
-
-		public void CopyToState(SKDDoorState state)
-		{
-			state.UID = UID;
-			state.StateClasses = StateClasses.ToList();
-			state.StateClass = StateClass;
-		}
-
-		public void CopyTo(SKDDoorState state)
-		{
-			state.UID = UID;
 		}
 
 		public event Action StateChanged;

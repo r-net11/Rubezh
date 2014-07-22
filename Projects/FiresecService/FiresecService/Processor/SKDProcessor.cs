@@ -118,10 +118,14 @@ namespace FiresecService
 		static List<XStateClass> GetZoneStateClasses(SKDZone zone)
 		{
 			var stateClasses = new List<XStateClass>();
-			foreach (var device in zone.Devices)
+			foreach (var readerDevice in zone.Devices)
 			{
-				if (!stateClasses.Contains(device.State.StateClass))
-					stateClasses.Add(device.State.StateClass);
+				var lockDevice = readerDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == readerDevice.IntAddress / 2);
+				if (lockDevice != null)
+				{
+					if (!stateClasses.Contains(lockDevice.State.StateClass))
+						stateClasses.Add(lockDevice.State.StateClass);
+				}
 			}
 			stateClasses.Sort();
 			if (stateClasses.Count == 0)
@@ -135,13 +139,12 @@ namespace FiresecService
 
 			if (door.InDevice != null)
 			{
-				if (!stateClasses.Contains(door.InDevice.State.StateClass))
-					stateClasses.Add(door.InDevice.State.StateClass);
-			}
-			if (door.OutDevice != null)
-			{
-				if (!stateClasses.Contains(door.OutDevice.State.StateClass))
-					stateClasses.Add(door.OutDevice.State.StateClass);
+				var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
+				if (lockDevice != null)
+				{
+					if (!stateClasses.Contains(lockDevice.State.StateClass))
+						stateClasses.Add(lockDevice.State.StateClass);
+				}
 			}
 
 			stateClasses.Sort();

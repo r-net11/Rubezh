@@ -3,22 +3,22 @@ using Infrastructure.Client.Plans.Presenter;
 
 namespace SKDModule.ViewModels
 {
-	public class SKDZoneTooltipViewModel : StateTooltipViewModel<SKDZone>
+	public class SKDDoorTooltipViewModel : StateTooltipViewModel<SKDDoor>
 	{
-		public SKDZone Zone
+		public SKDDoor Door
 		{
 			get { return Item; }
 		}
 
-		public SKDZoneTooltipViewModel(SKDZone zone)
-			: base(zone)
+		public SKDDoorTooltipViewModel(SKDDoor door)
+			: base(door)
 		{
 		}
 
 		public override void OnStateChanged()
 		{
 			base.OnStateChanged();
-			OnPropertyChanged(() => Zone);
+			OnPropertyChanged(() => Door);
 		}
 	}
 }

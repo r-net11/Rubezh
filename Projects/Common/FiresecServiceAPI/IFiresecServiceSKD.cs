@@ -161,6 +161,18 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> SKDCloseDevice(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDOpenZone(Guid zoneUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDCloseZone(Guid zoneUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDOpenDoor(Guid doorUID);
+
+		[OperationContract]
+		OperationResult<bool> SKDCloseDoor(Guid doorUID);
 		#endregion
 	}
 }

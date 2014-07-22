@@ -10,7 +10,7 @@
 			<Rectangle Fill="{Binding State.StateClass, Converter={StaticResource XStateClassToColorConverter2}}" StrokeThickness="2" Stroke="Black" Width="50" Height="50" Margin="0, 0, 0, 5" />
 			<StackPanel Orientation="Horizontal" VerticalAlignment="Top">
 				<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center"  Margin="5 0 0 0" />
-				<TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
+                <TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToSKDStringConverter}}" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
 			</StackPanel>
 		</StackPanel>
 		<TabControl Grid.Row="1">
@@ -21,7 +21,7 @@
 							<TextBlock>
 								<Hyperlink Command="{Binding ShowCommand}" Style="{StaticResource HyperlinkStyle2}">
 									<StackPanel Orientation="Horizontal">
-										<Image Width="16" Source="/Controls;component/Images/zone.png" Margin="0 0 0 2" />
+										<Image Width="16" Source="/Controls;component/Images/Zone.png" Margin="0 0 0 2" />
 										<TextBlock Text="{Binding Zone.Name}" VerticalAlignment="Center" TextWrapping="Wrap" FontWeight="Bold" />
 									</StackPanel>
 								</Hyperlink>
@@ -54,9 +54,9 @@
 			</TabItem>
 			<TabItem Header="Управление">
 				<StackPanel Background="White">
-					<Button Content="Открыть все двери" Command="{Binding OpenAllCommand}" Width="200" Height="50" Margin="2" />
-					<Button Content="Закрыть все двери" Command="{Binding CloseAllCommand}" Width="200" Height="50" Margin="2" />
-					<Button Content="Обнаружение сотрудников" Command="{Binding DetectEmployeesCommand}" Width="200" Height="50" Margin="2" />
+					<Button Content="Открыть все двери" Command="{Binding OpenCommand}" Width="200" Height="50" Margin="2" />
+					<Button Content="Закрыть все двери" Command="{Binding CloseCommand}" Width="200" Height="50" Margin="2" />
+					<Button Content="Обнаружение сотрудников" Command="{Binding DetectEmployeesCommand}" Width="200" Height="50" IsEnabled="False" Margin="2" />
 				</StackPanel>
 			</TabItem>
 		</TabControl>

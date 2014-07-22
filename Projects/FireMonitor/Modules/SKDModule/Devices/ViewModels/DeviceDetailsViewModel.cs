@@ -123,11 +123,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-			//var zone = Device.Zones.FirstOrDefault();
-			//if (zone != null)
-			//{
-			//	ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(zone.UID);
-			//}
+			if (Device.Zone != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(Device.Zone.UID);
+			}
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

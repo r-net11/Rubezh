@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
 using Infrastructure.Events;
+using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {
@@ -73,20 +74,16 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.InDeviceUID);
-				if (device != null)
+				var result = FiresecManager.FiresecService.SKDOpenDoor(Door.UID);
+				if (result.HasError)
 				{
-					var result = FiresecManager.FiresecService.SKDOpenDevice(device);
-					if (result.HasError)
-					{
-						MessageBoxService.ShowWarning(result.Error);
-					}
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
 		bool CanOpen()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Door.State.StateClass != XStateClass.On && Door.State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
@@ -94,20 +91,16 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.InDeviceUID);
-				if (device != null)
+				var result = FiresecManager.FiresecService.SKDCloseDoor(Door.UID);
+				if (result.HasError)
 				{
-					var result = FiresecManager.FiresecService.SKDCloseDevice(device);
-					if (result.HasError)
-					{
-						MessageBoxService.ShowWarning(result.Error);
-					}
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
 		bool CanClose()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Door.State.StateClass != XStateClass.Off && Door.State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public bool IsBold { get; set; }

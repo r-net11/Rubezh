@@ -4,7 +4,8 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+             xmlns:Views="clr-namespace:SKDModule.Views">
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -20,26 +21,24 @@
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
 									<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-									<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
 									<TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
 											<TextBlock.ContextMenu>
 												<ContextMenu>
-													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Команда" Command="{Binding ZoneCommand}" />
-													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Открыть все двери" Command="{Binding OpenCommand}" />
+                                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Закрыть все двери" Command="{Binding CloseCommand}" />
+													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/Map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 												</ContextMenu>
 											</TextBlock.ContextMenu>
-											<TextBlock.ToolTip>
-												<StackPanel>
-													<Image Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-													<TextBlock Text="{Binding Zone.Name}" FontWeight="Bold" />
-												</StackPanel>
-											</TextBlock.ToolTip>
 										</TextBlock>
 									<StackPanel.InputBindings>
 										<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
 									</StackPanel.InputBindings>
-								</StackPanel>
+                                    <StackPanel.ToolTip>
+                                        <Views:SKDZoneTooltipView />
+                                    </StackPanel.ToolTip>
+                                </StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

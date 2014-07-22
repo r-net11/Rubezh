@@ -29,10 +29,9 @@ void CALLBACK WRAP_DisConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPort,
 	WatchInfoList::iterator i;
 	for (i =  watchInfoList.begin(); i != watchInfoList.end(); ++i)
 	{
-		WRAP_WatchInfo watchInfo = *i;
-		if(watchInfo.LoginId == lLoginID)
+		if(i->LoginId == lLoginID)
 		{
-			watchInfo.IsConnected = false;
+			i->IsConnected = false;
 		}
 	}
 	AddCustomJournalItem(lLoginID, 1);
@@ -43,11 +42,10 @@ void CALLBACK WRAP_HaveReConnectFunc(LLONG lLoginID, char *pchDVRIP, LONG nDVRPo
 	WatchInfoList::iterator i;
 	for (i =  watchInfoList.begin(); i != watchInfoList.end(); ++i)
 	{
-		WRAP_WatchInfo watchInfo = *i;
-		if(watchInfo.LoginId == lLoginID)
+		if(i->LoginId == lLoginID)
 		{
-			watchInfo.IsConnected = false;
-			watchInfo.NeedToRestartListening = true;
+			i->IsConnected = false;
+			i->NeedToRestartListening = true;
 		}
 	}
 	AddCustomJournalItem(lLoginID, 2);
@@ -155,6 +153,7 @@ int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], ch
 		WRAP_WatchInfo watchInfo;
 		watchInfo.LoginId = lLoginHandle;
 		watchInfo.IsConnected = true;
+		watchInfo.NeedToRestartListening = false;
 		watchInfoList.insert(watchInfoList.end(), watchInfo);
 	}
 
@@ -173,8 +172,7 @@ BOOL CALL_METHOD WRAP_Disconnect(int loginID)
 	WatchInfoList::iterator i = watchInfoList.begin();
 	while (i != watchInfoList.end())
 	{
-		WRAP_WatchInfo watchInfo = *i;
-		if(watchInfo.LoginId == loginID)
+		if(i->LoginId == loginID)
 		{
 			watchInfoList.erase(i++);
 		}
@@ -193,12 +191,11 @@ int CALL_METHOD WRAP_GetLastIndex()
 	WatchInfoList::iterator i;
 	for (i =  watchInfoList.begin(); i != watchInfoList.end(); ++i)
 	{
-		WRAP_WatchInfo watchInfo = *i;
-		if(watchInfo.NeedToRestartListening == true)
+		if(i->NeedToRestartListening == true)
 		{
-			CLIENT_StopListen(watchInfo.LoginId);
-			BOOL bRet = CLIENT_StartListenEx(watchInfo.LoginId);
-			watchInfo.NeedToRestartListening = !bRet;
+			CLIENT_StopListen(i->LoginId);
+			BOOL bRet = CLIENT_StartListenEx(i->LoginId);
+			i->NeedToRestartListening = !bRet;
 		}
 	}
 
@@ -224,18 +221,4 @@ BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result)
 	result->nAction = journalItem.nAction;
 	result->emStatus = journalItem.emStatus;
 	return TRUE;
-}
-
-BOOL CALL_METHOD WRAP_IsConnected(int loginID)
-{
-	WatchInfoList::iterator i;
-	for (i =  watchInfoList.begin(); i != watchInfoList.end(); ++i)
-	{
-		WRAP_WatchInfo watchInfo = *i;
-		if(watchInfo.LoginId == loginID)
-		{
-			return watchInfo.IsConnected;
-		}
-	}
-	return FALSE;
 }

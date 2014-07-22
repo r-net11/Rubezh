@@ -68,7 +68,7 @@
 									<ComboBox.ItemTemplate>
 										<DataTemplate>
 											<DockPanel Background="Transparent">
-												<Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" DockPanel.Dock="Left" Source="/Controls;component/Images/zone.png" />
+												<Image Height="16" Margin="1 0 0 0" VerticalAlignment="Center" DockPanel.Dock="Left" Source="/Controls;component/Images/Zone.png" />
 												<TextBlock Margin="2" VerticalAlignment="Center" Foreground="Black" Text="{Binding Name}" />
 											</DockPanel>
 										</DataTemplate>

@@ -282,11 +282,11 @@
     <Compile Include="Plans\Designer\SKDZonePainter.cs" />
     <Compile Include="Plans\PlanMonitor.cs" />
     <Compile Include="Plans\PlanPresenter.cs" />
-    <Compile Include="Plans\ViewModels\DoorTooltipViewModel.cs" />
+    <Compile Include="Plans\ViewModels\SKDDoorTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDDeviceTooltipViewModel.cs" />
     <Compile Include="Plans\ViewModels\SKDZoneTooltipViewModel.cs" />
-    <Compile Include="Plans\Views\DoorTooltipView.xaml.cs">
-      <DependentUpon>DoorTooltipView.xaml</DependentUpon>
+    <Compile Include="Plans\Views\SKDDoorTooltipView.xaml.cs">
+      <DependentUpon>SKDDoorTooltipView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\SKDDeviceTooltipView.xaml.cs">
       <DependentUpon>SKDDeviceTooltipView.xaml</DependentUpon>
@@ -323,9 +323,6 @@
     </Compile>
     <Compile Include="Zones\Views\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Zones\Views\ZoneView.xaml.cs">
-      <DependentUpon>ZoneView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Organisations\ViewModels\OrganisationDetailsViewModel.cs" />
     <Compile Include="Organisations\ViewModels\OrganisationsViewModel.cs" />
@@ -583,7 +580,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Plans\Views\DoorTooltipView.xaml">
+    <Page Include="Plans\Views\SKDDoorTooltipView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -652,10 +649,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Zones\Views\ZonesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Zones\Views\ZoneView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

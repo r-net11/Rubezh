@@ -293,14 +293,34 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDSetDoorConfiguration(deviceUID, doorConfiguration); }, "SKDSetDoorConfiguration");
 		}
 
-		public OperationResult<bool> SKDOpenDevice(SKDDevice device)
+		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(device.UID); }, "SKDOpenDevice");
+			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(deviceUID); }, "SKDOpenDevice");
 		}
 
-		public OperationResult<bool> SKDCloseDevice(SKDDevice device)
+		public OperationResult<bool> SKDCloseDevice(Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(device.UID); }, "SKDCloseDevice");
+			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
+		}
+
+		public OperationResult<bool> SKDOpenZone(Guid zoneUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDOpenZone(zoneUID); }, "SKDOpenZone");
+		}
+
+		public OperationResult<bool> SKDCloseZone(Guid zoneUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDCloseZone(zoneUID); }, "SKDCloseZone");
+		}
+
+		public OperationResult<bool> SKDOpenDoor(Guid doorUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDOpenDoor(doorUID); }, "SKDOpenDoor");
+		}
+
+		public OperationResult<bool> SKDCloseDoor(Guid doorUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDCloseDoor(doorUID); }, "SKDCloseDoor");
 		}
 		#endregion
 	}

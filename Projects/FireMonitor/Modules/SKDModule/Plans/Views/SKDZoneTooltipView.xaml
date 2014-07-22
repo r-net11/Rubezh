@@ -9,12 +9,18 @@
 	</UserControl.Resources>
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Image Width="16" Height="16" Margin="2" Source="/Controls;component/Images/zone.png" />
-			<TextBlock FontWeight="Bold" Text="{Binding Zone.Name}" />
-		</StackPanel>
-		<StackPanel Orientation="Horizontal">
-			<Image Width="16" Height="16" Margin="0 0 2 0" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-			<TextBlock Text="{Binding State.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
-		</StackPanel>
+            <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
+            <TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding Zone.Name}" />
+        </StackPanel>
+		<ItemsControl ItemsSource="{Binding Zone.State.StateClasses}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" />
+						<TextBlock VerticalAlignment="Center" Text="{Binding ., Converter={StaticResource XStateClassToSKDStringConverter}}" />
+					</StackPanel>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
 	</StackPanel>
 </UserControl>

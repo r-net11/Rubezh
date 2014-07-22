@@ -192,7 +192,6 @@ namespace SKDModule
 					var device = SKDManager.Devices.FirstOrDefault(x => x.UID == remoteDeviceState.UID);
 					if (device != null)
 					{
-						device.State.UID = remoteDeviceState.UID;
 						device.State.StateClasses = remoteDeviceState.StateClasses.ToList();
 						device.State.StateClass = remoteDeviceState.StateClass;
 						device.State.OnStateChanged();
@@ -205,7 +204,8 @@ namespace SKDModule
 				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
 				if (zone != null)
 				{
-					remoteZoneState.CopyToState(zone.State);
+					zone.State.StateClasses = remoteZoneState.StateClasses.ToList();
+					zone.State.StateClass = remoteZoneState.StateClass;
 					zone.State.OnStateChanged();
 				}
 			}
@@ -216,7 +216,8 @@ namespace SKDModule
 				var door = SKDManager.Doors.FirstOrDefault(x => x.UID == remoteDoorState.UID);
 				if (door != null)
 				{
-					remoteDoorState.CopyToState(door.State);
+					door.State.StateClasses = remoteDoorState.StateClasses.ToList();
+					door.State.StateClass = remoteDoorState.StateClass;
 					door.State.OnStateChanged();
 				}
 			}

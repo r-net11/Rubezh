@@ -187,7 +187,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
-								<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/zone.png" VerticalAlignment="Center" />
+								<Image Margin="1 0 0 0" Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" />
 								<TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="2" />
 							</StackPanel>
 						</DataTemplate>
