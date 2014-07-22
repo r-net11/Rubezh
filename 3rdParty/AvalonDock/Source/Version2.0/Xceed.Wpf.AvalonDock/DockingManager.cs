@@ -317,8 +317,8 @@ namespace Xceed.Wpf.AvalonDock
 				return new LayoutAnchorablePaneGroupControl(model as LayoutAnchorablePaneGroup);
 			if (model is LayoutDocumentPaneGroup)
 				return new LayoutDocumentPaneGroupControl(model as LayoutDocumentPaneGroup);
-			//if (model is LayoutDocumentPaneTab)
-			//    return new LayoutDocumentPaneTabControl(model as LayoutDocumentPaneTab);
+			if (model is LayoutDocumentPaneTab)
+				return new LayoutDocumentPaneTabControl(model as LayoutDocumentPaneTab);
 
 			if (model is LayoutAnchorSide)
 			{

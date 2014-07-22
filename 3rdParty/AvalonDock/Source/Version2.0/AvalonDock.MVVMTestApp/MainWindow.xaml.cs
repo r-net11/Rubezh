@@ -41,7 +41,8 @@ namespace AvalonDock.MVVMTestApp
 			var serializer = new Xceed.Wpf.AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
 			serializer.LayoutSerializationCallback += (s, args) =>
 			{
-				args.Content = args.Content;
+				if (args.Content == null)
+					args.Content = new FileViewModel(args.Model.ContentId);
 			};
 
 			if (File.Exists(@".\AvalonDock.config"))
@@ -89,7 +90,8 @@ namespace AvalonDock.MVVMTestApp
 					//    e.Content = Workspace.This.FileStats;
 					//else if (!string.IsNullOrWhiteSpace(e.Model.ContentId) &&
 					//    File.Exists(e.Model.ContentId))
-					//    e.Content = Workspace.This.Open(e.Model.ContentId);
+					//e.Content = Workspace.This.Open(e.Model.ContentId);
+					e.Content = new FileViewModel(e.Model.ContentId);
 				};
 			layoutSerializer.Deserialize(@".\AvalonDock.Layout.config");
 		}
