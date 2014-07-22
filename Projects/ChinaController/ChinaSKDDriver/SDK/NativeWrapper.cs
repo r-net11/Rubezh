@@ -592,8 +592,18 @@ namespace ChinaSKDDriverNativeApi
 		//[UnmanagedFunctionPointer(CallingConvention.StdCall)]
 		public delegate void fDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
 
+		public delegate void fHaveReConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+
+		public delegate bool fMessCallBackDelegate(Int32 lCommand, Int32 lLoginID, IntPtr pBuf, UInt32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
+
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern Boolean CLIENT_Init(fDisConnectDelegate cbDisConnect, UInt32 dwUser);
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern void CLIENT_SetAutoReconnect(fHaveReConnectDelegate cbAutoConnect, UInt32 dwUser);
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern void CLIENT_SetDVRMessCallBack(fMessCallBackDelegate cbMessage, UInt32 dwUser);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct NET_DEVICEINFO
@@ -609,6 +619,12 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern Int32 CLIENT_Login(String pchDVRIP, UInt16 wDVRPort, String pchUserName, String pchPassword, out NET_DEVICEINFO lpDeviceInfo, out Int32 error);
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern bool CLIENT_StartListenEx(Int32 lLoginID);
+
+		[DllImport(@"dhnetsdk.dll")]
+		public static extern bool CLIENT_StopListen(Int32 lLoginID);
 
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern bool CLIENT_Cleanup();
