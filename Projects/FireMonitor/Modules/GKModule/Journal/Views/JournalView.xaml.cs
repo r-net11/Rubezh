@@ -24,7 +24,7 @@ namespace GKModule.Views
 		{
 			try
 			{
-				List<JournalColumnType> additionalColumns;
+				List<XJournalColumnType> additionalColumns;
 				if ((DataContext as JournalViewModel) != null)
 				{
 					var dataContext = DataContext as JournalViewModel;
@@ -60,17 +60,17 @@ namespace GKModule.Views
 					return;
 				}
 
-				if (additionalColumns.Any(x => x == JournalColumnType.GKIpAddress))
+				if (additionalColumns.Any(x => x == XJournalColumnType.GKIpAddress))
 					ipColumn.Visibility = System.Windows.Visibility.Visible;
 				else
 					ipColumn.Visibility = System.Windows.Visibility.Collapsed;
 
-				if (additionalColumns.Any(x => x == JournalColumnType.SubsystemType))
+				if (additionalColumns.Any(x => x == XJournalColumnType.SubsystemType))
 					subsystemColumn.Visibility = System.Windows.Visibility.Visible;
 				else
 					subsystemColumn.Visibility = System.Windows.Visibility.Collapsed;
 
-				if (additionalColumns.Any(x => x == JournalColumnType.UserName))
+				if (additionalColumns.Any(x => x == XJournalColumnType.UserName))
 					userColumn.Visibility = System.Windows.Visibility.Visible;
 				else
 					userColumn.Visibility = System.Windows.Visibility.Collapsed;

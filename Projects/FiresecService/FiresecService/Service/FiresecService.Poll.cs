@@ -70,12 +70,12 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
-		public static void NotifySKDArchiveCompleted(List<JournalItem> journallItems, Guid archivePortionUID)
+		public static void NotifyArchiveCompleted(List<JournalItem> journallItems, Guid archivePortionUID)
 		{
 			var callbackResult = new CallbackResult()
 			{
 				ArchivePortionUID = archivePortionUID,
-				CallbackResultType = CallbackResultType.SKDArchiveCompleted,
+				CallbackResultType = CallbackResultType.ArchiveCompleted,
 				JournalItems = journallItems,
 			};
 			CallbackManager.Add(callbackResult);

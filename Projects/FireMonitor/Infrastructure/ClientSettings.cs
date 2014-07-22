@@ -94,8 +94,10 @@ namespace Infrastructure
 				{
 					var dataContractSerializer = new DataContractSerializer(typeof(ArchiveDefaultState));
 					ArchiveDefaultState = (ArchiveDefaultState)dataContractSerializer.ReadObject(fileStream);
-					if (ArchiveDefaultState.AdditionalColumns == null)
-						ArchiveDefaultState.AdditionalColumns = new List<JournalColumnType>();
+					if (ArchiveDefaultState.XAdditionalColumns == null)
+						ArchiveDefaultState.XAdditionalColumns = new List<XJournalColumnType>();
+					if (ArchiveDefaultState.AdditionalJournalColumnTypes == null)
+						ArchiveDefaultState.AdditionalJournalColumnTypes = new List<JournalColumnType>();
 				}
 			}
 			else

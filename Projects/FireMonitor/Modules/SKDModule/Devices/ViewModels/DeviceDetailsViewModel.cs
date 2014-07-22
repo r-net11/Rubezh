@@ -132,11 +132,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showSKDArchiveEventArgs = new ShowSKDArchiveEventArgs()
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
 			{
 				Device = Device
 			};
-			ServiceFactory.Events.GetEvent<ShowSKDArchiveEvent>().Publish(showSKDArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 
 		#region IWindowIdentity Members

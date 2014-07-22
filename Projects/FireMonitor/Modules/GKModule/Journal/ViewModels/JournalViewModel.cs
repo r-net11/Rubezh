@@ -14,7 +14,7 @@ namespace GKModule.ViewModels
 	public class JournalViewModel : BaseViewModel
 	{
 		public JournalFilterViewModel JournalFilterViewModel { get; private set; }
-		
+
 		public JournalViewModel(XJournalFilter journalFilter)
 		{
 			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
@@ -26,25 +26,6 @@ namespace GKModule.ViewModels
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 		}
 
-		public List<JournalColumnType> AdditionalColumns
-		{
-			get
-			{
-				return ClientSettings.ArchiveDefaultState.AdditionalColumns;
-			}
-		}
-
-		bool additionalColumnsChanged;
-		public bool AdditionalColumnsChanged
-		{
-			get { return additionalColumnsChanged; }
-			set
-			{
-				additionalColumnsChanged = value;
-				OnPropertyChanged("AdditionalColumnsChanged");
-			}
-		}
-		
 		ObservableCollection<JournalItemViewModel> _journalItems;
 		public ObservableCollection<JournalItemViewModel> JournalItems
 		{
@@ -52,7 +33,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_journalItems = value;
-				OnPropertyChanged("JournalItems");
+				OnPropertyChanged(() => JournalItems);
 			}
 		}
 
@@ -63,7 +44,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedJournal = value;
-				OnPropertyChanged("SelectedJournal");
+				OnPropertyChanged(() => SelectedJournal);
 			}
 		}
 
@@ -90,9 +71,25 @@ namespace GKModule.ViewModels
 				SelectedJournal = JournalItems.FirstOrDefault();
 		}
 
+		public List<XJournalColumnType> AdditionalColumns
+		{
+			get { return ClientSettings.ArchiveDefaultState.XAdditionalColumns; }
+		}
+
+		bool additionalColumnsChanged;
+		public bool AdditionalColumnsChanged
+		{
+			get { return additionalColumnsChanged; }
+			set
+			{
+				additionalColumnsChanged = value;
+				OnPropertyChanged(() => AdditionalColumnsChanged);
+			}
+		}
+
 		void OnSettingsChanged(object o)
 		{
-			AdditionalColumnsChanged = !AdditionalColumnsChanged; 
+			AdditionalColumnsChanged = !AdditionalColumnsChanged;
 		}
 	}
 }

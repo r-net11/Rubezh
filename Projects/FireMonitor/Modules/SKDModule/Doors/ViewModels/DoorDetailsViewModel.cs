@@ -27,6 +27,7 @@ namespace SKDModule.ViewModels
 		public DoorDetailsViewModel(SKDDoor door)
 		{
 			ShowCommand = new RelayCommand(OnShow);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
 			CloseCommand = new RelayCommand(OnClose, CanClose);
 
@@ -108,6 +109,16 @@ namespace SKDModule.ViewModels
 		void OnShow()
 		{
 			ServiceFactory.Events.GetEvent<ShowSKDDoorEvent>().Publish(Door.UID);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
+			{
+				Door = Door
+			};
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 
 		public bool CanControl

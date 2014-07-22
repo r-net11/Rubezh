@@ -86,11 +86,11 @@ namespace FiltersModule.ViewModels
 			var objectsFilter = FilterObjectsViewModel.GetModel();
 			foreach (var journalSubsystemTypes in objectsFilter.JournalSubsystemTypes)
 			{
-				if (!namesFilter.JournalSubsystemTypes.Contains(journalSubsystemTypes))
-					namesFilter.JournalSubsystemTypes.Add(journalSubsystemTypes);
+				if (!Filter.JournalSubsystemTypes.Contains(journalSubsystemTypes))
+					Filter.JournalSubsystemTypes.Add(journalSubsystemTypes);
 			}
-			namesFilter.JournalObjectTypes = objectsFilter.JournalObjectTypes;
-			namesFilter.ObjectUIDs = objectsFilter.ObjectUIDs;
+			Filter.JournalObjectTypes = objectsFilter.JournalObjectTypes;
+			Filter.ObjectUIDs = objectsFilter.ObjectUIDs;
 
 			return base.Save();
 		}

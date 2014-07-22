@@ -39,7 +39,7 @@ namespace FiresecAPI
 		GKArchiveCompleted,
 		SKDObjectStateChanged,
 		NewEvents,
-		SKDArchiveCompleted,
+		ArchiveCompleted,
 		ConfigurationChanged,
 		Disconnecting
 	}

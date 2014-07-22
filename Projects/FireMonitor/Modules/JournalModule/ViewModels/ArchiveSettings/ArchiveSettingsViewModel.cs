@@ -64,13 +64,11 @@ namespace JournalModule.ViewModels
 			}
 
 			AdditionalColumns = new List<JournalColumnTypeViewModel>();
-			if (archiveDefaultState.AdditionalColumns == null)
-				archiveDefaultState.AdditionalColumns = new List<JournalColumnType>();
 			foreach (JournalColumnType journalColumnType in Enum.GetValues(typeof(JournalColumnType)))
 			{
 				var journalColumnTypeViewModel = new JournalColumnTypeViewModel(journalColumnType);
 				AdditionalColumns.Add(journalColumnTypeViewModel);
-				if (archiveDefaultState.AdditionalColumns.Any(x => x == journalColumnType))
+				if (archiveDefaultState.AdditionalJournalColumnTypes.Any(x => x == journalColumnType))
 				{
 					journalColumnTypeViewModel.IsChecked = true;
 				}
@@ -89,7 +87,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_checkedArchiveDefaultStateType = value;
-				OnPropertyChanged("CheckedArchiveDefaultStateType");
+				OnPropertyChanged(() => CheckedArchiveDefaultStateType);
 			}
 		}
 
@@ -116,7 +114,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_pageSize = value;
-				OnPropertyChanged("PageSize");
+				OnPropertyChanged(() => PageSize);
 			}
 		}
 
@@ -145,11 +143,11 @@ namespace JournalModule.ViewModels
 				default:
 					break;
 			}
-			ArchiveDefaultState.AdditionalColumns = new List<JournalColumnType>();
+			ArchiveDefaultState.AdditionalJournalColumnTypes = new List<JournalColumnType>();
 			foreach (var journalColumnTypeViewModel in AdditionalColumns)
 			{
 				if (journalColumnTypeViewModel.IsChecked)
-					ArchiveDefaultState.AdditionalColumns.Add(journalColumnTypeViewModel.JournalColumnType);
+					ArchiveDefaultState.AdditionalJournalColumnTypes.Add(journalColumnTypeViewModel.JournalColumnType);
 			}
 
 			if (PageSize < 10)

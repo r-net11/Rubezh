@@ -8,16 +8,16 @@ namespace GKModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var journalColumnType = (JournalColumnType)value;
+			var journalColumnType = (XJournalColumnType)value;
 			switch (journalColumnType)
 			{
-				case JournalColumnType.GKIpAddress:
+				case XJournalColumnType.GKIpAddress:
 					return "/Controls;component/GKIcons/GK.png";
 
-				case JournalColumnType.SubsystemType:
+				case XJournalColumnType.SubsystemType:
 					return "/Controls;component/Images/PC.png";
 
-				case JournalColumnType.UserName:
+				case XJournalColumnType.UserName:
 					return "/Controls;component/Images/PCUser.png";
 				
 				default:

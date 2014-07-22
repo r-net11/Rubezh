@@ -10,6 +10,8 @@ using SKDModule.ViewModels;
 using Infrastructure.Events;
 using System.Windows.Media;
 using FiresecAPI.GK;
+using Infrastructure.Common;
+using Infrastructure;
 
 namespace SKDModule.Plans.Designer
 {
@@ -35,12 +37,15 @@ namespace SKDModule.Plans.Designer
 		}
 		protected override ContextMenu CreateContextMenu()
 		{
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
+
 			var contextMenu = new ContextMenu();
 			if (Item != null)
 			{
-				contextMenu.Items.Add(Helper.CreateShowInTreeItem());
 				contextMenu.Items.Add(UIHelper.BuildMenuItem("Открыть", "pack://application:,,,/Controls;component/Images/BTurnOn.png", _zoneViewModel.OpenCommand));
 				contextMenu.Items.Add(UIHelper.BuildMenuItem("Закрыть", "pack://application:,,,/Controls;component/Images/BTurnOff.png", _zoneViewModel.CloseCommand));
+				contextMenu.Items.Add(Helper.CreateShowInTreeItem());
+				contextMenu.Items.Add(UIHelper.BuildMenuItem("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
 				contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
 			}
 			return contextMenu;
@@ -48,6 +53,16 @@ namespace SKDModule.Plans.Designer
 		protected override WindowBaseViewModel CreatePropertiesViewModel()
 		{
 			return new ZoneDetailsViewModel(Item);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
+			{
+				Zone = Item
+			};
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 
 		protected override Color GetStateColor()

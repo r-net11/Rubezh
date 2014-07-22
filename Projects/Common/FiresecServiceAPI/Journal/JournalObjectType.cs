@@ -28,19 +28,19 @@ namespace FiresecAPI.Journal
 		[DescriptionAttribute("ПИМ ГК")]
 		GKPim,
 
-		[DescriptionAttribute("Охранная Зона ГК")]
+		[DescriptionAttribute("Охранные Зоны ГК")]
 		GKGuardZone,
 
-		[DescriptionAttribute("Устройство СКД")]
+		[DescriptionAttribute("Устройства СКД")]
 		SKDDevice,
 
-		[DescriptionAttribute("Зона СКД")]
+		[DescriptionAttribute("Зоны СКД")]
 		SKDZone,
 
-		[DescriptionAttribute("Точка доступа СКД")]
+		[DescriptionAttribute("Точки доступа СКД")]
 		SKDDoor,
 
-		[DescriptionAttribute("Видеоустройство")]
+		[DescriptionAttribute("Видеоустройства")]
 		VideoDevice,
 	}
 }

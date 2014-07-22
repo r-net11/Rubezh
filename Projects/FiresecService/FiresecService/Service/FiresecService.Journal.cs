@@ -203,7 +203,7 @@ namespace FiresecService.Service
 
 		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
 		{
-			FiresecService.NotifySKDArchiveCompleted(journalItems, archivePortionUID);
+			FiresecService.NotifyArchiveCompleted(journalItems, archivePortionUID);
 		}
 
 		public List<JournalEventDescriptionType> GetDistinctEventDescriptions()

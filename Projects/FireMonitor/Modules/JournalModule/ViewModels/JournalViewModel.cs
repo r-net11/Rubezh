@@ -5,6 +5,8 @@ using FiresecAPI.Journal;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.Models;
+using JournalModule.Events;
 
 namespace JournalModule.ViewModels
 {
@@ -19,6 +21,8 @@ namespace JournalModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Unsubscribe(OnNewJournalItems);
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItems);
+			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
+			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -28,7 +32,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_journalItems = value;
-				OnPropertyChanged("JournalItems");
+				OnPropertyChanged(() => JournalItems);
 			}
 		}
 
@@ -39,7 +43,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_selectedJournal = value;
-				OnPropertyChanged("SelectedJournal");
+				OnPropertyChanged(() => SelectedJournal);
 			}
 		}
 
@@ -59,6 +63,27 @@ namespace JournalModule.ViewModels
 
 			if (SelectedJournal == null)
 				SelectedJournal = JournalItems.FirstOrDefault();
+		}
+
+		public List<JournalColumnType> AdditionalColumns
+		{
+			get { return ClientSettings.ArchiveDefaultState.AdditionalJournalColumnTypes; }
+		}
+
+		bool additionalColumnsChanged;
+		public bool AdditionalColumnsChanged
+		{
+			get { return additionalColumnsChanged; }
+			set
+			{
+				additionalColumnsChanged = value;
+				OnPropertyChanged(() => AdditionalColumnsChanged);
+			}
+		}
+
+		void OnSettingsChanged(object o)
+		{
+			AdditionalColumnsChanged = !AdditionalColumnsChanged;
 		}
 	}
 }

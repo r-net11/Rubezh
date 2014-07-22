@@ -27,6 +27,7 @@ namespace SKDModule.ViewModels
 		public ZoneDetailsViewModel(SKDZone zone)
 		{
 			ShowCommand = new RelayCommand(OnShow);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
 			CloseCommand = new RelayCommand(OnClose, CanClose);
 			DetectEmployeesCommand = new RelayCommand(OnDetectEmployees, CanDetectEmployees);
@@ -126,6 +127,16 @@ namespace SKDModule.ViewModels
 		void OnShow()
 		{
 			ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(Zone.UID);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
+			{
+				Zone = Zone
+			};
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 
 		public bool CanControl

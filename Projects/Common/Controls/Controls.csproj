@@ -184,6 +184,7 @@
     <Compile Include="Converters\XStateClassToGuardZoneColorConverter.cs" />
     <Compile Include="Converters\XGuardZoneDeviceActionTypeToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToSKDStringConverter.cs" />
+    <Compile Include="Converters\JournalSubsystemTypeToIconConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="GridSplitterFix.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />

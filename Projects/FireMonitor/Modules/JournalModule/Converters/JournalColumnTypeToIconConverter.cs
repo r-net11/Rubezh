@@ -11,9 +11,6 @@ namespace JournalModule.Converters
 			var journalColumnType = (JournalColumnType)value;
 			switch (journalColumnType)
 			{
-				case JournalColumnType.GKIpAddress:
-					return "/Controls;component/GKIcons/GK.png";
-
 				case JournalColumnType.SubsystemType:
 					return "/Controls;component/Images/PC.png";
 

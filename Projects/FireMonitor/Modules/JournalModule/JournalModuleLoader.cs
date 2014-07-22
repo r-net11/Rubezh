@@ -27,6 +27,8 @@ namespace JournalModule
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItem);
 			JournalViewModel = new JournalViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Unsubscribe(OnShowArchive);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(OnShowArchive);
 		}
 
 		int _unreadJournalCount;
@@ -52,6 +54,14 @@ namespace JournalModule
 				UnreadJournalCount += journalItems.Count;
 		}
 
+		void OnShowArchive(ShowArchiveEventArgs showArchiveEventArgs)
+		{
+			if (showArchiveEventArgs != null)
+			{
+				ArchiveViewModel.Sort(showArchiveEventArgs);
+			}
+		}
+
 		public override void Initialize()
 		{
 			JournalViewModel.Initialize();
@@ -59,12 +69,12 @@ namespace JournalModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalViewModel, "Журнал событий", "/Controls;component/Images/book.png");
+			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalViewModel, "Журнал событий", "/Controls;component/Images/Book.png");
 			UnreadJournalCount = 0;
 			return new List<NavigationItem>()
 			{
 				_journalNavigationItem,
-				new NavigationItem<ShowArchiveEvent>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
+				new NavigationItem<ShowArchiveEvent, ShowArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/Archive.png")
 			};
 		}
 		public override string Name
@@ -77,8 +87,8 @@ namespace JournalModule
 			SafeFiresecService.NewJournalItemEvent -= new Action<JournalItem>(OnNewJournalItem);
 			SafeFiresecService.NewJournalItemEvent += new Action<JournalItem>(OnNewJournalItem);
 
-			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
-			SafeFiresecService.GetFilteredSKDArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredSKDArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredArchiveCompletedEvent -= new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
+			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalItem>, Guid>(OnGetFilteredArchiveCompletedEvent);
 
 			var journalFilter = new JournalFilter();
 			var result = FiresecManager.FiresecService.GetFilteredJournalItems(journalFilter);
@@ -98,16 +108,16 @@ namespace JournalModule
 			});
 		}
 
-		void OnGetFilteredSKDArchiveCompletedEvent(IEnumerable<JournalItem> journalItems, Guid archivePortionUID)
+		void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalItem> journalItems, Guid archivePortionUID)
 		{
 			ApplicationService.Invoke(() =>
 			{
-				var archiveResult = new SKDArchiveResult()
+				var archiveResult = new ArchiveResult()
 				{
 					ArchivePortionUID = archivePortionUID,
 					JournalItems = journalItems
 				};
-				ServiceFactory.Events.GetEvent<GetFilteredSKDArchiveCompletedEvent>().Publish(archiveResult);
+				ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(archiveResult);
 			});
 		}
 

@@ -55,6 +55,7 @@
 	<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 	<Converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
     <Converters:XGuardZoneDeviceActionTypeToIconConverter x:Key="XGuardZoneDeviceActionTypeToIconConverter" />
+    <Converters:JournalSubsystemTypeToIconConverter x:Key="JournalSubsystemTypeToIconConverter" />
 	
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 	

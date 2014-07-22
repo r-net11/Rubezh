@@ -28,6 +28,7 @@
 													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Открыть все двери" Command="{Binding OpenCommand}" />
                                                     <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Закрыть все двери" Command="{Binding CloseCommand}" />
 													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/Map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+                                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 												</ContextMenu>
 											</TextBlock.ContextMenu>

@@ -47,7 +47,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_startDateTime = value;
-				OnPropertyChanged("StartDateTime");
+				OnPropertyChanged(() => StartDateTime);
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_endDateTime = value;
-				OnPropertyChanged("EndDateTime");
+				OnPropertyChanged(() => EndDateTime);
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				useDeviceDateTime = value;
-				OnPropertyChanged("UseDeviceDateTime");
+				OnPropertyChanged(() => UseDeviceDateTime);
 			}
 		}
 

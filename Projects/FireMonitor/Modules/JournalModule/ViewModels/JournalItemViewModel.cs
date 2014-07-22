@@ -69,7 +69,7 @@ namespace JournalModule.ViewModels
 			}
 
 			IsExistsInConfig = true;
-			ObjectImageSource = "/Controls;component/Images/blank.png";
+			ObjectImageSource = "/Controls;component/Images/Blank.png";
 			StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 
 			switch (JournalItem.JournalObjectType)
@@ -249,7 +249,7 @@ namespace JournalModule.ViewModels
 						ShowObjectEvent = ServiceFactory.Events.GetEvent<ShowCameraEvent>();
 						ShowObjectDetailsEvent = ServiceFactory.Events.GetEvent<ShowCameraDetailsEvent>();
 					}
-					ObjectImageSource = "/Controls;component/Images/camera.png";
+					ObjectImageSource = "/Controls;component/Images/Camera.png";
 					break;
 
 				case JournalObjectType.None:

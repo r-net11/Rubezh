@@ -10,7 +10,8 @@ namespace Infrastructure.Models
 		public ArchiveDefaultState()
 		{
 			ArchiveDefaultStateType = ArchiveDefaultStateType.LastDays;
-			AdditionalColumns = new List<JournalColumnType>();
+			XAdditionalColumns = new List<XJournalColumnType>();
+			AdditionalJournalColumnTypes = new List<JournalColumnType>();
 			Count = 1;
 			PageSize = 100;
 		}
@@ -28,7 +29,10 @@ namespace Infrastructure.Models
 		public DateTime? EndDate { get; set; }
 
 		[DataMember]
-		public List<JournalColumnType> AdditionalColumns { get; set; }
+		public List<XJournalColumnType> XAdditionalColumns { get; set; }
+
+		[DataMember]
+		public List<JournalColumnType> AdditionalJournalColumnTypes { get; set; }
 
 		[DataMember]
 		public int PageSize { get; set; }

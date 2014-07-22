@@ -34,13 +34,15 @@ namespace JournalModule.ViewModels
 			LastPageCommand = new RelayCommand(OnLastPage, CanLastPage);
 			Pages = new ObservableCollection<ArchivePageViewModel>();
 
-			ServiceFactory.Events.GetEvent<SKDJournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
-			ServiceFactory.Events.GetEvent<SKDJournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
+			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
+			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 			ArchiveDefaultState = ClientSettings.ArchiveDefaultState;
 			if (ArchiveDefaultState == null)
 				ArchiveDefaultState = new ArchiveDefaultState();
 
-			ServiceFactory.Events.GetEvent<GetFilteredSKDArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
+			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
+			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
+			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 		}
 
 		public void Initialize()
@@ -64,7 +66,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_pages = value;
-				OnPropertyChanged("Pages");
+				OnPropertyChanged(() => Pages);
 			}
 		}
 
@@ -75,19 +77,25 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_selectedPage = value;
-				OnPropertyChanged("SelectedPage");
+				OnPropertyChanged(() => SelectedPage);
 			}
 		}
 
-		public void Sort(ShowSKDArchiveEventArgs showSKDArchiveEventArgs)
+		public void Sort(ShowArchiveEventArgs showSKDArchiveEventArgs)
 		{
 			ArchiveFilter = new ArchiveFilter();
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
+
 			if (showSKDArchiveEventArgs.Device != null)
 				ArchiveFilter.ObjectUIDs.Add(showSKDArchiveEventArgs.Device.UID);
+			if (showSKDArchiveEventArgs.Zone != null)
+				ArchiveFilter.ObjectUIDs.Add(showSKDArchiveEventArgs.Zone.UID);
+			if (showSKDArchiveEventArgs.Door != null)
+				ArchiveFilter.ObjectUIDs.Add(showSKDArchiveEventArgs.Door.UID);
+
 			IsFilterOn = true;
-			OnPropertyChanged("IsFilterExists");
+			OnPropertyChanged(() => IsFilterExists);
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -97,7 +105,7 @@ namespace JournalModule.ViewModels
 			private set
 			{
 				_journalItems = value;
-				OnPropertyChanged("JournalItems");
+				OnPropertyChanged(() => JournalItems);
 			}
 		}
 
@@ -108,7 +116,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_selectedJournal = value;
-				OnPropertyChanged("SelectedJournal");
+				OnPropertyChanged(() => SelectedJournal);
 			}
 		}
 
@@ -122,7 +130,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_isFilterOn = value;
-				OnPropertyChanged("IsFilterOn");
+				OnPropertyChanged(() => IsFilterOn);
 				Update();
 			}
 		}
@@ -150,7 +158,7 @@ namespace JournalModule.ViewModels
 				if (DialogService.ShowModalWindow(archiveFilterViewModel))
 				{
 					ArchiveFilter = archiveFilterViewModel.GetModel();
-					OnPropertyChanged("IsFilterExists");
+					OnPropertyChanged(() => IsFilterExists);
 					IsFilterOn = true;
 				}
 			}
@@ -166,7 +174,7 @@ namespace JournalModule.ViewModels
 				{
 					ArchiveDefaultState = archiveSettingsViewModel.ArchiveDefaultState;
 					ClientSettings.ArchiveDefaultState = ArchiveDefaultState;
-					ServiceFactory.Events.GetEvent<SKDJournalSettingsUpdatedEvent>().Publish(null);
+					ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Publish(null);
 					if (IsFilterOn == false)
 						Update();
 				}
@@ -224,8 +232,8 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_status = value;
-				OnPropertyChanged("Status");
-				OnPropertyChanged("IsLoading");
+				OnPropertyChanged(() => Status);
+				OnPropertyChanged(() => IsLoading);
 			}
 		}
 
@@ -281,8 +289,8 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_totalPageNumber = value;
-				OnPropertyChanged("TotalPageNumber");
-				OnPropertyChanged("HasPages");
+				OnPropertyChanged(() => TotalPageNumber);
+				OnPropertyChanged(() => HasPages);
 			}
 		}
 
@@ -298,7 +306,7 @@ namespace JournalModule.ViewModels
 					value = Pages.Count;
 
 				_currentPageNumber = value;
-				OnPropertyChanged("CurrentPageNumber");
+				OnPropertyChanged(() => CurrentPageNumber);
 
 				if (value > 0 && value <= Pages.Count)
 				{
@@ -318,25 +326,6 @@ namespace JournalModule.ViewModels
 			get
 			{
 				return Status == "Загрузка данных";
-			}
-		}
-
-		public List<JournalColumnType> AdditionalColumns
-		{
-			get
-			{
-				return ClientSettings.ArchiveDefaultState.AdditionalColumns;
-			}
-		}
-
-		bool additionalColumnsChanged;
-		public bool AdditionalColumnsChanged
-		{
-			get { return additionalColumnsChanged; }
-			set
-			{
-				additionalColumnsChanged = value;
-				OnPropertyChanged("AdditionalColumnsChanged");
 			}
 		}
 
@@ -371,19 +360,16 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		void OnGetFilteredArchiveCompleted(SKDArchiveResult archiveResult)
+		void OnGetFilteredArchiveCompleted(ArchiveResult archiveResult)
 		{
 			if (archiveResult.ArchivePortionUID == ArchivePortionUID)
 			{
-				if (archiveResult.JournalItems.Count() > 0)
-				{
-					var archivePageViewModel = new ArchivePageViewModel(archiveResult.JournalItems);
-					Pages.Add(archivePageViewModel);
-					TotalPageNumber = Pages.Count;
-					if (CurrentPageNumber == 0)
-						CurrentPageNumber = 1;
-					Status = "Количество записей: " + ((TotalPageNumber - 1) * ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()).ToString();
-				}
+				var archivePageViewModel = new ArchivePageViewModel(archiveResult.JournalItems);
+				Pages.Add(archivePageViewModel);
+				TotalPageNumber = Pages.Count;
+				if (CurrentPageNumber == 0)
+					CurrentPageNumber = 1;
+				Status = "Количество записей: " + ((TotalPageNumber - 1) * ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()).ToString();
 			}
 		}
 
@@ -393,6 +379,22 @@ namespace JournalModule.ViewModels
 			{
 				FirstTime = false;
 				Update();
+			}
+		}
+
+		public List<JournalColumnType> AdditionalColumns
+		{
+			get { return ClientSettings.ArchiveDefaultState.AdditionalJournalColumnTypes; }
+		}
+
+		bool additionalColumnsChanged;
+		public bool AdditionalColumnsChanged
+		{
+			get { return additionalColumnsChanged; }
+			set
+			{
+				additionalColumnsChanged = value;
+				OnPropertyChanged(() => AdditionalColumnsChanged);
 			}
 		}
 

@@ -11,6 +11,8 @@ using Infrustructure.Plans.Presenter;
 using SKDModule.Events;
 using SKDModule.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.Common;
+using Infrastructure;
 
 namespace SKDModule.Plans.Designer
 {
@@ -36,16 +38,29 @@ namespace SKDModule.Plans.Designer
 		}
 		protected override ContextMenu CreateContextMenu()
 		{
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
+
 			var contextMenu = new ContextMenu();
-			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
 			contextMenu.Items.Add(UIHelper.BuildMenuItem("Открыть", "pack://application:,,,/Controls;component/Images/BTurnOn.png", _doorViewModel.OpenCommand));
 			contextMenu.Items.Add(UIHelper.BuildMenuItem("Закрыть", "pack://application:,,,/Controls;component/Images/BTurnOff.png", _doorViewModel.CloseCommand));
+			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
+			contextMenu.Items.Add(UIHelper.BuildMenuItem("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
 			contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
 			return contextMenu;
 		}
 		protected override WindowBaseViewModel CreatePropertiesViewModel()
 		{
 			return new DoorDetailsViewModel(Item);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
+			{
+				Door = Item
+			};
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 
 		protected override Brush GetBrush()

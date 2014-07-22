@@ -2,12 +2,15 @@
 
 namespace Infrastructure.Models
 {
-	public enum JournalColumnType
+	public enum XJournalColumnType
 	{
+		[DescriptionAttribute("IP-адрес ГК")]
+		GKIpAddress = 0,
+
 		[DescriptionAttribute("Подсистема")]
-		SubsystemType,
+		SubsystemType = 1,
 
 		[DescriptionAttribute("Пользователь")]
-		UserName
+		UserName = 2
 	}
 }

@@ -30,6 +30,7 @@ namespace SKDModule.ViewModels
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
 			CloseCommand = new RelayCommand(OnClose, CanClose);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
@@ -57,6 +58,16 @@ namespace SKDModule.ViewModels
 		private bool CanShowOnPlan()
 		{
 			return ShowOnPlanHelper.CanShowZone(Zone);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
+			{
+				Zone = Zone
+			};
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
