@@ -64,8 +64,6 @@ namespace SKDModule.ViewModels
 
 		public VerificationViewModel(LayoutPartSKDVerificationProperties layoutPartSKDVerificationProperties)
 		{
-			DenyCommand = new RelayCommand(OnDeny);
-			AllowCommand = new RelayCommand(OnAllow);
 			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == layoutPartSKDVerificationProperties.ReaderDeviceUID);
 
 			if (Device != null)
@@ -79,7 +77,7 @@ namespace SKDModule.ViewModels
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.ObjectUID == Device.UID &&
+				if (journalItem.ObjectUID == Device.UID && journalItem.CardNo > 0 &&
 					(journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен))
 				{
 					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
@@ -115,50 +113,6 @@ namespace SKDModule.ViewModels
 					ShortEmployee = null;
 					PhotoColumnViewModel = null;
 				}
-			}
-		}
-
-		bool _isCommandEnabled;
-		public bool IsCommandEnabled
-		{
-			get { return _isCommandEnabled; }
-			set
-			{
-				_isCommandEnabled = value;
-				OnPropertyChanged(() => IsCommandEnabled);
-			}
-		}
-
-		public RelayCommand DenyCommand { get; private set; }
-		void OnDeny()
-		{
-			//FiresecManager.FiresecService.SKDDenyReader(Device);
-			IsCommandEnabled = false;
-		}
-		bool CanDeny()
-		{
-			return IsCommandEnabled;
-		}
-
-		public RelayCommand AllowCommand { get; private set; }
-		void OnAllow()
-		{
-			//FiresecManager.FiresecService.SKDAllowReader(Device);
-			IsCommandEnabled = false;
-		}
-		bool CanAllow()
-		{
-			return IsCommandEnabled;
-		}
-
-		int _commandTimer;
-		public int CommandTimer
-		{
-			get { return _commandTimer; }
-			set
-			{
-				_commandTimer = value;
-				OnPropertyChanged(() => CommandTimer);
 			}
 		}
 	}

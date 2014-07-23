@@ -32,8 +32,8 @@ namespace SKDModule.ViewModels
 		{
 			Name = department.Name;
 			Description = department.Description;
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
 		}
 
 		public void Update()

@@ -50,7 +50,7 @@ namespace SKDModule.ViewModels
 						AddChildren(departmentViewModel);
 				}
 			}
-			OnPropertyChanged("Organisations");
+			OnPropertyChanged(() => Organisations);
 			SelectedDepartment = Organisations.FirstOrDefault();
 		}
 
@@ -90,7 +90,7 @@ namespace SKDModule.ViewModels
 				_selectedDepartment = value;
 				if (value != null)
 					value.ExpandToThis();
-				OnPropertyChanged("SelectedDepartment");
+				OnPropertyChanged(() => SelectedDepartment);
 			}
 		}
 

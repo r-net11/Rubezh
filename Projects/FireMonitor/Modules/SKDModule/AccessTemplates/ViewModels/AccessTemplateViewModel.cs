@@ -36,8 +36,8 @@ namespace SKDModule.ViewModels
 		{
 			Name = accessTemplate.Name;
 			Description = accessTemplate.Description;
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
 		}
 	}
 }

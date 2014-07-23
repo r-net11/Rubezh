@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 			private set
 			{
 				_guardZones = value;
-				OnPropertyChanged("GuardZones");
+				OnPropertyChanged(() => GuardZones);
 			}
 		}
 
@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedGuardZone = value;
-				OnPropertyChanged("SelectedGuardZone");
+				OnPropertyChanged(() => SelectedGuardZone);
 			}
 		}
 	}

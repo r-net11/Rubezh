@@ -61,7 +61,7 @@ namespace SKDModule.ViewModels
 				if (_name != value)
 				{
 					_name = value;
-					OnPropertyChanged("Name");
+					OnPropertyChanged(() => Name);
 				}
 			}
 		}
@@ -75,7 +75,7 @@ namespace SKDModule.ViewModels
 				if (_description != value)
 				{
 					_description = value;
-					OnPropertyChanged("Description");
+					OnPropertyChanged(() => Description);
 				}
 			}
 		}
@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 				if (_no != value)
 				{
 					_no = value;
-					OnPropertyChanged("No");
+					OnPropertyChanged(() => No);
 				}
 			}
 		}
@@ -103,7 +103,7 @@ namespace SKDModule.ViewModels
 				if (_startDateTime != value)
 				{
 					_startDateTime = value;
-					OnPropertyChanged("StartDateTime");
+					OnPropertyChanged(() => StartDateTime);
 				}
 			}
 		}
@@ -117,7 +117,7 @@ namespace SKDModule.ViewModels
 				if (_endDateTime != value)
 				{
 					_endDateTime = value;
-					OnPropertyChanged("EndDateTime");
+					OnPropertyChanged(() => EndDateTime);
 				}
 			}
 		}

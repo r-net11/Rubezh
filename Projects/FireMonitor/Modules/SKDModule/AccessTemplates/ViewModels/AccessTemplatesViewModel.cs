@@ -48,7 +48,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged("Organisations");
+			OnPropertyChanged(() => Organisations);
 			SelectedAccessTemplate = Organisations.FirstOrDefault();
 		}
 
@@ -75,7 +75,7 @@ namespace SKDModule.ViewModels
 				_selectedAccessTemplate = value;
 				if (value != null)
 					value.ExpandToThis();
-				OnPropertyChanged("SelectedAccessTemplate");
+				OnPropertyChanged(() => SelectedAccessTemplate);
 			}
 		}
 

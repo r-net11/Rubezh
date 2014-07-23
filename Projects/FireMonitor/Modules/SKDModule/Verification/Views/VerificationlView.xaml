@@ -9,57 +9,43 @@
 				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
 			<Grid Grid.Row="0" Margin="0 5 0 0">
                 <Controls:PhotoSelectation Data="{Binding PhotoColumnViewModel.Data}" CanEdit="False" Margin="2" />
             </Grid>
-			<StackPanel Grid.Row="1" Margin="2">
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
-					<Button Grid.Column="0" Content="0 | Запретить" Command="{Binding DenyCommand}" Visibility="Collapsed" Width="100" Height="100" Margin="2" />
-                    <StackPanel Grid.Column="1" Margin="5">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Событие" FontWeight="Bold" />
-                            <TextBlock Margin="2" Text="{Binding EventName}" FontWeight="Bold" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Время" FontWeight="Bold" />
-                            <TextBlock Margin="2" Text="{Binding DateTime}" FontWeight="Bold" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Имя" />
-                            <TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
-                        </StackPanel>
+            <StackPanel Grid.Row="1" Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="100" Margin="2" Text="Событие" FontWeight="Bold" />
+                    <TextBlock Margin="2" Text="{Binding EventName}" FontWeight="Bold" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="100" Margin="2" Text="Время" FontWeight="Bold" />
+                    <TextBlock Margin="2" Text="{Binding DateTime}" FontWeight="Bold" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="100" Margin="2" Text="Имя" />
+                    <TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
+                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Фамилия" />
-                            <TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
-                        </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="100" Margin="2" Text="Фамилия" />
+                    <TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
+                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Отчество" />
-                            <TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
-                        </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="100" Margin="2" Text="Отчество" />
+                    <TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
+                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Отдел" />
-                            <TextBlock Margin="2" Text="{Binding ShortEmployee.DepartmentName}" />
-                        </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="100" Margin="2" Text="Отдел" />
+                    <TextBlock Margin="2" Text="{Binding ShortEmployee.DepartmentName}" />
+                </StackPanel>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Width="100" Margin="2" Text="Должность" />
-                            <TextBlock Margin="2" Text="{Binding ShortEmployee.PositionName}" />
-                        </StackPanel>
-                    </StackPanel>
-                    <Button Grid.Column="2" Content="+ | Разрешить" Command="{Binding AllowCommand}" Visibility="Collapsed" Width="100" Height="100" Margin="2" />
-				</Grid>
-			</StackPanel>
-		</Grid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="100" Margin="2" Text="Должность" />
+                    <TextBlock Margin="2" Text="{Binding ShortEmployee.PositionName}" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
 	</Border>
 </UserControl>

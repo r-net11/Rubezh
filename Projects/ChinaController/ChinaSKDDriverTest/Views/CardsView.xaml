@@ -49,22 +49,10 @@
                 <ItemsControl ItemsSource="{Binding Doors}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding No}" Margin="5 1" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="TimeShedules" Width="200" Margin="2" />
-                <ItemsControl ItemsSource="{Binding TimeShedules}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding No}" Margin="5 1" />
+                            <StackPanel>
+                                <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding No}" Margin="5 1" />
+                                <TextBox Text="{Binding TimeSheduleNo}" Background="LightGray" Margin="2" />
+                            </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemsPanel>

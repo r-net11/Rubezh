@@ -21,5 +21,16 @@ namespace ControllerSDK.ViewModels
 				OnPropertyChanged(() => IsChecked);
 			}
 		}
+
+		int _timeSheduleNo;
+		public int TimeSheduleNo
+		{
+			get { return _timeSheduleNo; }
+			set
+			{
+				_timeSheduleNo = value;
+				OnPropertyChanged(() => TimeSheduleNo);
+			}
+		}
 	}
 }

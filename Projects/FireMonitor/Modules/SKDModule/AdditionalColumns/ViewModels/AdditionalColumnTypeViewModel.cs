@@ -32,8 +32,8 @@ namespace SKDModule.ViewModels
 		{
 			Name = additionalColumnType.Name;
 			Description = additionalColumnType.Description;
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
 		}
 	}
 }

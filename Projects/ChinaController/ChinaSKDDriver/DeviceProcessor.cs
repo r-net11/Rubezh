@@ -7,6 +7,7 @@ using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecAPI.Journal;
 using System.Collections.Generic;
+using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
@@ -59,10 +60,18 @@ namespace ChinaSKDDriver
 							journalItem.ObjectUID = readerDevice.UID;
 						}
 						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Направление", skdJournalItem.emEventType.ToDescription()));
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Тип карты", skdJournalItem.emCardType.ToDescription()));
 						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Метод открытия", skdJournalItem.emOpenMethod.ToDescription()));
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Пароль", skdJournalItem.szPwd.ToString()));
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Номер карты", skdJournalItem.CardNo.ToString()));
+
+						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD)
+						{
+							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Тип карты", skdJournalItem.emCardType.ToDescription()));
+							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Номер карты", skdJournalItem.CardNo.ToString()));
+						}
+						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY)
+						{
+							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Пароль", skdJournalItem.szPwd.ToString()));
+							journalItem.CardNo = 0;
+						}
 						break;
 
 					case JournalEventNameType.Дверь_не_закрыта:

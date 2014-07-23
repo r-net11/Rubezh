@@ -24,22 +24,16 @@
 						<GridViewColumn Width="75" DisplayMemberBinding="{Binding PresentationAddress}" Header="Адрес" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}" />
 						<GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
 							<GridViewColumn.CellTemplate>
-								<DataTemplate>
-									<TextBlock HorizontalAlignment="Stretch" Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}">
-										<TextBlock.Resources>
-											<Style TargetType="ToolTip">
-												<Style.Triggers>
-													<Trigger Property="Content" Value="{x:Static sys:String.Empty}">
-														<Setter Property="Visibility" Value="Collapsed" />
-													</Trigger>
-													<Trigger Property="Content" Value="{x:Null}">
-														<Setter Property="Visibility" Value="Collapsed" />
-													</Trigger>
-												</Style.Triggers>
-											</Style>
-										</TextBlock.Resources>
-									</TextBlock>
-								</DataTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center" Visibility="{Binding HasZone, Converter={StaticResource BoolToVisibilityConverter}}">
+							            <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle2}">
+								            <StackPanel Orientation="Horizontal">
+									            <Image Width="16" Margin="5 0" Source="/Controls;component/Images/Zone.png" />
+									            <TextBlock HorizontalAlignment="Stretch" Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" />
+								            </StackPanel>
+							            </Hyperlink>
+						            </TextBlock>
+                                </DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
 					</GridView>
@@ -50,9 +44,23 @@
 		<Border Grid.Row="2" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" CornerRadius="5" DataContext="{Binding SelectedDevice}" Padding="5" TextBlock.FontSize="11" TextBlock.Foreground="White">
 			<ScrollViewer VerticalScrollBarVisibility="Auto">
 				<StackPanel>
-					<TextBlock FontWeight="Bold" Foreground="Orange" Text="{Binding Device.Name}" />
-					<Views:DeviceStateView TextElement.Foreground="White" />
-				</StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding Device.Driver.ImageSource}" />
+                        <TextBlock Text="{Binding Device.Name}" FontWeight="Bold" Foreground="Orange" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <Views:DeviceStateView TextElement.Foreground="White" Margin="2" />
+
+                    <WrapPanel Orientation="Horizontal" Visibility="{Binding HasDoor, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2">
+                        <TextBlock VerticalAlignment="Center">
+							<Hyperlink Command="{Binding ShowDoorCommand}" Style="{StaticResource HyperlinkStyle}">
+								<StackPanel Orientation="Horizontal">
+									<Image Width="16" Margin="2" Source="/Controls;component/Images/Door.png" />
+									<TextBlock Text="{Binding Door.Name}" ToolTip="{Binding Door.Name}" TextWrapping="Wrap" VerticalAlignment="Center" />
+								</StackPanel>
+							</Hyperlink>
+						</TextBlock>
+                    </WrapPanel>
+                </StackPanel>
 			</ScrollViewer>
 		</Border>
 	</Grid>

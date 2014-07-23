@@ -48,9 +48,9 @@ namespace SKDModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("DevicePicture");
-			OnPropertyChanged("State");
-			OnPropertyChanged("DeviceStateViewModel");
+			OnPropertyChanged(() => DevicePicture);
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => DeviceStateViewModel);
 			CommandManager.InvalidateRequerySuggested();
 		}
 

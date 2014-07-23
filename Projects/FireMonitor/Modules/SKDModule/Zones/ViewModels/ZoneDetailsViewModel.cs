@@ -42,10 +42,7 @@ namespace SKDModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
-			OnPropertyChanged("ResetFireCommand");
-			OnPropertyChanged("SetIgnoreCommand");
-			OnPropertyChanged("ResetIgnoreCommand");
+			OnPropertyChanged(() => State);
 			CommandManager.InvalidateRequerySuggested();
 		}
 

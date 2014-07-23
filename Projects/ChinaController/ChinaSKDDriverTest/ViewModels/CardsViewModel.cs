@@ -45,13 +45,6 @@ namespace ControllerSDK.ViewModels
 				Doors.Add(new DoorItemViewModel(i));
 			}
 			Doors[0].IsChecked = true;
-
-			TimeShedules = new ObservableCollection<TimeSheduleItemViewModel>();
-			for (int i = 0; i < 10; i++)
-			{
-				TimeShedules.Add(new TimeSheduleItemViewModel(i));
-			}
-			TimeShedules[0].IsChecked = true;
 		}
 
 		public void Initialize(List<Card> cards)
@@ -148,18 +141,11 @@ namespace ControllerSDK.ViewModels
 				if (door.IsChecked)
 				{
 					card.Doors.Add(door.No);
+					card.TimeSections.Add(door.TimeSheduleNo);
 				}
 			}
 			card.DoorsCount = card.Doors.Count;
-
-			foreach (var timeShedule in TimeShedules)
-			{
-				if (timeShedule.IsChecked)
-				{
-					card.TimeSections.Add(timeShedule.No);
-				}
-			}
-			card.TimeSectionsCount = card.TimeSections.Count;
+			card.TimeSectionsCount = card.Doors.Count;
 			return card;
 		}
 
@@ -183,7 +169,7 @@ namespace ControllerSDK.ViewModels
 			set
 			{
 				_index = value;
-				OnPropertyChanged("Index");
+				OnPropertyChanged(() => Index);
 			}
 		}
 
@@ -256,7 +242,5 @@ namespace ControllerSDK.ViewModels
 		}
 
 		public ObservableCollection<DoorItemViewModel> Doors { get; private set; }
-
-		public ObservableCollection<TimeSheduleItemViewModel> TimeShedules { get; private set; }
 	}
 }

@@ -137,7 +137,7 @@ namespace ControllerSDK.ViewModels
 			set
 			{
 				_index = value;
-				OnPropertyChanged("Index");
+				OnPropertyChanged(() => Index);
 			}
 		}
 

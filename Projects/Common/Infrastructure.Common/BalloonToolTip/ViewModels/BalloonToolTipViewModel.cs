@@ -52,7 +52,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 				ForegroundColor = foregroundColor,
 				BackgroundColor = backgroundColor,
 			});
-			OnPropertyChanged("LastItem");
+			OnPropertyChanged(() => LastItem);
 		}
 
 		public RelayCommand RemoveItemCommand { get; private set; }
@@ -63,7 +63,7 @@ namespace Infrastructure.Common.BalloonTrayTip.ViewModels
 				Items.Remove(Items.LastOrDefault());
 				if (Items.Count != 0)
 				{
-					OnPropertyChanged("LastItem");
+					OnPropertyChanged(() => LastItem);
 				}
 			}
 			catch (Exception e)
