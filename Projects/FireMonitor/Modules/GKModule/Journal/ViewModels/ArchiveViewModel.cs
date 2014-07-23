@@ -46,7 +46,7 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			ArchiveFirstDate = GKDBHelper.GetMinDate(); // DateTime.Now.AddDays(-1);
+			ArchiveFirstDate = GKDBHelper.GetMinDate();
 			_isFilterOn = false;
 		}
 
@@ -77,6 +77,7 @@ namespace GKModule.ViewModels
 			ArchiveFilter = new XArchiveFilter();
 			ArchiveFilter.PageSize = ClientSettings.ArchiveDefaultState.PageSize;
 			ArchiveFilter.StartDate = DateTime.Now.AddDays(-7);
+
 			if (showXArchiveEventArgs.Device != null)
 				ArchiveFilter.DeviceUIDs.Add(showXArchiveEventArgs.Device.BaseUID);
 			if (showXArchiveEventArgs.Zone != null)
@@ -95,8 +96,9 @@ namespace GKModule.ViewModels
 				ArchiveFilter.DelayUIDs.Add(showXArchiveEventArgs.Delay.BaseUID);
 			if (showXArchiveEventArgs.GuardZone != null)
 				ArchiveFilter.GuardZoneUIDs.Add(showXArchiveEventArgs.GuardZone.BaseUID);
+
 			IsFilterOn = true;
-			OnPropertyChanged("IsFilterExists");
+			OnPropertyChanged(() => IsFilterExists);
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -330,25 +332,6 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public List<JournalColumnType> AdditionalColumns
-		{
-			get
-			{
-				return ClientSettings.ArchiveDefaultState.AdditionalColumns;
-			}
-		}
-
-		bool additionalColumnsChanged;
-		public bool AdditionalColumnsChanged
-		{
-			get { return additionalColumnsChanged; }
-			set
-			{
-				additionalColumnsChanged = value;
-				OnPropertyChanged("AdditionalColumnsChanged");
-			}
-		}
-
 		public void Update()
 		{
 			Status = "Загрузка данных";
@@ -380,7 +363,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		void OnGetFilteredArchiveCompleted(ArchiveResult archiveResult)
+		void OnGetFilteredArchiveCompleted(GKArchiveResult archiveResult)
 		{
 			if (archiveResult.ArchivePortionUID == ArchivePortionUID)
 			{
@@ -402,6 +385,22 @@ namespace GKModule.ViewModels
 			{
 				FirstTime = false;
 				Update();
+			}
+		}
+
+		public List<XJournalColumnType> AdditionalColumns
+		{
+			get { return ClientSettings.ArchiveDefaultState.XAdditionalColumns; }
+		}
+
+		bool additionalColumnsChanged;
+		public bool AdditionalColumnsChanged
+		{
+			get { return additionalColumnsChanged; }
+			set
+			{
+				additionalColumnsChanged = value;
+				OnPropertyChanged(() => AdditionalColumnsChanged);
 			}
 		}
 

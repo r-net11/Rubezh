@@ -240,8 +240,8 @@ namespace GKModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
-			_guardZonesNavigationItem = new NavigationItem<ShowXGuardZoneEvent, Guid>(GuardZonesViewModel, "Охранные зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
+			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty);
+			_guardZonesNavigationItem = new NavigationItem<ShowXGuardZoneEvent, Guid>(GuardZonesViewModel, "Охранные зоны", "/Controls;component/Images/Zones.png", null, null, Guid.Empty);
 			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/Direction.png", null, null, Guid.Empty);
 			_delaysNavigationItem = new NavigationItem<ShowXDelayEvent, Guid>(DelaysViewModel, "Задержки", "/Controls;component/Images/Watch.png", null, null, Guid.Empty);
 			_pimsNavigationItem = new NavigationItem<ShowXPimEvent, Guid>(PimsViewModel, "ПИМ", "/Controls;component/Images/Pim_White.png", null, null, Guid.Empty);
@@ -256,7 +256,7 @@ namespace GKModule
 					new List<NavigationItem>()
 					{
 						new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true},
-						new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+						new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 						_zonesNavigationItem,
 						_guardZonesNavigationItem,
 						_directionsNavigationItem,
@@ -265,7 +265,7 @@ namespace GKModule
 						_pumpStationsNavigationItem,
 						_mptsNavigationItem,
 						_journalNavigationItem,
-						new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
+						new NavigationItem<ShowXArchiveEvent, ShowXArchiveEventArgs>(ArchiveViewModel, "Архив", "/Controls;component/Images/Archive.png")
 					})
 			};
 		}

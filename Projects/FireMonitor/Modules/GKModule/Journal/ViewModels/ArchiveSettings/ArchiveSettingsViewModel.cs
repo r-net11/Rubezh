@@ -67,13 +67,13 @@ namespace GKModule.ViewModels
 			}
 
 			AdditionalColumns = new List<JournalColumnTypeViewModel>();
-			if (archiveDefaultState.AdditionalColumns == null)
-				archiveDefaultState.AdditionalColumns = new List<JournalColumnType>();
-			foreach (JournalColumnType journalColumnType in Enum.GetValues(typeof(JournalColumnType)))
+			if (archiveDefaultState.XAdditionalColumns == null)
+				archiveDefaultState.XAdditionalColumns = new List<XJournalColumnType>();
+			foreach (XJournalColumnType journalColumnType in Enum.GetValues(typeof(XJournalColumnType)))
 			{
 				var journalColumnTypeViewModel = new JournalColumnTypeViewModel(journalColumnType);
 				AdditionalColumns.Add(journalColumnTypeViewModel);
-				if (archiveDefaultState.AdditionalColumns.Any(x => x == journalColumnType))
+				if (archiveDefaultState.XAdditionalColumns.Any(x => x == journalColumnType))
 				{
 					journalColumnTypeViewModel.IsChecked = true;
 				}
@@ -148,11 +148,11 @@ namespace GKModule.ViewModels
 				default:
 					break;
 			}
-			ArchiveDefaultState.AdditionalColumns = new List<JournalColumnType>();
+			ArchiveDefaultState.XAdditionalColumns = new List<XJournalColumnType>();
 			foreach (var journalColumnTypeViewModel in AdditionalColumns)
 			{
 				if (journalColumnTypeViewModel.IsChecked)
-					ArchiveDefaultState.AdditionalColumns.Add(journalColumnTypeViewModel.JournalColumnType);
+					ArchiveDefaultState.XAdditionalColumns.Add(journalColumnTypeViewModel.JournalColumnType);
 			}
 
 			if (PageSize < 10)

@@ -27,6 +27,5 @@ namespace SKDModule.ViewModels
 			foreach (var stateClass in _state.StateClasses)
 				StateClasses.Add(new XStateClassViewModel(_state.Device, stateClass));
 		}
-
 	}
 }

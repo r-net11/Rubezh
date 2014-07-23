@@ -74,10 +74,6 @@ namespace SKDDriver
 			{
 				return new List<XStateClass>() { XStateClass.ConnectionLost };
 			}
-			if (deviceState.IsDBMissmatch)
-			{
-				return new List<XStateClass>() { XStateClass.DBMissmatch };
-			}
 			if (deviceState.IsInitialState)
 			{
 				return new List<XStateClass>() { XStateClass.Unknown };

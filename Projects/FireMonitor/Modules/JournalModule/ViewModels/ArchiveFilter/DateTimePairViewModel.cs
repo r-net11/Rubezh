@@ -18,7 +18,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_date = value;
-				OnPropertyChanged("Date");
+				OnPropertyChanged(() => Date);
 			}
 		}
 
@@ -29,7 +29,7 @@ namespace JournalModule.ViewModels
 			set
 			{
 				_time = value;
-				OnPropertyChanged("Time");
+				OnPropertyChanged(() => Time);
 			}
 		}
 

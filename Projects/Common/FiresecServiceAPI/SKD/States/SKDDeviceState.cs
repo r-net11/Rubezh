@@ -36,13 +36,11 @@ namespace FiresecAPI.SKD
 		public bool IsSuspending { get; set; }
 		public bool IsInitialState { get; set; }
 		public bool IsConnectionLost { get; set; }
-		public bool IsDBMissmatch { get; set; }
 
 		public void Clear()
 		{
 			IsInitialState = true;
 			IsConnectionLost = false;
-			IsDBMissmatch = false;
 		}
 
 		public event Action StateChanged;

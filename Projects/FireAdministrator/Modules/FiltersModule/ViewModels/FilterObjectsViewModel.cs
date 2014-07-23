@@ -152,6 +152,14 @@ namespace FiltersModule.ViewModels
 				AddChild(gkDelaysViewModel, filterObjectViewModel);
 			}
 
+			var gkGuardZonesViewModel = new FilterObjectViewModel(JournalObjectType.GKGuardZone);
+			AddChild(gkViewModel, gkGuardZonesViewModel);
+			foreach (var guardZone in FiresecClient.XManager.GuardZones)
+			{
+				var filterObjectViewModel = new FilterObjectViewModel(guardZone);
+				AddChild(gkGuardZonesViewModel, filterObjectViewModel);
+			}
+
 			var skdViewModel = new FilterObjectViewModel(JournalSubsystemType.SKD);
 			skdViewModel.IsExpanded = true;
 			RootFilters.Add(skdViewModel);
@@ -169,6 +177,14 @@ namespace FiltersModule.ViewModels
 			{
 				var filterObjectViewModel = new FilterObjectViewModel(zone);
 				AddChild(skdZonesViewModel, filterObjectViewModel);
+			}
+
+			var skdDoorsViewModel = new FilterObjectViewModel(JournalObjectType.SKDDoor);
+			AddChild(skdViewModel, skdDoorsViewModel);
+			foreach (var door in SKDManager.Doors)
+			{
+				var filterObjectViewModel = new FilterObjectViewModel(door);
+				AddChild(skdDoorsViewModel, filterObjectViewModel);
 			}
 
 			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video);

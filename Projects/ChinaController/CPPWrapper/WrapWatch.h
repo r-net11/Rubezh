@@ -45,6 +45,4 @@ extern "C" CLIENT_API int CALL_METHOD WRAP_GetLastIndex();
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetJournalItem(int index, WRAP_JournalItem* result);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_IsConnected(int loginID);
-
 #endif // !defined(__WRAP_WATCH_H__)

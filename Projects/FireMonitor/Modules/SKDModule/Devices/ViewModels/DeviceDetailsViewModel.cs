@@ -123,21 +123,20 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-			//var zone = Device.Zones.FirstOrDefault();
-			//if (zone != null)
-			//{
-			//	ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(zone.UID);
-			//}
+			if (Device.Zone != null)
+			{
+				ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(Device.Zone.UID);
+			}
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }
 		void OnShowJournal()
 		{
-			var showSKDArchiveEventArgs = new ShowSKDArchiveEventArgs()
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
 			{
 				Device = Device
 			};
-			ServiceFactory.Events.GetEvent<ShowSKDArchiveEvent>().Publish(showSKDArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 
 		#region IWindowIdentity Members

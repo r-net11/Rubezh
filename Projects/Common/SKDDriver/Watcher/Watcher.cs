@@ -177,7 +177,6 @@ namespace SKDDriver
 			bool IsPingFailure = false;
 			bool IsInTechnologicalRegime = false;
 			bool IsGetStatesFailure = false;
-			IsHashFailure = false;
 
 			foreach (var device in AllDevices)
 			{
@@ -235,34 +234,6 @@ namespace SKDDriver
 				}
 
 				if (IsInTechnologicalRegime)
-				{
-					if (ReturnArterWait(5000))
-						return false;
-					continue;
-				}
-
-				var hashBytes = SKDManager.CreateHash();
-				var remoteHashBytes = CreateHash();
-				result = !SKDManager.CompareHashes(hashBytes, remoteHashBytes);
-				if (IsHashFailure != result)
-				{
-					SKDStates = new SKDStates();
-					IsHashFailure = result;
-					if (IsHashFailure)
-						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_не_соответствует_конфигурации_ПК, JournalEventDescriptionType.Не_совпадает_хэш);
-					else
-						AddFailureJournalItem(JournalEventNameType.Конфигурация_прибора_соответствует_конфигурации_ПК, JournalEventDescriptionType.Совпадает_хэш);
-
-					foreach (var device in AllDevices)
-					{
-						device.State.IsDBMissmatch = IsHashFailure;
-						device.State.IsInitialState = false;
-					}
-					NotifyAllObjectsStateChanged();
-					OnSKDStates(SKDStates);
-				}
-
-				if (IsHashFailure)
 				{
 					if (ReturnArterWait(5000))
 						return false;
@@ -375,10 +346,6 @@ namespace SKDDriver
 		bool CheckTechnologicalRegime()
 		{
 			return false;
-		}
-		public static List<byte> CreateHash()
-		{
-			return new List<byte>();
 		}
 		string GetDeviceInfo()
 		{

@@ -154,7 +154,7 @@ namespace SKDModule.Plans
 			if (designerItem.Element is ElementSKDDevice)
 				RegisterDesignerItem<SKDDevice>(designerItem, "SKD");
 			else if (designerItem.Element is ElementRectangleSKDZone || designerItem.Element is ElementPolygonSKDZone)
-				RegisterDesignerItem<SKDZone>(designerItem, "SKDZone", "/Controls;component/Images/zone.png");
+				RegisterDesignerItem<SKDZone>(designerItem, "SKDZone", "/Controls;component/Images/Zone.png");
 			else if (designerItem.Element is ElementDoor)
 				RegisterDesignerItem<SKDDoor>(designerItem, "Doors", "/Controls;component/Images/Door.png");
 		}

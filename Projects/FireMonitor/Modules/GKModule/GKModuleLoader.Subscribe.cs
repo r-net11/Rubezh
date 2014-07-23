@@ -58,7 +58,7 @@ namespace GKModule
 		{
 			ApplicationService.Invoke(() =>
 			{
-				var archiveResult = new ArchiveResult()
+				var archiveResult = new GKArchiveResult()
 				{
 					ArchivePortionUID = archivePortionUID,
 					JournalItems = journalItems

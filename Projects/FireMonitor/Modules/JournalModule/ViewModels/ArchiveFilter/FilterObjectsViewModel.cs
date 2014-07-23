@@ -179,6 +179,14 @@ namespace JournalModule.ViewModels
 				AddChild(skdZonesViewModel, filterObjectViewModel);
 			}
 
+			var skdDoorsViewModel = new FilterObjectViewModel(JournalObjectType.SKDDoor);
+			AddChild(skdViewModel, skdDoorsViewModel);
+			foreach (var door in SKDManager.Doors)
+			{
+				var filterObjectViewModel = new FilterObjectViewModel(door);
+				AddChild(skdDoorsViewModel, filterObjectViewModel);
+			}
+
 			var videoViewModel = new FilterObjectViewModel(JournalSubsystemType.Video);
 			videoViewModel.IsExpanded = true;
 			RootFilters.Add(videoViewModel);

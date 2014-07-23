@@ -12,7 +12,6 @@ namespace FiresecAPI.SKD
 	{
 		public SKDDoorState()
 		{
-			Clear();
 			StateClasses = new List<XStateClass>();
 		}
 
@@ -25,9 +24,6 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public XStateClass StateClass { get; set; }
 
-		[DataMember]
-		public List<XAdditionalState> AdditionalStates { get; set; }
-
 		public SKDDoor Door { get; private set; }
 
 		public SKDDoorState(SKDDoor door)
@@ -35,30 +31,6 @@ namespace FiresecAPI.SKD
 		{
 			Door = door;
 			UID = door.UID;
-		}
-
-		public bool IsSuspending { get; set; }
-		public bool IsInitialState { get; set; }
-		public bool IsConnectionLost { get; set; }
-		public bool IsDBMissmatch { get; set; }
-
-		public void Clear()
-		{
-			IsInitialState = true;
-			IsConnectionLost = false;
-			IsDBMissmatch = false;
-		}
-
-		public void CopyToState(SKDDoorState state)
-		{
-			state.UID = UID;
-			state.StateClasses = StateClasses.ToList();
-			state.StateClass = StateClass;
-		}
-
-		public void CopyTo(SKDDoorState state)
-		{
-			state.UID = UID;
 		}
 
 		public event Action StateChanged;

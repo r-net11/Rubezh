@@ -4,11 +4,21 @@ using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using Infrastructure.Common.TreeList;
+using Controls.Converters;
 
 namespace FiltersModule.ViewModels
 {
 	public class FilterNameViewModel : TreeNodeViewModel<FilterNameViewModel>
 	{
+		public FilterNameViewModel(JournalSubsystemType journalSubsystemType)
+		{
+			JournalSubsystemType = journalSubsystemType;
+			IsSubsystem = true;
+			Name = journalSubsystemType.ToDescription();
+			var converter = new JournalSubsystemTypeToIconConverter();
+			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
+		}
+
 		public FilterNameViewModel(JournalEventNameType journalEventNameType)
 		{
 			JournalEventNameType = journalEventNameType;
@@ -25,18 +35,11 @@ namespace FiltersModule.ViewModels
 					StateClass = eventDescriptionAttribute.StateClass;
 					if (StateClass == XStateClass.Norm)
 						ImageSource = null;
-
-					ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
+					else
+						ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
 				}
 			}
 			IsSubsystem = false;
-		}
-
-		public FilterNameViewModel(JournalSubsystemType journalSubsystemType)
-		{
-			JournalSubsystemType = journalSubsystemType;
-			IsSubsystem = true;
-			Name = journalSubsystemType.ToDescription();
 		}
 
 		public JournalEventNameType JournalEventNameType { get; private set; }

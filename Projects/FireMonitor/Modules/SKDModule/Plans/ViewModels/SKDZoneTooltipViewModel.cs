@@ -14,5 +14,11 @@ namespace SKDModule.ViewModels
 			: base(zone)
 		{
 		}
+
+		public override void OnStateChanged()
+		{
+			base.OnStateChanged();
+			OnPropertyChanged(() => Zone);
+		}
 	}
 }

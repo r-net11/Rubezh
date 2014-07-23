@@ -37,12 +37,6 @@ namespace ChinaSKDDriver
 			var result = NativeWrapper.WRAP_Disconnect(LoginID);
 			return result;
 		}
-
-		public bool IsConnected()
-		{
-			var result = NativeWrapper.WRAP_IsConnected(LoginID);
-			return result;
-		}
 		#endregion
 
 		#region CommonDevice

@@ -6,6 +6,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
+using Controls.Converters;
 
 namespace JournalModule.ViewModels
 {
@@ -41,20 +42,8 @@ namespace JournalModule.ViewModels
 			JournalSubsystemType = journalSubsystemType;
 			IsSubsystem = true;
 			Name = journalSubsystemType.ToDescription();
-			switch (journalSubsystemType)
-			{
-				case JournalSubsystemType.GK:
-					ImageSource = "/Controls;component/GKIcons/GK.png";
-					break;
-
-				case JournalSubsystemType.SKD:
-					ImageSource = "/Controls;component/SKDIcons/Controller.png";
-					break;
-
-				case JournalSubsystemType.Video:
-					ImageSource = "/Controls;component/Images/Camera.png";
-					break;
-			}
+			var converter = new JournalSubsystemTypeToIconConverter();
+			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
 		}
 
 		public FilterObjectViewModel(JournalObjectType journalObjectType)
@@ -89,7 +78,7 @@ namespace JournalModule.ViewModels
 					break;
 
 				case JournalObjectType.GKGuardZone:
-					ImageSource = "/Controls;component/Images/Zone.png";
+					ImageSource = "/Controls;component/Images/GuardZone.png";
 					break;
 
 				case JournalObjectType.SKDDevice:
@@ -98,6 +87,10 @@ namespace JournalModule.ViewModels
 
 				case JournalObjectType.SKDZone:
 					ImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
+				case JournalObjectType.SKDDoor:
+					ImageSource = "/Controls;component/Images/Door.png";
 					break;
 
 				case JournalObjectType.VideoDevice:
@@ -152,7 +145,7 @@ namespace JournalModule.ViewModels
 		{
 			Name = guardZone.PresentationName;
 			UID = guardZone.UID;
-			ImageSource = "/Controls;component/Images/Zone.png";
+			ImageSource = "/Controls;component/Images/GuardZone.png";
 		}
 
 		public FilterObjectViewModel(SKDDevice device)
@@ -167,6 +160,13 @@ namespace JournalModule.ViewModels
 			Name = zone.Name;
 			UID = zone.UID;
 			ImageSource = "/Controls;component/Images/Zone.png";
+		}
+
+		public FilterObjectViewModel(SKDDoor door)
+		{
+			Name = door.Name;
+			UID = door.UID;
+			ImageSource = "/Controls;component/Images/Door.png";
 		}
 
 		public FilterObjectViewModel(FiresecAPI.Models.Camera camera)

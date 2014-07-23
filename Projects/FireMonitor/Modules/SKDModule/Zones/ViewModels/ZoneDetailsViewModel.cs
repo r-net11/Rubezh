@@ -11,6 +11,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using SKDModule.Events;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows;
+using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {
@@ -25,8 +27,9 @@ namespace SKDModule.ViewModels
 		public ZoneDetailsViewModel(SKDZone zone)
 		{
 			ShowCommand = new RelayCommand(OnShow);
-			OpenAllCommand = new RelayCommand(OnOpenAll, CanOpenAll);
-			CloseAllCommand = new RelayCommand(OnCloseAll, CanCloseAll);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
+			OpenCommand = new RelayCommand(OnOpen, CanOpen);
+			CloseCommand = new RelayCommand(OnClose, CanClose);
 			DetectEmployeesCommand = new RelayCommand(OnDetectEmployees, CanDetectEmployees);
 
 			Zone = zone;
@@ -77,30 +80,38 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public RelayCommand OpenAllCommand { get; private set; }
-		void OnOpenAll()
+		public RelayCommand OpenCommand { get; private set; }
+		void OnOpen()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//FiresecManager.FiresecService.SKDReset(Zone);
+				var result = FiresecManager.FiresecService.SKDOpenZone(Zone.UID);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
 			}
 		}
-		bool CanOpenAll()
+		bool CanOpen()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Zone.State.StateClass != XStateClass.On && Zone.State.StateClass != XStateClass.ConnectionLost;
 		}
 
-		public RelayCommand CloseAllCommand { get; private set; }
-		void OnCloseAll()
+		public RelayCommand CloseCommand { get; private set; }
+		void OnClose()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//FiresecManager.FiresecService.SKDReset(Zone);
+				var result = FiresecManager.FiresecService.SKDCloseZone(Zone.UID);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
 			}
 		}
-		bool CanCloseAll()
+		bool CanClose()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Zone.State.StateClass != XStateClass.Off && Zone.State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand DetectEmployeesCommand { get; private set; }
@@ -116,6 +127,16 @@ namespace SKDModule.ViewModels
 		void OnShow()
 		{
 			ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(Zone.UID);
+		}
+
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
+			{
+				Zone = Zone
+			};
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 
 		public bool CanControl

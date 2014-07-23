@@ -37,11 +37,7 @@ namespace SKDModule.Plans.Designer
 
 			var contextMenu = new ContextMenu();
 			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
-			contextMenu.Items.Add(UIHelper.BuildMenuItem(
-				"Показать связанные события",
-				"pack://application:,,,/Controls;component/Images/BJournal.png",
-				ShowJournalCommand
-			));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
 			contextMenu.Items.Add(Helper.CreateShowPropertiesItem());
 			return contextMenu;
 		}
@@ -53,11 +49,11 @@ namespace SKDModule.Plans.Designer
 		public RelayCommand ShowJournalCommand { get; private set; }
 		private void OnShowJournal()
 		{
-			var showSKDArchiveEventArgs = new ShowSKDArchiveEventArgs()
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
 			{
 				Device = Item
 			};
-			ServiceFactory.Events.GetEvent<ShowSKDArchiveEvent>().Publish(showSKDArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 
 		protected override Brush GetBrush()

@@ -4,7 +4,8 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
-			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
+			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
+             xmlns:Views="clr-namespace:SKDModule.Views">
 
 	<Grid ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
         <DataGrid Focusable="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
@@ -21,20 +22,18 @@
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Открыть" Command="{Binding OpenCommand}" />
                                                 <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Закрыть" Command="{Binding CloseCommand}" />
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+                                                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 												<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 											</ContextMenu>
 										</TextBlock.ContextMenu>
-										<TextBlock.ToolTip>
-											<StackPanel>
-												<Image Source="/Controls;component/Images/Door.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-												<TextBlock Text="{Binding Door.Name}" FontWeight="Bold" />
-											</StackPanel>
-										</TextBlock.ToolTip>
 									</TextBlock>
 								<StackPanel.InputBindings>
 									<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
 								</StackPanel.InputBindings>
-							</StackPanel>
+                                <StackPanel.ToolTip>
+                                    <Views:SKDDoorTooltipView />
+                                </StackPanel.ToolTip>
+                            </StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>

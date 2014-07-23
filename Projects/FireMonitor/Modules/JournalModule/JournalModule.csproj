@@ -147,7 +147,7 @@
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\TimeToStringConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
-    <Compile Include="Events\SKDJournalSettingsUpdatedEvent.cs" />
+    <Compile Include="Events\JournalSettingsUpdatedEvent.cs" />
     <Compile Include="JournalModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

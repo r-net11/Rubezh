@@ -31,10 +31,8 @@ namespace SKDModule.ViewModels
 			OnStateChanged();
 
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(Device);
-			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
-			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
-			SetIgnoreAllCommand = new RelayCommand(OnSetIgnoreAll, CanSetIgnoreAll);
-			ResetIgnoreAllCommand = new RelayCommand(OnResetIgnoreAll, CanResetIgnoreAll);
+			OpenCommand = new RelayCommand(OnOpen, CanOpen);
+			CloseCommand = new RelayCommand(OnClose, CanClose);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal, CanShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
@@ -69,11 +67,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowJournalCommand { get; private set; }
 		private void OnShowJournal()
 		{
-			var showSKDArchiveEventArgs = new ShowSKDArchiveEventArgs()
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
 			{
 				Device = Device
 			};
-			ServiceFactory.Events.GetEvent<ShowSKDArchiveEvent>().Publish(showSKDArchiveEventArgs);
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
 		}
 		private bool CanShowJournal()
 		{
@@ -90,93 +88,39 @@ namespace SKDModule.ViewModels
 			return Device.IsRealDevice;
 		}
 
-		#region Ignore
-		public RelayCommand SetIgnoreCommand { get; private set; }
-		void OnSetIgnore()
+		public RelayCommand OpenCommand { get; private set; }
+		void OnOpen()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//FiresecManager.FiresecService.SKDSetIgnoreRegime(Device);
+				var result = FiresecManager.FiresecService.SKDOpenDevice(Device.UID);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
 			}
 		}
-		bool CanSetIgnore()
+		bool CanOpen()
 		{
-			return Device.IsRealDevice && !Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Device.DriverType == SKDDriverType.Lock && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
 		}
 
-		public RelayCommand ResetIgnoreCommand { get; private set; }
-		void OnResetIgnore()
+		public RelayCommand CloseCommand { get; private set; }
+		void OnClose()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//FiresecManager.FiresecService.SKDSetIgnoreRegime(Device);
-			}
-		}
-		bool CanResetIgnore()
-		{
-			return Device.IsRealDevice && Device.State.StateClasses.Contains(XStateClass.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
-		}
-		#endregion
-
-		#region IgnoreAll
-		public RelayCommand SetIgnoreAllCommand { get; private set; }
-		void OnSetIgnoreAll()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				foreach (var device in Device.Children)
+				var result = FiresecManager.FiresecService.SKDCloseDevice(Device.UID);
+				if (result.HasError)
 				{
-					if (device.IsRealDevice && !device.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						//FiresecManager.FiresecService.SKDSetIgnoreRegime(device);
-					}
+					MessageBoxService.ShowWarning(result.Error);
 				}
 			}
 		}
-		bool CanSetIgnoreAll()
+		bool CanClose()
 		{
-			if (Device.DriverType == SKDDriverType.Controller)
-			{
-				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
-					return false;
-				foreach (var device in Device.Children)
-				{
-					if (device.IsRealDevice && !device.State.StateClasses.Contains(XStateClass.Ignore))
-						return true;
-				}
-			}
-			return false;
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Device.DriverType == SKDDriverType.Lock && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
 		}
-
-		public RelayCommand ResetIgnoreAllCommand { get; private set; }
-		void OnResetIgnoreAll()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				foreach (var device in Device.Children)
-				{
-					if (device.IsRealDevice && device.State.StateClasses.Contains(XStateClass.Ignore))
-					{
-						//FiresecManager.FiresecService.SKDResetIgnoreRegime(device);
-					}
-				}
-			}
-		}
-		bool CanResetIgnoreAll()
-		{
-			if (Device.DriverType == SKDDriverType.Controller)
-			{
-				if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
-					return false;
-				foreach (var device in Device.Children)
-				{
-					if (device.IsRealDevice && device.State.StateClasses.Contains(XStateClass.Ignore))
-						return true;
-				}
-			}
-			return false;
-		}
-		#endregion
 
 		public bool IsBold { get; set; }
 	}

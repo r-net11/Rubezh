@@ -93,20 +93,23 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		void OnConnectionChanged(bool isConnectionLost)
+		void OnConnectionChanged(bool isConnectionLost, bool fireJournalItem = true)
 		{
-			var journalItem = new JournalItem();
-			journalItem.SystemDateTime = DateTime.Now;
-			journalItem.DeviceDateTime = DateTime.Now;
-			if (isConnectionLost)
-				journalItem.JournalEventNameType = JournalEventNameType.Потеря_связи;
-			else
-				journalItem.JournalEventNameType = JournalEventNameType.Восстановление_связи;
-			journalItem.JournalObjectType = JournalObjectType.SKDDevice;
-			journalItem.ObjectUID = Device.UID;
-			journalItem.ObjectName = Device.Name;
-			if (NewJournalItem != null)
-				NewJournalItem(journalItem);
+			if (fireJournalItem)
+			{
+				var journalItem = new JournalItem();
+				journalItem.SystemDateTime = DateTime.Now;
+				journalItem.DeviceDateTime = DateTime.Now;
+				if (isConnectionLost)
+					journalItem.JournalEventNameType = JournalEventNameType.Потеря_связи;
+				else
+					journalItem.JournalEventNameType = JournalEventNameType.Восстановление_связи;
+				journalItem.JournalObjectType = JournalObjectType.SKDDevice;
+				journalItem.ObjectUID = Device.UID;
+				journalItem.ObjectName = Device.Name;
+				if (NewJournalItem != null)
+					NewJournalItem(journalItem);
+			}
 
 			var connectionLostSKDStates = new SKDStates();
 
@@ -190,19 +193,12 @@ namespace ChinaSKDDriver
 				try
 				{
 					Connect();
-					if (LoginID > 0)
+					IsConnected = LoginID > 0;
+					if (IsConnected)
 					{
 						Thread = null;
-						IsConnected = true;
-						if (attemptCount > 2)
-						{
-							OnConnectionChanged(false);
-						}
+						OnConnectionChanged(false, attemptCount > 2);
 						break;
-					}
-					else
-					{
-						IsConnected = false;
 					}
 
 					if (attemptCount == 2)

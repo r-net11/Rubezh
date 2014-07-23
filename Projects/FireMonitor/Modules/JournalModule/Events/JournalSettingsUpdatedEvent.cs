@@ -2,7 +2,7 @@
 
 namespace JournalModule.Events
 {
-	public class SKDJournalSettingsUpdatedEvent : CompositePresentationEvent<object>
+	public class JournalSettingsUpdatedEvent : CompositePresentationEvent<object>
 	{
 	}
 }

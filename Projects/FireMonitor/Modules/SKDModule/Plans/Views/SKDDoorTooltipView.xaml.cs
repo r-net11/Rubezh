@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class ZoneView : UserControl
+	public partial class SKDDoorTooltipView : UserControl
 	{
-		public ZoneView()
+		public SKDDoorTooltipView()
 		{
 			InitializeComponent();
 		}

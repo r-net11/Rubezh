@@ -274,7 +274,7 @@ namespace FiresecService
 					if (index > 0)
 						query += "\n OR ";
 					index++;
-					query += "Name = '" + journalEventNameType + "'";
+					query += "Name = '" + (int)journalEventNameType + "'";
 				}
 				query += ")";
 			}

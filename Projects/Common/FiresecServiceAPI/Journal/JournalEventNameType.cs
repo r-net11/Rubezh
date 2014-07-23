@@ -362,11 +362,23 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.SKD, "Запись конфигурации двери", XStateClass.TechnologicalRegime)]
 		Запись_конфигурации_двери,
 
-		[EventDescription(JournalSubsystemType.SKD, "Команда на открытие двери", XStateClass.Info)]
+		[EventDescription(JournalSubsystemType.SKD, "Команда на открытие двери", XStateClass.On)]
 		Команда_на_открытие_двери,
 
-		[EventDescription(JournalSubsystemType.SKD, "Команда на закрытие двери", XStateClass.Info)]
+		[EventDescription(JournalSubsystemType.SKD, "Команда на закрытие двери", XStateClass.Off)]
 		Команда_на_закрытие_двери,
+
+		[EventDescription(JournalSubsystemType.SKD, "Команда на открытие зоны", XStateClass.On)]
+		Команда_на_открытие_зоны,
+
+		[EventDescription(JournalSubsystemType.SKD, "Команда на закрытие зоны", XStateClass.Off)]
+		Команда_на_закрытие_зоны,
+
+		[EventDescription(JournalSubsystemType.SKD, "Команда на открытие точки доступа", XStateClass.On)]
+		Команда_на_открытие_точки_доступа,
+
+		[EventDescription(JournalSubsystemType.SKD, "Команда на закрытие точки доступа", XStateClass.Off)]
+		Команда_на_закрытие_точки_доступа,
 
 		[EventDescription(JournalSubsystemType.SKD, "Добавление карты", XStateClass.Info)]
 		Добавление_карты,

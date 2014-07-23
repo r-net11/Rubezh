@@ -261,6 +261,22 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
 		}
+		public OperationResult<bool> SKDOpenZone(Guid zoneUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDOpenZone(zoneUID); }, "SKDOpenZone");
+		}
+		public OperationResult<bool> SKDCloseZone(Guid zoneUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDCloseZone(zoneUID); }, "SKDCloseZone");
+		}
+		public OperationResult<bool> SKDOpenDoor(Guid doorUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDOpenDoor(doorUID); }, "SKDOpenDoor");
+		}
+		public OperationResult<bool> SKDCloseDoor(Guid doorUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDCloseDoor(doorUID); }, "SKDCloseDoor");
+		}
 		#endregion
 	}
 }

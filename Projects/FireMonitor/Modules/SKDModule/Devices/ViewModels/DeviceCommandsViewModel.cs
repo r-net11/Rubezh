@@ -38,7 +38,7 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var result = FiresecManager.FiresecService.SKDOpenDevice(Device);
+				var result = FiresecManager.FiresecService.SKDOpenDevice(Device.UID);
 				if (result.HasError)
 				{
 					MessageBoxService.ShowWarning(result.Error);
@@ -47,7 +47,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanOpen()
 		{
-			return DeviceState.StateClass != XStateClass.On;
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && DeviceState.StateClass != XStateClass.On && DeviceState.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
@@ -55,7 +55,7 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var result = FiresecManager.FiresecService.SKDCloseDevice(Device);
+				var result = FiresecManager.FiresecService.SKDCloseDevice(Device.UID);
 				if (result.HasError)
 				{
 					MessageBoxService.ShowWarning(result.Error);
@@ -64,7 +64,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanClose()
 		{
-			return DeviceState.StateClass != XStateClass.Off;
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && DeviceState.StateClass != XStateClass.Off && DeviceState.StateClass != XStateClass.ConnectionLost;
 		}
 
 		void OnStateChanged()

@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
 using Infrastructure.Events;
+using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {
@@ -26,8 +27,10 @@ namespace SKDModule.ViewModels
 			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 
-			ZoneCommand = new RelayCommand(OnZone, CanZone);
+			OpenCommand = new RelayCommand(OnOpen, CanOpen);
+			CloseCommand = new RelayCommand(OnClose, CanClose);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
@@ -57,26 +60,55 @@ namespace SKDModule.ViewModels
 			return ShowOnPlanHelper.CanShowZone(Zone);
 		}
 
+		public RelayCommand ShowJournalCommand { get; private set; }
+		void OnShowJournal()
+		{
+			var showSKDArchiveEventArgs = new ShowArchiveEventArgs()
+			{
+				Zone = Zone
+			};
+			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(showSKDArchiveEventArgs);
+		}
+
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		private void OnShowProperties()
 		{
 			DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
 		}
 
-		#region Ignore
-		public RelayCommand ZoneCommand { get; private set; }
-		void OnZone()
+		public RelayCommand OpenCommand { get; private set; }
+		void OnOpen()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				//FiresecManager.FiresecService.SKDSetIgnoreRegime(Zone);
+				var result = FiresecManager.FiresecService.SKDOpenZone(Zone.UID);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
 			}
 		}
-		bool CanZone()
+		bool CanOpen()
 		{
-			return true && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Zone.State.StateClass != XStateClass.On && Zone.State.StateClass != XStateClass.ConnectionLost;
 		}
-		#endregion
+
+		public RelayCommand CloseCommand { get; private set; }
+		void OnClose()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDCloseZone(Zone.UID);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanClose()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Zone.State.StateClass != XStateClass.Off && Zone.State.StateClass != XStateClass.ConnectionLost;
+		}
 
 		public bool IsBold { get; set; }
 	}

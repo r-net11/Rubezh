@@ -6,13 +6,11 @@
 		<TextBlock Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Device.Name}">
 			<TextBlock.ContextMenu>
 				<ContextMenu>
-					<Controls:IconedMenuItem Command="{Binding SetIgnoreCommand}" ImageSource="/Controls;component/Images/BTurnOff.png" Text="Отключить" />
-					<Controls:IconedMenuItem Command="{Binding ResetIgnoreCommand}" ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять отключение" />
-					<Controls:IconedMenuItem Command="{Binding SetIgnoreAllCommand}" ImageSource="/Controls;component/Images/BTurnOff.png" Text="Отключить все дочерние устройства" />
-					<Controls:IconedMenuItem Command="{Binding ResetIgnoreAllCommand}" ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять отключения всех дочерних устройств" />
-					<Controls:IconedMenuItem Command="{Binding ShowOnPlanCommand}" ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" />
-					<Controls:IconedMenuItem Command="{Binding ShowJournalCommand}" ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" />
-					<Controls:IconedMenuItem Command="{Binding ShowPropertiesCommand}" ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Открыть" Command="{Binding OpenCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Закрыть" Command="{Binding CloseCommand}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 				</ContextMenu>
 			</TextBlock.ContextMenu>
 			<TextBlock.ToolTip>

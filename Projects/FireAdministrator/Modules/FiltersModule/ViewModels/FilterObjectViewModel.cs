@@ -6,6 +6,7 @@ using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using Infrastructure.Common.TreeList;
+using Controls.Converters;
 
 namespace FiltersModule.ViewModels
 {
@@ -13,48 +14,13 @@ namespace FiltersModule.ViewModels
 	{
 		public Guid UID { get; private set; }
 
-		public FilterObjectViewModel(JournalEventNameType journalEventNameType)
-		{
-			JournalEventNameType = journalEventNameType;
-
-			FieldInfo fieldInfo = journalEventNameType.GetType().GetField(journalEventNameType.ToString());
-			if (fieldInfo != null)
-			{
-				EventDescriptionAttribute[] descriptionAttributes = (EventDescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(EventDescriptionAttribute), false);
-				if (descriptionAttributes.Length > 0)
-				{
-					EventDescriptionAttribute eventDescriptionAttribute = descriptionAttributes[0];
-					Name = eventDescriptionAttribute.Name;
-					JournalSubsystemType = eventDescriptionAttribute.JournalSubsystemType;
-					StateClass = eventDescriptionAttribute.StateClass;
-					if (StateClass == XStateClass.Norm)
-						ImageSource = null;
-
-					ImageSource = "/Controls;component/StateClassIcons/" + StateClass.ToString() + ".png";
-				}
-			}
-			IsSubsystem = false;
-		}
-
 		public FilterObjectViewModel(JournalSubsystemType journalSubsystemType)
 		{
 			JournalSubsystemType = journalSubsystemType;
 			IsSubsystem = true;
 			Name = journalSubsystemType.ToDescription();
-			switch (journalSubsystemType)
-			{
-				case JournalSubsystemType.GK:
-					ImageSource = "/Controls;component/GKIcons/GK.png";
-					break;
-
-				case JournalSubsystemType.SKD:
-					ImageSource = "/Controls;component/SKDIcons/Controller.png";
-					break;
-
-				case JournalSubsystemType.Video:
-					ImageSource = "/Controls;component/Images/Camera.png";
-					break;
-			}
+			var converter = new JournalSubsystemTypeToIconConverter();
+			ImageSource = (string)converter.Convert(journalSubsystemType, typeof(JournalSubsystemType), null, null);
 		}
 
 		public FilterObjectViewModel(JournalObjectType journalObjectType)
@@ -88,12 +54,20 @@ namespace FiltersModule.ViewModels
 					ImageSource = "/Controls;component/Images/Delay.png";
 					break;
 
+				case JournalObjectType.GKGuardZone:
+					ImageSource = "/Controls;component/Images/GuardZone.png";
+					break;
+
 				case JournalObjectType.SKDDevice:
 					ImageSource = "/Controls;component/SKDIcons/Controller.png";
 					break;
 
 				case JournalObjectType.SKDZone:
 					ImageSource = "/Controls;component/Images/Zone.png";
+					break;
+
+				case JournalObjectType.SKDDoor:
+					ImageSource = "/Controls;component/Images/Door.png";
 					break;
 
 				case JournalObjectType.VideoDevice:
@@ -144,6 +118,13 @@ namespace FiltersModule.ViewModels
 			ImageSource = "/Controls;component/Images/Delay.png";
 		}
 
+		public FilterObjectViewModel(XGuardZone guardZone)
+		{
+			Name = guardZone.PresentationName;
+			UID = guardZone.UID;
+			ImageSource = "/Controls;component/Images/GuardZone.png";
+		}
+
 		public FilterObjectViewModel(SKDDevice device)
 		{
 			Name = device.Name;
@@ -156,6 +137,13 @@ namespace FiltersModule.ViewModels
 			Name = zone.Name;
 			UID = zone.UID;
 			ImageSource = "/Controls;component/Images/Zone.png";
+		}
+
+		public FilterObjectViewModel(SKDDoor door)
+		{
+			Name = door.Name;
+			UID = door.UID;
+			ImageSource = "/Controls;component/Images/Door.png";
 		}
 
 		public FilterObjectViewModel(FiresecAPI.Models.Camera camera)

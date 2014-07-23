@@ -95,7 +95,7 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
-    <Compile Include="Events\GetFilteredSKDArchiveCompletedEvent.cs" />
+    <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowXGuardZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowCameraOnPlanEvent.cs" />
     <Compile Include="Events\ShowObject\ShowCameraEvent.cs" />
@@ -127,7 +127,6 @@
     <Compile Include="Events\ShowOnPlan\ShowXDirectionOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowXGuardZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowXZoneOnPlanEvent.cs" />
-    <Compile Include="Events\ShowSKDArchiveEvent.cs" />
     <Compile Include="Events\ShowDeviceOnPlanEvent.cs" />
     <Compile Include="Events\DevicesStateChangedEvent.cs" />
     <Compile Include="Events\ShowDiagnosticsEvent.cs" />
@@ -156,9 +155,10 @@
     <Compile Include="Models\MultiGridType.cs" />
     <Compile Include="Models\MultiLayoutCameraSettings.cs" />
     <Compile Include="Models\ElementDeviceReference.cs" />
-    <Compile Include="Models\JournalColumnType.cs" />
+    <Compile Include="Models\XJournalColumnType.cs" />
     <Compile Include="Models\RviMultiLayoutCameraSettings.cs" />
     <Compile Include="Models\SKDSettings.cs" />
+    <Compile Include="Models\JournalColumnType.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Models\AutoActivationSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,12 +5,12 @@ namespace GKModule.ViewModels
 {
 	public class JournalColumnTypeViewModel : BaseViewModel
 	{
-		public JournalColumnTypeViewModel(JournalColumnType journalColumnType)
+		public JournalColumnTypeViewModel(XJournalColumnType journalColumnType)
 		{
 			JournalColumnType = journalColumnType;
 		}
 
-		public JournalColumnType JournalColumnType { get; private set; }
+		public XJournalColumnType JournalColumnType { get; private set; }
 
 		bool _isChecked;
 		public bool IsChecked

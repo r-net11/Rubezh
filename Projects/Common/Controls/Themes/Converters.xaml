@@ -23,6 +23,7 @@
 	<Converters:TimeToStringConverter x:Key="TimeToStringConverter" />
 	<Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
 	<Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
+    <Converters:XStateClassToSKDStringConverter x:Key="XStateClassToSKDStringConverter" />
 	<Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
 	<Converters:XStateClassToZoneColorConverter x:Key="XStateClassToZoneColorConverter" />
     <Converters:XStateClassToGuardZoneColorConverter x:Key="XStateClassToGuardZoneColorConverter" />
@@ -54,6 +55,7 @@
 	<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 	<Converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
     <Converters:XGuardZoneDeviceActionTypeToIconConverter x:Key="XGuardZoneDeviceActionTypeToIconConverter" />
+    <Converters:JournalSubsystemTypeToIconConverter x:Key="JournalSubsystemTypeToIconConverter" />
 	
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 	

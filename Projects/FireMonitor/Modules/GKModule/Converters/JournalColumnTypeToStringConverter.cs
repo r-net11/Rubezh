@@ -9,7 +9,7 @@ namespace GKModule.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return ((JournalColumnType)value).ToDescription();
+			return ((XJournalColumnType)value).ToDescription();
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
