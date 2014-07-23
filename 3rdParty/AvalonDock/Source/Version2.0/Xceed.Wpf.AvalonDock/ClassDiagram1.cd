@@ -11,7 +11,7 @@
   <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutDocumentPane" Collapsed="true">
     <Position X="5.75" Y="5.25" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AEAAABAAAAAAABCAAEhABABCAAAAAAQAIEAAgAAAAAA=</HashCode>
+      <HashCode>AEAAABAAAAAAABCACEhABABCAAAAAAQAIEAAgAAAAAA=</HashCode>
       <FileName>Layout\LayoutDocumentPane.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -36,7 +36,7 @@
   <Class Name="Xceed.Wpf.AvalonDock.Controls.DocumentPaneDropTarget" Collapsed="true">
     <Position X="9.25" Y="3.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAQAAAIAAAAQAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAQAAAAAAAAQAAABAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Controls\DocumentPaneDropTarget.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -86,8 +86,11 @@
   </Class>
   <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutContent" Collapsed="true">
     <Position X="5.75" Y="1" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>QCADEBACIjBIEEQBEJKAwAiCPARgKiNEMSgApAioiKA=</HashCode>
+      <HashCode>QAADEBACIjBIAEQBEJKAwAgCPARgKiNEESgApAioiKA=</HashCode>
       <FileName>Layout\LayoutContent.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -95,7 +98,7 @@
   <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutElement" Collapsed="true">
     <Position X="3.25" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>SAAAAAACAAAQACAAAAAAQAARgAAAAAAgAEAAAAAAgAA=</HashCode>
+      <HashCode>SCAAAAACAAAQECAAAAAAQACRgAAAAAAgIEAAAAAAgAA=</HashCode>
       <FileName>Layout\LayoutElement.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

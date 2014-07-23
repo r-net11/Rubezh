@@ -31,34 +31,6 @@ namespace Xceed.Wpf.AvalonDock.Layout
 		internal LayoutContent()
 		{ }
 
-		#region Title
-
-		public static readonly DependencyProperty TitleProperty =
-			DependencyProperty.Register("Title", typeof(string), typeof(LayoutContent), new UIPropertyMetadata(null, OnTitlePropertyChanged, CoerceTitleValue));
-
-		public string Title
-		{
-			get { return (string)GetValue(TitleProperty); }
-			set { SetValue(TitleProperty, value); }
-		}
-
-		private static object CoerceTitleValue(DependencyObject obj, object value)
-		{
-			var lc = (LayoutContent)obj;
-			if (((string)value) != lc.Title)
-			{
-				lc.RaisePropertyChanging(LayoutContent.TitleProperty.Name);
-			}
-			return value;
-		}
-
-		private static void OnTitlePropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-		{
-			((LayoutContent)obj).RaisePropertyChanged(LayoutContent.TitleProperty.Name);
-		}
-
-		#endregion //Title
-
 		#region Content
 		[NonSerialized]
 		private object _content = null;
@@ -103,87 +75,6 @@ namespace Xceed.Wpf.AvalonDock.Layout
 				}
 			}
 		}
-
-		#endregion
-
-		#region IsSelected
-
-		private bool _isSelected = false;
-		public bool IsSelected
-		{
-			get { return _isSelected; }
-			set
-			{
-				if (_isSelected != value)
-				{
-					bool oldValue = _isSelected;
-					RaisePropertyChanging("IsSelected");
-					_isSelected = value;
-					var parentSelector = (Parent as ILayoutContentSelector);
-					if (parentSelector != null)
-						parentSelector.SelectedContentIndex = _isSelected ? parentSelector.IndexOf(this) : -1;
-					OnIsSelectedChanged(oldValue, value);
-					RaisePropertyChanged("IsSelected");
-				}
-			}
-		}
-
-		/// <summary>
-		/// Provides derived classes an opportunity to handle changes to the IsSelected property.
-		/// </summary>
-		protected virtual void OnIsSelectedChanged(bool oldValue, bool newValue)
-		{
-			if (IsSelectedChanged != null)
-				IsSelectedChanged(this, EventArgs.Empty);
-		}
-
-		public event EventHandler IsSelectedChanged;
-
-		#endregion
-
-		#region IsActive
-
-		[field: NonSerialized]
-		private bool _isActive = false;
-		[XmlIgnore]
-		public bool IsActive
-		{
-			get { return _isActive; }
-			set
-			{
-				if (_isActive != value)
-				{
-					RaisePropertyChanging("IsActive");
-					bool oldValue = _isActive;
-
-					_isActive = value;
-
-					var root = Root;
-					if (root != null && _isActive)
-						root.ActiveContent = this;
-
-					if (_isActive)
-						IsSelected = true;
-
-					OnIsActiveChanged(oldValue, value);
-					RaisePropertyChanged("IsActive");
-				}
-			}
-		}
-
-		/// <summary>
-		/// Provides derived classes an opportunity to handle changes to the IsActive property.
-		/// </summary>
-		protected virtual void OnIsActiveChanged(bool oldValue, bool newValue)
-		{
-			if (newValue)
-				LastActivationTimeStamp = DateTime.Now;
-
-			if (IsActiveChanged != null)
-				IsActiveChanged(this, EventArgs.Empty);
-		}
-
-		public event EventHandler IsActiveChanged;
 
 		#endregion
 
@@ -264,42 +155,6 @@ namespace Xceed.Wpf.AvalonDock.Layout
 				{
 					_previousContainerIndex = value;
 					RaisePropertyChanged("PreviousContainerIndex");
-				}
-			}
-		}
-
-		#endregion
-
-		#region LastActivationTimeStamp
-
-		private DateTime? _lastActivationTimeStamp = null;
-		public DateTime? LastActivationTimeStamp
-		{
-			get { return _lastActivationTimeStamp; }
-			set
-			{
-				if (_lastActivationTimeStamp != value)
-				{
-					_lastActivationTimeStamp = value;
-					RaisePropertyChanged("LastActivationTimeStamp");
-				}
-			}
-		}
-
-		#endregion
-
-		#region Margin
-
-		private int _margin = 0;
-		public int Margin
-		{
-			get { return _margin; }
-			set
-			{
-				if (_margin != value)
-				{
-					_margin = value;
-					RaisePropertyChanged("Margin");
 				}
 			}
 		}
@@ -648,46 +503,10 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
 		#endregion
 
-		#region ToolTip
-
-		private object _toolTip = null;
-		public object ToolTip
-		{
-			get { return _toolTip; }
-			set
-			{
-				if (_toolTip != value)
-				{
-					_toolTip = value;
-					RaisePropertyChanged("ToolTip");
-				}
-			}
-		}
-
-		#endregion
-
 		public bool IsFloating
 		{
 			get { return this.FindParent<LayoutFloatingWindow>() != null; }
 		}
-
-		#region IconSource
-
-		private ImageSource _iconSource = null;
-		public ImageSource IconSource
-		{
-			get { return _iconSource; }
-			set
-			{
-				if (_iconSource != value)
-				{
-					_iconSource = value;
-					RaisePropertyChanged("IconSource");
-				}
-			}
-		}
-
-		#endregion
 
 		public int CompareTo(LayoutContent other)
 		{

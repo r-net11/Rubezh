@@ -49,9 +49,9 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		/// Gets or sets the Model property.  This dependency property 
 		/// indicates the layout content model attached to the tab item.
 		/// </summary>
-		public LayoutContent Model
+		public LayoutElement Model
 		{
-			get { return (LayoutContent)GetValue(ModelProperty); }
+			get { return (LayoutElement)GetValue(ModelProperty); }
 			set { SetValue(ModelProperty, value); }
 		}
 
@@ -169,7 +169,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 				{
 					ReleaseMouseCapture();
 					var manager = Model.Root.Manager;
-					manager.StartDraggingFloatingWindowForContent(Model);
+					if (Model is LayoutContent)
+						manager.StartDraggingFloatingWindowForContent((LayoutContent)Model);
 				}
 				else
 				{

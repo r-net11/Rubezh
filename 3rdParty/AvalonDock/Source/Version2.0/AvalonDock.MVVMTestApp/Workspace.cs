@@ -60,7 +60,7 @@ namespace AvalonDock.MVVMTestApp
             get
             {
                 if (_tools == null)
-					_tools = new ToolViewModel[] { FileStats, new FileStatsViewModel(), new FileStatsViewModel(), new FileStatsViewModel() };
+					_tools = new ToolViewModel[] { FileStats, };
                 return _tools;
             }
         }

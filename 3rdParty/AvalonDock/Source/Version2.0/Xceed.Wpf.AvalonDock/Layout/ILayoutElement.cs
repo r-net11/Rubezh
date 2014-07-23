@@ -15,12 +15,21 @@
   **********************************************************************/
 
 using System.ComponentModel;
+using System.Windows.Media;
+using System;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
-    public interface ILayoutElement : INotifyPropertyChanged, INotifyPropertyChanging
-    {
-        ILayoutContainer Parent { get; }
-        ILayoutRoot Root { get; }
-    }
+	public interface ILayoutElement : INotifyPropertyChanged, INotifyPropertyChanging
+	{
+		ILayoutContainer Parent { get; }
+		ILayoutRoot Root { get; }
+		bool IsSelected { get; set; }
+		string Title { get; set; }
+		bool IsActive { get; set; }
+		object ToolTip { get; set; }
+		ImageSource IconSource { get; set; }
+		DateTime? LastActivationTimeStamp { get; set; }
+		int Margin { get; set; }
+	}
 }

@@ -197,21 +197,15 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 						if (paneModel.Children.Count > 1 && _tabIndex == -1)
 						{
-							var parentContainer = targetModel.Parent as ILayoutContainer;
-							var newParentModel = new LayoutDocumentPaneTab();
-							parentContainer.ReplaceChild(targetModel, newParentModel);
-							var selectedIndex = paneModel.SelectedContentIndex;
-							while (paneModel.ChildrenCount > 0)
-								if (newParentModel.ChildrenCount == selectedIndex)
-								{
-									var newPane = new LayoutDocumentPane(paneModel.Children[0]);
-									var newPaneGroup = new LayoutDocumentPaneGroup() { Orientation = System.Windows.Controls.Orientation.Horizontal };
-									newParentModel.Children.Add(newPane);
-									newParentModel.Children.Add(paneModel);
-									newParentModel.InsertChildAt(newParentModel.ChildrenCount, newPaneGroup);
-								}
-								else
-									newParentModel.InsertChildAt(newParentModel.ChildrenCount, paneModel.Children[0]);
+							sourceModel.IsActive = false;
+							var oldContent = paneModel.SelectedContent;
+							LayoutDocumentPaneGroup newChildGroup = new LayoutDocumentPaneGroup();
+							newChildGroup.Orientation = System.Windows.Controls.Orientation.Horizontal;
+							paneModel.ReplaceChild(oldContent, newChildGroup);
+							var newLayoutDocumentPane = new LayoutDocumentPane(oldContent);
+							newChildGroup.Children.Add(newLayoutDocumentPane);
+							var newLayoutDocumentPane2 = new LayoutDocumentPane(sourceModel);
+							newChildGroup.Children.Add(newLayoutDocumentPane2);
 						}
 						else
 						{

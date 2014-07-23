@@ -84,6 +84,13 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			base.ChildMoved(oldIndex, newIndex);
 		}
 
+		ILayoutElement ILayoutContentSelector.SelectedContent
+		{
+			get
+			{
+				return _selectedIndex == -1 ? null : Children[_selectedIndex];
+			}
+		}
 		public LayoutContent SelectedContent
 		{
 			get
@@ -125,7 +132,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			}
 		}
 
-		public int IndexOf(LayoutContent content)
+		public int IndexOf(ILayoutElement content)
 		{
 			var anchorableChild = content as LayoutAnchorable;
 			if (anchorableChild == null)

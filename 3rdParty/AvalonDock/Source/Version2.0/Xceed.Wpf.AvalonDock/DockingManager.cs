@@ -3148,7 +3148,7 @@ namespace Xceed.Wpf.AvalonDock
 		/// </summary>
 		/// <param name="content">LayoutContent to search</param>
 		/// <returns>Either a LayoutAnchorableItem or LayoutDocumentItem which contains the LayoutContent passed as argument</returns>
-		public LayoutItem GetLayoutItemFromModel(LayoutContent content)
+		public LayoutItem GetLayoutItemFromModel(LayoutElement content)
 		{
 			return _layoutItems.FirstOrDefault(item => item.LayoutElement == content);
 		}

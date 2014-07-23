@@ -87,10 +87,14 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			Model = null;
 		}
 
-		public LayoutContent LayoutElement
+		public LayoutElement LayoutElement
 		{
 			get;
 			private set;
+		}
+		public LayoutContent LayoutContent
+		{
+			get { return LayoutElement as LayoutContent; }
 		}
 
 		public object Model
@@ -299,9 +303,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		protected virtual void OnVisibilityChanged()
 		{
-			if (LayoutElement != null &&
-				Visibility == System.Windows.Visibility.Collapsed)
-				LayoutElement.Close();
+			if (LayoutContent != null && Visibility == System.Windows.Visibility.Collapsed)
+				LayoutContent.Close();
 		}
 
 		#endregion
@@ -339,8 +342,9 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		/// </summary>
 		protected virtual void OnContentIdChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (LayoutElement != null)
-				LayoutElement.ContentId = (string)e.NewValue;
+			var layoutContent = LayoutElement as LayoutContent;
+			if (layoutContent != null)
+				layoutContent.ContentId = (string)e.NewValue;
 		}
 
 		#endregion
@@ -472,8 +476,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		/// </summary>
 		protected virtual void OnCanCloseChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (LayoutElement != null)
-				LayoutElement.CanClose = (bool)e.NewValue;
+			if (LayoutContent != null)
+				LayoutContent.CanClose = (bool)e.NewValue;
 		}
 
 		#endregion
@@ -511,8 +515,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		/// </summary>
 		protected virtual void OnCanFloatChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (LayoutElement != null)
-				LayoutElement.CanFloat = (bool)e.NewValue;
+			if (LayoutContent != null)
+				LayoutContent.CanFloat = (bool)e.NewValue;
 		}
 
 		#endregion
@@ -564,10 +568,10 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		private bool CanExecuteCloseCommand(object parameter)
 		{
 #if DEBUG
-			if (LayoutElement != null)
-				System.Diagnostics.Trace.WriteLine(string.Format("CanExecuteCloseCommand({0}) = {1}", LayoutElement.Title, LayoutElement.CanClose));
+			if (LayoutContent != null)
+				System.Diagnostics.Trace.WriteLine(string.Format("CanExecuteCloseCommand({0}) = {1}", LayoutElement.Title, LayoutContent.CanClose));
 #endif
-			return LayoutElement != null && (LayoutElement.Root == null || LayoutElement.Root.Manager.AllowChangeLayout) && LayoutElement.CanClose;
+			return LayoutContent != null && (LayoutElement.Root == null || LayoutElement.Root.Manager.AllowChangeLayout) && LayoutContent.CanClose;
 		}
 
 		private void ExecuteCloseCommand(object parameter)
@@ -626,12 +630,12 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		private bool CanExecuteFloatCommand(object anchorable)
 		{
-			return LayoutElement != null && (LayoutElement.Root == null || LayoutElement.Root.Manager.AllowChangeLayout) && LayoutElement.CanFloat && LayoutElement.FindParent<LayoutFloatingWindow>() == null;
+			return LayoutContent != null && (LayoutElement.Root == null || LayoutElement.Root.Manager.AllowChangeLayout) && LayoutContent.CanFloat && LayoutElement.FindParent<LayoutFloatingWindow>() == null;
 		}
 
 		private void ExecuteFloatCommand(object parameter)
 		{
-			LayoutElement.Root.Manager._ExecuteFloatCommand(LayoutElement);
+			LayoutElement.Root.Manager._ExecuteFloatCommand(LayoutContent);
 		}
 
 		protected virtual void Float()
@@ -693,7 +697,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		private void ExecuteDockAsDocumentCommand(object parameter)
 		{
-			LayoutElement.Root.Manager._ExecuteDockAsDocumentCommand(LayoutElement);
+			LayoutElement.Root.Manager._ExecuteDockAsDocumentCommand(LayoutContent);
 		}
 
 		#endregion
@@ -756,7 +760,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		private void ExecuteCloseAllButThisCommand(object parameter)
 		{
-			LayoutElement.Root.Manager._ExecuteCloseAllButThisCommand(LayoutElement);
+			LayoutElement.Root.Manager._ExecuteCloseAllButThisCommand(LayoutContent);
 		}
 
 		#endregion
@@ -812,7 +816,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		private void ExecuteActivateCommand(object parameter)
 		{
-			LayoutElement.Root.Manager._ExecuteContentActivateCommand(LayoutElement);
+			LayoutElement.Root.Manager._ExecuteContentActivateCommand(LayoutContent);
 		}
 
 		#endregion

@@ -62,7 +62,6 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			}
 		}
 
-
 		Canvas _mainCanvasPanel;
 		Grid _gridDockingManagerDropTargets;
 		Grid _gridAnchorablePaneDropTargets;
@@ -530,7 +529,6 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 			areaElement.Visibility = System.Windows.Visibility.Hidden;
 		}
-
 		void IOverlayWindow.DragEnter(IDropTarget target)
 		{
 			var previewBoxPath = target.GetPreviewPath(this, _floatingWindow.Model as LayoutFloatingWindow);
@@ -540,17 +538,13 @@ namespace Xceed.Wpf.AvalonDock.Controls
 				_previewBox.Visibility = System.Windows.Visibility.Visible;
 			}
 		}
-
 		void IOverlayWindow.DragLeave(IDropTarget target)
 		{
 			_previewBox.Visibility = System.Windows.Visibility.Hidden;
 		}
-
 		void IOverlayWindow.DragDrop(IDropTarget target)
 		{
 			target.Drop(_floatingWindow.Model as LayoutFloatingWindow);
 		}
-
-
 	}
 }
