@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
+using System.Collections.Generic;
 
 namespace FiresecAPI.Journal
 {
@@ -13,6 +14,7 @@ namespace FiresecAPI.Journal
 			DeviceDateTime = DateTime.Now;
 			SystemDateTime = DateTime.Now;
 			StateClass = XStateClass.Norm;
+			JournalDetalisationItems = new List<JournalDetalisationItem>();
 		}
 
 		[DataMember]
@@ -53,5 +55,8 @@ namespace FiresecAPI.Journal
 
 		[DataMember]
 		public int CardNo { get; set; }
+
+		[DataMember]
+		public List<JournalDetalisationItem> JournalDetalisationItems { get; set; }
 	}
 }

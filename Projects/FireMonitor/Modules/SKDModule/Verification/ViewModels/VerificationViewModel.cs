@@ -79,7 +79,8 @@ namespace SKDModule.ViewModels
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.ObjectUID == Device.UID)
+				if (journalItem.ObjectUID == Device.UID &&
+					(journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен))
 				{
 					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
 					DateTime = journalItem.SystemDateTime.ToString();
@@ -98,21 +99,21 @@ namespace SKDModule.ViewModels
 							CardNo = journalItem.CardNo
 						};
 						var employees = EmployeeHelper.Get(employeeFilter);
-						var shortEmployee = employees.FirstOrDefault();
-						if (shortEmployee != null)
+						ShortEmployee = employees.FirstOrDefault();
+						if (ShortEmployee != null)
 						{
-							ShortEmployee = shortEmployee;
-							var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(shortEmployee.UID);
+							var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(ShortEmployee.UID);
 							if (!operationResult.HasError)
 							{
 								var employee = operationResult.Result;
 								var photo = employee.Photo;
 								PhotoColumnViewModel = new PhotoColumnViewModel(employee.Photo);
+								continue;
 							}
 						}
 					}
-
-					IsCommandEnabled = true;
+					ShortEmployee = null;
+					PhotoColumnViewModel = null;
 				}
 			}
 		}

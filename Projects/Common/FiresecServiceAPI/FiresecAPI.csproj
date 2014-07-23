@@ -143,6 +143,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="XModels\CallbackResult.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\EventDescriptionAttributeHelper.cs" />

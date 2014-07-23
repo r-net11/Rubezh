@@ -40,10 +40,10 @@ namespace ControllerSDK.ViewModels
 				for (int j = 0; j < 4; j++)
 				{
 					var timeSheduleInterval = new TimeSheduleInterval();
-					timeSheduleInterval.BeginHours = j + 4;
-					timeSheduleInterval.EndHours = i + 10;
-					timeSheduleInterval.EndMinutes = 10 + j * 10;
-					timeSheduleInterval.EndMinutes = DateTime.Now.Second;
+					timeSheduleInterval.BeginHours = 0;
+					timeSheduleInterval.EndMinutes = 0;
+					timeSheduleInterval.EndHours = 23;
+					timeSheduleInterval.EndMinutes = 59;
 					timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
 				}
 			}
@@ -57,7 +57,7 @@ namespace ControllerSDK.ViewModels
 			set
 			{
 				_index = value;
-				OnPropertyChanged("Index");
+				OnPropertyChanged(() => Index);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace ControllerSDK.ViewModels
 			set
 			{
 				_timeShedules = value;
-				OnPropertyChanged("TimeShedules");
+				OnPropertyChanged(() => TimeShedules);
 			}
 		}
 
@@ -79,7 +79,7 @@ namespace ControllerSDK.ViewModels
 			set
 			{
 				_selectedTimeShedule = value;
-				OnPropertyChanged("SelectedTimeShedule");
+				OnPropertyChanged(() => SelectedTimeShedule);
 			}
 		}
 	}
