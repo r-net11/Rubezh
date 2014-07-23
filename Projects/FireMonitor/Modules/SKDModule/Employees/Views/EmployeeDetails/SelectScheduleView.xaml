@@ -18,11 +18,11 @@
 		<ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
 			<DataGrid ItemsSource="{Binding Schedules}" >
 				<DataGrid.Columns>
-					<DataGridTemplateColumn Header="Название" Width="*" >
+					<DataGridTemplateColumn Header="Название" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<RadioButton GroupName="Schedules" VerticalAlignment="Center" Margin="2"
-											 Content="{Binding Name}" IsChecked="{Binding IsChecked}" Command="{Binding SelectCommand}"/>
+								    Content="{Binding Name}" IsChecked="{Binding IsChecked}" Command="{Binding SelectCommand}"/>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

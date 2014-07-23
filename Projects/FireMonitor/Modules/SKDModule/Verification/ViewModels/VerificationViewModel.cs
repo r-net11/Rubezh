@@ -10,20 +10,63 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using FiresecClient.SKDHelpers;
 using FiresecClient;
+using System;
 
 namespace SKDModule.ViewModels
 {
 	public class VerificationViewModel : ViewPartViewModel
 	{
-		public ShortEmployee ShortEmployee { get; private set; }
-		public PhotoColumnViewModel PhotoColumnViewModel { get; private set; }
+		public SKDDevice Device { get; private set; }
+
+		string _eventName;
+		public string EventName
+		{
+			get { return _eventName; }
+			set
+			{
+				_eventName = value;
+				OnPropertyChanged(() => EventName);
+			}
+		}
+
+		string _dateTime;
+		public string DateTime
+		{
+			get { return _dateTime; }
+			set
+			{
+				_dateTime = value;
+				OnPropertyChanged(() => DateTime);
+			}
+		}
+
+		ShortEmployee _shortEmployee;
+		public ShortEmployee ShortEmployee
+		{
+			get { return _shortEmployee; }
+			set
+			{
+				_shortEmployee = value;
+				OnPropertyChanged(() => ShortEmployee);
+			}
+		}
+
+		PhotoColumnViewModel _photoColumnViewModel;
+		public PhotoColumnViewModel PhotoColumnViewModel
+		{
+			get { return _photoColumnViewModel; }
+			set
+			{
+				_photoColumnViewModel = value;
+				OnPropertyChanged(() => PhotoColumnViewModel);
+			}
+		}
 
 		public VerificationViewModel(LayoutPartSKDVerificationProperties layoutPartSKDVerificationProperties)
 		{
 			DenyCommand = new RelayCommand(OnDeny);
 			AllowCommand = new RelayCommand(OnAllow);
 			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == layoutPartSKDVerificationProperties.ReaderDeviceUID);
-			VerificationItemViewModel = new VerificationItemViewModel();
 
 			if (Device != null)
 			{
@@ -38,6 +81,9 @@ namespace SKDModule.ViewModels
 			{
 				if (journalItem.ObjectUID == Device.UID)
 				{
+					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
+					DateTime = journalItem.SystemDateTime.ToString();
+
 					var cardFilter = new CardFilter()
 					{
 						FirstNos = journalItem.CardNo,
@@ -66,17 +112,10 @@ namespace SKDModule.ViewModels
 						}
 					}
 
-					var verificationItemViewModel = new VerificationItemViewModel();
-					verificationItemViewModel.EmployeeCardID = journalItem.CardNo.ToString();
-					VerificationItemViewModel = verificationItemViewModel;
-					OnPropertyChanged("VerificationItemViewModel");
 					IsCommandEnabled = true;
 				}
 			}
 		}
-
-		public SKDDevice Device { get; private set; }
-		public VerificationItemViewModel VerificationItemViewModel { get; private set; }
 
 		bool _isCommandEnabled;
 		public bool IsCommandEnabled
@@ -85,7 +124,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isCommandEnabled = value;
-				OnPropertyChanged("IsCommandEnabled");
+				OnPropertyChanged(() => IsCommandEnabled);
 			}
 		}
 
@@ -111,12 +150,6 @@ namespace SKDModule.ViewModels
 			return IsCommandEnabled;
 		}
 
-		BackgroundWorker BackgroundWorker;
-		void OnBackgroundWorker()
-		{
-
-		}
-
 		int _commandTimer;
 		public int CommandTimer
 		{
@@ -124,7 +157,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_commandTimer = value;
-				OnPropertyChanged("CommandTimer");
+				OnPropertyChanged(() => CommandTimer);
 			}
 		}
 	}

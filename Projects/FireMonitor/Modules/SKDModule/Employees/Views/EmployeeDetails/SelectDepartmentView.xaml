@@ -11,7 +11,7 @@
 		<tree:TreeList Grid.Row="0" Focusable="True" Source="{Binding RootDepartments}" SelectedItem="{Binding HighlightedDepartment}">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Header="Название" Width="Auto">
+                    <GridViewColumn Header="Название">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -26,17 +26,9 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Примечание">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" Margin="2" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-		<Button Grid.Row="1" HorizontalAlignment="Right" Content="Добавить новый отдел" Width="200"
-				Command="{Binding AddCommand}" />
+        <Button Grid.Row="1" Content="Добавить новый отдел" Command="{Binding AddCommand}" HorizontalAlignment="Right" Width="200" Margin="2" />
 	</Grid>
 </UserControl>

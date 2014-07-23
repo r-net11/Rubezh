@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 
 		public SelectDepartmentViewModel(Employee employee, ShortDepartment department, HRViewModel hrViewModel)
 		{
-			Title = "Отдел";
+			Title = "Выбор отдела";
 			Employee = employee;
 			_hrViewModel = hrViewModel;
 			AddCommand = new RelayCommand(OnAdd);

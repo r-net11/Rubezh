@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 
 		public SelectPositionViewModel(Employee employee, ShortPosition position, HRViewModel hrViewModel)
 		{
-			Title = "Должность";
+			Title = "Выбор должности";
 			Employee = employee;
 			_hrViewModel = hrViewModel;
 			AddCommand = new RelayCommand(OnAdd);

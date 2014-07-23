@@ -21,7 +21,6 @@ namespace JournalModule.ViewModels
 		public static DateTime ArchiveFirstDate { get; private set; }
 		public ArchiveDefaultState ArchiveDefaultState;
 		ArchiveFilter ArchiveFilter;
-		bool FirstTime = true;
 		Guid ArchivePortionUID;
 
 		public ArchiveViewModel()
@@ -370,15 +369,6 @@ namespace JournalModule.ViewModels
 				if (CurrentPageNumber == 0)
 					CurrentPageNumber = 1;
 				Status = "Количество записей: " + ((TotalPageNumber - 1) * ArchiveDefaultState.PageSize + archiveResult.JournalItems.Count()).ToString();
-			}
-		}
-
-		public override void OnShow()
-		{
-			if (FirstTime)
-			{
-				FirstTime = false;
-				Update();
 			}
 		}
 
