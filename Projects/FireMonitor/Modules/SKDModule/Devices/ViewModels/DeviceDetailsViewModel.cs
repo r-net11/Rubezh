@@ -37,6 +37,7 @@ namespace SKDModule.ViewModels
 
 			Device = device;
 			DeviceStateViewModel = new DeviceStateViewModel(State);
+			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(Device);
 			DevicePropertiesViewModel = new DevicePropertiesViewModel(Device);

@@ -26,6 +26,7 @@ namespace SKDModule.ViewModels
 			Door = door;
 			InDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.InDeviceUID);
 			OutDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == Door.OutDeviceUID);
+			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 

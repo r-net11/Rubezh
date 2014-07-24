@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 		{
 			State = deviceState;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
+			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 		}

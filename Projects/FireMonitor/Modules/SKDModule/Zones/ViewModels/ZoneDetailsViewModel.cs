@@ -33,6 +33,7 @@ namespace SKDModule.ViewModels
 			DetectEmployeesCommand = new RelayCommand(OnDetectEmployees, CanDetectEmployees);
 
 			Zone = zone;
+			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 

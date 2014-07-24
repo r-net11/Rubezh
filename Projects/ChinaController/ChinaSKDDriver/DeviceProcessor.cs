@@ -193,6 +193,7 @@ namespace ChinaSKDDriver
 
 		public void Stop()
 		{
+			Wrapper.Disconnect();
 			IsStopping = true;
 			if (AutoResetEvent != null)
 			{

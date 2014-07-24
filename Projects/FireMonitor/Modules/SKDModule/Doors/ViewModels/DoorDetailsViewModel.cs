@@ -32,6 +32,7 @@ namespace SKDModule.ViewModels
 			CloseCommand = new RelayCommand(OnClose, CanClose);
 
 			Door = door;
+			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			InitializePlans();
 

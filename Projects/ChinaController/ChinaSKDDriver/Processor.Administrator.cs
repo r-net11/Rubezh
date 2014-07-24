@@ -153,8 +153,8 @@ namespace ChinaSKDDriver
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
-				//if (!deviceProcessor.IsConnected)
-				//    return new OperationResult<bool>("Нет связи с контроллером");
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<bool>("Нет связи с контроллером");
 
 				var progressCallback = Processor.StartProgress("Запись графиков работ в прибор " + deviceProcessor.Device.Name, "", 128, true, GKProgressClientType.Administrator);
 
@@ -199,8 +199,7 @@ namespace ChinaSKDDriver
 					Processor.DoProgress("Запись графика " + i, progressCallback);
 
 					System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
-					var result = true;
-					//var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
+					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
 					if (!result)
 					{
 						Processor.StopProgress(progressCallback);

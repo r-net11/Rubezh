@@ -24,6 +24,7 @@ namespace SKDModule.ViewModels
 		public ZoneViewModel(SKDZone zone)
 		{
 			Zone = zone;
+			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 
