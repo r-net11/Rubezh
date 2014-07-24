@@ -18,7 +18,7 @@ namespace FiresecServiceRunner
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-			PatchManager.Patch();
+			GKPatchManager.Patch();
 			ThemeHelper.LoadThemeFromRegister();
 			ServerLoadHelper.SetLocation(System.Reflection.Assembly.GetExecutingAssembly().Location);
 			ServerLoadHelper.SetStatus(FSServerState.Opening);

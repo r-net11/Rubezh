@@ -7,20 +7,6 @@ namespace ChinaSKDDriver
 {
 	public static partial class Processor
 	{
-		public static SKDStates SKDGetStates()
-		{
-			var skdStates = new SKDStates();
-			foreach (var device in SKDManager.Devices)
-			{
-				skdStates.DeviceStates.Add(device.State);
-			}
-			foreach (var zone in SKDManager.Zones)
-			{
-				skdStates.ZoneStates.Add(zone.State);
-			}
-			return skdStates;
-		}
-
 		public static OperationResult<bool> OpenDoor(SKDDevice device)
 		{
 			if (device.Parent != null)

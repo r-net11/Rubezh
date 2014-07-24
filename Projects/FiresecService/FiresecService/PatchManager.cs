@@ -1,28 +1,73 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Windows;
 using Common;
-using GKProcessor;
-using Infrastructure.Common;
+using Microsoft.SqlServer.Management.Common;
+using Microsoft.SqlServer.Management.Smo;
 
-namespace FSAgentServer
+namespace FiresecService
 {
 	public static class PatchManager
 	{
+		static string connectionString = @"Data Source=.\sqlexpress;Initial Catalog=master;Integrated Security=True"; 
+		
 		public static void Patch()
 		{
 			try
 			{
-				Patcher.AddPatch("FiresecService.Config_2", () => Patch1());
-				Patcher.Patch();
+				var isExists = IsExists();
+				if (!isExists)
+					Create();
+				ApplyPatches();
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "PatchManager.Patch");
+				Logger.Error(e, "SKDPatchManager");
 			}
 		}
 
-		static void Patch1()
+		static bool IsExists()
 		{
-			XDeviceLibraryConfigurationPatchHelper.Patch();
+			SqlConnection connection = new SqlConnection(connectionString); 
+			var sqlCommand = new SqlCommand(
+				@"SELECT name FROM sys.databases WHERE name = 'SKD'",
+				connection);
+			connection.Open();
+			var reader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+			bool result = reader.Read();
+			connection.Close();
+			connection.Dispose();
+			return result;
+		}
+
+		static void Create()
+		{
+			var connection = new SqlConnection(connectionString); 
+			string commandText = "";
+			var stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Create.sql"));
+			using (StreamReader sr = new StreamReader(stream.Stream))
+			{
+				commandText = sr.ReadToEnd();
+			}
+			var server = new Server(new ServerConnection(connection));
+			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+		}
+
+		static void ApplyPatches()
+		{
+			SqlConnection connection = new SqlConnection(connectionString); 
+			string commandText;
+			var stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Patches.sql"));
+			using (StreamReader sr = new StreamReader(stream.Stream))
+			{
+				commandText = sr.ReadToEnd();
+			}
+			var server = new Server(new ServerConnection(connection));
+			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
 		}
 	}
 }
+
+

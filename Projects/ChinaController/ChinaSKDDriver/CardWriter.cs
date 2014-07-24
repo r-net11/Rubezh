@@ -38,7 +38,10 @@ namespace ChinaSKDDriver
 				if (door != null)
 				{
 					Add(skdCard, controllerCardItems, door.InDeviceUID, cardDoor.EnterIntervalID);
-					Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitIntervalID);
+					if (door.OutDevice.DriverType == SKDDriverType.Reader)
+					{
+						Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitIntervalID);
+					}
 				}
 			}
 			return controllerCardItems;
@@ -64,6 +67,7 @@ namespace ChinaSKDDriver
 				{
 					readerIntervalItem = new ReaderIntervalItem();
 					readerIntervalItem.ReaderUID = readerUID;
+					controllerCardItem.ReaderIntervalItems.Add(readerIntervalItem);
 				}
 				readerIntervalItem.WeeklyIntervalID = intervalID;
 			}
@@ -114,6 +118,20 @@ namespace ChinaSKDDriver
 			return controllerCardItems;
 		}
 
+		public void EditCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate)
+		{
+			var controllerCardItems_ToDelete = Create_ControllerCardItems_ToDelete(oldCard, oldAccessTemplate);
+			var controllerCardItems_ToEdit = Create_ControllerCardItems_ToAdd(newCard, newAccessTemplate);
+			foreach (var controllerCardItem_ToEdit in controllerCardItems_ToEdit)
+			{
+				controllerCardItem_ToEdit.ActionType = ControllerCardItem.ActionTypeEnum.Edit;
+				controllerCardItems_ToDelete.RemoveAll(x => x.ControllerDevice.UID == controllerCardItem_ToEdit.ControllerDevice.UID);
+			}
+			ControllerCardItems = controllerCardItems_ToDelete;
+			ControllerCardItems.AddRange(controllerCardItems_ToEdit);
+			ProcessControllerCardItems(ControllerCardItems);
+		}
+
 		void ProcessControllerCardItems(List<ControllerCardItem> controllerCardItems)
 		{
 			foreach (var controllerCardItem in controllerCardItems)
@@ -125,14 +143,21 @@ namespace ChinaSKDDriver
 					card.CardNo = controllerCardItem.Card.Number.ToString();
 					card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
 					card.ValidStartDateTime = controllerCardItem.Card.StartDate;
-					card.ValidEndDateTime = controllerCardItem.Card.EndDate;
+					if (controllerCardItem.Card.CardType == FiresecAPI.SKD.CardType.Constant)
+					{
+						card.ValidEndDateTime = controllerCardItem.Card.StartDate.AddYears(100);
+					}
+					else
+					{
+						card.ValidEndDateTime = controllerCardItem.Card.EndDate;
+					}
 
 					foreach (var readerIntervalItem in controllerCardItem.ReaderIntervalItems)
 					{
 						var readerDevice = SKDManager.SKDConfiguration.Devices.FirstOrDefault(x => x.UID == readerIntervalItem.ReaderUID);
 						if (readerDevice != null)
 						{
-							card.Doors.Add(readerDevice.IntAddress + 1);
+							card.Doors.Add(readerDevice.IntAddress);
 							card.TimeSections.Add(readerIntervalItem.WeeklyIntervalID);
 						}
 					}
@@ -164,20 +189,6 @@ namespace ChinaSKDDriver
 					controllerCardItem.Error = "Не найден контроллер в конфигурации";
 				}
 			}
-		}
-
-		public void EditCard(SKDCard oldCard, AccessTemplate oldAccessTemplate, SKDCard newCard, AccessTemplate newAccessTemplate)
-		{
-			var controllerCardItems_ToDelete = Create_ControllerCardItems_ToDelete(oldCard, oldAccessTemplate);
-			var controllerCardItems_ToEdit = Create_ControllerCardItems_ToAdd(newCard, newAccessTemplate);
-			foreach (var controllerCardItem_ToEdit in controllerCardItems_ToEdit)
-			{
-				controllerCardItem_ToEdit.ActionType = ControllerCardItem.ActionTypeEnum.Edit;
-				controllerCardItems_ToDelete.RemoveAll(x => x.ControllerDevice.UID == controllerCardItem_ToEdit.ControllerDevice.UID);
-			}
-			ControllerCardItems = controllerCardItems_ToDelete;
-			ControllerCardItems.AddRange(controllerCardItems_ToEdit);
-			ProcessControllerCardItems(ControllerCardItems);
 		}
 
 		public class ControllerCardItem
