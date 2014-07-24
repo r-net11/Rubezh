@@ -109,7 +109,7 @@ namespace ChinaSKDDriver
 							var controllerCardItem = new ControllerCardItem();
 							controllerCardItem.Card = skdCard;
 							controllerCardItem.ControllerDevice = readerDevice.Parent;
-							controllerCardItem.ActionType = ControllerCardItem.ActionTypeEnum.Add;
+							controllerCardItem.ActionType = ControllerCardItem.ActionTypeEnum.Delete;
 							controllerCardItems.Add(controllerCardItem);
 						}
 					}

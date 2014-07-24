@@ -65,7 +65,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 				if (OnChecked != null)
 					OnChecked(this);
 			}
@@ -78,7 +78,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isAntiPassback = value;
-				OnPropertyChanged("IsAntiPassback");
+				OnPropertyChanged(() => IsAntiPassback);
 			}
 		}
 
@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isComission = value;
-				OnPropertyChanged("IsComission");
+				OnPropertyChanged(() => IsComission);
 			}
 		}
 

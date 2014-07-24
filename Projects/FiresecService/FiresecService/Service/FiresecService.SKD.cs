@@ -459,10 +459,18 @@ namespace FiresecService.Service
 				var errors = new List<string>();
 				foreach (var device in zone.Devices)
 				{
-					var result = ChinaSKDDriver.Processor.OpenDoor(device);
-					if (result.HasError)
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					if (lockDevice != null)
 					{
-						errors.Add(result.Error);
+						var result = ChinaSKDDriver.Processor.OpenDoor(lockDevice);
+						if (result.HasError)
+						{
+							errors.Add(result.Error);
+						}
+					}
+					else
+					{
+						return new OperationResult<bool>("Для зоны не найден замок");
 					}
 				}
 				if (errors.Count > 0)
@@ -485,10 +493,18 @@ namespace FiresecService.Service
 				var errors = new List<string>();
 				foreach (var device in zone.Devices)
 				{
-					var result = ChinaSKDDriver.Processor.CloseDoor(device);
-					if (result.HasError)
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					if (lockDevice != null)
 					{
-						errors.Add(result.Error);
+						var result = ChinaSKDDriver.Processor.CloseDoor(lockDevice);
+						if (result.HasError)
+						{
+							errors.Add(result.Error);
+						}
+					}
+					else
+					{
+						return new OperationResult<bool>("Для зоны не найден замок");
 					}
 				}
 				if (errors.Count > 0)

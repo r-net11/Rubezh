@@ -14,16 +14,20 @@ namespace ControllerSDK.ViewModels
 			ValidEndDateTime = card.ValidEndDateTime.ToString();
 
 			Doors = card.DoorsCount.ToString() + "(";
-			foreach (var door in card.Doors)
+			for (int i = 0; i < card.DoorsCount; i++)
 			{
-				Doors += door.ToString() + ",";
+				Doors += card.Doors[i].ToString();
+				if(i < card.DoorsCount - 1)
+					Doors += ",";
 			}
 			Doors += ")";
 
 			TimeSections = card.TimeSectionsCount.ToString() + "(";
-			foreach (var timeSection in card.TimeSections)
+			for (int i = 0; i < card.TimeSectionsCount; i++)
 			{
-				TimeSections += timeSection.ToString() + ",";
+				TimeSections += card.TimeSections[i].ToString();
+				if (i < card.TimeSectionsCount - 1)
+					TimeSections += ",";
 			}
 			TimeSections += ")";
 		}

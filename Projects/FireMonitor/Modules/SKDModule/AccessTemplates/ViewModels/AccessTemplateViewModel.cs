@@ -38,6 +38,7 @@ namespace SKDModule.ViewModels
 			Description = accessTemplate.Description;
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => Description);
+			CardZonesViewModel.Update(accessTemplate.CardDoors);
 		}
 	}
 }

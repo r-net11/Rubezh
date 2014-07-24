@@ -58,7 +58,7 @@
 				<ComboBox Grid.Row="3" Grid.Column="1" Width="100" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
-							<TextBlock Margin="1" Text="{Binding PresentationName}" />
+                            <TextBlock Margin="1" Text="{Binding Number}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>

@@ -80,7 +80,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_number = value;
-				OnPropertyChanged("Number");
+				OnPropertyChanged(() => Number);
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_cardTypes = value;
-				OnPropertyChanged("CardTypes");
+				OnPropertyChanged(() => CardTypes);
 			}
 		}
 
@@ -102,8 +102,8 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedCardType = value;
-				OnPropertyChanged("SelectedCardType");
-				OnPropertyChanged("CanSelectEndDate");
+				OnPropertyChanged(() => SelectedCardType);
+				OnPropertyChanged(() => CanSelectEndDate);
 
 				if (value != CardType.Temporary)
 				{
@@ -124,7 +124,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_startDate = value;
-				OnPropertyChanged("StartDate");
+				OnPropertyChanged(() => StartDate);
 
 				if (SelectedCardType != CardType.Temporary)
 				{
@@ -140,7 +140,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_endDate = value;
-				OnPropertyChanged("EndDate");
+				OnPropertyChanged(() => EndDate);
 			}
 		}
 
@@ -151,7 +151,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_availableAccessTemplates = value;
-				OnPropertyChanged("AvailableAccessTemplates");
+				OnPropertyChanged(() => AvailableAccessTemplates);
 			}
 		}
 
@@ -162,7 +162,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedAccessTemplate = value;
-				OnPropertyChanged("SelectedAccessTemplate");
+				OnPropertyChanged(() => SelectedAccessTemplate);
 			}
 		}
 
@@ -173,7 +173,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_useStopList = value;
-				OnPropertyChanged("UseStopList");
+				OnPropertyChanged(() => UseStopList);
 				UpdateStopListCard();
 			}
 		}
@@ -187,7 +187,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedStopListCard = value;
-				OnPropertyChanged("SelectedStopListCard");
+				OnPropertyChanged(() => SelectedStopListCard);
 				UpdateStopListCard();
 			}
 		}
@@ -207,7 +207,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_useReader = value;
-				OnPropertyChanged("UseReader");
+				OnPropertyChanged(() => UseReader);
 				if (value)
 				{
 					ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournal);
@@ -239,7 +239,7 @@ namespace SKDModule.ViewModels
 			var readerSelectationViewModel = new ReaderSelectationViewModel(ClientSettings.SKDSettings.CardCreatorReaderUID);
 			if (DialogService.ShowModalWindow(readerSelectationViewModel))
 			{
-				OnPropertyChanged("ReaderName");
+				OnPropertyChanged(() => ReaderName);
 			}
 		}
 

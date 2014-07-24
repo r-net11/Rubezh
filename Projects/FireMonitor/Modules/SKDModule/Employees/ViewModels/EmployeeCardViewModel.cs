@@ -85,8 +85,8 @@ namespace SKDModule.ViewModels
 				if (!saveResult)
 					return;
 				Card = card;
-				OnPropertyChanged("Card");
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Card);
+				OnPropertyChanged(() => Name);
 				CardDoorsViewModel.Update(Card.CardDoors);
 			}
 		}
@@ -112,7 +112,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isCardSelected = value;
-				OnPropertyChanged("IsCardSelected");
+				OnPropertyChanged(() => IsCardSelected);
 			}
 		}
 	}
