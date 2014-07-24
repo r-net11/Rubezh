@@ -18,11 +18,12 @@ using System.Collections.Generic;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
-    public interface ILayoutContainer : ILayoutElement
-    {
-        IEnumerable<ILayoutElement> Children { get; }
-        void RemoveChild(ILayoutElement element);
-        void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement);
-        int ChildrenCount { get; }
-    }
+	public interface ILayoutContainer : ILayoutElement
+	{
+		IEnumerable<ILayoutElement> Children { get; }
+		int ChildrenCount { get; }
+
+		void RemoveChild(ILayoutElement element);
+		void ReplaceChild(ILayoutElement oldElement, ILayoutElement newElement);
+	}
 }

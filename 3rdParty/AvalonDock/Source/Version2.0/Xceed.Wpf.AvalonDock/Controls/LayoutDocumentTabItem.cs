@@ -41,8 +41,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		/// Model Dependency Property
 		/// </summary>
 		public static readonly DependencyProperty ModelProperty =
-			DependencyProperty.Register("Model", typeof(LayoutContent), typeof(LayoutDocumentTabItem),
-				new FrameworkPropertyMetadata((LayoutContent)null,
+			DependencyProperty.Register("Model", typeof(LayoutElement), typeof(LayoutDocumentTabItem),
+				new FrameworkPropertyMetadata((LayoutElement)null,
 					new PropertyChangedCallback(OnModelChanged)));
 
 		/// <summary>
@@ -177,7 +177,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 					int indexOfTabItemWithMouseOver = _otherTabsScreenArea.FindIndex(r => r.Contains(mousePosInScreenCoord));
 					if (indexOfTabItemWithMouseOver >= 0)
 					{
-						var targetModel = _otherTabs[indexOfTabItemWithMouseOver].Content as LayoutContent;
+						var targetModel = _otherTabs[indexOfTabItemWithMouseOver].Content as ILayoutElement;
 						var container = Model.Parent as ILayoutContainer;
 						var containerPane = Model.Parent as ILayoutPane;
 						var childrenList = container.Children.ToList();

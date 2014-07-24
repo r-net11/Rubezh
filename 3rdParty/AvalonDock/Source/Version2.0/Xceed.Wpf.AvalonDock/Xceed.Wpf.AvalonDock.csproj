@@ -153,6 +153,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="DockingManager.cs" />
     <Compile Include="Layout\ChildrenTreeChangedEventArgs.cs" />
+    <Compile Include="Layout\ILayoutContent.cs" />
     <Compile Include="Layout\LayoutDocumentPaneTab.cs" />
     <Compile Include="Layout\Extentions.cs" />
     <Compile Include="Layout\ILayoutAnchorablePane.cs" />
@@ -257,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="DiagramInterfaces.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

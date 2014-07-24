@@ -51,8 +51,8 @@ namespace AvalonDock.MVVMTestApp
 
 		void MainWindow_Unloaded(object sender, RoutedEventArgs e)
 		{
-			var serializer = new Xceed.Wpf.AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
-			serializer.Serialize(@".\AvalonDock.config");
+			//var serializer = new Xceed.Wpf.AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
+			//serializer.Serialize(@".\AvalonDock.config");
 		}
 
 		#region LoadLayoutCommand
