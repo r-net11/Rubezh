@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged("Organisations");
+			OnPropertyChanged(() => Organisations);
 			SelectedDocument = Organisations.FirstOrDefault();
 		}
 
@@ -67,7 +67,7 @@ namespace SKDModule.ViewModels
 				_selectedDocument = value;
 				if (value != null)
 					value.ExpandToThis();
-				OnPropertyChanged("SelectedDocument");
+				OnPropertyChanged(() => SelectedDocument);
 			}
 		}
 

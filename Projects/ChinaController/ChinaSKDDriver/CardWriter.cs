@@ -37,14 +37,14 @@ namespace ChinaSKDDriver
 				var door = SKDManager.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
 				if (door != null)
 				{
-					Add(controllerCardItems, door.InDeviceUID, cardDoor.EnterIntervalID);
-					Add(controllerCardItems, door.OutDeviceUID, cardDoor.ExitIntervalID);
+					Add(skdCard, controllerCardItems, door.InDeviceUID, cardDoor.EnterIntervalID);
+					Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitIntervalID);
 				}
 			}
 			return controllerCardItems;
 		}
 
-		void Add(List<ControllerCardItem> controllerCardItems, Guid readerUID, int intervalID)
+		void Add(SKDCard card, List<ControllerCardItem> controllerCardItems, Guid readerUID, int intervalID)
 		{
 			var readerDevice = SKDManager.SKDConfiguration.Devices.FirstOrDefault(x => x.UID == readerUID);
 			if (readerDevice != null && readerDevice.Parent != null)
@@ -54,6 +54,7 @@ namespace ChinaSKDDriver
 				if (controllerCardItem == null)
 				{
 					controllerCardItem = new ControllerCardItem();
+					controllerCardItem.Card = card;
 					controllerCardItem.ControllerDevice = controllerDevice;
 					controllerCardItem.ActionType = ControllerCardItem.ActionTypeEnum.Add;
 					controllerCardItems.Add(controllerCardItem);
@@ -102,8 +103,8 @@ namespace ChinaSKDDriver
 						if (controllerDevices.Add(readerDevice.Parent))
 						{
 							var controllerCardItem = new ControllerCardItem();
-							controllerCardItem.ControllerDevice = readerDevice.Parent;
 							controllerCardItem.Card = skdCard;
+							controllerCardItem.ControllerDevice = readerDevice.Parent;
 							controllerCardItem.ActionType = ControllerCardItem.ActionTypeEnum.Add;
 							controllerCardItems.Add(controllerCardItem);
 						}

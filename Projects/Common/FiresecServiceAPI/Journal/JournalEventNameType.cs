@@ -314,8 +314,11 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.SKD, "Восстановление связи", XStateClass.ConnectionLost)]
 		Восстановление_связи,
 
-		[EventDescription(JournalSubsystemType.SKD, "Проход", XStateClass.Info)]
-		Проход,
+		[EventDescription(JournalSubsystemType.SKD, "Проход разрешен", XStateClass.Info)]
+		Проход_разрешен,
+
+		[EventDescription(JournalSubsystemType.SKD, "Проход запрещен", XStateClass.Attention)]
+		Проход_запрещен,
 
 		[EventDescription(JournalSubsystemType.SKD, "Дверь не закрыта", XStateClass.Failure)]
 		Дверь_не_закрыта,

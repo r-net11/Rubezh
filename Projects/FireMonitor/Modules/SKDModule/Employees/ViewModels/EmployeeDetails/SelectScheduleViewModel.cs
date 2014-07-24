@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 
 		public SelectScheduleViewModel(Employee employee, ShortSchedule schedule, DateTime startDate)
 		{
-			Title = "Должность";
+			Title = "Выбор графика работы";
 			Employee = employee;
 			StartDate = startDate;
 			Schedules = new ObservableCollection<SelectationScheduleViewModel>();

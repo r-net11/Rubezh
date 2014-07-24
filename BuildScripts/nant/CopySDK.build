@@ -2,11 +2,6 @@
 <project name="Simple" default="run">
   <property name="nant.settings.currentframework" value="net-4.0" />
   <target name="run">
-    <copy todir="..\..\Projects\ChinaController\ChinaSKDDriverTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="..\..\Projects\ChinaController\OriginalSDK\EntranceGuardDemo\Bin">
-        <include name="**\*" />
-      </fileset>
-    </copy>
     <copy todir="..\..\Projects\FiresecService\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\ChinaController\OriginalSDK\EntranceGuardDemo\Bin">
         <include name="**\*" />
@@ -18,6 +13,21 @@
       </fileset>
     </copy>
 
+    <copy todir="..\..\Projects\ChinaController\ChinaSKDDriverTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\Projects\ChinaController\OriginalSDK\EntranceGuardDemo\Bin">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+    <copy todir="..\..\Projects\ChinaController\ChinaSKDDriverConsoleTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+    <copy todir="..\..\Projects\ChinaController\WindowTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
+        <include name="**\*" />
+      </fileset>
+    </copy>
     <copy todir="..\..\Projects\ChinaController\OriginalSDK\AccessControl\Bin\" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
         <include name="**\*" />
@@ -33,6 +43,7 @@
         <include name="**\*" />
       </fileset>
     </copy>
+    
     <copy todir="..\..\Projects\ChinaController\CPPWrapper\Bin\" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
         <include name="**\*" />
@@ -43,21 +54,17 @@
         <include name="**\*" />
       </fileset>
     </copy>
+    <copy todir="..\..\Projects\ChinaController\ChinaSKDDriver\bin\Release\" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
+        <include name="**\*" />
+      </fileset>
+    </copy>
     <copy todir="..\..\Projects\ChinaController\ChinaSKDDriverTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
         <include name="**\*" />
       </fileset>
     </copy>
-    <copy todir="..\..\Projects\ChinaController\ChinaSKDDriverConsoleTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
-        <include name="**\*" />
-      </fileset>
-    </copy>
-    <copy todir="..\..\Projects\ChinaController\WindowTest\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
-        <include name="**\*" />
-      </fileset>
-    </copy>
+
     <copy todir="..\..\Projects\FiresecService\bin\Debug\" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\..\Projects\ChinaController\Redistributables_1">
         <include name="**\*" />

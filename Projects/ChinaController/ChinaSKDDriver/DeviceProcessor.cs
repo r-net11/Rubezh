@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Threading;
 using ChinaSKDDriverAPI;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecAPI.Journal;
 using System.Collections.Generic;
+using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriver
 {
@@ -39,22 +41,36 @@ namespace ChinaSKDDriver
 				journalItem.DescriptionText = skdJournalItem.Description;
 				journalItem.CardNo = skdJournalItem.CardNo;
 
-				switch(skdJournalItem.JournalEventNameType)
+				switch (skdJournalItem.JournalEventNameType)
 				{
 					case JournalEventNameType.Потеря_связи:
 						OnConnectionChanged(true);
 						return;
 
-						case JournalEventNameType.Восстановление_связи:
+					case JournalEventNameType.Восстановление_связи:
 						OnConnectionChanged(false);
 						return;
 
-					case JournalEventNameType.Проход:
+					case JournalEventNameType.Проход_разрешен:
+					case JournalEventNameType.Проход_запрещен:
 						var readerDevice = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && x.IntAddress == skdJournalItem.DoorNo);
 						if (readerDevice != null)
 						{
 							journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 							journalItem.ObjectUID = readerDevice.UID;
+						}
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Направление", skdJournalItem.emEventType.ToDescription()));
+						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Метод открытия", skdJournalItem.emOpenMethod.ToDescription()));
+
+						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD)
+						{
+							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Тип карты", skdJournalItem.emCardType.ToDescription()));
+							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Номер карты", skdJournalItem.CardNo.ToString()));
+						}
+						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY)
+						{
+							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Пароль", skdJournalItem.szPwd.ToString()));
+							journalItem.CardNo = 0;
 						}
 						break;
 
@@ -67,6 +83,11 @@ namespace ChinaSKDDriver
 						{
 							journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 							journalItem.ObjectUID = device.UID;
+						}
+
+						if (skdJournalItem.JournalEventNameType == JournalEventNameType.Принуждение)
+						{
+							journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Номер карты", skdJournalItem.CardNo.ToString()));
 						}
 						break;
 

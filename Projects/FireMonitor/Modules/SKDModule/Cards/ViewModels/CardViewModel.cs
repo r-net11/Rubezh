@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 		public void Update(SKDCard card)
 		{
 			Card = card;
-			OnPropertyChanged("Card");
+			OnPropertyChanged(() => Card);
 		}
 	}
 }

@@ -17,6 +17,8 @@ namespace JournalModule.ViewModels
 		public JournalViewModel(JournalFilter journalFilter = null)
 		{
 			JournalFilter = journalFilter;
+			if (JournalFilter == null)
+				JournalFilter = new JournalFilter();
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 		}
 
@@ -54,14 +56,23 @@ namespace JournalModule.ViewModels
 		{
 			foreach (var journalItem in journalItems)
 			{
+				if (JournalFilter.JournalSubsystemTypes.Count > 0 && !JournalFilter.JournalSubsystemTypes.Contains(journalItem.JournalSubsystemType))
+					continue;
+				if (JournalFilter.JournalEventNameTypes.Count > 0 && !JournalFilter.JournalEventNameTypes.Contains(journalItem.JournalEventNameType))
+					continue;
+				if (JournalFilter.JournalObjectTypes.Count > 0 && !JournalFilter.JournalObjectTypes.Contains(journalItem.JournalObjectType))
+					continue;
+				if (JournalFilter.ObjectUIDs.Count > 0 && !JournalFilter.ObjectUIDs.Contains(journalItem.ObjectUID))
+					continue;
+
 				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				if (JournalItems.Count > 0)
 					JournalItems.Insert(0, journalItemViewModel);
 				else
 					JournalItems.Add(journalItemViewModel);
 
-				if (JournalItems.Count > 100)
-					JournalItems.RemoveAt(100);
+				if (JournalItems.Count > JournalFilter.LastItemsCount)
+					JournalItems.RemoveAt(JournalFilter.LastItemsCount);
 			}
 
 			if (SelectedJournal == null)

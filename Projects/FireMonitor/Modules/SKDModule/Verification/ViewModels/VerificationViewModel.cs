@@ -10,20 +10,61 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using FiresecClient.SKDHelpers;
 using FiresecClient;
+using System;
 
 namespace SKDModule.ViewModels
 {
 	public class VerificationViewModel : ViewPartViewModel
 	{
-		public ShortEmployee ShortEmployee { get; private set; }
-		public PhotoColumnViewModel PhotoColumnViewModel { get; private set; }
+		public SKDDevice Device { get; private set; }
+
+		string _eventName;
+		public string EventName
+		{
+			get { return _eventName; }
+			set
+			{
+				_eventName = value;
+				OnPropertyChanged(() => EventName);
+			}
+		}
+
+		string _dateTime;
+		public string DateTime
+		{
+			get { return _dateTime; }
+			set
+			{
+				_dateTime = value;
+				OnPropertyChanged(() => DateTime);
+			}
+		}
+
+		ShortEmployee _shortEmployee;
+		public ShortEmployee ShortEmployee
+		{
+			get { return _shortEmployee; }
+			set
+			{
+				_shortEmployee = value;
+				OnPropertyChanged(() => ShortEmployee);
+			}
+		}
+
+		PhotoColumnViewModel _photoColumnViewModel;
+		public PhotoColumnViewModel PhotoColumnViewModel
+		{
+			get { return _photoColumnViewModel; }
+			set
+			{
+				_photoColumnViewModel = value;
+				OnPropertyChanged(() => PhotoColumnViewModel);
+			}
+		}
 
 		public VerificationViewModel(LayoutPartSKDVerificationProperties layoutPartSKDVerificationProperties)
 		{
-			DenyCommand = new RelayCommand(OnDeny);
-			AllowCommand = new RelayCommand(OnAllow);
 			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == layoutPartSKDVerificationProperties.ReaderDeviceUID);
-			VerificationItemViewModel = new VerificationItemViewModel();
 
 			if (Device != null)
 			{
@@ -36,8 +77,12 @@ namespace SKDModule.ViewModels
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.ObjectUID == Device.UID)
+				if (journalItem.ObjectUID == Device.UID && journalItem.CardNo > 0 &&
+					(journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен))
 				{
+					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
+					DateTime = journalItem.SystemDateTime.ToString();
+
 					var cardFilter = new CardFilter()
 					{
 						FirstNos = journalItem.CardNo,
@@ -52,79 +97,22 @@ namespace SKDModule.ViewModels
 							CardNo = journalItem.CardNo
 						};
 						var employees = EmployeeHelper.Get(employeeFilter);
-						var shortEmployee = employees.FirstOrDefault();
-						if (shortEmployee != null)
+						ShortEmployee = employees.FirstOrDefault();
+						if (ShortEmployee != null)
 						{
-							ShortEmployee = shortEmployee;
-							var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(shortEmployee.UID);
+							var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(ShortEmployee.UID);
 							if (!operationResult.HasError)
 							{
 								var employee = operationResult.Result;
 								var photo = employee.Photo;
 								PhotoColumnViewModel = new PhotoColumnViewModel(employee.Photo);
+								continue;
 							}
 						}
 					}
-
-					var verificationItemViewModel = new VerificationItemViewModel();
-					verificationItemViewModel.EmployeeCardID = journalItem.CardNo.ToString();
-					VerificationItemViewModel = verificationItemViewModel;
-					OnPropertyChanged("VerificationItemViewModel");
-					IsCommandEnabled = true;
+					ShortEmployee = null;
+					PhotoColumnViewModel = null;
 				}
-			}
-		}
-
-		public SKDDevice Device { get; private set; }
-		public VerificationItemViewModel VerificationItemViewModel { get; private set; }
-
-		bool _isCommandEnabled;
-		public bool IsCommandEnabled
-		{
-			get { return _isCommandEnabled; }
-			set
-			{
-				_isCommandEnabled = value;
-				OnPropertyChanged("IsCommandEnabled");
-			}
-		}
-
-		public RelayCommand DenyCommand { get; private set; }
-		void OnDeny()
-		{
-			//FiresecManager.FiresecService.SKDDenyReader(Device);
-			IsCommandEnabled = false;
-		}
-		bool CanDeny()
-		{
-			return IsCommandEnabled;
-		}
-
-		public RelayCommand AllowCommand { get; private set; }
-		void OnAllow()
-		{
-			//FiresecManager.FiresecService.SKDAllowReader(Device);
-			IsCommandEnabled = false;
-		}
-		bool CanAllow()
-		{
-			return IsCommandEnabled;
-		}
-
-		BackgroundWorker BackgroundWorker;
-		void OnBackgroundWorker()
-		{
-
-		}
-
-		int _commandTimer;
-		public int CommandTimer
-		{
-			get { return _commandTimer; }
-			set
-			{
-				_commandTimer = value;
-				OnPropertyChanged("CommandTimer");
 			}
 		}
 	}

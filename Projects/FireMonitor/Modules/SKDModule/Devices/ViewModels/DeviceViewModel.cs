@@ -36,12 +36,14 @@ namespace SKDModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal, CanShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
+			ShowDoorCommand = new RelayCommand(OnShowDoor, CanShowDoor);
 		}
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
-			OnPropertyChanged("DeviceStateViewModel");
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => DeviceStateViewModel);
 		}
 
 		public string PresentationAddress
@@ -49,10 +51,26 @@ namespace SKDModule.ViewModels
 			get { return Device.Address; }
 		}
 
+		#region Zone
 		public string PresentationZone
 		{
 			get { return SKDManager.GetPresentationZone(Device); }
 		}
+		public bool HasZone
+		{
+			get { return Device.Zone != null; }
+		}
+
+		public RelayCommand ShowZoneCommand { get; private set; }
+		void OnShowZone()
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDZoneEvent>().Publish(Device.Zone.UID);
+		}
+		bool CanShowZone()
+		{
+			return Device.Zone != null;
+		}
+		#endregion
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		private void OnShowOnPlan()
@@ -123,5 +141,27 @@ namespace SKDModule.ViewModels
 		}
 
 		public bool IsBold { get; set; }
+
+		#region Door
+		public SKDDoor Door
+		{
+			get { return Device.Door; }
+		}
+
+		public bool HasDoor
+		{
+			get { return Device.Door != null; }
+		}
+
+		public RelayCommand ShowDoorCommand { get; private set; }
+		void OnShowDoor()
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDDoorEvent>().Publish(Device.Door.UID);
+		}
+		bool CanShowDoor()
+		{
+			return Device.Door != null;
+		}
+		#endregion
 	}
 }

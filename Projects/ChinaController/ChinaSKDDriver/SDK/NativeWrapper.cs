@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 namespace ChinaSKDDriverNativeApi
 {
@@ -292,13 +293,28 @@ namespace ChinaSKDDriverNativeApi
 
 		public enum NET_ACCESSCTLCARD_TYPE
 		{
+			[DescriptionAttribute("Неизвестно")]
 			NET_ACCESSCTLCARD_TYPE_UNKNOWN = -1,
+
+			[DescriptionAttribute("Обычный")]
 			NET_ACCESSCTLCARD_TYPE_GENERAL,
+
+			[DescriptionAttribute("VIP")]
 			NET_ACCESSCTLCARD_TYPE_VIP,
+
+			[DescriptionAttribute("Гостевой")]
 			NET_ACCESSCTLCARD_TYPE_GUEST,
+
+			[DescriptionAttribute("Охрана")]
 			NET_ACCESSCTLCARD_TYPE_PATROL,
+
+			[DescriptionAttribute("Черный список")]
 			NET_ACCESSCTLCARD_TYPE_BLACKLIST,
+
+			[DescriptionAttribute("Принуждение")]
 			NET_ACCESSCTLCARD_TYPE_CORCE,
+
+			[DescriptionAttribute("Материнский")]
 			NET_ACCESSCTLCARD_TYPE_MOTHERCARD = 0xff,
 		}
 
@@ -367,12 +383,25 @@ namespace ChinaSKDDriverNativeApi
 		#region CardRecs
 		public enum NET_ACCESS_DOOROPEN_METHOD
 		{
+			[DescriptionAttribute("Неизвестно")]
 			NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
+
+			[DescriptionAttribute("Пароль")]
 			NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
+
+			[DescriptionAttribute("карта")]
 			NET_ACCESS_DOOROPEN_METHOD_CARD,
+
+			[DescriptionAttribute("Сначала карта")]
 			NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
+
+			[DescriptionAttribute("Сначала пароль")]
 			NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
+
+			[DescriptionAttribute("Удаленно")]
 			NET_ACCESS_DOOROPEN_METHOD_REMOTE,
+
+			[DescriptionAttribute("Кнопка")]
 			NET_ACCESS_DOOROPEN_METHOD_BUTTON,
 		}
 
@@ -546,8 +575,13 @@ namespace ChinaSKDDriverNativeApi
 		#region Events
 		public enum NET_ACCESS_CTL_EVENT_TYPE
 		{
+			[DescriptionAttribute("Неизвестно")]
 			NET_ACCESS_CTL_EVENT_UNKNOWN = 0,
+
+			[DescriptionAttribute("Вход")]
 			NET_ACCESS_CTL_EVENT_ENTRY,
+
+			[DescriptionAttribute("Выход")]
 			NET_ACCESS_CTL_EVENT_EXIT,
 		}
 

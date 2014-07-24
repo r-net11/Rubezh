@@ -65,7 +65,7 @@ namespace SKDModule.ViewModels
 				if (_name != value)
 				{
 					_name = value;
-					OnPropertyChanged("Name");
+					OnPropertyChanged(() => Name);
 				}
 			}
 		}
@@ -79,7 +79,7 @@ namespace SKDModule.ViewModels
 				if (_description != value)
 				{
 					_description = value;
-					OnPropertyChanged("Description");
+					OnPropertyChanged(() => Description);
 				}
 			}
 		}

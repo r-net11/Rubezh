@@ -239,8 +239,7 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				
-				<ListBox Grid.Column="0" ItemsSource="{Binding GraphicsColumns}" SelectedItem="{Binding SelectedGraphicsColumn}"
-						 Visibility="{Binding HasAdditionalGraphicsColumns, Converter={StaticResource BoolToVisibilityConverter}}">
+				<ListBox Grid.Column="0" ItemsSource="{Binding GraphicsColumns}" SelectedItem="{Binding SelectedGraphicsColumn}" Visibility="{Binding HasAdditionalGraphicsColumns, Converter={StaticResource BoolToVisibilityConverter}}">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -250,7 +249,7 @@
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-				<Controls:PhotoSelectation Grid.Column="1" Data="{Binding SelectedGraphicsColumn.Data}" />
+                <Controls:PhotoSelectation Grid.Column="1" Data="{Binding SelectedGraphicsColumn.Data}" CanEdit="True" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Охранные зоны">

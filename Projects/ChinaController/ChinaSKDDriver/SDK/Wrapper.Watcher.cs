@@ -94,49 +94,52 @@ namespace ChinaSKDDriver
 					return journalItem;
 			}
 
-			var description = "";
 			switch (wrapJournalItem.EventType)
 			{
 				case DH_ALARM_ACCESS_CTL_EVENT:
-					journalItem.JournalEventNameType = JournalEventNameType.Проход;
-					var doorNo = wrapJournalItem.nDoor;
-					journalItem.DoorNo = doorNo;
-					var eventType = wrapJournalItem.emEventType;
-					var isStatus = wrapJournalItem.bStatus;
-					var cardType = wrapJournalItem.emCardType;
-					var doorOpenMethod = wrapJournalItem.emOpenMethod;
+					if (wrapJournalItem.bStatus)
+						journalItem.JournalEventNameType = JournalEventNameType.Проход_разрешен;
+					else
+						journalItem.JournalEventNameType = JournalEventNameType.Проход_запрещен;
 
-					var cardNoString = wrapJournalItem.szCardNo;
+					journalItem.DoorNo = wrapJournalItem.nDoor;
+					journalItem.emEventType = wrapJournalItem.emEventType;
+					journalItem.bStatus = wrapJournalItem.bStatus;
+					journalItem.emCardType = wrapJournalItem.emCardType;
+					journalItem.emOpenMethod = wrapJournalItem.emOpenMethod;
+					journalItem.szPwd = wrapJournalItem.szPwd;
+
 					int cardNo;
-					if (int.TryParse(cardNoString, out cardNo))
+					if (int.TryParse(wrapJournalItem.szCardNo, out cardNo))
 					{
 						journalItem.CardNo = cardNo;
 					}
-
-					var password = wrapJournalItem.szPwd;
-					description = eventType.ToString() + " " + isStatus.ToString() + " " + cardType.ToString() + " " + doorOpenMethod + " " + cardNoString + " " + password;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
 					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;
-					doorNo = wrapJournalItem.nDoor;
-					var action = wrapJournalItem.nAction;
+					journalItem.DoorNo = wrapJournalItem.nDoor;
+					journalItem.nAction = wrapJournalItem.nAction;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_BREAK_IN:
 					journalItem.JournalEventNameType = JournalEventNameType.Взлом;
-					doorNo = wrapJournalItem.nDoor;
+					journalItem.DoorNo = wrapJournalItem.nDoor;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_REPEAT_ENTER:
 					journalItem.JournalEventNameType = JournalEventNameType.Повторный_проход;
-					doorNo = wrapJournalItem.nDoor;
+					journalItem.DoorNo = wrapJournalItem.nDoor;
 					break;
 
 				case DH_ALARM_ACCESS_CTL_DURESS:
 					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
-					doorNo = wrapJournalItem.nDoor;
-					cardNoString = wrapJournalItem.szCardNo;
+					journalItem.DoorNo = wrapJournalItem.nDoor;
+
+					if (int.TryParse(wrapJournalItem.szCardNo, out cardNo))
+					{
+						journalItem.CardNo = cardNo;
+					}
 					break;
 
 				case DH_ALARM_ACCESS_CTL_STATUS:
@@ -156,14 +159,13 @@ namespace ChinaSKDDriver
 							break;
 					}
 
-					doorNo = wrapJournalItem.nDoor;
+					journalItem.DoorNo = wrapJournalItem.nDoor;
 					break;
 
 				default:
 					journalItem.JournalEventNameType = JournalEventNameType.Неизвестное_событие;
 					break;
 			}
-			journalItem.Description = description;
 
 			return journalItem;
 		}

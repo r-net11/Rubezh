@@ -87,7 +87,6 @@
     <Compile Include="ViewModels\TimeSheduleViewModel.cs" />
     <Compile Include="ViewModels\CardRecsViewModel.cs" />
     <Compile Include="ViewModels\CardRecViewModel.cs" />
-    <Compile Include="ViewModels\TimeSheduleItemViewModel.cs" />
     <Compile Include="Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>

@@ -1,5 +1,6 @@
 ﻿using System;
 using FiresecAPI.Journal;
+using ChinaSKDDriverNativeApi;
 
 namespace ChinaSKDDriverAPI
 {
@@ -17,5 +18,13 @@ namespace ChinaSKDDriverAPI
 		public string Description { get; set; }
 		public int CardNo { get; set; }
 		public int DoorNo { get; set; }
+
+		public NativeWrapper.NET_ACCESS_CTL_EVENT_TYPE emEventType;
+		public bool bStatus;
+		public NativeWrapper.NET_ACCESSCTLCARD_TYPE emCardType;
+		public NativeWrapper.NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
+		public string szPwd;
+		public int nAction;
+		public NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE emStatus;
 	}
 }

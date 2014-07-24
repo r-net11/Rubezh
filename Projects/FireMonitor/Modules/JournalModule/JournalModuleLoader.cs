@@ -97,6 +97,7 @@ namespace JournalModule
 			{
 				JournalViewModel.OnNewJournalItems(new List<JournalItem>(result.Result));
 			}
+			ArchiveViewModel.Update();
 		}
 
 		void OnNewJournalItem(JournalItem journalItem)
@@ -138,18 +139,12 @@ namespace JournalModule
 				var result = FiresecManager.FiresecService.GetFilteredJournalItems(filter);
 				if (!result.HasError)
 				{
-					JournalViewModel.OnNewJournalItems(new List<JournalItem>(result.Result));
+					journalViewModel.OnNewJournalItems(new List<JournalItem>(result.Result));
 				}
 
 				return journalViewModel;
 			});
-			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) =>
-			{
-				var archiveViewModel = new ArchiveViewModel();
-				archiveViewModel.Initialize();
-				archiveViewModel.Update();
-				return archiveViewModel;
-			});
+			yield return new LayoutPartPresenter(LayoutPartIdentities.Archive, "Архив", "Archive.png", (p) => ArchiveViewModel);
 		}
 
 		#endregion

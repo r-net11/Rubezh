@@ -16,8 +16,6 @@ namespace SKDModule.ViewModels
 	public class DoorViewModel : BaseViewModel
 	{
 		public SKDDoor Door { get; private set; }
-		public SKDDevice InDevice { get; private set; }
-		public SKDDevice OutDevice { get; private set; }
 		public SKDDoorState State
 		{
 			get { return Door.State; }
@@ -36,6 +34,9 @@ namespace SKDModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+
+			ShowInDeviceCommand = new RelayCommand(OnShowInDevice, CanShowInDevice);
+			ShowOutDeviceCommand = new RelayCommand(OnShowOutDevice, CanShowOutDevice);
 		}
 
 		void OnStateChanged()
@@ -53,6 +54,38 @@ namespace SKDModule.ViewModels
 		{
 			get { return Door.Description; }
 		}
+
+		#region Devices
+		public SKDDevice InDevice { get; private set; }
+		public bool HasInDevice
+		{
+			get { return InDevice != null; }
+		}
+		public RelayCommand ShowInDeviceCommand { get; private set; }
+		void OnShowInDevice()
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>().Publish(InDevice.UID);
+		}
+		bool CanShowInDevice()
+		{
+			return InDevice != null;
+		}
+
+		public SKDDevice OutDevice { get; private set; }
+		public bool HasOutDevice
+		{
+			get { return OutDevice != null; }
+		}
+		public RelayCommand ShowOutDeviceCommand { get; private set; }
+		void OnShowOutDevice()
+		{
+			ServiceFactory.Events.GetEvent<ShowSKDDeviceEvent>().Publish(OutDevice.UID);
+		}
+		bool CanShowOutDevice()
+		{
+			return OutDevice != null;
+		}
+		#endregion
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()

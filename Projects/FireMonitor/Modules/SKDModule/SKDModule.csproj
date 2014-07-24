@@ -308,7 +308,6 @@
       <SubType>
       </SubType>
     </Compile>
-    <Compile Include="Verification\ViewModels\VerificationItemViewModel.cs" />
     <Compile Include="Verification\ViewModels\VerificationViewModel.cs" />
     <Compile Include="Verification\Views\VerificationlView.xaml.cs">
       <DependentUpon>VerificationlView.xaml</DependentUpon>

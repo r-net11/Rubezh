@@ -42,7 +42,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged("Organisations");
+			OnPropertyChanged(() => Organisations);
 			SelectedAdditionalColumnType = Organisations.FirstOrDefault();
 		}
 
@@ -69,7 +69,7 @@ namespace SKDModule.ViewModels
 				_selectedAdditionalColumnType = value;
 				if (value != null)
 					value.ExpandToThis();
-				OnPropertyChanged("SelectedAdditionalColumnType");
+				OnPropertyChanged(() => SelectedAdditionalColumnType);
 			}
 		}
 

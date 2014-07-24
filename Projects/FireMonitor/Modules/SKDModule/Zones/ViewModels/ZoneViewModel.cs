@@ -36,8 +36,8 @@ namespace SKDModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
-			OnPropertyChanged("ZoneStateViewModel");
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => ZoneStateViewModel);
 		}
 
 		public string PresentationName

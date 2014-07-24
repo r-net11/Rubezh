@@ -141,7 +141,7 @@ namespace ControllerSDK.ViewModels
 			set
 			{
 				_index = value;
-				OnPropertyChanged("Index");
+				OnPropertyChanged(() => Index);
 			}
 		}
 
@@ -163,7 +163,7 @@ namespace ControllerSDK.ViewModels
 			set
 			{
 				_userID = value;
-				OnPropertyChanged("UserID");
+				OnPropertyChanged(() => UserID);
 			}
 		}
 
