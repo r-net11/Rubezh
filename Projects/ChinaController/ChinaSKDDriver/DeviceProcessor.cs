@@ -59,8 +59,8 @@ namespace ChinaSKDDriver
 							journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 							journalItem.ObjectUID = readerDevice.UID;
 						}
+						journalItem.DescriptionText = "Метод открытия: " + skdJournalItem.emOpenMethod.ToDescription();
 						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Направление", skdJournalItem.emEventType.ToDescription()));
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Метод открытия", skdJournalItem.emOpenMethod.ToDescription()));
 
 						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD)
 						{

@@ -26,6 +26,7 @@ namespace FiresecService.Service
 			journalItem.ObjectUID = xJournalItem.ObjectUID;
 			journalItem.ObjectName = xJournalItem.ObjectName;
 			journalItem.StateClass = xJournalItem.StateClass;
+			journalItem.UserName = xJournalItem.UserName;
 
 			switch (xJournalItem.JournalObjectType)
 			{

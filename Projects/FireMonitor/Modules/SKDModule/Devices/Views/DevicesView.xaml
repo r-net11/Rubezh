@@ -55,7 +55,7 @@
 							<Hyperlink Command="{Binding ShowDoorCommand}" Style="{StaticResource HyperlinkStyle}">
 								<StackPanel Orientation="Horizontal">
 									<Image Width="16" Margin="2" Source="/Controls;component/Images/Door.png" />
-									<TextBlock Text="{Binding Door.Name}" ToolTip="{Binding Door.Name}" TextWrapping="Wrap" VerticalAlignment="Center" />
+									<TextBlock Text="{Binding Door.Name}" ToolTip="{Binding Door.Name}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="1 0 0 0" />
 								</StackPanel>
 							</Hyperlink>
 						</TextBlock>

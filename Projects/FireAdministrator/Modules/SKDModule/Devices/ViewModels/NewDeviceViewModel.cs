@@ -36,7 +36,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedDriver = value;
-				OnPropertyChanged("SelectedDriver");
+				OnPropertyChanged(() => SelectedDriver);
 				Name = value.ShortName;
 			}
 		}
@@ -48,7 +48,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 

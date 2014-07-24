@@ -53,7 +53,7 @@ namespace SKDModule.ViewModels
 					device.ExpandToThis();
 			}
 
-			OnPropertyChanged("RootDevices");
+			OnPropertyChanged(() => RootDevices);
 		}
 
 		#region DeviceSelection
@@ -106,7 +106,7 @@ namespace SKDModule.ViewModels
 			private set
 			{
 				_rootDevice = value;
-				OnPropertyChanged("RootDevice");
+				OnPropertyChanged(() => RootDevice);
 			}
 		}
 

@@ -38,7 +38,7 @@ namespace ChinaSKDDriver
 				if (door != null)
 				{
 					Add(skdCard, controllerCardItems, door.InDeviceUID, cardDoor.EnterIntervalID);
-					if (door.OutDevice.DriverType == SKDDriverType.Reader)
+					if (door.OutDevice != null && door.OutDevice.DriverType == SKDDriverType.Reader)
 					{
 						Add(skdCard, controllerCardItems, door.OutDeviceUID, cardDoor.ExitIntervalID);
 					}

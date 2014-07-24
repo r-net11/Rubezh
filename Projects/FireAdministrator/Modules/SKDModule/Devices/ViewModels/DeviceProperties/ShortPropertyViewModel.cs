@@ -23,7 +23,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_text = value;
-				OnPropertyChanged("Text");
+				OnPropertyChanged(() => Text);
 				Save(value);
 			}
 		}

@@ -44,7 +44,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_holidays = value;
-				OnPropertyChanged("Holidays");
+				OnPropertyChanged(() => Holidays);
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedHoliday = value;
-				OnPropertyChanged("SelectedHoliday");
+				OnPropertyChanged(() => SelectedHoliday);
 			}
 		}
 

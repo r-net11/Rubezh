@@ -99,13 +99,13 @@ namespace SKDModule.ViewModels
 			InDevice = door.InDevice;
 			OutDevice = door.OutDevice;
 
-			OnPropertyChanged("Door");
-			OnPropertyChanged("Name");
-			OnPropertyChanged("InDevice");
-			OnPropertyChanged("InDeviceName");
-			OnPropertyChanged("IsInDeviceGrayed");
-			OnPropertyChanged("Description");
-			OnPropertyChanged("OutDevice");
+			OnPropertyChanged(() => Door);
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => InDevice);
+			OnPropertyChanged(() => InDeviceName);
+			OnPropertyChanged(() => IsInDeviceGrayed);
+			OnPropertyChanged(() => Description);
+			OnPropertyChanged(() => OutDevice);
 			Update();
 		}
 

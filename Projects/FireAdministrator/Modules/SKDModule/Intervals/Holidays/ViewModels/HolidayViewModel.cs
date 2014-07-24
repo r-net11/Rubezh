@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("Holiday");
+			OnPropertyChanged(() => Holiday);
 		}
 	}
 }

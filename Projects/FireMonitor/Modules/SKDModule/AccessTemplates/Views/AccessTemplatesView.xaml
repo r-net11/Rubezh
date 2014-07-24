@@ -10,30 +10,42 @@
 		<viewModel:AccessTemplateViewModelDescriptionComparer x:Key="AccessTemplateViewModelDescriptionComparer" />
 	</UserControl.Resources>
 
-	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedAccessTemplate}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
-		<tree:TreeList.View>
-			<GridView>
-				<GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
-					<GridViewColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
-								<Image Width="16" Source="/Controls;component/Images/AccessTemplate.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
-								<TextBlock Text="{Binding Name}" />
-							</StackPanel>
-						</DataTemplate>
-					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
-				<GridViewColumn Header="Описание" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelDescriptionComparer}">
-					<GridViewColumn.CellTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Text="{Binding Description}" />
-							</StackPanel>
-						</DataTemplate>
-					</GridViewColumn.CellTemplate>
-				</GridViewColumn>
-			</GridView>
-		</tree:TreeList.View>
-	</tree:TreeList>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="200" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" MinHeight="200" />
+        </Grid.RowDefinitions>
+        <tree:TreeList Grid.Row="0" SelectedTreeNode="{Binding SelectedAccessTemplate}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True" Focusable="True">
+		    <tree:TreeList.View>
+			    <GridView>
+				    <GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
+					    <GridViewColumn.CellTemplate>
+						    <DataTemplate>
+							    <StackPanel Orientation="Horizontal">
+								    <Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
+								    <Image Width="16" Source="/Controls;component/Images/AccessTemplate.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
+								    <TextBlock Text="{Binding Name}" />
+							    </StackPanel>
+						    </DataTemplate>
+					    </GridViewColumn.CellTemplate>
+				    </GridViewColumn>
+				    <GridViewColumn Header="Описание" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelDescriptionComparer}">
+					    <GridViewColumn.CellTemplate>
+						    <DataTemplate>
+							    <StackPanel Orientation="Horizontal">
+								    <TextBlock Text="{Binding Description}" />
+							    </StackPanel>
+						    </DataTemplate>
+					    </GridViewColumn.CellTemplate>
+				    </GridViewColumn>
+			    </GridView>
+		    </tree:TreeList.View>
+	    </tree:TreeList>
+
+        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
+        <Grid Grid.Row="2" DataContext="{Binding SelectedAccessTemplate}">
+            <Views:CardDoorsView Grid.Row="1" DataContext="{Binding CardDoorsViewModel}" />
+        </Grid>
+    </Grid>
 </UserControl>

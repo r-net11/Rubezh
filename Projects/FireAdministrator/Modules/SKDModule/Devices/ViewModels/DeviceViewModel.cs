@@ -58,8 +58,8 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("HasChildren");
-			OnPropertyChanged("IsOnPlan");
+			OnPropertyChanged(() => HasChildren);
+			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}
 

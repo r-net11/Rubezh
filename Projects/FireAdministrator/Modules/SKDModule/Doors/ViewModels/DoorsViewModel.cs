@@ -56,7 +56,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_doors = value;
-				OnPropertyChanged("Doors");
+				OnPropertyChanged(() => Doors);
 			}
 		}
 

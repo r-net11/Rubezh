@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 
 		void OnChanged()
 		{
-			OnPropertyChanged("Name");
+			OnPropertyChanged(() => Name);
 		}
 
 		public VisualizationState VisualizationState

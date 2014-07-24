@@ -43,7 +43,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_dateTime = value;
-				OnPropertyChanged("DateTime");
+				OnPropertyChanged(() => DateTime);
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_typeNo = value;
-				OnPropertyChanged("TypeNo");
+				OnPropertyChanged(() => TypeNo);
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 

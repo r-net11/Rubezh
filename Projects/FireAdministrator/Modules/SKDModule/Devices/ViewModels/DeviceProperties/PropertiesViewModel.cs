@@ -61,10 +61,10 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			OnPropertyChanged("StringProperties");
-			OnPropertyChanged("ShortProperties");
-			OnPropertyChanged("BoolProperties");
-			OnPropertyChanged("EnumProperties");
+			OnPropertyChanged(() => StringProperties);
+			OnPropertyChanged(() => ShortProperties);
+			OnPropertyChanged(() => BoolProperties);
+			OnPropertyChanged(() => EnumProperties);
 		}
 
 		public bool HasParameters
