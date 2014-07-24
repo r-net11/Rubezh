@@ -32,8 +32,8 @@ namespace SKDModule.ViewModels
 		{
 			Name = document.Name;
 			Description = document.Description;
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
 		}
 	}
 }

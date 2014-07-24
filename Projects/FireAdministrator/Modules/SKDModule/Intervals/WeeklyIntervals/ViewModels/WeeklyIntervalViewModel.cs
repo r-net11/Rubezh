@@ -34,36 +34,33 @@ namespace SKDModule.ViewModels
 		{
 			base.Update();
 			Name = IsActive ? Model.Name : string.Format("Понедельный график {0}", Index);
-			Description = IsEnabled ? Model.Description : string.Empty;
+			Description = IsActive ? Model.Description : string.Empty;
 		}
 		protected override void Activate()
 		{
-			if (!IsDefault)
+			if (IsActive && Model == null)
 			{
-				if (IsActive && Model == null)
+				Model = new SKDWeeklyInterval()
 				{
-					Model = new SKDWeeklyInterval()
-					{
-						ID = Index,
-						Name = Name,
-					};
+					ID = Index,
+					Name = Name,
+				};
+				Initialize();
+				SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Add(Model);
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
+			else if (!IsActive && Model != null)
+			{
+				if (ConfirmDeactivation())
+				{
+					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Remove(Model);
+					Model = null;
 					Initialize();
-					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Add(Model);
+					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.ForEach(week => week.InvalidateWeekIntervals());
 					ServiceFactory.SaveService.SKDChanged = true;
 				}
-				else if (!IsActive && Model != null)
-				{
-					if (ConfirmDeactivation())
-					{
-						SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Remove(Model);
-						Model = null;
-						Initialize();
-						SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.ForEach(week => week.InvalidateWeekIntervals());
-						ServiceFactory.SaveService.SKDChanged = true;
-					}
-					else
-						IsActive = true;
-				}
+				else
+					IsActive = true;
 			}
 			base.Activate();
 		}

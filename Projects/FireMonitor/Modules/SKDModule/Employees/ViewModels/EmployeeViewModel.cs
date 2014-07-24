@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedCard = value;
-				OnPropertyChanged("SelectedCard");
+				OnPropertyChanged(() => SelectedCard);
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isEmployeeSelected = value;
-				OnPropertyChanged("IsEmployeeSelected");
+				OnPropertyChanged(() => IsEmployeeSelected);
 			}
 		}
 
@@ -126,7 +126,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isCardSelected = value;
-				OnPropertyChanged("IsCardSelected");
+				OnPropertyChanged(() => IsCardSelected);
 			}
 		}
 

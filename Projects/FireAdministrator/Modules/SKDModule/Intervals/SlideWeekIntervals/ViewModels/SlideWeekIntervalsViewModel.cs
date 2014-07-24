@@ -20,10 +20,6 @@ namespace SKDModule.ViewModels
 	{
 		public ObservableCollection<SKDWeeklyInterval> AvailableWeekIntervals { get; private set; }
 
-		public SlideWeekIntervalsViewModel()
-		{
-		}
-
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -31,7 +27,7 @@ namespace SKDModule.ViewModels
 			Intervals = new ObservableCollection<SlideWeekIntervalViewModel>();
 			for (int i = 1; i <= 128; i++)
 				Intervals.Add(new SlideWeekIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null, this));
-			SelectedInterval = Intervals.First();
+			SelectedInterval = Intervals.FirstOrDefault();
 		}
 
 		protected override void OnEdit()
@@ -61,7 +57,7 @@ namespace SKDModule.ViewModels
 			AvailableWeekIntervals.Insert(0, new SKDWeeklyInterval()
 			{
 				ID = 0,
-				Name = "Никогда",
+				Name = "<Никогда>",
 			});
 			OnPropertyChanged(() => AvailableWeekIntervals);
 			if (SelectedInterval != null)

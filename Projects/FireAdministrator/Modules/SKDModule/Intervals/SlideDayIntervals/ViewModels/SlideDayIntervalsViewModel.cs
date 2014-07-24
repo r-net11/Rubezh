@@ -19,10 +19,6 @@ namespace SKDModule.ViewModels
 	{
 		public ObservableCollection<SKDTimeInterval> AvailableTimeIntervals { get; private set; }
 
-		public SlideDayIntervalsViewModel()
-		{
-		}
-
 		public override void Initialize()
 		{
 			BuildIntervals();
@@ -30,7 +26,7 @@ namespace SKDModule.ViewModels
 			Intervals = new ObservableCollection<SlideDayIntervalViewModel>();
 			for (int i = 1; i <= 128; i++)
 				Intervals.Add(new SlideDayIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null, this));
-			SelectedInterval = Intervals.First();
+			SelectedInterval = Intervals.FirstOrDefault();
 		}
 
 		protected override void OnEdit()
@@ -60,7 +56,7 @@ namespace SKDModule.ViewModels
 			AvailableTimeIntervals.Insert(0, new SKDTimeInterval()
 			{
 				ID = 0,
-				Name = "Никогда",
+				Name = "<Никогда>",
 			});
 			OnPropertyChanged(() => AvailableTimeIntervals);
 			if (SelectedInterval != null)

@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_removalReason = value;
-				OnPropertyChanged("RemovalReason");
+				OnPropertyChanged(() => RemovalReason);
 			}
 		}
 	}

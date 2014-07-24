@@ -54,7 +54,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged("Organisations");
+			OnPropertyChanged(() => Organisations);
 			SelectedNamedInterval = Organisations.FirstOrDefault();
 		}
 		public override void OnShow()
@@ -93,7 +93,7 @@ namespace SKDModule.ViewModels
 					value.ExpandToThis();
 					value.Initialize();
 				}
-				OnPropertyChanged("SelectedNamedInterval");
+				OnPropertyChanged(() => SelectedNamedInterval);
 			}
 		}
 

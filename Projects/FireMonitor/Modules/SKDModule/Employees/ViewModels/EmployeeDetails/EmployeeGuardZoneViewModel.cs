@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_canSetZone = value;
-				OnPropertyChanged("CanSetZone");
+				OnPropertyChanged(() => CanSetZone);
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_canUnSetZone = value;
-				OnPropertyChanged("CanUnSetZone");
+				OnPropertyChanged(() => CanUnSetZone);
 			}
 		}
 	}

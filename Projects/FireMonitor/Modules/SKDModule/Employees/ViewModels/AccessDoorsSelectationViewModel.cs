@@ -42,7 +42,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedDoor = value;
-				OnPropertyChanged("SelectedDoor");
+				OnPropertyChanged(() => SelectedDoor);
 			}
 		}
 

@@ -21,10 +21,6 @@ namespace SKDModule.ViewModels
 		public ObservableCollection<SKDTimeInterval> AvailableTimeIntervals { get; private set; }
 		public ObservableCollection<SKDHoliday> AvailableHolidays { get; private set; }
 
-		public WeeklyIntervalsViewModel()
-		{
-		}
-
 		public override void Initialize()
 		{
 			base.Initialize();
@@ -32,7 +28,7 @@ namespace SKDModule.ViewModels
 			Intervals = new ObservableCollection<WeeklyIntervalViewModel>();
 			for (int i = 1; i <= 128; i++)
 				Intervals.Add(new WeeklyIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null, this));
-			SelectedInterval = Intervals.First();
+			SelectedInterval = Intervals.FirstOrDefault();
 		}
 
 		protected override void OnEdit()
@@ -66,7 +62,7 @@ namespace SKDModule.ViewModels
 			AvailableTimeIntervals.Insert(0, new SKDTimeInterval()
 			{
 				ID = 0,
-				Name = "Никогда",
+				Name = "<Никогда>",
 			});
 			AvailableHolidays = new ObservableCollection<SKDHoliday>(SKDManager.TimeIntervalsConfiguration.Holidays.OrderBy(item => item.DateTime.DayOfYear));
 			AvailableHolidays.Insert(0, new SKDHoliday()

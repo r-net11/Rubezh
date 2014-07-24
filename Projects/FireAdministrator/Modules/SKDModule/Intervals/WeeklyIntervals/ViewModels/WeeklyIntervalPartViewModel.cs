@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				if (value == null)
-					SelectedTimeInterval = AvailableTimeIntervals.First();
+					SelectedTimeInterval = AvailableTimeIntervals.FirstOrDefault();
 				else
 				{
 					_selectedTimeInterval = value;
@@ -68,7 +68,7 @@ namespace SKDModule.ViewModels
 			else
 				_selectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.TimeIntervalID);
 			if (_selectedTimeInterval == null)
-				_selectedTimeInterval = AvailableTimeIntervals.First();
+				_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault();
 			OnPropertyChanged(() => SelectedTimeInterval);
 		}
 

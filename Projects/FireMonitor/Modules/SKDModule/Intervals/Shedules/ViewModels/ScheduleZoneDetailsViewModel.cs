@@ -56,7 +56,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isControl = value;
-				OnPropertyChanged("IsControl");
+				OnPropertyChanged(() => IsControl);
 			}
 		}
 

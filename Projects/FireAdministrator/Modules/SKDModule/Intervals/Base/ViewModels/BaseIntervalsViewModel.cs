@@ -49,7 +49,7 @@ namespace SKDModule.Intervals.Base.ViewModels
 			set
 			{
 				if (value == null)
-					_selectedInterval = Intervals.First();
+					_selectedInterval = Intervals.FirstOrDefault();
 				else
 				{
 					_selectedInterval = value;
@@ -63,9 +63,9 @@ namespace SKDModule.Intervals.Base.ViewModels
 		public void Select(int intervalID)
 		{
 			if (intervalID >= 0 && intervalID <= 128)
-				SelectedInterval = Intervals.First(item => item.Index == intervalID);
+				SelectedInterval = Intervals.FirstOrDefault(item => item.Index == intervalID);
 			else if (SelectedInterval == null)
-				SelectedInterval = Intervals.First();
+				SelectedInterval = Intervals.FirstOrDefault();
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -74,7 +74,7 @@ namespace SKDModule.Intervals.Base.ViewModels
 		}
 		private bool CanEdit()
 		{
-			return SelectedInterval != null && SelectedInterval.IsEnabled;
+			return SelectedInterval != null && SelectedInterval.IsActive;
 		}
 
 		public RelayCommand ActivateCommand { get; private set; }
@@ -89,7 +89,7 @@ namespace SKDModule.Intervals.Base.ViewModels
 		}
 		private bool CanActivate()
 		{
-			return SelectedInterval != null && !SelectedInterval.IsDefault;
+			return SelectedInterval != null;
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -106,7 +106,7 @@ namespace SKDModule.Intervals.Base.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _copy != null && SelectedInterval != null && !SelectedInterval.IsDefault;
+			return _copy != null && SelectedInterval != null;
 		}
 
 		public override void OnShow()

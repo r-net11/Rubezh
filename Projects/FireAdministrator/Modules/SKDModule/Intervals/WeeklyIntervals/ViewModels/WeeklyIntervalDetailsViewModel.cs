@@ -39,7 +39,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return !string.IsNullOrEmpty(Name) && Name != "Доступ запрещен" && Name != "Доступ разрешен";
+			return !string.IsNullOrEmpty(Name);
 		}
 
 		protected override bool Save()

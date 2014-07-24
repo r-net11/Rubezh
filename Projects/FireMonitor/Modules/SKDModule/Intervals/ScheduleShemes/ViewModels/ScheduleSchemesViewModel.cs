@@ -58,7 +58,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged("Organisations");
+			OnPropertyChanged(() => Organisations);
 			SelectedScheduleScheme = Organisations.FirstOrDefault();
 		}
 		public override void OnShow()
@@ -119,7 +119,7 @@ namespace SKDModule.ViewModels
 					value.ExpandToThis();
 					value.Initialize();
 				}
-				OnPropertyChanged("SelectedScheduleScheme");
+				OnPropertyChanged(() => SelectedScheduleScheme);
 			}
 		}
 

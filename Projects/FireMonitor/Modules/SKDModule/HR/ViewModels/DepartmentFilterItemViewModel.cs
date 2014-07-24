@@ -36,7 +36,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 				if (value && Parent != null)
 				{
 					Parent.IsChecked = true;

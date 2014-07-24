@@ -9,7 +9,7 @@ namespace SKDModule.ViewModels
 
 		public TimeIntervalDetailsViewModel(SKDTimeInterval timeInterval)
 		{
-			Title = "Редактирование именованного интервала";
+			Title = "Редактирование дневного графика";
 			TimeInterval = timeInterval;
 			Name = TimeInterval.Name;
 			Description = TimeInterval.Description;
@@ -22,7 +22,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -33,13 +33,13 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 
 		protected override bool CanSave()
 		{
-			return !string.IsNullOrEmpty(Name) && Name != "Никогда";
+			return !string.IsNullOrEmpty(Name);
 		}
 
 		protected override bool Save()

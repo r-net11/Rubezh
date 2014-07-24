@@ -51,7 +51,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged("Organisations");
+			OnPropertyChanged(() => Organisations);
 			SelectedHoliday = Organisations.FirstOrDefault();
 		}
 
@@ -78,7 +78,7 @@ namespace SKDModule.ViewModels
 				_selectedHoliday = value;
 				if (value != null)
 					value.ExpandToThis();
-				OnPropertyChanged("SelectedHoliday");
+				OnPropertyChanged(() => SelectedHoliday);
 			}
 		}
 

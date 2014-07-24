@@ -53,7 +53,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged("Organisations");
+			OnPropertyChanged(() => Organisations);
 			SelectedEmployee = Organisations.FirstOrDefault();
 			InitializeAdditionalColumns();
 		}
@@ -79,8 +79,8 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedEmployee = value;
-				OnPropertyChanged("SelectedEmployee");
-				OnPropertyChanged("IsEmployeeSelected");
+				OnPropertyChanged(() => SelectedEmployee);
+				OnPropertyChanged(() => IsEmployeeSelected);
 			}
 		}
 

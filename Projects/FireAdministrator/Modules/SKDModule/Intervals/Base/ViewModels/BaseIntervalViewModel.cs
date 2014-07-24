@@ -55,22 +55,13 @@ namespace SKDModule.Intervals.Base.ViewModels
 		private bool _isActive;
 		public bool IsActive
 		{
-			get { return IsDefault ? true : _isActive; }
+			get { return _isActive; }
 			set
 			{
-				_isActive = IsDefault ? true : value;
+				_isActive = value;
 				OnPropertyChanged(() => IsActive);
 				Activate();
 			}
-		}
-
-		public bool IsEnabled
-		{
-			get { return !IsDefault && IsActive; }
-		}
-		public bool IsDefault
-		{
-			get { return Index == 0; }
 		}
 
 		public string ActivateActionTitle
@@ -105,7 +96,7 @@ namespace SKDModule.Intervals.Base.ViewModels
 			OnPropertyChanged(() => ActivateActionImage);
 			OnPropertyChanged(() => ActiveTitle);
 			OnPropertyChanged(() => ActiveImage);
-			OnPropertyChanged(() => IsEnabled);
+			OnPropertyChanged(() => IsActive);
 			OnPropertyChanged(() => Model);
 			OnPropertyChanged(() => Parts);
 		}

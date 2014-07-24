@@ -41,8 +41,7 @@ namespace SKDModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
-			OnPropertyChanged("DoorStateViewModel");
+			OnPropertyChanged(() => State);
 		}
 
 		public string PresentationName

@@ -47,7 +47,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedDeletedType = value;
-				OnPropertyChanged("SelectedDeletedType");
+				OnPropertyChanged(() => SelectedDeletedType);
 			}
 		}
 

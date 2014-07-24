@@ -40,7 +40,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_organisation = value;
-				OnPropertyChanged("Organisations");
+				OnPropertyChanged(() => Organisations);
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedOrganisation = value;
-				OnPropertyChanged("SelectedOrganisation");
+				OnPropertyChanged(() => SelectedOrganisation);
 
 				if (value != null)
 				{
@@ -79,7 +79,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_organisationZonesViewModel = value;
-				OnPropertyChanged("OrganisationZonesViewModel");
+				OnPropertyChanged(() => OrganisationZonesViewModel);
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_OrganisationDoorsViewModel = value;
-				OnPropertyChanged("OrganisationDoorsViewModel");
+				OnPropertyChanged(() => OrganisationDoorsViewModel);
 			}
 		}
 
@@ -101,7 +101,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_organisationGuardZonesViewModel = value;
-				OnPropertyChanged("OrganisationGuardZonesViewModel");
+				OnPropertyChanged(() => OrganisationGuardZonesViewModel);
 			}
 		}
 
@@ -112,7 +112,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_organisationUsersViewModel = value;
-				OnPropertyChanged("OrganisationUsersViewModel");
+				OnPropertyChanged(() => OrganisationUsersViewModel);
 			}
 		}
 
@@ -123,7 +123,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_organisationCardTemplatesViewModel = value;
-				OnPropertyChanged("OrganisationCardTemplatesViewModel");
+				OnPropertyChanged(() => OrganisationCardTemplatesViewModel);
 			}
 		}
 

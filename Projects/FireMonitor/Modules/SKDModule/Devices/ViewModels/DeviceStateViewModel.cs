@@ -21,7 +21,7 @@ namespace SKDModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
+			OnPropertyChanged(() => State);
 
 			StateClasses.Clear();
 			foreach (var stateClass in State.StateClasses)
