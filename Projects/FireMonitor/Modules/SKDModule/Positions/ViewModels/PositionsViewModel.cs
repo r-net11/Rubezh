@@ -163,7 +163,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanCopy()
 		{
-			return SelectedPosition != null;
+			return SelectedPosition != null && !SelectedPosition.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -189,7 +189,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _clipboard != null;
+			return SelectedPosition != null && _clipboard != null;
 		}
 
 		ShortPosition CopyPosition(ShortPosition source, bool newName = true)

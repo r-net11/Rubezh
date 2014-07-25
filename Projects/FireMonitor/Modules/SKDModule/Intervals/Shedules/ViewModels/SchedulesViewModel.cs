@@ -181,7 +181,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanCopy()
 		{
-			return SelectedSchedule != null;
+			return SelectedSchedule != null && !SelectedSchedule.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -201,7 +201,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _clipboard != null;
+			return SelectedSchedule != null && _clipboard != null;
 		}
 
 		private Schedule CopySchedule(Schedule source, bool newName = true)

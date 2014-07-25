@@ -166,7 +166,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanCopy()
 		{
-			return SelectedAccessTemplate != null;
+			return SelectedAccessTemplate != null && !SelectedAccessTemplate.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -186,7 +186,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _clipboard != null;
+			return SelectedAccessTemplate != null && _clipboard != null;
 		}
 
 		AccessTemplate CopyAccessTemplate(AccessTemplate source, bool newName = true)

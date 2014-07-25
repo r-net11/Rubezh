@@ -193,7 +193,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanCopy()
 		{
-			return SelectedDepartment != null;
+			return SelectedDepartment != null && !SelectedDepartment.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -220,7 +220,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _clipboard != null;
+			return SelectedDepartment != null && _clipboard != null;
 		}
 
 		ShortDepartment CopyDepartment(ShortDepartment source, bool newName = true)

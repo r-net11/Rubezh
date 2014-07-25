@@ -32,11 +32,11 @@ namespace SKDDriver
 		{
 			bool isHasEmployees = Context.Employees.Any(x => !x.IsDeleted && x.DepartmentUID == uid);
 			if (isHasEmployees)
-				return new OperationResult("Не могу удалить отдел, пока он содержит действующих сотрудников");
+				return new OperationResult("Невозможно удалить отдел, пока он содержит действующих сотрудников");
 
 			bool isHasChildren = Table.Any(x => !x.IsDeleted && x.ParentDepartmentUID == uid);
 			if (isHasChildren)
-				return new OperationResult("Не могу удалить отдел, пока он содержит дочерние отделы");
+				return new OperationResult("Невозможно удалить отдел, пока он содержит дочерние отделы");
 			return base.CanDelete(uid);
 		}
 

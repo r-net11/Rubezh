@@ -32,7 +32,7 @@ namespace SKDDriver
 		{
 			if (Context.Employees.Any(x => x.UID == item.HolderUID &&
 					!x.IsDeleted))
-				return new OperationResult("Не могу удалить карту, пока она указана у действующих сотрудников");
+				return new OperationResult("Невозможно удалить карту, пока она указана у действующих сотрудников");
 			return base.CanSave(item);
 		}
 

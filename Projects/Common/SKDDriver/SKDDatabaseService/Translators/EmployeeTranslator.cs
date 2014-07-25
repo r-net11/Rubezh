@@ -56,11 +56,11 @@ namespace SKDDriver
 		{
 			bool isAttendant = Context.Departments.Any(x => !x.IsDeleted && x.AttendantUID == uid);
 			if (isAttendant)
-				return new OperationResult("Не могу удалить сотрудника, пока он указан как сопровождающий для одного из отделов");
+				return new OperationResult("Невозможно удалить сотрудника, пока он указан как сопровождающий для одного из отделов");
 
 			bool isContactEmployee = Context.Departments.Any(x => !x.IsDeleted && x.ContactEmployeeUID == uid);
 			if (isContactEmployee)
-				return new OperationResult("Не могу удалить сотрудника, пока он указан как контактное лицо для одного из отделов");
+				return new OperationResult("Невозможно удалить сотрудника, пока он указан как контактное лицо для одного из отделов");
 			return base.CanDelete(uid);
 		}
 

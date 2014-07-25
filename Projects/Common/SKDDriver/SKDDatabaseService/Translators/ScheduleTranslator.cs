@@ -30,7 +30,7 @@ namespace SKDDriver.Translators
 		protected override OperationResult CanDelete(Schedule schedule)
 		{
 			if (Context.Employees.Any(item => !item.IsDeleted && item.ScheduleUID == schedule.UID))
-				return new OperationResult("Не могу удалить график работ, т.к. он назначен одному из сотрудников");
+				return new OperationResult("Невозможно удалить график работ, т.к. он назначен одному из сотрудников");
 			return base.CanDelete(schedule);
 		}
 

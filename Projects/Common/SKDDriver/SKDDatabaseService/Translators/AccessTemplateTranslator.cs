@@ -34,7 +34,7 @@ namespace SKDDriver
 		{
 			if (Context.Cards.Any(x => x.AccessTemplateUID == uid &&
 					x.IsDeleted == false))
-				return new OperationResult("Не могу удалить ГУД, пока он указан у действующих карт");
+				return new OperationResult("Невозможно удалить ГУД, пока он указан у действующих карт");
 			return base.CanDelete(uid);
 		}
 

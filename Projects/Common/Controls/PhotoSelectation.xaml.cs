@@ -59,7 +59,7 @@ namespace Controls
 				}
 				catch (Exception)
 				{
-					MessageBoxService.Show("Не могу загрузить фото");
+					MessageBoxService.Show("Невозможно загрузить фото");
 					SetNoPhoto();
 				}
 			}

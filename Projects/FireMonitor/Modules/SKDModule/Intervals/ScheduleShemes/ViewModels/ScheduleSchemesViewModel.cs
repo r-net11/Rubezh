@@ -208,7 +208,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanCopy()
 		{
-			return SelectedScheduleScheme != null;
+			return SelectedScheduleScheme != null && !SelectedScheduleScheme.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -228,12 +228,13 @@ namespace SKDModule.ViewModels
 		}
 		bool CanPaste()
 		{
-			return _clipboard != null;
+			return SelectedScheduleScheme != null && _clipboard != null && _clipboard.Type == Type;
 		}
 
 		private ScheduleScheme CopyScheduleScheme(ScheduleScheme source, bool newName = true)
 		{
 			var copy = new ScheduleScheme();
+			copy.Type = Type;
 			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
 			copy.Description = source.Description;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;

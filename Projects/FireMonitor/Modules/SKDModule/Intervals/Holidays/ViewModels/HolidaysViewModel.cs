@@ -15,15 +15,12 @@ namespace SKDModule.ViewModels
 	public class HolidaysViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		HolidayFilter Filter;
-		Holiday _clipboard;
 
 		public HolidaysViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 
 			InitializeYears();
@@ -160,36 +157,6 @@ namespace SKDModule.ViewModels
 		bool CanEdit()
 		{
 			return SelectedHoliday != null && SelectedHoliday.Parent != null && !SelectedHoliday.IsOrganisation;
-		}
-
-		public RelayCommand CopyCommand { get; private set; }
-		private void OnCopy()
-		{
-			_clipboard = CopyHoliday(SelectedHoliday.Holiday, false);
-		}
-		private bool CanCopy()
-		{
-			return SelectedHoliday != null;
-		}
-
-		public RelayCommand PasteCommand { get; private set; }
-		private void OnPaste()
-		{
-			var newInterval = CopyHoliday(_clipboard);
-			if (HolidayHelper.Save(newInterval))
-			{
-				var holidayViewModel = new HolidayViewModel(SelectedHoliday.Organisation, newInterval);
-				if (ParentOrganisation != null)
-				{
-					ParentOrganisation.AddChild(holidayViewModel);
-					AllHolidays.Add(holidayViewModel);
-				}
-				SelectedHoliday = holidayViewModel;
-			}
-		}
-		private bool CanPaste()
-		{
-			return _clipboard != null;
 		}
 
 		private Holiday CopyHoliday(Holiday source, bool newName = true)
