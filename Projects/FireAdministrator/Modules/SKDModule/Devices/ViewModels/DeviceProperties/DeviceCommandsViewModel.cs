@@ -36,8 +36,16 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowControllerConfigurationCommand { get; private set; }
 		void OnShowControllerConfiguration()
 		{
-			var controllerPropertiesViewModel = new ControllerPropertiesViewModel(SelectedDevice.Device);
-			DialogService.ShowModalWindow(controllerPropertiesViewModel);
+			var deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(SelectedDevice.Device);
+			if (!deviceInfoResult.HasError)
+			{
+				var controllerPropertiesViewModel = new ControllerPropertiesViewModel(SelectedDevice.Device, deviceInfoResult.Result);
+				DialogService.ShowModalWindow(controllerPropertiesViewModel);
+			}
+			else
+			{
+				MessageBoxService.ShowWarning(deviceInfoResult.Error);
+			}
 		}
 		bool CanShowControllerConfiguration()
 		{

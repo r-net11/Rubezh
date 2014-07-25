@@ -61,6 +61,7 @@ namespace FiresecService
 		static void OnNewJournalItem(JournalItem journalItem)
 		{
 			journalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
+			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
 			FiresecService.Service.FiresecService.AddJournalItem(journalItem);
 		}
 

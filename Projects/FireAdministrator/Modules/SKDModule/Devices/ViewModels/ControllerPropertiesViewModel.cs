@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 		public SKDDevice Device { get; private set; }
 		public SKDDeviceInfo DeviceInfo { get; private set; }
 
-		public ControllerPropertiesViewModel(SKDDevice device)
+		public ControllerPropertiesViewModel(SKDDevice device, SKDDeviceInfo deviceInfo)
 		{
 			Title = "Конфигурация контроллера";
 			Device = device;
@@ -28,28 +28,18 @@ namespace SKDModule.ViewModels
 			ResetCommand = new RelayCommand(OnReset);
 			RebootCommand = new RelayCommand(OnReboot);
 
-			var deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
-			if (deviceInfoResult.HasError)
-			{
-				Close(true);
-				MessageBoxService.ShowWarning(deviceInfoResult.Error, "Нет связи с устройством");
-				return;
-			}
-			else
-			{
-				DeviceInfo = deviceInfoResult.Result;
-			}
+			DeviceInfo = deviceInfo;
 
-			var passwordResult = FiresecManager.FiresecService.SKDGetPassword(Device.UID);
-			if (passwordResult.HasError)
+			var operationResult = FiresecManager.FiresecService.SKDGetPassword(Device.UID);
+			if (operationResult.HasError)
 			{
 				Close(true);
-				MessageBoxService.ShowWarning(deviceInfoResult.Error, "Нет связи с устройством");
+				MessageBoxService.ShowWarning(operationResult.Error);
 				return;
 			}
 			else
 			{
-				Password = passwordResult.Result;
+				Password = operationResult.Result;
 			}
 		}
 
@@ -100,7 +90,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции синхронизации времени");
+				MessageBoxService.ShowWarning("Ошибка во время операции синхронизации времени", result.Error);
 			}
 		}
 
@@ -114,7 +104,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции");
+				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
 			}
 		}
 
@@ -128,7 +118,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции");
+				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
 			}
 		}
 	}
