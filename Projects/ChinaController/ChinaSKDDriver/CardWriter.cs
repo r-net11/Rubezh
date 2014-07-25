@@ -132,6 +132,28 @@ namespace ChinaSKDDriver
 			ProcessControllerCardItems(ControllerCardItems);
 		}
 
+		public void RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
+		{
+			foreach (var card in cards)
+			{
+				AccessTemplate accessTemplate = null;
+				if (card.AccessTemplateUID != null)
+				{
+					accessTemplate = accessTemplates.FirstOrDefault(x => x.UID == card.AccessTemplateUID);
+				}
+
+				ControllerCardItems = new List<ControllerCardItem>();
+				var controllerCardItems = Create_ControllerCardItems_ToAdd(card, accessTemplate);
+				var controllerCardItem = controllerCardItems.FirstOrDefault(x => x.ControllerDevice.UID == device.UID);
+				if (controllerCardItem != null)
+				{
+					ControllerCardItems.Add(controllerCardItem);
+				}
+
+				ProcessControllerCardItems(ControllerCardItems);
+			}
+		}
+
 		void ProcessControllerCardItems(List<ControllerCardItem> controllerCardItems)
 		{
 			foreach (var controllerCardItem in controllerCardItems)

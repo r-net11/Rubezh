@@ -27,6 +27,7 @@ namespace SKDModule.ViewModels
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime);
 			ResetCommand = new RelayCommand(OnReset);
 			RebootCommand = new RelayCommand(OnReboot);
+			RewriteAllCardsCommand = new RelayCommand(OnRewriteAllCards);
 
 			DeviceInfo = deviceInfo;
 
@@ -112,6 +113,20 @@ namespace SKDModule.ViewModels
 		void OnReboot()
 		{
 			var result = FiresecManager.FiresecService.SKDRebootController(Device);
+			if (result.Result)
+			{
+				MessageBoxService.Show("Операция завершилась успешно");
+			}
+			else
+			{
+				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
+			}
+		}
+
+		public RelayCommand RewriteAllCardsCommand { get; private set; }
+		void OnRewriteAllCards()
+		{
+			var result = FiresecManager.FiresecService.SKDRewriteAllCards(Device);
 			if (result.Result)
 			{
 				MessageBoxService.Show("Операция завершилась успешно");

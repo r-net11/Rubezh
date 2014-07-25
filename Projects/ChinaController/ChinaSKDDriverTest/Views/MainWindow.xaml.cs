@@ -1,6 +1,10 @@
 ﻿using System.Windows;
 using ChinaSKDDriver;
 using ControllerSDK.ViewModels;
+using ChinaSKDDriverNativeApi;
+using System;
+using ChinaSKDDriverAPI;
+using System.Diagnostics;
 
 namespace ControllerSDK.Views
 {

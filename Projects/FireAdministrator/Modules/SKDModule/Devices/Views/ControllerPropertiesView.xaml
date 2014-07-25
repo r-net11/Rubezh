@@ -62,6 +62,9 @@
                         <Button Content="Сбросить настройки" Command="{Binding ResetCommand}" Width="150" Margin="2" />
                         <Button Content="Перезагрузить" Command="{Binding RebootCommand}" Width="150" Margin="2" />
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Перезаписать карты" Command="{Binding RewriteAllCardsCommand}" Width="150" Margin="2" />
+                    </StackPanel>
                 </StackPanel>
             </Border>
         </TabItem>

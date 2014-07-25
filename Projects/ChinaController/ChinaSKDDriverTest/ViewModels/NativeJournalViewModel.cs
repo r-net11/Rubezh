@@ -1,38 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ChinaSKDDriverNativeApi;
-using ChinaSKDDriverAPI;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Windows;
+using ChinaSKDDriver;
+using ChinaSKDDriverAPI;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using ChinaSKDDriverNativeApi;
 
-namespace WindowTest
+namespace ControllerSDK.ViewModels
 {
-	public partial class MainWindow : Window
+	public class NativeJournalViewModel : BaseViewModel
 	{
-		public JournalViewModel JournalViewModel { get; private set; }
-		int LoginID;
-
-		public MainWindow()
+		public NativeJournalViewModel()
 		{
-			InitializeComponent();
-			DataContext = this;
-			JournalViewModel = new JournalViewModel();
-			OnStart(this, null);
-		}
+			JournalItems = new ObservableCollection<JournalItemViewModel>();
 
-		private void OnStart(object sender, RoutedEventArgs e)
-		{
 			fDisConnectDelegate = new NativeWrapper.fDisConnectDelegate(OnDisConnectDelegate);
 			fHaveReConnectDelegate = new NativeWrapper.fHaveReConnectDelegate(OnfHaveReConnectDelegate);
 			fMessCallBackDelegate = new NativeWrapper.fMessCallBackDelegate(OnfMessCallBackDelegate);
@@ -40,17 +23,6 @@ namespace WindowTest
 			NativeWrapper.CLIENT_Init(fDisConnectDelegate, 0);
 			NativeWrapper.CLIENT_SetAutoReconnect(fHaveReConnectDelegate, 0);
 			NativeWrapper.CLIENT_SetDVRMessCallBack(fMessCallBackDelegate, 0);
-
-			NativeWrapper.NET_DEVICEINFO netDeviceInfo = new NativeWrapper.NET_DEVICEINFO();
-			int error;
-			LoginID = NativeWrapper.CLIENT_Login("172.16.6.53", 37777, "system", "123456", out netDeviceInfo, out error);
-			bool bRet = NativeWrapper.CLIENT_StartListenEx(LoginID);
-		}
-
-		private void OnStop(object sender, RoutedEventArgs e)
-		{
-			bool bRet = NativeWrapper.CLIENT_StopListen(LoginID);
-			NativeWrapper.CLIENT_Cleanup();
 		}
 
 		NativeWrapper.fDisConnectDelegate fDisConnectDelegate;
@@ -75,9 +47,22 @@ namespace WindowTest
 			var journalItemViewModel = new JournalItemViewModel(journalItem);
 			Dispatcher.BeginInvoke(new Action(() =>
 			{
-				JournalViewModel.JournalItems.Add(journalItemViewModel);
+				JournalItems.Add(journalItemViewModel);
 			}));
 			return true;
+		}
+
+		public ObservableCollection<JournalItemViewModel> JournalItems { get; private set; }
+
+		JournalItemViewModel _selectedJournalItem;
+		public JournalItemViewModel SelectedJournalItem
+		{
+			get { return _selectedJournalItem; }
+			set
+			{
+				_selectedJournalItem = value;
+				OnPropertyChanged(() => SelectedJournalItem);
+			}
 		}
 	}
 }

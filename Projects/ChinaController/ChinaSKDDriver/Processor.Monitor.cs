@@ -2,6 +2,8 @@
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.SKD;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace ChinaSKDDriver
 {
@@ -43,6 +45,33 @@ namespace ChinaSKDDriver
 					else
 						return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
 				}
+			}
+			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+		}
+
+		public static OperationResult<bool> SKDRewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == device.UID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<bool>("Нет связи с контроллером");
+
+				var result = deviceProcessor.Wrapper.RemoveAllCards();
+				if (!result)
+					return new OperationResult<bool>("Ошибка при удалении всех карт в приборе");
+
+				var cardWriter = new CardWriter();
+				cardWriter.RewriteAllCards(device, cards, accessTemplates);
+
+				foreach (var controllerCardItem in cardWriter.ControllerCardItems)
+				{
+					if (controllerCardItem.HasError)
+					{
+						return new OperationResult<bool>("Ошибка при записи карты " + controllerCardItem.Card.Number);
+					}
+				}
+				return new OperationResult<bool>() { Result = true };
 			}
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}

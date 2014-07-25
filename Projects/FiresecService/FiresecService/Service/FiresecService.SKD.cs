@@ -390,6 +390,26 @@ namespace FiresecService.Service
 			else return new OperationResult<bool>(errors);
 		}
 
+		public OperationResult<bool> SKDRewriteAllCards(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
+				var cardsResult = SKDDatabaseService.CardTranslator.Get(new CardFilter());
+				var accessTemplatesResult = SKDDatabaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
+				if (!cardsResult.HasError && !accessTemplatesResult.HasError)
+				{
+					return ChinaSKDDriver.Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
+				}
+				else
+				{
+					return new OperationResult<bool>("Ошибка при получении карт или шаблонов карт");
+				}
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
 		public OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);

@@ -14,6 +14,7 @@ namespace ControllerSDK.ViewModels
 		public TimeShedulesViewModel TimeShedulesViewModel { get; private set; }
 		public ControlViewModel ControlViewModel { get; private set; }
 		public JournalViewModel JournalViewModel { get; private set; }
+		public NativeJournalViewModel NativeJournalViewModel { get; private set; }
 		public CommonViewModel CommonViewModel { get; private set; }
 		public DoorConfigurationViewModel DoorConfigurationViewModel { get; private set; }
 		public LogItemsViewModel LogItemsViewModel { get; private set; }
@@ -29,6 +30,7 @@ namespace ControllerSDK.ViewModels
 			TimeShedulesViewModel = new TimeShedulesViewModel();
 			ControlViewModel = new ControlViewModel();
 			JournalViewModel = new JournalViewModel();
+			NativeJournalViewModel = new NativeJournalViewModel();
 			CommonViewModel = new CommonViewModel();
 			DoorConfigurationViewModel = new DoorConfigurationViewModel();
 			LogItemsViewModel = new LogItemsViewModel();
