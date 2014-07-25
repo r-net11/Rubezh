@@ -199,26 +199,28 @@ namespace SKDModule
 				}
 			foreach (var remoteZoneState in skdStates.ZoneStates)
 			{
-				if (remoteZoneState == null)
-					continue;
-				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
-				if (zone != null)
+				if (remoteZoneState != null)
 				{
-					zone.State.StateClasses = remoteZoneState.StateClasses.ToList();
-					zone.State.StateClass = remoteZoneState.StateClass;
-					zone.State.OnStateChanged();
+					var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == remoteZoneState.UID);
+					if (zone != null)
+					{
+						zone.State.StateClasses = remoteZoneState.StateClasses.ToList();
+						zone.State.StateClass = remoteZoneState.StateClass;
+						zone.State.OnStateChanged();
+					}
 				}
 			}
 			foreach (var remoteDoorState in skdStates.DoorStates)
 			{
-				if (remoteDoorState == null)
-					continue;
-				var door = SKDManager.Doors.FirstOrDefault(x => x.UID == remoteDoorState.UID);
-				if (door != null)
+				if (remoteDoorState != null)
 				{
-					door.State.StateClasses = remoteDoorState.StateClasses.ToList();
-					door.State.StateClass = remoteDoorState.StateClass;
-					door.State.OnStateChanged();
+					var door = SKDManager.Doors.FirstOrDefault(x => x.UID == remoteDoorState.UID);
+					if (door != null)
+					{
+						door.State.StateClasses = remoteDoorState.StateClasses.ToList();
+						door.State.StateClass = remoteDoorState.StateClass;
+						door.State.OnStateChanged();
+					}
 				}
 			}
 		}

@@ -82,7 +82,7 @@ namespace SKDModule.ViewModels
 							if (result.HasError)
 							{
 								LoadingService.Close();
-								MessageBoxService.ShowError(result.Error);
+								MessageBoxService.ShowWarning(result.Error);
 							}
 						}));
 					});
@@ -112,7 +112,7 @@ namespace SKDModule.ViewModels
 							if (result.HasError)
 							{
 								LoadingService.Close();
-								MessageBoxService.ShowError(result.Error);
+								MessageBoxService.ShowWarning(result.Error);
 							}
 						}));
 					});
