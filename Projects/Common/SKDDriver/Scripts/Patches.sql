@@ -353,3 +353,15 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('DoorsExitUIDtoID')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddJournalEmployeeUID')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Journal')
+	BEGIN
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'EmployeeUID' and table_name = 'Journal')
+		BEGIN
+			ALTER TABLE Journal ADD [EmployeeUID] [uniqueidentifier] NULL
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('AddJournalEmployeeUID')
+END

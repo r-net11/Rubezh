@@ -299,6 +299,29 @@ namespace SKDDriver
 			}
 		}
 
+		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
+		{
+			try
+			{
+				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == DateTime.MinValue);
+				if (exitPassJournal != null)
+				{
+					exitPassJournal.ExitTime = DateTime.Now;
+				}
+				var enterPassJournal = new DataAccess.PassJournal();
+				enterPassJournal.EmployeeUID = employeeUID;
+				enterPassJournal.ZoneUID = zoneUID;
+				enterPassJournal.EnterTime = DateTime.Now;
+				Context.PassJournals.InsertOnSubmit(enterPassJournal);
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+		}
+
 		EmployeeTimeTrack GetTimeTrack(Guid employeeUID, DateTime date)
 		{
 			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime.Date == date.Date).ToList();

@@ -31,7 +31,8 @@ namespace SKDDriver
 				SystemDateTime = tableItem.SystemDate,
 				UID = tableItem.UID,
 				UserName = tableItem.UserName,
-				CardNo = tableItem.CardNo
+				CardNo = tableItem.CardNo,
+				EmployeeUID = tableItem.EmployeeUID.HasValue ? tableItem.EmployeeUID.Value : Guid.Empty
 			};
 		}
 
@@ -49,7 +50,8 @@ namespace SKDDriver
 			tableItem.Subsystem = (int)apiItem.JournalSubsystemType;
 			tableItem.SystemDate = CheckDate(apiItem.SystemDateTime);
 			tableItem.UserName = apiItem.UserName;
-			tableItem.CardNo = tableItem.CardNo;
+			tableItem.CardNo = apiItem.CardNo;
+			tableItem.EmployeeUID = apiItem.EmployeeUID;
 		}
 
 		protected override Expression<Func<DataAccess.Journal, bool>> IsInFilter(JournalFilter filter)

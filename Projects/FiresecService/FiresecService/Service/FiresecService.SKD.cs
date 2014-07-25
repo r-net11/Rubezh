@@ -87,7 +87,8 @@ namespace FiresecService.Service
 			AddSKDJournalMessage(JournalEventNameType.Добавление_карты);
 			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
 			var cardWriter = ChinaSKDDriver.Processor.AddCard(item, accessTemplate);
-			var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+			var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
+			var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, failedControllerUIDs);
 			var saveResult = SKDDatabaseService.CardTranslator.Save(item);
 
 			if (pendingResult.HasError)
@@ -111,7 +112,7 @@ namespace FiresecService.Service
 			}
 			else
 			{
-				pendingResult = new OperationResult("Не найдена предидушая карта");
+				pendingResult = new OperationResult("Не найдена предидущая карта");
 			}
 
 			if (pendingResult.HasError)
@@ -146,12 +147,12 @@ namespace FiresecService.Service
 				}
 				else
 				{
-					pendingResult = new OperationResult("Не найдена предидушая карта");
+					pendingResult = new OperationResult("Не найдена предидущая карта");
 				}
 			}
 			else
 			{
-				pendingResult = new OperationResult("Не найдена предидушая карта");
+				pendingResult = new OperationResult("Не найдена предидущая карта");
 			}
 
 			if (pendingResult.HasError)
@@ -178,7 +179,7 @@ namespace FiresecService.Service
 
 		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
 		{
-			return cardWriter.ControllerCardItems.Where(x => !x.HasError).Select(x => x.ControllerDevice.UID);
+			return cardWriter.ControllerCardItems.Where(x => x.HasError).Select(x => x.ControllerDevice.UID);
 		}
 		#endregion
 

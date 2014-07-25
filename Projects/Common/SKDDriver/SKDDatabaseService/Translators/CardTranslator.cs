@@ -139,6 +139,48 @@ namespace SKDDriver
 			return result;
 		}
 
+		public virtual OperationResult<SKDCard> GetByUID(Guid cardUID)
+		{
+			try
+			{
+				var cards = Table.Where(x=>x.UID == cardUID);
+				var card = cards.FirstOrDefault();
+				if (card != null)
+				{
+					var skdCard = Translate(card);
+					return new OperationResult<SKDCard>() { Result = skdCard };
+				}
+				{
+					return new OperationResult<SKDCard>("Карта не найдена");
+				}
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<SKDCard>(e.Message);
+			}
+		}
+
+		public virtual OperationResult<Guid> GetEmployeeByCardNo(int cardNo)
+		{
+			try
+			{
+				var cards = Table.Where(x => x.Number == cardNo);
+				var card = cards.FirstOrDefault();
+				if (card != null)
+				{
+					if (card.EmployeeUID != null)
+						return new OperationResult<Guid>() { Result = card.EmployeeUID.Value };
+				}
+				{
+					return new OperationResult<Guid>("Карта не найдена");
+				}
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<Guid>(e.Message);
+			}
+		}
+
 		#region Pending
 
 		public OperationResult AddPendingList(Guid cardUID, IEnumerable<Guid> controllerUIDs)
@@ -234,7 +276,13 @@ namespace SKDDriver
 			}
 		}
 
-		void DeleteAllPendingCards(Guid cardUID, Guid controllerUID)
+		public IEnumerable<SKDDriver.DataAccess.PendingCard> GetAllPendingCards(Guid controllerUID)
+		{
+			var pendingCards = Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
+			return pendingCards;
+		}
+
+		public void DeleteAllPendingCards(Guid cardUID, Guid controllerUID)
 		{
 			var pendingCardsToRemove = Context.PendingCards.Where(x => x.CardUID == cardUID && x.ControllerUID == controllerUID);
 			Context.PendingCards.DeleteAllOnSubmit(pendingCardsToRemove);

@@ -21,6 +21,7 @@ namespace ChinaSKDDriver
 		bool IsStopping;
 		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 		public event Action<JournalItem> NewJournalItem;
+		public event Action<DeviceProcessor> ConnectionAppeared;
 
 		public DeviceProcessor(SKDDevice device)
 		{
@@ -115,7 +116,7 @@ namespace ChinaSKDDriver
 							doorDevice.State.StateClasses = new List<XStateClass>() { doorDevice.State.StateClass };
 							var skdStates = new SKDStates();
 							skdStates.DeviceStates.Add(doorDevice.State);
-							Processor.DoCallback(skdStates);
+							Processor.OnStatesChanged(skdStates);
 						}
 						else
 						{
@@ -188,7 +189,13 @@ namespace ChinaSKDDriver
 				connectionLostSKDStates.DeviceStates.Add(device.State);
 			}
 
-			Processor.DoCallback(connectionLostSKDStates);
+			Processor.OnStatesChanged(connectionLostSKDStates);
+
+			if (IsConnected)
+			{
+				if (ConnectionAppeared != null)
+					ConnectionAppeared(this);
+			}
 		}
 
 		public void Start()

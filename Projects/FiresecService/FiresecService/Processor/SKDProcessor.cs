@@ -6,6 +6,8 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using FiresecAPI.GK;
+using ChinaSKDDriver;
+using SKDDriver;
 
 namespace FiresecService
 {
@@ -36,13 +38,16 @@ namespace FiresecService
 				{
 					deviceProcessor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
 					deviceProcessor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
+
+					deviceProcessor.ConnectionAppeared -= new Action<DeviceProcessor>(OnConnectionAppeared);
+					deviceProcessor.ConnectionAppeared += new Action<DeviceProcessor>(OnConnectionAppeared);
 				}
 
 				ChinaSKDDriver.Processor.NewJournalItem -= new Action<JournalItem>(OnNewJournalItem);
 				ChinaSKDDriver.Processor.NewJournalItem += new Action<JournalItem>(OnNewJournalItem);
 
-				ChinaSKDDriver.Processor.skdStatesEvent -= new Action<SKDStates>(OnSKDStates);
-				ChinaSKDDriver.Processor.skdStatesEvent += new Action<SKDStates>(OnSKDStates);
+				ChinaSKDDriver.Processor.StatesChangedEvent -= new Action<SKDStates>(OnSKDStates);
+				ChinaSKDDriver.Processor.StatesChangedEvent += new Action<SKDStates>(OnSKDStates);
 
 				ChinaSKDDriver.Processor.GKProgressCallbackEvent -= new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
 				ChinaSKDDriver.Processor.GKProgressCallbackEvent += new Action<GKProgressCallback>(OnGKProgressCallbackEvent);
@@ -60,6 +65,26 @@ namespace FiresecService
 
 		static void OnNewJournalItem(JournalItem journalItem)
 		{
+			if (journalItem.CardNo > 0)
+			{
+				var operationResult = SKDDatabaseService.CardTranslator.GetEmployeeByCardNo(journalItem.CardNo);
+				if (!operationResult.HasError)
+				{
+					var employeeUID = operationResult.Result;
+					journalItem.EmployeeUID = employeeUID;
+
+					if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен)
+					{
+						var readerdevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+						if (readerdevice != null && readerdevice.Zone != null)
+						{
+							var zoneUID = readerdevice.Zone.UID;
+							SKDDatabaseService.EmployeeTranslator.AddPassJournal(employeeUID, zoneUID);
+						}
+					}
+				}
+			}
+
 			journalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
 			FiresecService.Service.FiresecService.AddJournalItem(journalItem);
@@ -179,6 +204,36 @@ namespace FiresecService
 		static void OnGKProgressCallbackEvent(GKProgressCallback gkProgressCallback)
 		{
 			FiresecService.Service.FiresecService.NotifyGKProgress(gkProgressCallback);
+		}
+
+		static void OnConnectionAppeared(DeviceProcessor deviceProcessor)
+		{
+			var pendingCards = SKDDatabaseService.CardTranslator.GetAllPendingCards(deviceProcessor.Device.UID);
+			foreach (var pendingCard in pendingCards)
+			{
+				var operationResult = SKDDatabaseService.CardTranslator.GetByUID(pendingCard.CardUID);
+				if (!operationResult.HasError)
+				{
+					var card = operationResult.Result;
+					var accessTemplate = GetAccessTemplate(card.AccessTemplateUID);
+					var cardWriter = ChinaSKDDriver.Processor.AddCard(card, accessTemplate);
+					foreach (var controllerCardItem in cardWriter.ControllerCardItems)
+					{
+						if (!controllerCardItem.HasError)
+						{
+							SKDDatabaseService.CardTranslator.DeleteAllPendingCards(card.UID, deviceProcessor.Device.UID);
+						}
+					}
+				}
+			}
+		}
+
+		static AccessTemplate GetAccessTemplate(Guid? uid)
+		{
+			var accessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(uid);
+			if (!accessTemplateOperationResult.HasError)
+				return accessTemplateOperationResult.Result;
+			return null;
 		}
 
 		public static void SetNewConfig()

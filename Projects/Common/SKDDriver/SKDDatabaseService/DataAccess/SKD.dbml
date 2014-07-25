@@ -405,6 +405,7 @@
       <Column Name="ObjectUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="UserName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="CardNo" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Member="EmployeeUID" Type="System.Guid" CanBeNull="true" />
       <Association Name="Card_Journal" Member="Card" ThisKey="ObjectUID" OtherKey="UID" Type="Card" IsForeignKey="true" />
     </Type>
   </Table>

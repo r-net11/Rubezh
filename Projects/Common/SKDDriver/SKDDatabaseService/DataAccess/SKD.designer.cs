@@ -11,10 +11,15 @@
 
 namespace SKDDriver.DataAccess
 {
-	using System;
-	using System.ComponentModel;
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
+	using System.Data;
+	using System.Collections.Generic;
+	using System.Reflection;
+	using System.Linq;
+	using System.Linq.Expressions;
+	using System.ComponentModel;
+	using System;
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="SKD")]
@@ -9114,6 +9119,8 @@ namespace SKDDriver.DataAccess
 		
 		private int _CardNo;
 		
+		private System.Nullable<System.Guid> _EmployeeUID;
+		
 		private EntityRef<Card> _Card;
 		
     #region Определения метода расширяемости
@@ -9148,6 +9155,8 @@ namespace SKDDriver.DataAccess
     partial void OnUserNameChanged();
     partial void OnCardNoChanging(int value);
     partial void OnCardNoChanged();
+    partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnEmployeeUIDChanged();
     #endregion
 		
 		public Journal()
@@ -9436,6 +9445,26 @@ namespace SKDDriver.DataAccess
 					this._CardNo = value;
 					this.SendPropertyChanged("CardNo");
 					this.OnCardNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID")]
+		public System.Nullable<System.Guid> EmployeeUID
+		{
+			get
+			{
+				return this._EmployeeUID;
+			}
+			set
+			{
+				if ((this._EmployeeUID != value))
+				{
+					this.OnEmployeeUIDChanging(value);
+					this.SendPropertyChanging();
+					this._EmployeeUID = value;
+					this.SendPropertyChanged("EmployeeUID");
+					this.OnEmployeeUIDChanged();
 				}
 			}
 		}
