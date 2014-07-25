@@ -44,45 +44,12 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetCurrentTime(int loginID, int dwYe
 
 typedef struct
 {
-	int	nLogType;
-	DHDEVTIME stuOperateTime;
-	char szOperator[16];
-	char szOperation[32];
-	char szDetailContext[4*1024];
-} WRAP_LogItem;
-
-typedef struct
-{
-	WRAP_LogItem Logs[10];
-	int Test;
-} WRAP_Dev_QueryLogList_Result;
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_QueryLogList(int loginID, WRAP_Dev_QueryLogList_Result* result);
-
-typedef struct
-{
 	char szProjectPassword[MAX_PASSWORD_LEN];
 } WRAP_GeneralConfig_Password;
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetProjectPassword(int loginID, WRAP_GeneralConfig_Password* result);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetProjectPassword(int loginID, char password[]);
-
-typedef struct tagCFG_ACCESS_EVENT_INFO_Bools
-{
-	BOOL bSnapshotEnable;
-	BOOL abDoorOpenMethod;
-    BOOL abUnlockHoldInterval;
-	BOOL abCloseTimeout;
-	BOOL abOpenAlwaysTimeIndex;
-	BOOL abHolidayTimeIndex;
-	BOOL abBreakInAlarmEnable;
-	BOOL abRepeatEnterAlarmEnable;
-	BOOL abDoorNotClosedAlarmEnable;
-	BOOL abDuressAlarmEnable;
-	BOOL abDoorTimeSection;
-	BOOL abSensorEnable;
-}CFG_ACCESS_EVENT_INFO_Bools;
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result);
 
@@ -92,13 +59,51 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_ReBoot(int loginID);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_DeleteCfgFile(int loginID);
 
-extern "C" CLIENT_API int CALL_METHOD WRAP_GetLogCount(int loginID, QUERY_DEVICE_LOG_PARAM* logParam);
-
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_OpenDoor(int loginID, int channelNo);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_CloseDoor(int loginID, int channelNo);
 
 extern "C" CLIENT_API int CALL_METHOD WRAP_GetDoorStatus(int loginID, int channelNo);
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Upgrade(int loginID, char fileName[256]);
+
+typedef struct
+{
+	int	nLogType;
+	DHDEVTIME stuOperateTime;
+	char szOperator[16];
+	char szOperation[32];
+	char szDetailContext[4*1024];
+} WRAP_LogItem;
+
+typedef struct tagNET_LOG_INFO2
+{
+    NET_TIME stuTime;
+    char szUserName[DH_COMMON_STRING_32];
+    char szLogType[DH_COMMON_STRING_128];
+	char szLogMessage[DH_COMMON_STRING_1024];
+} NET_LOG_INFO2;
+
+typedef struct
+{
+	WRAP_LogItem Logs[10];
+	NET_LOG_INFO2 Logs2[10];
+	int Test;
+} WRAP_Dev_QueryLogList_Result;
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_QueryLogList(int loginID, WRAP_Dev_QueryLogList_Result* result);
+
+extern "C" CLIENT_API int CALL_METHOD WRAP_GetLogCount(int loginID, QUERY_DEVICE_LOG_PARAM* logParam);
+
+
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_QueryStart(int loginID);
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_QueryNext(WRAP_Dev_QueryLogList_Result* result);
+
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_QueryStop();
+
+
 
 extern "C" CLIENT_API BOOL CALL_METHOD TestStruct(CFG_ACCESS_EVENT_INFO* result);
 

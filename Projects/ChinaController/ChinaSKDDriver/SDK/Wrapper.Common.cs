@@ -273,6 +273,12 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		public bool UpdateFirmware(string fileName)
+		{
+			var result = NativeWrapper.WRAP_Upgrade(LoginID, fileName);
+			return result;
+		}
+
 		#endregion
 	}
 }

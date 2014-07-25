@@ -180,30 +180,6 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_SetCurrentTime(int loginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond);
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct WRAP_LogItem
-		{
-			public int nLogType;
-			public DHDEVTIME stuOperateTime;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
-			public string szOperator;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-			public string szOperation;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 4 * 1024)]
-			public string szDetailContext;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct WRAP_Dev_QueryLogList_Result
-		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
-			public WRAP_LogItem[] Logs;
-			public int Test;
-		}
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_QueryLogList(int loginID, out WRAP_Dev_QueryLogList_Result result);
-
-		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_GeneralConfig_Password
 		{
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
@@ -266,9 +242,6 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_DeleteCfgFile(int loginID);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_GetLogCount(int loginID, ref QUERY_DEVICE_LOG_PARAM logParam);
-
-		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_OpenDoor(int loginID, int channelNo);
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -276,6 +249,9 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_GetDoorStatus(int loginID, int channelNo);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_Upgrade(int loginID, string fileName);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool TestStruct(IntPtr result);
@@ -570,6 +546,57 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetTimeSchedule(int loginID, int index, ref CFG_ACCESS_TIMESCHEDULE_INFO param);
+		#endregion
+
+		#region Logs
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_LogItem
+		{
+			public int nLogType;
+			public DHDEVTIME stuOperateTime;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
+			public string szOperator;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szOperation;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 4 * 1024)]
+			public string szDetailContext;
+		}
+
+		public struct WRAP_NET_LOG_INFO2
+		{
+			NET_TIME stuTime;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szUserName;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szLogType;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
+			public string szLogMessage;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_Dev_QueryLogList_Result
+		{
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+			public WRAP_LogItem[] Logs;
+			public WRAP_NET_LOG_INFO2[] Logs2;
+			public int Test;
+		}
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_QueryLogList(int loginID, out WRAP_Dev_QueryLogList_Result result);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_GetLogCount(int loginID, ref QUERY_DEVICE_LOG_PARAM logParam);
+
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_QueryStart(int loginID);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_QueryNext(IntPtr result);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_QueryStop();
 		#endregion
 
 		#region Events

@@ -44,6 +44,9 @@
             <TabItem Header="Конфигурация двери" DataContext="{Binding DoorConfigurationViewModel}">
                 <Views:DoorConfigurationView />
             </TabItem>
+            <TabItem Header="Архив" DataContext="{Binding LogItemsViewModel}">
+                <Views:LogItemsView />
+            </TabItem>
         </TabControl>
 
         <TextBox Grid.Row="1" Name="_textBox" TextWrapping="Wrap" />

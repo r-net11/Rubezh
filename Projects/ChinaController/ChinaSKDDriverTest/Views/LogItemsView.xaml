@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="ControllerSDK.Views.LogItemsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="GetLogsCount" Command="{Binding GetLogsCountCommand}" Width="300" Margin="2" />
+                <Button Content="QueryLogList" Command="{Binding QueryLogListCommand}" Width="300" Margin="2" />
+            </StackPanel>
+            <Button Content="GetAllLogs" Command="{Binding GetAllLogsCommand}" Width="300" Margin="2" />
+        </StackPanel>
+    </Grid>
+</UserControl>

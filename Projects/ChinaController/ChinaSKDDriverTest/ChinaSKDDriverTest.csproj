@@ -78,6 +78,7 @@
     <Compile Include="ViewModels\DoorItemViewModel.cs" />
     <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="ViewModels\JournalViewModel.cs" />
+    <Compile Include="ViewModels\LogItemsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PasswordsViewModel.cs" />
     <Compile Include="ViewModels\PasswordViewModel.cs" />
@@ -103,6 +104,9 @@
     </Compile>
     <Compile Include="Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LogItemsView.xaml.cs">
+      <DependentUpon>LogItemsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PasswordsView.xaml.cs">
       <DependentUpon>PasswordsView.xaml</DependentUpon>
@@ -133,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\JournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogItemsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
