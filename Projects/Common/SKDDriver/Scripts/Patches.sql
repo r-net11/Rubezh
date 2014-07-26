@@ -365,3 +365,40 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('AddJournalEmployeeUID')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveDocument')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Document')
+	BEGIN
+		DROP TABLE Document
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveDocument')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveDocumentUIDIndex')
+BEGIN
+	IF EXISTS (SELECT Name FROM sysindexes WHERE Name = 'DocumentUIDIndex') 
+	BEGIN
+		DROP Index DocumentUIDIndex ON Document
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveDocumentUIDIndex')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEmployeeReplacement')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = '[EmployeeReplacement')
+	BEGIN
+		DROP TABLE EmployeeReplacement
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveEmployeeReplacement')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEmployeeReplacementUIDIndex')
+BEGIN
+	IF EXISTS (SELECT Name FROM sysindexes WHERE Name = 'EmployeeReplacementUIDIndex') 
+	BEGIN
+		DROP Index EmployeeReplacementUIDIndex ON EmployeeReplacement
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveEmployeeReplacementUIDIndex')
+END
+GO

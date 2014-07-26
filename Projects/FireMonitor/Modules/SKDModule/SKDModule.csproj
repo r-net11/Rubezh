@@ -336,15 +336,6 @@
     <Compile Include="Departments\Views\DepartmentsView.xaml.cs">
       <DependentUpon>DepartmentsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Documents\ViewModels\DocumentDetailsViewModel.cs" />
-    <Compile Include="Documents\ViewModels\DocumentsViewModel.cs" />
-    <Compile Include="Documents\ViewModels\DocumentViewModel.cs" />
-    <Compile Include="Documents\Views\DocumentDetailsView.xaml.cs">
-      <DependentUpon>DocumentDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Documents\Views\DocumentsView.xaml.cs">
-      <DependentUpon>DocumentsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeDetailsViewModel.cs" />
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypesViewModel.cs" />
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeViewModel.cs" />
@@ -664,18 +655,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Departments\Views\DepartmentsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Documents\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Documents\Views\DocumentDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Documents\Views\DocumentsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

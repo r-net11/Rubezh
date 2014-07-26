@@ -88,17 +88,6 @@ namespace FiresecAPI
 		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid);
 		#endregion
 
-		#region Document
-		[OperationContract]
-		OperationResult<IEnumerable<ShortDocument>> GetDocumentList(DocumentFilter filter);
-		[OperationContract]
-		OperationResult<Document> GetDocumentDetails(Guid uid);
-		[OperationContract]
-		OperationResult SaveDocument(Document item);
-		[OperationContract]
-		OperationResult MarkDeletedDocument(Guid uid);
-		#endregion
-
 		#region AdditionalColumnType
 		[OperationContract]
 		OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter);
@@ -108,15 +97,6 @@ namespace FiresecAPI
 		OperationResult SaveAdditionalColumnType(AdditionalColumnType item);
 		[OperationContract]
 		OperationResult MarkDeletedAdditionalColumnType(Guid uid);
-		#endregion
-
-		#region EmployeeReplacement
-		[OperationContract]
-		OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter);
-		[OperationContract]
-		OperationResult SaveEmployeeReplacement(EmployeeReplacement item);
-		[OperationContract]
-		OperationResult MarkDeletedEmployeeReplacement(Guid uid);
 		#endregion
 
 		#region DeviceCommands

@@ -75,13 +75,6 @@
 					<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
 				</StackPanel>
 			</Grid>
-			<Grid Visibility="{Binding IsDocumentsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-				<StackPanel Orientation="Horizontal" DataContext="{Binding DocumentsViewModel}">
-					<Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-					<Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-					<Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
-				</StackPanel>
-			</Grid>
 			<Controls:ToolBarButton Command="{Binding EditFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" />
 		</StackPanel>
 
@@ -106,9 +99,6 @@
 			</TabItem>
 			<TabItem Header="Организации" IsSelected="{Binding IsOrganisationsSelected}" Visibility="{Binding CanSelectOrganisations, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Views:OrganisationsView DataContext="{Binding OrganisationsViewModel}" />
-			</TabItem>
-			<TabItem Header="Документы" IsSelected="{Binding IsDocumentsSelected}" Visibility="Collapsed">
-				<Views:DocumentsView DataContext="{Binding DocumentsViewModel}" />
 			</TabItem>
 		</TabControl>
 	</Grid>

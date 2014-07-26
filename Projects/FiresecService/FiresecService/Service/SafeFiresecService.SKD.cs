@@ -151,25 +151,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		#region Document
-		public OperationResult<IEnumerable<ShortDocument>> GetDocumentList(DocumentFilter filter)
-		{
-			return SafeContext.Execute<OperationResult<IEnumerable<ShortDocument>>>(() => FiresecService.GetDocumentList(filter));
-		}
-		public OperationResult<Document> GetDocumentDetails(Guid uid)
-		{
-			return SafeContext.Execute<OperationResult<Document>>(() => FiresecService.GetDocumentDetails(uid));
-		}
-		public OperationResult SaveDocument(Document item)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocument(item));
-		}
-		public OperationResult MarkDeletedDocument(Guid uid)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedDocument(uid));
-		}
-		#endregion
-
 		#region AdditionalColumnType
 		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
 		{
@@ -186,21 +167,6 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedAdditionalColumnType(uid));
-		}
-		#endregion
-
-		#region EmployeeReplacement
-		public OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter)
-		{
-			return SafeContext.Execute<OperationResult<IEnumerable<EmployeeReplacement>>>(() => FiresecService.GetEmployeeReplacements(filter));
-		}
-		public OperationResult SaveEmployeeReplacement(EmployeeReplacement item)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeReplacement(item));
-		}
-		public OperationResult MarkDeletedEmployeeReplacement(Guid uid)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployeeReplacement(uid));
 		}
 		#endregion
 

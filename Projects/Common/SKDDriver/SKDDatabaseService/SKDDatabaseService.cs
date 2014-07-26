@@ -9,7 +9,6 @@ namespace SKDDriver
 		static SKDDatabaseService()
 		{
 			Context = new DataAccess.SKDDataContext();
-			DocumentTranslator = new DocumentTranslator(Context);
 			CardZoneTranslator = new CardDoorTranslator(Context);
 			CardTranslator = new CardTranslator(Context, CardZoneTranslator);
 			AccessTemplateTranslator = new AccessTemplateTranslator(Context, CardZoneTranslator);
@@ -20,7 +19,6 @@ namespace SKDDriver
 			DepartmentTranslator = new DepartmentTranslator(Context, PhotoTranslator);
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context, PhotoTranslator, AdditionalColumnTypeTranslator);
-			EmployeeReplacementTranslator = new EmployeeReplacementTranslator(Context);
 			TimeIntervalTranslator = new TimeIntervalTranslator(Context);
 			NamedIntervalTranslator = new NamedIntervalTranslator(Context, TimeIntervalTranslator);
 			HolidayTranslator = new HolidayTranslator(Context);
@@ -28,10 +26,9 @@ namespace SKDDriver
 			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(Context, DayIntervalTranslator);
 			ScheduleZoneTranslator = new ScheduleZoneTranslator(Context);
 			ScheduleTranslator = new ScheduleTranslator(Context, ScheduleZoneTranslator);
-			EmployeeTranslator = new EmployeeTranslator(Context, EmployeeReplacementTranslator, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator, ScheduleTranslator);
+			EmployeeTranslator = new EmployeeTranslator(Context, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator, ScheduleTranslator);
 		}
 
-		public static DocumentTranslator DocumentTranslator { get; private set; }
 		public static PositionTranslator PositionTranslator { get; private set; }
 		public static CardTranslator CardTranslator { get; private set; }
 		public static CardDoorTranslator CardZoneTranslator { get; private set; }
@@ -43,7 +40,6 @@ namespace SKDDriver
 		public static AdditionalColumnTypeTranslator AdditionalColumnTypeTranslator { get; private set; }
 		public static AdditionalColumnTranslator AdditionalColumnTranslator { get; private set; }
 		public static PhotoTranslator PhotoTranslator { get; private set; }
-		public static EmployeeReplacementTranslator EmployeeReplacementTranslator { get; private set; }
 		public static NamedIntervalTranslator NamedIntervalTranslator { get; private set; }
 		public static TimeIntervalTranslator TimeIntervalTranslator { get; private set; }
 		public static HolidayTranslator HolidayTranslator { get; private set; }
@@ -51,6 +47,5 @@ namespace SKDDriver
 		public static DayIntervalTranslator DayIntervalTranslator { get; private set; }
 		public static ScheduleZoneTranslator ScheduleZoneTranslator { get; private set; }
 		public static ScheduleTranslator ScheduleTranslator { get; private set; }
-		
 	}
 }

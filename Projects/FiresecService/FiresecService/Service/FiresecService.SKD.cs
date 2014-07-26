@@ -237,25 +237,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		#region Document
-		public OperationResult<IEnumerable<ShortDocument>> GetDocumentList(DocumentFilter filter)
-		{
-			return SKDDatabaseService.DocumentTranslator.GetList(filter);
-		}
-		public OperationResult<Document> GetDocumentDetails(Guid uid)
-		{
-			return SKDDatabaseService.DocumentTranslator.GetSingle(uid);
-		}
-		public OperationResult SaveDocument(Document item)
-		{
-			return SKDDatabaseService.DocumentTranslator.Save(item);
-		}
-		public OperationResult MarkDeletedDocument(Guid uid)
-		{
-			return SKDDatabaseService.DocumentTranslator.MarkDeleted(uid);
-		}
-		#endregion
-
 		#region AdditionalColumnType
 		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
 		{
@@ -272,21 +253,6 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
 		{
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
-		}
-		#endregion
-
-		#region EmployeeReplacement
-		public OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter)
-		{
-			return SKDDatabaseService.EmployeeReplacementTranslator.Get(filter);
-		}
-		public OperationResult SaveEmployeeReplacement(EmployeeReplacement item)
-		{
-			return SKDDatabaseService.EmployeeReplacementTranslator.Save(item);
-		}
-		public OperationResult MarkDeletedEmployeeReplacement(Guid uid)
-		{
-			return SKDDatabaseService.EmployeeReplacementTranslator.MarkDeleted(uid);
 		}
 		#endregion
 

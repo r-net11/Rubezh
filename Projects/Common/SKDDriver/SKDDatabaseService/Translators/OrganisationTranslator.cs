@@ -30,9 +30,7 @@ namespace SKDDriver
 		{
 			if (Context.AdditionalColumnTypes.Any(x => x.OrganisationUID == uid) ||
 					Context.Departments.Any(x => x.OrganisationUID == uid) ||
-					Context.Documents.Any(x => x.OrganisationUID == uid) ||
 					Context.Employees.Any(x => x.OrganisationUID == uid) ||
-					Context.EmployeeReplacements.Any(x => x.OrganisationUID == uid) ||
 					Context.Holidays.Any(x => x.OrganisationUID == uid) ||
 					Context.NamedIntervals.Any(x => x.OrganisationUID == uid) ||
 					Context.Positions.Any(x => x.OrganisationUID == uid) ||
