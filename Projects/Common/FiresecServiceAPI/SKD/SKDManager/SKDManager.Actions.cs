@@ -6,16 +6,6 @@ namespace FiresecAPI.SKD
 {
 	public partial class SKDManager
 	{
-		public static List<byte> CreateHash()
-		{
-			return new List<byte>();
-		}
-
-		public static bool CompareHashes(List<byte> hash1, List<byte> hash2)
-		{
-			return true;
-		}
-
 		public static void EditDevice(SKDDevice device)
 		{
 			if (device.Door != null)

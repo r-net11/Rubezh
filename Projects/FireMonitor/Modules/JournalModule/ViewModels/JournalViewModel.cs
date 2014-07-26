@@ -7,6 +7,10 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
 using JournalModule.Events;
+using FiresecAPI.GK;
+using FiresecClient;
+using FiresecAPI.Models;
+using Infrastructure.Common.Windows;
 
 namespace JournalModule.ViewModels
 {
@@ -73,6 +77,16 @@ namespace JournalModule.ViewModels
 
 				if (JournalItems.Count > JournalFilter.LastItemsCount)
 					JournalItems.RemoveAt(JournalFilter.LastItemsCount);
+
+				if ((journalItem.JournalObjectType == JournalObjectType.GKZone || journalItem.JournalObjectType == JournalObjectType.GKDirection) &&
+					(journalItem.StateClass == XStateClass.Fire1 || journalItem.StateClass == XStateClass.Fire2 || journalItem.StateClass == XStateClass.Attention))
+				{
+					if (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+					{
+						var confirmationViewModel = new ConfirmationViewModel(journalItem);
+						DialogService.ShowWindow(confirmationViewModel);
+					}
+				}
 			}
 
 			if (SelectedJournal == null)
