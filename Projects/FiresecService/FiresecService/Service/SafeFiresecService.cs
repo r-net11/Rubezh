@@ -173,6 +173,10 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<List<JournalEventNameType>>(() => FiresecService.GetDistinctEventNames());
 		}
+		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
+		{
+			return SafeOperationCall(() => { return FiresecService.AddJournalItem(journalItem); }, "AddJournalItem");
+		}
 		#endregion
 
 		#region GK

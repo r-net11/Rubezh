@@ -24,9 +24,11 @@ namespace JournalModule.ViewModels
 		void OnConfirm()
 		{
 			var deltaSeconds = (int)(DateTime.Now - StartDateTime).TotalSeconds;
-			//FiresecManager.FiresecService.AddJournalItem(JournalEventNameType.Подтверждение_тревоги,
-			//    JournalItemViewModel.Name + " " + JournalItemViewModel.Description +
-			//    " (время реакции " + deltaSeconds.ToString() + " сек)");
+			var journalItem = new JournalItem();
+			journalItem.DeviceDateTime = DateTime.Now;
+			journalItem.JournalEventNameType = JournalEventNameType.Подтверждение_тревоги;
+			journalItem.DescriptionText = JournalItemViewModel.Name + " " + JournalItemViewModel.Description + " (время реакции " + deltaSeconds.ToString() + " сек)";
+			FiresecManager.FiresecService.AddJournalItem(journalItem);
 			Close();
 		}
 	}

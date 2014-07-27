@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_zones = value;
-				OnPropertyChanged("Zones");
+				OnPropertyChanged(() => Zones);
 			}
 		}
 
@@ -49,7 +49,7 @@ namespace GKModule.ViewModels
 			{
 				_selectedZone = value;
 				InitializeDevices();
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
 
@@ -120,7 +120,7 @@ namespace GKModule.ViewModels
 			}
 
 			RootDevice = deviceViewModels.FirstOrDefault(x => x.Parent == null);
-			OnPropertyChanged("RootDevices");
+			OnPropertyChanged(() => RootDevices);
 		}
 	}
 }

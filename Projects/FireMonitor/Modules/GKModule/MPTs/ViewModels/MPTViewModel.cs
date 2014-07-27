@@ -42,9 +42,8 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
-			OnPropertyChanged("HasOnDelay");
-			OnPropertyChanged("HasHoldDelay");
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => HasOnDelay);
 		}
 
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
@@ -136,7 +135,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isHandAutomaticOff = value;
-				OnPropertyChanged("IsHandAutomaticOff");
+				OnPropertyChanged(() => IsHandAutomaticOff);
 			}
 		}
 
@@ -147,7 +146,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isDoorAutomaticOff = value;
-				OnPropertyChanged("IsDoorAutomaticOff");
+				OnPropertyChanged(() => IsDoorAutomaticOff);
 			}
 		}
 
@@ -158,7 +157,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isFailureAutomaticOff = value;
-				OnPropertyChanged("IsFailureAutomaticOff");
+				OnPropertyChanged(() => IsFailureAutomaticOff);
 			}
 		}
 		#endregion

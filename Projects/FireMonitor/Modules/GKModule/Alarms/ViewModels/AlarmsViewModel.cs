@@ -47,7 +47,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedAlarm = value;
-				OnPropertyChanged("SelectedAlarm");
+				OnPropertyChanged(() => SelectedAlarm);
 			}
 		}
 

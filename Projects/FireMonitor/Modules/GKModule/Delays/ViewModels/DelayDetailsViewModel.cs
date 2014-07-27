@@ -42,12 +42,12 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("StateClasses");
-			OnPropertyChanged("ControlRegime");
-			OnPropertyChanged("IsControlRegime");
-			OnPropertyChanged("State");
-			OnPropertyChanged("HasOnDelay");
-			OnPropertyChanged("HasHoldDelay");
+			OnPropertyChanged(() => StateClasses);
+			OnPropertyChanged(() => ControlRegime);
+			OnPropertyChanged(() => IsControlRegime);
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => HasOnDelay);
+			OnPropertyChanged(() => HasHoldDelay);
 			CommandManager.InvalidateRequerySuggested();
 		}
 

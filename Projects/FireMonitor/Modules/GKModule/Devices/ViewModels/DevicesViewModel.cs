@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 					device.ExpandToThis();
 			}
 
-			OnPropertyChanged("RootDevices");
+			OnPropertyChanged(() => RootDevices);
 		}
 
 		#region DeviceSelection
@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 			private set
 			{
 				_rootDevice = value;
-				OnPropertyChanged("RootDevice");
+				OnPropertyChanged(() => RootDevice);
 			}
 		}
 

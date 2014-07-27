@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_journals = value;
-				OnPropertyChanged("Journals");
+				OnPropertyChanged(() => Journals);
 			}
 		}
 
@@ -56,7 +56,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedJournal = value;
-				OnPropertyChanged("SelectedJournal");
+				OnPropertyChanged(() => SelectedJournal);
 			}
 		}
 

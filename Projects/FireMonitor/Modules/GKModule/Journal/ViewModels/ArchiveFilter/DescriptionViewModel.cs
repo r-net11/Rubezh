@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isEnabled = value;
-				OnPropertyChanged("IsEnabled");
+				OnPropertyChanged(() => IsEnabled);
 			}
 		}
 

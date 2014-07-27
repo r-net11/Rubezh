@@ -36,9 +36,9 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
-			OnPropertyChanged("HasOnDelay");
-			OnPropertyChanged("HasHoldDelay");
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => HasOnDelay);
+			OnPropertyChanged(() => HasHoldDelay);
 		}
 
 		public ObservableCollection<DeviceViewModel> Pumps { get; private set; }

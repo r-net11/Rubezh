@@ -27,9 +27,9 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("Alarms");
-			OnPropertyChanged("Count");
-			OnPropertyChanged("HasAlarms");
+			OnPropertyChanged(() => Alarms);
+			OnPropertyChanged(() => Count);
+			OnPropertyChanged(() => HasAlarms);
 		}
 
 		public int Count

@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_direction = value;
-				OnPropertyChanged("Directions");
+				OnPropertyChanged(() => Directions);
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace GKModule.ViewModels
 			{
 				_selectedDirection = value;
 				InitializeInputOutputObjects();
-				OnPropertyChanged("SelectedDirection");
+				OnPropertyChanged(() => SelectedDirection);
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace GKModule.ViewModels
 				var directionDeviceViewModel = new DirectionDeviceViewModel(inputDevice);
 				InputDevices.Add(directionDeviceViewModel);
 			}
-			OnPropertyChanged("InputDevices");
+			OnPropertyChanged(() => InputDevices);
 
 			InputZones = new List<DirectionZoneViewModel>();
 			foreach (var directionZone in SelectedDirection.Direction.DirectionZones)
@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 					InputZones.Add(directionZoneViewModel);
 				}
 			}
-			OnPropertyChanged("InputZones");
+			OnPropertyChanged(() => InputZones);
 
 			OutputDevices = new List<DeviceViewModel>();
 			foreach (var outputDevice in SelectedDirection.Direction.OutputDevices)
@@ -89,7 +89,7 @@ namespace GKModule.ViewModels
 				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == outputDevice);
 				OutputDevices.Add(deviceViewModel);
 			}
-			OnPropertyChanged("OutputDevices");
+			OnPropertyChanged(() => OutputDevices);
 		}
 
 		DeviceViewModel _selectedOutputDevice;
@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedOutputDevice = value;
-				OnPropertyChanged("SelectedOutputDevice");
+				OnPropertyChanged(() => SelectedOutputDevice);
 			}
 		}
 
@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedInputDevice = value;
-				OnPropertyChanged("SelectedInputDevice");
+				OnPropertyChanged(() => SelectedInputDevice);
 			}
 		}
 	}

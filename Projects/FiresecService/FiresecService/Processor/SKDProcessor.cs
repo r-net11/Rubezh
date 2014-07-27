@@ -87,7 +87,7 @@ namespace FiresecService
 
 			journalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 			journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
-			FiresecService.Service.FiresecService.AddJournalItem(journalItem);
+			FiresecService.Service.FiresecService.AddCommonJournalItem(journalItem);
 		}
 
 		static void OnSKDStates(SKDStates skdStates)

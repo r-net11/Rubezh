@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_pim = value;
-				OnPropertyChanged("Pims");
+				OnPropertyChanged(() => Pims);
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedPim = value;
-				OnPropertyChanged("SelectedPim");
+				OnPropertyChanged(() => SelectedPim);
 			}
 		}
 

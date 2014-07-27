@@ -117,8 +117,8 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("ControlRegime");
-			OnPropertyChanged("IsControlRegime");
+			OnPropertyChanged(() => ControlRegime);
+			OnPropertyChanged(() => IsControlRegime);
 		}
 
 		public bool HasReset
@@ -163,7 +163,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedMROMessageNo = value;
-				OnPropertyChanged("SelectedMROMessageNo");
+				OnPropertyChanged(() => SelectedMROMessageNo);
 			}
 		}
 
@@ -179,7 +179,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedMROMessageType = value;
-				OnPropertyChanged("SelectedMROMessageType");
+				OnPropertyChanged(() => SelectedMROMessageType);
 			}
 		}
 
@@ -203,7 +203,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_mroCode = value;
-				OnPropertyChanged("MROCode");
+				OnPropertyChanged(() => MROCode);
 			}
 		}
 		#endregion

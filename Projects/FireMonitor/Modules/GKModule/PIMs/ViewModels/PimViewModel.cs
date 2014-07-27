@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
+			OnPropertyChanged(() => State);
 		}
 
 		public RelayCommand ShowJournalCommand { get; private set; }

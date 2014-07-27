@@ -66,7 +66,7 @@ namespace FiresecService.Service
 					break;
 			}
 
-			AddJournalItem(journalItem);
+			AddCommonJournalItem(journalItem);
 		}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType)
@@ -85,7 +85,7 @@ namespace FiresecService.Service
 				UserName = UserName,
 			};
 
-			AddJournalItem(journalItem);
+			AddCommonJournalItem(journalItem);
 		}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDevice device)
@@ -104,7 +104,7 @@ namespace FiresecService.Service
 				UserName = UserName,
 			};
 
-			AddJournalItem(journalItem);
+			AddCommonJournalItem(journalItem);
 		}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDZone zone)
@@ -123,7 +123,7 @@ namespace FiresecService.Service
 				UserName = UserName,
 			};
 
-			AddJournalItem(journalItem);
+			AddCommonJournalItem(journalItem);
 		}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDoor door)
@@ -142,13 +142,27 @@ namespace FiresecService.Service
 				UserName = UserName,
 			};
 
-			AddJournalItem(journalItem);
+			AddCommonJournalItem(journalItem);
 		}
 
-		public static void AddJournalItem(JournalItem journalItem)
+		public static void AddCommonJournalItem(JournalItem journalItem)
 		{
 			DBHelper.Add(journalItem);
 			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
+		}
+
+		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
+		{
+			try
+			{
+				DBHelper.Add(journalItem);
+				FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<bool>(e.Message);
+			}
+			return new OperationResult<bool>() { Result = true };
 		}
 		#endregion
 

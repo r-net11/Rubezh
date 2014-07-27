@@ -41,8 +41,8 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
-			OnPropertyChanged("DeviceStateViewModel");
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => DeviceStateViewModel);
 
 			if (Device.DriverType == XDriverType.MPT)
 			{

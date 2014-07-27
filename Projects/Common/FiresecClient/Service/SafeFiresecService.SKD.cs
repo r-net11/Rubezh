@@ -91,6 +91,10 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<List<JournalEventNameType>>(() => FiresecService.GetDistinctEventNames());
 		}
+		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
+		{
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddJournalItem(journalItem));
+		}
 		#endregion
 
 		#region Card

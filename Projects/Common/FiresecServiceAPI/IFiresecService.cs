@@ -51,6 +51,9 @@ namespace FiresecAPI
 
 		[OperationContract]
 		List<JournalEventNameType> GetDistinctEventNames();
+
+		[OperationContract]
+		OperationResult<bool> AddJournalItem(JournalItem journalItem);
 		#endregion
 
 		#region Files

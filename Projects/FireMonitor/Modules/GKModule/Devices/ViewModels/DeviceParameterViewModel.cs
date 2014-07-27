@@ -31,7 +31,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isCurrent = value;
-				OnPropertyChanged("IsCurrent");
+				OnPropertyChanged(() => IsCurrent);
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_temperature = value;
-				OnPropertyChanged("Temperature");
+				OnPropertyChanged(() => Temperature);
 			}
 		}
 
@@ -53,7 +53,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_smokiness = value;
-				OnPropertyChanged("Smokiness");
+				OnPropertyChanged(() => Smokiness);
 			}
 		}
 
@@ -64,7 +64,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_dustinness = value;
-				OnPropertyChanged("Dustinness");
+				OnPropertyChanged(() => Dustinness);
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_lastServiceTime = value;
-				OnPropertyChanged("LastServiceTime");
+				OnPropertyChanged(() => LastServiceTime);
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_resistance = value;
-				OnPropertyChanged("Resistance");
+				OnPropertyChanged(() => Resistance);
 			}
 		}
 
@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
 				}
 				auParameterValue.Value = value.Value;
 				auParameterValue.StringValue = value.StringValue;
-				OnPropertyChanged("AUParameterValues");
+				OnPropertyChanged(() => AUParameterValues);
 			}));
 		}
 
@@ -113,7 +113,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_auParameterValues = value;
-				OnPropertyChanged("AUParameterValues");
+				OnPropertyChanged(() => AUParameterValues);
 			}
 		}
 	}
