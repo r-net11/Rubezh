@@ -14,6 +14,10 @@ namespace AutomationModule.ViewModels
 		public DataTemplate PauseTemplate { get; set; }
 		public DataTemplate ProcedureSelectionTemplate { get; set; }
 		public DataTemplate ExitTemplate { get; set; }
+		public DataTemplate PersonInspectionTemplate { get; set; }
+		public DataTemplate SetGlobalValueTemplate { get; set; }
+		public DataTemplate IncrementGlobalValueTemplate { get; set; }
+
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
 			if (item is SoundStepViewModel)
@@ -51,6 +55,18 @@ namespace AutomationModule.ViewModels
 			if (item is ExitStepViewModel)
 			{
 				return ExitTemplate;
+			}
+			if (item is PersonInspectionStepViewModel)
+			{
+				return PersonInspectionTemplate;
+			}
+			if (item is SetGlobalValueStepViewModel)
+			{
+				return SetGlobalValueTemplate;
+			}
+			if (item is IncrementGlobalValueStepViewModel)
+			{
+				return IncrementGlobalValueTemplate;
 			}
 			
 			return null;

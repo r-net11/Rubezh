@@ -52,6 +52,18 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.Exit:
 					Content = new ExitStepViewModel(step.ExitArguments, procedure);
 					break;
+					
+				case ProcedureStepType.PersonInspection:
+					Content = new PersonInspectionStepViewModel(step.PersonInspectionArguments, procedure);
+					break;
+				
+				case ProcedureStepType.SetGlobalValue:
+					Content = new SetGlobalValueStepViewModel(step.SetGlobalValueArguments);
+					break;
+				
+				case ProcedureStepType.IncrementGlobalValue:
+					Content = new IncrementGlobalValueStepViewModel(step.IncrementGlobalValueArguments);
+					break;
 			}
 		}
 
