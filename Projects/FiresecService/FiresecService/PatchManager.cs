@@ -12,7 +12,7 @@ namespace FiresecService
 	public static class PatchManager
 	{
 		static string connectionString = @"Data Source=.\sqlexpress;Initial Catalog=master;Integrated Security=True"; 
-		
+
 		public static void Patch()
 		{
 			try

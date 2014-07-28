@@ -7,6 +7,7 @@ using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using LinqKit;
 using SKDDriver.Translators;
+using System.Data.SqlTypes;
 
 namespace SKDDriver
 {
@@ -275,15 +276,17 @@ namespace SKDDriver
 		{
 			try
 			{
-				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == DateTime.MinValue);
+				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == SqlDateTime.MinValue.Value);
 				if (exitPassJournal != null)
 				{
 					exitPassJournal.ExitTime = DateTime.Now;
 				}
 				var enterPassJournal = new DataAccess.PassJournal();
+				enterPassJournal.UID = Guid.NewGuid();
 				enterPassJournal.EmployeeUID = employeeUID;
 				enterPassJournal.ZoneUID = zoneUID;
 				enterPassJournal.EnterTime = DateTime.Now;
+				enterPassJournal.ExitTime = SqlDateTime.MinValue.Value;
 				Context.PassJournals.InsertOnSubmit(enterPassJournal);
 				Context.SubmitChanges();
 				return new OperationResult();

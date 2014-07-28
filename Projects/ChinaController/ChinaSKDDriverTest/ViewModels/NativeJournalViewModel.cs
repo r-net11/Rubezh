@@ -16,6 +16,8 @@ namespace ControllerSDK.ViewModels
 		{
 			JournalItems = new ObservableCollection<JournalItemViewModel>();
 
+			return;
+
 			fDisConnectDelegate = new NativeWrapper.fDisConnectDelegate(OnDisConnectDelegate);
 			fHaveReConnectDelegate = new NativeWrapper.fHaveReConnectDelegate(OnfHaveReConnectDelegate);
 			fMessCallBackDelegate = new NativeWrapper.fMessCallBackDelegate(OnfMessCallBackDelegate);
@@ -23,6 +25,9 @@ namespace ControllerSDK.ViewModels
 			NativeWrapper.CLIENT_Init(fDisConnectDelegate, 0);
 			NativeWrapper.CLIENT_SetAutoReconnect(fHaveReConnectDelegate, 0);
 			NativeWrapper.CLIENT_SetDVRMessCallBack(fMessCallBackDelegate, 0);
+
+			//NativeWrapper.CLIENT_StartListenEx(MainViewModel.Wrapper.LoginID);
+			//NativeWrapper.CLIENT_StopListen(MainViewModel.Wrapper.LoginID);
 		}
 
 		NativeWrapper.fDisConnectDelegate fDisConnectDelegate;
@@ -31,12 +36,28 @@ namespace ControllerSDK.ViewModels
 
 		void OnDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
 		{
-			;
+			var journalItem = new SKDJournalItem();
+			journalItem.SystemDateTime = DateTime.Now;
+			journalItem.DeviceDateTime = DateTime.Now;
+			journalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Потеря_связи;
+			var journalItemViewModel = new JournalItemViewModel(journalItem);
+			Dispatcher.BeginInvoke(new Action(() =>
+			{
+				JournalItems.Add(journalItemViewModel);
+			}));
 		}
 
 		void OnfHaveReConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
 		{
-			;
+			var journalItem = new SKDJournalItem();
+			journalItem.SystemDateTime = DateTime.Now;
+			journalItem.DeviceDateTime = DateTime.Now;
+			journalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Восстановление_связи;
+			var journalItemViewModel = new JournalItemViewModel(journalItem);
+			Dispatcher.BeginInvoke(new Action(() =>
+			{
+				JournalItems.Add(journalItemViewModel);
+			}));
 		}
 
 		bool OnfMessCallBackDelegate(Int32 lCommand, Int32 lLoginID, IntPtr pBuf, UInt32 dwBufLen, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser)
@@ -44,6 +65,7 @@ namespace ControllerSDK.ViewModels
 			var journalItem = new SKDJournalItem();
 			journalItem.SystemDateTime = DateTime.Now;
 			journalItem.DeviceDateTime = DateTime.Now;
+			journalItem.JournalEventNameType = FiresecAPI.Journal.JournalEventNameType.Проход_разрешен;
 			var journalItemViewModel = new JournalItemViewModel(journalItem);
 			Dispatcher.BeginInvoke(new Action(() =>
 			{
