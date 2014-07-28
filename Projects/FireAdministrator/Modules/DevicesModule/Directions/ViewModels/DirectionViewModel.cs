@@ -36,7 +36,7 @@ namespace DevicesModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("Direction");
+			OnPropertyChanged(() => Direction);
 		}
 
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
@@ -48,7 +48,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedZone = value;
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedSourceZone = value;
-				OnPropertyChanged("SelectedSourceZone");
+				OnPropertyChanged(() => SelectedSourceZone);
 			}
 		}
 

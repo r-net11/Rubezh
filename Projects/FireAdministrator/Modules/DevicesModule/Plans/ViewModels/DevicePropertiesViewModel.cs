@@ -88,7 +88,7 @@ namespace DevicesModule.Plans.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 				UpdateAvailableDriver();
 			}
 		}
@@ -122,7 +122,7 @@ namespace DevicesModule.Plans.ViewModels
 			set
 			{
 				_availableDrivers = value;
-				OnPropertyChanged("AvailableDrivers");
+				OnPropertyChanged(() => AvailableDrivers);
 			}
 		}
 
@@ -133,7 +133,7 @@ namespace DevicesModule.Plans.ViewModels
 			set
 			{
 				_selectedDriver = value;
-				OnPropertyChanged("SelectedDriver");
+				OnPropertyChanged(() => SelectedDriver);
 			}
 		}
 
@@ -144,7 +144,7 @@ namespace DevicesModule.Plans.ViewModels
 			set
 			{
 				_canChangeDriver = value;
-				OnPropertyChanged("CanChangeDriver");
+				OnPropertyChanged(() => CanChangeDriver);
 			}
 		}
 

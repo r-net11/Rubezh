@@ -98,7 +98,7 @@ namespace AutomationModule.ViewModels
 			{
 				Schedule.Name = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 

@@ -27,9 +27,9 @@ namespace NotificationModule.ViewModels
 			set
 			{
 				_email = value;
-				OnPropertyChanged("Email");
-				OnPropertyChanged("PresenrationStates");
-				OnPropertyChanged("PresentationZones");
+				OnPropertyChanged(() => Email);
+				OnPropertyChanged(() => PresenrationStates);
+				OnPropertyChanged(() => PresentationZones);
 			}
 		}
 
@@ -69,9 +69,9 @@ namespace NotificationModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("Email");
-			OnPropertyChanged("PresenrationStates");
-			OnPropertyChanged("PresentationZones");
+			OnPropertyChanged(() => Email);
+			OnPropertyChanged(() => PresenrationStates);
+			OnPropertyChanged(() => PresentationZones);
 		}
 	}
 }

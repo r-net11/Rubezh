@@ -37,6 +37,7 @@ namespace AutomationModule.ViewModels
 
 
 		public ObservableCollection<ScheduleViewModel> Schedules { get; private set; }
+
 		ScheduleViewModel _selectedSchedule;
 		public ScheduleViewModel SelectedSchedule
 		{
@@ -44,8 +45,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedSchedule = value;
-				OnPropertyChanged("SelectedSchedule");
-				
+				OnPropertyChanged(() => SelectedSchedule);
 			}
 		}
 

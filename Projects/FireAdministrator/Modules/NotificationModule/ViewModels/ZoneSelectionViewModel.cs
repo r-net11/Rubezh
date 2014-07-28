@@ -70,7 +70,7 @@ namespace NotificationModule.ViewModels
 			set
 			{
 				_selectedAvailableZone = value;
-				OnPropertyChanged("SelectedAvailableZone");
+				OnPropertyChanged(() => SelectedAvailableZone);
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace NotificationModule.ViewModels
 			set
 			{
 				_selectedChosenZone = value;
-				OnPropertyChanged("SelectedChosenZone");
+				OnPropertyChanged(() => SelectedChosenZone);
 			}
 		}
 

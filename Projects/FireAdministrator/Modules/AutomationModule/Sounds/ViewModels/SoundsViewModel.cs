@@ -48,7 +48,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_sounds = value;
-				OnPropertyChanged("Sounds");
+				OnPropertyChanged(() => Sounds);
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedSound = value;
-				OnPropertyChanged("SelectedSound");
+				OnPropertyChanged(() => SelectedSound);
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_isNowPlaying = value;
-				OnPropertyChanged("IsNowPlaying");
+				OnPropertyChanged(() => IsNowPlaying);
 			}
 		}
 

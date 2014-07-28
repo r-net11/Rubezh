@@ -111,7 +111,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedSourceZone = value;
-				OnPropertyChanged("SelectedSourceZone");
+				OnPropertyChanged(() => SelectedSourceZone);
 			}
 		}
 
@@ -124,7 +124,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedTargetZone = value;
-				OnPropertyChanged("SelectedTargetZone");
+				OnPropertyChanged(() => SelectedTargetZone);
 			}
 		}
 
@@ -149,7 +149,7 @@ namespace DevicesModule.ViewModels
 				SourceZones.Remove(zoneViewModel);
 			}
 
-			OnPropertyChanged("SourceZones");
+			OnPropertyChanged(() => SourceZones);
 
 			index = Math.Min(index, SourceZones.Count - 1);
 			if (index > -1)
@@ -176,7 +176,7 @@ namespace DevicesModule.ViewModels
 				TargetZones.Remove(zoneViewModel);
 			}
 
-			OnPropertyChanged("TargetZones");
+			OnPropertyChanged(() => TargetZones);
 			SelectedTargetZone = TargetZones.FirstOrDefault();
 
 			index = Math.Min(index, TargetZones.Count - 1);

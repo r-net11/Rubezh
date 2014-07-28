@@ -60,7 +60,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_id = value;
-				OnPropertyChanged("Id");
+				OnPropertyChanged(() => Id);
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_deviceRm = value;
-				OnPropertyChanged("DeviceRm");
+				OnPropertyChanged(() => DeviceRm);
 			}
 		}
 
@@ -104,7 +104,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_deviceButton = value;
-				OnPropertyChanged("DeviceButton");
+				OnPropertyChanged(() => DeviceButton);
 			}
 		}
 

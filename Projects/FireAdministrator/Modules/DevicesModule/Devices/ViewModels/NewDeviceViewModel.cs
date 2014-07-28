@@ -51,7 +51,7 @@ namespace DevicesModule.ViewModels
 				_selectedDriver = value;
 				UpdateMinAddress();
 				UpdateShleif();
-				OnPropertyChanged("SelectedDriver");
+				OnPropertyChanged(() => SelectedDriver);
 			}
 		}
 

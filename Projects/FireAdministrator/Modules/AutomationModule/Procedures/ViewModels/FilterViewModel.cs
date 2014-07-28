@@ -22,7 +22,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				Filter.Name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -30,7 +30,7 @@ namespace AutomationModule.ViewModels
 		public void Update(JournalFilter filter)
 		{
 			Filter = filter;
-			OnPropertyChanged("Name");
+			OnPropertyChanged(() => Name);
 		}
 	}
 }

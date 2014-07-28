@@ -60,7 +60,7 @@ namespace SettingsModule.ViewModels
 						registryKey.DeleteValue("FiresecService");
 					registryKey.Close();
 				}
-				OnPropertyChanged("IsServerAuto");
+				OnPropertyChanged(() => IsServerAuto);
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace SettingsModule.ViewModels
 						registryKey.DeleteValue("FSAgentServer");
 					registryKey.Close();
 				}
-				OnPropertyChanged("IsFSAgentAuto");
+				OnPropertyChanged(() => IsFsAgentAuto);
 			}
 		}
 
@@ -122,7 +122,7 @@ namespace SettingsModule.ViewModels
 						registryKey.DeleteValue("FiresecOPCServer");
 					registryKey.Close();
 				}
-				OnPropertyChanged("IsOpcServerAuto");
+				OnPropertyChanged(() => IsOpcServerAuto);
 			}
 		}
 
@@ -153,7 +153,7 @@ namespace SettingsModule.ViewModels
 						registryKey.DeleteValue("GKOPCServer");
 					registryKey.Close();
 				}
-				OnPropertyChanged("IsGKOpcServerAuto");
+				OnPropertyChanged(() => IsGKOpcServerAuto);
 			}
 		}
 
@@ -288,7 +288,7 @@ namespace SettingsModule.ViewModels
 				GlobalSettingsHelper.GlobalSettings = new GlobalSettings();
 				GlobalSettingsHelper.Save();
 				ModulesViewModel = new ModulesViewModel();
-				OnPropertyChanged("GlobalSettingsViewModel");
+				OnPropertyChanged(() => "GlobalSettingsViewModel");
 			}
 		}
 

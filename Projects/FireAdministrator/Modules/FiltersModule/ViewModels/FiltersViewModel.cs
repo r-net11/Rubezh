@@ -43,7 +43,7 @@ namespace FiltersModule.ViewModels
 			set
 			{
 				_filters = value;
-				OnPropertyChanged("Filters");
+				OnPropertyChanged(() => Filters);
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace FiltersModule.ViewModels
 			set
 			{
 				_selectedFilter = value;
-				OnPropertyChanged("SelectedFilter");
+				OnPropertyChanged(() => SelectedFilter);
 			}
 		}
 

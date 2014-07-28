@@ -58,7 +58,7 @@ namespace SettingsModule.ViewModels
 			set
 			{
 				isLogicAllowed = value;
-				OnPropertyChanged("IsLogicAllowed");
+				OnPropertyChanged(() => IsLogicAllowed);
 			}
 		}
 	}

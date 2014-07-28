@@ -63,7 +63,7 @@ namespace AutomationModule.ViewModels
 		public void Update(Procedure procedure)
 		{
 			Procedure = procedure;
-			OnPropertyChanged("Name");
+			OnPropertyChanged(() => Name);
 		}
 
 		public RelayCommand ShowStepsCommand { get; private set; }

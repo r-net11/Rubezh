@@ -61,7 +61,7 @@ namespace SoundsModule.ViewModels
 			set
 			{
 				_sounds = value;
-				OnPropertyChanged("Sounds");
+				OnPropertyChanged(() => Sounds);
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace SoundsModule.ViewModels
 			set
 			{
 				_selectedSound = value;
-				OnPropertyChanged("SelectedSound");
+				OnPropertyChanged(() => SelectedSound);
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace SoundsModule.ViewModels
 			set
 			{
 				_isNowPlaying = value;
-				OnPropertyChanged("IsNowPlaying");
+				OnPropertyChanged(() => IsNowPlaying);
 				UpdateRibbonItems();
 			}
 		}

@@ -246,7 +246,7 @@ namespace DevicesModule.ViewModels
 			{
 				_phone1 = value;
 				if (!IsDirect)
-					OnPropertyChanged("Phone1");
+					OnPropertyChanged(() => Phone1);
 			}
 		}
 
@@ -258,7 +258,7 @@ namespace DevicesModule.ViewModels
 			{
 				_phone2 = value;
 				if (!IsDirect)
-					OnPropertyChanged("Phone2");
+					OnPropertyChanged(() => Phone2);
 			}
 		}
 
@@ -270,7 +270,7 @@ namespace DevicesModule.ViewModels
 			{
 				_phone3 = value;
 				if (!IsDirect)
-					OnPropertyChanged("Phone3");
+					OnPropertyChanged(() => Phone3);
 			}
 		}
 
@@ -282,7 +282,7 @@ namespace DevicesModule.ViewModels
 			{
 				_phone4 = value;
 				if (!IsDirect)
-					OnPropertyChanged("Phone4");
+					OnPropertyChanged(() => Phone4);
 			}
 		}
 
@@ -293,7 +293,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_objectNumber = value;
-				OnPropertyChanged("ObjectNumber");
+				OnPropertyChanged(() => ObjectNumber);
 			}
 		}
 
@@ -305,7 +305,7 @@ namespace DevicesModule.ViewModels
 			{
 				_testDialtone = value;
 				if (!IsDirect)
-					OnPropertyChanged("TestDialtone");
+					OnPropertyChanged(() => TestDialtone);
 			}
 		}
 
@@ -316,7 +316,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_testVoltage = value;
-				OnPropertyChanged("TestVoltage");
+				OnPropertyChanged(() => TestVoltage);
 			}
 		}
 
@@ -327,7 +327,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_countRecalls = value;
-				OnPropertyChanged("CountRecalls");
+				OnPropertyChanged(() => CountRecalls);
 			}
 		}
 
@@ -338,7 +338,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_timeout = value;
-				OnPropertyChanged("Timeout");
+				OnPropertyChanged(() => Timeout);
 			}
 		}
 
@@ -349,7 +349,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_outcomingTest = value;
-				OnPropertyChanged("OutcomingTest");
+				OnPropertyChanged(() => OutcomingTest);
 			}
 		}
 

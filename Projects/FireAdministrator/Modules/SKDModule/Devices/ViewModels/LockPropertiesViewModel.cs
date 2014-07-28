@@ -52,13 +52,19 @@ namespace SKDModule.ViewModels
 			SelectedDoorOpenMethod = doorConfiguration.DoorOpenMethod;
 			UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
 			CloseTimeout = doorConfiguration.CloseTimeout;
-			OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
 			HolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
 			IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
 			IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 			IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
 			IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 			IsSensorEnable = doorConfiguration.IsSensorEnable;
+
+			TimeSchedules = new ObservableCollection<SKDWeeklyInterval>();
+			foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
+			{
+				TimeSchedules.Add(weeklyInterval);
+			}
+			SelectedTimeSchedule = TimeSchedules.FirstOrDefault(x => x.ID == doorConfiguration.OpenAlwaysTimeIndex);
 
 			LockIntervalsViewModel = new LockIntervalsViewModel(doorConfiguration);
 			OnPropertyChanged(() => LockIntervalsViewModel);
@@ -149,17 +155,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		int _openAlwaysTimeIndex;
-		public int OpenAlwaysTimeIndex
-		{
-			get { return _openAlwaysTimeIndex; }
-			set
-			{
-				_openAlwaysTimeIndex = value;
-				OnPropertyChanged(() => OpenAlwaysTimeIndex);
-			}
-		}
-
 		int _holidayTimeRecoNo;
 		public int HolidayTimeRecoNo
 		{
@@ -226,6 +221,19 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<SKDWeeklyInterval> TimeSchedules { get; private set; }
+
+		SKDWeeklyInterval _selectedTimeSchedule;
+		public SKDWeeklyInterval SelectedTimeSchedule
+		{
+			get { return _selectedTimeSchedule; }
+			set
+			{
+				_selectedTimeSchedule = value;
+				OnPropertyChanged(() => SelectedTimeSchedule);
+			}
+		}
+
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
@@ -264,7 +272,7 @@ namespace SKDModule.ViewModels
 			doorConfiguration.DoorOpenMethod = SelectedDoorOpenMethod;
 			doorConfiguration.UnlockHoldInterval = UnlockHoldInterval;
 			doorConfiguration.CloseTimeout = CloseTimeout;
-			doorConfiguration.OpenAlwaysTimeIndex = OpenAlwaysTimeIndex;
+			doorConfiguration.OpenAlwaysTimeIndex = SelectedTimeSchedule != null ? SelectedTimeSchedule.ID : -1;
 			doorConfiguration.HolidayTimeRecoNo = HolidayTimeRecoNo;
 			doorConfiguration.IsBreakInAlarmEnable = IsBreakInAlarmEnable;
 			doorConfiguration.IsRepeatEnterAlarmEnable = IsRepeatEnterAlarmEnable;

@@ -68,7 +68,7 @@ namespace DevicesModule.DeviceProperties
 			set
 			{
 				_deviceParameterMissmatchType = value;
-				OnPropertyChanged("DeviceParameterMissmatchType");
+				OnPropertyChanged(() => DeviceParameterMissmatchType);
 			}
 		}
 

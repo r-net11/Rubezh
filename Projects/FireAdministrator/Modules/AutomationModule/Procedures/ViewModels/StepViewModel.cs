@@ -75,8 +75,8 @@ namespace AutomationModule.ViewModels
 
 		void OnChanged()
 		{
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
 		}
 
 		public void Update(ProcedureStep step)

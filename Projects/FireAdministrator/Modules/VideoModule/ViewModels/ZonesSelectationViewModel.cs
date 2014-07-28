@@ -47,7 +47,7 @@ namespace VideoModule.ViewModels
 			set
 			{
 				_selectedSourceZone = value;
-				OnPropertyChanged("SelectedSourceZone");
+				OnPropertyChanged(() => SelectedSourceZone);
 			}
 		}
 
@@ -60,7 +60,7 @@ namespace VideoModule.ViewModels
 			set
 			{
 				_selectedTargetZone = value;
-				OnPropertyChanged("SelectedTargetZone");
+				OnPropertyChanged(() => SelectedTargetZone);
 			}
 		}
 
