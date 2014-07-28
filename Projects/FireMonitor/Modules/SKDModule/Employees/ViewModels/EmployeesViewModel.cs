@@ -111,10 +111,14 @@ namespace SKDModule.ViewModels
 		void OnEdit()
 		{
 			var employeeDetailsViewModel = new EmployeeDetailsViewModel(PersonType, SelectedEmployee.Organisation, _hrViewModel, SelectedEmployee.ShortEmployee);
+			var employeeUID = SelectedEmployee.ShortEmployee.UID;
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				SelectedEmployee.Update(employeeDetailsViewModel.ShortEmployee);
 				InitializeInternal();
+				SelectedEmployee = AllEmployees.FirstOrDefault(x => x.ShortEmployee != null && x.ShortEmployee.UID == employeeUID);
+				if(SelectedEmployee == null)
+					SelectedEmployee = Organisations.FirstOrDefault();
 			}
 		}
 		bool CanEdit()

@@ -9,7 +9,6 @@ delete from AccessTemplate
 delete from AdditionalColumn
 delete from AdditionalColumnType
 delete from [dbo].[Holiday]
-delete from [dbo].[Document]
 delete from [dbo].[Interval]
 delete from [dbo].[NamedInterval]
 delete from [dbo].[Day]
@@ -28,13 +27,6 @@ SET @Uid = NEWID();
 EXEC [dbo].[SaveHoliday] @Uid, @Organisation1Uid, '8 марта', 0, '08/03/2014','01/01/1900',0,0,'01/01/1900'
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveHoliday] @Uid, @Organisation1Uid, 'Старый Новый год', 1, '13/01/2014', '01/01/1900', 7200,0,'01/01/1900'
-
-SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, @Organisation1Uid, 123, 'Документ1', 'Документ1Организации1', '01/01/2013', '07/01/2013',0,'01/01/1900'
-SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, @Organisation1Uid, 258, 'Документ2', 'Документ2Организации1', '08/01/2014', '25/01/2013',0,'01/01/1900'
-SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, @Organisation1Uid, 753, 'Документ3', 'Документ3Организации1', '30/01/2014', '05/02/2013',0,'01/01/1900'
 
 --ОХРАНА
 DECLARE @GuardNamedIntervalUid uniqueidentifier;
@@ -596,20 +588,10 @@ UPDATE [dbo].[Employee] SET [DepartmentUid]=@Kitcheners2DepartmentUid WHERE [Uid
 UPDATE [dbo].[Employee] SET [DepartmentUid]=@Janitors2DepartmentUid WHERE [Uid]=@Janitor3EmployeeUid
 UPDATE [dbo].[Employee] SET [DepartmentUid]=@Janitors2DepartmentUid WHERE [Uid]=@Janitor4EmployeeUid
 
-SET @UID = NEWID();
-EXEC [dbo].[SaveEmployeeReplacement] @UID, @Organisation2Uid, '01/01/1900', '01/01/9000', @Janitor2EmployeeUid, @Janitors2DepartmentUid, NULL, 0,'01/01/1900'
-
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveGuest] @Uid, @Organisation2Uid, 'Владимир', 'Александрович', 'Колокольцев',0,'01/01/1900'
 SET @Uid = NEWID(); 
 EXEC [dbo].[SaveGuest] @Uid, @Organisation2Uid, 'Рашид', 'Гумарович', 'Нургалиев',0,'01/01/1900'
-
-SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, @Organisation2Uid, 486, 'Документ1', 'Документ1Организации2', '01/01/2013', '07/01/2013',0,'01/01/1900'
-SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, @Organisation2Uid, 729, 'Документ2', 'Документ2Организации2', '08/01/2014', '25/01/2013',0,'01/01/1900'
-SET @Uid = NEWID(); 
-EXEC [dbo].[SaveDocument] @Uid, @Organisation2Uid, 123, 'Документ3', 'Документ3Организации2', '30/01/2014', '05/02/2013',0,'01/01/1900'
 
 DECLARE @Zone1Uid uniqueidentifier;
 SET @Zone1Uid = '4aa2fc38-eb3e-49cf-841d-90be6daf4a6e';
