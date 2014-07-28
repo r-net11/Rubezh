@@ -34,6 +34,18 @@ namespace JournalModule.ViewModels
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
 		}
 
+		public void SetJournalItems(List<JournalItem> journalItems)
+		{
+			journalItems.Reverse();
+			JournalItems = new ObservableCollection<JournalItemViewModel>();
+			foreach (var journalItem in journalItems)
+			{
+				var journalItemViewModel = new JournalItemViewModel(journalItem);
+				JournalItems.Add(journalItemViewModel);
+			}
+			SelectedJournal = JournalItems.FirstOrDefault();
+		}
+
 		ObservableCollection<JournalItemViewModel> _journalItems;
 		public ObservableCollection<JournalItemViewModel> JournalItems
 		{
@@ -56,7 +68,7 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public void OnNewJournalItems(List<JournalItem> journalItems)
+		void OnNewJournalItems(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{

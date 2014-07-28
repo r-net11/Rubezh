@@ -13,6 +13,7 @@ using JournalModule.ViewModels;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Client.Layout;
 using FiresecAPI.Models.Layouts;
+using System.Collections.ObjectModel;
 
 namespace JournalModule
 {
@@ -97,7 +98,7 @@ namespace JournalModule
 			var result = FiresecManager.FiresecService.GetFilteredJournalItems(journalFilter);
 			if (!result.HasError)
 			{
-				JournalViewModel.OnNewJournalItems(new List<JournalItem>(result.Result));
+				JournalViewModel.SetJournalItems(result.Result);
 			}
 			ArchiveViewModel.Update();
 		}
@@ -141,7 +142,7 @@ namespace JournalModule
 				var result = FiresecManager.FiresecService.GetFilteredJournalItems(filter);
 				if (!result.HasError)
 				{
-					journalViewModel.OnNewJournalItems(new List<JournalItem>(result.Result));
+					JournalViewModel.SetJournalItems(result.Result);
 				}
 
 				return journalViewModel;

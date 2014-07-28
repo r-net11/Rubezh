@@ -155,6 +155,9 @@ namespace FiresecService.Service
 		{
 			try
 			{
+				journalItem.UserName = UserName;
+				journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
+				journalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
 				DBHelper.Add(journalItem);
 				FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
 			}
