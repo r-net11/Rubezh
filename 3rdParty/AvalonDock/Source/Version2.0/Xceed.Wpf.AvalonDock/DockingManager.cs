@@ -120,10 +120,10 @@ namespace Xceed.Wpf.AvalonDock
 			if (IsLoaded)
 			{
 				LayoutRootPanel = CreateUIElementForModel(Layout.RootPanel) as LayoutPanelControl;
-				//LeftSidePanel = CreateUIElementForModel(Layout.LeftSide) as LayoutAnchorSideControl;
-				//TopSidePanel = CreateUIElementForModel(Layout.TopSide) as LayoutAnchorSideControl;
-				//RightSidePanel = CreateUIElementForModel(Layout.RightSide) as LayoutAnchorSideControl;
-				//BottomSidePanel = CreateUIElementForModel(Layout.BottomSide) as LayoutAnchorSideControl;
+				LeftSidePanel = CreateUIElementForModel(Layout.LeftSide) as LayoutAnchorSideControl;
+				TopSidePanel = CreateUIElementForModel(Layout.TopSide) as LayoutAnchorSideControl;
+				RightSidePanel = CreateUIElementForModel(Layout.RightSide) as LayoutAnchorSideControl;
+				BottomSidePanel = CreateUIElementForModel(Layout.BottomSide) as LayoutAnchorSideControl;
 
 				foreach (var fw in Layout.FloatingWindows.ToArray())
 				{
@@ -1322,17 +1322,17 @@ namespace Xceed.Wpf.AvalonDock
 
 		void SetupAutoHideWindow()
 		{
-			//_autohideArea = GetTemplateChild("PART_AutoHideArea") as FrameworkElement;
+			_autohideArea = GetTemplateChild("PART_AutoHideArea") as FrameworkElement;
 
-			//if (_autoHideWindowManager != null)
-			//    _autoHideWindowManager.HideAutoWindow();
-			//else
-			//    _autoHideWindowManager = new AutoHideWindowManager(this);
+			if (_autoHideWindowManager != null)
+				_autoHideWindowManager.HideAutoWindow();
+			else
+				_autoHideWindowManager = new AutoHideWindowManager(this);
 
-			//if (AutoHideWindow != null)
-			//    AutoHideWindow.Dispose();
+			if (AutoHideWindow != null)
+				AutoHideWindow.Dispose();
 
-			//SetAutoHideWindow(new LayoutAutoHideWindowControl());
+			SetAutoHideWindow(new LayoutAutoHideWindowControl());
 		}
 
 		AutoHideWindowManager _autoHideWindowManager;

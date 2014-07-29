@@ -39,6 +39,14 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
+  <Class Name="Xceed.Wpf.AvalonDock.Layout.LayoutElement" Collapsed="true">
+    <Position X="9" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SCAAAAACIgAQEGQAEICAQAiRggAgICFkIEAAAAAIgCA=</HashCode>
+      <FileName>Layout\LayoutElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="Xceed.Wpf.AvalonDock.Layout.ILayoutElementForFloatingWindow" Collapsed="true">
     <Position X="9.5" Y="0.75" Width="2.75" />
     <TypeIdentifier>

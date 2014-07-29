@@ -15,6 +15,8 @@
   **********************************************************************/
 
 using System.Windows;
+using System.Diagnostics;
+using System;
 
 namespace AvalonDock.MVVMTestApp
 {
@@ -23,5 +25,26 @@ namespace AvalonDock.MVVMTestApp
     /// </summary>
     public partial class App : Application
     {
+		protected override void OnStartup(StartupEventArgs e)
+		{
+			base.OnStartup(e);
+			bool trace = true;
+			BindingErrorListener.Listen(m => { if (trace) Console.WriteLine(m); });
+		}
     }
+	public class BindingErrorListener : TraceListener
+	{
+		private Action<string> _logAction;
+
+		public static void Listen(Action<string> logAction)
+		{
+			PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorListener() { _logAction = logAction });
+		}
+
+		public override void Write(string message) { }
+		public override void WriteLine(string message)
+		{
+			_logAction(message);
+		}
+	}
 }
