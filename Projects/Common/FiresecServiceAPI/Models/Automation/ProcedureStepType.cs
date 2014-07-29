@@ -91,6 +91,12 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Управление камерой")]
 		ControlCamera,
 
+		[DescriptionAttribute("Управление направлением")]
+		ControlDirection,
+
+		[DescriptionAttribute("Управление точкой доступа")]
+		ControlDoor,
+
 		[DescriptionAttribute("")]
 		DoAction,
 	}

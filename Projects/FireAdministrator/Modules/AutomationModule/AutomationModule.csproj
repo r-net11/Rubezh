@@ -86,7 +86,8 @@
     <Compile Include="Procedures\ViewModels\Steps\CameraSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\CameraViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ConditionStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\DeviceSelectationViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\ControlGKDeviceStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\DeviceSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ArithmeticStepViewModel.cs" />
@@ -114,6 +115,9 @@
     <Compile Include="Procedures\Views\ConditionsView.xaml.cs">
       <DependentUpon>ConditionsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Procedures\Views\Steps\ControlGKDeviceStepView.xaml.cs">
+      <DependentUpon>ControlGKDeviceStepView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\ProcedureDetailsView.xaml.cs">
       <DependentUpon>ProcedureDetailsView.xaml</DependentUpon>
     </Compile>
@@ -125,6 +129,9 @@
     </Compile>
     <Compile Include="Procedures\Views\Steps\ConditionStepView.xaml.cs">
       <DependentUpon>ConditionStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\DeviceSelectionView.xaml.cs">
+      <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\ExitStepView.xaml.cs">
       <DependentUpon>ExitStepView.xaml</DependentUpon>
@@ -294,6 +301,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Procedures\Views\Steps\ControlGKDeviceStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Procedures\Views\ProcedureDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -307,6 +318,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\ConditionStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\DeviceSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

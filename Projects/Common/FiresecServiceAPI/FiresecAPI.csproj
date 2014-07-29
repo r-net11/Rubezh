@@ -144,6 +144,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Journal\JournalDetalisationItem.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlGKDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementGlobalValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\PersonInspectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SetGlobalValueArguments.cs" />
