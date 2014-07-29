@@ -14,9 +14,6 @@
             <TabItem Header="Карты" DataContext="{Binding CardsViewModel}">
                 <Views:CardsView />
             </TabItem>
-            <TabItem Header="Карты Rec" DataContext="{Binding CardRecsViewModel}">
-                <Views:CardRecsView />
-            </TabItem>
             <TabItem Header="Пароли" DataContext="{Binding PasswordsViewModel}">
                 <Views:PasswordsView />
             </TabItem>

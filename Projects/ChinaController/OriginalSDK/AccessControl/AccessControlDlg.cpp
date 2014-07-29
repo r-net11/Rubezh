@@ -163,7 +163,7 @@ void CAccessControlDlg::InitDlg()
 		CString csIp = ConvertString("ip", DEVICE_PARAM);
 		if (csIp == CString("ip"))
 		{
-			m_DvrIPAddr.SetWindowText("172.16.6.53");
+			m_DvrIPAddr.SetWindowText("172.16.6.54");
 		} 
 		else
 		{

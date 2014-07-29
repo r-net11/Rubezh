@@ -75,44 +75,6 @@ namespace ChinaSKDDriver
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}
 
-		public static OperationResult<string> GetPassword(Guid deviceUID)
-		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
-			{
-				if (!deviceProcessor.IsConnected)
-					return new OperationResult<string>("Нет связи с контроллером");
-
-				var result = deviceProcessor.Wrapper.GetProjectPassword();
-				if (!string.IsNullOrEmpty(result))
-				{
-					if (result == "-1")
-						result = "";
-					return new OperationResult<string>() { Result = result };
-				}
-				else
-					return new OperationResult<string>("Ошибка при выполнении операции в приборе");
-			}
-			return new OperationResult<string>("Не найден контроллер в конфигурации");
-		}
-
-		public static OperationResult<bool> SetPassword(Guid deviceUID, string password)
-		{
-			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceProcessor != null)
-			{
-				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
-
-				var result = deviceProcessor.Wrapper.SetProjectPassword(password);
-				if (result)
-					return new OperationResult<bool>() { Result = true };
-				else
-					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
-			}
-			return new OperationResult<bool>("Не найден контроллер в конфигурации");
-		}
-
 		public static OperationResult<bool> ResetController(Guid deviceUID)
 		{
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
@@ -276,7 +238,7 @@ namespace ChinaSKDDriver
 				nativeDoorConfiguration.UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
 				nativeDoorConfiguration.CloseTimeout = doorConfiguration.CloseTimeout;
 				nativeDoorConfiguration.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
-				nativeDoorConfiguration.HolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
+				nativeDoorConfiguration.HolidayTimeRecoNo = 200;// doorConfiguration.HolidayTimeRecoNo;
 				nativeDoorConfiguration.IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
 				nativeDoorConfiguration.IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 				nativeDoorConfiguration.IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;

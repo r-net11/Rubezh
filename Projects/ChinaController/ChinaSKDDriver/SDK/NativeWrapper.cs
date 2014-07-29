@@ -356,76 +356,6 @@ namespace ChinaSKDDriverNativeApi
 		public static extern int WRAP_GetAllCount(int finderID);
 		#endregion
 
-		#region CardRecs
-		public enum NET_ACCESS_DOOROPEN_METHOD
-		{
-			[DescriptionAttribute("Неизвестно")]
-			NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
-
-			[DescriptionAttribute("Пароль")]
-			NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
-
-			[DescriptionAttribute("карта")]
-			NET_ACCESS_DOOROPEN_METHOD_CARD,
-
-			[DescriptionAttribute("Сначала карта")]
-			NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
-
-			[DescriptionAttribute("Сначала пароль")]
-			NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
-
-			[DescriptionAttribute("Удаленно")]
-			NET_ACCESS_DOOROPEN_METHOD_REMOTE,
-
-			[DescriptionAttribute("Кнопка")]
-			NET_ACCESS_DOOROPEN_METHOD_BUTTON,
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct NET_RECORDSET_ACCESS_CTL_CARDREC
-		{
-			public int dwSize;
-			public int nRecNo;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-			public string szCardNo;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
-			public string szPwd;
-			public NET_TIME stuTime;
-			public bool bStatus;
-			public NET_ACCESS_DOOROPEN_METHOD emMethod;
-			public int nDoor;
-		}
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_Insert_CardRec(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Update_CardRec(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Remove_CardRec(int loginID, int recordNo);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_RemoveAll_CardRecs(int loginID);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Get_CardRec_Info(int loginID, int recordNo, IntPtr result);
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CardRecsCollection
-		{
-			public int Count;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
-			public NET_RECORDSET_ACCESS_CTL_CARDREC[] CardRecs;
-		}
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_BeginGetAll_CardRecs(int loginID, ref int finderID);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_GetAll_CardRecs(int finderID, IntPtr result);
-		#endregion
-
 		#region Passwords
 		[StructLayout(LayoutKind.Sequential)]
 		public struct NET_RECORDSET_ACCESS_CTL_PWD
@@ -549,22 +479,9 @@ namespace ChinaSKDDriverNativeApi
 		#endregion
 
 		#region Logs
-		[StructLayout(LayoutKind.Sequential)]
-		public struct WRAP_LogItem
+		public struct WRAP_NET_LOG_INFO
 		{
-			public int nLogType;
-			public DHDEVTIME stuOperateTime;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
-			public string szOperator;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-			public string szOperation;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 4 * 1024)]
-			public string szDetailContext;
-		}
-
-		public struct WRAP_NET_LOG_INFO2
-		{
-			NET_TIME stuTime;
+			public NET_TIME stuTime;
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 			public string szUserName;
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
@@ -577,23 +494,17 @@ namespace ChinaSKDDriverNativeApi
 		public struct WRAP_Dev_QueryLogList_Result
 		{
 			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
-			public WRAP_LogItem[] Logs;
-			public WRAP_NET_LOG_INFO2[] Logs2;
-			public int Test;
+			public WRAP_NET_LOG_INFO[] Logs;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_QueryLogList(int loginID, out WRAP_Dev_QueryLogList_Result result);
-
-		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_GetLogCount(int loginID, ref QUERY_DEVICE_LOG_PARAM logParam);
-
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_QueryStart(int loginID);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_QueryNext(IntPtr result);
+		public static extern int WRAP_QueryNext(IntPtr result);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_QueryStop();
@@ -617,6 +528,30 @@ namespace ChinaSKDDriverNativeApi
 			NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN = 0,
 			NET_ACCESS_CTL_STATUS_TYPE_OPEN,
 			NET_ACCESS_CTL_STATUS_TYPE_CLOSE,
+		}
+
+		public enum NET_ACCESS_DOOROPEN_METHOD
+		{
+			[DescriptionAttribute("Неизвестно")]
+			NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
+
+			[DescriptionAttribute("Пароль")]
+			NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
+
+			[DescriptionAttribute("карта")]
+			NET_ACCESS_DOOROPEN_METHOD_CARD,
+
+			[DescriptionAttribute("Сначала карта")]
+			NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
+
+			[DescriptionAttribute("Сначала пароль")]
+			NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
+
+			[DescriptionAttribute("Удаленно")]
+			NET_ACCESS_DOOROPEN_METHOD_REMOTE,
+
+			[DescriptionAttribute("Кнопка")]
+			NET_ACCESS_DOOROPEN_METHOD_BUTTON,
 		}
 
 		[StructLayout(LayoutKind.Sequential)]

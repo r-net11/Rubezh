@@ -22,63 +22,12 @@ namespace SKDModule.ViewModels
 		{
 			Title = "Конфигурация контроллера";
 			Device = device;
-			GetPasswordCommand = new RelayCommand(OnGetPassword);
-			SetPasswordCommand = new RelayCommand(OnSetPassword);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime);
 			ResetCommand = new RelayCommand(OnReset);
 			RebootCommand = new RelayCommand(OnReboot);
 			RewriteAllCardsCommand = new RelayCommand(OnRewriteAllCards);
 
 			DeviceInfo = deviceInfo;
-
-			var operationResult = FiresecManager.FiresecService.SKDGetPassword(Device.UID);
-			if (operationResult.HasError)
-			{
-				Close(true);
-				MessageBoxService.ShowWarning(operationResult.Error);
-				return;
-			}
-			else
-			{
-				Password = operationResult.Result;
-			}
-		}
-
-		string _password;
-		public string Password
-		{
-			get { return _password; }
-			set
-			{
-				_password = value;
-				OnPropertyChanged(() => Password);
-			}
-		}
-
-		public RelayCommand GetPasswordCommand { get; private set; }
-		void OnGetPassword()
-		{
-			var result = FiresecManager.FiresecService.SKDGetPassword(Device.UID);
-			if (result.HasError)
-			{
-				MessageBoxService.ShowWarning(result.Error);
-				return;
-			}
-			else
-			{
-				Password = result.Result;
-			}
-		}
-
-		public RelayCommand SetPasswordCommand { get; private set; }
-		void OnSetPassword()
-		{
-			var result = FiresecManager.FiresecService.SKDSetPassword(Device.UID, Password);
-			if (result.HasError)
-			{
-				MessageBoxService.ShowWarning(result.Error);
-				return;
-			}
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }

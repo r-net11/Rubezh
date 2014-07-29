@@ -8,7 +8,6 @@ namespace ControllerSDK.ViewModels
 		public static Wrapper Wrapper { get; set; }
 
 		public CardsViewModel CardsViewModel { get; private set; }
-		public CardRecsViewModel CardRecsViewModel { get; private set; }
 		public PasswordsViewModel PasswordsViewModel { get; private set; }
 		public HolidaysViewModel HolidaysViewModel { get; private set; }
 		public TimeShedulesViewModel TimeShedulesViewModel { get; private set; }
@@ -24,7 +23,6 @@ namespace ControllerSDK.ViewModels
 			Wrapper = new Wrapper();
 
 			CardsViewModel = new CardsViewModel();
-			CardRecsViewModel = new CardRecsViewModel();
 			PasswordsViewModel = new PasswordsViewModel();
 			HolidaysViewModel = new HolidaysViewModel();
 			TimeShedulesViewModel = new TimeShedulesViewModel();
