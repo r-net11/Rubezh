@@ -57,8 +57,8 @@ namespace LibraryModule.ViewModels
 			set
 			{
 				LibraryDevice.AlternativeName = value;
-				//OnPropertyChanged("AlternativeName");
-				OnPropertyChanged("LibraryDevice");
+				//OnPropertyChanged(() => AlternativeName);
+				OnPropertyChanged(() => LibraryDevice);
 				ServiceFactory.SaveService.LibraryChanged = true;
 			}
 		}

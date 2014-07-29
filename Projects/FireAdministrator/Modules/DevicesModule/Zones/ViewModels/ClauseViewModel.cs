@@ -223,7 +223,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedState = value;
-				OnPropertyChanged("SelectedState");
+				OnPropertyChanged(() => SelectedState);
 				if (value == ZoneLogicState.PCN)
 				{
 					SelectedOperation = ZoneLogicOperation.Any;
@@ -239,7 +239,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedOperation = value;
-				OnPropertyChanged("SelectedOperation");
+				OnPropertyChanged(() => SelectedOperation);
 			}
 		}
 
@@ -289,7 +289,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDevices = value;
-				OnPropertyChanged("SelectedDevices");
+				OnPropertyChanged(() => SelectedDevices);
 			}
 		}
 
@@ -315,7 +315,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_showJoinOperator = value;
-				OnPropertyChanged("ShowJoinOperator");
+				OnPropertyChanged(() => ShowJoinOperator);
 			}
 		}
 
@@ -337,7 +337,7 @@ namespace DevicesModule.ViewModels
 				}
 				var zoneUIDs = from Zone zone in zones orderby zone.No select zone.UID;
 				Zones = zoneUIDs.ToList();
-				OnPropertyChanged("PresenrationZones");
+				OnPropertyChanged(() => PresenrationZones);
 			}
 		}
 
@@ -348,7 +348,7 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneLogicDevicesSelectionViewModel))
 			{
 				SelectedDevices = zoneLogicDevicesSelectionViewModel.SelectedDevices;
-				OnPropertyChanged("PresenrationSelectedDevice");
+				OnPropertyChanged(() => PresenrationSelectedDevice);
 			}
 		}
 	}

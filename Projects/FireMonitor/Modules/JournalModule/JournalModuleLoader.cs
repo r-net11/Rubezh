@@ -142,7 +142,7 @@ namespace JournalModule
 				var result = FiresecManager.FiresecService.GetFilteredJournalItems(filter);
 				if (!result.HasError)
 				{
-					JournalViewModel.SetJournalItems(result.Result);
+					journalViewModel.SetJournalItems(result.Result);
 				}
 
 				return journalViewModel;

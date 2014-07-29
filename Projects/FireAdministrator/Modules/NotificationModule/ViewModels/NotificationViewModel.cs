@@ -56,7 +56,7 @@ namespace NotificationModule.ViewModels
 			set
 			{
 				_emails = value;
-				OnPropertyChanged("Emails");
+				OnPropertyChanged(() => Emails);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace NotificationModule.ViewModels
 			set
 			{
 				_selectedEmail = value;
-				OnPropertyChanged("SelectedEmail");
+				OnPropertyChanged(() => SelectedEmail);
 			}
 		}
 

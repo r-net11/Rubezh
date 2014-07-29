@@ -16,7 +16,7 @@ namespace FiltersModule.ViewModels
 		public void Update(JournalFilter filter)
 		{
 			Filter = filter;
-			OnPropertyChanged("Filter");
+			OnPropertyChanged(() => Filter);
 		}
 	}
 }

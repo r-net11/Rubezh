@@ -19,7 +19,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				GlobalVariable.Name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -30,7 +30,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				GlobalVariable.Value = value;
-				OnPropertyChanged("Value");
+				OnPropertyChanged(() => Value);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -38,8 +38,8 @@ namespace AutomationModule.ViewModels
 		public void Update(GlobalVariable globalVariable)
 		{
 			GlobalVariable = globalVariable;
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Value");
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Value);
 		}
 	}
 }

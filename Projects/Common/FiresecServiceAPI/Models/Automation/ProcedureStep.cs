@@ -19,6 +19,9 @@ namespace FiresecAPI.Automation
 			PauseArguments = new PauseArguments();
 			ProcedureSelectionArguments = new ProcedureSelectionArguments();
 			ExitArguments = new ExitArguments();
+			PersonInspectionArguments = new PersonInspectionArguments();
+			SetGlobalValueArguments = new SetGlobalValueArguments();
+			IncrementGlobalValueArguments = new IncrementGlobalValueArguments();
 		}
 
 		public ProcedureStep Parent { get; set; }
@@ -61,5 +64,14 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ExitArguments ExitArguments { get; set; }
+
+		[DataMember]
+		public PersonInspectionArguments PersonInspectionArguments { get; set; }
+
+		[DataMember]
+		public SetGlobalValueArguments SetGlobalValueArguments { get; set; }
+
+		[DataMember]
+		public IncrementGlobalValueArguments IncrementGlobalValueArguments { get; set; }
 	}
 }

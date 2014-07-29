@@ -77,7 +77,7 @@ namespace LibraryModule.ViewModels
 			set
 			{
 				_selectedFrame = value;
-				OnPropertyChanged("SelectedFrame");
+				OnPropertyChanged(() => SelectedFrame);
 			}
 		}
 

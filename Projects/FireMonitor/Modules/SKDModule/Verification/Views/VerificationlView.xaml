@@ -23,27 +23,27 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width="100" Margin="2" Text="Имя" />
-                    <TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
+                    <TextBlock Margin="2" Text="{Binding Employee.FirstName}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width="100" Margin="2" Text="Фамилия" />
-                    <TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
+                    <TextBlock Margin="2" Text="{Binding Employee.SecondName}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width="100" Margin="2" Text="Отчество" />
-                    <TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
+                    <TextBlock Margin="2" Text="{Binding Employee.LastName}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width="100" Margin="2" Text="Отдел" />
-                    <TextBlock Margin="2" Text="{Binding ShortEmployee.DepartmentName}" />
+                    <TextBlock Margin="2" Text="{Binding Employee.Department.Name}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width="100" Margin="2" Text="Должность" />
-                    <TextBlock Margin="2" Text="{Binding ShortEmployee.PositionName}" />
+                    <TextBlock Margin="2" Text="{Binding Employee.Position.Name}" />
                 </StackPanel>
             </StackPanel>
         </Grid>

@@ -20,7 +20,7 @@ namespace AutomationModule.ViewModels
 				stepType.ExpandToThis();
 			}
 
-			OnPropertyChanged("RootStepTypes");
+			OnPropertyChanged(() => RootStepTypes);
 		}
 
 		public List<StepTypeViewModel> AllStepTypes;
@@ -56,7 +56,7 @@ namespace AutomationModule.ViewModels
 			private set
 			{
 				_rootStepType = value;
-				OnPropertyChanged("RootStepType");
+				OnPropertyChanged(() => RootStepType);
 			}
 		}
 
@@ -130,6 +130,11 @@ namespace AutomationModule.ViewModels
 						}),
 
 				});
+		}
+
+		protected override bool CanSave()
+		{
+			return ((SelectedStepType != null)&&(!SelectedStepType.IsFolder));
 		}
 	}
 }

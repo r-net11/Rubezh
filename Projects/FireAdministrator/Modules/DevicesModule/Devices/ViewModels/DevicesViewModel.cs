@@ -56,7 +56,7 @@ namespace DevicesModule.ViewModels
 				RootDevice.IsExpanded = true;
 				SelectedDevice = RootDevice;
 			}
-			OnPropertyChanged("RootDevices");
+			OnPropertyChanged(() => RootDevices);
 			UpdateGuardVisibility();
 		}
 
@@ -99,7 +99,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 				UpdateRibbonItems();
 				if (!_lockSelection && _selectedDevice != null && _selectedDevice.Device.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDevice.Device.PlanElementUIDs);

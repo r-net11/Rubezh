@@ -29,7 +29,7 @@ namespace SettingsModule.ViewModels
 				_selectedTheme = value;
 				ThemeHelper.SetThemeIntoRegister(_selectedTheme);
 				ThemeHelper.LoadThemeFromRegister();
-				OnPropertyChanged("SelectedTheme");
+				OnPropertyChanged(() => SelectedTheme);
 			}
 		}
 		public List<Theme> Themes { get; private set; }

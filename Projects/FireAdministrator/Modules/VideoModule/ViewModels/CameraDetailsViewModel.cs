@@ -242,7 +242,7 @@ namespace VideoModule.ViewModels
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Camera.ZoneUIDs = zonesSelectationViewModel.Zones;
-				OnPropertyChanged("PresentationZones");
+				OnPropertyChanged(() => PresentationZones);
 			}
 		}
 

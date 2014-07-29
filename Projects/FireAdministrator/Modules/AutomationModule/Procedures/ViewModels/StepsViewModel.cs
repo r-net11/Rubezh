@@ -32,8 +32,8 @@ namespace AutomationModule.ViewModels
 				step.ExpandToThis();
 			}
 			SelectedStep = AllSteps.FirstOrDefault();
-			OnPropertyChanged("RootSteps");
-			OnPropertyChanged("SelectedStep");
+			OnPropertyChanged(() => RootSteps);
+			OnPropertyChanged(() => SelectedStep);
 		}
 
 		#region Tree
@@ -74,7 +74,7 @@ namespace AutomationModule.ViewModels
 			private set
 			{
 				_rootSteps = value;
-				OnPropertyChanged("RootSteps");
+				OnPropertyChanged(() => RootSteps);
 			}
 		}
 

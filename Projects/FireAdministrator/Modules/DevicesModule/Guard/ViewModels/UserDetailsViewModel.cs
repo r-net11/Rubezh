@@ -62,7 +62,7 @@ namespace DevicesModule.ViewModels
 				_name = value;
 				if ((_name != null) && (_name.Length > 20))
 					_name = _name.Substring(0, 20);
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace DevicesModule.ViewModels
 				_password = value;
 				if ((_password != null) && (_password.Length > 6))
 					_password = _password.Substring(0, 6);
-				OnPropertyChanged("Password");
+				OnPropertyChanged(() => Password);
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_FIO = value;
-				OnPropertyChanged("FIO");
+				OnPropertyChanged(() => FIO);
 			}
 		}
 
@@ -97,7 +97,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_function = value;
-				OnPropertyChanged("Function");
+				OnPropertyChanged(() => Function);
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_canSetZone = value;
-				OnPropertyChanged("CanSetZone");
+				OnPropertyChanged(() => CanSetZone);
 			}
 		}
 
@@ -119,7 +119,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_canUnSetZone = value;
-				OnPropertyChanged("CanUnSetZone");
+				OnPropertyChanged(() => CanUnSetZone);
 			}
 		}
 

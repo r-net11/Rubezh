@@ -136,7 +136,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_variableType = value;
-				OnPropertyChanged("VariableType");
+				OnPropertyChanged(() => VariableType);
 			}
 		}
 

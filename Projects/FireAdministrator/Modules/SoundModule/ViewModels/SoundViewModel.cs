@@ -29,7 +29,7 @@ namespace SoundsModule.ViewModels
 			set
 			{
 				Sound.SoundName = value;
-				OnPropertyChanged("SoundName");
+				OnPropertyChanged(() => SoundName);
 				ServiceFactory.SaveService.SoundsChanged = true;
 			}
 		}
@@ -40,7 +40,7 @@ namespace SoundsModule.ViewModels
 			set
 			{
 				Sound.BeeperType = value;
-				OnPropertyChanged("BeeperType");
+				OnPropertyChanged(() => BeeperType);
 				ServiceFactory.SaveService.SoundsChanged = true;
 			}
 		}
@@ -51,7 +51,7 @@ namespace SoundsModule.ViewModels
 			set
 			{
 				Sound.IsContinious = value;
-				OnPropertyChanged("IsContinious");
+				OnPropertyChanged(() => IsContinious);
 				ServiceFactory.SaveService.SoundsChanged = true;
 			}
 		}

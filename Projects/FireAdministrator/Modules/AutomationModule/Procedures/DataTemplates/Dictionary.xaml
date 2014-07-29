@@ -63,6 +63,18 @@
 		<Views:ExitStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="personInspectionTemplate">
+		<Views:PersonInspectionStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="setGlobalValueTemplate">
+		<Views:SetGlobalValueStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="incrementGlobalValueTemplate">
+		<Views:IncrementGlobalValueStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
@@ -73,6 +85,9 @@
 		PauseTemplate="{StaticResource pauseTemplate}"
 		ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
 		ExitTemplate="{StaticResource exitTemplate}"
+		PersonInspectionTemplate="{StaticResource personInspectionTemplate}"
+		SetGlobalValueTemplate="{StaticResource setGlobalValueTemplate}"
+		IncrementGlobalValueTemplate="{StaticResource incrementGlobalValueTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

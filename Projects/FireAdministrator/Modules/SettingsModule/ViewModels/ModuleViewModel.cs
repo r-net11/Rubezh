@@ -22,7 +22,7 @@ namespace SettingsModule.ViewModels
 			set
 			{
 				_isSelected = value;
-				OnPropertyChanged("IsSelected");
+				OnPropertyChanged(() => IsSelected);
 			}
 		}
 	}

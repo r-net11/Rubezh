@@ -40,7 +40,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_globalVariables = value;
-				OnPropertyChanged("GlobalVariables");
+				OnPropertyChanged(() => GlobalVariables);
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedGlobalVariable = value;
-				OnPropertyChanged("SelectedGlobalVariable");
+				OnPropertyChanged(() => SelectedGlobalVariable);
 			}
 		}
 

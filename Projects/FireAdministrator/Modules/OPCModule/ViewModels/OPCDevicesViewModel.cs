@@ -27,7 +27,7 @@ namespace OPCModule.ViewModels
 				RootDevice.IsExpanded = true;
 				SelectedDevice = RootDevice;
 			}
-			OnPropertyChanged("RootDevices");
+			OnPropertyChanged(() => RootDevices);
 		}
 
 		#region DeviceSelection
@@ -67,7 +67,7 @@ namespace OPCModule.ViewModels
 				_selectedDevice = value;
 				if (value != null)
 					value.ExpandToThis();
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace OPCModule.ViewModels
 			private set
 			{
 				_rootDevice = value;
-				OnPropertyChanged("RootDevice");
+				OnPropertyChanged(() => RootDevice);
 			}
 		}
 

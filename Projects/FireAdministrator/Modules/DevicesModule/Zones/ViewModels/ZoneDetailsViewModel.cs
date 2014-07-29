@@ -83,9 +83,9 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_zoneType = value;
-				OnPropertyChanged("ZoneType");
-				OnPropertyChanged("IsFireZone");
-				OnPropertyChanged("IsGuardZone");
+				OnPropertyChanged(() => ZoneType);
+				OnPropertyChanged(() => IsFireZone);
+				OnPropertyChanged(() => IsGuardZone);
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -107,7 +107,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_no = value;
-				OnPropertyChanged("No");
+				OnPropertyChanged(() => No);
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_detectorCount = value;
-				OnPropertyChanged("DetectorCount");
+				OnPropertyChanged(() => DetectorCount);
 			}
 		}
 
@@ -157,9 +157,9 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_guardZoneType = value;
-				OnPropertyChanged("GuardZoneType");
-				OnPropertyChanged("CanDelay");
-				OnPropertyChanged("CanAutoSet");
+				OnPropertyChanged(() => GuardZoneType);
+				OnPropertyChanged(() => CanDelay);
+				OnPropertyChanged(() => CanAutoSet);
 				if (value == GuardZoneType.CanNotReset)
 					Skipped = true;
 			}
@@ -172,7 +172,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_skipped = value;
-				OnPropertyChanged("Skipped");
+				OnPropertyChanged(() => Skipped);
 			}
 		}
 
@@ -183,7 +183,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_delay = value;
-				OnPropertyChanged("Delay");
+				OnPropertyChanged(() => Delay);
 			}
 		}
 
@@ -194,7 +194,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_autoSet = value;
-				OnPropertyChanged("AutoSet");
+				OnPropertyChanged(() => AutoSet);
 			}
 		}
 
@@ -205,7 +205,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_enableExitTime = value;
-				OnPropertyChanged("EnableExitTime");
+				OnPropertyChanged(() => EnableExitTime);
 			}
 		}
 
@@ -216,7 +216,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_exitRestoreType = value;
-				OnPropertyChanged("ExitRestoreType");
+				OnPropertyChanged(() => ExitRestoreType);
 			}
 		}
 

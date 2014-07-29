@@ -19,7 +19,7 @@ namespace OPCModule.ViewModels
 			set
 			{
 				Zone.IsOPCUsed = value;
-				OnPropertyChanged("IsOPCUsed");
+				OnPropertyChanged(() => IsOPCUsed);
 				ServiceFactory.SaveService.OPCChanged = true;
 				ServiceFactory.SaveService.FSChanged = true;
 			}
