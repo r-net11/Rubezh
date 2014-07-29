@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ChinaSKDDriverAPI;
 using FiresecAPI.SKD;
+using FiresecAPI;
 
 namespace ChinaSKDDriver
 {
@@ -13,7 +14,7 @@ namespace ChinaSKDDriver
 		public void AddCard(SKDCard skdCard, AccessTemplate accessTemplate)
 		{
 			ControllerCardItems = Create_ControllerCardItems_ToAdd(skdCard, accessTemplate);
-			ProcessControllerCardItems(ControllerCardItems);
+			ProcessControllerCardItems(ControllerCardItems, false);
 		}
 
 		List<ControllerCardItem> Create_ControllerCardItems_ToAdd(SKDCard skdCard, AccessTemplate accessTemplate)
@@ -76,7 +77,7 @@ namespace ChinaSKDDriver
 		public void DeleteCard(SKDCard skdCard, AccessTemplate accessTemplate)
 		{
 			ControllerCardItems = Create_ControllerCardItems_ToDelete(skdCard, accessTemplate);
-			ProcessControllerCardItems(ControllerCardItems);
+			ProcessControllerCardItems(ControllerCardItems, false);
 		}
 
 		List<ControllerCardItem> Create_ControllerCardItems_ToDelete(SKDCard skdCard, AccessTemplate accessTemplate)
@@ -129,11 +130,13 @@ namespace ChinaSKDDriver
 			}
 			ControllerCardItems = controllerCardItems_ToDelete;
 			ControllerCardItems.AddRange(controllerCardItems_ToEdit);
-			ProcessControllerCardItems(ControllerCardItems);
+			ProcessControllerCardItems(ControllerCardItems, false);
 		}
 
-		public void RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
+		public bool RewriteAllCards(SKDDevice device, IEnumerable<SKDCard> cards, IEnumerable<AccessTemplate> accessTemplates)
 		{
+			var progressCallback = Processor.StartProgress("Запись всех карт в контроллер " + device.Name, "", cards.Count(), true, GKProgressClientType.Administrator);
+
 			foreach (var card in cards)
 			{
 				AccessTemplate accessTemplate = null;
@@ -150,12 +153,19 @@ namespace ChinaSKDDriver
 					ControllerCardItems.Add(controllerCardItem);
 				}
 
-				ProcessControllerCardItems(ControllerCardItems);
+					if (progressCallback.IsCanceled)
+						return false;
+					Processor.DoProgress("Запись карты " + card.Number + " в контроллер " + device.Name, progressCallback);
+				ProcessControllerCardItems(ControllerCardItems, true);
 			}
+
+			Processor.StopProgress(progressCallback);
+			return true;
 		}
 
-		void ProcessControllerCardItems(List<ControllerCardItem> controllerCardItems)
+		void ProcessControllerCardItems(List<ControllerCardItem> controllerCardItems, bool showProgress)
 		{
+
 			foreach (var controllerCardItem in controllerCardItems)
 			{
 				var deviceProcessor = Processor.DeviceProcessors.FirstOrDefault(x => x.Device.UID == controllerCardItem.ControllerDevice.UID);
@@ -163,15 +173,36 @@ namespace ChinaSKDDriver
 				{
 					var card = new Card();
 					card.CardNo = controllerCardItem.Card.Number.ToString();
-					card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
 					card.ValidStartDateTime = controllerCardItem.Card.StartDate;
-					if (controllerCardItem.Card.CardType == FiresecAPI.SKD.CardType.Constant)
+					card.ValidEndDateTime = controllerCardItem.Card.EndDate;
+					switch (controllerCardItem.Card.CardType)
 					{
-						card.ValidEndDateTime = controllerCardItem.Card.StartDate.AddYears(100);
-					}
-					else
-					{
-						card.ValidEndDateTime = controllerCardItem.Card.EndDate;
+						case FiresecAPI.SKD.CardType.Constant:
+							card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
+							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
+							card.ValidEndDateTime = controllerCardItem.Card.StartDate.AddYears(100);
+							break;
+
+						case FiresecAPI.SKD.CardType.Temporary:
+							card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
+							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
+							break;
+
+						case FiresecAPI.SKD.CardType.OneTime:
+							card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
+							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
+							card.ValidEndDateTime = controllerCardItem.Card.StartDate.AddDays(1);
+							break;
+
+						case FiresecAPI.SKD.CardType.Duress:
+							card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_CORCE;
+							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
+							break;
+
+						case FiresecAPI.SKD.CardType.Blocked:
+							card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
+							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_LOGOFF;
+							break;
 					}
 
 					foreach (var readerIntervalItem in controllerCardItem.ReaderIntervalItems)

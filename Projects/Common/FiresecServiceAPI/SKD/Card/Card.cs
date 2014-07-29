@@ -35,10 +35,13 @@ namespace FiresecAPI.SKD
 		public Guid? AccessTemplateUID { get; set; }
 
 		[DataMember]
-		public bool IsInStopList { get; set; }
+		public CardType CardType { get; set; }
 
 		[DataMember]
-		public CardType CardType { get; set; }
+		public string Password { get; set; }
+
+		[DataMember]
+		public bool IsInStopList { get; set; }
 
 		[DataMember]
 		public string StopReason { get; set; }

@@ -120,7 +120,7 @@ namespace ChinaSKDDriver
 
 				var progressCallback = Processor.StartProgress("Запись графиков работ в прибор " + deviceProcessor.Device.Name, "", 128, true, GKProgressClientType.Administrator);
 
-				for (int i = 1; i <= 128; i++)
+				for (int i = 0; i <= 127; i++)
 				{
 					var weeklyInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.WeeklyIntervals.FirstOrDefault(x => x.ID == i);
 					if (weeklyInterval == null)
@@ -160,7 +160,6 @@ namespace ChinaSKDDriver
 						return new OperationResult<bool>("Операция обновления прибора " + deviceProcessor.Device.Name + " отменена");
 					Processor.DoProgress("Запись графика " + i, progressCallback);
 
-					System.Threading.Thread.Sleep(TimeSpan.FromMilliseconds(100));
 					var result = deviceProcessor.Wrapper.SetTimeShedules(i, timeShedules);
 					if (!result)
 					{
@@ -238,7 +237,7 @@ namespace ChinaSKDDriver
 				nativeDoorConfiguration.UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
 				nativeDoorConfiguration.CloseTimeout = doorConfiguration.CloseTimeout;
 				nativeDoorConfiguration.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
-				nativeDoorConfiguration.HolidayTimeRecoNo = 200;// doorConfiguration.HolidayTimeRecoNo;
+				nativeDoorConfiguration.HolidayTimeRecoNo = 255;// doorConfiguration.HolidayTimeRecoNo;
 				nativeDoorConfiguration.IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
 				nativeDoorConfiguration.IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 				nativeDoorConfiguration.IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;

@@ -259,13 +259,13 @@ namespace ChinaSKDDriver
 				for (int j = 0; j < 4; j++)
 				{
 					var doorDayIntervalPart = doorConfiguration.DoorDayIntervalsCollection.DoorDayIntervals[i].DoorDayIntervalParts[j];
-					info.stuDoorTimeSection[i].stuTime.stuStartTime.dwHour = doorDayIntervalPart.StartHour;
-					info.stuDoorTimeSection[i].stuTime.stuStartTime.dwMinute = doorDayIntervalPart.StartMinute;
-					info.stuDoorTimeSection[i].stuTime.stuStartTime.dwSecond = 0;
-					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwHour = doorDayIntervalPart.EndHour;
-					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwMinute = doorDayIntervalPart.EndMinute;
-					info.stuDoorTimeSection[i].stuTime.stuEndTime.dwSecond = 0;
-					info.stuDoorTimeSection[i].emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorDayIntervalPart.DoorOpenMethod;
+					info.stuDoorTimeSection[i * 4 + j].stuTime.stuStartTime.dwHour = doorDayIntervalPart.StartHour;
+					info.stuDoorTimeSection[i * 4 + j].stuTime.stuStartTime.dwMinute = doorDayIntervalPart.StartMinute;
+					info.stuDoorTimeSection[i * 4 + j].stuTime.stuStartTime.dwSecond = 0;
+					info.stuDoorTimeSection[i * 4 + j].stuTime.stuEndTime.dwHour = doorDayIntervalPart.EndHour;
+					info.stuDoorTimeSection[i * 4 + j].stuTime.stuEndTime.dwMinute = doorDayIntervalPart.EndMinute;
+					info.stuDoorTimeSection[i * 4 + j].stuTime.stuEndTime.dwSecond = 0;
+					info.stuDoorTimeSection[i * 4 + j].emDoorOpenMethod = (NativeWrapper.CFG_DOOR_OPEN_METHOD)doorDayIntervalPart.DoorOpenMethod;
 				}
 			}
 

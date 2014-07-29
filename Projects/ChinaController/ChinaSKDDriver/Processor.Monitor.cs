@@ -62,7 +62,9 @@ namespace ChinaSKDDriver
 					return new OperationResult<bool>("Ошибка при удалении всех карт в приборе");
 
 				var cardWriter = new CardWriter();
-				cardWriter.RewriteAllCards(device, cards, accessTemplates);
+				result = cardWriter.RewriteAllCards(device, cards, accessTemplates);
+				if(!result)
+					return new OperationResult<bool>("Операция отменена");
 
 				foreach (var controllerCardItem in cardWriter.ControllerCardItems)
 				{

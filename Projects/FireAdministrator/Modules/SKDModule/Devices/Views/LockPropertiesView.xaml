@@ -13,7 +13,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -59,14 +59,14 @@
                         </ComboBox>
                     </Grid>
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Время удержания, с" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Время удержания, мс" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
                     <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding UnlockHoldInterval}" Margin="2" />
 
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Время закрытия, с" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
                     <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding CloseTimeout}" Margin="2" />
 
                     <TextBlock Grid.Row="5" Grid.Column="0" Text="График, по которому дверь всегда открыта" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
-                    <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding TimeSchedules}" SelectedItem="{Binding SelectedTimeSchedule}" Margin="2">
+                    <ComboBox Grid.Row="5" Grid.Column="1" IsEnabled="{Binding CanSetAlwaysOpen}" ItemsSource="{Binding TimeSchedules}" SelectedItem="{Binding SelectedTimeSchedule}" Margin="2">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" />

@@ -108,6 +108,7 @@ namespace SKDModule.ViewModels
 				_selectedDoorOpenMethod = value;
 				OnPropertyChanged(() => SelectedDoorOpenMethod);
 				CanSetTimeIntervals = value == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION;
+				CanSetAlwaysOpen = value != SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION;
 			}
 		}
 
@@ -130,6 +131,17 @@ namespace SKDModule.ViewModels
 			{
 				_canSetTimeIntervals = value;
 				OnPropertyChanged(() => CanSetTimeIntervals);
+			}
+		}
+
+		bool _canSetAlwaysOpen;
+		public bool CanSetAlwaysOpen
+		{
+			get { return _canSetAlwaysOpen; }
+			set
+			{
+				_canSetAlwaysOpen = value;
+				OnPropertyChanged(() => CanSetAlwaysOpen);
 			}
 		}
 

@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure;
 using System.ComponentModel;
 using Infrastructure.Events;
+using System.Threading;
 
 namespace SKDModule.ViewModels
 {
@@ -75,15 +76,21 @@ namespace SKDModule.ViewModels
 		public RelayCommand RewriteAllCardsCommand { get; private set; }
 		void OnRewriteAllCards()
 		{
-			var result = FiresecManager.FiresecService.SKDRewriteAllCards(Device);
-			if (result.Result)
+			var thread = new Thread(() =>
 			{
-				MessageBoxService.Show("Операция завершилась успешно");
-			}
-			else
-			{
-				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
-			}
+				var result = FiresecManager.FiresecService.SKDRewriteAllCards(Device);
+
+				ApplicationService.Invoke(new Action(() =>
+				{
+					if (result.HasError)
+					{
+						LoadingService.Close();
+						MessageBoxService.ShowWarning(result.Error);
+					}
+				}));
+			});
+			thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
+			thread.Start();
 		}
 	}
 }

@@ -44,6 +44,7 @@ namespace SKDModule.ViewModels
 			}
 			Card = card;
 			Number = Card.Number;
+			Password = Card.Password;
 			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
 
@@ -84,6 +85,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		string _password;
+		public string Password
+		{
+			get { return _password; }
+			set
+			{
+				_password = value;
+				OnPropertyChanged(() => Password);
+			}
+		}
+
 		ObservableCollection<CardType> _cardTypes;
 		public ObservableCollection<CardType> CardTypes
 		{
@@ -114,7 +126,7 @@ namespace SKDModule.ViewModels
 
 		public bool CanSelectEndDate
 		{
-			get { return SelectedCardType == CardType.Temporary; }
+			get { return SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress; }
 		}
 
 		DateTime _startDate;
@@ -286,6 +298,7 @@ namespace SKDModule.ViewModels
 				Card.StopReason = null;
 			}
 			Card.Number = Number;
+			Card.Password = Password;
 			Card.CardType = SelectedCardType;
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;

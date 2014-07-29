@@ -538,7 +538,7 @@ namespace ChinaSKDDriverNativeApi
 			[DescriptionAttribute("Пароль")]
 			NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
 
-			[DescriptionAttribute("карта")]
+			[DescriptionAttribute("Карта")]
 			NET_ACCESS_DOOROPEN_METHOD_CARD,
 
 			[DescriptionAttribute("Сначала карта")]

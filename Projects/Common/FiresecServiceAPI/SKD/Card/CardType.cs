@@ -17,6 +17,6 @@ namespace FiresecAPI.SKD
 		Blocked,
 
 		[Description("Принуждение")]
-		Dures
+		Duress
 	}
 }

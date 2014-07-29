@@ -30,7 +30,7 @@
 					
 					<Controls:ToolBarButton HorizontalAlignment="Right" Margin="5 2" ToolTip="Удалить"
 						Command="{Binding RemoveCameraCommand}"
-						ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
+						ImageSource="/Controls;component/Images/DeleteCross.png" Height="32" Width="32" />
 				</StackPanel>
 			</StackPanel>
 		</TabItem>
