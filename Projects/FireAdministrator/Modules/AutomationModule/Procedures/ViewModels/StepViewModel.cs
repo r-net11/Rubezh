@@ -68,7 +68,9 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.ControlGKDevice:
 					Content = new ControlGKDeviceStepViewModel(step.ControlGKDeviceArguments);
 					break;
-					//case ProcedureStepType.ControlGKFireZone
+				case ProcedureStepType.ControlGKFireZone:
+					Content = new ControlGKFireZoneStepViewModel(step.ControlGKFireZoneArguments);
+					break;
 					//case ProcedureStepType.ControlGKGuardZone
 					//case ProcedureStepType.ControlSKDGKDevice
 					//case ProcedureStepType.ControlSKDZone

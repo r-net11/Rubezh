@@ -88,7 +88,8 @@
     <Compile Include="Procedures\ViewModels\Steps\ConditionStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ControlGKDeviceStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DeviceSelectionViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\DeviceViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\ControlGKFireZoneStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ConditionsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ArithmeticStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ExitStepViewModel.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Procedures\ViewModels\Steps\ProcedureSelectionStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SetGlobalValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ProcedureDetailsViewModel.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Procedures\ViewModels\VariableDetailsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariablesViewModel.cs" />
     <Compile Include="Procedures\ViewModels\VariableViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\ZoneViewModel.cs" />
     <Compile Include="Procedures\Views\ConditionsView.xaml.cs">
       <DependentUpon>ConditionsView.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,9 @@
     </Compile>
     <Compile Include="Procedures\Views\DeviceSelectionView.xaml.cs">
       <DependentUpon>DeviceSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\ControlGKFireZoneStepView.xaml.cs">
+      <DependentUpon>ControlGKFireZoneStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\ExitStepView.xaml.cs">
       <DependentUpon>ExitStepView.xaml</DependentUpon>
@@ -174,6 +180,9 @@
     </Compile>
     <Compile Include="Procedures\Views\VariablesView.xaml.cs">
       <DependentUpon>VariablesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\ZoneSelectionView.xaml.cs">
+      <DependentUpon>ZoneSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomationModule.cs" />
@@ -325,6 +334,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Procedures\Views\Steps\ControlGKFireZoneStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Procedures\Views\Steps\ExitStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -378,6 +391,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\VariablesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\ZoneSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

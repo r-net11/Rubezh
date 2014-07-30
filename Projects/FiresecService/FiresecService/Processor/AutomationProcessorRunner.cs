@@ -92,6 +92,10 @@ namespace FiresecService.Processor
 				case ProcedureStepType.FindObjects:
 					ProcedureHelper.FindObjects(procedureStep, procedure);
 					break;
+
+				case ProcedureStepType.ControlGKDevice:
+					ProcedureHelper.ControlGKDevice(procedureStep);
+					break;
 			}
 		}
 	}

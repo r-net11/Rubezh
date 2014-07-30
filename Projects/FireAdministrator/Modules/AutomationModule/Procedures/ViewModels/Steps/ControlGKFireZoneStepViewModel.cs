@@ -12,14 +12,14 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlGKDeviceStepViewModel: BaseViewModel, IStepViewModel
+	public class ControlGKFireZoneStepViewModel: BaseViewModel, IStepViewModel
 	{
-		ControlGKDeviceArguments ControlGkDeviceArguments { get; set; }
-		public ControlGKDeviceStepViewModel(ControlGKDeviceArguments controlGkDeviceArguments)
+		ControlGKFireZoneArguments ControlGKFireZoneArguments { get; set; }
+		public ControlGKFireZoneStepViewModel(ControlGKFireZoneArguments controlGKFireZoneArguments)
 		{
-			ControlGkDeviceArguments = controlGkDeviceArguments;
+			ControlGKFireZoneArguments = controlGKFireZoneArguments;
 			Commands = new ObservableCollection<string>();
-			SelectDeviceCommand = new RelayCommand(OnSelectDevice);
+			SelectZoneCommand = new RelayCommand(OnSelectZone);
 			UpdateContent();
 		}
 
@@ -32,26 +32,26 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedCommand = value;
-				ControlGkDeviceArguments.Command = StringToXStateBit(value);
+				//ControlGKFireZoneArguments.Command = StringToXStateBit(value);
 				OnPropertyChanged(()=>SelectedCommand);
 			}
 		}
 
-		DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
+		ZoneViewModel _selectedZone;
+		public ZoneViewModel SelectedZone
 		{
-			get { return _selectedDevice; }
+			get { return _selectedZone; }
 			set
 			{
-				_selectedDevice = value;
-				ControlGkDeviceArguments.DeviceUid = Guid.Empty;
-				if (_selectedDevice != null)
+				_selectedZone = value;
+				ControlGKFireZoneArguments.ZoneUid = Guid.Empty;
+				if (_selectedZone != null)
 				{
-					ControlGkDeviceArguments.DeviceUid = _selectedDevice.Device.UID;
-					InitializeCommands(_selectedDevice.Device);
+					ControlGKFireZoneArguments.ZoneUid = _selectedZone.Zone.UID;
+					//InitializeCommands(_selectedZone.Zone);
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedDevice);
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
 
@@ -112,24 +112,24 @@ namespace AutomationModule.ViewModels
 			return device.DriverType == XDriverType.AMP_1 || device.DriverType == XDriverType.RSR2_MAP4;
 		}
 
-		public RelayCommand SelectDeviceCommand { get; private set; }
-		private void OnSelectDevice()
+		public RelayCommand SelectZoneCommand { get; private set; }
+		private void OnSelectZone()
 		{
-			var deviceSelectationViewModel = new DeviceSelectionViewModel(SelectedDevice != null ? SelectedDevice.Device : null);
-			if (DialogService.ShowModalWindow(deviceSelectationViewModel))
+			var zoneSelectationViewModel = new ZoneSelectionViewModel(SelectedZone != null ? SelectedZone.Zone : null);
+			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 			{
-				SelectedDevice = deviceSelectationViewModel.SelectedDevice;
+				SelectedZone = zoneSelectationViewModel.SelectedZone;
 			}
 		}
 
 		public void UpdateContent()
 		{
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			if (ControlGkDeviceArguments.DeviceUid != Guid.Empty)
+			if (ControlGKFireZoneArguments.ZoneUid != Guid.Empty)
 			{
-				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == ControlGkDeviceArguments.DeviceUid);
-				SelectedDevice = device != null ? new DeviceViewModel(device) : null;
-				SelectedCommand = XStateBitToString(ControlGkDeviceArguments.Command);
+				var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == ControlGKFireZoneArguments.ZoneUid);
+				SelectedZone = zone != null ? new ZoneViewModel(zone) : null;
+				//SelectedCommand = XStateBitToString(ControlGKFireZoneArguments.Command);
 			}
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
@@ -171,33 +171,6 @@ namespace AutomationModule.ViewModels
 					return XStateBit.ForbidStart_InManual;
 				default:
 					return new XStateBit();
-			}
-		}
-
-		string XStateBitToString(XStateBit stateString)
-		{
-			switch (stateString)
-			{
-				case XStateBit.SetRegime_Automatic:
-					return IsTriStateControl(SelectedDevice.Device)? "Автоматика": "Cнять отключение";
-				case XStateBit.SetRegime_Manual:
-					return "Ручное";
-				case XStateBit.Ignore:
-					return "Отключение";
-				case XStateBit.TurnOn_InManual:
-					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? "Открыть" : "Включить";
-				case XStateBit.TurnOnNow_InManual:
-					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? "Открыть немедленно" : "Включить немедленно";
-				case XStateBit.TurnOff_InManual:
-					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? "Закрыть" : "Выключить";
-				case XStateBit.Stop_InManual:
-					return "Остановить";
-				case XStateBit.Reset:
-					return "Сбросить";
-				case XStateBit.ForbidStart_InManual:
-					return "Запретить пуск";
-				default:
-					return "";
 			}
 		}
 	}

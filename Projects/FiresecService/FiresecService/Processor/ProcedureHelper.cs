@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecClient;
+using FiresecService.Service;
 
 namespace FiresecService.Processor
 {
@@ -164,6 +165,14 @@ namespace FiresecService.Processor
 				}
 				resultObjects = new List<object>(tempObjects);
 			}
+		}
+
+		public static void ControlGKDevice(ProcedureStep procedureStep)
+		{
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == procedureStep.ControlGKDeviceArguments.DeviceUid);
+			if (device == null)
+				return;
+			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.BaseUID, procedureStep.ControlGKDeviceArguments.Command);
 		}
 	}
 }

@@ -5,9 +5,9 @@ using FiresecAPI.GK;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class ControlGKDeviceArguments
+	public class ControlGKFireZoneArguments
 	{
-		public ControlGKDeviceArguments()
+		public ControlGKFireZoneArguments()
 		{
 			Uid = Guid.NewGuid();
 		}
@@ -16,9 +16,6 @@ namespace FiresecAPI.Automation
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public Guid DeviceUid { get; set; }
-
-		[DataMember]
-		public XStateBit Command { get; set; }
+		public Guid ZoneUid { get; set; }
 	}
 }
