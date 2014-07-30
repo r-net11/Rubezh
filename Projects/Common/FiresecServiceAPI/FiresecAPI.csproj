@@ -148,7 +148,7 @@
     <Compile Include="Models\Automation\StepArguments\IncrementGlobalValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\PersonInspectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SetGlobalValueArguments.cs" />
-    <Compile Include="XModels\CallbackResult.cs" />
+    <Compile Include="CallbackResult.cs" />
     <Compile Include="Journal\EventDescriptionAttribute.cs" />
     <Compile Include="Journal\EventDescriptionAttributeHelper.cs" />
     <Compile Include="Journal\JournalEventNameType.cs" />
@@ -510,6 +510,7 @@
     <Compile Include="XModels\XMeasureParameterValue.cs" />
     <Compile Include="XModels\XState.cs" />
     <Compile Include="XModels\Zone\XZone.cs" />
+    <Compile Include="AutomationCallbackResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\System\AlarmType.cs" />
