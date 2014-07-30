@@ -12,7 +12,7 @@ namespace WindowTest
 			}
 			catch { }
 
-			ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
+			ChinaSKDDriverNativeApi.NativeWrapper.WrapInitialize();
 			var mainWindow = new MainWindow();
 			mainWindow.Show();
 		}

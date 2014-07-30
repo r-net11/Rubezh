@@ -66,6 +66,7 @@
     <Compile Include="SDK\Wrapper.Control.cs" />
     <Compile Include="Processor.Monitor.cs" />
     <Compile Include="SDK\Wrapper.Logs.cs" />
+    <Compile Include="SDK\Wrapper.Native.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">

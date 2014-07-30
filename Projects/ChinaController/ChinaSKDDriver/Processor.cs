@@ -38,7 +38,7 @@ namespace ChinaSKDDriver
 
 			try
 			{
-				ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
+				//Wrapper.WrapInitialize();
 			}
 			catch { }
 		}
@@ -55,7 +55,8 @@ namespace ChinaSKDDriver
 				deviceProcessor.Start();
 			}
 
-			Wrapper.Start();
+			Wrapper.Initialize();
+			//Wrapper.WrapStart();
 		}
 
 		public static void Stop()
@@ -65,7 +66,8 @@ namespace ChinaSKDDriver
 				deviceProcessor.Stop();
 			}
 
-			Wrapper.Stop();
+			Wrapper.Deinitialize();
+			//Wrapper.WrapStop();
 		}
 
 		#region Callback

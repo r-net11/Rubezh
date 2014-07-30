@@ -217,6 +217,7 @@ namespace ChinaSKDDriver
 
 		public void Stop()
 		{
+			Wrapper.NewJournalItem -= new Action<SKDJournalItem>(Wrapper_NewJournalItem);
 			Wrapper.Disconnect();
 			IsStopping = true;
 			if (AutoResetEvent != null)

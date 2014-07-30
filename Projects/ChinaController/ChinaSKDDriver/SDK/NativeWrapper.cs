@@ -585,7 +585,7 @@ namespace ChinaSKDDriverNativeApi
 		#endregion
 
 		#region Native
-		//[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+
 		public delegate void fDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
 
 		public delegate void fHaveReConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
@@ -624,6 +624,77 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern bool CLIENT_Cleanup();
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_EVENT_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDoorName;
+			public NET_TIME stuTime;
+			public NET_ACCESS_CTL_EVENT_TYPE emEventType;
+			public bool bStatus;
+			public NET_ACCESSCTLCARD_TYPE emCardType;
+			public NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szCardNo;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szPwd;
+		};
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_NOT_CLOSE_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDoorName;
+			public NET_TIME stuTime;
+			public int nAction;
+		};
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_BREAK_IN_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDoorName;
+			public NET_TIME stuTime;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_REPEAT_ENTER_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDoorName;
+			public NET_TIME stuTime;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_DURESS_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDoorName;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szCardNo;
+			public NET_TIME stuTime;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_STATUS_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			public NET_TIME stuTime;
+			public NET_ACCESS_CTL_STATUS_TYPE emStatus;
+		}
+
 		#endregion
 	}
 }

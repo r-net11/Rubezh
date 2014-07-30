@@ -23,53 +23,6 @@ namespace ChinaSKDDriver
 		}
 		#endregion
 
-		#region Common
-		public int LoginID { get; private set; }
-
-		public int Connect(string ipAddress, int port, string login, string password, out string error)
-		{
-			int intError = 1;
-			LoginID = NativeWrapper.WRAP_Connect(ipAddress, port, login, password, out intError);
-			error = GetError(intError);
-			return LoginID;
-		}
-
-		string GetError(int error)
-		{
-			if (error != 0)
-			{
-				switch(error)
-				{
-					case 1:
-						return "Неверный пароль";
-					case 2:
-						return "Неверный логин";
-					case 3:
-						return "Таймаут";
-					case 4:
-						return "Пользователь уже залогинен";
-					case 5:
-						return "Пользователь был заблокирован";
-					case 6:
-						return "Пользователь нелегальный";
-					case 7:
-						return "Контроллер занят";
-					case 9:
-						return "Контроллер не найден";
-					default:
-						return "Неизвестная причина";
-				}
-			}
-			return "";
-		}
-
-		public bool Disconnect()
-		{
-			var result = NativeWrapper.WRAP_Disconnect(LoginID);
-			return result;
-		}
-		#endregion
-
 		#region CommonDevice
 		public DeviceSoftwareInfo GetDeviceSoftwareInfo()
 		{
