@@ -37,8 +37,8 @@
             </TabItem>
             <TabItem Header="Соединение">
                 <StackPanel>
-                    <Button Content="Connect" Click="OnConnect" Width="300" Margin="2" />
-                    <Button Content="Disconnect" Click="OnDisconnect" Width="300" Margin="2" />
+                    <Button Content="Connect" Command="{Binding ConnectCommand}" Width="300" Margin="2" />
+                    <Button Content="Disconnect" Command="{Binding DisconnectCommand}" Width="300" Margin="2" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Конфигурация двери" DataContext="{Binding DoorConfigurationViewModel}">
