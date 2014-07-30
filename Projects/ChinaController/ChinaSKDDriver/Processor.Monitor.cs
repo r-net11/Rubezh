@@ -17,7 +17,7 @@ namespace ChinaSKDDriver
 				if (deviceProcessor != null)
 				{
 					if (!deviceProcessor.IsConnected)
-						return new OperationResult<bool>("Нет связи с контроллером");
+						return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 					var result = deviceProcessor.Wrapper.OpenDoor(device.IntAddress);
 					if (result)
@@ -37,7 +37,7 @@ namespace ChinaSKDDriver
 				if (deviceProcessor != null)
 				{
 					if (!deviceProcessor.IsConnected)
-						return new OperationResult<bool>("Нет связи с контроллером");
+						return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 					var result = deviceProcessor.Wrapper.CloseDoor(device.IntAddress);
 					if (result)
@@ -55,7 +55,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.RemoveAllCards();
 				if (!result)

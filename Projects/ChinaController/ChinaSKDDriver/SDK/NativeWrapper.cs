@@ -14,7 +14,7 @@ namespace ChinaSKDDriverNativeApi
 		public static extern void WRAP_Deinitialize();
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_Connect(string ipAddress, int port, string userName, string password);
+		public static extern int WRAP_Connect(string ipAddress, int port, string userName, string password, out int error);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_Disconnect(int loginID);

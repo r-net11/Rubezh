@@ -15,7 +15,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if(!deviceProcessor.IsConnected)
-					return new OperationResult<SKDDeviceInfo>("Нет связи с контроллером");
+					return new OperationResult<SKDDeviceInfo>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				SKDDeviceInfo deviceInfo = new SKDDeviceInfo();
 				var deviceSoftwareInfo = deviceProcessor.Wrapper.GetDeviceSoftwareInfo();
@@ -64,7 +64,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.SetDateTime(DateTime.Now);
 				if (result)
@@ -81,7 +81,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.Reset();
 				if (result)
@@ -98,7 +98,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.Reboot();
 				deviceProcessor.Reconnect();
@@ -116,7 +116,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var progressCallback = Processor.StartProgress("Запись графиков работ в прибор " + deviceProcessor.Device.Name, "", 128, true, GKProgressClientType.Administrator);
 
@@ -187,7 +187,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<SKDDoorConfiguration>("Нет связи с контроллером");
+					return new OperationResult<SKDDoorConfiguration>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var nativeDoorConfiguration = deviceProcessor.Wrapper.GetDoorConfiguration(readerDevice.IntAddress);
 				if(nativeDoorConfiguration == null)
@@ -227,7 +227,7 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var nativeDoorConfiguration = new DoorConfiguration();
 				nativeDoorConfiguration.AccessState = (AccessState)doorConfiguration.AccessState;

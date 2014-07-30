@@ -23,8 +23,9 @@ namespace ControllerSDK.Views
 
 		void OnConnect(object sender, RoutedEventArgs e)
 		{
-			var loginID = MainViewModel.Wrapper.Connect("172.16.6.54", 37777, "system", "123456");
-			_textBox.Text += "LoginID = " + loginID + "\n";
+			string error;
+			var loginID = MainViewModel.Wrapper.Connect("172.16.6.54", 37777, "system", "123456", out error);
+			_textBox.Text += "LoginID = " + loginID + " " + error + "\n";
 			Wrapper.Start();
 		}
 

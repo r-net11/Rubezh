@@ -129,7 +129,7 @@ void CALL_METHOD WRAP_Deinitialize()
 	CLIENT_Cleanup();
 }
 
-int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], char password[25])
+int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], char password[25], int* error)
 {
 	BOOL bTemp = FALSE;
 	int nError = 0;
@@ -143,6 +143,7 @@ int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], ch
 
 	memset(&stDevInfo, 0, sizeof(NET_DEVICEINFO));
 	LONG lLoginHandle = CLIENT_Login(ipAddress, port, userName, password, &stDevInfo, &nError);
+	memcpy(error, &nError, sizeof(error));
 
 	if (0 == lLoginHandle)
 	{
