@@ -104,7 +104,6 @@ namespace SKDModule.ViewModels
 				_selectedEnterTimeCreteria = value;
 				OnPropertyChanged(() => SelectedEnterTimeCreteria);
 				EnterTimeTypes = GetTimeTypes(value);
-				//SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault();
 			}
 		}
 
@@ -117,7 +116,6 @@ namespace SKDModule.ViewModels
 				_selectedExitTimeCreteria = value;
 				OnPropertyChanged(() => SelectedExitTimeCreteria);
 				ExitTimeTypes = GetTimeTypes(value);
-				//SelectedEnterTimeType = ExitTimeTypes.FirstOrDefault();
 			}
 		}
 
