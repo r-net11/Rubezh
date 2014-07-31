@@ -249,7 +249,7 @@
 						</DataTemplate>
 					</ListBox.ItemTemplate>
 				</ListBox>
-                <Controls:PhotoSelectation Grid.Column="1" Data="{Binding SelectedGraphicsColumn.Data}" CanEdit="True" />
+				<Controls:PhotoSelectation Grid.Column="1" Data="{Binding SelectedGraphicsColumn.Data}" CanEdit="True" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Охранные зоны">

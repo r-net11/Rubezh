@@ -44,13 +44,13 @@ namespace FiresecAPI
 		OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter journalFilter);
 
 		[OperationContract]
-		void BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID);
+		OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID);
 
 		[OperationContract]
-		List<JournalEventDescriptionType> GetDistinctEventDescriptions();
+		OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions();
 
 		[OperationContract]
-		List<JournalEventNameType> GetDistinctEventNames();
+		OperationResult<List<JournalEventNameType>> GetDistinctEventNames();
 
 		[OperationContract]
 		OperationResult<bool> AddJournalItem(JournalItem journalItem);

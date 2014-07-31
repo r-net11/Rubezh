@@ -61,6 +61,8 @@ namespace SKDModule.ViewModels
 		{
 			Photo = photo;
 			Name = "Фото";
+			OnPropertyChanged(() => Data);
+			OnPropertyChanged(() => HasPhoto);
 		}
 	}
 

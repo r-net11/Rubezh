@@ -69,6 +69,27 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => DismissedString);
 		}
 
+		public PhotoColumnViewModel Photo { get; private set; }
+
+		public void UpdatePhoto()
+		{
+			Photo photo = null;
+			if (IsOrganisation)
+			{
+				var details = OrganisationHelper.GetDetails(Organisation.UID);
+				if (details != null)
+					photo = details.Photo;
+			}
+			else
+			{
+				var details = EmployeeHelper.GetDetails(ShortEmployee.UID);
+				if (details != null)
+					photo = details.Photo;
+			}
+			Photo = new PhotoColumnViewModel(photo);
+			OnPropertyChanged(() => Photo);
+		}
+
 		public ObservableCollection<string> AdditionalColumnValues { get; set; }
 
 		#region Cards

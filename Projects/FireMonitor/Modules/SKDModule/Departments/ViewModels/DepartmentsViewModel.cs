@@ -26,7 +26,11 @@ namespace SKDModule.ViewModels
 		public void Initialize(DepartmentFilter filter)
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var departments = DepartmentHelper.Get(filter);
+			if (departments == null)
+				return;
 
 			AllDepartments = new List<DepartmentViewModel>();
 			Organisations = new List<DepartmentViewModel>();

@@ -83,13 +83,13 @@ namespace FiresecClient
 		{
 			SafeOperationCall(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID), "BeginGetFilteredArchive");
 		}
-		public List<JournalEventDescriptionType> GetDistinctEventDescriptions()
+		public OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions()
 		{
-			return SafeContext.Execute<List<JournalEventDescriptionType>>(() => FiresecService.GetDistinctEventDescriptions());
+			return SafeContext.Execute<OperationResult<List<JournalEventDescriptionType>>>(() => FiresecService.GetDistinctEventDescriptions());
 		}
-		public List<JournalEventNameType> GetDistinctEventNames()
+		public OperationResult<List<JournalEventNameType>> GetDistinctEventNames()
 		{
-			return SafeContext.Execute<List<JournalEventNameType>>(() => FiresecService.GetDistinctEventNames());
+			return SafeContext.Execute<OperationResult<List<JournalEventNameType>>>(() => FiresecService.GetDistinctEventNames());
 		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{

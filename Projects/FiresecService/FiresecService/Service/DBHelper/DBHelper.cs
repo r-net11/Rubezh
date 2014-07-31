@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using Common;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using SKDDriver;
@@ -16,7 +17,7 @@ namespace FiresecService
 		public static object databaseLocker = new object();
 		public static bool IsAbort { get; set; }
 		public static event Action<List<JournalItem>, Guid> ArchivePortionReady;
-		static string ConnectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True;Language='English'";
+		static string ConnectionString = global::SKDDriver.Properties.Settings.Default.ConnectionString;
 
 		public static void Add(JournalItem journalItem)
 		{
@@ -26,11 +27,11 @@ namespace FiresecService
 			}
 		}
 
-		public static List<JournalItem> GetFilteredJournalItems(JournalFilter filter)
+		public static OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
-			var journalItems = new List<JournalItem>();
 			try
 			{
+				var journalItems = new List<JournalItem>();
 				lock (locker)
 				{
 					using (var dataContext = new SqlConnection(ConnectionString))
@@ -46,13 +47,14 @@ namespace FiresecService
 						}
 					}
 				}
+				journalItems.Reverse();
+				return new OperationResult<List<JournalItem>> { Result = journalItems };
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecService.GetTopLast");
+				return new OperationResult<List<JournalItem>>(e.Message);
 			}
-			journalItems.Reverse();
-			return journalItems;
 		}
 
 		public static List<JournalItem> BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)

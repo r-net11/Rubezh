@@ -29,7 +29,11 @@ namespace SKDModule.ViewModels
 		public void Initialize(HolidayFilter filter)
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var holidays = HolidayHelper.Get(filter);
+			if (holidays == null)
+				return;
 
 			AllHolidays = new List<HolidayViewModel>();
 			Organisations = new List<HolidayViewModel>();

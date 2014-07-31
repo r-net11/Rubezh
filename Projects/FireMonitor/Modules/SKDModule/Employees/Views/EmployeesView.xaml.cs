@@ -25,6 +25,8 @@ namespace SKDModule.Views
 		{
 			GridView gridView = _treeList.View as GridView;
 			EmployeesViewModel employeesViewModel = _treeList.DataContext as EmployeesViewModel;
+			if (employeesViewModel.AdditionalColumnNames == null)
+				return;
 
 			for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
 			{

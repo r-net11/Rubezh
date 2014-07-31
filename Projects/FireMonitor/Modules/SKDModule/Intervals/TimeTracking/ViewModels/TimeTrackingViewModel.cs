@@ -140,6 +140,8 @@ namespace SKDModule.ViewModels
 				TotalDays = (int)(_settings.EndDate - _settings.StartDate).TotalDays + 1;
 				FirstDay = _settings.StartDate;
 				var employees = EmployeeHelper.Get(_employeeFilter);
+				if (employees == null)
+					return;
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
 				foreach (var employee in employees)
 				{

@@ -26,8 +26,11 @@ namespace SKDModule.ViewModels
 		public void Initialize(PositionFilter filter)
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var positions = PositionHelper.Get(filter);
-
+			if (positions == null)
+				return;
 			AllPositions = new List<PositionViewModel>();
 			Organisations = new List<PositionViewModel>();
 			foreach (var organisation in organisations)

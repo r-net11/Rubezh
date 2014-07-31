@@ -26,8 +26,11 @@ namespace SKDModule.ViewModels
 		public void Initialize(AccessTemplateFilter filter)
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var accessTemplates = AccessTemplateHelper.Get(filter);
-
+			if (accessTemplates == null)
+				return;
 			AllAccessTemplates = new List<AccessTemplateViewModel>();
 			Organisations = new List<AccessTemplateViewModel>();
 			foreach (var organisation in organisations)

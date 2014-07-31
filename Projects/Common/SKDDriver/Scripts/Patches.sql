@@ -20,7 +20,6 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('OrganisationUser')	
 END
 GO
-
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AlterPatches')
 BEGIN
 	ALTER TABLE Patches ALTER COLUMN Id nvarchar(100) not null

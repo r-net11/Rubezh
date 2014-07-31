@@ -6,14 +6,14 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
-using FiresecAPI.Models;
 using FiresecAPI.Journal;
+using FiresecAPI.Models;
 
 namespace FiresecService.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
 	InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-	public partial class SafeFiresecService : IFiresecService
+	public partial class   SafeFiresecService : IFiresecService
 	{
 		public FiresecService FiresecService { get; set; }
 
@@ -161,17 +161,17 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<List<JournalItem>>>(() => FiresecService.GetFilteredJournalItems(filter));
 		}
-		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
+		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
-			SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID); }, "BeginGetFilteredArchive");
+			return SafeContext.Execute<OperationResult>(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID));
 		}
-		public List<JournalEventDescriptionType> GetDistinctEventDescriptions()
+		public OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions()
 		{
-			return SafeContext.Execute<List<JournalEventDescriptionType>>(() => FiresecService.GetDistinctEventDescriptions());
+			return SafeContext.Execute<OperationResult<List<JournalEventDescriptionType>>>(() => FiresecService.GetDistinctEventDescriptions());
 		}
-		public List<JournalEventNameType> GetDistinctEventNames()
+		public OperationResult<List<JournalEventNameType>> GetDistinctEventNames()
 		{
-			return SafeContext.Execute<List<JournalEventNameType>>(() => FiresecService.GetDistinctEventNames());
+			return SafeContext.Execute<OperationResult<List<JournalEventNameType>>>(() => FiresecService.GetDistinctEventNames());
 		}
 		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
 		{

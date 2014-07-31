@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows;
 using Common;
+using FiresecService.ViewModels;
 using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 
@@ -11,7 +11,12 @@ namespace FiresecService
 {
 	public static class PatchManager
 	{
-		static string connectionString = @"Data Source=.\sqlexpress;Initial Catalog=master;Integrated Security=True"; 
+		static string connectionString
+		{
+			get { return global::SKDDriver.Properties.Settings.Default.ConnectionString; }
+		}
+		static SqlConnection connection = new SqlConnection(connectionString);
+		static Server server = new Server(new ServerConnection(connection));
 
 		public static void Patch()
 		{
@@ -22,6 +27,11 @@ namespace FiresecService
 					Create();
 				ApplyPatches();
 			}
+			catch (ConnectionFailureException e)
+			{
+				UILogger.Log("Не удалось подключиться к серверу " + connectionString);
+				Logger.Error(e, "SKDPatchManager");
+			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "SKDPatchManager");
@@ -30,42 +40,35 @@ namespace FiresecService
 
 		static bool IsExists()
 		{
-			SqlConnection connection = new SqlConnection(connectionString); 
-			var sqlCommand = new SqlCommand(
-				@"SELECT name FROM sys.databases WHERE name = 'SKD'",
-				connection);
-			connection.Open();
-			var reader = sqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+			string commandText = @"SELECT name FROM sys.databases WHERE name = 'SKD'";
+			var reader = server.ConnectionContext.ExecuteReader(commandText.ToString());
 			bool result = reader.Read();
-			connection.Close();
-			connection.Dispose();
+			server.ConnectionContext.Disconnect();
 			return result;
 		}
 
 		static void Create()
 		{
-			var connection = new SqlConnection(connectionString); 
 			string commandText = "";
 			var stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Create.sql"));
 			using (StreamReader sr = new StreamReader(stream.Stream))
 			{
 				commandText = sr.ReadToEnd();
 			}
-			var server = new Server(new ServerConnection(connection));
 			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+			server.ConnectionContext.Disconnect();
 		}
 
 		static void ApplyPatches()
 		{
-			SqlConnection connection = new SqlConnection(connectionString); 
 			string commandText;
 			var stream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Patches.sql"));
 			using (StreamReader sr = new StreamReader(stream.Stream))
 			{
 				commandText = sr.ReadToEnd();
 			}
-			var server = new Server(new ServerConnection(connection));
 			server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
+			server.ConnectionContext.Disconnect();
 		}
 	}
 }

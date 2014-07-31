@@ -34,6 +34,8 @@ namespace SKDModule.ViewModels
 		void InitializeInternal()
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var employees = EmployeeHelper.Get(Filter);
 			PersonType = Filter.PersonType;
 			AllEmployees = new List<EmployeeViewModel>();
@@ -81,6 +83,7 @@ namespace SKDModule.ViewModels
 				_selectedEmployee = value;
 				OnPropertyChanged(() => SelectedEmployee);
 				OnPropertyChanged(() => IsEmployeeSelected);
+				SelectedEmployee.UpdatePhoto();
 			}
 		}
 
@@ -115,10 +118,6 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				SelectedEmployee.Update(employeeDetailsViewModel.ShortEmployee);
-				InitializeInternal();
-				SelectedEmployee = AllEmployees.FirstOrDefault(x => x.ShortEmployee != null && x.ShortEmployee.UID == employeeUID);
-				if(SelectedEmployee == null)
-					SelectedEmployee = Organisations.FirstOrDefault();
 			}
 		}
 		bool CanEdit()

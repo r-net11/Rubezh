@@ -30,6 +30,8 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var filter = new NamedIntervalFilter()
 			{
 				UserUID = FiresecManager.CurrentUser.UID,

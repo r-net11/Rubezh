@@ -29,12 +29,16 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var filter = new ScheduleFilter()
 			{
 				UserUID = FiresecManager.CurrentUser.UID,
 				OrganisationUIDs = organisations.Select(item => item.UID).ToList(),
 			};
 			var schedules = ScheduleHelper.Get(filter);
+			if (schedules == null)
+				return;
 
 			AllSchedules = new List<ScheduleViewModel>();
 			Organisations = new List<ScheduleViewModel>();
