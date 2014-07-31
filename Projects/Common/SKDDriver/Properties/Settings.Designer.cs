@@ -26,8 +26,8 @@ namespace SKDDriver.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\sqlexpress132;Initial Catalog=master;Integrated Security=True;Langu" +
-            "age=\'English\'")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\sqlexpress;Initial Catalog=SKD;Integrated Security=True;Language=\'E" +
+            "nglish\'")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));
