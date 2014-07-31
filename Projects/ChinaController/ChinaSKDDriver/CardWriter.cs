@@ -4,6 +4,7 @@ using System.Linq;
 using ChinaSKDDriverAPI;
 using FiresecAPI.SKD;
 using FiresecAPI;
+using System.Text;
 
 namespace ChinaSKDDriver
 {
@@ -175,6 +176,8 @@ namespace ChinaSKDDriver
 					card.CardNo = controllerCardItem.Card.Number.ToString();
 					card.ValidStartDateTime = controllerCardItem.Card.StartDate;
 					card.ValidEndDateTime = controllerCardItem.Card.EndDate;
+					card.UserTime = controllerCardItem.Card.UserTime;
+					card.Password = controllerCardItem.Card.Password;
 					switch (controllerCardItem.Card.CardType)
 					{
 						case FiresecAPI.SKD.CardType.Constant:
@@ -189,7 +192,7 @@ namespace ChinaSKDDriver
 							break;
 
 						case FiresecAPI.SKD.CardType.OneTime:
-							card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GENERAL;
+							card.CardType = ChinaSKDDriverAPI.CardType.NET_ACCESSCTLCARD_TYPE_GUEST;
 							card.CardStatus = CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL;
 							card.ValidEndDateTime = controllerCardItem.Card.StartDate.AddDays(1);
 							break;
@@ -220,11 +223,25 @@ namespace ChinaSKDDriver
 					{
 						case ControllerCardItem.ActionTypeEnum.Add:
 							var cardRecordNo = deviceProcessor.Wrapper.AddCard(card);
-							result = cardRecordNo >= controllerCardItem.Card.Number;
+							result = cardRecordNo == controllerCardItem.Card.Number;
+							if (!result)
+							{
+								result = deviceProcessor.Wrapper.RemoveCard(controllerCardItem.Card.Number);
+								if (result)
+								{
+									cardRecordNo = deviceProcessor.Wrapper.AddCard(card);
+									result = cardRecordNo == controllerCardItem.Card.Number;
+								}
+							}
 							break;
 
 						case ControllerCardItem.ActionTypeEnum.Edit:
 							result = deviceProcessor.Wrapper.EditCard(card);
+							if (!result)
+							{
+								cardRecordNo = deviceProcessor.Wrapper.AddCard(card);
+								result = cardRecordNo == controllerCardItem.Card.Number;
+							}
 							break;
 
 						case ControllerCardItem.ActionTypeEnum.Delete:
@@ -242,6 +259,19 @@ namespace ChinaSKDDriver
 					controllerCardItem.Error = "Не найден контроллер в конфигурации";
 				}
 			}
+		}
+
+		public string GetError()
+		{
+			var stringBuilder = new StringBuilder();
+			foreach (var controllerCardItem in ControllerCardItems)
+			{
+				if (controllerCardItem.HasError)
+				{
+					stringBuilder.AppendLine(controllerCardItem.ControllerDevice.Name + ": " + controllerCardItem.Error);
+				}
+			}
+			return stringBuilder.ToString();
 		}
 
 		public class ControllerCardItem

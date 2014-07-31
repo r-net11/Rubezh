@@ -47,11 +47,12 @@ namespace SKDModule.ViewModels
 			Password = Card.Password;
 			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
+			UserTime = Card.UserTime;
 
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors, Card.UID);
 
 			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
-			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "НЕТ" });
+			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "<нет>" });
 			var accessTemplateFilter = new AccessTemplateFilter();
 			accessTemplateFilter.OrganisationUIDs.Add(Organisation.UID);
 			var accessTemplates = AccessTemplateHelper.Get(accessTemplateFilter);
@@ -116,6 +117,7 @@ namespace SKDModule.ViewModels
 				_selectedCardType = value;
 				OnPropertyChanged(() => SelectedCardType);
 				OnPropertyChanged(() => CanSelectEndDate);
+				OnPropertyChanged(() => CanSetUserTime);
 
 				if (value != CardType.Temporary)
 				{
@@ -154,6 +156,22 @@ namespace SKDModule.ViewModels
 				_endDate = value;
 				OnPropertyChanged(() => EndDate);
 			}
+		}
+
+		int _userTime;
+		public int UserTime
+		{
+			get { return _userTime; }
+			set
+			{
+				_userTime = value;
+				OnPropertyChanged(() => UserTime);
+			}
+		}
+
+		public bool CanSetUserTime
+		{
+			get { return SelectedCardType == CardType.OneTime; }
 		}
 
 		ObservableCollection<AccessTemplate> _availableAccessTemplates;
@@ -310,6 +328,7 @@ namespace SKDModule.ViewModels
 			Card.CardType = SelectedCardType;
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
+			Card.UserTime = UserTime;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 
 			if (SelectedAccessTemplate != null)
