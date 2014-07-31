@@ -38,6 +38,7 @@ namespace SKDModule.ViewModels
 			{
 				SelectedInterval.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
+				ServiceFactory.SaveService.TimeIntervalChanged();
 			}
 		}
 

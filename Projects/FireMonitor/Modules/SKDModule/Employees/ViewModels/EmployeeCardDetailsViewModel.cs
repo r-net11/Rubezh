@@ -288,6 +288,14 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть раньше даты начала действия");
 				return false;
 			}
+			if (SelectedCardType == CardType.Temporary || SelectedCardType == CardType.Duress)
+			{
+				if (EndDate < DateTime.Now)
+				{
+					MessageBoxService.ShowWarning("Дата конца действия пропуска не может быть меньше теущей даты");
+					return false;
+				}
+			}
 
 			if (UseStopList && SelectedStopListCard != null)
 			{

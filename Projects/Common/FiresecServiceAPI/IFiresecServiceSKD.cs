@@ -119,7 +119,7 @@ namespace FiresecAPI
 		OperationResult<bool> SKDWriteTimeSheduleConfiguration(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> SKDWriteAllTimeSheduleConfiguration();
+		OperationResult<List<Guid>> SKDWriteAllTimeSheduleConfiguration();
 
 		[OperationContract]
 		OperationResult<bool> SKDRewriteAllCards(Guid deviceUID);

@@ -48,6 +48,7 @@ namespace SKDModule.ViewModels
 				Initialize();
 				SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.Add(Model);
 				ServiceFactory.SaveService.SKDChanged = true;
+				ServiceFactory.SaveService.TimeIntervalChanged();
 			}
 			else if (!IsActive && Model != null)
 			{
@@ -58,6 +59,7 @@ namespace SKDModule.ViewModels
 					Initialize();
 					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.ForEach(week => week.InvalidateWeekIntervals());
 					ServiceFactory.SaveService.SKDChanged = true;
+					ServiceFactory.SaveService.TimeIntervalChanged();
 				}
 				else
 					IsActive = true;
@@ -75,6 +77,7 @@ namespace SKDModule.ViewModels
 			}
 			Initialize();
 			ServiceFactory.SaveService.SKDChanged = true;
+			ServiceFactory.SaveService.TimeIntervalChanged();
 			Update();
 		}
 

@@ -40,6 +40,7 @@ namespace SKDModule.ViewModels
 				InitParts();
 				SKDManager.TimeIntervalsConfiguration.TimeIntervals.Add(Model);
 				ServiceFactory.SaveService.SKDChanged = true;
+				ServiceFactory.SaveService.TimeIntervalChanged();
 			}
 			else if (!IsActive && Model != null)
 			{
@@ -51,6 +52,7 @@ namespace SKDModule.ViewModels
 					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ForEach(week => week.InvalidateDayIntervals());
 					SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.ForEach(week => week.InvalidateDayIntervals());
 					ServiceFactory.SaveService.SKDChanged = true;
+					ServiceFactory.SaveService.TimeIntervalChanged();
 				}
 				else
 					IsActive = true;
@@ -74,6 +76,7 @@ namespace SKDModule.ViewModels
 			Model.TimeIntervalParts.Remove(SelectedPart.TimeIntervalPart);
 			Parts.Remove(SelectedPart);
 			ServiceFactory.SaveService.SKDChanged = true;
+			ServiceFactory.SaveService.TimeIntervalChanged();
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -92,6 +95,7 @@ namespace SKDModule.ViewModels
 			Model.TimeIntervalParts = timeInterval.TimeIntervalParts;
 			InitParts();
 			ServiceFactory.SaveService.SKDChanged = true;
+			ServiceFactory.SaveService.TimeIntervalChanged();
 			Update();
 		}
 		private void InitParts()
@@ -119,6 +123,7 @@ namespace SKDModule.ViewModels
 				}
 				SelectedPart.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
+				ServiceFactory.SaveService.TimeIntervalChanged();
 			}
 		}
 

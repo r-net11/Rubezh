@@ -195,7 +195,7 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDWriteTimeSheduleConfiguration(deviceUID); }, "SKDWriteTimeSheduleConfiguration");
 		}
-		public OperationResult<bool> SKDWriteAllTimeSheduleConfiguration()
+		public OperationResult<List<Guid>> SKDWriteAllTimeSheduleConfiguration()
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDWriteAllTimeSheduleConfiguration(); }, "SKDWriteAllTimeSheduleConfiguration");
 		}

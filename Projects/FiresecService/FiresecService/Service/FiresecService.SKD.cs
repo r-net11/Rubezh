@@ -317,9 +317,10 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
-		public OperationResult<bool> SKDWriteAllTimeSheduleConfiguration()
+		public OperationResult<List<Guid>> SKDWriteAllTimeSheduleConfiguration()
 		{
 			var errors = "";
+			var failedDeviceUIDs = new List<Guid>();
 			foreach (var device in SKDManager.Devices)
 			{
 				if (device.Driver.IsController)
@@ -327,12 +328,15 @@ namespace FiresecService.Service
 					AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
 					var result = ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(device.UID);
 					if (result.HasError)
+					{
+						failedDeviceUIDs.Add(device.UID);
 						errors += result.Error + " (" + device.Name + ")\n";
+					}
 				}
 			}
 			if (string.IsNullOrEmpty(errors))
-				return new OperationResult<bool>() { Result = true };
-			else return new OperationResult<bool>(errors);
+				return new OperationResult<List<Guid>>() { Result = new List<Guid>() };
+			else return new OperationResult<List<Guid>>(errors) { Result = failedDeviceUIDs };
 		}
 
 		public OperationResult<bool> SKDRewriteAllCards(Guid deviceUID)
