@@ -53,7 +53,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
             bool skipAllOthers = false;
             foreach (TabItem doc in visibleChildren)
             {
-                var layoutContent = doc.Content as LayoutContent;
+                var layoutContent = doc.Content as ILayoutElement;
                 if (skipAllOthers || offset + doc.DesiredSize.Width > finalSize.Width)
                 {
                     if (layoutContent.IsSelected)

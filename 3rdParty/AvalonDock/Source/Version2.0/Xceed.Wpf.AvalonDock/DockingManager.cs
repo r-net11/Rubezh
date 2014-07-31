@@ -317,8 +317,6 @@ namespace Xceed.Wpf.AvalonDock
 				return new LayoutAnchorablePaneGroupControl(model as LayoutAnchorablePaneGroup);
 			if (model is LayoutDocumentPaneGroup)
 				return new LayoutDocumentPaneGroupControl(model as LayoutDocumentPaneGroup);
-			if (model is LayoutDocumentPaneTab)
-				return new LayoutDocumentPaneTabControl(model as LayoutDocumentPaneTab);
 
 			if (model is LayoutAnchorSide)
 			{
@@ -2998,21 +2996,9 @@ namespace Xceed.Wpf.AvalonDock
 			if (Layout != null)
 			{
 				foreach (var document in Layout.Descendents().OfType<LayoutDocument>().ToArray())
-				{
 					CreateDocumentLayoutItem(document);
-					//var documentItem = new LayoutDocumentItem();
-					//documentItem.Attach(document);
-					//ApplyStyleToLayoutItem(documentItem);
-					//_layoutItems.Add(documentItem);
-				}
 				foreach (var anchorable in Layout.Descendents().OfType<LayoutAnchorable>().ToArray())
-				{
 					CreateAnchorableLayoutItem(anchorable);
-					//var anchorableItem = new LayoutAnchorableItem();
-					//anchorableItem.Attach(anchorable);
-					//ApplyStyleToLayoutItem(anchorableItem);
-					//_layoutItems.Add(anchorableItem);
-				}
 
 				Layout.ElementAdded += new EventHandler<LayoutElementEventArgs>(Layout_ElementAdded);
 				Layout.ElementRemoved += new EventHandler<LayoutElementEventArgs>(Layout_ElementRemoved);
