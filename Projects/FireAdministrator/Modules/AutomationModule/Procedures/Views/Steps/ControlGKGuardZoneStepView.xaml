@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AutomationModule.Views.ControlGKFireZoneStepView"
+﻿<UserControl x:Class="AutomationModule.Views.ControlGKGuardZoneStepView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Grid>
@@ -7,7 +7,7 @@
 				<Label Content="Зона: " VerticalAlignment="Top" Margin="2"/>
 				<TextBlock Margin="20,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
 				<Hyperlink Command="{Binding SelectZoneCommand}" Style="{StaticResource HyperlinkStyle}" >
-					<TextBlock Text="{Binding SelectedZone.Zone.PresentationName}" Visibility="{Binding Path= SelectedZone, Converter={StaticResource NullToVisibilityConverter}}"/>
+					<TextBlock Text="{Binding SelectedZone.GuardZone.PresentationName}" Visibility="{Binding Path= SelectedZone, Converter={StaticResource NullToVisibilityConverter}}"/>
 					<TextBlock Text="Нажмите для выбора зоны" >
 						<TextBlock.Style>
 							<Style>

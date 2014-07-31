@@ -10,28 +10,32 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlGKFireZoneStepViewModel: BaseViewModel, IStepViewModel
+	public class ControlGKGuardZoneStepViewModel: BaseViewModel, IStepViewModel
 	{
-		ControlGKFireZoneArguments ControlGKFireZoneArguments { get; set; }
-		public ControlGKFireZoneStepViewModel(ControlGKFireZoneArguments controlGKFireZoneArguments)
+		ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
+		public ControlGKGuardZoneStepViewModel(ControlGKGuardZoneArguments controlGKGuardZoneArguments)
 		{
-			ControlGKFireZoneArguments = controlGKFireZoneArguments;
-			Commands = new ObservableCollection<ZoneCommandType> { ZoneCommandType.Ignore, ZoneCommandType.ResetIgnore, ZoneCommandType.ResetIgnore };
+			ControlGKGuardZoneArguments = controlGKGuardZoneArguments;
+			Commands = new ObservableCollection<GuardZoneCommandType>
+			{
+				GuardZoneCommandType.Automatic, GuardZoneCommandType.Manual, GuardZoneCommandType.Ignore, GuardZoneCommandType.TurnOn,
+				GuardZoneCommandType.TurnOnNow, GuardZoneCommandType.TurnOff, GuardZoneCommandType.Reset
+			};
 			OnPropertyChanged(() => Commands);
 			SelectZoneCommand = new RelayCommand(OnSelectZone);
 			UpdateContent();
 		}
 
-		public ObservableCollection<ZoneCommandType> Commands { get; private set; }
+		public ObservableCollection<GuardZoneCommandType> Commands { get; private set; }
 
-		ZoneCommandType _selectedCommand;
-		public ZoneCommandType SelectedCommand
+		GuardZoneCommandType _selectedCommand;
+		public GuardZoneCommandType SelectedCommand
 		{
 			get { return _selectedCommand; }
 			set
 			{
 				_selectedCommand = value;
-				ControlGKFireZoneArguments.ZoneCommandType = value;
+				ControlGKGuardZoneArguments.GuardZoneCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
 			}
 		}
@@ -43,10 +47,10 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedZone = value;
-				ControlGKFireZoneArguments.ZoneUid = Guid.Empty;
+				ControlGKGuardZoneArguments.ZoneUid = Guid.Empty;
 				if (_selectedZone != null)
 				{
-					ControlGKFireZoneArguments.ZoneUid = _selectedZone.Zone.UID;
+					ControlGKGuardZoneArguments.ZoneUid = _selectedZone.GuardZone.UID;
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedZone);
@@ -56,7 +60,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand SelectZoneCommand { get; private set; }
 		private void OnSelectZone()
 		{
-			var zoneSelectationViewModel = new ZoneSelectionViewModel(SelectedZone != null ? SelectedZone.Zone : null);
+			var zoneSelectationViewModel = new GuardZoneSelectionViewModel(SelectedZone != null ? SelectedZone.GuardZone : null);
 			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 			{
 				SelectedZone = zoneSelectationViewModel.SelectedZone;
@@ -66,11 +70,11 @@ namespace AutomationModule.ViewModels
 		public void UpdateContent()
 		{
 			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
-			if (ControlGKFireZoneArguments.ZoneUid != Guid.Empty)
+			if (ControlGKGuardZoneArguments.ZoneUid != Guid.Empty)
 			{
-				var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == ControlGKFireZoneArguments.ZoneUid);
+				var zone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == ControlGKGuardZoneArguments.ZoneUid);
 				SelectedZone = zone != null ? new ZoneViewModel(zone) : null;
-				SelectedCommand = ControlGKFireZoneArguments.ZoneCommandType;
+				SelectedCommand = ControlGKGuardZoneArguments.GuardZoneCommandType;
 			}
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}

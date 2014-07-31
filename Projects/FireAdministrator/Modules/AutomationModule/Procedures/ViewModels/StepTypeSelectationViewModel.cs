@@ -73,18 +73,18 @@ namespace AutomationModule.ViewModels
 					new StepTypeViewModel("Интерактивные функции",
 						new List<StepTypeViewModel>()
 						{
-							new StepTypeViewModel(ProcedureStepType.ProcedureSelection),
+							new StepTypeViewModel(ProcedureStepType.ProcedureSelection)
 						}),
 					new StepTypeViewModel("Поля объектов",
 						new List<StepTypeViewModel>()
 						{
 							new StepTypeViewModel(ProcedureStepType.SetObjectField),
-							new StepTypeViewModel(ProcedureStepType.GetObjectField),
+							new StepTypeViewModel(ProcedureStepType.GetObjectField)
 						}),
 					new StepTypeViewModel("Проигрывание звука",
 						new List<StepTypeViewModel>()
 						{
-							new StepTypeViewModel(ProcedureStepType.PlaySound),
+							new StepTypeViewModel(ProcedureStepType.PlaySound)
 						}),
 					new StepTypeViewModel("Различная логика",
 						new List<StepTypeViewModel>()
@@ -93,7 +93,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.PersonInspection),
 							new StepTypeViewModel(ProcedureStepType.FindObjects),
 							new StepTypeViewModel(ProcedureStepType.SendMessage),
-							new StepTypeViewModel(ProcedureStepType.ReportExport),
+							new StepTypeViewModel(ProcedureStepType.ReportExport)
 						}),
 					new StepTypeViewModel("Служебные функции",
 						new List<StepTypeViewModel>()
@@ -104,7 +104,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.IncrementGlobalValue),
 							new StepTypeViewModel(ProcedureStepType.SendEmail),
 							new StepTypeViewModel(ProcedureStepType.Pause),
-							new StepTypeViewModel(ProcedureStepType.SendDebugMessage),
+							new StepTypeViewModel(ProcedureStepType.SendDebugMessage)
 						}),
 					new StepTypeViewModel("Управление аппаратурой",
 						new List<StepTypeViewModel>()
@@ -115,17 +115,19 @@ namespace AutomationModule.ViewModels
 									new StepTypeViewModel(ProcedureStepType.ControlGKDevice),
 									new StepTypeViewModel(ProcedureStepType.ControlGKFireZone),
 									new StepTypeViewModel(ProcedureStepType.ControlGKGuardZone),
+									new StepTypeViewModel(ProcedureStepType.ControlDirection)
 								}),
 							new StepTypeViewModel("Управление СКД",
 								new List<StepTypeViewModel>()
 								{
 									new StepTypeViewModel(ProcedureStepType.ControlSKDGKDevice),
 									new StepTypeViewModel(ProcedureStepType.ControlSKDZone),
+									new StepTypeViewModel(ProcedureStepType.ControlDoor)
 								}),
 							new StepTypeViewModel("Управление Видео",
 								new List<StepTypeViewModel>()
 								{
-									new StepTypeViewModel(ProcedureStepType.ControlCamera),
+									new StepTypeViewModel(ProcedureStepType.ControlCamera)
 								}),
 						}),
 

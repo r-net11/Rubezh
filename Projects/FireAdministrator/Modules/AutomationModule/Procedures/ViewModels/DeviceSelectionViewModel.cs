@@ -9,6 +9,7 @@ namespace AutomationModule.ViewModels
 	{
 		public DeviceSelectionViewModel(XDevice device)
 		{
+			Title = "Выбор устройства";
 			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
 			if (device != null)
 				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == device.UID);

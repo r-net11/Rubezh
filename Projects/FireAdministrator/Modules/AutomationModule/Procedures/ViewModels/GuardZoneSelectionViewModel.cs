@@ -6,15 +6,15 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
-	public class ZoneSelectionViewModel : SaveCancelDialogViewModel
+	public class GuardZoneSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public ZoneSelectionViewModel(XZone zone)
+		public GuardZoneSelectionViewModel(XGuardZone guardZone)
 		{
-			Title = "Выбор зоны";
+			Title = "Выбор охранной зоны";
 			Zones = new ObservableCollection<ZoneViewModel>();
-			XManager.Zones.ForEach(x => Zones.Add(new ZoneViewModel(x)));
-			if (zone != null)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zone.UID);
+			XManager.GuardZones.ForEach(x => Zones.Add(new ZoneViewModel(x)));
+			if (guardZone != null)
+				SelectedZone = Zones.FirstOrDefault(x => x.GuardZone.UID == guardZone.UID);
 			if (SelectedZone == null)
 				SelectedZone = Zones.FirstOrDefault();
 		}

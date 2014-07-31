@@ -1,19 +1,19 @@
-﻿<UserControl x:Class="AutomationModule.Views.ControlGKFireZoneStepView"
+﻿<UserControl x:Class="AutomationModule.Views.ControlDoorStepView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Grid>
 		<StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Зона: " VerticalAlignment="Top" Margin="2"/>
-				<TextBlock Margin="20,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
-				<Hyperlink Command="{Binding SelectZoneCommand}" Style="{StaticResource HyperlinkStyle}" >
-					<TextBlock Text="{Binding SelectedZone.Zone.PresentationName}" Visibility="{Binding Path= SelectedZone, Converter={StaticResource NullToVisibilityConverter}}"/>
-					<TextBlock Text="Нажмите для выбора зоны" >
+				<Label Content="Точка доступа: " VerticalAlignment="Top" Margin="2"/>
+				<TextBlock Margin="0,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
+				<Hyperlink Command="{Binding SelectDoorCommand}" Style="{StaticResource HyperlinkStyle}" >
+					<TextBlock Text="{Binding SelectedDoor.Door.Name}" Visibility="{Binding Path= SelectedDoor, Converter={StaticResource NullToVisibilityConverter}}"/>
+					<TextBlock Text="Нажмите для выбора точки доступа" >
 						<TextBlock.Style>
 							<Style>
 								<Setter Property="TextBlock.Visibility" Value="Collapsed" />
 								<Style.Triggers>
-									<DataTrigger Binding="{Binding SelectedZone}" Value="{x:Null}">
+									<DataTrigger Binding="{Binding SelectedDoor}" Value="{x:Null}">
 										<Setter Property="TextBlock.Visibility" Value="Visible" />
 									</DataTrigger>
 								</Style.Triggers>
@@ -25,7 +25,7 @@
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Команда:"></Label>
-				<ComboBox ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand, UpdateSourceTrigger=PropertyChanged}" Margin="4,0,0,0" >
+				<ComboBox ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand, UpdateSourceTrigger=PropertyChanged}" Margin="30,0,0,0" >
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -36,3 +36,4 @@
 		</StackPanel>
 	</Grid>
 </UserControl>
+
