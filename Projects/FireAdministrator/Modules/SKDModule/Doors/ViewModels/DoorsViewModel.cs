@@ -106,8 +106,8 @@ namespace SKDModule.ViewModels
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var index = Doors.IndexOf(SelectedDoor);
-				SKDManager.SKDConfiguration.Doors.Remove(SelectedDoor.Door);
-				SelectedDoor.Door.OnChanged();
+				SKDManager.RemoveDoor(SelectedDoor.Door);
+
 				Doors.Remove(SelectedDoor);
 				index = Math.Min(index, Doors.Count - 1);
 				if (index > -1)
