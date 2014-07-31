@@ -140,8 +140,10 @@
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
                     <StackPanel Grid.Row="1" Background="White">
-                        <Button Width="200" Height="50" Margin="2" Command="{Binding OpenCommand}" Content="Открыть" />
-                        <Button Width="200" Height="50" Margin="2" Command="{Binding CloseCommand}" Content="Закрыть" />
+                        <Button Content="Открыть" Command="{Binding OpenCommand}" Width="200" Height="50" Margin="2" />
+                        <Button Content="Закрыть" Command="{Binding CloseCommand}" Width="200" Height="50" Margin="2" />
+                        <Button Content="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" Width="200" Height="50" Margin="2" />
+                        <Button Content="Установить режим ЗАКРЫТО" Command="{Binding CloseForeverCommand}" Width="200" Height="50" Margin="2" />
                     </StackPanel>
                 </Grid>
 			</TabItem>

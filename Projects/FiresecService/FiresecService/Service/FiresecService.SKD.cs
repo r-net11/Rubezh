@@ -419,6 +419,37 @@ namespace FiresecService.Service
 				return new OperationResult<bool>("Устройство не найдено в конфигурации");
 			}
 		}
+
+		public OperationResult<bool> SKDOpenDeviceForever(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, device);
+				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
+				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
+		}
+
+		public OperationResult<bool> SKDCloseDeviceForever(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Закрыто, device);
+				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
+				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
+		}
+
 		public OperationResult<bool> SKDOpenZone(Guid zoneUID)
 		{
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
@@ -487,6 +518,78 @@ namespace FiresecService.Service
 				return new OperationResult<bool>("Зона не найдена в конфигурации");
 			}
 		}
+
+		public OperationResult<bool> SKDOpenZoneForever(Guid zoneUID)
+		{
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_зоны_в_режим_Открыто, zone);
+				var errors = new List<string>();
+				foreach (var device in zone.Devices)
+				{
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					if (lockDevice != null)
+					{
+						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
+						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						if (result.HasError)
+						{
+							errors.Add(result.Error);
+						}
+					}
+					else
+					{
+						return new OperationResult<bool>("Для зоны не найден замок");
+					}
+				}
+				if (errors.Count > 0)
+				{
+					return new OperationResult<bool>(String.Join("\n", errors));
+				}
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Зона не найдена в конфигурации");
+			}
+		}
+		public OperationResult<bool> SKDCloseZoneForever(Guid zoneUID)
+		{
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_зоны_в_режим_Закрыто, zone);
+				var errors = new List<string>();
+				foreach (var device in zone.Devices)
+				{
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					if (lockDevice != null)
+					{
+						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
+						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						if (result.HasError)
+						{
+							errors.Add(result.Error);
+						}
+					}
+					else
+					{
+						return new OperationResult<bool>("Для зоны не найден замок");
+					}
+				}
+				if (errors.Count > 0)
+				{
+					return new OperationResult<bool>(String.Join("\n", errors));
+				}
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Зона не найдена в конфигурации");
+			}
+		}
+
 		public OperationResult<bool> SKDOpenDoor(Guid doorUID)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
@@ -527,6 +630,65 @@ namespace FiresecService.Service
 					if (lockDevice != null)
 					{
 						return ChinaSKDDriver.Processor.CloseDoor(lockDevice);
+					}
+					else
+					{
+						return new OperationResult<bool>("Для точки доступа не найден замок");
+					}
+				}
+				else
+				{
+					return new OperationResult<bool>("У точки доступа не указано устройство входа");
+				}
+			}
+			else
+			{
+				return new OperationResult<bool>("Точка доступа не найдена в конфигурации");
+			}
+		}
+
+		public OperationResult<bool> SKDOpenDoorForever(Guid doorUID)
+		{
+			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
+			if (door != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Открыто, door);
+				if (door.InDevice != null)
+				{
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
+					if (lockDevice != null)
+					{
+						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
+						return ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+					}
+					else
+					{
+						return new OperationResult<bool>("Для точки доступа не найден замок");
+					}
+				}
+				else
+				{
+					return new OperationResult<bool>("У точки доступа не указано устройство входа");
+				}
+			}
+			else
+			{
+				return new OperationResult<bool>("Точка доступа не найдена в конфигурации");
+			}
+		}
+		public OperationResult<bool> SKDCloseDoorForever(Guid doorUID)
+		{
+			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
+			if (door != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Закрыто, door);
+				if (door.InDevice != null)
+				{
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
+					if (lockDevice != null)
+					{
+						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
+						return ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
 					}
 					else
 					{

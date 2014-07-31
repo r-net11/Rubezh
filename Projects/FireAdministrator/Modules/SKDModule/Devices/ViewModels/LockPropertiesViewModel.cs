@@ -266,7 +266,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
-			var result = FiresecManager.FiresecService.SKDGetDoorConfiguration(Device.UID);
+			var result = FiresecManager.FiresecService.SKDGetDoorConfiguration(Device);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error);
@@ -286,7 +286,7 @@ namespace SKDModule.ViewModels
 		void OnSetDoorConfiguration()
 		{
 			var doorConfiguration = GetModel();
-			var result = FiresecManager.FiresecService.SKDSetDoorConfiguration(Device.UID, doorConfiguration);
+			var result = FiresecManager.FiresecService.SKDSetDoorConfiguration(Device, doorConfiguration);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error);

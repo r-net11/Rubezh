@@ -30,6 +30,8 @@ namespace SKDModule.ViewModels
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
 			CloseCommand = new RelayCommand(OnClose, CanClose);
+			OpenForeverCommand = new RelayCommand(OnOpenForever, CanOpenForever);
+			CloseForeverCommand = new RelayCommand(OnCloseForever, CanCloseForever);
 
 			Door = door;
 			State.StateChanged -= new Action(OnStateChanged);
@@ -74,7 +76,7 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var result = FiresecManager.FiresecService.SKDOpenDoor(Door.UID);
+				var result = FiresecManager.FiresecService.SKDOpenDoor(Door);
 				if (result.HasError)
 				{
 					MessageBoxService.ShowWarning(result.Error);
@@ -91,7 +93,7 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var result = FiresecManager.FiresecService.SKDCloseDoor(Door.UID);
+				var result = FiresecManager.FiresecService.SKDCloseDoor(Door);
 				if (result.HasError)
 				{
 					MessageBoxService.ShowWarning(result.Error);
@@ -101,6 +103,40 @@ namespace SKDModule.ViewModels
 		bool CanClose()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Door.State.StateClass != XStateClass.Off && Door.State.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand OpenForeverCommand { get; private set; }
+		void OnOpenForever()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDOpenDoorForever(Door);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanOpenForever()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand CloseForeverCommand { get; private set; }
+		void OnCloseForever()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDCloseDoorForever(Door);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanCloseForever()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand ShowCommand { get; private set; }

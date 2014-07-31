@@ -70,7 +70,9 @@
 				<StackPanel Background="White">
 					<Button Content="Открыть все двери" Command="{Binding OpenCommand}" Width="200" Height="50" Margin="2" />
 					<Button Content="Закрыть все двери" Command="{Binding CloseCommand}" Width="200" Height="50" Margin="2" />
-					<Button Content="Обнаружение сотрудников" Command="{Binding DetectEmployeesCommand}" Width="200" Height="50" IsEnabled="False" Margin="2" />
+                    <Button Content="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" Width="200" Height="50" Margin="2" />
+                    <Button Content="Установить режим ЗАКРЫТО" Command="{Binding CloseForeverCommand}" Width="200" Height="50" Margin="2" />
+                    <Button Content="Обнаружение сотрудников" Command="{Binding DetectEmployeesCommand}" Width="200" Height="50" IsEnabled="False" Margin="2" />
 				</StackPanel>
 			</TabItem>
 		</TabControl>
