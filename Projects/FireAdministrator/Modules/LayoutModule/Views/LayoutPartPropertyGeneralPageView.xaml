@@ -3,7 +3,7 @@
 		<SwitchConverter x:Key="UnitTypeConverter" Else="{x:Null}">
 			<SwitchCase Then="Авто" When="Auto" />
 			<SwitchCase Then="Пиксели" When="Pixel" />
-			<SwitchCase Then="Звездочка" When="Star" />
+			<SwitchCase Then="Все свободное" When="Star" />
 		</SwitchConverter>
 		<Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
 			<Setter Property="ItemTemplate">

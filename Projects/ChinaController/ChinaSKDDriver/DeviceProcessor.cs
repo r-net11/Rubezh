@@ -17,6 +17,7 @@ namespace ChinaSKDDriver
 		public SKDDevice Device { get; private set; }
 		public int LoginID { get; private set; }
 		public bool IsConnected { get; private set; }
+		public string LoginFailureReason { get; private set; }
 		Thread Thread;
 		bool IsStopping;
 		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
@@ -216,6 +217,7 @@ namespace ChinaSKDDriver
 
 		public void Stop()
 		{
+			Wrapper.NewJournalItem -= new Action<SKDJournalItem>(Wrapper_NewJournalItem);
 			Wrapper.Disconnect();
 			IsStopping = true;
 			if (AutoResetEvent != null)
@@ -295,7 +297,9 @@ namespace ChinaSKDDriver
 			{
 				password = passwordProperty.StringValue;
 			}
-			LoginID = Wrapper.Connect(addresss, port, login, password);
+			string error;
+			LoginID = Wrapper.Connect(addresss, port, login, password, out error);
+			LoginFailureReason = error;
 		}
 	}
 }

@@ -110,8 +110,8 @@ namespace ChinaSKDDriver
 			NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD nativeCard = new NativeWrapper.NET_RECORDSET_ACCESS_CTL_CARD();
 			nativeCard.bIsValid = true;
 			nativeCard.nUserTime = card.UserTime;
-			nativeCard.emStatus = NativeWrapper.NET_ACCESSCTLCARD_STATE.NET_ACCESSCTLCARD_STATE_NORMAL;
 			nativeCard.emType = (NativeWrapper.NET_ACCESSCTLCARD_TYPE)card.CardType;
+			nativeCard.emStatus = (NativeWrapper.NET_ACCESSCTLCARD_STATE)card.CardStatus;
 
 			nativeCard.stuCreateTime.dwYear = DateTime.Now.Year;
 			nativeCard.stuCreateTime.dwMonth = DateTime.Now.Month;
@@ -161,6 +161,7 @@ namespace ChinaSKDDriver
 			card.RecordNo = nativeCard.nRecNo;
 			card.CardNo = nativeCard.szCardNo;
 			card.CardType = (CardType)nativeCard.emType;
+			card.CardStatus = (CardStatus)nativeCard.emStatus;
 			card.Password = nativeCard.szPsw;
 			card.DoorsCount = nativeCard.nDoorNum;
 			card.Doors = nativeCard.sznDoors.ToList();

@@ -3,6 +3,8 @@ using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using GKProcessor;
+using FiresecAPI;
+using System;
 
 namespace FiresecService.Processor
 {
@@ -73,14 +75,26 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.PlaySound:
+					var automationCallbackResult = new AutomationCallbackResult();
+					automationCallbackResult.SoundUID = Guid.Empty;
+					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Sound;
+					FiresecService.Service.FiresecService.NotifyAutomation(automationCallbackResult);
 					break;
 
 				case ProcedureStepType.SendMessage:
 					GKProcessorManager.AddGKMessage(JournalEventNameType.Команда_оператора, "Запуск процедуры", null, null);
+					automationCallbackResult = new AutomationCallbackResult();
+					automationCallbackResult.Message = "Запуск процедуры";
+					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
+					FiresecService.Service.FiresecService.NotifyAutomation(automationCallbackResult);
 					break;
 
 				case ProcedureStepType.FindObjects:
 					ProcedureHelper.FindObjects(procedureStep, procedure);
+					break;
+
+				case ProcedureStepType.ControlGKDevice:
+					ProcedureHelper.ControlGKDevice(procedureStep);
 					break;
 			}
 		}

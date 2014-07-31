@@ -60,6 +60,16 @@ namespace FiresecService.Service
 			CallbackManager.Add(callbackResult);
 		}
 
+		public static void NotifyAutomation(AutomationCallbackResult automationCallbackResult)
+		{
+			var callbackResult = new CallbackResult()
+			{
+				CallbackResultType = CallbackResultType.AutomationCallbackResult,
+				AutomationCallbackResult = automationCallbackResult
+			};
+			CallbackManager.Add(callbackResult);
+		}
+
 		public static void NotifyNewJournalItems(List<JournalItem> journalItems)
 		{
 			var callbackResult = new CallbackResult()

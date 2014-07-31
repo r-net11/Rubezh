@@ -17,7 +17,7 @@ namespace ChinaSKDDriver
 				if (deviceProcessor != null)
 				{
 					if (!deviceProcessor.IsConnected)
-						return new OperationResult<bool>("Нет связи с контроллером");
+						return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 					var result = deviceProcessor.Wrapper.OpenDoor(device.IntAddress);
 					if (result)
@@ -37,7 +37,7 @@ namespace ChinaSKDDriver
 				if (deviceProcessor != null)
 				{
 					if (!deviceProcessor.IsConnected)
-						return new OperationResult<bool>("Нет связи с контроллером");
+						return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 					var result = deviceProcessor.Wrapper.CloseDoor(device.IntAddress);
 					if (result)
@@ -55,14 +55,16 @@ namespace ChinaSKDDriver
 			if (deviceProcessor != null)
 			{
 				if (!deviceProcessor.IsConnected)
-					return new OperationResult<bool>("Нет связи с контроллером");
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var result = deviceProcessor.Wrapper.RemoveAllCards();
 				if (!result)
 					return new OperationResult<bool>("Ошибка при удалении всех карт в приборе");
 
 				var cardWriter = new CardWriter();
-				cardWriter.RewriteAllCards(device, cards, accessTemplates);
+				result = cardWriter.RewriteAllCards(device, cards, accessTemplates);
+				if(!result)
+					return new OperationResult<bool>("Операция отменена");
 
 				foreach (var controllerCardItem in cardWriter.ControllerCardItems)
 				{

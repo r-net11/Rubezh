@@ -27,6 +27,14 @@
 		<Views:FilterSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:DeviceSelectionViewModel}">
+		<Views:DeviceSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ZoneSelectionViewModel}">
+		<Views:ZoneSelectionView />
+	</DataTemplate>
+	
 	<DataTemplate x:Key="soundsTemplate">
 		<Views:SoundStepView />
 	</DataTemplate>
@@ -75,6 +83,14 @@
 		<Views:IncrementGlobalValueStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="controlGKDeviceTemplate">
+		<Views:ControlGKDeviceStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlGKFireZoneTemplate">
+		<Views:ControlGKFireZoneStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
@@ -88,6 +104,8 @@
 		PersonInspectionTemplate="{StaticResource personInspectionTemplate}"
 		SetGlobalValueTemplate="{StaticResource setGlobalValueTemplate}"
 		IncrementGlobalValueTemplate="{StaticResource incrementGlobalValueTemplate}"
+		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
+		ControlGKFireZoneTemplate="{StaticResource controlGKFireZoneTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

@@ -14,6 +14,9 @@ namespace FiresecAPI.SKD
 		OneTime,
 
 		[Description("Заблокирован")]
-		Blocked
+		Blocked,
+
+		[Description("Принуждение")]
+		Duress
 	}
 }

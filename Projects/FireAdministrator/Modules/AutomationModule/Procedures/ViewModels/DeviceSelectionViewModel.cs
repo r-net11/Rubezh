@@ -1,14 +1,21 @@
-﻿using FiresecAPI.GK;
+﻿using System.Linq;
+using FiresecAPI.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
 {
-	public class DeviceSelectationViewModel : BaseViewModel
+	public class DeviceSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public DeviceSelectationViewModel()
+		public DeviceSelectionViewModel(XDevice device)
 		{
 			RootDevice = AddDeviceInternal(XManager.DeviceConfiguration.RootDevice, null);
+			if (device != null)
+				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault(x => x.Device.UID == device.UID);
+			if (SelectedDevice == null)
+				SelectedDevice = RootDevice.GetAllChildren().FirstOrDefault();
+			if(SelectedDevice != null)
+				SelectedDevice.ExpandToThis();
 		}
 
 		DeviceViewModel AddDeviceInternal(XDevice device, DeviceViewModel parentDeviceViewModel)
@@ -47,6 +54,11 @@ namespace AutomationModule.ViewModels
 				_selectedDevice = value;
 				OnPropertyChanged(() => SelectedDevice);
 			}
+		}
+
+		protected override bool CanSave()
+		{
+			return ((SelectedDevice != null) && ((SelectedDevice.Device.Driver.IsControlDevice) || (SelectedDevice.Device.Driver.IsDeviceOnShleif)));
 		}
 	}
 }

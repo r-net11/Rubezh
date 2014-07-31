@@ -30,6 +30,9 @@ namespace FiresecAPI
 
 		[DataMember]
 		public SKDStates SKDStates { get; set; }
+
+		[DataMember]
+		public AutomationCallbackResult AutomationCallbackResult { get; set; }
 	}
 
 	public enum CallbackResultType
@@ -40,6 +43,7 @@ namespace FiresecAPI
 		SKDObjectStateChanged,
 		NewEvents,
 		ArchiveCompleted,
+		AutomationCallbackResult,
 		ConfigurationChanged,
 		Disconnecting
 	}

@@ -91,7 +91,10 @@ namespace Controls
 			get
 			{
 				int result = 0;
-				int.TryParse(TextBox.Text.Substring(3, 2), out result);
+				if (TextBox.Text.Length >= 5)
+				{
+					int.TryParse(TextBox.Text.Substring(3, 2), out result);
+				}
 				return result;
 			}
 			set

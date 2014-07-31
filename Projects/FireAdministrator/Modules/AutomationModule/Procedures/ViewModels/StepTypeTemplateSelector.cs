@@ -17,6 +17,8 @@ namespace AutomationModule.ViewModels
 		public DataTemplate PersonInspectionTemplate { get; set; }
 		public DataTemplate SetGlobalValueTemplate { get; set; }
 		public DataTemplate IncrementGlobalValueTemplate { get; set; }
+		public DataTemplate ControlGKDeviceTemplate { get; set; }
+		public DataTemplate ControlGKFireZoneTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -68,7 +70,15 @@ namespace AutomationModule.ViewModels
 			{
 				return IncrementGlobalValueTemplate;
 			}
-			
+			if (item is ControlGKDeviceStepViewModel)
+			{
+				return ControlGKDeviceTemplate;
+			}
+			if (item is ControlGKFireZoneStepViewModel)
+			{
+				return ControlGKFireZoneTemplate;
+			}
+
 			return null;
 		}
 	}

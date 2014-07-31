@@ -25,6 +25,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
 				<TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Тип пропуска" Margin="2" />
@@ -39,7 +40,10 @@
 					<TextBlock Text="{Binding SelectedCardType, Converter={StaticResource CardTypeToLongStringConverter}}" TextWrapping="Wrap" Foreground="White" Margin="2" />
 				</StackPanel>
 
-				<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Foreground="White" Text="Пароль" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Password}" Margin="2" />
+
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
 					<StackPanel>
 						<TextBlock Margin="2" HorizontalAlignment="Center" Foreground="White" Text="Начало действия" />
 						<Calendar Margin="2" VerticalAlignment="Top" BorderBrush="#66ff9829" BorderThickness="2" DisplayDate="{Binding StartDate}" IsTodayHighlighted="False" SelectedDate="{Binding StartDate}" SelectionMode="SingleDate" />
@@ -51,11 +55,11 @@
 					</StackPanel>
 				</StackPanel>
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Номер" />
-				<TextBox Grid.Row="2" Grid.Column="1" Width="100" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number}" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" HorizontalAlignment="Right" Foreground="White" Text="Номер" />
+				<TextBox Grid.Row="3" Grid.Column="1" Width="100" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Number}" />
 
-				<CheckBox Grid.Row="3" Grid.Column="0" Margin="2" VerticalAlignment="Center" Content="Из списка деактивированных" Foreground="White" IsChecked="{Binding UseStopList}" />
-				<ComboBox Grid.Row="3" Grid.Column="1" Width="100" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}">
+				<CheckBox Grid.Row="4" Grid.Column="0" Margin="2" VerticalAlignment="Center" Content="Из списка деактивированных" Foreground="White" IsChecked="{Binding UseStopList}" />
+				<ComboBox Grid.Row="4" Grid.Column="1" Width="100" Margin="2" HorizontalAlignment="Left" IsEnabled="{Binding UseStopList}" ItemsSource="{Binding StopListCards}" SelectedItem="{Binding SelectedStopListCard}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
                             <TextBlock Margin="1" Text="{Binding Number}" />
@@ -63,8 +67,8 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-				<CheckBox Grid.Row="4" Grid.Column="0" Margin="2" VerticalAlignment="Center" Content="От контрольного считывателя" Foreground="White" IsChecked="{Binding UseReader}" />
-				<StackPanel Grid.Row="4" Grid.Column="1" Margin="2">
+				<CheckBox Grid.Row="5" Grid.Column="0" Margin="2" VerticalAlignment="Center" Content="От контрольного считывателя" Foreground="White" IsChecked="{Binding UseReader}" />
+				<StackPanel Grid.Row="5" Grid.Column="1" Margin="2">
 					<TextBlock TextWrapping="Wrap">
 						<Hyperlink Command="{Binding ChangeReaderCommand}" Style="{StaticResource HyperlinkStyle}">
 							<TextBlock Text="{Binding ReaderName}" />
@@ -72,7 +76,7 @@
 					</TextBlock>
 				</StackPanel>
 
-				<Button Grid.Row="5" Grid.Column="1" Command="{Binding ShowUSBCardReaderCommand}" Content="От USB-считывателя" HorizontalAlignment="Left" Width="150" Margin="2" />
+				<Button Grid.Row="6" Grid.Column="1" Command="{Binding ShowUSBCardReaderCommand}" Content="От USB-считывателя" HorizontalAlignment="Left" Width="150" Margin="2" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Точки доступа">

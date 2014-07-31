@@ -64,6 +64,20 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.IncrementGlobalValue:
 					Content = new IncrementGlobalValueStepViewModel(step.IncrementGlobalValueArguments);
 					break;
+
+				case ProcedureStepType.ControlGKDevice:
+					Content = new ControlGKDeviceStepViewModel(step.ControlGKDeviceArguments);
+					break;
+				case ProcedureStepType.ControlGKFireZone:
+					Content = new ControlGKFireZoneStepViewModel(step.ControlGKFireZoneArguments);
+					break;
+					//case ProcedureStepType.ControlGKGuardZone
+					//case ProcedureStepType.ControlSKDGKDevice
+					//case ProcedureStepType.ControlSKDZone
+					//case ProcedureStepType.ControlCamera
+					//case ProcedureStepType.ControlDirection
+					//case ProcedureStepType.ControlDoor
+
 			}
 		}
 

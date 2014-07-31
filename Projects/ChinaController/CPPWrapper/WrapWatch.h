@@ -7,7 +7,7 @@ extern "C" CLIENT_API void CALL_METHOD WRAP_Initialize();
 
 extern "C" CLIENT_API void CALL_METHOD WRAP_Deinitialize();
 
-extern "C" CLIENT_API int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], char password[25]);
+extern "C" CLIENT_API int CALL_METHOD WRAP_Connect(char ipAddress[25], int port, char userName[25], char password[25], int* error);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Disconnect(int loginID);
 

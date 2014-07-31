@@ -31,6 +31,7 @@ namespace SKDModule.ViewModels
 				var accessDoorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
 				Doors.Add(accessDoorViewModel);
 			}
+			SelectedDoor = Doors.FirstOrDefault(x => x.IsChecked);
 		}
 
 		public ObservableCollection<AccessDoorViewModel> Doors { get; private set; }

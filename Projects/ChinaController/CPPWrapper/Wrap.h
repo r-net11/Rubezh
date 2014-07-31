@@ -67,39 +67,24 @@ extern "C" CLIENT_API int CALL_METHOD WRAP_GetDoorStatus(int loginID, int channe
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_Upgrade(int loginID, char fileName[256]);
 
-typedef struct
-{
-	int	nLogType;
-	DHDEVTIME stuOperateTime;
-	char szOperator[16];
-	char szOperation[32];
-	char szDetailContext[4*1024];
-} WRAP_LogItem;
-
-typedef struct tagNET_LOG_INFO2
+typedef struct tagWRAP_NET_LOG_INFO
 {
     NET_TIME stuTime;
     char szUserName[DH_COMMON_STRING_32];
     char szLogType[DH_COMMON_STRING_128];
 	char szLogMessage[DH_COMMON_STRING_1024];
-} NET_LOG_INFO2;
+} WRAP_NET_LOG_INFO;
 
 typedef struct
 {
-	WRAP_LogItem Logs[10];
-	NET_LOG_INFO2 Logs2[10];
-	int Test;
+	WRAP_NET_LOG_INFO Logs[10];
 } WRAP_Dev_QueryLogList_Result;
-
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_QueryLogList(int loginID, WRAP_Dev_QueryLogList_Result* result);
 
 extern "C" CLIENT_API int CALL_METHOD WRAP_GetLogCount(int loginID, QUERY_DEVICE_LOG_PARAM* logParam);
 
-
-
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_QueryStart(int loginID);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_QueryNext(WRAP_Dev_QueryLogList_Result* result);
+extern "C" CLIENT_API int CALL_METHOD WRAP_QueryNext(WRAP_Dev_QueryLogList_Result* result);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_QueryStop();
 

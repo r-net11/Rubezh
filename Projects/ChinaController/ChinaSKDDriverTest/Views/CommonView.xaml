@@ -11,7 +11,7 @@
         <Button Content="ReBoot" Command="{Binding ReBootCommand}" Width="300" Margin="2" />
         <Button Content="UpdateFirmware" Command="{Binding UpdateFirmwareCommand}" Width="300" Margin="2" />
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" IsEnabled="False">
             <Button Content="GetProjectPassword" Command="{Binding GetProjectPasswordCommand}" Width="300" Margin="2" />
             <Button Content="SetProjectPassword" Command="{Binding SetProjectPasswordCommand}" Width="300" Margin="2" />
         </StackPanel>

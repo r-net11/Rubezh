@@ -41,12 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Card.cs" />
-    <Compile Include="API\CardRec.cs" />
     <Compile Include="API\DeviceJournalItem.cs" />
     <Compile Include="API\DeviceNetInfo.cs" />
     <Compile Include="API\DeviceSoftwareInfo.cs" />
     <Compile Include="API\DoorConfiguration.cs" />
     <Compile Include="API\Holiday.cs" />
+    <Compile Include="API\LogItem.cs" />
     <Compile Include="API\Password.cs" />
     <Compile Include="API\SKDJournalItem.cs" />
     <Compile Include="API\TimeInterval.cs" />
@@ -56,7 +56,6 @@
     <Compile Include="Processor.Administrator.cs" />
     <Compile Include="Processor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SDK\Wrapper.CardRecs.cs" />
     <Compile Include="SDK\Wrapper.Carsds.cs" />
     <Compile Include="SDK\Wrapper.Holidys.cs" />
     <Compile Include="SDK\Wrapper.Passwords.cs" />
@@ -67,6 +66,7 @@
     <Compile Include="SDK\Wrapper.Control.cs" />
     <Compile Include="Processor.Monitor.cs" />
     <Compile Include="SDK\Wrapper.Logs.cs" />
+    <Compile Include="SDK\Wrapper.Native.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
