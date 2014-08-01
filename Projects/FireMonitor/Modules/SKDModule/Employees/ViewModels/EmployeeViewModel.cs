@@ -47,20 +47,26 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
 
+			Initialize();
+		}
+
+		private void Initialize()
+		{
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
-			foreach (var item in employee.Cards)
+			foreach (var item in ShortEmployee.Cards)
 				Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
 			SelectedCard = Cards.FirstOrDefault();
 
-			AppointedString = employee.Appointed;
-			DismissedString = employee.Dismissed;
-			DepartmentName = employee.DepartmentName;
-			PositionName = employee.PositionName;
+			AppointedString = ShortEmployee.Appointed;
+			DismissedString = ShortEmployee.Dismissed;
+			DepartmentName = ShortEmployee.DepartmentName;
+			PositionName = ShortEmployee.PositionName;
 		}
 
 		public void Update(ShortEmployee employee)
 		{
 			ShortEmployee = employee;
+			Initialize();
 			OnPropertyChanged(() => ShortEmployee);
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => DepartmentName);

@@ -150,20 +150,22 @@ namespace SKDModule.ViewModels
 			var columnTypes = AdditionalColumnTypeHelper.GetByCurrentUser();
 			if (columnTypes == null)
 				return;
-			AdditionalColumnTypes = columnTypes.ToList();
+			columnTypes = columnTypes.Where(x => x.DataType == AdditionalColumnDataType.Text);
+			AdditionalColumnTypes = columnTypes != null ? columnTypes.ToList() : new List<ShortAdditionalColumnType>();
 			foreach (var additionalColumnType in AdditionalColumnTypes)
 			{
 				//if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
 				if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
 					AdditionalColumnNames.Add(additionalColumnType.Name);
 			}
-			foreach (var employee in AllEmployees)
+			foreach (var employee in AllEmployees.Where(x => !x.IsOrganisation))
 			{
 				employee.AdditionalColumnValues = new ObservableCollection<string>();
 				foreach (var additionalColumnType in AdditionalColumnTypes)
 				{
-					if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
-						employee.AdditionalColumnValues.Add(additionalColumnType.Name + "/" + employee.Name);
+					var textColumn = employee.ShortEmployee.TextColumns.FirstOrDefault(x => x.ColumnTypeUID == additionalColumnType.UID);
+					var columnValue = textColumn != null ? textColumn.Text : "";
+					employee.AdditionalColumnValues.Add(columnValue);
 				}
 			}
 		}
