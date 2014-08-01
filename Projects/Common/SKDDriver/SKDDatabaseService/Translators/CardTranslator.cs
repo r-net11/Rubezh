@@ -10,13 +10,13 @@ namespace SKDDriver
 {
 	public class CardTranslator : IsDeletedTranslator<DataAccess.Card, SKDCard, CardFilter>
 	{
-		public CardTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardsTranslator)
+		public CardTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardDoorsTranslator)
 			: base(context)
 		{
-			CardZonesTranslator = cardsTranslator;
+			CardDoorsTranslator = cardDoorsTranslator;
 		}
 
-		CardDoorTranslator CardZonesTranslator;
+		CardDoorTranslator CardDoorsTranslator;
 
 		protected override OperationResult CanSave(SKDCard item)
 		{
@@ -44,7 +44,7 @@ namespace SKDDriver
 				{
 					if (item == null)
 						continue;
-					CardZonesTranslator.MarkDeleted(item.CardDoors);
+					CardDoorsTranslator.MarkDeleted(item.CardDoors);
 				}
 			}
 			catch (Exception e)
@@ -63,10 +63,10 @@ namespace SKDDriver
 			result.StartDate = tableItem.StartDate;
 			result.EndDate = tableItem.EndDate;
 			result.AccessTemplateUID = tableItem.AccessTemplateUID;
-			result.CardDoors = CardZonesTranslator.Get(tableItem.UID);
+			result.CardDoors = CardDoorsTranslator.Get(tableItem.UID);
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
-			result.CardTemplateUID = tableItem.CardTemplateUID;
+			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
 
 			var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
 			if (employee != null)
@@ -85,12 +85,12 @@ namespace SKDDriver
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
-			tableItem.CardTemplateUID = apiItem.CardTemplateUID;
+			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 		}
 
 		public override OperationResult Save(SKDCard item)
 		{
-			var updateZonesResult = CardZonesTranslator.SaveFromCard(item);
+			var updateZonesResult = CardDoorsTranslator.SaveFromCard(item);
 			if (updateZonesResult.HasError)
 				return updateZonesResult;
 			return base.Save(item);
@@ -103,7 +103,7 @@ namespace SKDDriver
 				var tableItem = Table.Where(x => x.UID == apiItem.UID).FirstOrDefault();
 				if (tableItem == null)
 					return new OperationResult("Карта не найдена в базе данных");
-				tableItem.CardTemplateUID = apiItem.CardTemplateUID;
+				tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 				Context.SubmitChanges();
 				return new OperationResult();
 			}

@@ -32,7 +32,7 @@ namespace FiresecAPI.SKD
 		public List<CardDoor> CardDoors { get; set; }
 
 		[DataMember]
-		public Guid? CardTemplateUID { get; set; }
+		public Guid? PassCardTemplateUID { get; set; }
 
 		[DataMember]
 		public Guid? AccessTemplateUID { get; set; }

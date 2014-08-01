@@ -11,10 +11,15 @@
 
 namespace SKDDriver.DataAccess
 {
-	using System;
-	using System.ComponentModel;
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
+	using System.Data;
+	using System.Collections.Generic;
+	using System.Reflection;
+	using System.Linq;
+	using System.Linq.Expressions;
+	using System.ComponentModel;
+	using System;
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="SKD")]
@@ -23,87 +28,87 @@ namespace SKDDriver.DataAccess
 		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
 		
-	#region Определения метода расширяемости
-	partial void OnCreated();
-	partial void InsertAccessTemplate(AccessTemplate instance);
-	partial void UpdateAccessTemplate(AccessTemplate instance);
-	partial void DeleteAccessTemplate(AccessTemplate instance);
-	partial void InsertEmployee(Employee instance);
-	partial void UpdateEmployee(Employee instance);
-	partial void DeleteEmployee(Employee instance);
-	partial void InsertPosition(Position instance);
-	partial void UpdatePosition(Position instance);
-	partial void DeletePosition(Position instance);
-	partial void InsertOrganisation(Organisation instance);
-	partial void UpdateOrganisation(Organisation instance);
-	partial void DeleteOrganisation(Organisation instance);
-	partial void InsertOrganisationDoor(OrganisationDoor instance);
-	partial void UpdateOrganisationDoor(OrganisationDoor instance);
-	partial void DeleteOrganisationDoor(OrganisationDoor instance);
-	partial void InsertOrganisationUser(OrganisationUser instance);
-	partial void UpdateOrganisationUser(OrganisationUser instance);
-	partial void DeleteOrganisationUser(OrganisationUser instance);
-	partial void InsertHoliday(Holiday instance);
-	partial void UpdateHoliday(Holiday instance);
-	partial void DeleteHoliday(Holiday instance);
-	partial void InsertAdditionalColumn(AdditionalColumn instance);
-	partial void UpdateAdditionalColumn(AdditionalColumn instance);
-	partial void DeleteAdditionalColumn(AdditionalColumn instance);
-	partial void InsertAdditionalColumnType(AdditionalColumnType instance);
-	partial void UpdateAdditionalColumnType(AdditionalColumnType instance);
-	partial void DeleteAdditionalColumnType(AdditionalColumnType instance);
-	partial void InsertSchedule(Schedule instance);
-	partial void UpdateSchedule(Schedule instance);
-	partial void DeleteSchedule(Schedule instance);
-	partial void InsertScheduleScheme(ScheduleScheme instance);
-	partial void UpdateScheduleScheme(ScheduleScheme instance);
-	partial void DeleteScheduleScheme(ScheduleScheme instance);
-	partial void InsertScheduleZone(ScheduleZone instance);
-	partial void UpdateScheduleZone(ScheduleZone instance);
-	partial void DeleteScheduleZone(ScheduleZone instance);
-	partial void InsertInterval(Interval instance);
-	partial void UpdateInterval(Interval instance);
-	partial void DeleteInterval(Interval instance);
-	partial void InsertNamedInterval(NamedInterval instance);
-	partial void UpdateNamedInterval(NamedInterval instance);
-	partial void DeleteNamedInterval(NamedInterval instance);
-	partial void InsertDay(Day instance);
-	partial void UpdateDay(Day instance);
-	partial void DeleteDay(Day instance);
-	partial void InsertDepartment(Department instance);
-	partial void UpdateDepartment(Department instance);
-	partial void DeleteDepartment(Department instance);
-	partial void InsertGuardZone(GuardZone instance);
-	partial void UpdateGuardZone(GuardZone instance);
-	partial void DeleteGuardZone(GuardZone instance);
-	partial void InsertPhone(Phone instance);
-	partial void UpdatePhone(Phone instance);
-	partial void DeletePhone(Phone instance);
-	partial void InsertPhoto(Photo instance);
-	partial void UpdatePhoto(Photo instance);
-	partial void DeletePhoto(Photo instance);
-	partial void InsertOrganisationZone(OrganisationZone instance);
-	partial void UpdateOrganisationZone(OrganisationZone instance);
-	partial void DeleteOrganisationZone(OrganisationZone instance);
-	partial void InsertPassJournal(PassJournal instance);
-	partial void UpdatePassJournal(PassJournal instance);
-	partial void DeletePassJournal(PassJournal instance);
-	partial void InsertPendingCard(PendingCard instance);
-	partial void UpdatePendingCard(PendingCard instance);
-	partial void DeletePendingCard(PendingCard instance);
-	partial void InsertOrganisationCardTemplate(OrganisationCardTemplate instance);
-	partial void UpdateOrganisationCardTemplate(OrganisationCardTemplate instance);
-	partial void DeleteOrganisationCardTemplate(OrganisationCardTemplate instance);
-	partial void InsertCard(Card instance);
-	partial void UpdateCard(Card instance);
-	partial void DeleteCard(Card instance);
-	partial void InsertJournal(Journal instance);
-	partial void UpdateJournal(Journal instance);
-	partial void DeleteJournal(Journal instance);
-	partial void InsertCardDoor(CardDoor instance);
-	partial void UpdateCardDoor(CardDoor instance);
-	partial void DeleteCardDoor(CardDoor instance);
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnCreated();
+    partial void InsertAccessTemplate(AccessTemplate instance);
+    partial void UpdateAccessTemplate(AccessTemplate instance);
+    partial void DeleteAccessTemplate(AccessTemplate instance);
+    partial void InsertEmployee(Employee instance);
+    partial void UpdateEmployee(Employee instance);
+    partial void DeleteEmployee(Employee instance);
+    partial void InsertPosition(Position instance);
+    partial void UpdatePosition(Position instance);
+    partial void DeletePosition(Position instance);
+    partial void InsertOrganisation(Organisation instance);
+    partial void UpdateOrganisation(Organisation instance);
+    partial void DeleteOrganisation(Organisation instance);
+    partial void InsertOrganisationDoor(OrganisationDoor instance);
+    partial void UpdateOrganisationDoor(OrganisationDoor instance);
+    partial void DeleteOrganisationDoor(OrganisationDoor instance);
+    partial void InsertOrganisationUser(OrganisationUser instance);
+    partial void UpdateOrganisationUser(OrganisationUser instance);
+    partial void DeleteOrganisationUser(OrganisationUser instance);
+    partial void InsertHoliday(Holiday instance);
+    partial void UpdateHoliday(Holiday instance);
+    partial void DeleteHoliday(Holiday instance);
+    partial void InsertAdditionalColumn(AdditionalColumn instance);
+    partial void UpdateAdditionalColumn(AdditionalColumn instance);
+    partial void DeleteAdditionalColumn(AdditionalColumn instance);
+    partial void InsertAdditionalColumnType(AdditionalColumnType instance);
+    partial void UpdateAdditionalColumnType(AdditionalColumnType instance);
+    partial void DeleteAdditionalColumnType(AdditionalColumnType instance);
+    partial void InsertSchedule(Schedule instance);
+    partial void UpdateSchedule(Schedule instance);
+    partial void DeleteSchedule(Schedule instance);
+    partial void InsertScheduleScheme(ScheduleScheme instance);
+    partial void UpdateScheduleScheme(ScheduleScheme instance);
+    partial void DeleteScheduleScheme(ScheduleScheme instance);
+    partial void InsertScheduleZone(ScheduleZone instance);
+    partial void UpdateScheduleZone(ScheduleZone instance);
+    partial void DeleteScheduleZone(ScheduleZone instance);
+    partial void InsertInterval(Interval instance);
+    partial void UpdateInterval(Interval instance);
+    partial void DeleteInterval(Interval instance);
+    partial void InsertNamedInterval(NamedInterval instance);
+    partial void UpdateNamedInterval(NamedInterval instance);
+    partial void DeleteNamedInterval(NamedInterval instance);
+    partial void InsertDay(Day instance);
+    partial void UpdateDay(Day instance);
+    partial void DeleteDay(Day instance);
+    partial void InsertDepartment(Department instance);
+    partial void UpdateDepartment(Department instance);
+    partial void DeleteDepartment(Department instance);
+    partial void InsertGuardZone(GuardZone instance);
+    partial void UpdateGuardZone(GuardZone instance);
+    partial void DeleteGuardZone(GuardZone instance);
+    partial void InsertPhone(Phone instance);
+    partial void UpdatePhone(Phone instance);
+    partial void DeletePhone(Phone instance);
+    partial void InsertPhoto(Photo instance);
+    partial void UpdatePhoto(Photo instance);
+    partial void DeletePhoto(Photo instance);
+    partial void InsertOrganisationZone(OrganisationZone instance);
+    partial void UpdateOrganisationZone(OrganisationZone instance);
+    partial void DeleteOrganisationZone(OrganisationZone instance);
+    partial void InsertPassJournal(PassJournal instance);
+    partial void UpdatePassJournal(PassJournal instance);
+    partial void DeletePassJournal(PassJournal instance);
+    partial void InsertPendingCard(PendingCard instance);
+    partial void UpdatePendingCard(PendingCard instance);
+    partial void DeletePendingCard(PendingCard instance);
+    partial void InsertOrganisationCardTemplate(OrganisationCardTemplate instance);
+    partial void UpdateOrganisationCardTemplate(OrganisationCardTemplate instance);
+    partial void DeleteOrganisationCardTemplate(OrganisationCardTemplate instance);
+    partial void InsertCardDoor(CardDoor instance);
+    partial void UpdateCardDoor(CardDoor instance);
+    partial void DeleteCardDoor(CardDoor instance);
+    partial void InsertCard(Card instance);
+    partial void UpdateCard(Card instance);
+    partial void DeleteCard(Card instance);
+    partial void InsertJournal(Journal instance);
+    partial void UpdateJournal(Journal instance);
+    partial void DeleteJournal(Journal instance);
+    #endregion
 		
 		public SKDDataContext() : 
 				base(global::SKDDriver.Properties.Settings.Default.ConnectionString, mappingSource)
@@ -327,6 +332,14 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
+		public System.Data.Linq.Table<CardDoor> CardDoors
+		{
+			get
+			{
+				return this.GetTable<CardDoor>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Card> Cards
 		{
 			get
@@ -340,14 +353,6 @@ namespace SKDDriver.DataAccess
 			get
 			{
 				return this.GetTable<Journal>();
-			}
-		}
-		
-		public System.Data.Linq.Table<CardDoor> CardDoors
-		{
-			get
-			{
-				return this.GetTable<CardDoor>();
 			}
 		}
 	}
@@ -372,35 +377,35 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<GuardZone> _GuardZones;
 		
-		private EntitySet<Card> _Cards;
-		
 		private EntitySet<CardDoor> _CardDoors;
+		
+		private EntitySet<Card> _Cards;
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNameChanging(string value);
-	partial void OnNameChanged();
-	partial void OnDescriptionChanging(string value);
-	partial void OnDescriptionChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public AccessTemplate()
 		{
 			this._GuardZones = new EntitySet<GuardZone>(new Action<GuardZone>(this.attach_GuardZones), new Action<GuardZone>(this.detach_GuardZones));
-			this._Cards = new EntitySet<Card>(new Action<Card>(this.attach_Cards), new Action<Card>(this.detach_Cards));
 			this._CardDoors = new EntitySet<CardDoor>(new Action<CardDoor>(this.attach_CardDoors), new Action<CardDoor>(this.detach_CardDoors));
+			this._Cards = new EntitySet<Card>(new Action<Card>(this.attach_Cards), new Action<Card>(this.detach_Cards));
 			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
@@ -542,19 +547,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_Card", Storage="_Cards", ThisKey="UID", OtherKey="AccessTemplateUID")]
-		public EntitySet<Card> Cards
-		{
-			get
-			{
-				return this._Cards;
-			}
-			set
-			{
-				this._Cards.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_CardDoor", Storage="_CardDoors", ThisKey="UID", OtherKey="ParentUID")]
 		public EntitySet<CardDoor> CardDoors
 		{
@@ -565,6 +557,19 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._CardDoors.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_Card", Storage="_Cards", ThisKey="UID", OtherKey="AccessTemplateUID")]
+		public EntitySet<Card> Cards
+		{
+			get
+			{
+				return this._Cards;
+			}
+			set
+			{
+				this._Cards.Assign(value);
 			}
 		}
 		
@@ -634,18 +639,6 @@ namespace SKDDriver.DataAccess
 			entity.AccessTemplate = null;
 		}
 		
-		private void attach_Cards(Card entity)
-		{
-			this.SendPropertyChanging();
-			entity.AccessTemplate = this;
-		}
-		
-		private void detach_Cards(Card entity)
-		{
-			this.SendPropertyChanging();
-			entity.AccessTemplate = null;
-		}
-		
 		private void attach_CardDoors(CardDoor entity)
 		{
 			this.SendPropertyChanging();
@@ -653,6 +646,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_CardDoors(CardDoor entity)
+		{
+			this.SendPropertyChanging();
+			entity.AccessTemplate = null;
+		}
+		
+		private void attach_Cards(Card entity)
+		{
+			this.SendPropertyChanging();
+			entity.AccessTemplate = this;
+		}
+		
+		private void detach_Cards(Card entity)
 		{
 			this.SendPropertyChanging();
 			entity.AccessTemplate = null;
@@ -747,67 +752,67 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Photo> _Photo;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnFirstNameChanging(string value);
-	partial void OnFirstNameChanged();
-	partial void OnSecondNameChanging(string value);
-	partial void OnSecondNameChanged();
-	partial void OnLastNameChanging(string value);
-	partial void OnLastNameChanged();
-	partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnPhotoUIDChanged();
-	partial void OnPositionUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnPositionUIDChanged();
-	partial void OnDepartmentUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnDepartmentUIDChanged();
-	partial void OnScheduleUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnScheduleUIDChanged();
-	partial void OnScheduleStartDateChanging(System.DateTime value);
-	partial void OnScheduleStartDateChanged();
-	partial void OnAppointedChanging(System.DateTime value);
-	partial void OnAppointedChanged();
-	partial void OnDismissedChanging(System.DateTime value);
-	partial void OnDismissedChanged();
-	partial void OnTypeChanging(System.Nullable<int> value);
-	partial void OnTypeChanged();
-	partial void OnTabelNoChanging(int value);
-	partial void OnTabelNoChanged();
-	partial void OnCredentialsStartDateChanging(System.DateTime value);
-	partial void OnCredentialsStartDateChanged();
-	partial void OnEscortUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnEscortUIDChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnOrganisationUIDChanged();
-	partial void OnDocumentNumberChanging(string value);
-	partial void OnDocumentNumberChanged();
-	partial void OnBirthDateChanging(System.DateTime value);
-	partial void OnBirthDateChanged();
-	partial void OnBirthPlaceChanging(string value);
-	partial void OnBirthPlaceChanged();
-	partial void OnDocumentGivenDateChanging(System.DateTime value);
-	partial void OnDocumentGivenDateChanged();
-	partial void OnDocumentGivenByChanging(string value);
-	partial void OnDocumentGivenByChanged();
-	partial void OnDocumentValidToChanging(System.DateTime value);
-	partial void OnDocumentValidToChanged();
-	partial void OnGenderChanging(int value);
-	partial void OnGenderChanged();
-	partial void OnDocumentDepartmentCodeChanging(string value);
-	partial void OnDocumentDepartmentCodeChanged();
-	partial void OnCitizenshipChanging(string value);
-	partial void OnCitizenshipChanged();
-	partial void OnDocumentTypeChanging(int value);
-	partial void OnDocumentTypeChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnFirstNameChanging(string value);
+    partial void OnFirstNameChanged();
+    partial void OnSecondNameChanging(string value);
+    partial void OnSecondNameChanged();
+    partial void OnLastNameChanging(string value);
+    partial void OnLastNameChanged();
+    partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnPhotoUIDChanged();
+    partial void OnPositionUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnPositionUIDChanged();
+    partial void OnDepartmentUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnDepartmentUIDChanged();
+    partial void OnScheduleUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnScheduleUIDChanged();
+    partial void OnScheduleStartDateChanging(System.DateTime value);
+    partial void OnScheduleStartDateChanged();
+    partial void OnAppointedChanging(System.DateTime value);
+    partial void OnAppointedChanged();
+    partial void OnDismissedChanging(System.DateTime value);
+    partial void OnDismissedChanged();
+    partial void OnTypeChanging(System.Nullable<int> value);
+    partial void OnTypeChanged();
+    partial void OnTabelNoChanging(int value);
+    partial void OnTabelNoChanged();
+    partial void OnCredentialsStartDateChanging(System.DateTime value);
+    partial void OnCredentialsStartDateChanged();
+    partial void OnEscortUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnEscortUIDChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    partial void OnDocumentNumberChanging(string value);
+    partial void OnDocumentNumberChanged();
+    partial void OnBirthDateChanging(System.DateTime value);
+    partial void OnBirthDateChanged();
+    partial void OnBirthPlaceChanging(string value);
+    partial void OnBirthPlaceChanged();
+    partial void OnDocumentGivenDateChanging(System.DateTime value);
+    partial void OnDocumentGivenDateChanged();
+    partial void OnDocumentGivenByChanging(string value);
+    partial void OnDocumentGivenByChanged();
+    partial void OnDocumentValidToChanging(System.DateTime value);
+    partial void OnDocumentValidToChanged();
+    partial void OnGenderChanging(int value);
+    partial void OnGenderChanged();
+    partial void OnDocumentDepartmentCodeChanging(string value);
+    partial void OnDocumentDepartmentCodeChanged();
+    partial void OnCitizenshipChanging(string value);
+    partial void OnCitizenshipChanged();
+    partial void OnDocumentTypeChanging(int value);
+    partial void OnDocumentTypeChanged();
+    #endregion
 		
 		public Employee()
 		{
@@ -1837,25 +1842,25 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Photo> _Photo;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNameChanging(string value);
-	partial void OnNameChanged();
-	partial void OnDescriptionChanging(string value);
-	partial void OnDescriptionChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnOrganisationUIDChanged();
-	partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnPhotoUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnPhotoUIDChanged();
+    #endregion
 		
 		public Position()
 		{
@@ -2177,23 +2182,23 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Photo> _Photo;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNameChanging(string value);
-	partial void OnNameChanged();
-	partial void OnDescriptionChanging(string value);
-	partial void OnDescriptionChanged();
-	partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnPhotoUIDChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnPhotoUIDChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
 		
 		public Organisation()
 		{
@@ -2784,17 +2789,17 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnDoorUIDChanging(System.Guid value);
-	partial void OnDoorUIDChanged();
-	partial void OnOrganisationUIDChanging(System.Guid value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnDoorUIDChanging(System.Guid value);
+    partial void OnDoorUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Guid value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public OrganisationDoor()
 		{
@@ -2935,17 +2940,17 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnUserUIDChanging(System.Guid value);
-	partial void OnUserUIDChanged();
-	partial void OnOrganisationUIDChanging(System.Guid value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnUserUIDChanging(System.Guid value);
+    partial void OnUserUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Guid value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public OrganisationUser()
 		{
@@ -3098,29 +3103,29 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNameChanging(string value);
-	partial void OnNameChanged();
-	partial void OnTypeChanging(int value);
-	partial void OnTypeChanged();
-	partial void OnDateChanging(System.DateTime value);
-	partial void OnDateChanged();
-	partial void OnTransferDateChanging(System.Nullable<System.DateTime> value);
-	partial void OnTransferDateChanged();
-	partial void OnReductionChanging(int value);
-	partial void OnReductionChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanged();
+    partial void OnTransferDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnTransferDateChanged();
+    partial void OnReductionChanging(int value);
+    partial void OnReductionChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public Holiday()
 		{
@@ -3389,21 +3394,21 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Photo> _Photo;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnEmployeeUIDChanged();
-	partial void OnAdditionalColumnTypeUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnAdditionalColumnTypeUIDChanged();
-	partial void OnTextDataChanging(string value);
-	partial void OnTextDataChanged();
-	partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnPhotoUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnEmployeeUIDChanged();
+    partial void OnAdditionalColumnTypeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnAdditionalColumnTypeUIDChanged();
+    partial void OnTextDataChanging(string value);
+    partial void OnTextDataChanged();
+    partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnPhotoUIDChanged();
+    #endregion
 		
 		public AdditionalColumn()
 		{
@@ -3676,29 +3681,29 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnNameChanging(string value);
-	partial void OnNameChanged();
-	partial void OnDescriptionChanging(string value);
-	partial void OnDescriptionChanged();
-	partial void OnDataTypeChanging(System.Nullable<int> value);
-	partial void OnDataTypeChanged();
-	partial void OnPersonTypeChanging(System.Nullable<int> value);
-	partial void OnPersonTypeChanged();
-	partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnOrganisationUIDChanged();
-	partial void OnIsInGridChanging(bool value);
-	partial void OnIsInGridChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnDataTypeChanging(System.Nullable<int> value);
+    partial void OnDataTypeChanged();
+    partial void OnPersonTypeChanging(System.Nullable<int> value);
+    partial void OnPersonTypeChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    partial void OnIsInGridChanging(bool value);
+    partial void OnIsInGridChanged();
+    #endregion
 		
 		public AdditionalColumnType()
 		{
@@ -4001,27 +4006,27 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<ScheduleScheme> _ScheduleScheme;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNameChanging(string value);
-	partial void OnNameChanged();
-	partial void OnScheduleSchemeUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnScheduleSchemeUIDChanged();
-	partial void OnIsIgnoreHolidayChanging(bool value);
-	partial void OnIsIgnoreHolidayChanged();
-	partial void OnIsOnlyFirstEnterChanging(bool value);
-	partial void OnIsOnlyFirstEnterChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnScheduleSchemeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnScheduleSchemeUIDChanged();
+    partial void OnIsIgnoreHolidayChanging(bool value);
+    partial void OnIsIgnoreHolidayChanged();
+    partial void OnIsOnlyFirstEnterChanging(bool value);
+    partial void OnIsOnlyFirstEnterChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public Schedule()
 		{
@@ -4365,25 +4370,25 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNameChanging(string value);
-	partial void OnNameChanged();
-	partial void OnTypeChanging(int value);
-	partial void OnTypeChanged();
-	partial void OnDescriptionChanging(string value);
-	partial void OnDescriptionChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public ScheduleScheme()
 		{
@@ -4662,23 +4667,23 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Schedule> _Schedule;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnZoneUIDChanging(System.Guid value);
-	partial void OnZoneUIDChanged();
-	partial void OnScheduleUIDChanging(System.Guid value);
-	partial void OnScheduleUIDChanged();
-	partial void OnIsControlChanging(bool value);
-	partial void OnIsControlChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnZoneUIDChanging(System.Guid value);
+    partial void OnZoneUIDChanged();
+    partial void OnScheduleUIDChanging(System.Guid value);
+    partial void OnScheduleUIDChanged();
+    partial void OnIsControlChanging(bool value);
+    partial void OnIsControlChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
 		
 		public ScheduleZone()
 		{
@@ -4885,23 +4890,23 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<NamedInterval> _NamedInterval;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnBeginTimeChanging(int value);
-	partial void OnBeginTimeChanged();
-	partial void OnEndTimeChanging(int value);
-	partial void OnEndTimeChanged();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNamedIntervalUIDChanging(System.Guid value);
-	partial void OnNamedIntervalUIDChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnBeginTimeChanging(int value);
+    partial void OnBeginTimeChanged();
+    partial void OnEndTimeChanging(int value);
+    partial void OnEndTimeChanged();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNamedIntervalUIDChanging(System.Guid value);
+    partial void OnNamedIntervalUIDChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
 		
 		public Interval()
 		{
@@ -5114,25 +5119,25 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNameChanging(string value);
-	partial void OnNameChanged();
-	partial void OnDescriptionChanging(string value);
-	partial void OnDescriptionChanged();
-	partial void OnSlideTimeChanging(int value);
-	partial void OnSlideTimeChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnSlideTimeChanging(int value);
+    partial void OnSlideTimeChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public NamedInterval()
 		{
@@ -5413,23 +5418,23 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<ScheduleScheme> _ScheduleScheme;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNamedIntervalUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnNamedIntervalUIDChanged();
-	partial void OnScheduleSchemeUIDChanging(System.Guid value);
-	partial void OnScheduleSchemeUIDChanged();
-	partial void OnNumberChanging(int value);
-	partial void OnNumberChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNamedIntervalUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnNamedIntervalUIDChanged();
+    partial void OnScheduleSchemeUIDChanging(System.Guid value);
+    partial void OnScheduleSchemeUIDChanged();
+    partial void OnNumberChanging(int value);
+    partial void OnNumberChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
 		
 		public Day()
 		{
@@ -5697,31 +5702,31 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Photo> _Photo;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNameChanging(string value);
-	partial void OnNameChanged();
-	partial void OnDescriptionChanging(string value);
-	partial void OnDescriptionChanged();
-	partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnPhotoUIDChanged();
-	partial void OnParentDepartmentUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnParentDepartmentUIDChanged();
-	partial void OnContactEmployeeUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnContactEmployeeUIDChanged();
-	partial void OnAttendantUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnAttendantUIDChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnPhotoUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnPhotoUIDChanged();
+    partial void OnParentDepartmentUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnParentDepartmentUIDChanged();
+    partial void OnContactEmployeeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnContactEmployeeUIDChanged();
+    partial void OnAttendantUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnAttendantUIDChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public Department()
 		{
@@ -6244,21 +6249,21 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnZoneUIDChanging(System.Guid value);
-	partial void OnZoneUIDChanged();
-	partial void OnParentUIDChanging(System.Guid value);
-	partial void OnParentUIDChanged();
-	partial void OnCanSetChanging(bool value);
-	partial void OnCanSetChanged();
-	partial void OnCanResetChanging(bool value);
-	partial void OnCanResetChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnZoneUIDChanging(System.Guid value);
+    partial void OnZoneUIDChanged();
+    partial void OnParentUIDChanging(System.Guid value);
+    partial void OnParentUIDChanged();
+    partial void OnCanSetChanging(bool value);
+    partial void OnCanSetChanged();
+    partial void OnCanResetChanging(bool value);
+    partial void OnCanResetChanged();
+    #endregion
 		
 		public GuardZone()
 		{
@@ -6547,25 +6552,25 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNameChanging(string value);
-	partial void OnNameChanged();
-	partial void OnNumberStringChanging(string value);
-	partial void OnNumberStringChanged();
-	partial void OnDepartmentUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnDepartmentUIDChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnNumberStringChanging(string value);
+    partial void OnNumberStringChanged();
+    partial void OnDepartmentUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnDepartmentUIDChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public Phone()
 		{
@@ -6831,15 +6836,15 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<Department> _Departments;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnDataChanging(System.Data.Linq.Binary value);
-	partial void OnDataChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnDataChanging(System.Data.Linq.Binary value);
+    partial void OnDataChanged();
+    #endregion
 		
 		public Photo()
 		{
@@ -7051,17 +7056,17 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnZoneUIDChanging(System.Guid value);
-	partial void OnZoneUIDChanged();
-	partial void OnOrganisationUIDChanging(System.Guid value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnZoneUIDChanging(System.Guid value);
+    partial void OnZoneUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Guid value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public OrganisationZone()
 		{
@@ -7206,21 +7211,21 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Employee> _Employee;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnEmployeeUIDChanging(System.Guid value);
-	partial void OnEmployeeUIDChanged();
-	partial void OnZoneUIDChanging(System.Guid value);
-	partial void OnZoneUIDChanged();
-	partial void OnEnterTimeChanging(System.DateTime value);
-	partial void OnEnterTimeChanged();
-	partial void OnExitTimeChanging(System.DateTime value);
-	partial void OnExitTimeChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnEmployeeUIDChanging(System.Guid value);
+    partial void OnEmployeeUIDChanged();
+    partial void OnZoneUIDChanging(System.Guid value);
+    partial void OnZoneUIDChanged();
+    partial void OnEnterTimeChanging(System.DateTime value);
+    partial void OnEnterTimeChanged();
+    partial void OnExitTimeChanging(System.DateTime value);
+    partial void OnExitTimeChanged();
+    #endregion
 		
 		public PassJournal()
 		{
@@ -7403,19 +7408,19 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Card> _Card;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnCardUIDChanging(System.Guid value);
-	partial void OnCardUIDChanged();
-	partial void OnControllerUIDChanging(System.Guid value);
-	partial void OnControllerUIDChanged();
-	partial void OnActionChanging(int value);
-	partial void OnActionChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnCardUIDChanging(System.Guid value);
+    partial void OnCardUIDChanged();
+    partial void OnControllerUIDChanging(System.Guid value);
+    partial void OnControllerUIDChanged();
+    partial void OnActionChanging(int value);
+    partial void OnActionChanged();
+    #endregion
 		
 		public PendingCard()
 		{
@@ -7576,17 +7581,17 @@ namespace SKDDriver.DataAccess
 		
 		private EntityRef<Organisation> _Organisation;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnCardTemplateUIDChanging(System.Guid value);
-	partial void OnCardTemplateUIDChanged();
-	partial void OnOrganisationUIDChanging(System.Guid value);
-	partial void OnOrganisationUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnCardTemplateUIDChanging(System.Guid value);
+    partial void OnCardTemplateUIDChanged();
+    partial void OnOrganisationUIDChanging(System.Guid value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
 		
 		public OrganisationCardTemplate()
 		{
@@ -7713,6 +7718,362 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CardDoor")]
+	public partial class CardDoor : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.Guid _DoorUID;
+		
+		private System.Nullable<System.Guid> _ParentUID;
+		
+		private System.Nullable<int> _ParentType;
+		
+		private int _EnterIntervalID;
+		
+		private System.Nullable<int> _EnterIntervalType;
+		
+		private int _ExitIntervalID;
+		
+		private System.Nullable<int> _ExitIntervalType;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private EntityRef<AccessTemplate> _AccessTemplate;
+		
+		private EntityRef<Card> _Card;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnDoorUIDChanging(System.Guid value);
+    partial void OnDoorUIDChanged();
+    partial void OnParentUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnParentUIDChanged();
+    partial void OnParentTypeChanging(System.Nullable<int> value);
+    partial void OnParentTypeChanged();
+    partial void OnEnterIntervalIDChanging(int value);
+    partial void OnEnterIntervalIDChanged();
+    partial void OnEnterIntervalTypeChanging(System.Nullable<int> value);
+    partial void OnEnterIntervalTypeChanged();
+    partial void OnExitIntervalIDChanging(int value);
+    partial void OnExitIntervalIDChanged();
+    partial void OnExitIntervalTypeChanging(System.Nullable<int> value);
+    partial void OnExitIntervalTypeChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
+		
+		public CardDoor()
+		{
+			this._AccessTemplate = default(EntityRef<AccessTemplate>);
+			this._Card = default(EntityRef<Card>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DoorUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid DoorUID
+		{
+			get
+			{
+				return this._DoorUID;
+			}
+			set
+			{
+				if ((this._DoorUID != value))
+				{
+					this.OnDoorUIDChanging(value);
+					this.SendPropertyChanging();
+					this._DoorUID = value;
+					this.SendPropertyChanged("DoorUID");
+					this.OnDoorUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ParentUID
+		{
+			get
+			{
+				return this._ParentUID;
+			}
+			set
+			{
+				if ((this._ParentUID != value))
+				{
+					if ((this._AccessTemplate.HasLoadedOrAssignedValue || this._Card.HasLoadedOrAssignedValue))
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParentUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ParentUID = value;
+					this.SendPropertyChanged("ParentUID");
+					this.OnParentUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentType", DbType="Int")]
+		public System.Nullable<int> ParentType
+		{
+			get
+			{
+				return this._ParentType;
+			}
+			set
+			{
+				if ((this._ParentType != value))
+				{
+					this.OnParentTypeChanging(value);
+					this.SendPropertyChanging();
+					this._ParentType = value;
+					this.SendPropertyChanged("ParentType");
+					this.OnParentTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterIntervalID", DbType="Int NOT NULL")]
+		public int EnterIntervalID
+		{
+			get
+			{
+				return this._EnterIntervalID;
+			}
+			set
+			{
+				if ((this._EnterIntervalID != value))
+				{
+					this.OnEnterIntervalIDChanging(value);
+					this.SendPropertyChanging();
+					this._EnterIntervalID = value;
+					this.SendPropertyChanged("EnterIntervalID");
+					this.OnEnterIntervalIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterIntervalType", DbType="Int")]
+		public System.Nullable<int> EnterIntervalType
+		{
+			get
+			{
+				return this._EnterIntervalType;
+			}
+			set
+			{
+				if ((this._EnterIntervalType != value))
+				{
+					this.OnEnterIntervalTypeChanging(value);
+					this.SendPropertyChanging();
+					this._EnterIntervalType = value;
+					this.SendPropertyChanged("EnterIntervalType");
+					this.OnEnterIntervalTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExitIntervalID", DbType="Int NOT NULL")]
+		public int ExitIntervalID
+		{
+			get
+			{
+				return this._ExitIntervalID;
+			}
+			set
+			{
+				if ((this._ExitIntervalID != value))
+				{
+					this.OnExitIntervalIDChanging(value);
+					this.SendPropertyChanging();
+					this._ExitIntervalID = value;
+					this.SendPropertyChanged("ExitIntervalID");
+					this.OnExitIntervalIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExitIntervalType", DbType="Int")]
+		public System.Nullable<int> ExitIntervalType
+		{
+			get
+			{
+				return this._ExitIntervalType;
+			}
+			set
+			{
+				if ((this._ExitIntervalType != value))
+				{
+					this.OnExitIntervalTypeChanging(value);
+					this.SendPropertyChanging();
+					this._ExitIntervalType = value;
+					this.SendPropertyChanged("ExitIntervalType");
+					this.OnExitIntervalTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_CardDoor", Storage="_AccessTemplate", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
+		public AccessTemplate AccessTemplate
+		{
+			get
+			{
+				return this._AccessTemplate.Entity;
+			}
+			set
+			{
+				AccessTemplate previousValue = this._AccessTemplate.Entity;
+				if (((previousValue != value) 
+							|| (this._AccessTemplate.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AccessTemplate.Entity = null;
+						previousValue.CardDoors.Remove(this);
+					}
+					this._AccessTemplate.Entity = value;
+					if ((value != null))
+					{
+						value.CardDoors.Add(this);
+						this._ParentUID = value.UID;
+					}
+					else
+					{
+						this._ParentUID = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("AccessTemplate");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardDoor", Storage="_Card", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
+		public Card Card
+		{
+			get
+			{
+				return this._Card.Entity;
+			}
+			set
+			{
+				Card previousValue = this._Card.Entity;
+				if (((previousValue != value) 
+							|| (this._Card.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Card.Entity = null;
+						previousValue.CardDoors.Remove(this);
+					}
+					this._Card.Entity = value;
+					if ((value != null))
+					{
+						value.CardDoors.Add(this);
+						this._ParentUID = value.UID;
+					}
+					else
+					{
+						this._ParentUID = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Card");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
 	public partial class Card : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -7741,53 +8102,53 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _RemovalDate;
 		
-		private System.Nullable<System.Guid> _CardTemplateUID;
+		private System.Nullable<System.Guid> _PassCardTemplateUID;
 		
 		private EntitySet<PendingCard> _PendingCards;
 		
-		private EntitySet<Journal> _Journals;
-		
 		private EntitySet<CardDoor> _CardDoors;
+		
+		private EntitySet<Journal> _Journals;
 		
 		private EntityRef<AccessTemplate> _AccessTemplate;
 		
 		private EntityRef<Employee> _Employee;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnNumberChanging(int value);
-	partial void OnNumberChanged();
-	partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnEmployeeUIDChanged();
-	partial void OnAccessTemplateUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnAccessTemplateUIDChanged();
-	partial void OnCardTypeChanging(System.Nullable<int> value);
-	partial void OnCardTypeChanged();
-	partial void OnStartDateChanging(System.DateTime value);
-	partial void OnStartDateChanged();
-	partial void OnEndDateChanging(System.DateTime value);
-	partial void OnEndDateChanged();
-	partial void OnIsInStopListChanging(bool value);
-	partial void OnIsInStopListChanged();
-	partial void OnStopReasonChanging(string value);
-	partial void OnStopReasonChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnCardTemplateUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnCardTemplateUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNumberChanging(int value);
+    partial void OnNumberChanged();
+    partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnEmployeeUIDChanged();
+    partial void OnAccessTemplateUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnAccessTemplateUIDChanged();
+    partial void OnCardTypeChanging(System.Nullable<int> value);
+    partial void OnCardTypeChanged();
+    partial void OnStartDateChanging(System.DateTime value);
+    partial void OnStartDateChanged();
+    partial void OnEndDateChanging(System.DateTime value);
+    partial void OnEndDateChanged();
+    partial void OnIsInStopListChanging(bool value);
+    partial void OnIsInStopListChanged();
+    partial void OnStopReasonChanging(string value);
+    partial void OnStopReasonChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnPassCardTemplateUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnPassCardTemplateUIDChanged();
+    #endregion
 		
 		public Card()
 		{
 			this._PendingCards = new EntitySet<PendingCard>(new Action<PendingCard>(this.attach_PendingCards), new Action<PendingCard>(this.detach_PendingCards));
-			this._Journals = new EntitySet<Journal>(new Action<Journal>(this.attach_Journals), new Action<Journal>(this.detach_Journals));
 			this._CardDoors = new EntitySet<CardDoor>(new Action<CardDoor>(this.attach_CardDoors), new Action<CardDoor>(this.detach_CardDoors));
+			this._Journals = new EntitySet<Journal>(new Action<Journal>(this.attach_Journals), new Action<Journal>(this.detach_Journals));
 			this._AccessTemplate = default(EntityRef<AccessTemplate>);
 			this._Employee = default(EntityRef<Employee>);
 			OnCreated();
@@ -8021,22 +8382,22 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardTemplateUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> CardTemplateUID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PassCardTemplateUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> PassCardTemplateUID
 		{
 			get
 			{
-				return this._CardTemplateUID;
+				return this._PassCardTemplateUID;
 			}
 			set
 			{
-				if ((this._CardTemplateUID != value))
+				if ((this._PassCardTemplateUID != value))
 				{
-					this.OnCardTemplateUIDChanging(value);
+					this.OnPassCardTemplateUIDChanging(value);
 					this.SendPropertyChanging();
-					this._CardTemplateUID = value;
-					this.SendPropertyChanged("CardTemplateUID");
-					this.OnCardTemplateUIDChanged();
+					this._PassCardTemplateUID = value;
+					this.SendPropertyChanged("PassCardTemplateUID");
+					this.OnPassCardTemplateUIDChanged();
 				}
 			}
 		}
@@ -8054,19 +8415,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Journals", ThisKey="UID", OtherKey="ObjectUID")]
-		public EntitySet<Journal> Journals
-		{
-			get
-			{
-				return this._Journals;
-			}
-			set
-			{
-				this._Journals.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardDoor", Storage="_CardDoors", ThisKey="UID", OtherKey="ParentUID")]
 		public EntitySet<CardDoor> CardDoors
 		{
@@ -8077,6 +8425,19 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._CardDoors.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Journal", Storage="_Journals", ThisKey="UID", OtherKey="ObjectUID")]
+		public EntitySet<Journal> Journals
+		{
+			get
+			{
+				return this._Journals;
+			}
+			set
+			{
+				this._Journals.Assign(value);
 			}
 		}
 		
@@ -8180,18 +8541,6 @@ namespace SKDDriver.DataAccess
 			entity.Card = null;
 		}
 		
-		private void attach_Journals(Journal entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = this;
-		}
-		
-		private void detach_Journals(Journal entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = null;
-		}
-		
 		private void attach_CardDoors(CardDoor entity)
 		{
 			this.SendPropertyChanging();
@@ -8199,6 +8548,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_CardDoors(CardDoor entity)
+		{
+			this.SendPropertyChanging();
+			entity.Card = null;
+		}
+		
+		private void attach_Journals(Journal entity)
+		{
+			this.SendPropertyChanging();
+			entity.Card = this;
+		}
+		
+		private void detach_Journals(Journal entity)
 		{
 			this.SendPropertyChanging();
 			entity.Card = null;
@@ -8237,47 +8598,43 @@ namespace SKDDriver.DataAccess
 		
 		private string _UserName;
 		
-		private int _CardNo;
-		
 		private System.Nullable<System.Guid> _EmployeeUID;
 		
 		private EntityRef<Card> _Card;
 		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnSystemDateChanging(System.DateTime value);
-	partial void OnSystemDateChanged();
-	partial void OnDeviceDateChanging(System.DateTime value);
-	partial void OnDeviceDateChanged();
-	partial void OnSubsystemChanging(int value);
-	partial void OnSubsystemChanged();
-	partial void OnNameChanging(int value);
-	partial void OnNameChanged();
-	partial void OnDescriptionChanging(int value);
-	partial void OnDescriptionChanged();
-	partial void OnNameTextChanging(string value);
-	partial void OnNameTextChanged();
-	partial void OnDescriptionTextChanging(string value);
-	partial void OnDescriptionTextChanged();
-	partial void OnStateChanging(int value);
-	partial void OnStateChanged();
-	partial void OnObjectTypeChanging(int value);
-	partial void OnObjectTypeChanged();
-	partial void OnObjectNameChanging(string value);
-	partial void OnObjectNameChanged();
-	partial void OnObjectUIDChanging(System.Guid value);
-	partial void OnObjectUIDChanged();
-	partial void OnUserNameChanging(string value);
-	partial void OnUserNameChanged();
-	partial void OnCardNoChanging(int value);
-	partial void OnCardNoChanged();
-	partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnEmployeeUIDChanged();
-	#endregion
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnSystemDateChanging(System.DateTime value);
+    partial void OnSystemDateChanged();
+    partial void OnDeviceDateChanging(System.DateTime value);
+    partial void OnDeviceDateChanged();
+    partial void OnSubsystemChanging(int value);
+    partial void OnSubsystemChanged();
+    partial void OnNameChanging(int value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(int value);
+    partial void OnDescriptionChanged();
+    partial void OnNameTextChanging(string value);
+    partial void OnNameTextChanged();
+    partial void OnDescriptionTextChanging(string value);
+    partial void OnDescriptionTextChanged();
+    partial void OnStateChanging(int value);
+    partial void OnStateChanged();
+    partial void OnObjectTypeChanging(int value);
+    partial void OnObjectTypeChanged();
+    partial void OnObjectNameChanging(string value);
+    partial void OnObjectNameChanged();
+    partial void OnObjectUIDChanging(System.Guid value);
+    partial void OnObjectUIDChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnEmployeeUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnEmployeeUIDChanged();
+    #endregion
 		
 		public Journal()
 		{
@@ -8549,27 +8906,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardNo", DbType="Int NOT NULL")]
-		public int CardNo
-		{
-			get
-			{
-				return this._CardNo;
-			}
-			set
-			{
-				if ((this._CardNo != value))
-				{
-					this.OnCardNoChanging(value);
-					this.SendPropertyChanging();
-					this._CardNo = value;
-					this.SendPropertyChanged("CardNo");
-					this.OnCardNoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmployeeUID", DbType="UniqueIdentifier")]
 		public System.Nullable<System.Guid> EmployeeUID
 		{
 			get
@@ -8617,410 +8954,6 @@ namespace SKDDriver.DataAccess
 					else
 					{
 						this._ObjectUID = default(System.Guid);
-					}
-					this.SendPropertyChanged("Card");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CardDoor")]
-	public partial class CardDoor : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private System.Guid _DoorUID;
-		
-		private System.Nullable<System.Guid> _ParentUID;
-		
-		private System.Nullable<int> _ParentType;
-		
-		private bool _IsWithEscort;
-		
-		private bool _IsAntipass;
-		
-		private System.Nullable<int> _EnterIntervalType;
-		
-		private System.Nullable<int> _ExitIntervalType;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private int _EnterIntervalID;
-		
-		private int _ExitIntervalID;
-		
-		private EntityRef<AccessTemplate> _AccessTemplate;
-		
-		private EntityRef<Card> _Card;
-		
-	#region Определения метода расширяемости
-	partial void OnLoaded();
-	partial void OnValidate(System.Data.Linq.ChangeAction action);
-	partial void OnCreated();
-	partial void OnUIDChanging(System.Guid value);
-	partial void OnUIDChanged();
-	partial void OnDoorUIDChanging(System.Guid value);
-	partial void OnDoorUIDChanged();
-	partial void OnParentUIDChanging(System.Nullable<System.Guid> value);
-	partial void OnParentUIDChanged();
-	partial void OnParentTypeChanging(System.Nullable<int> value);
-	partial void OnParentTypeChanged();
-	partial void OnIsWithEscortChanging(bool value);
-	partial void OnIsWithEscortChanged();
-	partial void OnIsAntipassChanging(bool value);
-	partial void OnIsAntipassChanged();
-	partial void OnEnterIntervalTypeChanging(System.Nullable<int> value);
-	partial void OnEnterIntervalTypeChanged();
-	partial void OnExitIntervalTypeChanging(System.Nullable<int> value);
-	partial void OnExitIntervalTypeChanged();
-	partial void OnIsDeletedChanging(bool value);
-	partial void OnIsDeletedChanged();
-	partial void OnRemovalDateChanging(System.DateTime value);
-	partial void OnRemovalDateChanged();
-	partial void OnEnterIntervalIDChanging(int value);
-	partial void OnEnterIntervalIDChanged();
-	partial void OnExitIntervalIDChanging(int value);
-	partial void OnExitIntervalIDChanged();
-	#endregion
-		
-		public CardDoor()
-		{
-			this._AccessTemplate = default(EntityRef<AccessTemplate>);
-			this._Card = default(EntityRef<Card>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DoorUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid DoorUID
-		{
-			get
-			{
-				return this._DoorUID;
-			}
-			set
-			{
-				if ((this._DoorUID != value))
-				{
-					this.OnDoorUIDChanging(value);
-					this.SendPropertyChanging();
-					this._DoorUID = value;
-					this.SendPropertyChanged("DoorUID");
-					this.OnDoorUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> ParentUID
-		{
-			get
-			{
-				return this._ParentUID;
-			}
-			set
-			{
-				if ((this._ParentUID != value))
-				{
-					if ((this._AccessTemplate.HasLoadedOrAssignedValue || this._Card.HasLoadedOrAssignedValue))
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnParentUIDChanging(value);
-					this.SendPropertyChanging();
-					this._ParentUID = value;
-					this.SendPropertyChanged("ParentUID");
-					this.OnParentUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentType", DbType="Int")]
-		public System.Nullable<int> ParentType
-		{
-			get
-			{
-				return this._ParentType;
-			}
-			set
-			{
-				if ((this._ParentType != value))
-				{
-					this.OnParentTypeChanging(value);
-					this.SendPropertyChanging();
-					this._ParentType = value;
-					this.SendPropertyChanged("ParentType");
-					this.OnParentTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsWithEscort", DbType="Bit NOT NULL")]
-		public bool IsWithEscort
-		{
-			get
-			{
-				return this._IsWithEscort;
-			}
-			set
-			{
-				if ((this._IsWithEscort != value))
-				{
-					this.OnIsWithEscortChanging(value);
-					this.SendPropertyChanging();
-					this._IsWithEscort = value;
-					this.SendPropertyChanged("IsWithEscort");
-					this.OnIsWithEscortChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAntipass", DbType="Bit NOT NULL")]
-		public bool IsAntipass
-		{
-			get
-			{
-				return this._IsAntipass;
-			}
-			set
-			{
-				if ((this._IsAntipass != value))
-				{
-					this.OnIsAntipassChanging(value);
-					this.SendPropertyChanging();
-					this._IsAntipass = value;
-					this.SendPropertyChanged("IsAntipass");
-					this.OnIsAntipassChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterIntervalType", DbType="Int")]
-		public System.Nullable<int> EnterIntervalType
-		{
-			get
-			{
-				return this._EnterIntervalType;
-			}
-			set
-			{
-				if ((this._EnterIntervalType != value))
-				{
-					this.OnEnterIntervalTypeChanging(value);
-					this.SendPropertyChanging();
-					this._EnterIntervalType = value;
-					this.SendPropertyChanged("EnterIntervalType");
-					this.OnEnterIntervalTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExitIntervalType", DbType="Int")]
-		public System.Nullable<int> ExitIntervalType
-		{
-			get
-			{
-				return this._ExitIntervalType;
-			}
-			set
-			{
-				if ((this._ExitIntervalType != value))
-				{
-					this.OnExitIntervalTypeChanging(value);
-					this.SendPropertyChanging();
-					this._ExitIntervalType = value;
-					this.SendPropertyChanged("ExitIntervalType");
-					this.OnExitIntervalTypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterIntervalID", DbType="Int NOT NULL")]
-		public int EnterIntervalID
-		{
-			get
-			{
-				return this._EnterIntervalID;
-			}
-			set
-			{
-				if ((this._EnterIntervalID != value))
-				{
-					this.OnEnterIntervalIDChanging(value);
-					this.SendPropertyChanging();
-					this._EnterIntervalID = value;
-					this.SendPropertyChanged("EnterIntervalID");
-					this.OnEnterIntervalIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExitIntervalID", DbType="Int NOT NULL")]
-		public int ExitIntervalID
-		{
-			get
-			{
-				return this._ExitIntervalID;
-			}
-			set
-			{
-				if ((this._ExitIntervalID != value))
-				{
-					this.OnExitIntervalIDChanging(value);
-					this.SendPropertyChanging();
-					this._ExitIntervalID = value;
-					this.SendPropertyChanged("ExitIntervalID");
-					this.OnExitIntervalIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AccessTemplate_CardDoor", Storage="_AccessTemplate", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
-		public AccessTemplate AccessTemplate
-		{
-			get
-			{
-				return this._AccessTemplate.Entity;
-			}
-			set
-			{
-				AccessTemplate previousValue = this._AccessTemplate.Entity;
-				if (((previousValue != value) 
-							|| (this._AccessTemplate.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._AccessTemplate.Entity = null;
-						previousValue.CardDoors.Remove(this);
-					}
-					this._AccessTemplate.Entity = value;
-					if ((value != null))
-					{
-						value.CardDoors.Add(this);
-						this._ParentUID = value.UID;
-					}
-					else
-					{
-						this._ParentUID = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("AccessTemplate");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_CardDoor", Storage="_Card", ThisKey="ParentUID", OtherKey="UID", IsForeignKey=true)]
-		public Card Card
-		{
-			get
-			{
-				return this._Card.Entity;
-			}
-			set
-			{
-				Card previousValue = this._Card.Entity;
-				if (((previousValue != value) 
-							|| (this._Card.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Card.Entity = null;
-						previousValue.CardDoors.Remove(this);
-					}
-					this._Card.Entity = value;
-					if ((value != null))
-					{
-						value.CardDoors.Add(this);
-						this._ParentUID = value.UID;
-					}
-					else
-					{
-						this._ParentUID = default(Nullable<System.Guid>);
 					}
 					this.SendPropertyChanged("Card");
 				}

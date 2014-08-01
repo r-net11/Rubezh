@@ -10,12 +10,6 @@ namespace FiresecAPI.SKD
 		public Guid DoorUID { get; set; }
 
 		[DataMember]
-		public bool IsAntiPassback { get; set; }
-
-		[DataMember]
-		public bool IsComission { get; set; }
-
-		[DataMember]
 		public IntervalType EnterIntervalType { get; set; }
 
 		[DataMember]

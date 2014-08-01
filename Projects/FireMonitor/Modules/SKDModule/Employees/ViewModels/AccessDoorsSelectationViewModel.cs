@@ -57,8 +57,6 @@ namespace SKDModule.ViewModels
 					var cardDoor = new CardDoor()
 					{
 						DoorUID = door.Door.UID,
-						IsAntiPassback = door.IsAntiPassback,
-						IsComission = door.IsComission,
 						EnterIntervalType = door.SelectedEnterTimeCreteria.IntervalType,
 						EnterIntervalID = door.SelectedEnterTimeType != null ? door.SelectedEnterTimeType.ScheduleID : 0,
 						ExitIntervalType = door.SelectedExitTimeCreteria.IntervalType,

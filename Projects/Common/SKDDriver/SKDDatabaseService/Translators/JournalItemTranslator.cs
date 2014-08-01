@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -16,7 +17,7 @@ namespace SKDDriver
 
 		protected override JournalItem Translate(DataAccess.Journal tableItem)
 		{
-			return new JournalItem
+			var journalItem = new JournalItem
 			{
 				JournalEventDescriptionType = (JournalEventDescriptionType)tableItem.Description,
 				DescriptionText = tableItem.DescriptionText,
@@ -31,9 +32,12 @@ namespace SKDDriver
 				SystemDateTime = tableItem.SystemDate,
 				UID = tableItem.UID,
 				UserName = tableItem.UserName,
-				CardNo = tableItem.CardNo,
 				EmployeeUID = tableItem.EmployeeUID.HasValue ? tableItem.EmployeeUID.Value : Guid.Empty
 			};
+			var card = Context.Cards.FirstOrDefault(x => x.UID == tableItem.ObjectUID);
+			if (card != null)
+				journalItem.CardNo = card.Number;
+			return journalItem;
 		}
 
 		protected override void TranslateBack(DataAccess.Journal tableItem, JournalItem apiItem)
@@ -50,7 +54,6 @@ namespace SKDDriver
 			tableItem.Subsystem = (int)apiItem.JournalSubsystemType;
 			tableItem.SystemDate = CheckDate(apiItem.SystemDateTime);
 			tableItem.UserName = apiItem.UserName;
-			tableItem.CardNo = apiItem.CardNo;
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 		}
 

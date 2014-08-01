@@ -34,8 +34,6 @@ namespace SKDModule.ViewModels
 			if (cardDoor != null)
 			{
 				_isChecked = true;
-				IsAntiPassback = cardDoor.IsAntiPassback;
-				IsComission = cardDoor.IsComission;
 				SelectedEnterTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.EnterIntervalType);
 				SelectedExitTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.ExitIntervalType);
 				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault(x => x.ScheduleID == cardDoor.EnterIntervalID);

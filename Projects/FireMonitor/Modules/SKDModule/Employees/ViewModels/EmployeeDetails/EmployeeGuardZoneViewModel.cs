@@ -22,12 +22,12 @@ namespace SKDModule.ViewModels
 			}
 			if(Employee != null && Employee.GuardZoneAccesses != null)
 			{
-				var cardZoneAccess = Employee.GuardZoneAccesses.FirstOrDefault(x => x.ZoneUID == guardZone.UID);
-				if(cardZoneAccess != null)
+				var guardZoneAccess = Employee.GuardZoneAccesses.FirstOrDefault(x => x.ZoneUID == guardZone.UID);
+				if(guardZoneAccess != null)
 				{
 					IsChecked = true;
-					CanSetZone = cardZoneAccess.CanSet;
-					CanUnSetZone = cardZoneAccess.CanReset;
+					CanSetZone = guardZoneAccess.CanSet;
+					CanUnSetZone = guardZoneAccess.CanReset;
 				}
 				
 			}

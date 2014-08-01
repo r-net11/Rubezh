@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 		{
 			Filter = filter;
 			InitializeInternal();
-		}
+		}	
 
 		void InitializeInternal()
 		{
@@ -83,7 +83,8 @@ namespace SKDModule.ViewModels
 				_selectedEmployee = value;
 				OnPropertyChanged(() => SelectedEmployee);
 				OnPropertyChanged(() => IsEmployeeSelected);
-				SelectedEmployee.UpdatePhoto();
+				if(SelectedEmployee != null)
+					SelectedEmployee.UpdatePhoto();
 			}
 		}
 

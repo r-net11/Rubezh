@@ -10,16 +10,16 @@ namespace SKDDriver
 	{
 		public static void AddCard(SKDCard card)
 		{
-			foreach (var cardZone in card.CardDoors)
+			foreach (var cardDoor in card.CardDoors)
 			{
-				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == cardZone.DoorUID);
+				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
 				if (zone != null)
 				{
 					foreach (var device in SKDManager.Devices)
 					{
-						if (device.ZoneUID == cardZone.DoorUID)
+						if (device.ZoneUID == cardDoor.DoorUID)
 						{
-							WriteCardToReader(device, card, cardZone);
+							WriteCardToReader(device, card, cardDoor);
 						}
 					}
 				}
@@ -31,8 +31,8 @@ namespace SKDDriver
 			var bytes = new List<byte>();
 			bytes.Add(9);
 			bytes.Add((byte)device.IntAddress);
-			bytes.Add((byte)(cardDoor.IsAntiPassback ? 1 : 0));
-			bytes.Add((byte)(cardDoor.IsComission ? 1 : 0));
+			//bytes.Add((byte)(cardDoor.IsAntiPassback ? 1 : 0));
+			//bytes.Add((byte)(cardDoor.IsComission ? 1 : 0));
 			bytes.Add(0); // interval type
 			bytes.Add(0); // interval no
 			SKDDeviceProcessor.SendBytes(device, bytes);

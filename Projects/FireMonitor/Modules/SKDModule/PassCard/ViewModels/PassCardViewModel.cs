@@ -49,7 +49,7 @@ namespace SKDModule.PassCard.ViewModels
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 
-			var uid = Card.CardTemplateUID;
+			var uid = Card.PassCardTemplateUID;
 			SelectedPassCardTemplate = uid.HasValue ? PassCardTemplates.FirstOrDefault(item => item.UID == uid.Value) : null;
 		}
 
@@ -272,7 +272,7 @@ namespace SKDModule.PassCard.ViewModels
 		protected override bool Save()
 		{
 			var cardTemplateUID = SelectedPassCardTemplate == null ? null : (Guid?)SelectedPassCardTemplate.UID;
-			Card.CardTemplateUID = cardTemplateUID;
+			Card.PassCardTemplateUID = cardTemplateUID;
 			return CardHelper.SaveTemplate(Card);
 		}
 	}

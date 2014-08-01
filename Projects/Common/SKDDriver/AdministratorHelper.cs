@@ -82,16 +82,16 @@ namespace SKDDriver
 					bytes.Add((byte)readerDevice.IntAddress);
 					foreach (var card in operationResult.Result)
 					{
-						foreach (var cardZone in card.CardDoors)
+						foreach (var cardDoor in card.CardDoors)
 						{
-							if (readerDevice.ZoneUID == cardZone.DoorUID)
+							if (readerDevice.ZoneUID == cardDoor.DoorUID)
 							{
 								bytes.Add((byte)card.Number);
 
-								bytes.Add((byte)cardZone.EnterIntervalType);
+								bytes.Add((byte)cardDoor.EnterIntervalType);
 								//bytes.Add((byte)cardZone.IntervalUID);
-								bytes.Add((byte)(cardZone.IsAntiPassback ? 1 : 0));
-								bytes.Add((byte)(cardZone.IsComission ? 1 : 0));
+								//bytes.Add((byte)(cardDoor.IsAntiPassback ? 1 : 0));
+								//bytes.Add((byte)(cardDoor.IsComission ? 1 : 0));
 							}
 						}
 					}

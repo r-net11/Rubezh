@@ -39,7 +39,6 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<StackPanel Grid.Column="0">
-					<Controls:PhotoSelectation Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" CanEdit="False" MaxWidth="200" MaxHeight="200" />
 					<TextBlock>
 						<Hyperlink Command="{Binding SelectEmployeeCommand}" Style="{StaticResource HyperlinkStyle2}">
 							<StackPanel Orientation="Horizontal">
@@ -100,36 +99,43 @@
 					</ItemsControl>
 				</StackPanel>
 				<GridSplitter Grid.Column="1" Width="5" VerticalAlignment="Stretch" Background="Transparent" />
-				<Grid Grid.Column="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-					<Border Background="White" CornerRadius="5">
-						<StackPanel Margin="5">
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Width="100" Margin="2" Text="Имя" />
-								<TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
-							</StackPanel>
+                <Border Grid.Column="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}" Background="White" CornerRadius="5">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width ="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
 
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Width="100" Margin="2" Text="Фамилия" />
-								<TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
-							</StackPanel>
+							<StackPanel Grid.Column="0" Margin="5">
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Width="100" Margin="2" Text="Имя" />
+									<TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
+								</StackPanel>
 
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Width="100" Margin="2" Text="Отчество" />
-								<TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
-							</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Width="100" Margin="2" Text="Фамилия" />
+									<TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
+								</StackPanel>
 
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Width="100" Margin="2" Text="Отдел" />
-								<TextBlock Margin="2" Text="{Binding DepartmentName}" />
-							</StackPanel>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Width="100" Margin="2" Text="Отчество" />
+									<TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
+								</StackPanel>
 
-							<StackPanel Orientation="Horizontal">
-								<TextBlock Width="100" Margin="2" Text="Должность" />
-								<TextBlock Margin="2" Text="{Binding PositionName}" />
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Width="100" Margin="2" Text="Отдел" />
+									<TextBlock Margin="2" Text="{Binding DepartmentName}" />
+								</StackPanel>
+
+								<StackPanel Orientation="Horizontal">
+									<TextBlock Width="100" Margin="2" Text="Должность" />
+									<TextBlock Margin="2" Text="{Binding PositionName}" />
+								</StackPanel>
 							</StackPanel>
-						</StackPanel>
-					</Border>
-				</Grid>
+					
+							<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="2" CanEdit="False" MaxWidth="200" MaxHeight="200" />
+					</Grid>
+				</Border>
 
 				<Grid Grid.Column="1" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Grid DataContext="{Binding SelectedCard}">

@@ -150,7 +150,7 @@ namespace FiresecService.Service
 		{
 			item.AccessTemplateUID = null;
 			item.CardDoors = new List<CardDoor>();
-			item.CardTemplateUID = null;
+			item.PassCardTemplateUID = null;
 			item.EmployeeName = null;
 			item.HolderUID = null;
 			item.IsInStopList = true;

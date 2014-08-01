@@ -401,3 +401,51 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('RemoveEmployeeReplacementUIDIndex')
 END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEmployeeReplacementUIDIndex')
+BEGIN
+	IF EXISTS (SELECT Name FROM sysindexes WHERE Name = 'EmployeeReplacementUIDIndex') 
+	BEGIN
+		DROP Index EmployeeReplacementUIDIndex ON EmployeeReplacement
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveEmployeeReplacementUIDIndex')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DoorsDropAntipassEscort')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardDoor')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'IsAntipass' and table_name = 'CardDoor')
+		BEGIN
+			ALTER TABLE CardDoor DROP COLUMN IsAntipass
+		END
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'IsWithEscort' and table_name = 'CardDoor')
+		BEGIN
+			ALTER TABLE CardDoor DROP COLUMN IsWithEscort
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('DoorsDropAntipassEscort')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CardPassCardTemplateUID')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardTemplateUID' and table_name = 'Card')
+		BEGIN
+			EXEC sp_rename '[Card].[CardTemplateUID]', 'PassCardTemplateUID', 'Column'
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('CardPassCardTemplateUID')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'JournalDropCardNo')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Journal')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardNo' and table_name = 'Journal')
+		BEGIN
+			ALTER TABLE Journal DROP COLUMN CardNo
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('JournalDropCardNo')
+END

@@ -65,7 +65,7 @@
     <Compile Include="SKDDatabaseService\Translators\Base\IsDeletedTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\Base\WithShortTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\CardTranslator.cs" />
-    <Compile Include="SKDDatabaseService\Translators\CardZoneTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\CardDoorTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\ScheduleZoneTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\ScheduleTranslator.cs" />
     <Compile Include="SKDDatabaseService\Translators\DayIntervalTranslator.cs" />

@@ -27,8 +27,8 @@ namespace SKDModule.ViewModels
 			EmployeeViewModel = employeeViewModel;
 			Card = card;
 
-			var cardZones = GetCardDoors(Card);
-			CardDoorsViewModel = new CardDoorsViewModel(cardZones);
+			var cardDoors = GetCardDoors(Card);
+			CardDoorsViewModel = new CardDoorsViewModel(cardDoors);
 		}
 
 		public string Name

@@ -23,10 +23,8 @@ namespace SKDDriver
 			result.EnterIntervalID = tableItem.EnterIntervalID;
 			result.ExitIntervalType = (IntervalType)tableItem.ExitIntervalType;
 			result.ExitIntervalID = tableItem.ExitIntervalID;
-			result.IsComission = tableItem.IsWithEscort;
 			result.DoorUID = tableItem.DoorUID;
 			result.ParentUID = tableItem.ParentUID;
-			result.IsAntiPassback = tableItem.IsAntipass;
 			return result;
 		}
 
@@ -37,10 +35,8 @@ namespace SKDDriver
 			tableItem.EnterIntervalID = apiItem.EnterIntervalID;
 			tableItem.ExitIntervalType = (int?)apiItem.ExitIntervalType;
 			tableItem.ExitIntervalID = apiItem.ExitIntervalID;
-			tableItem.IsWithEscort = apiItem.IsComission;
 			tableItem.DoorUID = apiItem.DoorUID;
 			tableItem.ParentUID = apiItem.ParentUID;
-			tableItem.IsAntipass = apiItem.IsAntiPassback;
 		}
 
 		public List<CardDoor> Get(Guid parentUID)
