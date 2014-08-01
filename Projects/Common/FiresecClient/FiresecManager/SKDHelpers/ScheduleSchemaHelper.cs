@@ -15,7 +15,7 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool MarkDeleted(ScheduleScheme scheduleScheme)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedScheduleSchemes(new List<ScheduleScheme> { scheduleScheme });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedScheduleScheme(scheduleScheme);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

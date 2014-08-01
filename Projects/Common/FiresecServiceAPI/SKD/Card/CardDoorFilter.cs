@@ -7,6 +7,14 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class CardDoorFilter : IsDeletedFilter
 	{
+		public CardDoorFilter()
+			: base()
+		{
+			CardUIDs = new List<Guid>();
+			DoorUIDs = new List<Guid>();
+			IntervalIDs = new List<int>();
+		}
+
 		[DataMember]
 		public List<Guid> CardUIDs { get; set; }
 
@@ -15,12 +23,5 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<int> IntervalIDs { get; set; }
-
-		public CardDoorFilter():base()
-		{
-			CardUIDs = new List<Guid>();
-			DoorUIDs = new List<Guid>();
-			IntervalIDs = new List<int>();
-		}
 	}
 }

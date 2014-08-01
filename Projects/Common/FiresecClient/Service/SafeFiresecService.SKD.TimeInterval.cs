@@ -14,9 +14,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveNamedIntervals(items));
 		}
-		public FiresecAPI.OperationResult MarkDeletedNamedIntervals(IEnumerable<NamedInterval> items)
+		public FiresecAPI.OperationResult MarkDeletedNamedInterval(NamedInterval item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedNamedIntervals(items));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedNamedInterval(item));
 		}
 	
 		public FiresecAPI.OperationResult<IEnumerable<TimeInterval>> GetTimeIntervals(TimeIntervalFilter filter)
@@ -27,9 +27,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveTimeIntervals(items));
 		}
-		public FiresecAPI.OperationResult MarkDeletedTimeIntervals(IEnumerable<TimeInterval> items)
+		public FiresecAPI.OperationResult MarkDeletedTimeInterval(TimeInterval item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedTimeIntervals(items));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedTimeInterval(item));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
@@ -40,9 +40,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveHolidays(items));
 		}
-		public FiresecAPI.OperationResult MarkDeletedHolidays(IEnumerable<Holiday> items)
+		public FiresecAPI.OperationResult MarkDeletedHoliday(Holiday item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedHolidays(items));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedHoliday(item));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter)
@@ -53,9 +53,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveScheduleSchemes(items));
 		}
-		public FiresecAPI.OperationResult MarkDeletedScheduleSchemes(IEnumerable<ScheduleScheme> items)
+		public FiresecAPI.OperationResult MarkDeletedScheduleScheme(ScheduleScheme item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleSchemes(items));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleScheme(item));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
@@ -66,9 +66,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveDayIntervals(items));
 		}
-		public FiresecAPI.OperationResult MarkDeletedDayIntervals(IEnumerable<DayInterval> items)
+		public FiresecAPI.OperationResult MarkDeletedDayInterval(DayInterval item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedDayIntervals(items));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedDayInterval(item));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter)
@@ -79,9 +79,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveSchedules(items));
 		}
-		public FiresecAPI.OperationResult MarkDeletedSchedules(IEnumerable<Schedule> items)
+		public FiresecAPI.OperationResult MarkDeletedSchedule(Schedule item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedSchedules(items));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedSchedule(item));
 		}
 		public FiresecAPI.OperationResult<IEnumerable<ShortSchedule>> GetScheduleShortList(ScheduleFilter filter)
 		{
@@ -97,9 +97,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveScheduleZones(items));
 		}
-		public FiresecAPI.OperationResult MarkDeletedScheduleZones(IEnumerable<ScheduleZone> items)
+		public FiresecAPI.OperationResult MarkDeletedScheduleZone(ScheduleZone item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleZones(items));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleZone(item));
 		}
 	}
 }

@@ -11,42 +11,42 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveNamedIntervals(IEnumerable<TimeIntervals.NamedInterval> items);
 		[OperationContract]
-		OperationResult MarkDeletedNamedIntervals(IEnumerable<TimeIntervals.NamedInterval> items);
+		OperationResult MarkDeletedNamedInterval(TimeIntervals.NamedInterval item);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.TimeInterval>> GetTimeIntervals(TimeIntervals.TimeIntervalFilter filter);
 		[OperationContract]
 		OperationResult SaveTimeIntervals(IEnumerable<TimeIntervals.TimeInterval> items);
 		[OperationContract]
-		OperationResult MarkDeletedTimeIntervals(IEnumerable<TimeIntervals.TimeInterval> items);
+		OperationResult MarkDeletedTimeInterval(TimeIntervals.TimeInterval item);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.Holiday>> GetHolidays(TimeIntervals.HolidayFilter filter);
 		[OperationContract]
 		OperationResult SaveHolidays(IEnumerable<TimeIntervals.Holiday> items);
 		[OperationContract]
-		OperationResult MarkDeletedHolidays(IEnumerable<TimeIntervals.Holiday> items);
+		OperationResult MarkDeletedHoliday(TimeIntervals.Holiday item);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.ScheduleScheme>> GetScheduleSchemes(TimeIntervals.ScheduleSchemeFilter filter);
 		[OperationContract]
 		OperationResult SaveScheduleSchemes(IEnumerable<TimeIntervals.ScheduleScheme> items);
 		[OperationContract]
-		OperationResult MarkDeletedScheduleSchemes(IEnumerable<TimeIntervals.ScheduleScheme> items);
+		OperationResult MarkDeletedScheduleScheme(TimeIntervals.ScheduleScheme item);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.DayInterval>> GetDayIntervals(TimeIntervals.DayIntervalFilter filter);
 		[OperationContract]
 		OperationResult SaveDayIntervals(IEnumerable<TimeIntervals.DayInterval> items);
 		[OperationContract]
-		OperationResult MarkDeletedDayIntervals(IEnumerable<TimeIntervals.DayInterval> items);
+		OperationResult MarkDeletedDayInterval(TimeIntervals.DayInterval item);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.Schedule>> GetSchedules(TimeIntervals.ScheduleFilter filter);
 		[OperationContract]
 		OperationResult SaveSchedules(IEnumerable<TimeIntervals.Schedule> items);
 		[OperationContract]
-		OperationResult MarkDeletedSchedules(IEnumerable<TimeIntervals.Schedule> items);
+		OperationResult MarkDeletedSchedule(TimeIntervals.Schedule item);
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.ShortSchedule>> GetScheduleShortList(TimeIntervals.ScheduleFilter filter);
 
@@ -55,6 +55,6 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult SaveScheduleZones(IEnumerable<TimeIntervals.ScheduleZone> items);
 		[OperationContract]
-		OperationResult MarkDeletedScheduleZones(IEnumerable<TimeIntervals.ScheduleZone> items);
+		OperationResult MarkDeletedScheduleZone(TimeIntervals.ScheduleZone item);
 	}
 }

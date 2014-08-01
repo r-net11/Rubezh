@@ -51,7 +51,7 @@ namespace SKDModule.ViewModels
 			UserTime = Card.UserTime;
 			DeactivationControllerUID = Card.DeactivationControllerUID;
 
-			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors, Card.UID);
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors, Card.UID, null);
 
 			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
 			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "<нет>" });

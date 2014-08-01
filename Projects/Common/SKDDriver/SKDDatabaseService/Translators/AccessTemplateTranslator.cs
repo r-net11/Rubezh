@@ -49,7 +49,7 @@ namespace SKDDriver
 		protected override AccessTemplate Translate(DataAccess.AccessTemplate tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.CardDoors = CardDoorsTranslator.Get(tableItem.UID);
+			result.CardDoors = CardDoorsTranslator.GetForAccessTemplate(tableItem.UID);
 			result.Name = tableItem.Name;
 			var zones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
 			foreach (var item in zones)
@@ -72,10 +72,11 @@ namespace SKDDriver
 
 		public override OperationResult Save(AccessTemplate item)
 		{
-			var updateZonesResult = CardDoorsTranslator.SaveFromAccessTemplate(item);
-			if (updateZonesResult.HasError)
-				return updateZonesResult;
-			return base.Save(item);
+			var result = base.Save(item);
+			var updateCardDoorsResult = CardDoorsTranslator.SaveFromAccessTemplate(item);
+			if (updateCardDoorsResult.HasError)
+				return updateCardDoorsResult;
+			return result;
 		}
 
 		protected override Expression<Func<DataAccess.AccessTemplate, bool>> IsInFilter(AccessTemplateFilter filter)

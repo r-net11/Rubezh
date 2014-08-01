@@ -449,3 +449,64 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('JournalDropCardNo')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveCardDoorParentType')
+BEGIN
+	ALTER TABLE CardDoor DROP COLUMN ParentType
+	INSERT INTO Patches (Id) VALUES ('RemoveCardDoorParentType')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveCardDoorParentUID')
+BEGIN
+	ALTER TABLE CardDoor DROP COLUMN ParentUID
+	INSERT INTO Patches (Id) VALUES ('RemoveCardDoorParentUID')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddCardDoorCardUID')
+BEGIN
+	ALTER TABLE CardDoor ADD [CardUID] [uniqueidentifier] NULL
+	INSERT INTO Patches (Id) VALUES ('AddCardDoorCardUID')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddAccessTemplateUID')
+BEGIN
+	ALTER TABLE CardDoor ADD [AccessTemplateUID] [uniqueidentifier] NULL
+	INSERT INTO Patches (Id) VALUES ('AddAccessTemplateUID')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FK_CardDoor_Card_CascadeDelete')
+BEGIN
+	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CardDoor_Card]') AND parent_object_id = OBJECT_ID(N'[dbo].[CardDoor]'))
+	ALTER TABLE [dbo].[CardDoor] DROP CONSTRAINT [FK_CardDoor_Card]
+
+	ALTER TABLE [dbo].[CardDoor]  WITH NOCHECK ADD  CONSTRAINT [FK_CardDoor_Card] FOREIGN KEY([CardUID])
+	REFERENCES [dbo].[Card] ([Uid])
+	ON DELETE CASCADE
+	NOT FOR REPLICATION 
+	ALTER TABLE [dbo].[CardDoor] NOCHECK CONSTRAINT [FK_CardDoor_Card]
+
+	INSERT INTO Patches (Id) VALUES ('FK_CardDoor_Card_CascadeDelete')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FK_CardDoor_AccessTemplate_CascadeDelete')
+BEGIN
+	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CardDoor_AccessTemplate]') AND parent_object_id = OBJECT_ID(N'[dbo].[CardDoor]'))
+	ALTER TABLE [dbo].[CardDoor] DROP CONSTRAINT [FK_CardDoor_AccessTemplate]
+
+	ALTER TABLE [dbo].[CardDoor] WITH NOCHECK ADD  CONSTRAINT [FK_CardDoor_AccessTemplate] FOREIGN KEY([AccessTemplateUID])
+	REFERENCES [dbo].[AccessTemplate] ([Uid])
+	ON DELETE CASCADE
+	NOT FOR REPLICATION 
+	ALTER TABLE [dbo].[CardDoor] NOCHECK CONSTRAINT [FK_CardDoor_AccessTemplate]
+
+	INSERT INTO Patches (Id) VALUES ('FK_CardDoor_AccessTemplate_CascadeDelete')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_FK_Journal_Card')
+BEGIN
+	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Journal_Card]') AND parent_object_id = OBJECT_ID(N'[dbo].[Journal]'))
+	ALTER TABLE [dbo].[Journal] DROP CONSTRAINT [FK_Journal_Card]
+
+	INSERT INTO Patches (Id) VALUES ('Drop_FK_Journal_Card')
+END
+GO

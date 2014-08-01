@@ -15,7 +15,7 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool MarkDeleted(NamedInterval namedInterval)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedNamedIntervals(new List<NamedInterval> { namedInterval });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedNamedInterval(namedInterval);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

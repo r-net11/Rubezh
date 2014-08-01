@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 			AccessTemplate = accessTemplate;
 			AccessTemplateGuardZones = new AccessTemplateGuardZonesViewModel(AccessTemplate);
 			CopyProperties();
-			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, AccessTemplate.CardDoors, AccessTemplate.UID);
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, AccessTemplate.CardDoors, null, AccessTemplate.UID);
 		}
 
 		public void CopyProperties()

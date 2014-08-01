@@ -24,49 +24,21 @@ namespace SKDDriver
 				!x.IsDeleted &&
 				x.UID != item.UID);
 			if (isSameSeriesNo)
-				return new OperationResult("Попытка добавить карту с повторяющейся комбинацией серии и номера");
+				return new OperationResult("Попытка добавить карту с повторяющимся номером");
 			return base.CanSave(item);
 		}
 
-		protected override OperationResult CanDelete(SKDCard item)
+		protected override OperationResult CanDelete(Guid uid)
 		{
-			if (Context.Employees.Any(x => x.UID == item.HolderUID &&
+			var operationResult = GetSingle(uid);
+			var card = operationResult.Result;
+			if (card != null)
+			{
+				if (Context.Employees.Any(x => x.UID == card.HolderUID &&
 					!x.IsDeleted))
-				return new OperationResult("Невозможно удалить карту, пока она указана у действующих сотрудников");
-			return base.CanSave(item);
-		}
-
-		public override OperationResult MarkDeleted(IEnumerable<SKDCard> items)
-		{
-			try
-			{
-				foreach (var item in items)
-				{
-					if (item == null)
-						continue;
-					CardDoorsTranslator.MarkDeleted(item.CardDoors);
-				}
+					return new OperationResult("Невозможно удалить карту, пока она указана у действующих сотрудников");
 			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return base.MarkDeleted(items);
-		}
-
-		public OperationResult Delete(Guid cardUID)
-		{
-			try
-			{
-				var card = Table.Where(x => x.UID == cardUID).Single();
-				Table.DeleteOnSubmit(card);
-				Table.Context.SubmitChanges();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return new OperationResult();
+			return base.CanDelete(uid);
 		}
 
 		protected override SKDCard Translate(DataAccess.Card tableItem)
@@ -78,7 +50,7 @@ namespace SKDDriver
 			result.StartDate = tableItem.StartDate;
 			result.EndDate = tableItem.EndDate;
 			result.AccessTemplateUID = tableItem.AccessTemplateUID;
-			result.CardDoors = CardDoorsTranslator.Get(tableItem.UID);
+			result.CardDoors = CardDoorsTranslator.GetForCards(tableItem.UID);
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
@@ -103,22 +75,23 @@ namespace SKDDriver
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 		}
 
-		public override OperationResult Save(SKDCard item)
+		public override OperationResult Save(SKDCard card)
 		{
-			var updateZonesResult = CardDoorsTranslator.SaveFromCard(item);
-			if (updateZonesResult.HasError)
-				return updateZonesResult;
-			return base.Save(item);
+			var result = base.Save(card);
+			var updateCardDoorsResult = CardDoorsTranslator.SaveFromCard(card);
+			if (updateCardDoorsResult.HasError)
+				return updateCardDoorsResult;
+			return result;
 		}
 		
-		public OperationResult SaveTemplate(SKDCard apiItem)
+		public OperationResult SaveTemplate(SKDCard card)
 		{
 			try
 			{
-				var tableItem = Table.Where(x => x.UID == apiItem.UID).FirstOrDefault();
+				var tableItem = Table.Where(x => x.UID == card.UID).FirstOrDefault();
 				if (tableItem == null)
 					return new OperationResult("Карта не найдена в базе данных");
-				tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
+				tableItem.PassCardTemplateUID = card.PassCardTemplateUID;
 				Context.SubmitChanges();
 				return new OperationResult();
 			}
@@ -152,27 +125,6 @@ namespace SKDDriver
 			}
 
 			return result;
-		}
-
-		public OperationResult<SKDCard> GetByUID(Guid cardUID)
-		{
-			try
-			{
-				var cards = Table.Where(x=>x.UID == cardUID);
-				var card = cards.FirstOrDefault();
-				if (card != null)
-				{
-					var skdCard = Translate(card);
-					return new OperationResult<SKDCard>() { Result = skdCard };
-				}
-				{
-					return new OperationResult<SKDCard>("Карта не найдена");
-				}
-			}
-			catch (Exception e)
-			{
-				return new OperationResult<SKDCard>(e.Message);
-			}
 		}
 
 		public OperationResult<List<SKDCard>> GetByAccessTemplateUID(Guid accessTemplateUID)

@@ -19,7 +19,7 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool MarkDeleted(DayInterval dayInterval)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedDayIntervals(new List<DayInterval> { dayInterval });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedDayInterval(dayInterval);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

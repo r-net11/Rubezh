@@ -211,8 +211,8 @@ namespace FiresecService
 			var pendingCards = SKDDatabaseService.CardTranslator.GetAllPendingCards(deviceProcessor.Device.UID);
 			foreach (var pendingCard in pendingCards)
 			{
-				var operationResult = SKDDatabaseService.CardTranslator.GetByUID(pendingCard.CardUID);
-				if (!operationResult.HasError)
+				var operationResult = SKDDatabaseService.CardTranslator.GetSingle(pendingCard.CardUID);
+				if (!operationResult.HasError && operationResult.Result != null)
 				{
 					var card = operationResult.Result;
 					var accessTemplate = GetAccessTemplate(card.AccessTemplateUID);

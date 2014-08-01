@@ -19,7 +19,7 @@ namespace FiresecClient.SKDHelpers
 
 		public static bool MarkDeleted(ScheduleZone scheduleZone)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedScheduleZones(new List<ScheduleZone> { scheduleZone });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedScheduleZone(scheduleZone);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

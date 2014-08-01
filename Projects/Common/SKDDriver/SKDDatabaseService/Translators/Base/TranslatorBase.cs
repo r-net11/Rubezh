@@ -34,10 +34,6 @@ namespace SKDDriver
 		{
 			return new OperationResult();
 		}
-		protected virtual OperationResult CanDelete(ApiT item)
-		{
-			return new OperationResult();
-		}
 		protected virtual OperationResult CanDelete(Guid uid)
 		{
 			return new OperationResult();
@@ -115,10 +111,8 @@ namespace SKDDriver
 						TranslateBack(tableItem, apiItem);
 					tableItems.Add(tableItem);
 				}
-				BeforeSave(apiItems, tableItems);
 				if (commit)
 					Table.Context.SubmitChanges();
-				AfterSave(apiItems, tableItems);
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -154,13 +148,6 @@ namespace SKDDriver
 			{
 				return new OperationResult(e.Message);
 			}
-		}
-
-		protected virtual void BeforeSave(IEnumerable<ApiT> apiItems, IEnumerable<TableT> tableItems)
-		{
-		}
-		protected virtual void AfterSave(IEnumerable<ApiT> apiItems, IEnumerable<TableT> tableItems)
-		{
 		}
 
 		protected virtual int Comparer(TableT item1, TableT item2)
@@ -221,7 +208,7 @@ namespace SKDDriver
 			try
 			{
 				var result = new OperationResult<ApiT>();
-				if (uid == null)
+				if (uid == null || uid == Guid.Empty)
 					return result;
 				var tableItem = Table.Where(x => x.UID.Equals(uid.Value)).FirstOrDefault();
 				if (tableItem == null)
@@ -233,6 +220,21 @@ namespace SKDDriver
 			{
 				return new OperationResult<ApiT>(e.Message);
 			}
+		}
+
+		public OperationResult Delete(Guid uid)
+		{
+			try
+			{
+				var tableItem = Table.Where(x => x.UID.Equals(uid)).Single();
+				Table.DeleteOnSubmit(tableItem);
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
 		}
 	}
 }

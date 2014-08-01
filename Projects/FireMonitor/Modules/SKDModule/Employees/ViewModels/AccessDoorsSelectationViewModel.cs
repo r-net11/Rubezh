@@ -11,15 +11,17 @@ namespace SKDModule.ViewModels
 	{
 		Organisation Organisation;
 		public List<CardDoor> CardDoors { get; private set; }
-		Guid? ParentUID;
+		Guid? CardUID;
+		Guid? AccessTemplateUID;
 
-		public AccessDoorsSelectationViewModel(Organisation organisation, List<CardDoor> cardDoors, Guid? parentUID)
+		public AccessDoorsSelectationViewModel(Organisation organisation, List<CardDoor> cardDoors, Guid? cardUID, Guid? accessTemplateUID)
 		{
 			Organisation = organisation;
 			CardDoors = cardDoors;
 
 			InitializeDoors();
-			ParentUID = parentUID;
+			CardUID = cardUID;
+			AccessTemplateUID = accessTemplateUID;
 		}
 
 		void InitializeDoors()
@@ -61,7 +63,8 @@ namespace SKDModule.ViewModels
 						EnterIntervalID = door.SelectedEnterTimeType != null ? door.SelectedEnterTimeType.ScheduleID : 0,
 						ExitIntervalType = door.SelectedExitTimeCreteria.IntervalType,
 						ExitIntervalID = door.SelectedExitTimeType != null ? door.SelectedExitTimeType.ScheduleID : 0,
-						ParentUID = ParentUID
+						CardUID = CardUID,
+						AccessTemplateUID = AccessTemplateUID
 					};
 					CardDoors.Add(cardDoor);
 				}
