@@ -10,6 +10,7 @@ namespace AutomationModule.ViewModels
 	{
 		public ZoneSelectionViewModel(XZone zone)
 		{
+			Title = "Выбор зоны";
 			Zones = new ObservableCollection<ZoneViewModel>();
 			XManager.Zones.ForEach(x => Zones.Add(new ZoneViewModel(x)));
 			if (zone != null)

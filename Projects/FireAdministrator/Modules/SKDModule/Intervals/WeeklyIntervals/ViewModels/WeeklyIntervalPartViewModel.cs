@@ -57,6 +57,7 @@ namespace SKDModule.ViewModels
 						WeeklyIntervalPart.HolidayUID = Guid.Empty;
 					}
 					ServiceFactory.SaveService.SKDChanged = true;
+					ServiceFactory.SaveService.TimeIntervalChanged();
 				}
 			}
 		}

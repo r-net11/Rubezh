@@ -61,6 +61,9 @@ namespace FiresecAPI.SKD
 		public SKDDoorConfiguration SKDDoorConfiguration { get; set; }
 
 		[DataMember]
+		public bool HasConfigurationMissmatch { get; set; }
+
+		[DataMember]
 		public Guid CameraUID { get; set; }
 
 		public string Address

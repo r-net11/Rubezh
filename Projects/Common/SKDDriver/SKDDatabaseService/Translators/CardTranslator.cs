@@ -139,7 +139,7 @@ namespace SKDDriver
 			return result;
 		}
 
-		public virtual OperationResult<SKDCard> GetByUID(Guid cardUID)
+		public OperationResult<SKDCard> GetByUID(Guid cardUID)
 		{
 			try
 			{
@@ -157,6 +157,28 @@ namespace SKDDriver
 			catch (Exception e)
 			{
 				return new OperationResult<SKDCard>(e.Message);
+			}
+		}
+
+		public OperationResult<List<SKDCard>> GetByAccessTemplateUID(Guid accessTemplateUID)
+		{
+			try
+			{
+				var skdCards = new List<SKDCard>();
+				var cards = Table.Where(x => x.AccessTemplateUID.HasValue && x.AccessTemplateUID == accessTemplateUID);
+				if (cards != null)
+				{
+					foreach (var card in cards)
+					{
+						var skdCard = Translate(card);
+						skdCards.Add(skdCard);
+					}
+				}
+				return new OperationResult<List<SKDCard>>() { Result = skdCards };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<List<SKDCard>>(e.Message);
 			}
 		}
 

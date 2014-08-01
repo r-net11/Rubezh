@@ -8,6 +8,8 @@
 				<ContextMenu>
 					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Открыть" Command="{Binding OpenCommand}" />
                     <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Закрыть" Command="{Binding CloseCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" />
+                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Установить режим ЗАКРЫТО" Command="{Binding CloseForeverCommand}" />
 					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
 					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />

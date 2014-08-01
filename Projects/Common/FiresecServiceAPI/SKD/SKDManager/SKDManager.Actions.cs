@@ -99,5 +99,23 @@ namespace FiresecAPI.SKD
 				door.OutDevice.Door = door;
 			}
 		}
+
+		public static void RemoveDoor(SKDDoor door)
+		{
+			if (door.InDevice != null)
+			{
+				door.InDevice.Door = null;
+				door.InDevice.OnChanged();
+			}
+
+			if (door.OutDevice != null)
+			{
+				door.OutDevice.Door = null;
+				door.OutDevice.OnChanged();
+			}
+
+			SKDManager.SKDConfiguration.Doors.Remove(door);
+			//door.OnChanged();
+		}
 	}
 }

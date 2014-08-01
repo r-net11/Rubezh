@@ -1,6 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.Serialization;
-using FiresecAPI.GK;
 
 namespace FiresecAPI.Automation
 {
@@ -17,5 +17,20 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Guid ZoneUid { get; set; }
+
+		[DataMember]
+		public ZoneCommandType ZoneCommandType { get; set; }
+	}
+
+	public enum ZoneCommandType
+	{
+		[Description("Отключить")]
+		Ignore,
+
+		[Description("Снять отключение")]
+		ResetIgnore,
+
+		[Description("Сбросить")]
+		Reset
 	}
 }

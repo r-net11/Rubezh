@@ -144,6 +144,26 @@ namespace ChinaSKDDriver
 									timeSheduleInterval.EndHours = timeIntervalPart.EndTime.Hour;
 									timeSheduleInterval.EndMinutes = timeIntervalPart.EndTime.Minute;
 									timeSheduleInterval.EndSeconds = timeIntervalPart.EndTime.Second;
+
+									if (i == 0)
+									{
+										timeSheduleInterval.BeginHours = 0;
+										timeSheduleInterval.BeginMinutes = 0;
+										timeSheduleInterval.BeginSeconds = 0;
+										timeSheduleInterval.EndHours = 0;
+										timeSheduleInterval.EndMinutes = 0;
+										timeSheduleInterval.EndSeconds = 0;
+									}
+									if (i == 1)
+									{
+										timeSheduleInterval.BeginHours = 0;
+										timeSheduleInterval.BeginMinutes = 0;
+										timeSheduleInterval.BeginSeconds = 0;
+										timeSheduleInterval.EndHours = 23;
+										timeSheduleInterval.EndMinutes = 59;
+										timeSheduleInterval.EndSeconds = 59;
+									}
+
 									timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
 								}
 								for (int j = timeShedule.TimeSheduleIntervals.Count; j < 4; j++)

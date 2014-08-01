@@ -24,6 +24,9 @@ namespace FiresecAPI.Automation
 			IncrementGlobalValueArguments = new IncrementGlobalValueArguments();
 			ControlGKDeviceArguments = new ControlGKDeviceArguments();
 			ControlGKFireZoneArguments = new ControlGKFireZoneArguments();
+			ControlGKGuardZoneArguments = new ControlGKGuardZoneArguments();
+			ControlDirectionArguments = new ControlDirectionArguments();
+			ControlDoorArguments = new ControlDoorArguments();
 		}
 
 		public ProcedureStep Parent { get; set; }
@@ -81,5 +84,14 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ControlGKFireZoneArguments ControlGKFireZoneArguments { get; set; }
+
+		[DataMember]
+		public ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
+
+		[DataMember]
+		public ControlDirectionArguments ControlDirectionArguments { get; set; }
+
+		[DataMember]
+		public ControlDoorArguments ControlDoorArguments { get; set; }
 	}
 }

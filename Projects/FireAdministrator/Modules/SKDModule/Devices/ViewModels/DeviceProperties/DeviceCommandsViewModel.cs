@@ -11,6 +11,7 @@ using Infrastructure.Events;
 using Microsoft.Win32;
 using System.Threading;
 using System;
+using System.Linq;
 using Infrastructure.Common.Services;
 
 namespace SKDModule.ViewModels
@@ -84,6 +85,9 @@ namespace SKDModule.ViewModels
 								LoadingService.Close();
 								MessageBoxService.ShowWarning(result.Error);
 							}
+
+							SelectedDevice.Device.HasConfigurationMissmatch = result.HasError;
+							OnPropertyChanged(() => HasMissmath);
 						}));
 					});
 					thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
@@ -114,6 +118,15 @@ namespace SKDModule.ViewModels
 								LoadingService.Close();
 								MessageBoxService.ShowWarning(result.Error);
 							}
+
+							SKDManager.Devices.ForEach(x => x.HasConfigurationMissmatch = false);
+							foreach (var failedDeviceUID in result.Result)
+							{
+								var device = SKDManager.Devices.FirstOrDefault(x => x.UID == failedDeviceUID);
+								if(device != null)
+									device.HasConfigurationMissmatch = true;
+							}
+							OnPropertyChanged(() => HasMissmath);
 						}));
 					});
 					thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
@@ -149,6 +162,21 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 			return true;
+		}
+
+		public bool HasMissmath
+		{
+			get
+			{
+				foreach (var device in SKDManager.Devices)
+				{
+					if (device.Driver.IsController)
+					{
+						return device.HasConfigurationMissmatch;
+					}
+				}
+				return false;
+			}
 		}
 	}
 }

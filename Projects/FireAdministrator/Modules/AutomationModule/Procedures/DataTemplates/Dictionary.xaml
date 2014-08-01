@@ -34,7 +34,19 @@
 	<DataTemplate DataType="{x:Type ViewModels:ZoneSelectionViewModel}">
 		<Views:ZoneSelectionView />
 	</DataTemplate>
-	
+
+	<DataTemplate DataType="{x:Type ViewModels:GuardZoneSelectionViewModel}">
+		<Views:GuardZoneSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DirectionSelectionViewModel}">
+		<Views:DirectionSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorSelectionViewModel}">
+		<Views:DoorSelectionView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="soundsTemplate">
 		<Views:SoundStepView />
 	</DataTemplate>
@@ -91,6 +103,18 @@
 		<Views:ControlGKFireZoneStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="controlGKGuardZoneTemplate">
+		<Views:ControlGKGuardZoneStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlDirectionTemplate">
+		<Views:ControlDirectionStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlDoorTemplate">
+		<Views:ControlDoorStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
@@ -106,6 +130,9 @@
 		IncrementGlobalValueTemplate="{StaticResource incrementGlobalValueTemplate}"
 		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
 		ControlGKFireZoneTemplate="{StaticResource controlGKFireZoneTemplate}"
+		ControlGKGuardZoneTemplate="{StaticResource controlGKGuardZoneTemplate}"
+		ControlDirectionTemplate="{StaticResource controlDirectionTemplate}"
+		ControlDoorTemplate="{StaticResource controlDoorTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

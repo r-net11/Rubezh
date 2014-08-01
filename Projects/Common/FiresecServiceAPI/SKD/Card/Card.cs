@@ -26,6 +26,9 @@ namespace FiresecAPI.SKD
 		public DateTime EndDate { get; set; }
 
 		[DataMember]
+		public int UserTime { get; set; }
+
+		[DataMember]
 		public List<CardDoor> CardDoors { get; set; }
 
 		[DataMember]

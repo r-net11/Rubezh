@@ -30,6 +30,8 @@ namespace SKDModule.ViewModels
 
 			OpenCommand = new RelayCommand(OnOpen, CanOpen);
 			CloseCommand = new RelayCommand(OnClose, CanClose);
+			OpenForeverCommand = new RelayCommand(OnOpenForever, CanOpenForever);
+			CloseForeverCommand = new RelayCommand(OnCloseForever, CanCloseForever);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -81,7 +83,7 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var result = FiresecManager.FiresecService.SKDOpenZone(Zone.UID);
+				var result = FiresecManager.FiresecService.SKDOpenZone(Zone);
 				if (result.HasError)
 				{
 					MessageBoxService.ShowWarning(result.Error);
@@ -98,7 +100,7 @@ namespace SKDModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var result = FiresecManager.FiresecService.SKDCloseZone(Zone.UID);
+				var result = FiresecManager.FiresecService.SKDCloseZone(Zone);
 				if (result.HasError)
 				{
 					MessageBoxService.ShowWarning(result.Error);
@@ -108,6 +110,40 @@ namespace SKDModule.ViewModels
 		bool CanClose()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Zone.State.StateClass != XStateClass.Off && Zone.State.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand OpenForeverCommand { get; private set; }
+		void OnOpenForever()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDOpenZoneForever(Zone);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanOpenForever()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
+		}
+
+		public RelayCommand CloseForeverCommand { get; private set; }
+		void OnCloseForever()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var result = FiresecManager.FiresecService.SKDCloseZoneForever(Zone);
+				if (result.HasError)
+				{
+					MessageBoxService.ShowWarning(result.Error);
+				}
+			}
+		}
+		bool CanCloseForever()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public bool IsBold { get; set; }

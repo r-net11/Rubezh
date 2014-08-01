@@ -195,7 +195,7 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDWriteTimeSheduleConfiguration(deviceUID); }, "SKDWriteTimeSheduleConfiguration");
 		}
-		public OperationResult<bool> SKDWriteAllTimeSheduleConfiguration()
+		public OperationResult<List<Guid>> SKDWriteAllTimeSheduleConfiguration()
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDWriteAllTimeSheduleConfiguration(); }, "SKDWriteAllTimeSheduleConfiguration");
 		}
@@ -223,6 +223,14 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
 		}
+		public OperationResult<bool> SKDOpenDeviceForever(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDOpenDeviceForever(deviceUID); }, "SKDOpenDeviceForever");
+		}
+		public OperationResult<bool> SKDCloseDeviceForever(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDCloseDeviceForever(deviceUID); }, "SKDCloseDeviceForever");
+		}
 		public OperationResult<bool> SKDOpenZone(Guid zoneUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenZone(zoneUID); }, "SKDOpenZone");
@@ -231,6 +239,14 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDCloseZone(zoneUID); }, "SKDCloseZone");
 		}
+		public OperationResult<bool> SKDOpenZoneForever(Guid zoneUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDOpenZoneForever(zoneUID); }, "SKDOpenZoneForever");
+		}
+		public OperationResult<bool> SKDCloseZoneForever(Guid zoneUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDCloseZoneForever(zoneUID); }, "SKDCloseZoneForever");
+		}
 		public OperationResult<bool> SKDOpenDoor(Guid doorUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenDoor(doorUID); }, "SKDOpenDoor");
@@ -238,6 +254,14 @@ namespace FiresecService.Service
 		public OperationResult<bool> SKDCloseDoor(Guid doorUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDCloseDoor(doorUID); }, "SKDCloseDoor");
+		}
+		public OperationResult<bool> SKDOpenDoorForever(Guid doorUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDOpenDoorForever(doorUID); }, "SKDOpenDoorForever");
+		}
+		public OperationResult<bool> SKDCloseDoorForever(Guid doorUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDCloseDoorForever(doorUID); }, "SKDCloseDoorForever");
 		}
 		#endregion
 	}

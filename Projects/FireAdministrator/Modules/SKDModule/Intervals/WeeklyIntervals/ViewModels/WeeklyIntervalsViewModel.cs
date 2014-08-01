@@ -26,7 +26,7 @@ namespace SKDModule.ViewModels
 			base.Initialize();
 			var map = SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ToDictionary(item => item.ID);
 			Intervals = new ObservableCollection<WeeklyIntervalViewModel>();
-			for (int i = 1; i <= 128; i++)
+			for (int i = 2; i <= 127; i++)
 				Intervals.Add(new WeeklyIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null, this));
 			SelectedInterval = Intervals.FirstOrDefault();
 		}
@@ -38,6 +38,7 @@ namespace SKDModule.ViewModels
 			{
 				SelectedInterval.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
+				ServiceFactory.SaveService.TimeIntervalChanged();
 			}
 		}
 

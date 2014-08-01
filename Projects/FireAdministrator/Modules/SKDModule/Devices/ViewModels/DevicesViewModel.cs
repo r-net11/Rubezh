@@ -12,6 +12,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
+using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
