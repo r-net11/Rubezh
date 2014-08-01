@@ -67,6 +67,8 @@ namespace SKDDriver
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
+			result.DeactivationControllerUID = tableItem.DeactivationControllerUID != null ? tableItem.DeactivationControllerUID.Value : Guid.Empty ;
+			result.Password = tableItem.Password;
 
 			var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
 			if (employee != null)
@@ -86,6 +88,8 @@ namespace SKDDriver
 			tableItem.StopReason = apiItem.StopReason;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
+			tableItem.Password = apiItem.Password;
+			tableItem.DeactivationControllerUID = tableItem.DeactivationControllerUID;
 		}
 
 		public override OperationResult Save(SKDCard item)

@@ -449,3 +449,36 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('JournalDropCardNo')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'PassJournalNullable')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Journal')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'EnterTime' and table_name = 'PassJournal')
+		BEGIN
+			ALTER TABLE PassJournal ALTER COLUMN EnterTime datetime null
+		END
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'ExitTime' and table_name = 'PassJournal')
+		BEGIN
+			ALTER TABLE PassJournal ALTER COLUMN ExitTime datetime null
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('PassJournalNullable')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'SKDCardPasswordDeactivation')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
+	BEGIN
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'DeactivationControllerUID' and table_name = 'SKDCardPasswordDeactivation')
+		BEGIN
+			ALTER TABLE [Card] ADD DeactivationControllerUID [uniqueidentifier] NULL
+		END
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'Password' and table_name = 'SKDCardPasswordDeactivation')
+		BEGIN
+			ALTER TABLE [Card] ADD [Password] [nvarchar](50) NULL
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('SKDCardPasswordDeactivation')
+END
+GO

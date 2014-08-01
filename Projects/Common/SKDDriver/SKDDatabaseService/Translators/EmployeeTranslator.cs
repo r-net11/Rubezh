@@ -7,7 +7,6 @@ using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using LinqKit;
 using SKDDriver.Translators;
-using System.Data.SqlTypes;
 
 namespace SKDDriver
 {
@@ -276,7 +275,7 @@ namespace SKDDriver
 		{
 			try
 			{
-				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == SqlDateTime.MinValue.Value);
+				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == null);
 				if (exitPassJournal != null)
 				{
 					exitPassJournal.ExitTime = DateTime.Now;
@@ -286,7 +285,7 @@ namespace SKDDriver
 				enterPassJournal.EmployeeUID = employeeUID;
 				enterPassJournal.ZoneUID = zoneUID;
 				enterPassJournal.EnterTime = DateTime.Now;
-				enterPassJournal.ExitTime = SqlDateTime.MinValue.Value;
+				enterPassJournal.ExitTime = null;
 				Context.PassJournals.InsertOnSubmit(enterPassJournal);
 				Context.SubmitChanges();
 				return new OperationResult();
@@ -299,18 +298,21 @@ namespace SKDDriver
 
 		EmployeeTimeTrack GetTimeTrack(Guid employeeUID, DateTime date)
 		{
-			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime.Date == date.Date).ToList();
+			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime != null && x.EnterTime.Value.Date == date.Date).ToList();
 			if (passJournals == null || passJournals.Count == 0)
 				return new EmployeeTimeTrack();
 			var timeTrack = new EmployeeTimeTrack();
 			timeTrack.EmployeeUID = employeeUID;
 			timeTrack.Date = date;
-			var firstEnterTime = passJournals.Select(x => x.EnterTime).Min();
-			var lastExitTime = passJournals.Select(x => x.ExitTime).Max();
+			var firstEnterTime = passJournals.Where(x => x != null).Select(x => x.EnterTime.Value).Min();
+			var lastExitTime = passJournals.Where(x => x != null).Select(x => x.ExitTime.Value).Max();
+			
 			var totalNotMiss = new DateTime();
-			foreach (var item in passJournals)
+			foreach (var passJournal in passJournals)
 			{
-				totalNotMiss = new DateTime(totalNotMiss.Ticks + item.ExitTime.Ticks - item.EnterTime.Ticks);
+				var itemExitTime = passJournal.ExitTime != null ? passJournal.ExitTime.Value : new DateTime();
+				var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
+				totalNotMiss = new DateTime(totalNotMiss.Ticks + itemExitTime.Ticks - itemEnterTime.Ticks);
 			}
 
 			var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
@@ -357,8 +359,10 @@ namespace SKDDriver
 				{
 					if (!scheduleZones.Any(x => x == passJournal.ZoneUID))
 						continue;
-					var enterTimeSpan = new TimeSpan(passJournal.EnterTime.TimeOfDay.Ticks);
-					var exitTimeSpan = new TimeSpan(passJournal.ExitTime.TimeOfDay.Ticks);
+					var itemExitTime = passJournal.ExitTime != null ? passJournal.ExitTime.Value : new DateTime();
+					var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
+					var enterTimeSpan = new TimeSpan(itemEnterTime.TimeOfDay.Ticks);
+					var exitTimeSpan = new TimeSpan(itemExitTime.TimeOfDay.Ticks);
 					if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
 					{
 						if (exitTimeSpan.TotalSeconds <= interval.EndTime)

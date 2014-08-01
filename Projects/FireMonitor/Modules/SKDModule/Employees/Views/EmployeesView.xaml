@@ -99,7 +99,7 @@
 					</ItemsControl>
 				</StackPanel>
 				<GridSplitter Grid.Column="1" Width="5" VerticalAlignment="Stretch" Background="Transparent" />
-                <Border Grid.Column="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}" Background="White" CornerRadius="5">
+				<Border Grid.Column="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}" Background="White" CornerRadius="5">
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width ="*" />
@@ -133,11 +133,11 @@
 								</StackPanel>
 							</StackPanel>
 					
-							<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="2" CanEdit="False" MaxWidth="200" MaxHeight="200" />
+							<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" MaxWidth="200" MaxHeight="200" />
 					</Grid>
 				</Border>
 
-				<Grid Grid.Column="1" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+				<Grid Grid.Column="2" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Grid DataContext="{Binding SelectedCard}">
 						<Views:CardDoorsView Grid.Row="1" DataContext="{Binding CardDoorsViewModel}" />
 					</Grid>
