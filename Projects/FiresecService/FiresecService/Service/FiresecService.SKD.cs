@@ -202,6 +202,10 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.CardTranslator.MarkDeleted(uid);
 		}
+		public OperationResult DeletedCard(Guid uid)
+		{
+			return SKDDatabaseService.CardTranslator.Delete(uid);
+		}
 		public OperationResult SaveCardTemplate(SKDCard card)
 		{
 			return SKDDatabaseService.CardTranslator.SaveTemplate(card);

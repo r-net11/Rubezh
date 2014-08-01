@@ -86,8 +86,11 @@ namespace SKDModule.ViewModels
 								MessageBoxService.ShowWarning(result.Error);
 							}
 
+							var oldHasMissmath = HasMissmath;
 							SelectedDevice.Device.HasConfigurationMissmatch = result.HasError;
 							OnPropertyChanged(() => HasMissmath);
+							if (HasMissmath != oldHasMissmath)
+								ServiceFactory.SaveService.SKDChanged = true;
 						}));
 					});
 					thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
@@ -119,6 +122,7 @@ namespace SKDModule.ViewModels
 								MessageBoxService.ShowWarning(result.Error);
 							}
 
+							var oldHasMissmath = HasMissmath;
 							SKDManager.Devices.ForEach(x => x.HasConfigurationMissmatch = false);
 							foreach (var failedDeviceUID in result.Result)
 							{
@@ -127,6 +131,8 @@ namespace SKDModule.ViewModels
 									device.HasConfigurationMissmatch = true;
 							}
 							OnPropertyChanged(() => HasMissmath);
+							if (HasMissmath != oldHasMissmath)
+								ServiceFactory.SaveService.SKDChanged = true;
 						}));
 					});
 					thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";

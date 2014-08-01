@@ -34,9 +34,6 @@ namespace SKDDriver
 				UserName = tableItem.UserName,
 				EmployeeUID = tableItem.EmployeeUID.HasValue ? tableItem.EmployeeUID.Value : Guid.Empty
 			};
-			var card = Context.Cards.FirstOrDefault(x => x.UID == tableItem.ObjectUID);
-			if (card != null)
-				journalItem.CardNo = card.Number;
 			return journalItem;
 		}
 

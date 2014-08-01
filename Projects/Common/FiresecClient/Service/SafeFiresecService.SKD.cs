@@ -118,6 +118,10 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedCard(uid));
 		}
+		public OperationResult DeletedCard(Guid uid)
+		{
+			return SafeContext.Execute(() => FiresecService.DeletedCard(uid));
+		}
 		public OperationResult SaveCardTemplate(SKDCard item)
 		{
 			return SafeContext.Execute(() => FiresecService.SaveCardTemplate(item));

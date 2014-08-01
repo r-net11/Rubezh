@@ -54,6 +54,21 @@ namespace SKDDriver
 			return base.MarkDeleted(items);
 		}
 
+		public OperationResult Delete(Guid cardUID)
+		{
+			try
+			{
+				var card = Table.Where(x => x.UID == cardUID).Single();
+				Table.DeleteOnSubmit(card);
+				Table.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
+			return new OperationResult();
+		}
+
 		protected override SKDCard Translate(DataAccess.Card tableItem)
 		{
 			var result = base.Translate(tableItem);
