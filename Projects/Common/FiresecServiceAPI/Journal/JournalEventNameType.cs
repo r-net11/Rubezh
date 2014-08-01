@@ -41,6 +41,9 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.System, "Отмена операции", XStateClass.TechnologicalRegime)]
 		Отмена_операции,
 
+		[EventDescription(JournalSubsystemType.System, "Сообщение автоматизации", XStateClass.Info)]
+		Сообщение_автоматизации,
+
 		[EventDescription(JournalSubsystemType.GK, "Обновление ПО прибора", XStateClass.Info)]
 		Обновление_ПО_прибора,
 

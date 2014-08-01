@@ -31,6 +31,10 @@
 		<Views:DeviceSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:SKDDeviceSelectionViewModel}">
+		<Views:SKDDeviceSelectionView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:ZoneSelectionViewModel}">
 		<Views:ZoneSelectionView />
 	</DataTemplate>
@@ -99,6 +103,10 @@
 		<Views:ControlGKDeviceStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="controlSKDDeviceTemplate">
+		<Views:ControlSKDDeviceStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="controlGKFireZoneTemplate">
 		<Views:ControlGKFireZoneStepView />
 	</DataTemplate>
@@ -129,6 +137,7 @@
 		SetGlobalValueTemplate="{StaticResource setGlobalValueTemplate}"
 		IncrementGlobalValueTemplate="{StaticResource incrementGlobalValueTemplate}"
 		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
+		ControlSKDDeviceTemplate="{StaticResource controlSKDDeviceTemplate}"
 		ControlGKFireZoneTemplate="{StaticResource controlGKFireZoneTemplate}"
 		ControlGKGuardZoneTemplate="{StaticResource controlGKGuardZoneTemplate}"
 		ControlDirectionTemplate="{StaticResource controlDirectionTemplate}"

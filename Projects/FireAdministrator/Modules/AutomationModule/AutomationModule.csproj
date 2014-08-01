@@ -87,6 +87,7 @@
     <Compile Include="Procedures\ViewModels\FilterSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\FilterViewModel.cs" />
     <Compile Include="Procedures\ViewModels\GuardZoneSelectionViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\SKDDeviceSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\CameraSelectationViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\CameraViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ConditionStepViewModel.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Procedures\ViewModels\Steps\ArithmeticStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ControlGKGuardZoneStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DirectionViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\ControlSKDDeviceStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ExitStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\FindObjectStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
@@ -135,6 +137,9 @@
     <Compile Include="Procedures\Views\GuardZoneSelectionView.xaml.cs">
       <DependentUpon>GuardZoneSelectionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Procedures\Views\SKDDeviceSelectionView.xaml.cs">
+      <DependentUpon>SKDDeviceSelectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\Steps\ControlDirectionStepView.xaml.cs">
       <DependentUpon>ControlDirectionStepView.xaml</DependentUpon>
     </Compile>
@@ -164,6 +169,9 @@
     </Compile>
     <Compile Include="Procedures\Views\Steps\ControlGKGuardZoneStepView.xaml.cs">
       <DependentUpon>ControlGKGuardZoneStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\ControlSKDDeviceStepView.xaml.cs">
+      <DependentUpon>ControlSKDDeviceStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\ExitStepView.xaml.cs">
       <DependentUpon>ExitStepView.xaml</DependentUpon>
@@ -348,6 +356,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Procedures\Views\SKDDeviceSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Procedures\Views\Steps\ControlDirectionStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -385,6 +397,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\ControlGKGuardZoneStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\ControlSKDDeviceStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

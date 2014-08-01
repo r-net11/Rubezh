@@ -65,14 +65,12 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if (ControlGKFireZoneArguments.ZoneUid != Guid.Empty)
 			{
 				var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == ControlGKFireZoneArguments.ZoneUid);
 				SelectedZone = zone != null ? new ZoneViewModel(zone) : null;
 				SelectedCommand = ControlGKFireZoneArguments.ZoneCommandType;
 			}
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
 		public string Description

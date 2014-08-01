@@ -49,6 +49,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Отправить сообщение")]
 		SendMessage,
 
+		[DescriptionAttribute("Добавить запись в журнал")]
+		AddJournalItem,
+
 		[DescriptionAttribute("Экспорт отчета")]
 		ReportExport,
 
@@ -83,7 +86,7 @@ namespace FiresecAPI.Automation
 		ControlGKGuardZone,
 
 		[DescriptionAttribute("Управление устройством СКД")]
-		ControlSKDGKDevice,
+		ControlSKDDevice,
 
 		[DescriptionAttribute("Управление зоной СКД")]
 		ControlSKDZone,

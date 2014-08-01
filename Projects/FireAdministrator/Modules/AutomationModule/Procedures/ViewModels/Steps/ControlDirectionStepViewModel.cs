@@ -69,14 +69,12 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if (ControlDirectionArguments.DirectionUid != Guid.Empty)
 			{
 				var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == ControlDirectionArguments.DirectionUid);
 				SelectedDirection = direction != null ? new DirectionViewModel(direction) : null;
 				SelectedCommand = ControlDirectionArguments.DirectionCommandType;
 			}
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
 		public string Description

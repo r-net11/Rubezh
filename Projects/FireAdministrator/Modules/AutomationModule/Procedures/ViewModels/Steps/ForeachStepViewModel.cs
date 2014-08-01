@@ -28,11 +28,9 @@ namespace AutomationModule.ViewModels
 				var variableViewModel = new VariableViewModel(variable);
 				ListVariables.Add(variableViewModel);
 			}
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			SelectedListVariable = ListVariables.FirstOrDefault(x => x.Variable.Uid == ForeachArguments.ListVariableUid);
 			if (SelectedListVariable != null)
 				UpdateItemVariables(SelectedListVariable.ObjectType);
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			OnPropertyChanged(() => ListVariables);
 			OnPropertyChanged(() => ItemVariables);
 		}

@@ -124,14 +124,13 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if (ControlGkDeviceArguments.DeviceUid != Guid.Empty)
 			{
 				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == ControlGkDeviceArguments.DeviceUid);
 				SelectedDevice = device != null ? new DeviceViewModel(device) : null;
-				SelectedCommand = XStateBitToString(ControlGkDeviceArguments.Command);
+				if (SelectedDevice != null)
+					SelectedCommand = XStateBitToString(ControlGkDeviceArguments.Command);
 			}
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
 		public string Description

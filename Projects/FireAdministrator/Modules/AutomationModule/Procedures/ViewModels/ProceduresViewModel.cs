@@ -144,8 +144,10 @@ namespace AutomationModule.ViewModels
 
 		public override void OnShow()
 		{
+			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if (SelectedProcedure != null)
 				SelectedProcedure.StepsViewModel.UpdateContent();
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			base.OnShow();
 		}
 
