@@ -221,9 +221,13 @@ namespace FiresecService
 					{
 						if (!controllerCardItem.HasError)
 						{
-							SKDDatabaseService.CardTranslator.DeleteAllPendingCards(card.UID, deviceProcessor.Device.UID);
+							SKDDatabaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceProcessor.Device.UID);
 						}
 					}
+				}
+				else
+				{
+					SKDDatabaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceProcessor.Device.UID);
 				}
 			}
 		}

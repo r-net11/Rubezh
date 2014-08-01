@@ -77,8 +77,12 @@
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZoneViewModel.cs" />
+    <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
       <DependentUpon>CardNumberView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\ControllerSelectationView.xaml.cs">
+      <DependentUpon>ControllerSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
@@ -529,6 +533,10 @@
     <Page Include="Employees\Views\EmployeeDetails\SelectPositionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Employees\Views\ControllerSelectationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Intervals\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml">
       <SubType>Designer</SubType>

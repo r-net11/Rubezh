@@ -26,7 +26,7 @@ namespace SKDDriver
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (sameName)
-				return new OperationResult("Попытка добавить ГУД с совпадающим именем");
+				return new OperationResult("Попытка добавить шаблон доступа с совпадающим именем");
 			return base.CanSave(item);
 		}
 
@@ -34,7 +34,7 @@ namespace SKDDriver
 		{
 			if (Context.Cards.Any(x => x.AccessTemplateUID == uid &&
 					x.IsDeleted == false))
-				return new OperationResult("Невозможно удалить ГУД, пока он указан у действующих карт");
+				return new OperationResult("Невозможно удалить шаблон доступа, пока он указан у действующих карт");
 			return base.CanDelete(uid);
 		}
 

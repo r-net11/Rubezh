@@ -226,40 +226,59 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.AccessTemplateTranslator.Get(filter);
 		}
-		public OperationResult SaveAccessTemplate(AccessTemplate item)
+		public OperationResult SaveAccessTemplate(AccessTemplate accessTemplate)
 		{
-			return SKDDatabaseService.AccessTemplateTranslator.Save(item);
+			var oldAccessTemplate = GetAccessTemplate(accessTemplate.UID);
+			var result = SKDDatabaseService.AccessTemplateTranslator.Save(accessTemplate);
+
+			var stringBuilder = new StringBuilder();
+			if (result.HasError)
+				stringBuilder.AppendLine(result.Error);
+
+			var operationResult = SKDDatabaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
+			if (operationResult.Result != null)
+			{
+				foreach (var card in operationResult.Result)
+				{
+					var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldAccessTemplate, card, accessTemplate);
+					var cardWriterError = cardWriter.GetError();
+					var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(accessTemplate.UID, GetFailedControllerUIDs(cardWriter));
+
+					if (!String.IsNullOrEmpty(cardWriterError))
+						stringBuilder.AppendLine(cardWriterError);
+					if (pendingResult.HasError)
+						stringBuilder.AppendLine(pendingResult.Error);
+				}
+			}
+
+			if (stringBuilder.Length > 0)
+				return new OperationResult(stringBuilder.ToString());
+			else
+				return new OperationResult();
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{
-			return SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(uid);
+			var result = SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(uid);
+			//DeleteAccessTemplate(uid);
+			return result;
 		}
 
-		public OperationResult EditAccessTemplate(AccessTemplate item)
-		{
-			var oldAccessTemplate = GetAccessTemplate(item.UID);
-			if (oldAccessTemplate != null)
-			{
-
-			}
-			return new OperationResult();
-		}
-		public OperationResult DeleteAccessTemplate(Guid uid)
-		{
-			var accessTemplate = GetAccessTemplate(uid);
-			if (accessTemplate != null)
-			{
-				var operationResult = SKDDatabaseService.CardTranslator.GetByAccessTemplateUID(uid);
-				if (operationResult.Result != null)
-				{
-					foreach (var card in operationResult.Result)
-					{
-
-					}
-				}
-			}
-			return new OperationResult();
-		}
+		//public OperationResult DeleteAccessTemplate(Guid uid)
+		//{
+		//    var accessTemplate = GetAccessTemplate(uid);
+		//    if (accessTemplate != null)
+		//    {
+		//        var operationResult = SKDDatabaseService.CardTranslator.GetByAccessTemplateUID(uid);
+		//        if (operationResult.Result != null)
+		//        {
+		//            foreach (var card in operationResult.Result)
+		//            {
+		//                EditCard(card);
+		//            }
+		//        }
+		//    }
+		//    return new OperationResult();
+		//}
 
 		#endregion
 

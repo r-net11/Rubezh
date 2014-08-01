@@ -22,6 +22,7 @@ namespace SKDModule.ViewModels
 
 		public EmployeeCardDetailsViewModel(Organisation organisation, SKDCard card = null)
 		{
+			ChangeDeactivationControllerCommand = new RelayCommand(OnChangeDeactivationController);
 			ChangeReaderCommand = new RelayCommand(OnChangeReader);
 			ShowUSBCardReaderCommand = new RelayCommand(OnShowUSBCardReader);
 
@@ -48,6 +49,7 @@ namespace SKDModule.ViewModels
 			StartDate = Card.StartDate;
 			EndDate = Card.EndDate;
 			UserTime = Card.UserTime;
+			DeactivationControllerUID = Card.DeactivationControllerUID;
 
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors, Card.UID);
 
@@ -174,6 +176,8 @@ namespace SKDModule.ViewModels
 			get { return SelectedCardType == CardType.OneTime; }
 		}
 
+		Guid DeactivationControllerUID;
+
 		ObservableCollection<AccessTemplate> _availableAccessTemplates;
 		public ObservableCollection<AccessTemplate> AvailableAccessTemplates
 		{
@@ -263,6 +267,33 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public RelayCommand ChangeDeactivationControllerCommand { get; private set; }
+		void OnChangeDeactivationController()
+		{
+			var controllerSelectationViewModel = new ControllerSelectationViewModel(DeactivationControllerUID);
+			if (DialogService.ShowModalWindow(controllerSelectationViewModel))
+			{
+				DeactivationControllerUID = controllerSelectationViewModel.SelectedDevice.UID;
+				OnPropertyChanged(() => DeactivationControllerName);
+			}
+		}
+
+		public string DeactivationControllerName
+		{
+			get
+			{
+				var controllerDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == DeactivationControllerUID);
+				if (controllerDevice != null)
+				{
+					return controllerDevice.Name;
+				}
+				else
+				{
+					return "Нажмите для выбора контроллера";
+				}
+			}
+		}
+
 		public RelayCommand ChangeReaderCommand { get; private set; }
 		void OnChangeReader()
 		{
@@ -329,6 +360,7 @@ namespace SKDModule.ViewModels
 			Card.StartDate = StartDate;
 			Card.EndDate = EndDate;
 			Card.UserTime = UserTime;
+			Card.DeactivationControllerUID = DeactivationControllerUID;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 
 			if (SelectedAccessTemplate != null)

@@ -29,6 +29,9 @@ namespace FiresecAPI.SKD
 		public int UserTime { get; set; }
 
 		[DataMember]
+		public Guid DeactivationControllerUID { get; set; }
+
+		[DataMember]
 		public List<CardDoor> CardDoors { get; set; }
 
 		[DataMember]

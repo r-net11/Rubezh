@@ -20,7 +20,11 @@
 		<Views:CardRemovalReasonView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:ReaderSelectationViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:ControllerSelectationViewModel}">
+        <Views:ControllerSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ReaderSelectationViewModel}">
 		<Views:ReaderSelectationView />
 	</DataTemplate>
 
