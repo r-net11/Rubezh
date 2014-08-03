@@ -345,6 +345,11 @@ namespace SKDModule.ViewModels
 					return false;
 				}
 			}
+			if(Number <= 0)
+			{
+				MessageBoxService.ShowWarning("Номер карты должен быто положительным числом");
+				return false;
+			}
 
 			if (UseStopList && SelectedStopListCard != null)
 			{

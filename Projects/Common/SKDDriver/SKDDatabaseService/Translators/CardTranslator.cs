@@ -118,16 +118,6 @@ namespace SKDDriver
 					result = result.And(e => !e.IsInStopList);
 					break;
 			}
-
-			if (filter.FirstNos > 0)
-			{
-				result = result.And(e => e.Number >= filter.FirstNos);
-			}
-			if (filter.LastNos > 0)
-			{
-				result = result.And(e => e.Number <= filter.LastNos);
-			}
-
 			return result;
 		}
 

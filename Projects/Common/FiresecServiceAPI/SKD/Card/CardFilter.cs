@@ -13,11 +13,5 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public LogicalDeletationType DeactivationType { get; set; }
-
-		[DataMember]
-		public int FirstNos { get; set; }
-
-		[DataMember]
-		public int LastNos { get; set; }
 	}
 }

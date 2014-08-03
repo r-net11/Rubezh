@@ -176,6 +176,7 @@ namespace SKDModule.ViewModels
 		private void OnPaste()
 		{
 			var newAccessTemplate = CopyAccessTemplate(_clipboard);
+			newAccessTemplate.CardDoors.ForEach(x => x.AccessTemplateUID = newAccessTemplate.UID);
 			if (AccessTemplateHelper.Save(newAccessTemplate))
 			{
 				var accessTemplateViewModel = new AccessTemplateViewModel(SelectedAccessTemplate.Organisation, newAccessTemplate);
@@ -198,6 +199,18 @@ namespace SKDModule.ViewModels
 			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
 			copy.Description = source.Description;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
+			foreach (var cardDoor in source.CardDoors)
+			{
+				var copyCardDoor = new CardDoor();
+				copyCardDoor.DoorUID = cardDoor.DoorUID;
+				copyCardDoor.EnterIntervalType = cardDoor.EnterIntervalType;
+				copyCardDoor.EnterIntervalID = cardDoor.EnterIntervalID;
+				copyCardDoor.ExitIntervalType = cardDoor.ExitIntervalType;
+				copyCardDoor.ExitIntervalID = cardDoor.ExitIntervalID;
+				copyCardDoor.CardUID = null;
+				copyCardDoor.AccessTemplateUID = null;
+				copy.CardDoors.Add(copyCardDoor);
+			}
 			return copy;
 		}
 	}

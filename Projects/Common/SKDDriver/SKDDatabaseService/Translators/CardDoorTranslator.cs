@@ -130,15 +130,6 @@ namespace SKDDriver
 		protected override Expression<Func<DataAccess.CardDoor, bool>> IsInFilter(CardDoorFilter filter)
 		{
 			var result = base.IsInFilter(filter);
-			var cardUIDs = filter.CardUIDs;
-			if (cardUIDs != null && cardUIDs.Count != 0)
-				result = result.And(e => e.CardUID.HasValue && cardUIDs.Contains(e.CardUID.Value));
-			var DoorUIDs = filter.DoorUIDs;
-			if (DoorUIDs != null && DoorUIDs.Count != 0)
-				result = result.And(e => DoorUIDs.Contains(e.DoorUID));
-			var intervalIDs = filter.IntervalIDs;
-			if (intervalIDs != null && intervalIDs.Count != 0)
-				result = result.And(e => e.EnterIntervalID > 0 && intervalIDs.Contains(e.EnterIntervalID));
 			return result;
 		}
 	}

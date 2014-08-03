@@ -132,7 +132,6 @@
     <Compile Include="HR\ViewModels\PositionsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentFilterItemViewModel.cs" />
-    <Compile Include="HR\ViewModels\CardFilterViewModel.cs" />
     <Compile Include="Intervals\Common\CopyHelper.cs" />
     <Compile Include="Intervals\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="Intervals\Common\ViewModels\OrganisationViewModel.cs" />
