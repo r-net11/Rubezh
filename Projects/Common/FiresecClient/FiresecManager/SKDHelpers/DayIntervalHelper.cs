@@ -9,11 +9,7 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool Save(DayInterval dayInterval)
 		{
-			return Save(new List<DayInterval> { dayInterval });
-		}
-		public static bool Save(IEnumerable<DayInterval> dayIntervals)
-		{
-			var operationResult = FiresecManager.FiresecService.SaveDayIntervals(dayIntervals);
+			var operationResult = FiresecManager.FiresecService.SaveDayInterval(dayInterval);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

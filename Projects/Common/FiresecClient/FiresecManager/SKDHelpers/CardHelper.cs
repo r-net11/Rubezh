@@ -6,20 +6,6 @@ namespace FiresecClient.SKDHelpers
 {
 	public static class CardHelper
 	{
-		public static bool DeleteFromEmployee(SKDCard card, string reason)
-		{
-			var result = FiresecManager.FiresecService.DeleteCardFromEmployee(card, reason);
-			return Common.ShowErrorIfExists(result);
-		}
-
-		public static IEnumerable<SKDCard> GetStopListCards()
-		{
-			var filter = new CardFilter();
-			filter.DeactivationType = LogicalDeletationType.Deleted;
-			var result = FiresecManager.FiresecService.GetCards(filter);
-			return Common.ShowErrorIfExists(result);
-		}
-
 		public static IEnumerable<SKDCard> Get(CardFilter filter)
 		{
 			var result = FiresecManager.FiresecService.GetCards(filter);
@@ -37,6 +23,21 @@ namespace FiresecClient.SKDHelpers
 		{
 			var result = FiresecManager.FiresecService.EditCard(card);
 			Common.ShowErrorIfExists(result, showError);
+			return result.Result;
+		}
+
+		public static IEnumerable<SKDCard> GetStopListCards()
+		{
+			var filter = new CardFilter();
+			filter.DeactivationType = LogicalDeletationType.Deleted;
+			var result = FiresecManager.FiresecService.GetCards(filter);
+			return Common.ShowErrorIfExists(result);
+		}
+
+		public static bool DeleteFromEmployee(SKDCard card, string reason)
+		{
+			var result = FiresecManager.FiresecService.DeleteCardFromEmployee(card, reason);
+			Common.ShowErrorIfExists(result);
 			return result.Result;
 		}
 

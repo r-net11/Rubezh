@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
 using TimeIntervals = FiresecAPI.EmployeeTimeIntervals;
+using System;
 
 namespace FiresecAPI
 {
@@ -9,52 +10,52 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.NamedInterval>> GetNamedIntervals(TimeIntervals.NamedIntervalFilter filter);
 		[OperationContract]
-		OperationResult SaveNamedIntervals(IEnumerable<TimeIntervals.NamedInterval> items);
+		OperationResult SaveNamedInterval(TimeIntervals.NamedInterval item);
 		[OperationContract]
-		OperationResult MarkDeletedNamedInterval(TimeIntervals.NamedInterval item);
+		OperationResult MarkDeletedNamedInterval(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.TimeInterval>> GetTimeIntervals(TimeIntervals.TimeIntervalFilter filter);
 		[OperationContract]
-		OperationResult SaveTimeIntervals(IEnumerable<TimeIntervals.TimeInterval> items);
+		OperationResult SaveTimeInterval(TimeIntervals.TimeInterval item);
 		[OperationContract]
-		OperationResult MarkDeletedTimeInterval(TimeIntervals.TimeInterval item);
+		OperationResult MarkDeletedTimeInterval(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.Holiday>> GetHolidays(TimeIntervals.HolidayFilter filter);
 		[OperationContract]
-		OperationResult SaveHolidays(IEnumerable<TimeIntervals.Holiday> items);
+		OperationResult SaveHoliday(TimeIntervals.Holiday item);
 		[OperationContract]
-		OperationResult MarkDeletedHoliday(TimeIntervals.Holiday item);
+		OperationResult MarkDeletedHoliday(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.ScheduleScheme>> GetScheduleSchemes(TimeIntervals.ScheduleSchemeFilter filter);
 		[OperationContract]
-		OperationResult SaveScheduleSchemes(IEnumerable<TimeIntervals.ScheduleScheme> items);
+		OperationResult SaveScheduleScheme(TimeIntervals.ScheduleScheme item);
 		[OperationContract]
-		OperationResult MarkDeletedScheduleScheme(TimeIntervals.ScheduleScheme item);
+		OperationResult MarkDeletedScheduleScheme(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.DayInterval>> GetDayIntervals(TimeIntervals.DayIntervalFilter filter);
 		[OperationContract]
-		OperationResult SaveDayIntervals(IEnumerable<TimeIntervals.DayInterval> items);
+		OperationResult SaveDayInterval(TimeIntervals.DayInterval item);
 		[OperationContract]
-		OperationResult MarkDeletedDayInterval(TimeIntervals.DayInterval item);
+		OperationResult MarkDeletedDayInterval(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.Schedule>> GetSchedules(TimeIntervals.ScheduleFilter filter);
 		[OperationContract]
-		OperationResult SaveSchedules(IEnumerable<TimeIntervals.Schedule> items);
+		OperationResult SaveSchedule(TimeIntervals.Schedule item);
 		[OperationContract]
-		OperationResult MarkDeletedSchedule(TimeIntervals.Schedule item);
+		OperationResult MarkDeletedSchedule(Guid uid);
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.ShortSchedule>> GetScheduleShortList(TimeIntervals.ScheduleFilter filter);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.ScheduleZone>> GetScheduleZones(TimeIntervals.ScheduleZoneFilter filter);
 		[OperationContract]
-		OperationResult SaveScheduleZones(IEnumerable<TimeIntervals.ScheduleZone> items);
+		OperationResult SaveScheduleZone(TimeIntervals.ScheduleZone item);
 		[OperationContract]
-		OperationResult MarkDeletedScheduleZone(TimeIntervals.ScheduleZone item);
+		OperationResult MarkDeletedScheduleZone(Guid uid);
 	}
 }

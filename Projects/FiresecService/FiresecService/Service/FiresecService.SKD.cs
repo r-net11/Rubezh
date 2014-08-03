@@ -237,7 +237,7 @@ namespace FiresecService.Service
 
 			var stringBuilder = new StringBuilder();
 			if (saveResult.HasError)
-				stringBuilder.AppendLine(result.Error);
+				stringBuilder.AppendLine(saveResult.Error);
 
 			var operationResult = SKDDatabaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
 			if (operationResult.Result != null)
@@ -263,26 +263,8 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{
 			var result = SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(uid);
-			//DeleteAccessTemplate(uid);
 			return result;
 		}
-
-		//public OperationResult DeleteAccessTemplate(Guid uid)
-		//{
-		//    var accessTemplate = GetAccessTemplate(uid);
-		//    if (accessTemplate != null)
-		//    {
-		//        var operationResult = SKDDatabaseService.CardTranslator.GetByAccessTemplateUID(uid);
-		//        if (operationResult.Result != null)
-		//        {
-		//            foreach (var card in operationResult.Result)
-		//            {
-		//                EditCard(card);
-		//            }
-		//        }
-		//    }
-		//    return new OperationResult();
-		//}
 
 		#endregion
 

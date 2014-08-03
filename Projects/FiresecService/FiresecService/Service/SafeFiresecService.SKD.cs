@@ -83,7 +83,7 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.EditCard(item));
 		}
-		public OperationResult DeleteCardFromEmployee<bool>(SKDCard item, string reason = null)
+		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null)
 		{
 			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteCardFromEmployee(item, reason));
 		}
@@ -106,9 +106,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<AccessTemplate>>>(() => FiresecService.GetAccessTemplates(filter));
 		}
-		public OperationResult SaveAccessTemplate(AccessTemplate item)
+		public OperationResult<bool> SaveAccessTemplate(AccessTemplate item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAccessTemplate(item));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveAccessTemplate(item));
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{

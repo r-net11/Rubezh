@@ -9,7 +9,7 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool Save(ScheduleScheme scheduleScheme)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveScheduleSchemes(new List<ScheduleScheme> { scheduleScheme });
+			var operationResult = FiresecManager.FiresecService.SaveScheduleScheme(scheduleScheme);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

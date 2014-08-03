@@ -9,7 +9,7 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool Save(TimeInterval timeInterval)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveTimeIntervals(new List<TimeInterval> { timeInterval });
+			var operationResult = FiresecManager.FiresecService.SaveTimeInterval(timeInterval);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

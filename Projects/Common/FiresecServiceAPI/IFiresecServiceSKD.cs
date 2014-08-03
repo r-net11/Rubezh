@@ -11,12 +11,16 @@ namespace FiresecAPI
 		#region Employee
 		[OperationContract]
 		OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter);
+
 		[OperationContract]
 		OperationResult<Employee> GetEmployeeDetails(Guid uid);
+
 		[OperationContract]
 		OperationResult SaveEmployee(Employee item);
+
 		[OperationContract]
 		OperationResult MarkDeletedEmployee(Guid uid);
+
 		[OperationContract]
 		OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate);
 		#endregion
@@ -24,10 +28,13 @@ namespace FiresecAPI
 		#region Department
 		[OperationContract]
 		OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter);
+
 		[OperationContract]
 		OperationResult<Department> GetDepartmentDetails(Guid uid);
+
 		[OperationContract]
 		OperationResult SaveDepartment(Department item);
+
 		[OperationContract]
 		OperationResult MarkDeletedDepartment(Guid uid);
 		#endregion
@@ -35,10 +42,13 @@ namespace FiresecAPI
 		#region Position
 		[OperationContract]
 		OperationResult<IEnumerable<ShortPosition>> GetPositionList(PositionFilter filter);
+
 		[OperationContract]
 		OperationResult<Position> GetPositionDetails(Guid uid);
+
 		[OperationContract]
 		OperationResult SavePosition(Position item);
+
 		[OperationContract]
 		OperationResult MarkDeletedPosition(Guid uid);
 		#endregion
@@ -69,8 +79,10 @@ namespace FiresecAPI
 		#region AccessTemplate
 		[OperationContract]
 		OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter);
+
 		[OperationContract]
-		OperationResult SaveAccessTemplate(AccessTemplate item);
+		OperationResult<bool> SaveAccessTemplate(AccessTemplate item);
+
 		[OperationContract]
 		OperationResult MarkDeletedAccessTemplate(Guid uid);
 		#endregion
@@ -78,20 +90,28 @@ namespace FiresecAPI
 		#region Organisation
 		[OperationContract]
 		OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter);
+
 		[OperationContract]
 		OperationResult SaveOrganisation(OrganisationDetails Organisation);
+
 		[OperationContract]
 		OperationResult MarkDeletedOrganisation(Guid uid);
+
 		[OperationContract]
 		OperationResult SaveOrganisationDoors(Organisation organisation);
+
 		[OperationContract]
 		OperationResult SaveOrganisationZones(Organisation organisation);
+
 		[OperationContract]
 		OperationResult SaveOrganisationCardTemplates(Organisation organisation);
+
 		[OperationContract]
 		OperationResult SaveOrganisationGuardZones(Organisation organisation);
+
 		[OperationContract]
 		OperationResult SaveOrganisationUsers(Organisation organisation);
+
 		[OperationContract]
 		OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid);
 		#endregion
@@ -99,10 +119,13 @@ namespace FiresecAPI
 		#region AdditionalColumnType
 		[OperationContract]
 		OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter);
+
 		[OperationContract]
 		OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid);
+
 		[OperationContract]
 		OperationResult SaveAdditionalColumnType(AdditionalColumnType item);
+
 		[OperationContract]
 		OperationResult MarkDeletedAdditionalColumnType(Guid uid);
 		#endregion
