@@ -82,7 +82,6 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="ExitIntervalID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="CardUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Column Name="AccessTemplateUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
       <Association Name="AccessTemplate_CardDoor" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" DeleteRule="CASCADE" />

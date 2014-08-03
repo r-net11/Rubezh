@@ -38,8 +38,8 @@ namespace DevicesModule.ViewModels
 		void OnStateChanged()
 		{
 			StateType = ZoneState.StateType;
-			OnPropertyChanged("ZoneState");
-			OnPropertyChanged("Tooltip");
+			OnPropertyChanged(() => ZoneState);
+			OnPropertyChanged(() => Tooltip);
 		}
 
 		StateType _stateType;
@@ -49,7 +49,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_stateType = value;
-				OnPropertyChanged("StateType");
+				OnPropertyChanged(() => StateType);
 			}
 		}
 

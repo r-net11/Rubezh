@@ -52,7 +52,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedBlock = value;
-				OnPropertyChanged("SelectedBlock");
+				OnPropertyChanged(() => SelectedBlock);
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace DevicesModule.ViewModels
 						Thread.Sleep(TimeSpan.FromSeconds(5));
 						Dispatcher.BeginInvoke(new Action(() =>
 						{
-							IsBuisy = false; OnPropertyChanged("ConfirmCommand");
+							IsBuisy = false; OnPropertyChanged(() => ConfirmCommand);
 						}));
 					});
 					thread.Name = "DeviceControlViewModel Confirm";
@@ -105,7 +105,7 @@ namespace DevicesModule.ViewModels
 			}
 			try
 			{
-				Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand"); }));
+				Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged(() => ConfirmCommand); }));
 			}
 			catch (Exception e)
 			{
@@ -121,7 +121,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_isTimerEnabled = value;
-				OnPropertyChanged("IsTimerEnabled");
+				OnPropertyChanged(() => IsTimerEnabled);
 			}
 		}
 
@@ -132,7 +132,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_timeLeft = value;
-				OnPropertyChanged("TimeLeft");
+				OnPropertyChanged(() => TimeLeft);
 
 				if (TimeLeft <= 0)
 					IsTimerEnabled = false;
@@ -184,7 +184,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedCommand = value;
-				OnPropertyChanged("SelectedCommand");
+				OnPropertyChanged(() => SelectedCommand);
 			}
 		}
 	}

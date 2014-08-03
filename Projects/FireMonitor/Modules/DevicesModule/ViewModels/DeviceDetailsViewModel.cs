@@ -63,10 +63,10 @@ namespace DevicesModule.ViewModels
 				};
 				ParentStates.Add(stateViewModel);
 			}
-			OnPropertyChanged("StateType");
-			OnPropertyChanged("States");
+			OnPropertyChanged(() => StateType);
+			OnPropertyChanged(() => States);
 			OnPropertyChanged("ParentStringStates");
-			OnPropertyChanged("IsAutomaticOff");
+			OnPropertyChanged(() => IsAutomaticOff);
 
 			var property = Device.Properties.FirstOrDefault(x => x.Name == "EnableCountDownTimer");
 			if (property != null && property.Value == "1")
@@ -135,7 +135,7 @@ namespace DevicesModule.ViewModels
 
 		void OnParametersChanged()
 		{
-			OnPropertyChanged("Parameters");
+			OnPropertyChanged(() => Parameters);
 		}
 
 		public Brush DevicePicture
