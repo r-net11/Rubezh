@@ -40,9 +40,9 @@ namespace SKDDriver
 
 		public override OperationResult MarkDeleted(Guid uid)
 		{
-			var deleteZonesResult = CardDoorsTranslator.MarkDeletefFromAccessTemplate(uid);
-			if (deleteZonesResult.HasError)
-				return deleteZonesResult;
+			var deleteDoorsResult = CardDoorsTranslator.MarkDeletefFromAccessTemplate(uid);
+			if (deleteDoorsResult.HasError)
+				return deleteDoorsResult;
 			return base.MarkDeleted(uid);
 		}
 
@@ -51,8 +51,8 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.CardDoors = CardDoorsTranslator.GetForAccessTemplate(tableItem.UID);
 			result.Name = tableItem.Name;
-			var zones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
-			foreach (var item in zones)
+			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
+			foreach (var item in guardZones)
 			{
 				result.GuardZoneAccesses.Add(new XGuardZoneAccess
 				{
@@ -72,10 +72,9 @@ namespace SKDDriver
 
 		public override OperationResult Save(AccessTemplate item)
 		{
+			var updateCardDoorsResult = CardDoorsTranslator.RemoveFromAccessTemplate(item);
 			var result = base.Save(item);
-			var updateCardDoorsResult = CardDoorsTranslator.SaveFromAccessTemplate(item);
-			if (updateCardDoorsResult.HasError)
-				return updateCardDoorsResult;
+			CardDoorsTranslator.Save(item.CardDoors);
 			return result;
 		}
 

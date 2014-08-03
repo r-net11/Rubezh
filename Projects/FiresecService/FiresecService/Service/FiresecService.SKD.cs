@@ -32,7 +32,25 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedEmployee(Guid uid)
 		{
-			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(uid);
+			var stringBuilder = new StringBuilder();
+			var getEmployeeOperationResult = SKDDatabaseService.EmployeeTranslator.GetSingle(uid);
+			if (!getEmployeeOperationResult.HasError)
+			{
+				foreach (var card in getEmployeeOperationResult.Result.Cards)
+				{
+					var operationResult = DeleteCardFromEmployee(card, "Сотрудник удален");
+					if (operationResult.HasError)
+					{
+						stringBuilder.AppendLine(operationResult.Error);
+					}
+				}
+			}
+			var markdDletedOperationResult = SKDDatabaseService.EmployeeTranslator.MarkDeleted(uid);
+
+			if (stringBuilder.Length > 0)
+				return new OperationResult(stringBuilder.ToString());
+			else
+				return new OperationResult();
 		}
 		public OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
@@ -116,10 +134,10 @@ namespace FiresecService.Service
 			string cardWriterError = null;
 			OperationResult pendingResult;
 
-			var operationResult = SKDDatabaseService.CardTranslator.Get(new CardFilter() { FirstNos = item.Number, LastNos = item.Number });
-			var oldCard = operationResult.Result.FirstOrDefault();
-			if (oldCard != null)
+			var operationResult = SKDDatabaseService.CardTranslator.GetSingle(item.UID);
+			if (!operationResult.HasError)
 			{
+				var oldCard = operationResult.Result;
 				var oldAccessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
 
 				var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, item, accessTemplate);
@@ -162,21 +180,14 @@ namespace FiresecService.Service
 			string cardWriterError = null;
 			OperationResult pendingResult;
 
-			var operationResult = SKDDatabaseService.CardTranslator.Get(new CardFilter() { FirstNos = item.Number, LastNos = item.Number });
+			var operationResult = SKDDatabaseService.CardTranslator.GetSingle(item.UID);
 			if (!operationResult.HasError && operationResult.Result != null)
 			{
-				var oldCard = operationResult.Result.FirstOrDefault();
-				if (oldCard != null)
-				{
-					var accessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
-					var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, accessTemplate);
-					cardWriterError = cardWriter.GetError();
-					pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
-				}
-				else
-				{
-					pendingResult = new OperationResult("Не найдена предидущая карта");
-				}
+				var oldCard = operationResult.Result;
+				var accessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
+				var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, accessTemplate);
+				cardWriterError = cardWriter.GetError();
+				pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
 			}
 			else
 			{
@@ -208,7 +219,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveCardTemplate(SKDCard card)
 		{
-			return SKDDatabaseService.CardTranslator.SaveTemplate(card);
+			return SKDDatabaseService.CardTranslator.SavePassTemplate(card);
 		}
 
 		AccessTemplate GetAccessTemplate(Guid? uid)

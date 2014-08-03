@@ -91,7 +91,6 @@ namespace SKDDriver
 			{
 				if (apiItems == null || apiItems.Count() == 0)
 					return new OperationResult();
-				var tableItems = new List<TableT>();
 				foreach (var apiItem in apiItems)
 				{
 					if (apiItem == null)
@@ -109,7 +108,6 @@ namespace SKDDriver
 					}
 					else
 						TranslateBack(tableItem, apiItem);
-					tableItems.Add(tableItem);
 				}
 				if (commit)
 					Table.Context.SubmitChanges();

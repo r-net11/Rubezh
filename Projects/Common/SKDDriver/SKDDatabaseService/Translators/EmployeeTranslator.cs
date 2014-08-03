@@ -91,8 +91,8 @@ namespace SKDDriver
 			result.DocumentDepartmentCode = tableItem.DocumentDepartmentCode;
 			result.Citizenship = tableItem.Citizenship;
 			result.DocumentType = (EmployeeDocumentType)tableItem.DocumentType;
-			var zones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
-			foreach (var item in zones)
+			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
+			foreach (var item in guardZones)
 			{
 				result.GuardZoneAccesses.Add(new XGuardZoneAccess 
 					{ 

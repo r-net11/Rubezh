@@ -84,13 +84,12 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult SaveFromCard(SKDCard card)
+		public OperationResult RemoveFromCard(SKDCard card)
 		{
 			try
 			{
 				var databaseItems = Table.Where(x => x.CardUID == card.UID);
-				databaseItems.ForEach(x => MarkDeleted(x));
-				Save(card.CardDoors);
+				databaseItems.ForEach(x => Delete(x.UID));
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -99,13 +98,12 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult SaveFromAccessTemplate(AccessTemplate accessTemplate)
+		public OperationResult RemoveFromAccessTemplate(AccessTemplate accessTemplate)
 		{
 			try
 			{
 				var databaseItems = Table.Where(x => x.AccessTemplateUID == accessTemplate.UID);
-				databaseItems.ForEach(x => MarkDeleted(x));
-				Save(accessTemplate.CardDoors);
+				databaseItems.ForEach(x => Delete(x.UID));
 				return new OperationResult();
 			}
 			catch (Exception e)

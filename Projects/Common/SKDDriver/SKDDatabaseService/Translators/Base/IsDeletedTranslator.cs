@@ -44,7 +44,6 @@ namespace SKDDriver
 
 		public virtual OperationResult MarkDeleted(Guid uid)
 		{
-			var operationResult = new OperationResult();
 			try
 			{
 				var verifyResult = CanDelete(uid);
@@ -57,10 +56,18 @@ namespace SKDDriver
 					{
 						databaseItem.IsDeleted = true;
 						databaseItem.RemovalDate = DateTime.Now;
+						Table.Context.SubmitChanges();
+						return new OperationResult();
+					}
+					else
+					{
+						return new OperationResult("Не найдена запись в базе данных");
 					}
 				}
-				Table.Context.SubmitChanges();
-				return operationResult;
+				else
+				{
+					return new OperationResult("Не задан идентификатор");
+				}
 			}
 			catch (Exception e)
 			{

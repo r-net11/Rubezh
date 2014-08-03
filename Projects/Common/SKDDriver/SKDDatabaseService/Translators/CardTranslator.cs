@@ -10,20 +10,20 @@ namespace SKDDriver
 {
 	public class CardTranslator : IsDeletedTranslator<DataAccess.Card, SKDCard, CardFilter>
 	{
-		public CardTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardDoorsTranslator)
+		public CardTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardDoorTranslator)
 			: base(context)
 		{
-			CardDoorsTranslator = cardDoorsTranslator;
+			CardDoorTranslator = cardDoorTranslator;
 		}
 
-		CardDoorTranslator CardDoorsTranslator;
+		CardDoorTranslator CardDoorTranslator;
 
 		protected override OperationResult CanSave(SKDCard item)
 		{
-			bool isSameSeriesNo = Table.Any(x => x.Number == item.Number &&
+			bool isSameNumber = Table.Any(x => x.Number == item.Number &&
 				!x.IsDeleted &&
 				x.UID != item.UID);
-			if (isSameSeriesNo)
+			if (isSameNumber)
 				return new OperationResult("Попытка добавить карту с повторяющимся номером");
 			return base.CanSave(item);
 		}
@@ -50,7 +50,7 @@ namespace SKDDriver
 			result.StartDate = tableItem.StartDate;
 			result.EndDate = tableItem.EndDate;
 			result.AccessTemplateUID = tableItem.AccessTemplateUID;
-			result.CardDoors = CardDoorsTranslator.GetForCards(tableItem.UID);
+			result.CardDoors = CardDoorTranslator.GetForCards(tableItem.UID);
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
@@ -77,23 +77,27 @@ namespace SKDDriver
 
 		public override OperationResult Save(SKDCard card)
 		{
+			var updateCardDoorsResult = CardDoorTranslator.RemoveFromCard(card);
 			var result = base.Save(card);
-			var updateCardDoorsResult = CardDoorsTranslator.SaveFromCard(card);
-			if (updateCardDoorsResult.HasError)
-				return updateCardDoorsResult;
+			CardDoorTranslator.Save(card.CardDoors);
 			return result;
 		}
 		
-		public OperationResult SaveTemplate(SKDCard card)
+		public OperationResult SavePassTemplate(SKDCard card)
 		{
 			try
 			{
-				var tableItem = Table.Where(x => x.UID == card.UID).FirstOrDefault();
-				if (tableItem == null)
+				var oprationResult = GetSingle(card.UID);
+				if (oprationResult != null)
+				{
+					oprationResult.Result.PassCardTemplateUID = card.PassCardTemplateUID;
+					Context.SubmitChanges();
+					return new OperationResult();
+				}
+				else
+				{
 					return new OperationResult("Карта не найдена в базе данных");
-				tableItem.PassCardTemplateUID = card.PassCardTemplateUID;
-				Context.SubmitChanges();
-				return new OperationResult();
+				}
 			}
 			catch (Exception e)
 			{
