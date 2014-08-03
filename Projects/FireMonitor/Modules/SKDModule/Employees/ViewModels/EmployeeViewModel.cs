@@ -115,9 +115,9 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCardCommand { get; private set; }
 		void OnAddCard()
 		{
-			if (Cards.Count > 10)
+			if (Cards.Count > 100)
 			{
-				MessageBoxService.ShowWarning("У сотрудника не может быть более 10 пропусков");
+				MessageBoxService.ShowWarning("У сотрудника не может быть более 100 пропусков");
 				return;
 			}
 			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation);

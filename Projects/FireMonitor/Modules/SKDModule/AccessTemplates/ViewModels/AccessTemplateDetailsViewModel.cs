@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 			AccessTemplate = accessTemplate;
 			AccessTemplateGuardZones = new AccessTemplateGuardZonesViewModel(AccessTemplate);
 			CopyProperties();
-			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, AccessTemplate.CardDoors, null, AccessTemplate.UID);
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, AccessTemplate.CardDoors);
 		}
 
 		public void CopyProperties()
@@ -84,6 +84,7 @@ namespace SKDModule.ViewModels
 			AccessTemplate.Name = Name;
 			AccessTemplate.Description = Description;
 			AccessTemplate.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
+			AccessTemplate.CardDoors.ForEach(x => x.AccessTemplateUID = AccessTemplate.UID);
 			AccessTemplate.OrganisationUID = Organisation.UID;
 			return AccessTemplateHelper.Save(AccessTemplate);
 		}

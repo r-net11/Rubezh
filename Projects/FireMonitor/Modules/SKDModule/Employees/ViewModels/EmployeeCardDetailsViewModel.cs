@@ -51,7 +51,7 @@ namespace SKDModule.ViewModels
 			UserTime = Card.UserTime;
 			DeactivationControllerUID = Card.DeactivationControllerUID;
 
-			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors, Card.UID, null);
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors);
 
 			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
 			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "<нет>" });
@@ -348,8 +348,6 @@ namespace SKDModule.ViewModels
 
 			if (UseStopList && SelectedStopListCard != null)
 			{
-				if (!IsNewCard)
-					CardHelper.DeleteFromEmployee(Card, "Заменен на пропуск " + Number);
 				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
 				Card.StopReason = null;
@@ -362,6 +360,7 @@ namespace SKDModule.ViewModels
 			Card.UserTime = UserTime;
 			Card.DeactivationControllerUID = DeactivationControllerUID;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
+			Card.CardDoors.ForEach(x => x.CardUID = Card.UID);
 
 			if (SelectedAccessTemplate != null)
 				Card.AccessTemplateUID = SelectedAccessTemplate.UID;

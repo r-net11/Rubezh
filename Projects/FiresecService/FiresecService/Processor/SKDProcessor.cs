@@ -215,8 +215,8 @@ namespace FiresecService
 				if (!operationResult.HasError && operationResult.Result != null)
 				{
 					var card = operationResult.Result;
-					var accessTemplate = GetAccessTemplate(card.AccessTemplateUID);
-					var cardWriter = ChinaSKDDriver.Processor.AddCard(card, accessTemplate);
+					var getAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
+					var cardWriter = ChinaSKDDriver.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
 					foreach (var controllerCardItem in cardWriter.ControllerCardItems)
 					{
 						if (!controllerCardItem.HasError)
@@ -230,14 +230,6 @@ namespace FiresecService
 					SKDDatabaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceProcessor.Device.UID);
 				}
 			}
-		}
-
-		static AccessTemplate GetAccessTemplate(Guid? uid)
-		{
-			var accessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(uid);
-			if (!accessTemplateOperationResult.HasError)
-				return accessTemplateOperationResult.Result;
-			return null;
 		}
 
 		public static void SetNewConfig()

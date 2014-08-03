@@ -104,10 +104,10 @@ namespace FiresecService.Service
 		public OperationResult<bool> AddCard(SKDCard item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Добавление_карты);
-			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
+			var getAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
 
 			string cardWriterError = null;
-			var cardWriter = ChinaSKDDriver.Processor.AddCard(item, accessTemplate);
+			var cardWriter = ChinaSKDDriver.Processor.AddCard(item, getAccessTemplateOperationResult.Result);
 			cardWriterError = cardWriter.GetError();
 			var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
 			var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, failedControllerUIDs);
@@ -129,7 +129,7 @@ namespace FiresecService.Service
 		public OperationResult<bool> EditCard(SKDCard item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_карты);
-			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
+			var getAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
 
 			string cardWriterError = null;
 			OperationResult pendingResult;
@@ -138,9 +138,9 @@ namespace FiresecService.Service
 			if (!operationResult.HasError)
 			{
 				var oldCard = operationResult.Result;
-				var oldAccessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
+				var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
 
-				var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, item, accessTemplate);
+				var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldGetAccessTemplateOperationResult.Result, item, getAccessTemplateOperationResult.Result);
 				cardWriterError = cardWriter.GetError();
 				pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
 			}
@@ -184,8 +184,8 @@ namespace FiresecService.Service
 			if (!operationResult.HasError && operationResult.Result != null)
 			{
 				var oldCard = operationResult.Result;
-				var accessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
-				var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, accessTemplate);
+				var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
+				var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, oldGetAccessTemplateOperationResult.Result);
 				cardWriterError = cardWriter.GetError();
 				pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
 			}
@@ -222,14 +222,6 @@ namespace FiresecService.Service
 			return SKDDatabaseService.CardTranslator.SavePassTemplate(card);
 		}
 
-		AccessTemplate GetAccessTemplate(Guid? uid)
-		{
-			var accessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(uid);
-			if (!accessTemplateOperationResult.HasError)
-				return accessTemplateOperationResult.Result;
-			return null;
-		}
-
 		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
 		{
 			return cardWriter.ControllerCardItems.Where(x => x.HasError).Select(x => x.ControllerDevice.UID);
@@ -243,7 +235,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> SaveAccessTemplate(AccessTemplate accessTemplate)
 		{
-			var oldAccessTemplate = GetAccessTemplate(accessTemplate.UID);
+			var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(accessTemplate.UID);
 			var saveResult = SKDDatabaseService.AccessTemplateTranslator.Save(accessTemplate);
 
 			var stringBuilder = new StringBuilder();
@@ -255,7 +247,7 @@ namespace FiresecService.Service
 			{
 				foreach (var card in operationResult.Result)
 				{
-					var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldAccessTemplate, card, accessTemplate);
+					var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate);
 					var cardWriterError = cardWriter.GetError();
 					var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(accessTemplate.UID, GetFailedControllerUIDs(cardWriter));
 
