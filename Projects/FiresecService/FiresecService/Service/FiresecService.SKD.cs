@@ -83,7 +83,7 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.CardTranslator.Get(filter);
 		}
-		public OperationResult AddCard(SKDCard item)
+		public OperationResult<bool> AddCard(SKDCard item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Добавление_карты);
 			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
@@ -104,11 +104,11 @@ namespace FiresecService.Service
 			if (saveResult.HasError)
 				stringBuilder.AppendLine(saveResult.Error);
 			if (stringBuilder.Length > 0)
-				return new OperationResult(stringBuilder.ToString());
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
 			else
-				return new OperationResult();
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 		}
-		public OperationResult EditCard(SKDCard item)
+		public OperationResult<bool> EditCard(SKDCard item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_карты);
 			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
@@ -141,12 +141,12 @@ namespace FiresecService.Service
 			if (saveResult.HasError)
 				stringBuilder.AppendLine(saveResult.Error);
 			if (stringBuilder.Length > 0)
-				return new OperationResult(stringBuilder.ToString());
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
 			else
-				return new OperationResult();
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 
 		}
-		public OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null)
+		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null)
 		{
 			item.AccessTemplateUID = null;
 			item.CardDoors = new List<CardDoor>();
@@ -193,9 +193,9 @@ namespace FiresecService.Service
 			if (saveResult.HasError)
 				stringBuilder.AppendLine(saveResult.Error);
 			if (stringBuilder.Length > 0)
-				return new OperationResult(stringBuilder.ToString());
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
 			else
-				return new OperationResult();
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 		}
 
 		public OperationResult MarkDeletedCard(Guid uid)
@@ -230,13 +230,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.AccessTemplateTranslator.Get(filter);
 		}
-		public OperationResult SaveAccessTemplate(AccessTemplate accessTemplate)
+		public OperationResult<bool> SaveAccessTemplate(AccessTemplate accessTemplate)
 		{
 			var oldAccessTemplate = GetAccessTemplate(accessTemplate.UID);
-			var result = SKDDatabaseService.AccessTemplateTranslator.Save(accessTemplate);
+			var saveResult = SKDDatabaseService.AccessTemplateTranslator.Save(accessTemplate);
 
 			var stringBuilder = new StringBuilder();
-			if (result.HasError)
+			if (saveResult.HasError)
 				stringBuilder.AppendLine(result.Error);
 
 			var operationResult = SKDDatabaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
@@ -256,9 +256,9 @@ namespace FiresecService.Service
 			}
 
 			if (stringBuilder.Length > 0)
-				return new OperationResult(stringBuilder.ToString());
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
 			else
-				return new OperationResult();
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{

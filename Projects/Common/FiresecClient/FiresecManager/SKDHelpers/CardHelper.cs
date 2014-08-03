@@ -26,16 +26,18 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(result);
 		}
 		 
-		public static bool Add(SKDCard card, bool showError = true)
+		public static bool Add(SKDCard card)
 		{
 			var result = FiresecManager.FiresecService.AddCard(card);
-			return Common.ShowErrorIfExists(result, showError);
+			Common.ShowErrorIfExists(result);
+			return result.Result;
 		}
 
 		public static bool Edit(SKDCard card, bool showError = true)
 		{
 			var result = FiresecManager.FiresecService.EditCard(card);
-			return Common.ShowErrorIfExists(result, showError);
+			Common.ShowErrorIfExists(result, showError);
+			return result.Result;
 		}
 
 		public static bool SaveTemplate(SKDCard card)
