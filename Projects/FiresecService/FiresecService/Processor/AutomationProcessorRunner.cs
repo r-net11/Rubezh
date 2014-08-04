@@ -111,6 +111,10 @@ namespace FiresecService.Processor
 					ProcedureHelper.ControlGKDevice(procedureStep);
 					break;
 
+				case ProcedureStepType.ControlCamera:
+					ProcedureHelper.ControlCamera(procedureStep);
+					break;
+
 				case ProcedureStepType.ProcedureSelection:
 				{
 					foreach (var scheduleProcedure in procedureStep.ProcedureSelectionArguments.ScheduleProcedures)

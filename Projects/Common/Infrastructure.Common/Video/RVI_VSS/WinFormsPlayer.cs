@@ -18,6 +18,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		public WinFormsPlayer()
 		{
 			InitializeComponent();
+			Camera = new Camera();
 		}
 
 		static WinFormsPlayer()
@@ -59,6 +60,8 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			Invalidate();
 			ExtraStream = null;
 		}
+
+		public Camera Camera { get; set; }
 
 		public PropertyChangedEventHandler PropertyChangedEvent;
 		public List<IChannel> Connect(Camera camera)
@@ -145,6 +148,34 @@ namespace Infrastructure.Common.Video.RVI_VSS
 			{
 				return false;
 			}
+		}
+
+		public bool StartRecord(Camera camera, int channelNumber)
+		{
+			try
+			{
+				var device = RviVssHelper.Devices.FirstOrDefault(x => x.IP == camera.Ip && x.Port == camera.Port && x.UserName == camera.Login && x.Password == camera.Password);
+				if (device == null)
+					return false;
+				Invalidate();
+				var channel = device.Channels.First(channell => channell.ChannelNumber == channelNumber);
+				ExtraStream = channel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
+				ExtraStream.StartRecord();
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
+		public void StopRecord()
+		{
+			if (ExtraStream != null)
+			{
+				ExtraStream.StopRecord();
+			}
+			ExtraStream = null;
 		}
 
 		public bool Pause(PlayBackDeviceRecord record, bool pausePlayBack)

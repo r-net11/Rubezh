@@ -90,8 +90,13 @@ namespace AutomationModule.ViewModels
 					Content = new ControlDoorStepViewModel(step.ControlDoorArguments);
 					break;
 
-					//case ProcedureStepType.ControlSKDZone
-					//case ProcedureStepType.ControlCamera
+				case ProcedureStepType.ControlSKDZone:
+					Content = new ControlSKDZoneStepViewModel(step.ControlSKDZoneArguments);
+					break;
+
+				case ProcedureStepType.ControlCamera:
+					Content = new ControlCameraStepViewModel(step.ControlCameraArguments);
+					break;
 			}
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
