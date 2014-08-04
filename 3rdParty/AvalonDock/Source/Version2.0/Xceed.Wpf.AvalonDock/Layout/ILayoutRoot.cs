@@ -18,7 +18,7 @@ using System.Collections.ObjectModel;
 
 namespace Xceed.Wpf.AvalonDock.Layout
 {
-	public interface ILayoutRoot : ILayoutContainer
+	public interface ILayoutRoot
 	{
 		DockingManager Manager { get; }
 

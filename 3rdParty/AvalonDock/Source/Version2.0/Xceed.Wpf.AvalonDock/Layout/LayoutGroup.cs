@@ -219,9 +219,6 @@ namespace Xceed.Wpf.AvalonDock.Layout
 					case "LayoutDocumentPaneGroup":
 						serializer = XmlSerializerCache.Get<LayoutDocumentPaneGroup>();
 						break;
-					case "LayoutDocumentPaneTab":
-						serializer = XmlSerializerCache.Get<LayoutDocumentPaneTab>();
-						break;
 					case "LayoutDocumentPane":
 						serializer = XmlSerializerCache.Get<LayoutDocumentPane>();
 						break;
@@ -246,7 +243,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			foreach (var child in Children)
 			{
 				var type = child.GetType();
-				XmlSerializer serializer = XmlSerializerCache.Get(type);
+				XmlSerializer serializer = new XmlSerializer(type);
 				serializer.Serialize(writer, child);
 			}
 

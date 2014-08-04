@@ -84,13 +84,6 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			base.ChildMoved(oldIndex, newIndex);
 		}
 
-		ILayoutElement ILayoutContentSelector.SelectedContent
-		{
-			get
-			{
-				return _selectedIndex == -1 ? null : Children[_selectedIndex];
-			}
-		}
 		public LayoutContent SelectedContent
 		{
 			get
@@ -132,7 +125,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			}
 		}
 
-		public int IndexOf(ILayoutElement content)
+		public int IndexOf(LayoutContent content)
 		{
 			var anchorableChild = content as LayoutAnchorable;
 			if (anchorableChild == null)
@@ -256,15 +249,15 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			get { return Children.All(a => a.CanClose); }
 		}
 
-#if DEBUG
-		public override void ConsoleDump(int tab)
-		{
-			System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-			System.Diagnostics.Debug.WriteLine("AnchorablePane()");
+#if TRACE
+        public override void ConsoleDump(int tab)
+        {
+          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( "AnchorablePane()" );
 
-			foreach (LayoutElement child in Children)
-				child.ConsoleDump(tab + 1);
-		}
+          foreach (LayoutElement child in Children)
+              child.ConsoleDump(tab + 1);
+        }
 #endif
 	}
 }

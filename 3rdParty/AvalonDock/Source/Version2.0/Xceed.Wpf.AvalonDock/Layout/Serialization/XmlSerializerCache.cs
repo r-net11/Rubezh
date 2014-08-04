@@ -10,10 +10,6 @@ namespace Xceed.Wpf.AvalonDock.Layout.Serialization
 		public static XmlSerializer Get<T>()
 		{
 			var type = typeof(T);
-			return Get(type);
-		}
-		public static XmlSerializer Get(Type type)
-		{
 			if (!_serializers.ContainsKey(type))
 				_serializers.Add(type, new XmlSerializer(type));
 			return _serializers[type];

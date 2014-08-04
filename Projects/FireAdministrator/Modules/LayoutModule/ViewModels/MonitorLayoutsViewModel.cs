@@ -18,6 +18,7 @@ namespace LayoutModule.ViewModels
 {
 	public class MonitorLayoutsViewModel : MenuViewPartViewModel, ISelectable<Guid>, IInitializable
 	{
+		public static MonitorLayoutsViewModel Instance { get; private set; }
 		public MonitorLayoutViewModel MonitorLayoutViewModel { get; private set; }
 		public MonitorLayoutsTreeViewModel MonitorLayoutsTreeViewModel { get; private set; }
 		public LayoutUsersViewModel LayoutUsersViewModel { get; private set; }
@@ -29,6 +30,7 @@ namespace LayoutModule.ViewModels
 			CreateCommands();
 			SetRibbonItems();
 			Menu = new MonitorLayoutsMenuViewModel(this);
+			Instance = this;
 		}
 
 		#region ISelectable<Guid> Members

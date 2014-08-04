@@ -63,12 +63,12 @@ namespace Xceed.Wpf.AvalonDock.Layout
 		}
 
 
-#if DEBUG
-        public override void ConsoleDump(int tab)
-        {
-          System.Diagnostics.Debug.Write( new string( ' ', tab * 4 ) );
-		  System.Diagnostics.Debug.WriteLine("Document()");
-        }
+#if TRACE
+		public override void ConsoleDump(int tab)
+		{
+			System.Diagnostics.Trace.Write(new string(' ', tab * 4));
+			System.Diagnostics.Trace.WriteLine("Document()");
+		}
 #endif
 
 		protected override void InternalDock()

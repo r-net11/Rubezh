@@ -167,11 +167,11 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			get { return RootPanel != null; }
 		}
 
-#if DEBUG
+#if TRACE
         public override void ConsoleDump(int tab)
         {
-          System.Diagnostics.Debug.Write( new string( ' ', tab * 4 ) );
-		  System.Diagnostics.Debug.WriteLine("FloatingAnchorableWindow()");
+          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( "FloatingAnchorableWindow()" );
 
           RootPanel.ConsoleDump(tab + 1);
         }

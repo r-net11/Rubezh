@@ -108,7 +108,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="LayoutModule.cs" />
-    <Compile Include="ViewModels\LayoutPartTabControlViewModel.cs" />
+    <Compile Include="ViewModels\LayoutPartPropertyTemplateContainerPageViewModel.cs" />
+    <Compile Include="ViewModels\LayoutPartTemplateContainerViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutsMenuViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartDescriptionGroupViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartEmptyViewModel.cs" />
@@ -129,8 +130,11 @@
     <Compile Include="ViewModels\MonitorLayoutsTreeViewModel.cs" />
     <Compile Include="ViewModels\LayoutDesignerViewModel.cs" />
     <Compile Include="ViewModels\MonitorLayoutsViewModel.cs" />
-    <Compile Include="Views\LayoutPartTabControlView.xaml.cs">
-      <DependentUpon>LayoutPartTabControlView.xaml</DependentUpon>
+    <Compile Include="Views\LayoutPartPropertyTemplateContainerPageView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyTemplateContainerPageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutPartTemplateContainerView.xaml.cs">
+      <DependentUpon>LayoutPartTemplateContainerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LayoutPartEmptyView.xaml.cs">
       <DependentUpon>LayoutPartEmptyView.xaml</DependentUpon>
@@ -234,7 +238,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\LayoutPartTabControlView.xaml">
+    <Page Include="Views\LayoutPartPropertyTemplateContainerPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutPartTemplateContainerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

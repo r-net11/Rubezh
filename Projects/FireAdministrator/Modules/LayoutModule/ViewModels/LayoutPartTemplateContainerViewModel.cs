@@ -2,42 +2,60 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using FireMonitor.ViewModels;
+using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
-using Infrastructure.Common.Windows;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
+using System.Windows.Media;
+using System.Windows;
+using System.IO;
 
-namespace FireMonitor.Layout.ViewModels
+namespace LayoutModule.ViewModels
 {
-	public class MonitorLayoutShellViewModel : MonitorShellViewModel
+	public class LayoutPartTemplateContainerViewModel : BaseLayoutPartViewModel
 	{
+		private LayoutPartTemplateContainerProperties _properties;
+		private LayoutPartPropertyTemplateContainerPageViewModel _containerPage;
+		public LayoutPartTemplateContainerViewModel(LayoutPartTemplateContainerProperties properties)
+		{
+			_properties = properties ?? new LayoutPartTemplateContainerProperties();
+			_containerPage = new LayoutPartPropertyTemplateContainerPageViewModel(this);
+			Layout = MonitorLayoutsViewModel.Instance.Layouts.Where(item => item.Layout.UID == _properties.SourceUID).Select(item => item.Layout).FirstOrDefault();
+			LoadLayout();
+		}
+
+		public override ILayoutProperties Properties
+		{
+			get { return _properties; }
+		}
+		public override IEnumerable<LayoutPartPropertyPageViewModel> PropertyPages
+		{
+			get
+			{
+				yield return _containerPage;
+			}
+		}
+
 		public LayoutModel Layout { get; private set; }
 		private XmlLayoutSerializer _serializer;
-
-		public MonitorLayoutShellViewModel(FiresecAPI.Models.Layouts.Layout layout)
-			: base("Monitor.Layout")
-		{
-			Layout = layout;
-		}
 
 		public void UpdateLayout(LayoutModel layout)
 		{
 			Layout = layout;
 			Initialize();
-			Manager.GridSplitterHeight = Layout.SplitterSize;
-			Manager.GridSplitterWidth = Layout.SplitterSize;
-			Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor);
-			Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor);
-			Manager.BorderThickness = new Thickness(Layout.BorderThickness);
-			if (_serializer != null && Layout != null && !string.IsNullOrEmpty(Layout.Content))
-				using (var tr = new StringReader(Layout.Content))
-					_serializer.Deserialize(tr);
+			if (Layout != null && Manager != null)
+			{
+				Manager.GridSplitterHeight = Layout.SplitterSize;
+				Manager.GridSplitterWidth = Layout.SplitterSize;
+				Manager.GridSplitterBackground = new SolidColorBrush(Layout.SplitterColor);
+				Manager.BorderBrush = new SolidColorBrush(Layout.BorderColor);
+				Manager.BorderThickness = new Thickness(Layout.BorderThickness);
+				if (_serializer != null && !string.IsNullOrEmpty(Layout.Content))
+					using (var tr = new StringReader(Layout.Content))
+						_serializer.Deserialize(tr);
+			}
 		}
 		private void LoadLayout()
 		{
@@ -46,20 +64,9 @@ namespace FireMonitor.Layout.ViewModels
 		private void Initialize()
 		{
 			var list = new List<LayoutPartViewModel>();
-			var map = new Dictionary<Guid, ILayoutPartPresenter>();
-			foreach (var module in ApplicationService.Modules)
-			{
-				var monitorModule = module as MonitorLayoutModule;
-				if (monitorModule != null)
-					monitorModule.MonitorLayoutShellViewModel = this;
-				var layoutProviderModule = module as ILayoutProviderModule;
-				if (layoutProviderModule != null)
-					foreach (var layoutPart in layoutProviderModule.GetLayoutParts())
-						map.Add(layoutPart.UID, layoutPart);
-			}
 			if (Layout != null)
 				foreach (var layoutPart in Layout.Parts)
-					list.Add(new LayoutPartViewModel(layoutPart, map.ContainsKey(layoutPart.DescriptionUID) ? map[layoutPart.DescriptionUID] : new UnknownLayoutPartPresenter(layoutPart.DescriptionUID)));
+					list.Add(new LayoutPartViewModel(layoutPart));
 			LayoutParts = new ObservableCollection<LayoutPartViewModel>(list);
 		}
 

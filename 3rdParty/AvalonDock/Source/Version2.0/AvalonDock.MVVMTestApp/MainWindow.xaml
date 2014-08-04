@@ -23,7 +23,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:sysWindows="clr-namespace:System.Windows;assembly=PresentationCore"
         x:Name="mainWindow"
-        Title="MainWindow" Height="600" Width="900">
+        Title="MainWindow" Height="500" Width="800">
     <Window.Resources>
         <local:ActiveDocumentConverter x:Key="ActiveDocumentConverter"/>
         <avalonDock:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>

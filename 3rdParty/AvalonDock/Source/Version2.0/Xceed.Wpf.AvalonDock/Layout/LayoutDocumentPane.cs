@@ -23,24 +23,20 @@ namespace Xceed.Wpf.AvalonDock.Layout
 {
 	[ContentProperty("Children")]
 	[Serializable]
-	public class LayoutDocumentPane : LayoutPositionableGroup<ILayoutElement>, ILayoutDocumentPane, ILayoutPositionableElement, ILayoutContentSelector, ILayoutPaneSerializable
+	public class LayoutDocumentPane : LayoutPositionableGroup<LayoutContent>, ILayoutDocumentPane, ILayoutPositionableElement, ILayoutContentSelector, ILayoutPaneSerializable
 	{
 		public LayoutDocumentPane()
 		{
 		}
-		public LayoutDocumentPane(ILayoutElement firstChild)
+		public LayoutDocumentPane(LayoutContent firstChild)
 		{
-			var container = firstChild as ILayoutPreviousContainer;
-			if (container != null)
+			var previousContainer = ((ILayoutPreviousContainer)firstChild).PreviousContainer as ILayoutPositionableElement;
+			if (previousContainer != null)
 			{
-				var previousContainer = container.PreviousContainer as ILayoutPositionableElement;
-				if (previousContainer != null)
-				{
-					DockHeight = previousContainer.DockHeight;
-					DockMinHeight = previousContainer.DockMinHeight;
-					DockMinWidth = previousContainer.DockMinWidth;
-					DockWidth = previousContainer.DockWidth;
-				}
+				DockHeight = previousContainer.DockHeight;
+				DockMinHeight = previousContainer.DockMinHeight;
+				DockMinWidth = previousContainer.DockMinWidth;
+				DockWidth = previousContainer.DockWidth;
 			}
 			Children.Add(firstChild);
 		}
@@ -69,12 +65,14 @@ namespace Xceed.Wpf.AvalonDock.Layout
 				{
 					RaisePropertyChanging("SelectedContentIndex");
 					RaisePropertyChanging("SelectedContent");
-					if (_selectedIndex >= 0 && _selectedIndex < Children.Count)
+					if (_selectedIndex >= 0 &&
+						_selectedIndex < Children.Count)
 						Children[_selectedIndex].IsSelected = false;
 
 					_selectedIndex = value;
 
-					if (_selectedIndex >= 0 && _selectedIndex < Children.Count)
+					if (_selectedIndex >= 0 &&
+						_selectedIndex < Children.Count)
 						Children[_selectedIndex].IsSelected = true;
 
 					RaisePropertyChanged("SelectedContentIndex");
@@ -96,7 +94,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			base.ChildMoved(oldIndex, newIndex);
 		}
 
-		public ILayoutElement SelectedContent
+		public LayoutContent SelectedContent
 		{
 			get { return _selectedIndex == -1 ? null : Children[_selectedIndex]; }
 		}
@@ -112,7 +110,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 					SelectedContentIndex = 0;
 				else
 				{
-					var childrenToSelect = Children.OfType<LayoutContent>().OrderByDescending(c => c.LastActivationTimeStamp.GetValueOrDefault()).First();
+					var childrenToSelect = Children.OrderByDescending(c => c.LastActivationTimeStamp.GetValueOrDefault()).First();
 					SelectedContentIndex = Children.IndexOf(childrenToSelect);
 					childrenToSelect.IsActive = true;
 				}
@@ -123,7 +121,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			RaisePropertyChanged("ChildrenSorted");
 		}
 
-		public int IndexOf(ILayoutElement content)
+		public int IndexOf(LayoutContent content)
 		{
 			return Children.IndexOf(content);
 		}
@@ -141,7 +139,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 				parentPane.ComputeVisibility();
 		}
 
-		public IEnumerable<ILayoutElement> ChildrenSorted
+		public IEnumerable<LayoutContent> ChildrenSorted
 		{
 			get
 			{
@@ -182,11 +180,11 @@ namespace Xceed.Wpf.AvalonDock.Layout
 		}
 
 
-#if DEBUG
+#if TRACE
 		public override void ConsoleDump(int tab)
 		{
-			System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-			System.Diagnostics.Debug.WriteLine("DocumentPane()");
+			System.Diagnostics.Trace.Write(new string(' ', tab * 4));
+			System.Diagnostics.Trace.WriteLine("DocumentPane()");
 
 			foreach (LayoutElement child in Children)
 				child.ConsoleDump(tab + 1);

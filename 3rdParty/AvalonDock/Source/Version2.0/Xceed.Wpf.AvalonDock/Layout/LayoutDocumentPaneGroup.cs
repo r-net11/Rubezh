@@ -70,11 +70,11 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			base.ReadXml(reader);
 		}
 
-#if DEBUG
+#if TRACE
 		public override void ConsoleDump(int tab)
 		{
-			System.Diagnostics.Debug.Write(new string(' ', tab * 4));
-			System.Diagnostics.Debug.WriteLine(string.Format("DocumentPaneGroup({0})", Orientation));
+			System.Diagnostics.Trace.Write(new string(' ', tab * 4));
+			System.Diagnostics.Trace.WriteLine(string.Format("DocumentPaneGroup({0})", Orientation));
 
 			foreach (LayoutElement child in Children)
 				child.ConsoleDump(tab + 1);

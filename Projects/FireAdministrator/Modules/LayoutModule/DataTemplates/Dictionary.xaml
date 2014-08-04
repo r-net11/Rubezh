@@ -63,8 +63,12 @@
 		<Views:LayoutPartPropertyImagePageView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:LayoutPartTabControlViewModel}">
-		<Views:LayoutPartTabControlView />
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartTemplateContainerViewModel}">
+		<Views:LayoutPartTemplateContainerView />
 	</DataTemplate>
-	
+
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyTemplateContainerPageViewModel}">
+		<Views:LayoutPartPropertyTemplateContainerPageView />
+	</DataTemplate>
+
 </ResourceDictionary>

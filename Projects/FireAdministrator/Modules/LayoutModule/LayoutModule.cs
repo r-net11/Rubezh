@@ -56,9 +56,9 @@ namespace LayoutModule
 
 		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
 		{
-			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.TabControl, 0, "Tab Control", "Tab Control")
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.TemplateContainer, 0, "Макет", "Вложенный макет", "BTemplateContainer.png")
 			{
-				Factory = (p) => new LayoutPartTabControlViewModel(),
+				Factory = (p) => new LayoutPartTemplateContainerViewModel(p as LayoutPartTemplateContainerProperties),
 			};
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.EmptySpace, 0, "Заглушка", "Пустая панель", "BExit.png")
 			{

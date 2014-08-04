@@ -9,6 +9,7 @@ namespace FiresecAPI.Models.Layouts
 	[KnownType(typeof(LayoutPartJournalProperties))]
 	[KnownType(typeof(LayoutPartSKDVerificationProperties))]
 	[KnownType(typeof(LayoutPartPlansProperties))]
+	[KnownType(typeof(LayoutPartTemplateContainerProperties))]
 	public class LayoutPart
 	{
 		public LayoutPart()
