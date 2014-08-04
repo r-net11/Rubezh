@@ -220,7 +220,7 @@
     <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
-    <Compile Include="SKD\Employee\EmployeeTimeTrack.cs" />
+    <Compile Include="SKD\Employee\DayTimeTrack.cs" />
     <Compile Include="Journal\JournalObjectType.cs" />
     <Compile Include="SKD\Settings\GlobalSettings.cs" />
     <Compile Include="Models\Automation\AutomationConfiguration.cs" />
@@ -239,6 +239,7 @@
     <Compile Include="SKD\SKDManager\LockControlHelper.cs" />
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\SKDDoorState.cs" />
+    <Compile Include="SKD\TimeIntervals\ExcuseDocumentEnum.cs" />
     <Compile Include="XModels\Guard\XGuardZoneDevice.cs" />
     <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
@@ -298,7 +299,6 @@
     <Compile Include="SKD\EmployeeTimeIntervals\TimeIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\NamedIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleScheme.cs" />
-    <Compile Include="SKD\EmployeeTimeIntervals\TimeTrack.cs" />
     <Compile Include="SKD\Employee\ShortEmployee.cs" />
     <Compile Include="SKD\Employee\PersonType.cs" />
     <Compile Include="Journal\ArchiveFilter.cs" />

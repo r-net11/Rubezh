@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
-using FiresecAPI.SKD.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -148,17 +147,7 @@ namespace SKDModule.ViewModels
 				foreach (var employee in employees)
 				{
 					var employeeTimeTracks = EmployeeHelper.GetTimeTracks(employee.UID, _settings.StartDate, _settings.EndDate);
-					TimeTracks.Add(new TimeTrackViewModel(
-						new TimeTrack()
-						{
-							DepartmentName = employee.DepartmentName,
-							EmployeeUID = employee.UID,
-							FirstName = employee.FirstName,
-							LastName = employee.LastName,
-							PositionName = employee.PositionName,
-							SecondName = employee.SecondName,
-							EmployeeTimeTracks = employeeTimeTracks
-						}));
+					TimeTracks.Add(new TimeTrackViewModel(employee, employeeTimeTracks));
 				}
 			}
 		}

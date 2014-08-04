@@ -16,15 +16,15 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Model.LastName}" Margin="4 0" />
-                                <TextBlock Text="{Binding Model.FirstName}" Margin="4 0" />
-                                <TextBlock Text="{Binding Model.SecondName}" Margin="4 0" />
+                                <TextBlock Text="{Binding ShortEmployee.LastName}" Margin="4 0" />
+                                <TextBlock Text="{Binding ShortEmployee.FirstName}" Margin="4 0" />
+                                <TextBlock Text="{Binding ShortEmployee.SecondName}" Margin="4 0" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-				<DataGridTextColumn Binding="{Binding Model.DepartmentName}" Header="Отдел" />
-				<DataGridTextColumn Binding="{Binding Model.PositionName}" Header="Должность" />
+                <DataGridTextColumn Binding="{Binding ShortEmployee.DepartmentName}" Header="Отдел" />
+                <DataGridTextColumn Binding="{Binding ShortEmployee.PositionName}" Header="Должность" />
                 <DataGridTemplateColumn Header="Тип">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -37,7 +37,19 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-			</DataGrid.Columns>
+                <DataGridTemplateColumn Header="Итого">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Total}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding TotalMiss}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding TotalInSchedule}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding TotalOutSchedule}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
 		</DataGrid>
 	</Grid>
 </UserControl>

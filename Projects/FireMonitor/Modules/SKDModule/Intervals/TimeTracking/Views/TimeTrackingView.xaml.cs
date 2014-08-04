@@ -25,7 +25,7 @@ namespace SKDModule.Views
 		{
 			var viewModel = (TimeTrackingViewModel)DataContext;
 			var date = viewModel.FirstDay;
-			for (int i = grid.Columns.Count - 1; i >= 4; i--)
+			for (int i = grid.Columns.Count - 1; i >= 5; i--)
 				grid.Columns.RemoveAt(i);
 			for (int i = 0; i < viewModel.TotalDays; i++)
 			{

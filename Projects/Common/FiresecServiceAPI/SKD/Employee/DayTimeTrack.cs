@@ -5,11 +5,11 @@ using System.Collections.Generic;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class EmployeeTimeTrack
+	public class DayTimeTrack
 	{
-		public EmployeeTimeTrack()
+		public DayTimeTrack()
 		{
-			EmployeeTimeTrackParts = new List<EmployeeTimeTrackPart>();
+			TimeTrackParts = new List<DayTimeTrackPart>();
 		}
 
 		[DataMember]
@@ -19,23 +19,23 @@ namespace FiresecAPI.SKD
 		public DateTime Date { get; set; }
 
 		[DataMember]
-		public List<EmployeeTimeTrackPart> EmployeeTimeTrackParts { get; set; }
+		public List<DayTimeTrackPart> TimeTrackParts { get; set; }
 
 		[DataMember]
-		public DateTime Total { get; set; }
+		public TimeSpan Total { get; set; }
 
 		[DataMember]
-		public DateTime TotalMiss { get; set; }
+		public TimeSpan TotalMiss { get; set; }
 
 		[DataMember]
-		public DateTime TotalInSchedule { get; set; }
+		public TimeSpan TotalInSchedule { get; set; }
 
 		[DataMember]
-		public DateTime TotalOutSchedule { get; set; }
+		public TimeSpan TotalOutSchedule { get; set; }
 	}
 
 	[DataContract]
-	public class EmployeeTimeTrackPart
+	public class DayTimeTrackPart
 	{
 		[DataMember]
 		public DateTime StartTime { get; set; }

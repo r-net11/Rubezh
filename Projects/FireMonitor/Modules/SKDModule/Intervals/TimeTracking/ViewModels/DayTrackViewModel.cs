@@ -9,15 +9,15 @@ namespace SKDModule.ViewModels
 {
 	public class DayTrackViewModel : BaseViewModel
 	{
-		public EmployeeTimeTrack EmployeeTimeTrack { get; private set; }
+		public DayTimeTrack DayTimeTrack { get; private set; }
 
-		public DayTrackViewModel(EmployeeTimeTrack employeeTimeTrack)
+		public DayTrackViewModel(DayTimeTrack dayTimeTrack)
 		{
-			EmployeeTimeTrack = employeeTimeTrack;
-			Total = DateTimeToString(EmployeeTimeTrack.Total);
-			TotalMiss = DateTimeToString(EmployeeTimeTrack.TotalMiss);
-			TotalInSchedule = DateTimeToString(EmployeeTimeTrack.TotalInSchedule);
-			TotalOutSchedule = DateTimeToString(EmployeeTimeTrack.TotalOutSchedule);
+			DayTimeTrack = dayTimeTrack;
+			Total = DateTimeToString(DayTimeTrack.Total);
+			TotalMiss = DateTimeToString(DayTimeTrack.TotalMiss);
+			TotalInSchedule = DateTimeToString(DayTimeTrack.TotalInSchedule);
+			TotalOutSchedule = DateTimeToString(DayTimeTrack.TotalOutSchedule);
 		}
 
 		public string Total { get; private set; }
@@ -25,14 +25,12 @@ namespace SKDModule.ViewModels
 		public string TotalInSchedule { get; private set; }
 		public string TotalOutSchedule { get; private set; }
 
-		public bool ShowTotal { get; private set; }
-
-		public string DateTimeToString(DateTime dateTime)
+		public static string DateTimeToString(TimeSpan timeSpan)
 		{
-			if(EmployeeTimeTrack.Total.Hour > 0)
-			return EmployeeTimeTrack.Total.Hour + "ч " + EmployeeTimeTrack.Total.Minute + "м";
+			if (timeSpan.Hours > 0)
+				return timeSpan.Hours + "ч " + timeSpan.Minutes + "м";
 			else
-				return EmployeeTimeTrack.Total.Minute + "м";
+				return timeSpan.Minutes + "м";
 		}
 	}
 }

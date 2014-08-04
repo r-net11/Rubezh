@@ -10,31 +10,46 @@ namespace SKDModule.ViewModels
 {
 	public class TimeTrackDetailsViewModel : SaveCancelDialogViewModel
 	{
-		EmployeeTimeTrack EmployeeTimeTrack;
+		DayTimeTrack DayTimeTrack;
 
-		public TimeTrackDetailsViewModel(EmployeeTimeTrack employeeTimeTrack)
+		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack)
 		{
 			Title = "Время в течение дня";
-			EmployeeTimeTrack = employeeTimeTrack;
+			DayTimeTrack = dayTimeTrack;
 
-			EmployeeTimeTrackParts = new ObservableCollection<EmployeeTimeTrackPartViewModel>();
-			foreach (var employeeTimeTrackPart in EmployeeTimeTrack.EmployeeTimeTrackParts)
+			AvailableExcuseDocuments = new ObservableCollection<ExcuseDocumentEnum>(Enum.GetValues(typeof(ExcuseDocumentEnum)).OfType<ExcuseDocumentEnum>());
+
+			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPartViewModel>();
+			foreach (var dayTimeTrackPart in DayTimeTrack.TimeTrackParts)
 			{
-				var employeeTimeTrackPartViewModel = new EmployeeTimeTrackPartViewModel(employeeTimeTrackPart);
-				EmployeeTimeTrackParts.Add(employeeTimeTrackPartViewModel);
+				var employeeTimeTrackPartViewModel = new DayTimeTrackPartViewModel(dayTimeTrackPart);
+				DayTimeTrackParts.Add(employeeTimeTrackPartViewModel);
 			}
 		}
 
-		public ObservableCollection<EmployeeTimeTrackPartViewModel> EmployeeTimeTrackParts { get; private set; }
+		public ObservableCollection<ExcuseDocumentEnum> AvailableExcuseDocuments { get; private set; }
+
+		ExcuseDocumentEnum _selectedExcuseDocument;
+		public ExcuseDocumentEnum SelectedExcuseDocument
+		{
+			get { return _selectedExcuseDocument; }
+			set
+			{
+				_selectedExcuseDocument = value;
+				OnPropertyChanged(() => SelectedExcuseDocument);
+			}
+		}
+
+		public ObservableCollection<DayTimeTrackPartViewModel> DayTimeTrackParts { get; private set; }
 	}
 
-	public class EmployeeTimeTrackPartViewModel : BaseViewModel
+	public class DayTimeTrackPartViewModel : BaseViewModel
 	{
-		public EmployeeTimeTrackPart EmployeeTimeTrackPart { get; private set; }
+		public DayTimeTrackPart DayTimeTrackPart { get; private set; }
 
-		public EmployeeTimeTrackPartViewModel(EmployeeTimeTrackPart employeeTimeTrackPart)
+		public DayTimeTrackPartViewModel(DayTimeTrackPart dayTimeTrackPart)
 		{
-			EmployeeTimeTrackPart = employeeTimeTrackPart;
+			DayTimeTrackPart = dayTimeTrackPart;
 		}
 	}
 }
