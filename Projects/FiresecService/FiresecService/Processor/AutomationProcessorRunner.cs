@@ -96,7 +96,6 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.SendMessage:
-					GKProcessorManager.AddGKMessage(JournalEventNameType.Команда_оператора, "Запуск процедуры", null, null);
 					automationCallbackResult = new AutomationCallbackResult();
 					automationCallbackResult.Message = "Запуск процедуры";
 					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;

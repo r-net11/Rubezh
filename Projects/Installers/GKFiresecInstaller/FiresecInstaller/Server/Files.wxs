@@ -46,10 +46,19 @@
         <?endif ?>
 
         <File Id="Server.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />
+
+        <File Id="Server.Microsoft.Sqlserver.Batchparser.dll" Name="Microsoft.Sqlserver.Batchparser.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.BatchParserClient.dll" Name="Microsoft.SqlServer.BatchParserClient.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.ConnectionInfo.dll" Name="Microsoft.SqlServer.ConnectionInfo.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.Management.Sdk.Sfc.dll" Name="Microsoft.SqlServer.Management.Sdk.Sfc.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.Smo.dll" Name="Microsoft.SqlServer.Smo.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.SqlClrProvider.dll" Name="Microsoft.SqlServer.SqlClrProvider.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.SqlEnum.dll" Name="Microsoft.SqlServer.SqlEnum.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
       </Component>
 
       <Component Id="Server.SKD_MODULE" Guid="47582E19-F112-4827-A8FC-D782C88C7B93">
         <File Id="Server.SKDDriver.dll" Name="SKDDriver.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
+        <!--<File Id="Server.SKDDriver.dll.config" Name="SKDDriver.dll.config" Source="$(var.Server.TargetDir)" />-->
         <File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
       </Component>
 
