@@ -21,7 +21,7 @@ namespace GKModule.ViewModels
 			{
 				_text = value;
 				Save(value);
-				OnPropertyChanged("Text");
+				OnPropertyChanged(() => Text);
 			}
 		}
 

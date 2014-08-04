@@ -71,7 +71,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_text = value;
-				OnPropertyChanged("Text");
+				OnPropertyChanged(() => Text);
 			}
 		}
 
@@ -245,7 +245,7 @@ namespace GKModule.ViewModels
 		void OnRemoveMedia()
 		{
 			Instruction.MediaSource = null;
-			OnPropertyChanged("Instruction");
+			OnPropertyChanged(() => Instruction);
 		}
 
 		protected override bool CanSave()

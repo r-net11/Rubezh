@@ -19,10 +19,10 @@ namespace FiresecAPI.SKD
 		public DateTime Date { get; set; }
 
 		[DataMember]
-		public DateTime Total { get; set; }
+		public List<EmployeeTimeTrackPart> EmployeeTimeTrackParts { get; set; }
 
 		[DataMember]
-		public List<EmployeeTimeTrackPart> EmployeeTimeTrackParts { get; set; }
+		public DateTime Total { get; set; }
 
 		[DataMember]
 		public DateTime TotalMiss { get; set; }

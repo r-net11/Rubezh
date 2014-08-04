@@ -25,12 +25,12 @@ namespace SKDModule.Views
 		{
 			var viewModel = (TimeTrackingViewModel)DataContext;
 			var date = viewModel.FirstDay;
-			for (int i = grid.Columns.Count - 1; i >= 5; i--)
+			for (int i = grid.Columns.Count - 1; i >= 4; i--)
 				grid.Columns.RemoveAt(i);
 			for (int i = 0; i < viewModel.TotalDays; i++)
 			{
 				var factory = new FrameworkElementFactory(typeof(TimeTrackingCellView));
-				factory.SetValue(TimeTrackingCellView.DataContextProperty, new Binding(string.Format("Model.EmployeeTimeTracks[{0}]", i)));
+				factory.SetValue(TimeTrackingCellView.DataContextProperty, new Binding(string.Format("DayTracks[{0}]", i)));
 				var column = new DataGridTemplateColumn()
 				{
 					Header = date.ToString("dd MM"),

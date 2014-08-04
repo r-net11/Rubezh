@@ -99,7 +99,7 @@ namespace GKModule.ViewModels
 				XManager.DeviceConfiguration.MPTs.Remove(SelectedMPT.MPT);
 				MPTs.Remove(SelectedMPT);
 				SelectedMPT = MPTs.FirstOrDefault();
-				OnPropertyChanged("HasSelectedMPT");
+				OnPropertyChanged(() => HasSelectedMPT);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

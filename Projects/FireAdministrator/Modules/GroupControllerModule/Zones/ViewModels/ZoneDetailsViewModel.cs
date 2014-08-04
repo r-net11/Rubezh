@@ -76,7 +76,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 
@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_fire1Count = value;
-				OnPropertyChanged("Fire1Count");
+				OnPropertyChanged(() => Fire1Count);
 			}
 		}
 

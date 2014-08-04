@@ -154,6 +154,7 @@
     <Compile Include="Intervals\Shedules\ViewModels\Comparers.cs" />
     <Compile Include="Intervals\TimeTracking\Model\TimeTrackingSettings.cs" />
     <Compile Include="Intervals\TimeTracking\Model\TimeTrackingPeriod.cs" />
+    <Compile Include="Intervals\TimeTracking\ViewModels\DayTrackViewModel.cs" />
     <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
     <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackingSettingsViewModel.cs" />
     <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />

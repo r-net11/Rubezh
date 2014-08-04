@@ -84,7 +84,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 
@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_delayTime = value;
-				OnPropertyChanged("DelayTime");
+				OnPropertyChanged(() => DelayTime);
 			}
 		}
 

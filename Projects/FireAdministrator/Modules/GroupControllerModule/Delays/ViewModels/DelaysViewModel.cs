@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
 				XManager.Delays.Remove(SelectedDelay.Delay);
 				Delays.Remove(SelectedDelay);
 				SelectedDelay = Delays.FirstOrDefault();
-				OnPropertyChanged("HasSelectedDelay");
+				OnPropertyChanged(() => HasSelectedDelay);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

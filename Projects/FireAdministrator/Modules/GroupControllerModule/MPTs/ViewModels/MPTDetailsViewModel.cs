@@ -46,7 +46,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_no = value;
-				OnPropertyChanged("No");
+				OnPropertyChanged(() => No);
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 

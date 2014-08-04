@@ -34,11 +34,11 @@ namespace GKModule.ViewModels
 		
 		public void Update()
 		{
-			OnPropertyChanged("Instruction");
-			OnPropertyChanged("InstructionType");
-			OnPropertyChanged("HasDevices");
-			OnPropertyChanged("HasZones");
-			OnPropertyChanged("HasDirections");
+			OnPropertyChanged(() => Instruction);
+			OnPropertyChanged(() => InstructionType);
+			OnPropertyChanged(() => HasDevices);
+			OnPropertyChanged(() => HasZones);
+			OnPropertyChanged(() => HasDirections);
 		}
 	}
 }

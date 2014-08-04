@@ -15,10 +15,10 @@ namespace SKDModule.Views
 
 		private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-			EmployeeTimeTrack employeeTimeTrack = DataContext as EmployeeTimeTrack;
-			if (employeeTimeTrack != null)
+			DayTrackViewModel dayTrackViewModel = DataContext as DayTrackViewModel;
+			if (dayTrackViewModel != null)
 			{
-				var timeTrackDetailsViewModel = new TimeTrackDetailsViewModel(employeeTimeTrack);
+				var timeTrackDetailsViewModel = new TimeTrackDetailsViewModel(dayTrackViewModel.EmployeeTimeTrack);
 				DialogService.ShowModalWindow(timeTrackDetailsViewModel);
 			}
 		}

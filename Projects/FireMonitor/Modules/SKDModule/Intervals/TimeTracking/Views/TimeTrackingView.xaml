@@ -10,13 +10,33 @@
 			<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
 			<ToolBarButton Command="{Binding PrintCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать" />
 		</StackPanel>
-        <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" RowHeight="50" Margin="0 4 0 0">
+        <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="4" RowHeight="60" Margin="0 4 0 0">
 			<DataGrid.Columns>
-				<DataGridTextColumn Binding="{Binding Model.LastName}" Header="Фамилия" />
-				<DataGridTextColumn Binding="{Binding Model.FirstName}" Header="Имя" />
-				<DataGridTextColumn Binding="{Binding Model.SecondName}" Header="Отчество" />
+                <DataGridTemplateColumn Header="ФИО">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Model.LastName}" Margin="4 0" />
+                                <TextBlock Text="{Binding Model.FirstName}" Margin="4 0" />
+                                <TextBlock Text="{Binding Model.SecondName}" Margin="4 0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 				<DataGridTextColumn Binding="{Binding Model.DepartmentName}" Header="Отдел" />
 				<DataGridTextColumn Binding="{Binding Model.PositionName}" Header="Должность" />
+                <DataGridTemplateColumn Header="Тип">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="Всего" Margin="4 0" />
+                                <TextBlock Text="Пропущено" Margin="4 0" />
+                                <TextBlock Text="Всего по графику" Margin="4 0" />
+                                <TextBlock Text="Всего вне графика" Margin="4 0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>
