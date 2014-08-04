@@ -21,11 +21,13 @@ namespace SKDModule.ViewModels
 			{
 				UserUID = FiresecClient.FiresecManager.CurrentUser.UID,
 			};
+
+			var firstMonthDay = DateTime.Today.AddDays(1 - DateTime.Today.Day);
 			_settings = new TimeTrackingSettings()
 			{
-				Period = TimeTrackingPeriod.PreviosMonth,
-				StartDate = new DateTime(2014, 6, 23),
-				EndDate = new DateTime(2014, 6, 27),
+				Period = TimeTrackingPeriod.PreviousMonth,
+				StartDate = firstMonthDay.AddMonths(-1),
+				EndDate = firstMonthDay.AddDays(-1)
 			};
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
@@ -130,7 +132,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand PrintCommand { get; private set; }
 		private void OnPrint()
 		{
-			MessageBoxService.Show("not implemented");
+			MessageBoxService.Show("Not Implemented");
 		}
 
 		private void UpdateGrid()

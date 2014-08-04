@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Grid MouseDown="Grid_MouseDown" Cursor="Hand" Background="Green" Height="50">
-        <TextBlock Text="{Binding Total}" VerticalAlignment="Center" />
+        <StackPanel>
+            <TextBlock Text="{Binding Total}" VerticalAlignment="Center" />
+        </StackPanel>
     </Grid>
 </UserControl>

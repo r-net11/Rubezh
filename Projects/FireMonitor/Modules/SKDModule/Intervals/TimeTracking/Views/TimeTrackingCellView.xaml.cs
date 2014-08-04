@@ -1,5 +1,8 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using SKDModule.ViewModels;
+using Infrastructure.Common.Windows;
+using FiresecAPI.SKD;
 
 namespace SKDModule.Views
 {
@@ -12,7 +15,12 @@ namespace SKDModule.Views
 
 		private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-			;
+			EmployeeTimeTrack employeeTimeTrack = DataContext as EmployeeTimeTrack;
+			if (employeeTimeTrack != null)
+			{
+				var timeTrackDetailsViewModel = new TimeTrackDetailsViewModel(employeeTimeTrack);
+				DialogService.ShowModalWindow(timeTrackDetailsViewModel);
+			}
 		}
 	}
 }

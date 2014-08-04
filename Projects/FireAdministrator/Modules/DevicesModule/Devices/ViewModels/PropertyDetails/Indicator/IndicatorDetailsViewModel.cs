@@ -108,8 +108,8 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
-				OnPropertyChanged("CanEditColors");
+				OnPropertyChanged(() => SelectedDevice);
+				OnPropertyChanged(() => CanEditColors);
 			}
 		}
 
@@ -133,7 +133,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_onColor = value;
-				OnPropertyChanged("OnColor");
+				OnPropertyChanged(() => OnColor);
 			}
 		}
 
@@ -144,7 +144,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_offColor = value;
-				OnPropertyChanged("OffColor");
+				OnPropertyChanged(() => OffColor);
 			}
 		}
 

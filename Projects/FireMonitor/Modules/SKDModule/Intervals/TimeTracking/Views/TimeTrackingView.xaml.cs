@@ -33,7 +33,7 @@ namespace SKDModule.Views
 				factory.SetValue(TimeTrackingCellView.DataContextProperty, new Binding(string.Format("Model.EmployeeTimeTracks[{0}]", i)));
 				var column = new DataGridTemplateColumn()
 				{
-					Header = date.ToShortDateString(),
+					Header = date.ToString("dd MM"),
 					CellTemplate = new DataTemplate()
 					{
 						VisualTree = factory,
