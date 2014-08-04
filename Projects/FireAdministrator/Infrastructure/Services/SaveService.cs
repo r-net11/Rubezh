@@ -1,4 +1,5 @@
 ﻿using System;
+using FiresecAPI.SKD;
 
 namespace Infrastructure
 {
@@ -168,6 +169,17 @@ namespace Infrastructure
 			{
 				_skdChanged = value;
 				OnChanged();
+			}
+		}
+
+		public void TimeIntervalChanged()
+		{
+			foreach (var device in SKDManager.Devices)
+			{
+				if (device.Driver.IsController)
+				{
+					device.HasConfigurationMissmatch = true;
+				}
 			}
 		}
 

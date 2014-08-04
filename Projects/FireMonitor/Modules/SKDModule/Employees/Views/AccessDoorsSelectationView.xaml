@@ -28,8 +28,6 @@
 		</Grid>
 		<Grid Grid.Row="1" Margin="2" DataContext="{Binding SelectedDoor}">
 			<StackPanel IsEnabled="{Binding IsChecked}">
-				<CheckBox Margin="2" Content="Защита от передачи пропусков(Antipassback)" Foreground="White" IsChecked="{Binding IsAntiPassback}" />
-				<CheckBox Margin="2" Content="Доступ с комиссионированием" Foreground="White" IsChecked="{Binding IsComission}" />
 				<StackPanel Visibility="{Binding HasEnter, Converter={StaticResource BoolToVisibilityConverter}}">
 					<TextBlock Width="200" Margin="2" Foreground="White" Text="Временной критерий для входа" HorizontalAlignment="Left"/>
 					<StackPanel Orientation="Horizontal">

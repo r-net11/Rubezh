@@ -12,6 +12,7 @@ using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using KeyboardKey = System.Windows.Input.Key;
+using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
@@ -53,7 +54,7 @@ namespace SKDModule.ViewModels
 					device.ExpandToThis();
 			}
 
-			OnPropertyChanged("RootDevices");
+			OnPropertyChanged(() => RootDevices);
 		}
 
 		#region DeviceSelection
@@ -106,7 +107,7 @@ namespace SKDModule.ViewModels
 			private set
 			{
 				_rootDevice = value;
-				OnPropertyChanged("RootDevice");
+				OnPropertyChanged(() => RootDevice);
 			}
 		}
 

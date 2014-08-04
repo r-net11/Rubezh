@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_mpts = value;
-				OnPropertyChanged("MPTs");
+				OnPropertyChanged(()=>MPTs);
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedMPT = value;
-				OnPropertyChanged("SelectedMPT");
+				OnPropertyChanged(() => SelectedMPT);
 			}
 		}
 

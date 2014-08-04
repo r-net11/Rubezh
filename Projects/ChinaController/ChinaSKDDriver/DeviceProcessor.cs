@@ -17,10 +17,12 @@ namespace ChinaSKDDriver
 		public SKDDevice Device { get; private set; }
 		public int LoginID { get; private set; }
 		public bool IsConnected { get; private set; }
+		public string LoginFailureReason { get; private set; }
 		Thread Thread;
 		bool IsStopping;
 		static AutoResetEvent AutoResetEvent = new AutoResetEvent(false);
 		public event Action<JournalItem> NewJournalItem;
+		public event Action<DeviceProcessor> ConnectionAppeared;
 
 		public DeviceProcessor(SKDDevice device)
 		{
@@ -44,23 +46,28 @@ namespace ChinaSKDDriver
 				switch (skdJournalItem.JournalEventNameType)
 				{
 					case JournalEventNameType.Потеря_связи:
-						OnConnectionChanged(true);
+						OnConnectionChanged(false);
 						return;
 
 					case JournalEventNameType.Восстановление_связи:
-						OnConnectionChanged(false);
+						OnConnectionChanged(true);
 						return;
 
 					case JournalEventNameType.Проход_разрешен:
 					case JournalEventNameType.Проход_запрещен:
+						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 						var readerDevice = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && x.IntAddress == skdJournalItem.DoorNo);
 						if (readerDevice != null)
 						{
-							journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 							journalItem.ObjectUID = readerDevice.UID;
+							journalItem.ObjectName = readerDevice.Name;
 						}
+						else
+						{
+							journalItem.ObjectName = "Не найдено в конфигурации";
+						}
+						journalItem.DescriptionText = "Метод открытия: " + skdJournalItem.emOpenMethod.ToDescription();
 						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Направление", skdJournalItem.emEventType.ToDescription()));
-						journalItem.JournalDetalisationItems.Add(new JournalDetalisationItem("Метод открытия", skdJournalItem.emOpenMethod.ToDescription()));
 
 						if (skdJournalItem.emOpenMethod == NativeWrapper.NET_ACCESS_DOOROPEN_METHOD.NET_ACCESS_DOOROPEN_METHOD_CARD)
 						{
@@ -78,11 +85,16 @@ namespace ChinaSKDDriver
 					case JournalEventNameType.Взлом:
 					case JournalEventNameType.Повторный_проход:
 					case JournalEventNameType.Принуждение:
+						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 						var device = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == skdJournalItem.DoorNo);
 						if (device != null)
 						{
-							journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 							journalItem.ObjectUID = device.UID;
+							journalItem.ObjectName = device.Name;
+						}
+						else
+						{
+							journalItem.ObjectName = "Не найдено в конфигурации";
 						}
 
 						if (skdJournalItem.JournalEventNameType == JournalEventNameType.Принуждение)
@@ -94,17 +106,22 @@ namespace ChinaSKDDriver
 					case JournalEventNameType.Открытие_двери:
 					case JournalEventNameType.Закрытие_двери:
 					case JournalEventNameType.Неизвестный_статус_двери:
+						journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 						var doorDevice = Device.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == skdJournalItem.DoorNo);
 						if (doorDevice != null)
 						{
-							journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 							journalItem.ObjectUID = doorDevice.UID;
+							journalItem.ObjectName = doorDevice.Name;
 
 							doorDevice.State.StateClass = EventDescriptionAttributeHelper.ToStateClass(skdJournalItem.JournalEventNameType);
 							doorDevice.State.StateClasses = new List<XStateClass>() { doorDevice.State.StateClass };
 							var skdStates = new SKDStates();
 							skdStates.DeviceStates.Add(doorDevice.State);
-							Processor.DoCallback(skdStates);
+							Processor.OnStatesChanged(skdStates);
+						}
+						else
+						{
+							journalItem.ObjectName = "Не найдено в конфигурации";
 						}
 						break;
 				}
@@ -114,17 +131,18 @@ namespace ChinaSKDDriver
 			}
 		}
 
-		void OnConnectionChanged(bool isConnectionLost, bool fireJournalItem = true)
+		void OnConnectionChanged(bool isConnected, bool fireJournalItem = true)
 		{
+			IsConnected = isConnected;
 			if (fireJournalItem)
 			{
 				var journalItem = new JournalItem();
 				journalItem.SystemDateTime = DateTime.Now;
 				journalItem.DeviceDateTime = DateTime.Now;
-				if (isConnectionLost)
-					journalItem.JournalEventNameType = JournalEventNameType.Потеря_связи;
-				else
+				if (isConnected)
 					journalItem.JournalEventNameType = JournalEventNameType.Восстановление_связи;
+				else
+					journalItem.JournalEventNameType = JournalEventNameType.Потеря_связи;
 				journalItem.JournalObjectType = JournalObjectType.SKDDevice;
 				journalItem.ObjectUID = Device.UID;
 				journalItem.ObjectName = Device.Name;
@@ -139,11 +157,7 @@ namespace ChinaSKDDriver
 
 			foreach (var device in allDevices)
 			{
-				if (isConnectionLost)
-				{
-					device.State.StateClass = XStateClass.ConnectionLost;
-				}
-				else
+				if (isConnected)
 				{
 					if (device.DriverType == SKDDriverType.Lock)
 					{
@@ -168,11 +182,21 @@ namespace ChinaSKDDriver
 						device.State.StateClass = XStateClass.Norm;
 					}
 				}
+				else
+				{
+					device.State.StateClass = XStateClass.ConnectionLost;
+				}
 				device.State.StateClasses = new List<XStateClass>() { device.State.StateClass };
 				connectionLostSKDStates.DeviceStates.Add(device.State);
 			}
 
-			Processor.DoCallback(connectionLostSKDStates);
+			Processor.OnStatesChanged(connectionLostSKDStates);
+
+			if (IsConnected)
+			{
+				if (ConnectionAppeared != null)
+					ConnectionAppeared(this);
+			}
 		}
 
 		public void Start()
@@ -193,6 +217,8 @@ namespace ChinaSKDDriver
 
 		public void Stop()
 		{
+			Wrapper.NewJournalItem -= new Action<SKDJournalItem>(Wrapper_NewJournalItem);
+			Wrapper.Disconnect();
 			IsStopping = true;
 			if (AutoResetEvent != null)
 			{
@@ -218,13 +244,13 @@ namespace ChinaSKDDriver
 					if (IsConnected)
 					{
 						Thread = null;
-						OnConnectionChanged(false, attemptCount > 2);
+						OnConnectionChanged(true, attemptCount > 2);
 						break;
 					}
 
 					if (attemptCount == 2)
 					{
-						OnConnectionChanged(true);
+						OnConnectionChanged(false);
 					}
 
 					if (IsStopping)
@@ -271,7 +297,9 @@ namespace ChinaSKDDriver
 			{
 				password = passwordProperty.StringValue;
 			}
-			LoginID = Wrapper.Connect(addresss, port, login, password);
+			string error;
+			LoginID = Wrapper.Connect(addresss, port, login, password, out error);
+			LoginFailureReason = error;
 		}
 	}
 }

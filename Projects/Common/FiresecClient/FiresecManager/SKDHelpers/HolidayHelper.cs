@@ -9,13 +9,13 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool Save(Holiday holiday)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveHolidays(new List<Holiday> { holiday });
+			var operationResult = FiresecManager.FiresecService.SaveHoliday(holiday);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static bool MarkDeleted(Holiday holiday)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedHolidays(new List<Holiday> { holiday });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedHoliday(holiday);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

@@ -31,7 +31,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				if (value == null)
-					SelectedWeekInterval = _slideWeekIntervalsViewModel.AvailableWeekIntervals.First();
+					SelectedWeekInterval = _slideWeekIntervalsViewModel.AvailableWeekIntervals.FirstOrDefault();
 				else
 				{
 					_selectedWeekInterval = value;
@@ -47,7 +47,7 @@ namespace SKDModule.ViewModels
 			Name = string.Format("{0}", Index + 1);
 			_selectedWeekInterval = _slideWeekIntervalsViewModel.AvailableWeekIntervals.FirstOrDefault(x => x.ID == _slideWeekInterval.WeeklyIntervalIDs[Index]);
 			if (_selectedWeekInterval == null)
-				_selectedWeekInterval = _slideWeekIntervalsViewModel.AvailableWeekIntervals.First();
+				_selectedWeekInterval = _slideWeekIntervalsViewModel.AvailableWeekIntervals.FirstOrDefault();
 			OnPropertyChanged(() => SelectedWeekInterval);
 			OnPropertyChanged(() => Name);
 		}

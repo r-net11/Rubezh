@@ -12,7 +12,11 @@ namespace SKDModule.ViewModels
 		public DepartmentsFilterViewModel(EmployeeFilter filter)
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var departments = DepartmentHelper.GetByCurrentUser();
+			if (departments == null)
+				return;
 
 			AllDepartments = new List<DepartmentFilterItemViewModel>();
 			Organisations = new List<DepartmentFilterItemViewModel>();
@@ -57,7 +61,12 @@ namespace SKDModule.ViewModels
 
 		public DepartmentFilterItemViewModel[] RootDepartments
 		{
-			get { return Organisations.ToArray(); }
+			get 
+			{ 
+				if(Organisations != null)
+					return Organisations.ToArray();
+				return null;
+			}
 		}
 
 		public List<Guid> UIDs
@@ -65,11 +74,14 @@ namespace SKDModule.ViewModels
 			get
 			{
 				var result = new List<Guid>();
-				foreach (var department in AllDepartments)
+				if (AllDepartments != null)
 				{
-					if (department.IsChecked && !department.IsOrganisation)
+					foreach (var department in AllDepartments)
 					{
-						result.Add(department.UID);
+						if (department.IsChecked && !department.IsOrganisation)
+						{
+							result.Add(department.UID);
+						}
 					}
 				}
 				return result;

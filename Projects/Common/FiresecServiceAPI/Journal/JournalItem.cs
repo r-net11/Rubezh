@@ -57,6 +57,9 @@ namespace FiresecAPI.Journal
 		public int CardNo { get; set; }
 
 		[DataMember]
+		public Guid EmployeeUID { get; set; }
+
+		[DataMember]
 		public List<JournalDetalisationItem> JournalDetalisationItems { get; set; }
 	}
 }

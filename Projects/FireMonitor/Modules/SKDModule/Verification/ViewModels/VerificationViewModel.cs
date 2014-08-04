@@ -40,14 +40,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ShortEmployee _shortEmployee;
-		public ShortEmployee ShortEmployee
+		Employee _employee;
+		public Employee Employee
 		{
-			get { return _shortEmployee; }
+			get { return _employee; }
 			set
 			{
-				_shortEmployee = value;
-				OnPropertyChanged(() => ShortEmployee);
+				_employee = value;
+				OnPropertyChanged(() => Employee);
 			}
 		}
 
@@ -77,41 +77,24 @@ namespace SKDModule.ViewModels
 		{
 			foreach (var journalItem in journalItems)
 			{
-				if (journalItem.ObjectUID == Device.UID && journalItem.CardNo > 0 &&
+				if (journalItem.ObjectUID == Device.UID &&
 					(journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен || journalItem.JournalEventNameType == JournalEventNameType.Проход_запрещен))
 				{
 					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
 					DateTime = journalItem.SystemDateTime.ToString();
 
-					var cardFilter = new CardFilter()
+					var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(journalItem.EmployeeUID);
+					if (!operationResult.HasError)
 					{
-						FirstNos = journalItem.CardNo,
-						LastNos = journalItem.CardNo
-					};
-					var cards = CardHelper.Get(cardFilter);
-					var card = cards.FirstOrDefault();
-					if (card != null)
-					{
-						var employeeFilter = new EmployeeFilter()
-						{
-							CardNo = journalItem.CardNo
-						};
-						var employees = EmployeeHelper.Get(employeeFilter);
-						ShortEmployee = employees.FirstOrDefault();
-						if (ShortEmployee != null)
-						{
-							var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(ShortEmployee.UID);
-							if (!operationResult.HasError)
-							{
-								var employee = operationResult.Result;
-								var photo = employee.Photo;
-								PhotoColumnViewModel = new PhotoColumnViewModel(employee.Photo);
-								continue;
-							}
-						}
+						Employee = operationResult.Result;
+						var photo = Employee.Photo;
+						PhotoColumnViewModel = new PhotoColumnViewModel(Employee.Photo);
 					}
-					ShortEmployee = null;
-					PhotoColumnViewModel = null;
+					else
+					{
+						Employee = null;
+						PhotoColumnViewModel = null;
+					}
 				}
 			}
 		}

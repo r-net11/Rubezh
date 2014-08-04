@@ -29,7 +29,7 @@ namespace FireAdministrator.ViewModels
 			set
 			{
 				_errors = value;
-				OnPropertyChanged("Errors");
+				OnPropertyChanged(() => Errors);
 			}
 		}
 
@@ -40,7 +40,7 @@ namespace FireAdministrator.ViewModels
 			set
 			{
 				_selectedError = value;
-				OnPropertyChanged("SelectedError");
+				OnPropertyChanged(() => SelectedError);
 			}
 		}
 
@@ -80,7 +80,7 @@ namespace FireAdministrator.ViewModels
 		public void AddErrors(IEnumerable<IValidationError> validationErrors)
 		{
 			Errors.AddRange(validationErrors);
-			OnPropertyChanged("Errors");
+			OnPropertyChanged(() => Errors);
 		}
 	}
 }

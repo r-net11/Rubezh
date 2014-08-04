@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_delay = value;
-				OnPropertyChanged("Delays");
+				OnPropertyChanged(() => Delays);
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDelay = value;
-				OnPropertyChanged("SelectedDelay");
+				OnPropertyChanged(() => SelectedDelay);
 			}
 		}
 

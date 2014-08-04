@@ -6,6 +6,7 @@ using ChinaSKDDriver;
 using ChinaSKDDriverAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using ChinaSKDDriverNativeApi;
 
 namespace ControllerSDK.ViewModels
 {
@@ -19,7 +20,6 @@ namespace ControllerSDK.ViewModels
 
 		void Wrapper_NewJournalItem(SKDJournalItem journalItem)
 		{
-			Trace.WriteLine("SKDJournalItem " + journalItem.DeviceDateTime.ToString());
 			Dispatcher.BeginInvoke(new Action(() =>
 			{
 				var journalItemViewModel = new JournalItemViewModel(journalItem);

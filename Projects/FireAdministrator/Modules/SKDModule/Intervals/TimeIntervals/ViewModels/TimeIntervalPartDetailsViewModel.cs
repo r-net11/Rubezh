@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return StartTime.TimeOfDay < EndTime.TimeOfDay;
+			return StartTime.TimeOfDay <= EndTime.TimeOfDay;
 		}
 		protected override bool Save()
 		{

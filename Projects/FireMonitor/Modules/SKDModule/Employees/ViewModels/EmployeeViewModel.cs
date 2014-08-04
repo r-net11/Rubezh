@@ -47,26 +47,53 @@ namespace SKDModule.ViewModels
 			AddCardCommand = new RelayCommand(OnAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
 
+			Initialize();
+		}
+
+		private void Initialize()
+		{
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
-			foreach (var item in employee.Cards)
+			foreach (var item in ShortEmployee.Cards)
 				Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
 			SelectedCard = Cards.FirstOrDefault();
 
-			AppointedString = employee.Appointed;
-			DismissedString = employee.Dismissed;
-			DepartmentName = employee.DepartmentName;
-			PositionName = employee.PositionName;
+			AppointedString = ShortEmployee.Appointed;
+			DismissedString = ShortEmployee.Dismissed;
+			DepartmentName = ShortEmployee.DepartmentName;
+			PositionName = ShortEmployee.PositionName;
 		}
 
 		public void Update(ShortEmployee employee)
 		{
 			ShortEmployee = employee;
+			Initialize();
 			OnPropertyChanged(() => ShortEmployee);
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => DepartmentName);
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => AppointedString);
 			OnPropertyChanged(() => DismissedString);
+		}
+
+		public PhotoColumnViewModel Photo { get; private set; }
+
+		public void UpdatePhoto()
+		{
+			Photo photo = null;
+			if (IsOrganisation)
+			{
+				var details = OrganisationHelper.GetDetails(Organisation.UID);
+				if (details != null)
+					photo = details.Photo;
+			}
+			else
+			{
+				var details = EmployeeHelper.GetDetails(ShortEmployee.UID);
+				if (details != null)
+					photo = details.Photo;
+			}
+			Photo = new PhotoColumnViewModel(photo);
+			OnPropertyChanged(() => Photo);
 		}
 
 		public ObservableCollection<string> AdditionalColumnValues { get; set; }
@@ -81,16 +108,16 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedCard = value;
-				OnPropertyChanged("SelectedCard");
+				OnPropertyChanged(() => SelectedCard);
 			}
 		}
 
 		public RelayCommand AddCardCommand { get; private set; }
 		void OnAddCard()
 		{
-			if (Cards.Count > 10)
+			if (Cards.Count > 100)
 			{
-				MessageBoxService.ShowWarning("У сотрудника не может быть более 10 пропусков");
+				MessageBoxService.ShowWarning("У сотрудника не может быть более 100 пропусков");
 				return;
 			}
 			var cardDetailsViewModel = new EmployeeCardDetailsViewModel(Organisation);
@@ -115,7 +142,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isEmployeeSelected = value;
-				OnPropertyChanged("IsEmployeeSelected");
+				OnPropertyChanged(() => IsEmployeeSelected);
 			}
 		}
 
@@ -126,7 +153,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isCardSelected = value;
-				OnPropertyChanged("IsCardSelected");
+				OnPropertyChanged(() => IsCardSelected);
 			}
 		}
 

@@ -57,12 +57,12 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("DevicePicture");
-			OnPropertyChanged("State");
-			OnPropertyChanged("DeviceStateViewModel");
-			OnPropertyChanged("HasOnDelay");
-			OnPropertyChanged("HasHoldDelay");
-			OnPropertyChanged("HasOffDelay");
+			OnPropertyChanged(() => DevicePicture);
+			OnPropertyChanged(() => State);
+			OnPropertyChanged(() => DeviceStateViewModel);
+			OnPropertyChanged(() => HasOnDelay);
+			OnPropertyChanged(() => HasHoldDelay);
+			OnPropertyChanged(() => HasOffDelay);
 			CommandManager.InvalidateRequerySuggested();
 		}
 
@@ -97,7 +97,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_measureParameters = value;
-				OnPropertyChanged("MeasureParameters");
+				OnPropertyChanged(() => MeasureParameters);
 			}
 		}
 

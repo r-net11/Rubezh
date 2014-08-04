@@ -3,27 +3,43 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+    <UserControl.Resources>
+        <Style x:Key="ActiveStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Card.IsInStopList}" Value="True">
+                    <Setter Property="Foreground" Value="Gray" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
 
-	<DataGrid ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" CanUserSortColumns="True">
+    <DataGrid ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" CanUserSortColumns="True">
 		<DataGrid.Columns>
 			<DataGridTemplateColumn Header="Номер" CanUserSort="True" SortMemberPath="Card.Number" Width="Auto">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding Card.Number}" />
+                        <TextBlock Text="{Binding Card.Number}" Style="{StaticResource ActiveStyle}" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTemplateColumn Header="Сотрудник" SortMemberPath="Card.EmployeeName" Width="*">
+            <DataGridTemplateColumn Header="Тип" CanUserSort="True" SortMemberPath="Card.Number" Width="Auto">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Card.CardType, Converter={StaticResource EnumToDescriptionConverter}}" Visibility="{Binding Card.IsInStopList, Converter={StaticResource InversedBoolToVisibilityConverter}}" Style="{StaticResource ActiveStyle}" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Сотрудник" SortMemberPath="Card.EmployeeName" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding Card.EmployeeName}" />
+                        <TextBlock Text="{Binding Card.EmployeeName}" Style="{StaticResource ActiveStyle}" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
 			<DataGridTemplateColumn Header="Причина деактивации" SortMemberPath="Card.StopReason" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding Card.StopReason}" />
+                        <TextBlock Text="{Binding Card.StopReason}" Style="{StaticResource ActiveStyle}" />
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>

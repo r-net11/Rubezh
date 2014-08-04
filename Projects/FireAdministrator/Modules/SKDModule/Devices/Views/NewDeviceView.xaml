@@ -42,7 +42,7 @@
 		<StackPanel Grid.Row="1" Margin="2">
 			<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="2">
 				<Label Content="Название" Width="100" HorizontalContentAlignment="Right" Margin="5 0" />
-				<TextBox Text="{Binding Name}" Width="200" HorizontalAlignment="Left" />
+				<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="200" HorizontalAlignment="Left" />
 			</StackPanel>
 		</StackPanel>
 	</Grid>

@@ -30,7 +30,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_camera = value;
-				OnPropertyChanged("Camera");
+				OnPropertyChanged(() => Camera);
 			}
 		}
 

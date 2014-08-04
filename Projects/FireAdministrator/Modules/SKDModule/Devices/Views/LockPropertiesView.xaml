@@ -10,76 +10,88 @@
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0">
             <TabItem Header="Основные">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="AccessMode" Foreground="White" Width="200" Margin="2" />
-                        <ComboBox ItemsSource="{Binding AccessModes}" SelectedItem="{Binding SelectedAccessMode}" Width="200" Margin="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="AccessMode" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <ComboBox  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AccessModes}" SelectedItem="{Binding SelectedAccessMode}" Margin="2">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Состояние двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AccessStates}" SelectedItem="{Binding SelectedAccessState}" Margin="2">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Метод открытия" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <Grid Grid.Row="2" Grid.Column="1" IsEnabled="{Binding CanSelectDoorOpenMethod}">
+                        <ComboBox ItemsSource="{Binding DoorOpenMethods}" SelectedItem="{Binding SelectedDoorOpenMethod}" Margin="2">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="AccessMode" Foreground="White" Width="200" Margin="2" />
-                        <ComboBox ItemsSource="{Binding AccessStates}" SelectedItem="{Binding SelectedAccessState}" Width="200" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" IsEnabled="{Binding CanSelectDoorOpenMethod}">
-                        <TextBlock Text="AccessMode" Foreground="White" Width="200" Margin="2" />
-                        <ComboBox ItemsSource="{Binding DoorOpenMethods}" SelectedItem="{Binding SelectedDoorOpenMethod}" Width="200" Margin="2">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="UnlockHoldInterval" Foreground="White" Width="200" Margin="2" />
-                            <TextBox Text="{Binding UnlockHoldInterval}" Width="200" Margin="2" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="CloseTimeout" Foreground="White" Width="200" Margin="2" />
-                            <TextBox Text="{Binding CloseTimeout}" Width="200" Margin="2" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="OpenAlwaysTimeIndex" Foreground="White" Width="200" Margin="2" />
-                            <TextBox Text="{Binding OpenAlwaysTimeIndex}" Width="200" Margin="2" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="HolidayTimeIndex" Foreground="White" Width="200" Margin="2" />
-                            <TextBox Text="{Binding HolidayTimeRecoNo}" Width="200" Margin="2" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="BreakInAlarmEnable" Foreground="White" Width="200" Margin="2" />
-                            <CheckBox IsChecked="{Binding IsBreakInAlarmEnable}" Width="200" Margin="2" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="RepeatEnterAlarmEnable" Foreground="White" Width="200" Margin="2" />
-                            <CheckBox IsChecked="{Binding IsRepeatEnterAlarmEnable}" Width="200" Margin="2" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="DoorNotClosedAlarmEnable" Foreground="White" Width="200" Margin="2" />
-                            <CheckBox IsChecked="{Binding IsDoorNotClosedAlarmEnable}" Width="200" Margin="2" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="DuressAlarmEnable" Foreground="White" Width="200" Margin="2" />
-                            <CheckBox IsChecked="{Binding IsDuressAlarmEnable}" Width="200" Margin="2" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="SensorEnable" Foreground="White" Width="200" Margin="2" />
-                            <CheckBox IsChecked="{Binding IsSensorEnable}" Width="200" Margin="2" />
-                        </StackPanel>
-                    </StackPanel>
-                </StackPanel>
+                    </Grid>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Время удержания, мс" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding UnlockHoldInterval}" Margin="2" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Время закрытия, с" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding CloseTimeout}" Margin="2" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="График, по которому дверь всегда открыта" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <ComboBox Grid.Row="5" Grid.Column="1" IsEnabled="{Binding CanSetAlwaysOpen}" ItemsSource="{Binding TimeSchedules}" SelectedItem="{Binding SelectedTimeSchedule}" Margin="2">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="HolidayTimeIndex" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" Visibility="Collapsed" />
+                    <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding HolidayTimeRecoNo}" Margin="2" Visibility="Collapsed" />
+
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Тревого по взлому" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsBreakInAlarmEnable}" Margin="2" />
+
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Тревога по повторному проходу" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <CheckBox Grid.Row="8" Grid.Column="1" IsChecked="{Binding IsRepeatEnterAlarmEnable}" Margin="2" />
+
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Тревога по незакрытию двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <CheckBox Grid.Row="9" Grid.Column="1" IsChecked="{Binding IsDoorNotClosedAlarmEnable}" Margin="2" />
+
+                    <TextBlock Grid.Row="10" Grid.Column="0" Text="Тревога по принуждению" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <CheckBox Grid.Row="10" Grid.Column="1" IsChecked="{Binding IsDuressAlarmEnable}" Margin="2" />
+
+                    <TextBlock Grid.Row="11" Grid.Column="0" Text="Активен сенсор двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+                    <CheckBox Grid.Row="11" Grid.Column="1" IsChecked="{Binding IsSensorEnable}" Margin="2" /> 
+                </Grid>
             </TabItem>
             <TabItem Header="Недельный график" Visibility="{Binding CanSetTimeIntervals, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid DataContext="{Binding LockIntervalsViewModel}">

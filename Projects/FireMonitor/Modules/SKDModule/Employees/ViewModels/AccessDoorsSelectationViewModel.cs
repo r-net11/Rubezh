@@ -11,15 +11,13 @@ namespace SKDModule.ViewModels
 	{
 		Organisation Organisation;
 		public List<CardDoor> CardDoors { get; private set; }
-		Guid? ParentUID;
 
-		public AccessDoorsSelectationViewModel(Organisation organisation, List<CardDoor> cardDoors, Guid? parentUID)
+		public AccessDoorsSelectationViewModel(Organisation organisation, List<CardDoor> cardDoors)
 		{
 			Organisation = organisation;
 			CardDoors = cardDoors;
 
 			InitializeDoors();
-			ParentUID = parentUID;
 		}
 
 		void InitializeDoors()
@@ -31,6 +29,7 @@ namespace SKDModule.ViewModels
 				var accessDoorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
 				Doors.Add(accessDoorViewModel);
 			}
+			SelectedDoor = Doors.FirstOrDefault(x => x.IsChecked);
 		}
 
 		public ObservableCollection<AccessDoorViewModel> Doors { get; private set; }
@@ -42,7 +41,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedDoor = value;
-				OnPropertyChanged("SelectedDoor");
+				OnPropertyChanged(() => SelectedDoor);
 			}
 		}
 
@@ -56,13 +55,10 @@ namespace SKDModule.ViewModels
 					var cardDoor = new CardDoor()
 					{
 						DoorUID = door.Door.UID,
-						IsAntiPassback = door.IsAntiPassback,
-						IsComission = door.IsComission,
 						EnterIntervalType = door.SelectedEnterTimeCreteria.IntervalType,
 						EnterIntervalID = door.SelectedEnterTimeType != null ? door.SelectedEnterTimeType.ScheduleID : 0,
 						ExitIntervalType = door.SelectedExitTimeCreteria.IntervalType,
 						ExitIntervalID = door.SelectedExitTimeType != null ? door.SelectedExitTimeType.ScheduleID : 0,
-						ParentUID = ParentUID
 					};
 					CardDoors.Add(cardDoor);
 				}

@@ -32,10 +32,11 @@
 	<Style TargetType="{x:Type local:ToolBarButton}">
 		<Setter Property="Height" Value="40" />
 		<Setter Property="Width" Value="40" />
+        <Setter Property="Background" Value="Transparent" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate>
-					<Border Name="border" Margin="2" BorderBrush="Transparent" BorderThickness="1" CornerRadius="2" Padding="2" ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True">
+                    <Border Name="border" Margin="2" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" CornerRadius="2" Padding="2" ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True">
 						<Grid>
 							<Image Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
 							<ContentPresenter Content="{TemplateBinding ContentControl.Content}" />
@@ -55,36 +56,6 @@
 						</Trigger>
 						<Trigger Property="Button.Command" Value="{x:Null}">
 							<Setter Property="IsEnabled" Value="False" />
-						</Trigger>
-					</ControlTemplate.Triggers>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
-
-	<Style TargetType="{x:Type local:ToolBarButton2}">
-		<Setter Property="Height" Value="40" />
-		<Setter Property="MinWidth" Value="40" />
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate>
-					<Border Name="border" Margin="2" BorderBrush="Transparent" BorderThickness="1" CornerRadius="2" Padding="2" ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True">
-						<StackPanel Orientation="Horizontal">
-							<Image Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" />
-							<TextBlock Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" Visibility="{Binding Path=HasText, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}" />
-						</StackPanel>
-					</Border>
-
-					<ControlTemplate.Triggers>
-						<Trigger Property="UIElement.IsMouseOver" Value="True">
-							<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
-							<Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
-						</Trigger>
-						<Trigger Property="Button.IsPressed" Value="True">
-							<Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
-						</Trigger>
-						<Trigger Property="Button.IsEnabled" Value="False">
-							<Setter TargetName="border" Property="Opacity" Value="0.5" />
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

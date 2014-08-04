@@ -156,89 +156,6 @@ BOOL CALL_METHOD WRAP_SetCurrentTime(int loginID, int dwYear, int dwMonth, int d
 	return bRet;
 }
 
-BOOL CALL_METHOD WRAP_QueryLogList(int loginID, WRAP_Dev_QueryLogList_Result* result)
-{
-	if (NULL == loginID)
-	{
-		return FALSE;
-	}
-	QUERY_DEVICE_LOG_PARAM stuGetLog;
-	memset(&stuGetLog, 0, sizeof(QUERY_DEVICE_LOG_PARAM));
-	stuGetLog.emLogType = DHLOG_ALL;
-	stuGetLog.stuStartTime.dwYear = 2013;
-	stuGetLog.stuStartTime.dwMonth = 10;
-	stuGetLog.stuStartTime.dwDay = 1;
-	stuGetLog.stuStartTime.dwHour = 0;
-	stuGetLog.stuStartTime.dwMinute = 0;
-	stuGetLog.stuStartTime.dwSecond = 0;
-	
-	stuGetLog.stuEndTime.dwYear = 2015;
-	stuGetLog.stuEndTime.dwMonth = 10;
-	stuGetLog.stuEndTime.dwDay = 7;
-	stuGetLog.stuEndTime.dwHour = 0;
-	stuGetLog.stuEndTime.dwMinute = 0;
-	stuGetLog.stuEndTime.dwSecond = 0;
-	
-	stuGetLog.nLogStuType = 1;
-
-
-	int nMaxNum = 10;
-	stuGetLog.nStartNum = 0;
-	stuGetLog.nEndNum = nMaxNum - 1;
-	
-	DH_DEVICE_LOG_ITEM_EX* szLogInfos = new DH_DEVICE_LOG_ITEM_EX[32];
-	int nRetLogNum = 0;
-	BOOL bRet = CLIENT_QueryDeviceLog(loginID, &stuGetLog, (char*)szLogInfos, 32 * sizeof(DH_DEVICE_LOG_ITEM_EX), &nRetLogNum, SDK_API_WAITTIME);
-	if (bRet)
-	{
-		if (nRetLogNum <= 0)
-		{
-			//printf("No Log record!");
-		}
-		else
-		{
-			for (unsigned int i = 0; i < nRetLogNum; i++)
-			{
-				result->Test = 123;
-				result->Logs[i].nLogType = szLogInfos[i].nLogType;
-				result->Logs[i].stuOperateTime.day = szLogInfos[i].stuOperateTime.day;
-				result->Logs[i].stuOperateTime.hour = szLogInfos[i].stuOperateTime.hour;
-				result->Logs[i].stuOperateTime.minute = szLogInfos[i].stuOperateTime.minute;
-				result->Logs[i].stuOperateTime.month = szLogInfos[i].stuOperateTime.month;
-				result->Logs[i].stuOperateTime.second = szLogInfos[i].stuOperateTime.second;
-				result->Logs[i].stuOperateTime.year = szLogInfos[i].stuOperateTime.year;
-				strncpy(result->Logs[i].szOperator, szLogInfos[i].szOperator, sizeof(szLogInfos[i].szOperator));
-				strncpy(result->Logs[i].szOperation, szLogInfos[i].szOperation, sizeof(szLogInfos[i].szOperation));
-				strncpy(result->Logs[i].szDetailContext, szLogInfos[i].szDetailContext, sizeof(szLogInfos[i].szDetailContext));
-			}
-		}
-		
-		if (nRetLogNum < nMaxNum)
-		{
-			memset(szLogInfos, 0, sizeof(DH_DEVICE_LOG_ITEM_EX) * 32);
-			stuGetLog.nStartNum += nRetLogNum;  
-			nRetLogNum = 0;
-			bRet = CLIENT_QueryDeviceLog(loginID, &stuGetLog, (char*)szLogInfos, 32 * sizeof(DH_DEVICE_LOG_ITEM_EX), &nRetLogNum, SDK_API_WAITTIME);
-			if (bRet)
-			{
-				if (nRetLogNum <= 0)
-				{
-					//printf("No more Log record!");
-				}
-				else
-				{
-					for (unsigned int i = 0; i < nRetLogNum; i++)
-					{
-						//DisPlayLogInfo(szLogInfos[i], i);
-					}
-				}
-			}
-		}
-	}
-	delete[] szLogInfos;
-	return TRUE;
-}
-
 BOOL CALL_METHOD WRAP_GetProjectPassword(int loginID, WRAP_GeneralConfig_Password* result)
 {
 	char szJsonBuf[1024 * 40] = {0};
@@ -337,38 +254,6 @@ BOOL CALL_METHOD WRAP_DeleteCfgFile(int loginID)
 	return TRUE;
 }
 
-int CALL_METHOD WRAP_GetLogCount(int loginID, QUERY_DEVICE_LOG_PARAM* logParam)
-{
-	if (NULL == loginID)
-	{
-		return 0;
-	}
-	NET_IN_GETCOUNT_LOG_PARAM stuInLogCount = {sizeof(NET_IN_GETCOUNT_LOG_PARAM)};
-	NET_OUT_GETCOUNT_LOG_PARAM stuOutLogCount = {sizeof(NET_OUT_GETCOUNT_LOG_PARAM)};
-
-	QUERY_DEVICE_LOG_PARAM& stuGetLog = stuInLogCount.stuQueryCondition;
-	stuGetLog.stuStartTime.dwYear = logParam->stuStartTime.dwYear;
-	stuGetLog.stuStartTime.dwMonth = logParam->stuStartTime.dwMonth;
-	stuGetLog.stuStartTime.dwDay = logParam->stuStartTime.dwDay;
-	stuGetLog.stuStartTime.dwHour = logParam->stuStartTime.dwHour;
-	stuGetLog.stuStartTime.dwMinute = logParam->stuStartTime.dwMinute;
-	stuGetLog.stuStartTime.dwSecond = logParam->stuStartTime.dwSecond;
-	
-	stuGetLog.stuEndTime.dwYear = logParam->stuEndTime.dwYear;
-	stuGetLog.stuEndTime.dwMonth = logParam->stuEndTime.dwMonth;
-	stuGetLog.stuEndTime.dwDay = logParam->stuEndTime.dwDay;
-	stuGetLog.stuEndTime.dwHour = logParam->stuEndTime.dwHour;
-	stuGetLog.stuEndTime.dwMinute = logParam->stuEndTime.dwMinute;
-	stuGetLog.stuEndTime.dwSecond = logParam->stuEndTime.dwSecond;
-
-	stuGetLog.nStartNum = logParam->nStartNum;
-	stuGetLog.nLogStuType = logParam->nLogStuType;
-	stuGetLog.nEndNum = logParam->nEndNum;
-	
-	BOOL bResult = CLIENT_QueryDevLogCount(loginID, &stuInLogCount, &stuOutLogCount, SDK_API_WAITTIME);
- 	return stuOutLogCount.nLogCount;
-}
-
 BOOL CALL_METHOD WRAP_OpenDoor(int loginID, int channelNo)
 {
 	if (NULL == loginID)
@@ -423,6 +308,109 @@ int CALL_METHOD WRAP_GetDoorStatus(int loginID, int channelNo)
 		return - 1;
 	}
 }
+
+LLONG m_hUpgradeId;
+
+void WINAPI UpgradeCallBack(LLONG lLoginID, LLONG lUpgradechannel, int nTotalSize, int nSendSize, LDWORD dwUser)
+{
+}
+
+BOOL CALL_METHOD WRAP_Upgrade(int loginID, char fileName[256])
+{
+	if (m_hUpgradeId)
+	{
+		CLIENT_StopUpgrade(m_hUpgradeId);
+		m_hUpgradeId = NULL;
+	}
+	
+	m_hUpgradeId = CLIENT_StartUpgradeEx(loginID, (EM_UPGRADE_TYPE)0, fileName, UpgradeCallBack, (LLONG)0);
+
+	if (m_hUpgradeId)
+	{
+		int nRet = CLIENT_SendUpgrade(m_hUpgradeId);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+int CALL_METHOD WRAP_GetLogCount(int loginID, QUERY_DEVICE_LOG_PARAM* logParam)
+{
+	if (NULL == loginID)
+	{
+		return 0;
+	}
+	NET_IN_GETCOUNT_LOG_PARAM stuInLogCount = {sizeof(NET_IN_GETCOUNT_LOG_PARAM)};
+	NET_OUT_GETCOUNT_LOG_PARAM stuOutLogCount = {sizeof(NET_OUT_GETCOUNT_LOG_PARAM)};
+	
+	BOOL bResult = CLIENT_QueryDevLogCount(loginID, &stuInLogCount, &stuOutLogCount, SDK_API_WAITTIME);
+ 	return stuOutLogCount.nLogCount;
+}
+
+
+LLONG m_lLogID;
+
+BOOL CALL_METHOD WRAP_QueryStart(int loginID)
+{
+    NET_IN_START_QUERYLOG stuIn = {sizeof(stuIn)};
+    NET_OUT_START_QUERYLOG stuOut = {sizeof(stuOut)};
+    LLONG lLogID = CLIENT_StartQueryLog(loginID, &stuIn, &stuOut, SDK_API_WAITTIME);
+    if (lLogID != NULL)
+    {
+		m_lLogID = lLogID;
+        return TRUE;
+    }
+    return FALSE;
+}
+
+int CALL_METHOD WRAP_QueryNext(WRAP_Dev_QueryLogList_Result* result)
+{
+    NET_IN_QUERYNEXTLOG stuIn = {sizeof(stuIn)};
+    stuIn.nGetCount = 10;
+
+    NET_OUT_QUERYNEXTLOG stuOut = {sizeof(stuOut)};
+    stuOut.nMaxCount = 10;
+    stuOut.pstuLogInfo = new NET_LOG_INFO[10];
+    if (NULL == stuOut.pstuLogInfo)
+    {
+        return -1;
+    }
+    memset(stuOut.pstuLogInfo, 0, sizeof(NET_LOG_INFO) * 10);
+    int i = 0;
+    for (i = 0; i < 10; i++)
+    {
+        stuOut.pstuLogInfo[i].dwSize = sizeof(NET_LOG_INFO);
+        stuOut.pstuLogInfo[i].stuLogMsg.dwSize = sizeof(NET_LOG_MESSAGE);
+    }
+    if (CLIENT_QueryNextLog(m_lLogID, &stuIn, &stuOut, SDK_API_WAITTIME))
+    {
+        for (i = 0; i < __min(stuOut.nMaxCount, stuOut.nRetCount); i++)
+        {
+			result->Logs[i].stuTime = stuOut.pstuLogInfo[i].stuTime;
+			strncpy(result->Logs[i].szUserName, stuOut.pstuLogInfo[i].szUserName, sizeof(stuOut.pstuLogInfo[i].szUserName));
+			strncpy(result->Logs[i].szLogType, stuOut.pstuLogInfo[i].szLogType, sizeof(stuOut.pstuLogInfo[i].szLogType));
+			strncpy(result->Logs[i].szLogMessage, stuOut.pstuLogInfo[i].stuLogMsg.szLogMessage, sizeof(stuOut.pstuLogInfo[i].stuLogMsg.szLogMessage));
+        }
+        return stuOut.nRetCount;
+    }
+    return 0;
+}
+
+BOOL CALL_METHOD WRAP_QueryStop()
+{
+    return CLIENT_StopQueryLog(m_lLogID);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 BOOL CALL_METHOD TestStruct(CFG_ACCESS_EVENT_INFO* result)
 {

@@ -110,19 +110,12 @@ namespace FiresecAPI.SKD
 		{
 			var minStateClass = XStateClass.No;
 			foreach (var device in Devices)
-			{
 				if (device.IsRealDevice)
 				{
 					var stateClass = device.State.StateClass;
 					if (stateClass < minStateClass)
 						minStateClass = device.State.StateClass;
 				}
-			}
-			foreach (var zone in Zones)
-			{
-				if (zone.State.StateClass < minStateClass)
-					minStateClass = zone.State.StateClass;
-			}
 			return minStateClass;
 		}
 

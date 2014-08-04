@@ -23,13 +23,13 @@ namespace NotificationModule.ViewModels
 			set
 			{
 				_emailSettings = value;
-				OnPropertyChanged("EmailSettings");
+				OnPropertyChanged(() => EmailSettings);
 			}
 		}
 
 		public void Update()
 		{
-			OnPropertyChanged("EmailSettings");
+			OnPropertyChanged(() => EmailSettings);
 		}
 	}
 }

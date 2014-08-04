@@ -52,7 +52,7 @@ namespace NotificationModule.ViewModels
 			set
 			{
 				_selectedStateType = value;
-				OnPropertyChanged("SelectedStateType");
+				OnPropertyChanged(() => SelectedStateType);
 			}
 		}
 

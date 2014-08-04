@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="AutomationModule.Views.JournalStepView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Grid>
-		<TextBlock Text="JournalStepView" Foreground="White" Margin="2" />
-	</Grid>
+	<StackPanel Orientation="Horizontal" >
+		<Label Content="Сообщение: " Margin="2" />
+		<TextBox Text="{Binding Message}" Width="200" Margin="2" VerticalAlignment="Top" Height="20" />
+	</StackPanel>
 </UserControl>

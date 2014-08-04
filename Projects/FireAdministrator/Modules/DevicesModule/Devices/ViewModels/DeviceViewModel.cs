@@ -51,8 +51,8 @@ namespace DevicesModule.ViewModels
 
 		void device_Changed()
 		{
-			OnPropertyChanged("Ip");
-			OnPropertyChanged("HasExternalDevices");
+			OnPropertyChanged(() => Address);
+			OnPropertyChanged(() => HasExternalDevices);
 			UpdateZoneName();
 		}
 
@@ -74,12 +74,12 @@ namespace DevicesModule.ViewModels
 					{
 						foreach (var deviceViewModel in Children)
 						{
-							deviceViewModel.OnPropertyChanged("Ip");
+							deviceViewModel.OnPropertyChanged("Address");
 						}
 					}
 					ServiceFactory.SaveService.FSChanged = true;
 				}
-				OnPropertyChanged("Ip");
+				OnPropertyChanged("Address");
 			}
 		}
 
@@ -103,7 +103,7 @@ namespace DevicesModule.ViewModels
 			{
 				Device.Description = value;
 				Device.OnChanged();
-				OnPropertyChanged("Description");
+				OnPropertyChanged(Description);
 				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
@@ -145,7 +145,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_presentationZone = value;
-				OnPropertyChanged("PresentationZone");
+				OnPropertyChanged(() => PresentationZone);
 			}
 		}
 
@@ -156,7 +156,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_editingPresentationZone = value;
-				OnPropertyChanged("EditingPresentationZone");
+				OnPropertyChanged(() => EditingPresentationZone);
 			}
 		}
 
@@ -239,8 +239,8 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				FiresecManager.FiresecConfiguration.SetIsNotUsed(Device, !value);
-				OnPropertyChanged("IsUsed");
-				OnPropertyChanged("ShowOnPlan");
+				OnPropertyChanged(() => IsUsed);
+				OnPropertyChanged(() => ShowOnPlan);
 				UpdateZoneName();
 				ServiceFactory.SaveService.FSChanged = true;
 			}
@@ -563,10 +563,10 @@ namespace DevicesModule.ViewModels
 					Device.Driver = value;
 					Device.DriverUID = value.UID;
 
-					OnPropertyChanged("Device");
-					OnPropertyChanged("Driver");
+					OnPropertyChanged(() => Device);
+					OnPropertyChanged(() => Driver);
 					PropertiesViewModel = new PropertiesViewModel(Device);
-					OnPropertyChanged("PropertiesViewModel");
+					OnPropertyChanged(() => PropertiesViewModel);
 					Update();
 					ServiceFactory.SaveService.FSChanged = true;
 					DevicesViewModel.UpdateGuardVisibility();

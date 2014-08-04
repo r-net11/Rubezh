@@ -33,7 +33,7 @@ namespace FireMonitor.ViewModels
 			set
 			{
 				_isSoundOn = value;
-				OnPropertyChanged("IsSoundOn");
+				OnPropertyChanged(() => IsSoundOn);
 			}
 		}
 		bool _isEnabled;
@@ -43,7 +43,7 @@ namespace FireMonitor.ViewModels
 			set
 			{
 				_isEnabled = value;
-				OnPropertyChanged("IsEnabled");
+				OnPropertyChanged(() => IsEnabled);
 			}
 		}
 

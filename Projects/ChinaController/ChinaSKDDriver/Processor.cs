@@ -12,11 +12,11 @@ namespace ChinaSKDDriver
 	{
 		public static List<DeviceProcessor> DeviceProcessors { get; private set; }
 
-		public static event Action<SKDStates> skdStatesEvent;
-		public static void DoCallback(SKDStates skdStates)
+		public static event Action<SKDStates> StatesChangedEvent;
+		public static void OnStatesChanged(SKDStates skdStates)
 		{
-			if (Processor.skdStatesEvent != null)
-				Processor.skdStatesEvent(skdStates);
+			if (Processor.StatesChangedEvent != null)
+				Processor.StatesChangedEvent(skdStates);
 		}
 
 		public static event Action<JournalItem> NewJournalItem;
@@ -38,7 +38,7 @@ namespace ChinaSKDDriver
 
 			try
 			{
-				ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
+				//Wrapper.WrapInitialize();
 			}
 			catch { }
 		}
@@ -55,7 +55,8 @@ namespace ChinaSKDDriver
 				deviceProcessor.Start();
 			}
 
-			Wrapper.Start();
+			Wrapper.Initialize();
+			//Wrapper.WrapStart();
 		}
 
 		public static void Stop()
@@ -65,7 +66,8 @@ namespace ChinaSKDDriver
 				deviceProcessor.Stop();
 			}
 
-			Wrapper.Stop();
+			Wrapper.Deinitialize();
+			//Wrapper.WrapStop();
 		}
 
 		#region Callback

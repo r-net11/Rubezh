@@ -77,8 +77,12 @@
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZoneViewModel.cs" />
+    <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
     <Compile Include="Employees\Views\CardNumberView.xaml.cs">
       <DependentUpon>CardNumberView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Employees\Views\ControllerSelectationView.xaml.cs">
+      <DependentUpon>ControllerSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
@@ -128,7 +132,6 @@
     <Compile Include="HR\ViewModels\PositionsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentFilterItemViewModel.cs" />
-    <Compile Include="HR\ViewModels\CardFilterViewModel.cs" />
     <Compile Include="Intervals\Common\CopyHelper.cs" />
     <Compile Include="Intervals\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="Intervals\Common\ViewModels\OrganisationViewModel.cs" />
@@ -336,15 +339,6 @@
     <Compile Include="Departments\Views\DepartmentsView.xaml.cs">
       <DependentUpon>DepartmentsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Documents\ViewModels\DocumentDetailsViewModel.cs" />
-    <Compile Include="Documents\ViewModels\DocumentsViewModel.cs" />
-    <Compile Include="Documents\ViewModels\DocumentViewModel.cs" />
-    <Compile Include="Documents\Views\DocumentDetailsView.xaml.cs">
-      <DependentUpon>DocumentDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Documents\Views\DocumentsView.xaml.cs">
-      <DependentUpon>DocumentsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeDetailsViewModel.cs" />
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypesViewModel.cs" />
     <Compile Include="AdditionalColumns\ViewModels\AdditionalColumnTypeViewModel.cs" />
@@ -539,6 +533,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Employees\Views\ControllerSelectationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Intervals\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -664,18 +662,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Departments\Views\DepartmentsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Documents\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Documents\Views\DocumentDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Documents\Views\DocumentsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

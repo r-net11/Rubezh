@@ -8,12 +8,6 @@ namespace SKDModule.ViewModels
 {
 	public class DevicesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		public static DevicesViewModel Current { get; private set; }
-		public DevicesViewModel()
-		{
-			Current = this;
-		}
-
 		public void Initialize()
 		{
 			BuildTree();

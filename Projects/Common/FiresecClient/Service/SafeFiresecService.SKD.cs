@@ -83,13 +83,17 @@ namespace FiresecClient
 		{
 			SafeOperationCall(() => FiresecService.BeginGetFilteredArchive(archiveFilter, archivePortionUID), "BeginGetFilteredArchive");
 		}
-		public List<JournalEventDescriptionType> GetDistinctEventDescriptions()
+		public OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions()
 		{
-			return SafeContext.Execute<List<JournalEventDescriptionType>>(() => FiresecService.GetDistinctEventDescriptions());
+			return SafeContext.Execute<OperationResult<List<JournalEventDescriptionType>>>(() => FiresecService.GetDistinctEventDescriptions());
 		}
-		public List<JournalEventNameType> GetDistinctEventNames()
+		public OperationResult<List<JournalEventNameType>> GetDistinctEventNames()
 		{
-			return SafeContext.Execute<List<JournalEventNameType>>(() => FiresecService.GetDistinctEventNames());
+			return SafeContext.Execute<OperationResult<List<JournalEventNameType>>>(() => FiresecService.GetDistinctEventNames());
+		}
+		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
+		{
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddJournalItem(journalItem));
 		}
 		#endregion
 
@@ -98,21 +102,25 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
-		public OperationResult AddCard(SKDCard item)
+		public OperationResult<bool> AddCard(SKDCard item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.AddCard(item));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddCard(item));
 		}
-		public OperationResult EditCard(SKDCard item)
+		public OperationResult<bool> EditCard(SKDCard item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.EditCard(item));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.EditCard(item));
 		}
-		public OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null)
+		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteCardFromEmployee(item, reason));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteCardFromEmployee(item, reason));
 		}
 		public OperationResult MarkDeletedCard(Guid uid)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedCard(uid));
+		}
+		public OperationResult DeletedCard(Guid uid)
+		{
+			return SafeContext.Execute(() => FiresecService.DeletedCard(uid));
 		}
 		public OperationResult SaveCardTemplate(SKDCard item)
 		{
@@ -125,9 +133,9 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<AccessTemplate>>>(() => FiresecService.GetAccessTemplates(filter));
 		}
-		public OperationResult SaveAccessTemplate(AccessTemplate item)
+		public OperationResult<bool> SaveAccessTemplate(AccessTemplate item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAccessTemplate(item));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveAccessTemplate(item));
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{
@@ -174,25 +182,6 @@ namespace FiresecClient
 		}
 		#endregion
 
-		#region Document
-		public OperationResult<IEnumerable<ShortDocument>> GetDocumentList(DocumentFilter filter)
-		{
-			return SafeContext.Execute<OperationResult<IEnumerable<ShortDocument>>>(() => FiresecService.GetDocumentList(filter));
-		}
-		public OperationResult<Document> GetDocumentDetails(Guid uid)
-		{
-			return SafeContext.Execute<OperationResult<Document>>(() => FiresecService.GetDocumentDetails(uid));
-		}
-		public OperationResult SaveDocument(Document item)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveDocument(item));
-		}
-		public OperationResult MarkDeletedDocument(Guid uid)
-		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedDocument(uid));
-		}
-		#endregion
-
 		#region AdditionalColumnType
 		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
 		{
@@ -209,21 +198,6 @@ namespace FiresecClient
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedAdditionalColumnType(uid));
-		}
-		#endregion
-
-		#region EmployeeReplacement
-		public OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter)
-		{
-			return SafeContext.Execute<OperationResult<IEnumerable<EmployeeReplacement>>>(() => FiresecService.GetEmployeeReplacements(filter));
-		}
-		public OperationResult SaveEmployeeReplacement(EmployeeReplacement item)
-		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveEmployeeReplacement(item));
-		}
-		public OperationResult MarkDeletedEmployeeReplacement(Guid uid)
-		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedEmployeeReplacement(uid));
 		}
 		#endregion
 
@@ -248,16 +222,6 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDSyncronyseTime(device.UID); }, "SKDSyncronyseTime");
 		}
 
-		public OperationResult<string> SKDGetPassword(Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDGetPassword(deviceUID); }, "SKDGetPassword");
-		}
-
-		public OperationResult<bool> SKDSetPassword(Guid deviceUID, string password)
-		{
-			return SafeOperationCall(() => { return FiresecService.SKDSetPassword(deviceUID, password); }, "SKDSetPassword");
-		}
-
 		public OperationResult<bool> SKDResetController(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDResetController(device.UID); }, "SKDResetController");
@@ -273,9 +237,14 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDWriteTimeSheduleConfiguration(device.UID); }, "SKDWriteTimeSheduleConfiguration");
 		}
 
-		public OperationResult<bool> SKDWriteAllTimeSheduleConfiguration()
+		public OperationResult<List<Guid>> SKDWriteAllTimeSheduleConfiguration()
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDWriteAllTimeSheduleConfiguration(); }, "SKDWriteAllTimeSheduleConfiguration");
+		}
+
+		public OperationResult<bool> SKDRewriteAllCards(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDRewriteAllCards(device.UID); }, "SKDRewriteAllCards");
 		}
 
 		public OperationResult<bool> SKDUpdateFirmware(SKDDevice device, string fileName)
@@ -283,44 +252,74 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDUpdateFirmware(device.UID, fileName); }, "SKDUpdateFirmware");
 		}
 
-		public OperationResult<SKDDoorConfiguration> SKDGetDoorConfiguration(Guid deviceUID)
+		public OperationResult<SKDDoorConfiguration> SKDGetDoorConfiguration(SKDDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDGetDoorConfiguration(deviceUID); }, "SKDGetDoorConfiguration");
+			return SafeOperationCall(() => { return FiresecService.SKDGetDoorConfiguration(device.UID); }, "SKDGetDoorConfiguration");
 		}
 
-		public OperationResult<bool> SKDSetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration)
+		public OperationResult<bool> SKDSetDoorConfiguration(SKDDevice device, SKDDoorConfiguration doorConfiguration)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDSetDoorConfiguration(deviceUID, doorConfiguration); }, "SKDSetDoorConfiguration");
+			return SafeOperationCall(() => { return FiresecService.SKDSetDoorConfiguration(device.UID, doorConfiguration); }, "SKDSetDoorConfiguration");
 		}
 
-		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
+		public OperationResult<bool> SKDOpenDevice(SKDDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(deviceUID); }, "SKDOpenDevice");
+			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(device.UID); }, "SKDOpenDevice");
 		}
 
-		public OperationResult<bool> SKDCloseDevice(Guid deviceUID)
+		public OperationResult<bool> SKDCloseDevice(SKDDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(deviceUID); }, "SKDCloseDevice");
+			return SafeOperationCall(() => { return FiresecService.SKDCloseDevice(device.UID); }, "SKDCloseDevice");
 		}
 
-		public OperationResult<bool> SKDOpenZone(Guid zoneUID)
+		public OperationResult<bool> SKDOpenDeviceForever(SKDDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDOpenZone(zoneUID); }, "SKDOpenZone");
+			return SafeOperationCall(() => { return FiresecService.SKDOpenDeviceForever(device.UID); }, "SKDOpenDeviceForever");
 		}
 
-		public OperationResult<bool> SKDCloseZone(Guid zoneUID)
+		public OperationResult<bool> SKDCloseDeviceForever(SKDDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDCloseZone(zoneUID); }, "SKDCloseZone");
+			return SafeOperationCall(() => { return FiresecService.SKDCloseDeviceForever(device.UID); }, "SKDCloseDeviceForever");
 		}
 
-		public OperationResult<bool> SKDOpenDoor(Guid doorUID)
+		public OperationResult<bool> SKDOpenZone(SKDZone zone)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDOpenDoor(doorUID); }, "SKDOpenDoor");
+			return SafeOperationCall(() => { return FiresecService.SKDOpenZone(zone.UID); }, "SKDOpenZone");
 		}
 
-		public OperationResult<bool> SKDCloseDoor(Guid doorUID)
+		public OperationResult<bool> SKDCloseZone(SKDZone zone)
 		{
-			return SafeOperationCall(() => { return FiresecService.SKDCloseDoor(doorUID); }, "SKDCloseDoor");
+			return SafeOperationCall(() => { return FiresecService.SKDCloseZone(zone.UID); }, "SKDCloseZone");
+		}
+
+		public OperationResult<bool> SKDOpenZoneForever(SKDZone zone)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDOpenZoneForever(zone.UID); }, "SKDOpenZoneForever");
+		}
+
+		public OperationResult<bool> SKDCloseZoneForever(SKDZone zone)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDCloseZoneForever(zone.UID); }, "SKDCloseZoneForever");
+		}
+
+		public OperationResult<bool> SKDOpenDoor(SKDDoor door)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDOpenDoor(door.UID); }, "SKDOpenDoor");
+		}
+
+		public OperationResult<bool> SKDCloseDoor(SKDDoor door)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDCloseDoor(door.UID); }, "SKDCloseDoor");
+		}
+
+		public OperationResult<bool> SKDOpenDoorForever(SKDDoor door)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDOpenDoorForever(door.UID); }, "SKDOpenDoorForever");
+		}
+
+		public OperationResult<bool> SKDCloseDoorForever(SKDDoor door)
+		{
+			return SafeOperationCall(() => { return FiresecService.SKDCloseDoorForever(door.UID); }, "SKDCloseDoorForever");
 		}
 		#endregion
 	}

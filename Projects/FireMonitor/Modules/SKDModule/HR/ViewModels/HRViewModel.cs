@@ -16,7 +16,6 @@ namespace SKDModule.ViewModels
 		AdditionalColumnTypeFilter AdditionalColumnTypeFilter;
 		CardFilter CardFilter;
 		AccessTemplateFilter AccessTemplateFilter;
-		DocumentFilter DocumentFilter;
 
 		public EmployeesViewModel EmployeesViewModel { get; private set; }
 		public DepartmentsViewModel DepartmentsViewModel { get; private set; }
@@ -25,7 +24,6 @@ namespace SKDModule.ViewModels
 		public CardsViewModel CardsViewModel { get; private set; }
 		public AccessTemplatesViewModel AccessTemplatesViewModel { get; private set; }
 		public OrganisationsViewModel OrganisationsViewModel { get; private set; }
-		public DocumentsViewModel DocumentsViewModel { get; private set; }
 
 		public HRViewModel()
 		{
@@ -38,7 +36,6 @@ namespace SKDModule.ViewModels
 			CardsViewModel = new CardsViewModel();
 			AccessTemplatesViewModel = new AccessTemplatesViewModel();
 			OrganisationsViewModel = new OrganisationsViewModel();
-			DocumentsViewModel = new DocumentsViewModel();
 			IsEmployeesSelected = true;
 
 			var userUID = FiresecManager.CurrentUser.UID;
@@ -59,7 +56,6 @@ namespace SKDModule.ViewModels
 			CardsViewModel.Initialize(CardFilter);
 			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
 			OrganisationsViewModel.Initialize();
-			DocumentsViewModel.Initialize(DocumentFilter);
 		}
 
 		public void UpdateDepartments()
@@ -149,17 +145,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		bool _isDocumentsSelected;
-		public bool IsDocumentsSelected
-		{
-			get { return _isDocumentsSelected; }
-			set
-			{
-				_isDocumentsSelected = value;
-				OnPropertyChanged(() => IsDocumentsSelected);
-			}
-		}
-
 		public bool CanSelectHR
 		{
 			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_HR); }
@@ -189,7 +174,6 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			CardFilter = Filter.CardFilter;
 			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
-			DocumentFilter = new DocumentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 		}
 	}
 }

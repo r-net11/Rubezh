@@ -34,7 +34,7 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</XDataGrid>
-		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedInterval}" IsEnabled="{Binding IsEnabled}">
+        <Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedInterval}" IsEnabled="{Binding IsActive}">
 			<DataGrid IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Width="*" Header="Наименование">

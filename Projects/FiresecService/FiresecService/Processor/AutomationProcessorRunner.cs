@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using FiresecAPI.Automation;
 using FiresecAPI.Journal;
 using GKProcessor;
+using FiresecAPI;
+using System;
 
 namespace FiresecService.Processor
 {
@@ -22,7 +25,7 @@ namespace FiresecService.Processor
 			{
 				foreach (var step in procedure.Steps)
 				{
-					RunStep(step, procedure);
+					RunStep(step, procedure, arguments);
 				}
 			}
 			catch
@@ -41,7 +44,7 @@ namespace FiresecService.Processor
 			return true;
 		}
 
-		static void RunStep(ProcedureStep procedureStep, Procedure procedure)
+		static void RunStep(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
 		{
 			switch(procedureStep.ProcedureStepType)
 			{
@@ -50,16 +53,20 @@ namespace FiresecService.Processor
 					{
 						foreach(var childStep in procedureStep.Children[0].Children)
 						{
-							RunStep(childStep, procedure);
+							RunStep(childStep, procedure, arguments);
 						}
 					}
 					else
 					{
 						foreach (var childStep in procedureStep.Children[1].Children)
 						{
-							RunStep(childStep, procedure);
+							RunStep(childStep, procedure, arguments);
 						}
 					}
+					break;
+				
+				case ProcedureStepType.Arithmetics:
+					ProcedureHelper.Calculate(procedureStep, procedure, arguments);
 					break;
 
 				case ProcedureStepType.Foreach:
@@ -67,21 +74,54 @@ namespace FiresecService.Processor
 					{
 						foreach (var childStep in procedureStep.Children[0].Children)
 						{
-							RunStep(childStep, procedure);
+							RunStep(childStep, procedure, arguments);
 						}
 					}
 					break;
 
 				case ProcedureStepType.PlaySound:
+					var automationCallbackResult = new AutomationCallbackResult();
+					automationCallbackResult.SoundUID = Guid.Empty;
+					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Sound;
+					Service.FiresecService.NotifyAutomation(automationCallbackResult);
+					break;
+
+				case ProcedureStepType.AddJournalItem:
+					var journalItem = new JournalItem();
+					journalItem.SystemDateTime = DateTime.Now;
+					journalItem.DeviceDateTime = DateTime.Now;
+					journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
+					journalItem.DescriptionText = procedureStep.JournalArguments.Message;
+					Service.FiresecService.AddCommonJournalItem(journalItem);
 					break;
 
 				case ProcedureStepType.SendMessage:
 					GKProcessorManager.AddGKMessage(JournalEventNameType.Команда_оператора, "Запуск процедуры", null, null);
+					automationCallbackResult = new AutomationCallbackResult();
+					automationCallbackResult.Message = "Запуск процедуры";
+					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
+					Service.FiresecService.NotifyAutomation(automationCallbackResult);
 					break;
 
 				case ProcedureStepType.FindObjects:
 					ProcedureHelper.FindObjects(procedureStep, procedure);
 					break;
+
+				case ProcedureStepType.ControlGKDevice:
+					ProcedureHelper.ControlGKDevice(procedureStep);
+					break;
+
+				case ProcedureStepType.ProcedureSelection:
+				{
+					foreach (var scheduleProcedure in procedureStep.ProcedureSelectionArguments.ScheduleProcedures)
+					{
+						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
+							FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+						Run(childProcedure, scheduleProcedure.Arguments);
+					}
+				}
+				break;
+					
 			}
 		}
 	}

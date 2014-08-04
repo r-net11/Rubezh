@@ -1,4 +1,5 @@
 ﻿using FiresecAPI;
+using Infrastructure;
 using Infrastructure.Common.TreeList;
 using FiresecAPI.Automation;
 
@@ -14,7 +15,7 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			StepsViewModel = stepsViewModel;
 			Step = step;
-
+			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			switch(step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:
@@ -29,8 +30,8 @@ namespace AutomationModule.ViewModels
 					Content = new ConditionStepViewModel(step.ConditionArguments, procedure);
 					break;
 
-				case ProcedureStepType.SendMessage:
-					Content = new JournalStepViewModel(step);
+				case ProcedureStepType.AddJournalItem:
+					Content = new JournalStepViewModel(step.JournalArguments);
 					break;
 
 				case ProcedureStepType.FindObjects:
@@ -52,7 +53,47 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.Exit:
 					Content = new ExitStepViewModel(step.ExitArguments, procedure);
 					break;
+					
+				case ProcedureStepType.PersonInspection:
+					Content = new PersonInspectionStepViewModel(step.PersonInspectionArguments, procedure);
+					break;
+				
+				case ProcedureStepType.SetGlobalValue:
+					Content = new SetGlobalValueStepViewModel(step.SetGlobalValueArguments);
+					break;
+				
+				case ProcedureStepType.IncrementGlobalValue:
+					Content = new IncrementGlobalValueStepViewModel(step.IncrementGlobalValueArguments);
+					break;
+
+				case ProcedureStepType.ControlGKDevice:
+					Content = new ControlGKDeviceStepViewModel(step.ControlGKDeviceArguments);
+					break;
+
+				case ProcedureStepType.ControlSKDDevice:
+					Content = new ControlSKDDeviceStepViewModel(step.ControlSKDDeviceArguments);
+					break;
+
+				case ProcedureStepType.ControlGKFireZone:
+					Content = new ControlGKFireZoneStepViewModel(step.ControlGKFireZoneArguments);
+					break;
+
+				case ProcedureStepType.ControlGKGuardZone:
+					Content = new ControlGKGuardZoneStepViewModel(step.ControlGKGuardZoneArguments);
+					break;
+
+				case ProcedureStepType.ControlDirection:
+					Content = new ControlDirectionStepViewModel(step.ControlDirectionArguments);
+					break;
+
+				case ProcedureStepType.ControlDoor:
+					Content = new ControlDoorStepViewModel(step.ControlDoorArguments);
+					break;
+
+					//case ProcedureStepType.ControlSKDZone
+					//case ProcedureStepType.ControlCamera
 			}
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
 		public void UpdateContent()
@@ -63,8 +104,8 @@ namespace AutomationModule.ViewModels
 
 		void OnChanged()
 		{
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
 		}
 
 		public void Update(ProcedureStep step)

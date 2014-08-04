@@ -32,8 +32,8 @@ namespace AutomationModule.ViewModels
 				step.ExpandToThis();
 			}
 			SelectedStep = AllSteps.FirstOrDefault();
-			OnPropertyChanged("RootSteps");
-			OnPropertyChanged("SelectedStep");
+			OnPropertyChanged(() => RootSteps);
+			OnPropertyChanged(() => SelectedStep);
 		}
 
 		#region Tree
@@ -74,7 +74,7 @@ namespace AutomationModule.ViewModels
 			private set
 			{
 				_rootSteps = value;
-				OnPropertyChanged("RootSteps");
+				OnPropertyChanged(() => RootSteps);
 			}
 		}
 
@@ -92,9 +92,11 @@ namespace AutomationModule.ViewModels
 			get { return _selectedStep; }
 			set
 			{
+				var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 				_selectedStep = value;
 				if (_selectedStep != null)
 					_selectedStep.UpdateContent();
+				ServiceFactory.SaveService.AutomationChanged = automationChanged;
 				OnPropertyChanged(() => SelectedStep);
 			}
 		}

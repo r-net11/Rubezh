@@ -26,6 +26,7 @@ namespace FiresecService.Service
 			journalItem.ObjectUID = xJournalItem.ObjectUID;
 			journalItem.ObjectName = xJournalItem.ObjectName;
 			journalItem.StateClass = xJournalItem.StateClass;
+			journalItem.UserName = xJournalItem.UserName;
 
 			switch (xJournalItem.JournalObjectType)
 			{
@@ -65,7 +66,7 @@ namespace FiresecService.Service
 					break;
 			}
 
-			AddJournalItem(journalItem);
+			AddCommonJournalItem(journalItem);
 		}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType)
@@ -84,7 +85,7 @@ namespace FiresecService.Service
 				UserName = UserName,
 			};
 
-			AddJournalItem(journalItem);
+			AddCommonJournalItem(journalItem);
 		}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDevice device)
@@ -103,7 +104,7 @@ namespace FiresecService.Service
 				UserName = UserName,
 			};
 
-			AddJournalItem(journalItem);
+			AddCommonJournalItem(journalItem);
 		}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDZone zone)
@@ -122,7 +123,7 @@ namespace FiresecService.Service
 				UserName = UserName,
 			};
 
-			AddJournalItem(journalItem);
+			AddCommonJournalItem(journalItem);
 		}
 
 		void AddSKDJournalMessage(JournalEventNameType journalEventNameType, SKDDoor door)
@@ -141,64 +142,95 @@ namespace FiresecService.Service
 				UserName = UserName,
 			};
 
-			AddJournalItem(journalItem);
+			AddCommonJournalItem(journalItem);
 		}
 
-		public static void AddJournalItem(JournalItem journalItem)
+		public static void AddCommonJournalItem(JournalItem journalItem)
 		{
 			DBHelper.Add(journalItem);
 			FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
+		}
+
+		public OperationResult<bool> AddJournalItem(JournalItem journalItem)
+		{
+			try
+			{
+				journalItem.UserName = UserName;
+				journalItem.JournalSubsystemType = EventDescriptionAttributeHelper.ToSubsystem(journalItem.JournalEventNameType);
+				journalItem.StateClass = EventDescriptionAttributeHelper.ToStateClass(journalItem.JournalEventNameType);
+				DBHelper.Add(journalItem);
+				FiresecService.NotifyNewJournalItems(new List<JournalItem>() { journalItem });
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<bool>(e.Message);
+			}
+			return new OperationResult<bool>() { Result = true };
 		}
 		#endregion
 
 		#region Get
 		public OperationResult<DateTime> GetMinJournalDateTime()
 		{
-			using (var dataContext = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True;Language='English'"))
+			try
 			{
-				var query = "SELECT MIN(SystemDate) FROM Journal";
-				var sqlCeCommand = new SqlCommand(query, dataContext);
-				dataContext.Open();
-				var reader = sqlCeCommand.ExecuteReader();
-				var result = DateTime.Now;
-				if (reader.Read())
+				using (var dataContext = new SqlConnection(global::SKDDriver.Properties.Settings.Default.ConnectionString))
 				{
-					if (!reader.IsDBNull(0))
+					var query = "SELECT MIN(SystemDate) FROM Journal";
+					var sqlCeCommand = new SqlCommand(query, dataContext);
+					dataContext.Open();
+					var reader = sqlCeCommand.ExecuteReader();
+					var result = DateTime.Now;
+					if (reader.Read())
 					{
-						result = reader.GetDateTime(0);
+						if (!reader.IsDBNull(0))
+						{
+							result = reader.GetDateTime(0);
+						}
 					}
+					dataContext.Close();
+					return new OperationResult<DateTime>() { Result = result };
 				}
-				dataContext.Close();
-				return new OperationResult<DateTime>() { Result = result };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<DateTime>(e.Message);
 			}
 		}
 
 		public OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
-			var journalItems = DBHelper.GetFilteredJournalItems(filter);
-			return new OperationResult<List<JournalItem>>() { Result = journalItems };
+			return DBHelper.GetFilteredJournalItems(filter);
 		}
 
-		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
+		public OperationResult BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID)
 		{
-			if (CurrentThread != null)
+			try
 			{
-				DBHelper.IsAbort = true;
-				CurrentThread.Join(TimeSpan.FromMinutes(1));
-				CurrentThread = null;
-			}
-			DBHelper.IsAbort = false;
-			var thread = new Thread(new ThreadStart((new Action(() =>
-			{
-				DBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
-				DBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
-				DBHelper.BeginGetFilteredArchive(archiveFilter, archivePortionUID, false);
+				if (CurrentThread != null)
+				{
+					DBHelper.IsAbort = true;
+					CurrentThread.Join(TimeSpan.FromMinutes(1));
+					CurrentThread = null;
+				}
+				DBHelper.IsAbort = false;
+				var thread = new Thread(new ThreadStart((new Action(() =>
+				{
+					DBHelper.ArchivePortionReady -= DatabaseHelper_ArchivePortionReady;
+					DBHelper.ArchivePortionReady += DatabaseHelper_ArchivePortionReady;
+					DBHelper.BeginGetFilteredArchive(archiveFilter, archivePortionUID, false);
 
-			}))));
-			thread.Name = "FiresecService.GetFilteredArchive";
-			thread.IsBackground = true;
-			CurrentThread = thread;
-			thread.Start();
+				}))));
+				thread.Name = "FiresecService.GetFilteredArchive";
+				thread.IsBackground = true;
+				CurrentThread = thread;
+				thread.Start();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 		}
 
 		void DatabaseHelper_ArchivePortionReady(List<JournalItem> journalItems, Guid archivePortionUID)
@@ -206,12 +238,12 @@ namespace FiresecService.Service
 			FiresecService.NotifyArchiveCompleted(journalItems, archivePortionUID);
 		}
 
-		public List<JournalEventDescriptionType> GetDistinctEventDescriptions()
+		public OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions()
 		{
 			return DBHelper.GetDistinctEventDescriptions();
 		}
 
-		public List<JournalEventNameType> GetDistinctEventNames()
+		public OperationResult<List<JournalEventNameType>> GetDistinctEventNames()
 		{
 			return DBHelper.GetDistinctEventNames();
 		}

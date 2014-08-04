@@ -43,6 +43,8 @@ namespace SKDModule.Plans.Designer
 			var contextMenu = new ContextMenu();
 			contextMenu.Items.Add(UIHelper.BuildMenuItem("Открыть", "pack://application:,,,/Controls;component/Images/BTurnOn.png", _doorViewModel.OpenCommand));
 			contextMenu.Items.Add(UIHelper.BuildMenuItem("Закрыть", "pack://application:,,,/Controls;component/Images/BTurnOff.png", _doorViewModel.CloseCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem("Установить режим ОТКРЫТО", "pack://application:,,,/Controls;component/Images/BTurnOn.png", _doorViewModel.OpenForeverCommand));
+			contextMenu.Items.Add(UIHelper.BuildMenuItem("Установить режим ЗАКРЫТО", "pack://application:,,,/Controls;component/Images/BTurnOff.png", _doorViewModel.CloseForeverCommand));
 			contextMenu.Items.Add(Helper.CreateShowInTreeItem());
 			contextMenu.Items.Add(UIHelper.BuildMenuItem("Показать связанные события", "pack://application:,,,/Controls;component/Images/BJournal.png", ShowJournalCommand));
 			contextMenu.Items.Add(Helper.CreateShowPropertiesItem());

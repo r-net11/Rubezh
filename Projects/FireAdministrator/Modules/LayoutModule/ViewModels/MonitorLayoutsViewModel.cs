@@ -106,7 +106,13 @@ namespace LayoutModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-			var layoutDetailsViewModel = new LayoutPropertiesViewModel(null, LayoutUsersViewModel);
+			var layout = new Layout();
+			var adminUser = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == "adm");
+			if (adminUser != null)
+			{
+				layout.Users.Add(adminUser.UID);
+			}
+			var layoutDetailsViewModel = new LayoutPropertiesViewModel(layout, LayoutUsersViewModel);
 			if (DialogService.ShowModalWindow(layoutDetailsViewModel))
 				OnLayoutPaste(layoutDetailsViewModel.Layout);
 		}

@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 				if (_isActive)
 					ServiceFactory.Events.GetEvent<ArchiveDefaultStateCheckedEvent>().Publish(this);
 
-				OnPropertyChanged("IsActive");
+				OnPropertyChanged(() => IsActive);
 			}
 		}
 	}

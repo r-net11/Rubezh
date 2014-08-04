@@ -9,17 +9,13 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool Save(ScheduleZone scheduleZone)
 		{
-			return Save(new List<ScheduleZone> { scheduleZone });
-		}
-		public static bool Save(IEnumerable<ScheduleZone> scheduleZones)
-		{
-			var operationResult = FiresecManager.FiresecService.SaveScheduleZones(scheduleZones);
+			var operationResult = FiresecManager.FiresecService.SaveScheduleZone(scheduleZone);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static bool MarkDeleted(ScheduleZone scheduleZone)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedScheduleZones(new List<ScheduleZone> { scheduleZone });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedScheduleZone(scheduleZone);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

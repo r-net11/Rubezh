@@ -22,17 +22,19 @@ namespace FiresecClient.SKDHelpers
 			return true;
 		}
 
-		public static T ShowErrorIfExists<T>(OperationResult<T> operationResult)
-			where T : class
+		public static T ShowErrorIfExists<T>(OperationResult<T> operationResult, bool showError = true)
 		{
 			if (operationResult == null)
 			{
-				return null;
+				return default(T);
 			}
 			if (operationResult.HasError)
 			{
-				MessageBoxService.ShowWarning(operationResult.Error);
-				return null;
+				if (showError)
+				{
+					MessageBoxService.ShowWarning(operationResult.Error);
+				}
+				return default(T);
 			}
 			return operationResult.Result;
 		}

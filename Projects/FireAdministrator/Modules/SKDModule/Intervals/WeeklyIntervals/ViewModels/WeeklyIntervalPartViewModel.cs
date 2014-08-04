@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				if (value == null)
-					SelectedTimeInterval = AvailableTimeIntervals.First();
+					SelectedTimeInterval = AvailableTimeIntervals.FirstOrDefault();
 				else
 				{
 					_selectedTimeInterval = value;
@@ -57,6 +57,7 @@ namespace SKDModule.ViewModels
 						WeeklyIntervalPart.HolidayUID = Guid.Empty;
 					}
 					ServiceFactory.SaveService.SKDChanged = true;
+					ServiceFactory.SaveService.TimeIntervalChanged();
 				}
 			}
 		}
@@ -68,7 +69,7 @@ namespace SKDModule.ViewModels
 			else
 				_selectedTimeInterval = _weeklyIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == WeeklyIntervalPart.TimeIntervalID);
 			if (_selectedTimeInterval == null)
-				_selectedTimeInterval = AvailableTimeIntervals.First();
+				_selectedTimeInterval = AvailableTimeIntervals.FirstOrDefault();
 			OnPropertyChanged(() => SelectedTimeInterval);
 		}
 
@@ -77,19 +78,19 @@ namespace SKDModule.ViewModels
 			switch (dayNo)
 			{
 				case 1:
-					return "Понедельник";
-				case 2:
-					return "Вторник";
-				case 3:
-					return "Среда";
-				case 4:
-					return "Четверг";
-				case 5:
-					return "Пятница";
-				case 6:
-					return "Суббота";
-				case 7:
 					return "Воскресенье";
+				case 2:
+					return "Понедельник";
+				case 3:
+					return "Вторник";
+				case 4:
+					return "Среда";
+				case 5:
+					return "Четверг";
+				case 6:
+					return "Пятница";
+				case 7:
+					return "Суббота";
 			}
 			return "Неизвестный день";
 		}

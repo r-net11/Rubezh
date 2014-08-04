@@ -20,7 +20,8 @@ namespace FiresecClient.SKDHelpers
 		public static bool Save(AccessTemplate accessTemplate)
 		{
 			var result = FiresecManager.FiresecService.SaveAccessTemplate(accessTemplate);
-			return Common.ShowErrorIfExists(result);
+			Common.ShowErrorIfExists(result);
+			return result.Result;
 		}
 
 		public static bool MarkDeleted(AccessTemplate accessTemplate)

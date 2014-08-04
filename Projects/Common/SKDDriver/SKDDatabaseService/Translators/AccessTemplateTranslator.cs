@@ -11,13 +11,13 @@ namespace SKDDriver
 {
 	public class AccessTemplateTranslator : OrganisationElementTranslator<DataAccess.AccessTemplate, AccessTemplate, AccessTemplateFilter>
 	{
-		public AccessTemplateTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardsTranslator)
+		public AccessTemplateTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardDoorTranslator)
 			: base(context)
 		{
-			CardZonesTranslator = cardsTranslator;
+			CardDoorTranslator = cardDoorTranslator;
 		}
 
-		CardDoorTranslator CardZonesTranslator;
+		CardDoorTranslator CardDoorTranslator;
 
 		protected override OperationResult CanSave(AccessTemplate item)
 		{
@@ -26,7 +26,7 @@ namespace SKDDriver
 				x.UID != item.UID &&
 				!x.IsDeleted);
 			if (sameName)
-				return new OperationResult("Попытка добавить ГУД с совпадающим именем");
+				return new OperationResult("Попытка добавить шаблон доступа с совпадающим именем");
 			return base.CanSave(item);
 		}
 
@@ -34,25 +34,25 @@ namespace SKDDriver
 		{
 			if (Context.Cards.Any(x => x.AccessTemplateUID == uid &&
 					x.IsDeleted == false))
-				return new OperationResult("Не могу удалить ГУД, пока он указан у действующих карт");
+				return new OperationResult("Невозможно удалить шаблон доступа, пока он указан у действующих карт");
 			return base.CanDelete(uid);
 		}
 
 		public override OperationResult MarkDeleted(Guid uid)
 		{
-			var deleteZonesResult = CardZonesTranslator.MarkDeletefFromAccessTemplate(uid);
-			if (deleteZonesResult.HasError)
-				return deleteZonesResult;
+			var deleteDoorsResult = CardDoorTranslator.MarkDeletefFromAccessTemplate(uid);
+			if (deleteDoorsResult.HasError)
+				return deleteDoorsResult;
 			return base.MarkDeleted(uid);
 		}
 
 		protected override AccessTemplate Translate(DataAccess.AccessTemplate tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.CardDoors = CardZonesTranslator.Get(tableItem.UID);
+			result.CardDoors = CardDoorTranslator.GetForAccessTemplate(tableItem.UID);
 			result.Name = tableItem.Name;
-			var zones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
-			foreach (var item in zones)
+			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
+			foreach (var item in guardZones)
 			{
 				result.GuardZoneAccesses.Add(new XGuardZoneAccess
 				{
@@ -72,10 +72,10 @@ namespace SKDDriver
 
 		public override OperationResult Save(AccessTemplate item)
 		{
-			var updateZonesResult = CardZonesTranslator.SaveFromAccessTemplate(item);
-			if (updateZonesResult.HasError)
-				return updateZonesResult;
-			return base.Save(item);
+			var updateCardDoorsResult = CardDoorTranslator.RemoveFromAccessTemplate(item);
+			var result = base.Save(item);
+			CardDoorTranslator.Save(item.CardDoors);
+			return result;
 		}
 
 		protected override Expression<Func<DataAccess.AccessTemplate, bool>> IsInFilter(AccessTemplateFilter filter)

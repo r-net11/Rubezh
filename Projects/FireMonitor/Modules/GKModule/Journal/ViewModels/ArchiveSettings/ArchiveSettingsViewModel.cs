@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_checkedArchiveDefaultStateType = value;
-				OnPropertyChanged("CheckedArchiveDefaultStateType");
+				OnPropertyChanged(() => CheckedArchiveDefaultStateType);
 			}
 		}
 
@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_pageSize = value;
-				OnPropertyChanged("PageSize");
+				OnPropertyChanged(() => PageSize);
 			}
 		}
 

@@ -9,7 +9,7 @@ using LinqKit;
 namespace SKDDriver
 {
 	public abstract class IsDeletedTranslator<TableT, ApiT, FilterT> : TranslatorBase<TableT, ApiT, FilterT>
-		where TableT : class,DataAccess.IIsDeletedDatabaseElement, DataAccess.IDatabaseElement, new()
+		where TableT : class, DataAccess.IIsDeletedDatabaseElement, DataAccess.IDatabaseElement, new()
 		where ApiT : SKDIsDeletedModel, new()
 		where FilterT : IsDeletedFilter
 	{
@@ -42,100 +42,36 @@ namespace SKDDriver
 			return result;
 		}
 
-		public virtual OperationResult MarkDeleted(IEnumerable<ApiT> items)
-		{
-			var operationResult = new OperationResult();
-			try
-			{
-				foreach (var item in items)
-				{
-					var verifyResult = CanDelete(item);
-					if (verifyResult.HasError)
-						return verifyResult;
-					verifyResult = CanDelete(item.UID);
-					if (verifyResult.HasError)
-						return verifyResult;
-					if (item != null)
-					{
-						var databaseItem = (from x in Table where x.UID.Equals(item.UID) select x).FirstOrDefault();
-						if (databaseItem != null)
-						{
-							databaseItem.IsDeleted = true;
-							databaseItem.RemovalDate = DateTime.Now;
-						}
-					}
-				}
-				Table.Context.SubmitChanges();
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
 		public virtual OperationResult MarkDeleted(Guid uid)
 		{
-			var operationResult = new OperationResult();
 			try
 			{
 				var verifyResult = CanDelete(uid);
 				if (verifyResult.HasError)
 					return verifyResult;
-				if (uid != null)
+				if (uid != null && uid != Guid.Empty)
 				{
 					var databaseItem = (from x in Table where x.UID.Equals(uid) select x).FirstOrDefault();
 					if (databaseItem != null)
 					{
 						databaseItem.IsDeleted = true;
 						databaseItem.RemovalDate = DateTime.Now;
+						Table.Context.SubmitChanges();
+						return new OperationResult();
 					}
-				}
-				Table.Context.SubmitChanges();
-				return operationResult;
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
-		public virtual OperationResult MarkDeleted(IEnumerable<Guid> UIDs)
-		{
-			var operationResult = new OperationResult();
-			try
-			{
-				foreach (var uid in UIDs)
-				{
-					if (uid != null)
+					else
 					{
-						var databaseItem = (from x in Table where x.UID.Equals(uid) select x).FirstOrDefault();
-						if (databaseItem != null)
-						{
-							databaseItem.IsDeleted = true;
-							databaseItem.RemovalDate = DateTime.Now;
-						}
+						return new OperationResult("Не найдена запись в базе данных");
 					}
 				}
-				Table.Context.SubmitChanges();
-				return operationResult;
+				else
+				{
+					return new OperationResult("Не задан идентификатор");
+				}
 			}
 			catch (Exception e)
 			{
 				return new OperationResult(e.Message);
-			}
-		}
-
-		public static Expression<Func<TableT, bool>> IsInDeleted(FilterT filter)
-		{
-			switch (filter.LogicalDeletationType)
-			{
-				case LogicalDeletationType.Deleted:
-					return e => e != null && e.IsDeleted;
-				case LogicalDeletationType.Active:
-					return e => e != null && !e.IsDeleted;
-				default:
-					return e => true;
 			}
 		}
 

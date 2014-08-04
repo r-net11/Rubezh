@@ -31,8 +31,8 @@ namespace SKDModule.ViewModels
 		{
 			Name = holiday.Name;
 			//Description = namedInterval.Description;
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
 		}
 
 		public string ReductionTime

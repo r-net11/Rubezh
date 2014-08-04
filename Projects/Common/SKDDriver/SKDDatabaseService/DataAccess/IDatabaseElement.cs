@@ -23,7 +23,6 @@ namespace SKDDriver.DataAccess
 		Guid? OrganisationUID { get; set; }
 	}
 
-	
 	public partial class Journal : IDatabaseElement { }
 	public partial class AdditionalColumn : IDatabaseElement, ILinkedToEmployee { }
 	public partial class Photo : IDatabaseElement { }
@@ -37,16 +36,12 @@ namespace SKDDriver.DataAccess
 	
 	public partial class AdditionalColumnType : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Department : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
-	public partial class Document : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Employee : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
-	public partial class EmployeeReplacement : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement, ILinkedToEmployee { }
 	public partial class Holiday : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class NamedInterval : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Phone : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Position : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Schedule : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class ScheduleScheme : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
-	public partial class AccessTemplate : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
-
-	
+	public partial class AccessTemplate : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }	
 }

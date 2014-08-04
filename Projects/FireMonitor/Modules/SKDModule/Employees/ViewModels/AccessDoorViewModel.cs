@@ -34,8 +34,6 @@ namespace SKDModule.ViewModels
 			if (cardDoor != null)
 			{
 				_isChecked = true;
-				IsAntiPassback = cardDoor.IsAntiPassback;
-				IsComission = cardDoor.IsComission;
 				SelectedEnterTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.EnterIntervalType);
 				SelectedExitTimeCreteria = TimeCreterias.FirstOrDefault(x => x.IntervalType == cardDoor.ExitIntervalType);
 				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault(x => x.ScheduleID == cardDoor.EnterIntervalID);
@@ -65,7 +63,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 				if (OnChecked != null)
 					OnChecked(this);
 			}
@@ -78,7 +76,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isAntiPassback = value;
-				OnPropertyChanged("IsAntiPassback");
+				OnPropertyChanged(() => IsAntiPassback);
 			}
 		}
 
@@ -89,7 +87,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isComission = value;
-				OnPropertyChanged("IsComission");
+				OnPropertyChanged(() => IsComission);
 			}
 		}
 
@@ -104,7 +102,6 @@ namespace SKDModule.ViewModels
 				_selectedEnterTimeCreteria = value;
 				OnPropertyChanged(() => SelectedEnterTimeCreteria);
 				EnterTimeTypes = GetTimeTypes(value);
-				SelectedEnterTimeType = EnterTimeTypes.FirstOrDefault();
 			}
 		}
 
@@ -117,7 +114,6 @@ namespace SKDModule.ViewModels
 				_selectedExitTimeCreteria = value;
 				OnPropertyChanged(() => SelectedExitTimeCreteria);
 				ExitTimeTypes = GetTimeTypes(value);
-				SelectedEnterTimeType = ExitTimeTypes.FirstOrDefault();
 			}
 		}
 
@@ -140,7 +136,6 @@ namespace SKDModule.ViewModels
 			{
 				_selectedEnterTimeType = value;
 				OnPropertyChanged(() => SelectedEnterTimeType);
-
 			}
 		}
 
@@ -163,7 +158,6 @@ namespace SKDModule.ViewModels
 			{
 				_selectedExitTimeType = value;
 				OnPropertyChanged(() => SelectedExitTimeType);
-
 			}
 		}
 

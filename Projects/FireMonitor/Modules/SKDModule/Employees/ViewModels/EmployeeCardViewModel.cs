@@ -27,8 +27,8 @@ namespace SKDModule.ViewModels
 			EmployeeViewModel = employeeViewModel;
 			Card = card;
 
-			var cardZones = GetCardZones(Card);
-			CardDoorsViewModel = new CardDoorsViewModel(cardZones);
+			var cardDoors = GetCardDoors(Card);
+			CardDoorsViewModel = new CardDoorsViewModel(cardDoors);
 		}
 
 		public string Name
@@ -36,7 +36,7 @@ namespace SKDModule.ViewModels
 			get { return "Пропуск " + Card.Number; }
 		}
 
-		List<CardDoor> GetCardZones(SKDCard card)
+		List<CardDoor> GetCardDoors(SKDCard card)
 		{
 			var cardZones = new List<CardDoor>();
 			cardZones.AddRange(card.CardDoors);
@@ -85,9 +85,11 @@ namespace SKDModule.ViewModels
 				if (!saveResult)
 					return;
 				Card = card;
-				OnPropertyChanged("Card");
-				OnPropertyChanged("Name");
-				CardDoorsViewModel.Update(Card.CardDoors);
+				OnPropertyChanged(() => Card);
+				OnPropertyChanged(() => Name);
+
+				var cardDoors = GetCardDoors(Card);
+				CardDoorsViewModel.Update(cardDoors);
 			}
 		}
 
@@ -112,7 +114,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isCardSelected = value;
-				OnPropertyChanged("IsCardSelected");
+				OnPropertyChanged(() => IsCardSelected);
 			}
 		}
 	}

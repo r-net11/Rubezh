@@ -48,7 +48,7 @@ namespace SKDModule.PassCard.ViewModels
 			set
 			{
 				_backgroundColor = value;
-				OnPropertyChanged("BackgroundColor");
+				OnPropertyChanged(() => BackgroundColor);
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace SKDModule.PassCard.ViewModels
 			set
 			{
 				_caption = value;
-				OnPropertyChanged("Caption");
+				OnPropertyChanged(() => Caption);
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace SKDModule.PassCard.ViewModels
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace SKDModule.PassCard.ViewModels
 			set
 			{
 				_width = value;
-				OnPropertyChanged("Width");
+				OnPropertyChanged(() => Width);
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace SKDModule.PassCard.ViewModels
 			set
 			{
 				_height = value;
-				OnPropertyChanged("Height");
+				OnPropertyChanged(() => Height);
 			}
 		}
 

@@ -14,9 +14,11 @@ namespace ControllerSDK.ViewModels
 			EndTime = holiday.EndDateTime.ToString();
 
 			Doors = holiday.DoorsCount.ToString() + "(";
-			foreach (var door in holiday.Doors)
+			for (int i = 0; i < holiday.DoorsCount; i++)
 			{
-				Doors += door.ToString() + ",";
+				Doors += holiday.Doors[i].ToString();
+				if (i < holiday.DoorsCount - 1)
+					Doors += ",";
 			}
 			Doors += ")";
 		}

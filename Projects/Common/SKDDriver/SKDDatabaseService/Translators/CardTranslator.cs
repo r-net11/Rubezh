@@ -10,48 +10,35 @@ namespace SKDDriver
 {
 	public class CardTranslator : IsDeletedTranslator<DataAccess.Card, SKDCard, CardFilter>
 	{
-		public CardTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardsTranslator)
+		public CardTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardDoorTranslator)
 			: base(context)
 		{
-			CardZonesTranslator = cardsTranslator;
+			CardDoorTranslator = cardDoorTranslator;
 		}
 
-		CardDoorTranslator CardZonesTranslator;
+		CardDoorTranslator CardDoorTranslator;
 
 		protected override OperationResult CanSave(SKDCard item)
 		{
-			bool isSameSeriesNo = Table.Any(x => x.Number == item.Number &&
+			bool isSameNumber = Table.Any(x => x.Number == item.Number &&
 				!x.IsDeleted &&
 				x.UID != item.UID);
-			if (isSameSeriesNo)
-				return new OperationResult("Попытка добавить карту с повторяющейся комбинацией серии и номера");
+			if (isSameNumber)
+				return new OperationResult("Попытка добавить карту с повторяющимся номером");
 			return base.CanSave(item);
 		}
 
-		protected override OperationResult CanDelete(SKDCard item)
+		protected override OperationResult CanDelete(Guid uid)
 		{
-			if (Context.Employees.Any(x => x.UID == item.HolderUID &&
+			var operationResult = GetSingle(uid);
+			var card = operationResult.Result;
+			if (card != null)
+			{
+				if (Context.Employees.Any(x => x.UID == card.HolderUID &&
 					!x.IsDeleted))
-				return new OperationResult("Не могу удалить карту, пока она указана у действующих сотрудников");
-			return base.CanSave(item);
-		}
-
-		public override OperationResult MarkDeleted(IEnumerable<SKDCard> items)
-		{
-			try
-			{
-				foreach (var item in items)
-				{
-					if (item == null)
-						continue;
-					CardZonesTranslator.MarkDeleted(item.CardDoors);
-				}
+					return new OperationResult("Невозможно удалить карту, пока она указана у действующих сотрудников");
 			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-			return base.MarkDeleted(items);
+			return base.CanDelete(uid);
 		}
 
 		protected override SKDCard Translate(DataAccess.Card tableItem)
@@ -63,10 +50,10 @@ namespace SKDDriver
 			result.StartDate = tableItem.StartDate;
 			result.EndDate = tableItem.EndDate;
 			result.AccessTemplateUID = tableItem.AccessTemplateUID;
-			result.CardDoors = CardZonesTranslator.Get(tableItem.UID);
+			result.CardDoors = CardDoorTranslator.GetForCards(tableItem.UID);
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
-			result.CardTemplateUID = tableItem.CardTemplateUID;
+			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
 
 			var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
 			if (employee != null)
@@ -85,27 +72,32 @@ namespace SKDDriver
 			tableItem.IsInStopList = apiItem.IsInStopList;
 			tableItem.StopReason = apiItem.StopReason;
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
-			tableItem.CardTemplateUID = apiItem.CardTemplateUID;
+			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 		}
 
-		public override OperationResult Save(SKDCard item)
+		public override OperationResult Save(SKDCard card)
 		{
-			var updateZonesResult = CardZonesTranslator.SaveFromCard(item);
-			if (updateZonesResult.HasError)
-				return updateZonesResult;
-			return base.Save(item);
+			var updateCardDoorsResult = CardDoorTranslator.RemoveFromCard(card);
+			var result = base.Save(card);
+			CardDoorTranslator.Save(card.CardDoors);
+			return result;
 		}
 		
-		public OperationResult SaveTemplate(SKDCard apiItem)
+		public OperationResult SavePassTemplate(SKDCard card)
 		{
 			try
 			{
-				var tableItem = Table.Where(x => x.UID == apiItem.UID).FirstOrDefault();
-				if (tableItem == null)
+				var oprationResult = GetSingle(card.UID);
+				if (oprationResult != null)
+				{
+					oprationResult.Result.PassCardTemplateUID = card.PassCardTemplateUID;
+					Context.SubmitChanges();
+					return new OperationResult();
+				}
+				else
+				{
 					return new OperationResult("Карта не найдена в базе данных");
-				tableItem.CardTemplateUID = apiItem.CardTemplateUID;
-				Context.SubmitChanges();
-				return new OperationResult();
+				}
 			}
 			catch (Exception e)
 			{
@@ -126,17 +118,50 @@ namespace SKDDriver
 					result = result.And(e => !e.IsInStopList);
 					break;
 			}
-
-			if (filter.FirstNos > 0)
-			{
-				result = result.And(e => e.Number >= filter.FirstNos);
-			}
-			if (filter.LastNos > 0)
-			{
-				result = result.And(e => e.Number <= filter.LastNos);
-			}
-
 			return result;
+		}
+
+		public OperationResult<List<SKDCard>> GetByAccessTemplateUID(Guid accessTemplateUID)
+		{
+			try
+			{
+				var skdCards = new List<SKDCard>();
+				var cards = Table.Where(x => x.AccessTemplateUID.HasValue && x.AccessTemplateUID == accessTemplateUID);
+				if (cards != null)
+				{
+					foreach (var card in cards)
+					{
+						var skdCard = Translate(card);
+						skdCards.Add(skdCard);
+					}
+				}
+				return new OperationResult<List<SKDCard>>() { Result = skdCards };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<List<SKDCard>>(e.Message);
+			}
+		}
+
+		public virtual OperationResult<Guid> GetEmployeeByCardNo(int cardNo)
+		{
+			try
+			{
+				var cards = Table.Where(x => x.Number == cardNo);
+				var card = cards.FirstOrDefault();
+				if (card != null)
+				{
+					if (card.EmployeeUID != null)
+						return new OperationResult<Guid>() { Result = card.EmployeeUID.Value };
+				}
+				{
+					return new OperationResult<Guid>("Карта не найдена");
+				}
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<Guid>(e.Message);
+			}
 		}
 
 		#region Pending
@@ -234,7 +259,13 @@ namespace SKDDriver
 			}
 		}
 
-		void DeleteAllPendingCards(Guid cardUID, Guid controllerUID)
+		public IEnumerable<SKDDriver.DataAccess.PendingCard> GetAllPendingCards(Guid controllerUID)
+		{
+			var pendingCards = Context.PendingCards.Where(x => x.ControllerUID == controllerUID);
+			return pendingCards;
+		}
+
+		public void DeleteAllPendingCards(Guid cardUID, Guid controllerUID)
 		{
 			var pendingCardsToRemove = Context.PendingCards.Where(x => x.CardUID == cardUID && x.ControllerUID == controllerUID);
 			Context.PendingCards.DeleteAllOnSubmit(pendingCardsToRemove);

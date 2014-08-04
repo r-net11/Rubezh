@@ -20,13 +20,12 @@ namespace ControllerSDK.ViewModels
 			GetMaxPageSizeCommand = new RelayCommand(OnGetMaxPageSize);
 			GetCurrentTimeCommand = new RelayCommand(OnGetCurrentTime);
 			SetCurrentTimeCommand = new RelayCommand(OnSetCurrentTime);
-			GetLogsCountCommand = new RelayCommand(OnGetLogsCount);
-			QueryLogListCommand = new RelayCommand(OnQueryLogList);
 			GetProjectPasswordCommand = new RelayCommand(OnGetProjectPassword);
 			SetProjectPasswordCommand = new RelayCommand(OnSetProjectPassword);
 			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
 			ReBootCommand = new RelayCommand(OnReBoot);
+			UpdateFirmwareCommand = new RelayCommand(OnUpdateFirmware);
 			DeleteCfgFileCommand = new RelayCommand(OnDeleteCfgFile);
 			TestCommand = new RelayCommand(OnTest);
 		}
@@ -73,7 +72,7 @@ namespace ControllerSDK.ViewModels
 			{
 				var deviceNetInfo = new DeviceNetInfo()
 				{
-					IP = "172.5.2.65",
+					IP = "172.16.6.53",
 					SubnetMask = "255.255.255.0",
 					DefaultGateway = "172.5.1.1",
 					MTU = 1000
@@ -270,13 +269,15 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public RelayCommand GetLogsCountCommand { get; private set; }
-		void OnGetLogsCount()
+		public RelayCommand UpdateFirmwareCommand { get; private set; }
+		void OnUpdateFirmware()
 		{
-			var result = MainViewModel.Wrapper.GetLogsCount();
-			if (result > 0)
+			return;
+
+			var result = MainViewModel.Wrapper.UpdateFirmware("C:/firmware.wav");
+			if (result)
 			{
-				MessageBox.Show("LogsCount = " + result.ToString());
+				MessageBox.Show("Success");
 			}
 			else
 			{
@@ -284,42 +285,6 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public RelayCommand QueryLogListCommand { get; private set; }
-		void OnQueryLogList()
-		{
-			NativeWrapper.WRAP_Dev_QueryLogList_Result outResult;
-			var result = NativeWrapper.WRAP_QueryLogList(MainViewModel.Wrapper.LoginID, out outResult);
-			List<DeviceJournalItem> deviceJournalItems = new List<DeviceJournalItem>();
-			if (result)
-			{
-				foreach (var log in outResult.Logs)
-				{
-					var deviceJournalItem = new DeviceJournalItem();
-					//deviceJournalItem.DateTime = new DateTime(log.stuOperateTime.year, log.stuOperateTime.month, log.stuOperateTime.day, log.stuOperateTime.hour, log.stuOperateTime.minute, log.stuOperateTime.second);
-					deviceJournalItem.OperatorName = log.szOperator;
-					deviceJournalItem.Name = log.szOperation;
-					deviceJournalItem.Description = log.szDetailContext;
-					deviceJournalItems.Add(deviceJournalItem);
-				}
-			}
-			if (result)
-			{
-				var text = "";
-				foreach (var deviceJournalItem in deviceJournalItems)
-				{
-					text += "\n";
-					text += "DateTime = " + deviceJournalItem.DateTime.ToString() + "\n";
-					text += "OperatorName = " + deviceJournalItem.OperatorName.ToString() + "\n";
-					text += "Name = " + deviceJournalItem.Name.ToString() + "\n";
-					text += "Description = " + deviceJournalItem.Description.ToString() + "\n";
-				}
-				MessageBox.Show(text);
-			}
-			else
-			{
-				MessageBox.Show("Error");
-			}
-		}
 
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()

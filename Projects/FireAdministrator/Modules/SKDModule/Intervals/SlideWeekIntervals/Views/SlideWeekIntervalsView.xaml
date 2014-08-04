@@ -41,7 +41,7 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</XDataGrid>
-		<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedInterval}" IsEnabled="{Binding IsEnabled}">
+        <Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedInterval}" IsEnabled="{Binding IsActive}">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
@@ -52,7 +52,7 @@
 			</StackPanel>
 			<DataGrid Grid.Row="1" IsReadOnly="False" ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}">
 				<DataGrid.Columns>
-					<DataGridTextColumn Width="Auto" Binding="{Binding Name}" Header="Неделя" />
+                    <DataGridTextColumn Width="Auto" Binding="{Binding Name, Mode=OneWay}" Header="Неделя" />
 					<DataGridTemplateColumn Width="*" Header="Наименование">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>

@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_zones = value;
-				OnPropertyChanged("Zones");
+				OnPropertyChanged(() => Zones);
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedZone = value;
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
 

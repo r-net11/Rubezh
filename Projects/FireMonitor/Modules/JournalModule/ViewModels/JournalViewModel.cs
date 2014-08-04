@@ -7,6 +7,10 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Models;
 using JournalModule.Events;
+using FiresecAPI.GK;
+using FiresecClient;
+using FiresecAPI.Models;
+using Infrastructure.Common.Windows;
 
 namespace JournalModule.ViewModels
 {
@@ -28,6 +32,18 @@ namespace JournalModule.ViewModels
 			ServiceFactory.Events.GetEvent<NewJournalItemsEvent>().Subscribe(OnNewJournalItems);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Unsubscribe(OnSettingsChanged);
 			ServiceFactory.Events.GetEvent<JournalSettingsUpdatedEvent>().Subscribe(OnSettingsChanged);
+		}
+
+		public void SetJournalItems(List<JournalItem> journalItems)
+		{
+			journalItems.Reverse();
+			JournalItems = new ObservableCollection<JournalItemViewModel>();
+			foreach (var journalItem in journalItems)
+			{
+				var journalItemViewModel = new JournalItemViewModel(journalItem);
+				JournalItems.Add(journalItemViewModel);
+			}
+			SelectedJournal = JournalItems.FirstOrDefault();
 		}
 
 		ObservableCollection<JournalItemViewModel> _journalItems;
@@ -52,7 +68,7 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public void OnNewJournalItems(List<JournalItem> journalItems)
+		void OnNewJournalItems(List<JournalItem> journalItems)
 		{
 			foreach (var journalItem in journalItems)
 			{
@@ -73,6 +89,16 @@ namespace JournalModule.ViewModels
 
 				if (JournalItems.Count > JournalFilter.LastItemsCount)
 					JournalItems.RemoveAt(JournalFilter.LastItemsCount);
+
+				if ((journalItem.JournalObjectType == JournalObjectType.GKZone || journalItem.JournalObjectType == JournalObjectType.GKDirection) &&
+					(journalItem.StateClass == XStateClass.Fire1 || journalItem.StateClass == XStateClass.Fire2 || journalItem.StateClass == XStateClass.Attention))
+				{
+					if (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false)
+					{
+						var confirmationViewModel = new ConfirmationViewModel(journalItem);
+						DialogService.ShowWindow(confirmationViewModel);
+					}
+				}
 			}
 
 			if (SelectedJournal == null)

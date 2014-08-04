@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using ControllerSDK.Views;
+using ChinaSKDDriver;
 
 namespace ControllerSDK
 {
@@ -13,7 +14,7 @@ namespace ControllerSDK
 			}
 			catch { }
 
-			ChinaSKDDriverNativeApi.NativeWrapper.WRAP_Initialize();
+			//Wrapper.InitializeWatcher();
 			var mainWindow = new MainWindow();
 			mainWindow.Show();
 		}

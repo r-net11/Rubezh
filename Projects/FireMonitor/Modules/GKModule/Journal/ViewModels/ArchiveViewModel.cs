@@ -57,7 +57,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_pages = value;
-				OnPropertyChanged("Pages");
+				OnPropertyChanged(() => Pages);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedPage = value;
-				OnPropertyChanged("SelectedPage");
+				OnPropertyChanged(() => SelectedPage);
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace GKModule.ViewModels
 			private set
 			{
 				_journalItems = value;
-				OnPropertyChanged("JournalItems");
+				OnPropertyChanged(() => JournalItems);
 			}
 		}
 
@@ -119,7 +119,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedJournal = value;
-				OnPropertyChanged("SelectedJournal");
+				OnPropertyChanged(() => SelectedJournal);
 			}
 		}
 
@@ -133,7 +133,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isFilterOn = value;
-				OnPropertyChanged("IsFilterOn");
+				OnPropertyChanged(() => IsFilterOn);
 				Update();
 			}
 		}
@@ -161,7 +161,7 @@ namespace GKModule.ViewModels
 				if (DialogService.ShowModalWindow(archiveFilterViewModel))
 				{
 					ArchiveFilter = archiveFilterViewModel.GetModel();
-					OnPropertyChanged("IsFilterExists");
+					OnPropertyChanged(() => IsFilterExists);
 					IsFilterOn = true;
 				}
 			}
@@ -235,8 +235,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_status = value;
-				OnPropertyChanged("Status");
-				OnPropertyChanged("IsLoading");
+				OnPropertyChanged(() => Status);
+				OnPropertyChanged(() => IsLoading);
 			}
 		}
 
@@ -292,8 +292,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_totalPageNumber = value;
-				OnPropertyChanged("TotalPageNumber");
-				OnPropertyChanged("HasPages");
+				OnPropertyChanged(() => TotalPageNumber);
+				OnPropertyChanged(() => HasPages);
 			}
 		}
 
@@ -309,7 +309,7 @@ namespace GKModule.ViewModels
 					value = Pages.Count;
 
 				_currentPageNumber = value;
-				OnPropertyChanged("CurrentPageNumber");
+				OnPropertyChanged(() => CurrentPageNumber);
 
 				if (value > 0 && value <= Pages.Count)
 				{

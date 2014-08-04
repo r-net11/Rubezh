@@ -19,6 +19,16 @@ namespace FiresecAPI.Automation
 			PauseArguments = new PauseArguments();
 			ProcedureSelectionArguments = new ProcedureSelectionArguments();
 			ExitArguments = new ExitArguments();
+			PersonInspectionArguments = new PersonInspectionArguments();
+			SetGlobalValueArguments = new SetGlobalValueArguments();
+			IncrementGlobalValueArguments = new IncrementGlobalValueArguments();
+			ControlGKDeviceArguments = new ControlGKDeviceArguments();
+			ControlGKFireZoneArguments = new ControlGKFireZoneArguments();
+			ControlGKGuardZoneArguments = new ControlGKGuardZoneArguments();
+			ControlDirectionArguments = new ControlDirectionArguments();
+			ControlDoorArguments = new ControlDoorArguments();
+			ControlSKDDeviceArguments = new ControlSKDDeviceArguments();
+			JournalArguments = new JournalArguments();
 		}
 
 		public ProcedureStep Parent { get; set; }
@@ -61,5 +71,35 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ExitArguments ExitArguments { get; set; }
+
+		[DataMember]
+		public PersonInspectionArguments PersonInspectionArguments { get; set; }
+
+		[DataMember]
+		public SetGlobalValueArguments SetGlobalValueArguments { get; set; }
+
+		[DataMember]
+		public IncrementGlobalValueArguments IncrementGlobalValueArguments { get; set; }
+
+		[DataMember]
+		public ControlGKDeviceArguments ControlGKDeviceArguments { get; set; }
+
+		[DataMember]
+		public ControlGKFireZoneArguments ControlGKFireZoneArguments { get; set; }
+
+		[DataMember]
+		public ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
+
+		[DataMember]
+		public ControlDirectionArguments ControlDirectionArguments { get; set; }
+
+		[DataMember]
+		public ControlDoorArguments ControlDoorArguments { get; set; }
+
+		[DataMember]
+		public ControlSKDDeviceArguments ControlSKDDeviceArguments { get; set; }
+
+		[DataMember]
+		public JournalArguments JournalArguments { get; set; }
 	}
 }

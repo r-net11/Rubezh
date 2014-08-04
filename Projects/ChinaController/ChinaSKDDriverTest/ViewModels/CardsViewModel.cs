@@ -39,6 +39,13 @@ namespace ControllerSDK.ViewModels
 			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_CORCE);
 			AvailableCardTypes.Add(CardType.NET_ACCESSCTLCARD_TYPE_MOTHERCARD);
 
+			AvailableCardStatuses = new ObservableCollection<CardStatus>();
+			AvailableCardStatuses.Add(CardStatus.NET_ACCESSCTLCARD_STATE_UNKNOWN);
+			AvailableCardStatuses.Add(CardStatus.NET_ACCESSCTLCARD_STATE_NORMAL);
+			AvailableCardStatuses.Add(CardStatus.NET_ACCESSCTLCARD_STATE_LOSE);
+			AvailableCardStatuses.Add(CardStatus.NET_ACCESSCTLCARD_STATE_LOGOFF);
+			AvailableCardStatuses.Add(CardStatus.NET_ACCESSCTLCARD_STATE_FREEZE);
+
 			Doors = new ObservableCollection<DoorItemViewModel>();
 			for (int i = 0; i < 4; i++)
 			{
@@ -135,6 +142,7 @@ namespace ControllerSDK.ViewModels
 			card.ValidStartDateTime = ValidStartTime;
 			card.ValidEndDateTime = ValidEndTime;
 			card.CardType = CardType;
+			card.CardStatus = CardStatus;
 
 			foreach (var door in Doors)
 			{
@@ -194,6 +202,19 @@ namespace ControllerSDK.ViewModels
 			{
 				_cardType = value;
 				OnPropertyChanged(() => CardType);
+			}
+		}
+
+		public ObservableCollection<CardStatus> AvailableCardStatuses { get; private set; }
+
+		CardStatus _cardStatus;
+		public CardStatus CardStatus
+		{
+			get { return _cardStatus; }
+			set
+			{
+				_cardStatus = value;
+				OnPropertyChanged(() => CardStatus);
 			}
 		}
 

@@ -15,13 +15,14 @@ namespace SKDModule.ViewModels
 		{
 			State = deviceState;
 			StateClasses = new ObservableCollection<XStateClassViewModel>();
+			State.StateChanged -= new Action(OnStateChanged);
 			State.StateChanged += new Action(OnStateChanged);
 			OnStateChanged();
 		}
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
+			OnPropertyChanged(() => State);
 
 			StateClasses.Clear();
 			foreach (var stateClass in State.StateClasses)

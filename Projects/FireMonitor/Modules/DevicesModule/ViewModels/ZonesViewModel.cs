@@ -24,7 +24,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_zones = value;
-				OnPropertyChanged("Zones");
+				OnPropertyChanged(() => Zones);
 			}
 		}
 
@@ -39,7 +39,7 @@ namespace DevicesModule.ViewModels
 				{
 					InitializeDevices();
 				}
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
 
@@ -56,7 +56,7 @@ namespace DevicesModule.ViewModels
 			{
 				RootDevice.IsExpanded = true;
 			}
-			OnPropertyChanged("RootDevices");
+			OnPropertyChanged(() => RootDevices);
 		}
 
 		DeviceViewModel _selectedDevice;
@@ -66,7 +66,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace DevicesModule.ViewModels
 			private set
 			{
 				_rootDevice = value;
-				OnPropertyChanged("RootDevice");
+				OnPropertyChanged(() => RootDevice);
 			}
 		}
 

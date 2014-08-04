@@ -8,12 +8,6 @@ namespace SKDModule.ViewModels
 {
 	public class ZonesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		public static ZonesViewModel Current { get; private set; }
-		public ZonesViewModel()
-		{
-			Current = this;
-		}
-
 		public void Initialize()
 		{
 			Zones = new ObservableCollection<ZoneViewModel>();
@@ -25,7 +19,16 @@ namespace SKDModule.ViewModels
 			SelectedZone = Zones.FirstOrDefault();
 		}
 
-		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+		ObservableCollection<ZoneViewModel> _zones;
+		public ObservableCollection<ZoneViewModel> Zones
+		{
+			get { return _zones; }
+			set
+			{
+				_zones = value;
+				OnPropertyChanged(() => Zones);
+			}
+		}
 
 		ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone

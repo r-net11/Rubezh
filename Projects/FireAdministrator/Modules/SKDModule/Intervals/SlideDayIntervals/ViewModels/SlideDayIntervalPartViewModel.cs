@@ -30,7 +30,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				if (value == null)
-					SelectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.First();
+					SelectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault();
 				else
 				{
 					_selectedTimeInterval = value;
@@ -46,7 +46,7 @@ namespace SKDModule.ViewModels
 			Name = string.Format("{0}", Index + 1);
 			_selectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault(x => x.ID == _slideDayInterval.TimeIntervalIDs[Index]);
 			if (_selectedTimeInterval == null)
-				_selectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.First();
+				_selectedTimeInterval = _slideDayIntervalsViewModel.AvailableTimeIntervals.FirstOrDefault();
 			OnPropertyChanged(() => SelectedTimeInterval);
 			OnPropertyChanged(() => Name);
 		}

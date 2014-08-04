@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using Common;
+using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using SKDDriver;
@@ -16,65 +17,21 @@ namespace FiresecService
 		public static object databaseLocker = new object();
 		public static bool IsAbort { get; set; }
 		public static event Action<List<JournalItem>, Guid> ArchivePortionReady;
-		static string ConnectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=SKD;Integrated Security=True;Language='English'";
+		static string ConnectionString = global::SKDDriver.Properties.Settings.Default.ConnectionString;
 
 		public static void Add(JournalItem journalItem)
 		{
-			//journalItem.UID = Guid.NewGuid();
-
-			//try
-			//{
-			//    lock (locker)
-			//    {
-			//        using (var dataContext = new SqlConnection(ConnectionString))
-			//        {
-			//            dataContext.ConnectionString = ConnectionString;
-			//            dataContext.Open();
-
-			//            var sqCommand = new SqlCommand();
-			//            sqCommand.Connection = dataContext;
-
-			//            sqCommand.CommandText = @"Insert Into Journal" +
-			//                "(SystemDate,DeviceDate,Subsystem,Name,Description,NameText,DescriptionText,State,ObjectType,ObjectName,ObjectUID,UserName,CardNo,UID) Values" +
-			//                "(@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12,@p13,@p14)";
-			//            sqCommand.Parameters.AddWithValue("@p1", (object)journalItem.SystemDateTime);
-			//            sqCommand.Parameters.AddWithValue("@p2", (object)journalItem.DeviceDateTime);
-			//            sqCommand.Parameters.AddWithValue("@p3", (object)((int)journalItem.JournalSubsystemType));
-			//            sqCommand.Parameters.AddWithValue("@p4", (object)((int)journalItem.JournalEventNameType));
-			//            sqCommand.Parameters.AddWithValue("@p5", (object)((int)journalItem.JournalEventDescriptionType));
-			//            sqCommand.Parameters.AddWithValue("@p6", (object)journalItem.NameText ?? DBNull.Value);
-			//            sqCommand.Parameters.AddWithValue("@p7", (object)journalItem.DescriptionText ?? DBNull.Value);
-			//            sqCommand.Parameters.AddWithValue("@p8", (object)((int)journalItem.StateClass));
-			//            sqCommand.Parameters.AddWithValue("@p9", (object)((int)journalItem.JournalObjectType));
-			//            sqCommand.Parameters.AddWithValue("@p10", (object)journalItem.ObjectName ?? DBNull.Value);
-			//            sqCommand.Parameters.AddWithValue("@p11", (object)journalItem.ObjectUID);
-			//            sqCommand.Parameters.AddWithValue("@p12", (object)journalItem.UserName ?? DBNull.Value);
-			//            sqCommand.Parameters.AddWithValue("@p13", (object)journalItem.CardNo);
-			//            sqCommand.Parameters.AddWithValue("@p14", (object)journalItem.UID);
-			//            sqCommand.ExecuteNonQuery();
-
-			//            sqCommand.ExecuteNonQuery();
-
-			//            dataContext.Close();
-			//        }
-			//    }
-			//}
-			//catch (Exception e)
-			//{
-			//    Logger.Error(e, "FiresecService.GetTopLast");
-			//}
-
 			lock (databaseLocker)
 			{
 				SKDDatabaseService.JournalItemTranslator.Save(journalItem);
 			}
 		}
 
-		public static List<JournalItem> GetFilteredJournalItems(JournalFilter filter)
+		public static OperationResult<List<JournalItem>> GetFilteredJournalItems(JournalFilter filter)
 		{
-			var journalItems = new List<JournalItem>();
 			try
 			{
+				var journalItems = new List<JournalItem>();
 				lock (locker)
 				{
 					using (var dataContext = new SqlConnection(ConnectionString))
@@ -90,13 +47,14 @@ namespace FiresecService
 						}
 					}
 				}
+				journalItems.Reverse();
+				return new OperationResult<List<JournalItem>> { Result = journalItems };
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecService.GetTopLast");
+				return new OperationResult<List<JournalItem>>(e.Message);
 			}
-			journalItems.Reverse();
-			return journalItems;
 		}
 
 		public static List<JournalItem> BeginGetFilteredArchive(ArchiveFilter archiveFilter, Guid archivePortionUID, bool isReport)
@@ -367,9 +325,6 @@ namespace FiresecService
 
 			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
 				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
-
-			if (!reader.IsDBNull(reader.GetOrdinal("CardNo")))
-				journalItem.CardNo = (int)reader.GetValue(reader.GetOrdinal("CardNo"));
 			
 			if (!reader.IsDBNull(reader.GetOrdinal("SystemDate")))
 				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDate"));

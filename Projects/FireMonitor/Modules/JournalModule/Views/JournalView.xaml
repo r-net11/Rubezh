@@ -127,12 +127,15 @@
 
 					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.SystemDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
 					<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.DeviceDateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
-					<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Name}" Margin="2" />
-					<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Description}" Margin="2" />
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                        <Image Width="16" Source="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Description}" Margin="2" />
                     <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding JournalItem.UserName}" Margin="2" />
                     <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
                         <Image Width="16" Source="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource JournalSubsystemTypeToIconConverter}}" VerticalAlignment="Center" Margin="2"/>
-                        <TextBlock Text="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource EnumToDescriptionConverter }}" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding JournalItem.JournalSubsystemType, Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Grid>
                 <ItemsControl Grid.Column="1" ItemsSource="{Binding JournalItem.JournalDetalisationItems}">

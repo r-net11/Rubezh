@@ -72,19 +72,19 @@ namespace SKDModule.ViewModels
 				switch (dayNo)
 				{
 					case 1:
-						return "Понедельник";
-					case 2:
-						return "Вторник";
-					case 3:
-						return "Среда";
-					case 4:
-						return "Четверг";
-					case 5:
-						return "Пятница";
-					case 6:
-						return "Суббота";
-					case 7:
 						return "Воскресенье";
+					case 2:
+						return "Понедельник";
+					case 3:
+						return "Вторник";
+					case 4:
+						return "Среда";
+					case 5:
+						return "Четверг";
+					case 6:
+						return "Пятница";
+					case 7:
+						return "Суббота";
 				}
 				return "Неизвестный день";
 			}
@@ -116,7 +116,6 @@ namespace SKDModule.ViewModels
 				DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD_FIRST);
 				DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_FIRST);
 				DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_OR_CARD);
-				DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION);
 				SelectedDoorOpenMethod = DoorOpenMethods.FirstOrDefault();
 			}
 

@@ -34,7 +34,7 @@ namespace SKDDriver
 		{
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
 			tableItem.AdditionalColumnTypeUID = apiItem.AdditionalColumnType.UID;
-			if(apiItem.Photo != null)
+			if (apiItem.Photo != null)
 				tableItem.PhotoUID = apiItem.Photo.UID;
 			tableItem.TextData = apiItem.TextData;
 		}
@@ -67,7 +67,6 @@ namespace SKDDriver
 			{
 				return new OperationResult<IEnumerable<ShortEmployee>>(e.Message);
 			}
-			
 		}
 
 		public override OperationResult Save(IEnumerable<AdditionalColumn> apiItems)
@@ -109,8 +108,5 @@ namespace SKDDriver
 				result = result.And(e => e.AdditionalColumnTypeUID != null && columnTypeUIDs.Contains(e.AdditionalColumnTypeUID.Value));
 			return result;
 		}
-
 	}
 }
-
-

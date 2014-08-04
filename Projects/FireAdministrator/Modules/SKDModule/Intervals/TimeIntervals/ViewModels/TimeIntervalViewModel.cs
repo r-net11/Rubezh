@@ -24,39 +24,38 @@ namespace SKDModule.ViewModels
 		public override void Update()
 		{
 			base.Update();
-			Name = IsDefault ? "Никогда" : (IsActive ? Model.Name : string.Format("Дневной график {0}", Index));
-			Description = IsEnabled ? Model.Description : string.Empty;
+			Name = IsActive ? Model.Name : string.Format("Дневной график {0}", Index);
+			Description = IsActive ? Model.Description : string.Empty;
 		}
 		protected override void Activate()
 		{
-			if (!IsDefault)
+			if (IsActive && Model == null)
 			{
-				if (IsActive && Model == null)
+				Model = new SKDTimeInterval()
 				{
-					Model = new SKDTimeInterval()
-					{
-						ID = Index,
-						Name = Name,
-						TimeIntervalParts = new List<SKDTimeIntervalPart>(),
-					};
+					ID = Index,
+					Name = Name,
+					TimeIntervalParts = new List<SKDTimeIntervalPart>(),
+				};
+				InitParts();
+				SKDManager.TimeIntervalsConfiguration.TimeIntervals.Add(Model);
+				ServiceFactory.SaveService.SKDChanged = true;
+				ServiceFactory.SaveService.TimeIntervalChanged();
+			}
+			else if (!IsActive && Model != null)
+			{
+				if (ConfirmDeactivation())
+				{
+					SKDManager.TimeIntervalsConfiguration.TimeIntervals.Remove(Model);
+					Model = null;
 					InitParts();
-					SKDManager.TimeIntervalsConfiguration.TimeIntervals.Add(Model);
+					SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ForEach(week => week.InvalidateDayIntervals());
+					SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.ForEach(week => week.InvalidateDayIntervals());
 					ServiceFactory.SaveService.SKDChanged = true;
+					ServiceFactory.SaveService.TimeIntervalChanged();
 				}
-				else if (!IsActive && Model != null)
-				{
-					if (ConfirmDeactivation())
-					{
-						SKDManager.TimeIntervalsConfiguration.TimeIntervals.Remove(Model);
-						Model = null;
-						InitParts();
-						SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ForEach(week => week.InvalidateDayIntervals());
-						SKDManager.TimeIntervalsConfiguration.SlideDayIntervals.ForEach(week => week.InvalidateDayIntervals());
-						ServiceFactory.SaveService.SKDChanged = true;
-					}
-					else
-						IsActive = true;
-				}
+				else
+					IsActive = true;
 			}
 			base.Activate();
 		}
@@ -77,6 +76,7 @@ namespace SKDModule.ViewModels
 			Model.TimeIntervalParts.Remove(SelectedPart.TimeIntervalPart);
 			Parts.Remove(SelectedPart);
 			ServiceFactory.SaveService.SKDChanged = true;
+			ServiceFactory.SaveService.TimeIntervalChanged();
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -86,7 +86,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanEdit()
 		{
-			return !IsDefault && SelectedPart != null;
+			return SelectedPart != null;
 		}
 
 		public override void Paste(SKDTimeInterval timeInterval)
@@ -95,6 +95,7 @@ namespace SKDModule.ViewModels
 			Model.TimeIntervalParts = timeInterval.TimeIntervalParts;
 			InitParts();
 			ServiceFactory.SaveService.SKDChanged = true;
+			ServiceFactory.SaveService.TimeIntervalChanged();
 			Update();
 		}
 		private void InitParts()
@@ -122,6 +123,7 @@ namespace SKDModule.ViewModels
 				}
 				SelectedPart.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
+				ServiceFactory.SaveService.TimeIntervalChanged();
 			}
 		}
 

@@ -13,9 +13,11 @@ namespace ControllerSDK.ViewModels
 			CreationDateTime = password.CreationDateTime.ToString();
 
 			Doors = password.DoorsCount.ToString() + "(";
-			foreach (var door in password.Doors)
+			for (int i = 0; i < password.DoorsCount; i++)
 			{
-				Doors += door.ToString() + ",";
+				Doors += password.Doors[i].ToString();
+				if (i < password.DoorsCount - 1)
+					Doors += ",";
 			}
 			Doors += ")";
 		}

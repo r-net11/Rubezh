@@ -7,6 +7,7 @@ using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
 using FiresecClient;
+using System.Text;
 
 namespace FiresecService.Service
 {
@@ -31,7 +32,25 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedEmployee(Guid uid)
 		{
-			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(uid);
+			var stringBuilder = new StringBuilder();
+			var getEmployeeOperationResult = SKDDatabaseService.EmployeeTranslator.GetSingle(uid);
+			if (!getEmployeeOperationResult.HasError)
+			{
+				foreach (var card in getEmployeeOperationResult.Result.Cards)
+				{
+					var operationResult = DeleteCardFromEmployee(card, "Сотрудник удален");
+					if (operationResult.HasError)
+					{
+						stringBuilder.AppendLine(operationResult.Error);
+					}
+				}
+			}
+			var markdDletedOperationResult = SKDDatabaseService.EmployeeTranslator.MarkDeleted(uid);
+
+			if (stringBuilder.Length > 0)
+				return new OperationResult(stringBuilder.ToString());
+			else
+				return new OperationResult();
 		}
 		public OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
@@ -82,47 +101,74 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.CardTranslator.Get(filter);
 		}
-		public OperationResult AddCard(SKDCard item)
+		public OperationResult<bool> AddCard(SKDCard item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Добавление_карты);
-			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
-			var cardWriter = ChinaSKDDriver.Processor.AddCard(item, accessTemplate);
-			var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+			var getAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
+
+			string cardWriterError = null;
+			var cardWriter = ChinaSKDDriver.Processor.AddCard(item, getAccessTemplateOperationResult.Result);
+			cardWriterError = cardWriter.GetError();
+			var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
+			var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, failedControllerUIDs);
+
 			var saveResult = SKDDatabaseService.CardTranslator.Save(item);
 
+			var stringBuilder = new StringBuilder();
+			if (!String.IsNullOrEmpty(cardWriterError))
+				stringBuilder.AppendLine(cardWriterError);
 			if (pendingResult.HasError)
-				return pendingResult;
-			return saveResult;
+				stringBuilder.AppendLine(pendingResult.Error);
+			if (saveResult.HasError)
+				stringBuilder.AppendLine(saveResult.Error);
+			if (stringBuilder.Length > 0)
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
+			else
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 		}
-		public OperationResult EditCard(SKDCard item)
+		public OperationResult<bool> EditCard(SKDCard item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_карты);
-			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
+			var getAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
 
+			string cardWriterError = null;
 			OperationResult pendingResult;
-			var operationResult = SKDDatabaseService.CardTranslator.Get(new CardFilter() { FirstNos = item.Number, LastNos = item.Number });
-			var oldCard = operationResult.Result.FirstOrDefault();
-			if (oldCard != null)
-			{
-				var oldAccessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
 
-				var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, item, accessTemplate);
+			var operationResult = SKDDatabaseService.CardTranslator.GetSingle(item.UID);
+			if (!operationResult.HasError)
+			{
+				var oldCard = operationResult.Result;
+				var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
+
+				var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldGetAccessTemplateOperationResult.Result, item, getAccessTemplateOperationResult.Result);
+				cardWriterError = cardWriter.GetError();
 				pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
 			}
 			else
 			{
-				pendingResult = new OperationResult("Не найдена предидушая карта");
+				pendingResult = new OperationResult("Не найдена предидущая карта");
 			}
 
+			var saveResult = SKDDatabaseService.CardTranslator.Save(item);
+
+			var stringBuilder = new StringBuilder();
+			if (!String.IsNullOrEmpty(cardWriterError))
+				stringBuilder.AppendLine(cardWriterError);
 			if (pendingResult.HasError)
-				return pendingResult;
-			return SKDDatabaseService.CardTranslator.Save(item);
+				stringBuilder.AppendLine(pendingResult.Error);
+			if (saveResult.HasError)
+				stringBuilder.AppendLine(saveResult.Error);
+			if (stringBuilder.Length > 0)
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
+			else
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
+
 		}
-		public OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null)
+		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null)
 		{
 			item.AccessTemplateUID = null;
 			item.CardDoors = new List<CardDoor>();
-			item.CardTemplateUID = null;
+			item.PassCardTemplateUID = null;
 			item.EmployeeName = null;
 			item.HolderUID = null;
 			item.IsInStopList = true;
@@ -131,54 +177,54 @@ namespace FiresecService.Service
 			item.EndDate = DateTime.Now;
 			AddSKDJournalMessage(JournalEventNameType.Удаление_карты);
 
+			string cardWriterError = null;
 			OperationResult pendingResult;
-			var operationResult = SKDDatabaseService.CardTranslator.Get(new CardFilter() { FirstNos = item.Number, LastNos = item.Number });
+
+			var operationResult = SKDDatabaseService.CardTranslator.GetSingle(item.UID);
 			if (!operationResult.HasError && operationResult.Result != null)
 			{
-				var oldCard = operationResult.Result.FirstOrDefault();
-				if (oldCard != null)
-				{
-					var accessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
-					var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, accessTemplate);
-					pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
-					if (pendingResult.HasError)
-						return pendingResult;
-				}
-				else
-				{
-					pendingResult = new OperationResult("Не найдена предидушая карта");
-				}
+				var oldCard = operationResult.Result;
+				var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
+				var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, oldGetAccessTemplateOperationResult.Result);
+				cardWriterError = cardWriter.GetError();
+				pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
 			}
 			else
 			{
-				pendingResult = new OperationResult("Не найдена предидушая карта");
+				pendingResult = new OperationResult("Не найдена предидущая карта");
 			}
 
+			var saveResult = SKDDatabaseService.CardTranslator.Save(item);
+
+			var stringBuilder = new StringBuilder();
+			if (!String.IsNullOrEmpty(cardWriterError))
+				stringBuilder.AppendLine(cardWriterError);
 			if (pendingResult.HasError)
-				return pendingResult;
-			return SKDDatabaseService.CardTranslator.Save(item);
+				stringBuilder.AppendLine(pendingResult.Error);
+			if (saveResult.HasError)
+				stringBuilder.AppendLine(saveResult.Error);
+			if (stringBuilder.Length > 0)
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
+			else
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 		}
 
 		public OperationResult MarkDeletedCard(Guid uid)
 		{
 			return SKDDatabaseService.CardTranslator.MarkDeleted(uid);
 		}
+		public OperationResult DeletedCard(Guid uid)
+		{
+			return SKDDatabaseService.CardTranslator.Delete(uid);
+		}
 		public OperationResult SaveCardTemplate(SKDCard card)
 		{
-			return SKDDatabaseService.CardTranslator.SaveTemplate(card);
-		}
-
-		AccessTemplate GetAccessTemplate(Guid? uid)
-		{
-			var accessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(uid);
-			if (!accessTemplateOperationResult.HasError)
-				return accessTemplateOperationResult.Result;
-			return null;
+			return SKDDatabaseService.CardTranslator.SavePassTemplate(card);
 		}
 
 		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
 		{
-			return cardWriter.ControllerCardItems.Where(x => !x.HasError).Select(x => x.ControllerDevice.UID);
+			return cardWriter.ControllerCardItems.Where(x => x.HasError).Select(x => x.ControllerDevice.UID);
 		}
 		#endregion
 
@@ -187,14 +233,42 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.AccessTemplateTranslator.Get(filter);
 		}
-		public OperationResult SaveAccessTemplate(AccessTemplate item)
+		public OperationResult<bool> SaveAccessTemplate(AccessTemplate accessTemplate)
 		{
-			return SKDDatabaseService.AccessTemplateTranslator.Save(item);
+			var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(accessTemplate.UID);
+			var saveResult = SKDDatabaseService.AccessTemplateTranslator.Save(accessTemplate);
+
+			var stringBuilder = new StringBuilder();
+			if (saveResult.HasError)
+				stringBuilder.AppendLine(saveResult.Error);
+
+			var operationResult = SKDDatabaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
+			if (operationResult.Result != null)
+			{
+				foreach (var card in operationResult.Result)
+				{
+					var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate);
+					var cardWriterError = cardWriter.GetError();
+					var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(accessTemplate.UID, GetFailedControllerUIDs(cardWriter));
+
+					if (!String.IsNullOrEmpty(cardWriterError))
+						stringBuilder.AppendLine(cardWriterError);
+					if (pendingResult.HasError)
+						stringBuilder.AppendLine(pendingResult.Error);
+				}
+			}
+
+			if (stringBuilder.Length > 0)
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
+			else
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{
-			return SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(uid);
+			var result = SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(uid);
+			return result;
 		}
+
 		#endregion
 
 		#region Organisation
@@ -236,25 +310,6 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		#region Document
-		public OperationResult<IEnumerable<ShortDocument>> GetDocumentList(DocumentFilter filter)
-		{
-			return SKDDatabaseService.DocumentTranslator.GetList(filter);
-		}
-		public OperationResult<Document> GetDocumentDetails(Guid uid)
-		{
-			return SKDDatabaseService.DocumentTranslator.GetSingle(uid);
-		}
-		public OperationResult SaveDocument(Document item)
-		{
-			return SKDDatabaseService.DocumentTranslator.Save(item);
-		}
-		public OperationResult MarkDeletedDocument(Guid uid)
-		{
-			return SKDDatabaseService.DocumentTranslator.MarkDeleted(uid);
-		}
-		#endregion
-
 		#region AdditionalColumnType
 		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
 		{
@@ -271,21 +326,6 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
 		{
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
-		}
-		#endregion
-
-		#region EmployeeReplacement
-		public OperationResult<IEnumerable<EmployeeReplacement>> GetEmployeeReplacements(EmployeeReplacementFilter filter)
-		{
-			return SKDDatabaseService.EmployeeReplacementTranslator.Get(filter);
-		}
-		public OperationResult SaveEmployeeReplacement(EmployeeReplacement item)
-		{
-			return SKDDatabaseService.EmployeeReplacementTranslator.Save(item);
-		}
-		public OperationResult MarkDeletedEmployeeReplacement(Guid uid)
-		{
-			return SKDDatabaseService.EmployeeReplacementTranslator.MarkDeleted(uid);
 		}
 		#endregion
 
@@ -313,28 +353,6 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Синхронизация_времени, device);
 				return ChinaSKDDriver.Processor.SyncronyseTime(deviceUID);
-			}
-			return new OperationResult<bool>("Устройство не найдено в конфигурации");
-		}
-
-		public OperationResult<string> SKDGetPassword(Guid deviceUID)
-		{
-			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				AddSKDJournalMessage(JournalEventNameType.Запрос_пароля, device);
-				return ChinaSKDDriver.Processor.GetPassword(deviceUID);
-			}
-			return new OperationResult<string>("Устройство не найдено в конфигурации");
-		}
-
-		public OperationResult<bool> SKDSetPassword(Guid deviceUID, string password)
-		{
-			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				AddSKDJournalMessage(JournalEventNameType.Установка_пароля, device);
-				return ChinaSKDDriver.Processor.SetPassword(deviceUID, password);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -372,9 +390,10 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
-		public OperationResult<bool> SKDWriteAllTimeSheduleConfiguration()
+		public OperationResult<List<Guid>> SKDWriteAllTimeSheduleConfiguration()
 		{
 			var errors = "";
+			var failedDeviceUIDs = new List<Guid>();
 			foreach (var device in SKDManager.Devices)
 			{
 				if (device.Driver.IsController)
@@ -382,12 +401,35 @@ namespace FiresecService.Service
 					AddSKDJournalMessage(JournalEventNameType.Запись_графиков_работы, device);
 					var result = ChinaSKDDriver.Processor.SKDWriteTimeSheduleConfiguration(device.UID);
 					if (result.HasError)
+					{
+						failedDeviceUIDs.Add(device.UID);
 						errors += result.Error + " (" + device.Name + ")\n";
+					}
 				}
 			}
 			if (string.IsNullOrEmpty(errors))
-				return new OperationResult<bool>() { Result = true };
-			else return new OperationResult<bool>(errors);
+				return new OperationResult<List<Guid>>() { Result = new List<Guid>() };
+			else return new OperationResult<List<Guid>>(errors) { Result = failedDeviceUIDs };
+		}
+
+		public OperationResult<bool> SKDRewriteAllCards(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
+				var cardsResult = SKDDatabaseService.CardTranslator.Get(new CardFilter());
+				var accessTemplatesResult = SKDDatabaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
+				if (!cardsResult.HasError && !accessTemplatesResult.HasError)
+				{
+					return ChinaSKDDriver.Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
+				}
+				else
+				{
+					return new OperationResult<bool>("Ошибка при получении карт или шаблонов карт");
+				}
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
 		public OperationResult<bool> SKDUpdateFirmware(Guid deviceUID, string fileName)
@@ -450,6 +492,37 @@ namespace FiresecService.Service
 				return new OperationResult<bool>("Устройство не найдено в конфигурации");
 			}
 		}
+
+		public OperationResult<bool> SKDOpenDeviceForever(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, device);
+				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
+				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
+		}
+
+		public OperationResult<bool> SKDCloseDeviceForever(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Закрыто, device);
+				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
+				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
+			}
+			else
+			{
+				return new OperationResult<bool>("Устройство не найдено в конфигурации");
+			}
+		}
+
 		public OperationResult<bool> SKDOpenZone(Guid zoneUID)
 		{
 			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
@@ -459,10 +532,18 @@ namespace FiresecService.Service
 				var errors = new List<string>();
 				foreach (var device in zone.Devices)
 				{
-					var result = ChinaSKDDriver.Processor.OpenDoor(device);
-					if (result.HasError)
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					if (lockDevice != null)
 					{
-						errors.Add(result.Error);
+						var result = ChinaSKDDriver.Processor.OpenDoor(lockDevice);
+						if (result.HasError)
+						{
+							errors.Add(result.Error);
+						}
+					}
+					else
+					{
+						return new OperationResult<bool>("Для зоны не найден замок");
 					}
 				}
 				if (errors.Count > 0)
@@ -485,10 +566,18 @@ namespace FiresecService.Service
 				var errors = new List<string>();
 				foreach (var device in zone.Devices)
 				{
-					var result = ChinaSKDDriver.Processor.CloseDoor(device);
-					if (result.HasError)
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					if (lockDevice != null)
 					{
-						errors.Add(result.Error);
+						var result = ChinaSKDDriver.Processor.CloseDoor(lockDevice);
+						if (result.HasError)
+						{
+							errors.Add(result.Error);
+						}
+					}
+					else
+					{
+						return new OperationResult<bool>("Для зоны не найден замок");
 					}
 				}
 				if (errors.Count > 0)
@@ -502,6 +591,78 @@ namespace FiresecService.Service
 				return new OperationResult<bool>("Зона не найдена в конфигурации");
 			}
 		}
+
+		public OperationResult<bool> SKDOpenZoneForever(Guid zoneUID)
+		{
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_зоны_в_режим_Открыто, zone);
+				var errors = new List<string>();
+				foreach (var device in zone.Devices)
+				{
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					if (lockDevice != null)
+					{
+						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
+						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						if (result.HasError)
+						{
+							errors.Add(result.Error);
+						}
+					}
+					else
+					{
+						return new OperationResult<bool>("Для зоны не найден замок");
+					}
+				}
+				if (errors.Count > 0)
+				{
+					return new OperationResult<bool>(String.Join("\n", errors));
+				}
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Зона не найдена в конфигурации");
+			}
+		}
+		public OperationResult<bool> SKDCloseZoneForever(Guid zoneUID)
+		{
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+			if (zone != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_зоны_в_режим_Закрыто, zone);
+				var errors = new List<string>();
+				foreach (var device in zone.Devices)
+				{
+					var lockDevice = device.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == device.IntAddress / 2);
+					if (lockDevice != null)
+					{
+						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
+						var result = ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+						if (result.HasError)
+						{
+							errors.Add(result.Error);
+						}
+					}
+					else
+					{
+						return new OperationResult<bool>("Для зоны не найден замок");
+					}
+				}
+				if (errors.Count > 0)
+				{
+					return new OperationResult<bool>(String.Join("\n", errors));
+				}
+				return new OperationResult<bool>() { Result = true };
+			}
+			else
+			{
+				return new OperationResult<bool>("Зона не найдена в конфигурации");
+			}
+		}
+
 		public OperationResult<bool> SKDOpenDoor(Guid doorUID)
 		{
 			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
@@ -542,6 +703,65 @@ namespace FiresecService.Service
 					if (lockDevice != null)
 					{
 						return ChinaSKDDriver.Processor.CloseDoor(lockDevice);
+					}
+					else
+					{
+						return new OperationResult<bool>("Для точки доступа не найден замок");
+					}
+				}
+				else
+				{
+					return new OperationResult<bool>("У точки доступа не указано устройство входа");
+				}
+			}
+			else
+			{
+				return new OperationResult<bool>("Точка доступа не найдена в конфигурации");
+			}
+		}
+
+		public OperationResult<bool> SKDOpenDoorForever(Guid doorUID)
+		{
+			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
+			if (door != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Открыто, door);
+				if (door.InDevice != null)
+				{
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
+					if (lockDevice != null)
+					{
+						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
+						return ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
+					}
+					else
+					{
+						return new OperationResult<bool>("Для точки доступа не найден замок");
+					}
+				}
+				else
+				{
+					return new OperationResult<bool>("У точки доступа не указано устройство входа");
+				}
+			}
+			else
+			{
+				return new OperationResult<bool>("Точка доступа не найдена в конфигурации");
+			}
+		}
+		public OperationResult<bool> SKDCloseDoorForever(Guid doorUID)
+		{
+			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == doorUID);
+			if (door != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_точки_доступа_в_режим_Закрыто, door);
+				if (door.InDevice != null)
+				{
+					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
+					if (lockDevice != null)
+					{
+						lockDevice.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
+						return ChinaSKDDriver.Processor.SetDoorConfiguration(lockDevice.UID, lockDevice.SKDDoorConfiguration);
 					}
 					else
 					{

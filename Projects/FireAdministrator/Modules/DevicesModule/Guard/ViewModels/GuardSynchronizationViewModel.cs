@@ -37,7 +37,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedSystemUser = value;
-				OnPropertyChanged("SelectedSystemUser");
+				OnPropertyChanged(() => SelectedSystemUser);
 			}
 		}
 
@@ -50,7 +50,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDeviceUser = value;
-				OnPropertyChanged("SelectedDeviceUser");
+				OnPropertyChanged(() => SelectedDeviceUser);
 			}
 		}
 

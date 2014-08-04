@@ -291,7 +291,7 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			OnPropertyChanged("RootDevices");
+			OnPropertyChanged(() => RootDevices);
 		}
 
 		#region DeviceSelection
@@ -336,7 +336,7 @@ namespace GKModule.ViewModels
 				_selectedDevice = value;
 				if (value != null)
 					value.ExpandToThis();
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 
@@ -347,7 +347,7 @@ namespace GKModule.ViewModels
 			private set
 			{
 				_rootDevice = value;
-				OnPropertyChanged("RootDevice");
+				OnPropertyChanged(() => RootDevice);
 			}
 		}
 
@@ -391,7 +391,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_startDateTime = value;
-				OnPropertyChanged("StartDateTime");
+				OnPropertyChanged(() => StartDateTime);
 			}
 		}
 
@@ -402,7 +402,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_endDateTime = value;
-				OnPropertyChanged("EndDateTime");
+				OnPropertyChanged(() => EndDateTime);
 			}
 		}
 
@@ -413,7 +413,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				useDeviceDateTime = value;
-				OnPropertyChanged("UseDeviceDateTime");
+				OnPropertyChanged(() => UseDeviceDateTime);
 			}
 		}
 

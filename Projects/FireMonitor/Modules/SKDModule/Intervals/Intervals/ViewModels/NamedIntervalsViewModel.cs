@@ -30,6 +30,8 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var filter = new NamedIntervalFilter()
 			{
 				UserUID = FiresecManager.CurrentUser.UID,
@@ -54,7 +56,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged("Organisations");
+			OnPropertyChanged(() => Organisations);
 			SelectedNamedInterval = Organisations.FirstOrDefault();
 		}
 		public override void OnShow()
@@ -93,7 +95,7 @@ namespace SKDModule.ViewModels
 					value.ExpandToThis();
 					value.Initialize();
 				}
-				OnPropertyChanged("SelectedNamedInterval");
+				OnPropertyChanged(() => SelectedNamedInterval);
 			}
 		}
 
@@ -182,7 +184,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanCopy()
 		{
-			return SelectedNamedInterval != null;
+			return SelectedNamedInterval != null && !SelectedNamedInterval.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -202,7 +204,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _clipboard != null;
+			return SelectedNamedInterval != null && _clipboard != null;
 		}
 
 		private NamedInterval CopyInterval(NamedInterval source, bool newName = true)

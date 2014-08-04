@@ -26,7 +26,11 @@ namespace SKDModule.ViewModels
 		public void Initialize(DepartmentFilter filter)
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var departments = DepartmentHelper.Get(filter);
+			if (departments == null)
+				return;
 
 			AllDepartments = new List<DepartmentViewModel>();
 			Organisations = new List<DepartmentViewModel>();
@@ -193,7 +197,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanCopy()
 		{
-			return SelectedDepartment != null;
+			return SelectedDepartment != null && !SelectedDepartment.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -220,7 +224,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _clipboard != null;
+			return SelectedDepartment != null && _clipboard != null;
 		}
 
 		ShortDepartment CopyDepartment(ShortDepartment source, bool newName = true)

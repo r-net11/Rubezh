@@ -11,6 +11,7 @@ using Infrastructure.Events;
 using Microsoft.Win32;
 using System.Threading;
 using System;
+using System.Linq;
 using Infrastructure.Common.Services;
 
 namespace SKDModule.ViewModels
@@ -36,8 +37,16 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowControllerConfigurationCommand { get; private set; }
 		void OnShowControllerConfiguration()
 		{
-			var controllerPropertiesViewModel = new ControllerPropertiesViewModel(SelectedDevice.Device);
-			DialogService.ShowModalWindow(controllerPropertiesViewModel);
+			var deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(SelectedDevice.Device);
+			if (!deviceInfoResult.HasError)
+			{
+				var controllerPropertiesViewModel = new ControllerPropertiesViewModel(SelectedDevice.Device, deviceInfoResult.Result);
+				DialogService.ShowModalWindow(controllerPropertiesViewModel);
+			}
+			else
+			{
+				MessageBoxService.ShowWarning(deviceInfoResult.Error);
+			}
 		}
 		bool CanShowControllerConfiguration()
 		{
@@ -74,8 +83,14 @@ namespace SKDModule.ViewModels
 							if (result.HasError)
 							{
 								LoadingService.Close();
-								MessageBoxService.ShowError(result.Error);
+								MessageBoxService.ShowWarning(result.Error);
 							}
+
+							var oldHasMissmath = HasMissmath;
+							SelectedDevice.Device.HasConfigurationMissmatch = result.HasError;
+							OnPropertyChanged(() => HasMissmath);
+							if (HasMissmath != oldHasMissmath)
+								ServiceFactory.SaveService.SKDChanged = true;
 						}));
 					});
 					thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
@@ -104,8 +119,20 @@ namespace SKDModule.ViewModels
 							if (result.HasError)
 							{
 								LoadingService.Close();
-								MessageBoxService.ShowError(result.Error);
+								MessageBoxService.ShowWarning(result.Error);
 							}
+
+							var oldHasMissmath = HasMissmath;
+							SKDManager.Devices.ForEach(x => x.HasConfigurationMissmatch = false);
+							foreach (var failedDeviceUID in result.Result)
+							{
+								var device = SKDManager.Devices.FirstOrDefault(x => x.UID == failedDeviceUID);
+								if(device != null)
+									device.HasConfigurationMissmatch = true;
+							}
+							OnPropertyChanged(() => HasMissmath);
+							if (HasMissmath != oldHasMissmath)
+								ServiceFactory.SaveService.SKDChanged = true;
 						}));
 					});
 					thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
@@ -141,6 +168,21 @@ namespace SKDModule.ViewModels
 				return false;
 			}
 			return true;
+		}
+
+		public bool HasMissmath
+		{
+			get
+			{
+				foreach (var device in SKDManager.Devices)
+				{
+					if (device.Driver.IsController)
+					{
+						return device.HasConfigurationMissmatch;
+					}
+				}
+				return false;
+			}
 		}
 	}
 }

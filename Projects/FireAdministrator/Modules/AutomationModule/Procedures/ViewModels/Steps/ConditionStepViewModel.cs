@@ -22,9 +22,7 @@ namespace AutomationModule.ViewModels
 				var conditionViewModel = new ConditionViewModel(condition, procedure);
 				Conditions.Add(conditionViewModel);
 			}
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			JoinOperator = ConditionArguments.JoinOperator;
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<ConditionViewModel>(OnRemove);

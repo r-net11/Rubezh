@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 
 		void OnStateChanged()
 		{
-			OnPropertyChanged("State");
+			OnPropertyChanged(() => State);
 		}
 		
 		public RelayCommand ShowOnPlanCommand { get; private set; }

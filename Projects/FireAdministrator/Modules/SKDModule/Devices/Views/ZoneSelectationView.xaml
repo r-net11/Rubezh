@@ -5,8 +5,12 @@
 		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
 		MinHeight="400" MinWidth="600">
 
-	<DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+    <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Focusable="True">
         <DataGrid.Resources>
+            <Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="MinHeight" Value="0" />
+            </Style>
             <InputBindingCollection x:Key="inputCollection" x:Shared="False">
                 <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
             </InputBindingCollection>
@@ -17,36 +21,18 @@
             </Style>
         </DataGrid.ItemContainerStyle>
         <DataGrid.Columns>
-			<DataGridTemplateColumn Header="Зона" Width="*">
-				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
-						<Controls:EditorPresenter>
-							<Controls:EditorPresenter.ViewTemplate>
-								<ControlTemplate>
-									<StackPanel Orientation="Horizontal">
-                                        <Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-										<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
-									</StackPanel>
-								</ControlTemplate>
-							</Controls:EditorPresenter.ViewTemplate>
-						</Controls:EditorPresenter>
-					</DataTemplate>
-				</DataGridTemplateColumn.CellTemplate>
-			</DataGridTemplateColumn>
-
-			<DataGridTemplateColumn Header="Примечание" Width="*">
-				<DataGridTemplateColumn.CellTemplate>
-					<DataTemplate>
-						<Controls:EditorPresenter>
-							<Controls:EditorPresenter.ViewTemplate>
-								<ControlTemplate>
-									<TextBlock Text="{Binding Description}" />
-								</ControlTemplate>
-							</Controls:EditorPresenter.ViewTemplate>
-						</Controls:EditorPresenter>
-					</DataTemplate>
-				</DataGridTemplateColumn.CellTemplate>
-			</DataGridTemplateColumn>
+            <DataGridTemplateColumn Width="*" Header="Зона">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Margin="1 0 2 0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+                            <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
+                            <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
 		</DataGrid.Columns>
 	</DataGrid>
 </UserControl>

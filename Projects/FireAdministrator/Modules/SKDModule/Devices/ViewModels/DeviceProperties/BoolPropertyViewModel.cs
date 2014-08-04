@@ -23,7 +23,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(()=>IsChecked);
 				Save(value ? (ushort)1 : (ushort)0);
 			}
 		}

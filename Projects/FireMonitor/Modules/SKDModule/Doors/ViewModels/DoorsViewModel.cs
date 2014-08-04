@@ -8,12 +8,6 @@ namespace SKDModule.ViewModels
 {
 	public class DoorsViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		public static DoorsViewModel Current { get; private set; }
-		public DoorsViewModel()
-		{
-			Current = this;
-		}
-
 		public void Initialize()
 		{
 			Doors = new ObservableCollection<DoorViewModel>();
@@ -25,7 +19,16 @@ namespace SKDModule.ViewModels
 			SelectedDoor = Doors.FirstOrDefault();
 		}
 
-		public ObservableCollection<DoorViewModel> Doors { get; private set; }
+		ObservableCollection<DoorViewModel> _doors;
+		public ObservableCollection<DoorViewModel> Doors
+		{
+			get { return _doors; }
+			set
+			{
+				_doors = value;
+				OnPropertyChanged(() => Doors);
+			}
+		}
 
 		DoorViewModel _selectedDoor;
 		public DoorViewModel SelectedDoor

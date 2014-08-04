@@ -16,18 +16,13 @@ namespace SKDModule.ViewModels
 {
 	public class TimeIntervalsViewModel : BaseIntervalsViewModel<TimeIntervalViewModel, TimeIntervalPartViewModel, SKDTimeInterval>
 	{
-		public TimeIntervalsViewModel()
-		{
-		}
-
 		public override void Initialize()
 		{
 			Intervals = new ObservableCollection<TimeIntervalViewModel>();
 			var map = SKDManager.TimeIntervalsConfiguration.TimeIntervals.ToDictionary(item => item.ID);
-			//Intervals.Add(new TimeIntervalViewModel(0, null));
 			for (int i = 1; i <= 128; i++)
 				Intervals.Add(new TimeIntervalViewModel(i, map.ContainsKey(i) ? map[i] : null));
-			SelectedInterval = Intervals.First();
+			SelectedInterval = Intervals.FirstOrDefault();
 		}
 
 		protected override void OnEdit()
@@ -37,6 +32,7 @@ namespace SKDModule.ViewModels
 			{
 				SelectedInterval.Update();
 				ServiceFactory.SaveService.SKDChanged = true;
+				ServiceFactory.SaveService.TimeIntervalChanged();
 			}
 		}
 

@@ -52,32 +52,29 @@ namespace SKDModule.ViewModels
 		{
 			base.Update();
 			Name = IsActive ? Model.Name : string.Format("Скользящий понедельный график {0}", Index);
-			Description = IsEnabled ? Model.Description : string.Empty;
-			StartDate = IsEnabled ? (DateTime?)Model.StartDate : null;
+			Description = IsActive ? Model.Description : string.Empty;
+			StartDate = IsActive ? (DateTime?)Model.StartDate : null;
 		}
 		protected override void Activate()
 		{
-			if (!IsDefault)
+			if (IsActive && Model == null)
 			{
-				if (IsActive && Model == null)
+				Model = new SKDSlideWeeklyInterval()
 				{
-					Model = new SKDSlideWeeklyInterval()
-					{
-						ID = Index,
-						Name = Name,
-						StartDate = DateTime.Today,
-					};
-					Initialize();
-					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Add(Model);
-					ServiceFactory.SaveService.SKDChanged = true;
-				}
-				else if (!IsActive && Model != null)
-				{
-					SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Remove(Model);
-					Model = null;
-					Initialize();
-					ServiceFactory.SaveService.SKDChanged = true;
-				}
+					ID = Index,
+					Name = Name,
+					StartDate = DateTime.Today,
+				};
+				Initialize();
+				SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Add(Model);
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
+			else if (!IsActive && Model != null)
+			{
+				SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Remove(Model);
+				Model = null;
+				Initialize();
+				ServiceFactory.SaveService.SKDChanged = true;
 			}
 			base.Activate();
 		}

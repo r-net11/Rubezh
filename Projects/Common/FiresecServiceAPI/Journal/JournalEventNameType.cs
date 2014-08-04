@@ -41,6 +41,9 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.System, "Отмена операции", XStateClass.TechnologicalRegime)]
 		Отмена_операции,
 
+		[EventDescription(JournalSubsystemType.System, "Сообщение автоматизации", XStateClass.Info)]
+		Сообщение_автоматизации,
+
 		[EventDescription(JournalSubsystemType.GK, "Обновление ПО прибора", XStateClass.Info)]
 		Обновление_ПО_прибора,
 
@@ -329,7 +332,7 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.SKD, "Повторный_проход", XStateClass.Attention)]
 		Повторный_проход,
 
-		[EventDescription(JournalSubsystemType.SKD, "Принуждение", XStateClass.Attention)]
+		[EventDescription(JournalSubsystemType.SKD, "Принуждение", XStateClass.Fire1)]
 		Принуждение,
 
 		[EventDescription(JournalSubsystemType.SKD, "Открытие двери", XStateClass.On)]
@@ -341,12 +344,6 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.SKD, "Неизвестный статус двери", XStateClass.Unknown)]
 		Неизвестный_статус_двери,
 
-		[EventDescription(JournalSubsystemType.SKD, "Запрос пароля", XStateClass.TechnologicalRegime)]
-		Запрос_пароля,
-
-		[EventDescription(JournalSubsystemType.SKD, "Установка пароля", XStateClass.TechnologicalRegime)]
-		Установка_пароля,
-
 		[EventDescription(JournalSubsystemType.SKD, "Сброс Контроллера", XStateClass.TechnologicalRegime)]
 		Сброс_Контроллера,
 
@@ -355,6 +352,9 @@ namespace FiresecAPI.Journal
 
 		[EventDescription(JournalSubsystemType.SKD, "Запись графиков работы", XStateClass.TechnologicalRegime)]
 		Запись_графиков_работы,
+
+		[EventDescription(JournalSubsystemType.SKD, "Перезапись всех карт", XStateClass.TechnologicalRegime)]
+		Перезапись_всех_карт,
 
 		[EventDescription(JournalSubsystemType.SKD, "Обновление ПО Контроллера", XStateClass.TechnologicalRegime)]
 		Обновление_ПО_Контроллера,
@@ -371,17 +371,35 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.SKD, "Команда на закрытие двери", XStateClass.Off)]
 		Команда_на_закрытие_двери,
 
+		[EventDescription(JournalSubsystemType.SKD, "Команда на перевод двери в режим Открыто", XStateClass.On)]
+		Команда_на_перевод_двери_в_режим_Открыто,
+
+		[EventDescription(JournalSubsystemType.SKD, "Команда на перевод двери в режим Закрыто", XStateClass.Off)]
+		Команда_на_перевод_двери_в_режим_Закрыто,
+
 		[EventDescription(JournalSubsystemType.SKD, "Команда на открытие зоны", XStateClass.On)]
 		Команда_на_открытие_зоны,
 
 		[EventDescription(JournalSubsystemType.SKD, "Команда на закрытие зоны", XStateClass.Off)]
 		Команда_на_закрытие_зоны,
 
+		[EventDescription(JournalSubsystemType.SKD, "Команда на перевод зоны в режим Открыто", XStateClass.On)]
+		Команда_на_перевод_зоны_в_режим_Открыто,
+
+		[EventDescription(JournalSubsystemType.SKD, "Команда на перевод зоны в режим Закрыто", XStateClass.Off)]
+		Команда_на_перевод_зоны_в_режим_Закрыто,
+
 		[EventDescription(JournalSubsystemType.SKD, "Команда на открытие точки доступа", XStateClass.On)]
 		Команда_на_открытие_точки_доступа,
 
 		[EventDescription(JournalSubsystemType.SKD, "Команда на закрытие точки доступа", XStateClass.Off)]
 		Команда_на_закрытие_точки_доступа,
+
+		[EventDescription(JournalSubsystemType.SKD, "Команда на перевод точки доступа в режим Открыто", XStateClass.On)]
+		Команда_на_перевод_точки_доступа_в_режим_Открыто,
+
+		[EventDescription(JournalSubsystemType.SKD, "Команда на перевод точки доступа в режим Закрыто", XStateClass.Off)]
+		Команда_на_перевод_точки_доступа_в_режим_Закрыто,
 
 		[EventDescription(JournalSubsystemType.SKD, "Добавление карты", XStateClass.Info)]
 		Добавление_карты,

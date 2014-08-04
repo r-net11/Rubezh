@@ -25,14 +25,27 @@ namespace SKDModule.ViewModels
 		void InitializeDoors()
 		{
 			Doors = new ObservableCollection<AccessDoorViewModel>();
-			foreach (var door in SKDManager.SKDConfiguration.Doors)
+			foreach (var cardDoor in CardDoors)
 			{
-				var doorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
-				Doors.Add(doorViewModel);
+				var door = SKDManager.SKDConfiguration.Doors.FirstOrDefault(x => x.UID == cardDoor.DoorUID);
+				if (door != null)
+				{
+					var doorViewModel = new AccessDoorViewModel(door, CardDoors, x => { SelectedDoor = x; });
+					Doors.Add(doorViewModel);
+				}
 			}
 		}
 
-		public ObservableCollection<AccessDoorViewModel> Doors;
+		ObservableCollection<AccessDoorViewModel> _doors;
+		public ObservableCollection<AccessDoorViewModel> Doors
+		{
+			get { return _doors; }
+			set
+			{
+				_doors = value;
+				OnPropertyChanged(() => Doors);
+			}
+		}
 
 		AccessDoorViewModel _selectedDoor;
 		public AccessDoorViewModel SelectedDoor
@@ -41,7 +54,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedDoor = value;
-				OnPropertyChanged("Selecteddoor");
+				OnPropertyChanged(() => SelectedDoor);
 			}
 		}
 	}

@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
@@ -12,6 +14,7 @@ namespace SKDModule.ViewModels
 		public CardsViewModel()
 		{
 			Filter = new CardFilter();
+			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 		}
 
 		public void Initialize(CardFilter filter)
@@ -47,6 +50,18 @@ namespace SKDModule.ViewModels
 				_selectedCard = value;
 				OnPropertyChanged(() => SelectedCard);
 			}
+		}
+
+		public RelayCommand RemoveCommand { get; private set; }
+		void OnRemove()
+		{
+			CardHelper.Delete(SelectedCard.Card.UID);
+			Cards.Remove(SelectedCard);
+			SelectedCard = Cards.FirstOrDefault();
+		}
+		bool CanRemove()
+		{
+			return SelectedCard != null && SelectedCard.Card.IsInStopList;
 		}
 	}
 }

@@ -7,13 +7,13 @@ using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using LinqKit;
 using SKDDriver.Translators;
+using System.Data.SqlTypes;
 
 namespace SKDDriver
 {
 	public class EmployeeTranslator : WithShortTranslator<DataAccess.Employee, Employee, EmployeeFilter, ShortEmployee>
 	{
 		public EmployeeTranslator(DataAccess.SKDDataContext context,
-			EmployeeReplacementTranslator replacementTranslator,
 			PositionTranslator positionTranslator,
 			DepartmentTranslator departmentTranslator,
 			AdditionalColumnTranslator additionalColumnTranslator,
@@ -22,7 +22,6 @@ namespace SKDDriver
 			ScheduleTranslator scheduleTranslator )
 			: base(context)
 		{
-			EmployeeReplacementTranslator = replacementTranslator;
 			PositionTranslator = positionTranslator;
 			DepartmentTranslator = departmentTranslator;
 			AdditionalColumnTranslator = additionalColumnTranslator;
@@ -32,7 +31,6 @@ namespace SKDDriver
 		}
 
 		PositionTranslator PositionTranslator;
-		EmployeeReplacementTranslator EmployeeReplacementTranslator;
 		DepartmentTranslator DepartmentTranslator;
 		AdditionalColumnTranslator AdditionalColumnTranslator;
 		CardTranslator CardTranslator;
@@ -56,11 +54,11 @@ namespace SKDDriver
 		{
 			bool isAttendant = Context.Departments.Any(x => !x.IsDeleted && x.AttendantUID == uid);
 			if (isAttendant)
-				return new OperationResult("Не могу удалить сотрудника, пока он указан как сопровождающий для одного из отделов");
+				return new OperationResult("Невозможно удалить сотрудника, пока он указан как сопровождающий для одного из отделов");
 
 			bool isContactEmployee = Context.Departments.Any(x => !x.IsDeleted && x.ContactEmployeeUID == uid);
 			if (isContactEmployee)
-				return new OperationResult("Не могу удалить сотрудника, пока он указан как контактное лицо для одного из отделов");
+				return new OperationResult("Невозможно удалить сотрудника, пока он указан как контактное лицо для одного из отделов");
 			return base.CanDelete(uid);
 		}
 
@@ -72,8 +70,6 @@ namespace SKDDriver
 			result.LastName = tableItem.LastName;
 			result.Appointed = tableItem.Appointed;
 			result.Dismissed = tableItem.Dismissed;
-			result.ReplacementUIDs = EmployeeReplacementTranslator.GetReplacementUIDs(tableItem.UID);
-			result.CurrentReplacement = EmployeeReplacementTranslator.GetCurrentReplacement(tableItem.UID);
 			result.Department = DepartmentTranslator.GetSingleShort(tableItem.DepartmentUID);
 			result.Schedule = ScheduleTranslator.GetSingleShort(tableItem.ScheduleUID);
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
@@ -95,8 +91,8 @@ namespace SKDDriver
 			result.DocumentDepartmentCode = tableItem.DocumentDepartmentCode;
 			result.Citizenship = tableItem.Citizenship;
 			result.DocumentType = (EmployeeDocumentType)tableItem.DocumentType;
-			var zones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
-			foreach (var item in zones)
+			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
+			foreach (var item in guardZones)
 			{
 				result.GuardZoneAccesses.Add(new XGuardZoneAccess 
 					{ 
@@ -126,11 +122,7 @@ namespace SKDDriver
 			if (position != null)
 				shortEmployee.PositionName = position.Name;
 
-			Guid? departmentUID;
-			var replacement = EmployeeReplacementTranslator.GetCurrentReplacement(tableItem.UID);
-			departmentUID = replacement != null ? replacement.DepartmentUID : tableItem.DepartmentUID;
-
-			var department = Context.Departments.FirstOrDefault(x => x.UID == departmentUID);
+			var department = Context.Departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID);
 			if (department != null)
 				shortEmployee.DepartmentName = department.Name;
 			return shortEmployee;
@@ -201,26 +193,7 @@ namespace SKDDriver
 			var departmentUIDs = filter.DepartmentUIDs;
 			if (departmentUIDs.IsNotNullOrEmpty())
 			{
-				result = result.And(e =>
-					e != null &&
-					(Context.EmployeeReplacements.Any(x =>
-						!x.IsDeleted &&
-						x.EmployeeUID == e.UID &&
-						DateTime.Now >= x.BeginDate &&
-						DateTime.Now <= x.EndDate &&
-						departmentUIDs.Contains(x.DepartmentUID.Value)
-						) ||
-						(!Context.EmployeeReplacements.Any(x =>
-								!x.IsDeleted &&
-								x.EmployeeUID == e.UID &&
-								DateTime.Now >= x.BeginDate &&
-								DateTime.Now <= x.EndDate &&
-								departmentUIDs.Contains(x.DepartmentUID.Value)
-							) &&
-							departmentUIDs.Contains(e.DepartmentUID.Value)
-						)
-					)
-				);
+				result = result.And(e => e != null);
 			}
 
 			var positionUIDs = filter.PositionUIDs;
@@ -296,6 +269,31 @@ namespace SKDDriver
 			catch (Exception e)
 			{
 				return new OperationResult<List<EmployeeTimeTrack>>(e.Message);
+			}
+		}
+
+		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
+		{
+			try
+			{
+				var exitPassJournal = Context.PassJournals.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.ExitTime == SqlDateTime.MinValue.Value);
+				if (exitPassJournal != null)
+				{
+					exitPassJournal.ExitTime = DateTime.Now;
+				}
+				var enterPassJournal = new DataAccess.PassJournal();
+				enterPassJournal.UID = Guid.NewGuid();
+				enterPassJournal.EmployeeUID = employeeUID;
+				enterPassJournal.ZoneUID = zoneUID;
+				enterPassJournal.EnterTime = DateTime.Now;
+				enterPassJournal.ExitTime = SqlDateTime.MinValue.Value;
+				Context.PassJournals.InsertOnSubmit(enterPassJournal);
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
 			}
 		}
 

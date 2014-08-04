@@ -26,19 +26,28 @@ namespace FiresecAPI.SKD
 		public DateTime EndDate { get; set; }
 
 		[DataMember]
+		public int UserTime { get; set; }
+
+		[DataMember]
+		public Guid DeactivationControllerUID { get; set; }
+
+		[DataMember]
 		public List<CardDoor> CardDoors { get; set; }
 
 		[DataMember]
-		public Guid? CardTemplateUID { get; set; }
+		public Guid? PassCardTemplateUID { get; set; }
 
 		[DataMember]
 		public Guid? AccessTemplateUID { get; set; }
 
 		[DataMember]
-		public bool IsInStopList { get; set; }
+		public CardType CardType { get; set; }
 
 		[DataMember]
-		public CardType CardType { get; set; }
+		public string Password { get; set; }
+
+		[DataMember]
+		public bool IsInStopList { get; set; }
 
 		[DataMember]
 		public string StopReason { get; set; }

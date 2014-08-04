@@ -13,6 +13,7 @@ using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using SKDModule.Events;
 using SKDModule.Plans;
+using FiresecClient;
 
 namespace SKDModule.ViewModels
 {
@@ -58,8 +59,8 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("HasChildren");
-			OnPropertyChanged("IsOnPlan");
+			OnPropertyChanged(() => HasChildren);
+			OnPropertyChanged(() => IsOnPlan);
 			OnPropertyChanged(() => VisualizationState);
 		}
 
@@ -167,16 +168,42 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			var readerPropertiesViewModel = new ReaderPropertiesViewModel(Device);
-			if (DialogService.ShowModalWindow(readerPropertiesViewModel))
+			if (Driver.IsController)
 			{
-				Device.OnChanged();
-				ServiceFactory.SaveService.SKDChanged = true;
+				var deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
+				if (!deviceInfoResult.HasError)
+				{
+					var controllerPropertiesViewModel = new ControllerPropertiesViewModel(Device, deviceInfoResult.Result);
+					DialogService.ShowModalWindow(controllerPropertiesViewModel);
+				}
+				else
+				{
+					MessageBoxService.ShowWarning(deviceInfoResult.Error);
+				}
+			}
+
+			if (Driver.DriverType == SKDDriverType.Lock)
+			{
+				var lockPropertiesViewModel = new LockPropertiesViewModel(Device);
+				if (DialogService.ShowModalWindow(lockPropertiesViewModel))
+				{
+					ServiceFactory.SaveService.SKDChanged = true;
+				}
+			}
+
+			if (Driver.DriverType == SKDDriverType.Reader)
+			{
+				var readerPropertiesViewModel = new ReaderPropertiesViewModel(Device);
+				if (DialogService.ShowModalWindow(readerPropertiesViewModel))
+				{
+					Device.OnChanged();
+					ServiceFactory.SaveService.SKDChanged = true;
+				}
 			}
 		}
 		bool CanShowProperties()
 		{
-			return false;
+			return Driver.IsController || Driver.DriverType == SKDDriverType.Lock;
 		}
 
 		#region Plan

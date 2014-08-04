@@ -13,7 +13,6 @@ namespace FiresecAPI.SKD
 		public Employee() : base()
 		{
 			Cards = new List<SKDCard>();
-			ReplacementUIDs = new List<Guid>();
 			AdditionalColumns = new List<AdditionalColumn>();
 			GuardZoneAccesses = new List<XGuardZoneAccess>();
 		}
@@ -40,9 +39,6 @@ namespace FiresecAPI.SKD
 		public ShortDepartment Department { get; set; }
 
 		[DataMember]
-		public List<Guid> ReplacementUIDs { get; set; }
-
-		[DataMember]
 		public ShortSchedule Schedule { get; set; }
 
 		[DataMember]
@@ -62,9 +58,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public PersonType Type { get; set; }
-
-		[DataMember]
-		public EmployeeReplacement CurrentReplacement { get; set; }
 
 		[DataMember]
 		public int TabelNo;
@@ -107,11 +100,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<XGuardZoneAccess> GuardZoneAccesses { get; set; }
-
-		public bool IsReplaced
-		{
-			get { return CurrentReplacement != null; }
-		}
 	}
 
 	public enum Gender

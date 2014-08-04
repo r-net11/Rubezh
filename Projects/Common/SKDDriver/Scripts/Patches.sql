@@ -20,7 +20,6 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('OrganisationUser')	
 END
 GO
-
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AlterPatches')
 BEGIN
 	ALTER TABLE Patches ALTER COLUMN Id nvarchar(100) not null
@@ -340,3 +339,186 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('DoorsEnterExitUIDtoID')	
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DoorsExitUIDtoID')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardDoor')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'ExitIntervalID' and table_name = 'CardDoor')
+		BEGIN
+			ALTER TABLE CardDoor DROP COLUMN [ExitIntervalID]
+			ALTER TABLE CardDoor ADD [ExitIntervalID] int NOT NULL
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('DoorsExitUIDtoID')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddJournalEmployeeUID')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Journal')
+	BEGIN
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'EmployeeUID' and table_name = 'Journal')
+		BEGIN
+			ALTER TABLE Journal ADD [EmployeeUID] [uniqueidentifier] NULL
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('AddJournalEmployeeUID')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveDocument')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Document')
+	BEGIN
+		DROP TABLE Document
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveDocument')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveDocumentUIDIndex')
+BEGIN
+	IF EXISTS (SELECT Name FROM sysindexes WHERE Name = 'DocumentUIDIndex') 
+	BEGIN
+		DROP Index DocumentUIDIndex ON Document
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveDocumentUIDIndex')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEmployeeReplacement')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = '[EmployeeReplacement')
+	BEGIN
+		DROP TABLE EmployeeReplacement
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveEmployeeReplacement')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEmployeeReplacementUIDIndex')
+BEGIN
+	IF EXISTS (SELECT Name FROM sysindexes WHERE Name = 'EmployeeReplacementUIDIndex') 
+	BEGIN
+		DROP Index EmployeeReplacementUIDIndex ON EmployeeReplacement
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveEmployeeReplacementUIDIndex')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveEmployeeReplacementUIDIndex')
+BEGIN
+	IF EXISTS (SELECT Name FROM sysindexes WHERE Name = 'EmployeeReplacementUIDIndex') 
+	BEGIN
+		DROP Index EmployeeReplacementUIDIndex ON EmployeeReplacement
+	END
+	INSERT INTO Patches (Id) VALUES ('RemoveEmployeeReplacementUIDIndex')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DoorsDropAntipassEscort')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'CardDoor')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'IsAntipass' and table_name = 'CardDoor')
+		BEGIN
+			ALTER TABLE CardDoor DROP COLUMN IsAntipass
+		END
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'IsWithEscort' and table_name = 'CardDoor')
+		BEGIN
+			ALTER TABLE CardDoor DROP COLUMN IsWithEscort
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('DoorsDropAntipassEscort')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CardPassCardTemplateUID')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardTemplateUID' and table_name = 'Card')
+		BEGIN
+			EXEC sp_rename '[Card].[CardTemplateUID]', 'PassCardTemplateUID', 'Column'
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('CardPassCardTemplateUID')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'JournalDropCardNo')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Journal')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardNo' and table_name = 'Journal')
+		BEGIN
+			ALTER TABLE Journal DROP COLUMN CardNo
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('JournalDropCardNo')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveCardDoorParentType')
+BEGIN
+	ALTER TABLE CardDoor DROP COLUMN ParentType
+	INSERT INTO Patches (Id) VALUES ('RemoveCardDoorParentType')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveCardDoorParentUID')
+BEGIN
+	ALTER TABLE CardDoor DROP COLUMN ParentUID
+	INSERT INTO Patches (Id) VALUES ('RemoveCardDoorParentUID')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FK_CardDoor_Card_DROP')
+BEGIN
+	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CardDoor_Card]') AND parent_object_id = OBJECT_ID(N'[dbo].[CardDoor]'))
+	ALTER TABLE [dbo].[CardDoor] DROP CONSTRAINT [FK_CardDoor_Card]
+	INSERT INTO Patches (Id) VALUES ('FK_CardDoor_Card_DROP')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FK_CardDoor_AccessTemplate_DROP')
+BEGIN
+	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CardDoor_AccessTemplate]') AND parent_object_id = OBJECT_ID(N'[dbo].[CardDoor]'))
+	ALTER TABLE [dbo].[CardDoor] DROP CONSTRAINT [FK_CardDoor_AccessTemplate]
+	INSERT INTO Patches (Id) VALUES ('FK_CardDoor_AccessTemplate_DROP')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddCardDoorCardUID')
+BEGIN
+	ALTER TABLE CardDoor ADD [CardUID] [uniqueidentifier] NULL
+	INSERT INTO Patches (Id) VALUES ('AddCardDoorCardUID')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddAccessTemplateUID')
+BEGIN
+	ALTER TABLE CardDoor ADD [AccessTemplateUID] [uniqueidentifier] NULL
+	INSERT INTO Patches (Id) VALUES ('AddAccessTemplateUID')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FK_CardDoor_Card_CascadeDelete')
+BEGIN
+	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CardDoor_Card]') AND parent_object_id = OBJECT_ID(N'[dbo].[CardDoor]'))
+	ALTER TABLE [dbo].[CardDoor] DROP CONSTRAINT [FK_CardDoor_Card]
+
+	ALTER TABLE [dbo].[CardDoor]  WITH NOCHECK ADD  CONSTRAINT [FK_CardDoor_Card] FOREIGN KEY([CardUID])
+	REFERENCES [dbo].[Card] ([Uid])
+	ON DELETE CASCADE
+	NOT FOR REPLICATION 
+
+	INSERT INTO Patches (Id) VALUES ('FK_CardDoor_Card_CascadeDelete')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FK_CardDoor_AccessTemplate_CascadeDelete')
+BEGIN
+	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CardDoor_AccessTemplate]') AND parent_object_id = OBJECT_ID(N'[dbo].[CardDoor]'))
+	ALTER TABLE [dbo].[CardDoor] DROP CONSTRAINT [FK_CardDoor_AccessTemplate]
+
+	ALTER TABLE [dbo].[CardDoor] WITH NOCHECK ADD  CONSTRAINT [FK_CardDoor_AccessTemplate] FOREIGN KEY([AccessTemplateUID])
+	REFERENCES [dbo].[AccessTemplate] ([Uid])
+	ON DELETE CASCADE
+	NOT FOR REPLICATION 
+
+	INSERT INTO Patches (Id) VALUES ('FK_CardDoor_AccessTemplate_CascadeDelete')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_FK_Journal_Card')
+BEGIN
+	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Journal_Card]') AND parent_object_id = OBJECT_ID(N'[dbo].[Journal]'))
+	ALTER TABLE [dbo].[Journal] DROP CONSTRAINT [FK_Journal_Card]
+
+	INSERT INTO Patches (Id) VALUES ('Drop_FK_Journal_Card')
+END
+GO

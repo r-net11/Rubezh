@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_isTimerEnabled = value;
-				OnPropertyChanged("IsTimerEnabled");
+				OnPropertyChanged(() => IsTimerEnabled);
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_timeLeft = value;
-				OnPropertyChanged("TimeLeft");
+				OnPropertyChanged(() => TimeLeft);
 
 				if (TimeLeft <= 0)
 				{

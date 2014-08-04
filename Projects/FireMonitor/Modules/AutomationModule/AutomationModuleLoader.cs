@@ -6,6 +6,9 @@ using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using FiresecAPI;
+using System;
+using Infrastructure.Common.Windows;
 
 namespace AutomationModule
 {
@@ -50,6 +53,29 @@ namespace AutomationModule
 		}
 		public override void Dispose()
 		{
+		}
+
+		public override void AfterInitialize()
+		{
+			SafeFiresecService.AutomationEvent -= new Action<AutomationCallbackResult>(OnAutomationCallback);
+			SafeFiresecService.AutomationEvent += new Action<AutomationCallbackResult>(OnAutomationCallback);
+		}
+
+		void OnAutomationCallback(AutomationCallbackResult automationCallbackResult)
+		{
+			ApplicationService.Invoke(() =>
+			{
+				switch (automationCallbackResult.AutomationCallbackType)
+				{
+					case AutomationCallbackType.Sound:
+						var soundUID = automationCallbackResult.SoundUID;
+						break;
+
+					case AutomationCallbackType.Message:
+						var message = automationCallbackResult.Message;
+						break;
+				}
+			});
 		}
 	}
 }

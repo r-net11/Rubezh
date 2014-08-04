@@ -77,7 +77,8 @@
     <Compile Include="ViewModels\DoorConfigurationViewModel.cs" />
     <Compile Include="ViewModels\DoorItemViewModel.cs" />
     <Compile Include="ViewModels\JournalItemViewModel.cs" />
-    <Compile Include="ViewModels\JournalViewModel.cs" />
+    <Compile Include="ViewModels\NativeJournalViewModel.cs" />
+    <Compile Include="ViewModels\LogItemsViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PasswordsViewModel.cs" />
     <Compile Include="ViewModels\PasswordViewModel.cs" />
@@ -85,8 +86,7 @@
     <Compile Include="ViewModels\HolidayViewModel.cs" />
     <Compile Include="ViewModels\TimeShedulesViewModel.cs" />
     <Compile Include="ViewModels\TimeSheduleViewModel.cs" />
-    <Compile Include="ViewModels\CardRecsViewModel.cs" />
-    <Compile Include="ViewModels\CardRecViewModel.cs" />
+    <Compile Include="ViewModels\JournalViewModel.cs" />
     <Compile Include="Views\CardsView.xaml.cs">
       <DependentUpon>CardsView.xaml</DependentUpon>
     </Compile>
@@ -104,6 +104,9 @@
     <Compile Include="Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LogItemsView.xaml.cs">
+      <DependentUpon>LogItemsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PasswordsView.xaml.cs">
       <DependentUpon>PasswordsView.xaml</DependentUpon>
     </Compile>
@@ -113,8 +116,8 @@
     <Compile Include="Views\TimeShedulesView.xaml.cs">
       <DependentUpon>TimeShedulesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardRecsView.xaml.cs">
-      <DependentUpon>CardRecsView.xaml</DependentUpon>
+    <Compile Include="Views\NativeJournalView.xaml.cs">
+      <DependentUpon>NativeJournalView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\CardsView.xaml">
       <SubType>Designer</SubType>
@@ -133,6 +136,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\JournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LogItemsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,7 +167,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardRecsView.xaml">
+    <Page Include="Views\NativeJournalView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

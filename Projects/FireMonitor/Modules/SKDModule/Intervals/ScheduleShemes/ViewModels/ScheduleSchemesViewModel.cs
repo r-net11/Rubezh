@@ -33,6 +33,8 @@ namespace SKDModule.ViewModels
 		public void Initialize()
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var filter = new ScheduleSchemeFilter()
 			{
 				UserUID = FiresecManager.CurrentUser.UID,
@@ -58,7 +60,7 @@ namespace SKDModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged("Organisations");
+			OnPropertyChanged(() => Organisations);
 			SelectedScheduleScheme = Organisations.FirstOrDefault();
 		}
 		public override void OnShow()
@@ -119,7 +121,7 @@ namespace SKDModule.ViewModels
 					value.ExpandToThis();
 					value.Initialize();
 				}
-				OnPropertyChanged("SelectedScheduleScheme");
+				OnPropertyChanged(() => SelectedScheduleScheme);
 			}
 		}
 
@@ -208,7 +210,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanCopy()
 		{
-			return SelectedScheduleScheme != null;
+			return SelectedScheduleScheme != null && !SelectedScheduleScheme.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
@@ -228,12 +230,13 @@ namespace SKDModule.ViewModels
 		}
 		bool CanPaste()
 		{
-			return _clipboard != null;
+			return SelectedScheduleScheme != null && _clipboard != null && _clipboard.Type == Type;
 		}
 
 		private ScheduleScheme CopyScheduleScheme(ScheduleScheme source, bool newName = true)
 		{
 			var copy = new ScheduleScheme();
+			copy.Type = Type;
 			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
 			copy.Description = source.Description;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;

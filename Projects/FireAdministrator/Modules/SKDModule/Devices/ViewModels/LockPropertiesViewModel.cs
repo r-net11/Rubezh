@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 	{
 		public SKDDevice Device { get; private set; }
 		public LockIntervalsViewModel LockIntervalsViewModel { get; private set; }
+		bool HasChanged { get; set; }
 
 		public LockPropertiesViewModel(SKDDevice device)
 		{
@@ -43,6 +44,7 @@ namespace SKDModule.ViewModels
 
 			SKDManager.InvalidateOneLockConfiguration(device);
 			Update(device.SKDDoorConfiguration);
+			HasChanged = false;
 		}
 
 		void Update(SKDDoorConfiguration doorConfiguration)
@@ -52,13 +54,19 @@ namespace SKDModule.ViewModels
 			SelectedDoorOpenMethod = doorConfiguration.DoorOpenMethod;
 			UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
 			CloseTimeout = doorConfiguration.CloseTimeout;
-			OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
 			HolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
 			IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
 			IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 			IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
 			IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 			IsSensorEnable = doorConfiguration.IsSensorEnable;
+
+			TimeSchedules = new ObservableCollection<SKDWeeklyInterval>();
+			foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
+			{
+				TimeSchedules.Add(weeklyInterval);
+			}
+			SelectedTimeSchedule = TimeSchedules.FirstOrDefault(x => x.ID == doorConfiguration.OpenAlwaysTimeIndex);
 
 			LockIntervalsViewModel = new LockIntervalsViewModel(doorConfiguration);
 			OnPropertyChanged(() => LockIntervalsViewModel);
@@ -74,6 +82,7 @@ namespace SKDModule.ViewModels
 			{
 				_selectedAccessMode = value;
 				OnPropertyChanged(() => SelectedAccessMode);
+				HasChanged = true;
 			}
 		}
 
@@ -85,6 +94,7 @@ namespace SKDModule.ViewModels
 			{
 				_selectedAccessState = value;
 				OnPropertyChanged(() => SelectedAccessState);
+				HasChanged = true;
 				CanSelectDoorOpenMethod = value == SKDDoorConfiguration_AccessState.ACCESS_STATE_NORMAL;
 			}
 		}
@@ -101,7 +111,9 @@ namespace SKDModule.ViewModels
 			{
 				_selectedDoorOpenMethod = value;
 				OnPropertyChanged(() => SelectedDoorOpenMethod);
+				HasChanged = true;
 				CanSetTimeIntervals = value == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION;
+				CanSetAlwaysOpen = value != SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION;
 			}
 		}
 
@@ -113,6 +125,7 @@ namespace SKDModule.ViewModels
 			{
 				_canSelectDoorOpenMethod = value;
 				OnPropertyChanged(() => CanSelectDoorOpenMethod);
+				HasChanged = true;
 			}
 		}
 
@@ -124,6 +137,19 @@ namespace SKDModule.ViewModels
 			{
 				_canSetTimeIntervals = value;
 				OnPropertyChanged(() => CanSetTimeIntervals);
+				HasChanged = true;
+			}
+		}
+
+		bool _canSetAlwaysOpen;
+		public bool CanSetAlwaysOpen
+		{
+			get { return _canSetAlwaysOpen; }
+			set
+			{
+				_canSetAlwaysOpen = value;
+				OnPropertyChanged(() => CanSetAlwaysOpen);
+				HasChanged = true;
 			}
 		}
 
@@ -135,6 +161,7 @@ namespace SKDModule.ViewModels
 			{
 				_unlockHoldInterval = value;
 				OnPropertyChanged(() => UnlockHoldInterval);
+				HasChanged = true;
 			}
 		}
 
@@ -146,17 +173,7 @@ namespace SKDModule.ViewModels
 			{
 				_closeTimeout = value;
 				OnPropertyChanged(() => CloseTimeout);
-			}
-		}
-
-		int _openAlwaysTimeIndex;
-		public int OpenAlwaysTimeIndex
-		{
-			get { return _openAlwaysTimeIndex; }
-			set
-			{
-				_openAlwaysTimeIndex = value;
-				OnPropertyChanged(() => OpenAlwaysTimeIndex);
+				HasChanged = true;
 			}
 		}
 
@@ -168,6 +185,7 @@ namespace SKDModule.ViewModels
 			{
 				_holidayTimeRecoNo = value;
 				OnPropertyChanged(() => HolidayTimeRecoNo);
+				HasChanged = true;
 			}
 		}
 
@@ -179,6 +197,7 @@ namespace SKDModule.ViewModels
 			{
 				_isBreakInAlarmEnable = value;
 				OnPropertyChanged(() => IsBreakInAlarmEnable);
+				HasChanged = true;
 			}
 		}
 
@@ -190,6 +209,7 @@ namespace SKDModule.ViewModels
 			{
 				_isRepeatEnterAlarmEnable = value;
 				OnPropertyChanged(() => IsRepeatEnterAlarmEnable);
+				HasChanged = true;
 			}
 		}
 
@@ -201,6 +221,7 @@ namespace SKDModule.ViewModels
 			{
 				_isDoorNotClosedAlarmEnable = value;
 				OnPropertyChanged(() => IsDoorNotClosedAlarmEnable);
+				HasChanged = true;
 			}
 		}
 
@@ -212,6 +233,7 @@ namespace SKDModule.ViewModels
 			{
 				_isDuressAlarmEnable = value;
 				OnPropertyChanged(() => IsDuressAlarmEnable);
+				HasChanged = true;
 			}
 		}
 
@@ -223,13 +245,28 @@ namespace SKDModule.ViewModels
 			{
 				_isSensorEnable = value;
 				OnPropertyChanged(() => IsSensorEnable);
+				HasChanged = true;
+			}
+		}
+
+		public ObservableCollection<SKDWeeklyInterval> TimeSchedules { get; private set; }
+
+		SKDWeeklyInterval _selectedTimeSchedule;
+		public SKDWeeklyInterval SelectedTimeSchedule
+		{
+			get { return _selectedTimeSchedule; }
+			set
+			{
+				_selectedTimeSchedule = value;
+				OnPropertyChanged(() => SelectedTimeSchedule);
+				HasChanged = true;
 			}
 		}
 
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
-			var result = FiresecManager.FiresecService.SKDGetDoorConfiguration(Device.UID);
+			var result = FiresecManager.FiresecService.SKDGetDoorConfiguration(Device);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error);
@@ -241,6 +278,7 @@ namespace SKDModule.ViewModels
 				if (doorConfiguration.AccessState == SKDDoorConfiguration_AccessState.ACCESS_STATE_NORMAL && doorConfiguration.DoorOpenMethod == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_UNKNOWN)
 					MessageBoxService.ShowWarning("Неизвестный метод открытия двери");
 				Update(doorConfiguration);
+				HasChanged = false;
 			}
 		}
 
@@ -248,11 +286,15 @@ namespace SKDModule.ViewModels
 		void OnSetDoorConfiguration()
 		{
 			var doorConfiguration = GetModel();
-			var result = FiresecManager.FiresecService.SKDSetDoorConfiguration(Device.UID, doorConfiguration);
+			var result = FiresecManager.FiresecService.SKDSetDoorConfiguration(Device, doorConfiguration);
 			if (result.HasError)
 			{
 				MessageBoxService.ShowWarning(result.Error);
 				return;
+			}
+			else
+			{
+				HasChanged = false;
 			}
 		}
 
@@ -264,7 +306,7 @@ namespace SKDModule.ViewModels
 			doorConfiguration.DoorOpenMethod = SelectedDoorOpenMethod;
 			doorConfiguration.UnlockHoldInterval = UnlockHoldInterval;
 			doorConfiguration.CloseTimeout = CloseTimeout;
-			doorConfiguration.OpenAlwaysTimeIndex = OpenAlwaysTimeIndex;
+			doorConfiguration.OpenAlwaysTimeIndex = SelectedTimeSchedule != null ? SelectedTimeSchedule.ID : -1;
 			doorConfiguration.HolidayTimeRecoNo = HolidayTimeRecoNo;
 			doorConfiguration.IsBreakInAlarmEnable = IsBreakInAlarmEnable;
 			doorConfiguration.IsRepeatEnterAlarmEnable = IsRepeatEnterAlarmEnable;
@@ -277,6 +319,11 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
+			if (HasChanged)
+			{
+				if (!MessageBoxService.ShowConfirmation2("Настройки не записаны в прибор. вы уверены, что хотите закрыть окно без записи в прибор?"))
+					return false;
+			}
 			Device.SKDDoorConfiguration = GetModel();
 			return base.Save();
 		}

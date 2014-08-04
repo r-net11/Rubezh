@@ -27,6 +27,30 @@
 		<Views:FilterSelectionView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:DeviceSelectionViewModel}">
+		<Views:DeviceSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SKDDeviceSelectionViewModel}">
+		<Views:SKDDeviceSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ZoneSelectionViewModel}">
+		<Views:ZoneSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:GuardZoneSelectionViewModel}">
+		<Views:GuardZoneSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DirectionSelectionViewModel}">
+		<Views:DirectionSelectionView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DoorSelectionViewModel}">
+		<Views:DoorSelectionView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="soundsTemplate">
 		<Views:SoundStepView />
 	</DataTemplate>
@@ -63,6 +87,42 @@
 		<Views:ExitStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="personInspectionTemplate">
+		<Views:PersonInspectionStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="setGlobalValueTemplate">
+		<Views:SetGlobalValueStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="incrementGlobalValueTemplate">
+		<Views:IncrementGlobalValueStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlGKDeviceTemplate">
+		<Views:ControlGKDeviceStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlSKDDeviceTemplate">
+		<Views:ControlSKDDeviceStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlGKFireZoneTemplate">
+		<Views:ControlGKFireZoneStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlGKGuardZoneTemplate">
+		<Views:ControlGKGuardZoneStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlDirectionTemplate">
+		<Views:ControlDirectionStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="controlDoorTemplate">
+		<Views:ControlDoorStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
@@ -73,6 +133,15 @@
 		PauseTemplate="{StaticResource pauseTemplate}"
 		ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
 		ExitTemplate="{StaticResource exitTemplate}"
+		PersonInspectionTemplate="{StaticResource personInspectionTemplate}"
+		SetGlobalValueTemplate="{StaticResource setGlobalValueTemplate}"
+		IncrementGlobalValueTemplate="{StaticResource incrementGlobalValueTemplate}"
+		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
+		ControlSKDDeviceTemplate="{StaticResource controlSKDDeviceTemplate}"
+		ControlGKFireZoneTemplate="{StaticResource controlGKFireZoneTemplate}"
+		ControlGKGuardZoneTemplate="{StaticResource controlGKGuardZoneTemplate}"
+		ControlDirectionTemplate="{StaticResource controlDirectionTemplate}"
+		ControlDoorTemplate="{StaticResource controlDoorTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

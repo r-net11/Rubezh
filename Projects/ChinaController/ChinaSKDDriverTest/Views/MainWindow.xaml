@@ -14,9 +14,6 @@
             <TabItem Header="Карты" DataContext="{Binding CardsViewModel}">
                 <Views:CardsView />
             </TabItem>
-            <TabItem Header="Карты Rec" DataContext="{Binding CardRecsViewModel}">
-                <Views:CardRecsView />
-            </TabItem>
             <TabItem Header="Пароли" DataContext="{Binding PasswordsViewModel}">
                 <Views:PasswordsView />
             </TabItem>
@@ -32,17 +29,23 @@
             <TabItem Header="Журнал" DataContext="{Binding JournalViewModel}">
                 <Views:JournalView />
             </TabItem>
+            <TabItem Header="Нативный журнал" DataContext="{Binding NativeJournalViewModel}">
+                <Views:NativeJournalView />
+            </TabItem>
             <TabItem Header="Общее" DataContext="{Binding CommonViewModel}">
                 <Views:CommonView />
             </TabItem>
             <TabItem Header="Соединение">
                 <StackPanel>
-                    <Button Content="Connect" Click="OnConnect" Width="300" Margin="2" />
-                    <Button Content="Disconnect" Click="OnDisconnect" Width="300" Margin="2" />
+                    <Button Content="Connect" Command="{Binding ConnectCommand}" Width="300" Margin="2" />
+                    <Button Content="Disconnect" Command="{Binding DisconnectCommand}" Width="300" Margin="2" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Конфигурация двери" DataContext="{Binding DoorConfigurationViewModel}">
                 <Views:DoorConfigurationView />
+            </TabItem>
+            <TabItem Header="Архив" DataContext="{Binding LogItemsViewModel}">
+                <Views:LogItemsView />
             </TabItem>
         </TabControl>
 

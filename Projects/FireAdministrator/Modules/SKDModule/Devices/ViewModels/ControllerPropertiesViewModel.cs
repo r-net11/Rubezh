@@ -10,6 +10,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure;
 using System.ComponentModel;
 using Infrastructure.Events;
+using System.Threading;
 
 namespace SKDModule.ViewModels
 {
@@ -18,76 +19,16 @@ namespace SKDModule.ViewModels
 		public SKDDevice Device { get; private set; }
 		public SKDDeviceInfo DeviceInfo { get; private set; }
 
-		public ControllerPropertiesViewModel(SKDDevice device)
+		public ControllerPropertiesViewModel(SKDDevice device, SKDDeviceInfo deviceInfo)
 		{
 			Title = "Конфигурация контроллера";
 			Device = device;
-			GetPasswordCommand = new RelayCommand(OnGetPassword);
-			SetPasswordCommand = new RelayCommand(OnSetPassword);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime);
 			ResetCommand = new RelayCommand(OnReset);
 			RebootCommand = new RelayCommand(OnReboot);
+			RewriteAllCardsCommand = new RelayCommand(OnRewriteAllCards);
 
-			var deviceInfoResult = FiresecManager.FiresecService.SKDGetDeviceInfo(Device);
-			if (deviceInfoResult.HasError)
-			{
-				Close(true);
-				MessageBoxService.ShowWarning(deviceInfoResult.Error, "Нет связи с устройством");
-				return;
-			}
-			else
-			{
-				DeviceInfo = deviceInfoResult.Result;
-			}
-
-			var passwordResult = FiresecManager.FiresecService.SKDGetPassword(Device.UID);
-			if (passwordResult.HasError)
-			{
-				Close(true);
-				MessageBoxService.ShowWarning(deviceInfoResult.Error, "Нет связи с устройством");
-				return;
-			}
-			else
-			{
-				Password = passwordResult.Result;
-			}
-		}
-
-		string _password;
-		public string Password
-		{
-			get { return _password; }
-			set
-			{
-				_password = value;
-				OnPropertyChanged(() => Password);
-			}
-		}
-
-		public RelayCommand GetPasswordCommand { get; private set; }
-		void OnGetPassword()
-		{
-			var result = FiresecManager.FiresecService.SKDGetPassword(Device.UID);
-			if (result.HasError)
-			{
-				MessageBoxService.ShowWarning(result.Error);
-				return;
-			}
-			else
-			{
-				Password = result.Result;
-			}
-		}
-
-		public RelayCommand SetPasswordCommand { get; private set; }
-		void OnSetPassword()
-		{
-			var result = FiresecManager.FiresecService.SKDSetPassword(Device.UID, Password);
-			if (result.HasError)
-			{
-				MessageBoxService.ShowWarning(result.Error);
-				return;
-			}
+			DeviceInfo = deviceInfo;
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
@@ -100,7 +41,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции синхронизации времени");
+				MessageBoxService.ShowWarning("Ошибка во время операции синхронизации времени", result.Error);
 			}
 		}
 
@@ -114,7 +55,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции");
+				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
 			}
 		}
 
@@ -128,8 +69,28 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarning(result.Error, "Ошибка во время операции");
+				MessageBoxService.ShowWarning("Ошибка во время операции", result.Error);
 			}
+		}
+
+		public RelayCommand RewriteAllCardsCommand { get; private set; }
+		void OnRewriteAllCards()
+		{
+			var thread = new Thread(() =>
+			{
+				var result = FiresecManager.FiresecService.SKDRewriteAllCards(Device);
+
+				ApplicationService.Invoke(new Action(() =>
+				{
+					if (result.HasError)
+					{
+						LoadingService.Close();
+						MessageBoxService.ShowWarning(result.Error);
+					}
+				}));
+			});
+			thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
+			thread.Start();
 		}
 	}
 }

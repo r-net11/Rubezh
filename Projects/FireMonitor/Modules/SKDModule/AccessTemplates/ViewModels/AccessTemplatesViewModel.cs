@@ -26,8 +26,11 @@ namespace SKDModule.ViewModels
 		public void Initialize(AccessTemplateFilter filter)
 		{
 			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
 			var accessTemplates = AccessTemplateHelper.Get(filter);
-
+			if (accessTemplates == null)
+				return;
 			AllAccessTemplates = new List<AccessTemplateViewModel>();
 			Organisations = new List<AccessTemplateViewModel>();
 			foreach (var organisation in organisations)
@@ -166,13 +169,14 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanCopy()
 		{
-			return SelectedAccessTemplate != null;
+			return SelectedAccessTemplate != null && !SelectedAccessTemplate.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
 		private void OnPaste()
 		{
 			var newAccessTemplate = CopyAccessTemplate(_clipboard);
+			newAccessTemplate.CardDoors.ForEach(x => x.AccessTemplateUID = newAccessTemplate.UID);
 			if (AccessTemplateHelper.Save(newAccessTemplate))
 			{
 				var accessTemplateViewModel = new AccessTemplateViewModel(SelectedAccessTemplate.Organisation, newAccessTemplate);
@@ -186,7 +190,7 @@ namespace SKDModule.ViewModels
 		}
 		private bool CanPaste()
 		{
-			return _clipboard != null;
+			return SelectedAccessTemplate != null && _clipboard != null;
 		}
 
 		AccessTemplate CopyAccessTemplate(AccessTemplate source, bool newName = true)
@@ -195,6 +199,18 @@ namespace SKDModule.ViewModels
 			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
 			copy.Description = source.Description;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
+			foreach (var cardDoor in source.CardDoors)
+			{
+				var copyCardDoor = new CardDoor();
+				copyCardDoor.DoorUID = cardDoor.DoorUID;
+				copyCardDoor.EnterIntervalType = cardDoor.EnterIntervalType;
+				copyCardDoor.EnterIntervalID = cardDoor.EnterIntervalID;
+				copyCardDoor.ExitIntervalType = cardDoor.ExitIntervalType;
+				copyCardDoor.ExitIntervalID = cardDoor.ExitIntervalID;
+				copyCardDoor.CardUID = null;
+				copyCardDoor.AccessTemplateUID = null;
+				copy.CardDoors.Add(copyCardDoor);
+			}
 			return copy;
 		}
 	}

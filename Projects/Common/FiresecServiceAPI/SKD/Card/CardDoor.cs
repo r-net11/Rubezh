@@ -10,12 +10,6 @@ namespace FiresecAPI.SKD
 		public Guid DoorUID { get; set; }
 
 		[DataMember]
-		public bool IsAntiPassback { get; set; }
-
-		[DataMember]
-		public bool IsComission { get; set; }
-
-		[DataMember]
 		public IntervalType EnterIntervalType { get; set; }
 
 		[DataMember]
@@ -28,6 +22,9 @@ namespace FiresecAPI.SKD
 		public int ExitIntervalID { get; set; }
 
 		[DataMember]
-		public Guid? ParentUID { get; set; }
+		public Guid? CardUID { get; set; }
+
+		[DataMember]
+		public Guid? AccessTemplateUID { get; set; }
 	}
 }

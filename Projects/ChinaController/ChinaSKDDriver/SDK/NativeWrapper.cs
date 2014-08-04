@@ -14,7 +14,7 @@ namespace ChinaSKDDriverNativeApi
 		public static extern void WRAP_Deinitialize();
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_Connect(string ipAddress, int port, string userName, string password);
+		public static extern int WRAP_Connect(string ipAddress, int port, string userName, string password, out int error);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_Disconnect(int loginID);
@@ -180,30 +180,6 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_SetCurrentTime(int loginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond);
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct WRAP_LogItem
-		{
-			public int nLogType;
-			public DHDEVTIME stuOperateTime;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 16)]
-			public string szOperator;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-			public string szOperation;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 4 * 1024)]
-			public string szDetailContext;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct WRAP_Dev_QueryLogList_Result
-		{
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
-			public WRAP_LogItem[] Logs;
-			public int Test;
-		}
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_QueryLogList(int loginID, out WRAP_Dev_QueryLogList_Result result);
-
-		[StructLayout(LayoutKind.Sequential)]
 		public struct WRAP_GeneralConfig_Password
 		{
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
@@ -266,9 +242,6 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_DeleteCfgFile(int loginID);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_GetLogCount(int loginID, ref QUERY_DEVICE_LOG_PARAM logParam);
-
-		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_OpenDoor(int loginID, int channelNo);
 
 		[DllImport(@"CPPWrapper.dll")]
@@ -276,6 +249,9 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_GetDoorStatus(int loginID, int channelNo);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_Upgrade(int loginID, string fileName);
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool TestStruct(IntPtr result);
@@ -378,76 +354,6 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern int WRAP_GetAllCount(int finderID);
-		#endregion
-
-		#region CardRecs
-		public enum NET_ACCESS_DOOROPEN_METHOD
-		{
-			[DescriptionAttribute("Неизвестно")]
-			NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
-
-			[DescriptionAttribute("Пароль")]
-			NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
-
-			[DescriptionAttribute("карта")]
-			NET_ACCESS_DOOROPEN_METHOD_CARD,
-
-			[DescriptionAttribute("Сначала карта")]
-			NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
-
-			[DescriptionAttribute("Сначала пароль")]
-			NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
-
-			[DescriptionAttribute("Удаленно")]
-			NET_ACCESS_DOOROPEN_METHOD_REMOTE,
-
-			[DescriptionAttribute("Кнопка")]
-			NET_ACCESS_DOOROPEN_METHOD_BUTTON,
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct NET_RECORDSET_ACCESS_CTL_CARDREC
-		{
-			public int dwSize;
-			public int nRecNo;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-			public string szCardNo;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
-			public string szPwd;
-			public NET_TIME stuTime;
-			public bool bStatus;
-			public NET_ACCESS_DOOROPEN_METHOD emMethod;
-			public int nDoor;
-		}
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_Insert_CardRec(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Update_CardRec(int loginID, ref NET_RECORDSET_ACCESS_CTL_CARDREC nativeCardRec);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Remove_CardRec(int loginID, int recordNo);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_RemoveAll_CardRecs(int loginID);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_Get_CardRec_Info(int loginID, int recordNo, IntPtr result);
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CardRecsCollection
-		{
-			public int Count;
-			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
-			public NET_RECORDSET_ACCESS_CTL_CARDREC[] CardRecs;
-		}
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_BeginGetAll_CardRecs(int loginID, ref int finderID);
-
-		[DllImport(@"CPPWrapper.dll")]
-		public static extern int WRAP_GetAll_CardRecs(int finderID, IntPtr result);
 		#endregion
 
 		#region Passwords
@@ -572,6 +478,38 @@ namespace ChinaSKDDriverNativeApi
 		public static extern bool WRAP_SetTimeSchedule(int loginID, int index, ref CFG_ACCESS_TIMESCHEDULE_INFO param);
 		#endregion
 
+		#region Logs
+		public struct WRAP_NET_LOG_INFO
+		{
+			public NET_TIME stuTime;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szUserName;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szLogType;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1024)]
+			public string szLogMessage;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_Dev_QueryLogList_Result
+		{
+			[MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+			public WRAP_NET_LOG_INFO[] Logs;
+		}
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_GetLogCount(int loginID, ref QUERY_DEVICE_LOG_PARAM logParam);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_QueryStart(int loginID);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern int WRAP_QueryNext(IntPtr result);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_QueryStop();
+		#endregion
+
 		#region Events
 		public enum NET_ACCESS_CTL_EVENT_TYPE
 		{
@@ -590,6 +528,30 @@ namespace ChinaSKDDriverNativeApi
 			NET_ACCESS_CTL_STATUS_TYPE_UNKNOWN = 0,
 			NET_ACCESS_CTL_STATUS_TYPE_OPEN,
 			NET_ACCESS_CTL_STATUS_TYPE_CLOSE,
+		}
+
+		public enum NET_ACCESS_DOOROPEN_METHOD
+		{
+			[DescriptionAttribute("Неизвестно")]
+			NET_ACCESS_DOOROPEN_METHOD_UNKNOWN = 0,
+
+			[DescriptionAttribute("Пароль")]
+			NET_ACCESS_DOOROPEN_METHOD_PWD_ONLY,
+
+			[DescriptionAttribute("Карта")]
+			NET_ACCESS_DOOROPEN_METHOD_CARD,
+
+			[DescriptionAttribute("Сначала карта")]
+			NET_ACCESS_DOOROPEN_METHOD_CARD_FIRST,
+
+			[DescriptionAttribute("Сначала пароль")]
+			NET_ACCESS_DOOROPEN_METHOD_PWD_FIRST,
+
+			[DescriptionAttribute("Удаленно")]
+			NET_ACCESS_DOOROPEN_METHOD_REMOTE,
+
+			[DescriptionAttribute("Кнопка")]
+			NET_ACCESS_DOOROPEN_METHOD_BUTTON,
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -623,7 +585,7 @@ namespace ChinaSKDDriverNativeApi
 		#endregion
 
 		#region Native
-		//[UnmanagedFunctionPointer(CallingConvention.StdCall)]
+
 		public delegate void fDisConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
 
 		public delegate void fHaveReConnectDelegate(Int32 lLoginID, string pchDVRIP, Int32 nDVRPort, UInt32 dwUser);
@@ -662,6 +624,77 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"dhnetsdk.dll")]
 		public static extern bool CLIENT_Cleanup();
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_EVENT_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDoorName;
+			public NET_TIME stuTime;
+			public NET_ACCESS_CTL_EVENT_TYPE emEventType;
+			public bool bStatus;
+			public NET_ACCESSCTLCARD_TYPE emCardType;
+			public NET_ACCESS_DOOROPEN_METHOD emOpenMethod;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szCardNo;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+			public string szPwd;
+		};
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_NOT_CLOSE_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDoorName;
+			public NET_TIME stuTime;
+			public int nAction;
+		};
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_BREAK_IN_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDoorName;
+			public NET_TIME stuTime;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_REPEAT_ENTER_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDoorName;
+			public NET_TIME stuTime;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_DURESS_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szDoorName;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+			public string szCardNo;
+			public NET_TIME stuTime;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct ALARM_ACCESS_CTL_STATUS_INFO
+		{
+			public int dwSize;
+			public int nDoor;
+			public NET_TIME stuTime;
+			public NET_ACCESS_CTL_STATUS_TYPE emStatus;
+		}
+
 		#endregion
 	}
 }

@@ -27,7 +27,7 @@ namespace LayoutModule.ViewModels
 		}
 		public override IEnumerable<LayoutPartPropertyPageViewModel> PropertyPages
 		{
-			get 
+			get
 			{
 				yield return _imagePage;
 			}

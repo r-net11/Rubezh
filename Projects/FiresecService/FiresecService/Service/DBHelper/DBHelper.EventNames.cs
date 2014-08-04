@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using Common;
+using FiresecAPI;
 using FiresecAPI.Journal;
 
 namespace FiresecService
 {
 	public static partial class DBHelper
 	{
-		public static List<JournalEventNameType> GetDistinctEventNames()
+		public static OperationResult<List<JournalEventNameType>> GetDistinctEventNames()
 		{
-			var result = new List<JournalEventNameType>();
 			try
 			{
+				var result = new List<JournalEventNameType>();
 				lock (locker)
 				{
 					using (var dataContext = new SqlConnection(ConnectionString))
@@ -28,19 +29,21 @@ namespace FiresecService
 						}
 					}
 				}
+				return new OperationResult<List<JournalEventNameType>> { Result = result };
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecService.GetDistinctGKJournalNames");
+				return new OperationResult<List<JournalEventNameType>>(e.Message);
 			}
-			return result;
 		}
 
-		public static List<JournalEventDescriptionType> GetDistinctEventDescriptions()
+		public static OperationResult<List<JournalEventDescriptionType>> GetDistinctEventDescriptions()
 		{
-			var result = new List<JournalEventDescriptionType>();
+			
 			try
 			{
+				var result = new List<JournalEventDescriptionType>();
 				lock (locker)
 				{
 					using (var dataContext = new SqlConnection(ConnectionString))
@@ -55,12 +58,13 @@ namespace FiresecService
 						}
 					}
 				}
+				return new OperationResult<List<JournalEventDescriptionType>> { Result = result };
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "FiresecService.GetDistinctGKJournalNames");
+				return new OperationResult<List<JournalEventDescriptionType>>(e.Message);
 			}
-			return result;
 		}
 
 		public static void UpdateNamesDescriptions(List<JournalItem> journalItems)
@@ -68,8 +72,8 @@ namespace FiresecService
 			try
 			{
 				var commands = new List<string>();
-				var eventNames = GetDistinctEventNames();
-				var eventDescription = GetDistinctEventDescriptions();
+				var eventNames = GetDistinctEventNames().Result;
+				var eventDescription = GetDistinctEventDescriptions().Result;
 				foreach (var item in journalItems)
 				{
 					var name = item.JournalEventNameType;

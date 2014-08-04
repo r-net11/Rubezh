@@ -70,7 +70,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_isZone = value;
-				OnPropertyChanged("IsZone");
+				OnPropertyChanged(() => IsZone);
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_isDevice = value;
-				OnPropertyChanged("IsDevice");
+				OnPropertyChanged(() => IsDevice);
 			}
 		}
 
@@ -155,7 +155,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_failureColor = value;
-				OnPropertyChanged("FailureColor");
+				OnPropertyChanged(() => FailureColor);
 			}
 		}
 
@@ -166,7 +166,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_connectionColor = value;
-				OnPropertyChanged("ConnectionColor");
+				OnPropertyChanged(() => ConnectionColor);
 			}
 		}
 
@@ -177,7 +177,7 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(zonesSelectionViewModel))
 			{
 				Zones = zonesSelectionViewModel.Zones;
-				OnPropertyChanged("PresenrationZones");
+				OnPropertyChanged(() => PresenrationZones);
 			}
 		}
 

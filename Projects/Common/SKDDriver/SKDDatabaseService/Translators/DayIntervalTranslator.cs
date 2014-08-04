@@ -26,9 +26,10 @@ namespace SKDDriver.Translators
 			result = result.And(e => filter.ScheduleSchemeUIDs.Contains(e.ScheduleSchemeUID));
 			return result;
 		}
-		public override OperationResult MarkDeleted(IEnumerable<DayInterval> items)
+		public override OperationResult MarkDeleted(Guid uid)
 		{
-			foreach (var dayInterval in items)
+			var dayInterval = Table.FirstOrDefault(x => x.UID == uid);
+			if (dayInterval != null)
 			{
 				var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(item => item.UID == dayInterval.ScheduleSchemeUID);
 				if (scheduleScheme != null)
@@ -36,7 +37,7 @@ namespace SKDDriver.Translators
 						if (day.Number > dayInterval.Number)
 							day.Number--;
 			}
-			return base.MarkDeleted(items);
+			return base.MarkDeleted(uid);
 		}
 
 		protected override OperationResult CanSave(DayInterval item)

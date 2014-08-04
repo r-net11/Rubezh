@@ -19,6 +19,9 @@ namespace SKDModule.ViewModels
 					if (doorType == DoorType.TwoWay && (skdDevice.IntAddress % 2) == 1)
 						continue;
 
+					if (skdDevice.Door != null)
+						continue;
+
 					Devices.Add(skdDevice);
 				}
 			}
@@ -34,7 +37,7 @@ namespace SKDModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 

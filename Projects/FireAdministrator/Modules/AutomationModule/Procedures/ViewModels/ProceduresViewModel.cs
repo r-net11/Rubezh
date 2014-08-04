@@ -44,7 +44,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_procedures = value;
-				OnPropertyChanged("Procedures");
+				OnPropertyChanged(() => Procedures);
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace AutomationModule.ViewModels
 				_selectedProcedure = value;
 				if (value != null)
 					value.StepsViewModel.SelectedStep = value.StepsViewModel.AllSteps.FirstOrDefault();
-				OnPropertyChanged("SelectedProcedure");
+				OnPropertyChanged(() => SelectedProcedure);
 			}
 		}
 
@@ -144,8 +144,10 @@ namespace AutomationModule.ViewModels
 
 		public override void OnShow()
 		{
+			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if (SelectedProcedure != null)
 				SelectedProcedure.StepsViewModel.UpdateContent();
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			base.OnShow();
 		}
 
