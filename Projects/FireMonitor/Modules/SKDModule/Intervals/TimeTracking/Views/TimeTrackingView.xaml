@@ -10,7 +10,7 @@
 			<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
 			<ToolBarButton Command="{Binding PrintCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать" />
 		</StackPanel>
-		<DataGrid x:Name="grid" Grid.Row="1" Margin="0 4 0 0" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}">
+        <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" RowHeight="50" Margin="0 4 0 0">
 			<DataGrid.Columns>
 				<DataGridTextColumn Binding="{Binding Model.LastName}" Header="Фамилия" />
 				<DataGridTextColumn Binding="{Binding Model.FirstName}" Header="Имя" />

@@ -255,23 +255,6 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
-		public OperationResult<List<EmployeeTimeTrack>> GetTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
-		{
-			try
-			{
-				var timeTracks = new List<EmployeeTimeTrack>();
-				for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
-				{
-					timeTracks.Add(GetTimeTrack(employeeUID, date));
-				}
-				return new OperationResult<List<EmployeeTimeTrack>> { Result = timeTracks };
-			}
-			catch (Exception e)
-			{
-				return new OperationResult<List<EmployeeTimeTrack>>(e.Message);
-			}
-		}
-
 		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
 		{
 			try
@@ -294,6 +277,23 @@ namespace SKDDriver
 			catch (Exception e)
 			{
 				return new OperationResult(e.Message);
+			}
+		}
+
+		public OperationResult<List<EmployeeTimeTrack>> GetTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
+		{
+			try
+			{
+				var timeTracks = new List<EmployeeTimeTrack>();
+				for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+				{
+					timeTracks.Add(GetTimeTrack(employeeUID, date));
+				}
+				return new OperationResult<List<EmployeeTimeTrack>> { Result = timeTracks };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<List<EmployeeTimeTrack>>(e.Message);
 			}
 		}
 
@@ -344,7 +344,6 @@ namespace SKDDriver
 			var day = days.FirstOrDefault(x => x.Number == dayNo && !x.IsDeleted);
 			if (day == null)
 				return new EmployeeTimeTrack();
-			var nIs = Context.NamedIntervals.ToList();
 			var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID && !x.IsDeleted);
 			if (namedInterval == null)
 				return new EmployeeTimeTrack();
@@ -375,6 +374,11 @@ namespace SKDDriver
 							totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - Math.BigMul(interval.BeginTime, 10000000)));
 						}
 					}
+
+					var employeeTimeTrackPart = new EmployeeTimeTrackPart();
+					employeeTimeTrackPart.StartTime = passJournal.EnterTime;
+					employeeTimeTrackPart.EndTime = passJournal.ExitTime;
+					timeTrack.EmployeeTimeTrackParts.Add(employeeTimeTrackPart);
 				}
 			}
 
