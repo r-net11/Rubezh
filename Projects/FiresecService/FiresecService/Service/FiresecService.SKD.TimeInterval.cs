@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.EmployeeTimeIntervals;
 using SKDDriver;
+using System;
 
 namespace FiresecService.Service
 {
@@ -10,78 +11,78 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.NamedIntervalTranslator.Get(filter);
 		}
-		public FiresecAPI.OperationResult SaveNamedIntervals(IEnumerable<NamedInterval> items)
+		public FiresecAPI.OperationResult SaveNamedInterval(NamedInterval item)
 		{
-			return SKDDatabaseService.NamedIntervalTranslator.Save(items);
+			return SKDDatabaseService.NamedIntervalTranslator.Save(item);
 		}
-		public FiresecAPI.OperationResult MarkDeletedNamedIntervals(IEnumerable<NamedInterval> items)
+		public FiresecAPI.OperationResult MarkDeletedNamedInterval(Guid uid)
 		{
-			return SKDDatabaseService.NamedIntervalTranslator.MarkDeleted(items);
+			return SKDDatabaseService.NamedIntervalTranslator.MarkDeleted(uid);
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<TimeInterval>> GetTimeIntervals(TimeIntervalFilter filter)
 		{
 			return SKDDatabaseService.TimeIntervalTranslator.Get(filter);
 		}
-		public FiresecAPI.OperationResult SaveTimeIntervals(IEnumerable<TimeInterval> items)
+		public FiresecAPI.OperationResult SaveTimeInterval(TimeInterval item)
 		{
-			return SKDDatabaseService.TimeIntervalTranslator.Save(items);
+			return SKDDatabaseService.TimeIntervalTranslator.Save(item);
 		}
-		public FiresecAPI.OperationResult MarkDeletedTimeIntervals(IEnumerable<TimeInterval> items)
+		public FiresecAPI.OperationResult MarkDeletedTimeInterval(Guid uid)
 		{
-			return SKDDatabaseService.TimeIntervalTranslator.MarkDeleted(items);
+			return SKDDatabaseService.TimeIntervalTranslator.MarkDeleted(uid);
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
 		{
 			return SKDDatabaseService.HolidayTranslator.Get(filter);
 		}
-		public FiresecAPI.OperationResult SaveHolidays(IEnumerable<Holiday> items)
+		public FiresecAPI.OperationResult SaveHoliday(Holiday item)
 		{
-			return SKDDatabaseService.HolidayTranslator.Save(items);
+			return SKDDatabaseService.HolidayTranslator.Save(item);
 		}
-		public FiresecAPI.OperationResult MarkDeletedHolidays(IEnumerable<Holiday> items)
+		public FiresecAPI.OperationResult MarkDeletedHoliday(Guid uid)
 		{
-			return SKDDatabaseService.HolidayTranslator.MarkDeleted(items);
+			return SKDDatabaseService.HolidayTranslator.MarkDeleted(uid);
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter)
 		{
 			return SKDDatabaseService.ScheduleSchemeTranslator.Get(filter);
 		}
-		public FiresecAPI.OperationResult SaveScheduleSchemes(IEnumerable<ScheduleScheme> items)
+		public FiresecAPI.OperationResult SaveScheduleScheme(ScheduleScheme item)
 		{
-			return SKDDatabaseService.ScheduleSchemeTranslator.Save(items);
+			return SKDDatabaseService.ScheduleSchemeTranslator.Save(item);
 		}
-		public FiresecAPI.OperationResult MarkDeletedScheduleSchemes(IEnumerable<ScheduleScheme> items)
+		public FiresecAPI.OperationResult MarkDeletedScheduleScheme(Guid uid)
 		{
-			return SKDDatabaseService.ScheduleSchemeTranslator.MarkDeleted(items);
+			return SKDDatabaseService.ScheduleSchemeTranslator.MarkDeleted(uid);
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
 		{
 			return SKDDatabaseService.DayIntervalTranslator.Get(filter);
 		}
-		public FiresecAPI.OperationResult SaveDayIntervals(IEnumerable<DayInterval> items)
+		public FiresecAPI.OperationResult SaveDayInterval(DayInterval item)
 		{
-			return SKDDatabaseService.DayIntervalTranslator.Save(items);
+			return SKDDatabaseService.DayIntervalTranslator.Save(item);
 		}
-		public FiresecAPI.OperationResult MarkDeletedDayIntervals(IEnumerable<DayInterval> items)
+		public FiresecAPI.OperationResult MarkDeletedDayInterval(Guid uid)
 		{
-			return SKDDatabaseService.DayIntervalTranslator.MarkDeleted(items);
+			return SKDDatabaseService.DayIntervalTranslator.MarkDeleted(uid);
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter)
 		{
 			return SKDDatabaseService.ScheduleTranslator.Get(filter);
 		}
-		public FiresecAPI.OperationResult SaveSchedules(IEnumerable<Schedule> items)
+		public FiresecAPI.OperationResult SaveSchedule(Schedule item)
 		{
-			return SKDDatabaseService.ScheduleTranslator.Save(items);
+			return SKDDatabaseService.ScheduleTranslator.Save(item);
 		}
-		public FiresecAPI.OperationResult MarkDeletedSchedules(IEnumerable<Schedule> items)
+		public FiresecAPI.OperationResult MarkDeletedSchedule(Guid uid)
 		{
-			return SKDDatabaseService.ScheduleTranslator.MarkDeleted(items);
+			return SKDDatabaseService.ScheduleTranslator.MarkDeleted(uid);
 		}
 		public FiresecAPI.OperationResult<IEnumerable<ShortSchedule>> GetScheduleShortList(ScheduleFilter filter)
 		{
@@ -92,13 +93,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.ScheduleZoneTranslator.Get(filter);
 		}
-		public FiresecAPI.OperationResult SaveScheduleZones(IEnumerable<ScheduleZone> items)
+		public FiresecAPI.OperationResult SaveScheduleZone(ScheduleZone item)
 		{
-			return SKDDatabaseService.ScheduleZoneTranslator.Save(items);
+			return SKDDatabaseService.ScheduleZoneTranslator.Save(item);
 		}
-		public FiresecAPI.OperationResult MarkDeletedScheduleZones(IEnumerable<ScheduleZone> items)
+		public FiresecAPI.OperationResult MarkDeletedScheduleZone(Guid uid)
 		{
-			return SKDDatabaseService.ScheduleZoneTranslator.MarkDeleted(items);
+			return SKDDatabaseService.ScheduleZoneTranslator.MarkDeleted(uid);
 		}
 	}
 }

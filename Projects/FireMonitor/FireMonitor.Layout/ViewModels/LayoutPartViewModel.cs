@@ -23,7 +23,7 @@ namespace FireMonitor.Layout.ViewModels
 		}
 		public string Title
 		{
-			get { return LayoutPartPresenter.Name; }
+			get { return LayoutPart.Title ?? LayoutPartPresenter.Name; }
 		}
 		public string IconSource
 		{

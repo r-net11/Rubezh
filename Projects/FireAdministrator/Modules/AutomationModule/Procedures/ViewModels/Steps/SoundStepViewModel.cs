@@ -30,7 +30,6 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			Sounds = new ObservableCollection<SoundViewModel>();
 			foreach (var sound in FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds)
 			{
@@ -49,7 +48,6 @@ namespace AutomationModule.ViewModels
 				Layouts.Add(soundLayoutViewModel);
 			}
 
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			OnPropertyChanged(() => Layouts);
 			OnPropertyChanged(() => Sounds);
 		}

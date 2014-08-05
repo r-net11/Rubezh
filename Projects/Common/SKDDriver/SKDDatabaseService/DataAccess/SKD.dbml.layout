@@ -1,475 +1,514 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 37, 33.5" name="SKD">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 28.5, 49.25" name="SKD">
   <DataContextMoniker Name="/SKDDataContext" />
   <nestedChildShapes>
-    <classShape Id="2dea0d4d-3337-4697-a2cf-7d360a91f550" absoluteBounds="30.625, 17.375, 2, 1.7535424804687523">
+    <classShape Id="0115d304-399b-4ca5-87f0-830505886bcb" absoluteBounds="6.25, 28.75, 2, 1.9631982421875023">
       <DataClassMoniker Name="/SKDDataContext/AccessTemplate" />
       <nestedChildShapes>
-        <elementListCompartment Id="4eee1dfd-5eed-4635-92ff-ee84390b1ce6" absoluteBounds="30.64, 17.835, 1.9700000000000002, 1.19354248046875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="224906af-79f7-4d91-a08e-7819b8b26e6e" absoluteBounds="6.265, 29.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" absoluteBounds="19, 11.625, 2, 5.3691837565104166">
-      <DataClassMoniker Name="/SKDDataContext/Employee" />
-      <nestedChildShapes>
-        <elementListCompartment Id="1154bcb7-ceb2-49b7-afa1-476758995403" absoluteBounds="19.015, 12.085, 1.9700000000000002, 4.8091837565104161" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(20.849481307165 : 16.9941837565104); (20.849481307165 : 17.2441837565104); (20.3043136770346 : 17.2441837565104); (20.3043136770346 : 16.9941837565104)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_Employee" />
-      <nodes>
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="400555dc-4f53-4a6a-b8b3-e69e14bcb7a5" absoluteBounds="19.25, 18.375, 2, 1.9178898111979201">
-      <DataClassMoniker Name="/SKDDataContext/Position" />
-      <nestedChildShapes>
-        <elementListCompartment Id="dbb9a301-e256-4bce-b0a7-94d2f6cae016" absoluteBounds="19.265, 18.835, 1.9700000000000002, 1.3578898111979165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(19.8352874637707 : 18.375); (19.8352874637707 : 18); (19.8218153458817 : 18); (19.8218153458817 : 16.9941837565104)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Position/Position_Employee" />
-      <nodes>
-        <classShapeMoniker Id="400555dc-4f53-4a6a-b8b3-e69e14bcb7a5" />
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" absoluteBounds="23.5, 23.75, 2, 1.7535424804687523">
-      <DataClassMoniker Name="/SKDDataContext/Organisation" />
-      <nestedChildShapes>
-        <elementListCompartment Id="fda6d076-f916-4414-bd69-389b2823269a" absoluteBounds="23.515, 24.21, 1.9700000000000002, 1.19354248046875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(25.5 : 24.4674099489993); (31.625 : 24.4674099489993); (31.625 : 19.1285424804687)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_AccessTemplate" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="2dea0d4d-3337-4697-a2cf-7d360a91f550" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(24.038721420269 : 23.75); (24.038721420269 : 15.9764998546876); (21.8333333333333 : 15.9764998546876 : JumpStart); (21.6666666666667 : 15.9764998546876 : JumpEnd); (21 : 15.9764998546876)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Employee" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(23.8735220181131 : 23.75); (23.8735220181131 : 19.3838569163313); (21.25 : 19.3838569163313)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Position" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="400555dc-4f53-4a6a-b8b3-e69e14bcb7a5" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="74f12328-df41-4a1b-83f0-63234aaf71b9" absoluteBounds="19.5, 32, 2, 1.2605004882812523">
-      <DataClassMoniker Name="/SKDDataContext/OrganisationDoor" />
-      <nestedChildShapes>
-        <elementListCompartment Id="70bdbe88-c29f-43e9-bcf0-8326f4426045" absoluteBounds="19.515, 32.46, 1.9700000000000002, 0.70050048828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(24.2828551641633 : 25.5035424804687); (24.2828551641633 : 32.6302502441406); (21.5 : 32.6302502441406)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_OrganisationDoor" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="74f12328-df41-4a1b-83f0-63234aaf71b9" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="c856934f-7f1d-4381-b37a-c2d3daecc491" absoluteBounds="19.5, 27.5, 2, 1.2605004882812523">
-      <DataClassMoniker Name="/SKDDataContext/OrganisationUser" />
-      <nestedChildShapes>
-        <elementListCompartment Id="228169ac-5ce2-4c35-8370-61febd166733" absoluteBounds="19.515, 27.96, 1.9700000000000002, 0.70050048828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(23.6601989353174 : 25.5035424804687); (23.6601989353174 : 28.1302502441406); (21.5 : 28.1302502441406)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_OrganisationUser" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="c856934f-7f1d-4381-b37a-c2d3daecc491" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="fa127b39-43d0-4c1c-a0ed-24001187f586" absoluteBounds="19.5, 29.25, 2, 2.2465844726562523">
-      <DataClassMoniker Name="/SKDDataContext/Holiday" />
-      <nestedChildShapes>
-        <elementListCompartment Id="d5caa43c-8b8b-4ffb-a372-64b16cf9364c" absoluteBounds="19.515, 29.71, 1.9700000000000002, 1.68658447265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(24.0879183229008 : 25.5035424804687); (24.0879183229008 : 30.3732922363281); (21.5 : 30.3732922363281)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Holiday" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="fa127b39-43d0-4c1c-a0ed-24001187f586" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="4c474817-c1ce-4f18-8875-d3a7ffb2ff52" absoluteBounds="16, 14.125, 2, 1.5891951497395844">
-      <DataClassMoniker Name="/SKDDataContext/AdditionalColumn" />
-      <nestedChildShapes>
-        <elementListCompartment Id="20ae9ecd-03e1-444b-b81d-2acd2ba65e61" absoluteBounds="16.015, 14.585, 1.9700000000000002, 1.0291951497395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(19 : 14.9195975748698); (18 : 14.9195975748698)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_AdditionalColumn" />
-      <nodes>
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-        <classShapeMoniker Id="4c474817-c1ce-4f18-8875-d3a7ffb2ff52" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="de313975-c684-4f4a-bd39-2fc41309dee4" absoluteBounds="16, 18.5, 2, 2.2465844726562523">
-      <DataClassMoniker Name="/SKDDataContext/AdditionalColumnType" />
-      <nestedChildShapes>
-        <elementListCompartment Id="96996473-5d8d-4cff-a0bf-0868450bb3df" absoluteBounds="16.015, 18.96, 1.9700000000000002, 1.68658447265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(16.637154035447 : 18.5); (16.637154035447 : 15.7141951497396)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/AdditionalColumnType/AdditionalColumnType_AdditionalColumn" />
-      <nodes>
-        <classShapeMoniker Id="de313975-c684-4f4a-bd39-2fc41309dee4" />
-        <classShapeMoniker Id="4c474817-c1ce-4f18-8875-d3a7ffb2ff52" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(23.5 : 24.5219193491945); (17 : 24.5219193491945); (17 : 20.7465844726562)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_AdditionalColumnType" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="de313975-c684-4f4a-bd39-2fc41309dee4" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="3143f6a6-16a7-4c06-9971-71620458f351" absoluteBounds="11.875, 22.5, 2, 2.0822371419270844">
-      <DataClassMoniker Name="/SKDDataContext/Schedule" />
-      <nestedChildShapes>
-        <elementListCompartment Id="fa307554-d183-4781-8bcc-e84e985c8844" absoluteBounds="11.89, 22.96, 1.9700000000000002, 1.5222371419270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(13.14062625 : 22.5); (13.14062625 : 13.4820975748698); (19 : 13.4820975748698)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/SKDDataContext/Schedule/Schedule_Employee" />
-      <nodes>
-        <classShapeMoniker Id="3143f6a6-16a7-4c06-9971-71620458f351" />
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(23.5 : 24.9038393941204); (12.875 : 24.9038393941204); (12.875 : 24.5822371419271)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Schedule" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="3143f6a6-16a7-4c06-9971-71620458f351" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="67878f9e-294d-4459-9d01-f21ca39d8347" absoluteBounds="8.75, 22.625, 2, 1.9178898111979201">
-      <DataClassMoniker Name="/SKDDataContext/ScheduleScheme" />
-      <nestedChildShapes>
-        <elementListCompartment Id="376a2c7a-2f7b-4c73-a1f8-368a8926675c" absoluteBounds="8.765, 23.085, 1.9700000000000002, 1.3578898111979165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(10.75 : 23.583944905599); (11.875 : 23.583944905599)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/ScheduleScheme/ScheduleScheme_Schedule" />
-      <nodes>
-        <classShapeMoniker Id="67878f9e-294d-4459-9d01-f21ca39d8347" />
-        <classShapeMoniker Id="3143f6a6-16a7-4c06-9971-71620458f351" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(23.5 : 25.1887677798253); (10.2169697141419 : 25.1887677798253); (10.2169697141419 : 24.5428898111979)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_ScheduleScheme" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="67878f9e-294d-4459-9d01-f21ca39d8347" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="c90ceeb1-6ad1-4f72-b2fe-915356c28d30" absoluteBounds="8.75, 20, 2, 1.7535424804687523">
+    <classShape Id="42fefceb-c356-4652-8382-d0349a635ae9" absoluteBounds="14.75, 34, 2, 1.9631982421875023">
       <DataClassMoniker Name="/SKDDataContext/ScheduleZone" />
       <nestedChildShapes>
-        <elementListCompartment Id="2f791a50-e134-4c1a-a373-66510837431a" absoluteBounds="8.765, 20.46, 1.9700000000000002, 1.19354248046875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="649ca1ac-ae51-4637-88a5-bfd954faf703" absoluteBounds="14.765, 34.46, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(12.3437475 : 22.5); (12.3437475 : 20.8767712402344); (10.75 : 20.8767712402344)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Schedule/Schedule_ScheduleZone" />
-      <nodes>
-        <classShapeMoniker Id="3143f6a6-16a7-4c06-9971-71620458f351" />
-        <classShapeMoniker Id="c90ceeb1-6ad1-4f72-b2fe-915356c28d30" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="47520656-3dc9-4181-ab3f-40b3a76bca97" absoluteBounds="8.75, 30.375, 2, 1.7535424804687523">
-      <DataClassMoniker Name="/SKDDataContext/Interval" />
+    <classShape Id="5fbd5431-6f90-433b-922d-16a77ef39a2b" absoluteBounds="9, 37.25, 2, 1.7708968098958309">
+      <DataClassMoniker Name="/SKDDataContext/AdditionalColumn" />
       <nestedChildShapes>
-        <elementListCompartment Id="2c8c8472-f1d3-48b2-af88-e4cdec25eb03" absoluteBounds="8.765, 30.835, 1.9700000000000002, 1.19354248046875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="4aeec2f9-9f1b-49db-8cd8-fa78ff4a0f92" absoluteBounds="9.015, 37.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c8d78ce2-356c-4bfc-aa8c-5fe68e6724f3" absoluteBounds="8.75, 27.875, 2, 1.9178898111979201">
-      <DataClassMoniker Name="/SKDDataContext/NamedInterval" />
+    <classShape Id="e1c4af76-ba19-4616-8f9f-037e27590070" absoluteBounds="6.25, 43.25, 2, 2.5401025390625023">
+      <DataClassMoniker Name="/SKDDataContext/AdditionalColumnType" />
       <nestedChildShapes>
-        <elementListCompartment Id="6a8fb06e-22d7-498b-b8b1-ad8e6c5a1ce3" absoluteBounds="8.765, 28.335, 1.9700000000000002, 1.3578898111979165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a5de49a3-272f-47bf-92ee-fe36dc882173" absoluteBounds="6.265, 43.71, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(9.75 : 29.7928898111979); (9.75 : 30.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/NamedInterval/NamedInterval_Interval" />
-      <nodes>
-        <classShapeMoniker Id="c8d78ce2-356c-4bfc-aa8c-5fe68e6724f3" />
-        <classShapeMoniker Id="47520656-3dc9-4181-ab3f-40b3a76bca97" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(23.8739348017545 : 25.5035424804687); (23.8739348017545 : 29.0052502441406); (10.75 : 29.0052502441406)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_NamedInterval" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="c8d78ce2-356c-4bfc-aa8c-5fe68e6724f3" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="bdb5a9ce-3580-4719-8175-aeaeb07e3aa8" absoluteBounds="8.75, 25.5, 2, 1.7535424804687523">
-      <DataClassMoniker Name="/SKDDataContext/Day" />
-      <nestedChildShapes>
-        <elementListCompartment Id="fd226720-6863-4359-b202-5a9cd1c4bbe4" absoluteBounds="8.765, 25.96, 1.9700000000000002, 1.19354248046875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(9.75 : 27.875); (9.75 : 27.2535424804687)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/NamedInterval/NamedInterval_Day" />
-      <nodes>
-        <classShapeMoniker Id="c8d78ce2-356c-4bfc-aa8c-5fe68e6724f3" />
-        <classShapeMoniker Id="bdb5a9ce-3580-4719-8175-aeaeb07e3aa8" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(9.7187475 : 24.5428898111979); (9.7187475 : 25.5)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/ScheduleScheme/ScheduleScheme_Day" />
-      <nodes>
-        <classShapeMoniker Id="67878f9e-294d-4459-9d01-f21ca39d8347" />
-        <classShapeMoniker Id="bdb5a9ce-3580-4719-8175-aeaeb07e3aa8" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="e48d4797-b9ca-4cf6-8609-0397688226ec" absoluteBounds="22.5, 8.125, 2, 2.4109318033854166">
-      <DataClassMoniker Name="/SKDDataContext/Department" />
-      <nestedChildShapes>
-        <elementListCompartment Id="ee9b791f-b204-4b40-8d58-9fc3cf16acb8" absoluteBounds="22.515, 8.585, 1.9700000000000002, 1.8509318033854165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(22.5 : 9.58806190314987); (20.6375278313451 : 9.58806190314987); (20.6375278313451 : 11.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Department/Department_Employee" />
-      <nodes>
-        <classShapeMoniker Id="e48d4797-b9ca-4cf6-8609-0397688226ec" />
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(23.2092307692308 : 8.125); (23.2092307692308 : 7.875); (23.8046153846154 : 7.875); (23.8046153846154 : 8.125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Department/Department_Department" />
-      <nodes>
-        <classShapeMoniker Id="e48d4797-b9ca-4cf6-8609-0397688226ec" />
-        <classShapeMoniker Id="e48d4797-b9ca-4cf6-8609-0397688226ec" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(19.9465694884572 : 11.625); (19.9465694884572 : 9.15356439424631); (22.5 : 9.15356439424631)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_Department" />
-      <nodes>
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-        <classShapeMoniker Id="e48d4797-b9ca-4cf6-8609-0397688226ec" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(20.3109755072957 : 11.625); (20.3109755072957 : 9.400883388008); (22.5 : 9.400883388008)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_Department1" />
-      <nodes>
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-        <classShapeMoniker Id="e48d4797-b9ca-4cf6-8609-0397688226ec" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(24.8325275119384 : 23.75); (24.8325275119384 : 9.33046590169271); (24.5 : 9.33046590169271)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Department" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="e48d4797-b9ca-4cf6-8609-0397688226ec" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="2e3e7efc-4684-4990-8f39-f16051835d41" absoluteBounds="26.75, 17.375, 2, 1.5891951497395844">
-      <DataClassMoniker Name="/SKDDataContext/GuardZone" />
-      <nestedChildShapes>
-        <elementListCompartment Id="b25d6500-1b56-4c45-8799-304b86d57d64" absoluteBounds="26.765, 17.835, 1.9700000000000002, 1.0291951497395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(30.625 : 18.1695975748698); (28.75 : 18.1695975748698)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/AccessTemplate/AccessTemplate_GuardZone" />
-      <nodes>
-        <classShapeMoniker Id="2dea0d4d-3337-4697-a2cf-7d360a91f550" />
-        <classShapeMoniker Id="2e3e7efc-4684-4990-8f39-f16051835d41" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(21 : 14.9280908290365); (21.6666666666667 : 14.9280908290365 : JumpStart); (21.8333333333333 : 14.9280908290365 : JumpEnd); (24.1508184231273 : 14.9280908290365 : JumpStart); (24.3174850897939 : 14.9280908290365 : JumpEnd); (24.7491941786051 : 14.9280908290365 : JumpStart); (24.9158608452717 : 14.9280908290365 : JumpEnd); (27.75 : 14.9280908290365); (27.75 : 17.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_GuardZone" />
-      <nodes>
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-        <classShapeMoniker Id="2e3e7efc-4684-4990-8f39-f16051835d41" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(25.5 : 24.2275846554302); (27.75 : 24.2275846554302); (27.75 : 18.9641951497396)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_GuardZone" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="2e3e7efc-4684-4990-8f39-f16051835d41" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="6a65791c-c810-4896-960d-71f0957b79f1" absoluteBounds="34.625, 5, 2, 0.93180582682291657">
-      <DataClassMoniker Name="/SKDDataContext/Patch" />
-      <nestedChildShapes>
-        <elementListCompartment Id="1b23a86a-5219-466e-a7c8-d275a2893893" absoluteBounds="34.64, 5.46, 1.9700000000000002, 0.37180582682291663" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="0f84adda-3f4f-4c25-a70f-01e856db6322" absoluteBounds="22.5, 11, 2, 1.9178898111979166">
-      <DataClassMoniker Name="/SKDDataContext/Phone" />
-      <nestedChildShapes>
-        <elementListCompartment Id="7113ae0a-03d9-416a-bd4a-8291c96fef9d" absoluteBounds="22.515, 11.46, 1.9700000000000002, 1.3578898111979165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(23.5 : 10.5359318033854); (23.5 : 11)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Department/Department_Phone" />
-      <nodes>
-        <classShapeMoniker Id="e48d4797-b9ca-4cf6-8609-0397688226ec" />
-        <classShapeMoniker Id="0f84adda-3f4f-4c25-a70f-01e856db6322" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(24.2301917427399 : 23.75); (24.2301917427399 : 23.375); (24.2341517564606 : 23.375); (24.2341517564606 : 12.9178898111979)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Phone" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="0f84adda-3f4f-4c25-a70f-01e856db6322" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="e434ab3c-42d4-45ed-a373-332f48faaa65" absoluteBounds="19.375, 21.75, 2, 1.0961531575520844">
-      <DataClassMoniker Name="/SKDDataContext/Photo" />
-      <nestedChildShapes>
-        <elementListCompartment Id="aead999b-aaae-4999-9357-89d2963a40c9" absoluteBounds="19.39, 22.21, 1.9700000000000002, 0.53615315755208326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(19.375 : 22.1968592657235); (18.625 : 22.1968592657235); (18.625 : 16.2401137214765); (19 : 16.2401137214765)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Photo/Photo_Employee" />
-      <nodes>
-        <classShapeMoniker Id="e434ab3c-42d4-45ed-a373-332f48faaa65" />
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(20.3125 : 21.75); (20.3125 : 20.2928898111979)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Photo/Photo_Position" />
-      <nodes>
-        <classShapeMoniker Id="e434ab3c-42d4-45ed-a373-332f48faaa65" />
-        <classShapeMoniker Id="400555dc-4f53-4a6a-b8b3-e69e14bcb7a5" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(20.375 : 22.8461531575521); (20.375 : 24.1607998082032); (23.5 : 24.1607998082032)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Photo/Photo_Organisation" />
-      <nodes>
-        <classShapeMoniker Id="e434ab3c-42d4-45ed-a373-332f48faaa65" />
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(19.375 : 22.5528467356002); (18.375 : 22.5528467356002); (18.375 : 15.3674220263285); (18 : 15.3674220263285)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Photo/Photo_AdditionalColumn" />
-      <nodes>
-        <classShapeMoniker Id="e434ab3c-42d4-45ed-a373-332f48faaa65" />
-        <classShapeMoniker Id="4c474817-c1ce-4f18-8875-d3a7ffb2ff52" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(21.375 : 22.2068971785293); (21.75 : 22.2068971785293); (21.75 : 9.81909060229395); (22.5 : 9.81909060229395)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Photo/Photo_Department" />
-      <nodes>
-        <classShapeMoniker Id="e434ab3c-42d4-45ed-a373-332f48faaa65" />
-        <classShapeMoniker Id="e48d4797-b9ca-4cf6-8609-0397688226ec" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="45691573-a155-42ec-9096-b7ecdb22549d" absoluteBounds="26.5, 27.625, 2, 1.2605004882812523">
-      <DataClassMoniker Name="/SKDDataContext/OrganisationZone" />
-      <nestedChildShapes>
-        <elementListCompartment Id="5fe1acf0-3a9d-4286-9c32-38cad19a77e3" absoluteBounds="26.515, 28.085, 1.9700000000000002, 0.70050048828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(25.261530619733 : 25.5035424804687); (25.261530619733 : 28.5078753662109); (26.5 : 28.5078753662109)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_OrganisationZone" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="45691573-a155-42ec-9096-b7ecdb22549d" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="54d6c8aa-54af-4cb4-b0ae-271098cb85e6" absoluteBounds="34.75, 9.125, 2, 1.4248478190104166">
-      <DataClassMoniker Name="/SKDDataContext/PendingCard" />
-      <nestedChildShapes>
-        <elementListCompartment Id="f8c99342-3eac-48cf-a1e0-d27db371ec85" absoluteBounds="34.765, 9.585, 1.9700000000000002, 0.86484781901041663" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="f28d508a-a4a2-4235-a7ae-a25f0d18e90e" absoluteBounds="26.5, 29.5, 2, 1.2605004882812523">
-      <DataClassMoniker Name="/SKDDataContext/OrganisationCardTemplate" />
-      <nestedChildShapes>
-        <elementListCompartment Id="8ccda1a7-cb27-4950-913d-595672cd6d0b" absoluteBounds="26.515, 29.96, 1.9700000000000002, 0.70050048828125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(25.0453296445445 : 25.5035424804687); (25.0453296445445 : 30.1302502441406); (26.5 : 30.1302502441406)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_OrganisationCardTemplate" />
-      <nodes>
-        <classShapeMoniker Id="886c825a-c80b-4ca4-93b6-89dd5ef7006e" />
-        <classShapeMoniker Id="f28d508a-a4a2-4235-a7ae-a25f0d18e90e" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="f45bdfce-51ae-4f55-b1e3-4a8b980f92ec" absoluteBounds="34.75, 12.25, 2, 2.4109318033854166">
-      <DataClassMoniker Name="/SKDDataContext/CardDoor" />
-      <nestedChildShapes>
-        <elementListCompartment Id="d8e2d34c-ab44-4d7f-92e0-c0d9fd262db3" absoluteBounds="34.765, 12.71, 1.9700000000000002, 1.8509318033854165" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(32.625 : 18.2517712402344); (35.75 : 18.2517712402344); (35.75 : 14.6609318033854)]" fixedFrom="NotFixed" fixedTo="NotFixed">
-      <AssociationMoniker Name="/SKDDataContext/AccessTemplate/AccessTemplate_CardDoor" />
-      <nodes>
-        <classShapeMoniker Id="2dea0d4d-3337-4697-a2cf-7d360a91f550" />
-        <classShapeMoniker Id="f45bdfce-51ae-4f55-b1e3-4a8b980f92ec" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="155d5971-7af3-4c93-b492-c6e7cde38a21" absoluteBounds="30.25, 5.375, 2, 3.0683211263020831">
-      <DataClassMoniker Name="/SKDDataContext/Journal" />
-      <nestedChildShapes>
-        <elementListCompartment Id="d093e8aa-44c1-4055-9ae8-8e83486ee739" absoluteBounds="30.265, 5.835, 1.9700000000000002, 2.508321126302083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="26e0614e-754d-4ac1-a8c6-4af4d52754b4" absoluteBounds="14.75, 11.25, 2, 1.5891951497395831">
-      <DataClassMoniker Name="/SKDDataContext/PassJournal" />
-      <nestedChildShapes>
-        <elementListCompartment Id="f7249d68-c276-4ddf-a169-ac1aaa718581" absoluteBounds="14.765, 11.71, 1.9700000000000002, 1.0291951497395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <associationConnector edgePoints="[(19 : 12.2320975748698); (16.75 : 12.2320975748698)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_PassJournal" />
-      <nodes>
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-        <classShapeMoniker Id="26e0614e-754d-4ac1-a8c6-4af4d52754b4" />
-      </nodes>
-    </associationConnector>
-    <classShape Id="d41f163f-d520-4f8e-8e67-f607ab16d566" absoluteBounds="30.5, 11.125, 2, 3.0683211263020831">
+    <classShape Id="dd771798-ec4a-4118-bcbc-2c5258f825d3" absoluteBounds="20.5, 28.625, 2, 3.1170068359375023">
       <DataClassMoniker Name="/SKDDataContext/Card" />
       <nestedChildShapes>
-        <elementListCompartment Id="d870e64b-fb70-4bb9-b7bc-95a03b150ab1" absoluteBounds="30.515, 11.585, 1.9700000000000002, 2.508321126302083" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="181c3578-db05-4bca-9aca-ba175349087f" absoluteBounds="20.515, 29.085, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(31.5 : 11.125); (31.5 : 9.83742390950521); (34.75 : 9.83742390950521)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/SKDDataContext/Card/Card_PendingCard" />
+    <classShape Id="de7ff888-38f4-4be9-9b76-42eecca9c79c" absoluteBounds="26.25, 28.625, 2, 2.73240397135417">
+      <DataClassMoniker Name="/SKDDataContext/CardDoor" />
+      <nestedChildShapes>
+        <elementListCompartment Id="282a47f1-d806-4637-a7bd-5650c26a1fcf" absoluteBounds="26.265, 29.085, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="71219e80-efae-4cf7-92e5-fd8cb95df161" absoluteBounds="9, 31.375, 2, 1.9631982421875023">
+      <DataClassMoniker Name="/SKDDataContext/Day" />
+      <nestedChildShapes>
+        <elementListCompartment Id="05f96c93-5c6c-4bee-a688-015ed8692c59" absoluteBounds="9.015, 31.835, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e3c36165-eb39-4b31-8faf-8fa8597823e7" absoluteBounds="9.25, 24.125, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/SKDDataContext/Department" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1b345247-8d54-4c75-bfe9-274c60ca3f4a" absoluteBounds="9.265, 24.585, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0796ed06-10ed-4a78-8456-bdb564a53db2" absoluteBounds="14.75, 27.125, 2, 6.1938297526041666">
+      <DataClassMoniker Name="/SKDDataContext/Employee" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6babaab4-d71e-4982-85b5-7ce304913482" absoluteBounds="14.765, 27.585, 1.9700000000000002, 5.6338297526041661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="077e4505-81a5-4ce3-a6b8-29b87a2d5996" absoluteBounds="17.5, 25.875, 2, 2.5401025390625023">
+      <DataClassMoniker Name="/SKDDataContext/EmployeeReplacement" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bc115872-b4a2-454d-ba3d-8edc1ca492d9" absoluteBounds="17.515, 26.335, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="cb6d38e7-6af8-47c3-a255-5b661a594b69" absoluteBounds="0.75, 0.75, 2, 1.0016910807291666">
+      <DataClassMoniker Name="/SKDDataContext/EventDescription" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8f7999a5-485c-4162-8d11-23307902573a" absoluteBounds="0.765, 1.21, 1.9700000000000002, 0.44169108072916669" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0ba08389-977c-421a-a48e-9a5eba14b6d2" absoluteBounds="0.75, 2.75, 2, 1.0016910807291666">
+      <DataClassMoniker Name="/SKDDataContext/EventName" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bf217a2b-d6bb-4d99-943f-6f82ee361663" absoluteBounds="0.765, 3.21, 1.9700000000000002, 0.44169108072916669" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6e40016f-4896-457b-ba05-f6ae45025f19" absoluteBounds="17.5, 29.25, 2, 1.7708968098958309">
+      <DataClassMoniker Name="/SKDDataContext/GuardZone" />
+      <nestedChildShapes>
+        <elementListCompartment Id="204c42d2-4958-4661-9134-88f0e6b4907a" absoluteBounds="17.515, 29.71, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="dc9f3801-4715-4428-947b-d728a567bca3" absoluteBounds="6.25, 46.5, 2, 2.5401025390625023">
+      <DataClassMoniker Name="/SKDDataContext/Holiday" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9482460a-1bc9-468e-9b10-2631c1a38a8b" absoluteBounds="6.265, 46.96, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="caf4b9cf-20ab-440e-afad-6c2bfdc6db92" absoluteBounds="9, 34.25, 2, 1.9631982421875023">
+      <DataClassMoniker Name="/SKDDataContext/Interval" />
+      <nestedChildShapes>
+        <elementListCompartment Id="097d28cb-e8b9-43f3-b726-4c677f3e1d77" absoluteBounds="9.015, 34.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4edcbed2-7f26-4fc7-a69a-17c0cd05925c" absoluteBounds="3.75, 0.75, 2, 3.5016097005208326">
+      <DataClassMoniker Name="/SKDDataContext/Journal" />
+      <nestedChildShapes>
+        <elementListCompartment Id="682640f4-52e7-4cb6-bc28-a38d76234816" absoluteBounds="3.765, 1.21, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="22c2e404-25e1-41ce-abdf-3b53ad54e323" absoluteBounds="6.25, 31.375, 2, 2.155499674479163">
+      <DataClassMoniker Name="/SKDDataContext/NamedInterval" />
+      <nestedChildShapes>
+        <elementListCompartment Id="81604b3e-f508-4251-90e7-bac05fc15b45" absoluteBounds="6.265, 31.835, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" absoluteBounds="3.5, 30.625, 2, 1.9631982421875023">
+      <DataClassMoniker Name="/SKDDataContext/Organisation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9b11cc9a-d5cd-4798-a309-16b2059e258c" absoluteBounds="3.515, 31.085, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a73540e2-082c-478c-8b80-e101e5d164d4" absoluteBounds="6.25, 20.125, 2, 1.3862939453125023">
+      <DataClassMoniker Name="/SKDDataContext/OrganisationCardTemplate" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b1480e30-f6e7-4097-88bb-3aee1727e240" absoluteBounds="6.265, 20.585, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9d2fc726-1771-47a6-8aee-8d1f1fe74812" absoluteBounds="6.25, 22.25, 2, 1.3862939453125023">
+      <DataClassMoniker Name="/SKDDataContext/OrganisationDoor" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2a763492-2051-4c64-9c63-7c130c945d27" absoluteBounds="6.265, 22.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a7c1e0d5-36b0-4c3b-80de-dc581d9a42e0" absoluteBounds="6.25, 24.375, 2, 1.3862939453125023">
+      <DataClassMoniker Name="/SKDDataContext/OrganisationUser" />
+      <nestedChildShapes>
+        <elementListCompartment Id="78c05801-bbb1-4ad2-815c-33c210478f19" absoluteBounds="6.265, 24.835, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f22823d3-97ae-4756-bc71-13f589ea40eb" absoluteBounds="6.25, 26.625, 2, 1.3862939453125023">
+      <DataClassMoniker Name="/SKDDataContext/OrganisationZone" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1f1ea57f-82a9-41b7-a42e-0c0c5609d5be" absoluteBounds="6.265, 27.085, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="a59e6a0a-f89a-4784-ac4f-c3aabf0f0239" absoluteBounds="17.5, 31.75, 2, 1.7708968098958309">
+      <DataClassMoniker Name="/SKDDataContext/PassJournal" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b2234364-f68c-41e6-a3e1-e22a6c5de302" absoluteBounds="17.515, 32.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0b1deed6-bd1a-4c71-980f-9d6c174d6f10" absoluteBounds="0.75, 5.75, 2, 1.0016910807291666">
+      <DataClassMoniker Name="/SKDDataContext/Patch" />
+      <nestedChildShapes>
+        <elementListCompartment Id="492a202d-5619-43bc-8184-a85945e3cdc7" absoluteBounds="0.765, 6.21, 1.9700000000000002, 0.44169108072916669" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="4ae553f2-1aff-42b3-a312-74050f66097a" absoluteBounds="23.25, 29.375, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/SKDDataContext/PendingCard" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7e1c6d72-04d6-42fa-af08-d75b1678ba05" absoluteBounds="23.265, 29.835, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ab22dbeb-5590-47e5-bc1e-63975a948fc2" absoluteBounds="12, 27.25, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/SKDDataContext/Phone" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fdecdcd4-bbad-4820-a330-84fa0b306210" absoluteBounds="12.015, 27.71, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0fe0937e-1f07-4230-9913-491b6f276c49" absoluteBounds="0.75, 28.5, 2, 1.1939925130208309">
+      <DataClassMoniker Name="/SKDDataContext/Photo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1cc5b23e-4872-4ecc-8f08-759ed3861973" absoluteBounds="0.765, 28.96, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c0d980b5-2929-419f-b745-892ca4901b8c" absoluteBounds="9.25, 28.5, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/SKDDataContext/Position" />
+      <nestedChildShapes>
+        <elementListCompartment Id="670e959b-6350-4998-95ee-a511b348486d" absoluteBounds="9.265, 28.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0e77306a-a71c-4f61-ab7f-0595efdf79c0" absoluteBounds="12, 33.875, 2, 2.3478011067708309">
+      <DataClassMoniker Name="/SKDDataContext/Schedule" />
+      <nestedChildShapes>
+        <elementListCompartment Id="818674bf-6b4d-442f-87c2-c9677034c00d" absoluteBounds="12.015, 34.335, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="32ddfb0c-758c-4b6d-8e46-f9f91f6acd30" absoluteBounds="6.25, 37.25, 2, 2.1554996744791595">
+      <DataClassMoniker Name="/SKDDataContext/ScheduleScheme" />
+      <nestedChildShapes>
+        <elementListCompartment Id="26afef5f-8f14-47b7-8c16-4066442963cd" absoluteBounds="6.265, 37.71, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(8.25 : 44.5200512695313); (10 : 44.5200512695313); (10 : 39.0208968098958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/AdditionalColumnType/AdditionalColumnType_AdditionalColumn" />
       <nodes>
-        <classShapeMoniker Id="d41f163f-d520-4f8e-8e67-f607ab16d566" />
-        <classShapeMoniker Id="54d6c8aa-54af-4cb4-b0ae-271098cb85e6" />
+        <classShapeMoniker Id="e1c4af76-ba19-4616-8f9f-037e27590070" />
+        <classShapeMoniker Id="5fbd5431-6f90-433b-922d-16a77ef39a2b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(32.5 : 13.221660563151); (34.75 : 13.221660563151)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/SKDDataContext/Card/Card_CardDoor" />
-      <nodes>
-        <classShapeMoniker Id="d41f163f-d520-4f8e-8e67-f607ab16d566" />
-        <classShapeMoniker Id="f45bdfce-51ae-4f55-b1e3-4a8b980f92ec" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(30.9375 : 11.125); (30.9375 : 8.44332112630208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
-      <AssociationMoniker Name="/SKDDataContext/Card/Card_Journal" />
-      <nodes>
-        <classShapeMoniker Id="d41f163f-d520-4f8e-8e67-f607ab16d566" />
-        <classShapeMoniker Id="155d5971-7af3-4c93-b492-c6e7cde38a21" />
-      </nodes>
-    </associationConnector>
-    <associationConnector edgePoints="[(31.5625 : 17.375); (31.5625 : 14.1933211263021)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.25 : 29.7315991210938); (8.75 : 29.7315991210938); (8.75 : 27.125); (8.91666666666667 : 27.125 : JumpStart); (9.08333333333333 : 27.125 : JumpEnd); (9.87589743589744 : 27.125 : JumpStart); (10.0425641025641 : 27.125 : JumpEnd); (10.4712820512821 : 27.125 : JumpStart); (10.6379487179487 : 27.125 : JumpEnd); (12.9166666666667 : 27.125 : JumpStart); (13.0833333333333 : 27.125 : JumpEnd); (14.25 : 27.125); (14.25 : 26.625); (14.2916666666667 : 26.625 : JumpStart); (14.4583333333333 : 26.625 : JumpEnd); (15.1354141666667 : 26.625 : JumpStart); (15.3020808333333 : 26.625 : JumpEnd); (15.6666666666667 : 26.625 : JumpStart); (15.8333333333333 : 26.625 : JumpEnd); (16.1979191666667 : 26.625 : JumpStart); (16.3645858333333 : 26.625 : JumpEnd); (17 : 26.625); (17 : 28.5401025390625); (17.0416666666667 : 28.5401025390625 : JumpStart); (17.4583333333333 : 28.5401025390625 : JumpEnd); (17.8854146666667 : 28.5401025390625 : JumpStart); (18.0520813333333 : 28.5401025390625 : JumpEnd); (18.4166666666667 : 28.5401025390625 : JumpStart); (18.5833333333333 : 28.5401025390625 : JumpEnd); (20 : 28.5401025390625); (20 : 28.5); (20.1666666666667 : 28.5 : JumpStart); (20.3333333333333 : 28.5 : JumpEnd); (21.5 : 28.5); (21.5 : 28.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/SKDDataContext/AccessTemplate/AccessTemplate_Card" />
       <nodes>
-        <classShapeMoniker Id="2dea0d4d-3337-4697-a2cf-7d360a91f550" />
-        <classShapeMoniker Id="d41f163f-d520-4f8e-8e67-f607ab16d566" />
+        <classShapeMoniker Id="0115d304-399b-4ca5-87f0-830505886bcb" />
+        <classShapeMoniker Id="dd771798-ec4a-4118-bcbc-2c5258f825d3" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(21 : 13.58685546875); (21.6666666666667 : 13.58685546875 : JumpStart); (21.8333333333333 : 13.58685546875 : JumpEnd); (24.1508184231273 : 13.58685546875 : JumpStart); (24.3174850897939 : 13.58685546875 : JumpEnd); (24.7491941786051 : 13.58685546875 : JumpStart); (24.9158608452717 : 13.58685546875 : JumpEnd); (30.5 : 13.58685546875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.25 : 29.2095475605469); (8.66666666666667 : 29.2095475605469 : JumpStart); (8.83333333333333 : 29.2095475605469 : JumpEnd); (9 : 29.2095475605469); (9 : 27); (9.87589743589744 : 27 : JumpStart); (10.0425641025641 : 27 : JumpEnd); (10.4712820512821 : 27 : JumpStart); (10.6379487179487 : 27 : JumpEnd); (12.9166666666667 : 27 : JumpStart); (13.0833333333333 : 27 : JumpEnd); (14.1666666666667 : 27 : JumpStart); (14.4583333333333 : 27 : JumpEnd); (14.5 : 27); (14.5 : 26.875); (14.5416666666667 : 26.875 : JumpStart); (14.7083333333333 : 26.875 : JumpEnd); (15.1354141666667 : 26.875 : JumpStart); (15.3020808333333 : 26.875 : JumpEnd); (15.6666666666667 : 26.875 : JumpStart); (15.8333333333333 : 26.875 : JumpEnd); (16.1979191666667 : 26.875 : JumpStart); (16.3645858333333 : 26.875 : JumpEnd); (16.9166666666667 : 26.875 : JumpStart); (17.2083333333333 : 26.875 : JumpEnd); (17.25 : 26.875); (17.25 : 28.6651025390625); (17.2916666666667 : 28.6651025390625 : JumpStart); (17.4583333333333 : 28.6651025390625 : JumpEnd); (17.8854146666667 : 28.6651025390625 : JumpStart); (18.0520813333333 : 28.6651025390625 : JumpEnd); (18.4166666666667 : 28.6651025390625 : JumpStart); (18.5833333333333 : 28.6651025390625 : JumpEnd); (20.25 : 28.6651025390625); (20.25 : 28.375); (27.25 : 28.375); (27.25 : 28.625)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SKDDataContext/AccessTemplate/AccessTemplate_CardDoor" />
+      <nodes>
+        <classShapeMoniker Id="0115d304-399b-4ca5-87f0-830505886bcb" />
+        <classShapeMoniker Id="de7ff888-38f4-4be9-9b76-42eecca9c79c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(22.5 : 28.96875); (26.25 : 28.96875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/SKDDataContext/Card/Card_CardDoor" />
+      <nodes>
+        <classShapeMoniker Id="dd771798-ec4a-4118-bcbc-2c5258f825d3" />
+        <classShapeMoniker Id="de7ff888-38f4-4be9-9b76-42eecca9c79c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(9.95923076923077 : 26.8574039713542); (9.95923076923077 : 27.3574039713542); (10.5546153846154 : 27.3574039713542); (10.5546153846154 : 26.8574039713542)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Department/Department_Department" />
+      <nodes>
+        <classShapeMoniker Id="e3c36165-eb39-4b31-8faf-8fa8597823e7" />
+        <classShapeMoniker Id="e3c36165-eb39-4b31-8faf-8fa8597823e7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(14.7838451538462 : 33.3188297526042); (14.625 : 33.4776749064503); (14.625 : 38.1354484049479); (11 : 38.1354484049479)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_AdditionalColumn" />
+      <nodes>
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+        <classShapeMoniker Id="5fbd5431-6f90-433b-922d-16a77ef39a2b" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(16.75 : 31.4127018229167); (18.4166666666667 : 31.4127018229167 : JumpStart); (18.5833333333333 : 31.4127018229167 : JumpEnd); (20.5 : 31.4127018229167)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/SKDDataContext/Employee/Employee_Card" />
       <nodes>
-        <classShapeMoniker Id="39e7cfd2-0d0e-4154-a63c-b989a3db4d77" />
-        <classShapeMoniker Id="d41f163f-d520-4f8e-8e67-f607ab16d566" />
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+        <classShapeMoniker Id="dd771798-ec4a-4118-bcbc-2c5258f825d3" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(15.75 : 27.125); (15.75 : 25.375); (11.25 : 25.375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_Department" />
+      <nodes>
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+        <classShapeMoniker Id="e3c36165-eb39-4b31-8faf-8fa8597823e7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(15.2187475 : 27.125); (15.2187475 : 26.0312525); (13.0833333333333 : 26.0312525 : JumpStart); (12.9166666666667 : 26.0312525 : JumpEnd); (11.25 : 26.0312525)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_Department1" />
+      <nodes>
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+        <classShapeMoniker Id="e3c36165-eb39-4b31-8faf-8fa8597823e7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 24.7187475); (16.2812525 : 24.7187475); (16.2812525 : 27.125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Department/Department_Employee" />
+      <nodes>
+        <classShapeMoniker Id="e3c36165-eb39-4b31-8faf-8fa8597823e7" />
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(15.4592307692308 : 33.3188297526042); (15.4592307692308 : 33.5688297526042); (16.0546153846154 : 33.5688297526042); (16.0546153846154 : 33.3188297526042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_Employee" />
+      <nodes>
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 26.32812625); (16.1979191666667 : 26.32812625 : JumpStart); (16.3645858333333 : 26.32812625 : JumpEnd); (17.5 : 26.32812625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Department/Department_EmployeeReplacement" />
+      <nodes>
+        <classShapeMoniker Id="e3c36165-eb39-4b31-8faf-8fa8597823e7" />
+        <classShapeMoniker Id="077e4505-81a5-4ce3-a6b8-29b87a2d5996" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(16.75 : 27.7700512695313); (16.9166666666667 : 27.7700512695313 : JumpStart); (17.4583333333333 : 27.7700512695313 : JumpEnd); (17.5 : 27.7700512695313)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_EmployeeReplacement" />
+      <nodes>
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+        <classShapeMoniker Id="077e4505-81a5-4ce3-a6b8-29b87a2d5996" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(7.25 : 30.7131982421875); (7.25 : 30.9054996744792); (14.2916666666667 : 30.9054996744792 : JumpStart); (14.4583333333333 : 30.9054996744792 : JumpEnd); (14.625 : 30.9054996744792); (14.625 : 26.75); (15.1354141666667 : 26.75 : JumpStart); (15.3020808333333 : 26.75 : JumpEnd); (15.6666666666667 : 26.75 : JumpStart); (15.8333333333333 : 26.75 : JumpEnd); (16.1979191666667 : 26.75 : JumpStart); (16.3645858333333 : 26.75 : JumpEnd); (16.9166666666667 : 26.75 : JumpStart); (17.0833333333333 : 26.75 : JumpEnd); (17.125 : 26.75); (17.125 : 30.1354484049479); (17.5 : 30.1354484049479)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/AccessTemplate/AccessTemplate_GuardZone" />
+      <nodes>
+        <classShapeMoniker Id="0115d304-399b-4ca5-87f0-830505886bcb" />
+        <classShapeMoniker Id="6e40016f-4896-457b-ba05-f6ae45025f19" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(16.75 : 29.630224202474); (17.5 : 29.630224202474)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_GuardZone" />
+      <nodes>
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+        <classShapeMoniker Id="6e40016f-4896-457b-ba05-f6ae45025f19" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.25 : 32.3565991210938); (9 : 32.3565991210938)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/NamedInterval/NamedInterval_Day" />
+      <nodes>
+        <classShapeMoniker Id="22c2e404-25e1-41ce-abdf-3b53ad54e323" />
+        <classShapeMoniker Id="71219e80-efae-4cf7-92e5-fd8cb95df161" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(7.25 : 33.5304996744792); (7.25 : 35.2315991210938); (9 : 35.2315991210938)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/NamedInterval/NamedInterval_Interval" />
+      <nodes>
+        <classShapeMoniker Id="22c2e404-25e1-41ce-abdf-3b53ad54e323" />
+        <classShapeMoniker Id="caf4b9cf-20ab-440e-afad-6c2bfdc6db92" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.5 : 30.625); (4.5 : 29.6874995); (6.25 : 29.6874995)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_AccessTemplate" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="0115d304-399b-4ca5-87f0-830505886bcb" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.5 : 32.5881982421875); (4.5 : 44.5200512695313); (4.94791916666667 : 44.5200512695313 : JumpStart); (5.11458583333333 : 44.5200512695313 : JumpEnd); (6.25 : 44.5200512695313)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_AdditionalColumnType" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="e1c4af76-ba19-4616-8f9f-037e27590070" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.0312525 : 30.625); (5.0312525 : 26.1931469726563); (5.21354541666667 : 26.1931469726563 : JumpStart); (5.38021208333333 : 26.1931469726563 : JumpEnd); (9.25 : 26.1931469726563)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Department" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="e3c36165-eb39-4b31-8faf-8fa8597823e7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 31.1714998372396); (5.91666666666667 : 31.1714998372396 : JumpStart); (6.08333333333333 : 31.1714998372396 : JumpEnd); (14.75 : 31.1714998372396)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Employee" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 31.9111010397135); (6 : 31.9111010397135); (6 : 31.0625); (14.375 : 31.0625); (14.375 : 26.5); (15.1354141666667 : 26.5 : JumpStart); (15.3020808333333 : 26.5 : JumpEnd); (15.6666666666667 : 26.5 : JumpStart); (15.8333333333333 : 26.5 : JumpEnd); (16.1979191666667 : 26.5 : JumpStart); (16.3645858333333 : 26.5 : JumpEnd); (17.375 : 26.5); (17.375 : 28.7901025390625); (18.5 : 28.7901025390625); (18.5 : 28.4151025390625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_EmployeeReplacement" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="077e4505-81a5-4ce3-a6b8-29b87a2d5996" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 31.5413004384766); (5.75 : 31.5413004384766); (5.75 : 31.25); (14.5 : 31.25); (14.5 : 33.6938297526042); (14.5416666666667 : 33.6938297526042 : JumpStart); (14.7083333333333 : 33.6938297526042 : JumpEnd); (17.25 : 33.6938297526042); (17.25 : 31.625); (18.5 : 31.625); (18.5 : 31.0208968098958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_GuardZone" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="6e40016f-4896-457b-ba05-f6ae45025f19" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.0312525 : 32.5881982421875); (5.0312525 : 47.7700512695313); (6.25 : 47.7700512695313)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Holiday" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="dc9f3801-4715-4428-947b-d728a567bca3" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 32.3121496409505); (6.25 : 32.3121496409505)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_NamedInterval" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="22c2e404-25e1-41ce-abdf-3b53ad54e323" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(3.9687475 : 30.625); (3.9687475 : 20.8181469726563); (6.25 : 20.8181469726563)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_OrganisationCardTemplate" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="a73540e2-082c-478c-8b80-e101e5d164d4" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.29687875 : 30.625); (5.29687875 : 22.9431469726563); (6.25 : 22.9431469726563)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_OrganisationDoor" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="9d2fc726-1771-47a6-8aee-8d1f1fe74812" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.76562625 : 30.625); (4.76562625 : 25.0681469726563); (6.25 : 25.0681469726563)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_OrganisationUser" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="a7c1e0d5-36b0-4c3b-80de-dc581d9a42e0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(4.23437375 : 30.625); (4.23437375 : 27.3181469726563); (6.25 : 27.3181469726563)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_OrganisationZone" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="f22823d3-97ae-4756-bc71-13f589ea40eb" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(16.75 : 32.5344148763021); (17.1666666666667 : 32.5344148763021 : JumpStart); (17.3333333333333 : 32.5344148763021 : JumpEnd); (17.5 : 32.5344148763021)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Employee/Employee_PassJournal" />
+      <nodes>
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+        <classShapeMoniker Id="a59e6a0a-f89a-4784-ac4f-c3aabf0f0239" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(22.5 : 30.1642976888021); (23.25 : 30.1642976888021)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Card/Card_PendingCard" />
+      <nodes>
+        <classShapeMoniker Id="dd771798-ec4a-4118-bcbc-2c5258f825d3" />
+        <classShapeMoniker Id="4ae553f2-1aff-42b3-a312-74050f66097a" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 25.70312625); (13 : 25.70312625); (13 : 27.25)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Department/Department_Phone" />
+      <nodes>
+        <classShapeMoniker Id="e3c36165-eb39-4b31-8faf-8fa8597823e7" />
+        <classShapeMoniker Id="ab22dbeb-5590-47e5-bc1e-63975a948fc2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(3.70312125 : 30.625); (3.70312125 : 28.2556469726563); (3.88541416666667 : 28.2556469726563 : JumpStart); (4.05208083333333 : 28.2556469726563 : JumpEnd); (4.15104041666667 : 28.2556469726563 : JumpStart); (4.31770708333333 : 28.2556469726563 : JumpEnd); (4.68229291666667 : 28.2556469726563 : JumpStart); (4.84895958333333 : 28.2556469726563 : JumpEnd); (4.94791916666667 : 28.2556469726563 : JumpStart); (5.11458583333333 : 28.2556469726563 : JumpEnd); (5.21354541666667 : 28.2556469726563 : JumpStart); (5.38021208333333 : 28.2556469726563 : JumpEnd); (8.66666666666667 : 28.2556469726563 : JumpStart); (8.83333333333333 : 28.2556469726563 : JumpEnd); (8.91666666666667 : 28.2556469726563 : JumpStart); (9.08333333333333 : 28.2556469726563 : JumpEnd); (12 : 28.2556469726563)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Phone" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="ab22dbeb-5590-47e5-bc1e-63975a948fc2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 29.6930730572416); (3.125 : 30.0680730572416); (3.125 : 36.875); (8.625 : 36.875); (9 : 37.25)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Photo/Photo_AdditionalColumn" />
+      <nodes>
+        <classShapeMoniker Id="0fe0937e-1f07-4230-9913-491b6f276c49" />
+        <classShapeMoniker Id="5fbd5431-6f90-433b-922d-16a77ef39a2b" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.75 : 28.5); (1.75 : 26.4090759863281); (4.68229291666667 : 26.4090759863281 : JumpStart); (4.84895958333333 : 26.4090759863281 : JumpEnd); (5.21354541666667 : 26.4090759863281 : JumpStart); (5.38021208333333 : 26.4090759863281 : JumpEnd); (9.25 : 26.4090759863281)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Photo/Photo_Department" />
+      <nodes>
+        <classShapeMoniker Id="0fe0937e-1f07-4230-9913-491b6f276c49" />
+        <classShapeMoniker Id="e3c36165-eb39-4b31-8faf-8fa8597823e7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(1.75 : 29.6939925130208); (1.75 : 30.2219148763021); (3.04166666666667 : 30.2219148763021 : JumpStart); (3.20833333333333 : 30.2219148763021 : JumpEnd); (4.15104041666667 : 30.2219148763021 : JumpStart); (4.31770708333333 : 30.2219148763021 : JumpEnd); (5.75 : 30.2219148763021); (5.75 : 30.8381982421875); (14.2916666666667 : 30.8381982421875 : JumpStart); (14.4583333333333 : 30.8381982421875 : JumpEnd); (14.5 : 30.8381982421875); (14.5 : 29.0152503372396); (14.75 : 29.0152503372396)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Photo/Photo_Employee" />
+      <nodes>
+        <classShapeMoniker Id="0fe0937e-1f07-4230-9913-491b6f276c49" />
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.2812525 : 29.6939925130208); (2.2812525 : 31.6065991210938); (3.04166666666667 : 31.6065991210938 : JumpStart); (3.20833333333333 : 31.6065991210938 : JumpEnd); (3.5 : 31.6065991210938)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Photo/Photo_Organisation" />
+      <nodes>
+        <classShapeMoniker Id="0fe0937e-1f07-4230-9913-491b6f276c49" />
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(11.25 : 30.0617496744792); (14.75 : 30.0617496744792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Position/Position_Employee" />
+      <nodes>
+        <classShapeMoniker Id="c0d980b5-2929-419f-b745-892ca4901b8c" />
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 30.9839998372396); (11.15625 : 30.9839998372396); (11.15625 : 30.6554996744792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Position" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="c0d980b5-2929-419f-b745-892ca4901b8c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 28.59375); (3.61978791666667 : 28.59375 : JumpStart); (3.78645458333333 : 28.59375 : JumpEnd); (3.88541416666667 : 28.59375 : JumpStart); (4.05208083333333 : 28.59375 : JumpEnd); (4.15104041666667 : 28.59375 : JumpStart); (4.31770708333333 : 28.59375 : JumpEnd); (4.68229291666667 : 28.59375 : JumpStart); (4.84895958333333 : 28.59375 : JumpEnd); (4.94791916666667 : 28.59375 : JumpStart); (5.11458583333333 : 28.59375 : JumpEnd); (5.21354541666667 : 28.59375 : JumpStart); (5.38021208333333 : 28.59375 : JumpEnd); (8.66666666666667 : 28.59375 : JumpStart); (8.83333333333333 : 28.59375 : JumpEnd); (8.91666666666667 : 28.59375 : JumpStart); (9.08333333333333 : 28.59375 : JumpEnd); (9.25 : 28.59375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Photo/Photo_Position" />
+      <nodes>
+        <classShapeMoniker Id="0fe0937e-1f07-4230-9913-491b6f276c49" />
+        <classShapeMoniker Id="c0d980b5-2929-419f-b745-892ca4901b8c" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(14 : 34.9815991210938); (14.5416666666667 : 34.9815991210938 : JumpStart); (14.7083333333333 : 34.9815991210938 : JumpEnd); (14.75 : 34.9815991210938)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Schedule/Schedule_ScheduleZone" />
+      <nodes>
+        <classShapeMoniker Id="0e77306a-a71c-4f61-ab7f-0595efdf79c0" />
+        <classShapeMoniker Id="42fefceb-c356-4652-8382-d0349a635ae9" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(14 : 33.9365374615385); (14.3125 : 33.6240374615385); (14.3125 : 33.7240220602965); (14.4410744349011 : 33.5954476253954 : JumpStart); (14.5589255650989 : 33.4775964951976 : JumpEnd); (14.75 : 33.2865220602965)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Schedule/Schedule_Employee" />
+      <nodes>
+        <classShapeMoniker Id="0e77306a-a71c-4f61-ab7f-0595efdf79c0" />
+        <classShapeMoniker Id="0796ed06-10ed-4a78-8456-bdb564a53db2" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(14 : 35.6334521139323); (14.125 : 35.6334521139323); (14.125 : 33.8125); (14.5416666666667 : 33.8125 : JumpStart); (14.7083333333333 : 33.8125 : JumpEnd); (16.875 : 33.8125); (16.875 : 28.7901025390625); (17.0416666666667 : 28.7901025390625 : JumpStart); (17.2083333333333 : 28.7901025390625 : JumpEnd); (17.968748 : 28.7901025390625); (17.968748 : 28.4151025390625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Schedule/Schedule_EmployeeReplacement" />
+      <nodes>
+        <classShapeMoniker Id="0e77306a-a71c-4f61-ab7f-0595efdf79c0" />
+        <classShapeMoniker Id="077e4505-81a5-4ce3-a6b8-29b87a2d5996" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(3.9687475 : 32.5881982421875); (3.9687475 : 34.03125); (4.94791916666667 : 34.03125 : JumpStart); (5.11458583333333 : 34.03125 : JumpEnd); (7.16666666666667 : 34.03125 : JumpStart); (7.33333333333333 : 34.03125 : JumpEnd); (12 : 34.03125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_Schedule" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="0e77306a-a71c-4f61-ab7f-0595efdf79c0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.25 : 37.25); (8.625 : 36.875); (8.625 : 32.8786506816406); (9 : 32.8786506816406)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/ScheduleScheme/ScheduleScheme_Day" />
+      <nodes>
+        <classShapeMoniker Id="32ddfb0c-758c-4b6d-8e46-f9f91f6acd30" />
+        <classShapeMoniker Id="71219e80-efae-4cf7-92e5-fd8cb95df161" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(6.75 : 37.25); (6.75 : 34.1406275); (7.16666666666667 : 34.1406275 : JumpStart); (7.33333333333333 : 34.1406275 : JumpEnd); (12 : 34.1406275)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/ScheduleScheme/ScheduleScheme_Schedule" />
+      <nodes>
+        <classShapeMoniker Id="32ddfb0c-758c-4b6d-8e46-f9f91f6acd30" />
+        <classShapeMoniker Id="0e77306a-a71c-4f61-ab7f-0595efdf79c0" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.29687875 : 32.5881982421875); (5.29687875 : 38.3277498372396); (6.25 : 38.3277498372396)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/SKDDataContext/Organisation/Organisation_ScheduleScheme" />
+      <nodes>
+        <classShapeMoniker Id="65e8cdb8-5b14-49bb-9d78-044f3f31fa27" />
+        <classShapeMoniker Id="32ddfb0c-758c-4b6d-8e46-f9f91f6acd30" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

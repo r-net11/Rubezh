@@ -85,12 +85,12 @@ namespace SKDModule.ViewModels
 					_settings.StartDate = DateTime.Today.AddDays(1 - ((int)DateTime.Today.DayOfWeek + 1) % 7);
 					_settings.EndDate = DateTime.Today;
 					break;
-				case TimeTrackingPeriod.PreviosMonth:
+				case TimeTrackingPeriod.PreviousMonth:
 					var firstMonthDay = DateTime.Today.AddDays(1 - DateTime.Today.Day);
 					_settings.StartDate = firstMonthDay.AddMonths(-1);
 					_settings.EndDate = firstMonthDay.AddDays(-1);
 					break;
-				case TimeTrackingPeriod.PreviosWeek:
+				case TimeTrackingPeriod.PreviousWeek:
 					var firstWeekDay = DateTime.Today.AddDays(1 - ((int)DateTime.Today.DayOfWeek + 1) % 7);
 					_settings.StartDate = firstWeekDay.AddDays(-7);
 					_settings.EndDate = firstWeekDay.AddDays(-1);

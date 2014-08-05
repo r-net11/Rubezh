@@ -46,7 +46,6 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
 			foreach (var globalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
@@ -57,7 +56,6 @@ namespace AutomationModule.ViewModels
 				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.GlobalVariable.Uid == IncrementGlobalValueArguments.GlobalVariableUid);
 			else
 				SelectedGlobalVariable = null;
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			OnPropertyChanged(()=>GlobalVariables);
 		}
 

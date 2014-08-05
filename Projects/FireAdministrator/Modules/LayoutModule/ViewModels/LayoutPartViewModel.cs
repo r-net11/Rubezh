@@ -40,6 +40,7 @@ namespace LayoutModule.ViewModels
 		{
 			Content = LayoutPartDescriptionViewModel.LayoutPartDescription.CreateContent(LayoutPart.Properties) ?? new LayoutPartTitleViewModel() { Title = Title, IconSource = IconSource };
 			ConfigureCommand = new RelayCommand(OnConfigureCommand, CanConfigureCommand);
+			UpdateTitle();
 		}
 
 		public Guid UID
@@ -48,7 +49,7 @@ namespace LayoutModule.ViewModels
 		}
 		public string Title
 		{
-			get { return LayoutPartDescriptionViewModel.Name; }
+			get { return LayoutPart.Title ?? LayoutPartDescriptionViewModel.Name; }
 		}
 		public string IconSource
 		{
@@ -100,6 +101,14 @@ namespace LayoutModule.ViewModels
 			document.BackgroundColor = layoutPartSize.BackgroundColor;
 			document.BorderColor = layoutPartSize.BorderColor;
 			document.BorderThickness = layoutPartSize.BorderThickness;
+			UpdateTitle();
+		}
+		private void UpdateTitle()
+		{
+			OnPropertyChanged(() => Title);
+			var layoutPartTitleViewModel = Content as LayoutPartTitleViewModel;
+			if (layoutPartTitleViewModel != null)
+				layoutPartTitleViewModel.Title = Title;
 		}
 		private LayoutDocument GetLayoutDocument()
 		{

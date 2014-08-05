@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
 			Title = "Журнал событий устройства";
 			SaveCommand = new RelayCommand(OnSave);
 			HtmlString = "<head>\n<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>\n</head>" + htmlJournal;
-			OnPropertyChanged("HtmlString");
+			OnPropertyChanged(() => HtmlString);
 		}
 
 		string _htmlString;
@@ -25,8 +25,8 @@ namespace DevicesModule.ViewModels
 			get { return _htmlString; }
 			set
 			{
-				_htmlString = value;				
-				OnPropertyChanged("HtmlString");
+				_htmlString = value;
+				OnPropertyChanged(() => HtmlString);
 			}
 		}
 

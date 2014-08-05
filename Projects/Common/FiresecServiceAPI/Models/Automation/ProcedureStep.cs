@@ -25,8 +25,12 @@ namespace FiresecAPI.Automation
 			ControlGKDeviceArguments = new ControlGKDeviceArguments();
 			ControlGKFireZoneArguments = new ControlGKFireZoneArguments();
 			ControlGKGuardZoneArguments = new ControlGKGuardZoneArguments();
+			ControlSKDZoneArguments = new ControlSKDZoneArguments();
 			ControlDirectionArguments = new ControlDirectionArguments();
 			ControlDoorArguments = new ControlDoorArguments();
+			ControlSKDDeviceArguments = new ControlSKDDeviceArguments();
+			ControlCameraArguments = new ControlCameraArguments();
+			JournalArguments = new JournalArguments();
 		}
 
 		public ProcedureStep Parent { get; set; }
@@ -63,7 +67,7 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public PauseArguments PauseArguments { get; set; }
-		
+
 		[DataMember]
 		public ProcedureSelectionArguments ProcedureSelectionArguments { get; set; }
 
@@ -89,9 +93,21 @@ namespace FiresecAPI.Automation
 		public ControlGKGuardZoneArguments ControlGKGuardZoneArguments { get; set; }
 
 		[DataMember]
+		public ControlSKDZoneArguments ControlSKDZoneArguments { get; set; }
+
+		[DataMember]
 		public ControlDirectionArguments ControlDirectionArguments { get; set; }
 
 		[DataMember]
 		public ControlDoorArguments ControlDoorArguments { get; set; }
+
+		[DataMember]
+		public ControlSKDDeviceArguments ControlSKDDeviceArguments { get; set; }
+
+		[DataMember]
+		public ControlCameraArguments ControlCameraArguments { get; set; }
+
+		[DataMember]
+		public JournalArguments JournalArguments { get; set; }
 	}
 }

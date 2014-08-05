@@ -90,6 +90,7 @@
     </Compile>
     <Compile Include="MonitorLayoutModule.cs" />
     <Compile Include="ViewModels\ContentPartViewModel.cs" />
+    <Compile Include="ViewModels\TemplateContainerPartViewModel.cs" />
     <Compile Include="ViewModels\ImagePartViewModel.cs" />
     <Compile Include="ViewModels\EmptyPartViewModel.cs" />
     <Compile Include="ViewModels\LayoutPartViewModel.cs" />
@@ -114,6 +115,9 @@
     </Compile>
     <Compile Include="Views\SelectLayoutView.xaml.cs">
       <DependentUpon>SelectLayoutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TemplateContainerPartView.xaml.cs">
+      <DependentUpon>TemplateContainerPartView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +217,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SelectLayoutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TemplateContainerPartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -69,18 +69,18 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			return false;
 		}
 
-		public static bool ContainsChildOfType<T, TT, TTT>(this ILayoutContainer container)
+		public static bool ContainsChildOfType<T, S>(this ILayoutContainer container)
 		{
 			foreach (var childElement in container.Descendents())
-				if (childElement is T || childElement is TT || childElement is TTT)
+				if (childElement is T || childElement is S)
 					return true;
 
 			return false;
 		}
 
-		public static bool IsOfType<T, TT, TTT>(this ILayoutContainer container)
+		public static bool IsOfType<T, S>(this ILayoutContainer container)
 		{
-			return container is T || container is TT || container is TTT;
+			return container is T || container is S;
 		}
 
 		public static AnchorSide GetSide(this ILayoutElement element)
@@ -88,7 +88,7 @@ namespace Xceed.Wpf.AvalonDock.Layout
 			var parentContainer = element.Parent as ILayoutOrientableGroup;
 			if (parentContainer != null)
 			{
-				if (!parentContainer.ContainsChildOfType<LayoutDocumentPaneGroup, LayoutDocumentPane, LayoutDocumentPaneTab>())
+				if (!parentContainer.ContainsChildOfType<LayoutDocumentPaneGroup, LayoutDocumentPane>())
 					return GetSide(parentContainer);
 
 				foreach (var childElement in parentContainer.Children)
@@ -100,8 +100,8 @@ namespace Xceed.Wpf.AvalonDock.Layout
 
 					var childElementAsContainer = childElement as ILayoutContainer;
 					if (childElementAsContainer != null &&
-						(childElementAsContainer.IsOfType<LayoutDocumentPane, LayoutDocumentPaneGroup, LayoutDocumentPaneTab>() ||
-						childElementAsContainer.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup, LayoutDocumentPaneTab>()))
+						(childElementAsContainer.IsOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>() ||
+						childElementAsContainer.ContainsChildOfType<LayoutDocumentPane, LayoutDocumentPaneGroup>()))
 					{
 						return parentContainer.Orientation == System.Windows.Controls.Orientation.Horizontal ?
 						   AnchorSide.Right : AnchorSide.Bottom;

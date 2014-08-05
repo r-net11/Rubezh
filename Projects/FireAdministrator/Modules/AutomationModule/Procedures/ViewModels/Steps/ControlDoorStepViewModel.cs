@@ -68,14 +68,12 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			if (ControlDoorArguments.DoorUid != Guid.Empty)
 			{
 				var door = SKDManager.Doors.FirstOrDefault(x => x.UID == ControlDoorArguments.DoorUid);
 				SelectedDoor = door != null ? new DoorViewModel(door) : null;
 				SelectedCommand = ControlDoorArguments.DoorCommandType;
 			}
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
 		public string Description

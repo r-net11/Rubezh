@@ -32,9 +32,27 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedEmployee(Guid uid)
 		{
-			return SKDDatabaseService.EmployeeTranslator.MarkDeleted(uid);
+			var stringBuilder = new StringBuilder();
+			var getEmployeeOperationResult = SKDDatabaseService.EmployeeTranslator.GetSingle(uid);
+			if (!getEmployeeOperationResult.HasError)
+			{
+				foreach (var card in getEmployeeOperationResult.Result.Cards)
+				{
+					var operationResult = DeleteCardFromEmployee(card, "Сотрудник удален");
+					if (operationResult.HasError)
+					{
+						stringBuilder.AppendLine(operationResult.Error);
+					}
+				}
+			}
+			var markdDletedOperationResult = SKDDatabaseService.EmployeeTranslator.MarkDeleted(uid);
+
+			if (stringBuilder.Length > 0)
+				return new OperationResult(stringBuilder.ToString());
+			else
+				return new OperationResult();
 		}
-		public OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
+		public OperationResult<List<DayTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
 			return SKDDatabaseService.EmployeeTranslator.GetTimeTracks(employeeUID, startDate, endDate);
 		}
@@ -83,13 +101,13 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.CardTranslator.Get(filter);
 		}
-		public OperationResult AddCard(SKDCard item)
+		public OperationResult<bool> AddCard(SKDCard item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Добавление_карты);
-			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
+			var getAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
 
 			string cardWriterError = null;
-			var cardWriter = ChinaSKDDriver.Processor.AddCard(item, accessTemplate);
+			var cardWriter = ChinaSKDDriver.Processor.AddCard(item, getAccessTemplateOperationResult.Result);
 			cardWriterError = cardWriter.GetError();
 			var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
 			var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, failedControllerUIDs);
@@ -104,25 +122,25 @@ namespace FiresecService.Service
 			if (saveResult.HasError)
 				stringBuilder.AppendLine(saveResult.Error);
 			if (stringBuilder.Length > 0)
-				return new OperationResult(stringBuilder.ToString());
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
 			else
-				return new OperationResult();
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 		}
-		public OperationResult EditCard(SKDCard item)
+		public OperationResult<bool> EditCard(SKDCard item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_карты);
-			var accessTemplate = GetAccessTemplate(item.AccessTemplateUID);
+			var getAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
 
 			string cardWriterError = null;
 			OperationResult pendingResult;
 
-			var operationResult = SKDDatabaseService.CardTranslator.Get(new CardFilter() { FirstNos = item.Number, LastNos = item.Number });
-			var oldCard = operationResult.Result.FirstOrDefault();
-			if (oldCard != null)
+			var operationResult = SKDDatabaseService.CardTranslator.GetSingle(item.UID);
+			if (!operationResult.HasError)
 			{
-				var oldAccessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
+				var oldCard = operationResult.Result;
+				var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
 
-				var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldAccessTemplate, item, accessTemplate);
+				var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldGetAccessTemplateOperationResult.Result, item, getAccessTemplateOperationResult.Result);
 				cardWriterError = cardWriter.GetError();
 				pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
 			}
@@ -141,12 +159,12 @@ namespace FiresecService.Service
 			if (saveResult.HasError)
 				stringBuilder.AppendLine(saveResult.Error);
 			if (stringBuilder.Length > 0)
-				return new OperationResult(stringBuilder.ToString());
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
 			else
-				return new OperationResult();
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 
 		}
-		public OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null)
+		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null)
 		{
 			item.AccessTemplateUID = null;
 			item.CardDoors = new List<CardDoor>();
@@ -162,21 +180,14 @@ namespace FiresecService.Service
 			string cardWriterError = null;
 			OperationResult pendingResult;
 
-			var operationResult = SKDDatabaseService.CardTranslator.Get(new CardFilter() { FirstNos = item.Number, LastNos = item.Number });
+			var operationResult = SKDDatabaseService.CardTranslator.GetSingle(item.UID);
 			if (!operationResult.HasError && operationResult.Result != null)
 			{
-				var oldCard = operationResult.Result.FirstOrDefault();
-				if (oldCard != null)
-				{
-					var accessTemplate = GetAccessTemplate(oldCard.AccessTemplateUID);
-					var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, accessTemplate);
-					cardWriterError = cardWriter.GetError();
-					pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
-				}
-				else
-				{
-					pendingResult = new OperationResult("Не найдена предидущая карта");
-				}
+				var oldCard = operationResult.Result;
+				var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
+				var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, oldGetAccessTemplateOperationResult.Result);
+				cardWriterError = cardWriter.GetError();
+				pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
 			}
 			else
 			{
@@ -193,26 +204,22 @@ namespace FiresecService.Service
 			if (saveResult.HasError)
 				stringBuilder.AppendLine(saveResult.Error);
 			if (stringBuilder.Length > 0)
-				return new OperationResult(stringBuilder.ToString());
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
 			else
-				return new OperationResult();
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 		}
 
 		public OperationResult MarkDeletedCard(Guid uid)
 		{
 			return SKDDatabaseService.CardTranslator.MarkDeleted(uid);
 		}
+		public OperationResult DeletedCard(Guid uid)
+		{
+			return SKDDatabaseService.CardTranslator.Delete(uid);
+		}
 		public OperationResult SaveCardTemplate(SKDCard card)
 		{
-			return SKDDatabaseService.CardTranslator.SaveTemplate(card);
-		}
-
-		AccessTemplate GetAccessTemplate(Guid? uid)
-		{
-			var accessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(uid);
-			if (!accessTemplateOperationResult.HasError)
-				return accessTemplateOperationResult.Result;
-			return null;
+			return SKDDatabaseService.CardTranslator.SavePassTemplate(card);
 		}
 
 		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
@@ -226,21 +233,21 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.AccessTemplateTranslator.Get(filter);
 		}
-		public OperationResult SaveAccessTemplate(AccessTemplate accessTemplate)
+		public OperationResult<bool> SaveAccessTemplate(AccessTemplate accessTemplate)
 		{
-			var oldAccessTemplate = GetAccessTemplate(accessTemplate.UID);
-			var result = SKDDatabaseService.AccessTemplateTranslator.Save(accessTemplate);
+			var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(accessTemplate.UID);
+			var saveResult = SKDDatabaseService.AccessTemplateTranslator.Save(accessTemplate);
 
 			var stringBuilder = new StringBuilder();
-			if (result.HasError)
-				stringBuilder.AppendLine(result.Error);
+			if (saveResult.HasError)
+				stringBuilder.AppendLine(saveResult.Error);
 
 			var operationResult = SKDDatabaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
 			if (operationResult.Result != null)
 			{
 				foreach (var card in operationResult.Result)
 				{
-					var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldAccessTemplate, card, accessTemplate);
+					var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate);
 					var cardWriterError = cardWriter.GetError();
 					var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(accessTemplate.UID, GetFailedControllerUIDs(cardWriter));
 
@@ -252,33 +259,15 @@ namespace FiresecService.Service
 			}
 
 			if (stringBuilder.Length > 0)
-				return new OperationResult(stringBuilder.ToString());
+				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
 			else
-				return new OperationResult();
+				return new OperationResult<bool>() { Result = !saveResult.HasError };
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{
 			var result = SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(uid);
-			//DeleteAccessTemplate(uid);
 			return result;
 		}
-
-		//public OperationResult DeleteAccessTemplate(Guid uid)
-		//{
-		//    var accessTemplate = GetAccessTemplate(uid);
-		//    if (accessTemplate != null)
-		//    {
-		//        var operationResult = SKDDatabaseService.CardTranslator.GetByAccessTemplateUID(uid);
-		//        if (operationResult.Result != null)
-		//        {
-		//            foreach (var card in operationResult.Result)
-		//            {
-		//                EditCard(card);
-		//            }
-		//        }
-		//    }
-		//    return new OperationResult();
-		//}
 
 		#endregion
 

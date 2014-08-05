@@ -325,9 +325,6 @@ namespace FiresecService
 
 			if (!reader.IsDBNull(reader.GetOrdinal("UserName")))
 				journalItem.UserName = reader.GetString(reader.GetOrdinal("UserName"));
-
-			if (!reader.IsDBNull(reader.GetOrdinal("CardNo")))
-				journalItem.CardNo = (int)reader.GetValue(reader.GetOrdinal("CardNo"));
 			
 			if (!reader.IsDBNull(reader.GetOrdinal("SystemDate")))
 				journalItem.SystemDateTime = reader.GetDateTime(reader.GetOrdinal("SystemDate"));

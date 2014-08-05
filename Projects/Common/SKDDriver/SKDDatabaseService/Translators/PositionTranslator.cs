@@ -66,7 +66,7 @@ namespace SKDDriver
 		
 		public override OperationResult Save(Position apiItem)
 		{
-			var photoSaveResult = PhotoTranslator.Save(new List<Photo> { apiItem.Photo });
+			var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
 			if (photoSaveResult.HasError)
 				return photoSaveResult;
 			return base.Save(apiItem);

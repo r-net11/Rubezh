@@ -54,7 +54,7 @@
 //			set
 //			{
 //				_percent = value;
-//				OnPropertyChanged("Percent");
+//				OnPropertyChanged(()=>Percent);
 //			}
 //		}
 
@@ -65,7 +65,7 @@
 //			set
 //			{
 //				_description = value;
-//				OnPropertyChanged("Description");
+//				OnPropertyChanged(()=>Description);
 //			}
 //		}
 
@@ -76,7 +76,7 @@
 //			set
 //			{
 //				_cancelText = value;
-//				OnPropertyChanged("CancelText");
+//				OnPropertyChanged(()=>CancelText);
 //			}
 //		}
 

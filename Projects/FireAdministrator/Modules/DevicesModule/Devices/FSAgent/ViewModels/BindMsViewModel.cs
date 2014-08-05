@@ -38,7 +38,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedSerial = value;
-				OnPropertyChanged("SelectedSerial");
+				OnPropertyChanged(() => SelectedSerial);
 			}
 		}
 

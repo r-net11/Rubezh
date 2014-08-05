@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Infrastructure.Common;
+using FiresecAPI.SKD;
 
 namespace SKDModule.ViewModels
 {
@@ -8,7 +9,6 @@ namespace SKDModule.ViewModels
 		public EmployeeFilterViewModel EmployeeFilterViewModel { get; private set; }
 		public DepartmentsFilterViewModel DepartmentsFilterViewModel { get; private set; }
 		public PositionsFilterViewModel PositionsFilterViewModel { get; private set; }
-		public CardFilterViewModel CardFilterViewModel { get; private set; }
 
 		public HRFilterViewModel(HRFilter filter)
 			: base(filter)
@@ -22,14 +22,13 @@ namespace SKDModule.ViewModels
 			EmployeeFilterViewModel = new EmployeeFilterViewModel(filter.EmployeeFilter);
 			DepartmentsFilterViewModel = new DepartmentsFilterViewModel(filter.EmployeeFilter);
 			PositionsFilterViewModel = new PositionsFilterViewModel(filter.EmployeeFilter);
-			CardFilterViewModel = new CardFilterViewModel(filter.CardFilter);
 		}
 
 		protected override bool Save()
 		{
 			base.Save();
 			Filter.EmployeeFilter = EmployeeFilterViewModel.Save();
-			Filter.CardFilter = CardFilterViewModel.Save();
+			Filter.CardFilter = new CardFilter();
 
 			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();

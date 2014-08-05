@@ -99,25 +99,5 @@
 				</StackPanel>
 			</StackPanel>
 		</TabItem>
-		<TabItem Header="Идентификатор" DataContext="{Binding CardFilterViewModel}">
-			<StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Диапазон номеров" Width="150" Foreground="White" Margin="2" />
-					<TextBlock Text="От" Foreground="White" Margin="2" />
-					<TextBox Text="{Binding FirstNos}" Margin="2" />
-					<TextBlock Text="До" Foreground="White" Margin="2" />
-					<TextBox Text="{Binding LastNos}" Margin="2" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<ComboBox ItemsSource="{Binding AvaivableDeletedTypes}" SelectedItem="{Binding SelectedDeletedType}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" Margin="1" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
-				</StackPanel>				
-			</StackPanel>
-		</TabItem>
 	</TabControl>
 </UserControl>

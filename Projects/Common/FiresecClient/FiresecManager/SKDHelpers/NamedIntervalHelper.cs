@@ -9,13 +9,13 @@ namespace FiresecClient.SKDHelpers
 	{
 		public static bool Save(NamedInterval namedInterval)
 		{
-			var operationResult = FiresecManager.FiresecService.SaveNamedIntervals(new List<NamedInterval> { namedInterval });
+			var operationResult = FiresecManager.FiresecService.SaveNamedInterval(namedInterval);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
 		public static bool MarkDeleted(NamedInterval namedInterval)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedNamedIntervals(new List<NamedInterval> { namedInterval });
+			var operationResult = FiresecManager.FiresecService.MarkDeletedNamedInterval(namedInterval);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

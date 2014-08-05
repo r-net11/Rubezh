@@ -76,7 +76,7 @@ namespace DevicesModule.DeviceProperties
 			set
 			{
 				_selectedParameter = value;
-				OnPropertyChanged("SelectedParameter");
+				OnPropertyChanged(() => SelectedParameter);
 				Save(value.Value);
 			}
 		}

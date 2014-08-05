@@ -22,6 +22,9 @@ namespace FiresecAPI.SKD
 		public int ExitIntervalID { get; set; }
 
 		[DataMember]
-		public Guid? ParentUID { get; set; }
+		public Guid? CardUID { get; set; }
+
+		[DataMember]
+		public Guid? AccessTemplateUID { get; set; }
 	}
 }

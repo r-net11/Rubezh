@@ -90,8 +90,8 @@ namespace SKDDriver
 			result.DocumentDepartmentCode = tableItem.DocumentDepartmentCode;
 			result.Citizenship = tableItem.Citizenship;
 			result.DocumentType = (EmployeeDocumentType)tableItem.DocumentType;
-			var zones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
-			foreach (var item in zones)
+			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
+			foreach (var item in guardZones)
 			{
 				result.GuardZoneAccesses.Add(new XGuardZoneAccess 
 					{ 
@@ -254,23 +254,6 @@ namespace SKDDriver
 			return new OperationResult();
 		}
 
-		public OperationResult<List<EmployeeTimeTrack>> GetTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
-		{
-			try
-			{
-				var timeTracks = new List<EmployeeTimeTrack>();
-				for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
-				{
-					timeTracks.Add(GetTimeTrack(employeeUID, date));
-				}
-				return new OperationResult<List<EmployeeTimeTrack>> { Result = timeTracks };
-			}
-			catch (Exception e)
-			{
-				return new OperationResult<List<EmployeeTimeTrack>>(e.Message);
-			}
-		}
-
 		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
 		{
 			try
@@ -296,14 +279,31 @@ namespace SKDDriver
 			}
 		}
 
-		EmployeeTimeTrack GetTimeTrack(Guid employeeUID, DateTime date)
+		public OperationResult<List<DayTimeTrack>> GetTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
+		{
+			try
+			{
+				var timeTracks = new List<DayTimeTrack>();
+				for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+				{
+					timeTracks.Add(GetTimeTrack(employeeUID, date));
+				}
+				return new OperationResult<List<DayTimeTrack>> { Result = timeTracks };
+			}
+			catch (Exception e)
+			{
+				return new OperationResult<List<DayTimeTrack>>(e.Message);
+			}
+		}
+
+		DayTimeTrack GetTimeTrack(Guid employeeUID, DateTime date)
 		{
 			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime != null && x.EnterTime.Value.Date == date.Date).ToList();
 			if (passJournals == null || passJournals.Count == 0)
-				return new EmployeeTimeTrack();
-			var timeTrack = new EmployeeTimeTrack();
-			timeTrack.EmployeeUID = employeeUID;
-			timeTrack.Date = date;
+				return new DayTimeTrack();
+			var dayTimeTrack = new DayTimeTrack();
+			dayTimeTrack.EmployeeUID = employeeUID;
+			dayTimeTrack.Date = date;
 			var firstEnterTime = passJournals.Where(x => x != null).Select(x => x.EnterTime.Value).Min();
 			var lastExitTime = passJournals.Where(x => x != null).Select(x => x.ExitTime.Value).Max();
 			
@@ -318,15 +318,15 @@ namespace SKDDriver
 			var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
 			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
 			if(schedule == null)
-				return new EmployeeTimeTrack();
+				return new DayTimeTrack();
 			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
 			if (scheduleScheme == null)
-				return new EmployeeTimeTrack();
+				return new DayTimeTrack();
 			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 
 			var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
 			if (days == null || days.Count() == 0)
-				return new EmployeeTimeTrack();
+				return new DayTimeTrack();
 			int dayNo = -1;
 
 			switch (scheduleSchemeType)
@@ -345,11 +345,10 @@ namespace SKDDriver
 			}
 			var day = days.FirstOrDefault(x => x.Number == dayNo && !x.IsDeleted);
 			if (day == null)
-				return new EmployeeTimeTrack();
-			var nIs = Context.NamedIntervals.ToList();
+				return new DayTimeTrack();
 			var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID && !x.IsDeleted);
 			if (namedInterval == null)
-				return new EmployeeTimeTrack();
+				return new DayTimeTrack();
 			var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID && !x.IsDeleted);
 			var totalInSchedule = new TimeSpan();
 			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).Select(x => x.ZoneUID).ToList();
@@ -379,14 +378,19 @@ namespace SKDDriver
 							totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - Math.BigMul(interval.BeginTime, 10000000)));
 						}
 					}
+
+					var dayTimeTrackPart = new DayTimeTrackPart();
+					dayTimeTrackPart.StartTime = passJournal.EnterTime;
+					dayTimeTrackPart.EndTime = passJournal.ExitTime;
+					dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
 				}
 			}
 
-			timeTrack.Total = new DateTime(lastExitTime.Ticks - firstEnterTime.Ticks);
-			timeTrack.TotalMiss = new DateTime(timeTrack.Total.Ticks - totalNotMiss.Ticks);
-			timeTrack.TotalInSchedule = new DateTime(totalInSchedule.Ticks);
-			timeTrack.TotalOutSchedule = new DateTime(timeTrack.Total.Ticks - timeTrack.TotalInSchedule.Ticks);
-			return timeTrack;
+			dayTimeTrack.Total = new TimeSpan(lastExitTime.Ticks - firstEnterTime.Ticks);
+			dayTimeTrack.TotalMiss = new TimeSpan(dayTimeTrack.Total.Ticks - totalNotMiss.Ticks);
+			dayTimeTrack.TotalInSchedule = new TimeSpan(totalInSchedule.Ticks);
+			dayTimeTrack.TotalOutSchedule = new TimeSpan(dayTimeTrack.Total.Ticks - dayTimeTrack.TotalInSchedule.Ticks);
+			return dayTimeTrack;
 		}
 	}
 }

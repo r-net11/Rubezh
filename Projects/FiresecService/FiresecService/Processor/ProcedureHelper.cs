@@ -3,13 +3,79 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
+using FiresecAPI.Models;
 using FiresecClient;
 using FiresecService.Service;
+using Infrastructure.Common.Video.RVI_VSS;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace FiresecService.Processor
 {
 	public static class ProcedureHelper
 	{
+
+		static ProcedureHelper()
+		{
+			WinFormsPlayers = new List<WinFormsPlayer>();
+		}
+
+		public static void Calculate(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
+		{
+			var arithmeticArguments = procedureStep.ArithmeticArguments;
+			var variable1 = GetValue(arithmeticArguments.Variable1, procedure, arguments);
+			var variable2 = GetValue(arithmeticArguments.Variable2, procedure, arguments);
+			int result = 0;
+			if (arithmeticArguments.ArithmeticType == ArithmeticType.Add)
+				result = variable1 + variable2;
+			if (arithmeticArguments.ArithmeticType == ArithmeticType.Sub)
+				result = variable1 - variable2;
+			if (arithmeticArguments.ArithmeticType == ArithmeticType.Multi)
+				result = variable1 * variable2;
+			if ((arithmeticArguments.ArithmeticType == ArithmeticType.Div) && (variable2 != 0))
+				result = variable1 / variable2;
+
+			if (arithmeticArguments.Result.ValueType == ValueType.IsGlobalVariable)
+			{
+				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables
+					.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.GlobalVariableUid);
+				if (globalVariable != null)
+					globalVariable.Value = result;
+			}
+
+			if (arithmeticArguments.Result.ValueType == ValueType.IsLocalVariable)
+			{
+				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid) ??
+					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
+				if (localVariable != null)
+					localVariable.IntValue = result;
+			}
+		}
+
+		static int GetValue(ArithmeticParameter arithmeticParameter, Procedure procedure, List<Argument> arguments)
+		{
+			if (arithmeticParameter.ValueType == ValueType.IsGlobalVariable)
+			{
+				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables
+					.FirstOrDefault(
+						x => x.Uid == arithmeticParameter.GlobalVariableUid);
+				if (globalVariable != null)
+					return globalVariable.Value;
+			}
+			if (arithmeticParameter.ValueType == ValueType.IsLocalVariable)
+			{
+				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid) ??
+					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
+				if (localVariable != null)
+				{
+					var argument = arguments.FirstOrDefault(x => x.ArgumentUid == localVariable.Uid);
+					if (argument != null)
+						return argument.IntValue;
+					return localVariable.IntValue;
+				}
+			}
+			return arithmeticParameter.Value;
+		}
+
 		public static void FindObjects(ProcedureStep procedureStep, Procedure procedure)
 		{
 			var findObjectArguments = procedureStep.FindObjectArguments;
@@ -173,6 +239,33 @@ namespace FiresecService.Processor
 			if (device == null)
 				return;
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.BaseUID, procedureStep.ControlGKDeviceArguments.Command);
+		}
+
+		public static List<WinFormsPlayer> WinFormsPlayers { get; private set; }
+		public static void ControlCamera(ProcedureStep procedureStep)
+		{
+			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == procedureStep.ControlCameraArguments.CameraUid);
+			if(camera == null)
+				return;
+			if (procedureStep.ControlCameraArguments.CameraCommandType == CameraCommandType.StartRecord)
+			{
+				if (WinFormsPlayers.Any(x => x.Camera == camera))
+					return;
+				var winFormsPlayer = new WinFormsPlayer();
+				winFormsPlayer.Camera = camera;
+				winFormsPlayer.Connect(camera);
+				if(winFormsPlayer.StartRecord(camera, camera.ChannelNumber))
+					WinFormsPlayers.Add(winFormsPlayer);
+			}
+			else
+			{
+				var winFormsPlayer = WinFormsPlayers.FirstOrDefault(x => x.Camera == camera);
+				if (winFormsPlayer != null)
+				{
+					winFormsPlayer.StopRecord();
+					WinFormsPlayers.Remove(winFormsPlayer);
+				}
+			}
 		}
 	}
 }

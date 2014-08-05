@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_count = value;
-				OnPropertyChanged("Count");
+				OnPropertyChanged(() => Count);
 			}
 		}
 

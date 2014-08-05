@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
-using FiresecAPI.SKD.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -21,11 +20,13 @@ namespace SKDModule.ViewModels
 			{
 				UserUID = FiresecClient.FiresecManager.CurrentUser.UID,
 			};
+
+			var firstMonthDay = DateTime.Today.AddDays(1 - DateTime.Today.Day);
 			_settings = new TimeTrackingSettings()
 			{
-				Period = TimeTrackingPeriod.PreviosMonth,
-				StartDate = new DateTime(2014, 6, 23),
-				EndDate = new DateTime(2014, 6, 27),
+				Period = TimeTrackingPeriod.PreviousMonth,
+				StartDate = firstMonthDay.AddMonths(-1),
+				EndDate = firstMonthDay.AddDays(-1)
 			};
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
@@ -130,7 +131,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand PrintCommand { get; private set; }
 		private void OnPrint()
 		{
-			MessageBoxService.Show("not implemented");
+			MessageBoxService.Show("Not Implemented");
 		}
 
 		private void UpdateGrid()
@@ -146,17 +147,7 @@ namespace SKDModule.ViewModels
 				foreach (var employee in employees)
 				{
 					var employeeTimeTracks = EmployeeHelper.GetTimeTracks(employee.UID, _settings.StartDate, _settings.EndDate);
-					TimeTracks.Add(new TimeTrackViewModel(
-						new TimeTrack()
-						{
-							DepartmentName = employee.DepartmentName,
-							EmployeeUID = employee.UID,
-							FirstName = employee.FirstName,
-							LastName = employee.LastName,
-							PositionName = employee.PositionName,
-							SecondName = employee.SecondName,
-							EmployeeTimeTracks = employeeTimeTracks
-						}));
+					TimeTracks.Add(new TimeTrackViewModel(employee, employeeTimeTracks));
 				}
 			}
 		}

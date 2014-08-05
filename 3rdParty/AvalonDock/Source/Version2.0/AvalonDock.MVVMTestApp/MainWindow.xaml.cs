@@ -41,8 +41,7 @@ namespace AvalonDock.MVVMTestApp
 			var serializer = new Xceed.Wpf.AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
 			serializer.LayoutSerializationCallback += (s, args) =>
 			{
-				if (args.Content == null)
-					args.Content = new FileViewModel(args.Model.ContentId);
+				args.Content = args.Content;
 			};
 
 			if (File.Exists(@".\AvalonDock.config"))
@@ -51,8 +50,8 @@ namespace AvalonDock.MVVMTestApp
 
 		void MainWindow_Unloaded(object sender, RoutedEventArgs e)
 		{
-			//var serializer = new Xceed.Wpf.AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
-			//serializer.Serialize(@".\AvalonDock.config");
+			var serializer = new Xceed.Wpf.AvalonDock.Layout.Serialization.XmlLayoutSerializer(dockManager);
+			serializer.Serialize(@".\AvalonDock.config");
 		}
 
 		#region LoadLayoutCommand
@@ -90,8 +89,7 @@ namespace AvalonDock.MVVMTestApp
 					//    e.Content = Workspace.This.FileStats;
 					//else if (!string.IsNullOrWhiteSpace(e.Model.ContentId) &&
 					//    File.Exists(e.Model.ContentId))
-					//e.Content = Workspace.This.Open(e.Model.ContentId);
-					e.Content = new FileViewModel(e.Model.ContentId);
+					//    e.Content = Workspace.This.Open(e.Model.ContentId);
 				};
 			layoutSerializer.Deserialize(@".\AvalonDock.Layout.config");
 		}
@@ -128,10 +126,8 @@ namespace AvalonDock.MVVMTestApp
 
 		private void OnDumpToConsole(object sender, RoutedEventArgs e)
 		{
-#if DEBUG
 			// Uncomment when TRACE is activated on AvalonDock project
 			dockManager.Layout.ConsoleDump(0);
-#endif
 		}
 	}
 }

@@ -51,7 +51,7 @@ namespace SKDModule.ViewModels
 			UserTime = Card.UserTime;
 			DeactivationControllerUID = Card.DeactivationControllerUID;
 
-			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors, Card.UID);
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Card.CardDoors);
 
 			AvailableAccessTemplates = new ObservableCollection<AccessTemplate>();
 			AvailableAccessTemplates.Add(new AccessTemplate() { Name = "<нет>" });
@@ -345,11 +345,14 @@ namespace SKDModule.ViewModels
 					return false;
 				}
 			}
+			if(Number <= 0)
+			{
+				MessageBoxService.ShowWarning("Номер карты должен быто положительным числом");
+				return false;
+			}
 
 			if (UseStopList && SelectedStopListCard != null)
 			{
-				if (!IsNewCard)
-					CardHelper.DeleteFromEmployee(Card, "Заменен на пропуск " + Number);
 				Card.UID = SelectedStopListCard.UID;
 				Card.IsInStopList = false;
 				Card.StopReason = null;
@@ -362,6 +365,7 @@ namespace SKDModule.ViewModels
 			Card.UserTime = UserTime;
 			Card.DeactivationControllerUID = DeactivationControllerUID;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
+			Card.CardDoors.ForEach(x => x.CardUID = Card.UID);
 
 			if (SelectedAccessTemplate != null)
 				Card.AccessTemplateUID = SelectedAccessTemplate.UID;

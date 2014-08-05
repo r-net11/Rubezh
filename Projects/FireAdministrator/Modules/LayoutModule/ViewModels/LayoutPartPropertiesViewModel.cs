@@ -17,7 +17,7 @@ namespace LayoutModule.ViewModels
 			using (new WaitWrapper())
 			{
 				PropertyPages = new ObservableCollection<LayoutPartPropertyPageViewModel>();
-				PropertyPages.Add(new LayoutPartPropertyGeneralPageViewModel(LayoutSize));
+				PropertyPages.Add(new LayoutPartPropertyGeneralPageViewModel(LayoutPartViewModel, LayoutSize));
 				foreach (var page in LayoutPartViewModel.Content.PropertyPages)
 					PropertyPages.Add(page);
 				CopyProperties();

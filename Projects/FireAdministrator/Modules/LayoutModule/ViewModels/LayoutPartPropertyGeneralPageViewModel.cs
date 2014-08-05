@@ -4,17 +4,20 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Infrastructure.Common.Services.Layout;
+using FiresecAPI.Models.Layouts;
 
 namespace LayoutModule.ViewModels
 {
 	public class LayoutPartPropertyGeneralPageViewModel : LayoutPartPropertyPageViewModel
 	{
 		private LayoutPartSize _layoutPartSize;
+		private LayoutPartViewModel _layoutPartViewModel;
 		private bool _initialized;
-		public LayoutPartPropertyGeneralPageViewModel(LayoutPartSize layoutPartSize)
+		public LayoutPartPropertyGeneralPageViewModel(LayoutPartViewModel layoutPartViewModel, LayoutPartSize layoutPartSize)
 		{
 			_initialized = false;
 			_layoutPartSize = layoutPartSize;
+			_layoutPartViewModel = layoutPartViewModel;
 			UnitTypes = new ObservableCollection<GridUnitType>(Enum.GetValues(typeof(GridUnitType)).Cast<GridUnitType>());
 			_initialized = true;
 		}
@@ -151,6 +154,17 @@ namespace LayoutModule.ViewModels
 				OnPropertyChanged(() => BorderThickness);
 			}
 		}
+		private string _title;
+		public string Title
+		{
+			get { return _title; }
+			set
+			{
+				_title = value;
+				OnPropertyChanged(() => Title);
+			}
+		}
+
 
 		public override string Header
 		{
@@ -170,6 +184,7 @@ namespace LayoutModule.ViewModels
 			BackgroundColor = _layoutPartSize.BackgroundColor;
 			BorderColor = _layoutPartSize.BorderColor;
 			BorderThickness = _layoutPartSize.BorderThickness;
+			Title = _layoutPartViewModel.Title;
 		}
 		public override bool CanSave()
 		{
@@ -177,7 +192,7 @@ namespace LayoutModule.ViewModels
 		}
 		public override bool Save()
 		{
-			if (_layoutPartSize.Height != Height || _layoutPartSize.HeightType != HeightType || _layoutPartSize.IsHeightFixed != IsHeightFixed || _layoutPartSize.IsWidthFixed != IsWidthFixed || _layoutPartSize.MinHeight != MinHeight || _layoutPartSize.MinWidth != MinWidth || _layoutPartSize.Width != Width || _layoutPartSize.WidthType != WidthType || _layoutPartSize.Margin != Margin || _layoutPartSize.BackgroundColor != BackgroundColor || _layoutPartSize.BorderColor != BorderColor || _layoutPartSize.BorderThickness != BorderThickness)
+			if (_layoutPartSize.Height != Height || _layoutPartSize.HeightType != HeightType || _layoutPartSize.IsHeightFixed != IsHeightFixed || _layoutPartSize.IsWidthFixed != IsWidthFixed || _layoutPartSize.MinHeight != MinHeight || _layoutPartSize.MinWidth != MinWidth || _layoutPartSize.Width != Width || _layoutPartSize.WidthType != WidthType || _layoutPartSize.Margin != Margin || _layoutPartSize.BackgroundColor != BackgroundColor || _layoutPartSize.BorderColor != BorderColor || _layoutPartSize.BorderThickness != BorderThickness || (_layoutPartViewModel.Title != Title))
 			{
 				_layoutPartSize.Height = Height;
 				_layoutPartSize.HeightType = HeightType;
@@ -191,6 +206,7 @@ namespace LayoutModule.ViewModels
 				_layoutPartSize.BackgroundColor = BackgroundColor;
 				_layoutPartSize.BorderColor = BorderColor;
 				_layoutPartSize.BorderThickness = BorderThickness;
+				_layoutPartViewModel.LayoutPart.Title = string.IsNullOrEmpty(Title) ? null : Title;
 				return true;
 			}
 			return false;

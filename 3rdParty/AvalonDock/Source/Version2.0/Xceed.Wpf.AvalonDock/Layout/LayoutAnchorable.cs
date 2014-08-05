@@ -622,11 +622,11 @@ namespace Xceed.Wpf.AvalonDock.Layout
 		}
 
 
-#if DEBUG
+#if TRACE
         public override void ConsoleDump(int tab)
         {
-          System.Diagnostics.Debug.Write( new string( ' ', tab * 4 ) );
-		  System.Diagnostics.Debug.WriteLine("Anchorable()");
+          System.Diagnostics.Trace.Write( new string( ' ', tab * 4 ) );
+          System.Diagnostics.Trace.WriteLine( "Anchorable()" );
         }
 #endif
 	}

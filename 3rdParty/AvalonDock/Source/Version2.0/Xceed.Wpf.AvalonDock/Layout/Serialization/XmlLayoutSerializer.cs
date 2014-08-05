@@ -26,7 +26,7 @@ namespace Xceed.Wpf.AvalonDock.Layout.Serialization
 		public XmlLayoutSerializer(DockingManager manager)
 			: base(manager)
 		{
-			_serializer = XmlSerializerCache.Get<LayoutRoot>();
+			_serializer = new XmlSerializer(typeof(LayoutRoot));
 		}
 
 		public void Serialize(System.Xml.XmlWriter writer)

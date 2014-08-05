@@ -102,7 +102,7 @@ namespace DevicesModule.ViewModels
 				_selectedShleif = value;
 				UpdateMinAddress();
 				UpdateFreeAddresses();
-				OnPropertyChanged("SelectedShleif");
+				OnPropertyChanged(() => SelectedShleif);
 			}
 		}
 
@@ -117,7 +117,7 @@ namespace DevicesModule.ViewModels
 				if (_startAddress != value)
 				{
 					_startAddress = value;
-					OnPropertyChanged("StartAddress");
+					OnPropertyChanged(() => StartAddress);
 				}
 			}
 		}
@@ -164,7 +164,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_freeAddresses = value;
-				OnPropertyChanged("FreeAddresses");
+				OnPropertyChanged(() => FreeAddresses);
 			}
 		}
 
@@ -176,7 +176,7 @@ namespace DevicesModule.ViewModels
 			{
 				_selectedFreeAddress = value;
 				StartAddress = value;
-				OnPropertyChanged("SelectedFreeAddress");
+				OnPropertyChanged(() => SelectedFreeAddress);
 			}
 		}
 
@@ -187,7 +187,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_count = value;
-				OnPropertyChanged("Count");
+				OnPropertyChanged(() => Count);
 			}
 		}
 

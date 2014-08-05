@@ -64,10 +64,10 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			OnPropertyChanged("StringProperties");
-			OnPropertyChanged("ShortProperties");
-			OnPropertyChanged("BoolProperties");
-			OnPropertyChanged("EnumProperties");
+			OnPropertyChanged(() => StringProperties);
+			OnPropertyChanged(() => ShortProperties);
+			OnPropertyChanged(() => BoolProperties);
+			OnPropertyChanged(() => EnumProperties);
 		}
 
 		void propertyViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

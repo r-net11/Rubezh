@@ -20,7 +20,9 @@ namespace Xceed.Wpf.AvalonDock.Layout
     public interface ILayoutContentSelector
     {
         int SelectedContentIndex { get; set; }
-		int IndexOf(ILayoutElement content);
-		ILayoutElement SelectedContent { get; }
+
+        int IndexOf(LayoutContent content);
+
+        LayoutContent SelectedContent { get; }
     }
 }

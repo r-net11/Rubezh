@@ -70,12 +70,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		void LayoutElement_IsSelectedChanged(object sender, EventArgs e)
 		{
 			if (_isSelectedReentrantFlag.CanEnter)
-			{
 				using (_isSelectedReentrantFlag.Enter())
-				{
 					IsSelected = LayoutElement.IsSelected;
-				}
-			}
 		}
 
 		internal virtual void Detach()
@@ -87,14 +83,10 @@ namespace Xceed.Wpf.AvalonDock.Controls
 			Model = null;
 		}
 
-		public LayoutElement LayoutElement
+		public LayoutContent LayoutElement
 		{
 			get;
 			private set;
-		}
-		public LayoutContent LayoutContent
-		{
-			get { return LayoutElement as LayoutContent; }
 		}
 
 		public object Model
@@ -303,8 +295,9 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		protected virtual void OnVisibilityChanged()
 		{
-			if (LayoutContent != null && Visibility == System.Windows.Visibility.Collapsed)
-				LayoutContent.Close();
+			if (LayoutElement != null &&
+				Visibility == System.Windows.Visibility.Collapsed)
+				LayoutElement.Close();
 		}
 
 		#endregion
@@ -342,9 +335,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		/// </summary>
 		protected virtual void OnContentIdChanged(DependencyPropertyChangedEventArgs e)
 		{
-			var layoutContent = LayoutElement as LayoutContent;
-			if (layoutContent != null)
-				layoutContent.ContentId = (string)e.NewValue;
+			if (LayoutElement != null)
+				LayoutElement.ContentId = (string)e.NewValue;
 		}
 
 		#endregion
@@ -476,8 +468,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		/// </summary>
 		protected virtual void OnCanCloseChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (LayoutContent != null)
-				LayoutContent.CanClose = (bool)e.NewValue;
+			if (LayoutElement != null)
+				LayoutElement.CanClose = (bool)e.NewValue;
 		}
 
 		#endregion
@@ -515,8 +507,8 @@ namespace Xceed.Wpf.AvalonDock.Controls
 		/// </summary>
 		protected virtual void OnCanFloatChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (LayoutContent != null)
-				LayoutContent.CanFloat = (bool)e.NewValue;
+			if (LayoutElement != null)
+				LayoutElement.CanFloat = (bool)e.NewValue;
 		}
 
 		#endregion
@@ -567,11 +559,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		private bool CanExecuteCloseCommand(object parameter)
 		{
-#if DEBUG
-			if (LayoutContent != null)
-				System.Diagnostics.Trace.WriteLine(string.Format("CanExecuteCloseCommand({0}) = {1}", LayoutElement.Title, LayoutContent.CanClose));
-#endif
-			return LayoutContent != null && (LayoutElement.Root == null || LayoutElement.Root.Manager.AllowChangeLayout) && LayoutContent.CanClose;
+			return LayoutElement != null && (LayoutElement.Root == null || LayoutElement.Root.Manager.AllowChangeLayout) && LayoutElement.CanClose;
 		}
 
 		private void ExecuteCloseCommand(object parameter)
@@ -630,12 +618,12 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		private bool CanExecuteFloatCommand(object anchorable)
 		{
-			return LayoutContent != null && (LayoutElement.Root == null || LayoutElement.Root.Manager.AllowChangeLayout) && LayoutContent.CanFloat && LayoutElement.FindParent<LayoutFloatingWindow>() == null;
+			return LayoutElement != null && (LayoutElement.Root == null || LayoutElement.Root.Manager.AllowChangeLayout) && LayoutElement.CanFloat && LayoutElement.FindParent<LayoutFloatingWindow>() == null;
 		}
 
 		private void ExecuteFloatCommand(object parameter)
 		{
-			LayoutElement.Root.Manager._ExecuteFloatCommand(LayoutContent);
+			LayoutElement.Root.Manager._ExecuteFloatCommand(LayoutElement);
 		}
 
 		protected virtual void Float()
@@ -697,7 +685,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		private void ExecuteDockAsDocumentCommand(object parameter)
 		{
-			LayoutElement.Root.Manager._ExecuteDockAsDocumentCommand(LayoutContent);
+			LayoutElement.Root.Manager._ExecuteDockAsDocumentCommand(LayoutElement);
 		}
 
 		#endregion
@@ -760,7 +748,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		private void ExecuteCloseAllButThisCommand(object parameter)
 		{
-			LayoutElement.Root.Manager._ExecuteCloseAllButThisCommand(LayoutContent);
+			LayoutElement.Root.Manager._ExecuteCloseAllButThisCommand(LayoutElement);
 		}
 
 		#endregion
@@ -816,7 +804,7 @@ namespace Xceed.Wpf.AvalonDock.Controls
 
 		private void ExecuteActivateCommand(object parameter)
 		{
-			LayoutElement.Root.Manager._ExecuteContentActivateCommand(LayoutContent);
+			LayoutElement.Root.Manager._ExecuteContentActivateCommand(LayoutElement);
 		}
 
 		#endregion

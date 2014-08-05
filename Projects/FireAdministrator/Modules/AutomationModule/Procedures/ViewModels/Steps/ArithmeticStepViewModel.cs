@@ -23,9 +23,11 @@ namespace AutomationModule.ViewModels
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			ArithmeticArguments = arithmeticArguments;
 			SelectedArithmeticType = ArithmeticArguments.ArithmeticType;
-			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1, Procedure.Variables);
-			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2, Procedure.Variables);
-			Result = new ArithmeticParameterViewModel(ArithmeticArguments.Result, Procedure.Variables, true);
+			var variablesAndArguments = new List<Variable>(Procedure.Variables);
+			variablesAndArguments.AddRange(Procedure.Arguments);
+			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1, variablesAndArguments);
+			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2, variablesAndArguments);
+			Result = new ArithmeticParameterViewModel(ArithmeticArguments.Result, variablesAndArguments, true);
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
 			Result.UpdateDescriptionHandler = updateDescriptionHandler;
@@ -34,9 +36,11 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			Variable1.Update(Procedure.Variables);
-			Variable2.Update(Procedure.Variables);
-			Result.Update(Procedure.Variables);
+			var variablesAndArguments = new List<Variable>(Procedure.Variables);
+			variablesAndArguments.AddRange(Procedure.Arguments);
+			Variable1.Update(variablesAndArguments);
+			Variable2.Update(variablesAndArguments);
+			Result.Update(variablesAndArguments);
 		}
 
 		public string Description
@@ -82,6 +86,7 @@ namespace AutomationModule.ViewModels
 				ArithmeticArguments.ArithmeticType = value;
 				if (UpdateDescriptionHandler!=null)
 					UpdateDescriptionHandler();
+				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedArithmeticType);
 			}
 		}
@@ -104,7 +109,6 @@ namespace AutomationModule.ViewModels
 
 		public void Update(List<Variable> localVariables)
 		{
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			Variables = new ObservableCollection<VariableViewModel>();
 			if (localVariables == null)
 				localVariables = new List<Variable>();
@@ -130,7 +134,6 @@ namespace AutomationModule.ViewModels
 				SelectedGlobalVariable = null;
 
 			SelectedValueType = ArithmeticParameter.ValueType;
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => Variables);
 		}

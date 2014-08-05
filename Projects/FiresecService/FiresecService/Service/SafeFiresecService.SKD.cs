@@ -26,9 +26,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployee(uid));
 		}
-		public OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
+		public OperationResult<List<DayTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
-			return SafeContext.Execute<OperationResult<List<EmployeeTimeTrack>>>(() => FiresecService.GetEmployeeTimeTracks(employeeUID, startDate, endDate));
+			return SafeContext.Execute<OperationResult<List<DayTimeTrack>>>(() => FiresecService.GetEmployeeTimeTracks(employeeUID, startDate, endDate));
 		}
 		#endregion
 
@@ -75,21 +75,25 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<SKDCard>>>(() => FiresecService.GetCards(filter));
 		}
-		public OperationResult AddCard(SKDCard item)
+		public OperationResult<bool> AddCard(SKDCard item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.AddCard(item));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.AddCard(item));
 		}
-		public OperationResult EditCard(SKDCard item)
+		public OperationResult<bool> EditCard(SKDCard item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.EditCard(item));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.EditCard(item));
 		}
-		public OperationResult DeleteCardFromEmployee(SKDCard item, string reason = null)
+		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.DeleteCardFromEmployee(item, reason));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.DeleteCardFromEmployee(item, reason));
 		}
 		public OperationResult MarkDeletedCard(Guid uid)
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedCard(uid));
+		}
+		public OperationResult DeletedCard(Guid uid)
+		{
+			return SafeContext.Execute<OperationResult>(() => FiresecService.DeletedCard(uid));
 		}
 		public OperationResult SaveCardTemplate(SKDCard item)
 		{
@@ -102,9 +106,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<AccessTemplate>>>(() => FiresecService.GetAccessTemplates(filter));
 		}
-		public OperationResult SaveAccessTemplate(AccessTemplate item)
+		public OperationResult<bool> SaveAccessTemplate(AccessTemplate item)
 		{
-			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveAccessTemplate(item));
+			return SafeContext.Execute<OperationResult<bool>>(() => FiresecService.SaveAccessTemplate(item));
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{

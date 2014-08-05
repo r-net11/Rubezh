@@ -130,17 +130,17 @@ namespace GKModule.ViewModels
 				{
 					SelectedStateType = StateTypes.FirstOrDefault();
 				}
-				OnPropertyChanged("SelectedClauseOperationType");
-				OnPropertyChanged("PresenrationDevices");
-				OnPropertyChanged("PresenrationZones");
-				OnPropertyChanged("PresenrationDirections");
-				OnPropertyChanged("PresenrationMPTs");
-				OnPropertyChanged("PresenrationDelays");
-				OnPropertyChanged("CanSelectDevices");
-				OnPropertyChanged("CanSelectZones");
-				OnPropertyChanged("CanSelectDirections");
-				OnPropertyChanged("CanSelectMPTs");
-				OnPropertyChanged("CanSelectDelays");
+				OnPropertyChanged(() => SelectedClauseOperationType);
+				OnPropertyChanged(() => PresenrationDevices);
+				OnPropertyChanged(() => PresenrationZones);
+				OnPropertyChanged(() => PresenrationDirections);
+				OnPropertyChanged(() => PresenrationMPTs);
+				OnPropertyChanged(() => PresenrationDelays);
+				OnPropertyChanged(() => CanSelectDevices);
+				OnPropertyChanged(() => CanSelectZones);
+				OnPropertyChanged(() => CanSelectDirections);
+				OnPropertyChanged(() => CanSelectMPTs);
+				OnPropertyChanged(() => CanSelectDelays);
 			}
 		}
 

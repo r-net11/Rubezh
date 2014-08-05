@@ -144,11 +144,15 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Journal\JournalDetalisationItem.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\JournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDirectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDoorArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKFireZoneArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlGKGuardZoneArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\ControlSKDDeviceArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\IncrementGlobalValueArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\PersonInspectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SetGlobalValueArguments.cs" />
@@ -203,6 +207,7 @@
     <Compile Include="Models\Automation\ValueType.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\VariableType.cs" />
+    <Compile Include="Models\Layouts\LayoutPartTemplateContainerProperties.cs" />
     <Compile Include="Models\Plans\ElementPolygonXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />
@@ -215,7 +220,7 @@
     <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
-    <Compile Include="SKD\Employee\EmployeeTimeTrack.cs" />
+    <Compile Include="SKD\Employee\DayTimeTrack.cs" />
     <Compile Include="Journal\JournalObjectType.cs" />
     <Compile Include="SKD\Settings\GlobalSettings.cs" />
     <Compile Include="Models\Automation\AutomationConfiguration.cs" />
@@ -234,6 +239,7 @@
     <Compile Include="SKD\SKDManager\LockControlHelper.cs" />
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\SKDDoorState.cs" />
+    <Compile Include="SKD\TimeIntervals\ExcuseDocumentEnum.cs" />
     <Compile Include="XModels\Guard\XGuardZoneDevice.cs" />
     <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
@@ -293,7 +299,6 @@
     <Compile Include="SKD\EmployeeTimeIntervals\TimeIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\NamedIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleScheme.cs" />
-    <Compile Include="SKD\EmployeeTimeIntervals\TimeTrack.cs" />
     <Compile Include="SKD\Employee\ShortEmployee.cs" />
     <Compile Include="SKD\Employee\PersonType.cs" />
     <Compile Include="Journal\ArchiveFilter.cs" />

@@ -25,7 +25,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_devicePasswordType = value;
-				OnPropertyChanged("DevicePasswordType");
+				OnPropertyChanged(() => DevicePasswordType);
 			}
 		}
 
@@ -36,7 +36,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_password = value;
-				OnPropertyChanged("Password");
+				OnPropertyChanged(() => Password);
 			}
 		}
 
@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_passwordConfirm = value;
-				OnPropertyChanged("PasswordConfirm");
+				OnPropertyChanged(() => PasswordConfirm);
 			}
 		}
 

@@ -299,7 +299,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_devices = value;
-				OnPropertyChanged("Devices");
+				OnPropertyChanged(() => Devices);
 			}
 		}
 
@@ -311,7 +311,7 @@ namespace DevicesModule.ViewModels
 			{
 				_selectedDevice = value;
 				InitializeUsers();
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 

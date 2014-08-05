@@ -24,7 +24,8 @@ namespace SKDDriver
 			result.ExitIntervalType = (IntervalType)tableItem.ExitIntervalType;
 			result.ExitIntervalID = tableItem.ExitIntervalID;
 			result.DoorUID = tableItem.DoorUID;
-			result.ParentUID = tableItem.ParentUID;
+			result.CardUID = tableItem.CardUID;
+			result.AccessTemplateUID = tableItem.AccessTemplateUID;
 			return result;
 		}
 
@@ -36,15 +37,28 @@ namespace SKDDriver
 			tableItem.ExitIntervalType = (int?)apiItem.ExitIntervalType;
 			tableItem.ExitIntervalID = apiItem.ExitIntervalID;
 			tableItem.DoorUID = apiItem.DoorUID;
-			tableItem.ParentUID = apiItem.ParentUID;
+			tableItem.CardUID = apiItem.CardUID;
+			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 		}
 
-		public List<CardDoor> Get(Guid parentUID)
+		public List<CardDoor> GetForCards(Guid cardUID)
 		{
 			var result = new List<CardDoor>();
 			foreach (var CardDoorLink in Table.Where(x => x != null &&
 				!x.IsDeleted &&
-				x.ParentUID == parentUID))
+				x.CardUID == cardUID))
+			{
+				result.Add(Translate(CardDoorLink));
+			}
+			return result;
+		}
+
+		public List<CardDoor> GetForAccessTemplate(Guid accessTemplateUID)
+		{
+			var result = new List<CardDoor>();
+			foreach (var CardDoorLink in Table.Where(x => x != null &&
+				!x.IsDeleted &&
+				x.AccessTemplateUID == accessTemplateUID))
 			{
 				result.Add(Translate(CardDoorLink));
 			}
@@ -70,14 +84,12 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult SaveFromCard(SKDCard card)
+		public OperationResult RemoveFromCard(SKDCard card)
 		{
-			var operationResult = new OperationResult();
 			try
 			{
-				var databaseItems = Table.Where(x => x.ParentUID == card.UID);
-				databaseItems.ForEach(x => MarkDeleted(x));
-				Save(card.CardDoors);
+				var databaseItems = Table.Where(x => x.CardUID == card.UID);
+				databaseItems.ForEach(x => Delete(x.UID));
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -86,14 +98,12 @@ namespace SKDDriver
 			}
 		}
 
-		public OperationResult SaveFromAccessTemplate(AccessTemplate accessTemplate)
+		public OperationResult RemoveFromAccessTemplate(AccessTemplate accessTemplate)
 		{
-			var operationResult = new OperationResult();
 			try
 			{
-				var databaseItems = Table.Where(x => x.ParentUID == accessTemplate.UID);
-				databaseItems.ForEach(x => MarkDeleted(x));
-				Save(accessTemplate.CardDoors);
+				var databaseItems = Table.Where(x => x.AccessTemplateUID == accessTemplate.UID);
+				databaseItems.ForEach(x => Delete(x.UID));
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -107,7 +117,7 @@ namespace SKDDriver
 			var operationResult = new OperationResult();
 			try
 			{
-				var databaseItems = Table.Where(x => x.ParentUID == uid);
+				var databaseItems = Table.Where(x => x.AccessTemplateUID == uid);
 				databaseItems.ForEach(x => MarkDeleted(x));
 				return new OperationResult();
 			}
@@ -120,15 +130,6 @@ namespace SKDDriver
 		protected override Expression<Func<DataAccess.CardDoor, bool>> IsInFilter(CardDoorFilter filter)
 		{
 			var result = base.IsInFilter(filter);
-			var cardUIDs = filter.CardUIDs;
-			if (cardUIDs != null && cardUIDs.Count != 0)
-				result = result.And(e => e.ParentUID.HasValue && cardUIDs.Contains(e.ParentUID.Value));
-			var DoorUIDs = filter.DoorUIDs;
-			if (DoorUIDs != null && DoorUIDs.Count != 0)
-				result = result.And(e => DoorUIDs.Contains(e.DoorUID));
-			var intervalIDs = filter.IntervalIDs;
-			if (intervalIDs != null && intervalIDs.Count != 0)
-				result = result.And(e => e.EnterIntervalID > 0 && intervalIDs.Contains(e.EnterIntervalID));
 			return result;
 		}
 	}

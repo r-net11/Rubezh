@@ -79,7 +79,7 @@ namespace AlarmModule.ViewModels
 			set
 			{
 				_selectedAlarm = value;
-				OnPropertyChanged("SelectedAlarm");
+				OnPropertyChanged(() => SelectedAlarm);
 			}
 		}
 

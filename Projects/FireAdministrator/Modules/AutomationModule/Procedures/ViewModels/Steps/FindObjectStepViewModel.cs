@@ -60,10 +60,8 @@ namespace AutomationModule.ViewModels
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
 			}
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == FindObjectArguments.ResultUid);
 			JoinOperator = FindObjectArguments.JoinOperator;
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			FindObjectConditions = new ObservableCollection<FindObjectConditionViewModel>();
 			if (SelectedVariable != null)
 				foreach (var findObjectCondition in FindObjectArguments.FindObjectConditions)
@@ -157,14 +155,12 @@ namespace AutomationModule.ViewModels
 				StringConditionType.StartsWith, StringConditionType.EndsWith, StringConditionType.Contains
 			};
 
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			SelectedDevicePropertyType = FindObjectCondition.DevicePropertyType;
 			SelectedZonePropertyType = FindObjectCondition.ZonePropertyType;
 			SelectedDirectionPropertyType = FindObjectCondition.DirectionPropertyType;
 			SelectedConditionType = FindObjectCondition.ConditionType;
 			IntValue = FindObjectCondition.IntValue;
 			StringValue = FindObjectCondition.StringValue;
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
 		public ObservableCollection<DevicePropertyType> DevicePropertyTypes { get; private set; }

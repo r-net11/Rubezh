@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_databases = value;
-				OnPropertyChanged("Databases");
+				OnPropertyChanged(() => Databases);
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDatabase = value;
-				OnPropertyChanged("SelectedDatabase");
+				OnPropertyChanged(() => SelectedDatabase);
 				if (value != null)
 				{
 					InitializeSelectedDB();

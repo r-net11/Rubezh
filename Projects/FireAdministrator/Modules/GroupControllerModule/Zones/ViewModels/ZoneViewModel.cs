@@ -51,9 +51,9 @@ namespace GKModule.ViewModels
 		public void Update(XZone zone)
 		{
 			Zone = zone;
-			OnPropertyChanged("Zone");
-			OnPropertyChanged("Name");
-			OnPropertyChanged("Description");
+			OnPropertyChanged(() => Zone);
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
 			Update();
 		}
 

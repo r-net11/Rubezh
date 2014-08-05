@@ -1,4 +1,5 @@
 ﻿using FiresecAPI;
+using Infrastructure;
 using Infrastructure.Common.TreeList;
 using FiresecAPI.Automation;
 
@@ -14,7 +15,7 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			StepsViewModel = stepsViewModel;
 			Step = step;
-
+			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			switch(step.ProcedureStepType)
 			{
 				case ProcedureStepType.PlaySound:
@@ -29,8 +30,8 @@ namespace AutomationModule.ViewModels
 					Content = new ConditionStepViewModel(step.ConditionArguments, procedure);
 					break;
 
-				case ProcedureStepType.SendMessage:
-					Content = new JournalStepViewModel(step);
+				case ProcedureStepType.AddJournalItem:
+					Content = new JournalStepViewModel(step.JournalArguments);
 					break;
 
 				case ProcedureStepType.FindObjects:
@@ -69,6 +70,10 @@ namespace AutomationModule.ViewModels
 					Content = new ControlGKDeviceStepViewModel(step.ControlGKDeviceArguments);
 					break;
 
+				case ProcedureStepType.ControlSKDDevice:
+					Content = new ControlSKDDeviceStepViewModel(step.ControlSKDDeviceArguments);
+					break;
+
 				case ProcedureStepType.ControlGKFireZone:
 					Content = new ControlGKFireZoneStepViewModel(step.ControlGKFireZoneArguments);
 					break;
@@ -84,10 +89,16 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.ControlDoor:
 					Content = new ControlDoorStepViewModel(step.ControlDoorArguments);
 					break;
-				//case ProcedureStepType.ControlSKDGKDevice
-					//case ProcedureStepType.ControlSKDZone
-					//case ProcedureStepType.ControlCamera
+
+				case ProcedureStepType.ControlSKDZone:
+					Content = new ControlSKDZoneStepViewModel(step.ControlSKDZoneArguments);
+					break;
+
+				case ProcedureStepType.ControlCamera:
+					Content = new ControlCameraStepViewModel(step.ControlCameraArguments);
+					break;
 			}
+			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}
 
 		public void UpdateContent()

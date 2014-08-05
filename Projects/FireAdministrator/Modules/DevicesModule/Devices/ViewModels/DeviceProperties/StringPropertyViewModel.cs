@@ -22,7 +22,7 @@ namespace DevicesModule.DeviceProperties
 			set
 			{
 				_text = value;
-				OnPropertyChanged("Text");
+				OnPropertyChanged(() => Text);
 				Save(value);
 			}
 		}

@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_directions = value;
-				OnPropertyChanged("Directions");
+				OnPropertyChanged(() => Directions);
 			}
 		}
 
@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDirection = value;
-				OnPropertyChanged("SelectedDirection");
+				OnPropertyChanged(() => SelectedDirection);
 			}
 		}
 	}

@@ -64,7 +64,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_directions = value;
-				OnPropertyChanged("Directions");
+				OnPropertyChanged(() => Directions);
 			}
 		}
 
@@ -77,7 +77,7 @@ namespace GKModule.ViewModels
 				_selectedDirection = value;
 				if (value != null)
 					value.Update();
-				OnPropertyChanged("SelectedDirection");
+				OnPropertyChanged(() => SelectedDirection);
 				if (!_lockSelection && _selectedDirection != null && _selectedDirection.Direction.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedDirection.Direction.PlanElementUIDs);
 			}

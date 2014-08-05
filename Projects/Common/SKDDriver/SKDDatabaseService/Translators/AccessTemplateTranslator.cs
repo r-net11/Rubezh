@@ -11,13 +11,13 @@ namespace SKDDriver
 {
 	public class AccessTemplateTranslator : OrganisationElementTranslator<DataAccess.AccessTemplate, AccessTemplate, AccessTemplateFilter>
 	{
-		public AccessTemplateTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardDoorsTranslator)
+		public AccessTemplateTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardDoorTranslator)
 			: base(context)
 		{
-			CardDoorsTranslator = cardDoorsTranslator;
+			CardDoorTranslator = cardDoorTranslator;
 		}
 
-		CardDoorTranslator CardDoorsTranslator;
+		CardDoorTranslator CardDoorTranslator;
 
 		protected override OperationResult CanSave(AccessTemplate item)
 		{
@@ -40,19 +40,19 @@ namespace SKDDriver
 
 		public override OperationResult MarkDeleted(Guid uid)
 		{
-			var deleteZonesResult = CardDoorsTranslator.MarkDeletefFromAccessTemplate(uid);
-			if (deleteZonesResult.HasError)
-				return deleteZonesResult;
+			var deleteDoorsResult = CardDoorTranslator.MarkDeletefFromAccessTemplate(uid);
+			if (deleteDoorsResult.HasError)
+				return deleteDoorsResult;
 			return base.MarkDeleted(uid);
 		}
 
 		protected override AccessTemplate Translate(DataAccess.AccessTemplate tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.CardDoors = CardDoorsTranslator.Get(tableItem.UID);
+			result.CardDoors = CardDoorTranslator.GetForAccessTemplate(tableItem.UID);
 			result.Name = tableItem.Name;
-			var zones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
-			foreach (var item in zones)
+			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
+			foreach (var item in guardZones)
 			{
 				result.GuardZoneAccesses.Add(new XGuardZoneAccess
 				{
@@ -72,10 +72,10 @@ namespace SKDDriver
 
 		public override OperationResult Save(AccessTemplate item)
 		{
-			var updateZonesResult = CardDoorsTranslator.SaveFromAccessTemplate(item);
-			if (updateZonesResult.HasError)
-				return updateZonesResult;
-			return base.Save(item);
+			var updateCardDoorsResult = CardDoorTranslator.RemoveFromAccessTemplate(item);
+			var result = base.Save(item);
+			CardDoorTranslator.Save(item.CardDoors);
+			return result;
 		}
 
 		protected override Expression<Func<DataAccess.AccessTemplate, bool>> IsInFilter(AccessTemplateFilter filter)

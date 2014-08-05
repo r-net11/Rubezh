@@ -83,16 +83,15 @@ namespace DevicesModule.ViewModels
 				}
 			}
 
-			OnPropertyChanged("StateType");
-			OnPropertyChanged("ToolTip");
-			OnPropertyChanged("DeviceState");
+			OnPropertyChanged(() => ToolTip);
+			OnPropertyChanged(() => DeviceState);
 			OnPropertyChanged("DeviceState.States");
 			OnPropertyChanged("DeviceState.StringStates");
 			OnPropertyChanged("DeviceState.ParentStringStates");
-			OnPropertyChanged("States");
-			OnPropertyChanged("ParentStates");
-			OnPropertyChanged("ChildState");
-			OnPropertyChanged("HasChildStates");
+			OnPropertyChanged(() => States);
+			OnPropertyChanged(() => ParentStates);
+			OnPropertyChanged(() => ChildState);
+			OnPropertyChanged(() => HasChildStates);
 
 			ShowTimerDetails();
 		}
@@ -182,7 +181,7 @@ namespace DevicesModule.ViewModels
 					}
 				}
 			}
-			OnPropertyChanged("Parameters");
+			OnPropertyChanged(() => Parameters);
 		}
 
 		public List<string> Parameters
@@ -204,7 +203,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_failureType = value;
-				OnPropertyChanged("FailureType");
+				OnPropertyChanged(() => FailureType);
 			}
 		}
 
@@ -215,7 +214,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_alarmReason = value;
-				OnPropertyChanged("AlarmReason");
+				OnPropertyChanged(() => AlarmReason);
 			}
 		}
 
@@ -226,7 +225,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_smokiness = value;
-				OnPropertyChanged("Smokiness");
+				OnPropertyChanged(() => Smokiness);
 			}
 		}
 
@@ -237,7 +236,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_dustiness = value;
-				OnPropertyChanged("Dustiness");
+				OnPropertyChanged(() => Dustiness);
 			}
 		}
 
@@ -248,7 +247,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_temperature = value;
-				OnPropertyChanged("Temperature");
+				OnPropertyChanged(() => Temperature);
 			}
 		}
 
@@ -317,7 +316,7 @@ namespace DevicesModule.ViewModels
 			resetItems.Add(resetItem);
 			FiresecManager.ResetStates(resetItems);
 
-			OnPropertyChanged("DeviceState");
+			OnPropertyChanged(() => DeviceState);
 		}
 		bool CanReset(string stateName)
 		{

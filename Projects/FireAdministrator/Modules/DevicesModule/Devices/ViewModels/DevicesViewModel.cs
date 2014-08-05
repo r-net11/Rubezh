@@ -113,7 +113,7 @@ namespace DevicesModule.ViewModels
 			private set
 			{
 				_rootDevice = value;
-				OnPropertyChanged("RootDevice");
+				OnPropertyChanged(() => RootDevice);
 			}
 		}
 

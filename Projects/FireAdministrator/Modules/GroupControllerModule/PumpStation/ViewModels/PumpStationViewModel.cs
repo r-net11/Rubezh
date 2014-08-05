@@ -38,7 +38,7 @@ namespace GKModule.ViewModels
 					PumpDevices.Add(deviceViewModel);
 				}
 			}
-			OnPropertyChanged("PumpStation");
+			OnPropertyChanged(() => PumpStation);
 		}
 
 		ObservableCollection<DeviceViewModel> _pumpDevices;
@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_pumpDevices = value;
-				OnPropertyChanged("PumpDevices");
+				OnPropertyChanged(() => PumpDevices);
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedPumpDevice = value;
-				OnPropertyChanged("SelectedPumpDevice");
+				OnPropertyChanged(() => SelectedPumpDevice);
 			}
 		}
 

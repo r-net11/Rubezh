@@ -83,7 +83,7 @@ namespace SKDModule.ViewModels
 				_selectedEmployee = value;
 				OnPropertyChanged(() => SelectedEmployee);
 				OnPropertyChanged(() => IsEmployeeSelected);
-				if(SelectedEmployee != null)
+				if (SelectedEmployee != null)
 					SelectedEmployee.UpdatePhoto();
 			}
 		}

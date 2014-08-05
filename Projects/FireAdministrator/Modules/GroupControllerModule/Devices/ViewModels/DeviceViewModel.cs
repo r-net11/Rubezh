@@ -57,17 +57,17 @@ namespace GKModule.ViewModels
 
 		void OnChanged()
 		{
-			OnPropertyChanged("PresentationAddress");
-			OnPropertyChanged("PresentationZone");
-			OnPropertyChanged("EditingPresentationZone");
-			OnPropertyChanged("IsParamtersEnabled");
+			OnPropertyChanged(() => PresentationAddress);
+			OnPropertyChanged(() => PresentationZone);
+			OnPropertyChanged(() => EditingPresentationZone);
+			OnPropertyChanged(() => IsParamtersEnabled);
 		}
 
 		public void UpdateProperties()
 		{
 			PropertiesViewModel = new PropertiesViewModel(Device);
-			OnPropertyChanged("PropertiesViewModel");
-			OnPropertyChanged("IsParamtersEnabled");
+			OnPropertyChanged(() => PropertiesViewModel);
+			OnPropertyChanged(() => IsParamtersEnabled);
 		}
 
 		public void Update()
@@ -88,11 +88,11 @@ namespace GKModule.ViewModels
 					foreach (var deviceViewModel in Children)
 					{
 						deviceViewModel.OnPropertyChanged("Ip");
-						deviceViewModel.OnPropertyChanged("PresentationAddress");
+						deviceViewModel.OnPropertyChanged(() => PresentationAddress);
 					}
 				}
 				OnPropertyChanged("Ip");
-				OnPropertyChanged("PresentationAddress");
+				OnPropertyChanged(() => PresentationAddress);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -120,10 +120,10 @@ namespace GKModule.ViewModels
 			{
 				Device.IsNotUsed = !value;
 				XManager.ChangeDeviceLogic(Device, new XDeviceLogic());
-				OnPropertyChanged("IsUsed");
-				OnPropertyChanged("ShowOnPlan");
-				OnPropertyChanged("PresentationZone");
-				OnPropertyChanged("EditingPresentationZone");
+				OnPropertyChanged(() => IsUsed);
+				OnPropertyChanged(() => ShowOnPlan);
+				OnPropertyChanged(() => PresentationZone);
+				OnPropertyChanged(() => EditingPresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -470,13 +470,13 @@ namespace GKModule.ViewModels
 					{
 						DevicesViewModel.Current.AddDevice(childDevice, this);
 					}
-					OnPropertyChanged("Device");
-					OnPropertyChanged("Driver");
-					OnPropertyChanged("Device");
-					OnPropertyChanged("Children");
-					OnPropertyChanged("EditingPresentationZone");
+					OnPropertyChanged(() => Device);
+					OnPropertyChanged(() => Driver);
+					OnPropertyChanged(() => Device);
+					OnPropertyChanged(() => Children);
+					OnPropertyChanged(() => EditingPresentationZone);
 					PropertiesViewModel = new PropertiesViewModel(Device);
-					OnPropertyChanged("PropertiesViewModel");
+					OnPropertyChanged(() => PropertiesViewModel);
 					if (Device.KAURSR2Parent != null)
 						XManager.RebuildRSR2Addresses(Device.KAURSR2Parent);
 					XManager.DeviceConfiguration.Update();

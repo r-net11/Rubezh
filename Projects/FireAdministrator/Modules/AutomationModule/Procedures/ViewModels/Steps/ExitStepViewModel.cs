@@ -59,7 +59,6 @@ namespace AutomationModule.ViewModels
 
 		public void Update(List<Variable> localVariables)
 		{
-			var automationChanged = ServiceFactory.SaveService.AutomationChanged;
 			Variables = new ObservableCollection<VariableViewModel>();
 			if (localVariables == null)
 				localVariables = new List<Variable>();
@@ -89,7 +88,6 @@ namespace AutomationModule.ViewModels
 				ExitCodeType.Normal, ExitCodeType.Interrupt
 			};
 			SelectedValueType = ExitCode.ValueType;
-			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => Variables);
 			OnPropertyChanged(() => ExitCodeTypes);

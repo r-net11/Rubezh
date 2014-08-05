@@ -41,32 +41,7 @@ namespace FiresecAPI.Automation
 
 		public void UpdateStep(ProcedureStep step, Procedure procedure)
 		{
-			/* ArithmeticArguments */
-			if (GlobalVariables.All(x => x.Uid != step.ArithmeticArguments.Variable1.GlobalVariableUid))
-				step.ArithmeticArguments.Variable1.GlobalVariableUid = Guid.Empty;
-			if (procedure.Variables.All(x => x.Uid != step.ArithmeticArguments.Variable1.VariableUid))
-				step.ArithmeticArguments.Variable1.VariableUid = Guid.Empty;
-			if (GlobalVariables.All(x => x.Uid != step.ArithmeticArguments.Variable2.GlobalVariableUid))
-				step.ArithmeticArguments.Variable2.GlobalVariableUid = Guid.Empty;
-			if (procedure.Variables.All(x => x.Uid != step.ArithmeticArguments.Variable2.VariableUid))
-				step.ArithmeticArguments.Variable2.VariableUid = Guid.Empty;
-			if (GlobalVariables.All(x => x.Uid != step.ArithmeticArguments.Result.GlobalVariableUid))
-				step.ArithmeticArguments.Result.GlobalVariableUid = Guid.Empty;
-			if (procedure.Variables.All(x => x.Uid != step.ArithmeticArguments.Result.VariableUid))
-				step.ArithmeticArguments.Result.VariableUid = Guid.Empty;
 
-			/* ConditionArguments */
-			foreach (var condition in step.ConditionArguments.Conditions)
-			{
-				if (GlobalVariables.All(x => x.Uid != condition.Variable1.GlobalVariableUid))
-					condition.Variable1.GlobalVariableUid = Guid.Empty;
-				if (procedure.Variables.All(x => x.Uid != condition.Variable1.VariableUid))
-					condition.Variable1.VariableUid = Guid.Empty;
-				if (GlobalVariables.All(x => x.Uid != condition.Variable2.GlobalVariableUid))
-					condition.Variable2.GlobalVariableUid = Guid.Empty;
-				if (procedure.Variables.All(x => x.Uid != condition.Variable2.VariableUid))
-					condition.Variable2.VariableUid = Guid.Empty;
-			}
 		}
 	}
 }

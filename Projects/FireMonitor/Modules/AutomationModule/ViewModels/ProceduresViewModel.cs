@@ -34,7 +34,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_procedures = value;
-				OnPropertyChanged("Procedures");
+				OnPropertyChanged(() => Procedures);
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedProcedure = value;
-				OnPropertyChanged("SelectedProcedure");
+				OnPropertyChanged(() => SelectedProcedure);
 			}
 		}
 	}

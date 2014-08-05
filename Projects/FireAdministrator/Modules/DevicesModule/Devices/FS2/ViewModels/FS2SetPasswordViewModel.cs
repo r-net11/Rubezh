@@ -36,7 +36,7 @@
 //			set
 //			{
 //				_password = value;
-//				OnPropertyChanged("Password");
+//				OnPropertyChanged(()=>Password);
 //			}
 //		}
 
@@ -47,7 +47,7 @@
 //			set
 //			{
 //				_passwordConfirm = value;
-//				OnPropertyChanged("PasswordConfirm");
+//				OnPropertyChanged(()=>PasswordConfirm);
 //			}
 //		}
 

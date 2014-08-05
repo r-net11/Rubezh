@@ -29,15 +29,11 @@ namespace SKDModule.Views
 				grid.Columns.RemoveAt(i);
 			for (int i = 0; i < viewModel.TotalDays; i++)
 			{
-				//DataGridTextColumn textColumn = new DataGridTextColumn();
-				//textColumn.Header = date.ToShortDateString();
-				//textColumn.Binding = new Binding(string.Format("Model.Hours[{0}]", i));
-				//grid.Columns.Add(textColumn);
-				var factory = new FrameworkElementFactory(typeof(TextBox));
-				factory.SetValue(TextBox.TextProperty, new Binding(string.Format("Model.EmployeeTimeTracks[{0}].Total", i)));
+				var factory = new FrameworkElementFactory(typeof(TimeTrackingCellView));
+				factory.SetValue(TimeTrackingCellView.DataContextProperty, new Binding(string.Format("DayTracks[{0}]", i)));
 				var column = new DataGridTemplateColumn()
 				{
-					Header = date.ToShortDateString(),
+					Header = date.ToString("dd MM"),
 					CellTemplate = new DataTemplate()
 					{
 						VisualTree = factory,

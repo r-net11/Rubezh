@@ -92,6 +92,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.Arithmetics),
 							new StepTypeViewModel(ProcedureStepType.PersonInspection),
 							new StepTypeViewModel(ProcedureStepType.FindObjects),
+							new StepTypeViewModel(ProcedureStepType.AddJournalItem),
 							new StepTypeViewModel(ProcedureStepType.SendMessage),
 							new StepTypeViewModel(ProcedureStepType.ReportExport)
 						}),
@@ -120,7 +121,7 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel("Управление СКД",
 								new List<StepTypeViewModel>()
 								{
-									new StepTypeViewModel(ProcedureStepType.ControlSKDGKDevice),
+									new StepTypeViewModel(ProcedureStepType.ControlSKDDevice),
 									new StepTypeViewModel(ProcedureStepType.ControlSKDZone),
 									new StepTypeViewModel(ProcedureStepType.ControlDoor)
 								}),

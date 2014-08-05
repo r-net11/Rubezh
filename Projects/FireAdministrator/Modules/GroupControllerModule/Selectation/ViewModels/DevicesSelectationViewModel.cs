@@ -53,8 +53,8 @@ namespace GKModule.ViewModels
 			SelectedDevice = Devices.FirstOrDefault();
 			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 
-			OnPropertyChanged("Devices");
-			OnPropertyChanged("AvailableDevices");
+			OnPropertyChanged(() => Devices);
+			OnPropertyChanged(() => AvailableDevices);
 		}
 
 		public List<XDevice> DevicesList { get; private set; }

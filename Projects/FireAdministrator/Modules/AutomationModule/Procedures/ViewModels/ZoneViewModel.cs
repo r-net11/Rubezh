@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.GK;
+using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -7,6 +8,7 @@ namespace AutomationModule.ViewModels
 	{
 		public XZone Zone { get; private set; }
 		public XGuardZone GuardZone { get; private set; }
+		public SKDZone SKDZone { get; private set; }
 
 		public ZoneViewModel(XZone zone)
 		{
@@ -16,6 +18,11 @@ namespace AutomationModule.ViewModels
 		public ZoneViewModel(XGuardZone guardZone)
 		{
 			GuardZone = guardZone;
+		}
+
+		public ZoneViewModel(SKDZone sKDZone)
+		{
+			SKDZone = sKDZone;
 		}
 	}
 }
