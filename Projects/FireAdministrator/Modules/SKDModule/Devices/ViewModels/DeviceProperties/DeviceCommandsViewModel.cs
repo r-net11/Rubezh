@@ -87,7 +87,8 @@ namespace SKDModule.ViewModels
 							}
 
 							var oldHasMissmath = HasMissmath;
-							SelectedDevice.Device.HasConfigurationMissmatch = result.HasError;
+							if (SelectedDevice.Device.HasConfigurationMissmatch)
+								SelectedDevice.Device.HasConfigurationMissmatch = result.HasError;
 							OnPropertyChanged(() => HasMissmath);
 							if (HasMissmath != oldHasMissmath)
 								ServiceFactory.SaveService.SKDChanged = true;
@@ -127,8 +128,11 @@ namespace SKDModule.ViewModels
 							foreach (var failedDeviceUID in result.Result)
 							{
 								var device = SKDManager.Devices.FirstOrDefault(x => x.UID == failedDeviceUID);
-								if(device != null)
-									device.HasConfigurationMissmatch = true;
+								if (device != null)
+								{
+									if (device.HasConfigurationMissmatch)
+										device.HasConfigurationMissmatch = true;
+								}
 							}
 							OnPropertyChanged(() => HasMissmath);
 							if (HasMissmath != oldHasMissmath)

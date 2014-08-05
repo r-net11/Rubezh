@@ -117,11 +117,12 @@ namespace SKDModule.ViewModels
 			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 				return;
 
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedPosition);
 			var position = SelectedPosition.Position;
 			bool removeResult = PositionHelper.MarkDeleted(position.UID);
 			if (!removeResult)
 				return;
+
+			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedPosition);
 			OrganisationViewModel.RemoveChild(SelectedPosition);
 			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
 			if (index > -1)
@@ -164,7 +165,6 @@ namespace SKDModule.ViewModels
 			var newShortPosition = CopyPosition(_clipboard);
 			var position = new Position()
 			{
-				UID = newShortPosition.UID,
 				Name = newShortPosition.Name,
 				Description = newShortPosition.Description
 			};
