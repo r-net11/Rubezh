@@ -17,7 +17,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_guardUser = value;
-				OnPropertyChanged("GuardUser");
+				OnPropertyChanged(() => GuardUser);
 			}
 		}
 	}

@@ -101,7 +101,7 @@ namespace DevicesModule.ViewModels
 			RootDevice = deviceViewModels.FirstOrDefault(x => x.Parent == null);
 			AvailableRootDevice = availableDeviceViewModels.FirstOrDefault(x => x.Parent == null);
 
-			OnPropertyChanged("RootDevices");
+			OnPropertyChanged(() => RootDevices);
 			OnPropertyChanged("AvailableRootDevices");
 		}
 

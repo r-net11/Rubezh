@@ -334,7 +334,7 @@ namespace DevicesModule.ViewModels
 			{
 				_selectedDeviceUser = value;
 				InitializeZones();
-				OnPropertyChanged("SelectedDeviceUser");
+				OnPropertyChanged(() => SelectedDeviceUser);
 			}
 		}
 
@@ -345,7 +345,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_availableUsers = value;
-				OnPropertyChanged("AvailableUsers");
+				OnPropertyChanged(() => AvailableUsers);
 			}
 		}
 
@@ -356,7 +356,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedAvailableUser = value;
-				OnPropertyChanged("SelectedAvailableUser");
+				OnPropertyChanged(() => SelectedAvailableUser);
 			}
 		}
 

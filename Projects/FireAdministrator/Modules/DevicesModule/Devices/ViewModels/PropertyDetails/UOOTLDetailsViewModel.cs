@@ -232,7 +232,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				isDirect = value;
-				OnPropertyChanged("IsDirect");
+				OnPropertyChanged(() => IsDirect);
 			}
 		}
 

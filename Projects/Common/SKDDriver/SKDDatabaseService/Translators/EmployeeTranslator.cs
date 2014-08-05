@@ -18,7 +18,7 @@ namespace SKDDriver
 			AdditionalColumnTranslator additionalColumnTranslator,
 			CardTranslator cardTranslator,
 			PhotoTranslator photoTranslator,
-			ScheduleTranslator scheduleTranslator )
+			ScheduleTranslator scheduleTranslator)
 			: base(context)
 		{
 			PositionTranslator = positionTranslator;
@@ -93,11 +93,11 @@ namespace SKDDriver
 			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
 			foreach (var item in guardZones)
 			{
-				result.GuardZoneAccesses.Add(new XGuardZoneAccess 
-					{ 
-						ZoneUID = item.ZoneUID, 
-						CanReset = item.CanReset, 
-						CanSet = item.CanSet 
+				result.GuardZoneAccesses.Add(new XGuardZoneAccess
+					{
+						ZoneUID = item.ZoneUID,
+						CanReset = item.CanReset,
+						CanSet = item.CanSet
 					});
 			}
 			return result;
@@ -134,7 +134,7 @@ namespace SKDDriver
 				return result;
 			return AdditionalColumnTranslator.SetTextColumns(result);
 		}
-		
+
 		protected override void TranslateBack(DataAccess.Employee tableItem, Employee apiItem)
 		{
 			base.TranslateBack(tableItem, apiItem);
@@ -147,7 +147,7 @@ namespace SKDDriver
 				tableItem.PositionUID = apiItem.Position.UID;
 			if (apiItem.Department != null)
 				tableItem.DepartmentUID = apiItem.Department.UID;
-			if(apiItem.Schedule != null)
+			if (apiItem.Schedule != null)
 				tableItem.ScheduleUID = apiItem.Schedule.UID;
 			tableItem.ScheduleStartDate = CheckDate(apiItem.ScheduleStartDate);
 			if (apiItem.Photo != null)
@@ -228,7 +228,7 @@ namespace SKDDriver
 		{
 			return SaveGuardZonesInternal(apiItem.UID, apiItem.GuardZoneAccesses);
 		}
-				
+
 		OperationResult SaveGuardZonesInternal(Guid parentUID, List<XGuardZoneAccess> GuardZones)
 		{
 			try
@@ -306,7 +306,7 @@ namespace SKDDriver
 			dayTimeTrack.Date = date;
 			var firstEnterTime = passJournals.Where(x => x != null).Select(x => x.EnterTime.Value).Min();
 			var lastExitTime = passJournals.Where(x => x != null).Select(x => x.ExitTime.Value).Max();
-			
+
 			var totalNotMiss = new DateTime();
 			foreach (var passJournal in passJournals)
 			{
@@ -317,7 +317,7 @@ namespace SKDDriver
 
 			var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
 			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
-			if(schedule == null)
+			if (schedule == null)
 				return new DayTimeTrack();
 			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
 			if (scheduleScheme == null)
@@ -356,40 +356,65 @@ namespace SKDDriver
 			{
 				foreach (var passJournal in passJournals)
 				{
-					if (!scheduleZones.Any(x => x == passJournal.ZoneUID))
-						continue;
-					var itemExitTime = passJournal.ExitTime != null ? passJournal.ExitTime.Value : new DateTime();
-					var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
-					var enterTimeSpan = new TimeSpan(itemEnterTime.TimeOfDay.Ticks);
-					var exitTimeSpan = new TimeSpan(itemExitTime.TimeOfDay.Ticks);
-					if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
+					if (scheduleZones.Any(x => x == passJournal.ZoneUID))
 					{
-						if (exitTimeSpan.TotalSeconds <= interval.EndTime)
-							totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
-						else
-							totalInSchedule.Add(new TimeSpan(Math.BigMul(interval.EndTime, 10000000) - enterTimeSpan.Ticks));
-					}
-					else if (exitTimeSpan.TotalSeconds <= interval.EndTime)
-					{
+						var itemExitTime = passJournal.ExitTime != null ? passJournal.ExitTime.Value : new DateTime();
+						var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
+						var enterTimeSpan = new TimeSpan(itemEnterTime.TimeOfDay.Ticks);
+						var exitTimeSpan = new TimeSpan(itemExitTime.TimeOfDay.Ticks);
 						if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
-							totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
-						else
 						{
-							totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - Math.BigMul(interval.BeginTime, 10000000)));
+							if (exitTimeSpan.TotalSeconds <= interval.EndTime)
+								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
+							else
+								totalInSchedule.Add(new TimeSpan(Math.BigMul(interval.EndTime, 10000000) - enterTimeSpan.Ticks));
 						}
-					}
+						else if (exitTimeSpan.TotalSeconds <= interval.EndTime)
+						{
+							if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
+								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
+							else
+							{
+								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - Math.BigMul(interval.BeginTime, 10000000)));
+							}
+						}
 
-					var dayTimeTrackPart = new DayTimeTrackPart();
-					dayTimeTrackPart.StartTime = itemEnterTime;
-					dayTimeTrackPart.EndTime = itemExitTime;
-					dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
+						var dayTimeTrackPart = new DayTimeTrackPart();
+						dayTimeTrackPart.StartTime = itemEnterTime;
+						dayTimeTrackPart.EndTime = itemExitTime;
+						dayTimeTrackPart.ZoneUID = passJournal.ZoneUID;
+						dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
+					}
+				}
+			}
+
+			foreach (var tableInterval in intervals)
+			{
+				var x = new Interval();
+				x.BeginDate = new DateTime(tableInterval.BeginTime);
+				x.EndDate = new DateTime(tableInterval.EndTime);
+				dayTimeTrack.Intervals.Add(x);
+			}
+
+			foreach (var passJournal in passJournals)
+			{
+				if (scheduleZones.Any(x => x == passJournal.ZoneUID))
+				{
+					if (passJournal.EnterTime.HasValue && passJournal.ExitTime.HasValue)
+					{
+						var dayTimeTrackPart = new DayTimeTrackPart();
+						dayTimeTrackPart.StartTime = passJournal.EnterTime.Value;
+						dayTimeTrackPart.EndTime = passJournal.ExitTime.Value;
+						dayTimeTrackPart.ZoneUID = passJournal.ZoneUID;
+						dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
+					}
 				}
 			}
 
 			dayTimeTrack.Total = new TimeSpan(lastExitTime.Ticks - firstEnterTime.Ticks);
 			dayTimeTrack.TotalMiss = new TimeSpan(dayTimeTrack.Total.Ticks - totalNotMiss.Ticks);
-			dayTimeTrack.TotalInSchedule = new TimeSpan(totalInSchedule.Ticks);
-			dayTimeTrack.TotalOutSchedule = new TimeSpan(dayTimeTrack.Total.Ticks - dayTimeTrack.TotalInSchedule.Ticks);
+			dayTimeTrack.TotalInSchedule = totalInSchedule;
+			dayTimeTrack.TotalOutSchedule = dayTimeTrack.Total - dayTimeTrack.TotalInSchedule;
 			return dayTimeTrack;
 		}
 	}

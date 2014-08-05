@@ -46,10 +46,12 @@ namespace SKDModule.ViewModels
 	public class DayTimeTrackPartViewModel : BaseViewModel
 	{
 		public DayTimeTrackPart DayTimeTrackPart { get; private set; }
+		public SKDZone Zone { get; private set; }
 
 		public DayTimeTrackPartViewModel(DayTimeTrackPart dayTimeTrackPart)
 		{
 			DayTimeTrackPart = dayTimeTrackPart;
+			Zone = SKDManager.Zones.FirstOrDefault(x => x.UID == dayTimeTrackPart.ZoneUID);
 		}
 	}
 }

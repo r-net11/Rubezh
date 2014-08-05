@@ -87,7 +87,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_deviceParameterMissmatchType = value;
-				OnPropertyChanged("DeviceParameterMissmatchType");
+				OnPropertyChanged(() => DeviceParameterMissmatchType);
 			}
 		}
 	}
