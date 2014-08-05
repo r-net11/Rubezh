@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
@@ -12,9 +12,9 @@ namespace SKDDriver
 		public JournalItemTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
-			;
+		
 		}
-
+		
 		protected override JournalItem Translate(DataAccess.Journal tableItem)
 		{
 			var journalItem = new JournalItem
@@ -32,7 +32,8 @@ namespace SKDDriver
 				SystemDateTime = tableItem.SystemDate,
 				UID = tableItem.UID,
 				UserName = tableItem.UserName,
-				EmployeeUID = tableItem.EmployeeUID.HasValue ? tableItem.EmployeeUID.Value : Guid.Empty
+				EmployeeUID = tableItem.EmployeeUID.HasValue ? tableItem.EmployeeUID.Value : Guid.Empty,
+				JournalDetalisationItems = CreateDetalisationList(tableItem.Detalisation)
 			};
 			return journalItem;
 		}
@@ -52,6 +53,7 @@ namespace SKDDriver
 			tableItem.SystemDate = CheckDate(apiItem.SystemDateTime);
 			tableItem.UserName = apiItem.UserName;
 			tableItem.EmployeeUID = apiItem.EmployeeUID;
+			tableItem.Detalisation = CreateDetalisationString(apiItem.JournalDetalisationItems);
 		}
 
 		protected override Expression<Func<DataAccess.Journal, bool>> IsInFilter(JournalFilter filter)
@@ -62,6 +64,28 @@ namespace SKDDriver
 			if (journalEventNameTypes != null && journalEventNameTypes.Count != 0)
 				result = result.And(e => journalEventNameTypes.Contains((JournalEventNameType)e.Name));
 
+			return result;
+		}
+
+		string CreateDetalisationString(List<JournalDetalisationItem> detalisations)
+		{
+			string result = "";
+			foreach (var detalisation in detalisations)
+			{
+				result += "$%" + detalisation.Name + "%%" + detalisation.Value + "%$";
+			}
+			return result;
+		}
+
+		List<JournalDetalisationItem> CreateDetalisationList(string detalisation)
+		{
+			var detalisationStringsItems = detalisation.Split(new string[] { "$" }, StringSplitOptions.RemoveEmptyEntries);
+			var result = new List<JournalDetalisationItem>();
+			foreach (var detSubString in detalisationStringsItems)
+			{
+				var nameValueString = detSubString.Split(new string[] { "%" }, StringSplitOptions.RemoveEmptyEntries);
+				result.Add(new JournalDetalisationItem(nameValueString[0], nameValueString[1]));
+			};
 			return result;
 		}
 	}

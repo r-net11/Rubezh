@@ -512,9 +512,9 @@ BEGIN
 		END
 	END
 	INSERT INTO Patches (Id) VALUES ('SKDCardPasswordDeactivation')
-
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddAccessTemplateUID')
+END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddAccessTemplateUID')
 BEGIN
 	ALTER TABLE CardDoor ADD [AccessTemplateUID] [uniqueidentifier] NULL
 	INSERT INTO Patches (Id) VALUES ('AddAccessTemplateUID')	
@@ -552,5 +552,14 @@ BEGIN
 	ALTER TABLE [dbo].[Journal] DROP CONSTRAINT [FK_Journal_Card]
 
 	INSERT INTO Patches (Id) VALUES ('Drop_FK_Journal_Card')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Journal_Detalisation')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Journal')
+	BEGIN
+		ALTER TABLE Journal ADD [Detalisation] [text] NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('Journal_Detalisation')	
 END
 GO
