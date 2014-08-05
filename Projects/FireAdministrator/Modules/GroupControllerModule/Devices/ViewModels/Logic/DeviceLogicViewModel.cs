@@ -58,7 +58,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedMROMessageNo = value;
-				OnPropertyChanged("SelectedMROMessageNo");
+				OnPropertyChanged(() => SelectedMROMessageNo);
 			}
 		}
 

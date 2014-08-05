@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isActive = value;
-				OnPropertyChanged("IsActive");
+				OnPropertyChanged(() => IsActive);
 			}
 		}
 	}

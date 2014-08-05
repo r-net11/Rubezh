@@ -76,19 +76,22 @@ namespace SKDModule.ViewModels
 
 		public void ReloadNamedIntervals()
 		{
-			var namedIntervals = NamedIntervalHelper.Get(new NamedIntervalFilter()
+			if (Organisations != null)
 			{
-				UserUID = FiresecManager.CurrentUser.UID,
-				OrganisationUIDs = Organisations.Select(item => item.Organisation.UID).ToList(),
-			});
-			_namedIntervals = new Dictionary<Guid, ObservableCollection<NamedInterval>>();
-			Organisations.ForEach(item => _namedIntervals.Add(item.Organisation.UID, new ObservableCollection<NamedInterval>()));
-			namedIntervals.ForEach(item => _namedIntervals[item.OrganisationUID].Add(item));
-			_namedIntervals.Values.ForEach(item => item.Insert(0, new NamedInterval()
-			{
-				UID = Guid.Empty,
-				Name = "Никогда",
-			}));
+				var namedIntervals = NamedIntervalHelper.Get(new NamedIntervalFilter()
+				{
+					UserUID = FiresecManager.CurrentUser.UID,
+					OrganisationUIDs = Organisations.Select(item => item.Organisation.UID).ToList(),
+				});
+				_namedIntervals = new Dictionary<Guid, ObservableCollection<NamedInterval>>();
+				Organisations.ForEach(item => _namedIntervals.Add(item.Organisation.UID, new ObservableCollection<NamedInterval>()));
+				namedIntervals.ForEach(item => _namedIntervals[item.OrganisationUID].Add(item));
+				_namedIntervals.Values.ForEach(item => item.Insert(0, new NamedInterval()
+				{
+					UID = Guid.Empty,
+					Name = "Никогда",
+				}));
+			}
 		}
 		public ObservableCollection<NamedInterval> GetNamedIntervals(Guid organisationUID)
 		{

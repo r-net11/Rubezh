@@ -22,7 +22,7 @@ namespace DevicesModule.DeviceProperties
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 				Save(value ? "1" : "0");
 			}
 		}

@@ -154,9 +154,17 @@
     <Compile Include="Intervals\Shedules\ViewModels\Comparers.cs" />
     <Compile Include="Intervals\TimeTracking\Model\TimeTrackingSettings.cs" />
     <Compile Include="Intervals\TimeTracking\Model\TimeTrackingPeriod.cs" />
+    <Compile Include="Intervals\TimeTracking\ViewModels\DayTrackViewModel.cs" />
+    <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
     <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackingSettingsViewModel.cs" />
     <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
     <Compile Include="Intervals\TimeTracking\ViewModels\TimeTrackViewModel.cs" />
+    <Compile Include="Intervals\TimeTracking\Views\TimeTrackDetailsView.xaml.cs">
+      <DependentUpon>TimeTrackDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Intervals\TimeTracking\Views\TimeTrackingCellView.xaml.cs">
+      <DependentUpon>TimeTrackingCellView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Intervals\TimeTracking\Views\TimeTrackingSettingsView.xaml.cs">
       <DependentUpon>TimeTrackingSettingsView.xaml</DependentUpon>
     </Compile>
@@ -542,6 +550,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Intervals\ScheduleShemes\Views\ScheduleSchemesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Intervals\TimeTracking\Views\TimeTrackDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Intervals\TimeTracking\Views\TimeTrackingCellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

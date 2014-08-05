@@ -43,7 +43,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDriver = value;
-				OnPropertyChanged("SelectedDriver");
+				OnPropertyChanged(() => SelectedDriver);
 			}
 		}
 

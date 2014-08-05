@@ -197,7 +197,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				MPT.Delay = value;
-				OnPropertyChanged("Delay");
+				OnPropertyChanged(() => Delay);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -208,7 +208,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				MPT.UseDoorAutomatic = value;
-				OnPropertyChanged("UseDoorAutomatic");
+				OnPropertyChanged(() => UseDoorAutomatic);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -219,7 +219,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				MPT.UseDoorStop = value;
-				OnPropertyChanged("UseDoorStop");
+				OnPropertyChanged(() => UseDoorStop);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

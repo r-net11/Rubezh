@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_inputDescriptors = value;
-				OnPropertyChanged("InputDescriptors");
+				OnPropertyChanged(() => InputDescriptors);
 			}
 		}
 
@@ -103,7 +103,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_outputDescriptors = value;
-				OnPropertyChanged("OutputDescriptors");
+				OnPropertyChanged(() => OutputDescriptors);
 			}
 		}
 

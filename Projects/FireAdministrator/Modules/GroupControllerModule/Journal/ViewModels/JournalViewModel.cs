@@ -52,7 +52,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_totalCount = value;
-				OnPropertyChanged("TotalCount");
+				OnPropertyChanged(() => TotalCount);
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_startIndex = value;
-				OnPropertyChanged("StartIndex");
+				OnPropertyChanged(() => StartIndex);
 			}
 		}
 

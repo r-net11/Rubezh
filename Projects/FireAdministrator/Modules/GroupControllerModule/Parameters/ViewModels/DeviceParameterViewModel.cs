@@ -51,8 +51,8 @@ namespace GKModule.ViewModels
 				}
 			}
 
-			OnPropertyChanged("StringAUProperties");
-			OnPropertyChanged("EnumAUProperties");
+			OnPropertyChanged(() => StringAUProperties);
+			OnPropertyChanged(() => EnumAUProperties);
 			UpdateDeviceParameterMissmatchType();
 		}
 

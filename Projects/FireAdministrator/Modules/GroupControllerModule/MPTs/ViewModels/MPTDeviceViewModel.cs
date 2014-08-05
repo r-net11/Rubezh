@@ -25,8 +25,8 @@ namespace GKModule.ViewModels
 			set
 			{
 				_device = value;
-				OnPropertyChanged("Device");
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Device);
+				OnPropertyChanged(() => Description);
 				OnPropertyChanged("SelectedCurcuitControlParameter");
 			}
 		}
@@ -38,7 +38,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_mptDevicePropertiesViewModel = value;
-				OnPropertyChanged("MPTDevicePropertiesViewModel");
+				OnPropertyChanged(() => MPTDevicePropertiesViewModel);
 			}
 		}
 

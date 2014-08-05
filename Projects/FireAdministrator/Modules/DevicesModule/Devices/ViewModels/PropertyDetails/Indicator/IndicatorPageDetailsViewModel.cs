@@ -52,7 +52,7 @@ namespace DevicesModule.ViewModels
 			{
 				Zones = zonesSelectionViewModel.Zones;
 				Zones = Zones.Take(50).ToList();
-				OnPropertyChanged("PresenrationZones");
+				OnPropertyChanged(() => PresenrationZones);
 			}
 		}
 

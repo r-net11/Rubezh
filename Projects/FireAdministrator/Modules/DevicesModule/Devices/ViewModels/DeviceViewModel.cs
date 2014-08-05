@@ -74,12 +74,12 @@ namespace DevicesModule.ViewModels
 					{
 						foreach (var deviceViewModel in Children)
 						{
-							deviceViewModel.OnPropertyChanged("Address");
+							deviceViewModel.OnPropertyChanged(() => Address);
 						}
 					}
 					ServiceFactory.SaveService.FSChanged = true;
 				}
-				OnPropertyChanged("Address");
+				OnPropertyChanged(() => Address);
 			}
 		}
 
@@ -172,7 +172,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_isZoneGrayed = value;
-				OnPropertyChanged("IsZoneGrayed");
+				OnPropertyChanged(() => IsZoneGrayed);
 			}
 		}
 
@@ -359,7 +359,7 @@ namespace DevicesModule.ViewModels
 					if (DialogService.ShowModalWindow(new ValveDetailsViewModel(Device)))
 					{
 						ServiceFactory.SaveService.FSChanged = true;
-						OnPropertyChanged("HasExternalDevices");
+						OnPropertyChanged(() => HasExternalDevices);
 					}
 					break;
 

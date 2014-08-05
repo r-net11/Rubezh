@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_isSelected = value;
-				OnPropertyChanged("IsSelected");
+				OnPropertyChanged(() => IsSelected);
 
 				Children.ForEach(x => x.IsSelected = value);
 			}

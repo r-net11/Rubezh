@@ -40,7 +40,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedFunction = value;
-				OnPropertyChanged("SelectedFunction");
+				OnPropertyChanged(() => SelectedFunction);
 			}
 		}
 

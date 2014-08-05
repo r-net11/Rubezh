@@ -26,9 +26,9 @@ namespace FiresecService.Service
 		{
 			return SafeContext.Execute<OperationResult>(() => FiresecService.MarkDeletedEmployee(uid));
 		}
-		public OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
+		public OperationResult<List<DayTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
-			return SafeContext.Execute<OperationResult<List<EmployeeTimeTrack>>>(() => FiresecService.GetEmployeeTimeTracks(employeeUID, startDate, endDate));
+			return SafeContext.Execute<OperationResult<List<DayTimeTrack>>>(() => FiresecService.GetEmployeeTimeTracks(employeeUID, startDate, endDate));
 		}
 		#endregion
 

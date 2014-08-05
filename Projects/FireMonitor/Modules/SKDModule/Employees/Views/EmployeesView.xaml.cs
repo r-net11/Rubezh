@@ -28,6 +28,9 @@ namespace SKDModule.Views
 			if (employeesViewModel.AdditionalColumnNames == null)
 				return;
 
+			for (int i = gridView.Columns.Count - 1; i >= 3; i--)
+				gridView.Columns.RemoveAt(i);
+
 			for (int i = 0; i < employeesViewModel.AdditionalColumnNames.Count; i++)
 			{
 				var gridViewColumn = new GridViewColumn();

@@ -55,4 +55,8 @@
 		<Views:TimeTrackingSettingsView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:TimeTrackDetailsViewModel}">
+        <Views:TimeTrackDetailsView />
+    </DataTemplate>
+
 </ResourceDictionary>

@@ -22,7 +22,7 @@ namespace FiresecAPI
 		OperationResult MarkDeletedEmployee(Guid uid);
 
 		[OperationContract]
-		OperationResult<List<EmployeeTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate);
+		OperationResult<List<DayTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate);
 		#endregion
 
 		#region Department

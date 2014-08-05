@@ -7,11 +7,11 @@ namespace SKDModule.Model
 		[DescriptionAttribute("Текущую неделю")]
 		CurrentWeek,
 		[DescriptionAttribute("Предыдущую неделю")]
-		PreviosWeek,
+		PreviousWeek,
 		[DescriptionAttribute("Текущий месяц")]
 		CurrentMonth,
 		[DescriptionAttribute("Предыдущий месяц")]
-		PreviosMonth,
+		PreviousMonth,
 		[DescriptionAttribute("Период")]
 		Period,
 	}

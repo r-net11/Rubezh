@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_delay = value;
-				OnPropertyChanged("Delay");
+				OnPropertyChanged(() => Delay);
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_hold = value;
-				OnPropertyChanged("Hold");
+				OnPropertyChanged(() => Hold);
 			}
 		}
 
@@ -104,7 +104,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 

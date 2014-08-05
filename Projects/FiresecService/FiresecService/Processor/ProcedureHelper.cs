@@ -6,12 +6,19 @@ using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using FiresecService.Service;
+using Infrastructure.Common.Video.RVI_VSS;
 using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace FiresecService.Processor
 {
 	public static class ProcedureHelper
 	{
+
+		static ProcedureHelper()
+		{
+			WinFormsPlayers = new List<WinFormsPlayer>();
+		}
+
 		public static void Calculate(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
@@ -232,6 +239,33 @@ namespace FiresecService.Processor
 			if (device == null)
 				return;
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.BaseUID, procedureStep.ControlGKDeviceArguments.Command);
+		}
+
+		public static List<WinFormsPlayer> WinFormsPlayers { get; private set; }
+		public static void ControlCamera(ProcedureStep procedureStep)
+		{
+			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == procedureStep.ControlCameraArguments.CameraUid);
+			if(camera == null)
+				return;
+			if (procedureStep.ControlCameraArguments.CameraCommandType == CameraCommandType.StartRecord)
+			{
+				if (WinFormsPlayers.Any(x => x.Camera == camera))
+					return;
+				var winFormsPlayer = new WinFormsPlayer();
+				winFormsPlayer.Camera = camera;
+				winFormsPlayer.Connect(camera);
+				if(winFormsPlayer.StartRecord(camera, camera.ChannelNumber))
+					WinFormsPlayers.Add(winFormsPlayer);
+			}
+			else
+			{
+				var winFormsPlayer = WinFormsPlayers.FirstOrDefault(x => x.Camera == camera);
+				if (winFormsPlayer != null)
+				{
+					winFormsPlayer.StopRecord();
+					WinFormsPlayers.Remove(winFormsPlayer);
+				}
+			}
 		}
 	}
 }

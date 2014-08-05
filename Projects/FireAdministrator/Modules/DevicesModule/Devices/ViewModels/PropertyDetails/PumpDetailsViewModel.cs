@@ -50,7 +50,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_timeout = value;
-				OnPropertyChanged("Timeout");
+				OnPropertyChanged(() => Timeout);
 			}
 		}
 
