@@ -34,6 +34,7 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlGkDeviceArguments.Command = StringToXStateBit(value);
 				OnPropertyChanged(()=>SelectedCommand);
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -149,7 +150,7 @@ namespace AutomationModule.ViewModels
 				case "Ручное":
 					return XStateBit.SetRegime_Manual;
 				case"Отключение":
-					return XStateBit.Ignore;
+					return XStateBit.SetRegime_Off;
 				case "Включить":
 					return XStateBit.TurnOn_InManual;
 				case "Открыть":
@@ -178,10 +179,10 @@ namespace AutomationModule.ViewModels
 			switch (stateString)
 			{
 				case XStateBit.SetRegime_Automatic:
-					return IsTriStateControl(SelectedDevice.Device)? "Автоматика": "Cнять отключение";
+					return IsTriStateControl(SelectedDevice.Device) ? "Автоматика" : "Снять отключение";
 				case XStateBit.SetRegime_Manual:
 					return "Ручное";
-				case XStateBit.Ignore:
+				case XStateBit.SetRegime_Off:
 					return "Отключение";
 				case XStateBit.TurnOn_InManual:
 					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? "Открыть" : "Включить";

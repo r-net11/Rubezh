@@ -36,6 +36,7 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlDoorArguments.DoorCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 

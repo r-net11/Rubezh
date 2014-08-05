@@ -37,6 +37,7 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlGKGuardZoneArguments.GuardZoneCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 

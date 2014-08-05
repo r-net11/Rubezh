@@ -38,6 +38,7 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlSKDZoneArguments.SKDZoneCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
