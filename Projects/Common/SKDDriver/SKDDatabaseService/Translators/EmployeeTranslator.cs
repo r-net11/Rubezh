@@ -380,8 +380,8 @@ namespace SKDDriver
 					}
 
 					var dayTimeTrackPart = new DayTimeTrackPart();
-					dayTimeTrackPart.StartTime = passJournal.EnterTime;
-					dayTimeTrackPart.EndTime = passJournal.ExitTime;
+					dayTimeTrackPart.StartTime = itemEnterTime;
+					dayTimeTrackPart.EndTime = itemExitTime;
 					dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
 				}
 			}
