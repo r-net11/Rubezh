@@ -7,43 +7,29 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using FiresecAPI.Models.Layouts;
-using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows.ViewModels;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Common.Windows;
+using FiresecClient;
 
-namespace LayoutModule.ViewModels
+namespace FireMonitor.Layout.ViewModels
 {
-	public class LayoutPartTemplateContainerViewModel : BaseLayoutPartViewModel
+	public class TemplateContainerPartViewModel : BaseViewModel
 	{
-		private LayoutPartTemplateContainerProperties _properties;
-		private LayoutPartPropertyTemplateContainerPageViewModel _containerPage;
-		public LayoutPartTemplateContainerViewModel(LayoutPartTemplateContainerProperties properties)
+		public TemplateContainerPartViewModel(LayoutPartTemplateContainerProperties properties)
 		{
-			_properties = properties ?? new LayoutPartTemplateContainerProperties();
-			_containerPage = new LayoutPartPropertyTemplateContainerPageViewModel(this);
-			Layout = MonitorLayoutsViewModel.Instance.Layouts.Where(item => item.Layout.UID == _properties.SourceUID).Select(item => item.Layout).FirstOrDefault();
+			Layout = FiresecManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.SourceUID);
 			LoadLayout();
-		}
-
-		public override ILayoutProperties Properties
-		{
-			get { return _properties; }
-		}
-		public override IEnumerable<LayoutPartPropertyPageViewModel> PropertyPages
-		{
-			get
-			{
-				yield return _containerPage;
-			}
 		}
 
 		public LayoutModel Layout { get; private set; }
 		private XmlLayoutSerializer _serializer;
 
-		public void UpdateLayout(LayoutModel layout)
+		private void LoadLayout()
 		{
-			Layout = layout;
 			Initialize();
 			if (Layout != null && Manager != null)
 			{
@@ -57,16 +43,20 @@ namespace LayoutModule.ViewModels
 						_serializer.Deserialize(tr);
 			}
 		}
-		private void LoadLayout()
-		{
-			UpdateLayout(Layout);
-		}
 		private void Initialize()
 		{
 			var list = new List<LayoutPartViewModel>();
+			var map = new Dictionary<Guid, ILayoutPartPresenter>();
+			foreach (var module in ApplicationService.Modules)
+			{
+				var layoutProviderModule = module as ILayoutProviderModule;
+				if (layoutProviderModule != null)
+					foreach (var layoutPart in layoutProviderModule.GetLayoutParts())
+						map.Add(layoutPart.UID, layoutPart);
+			}
 			if (Layout != null)
 				foreach (var layoutPart in Layout.Parts)
-					list.Add(new LayoutPartViewModel(layoutPart));
+					list.Add(new LayoutPartViewModel(layoutPart, map.ContainsKey(layoutPart.DescriptionUID) ? map[layoutPart.DescriptionUID] : new UnknownLayoutPartPresenter(layoutPart.DescriptionUID)));
 			LayoutParts = new ObservableCollection<LayoutPartViewModel>(list);
 		}
 

@@ -28,4 +28,8 @@
 		<Views:ImagePartView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:TemplateContainerPartViewModel}">
+		<Views:TemplateContainerPartView />
+	</DataTemplate>
+
 </ResourceDictionary>

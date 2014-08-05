@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using FiresecAPI.Models.Layouts;
-using Infrastructure.Common;
-using Infrastructure.Common.Services;
-using Infrastructure.Common.Services.Layout;
-using Microsoft.Win32;
-using SharpVectors.Converters;
-using SharpVectors.Renderers.Wpf;
-using System.Windows.Data;
-using FiresecClient;
 using Common;
+using FiresecAPI.Models.Layouts;
+using Infrastructure.Common.Services.Layout;
+using System.Collections.Generic;
+using System;
+using Infrastructure.Client.Layout;
 
 namespace LayoutModule.ViewModels
 {
@@ -26,7 +18,7 @@ namespace LayoutModule.ViewModels
 		{
 			_layoutPartViewModel = layoutPartViewModel;
 			Layouts = new ObservableCollection<LayoutViewModel>();
-			MonitorLayoutsViewModel.Instance.Layouts.Where(item=>item != MonitorLayoutsViewModel.Instance.SelectedLayout).ForEach(item => Layouts.Add(item));
+			MonitorLayoutsViewModel.Instance.Layouts.Where(item => CheckLayoutCycling(item.Layout)).ForEach(item => Layouts.Add(item));
 		}
 
 		private ObservableCollection<LayoutViewModel> _layouts;
@@ -76,6 +68,27 @@ namespace LayoutModule.ViewModels
 				return true;
 			}
 			return false;
+		}
+
+		private bool CheckLayoutCycling(Layout  layout, List<Guid> parents = null)
+		{
+			if (parents == null)
+				parents = new List<Guid>() { MonitorLayoutsViewModel.Instance.SelectedLayout.Layout.UID };
+			if (parents.Contains(layout.UID))
+				return false;
+			parents.Add(layout.UID);
+			foreach (var layoutPart in layout.Parts.Where(part => part.DescriptionUID == LayoutPartIdentities.TemplateContainer))
+			{
+				var property = (LayoutPartTemplateContainerProperties)layoutPart.Properties;
+				if (property != null)
+				{
+					var childLayout = MonitorLayoutsViewModel.Instance.Layouts.FirstOrDefault(item => item.Layout.UID == property.SourceUID);
+					if (childLayout != null && !CheckLayoutCycling(childLayout.Layout, parents))
+						return false;
+				}
+			}
+			parents.Remove(layout.UID);
+			return true;
 		}
 	}
 }
