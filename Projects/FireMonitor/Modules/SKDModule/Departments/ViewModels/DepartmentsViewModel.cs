@@ -108,6 +108,7 @@ namespace SKDModule.ViewModels
 			Guid? parentDepartmentUID = null;
 			if (!SelectedDepartment.IsOrganisation)
 				parentDepartmentUID = SelectedDepartment.Department.UID;
+
 			var departmentDetailsViewModel = new DepartmentDetailsViewModel(SelectedDepartment.Organisation.UID, null, parentDepartmentUID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
@@ -139,12 +140,14 @@ namespace SKDModule.ViewModels
 				if (!removeResult)
 					return;
 
-				parent.Nodes.Remove(SelectedDepartment);
-				parent.Update();
-
+				var index = parent.Children.ToList().IndexOf(SelectedDepartment);
+				parent.RemoveChild(SelectedDepartment);
+				index = Math.Min(index, parent.Children.Count() - 1);
+				if (index > -1)
+					SelectedDepartment = parent.Children.ToList()[index];
+				else
+					SelectedDepartment = parent;
 				AllDepartments.Remove(SelectedDepartment);
-				//var children = GetAllChildrenModels(SelectedDepartment);
-				//SelectedDepartment = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 		}
 		bool CanRemove()
@@ -194,12 +197,18 @@ namespace SKDModule.ViewModels
 		{
 			if (ParentOrganisation != null)
 			{
+				Guid? parentDepartmentUID = null;
+				if (SelectedDepartment.Parent != null && !SelectedDepartment.Parent.IsOrganisation)
+					parentDepartmentUID = SelectedDepartment.Parent.Department.UID;
+
 				var newShortDepartment = CopyDepartment(_clipboard);
+				newShortDepartment.UID = Guid.NewGuid();
 				var department = new Department()
 				{
+					UID = newShortDepartment.UID,
 					Name = newShortDepartment.Name,
 					Description = newShortDepartment.Description,
-					ParentDepartmentUID = newShortDepartment.ParentDepartmentUID,
+					ParentDepartmentUID = parentDepartmentUID,
 					OrganisationUID = newShortDepartment.OrganisationUID.Value,
 				};
 				if (DepartmentHelper.Save(department))

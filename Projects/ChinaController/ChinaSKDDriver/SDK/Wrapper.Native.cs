@@ -15,7 +15,7 @@ namespace ChinaSKDDriver
 			fHaveReConnectDelegate = new NativeWrapper.fHaveReConnectDelegate(OnfHaveReConnectDelegate);
 			fMessCallBackDelegate = new NativeWrapper.fMessCallBackDelegate(OnfMessCallBackDelegate);
 
-			NativeWrapper.CLIENT_Init(fDisConnectDelegate, 0);
+			var result = NativeWrapper.CLIENT_Init(fDisConnectDelegate, 0);
 			NativeWrapper.CLIENT_SetAutoReconnect(fHaveReConnectDelegate, 0);
 			NativeWrapper.CLIENT_SetDVRMessCallBack(fMessCallBackDelegate, 0);
 		}
@@ -29,7 +29,7 @@ namespace ChinaSKDDriver
 		{
 			var deviceInfo = new ChinaSKDDriverNativeApi.NativeWrapper.NET_DEVICEINFO();
 			int intError;
-			LoginID = NativeWrapper.CLIENT_Login("172.16.6.54", 37777, "system", "123456", out deviceInfo, out intError);
+			LoginID = NativeWrapper.CLIENT_Login(ipAddress, (UInt16)port, login, password, out deviceInfo, out intError);
 			error = GetError(intError);
 			NativeWrapper.CLIENT_StartListenEx(LoginID);
 			return LoginID;

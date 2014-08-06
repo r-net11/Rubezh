@@ -165,8 +165,10 @@ namespace SKDModule.ViewModels
 			if (ParentOrganisation != null)
 			{
 				var newShortPosition = CopyPosition(_clipboard);
+				newShortPosition.UID = Guid.NewGuid();
 				var position = new Position()
 				{
+					UID = newShortPosition.UID,
 					Name = newShortPosition.Name,
 					Description = newShortPosition.Description,
 					OrganisationUID = newShortPosition.OrganisationUID.Value,
