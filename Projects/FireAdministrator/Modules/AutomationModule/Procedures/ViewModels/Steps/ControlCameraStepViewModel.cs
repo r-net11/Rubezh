@@ -36,6 +36,7 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlCameraArguments.CameraCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 

@@ -160,6 +160,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 				Invalidate();
 				var channel = device.Channels.First(channell => channell.ChannelNumber == channelNumber);
 				ExtraStream = channel.Streams.First(stream => stream.StreamType == StreamTypes.ExtraStream1);
+				ExtraStream.AddPlayHandle(Handle);
 				ExtraStream.StartRecord();
 				return true;
 			}
@@ -173,6 +174,7 @@ namespace Infrastructure.Common.Video.RVI_VSS
 		{
 			if (ExtraStream != null)
 			{
+				ExtraStream.RemovePlayHandle(Handle);
 				ExtraStream.StopRecord();
 			}
 			ExtraStream = null;

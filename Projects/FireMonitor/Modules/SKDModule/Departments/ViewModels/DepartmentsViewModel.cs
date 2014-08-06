@@ -10,7 +10,7 @@ using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class DepartmentsViewModel : ViewPartViewModel, ISelectable<Guid>
+	public class DepartmentsViewModel : ViewPartViewModel
 	{
 		ShortDepartment _clipboard;
 
@@ -73,17 +73,6 @@ namespace SKDModule.ViewModels
 
 		public List<DepartmentViewModel> Organisations { get; private set; }
 		List<DepartmentViewModel> AllDepartments { get; set; }
-
-		public void Select(Guid departmentUID)
-		{
-			if (departmentUID != Guid.Empty)
-			{
-				var departmentViewModel = AllDepartments.FirstOrDefault(x => x.Department != null && x.Department.UID == departmentUID);
-				if (departmentViewModel != null)
-					departmentViewModel.ExpandToThis();
-				SelectedDepartment = departmentViewModel;
-			}
-		}
 
 		DepartmentViewModel _selectedDepartment;
 		public DepartmentViewModel SelectedDepartment

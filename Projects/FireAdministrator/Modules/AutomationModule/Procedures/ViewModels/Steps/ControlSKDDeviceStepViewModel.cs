@@ -39,6 +39,7 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlSKDDeviceArguments.Command = value;
 				OnPropertyChanged(()=>SelectedCommand);
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 

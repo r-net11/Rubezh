@@ -10,7 +10,7 @@ using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class PositionsViewModel : ViewPartViewModel, ISelectable<Guid>
+	public class PositionsViewModel : ViewPartViewModel
 	{
 		ShortPosition _clipboard;
 
@@ -54,17 +54,6 @@ namespace SKDModule.ViewModels
 
 		public List<PositionViewModel> Organisations { get; private set; }
 		List<PositionViewModel> AllPositions { get; set; }
-
-		public void Select(Guid positionUID)
-		{
-			if (positionUID != Guid.Empty)
-			{
-				var positionViewModel = AllPositions.FirstOrDefault(x => x.Position != null && x.Position.UID == positionUID);
-				if (positionViewModel != null)
-					positionViewModel.ExpandToThis();
-				SelectedPosition = positionViewModel;
-			}
-		}
 
 		PositionViewModel _selectedPosition;
 		public PositionViewModel SelectedPosition

@@ -96,7 +96,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_users = value;
-				OnPropertyChanged("Users");
+				OnPropertyChanged(() => Users);
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace DevicesModule.ViewModels
 			{
 				_selectedUser = value;
 				GetUserZones(_selectedUser.GuardUser);
-				OnPropertyChanged("SelectedUser");
+				OnPropertyChanged(() => SelectedUser);
 			}
 		}
 

@@ -10,7 +10,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class AdditionalColumnTypesViewModel : ViewPartViewModel, ISelectable<Guid>
+	public class AdditionalColumnTypesViewModel : ViewPartViewModel
 	{
 		public AdditionalColumnTypesViewModel()
 		{
@@ -54,17 +54,6 @@ namespace SKDModule.ViewModels
 
 		public List<AdditionalColumnTypeViewModel> Organisations { get; private set; }
 		List<AdditionalColumnTypeViewModel> AllAdditionalColumnTypes { get; set; }
-
-		public void Select(Guid additionalColumnTypeUID)
-		{
-			if (additionalColumnTypeUID != Guid.Empty)
-			{
-				var additionalColumnTypeViewModel = AllAdditionalColumnTypes.FirstOrDefault(x => x.AdditionalColumnType != null && x.AdditionalColumnType.UID == additionalColumnTypeUID);
-				if (additionalColumnTypeViewModel != null)
-					additionalColumnTypeViewModel.ExpandToThis();
-				SelectedAdditionalColumnType = additionalColumnTypeViewModel;
-			}
-		}
 
 		AdditionalColumnTypeViewModel _selectedAdditionalColumnType;
 		public AdditionalColumnTypeViewModel SelectedAdditionalColumnType

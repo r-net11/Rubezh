@@ -10,7 +10,7 @@ using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class AccessTemplatesViewModel : ViewPartViewModel, ISelectable<Guid>
+	public class AccessTemplatesViewModel : ViewPartViewModel
 	{
 		AccessTemplate _clipboard;
 
@@ -57,17 +57,6 @@ namespace SKDModule.ViewModels
 
 		public List<AccessTemplateViewModel> Organisations { get; private set; }
 		List<AccessTemplateViewModel> AllAccessTemplates { get; set; }
-
-		public void Select(Guid accessTemplateUID)
-		{
-			if (accessTemplateUID != Guid.Empty)
-			{
-				var AccessTemplateViewModel = AllAccessTemplates.FirstOrDefault(x => x.AccessTemplate != null && x.AccessTemplate.UID == accessTemplateUID);
-				if (AccessTemplateViewModel != null)
-					AccessTemplateViewModel.ExpandToThis();
-				SelectedAccessTemplate = AccessTemplateViewModel;
-			}
-		}
 
 		AccessTemplateViewModel _selectedAccessTemplate;
 		public AccessTemplateViewModel SelectedAccessTemplate

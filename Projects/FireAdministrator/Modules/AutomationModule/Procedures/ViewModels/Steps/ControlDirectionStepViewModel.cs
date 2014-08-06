@@ -37,6 +37,7 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlDirectionArguments.DirectionCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 

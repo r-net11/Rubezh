@@ -44,7 +44,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_timeoutSeconds = value;
-				OnPropertyChanged("TimeoutSeconds");
+				OnPropertyChanged(() => TimeoutSeconds);
 			}
 		}
 

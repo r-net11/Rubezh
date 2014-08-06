@@ -114,6 +114,22 @@ namespace FiresecService.Processor
 					ProcedureHelper.ControlCamera(procedureStep);
 					break;
 
+				case ProcedureStepType.ControlGKFireZone:
+					ProcedureHelper.ControlFireZone(procedureStep);
+					break;
+
+				case ProcedureStepType.ControlGKGuardZone:
+					ProcedureHelper.ControlGuardZone(procedureStep);
+					break;
+
+				case ProcedureStepType.ControlDirection:
+					ProcedureHelper.ControlDirection(procedureStep);
+					break;
+
+				case ProcedureStepType.ControlDoor:
+					ProcedureHelper.ControlDoor(procedureStep);
+					break;
+
 				case ProcedureStepType.ProcedureSelection:
 				{
 					foreach (var scheduleProcedure in procedureStep.ProcedureSelectionArguments.ScheduleProcedures)
