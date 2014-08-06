@@ -180,38 +180,38 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		private void OnCopy()
+		void OnCopy()
 		{
 			_clipboard = CopyDepartment(SelectedDepartment.Department, false);
 		}
-		private bool CanCopy()
+		bool CanCopy()
 		{
 			return SelectedDepartment != null && !SelectedDepartment.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		private void OnPaste()
+		void OnPaste()
 		{
-			var newShortDepartment = CopyDepartment(_clipboard);
-			var department = new Department()
+			if (ParentOrganisation != null)
 			{
-				UID = newShortDepartment.UID,
-				Name = newShortDepartment.Name,
-				Description = newShortDepartment.Description,
-				ParentDepartmentUID = newShortDepartment.ParentDepartmentUID
-			};
-			if (DepartmentHelper.Save(department))
-			{
-				var departmentViewModel = new DepartmentViewModel(SelectedDepartment.Organisation, newShortDepartment);
-				if (ParentOrganisation != null)
+				var newShortDepartment = CopyDepartment(_clipboard);
+				var department = new Department()
 				{
+					Name = newShortDepartment.Name,
+					Description = newShortDepartment.Description,
+					ParentDepartmentUID = newShortDepartment.ParentDepartmentUID,
+					OrganisationUID = newShortDepartment.OrganisationUID.Value,
+				};
+				if (DepartmentHelper.Save(department))
+				{
+					var departmentViewModel = new DepartmentViewModel(SelectedDepartment.Organisation, newShortDepartment);
 					ParentOrganisation.AddChild(departmentViewModel);
 					AllDepartments.Add(departmentViewModel);
+					SelectedDepartment = departmentViewModel;
 				}
-				SelectedDepartment = departmentViewModel;
 			}
 		}
-		private bool CanPaste()
+		bool CanPaste()
 		{
 			return SelectedDepartment != null && _clipboard != null;
 		}

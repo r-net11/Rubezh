@@ -18,11 +18,11 @@ namespace SKDDriver
 
 		protected override OperationResult CanSave(AdditionalColumnType item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name &&
+			bool hasSameName = Table.Any(x => x.Name == item.Name &&
 				x.OrganisationUID == item.OrganisationUID &&
 				x.UID != item.UID &&
 				x.IsDeleted == false);
-			if (sameName)
+			if (hasSameName)
 				return new OperationResult("Тип колонки с таким же названием уже содержится в базе данных");
 			return base.CanSave(item);
 		}

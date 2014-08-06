@@ -20,8 +20,8 @@ namespace SKDDriver
 
 		protected OperationResult CanSave(OrganisationDetails item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name && !x.IsDeleted && x.UID != item.UID);
-			if (sameName)
+			bool hasSameName = Table.Any(x => x.Name == item.Name && !x.IsDeleted && x.UID != item.UID);
+			if (hasSameName)
 				return new OperationResult("Организация таким же именем уже содержится в базе данных");
 			return new OperationResult();
 		}

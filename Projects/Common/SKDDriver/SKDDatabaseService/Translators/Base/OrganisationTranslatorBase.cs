@@ -28,6 +28,13 @@ namespace SKDDriver
 			TranslateBackOrganisationElement<ApiT, TableT>(apiItem, tableItem);
 		}
 
+		protected override OperationResult CanSave(ApiT item)
+		{
+			if (item.OrganisationUID == Guid.Empty)
+				return new OperationResult("Не указана организация");
+			return base.CanSave(item);
+		}
+
 		protected override Expression<Func<TableT, bool>> IsInFilter(FilterT filter)
 		{
 			var result = base.IsInFilter(filter);

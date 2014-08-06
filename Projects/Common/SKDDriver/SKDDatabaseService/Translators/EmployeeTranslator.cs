@@ -36,17 +36,17 @@ namespace SKDDriver
 		PhotoTranslator PhotoTranslator;
 		ScheduleTranslator ScheduleTranslator;
 
-		protected override OperationResult CanSave(Employee item)
+		protected override OperationResult CanSave(Employee employee)
 		{
-			bool sameName = Table.Any(x => x.FirstName == item.FirstName &&
-				x.SecondName == item.SecondName &&
-				x.LastName == item.LastName &&
-				x.OrganisationUID == item.OrganisationUID &&
-				x.UID != item.UID &&
+			bool hasSameName = Table.Any(x => x.FirstName == employee.FirstName &&
+				x.SecondName == employee.SecondName &&
+				x.LastName == employee.LastName &&
+				x.OrganisationUID == employee.OrganisationUID &&
+				x.UID != employee.UID &&
 				x.IsDeleted == false);
-			if (sameName)
+			if (hasSameName)
 				return new OperationResult("Сотрудник с таким же ФИО уже содержится в базе данных");
-			return base.CanSave(item);
+			return base.CanSave(employee);
 		}
 
 		protected override OperationResult CanDelete(Guid uid)

@@ -76,7 +76,7 @@ namespace SKDDriver
 			tableItem.AccessTemplateUID = apiItem.AccessTemplateUID;
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 			tableItem.Password = apiItem.Password;
-			tableItem.DeactivationControllerUID = tableItem.DeactivationControllerUID;
+			tableItem.DeactivationControllerUID = apiItem.DeactivationControllerUID;
 		}
 
 		public override OperationResult Save(SKDCard card)

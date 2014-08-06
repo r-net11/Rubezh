@@ -150,36 +150,38 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		private void OnCopy()
+		void OnCopy()
 		{
 			_clipboard = CopyPosition(SelectedPosition.Position, false);
 		}
-		private bool CanCopy()
+		bool CanCopy()
 		{
 			return SelectedPosition != null && !SelectedPosition.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		private void OnPaste()
+		void OnPaste()
 		{
-			var newShortPosition = CopyPosition(_clipboard);
-			var position = new Position()
+			if (ParentOrganisation != null)
 			{
-				Name = newShortPosition.Name,
-				Description = newShortPosition.Description
-			};
-			if (PositionHelper.Save(position))
-			{
-				var positionViewModel = new PositionViewModel(SelectedPosition.Organisation, newShortPosition);
-				if (ParentOrganisation != null)
+				var newShortPosition = CopyPosition(_clipboard);
+				var position = new Position()
 				{
+					Name = newShortPosition.Name,
+					Description = newShortPosition.Description,
+					OrganisationUID = newShortPosition.OrganisationUID.Value,
+				};
+				if (PositionHelper.Save(position))
+				{
+					var positionViewModel = new PositionViewModel(SelectedPosition.Organisation, newShortPosition);
+
 					ParentOrganisation.AddChild(positionViewModel);
 					AllPositions.Add(positionViewModel);
+					SelectedPosition = positionViewModel;
 				}
-				SelectedPosition = positionViewModel;
 			}
 		}
-		private bool CanPaste()
+		bool CanPaste()
 		{
 			return SelectedPosition != null && _clipboard != null;
 		}
