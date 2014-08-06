@@ -28,7 +28,7 @@
 					<GridViewColumn Header="Отдел" Width="150" DisplayMemberBinding="{Binding DepartmentName}" />
 					<GridViewColumn Header="Должность" Width="150" DisplayMemberBinding="{Binding PositionName}" />
 				</GridView>
-			</tree:TreeList.View>
+			</tree:TreeList.View> 
 		</tree:TreeList>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 		<Grid Grid.Row="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">

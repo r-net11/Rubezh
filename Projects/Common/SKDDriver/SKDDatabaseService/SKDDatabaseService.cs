@@ -27,6 +27,8 @@ namespace SKDDriver
 			ScheduleZoneTranslator = new ScheduleZoneTranslator(Context);
 			ScheduleTranslator = new ScheduleTranslator(Context, ScheduleZoneTranslator);
 			EmployeeTranslator = new EmployeeTranslator(Context, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator, ScheduleTranslator);
+			//var v  = System.Configuration.ConfigurationManager.ConnectionStrings["Test"];  ConfigurationSettings.AppSettings ConfigurationSettings.AppSettings["SKDDriver.Properties.Settings.ConnectionString"];
+			//var v = ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.ConnectionString"];
 		}
 
 		public static PositionTranslator PositionTranslator { get; private set; }

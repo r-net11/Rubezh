@@ -17,7 +17,7 @@ namespace FiresecService
 		public static object databaseLocker = new object();
 		public static bool IsAbort { get; set; }
 		public static event Action<List<JournalItem>, Guid> ArchivePortionReady;
-		static string ConnectionString = global::SKDDriver.Properties.Settings.Default.ConnectionString;
+		static string ConnectionString = global::SKDDriver.Properties.Settings.Default.SKDConnectionString;
 
 		public static void Add(JournalItem journalItem)
 		{
