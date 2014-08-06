@@ -157,8 +157,13 @@ namespace ChinaSKDDriver
 					journalItem.DoorNo = item6.nDoor;
 					break;
 
+				case DH_ALARM_CHASSISINTRUDED:
+					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера;
+					break;
+
 				default:
 					journalItem.JournalEventNameType = JournalEventNameType.Неизвестное_событие;
+					journalItem.Description = lCommand.ToString();
 					break;
 			}
 

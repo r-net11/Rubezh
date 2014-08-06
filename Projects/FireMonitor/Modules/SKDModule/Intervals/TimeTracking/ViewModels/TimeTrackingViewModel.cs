@@ -21,12 +21,11 @@ namespace SKDModule.ViewModels
 				UserUID = FiresecClient.FiresecManager.CurrentUser.UID,
 			};
 
-			var firstMonthDay = DateTime.Today.AddDays(1 - DateTime.Today.Day);
 			_settings = new TimeTrackingSettings()
 			{
-				Period = TimeTrackingPeriod.PreviousMonth,
-				StartDate = firstMonthDay.AddMonths(-1),
-				EndDate = firstMonthDay.AddDays(-1)
+				Period = TimeTrackingPeriod.CurrentMonth,
+				StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day),
+				EndDate = DateTime.Today
 			};
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);

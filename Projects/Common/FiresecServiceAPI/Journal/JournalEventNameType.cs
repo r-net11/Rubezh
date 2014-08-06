@@ -344,6 +344,9 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.SKD, "Неизвестный статус двери", XStateClass.Unknown)]
 		Неизвестный_статус_двери,
 
+		[EventDescription(JournalSubsystemType.SKD, "Вскрытие контроллера", XStateClass.Attention)]
+		Вскрытие_контроллера,
+
 		[EventDescription(JournalSubsystemType.SKD, "Сброс Контроллера", XStateClass.TechnologicalRegime)]
 		Сброс_Контроллера,
 

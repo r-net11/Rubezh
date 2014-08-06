@@ -10,7 +10,7 @@ namespace SKDModule.ViewModels
 {
 	public class TimeTrackDetailsViewModel : SaveCancelDialogViewModel
 	{
-		DayTimeTrack DayTimeTrack;
+		public DayTimeTrack DayTimeTrack { get; private set; }
 
 		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack)
 		{
@@ -45,13 +45,15 @@ namespace SKDModule.ViewModels
 
 	public class DayTimeTrackPartViewModel : BaseViewModel
 	{
-		public DayTimeTrackPart DayTimeTrackPart { get; private set; }
 		public SKDZone Zone { get; private set; }
+		public string EnterTime { get; private set; }
+		public string ExitTime { get; private set; }
 
 		public DayTimeTrackPartViewModel(DayTimeTrackPart dayTimeTrackPart)
 		{
-			DayTimeTrackPart = dayTimeTrackPart;
 			Zone = SKDManager.Zones.FirstOrDefault(x => x.UID == dayTimeTrackPart.ZoneUID);
+			EnterTime = dayTimeTrackPart.StartTime.Hour + ":" + dayTimeTrackPart.StartTime.Minute + "::" + dayTimeTrackPart.StartTime.Second;
+			ExitTime = dayTimeTrackPart.EndTime.Hour + ":" + dayTimeTrackPart.EndTime.Minute + "::" + dayTimeTrackPart.EndTime.Second;
 		}
 	}
 }

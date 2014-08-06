@@ -84,10 +84,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		private void OnAdd()
 		{
-			var detailsViewModel = new ScheduleZoneDetailsViewModel(Schedule);
-			if (DialogService.ShowModalWindow(detailsViewModel) && ScheduleZoneHelper.Save(detailsViewModel.ScheduleZone))
+			var scheduleZoneDetailsViewModel = new ScheduleZoneDetailsViewModel(Schedule);
+			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel) && ScheduleZoneHelper.Save(scheduleZoneDetailsViewModel.ScheduleZone))
 			{
-				var scheduleZone = detailsViewModel.ScheduleZone;
+				var scheduleZone = scheduleZoneDetailsViewModel.ScheduleZone;
 				Schedule.Zones.Add(scheduleZone);
 				var scheduleZoneViewModel = new ScheduleZoneViewModel(scheduleZone);
 				ScheduleZones.Add(scheduleZoneViewModel);
@@ -118,6 +118,7 @@ namespace SKDModule.ViewModels
 			{
 				ScheduleZoneHelper.Save(SelectedScheduleZone.Model);
 				var selectedTimeInterval = SelectedScheduleZone;
+				SelectedScheduleZone.Update();
 				Sort();
 				SelectedScheduleZone = selectedTimeInterval;
 			}
