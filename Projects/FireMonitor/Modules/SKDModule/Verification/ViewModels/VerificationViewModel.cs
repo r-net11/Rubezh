@@ -83,17 +83,20 @@ namespace SKDModule.ViewModels
 					EventName = EventDescriptionAttributeHelper.ToName(journalItem.JournalEventNameType);
 					DateTime = journalItem.SystemDateTime.ToString();
 
-					var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(journalItem.EmployeeUID);
-					if (!operationResult.HasError)
+					if (journalItem.EmployeeUID != Guid.Empty)
 					{
-						Employee = operationResult.Result;
-						var photo = Employee.Photo;
-						PhotoColumnViewModel = new PhotoColumnViewModel(Employee.Photo);
-					}
-					else
-					{
-						Employee = null;
-						PhotoColumnViewModel = null;
+						var operationResult = FiresecManager.FiresecService.GetEmployeeDetails(journalItem.EmployeeUID);
+						if (!operationResult.HasError && operationResult.Result != null)
+						{
+							Employee = operationResult.Result;
+							var photo = Employee.Photo;
+							PhotoColumnViewModel = new PhotoColumnViewModel(Employee.Photo);
+						}
+						else
+						{
+							Employee = null;
+							PhotoColumnViewModel = null;
+						}
 					}
 				}
 			}

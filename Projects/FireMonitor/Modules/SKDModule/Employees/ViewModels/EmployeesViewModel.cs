@@ -129,16 +129,25 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			EmployeeViewModel OrganisationViewModel = SelectedEmployee;
+			if (!OrganisationViewModel.IsOrganisation)
+				OrganisationViewModel = SelectedEmployee.Parent;
+
+			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+				return;
+
 			var employee = SelectedEmployee.ShortEmployee;
 			var removeResult = EmployeeHelper.MarkDeleted(employee.UID);
 			if (!removeResult)
 				return;
 
-			var index = AllEmployees.IndexOf(SelectedEmployee);
-			AllEmployees.Remove(SelectedEmployee);
-			index = Math.Min(index, AllEmployees.Count - 1);
+			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedEmployee);
+			OrganisationViewModel.RemoveChild(SelectedEmployee);
+			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
 			if (index > -1)
-				SelectedEmployee = AllEmployees[index];
+				SelectedEmployee = OrganisationViewModel.Children.ToList()[index];
+			else
+				SelectedEmployee = OrganisationViewModel;
 		}
 		bool CanRemove()
 		{

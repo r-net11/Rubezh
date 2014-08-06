@@ -176,7 +176,7 @@ namespace SKDDriver
 			var zoneSaveResult = SaveGuardZones(apiItem);
 			if (zoneSaveResult.HasError)
 				return zoneSaveResult;
-			if (apiItem.Photo != null)
+			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
 			{
 				var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
 				if (photoSaveResult.HasError)
