@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows;
@@ -14,7 +15,7 @@ namespace FiresecService
 	{
 		static string connectionString
 		{
-			get { return global::SKDDriver.Properties.Settings.Default.SKDConnectionString; }
+			get { return ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString; }
 		}
 		
 		public static void Patch()

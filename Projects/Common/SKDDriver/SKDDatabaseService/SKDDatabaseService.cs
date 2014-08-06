@@ -1,14 +1,19 @@
-﻿using SKDDriver.Translators;
+﻿using System.Configuration;
+using SKDDriver.Translators;
 
 namespace SKDDriver
 {
 	public static class SKDDatabaseService
 	{
 		static DataAccess.SKDDataContext Context;
+		static string ConnectionString
+		{
+			get	{ return ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString; }
+		}
 
 		static SKDDatabaseService()
 		{
-			Context = new DataAccess.SKDDataContext();
+			Context = new DataAccess.SKDDataContext(ConnectionString);
 			CardDoorTranslator = new CardDoorTranslator(Context);
 			CardTranslator = new CardTranslator(Context, CardDoorTranslator);
 			AccessTemplateTranslator = new AccessTemplateTranslator(Context, CardDoorTranslator);
@@ -27,8 +32,6 @@ namespace SKDDriver
 			ScheduleZoneTranslator = new ScheduleZoneTranslator(Context);
 			ScheduleTranslator = new ScheduleTranslator(Context, ScheduleZoneTranslator);
 			EmployeeTranslator = new EmployeeTranslator(Context, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator, ScheduleTranslator);
-			//var v  = System.Configuration.ConfigurationManager.ConnectionStrings["Test"];  ConfigurationSettings.AppSettings ConfigurationSettings.AppSettings["SKDDriver.Properties.Settings.ConnectionString"];
-			//var v = ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.ConnectionString"];
 		}
 
 		public static PositionTranslator PositionTranslator { get; private set; }

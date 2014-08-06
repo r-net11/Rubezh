@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Threading;
 using FiresecAPI;
@@ -174,7 +175,7 @@ namespace FiresecService.Service
 		{
 			try
 			{
-				using (var dataContext = new SqlConnection(global::SKDDriver.Properties.Settings.Default.SKDConnectionString))
+				using (var dataContext = new SqlConnection(ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString))
 				{
 					var query = "SELECT MIN(SystemDate) FROM Journal";
 					var sqlCeCommand = new SqlCommand(query, dataContext);

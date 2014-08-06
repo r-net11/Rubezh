@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
@@ -17,7 +18,7 @@ namespace FiresecService
 		public static object databaseLocker = new object();
 		public static bool IsAbort { get; set; }
 		public static event Action<List<JournalItem>, Guid> ArchivePortionReady;
-		static string ConnectionString = global::SKDDriver.Properties.Settings.Default.SKDConnectionString;
+		static string ConnectionString = ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString;
 
 		public static void Add(JournalItem journalItem)
 		{
