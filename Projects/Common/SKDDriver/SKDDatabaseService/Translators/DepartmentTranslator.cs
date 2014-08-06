@@ -108,9 +108,12 @@ namespace SKDDriver
 
 		public override OperationResult Save(Department apiItem)
 		{
-			var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
-			if (photoSaveResult.HasError)
-				return photoSaveResult;
+			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
+			{
+				var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
+				if (photoSaveResult.HasError)
+					return photoSaveResult;
+			}
 			return base.Save(apiItem);
 		}
 	}
