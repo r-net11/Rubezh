@@ -31,7 +31,7 @@ namespace AutomationModule.ViewModels
 					break;
 
 				case ProcedureStepType.AddJournalItem:
-					Content = new JournalStepViewModel(step.JournalArguments);
+					Content = new JournalStepViewModel(step.JournalArguments, Update);
 					break;
 
 				case ProcedureStepType.FindObjects:
@@ -151,9 +151,7 @@ namespace AutomationModule.ViewModels
 				return
 					Step.ProcedureStepType == ProcedureStepType.IfYes ||
 					Step.ProcedureStepType == ProcedureStepType.IfNo ||
-					Step.ProcedureStepType == ProcedureStepType.ForeachBody ||
-					Step.ProcedureStepType == ProcedureStepType.ForeachList ||
-					Step.ProcedureStepType == ProcedureStepType.ForeachElement;
+					Step.ProcedureStepType == ProcedureStepType.ForeachBody;
 			}
 		}
 	}

@@ -42,10 +42,62 @@
 			<Grid>
 				<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="250 14 0 0">
 					<StackPanel Orientation="Horizontal">
-						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Margin="2,0" />
-						<Button Content="Переменные" Command="{Binding ShowVariablesCommand}" Width="120" Margin="2,0" />
-						<Button Content="Аргументы" Command="{Binding ShowArgumentsCommand}" Width="120" Margin="2,0" />
-						<Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="120" Margin="2,0" />
+						
+						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Margin="2,0" Foreground="White" >
+							<Button.Style>
+								<Style TargetType="Button">
+									<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
+											ConverterParameter={x:Static procedures:MenuType.IsSteps}}" Value="True">
+											<Setter Property="Background" Value="Orange" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Button.Style>
+						</Button>
+
+						<Button Content="Переменные" Command="{Binding ShowVariablesCommand}" Width="120" Margin="2,0" Foreground="White" >
+							<Button.Style>
+								<Style TargetType="Button">
+									<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
+											ConverterParameter={x:Static procedures:MenuType.IsVariables}, Mode=OneWay}" Value="True">
+											<Setter Property="Background" Value="Orange" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Button.Style>
+						</Button>
+
+						<Button Content="Аргументы" Command="{Binding ShowArgumentsCommand}" Width="120" Margin="2,0" Foreground="White" >
+							<Button.Style>
+								<Style TargetType="Button">
+									<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
+											ConverterParameter={x:Static procedures:MenuType.IsArguments}, Mode=OneWay}" Value="True">
+											<Setter Property="Background" Value="Orange" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Button.Style>
+						</Button>
+
+						<Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="120" Margin="2,0" Foreground="White" >
+							<Button.Style>
+								<Style TargetType="Button">
+									<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
+											ConverterParameter={x:Static procedures:MenuType.IsConditions}, Mode=OneWay}" Value="True">
+											<Setter Property="Background" Value="Orange" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</Button.Style>
+						</Button>
 					</StackPanel>
 				</StackPanel>
 
@@ -54,18 +106,18 @@
 					<Views:StepsView DataContext="{Binding StepsViewModel}" />
 				</Grid>
 				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToVisibilityConverter},
-					ConverterParameter={x:Static procedures:MenuType.IsVariables}}">					
+					ConverterParameter={x:Static procedures:MenuType.IsVariables}}">
 					<Views:VariablesView DataContext="{Binding VariablesViewModel}" />
 				</Grid >
 				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToVisibilityConverter},
 					ConverterParameter={x:Static procedures:MenuType.IsArguments}}">
-				<Views:VariablesView DataContext="{Binding ArgumentsViewModel}" />
+					<Views:VariablesView DataContext="{Binding ArgumentsViewModel}" />
 				</Grid>
 				<Grid Visibility="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToVisibilityConverter},
 					ConverterParameter={x:Static procedures:MenuType.IsConditions}}">
 					<Views:ConditionsView DataContext="{Binding ConditionsViewModel}" />
 				</Grid>
-				
+
 			</Grid>
 		</Grid>
 	</Grid>

@@ -73,7 +73,7 @@ namespace AutomationModule.ViewModels
 						break;
 				}
 
-				return "<" + var1 + "> " + op + " " + "<" + var2 + "> " + "=" + " <" + res + "> ";
+				return "<" + res + ">" + " = " + "<" + var1 + ">" + op + " " + "<" + var2 + ">";
 			}
 		}
 

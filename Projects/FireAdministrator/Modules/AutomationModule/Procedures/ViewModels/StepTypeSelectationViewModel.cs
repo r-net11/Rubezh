@@ -70,31 +70,26 @@ namespace AutomationModule.ViewModels
 			RootStepType = new StepTypeViewModel("Реестр функций",
 				new List<StepTypeViewModel>()
 				{
-					new StepTypeViewModel("Интерактивные функции",
-						new List<StepTypeViewModel>()
-						{
-							new StepTypeViewModel(ProcedureStepType.ProcedureSelection)
-						}),
 					new StepTypeViewModel("Поля объектов",
 						new List<StepTypeViewModel>()
 						{
 							new StepTypeViewModel(ProcedureStepType.SetObjectField),
 							new StepTypeViewModel(ProcedureStepType.GetObjectField)
 						}),
-					new StepTypeViewModel("Проигрывание звука",
-						new List<StepTypeViewModel>()
-						{
-							new StepTypeViewModel(ProcedureStepType.PlaySound)
-						}),
 					new StepTypeViewModel("Различная логика",
 						new List<StepTypeViewModel>()
 						{
 							new StepTypeViewModel(ProcedureStepType.Arithmetics),
 							new StepTypeViewModel(ProcedureStepType.PersonInspection),
-							new StepTypeViewModel(ProcedureStepType.FindObjects),
+							new StepTypeViewModel(ProcedureStepType.FindObjects)
+						}),
+						new StepTypeViewModel("Интерактивная логика",
+						new List<StepTypeViewModel>()
+						{
+							new StepTypeViewModel(ProcedureStepType.PlaySound),
 							new StepTypeViewModel(ProcedureStepType.AddJournalItem),
-							new StepTypeViewModel(ProcedureStepType.SendMessage),
-							new StepTypeViewModel(ProcedureStepType.ReportExport)
+							new StepTypeViewModel(ProcedureStepType.SendEmail),
+							new StepTypeViewModel(ProcedureStepType.SendMessage)
 						}),
 					new StepTypeViewModel("Служебные функции",
 						new List<StepTypeViewModel>()
@@ -103,9 +98,8 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.SetGlobalValue),
 							new StepTypeViewModel(ProcedureStepType.RunProgramm),
 							new StepTypeViewModel(ProcedureStepType.IncrementGlobalValue),
-							new StepTypeViewModel(ProcedureStepType.SendEmail),
 							new StepTypeViewModel(ProcedureStepType.Pause),
-							new StepTypeViewModel(ProcedureStepType.SendDebugMessage)
+							new StepTypeViewModel(ProcedureStepType.ProcedureSelection)
 						}),
 					new StepTypeViewModel("Управление аппаратурой",
 						new List<StepTypeViewModel>()
