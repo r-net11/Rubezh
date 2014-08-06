@@ -549,8 +549,7 @@ GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Drop_FK_Journal_Card')
 BEGIN
 	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Journal_Card]') AND parent_object_id = OBJECT_ID(N'[dbo].[Journal]'))
-	ALTER TABLE [dbo].[Journal] DROP CONSTRAINT [FK_Journal_Card]
-
+		ALTER TABLE [dbo].[Journal] DROP CONSTRAINT [FK_Journal_Card]
 	INSERT INTO Patches (Id) VALUES ('Drop_FK_Journal_Card')
 END
 GO
@@ -561,5 +560,17 @@ BEGIN
 		ALTER TABLE Journal ADD [Detalisation] [text] NULL
 	END
 	INSERT INTO Patches (Id) VALUES ('Journal_Detalisation')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Journal_NameText_nvarchar(max)')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Journal')
+	BEGIN
+		IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'NameText' and table_name = 'Journal')
+		BEGIN
+			ALTER TABLE Journal ALTER COLUMN NameText nvarchar(max) NULL
+		END
+	END
+	INSERT INTO Patches (Id) VALUES ('Journal_NameText_nvarchar(max)')	
 END
 GO
