@@ -21,7 +21,10 @@ namespace SKDModule.PassCard.Designer
 					bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
 					bitmapImage.StreamSource = imageStream;
 					bitmapImage.EndInit();
-					_brush = new ImageBrush(bitmapImage);
+					_brush = new ImageBrush(bitmapImage)
+					{
+						Stretch = element.Stretch,
+					};
 					_brush.Freeze();
 				}
 			else

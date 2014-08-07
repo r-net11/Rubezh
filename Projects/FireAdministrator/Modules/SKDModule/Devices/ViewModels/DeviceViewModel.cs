@@ -301,6 +301,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ChangeZoneCommand { get; private set; }
 		void OnChangeZone()
 		{
+			IsSelected = true;
 			var zoneSelectationViewModel = new ZoneSelectationViewModel(Device.ZoneUID);
 			if (DialogService.ShowModalWindow(zoneSelectationViewModel))
 			{

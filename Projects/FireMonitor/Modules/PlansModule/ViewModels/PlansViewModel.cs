@@ -41,15 +41,13 @@ namespace PlansModule.ViewModels
 			{
 				PlanTreeViewModel = new PlanTreeViewModel(this, _properties.Type == LayoutPartPlansType.Selected ? _properties.Plans : null);
 				PlanTreeViewModel.SelectedPlanChanged += SelectedPlanChanged;
-				var isNotFirstTime = RegistrySettingsHelper.GetBool("Monitor.Plans.IsNotFirstTime");
 				var planNavigationWidth = RegistrySettingsHelper.GetDouble("Monitor.Plans.SplitterDistance");
-				if (!isNotFirstTime && planNavigationWidth == 0)
+				if (planNavigationWidth == 0)
 					planNavigationWidth = 100;
 				PlanNavigationWidth = new GridLength(planNavigationWidth, GridUnitType.Pixel);
 				ApplicationService.ShuttingDown += () =>
 				{
 					RegistrySettingsHelper.SetDouble("Monitor.Plans.SplitterDistance", PlanNavigationWidth.Value);
-					RegistrySettingsHelper.SetBool("Monitor.Plans.IsNotFirstTime", true);
 				};
 			}
 			else

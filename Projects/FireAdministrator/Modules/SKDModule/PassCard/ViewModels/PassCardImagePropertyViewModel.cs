@@ -74,8 +74,10 @@ namespace SKDModule.PassCard.ViewModels
 			};
 			AdditionalColumnTypes = new ObservableCollection<ShortAdditionalColumnType>(AdditionalColumnTypeHelper.Get(filter));
 			base.CopyProperties();
-			SelectedPropertyType = ((ElementPassCardImageProperty)ElementRectangle).PropertyType;
-			SelectedAdditionalColumnType = SelectedPropertyType == PassCardImagePropertyType.Additional ? AdditionalColumnTypes.FirstOrDefault(item => item.UID == ((ElementPassCardImageProperty)ElementRectangle).AdditionalColumnUID) : null;
+			var element = (ElementPassCardImageProperty)ElementRectangle;
+			SelectedPropertyType = element.PropertyType;
+			SelectedAdditionalColumnType = SelectedPropertyType == PassCardImagePropertyType.Additional ? AdditionalColumnTypes.FirstOrDefault(item => item.UID == element.AdditionalColumnUID) : null;
+			SelectedStretch = element.Stretch;
 		}
 		protected override bool Save()
 		{
@@ -85,6 +87,7 @@ namespace SKDModule.PassCard.ViewModels
 				element.Text += string.Format("\n({0})", SelectedAdditionalColumnType == null ? string.Empty : SelectedAdditionalColumnType.Name);
 			element.PropertyType = SelectedPropertyType;
 			element.AdditionalColumnUID = SelectedAdditionalColumnType == null ? Guid.Empty : SelectedAdditionalColumnType.UID;
+			element.Stretch = SelectedStretch;
 			return base.Save();
 		}
 	}

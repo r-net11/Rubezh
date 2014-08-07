@@ -246,7 +246,7 @@ namespace SKDModule.PassCard.ViewModels
 				switch (elementPassCardImageProperty.PropertyType)
 				{
 					case PassCardImagePropertyType.DepartmentLogo:
-						photo = Department.Photo;	
+						photo = Department == null ? null : Department.Photo;	
 						break;
 					case PassCardImagePropertyType.OrganisationLogo:
 						photo = Organisation.Photo;
@@ -255,7 +255,7 @@ namespace SKDModule.PassCard.ViewModels
 						photo = Employee.Photo;
 						break;
 					case PassCardImagePropertyType.PositionLogo:
-						photo = Position.Photo;	
+						photo = Position == null ? null : Position.Photo;	
 						break;
 					case PassCardImagePropertyType.Additional:
 						var columnValue = Employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == elementPassCardImageProperty.AdditionalColumnUID);

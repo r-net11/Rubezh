@@ -42,7 +42,8 @@ namespace FireMonitor
 				}
 				InitializeCommandLineArguments(e.Args);
 
-				ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+				ApplicationService.Closing += new CancelEventHandler(ApplicationService_Closing);
+				ApplicationService.Closed += new EventHandler(ApplicationService_Closed);
 				ThemeHelper.LoadThemeFromRegister();
 #if DEBUG
 				bool trace = false;
@@ -102,7 +103,7 @@ namespace FireMonitor
 			Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
 		}
-		void ApplicationService_Closing(object sender, CancelEventArgs e)
+		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
 			if (e.Cancel)
 				return;
@@ -119,8 +120,10 @@ namespace FireMonitor
 					ShellIntegrationHelper.ShutDown();
 			}
 			RegistrySettingsHelper.SetBool("FireMonitor.IsRunning", false);
-
-			Environment.Exit(0);
+		}
+		private void ApplicationService_Closed(object sender, EventArgs e)
+		{
+			Application.Current.Shutdown();
 		}
 
 		void Restart()

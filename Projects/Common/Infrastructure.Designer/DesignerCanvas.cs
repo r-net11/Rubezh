@@ -63,15 +63,23 @@ namespace Infrastructure.Designer
 			get { return PlanDesignerViewModel.DeviceZoom / Zoom; }
 		}
 
+		public void RemoveAll()
+		{
+			RemoveDesignerItems(Items);
+		}
 		public void RemoveAllSelected()
 		{
-			var elements = SelectedElements.ToList();
-			if (elements.Count() == 0)
+			RemoveDesignerItems(SelectedItems);
+		}
+		private void RemoveDesignerItems(IEnumerable<DesignerItem> designerItems)
+		{
+			if (designerItems.Count() == 0)
 				return;
 
-			foreach (var designerItem in SelectedItems.ToList())
+			var elements = designerItems.Select(item => item.Element).ToList();
+			foreach (var designerItem in designerItems.ToList())
 				RemoveDesignerItem(designerItem);
-			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(elements.ToList());
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(elements);
 			DesignerChanged();
 		}
 
