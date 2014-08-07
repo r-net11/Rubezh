@@ -12,7 +12,12 @@ namespace SKDDriver
 		public JournalItemTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
-		
+			var j = new JournalItem();
+			j.JournalDetalisationItems.Add(new JournalDetalisationItem("Name", "Value"));
+			var tableJ = new DataAccess.Journal();
+			tableJ.UID = j.UID;
+			TranslateBack(tableJ, j);
+			var jOut = Translate(tableJ);
 		}
 		
 		protected override JournalItem Translate(DataAccess.Journal tableItem)

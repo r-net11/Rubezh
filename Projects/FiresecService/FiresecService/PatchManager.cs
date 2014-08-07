@@ -15,7 +15,7 @@ namespace FiresecService
 	{
 		static string connectionString
 		{
-			get { return ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString; }
+			get { return ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.ConnectionString"].ConnectionString; }
 		}
 		
 		public static void Patch()
@@ -27,7 +27,6 @@ namespace FiresecService
 				var reader = server.ConnectionContext.ExecuteReader(commandText.ToString());
 				bool isExists = reader.Read();
 				server.ConnectionContext.Disconnect();
-
 				if (!isExists)
 				{
 					var createStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Create.sql"));
@@ -38,7 +37,6 @@ namespace FiresecService
 					server.ConnectionContext.ExecuteNonQuery(commandText.ToString());
 					server.ConnectionContext.Disconnect();
 				}
-
 				var patchesStream = Application.GetResourceStream(new Uri(@"pack://application:,,,/SKDDriver;component/Scripts/Patches.sql"));
 				using (StreamReader sr = new StreamReader(patchesStream.Stream))
 				{

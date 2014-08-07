@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -24,12 +23,22 @@ namespace SKDModule.ViewModels
 					return ShortEmployee.LastName + " " + ShortEmployee.FirstName + " " + ShortEmployee.SecondName; 
 			} 
 		}
-		public Guid? DepartmentPhotoUID { get; set; }
-		public Guid? PositionPhotoUID { get; set; }
-		public string AppointedString { get; private set; }
-		public string DismissedString { get; private set; }
-		public string DepartmentName { get; private set; }
-		public string PositionName { get; private set; }
+		public string AppointedString 
+		{
+			get { return IsOrganisation? "" : ShortEmployee.Appointed; } 
+		}
+		public string DismissedString
+		{
+			get { return IsOrganisation ? "" : ShortEmployee.Dismissed; } 
+		} 
+		public string DepartmentName
+		{
+			get { return IsOrganisation ? "" : ShortEmployee.DepartmentName; }
+		} 
+		public string PositionName
+		{
+			get { return IsOrganisation ? "" : ShortEmployee.PositionName; } 
+		} 
 
 		public EmployeeViewModel(Organisation organisation)
 		{
@@ -43,10 +52,8 @@ namespace SKDModule.ViewModels
 			Organisation = organisation;
 			ShortEmployee = employee;
 			IsOrganisation = false;
-			
 			AddCardCommand = new RelayCommand(OnAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
-
 			Initialize();
 		}
 
@@ -56,17 +63,17 @@ namespace SKDModule.ViewModels
 			foreach (var item in ShortEmployee.Cards)
 				Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
 			SelectedCard = Cards.FirstOrDefault();
-
-			AppointedString = ShortEmployee.Appointed;
-			DismissedString = ShortEmployee.Dismissed;
-			DepartmentName = ShortEmployee.DepartmentName;
-			PositionName = ShortEmployee.PositionName;
+			Update();
 		}
 
 		public void Update(ShortEmployee employee)
 		{
 			ShortEmployee = employee;
-			Initialize();
+			Update();
+		}
+
+		public void Update()
+		{
 			OnPropertyChanged(() => ShortEmployee);
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => DepartmentName);
