@@ -203,7 +203,7 @@ namespace DevicesModule.ViewModels
 			Zones = new List<Guid>();
 			SelectedDevices = new List<Device>(); ;
 			OnPropertyChanged(() => CanSelectOperation);
-			OnPropertyChanged("CanSelectZones");
+			OnPropertyChanged(() => CanSelectZones);
 			OnPropertyChanged("CanSelectDevice");
 			OnPropertyChanged("PresenrationZones");
 			OnPropertyChanged("PresenrationSelectedDevice");

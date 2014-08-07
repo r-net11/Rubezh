@@ -16,6 +16,7 @@ namespace SKDModule.ViewModels
 			DayTracks = new ObservableCollection<DayTrackViewModel>();
 			foreach (var dayTimeTrack in dayTimeTracks)
 			{
+				dayTimeTrack.Calculate();
 				var dayTrackViewModel = new DayTrackViewModel(dayTimeTrack);
 				DayTracks.Add(dayTrackViewModel);
 			}

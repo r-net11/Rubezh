@@ -307,6 +307,10 @@ namespace SKDDriver
 
 		public OperationResult<List<DayTimeTrack>> GetTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
+			//var empl = GetList(new EmployeeFilter()).Result.FirstOrDefault();
+			//AddPassJournal(empl.UID, SKDManager.Zones.FirstOrDefault().UID);
+			//AddPassJournal(empl.UID, SKDManager.Zones.FirstOrDefault().UID);
+
 			InvalidatePassJournal();
 
 			try
@@ -329,17 +333,6 @@ namespace SKDDriver
 			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime != null && x.EnterTime.Value.Date == date.Date).ToList();
 			if (passJournals == null)
 				passJournals = new List<DataAccess.PassJournal>();
-
-			//var firstEnterTime = passJournals.Where(x => x.EnterTime != null).Select(x => x.EnterTime.Value).Min();
-			//var lastExitTime = passJournals.Where(x => x.ExitTime != null).Select(x => x.ExitTime.Value).Max();
-
-			//var totalNotMiss = new DateTime();
-			//foreach (var passJournal in passJournals)
-			//{
-			//    var itemExitTime = passJournal.ExitTime != null ? passJournal.ExitTime.Value : new DateTime();
-			//    var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
-			//    totalNotMiss = new DateTime(totalNotMiss.Ticks + itemExitTime.Ticks - itemEnterTime.Ticks);
-			//}
 
 			var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
 			if (employee == null)
@@ -378,8 +371,47 @@ namespace SKDDriver
 			if (namedInterval == null)
 				return new DayTimeTrack("Не найден именованный интервал");
 			var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID);
-			var totalInSchedule = new TimeSpan();
 			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).Select(x => x.ZoneUID).ToList();
+
+			var dayTimeTrack = new DayTimeTrack();
+			dayTimeTrack.Date = date;
+
+			foreach (var tableInterval in intervals)
+			{
+				var interval = new Interval();
+				interval.BeginDate = new DateTime(Math.BigMul(tableInterval.BeginTime, 10000000));
+				interval.EndDate = new DateTime(Math.BigMul(tableInterval.EndTime, 10000000));
+				dayTimeTrack.Intervals.Add(interval);
+			}
+
+			foreach (var passJournal in passJournals)
+			{
+				if (scheduleZones.Any(x => x == passJournal.ZoneUID))
+				{
+					if (passJournal.EnterTime.HasValue && passJournal.ExitTime.HasValue)
+					{
+						var dayTimeTrackPart = new DayTimeTrackPart();
+						dayTimeTrackPart.StartTime = passJournal.EnterTime.Value;
+						dayTimeTrackPart.EndTime = passJournal.ExitTime.Value;
+						dayTimeTrackPart.ZoneUID = passJournal.ZoneUID;
+						dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
+					}
+				}
+			}
+
+			return dayTimeTrack;
+
+			//var firstEnterTime = passJournals.Where(x => x.EnterTime != null).Select(x => x.EnterTime.Value).Min();
+			//var lastExitTime = passJournals.Where(x => x.ExitTime != null).Select(x => x.ExitTime.Value).Max();
+
+			//var totalNotMiss = new DateTime();
+			//foreach (var passJournal in passJournals)
+			//{
+			//    var itemExitTime = passJournal.ExitTime != null ? passJournal.ExitTime.Value : new DateTime();
+			//    var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
+			//    totalNotMiss = new DateTime(totalNotMiss.Ticks + itemExitTime.Ticks - itemEnterTime.Ticks);
+			//}
+			var totalInSchedule = new TimeSpan();
 			foreach (var interval in intervals)
 			{
 				foreach (var passJournal in passJournals)
@@ -409,48 +441,10 @@ namespace SKDDriver
 					}
 				}
 			}
-
-			var dayTimeTrack = new DayTimeTrack();
-			dayTimeTrack.EmployeeUID = employeeUID;
-			dayTimeTrack.Date = date;
-
-			foreach (var tableInterval in intervals)
-			{
-				var interval = new Interval();
-				interval.BeginDate = new DateTime(Math.BigMul(tableInterval.BeginTime, 10000000));
-				interval.EndDate = new DateTime(Math.BigMul(tableInterval.EndTime, 10000000));
-				dayTimeTrack.Intervals.Add(interval);
-			}
-
-			foreach (var passJournal in passJournals)
-			{
-				if (scheduleZones.Any(x => x == passJournal.ZoneUID))
-				{
-					if (passJournal.EnterTime.HasValue && passJournal.ExitTime.HasValue)
-					{
-						var dayTimeTrackPart = new DayTimeTrackPart();
-						dayTimeTrackPart.StartTime = passJournal.EnterTime.Value;
-						dayTimeTrackPart.EndTime = passJournal.ExitTime.Value;
-						dayTimeTrackPart.ZoneUID = passJournal.ZoneUID;
-						dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
-
-						if (dayTimeTrackPart.StartTime.Date.Day != date.Day)
-						{
-							dayTimeTrackPart.StartTime = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
-						}
-						if (dayTimeTrackPart.EndTime.Date.Day != date.Day)
-						{
-							dayTimeTrackPart.StartTime = new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
-						}
-					}
-				}
-			}
-
 			//dayTimeTrack.Total = new TimeSpan(lastExitTime.Ticks - firstEnterTime.Ticks);
 			//dayTimeTrack.TotalMiss = new TimeSpan(dayTimeTrack.Total.Ticks - totalNotMiss.Ticks);
-			dayTimeTrack.TotalInSchedule = totalInSchedule;
-			dayTimeTrack.TotalOutSchedule = dayTimeTrack.Total - dayTimeTrack.TotalInSchedule;
-			return dayTimeTrack;
+			//dayTimeTrack.TotalInSchedule = totalInSchedule;
+			//dayTimeTrack.TotalOutSchedule = dayTimeTrack.Total - dayTimeTrack.TotalInSchedule;
 		}
 	}
 }

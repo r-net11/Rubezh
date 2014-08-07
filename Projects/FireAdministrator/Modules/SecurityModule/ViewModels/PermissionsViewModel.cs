@@ -55,7 +55,7 @@ namespace SecurityModule.ViewModels
 			private set
 			{
 				_rootPermission = value;
-				OnPropertyChanged("RootPermission");
+				OnPropertyChanged(() => RootPermission);
 			}
 		}
 

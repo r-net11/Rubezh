@@ -322,7 +322,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_deviceUsers = value;
-				OnPropertyChanged("DeviceUsers");
+				OnPropertyChanged(() => DeviceUsers);
 			}
 		}
 

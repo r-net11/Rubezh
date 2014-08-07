@@ -24,8 +24,10 @@ namespace FiresecAPI.SKD
 	{
 		[EnumMember]
 		Day,
+
 		[EnumMember]
 		Night,
+
 		[EnumMember]
 		DayNight
 	}

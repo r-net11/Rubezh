@@ -55,7 +55,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_isAutoBlock = value;
-				OnPropertyChanged("IsAutoBlock");
+				OnPropertyChanged(() => IsAutoBlock);
 			}
 		}
 

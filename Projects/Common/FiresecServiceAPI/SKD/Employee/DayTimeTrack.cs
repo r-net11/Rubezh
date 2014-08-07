@@ -13,13 +13,10 @@ namespace FiresecAPI.SKD
 			Intervals = new List<Interval>();
 		}
 
-		public DayTimeTrack(string error)
+		public DayTimeTrack(string error) : this()
 		{
 			Error = error;
 		}
-
-		[DataMember]
-		public Guid EmployeeUID { get; set; }
 
 		[DataMember]
 		public DateTime Date { get; set; }
@@ -44,6 +41,25 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string Error { get; set; }
+
+		public void Calculate()
+		{
+			long totalIntervals = 0;
+			foreach (var interval in Intervals)
+			{
+				var deltaTicks = interval.EndDate.Value.TimeOfDay.Ticks - interval.BeginDate.Value.TimeOfDay.Ticks;
+				totalIntervals += deltaTicks;
+			}
+			TimeSpan timeSpan = new TimeSpan(totalIntervals);
+
+			long totalTime = 0;
+			foreach (var timeTrackPart in TimeTrackParts)
+			{
+				var deltaTrack = timeTrackPart.EndTime.TimeOfDay.Ticks - timeTrackPart.StartTime.TimeOfDay.Ticks;
+				totalTime += deltaTrack;
+			}
+			Total = new TimeSpan(totalTime);
+		}
 	}
 
 	[DataContract]

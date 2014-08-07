@@ -45,7 +45,7 @@ namespace DevicesModule.Plans.ViewModels
 			set
 			{
 				_selectedZone = value;
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
 

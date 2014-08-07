@@ -53,7 +53,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_selectedPlan = value;
-				OnPropertyChanged("SelectedPlan");
+				OnPropertyChanged(() => SelectedPlan);
 			}
 		}
 
