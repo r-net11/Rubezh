@@ -13,6 +13,11 @@ namespace FiresecAPI.SKD
 			Intervals = new List<Interval>();
 		}
 
+		public DayTimeTrack(string error)
+		{
+			Error = error;
+		}
+
 		[DataMember]
 		public Guid EmployeeUID { get; set; }
 
@@ -36,6 +41,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public TimeSpan TotalOutSchedule { get; set; }
+
+		[DataMember]
+		public string Error { get; set; }
 	}
 
 	[DataContract]
