@@ -16,7 +16,7 @@ namespace AutomationModule.ViewModels
 		public ControlGKFireZoneStepViewModel(ControlGKFireZoneArguments controlGKFireZoneArguments)
 		{
 			ControlGKFireZoneArguments = controlGKFireZoneArguments;
-			Commands = new ObservableCollection<ZoneCommandType> { ZoneCommandType.Ignore, ZoneCommandType.ResetIgnore, ZoneCommandType.ResetIgnore };
+			Commands = new ObservableCollection<ZoneCommandType> { ZoneCommandType.Ignore, ZoneCommandType.ResetIgnore, ZoneCommandType.Reset };
 			OnPropertyChanged(() => Commands);
 			SelectZoneCommand = new RelayCommand(OnSelectZone);
 			UpdateContent();
@@ -33,6 +33,7 @@ namespace AutomationModule.ViewModels
 				_selectedCommand = value;
 				ControlGKFireZoneArguments.ZoneCommandType = value;
 				OnPropertyChanged(()=>SelectedCommand);
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 

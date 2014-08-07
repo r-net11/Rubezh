@@ -10,7 +10,7 @@ using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class DepartmentsViewModel : ViewPartViewModel, ISelectable<Guid>
+	public class DepartmentsViewModel : ViewPartViewModel
 	{
 		ShortDepartment _clipboard;
 
@@ -74,17 +74,6 @@ namespace SKDModule.ViewModels
 		public List<DepartmentViewModel> Organisations { get; private set; }
 		List<DepartmentViewModel> AllDepartments { get; set; }
 
-		public void Select(Guid departmentUID)
-		{
-			if (departmentUID != Guid.Empty)
-			{
-				var departmentViewModel = AllDepartments.FirstOrDefault(x => x.Department != null && x.Department.UID == departmentUID);
-				if (departmentViewModel != null)
-					departmentViewModel.ExpandToThis();
-				SelectedDepartment = departmentViewModel;
-			}
-		}
-
 		DepartmentViewModel _selectedDepartment;
 		public DepartmentViewModel SelectedDepartment
 		{
@@ -119,6 +108,7 @@ namespace SKDModule.ViewModels
 			Guid? parentDepartmentUID = null;
 			if (!SelectedDepartment.IsOrganisation)
 				parentDepartmentUID = SelectedDepartment.Department.UID;
+
 			var departmentDetailsViewModel = new DepartmentDetailsViewModel(SelectedDepartment.Organisation.UID, null, parentDepartmentUID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
@@ -150,12 +140,14 @@ namespace SKDModule.ViewModels
 				if (!removeResult)
 					return;
 
-				parent.Nodes.Remove(SelectedDepartment);
-				parent.Update();
-
+				var index = parent.Children.ToList().IndexOf(SelectedDepartment);
+				parent.RemoveChild(SelectedDepartment);
+				index = Math.Min(index, parent.Children.Count() - 1);
+				if (index > -1)
+					SelectedDepartment = parent.Children.ToList()[index];
+				else
+					SelectedDepartment = parent;
 				AllDepartments.Remove(SelectedDepartment);
-				//var children = GetAllChildrenModels(SelectedDepartment);
-				//SelectedDepartment = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
 		}
 		bool CanRemove()
@@ -191,38 +183,44 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		private void OnCopy()
+		void OnCopy()
 		{
 			_clipboard = CopyDepartment(SelectedDepartment.Department, false);
 		}
-		private bool CanCopy()
+		bool CanCopy()
 		{
 			return SelectedDepartment != null && !SelectedDepartment.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		private void OnPaste()
+		void OnPaste()
 		{
-			var newShortDepartment = CopyDepartment(_clipboard);
-			var department = new Department()
+			if (ParentOrganisation != null)
 			{
-				UID = newShortDepartment.UID,
-				Name = newShortDepartment.Name,
-				Description = newShortDepartment.Description,
-				ParentDepartmentUID = newShortDepartment.ParentDepartmentUID
-			};
-			if (DepartmentHelper.Save(department))
-			{
-				var departmentViewModel = new DepartmentViewModel(SelectedDepartment.Organisation, newShortDepartment);
-				if (ParentOrganisation != null)
+				Guid? parentDepartmentUID = null;
+				if (SelectedDepartment.Parent != null && !SelectedDepartment.Parent.IsOrganisation)
+					parentDepartmentUID = SelectedDepartment.Parent.Department.UID;
+
+				var newShortDepartment = CopyDepartment(_clipboard);
+				newShortDepartment.UID = Guid.NewGuid();
+				var department = new Department()
 				{
+					UID = newShortDepartment.UID,
+					Name = newShortDepartment.Name,
+					Description = newShortDepartment.Description,
+					ParentDepartmentUID = parentDepartmentUID,
+					OrganisationUID = newShortDepartment.OrganisationUID.Value,
+				};
+				if (DepartmentHelper.Save(department))
+				{
+					var departmentViewModel = new DepartmentViewModel(SelectedDepartment.Organisation, newShortDepartment);
 					ParentOrganisation.AddChild(departmentViewModel);
 					AllDepartments.Add(departmentViewModel);
+					SelectedDepartment = departmentViewModel;
 				}
-				SelectedDepartment = departmentViewModel;
 			}
 		}
-		private bool CanPaste()
+		bool CanPaste()
 		{
 			return SelectedDepartment != null && _clipboard != null;
 		}

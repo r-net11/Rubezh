@@ -8,7 +8,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
                 <Grid Grid.Row="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
-					<DataGrid Focusable="True" ItemsSource="{Binding RootZones}" SelectedItem="{Binding SelectedZone}">
+					<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
 						<DataGrid.Columns>
 							<DataGridTemplateColumn Width="250" Header="Зона">
 								<DataGridTemplateColumn.CellTemplate>

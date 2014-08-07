@@ -31,7 +31,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectiedAction = value;
-				OnPropertyChanged("SelectiedAction");
+				OnPropertyChanged(() => SelectiedAction);
 			}
 		}
 

@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecService.Service;
 using Infrastructure.Common.Video.RVI_VSS;
@@ -266,6 +267,93 @@ namespace FiresecService.Processor
 					WinFormsPlayers.Remove(winFormsPlayer);
 				}
 			}
+		}
+
+		public static void ControlFireZone(ProcedureStep procedureStep)
+		{
+			var zone = XManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlGKFireZoneArguments.ZoneUid);
+			if (zone == null)
+				return;
+			if(procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.Ignore)
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zone.UID, zone.ObjectType);
+			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.ResetIgnore)
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zone.UID, zone.ObjectType);
+			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.Reset)
+				FiresecServiceManager.SafeFiresecService.GKReset(zone.UID, zone.ObjectType);
+		}
+
+		public static void ControlGuardZone(ProcedureStep procedureStep)
+		{
+			var zone = XManager.GuardZones.FirstOrDefault(x => x.UID == procedureStep.ControlGKGuardZoneArguments.ZoneUid);
+			if (zone == null)
+				return;
+			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.Automatic)
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zone.UID, zone.ObjectType);
+			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.Ignore)
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zone.UID, zone.ObjectType);
+			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.Manual)
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(zone.UID, zone.ObjectType);
+			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.Reset)
+				FiresecServiceManager.SafeFiresecService.GKReset(zone.UID, zone.ObjectType);
+			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.TurnOff)
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(zone.UID, zone.ObjectType);
+			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.TurnOn)
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(zone.UID, zone.ObjectType);
+			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.TurnOnNow)
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(zone.UID, zone.ObjectType);
+		}
+
+		public static void ControlDirection(ProcedureStep procedureStep)
+		{
+			var direction = XManager.Directions.FirstOrDefault(x => x.UID == procedureStep.ControlDirectionArguments.DirectionUid);
+			if (direction == null)
+				return;
+			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.Automatic)
+				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(direction.UID, direction.ObjectType);
+			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.ForbidStart)
+				FiresecServiceManager.SafeFiresecService.GKStop(direction.UID, direction.ObjectType);
+			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.Ignore)
+				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(direction.UID, direction.ObjectType);
+			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.Manual)
+				FiresecServiceManager.SafeFiresecService.GKSetManualRegime(direction.UID, direction.ObjectType);
+			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.TurnOff)
+				FiresecServiceManager.SafeFiresecService.GKTurnOff(direction.UID, direction.ObjectType);
+			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.TurnOn)
+				FiresecServiceManager.SafeFiresecService.GKTurnOn(direction.UID, direction.ObjectType);
+			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.TurnOnNow)
+				FiresecServiceManager.SafeFiresecService.GKTurnOnNow(direction.UID, direction.ObjectType);
+		}
+
+		public static void ControlDoor(ProcedureStep procedureStep)
+		{
+			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == procedureStep.ControlDoorArguments.DoorUid);
+			if (door == null)
+				return;
+			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.Open)
+				FiresecServiceManager.SafeFiresecService.SKDOpenDoor(door.UID);
+			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.Close)
+				FiresecServiceManager.SafeFiresecService.SKDCloseDoor(door.UID);
+			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.OpenForever)
+				FiresecServiceManager.SafeFiresecService.SKDOpenDoorForever(door.UID);
+			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.CloseForever)
+				FiresecServiceManager.SafeFiresecService.SKDCloseDoorForever(door.UID);
+		}
+
+		public static void ControlSKDZone(ProcedureStep procedureStep)
+		{
+			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlSKDZoneArguments.ZoneUid);
+			if (sKDZone == null)
+				return;
+			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.Open)
+				FiresecServiceManager.SafeFiresecService.SKDOpenZone(sKDZone.UID);
+			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.Close)
+				FiresecServiceManager.SafeFiresecService.SKDCloseZone(sKDZone.UID);
+			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.OpenForever)
+				FiresecServiceManager.SafeFiresecService.SKDOpenZoneForever(sKDZone.UID);
+			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.CloseForever)
+				FiresecServiceManager.SafeFiresecService.SKDCloseZoneForever(sKDZone.UID);
+			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.DetectEmployees)
+				return; // TODO
 		}
 	}
 }

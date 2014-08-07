@@ -16,16 +16,16 @@ namespace SKDDriver
 
 		PhotoTranslator PhotoTranslator;
 
-		protected override OperationResult CanSave(Department item)
+		protected override OperationResult CanSave(Department department)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganisationUID == item.OrganisationUID &&
-				x.UID != item.UID &&
-				x.ParentDepartmentUID == item.ParentDepartmentUID &&
+			bool hasSameName = Table.Any(x => x.Name == department.Name &&
+				x.OrganisationUID == department.OrganisationUID &&
+				x.UID != department.UID &&
+				x.ParentDepartmentUID == department.ParentDepartmentUID &&
 				x.IsDeleted == false);
-			if (sameName)
+			if (hasSameName)
 				return new OperationResult("Отдел с таким же названием уже содержится в базе данных");
-			return base.CanSave(item);
+			return base.CanSave(department);
 		}
 
 		protected override OperationResult CanDelete(Guid uid)
@@ -108,9 +108,12 @@ namespace SKDDriver
 
 		public override OperationResult Save(Department apiItem)
 		{
-			var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
-			if (photoSaveResult.HasError)
-				return photoSaveResult;
+			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
+			{
+				var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
+				if (photoSaveResult.HasError)
+					return photoSaveResult;
+			}
 			return base.Save(apiItem);
 		}
 	}

@@ -21,8 +21,8 @@ namespace SKDDriver.Translators
 
 		protected override OperationResult CanSave(Schedule item)
 		{
-			bool sameName = Table.Any(x => x.OrganisationUID == item.OrganisationUID && x.UID != item.UID && !x.IsDeleted && x.Name == item.Name);
-			if (sameName)
+			bool hasSameName = Table.Any(x => x.OrganisationUID == item.OrganisationUID && x.UID != item.UID && !x.IsDeleted && x.Name == item.Name);
+			if (hasSameName)
 				return new OperationResult("График с таким же названием уже содержится в базе данных");
 			return base.CanSave(item);
 		}

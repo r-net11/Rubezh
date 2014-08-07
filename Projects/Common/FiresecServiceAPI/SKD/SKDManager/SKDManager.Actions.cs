@@ -87,7 +87,10 @@ namespace FiresecAPI.SKD
 						door.OutDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Reader && x.IntAddress == door.InDevice.IntAddress + 1);
 						break;
 				}
-				door.OutDeviceUID = door.OutDevice.UID;
+				if (door.OutDevice != null)
+				{
+					door.OutDeviceUID = door.OutDevice.UID;
+				}
 			}
 
 			if (door.InDevice != null)

@@ -19,6 +19,7 @@ namespace ChinaSKDDriver
 		const int DH_ALARM_ACCESS_CTL_REPEAT_ENTER = 0x3179;
 		const int DH_ALARM_ACCESS_CTL_DURESS = 0x3180;
 		const int DH_ALARM_ACCESS_CTL_STATUS = 0x3185;
+		const int DH_ALARM_CHASSISINTRUDED = 0x3173;
 
 		public int LoginID { get; private set; }
 
@@ -214,8 +215,13 @@ namespace ChinaSKDDriver
 					journalItem.DoorNo = wrapJournalItem.nDoor;
 					break;
 
+				case DH_ALARM_CHASSISINTRUDED:
+					journalItem.JournalEventNameType = JournalEventNameType.Вскрытие_контроллера;
+					break;
+
 				default:
 					journalItem.JournalEventNameType = JournalEventNameType.Неизвестное_событие;
+					journalItem.Description = wrapJournalItem.EventType.ToString();
 					break;
 			}
 

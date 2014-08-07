@@ -13,33 +13,33 @@ namespace SKDModule.ViewModels
 	public class SelectDepartmentViewModel : SaveCancelDialogViewModel
 	{
 		Employee Employee;
-		HRViewModel _hrViewModel;
+		HRViewModel HrViewModel;
 
 		public SelectDepartmentViewModel(Employee employee, ShortDepartment department, HRViewModel hrViewModel)
 		{
 			Title = "Выбор отдела";
 			Employee = employee;
-			_hrViewModel = hrViewModel;
+			HrViewModel = hrViewModel;
 			AddCommand = new RelayCommand(OnAdd);
+
 			Departments = new List<SelectationDepartmentViewModel>();
 			var departments = DepartmentHelper.GetByOrganisation(Employee.OrganisationUID);
+			if (departments != null)
+			{
+				foreach (var item in departments)
+				{
+					Departments.Add(new SelectationDepartmentViewModel(item, this));
+				}
+			}
+
 			var organisation = OrganisationHelper.GetSingle(employee.OrganisationUID);
-			if (departments == null || departments.Count() == 0)
-			{
-				MessageBoxService.Show("Для данной организации не указано не одного отдела");
-				return;
-			}
-			foreach (var item in departments)
-			{
-				Departments.Add(new SelectationDepartmentViewModel(item, this));
-			}
 			_organisation = new SelectationDepartmentViewModel(organisation, this);
 			OnPropertyChanged(() => RootDepartments);
 			var rootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
 			if (rootDepartments.IsNotNullOrEmpty())
 			{
 				foreach (var rootDepartment in rootDepartments)
-				{	
+				{
 					_organisation.AddChild(rootDepartment);
 					SetChildren(rootDepartment);
 				}
@@ -62,7 +62,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => SelectedDepartment);
 			OnPropertyChanged(() => HighlightedDepartment);
 		}
-		
+
 		void SetChildren(SelectationDepartmentViewModel department)
 		{
 			if (department.Department.ChildDepartmentUIDs.Count == 0)
@@ -81,7 +81,7 @@ namespace SKDModule.ViewModels
 		}
 
 		SelectationDepartmentViewModel _organisation;
-		
+
 		SelectationDepartmentViewModel _highlightedDepartment;
 		public SelectationDepartmentViewModel HighlightedDepartment
 		{
@@ -103,7 +103,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => Departments);
 			}
 		}
-		
+
 		public SelectationDepartmentViewModel[] RootDepartments
 		{
 			get { return new SelectationDepartmentViewModel[] { _organisation }; }
@@ -140,21 +140,20 @@ namespace SKDModule.ViewModels
 				if (hasParentDepartment)
 				{
 					HighlightedDepartment.AddChild(departmentViewModel);
-					departmentViewModel.ExpandToThis();
-					departmentViewModel.SelectCommand.Execute();
 				}
 				else
 				{
 					_organisation.AddChild(departmentViewModel);
-					departmentViewModel.SelectCommand.Execute();
 				}
-				_hrViewModel.UpdateDepartments();
+				departmentViewModel.ExpandToThis();
+				departmentViewModel.SelectCommand.Execute();
+				HrViewModel.UpdateDepartments();
 			}
 		}
-		
+
 		protected override bool Save()
 		{
-			if(SelectedDepartment == null)
+			if (SelectedDepartment == null)
 			{
 				MessageBoxService.ShowWarning("Выборите отдел");
 				return false;

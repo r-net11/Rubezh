@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 		Organisation Organisation;
 		public SKDCard Card { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
-		bool IsNewCard;
+		public bool IsNewCard { get; private set; }
 
 		public EmployeeCardDetailsViewModel(Organisation organisation, SKDCard card = null)
 		{

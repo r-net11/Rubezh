@@ -19,15 +19,15 @@ namespace SKDDriver
 
 		CardDoorTranslator CardDoorTranslator;
 
-		protected override OperationResult CanSave(AccessTemplate item)
+		protected override OperationResult CanSave(AccessTemplate accessTemplate)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name &&
-				x.OrganisationUID == item.OrganisationUID &&
-				x.UID != item.UID &&
+			bool hasSameName = Table.Any(x => x.Name == accessTemplate.Name &&
+				x.OrganisationUID == accessTemplate.OrganisationUID &&
+				x.UID != accessTemplate.UID &&
 				!x.IsDeleted);
-			if (sameName)
+			if (hasSameName)
 				return new OperationResult("Попытка добавить шаблон доступа с совпадающим именем");
-			return base.CanSave(item);
+			return base.CanSave(accessTemplate);
 		}
 
 		protected override OperationResult CanDelete(Guid uid)

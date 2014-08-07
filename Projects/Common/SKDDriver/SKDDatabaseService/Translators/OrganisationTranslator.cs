@@ -20,26 +20,41 @@ namespace SKDDriver
 
 		protected OperationResult CanSave(OrganisationDetails item)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name && !x.IsDeleted && x.UID != item.UID);
-			if (sameName)
+			bool hasSameName = Table.Any(x => x.Name == item.Name && !x.IsDeleted && x.UID != item.UID);
+			if (hasSameName)
 				return new OperationResult("Организация таким же именем уже содержится в базе данных");
 			return new OperationResult();
 		}
 
 		protected override OperationResult CanDelete(Guid uid)
 		{
-			if (Context.AdditionalColumnTypes.Any(x => x.OrganisationUID == uid) ||
-					Context.Departments.Any(x => x.OrganisationUID == uid) ||
-					Context.Employees.Any(x => x.OrganisationUID == uid) ||
-					Context.Holidays.Any(x => x.OrganisationUID == uid) ||
-					Context.NamedIntervals.Any(x => x.OrganisationUID == uid) ||
-					Context.Positions.Any(x => x.OrganisationUID == uid) ||
-					Context.Phones.Any(x => x.OrganisationUID == uid) ||
-					Context.Schedules.Any(x => x.OrganisationUID == uid) ||
-					Context.ScheduleSchemes.Any(x => x.OrganisationUID == uid) ||
-					Context.AccessTemplates.Any(x => x.OrganisationUID == uid)
-				)
-				return new OperationResult("Организация не может быть удалена, пока существуют элементы привязанные к ней");
+			if (Context.Employees.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней сотрудники");
+
+			if (Context.Departments.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней отделы");
+
+			if (Context.Positions.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней должности");
+
+			if (Context.AccessTemplates.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней шаблоны доступа");
+
+			if (Context.AdditionalColumnTypes.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дополнительные колонки");
+
+			if (Context.NamedIntervals.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дневные интервалы");
+
+			if (Context.Holidays.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней праздники");
+
+			if (Context.Schedules.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней графики работ");
+
+			if (Context.ScheduleSchemes.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней схемы работ");
+
 			return base.CanDelete(uid);
 		}
 
@@ -285,7 +300,7 @@ namespace SKDDriver
 			var saveUsersResult = SaveUsers(apiItem);
 			if (saveUsersResult.HasError)
 				return saveUsersResult;
-			if (apiItem.Photo != null)
+			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
 			{
 				var savePhotoResult = PhotoTranslator.Save(apiItem.Photo);
 				if (savePhotoResult.HasError)

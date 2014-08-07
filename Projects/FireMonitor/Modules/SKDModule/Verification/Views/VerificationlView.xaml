@@ -28,12 +28,12 @@
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width="100" Margin="2" Text="Фамилия" />
-                    <TextBlock Margin="2" Text="{Binding Employee.SecondName}" />
+                    <TextBlock Margin="2" Text="{Binding Employee.LastName}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width="100" Margin="2" Text="Отчество" />
-                    <TextBlock Margin="2" Text="{Binding Employee.LastName}" />
+                    <TextBlock Margin="2" Text="{Binding Employee.SecondName}" />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">

@@ -19,12 +19,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Тело цикла")]
 		ForeachBody,
 
-		[DescriptionAttribute("Список")]
-		ForeachList,
-
-		[DescriptionAttribute("Текущий элемент списка")]
-		ForeachElement,
-
 		[DescriptionAttribute("Функция выбора процедур")]
 		ProcedureSelection,
 
@@ -52,9 +46,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Добавить запись в журнал")]
 		AddJournalItem,
 
-		[DescriptionAttribute("Экспорт отчета")]
-		ReportExport,
-
 		[DescriptionAttribute("Выход из процедуры")]
 		Exit,
 
@@ -72,9 +63,6 @@ namespace FiresecAPI.Automation
 
 		[DescriptionAttribute("Пауза")]
 		Pause,
-
-		[DescriptionAttribute("Послать отладочное сообщение")]
-		SendDebugMessage,
 
 		[DescriptionAttribute("Управление устройством ГК")]
 		ControlGKDevice,

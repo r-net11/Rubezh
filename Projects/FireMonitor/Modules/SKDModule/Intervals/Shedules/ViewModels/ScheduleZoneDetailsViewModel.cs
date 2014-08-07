@@ -34,8 +34,8 @@ namespace SKDModule.ViewModels
 				Zones.Add(zoneViewModel);
 			}
 			SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == ScheduleZone.ZoneUID);
-
 		}
+
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
 		ZoneViewModel _selectedZone;

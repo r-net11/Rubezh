@@ -55,8 +55,8 @@ namespace DevicesModule.ViewModels
 		{
 			ProgressCaption = value;
 			PercentsCompleted = percentsCompleted;
-			OnPropertyChanged("ProgressCaption");
-			OnPropertyChanged("PercentsCompleted");
+			OnPropertyChanged(() => ProgressCaption);
+			OnPropertyChanged(() => PercentsCompleted);
 		}
 
 		public string ProgressCaption { get; set; }

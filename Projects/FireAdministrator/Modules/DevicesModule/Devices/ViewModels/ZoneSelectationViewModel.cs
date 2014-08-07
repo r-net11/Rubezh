@@ -53,7 +53,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedZone = value;
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
 

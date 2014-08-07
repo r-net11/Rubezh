@@ -10,7 +10,7 @@ using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class AccessTemplatesViewModel : ViewPartViewModel, ISelectable<Guid>
+	public class AccessTemplatesViewModel : ViewPartViewModel
 	{
 		AccessTemplate _clipboard;
 
@@ -57,17 +57,6 @@ namespace SKDModule.ViewModels
 
 		public List<AccessTemplateViewModel> Organisations { get; private set; }
 		List<AccessTemplateViewModel> AllAccessTemplates { get; set; }
-
-		public void Select(Guid accessTemplateUID)
-		{
-			if (accessTemplateUID != Guid.Empty)
-			{
-				var AccessTemplateViewModel = AllAccessTemplates.FirstOrDefault(x => x.AccessTemplate != null && x.AccessTemplate.UID == accessTemplateUID);
-				if (AccessTemplateViewModel != null)
-					AccessTemplateViewModel.ExpandToThis();
-				SelectedAccessTemplate = AccessTemplateViewModel;
-			}
-		}
 
 		AccessTemplateViewModel _selectedAccessTemplate;
 		public AccessTemplateViewModel SelectedAccessTemplate
@@ -163,34 +152,34 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		private void OnCopy()
+		void OnCopy()
 		{
 			_clipboard = CopyAccessTemplate(SelectedAccessTemplate.AccessTemplate, false);
 		}
-		private bool CanCopy()
+		bool CanCopy()
 		{
 			return SelectedAccessTemplate != null && !SelectedAccessTemplate.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		private void OnPaste()
+		void OnPaste()
 		{
-			var newAccessTemplate = CopyAccessTemplate(_clipboard);
-			newAccessTemplate.CardDoors.ForEach(x => x.AccessTemplateUID = newAccessTemplate.UID);
-			if (AccessTemplateHelper.Save(newAccessTemplate))
+			if (ParentOrganisation != null)
 			{
-				var accessTemplateViewModel = new AccessTemplateViewModel(SelectedAccessTemplate.Organisation, newAccessTemplate);
-				if (ParentOrganisation != null)
+				var newAccessTemplate = CopyAccessTemplate(_clipboard);
+				newAccessTemplate.CardDoors.ForEach(x => x.AccessTemplateUID = newAccessTemplate.UID);
+				if (AccessTemplateHelper.Save(newAccessTemplate))
 				{
+					var accessTemplateViewModel = new AccessTemplateViewModel(SelectedAccessTemplate.Organisation, newAccessTemplate);
 					ParentOrganisation.AddChild(accessTemplateViewModel);
 					AllAccessTemplates.Add(accessTemplateViewModel);
+					SelectedAccessTemplate = accessTemplateViewModel;
 				}
-				SelectedAccessTemplate = accessTemplateViewModel;
 			}
 		}
-		private bool CanPaste()
+		bool CanPaste()
 		{
-			return SelectedAccessTemplate != null && _clipboard != null;
+			return SelectedAccessTemplate != null && _clipboard != null && ParentOrganisation != null && ParentOrganisation.Organisation.UID == _clipboard.OrganisationUID;
 		}
 
 		AccessTemplate CopyAccessTemplate(AccessTemplate source, bool newName = true)

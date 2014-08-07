@@ -32,7 +32,17 @@ namespace SKDModule.ViewModels
 		public override void Update()
 		{
 			base.Update();
-			Name = _scheduleScheme.ScheduleScheme.Type == ScheduleSchemeType.Week ? ((DayOfWeek)((Model.Number + 1) % 7)).ToString() : (Model.Number + 1).ToString();
+			if (_scheduleScheme.ScheduleScheme.Type == ScheduleSchemeType.Week)
+			{
+				var dayOfWeek = (DayOfWeek)((Model.Number + 1) % 7);
+				var culture = new System.Globalization.CultureInfo("ru-RU");
+				Name = culture.DateTimeFormat.GetDayName(dayOfWeek);
+			}
+			else
+			{
+				Name = (Model.Number + 1).ToString();
+			}
+			//Name = _scheduleScheme.ScheduleScheme.Type == ScheduleSchemeType.Week ? ((DayOfWeek)((Model.Number + 1) % 7)).ToString("dddd") : (Model.Number + 1).ToString();
 			SelectedNamedInterval = NamedIntervals.SingleOrDefault(item => item.UID == Model.NamedIntervalUID) ?? NamedIntervals[0];
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => NamedIntervals);

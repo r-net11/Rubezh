@@ -22,10 +22,16 @@ namespace AutomationModule.ViewModels
 				var conditionViewModel = new ConditionViewModel(condition, procedure);
 				Conditions.Add(conditionViewModel);
 			}
+			if (Conditions.Count == 0)
+			{
+				var condition = new Condition();
+				var conditionViewModel = new ConditionViewModel(condition, procedure);
+				Conditions.Add(conditionViewModel);
+			}
 			JoinOperator = ConditionArguments.JoinOperator;
 
 			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand<ConditionViewModel>(OnRemove);
+			RemoveCommand = new RelayCommand<ConditionViewModel>(OnRemove, CanRemove);
 			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 		}
 
@@ -61,6 +67,11 @@ namespace AutomationModule.ViewModels
 			Conditions.Remove(conditionViewModel);
 			ConditionArguments.Conditions.Remove(conditionViewModel.Condition);
 			ServiceFactory.SaveService.AutomationChanged = true;
+		}
+
+		bool CanRemove(ConditionViewModel conditionViewModel)
+		{
+			return Conditions.Count > 1;
 		}
 
 		public void UpdateContent()

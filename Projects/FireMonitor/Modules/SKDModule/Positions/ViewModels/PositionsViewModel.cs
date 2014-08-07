@@ -10,7 +10,7 @@ using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {
-	public class PositionsViewModel : ViewPartViewModel, ISelectable<Guid>
+	public class PositionsViewModel : ViewPartViewModel
 	{
 		ShortPosition _clipboard;
 
@@ -54,17 +54,6 @@ namespace SKDModule.ViewModels
 
 		public List<PositionViewModel> Organisations { get; private set; }
 		List<PositionViewModel> AllPositions { get; set; }
-
-		public void Select(Guid positionUID)
-		{
-			if (positionUID != Guid.Empty)
-			{
-				var positionViewModel = AllPositions.FirstOrDefault(x => x.Position != null && x.Position.UID == positionUID);
-				if (positionViewModel != null)
-					positionViewModel.ExpandToThis();
-				SelectedPosition = positionViewModel;
-			}
-		}
 
 		PositionViewModel _selectedPosition;
 		public PositionViewModel SelectedPosition
@@ -128,11 +117,12 @@ namespace SKDModule.ViewModels
 			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
 				return;
 
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedPosition);
 			var position = SelectedPosition.Position;
 			bool removeResult = PositionHelper.MarkDeleted(position.UID);
 			if (!removeResult)
 				return;
+
+			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedPosition);
 			OrganisationViewModel.RemoveChild(SelectedPosition);
 			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
 			if (index > -1)
@@ -160,37 +150,40 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		private void OnCopy()
+		void OnCopy()
 		{
 			_clipboard = CopyPosition(SelectedPosition.Position, false);
 		}
-		private bool CanCopy()
+		bool CanCopy()
 		{
 			return SelectedPosition != null && !SelectedPosition.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		private void OnPaste()
+		void OnPaste()
 		{
-			var newShortPosition = CopyPosition(_clipboard);
-			var position = new Position()
+			if (ParentOrganisation != null)
 			{
-				UID = newShortPosition.UID,
-				Name = newShortPosition.Name,
-				Description = newShortPosition.Description
-			};
-			if (PositionHelper.Save(position))
-			{
-				var positionViewModel = new PositionViewModel(SelectedPosition.Organisation, newShortPosition);
-				if (ParentOrganisation != null)
+				var newShortPosition = CopyPosition(_clipboard);
+				newShortPosition.UID = Guid.NewGuid();
+				var position = new Position()
 				{
+					UID = newShortPosition.UID,
+					Name = newShortPosition.Name,
+					Description = newShortPosition.Description,
+					OrganisationUID = newShortPosition.OrganisationUID.Value,
+				};
+				if (PositionHelper.Save(position))
+				{
+					var positionViewModel = new PositionViewModel(SelectedPosition.Organisation, newShortPosition);
+
 					ParentOrganisation.AddChild(positionViewModel);
 					AllPositions.Add(positionViewModel);
+					SelectedPosition = positionViewModel;
 				}
-				SelectedPosition = positionViewModel;
 			}
 		}
-		private bool CanPaste()
+		bool CanPaste()
 		{
 			return SelectedPosition != null && _clipboard != null;
 		}

@@ -16,15 +16,15 @@ namespace SKDDriver
 
 		PhotoTranslator PhotoTranslator;
 
-		protected override OperationResult CanSave(Position item)
+		protected override OperationResult CanSave(Position position)
 		{
-			bool sameName = Table.Any(x => x.Name == item.Name && 
-				x.OrganisationUID == item.OrganisationUID && 
-				x.UID != item.UID &&
+			bool hasSameName = Table.Any(x => x.Name == position.Name && 
+				x.OrganisationUID == position.OrganisationUID && 
+				x.UID != position.UID &&
 				!x.IsDeleted);
-			if (sameName)
+			if (hasSameName)
 				return new OperationResult("Попытка добавления должности с совпадающим именем");
-			return base.CanSave(item);
+			return base.CanSave(position);
 		}
 
 		protected override OperationResult CanDelete(Guid uid)
@@ -66,9 +66,12 @@ namespace SKDDriver
 		
 		public override OperationResult Save(Position apiItem)
 		{
-			var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
-			if (photoSaveResult.HasError)
-				return photoSaveResult;
+			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
+			{
+				var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
+				if (photoSaveResult.HasError)
+					return photoSaveResult;
+			}
 			return base.Save(apiItem);
 		}
 	}

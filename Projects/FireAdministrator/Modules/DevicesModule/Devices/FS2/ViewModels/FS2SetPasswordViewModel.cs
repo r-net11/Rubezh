@@ -25,7 +25,7 @@
 //			set
 //			{
 //				_devicePasswordType = value;
-//				OnPropertyChanged("DevicePasswordType");
+//				OnPropertyChanged(()=>DevicePasswordType);
 //			}
 //		}
 

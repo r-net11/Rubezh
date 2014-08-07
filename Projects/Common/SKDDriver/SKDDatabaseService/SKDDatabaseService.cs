@@ -1,14 +1,19 @@
-﻿using SKDDriver.Translators;
+﻿using System.Configuration;
+using SKDDriver.Translators;
 
 namespace SKDDriver
 {
 	public static class SKDDatabaseService
 	{
 		static DataAccess.SKDDataContext Context;
+		static string ConnectionString
+		{
+			get	{ return ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString; }
+		}
 
 		static SKDDatabaseService()
 		{
-			Context = new DataAccess.SKDDataContext();
+			Context = new DataAccess.SKDDataContext(ConnectionString);
 			CardDoorTranslator = new CardDoorTranslator(Context);
 			CardTranslator = new CardTranslator(Context, CardDoorTranslator);
 			AccessTemplateTranslator = new AccessTemplateTranslator(Context, CardDoorTranslator);

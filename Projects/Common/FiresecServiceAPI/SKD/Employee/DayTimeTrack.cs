@@ -10,6 +10,7 @@ namespace FiresecAPI.SKD
 		public DayTimeTrack()
 		{
 			TimeTrackParts = new List<DayTimeTrackPart>();
+			Intervals = new List<Interval>();
 		}
 
 		[DataMember]
@@ -20,6 +21,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public List<DayTimeTrackPart> TimeTrackParts { get; set; }
+
+		[DataMember]
+		public List<Interval> Intervals { get; set; }
 
 		[DataMember]
 		public TimeSpan Total { get; set; }
@@ -42,5 +46,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public DateTime EndTime { get; set; }
+
+		[DataMember]
+		public Guid ZoneUID { get; set; }
 	}
 }

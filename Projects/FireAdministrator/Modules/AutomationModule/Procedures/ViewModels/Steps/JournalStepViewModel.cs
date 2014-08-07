@@ -8,10 +8,12 @@ namespace AutomationModule.ViewModels
 	public class JournalStepViewModel : BaseViewModel, IStepViewModel
 	{
 		JournalArguments JournalArguments { get; set; }
+		public Action UpdateDescriptionHandler { get; set; }
 
-		public JournalStepViewModel(JournalArguments journalArguments)
+		public JournalStepViewModel(JournalArguments journalArguments, Action updateDescriptionHandler)
 		{
 			JournalArguments = journalArguments;
+			UpdateDescriptionHandler = updateDescriptionHandler;
 		}
 
 		public string Message
@@ -22,6 +24,8 @@ namespace AutomationModule.ViewModels
 				JournalArguments.Message = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => Message);
+				if (UpdateDescriptionHandler != null)
+					UpdateDescriptionHandler();
 			}
 		}
 
@@ -32,7 +36,7 @@ namespace AutomationModule.ViewModels
 
 		public string Description
 		{
-			get { return ""; }
+			get { return Message; }
 		}
 	}
 }

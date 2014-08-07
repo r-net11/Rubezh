@@ -140,6 +140,7 @@
     <Compile Include="Converters\BoolToGridLengthConverter.cs" />
     <Compile Include="Converters\ConnectionStateToImageSourceConverter.cs" />
     <Compile Include="Converters\DateToStringConverter.cs" />
+    <Compile Include="Converters\EnumToBoolConverter.cs" />
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />
     <Compile Include="Converters\EnumToVisibilityConverter.cs" />
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />

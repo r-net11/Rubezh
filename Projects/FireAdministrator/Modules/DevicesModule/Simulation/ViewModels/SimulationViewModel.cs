@@ -39,7 +39,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_zones = value;
-				OnPropertyChanged("Zones");
+				OnPropertyChanged(() => Zones);
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace DevicesModule.ViewModels
 				_selectedZone = value;
 				if (value != null)
 					value.Initialize();
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 			}
 		}
 
