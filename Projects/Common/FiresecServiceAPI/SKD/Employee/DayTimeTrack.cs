@@ -35,6 +35,24 @@ namespace FiresecAPI.SKD
 		public List<TimeTrackPart> CombinedTimeTrackParts { get; set; }
 
 		[DataMember]
+		public bool IsIgnoreHoliday { get; set; }
+
+		[DataMember]
+		public bool IsOnlyFirstEnter { get; set; }
+
+		[DataMember]
+		public bool IsControl { get; set; }
+
+		[DataMember]
+		public bool IsHoliday { get; set; }
+
+		[DataMember]
+		public int HolidayReduction { get; set; }
+
+
+
+
+		[DataMember]
 		public TimeSpan Total { get; set; }
 
 		[DataMember]
@@ -51,23 +69,6 @@ namespace FiresecAPI.SKD
 
 		public void Calculate()
 		{
-			//long totalIntervals = 0;
-			//foreach (var timeTrackPart in PlannedTimeTrackParts)
-			//{
-			//    var deltaTicks = timeTrackPart.EndTime.Ticks - timeTrackPart.StartTime.Ticks;
-			//    totalIntervals += deltaTicks;
-			//}
-			//TimeSpan timeSpan = new TimeSpan(totalIntervals);
-
-			//long totalTime = 0;
-			//foreach (var timeTrackPart in RealTimeTrackParts)
-			//{
-			//    var deltaTrack = timeTrackPart.EndTime.Ticks - timeTrackPart.StartTime.Ticks;
-			//    totalTime += deltaTrack;
-			//}
-			//Total = new TimeSpan(totalTime);
-
-
 			var timeSpans = new List<TimeSpan>();
 			foreach (var timeTrackPart in RealTimeTrackParts)
 			{
@@ -110,18 +111,37 @@ namespace FiresecAPI.SKD
 				if (!hasRealTimeTrack && hasPlannedTimeTrack)
 				{
 					timeTrackPart.TimeTrackType = TimeTrackType.PlanedOnly;
+
+					if (RealTimeTrackParts.Any(x => x.StartTime < startTime) && IsOnlyFirstEnter)
+					{
+						timeTrackPart.TimeTrackType = TimeTrackType.MissedButInsidePlan;
+					}
 				}
 			}
 
-			var totalTimeSpan = new TimeSpan();
+			Total = new TimeSpan();
+			TotalInSchedule = new TimeSpan();
+			TotalMiss = new TimeSpan();
+			TotalOutSchedule = new TimeSpan();
 			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
-				if (timeTrack.TimeTrackType == TimeTrackType.AsPlanned || timeTrack.TimeTrackType == TimeTrackType.PlanedOnly)
+				if (timeTrack.TimeTrackType == TimeTrackType.AsPlanned || timeTrack.TimeTrackType == TimeTrackType.RealOnly || timeTrack.TimeTrackType == TimeTrackType.MissedButInsidePlan)
 				{
-					totalTimeSpan += timeTrack.EndTime - timeTrack.StartTime;
+					Total += timeTrack.Delta;
+				}
+				if (timeTrack.TimeTrackType == TimeTrackType.AsPlanned || timeTrack.TimeTrackType == TimeTrackType.MissedButInsidePlan)
+				{
+					TotalInSchedule += timeTrack.Delta;
+				}
+				if (timeTrack.TimeTrackType == TimeTrackType.PlanedOnly)
+				{
+					TotalMiss += timeTrack.Delta;
+				}
+				if (timeTrack.TimeTrackType == TimeTrackType.RealOnly)
+				{
+					TotalOutSchedule += timeTrack.Delta;
 				}
 			}
-			Total = totalTimeSpan;
 		}
 	}
 
@@ -137,7 +157,10 @@ namespace FiresecAPI.SKD
 		RealOnly,
 
 		[Description("Работа по графику")]
-		AsPlanned
+		AsPlanned,
+
+		[Description("В рамках графика с уходом")]
+		MissedButInsidePlan,
 	}
 
 	[DataContract]
@@ -154,5 +177,10 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public TimeTrackType TimeTrackType { get; set; }
+
+		public TimeSpan Delta
+		{
+			get { return EndTime - StartTime; }
+		}
 	}
 }

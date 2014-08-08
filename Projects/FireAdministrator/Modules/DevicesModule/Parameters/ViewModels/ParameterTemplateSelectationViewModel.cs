@@ -28,7 +28,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedParameterTemplate = value;
-				OnPropertyChanged("SelectedParameterTemplate");
+				OnPropertyChanged(() => SelectedParameterTemplate);
 			}
 		}
 	}

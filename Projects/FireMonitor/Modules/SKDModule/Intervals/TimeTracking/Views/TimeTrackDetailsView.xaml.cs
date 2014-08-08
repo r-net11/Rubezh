@@ -202,6 +202,10 @@ namespace SKDModule.Views
 									rectangle.Fill = new SolidColorBrush(Colors.Red);
 									break;
 
+								case TimeTrackType.MissedButInsidePlan:
+									rectangle.Fill = new SolidColorBrush(Colors.LightYellow);
+									break;
+
 								case TimeTrackType.AsPlanned:
 									rectangle.Fill = new SolidColorBrush(Colors.Green);
 									break;

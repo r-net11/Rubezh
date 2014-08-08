@@ -62,7 +62,7 @@ namespace SKDDriver.Translators
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.Type = (int)apiItem.Type;
-			_dayIntervalTranslator.Save(apiItem.DayIntervals, false);
+			_dayIntervalTranslator.Save(apiItem.DayIntervals);
 		}
 	}
 }

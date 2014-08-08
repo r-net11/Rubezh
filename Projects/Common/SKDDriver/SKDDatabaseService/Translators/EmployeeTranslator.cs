@@ -393,18 +393,22 @@ namespace SKDDriver
 			if (namedInterval == null)
 				return new DayTimeTrack("Не найден именованный интервал");
 			var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID);
-			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).Select(x => x.ZoneUID).ToList();
+			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).ToList();
 
 			var dayTimeTrack = new DayTimeTrack();
 			dayTimeTrack.Date = date;
+			dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
+			dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
+
+			var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type != 2);
+			if (holiday != null)
+			{
+				dayTimeTrack.IsHoliday = true;
+				dayTimeTrack.HolidayReduction = holiday.Reduction;
+			}
 
 			foreach (var tableInterval in intervals)
 			{
-				//var interval = new Interval();
-				//interval.BeginDate = new DateTime(Math.BigMul(tableInterval.BeginTime, 10000000));
-				//interval.EndDate = new DateTime(Math.BigMul(tableInterval.EndTime, 10000000));
-				//dayTimeTrack.Intervals.Add(interval);
-
 				var timeTrackPart = new TimeTrackPart();
 				timeTrackPart.StartTime = new TimeSpan(Math.BigMul(tableInterval.BeginTime, 10000000));
 				timeTrackPart.EndTime = new TimeSpan(Math.BigMul(tableInterval.EndTime, 10000000));
@@ -414,20 +418,16 @@ namespace SKDDriver
 
 			foreach (var passJournal in passJournals)
 			{
-				if (scheduleZones.Any(x => x == passJournal.ZoneUID))
+				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
+				if (scheduleZone != null)
 				{
 					if (passJournal.EnterTime.HasValue && passJournal.ExitTime.HasValue)
 					{
-						//var dayTimeTrackPart = new DayTimeTrackPart();
-						//dayTimeTrackPart.StartTime = passJournal.EnterTime.Value;
-						//dayTimeTrackPart.EndTime = passJournal.ExitTime.Value;
-						//dayTimeTrackPart.ZoneUID = passJournal.ZoneUID;
-						//dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
-
 						var timeTrackPart = new TimeTrackPart();
 						timeTrackPart.StartTime = passJournal.EnterTime.Value.TimeOfDay;
 						timeTrackPart.EndTime = passJournal.ExitTime.Value.TimeOfDay;
 						timeTrackPart.ZoneUID = passJournal.ZoneUID;
+						dayTimeTrack.IsControl = scheduleZone.IsControl;
 						dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 					}
 				}

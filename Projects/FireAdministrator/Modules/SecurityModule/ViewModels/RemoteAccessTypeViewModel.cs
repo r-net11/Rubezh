@@ -24,7 +24,7 @@ namespace SecurityModule.ViewModels
 				if (_isActive)
 					ServiceFactory.Events.GetEvent<RemoteAccessTypeChecked>().Publish(this);
 
-				OnPropertyChanged("IsActive");
+				OnPropertyChanged(() => IsActive);
 			}
 		}
 	}

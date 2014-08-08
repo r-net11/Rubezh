@@ -69,13 +69,13 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" Header="Контроль нарушений дисциплины">
+						<!--<DataGridTemplateColumn Width="*" Header="Контроль нарушений дисциплины">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<CheckBox IsChecked="{Binding IsControl, Mode=OneWay}" IsEnabled="False" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
+						</DataGridTemplateColumn>-->
 					</DataGrid.Columns>
 				</XDataGrid>
 			</Grid>

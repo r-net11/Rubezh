@@ -65,7 +65,7 @@ namespace SKDDriver.Translators
 				tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID;
 			else
 				tableItem.ScheduleScheme = scheduleScheme;
-			_scheduleZoneTranslator.Save(apiItem.Zones, false);
+			_scheduleZoneTranslator.Save(apiItem.Zones);
 		}
 
 		public string GetName(Guid? uid)
