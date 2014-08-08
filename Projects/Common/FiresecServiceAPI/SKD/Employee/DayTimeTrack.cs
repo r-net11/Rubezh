@@ -12,9 +12,9 @@ namespace FiresecAPI.SKD
 	{
 		public DayTimeTrack()
 		{
-			TimeTrackParts = new List<DayTimeTrackPart>();
-			Intervals = new List<Interval>();
-			DayTrackDualIntervalParts = new List<DayTrackDualIntervalPart>();
+			PlannedTimeTrackParts = new List<TimeTrackPart>();
+			RealTimeTrackParts = new List<TimeTrackPart>();
+			CombinedTimeTrackParts = new List<TimeTrackPart>();
 		}
 
 		public DayTimeTrack(string error) : this()
@@ -26,13 +26,13 @@ namespace FiresecAPI.SKD
 		public DateTime Date { get; set; }
 
 		[DataMember]
-		public List<DayTimeTrackPart> TimeTrackParts { get; set; }
+		public List<TimeTrackPart> PlannedTimeTrackParts { get; set; }
 
 		[DataMember]
-		public List<Interval> Intervals { get; set; }
+		public List<TimeTrackPart> RealTimeTrackParts { get; set; }
 
 		[DataMember]
-		public List<DayTrackDualIntervalPart> DayTrackDualIntervalParts { get; set; }
+		public List<TimeTrackPart> CombinedTimeTrackParts { get; set; }
 
 		[DataMember]
 		public TimeSpan Total { get; set; }
@@ -51,80 +51,97 @@ namespace FiresecAPI.SKD
 
 		public void Calculate()
 		{
-			long totalIntervals = 0;
-			foreach (var interval in Intervals)
-			{
-				var deltaTicks = interval.EndDate.Value.TimeOfDay.Ticks - interval.BeginDate.Value.TimeOfDay.Ticks;
-				totalIntervals += deltaTicks;
-			}
-			TimeSpan timeSpan = new TimeSpan(totalIntervals);
+			//long totalIntervals = 0;
+			//foreach (var timeTrackPart in PlannedTimeTrackParts)
+			//{
+			//    var deltaTicks = timeTrackPart.EndTime.Ticks - timeTrackPart.StartTime.Ticks;
+			//    totalIntervals += deltaTicks;
+			//}
+			//TimeSpan timeSpan = new TimeSpan(totalIntervals);
 
-			long totalTime = 0;
-			foreach (var timeTrackPart in TimeTrackParts)
-			{
-				var deltaTrack = timeTrackPart.EndTime.TimeOfDay.Ticks - timeTrackPart.StartTime.TimeOfDay.Ticks;
-				totalTime += deltaTrack;
-			}
-			Total = new TimeSpan(totalTime);
+			//long totalTime = 0;
+			//foreach (var timeTrackPart in RealTimeTrackParts)
+			//{
+			//    var deltaTrack = timeTrackPart.EndTime.Ticks - timeTrackPart.StartTime.Ticks;
+			//    totalTime += deltaTrack;
+			//}
+			//Total = new TimeSpan(totalTime);
 
 
 			var timeSpans = new List<TimeSpan>();
-			foreach (var timeTrackPart in TimeTrackParts)
+			foreach (var timeTrackPart in RealTimeTrackParts)
 			{
-				timeSpans.Add(timeTrackPart.StartTime.TimeOfDay);
-				timeSpans.Add(timeTrackPart.EndTime.TimeOfDay);
+				timeSpans.Add(timeTrackPart.StartTime);
+				timeSpans.Add(timeTrackPart.EndTime);
 			}
-			foreach (var interval in Intervals)
+			foreach (var interval in PlannedTimeTrackParts)
 			{
-				timeSpans.Add(interval.BeginDate.Value.TimeOfDay);
-				timeSpans.Add(interval.EndDate.Value.TimeOfDay);
+				timeSpans.Add(interval.StartTime);
+				timeSpans.Add(interval.EndTime);
 			}
-
 			timeSpans.Sort();
 
-			DayTrackDualIntervalParts = new List<DayTrackDualIntervalPart>();
+			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			for (int i = 0; i < timeSpans.Count - 1; i++)
 			{
 				var startTime = timeSpans[i];
 				var endTime = timeSpans[i + 1];
 
-				var dayTrackDualIntervalPart = new DayTrackDualIntervalPart();
-				dayTrackDualIntervalPart.StartTime = startTime;
-				dayTrackDualIntervalPart.EndTime = endTime;
-				DayTrackDualIntervalParts.Add(dayTrackDualIntervalPart);
+				var timeTrackPart = new TimeTrackPart();
+				timeTrackPart.StartTime = startTime;
+				timeTrackPart.EndTime = endTime;
+				CombinedTimeTrackParts.Add(timeTrackPart);
 
-				var hasTimeTrack = TimeTrackParts.Any(x => x.StartTime.TimeOfDay <= startTime && x.EndTime.TimeOfDay >= endTime);
-				var hasInterval = Intervals.Any(x => x.BeginDate.Value.TimeOfDay <= startTime && x.EndDate.Value.TimeOfDay >= endTime);
+				var hasRealTimeTrack = RealTimeTrackParts.Any(x => x.StartTime <= startTime && x.EndTime >= endTime);
+				var hasPlannedTimeTrack = PlannedTimeTrackParts.Any(x => x.StartTime <= startTime && x.EndTime >= endTime);
 
-				if (hasTimeTrack && hasInterval)
+				if (hasRealTimeTrack && hasPlannedTimeTrack)
 				{
-					dayTrackDualIntervalPart.DayTrackDualIntervalPartType = DayTrackDualIntervalPartType.Both;
+					timeTrackPart.TimeTrackType = TimeTrackType.AsPlanned;
 				}
-				if (!hasTimeTrack && !hasInterval)
+				if (!hasRealTimeTrack && !hasPlannedTimeTrack)
 				{
-					dayTrackDualIntervalPart.DayTrackDualIntervalPartType = DayTrackDualIntervalPartType.None;
+					timeTrackPart.TimeTrackType = TimeTrackType.None;
 				}
-				if (hasTimeTrack && !hasInterval)
+				if (hasRealTimeTrack && !hasPlannedTimeTrack)
 				{
-					dayTrackDualIntervalPart.DayTrackDualIntervalPartType = DayTrackDualIntervalPartType.Real;
+					timeTrackPart.TimeTrackType = TimeTrackType.RealOnly;
 				}
-				if (!hasTimeTrack && hasInterval)
+				if (!hasRealTimeTrack && hasPlannedTimeTrack)
 				{
-					dayTrackDualIntervalPart.DayTrackDualIntervalPartType = DayTrackDualIntervalPartType.Planed;
+					timeTrackPart.TimeTrackType = TimeTrackType.PlanedOnly;
 				}
 			}
 
-			if (totalTime > 0)
+			var totalTimeSpan = new TimeSpan();
+			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
-				foreach (var dayTrackDualIntervalPart in DayTrackDualIntervalParts)
+				if (timeTrack.TimeTrackType == TimeTrackType.AsPlanned || timeTrack.TimeTrackType == TimeTrackType.PlanedOnly)
 				{
-					Trace.WriteLine(dayTrackDualIntervalPart.StartTime.ToString() + " - " + dayTrackDualIntervalPart.EndTime.ToString() + " - " + dayTrackDualIntervalPart.DayTrackDualIntervalPartType);
+					totalTimeSpan += timeTrack.EndTime - timeTrack.StartTime;
 				}
 			}
+			Total = totalTimeSpan;
 		}
 	}
 
-	public class DayTrackDualIntervalPart
+	public enum TimeTrackType
+	{
+		[Description("Нет")]
+		None,
+
+		[Description("Пропуск")]
+		PlanedOnly,
+
+		[Description("Работа вне графика")]
+		RealOnly,
+
+		[Description("Работа по графику")]
+		AsPlanned
+	}
+
+	[DataContract]
+	public class TimeTrackPart
 	{
 		[DataMember]
 		public TimeSpan StartTime { get; set; }
@@ -133,34 +150,9 @@ namespace FiresecAPI.SKD
 		public TimeSpan EndTime { get; set; }
 
 		[DataMember]
-		public DayTrackDualIntervalPartType DayTrackDualIntervalPartType { get; set; }
-	}
-
-	public enum DayTrackDualIntervalPartType
-	{
-		[Description("Нет")]
-		None,
-
-		[Description("Пропуск")]
-		Planed,
-
-		[Description("Работа вне графика")]
-		Real,
-
-		[Description("Работа по графику")]
-		Both
-	}
-
-	[DataContract]
-	public class DayTimeTrackPart
-	{
-		[DataMember]
-		public DateTime StartTime { get; set; }
-
-		[DataMember]
-		public DateTime EndTime { get; set; }
-
-		[DataMember]
 		public Guid ZoneUID { get; set; }
+
+		[DataMember]
+		public TimeTrackType TimeTrackType { get; set; }
 	}
 }

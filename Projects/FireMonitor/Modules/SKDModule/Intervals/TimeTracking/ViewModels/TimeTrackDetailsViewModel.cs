@@ -20,9 +20,9 @@ namespace SKDModule.ViewModels
 			AvailableExcuseDocuments = new ObservableCollection<ExcuseDocumentEnum>(Enum.GetValues(typeof(ExcuseDocumentEnum)).OfType<ExcuseDocumentEnum>());
 
 			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPartViewModel>();
-			foreach (var dayTimeTrackPart in DayTimeTrack.TimeTrackParts)
+			foreach (var timeTrackPart in DayTimeTrack.RealTimeTrackParts)
 			{
-				var employeeTimeTrackPartViewModel = new DayTimeTrackPartViewModel(dayTimeTrackPart);
+				var employeeTimeTrackPartViewModel = new DayTimeTrackPartViewModel(timeTrackPart);
 				DayTimeTrackParts.Add(employeeTimeTrackPartViewModel);
 			}
 		}
@@ -49,11 +49,11 @@ namespace SKDModule.ViewModels
 		public string EnterTime { get; private set; }
 		public string ExitTime { get; private set; }
 
-		public DayTimeTrackPartViewModel(DayTimeTrackPart dayTimeTrackPart)
+		public DayTimeTrackPartViewModel(TimeTrackPart timeTrackPart)
 		{
-			Zone = SKDManager.Zones.FirstOrDefault(x => x.UID == dayTimeTrackPart.ZoneUID);
-			EnterTime = dayTimeTrackPart.StartTime.Hour + ":" + dayTimeTrackPart.StartTime.Minute + "::" + dayTimeTrackPart.StartTime.Second;
-			ExitTime = dayTimeTrackPart.EndTime.Hour + ":" + dayTimeTrackPart.EndTime.Minute + "::" + dayTimeTrackPart.EndTime.Second;
+			Zone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+			EnterTime = timeTrackPart.StartTime.Hours.ToString("00") + ":" + timeTrackPart.StartTime.Minutes.ToString("00") + ":" + timeTrackPart.StartTime.Seconds.ToString("00");
+			ExitTime = timeTrackPart.EndTime.Hours.ToString("00") + ":" + timeTrackPart.EndTime.Minutes.ToString("00") + ":" + timeTrackPart.EndTime.Seconds.ToString("00");
 		}
 	}
 }

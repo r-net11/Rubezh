@@ -6,7 +6,7 @@ namespace FiresecAPI.SKD
 	[Flags]
 	public enum AdditionalColumnDataType
 	{
-		[Description("Текствовый")]
+		[Description("Текстовый")]
 		Text,
 
 		[Description("Графический")]

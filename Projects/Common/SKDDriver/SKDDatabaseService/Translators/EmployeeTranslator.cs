@@ -400,11 +400,17 @@ namespace SKDDriver
 
 			foreach (var tableInterval in intervals)
 			{
-				var interval = new Interval();
-				interval.BeginDate = new DateTime(Math.BigMul(tableInterval.BeginTime, 10000000));
-				interval.EndDate = new DateTime(Math.BigMul(tableInterval.EndTime, 10000000));
-				dayTimeTrack.Intervals.Add(interval);
+				//var interval = new Interval();
+				//interval.BeginDate = new DateTime(Math.BigMul(tableInterval.BeginTime, 10000000));
+				//interval.EndDate = new DateTime(Math.BigMul(tableInterval.EndTime, 10000000));
+				//dayTimeTrack.Intervals.Add(interval);
+
+				var timeTrackPart = new TimeTrackPart();
+				timeTrackPart.StartTime = new TimeSpan(Math.BigMul(tableInterval.BeginTime, 10000000));
+				timeTrackPart.EndTime = new TimeSpan(Math.BigMul(tableInterval.EndTime, 10000000));
+				dayTimeTrack.PlannedTimeTrackParts.Add(timeTrackPart);
 			}
+			dayTimeTrack.PlannedTimeTrackParts = dayTimeTrack.PlannedTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
 
 			foreach (var passJournal in passJournals)
 			{
@@ -412,61 +418,23 @@ namespace SKDDriver
 				{
 					if (passJournal.EnterTime.HasValue && passJournal.ExitTime.HasValue)
 					{
-						var dayTimeTrackPart = new DayTimeTrackPart();
-						dayTimeTrackPart.StartTime = passJournal.EnterTime.Value;
-						dayTimeTrackPart.EndTime = passJournal.ExitTime.Value;
-						dayTimeTrackPart.ZoneUID = passJournal.ZoneUID;
-						dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
+						//var dayTimeTrackPart = new DayTimeTrackPart();
+						//dayTimeTrackPart.StartTime = passJournal.EnterTime.Value;
+						//dayTimeTrackPart.EndTime = passJournal.ExitTime.Value;
+						//dayTimeTrackPart.ZoneUID = passJournal.ZoneUID;
+						//dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
+
+						var timeTrackPart = new TimeTrackPart();
+						timeTrackPart.StartTime = passJournal.EnterTime.Value.TimeOfDay;
+						timeTrackPart.EndTime = passJournal.ExitTime.Value.TimeOfDay;
+						timeTrackPart.ZoneUID = passJournal.ZoneUID;
+						dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 					}
 				}
 			}
+			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
 
 			return dayTimeTrack;
-
-			//var firstEnterTime = passJournals.Where(x => x.EnterTime != null).Select(x => x.EnterTime.Value).Min();
-			//var lastExitTime = passJournals.Where(x => x.ExitTime != null).Select(x => x.ExitTime.Value).Max();
-
-			//var totalNotMiss = new DateTime();
-			//foreach (var passJournal in passJournals)
-			//{
-			//    var itemExitTime = passJournal.ExitTime != null ? passJournal.ExitTime.Value : new DateTime();
-			//    var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
-			//    totalNotMiss = new DateTime(totalNotMiss.Ticks + itemExitTime.Ticks - itemEnterTime.Ticks);
-			//}
-			var totalInSchedule = new TimeSpan();
-			foreach (var interval in intervals)
-			{
-				foreach (var passJournal in passJournals)
-				{
-					if (scheduleZones.Any(x => x == passJournal.ZoneUID))
-					{
-						var itemExitTime = passJournal.ExitTime != null ? passJournal.ExitTime.Value : new DateTime();
-						var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
-						var enterTimeSpan = new TimeSpan(itemEnterTime.TimeOfDay.Ticks);
-						var exitTimeSpan = new TimeSpan(itemExitTime.TimeOfDay.Ticks);
-						if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
-						{
-							if (exitTimeSpan.TotalSeconds <= interval.EndTime)
-								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
-							else
-								totalInSchedule.Add(new TimeSpan(Math.BigMul(interval.EndTime, 10000000) - enterTimeSpan.Ticks));
-						}
-						else if (exitTimeSpan.TotalSeconds <= interval.EndTime)
-						{
-							if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
-								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
-							else
-							{
-								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - Math.BigMul(interval.BeginTime, 10000000)));
-							}
-						}
-					}
-				}
-			}
-			//dayTimeTrack.Total = new TimeSpan(lastExitTime.Ticks - firstEnterTime.Ticks);
-			//dayTimeTrack.TotalMiss = new TimeSpan(dayTimeTrack.Total.Ticks - totalNotMiss.Ticks);
-			//dayTimeTrack.TotalInSchedule = totalInSchedule;
-			//dayTimeTrack.TotalOutSchedule = dayTimeTrack.Total - dayTimeTrack.TotalInSchedule;
 		}
 	}
 }
