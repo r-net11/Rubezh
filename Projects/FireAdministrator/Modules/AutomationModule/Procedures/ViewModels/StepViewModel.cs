@@ -22,6 +22,10 @@ namespace AutomationModule.ViewModels
 					Content = new SoundStepViewModel(step.SoundArguments, Update);
 					break;
 
+				case ProcedureStepType.SendMessage:
+					Content = new SendMessageStepViewModel(step.SendMessageArguments, Update);
+					break;
+
 				case ProcedureStepType.Arithmetics:
 					Content = new ArithmeticStepViewModel(step.ArithmeticArguments, procedure, Update);
 					break;

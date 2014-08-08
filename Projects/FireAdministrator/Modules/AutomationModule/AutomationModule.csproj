@@ -114,6 +114,7 @@
     <Compile Include="Procedures\ViewModels\Steps\PauseStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\PersonInspectionStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ProcedureSelectionStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\SendMessageStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SetGlobalValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ZoneSelectionViewModel.cs" />
@@ -211,6 +212,9 @@
     </Compile>
     <Compile Include="Procedures\Views\Steps\ProcedureSelectionStepView.xaml.cs">
       <DependentUpon>ProcedureSelectionStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\SendMessageStepView.xaml.cs">
+      <DependentUpon>SendMessageStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\SetGlobalValueStepView.xaml.cs">
       <DependentUpon>SetGlobalValueStepView.xaml</DependentUpon>
@@ -464,6 +468,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\ProcedureSelectionStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\SendMessageStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

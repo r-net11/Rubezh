@@ -98,7 +98,7 @@ namespace FiresecService.Processor
 
 				case ProcedureStepType.SendMessage:
 					automationCallbackResult = new AutomationCallbackResult();
-					automationCallbackResult.Message = "Запуск процедуры";
+					automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
 					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
 					Service.FiresecService.NotifyAutomation(automationCallbackResult);
 					break;
@@ -153,8 +153,6 @@ namespace FiresecService.Processor
 				case ProcedureStepType.Exit:
 					return false;
 
-				//case ProcedureStepType.SendMessage:
-				//    procedureStep.Se
 			}
 			return true;
 		}

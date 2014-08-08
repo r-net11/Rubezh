@@ -63,6 +63,10 @@
 		<Views:SoundStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="sendMessageTemplate">
+		<Views:SendMessageStepView />
+	</DataTemplate>
+
 	<DataTemplate x:Key="journalTemplate">
 		<Views:JournalStepView />
 	</DataTemplate>
@@ -141,6 +145,7 @@
 
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
+		SendMessageTemplate ="{StaticResource sendMessageTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 		ConditionTemplate="{StaticResource conditionTemplate}"

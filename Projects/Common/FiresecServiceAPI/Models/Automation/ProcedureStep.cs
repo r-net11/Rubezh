@@ -12,6 +12,7 @@ namespace FiresecAPI.Automation
 			UID = Guid.NewGuid();
 			Children = new List<ProcedureStep>();
 			SoundArguments = new SoundArguments();
+			SendMessageArguments = new SendMessageArguments();
 			ArithmeticArguments = new ArithmeticArguments();
 			ConditionArguments = new ConditionArguments();
 			FindObjectArguments = new FindObjectArguments();
@@ -52,6 +53,9 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public SoundArguments SoundArguments { get; set; }
+
+		[DataMember]
+		public SendMessageArguments SendMessageArguments { get; set; }
 
 		[DataMember]
 		public ArithmeticArguments ArithmeticArguments { get; set; }
