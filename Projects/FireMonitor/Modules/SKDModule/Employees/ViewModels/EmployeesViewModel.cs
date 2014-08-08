@@ -119,6 +119,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
 				SelectedEmployee.Update(employeeDetailsViewModel.ShortEmployee);
+				SelectedEmployee.UpdatePhoto();
 			}
 		}
 		bool CanEdit()

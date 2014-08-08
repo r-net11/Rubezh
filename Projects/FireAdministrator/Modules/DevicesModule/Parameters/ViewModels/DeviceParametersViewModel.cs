@@ -70,7 +70,7 @@ namespace DevicesModule.ViewModels
 				RootDevice.IsExpanded = true;
 				SelectedDevice = RootDevice;
 			}
-			OnPropertyChanged("RootDevices");
+			OnPropertyChanged(() => RootDevices);
 
 			foreach (var deviceViewModel in AllDevices)
 			{

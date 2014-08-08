@@ -133,7 +133,7 @@
 								</StackPanel>
 							</StackPanel>
 					
-							<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" MaxWidth="200" MaxHeight="200" />
+							<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" />
 					</Grid>
 				</Border>
 

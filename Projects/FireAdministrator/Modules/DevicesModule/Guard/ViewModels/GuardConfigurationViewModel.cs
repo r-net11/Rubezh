@@ -119,7 +119,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_userZones = value;
-				OnPropertyChanged("UserZones");
+				OnPropertyChanged(() => UserZones);
 			}
 		}
 		public void GetUserZones(GuardUser guardUser)

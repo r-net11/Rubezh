@@ -28,7 +28,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_caption = value;
-				OnPropertyChanged("Caption");
+				OnPropertyChanged(() => Caption);
 			}
 		}
 

@@ -55,7 +55,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_joinOperator = value;
-				OnPropertyChanged("JoinOperator");
+				OnPropertyChanged(() => JoinOperator);
 			}
 		}
 

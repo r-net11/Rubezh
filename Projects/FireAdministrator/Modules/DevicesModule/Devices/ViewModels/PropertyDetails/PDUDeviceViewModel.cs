@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_isInversion = value;
-				OnPropertyChanged("IsInversion");
+				OnPropertyChanged(() => IsInversion);
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_onDelay = value;
-				OnPropertyChanged("OnDelay");
+				OnPropertyChanged(() => OnDelay);
 			}
 		}
 

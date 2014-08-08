@@ -80,7 +80,7 @@ namespace DevicesModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<EditZoneEvent>().Publish(SelectedZone.Zone.UID);
 			SelectedZone.Update(SelectedZone.Zone);
-			OnPropertyChanged("Zones");
+			OnPropertyChanged(() => Zones);
 		}
 		private bool CanEdit()
 		{

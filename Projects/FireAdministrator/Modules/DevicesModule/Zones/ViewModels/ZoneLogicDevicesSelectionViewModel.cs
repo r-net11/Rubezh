@@ -92,7 +92,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_devices = value;
-				OnPropertyChanged("Devices");
+				OnPropertyChanged(() => Devices);
 			}
 		}
 

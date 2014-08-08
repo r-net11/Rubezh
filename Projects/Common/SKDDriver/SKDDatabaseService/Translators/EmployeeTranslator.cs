@@ -291,7 +291,7 @@ namespace SKDDriver
 				{
 					var enterTime = emptyExitPassJournal.EnterTime.Value;
 					var nowTime = DateTime.Now;
-					if (nowTime.Year > enterTime.Year || nowTime.Month > enterTime.Month || nowTime.Day > enterTime.Day)
+					if (nowTime.Date > enterTime.Date)
 					{
 						emptyExitPassJournal.EnterTime = new DateTime(enterTime.Year, enterTime.Month, enterTime.Day, 23, 59, 59);
 						hasChanges = true;
@@ -307,6 +307,10 @@ namespace SKDDriver
 
 		public OperationResult<List<DayTimeTrack>> GetTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
+			//var empl = GetList(new EmployeeFilter()).Result.FirstOrDefault();
+			//AddPassJournal(empl.UID, SKDManager.Zones.FirstOrDefault().UID);
+			//AddPassJournal(empl.UID, SKDManager.Zones.FirstOrDefault().UID);
+
 			InvalidatePassJournal();
 
 			try
@@ -326,12 +330,77 @@ namespace SKDDriver
 
 		DayTimeTrack GetTimeTrack(Guid employeeUID, DateTime date)
 		{
-			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && ((x.EnterTime != null && x.EnterTime.Value.Date == date.Date) || (x.ExitTime != null && x.ExitTime.Value.Date == date.Date))).ToList();
-			if (passJournals == null || passJournals.Count == 0)
+			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime != null && x.EnterTime.Value.Date == date.Date).ToList();
+			if (passJournals == null)
+				passJournals = new List<DataAccess.PassJournal>();
+
+			var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
+			if (employee == null)
+				return new DayTimeTrack("Не найден сотрудник");
+			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
+			if (schedule == null)
+				return new DayTimeTrack("Не найден график");
+			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
+			if (scheduleScheme == null)
+				return new DayTimeTrack("Не найдена схема работы");
+			var scheduleSchemeType = (FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType)scheduleScheme.Type;
+
+			var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID);
+			if (days == null || days.Count() == 0)
 				return new DayTimeTrack();
+			int dayNo = -1;
+
+			switch (scheduleSchemeType)
+			{
+				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.Week:
+					dayNo = (int)date.DayOfWeek;
+					break;
+				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.SlideDay:
+					var daysCount = days.Count();
+					var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
+					dayNo = (int)Math.IEEERemainder((int)period.TotalDays, daysCount);
+					break;
+				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.Month:
+					dayNo = (int)date.Day;
+					break;
+			}
+			var day = days.FirstOrDefault(x => x.Number == dayNo);
+			if (day == null)
+				return new DayTimeTrack("Не найден день");
+			var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID);
+			if (namedInterval == null)
+				return new DayTimeTrack("Не найден именованный интервал");
+			var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID);
+			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).Select(x => x.ZoneUID).ToList();
+
 			var dayTimeTrack = new DayTimeTrack();
-			dayTimeTrack.EmployeeUID = employeeUID;
 			dayTimeTrack.Date = date;
+
+			foreach (var tableInterval in intervals)
+			{
+				var interval = new Interval();
+				interval.BeginDate = new DateTime(Math.BigMul(tableInterval.BeginTime, 10000000));
+				interval.EndDate = new DateTime(Math.BigMul(tableInterval.EndTime, 10000000));
+				dayTimeTrack.Intervals.Add(interval);
+			}
+
+			foreach (var passJournal in passJournals)
+			{
+				if (scheduleZones.Any(x => x == passJournal.ZoneUID))
+				{
+					if (passJournal.EnterTime.HasValue && passJournal.ExitTime.HasValue)
+					{
+						var dayTimeTrackPart = new DayTimeTrackPart();
+						dayTimeTrackPart.StartTime = passJournal.EnterTime.Value;
+						dayTimeTrackPart.EndTime = passJournal.ExitTime.Value;
+						dayTimeTrackPart.ZoneUID = passJournal.ZoneUID;
+						dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
+					}
+				}
+			}
+
+			return dayTimeTrack;
+
 			//var firstEnterTime = passJournals.Where(x => x.EnterTime != null).Select(x => x.EnterTime.Value).Min();
 			//var lastExitTime = passJournals.Where(x => x.ExitTime != null).Select(x => x.ExitTime.Value).Max();
 
@@ -342,44 +411,7 @@ namespace SKDDriver
 			//    var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
 			//    totalNotMiss = new DateTime(totalNotMiss.Ticks + itemExitTime.Ticks - itemEnterTime.Ticks);
 			//}
-
-			var employee = Table.FirstOrDefault(x => x.UID == employeeUID);
-			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
-			if (schedule == null)
-				return new DayTimeTrack();
-			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
-			if (scheduleScheme == null)
-				return new DayTimeTrack();
-			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
-
-			var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
-			if (days == null || days.Count() == 0)
-				return new DayTimeTrack();
-			int dayNo = -1;
-
-			switch (scheduleSchemeType)
-			{
-				case ScheduleSchemeType.Week:
-					dayNo = (int)date.DayOfWeek;
-					break;
-				case ScheduleSchemeType.Shift:
-					var daysCount = days.Count();
-					var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
-					dayNo = (int)Math.IEEERemainder((int)period.TotalDays, daysCount);
-					break;
-				case ScheduleSchemeType.Month:
-					dayNo = (int)date.Day;
-					break;
-			}
-			var day = days.FirstOrDefault(x => x.Number == dayNo && !x.IsDeleted);
-			if (day == null)
-				return new DayTimeTrack();
-			var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID && !x.IsDeleted);
-			if (namedInterval == null)
-				return new DayTimeTrack();
-			var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID && !x.IsDeleted);
 			var totalInSchedule = new TimeSpan();
-			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).Select(x => x.ZoneUID).ToList();
 			foreach (var interval in intervals)
 			{
 				foreach (var passJournal in passJournals)
@@ -409,44 +441,10 @@ namespace SKDDriver
 					}
 				}
 			}
-
-			foreach (var tableInterval in intervals)
-			{
-				var x = new Interval();
-				x.BeginDate = new DateTime(tableInterval.BeginTime);
-				x.EndDate = new DateTime(tableInterval.EndTime);
-				dayTimeTrack.Intervals.Add(x);
-			}
-
-			foreach (var passJournal in passJournals)
-			{
-				if (scheduleZones.Any(x => x == passJournal.ZoneUID))
-				{
-					if (passJournal.EnterTime.HasValue && passJournal.ExitTime.HasValue)
-					{
-						var dayTimeTrackPart = new DayTimeTrackPart();
-						dayTimeTrackPart.StartTime = passJournal.EnterTime.Value;
-						dayTimeTrackPart.EndTime = passJournal.ExitTime.Value;
-						dayTimeTrackPart.ZoneUID = passJournal.ZoneUID;
-						dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
-
-						if (dayTimeTrackPart.StartTime.Date.Day != date.Day)
-						{
-							dayTimeTrackPart.StartTime = new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
-						}
-						if (dayTimeTrackPart.EndTime.Date.Day != date.Day)
-						{
-							dayTimeTrackPart.StartTime = new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
-						}
-					}
-				}
-			}
-
 			//dayTimeTrack.Total = new TimeSpan(lastExitTime.Ticks - firstEnterTime.Ticks);
 			//dayTimeTrack.TotalMiss = new TimeSpan(dayTimeTrack.Total.Ticks - totalNotMiss.Ticks);
-			dayTimeTrack.TotalInSchedule = totalInSchedule;
-			dayTimeTrack.TotalOutSchedule = dayTimeTrack.Total - dayTimeTrack.TotalInSchedule;
-			return dayTimeTrack;
+			//dayTimeTrack.TotalInSchedule = totalInSchedule;
+			//dayTimeTrack.TotalOutSchedule = dayTimeTrack.Total - dayTimeTrack.TotalInSchedule;
 		}
 	}
 }

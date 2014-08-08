@@ -48,7 +48,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_backgroundColor = value;
-				OnPropertyChanged("BackgroundColor");
+				OnPropertyChanged(() => BackgroundColor);
 			}
 		}
 

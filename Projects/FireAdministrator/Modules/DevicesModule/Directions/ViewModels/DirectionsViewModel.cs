@@ -41,7 +41,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_directions = value;
-				OnPropertyChanged("Directions");
+				OnPropertyChanged(() => Directions);
 			}
 		}
 

@@ -574,3 +574,12 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('Journal_NameText_nvarchar(max)')	
 END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Card_UserTime')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
+	BEGIN
+		ALTER TABLE Card ADD UserTime int NOT NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('Card_UserTime')	
+END
+GO

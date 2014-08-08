@@ -17,7 +17,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_hostNameOrAddress = value;
-				OnPropertyChanged("HostNameOrAddress");
+				OnPropertyChanged(() => HostNameOrAddress);
 			}
 		}
 

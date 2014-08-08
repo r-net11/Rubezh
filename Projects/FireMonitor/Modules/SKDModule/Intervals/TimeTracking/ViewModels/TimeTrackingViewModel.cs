@@ -11,8 +11,8 @@ namespace SKDModule.ViewModels
 {
 	public class TimeTrackingViewModel : ViewPartViewModel
 	{
-		private EmployeeFilter _employeeFilter;
-		private TimeTrackingSettings _settings;
+		EmployeeFilter _employeeFilter;
+		TimeTrackingSettings _settings;
 
 		public TimeTrackingViewModel()
 		{
@@ -34,7 +34,7 @@ namespace SKDModule.ViewModels
 			UpdateGrid();
 		}
 
-		private ObservableCollection<TimeTrackViewModel> _timeTracks;
+		ObservableCollection<TimeTrackViewModel> _timeTracks;
 		public ObservableCollection<TimeTrackViewModel> TimeTracks
 		{
 			get { return _timeTracks; }
@@ -45,7 +45,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private TimeTrackViewModel _selectedTimeTrack;
+		TimeTrackViewModel _selectedTimeTrack;
 		public TimeTrackViewModel SelectedTimeTrack
 		{
 			get { return _selectedTimeTrack; }
@@ -56,7 +56,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private int _totalDays;
+		int _totalDays;
 		public int TotalDays
 		{
 			get { return _totalDays; }
@@ -67,7 +67,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private DateTime _firstDay;
+		DateTime _firstDay;
 		public DateTime FirstDay
 		{
 			get { return _firstDay; }
@@ -79,7 +79,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand ShowFilterCommand { get; private set; }
-		private void OnShowFilter()
+		void OnShowFilter()
 		{
 			var employeeFilter = new EmployeeFilter()
 			{
@@ -114,7 +114,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }
-		private void OnShowSettings()
+		void OnShowSettings()
 		{
 			var settingsViewModel = new TimeTrackingSettingsViewModel(_settings);
 			if (DialogService.ShowModalWindow(settingsViewModel))
@@ -122,18 +122,18 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
-		private void OnRefresh()
+		void OnRefresh()
 		{
 			UpdateGrid();
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
-		private void OnPrint()
+		void OnPrint()
 		{
 			MessageBoxService.Show("Not Implemented");
 		}
 
-		private void UpdateGrid()
+		void UpdateGrid()
 		{
 			using (new WaitWrapper())
 			{
@@ -145,8 +145,8 @@ namespace SKDModule.ViewModels
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
 				foreach (var employee in employees)
 				{
-					var employeeTimeTracks = EmployeeHelper.GetTimeTracks(employee.UID, _settings.StartDate, _settings.EndDate);
-					TimeTracks.Add(new TimeTrackViewModel(employee, employeeTimeTracks));
+					var dayTimeTracks = EmployeeHelper.GetTimeTracks(employee.UID, _settings.StartDate, _settings.EndDate);
+					TimeTracks.Add(new TimeTrackViewModel(employee, dayTimeTracks));
 				}
 			}
 		}
