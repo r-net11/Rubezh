@@ -10,4 +10,7 @@
 	<DataTemplate DataType="{x:Type ribbon:RibbonMenuItemViewModel}">
 		<view:RibbonMenuItemView />
 	</DataTemplate>
+	<DataTemplate DataType="{x:Type ribbon:RibbonViewModel}">
+		<view:RibbonView />
+	</DataTemplate>
 </ResourceDictionary>

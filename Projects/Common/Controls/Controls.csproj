@@ -212,6 +212,9 @@
     <Compile Include="Ribbon\Views\RibbonMenuItemView.cs" />
     <Compile Include="Ribbon\Views\RibbonMenuView.cs" />
     <Compile Include="Ribbon\Views\RibbonPopup.cs" />
+    <Compile Include="Ribbon\Views\RibbonView.xaml.cs">
+      <DependentUpon>RibbonView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SpinnerCogs.xaml.cs">
       <DependentUpon>SpinnerCogs.xaml</DependentUpon>
     </Compile>
@@ -298,6 +301,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Ribbon\DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ribbon\Views\RibbonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1248,6 +1255,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\TemplateContainer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BMapOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BWindowCross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BWindowNormal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

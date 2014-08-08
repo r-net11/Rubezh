@@ -9,11 +9,14 @@
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Название" />
 				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Описание" />
+				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Показывать риббон меню" />
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" AcceptsReturn="True" AcceptsTab="True" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+				<CheckBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding IsRibbonEnabled}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Пользователи">

@@ -17,8 +17,11 @@ namespace FiresecAPI.Models.Layouts
 			Caption = "Макет";
 			SplitterSize = 4;
 			SplitterColor = Colors.Transparent;
+			IsRibbonEnabled = true;
 		}
 
+		[DataMember]
+		public bool IsRibbonEnabled { get; set; }
 		[DataMember]
 		public List<Guid> Users { get; set; }
 		[DataMember]

@@ -29,20 +29,21 @@ namespace Infrastructure.Common.Windows
 				ServiceFactoryBase.DragDropService.StopDragSimulate();
 			ViewPartViewModel exist = null;
 			foreach (ViewPartViewModel item in ShellViewModel.ContentItems)
+			{
+				if (item.IsActive)
+					item.IsRightPanelVisible = ShellViewModel.RightPanelVisible;
 				if (item.Key == viewModel.Key)
 					exist = item;
 				else
-				{
-					if (item.IsActive)
-						item.IsRightPanelVisible = ShellViewModel.RightPanelVisible;
 					item.Hide();
-				}
+			}
 			if (exist == null)
 			{
 				ShellViewModel.ContentItems.Add(viewModel);
 				exist = viewModel;
 			}
 			ShellViewModel.IsRightPanelEnabled = exist.IsRightPanelEnabled;
+			ShellViewModel.LeftPanelVisible = true;
 			ShellViewModel.RightPanelVisible = exist.IsRightPanelVisible;
 			exist.Show();
 		}

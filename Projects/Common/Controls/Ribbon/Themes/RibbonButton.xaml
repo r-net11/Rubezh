@@ -118,8 +118,8 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ribbon:RibbonButton}">
 					<Grid>
-						<ToggleButton x:Name="button" Content="{TemplateBinding Content}" Style="{StaticResource RibbonButton}" />
-						<loc:RibbonPopup x:Name="popup" DataContext="{TemplateBinding DataContext}" IsOpen="{Binding IsChecked, ElementName=button}" PlacementTarget="{Binding ElementName=button}" Style="{StaticResource RibbonPopup}">
+						<ToggleButton x:Name="button" Content="{TemplateBinding Content}" Style="{StaticResource RibbonButton}" IsChecked="{Binding IsOpened, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+						<loc:RibbonPopup x:Name="popup" DataContext="{TemplateBinding DataContext}" IsOpen="{Binding IsOpened, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" PlacementTarget="{Binding ElementName=button}" Style="{StaticResource RibbonPopup}">
 							<Grid>
 								<!--
 									<Path Fill="{DynamicResource BaseWindowBackgroundBrush}" Stroke="{DynamicResource WindowBorderBrush}" StrokeThickness="1">
@@ -138,7 +138,7 @@
 								<Border Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1" CornerRadius="5" Padding="0,20,0,0">
 									<ContentPresenter />
 								</Border>
-								<ToggleButton Width="{Binding Width, ElementName=button}" Height="{Binding Height, ElementName=button}" Margin="5,-20" HorizontalAlignment="Left" VerticalAlignment="Top" Content="{TemplateBinding Content}" IsChecked="{Binding IsChecked, ElementName=button}" Style="{StaticResource RibbonButton}" />
+								<ToggleButton Width="{Binding Width, ElementName=button}" Height="{Binding Height, ElementName=button}" Margin="5,-20" HorizontalAlignment="Left" VerticalAlignment="Top" Content="{TemplateBinding Content}" IsChecked="{Binding IsOpened, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Style="{StaticResource RibbonButton}" />
 							</Grid>
 						</loc:RibbonPopup>
 					</Grid>

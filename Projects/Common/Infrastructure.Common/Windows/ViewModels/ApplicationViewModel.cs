@@ -35,7 +35,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_allowHelp = value;
-				OnPropertyChanged("AllowHelp");
+				OnPropertyChanged(() => AllowHelp);
 			}
 		}
 		private bool _allowMinimize;
@@ -45,7 +45,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_allowMinimize = value;
-				OnPropertyChanged("AllowMinimize");
+				OnPropertyChanged(() => AllowMinimize);
 			}
 		}
 		private bool _allowLogoIcon;
@@ -55,7 +55,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_allowLogoIcon = value;
-				OnPropertyChanged("AllowLogoIcon");
+				OnPropertyChanged(() => AllowLogoIcon);
 			}
 		}
 
@@ -101,7 +101,18 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_headerTop = value;
-				OnPropertyChanged("HeaderTop");
+				OnPropertyChanged(() => HeaderTop);
+			}
+		}
+
+		private BaseViewModel _headerMenu;
+		public BaseViewModel HeaderMenu
+		{
+			get { return _headerMenu; }
+			set
+			{
+				_headerMenu = value;
+				OnPropertyChanged(() => HeaderMenu);
 			}
 		}
 
@@ -112,7 +123,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_contentFotter = value;
-				OnPropertyChanged("ContentFotter");
+				OnPropertyChanged(() => ContentFotter);
 			}
 		}
 

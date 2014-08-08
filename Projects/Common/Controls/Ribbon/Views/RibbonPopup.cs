@@ -125,11 +125,7 @@ namespace Controls.Ribbon.Views
 
 		public void Close()
 		{
-			var expression = GetBindingExpression(IsOpenProperty);
-			if (expression == null)
-				IsOpen = false;
-			else
-				((System.Windows.Controls.Primitives.ToggleButton)expression.DataItem).IsChecked = false;
+			SetValue(IsOpenProperty, false);
 		}
 	}
 }

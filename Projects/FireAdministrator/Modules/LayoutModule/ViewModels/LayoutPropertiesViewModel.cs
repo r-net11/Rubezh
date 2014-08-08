@@ -36,6 +36,7 @@ namespace LayoutModule.ViewModels
 			Padding = Layout.Padding;
 			IPs = new ObservableCollection<IPObject>();
 			Layout.IPs.ForEach(ip => IPs.Add(new IPObject() { IP = ip }));
+			IsRibbonEnabled = Layout.IsRibbonEnabled;
 		}
 
 		private string _caption;
@@ -124,6 +125,17 @@ namespace LayoutModule.ViewModels
 			}
 		}
 
+		private bool _isRibbonEnabled;
+		public bool IsRibbonEnabled
+		{
+			get { return _isRibbonEnabled; }
+			set
+			{
+				_isRibbonEnabled = value;
+				OnPropertyChanged(() => IsRibbonEnabled);
+			}
+		}
+
 
 		public ObservableCollection<IPObject> IPs { get; private set; }
 
@@ -143,6 +155,7 @@ namespace LayoutModule.ViewModels
 			Layout.BackgroundColor = BackgroundColor;
 			Layout.Padding = Padding;
 			Layout.IPs = IPs.Select(item => item.IP).ToList();
+			Layout.IsRibbonEnabled = IsRibbonEnabled;
 			return base.Save();
 		}
 	}
