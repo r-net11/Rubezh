@@ -9,6 +9,7 @@ using Infrastructure.Common.Navigation;
 using FiresecAPI;
 using System;
 using Infrastructure.Common.Windows;
+using System.Linq.Expressions;
 
 namespace AutomationModule
 {
@@ -68,7 +69,7 @@ namespace AutomationModule
 				switch (automationCallbackResult.AutomationCallbackType)
 				{
 					case AutomationCallbackType.Sound:
-						var soundUID = automationCallbackResult.SoundUID;
+						var sound = FiresecClient.FiresecManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.Uid == automationCallbackResult.SoundUID);
 						break;
 
 					case AutomationCallbackType.Message:

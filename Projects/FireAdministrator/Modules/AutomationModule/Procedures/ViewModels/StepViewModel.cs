@@ -27,7 +27,7 @@ namespace AutomationModule.ViewModels
 					break;
 
 				case ProcedureStepType.If:
-					Content = new ConditionStepViewModel(step.ConditionArguments, procedure);
+					Content = new ConditionStepViewModel(step.ConditionArguments, procedure, Update);
 					break;
 
 				case ProcedureStepType.AddJournalItem:

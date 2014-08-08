@@ -20,6 +20,39 @@ namespace FiresecService.Processor
 			WinFormsPlayers = new List<WinFormsPlayer>();
 		}
 
+		public static bool Compare(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
+		{
+			var conditionArguments = procedureStep.ConditionArguments;
+			var result = conditionArguments.JoinOperator == JoinOperator.And;
+			foreach (var condition in conditionArguments.Conditions)
+			{
+				var variable1 = GetValue(condition.Variable1, procedure, arguments);
+				var variable2 = GetValue(condition.Variable2, procedure, arguments);
+				switch (condition.ConditionType)
+				{
+					case ConditionType.IsEqual:
+						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 == variable2) : result | (variable1 == variable2);
+						break;
+					case ConditionType.IsLess:
+						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 < variable2) : result | (variable1 < variable2);
+						break;
+					case ConditionType.IsMore:
+						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 > variable2) : result | (variable1 > variable2);
+						break;
+					case ConditionType.IsNotEqual:
+						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 != variable2) : result | (variable1 != variable2);
+						break;
+					case ConditionType.IsNotLess:
+						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 >= variable2) : result | (variable1 >= variable2);
+						break;
+					case ConditionType.IsNotMore:
+						result = conditionArguments.JoinOperator == JoinOperator.And ? result & (variable1 <= variable2) : result | (variable1 <= variable2);
+						break;
+				}
+			}
+			return result;
+		}
+
 		public static void Calculate(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
@@ -354,6 +387,26 @@ namespace FiresecService.Processor
 				FiresecServiceManager.SafeFiresecService.SKDCloseZoneForever(sKDZone.UID);
 			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.DetectEmployees)
 				return; // TODO
+		}
+
+		public static void IncrementGlobalValue(ProcedureStep procedureStep)
+		{
+			var incrementGlobalValueArguments = procedureStep.IncrementGlobalValueArguments;
+			var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault
+				(x => x.Uid == incrementGlobalValueArguments.GlobalVariableUid);
+			if (globalVariable == null)
+				return;
+			globalVariable.Value = incrementGlobalValueArguments.IncrementType == IncrementType.Inc ? globalVariable.Value + 1 : globalVariable.Value - 1;
+		}
+
+		public static void SetGlobalValue(ProcedureStep procedureStep)
+		{
+			var setGlobalValueArguments = procedureStep.SetGlobalValueArguments;
+			var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault
+				(x => x.Uid == setGlobalValueArguments.GlobalVariableUid);
+			if (globalVariable == null)
+				return;
+			globalVariable.Value = setGlobalValueArguments.Value;
 		}
 	}
 }
