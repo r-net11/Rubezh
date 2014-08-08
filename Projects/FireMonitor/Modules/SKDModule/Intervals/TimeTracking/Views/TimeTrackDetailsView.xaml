@@ -52,10 +52,12 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Name="_grid" Height="30" Margin="2" />
-                <Grid Grid.Row="1" Name="_timeGrid" Height="30" Margin="2" />
-                <Grid Grid.Row="2" Name="_sheduleGrid" Height="30" Margin="2" />
+                <Grid Grid.Row="1" Name="_sheduleGrid" Height="30" Margin="2" />
+                <Grid Grid.Row="2" Name="_dualGrid" Height="30" Margin="2" />
+                <Grid Grid.Row="3" Name="_timeGrid" Height="30" Margin="2" />
             </Grid>
         </Border>
     </Grid>

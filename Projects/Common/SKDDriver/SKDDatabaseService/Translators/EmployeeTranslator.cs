@@ -305,11 +305,33 @@ namespace SKDDriver
 			catch {}
 		}
 
+		public void InsertPassJournalTestData()
+		{
+			var employeeUID = GetList(new EmployeeFilter()).Result.FirstOrDefault().UID;
+			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
+
+			var enterPassJournal = new DataAccess.PassJournal();
+			enterPassJournal.UID = Guid.NewGuid();
+			enterPassJournal.EmployeeUID = employeeUID;
+			enterPassJournal.ZoneUID = zoneUID;
+			enterPassJournal.EnterTime = new DateTime(2014, 8, 7, 10, 0, 0);
+			enterPassJournal.ExitTime = new DateTime(2014, 8, 7, 15, 0, 0);
+			Context.PassJournals.InsertOnSubmit(enterPassJournal);
+
+			var exitPassJournal = new DataAccess.PassJournal();
+			exitPassJournal.UID = Guid.NewGuid();
+			exitPassJournal.EmployeeUID = employeeUID;
+			exitPassJournal.ZoneUID = zoneUID;
+			exitPassJournal.EnterTime = new DateTime(2014, 8, 7, 16, 0, 0);
+			exitPassJournal.ExitTime = new DateTime(2014, 8, 7, 20, 0, 0);
+			Context.PassJournals.InsertOnSubmit(exitPassJournal);
+
+			Context.SubmitChanges();
+		}
+
 		public OperationResult<List<DayTimeTrack>> GetTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
-			//var empl = GetList(new EmployeeFilter()).Result.FirstOrDefault();
-			//AddPassJournal(empl.UID, SKDManager.Zones.FirstOrDefault().UID);
-			//AddPassJournal(empl.UID, SKDManager.Zones.FirstOrDefault().UID);
+			//InsertPassJournalTestData();
 
 			InvalidatePassJournal();
 
