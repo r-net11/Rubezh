@@ -403,6 +403,7 @@ namespace SKDDriver
 			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).ToList();
 
 			var dayTimeTrack = new DayTimeTrack();
+			dayTimeTrack.EmployeeUID = employeeUID;
 			dayTimeTrack.Date = date;
 			dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 			dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
@@ -472,10 +473,10 @@ namespace SKDDriver
 			}
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
 
-			var timeTrackException = Context.TimeTrackExceptions.FirstOrDefault(x => x.EmployeeUID == employee.UID && x.StartDateTime <= date && x.EndDateTime >= date);
-			if (timeTrackException != null)
+			var operationResult = SKDDatabaseService.TimeTrackExceptionTranslator.Get(date, employeeUID);
+			if (!operationResult.HasError)
 			{
-
+				dayTimeTrack.TimeTrackException = operationResult.Result;
 			}
 
 			return dayTimeTrack;

@@ -32,6 +32,7 @@ namespace SKDDriver
 			ScheduleZoneTranslator = new ScheduleZoneTranslator(Context);
 			ScheduleTranslator = new ScheduleTranslator(Context, ScheduleZoneTranslator);
 			EmployeeTranslator = new EmployeeTranslator(Context, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator, ScheduleTranslator);
+			TimeTrackExceptionTranslator = new TimeTrackExceptionTranslator(Context);
 		}
 
 		public static PositionTranslator PositionTranslator { get; private set; }
@@ -52,5 +53,6 @@ namespace SKDDriver
 		public static DayIntervalTranslator DayIntervalTranslator { get; private set; }
 		public static ScheduleZoneTranslator ScheduleZoneTranslator { get; private set; }
 		public static ScheduleTranslator ScheduleTranslator { get; private set; }
+		public static TimeTrackExceptionTranslator TimeTrackExceptionTranslator { get; private set; }
 	}
 }

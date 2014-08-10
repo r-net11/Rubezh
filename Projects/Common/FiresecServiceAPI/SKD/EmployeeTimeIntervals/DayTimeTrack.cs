@@ -26,6 +26,9 @@ namespace FiresecAPI.SKD
 		public DateTime Date { get; set; }
 
 		[DataMember]
+		public Guid EmployeeUID { get; set; }
+
+		[DataMember]
 		public List<TimeTrackPart> PlannedTimeTrackParts { get; set; }
 
 		[DataMember]
@@ -52,6 +55,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public TimeTrackType TimeTrackType { get; set; }
 
+		[DataMember]
+		public TimeTrackException TimeTrackException { get; set; }
+
 
 
 		[DataMember]
@@ -70,6 +76,9 @@ namespace FiresecAPI.SKD
 		public TimeSpan TotalLate { get; set; }
 
 		[DataMember]
+		public TimeSpan TotalPlanned { get; set; }
+
+		[DataMember]
 		public string Error { get; set; }
 
 		public void Calculate()
@@ -86,6 +95,12 @@ namespace FiresecAPI.SKD
 				timeSpans.Add(interval.EndTime);
 			}
 			timeSpans.Sort();
+
+			TotalPlanned = new TimeSpan();
+			foreach (var timeTrackPart in RealTimeTrackParts)
+			{
+				TotalPlanned += timeTrackPart.Delta;
+			}
 
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			for (int i = 0; i < timeSpans.Count - 1; i++)
@@ -164,6 +179,36 @@ namespace FiresecAPI.SKD
 			if (!string.IsNullOrEmpty(Error))
 			{
 				TimeTrackType = TimeTrackType.None;
+				return;
+			}
+			if (TimeTrackException.TimeTrackExceptionType == TimeTrackExceptionType.Hospital)
+			{
+				Total = TotalPlanned;
+				TimeTrackType = TimeTrackType.Ill;
+				TotalInSchedule = TotalPlanned;
+				TotalMissed = new TimeSpan();
+				TotalLate = new TimeSpan();
+				TotalOutSchedule = new TimeSpan();
+				return;
+			}
+			if (TimeTrackException.TimeTrackExceptionType == TimeTrackExceptionType.Trip)
+			{
+				Total = TotalPlanned;
+				TimeTrackType = TimeTrackType.Trip;
+				TotalInSchedule = TotalPlanned;
+				TotalMissed = new TimeSpan();
+				TotalLate = new TimeSpan();
+				TotalOutSchedule = new TimeSpan();
+				return;
+			}
+			if (TimeTrackException.TimeTrackExceptionType == TimeTrackExceptionType.Vacation)
+			{
+				TimeTrackType = TimeTrackType.Vacation;
+				Total = TotalPlanned;
+				TotalInSchedule = TotalPlanned;
+				TotalMissed = new TimeSpan();
+				TotalLate = new TimeSpan();
+				TotalOutSchedule = new TimeSpan();
 				return;
 			}
 			if (IsHoliday)

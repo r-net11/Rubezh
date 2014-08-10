@@ -14,10 +14,23 @@ namespace SKDModule.ViewModels
 		public DayTrackViewModel(DayTimeTrack dayTimeTrack)
 		{
 			DayTimeTrack = dayTimeTrack;
+			Update();
+		}
+
+		public void Update()
+		{
 			Total = DateTimeToString(DayTimeTrack.Total);
 			TotalMissed = DateTimeToString(DayTimeTrack.TotalMissed);
 			TotalInSchedule = DateTimeToString(DayTimeTrack.TotalInSchedule);
 			TotalOutSchedule = DateTimeToString(DayTimeTrack.TotalOutSchedule);
+
+			IsNormal = false;
+			IsHoliday = false;
+			IsMissed = false;
+			IsDayOff = false;
+			IsIll = false;
+			IsVacation = false;
+			IsTrip = false;
 
 			switch (DayTimeTrack.TimeTrackType)
 			{
@@ -33,10 +46,31 @@ namespace SKDModule.ViewModels
 					IsDayOff = true;
 					break;
 
+				case TimeTrackType.Ill:
+					IsIll = true;
+					break;
+
+				case TimeTrackType.Vacation:
+					IsVacation = true;
+					break;
+
+				case TimeTrackType.Trip:
+					IsTrip = true;
+					break;
+
 				default:
 					IsNormal = true;
 					break;
 			}
+
+			OnPropertyChanged(() => IsNormal);
+			OnPropertyChanged(() => IsHoliday);
+			OnPropertyChanged(() => IsMissed);
+			OnPropertyChanged(() => IsDayOff);
+			OnPropertyChanged(() => IsIll);
+			OnPropertyChanged(() => IsVacation);
+			OnPropertyChanged(() => IsTrip);
+			OnPropertyChanged(() => DayTimeTrack);
 		}
 
 		public string Total { get; private set; }
@@ -48,6 +82,9 @@ namespace SKDModule.ViewModels
 		public bool IsHoliday { get; private set; }
 		public bool IsMissed { get; private set; }
 		public bool IsDayOff { get; private set; }
+		public bool IsIll { get; private set; }
+		public bool IsVacation { get; private set; }
+		public bool IsTrip { get; private set; }
 
 		public static string DateTimeToString(TimeSpan timeSpan)
 		{

@@ -17,5 +17,8 @@
         <TextBlock Visibility="{Binding IsHoliday, Converter={StaticResource BoolToVisibilityConverter}}" Text="ПР" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
         <TextBlock Visibility="{Binding IsDayOff, Converter={StaticResource BoolToVisibilityConverter}}" Text="В" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
         <TextBlock Visibility="{Binding IsMissed, Converter={StaticResource BoolToVisibilityConverter}}" Text="П" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <TextBlock Visibility="{Binding IsIll, Converter={StaticResource BoolToVisibilityConverter}}" Text="Б" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <TextBlock Visibility="{Binding IsVacation, Converter={StaticResource BoolToVisibilityConverter}}" Text="О" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <TextBlock Visibility="{Binding IsTrip, Converter={StaticResource BoolToVisibilityConverter}}" Text="К" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
     </Grid>
 </UserControl>

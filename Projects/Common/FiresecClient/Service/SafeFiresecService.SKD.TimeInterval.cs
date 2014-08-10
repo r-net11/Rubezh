@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common;
 using FiresecAPI.EmployeeTimeIntervals;
+using System;
 
 namespace FiresecClient
 {
@@ -87,7 +88,6 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ShortSchedule>>>(() => FiresecService.GetScheduleShortList(filter));
 		}
-		
 
 		public FiresecAPI.OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)
 		{
@@ -100,6 +100,15 @@ namespace FiresecClient
 		public FiresecAPI.OperationResult MarkDeletedScheduleZone(ScheduleZone item)
 		{
 			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleZone(item.UID));
+		}
+
+		public FiresecAPI.OperationResult<FiresecAPI.SKD.TimeTrackException> GetTimeTrackException(DateTime dateTime, Guid employeeUID)
+		{
+			return SafeContext.Execute<FiresecAPI.OperationResult<FiresecAPI.SKD.TimeTrackException>>(() => FiresecService.GetTimeTrackException(dateTime, employeeUID));
+		}
+		public FiresecAPI.OperationResult SaveTimeTrackException(FiresecAPI.SKD.TimeTrackException item)
+		{
+			return SafeContext.Execute(() => FiresecService.SaveTimeTrackException(item));
 		}
 	}
 }
