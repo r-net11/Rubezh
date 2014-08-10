@@ -52,7 +52,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDirection = value;
-				OnPropertyChanged("SelectedDirection");
+				OnPropertyChanged(() => SelectedDirection);
 			}
 		}
 

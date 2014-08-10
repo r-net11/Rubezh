@@ -19,7 +19,7 @@ namespace SecurityModule.ViewModels
 				permission._isChecked = permissionStrings.Contains(permission.PermissionType.ToString());
 			}
 
-			OnPropertyChanged("RootPermissions");
+			OnPropertyChanged(() => RootPermissions);
 		}
 
 		public List<PermissionViewModel> AllPermissions;

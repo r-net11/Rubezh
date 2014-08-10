@@ -52,7 +52,7 @@ namespace SKDDriver.Translators
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.SlideTime = (int)apiItem.SlideTime.TotalSeconds;
-			_timeIntervalTranslator.Save(apiItem.TimeIntervals, false);
+			_timeIntervalTranslator.Save(apiItem.TimeIntervals);
 		}
 	}
 }

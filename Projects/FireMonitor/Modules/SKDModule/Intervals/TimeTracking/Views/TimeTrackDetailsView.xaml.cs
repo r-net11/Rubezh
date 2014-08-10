@@ -6,6 +6,7 @@ using System.Windows.Shapes;
 using SKDModule.ViewModels;
 using System.Collections.Generic;
 using System;
+using FiresecAPI;
 using FiresecAPI.SKD;
 
 namespace SKDModule.Views
@@ -23,11 +24,18 @@ namespace SKDModule.Views
 			public double Delta { get; set; }
 			public bool IsInterval { get; set; }
 			public string Tooltip { get; set; }
+			public TimeTrackPartType DayTrackDualIntervalPartType { get; set; }
 		}
 
 		string TimePartDateToString(DateTime dateTime)
 		{
 			var result = dateTime.TimeOfDay.Hours.ToString() + ":" + dateTime.TimeOfDay.Minutes.ToString() + ":" + dateTime.TimeOfDay.Seconds.ToString();
+			return result;
+		}
+
+		string TimePartDateToString(TimeSpan timeSpan)
+		{
+			var result = timeSpan.Hours.ToString() + ":" + timeSpan.Minutes.ToString() + ":" + timeSpan.Seconds.ToString();
 			return result;
 		}
 
@@ -37,106 +45,184 @@ namespace SKDModule.Views
 			if (timeTrackDetailsViewModel != null)
 			{
 				var dayTimeTrack = timeTrackDetailsViewModel.DayTimeTrack;
-				var orderedTimeTrack = dayTimeTrack.TimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
-				if (orderedTimeTrack.Count > 0)
-				{
-					double current = 0;
-					var timeParts = new List<TimePart>();
-					for (int i = 0; i < orderedTimeTrack.Count; i++)
-					{
-						var timeTrackPart = orderedTimeTrack[i];
-
-						var startTimePart = new TimePart();
-						startTimePart.Delta = timeTrackPart.StartTime.TimeOfDay.TotalSeconds - current;
-						startTimePart.IsInterval = false;
-						timeParts.Add(startTimePart);
-
-						var endTimePart = new TimePart();
-						endTimePart.Delta = timeTrackPart.EndTime.TimeOfDay.TotalSeconds - timeTrackPart.StartTime.TimeOfDay.TotalSeconds;
-						endTimePart.IsInterval = true;
-						endTimePart.Tooltip = TimePartDateToString(timeTrackPart.EndTime) + " - " + TimePartDateToString(timeTrackPart.StartTime);
-						timeParts.Add(endTimePart);
-
-						current = timeTrackPart.EndTime.TimeOfDay.TotalSeconds;
-					}
-					var lastTimePart = new TimePart();
-					lastTimePart.Delta = 24 * 60 * 60 - current;
-					lastTimePart.IsInterval = false;
-					timeParts.Add(lastTimePart);
-
-					for (int i = 0; i < timeParts.Count; i++)
-					{
-						var timePart = timeParts[i];
-						var widht = timePart.Delta;
-						if (widht >= 0)
-						{
-							_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
-
-							if (timePart.IsInterval)
-							{
-								Rectangle rectangle = new Rectangle();
-								rectangle.ToolTip = timePart.Tooltip;
-								rectangle.Fill = new SolidColorBrush(Colors.Green);
-								rectangle.Stroke = new SolidColorBrush(Colors.Black);
-								Grid.SetRow(rectangle, 0);
-								Grid.SetColumn(rectangle, i);
-								_grid.Children.Add(rectangle);
-							}
-						}
-					}
-				}
-
-				DrawSheduleGrid(dayTimeTrack);
+				DrawRealTimeTrackGrid(dayTimeTrack);
+				DrawPlannedTimeTrackGrid(dayTimeTrack);
+				DrawCombinedTimeTrackGrid(dayTimeTrack);
 			}
 
 			DrawHoursGrid();
 		}
 
-		void DrawSheduleGrid(DayTimeTrack dayTimeTrack)
+		void DrawRealTimeTrackGrid(DayTimeTrack dayTimeTrack)
 		{
-			var orderedIntervals = dayTimeTrack.Intervals.OrderBy(x => x.BeginDate.Value.Ticks).ToList();
-
-			double current = 0;
-			var timeParts = new List<TimePart>();
-			for (int i = 0; i < orderedIntervals.Count; i++)
+			if (dayTimeTrack.RealTimeTrackParts.Count > 0)
 			{
-				var interval = orderedIntervals[i];
-
-				var startTimePart = new TimePart();
-				startTimePart.Delta = interval.BeginDate.Value.TimeOfDay.TotalSeconds - current;
-				startTimePart.IsInterval = false;
-				timeParts.Add(startTimePart);
-
-				var endTimePart = new TimePart();
-				endTimePart.Delta = interval.EndDate.Value.TimeOfDay.TotalSeconds - interval.BeginDate.Value.TimeOfDay.TotalSeconds;
-				endTimePart.IsInterval = true;
-				endTimePart.Tooltip = TimePartDateToString(interval.EndDate.Value) + " - " + TimePartDateToString(interval.BeginDate.Value);
-				timeParts.Add(endTimePart);
-
-				current = interval.EndDate.Value.TimeOfDay.TotalSeconds;
-			}
-			var lastTimePart = new TimePart();
-			lastTimePart.Delta = 24 * 60 * 60 - current;
-			lastTimePart.IsInterval = false;
-			timeParts.Add(lastTimePart);
-
-			for (int i = 0; i < timeParts.Count; i++)
-			{
-				var timePart = timeParts[i];
-				var widht = timePart.Delta;
-				if (widht >= 0)
+				double current = 0;
+				var timeParts = new List<TimePart>();
+				for (int i = 0; i < dayTimeTrack.RealTimeTrackParts.Count; i++)
 				{
-					_sheduleGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+					var timeTrackPart = dayTimeTrack.RealTimeTrackParts[i];
 
-					if (timePart.IsInterval)
+					var startTimePart = new TimePart();
+					startTimePart.Delta = timeTrackPart.StartTime.TotalSeconds - current;
+					startTimePart.IsInterval = false;
+					timeParts.Add(startTimePart);
+
+					var endTimePart = new TimePart();
+					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
+					endTimePart.IsInterval = true;
+					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.EndTime) + " - " + TimePartDateToString(timeTrackPart.StartTime);
+					timeParts.Add(endTimePart);
+
+					current = timeTrackPart.EndTime.TotalSeconds;
+				}
+				var lastTimePart = new TimePart();
+				lastTimePart.Delta = 24 * 60 * 60 - current;
+				lastTimePart.IsInterval = false;
+				timeParts.Add(lastTimePart);
+
+				for (int i = 0; i < timeParts.Count; i++)
+				{
+					var timePart = timeParts[i];
+					var widht = timePart.Delta;
+					if (widht >= 0)
 					{
-						Rectangle rectangle = new Rectangle();
-						rectangle.ToolTip = timePart.Tooltip;
-						rectangle.Fill = new SolidColorBrush(Colors.Green);
-						rectangle.Stroke = new SolidColorBrush(Colors.Black);
-						Grid.SetRow(rectangle, 0);
-						Grid.SetColumn(rectangle, i);
-						_sheduleGrid.Children.Add(rectangle);
+						_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+
+						if (timePart.IsInterval)
+						{
+							Rectangle rectangle = new Rectangle();
+							rectangle.ToolTip = timePart.Tooltip;
+							rectangle.Fill = new SolidColorBrush(Colors.Green);
+							rectangle.Stroke = new SolidColorBrush(Colors.Black);
+							Grid.SetRow(rectangle, 0);
+							Grid.SetColumn(rectangle, i);
+							_grid.Children.Add(rectangle);
+						}
+					}
+				}
+			}
+		}
+
+		void DrawPlannedTimeTrackGrid(DayTimeTrack dayTimeTrack)
+		{
+			if (dayTimeTrack.PlannedTimeTrackParts.Count > 0)
+			{
+				double current = 0;
+				var timeParts = new List<TimePart>();
+				for (int i = 0; i < dayTimeTrack.PlannedTimeTrackParts.Count; i++)
+				{
+					var timeTrackPart = dayTimeTrack.PlannedTimeTrackParts[i];
+
+					var startTimePart = new TimePart();
+					startTimePart.Delta = timeTrackPart.StartTime.TotalSeconds - current;
+					startTimePart.IsInterval = false;
+					timeParts.Add(startTimePart);
+
+					var endTimePart = new TimePart();
+					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
+					endTimePart.IsInterval = true;
+					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.EndTime) + " - " + TimePartDateToString(timeTrackPart.StartTime);
+					timeParts.Add(endTimePart);
+
+					current = timeTrackPart.EndTime.TotalSeconds;
+				}
+				var lastTimePart = new TimePart();
+				lastTimePart.Delta = 24 * 60 * 60 - current;
+				lastTimePart.IsInterval = false;
+				timeParts.Add(lastTimePart);
+
+				for (int i = 0; i < timeParts.Count; i++)
+				{
+					var timePart = timeParts[i];
+					var widht = timePart.Delta;
+					if (widht >= 0)
+					{
+						_sheduleGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+
+						if (timePart.IsInterval)
+						{
+							Rectangle rectangle = new Rectangle();
+							rectangle.ToolTip = timePart.Tooltip;
+							rectangle.Fill = new SolidColorBrush(Colors.Green);
+							rectangle.Stroke = new SolidColorBrush(Colors.Black);
+							Grid.SetRow(rectangle, 0);
+							Grid.SetColumn(rectangle, i);
+							_sheduleGrid.Children.Add(rectangle);
+						}
+					}
+				}
+			}
+		}
+
+		void DrawCombinedTimeTrackGrid(DayTimeTrack dayTimeTrack)
+		{
+			if (dayTimeTrack.CombinedTimeTrackParts.Count > 0)
+			{
+				double current = 0;
+				var timeParts = new List<TimePart>();
+				for (int i = 0; i < dayTimeTrack.CombinedTimeTrackParts.Count; i++)
+				{
+					var trackPart = dayTimeTrack.CombinedTimeTrackParts[i];
+
+					var startTimePart = new TimePart();
+					startTimePart.Delta = trackPart.StartTime.TotalSeconds - current;
+					startTimePart.IsInterval = false;
+					timeParts.Add(startTimePart);
+
+					var endTimePart = new TimePart();
+					endTimePart.Delta = trackPart.EndTime.TotalSeconds - trackPart.StartTime.TotalSeconds;
+					endTimePart.IsInterval = trackPart.TimeTrackPartType != TimeTrackPartType.None;
+					endTimePart.Tooltip = TimePartDateToString(trackPart.EndTime) + " - " + TimePartDateToString(trackPart.StartTime) + " " + trackPart.TimeTrackPartType.ToDescription();
+					endTimePart.DayTrackDualIntervalPartType = trackPart.TimeTrackPartType;
+					timeParts.Add(endTimePart);
+
+					current = trackPart.EndTime.TotalSeconds;
+				}
+				var lastTimePart = new TimePart();
+				lastTimePart.Delta = 24 * 60 * 60 - current;
+				lastTimePart.IsInterval = false;
+				timeParts.Add(lastTimePart);
+
+				for (int i = 0; i < timeParts.Count; i++)
+				{
+					var timePart = timeParts[i];
+					var widht = timePart.Delta;
+					if (widht >= 0)
+					{
+						_dualGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+
+						if (timePart.IsInterval)
+						{
+							Rectangle rectangle = new Rectangle();
+							rectangle.ToolTip = timePart.Tooltip;
+							switch (timePart.DayTrackDualIntervalPartType)
+							{
+								case TimeTrackPartType.PlanedOnly:
+									rectangle.Fill = new SolidColorBrush(Colors.Red);
+									break;
+
+								case TimeTrackPartType.MissedButInsidePlan:
+									rectangle.Fill = new SolidColorBrush(Colors.LightYellow);
+									break;
+
+								case TimeTrackPartType.AsPlanned:
+									rectangle.Fill = new SolidColorBrush(Colors.Green);
+									break;
+
+								case TimeTrackPartType.RealOnly:
+									rectangle.Fill = new SolidColorBrush(Colors.Yellow);
+									break;
+
+								case TimeTrackPartType.InBrerak:
+									rectangle.Fill = new SolidColorBrush(Colors.Aqua);
+									break;
+							}
+							rectangle.Stroke = new SolidColorBrush(Colors.Black);
+							Grid.SetRow(rectangle, 0);
+							Grid.SetColumn(rectangle, i);
+							_dualGrid.Children.Add(rectangle);
+						}
 					}
 				}
 			}

@@ -79,14 +79,6 @@ namespace SKDDriver
 
 		public virtual OperationResult Save(IEnumerable<ApiT> apiItems)
 		{
-			return Save(apiItems, true);
-		}
-		public virtual OperationResult Save(ApiT apiItem)
-		{
-			return Save(apiItem, true);
-		}
-		public virtual OperationResult Save(IEnumerable<ApiT> apiItems, bool commit)
-		{
 			try
 			{
 				if (apiItems == null || apiItems.Count() == 0)
@@ -109,8 +101,7 @@ namespace SKDDriver
 					else
 						TranslateBack(tableItem, apiItem);
 				}
-				if (commit)
-					Table.Context.SubmitChanges();
+				Table.Context.SubmitChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)
@@ -119,7 +110,7 @@ namespace SKDDriver
 			}
 		}
 
-		public virtual OperationResult Save(ApiT apiItem, bool commit)
+		public virtual OperationResult Save(ApiT apiItem)
 		{
 			try
 			{
@@ -138,8 +129,7 @@ namespace SKDDriver
 				}
 				else
 					TranslateBack(tableItem, apiItem);
-				if (commit)
-					Context.SubmitChanges();
+				Context.SubmitChanges();
 				return new OperationResult();
 			}
 			catch (Exception e)

@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
@@ -10,22 +12,26 @@ namespace AutomationModule.ViewModels
 		public ConditionArguments ConditionArguments { get; private set; }
 		public ObservableCollection<ConditionViewModel> Conditions { get; private set; }
 		Procedure Procedure { get; set; }
+		public Action UpdateDescriptionHandler { get; set; }
 
-		public ConditionStepViewModel(ConditionArguments conditionArguments, Procedure procedure)
+		public ConditionStepViewModel(ConditionArguments conditionArguments, Procedure procedure, Action updateDescriptionHandler)
 		{
+			UpdateDescriptionHandler = updateDescriptionHandler;
 			ConditionArguments = conditionArguments;
 			Procedure = procedure;
 
 			Conditions = new ObservableCollection<ConditionViewModel>();
 			foreach (var condition in conditionArguments.Conditions)
 			{
-				var conditionViewModel = new ConditionViewModel(condition, procedure);
+				var conditionViewModel = new ConditionViewModel(condition, procedure, updateDescriptionHandler);
 				Conditions.Add(conditionViewModel);
 			}
 			if (Conditions.Count == 0)
 			{
 				var condition = new Condition();
-				var conditionViewModel = new ConditionViewModel(condition, procedure);
+				var conditionViewModel = new ConditionViewModel(condition, procedure, updateDescriptionHandler);
+				conditionViewModel.UpdateDescriptionHandler = updateDescriptionHandler;
+				ConditionArguments.Conditions.Add(condition);
 				Conditions.Add(conditionViewModel);
 			}
 			JoinOperator = ConditionArguments.JoinOperator;
@@ -48,6 +54,8 @@ namespace AutomationModule.ViewModels
 			{
 				ConditionArguments.JoinOperator = value;
 				OnPropertyChanged(()=>JoinOperator);
+				if (UpdateDescriptionHandler != null)
+					UpdateDescriptionHandler();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -56,9 +64,12 @@ namespace AutomationModule.ViewModels
 		public void OnAdd()
 		{
 			var condition = new Condition();
-			var conditionViewModel = new ConditionViewModel(condition, Procedure);
+			var conditionViewModel = new ConditionViewModel(condition, Procedure ,UpdateDescriptionHandler);
 			ConditionArguments.Conditions.Add(condition);
 			Conditions.Add(conditionViewModel);
+			if (UpdateDescriptionHandler != null)
+				UpdateDescriptionHandler();
+			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
 		public RelayCommand<ConditionViewModel> RemoveCommand { get; private set; }
@@ -66,6 +77,8 @@ namespace AutomationModule.ViewModels
 		{
 			Conditions.Remove(conditionViewModel);
 			ConditionArguments.Conditions.Remove(conditionViewModel.Condition);
+			if (UpdateDescriptionHandler != null)
+				UpdateDescriptionHandler();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
@@ -86,7 +99,43 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				return "";
+				var conditionViewModel = Conditions.FirstOrDefault();
+				if (conditionViewModel == null)
+					return "";
+
+				string var1 = conditionViewModel.Variable1.DescriptionValue;
+				if (String.IsNullOrEmpty(var1))
+					var1 = "пусто";
+				string var2 = conditionViewModel.Variable2.DescriptionValue;
+				if (String.IsNullOrEmpty(var2))
+					var2 = "пусто";
+				var op = "";
+				switch (conditionViewModel.SelectedConditionType)
+				{
+					case ConditionType.IsEqual:
+						op = "==";
+						break;
+					case ConditionType.IsLess:
+						op = "<";
+						break;
+					case ConditionType.IsMore:
+						op = ">";
+						break;
+					case ConditionType.IsNotEqual:
+						op = "!=";
+						break;
+					case ConditionType.IsNotLess:
+						op = "≥";
+						break;
+					case ConditionType.IsNotMore:
+						op = "≤";
+						break;
+				}
+				var end = "";
+				if (Conditions.Count > 1)
+					end = JoinOperator == JoinOperator.And ? "и ..." : "или ...";
+
+				return var1 + " " + op + " " + var2 + " " + end;
 			}
 		}
 	}
@@ -97,13 +146,16 @@ namespace AutomationModule.ViewModels
 		public ArithmeticParameterViewModel Variable1 { get; set; }
 		public ArithmeticParameterViewModel Variable2 { get; set; }
 		Procedure Procedure { get; set; }
+		public Action UpdateDescriptionHandler { get; set; }
 
-		public ConditionViewModel(Condition condition, Procedure procedure)
+		public ConditionViewModel(Condition condition, Procedure procedure, Action updateDescriptionHandler)
 		{
 			Condition = condition;
 			Procedure = procedure;
 			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, procedure.Variables, true);
+			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
 			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, procedure.Variables);
+			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
 			ConditionTypes = new ObservableCollection<ConditionType> { ConditionType.IsEqual, ConditionType.IsLess, ConditionType.IsMore, ConditionType.IsNotEqual, ConditionType.IsNotLess, ConditionType.IsNotMore};
 		}
 
@@ -121,6 +173,8 @@ namespace AutomationModule.ViewModels
 			{
 				Condition.ConditionType = value;
 				OnPropertyChanged(() => SelectedConditionType);
+				if (UpdateDescriptionHandler != null)
+					UpdateDescriptionHandler();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}

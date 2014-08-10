@@ -5,12 +5,13 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
-            <TextBlock Text="Оправдательный документ" Foreground="White" Margin="4 0" />
-            <ComboBox ItemsSource="{Binding AvailableExcuseDocuments}" SelectedItem="{Binding SelectedAvailablExcuseeDocument}">
+            <TextBlock Text="Оправдательный документ" Width="200" Foreground="White" Margin="4 0" />
+            <ComboBox ItemsSource="{Binding AvailableExceptionTypes}" SelectedItem="{Binding SelectedExceptionType}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" />
@@ -18,7 +19,11 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding DayTimeTrackParts}" Margin="2">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" IsEnabled="{Binding IsCommentEnabled}" Margin="2">
+            <TextBlock Text="Описание" Width="200" Foreground="White" Margin="4 0" />
+            <TextBox Text="{Binding Comment}" />
+        </StackPanel>
+        <DataGrid Grid.Row="2" ItemsSource="{Binding DayTimeTrackParts}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Зона" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
@@ -46,16 +51,18 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Border Grid.Row="2" CornerRadius="2" Background="White" Margin="0 5">
+        <Border Grid.Row="3" CornerRadius="2" Background="White" Margin="0 5">
             <Grid Margin="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Name="_grid" Height="30" Margin="2" />
-                <Grid Grid.Row="1" Name="_timeGrid" Height="30" Margin="2" />
-                <Grid Grid.Row="2" Name="_sheduleGrid" Height="30" Margin="2" />
+                <Grid Grid.Row="1" Name="_sheduleGrid" Height="30" Margin="2" />
+                <Grid Grid.Row="2" Name="_dualGrid" Height="30" Margin="2" />
+                <Grid Grid.Row="3" Name="_timeGrid" Height="30" Margin="2" />
             </Grid>
         </Border>
     </Grid>

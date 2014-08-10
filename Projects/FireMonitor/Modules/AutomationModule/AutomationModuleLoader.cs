@@ -9,6 +9,10 @@ using Infrastructure.Common.Navigation;
 using FiresecAPI;
 using System;
 using Infrastructure.Common.Windows;
+using System.Linq;
+using FiresecAPI.Models;
+using Infrastructure.Common.Services;
+using System.IO;
 
 namespace AutomationModule
 {
@@ -68,11 +72,13 @@ namespace AutomationModule
 				switch (automationCallbackResult.AutomationCallbackType)
 				{
 					case AutomationCallbackType.Sound:
-						var soundUID = automationCallbackResult.SoundUID;
+						var sound = FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.AutomationSounds.FirstOrDefault(x => x.Uid == automationCallbackResult.SoundUID);
+						AlarmPlayerHelper.Play(FiresecClient.FileHelper.GetSoundFilePath(Path.Combine(ServiceFactoryBase.ContentService.ContentFolder, sound.Uid.ToString())), BeeperType.Alarm, false);
 						break;
 
 					case AutomationCallbackType.Message:
 						var message = automationCallbackResult.Message;
+						MessageBoxService.Show(message, "Сообщение");
 						break;
 				}
 			});

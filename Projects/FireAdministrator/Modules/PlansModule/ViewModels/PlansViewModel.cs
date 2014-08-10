@@ -113,7 +113,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_plans = value;
-				OnPropertyChanged("Plans");
+				OnPropertyChanged(() => Plans);
 			}
 		}
 

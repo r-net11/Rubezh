@@ -16,16 +16,16 @@ namespace FiresecService.Processor
 		static AutomationProcessorRunner()
 		{
 			ProceduresThreads = new List<Thread>();
-			
+
 		}
 
 		public static bool RunInThread(Procedure procedure, List<Argument> arguments)
 		{
 			try
 			{
-				foreach (var step in procedure.Steps)
+				if (procedure.Steps.Any(step => !RunStep(step, procedure, arguments)))
 				{
-					RunStep(step, procedure, arguments);
+					return true;
 				}
 			}
 			catch
@@ -34,7 +34,7 @@ namespace FiresecService.Processor
 			}
 			return true;
 		}
-		
+
 		public static bool Run(Procedure procedure, List<Argument> arguments)
 		{
 			var procedureThread = new Thread(() => RunInThread(procedure, arguments));
@@ -44,46 +44,47 @@ namespace FiresecService.Processor
 			return true;
 		}
 
-		static void RunStep(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
+		static bool RunStep(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
 		{
-			switch(procedureStep.ProcedureStepType)
+			switch (procedureStep.ProcedureStepType)
 			{
 				case ProcedureStepType.If:
-					if (true)
+					if (ProcedureHelper.Compare(procedureStep, procedure, arguments))
 					{
-						foreach(var childStep in procedureStep.Children[0].Children)
+						if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
 						{
-							RunStep(childStep, procedure, arguments);
+							return false;
 						}
 					}
 					else
 					{
-						foreach (var childStep in procedureStep.Children[1].Children)
+						if (procedureStep.Children[1].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
 						{
-							RunStep(childStep, procedure, arguments);
+							return false;
 						}
 					}
 					break;
-				
+
 				case ProcedureStepType.Arithmetics:
 					ProcedureHelper.Calculate(procedureStep, procedure, arguments);
 					break;
 
 				case ProcedureStepType.Foreach:
-					while (true)
+					if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
 					{
-						foreach (var childStep in procedureStep.Children[0].Children)
-						{
-							RunStep(childStep, procedure, arguments);
-						}
+						return false;
 					}
 					break;
 
 				case ProcedureStepType.PlaySound:
 					var automationCallbackResult = new AutomationCallbackResult();
-					automationCallbackResult.SoundUID = Guid.Empty;
+					automationCallbackResult.SoundUID = procedureStep.SoundArguments.SoundUid;
 					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Sound;
 					Service.FiresecService.NotifyAutomation(automationCallbackResult);
+					break;
+
+				case ProcedureStepType.Pause:
+					Thread.Sleep(TimeSpan.FromSeconds(procedureStep.PauseArguments.Variable.Value));
 					break;
 
 				case ProcedureStepType.AddJournalItem:
@@ -97,7 +98,7 @@ namespace FiresecService.Processor
 
 				case ProcedureStepType.SendMessage:
 					automationCallbackResult = new AutomationCallbackResult();
-					automationCallbackResult.Message = "Запуск процедуры";
+					automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
 					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
 					Service.FiresecService.NotifyAutomation(automationCallbackResult);
 					break;
@@ -131,17 +132,29 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.ProcedureSelection:
-				{
-					foreach (var scheduleProcedure in procedureStep.ProcedureSelectionArguments.ScheduleProcedures)
 					{
-						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
-							FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
-						Run(childProcedure, scheduleProcedure.Arguments);
+						foreach (var scheduleProcedure in procedureStep.ProcedureSelectionArguments.ScheduleProcedures)
+						{
+							var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
+								FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
+							Run(childProcedure, scheduleProcedure.Arguments);
+						}
 					}
-				}
-				break;
-					
+					break;
+
+				case ProcedureStepType.IncrementGlobalValue:
+					ProcedureHelper.IncrementGlobalValue(procedureStep);
+					break;
+
+				case ProcedureStepType.SetGlobalValue:
+					ProcedureHelper.SetGlobalValue(procedureStep);
+					break;
+
+				case ProcedureStepType.Exit:
+					return false;
+
 			}
+			return true;
 		}
 	}
 }

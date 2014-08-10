@@ -17,7 +17,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_user = value;
-				OnPropertyChanged("User");
+				OnPropertyChanged(() => User);
 			}
 		}
 	}

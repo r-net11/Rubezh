@@ -44,7 +44,6 @@ namespace Firesec.Imitator.ViewModels
 				var device = Devices.FirstOrDefault(x => x.DeviceState == deviceState);
 				if (device != null)
 				{
-					device.OnPropertyChanged("StateType");
 				}
 			}
 		}
@@ -58,7 +57,7 @@ namespace Firesec.Imitator.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 

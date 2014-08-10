@@ -57,5 +57,10 @@ namespace FiresecAPI
 		OperationResult SaveScheduleZone(TimeIntervals.ScheduleZone item);
 		[OperationContract]
 		OperationResult MarkDeletedScheduleZone(Guid uid);
+
+		[OperationContract]
+		OperationResult<FiresecAPI.SKD.TimeTrackException> GetTimeTrackException(DateTime dateTime, Guid employeeUID);
+		[OperationContract]
+		OperationResult SaveTimeTrackException(FiresecAPI.SKD.TimeTrackException item);
 	}
 }

@@ -106,15 +106,17 @@ namespace FiresecAPI.SKD
 	{
 		[Description("Мужской")]
 		Male,
+
 		[Description("Женский")]
 		Female
 	}
 
 	public enum EmployeeDocumentType
 	{
-		[Description("Пасспорт РФ")]
+		[Description("Паспорт РФ")]
 		Passport,
-		[Description("Пасспорт иного государства")]
+
+		[Description("Паспорт иного государства")]
 		ForeignPassport,
 	}
 }

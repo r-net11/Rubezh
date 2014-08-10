@@ -135,6 +135,7 @@
     <Compile Include="Intervals\Common\CopyHelper.cs" />
     <Compile Include="Intervals\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="Intervals\Common\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="Intervals\Converters\TimeTrackTypeToColorConverter.cs" />
     <Compile Include="Intervals\Holidays\ViewModels\Comparers.cs" />
     <Compile Include="Intervals\Intervals\ViewModels\Comparers.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\Comparers.cs" />
@@ -272,7 +273,6 @@
     <Compile Include="Intervals\Holidays\Views\HolidayDetailsView.xaml.cs">
       <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Intervals\Converters\EmployeeSheduleTypeToStringConverter.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ZoneViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ScheduleDetailsViewModel.cs" />
     <Compile Include="Intervals\Shedules\ViewModels\ScheduleZoneViewModel.cs" />

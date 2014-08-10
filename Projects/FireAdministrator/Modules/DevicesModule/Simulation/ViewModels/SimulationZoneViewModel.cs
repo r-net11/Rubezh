@@ -36,7 +36,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_zoneState = value;
-				OnPropertyChanged("ZoneState");
+				OnPropertyChanged(() => ZoneState);
 			}
 		}
 

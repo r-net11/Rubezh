@@ -24,7 +24,8 @@
 						</DataGrid.Columns>
 					</DataGrid>
 				</Grid>
-                <CheckBox Grid.Row="1" Content="Контроль нарушений дисциплины в течение рабочего дня" IsChecked="{Binding IsControl, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Margin="2" />
+                <CheckBox Grid.Row="1" Content="Контроль нарушений дисциплины в течение рабочего дня" IsChecked="{Binding IsControl, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Margin="2"
+                    Visibility="Collapsed" />
 			</Grid>
 		</TabItem>
 	</TabControl>
