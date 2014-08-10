@@ -102,7 +102,7 @@ namespace SKDModule.ViewModels
 
 		public bool IsReductionEnabled
 		{
-			get { return HolidayType != HolidayType.Holiday; }
+			get { return HolidayType == HolidayType.BeforeHoliday; }
 		}
 		public bool IsTransferDateEnabled
 		{
@@ -116,11 +116,11 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Величина сокращения не может быть больше двух часов");
 				return false;
 			}
-			if (HolidayType == HolidayType.WorkingHoliday && Date.DayOfWeek != DayOfWeek.Saturday && Date.DayOfWeek != DayOfWeek.Sunday)
-			{
-				MessageBoxService.ShowWarning("Дата переноса устанавливается только на субботу или воскресенье");
-				return false;
-			}
+			//if (HolidayType == HolidayType.WorkingHoliday && Date.DayOfWeek != DayOfWeek.Saturday && Date.DayOfWeek != DayOfWeek.Sunday)
+			//{
+			//    MessageBoxService.ShowWarning("Дата переноса устанавливается только на субботу или воскресенье");
+			//    return false;
+			//}
 			Holiday.Name = Name;
 			Holiday.Date = Date;
 			Holiday.Type = HolidayType;

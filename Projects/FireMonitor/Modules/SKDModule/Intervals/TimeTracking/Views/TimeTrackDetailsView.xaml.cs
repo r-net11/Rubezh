@@ -24,7 +24,7 @@ namespace SKDModule.Views
 			public double Delta { get; set; }
 			public bool IsInterval { get; set; }
 			public string Tooltip { get; set; }
-			public TimeTrackType DayTrackDualIntervalPartType { get; set; }
+			public TimeTrackPartType DayTrackDualIntervalPartType { get; set; }
 		}
 
 		string TimePartDateToString(DateTime dateTime)
@@ -172,9 +172,9 @@ namespace SKDModule.Views
 
 					var endTimePart = new TimePart();
 					endTimePart.Delta = trackPart.EndTime.TotalSeconds - trackPart.StartTime.TotalSeconds;
-					endTimePart.IsInterval = trackPart.TimeTrackType != TimeTrackType.None;
-					endTimePart.Tooltip = TimePartDateToString(trackPart.EndTime) + " - " + TimePartDateToString(trackPart.StartTime) + " " + trackPart.TimeTrackType.ToDescription();
-					endTimePart.DayTrackDualIntervalPartType = trackPart.TimeTrackType;
+					endTimePart.IsInterval = trackPart.TimeTrackPartType != TimeTrackPartType.None;
+					endTimePart.Tooltip = TimePartDateToString(trackPart.EndTime) + " - " + TimePartDateToString(trackPart.StartTime) + " " + trackPart.TimeTrackPartType.ToDescription();
+					endTimePart.DayTrackDualIntervalPartType = trackPart.TimeTrackPartType;
 					timeParts.Add(endTimePart);
 
 					current = trackPart.EndTime.TotalSeconds;
@@ -198,20 +198,24 @@ namespace SKDModule.Views
 							rectangle.ToolTip = timePart.Tooltip;
 							switch (timePart.DayTrackDualIntervalPartType)
 							{
-								case TimeTrackType.PlanedOnly:
+								case TimeTrackPartType.PlanedOnly:
 									rectangle.Fill = new SolidColorBrush(Colors.Red);
 									break;
 
-								case TimeTrackType.MissedButInsidePlan:
+								case TimeTrackPartType.MissedButInsidePlan:
 									rectangle.Fill = new SolidColorBrush(Colors.LightYellow);
 									break;
 
-								case TimeTrackType.AsPlanned:
+								case TimeTrackPartType.AsPlanned:
 									rectangle.Fill = new SolidColorBrush(Colors.Green);
 									break;
 
-								case TimeTrackType.RealOnly:
+								case TimeTrackPartType.RealOnly:
 									rectangle.Fill = new SolidColorBrush(Colors.Yellow);
+									break;
+
+								case TimeTrackPartType.InBrerak:
+									rectangle.Fill = new SolidColorBrush(Colors.Aqua);
 									break;
 							}
 							rectangle.Stroke = new SolidColorBrush(Colors.Black);

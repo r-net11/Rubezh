@@ -28,7 +28,7 @@ namespace SKDModule.ViewModels
 			foreach (var dayTimeTrack in dayTimeTracks)
 			{
 				totalTimeSpan = totalTimeSpan.Add(dayTimeTrack.Total);
-				totalMissTimeSpan = totalMissTimeSpan.Add(dayTimeTrack.TotalMiss);
+				totalMissTimeSpan = totalMissTimeSpan.Add(dayTimeTrack.TotalMissed);
 				totalInScheduleTimeSpan = totalInScheduleTimeSpan.Add(dayTimeTrack.TotalInSchedule);
 				totalOutScheduleTimeSpan = totalOutScheduleTimeSpan.Add(dayTimeTrack.TotalOutSchedule);
 			}

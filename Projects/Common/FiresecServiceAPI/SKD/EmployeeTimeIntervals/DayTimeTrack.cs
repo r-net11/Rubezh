@@ -49,6 +49,8 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public int HolidayReduction { get; set; }
 
+		[DataMember]
+		public TimeTrackType TimeTrackType { get; set; }
 
 
 
@@ -56,13 +58,16 @@ namespace FiresecAPI.SKD
 		public TimeSpan Total { get; set; }
 
 		[DataMember]
-		public TimeSpan TotalMiss { get; set; }
+		public TimeSpan TotalMissed { get; set; }
 
 		[DataMember]
 		public TimeSpan TotalInSchedule { get; set; }
 
 		[DataMember]
 		public TimeSpan TotalOutSchedule { get; set; }
+
+		[DataMember]
+		public TimeSpan TotalLate { get; set; }
 
 		[DataMember]
 		public string Error { get; set; }
@@ -98,89 +103,95 @@ namespace FiresecAPI.SKD
 
 				if (hasRealTimeTrack && hasPlannedTimeTrack)
 				{
-					timeTrackPart.TimeTrackType = TimeTrackType.AsPlanned;
+					timeTrackPart.TimeTrackPartType = TimeTrackPartType.AsPlanned;
 				}
 				if (!hasRealTimeTrack && !hasPlannedTimeTrack)
 				{
-					timeTrackPart.TimeTrackType = TimeTrackType.None;
+					timeTrackPart.TimeTrackPartType = TimeTrackPartType.None;
 				}
 				if (hasRealTimeTrack && !hasPlannedTimeTrack)
 				{
-					timeTrackPart.TimeTrackType = TimeTrackType.RealOnly;
+					timeTrackPart.TimeTrackPartType = TimeTrackPartType.RealOnly;
+					if( i > 0 && i < timeSpans.Count - 2)
+						timeTrackPart.TimeTrackPartType = TimeTrackPartType.InBrerak;
 				}
 				if (!hasRealTimeTrack && hasPlannedTimeTrack)
 				{
-					timeTrackPart.TimeTrackType = TimeTrackType.PlanedOnly;
+					timeTrackPart.TimeTrackPartType = TimeTrackPartType.PlanedOnly;
 
 					if (RealTimeTrackParts.Any(x => x.StartTime < startTime) && IsOnlyFirstEnter)
 					{
-						timeTrackPart.TimeTrackType = TimeTrackType.MissedButInsidePlan;
+						timeTrackPart.TimeTrackPartType = TimeTrackPartType.MissedButInsidePlan;
 					}
 				}
 			}
 
 			Total = new TimeSpan();
 			TotalInSchedule = new TimeSpan();
-			TotalMiss = new TimeSpan();
+			TotalMissed = new TimeSpan();
+			TotalLate = new TimeSpan();
 			TotalOutSchedule = new TimeSpan();
 			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
-				if (timeTrack.TimeTrackType == TimeTrackType.AsPlanned || timeTrack.TimeTrackType == TimeTrackType.RealOnly || timeTrack.TimeTrackType == TimeTrackType.MissedButInsidePlan)
+				if (timeTrack.TimeTrackPartType == TimeTrackPartType.AsPlanned || timeTrack.TimeTrackPartType == TimeTrackPartType.RealOnly || timeTrack.TimeTrackPartType == TimeTrackPartType.MissedButInsidePlan)
 				{
 					Total += timeTrack.Delta;
 				}
-				if (timeTrack.TimeTrackType == TimeTrackType.AsPlanned || timeTrack.TimeTrackType == TimeTrackType.MissedButInsidePlan)
+				if (timeTrack.TimeTrackPartType == TimeTrackPartType.AsPlanned || timeTrack.TimeTrackPartType == TimeTrackPartType.MissedButInsidePlan)
 				{
 					TotalInSchedule += timeTrack.Delta;
 				}
-				if (timeTrack.TimeTrackType == TimeTrackType.PlanedOnly)
+				if (timeTrack.TimeTrackPartType == TimeTrackPartType.PlanedOnly)
 				{
-					TotalMiss += timeTrack.Delta;
+					TotalMissed += timeTrack.Delta;
+					if (CombinedTimeTrackParts.IndexOf(timeTrack) == 0)
+						TotalLate = timeTrack.Delta;
 				}
-				if (timeTrack.TimeTrackType == TimeTrackType.RealOnly)
+				if (timeTrack.TimeTrackPartType == TimeTrackPartType.RealOnly)
 				{
 					TotalOutSchedule += timeTrack.Delta;
 				}
 			}
-		}
-	}
 
-	public enum TimeTrackType
-	{
-		[Description("Нет")]
-		None,
+			if (IsHoliday)
+			{
+				TotalInSchedule = new TimeSpan();
+				TotalMissed = new TimeSpan();
+				TotalLate = new TimeSpan();
+				TotalOutSchedule = new TimeSpan();
+			}
 
-		[Description("Пропуск")]
-		PlanedOnly,
-
-		[Description("Работа вне графика")]
-		RealOnly,
-
-		[Description("Работа по графику")]
-		AsPlanned,
-
-		[Description("В рамках графика с уходом")]
-		MissedButInsidePlan,
-	}
-
-	[DataContract]
-	public class TimeTrackPart
-	{
-		[DataMember]
-		public TimeSpan StartTime { get; set; }
-
-		[DataMember]
-		public TimeSpan EndTime { get; set; }
-
-		[DataMember]
-		public Guid ZoneUID { get; set; }
-
-		[DataMember]
-		public TimeTrackType TimeTrackType { get; set; }
-
-		public TimeSpan Delta
-		{
-			get { return EndTime - StartTime; }
+			if (!string.IsNullOrEmpty(Error))
+			{
+				TimeTrackType = TimeTrackType.None;
+				return;
+			}
+			if (IsHoliday)
+			{
+				TimeTrackType = TimeTrackType.Holiday;
+				return;
+			}
+			if (PlannedTimeTrackParts.Count == 0)
+			{
+				TimeTrackType = TimeTrackType.DayOff;
+				return;
+			}
+			if (Total.TotalSeconds == 0)
+			{
+				TimeTrackType = TimeTrackType.Missed;
+				return;
+			}
+			if (TotalLate.TotalSeconds > 0)
+			{
+				TimeTrackType = TimeTrackType.Late;
+				return;
+			}
+			if (TotalOutSchedule.TotalSeconds > 0)
+			{
+				TimeTrackType = TimeTrackType.OutShedule;
+				return;
+			}
+			TimeTrackType = TimeTrackType.AsPlanned;
 		}
 	}
 }

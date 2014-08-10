@@ -375,7 +375,9 @@ namespace SKDDriver
 			switch (scheduleSchemeType)
 			{
 				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.Week:
-					dayNo = (int)date.DayOfWeek;
+					dayNo = (int)date.DayOfWeek - 1;
+					if (dayNo == -1)
+						dayNo = 6;
 					break;
 				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.SlideDay:
 					var daysCount = days.Count();
@@ -389,10 +391,15 @@ namespace SKDDriver
 			var day = days.FirstOrDefault(x => x.Number == dayNo);
 			if (day == null)
 				return new DayTimeTrack("Не найден день");
-			var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID);
-			if (namedInterval == null)
-				return new DayTimeTrack("Не найден именованный интервал");
-			var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID);
+
+			List<DataAccess.Interval> intervals = new List<DataAccess.Interval>();
+			if (day.NamedIntervalUID != null)
+			{
+				var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID);
+				if (namedInterval == null)
+					return new DayTimeTrack("Не найден именованный интервал");
+				intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID).ToList();
+			}
 			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).ToList();
 
 			var dayTimeTrack = new DayTimeTrack();
@@ -400,21 +407,52 @@ namespace SKDDriver
 			dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 			dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
 
-			var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type != 2);
-			if (holiday != null)
+			if (!schedule.IsIgnoreHoliday)
 			{
-				dayTimeTrack.IsHoliday = true;
-				dayTimeTrack.HolidayReduction = holiday.Reduction;
+				var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID);
+				if (holiday != null)
+				{
+					dayTimeTrack.IsHoliday = true;
+				}
+				holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID);
+				if (holiday != null)
+				{
+					dayTimeTrack.HolidayReduction = holiday.Reduction;
+				}
+				holiday = Context.Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID);
+				if (holiday != null)
+				{
+					dayTimeTrack.IsHoliday = true;
+				}
 			}
 
-			foreach (var tableInterval in intervals)
+			if (!dayTimeTrack.IsHoliday)
 			{
-				var timeTrackPart = new TimeTrackPart();
-				timeTrackPart.StartTime = new TimeSpan(Math.BigMul(tableInterval.BeginTime, 10000000));
-				timeTrackPart.EndTime = new TimeSpan(Math.BigMul(tableInterval.EndTime, 10000000));
-				dayTimeTrack.PlannedTimeTrackParts.Add(timeTrackPart);
+				foreach (var tableInterval in intervals)
+				{
+					var timeTrackPart = new TimeTrackPart();
+					timeTrackPart.StartTime = new TimeSpan(Math.BigMul(tableInterval.BeginTime, 10000000));
+					timeTrackPart.EndTime = new TimeSpan(Math.BigMul(tableInterval.EndTime, 10000000));
+					dayTimeTrack.PlannedTimeTrackParts.Add(timeTrackPart);
+				}
+				dayTimeTrack.PlannedTimeTrackParts = dayTimeTrack.PlannedTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
 			}
-			dayTimeTrack.PlannedTimeTrackParts = dayTimeTrack.PlannedTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
+			if (dayTimeTrack.HolidayReduction > 0)
+			{
+				var reductionTimeSpan = new TimeSpan(Math.BigMul(dayTimeTrack.HolidayReduction, 10000000));
+				var lastTimeTrack = dayTimeTrack.PlannedTimeTrackParts.LastOrDefault();
+				if (lastTimeTrack != null)
+				{
+					if (lastTimeTrack.Delta.TotalHours > reductionTimeSpan.TotalHours)
+					{
+						lastTimeTrack.EndTime = lastTimeTrack.EndTime.Subtract(reductionTimeSpan);
+					}
+					else
+					{
+						dayTimeTrack.PlannedTimeTrackParts.Remove(lastTimeTrack);
+					}
+				}
+			}
 
 			foreach (var passJournal in passJournals)
 			{
@@ -433,6 +471,12 @@ namespace SKDDriver
 				}
 			}
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
+
+			var timeTrackException = Context.TimeTrackExceptions.FirstOrDefault(x => x.EmployeeUID == employee.UID && x.StartDateTime <= date && x.EndDateTime >= date);
+			if (timeTrackException != null)
+			{
+
+			}
 
 			return dayTimeTrack;
 		}

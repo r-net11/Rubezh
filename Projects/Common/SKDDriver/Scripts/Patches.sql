@@ -58,7 +58,7 @@ BEGIN
 		NOT FOR REPLICATION 
 		ALTER TABLE [dbo].[GuardZone] NOCHECK CONSTRAINT [FK_GuardZone_AccessTemplate]
 	END
-	INSERT INTO Patches (Id) VALUES ('GuardZone')	
+	INSERT INTO Patches (Id) VALUES ('GuardZone')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Doors')
@@ -581,5 +581,29 @@ BEGIN
 		ALTER TABLE Card ADD UserTime int default 0 NOT NULL
 	END
 	INSERT INTO Patches (Id) VALUES ('Card_UserTime')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'TimeTrackExceptions')
+BEGIN
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'TimeTrackException')
+	BEGIN
+		CREATE TABLE [dbo].[TimeTrackException](
+			[UID] [uniqueidentifier] NOT NULL,
+			[EmployeeUID] [uniqueidentifier] NOT NULL,
+			[StartDateTime] [datetime] NOT NULL,
+			[EndDateTime] [datetime] NOT NULL,
+			[DocumentType] [int] NOT NULL,
+			[Comment] nvarchar(100) NULL,
+		 CONSTRAINT [PK_TimeTrackException] PRIMARY KEY CLUSTERED 
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		
+		ALTER TABLE [dbo].[TimeTrackException]  WITH NOCHECK ADD  CONSTRAINT [FK_TimeTrackException_Employee] FOREIGN KEY([EmployeeUID])
+		REFERENCES [dbo].[Employee] ([Uid])
+		NOT FOR REPLICATION 
+	END
+	INSERT INTO Patches (Id) VALUES ('TimeTrackExceptions')	
 END
 GO

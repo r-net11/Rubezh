@@ -30,16 +30,17 @@ namespace SKDModule.ViewModels
 		public void Update(Holiday holiday)
 		{
 			Name = holiday.Name;
-			//Description = namedInterval.Description;
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => Description);
+			OnPropertyChanged(() => ReductionTime);
+			OnPropertyChanged(() => TransitionDate);
 		}
 
 		public string ReductionTime
 		{
 			get
 			{
-				if (Holiday != null && Holiday.Type != HolidayType.Holiday)
+				if (Holiday != null && Holiday.Type == HolidayType.BeforeHoliday)
 					return Holiday.Reduction.ToString("hh\\-mm");
 				return null;
 			}

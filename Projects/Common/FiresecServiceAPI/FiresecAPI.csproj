@@ -221,8 +221,11 @@
     <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
-    <Compile Include="SKD\Employee\DayTimeTrack.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\DayTimeTrack.cs" />
     <Compile Include="Journal\JournalObjectType.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\TimeTrackPart.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\TimeTrackPartType.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\TimeTrackType.cs" />
     <Compile Include="SKD\Settings\GlobalSettings.cs" />
     <Compile Include="Models\Automation\AutomationConfiguration.cs" />
     <Compile Include="Models\Automation\AutomationSound.cs" />
