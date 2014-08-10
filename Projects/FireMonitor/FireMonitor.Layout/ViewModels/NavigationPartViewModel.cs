@@ -23,6 +23,7 @@ namespace FireMonitor.Layout.ViewModels
 				if (properties.Contains(e.PropertyName))
 					OnPropertyChanged(e.PropertyName);
 			};
+			OnPropertyChanged(() => NavigationItems);
 		}
 
 		public ReadOnlyCollection<NavigationItem> NavigationItems

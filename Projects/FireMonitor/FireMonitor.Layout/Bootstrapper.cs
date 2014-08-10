@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Shell = FireMonitor;
+using Infrastructure.Events;
 
 namespace FireMonitor.Layout
 {
@@ -28,7 +29,8 @@ namespace FireMonitor.Layout
 			var result = GetLayout();
 			if (!result)
 				return false;
-			SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Unsubscribe(OnUserChanged);
+			ServiceFactory.Events.GetEvent<UserChangedEvent>().Subscribe(OnUserChanged);
 			return base.Run();
 		}
 		protected override ShellViewModel CreateShell()
@@ -46,20 +48,32 @@ namespace FireMonitor.Layout
 			Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			return viewModel.SelectedLayout;
 		}
-
-		private void OnConfigurationChanged()
+		private void UpdateLayout()
 		{
 			try
 			{
 				var result = GetLayout();
 				if (result && _monitorLayoutShellViewModel != null)
 					_monitorLayoutShellViewModel.UpdateLayout(_layout);
+				else
+					ApplicationService.ShutDown();
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "FireMonitor.Layout.Bootstrapper.OnConfigurationChanged");
 			}
 		}
+
+		protected override void OnConfigurationChanged()
+		{
+			base.OnConfigurationChanged();
+			UpdateLayout();
+		}
+		private void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
+		{
+			UpdateLayout();
+		}
+
 		private bool GetLayout()
 		{
 			_layout = null;

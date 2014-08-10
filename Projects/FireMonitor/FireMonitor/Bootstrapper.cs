@@ -117,7 +117,7 @@ namespace FireMonitor
 
 		bool IsRestarting = false;
 
-		private void OnConfigurationChanged()
+		protected virtual void OnConfigurationChanged()
 		{
 			try
 			{

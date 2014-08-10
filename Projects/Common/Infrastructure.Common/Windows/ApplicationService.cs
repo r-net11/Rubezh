@@ -26,11 +26,14 @@ namespace Infrastructure.Common.Windows
 		public static ReadOnlyCollection<IModule> Modules { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 		public static ShellViewModel Shell { get; private set; }
+		public static bool IsShuttingDown { get; private set; }
 
 		static ApplicationService()
 		{
+			IsShuttingDown = false;
 			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
 			{
+				IsShuttingDown = true;
 				if (ShuttingDown != null)
 					ShuttingDown();
 			};
@@ -111,6 +114,7 @@ namespace Infrastructure.Common.Windows
 		{
 			Invoke(() =>
 				{
+					IsShuttingDown = true;
 					if (Application.Current.MainWindow != null)
 						Application.Current.MainWindow.Close();
 					else

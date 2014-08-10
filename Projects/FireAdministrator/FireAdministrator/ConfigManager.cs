@@ -73,7 +73,8 @@ namespace FireAdministrator
 						ServiceFactory.SaveService.FSParametersChanged ||
 						ServiceFactory.SaveService.PlansChanged ||
 						ServiceFactory.SaveService.GKChanged ||
-						ServiceFactory.SaveService.SKDChanged)
+						ServiceFactory.SaveService.SKDChanged ||
+						ServiceFactory.SaveService.LayoutsChanged)
 						FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
 				});
 				LoadingService.Close();
