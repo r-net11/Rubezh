@@ -49,14 +49,14 @@
 					<DataGridTemplateColumn Width="*" Header="Начало">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Path=StartTime, StringFormat=HH-mm}" />
+								<TextBlock Text="{Binding Path=StartTime}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
 					<DataGridTemplateColumn Width="*" Header="Конец">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Path=EndTime, StringFormat=HH-mm}" />
+								<TextBlock Text="{Binding Path=EndTime}" />
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

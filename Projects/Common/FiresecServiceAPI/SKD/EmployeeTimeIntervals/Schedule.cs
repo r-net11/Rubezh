@@ -26,6 +26,12 @@ namespace FiresecAPI.EmployeeTimeIntervals
 		public bool IsOnlyFirstEnter { get; set; }
 
 		[DataMember]
+		public TimeSpan AllowedLate { get; set; }
+
+		[DataMember]
+		public TimeSpan AllowedEarlyLeave { get; set; }
+
+		[DataMember]
 		public List<ScheduleZone> Zones { get; set; }
 	}
 }

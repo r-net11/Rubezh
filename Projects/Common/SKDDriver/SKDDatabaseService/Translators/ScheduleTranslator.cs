@@ -41,6 +41,8 @@ namespace SKDDriver.Translators
 			result.ScheduleSchemeUID = tableItem.ScheduleSchemeUID.HasValue ? tableItem.ScheduleSchemeUID.Value : Guid.Empty;
 			result.IsIgnoreHoliday = tableItem.IsIgnoreHoliday;
 			result.IsOnlyFirstEnter = tableItem.IsOnlyFirstEnter;
+			result.AllowedLate = TimeSpan.FromSeconds(tableItem.AllowedLate);
+			result.AllowedEarlyLeave = TimeSpan.FromSeconds(tableItem.AllowedEarlyLeave);
 			result.Zones = _scheduleZoneTranslator.TranslateAll(tableItem.ScheduleZones.Where(item => !item.IsDeleted));
 			return result;
 		}
@@ -61,6 +63,8 @@ namespace SKDDriver.Translators
 			tableItem.Name = apiItem.Name;
 			tableItem.IsIgnoreHoliday = apiItem.IsIgnoreHoliday;
 			tableItem.IsOnlyFirstEnter = apiItem.IsOnlyFirstEnter;
+			tableItem.AllowedLate = (int)apiItem.AllowedLate.TotalSeconds;
+			tableItem.AllowedEarlyLeave = (int)apiItem.AllowedEarlyLeave.TotalSeconds;
 			if (scheduleScheme == null && apiItem.ScheduleSchemeUID != Guid.Empty)
 				tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID;
 			else

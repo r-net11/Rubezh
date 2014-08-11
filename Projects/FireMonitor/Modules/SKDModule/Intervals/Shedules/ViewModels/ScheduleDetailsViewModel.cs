@@ -32,6 +32,8 @@ namespace SKDModule.ViewModels
 			Name = Schedule.Name;
 			IsIgnoreHoliday = Schedule.IsIgnoreHoliday;
 			IsOnlyFirstEnter = Schedule.IsOnlyFirstEnter;
+			AllowedLate = Schedule.AllowedLate;
+			AllowedEarlyLeave = Schedule.AllowedEarlyLeave;
 			AvailableScheduleTypes = new ObservableCollection<ScheduleSchemeType>(Enum.GetValues(typeof(ScheduleSchemeType)).OfType<ScheduleSchemeType>());
 			_schemes = ScheduleSchemaHelper.Get(new ScheduleSchemeFilter()
 			{
@@ -77,6 +79,28 @@ namespace SKDModule.ViewModels
 			{
 				_isOnlyFirstEnter = value;
 				OnPropertyChanged(() => IsOnlyFirstEnter);
+			}
+		}
+
+		TimeSpan _allowedLate;
+		public TimeSpan AllowedLate
+		{
+			get { return _allowedLate; }
+			set
+			{
+				_allowedLate = value;
+				OnPropertyChanged(() => AllowedLate);
+			}
+		}
+
+		TimeSpan _allowedEarlyLeave;
+		public TimeSpan AllowedEarlyLeave
+		{
+			get { return _allowedEarlyLeave; }
+			set
+			{
+				_allowedEarlyLeave = value;
+				OnPropertyChanged(() => AllowedEarlyLeave);
 			}
 		}
 
@@ -127,9 +151,10 @@ namespace SKDModule.ViewModels
 			Schedule.Name = Name;
 			Schedule.IsIgnoreHoliday = IsIgnoreHoliday;
 			Schedule.IsOnlyFirstEnter = IsOnlyFirstEnter;
+			Schedule.AllowedLate = AllowedLate;
+			Schedule.AllowedEarlyLeave = AllowedEarlyLeave;
 			Schedule.ScheduleSchemeUID = SelectedScheduleScheme == null ? Guid.Empty : SelectedScheduleScheme.UID;
 			return ScheduleHelper.Save(Schedule);
-			;
 		}
 	}
 }

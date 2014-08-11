@@ -1,11 +1,14 @@
 ﻿using System.Linq;
 using Common;
+using FiresecAPI;
 using FiresecAPI.EmployeeTimeIntervals;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using System;
 
 namespace SKDModule.ViewModels
 {
@@ -56,16 +59,33 @@ namespace SKDModule.ViewModels
 		public void Update()
 		{
 			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
+			OnPropertyChanged(() => Scheme);
 		}
 
 		public string Name
 		{
 			get { return IsOrganisation ? Organisation.Name : Schedule.Name; }
 		}
-		public string Description
+		public string Scheme
 		{
-			get { return IsOrganisation ? Organisation.Description : string.Empty; }
+			get
+			{
+				if (!IsOrganisation)
+				{
+					var schemes = ScheduleSchemaHelper.Get(new ScheduleSchemeFilter()
+					{
+						OrganisationUIDs = new List<Guid>() { Organisation.UID },
+						Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
+						WithDays = false,
+					});
+					var scheme = schemes.FirstOrDefault(item => item.UID == Schedule.ScheduleSchemeUID);
+					if (scheme != null)
+					{
+						return scheme.Name + " (" + scheme.Type.ToDescription() + ")";
+					}
+				}
+				return null;
+			}
 		}
 
 		public SortableObservableCollection<ScheduleZoneViewModel> ScheduleZones { get; private set; }
