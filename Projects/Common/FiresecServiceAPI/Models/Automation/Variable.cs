@@ -13,9 +13,12 @@ namespace FiresecAPI.Automation
 			Uid = Guid.NewGuid();
 			DateTimeValue = DateTime.Now;
 			IntValue = 0;
-			ObjectType = ObjectType.Card;
 			StringValue = "";
 			ObjectsUids = new List<Guid>();
+			BoolValues = new List<bool>();
+			DateTimeValues = new List<DateTime>();
+			IntValues = new List<int>();
+			StringValues = new List<string>();
 		}
 
 		public Variable(Variable variable)
@@ -33,10 +36,14 @@ namespace FiresecAPI.Automation
 			IntValue = variable.IntValue;
 			ObjectType = variable.ObjectType;
 			StringValue = variable.StringValue;
+			BoolValues = variable.BoolValues;
+			DateTimeValues = variable.DateTimeValues;
+			IntValues = variable.IntValues;
+			StringValues = variable.StringValues;
 			VariableType = variable.VariableType;
 			IsList = variable.IsList;
 			ObjectsUids = variable.ObjectsUids;
-			Items = new List<object>();
+			ObjectUid = variable.ObjectUid;
 		}
 
 		[DataMember]
@@ -49,19 +56,25 @@ namespace FiresecAPI.Automation
 		public string Description { get; set; }
 
 		[DataMember]
+		public List<bool> BoolValues { get; set; }
+
+		[DataMember]
 		public bool BoolValue { get; set; }
 
+		[DataMember]
+		public List<DateTime> DateTimeValues { get; set; }
+		
 		[DataMember]
 		public DateTime DateTimeValue { get; set; }
 
 		[DataMember]
-		public int IntValue { get; set; }
+		public List<int> IntValues { get; set; }
 		
 		[DataMember]
-		public ObjectType ObjectType { get; set; }
+		public int IntValue { get; set; }
 
 		[DataMember]
-		public List<object> Items { get; set; }
+		public List<string> StringValues { get; set; }
 
 		[DataMember]
 		public string StringValue { get; set; }
@@ -73,6 +86,12 @@ namespace FiresecAPI.Automation
 		public VariableType VariableType { get; set; }
 
 		[DataMember]
+		public ObjectType ObjectType { get; set; }
+
+		[DataMember]
 		public List<Guid> ObjectsUids { get; set; }
+
+		[DataMember]
+		public Guid ObjectUid { get; set; }
 	}
 }

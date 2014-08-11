@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
@@ -9,11 +12,13 @@ namespace AutomationModule.ViewModels
 	{
 		SendMessageArguments SendMessageArguments { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
-
-		public SendMessageStepViewModel(SendMessageArguments sendMessageArguments, Action updateDescriptionHandler)
+		Procedure Procedure { get; set; }
+		public SendMessageStepViewModel(SendMessageArguments sendMessageArguments, Procedure procedure, Action updateDescriptionHandler)
 		{
 			SendMessageArguments = sendMessageArguments;
 			UpdateDescriptionHandler = updateDescriptionHandler;
+			Procedure = procedure;
+			UpdateContent();
 		}
 
 		public string Message
@@ -29,9 +34,45 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<ValueType> ValueTypes { get; private set; }
+		public ValueType SelectedValueType
+		{
+			get { return SendMessageArguments.ValueType; }
+			set
+			{
+				SendMessageArguments.ValueType = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => SelectedValueType);
+			}
+		}
+
+		public ObservableCollection<VariableViewModel> Variables { get; private set; }
+		private VariableViewModel _selectedVariable;
+		public VariableViewModel SelectedVariable
+		{
+			get { return _selectedVariable; }
+			set
+			{
+				_selectedVariable = value;
+				if (value != null)
+					SendMessageArguments.VariableUid = value.Variable.Uid;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => SelectedVariable);
+			}
+		}
+
 		public void UpdateContent()
 		{
-			
+			Variables = new ObservableCollection<VariableViewModel>();
+			var variablesAndArguments = new List<Variable>(Procedure.Variables);
+			variablesAndArguments.AddRange(Procedure.Arguments);
+			foreach (var variable in variablesAndArguments.FindAll(x => ((x.VariableType == VariableType.String))))
+			{
+				var variableViewModel = new VariableViewModel(variable);
+				Variables.Add(variableViewModel);
+			}
+			ValueTypes = new ObservableCollection<ValueType> { ValueType.IsLocalVariable, ValueType.IsValue };
+			SelectedValueType = SendMessageArguments.ValueType;
 		}
 
 		public string Description

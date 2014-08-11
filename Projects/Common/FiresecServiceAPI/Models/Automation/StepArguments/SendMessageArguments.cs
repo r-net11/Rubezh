@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
@@ -11,5 +12,11 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public string Message { get; set; }
+
+		[DataMember]
+		public Guid VariableUid { get; set; }
+		
+		[DataMember]
+		public ValueType ValueType { get; set; }
 	}
 }
