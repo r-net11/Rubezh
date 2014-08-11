@@ -13,6 +13,9 @@ namespace SKDModule.ViewModels
 		public TimeTrackViewModel(ShortEmployee shortEmployee, List<DayTimeTrack> dayTimeTracks)
 		{
 			ShortEmployee = shortEmployee;
+			if (dayTimeTracks == null)
+				dayTimeTracks = new List<DayTimeTrack>();
+
 			DayTracks = new ObservableCollection<DayTrackViewModel>();
 			foreach (var dayTimeTrack in dayTimeTracks)
 			{

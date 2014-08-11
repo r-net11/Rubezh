@@ -89,6 +89,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SKDDatabaseService\Translators\TimeTrackExceptionTranslator.cs" />
+    <Compile Include="SKDDatabaseService\Translators\TimeTrackTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

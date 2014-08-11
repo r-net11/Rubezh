@@ -17,20 +17,14 @@ namespace SKDModule.ViewModels
 			get
 			{
 				var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == Model.ZoneUID);
-				return zone == null ? null : zone.Name;
+				return zone == null ? "<Нет в конфигурации>" : zone.Name;
 			}
-		}
-
-		public bool IsControl
-		{
-			get { return Model.IsControl; }
 		}
 
 		public override void Update()
 		{
 			base.Update();
 			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => IsControl);
 		}
 	}
 }

@@ -44,7 +44,10 @@ namespace FiresecAPI.SKD
 		public bool IsOnlyFirstEnter { get; set; }
 
 		[DataMember]
-		public bool IsControl { get; set; }
+		public TimeSpan AllowedLate { get; set; }
+
+		[DataMember]
+		public TimeSpan AllowedEarlyLeave { get; set; }
 
 		[DataMember]
 		public bool IsHoliday { get; set; }
@@ -74,6 +77,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public TimeSpan TotalLate { get; set; }
+
+		[DataMember]
+		public TimeSpan TotalEarlyLeave { get; set; }
 
 		[DataMember]
 		public TimeSpan TotalPlanned { get; set; }
@@ -145,6 +151,7 @@ namespace FiresecAPI.SKD
 			TotalInSchedule = new TimeSpan();
 			TotalMissed = new TimeSpan();
 			TotalLate = new TimeSpan();
+			TotalEarlyLeave = new TimeSpan();
 			TotalOutSchedule = new TimeSpan();
 			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
@@ -160,7 +167,19 @@ namespace FiresecAPI.SKD
 				{
 					TotalMissed += timeTrack.Delta;
 					if (CombinedTimeTrackParts.IndexOf(timeTrack) == 0)
-						TotalLate = timeTrack.Delta;
+					{
+						if (timeTrack.Delta > AllowedLate)
+						{
+							TotalLate = timeTrack.Delta;
+						}
+					}
+					if (CombinedTimeTrackParts.IndexOf(timeTrack) == CombinedTimeTrackParts.Count - 1)
+					{
+						if (timeTrack.Delta > AllowedEarlyLeave)
+						{
+							TotalEarlyLeave = timeTrack.Delta;
+						}
+					}
 				}
 				if (timeTrack.TimeTrackPartType == TimeTrackPartType.RealOnly)
 				{
@@ -173,6 +192,7 @@ namespace FiresecAPI.SKD
 				TotalInSchedule = new TimeSpan();
 				TotalMissed = new TimeSpan();
 				TotalLate = new TimeSpan();
+				TotalEarlyLeave = new TimeSpan();
 				TotalOutSchedule = new TimeSpan();
 			}
 
@@ -188,6 +208,7 @@ namespace FiresecAPI.SKD
 				TotalInSchedule = TotalPlanned;
 				TotalMissed = new TimeSpan();
 				TotalLate = new TimeSpan();
+				TotalEarlyLeave = new TimeSpan();
 				TotalOutSchedule = new TimeSpan();
 				return;
 			}
@@ -198,6 +219,7 @@ namespace FiresecAPI.SKD
 				TotalInSchedule = TotalPlanned;
 				TotalMissed = new TimeSpan();
 				TotalLate = new TimeSpan();
+				TotalEarlyLeave = new TimeSpan();
 				TotalOutSchedule = new TimeSpan();
 				return;
 			}
@@ -208,6 +230,7 @@ namespace FiresecAPI.SKD
 				TotalInSchedule = TotalPlanned;
 				TotalMissed = new TimeSpan();
 				TotalLate = new TimeSpan();
+				TotalEarlyLeave = new TimeSpan();
 				TotalOutSchedule = new TimeSpan();
 				return;
 			}
@@ -229,6 +252,11 @@ namespace FiresecAPI.SKD
 			if (TotalLate.TotalSeconds > 0)
 			{
 				TimeTrackType = TimeTrackType.Late;
+				return;
+			}
+			if (TotalEarlyLeave.TotalSeconds > 0)
+			{
+				TimeTrackType = TimeTrackType.EarlyLeave;
 				return;
 			}
 			if (TotalOutSchedule.TotalSeconds > 0)

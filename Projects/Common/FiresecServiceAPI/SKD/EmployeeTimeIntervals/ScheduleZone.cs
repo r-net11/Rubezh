@@ -16,8 +16,5 @@ namespace FiresecAPI.EmployeeTimeIntervals
 
 		[DataMember]
 		public Guid ZoneUID { get; set; }
-
-		[DataMember]
-		public bool IsControl { get; set; }
 	}
 }

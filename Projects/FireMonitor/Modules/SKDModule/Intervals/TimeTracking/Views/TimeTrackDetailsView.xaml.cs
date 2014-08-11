@@ -35,7 +35,7 @@ namespace SKDModule.Views
 
 		string TimePartDateToString(TimeSpan timeSpan)
 		{
-			var result = timeSpan.Hours.ToString() + ":" + timeSpan.Minutes.ToString() + ":" + timeSpan.Seconds.ToString();
+			var result = timeSpan.Hours.ToString("00") + ":" + timeSpan.Minutes.ToString("00") + ":" + timeSpan.Seconds.ToString("00");
 			return result;
 		}
 

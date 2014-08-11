@@ -35,7 +35,6 @@ namespace SKDDriver.Translators
 			var apiItem = base.Translate(tableItem);
 			apiItem.ScheduleUID = tableItem.ScheduleUID;
 			apiItem.ZoneUID = tableItem.ZoneUID;
-			apiItem.IsControl = tableItem.IsControl;
 			return apiItem;
 		}
 		protected override void TranslateBack(DataAccess.ScheduleZone tableItem, ScheduleZone apiItem)
@@ -47,7 +46,6 @@ namespace SKDDriver.Translators
 			else
 				tableItem.Schedule = schedule;
 			tableItem.ZoneUID = apiItem.ZoneUID;
-			tableItem.IsControl = apiItem.IsControl;
 		}
 
 		public List<ScheduleZone> TranslateAll(IEnumerable<DataAccess.ScheduleZone> list)

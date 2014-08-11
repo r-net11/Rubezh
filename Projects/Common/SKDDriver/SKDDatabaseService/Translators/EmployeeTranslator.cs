@@ -310,21 +310,34 @@ namespace SKDDriver
 			var employeeUID = GetList(new EmployeeFilter()).Result.FirstOrDefault().UID;
 			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
 
-			var enterPassJournal = new DataAccess.PassJournal();
-			enterPassJournal.UID = Guid.NewGuid();
-			enterPassJournal.EmployeeUID = employeeUID;
-			enterPassJournal.ZoneUID = zoneUID;
-			enterPassJournal.EnterTime = new DateTime(2014, 8, 7, 10, 0, 0);
-			enterPassJournal.ExitTime = new DateTime(2014, 8, 7, 15, 0, 0);
-			Context.PassJournals.InsertOnSubmit(enterPassJournal);
+			var random = new Random();
+			for (int day = 0; day < 100; day++)
+			{
+				var dateTime = DateTime.Now.AddDays(-day);
 
-			var exitPassJournal = new DataAccess.PassJournal();
-			exitPassJournal.UID = Guid.NewGuid();
-			exitPassJournal.EmployeeUID = employeeUID;
-			exitPassJournal.ZoneUID = zoneUID;
-			exitPassJournal.EnterTime = new DateTime(2014, 8, 7, 16, 0, 0);
-			exitPassJournal.ExitTime = new DateTime(2014, 8, 7, 20, 0, 0);
-			Context.PassJournals.InsertOnSubmit(exitPassJournal);
+				var seconds = new List<int>();
+				var count = random.Next(0, 5);
+				for (int i = 0; i < count * 2; i++)
+				{
+					var totalSeconds = random.Next(0, 24 * 60 * 60);
+					seconds.Add(totalSeconds);
+				}
+				seconds.Sort();
+
+				for (int i = 0; i < count * 2; i += 2)
+				{
+					var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
+					var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
+
+					var passJournal = new DataAccess.PassJournal();
+					passJournal.UID = Guid.NewGuid();
+					passJournal.EmployeeUID = employeeUID;
+					passJournal.ZoneUID = zoneUID;
+					passJournal.EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, startTimeSpan.Hours, startTimeSpan.Minutes, startTimeSpan.Seconds);
+					passJournal.ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, endTimeSpan.Hours, endTimeSpan.Minutes, endTimeSpan.Seconds);
+					Context.PassJournals.InsertOnSubmit(passJournal);
+				}
+			}
 
 			Context.SubmitChanges();
 		}
@@ -407,6 +420,8 @@ namespace SKDDriver
 			dayTimeTrack.Date = date;
 			dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 			dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
+			dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
+			dayTimeTrack.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
 
 			if (!schedule.IsIgnoreHoliday)
 			{
@@ -466,7 +481,6 @@ namespace SKDDriver
 						timeTrackPart.StartTime = passJournal.EnterTime.Value.TimeOfDay;
 						timeTrackPart.EndTime = passJournal.ExitTime.Value.TimeOfDay;
 						timeTrackPart.ZoneUID = passJournal.ZoneUID;
-						dayTimeTrack.IsControl = scheduleZone.IsControl;
 						dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 					}
 				}
