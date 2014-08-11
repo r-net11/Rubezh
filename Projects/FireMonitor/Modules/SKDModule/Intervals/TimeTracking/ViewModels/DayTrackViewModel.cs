@@ -89,9 +89,9 @@ namespace SKDModule.ViewModels
 		public static string DateTimeToString(TimeSpan timeSpan)
 		{
 			if (timeSpan.TotalHours > 0)
-				return timeSpan.TotalHours + "ч " + timeSpan.Minutes + "м";
+				return ((int)timeSpan.TotalHours).ToString() + "ч " + ((int)timeSpan.Minutes).ToString() + "мин";
 			else if (timeSpan.Minutes > 0)
-				return timeSpan.Minutes + "м";
+				return ((int)timeSpan.Minutes).ToString() + "мин";
 			return null;
 		}
 	}

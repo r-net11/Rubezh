@@ -17,8 +17,8 @@ namespace SKDModule.ViewModels
 			EndTime = TimeIntervalPart.EndTime;
 		}
 
-		private DateTime _startTime;
-		public DateTime StartTime
+		TimeSpan _startTime;
+		public TimeSpan StartTime
 		{
 			get { return _startTime; }
 			set
@@ -28,8 +28,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private DateTime _endTime;
-		public DateTime EndTime
+		TimeSpan _endTime;
+		public TimeSpan EndTime
 		{
 			get { return _endTime; }
 			set
@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 
 		protected override bool CanSave()
 		{
-			return StartTime.TimeOfDay <= EndTime.TimeOfDay;
+			return StartTime <= EndTime;
 		}
 		protected override bool Save()
 		{

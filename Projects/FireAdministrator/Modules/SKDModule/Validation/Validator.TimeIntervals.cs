@@ -24,7 +24,7 @@ namespace SKDModule.Validation
 						break;
 					}
 
-				var currentDateTime = DateTime.MinValue;
+				var currentDateTime = DateTime.MinValue.TimeOfDay;
 				foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)
 				{
 					if (timeIntervalPart.StartTime < currentDateTime)

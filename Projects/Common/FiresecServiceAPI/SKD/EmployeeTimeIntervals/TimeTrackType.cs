@@ -20,6 +20,9 @@ namespace FiresecAPI.SKD
 		[Description("Опоздание")]
 		Late,
 
+		[Description("Уход раньше")]
+		EarlyLeave,
+
 		[Description("Сверхурочно")]
 		OutShedule,
 

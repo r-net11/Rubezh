@@ -7,8 +7,8 @@ namespace JournalModule.ViewModels
 	{
 		public DateTimePairViewModel(DateTime dateTime)
 		{
-			Date = dateTime;
-			Time = dateTime;
+			Date = dateTime.Date;
+			Time = dateTime.TimeOfDay;
 		}
 
 		DateTime _date;
@@ -22,8 +22,8 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		DateTime _time;
-		public DateTime Time
+		TimeSpan _time;
+		public TimeSpan Time
 		{
 			get { return _time; }
 			set
@@ -35,7 +35,7 @@ namespace JournalModule.ViewModels
 
 		public DateTime DateTime
 		{
-			get { return new DateTime(Date.Year, Date.Month, Date.Day, Time.Hour, Time.Minute, Time.Second); }
+			get { return new DateTime(Date.Year, Date.Month, Date.Day, Time.Hours, Time.Minutes, Time.Seconds); }
 		}
 	}
 }

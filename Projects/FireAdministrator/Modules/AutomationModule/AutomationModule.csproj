@@ -108,6 +108,7 @@
     <Compile Include="Procedures\ViewModels\Steps\ExitStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\FindObjectStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\GetStringStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IncrementGlobalValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
@@ -197,6 +198,9 @@
     </Compile>
     <Compile Include="Procedures\Views\Steps\ForeachStepView.xaml.cs">
       <DependentUpon>ForeachStepView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Procedures\Views\Steps\GetStringStepView.xaml.cs">
+      <DependentUpon>GetStringStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\IncrementGlobalValueStepView.xaml.cs">
       <DependentUpon>IncrementGlobalValueStepView.xaml</DependentUpon>
@@ -448,6 +452,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\ForeachStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\GetStringStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

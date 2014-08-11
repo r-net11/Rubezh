@@ -22,7 +22,6 @@
 				<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="White" Command="{Binding ChangeJoinOperatorCommand}">
 					<TextBlock Text="{Binding JoinOperator, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
 				</ToolBarButton>
-				<ToolBarButton HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="120" Height="30" Content="Выполнить" Command="{Binding RunCommand}" FontSize="18" FontWeight="Bold" Foreground="White"/>
 			</StackPanel>
 		</StackPanel>
 		<ItemsControl Grid.Row="1" ItemsSource="{Binding FindObjectConditions}">
@@ -32,32 +31,8 @@
 						<ToolBarButton ToolTip="Удалить условие" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 							Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" Background="DarkGray" />
 
-						<ComboBox ItemsSource="{Binding DevicePropertyTypes}" Margin="2" SelectedItem="{Binding SelectedDevicePropertyType, UpdateSourceTrigger=PropertyChanged}"
-								  Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
-							Path=DataContext.SelectedVariable.ObjectType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:ObjectType.Device}}" MinWidth="163" MaxWidth="163">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-
-						<ComboBox ItemsSource="{Binding ZonePropertyTypes}" Margin="2" SelectedItem="{Binding SelectedZonePropertyType, UpdateSourceTrigger=PropertyChanged}"
-								  Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
-							Path=DataContext.SelectedVariable.ObjectType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:ObjectType.Zone}}" MinWidth="163" MaxWidth="163">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-
-						<ComboBox ItemsSource="{Binding DirectionPropertyTypes}" Margin="2" SelectedItem="{Binding SelectedDirectionPropertyType, UpdateSourceTrigger=PropertyChanged}"
-								  Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
-							Path=DataContext.SelectedVariable.ObjectType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:ObjectType.Direction}}" MinWidth="163" MaxWidth="163">
+						<ComboBox ItemsSource="{Binding Properties}" Margin="2" SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}"
+                                  MinWidth="163" MaxWidth="163">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />

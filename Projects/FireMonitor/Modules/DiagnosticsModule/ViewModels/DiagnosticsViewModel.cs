@@ -88,6 +88,9 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
+			FiresecManager.FiresecService.Test("");
+			return;
+
 			var thread = new Thread(new ThreadStart(() =>
 			{
 				throw new Exception("TestCommand");

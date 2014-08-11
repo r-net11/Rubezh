@@ -11,10 +11,10 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Начало" />
-				<Controls:TimePicker Grid.Row="0" Grid.Column="1" Margin="2" Time="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" />
+				<Controls:TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" />
 
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Конец" />
-				<Controls:TimePicker Grid.Row="1" Grid.Column="1" Margin="2" Time="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" />
+				<Controls:TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
 	</TabControl>

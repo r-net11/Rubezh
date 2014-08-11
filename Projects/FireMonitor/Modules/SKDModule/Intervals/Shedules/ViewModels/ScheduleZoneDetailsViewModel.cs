@@ -8,7 +8,7 @@ namespace SKDModule.ViewModels
 {
 	public class ScheduleZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
-		private Schedule _schedule;
+		Schedule _schedule;
 		public ScheduleZone ScheduleZone { get; private set; }
 
 		public ScheduleZoneDetailsViewModel(Schedule schedule, ScheduleZone sheduleZone = null)
@@ -25,7 +25,6 @@ namespace SKDModule.ViewModels
 			else
 				Title = "Редактирование помещения";
 			ScheduleZone = sheduleZone;
-			IsControl = sheduleZone.IsControl;
 
 			Zones = new ObservableCollection<ZoneViewModel>();
 			foreach (var zone in FiresecAPI.SKD.SKDManager.Zones)
@@ -49,17 +48,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private bool _isControl;
-		public bool IsControl
-		{
-			get { return _isControl; }
-			set
-			{
-				_isControl = value;
-				OnPropertyChanged(() => IsControl);
-			}
-		}
-
 		protected override bool CanSave()
 		{
 			return SelectedZone != null;
@@ -75,7 +63,6 @@ namespace SKDModule.ViewModels
 				}
 			}
 			ScheduleZone.ZoneUID = SelectedZone.Zone.UID;
-			ScheduleZone.IsControl = IsControl;
 			return true;
 		}
 	}

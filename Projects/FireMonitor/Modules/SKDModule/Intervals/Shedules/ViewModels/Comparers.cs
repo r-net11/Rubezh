@@ -10,11 +10,11 @@ namespace SKDModule.ViewModels
 		}
 	}
 
-	public class ScheduleViewModelDescriptionComparer : TreeNodeComparer<ScheduleViewModel>
+	public class ScheduleViewModelSchemeComparer : TreeNodeComparer<ScheduleViewModel>
 	{
 		protected override int Compare(ScheduleViewModel x, ScheduleViewModel y)
 		{
-			return string.Compare(x.Description, y.Description);
+			return string.Compare(x.Scheme, y.Scheme);
 		}
 	}
 }

@@ -26,6 +26,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlCameraTemplate { get; set; }
 		public DataTemplate ControlDirectionTemplate { get; set; }
 		public DataTemplate ControlDoorTemplate { get; set; }
+		public DataTemplate GetStringTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -112,6 +113,10 @@ namespace AutomationModule.ViewModels
 			if (item is ControlDoorStepViewModel)
 			{
 				return ControlDoorTemplate;
+			}
+			if (item is GetStringStepViewModel)
+			{
+				return GetStringTemplate;
 			}
 			
 			return null;

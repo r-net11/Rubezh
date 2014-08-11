@@ -14,12 +14,12 @@ namespace SKDModule.ViewModels
 			TimeIntervalPart = timeIntervalPart;
 		}
 
-		public DateTime StartTime
+		public TimeSpan StartTime
 		{
 			get { return TimeIntervalPart.StartTime; }
 		}
 
-		public DateTime EndTime
+		public TimeSpan EndTime
 		{
 			get { return TimeIntervalPart.EndTime; }
 		}

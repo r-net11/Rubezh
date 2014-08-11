@@ -95,13 +95,21 @@ namespace SKDModule.ViewModels
 
 	public class DayTimeTrackPartViewModel : BaseViewModel
 	{
-		public SKDZone Zone { get; private set; }
+		public string ZoneName { get; private set; }
 		public string EnterTime { get; private set; }
 		public string ExitTime { get; private set; }
 
 		public DayTimeTrackPartViewModel(TimeTrackPart timeTrackPart)
 		{
-			Zone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+			if (zone != null)
+			{
+				ZoneName = zone.Name;
+			}
+			else
+			{
+				ZoneName = "<Нет в конфигурации>";
+			}
 			EnterTime = timeTrackPart.StartTime.Hours.ToString("00") + ":" + timeTrackPart.StartTime.Minutes.ToString("00") + ":" + timeTrackPart.StartTime.Seconds.ToString("00");
 			ExitTime = timeTrackPart.EndTime.Hours.ToString("00") + ":" + timeTrackPart.EndTime.Minutes.ToString("00") + ":" + timeTrackPart.EndTime.Seconds.ToString("00");
 		}

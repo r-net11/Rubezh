@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
-using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AutomationModule.ViewModels
@@ -105,19 +104,6 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
-
-		ObjectType _objectType;
-		public ObjectType ObjectType
-		{
-			get { return _objectType; }
-			set
-			{
-				_objectType = value;
-				OnPropertyChanged(() => ObjectType);
-			}
-		}
-
 		string _stringValue;
 		public string StringValue
 		{
@@ -140,6 +126,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public List<Device> Devices { get; private set; }
+		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
+		ObjectType _objectType;
+		public ObjectType ObjectType
+		{
+			get { return _objectType; }
+			set
+			{
+				_objectType = value;
+				OnPropertyChanged(() => ObjectType);
+			}
+		}
 	}
 }

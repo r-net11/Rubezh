@@ -16,15 +16,6 @@ namespace FiresecAPI.Automation
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public DevicePropertyType DevicePropertyType { get; set; }
-
-		[DataMember]
-		public ZonePropertyType ZonePropertyType { get; set; }
-
-		[DataMember]
-		public DirectionPropertyType DirectionPropertyType { get; set; }
-
-		[DataMember]
 		public ConditionType ConditionType { get; set; }
 
 		[DataMember]
@@ -40,11 +31,10 @@ namespace FiresecAPI.Automation
 		public StateType StateTypeValue { get; set; }
 
 		[DataMember]
-		public PropertyType PropertyType { get; set; }
-
+		public Property Property { get; set; }
 	}
 
-	public enum DevicePropertyType
+	public enum Property
 	{
 		[Description("Имя")]
 		Name,
@@ -56,28 +46,13 @@ namespace FiresecAPI.Automation
 		ShleifNo,
 
 		[Description("Состояние")]
-		DeviceState
-	}
-
-	public enum ZonePropertyType
-	{
-		[Description("Имя")]
-		Name,
+		DeviceState,
 
 		[Description("Номер")]
 		No,
 
 		[Description("Тип")]
-		ZoneType
-	}
-
-	public enum DirectionPropertyType
-	{
-		[Description("Имя")]
-		Name,
-
-		[Description("Номер")]
-		No,
+		ZoneType,
 
 		[Description("Задержка")]
 		Delay,
@@ -103,7 +78,7 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Строка")]
 		String,
 
-		[DescriptionAttribute("Перечисление")]
+		[Description("Перечисление")]
 		Enum
 	}
 }

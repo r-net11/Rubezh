@@ -139,8 +139,8 @@ namespace ChinaSKDDriver
 								timeInterval = new SKDTimeInterval();
 								timeInterval.TimeIntervalParts = new List<SKDTimeIntervalPart>();
 								var emptySKDTimeIntervalPart = new SKDTimeIntervalPart();
-								emptySKDTimeIntervalPart.StartTime = new DateTime(2000, 1, 1, 0, 0, 0);
-								emptySKDTimeIntervalPart.EndTime = new DateTime(2000, 1, 1, 0, 0, 0);
+								emptySKDTimeIntervalPart.StartTime = new TimeSpan(0, 0, 0);
+								emptySKDTimeIntervalPart.EndTime = new TimeSpan(0, 0, 0);
 								timeInterval.TimeIntervalParts.Add(emptySKDTimeIntervalPart);
 							}
 							if (i == 1)
@@ -148,8 +148,8 @@ namespace ChinaSKDDriver
 								timeInterval = new SKDTimeInterval();
 								timeInterval.TimeIntervalParts = new List<SKDTimeIntervalPart>();
 								var emptySKDTimeIntervalPart = new SKDTimeIntervalPart();
-								emptySKDTimeIntervalPart.StartTime = new DateTime(2000, 1, 1, 0, 0, 0);
-								emptySKDTimeIntervalPart.EndTime = new DateTime(2000, 1, 1, 23, 59, 59);
+								emptySKDTimeIntervalPart.StartTime = new TimeSpan(0, 0, 0);
+								emptySKDTimeIntervalPart.EndTime = new TimeSpan(23, 59, 59);
 								timeInterval.TimeIntervalParts.Add(emptySKDTimeIntervalPart);
 							}
 
@@ -158,12 +158,12 @@ namespace ChinaSKDDriver
 								foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)
 								{
 									var timeSheduleInterval = new TimeSheduleInterval();
-									timeSheduleInterval.BeginHours = timeIntervalPart.StartTime.Hour;
-									timeSheduleInterval.BeginMinutes = timeIntervalPart.StartTime.Minute;
-									timeSheduleInterval.BeginSeconds = timeIntervalPart.StartTime.Second;
-									timeSheduleInterval.EndHours = timeIntervalPart.EndTime.Hour;
-									timeSheduleInterval.EndMinutes = timeIntervalPart.EndTime.Minute;
-									timeSheduleInterval.EndSeconds = timeIntervalPart.EndTime.Second;
+									timeSheduleInterval.BeginHours = timeIntervalPart.StartTime.Hours;
+									timeSheduleInterval.BeginMinutes = timeIntervalPart.StartTime.Minutes;
+									timeSheduleInterval.BeginSeconds = timeIntervalPart.StartTime.Seconds;
+									timeSheduleInterval.EndHours = timeIntervalPart.EndTime.Hours;
+									timeSheduleInterval.EndMinutes = timeIntervalPart.EndTime.Minutes;
+									timeSheduleInterval.EndSeconds = timeIntervalPart.EndTime.Seconds;
 
 									timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
 								}
