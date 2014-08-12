@@ -52,7 +52,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_offDelay = value;
-				OnPropertyChanged("OffDelay");
+				OnPropertyChanged(() => OffDelay);
 			}
 		}
 	}

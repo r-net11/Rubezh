@@ -10,8 +10,8 @@ namespace SKDModule.ViewModels
 			Title = "Настройки праздничных дней";
 		}
 
-		private DateTime _nightStartTime;
-		public DateTime NightStartTime
+		TimeSpan _nightStartTime;
+		public TimeSpan NightStartTime
 		{
 			get { return _nightStartTime; }
 			set
@@ -21,8 +21,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private DateTime _nightEndTime;
-		public DateTime NightEndTime
+		TimeSpan _nightEndTime;
+		public TimeSpan NightEndTime
 		{
 			get { return _nightEndTime; }
 			set
@@ -32,8 +32,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private DateTime _eveningStartTime;
-		public DateTime EveningStartTime
+		TimeSpan _eveningStartTime;
+		public TimeSpan EveningStartTime
 		{
 			get { return _eveningStartTime; }
 			set
@@ -43,8 +43,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private DateTime _eveningEndTime;
-		public DateTime EveningEndTime
+		TimeSpan _eveningEndTime;
+		public TimeSpan EveningEndTime
 		{
 			get { return _eveningEndTime; }
 			set

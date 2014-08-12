@@ -6,6 +6,7 @@ using FiresecAPI.Journal;
 using GKProcessor;
 using FiresecAPI;
 using System;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace FiresecService.Processor
 {
@@ -96,9 +97,12 @@ namespace FiresecService.Processor
 					Service.FiresecService.AddCommonJournalItem(journalItem);
 					break;
 
+				case ProcedureStepType.GetString:
+					ProcedureHelper.GetString(procedureStep, procedure);
+					break;
+
 				case ProcedureStepType.SendMessage:
-					automationCallbackResult = new AutomationCallbackResult();
-					automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
+					automationCallbackResult = ProcedureHelper.SendMessage(procedureStep, procedure);
 					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
 					Service.FiresecService.NotifyAutomation(automationCallbackResult);
 					break;

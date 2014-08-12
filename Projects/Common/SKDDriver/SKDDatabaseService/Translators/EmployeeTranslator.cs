@@ -297,11 +297,46 @@ namespace SKDDriver
 			catch {}
 		}
 
+		public void InsertPassJournalTestData()
+		{
+			var employeeUID = GetList(new EmployeeFilter()).Result.FirstOrDefault().UID;
+			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
+
+			var random = new Random();
+			for (int day = 0; day < 100; day++)
+			{
+				var dateTime = DateTime.Now.AddDays(-day);
+
+				var seconds = new List<int>();
+				var count = random.Next(0, 5);
+				for (int i = 0; i < count * 2; i++)
+				{
+					var totalSeconds = random.Next(0, 24 * 60 * 60);
+					seconds.Add(totalSeconds);
+				}
+				seconds.Sort();
+
+				for (int i = 0; i < count * 2; i += 2)
+				{
+					var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
+					var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
+
+					var passJournal = new DataAccess.PassJournal();
+					passJournal.UID = Guid.NewGuid();
+					passJournal.EmployeeUID = employeeUID;
+					passJournal.ZoneUID = zoneUID;
+					passJournal.EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, startTimeSpan.Hours, startTimeSpan.Minutes, startTimeSpan.Seconds);
+					passJournal.ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, endTimeSpan.Hours, endTimeSpan.Minutes, endTimeSpan.Seconds);
+					Context.PassJournals.InsertOnSubmit(passJournal);
+				}
+			}
+
+			Context.SubmitChanges();
+		}
+
 		public OperationResult<List<DayTimeTrack>> GetTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
-			//var empl = GetList(new EmployeeFilter()).Result.FirstOrDefault();
-			//AddPassJournal(empl.UID, SKDManager.Zones.FirstOrDefault().UID);
-			//AddPassJournal(empl.UID, SKDManager.Zones.FirstOrDefault().UID);
+			//InsertPassJournalTestData();
 
 			InvalidatePassJournal();
 
@@ -345,7 +380,9 @@ namespace SKDDriver
 			switch (scheduleSchemeType)
 			{
 				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.Week:
-					dayNo = (int)date.DayOfWeek;
+					dayNo = (int)date.DayOfWeek - 1;
+					if (dayNo == -1)
+						dayNo = 6;
 					break;
 				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.SlideDay:
 					var daysCount = days.Count();
@@ -359,84 +396,96 @@ namespace SKDDriver
 			var day = days.FirstOrDefault(x => x.Number == dayNo);
 			if (day == null)
 				return new DayTimeTrack("Не найден день");
-			var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID);
-			if (namedInterval == null)
-				return new DayTimeTrack("Не найден именованный интервал");
-			var intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID);
-			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).Select(x => x.ZoneUID).ToList();
+
+			List<DataAccess.Interval> intervals = new List<DataAccess.Interval>();
+			if (day.NamedIntervalUID != null)
+			{
+				var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID);
+				if (namedInterval == null)
+					return new DayTimeTrack("Не найден именованный интервал");
+				intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID).ToList();
+			}
+			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).ToList();
 
 			var dayTimeTrack = new DayTimeTrack();
+			dayTimeTrack.EmployeeUID = employeeUID;
 			dayTimeTrack.Date = date;
+			dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
+			dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
+			dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
+			dayTimeTrack.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
 
-			foreach (var tableInterval in intervals)
+			if (!schedule.IsIgnoreHoliday)
 			{
-				var interval = new Interval();
-				interval.BeginDate = new DateTime(Math.BigMul(tableInterval.BeginTime, 10000000));
-				interval.EndDate = new DateTime(Math.BigMul(tableInterval.EndTime, 10000000));
-				dayTimeTrack.Intervals.Add(interval);
+				var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID);
+				if (holiday != null)
+				{
+					dayTimeTrack.IsHoliday = true;
+				}
+				holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID);
+				if (holiday != null)
+				{
+					dayTimeTrack.HolidayReduction = holiday.Reduction;
+				}
+				holiday = Context.Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID);
+				if (holiday != null)
+				{
+					dayTimeTrack.IsHoliday = true;
+				}
+			}
+
+			if (!dayTimeTrack.IsHoliday)
+			{
+				foreach (var tableInterval in intervals)
+				{
+					var timeTrackPart = new TimeTrackPart();
+					timeTrackPart.StartTime = new TimeSpan(Math.BigMul(tableInterval.BeginTime, 10000000));
+					timeTrackPart.EndTime = new TimeSpan(Math.BigMul(tableInterval.EndTime, 10000000));
+					dayTimeTrack.PlannedTimeTrackParts.Add(timeTrackPart);
+				}
+				dayTimeTrack.PlannedTimeTrackParts = dayTimeTrack.PlannedTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
+			}
+			if (dayTimeTrack.HolidayReduction > 0)
+			{
+				var reductionTimeSpan = new TimeSpan(Math.BigMul(dayTimeTrack.HolidayReduction, 10000000));
+				var lastTimeTrack = dayTimeTrack.PlannedTimeTrackParts.LastOrDefault();
+				if (lastTimeTrack != null)
+				{
+					if (lastTimeTrack.Delta.TotalHours > reductionTimeSpan.TotalHours)
+					{
+						lastTimeTrack.EndTime = lastTimeTrack.EndTime.Subtract(reductionTimeSpan);
+					}
+					else
+					{
+						dayTimeTrack.PlannedTimeTrackParts.Remove(lastTimeTrack);
+					}
+				}
 			}
 
 			foreach (var passJournal in passJournals)
 			{
-				if (scheduleZones.Any(x => x == passJournal.ZoneUID))
+				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
+				if (scheduleZone != null)
 				{
 					if (passJournal.EnterTime.HasValue && passJournal.ExitTime.HasValue)
 					{
-						var dayTimeTrackPart = new DayTimeTrackPart();
-						dayTimeTrackPart.StartTime = passJournal.EnterTime.Value;
-						dayTimeTrackPart.EndTime = passJournal.ExitTime.Value;
-						dayTimeTrackPart.ZoneUID = passJournal.ZoneUID;
-						dayTimeTrack.TimeTrackParts.Add(dayTimeTrackPart);
+						var timeTrackPart = new TimeTrackPart();
+						timeTrackPart.StartTime = passJournal.EnterTime.Value.TimeOfDay;
+						timeTrackPart.EndTime = passJournal.ExitTime.Value.TimeOfDay;
+						timeTrackPart.ZoneUID = passJournal.ZoneUID;
+						dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
 					}
 				}
+			}
+			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
+
+			var operationResult = SKDDatabaseService.TimeTrackExceptionTranslator.Get(date, employeeUID);
+			if (!operationResult.HasError)
+			{
+				dayTimeTrack.TimeTrackException = operationResult.Result;
 			}
 
 			return dayTimeTrack;
-
-			//var firstEnterTime = passJournals.Where(x => x.EnterTime != null).Select(x => x.EnterTime.Value).Min();
-			//var lastExitTime = passJournals.Where(x => x.ExitTime != null).Select(x => x.ExitTime.Value).Max();
-
-			//var totalNotMiss = new DateTime();
-			//foreach (var passJournal in passJournals)
-			//{
-			//    var itemExitTime = passJournal.ExitTime != null ? passJournal.ExitTime.Value : new DateTime();
-			//    var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
-			//    totalNotMiss = new DateTime(totalNotMiss.Ticks + itemExitTime.Ticks - itemEnterTime.Ticks);
-			//}
-			var totalInSchedule = new TimeSpan();
-			foreach (var interval in intervals)
-			{
-				foreach (var passJournal in passJournals)
-				{
-					if (scheduleZones.Any(x => x == passJournal.ZoneUID))
-					{
-						var itemExitTime = passJournal.ExitTime != null ? passJournal.ExitTime.Value : new DateTime();
-						var itemEnterTime = passJournal.EnterTime != null ? passJournal.EnterTime.Value : new DateTime();
-						var enterTimeSpan = new TimeSpan(itemEnterTime.TimeOfDay.Ticks);
-						var exitTimeSpan = new TimeSpan(itemExitTime.TimeOfDay.Ticks);
-						if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
-						{
-							if (exitTimeSpan.TotalSeconds <= interval.EndTime)
-								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
-							else
-								totalInSchedule.Add(new TimeSpan(Math.BigMul(interval.EndTime, 10000000) - enterTimeSpan.Ticks));
-						}
-						else if (exitTimeSpan.TotalSeconds <= interval.EndTime)
-						{
-							if (enterTimeSpan.TotalSeconds >= interval.BeginTime)
-								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - enterTimeSpan.Ticks));
-							else
-							{
-								totalInSchedule.Add(new TimeSpan(exitTimeSpan.Ticks - Math.BigMul(interval.BeginTime, 10000000)));
-							}
-						}
-					}
-				}
-			}
-			//dayTimeTrack.Total = new TimeSpan(lastExitTime.Ticks - firstEnterTime.Ticks);
-			//dayTimeTrack.TotalMiss = new TimeSpan(dayTimeTrack.Total.Ticks - totalNotMiss.Ticks);
-			//dayTimeTrack.TotalInSchedule = totalInSchedule;
-			//dayTimeTrack.TotalOutSchedule = dayTimeTrack.Total - dayTimeTrack.TotalInSchedule;
 		}
 	}
 }

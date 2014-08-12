@@ -5,55 +5,113 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.SKD;
 using System.Collections.ObjectModel;
+using FiresecClient;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeTrackDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public DayTimeTrack DayTimeTrack { get; private set; }
+		bool hasChanges = false;
 
 		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack)
 		{
 			Title = "Время в течение дня";
 			DayTimeTrack = dayTimeTrack;
 
-			AvailableExcuseDocuments = new ObservableCollection<ExcuseDocumentEnum>(Enum.GetValues(typeof(ExcuseDocumentEnum)).OfType<ExcuseDocumentEnum>());
+			AvailableExceptionTypes = new ObservableCollection<TimeTrackExceptionType>(Enum.GetValues(typeof(TimeTrackExceptionType)).OfType<TimeTrackExceptionType>());
 
 			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPartViewModel>();
-			foreach (var dayTimeTrackPart in DayTimeTrack.TimeTrackParts)
+			foreach (var timeTrackPart in DayTimeTrack.RealTimeTrackParts)
 			{
-				var employeeTimeTrackPartViewModel = new DayTimeTrackPartViewModel(dayTimeTrackPart);
+				var employeeTimeTrackPartViewModel = new DayTimeTrackPartViewModel(timeTrackPart);
 				DayTimeTrackParts.Add(employeeTimeTrackPartViewModel);
 			}
+
+			if (DayTimeTrack.TimeTrackException != null)
+			{
+				SelectedExceptionType = AvailableExceptionTypes.FirstOrDefault(x => x == DayTimeTrack.TimeTrackException.TimeTrackExceptionType);
+				Comment = DayTimeTrack.TimeTrackException.Comment;
+			}
+			hasChanges = false;
 		}
 
-		public ObservableCollection<ExcuseDocumentEnum> AvailableExcuseDocuments { get; private set; }
+		public ObservableCollection<TimeTrackExceptionType> AvailableExceptionTypes { get; private set; }
 
-		ExcuseDocumentEnum _selectedExcuseDocument;
-		public ExcuseDocumentEnum SelectedExcuseDocument
+		TimeTrackExceptionType _selectedExcuseDocument;
+		public TimeTrackExceptionType SelectedExceptionType
 		{
 			get { return _selectedExcuseDocument; }
 			set
 			{
 				_selectedExcuseDocument = value;
-				OnPropertyChanged(() => SelectedExcuseDocument);
+				OnPropertyChanged(() => SelectedExceptionType);
+				IsCommentEnabled = value != TimeTrackExceptionType.None;
+				OnPropertyChanged(() => IsCommentEnabled);
+				hasChanges = true;
 			}
 		}
 
+		string _comment;
+		public string Comment
+		{
+			get { return _comment; }
+			set
+			{
+				_comment = value;
+				OnPropertyChanged(() => Comment);
+				hasChanges = true;
+			}
+		}
+
+		public bool IsCommentEnabled { get; private set; }
+
 		public ObservableCollection<DayTimeTrackPartViewModel> DayTimeTrackParts { get; private set; }
+
+		protected override bool Save()
+		{
+			if (DayTimeTrack.TimeTrackException == null)
+			{
+				DayTimeTrack.TimeTrackException = new TimeTrackException();
+			}
+			DayTimeTrack.TimeTrackException.EmployeeUID = DayTimeTrack.EmployeeUID;
+			DayTimeTrack.TimeTrackException.StartDateTime = DayTimeTrack.Date.Date;
+			DayTimeTrack.TimeTrackException.EndDateTime = DayTimeTrack.Date.Date;
+			DayTimeTrack.TimeTrackException.TimeTrackExceptionType = SelectedExceptionType;
+			DayTimeTrack.TimeTrackException.Comment = Comment;
+
+			if (hasChanges)
+			{
+				var operationResult = FiresecManager.FiresecService.SaveTimeTrackException(DayTimeTrack.TimeTrackException);
+				if (operationResult.HasError)
+				{
+					MessageBoxService.ShowWarning(operationResult.Error);
+				}
+			}
+			return base.Save();
+		}
 	}
 
 	public class DayTimeTrackPartViewModel : BaseViewModel
 	{
-		public SKDZone Zone { get; private set; }
+		public string ZoneName { get; private set; }
 		public string EnterTime { get; private set; }
 		public string ExitTime { get; private set; }
 
-		public DayTimeTrackPartViewModel(DayTimeTrackPart dayTimeTrackPart)
+		public DayTimeTrackPartViewModel(TimeTrackPart timeTrackPart)
 		{
-			Zone = SKDManager.Zones.FirstOrDefault(x => x.UID == dayTimeTrackPart.ZoneUID);
-			EnterTime = dayTimeTrackPart.StartTime.Hour + ":" + dayTimeTrackPart.StartTime.Minute + "::" + dayTimeTrackPart.StartTime.Second;
-			ExitTime = dayTimeTrackPart.EndTime.Hour + ":" + dayTimeTrackPart.EndTime.Minute + "::" + dayTimeTrackPart.EndTime.Second;
+			var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+			if (zone != null)
+			{
+				ZoneName = zone.Name;
+			}
+			else
+			{
+				ZoneName = "<Нет в конфигурации>";
+			}
+			EnterTime = timeTrackPart.StartTime.Hours.ToString("00") + ":" + timeTrackPart.StartTime.Minutes.ToString("00") + ":" + timeTrackPart.StartTime.Seconds.ToString("00");
+			ExitTime = timeTrackPart.EndTime.Hours.ToString("00") + ":" + timeTrackPart.EndTime.Minutes.ToString("00") + ":" + timeTrackPart.EndTime.Seconds.ToString("00");
 		}
 	}
 }

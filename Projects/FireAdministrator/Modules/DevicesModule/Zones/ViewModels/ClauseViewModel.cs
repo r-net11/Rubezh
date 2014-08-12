@@ -204,7 +204,7 @@ namespace DevicesModule.ViewModels
 			SelectedDevices = new List<Device>(); ;
 			OnPropertyChanged(() => CanSelectOperation);
 			OnPropertyChanged(() => CanSelectZones);
-			OnPropertyChanged("CanSelectDevice");
+			OnPropertyChanged(() => CanSelectDevice);
 			OnPropertyChanged("PresenrationZones");
 			OnPropertyChanged("PresenrationSelectedDevice");
 

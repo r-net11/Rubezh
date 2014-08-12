@@ -13,28 +13,17 @@ namespace Controls
 		private static readonly int HoursMin = 0;
 		private static readonly int MinutesMin = 0;
 
-		public static readonly DependencyProperty TimeProperty = DependencyProperty.Register("Time", typeof(DateTime), typeof(TimePicker), new FrameworkPropertyMetadata(new DateTime(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnTimePropertyChanged)));
 		public static readonly DependencyProperty TimeSpanProperty = DependencyProperty.Register("TimeSpan", typeof(TimeSpan), typeof(TimePicker), new FrameworkPropertyMetadata(TimeSpan.Zero, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnTimeSpanPropertyChanged)));
 
-		private static void OnTimePropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
-		{
-			TimePicker timePicker = dp as TimePicker;
-			if (timePicker != null)
-			{
-				timePicker.TimeSpan = timePicker.Time.TimeOfDay;
-				timePicker.InitializeTime();
-			}
-			dp.CoerceValue(TimeSpanProperty);
-		}
 		private static void OnTimeSpanPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
 		{
 			TimePicker timePicker = dp as TimePicker;
 			if (timePicker != null)
 			{
-				timePicker.Time = timePicker.Time.Date + timePicker.TimeSpan;
-				timePicker.InitializeTime();
+				timePicker.TimeSpan = timePicker.TimeSpan;
+				timePicker.TextBox.Text = timePicker.TimeSpan.Hours.ToString("D2") + ":" + timePicker.TimeSpan.Minutes.ToString("D2");
 			}
-			dp.CoerceValue(TimeProperty);
+			dp.CoerceValue(TimeSpanProperty);
 		}
 
 		public TimePicker()
@@ -43,11 +32,6 @@ namespace Controls
 			InitializeTime();
 		}
 
-		public DateTime Time
-		{
-			get { return (DateTime)GetValue(TimeProperty); }
-			set { SetValue(TimeProperty, value); }
-		}
 		public TimeSpan TimeSpan
 		{
 			get { return (TimeSpan)GetValue(TimeSpanProperty); }
@@ -58,8 +42,8 @@ namespace Controls
 		{
 			if (TextBox.Text.Length != 5)
 				TextBox.Text = "00:00";
-			Hours = Time.Hour;
-			Minutes = Time.Minute;
+			Hours = TimeSpan.Hours;
+			Minutes = TimeSpan.Minutes;
 		}
 
 		private int Hours
@@ -83,7 +67,7 @@ namespace Controls
 				text[1] = stringValue[1];
 				TextBox.Text = new string(text);
 				TextBox.CaretIndex = caretIndex;
-				Time = new DateTime(Time.Year, Time.Month, Time.Day, value, Time.Minute, 0);
+				TimeSpan = new TimeSpan(value, TimeSpan.Minutes, 0);
 			}
 		}
 		private int Minutes
@@ -110,7 +94,7 @@ namespace Controls
 				text[4] = stringValue[1];
 				TextBox.Text = new string(text);
 				TextBox.CaretIndex = caretIndex;
-				Time = new DateTime(Time.Year, Time.Month, Time.Day, Time.Hour, value, 0);
+				TimeSpan = new TimeSpan(TimeSpan.Hours, value, 0);
 			}
 		}
 
@@ -158,7 +142,7 @@ namespace Controls
 			text[TextBox.CaretIndex] = value.ToString()[0];
 			TextBox.Text = new string(text);
 			TextBox.CaretIndex = caretIndex;
-			Time = new DateTime(Time.Year, Time.Month, Time.Day, Hours, Minutes, 0);
+			TimeSpan = new TimeSpan(Hours, Minutes, 0);
 		}
 		private int GetValueAtIndex(int caretIndex)
 		{
@@ -186,11 +170,11 @@ namespace Controls
 				Minutes = MinutesMax;
 			if (Minutes < MinutesMin)
 				Minutes = MinutesMin;
-			Time = new DateTime(Time.Year, Time.Month, Time.Day, Hours, Minutes, 0);
+			TimeSpan = new TimeSpan(Hours, Minutes, 0);
 		}
 		private void TextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			Time = new DateTime(Time.Year, Time.Month, Time.Day, Hours, Minutes, 0);
+			TimeSpan = new TimeSpan(Hours, Minutes, 0);
 		}
 		private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
 		{

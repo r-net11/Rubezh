@@ -23,7 +23,11 @@ namespace AutomationModule.ViewModels
 					break;
 
 				case ProcedureStepType.SendMessage:
-					Content = new SendMessageStepViewModel(step.SendMessageArguments, Update);
+					Content = new SendMessageStepViewModel(step.SendMessageArguments, procedure, Update);
+					break;
+
+				case ProcedureStepType.GetString:
+					Content = new GetStringStepViewModel(step.GetStringArguments, procedure);
 					break;
 
 				case ProcedureStepType.Arithmetics:

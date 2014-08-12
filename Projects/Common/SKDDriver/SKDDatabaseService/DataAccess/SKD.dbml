@@ -128,6 +128,7 @@
       <Association Name="Employee_GuardZone" Member="GuardZones" ThisKey="UID" OtherKey="ParentUID" Type="GuardZone" />
       <Association Name="Employee_PassJournal" Member="PassJournals" ThisKey="UID" OtherKey="EmployeeUID" Type="PassJournal" />
       <Association Name="Employee_Card" Member="Cards" ThisKey="UID" OtherKey="EmployeeUID" Type="Card" />
+      <Association Name="Employee_TimeTrackException" Member="TimeTrackExceptions" ThisKey="UID" OtherKey="EmployeeUID" Type="TimeTrackException" />
       <Association Name="Department_Employee" Member="Department" ThisKey="DepartmentUID" OtherKey="UID" Type="Department" IsForeignKey="true" />
       <Association Name="Employee_Employee" Member="Employee1" ThisKey="EscortUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
       <Association Name="Organisation_Employee" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
@@ -238,8 +239,8 @@
       <Association Name="Organisation_OrganisationZone" Member="OrganisationZones" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationZone" />
       <Association Name="Organisation_Phone" Member="Phones" ThisKey="UID" OtherKey="OrganisationUID" Type="Phone" />
       <Association Name="Organisation_Position" Member="Positions" ThisKey="UID" OtherKey="OrganisationUID" Type="Position" />
-      <Association Name="Organisation_Schedule" Member="Schedules" ThisKey="UID" OtherKey="OrganisationUID" Type="Schedule" />
       <Association Name="Organisation_ScheduleScheme" Member="ScheduleSchemes" ThisKey="UID" OtherKey="OrganisationUID" Type="ScheduleScheme" />
+      <Association Name="Organisation_Schedule" Member="Schedules" ThisKey="UID" OtherKey="OrganisationUID" Type="Schedule" />
       <Association Name="Photo_Organisation" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
   </Table>
@@ -337,22 +338,6 @@
       <Association Name="Photo_Position" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Schedule" Member="Schedules">
-    <Type Name="Schedule">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="ScheduleSchemeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="IsIgnoreHoliday" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsOnlyFirstEnter" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Association Name="Schedule_Employee" Member="Employees" ThisKey="UID" OtherKey="ScheduleUID" Type="Employee" />
-      <Association Name="Schedule_ScheduleZone" Member="ScheduleZones" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleZone" />
-      <Association Name="Organisation_Schedule" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
-      <Association Name="ScheduleScheme_Schedule" Member="ScheduleScheme" ThisKey="ScheduleSchemeUID" OtherKey="UID" Type="ScheduleScheme" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.ScheduleScheme" Member="ScheduleSchemes">
     <Type Name="ScheduleScheme">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -400,6 +385,35 @@
       <Association Name="Card_PendingCard" Member="PendingCards" ThisKey="UID" OtherKey="CardUID" Type="PendingCard" />
       <Association Name="AccessTemplate_Card" Member="AccessTemplate" ThisKey="AccessTemplateUID" OtherKey="UID" Type="AccessTemplate" IsForeignKey="true" />
       <Association Name="Employee_Card" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TimeTrackException" Member="TimeTrackExceptions">
+    <Type Name="TimeTrackException">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="EmployeeUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="StartDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="Employee_TimeTrackException" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Schedule" Member="Schedules">
+    <Type Name="Schedule">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ScheduleSchemeUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="IsIgnoreHoliday" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsOnlyFirstEnter" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="RemovalDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="AllowedLate" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AllowedEarlyLeave" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Schedule_Employee" Member="Employees" ThisKey="UID" OtherKey="ScheduleUID" Type="Employee" />
+      <Association Name="Schedule_ScheduleZone" Member="ScheduleZones" ThisKey="UID" OtherKey="ScheduleUID" Type="ScheduleZone" />
+      <Association Name="Organisation_Schedule" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
+      <Association Name="ScheduleScheme_Schedule" Member="ScheduleScheme" ThisKey="ScheduleSchemeUID" OtherKey="UID" Type="ScheduleScheme" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

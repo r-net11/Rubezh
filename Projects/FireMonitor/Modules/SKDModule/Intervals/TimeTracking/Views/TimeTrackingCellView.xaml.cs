@@ -19,7 +19,11 @@ namespace SKDModule.Views
 			if (dayTrackViewModel != null)
 			{
 				var timeTrackDetailsViewModel = new TimeTrackDetailsViewModel(dayTrackViewModel.DayTimeTrack);
-				DialogService.ShowModalWindow(timeTrackDetailsViewModel);
+				if (DialogService.ShowModalWindow(timeTrackDetailsViewModel))
+				{
+					dayTrackViewModel.DayTimeTrack.Calculate();
+					dayTrackViewModel.Update();
+				}
 			}
 		}
 	}

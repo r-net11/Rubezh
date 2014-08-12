@@ -11,7 +11,7 @@ namespace SKDModule.ViewModels
 {
 	public class HolidayDetailsViewModel : SaveCancelDialogViewModel
 	{
-		private Organisation Organisation;
+		Organisation Organisation;
 		public Holiday Holiday { get; private set; }
 
 		public HolidayDetailsViewModel(Organisation organisation, int year, Holiday holiday = null)
@@ -41,7 +41,7 @@ namespace SKDModule.ViewModels
 			HolidayType = holiday.Type;
 		}
 
-		private DateTime _date;
+		DateTime _date;
 		public DateTime Date
 		{
 			get { return _date; }
@@ -52,7 +52,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private string _name;
+		string _name;
 		public string Name
 		{
 			get { return _name; }
@@ -65,7 +65,7 @@ namespace SKDModule.ViewModels
 
 		public ObservableCollection<HolidayType> AvailableHolidayTypes { get; private set; }
 
-		private HolidayType _holidayType;
+		HolidayType _holidayType;
 		public HolidayType HolidayType
 		{
 			get { return _holidayType; }
@@ -78,7 +78,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private TimeSpan _reduction;
+		TimeSpan _reduction;
 		public TimeSpan Reduction
 		{
 			get { return _reduction; }
@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private DateTime _transferDate;
+		DateTime _transferDate;
 		public DateTime TransferDate
 		{
 			get { return _transferDate; }
@@ -102,7 +102,7 @@ namespace SKDModule.ViewModels
 
 		public bool IsReductionEnabled
 		{
-			get { return HolidayType != HolidayType.Holiday; }
+			get { return HolidayType == HolidayType.BeforeHoliday; }
 		}
 		public bool IsTransferDateEnabled
 		{
@@ -116,11 +116,11 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Величина сокращения не может быть больше двух часов");
 				return false;
 			}
-			if (HolidayType == HolidayType.WorkingHoliday && Date.DayOfWeek != DayOfWeek.Saturday && Date.DayOfWeek != DayOfWeek.Sunday)
-			{
-				MessageBoxService.ShowWarning("Дата переноса устанавливается только на субботу или воскресенье");
-				return false;
-			}
+			//if (HolidayType == HolidayType.WorkingHoliday && Date.DayOfWeek != DayOfWeek.Saturday && Date.DayOfWeek != DayOfWeek.Sunday)
+			//{
+			//    MessageBoxService.ShowWarning("Дата переноса устанавливается только на субботу или воскресенье");
+			//    return false;
+			//}
 			Holiday.Name = Name;
 			Holiday.Date = Date;
 			Holiday.Type = HolidayType;

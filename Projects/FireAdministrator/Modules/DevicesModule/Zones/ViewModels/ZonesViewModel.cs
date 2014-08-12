@@ -69,7 +69,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_zones = value;
-				OnPropertyChanged("Zones");
+				OnPropertyChanged(() => Zones);
 			}
 		}
 

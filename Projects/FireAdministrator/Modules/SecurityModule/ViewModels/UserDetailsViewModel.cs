@@ -61,7 +61,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_permissionsViewModel = value;
-				OnPropertyChanged("PermissionsViewModel");
+				OnPropertyChanged(() => PermissionsViewModel);
 			}
 		}
 

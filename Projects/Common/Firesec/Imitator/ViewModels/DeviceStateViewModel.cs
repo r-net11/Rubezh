@@ -21,7 +21,7 @@ namespace Firesec.Imitator.ViewModels
 				if (_isActive != value)
 				{
 					_isActive = value;
-					OnPropertyChanged("IsActive");
+					OnPropertyChanged(() => IsActive);
 					ImitatorViewModel.Current.Update();
 				}
 			}

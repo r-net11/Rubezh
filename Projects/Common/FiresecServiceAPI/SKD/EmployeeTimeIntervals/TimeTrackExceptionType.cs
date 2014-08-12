@@ -6,13 +6,16 @@ using System.ComponentModel;
 
 namespace FiresecAPI.SKD
 {
-	public enum ExcuseDocumentEnum
+	public enum TimeTrackExceptionType
 	{
 		[Description("Нет")]
 		None,
 
 		[Description("Больничный")]
 		Hospital,
+
+		[Description("Отпуск")]
+		Vacation,
 
 		[Description("Командировка")]
 		Trip

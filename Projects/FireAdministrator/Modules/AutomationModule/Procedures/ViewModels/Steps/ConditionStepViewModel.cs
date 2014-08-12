@@ -5,6 +5,7 @@ using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 namespace AutomationModule.ViewModels
 {
 	public class ConditionStepViewModel : BaseViewModel, IStepViewModel
@@ -152,17 +153,21 @@ namespace AutomationModule.ViewModels
 		{
 			Condition = condition;
 			Procedure = procedure;
-			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, procedure.Variables, true);
+			var variablesAndArguments = new List<Variable>(Procedure.Variables);
+			variablesAndArguments.AddRange(Procedure.Arguments);
+			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, variablesAndArguments, true);
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
-			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, procedure.Variables);
+			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, variablesAndArguments);
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
 			ConditionTypes = new ObservableCollection<ConditionType> { ConditionType.IsEqual, ConditionType.IsLess, ConditionType.IsMore, ConditionType.IsNotEqual, ConditionType.IsNotLess, ConditionType.IsNotMore};
 		}
 
 		public void UpdateContent()
 		{
-			Variable1.Update(Procedure.Variables);
-			Variable2.Update(Procedure.Variables);
+			var variablesAndArguments = new List<Variable>(Procedure.Variables);
+			variablesAndArguments.AddRange(Procedure.Arguments);
+			Variable1.Update(variablesAndArguments);
+			Variable2.Update(variablesAndArguments);
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }

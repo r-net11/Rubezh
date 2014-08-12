@@ -13,6 +13,9 @@ namespace SKDModule.ViewModels
 		public TimeTrackViewModel(ShortEmployee shortEmployee, List<DayTimeTrack> dayTimeTracks)
 		{
 			ShortEmployee = shortEmployee;
+			if (dayTimeTracks == null)
+				dayTimeTracks = new List<DayTimeTrack>();
+
 			DayTracks = new ObservableCollection<DayTrackViewModel>();
 			foreach (var dayTimeTrack in dayTimeTracks)
 			{
@@ -28,7 +31,7 @@ namespace SKDModule.ViewModels
 			foreach (var dayTimeTrack in dayTimeTracks)
 			{
 				totalTimeSpan = totalTimeSpan.Add(dayTimeTrack.Total);
-				totalMissTimeSpan = totalMissTimeSpan.Add(dayTimeTrack.TotalMiss);
+				totalMissTimeSpan = totalMissTimeSpan.Add(dayTimeTrack.TotalMissed);
 				totalInScheduleTimeSpan = totalInScheduleTimeSpan.Add(dayTimeTrack.TotalInSchedule);
 				totalOutScheduleTimeSpan = totalOutScheduleTimeSpan.Add(dayTimeTrack.TotalOutSchedule);
 			}

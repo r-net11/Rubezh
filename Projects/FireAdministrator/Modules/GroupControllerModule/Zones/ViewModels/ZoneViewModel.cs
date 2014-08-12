@@ -73,7 +73,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				Zone.IsOPCUsed = value;
-				OnPropertyChanged("IsOPCUsed");
+				OnPropertyChanged(() => IsOPCUsed);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

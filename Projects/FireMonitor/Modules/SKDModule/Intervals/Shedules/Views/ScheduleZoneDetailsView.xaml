@@ -2,30 +2,23 @@
 
 	<TabControl>
 		<TabItem Header="Основные">
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
-                <Grid Grid.Row="0" ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
-					<DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
-						<DataGrid.Columns>
-							<DataGridTemplateColumn Width="250" Header="Зона">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<StackPanel Orientation="Horizontal">
-											<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
-											<TextBlock Width="200" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Zone.Name}" />
-										</StackPanel>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-							</DataGridTemplateColumn>
-							<DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
-						</DataGrid.Columns>
-					</DataGrid>
-				</Grid>
-                <CheckBox Grid.Row="1" Content="Контроль нарушений дисциплины в течение рабочего дня" IsChecked="{Binding IsControl, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Margin="2" />
-			</Grid>
-		</TabItem>
+            <Grid ScrollViewer.IsDeferredScrollingEnabled="True" VirtualizingStackPanel.VirtualizationMode="Recycling" Margin="2">
+                <DataGrid Focusable="True" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="250" Header="Зона">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
+                                        <TextBlock Width="200" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Zone.Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding Zone.Description}" Header="Примечание" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </TabItem>
 	</TabControl>
 </UserControl>

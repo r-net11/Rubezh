@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using FiresecAPI.Automation;
-using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -24,7 +24,6 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			RemoveCommand = new RelayCommand<FindObjectConditionViewModel>(OnRemove);
 			ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
-			RunCommand = new RelayCommand(OnRun);
 		}
 
 		public RelayCommand AddCommand { get; private set; }
@@ -108,19 +107,12 @@ namespace AutomationModule.ViewModels
 						FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
 						OnPropertyChanged(() => FindObjectConditions);
 					}
+					FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(AutomationConfiguration.ObjectTypeToProperiesList(value.ObjectType));
 					FindObjectArguments.ResultUid = value.Variable.Uid;
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariable);
 			}
-		}
-
-		public RelayCommand RunCommand { get; private set; }
-		private void OnRun()
-		{
-			
-			//FiresecManager.SystemConfiguration.AutomationConfiguration.UpdateConfiguration();
-			FiresecManager.FiresecService.RunProcedure(Procedure.Uid, new List<Argument>());
 		}
 	}
 
@@ -133,70 +125,24 @@ namespace AutomationModule.ViewModels
 		{
 			FindObjectCondition = findObjectCondition;
 			ResultVariable = resultVariable;
-			DevicePropertyTypes = new ObservableCollection<DevicePropertyType>
-			{
-				DevicePropertyType.Name, DevicePropertyType.ShleifNo, DevicePropertyType.IntAddress, DevicePropertyType.DeviceState
-			};
-			ZonePropertyTypes = new ObservableCollection<ZonePropertyType>
-			{
-				ZonePropertyType.Name, ZonePropertyType.No, ZonePropertyType.ZoneType
-			};
 
-			DirectionPropertyTypes = new ObservableCollection<DirectionPropertyType>
-			{
-				DirectionPropertyType.Name, DirectionPropertyType.No, DirectionPropertyType.Delay, DirectionPropertyType.Hold, DirectionPropertyType.DelayRegime
-			};
-			ConditionTypes = new ObservableCollection<ConditionType>
-			{
-				ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess
-			};
-			StringConditionTypes = new ObservableCollection<StringConditionType>
-			{
-				StringConditionType.StartsWith, StringConditionType.EndsWith, StringConditionType.Contains
-			};
+			ConditionTypes = new ObservableCollection<ConditionType>(Enum.GetValues(typeof(ConditionType)).Cast<ConditionType>());
+			StringConditionTypes = new ObservableCollection<StringConditionType>(Enum.GetValues(typeof(StringConditionType)).Cast<StringConditionType>());
 
-			SelectedDevicePropertyType = FindObjectCondition.DevicePropertyType;
-			SelectedZonePropertyType = FindObjectCondition.ZonePropertyType;
-			SelectedDirectionPropertyType = FindObjectCondition.DirectionPropertyType;
+			SelectedProperty = FindObjectCondition.Property;
 			SelectedConditionType = FindObjectCondition.ConditionType;
 			IntValue = FindObjectCondition.IntValue;
 			StringValue = FindObjectCondition.StringValue;
 		}
 
-		public ObservableCollection<DevicePropertyType> DevicePropertyTypes { get; private set; }
-		public DevicePropertyType SelectedDevicePropertyType
+		public static ObservableCollection<Property> Properties { get; set; }
+		public Property SelectedProperty
 		{
-			get { return FindObjectCondition.DevicePropertyType; }
+			get { return FindObjectCondition.Property; }
 			set
 			{
-				FindObjectCondition.DevicePropertyType = value;
-				OnPropertyChanged(() => SelectedDevicePropertyType);
-				OnPropertyChanged(() => PropertyType);
-				ServiceFactory.SaveService.AutomationChanged = true;
-			}
-		}
-
-		public ObservableCollection<ZonePropertyType> ZonePropertyTypes { get; private set; }
-		public ZonePropertyType SelectedZonePropertyType
-		{
-			get { return FindObjectCondition.ZonePropertyType; }
-			set
-			{
-				FindObjectCondition.ZonePropertyType = value;
-				OnPropertyChanged(() => SelectedZonePropertyType);
-				OnPropertyChanged(() => PropertyType);
-				ServiceFactory.SaveService.AutomationChanged = true;
-			}
-		}
-
-		public ObservableCollection<DirectionPropertyType> DirectionPropertyTypes { get; private set; }
-		public DirectionPropertyType SelectedDirectionPropertyType
-		{
-			get { return FindObjectCondition.DirectionPropertyType; }
-			set
-			{
-				FindObjectCondition.DirectionPropertyType = value;
-				OnPropertyChanged(() => SelectedDirectionPropertyType);
+				FindObjectCondition.Property = value;
+				OnPropertyChanged(() => SelectedProperty);
 				OnPropertyChanged(() => PropertyType);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
@@ -252,45 +198,9 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				if (ResultVariable.ObjectType == ObjectType.Device)
-				{
-					switch (SelectedDevicePropertyType)
-					{
-						case DevicePropertyType.ShleifNo:
-						case DevicePropertyType.IntAddress:
-						case DevicePropertyType.DeviceState:
-							return FindObjectCondition.PropertyType = PropertyType.Integer;
-						case DevicePropertyType.Name:
-							return FindObjectCondition.PropertyType = PropertyType.String;
-					}
-				}
-
-				if (ResultVariable.ObjectType == ObjectType.Zone)
-				{
-					switch (SelectedZonePropertyType)
-					{
-						case ZonePropertyType.No:
-						case ZonePropertyType.ZoneType:
-							return FindObjectCondition.PropertyType = PropertyType.Integer;
-						case ZonePropertyType.Name:
-							return FindObjectCondition.PropertyType = PropertyType.String;
-					}
-				}
-
-				if (ResultVariable.ObjectType == ObjectType.Direction)
-				{
-					switch (SelectedDirectionPropertyType)
-					{
-						case DirectionPropertyType.No:
-						case DirectionPropertyType.Delay:
-						case DirectionPropertyType.Hold:
-						case DirectionPropertyType.DelayRegime:
-							return FindObjectCondition.PropertyType = PropertyType.Integer;
-						case DirectionPropertyType.Name:
-							return FindObjectCondition.PropertyType = PropertyType.String;
-					}
-				}
-				return PropertyType.String;
+				if (SelectedProperty == Property.Name)
+					return PropertyType.String;
+				return PropertyType.Integer;
 			}
 		}
 	}

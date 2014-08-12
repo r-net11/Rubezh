@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Automation;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
@@ -8,6 +9,7 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecService.Service;
 using Infrastructure.Common.Video.RVI_VSS;
+using Property = FiresecAPI.Automation.Property;
 using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace FiresecService.Processor
@@ -51,6 +53,50 @@ namespace FiresecService.Processor
 				}
 			}
 			return result;
+		}
+
+		public static void GetString(ProcedureStep procedureStep, Procedure procedure)
+		{
+			var getStringArguments = procedureStep.GetStringArguments;
+			var resultVariable = procedure.Variables.FirstOrDefault(x => x.Uid == getStringArguments.ResultVariableUid) ??
+					procedure.Arguments.FirstOrDefault(x => x.Uid == getStringArguments.ResultVariableUid);
+			var variable = procedure.Variables.FirstOrDefault(x => x.Uid == getStringArguments.VariableUid) ??
+				procedure.Arguments.FirstOrDefault(x => x.Uid == getStringArguments.VariableUid);
+			if ((resultVariable == null) || (variable == null))
+				return;
+			int intPropertyValue = 0;
+			string stringPropertyValue = "";
+			var item = new object();
+			var itemUid = new Guid();
+			InitializeItem(ref item, variable.ObjectUid, variable.ObjectType);
+			InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, getStringArguments.Property, item);
+			if (getStringArguments.StringOperation == StringOperation.Is)
+				resultVariable.StringValues = new List<string>();
+			if (getStringArguments.Property != Property.Name)
+				resultVariable.StringValues.Add(intPropertyValue.ToString());
+			else
+				resultVariable.StringValues.Add(stringPropertyValue);
+		}
+
+		public static AutomationCallbackResult SendMessage(ProcedureStep procedureStep, Procedure procedure)
+		{
+			var automationCallbackResult = new AutomationCallbackResult();
+			var sendMessageArguments = procedureStep.SendMessageArguments;
+			if (sendMessageArguments.ValueType == ValueType.IsValue)
+				automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
+			else
+			{
+				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid) ??
+					procedure.Arguments.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid);
+				if (localVariable != null)
+				{
+					foreach (var str in localVariable.StringValues)
+					{
+						automationCallbackResult.Message += str + "\n";
+					}
+				}
+			}
+			return automationCallbackResult;
 		}
 
 		public static void Calculate(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
@@ -120,22 +166,22 @@ namespace FiresecService.Processor
 				FindObjectsAnd(variable, findObjectArguments.FindObjectConditions);
 		}
 
-		static void InitializeProperties(ref int intPropertyValue, ref string stringPropertyValue, ref Guid itemUid, FindObjectCondition findObjectCondition, object item)
+		static void InitializeProperties(ref int intPropertyValue, ref string stringPropertyValue, ref Guid itemUid, Property property, object item)
 		{
 			if (item is XDevice)
 			{
-				switch (findObjectCondition.DevicePropertyType)
+				switch (property)
 				{
-					case DevicePropertyType.ShleifNo:
+					case Property.ShleifNo:
 						intPropertyValue = (item as XDevice).ShleifNo;
 						break;
-					case DevicePropertyType.IntAddress:
+					case Property.IntAddress:
 						intPropertyValue = (item as XDevice).IntAddress;
 						break;
-					case DevicePropertyType.DeviceState:
+					case Property.DeviceState:
 						intPropertyValue = (int)(item as XDevice).State.StateClass;
 						break;
-					case DevicePropertyType.Name:
+					case Property.Name:
 						stringPropertyValue = (item as XDevice).PresentationName.Trim();
 						break;
 				}
@@ -144,15 +190,15 @@ namespace FiresecService.Processor
 
 			if (item is XZone)
 			{
-				switch (findObjectCondition.ZonePropertyType)
+				switch (property)
 				{
-					case ZonePropertyType.No:
+					case Property.No:
 						intPropertyValue = (item as XZone).No;
 						break;
-					case ZonePropertyType.ZoneType:
+					case Property.ZoneType:
 						intPropertyValue = (int)(item as XZone).ObjectType;
 						break;
-					case ZonePropertyType.Name:
+					case Property.Name:
 						stringPropertyValue = (item as XZone).Name.Trim();
 						break;
 				}
@@ -161,21 +207,21 @@ namespace FiresecService.Processor
 
 			if (item is XDirection)
 			{
-				switch (findObjectCondition.DirectionPropertyType)
+				switch (property)
 				{
-					case DirectionPropertyType.No:
+					case Property.No:
 						intPropertyValue = (item as XDirection).No;
 						break;
-					case DirectionPropertyType.Delay:
+					case Property.Delay:
 						intPropertyValue = (int)(item as XDirection).Delay;
 						break;
-					case DirectionPropertyType.Hold:
+					case Property.Hold:
 						intPropertyValue = (int)(item as XDirection).Hold;
 						break;
-					case DirectionPropertyType.DelayRegime:
+					case Property.DelayRegime:
 						intPropertyValue = (int)(item as XDirection).DelayRegime;
 						break;
-					case DirectionPropertyType.Name:
+					case Property.Name:
 						stringPropertyValue = (item as XDirection).Name.Trim();
 						break;
 				}
@@ -203,6 +249,16 @@ namespace FiresecService.Processor
 			}
 		}
 
+		static void InitializeItem(ref object item, Guid itemUid, ObjectType objectType)
+		{
+			if (objectType == ObjectType.Device)
+				item = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == itemUid);
+			if (objectType == ObjectType.Zone)
+				item = XManager.Zones.FirstOrDefault(x => x.UID == itemUid);
+			if (objectType == ObjectType.Direction)
+				item = XManager.Directions.FirstOrDefault(x => x.UID == itemUid);
+		}
+
 		static void FindObjectsOr(Variable result, IEnumerable<FindObjectCondition> findObjectConditions)
 		{
 			IEnumerable<object> items = new List<object>();
@@ -216,17 +272,17 @@ namespace FiresecService.Processor
 			{
 				foreach (var item in items)
 				{
-					InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, findObjectCondition, item);
+					InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, findObjectCondition.Property, item);
 					if (resultObjects.Contains(item))
 						continue;
-					if (((findObjectCondition.PropertyType == PropertyType.Integer) &&
+					if (((findObjectCondition.Property != Property.Name) &&
 						(((findObjectCondition.ConditionType == ConditionType.IsEqual) && (intPropertyValue == findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (intPropertyValue != findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsMore) && (intPropertyValue > findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (intPropertyValue <= findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsLess) && (intPropertyValue < findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (intPropertyValue >= findObjectCondition.IntValue)))) ||
-						((findObjectCondition.PropertyType == PropertyType.String) &&
+						((findObjectCondition.Property == Property.Name) &&
 						(((findObjectCondition.StringConditionType == StringConditionType.StartsWith) && (stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.StringConditionType == StringConditionType.EndsWith) && (stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.StringConditionType == StringConditionType.Contains) && (stringPropertyValue.Contains(findObjectCondition.StringValue))))))
@@ -249,15 +305,15 @@ namespace FiresecService.Processor
 			{
 				foreach (var item in resultObjects)
 				{
-					InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, findObjectCondition, item);
-					if (((findObjectCondition.PropertyType == PropertyType.Integer) &&
+					InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, findObjectCondition.Property, item);
+					if (((findObjectCondition.Property != Property.Name) &&
 						(((findObjectCondition.ConditionType == ConditionType.IsEqual) && (intPropertyValue != findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (intPropertyValue == findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsMore) && (intPropertyValue <= findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (intPropertyValue > findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsLess) && (intPropertyValue >= findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (intPropertyValue < findObjectCondition.IntValue)))) ||
-						((findObjectCondition.PropertyType == PropertyType.String) &&
+						((findObjectCondition.Property == Property.Name) &&
 						(((findObjectCondition.StringConditionType == StringConditionType.StartsWith) && (!stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.StringConditionType == StringConditionType.EndsWith) && (!stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.StringConditionType == StringConditionType.Contains) && (!stringPropertyValue.Contains(findObjectCondition.StringValue))))))
@@ -279,7 +335,7 @@ namespace FiresecService.Processor
 		public static void ControlCamera(ProcedureStep procedureStep)
 		{
 			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == procedureStep.ControlCameraArguments.CameraUid);
-			if(camera == null)
+			if (camera == null)
 				return;
 			if (procedureStep.ControlCameraArguments.CameraCommandType == CameraCommandType.StartRecord)
 			{
@@ -288,7 +344,7 @@ namespace FiresecService.Processor
 				var winFormsPlayer = new WinFormsPlayer();
 				winFormsPlayer.Camera = camera;
 				winFormsPlayer.Connect(camera);
-				if(winFormsPlayer.StartRecord(camera, camera.ChannelNumber))
+				if (winFormsPlayer.StartRecord(camera, camera.ChannelNumber))
 					WinFormsPlayers.Add(winFormsPlayer);
 			}
 			else
@@ -307,7 +363,7 @@ namespace FiresecService.Processor
 			var zone = XManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlGKFireZoneArguments.ZoneUid);
 			if (zone == null)
 				return;
-			if(procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.Ignore)
+			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.Ignore)
 				FiresecServiceManager.SafeFiresecService.GKSetIgnoreRegime(zone.UID, zone.ObjectType);
 			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.ResetIgnore)
 				FiresecServiceManager.SafeFiresecService.GKSetAutomaticRegime(zone.UID, zone.ObjectType);

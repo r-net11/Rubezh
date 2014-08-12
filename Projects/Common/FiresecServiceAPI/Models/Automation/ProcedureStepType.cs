@@ -43,6 +43,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Отправить сообщение")]
 		SendMessage,
 
+		[DescriptionAttribute("Получить строку")]
+		GetString,
+
 		[DescriptionAttribute("Добавить запись в журнал")]
 		AddJournalItem,
 

@@ -14,6 +14,10 @@ using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using FiresecClient;
+using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -26,6 +30,7 @@ namespace FireMonitor.Layout.ViewModels
 			: base("Monitor.Layout")
 		{
 			Layout = layout;
+			ChangeUserCommand = new RelayCommand(OnChangeUser, CanChangeUser);
 			if (Layout.IsRibbonEnabled)
 			{
 				RibbonContent = new RibbonMenuViewModel();
@@ -154,26 +159,37 @@ namespace FireMonitor.Layout.ViewModels
 		}
 
 		private AutoActivationViewModel _autoActivationViewModel;
-		private UserViewModel _userViewModel;
 		protected void UpdateRibbonItems()
 		{
 			RibbonContent.Items[1][0].ImageSource = _autoActivationViewModel.IsAutoActivation ? "/Controls;component/Images/BWindowNormal.png" : "/Controls;component/Images/windowCross.png";
 			RibbonContent.Items[1][0].ToolTip = _autoActivationViewModel.IsAutoActivation ? "Автоматическая активация ВКЛючена" : "Автоматическая активация ВЫКЛючена";
+			RibbonContent.Items[1][0].Text = _autoActivationViewModel.IsAutoActivation ? "Выключить автоактивицию" : "Включить автоактивацию";
 			RibbonContent.Items[1][1].ImageSource = _autoActivationViewModel.IsPlansAutoActivation ? "/Controls;component/Images/BMapOn.png" : "/Controls;component/Images/BMapOff.png";
 			RibbonContent.Items[1][1].ToolTip = _autoActivationViewModel.IsPlansAutoActivation ? "Автоматическая активация планов ВКЛючена" : "Автоматическая активация планов ВЫКЛючена";
+			RibbonContent.Items[1][1].Text = _autoActivationViewModel.IsPlansAutoActivation ? "Выключить автоактивицию плана" : "Включить автоактивацию плана";
 		}
 		private void AddRibbonItem()
 		{
 			_autoActivationViewModel = new AutoActivationViewModel();
-			_userViewModel = new UserViewModel();
-			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", _userViewModel.ChangeUserCommand, "/Controls;component/Images/BUser.png"));
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", ChangeUserCommand, "/Controls;component/Images/BUser.png"));
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Автоактивиция", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
-				new RibbonMenuItemViewModel("Автоактивация окна", _autoActivationViewModel.ChangeAutoActivationCommand, "/Controls;component/Images/BWindowNormal.png", "Автоматическая активация планов ВКЛючен"),
-				new RibbonMenuItemViewModel("Автоактивация плана", _autoActivationViewModel.ChangePlansAutoActivationCommand, "/Controls;component/Images/BMapOn.png", "Автоматическая активация планов ВКЛючен"),
+				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangeAutoActivationCommand),
+				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangePlansAutoActivationCommand),
 			}, "/Controls;component/Images/BConfig.png"));
 			if (AllowClose)
 				RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "/Controls;component/Images/BExit.png") { Order = int.MaxValue });
+		}
+
+		public RelayCommand ChangeUserCommand { get; private set; }
+		private void OnChangeUser()
+		{
+			ApplicationService.ShutDown();
+			Process.Start(Application.ResourceAssembly.Location);
+		}
+		private bool CanChangeUser()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Logout);
 		}
 	}
 }
