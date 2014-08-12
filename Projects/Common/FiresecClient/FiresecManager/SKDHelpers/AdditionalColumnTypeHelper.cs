@@ -37,12 +37,21 @@ namespace FiresecClient.SKDHelpers
 			return Get(new AdditionalColumnTypeFilter() { UserUID = FiresecManager.CurrentUser.UID });
 		}
 
-		public static IEnumerable<ShortAdditionalColumnType> GetByOrganisation(Guid organisationUID)
+		public static IEnumerable<ShortAdditionalColumnType> GetShortByOrganisation(Guid organisationUID)
 		{
 			var result = FiresecManager.FiresecService.GetAdditionalColumnTypeList(new AdditionalColumnTypeFilter
 				{
 					OrganisationUIDs = new List<System.Guid> { organisationUID }
 				});
+			return Common.ShowErrorIfExists(result);
+		}
+
+		public static IEnumerable<AdditionalColumnType> GetByOrganisation(Guid organisationUID)
+		{
+			var result = FiresecManager.FiresecService.GetAdditionalColumnTypes(new AdditionalColumnTypeFilter
+			{
+				OrganisationUIDs = new List<System.Guid> { organisationUID }
+			});
 			return Common.ShowErrorIfExists(result);
 		}
 	}

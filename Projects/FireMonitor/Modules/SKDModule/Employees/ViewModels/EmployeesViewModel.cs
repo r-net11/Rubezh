@@ -118,7 +118,7 @@ namespace SKDModule.ViewModels
 			var employeeUID = SelectedEmployee.ShortEmployee.UID;
 			if (DialogService.ShowModalWindow(employeeDetailsViewModel))
 			{
-				SelectedEmployee.Update(employeeDetailsViewModel.ShortEmployee);
+				SelectedEmployee.Update(employeeDetailsViewModel.ShortEmployee, AdditionalColumnTypes);
 				SelectedEmployee.UpdatePhoto();
 			}
 		}
@@ -171,13 +171,7 @@ namespace SKDModule.ViewModels
 			}
 			foreach (var employee in AllEmployees.Where(x => !x.IsOrganisation))
 			{
-				employee.AdditionalColumnValues = new ObservableCollection<string>();
-				foreach (var additionalColumnType in AdditionalColumnTypes)
-				{
-					var textColumn = employee.ShortEmployee.TextColumns.FirstOrDefault(x => x.ColumnTypeUID == additionalColumnType.UID);
-					var columnValue = textColumn != null ? textColumn.Text : "";
-					employee.AdditionalColumnValues.Add(columnValue);
-				}
+				employee.UpdateColumnValues(AdditionalColumnTypes);
 			}
 		}
 

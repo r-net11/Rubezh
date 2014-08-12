@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -66,10 +67,22 @@ namespace SKDModule.ViewModels
 			Update();
 		}
 
-		public void Update(ShortEmployee employee)
+		public void Update(ShortEmployee employee, List<ShortAdditionalColumnType> additionalColumnTypes)
 		{
 			ShortEmployee = employee;
+			UpdateColumnValues(additionalColumnTypes);
 			Update();
+		}
+
+		public void UpdateColumnValues(List<ShortAdditionalColumnType> additionalColumnTypes)
+		{
+			AdditionalColumnValues = new ObservableCollection<string>();
+			foreach (var additionalColumnType in additionalColumnTypes)
+			{
+				var textColumn = ShortEmployee.TextColumns.FirstOrDefault(x => x.ColumnTypeUID == additionalColumnType.UID);
+				var columnValue = textColumn != null ? textColumn.Text : "";
+				AdditionalColumnValues.Add(columnValue);
+			}
 		}
 
 		public void Update()
@@ -80,6 +93,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => AppointedString);
 			OnPropertyChanged(() => DismissedString);
+			OnPropertyChanged(() => AdditionalColumnValues);
 		}
 
 		public PhotoColumnViewModel Photo { get; private set; }

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using ChinaSKDDriver;
 using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
-using FiresecClient;
-using System.Text;
 
 namespace FiresecService.Service
 {
@@ -315,6 +314,10 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.GetList(filter);
 		}
+        public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+        {
+            return SKDDatabaseService.AdditionalColumnTypeTranslator.Get(filter);
+        }
 		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
 		{
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.GetSingle(uid);

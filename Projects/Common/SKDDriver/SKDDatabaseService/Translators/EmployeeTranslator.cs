@@ -116,23 +116,15 @@ namespace SKDDriver
 				Appointed = tableItem.Appointed.ToString("d MMM yyyy"),
 				Dismissed = tableItem.Dismissed.ToString("d MMM yyyy"),
 				OrganisationUID = tableItem.OrganisationUID,
+				TextColumns = AdditionalColumnTranslator.GetTextColumns(tableItem.UID)
 			};
 			var position = Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
 			if (position != null)
 				shortEmployee.PositionName = position.Name;
-
 			var department = Context.Departments.FirstOrDefault(x => x.UID == tableItem.DepartmentUID);
 			if (department != null)
 				shortEmployee.DepartmentName = department.Name;
 			return shortEmployee;
-		}
-
-		public override OperationResult<IEnumerable<ShortEmployee>> GetList(EmployeeFilter filter)
-		{
-			var result = base.GetList(filter);
-			if (result.HasError)
-				return result;
-			return AdditionalColumnTranslator.SetTextColumns(result);
 		}
 
 		protected override void TranslateBack(DataAccess.Employee tableItem, Employee apiItem)

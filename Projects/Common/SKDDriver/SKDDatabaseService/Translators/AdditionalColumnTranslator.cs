@@ -69,6 +69,22 @@ namespace SKDDriver
 			}
 		}
 
+		public List<TextColumn> GetTextColumns(Guid employeeUID)
+		{
+				var textColumnTypes = AdditionalColumnTypeTranslator.GetTextColumnTypes();
+				var textColumns = new List<TextColumn>();
+				var tableItems = from x in Table where x.EmployeeUID == employeeUID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value) select x;
+				foreach (var item in tableItems)
+				{
+					textColumns.Add(new TextColumn
+						{
+							ColumnTypeUID = textColumnTypes.FirstOrDefault(x => x == item.AdditionalColumnTypeUID.Value),
+							Text = item.TextData
+						});
+				}
+				return textColumns;
+		}
+
 		public override OperationResult Save(IEnumerable<AdditionalColumn> apiItems)
 		{
 			var photosToSave = new List<Photo>();
