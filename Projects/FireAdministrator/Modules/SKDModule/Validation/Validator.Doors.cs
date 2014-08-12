@@ -35,7 +35,7 @@ namespace SKDModule.Validation
 				{
 					if (door.DoorType == DoorType.OneWay)
 					{
-						if (outDevice.DriverType != SKDDriverType.Button && outDevice.IntAddress != inDevice.IntAddress / 2)
+						if (outDevice.DriverType != SKDDriverType.Button && outDevice.IntAddress != inDevice.IntAddress)
 							Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует неверно указано выходное устройство", ValidationErrorLevel.CannotSave));
 					}
 					if (door.DoorType == DoorType.TwoWay)

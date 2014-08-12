@@ -5,17 +5,17 @@
 			 MinWidth="500" MinHeight="300">
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
+			<!--<ColumnDefinition Width="*" />-->
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
-		<StackPanel Grid.Column="0">
+		<!--<StackPanel Grid.Column="0">
 			<TextBlock Text="Новый график работы действует с" Foreground="White" HorizontalAlignment="Center" />
 			<Calendar SelectionMode="SingleDate" 
 				  SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" 
 				  DisplayDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" />
-		</StackPanel>
+		</StackPanel>-->
 		
-		<ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+		<ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
 			<DataGrid ItemsSource="{Binding Schedules}" >
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название" Width="*">

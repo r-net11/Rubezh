@@ -27,10 +27,12 @@ namespace FiresecService.Service
 			//{
 			//	GKAddUser(gkDevice.UID);
 			//}
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_сотрудника);
 			return SKDDatabaseService.EmployeeTranslator.Save(item);
 		}
 		public OperationResult MarkDeletedEmployee(Guid uid)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_сотрудника);
 			var stringBuilder = new StringBuilder();
 			var getEmployeeOperationResult = SKDDatabaseService.EmployeeTranslator.GetSingle(uid);
 			if (!getEmployeeOperationResult.HasError)
@@ -68,10 +70,12 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveDepartment(Department item)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_отдела);
 			return SKDDatabaseService.DepartmentTranslator.Save(item);
 		}
 		public OperationResult MarkDeletedDepartment(Guid uid)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_отдела);
 			return SKDDatabaseService.DepartmentTranslator.MarkDeleted(uid);
 		}
 		#endregion
@@ -87,10 +91,12 @@ namespace FiresecService.Service
 		}
 		public OperationResult SavePosition(Position item)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
 			return SKDDatabaseService.PositionTranslator.Save(item);
 		}
 		public OperationResult MarkDeletedPosition(Guid uid)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
 			return SKDDatabaseService.PositionTranslator.MarkDeleted(uid);
 		}
 		#endregion
@@ -165,6 +171,8 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Удаление_карты);
+
 			item.AccessTemplateUID = null;
 			item.CardDoors = new List<CardDoor>();
 			item.PassCardTemplateUID = null;
@@ -174,7 +182,6 @@ namespace FiresecService.Service
 			item.StopReason = reason;
 			item.StartDate = DateTime.Now;
 			item.EndDate = DateTime.Now;
-			AddSKDJournalMessage(JournalEventNameType.Удаление_карты);
 
 			string cardWriterError = null;
 			OperationResult pendingResult;
@@ -234,6 +241,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<bool> SaveAccessTemplate(AccessTemplate accessTemplate)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа);
 			var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(accessTemplate.UID);
 			var saveResult = SKDDatabaseService.AccessTemplateTranslator.Save(accessTemplate);
 
@@ -264,6 +272,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа);
 			var result = SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(uid);
 			return result;
 		}
@@ -277,30 +286,37 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveOrganisation(OrganisationDetails item)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
 			return SKDDatabaseService.OrganisationTranslator.Save(item);
 		}
 		public OperationResult MarkDeletedOrganisation(Guid uid)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
 			return SKDDatabaseService.OrganisationTranslator.MarkDeleted(uid);
 		}
 		public OperationResult SaveOrganisationDoors(Organisation organisation)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
 			return SKDDatabaseService.OrganisationTranslator.SaveDoors(organisation);
 		}
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
 			return SKDDatabaseService.OrganisationTranslator.SaveZones(organisation);
 		}
 		public OperationResult SaveOrganisationCardTemplates(Organisation organisation)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
 			return SKDDatabaseService.OrganisationTranslator.SaveCardTemplates(organisation);
 		}
 		public OperationResult SaveOrganisationGuardZones(Organisation organisation)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
 			return SKDDatabaseService.OrganisationTranslator.SaveGuardZones(organisation);
 		}
 		public OperationResult SaveOrganisationUsers(Organisation organisation)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
 			return SKDDatabaseService.OrganisationTranslator.SaveUsers(organisation);
 		}
 		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
@@ -324,10 +340,12 @@ namespace FiresecService.Service
 		}
 		public OperationResult SaveAdditionalColumnType(AdditionalColumnType item)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки);
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.Save(item);
 		}
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
 		{
+			AddSKDJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки);
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
 		}
 		#endregion
@@ -343,7 +361,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Запрос_информации_об_устройстве, device);
+				AddSKDJournalMessage(JournalEventNameType.Запрос_конфигурации_контроллера, device);
 				return ChinaSKDDriver.Processor.GetdeviceInfo(deviceUID);
 			}
 			return new OperationResult<SKDDeviceInfo>("Устройство не найдено в конфигурации");
@@ -354,7 +372,7 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Синхронизация_времени, device);
+				AddSKDJournalMessage(JournalEventNameType.Синхронизация_времени_контроллера, device);
 				return ChinaSKDDriver.Processor.SyncronyseTime(deviceUID);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
