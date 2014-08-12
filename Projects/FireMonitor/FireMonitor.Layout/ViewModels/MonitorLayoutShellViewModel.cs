@@ -14,6 +14,10 @@ using Xceed.Wpf.AvalonDock.Layout.Serialization;
 using LayoutModel = FiresecAPI.Models.Layouts.Layout;
 using Infrastructure.Common.Ribbon;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using FiresecClient;
+using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace FireMonitor.Layout.ViewModels
 {
@@ -26,6 +30,7 @@ namespace FireMonitor.Layout.ViewModels
 			: base("Monitor.Layout")
 		{
 			Layout = layout;
+			ChangeUserCommand = new RelayCommand(OnChangeUser, CanChangeUser);
 			if (Layout.IsRibbonEnabled)
 			{
 				RibbonContent = new RibbonMenuViewModel();
@@ -154,7 +159,6 @@ namespace FireMonitor.Layout.ViewModels
 		}
 
 		private AutoActivationViewModel _autoActivationViewModel;
-		private UserViewModel _userViewModel;
 		protected void UpdateRibbonItems()
 		{
 			RibbonContent.Items[1][0].ImageSource = _autoActivationViewModel.IsAutoActivation ? "/Controls;component/Images/BWindowNormal.png" : "/Controls;component/Images/windowCross.png";
@@ -167,8 +171,7 @@ namespace FireMonitor.Layout.ViewModels
 		private void AddRibbonItem()
 		{
 			_autoActivationViewModel = new AutoActivationViewModel();
-			_userViewModel = new UserViewModel();
-			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", _userViewModel.ChangeUserCommand, "/Controls;component/Images/BUser.png"));
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", ChangeUserCommand, "/Controls;component/Images/BUser.png"));
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Автоактивиция", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
 				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangeAutoActivationCommand),
@@ -176,6 +179,17 @@ namespace FireMonitor.Layout.ViewModels
 			}, "/Controls;component/Images/BConfig.png"));
 			if (AllowClose)
 				RibbonContent.Items.Add(new RibbonMenuItemViewModel("Выход", ApplicationCloseCommand, "/Controls;component/Images/BExit.png") { Order = int.MaxValue });
+		}
+
+		public RelayCommand ChangeUserCommand { get; private set; }
+		private void OnChangeUser()
+		{
+			ApplicationService.ShutDown();
+			Process.Start(Application.ResourceAssembly.Location);
+		}
+		private bool CanChangeUser()
+		{
+			return FiresecManager.CheckPermission(PermissionType.Oper_Logout);
 		}
 	}
 }
