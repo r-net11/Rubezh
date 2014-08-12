@@ -34,7 +34,7 @@ namespace GKModule.Validation
 		void ValidateEmptyPassword(XCode code)
 		{
 			//if (string.IsNullOrEmpty(code.Password))
-			//    Errors.Add(new CodeValidationError(code, "Пустой пароль кода", ValidationErrorLevel.CannotWrite));
+			//	Errors.Add(new CodeValidationError(code, "Пустой пароль кода", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateCodeDifferentGK(XCode code)
@@ -57,7 +57,7 @@ namespace GKModule.Validation
 		void ValidateEmptyCode(XCode code)
 		{
 			//if(code.GuardZoneUIDs.Count == 0)
-			//    Errors.Add(new CodeValidationError(code, "У кода отсутствуют зоны", ValidationErrorLevel.CannotWrite));
+			//	Errors.Add(new CodeValidationError(code, "У кода отсутствуют зоны", ValidationErrorLevel.CannotWrite));
 		}
 	}
 }

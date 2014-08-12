@@ -21,6 +21,7 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
 			Direction = direction;
 			State.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
@@ -31,6 +32,15 @@ namespace GKModule.ViewModels
 			OnPropertyChanged(() => State);
 			OnPropertyChanged(() => HasOnDelay);
 			OnPropertyChanged(() => HasHoldDelay);
+		}
+
+		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
+		void OnShowOnPlanOrProperties()
+		{
+			if (CanShowOnPlan())
+				ShowOnPlanHelper.ShowDirection(Direction);
+			else
+				DialogService.ShowWindow(new DirectionDetailsViewModel(Direction));
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }

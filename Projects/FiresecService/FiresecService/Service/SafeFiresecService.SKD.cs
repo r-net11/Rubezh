@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI;
-using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 
 namespace FiresecService.Service
@@ -159,6 +158,10 @@ namespace FiresecService.Service
 		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
 		{
 			return SafeContext.Execute<OperationResult<IEnumerable<ShortAdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypeList(filter));
+		}
+		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		{
+			return SafeContext.Execute<OperationResult<IEnumerable<AdditionalColumnType>>>(() => FiresecService.GetAdditionalColumnTypes(filter));
 		}
 		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
 		{

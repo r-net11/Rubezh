@@ -94,7 +94,6 @@ namespace SKDModule.ViewModels
 		{
 			SKDManager.TimeIntervalsConfiguration.Holidays.Remove(SelectedHoliday.Holiday);
 			Holidays.Remove(SelectedHoliday);
-			SKDManager.TimeIntervalsConfiguration.WeeklyIntervals.ForEach(week => week.InvalidateHolidays());
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		bool CanDelete()

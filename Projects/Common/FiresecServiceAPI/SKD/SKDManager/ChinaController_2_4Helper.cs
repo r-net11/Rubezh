@@ -23,7 +23,7 @@ namespace FiresecAPI.SKD
 			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.Reader, 4));
 			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.Lock, 2));
 			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.LockControl, 2));
-			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.Button, 2));
+			driver.AutocreationItems.Add(new SKDDriverAutocreationItem(SKDDriverType.Button, 4));
 
 			var addressProperty = new SKDDriverProperty()
 			{

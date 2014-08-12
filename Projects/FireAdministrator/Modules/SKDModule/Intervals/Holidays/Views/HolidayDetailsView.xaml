@@ -33,7 +33,7 @@
 
 				<TextBlock Grid.Row="2" Grid.Column="0" Text="Дата" Foreground="White" Margin="2" />
 				<loya:Dameer Grid.Row="2" Grid.Column="1" ShowCheckBox="False"
-				    Format="Custom"
+					Format="Custom"
 					CustomFormat="dd MMMM yyyy"
 					Width="Auto"
 					Value="{Binding DateTime}" Margin="2" />

@@ -26,13 +26,13 @@ namespace SKDDriver.Translators
 				x.UID != item.UID &&
 				x.IsDeleted == false);
 			if (hasSameName)
-				return new OperationResult("Именнованный интервал с таким же названием уже содержится в базе данных");
+				return new OperationResult("Дневной график с таким же названием уже существует");
 			return base.CanSave(item);
 		}
 		protected override OperationResult CanDelete(Guid uid)
 		{
 			if (Context.Days.Any(item => !item.IsDeleted && item.NamedIntervalUID == uid))
-				return new OperationResult("Именованый интервал не может быть удален, так как имеет привязку одного из графиков");
+				return new OperationResult("Дневной график не может быть удален, так как он содержится в одном из графиков");
 			return base.CanDelete(uid);
 		}
 

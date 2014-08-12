@@ -82,7 +82,6 @@ namespace SKDModule.ViewModels
 			ValidTo = Employee.DocumentValidTo;
 			Citizenship = Employee.Citizenship;
 			DocumentType = Employee.DocumentType;
-			
 			if (IsEmployee)
 			{
 				SelectedPosition = Employee.Position;
@@ -98,7 +97,6 @@ namespace SKDModule.ViewModels
 				if(escortEmployee != null)
 					SelectedEscort = new SelectationEmployeeViewModel(escortEmployee);
 			}
-
 			SelectedDepartment = Employee.Department;
 			TextColumns = new List<TextColumnViewModel>();
 			GraphicsColumns = new List<IGraphicsColumnViewModel>();
@@ -107,13 +105,13 @@ namespace SKDModule.ViewModels
 			var additionalColumnTypes = AdditionalColumnTypeHelper.GetByOrganisation(Employee.OrganisationUID);
 			if (additionalColumnTypes != null && additionalColumnTypes.Count() > 0)
 			{
-				var graphicsColumnTypes = additionalColumnTypes.Where(x => x.DataType == AdditionalColumnDataType.Graphics);
-				foreach (var column in Employee.AdditionalColumns)
+				foreach (var textColumnType in additionalColumnTypes.Where(x => x.DataType == AdditionalColumnDataType.Text))
 				{
-					if (column.AdditionalColumnType.DataType == AdditionalColumnDataType.Text)
-						TextColumns.Add(new TextColumnViewModel(column));
-					if (column.AdditionalColumnType.DataType == AdditionalColumnDataType.Graphics)
-						GraphicsColumns.Add(new GraphicsColumnViewModel(column));
+					var columnValue = Employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == textColumnType.UID);
+					if (textColumnType.DataType == AdditionalColumnDataType.Text)
+						TextColumns.Add(new TextColumnViewModel(textColumnType, Employee, columnValue));
+					if (textColumnType.DataType == AdditionalColumnDataType.Graphics)
+						GraphicsColumns.Add(new GraphicsColumnViewModel(textColumnType, Employee, columnValue));
 				}
 			}
 			HasAdditionalGraphicsColumns = GraphicsColumns.Count > 1;
@@ -135,11 +133,16 @@ namespace SKDModule.ViewModels
 					Type = Employee.Type,
 					Appointed = Employee.Appointed.ToString("d MMM yyyy"),
 					Dismissed = Employee.Dismissed.ToString("d MMM yyyy"),
+					TextColumns = new List<TextColumn>()
 				};
 				if (SelectedDepartment != null)
 					result.DepartmentName = SelectedDepartment.Name;
 				if (SelectedPosition != null)
 					result.PositionName = SelectedPosition.Name;
+				foreach (var item in Employee.AdditionalColumns.Where(x => x.AdditionalColumnType.DataType == AdditionalColumnDataType.Text))
+				{
+					result.TextColumns.Add(new TextColumn { ColumnTypeUID = item.AdditionalColumnType.UID, Text = item.TextData });    
+				}
 				return result;
 			}
 		}

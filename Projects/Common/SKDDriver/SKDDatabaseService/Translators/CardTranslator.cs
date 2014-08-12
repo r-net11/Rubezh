@@ -56,7 +56,7 @@ namespace SKDDriver
 			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
 			result.DeactivationControllerUID = tableItem.DeactivationControllerUID != null ? tableItem.DeactivationControllerUID.Value : Guid.Empty ;
 			result.Password = tableItem.Password;
-            result.UserTime = tableItem.UserTime;
+			result.UserTime = tableItem.UserTime;
 
 			var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
 			if (employee != null)
@@ -78,7 +78,7 @@ namespace SKDDriver
 			tableItem.PassCardTemplateUID = apiItem.PassCardTemplateUID;
 			tableItem.Password = apiItem.Password;
 			tableItem.DeactivationControllerUID = apiItem.DeactivationControllerUID;
-            tableItem.UserTime = apiItem.UserTime;
+			tableItem.UserTime = apiItem.UserTime;
 		}
 
 		public override OperationResult Save(SKDCard card)

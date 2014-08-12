@@ -121,6 +121,9 @@ namespace FiresecAPI
 		OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter);
 
 		[OperationContract]
+		OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter);
+
+		[OperationContract]
 		OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid);
 
 		[OperationContract]

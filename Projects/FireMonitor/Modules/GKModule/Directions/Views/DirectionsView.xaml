@@ -42,7 +42,10 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Width="16" Height="16" Margin="2" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" />
-								<TextBlock Width="200" Text="{Binding Direction.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+								<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Center">
+									<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
+										<TextBlock Text="{Binding Direction.Name}" />
+									</Hyperlink>
 									<TextBlock.ContextMenu>
 										<ContextMenu>
 											<Controls:IconedMenuItem ImageSource="/Controls;component/Images/map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
@@ -198,7 +201,11 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Margin="2" Width="16" Height="16" VerticalAlignment="Center" Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" />
-								<TextBlock Text="{Binding Zone.Name}" VerticalAlignment="Center" />
+								<TextBlock VerticalAlignment="Center" >
+									<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
+										<TextBlock Text="{Binding Zone.Name}" />
+									</Hyperlink>
+								</TextBlock>
 								<StackPanel.ContextMenu>
 									<ContextMenu TextBlock.FontSize="12">
 										<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Отключить" Command="{Binding SetIgnoreCommand}" />

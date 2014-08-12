@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 		{
 			if (CheckNeedSave(true))
 			{
-				//if (ValidateConfiguration())
+				if (ValidateConfiguration())
 				{
 					var thread = new Thread(() =>
 					{
@@ -109,7 +109,7 @@ namespace SKDModule.ViewModels
 		{
 			if (CheckNeedSave(true))
 			{
-				//if (ValidateConfiguration())
+				if (ValidateConfiguration())
 				{
 					var thread = new Thread(() =>
 					{
@@ -167,7 +167,7 @@ namespace SKDModule.ViewModels
 				{
 					var cancelEventArgs = new CancelEventArgs();
 					ServiceFactory.Events.GetEvent<SetNewConfigurationEvent>().Publish(cancelEventArgs);
-					return !cancelEventArgs.Cancel;
+					//return !cancelEventArgs.Cancel;
 				}
 				return false;
 			}

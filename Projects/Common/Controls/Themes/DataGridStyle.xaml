@@ -40,16 +40,16 @@
 				<ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
 					<Grid Background="{Binding Path=(local:DataGridProperties.HeaderBrush), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
 						<dg:DataGridHeaderBorder x:Name="headerBorder" Height="30"
-						                         Background="{TemplateBinding Background}"
-						                         BorderBrush="{TemplateBinding BorderBrush}"
-						                         BorderThickness="{TemplateBinding BorderThickness}"
-						                         IsClickable="{TemplateBinding CanUserSort}"
-						                         IsHovered="{TemplateBinding IsMouseOver}"
-						                         IsPressed="{TemplateBinding IsPressed}"
-						                         Padding="{TemplateBinding Padding}"
-						                         SeparatorBrush="{TemplateBinding SeparatorBrush}"
-						                         SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
-						                         SortDirection="{TemplateBinding SortDirection}">
+												 Background="{TemplateBinding Background}"
+												 BorderBrush="{TemplateBinding BorderBrush}"
+												 BorderThickness="{TemplateBinding BorderThickness}"
+												 IsClickable="{TemplateBinding CanUserSort}"
+												 IsHovered="{TemplateBinding IsMouseOver}"
+												 IsPressed="{TemplateBinding IsPressed}"
+												 Padding="{TemplateBinding Padding}"
+												 SeparatorBrush="{TemplateBinding SeparatorBrush}"
+												 SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
+												 SortDirection="{TemplateBinding SortDirection}">
 							<Border Margin="4,0,4,0" VerticalAlignment="Center" BorderThickness="0" TextBlock.FontFamily="Arial" TextBlock.FontSize="12" TextBlock.FontWeight="Bold">
 								<TextBlock Text="{Binding}" />
 							</Border>

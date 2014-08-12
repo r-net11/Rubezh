@@ -1,85 +1,85 @@
 ﻿<UserControl x:Class="ControllerSDK.Views.CardsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Add" Command="{Binding AddCommand}" Width="100" Margin="2" />
-                <Button Content="Edit" Command="{Binding EditCommand}" Width="100" Margin="2" />
-                <Button Content="Remove" Command="{Binding RemoveCommand}" Width="100" Margin="2" />
-                <Button Content="RemoveAll" Command="{Binding RemoveAllCommand}" Width="100" Margin="2" />
-                <Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
-                <Button Content="GetCount" Command="{Binding GetCountCommand}" Width="100" Margin="2" />
-                <Button Content="GetAll" Command="{Binding GetAllCommand}" Width="100" Margin="2" />
-                <TextBlock Text="Index" Margin="2" />
-                <TextBox Text="{Binding Index}" Width="100" Margin="2" />
-                <Button Content="AddMany" Command="{Binding AddManyCommand}" Width="100" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="CardNo" Width="200" Margin="2" />
-                <TextBox Text="{Binding CardNo}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Password" Width="200" Margin="2" />
-                <TextBox Text="{Binding Password}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="UserTime" Width="200" Margin="2" />
-                <TextBox Text="{Binding UserTime}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="ValidStartTime" Width="200" Margin="2" />
-                <DatePicker SelectedDate="{Binding ValidStartTime}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="ValidEndTime" Width="200" Margin="2" />
-                <DatePicker SelectedDate="{Binding ValidEndTime}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="CardType" Width="200" Margin="2" />
-                <ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="CardStatus" Width="200" Margin="2" />
-                <ComboBox ItemsSource="{Binding AvailableCardStatuses}" SelectedItem="{Binding CardStatus}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Doors" Width="200" Margin="2" />
-                <ItemsControl ItemsSource="{Binding Doors}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding No}" Margin="5 1" />
-                                <TextBox Text="{Binding TimeSheduleNo}" Background="LightGray" Margin="2" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </StackPanel>
-        </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="RecordNo" Binding="{Binding Card.RecordNo}" />
-                <DataGridTextColumn Header="CardNo" Binding="{Binding Card.CardNo}" />
-                <DataGridTextColumn Header="CardType" Binding="{Binding Card.CardType}" />
-                <DataGridTextColumn Header="CardStatus" Binding="{Binding Card.CardStatus}" />
-                <DataGridTextColumn Header="Password" Binding="{Binding Card.Password}" />
-                <DataGridTextColumn Header="Doors" Binding="{Binding Doors}" />
-                <DataGridTextColumn Header="TimeSections" Binding="{Binding TimeSections}" />
-                <DataGridTextColumn Header="UserTime" Binding="{Binding Card.UserTime}" />
-                <DataGridTextColumn Header="ValidStartDateTime" Binding="{Binding ValidStartDateTime}" />
-                <DataGridTextColumn Header="ValidEndDateTime" Binding="{Binding ValidEndDateTime}" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0">
+			<StackPanel Orientation="Horizontal">
+				<Button Content="Add" Command="{Binding AddCommand}" Width="100" Margin="2" />
+				<Button Content="Edit" Command="{Binding EditCommand}" Width="100" Margin="2" />
+				<Button Content="Remove" Command="{Binding RemoveCommand}" Width="100" Margin="2" />
+				<Button Content="RemoveAll" Command="{Binding RemoveAllCommand}" Width="100" Margin="2" />
+				<Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
+				<Button Content="GetCount" Command="{Binding GetCountCommand}" Width="100" Margin="2" />
+				<Button Content="GetAll" Command="{Binding GetAllCommand}" Width="100" Margin="2" />
+				<TextBlock Text="Index" Margin="2" />
+				<TextBox Text="{Binding Index}" Width="100" Margin="2" />
+				<Button Content="AddMany" Command="{Binding AddManyCommand}" Width="100" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="CardNo" Width="200" Margin="2" />
+				<TextBox Text="{Binding CardNo}" Width="250" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Password" Width="200" Margin="2" />
+				<TextBox Text="{Binding Password}" Width="250" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="UserTime" Width="200" Margin="2" />
+				<TextBox Text="{Binding UserTime}" Width="250" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="ValidStartTime" Width="200" Margin="2" />
+				<DatePicker SelectedDate="{Binding ValidStartTime}" Width="250" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="ValidEndTime" Width="200" Margin="2" />
+				<DatePicker SelectedDate="{Binding ValidEndTime}" Width="250" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="CardType" Width="200" Margin="2" />
+				<ComboBox ItemsSource="{Binding AvailableCardTypes}" SelectedItem="{Binding CardType}" Width="250" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="CardStatus" Width="200" Margin="2" />
+				<ComboBox ItemsSource="{Binding AvailableCardStatuses}" SelectedItem="{Binding CardStatus}" Width="250" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Doors" Width="200" Margin="2" />
+				<ItemsControl ItemsSource="{Binding Doors}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding No}" Margin="5 1" />
+								<TextBox Text="{Binding TimeSheduleNo}" Background="LightGray" Margin="2" />
+							</StackPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Horizontal" />
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+				</ItemsControl>
+			</StackPanel>
+		</StackPanel>
+		<DataGrid Grid.Row="1" ItemsSource="{Binding Cards}" SelectedItem="{Binding SelectedCard}" AutoGenerateColumns="False">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="RecordNo" Binding="{Binding Card.RecordNo}" />
+				<DataGridTextColumn Header="CardNo" Binding="{Binding Card.CardNo}" />
+				<DataGridTextColumn Header="CardType" Binding="{Binding Card.CardType}" />
+				<DataGridTextColumn Header="CardStatus" Binding="{Binding Card.CardStatus}" />
+				<DataGridTextColumn Header="Password" Binding="{Binding Card.Password}" />
+				<DataGridTextColumn Header="Doors" Binding="{Binding Doors}" />
+				<DataGridTextColumn Header="TimeSections" Binding="{Binding TimeSections}" />
+				<DataGridTextColumn Header="UserTime" Binding="{Binding Card.UserTime}" />
+				<DataGridTextColumn Header="ValidStartDateTime" Binding="{Binding ValidStartDateTime}" />
+				<DataGridTextColumn Header="ValidEndDateTime" Binding="{Binding ValidEndDateTime}" />
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
 </UserControl>

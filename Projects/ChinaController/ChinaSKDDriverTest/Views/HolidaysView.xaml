@@ -1,61 +1,61 @@
 ﻿<UserControl x:Class="ControllerSDK.Views.HolidaysView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Add" Command="{Binding AddCommand}" Width="100" Margin="2" />
-                <Button Content="Edit" Command="{Binding EditCommand}" Width="100" Margin="2" />
-                <Button Content="Remove" Command="{Binding RemoveCommand}" Width="100" Margin="2" />
-                <Button Content="RemoveAll" Command="{Binding RemoveAllCommand}" Width="100" Margin="2" />
-                <Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
-                <Button Content="GetCount" Command="{Binding GetCountCommand}" IsEnabled="False" Width="100" Margin="2" />
-                <Button Content="GetAll" Command="{Binding GetAllCommand}" IsEnabled="False" Width="100" Margin="2" />
-                <TextBlock Text="Index" Margin="2" />
-                <TextBox Text="{Binding Index}" Width="100" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="HolidayNo" Width="200" Margin="2" />
-                <TextBox Text="{Binding HolidayNo}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="StartDateTime" Width="200" Margin="2" />
-                <DatePicker SelectedDate="{Binding StartDateTime}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="EndDateTime" Width="200" Margin="2" />
-                <DatePicker SelectedDate="{Binding EndDateTime}" Width="250" Margin="2" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Doors" Width="200" Margin="2" />
-                <ItemsControl ItemsSource="{Binding Doors}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding No}" Margin="5 1" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </StackPanel>
-        </StackPanel>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="RecordNo" Binding="{Binding Holiday.RecordNo}" />
-                <DataGridTextColumn Header="HolidayNo" Binding="{Binding Holiday.HolidayNo}" />
-                <DataGridTextColumn Header="StartDateTime" Binding="{Binding StartDateTime}" />
-                <DataGridTextColumn Header="EndDateTime" Binding="{Binding Holiday.EndDateTime}" />
-                <DataGridTextColumn Header="IsEnabled" Binding="{Binding Holiday.IsEnabled}" />
-                <DataGridTextColumn Header="Doors" Binding="{Binding Doors}" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<StackPanel Grid.Row="0">
+			<StackPanel Orientation="Horizontal">
+				<Button Content="Add" Command="{Binding AddCommand}" Width="100" Margin="2" />
+				<Button Content="Edit" Command="{Binding EditCommand}" Width="100" Margin="2" />
+				<Button Content="Remove" Command="{Binding RemoveCommand}" Width="100" Margin="2" />
+				<Button Content="RemoveAll" Command="{Binding RemoveAllCommand}" Width="100" Margin="2" />
+				<Button Content="GetInfo" Command="{Binding GetInfoCommand}" Width="100" Margin="2" />
+				<Button Content="GetCount" Command="{Binding GetCountCommand}" IsEnabled="False" Width="100" Margin="2" />
+				<Button Content="GetAll" Command="{Binding GetAllCommand}" IsEnabled="False" Width="100" Margin="2" />
+				<TextBlock Text="Index" Margin="2" />
+				<TextBox Text="{Binding Index}" Width="100" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="HolidayNo" Width="200" Margin="2" />
+				<TextBox Text="{Binding HolidayNo}" Width="250" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="StartDateTime" Width="200" Margin="2" />
+				<DatePicker SelectedDate="{Binding StartDateTime}" Width="250" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="EndDateTime" Width="200" Margin="2" />
+				<DatePicker SelectedDate="{Binding EndDateTime}" Width="250" Margin="2" />
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Doors" Width="200" Margin="2" />
+				<ItemsControl ItemsSource="{Binding Doors}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<CheckBox IsChecked="{Binding IsChecked}" Content="{Binding No}" Margin="5 1" />
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Horizontal" />
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+				</ItemsControl>
+			</StackPanel>
+		</StackPanel>
+		<DataGrid Grid.Row="1" ItemsSource="{Binding Holidays}" SelectedItem="{Binding SelectedHoliday}" AutoGenerateColumns="False">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="RecordNo" Binding="{Binding Holiday.RecordNo}" />
+				<DataGridTextColumn Header="HolidayNo" Binding="{Binding Holiday.HolidayNo}" />
+				<DataGridTextColumn Header="StartDateTime" Binding="{Binding StartDateTime}" />
+				<DataGridTextColumn Header="EndDateTime" Binding="{Binding Holiday.EndDateTime}" />
+				<DataGridTextColumn Header="IsEnabled" Binding="{Binding Holiday.IsEnabled}" />
+				<DataGridTextColumn Header="Doors" Binding="{Binding Doors}" />
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
 </UserControl>

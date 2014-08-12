@@ -347,6 +347,11 @@ namespace FiresecService
 					journalItem.JournalEventDescriptionType = (JournalEventDescriptionType)intValue;
 			}
 
+			if (!reader.IsDBNull(reader.GetOrdinal("Detalisation")))
+			{
+				var detalisationString = reader.GetString(reader.GetOrdinal("Detalisation"));
+				journalItem.JournalDetalisationItems = JournalDetalisationItem.StringToList(detalisationString);
+			}
 			return journalItem;
 		}
 	}

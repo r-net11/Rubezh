@@ -13,7 +13,7 @@ namespace SKDModule.Validation
 			{
 				if (string.IsNullOrEmpty(zone.Name))
 				{
-					Errors.Add(new ZoneValidationError(zone, "Отсутствует название зоны", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new ZoneValidationError(zone, "Отсутствует название зоны", ValidationErrorLevel.CannotSave));
 				}
 			}
 		}
@@ -25,7 +25,7 @@ namespace SKDModule.Validation
 			{
 				if (!zoneNames.Add(zone.Name))
 				{
-					Errors.Add(new ZoneValidationError(zone, "Дублируется название зоны", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new ZoneValidationError(zone, "Дублируется название зоны", ValidationErrorLevel.CannotSave));
 				}
 			}
 		}

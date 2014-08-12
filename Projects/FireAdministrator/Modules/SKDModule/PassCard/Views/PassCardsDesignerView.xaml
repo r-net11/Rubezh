@@ -74,10 +74,10 @@
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<Border Background="Transparent">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Image VerticalAlignment="Center" Source="/Controls;component/Images/PassCardB.png" Margin="2 0" />
-                                            <TextBlock VerticalAlignment="Center" Text="{Binding Caption}" Margin="2 0" />
-                                        </StackPanel>
+										<StackPanel Orientation="Horizontal">
+											<Image VerticalAlignment="Center" Source="/Controls;component/Images/PassCardB.png" Margin="2 0" />
+											<TextBlock VerticalAlignment="Center" Text="{Binding Caption}" Margin="2 0" />
+										</StackPanel>
 									</Border>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>

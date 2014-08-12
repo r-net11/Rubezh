@@ -10,7 +10,7 @@ namespace SKDDriver.Translators
 {
 	public class TimeIntervalTranslator : IsDeletedTranslator<DataAccess.Interval, TimeInterval, TimeIntervalFilter>
 	{
-		private int DaySeconds = 86400;
+		int DaySeconds = 86400;
 		public TimeIntervalTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
@@ -37,8 +37,6 @@ namespace SKDDriver.Translators
 			if (intervals.Count() == 0 && item.BeginTime.TotalSeconds >= DaySeconds)
 				return new OperationResult("Последовательность интервалов не может начинаться со следующего дня");
 			var beginTime = item.BeginTime.TotalSeconds;
-			if (item.IntervalTransitionType == IntervalTransitionType.NextDay)
-				beginTime += DaySeconds;
 			var endTime = item.EndTime.TotalSeconds;
 			if (item.IntervalTransitionType != IntervalTransitionType.Day)
 				endTime += DaySeconds;
@@ -54,13 +52,7 @@ namespace SKDDriver.Translators
 		{
 			var apiItem = base.Translate(tableItem);
 			apiItem.NamedIntervalUID = tableItem.NamedIntervalUID;
-			if (tableItem.BeginTime > DaySeconds)
-			{
-				apiItem.IntervalTransitionType = IntervalTransitionType.NextDay;
-				apiItem.BeginTime = TimeSpan.FromSeconds(tableItem.BeginTime - DaySeconds);
-				apiItem.EndTime = TimeSpan.FromSeconds(tableItem.EndTime - DaySeconds);
-			}
-			else if (tableItem.EndTime > DaySeconds)
+			if (tableItem.EndTime > DaySeconds)
 			{
 				apiItem.IntervalTransitionType = IntervalTransitionType.Night;
 				apiItem.BeginTime = TimeSpan.FromSeconds(tableItem.BeginTime);
@@ -84,15 +76,9 @@ namespace SKDDriver.Translators
 				tableItem.NamedInterval = namedInterval;
 			tableItem.BeginTime = (int)apiItem.BeginTime.TotalSeconds;
 			tableItem.EndTime = (int)apiItem.EndTime.TotalSeconds;
-			switch (apiItem.IntervalTransitionType)
+			if (apiItem.IntervalTransitionType == IntervalTransitionType.Night)
 			{
-				case IntervalTransitionType.NextDay:
-					tableItem.BeginTime += DaySeconds;
-					tableItem.EndTime += DaySeconds;
-					break;
-				case IntervalTransitionType.Night:
-					tableItem.EndTime += DaySeconds;
-					break;
+				tableItem.EndTime += DaySeconds;
 			}
 		}
 

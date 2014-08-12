@@ -9,7 +9,7 @@ namespace SKDModule.ViewModels
 {
 	public class WeeklyIntervalViewModel : BaseIntervalViewModel<WeeklyIntervalPartViewModel, SKDWeeklyInterval>
 	{
-		private WeeklyIntervalsViewModel _weeklyIntervalsViewModel;
+		WeeklyIntervalsViewModel _weeklyIntervalsViewModel;
 
 		public WeeklyIntervalViewModel(int index, SKDWeeklyInterval weeklyInterval, WeeklyIntervalsViewModel weeklyIntervalsViewModel)
 			: base(index, weeklyInterval)
@@ -19,7 +19,7 @@ namespace SKDModule.ViewModels
 			Update();
 		}
 
-		private void Initialize()
+		void Initialize()
 		{
 			Parts = new ObservableCollection<WeeklyIntervalPartViewModel>();
 			if (Model != null)
@@ -73,7 +73,6 @@ namespace SKDModule.ViewModels
 			for (int i = 0; i < interval.WeeklyIntervalParts.Count; i++)
 			{
 				Model.WeeklyIntervalParts[i].TimeIntervalID = interval.WeeklyIntervalParts[i].TimeIntervalID;
-				Model.WeeklyIntervalParts[i].HolidayUID = interval.WeeklyIntervalParts[i].HolidayUID;
 			}
 			Initialize();
 			ServiceFactory.SaveService.SKDChanged = true;
@@ -81,7 +80,7 @@ namespace SKDModule.ViewModels
 			Update();
 		}
 
-		private bool ConfirmDeactivation()
+		bool ConfirmDeactivation()
 		{
 			var hasReference = SKDManager.TimeIntervalsConfiguration.SlideWeeklyIntervals.Any(item => item.WeeklyIntervalIDs.Contains(Index));
 			return !hasReference || MessageBoxService.ShowConfirmation2("Данный недельный график используется в одном или нескольких скользящих недельных графиках, Вы уверены что хотите его деактивировать?");

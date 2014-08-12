@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="AutomationModule.Views.PauseStepView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-             xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Stretch">
+			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
+	<StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Stretch">
 		<Label Content="Пауза: " HorizontalAlignment="Right" Margin="2"/>
 		<ComboBox  DataContext="{Binding Variable}" ItemsSource="{Binding ValueTypes}" Margin="2"
 				  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" Width="200">

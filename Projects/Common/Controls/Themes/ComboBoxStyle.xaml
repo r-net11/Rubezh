@@ -87,7 +87,7 @@
 				<ControlTemplate TargetType="{x:Type ComboBoxItem}">
 					<Grid SnapsToDevicePixels="true">
 						<Border x:Name="Border" CornerRadius="2">
-                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
+							<ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2" />
 						</Border>
 					</Grid>
 					<ControlTemplate.Triggers>

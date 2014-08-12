@@ -195,9 +195,9 @@
 							</TextBlock>
 						</WrapPanel>
 
-                        <WrapPanel Orientation="Horizontal" Visibility="{Binding HasDoor, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="Точка доступа " />
-                            <TextBlock VerticalAlignment="Center">
+						<WrapPanel Orientation="Horizontal" Visibility="{Binding HasDoor, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock Width="120" Margin="2 2 5 2" Foreground="White" Text="Точка доступа " />
+							<TextBlock VerticalAlignment="Center">
 								<Hyperlink Command="{Binding ShowDoorCommand}" Style="{StaticResource HyperlinkStyle}">
 									<StackPanel Orientation="Horizontal">
 										<Image Width="16" Margin="2 2 5 2" Source="/Controls;component/Images/Door.png" />
@@ -205,8 +205,8 @@
 									</StackPanel>
 								</Hyperlink>
 							</TextBlock>
-                        </WrapPanel>
-                        <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
+						</WrapPanel>
+						<Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
 					</StackPanel>
 				</ScrollViewer>
 			</Grid>

@@ -4,15 +4,15 @@
 		<Views:DevicesView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ControllerPropertiesViewModel}">
-        <Views:ControllerPropertiesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ControllerPropertiesViewModel}">
+		<Views:ControllerPropertiesView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LockPropertiesViewModel}">
-        <Views:LockPropertiesView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:LockPropertiesViewModel}">
+		<Views:LockPropertiesView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">
 		<Views:NewDeviceView />
 	</DataTemplate>
 

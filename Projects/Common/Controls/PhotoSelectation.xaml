@@ -8,10 +8,10 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Image Grid.Row="0" Name="PhotoImage" Stretch="Uniform" />
-        <StackPanel Grid.Row="1" Name="_stackPanel" Orientation="Horizontal" HorizontalAlignment="Right">
+		<StackPanel Grid.Row="1" Name="_stackPanel" Orientation="Horizontal" HorizontalAlignment="Right">
 			<local:ToolBarButton ImageSource="/Controls;component/Images/Webcam.png" ToolTip="Загрузить фото из веб-камеры" Click="WebCamButton_Click" IsEnabled="False" />
-            <local:ToolBarButton ImageSource="/Controls;component/Images/Scanner.png" ToolTip="Загрузить фото из сканера" Click="ScannerButton_Click" IsEnabled="False" />
-            <local:ToolBarButton ImageSource="/Controls;component/Images/Paste.png" ToolTip="Загрузить фото из буфера обмена" Click="PasteButton_Click" IsEnabled="True" />
+			<local:ToolBarButton ImageSource="/Controls;component/Images/Scanner.png" ToolTip="Загрузить фото из сканера" Click="ScannerButton_Click" IsEnabled="False" />
+			<local:ToolBarButton ImageSource="/Controls;component/Images/Paste.png" ToolTip="Загрузить фото из буфера обмена" Click="PasteButton_Click" IsEnabled="True" />
 			<local:ToolBarButton ImageSource="/Controls;component/Images/load.png" ToolTip="Загрузить фото из файла" Click="OpenButton_Click" IsEnabled="True" />
 		</StackPanel>
 	</Grid>

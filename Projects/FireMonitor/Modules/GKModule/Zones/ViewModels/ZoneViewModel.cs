@@ -27,6 +27,7 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
 
 			Zone = zone;
 			State.StateChanged += new System.Action(OnStateChanged);
@@ -36,6 +37,15 @@ namespace GKModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged(() => State);
+		}
+
+		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
+		void OnShowOnPlanOrProperties()
+		{
+			if (CanShowOnPlan())
+				ShowOnPlanHelper.ShowZone(Zone);
+			else
+				DialogService.ShowWindow(new ZoneDetailsViewModel(Zone));
 		}
 		
 		public RelayCommand ShowOnPlanCommand { get; private set; }

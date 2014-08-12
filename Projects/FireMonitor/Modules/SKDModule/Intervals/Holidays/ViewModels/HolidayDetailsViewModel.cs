@@ -118,8 +118,8 @@ namespace SKDModule.ViewModels
 			}
 			//if (HolidayType == HolidayType.WorkingHoliday && Date.DayOfWeek != DayOfWeek.Saturday && Date.DayOfWeek != DayOfWeek.Sunday)
 			//{
-			//    MessageBoxService.ShowWarning("Дата переноса устанавливается только на субботу или воскресенье");
-			//    return false;
+			//	MessageBoxService.ShowWarning("Дата переноса устанавливается только на субботу или воскресенье");
+			//	return false;
 			//}
 			Holiday.Name = Name;
 			Holiday.Date = Date;

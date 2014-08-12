@@ -79,11 +79,11 @@
 		<Views:ArithmeticStepView />
 	</DataTemplate>
 
-    <DataTemplate x:Key="getStringTemplate">
-        <Views:GetStringStepView />
-    </DataTemplate>
+	<DataTemplate x:Key="getStringTemplate">
+		<Views:GetStringStepView />
+	</DataTemplate>
 
-    <DataTemplate x:Key="conditionTemplate">
+	<DataTemplate x:Key="conditionTemplate">
 		<Views:ConditionStepView />
 	</DataTemplate>
 
@@ -169,7 +169,7 @@
 		ControlCameraTemplate="{StaticResource controlCameraTemplate}"
 		ControlDirectionTemplate="{StaticResource controlDirectionTemplate}"
 		ControlDoorTemplate="{StaticResource controlDoorTemplate}"
-        GetStringTemplate ="{StaticResource getStringTemplate}"
+		GetStringTemplate ="{StaticResource getStringTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>
