@@ -81,6 +81,7 @@ namespace ChinaSKDDriver
 			{
 				case DH_ALARM_ACCESS_CTL_EVENT:
 					NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO item1 = (NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_EVENT_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(item1.stuTime);
 
 					if (item1.bStatus)
 						journalItem.JournalEventNameType = JournalEventNameType.Проход_разрешен;
@@ -103,6 +104,7 @@ namespace ChinaSKDDriver
 
 				case DH_ALARM_ACCESS_CTL_NOT_CLOSE:
 					NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO item2 = (NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_NOT_CLOSE_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(item2.stuTime);
 
 					journalItem.JournalEventNameType = JournalEventNameType.Дверь_не_закрыта;
 					journalItem.DoorNo = item2.nDoor;
@@ -111,6 +113,7 @@ namespace ChinaSKDDriver
 
 				case DH_ALARM_ACCESS_CTL_BREAK_IN:
 					NativeWrapper.ALARM_ACCESS_CTL_BREAK_IN_INFO item3 = (NativeWrapper.ALARM_ACCESS_CTL_BREAK_IN_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_BREAK_IN_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(item3.stuTime);
 
 					journalItem.JournalEventNameType = JournalEventNameType.Взлом;
 					journalItem.DoorNo = item3.nDoor;
@@ -118,6 +121,7 @@ namespace ChinaSKDDriver
 
 				case DH_ALARM_ACCESS_CTL_REPEAT_ENTER:
 					NativeWrapper.ALARM_ACCESS_CTL_REPEAT_ENTER_INFO item4 = (NativeWrapper.ALARM_ACCESS_CTL_REPEAT_ENTER_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_REPEAT_ENTER_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(item4.stuTime);
 
 					journalItem.JournalEventNameType = JournalEventNameType.Повторный_проход;
 					journalItem.DoorNo = item4.nDoor;
@@ -125,6 +129,7 @@ namespace ChinaSKDDriver
 
 				case DH_ALARM_ACCESS_CTL_DURESS:
 					NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO item5 = (NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_DURESS_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(item5.stuTime);
 
 					journalItem.JournalEventNameType = JournalEventNameType.Принуждение;
 					journalItem.DoorNo = item5.nDoor;
@@ -137,6 +142,7 @@ namespace ChinaSKDDriver
 
 				case DH_ALARM_ACCESS_CTL_STATUS:
 					NativeWrapper.ALARM_ACCESS_CTL_STATUS_INFO item6 = (NativeWrapper.ALARM_ACCESS_CTL_STATUS_INFO)(Marshal.PtrToStructure(pBuf, typeof(NativeWrapper.ALARM_ACCESS_CTL_STATUS_INFO)));
+					journalItem.DeviceDateTime = NET_TIMEToDateTime(item6.stuTime);
 
 					NativeWrapper.NET_ACCESS_CTL_STATUS_TYPE status = item6.emStatus;
 					switch (status)
