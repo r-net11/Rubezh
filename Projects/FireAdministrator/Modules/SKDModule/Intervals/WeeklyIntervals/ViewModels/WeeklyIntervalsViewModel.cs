@@ -19,7 +19,6 @@ namespace SKDModule.ViewModels
 	public class WeeklyIntervalsViewModel : BaseIntervalsViewModel<WeeklyIntervalViewModel, WeeklyIntervalPartViewModel, SKDWeeklyInterval>
 	{
 		public ObservableCollection<SKDTimeInterval> AvailableTimeIntervals { get; private set; }
-		public ObservableCollection<SKDHoliday> AvailableHolidays { get; private set; }
 
 		public override void Initialize()
 		{
@@ -52,7 +51,6 @@ namespace SKDModule.ViewModels
 			for (int i = 0; i < source.WeeklyIntervalParts.Count; i++)
 			{
 				copy.WeeklyIntervalParts[i].TimeIntervalID = source.WeeklyIntervalParts[i].TimeIntervalID;
-				copy.WeeklyIntervalParts[i].HolidayUID = source.WeeklyIntervalParts[i].HolidayUID;
 			}
 			return copy;
 		}
@@ -64,11 +62,6 @@ namespace SKDModule.ViewModels
 			{
 				ID = 0,
 				Name = "<Никогда>",
-			});
-			AvailableHolidays = new ObservableCollection<SKDHoliday>(SKDManager.TimeIntervalsConfiguration.Holidays.OrderBy(item => item.DateTime.DayOfYear));
-			AvailableHolidays.Insert(0, new SKDHoliday()
-			{
-				UID = Guid.Empty,
 			});
 			OnPropertyChanged(() => AvailableTimeIntervals);
 			if (SelectedInterval != null)

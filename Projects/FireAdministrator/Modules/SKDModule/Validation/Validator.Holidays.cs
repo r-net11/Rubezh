@@ -14,7 +14,7 @@ namespace SKDModule.Validation
 			{
 				if (string.IsNullOrEmpty(holiday.Name))
 				{
-					Errors.Add(new HolidayValidationError(holiday, "Отсутствует название праздника", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new HolidayValidationError(holiday, "Отсутствует название праздника", ValidationErrorLevel.CannotSave));
 				}
 			}
 		}
@@ -26,7 +26,7 @@ namespace SKDModule.Validation
 			{
 				if (!holidays.Add(new DateTime(2000, holiday.DateTime.Month, holiday.DateTime.Day)))
 				{
-					Errors.Add(new HolidayValidationError(holiday, "Дублируется дата праздника", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new HolidayValidationError(holiday, "Дублируется дата праздника", ValidationErrorLevel.CannotSave));
 				}
 			}
 		}

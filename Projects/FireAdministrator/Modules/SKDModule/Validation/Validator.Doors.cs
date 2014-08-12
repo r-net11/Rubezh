@@ -17,16 +17,16 @@ namespace SKDModule.Validation
 			{
 				if (string.IsNullOrEmpty(door.Name))
 				{
-					Errors.Add(new DoorValidationError(door, "Отсутствует название точки доступа", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DoorValidationError(door, "Отсутствует название точки доступа", ValidationErrorLevel.CannotSave));
 				}
 
 				var inDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == door.InDeviceUID);
 				if (inDevice == null)
-					Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует входное устройство", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует входное устройство", ValidationErrorLevel.CannotSave));
 
 				var outDevice = SKDManager.Devices.FirstOrDefault(x => x.UID == door.OutDeviceUID);
 				if (outDevice == null)
-					Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует выходное устройство", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует выходное устройство", ValidationErrorLevel.CannotSave));
 
 				if (inDevice != null && inDevice.DriverType != SKDDriverType.Reader)
 					Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует выходным устройством может быть только считыватель", ValidationErrorLevel.CannotWrite));
@@ -36,12 +36,12 @@ namespace SKDModule.Validation
 					if (door.DoorType == DoorType.OneWay)
 					{
 						if (outDevice.DriverType != SKDDriverType.Button && outDevice.IntAddress != inDevice.IntAddress / 2)
-							Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует неверно указано выходное устройство", ValidationErrorLevel.CannotWrite));
+							Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует неверно указано выходное устройство", ValidationErrorLevel.CannotSave));
 					}
 					if (door.DoorType == DoorType.TwoWay)
 					{
 						if (outDevice.DriverType != SKDDriverType.Reader && outDevice.IntAddress != inDevice.IntAddress + 1)
-							Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует неверно указано выходное устройство", ValidationErrorLevel.CannotWrite));
+							Errors.Add(new DoorValidationError(door, "У точки доступа отсутствует неверно указано выходное устройство", ValidationErrorLevel.CannotSave));
 					}
 				}
 			}
@@ -54,7 +54,7 @@ namespace SKDModule.Validation
 			{
 				if (!doorNames.Add(door.Name))
 				{
-					Errors.Add(new DoorValidationError(door, "Дублируется название точки доступа", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DoorValidationError(door, "Дублируется название точки доступа", ValidationErrorLevel.CannotSave));
 				}
 			}
 		}
@@ -68,7 +68,7 @@ namespace SKDModule.Validation
 				{
 					if (!inDevicesUID.Add(door.InDeviceUID))
 					{
-						Errors.Add(new DoorValidationError(door, "Одно и то же устройство привязано к разным точкам доступа", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DoorValidationError(door, "Одно и то же устройство привязано к разным точкам доступа", ValidationErrorLevel.CannotSave));
 					}
 				}
 			}

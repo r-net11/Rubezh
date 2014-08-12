@@ -16,13 +16,13 @@ namespace SKDModule.Validation
 			{
 				if (string.IsNullOrEmpty(device.Name))
 				{
-					Errors.Add(new DeviceValidationError(device, "Отсутствует название устройства", ValidationErrorLevel.CannotWrite));
+					Errors.Add(new DeviceValidationError(device, "Отсутствует название устройства", ValidationErrorLevel.CannotSave));
 				}
 				if (device.DriverType == SKDDriverType.Reader)
 				{
 					if (device.Zone == null)
 					{
-						Errors.Add(new DeviceValidationError(device, "Считыватель не ведет ни к какой зоне", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DeviceValidationError(device, "Считыватель не ведет ни к какой зоне", ValidationErrorLevel.Warning));
 					}
 				}
 
@@ -72,7 +72,7 @@ namespace SKDModule.Validation
 				{
 					if (!deviceNames.Add(childDevice.Name))
 					{
-						Errors.Add(new DeviceValidationError(childDevice, "Дублируется название устройства", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DeviceValidationError(childDevice, "Дублируется название устройства", ValidationErrorLevel.CannotSave));
 					}
 				}
 			}
@@ -88,13 +88,13 @@ namespace SKDModule.Validation
 					var property = device.Properties.FirstOrDefault(x => x.Name == "Address");
 					if (property == null || string.IsNullOrEmpty(property.StringValue))
 					{
-						Errors.Add(new DeviceValidationError(device, "Отсутствует IP-адрес устройства", ValidationErrorLevel.CannotWrite));
+						Errors.Add(new DeviceValidationError(device, "Отсутствует IP-адрес устройства", ValidationErrorLevel.CannotSave));
 					}
 					else
 					{
 						if (!ipAddresses.Add(property.StringValue))
 						{
-							Errors.Add(new DeviceValidationError(device, "Дублируется IP-адрес устройства", ValidationErrorLevel.CannotWrite));
+							Errors.Add(new DeviceValidationError(device, "Дублируется IP-адрес устройства", ValidationErrorLevel.CannotSave));
 						}
 					}
 				}

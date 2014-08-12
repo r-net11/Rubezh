@@ -14,7 +14,7 @@ namespace ChinaSKDDriver
 			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceProcessor != null)
 			{
-				if(!deviceProcessor.IsConnected)
+				if (!deviceProcessor.IsConnected)
 					return new OperationResult<SKDDeviceInfo>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				SKDDeviceInfo deviceInfo = new SKDDeviceInfo();
@@ -129,52 +129,49 @@ namespace ChinaSKDDriver
 					var timeShedules = new List<TimeShedule>();
 					foreach (var weeklyIntervalPart in weeklyInterval.WeeklyIntervalParts)
 					{
-						if (!weeklyIntervalPart.IsHolliday)
+						var timeShedule = new TimeShedule();
+						var timeInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.ID == weeklyIntervalPart.TimeIntervalID);
+
+						if (i == 0)
 						{
-							var timeShedule = new TimeShedule();
-							var timeInterval = SKDManager.SKDConfiguration.TimeIntervalsConfiguration.TimeIntervals.FirstOrDefault(x => x.ID == weeklyIntervalPart.TimeIntervalID);
-
-							if (i == 0)
-							{
-								timeInterval = new SKDTimeInterval();
-								timeInterval.TimeIntervalParts = new List<SKDTimeIntervalPart>();
-								var emptySKDTimeIntervalPart = new SKDTimeIntervalPart();
-								emptySKDTimeIntervalPart.StartTime = new TimeSpan(0, 0, 0);
-								emptySKDTimeIntervalPart.EndTime = new TimeSpan(0, 0, 0);
-								timeInterval.TimeIntervalParts.Add(emptySKDTimeIntervalPart);
-							}
-							if (i == 1)
-							{
-								timeInterval = new SKDTimeInterval();
-								timeInterval.TimeIntervalParts = new List<SKDTimeIntervalPart>();
-								var emptySKDTimeIntervalPart = new SKDTimeIntervalPart();
-								emptySKDTimeIntervalPart.StartTime = new TimeSpan(0, 0, 0);
-								emptySKDTimeIntervalPart.EndTime = new TimeSpan(23, 59, 59);
-								timeInterval.TimeIntervalParts.Add(emptySKDTimeIntervalPart);
-							}
-
-							if (timeInterval != null)
-							{
-								foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)
-								{
-									var timeSheduleInterval = new TimeSheduleInterval();
-									timeSheduleInterval.BeginHours = timeIntervalPart.StartTime.Hours;
-									timeSheduleInterval.BeginMinutes = timeIntervalPart.StartTime.Minutes;
-									timeSheduleInterval.BeginSeconds = timeIntervalPart.StartTime.Seconds;
-									timeSheduleInterval.EndHours = timeIntervalPart.EndTime.Hours;
-									timeSheduleInterval.EndMinutes = timeIntervalPart.EndTime.Minutes;
-									timeSheduleInterval.EndSeconds = timeIntervalPart.EndTime.Seconds;
-
-									timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
-								}
-								for (int j = timeShedule.TimeSheduleIntervals.Count; j < 4; j++)
-								{
-									var timeSheduleInterval = new TimeSheduleInterval();
-									timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
-								}
-							}
-							timeShedules.Add(timeShedule);
+							timeInterval = new SKDTimeInterval();
+							timeInterval.TimeIntervalParts = new List<SKDTimeIntervalPart>();
+							var emptySKDTimeIntervalPart = new SKDTimeIntervalPart();
+							emptySKDTimeIntervalPart.StartTime = new TimeSpan(0, 0, 0);
+							emptySKDTimeIntervalPart.EndTime = new TimeSpan(0, 0, 0);
+							timeInterval.TimeIntervalParts.Add(emptySKDTimeIntervalPart);
 						}
+						if (i == 1)
+						{
+							timeInterval = new SKDTimeInterval();
+							timeInterval.TimeIntervalParts = new List<SKDTimeIntervalPart>();
+							var emptySKDTimeIntervalPart = new SKDTimeIntervalPart();
+							emptySKDTimeIntervalPart.StartTime = new TimeSpan(0, 0, 0);
+							emptySKDTimeIntervalPart.EndTime = new TimeSpan(23, 59, 59);
+							timeInterval.TimeIntervalParts.Add(emptySKDTimeIntervalPart);
+						}
+
+						if (timeInterval != null)
+						{
+							foreach (var timeIntervalPart in timeInterval.TimeIntervalParts)
+							{
+								var timeSheduleInterval = new TimeSheduleInterval();
+								timeSheduleInterval.BeginHours = timeIntervalPart.StartTime.Hours;
+								timeSheduleInterval.BeginMinutes = timeIntervalPart.StartTime.Minutes;
+								timeSheduleInterval.BeginSeconds = timeIntervalPart.StartTime.Seconds;
+								timeSheduleInterval.EndHours = timeIntervalPart.EndTime.Hours;
+								timeSheduleInterval.EndMinutes = timeIntervalPart.EndTime.Minutes;
+								timeSheduleInterval.EndSeconds = timeIntervalPart.EndTime.Seconds;
+
+								timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
+							}
+							for (int j = timeShedule.TimeSheduleIntervals.Count; j < 4; j++)
+							{
+								var timeSheduleInterval = new TimeSheduleInterval();
+								timeShedule.TimeSheduleIntervals.Add(timeSheduleInterval);
+							}
+						}
+						timeShedules.Add(timeShedule);
 					}
 
 					if (progressCallback.IsCanceled)
@@ -211,7 +208,7 @@ namespace ChinaSKDDriver
 					return new OperationResult<SKDDoorConfiguration>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
 
 				var nativeDoorConfiguration = deviceProcessor.Wrapper.GetDoorConfiguration(readerDevice.IntAddress);
-				if(nativeDoorConfiguration == null)
+				if (nativeDoorConfiguration == null)
 					return new OperationResult<SKDDoorConfiguration>("Ошибка при выполнении операции в приборе");
 
 				var doorConfiguration = new SKDDoorConfiguration();
@@ -258,7 +255,7 @@ namespace ChinaSKDDriver
 				nativeDoorConfiguration.UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
 				nativeDoorConfiguration.CloseTimeout = doorConfiguration.CloseTimeout;
 				nativeDoorConfiguration.OpenAlwaysTimeIndex = doorConfiguration.OpenAlwaysTimeIndex;
-				nativeDoorConfiguration.HolidayTimeRecoNo = 255;// doorConfiguration.HolidayTimeRecoNo;
+				nativeDoorConfiguration.HolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
 				nativeDoorConfiguration.IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
 				nativeDoorConfiguration.IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 				nativeDoorConfiguration.IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;

@@ -6,32 +6,28 @@
 
 	<TabControl>
 		<TabItem Header="Камера">
-			<StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Камера" Foreground="White" VerticalAlignment="Center" Margin="5 2" />
-				
-					<TextBlock VerticalAlignment="Center" Margin="5 2">
-						<Hyperlink Command="{Binding SelectCameraCommand}" Style="{StaticResource HyperlinkStyle}">
-							<TextBlock Margin="2">
-								<TextBlock.Style>
-									<Style>
-										<Setter Property="TextBlock.Text" Value="{Binding Camera.PresentationName}" />
-										<Style.Triggers>
-											<DataTrigger Binding="{Binding Camera.PresentationName}" Value="{x:Null}">
-												<Setter Property="TextBlock.Text" Value="Нажмите для выбора камеры" />
-												<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора камеры" />
-											</DataTrigger>
-										</Style.Triggers>
-									</Style>
-								</TextBlock.Style>
-							</TextBlock>
-						</Hyperlink>
-					</TextBlock>
-					
-					<Controls:ToolBarButton HorizontalAlignment="Right" Margin="5 2" ToolTip="Удалить"
-						Command="{Binding RemoveCameraCommand}"
-						ImageSource="/Controls;component/Images/DeleteCross.png" Height="32" Width="32" />
-				</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Камера" Foreground="White" VerticalAlignment="Center" Margin="5 2" />
+				<TextBlock VerticalAlignment="Center" Margin="5 2">
+					<Hyperlink Command="{Binding SelectCameraCommand}" Style="{StaticResource HyperlinkStyle}">
+						<TextBlock Margin="2">
+							<TextBlock.Style>
+								<Style>
+									<Setter Property="TextBlock.Text" Value="{Binding Camera.PresentationName}" />
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding Camera.PresentationName}" Value="{x:Null}">
+											<Setter Property="TextBlock.Text" Value="Нажмите для выбора камеры" />
+											<Setter Property="TextBlock.ToolTip" Value="Нажмите для выбора камеры" />
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+					</Hyperlink>
+				</TextBlock>
+				<Controls:ToolBarButton HorizontalAlignment="Right" Margin="5 2" ToolTip="Удалить"
+					Command="{Binding RemoveCameraCommand}"
+					ImageSource="/Controls;component/Images/DeleteCross.png" Height="32" Width="32" />
 			</StackPanel>
 		</TabItem>
 	</TabControl>

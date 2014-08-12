@@ -24,16 +24,6 @@ namespace SKDModule.ViewModels
 			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
 
-			AccessStates = new ObservableCollection<SKDDoorConfiguration_AccessState>();
-			AccessStates.Add(SKDDoorConfiguration_AccessState.ACCESS_STATE_NORMAL);
-			AccessStates.Add(SKDDoorConfiguration_AccessState.ACCESS_STATE_CLOSEALWAYS);
-			AccessStates.Add(SKDDoorConfiguration_AccessState.ACCESS_STATE_OPENALWAYS);
-
-			AccessModes = new ObservableCollection<SKDDoorConfiguration_AccessMode>();
-			AccessModes.Add(SKDDoorConfiguration_AccessMode.ACCESS_MODE_HANDPROTECTED);
-			AccessModes.Add(SKDDoorConfiguration_AccessMode.ACCESS_MODE_OTHER);
-			AccessModes.Add(SKDDoorConfiguration_AccessMode.ACCESS_MODE_SAFEROOM);
-
 			DoorOpenMethods = new ObservableCollection<SKDDoorConfiguration_DoorOpenMethod>();
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_CARD);
 			DoorOpenMethods.Add(SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_PWD_ONLY);
@@ -49,57 +39,18 @@ namespace SKDModule.ViewModels
 
 		void Update(SKDDoorConfiguration doorConfiguration)
 		{
-			SelectedAccessMode = doorConfiguration.AccessMode;
-			SelectedAccessState = doorConfiguration.AccessState;
 			SelectedDoorOpenMethod = doorConfiguration.DoorOpenMethod;
 			UnlockHoldInterval = doorConfiguration.UnlockHoldInterval;
 			CloseTimeout = doorConfiguration.CloseTimeout;
-			HolidayTimeRecoNo = doorConfiguration.HolidayTimeRecoNo;
 			IsBreakInAlarmEnable = doorConfiguration.IsBreakInAlarmEnable;
 			IsRepeatEnterAlarmEnable = doorConfiguration.IsRepeatEnterAlarmEnable;
 			IsDoorNotClosedAlarmEnable = doorConfiguration.IsDoorNotClosedAlarmEnable;
 			IsDuressAlarmEnable = doorConfiguration.IsDuressAlarmEnable;
 			IsSensorEnable = doorConfiguration.IsSensorEnable;
 
-			TimeSchedules = new ObservableCollection<SKDWeeklyInterval>();
-			foreach (var weeklyInterval in SKDManager.TimeIntervalsConfiguration.WeeklyIntervals)
-			{
-				TimeSchedules.Add(weeklyInterval);
-			}
-			SelectedTimeSchedule = TimeSchedules.FirstOrDefault(x => x.ID == doorConfiguration.OpenAlwaysTimeIndex);
-
 			LockIntervalsViewModel = new LockIntervalsViewModel(doorConfiguration);
 			OnPropertyChanged(() => LockIntervalsViewModel);
 		}
-
-		public ObservableCollection<SKDDoorConfiguration_AccessState> AccessStates { get; private set; }
-
-		SKDDoorConfiguration_AccessMode _selectedAccessMode;
-		public SKDDoorConfiguration_AccessMode SelectedAccessMode
-		{
-			get { return _selectedAccessMode; }
-			set
-			{
-				_selectedAccessMode = value;
-				OnPropertyChanged(() => SelectedAccessMode);
-				HasChanged = true;
-			}
-		}
-
-		SKDDoorConfiguration_AccessState _selectedAccessState;
-		public SKDDoorConfiguration_AccessState SelectedAccessState
-		{
-			get { return _selectedAccessState; }
-			set
-			{
-				_selectedAccessState = value;
-				OnPropertyChanged(() => SelectedAccessState);
-				HasChanged = true;
-				CanSelectDoorOpenMethod = value == SKDDoorConfiguration_AccessState.ACCESS_STATE_NORMAL;
-			}
-		}
-
-		public ObservableCollection<SKDDoorConfiguration_AccessMode> AccessModes { get; private set; }
 
 		public ObservableCollection<SKDDoorConfiguration_DoorOpenMethod> DoorOpenMethods { get; private set; }
 
@@ -113,19 +64,6 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SelectedDoorOpenMethod);
 				HasChanged = true;
 				CanSetTimeIntervals = value == SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION;
-				CanSetAlwaysOpen = value != SKDDoorConfiguration_DoorOpenMethod.CFG_DOOR_OPEN_METHOD_SECTION;
-			}
-		}
-
-		bool _canSelectDoorOpenMethod;
-		public bool CanSelectDoorOpenMethod
-		{
-			get { return _canSelectDoorOpenMethod; }
-			set
-			{
-				_canSelectDoorOpenMethod = value;
-				OnPropertyChanged(() => CanSelectDoorOpenMethod);
-				HasChanged = true;
 			}
 		}
 
@@ -137,18 +75,6 @@ namespace SKDModule.ViewModels
 			{
 				_canSetTimeIntervals = value;
 				OnPropertyChanged(() => CanSetTimeIntervals);
-				HasChanged = true;
-			}
-		}
-
-		bool _canSetAlwaysOpen;
-		public bool CanSetAlwaysOpen
-		{
-			get { return _canSetAlwaysOpen; }
-			set
-			{
-				_canSetAlwaysOpen = value;
-				OnPropertyChanged(() => CanSetAlwaysOpen);
 				HasChanged = true;
 			}
 		}
@@ -173,18 +99,6 @@ namespace SKDModule.ViewModels
 			{
 				_closeTimeout = value;
 				OnPropertyChanged(() => CloseTimeout);
-				HasChanged = true;
-			}
-		}
-
-		int _holidayTimeRecoNo;
-		public int HolidayTimeRecoNo
-		{
-			get { return _holidayTimeRecoNo; }
-			set
-			{
-				_holidayTimeRecoNo = value;
-				OnPropertyChanged(() => HolidayTimeRecoNo);
 				HasChanged = true;
 			}
 		}
@@ -249,20 +163,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<SKDWeeklyInterval> TimeSchedules { get; private set; }
-
-		SKDWeeklyInterval _selectedTimeSchedule;
-		public SKDWeeklyInterval SelectedTimeSchedule
-		{
-			get { return _selectedTimeSchedule; }
-			set
-			{
-				_selectedTimeSchedule = value;
-				OnPropertyChanged(() => SelectedTimeSchedule);
-				HasChanged = true;
-			}
-		}
-
 		public RelayCommand GetDoorConfigurationCommand { get; private set; }
 		void OnGetDoorConfiguration()
 		{
@@ -301,13 +201,9 @@ namespace SKDModule.ViewModels
 		SKDDoorConfiguration GetModel()
 		{
 			var doorConfiguration = new SKDDoorConfiguration();
-			doorConfiguration.AccessMode = SelectedAccessMode;
-			doorConfiguration.AccessState = SelectedAccessState;
 			doorConfiguration.DoorOpenMethod = SelectedDoorOpenMethod;
 			doorConfiguration.UnlockHoldInterval = UnlockHoldInterval;
 			doorConfiguration.CloseTimeout = CloseTimeout;
-			doorConfiguration.OpenAlwaysTimeIndex = SelectedTimeSchedule != null ? SelectedTimeSchedule.ID : -1;
-			doorConfiguration.HolidayTimeRecoNo = HolidayTimeRecoNo;
 			doorConfiguration.IsBreakInAlarmEnable = IsBreakInAlarmEnable;
 			doorConfiguration.IsRepeatEnterAlarmEnable = IsRepeatEnterAlarmEnable;
 			doorConfiguration.IsDoorNotClosedAlarmEnable = IsDoorNotClosedAlarmEnable;
