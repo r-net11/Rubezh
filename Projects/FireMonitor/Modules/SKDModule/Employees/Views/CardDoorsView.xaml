@@ -4,42 +4,42 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls">
 
-    <DataGrid Focusable="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
-        <DataGrid.Columns>
+	<DataGrid Focusable="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
+	    <DataGrid.Columns>
 			<DataGridTemplateColumn Width="250" Header="Точка прохода">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
-                            <TextBlock Width="200" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Door.Name}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+	            <DataGridTemplateColumn.CellTemplate>
+	                <DataTemplate>
+	                    <StackPanel Orientation="Horizontal">
+	                        <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Door.png" />
+	                        <TextBlock Width="200" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Door.Name}" />
+	                    </StackPanel>
+	                </DataTemplate>
+	            </DataGridTemplateColumn.CellTemplate>
+	        </DataGridTemplateColumn>
 
-            <DataGridTextColumn Width="100" Binding="{Binding Door.Description}" Header="Примечание" />
+	        <DataGridTextColumn Width="100" Binding="{Binding Door.Description}" Header="Примечание" />
 
-            <DataGridTemplateColumn Header="Вход" Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding HasEnter, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Margin="0 0 10 0" Text="{Binding SelectedEnterTimeCreteria.Description}" />
-                            <TextBlock Text="{Binding SelectedEnterTimeType.Name}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+	        <DataGridTemplateColumn Header="Вход" Width="*">
+	            <DataGridTemplateColumn.CellTemplate>
+	                <DataTemplate>
+	                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasEnter, Converter={StaticResource BoolToVisibilityConverter}}">
+	                        <TextBlock Margin="0 0 10 0" Text="{Binding SelectedEnterTimeCreteria.Description}" />
+	                        <TextBlock Text="{Binding SelectedEnterTimeType.Name}" />
+	                    </StackPanel>
+	                </DataTemplate>
+	            </DataGridTemplateColumn.CellTemplate>
+	        </DataGridTemplateColumn>
 
-            <DataGridTemplateColumn Header="Выход" Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Margin="0 0 10 0" Text="{Binding SelectedExitTimeCreteria.Description}" />
-                            <TextBlock Text="{Binding SelectedExitTimeType.Name}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
-    </DataGrid>
+	        <DataGridTemplateColumn Header="Выход" Width="*">
+	            <DataGridTemplateColumn.CellTemplate>
+	                <DataTemplate>
+	                    <StackPanel Orientation="Horizontal" Visibility="{Binding HasExit, Converter={StaticResource BoolToVisibilityConverter}}">
+	                        <TextBlock Margin="0 0 10 0" Text="{Binding SelectedExitTimeCreteria.Description}" />
+	                        <TextBlock Text="{Binding SelectedExitTimeType.Name}" />
+	                    </StackPanel>
+	                </DataTemplate>
+	            </DataGridTemplateColumn.CellTemplate>
+	        </DataGridTemplateColumn>
+	    </DataGrid.Columns>
+	</DataGrid>
 </UserControl>

@@ -25,7 +25,7 @@ namespace FiresecService.Service
 		{
 			//foreach (var gkDevice in XManager.DeviceConfiguration.RootDevice.Children)
 			//{
-			//    GKAddUser(gkDevice.UID);
+			//	GKAddUser(gkDevice.UID);
 			//}
 			return SKDDatabaseService.EmployeeTranslator.Save(item);
 		}

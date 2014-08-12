@@ -46,7 +46,7 @@
 										<Controls:EditorPresenter.ViewTemplate>
 											<ControlTemplate>
 												<StackPanel Orientation="Horizontal">
-                                                    <Image VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" Margin="1 0 0 0" />
+													<Image VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" Margin="1 0 0 0" />
 													<TextBlock VerticalAlignment="Center" Text="{Binding Name}" Margin="2" />
 												</StackPanel>
 											</ControlTemplate>

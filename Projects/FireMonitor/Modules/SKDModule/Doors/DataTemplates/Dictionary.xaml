@@ -3,12 +3,12 @@
 					xmlns:Views="clr-namespace:SKDModule.Views"
 					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:DoorsViewModel}">
-        <Views:DoorsView />
+	<DataTemplate DataType="{x:Type ViewModels:DoorsViewModel}">
+	    <Views:DoorsView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DoorDetailsViewModel}">
-        <Views:DoorDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:DoorDetailsViewModel}">
+	    <Views:DoorDetailsView />
 	</DataTemplate>
 
 </ResourceDictionary>

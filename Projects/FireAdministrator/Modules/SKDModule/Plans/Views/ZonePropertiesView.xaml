@@ -4,7 +4,7 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Focusable="True">
+		<DataGrid Grid.Column="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Focusable="True">
 			<DataGrid.Resources>
 				<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
 					<Setter Property="MinWidth" Value="0" />

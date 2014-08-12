@@ -37,6 +37,7 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowJournalCommand = new RelayCommand(OnShowJournal, CanShowJournal);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			ShowOnPlanOrPropertiesCommand = new RelayCommand(OnShowOnPlanOrProperties);
 		}
 
 		void OnStateChanged()
@@ -76,6 +77,15 @@ namespace GKModule.ViewModels
 					return XManager.GetPresentationZone(Device.NSLogic);
 				return XManager.GetPresentationZone(Device);
 			}
+		}
+
+		public RelayCommand ShowOnPlanOrPropertiesCommand { get; private set; }
+		void OnShowOnPlanOrProperties()
+		{
+			if (CanShowOnPlan())
+				ShowOnPlanHelper.ShowDevice(Device);
+			else if (CanShowProperties())
+				DialogService.ShowWindow(new DeviceDetailsViewModel(Device));
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }

@@ -59,7 +59,7 @@
 									</Grid.InputBindings>
 									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Zone.No}" />
 								</Grid>
-                            </DataTemplate>
+	                        </DataTemplate>
 						</ListBox.ItemTemplate>
 						<ListBox.ItemsPanel>
 							<ItemsPanelTemplate>
@@ -76,7 +76,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
 								<Image Source="{Binding ., Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                <TextBlock VerticalAlignment="Center" Foreground="White" Text="{Binding ., Converter={StaticResource XGuardZoneStateClassToStringConverter}}" Margin="5 0" />
+	                            <TextBlock VerticalAlignment="Center" Foreground="White" Text="{Binding ., Converter={StaticResource XGuardZoneStateClassToStringConverter}}" Margin="5 0" />
 							</StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>

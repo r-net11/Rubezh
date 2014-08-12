@@ -193,7 +193,7 @@ namespace GKModule
 
 		//public override void AfterInitialize()
 		//{
-		//    FiresecManager.StartPoll(true);
+		//	FiresecManager.StartPoll(true);
 		//}
 
 		void OnNewJournalItems(XJournalItem journalItem, bool isAdministrator)

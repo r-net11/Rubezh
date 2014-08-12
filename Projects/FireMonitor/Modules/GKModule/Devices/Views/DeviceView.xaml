@@ -5,11 +5,14 @@
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls" >
 
 	<StackPanel Orientation="Horizontal">
-		<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" />
-		<Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
-		<TextBlock Text="{Binding Device.ShortName}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
+	    <Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter2}}" Width="16" Height="16" VerticalAlignment="Center" />
+	    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="2" VerticalAlignment="Center" />
+		<TextBlock VerticalAlignment="Center">
+			<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
+				<TextBlock Text="{Binding Device.ShortName}" FontWeight="Bold"  />
+			</Hyperlink>
 			<TextBlock.ContextMenu>
-				<ContextMenu>
+	            <ContextMenu>
 					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Отключить" Command="{Binding SetIgnoreCommand}" />
 					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BResetIgnore.png" Text="Снять отключение" Command="{Binding ResetIgnoreCommand}" />
 					<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Отключить все дочерние устройства" Command="{Binding SetIgnoreAllCommand}" />
@@ -26,8 +29,8 @@
 				</StackPanel>
 			</TextBlock.ToolTip>
 		</TextBlock>
-		<StackPanel.InputBindings>
-			<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
-		</StackPanel.InputBindings>
+	    <StackPanel.InputBindings>
+	        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
+	    </StackPanel.InputBindings>
 	</StackPanel>
 </UserControl>

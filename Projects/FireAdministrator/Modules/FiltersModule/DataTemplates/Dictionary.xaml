@@ -15,12 +15,12 @@
 		<Views:FilterDetailsView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LayoutPartJournalViewModel}">
-        <Views:LayoutPartJournalView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartJournalViewModel}">
+		<Views:LayoutPartJournalView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyJournalPageViewModel}">
-        <Views:LayoutPartPropertyJournalPageView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyJournalPageViewModel}">
+		<Views:LayoutPartPropertyJournalPageView />
+	</DataTemplate>
 
 </ResourceDictionary>
