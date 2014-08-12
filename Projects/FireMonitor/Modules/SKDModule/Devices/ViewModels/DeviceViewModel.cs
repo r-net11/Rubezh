@@ -133,7 +133,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanOpen()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Device.DriverType == SKDDriverType.Lock && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
+			return Device.DriverType == SKDDriverType.Lock && Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && Device.DriverType == SKDDriverType.Lock && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
@@ -167,7 +167,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanOpenForever()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
+			return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.On && State.StateClass != XStateClass.ConnectionLost;
 		}
 
 		public RelayCommand CloseForeverCommand { get; private set; }
@@ -184,10 +184,8 @@ namespace SKDModule.ViewModels
 		}
 		bool CanCloseForever()
 		{
-			return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
+			return Device.DriverType == SKDDriverType.Lock && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices) && State.StateClass != XStateClass.Off && State.StateClass != XStateClass.ConnectionLost;
 		}
-
-		public bool IsBold { get; set; }
 
 		#region Door
 		public SKDDoor Door

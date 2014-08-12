@@ -402,7 +402,7 @@ namespace SKDDriver
 			{
 				var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID);
 				if (namedInterval == null)
-					return new DayTimeTrack("Не найден именованный интервал");
+					return new DayTimeTrack("Не найден дневной интервал");
 				intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID).ToList();
 			}
 			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).ToList();

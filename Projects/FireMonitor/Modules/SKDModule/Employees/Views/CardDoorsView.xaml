@@ -6,7 +6,7 @@
 
 	<DataGrid Focusable="True" ItemsSource="{Binding Doors}" SelectedItem="{Binding SelectedDoor}">
 	    <DataGrid.Columns>
-			<DataGridTemplateColumn Width="250" Header="Точка прохода">
+			<DataGridTemplateColumn Width="250" Header="Точка доступа">
 	            <DataGridTemplateColumn.CellTemplate>
 	                <DataTemplate>
 	                    <StackPanel Orientation="Horizontal">

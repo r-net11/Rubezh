@@ -12,7 +12,7 @@ namespace SKDModule.ViewModels
 {
 	public class NamedIntervalViewModel : TreeNodeViewModel<NamedIntervalViewModel>, IEditingViewModel
 	{
-		private bool _isInitialized;
+		bool _isInitialized;
 		public FiresecAPI.SKD.Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
 		public NamedInterval NamedInterval { get; private set; }
@@ -71,7 +71,7 @@ namespace SKDModule.ViewModels
 
 		public SortableObservableCollection<TimeIntervalViewModel> TimeIntervals { get; private set; }
 
-		private TimeIntervalViewModel _selectedTimeInterval;
+		TimeIntervalViewModel _selectedTimeInterval;
 		public TimeIntervalViewModel SelectedTimeInterval
 		{
 			get { return _selectedTimeInterval; }
@@ -83,7 +83,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		private void OnAdd()
+		void OnAdd()
 		{
 			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(NamedInterval);
 			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel) && TimeIntervalHelper.Save(timeIntervalDetailsViewModel.TimeInterval))
@@ -92,13 +92,13 @@ namespace SKDModule.ViewModels
 				NamedInterval.TimeIntervals.Add(timeInterval);
 				var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
 				TimeIntervals.Add(timeIntervalViewModel);
-				Sort();
+				TimeIntervals.Sort(item => item.BeginTime);
 				SelectedTimeInterval = timeIntervalViewModel;
 			}
 		}
 
 		public RelayCommand DeleteCommand { get; private set; }
-		private void OnDelete()
+		void OnDelete()
 		{
 			if (TimeIntervalHelper.MarkDeleted(SelectedTimeInterval.TimeInterval))
 			{
@@ -106,13 +106,13 @@ namespace SKDModule.ViewModels
 				TimeIntervals.Remove(SelectedTimeInterval);
 			}
 		}
-		private bool CanDelete()
+		bool CanDelete()
 		{
 			return SelectedTimeInterval != null && TimeIntervals.Count > 1;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
+		void OnEdit()
 		{
 			var timeIntervalDetailsViewModel = new TimeIntervalDetailsViewModel(NamedInterval, SelectedTimeInterval.TimeInterval);
 			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel))
@@ -120,19 +120,13 @@ namespace SKDModule.ViewModels
 				TimeIntervalHelper.Save(SelectedTimeInterval.TimeInterval);
 				SelectedTimeInterval.Update();
 				var selectedTimeInterval = SelectedTimeInterval;
-				Sort();
+				TimeIntervals.Sort(item => item.BeginTime);
 				SelectedTimeInterval = selectedTimeInterval;
 			}
 		}
-		private bool CanEdit()
+		bool CanEdit()
 		{
 			return SelectedTimeInterval != null;
-		}
-
-		private void Sort()
-		{
-			var day = TimeSpan.FromDays(1);
-			TimeIntervals.Sort(item => item.IntervalTransitionType == IntervalTransitionType.NextDay ? item.BeginTime.Add(day) : item.BeginTime);
 		}
 	}
 }

@@ -45,7 +45,12 @@
 	                <TextBlock Width="100" Margin="2" Text="Должность" />
 	                <TextBlock Margin="2" Text="{Binding Employee.Position.Name}" />
 	            </StackPanel>
-	        </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="100" Margin="2" Text="Организация" />
+                    <TextBlock Margin="2" Text="{Binding Organisation.Name}" />
+                </StackPanel>
+            </StackPanel>
 	    </Grid>
 	</Border>
 </UserControl>
