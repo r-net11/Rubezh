@@ -20,9 +20,12 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-									<TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
+									<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="12" Height="12" VerticalAlignment="Center" />
+									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="2" />
+									<TextBlock VerticalAlignment="Center" Width="200">
+											<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
+												<TextBlock Text="{Binding Zone.Name}" />
+											</Hyperlink>
 											<TextBlock.ContextMenu>
 												<ContextMenu>
 													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Открыть все двери" Command="{Binding OpenCommand}" />
