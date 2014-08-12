@@ -21,11 +21,15 @@ namespace SKDModule.PassCard.ViewModels
 				var width = RegistrySettingsHelper.GetDouble("Administrator.PassCardTemplate.DefaultWidth");
 				var height = RegistrySettingsHelper.GetDouble("Administrator.PassCardTemplate.DefaultHeight");
 				var color = RegistrySettingsHelper.GetColor("Administrator.PassCardTemplate.DefaultColor");
+				var border = RegistrySettingsHelper.GetDouble("Administrator.PassCardTemplate.DefaultBorder");
+				var borderColor = RegistrySettingsHelper.GetColor("Administrator.PassCardTemplate.DefaultBorderColor");
 				if (width != 0)
 					passCardTemplate.Width = width;
 				if (height != 0)
 					passCardTemplate.Height = height;
 				passCardTemplate.BackgroundColor = color;
+				passCardTemplate.BorderColor = borderColor;
+				passCardTemplate.BorderThickness = border;
 			}
 			PassCardTemplate = passCardTemplate;
 			ImagePropertiesViewModel = new ImagePropertiesViewModel(PassCardTemplate);
@@ -35,6 +39,8 @@ namespace SKDModule.PassCard.ViewModels
 		private void CopyProperties()
 		{
 			BackgroundColor = PassCardTemplate.BackgroundColor;
+			BorderColor = PassCardTemplate.BorderColor;
+			BorderThickness = PassCardTemplate.BorderThickness;
 			Caption = PassCardTemplate.Caption;
 			Description = PassCardTemplate.Description;
 			Width = PassCardTemplate.Width;
@@ -96,22 +102,48 @@ namespace SKDModule.PassCard.ViewModels
 			}
 		}
 
+		private Color _borderColor;
+		public Color BorderColor
+		{
+			get { return _borderColor; }
+			set
+			{
+				_borderColor = value;
+				OnPropertyChanged(() => BorderColor);
+			}
+		}
+
+		private double _borderThickness;
+		public double BorderThickness
+		{
+			get { return _borderThickness; }
+			set
+			{
+				_borderThickness = value;
+				OnPropertyChanged(() => BorderThickness);
+			}
+		}
+
+
 		protected override bool CanSave()
 		{
 			return !string.IsNullOrEmpty(Caption);
 		}
-
 		protected override bool Save()
 		{
 			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultWidth", Width);
 			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultHeight", Height);
 			RegistrySettingsHelper.SetColor("Administrator.PassCardTemplate.DefaultColor", BackgroundColor);
+			RegistrySettingsHelper.SetDouble("Administrator.PassCardTemplate.DefaultBorder", BorderThickness);
+			RegistrySettingsHelper.SetColor("Administrator.PassCardTemplate.DefaultBorderColor", BorderColor);
 
 			PassCardTemplate.Caption = Caption;
 			PassCardTemplate.Description = Description;
 			PassCardTemplate.Width = Width;
 			PassCardTemplate.Height = Height;
 			PassCardTemplate.BackgroundColor = BackgroundColor;
+			PassCardTemplate.BorderThickness = BorderThickness;
+			PassCardTemplate.BorderColor = BorderColor;
 			ImagePropertiesViewModel.Save();
 			return base.Save();
 		}

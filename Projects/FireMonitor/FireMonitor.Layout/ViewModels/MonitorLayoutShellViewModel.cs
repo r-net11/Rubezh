@@ -1,4 +1,5 @@
 ﻿using System;
+using Common;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -25,30 +26,20 @@ namespace FireMonitor.Layout.ViewModels
 	{
 		public LayoutModel Layout { get; private set; }
 		private XmlLayoutSerializer _serializer;
+		private AutoActivationViewModel _autoActivationViewModel;
 
 		public MonitorLayoutShellViewModel(FiresecAPI.Models.Layouts.Layout layout)
 			: base("Monitor.Layout")
 		{
 			Layout = layout;
 			ChangeUserCommand = new RelayCommand(OnChangeUser, CanChangeUser);
-			if (Layout.IsRibbonEnabled)
-			{
-				RibbonContent = new RibbonMenuViewModel();
-				var ribbonViewModel = new RibbonViewModel()
-				{
-					Content = RibbonContent,
-				};
-				ribbonViewModel.PopupOpened += (s, e) => UpdateRibbonItems();
-				HeaderMenu = ribbonViewModel;
-				AddRibbonItem();
-				AllowLogoIcon = false;
-				RibbonVisible = false;
-			}
+			ChangeLayoutCommand = new RelayCommand<LayoutModel>(OnChangeLayout, CanChangeLayout);
 		}
 
 		public void UpdateLayout(LayoutModel layout)
 		{
 			Layout = layout;
+			UpdateRibbon();
 			Initialize();
 			Manager.GridSplitterHeight = Layout.SplitterSize;
 			Manager.GridSplitterWidth = Layout.SplitterSize;
@@ -158,20 +149,45 @@ namespace FireMonitor.Layout.ViewModels
 		{
 		}
 
-		private AutoActivationViewModel _autoActivationViewModel;
-		protected void UpdateRibbonItems()
+		private void UpdateRibbon()
 		{
-			RibbonContent.Items[1][0].ImageSource = _autoActivationViewModel.IsAutoActivation ? "/Controls;component/Images/BWindowNormal.png" : "/Controls;component/Images/windowCross.png";
-			RibbonContent.Items[1][0].ToolTip = _autoActivationViewModel.IsAutoActivation ? "Автоматическая активация ВКЛючена" : "Автоматическая активация ВЫКЛючена";
-			RibbonContent.Items[1][0].Text = _autoActivationViewModel.IsAutoActivation ? "Выключить автоактивицию" : "Включить автоактивацию";
-			RibbonContent.Items[1][1].ImageSource = _autoActivationViewModel.IsPlansAutoActivation ? "/Controls;component/Images/BMapOn.png" : "/Controls;component/Images/BMapOff.png";
-			RibbonContent.Items[1][1].ToolTip = _autoActivationViewModel.IsPlansAutoActivation ? "Автоматическая активация планов ВКЛючена" : "Автоматическая активация планов ВЫКЛючена";
-			RibbonContent.Items[1][1].Text = _autoActivationViewModel.IsPlansAutoActivation ? "Выключить автоактивицию плана" : "Включить автоактивацию плана";
+			if (Layout.IsRibbonEnabled)
+			{
+				RibbonContent = new RibbonMenuViewModel();
+				var ribbonViewModel = new RibbonViewModel()
+				{
+					Content = RibbonContent,
+				};
+				ribbonViewModel.PopupOpened += (s, e) => UpdateRibbonItems();
+				HeaderMenu = ribbonViewModel;
+				AddRibbonItem();
+				AllowLogoIcon = false;
+			}
+			else
+			{
+				HeaderMenu = null;
+				AllowLogoIcon = true;
+			}
+			RibbonVisible = false;
+		}
+		private void UpdateRibbonItems()
+		{
+			RibbonContent.Items[2][0].ImageSource = _autoActivationViewModel.IsAutoActivation ? "/Controls;component/Images/BWindowNormal.png" : "/Controls;component/Images/windowCross.png";
+			RibbonContent.Items[2][0].ToolTip = _autoActivationViewModel.IsAutoActivation ? "Автоматическая активация ВКЛючена" : "Автоматическая активация ВЫКЛючена";
+			RibbonContent.Items[2][0].Text = _autoActivationViewModel.IsAutoActivation ? "Выключить автоактивицию" : "Включить автоактивацию";
+			RibbonContent.Items[2][1].ImageSource = _autoActivationViewModel.IsPlansAutoActivation ? "/Controls;component/Images/BMapOn.png" : "/Controls;component/Images/BMapOff.png";
+			RibbonContent.Items[2][1].ToolTip = _autoActivationViewModel.IsPlansAutoActivation ? "Автоматическая активация планов ВКЛючена" : "Автоматическая активация планов ВЫКЛючена";
+			RibbonContent.Items[2][1].Text = _autoActivationViewModel.IsPlansAutoActivation ? "Выключить автоактивицию плана" : "Включить автоактивацию плана";
 		}
 		private void AddRibbonItem()
 		{
-			_autoActivationViewModel = new AutoActivationViewModel();
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить пользователя", ChangeUserCommand, "/Controls;component/Images/BUser.png"));
+
+			var ip = ConnectionSettingsManager.IsRemote ? null : FiresecManager.GetIP();
+			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.IPs.Contains(ip))).OrderBy(item => item.Caption);
+			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Сменить шаблон", new ObservableCollection<RibbonMenuItemViewModel>(layouts.Select(item => new RibbonMenuItemViewModel(item.Caption, ChangeLayoutCommand, item, "/Controls;component/Images/BLayouts.png", item.Description))), "/Controls;component/Images/BLayouts.png"));
+
+			_autoActivationViewModel = new AutoActivationViewModel();
 			RibbonContent.Items.Add(new RibbonMenuItemViewModel("Автоактивиция", new ObservableCollection<RibbonMenuItemViewModel>()
 			{
 				new RibbonMenuItemViewModel(string.Empty, _autoActivationViewModel.ChangeAutoActivationCommand),
@@ -190,6 +206,16 @@ namespace FireMonitor.Layout.ViewModels
 		private bool CanChangeUser()
 		{
 			return FiresecManager.CheckPermission(PermissionType.Oper_Logout);
+		}
+
+		public RelayCommand<LayoutModel> ChangeLayoutCommand { get; private set; }
+		private void OnChangeLayout(LayoutModel layout)
+		{
+			UpdateLayout(layout);
+		}
+		private bool CanChangeLayout(LayoutModel layout)
+		{
+			return layout != Layout;
 		}
 	}
 }

@@ -8,7 +8,7 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class PassCardTemplate : IElementBackground, IElementRectangle
+	public class PassCardTemplate : IElementBackground, IElementRectangle, IElementBorder
 	{
 		public PassCardTemplate()
 		{
@@ -17,6 +17,8 @@ namespace FiresecAPI.SKD
 			Width = 210;
 			Height = 297;
 			BackgroundColor = Colors.Transparent;
+			BorderColor = Colors.Black;
+			BorderThickness = 0;
 			IsVectorImage = false;
 			ClearElements();
 		}
@@ -43,6 +45,10 @@ namespace FiresecAPI.SKD
 		public double Width { get; set; }
 		[DataMember]
 		public double Height { get; set; }
+		[DataMember]
+		public Color BorderColor { get; set; }
+		[DataMember]
+		public double BorderThickness { get; set; }
 		[DataMember]
 		public Color BackgroundColor { get; set; }
 		[DataMember]

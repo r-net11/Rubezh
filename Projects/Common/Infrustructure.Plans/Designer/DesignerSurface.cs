@@ -16,6 +16,7 @@ namespace Infrustructure.Plans.Designer
 		private Point _previousPosition;
 		private CommonDesignerCanvas _designerCanvas;
 		public Brush BackgroundBrush { get; set; }
+		public Pen Border { get; set; }
 
 		public DesignerSurface(CommonDesignerCanvas designerCanvas)
 		{
@@ -176,7 +177,8 @@ namespace Infrustructure.Plans.Designer
 					UpdateZIndex();
 				//base.OnRender(dc);
 				_designerCanvas.RenderBackground(dc);
-				dc.DrawRectangle(BackgroundBrush, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
+				var thickness = Border == null ? 0 : Border.Thickness;
+				dc.DrawRectangle(BackgroundBrush, Border, new Rect(-thickness / 2, -thickness / 2, RenderSize.Width + thickness, RenderSize.Height + thickness));
 				foreach (var item in _visuals)
 					if (item.IsVisibleLayout)
 						item.Render(dc);

@@ -36,7 +36,7 @@ namespace SKDModule.PassCard.ViewModels
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 			Employee = EmployeeHelper.GetDetails(employeeUID);
 			var shortDepartment = Employee.Department;
-			if(shortDepartment != null)
+			if (shortDepartment != null)
 				Department = DepartmentHelper.GetDetails(shortDepartment.UID);
 			var shortPosition = Employee.Position;
 			if (shortPosition != null)
@@ -44,7 +44,7 @@ namespace SKDModule.PassCard.ViewModels
 			Organisation = OrganisationHelper.GetDetails(Employee.OrganisationUID);
 			PassCardCanvas = new PassCardCanvas();
 			SKDManager.SKDPassCardLibraryConfiguration.Templates.Sort((item1, item2) => string.Compare(item1.Caption, item2.Caption));
-			PassCardTemplates = new ObservableCollection<PassCardTemplate>(SKDManager.SKDPassCardLibraryConfiguration.Templates.Where(x=> Organisation.CardTemplateUIDs.Any(y => y == x.UID)));
+			PassCardTemplates = new ObservableCollection<PassCardTemplate>(SKDManager.SKDPassCardLibraryConfiguration.Templates.Where(x => Organisation.CardTemplateUIDs.Any(y => y == x.UID)));
 
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
@@ -80,7 +80,8 @@ namespace SKDModule.PassCard.ViewModels
 				var rect = LayoutInformation.GetLayoutSlot(PassCardCanvas);
 				var capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
 				var origin = new Point(capabilities.PageImageableArea.OriginWidth, capabilities.PageImageableArea.OriginHeight);
-				PassCardCanvas.Arrange(new Rect(origin, PassCardCanvas.DesiredSize));
+				var size = new Size(PassCardCanvas.DesiredSize.Width + 2 * PassCardCanvas.CanvasBorder.Thickness, PassCardCanvas.DesiredSize.Height + 2 * PassCardCanvas.CanvasBorder.Thickness);
+				PassCardCanvas.Arrange(new Rect(origin, size));
 				dialog.PrintVisual(PassCardCanvas, "Пропуск " + Employee.LastName);
 				PassCardCanvas.Arrange(rect);
 			}
@@ -143,7 +144,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = "[Пока нет в БД]";
 					break;
 				case PassCardTextPropertyType.Department:
-					if(Department != null)
+					if (Department != null)
 						elementTextProperty.Text = Department.Name;
 					break;
 				case PassCardTextPropertyType.EndDate:
@@ -159,7 +160,7 @@ namespace SKDModule.PassCard.ViewModels
 					elementTextProperty.Text = Organisation.Name;
 					break;
 				case PassCardTextPropertyType.Position:
-					if(Position != null)
+					if (Position != null)
 						elementTextProperty.Text = Position.Name;
 					break;
 				case PassCardTextPropertyType.SecondName:
@@ -246,7 +247,7 @@ namespace SKDModule.PassCard.ViewModels
 				switch (elementPassCardImageProperty.PropertyType)
 				{
 					case PassCardImagePropertyType.DepartmentLogo:
-						photo = Department == null ? null : Department.Photo;	
+						photo = Department == null ? null : Department.Photo;
 						break;
 					case PassCardImagePropertyType.OrganisationLogo:
 						photo = Organisation.Photo;
@@ -255,7 +256,7 @@ namespace SKDModule.PassCard.ViewModels
 						photo = Employee.Photo;
 						break;
 					case PassCardImagePropertyType.PositionLogo:
-						photo = Position == null ? null : Position.Photo;	
+						photo = Position == null ? null : Position.Photo;
 						break;
 					case PassCardImagePropertyType.Additional:
 						var columnValue = Employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == elementPassCardImageProperty.AdditionalColumnUID);

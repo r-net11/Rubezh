@@ -50,6 +50,7 @@ namespace SKDModule.PassCard.Designer
 			CanvasWidth = _passCardTemplate.Width;
 			CanvasHeight = _passCardTemplate.Height;
 			CanvasBackground = PainterCache.GetBrush(_passCardTemplate);
+			CanvasBorder = PainterCache.GetPen(_passCardTemplate);
 		}
 
 		public void Initialize(PassCardTemplate passCardTemplate)

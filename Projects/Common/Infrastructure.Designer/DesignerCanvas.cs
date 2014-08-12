@@ -254,6 +254,9 @@ namespace Infrastructure.Designer
 			IElementBackground elementBackground = element as IElementBackground;
 			if (elementBackground != null)
 				CanvasBackground = PainterCache.GetBrush(elementBackground);
+			IElementBorder elementBorder = element as IElementBorder;
+			if (elementBorder != null)
+				CanvasBorder = PainterCache.GetPen(elementBorder.BorderColor, elementBorder.BorderThickness);
 		}
 		public override void BeginChange(IEnumerable<DesignerItem> designerItems)
 		{

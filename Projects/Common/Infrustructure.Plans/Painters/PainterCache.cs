@@ -133,7 +133,6 @@ namespace Infrustructure.Plans.Painters
 			return brush;
 		}
 
-
 		private ImageBrush _transparentBackgroundBrush;
 		public Pen ZonePen { get; private set; }
 		public Pen GridLinePen { get; private set; }
@@ -186,6 +185,10 @@ namespace Infrustructure.Plans.Painters
 				_transparentBrushes.Add(brush, transparent);
 			}
 			return _transparentBrushes[brush];
+		}
+		public Pen GetPen(IElementBorder element)
+		{
+			return GetPen(element.BorderColor, element.BorderThickness);
 		}
 	}
 }
