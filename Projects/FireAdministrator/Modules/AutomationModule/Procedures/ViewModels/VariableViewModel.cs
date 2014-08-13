@@ -26,11 +26,11 @@ namespace AutomationModule.ViewModels
 		public void Update()
 		{
 			Name = Variable.Name;
-			BoolValue = Variable.BoolValue;
-			DateTimeValue = Variable.DateTimeValue;
-			IntValue = Variable.IntValue;
+			DefaultBoolValue = Variable.DefaultBoolValue;
+			DefaultDateTimeValue = Variable.DefaultDateTimeValue;
+			DefaultIntValue = Variable.DefaultIntValue;
 			ObjectType = Variable.ObjectType;
-			StringValue = Variable.StringValue;
+			DefaultStringValue = Variable.DefaultStringValue;
 			VariableType = Variable.VariableType;
 			IsList = Variable.IsList;
 
@@ -41,11 +41,11 @@ namespace AutomationModule.ViewModels
 			};
 			OnPropertyChanged(() => Variable);
 			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => BoolValue);
-			OnPropertyChanged(() => DateTimeValue);
-			OnPropertyChanged(() => IntValue);
+			OnPropertyChanged(() => DefaultBoolValue);
+			OnPropertyChanged(() => DefaultDateTimeValue);
+			OnPropertyChanged(() => DefaultIntValue);
 			OnPropertyChanged(() => ObjectType);
-			OnPropertyChanged(() => StringValue);
+			OnPropertyChanged(() => DefaultStringValue);
 			OnPropertyChanged(() => VariableType);
 		}
 
@@ -71,47 +71,47 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		bool _boolValue;
-		public bool BoolValue
+		bool _defaultBoolValue;
+		public bool DefaultBoolValue
 		{
-			get { return _boolValue; }
+			get { return _defaultBoolValue; }
 			set
 			{
-				_boolValue = value;
-				OnPropertyChanged(() => BoolValue);
+				_defaultBoolValue = value;
+				OnPropertyChanged(() => DefaultBoolValue);
 			}
 		}
 
-		DateTime _dateTimeValue;
-		public DateTime DateTimeValue
+		DateTime _defaultDateTimeValue;
+		public DateTime DefaultDateTimeValue
 		{
-			get { return _dateTimeValue; }
+			get { return _defaultDateTimeValue; }
 			set
 			{
-				_dateTimeValue = value;
-				OnPropertyChanged(() => DateTimeValue);
+				_defaultDateTimeValue = value;
+				OnPropertyChanged(() => DefaultDateTimeValue);
 			}
 		}
 
-		int _intValue;
-		public int IntValue
+		int _defaultIntValue;
+		public int DefaultIntValue
 		{
-			get { return _intValue; }
+			get { return _defaultIntValue; }
 			set
 			{
-				_intValue = value;
-				OnPropertyChanged(() => IntValue);
+				_defaultIntValue = value;
+				OnPropertyChanged(() => DefaultIntValue);
 			}
 		}
 
-		string _stringValue;
-		public string StringValue
+		string _defaultStringValue;
+		public string DefaultStringValue
 		{
-			get { return _stringValue; }
+			get { return _defaultStringValue; }
 			set
 			{
-				_stringValue = value;
-				OnPropertyChanged(() => StringValue);
+				_defaultStringValue = value;
+				OnPropertyChanged(() => DefaultStringValue);
 			}
 		}
 

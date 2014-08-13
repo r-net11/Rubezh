@@ -37,25 +37,25 @@
 					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=VariableType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:VariableType.Integer}}" HorizontalAlignment="Right" Height="28" >
 						<Label Content="Значение" />
-						<extToolkit:IntegerUpDown Width="200" Value="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+						<extToolkit:IntegerUpDown Width="200" Value="{Binding DefaultIntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=VariableType, Converter={StaticResource EnumToVisibilityConverter}, 
 						ConverterParameter={x:Static automation:VariableType.Boolean}}" HorizontalAlignment="Right" Height="28" >
 						<Label Content="Значение" HorizontalAlignment="Left" />
-						<CheckBox IsChecked="{Binding BoolValue, UpdateSourceTrigger=PropertyChanged}" Width="202" Margin="2,7,0,0" />
+						<CheckBox IsChecked="{Binding DefaultBoolValue, UpdateSourceTrigger=PropertyChanged}" Width="202" Margin="2,7,0,0" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=VariableType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:VariableType.String}}" HorizontalAlignment="Right" Height="28" >
 						<Label Content="Значение" />
-						<TextBox Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
+						<TextBox Text="{Binding DefaultStringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=VariableType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:VariableType.DateTime}}" HorizontalAlignment="Right" Height="28"  >
 						<Label Content="Значение" />
-						<extToolkit:DateTimePicker Value = "{Binding DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
+						<extToolkit:DateTimePicker Value = "{Binding DefaultDateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=VariableType, Converter={StaticResource EnumToVisibilityConverter},

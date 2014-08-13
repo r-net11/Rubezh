@@ -37,19 +37,19 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel>
-								<TextBlock Text="{Binding BoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+								<TextBlock Text="{Binding DefaultBoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 									 Visibility="{Binding Path=VariableType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:VariableType.Boolean}}" />
-								<TextBlock Text="{Binding DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Margin="2"
+								<TextBlock Text="{Binding DefaultDateTimeValue, UpdateSourceTrigger=PropertyChanged}" Margin="2"
 										 Visibility="{Binding Path=VariableType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:VariableType.DateTime}}" />
-								<TextBlock Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+								<TextBlock Text="{Binding DefaultIntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 										 Visibility="{Binding Path=VariableType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:VariableType.Integer}}" />
 								<TextBlock Text="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
 										 Visibility="{Binding Path=VariableType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:VariableType.Object}}" />
-								<TextBlock Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+								<TextBlock Text="{Binding DefaultStringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 										 Visibility="{Binding Path=VariableType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:VariableType.String}}" />
 							</StackPanel>

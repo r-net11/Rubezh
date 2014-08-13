@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
+using System.Linq;
 using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
@@ -66,13 +67,16 @@ namespace AutomationModule.ViewModels
 			Variables = new ObservableCollection<VariableViewModel>();
 			var variablesAndArguments = new List<Variable>(Procedure.Variables);
 			variablesAndArguments.AddRange(Procedure.Arguments);
-			foreach (var variable in variablesAndArguments.FindAll(x => ((x.VariableType == VariableType.String))))
+			foreach (var variable in variablesAndArguments)
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
 			}
 			ValueTypes = new ObservableCollection<ValueType> { ValueType.IsLocalVariable, ValueType.IsValue };
 			SelectedValueType = SendMessageArguments.ValueType;
+			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == SendMessageArguments.VariableUid);
+			OnPropertyChanged(() => Variables);
+			OnPropertyChanged(() => SelectedVariable);
 		}
 
 		public string Description

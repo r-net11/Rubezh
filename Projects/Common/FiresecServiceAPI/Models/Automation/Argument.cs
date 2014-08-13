@@ -11,11 +11,11 @@ namespace FiresecAPI.Automation
 			Uid = Guid.NewGuid();
 			ArgumentUid = variable.Uid;
 			VariableType = variable.VariableType;
-			BoolValue = variable.BoolValue;
-			DateTimeValue = variable.DateTimeValue;
-			IntValue = variable.IntValue;
+			BoolValue = variable.DefaultBoolValue;
+			DateTimeValue = variable.DefaultDateTimeValue;
+			IntValue = variable.DefaultIntValue;
 			ObjectType = variable.ObjectType;
-			StringValue = variable.StringValue;
+			StringValue = variable.DefaultStringValue;
 			VariableType = variable.VariableType;
 			IsList = variable.IsList;
 		}

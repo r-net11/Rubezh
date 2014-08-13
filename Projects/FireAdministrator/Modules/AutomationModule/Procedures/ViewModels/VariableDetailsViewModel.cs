@@ -108,12 +108,12 @@ namespace AutomationModule.ViewModels
 				return false;
 			}
 			Variable.Name = SelectedVariable.Name;
-			Variable.BoolValue = SelectedVariable.BoolValue;
-			Variable.DateTimeValue = SelectedVariable.DateTimeValue;
-			Variable.IntValue = SelectedVariable.IntValue;
+			Variable.DefaultBoolValue = SelectedVariable.DefaultBoolValue;
+			Variable.DefaultDateTimeValue = SelectedVariable.DefaultDateTimeValue;
+			Variable.DefaultIntValue = SelectedVariable.DefaultIntValue;
 			Variable.Name = Name;
 			Variable.ObjectType = SelectedVariable.ObjectType;
-			Variable.StringValue = SelectedVariable.StringValue;
+			Variable.DefaultStringValue = SelectedVariable.DefaultStringValue;
 			Variable.VariableType = SelectedVariable.VariableType;
 			Variable.IsList = IsList;
 			return base.Save();

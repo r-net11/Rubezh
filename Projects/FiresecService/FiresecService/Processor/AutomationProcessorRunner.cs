@@ -38,6 +38,7 @@ namespace FiresecService.Processor
 
 		public static bool Run(Procedure procedure, List<Argument> arguments)
 		{
+			procedure.ResetVaraibles();
 			var procedureThread = new Thread(() => RunInThread(procedure, arguments));
 			procedureThread.Start();
 			ProceduresThreads.Add(procedureThread);
@@ -71,9 +72,18 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.Foreach:
-					if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
+					var variablesAndArguments = new List<Variable>(procedure.Variables);
+					variablesAndArguments.AddRange(procedure.Arguments);
+					var foreachArguments = procedureStep.ForeachArguments;
+					var listVariable = variablesAndArguments.FirstOrDefault(x => x.Uid == foreachArguments.ListVariableUid) ??
+						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ListVariableUid);
+					var itemVariable = variablesAndArguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariableUid) ??
+						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariableUid);
+					foreach (var itemUid in listVariable.ObjectsUids)
 					{
-						return false;
+						itemVariable.ObjectUid = itemUid;
+						if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
+							return false;
 					}
 					break;
 

@@ -67,7 +67,7 @@ namespace FiresecService.Processor
 			int intPropertyValue = 0;
 			string stringPropertyValue = "";
 			var item = new object();
-			var itemUid = new Guid();
+			var itemUid = Guid.Empty;
 			InitializeItem(ref item, variable.ObjectUid, variable.ObjectType);
 			InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, getStringArguments.Property, item);
 			if (getStringArguments.StringOperation == StringOperation.Is)
@@ -89,12 +89,7 @@ namespace FiresecService.Processor
 				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid) ??
 					procedure.Arguments.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid);
 				if (localVariable != null)
-				{
-					foreach (var str in localVariable.StringValues)
-					{
-						automationCallbackResult.Message += str + "\n";
-					}
-				}
+					automationCallbackResult.Message = localVariable.CurrentValue;
 			}
 			return automationCallbackResult;
 		}
