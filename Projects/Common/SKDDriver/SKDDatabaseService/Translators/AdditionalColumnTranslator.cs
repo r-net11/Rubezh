@@ -93,11 +93,11 @@ namespace SKDDriver
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == apiItem.UID);
 				if (tableItem == null)
-                {  
-                    if(apiItem.Photo != null)
-                        photosToSave.Add(apiItem.Photo);
-                    continue;
-                }
+				{  
+					if(apiItem.Photo != null)
+						photosToSave.Add(apiItem.Photo);
+					continue;
+				}
 				if (tableItem.PhotoUID == null)
 					photosToSave.Add(apiItem.Photo);
 				else if (apiItem.Photo == null)
