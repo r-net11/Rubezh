@@ -13,9 +13,5 @@ namespace FiresecAPI.EmployeeTimeIntervals
 		[DescriptionAttribute("Переход")]
 		[EnumMember]
 		Night = 1,
-
-		[DescriptionAttribute("Следующий день")]
-		[EnumMember]
-		NextDay = 2
 	}
 }

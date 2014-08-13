@@ -51,8 +51,8 @@ namespace AutomationModule.ViewModels
 					break;
 
 				case ProcedureStepType.Pause:
-				    Content = new PauseStepViewModel(step.PauseArguments, procedure);
-				    break;
+					Content = new PauseStepViewModel(step.PauseArguments, procedure);
+					break;
 				
 				case ProcedureStepType.ProcedureSelection:
 					Content = new ProcedureSelectionStepViewModel(step.ProcedureSelectionArguments, procedure);

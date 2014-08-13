@@ -362,6 +362,12 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.SKD, "Обновление ПО Контроллера", XStateClass.TechnologicalRegime)]
 		Обновление_ПО_Контроллера,
 
+		[EventDescription(JournalSubsystemType.SKD, "Запрос конфигурации контроллера", XStateClass.TechnologicalRegime)]
+		Запрос_конфигурации_контроллера,
+
+		[EventDescription(JournalSubsystemType.SKD, "Синхронизация времени контроллера", XStateClass.Info)]
+		Синхронизация_времени_контроллера,
+
 		[EventDescription(JournalSubsystemType.SKD, "Запрос конфигурации двери", XStateClass.TechnologicalRegime)]
 		Запрос_конфигурации_двери,
 
@@ -412,5 +418,38 @@ namespace FiresecAPI.Journal
 
 		[EventDescription(JournalSubsystemType.SKD, "Удаление карты", XStateClass.Info)]
 		Удаление_карты,
+
+		[EventDescription(JournalSubsystemType.SKD, "Редактирование сотрудника", XStateClass.Info)]
+		Редактирование_сотрудника,
+
+		[EventDescription(JournalSubsystemType.SKD, "Редактирование отдела", XStateClass.Info)]
+		Редактирование_отдела,
+
+		[EventDescription(JournalSubsystemType.SKD, "Редактирование должности", XStateClass.Info)]
+		Редактирование_должности,
+
+		[EventDescription(JournalSubsystemType.SKD, "Редактирование шаблона доступа", XStateClass.Info)]
+		Редактирование_шаблона_доступа,
+
+		[EventDescription(JournalSubsystemType.SKD, "Редактирование организации", XStateClass.Info)]
+		Редактирование_организации,
+
+		[EventDescription(JournalSubsystemType.SKD, "Редактирование дополнительной колонки", XStateClass.Info)]
+		Редактирование_дополнительной_колонки,
+
+		[EventDescription(JournalSubsystemType.SKD, "Редактирование дневного графика", XStateClass.Info)]
+		Редактирование_дневного_графика,
+
+		[EventDescription(JournalSubsystemType.SKD, "Редактирование графика работы", XStateClass.Info)]
+		Редактирование_графика_работы,
+
+		[EventDescription(JournalSubsystemType.SKD, "Редактирование схемы работы", XStateClass.Info)]
+		Редактирование_схемы_работы,
+
+		[EventDescription(JournalSubsystemType.SKD, "Редактирование праздничного дня", XStateClass.Info)]
+		Редактирование_праздничного_дня,
+
+		[EventDescription(JournalSubsystemType.SKD, "Внесение оправдательного документа", XStateClass.Info)]
+		Внесение_оправдательного_документа,
 	}
 }

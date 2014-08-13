@@ -39,7 +39,7 @@ namespace GKModule.Validation
 				devices.Add(guardZoneDevice.Device);
 			}
 			if (AreDevicesInSameGK(devices))
-			    Errors.Add(new GuardZoneValidationError(guardZone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
+				Errors.Add(new GuardZoneValidationError(guardZone, "Зона содержит устройства разных ГК", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateGuardZoneHasNoDevices(XGuardZone guardZone)

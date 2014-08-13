@@ -29,22 +29,29 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="ListViewItem">
 					<Border Name="Bd" Grid.Row="0" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}" Padding="{TemplateBinding Control.Padding}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}">
-						<Controls:TreeGridViewRowPresenter x:Name="PART_Header">
-							<Controls:TreeGridViewRowPresenter.Resources>
-								<Style TargetType="{x:Type ContentPresenter}">
-									<Setter Property="VerticalAlignment" Value="Center" />
-									<Setter Property="HorizontalAlignment" Value="Stretch" />
-								</Style>
-							</Controls:TreeGridViewRowPresenter.Resources>
-							<Controls:TreeGridViewRowPresenter.Expander>
-								<tree:RowExpander />
-							</Controls:TreeGridViewRowPresenter.Expander>
-						</Controls:TreeGridViewRowPresenter>
+						<DockPanel>
+							<RadioButton x:Name="mark" Margin="2,0,0,0" VerticalAlignment="Center" DockPanel.Dock="Left" IsChecked="False" IsHitTestVisible="False" Visibility="Collapsed" />
+							<Controls:TreeGridViewRowPresenter x:Name="PART_Header">
+								<Controls:TreeGridViewRowPresenter.Resources>
+									<Style TargetType="{x:Type ContentPresenter}">
+										<Setter Property="VerticalAlignment" Value="Center" />
+										<Setter Property="HorizontalAlignment" Value="Stretch" />
+									</Style>
+								</Controls:TreeGridViewRowPresenter.Resources>
+								<Controls:TreeGridViewRowPresenter.Expander>
+									<tree:RowExpander />
+								</Controls:TreeGridViewRowPresenter.Expander>
+							</Controls:TreeGridViewRowPresenter>
+						</DockPanel>
 					</Border>
 					<ControlTemplate.Triggers>
+						<Trigger Property="UIBehavior.ShowSelectionMark" Value="True">
+							<Setter TargetName="mark" Property="Visibility" Value="Visible" />
+						</Trigger>
 						<Trigger Property="IsSelected" Value="true">
 							<Setter TargetName="Bd" Property="Panel.Background" Value="{DynamicResource PressedBackgroundBrush}" />
 							<Setter Property="TextElement.Foreground" Value="White" />
+							<Setter TargetName="mark" Property="IsChecked" Value="True" />
 						</Trigger>
 						<Trigger Property="IsEnabled" Value="False">
 							<Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />

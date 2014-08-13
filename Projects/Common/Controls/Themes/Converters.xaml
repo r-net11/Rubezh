@@ -23,14 +23,14 @@
 	<Converters:TimeToStringConverter x:Key="TimeToStringConverter" />
 	<Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
 	<Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
-    <Converters:XStateClassToSKDStringConverter x:Key="XStateClassToSKDStringConverter" />
+	<Converters:XStateClassToSKDStringConverter x:Key="XStateClassToSKDStringConverter" />
 	<Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
 	<Converters:XStateClassToZoneColorConverter x:Key="XStateClassToZoneColorConverter" />
-    <Converters:XStateClassToGuardZoneColorConverter x:Key="XStateClassToGuardZoneColorConverter" />
+	<Converters:XStateClassToGuardZoneColorConverter x:Key="XStateClassToGuardZoneColorConverter" />
 	<Converters:XStateClassToColorConverter2 x:Key="XStateClassToColorConverter2" />
 	<Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
 	<Converters:XStateClassToIconConverter2 x:Key="XStateClassToIconConverter2" />
-    <Converters:XGuardZoneStateClassToStringConverter x:Key="XGuardZoneStateClassToStringConverter" />
+	<Converters:XGuardZoneStateClassToStringConverter x:Key="XGuardZoneStateClassToStringConverter" />
 	<Converters:XAlarmTypeToStringConverter x:Key="XAlarmTypeToStringConverter" />
 	<Converters:MPTDeviceTypeToStringConverter x:Key="MPTDeviceTypeToStringConverter" />
 	<Converters:MROMessageNoToStringConverter x:Key="MROMessageNoToStringConverter" />
@@ -55,8 +55,8 @@
 	<Converters:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter" />
 	<Converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
 	<Converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
-    <Converters:XGuardZoneDeviceActionTypeToIconConverter x:Key="XGuardZoneDeviceActionTypeToIconConverter" />
-    <Converters:JournalSubsystemTypeToIconConverter x:Key="JournalSubsystemTypeToIconConverter" />
+	<Converters:XGuardZoneDeviceActionTypeToIconConverter x:Key="XGuardZoneDeviceActionTypeToIconConverter" />
+	<Converters:JournalSubsystemTypeToIconConverter x:Key="JournalSubsystemTypeToIconConverter" />
 	
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 	

@@ -9,8 +9,9 @@ namespace SKDModule.Validation
 {
 	public partial class Validator
 	{
-		private const string DifferentOrganisationInSameTemplate = "Шаблон содержит дополнительные колонки относящиеся к разным организациям";
-		private const string UnknownAddtionColumn = "Шаблон содержит неопределенные дополнительные колонки";
+		const string DifferentOrganisationInSameTemplate = "Шаблон содержит дополнительные колонки относящиеся к разным организациям";
+		const string UnknownAddtionColumn = "Шаблон содержит неопределенные дополнительные колонки";
+
 		void ValidatePassCards()
 		{
 			SKDManager.SKDPassCardLibraryConfiguration.Templates.ForEach(template =>
@@ -51,14 +52,14 @@ namespace SKDModule.Validation
 			});
 		}
 
-		private Guid? GetOrganisationUID(Guid additionalColumnGuid)
+		Guid? GetOrganisationUID(Guid additionalColumnGuid)
 		{
 			var additionalColumn = AdditionalColumns.FirstOrDefault(item => item.UID == additionalColumnGuid);
 			return additionalColumn == null ? null : additionalColumn.OrganisationUID;
 		}
 
-		private List<ShortAdditionalColumnType> _addtionalColumns = null;
-		private List<ShortAdditionalColumnType> AdditionalColumns
+		List<ShortAdditionalColumnType> _addtionalColumns = null;
+		List<ShortAdditionalColumnType> AdditionalColumns
 		{
 			get
 			{

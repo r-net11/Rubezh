@@ -16,23 +16,23 @@
 				<IconedMenuItem Command="{Binding WriteTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Записать графики работ" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding WriteAllTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Записать графики работ во все приборы" TotalHeight="32" />
 			</MenuItem>
-            <Menu.Style>
-                <Style TargetType="{x:Type Menu}">
-                    
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding HasMissmath}" Value="False">
-                            <DataTrigger.Setters>
-                                <Setter Property="Background" Value="Transparent" />
-                            </DataTrigger.Setters>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding HasMissmath}" Value="True">
-                            <DataTrigger.Setters>
-                                <Setter Property="Background" Value="Red" />
-                            </DataTrigger.Setters>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Menu.Style>
+			<Menu.Style>
+				<Style TargetType="{x:Type Menu}">
+					
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding HasMissmath}" Value="False">
+							<DataTrigger.Setters>
+								<Setter Property="Background" Value="Transparent" />
+							</DataTrigger.Setters>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding HasMissmath}" Value="True">
+							<DataTrigger.Setters>
+								<Setter Property="Background" Value="Red" />
+							</DataTrigger.Setters>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Menu.Style>
 		</Menu>
 	</StackPanel>
 </UserControl>

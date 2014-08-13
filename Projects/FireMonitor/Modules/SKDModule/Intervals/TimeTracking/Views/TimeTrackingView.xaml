@@ -10,46 +10,46 @@
 			<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
 			<ToolBarButton Command="{Binding PrintCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать" />
 		</StackPanel>
-        <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="4" RowHeight="60" Margin="0 4 0 0">
+	    <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="4" RowHeight="60" Margin="0 4 0 0">
 			<DataGrid.Columns>
-                <DataGridTemplateColumn Header="ФИО">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding ShortEmployee.LastName}" Margin="4 0" />
-                                <TextBlock Text="{Binding ShortEmployee.FirstName}" Margin="4 0" />
-                                <TextBlock Text="{Binding ShortEmployee.SecondName}" Margin="4 0" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding ShortEmployee.DepartmentName}" Header="Отдел" />
-                <DataGridTextColumn Binding="{Binding ShortEmployee.PositionName}" Header="Должность" />
-                <DataGridTemplateColumn Header="Тип">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="Всего" Margin="4 0" />
-                                <TextBlock Text="Пропущено" Margin="4 0" />
-                                <TextBlock Text="Всего по графику" Margin="4 0" />
-                                <TextBlock Text="Всего вне графика" Margin="4 0" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Итого">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Total}" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding TotalMiss}" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding TotalInSchedule}" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding TotalOutSchedule}" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
+	            <DataGridTemplateColumn Header="ФИО">
+	                <DataGridTemplateColumn.CellTemplate>
+	                    <DataTemplate>
+	                        <StackPanel Orientation="Horizontal">
+	                            <TextBlock Text="{Binding ShortEmployee.LastName}" Margin="4 0" />
+	                            <TextBlock Text="{Binding ShortEmployee.FirstName}" Margin="4 0" />
+	                            <TextBlock Text="{Binding ShortEmployee.SecondName}" Margin="4 0" />
+	                        </StackPanel>
+	                    </DataTemplate>
+	                </DataGridTemplateColumn.CellTemplate>
+	            </DataGridTemplateColumn>
+	            <DataGridTextColumn Binding="{Binding ShortEmployee.DepartmentName}" Header="Отдел" />
+	            <DataGridTextColumn Binding="{Binding ShortEmployee.PositionName}" Header="Должность" />
+	            <DataGridTemplateColumn Header="Тип">
+	                <DataGridTemplateColumn.CellTemplate>
+	                    <DataTemplate>
+	                        <StackPanel>
+	                            <TextBlock Text="Всего" Margin="4 0" />
+	                            <TextBlock Text="Пропущено" Margin="4 0" />
+	                            <TextBlock Text="Всего по графику" Margin="4 0" />
+	                            <TextBlock Text="Всего вне графика" Margin="4 0" />
+	                        </StackPanel>
+	                    </DataTemplate>
+	                </DataGridTemplateColumn.CellTemplate>
+	            </DataGridTemplateColumn>
+	            <DataGridTemplateColumn Header="Итого">
+	                <DataGridTemplateColumn.CellTemplate>
+	                    <DataTemplate>
+	                        <StackPanel>
+	                            <TextBlock Text="{Binding Total}" VerticalAlignment="Center" />
+	                            <TextBlock Text="{Binding TotalMiss}" VerticalAlignment="Center" />
+	                            <TextBlock Text="{Binding TotalInSchedule}" VerticalAlignment="Center" />
+	                            <TextBlock Text="{Binding TotalOutSchedule}" VerticalAlignment="Center" />
+	                        </StackPanel>
+	                    </DataTemplate>
+	                </DataGridTemplateColumn.CellTemplate>
+	            </DataGridTemplateColumn>
+	        </DataGrid.Columns>
 		</DataGrid>
 	</Grid>
 </UserControl>

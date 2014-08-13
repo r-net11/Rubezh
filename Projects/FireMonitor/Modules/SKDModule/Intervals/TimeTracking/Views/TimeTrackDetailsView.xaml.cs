@@ -87,7 +87,7 @@ namespace SKDModule.Views
 					var widht = timePart.Delta;
 					if (widht >= 0)
 					{
-						_grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+						RealGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
 
 						if (timePart.IsInterval)
 						{
@@ -97,7 +97,7 @@ namespace SKDModule.Views
 							rectangle.Stroke = new SolidColorBrush(Colors.Black);
 							Grid.SetRow(rectangle, 0);
 							Grid.SetColumn(rectangle, i);
-							_grid.Children.Add(rectangle);
+							RealGrid.Children.Add(rectangle);
 						}
 					}
 				}
@@ -138,7 +138,7 @@ namespace SKDModule.Views
 					var widht = timePart.Delta;
 					if (widht >= 0)
 					{
-						_sheduleGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+						PlannedGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
 
 						if (timePart.IsInterval)
 						{
@@ -148,7 +148,7 @@ namespace SKDModule.Views
 							rectangle.Stroke = new SolidColorBrush(Colors.Black);
 							Grid.SetRow(rectangle, 0);
 							Grid.SetColumn(rectangle, i);
-							_sheduleGrid.Children.Add(rectangle);
+							PlannedGrid.Children.Add(rectangle);
 						}
 					}
 				}
@@ -190,7 +190,7 @@ namespace SKDModule.Views
 					var widht = timePart.Delta;
 					if (widht >= 0)
 					{
-						_dualGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+						CombinedGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
 
 						if (timePart.IsInterval)
 						{
@@ -221,7 +221,7 @@ namespace SKDModule.Views
 							rectangle.Stroke = new SolidColorBrush(Colors.Black);
 							Grid.SetRow(rectangle, 0);
 							Grid.SetColumn(rectangle, i);
-							_dualGrid.Children.Add(rectangle);
+							CombinedGrid.Children.Add(rectangle);
 						}
 					}
 				}
@@ -230,19 +230,19 @@ namespace SKDModule.Views
 
 		void DrawHoursGrid()
 		{
-			_timeGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.5, GridUnitType.Star) });
+			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.5, GridUnitType.Star) });
 			for (int i = 1; i <= 23; i++)
 			{
-				_timeGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+				TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 				TextBlock timeTextBlock = new TextBlock();
 				timeTextBlock.Text = i.ToString();
 				timeTextBlock.Foreground = new SolidColorBrush(Colors.Black);
 				timeTextBlock.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
 				Grid.SetRow(timeTextBlock, 0);
 				Grid.SetColumn(timeTextBlock, i);
-				_timeGrid.Children.Add(timeTextBlock);
+				TimeLineGrid.Children.Add(timeTextBlock);
 			}
-			_timeGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.5, GridUnitType.Star) });
+			TimeLineGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.5, GridUnitType.Star) });
 		}
 	}
 }

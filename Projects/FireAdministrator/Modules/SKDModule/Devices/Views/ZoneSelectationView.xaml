@@ -5,34 +5,34 @@
 		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" 
 		MinHeight="400" MinWidth="600">
 
-    <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Focusable="True">
-        <DataGrid.Resources>
-            <Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
-                <Setter Property="MinWidth" Value="0" />
-                <Setter Property="MinHeight" Value="0" />
-            </Style>
-            <InputBindingCollection x:Key="inputCollection" x:Shared="False">
-                <MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
-            </InputBindingCollection>
-        </DataGrid.Resources>
-        <DataGrid.ItemContainerStyle>
-            <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
-                <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
-            </Style>
-        </DataGrid.ItemContainerStyle>
-        <DataGrid.Columns>
-            <DataGridTemplateColumn Width="*" Header="Зона">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Margin="1 0 2 0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
-                            <Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
-                            <TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
+	<DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Focusable="True">
+		<DataGrid.Resources>
+			<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+				<Setter Property="MinWidth" Value="0" />
+				<Setter Property="MinHeight" Value="0" />
+			</Style>
+			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+				<MouseBinding Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" />
+			</InputBindingCollection>
+		</DataGrid.Resources>
+		<DataGrid.ItemContainerStyle>
+			<Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+				<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+			</Style>
+		</DataGrid.ItemContainerStyle>
+		<DataGrid.Columns>
+			<DataGridTemplateColumn Width="*" Header="Зона">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<Image Margin="1 0 2 0" Source="{Binding VisualizationState, Converter={StaticResource VisualizationStateToImageSourceConverter}}" />
+							<Image Margin="1 0 0 0" VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" />
+							<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
 		</DataGrid.Columns>
 	</DataGrid>
 </UserControl>

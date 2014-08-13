@@ -62,6 +62,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		Organisation _organisation;
+		public Organisation Organisation
+		{
+			get { return _organisation; }
+			set
+			{
+				_organisation = value;
+				OnPropertyChanged(() => Organisation);
+			}
+		}
+
 		public VerificationViewModel(LayoutPartSKDVerificationProperties layoutPartSKDVerificationProperties)
 		{
 			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == layoutPartSKDVerificationProperties.ReaderDeviceUID);
@@ -89,15 +100,14 @@ namespace SKDModule.ViewModels
 						if (!operationResult.HasError && operationResult.Result != null)
 						{
 							Employee = operationResult.Result;
-							var photo = Employee.Photo;
 							PhotoColumnViewModel = new PhotoColumnViewModel(Employee.Photo);
-						}
-						else
-						{
-							Employee = null;
-							PhotoColumnViewModel = null;
+							Organisation = OrganisationHelper.GetSingle(Employee.OrganisationUID);
+							continue;
 						}
 					}
+					Employee = null;
+					PhotoColumnViewModel = null;
+					Organisation = null;
 				}
 			}
 		}

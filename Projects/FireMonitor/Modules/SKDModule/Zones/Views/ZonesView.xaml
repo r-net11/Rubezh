@@ -5,7 +5,7 @@
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
 			 xmlns:viewModel="clr-namespace:SKDModule.ViewModels"
-             xmlns:Views="clr-namespace:SKDModule.Views">
+	         xmlns:Views="clr-namespace:SKDModule.Views">
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -20,17 +20,20 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0 0 0" />
-									<TextBlock Text="{Binding Zone.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Width="200">
+									<Image Source="{Binding State.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="12" Height="12" VerticalAlignment="Center" />
+									<Image Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="2" />
+									<TextBlock VerticalAlignment="Center" Width="200">
+											<Hyperlink Command="{Binding ShowOnPlanOrPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}" >
+												<TextBlock Text="{Binding Zone.Name}" />
+											</Hyperlink>
 											<TextBlock.ContextMenu>
 												<ContextMenu>
 													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Открыть все двери" Command="{Binding OpenCommand}" />
-                                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Закрыть все двери" Command="{Binding CloseCommand}" />
-                                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" />
-                                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Установить режим ЗАКРЫТО" Command="{Binding CloseForeverCommand}" />
+	                                                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Закрыть все двери" Command="{Binding CloseCommand}" />
+	                                                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOn.png" Text="Установить режим ОТКРЫТО" Command="{Binding OpenForeverCommand}" />
+	                                                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BTurnOff.png" Text="Установить режим ЗАКРЫТО" Command="{Binding CloseForeverCommand}" />
 													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/Map_black.png" Text="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
-                                                    <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
+	                                                <Controls:IconedMenuItem ImageSource="/Controls;component/Images/BJournal.png" Text="Показать связанные события" Command="{Binding ShowJournalCommand}" />
 													<Controls:IconedMenuItem ImageSource="/Controls;component/Images/BSettings.png" Text="Свойства" Command="{Binding ShowPropertiesCommand}" />
 												</ContextMenu>
 											</TextBlock.ContextMenu>
@@ -38,10 +41,10 @@
 									<StackPanel.InputBindings>
 										<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
 									</StackPanel.InputBindings>
-                                    <StackPanel.ToolTip>
-                                        <Views:SKDZoneTooltipView />
-                                    </StackPanel.ToolTip>
-                                </StackPanel>
+	                                <StackPanel.ToolTip>
+	                                    <Views:SKDZoneTooltipView />
+	                                </StackPanel.ToolTip>
+	                            </StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
@@ -56,14 +59,14 @@
 					<DataGridTemplateColumn Header="Считыватель, ведущий в зону" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
-                                <TextBlock VerticalAlignment="Center">
-							        <Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
-								        <StackPanel Orientation="Horizontal">
-									        <Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding Device.Driver.ImageSource}" />
-									        <TextBlock HorizontalAlignment="Stretch" Text="{Binding Device.Name}" ToolTip="{Binding Device.Name}" />
-								        </StackPanel>
-							        </Hyperlink>
-						        </TextBlock>
+	                            <TextBlock VerticalAlignment="Center">
+								    <Hyperlink Command="{Binding ShowPropertiesCommand}" Style="{StaticResource HyperlinkStyle2}">
+									    <StackPanel Orientation="Horizontal">
+										    <Image Width="16" Height="16" Margin="5 0" HorizontalAlignment="Left" Source="{Binding Device.Driver.ImageSource}" />
+										    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Device.Name}" ToolTip="{Binding Device.Name}" />
+									    </StackPanel>
+								    </Hyperlink>
+							    </TextBlock>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>

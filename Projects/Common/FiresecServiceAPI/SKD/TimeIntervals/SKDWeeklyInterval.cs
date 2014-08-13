@@ -31,9 +31,9 @@ namespace FiresecAPI.SKD
 		{
 			var list = new List<SKDWeeklyIntervalPart>();
 			for (int i = 1; i <= 7; i++)
-				list.Add(new SKDWeeklyIntervalPart() { No = i, IsHolliday = false, TimeIntervalID = 0 });
-			for (int i = 1; i <= 8; i++)
-				list.Add(new SKDWeeklyIntervalPart() { No = i, IsHolliday = true, TimeIntervalID = 0 });
+			{
+				list.Add(new SKDWeeklyIntervalPart() { No = i, TimeIntervalID = 0 });
+			}
 			return new ReadOnlyCollection<SKDWeeklyIntervalPart>(list);
 		}
 
@@ -50,19 +50,10 @@ namespace FiresecAPI.SKD
 		public void InvalidateDayIntervals()
 		{
 			var ids = SKDManager.TimeIntervalsConfiguration.TimeIntervals.Select(item => item.ID).ToList();
-			WeeklyIntervalParts.Where(part => !part.IsHolliday).ForEach(part =>
+			WeeklyIntervalParts.ForEach(x =>
 			{
-				if (!ids.Contains(part.TimeIntervalID))
-					part.TimeIntervalID = 0;
-			});
-		}
-		public void InvalidateHolidays()
-		{
-			var uids = SKDManager.TimeIntervalsConfiguration.Holidays.Select(item => item.UID).ToList();
-			WeeklyIntervalParts.Where(part => part.IsHolliday).ForEach(part =>
-			{
-				if (!uids.Contains(part.HolidayUID))
-					part.HolidayUID = Guid.Empty;
+				if (!ids.Contains(x.TimeIntervalID))
+					x.TimeIntervalID = 0;
 			});
 		}
 	}

@@ -19,8 +19,8 @@
 		<Views:ArchiveSettingsView />
 	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ConfirmationViewModel}">
-        <Views:ConfirmationView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ConfirmationViewModel}">
+	    <Views:ConfirmationView />
+	</DataTemplate>
 
 </ResourceDictionary>

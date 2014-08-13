@@ -95,6 +95,11 @@ namespace Infrustructure.Plans.Designer
 			get { return DesignerSurface.BackgroundBrush; }
 			set { DesignerSurface.BackgroundBrush = value; }
 		}
+		public Pen CanvasBorder
+		{
+			get { return DesignerSurface.Border; }
+			set { DesignerSurface.Border = value; }
+		}
 		public void UpdateZIndex()
 		{
 			if (DesignerSurface != null)

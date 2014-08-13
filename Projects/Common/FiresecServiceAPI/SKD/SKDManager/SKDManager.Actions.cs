@@ -65,6 +65,10 @@ namespace FiresecAPI.SKD
 
 		public static void ChangeDoorDevice(SKDDoor door, SKDDevice device)
 		{
+			if (door.InDevice != null)
+			{
+				door.InDevice.Door = null;
+			}
 			door.InDeviceUID = device.UID;
 			device.Door = door;
 			UpdateDoor(door);
@@ -80,7 +84,7 @@ namespace FiresecAPI.SKD
 				switch (door.DoorType)
 				{
 					case DoorType.OneWay:
-						door.OutDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Button && x.IntAddress == door.InDevice.IntAddress / 2);
+						door.OutDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Button && x.IntAddress == door.InDevice.IntAddress);
 						break;
 
 					case DoorType.TwoWay:

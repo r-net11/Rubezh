@@ -12,17 +12,23 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Название" />
 				<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Описание" />
 				<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина" />
 				<Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Высота" />
 				<Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет фона" />
+				<Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Content="Цвет границы" />
+				<Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Content="Ширина границы" />
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Caption, UpdateSourceTrigger=PropertyChanged}" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 				<extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
 				<extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Margin="2" Minimum="10" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
 				<xc:ColorPicker Grid.Row="4" Grid.Column="1" Margin="2" SelectedColor="{Binding BackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
+				<xc:ColorPicker Grid.Row="5" Grid.Column="1" Margin="2" SelectedColor="{Binding BorderColor, UpdateSourceTrigger=PropertyChanged}" />
+				<extToolkit:IntegerUpDown Grid.Row="6" Grid.Column="1" Margin="2" Maximum="100" Minimum="0" Value="{Binding BorderThickness, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
 		<TabItem Header="Изображение">

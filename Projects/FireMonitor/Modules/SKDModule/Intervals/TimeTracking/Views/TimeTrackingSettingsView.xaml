@@ -18,7 +18,7 @@
 		<Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Content="Дата начала" />
 		<Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Дата конца" />
 
-        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Periods}" ItemTemplate="{StaticResource EnumDescription}" SelectedItem="{Binding Period}" Margin="2" />
+	    <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Periods}" ItemTemplate="{StaticResource EnumDescription}" SelectedItem="{Binding Period}" Margin="2" />
 		<Calendar Grid.Row="1" Grid.Column="1" DisplayDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFreePeriod}" SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
 		<Calendar Grid.Row="2" Grid.Column="1" DisplayDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFreePeriod}" SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
 	</Grid>
