@@ -16,8 +16,16 @@ namespace SKDModule.ViewModels
 			{
 				if (skdDevice.DriverType == SKDDriverType.Reader)
 				{
-					if (doorType == DoorType.TwoWay && (skdDevice.IntAddress % 2) == 1)
+					if (doorType == DoorType.TwoWay)
+					{
+						if (skdDevice.IntAddress % 2 == 1)
+							continue;
+						var outReader = SKDManager.Devices.FirstOrDefault(x => x.Parent != null && skdDevice.Parent != null && x.Parent.UID == skdDevice.Parent.UID && x.IntAddress == skdDevice.IntAddress + 1);
+						if(outReader == null)
+							continue;
+						if (outReader.Door != null)
 						continue;
+					}
 
 					if (skdDevice.Door != null)
 						continue;

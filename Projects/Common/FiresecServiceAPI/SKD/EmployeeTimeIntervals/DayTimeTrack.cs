@@ -59,7 +59,20 @@ namespace FiresecAPI.SKD
 		public TimeTrackType TimeTrackType { get; set; }
 
 		[DataMember]
-		public TimeTrackException TimeTrackException { get; set; }
+		public TimeTrackDocument TimeTrackDocument { get; set; }
+
+
+		[DataMember]
+		public TimeSpan FirstReal { get; set; }
+
+		[DataMember]
+		public TimeSpan LastReal { get; set; }
+
+		[DataMember]
+		public TimeSpan FirstPlanned { get; set; }
+
+		[DataMember]
+		public TimeSpan LastPlanned { get; set; }
 
 
 
@@ -89,18 +102,29 @@ namespace FiresecAPI.SKD
 
 		public void Calculate()
 		{
-			var timeSpans = new List<TimeSpan>();
+			if (RealTimeTrackParts.Count > 0)
+			{
+				FirstReal = RealTimeTrackParts.FirstOrDefault().StartTime;
+				LastReal = RealTimeTrackParts.LastOrDefault().EndTime;
+			}
+			if (PlannedTimeTrackParts.Count > 0)
+			{
+				FirstPlanned = PlannedTimeTrackParts.FirstOrDefault().StartTime;
+				LastPlanned = PlannedTimeTrackParts.LastOrDefault().EndTime;
+			}
+
+			var combinedTimeSpans = new List<TimeSpan>();
 			foreach (var timeTrackPart in RealTimeTrackParts)
 			{
-				timeSpans.Add(timeTrackPart.StartTime);
-				timeSpans.Add(timeTrackPart.EndTime);
+				combinedTimeSpans.Add(timeTrackPart.StartTime);
+				combinedTimeSpans.Add(timeTrackPart.EndTime);
 			}
 			foreach (var interval in PlannedTimeTrackParts)
 			{
-				timeSpans.Add(interval.StartTime);
-				timeSpans.Add(interval.EndTime);
+				combinedTimeSpans.Add(interval.StartTime);
+				combinedTimeSpans.Add(interval.EndTime);
 			}
-			timeSpans.Sort();
+			combinedTimeSpans.Sort();
 
 			TotalPlanned = new TimeSpan();
 			foreach (var timeTrackPart in RealTimeTrackParts)
@@ -109,10 +133,10 @@ namespace FiresecAPI.SKD
 			}
 
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
-			for (int i = 0; i < timeSpans.Count - 1; i++)
+			for (int i = 0; i < combinedTimeSpans.Count - 1; i++)
 			{
-				var startTime = timeSpans[i];
-				var endTime = timeSpans[i + 1];
+				var startTime = combinedTimeSpans[i];
+				var endTime = combinedTimeSpans[i + 1];
 
 				var timeTrackPart = new TimeTrackPart();
 				timeTrackPart.StartTime = startTime;
@@ -133,7 +157,7 @@ namespace FiresecAPI.SKD
 				if (hasRealTimeTrack && !hasPlannedTimeTrack)
 				{
 					timeTrackPart.TimeTrackPartType = TimeTrackPartType.RealOnly;
-					if( i > 0 && i < timeSpans.Count - 2)
+					if (timeTrackPart.StartTime > FirstPlanned && timeTrackPart.EndTime < LastPlanned)
 						timeTrackPart.TimeTrackPartType = TimeTrackPartType.InBrerak;
 				}
 				if (!hasRealTimeTrack && hasPlannedTimeTrack)
@@ -143,6 +167,16 @@ namespace FiresecAPI.SKD
 					if (RealTimeTrackParts.Any(x => x.StartTime < startTime) && IsOnlyFirstEnter)
 					{
 						timeTrackPart.TimeTrackPartType = TimeTrackPartType.MissedButInsidePlan;
+					}
+
+					if (timeTrackPart.StartTime == FirstPlanned && timeTrackPart.EndTime < LastPlanned)
+					{
+						timeTrackPart.TimeTrackPartType = TimeTrackPartType.Late;
+					}
+
+					if (timeTrackPart.EndTime == LastPlanned && timeTrackPart.StartTime > FirstPlanned)
+					{
+						timeTrackPart.TimeTrackPartType = TimeTrackPartType.EarlyLeave;
 					}
 				}
 			}
@@ -163,23 +197,13 @@ namespace FiresecAPI.SKD
 				{
 					TotalInSchedule += timeTrack.Delta;
 				}
-				if (timeTrack.TimeTrackPartType == TimeTrackPartType.PlanedOnly)
+				if (timeTrack.TimeTrackPartType == TimeTrackPartType.Late)
 				{
-					TotalMissed += timeTrack.Delta;
-					if (CombinedTimeTrackParts.IndexOf(timeTrack) == 0)
-					{
-						if (timeTrack.Delta > AllowedLate)
-						{
-							TotalLate = timeTrack.Delta;
-						}
-					}
-					if (CombinedTimeTrackParts.IndexOf(timeTrack) == CombinedTimeTrackParts.Count - 1)
-					{
-						if (timeTrack.Delta > AllowedEarlyLeave)
-						{
-							TotalEarlyLeave = timeTrack.Delta;
-						}
-					}
+					TotalLate = timeTrack.Delta;
+				}
+				if (timeTrack.TimeTrackPartType == TimeTrackPartType.EarlyLeave)
+				{
+					TotalEarlyLeave = timeTrack.Delta;
 				}
 				if (timeTrack.TimeTrackPartType == TimeTrackPartType.RealOnly)
 				{
@@ -201,32 +225,10 @@ namespace FiresecAPI.SKD
 				TimeTrackType = TimeTrackType.None;
 				return;
 			}
-			if (TimeTrackException.TimeTrackExceptionType == TimeTrackExceptionType.Hospital)
+			if (TimeTrackDocument.DocumentCode != 0)
 			{
 				Total = TotalPlanned;
 				TimeTrackType = TimeTrackType.Ill;
-				TotalInSchedule = TotalPlanned;
-				TotalMissed = new TimeSpan();
-				TotalLate = new TimeSpan();
-				TotalEarlyLeave = new TimeSpan();
-				TotalOutSchedule = new TimeSpan();
-				return;
-			}
-			if (TimeTrackException.TimeTrackExceptionType == TimeTrackExceptionType.Trip)
-			{
-				Total = TotalPlanned;
-				TimeTrackType = TimeTrackType.Trip;
-				TotalInSchedule = TotalPlanned;
-				TotalMissed = new TimeSpan();
-				TotalLate = new TimeSpan();
-				TotalEarlyLeave = new TimeSpan();
-				TotalOutSchedule = new TimeSpan();
-				return;
-			}
-			if (TimeTrackException.TimeTrackExceptionType == TimeTrackExceptionType.Vacation)
-			{
-				TimeTrackType = TimeTrackType.Vacation;
-				Total = TotalPlanned;
 				TotalInSchedule = TotalPlanned;
 				TotalMissed = new TimeSpan();
 				TotalLate = new TimeSpan();

@@ -9,23 +9,23 @@ using FiresecAPI;
 
 namespace SKDDriver.Translators
 {
-	public class TimeTrackExceptionTranslator
+	public class TimeTrackDocumentTranslator
 	{
 		DataAccess.SKDDataContext Context;
 
-		public TimeTrackExceptionTranslator(DataAccess.SKDDataContext context)
+		public TimeTrackDocumentTranslator(DataAccess.SKDDataContext context)
 		{
 			Context = context;
 		}
 
-		public OperationResult Save(TimeTrackException api)
+		public OperationResult Save(TimeTrackDocument api)
 		{
 			try
 			{
 				var timeTrackException = Context.TimeTrackExceptions.FirstOrDefault(x => x.EmployeeUID == api.EmployeeUID && x.StartDateTime.Date == api.StartDateTime.Date);
 				if (timeTrackException != null)
 				{
-					timeTrackException.DocumentType = (int)api.TimeTrackExceptionType;
+					timeTrackException.DocumentType = api.DocumentCode;
 					timeTrackException.Comment = api.Comment;
 				}
 				else
@@ -36,7 +36,7 @@ namespace SKDDriver.Translators
 						StartDateTime = api.StartDateTime.Date,
 						EndDateTime = api.EndDateTime.Date,
 						EmployeeUID = api.EmployeeUID,
-						DocumentType = (int)api.TimeTrackExceptionType,
+						DocumentType = api.DocumentCode,
 						Comment = api.Comment
 					};
 					Context.TimeTrackExceptions.InsertOnSubmit(timeTrackException);
@@ -50,29 +50,29 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult<TimeTrackException> Get(DateTime dateTime, Guid employeeUID)
+		public OperationResult<TimeTrackDocument> Get(DateTime dateTime, Guid employeeUID)
 		{
 			try
 			{
 				var timeTrackException = Context.TimeTrackExceptions.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.StartDateTime.Date == dateTime.Date);
 				if (timeTrackException != null)
 				{
-					var api = new TimeTrackException()
+					var api = new TimeTrackDocument()
 					{
 						UID = timeTrackException.UID,
 						EmployeeUID = timeTrackException.EmployeeUID,
 						StartDateTime = timeTrackException.StartDateTime,
 						EndDateTime = timeTrackException.EndDateTime,
-						TimeTrackExceptionType = (TimeTrackExceptionType)timeTrackException.DocumentType,
+						DocumentCode = timeTrackException.DocumentType,
 						Comment = timeTrackException.Comment
 					};
-					return new OperationResult<TimeTrackException>() { Result = api };
+					return new OperationResult<TimeTrackDocument>() { Result = api };
 				}
-				return new OperationResult<TimeTrackException>() { Result = new TimeTrackException() };
+				return new OperationResult<TimeTrackDocument>() { Result = new TimeTrackDocument() };
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<TimeTrackException>(e.Message);
+				return new OperationResult<TimeTrackDocument>(e.Message);
 			}
 		}
 	}

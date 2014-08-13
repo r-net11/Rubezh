@@ -117,14 +117,14 @@ namespace FiresecService.Service
 			return SKDDatabaseService.ScheduleZoneTranslator.MarkDeleted(uid);
 		}
 
-		public FiresecAPI.OperationResult<FiresecAPI.SKD.TimeTrackException> GetTimeTrackException(DateTime dateTime, Guid employeeUID)
+		public FiresecAPI.OperationResult<FiresecAPI.SKD.TimeTrackDocument> GetTimeTrackDocument(DateTime dateTime, Guid employeeUID)
 		{
-			return SKDDatabaseService.TimeTrackExceptionTranslator.Get(dateTime, employeeUID);
+			return SKDDatabaseService.TimeTrackDocumentTranslator.Get(dateTime, employeeUID);
 		}
-		public FiresecAPI.OperationResult SaveTimeTrackException(FiresecAPI.SKD.TimeTrackException item)
+		public FiresecAPI.OperationResult SaveTimeTrackDocument(FiresecAPI.SKD.TimeTrackDocument item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Внесение_оправдательного_документа);
-			return SKDDatabaseService.TimeTrackExceptionTranslator.Save(item);
+			return SKDDatabaseService.TimeTrackDocumentTranslator.Save(item);
 		}
 	}
 }

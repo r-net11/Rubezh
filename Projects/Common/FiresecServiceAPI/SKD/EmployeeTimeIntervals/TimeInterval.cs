@@ -9,7 +9,7 @@ namespace FiresecAPI.EmployeeTimeIntervals
 	{
 		public TimeInterval()
 		{
-			BeginTime = new TimeSpan(0,0,0);
+			BeginTime = new TimeSpan(0, 0, 0);
 			EndTime = new TimeSpan(0, 0, 0);
 		}
 

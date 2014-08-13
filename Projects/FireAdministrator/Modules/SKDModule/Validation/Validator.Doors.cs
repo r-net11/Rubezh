@@ -11,7 +11,7 @@ namespace SKDModule.Validation
 		void ValidateDoors()
 		{
 			ValidateDoorsEquality();
-			ValidateDoorsInDevicesUnique();
+			ValidateDoorsReadersUnique();
 
 			foreach (var door in SKDManager.Doors)
 			{
@@ -59,14 +59,21 @@ namespace SKDModule.Validation
 			}
 		}
 
-		void ValidateDoorsInDevicesUnique()
+		void ValidateDoorsReadersUnique()
 		{
-			var inDevicesUID = new HashSet<Guid>();
+			var devicesUID = new HashSet<Guid>();
 			foreach (var door in SKDManager.Doors)
 			{
 				if (door.InDeviceUID != Guid.Empty)
 				{
-					if (!inDevicesUID.Add(door.InDeviceUID))
+					if (!devicesUID.Add(door.InDeviceUID))
+					{
+						Errors.Add(new DoorValidationError(door, "Одно и то же устройство привязано к разным точкам доступа", ValidationErrorLevel.CannotSave));
+					}
+				}
+				if (door.OutDeviceUID != Guid.Empty && door.OutDevice != null && door.OutDevice.DriverType == SKDDriverType.Reader)
+				{
+					if (!devicesUID.Add(door.OutDeviceUID))
 					{
 						Errors.Add(new DoorValidationError(door, "Одно и то же устройство привязано к разным точкам доступа", ValidationErrorLevel.CannotSave));
 					}

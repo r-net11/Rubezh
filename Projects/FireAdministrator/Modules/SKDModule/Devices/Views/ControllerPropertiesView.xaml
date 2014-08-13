@@ -31,10 +31,6 @@
 						<TextBlock Text="Основной шлюз" Width="200" HorizontalAlignment="Right" Margin="2" />
 						<TextBlock Text="{Binding DefaultGateway}" Margin="2" />
 					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Text="MTU" Width="200" HorizontalAlignment="Right" Margin="2" />
-						<TextBlock Text="{Binding MTU}" Margin="2" />
-					</StackPanel>
 				</StackPanel>
 			</Border>
 		</TabItem>

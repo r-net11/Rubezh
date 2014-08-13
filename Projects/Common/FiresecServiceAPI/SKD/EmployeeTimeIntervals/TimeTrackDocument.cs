@@ -4,12 +4,12 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class TimeTrackException
+	public class TimeTrackDocument
 	{
-		public TimeTrackException()
+		public TimeTrackDocument()
 		{
 			UID = Guid.NewGuid();
-			TimeTrackExceptionType = TimeTrackExceptionType.None;
+			DocumentCode = 0;
 		}
 
 		[DataMember]
@@ -25,7 +25,7 @@ namespace FiresecAPI.SKD
 		public DateTime EndDateTime { get; set; }
 
 		[DataMember]
-		public TimeTrackExceptionType TimeTrackExceptionType { get; set; }
+		public int DocumentCode { get; set; }
 
 		[DataMember]
 		public string Comment { get; set; }

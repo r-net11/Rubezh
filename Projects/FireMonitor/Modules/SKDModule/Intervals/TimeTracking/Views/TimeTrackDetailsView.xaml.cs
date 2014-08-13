@@ -203,7 +203,7 @@ namespace SKDModule.Views
 									break;
 
 								case TimeTrackPartType.MissedButInsidePlan:
-									rectangle.Fill = new SolidColorBrush(Colors.LightYellow);
+									rectangle.Fill = new SolidColorBrush(Colors.Pink);
 									break;
 
 								case TimeTrackPartType.AsPlanned:
@@ -215,7 +215,15 @@ namespace SKDModule.Views
 									break;
 
 								case TimeTrackPartType.InBrerak:
-									rectangle.Fill = new SolidColorBrush(Colors.Aqua);
+									rectangle.Fill = new SolidColorBrush(Colors.Violet);
+									break;
+
+								case TimeTrackPartType.Late:
+									rectangle.Fill = new SolidColorBrush(Colors.SkyBlue);
+									break;
+
+								case TimeTrackPartType.EarlyLeave:
+									rectangle.Fill = new SolidColorBrush(Colors.LightPink);
 									break;
 							}
 							rectangle.Stroke = new SolidColorBrush(Colors.Black);

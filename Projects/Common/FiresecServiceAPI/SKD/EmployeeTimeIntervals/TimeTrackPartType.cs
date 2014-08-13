@@ -21,5 +21,11 @@ namespace FiresecAPI.SKD
 
 		[Description("Работа в перерыве")]
 		InBrerak,
+
+		[Description("Опоздание")]
+		Late,
+
+		[Description("Уход раньше")]
+		EarlyLeave,
 	}
 }

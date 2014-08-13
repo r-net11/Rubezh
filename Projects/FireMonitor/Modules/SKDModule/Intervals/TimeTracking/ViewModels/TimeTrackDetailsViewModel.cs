@@ -17,10 +17,16 @@ namespace SKDModule.ViewModels
 
 		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack)
 		{
+			//dayTimeTrack.Calculate();
+
 			Title = "Время в течение дня";
 			DayTimeTrack = dayTimeTrack;
 
-			AvailableExceptionTypes = new ObservableCollection<TimeTrackExceptionType>(Enum.GetValues(typeof(TimeTrackExceptionType)).OfType<TimeTrackExceptionType>());
+			AvailableDocuments = new ObservableCollection<TimeTrackDocumentType>();
+			foreach (var timeTrackDocumentType in TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes)
+			{
+				AvailableDocuments.Add(timeTrackDocumentType);
+			}
 
 			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPartViewModel>();
 			foreach (var timeTrackPart in DayTimeTrack.RealTimeTrackParts)
@@ -29,25 +35,25 @@ namespace SKDModule.ViewModels
 				DayTimeTrackParts.Add(employeeTimeTrackPartViewModel);
 			}
 
-			if (DayTimeTrack.TimeTrackException != null)
+			if (DayTimeTrack.TimeTrackDocument != null)
 			{
-				SelectedExceptionType = AvailableExceptionTypes.FirstOrDefault(x => x == DayTimeTrack.TimeTrackException.TimeTrackExceptionType);
-				Comment = DayTimeTrack.TimeTrackException.Comment;
+				SelectedDocument = AvailableDocuments.FirstOrDefault(x => x.Code == DayTimeTrack.TimeTrackDocument.DocumentCode);
+				Comment = DayTimeTrack.TimeTrackDocument.Comment;
 			}
 			hasChanges = false;
 		}
 
-		public ObservableCollection<TimeTrackExceptionType> AvailableExceptionTypes { get; private set; }
+		public ObservableCollection<TimeTrackDocumentType> AvailableDocuments { get; private set; }
 
-		TimeTrackExceptionType _selectedExcuseDocument;
-		public TimeTrackExceptionType SelectedExceptionType
+		TimeTrackDocumentType _selectedDocument;
+		public TimeTrackDocumentType SelectedDocument
 		{
-			get { return _selectedExcuseDocument; }
+			get { return _selectedDocument; }
 			set
 			{
-				_selectedExcuseDocument = value;
-				OnPropertyChanged(() => SelectedExceptionType);
-				IsCommentEnabled = value != TimeTrackExceptionType.None;
+				_selectedDocument = value;
+				OnPropertyChanged(() => SelectedDocument);
+				IsCommentEnabled = value != null && value.Code != 0;
 				OnPropertyChanged(() => IsCommentEnabled);
 				hasChanges = true;
 			}
@@ -71,19 +77,19 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (DayTimeTrack.TimeTrackException == null)
+			if (DayTimeTrack.TimeTrackDocument == null)
 			{
-				DayTimeTrack.TimeTrackException = new TimeTrackException();
+				DayTimeTrack.TimeTrackDocument = new TimeTrackDocument();
 			}
-			DayTimeTrack.TimeTrackException.EmployeeUID = DayTimeTrack.EmployeeUID;
-			DayTimeTrack.TimeTrackException.StartDateTime = DayTimeTrack.Date.Date;
-			DayTimeTrack.TimeTrackException.EndDateTime = DayTimeTrack.Date.Date;
-			DayTimeTrack.TimeTrackException.TimeTrackExceptionType = SelectedExceptionType;
-			DayTimeTrack.TimeTrackException.Comment = Comment;
+			DayTimeTrack.TimeTrackDocument.EmployeeUID = DayTimeTrack.EmployeeUID;
+			DayTimeTrack.TimeTrackDocument.StartDateTime = DayTimeTrack.Date.Date;
+			DayTimeTrack.TimeTrackDocument.EndDateTime = DayTimeTrack.Date.Date;
+			DayTimeTrack.TimeTrackDocument.DocumentCode = SelectedDocument.Code;
+			DayTimeTrack.TimeTrackDocument.Comment = Comment;
 
 			if (hasChanges)
 			{
-				var operationResult = FiresecManager.FiresecService.SaveTimeTrackException(DayTimeTrack.TimeTrackException);
+				var operationResult = FiresecManager.FiresecService.SaveTimeTrackDocument(DayTimeTrack.TimeTrackDocument);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);

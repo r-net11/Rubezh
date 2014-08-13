@@ -7,10 +7,6 @@ namespace FiresecAPI.EmployeeTimeIntervals
 	[DataContract]
 	public class ScheduleZone : SKDIsDeletedModel
 	{
-		public ScheduleZone()
-		{
-		}
-
 		[DataMember]
 		public Guid ScheduleUID { get; set; }
 

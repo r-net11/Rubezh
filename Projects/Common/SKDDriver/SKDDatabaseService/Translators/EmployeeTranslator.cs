@@ -472,10 +472,10 @@ namespace SKDDriver
 			}
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
 
-			var operationResult = SKDDatabaseService.TimeTrackExceptionTranslator.Get(date, employeeUID);
+			var operationResult = SKDDatabaseService.TimeTrackDocumentTranslator.Get(date, employeeUID);
 			if (!operationResult.HasError)
 			{
-				dayTimeTrack.TimeTrackException = operationResult.Result;
+				dayTimeTrack.TimeTrackDocument = operationResult.Result;
 			}
 
 			return dayTimeTrack;

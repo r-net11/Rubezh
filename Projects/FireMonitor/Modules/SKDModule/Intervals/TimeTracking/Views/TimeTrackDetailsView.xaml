@@ -11,10 +11,10 @@
 	    </Grid.RowDefinitions>
 	    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2">
 	        <TextBlock Text="Оправдательный документ" Width="200" Foreground="White" Margin="4 0" />
-	        <ComboBox ItemsSource="{Binding AvailableExceptionTypes}" SelectedItem="{Binding SelectedExceptionType}">
+            <ComboBox ItemsSource="{Binding AvailableDocuments}" SelectedItem="{Binding SelectedDocument}">
 	            <ComboBox.ItemTemplate>
 	                <DataTemplate>
-	                    <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" VerticalAlignment="Center" />
+	                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
 	                </DataTemplate>
 	            </ComboBox.ItemTemplate>
 	        </ComboBox>
