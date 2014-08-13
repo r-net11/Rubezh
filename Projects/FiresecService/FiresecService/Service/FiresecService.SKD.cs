@@ -314,10 +314,10 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.GetList(filter);
 		}
-        public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
-        {
-            return SKDDatabaseService.AdditionalColumnTypeTranslator.Get(filter);
-        }
+		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
+		{
+			return SKDDatabaseService.AdditionalColumnTypeTranslator.Get(filter);
+		}
 		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
 		{
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.GetSingle(uid);
@@ -329,6 +329,18 @@ namespace FiresecService.Service
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
 		{
 			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
+		}
+		#endregion
+
+		#region HolidaySettings
+		public OperationResult<HolidaySettings> GetHolidaySettingsByOrganisation(Guid uid)
+		{
+            return SKDDatabaseService.HolidaySettingsTranslator.GetByOrganisation(uid);
+		}
+
+		public OperationResult SaveHolidaySettings(HolidaySettings item)
+		{
+			return SKDDatabaseService.HolidaySettingsTranslator.Save(item);
 		}
 		#endregion
 

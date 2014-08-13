@@ -6,7 +6,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class JournalItemTranslator : TranslatorBase<DataAccess.Journal, JournalItem, JournalFilter>
+	public class JournalItemTranslator : WithFilterTranslator<DataAccess.Journal, JournalItem, JournalFilter>
 	{
 		public JournalItemTranslator(DataAccess.SKDDataContext context)
 			: base(context)

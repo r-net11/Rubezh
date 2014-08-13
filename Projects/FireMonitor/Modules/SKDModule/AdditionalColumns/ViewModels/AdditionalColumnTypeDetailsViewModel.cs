@@ -21,7 +21,9 @@ namespace SKDModule.ViewModels
 					UID = AdditionalColumnType.UID,
 					Name = AdditionalColumnType.Name,
 					Description = AdditionalColumnType.Description,
-					OrganisationUID = AdditionalColumnType.OrganisationUID
+					OrganisationUID = AdditionalColumnType.OrganisationUID, 
+					IsInGrid = AdditionalColumnType.IsInGrid,
+					DataType = AdditionalColumnType.DataType
 				};
 			}
 		}
@@ -37,6 +39,7 @@ namespace SKDModule.ViewModels
 					Name = "Новая дополнительная колонка",
 					OrganisationUID = Organisation.UID
 				};
+				CanChangeDataType = true;
 			}
 			else
 			{

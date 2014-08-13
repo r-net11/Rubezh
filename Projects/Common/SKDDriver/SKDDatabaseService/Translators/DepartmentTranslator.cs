@@ -46,11 +46,6 @@ namespace SKDDriver
 		{
 			var result = base.Translate(tableItem);
 
-			var phoneUIDs = new List<Guid>();
-			foreach (var phone in Context.Phones.Where(x => !x.IsDeleted && x.DepartmentUID == tableItem.UID))
-			{
-				phoneUIDs.Add(phone.UID);
-			}
 			var childDepartmentUIDs = new List<Guid>();
 			foreach (var department in Context.Departments.Where(x => !x.IsDeleted && x.ParentDepartmentUID == tableItem.UID))
 			{
@@ -63,7 +58,6 @@ namespace SKDDriver
 			result.ChildDepartmentUIDs = childDepartmentUIDs;
 			result.ContactEmployeeUID = tableItem.ContactEmployeeUID;
 			result.AttendantEmployeeUID = tableItem.AttendantUID;
-			result.PhoneUIDs = phoneUIDs;
 			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			return result;
 		}

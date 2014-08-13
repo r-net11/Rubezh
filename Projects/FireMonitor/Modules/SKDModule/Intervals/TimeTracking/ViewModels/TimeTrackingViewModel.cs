@@ -87,7 +87,6 @@ namespace SKDModule.ViewModels
 				DepartmentUIDs = _employeeFilter.DepartmentUIDs,
 				PositionUIDs = _employeeFilter.PositionUIDs,
 				Appointed = _employeeFilter.Appointed,
-				Dismissed = _employeeFilter.Dismissed,
 				PersonType = _employeeFilter.PersonType
 			};
 			var filter = new HRFilter()
@@ -104,7 +103,6 @@ namespace SKDModule.ViewModels
 				_employeeFilter.DepartmentUIDs = filterViewModel.Filter.EmployeeFilter.DepartmentUIDs;
 				_employeeFilter.PositionUIDs = filterViewModel.Filter.EmployeeFilter.PositionUIDs;
 				_employeeFilter.Appointed = filterViewModel.Filter.EmployeeFilter.Appointed;
-				_employeeFilter.Dismissed = filterViewModel.Filter.EmployeeFilter.Dismissed;
 				_employeeFilter.PersonType = filterViewModel.Filter.EmployeeFilter.PersonType;
 				_employeeFilter.RemovalDates = filterViewModel.Filter.RemovalDates;
 				_employeeFilter.UIDs = filterViewModel.Filter.UIDs;

@@ -207,6 +207,17 @@ namespace FiresecClient
 		}
 		#endregion
 
+        #region HolidaySettings
+        public OperationResult<HolidaySettings> GetHolidaySettingsByOrganisation(Guid uid)
+        {
+            return SafeContext.Execute<OperationResult<HolidaySettings>>(() => FiresecService.GetHolidaySettingsByOrganisation(uid));
+        }
+        public OperationResult SaveHolidaySettings(HolidaySettings item)
+        {
+            return SafeContext.Execute<OperationResult>(() => FiresecService.SaveHolidaySettings(item));
+        }
+        #endregion
+
 		#region Devices
 
 		public void CancelSKDProgress(Guid progressCallbackUID, string userName)

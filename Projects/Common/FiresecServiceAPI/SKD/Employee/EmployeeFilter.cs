@@ -13,7 +13,6 @@ namespace FiresecAPI.SKD
 			DepartmentUIDs = new List<Guid>();
 			PositionUIDs = new List<Guid>();
 			Appointed = new DateTimePeriod();
-			Dismissed = new DateTimePeriod();
 			PersonType = PersonType.Employee;
 		}
 
@@ -34,9 +33,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public DateTimePeriod Appointed { get; set; }
-
-		[DataMember]
-		public DateTimePeriod Dismissed { get; set; }
 
 		[DataMember]
 		public PersonType PersonType { get; set; }

@@ -26,6 +26,7 @@ namespace SKDDriver.DataAccess
 	public partial class Journal : IDatabaseElement { }
 	public partial class AdditionalColumn : IDatabaseElement, ILinkedToEmployee { }
 	public partial class Photo : IDatabaseElement { }
+	public partial class HolidaySetting : IDatabaseElement { }
 
 	public partial class Day : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class ScheduleZone : IDatabaseElement, IIsDeletedDatabaseElement { }
@@ -39,7 +40,6 @@ namespace SKDDriver.DataAccess
 	public partial class Employee : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Holiday : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class NamedInterval : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
-	public partial class Phone : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Position : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Schedule : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class ScheduleScheme : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }

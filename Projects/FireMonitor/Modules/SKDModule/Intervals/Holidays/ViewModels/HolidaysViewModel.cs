@@ -211,7 +211,8 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowSettingsCommand { get; private set; }
 		private void OnShowSettings()
 		{
-			var holidaySettingsViewModel = new HolidaySettingsViewModel();
+			var organisationUID = ParentOrganisation.Organisation.UID;
+			var holidaySettingsViewModel = new HolidaySettingsViewModel(organisationUID);
 			DialogService.ShowModalWindow(holidaySettingsViewModel);
 		}
 	}

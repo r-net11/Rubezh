@@ -8,7 +8,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public class AdditionalColumnTranslator : TranslatorBase<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
+	public class AdditionalColumnTranslator : WithFilterTranslator<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
 	{
 		public AdditionalColumnTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator, AdditionalColumnTypeTranslator additionalColumnTypeTranslator)
 			: base(context)
@@ -93,7 +93,11 @@ namespace SKDDriver
 			{
 				var tableItem = Table.FirstOrDefault(x => x.UID == apiItem.UID);
 				if (tableItem == null)
-					continue;
+                {  
+                    if(apiItem.Photo != null)
+                        photosToSave.Add(apiItem.Photo);
+                    continue;
+                }
 				if (tableItem.PhotoUID == null)
 					photosToSave.Add(apiItem.Photo);
 				else if (apiItem.Photo == null)
@@ -123,6 +127,26 @@ namespace SKDDriver
 			if (columnTypeUIDs != null && columnTypeUIDs.Count != 0)
 				result = result.And(e => e.AdditionalColumnTypeUID != null && columnTypeUIDs.Contains(e.AdditionalColumnTypeUID.Value));
 			return result;
+		}
+
+		public OperationResult DeleteAllByType(Guid typeUID)
+		{
+			try
+			{
+				if (typeUID == Guid.Empty)
+					return new OperationResult("Не задан идентификатор");
+				var databaseItems = Table.Where(x => x.AdditionalColumnTypeUID.Equals(typeUID));
+				if (databaseItems != null && databaseItems.Count() > 0)
+				{
+					Table.DeleteAllOnSubmit(databaseItems);
+					Context.SubmitChanges();
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 		}
 	}
 }

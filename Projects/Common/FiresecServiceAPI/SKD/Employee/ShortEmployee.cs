@@ -38,9 +38,6 @@ namespace FiresecAPI.SKD
 		public string Appointed { get; set; }
 
 		[DataMember]
-		public string Dismissed { get; set; }
-
-		[DataMember]
 		public Guid? OrganisationUID { get; set; }
 	}
 

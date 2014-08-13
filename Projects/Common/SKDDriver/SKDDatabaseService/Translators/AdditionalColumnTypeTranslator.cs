@@ -13,8 +13,10 @@ namespace SKDDriver
 		public AdditionalColumnTypeTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
-
+			
 		}
+		
+		public AdditionalColumnTranslator AdditionalColumnTranslator;
 
 		protected override OperationResult CanSave(AdditionalColumnType item)
 		{
@@ -70,7 +72,7 @@ namespace SKDDriver
 				var result = Table.Where(x => x != null &&
 					!x.IsDeleted &&
 					x.UID == uid.Value).FirstOrDefault();
-				return Translate(result);
+				return result != null ? Translate(result) : null;
 			}
 			catch (Exception e)
 			{
@@ -81,7 +83,7 @@ namespace SKDDriver
 		public List<Guid> GetTextColumnTypes()
 		{
 			//return Table.Where(x => x.DataType == (int?)AdditionalColumnDataType.Text && x.IsInGrid).Select(x => x.UID).ToList();
-            return Table.Where(x => x.DataType == (int?)AdditionalColumnDataType.Text).Select(x => x.UID).ToList();
+			return Table.Where(x => x.DataType == (int?)AdditionalColumnDataType.Text).Select(x => x.UID).ToList();
 		}
 
 		protected override Expression<Func<DataAccess.AdditionalColumnType, bool>> IsInFilter(AdditionalColumnTypeFilter filter)
@@ -92,11 +94,16 @@ namespace SKDDriver
 				var dataType = (int)filter.Type.Value;
 				result = result.And(e => e.DataType == dataType);
 			}
-			if (filter.PersonType != null)
-			{
-				result = result.And(e => e.PersonType == (int?)filter.PersonType);
-			}
+			result = result.And(e => e.PersonType == (int?)filter.PersonType);
 			return result;
+		}
+
+		public override OperationResult MarkDeleted(Guid uid)
+		{
+			var result = AdditionalColumnTranslator.DeleteAllByType(uid);
+			if (result.HasError)
+				return result;
+			return base.MarkDeleted(uid);
 		}
 	}
 }

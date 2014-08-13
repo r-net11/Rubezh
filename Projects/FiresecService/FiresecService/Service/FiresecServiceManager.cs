@@ -21,8 +21,6 @@ namespace FiresecService.Service
 				Close();
 
 				SafeFiresecService = new SafeFiresecService();
-				//var empl = SafeFiresecService.GetEmployeeList(new FiresecAPI.SKD.EmployeeFilter { FirstName = "Петр", SecondName = "Иванович", LastName = "Сергеев" }).Result.FirstOrDefault();
-				//var timeTrack = SafeFiresecService.GetEmployeeTimeTracks(empl.UID, new DateTime(2014, 6, 23), new DateTime(2014, 6, 23));
 				ServiceHost = new ServiceHost(SafeFiresecService);
 
 				if (GlobalSettingsHelper.GlobalSettings.Server_EnableRemoteConnections && UACHelper.IsAdministrator)

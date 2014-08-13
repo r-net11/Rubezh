@@ -10,6 +10,15 @@ namespace SKDModule.ViewModels
 		public string Name { get; private set; }
 		public string Description { get; private set; }
 		public ShortAdditionalColumnType AdditionalColumnType { get; private set; }
+		public string IsInGrid 
+		{
+			get 
+			{
+				if (IsOrganisation)
+					return "";
+				return AdditionalColumnType.IsInGrid ? "Отображается" : "Не отображается"; 
+			} 
+		}
 
 		public AdditionalColumnTypeViewModel(Organisation organisation)
 		{
@@ -30,10 +39,12 @@ namespace SKDModule.ViewModels
 
 		public void Update(ShortAdditionalColumnType additionalColumnType)
 		{
+			AdditionalColumnType = additionalColumnType;
 			Name = additionalColumnType.Name;
 			Description = additionalColumnType.Description;
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => Description);
+			OnPropertyChanged(() => IsInGrid);
 		}
 	}
 }

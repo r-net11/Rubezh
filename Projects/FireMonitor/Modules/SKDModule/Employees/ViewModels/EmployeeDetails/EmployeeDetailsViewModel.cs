@@ -31,7 +31,6 @@ namespace SKDModule.ViewModels
 			SelectGenderCommand = new RelayCommand(OnSelectGender);
 			SelectDocumentTypeCommand = new RelayCommand(OnSelectDocumentType);
 			SelectAppointedCommand = new RelayCommand(OnSelectAppointed);
-			SelectDismissedCommand = new RelayCommand(OnSelectDismissed);
 			SelectCredentialsStartDateCommand = new RelayCommand(OnSelectCredentialsStartDate);
 			SelectScheduleCommand = new RelayCommand(OnSelectSchedule);
 			RemoveScheduleCommand = new RelayCommand(OnRemoveSchedule);
@@ -47,7 +46,6 @@ namespace SKDModule.ViewModels
 				Employee.BirthDate = DateTime.Now;
 				Employee.Appointed = DateTime.Now;
 				Employee.CredentialsStartDate = DateTime.Now;
-				Employee.Dismissed = DateTime.Now;
 				Employee.DocumentGivenDate = DateTime.Now;
 				Employee.DocumentValidTo = DateTime.Now;
 				Employee.RemovalDate = DateTime.Now;
@@ -88,7 +86,6 @@ namespace SKDModule.ViewModels
 				SelectedSchedule = Employee.Schedule;
 				ScheduleStartDate = Employee.ScheduleStartDate;
 				Appointed = Employee.Appointed;
-				Dismissed = Employee.Dismissed;
 				CredentialsStartDate = Employee.CredentialsStartDate;
 			}
 			else
@@ -105,13 +102,13 @@ namespace SKDModule.ViewModels
 			var additionalColumnTypes = AdditionalColumnTypeHelper.GetByOrganisation(Employee.OrganisationUID);
 			if (additionalColumnTypes != null && additionalColumnTypes.Count() > 0)
 			{
-				foreach (var textColumnType in additionalColumnTypes.Where(x => x.DataType == AdditionalColumnDataType.Text))
+				foreach (var columnType in additionalColumnTypes)
 				{
-					var columnValue = Employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == textColumnType.UID);
-					if (textColumnType.DataType == AdditionalColumnDataType.Text)
-						TextColumns.Add(new TextColumnViewModel(textColumnType, Employee, columnValue));
-					if (textColumnType.DataType == AdditionalColumnDataType.Graphics)
-						GraphicsColumns.Add(new GraphicsColumnViewModel(textColumnType, Employee, columnValue));
+					var columnValue = Employee.AdditionalColumns.FirstOrDefault(x => x.AdditionalColumnType.UID == columnType.UID);
+					if (columnType.DataType == AdditionalColumnDataType.Text)
+						TextColumns.Add(new TextColumnViewModel(columnType, Employee, columnValue));
+					if (columnType.DataType == AdditionalColumnDataType.Graphics)
+						GraphicsColumns.Add(new GraphicsColumnViewModel(columnType, Employee, columnValue));
 				}
 			}
 			HasAdditionalGraphicsColumns = GraphicsColumns.Count > 1;
@@ -132,7 +129,6 @@ namespace SKDModule.ViewModels
 					LastName = LastName,
 					Type = Employee.Type,
 					Appointed = Employee.Appointed.ToString("d MMM yyyy"),
-					Dismissed = Employee.Dismissed.ToString("d MMM yyyy"),
 					TextColumns = new List<TextColumn>()
 				};
 				if (SelectedDepartment != null)
@@ -300,25 +296,6 @@ namespace SKDModule.ViewModels
 		public string AppointedString
 		{
 			get { return Appointed.ToString("dd/MM/yyyy"); }
-		}
-
-		DateTime _dismissed;
-		public DateTime Dismissed
-		{
-			get { return _dismissed; }
-			set
-			{
-				if (_dismissed != value)
-				{
-					_dismissed = value;
-					OnPropertyChanged(() => Dismissed);
-					OnPropertyChanged(() => DismissedString);
-				}
-			}
-		}
-		public string DismissedString
-		{
-			get { return Dismissed.ToString("dd/MM/yyyy"); }
 		}
 
 		DateTime _credentialsStartDate;
@@ -556,16 +533,6 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(selectDateViewModel))
 			{
 				Appointed = selectDateViewModel.DateTime;
-			}
-		}
-
-		public RelayCommand SelectDismissedCommand { get; private set; }
-		void OnSelectDismissed()
-		{
-			var selectDateViewModel = new DateSelectionViewModel(Dismissed);
-			if (DialogService.ShowModalWindow(selectDateViewModel))
-			{
-				Dismissed = selectDateViewModel.DateTime;
 			}
 		}
 

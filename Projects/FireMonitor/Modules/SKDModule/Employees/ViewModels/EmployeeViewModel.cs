@@ -28,10 +28,6 @@ namespace SKDModule.ViewModels
 		{
 			get { return IsOrganisation? "" : ShortEmployee.Appointed; } 
 		}
-		public string DismissedString
-		{
-			get { return IsOrganisation ? "" : ShortEmployee.Dismissed; } 
-		} 
 		public string DepartmentName
 		{
 			get { return IsOrganisation ? "" : ShortEmployee.DepartmentName; }
@@ -92,7 +88,6 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => DepartmentName);
 			OnPropertyChanged(() => PositionName);
 			OnPropertyChanged(() => AppointedString);
-			OnPropertyChanged(() => DismissedString);
 			OnPropertyChanged(() => AdditionalColumnValues);
 		}
 

@@ -8,7 +8,7 @@ using LinqKit;
 
 namespace SKDDriver
 {
-	public abstract class IsDeletedTranslator<TableT, ApiT, FilterT> : TranslatorBase<TableT, ApiT, FilterT>
+	public abstract class IsDeletedTranslator<TableT, ApiT, FilterT> : WithFilterTranslator<TableT, ApiT, FilterT>
 		where TableT : class, DataAccess.IIsDeletedDatabaseElement, DataAccess.IDatabaseElement, new()
 		where ApiT : SKDIsDeletedModel, new()
 		where FilterT : IsDeletedFilter

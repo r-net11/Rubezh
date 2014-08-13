@@ -30,9 +30,6 @@ namespace FiresecAPI.SKD
 		public DateTime Appointed { get; set; }
 
 		[DataMember]
-		public DateTime Dismissed { get; set; }
-
-		[DataMember]
 		public ShortPosition Position { get; set; }
 
 		[DataMember]

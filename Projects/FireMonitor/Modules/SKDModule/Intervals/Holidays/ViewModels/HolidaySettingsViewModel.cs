@@ -1,62 +1,65 @@
 ﻿using System;
+using FiresecAPI.SKD;
+using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
 	public class HolidaySettingsViewModel : SaveCancelDialogViewModel
 	{
-		public HolidaySettingsViewModel()
+		HolidaySettings HolidaySettings;
+		
+		public HolidaySettingsViewModel(Guid organisationUID)
 		{
 			Title = "Настройки праздничных дней";
+			HolidaySettings = HolidaySettingsHelper.GetByOrganisation(organisationUID);
+			if (HolidaySettings == null)
+				HolidaySettings = new HolidaySettings { OrganisationUID = organisationUID };
 		}
 
-		TimeSpan _nightStartTime;
 		public TimeSpan NightStartTime
 		{
-			get { return _nightStartTime; }
+			get { return HolidaySettings.NightStartTime; }
 			set
 			{
-				_nightStartTime = value;
+				HolidaySettings.NightStartTime = value;
 				OnPropertyChanged(() => NightStartTime);
 			}
 		}
 
-		TimeSpan _nightEndTime;
 		public TimeSpan NightEndTime
 		{
-			get { return _nightEndTime; }
+			get { return HolidaySettings.NightEndTime; }
 			set
 			{
-				_nightEndTime = value;
+				HolidaySettings.NightEndTime = value;
 				OnPropertyChanged(() => NightEndTime);
 			}
 		}
 
-		TimeSpan _eveningStartTime;
 		public TimeSpan EveningStartTime
 		{
-			get { return _eveningStartTime; }
+			get { return HolidaySettings.EveningStartTime; }
 			set
 			{
-				_eveningStartTime = value;
+				HolidaySettings.EveningStartTime = value;
 				OnPropertyChanged(() => EveningStartTime);
 			}
 		}
 
-		TimeSpan _eveningEndTime;
 		public TimeSpan EveningEndTime
 		{
-			get { return _eveningEndTime; }
+			get { return HolidaySettings.EveningEndTime; }
 			set
 			{
-				_eveningEndTime = value;
+				HolidaySettings.EveningEndTime = value;
 				OnPropertyChanged(() => EveningEndTime);
 			}
 		}
 
 		protected override bool Save()
 		{
-			return true;
+			return HolidaySettingsHelper.Save(HolidaySettings);
 		}
 	}
 }

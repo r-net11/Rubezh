@@ -246,6 +246,7 @@
     <Compile Include="SKD\SKDManager\ButtonHelper.cs" />
     <Compile Include="SKD\States\SKDDoorState.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\TimeTrackExceptionType.cs" />
+    <Compile Include="SKD\TimeIntervals\HolidaySettings.cs" />
     <Compile Include="XModels\Guard\XGuardZoneDevice.cs" />
     <Compile Include="XModels\IStateProvider.cs" />
     <Compile Include="XModels\Guard\XGuardZone.cs" />
@@ -347,7 +348,6 @@
     <Compile Include="SKD\PassCardLibrary\PassCardTextPropertyType.cs" />
     <Compile Include="SKD\PassCardLibrary\SKDPassCardLibraryConfiguration.cs" />
     <Compile Include="SKD\PassCardLibrary\PassCardTemplate.cs" />
-    <Compile Include="SKD\Department\Phone.cs" />
     <Compile Include="SKD\Position\Position.cs" />
     <Compile Include="SKD\Position\PositionFilter.cs" />
     <Compile Include="SKD\Schedule\Schedule.cs" />

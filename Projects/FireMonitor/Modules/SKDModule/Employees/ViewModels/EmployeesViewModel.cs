@@ -7,6 +7,8 @@ using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -28,37 +30,32 @@ namespace SKDModule.ViewModels
 		public void Initialize(EmployeeFilter filter)
 		{
 			Filter = filter;
-			InitializeInternal();
+            var organisations = OrganisationHelper.GetByCurrentUser();
+            if (organisations == null)
+                return;
+            var employees = EmployeeHelper.Get(Filter);
+            PersonType = Filter.PersonType;
+            AllEmployees = new List<EmployeeViewModel>();
+            Organisations = new List<EmployeeViewModel>();
+            foreach (var organisation in organisations)
+            {
+                var organisationViewModel = new EmployeeViewModel(organisation);
+                Organisations.Add(organisationViewModel);
+                AllEmployees.Add(organisationViewModel);
+                foreach (var employee in employees)
+                {
+                    if (employee.OrganisationUID == organisation.UID)
+                    {
+                        var employeeViewModel = new EmployeeViewModel(organisation, employee);
+                        organisationViewModel.AddChild(employeeViewModel);
+                        AllEmployees.Add(employeeViewModel);
+                    }
+                }
+            }
+            OnPropertyChanged(() => Organisations);
+            SelectedEmployee = Organisations.FirstOrDefault();
+            InitializeAdditionalColumns();
 		}	
-
-		void InitializeInternal()
-		{
-			var organisations = OrganisationHelper.GetByCurrentUser();
-			if (organisations == null)
-				return;
-			var employees = EmployeeHelper.Get(Filter);
-			PersonType = Filter.PersonType;
-			AllEmployees = new List<EmployeeViewModel>();
-			Organisations = new List<EmployeeViewModel>();
-			foreach (var organisation in organisations)
-			{
-				var organisationViewModel = new EmployeeViewModel(organisation);
-				Organisations.Add(organisationViewModel);
-				AllEmployees.Add(organisationViewModel);
-				foreach (var employee in employees)
-				{
-					if (employee.OrganisationUID == organisation.UID)
-					{
-						var employeeViewModel = new EmployeeViewModel(organisation, employee);
-						organisationViewModel.AddChild(employeeViewModel);
-						AllEmployees.Add(employeeViewModel);
-					}
-				}
-			}
-			OnPropertyChanged(() => Organisations);
-			SelectedEmployee = Organisations.FirstOrDefault();
-			InitializeAdditionalColumns();
-		}
 
 		public List<EmployeeViewModel> Organisations { get; private set; }
 		List<EmployeeViewModel> AllEmployees { get; set; }
@@ -165,14 +162,15 @@ namespace SKDModule.ViewModels
 			AdditionalColumnTypes = columnTypes != null ? columnTypes.ToList() : new List<ShortAdditionalColumnType>();
 			foreach (var additionalColumnType in AdditionalColumnTypes)
 			{
-				//if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
-				if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
+				if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
+				//if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
 					AdditionalColumnNames.Add(additionalColumnType.Name);
 			}
 			foreach (var employee in AllEmployees.Where(x => !x.IsOrganisation))
 			{
 				employee.UpdateColumnValues(AdditionalColumnTypes);
 			}
+            ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
 		}
 
 		public ObservableCollection<string> AdditionalColumnNames { get; private set; }

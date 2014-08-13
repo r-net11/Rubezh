@@ -2,7 +2,7 @@
 
 namespace SKDDriver
 {
-	public class PhotoTranslator : TranslatorBase<DataAccess.Photo, Photo, PhotoFilter>
+	public class PhotoTranslator : WithFilterTranslator<DataAccess.Photo, Photo, PhotoFilter>
 	{
 		public PhotoTranslator(DataAccess.SKDDataContext context)
 			: base(context)	{ }

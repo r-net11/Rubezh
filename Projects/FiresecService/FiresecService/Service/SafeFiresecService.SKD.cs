@@ -177,8 +177,19 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		#region Device
-		public OperationResult<SKDStates> SKDGetStates()
+        #region HolidaySettings
+        public OperationResult<HolidaySettings> GetHolidaySettingsByOrganisation(Guid uid)
+        {
+            return SafeContext.Execute<OperationResult<HolidaySettings>>(() => FiresecService.GetHolidaySettingsByOrganisation(uid));
+        }
+        public OperationResult SaveHolidaySettings(HolidaySettings item)
+        {
+            return SafeContext.Execute<OperationResult>(() => FiresecService.SaveHolidaySettings(item));
+        }
+        #endregion
+
+        #region Device
+        public OperationResult<SKDStates> SKDGetStates()
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDGetStates(); }, "SKDGetStates");
 		}

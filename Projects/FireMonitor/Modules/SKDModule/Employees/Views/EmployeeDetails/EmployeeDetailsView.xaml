@@ -19,7 +19,6 @@
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
-						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition />
@@ -141,16 +140,7 @@
 						</Hyperlink>
 					</TextBlock>
 						
-					<Label Grid.Row="8" Grid.Column="0" Content="Уволен" HorizontalAlignment="Right" 
-						   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
-					<TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"
-							   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
-						<Hyperlink Command="{Binding SelectDismissedCommand}" Style="{StaticResource HyperlinkStyle}">
-							<TextBlock Text="{Binding DismissedString}" TextDecorations="Underline" />
-						</Hyperlink>
-					</TextBlock>
-						
-					<Label Grid.Row="9" Grid.Column="0" Content="Учётные данные действуют с" HorizontalAlignment="Right" 
+					<Label Grid.Row="8" Grid.Column="0" Content="Учётные данные действуют с" HorizontalAlignment="Right" 
 						   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
 					<TextBlock Grid.Row="9" Grid.Column="1" VerticalAlignment="Center"
 							   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">

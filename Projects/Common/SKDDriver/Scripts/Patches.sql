@@ -617,3 +617,79 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('Schedule_AllowedLateAndEarlyLeave')
 END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'PassJournal_EnterTime_NotNull')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'PassJournal')
+	BEGIN
+		ALTER TABLE PassJournal ALTER COLUMN EnterTime datetime NOT NULL
+	END
+	INSERT INTO Patches (Id) VALUES ('PassJournal_EnterTime_NotNull')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DropIndex_PhoneUIDIndex')
+BEGIN
+	DROP INDEX PhoneUIDIndex ON Phone
+	INSERT INTO Patches (Id) VALUES ('DropIndex_PhoneUIDIndex')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DropTable_Phone')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Phone')
+	BEGIN
+		DROP TABLE Phone
+	END
+	INSERT INTO Patches (Id) VALUES ('DropTable_Phone')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleZone_DropConstraint_IsControl')
+BEGIN
+	ALTER TABLE ScheduleZone DROP CONSTRAINT DF__ScheduleZ__IsCon__239E4DCF
+	INSERT INTO Patches (Id) VALUES ('ScheduleZone_DropConstraint_IsControl')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleZone_DropColumn_IsControl')
+BEGIN
+	ALTER TABLE ScheduleZone DROP COLUMN IsControl
+	INSERT INTO Patches (Id) VALUES ('ScheduleZone_DropColumn_IsControl')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Employee_DropColumn_Dismissed')
+BEGIN
+	ALTER TABLE Employee DROP COLUMN Dismissed
+	INSERT INTO Patches (Id) VALUES ('Employee_DropColumn_Dismissed')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CreateTable_HolidaySettings')
+BEGIN
+	IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'HolidaySettings')
+	BEGIN
+		CREATE TABLE HolidaySettings(
+			[UID] [uniqueidentifier] NOT NULL,
+			[OrganisationUID] [uniqueidentifier] NULL,
+			NightStartTime bigint NOT NULL,
+			NightEndTime bigint NOT NULL,
+			EveningStartTime bigint NOT NULL,
+			EveningEndTime bigint NOT NULL,
+		 CONSTRAINT [PK_HolidaySettings] PRIMARY KEY CLUSTERED 
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
+		
+		ALTER TABLE [dbo].HolidaySettings WITH NOCHECK ADD CONSTRAINT [FK_HolidaySettings_Organisation] FOREIGN KEY([OrganisationUid])
+		REFERENCES [dbo].[Organisation] ([Uid])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].HolidaySettings NOCHECK CONSTRAINT [FK_HolidaySettings_Organisation]
+	END
+	INSERT INTO Patches (Id) VALUES ('CreateTable_HolidaySettings')	
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'CreateIndex_HolidaySettingsUIDIndex')
+BEGIN
+	IF NOT EXISTS (SELECT Name FROM sysindexes WHERE Name = 'HolidaySettingsUIDIndex') 
+	BEGIN
+		CREATE INDEX HolidaySettingsUIDIndex ON HolidaySettings([UID])
+	END
+	INSERT INTO Patches (Id) VALUES ('CreateIndex_HolidaySettingsUIDIndex')
+END
+GO

@@ -68,7 +68,6 @@ namespace SKDDriver
 			result.SecondName = tableItem.SecondName;
 			result.LastName = tableItem.LastName;
 			result.Appointed = tableItem.Appointed;
-			result.Dismissed = tableItem.Dismissed;
 			result.Department = DepartmentTranslator.GetSingleShort(tableItem.DepartmentUID);
 			result.Schedule = ScheduleTranslator.GetSingleShort(tableItem.ScheduleUID);
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
@@ -114,7 +113,6 @@ namespace SKDDriver
 				Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID),
 				Type = (PersonType)tableItem.Type,
 				Appointed = tableItem.Appointed.ToString("d MMM yyyy"),
-				Dismissed = tableItem.Dismissed.ToString("d MMM yyyy"),
 				OrganisationUID = tableItem.OrganisationUID,
 				TextColumns = AdditionalColumnTranslator.GetTextColumns(tableItem.UID)
 			};
@@ -134,7 +132,6 @@ namespace SKDDriver
 			tableItem.SecondName = apiItem.SecondName;
 			tableItem.LastName = apiItem.LastName;
 			tableItem.Appointed = CheckDate(apiItem.Appointed);
-			tableItem.Dismissed = CheckDate(apiItem.Dismissed);
 			if (apiItem.Position != null)
 				tableItem.PositionUID = apiItem.Position.UID;
 			if (apiItem.Department != null)
@@ -194,10 +191,6 @@ namespace SKDDriver
 			var appointedDates = filter.Appointed;
 			if (appointedDates != null)
 				result = result.And(e => e.Appointed >= appointedDates.StartDate && e.Appointed <= appointedDates.EndDate);
-
-			var dismissedDates = filter.Dismissed;
-			if (dismissedDates != null)
-				result = result.And(e => e.Dismissed >= dismissedDates.StartDate && e.Dismissed <= dismissedDates.EndDate);
 
 			if (!string.IsNullOrEmpty(filter.LastName))
 				result = result.And(e => e.LastName.Contains(filter.LastName));
@@ -281,7 +274,7 @@ namespace SKDDriver
 				var emptyExitPassJournals = Context.PassJournals.Where(x => x.ExitTime == null);
 				foreach (var emptyExitPassJournal in emptyExitPassJournals)
 				{
-					var enterTime = emptyExitPassJournal.EnterTime.Value;
+					var enterTime = emptyExitPassJournal.EnterTime;
 					var nowTime = DateTime.Now;
 					if (nowTime.Date > enterTime.Date)
 					{
@@ -357,7 +350,7 @@ namespace SKDDriver
 
 		DayTimeTrack GetTimeTrack(Guid employeeUID, DateTime date)
 		{
-			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime != null && x.EnterTime.Value.Date == date.Date).ToList();
+			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime != null && x.EnterTime.Date == date.Date).ToList();
 			if (passJournals == null)
 				passJournals = new List<DataAccess.PassJournal>();
 
@@ -467,10 +460,10 @@ namespace SKDDriver
 				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
 				if (scheduleZone != null)
 				{
-					if (passJournal.EnterTime.HasValue && passJournal.ExitTime.HasValue)
+					if (passJournal.ExitTime.HasValue)
 					{
 						var timeTrackPart = new TimeTrackPart();
-						timeTrackPart.StartTime = passJournal.EnterTime.Value.TimeOfDay;
+						timeTrackPart.StartTime = passJournal.EnterTime.TimeOfDay;
 						timeTrackPart.EndTime = passJournal.ExitTime.Value.TimeOfDay;
 						timeTrackPart.ZoneUID = passJournal.ZoneUID;
 						dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
