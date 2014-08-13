@@ -29,6 +29,6 @@
 				</GridView>
 			</tree:TreeList.View>
 		</tree:TreeList>
-	    <Button Grid.Row="1" Content="Добавить новый отдел" Command="{Binding AddCommand}" HorizontalAlignment="Right" Width="200" Margin="2" />
+	    <Button Grid.Row="1" Content="Добавить новый отдел" Command="{Binding AddCommand}" HorizontalAlignment="Right" Width="205" Margin="0 5 0 0" />
 	</Grid>
 </UserControl>

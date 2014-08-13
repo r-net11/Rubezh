@@ -641,12 +641,6 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('DropTable_Phone')
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleZone_DropConstraint_IsControl')
-BEGIN
-	ALTER TABLE ScheduleZone DROP CONSTRAINT DF__ScheduleZ__IsCon__239E4DCF
-	INSERT INTO Patches (Id) VALUES ('ScheduleZone_DropConstraint_IsControl')
-END
-GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleZone_DropColumn_IsControl')
 BEGIN
 	ALTER TABLE ScheduleZone DROP COLUMN IsControl
