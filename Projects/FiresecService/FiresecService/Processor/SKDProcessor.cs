@@ -79,7 +79,7 @@ namespace FiresecService
 						if (readerdevice != null && readerdevice.Zone != null)
 						{
 							var zoneUID = readerdevice.Zone.UID;
-							SKDDatabaseService.EmployeeTranslator.AddPassJournal(employeeUID, zoneUID);
+							SKDDatabaseService.TimeTrackTranslator.AddPassJournal(employeeUID, zoneUID);
 						}
 					}
 				}

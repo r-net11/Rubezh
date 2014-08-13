@@ -187,6 +187,7 @@ namespace FiresecAPI.SKD
 			TotalLate = new TimeSpan();
 			TotalEarlyLeave = new TimeSpan();
 			TotalOutSchedule = new TimeSpan();
+
 			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
 				if (timeTrack.TimeTrackPartType == TimeTrackPartType.AsPlanned || timeTrack.TimeTrackPartType == TimeTrackPartType.RealOnly || timeTrack.TimeTrackPartType == TimeTrackPartType.MissedButInsidePlan)
@@ -196,6 +197,10 @@ namespace FiresecAPI.SKD
 				if (timeTrack.TimeTrackPartType == TimeTrackPartType.AsPlanned || timeTrack.TimeTrackPartType == TimeTrackPartType.MissedButInsidePlan)
 				{
 					TotalInSchedule += timeTrack.Delta;
+				}
+				if (timeTrack.TimeTrackPartType == TimeTrackPartType.PlanedOnly)
+				{
+					TotalMissed = timeTrack.Delta;
 				}
 				if (timeTrack.TimeTrackPartType == TimeTrackPartType.Late)
 				{
@@ -227,8 +232,8 @@ namespace FiresecAPI.SKD
 			}
 			if (TimeTrackDocument.DocumentCode != 0)
 			{
+				TimeTrackType = TimeTrackType.Document;
 				Total = TotalPlanned;
-				TimeTrackType = TimeTrackType.Ill;
 				TotalInSchedule = TotalPlanned;
 				TotalMissed = new TimeSpan();
 				TotalLate = new TimeSpan();

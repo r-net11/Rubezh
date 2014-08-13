@@ -25,37 +25,27 @@ namespace SKDModule.ViewModels
 			TotalOutSchedule = DateTimeToString(DayTimeTrack.TotalOutSchedule);
 
 			IsNormal = false;
-			IsHoliday = false;
-			IsMissed = false;
-			IsDayOff = false;
-			IsIll = false;
-			IsVacation = false;
-			IsTrip = false;
+			HasLetter = false;
+			Letter = null;
 
 			switch (DayTimeTrack.TimeTrackType)
 			{
 				case TimeTrackType.Holiday:
-					IsHoliday = true;
+					HasLetter = true;
+					Letter = "В";
+					Tooltip = "Праздник";
 					break;
 
 				case TimeTrackType.Missed:
-					IsMissed = true;
+					HasLetter = true;
+					Letter = "ПР";
+					Tooltip = "Прогул";
 					break;
 
 				case TimeTrackType.DayOff:
-					IsDayOff = true;
-					break;
-
-				case TimeTrackType.Ill:
-					IsIll = true;
-					break;
-
-				case TimeTrackType.Vacation:
-					IsVacation = true;
-					break;
-
-				case TimeTrackType.Trip:
-					IsTrip = true;
+					HasLetter = true;
+					Letter = "В";
+					Tooltip = "Выходной";
 					break;
 
 				default:
@@ -63,13 +53,22 @@ namespace SKDModule.ViewModels
 					break;
 			}
 
+			if (DayTimeTrack.TimeTrackDocument != null && DayTimeTrack.TimeTrackDocument.DocumentCode != 0)
+			{
+				IsNormal = false;
+				HasLetter = true;
+				var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == DayTimeTrack.TimeTrackDocument.DocumentCode);
+				if (timeTrackDocumentType != null)
+				{
+					Letter = timeTrackDocumentType.ShortName;
+					Tooltip = timeTrackDocumentType.Name;
+				}
+			}
+
 			OnPropertyChanged(() => IsNormal);
-			OnPropertyChanged(() => IsHoliday);
-			OnPropertyChanged(() => IsMissed);
-			OnPropertyChanged(() => IsDayOff);
-			OnPropertyChanged(() => IsIll);
-			OnPropertyChanged(() => IsVacation);
-			OnPropertyChanged(() => IsTrip);
+			OnPropertyChanged(() => HasLetter);
+			OnPropertyChanged(() => Letter);
+			OnPropertyChanged(() => Tooltip);
 			OnPropertyChanged(() => DayTimeTrack);
 		}
 
@@ -79,12 +78,9 @@ namespace SKDModule.ViewModels
 		public string TotalOutSchedule { get; private set; }
 
 		public bool IsNormal { get; private set; }
-		public bool IsHoliday { get; private set; }
-		public bool IsMissed { get; private set; }
-		public bool IsDayOff { get; private set; }
-		public bool IsIll { get; private set; }
-		public bool IsVacation { get; private set; }
-		public bool IsTrip { get; private set; }
+		public bool HasLetter { get; private set; }
+		public string Letter { get; private set; }
+		public string Tooltip { get; private set; }
 
 		public static string DateTimeToString(TimeSpan timeSpan)
 		{
