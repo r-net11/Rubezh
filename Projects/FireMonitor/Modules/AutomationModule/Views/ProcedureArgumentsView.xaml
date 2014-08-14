@@ -1,0 +1,5 @@
+﻿<UserControl x:Class="AutomationModule.Views.ProcedureArgumentsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MinWidth="500" MinHeight="400" MaxWidth="800" MaxHeight="800">
+	<Border Background="{DynamicResource BackgroundBrush}" CornerRadius="2">
+		<ContentPresenter Margin="5" Content="{Binding ArgumentViewModels}" />
+	</Border>
+</UserControl>

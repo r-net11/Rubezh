@@ -7,4 +7,16 @@
 		<Views:ProceduresView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:LayoutProcedurePartViewModel}">
+		<Views:LayoutProcedurePartView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ProcedureArgumentsViewModel}">
+		<Views:ProcedureArgumentsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ArgumentsViewModel}">
+		<Views:ArgumentsView />
+	</DataTemplate>
+
 </ResourceDictionary>

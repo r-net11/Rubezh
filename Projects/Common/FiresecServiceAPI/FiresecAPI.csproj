@@ -209,7 +209,9 @@
     <Compile Include="Models\Automation\ValueType.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\VariableType.cs" />
+    <Compile Include="Models\Layouts\LayoutPartReferenceProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartTemplateContainerProperties.cs" />
+    <Compile Include="Models\Plans\ElementProcedure.cs" />
     <Compile Include="Models\Plans\ElementPolygonXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />

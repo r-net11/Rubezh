@@ -75,9 +75,17 @@
     </Compile>
     <Compile Include="AutomationModuleLoader.cs" />
     <Compile Include="ViewModels\ArgumentsViewModel.cs" />
+    <Compile Include="ViewModels\ProcedureArgumentsViewModel.cs" />
+    <Compile Include="ViewModels\LayoutProcedurePartViewModel.cs" />
     <Compile Include="ViewModels\ProceduresViewModel.cs" />
     <Compile Include="ViewModels\ProcedureViewModel.cs" />
     <Compile Include="ViewModels\ArgumentViewModel.cs" />
+    <Compile Include="Views\LayoutProcedurePartView.xaml.cs">
+      <DependentUpon>LayoutProcedurePartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProcedureArgumentsView.xaml.cs">
+      <DependentUpon>ProcedureArgumentsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProceduresView.xaml.cs">
       <DependentUpon>ProceduresView.xaml</DependentUpon>
     </Compile>
@@ -98,6 +106,14 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LayoutProcedurePartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProcedureArgumentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ProceduresView.xaml">
       <Generator>MSBuild:Compile</Generator>

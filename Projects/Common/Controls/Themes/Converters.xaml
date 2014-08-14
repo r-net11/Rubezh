@@ -57,7 +57,8 @@
 	<Converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
 	<Converters:XGuardZoneDeviceActionTypeToIconConverter x:Key="XGuardZoneDeviceActionTypeToIconConverter" />
 	<Converters:JournalSubsystemTypeToIconConverter x:Key="JournalSubsystemTypeToIconConverter" />
-	
+	<Converters:ObjectTypeToStringConverter x:Key="ObjectTypeToStringConverter" />
+
 	<Converters:DateToStringConverter x:Key="DateToStringConverter" />
 	
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">

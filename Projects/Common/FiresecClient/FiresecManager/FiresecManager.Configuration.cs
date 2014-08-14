@@ -9,6 +9,7 @@ using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
+using FiresecAPI.Automation;
 
 namespace FiresecClient
 {
@@ -115,6 +116,7 @@ namespace FiresecClient
 				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SystemConfiguration.AllCameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
+				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 
 				var deviceMap = new Dictionary<Guid, Device>();
 				FiresecConfiguration.DeviceConfiguration.Devices.ForEach(device => deviceMap.Add(device.UID, device));
@@ -170,6 +172,13 @@ namespace FiresecClient
 				{
 					if (!cameraMap.ContainsKey(camera.UID))
 						cameraMap.Add(camera.UID, camera);
+				}
+
+				var procedureMap = new Dictionary<Guid, Procedure>();
+				foreach (var procedure in FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures)
+				{
+					if (!procedureMap.ContainsKey(procedure.Uid))
+						procedureMap.Add(procedure.Uid, procedure);
 				}
 
 				var planMap = new Dictionary<Guid, Plan>();
@@ -273,6 +282,12 @@ namespace FiresecClient
 						var elementCamera = elementExtension as ElementCamera;
 						if (elementCamera != null && cameraMap.ContainsKey(elementCamera.CameraUID))
 							cameraMap[elementCamera.CameraUID].PlanElementUIDs.Add(elementExtension.UID);
+						else if (elementExtension is ElementProcedure)
+						{
+							var elementProcedure = (ElementProcedure)elementExtension;
+							if (procedureMap.ContainsKey(elementProcedure.ProcedureUID))
+								procedureMap[elementProcedure.ProcedureUID].PlanElementUIDs.Add(elementExtension.UID);
+						}
 					}
 
 					foreach (var subplan in plan.ElementSubPlans)

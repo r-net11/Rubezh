@@ -4,6 +4,8 @@ using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
+using System;
 
 namespace AutomationModule.ViewModels
 {
@@ -104,6 +106,24 @@ namespace AutomationModule.ViewModels
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => IsEnabled);
 			}
+		}
+
+		public void Update()
+		{
+			if (Procedure.PlanElementUIDs == null)
+				Procedure.PlanElementUIDs = new List<Guid>();
+			_visualizetionState = Procedure.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Procedure.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
+			OnPropertyChanged(() => IsOnPlan);
+			OnPropertyChanged(() => VisualizationState);
+		}
+		public bool IsOnPlan
+		{
+			get { return Procedure.PlanElementUIDs.Count > 0; }
+		}
+		private VisualizationState _visualizetionState;
+		public VisualizationState VisualizationState
+		{
+			get { return _visualizetionState; }
 		}
 	}
 }

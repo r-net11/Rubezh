@@ -2,15 +2,16 @@
 using FiresecAPI.Models.Layouts;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using LayoutModel = FiresecAPI.Models.Layouts.Layout;
 
 namespace AutomationModule.ViewModels
 {
 	public class SoundLayoutViewModel : BaseViewModel
 	{
-		public Layout Layout { get; private set; }
+		public LayoutModel Layout { get; private set; }
 		public SoundArguments SoundArguments { get; private set; }
 
-		public SoundLayoutViewModel(SoundArguments soundArguments, Layout layout)
+		public SoundLayoutViewModel(SoundArguments soundArguments, LayoutModel layout)
 		{
 			Layout = layout;
 			SoundArguments = soundArguments;

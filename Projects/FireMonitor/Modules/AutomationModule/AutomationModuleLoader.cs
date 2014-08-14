@@ -13,10 +13,13 @@ using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common.Services;
 using System.IO;
+using Infrastructure.Common.Services.Layout;
+using Infrastructure.Client.Layout;
+using FiresecAPI.Models.Layouts;
 
 namespace AutomationModule
 {
-	public class AutomationModuleLoader : ModuleBase
+	public class AutomationModuleLoader : ModuleBase, ILayoutProviderModule
 	{
 		ProceduresViewModel ProceduresViewModel;
 		NavigationItem _proceduresNavigationItem;
@@ -83,5 +86,12 @@ namespace AutomationModule
 				}
 			});
 		}
+
+		#region ILayoutProviderModule Members
+		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
+		{
+			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedures.png", (p) => new LayoutProcedurePartViewModel((LayoutPartReferenceProperties)p));
+		}
+		#endregion
 	}
 }

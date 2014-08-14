@@ -30,6 +30,7 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid CamerasList = new Guid("{738AECD7-A02F-490D-B352-7306C2257866}");
 		public static readonly Guid CameraVideo = new Guid("{6B780C39-A017-4B34-90B8-D7717918D13A}");
 		public static readonly Guid MultiCamera = new Guid("{521F0B43-C0D3-47CB-9C8B-CB5B7C8FF39C}");
+		public static readonly Guid AutomationProcedure = new Guid("{13E8F574-38C6-460E-83CE-50574BDE5115}");
 
 		// SKD
 		public static readonly Guid SKDDevices = new Guid("{41B13062-368D-40D7-B0C5-BCEE16429518}");

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Common;
+using Infrustructure.Plans.Interfaces;
 
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class Procedure
+	public class Procedure : IIdentity, IPlanPresentable
 	{
 		public Procedure()
 		{
@@ -46,5 +48,32 @@ namespace FiresecAPI.Automation
 			foreach (var variable in Variables)
 				variable.ResetValue();
 		}
+
+		#region IIdentity Members
+
+		Guid IIdentity.UID
+		{
+			get { return Uid; }
+		}
+
+		#endregion
+
+		#region IPlanPresentable Members
+
+		[DataMember]
+		public List<Guid> PlanElementUIDs { get; set; }
+
+		#endregion
+
+		#region IChangedNotification Members
+
+		public void OnChanged()
+		{
+			if (Changed != null)
+				Changed();
+		}
+		public event Action Changed;
+
+		#endregion
 	}
 }

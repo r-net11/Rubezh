@@ -22,6 +22,8 @@ namespace AutomationModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			IsRightPanelEnabled = true;
+			IsRightPanelVisible = false;
 		}
 
 		public void Initialize()

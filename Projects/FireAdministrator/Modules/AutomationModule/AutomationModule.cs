@@ -1,23 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutomationModule.Events;
+using AutomationModule.Layout.ViewModels;
+using AutomationModule.Plans;
 using AutomationModule.Validation;
 using AutomationModule.ViewModels;
+using FiresecAPI.Models;
+using FiresecAPI.Models.Layouts;
+using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
-using FiresecClient;
-using FiresecAPI.Automation;
+using Infrustructure.Plans.Events;
 
 namespace AutomationModule
 {
-	public class AutomationModule : ModuleBase, IValidationModule
+	public class AutomationModule : ModuleBase, IValidationModule, ILayoutDeclarationModule
 	{
 		SoundsViewModel SoundsViewModel;
 		ProceduresViewModel ProceduresViewModel;
 		SchedulesViewModel SchedulesViewModel;
 		GlobalVariablesViewModel GlobalVariablesViewModel;
+		private AutomationPlanExtension _planExtension;
 
 		public override void CreateViewModels()
 		{
@@ -26,6 +33,7 @@ namespace AutomationModule
 			ProceduresViewModel = new ProceduresViewModel();
 			SchedulesViewModel = new SchedulesViewModel();
 			GlobalVariablesViewModel = new GlobalVariablesViewModel();
+			_planExtension = new AutomationPlanExtension(ProceduresViewModel);
 		}
 
 		public override void Initialize()
@@ -34,6 +42,10 @@ namespace AutomationModule
 			ProceduresViewModel.Initialize();
 			SchedulesViewModel.Initialize();
 			GlobalVariablesViewModel.Initialize();
+
+			_planExtension.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
+			_planExtension.Cache.BuildAllSafe();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -61,6 +73,8 @@ namespace AutomationModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Procedures/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Schedules/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "GlobalVariables/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Layout/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 		}
 
 		public IEnumerable<IValidationError> Validate()
@@ -68,5 +82,17 @@ namespace AutomationModule
 			var validator = new Validator();
 			return validator.Validate();
 		}
+
+		#region ILayoutDeclarationModule Members
+
+		public IEnumerable<ILayoutPartDescription> GetLayoutPartDescriptions()
+		{
+			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выпонить процедуру", "BProcedures.png")
+			{
+				Factory = (p) => new LayoutPartProcedureViewModel(p as LayoutPartReferenceProperties),
+			};
+		}
+
+		#endregion
 	}
 }
