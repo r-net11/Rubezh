@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 

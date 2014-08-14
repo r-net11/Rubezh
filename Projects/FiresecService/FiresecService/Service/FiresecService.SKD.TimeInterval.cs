@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using SKDDriver;
 using System;
 using FiresecAPI.Journal;

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using FiresecAPI.SKD;
 
-namespace FiresecAPI.EmployeeTimeIntervals
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class DayInterval : OrganisationElementBase

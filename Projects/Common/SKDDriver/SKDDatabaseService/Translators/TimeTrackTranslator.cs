@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.EmployeeTimeIntervals;
 using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 using FiresecAPI.SKD;
@@ -149,7 +148,7 @@ namespace SKDDriver.Translators
 			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
 			if (scheduleScheme == null)
 				return new DayTimeTrack("Не найдена схема работы");
-			var scheduleSchemeType = (FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType)scheduleScheme.Type;
+			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 
 			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID);
 			if (days == null || days.Count() == 0)
@@ -158,17 +157,17 @@ namespace SKDDriver.Translators
 
 			switch (scheduleSchemeType)
 			{
-				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.Week:
+				case ScheduleSchemeType.Week:
 					dayNo = (int)date.DayOfWeek - 1;
 					if (dayNo == -1)
 						dayNo = 6;
 					break;
-				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.SlideDay:
+				case ScheduleSchemeType.SlideDay:
 					var daysCount = days.Count();
 					var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
 					dayNo = (int)Math.IEEERemainder((int)period.TotalDays, daysCount);
 					break;
-				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.Month:
+				case ScheduleSchemeType.Month:
 					dayNo = (int)date.Day;
 					break;
 			}
@@ -222,17 +221,17 @@ namespace SKDDriver.Translators
 
 			if (!schedule.IsIgnoreHoliday)
 			{
-				var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID);
+				var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID);
 				if (holiday != null)
 				{
 					dayTimeTrack.IsHoliday = true;
 				}
-				holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID);
+				holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID);
 				if (holiday != null)
 				{
 					dayTimeTrack.HolidayReduction = holiday.Reduction;
 				}
-				holiday = Context.Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID);
+				holiday = Context.Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID);
 				if (holiday != null)
 				{
 					dayTimeTrack.IsHoliday = true;

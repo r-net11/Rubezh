@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using System;
 
 namespace FiresecClient

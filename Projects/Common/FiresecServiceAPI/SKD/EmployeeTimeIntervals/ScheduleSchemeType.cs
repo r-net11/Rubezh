@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.EmployeeTimeIntervals
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	[Flags]

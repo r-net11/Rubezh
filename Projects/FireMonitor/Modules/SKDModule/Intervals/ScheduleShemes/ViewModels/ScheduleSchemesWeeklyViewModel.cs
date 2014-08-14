@@ -1,4 +1,4 @@
-﻿using FiresecAPI.EmployeeTimeIntervals;
+﻿using FiresecAPI.SKD;
 
 namespace SKDModule.ViewModels
 {

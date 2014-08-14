@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.EmployeeTimeIntervals
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class ShortSchedule

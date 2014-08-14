@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using FiresecAPI.GK;
 
 namespace FiresecAPI.SKD

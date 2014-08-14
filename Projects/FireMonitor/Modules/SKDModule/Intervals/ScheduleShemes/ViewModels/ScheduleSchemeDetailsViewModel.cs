@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
