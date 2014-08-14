@@ -22,24 +22,24 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var timeTrackException = Context.TimeTrackExceptions.FirstOrDefault(x => x.EmployeeUID == api.EmployeeUID && x.StartDateTime.Date == api.StartDateTime.Date);
-				if (timeTrackException != null)
+				var timeTrackDocument = Context.TimeTrackDocuments.FirstOrDefault(x => x.EmployeeUID == api.EmployeeUID && x.StartDateTime.Date == api.StartDateTime.Date);
+				if (timeTrackDocument != null)
 				{
-					timeTrackException.DocumentType = api.DocumentCode;
-					timeTrackException.Comment = api.Comment;
+					timeTrackDocument.DocumentCode = api.DocumentCode;
+					timeTrackDocument.Comment = api.Comment;
 				}
 				else
 				{
-					timeTrackException = new DataAccess.TimeTrackException()
+					timeTrackDocument = new DataAccess.TimeTrackDocument()
 					{
 						UID = Guid.NewGuid(),
 						StartDateTime = api.StartDateTime.Date,
 						EndDateTime = api.EndDateTime.Date,
 						EmployeeUID = api.EmployeeUID,
-						DocumentType = api.DocumentCode,
+						DocumentCode = api.DocumentCode,
 						Comment = api.Comment
 					};
-					Context.TimeTrackExceptions.InsertOnSubmit(timeTrackException);
+					Context.TimeTrackDocuments.InsertOnSubmit(timeTrackDocument);
 				}
 				Context.SubmitChanges();
 				return new OperationResult();
@@ -54,17 +54,17 @@ namespace SKDDriver.Translators
 		{
 			try
 			{
-				var timeTrackException = Context.TimeTrackExceptions.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.StartDateTime.Date == dateTime.Date);
-				if (timeTrackException != null)
+				var timeTrackDocument = Context.TimeTrackDocuments.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.StartDateTime.Date == dateTime.Date);
+				if (timeTrackDocument != null)
 				{
 					var api = new TimeTrackDocument()
 					{
-						UID = timeTrackException.UID,
-						EmployeeUID = timeTrackException.EmployeeUID,
-						StartDateTime = timeTrackException.StartDateTime,
-						EndDateTime = timeTrackException.EndDateTime,
-						DocumentCode = timeTrackException.DocumentType,
-						Comment = timeTrackException.Comment
+						UID = timeTrackDocument.UID,
+						EmployeeUID = timeTrackDocument.EmployeeUID,
+						StartDateTime = timeTrackDocument.StartDateTime,
+						EndDateTime = timeTrackDocument.EndDateTime,
+						DocumentCode = timeTrackDocument.DocumentCode,
+						Comment = timeTrackDocument.Comment
 					};
 					return new OperationResult<TimeTrackDocument>() { Result = api };
 				}

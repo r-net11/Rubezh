@@ -69,7 +69,7 @@
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
-						<DataGridTemplateColumn Width="*" Header="День">
+						<DataGridTemplateColumn Width="*" Header="Дневной график">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedNamedInterval.Name}" />

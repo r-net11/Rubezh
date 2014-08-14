@@ -151,7 +151,7 @@ namespace SKDDriver.Translators
 				return new DayTimeTrack("Не найдена схема работы");
 			var scheduleSchemeType = (FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType)scheduleScheme.Type;
 
-			var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID);
+			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID);
 			if (days == null || days.Count() == 0)
 				return new DayTimeTrack();
 			int dayNo = -1;
@@ -176,30 +176,30 @@ namespace SKDDriver.Translators
 			if (day == null)
 				return new DayTimeTrack("Не найден день");
 
-			List<DataAccess.Interval> intervals = new List<DataAccess.Interval>();
-			if (day.NamedIntervalUID != null)
+			List<DataAccess.DayIntervalPart> intervals = new List<DataAccess.DayIntervalPart>();
+			if (day.DayIntervalUID != null)
 			{
-				var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID);
-				if (namedInterval == null)
+				var dayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == day.DayIntervalUID);
+				if (dayInterval == null)
 					return new DayTimeTrack("Не найден дневной интервал");
-				intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID).ToList();
+				intervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID).ToList();
 			}
 
 			TimeTrackPart nightTimeTrackPart = null;
 			{
-				SKDDriver.DataAccess.Day previousDay = null;
+				SKDDriver.DataAccess.ScheduleDay previousDay = null;
 				if (dayNo > 0)
 					previousDay = days.FirstOrDefault(x => x.Number == dayNo - 1);
 				else
 					previousDay = days.FirstOrDefault(x => x.Number == days.Count() - 1);
 				if (previousDay != null)
 				{
-					if (previousDay.NamedIntervalUID != null)
+					if (previousDay.DayIntervalUID != null)
 					{
-						var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == previousDay.NamedIntervalUID);
-						if (namedInterval != null)
+						var dayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == previousDay.DayIntervalUID);
+						if (dayInterval != null)
 						{
-							var previousIntervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID).ToList();
+							var previousIntervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID).ToList();
 							var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTime > 60 * 60 * 24);
 							if (nightInterval != null)
 							{

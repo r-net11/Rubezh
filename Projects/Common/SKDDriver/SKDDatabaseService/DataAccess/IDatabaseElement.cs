@@ -28,10 +28,10 @@ namespace SKDDriver.DataAccess
 	public partial class Photo : IDatabaseElement { }
 	public partial class HolidaySetting : IDatabaseElement { }
 
-	public partial class Day : IDatabaseElement, IIsDeletedDatabaseElement { }
+	public partial class ScheduleDay : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class ScheduleZone : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Organisation : IDatabaseElement, IIsDeletedDatabaseElement { }
-	public partial class Interval : IDatabaseElement, IIsDeletedDatabaseElement { }
+	public partial class DayIntervalPart : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class CardDoor : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class Card : IDatabaseElement, IIsDeletedDatabaseElement, ILinkedToEmployee { }
 	
@@ -39,7 +39,7 @@ namespace SKDDriver.DataAccess
 	public partial class Department : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Employee : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Holiday : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
-	public partial class NamedInterval : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
+	public partial class DayInterval : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Position : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class Schedule : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }
 	public partial class ScheduleScheme : IDatabaseElement, IIsDeletedDatabaseElement, IOrganisationDatabaseElement { }

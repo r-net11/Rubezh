@@ -43,8 +43,8 @@ namespace SKDDriver
 			if (Context.AdditionalColumnTypes.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
 				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дополнительные колонки");
 
-			if (Context.NamedIntervals.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
-				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дневные интервалы");
+			if (Context.DayIntervals.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
+				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней дневные графики");
 
 			if (Context.Holidays.Any(x => x.OrganisationUID == uid && !x.IsDeleted))
 				return new OperationResult("Организация не может быть удалена, пока существуют привязанные к ней праздники");

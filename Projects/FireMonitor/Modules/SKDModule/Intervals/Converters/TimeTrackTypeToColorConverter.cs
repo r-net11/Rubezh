@@ -40,7 +40,7 @@ namespace SKDModule.Converters
 					return Brushes.GreenYellow;
 
 				case TimeTrackType.Document:
-					return Brushes.SkyBlue;
+					return Brushes.DeepSkyBlue;
 			}
 			return Brushes.White;
 		}

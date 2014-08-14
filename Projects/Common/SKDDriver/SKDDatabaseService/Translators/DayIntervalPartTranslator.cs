@@ -8,7 +8,7 @@ using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	public class DayIntervalPartTranslator : IsDeletedTranslator<DataAccess.Interval, DayIntervalPart, DayIntervalPartFilter>
+	public class DayIntervalPartTranslator : IsDeletedTranslator<DataAccess.DayIntervalPart, DayIntervalPart, DayIntervalPartFilter>
 	{
 		int DaySeconds = 86400;
 		public DayIntervalPartTranslator(DataAccess.SKDDataContext context)
@@ -17,15 +17,15 @@ namespace SKDDriver.Translators
 
 		}
 
-		protected override IQueryable<DataAccess.Interval> GetQuery(DayIntervalPartFilter filter)
+		protected override IQueryable<DataAccess.DayIntervalPart> GetQuery(DayIntervalPartFilter filter)
 		{
 			return base.GetQuery(filter).OrderBy(item => item.BeginTime);
 		}
 
-		protected override Expression<Func<DataAccess.Interval, bool>> IsInFilter(DayIntervalPartFilter filter)
+		protected override Expression<Func<DataAccess.DayIntervalPart, bool>> IsInFilter(DayIntervalPartFilter filter)
 		{
 			var result = base.IsInFilter(filter);
-			result = result.And(e => filter.DayIntervalUIDs.Contains(e.NamedIntervalUID));
+			result = result.And(e => filter.DayIntervalUIDs.Contains(e.DayIntervalUID));
 			return result;
 		}
 
@@ -33,7 +33,7 @@ namespace SKDDriver.Translators
 		{
 			if (item.BeginTime == item.EndTime)
 				return new OperationResult("Интервал не может иметь нулевую длительность");
-			var intervals = Table.Where(x => x.NamedIntervalUID == item.DayIntervalUID && x.UID != item.UID && !x.IsDeleted);
+			var intervals = Table.Where(x => x.DayIntervalUID == item.DayIntervalUID && x.UID != item.UID && !x.IsDeleted);
 			if (intervals.Count() == 0 && item.BeginTime.TotalSeconds >= DaySeconds)
 				return new OperationResult("Последовательность интервалов не может начинаться со следующего дня");
 			var beginTime = item.BeginTime.TotalSeconds;
@@ -48,10 +48,10 @@ namespace SKDDriver.Translators
 			return base.CanSave(item);
 		}
 
-		protected override DayIntervalPart Translate(DataAccess.Interval tableItem)
+		protected override DayIntervalPart Translate(DataAccess.DayIntervalPart tableItem)
 		{
 			var apiItem = base.Translate(tableItem);
-			apiItem.DayIntervalUID = tableItem.NamedIntervalUID;
+			apiItem.DayIntervalUID = tableItem.DayIntervalUID;
 			if (tableItem.EndTime > DaySeconds)
 			{
 				apiItem.TransitionType = DayIntervalPartTransitionType.Night;
@@ -67,13 +67,13 @@ namespace SKDDriver.Translators
 			return apiItem;
 		}
 
-		protected override void TranslateBack(DataAccess.Interval tableItem, DayIntervalPart apiItem)
+		protected override void TranslateBack(DataAccess.DayIntervalPart tableItem, DayIntervalPart apiItem)
 		{
-			var namedInterval = Context.NamedIntervals.FirstOrDefault(item => item.UID == apiItem.DayIntervalUID);
+			var dayInterval = Context.DayIntervals.FirstOrDefault(item => item.UID == apiItem.DayIntervalUID);
 			base.TranslateBack(tableItem, apiItem);
-			tableItem.NamedIntervalUID = apiItem.DayIntervalUID;
-			if (namedInterval != null)
-				tableItem.NamedInterval = namedInterval;
+			tableItem.DayIntervalUID = apiItem.DayIntervalUID;
+			if (dayInterval != null)
+				tableItem.DayInterval = dayInterval;
 			tableItem.BeginTime = (int)apiItem.BeginTime.TotalSeconds;
 			tableItem.EndTime = (int)apiItem.EndTime.TotalSeconds;
 			if (apiItem.TransitionType == DayIntervalPartTransitionType.Night)
@@ -82,7 +82,7 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public List<DayIntervalPart> TranslateAll(IEnumerable<DataAccess.Interval> list)
+		public List<DayIntervalPart> TranslateAll(IEnumerable<DataAccess.DayIntervalPart> list)
 		{
 			return list.Select(item => Translate(item)).ToList();
 		}

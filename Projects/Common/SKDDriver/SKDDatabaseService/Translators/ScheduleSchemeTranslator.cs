@@ -51,7 +51,7 @@ namespace SKDDriver.Translators
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			if (_withDays)
-				result.DayIntervals = _dayIntervalTranslator.TranslateAll(tableItem.Days.Where(item => !item.IsDeleted).OrderBy(item => item.Number));
+				result.DayIntervals = _dayIntervalTranslator.TranslateAll(tableItem.ScheduleDays.Where(item => !item.IsDeleted).OrderBy(item => item.Number));
 			result.Type = (ScheduleSchemeType)tableItem.Type;
 			return result;
 		}

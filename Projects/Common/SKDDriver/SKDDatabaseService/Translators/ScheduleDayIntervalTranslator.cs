@@ -8,7 +8,7 @@ using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	public class ScheduleDayIntervalTranslator : IsDeletedTranslator<DataAccess.Day, ScheduleDayInterval, ScheduleDayIntervalFilter>
+	public class ScheduleDayIntervalTranslator : IsDeletedTranslator<DataAccess.ScheduleDay, ScheduleDayInterval, ScheduleDayIntervalFilter>
 	{
 		public ScheduleDayIntervalTranslator(DataAccess.SKDDataContext context)
 			: base(context)
@@ -16,11 +16,11 @@ namespace SKDDriver.Translators
 
 		}
 
-		protected override IQueryable<DataAccess.Day> GetQuery(ScheduleDayIntervalFilter filter)
+		protected override IQueryable<DataAccess.ScheduleDay> GetQuery(ScheduleDayIntervalFilter filter)
 		{
 			return base.GetQuery(filter).OrderBy(item => item.Number);
 		}
-		protected override Expression<Func<DataAccess.Day, bool>> IsInFilter(ScheduleDayIntervalFilter filter)
+		protected override Expression<Func<DataAccess.ScheduleDay, bool>> IsInFilter(ScheduleDayIntervalFilter filter)
 		{
 			var result = base.IsInFilter(filter);
 			result = result.And(e => e.ScheduleSchemeUID.Equals(filter.ScheduleSchemeUID));
@@ -33,7 +33,7 @@ namespace SKDDriver.Translators
 			{
 				var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(item => item.UID == dayInterval.ScheduleSchemeUID);
 				if (scheduleScheme != null)
-					foreach (var day in scheduleScheme.Days)
+					foreach (var day in scheduleScheme.ScheduleDays)
 						if (day.Number > dayInterval.Number)
 							day.Number--;
 			}
@@ -46,23 +46,23 @@ namespace SKDDriver.Translators
 			return base.CanSave(item);
 		}
 
-		protected override ScheduleDayInterval Translate(DataAccess.Day tableItem)
+		protected override ScheduleDayInterval Translate(DataAccess.ScheduleDay tableItem)
 		{
 			var apiItem = base.Translate(tableItem);
-			apiItem.DayIntervalUID = tableItem.NamedIntervalUID.HasValue ? tableItem.NamedIntervalUID.Value : Guid.Empty;
+			apiItem.DayIntervalUID = tableItem.DayIntervalUID.HasValue ? tableItem.DayIntervalUID.Value : Guid.Empty;
 			apiItem.Number = tableItem.Number;
 			apiItem.ScheduleSchemeUID = tableItem.ScheduleSchemeUID;
 			return apiItem;
 		}
-		protected override void TranslateBack(DataAccess.Day tableItem, ScheduleDayInterval apiItem)
+		protected override void TranslateBack(DataAccess.ScheduleDay tableItem, ScheduleDayInterval apiItem)
 		{
-			var namedInterval = apiItem.DayIntervalUID == Guid.Empty ? null : Context.NamedIntervals.FirstOrDefault(item => item.UID == apiItem.DayIntervalUID);
+			var dayInterval = apiItem.DayIntervalUID == Guid.Empty ? null : Context.DayIntervals.FirstOrDefault(item => item.UID == apiItem.DayIntervalUID);
 			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(item => item.UID == apiItem.ScheduleSchemeUID);
 			base.TranslateBack(tableItem, apiItem);
-			if (namedInterval == null && apiItem.DayIntervalUID != Guid.Empty)
-				tableItem.NamedIntervalUID = apiItem.DayIntervalUID;
+			if (dayInterval == null && apiItem.DayIntervalUID != Guid.Empty)
+				tableItem.DayIntervalUID = apiItem.DayIntervalUID;
 			else
-				tableItem.NamedInterval = namedInterval;
+				tableItem.DayInterval = dayInterval;
 			if (scheduleScheme == null)
 				tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID;
 			else
@@ -70,7 +70,7 @@ namespace SKDDriver.Translators
 			tableItem.Number = apiItem.Number;
 		}
 
-		public List<ScheduleDayInterval> TranslateAll(IEnumerable<DataAccess.Day> list)
+		public List<ScheduleDayInterval> TranslateAll(IEnumerable<DataAccess.ScheduleDay> list)
 		{
 			return list.Select(item => Translate(item)).ToList();
 		}
