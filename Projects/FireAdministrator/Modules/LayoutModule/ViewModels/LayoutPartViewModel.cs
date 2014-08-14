@@ -105,10 +105,14 @@ namespace LayoutModule.ViewModels
 		}
 		private void UpdateTitle()
 		{
-			OnPropertyChanged(() => Title);
 			var layoutPartTitleViewModel = Content as LayoutPartTitleViewModel;
 			if (layoutPartTitleViewModel != null)
+			{
 				layoutPartTitleViewModel.Title = Title;
+				if (string.IsNullOrEmpty(layoutPartTitleViewModel.IconSource))
+					layoutPartTitleViewModel.IconSource = IconSource;
+			}
+			OnPropertyChanged(() => Title);
 		}
 		private LayoutDocument GetLayoutDocument()
 		{

@@ -5,7 +5,6 @@ using Infrastructure.Client.Layout.ViewModels;
 using FiresecAPI.Models.Layouts;
 using Infrastructure.Common.Services.Layout;
 using FiresecClient;
-
 namespace AutomationModule.Layout.ViewModels
 {
 	public class LayoutPartProcedureViewModel : LayoutPartTitleViewModel
@@ -14,8 +13,6 @@ namespace AutomationModule.Layout.ViewModels
 
 		public LayoutPartProcedureViewModel(LayoutPartReferenceProperties properties)
 		{
-			Title = "Процедура";
-			IconSource = LayoutPartDescription.IconPath + "BProcedures.png";
 			_properties = properties ?? new LayoutPartReferenceProperties();
 			UpdateLayoutPart();
 		}
@@ -29,6 +26,7 @@ namespace AutomationModule.Layout.ViewModels
 			get
 			{
 				yield return new LayoutPartPropertyProcedurePageViewModel(this);
+				yield return new LayoutPartPropertyProcedurePageStyleViewModel(this);
 			}
 		}
 
@@ -36,7 +34,7 @@ namespace AutomationModule.Layout.ViewModels
 
 		public void UpdateLayoutPart()
 		{
-			ProcedureTitle = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Where(item => item.Uid == _properties.ReferenceUID).Select(item => item.Name).FirstOrDefault();
+			ProcedureTitle = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Where(item => item.Uid == _properties.ReferenceUID).Select(item => item.Name).FirstOrDefault() ?? "Процедура";
 			OnPropertyChanged(() => ProcedureTitle);
 		}
 	}

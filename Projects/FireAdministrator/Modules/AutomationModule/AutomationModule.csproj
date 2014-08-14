@@ -82,6 +82,7 @@
     <Compile Include="GlobalVariables\Views\GlobalVariablesView.xaml.cs">
       <DependentUpon>GlobalVariablesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Layout\ViewModels\LayoutPartPropertyProcedurePageStyleViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartProcedureViewModel.cs" />
     <Compile Include="Layout\ViewModels\LayoutPartPropertyProcedurePageViewModel.cs" />
     <Compile Include="Layout\Views\LayoutPartProcedureView.xaml.cs">

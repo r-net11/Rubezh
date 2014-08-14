@@ -366,6 +366,8 @@ namespace AutomationModule.ViewModels
 
 		bool CanDownInto()
 		{
+			if (SelectedStep == null)
+				return false;
 			ProcedureStep nextStep;
 			if (SelectedStep.Parent == null)
 				nextStep = RootSteps[SelectedStep.Index + 1].Step;
