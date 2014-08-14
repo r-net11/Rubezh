@@ -3,16 +3,16 @@
 					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels"
 					xmlns:Views="clr-namespace:SKDModule.Views">
 
-	<DataTemplate DataType="{x:Type ViewModels:NamedIntervalsViewModel}">
-		<Views:NamedIntervalsView />
+	<DataTemplate DataType="{x:Type ViewModels:DayIntervalsViewModel}">
+		<Views:DayIntervalsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:NamedIntervalDetailsViewModel}">
-		<Views:NamedIntervalDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:DayIntervalDetailsViewModel}">
+		<Views:DayIntervalDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:TimeIntervalDetailsViewModel}">
-		<Views:TimeIntervalDetailsView />
+	<DataTemplate DataType="{x:Type ViewModels:DayIntervalPartDetailsViewModel}">
+		<Views:DayIntervalPartDetailsView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:HolidaysViewModel}">

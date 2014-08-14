@@ -137,10 +137,10 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel))
 			{
 				ScheduleZoneHelper.Save(SelectedScheduleZone.Model);
-				var selectedTimeInterval = SelectedScheduleZone;
+				var selectedScheduleZone = SelectedScheduleZone;
 				SelectedScheduleZone.Update();
 				Sort();
-				SelectedScheduleZone = selectedTimeInterval;
+				SelectedScheduleZone = selectedScheduleZone;
 			}
 		}
 		private bool CanEdit()

@@ -57,7 +57,7 @@
 					<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
 					<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
 				</StackPanel>
-				<DataGrid Grid.Row="1" Margin="2" IsReadOnly="False" ItemsSource="{Binding DayIntervals}" SelectedItem="{Binding SelectedDayInterval}">
+                <DataGrid Grid.Row="1" Margin="2" IsReadOnly="False" ItemsSource="{Binding SheduleDayIntervals}" SelectedItem="{Binding SelectedSheduleDayInterval}">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Width="Auto" Header="День">
 							<DataGridTemplateColumn.CellTemplate>
@@ -72,12 +72,12 @@
 						<DataGridTemplateColumn Width="*" Header="Дневной график">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedNamedInterval.Name}" />
+									<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding SelectedDayInterval.Name}" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 							<DataGridTemplateColumn.CellEditingTemplate>
 								<DataTemplate>
-									<ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding NamedIntervals}" SelectedItem="{Binding SelectedNamedInterval, UpdateSourceTrigger=PropertyChanged}">
+									<ComboBox HorizontalAlignment="Stretch" ItemsSource="{Binding DayIntervals}" SelectedItem="{Binding SelectedDayInterval, UpdateSourceTrigger=PropertyChanged}">
 										<ComboBox.ItemTemplate>
 											<DataTemplate>
 												<TextBlock Margin="2" VerticalAlignment="Center" Foreground="Black" Text="{Binding Name}" />

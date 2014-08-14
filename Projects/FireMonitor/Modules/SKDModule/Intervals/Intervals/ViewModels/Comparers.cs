@@ -2,17 +2,17 @@
 
 namespace SKDModule.ViewModels
 {
-	public class NamedIntervalViewModelNameComparer : TreeNodeComparer<NamedIntervalViewModel>
+	public class DayIntervalViewModelNameComparer : TreeNodeComparer<DayIntervalViewModel>
 	{
-		protected override int Compare(NamedIntervalViewModel x, NamedIntervalViewModel y)
+		protected override int Compare(DayIntervalViewModel x, DayIntervalViewModel y)
 		{
 			return string.Compare(x.Name, y.Name);
 		}
 	}
 
-	public class NamedIntervalViewModelDescriptionComparer : TreeNodeComparer<NamedIntervalViewModel>
+	public class DayIntervalViewModelDescriptionComparer : TreeNodeComparer<DayIntervalViewModel>
 	{
-		protected override int Compare(NamedIntervalViewModel x, NamedIntervalViewModel y)
+		protected override int Compare(DayIntervalViewModel x, DayIntervalViewModel y)
 		{
 			return string.Compare(x.Description, y.Description);
 		}

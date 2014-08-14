@@ -4,31 +4,31 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeIntervalViewModel : BaseViewModel
+	public class DayIntervalPartViewModel : BaseViewModel
 	{
-		public DayIntervalPart TimeInterval { get; private set; }
+		public DayIntervalPart DayIntervalPart { get; private set; }
 
-		public TimeIntervalViewModel(DayIntervalPart timeInterval)
+		public DayIntervalPartViewModel(DayIntervalPart dayIntervalPart)
 		{
-			TimeInterval = timeInterval;
+			DayIntervalPart = dayIntervalPart;
 		}
 
 		public TimeSpan BeginTime
 		{
-			get { return TimeInterval.BeginTime; }
+			get { return DayIntervalPart.BeginTime; }
 		}
 		public TimeSpan EndTime
 		{
-			get { return TimeInterval.EndTime; }
+			get { return DayIntervalPart.EndTime; }
 		}
 		public DayIntervalPartTransitionType IntervalTransitionType
 		{
-			get { return TimeInterval.TransitionType; }
+			get { return DayIntervalPart.TransitionType; }
 		}
 
 		public void Update()
 		{
-			OnPropertyChanged(() => TimeInterval);
+			OnPropertyChanged(() => DayIntervalPart);
 			OnPropertyChanged(() => BeginTime);
 			OnPropertyChanged(() => EndTime);
 			OnPropertyChanged(() => IntervalTransitionType);

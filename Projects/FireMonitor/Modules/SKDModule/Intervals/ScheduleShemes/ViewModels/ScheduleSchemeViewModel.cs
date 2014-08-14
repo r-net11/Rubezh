@@ -45,9 +45,9 @@ namespace SKDModule.ViewModels
 			{
 				_isInitialized = true;
 				if (!IsOrganisation)
-					DayIntervals = new SortableObservableCollection<DayIntervalViewModel>(ScheduleScheme.DayIntervals.Select(item => new DayIntervalViewModel(this, item)));
+					SheduleDayIntervals = new SortableObservableCollection<SheduleDayIntervalViewModel>(ScheduleScheme.DayIntervals.Select(item => new SheduleDayIntervalViewModel(this, item)));
 			}
-			OnPropertyChanged(() => NamedIntervals);
+			OnPropertyChanged(() => DayIntervals);
 		}
 		public void Update()
 		{
@@ -63,10 +63,10 @@ namespace SKDModule.ViewModels
 			get { return IsOrganisation ? Organisation.Description : ScheduleScheme.Description; }
 		}
 
-		public SortableObservableCollection<DayIntervalViewModel> DayIntervals { get; private set; }
-		public ObservableCollection<DayInterval> NamedIntervals
+		public SortableObservableCollection<SheduleDayIntervalViewModel> SheduleDayIntervals { get; private set; }
+		public ObservableCollection<DayInterval> DayIntervals
 		{
-			get { return ScheduleSchemesViewModel.GetNamedIntervals(Organisation.UID); }
+			get { return ScheduleSchemesViewModel.GetDayIntervals(Organisation.UID); }
 		}
 
 		public bool IsSlide
@@ -74,14 +74,14 @@ namespace SKDModule.ViewModels
 			get { return ScheduleScheme != null && ScheduleScheme.Type == ScheduleSchemeType.SlideDay; }
 		}
 
-		DayIntervalViewModel _selectedDayInterval;
-		public DayIntervalViewModel SelectedDayInterval
+		SheduleDayIntervalViewModel _selectedDayInterval;
+		public SheduleDayIntervalViewModel SelectedSheduleDayInterval
 		{
 			get { return _selectedDayInterval; }
 			set
 			{
 				_selectedDayInterval = value;
-				OnPropertyChanged(() => SelectedDayInterval);
+				OnPropertyChanged(() => SelectedSheduleDayInterval);
 			}
 		}
 
@@ -97,10 +97,10 @@ namespace SKDModule.ViewModels
 			if (SheduleDayIntervalHelper.Save(dayInterval))
 			{
 				ScheduleScheme.DayIntervals.Add(dayInterval);
-				var viewModel = new DayIntervalViewModel(this, dayInterval);
-				DayIntervals.Add(viewModel);
+				var viewModel = new SheduleDayIntervalViewModel(this, dayInterval);
+				SheduleDayIntervals.Add(viewModel);
 				Sort();
-				SelectedDayInterval = viewModel;
+				SelectedSheduleDayInterval = viewModel;
 			}
 		}
 		bool CanAdd()
@@ -111,25 +111,25 @@ namespace SKDModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var number = SelectedDayInterval.Model.Number;
-			if (SheduleDayIntervalHelper.MarkDeleted(SelectedDayInterval.Model))
+			var number = SelectedSheduleDayInterval.Model.Number;
+			if (SheduleDayIntervalHelper.MarkDeleted(SelectedSheduleDayInterval.Model))
 			{
 				for (int i = number + 1; i < ScheduleScheme.DayIntervals.Count; i++)
 					ScheduleScheme.DayIntervals[i].Number--;
-				ScheduleScheme.DayIntervals.Remove(SelectedDayInterval.Model);
-				DayIntervals.Remove(SelectedDayInterval);
-				DayIntervals.ForEach(item => item.Update());
-				SelectedDayInterval = number < DayIntervals.Count ? DayIntervals[number] : DayIntervals.LastOrDefault();
+				ScheduleScheme.DayIntervals.Remove(SelectedSheduleDayInterval.Model);
+				SheduleDayIntervals.Remove(SelectedSheduleDayInterval);
+				SheduleDayIntervals.ForEach(item => item.Update());
+				SelectedSheduleDayInterval = number < SheduleDayIntervals.Count ? SheduleDayIntervals[number] : SheduleDayIntervals.LastOrDefault();
 			}
 		}
 		bool CanDelete()
 		{
-			return IsSlide && SelectedDayInterval != null && DayIntervals.Count > 1;
+			return IsSlide && SelectedSheduleDayInterval != null && SheduleDayIntervals.Count > 1;
 		}
 
 		void Sort()
 		{
-			DayIntervals.Sort(item => item.Model.Number);
+			SheduleDayIntervals.Sort(item => item.Model.Number);
 		}
 	}
 }

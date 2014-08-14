@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 		public abstract ScheduleSchemeType Type { get; }
 		private ScheduleScheme _clipboard;
 		private bool _isInitialized;
-		private Dictionary<Guid, ObservableCollection<DayInterval>> _namedIntervals;
+		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
 
 		public ScheduleSchemesViewModel()
 		{
@@ -71,31 +71,31 @@ namespace SKDModule.ViewModels
 				Initialize();
 				_isInitialized = true;
 			}
-			ReloadNamedIntervals();
+			ReloadDayIntervals();
 		}
 
-		public void ReloadNamedIntervals()
+		public void ReloadDayIntervals()
 		{
 			if (Organisations != null)
 			{
-				var namedIntervals = DayIntervalHelper.Get(new DayIntervalFilter()
+				var dayIntervals = DayIntervalHelper.Get(new DayIntervalFilter()
 				{
 					UserUID = FiresecManager.CurrentUser.UID,
 					OrganisationUIDs = Organisations.Select(item => item.Organisation.UID).ToList(),
 				});
-				_namedIntervals = new Dictionary<Guid, ObservableCollection<DayInterval>>();
-				Organisations.ForEach(item => _namedIntervals.Add(item.Organisation.UID, new ObservableCollection<DayInterval>()));
-				namedIntervals.ForEach(item => _namedIntervals[item.OrganisationUID].Add(item));
-				_namedIntervals.Values.ForEach(item => item.Insert(0, new DayInterval()
+				_dayIntervals = new Dictionary<Guid, ObservableCollection<DayInterval>>();
+				Organisations.ForEach(item => _dayIntervals.Add(item.Organisation.UID, new ObservableCollection<DayInterval>()));
+				dayIntervals.ForEach(item => _dayIntervals[item.OrganisationUID].Add(item));
+				_dayIntervals.Values.ForEach(item => item.Insert(0, new DayInterval()
 				{
 					UID = Guid.Empty,
 					Name = "Никогда",
 				}));
 			}
 		}
-		public ObservableCollection<DayInterval> GetNamedIntervals(Guid organisationUID)
+		public ObservableCollection<DayInterval> GetDayIntervals(Guid organisationUID)
 		{
-			return _namedIntervals.ContainsKey(organisationUID) ? _namedIntervals[organisationUID] : new ObservableCollection<DayInterval>();
+			return _dayIntervals.ContainsKey(organisationUID) ? _dayIntervals[organisationUID] : new ObservableCollection<DayInterval>();
 		}
 
 		public List<ScheduleSchemeViewModel> Organisations { get; private set; }

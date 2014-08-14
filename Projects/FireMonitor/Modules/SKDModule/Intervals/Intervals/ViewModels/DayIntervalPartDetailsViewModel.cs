@@ -8,35 +8,35 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class TimeIntervalDetailsViewModel : SaveCancelDialogViewModel
+	public class DayIntervalPartDetailsViewModel : SaveCancelDialogViewModel
 	{
-		bool _isNew;
-		DayInterval _namedInterval;
-		public DayIntervalPart TimeInterval { get; private set; }
+		bool IsNew;
+		DayInterval DayInterval;
+		public DayIntervalPart DayIntervalPart { get; private set; }
 
-		public TimeIntervalDetailsViewModel(DayInterval namedInterval, DayIntervalPart timeInterval = null)
+		public DayIntervalPartDetailsViewModel(DayInterval dayInterval, DayIntervalPart dayIntervalPart = null)
 		{
-			_namedInterval = namedInterval;
-			if (timeInterval == null)
+			DayInterval = dayInterval;
+			if (dayIntervalPart == null)
 			{
 				Title = "Новый интервал";
-				_isNew = true;
-				timeInterval = new DayIntervalPart()
+				IsNew = true;
+				dayIntervalPart = new DayIntervalPart()
 				{
-					DayIntervalUID = namedInterval.UID,
+					DayIntervalUID = dayInterval.UID,
 				};
 			}
 			else
 			{
 				Title = "Редактирование интервала";
-				_isNew = false;
+				IsNew = false;
 			}
-			TimeInterval = timeInterval;
+			DayIntervalPart = dayIntervalPart;
 
 			AvailableTransitions = new ObservableCollection<DayIntervalPartTransitionType>(Enum.GetValues(typeof(DayIntervalPartTransitionType)).OfType<DayIntervalPartTransitionType>());
-			BeginTime = timeInterval.BeginTime;
-			EndTime = timeInterval.EndTime;
-			SelectedTransition = timeInterval.TransitionType;
+			BeginTime = dayIntervalPart.BeginTime;
+			EndTime = dayIntervalPart.EndTime;
+			SelectedTransition = dayIntervalPart.TransitionType;
 		}
 
 		TimeSpan _beginTime;
@@ -87,21 +87,21 @@ namespace SKDModule.ViewModels
 		{
 			if (!Validate())
 				return false;
-			TimeInterval.BeginTime = BeginTime;
-			TimeInterval.EndTime = EndTime;
-			TimeInterval.TransitionType = SelectedTransition;
+			DayIntervalPart.BeginTime = BeginTime;
+			DayIntervalPart.EndTime = EndTime;
+			DayIntervalPart.TransitionType = SelectedTransition;
 			return true;
 		}
 
 		bool Validate()
 		{
-			var timeIntervals = CloneNamedInterval();
+			var dayIntervalParts = CloneDayIntervalPart();
 			var currentDateTime = new TimeSpan(0, 0, -1);
-			foreach (var timeInterval in timeIntervals)
+			foreach (var dayIntervalPart in dayIntervalParts)
 			{
-				var beginTime = timeInterval.BeginTime;
-				var endTime = timeInterval.EndTime;
-				if (timeInterval.TransitionType != DayIntervalPartTransitionType.Day)
+				var beginTime = dayIntervalPart.BeginTime;
+				var endTime = dayIntervalPart.EndTime;
+				if (dayIntervalPart.TransitionType != DayIntervalPartTransitionType.Day)
 					endTime = endTime.Add(TimeSpan.FromDays(1));
 				if (beginTime > endTime)
 				{
@@ -133,43 +133,43 @@ namespace SKDModule.ViewModels
 			}
 			return true;
 		}
-		List<DayIntervalPart> CloneNamedInterval()
+		List<DayIntervalPart> CloneDayIntervalPart()
 		{
-			var timeIntervals = new List<DayIntervalPart>();
-			foreach (var timeInterval in _namedInterval.DayIntervalParts)
+			var dayIntervalParts = new List<DayIntervalPart>();
+			foreach (var dayIntervalPart in DayInterval.DayIntervalParts)
 			{
-				var clonedTimeInterval = new DayIntervalPart()
+				var clonedDayIntervalPart = new DayIntervalPart()
 				{
-					UID = timeInterval.UID,
-					BeginTime = timeInterval.BeginTime,
-					EndTime = timeInterval.EndTime,
-					TransitionType = timeInterval.TransitionType,
-					DayIntervalUID = timeInterval.DayIntervalUID,
+					UID = dayIntervalPart.UID,
+					BeginTime = dayIntervalPart.BeginTime,
+					EndTime = dayIntervalPart.EndTime,
+					TransitionType = dayIntervalPart.TransitionType,
+					DayIntervalUID = dayIntervalPart.DayIntervalUID,
 				};
-				timeIntervals.Add(clonedTimeInterval);
+				dayIntervalParts.Add(clonedDayIntervalPart);
 			}
-			if (_isNew)
+			if (IsNew)
 			{
-				var newEmployeeTimeInterval = new DayIntervalPart()
+				var newEmployeeDayIntervalPart = new DayIntervalPart()
 				{
 					BeginTime = BeginTime,
 					EndTime = EndTime,
 					TransitionType = SelectedTransition,
-					DayIntervalUID = _namedInterval.UID,
+					DayIntervalUID = DayInterval.UID,
 				};
-				timeIntervals.Add(newEmployeeTimeInterval);
+				dayIntervalParts.Add(newEmployeeDayIntervalPart);
 			}
 			else
 			{
-				var deitingTimeInterval = timeIntervals.FirstOrDefault(x => x.UID == TimeInterval.UID);
-				if (deitingTimeInterval != null)
+				var deitingDayIntervalPart = dayIntervalParts.FirstOrDefault(x => x.UID == DayIntervalPart.UID);
+				if (deitingDayIntervalPart != null)
 				{
-					deitingTimeInterval.BeginTime = BeginTime;
-					deitingTimeInterval.EndTime = EndTime;
-					deitingTimeInterval.TransitionType = SelectedTransition;
+					deitingDayIntervalPart.BeginTime = BeginTime;
+					deitingDayIntervalPart.EndTime = EndTime;
+					deitingDayIntervalPart.TransitionType = SelectedTransition;
 				}
 			}
-			return timeIntervals;
+			return dayIntervalParts;
 		}
 	}
 }

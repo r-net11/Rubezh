@@ -139,7 +139,7 @@
     <Compile Include="Intervals\Holidays\ViewModels\Comparers.cs" />
     <Compile Include="Intervals\Intervals\ViewModels\Comparers.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\Comparers.cs" />
-    <Compile Include="Intervals\ScheduleShemes\ViewModels\DayIntervalViewModel.cs" />
+    <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleDayIntervalViewModel.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemeDetailsViewModel.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesViewModel.cs" />
     <Compile Include="Intervals\ScheduleShemes\ViewModels\ScheduleSchemesMonthlyViewModel.cs" />
@@ -365,19 +365,19 @@
     <Compile Include="Intervals\Holidays\Views\HolidaysView.xaml.cs">
       <DependentUpon>HolidaysView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Intervals\Intervals\ViewModels\NamedIntervalDetailsViewModel.cs" />
-    <Compile Include="Intervals\Intervals\ViewModels\TimeIntervalViewModel.cs" />
-    <Compile Include="Intervals\Intervals\ViewModels\TimeIntervalDetailsViewModel.cs" />
-    <Compile Include="Intervals\Intervals\ViewModels\NamedIntervalsViewModel.cs" />
-    <Compile Include="Intervals\Intervals\ViewModels\NamedIntervalViewModel.cs" />
-    <Compile Include="Intervals\Intervals\Views\TimeIntervalDetailsView.xaml.cs">
-      <DependentUpon>TimeIntervalDetailsView.xaml</DependentUpon>
+    <Compile Include="Intervals\Intervals\ViewModels\DayIntervalDetailsViewModel.cs" />
+    <Compile Include="Intervals\Intervals\ViewModels\DayIntervalPartViewModel.cs" />
+    <Compile Include="Intervals\Intervals\ViewModels\DayIntervalPartDetailsViewModel.cs" />
+    <Compile Include="Intervals\Intervals\ViewModels\DayIntervalsViewModel.cs" />
+    <Compile Include="Intervals\Intervals\ViewModels\DayIntervalViewModel.cs" />
+    <Compile Include="Intervals\Intervals\Views\DayIntervalPartDetailsView.xaml.cs">
+      <DependentUpon>DayIntervalPartDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Intervals\Intervals\Views\NamedIntervalsView.xaml.cs">
-      <DependentUpon>NamedIntervalsView.xaml</DependentUpon>
+    <Compile Include="Intervals\Intervals\Views\DayIntervalsView.xaml.cs">
+      <DependentUpon>DayIntervalsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Intervals\Intervals\Views\NamedIntervalDetailsView.xaml.cs">
-      <DependentUpon>NamedIntervalDetailsView.xaml</DependentUpon>
+    <Compile Include="Intervals\Intervals\Views\DayIntervalDetailsView.xaml.cs">
+      <DependentUpon>DayIntervalDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateDetailsViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplatesViewModel.cs" />
@@ -629,15 +629,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intervals\Intervals\Views\NamedIntervalDetailsView.xaml">
+    <Page Include="Intervals\Intervals\Views\DayIntervalDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intervals\Intervals\Views\TimeIntervalDetailsView.xaml">
+    <Page Include="Intervals\Intervals\Views\DayIntervalPartDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Intervals\Intervals\Views\NamedIntervalsView.xaml">
+    <Page Include="Intervals\Intervals\Views\DayIntervalsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

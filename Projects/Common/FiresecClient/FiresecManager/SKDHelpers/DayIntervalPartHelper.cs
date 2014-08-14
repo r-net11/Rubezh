@@ -5,7 +5,7 @@ using FiresecAPI.EmployeeTimeIntervals;
 
 namespace FiresecClient.SKDHelpers
 {
-	public static class TimeIntervalHelper
+	public static class DayIntervalPartHelper
 	{
 		public static bool Save(DayIntervalPart dayIntervalPart)
 		{
