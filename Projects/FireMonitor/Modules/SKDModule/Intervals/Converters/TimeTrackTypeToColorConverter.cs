@@ -36,14 +36,8 @@ namespace SKDModule.Converters
 				case TimeTrackType.Holiday:
 					return Brushes.GreenYellow;
 
-				case TimeTrackType.Ill:
-					return Brushes.HotPink;
-
-				case TimeTrackType.Vacation:
-					return Brushes.LightBlue;
-
-				case TimeTrackType.Trip:
-					return Brushes.Blue;
+				case TimeTrackType.Document:
+					return Brushes.SkyBlue;
 			}
 			return Brushes.White;
 		}

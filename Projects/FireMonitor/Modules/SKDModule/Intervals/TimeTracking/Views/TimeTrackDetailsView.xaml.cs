@@ -71,7 +71,7 @@ namespace SKDModule.Views
 					var endTimePart = new TimePart();
 					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = true;
-					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.EndTime) + " - " + TimePartDateToString(timeTrackPart.StartTime);
+					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime);
 					timeParts.Add(endTimePart);
 
 					current = timeTrackPart.EndTime.TotalSeconds;
@@ -122,7 +122,7 @@ namespace SKDModule.Views
 					var endTimePart = new TimePart();
 					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = true;
-					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.EndTime) + " - " + TimePartDateToString(timeTrackPart.StartTime);
+					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime);
 					timeParts.Add(endTimePart);
 
 					current = timeTrackPart.EndTime.TotalSeconds;
@@ -173,7 +173,7 @@ namespace SKDModule.Views
 					var endTimePart = new TimePart();
 					endTimePart.Delta = trackPart.EndTime.TotalSeconds - trackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = trackPart.TimeTrackPartType != TimeTrackPartType.None;
-					endTimePart.Tooltip = TimePartDateToString(trackPart.EndTime) + " - " + TimePartDateToString(trackPart.StartTime) + " " + trackPart.TimeTrackPartType.ToDescription();
+					endTimePart.Tooltip = TimePartDateToString(trackPart.StartTime) + " - " + TimePartDateToString(trackPart.EndTime) + " " + trackPart.TimeTrackPartType.ToDescription();
 					endTimePart.DayTrackDualIntervalPartType = trackPart.TimeTrackPartType;
 					timeParts.Add(endTimePart);
 

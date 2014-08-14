@@ -641,12 +641,6 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('DropTable_Phone')
 END
 GO
-IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleZone_DropColumn_IsControl')
-BEGIN
-	ALTER TABLE ScheduleZone DROP COLUMN IsControl
-	INSERT INTO Patches (Id) VALUES ('ScheduleZone_DropColumn_IsControl')
-END
-GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Employee_DropColumn_Dismissed')
 BEGIN
 	ALTER TABLE Employee DROP COLUMN Dismissed

@@ -7,18 +7,13 @@
 	</UserControl.Resources>
 
 	<Grid MouseDown="Grid_MouseDown" Cursor="Hand" Background="{Binding DayTimeTrack.TimeTrackType, Converter={StaticResource TimeTrackTypeToColorConverter}}"
-	      ToolTip="{Binding DayTimeTrack.TimeTrackType, Converter={StaticResource EnumToDescriptionConverter}}" Height="60">
+	      ToolTip="{Binding Tooltip}" Height="60">
 	    <StackPanel Visibility="{Binding IsNormal, Converter={StaticResource BoolToVisibilityConverter}}">
 	        <TextBlock Text="{Binding Total}" VerticalAlignment="Center" />
 	        <TextBlock Text="{Binding TotalMissed}" VerticalAlignment="Center" />
 	        <TextBlock Text="{Binding TotalInSchedule}" VerticalAlignment="Center" />
 	        <TextBlock Text="{Binding TotalOutSchedule}" VerticalAlignment="Center" />
 	    </StackPanel>
-	    <TextBlock Visibility="{Binding IsHoliday, Converter={StaticResource BoolToVisibilityConverter}}" Text="ПР" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
-	    <TextBlock Visibility="{Binding IsDayOff, Converter={StaticResource BoolToVisibilityConverter}}" Text="В" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
-	    <TextBlock Visibility="{Binding IsMissed, Converter={StaticResource BoolToVisibilityConverter}}" Text="П" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
-	    <TextBlock Visibility="{Binding IsIll, Converter={StaticResource BoolToVisibilityConverter}}" Text="Б" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
-	    <TextBlock Visibility="{Binding IsVacation, Converter={StaticResource BoolToVisibilityConverter}}" Text="О" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
-	    <TextBlock Visibility="{Binding IsTrip, Converter={StaticResource BoolToVisibilityConverter}}" Text="К" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <TextBlock Visibility="{Binding HasLetter, Converter={StaticResource BoolToVisibilityConverter}}" Text="{Binding Letter}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
 	</Grid>
 </UserControl>

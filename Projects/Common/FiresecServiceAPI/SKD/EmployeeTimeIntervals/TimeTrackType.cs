@@ -32,13 +32,7 @@ namespace FiresecAPI.SKD
 		[Description("Праздник")]
 		Holiday,
 
-		[Description("Больничный")]
-		Ill,
-
-		[Description("Отпуск")]
-		Vacation,
-
-		[Description("Командировка")]
-		Trip
+		[Description("Документ")]
+		Document,
 	}
 }

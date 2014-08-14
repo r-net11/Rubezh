@@ -55,7 +55,7 @@ namespace FiresecService.Service
 		}
 		public OperationResult<List<DayTimeTrack>> GetEmployeeTimeTracks(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
-			return SKDDatabaseService.EmployeeTranslator.GetTimeTracks(employeeUID, startDate, endDate);
+			return SKDDatabaseService.TimeTrackTranslator.GetTimeTracks(employeeUID, startDate, endDate);
 		}
 		#endregion
 

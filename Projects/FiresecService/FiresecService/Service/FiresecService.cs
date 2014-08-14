@@ -114,7 +114,7 @@ namespace FiresecService.Service
 
 		public string Test(string arg)
 		{
-			SKDDriver.SKDDatabaseService.EmployeeTranslator.InsertPassJournalTestData();
+			SKDDriver.SKDDatabaseService.TimeTrackTranslator.InsertPassJournalTestData();
 			return "Test";
 		}
 

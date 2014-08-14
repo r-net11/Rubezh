@@ -31,9 +31,13 @@ namespace SKDModule.Views
 			{
 				var factory = new FrameworkElementFactory(typeof(TimeTrackingCellView));
 				factory.SetValue(TimeTrackingCellView.DataContextProperty, new Binding(string.Format("DayTracks[{0}]", i)));
+
 				var column = new DataGridTemplateColumn()
 				{
 					Header = date.ToString("dd MM"),
+					Width = 60,
+					CanUserResize = false,
+					CanUserSort = false,
 					CellTemplate = new DataTemplate()
 					{
 						VisualTree = factory,
