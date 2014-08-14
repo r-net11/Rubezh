@@ -117,17 +117,17 @@ namespace LayoutModule.ViewModels
 			{
 				if (_imageChanged)
 				{
-					if (properties.SourceUID != Guid.Empty)
-						ServiceFactoryBase.ContentService.RemoveContent(properties.SourceUID);
+					if (properties.ReferenceUID != Guid.Empty)
+						ServiceFactoryBase.ContentService.RemoveContent(properties.ReferenceUID);
 					if (!string.IsNullOrEmpty(_sourceName))
 					{
 						if (_drawing == null)
-							properties.SourceUID = ServiceFactoryBase.ContentService.AddContent(_sourceName);
+							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_sourceName);
 						else
-							properties.SourceUID = ServiceFactoryBase.ContentService.AddContent(_drawing);
+							properties.ReferenceUID = ServiceFactoryBase.ContentService.AddContent(_drawing);
 					}
 					else
-						properties.SourceUID = Guid.Empty;
+						properties.ReferenceUID = Guid.Empty;
 					properties.IsVectorImage = _drawing != null;
 				}
 				properties.Stretch = Stretch;

@@ -7,13 +7,13 @@ namespace SKDModule.ViewModels
 {
 	public class LayoutPartVerificationViewModel : LayoutPartTitleViewModel
 	{
-		private LayoutPartSKDVerificationProperties _properties;
+		private LayoutPartReferenceProperties _properties;
 
-		public LayoutPartVerificationViewModel(LayoutPartSKDVerificationProperties properties)
+		public LayoutPartVerificationViewModel(LayoutPartReferenceProperties properties)
 		{
 			Title = "Верификация";
 			IconSource = LayoutPartDescription.IconPath + "BLevels.png";
-			_properties = properties ?? new LayoutPartSKDVerificationProperties();
+			_properties = properties ?? new LayoutPartReferenceProperties();
 			//var journalFilter = SKDManager.SKDConfiguration.SKDSystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == _properties.FilterUID);
 			//UpdateLayoutPart(journalFilter);
 		}

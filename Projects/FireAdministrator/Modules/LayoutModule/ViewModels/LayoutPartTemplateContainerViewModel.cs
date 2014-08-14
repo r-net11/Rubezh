@@ -16,13 +16,13 @@ namespace LayoutModule.ViewModels
 {
 	public class LayoutPartTemplateContainerViewModel : BaseLayoutPartViewModel
 	{
-		private LayoutPartTemplateContainerProperties _properties;
+		private LayoutPartReferenceProperties _properties;
 		private LayoutPartPropertyTemplateContainerPageViewModel _containerPage;
-		public LayoutPartTemplateContainerViewModel(LayoutPartTemplateContainerProperties properties)
+		public LayoutPartTemplateContainerViewModel(LayoutPartReferenceProperties properties)
 		{
-			_properties = properties ?? new LayoutPartTemplateContainerProperties();
+			_properties = properties ?? new LayoutPartReferenceProperties();
 			_containerPage = new LayoutPartPropertyTemplateContainerPageViewModel(this);
-			Layout = MonitorLayoutsViewModel.Instance.Layouts.Where(item => item.Layout.UID == _properties.SourceUID).Select(item => item.Layout).FirstOrDefault();
+			Layout = MonitorLayoutsViewModel.Instance.Layouts.Where(item => item.Layout.UID == _properties.ReferenceUID).Select(item => item.Layout).FirstOrDefault();
 			LoadLayout();
 		}
 

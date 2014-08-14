@@ -73,9 +73,9 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public VerificationViewModel(LayoutPartSKDVerificationProperties layoutPartSKDVerificationProperties)
+		public VerificationViewModel(LayoutPartReferenceProperties layoutPartSKDVerificationProperties)
 		{
-			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == layoutPartSKDVerificationProperties.ReaderDeviceUID);
+			Device = SKDManager.Devices.FirstOrDefault(x => x.UID == layoutPartSKDVerificationProperties.ReferenceUID);
 
 			if (Device != null)
 			{

@@ -10,15 +10,15 @@ namespace VideoModule.ViewModels
 {
 	public class LayoutPartCameraViewModel : LayoutPartTitleViewModel
 	{
-		private LayoutPartCameraProperties _properties;
+		private LayoutPartReferenceProperties _properties;
 
-		public LayoutPartCameraViewModel(LayoutPartCameraProperties properties)
+		public LayoutPartCameraViewModel(LayoutPartReferenceProperties properties)
 		{
 			Title = "Камера";
 			IconSource = LayoutPartDescription.IconPath + "BVideo.png";
 			_сameraTitle = null;
-			_properties = properties ?? new LayoutPartCameraProperties();
-			var selectedCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == _properties.SourceUID);
+			_properties = properties ?? new LayoutPartReferenceProperties();
+			var selectedCamera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == _properties.ReferenceUID);
 			UpdateLayoutPart(selectedCamera);
 		}
 

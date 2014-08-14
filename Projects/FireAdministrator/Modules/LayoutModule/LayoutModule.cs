@@ -58,7 +58,7 @@ namespace LayoutModule
 		{
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.TemplateContainer, 0, "Макет", "Вложенный макет", "BTemplateContainer.png")
 			{
-				Factory = (p) => new LayoutPartTemplateContainerViewModel(p as LayoutPartTemplateContainerProperties),
+				Factory = (p) => new LayoutPartTemplateContainerViewModel(p as LayoutPartReferenceProperties),
 			};
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.EmptySpace, 0, "Заглушка", "Пустая панель", "BExit.png")
 			{

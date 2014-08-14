@@ -19,9 +19,9 @@ namespace FireMonitor.Layout.ViewModels
 {
 	public class TemplateContainerPartViewModel : BaseViewModel
 	{
-		public TemplateContainerPartViewModel(LayoutPartTemplateContainerProperties properties)
+		public TemplateContainerPartViewModel(LayoutPartReferenceProperties properties)
 		{
-			Layout = FiresecManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.SourceUID);
+			Layout = FiresecManager.LayoutsConfiguration.Layouts.FirstOrDefault(item => item.UID == properties.ReferenceUID);
 			LoadLayout();
 		}
 

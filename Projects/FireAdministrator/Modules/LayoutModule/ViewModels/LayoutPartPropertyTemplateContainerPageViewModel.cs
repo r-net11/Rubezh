@@ -62,8 +62,8 @@ namespace LayoutModule.ViewModels
 		{
 			if (_layoutChanged)
 			{
-				var properties = (LayoutPartTemplateContainerProperties)_layoutPartViewModel.Properties;
-				properties.SourceUID = SelectedLayout.Layout.UID;
+				var properties = (LayoutPartReferenceProperties)_layoutPartViewModel.Properties;
+				properties.ReferenceUID = SelectedLayout.Layout.UID;
 				_layoutPartViewModel.UpdateLayout(SelectedLayout.Layout);
 				return true;
 			}
@@ -79,10 +79,10 @@ namespace LayoutModule.ViewModels
 			parents.Add(layout.UID);
 			foreach (var layoutPart in layout.Parts.Where(part => part.DescriptionUID == LayoutPartIdentities.TemplateContainer))
 			{
-				var property = (LayoutPartTemplateContainerProperties)layoutPart.Properties;
+				var property = (LayoutPartReferenceProperties)layoutPart.Properties;
 				if (property != null)
 				{
-					var childLayout = MonitorLayoutsViewModel.Instance.Layouts.FirstOrDefault(item => item.Layout.UID == property.SourceUID);
+					var childLayout = MonitorLayoutsViewModel.Instance.Layouts.FirstOrDefault(item => item.Layout.UID == property.ReferenceUID);
 					if (childLayout != null && !CheckLayoutCycling(childLayout.Layout, parents))
 						return false;
 				}

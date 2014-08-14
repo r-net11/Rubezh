@@ -210,7 +210,6 @@
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\VariableType.cs" />
     <Compile Include="Models\Layouts\LayoutPartReferenceProperties.cs" />
-    <Compile Include="Models\Layouts\LayoutPartTemplateContainerProperties.cs" />
     <Compile Include="Models\Plans\ElementProcedure.cs" />
     <Compile Include="Models\Plans\ElementPolygonXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXGuardZone.cs" />
@@ -276,15 +275,12 @@
     <Compile Include="Models\DriversHelper.cs" />
     <Compile Include="Models\EnumsConverter.cs" />
     <Compile Include="Models\ExtensionMethods.cs" />
-    <Compile Include="Models\Layouts\LayoutPartCameraProperties.cs" />
     <Compile Include="Models\Layouts\ILayoutProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartImageProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPart.cs" />
     <Compile Include="Models\Layouts\Layout.cs" />
     <Compile Include="Models\Layouts\LayoutPartPlansProperties.cs" />
     <Compile Include="Models\Layouts\LayoutPartPlansType.cs" />
-    <Compile Include="Models\Layouts\LayoutPartJournalProperties.cs" />
-    <Compile Include="Models\Layouts\LayoutPartSKDVerificationProperties.cs" />
     <Compile Include="Models\Library\LibraryDevicePresenter.cs" />
     <Compile Include="Models\Plans\ElementCamera.cs" />
     <Compile Include="Models\Video\CameraFrame.cs" />

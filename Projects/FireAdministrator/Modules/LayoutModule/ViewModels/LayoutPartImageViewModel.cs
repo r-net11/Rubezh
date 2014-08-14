@@ -57,7 +57,7 @@ namespace LayoutModule.ViewModels
 		public void UpdateLayoutPart()
 		{
 			Stretch = _properties.Stretch;
-			ImageSource = GetImage(_properties.SourceUID, _properties.IsVectorImage);
+			ImageSource = GetImage(_properties.ReferenceUID, _properties.IsVectorImage);
 		}
 		private ImageSource GetImage(Guid uid, bool isVector)
 		{

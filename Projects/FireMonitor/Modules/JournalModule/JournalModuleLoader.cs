@@ -132,8 +132,8 @@ namespace JournalModule
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Journal, "Журнал событий", "Book.png", (p) =>
 			{
-				LayoutPartJournalProperties layoutPartJournalProperties = p as LayoutPartJournalProperties;
-				var filter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.FilterUID);
+				var layoutPartJournalProperties = p as LayoutPartReferenceProperties;
+				var filter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(x => x.UID == layoutPartJournalProperties.ReferenceUID);
 				if(filter == null)
 					filter = new JournalFilter();
 
