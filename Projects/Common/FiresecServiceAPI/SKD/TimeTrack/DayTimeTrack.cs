@@ -17,7 +17,8 @@ namespace FiresecAPI.SKD
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 		}
 
-		public DayTimeTrack(string error) : this()
+		public DayTimeTrack(string error)
+			: this()
 		{
 			Error = error;
 		}
@@ -61,6 +62,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public TimeTrackDocument TimeTrackDocument { get; set; }
 
+		[DataMember]
+		public HolidaySettings HolidaySettings { get; set; }
+
 
 		[DataMember]
 		public TimeSpan FirstReal { get; set; }
@@ -98,9 +102,29 @@ namespace FiresecAPI.SKD
 		public TimeSpan TotalPlanned { get; set; }
 
 		[DataMember]
+		public TimeSpan TotalEavening { get; set; }
+
+		[DataMember]
+		public TimeSpan TotalNight { get; set; }
+
+		[DataMember]
 		public string Error { get; set; }
 
 		public void Calculate()
+		{
+			CalculateCombinedTimeTrackParts();
+			CalculateTotal();
+
+			TotalEavening = new TimeSpan();
+			TotalNight = new TimeSpan();
+			if (HolidaySettings != null)
+			{
+				TotalEavening = CalculateEveningTime(HolidaySettings.EveningStartTime, HolidaySettings.EveningEndTime);
+				TotalNight = CalculateEveningTime(HolidaySettings.NightStartTime, HolidaySettings.NightEndTime);
+			}
+		}
+
+		void CalculateCombinedTimeTrackParts()
 		{
 			if (RealTimeTrackParts.Count > 0)
 			{
@@ -180,7 +204,10 @@ namespace FiresecAPI.SKD
 					}
 				}
 			}
+		}
 
+		void CalculateTotal()
+		{
 			Total = new TimeSpan();
 			TotalInSchedule = new TimeSpan();
 			TotalMissed = new TimeSpan();
@@ -272,6 +299,32 @@ namespace FiresecAPI.SKD
 				return;
 			}
 			TimeTrackType = TimeTrackType.AsPlanned;
+		}
+
+		TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end)
+		{
+			var result = new TimeSpan();
+			if (end > TimeSpan.Zero)
+			{
+				foreach (var trackPart in RealTimeTrackParts)
+				{
+					if (trackPart.StartTime <= start && trackPart.EndTime >= end)
+					{
+						result += end - start;
+					}
+					else
+					{
+						if ((trackPart.StartTime >= start && trackPart.StartTime <= end) ||
+							(trackPart.EndTime >= start && trackPart.EndTime <= end))
+						{
+							var minStartTime = trackPart.StartTime < start ? start : trackPart.StartTime;
+							var minEndTime = trackPart.EndTime > end ? end : trackPart.EndTime;
+							result += minEndTime - minStartTime;
+						}
+					}
+				}
+			}
+			return result;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="SKDModule.Views.TimeTrackDetailsView"
 	         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	         MinWidth="800" MinHeight="600">
+	         MinWidth="900" MinHeight="800">
 	<Grid>
 	    <Grid.RowDefinitions>
 	        <RowDefinition Height="Auto" />
@@ -107,6 +107,16 @@
                         <TextBlock Text="Уходы раньше" VerticalAlignment="Center" Width="100" Margin="4 2" />
                         <Rectangle Fill="LightPink" Width="50" Margin="4 2" />
                         <TextBlock Text="{Binding DayTimeTrack.TotalEarlyLeave}" VerticalAlignment="Center" Margin="4 2" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="25">
+                        <TextBlock Text="Вечером" VerticalAlignment="Center" Width="100" Margin="4 2" />
+                        <Rectangle Fill="Green" Width="50" Margin="4 2" />
+                        <TextBlock Text="{Binding DayTimeTrack.TotalEavening}" VerticalAlignment="Center" Margin="4 2" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="25">
+                        <TextBlock Text="Ночью" VerticalAlignment="Center" Width="100" Margin="4 2" />
+                        <Rectangle Fill="Green" Width="50" Margin="4 2" />
+                        <TextBlock Text="{Binding DayTimeTrack.TotalNight}" VerticalAlignment="Center" Margin="4 2" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

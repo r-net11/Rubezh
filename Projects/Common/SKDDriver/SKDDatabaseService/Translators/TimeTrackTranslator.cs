@@ -120,10 +120,19 @@ namespace SKDDriver.Translators
 
 			try
 			{
+				HolidaySettings holidaySettings = null;
+				var employee = Context.Employees.FirstOrDefault(x => x.UID == employeeUID);
+				if (employee != null)
+				{
+					holidaySettings = SKDDatabaseService.HolidaySettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
+				}
+
 				var timeTracks = new List<DayTimeTrack>();
 				for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
 				{
-					timeTracks.Add(GetTimeTrack(employeeUID, date));
+					var timeTrack = GetTimeTrack(employeeUID, date);
+					timeTrack.HolidaySettings = holidaySettings;
+					timeTracks.Add(timeTrack);
 				}
 				return new OperationResult<List<DayTimeTrack>> { Result = timeTracks };
 			}
@@ -150,7 +159,7 @@ namespace SKDDriver.Translators
 				return new DayTimeTrack("Не найдена схема работы");
 			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 
-			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID);
+			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
 			if (days == null || days.Count() == 0)
 				return new DayTimeTrack();
 			int dayNo = -1;
@@ -166,6 +175,10 @@ namespace SKDDriver.Translators
 					var daysCount = days.Count();
 					var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
 					dayNo = (int)Math.IEEERemainder((int)period.TotalDays, daysCount);
+					if (dayNo == -1)
+					{
+						;
+					}
 					break;
 				case ScheduleSchemeType.Month:
 					dayNo = (int)date.Day;
