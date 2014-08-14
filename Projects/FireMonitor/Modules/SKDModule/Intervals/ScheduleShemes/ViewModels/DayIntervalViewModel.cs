@@ -8,12 +8,12 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class DayIntervalViewModel : BaseObjectViewModel<DayInterval>
+	public class DayIntervalViewModel : BaseObjectViewModel<ScheduleDayInterval>
 	{
 		ScheduleSchemeViewModel _scheduleScheme;
 		bool _initialized;
 
-		public DayIntervalViewModel(ScheduleSchemeViewModel scheduleScheme, DayInterval dayInterval)
+		public DayIntervalViewModel(ScheduleSchemeViewModel scheduleScheme, ScheduleDayInterval dayInterval)
 			: base(dayInterval)
 		{
 			_initialized = false;
@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public string Name { get; private set; }
-		public ObservableCollection<NamedInterval> NamedIntervals
+		public ObservableCollection<DayInterval> NamedIntervals
 		{
 			get { return _scheduleScheme.NamedIntervals; }
 		}
@@ -43,13 +43,13 @@ namespace SKDModule.ViewModels
 				Name = (Model.Number + 1).ToString();
 			}
 			//Name = _scheduleScheme.ScheduleScheme.Type == ScheduleSchemeType.Week ? ((DayOfWeek)((Model.Number + 1) % 7)).ToString("dddd") : (Model.Number + 1).ToString();
-			SelectedNamedInterval = NamedIntervals.SingleOrDefault(item => item.UID == Model.NamedIntervalUID) ?? NamedIntervals[0];
+			SelectedNamedInterval = NamedIntervals.SingleOrDefault(item => item.UID == Model.DayIntervalUID) ?? NamedIntervals[0];
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => NamedIntervals);
 		}
 
-		NamedInterval _selectedNamedInterval;
-		public NamedInterval SelectedNamedInterval
+		DayInterval _selectedNamedInterval;
+		public DayInterval SelectedNamedInterval
 		{
 			get { return _selectedNamedInterval; }
 			set
@@ -57,10 +57,10 @@ namespace SKDModule.ViewModels
 				if (SelectedNamedInterval != value)
 				{
 					_selectedNamedInterval = value ?? NamedIntervals[0];
-					if (_initialized || Model.NamedIntervalUID != _selectedNamedInterval.UID)
+					if (_initialized || Model.DayIntervalUID != _selectedNamedInterval.UID)
 					{
-						Model.NamedIntervalUID = _selectedNamedInterval.UID;
-						DayIntervalHelper.Save(Model);
+						Model.DayIntervalUID = _selectedNamedInterval.UID;
+						SheduleDayIntervalHelper.Save(Model);
 					}
 				}
 				OnPropertyChanged(() => SelectedNamedInterval);

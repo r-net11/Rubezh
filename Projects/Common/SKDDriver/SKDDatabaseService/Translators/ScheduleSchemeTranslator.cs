@@ -9,9 +9,9 @@ namespace SKDDriver.Translators
 {
 	public class ScheduleSchemeTranslator : OrganisationElementTranslator<DataAccess.ScheduleScheme, ScheduleScheme, ScheduleSchemeFilter>
 	{
-		private DayIntervalTranslator _dayIntervalTranslator;
+		private ScheduleDayIntervalTranslator _dayIntervalTranslator;
 		private bool _withDays;
-		public ScheduleSchemeTranslator(DataAccess.SKDDataContext context, DayIntervalTranslator dayIntervalTranslator)
+		public ScheduleSchemeTranslator(DataAccess.SKDDataContext context, ScheduleDayIntervalTranslator dayIntervalTranslator)
 			: base(context)
 		{
 			_dayIntervalTranslator = dayIntervalTranslator;

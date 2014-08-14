@@ -6,9 +6,9 @@ namespace SKDModule.ViewModels
 {
 	public class TimeIntervalViewModel : BaseViewModel
 	{
-		public TimeInterval TimeInterval { get; private set; }
+		public DayIntervalPart TimeInterval { get; private set; }
 
-		public TimeIntervalViewModel(TimeInterval timeInterval)
+		public TimeIntervalViewModel(DayIntervalPart timeInterval)
 		{
 			TimeInterval = timeInterval;
 		}
@@ -21,9 +21,9 @@ namespace SKDModule.ViewModels
 		{
 			get { return TimeInterval.EndTime; }
 		}
-		public IntervalTransitionType IntervalTransitionType
+		public DayIntervalPartTransitionType IntervalTransitionType
 		{
-			get { return TimeInterval.IntervalTransitionType; }
+			get { return TimeInterval.TransitionType; }
 		}
 
 		public void Update()

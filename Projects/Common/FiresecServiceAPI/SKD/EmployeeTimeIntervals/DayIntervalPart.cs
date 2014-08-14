@@ -5,16 +5,16 @@ using FiresecAPI.SKD;
 namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public class TimeInterval : SKDIsDeletedModel
+	public class DayIntervalPart : SKDIsDeletedModel
 	{
-		public TimeInterval()
+		public DayIntervalPart()
 		{
 			BeginTime = new TimeSpan(0, 0, 0);
 			EndTime = new TimeSpan(0, 0, 0);
 		}
 
 		[DataMember]
-		public Guid NamedIntervalUID { get; set; }
+		public Guid DayIntervalUID { get; set; }
 
 		[DataMember]
 		public TimeSpan BeginTime { get; set; }
@@ -23,6 +23,6 @@ namespace FiresecAPI.EmployeeTimeIntervals
 		public TimeSpan EndTime { get; set; }
 
 		[DataMember]
-		public IntervalTransitionType IntervalTransitionType { get; set; }
+		public DayIntervalPartTransitionType TransitionType { get; set; }
 	}
 }

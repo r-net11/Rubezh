@@ -64,7 +64,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public SortableObservableCollection<DayIntervalViewModel> DayIntervals { get; private set; }
-		public ObservableCollection<NamedInterval> NamedIntervals
+		public ObservableCollection<DayInterval> NamedIntervals
 		{
 			get { return ScheduleSchemesViewModel.GetNamedIntervals(Organisation.UID); }
 		}
@@ -88,13 +88,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var dayInterval = new DayInterval()
+			var dayInterval = new ScheduleDayInterval()
 			{
 				Number = ScheduleScheme.DayIntervals.Count,
 				ScheduleSchemeUID = ScheduleScheme.UID,
-				NamedIntervalUID = Guid.Empty,
+				DayIntervalUID = Guid.Empty,
 			};
-			if (DayIntervalHelper.Save(dayInterval))
+			if (SheduleDayIntervalHelper.Save(dayInterval))
 			{
 				ScheduleScheme.DayIntervals.Add(dayInterval);
 				var viewModel = new DayIntervalViewModel(this, dayInterval);
@@ -112,7 +112,7 @@ namespace SKDModule.ViewModels
 		void OnDelete()
 		{
 			var number = SelectedDayInterval.Model.Number;
-			if (DayIntervalHelper.MarkDeleted(SelectedDayInterval.Model))
+			if (SheduleDayIntervalHelper.MarkDeleted(SelectedDayInterval.Model))
 			{
 				for (int i = number + 1; i < ScheduleScheme.DayIntervals.Count; i++)
 					ScheduleScheme.DayIntervals[i].Number--;

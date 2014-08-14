@@ -15,7 +15,7 @@ namespace SKDModule.ViewModels
 		bool _isInitialized;
 		public FiresecAPI.SKD.Organisation Organisation { get; private set; }
 		public bool IsOrganisation { get; private set; }
-		public NamedInterval NamedInterval { get; private set; }
+		public DayInterval NamedInterval { get; private set; }
 
 		public NamedIntervalViewModel(FiresecAPI.SKD.Organisation organisation)
 		{
@@ -24,7 +24,7 @@ namespace SKDModule.ViewModels
 			IsExpanded = true;
 			_isInitialized = true;
 		}
-		public NamedIntervalViewModel(FiresecAPI.SKD.Organisation organisation, NamedInterval namedInterval)
+		public NamedIntervalViewModel(FiresecAPI.SKD.Organisation organisation, DayInterval namedInterval)
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
@@ -45,7 +45,7 @@ namespace SKDModule.ViewModels
 				if (!IsOrganisation)
 				{
 					TimeIntervals = new SortableObservableCollection<TimeIntervalViewModel>();
-					foreach (var timeInterval in NamedInterval.TimeIntervals)
+					foreach (var timeInterval in NamedInterval.DayIntervalParts)
 					{
 						var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
 						TimeIntervals.Add(timeIntervalViewModel);
@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(timeIntervalDetailsViewModel) && TimeIntervalHelper.Save(timeIntervalDetailsViewModel.TimeInterval))
 			{
 				var timeInterval = timeIntervalDetailsViewModel.TimeInterval;
-				NamedInterval.TimeIntervals.Add(timeInterval);
+				NamedInterval.DayIntervalParts.Add(timeInterval);
 				var timeIntervalViewModel = new TimeIntervalViewModel(timeInterval);
 				TimeIntervals.Add(timeIntervalViewModel);
 				TimeIntervals.Sort(item => item.BeginTime);
@@ -102,7 +102,7 @@ namespace SKDModule.ViewModels
 		{
 			if (TimeIntervalHelper.MarkDeleted(SelectedTimeInterval.TimeInterval))
 			{
-				NamedInterval.TimeIntervals.Remove(SelectedTimeInterval.TimeInterval);
+				NamedInterval.DayIntervalParts.Remove(SelectedTimeInterval.TimeInterval);
 				TimeIntervals.Remove(SelectedTimeInterval);
 			}
 		}

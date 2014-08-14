@@ -1,19 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.SKD;
 
 namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public class DayInterval : SKDIsDeletedModel
+	public class DayInterval : OrganisationElementBase
 	{
-		[DataMember]
-		public int Number { get; set; }
+		public DayInterval()
+		{
+			DayIntervalParts = new List<DayIntervalPart>();
+		}
 
 		[DataMember]
-		public Guid NamedIntervalUID { get; set; }
+		public string Name { get; set; }
 
 		[DataMember]
-		public Guid ScheduleSchemeUID { get; set; }
+		public string Description { get; set; }
+
+		[DataMember]
+		public TimeSpan SlideTime { get; set; }
+
+		[DataMember]
+		public List<DayIntervalPart> DayIntervalParts { get; set; }
 	}
 }

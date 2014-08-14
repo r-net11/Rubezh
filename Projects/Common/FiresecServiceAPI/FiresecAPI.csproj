@@ -302,11 +302,11 @@
     <Compile Include="SKD\Card\CardDoor.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleZoneFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleFilter.cs" />
-    <Compile Include="SKD\EmployeeTimeIntervals\DayIntervalFilter.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\ScheduleDayIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleSchemeFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\HolidayFilter.cs" />
-    <Compile Include="SKD\EmployeeTimeIntervals\TimeIntervalFilter.cs" />
-    <Compile Include="SKD\EmployeeTimeIntervals\NamedIntervalFilter.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\DayIntervalPartFilter.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\DayIntervalFilter.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleScheme.cs" />
     <Compile Include="SKD\Employee\ShortEmployee.cs" />
     <Compile Include="SKD\Employee\PersonType.cs" />
@@ -324,9 +324,9 @@
     <Compile Include="SKD\EmployeeTimeIntervals\Holiday.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\HolidayType.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\Schedule.cs" />
-    <Compile Include="SKD\EmployeeTimeIntervals\NamedInterval.cs" />
-    <Compile Include="SKD\EmployeeTimeIntervals\TimeInterval.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\DayInterval.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\DayIntervalPart.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\ScheduleDayInterval.cs" />
     <Compile Include="SKD\AdditionalColumn\AdditionalColumn.cs" />
     <Compile Include="SKD\Card\Card.cs" />
     <Compile Include="SKD\Card\CardDoorFilter.cs" />
@@ -341,7 +341,7 @@
     <Compile Include="SKD\Schedule\Holiday.cs" />
     <Compile Include="SKD\Schedule\Interval.cs" />
     <Compile Include="SKD\Schedule\NamedInterval.cs" />
-    <Compile Include="SKD\EmployeeTimeIntervals\IntervalTransitionType.cs" />
+    <Compile Include="SKD\EmployeeTimeIntervals\DayIntervalPartTransitionType.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleZone.cs" />
     <Compile Include="SKD\EmployeeTimeIntervals\ScheduleSchemeType.cs" />
     <Compile Include="SKD\Card\AccessTemplateFilter.cs" />

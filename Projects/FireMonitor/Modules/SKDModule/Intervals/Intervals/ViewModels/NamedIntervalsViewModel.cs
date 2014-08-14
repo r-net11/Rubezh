@@ -13,7 +13,7 @@ namespace SKDModule.ViewModels
 {
 	public class NamedIntervalsViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		private NamedInterval _clipboard;
+		private DayInterval _clipboard;
 		private bool _isInitialized;
 
 		public NamedIntervalsViewModel()
@@ -32,12 +32,12 @@ namespace SKDModule.ViewModels
 			var organisations = OrganisationHelper.GetByCurrentUser();
 			if (organisations == null)
 				return;
-			var filter = new NamedIntervalFilter()
+			var filter = new DayIntervalFilter()
 			{
 				UserUID = FiresecManager.CurrentUser.UID,
 				OrganisationUIDs = organisations.Select(item => item.UID).ToList(),
 			};
-			var namedIntervals = NamedIntervalHelper.Get(filter);
+			var namedIntervals = DayIntervalHelper.Get(filter);
 
 			AllNamedIntervals = new List<NamedIntervalViewModel>();
 			Organisations = new List<NamedIntervalViewModel>();
@@ -150,7 +150,7 @@ namespace SKDModule.ViewModels
 
 			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedNamedInterval);
 			var namedInterval = SelectedNamedInterval.NamedInterval;
-			bool removeResult = NamedIntervalHelper.MarkDeleted(namedInterval);
+			bool removeResult = DayIntervalHelper.MarkDeleted(namedInterval);
 			if (!removeResult)
 				return;
 			OrganisationViewModel.RemoveChild(SelectedNamedInterval);
@@ -191,7 +191,7 @@ namespace SKDModule.ViewModels
 		private void OnPaste()
 		{
 			var newInterval = CopyInterval(_clipboard);
-			if (NamedIntervalHelper.Save(newInterval))
+			if (DayIntervalHelper.Save(newInterval))
 			{
 				var timeInrervalViewModel = new NamedIntervalViewModel(SelectedNamedInterval.Organisation, newInterval);
 				if (ParentOrganisation != null)
@@ -207,21 +207,21 @@ namespace SKDModule.ViewModels
 			return SelectedNamedInterval != null && _clipboard != null;
 		}
 
-		private NamedInterval CopyInterval(NamedInterval source, bool newName = true)
+		private DayInterval CopyInterval(DayInterval source, bool newName = true)
 		{
-			var copy = new NamedInterval();
+			var copy = new DayInterval();
 			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
 			copy.Description = source.Description;
 			copy.SlideTime = source.SlideTime;
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
-			foreach (var timeInterval in source.TimeIntervals)
+			foreach (var timeInterval in source.DayIntervalParts)
 				if (!timeInterval.IsDeleted)
-					copy.TimeIntervals.Add(new TimeInterval()
+					copy.DayIntervalParts.Add(new DayIntervalPart()
 					{
 						BeginTime = timeInterval.BeginTime,
 						EndTime = timeInterval.EndTime,
-						IntervalTransitionType = timeInterval.IntervalTransitionType,
-						NamedIntervalUID = copy.UID,
+						TransitionType = timeInterval.TransitionType,
+						DayIntervalUID = copy.UID,
 					});
 			return copy;
 		}

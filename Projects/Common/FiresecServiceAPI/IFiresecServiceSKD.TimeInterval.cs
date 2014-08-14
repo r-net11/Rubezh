@@ -8,18 +8,18 @@ namespace FiresecAPI
 	public partial interface IFiresecServiceSKD
 	{
 		[OperationContract]
-		OperationResult<IEnumerable<TimeIntervals.NamedInterval>> GetNamedIntervals(TimeIntervals.NamedIntervalFilter filter);
+		OperationResult<IEnumerable<TimeIntervals.DayInterval>> GetDayIntervals(TimeIntervals.DayIntervalFilter filter);
 		[OperationContract]
-		OperationResult SaveNamedInterval(TimeIntervals.NamedInterval item);
+		OperationResult SaveDayInterval(TimeIntervals.DayInterval item);
 		[OperationContract]
-		OperationResult MarkDeletedNamedInterval(Guid uid);
+		OperationResult MarkDeletedDayInterval(Guid uid);
 
 		[OperationContract]
-		OperationResult<IEnumerable<TimeIntervals.TimeInterval>> GetTimeIntervals(TimeIntervals.TimeIntervalFilter filter);
+		OperationResult<IEnumerable<TimeIntervals.DayIntervalPart>> GetDayIntervalParts(TimeIntervals.DayIntervalPartFilter filter);
 		[OperationContract]
-		OperationResult SaveTimeInterval(TimeIntervals.TimeInterval item);
+		OperationResult SaveDayIntervalPart(TimeIntervals.DayIntervalPart item);
 		[OperationContract]
-		OperationResult MarkDeletedTimeInterval(Guid uid);
+		OperationResult MarkDeletedDayIntervalPart(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.Holiday>> GetHolidays(TimeIntervals.HolidayFilter filter);
@@ -36,11 +36,11 @@ namespace FiresecAPI
 		OperationResult MarkDeletedScheduleScheme(Guid uid);
 
 		[OperationContract]
-		OperationResult<IEnumerable<TimeIntervals.DayInterval>> GetDayIntervals(TimeIntervals.DayIntervalFilter filter);
+		OperationResult<IEnumerable<TimeIntervals.ScheduleDayInterval>> GetSheduleDayIntervals(TimeIntervals.ScheduleDayIntervalFilter filter);
 		[OperationContract]
-		OperationResult SaveDayInterval(TimeIntervals.DayInterval item);
+		OperationResult SaveSheduleDayInterval(TimeIntervals.ScheduleDayInterval item);
 		[OperationContract]
-		OperationResult MarkDeletedDayInterval(Guid uid);
+		OperationResult MarkDeletedSheduleDayInterval(Guid uid);
 
 		[OperationContract]
 		OperationResult<IEnumerable<TimeIntervals.Schedule>> GetSchedules(TimeIntervals.ScheduleFilter filter);

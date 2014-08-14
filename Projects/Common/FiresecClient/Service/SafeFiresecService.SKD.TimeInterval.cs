@@ -7,30 +7,30 @@ namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
-		public FiresecAPI.OperationResult<IEnumerable<NamedInterval>> GetNamedIntervals(NamedIntervalFilter filter)
+		public FiresecAPI.OperationResult<IEnumerable<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<NamedInterval>>>(() => FiresecService.GetNamedIntervals(filter));
+			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<DayInterval>>>(() => FiresecService.GetDayIntervals(filter));
 		}
-		public FiresecAPI.OperationResult SaveNamedInterval(NamedInterval item)
+		public FiresecAPI.OperationResult SaveDayInterval(DayInterval item)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveNamedInterval(item));
+			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveDayInterval(item));
 		}
-		public FiresecAPI.OperationResult MarkDeletedNamedInterval(NamedInterval item)
+		public FiresecAPI.OperationResult MarkDeletedDayInterval(DayInterval item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedNamedInterval(item.UID));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedDayInterval(item.UID));
 		}
 	
-		public FiresecAPI.OperationResult<IEnumerable<TimeInterval>> GetTimeIntervals(TimeIntervalFilter filter)
+		public FiresecAPI.OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<TimeInterval>>>(() => FiresecService.GetTimeIntervals(filter));
+			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<DayIntervalPart>>>(() => FiresecService.GetDayIntervalParts(filter));
 		}
-		public FiresecAPI.OperationResult SaveTimeInterval(TimeInterval item)
+		public FiresecAPI.OperationResult SaveDayIntervalPart(DayIntervalPart item)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveTimeInterval(item));
+			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveDayIntervalPart(item));
 		}
-		public FiresecAPI.OperationResult MarkDeletedTimeInterval(TimeInterval item)
+		public FiresecAPI.OperationResult MarkDeletedDayIntervalPart(DayIntervalPart item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedTimeInterval(item.UID));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedDayIntervalPart(item.UID));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
@@ -59,17 +59,17 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleScheme(item.UID));
 		}
 
-		public FiresecAPI.OperationResult<IEnumerable<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
+		public FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<DayInterval>>>(() => FiresecService.GetDayIntervals(filter));
+			return SafeContext.Execute<FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>>>(() => FiresecService.GetSheduleDayIntervals(filter));
 		}
-		public FiresecAPI.OperationResult SaveDayInterval(DayInterval item)
+		public FiresecAPI.OperationResult SaveSheduleDayInterval(ScheduleDayInterval item)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveDayInterval(item));
+			return SafeContext.Execute<FiresecAPI.OperationResult>(() => FiresecService.SaveSheduleDayInterval(item));
 		}
-		public FiresecAPI.OperationResult MarkDeletedDayInterval(DayInterval item)
+		public FiresecAPI.OperationResult MarkDeletedSheduleDayInterval(ScheduleDayInterval item)
 		{
-			return SafeContext.Execute(() => FiresecService.MarkDeletedDayInterval(item.UID));
+			return SafeContext.Execute(() => FiresecService.MarkDeletedSheduleDayInterval(item.UID));
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter)

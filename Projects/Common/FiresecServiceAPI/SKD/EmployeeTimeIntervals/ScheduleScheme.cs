@@ -9,7 +9,7 @@ namespace FiresecAPI.EmployeeTimeIntervals
 	{
 		public ScheduleScheme()
 		{
-			DayIntervals = new List<DayInterval>();
+			DayIntervals = new List<ScheduleDayInterval>();
 		}
 
 		[DataMember]
@@ -22,6 +22,6 @@ namespace FiresecAPI.EmployeeTimeIntervals
 		public string Description { get; set; }
 
 		[DataMember]
-		public List<DayInterval> DayIntervals { get; set; }
+		public List<ScheduleDayInterval> DayIntervals { get; set; }
 	}
 }

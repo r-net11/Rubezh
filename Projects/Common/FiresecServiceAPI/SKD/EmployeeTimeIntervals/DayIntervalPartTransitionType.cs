@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public enum IntervalTransitionType
+	public enum DayIntervalPartTransitionType
 	{
 		[DescriptionAttribute("Нет")]
 		[EnumMember]

@@ -1,78 +1,58 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using FiresecAPI.EmployeeTimeIntervals;
-using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 
 namespace SKDDriver.Translators
 {
-	public class DayIntervalTranslator : IsDeletedTranslator<DataAccess.Day, DayInterval, DayIntervalFilter>
+	public class DayIntervalTranslator : OrganisationElementTranslator<DataAccess.NamedInterval, DayInterval, DayIntervalFilter>
 	{
-		public DayIntervalTranslator(DataAccess.SKDDataContext context)
+		private DayIntervalPartTranslator _timeIntervalTranslator;
+		public DayIntervalTranslator(DataAccess.SKDDataContext context, DayIntervalPartTranslator timeIntervalTranslator)
 			: base(context)
 		{
-
+			_timeIntervalTranslator = timeIntervalTranslator;
 		}
 
-		protected override IQueryable<DataAccess.Day> GetQuery(DayIntervalFilter filter)
+		protected override IQueryable<DataAccess.NamedInterval> GetQuery(DayIntervalFilter filter)
 		{
-			return base.GetQuery(filter).OrderBy(item => item.Number);
-		}
-		protected override Expression<Func<DataAccess.Day, bool>> IsInFilter(DayIntervalFilter filter)
-		{
-			var result = base.IsInFilter(filter);
-			result = result.And(e => filter.ScheduleSchemeUIDs.Contains(e.ScheduleSchemeUID));
-			return result;
-		}
-		public override OperationResult MarkDeleted(Guid uid)
-		{
-			var dayInterval = Table.FirstOrDefault(x => x.UID == uid);
-			if (dayInterval != null)
-			{
-				var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(item => item.UID == dayInterval.ScheduleSchemeUID);
-				if (scheduleScheme != null)
-					foreach (var day in scheduleScheme.Days)
-						if (day.Number > dayInterval.Number)
-							day.Number--;
-			}
-			return base.MarkDeleted(uid);
+			return base.GetQuery(filter).OrderBy(item => item.Name);
 		}
 
 		protected override OperationResult CanSave(DayInterval item)
 		{
-			// проверить что в результате нет пересечений рабочего времени ИменованногоИнтервала с предыдущим и следующим днем
+			bool hasSameName = Table.Any(x => x.Name == item.Name &&
+				x.OrganisationUID == item.OrganisationUID &&
+				x.UID != item.UID &&
+				x.IsDeleted == false);
+			if (hasSameName)
+				return new OperationResult("Дневной график с таким же названием уже существует");
 			return base.CanSave(item);
 		}
-
-		protected override DayInterval Translate(DataAccess.Day tableItem)
+		protected override OperationResult CanDelete(Guid uid)
 		{
-			var apiItem = base.Translate(tableItem);
-			apiItem.NamedIntervalUID = tableItem.NamedIntervalUID.HasValue ? tableItem.NamedIntervalUID.Value : Guid.Empty;
-			apiItem.Number = tableItem.Number;
-			apiItem.ScheduleSchemeUID = tableItem.ScheduleSchemeUID;
-			return apiItem;
+			if (Context.Days.Any(item => !item.IsDeleted && item.NamedIntervalUID == uid))
+				return new OperationResult("Дневной график не может быть удален, так как он содержится в одном из графиков");
+			return base.CanDelete(uid);
 		}
-		protected override void TranslateBack(DataAccess.Day tableItem, DayInterval apiItem)
+
+		protected override DayInterval Translate(DataAccess.NamedInterval tableItem)
 		{
-			var namedInterval = apiItem.NamedIntervalUID == Guid.Empty ? null : Context.NamedIntervals.FirstOrDefault(item => item.UID == apiItem.NamedIntervalUID);
-			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(item => item.UID == apiItem.ScheduleSchemeUID);
+			var result = base.Translate(tableItem);
+			result.Name = tableItem.Name;
+			result.Description = tableItem.Description;
+			result.SlideTime = TimeSpan.FromSeconds(tableItem.SlideTime);
+			result.DayIntervalParts = _timeIntervalTranslator.TranslateAll(tableItem.Intervals.Where(item => !item.IsDeleted).OrderBy(item => item.BeginTime));
+			return result;
+		}
+
+		protected override void TranslateBack(DataAccess.NamedInterval tableItem, DayInterval apiItem)
+		{
 			base.TranslateBack(tableItem, apiItem);
-			if (namedInterval == null && apiItem.NamedIntervalUID != Guid.Empty)
-				tableItem.NamedIntervalUID = apiItem.NamedIntervalUID;
-			else
-				tableItem.NamedInterval = namedInterval;
-			if (scheduleScheme == null)
-				tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID;
-			else
-				tableItem.ScheduleScheme = scheduleScheme;
-			tableItem.Number = apiItem.Number;
-		}
-
-		public List<DayInterval> TranslateAll(IEnumerable<DataAccess.Day> list)
-		{
-			return list.Select(item => Translate(item)).ToList();
+			tableItem.Name = apiItem.Name;
+			tableItem.Description = apiItem.Description;
+			tableItem.SlideTime = (int)apiItem.SlideTime.TotalSeconds;
+			_timeIntervalTranslator.Save(apiItem.DayIntervalParts);
 		}
 	}
 }

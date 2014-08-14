@@ -44,11 +44,11 @@ namespace SKDModule.ViewModels
 					Name = name,
 				};
 				for (int i = 0; i < dayCount; i++)
-					scheduleScheme.DayIntervals.Add(new DayInterval()
+					scheduleScheme.DayIntervals.Add(new ScheduleDayInterval()
 					{
 						Number = i,
 						ScheduleSchemeUID = scheduleScheme.UID,
-						NamedIntervalUID = Guid.Empty,
+						DayIntervalUID = Guid.Empty,
 					});
 			}
 			ScheduleScheme = scheduleScheme;

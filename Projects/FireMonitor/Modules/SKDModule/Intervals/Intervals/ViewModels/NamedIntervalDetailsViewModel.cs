@@ -8,20 +8,20 @@ namespace SKDModule.ViewModels
 	public class NamedIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
 		FiresecAPI.SKD.Organisation Organisation;
-		public NamedInterval NamedInterval { get; private set; }
+		public DayInterval NamedInterval { get; private set; }
 
-		public NamedIntervalDetailsViewModel(FiresecAPI.SKD.Organisation organisation, NamedInterval namedInterval = null)
+		public NamedIntervalDetailsViewModel(FiresecAPI.SKD.Organisation organisation, DayInterval namedInterval = null)
 		{
 			Organisation = organisation;
 			if (namedInterval == null)
 			{
 				Title = "Новый дневной график";
-				namedInterval = new NamedInterval()
+				namedInterval = new DayInterval()
 				{
 					Name = "Дневной график",
 					OrganisationUID = organisation.UID,
 				};
-				namedInterval.TimeIntervals.Add(new TimeInterval() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), NamedIntervalUID = namedInterval.UID });
+				namedInterval.DayIntervalParts.Add(new DayIntervalPart() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = namedInterval.UID });
 			}
 			else
 				Title = "Редактирование дневного графика";
@@ -73,7 +73,7 @@ namespace SKDModule.ViewModels
 			NamedInterval.Name = Name;
 			NamedInterval.Description = Description;
 			NamedInterval.SlideTime = ConstantSlideTime;
-			return NamedIntervalHelper.Save(NamedInterval);
+			return DayIntervalHelper.Save(NamedInterval);
 		}
 	}
 }

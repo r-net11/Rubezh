@@ -19,14 +19,13 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static DayInterval GetSingle(Guid? uid)
+		public static IEnumerable<DayInterval> GetByOrganisation(Guid organisationUID)
 		{
-			if (uid == null)
-				return null;
-			var filter = new DayIntervalFilter();
-			filter.UIDs.Add(uid.Value);
-			var operationResult = FiresecManager.FiresecService.GetDayIntervals(filter);
-			return Common.ShowErrorIfExists(operationResult).FirstOrDefault();
+			var result = FiresecManager.FiresecService.GetDayIntervals(new DayIntervalFilter
+			{
+				OrganisationUIDs = new List<System.Guid> { organisationUID }
+			});
+			return Common.ShowErrorIfExists(result);
 		}
 
 		public static IEnumerable<DayInterval> Get(DayIntervalFilter filter)

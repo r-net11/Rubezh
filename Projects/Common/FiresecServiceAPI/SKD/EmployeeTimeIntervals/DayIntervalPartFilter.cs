@@ -6,13 +6,9 @@ using FiresecAPI.SKD;
 namespace FiresecAPI.EmployeeTimeIntervals
 {
 	[DataContract]
-	public class TimeIntervalFilter : IsDeletedFilter
+	public class DayIntervalPartFilter : IsDeletedFilter
 	{
-		public TimeIntervalFilter()
-		{
-		}
-
 		[DataMember]
-		public List<Guid> NamedIntervalUIDs { get; set; }
+		public List<Guid> DayIntervalUIDs { get; set; }
 	}
 }

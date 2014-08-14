@@ -11,19 +11,19 @@ namespace SKDModule.ViewModels
 	public class TimeIntervalDetailsViewModel : SaveCancelDialogViewModel
 	{
 		bool _isNew;
-		NamedInterval _namedInterval;
-		public TimeInterval TimeInterval { get; private set; }
+		DayInterval _namedInterval;
+		public DayIntervalPart TimeInterval { get; private set; }
 
-		public TimeIntervalDetailsViewModel(NamedInterval namedInterval, TimeInterval timeInterval = null)
+		public TimeIntervalDetailsViewModel(DayInterval namedInterval, DayIntervalPart timeInterval = null)
 		{
 			_namedInterval = namedInterval;
 			if (timeInterval == null)
 			{
 				Title = "Новый интервал";
 				_isNew = true;
-				timeInterval = new TimeInterval()
+				timeInterval = new DayIntervalPart()
 				{
-					NamedIntervalUID = namedInterval.UID,
+					DayIntervalUID = namedInterval.UID,
 				};
 			}
 			else
@@ -33,10 +33,10 @@ namespace SKDModule.ViewModels
 			}
 			TimeInterval = timeInterval;
 
-			AvailableTransitions = new ObservableCollection<IntervalTransitionType>(Enum.GetValues(typeof(IntervalTransitionType)).OfType<IntervalTransitionType>());
+			AvailableTransitions = new ObservableCollection<DayIntervalPartTransitionType>(Enum.GetValues(typeof(DayIntervalPartTransitionType)).OfType<DayIntervalPartTransitionType>());
 			BeginTime = timeInterval.BeginTime;
 			EndTime = timeInterval.EndTime;
-			SelectedTransition = timeInterval.IntervalTransitionType;
+			SelectedTransition = timeInterval.TransitionType;
 		}
 
 		TimeSpan _beginTime;
@@ -61,8 +61,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		ObservableCollection<IntervalTransitionType> _availableTransitions;
-		public ObservableCollection<IntervalTransitionType> AvailableTransitions
+		ObservableCollection<DayIntervalPartTransitionType> _availableTransitions;
+		public ObservableCollection<DayIntervalPartTransitionType> AvailableTransitions
 		{
 			get { return _availableTransitions; }
 			set
@@ -72,8 +72,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		IntervalTransitionType _selectedTransition;
-		public IntervalTransitionType SelectedTransition
+		DayIntervalPartTransitionType _selectedTransition;
+		public DayIntervalPartTransitionType SelectedTransition
 		{
 			get { return _selectedTransition; }
 			set
@@ -89,7 +89,7 @@ namespace SKDModule.ViewModels
 				return false;
 			TimeInterval.BeginTime = BeginTime;
 			TimeInterval.EndTime = EndTime;
-			TimeInterval.IntervalTransitionType = SelectedTransition;
+			TimeInterval.TransitionType = SelectedTransition;
 			return true;
 		}
 
@@ -101,7 +101,7 @@ namespace SKDModule.ViewModels
 			{
 				var beginTime = timeInterval.BeginTime;
 				var endTime = timeInterval.EndTime;
-				if (timeInterval.IntervalTransitionType != IntervalTransitionType.Day)
+				if (timeInterval.TransitionType != DayIntervalPartTransitionType.Day)
 					endTime = endTime.Add(TimeSpan.FromDays(1));
 				if (beginTime > endTime)
 				{
@@ -133,29 +133,29 @@ namespace SKDModule.ViewModels
 			}
 			return true;
 		}
-		List<TimeInterval> CloneNamedInterval()
+		List<DayIntervalPart> CloneNamedInterval()
 		{
-			var timeIntervals = new List<TimeInterval>();
-			foreach (var timeInterval in _namedInterval.TimeIntervals)
+			var timeIntervals = new List<DayIntervalPart>();
+			foreach (var timeInterval in _namedInterval.DayIntervalParts)
 			{
-				var clonedTimeInterval = new TimeInterval()
+				var clonedTimeInterval = new DayIntervalPart()
 				{
 					UID = timeInterval.UID,
 					BeginTime = timeInterval.BeginTime,
 					EndTime = timeInterval.EndTime,
-					IntervalTransitionType = timeInterval.IntervalTransitionType,
-					NamedIntervalUID = timeInterval.NamedIntervalUID,
+					TransitionType = timeInterval.TransitionType,
+					DayIntervalUID = timeInterval.DayIntervalUID,
 				};
 				timeIntervals.Add(clonedTimeInterval);
 			}
 			if (_isNew)
 			{
-				var newEmployeeTimeInterval = new TimeInterval()
+				var newEmployeeTimeInterval = new DayIntervalPart()
 				{
 					BeginTime = BeginTime,
 					EndTime = EndTime,
-					IntervalTransitionType = SelectedTransition,
-					NamedIntervalUID = _namedInterval.UID,
+					TransitionType = SelectedTransition,
+					DayIntervalUID = _namedInterval.UID,
 				};
 				timeIntervals.Add(newEmployeeTimeInterval);
 			}
@@ -166,7 +166,7 @@ namespace SKDModule.ViewModels
 				{
 					deitingTimeInterval.BeginTime = BeginTime;
 					deitingTimeInterval.EndTime = EndTime;
-					deitingTimeInterval.IntervalTransitionType = SelectedTransition;
+					deitingTimeInterval.TransitionType = SelectedTransition;
 				}
 			}
 			return timeIntervals;
