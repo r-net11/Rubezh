@@ -25,7 +25,10 @@ namespace SKDModule.Converters
 					return Brushes.White;
 
 				case TimeTrackType.Late:
-					return Brushes.Red;
+					return Brushes.SkyBlue;
+
+				case TimeTrackType.EarlyLeave:
+					return Brushes.LightPink;
 
 				case TimeTrackType.OutShedule:
 					return Brushes.Green;

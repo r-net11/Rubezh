@@ -184,7 +184,5 @@ namespace SKDDriver
 			}
 			return new OperationResult();
 		}
-	}
-
-	
+	}	
 }

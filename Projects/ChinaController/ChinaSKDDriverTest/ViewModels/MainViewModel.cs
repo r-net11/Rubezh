@@ -44,7 +44,7 @@ namespace ControllerSDK.ViewModels
 		{
 			Wrapper.Initialize();
 			string error;
-			MainViewModel.Wrapper.Connect("172.16.6.54", 37777, "system", "123456", out error);
+			MainViewModel.Wrapper.Connect("172.16.6.55", 37777, "t_SuperUser", "123456", out error);
 		}
 
 		public RelayCommand DisconnectCommand { get; private set; }

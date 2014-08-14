@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 using FiresecAPI.SKD;
 
 namespace SKDModule.ViewModels
@@ -33,25 +34,23 @@ namespace SKDModule.ViewModels
 				case TimeTrackType.Holiday:
 					HasLetter = true;
 					Letter = "В";
-					Tooltip = "Праздник";
 					break;
 
 				case TimeTrackType.Missed:
 					HasLetter = true;
 					Letter = "ПР";
-					Tooltip = "Прогул";
 					break;
 
 				case TimeTrackType.DayOff:
 					HasLetter = true;
 					Letter = "В";
-					Tooltip = "Выходной";
 					break;
 
 				default:
 					IsNormal = true;
 					break;
 			}
+			Tooltip = DayTimeTrack.TimeTrackType.ToDescription();
 
 			if (DayTimeTrack.TimeTrackDocument != null && DayTimeTrack.TimeTrackDocument.DocumentCode != 0)
 			{

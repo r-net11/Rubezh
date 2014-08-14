@@ -72,35 +72,43 @@ namespace SKDDriver.Translators
 
 		public void InsertPassJournalTestData()
 		{
-			var employeeUID = SKDDatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result.FirstOrDefault().UID;
+			var employees = SKDDatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result;
 			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
 
-			var random = new Random();
-			for (int day = 0; day < 100; day++)
+			foreach (var passJournal in Context.PassJournals)
 			{
-				var dateTime = DateTime.Now.AddDays(-day);
+				Context.PassJournals.DeleteOnSubmit(passJournal);
+			}
 
-				var seconds = new List<int>();
-				var count = random.Next(0, 5);
-				for (int i = 0; i < count * 2; i++)
+			var random = new Random();
+			foreach (var employee in employees)
+			{
+				for (int day = 0; day < 100; day++)
 				{
-					var totalSeconds = random.Next(0, 24 * 60 * 60);
-					seconds.Add(totalSeconds);
-				}
-				seconds.Sort();
+					var dateTime = DateTime.Now.AddDays(-day);
 
-				for (int i = 0; i < count * 2; i += 2)
-				{
-					var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
-					var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
+					var seconds = new List<int>();
+					var count = random.Next(0, 5);
+					for (int i = 0; i < count * 2; i++)
+					{
+						var totalSeconds = random.Next(0, 24 * 60 * 60);
+						seconds.Add(totalSeconds);
+					}
+					seconds.Sort();
 
-					var passJournal = new DataAccess.PassJournal();
-					passJournal.UID = Guid.NewGuid();
-					passJournal.EmployeeUID = employeeUID;
-					passJournal.ZoneUID = zoneUID;
-					passJournal.EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, startTimeSpan.Hours, startTimeSpan.Minutes, startTimeSpan.Seconds);
-					passJournal.ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, endTimeSpan.Hours, endTimeSpan.Minutes, endTimeSpan.Seconds);
-					Context.PassJournals.InsertOnSubmit(passJournal);
+					for (int i = 0; i < count * 2; i += 2)
+					{
+						var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
+						var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
+
+						var passJournal = new DataAccess.PassJournal();
+						passJournal.UID = Guid.NewGuid();
+						passJournal.EmployeeUID = employee.UID;
+						passJournal.ZoneUID = zoneUID;
+						passJournal.EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, startTimeSpan.Hours, startTimeSpan.Minutes, startTimeSpan.Seconds);
+						passJournal.ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, endTimeSpan.Hours, endTimeSpan.Minutes, endTimeSpan.Seconds);
+						Context.PassJournals.InsertOnSubmit(passJournal);
+					}
 				}
 			}
 

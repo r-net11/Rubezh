@@ -2,6 +2,7 @@
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -15,26 +16,6 @@ namespace SKDModule.ViewModels
 			HolidaySettings = HolidaySettingsHelper.GetByOrganisation(organisationUID);
 			if (HolidaySettings == null)
 				HolidaySettings = new HolidaySettings { OrganisationUID = organisationUID };
-		}
-
-		public TimeSpan NightStartTime
-		{
-			get { return HolidaySettings.NightStartTime; }
-			set
-			{
-				HolidaySettings.NightStartTime = value;
-				OnPropertyChanged(() => NightStartTime);
-			}
-		}
-
-		public TimeSpan NightEndTime
-		{
-			get { return HolidaySettings.NightEndTime; }
-			set
-			{
-				HolidaySettings.NightEndTime = value;
-				OnPropertyChanged(() => NightEndTime);
-			}
 		}
 
 		public TimeSpan EveningStartTime
@@ -57,8 +38,43 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public TimeSpan NightStartTime
+		{
+			get { return HolidaySettings.NightStartTime; }
+			set
+			{
+				HolidaySettings.NightStartTime = value;
+				OnPropertyChanged(() => NightStartTime);
+			}
+		}
+
+		public TimeSpan NightEndTime
+		{
+			get { return HolidaySettings.NightEndTime; }
+			set
+			{
+				HolidaySettings.NightEndTime = value;
+				OnPropertyChanged(() => NightEndTime);
+			}
+		}
+
 		protected override bool Save()
 		{
+			if (EveningStartTime > EveningEndTime)
+			{
+				MessageBoxService.ShowWarning("Начало вечернего времени должно быть раньше конца");
+				return false;
+			}
+			if (NightStartTime > NightEndTime)
+			{
+				MessageBoxService.ShowWarning("Начало ночного времени должно быть раньше конца");
+				return false;
+			}
+			if (EveningEndTime > NightStartTime && NightEndTime > TimeSpan.Zero)
+			{
+				MessageBoxService.ShowWarning("Начало ночного времени должно быть больше конца вечернего");
+				return false;
+			}
 			return HolidaySettingsHelper.Save(HolidaySettings);
 		}
 	}
