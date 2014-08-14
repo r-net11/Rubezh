@@ -13,17 +13,17 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Ночное время с" />
-				<TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding NightStartTime, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Вечернее время с" />
+                <TimePicker Grid.Row="0" Grid.Column="1" Margin="2" TimeSpan="{Binding EveningStartTime, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Ночное время до" />
-				<TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding NightEndTime, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Вечернее время до" />
+                <TimePicker Grid.Row="1" Grid.Column="1" Margin="2" TimeSpan="{Binding EveningEndTime, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Вечернее время с" />
-				<TimePicker Grid.Row="2" Grid.Column="1" Margin="2" TimeSpan="{Binding EveningStartTime, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Ночное время с" />
+				<TimePicker Grid.Row="2" Grid.Column="1" Margin="2" TimeSpan="{Binding NightStartTime, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" Foreground="White" Text="Вечернее время до" />
-				<TimePicker Grid.Row="3" Grid.Column="1" Margin="2" TimeSpan="{Binding EveningEndTime, UpdateSourceTrigger=PropertyChanged}" />
+				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" Foreground="White" Text="Ночное время до" />
+				<TimePicker Grid.Row="3" Grid.Column="1" Margin="2" TimeSpan="{Binding NightEndTime, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>
 	</TabControl>

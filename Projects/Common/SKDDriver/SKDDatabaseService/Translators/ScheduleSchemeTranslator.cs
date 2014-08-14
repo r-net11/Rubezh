@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 
@@ -9,9 +9,9 @@ namespace SKDDriver.Translators
 {
 	public class ScheduleSchemeTranslator : OrganisationElementTranslator<DataAccess.ScheduleScheme, ScheduleScheme, ScheduleSchemeFilter>
 	{
-		private DayIntervalTranslator _dayIntervalTranslator;
+		private ScheduleDayIntervalTranslator _dayIntervalTranslator;
 		private bool _withDays;
-		public ScheduleSchemeTranslator(DataAccess.SKDDataContext context, DayIntervalTranslator dayIntervalTranslator)
+		public ScheduleSchemeTranslator(DataAccess.SKDDataContext context, ScheduleDayIntervalTranslator dayIntervalTranslator)
 			: base(context)
 		{
 			_dayIntervalTranslator = dayIntervalTranslator;
@@ -51,7 +51,7 @@ namespace SKDDriver.Translators
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			if (_withDays)
-				result.DayIntervals = _dayIntervalTranslator.TranslateAll(tableItem.Days.Where(item => !item.IsDeleted).OrderBy(item => item.Number));
+				result.DayIntervals = _dayIntervalTranslator.TranslateAll(tableItem.ScheduleDays.Where(item => !item.IsDeleted).OrderBy(item => item.Number));
 			result.Type = (ScheduleSchemeType)tableItem.Type;
 			return result;
 		}

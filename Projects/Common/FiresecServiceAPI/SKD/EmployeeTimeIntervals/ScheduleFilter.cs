@@ -1,13 +1,9 @@
 ﻿using System.Runtime.Serialization;
-using FiresecAPI.SKD;
 
-namespace FiresecAPI.EmployeeTimeIntervals
+namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class ScheduleFilter : OrganisationFilterBase
 	{
-		public ScheduleFilter()
-		{
-		}
 	}
 }

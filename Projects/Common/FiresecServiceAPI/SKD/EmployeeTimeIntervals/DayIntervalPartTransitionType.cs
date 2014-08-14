@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace FiresecAPI.EmployeeTimeIntervals
+namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public enum IntervalTransitionType
+	public enum DayIntervalPartTransitionType
 	{
 		[DescriptionAttribute("Нет")]
 		[EnumMember]

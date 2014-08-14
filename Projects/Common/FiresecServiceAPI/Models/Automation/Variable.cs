@@ -148,5 +148,17 @@ namespace FiresecAPI.Automation
 			IntValues = new List<int>(DefaultIntValues);
 			StringValues = new List<string>(DefaultStringValues);
 		}
+
+		public void ResetValue(Argument argument)
+		{
+			BoolValue = argument.BoolValue;
+			DateTimeValue = argument.DateTimeValue;
+			IntValue = argument.IntValue;
+			StringValue = argument.StringValue;
+			BoolValues = new List<bool>(DefaultBoolValues);
+			DateTimeValues = new List<DateTime>(DefaultDateTimeValues);
+			IntValues = new List<int>(DefaultIntValues);
+			StringValues = new List<string>(DefaultStringValues);
+		}
 	}
 }

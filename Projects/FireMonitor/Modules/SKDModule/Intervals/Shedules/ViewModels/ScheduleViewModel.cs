@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Common;
 using FiresecAPI;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
@@ -137,10 +137,10 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(scheduleZoneDetailsViewModel))
 			{
 				ScheduleZoneHelper.Save(SelectedScheduleZone.Model);
-				var selectedTimeInterval = SelectedScheduleZone;
+				var selectedScheduleZone = SelectedScheduleZone;
 				SelectedScheduleZone.Update();
 				Sort();
-				SelectedScheduleZone = selectedTimeInterval;
+				SelectedScheduleZone = selectedScheduleZone;
 			}
 		}
 		private bool CanEdit()

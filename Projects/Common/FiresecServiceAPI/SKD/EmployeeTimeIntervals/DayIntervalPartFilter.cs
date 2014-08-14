@@ -5,9 +5,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class ScheduleZoneFilter : IsDeletedFilter
+	public class DayIntervalPartFilter : IsDeletedFilter
 	{
 		[DataMember]
-		public List<Guid> ScheduleUIDs { get; set; }
+		public List<Guid> DayIntervalUIDs { get; set; }
 	}
 }

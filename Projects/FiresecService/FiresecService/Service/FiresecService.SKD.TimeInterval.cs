@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using SKDDriver;
 using System;
 using FiresecAPI.Journal;
@@ -8,34 +8,34 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService : FiresecAPI.IFiresecService
 	{
-		public FiresecAPI.OperationResult<IEnumerable<NamedInterval>> GetNamedIntervals(NamedIntervalFilter filter)
+		public FiresecAPI.OperationResult<IEnumerable<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
 		{
-			return SKDDatabaseService.NamedIntervalTranslator.Get(filter);
+			return SKDDatabaseService.DayIntervalTranslator.Get(filter);
 		}
-		public FiresecAPI.OperationResult SaveNamedInterval(NamedInterval item)
+		public FiresecAPI.OperationResult SaveDayInterval(DayInterval item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дневного_графика);
-			return SKDDatabaseService.NamedIntervalTranslator.Save(item);
+			return SKDDatabaseService.DayIntervalTranslator.Save(item);
 		}
-		public FiresecAPI.OperationResult MarkDeletedNamedInterval(Guid uid)
+		public FiresecAPI.OperationResult MarkDeletedDayInterval(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дневного_графика);
-			return SKDDatabaseService.NamedIntervalTranslator.MarkDeleted(uid);
+			return SKDDatabaseService.DayIntervalTranslator.MarkDeleted(uid);
 		}
 
-		public FiresecAPI.OperationResult<IEnumerable<TimeInterval>> GetTimeIntervals(TimeIntervalFilter filter)
+		public FiresecAPI.OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
 		{
-			return SKDDatabaseService.TimeIntervalTranslator.Get(filter);
+			return SKDDatabaseService.DayIntervalPartTranslator.Get(filter);
 		}
-		public FiresecAPI.OperationResult SaveTimeInterval(TimeInterval item)
+		public FiresecAPI.OperationResult SaveDayIntervalPart(DayIntervalPart item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дневного_графика);
-			return SKDDatabaseService.TimeIntervalTranslator.Save(item);
+			return SKDDatabaseService.DayIntervalPartTranslator.Save(item);
 		}
-		public FiresecAPI.OperationResult MarkDeletedTimeInterval(Guid uid)
+		public FiresecAPI.OperationResult MarkDeletedDayIntervalPart(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дневного_графика);
-			return SKDDatabaseService.TimeIntervalTranslator.MarkDeleted(uid);
+			return SKDDatabaseService.DayIntervalPartTranslator.MarkDeleted(uid);
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
@@ -68,19 +68,19 @@ namespace FiresecService.Service
 			return SKDDatabaseService.ScheduleSchemeTranslator.MarkDeleted(uid);
 		}
 
-		public FiresecAPI.OperationResult<IEnumerable<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
+		public FiresecAPI.OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)
 		{
-			return SKDDatabaseService.DayIntervalTranslator.Get(filter);
+			return SKDDatabaseService.ScheduleDayIntervalTranslator.Get(filter);
 		}
-		public FiresecAPI.OperationResult SaveDayInterval(DayInterval item)
+		public FiresecAPI.OperationResult SaveSheduleDayInterval(ScheduleDayInterval item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_схемы_работы);
-			return SKDDatabaseService.DayIntervalTranslator.Save(item);
+			return SKDDatabaseService.ScheduleDayIntervalTranslator.Save(item);
 		}
-		public FiresecAPI.OperationResult MarkDeletedDayInterval(Guid uid)
+		public FiresecAPI.OperationResult MarkDeletedSheduleDayInterval(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_схемы_работы);
-			return SKDDatabaseService.DayIntervalTranslator.MarkDeleted(uid);
+			return SKDDatabaseService.ScheduleDayIntervalTranslator.MarkDeleted(uid);
 		}
 
 		public FiresecAPI.OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter)

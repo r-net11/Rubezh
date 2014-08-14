@@ -5,12 +5,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class NamedInterval : OrganisationElementBase
+	public class ScheduleDayIntervalFilter : IsDeletedFilter
 	{
 		[DataMember]
-		public string Name { get; set; }
-
-		[DataMember]
-		public List<Guid> IntervalUids { get; set; }
+		public Guid ScheduleSchemeUID { get; set; }
 	}
 }

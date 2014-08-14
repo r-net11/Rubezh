@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -18,7 +18,7 @@ namespace SKDModule.ViewModels
 		public abstract ScheduleSchemeType Type { get; }
 		private ScheduleScheme _clipboard;
 		private bool _isInitialized;
-		private Dictionary<Guid, ObservableCollection<NamedInterval>> _namedIntervals;
+		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
 
 		public ScheduleSchemesViewModel()
 		{
@@ -71,31 +71,31 @@ namespace SKDModule.ViewModels
 				Initialize();
 				_isInitialized = true;
 			}
-			ReloadNamedIntervals();
+			ReloadDayIntervals();
 		}
 
-		public void ReloadNamedIntervals()
+		public void ReloadDayIntervals()
 		{
 			if (Organisations != null)
 			{
-				var namedIntervals = NamedIntervalHelper.Get(new NamedIntervalFilter()
+				var dayIntervals = DayIntervalHelper.Get(new DayIntervalFilter()
 				{
 					UserUID = FiresecManager.CurrentUser.UID,
 					OrganisationUIDs = Organisations.Select(item => item.Organisation.UID).ToList(),
 				});
-				_namedIntervals = new Dictionary<Guid, ObservableCollection<NamedInterval>>();
-				Organisations.ForEach(item => _namedIntervals.Add(item.Organisation.UID, new ObservableCollection<NamedInterval>()));
-				namedIntervals.ForEach(item => _namedIntervals[item.OrganisationUID].Add(item));
-				_namedIntervals.Values.ForEach(item => item.Insert(0, new NamedInterval()
+				_dayIntervals = new Dictionary<Guid, ObservableCollection<DayInterval>>();
+				Organisations.ForEach(item => _dayIntervals.Add(item.Organisation.UID, new ObservableCollection<DayInterval>()));
+				dayIntervals.ForEach(item => _dayIntervals[item.OrganisationUID].Add(item));
+				_dayIntervals.Values.ForEach(item => item.Insert(0, new DayInterval()
 				{
 					UID = Guid.Empty,
 					Name = "Никогда",
 				}));
 			}
 		}
-		public ObservableCollection<NamedInterval> GetNamedIntervals(Guid organisationUID)
+		public ObservableCollection<DayInterval> GetDayIntervals(Guid organisationUID)
 		{
-			return _namedIntervals.ContainsKey(organisationUID) ? _namedIntervals[organisationUID] : new ObservableCollection<NamedInterval>();
+			return _dayIntervals.ContainsKey(organisationUID) ? _dayIntervals[organisationUID] : new ObservableCollection<DayInterval>();
 		}
 
 		public List<ScheduleSchemeViewModel> Organisations { get; private set; }
@@ -245,9 +245,9 @@ namespace SKDModule.ViewModels
 			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			foreach (var day in source.DayIntervals)
 				if (!day.IsDeleted)
-					copy.DayIntervals.Add(new DayInterval()
+					copy.DayIntervals.Add(new ScheduleDayInterval()
 					{
-						NamedIntervalUID = day.NamedIntervalUID,
+						DayIntervalUID = day.DayIntervalUID,
 						Number = day.Number,
 						ScheduleSchemeUID = copy.UID,
 					});

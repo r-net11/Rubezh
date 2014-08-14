@@ -2,18 +2,18 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class DayIntervalViewModel : BaseObjectViewModel<DayInterval>
+	public class SheduleDayIntervalViewModel : BaseObjectViewModel<ScheduleDayInterval>
 	{
 		ScheduleSchemeViewModel _scheduleScheme;
 		bool _initialized;
 
-		public DayIntervalViewModel(ScheduleSchemeViewModel scheduleScheme, DayInterval dayInterval)
+		public SheduleDayIntervalViewModel(ScheduleSchemeViewModel scheduleScheme, ScheduleDayInterval dayInterval)
 			: base(dayInterval)
 		{
 			_initialized = false;
@@ -24,9 +24,9 @@ namespace SKDModule.ViewModels
 		}
 
 		public string Name { get; private set; }
-		public ObservableCollection<NamedInterval> NamedIntervals
+		public ObservableCollection<DayInterval> DayIntervals
 		{
-			get { return _scheduleScheme.NamedIntervals; }
+			get { return _scheduleScheme.DayIntervals; }
 		}
 
 		public override void Update()
@@ -43,33 +43,33 @@ namespace SKDModule.ViewModels
 				Name = (Model.Number + 1).ToString();
 			}
 			//Name = _scheduleScheme.ScheduleScheme.Type == ScheduleSchemeType.Week ? ((DayOfWeek)((Model.Number + 1) % 7)).ToString("dddd") : (Model.Number + 1).ToString();
-			SelectedNamedInterval = NamedIntervals.SingleOrDefault(item => item.UID == Model.NamedIntervalUID) ?? NamedIntervals[0];
+			SelectedDayInterval = DayIntervals.SingleOrDefault(item => item.UID == Model.DayIntervalUID) ?? DayIntervals[0];
 			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => NamedIntervals);
+			OnPropertyChanged(() => DayIntervals);
 		}
 
-		NamedInterval _selectedNamedInterval;
-		public NamedInterval SelectedNamedInterval
+		DayInterval _selectedDayInterval;
+		public DayInterval SelectedDayInterval
 		{
-			get { return _selectedNamedInterval; }
+			get { return _selectedDayInterval; }
 			set
 			{
-				if (SelectedNamedInterval != value)
+				if (SelectedDayInterval != value)
 				{
-					_selectedNamedInterval = value ?? NamedIntervals[0];
-					if (_initialized || Model.NamedIntervalUID != _selectedNamedInterval.UID)
+					_selectedDayInterval = value ?? DayIntervals[0];
+					if (_initialized || Model.DayIntervalUID != _selectedDayInterval.UID)
 					{
-						Model.NamedIntervalUID = _selectedNamedInterval.UID;
-						DayIntervalHelper.Save(Model);
+						Model.DayIntervalUID = _selectedDayInterval.UID;
+						SheduleDayIntervalHelper.Save(Model);
 					}
 				}
-				OnPropertyChanged(() => SelectedNamedInterval);
+				OnPropertyChanged(() => SelectedDayInterval);
 			}
 		}
 
 		void OrganisationViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == "NamedIntervals")
+			if (e.PropertyName == "DayIntervals")
 				Update();
 		}
 	}

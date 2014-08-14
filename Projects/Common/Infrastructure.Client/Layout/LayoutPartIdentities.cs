@@ -37,7 +37,7 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid SKDZones = new Guid("{64FB191F-004A-4F52-A0D0-A739031EDBF5}");
 		public static readonly Guid SKDHR = new Guid("{CADC9059-9868-4B31-A072-992776677C57}");
 		public static readonly Guid SKDVerification = new Guid("{3223085C-F808-49DC-B215-45875DA67833}");
-		public static readonly Guid SKDNamedIntervals = new Guid("{3BB6AB5A-4CD8-4D12-B46C-27E8F9DB8A51}");
+		public static readonly Guid SKDDayIntervals = new Guid("{3BB6AB5A-4CD8-4D12-B46C-27E8F9DB8A51}");
 		public static readonly Guid SKDWeeklyScheduleSchemes = new Guid("{8D63585E-A224-4A79-BE90-3A8B45E224A0}");
 		public static readonly Guid SKDDaylyScheduleSchemes = new Guid("{B23AC76D-C16C-4F68-8223-262393A874FB}");
 		public static readonly Guid SKDMonthlyScheduleSchemes = new Guid("{6D6D4B53-8E45-44BC-A011-3E38B87FD6B6}");

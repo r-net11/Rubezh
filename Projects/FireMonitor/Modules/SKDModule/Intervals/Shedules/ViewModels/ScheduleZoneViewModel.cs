@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using FiresecAPI.EmployeeTimeIntervals;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Windows.ViewModels;
 

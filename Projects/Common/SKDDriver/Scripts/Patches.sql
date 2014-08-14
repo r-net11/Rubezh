@@ -681,3 +681,59 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('CreateIndex_HolidaySettingsUIDIndex')
 END
 GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameDay')
+BEGIN
+	BEGIN
+		EXEC sp_rename 'Day', 'ScheduleDay'
+	END
+	INSERT INTO Patches (Id) VALUES ('RenameDay')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameDayNamedIntervalUID')
+BEGIN
+	BEGIN
+		EXEC sp_rename 'ScheduleDay.NamedIntervalUID', 'DayIntervalUID', 'COLUMN'
+	END
+	INSERT INTO Patches (Id) VALUES ('RenameDayNamedIntervalUID')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameInterval')
+BEGIN
+	BEGIN
+		EXEC sp_rename 'Interval', 'DayIntervalPart'
+	END
+	INSERT INTO Patches (Id) VALUES ('RenameInterval')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameIntervalNamedIntervalUID')
+BEGIN
+	BEGIN
+		EXEC sp_rename 'DayIntervalPart.NamedIntervalUID', 'DayIntervalUID', 'COLUMN'
+	END
+	INSERT INTO Patches (Id) VALUES ('RenameIntervalNamedIntervalUID')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameNamedInterval')
+BEGIN
+	BEGIN
+		EXEC sp_rename 'NamedInterval', 'DayInterval'
+	END
+	INSERT INTO Patches (Id) VALUES ('RenameNamedInterval')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameTimeTrackException')
+BEGIN
+	BEGIN
+		EXEC sp_rename 'TimeTrackException', 'TimeTrackDocument'
+	END
+	INSERT INTO Patches (Id) VALUES ('RenameTimeTrackException')
+END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameTimeTrackExceptionDocumentType')
+BEGIN
+	BEGIN
+		EXEC sp_rename 'TimeTrackDocument.DocumentType', 'DocumentCode', 'COLUMN'
+	END
+	INSERT INTO Patches (Id) VALUES ('RenameTimeTrackExceptionDocumentType')
+END
+GO

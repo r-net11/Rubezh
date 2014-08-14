@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using FiresecAPI.SKD;
+﻿using System.Runtime.Serialization;
 
-namespace FiresecAPI.EmployeeTimeIntervals
+namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class DayIntervalFilter : IsDeletedFilter
+	public class DayIntervalFilter : OrganisationFilterBase
 	{
-		[DataMember]
-		public List<Guid> ScheduleSchemeUIDs { get; set; }
 	}
 }

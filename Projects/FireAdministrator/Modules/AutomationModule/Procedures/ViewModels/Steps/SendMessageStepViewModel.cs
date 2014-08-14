@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Automation;
 using System.Linq;
 using ValueType = FiresecAPI.Automation.ValueType;
+using FiresecClient;
 
 namespace AutomationModule.ViewModels
 {
@@ -44,6 +45,8 @@ namespace AutomationModule.ViewModels
 				SendMessageArguments.ValueType = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedValueType);
+				if (UpdateDescriptionHandler != null)
+					UpdateDescriptionHandler();
 			}
 		}
 
@@ -62,26 +65,54 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public ObservableCollection<GlobalVariableViewModel> GlobalVariables { get; private set; }
+		private GlobalVariableViewModel _selectedGlobalVariable;
+		public GlobalVariableViewModel SelectedGlobalVariable
+		{
+			get { return _selectedGlobalVariable; }
+			set
+			{
+				_selectedGlobalVariable = value;
+				if (value != null)
+					SendMessageArguments.GlobalVariableUid = value.GlobalVariable.Uid;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => SelectedGlobalVariable);
+			}
+		}
+
 		public void UpdateContent()
 		{
 			Variables = new ObservableCollection<VariableViewModel>();
+			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
 			var variablesAndArguments = new List<Variable>(Procedure.Variables);
 			variablesAndArguments.AddRange(Procedure.Arguments);
 			foreach (var variable in variablesAndArguments)
 			{
-				var variableViewModel = new VariableViewModel(variable);
-				Variables.Add(variableViewModel);
+				Variables.Add(new VariableViewModel(variable));
 			}
-			ValueTypes = new ObservableCollection<ValueType> { ValueType.IsLocalVariable, ValueType.IsValue };
+			foreach (var globalVariable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
+			{
+				GlobalVariables.Add(new GlobalVariableViewModel(globalVariable));
+			}
+			ValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList());
 			SelectedValueType = SendMessageArguments.ValueType;
 			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == SendMessageArguments.VariableUid);
+			SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.GlobalVariable.Uid == SendMessageArguments.GlobalVariableUid);
 			OnPropertyChanged(() => Variables);
+			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => SelectedVariable);
 		}
 
 		public string Description
 		{
-			get { return Message; }
+			get 
+			{
+				if (SelectedValueType == ValueType.IsLocalVariable)
+					return "<" + SelectedVariable.Name + ">";
+				if (SelectedValueType == ValueType.IsGlobalVariable)
+					return "<" + SelectedGlobalVariable.Name + ">";
+				return Message; 
+			}
 		}
 	}
 }

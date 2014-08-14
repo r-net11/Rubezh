@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using FiresecAPI.EmployeeTimeIntervals;
 using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 using FiresecAPI.SKD;
@@ -72,35 +71,43 @@ namespace SKDDriver.Translators
 
 		public void InsertPassJournalTestData()
 		{
-			var employeeUID = SKDDatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result.FirstOrDefault().UID;
+			var employees = SKDDatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result;
 			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
 
-			var random = new Random();
-			for (int day = 0; day < 100; day++)
+			foreach (var passJournal in Context.PassJournals)
 			{
-				var dateTime = DateTime.Now.AddDays(-day);
+				Context.PassJournals.DeleteOnSubmit(passJournal);
+			}
 
-				var seconds = new List<int>();
-				var count = random.Next(0, 5);
-				for (int i = 0; i < count * 2; i++)
+			var random = new Random();
+			foreach (var employee in employees)
+			{
+				for (int day = 0; day < 100; day++)
 				{
-					var totalSeconds = random.Next(0, 24 * 60 * 60);
-					seconds.Add(totalSeconds);
-				}
-				seconds.Sort();
+					var dateTime = DateTime.Now.AddDays(-day);
 
-				for (int i = 0; i < count * 2; i += 2)
-				{
-					var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
-					var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
+					var seconds = new List<int>();
+					var count = random.Next(0, 5);
+					for (int i = 0; i < count * 2; i++)
+					{
+						var totalSeconds = random.Next(0, 24 * 60 * 60);
+						seconds.Add(totalSeconds);
+					}
+					seconds.Sort();
 
-					var passJournal = new DataAccess.PassJournal();
-					passJournal.UID = Guid.NewGuid();
-					passJournal.EmployeeUID = employeeUID;
-					passJournal.ZoneUID = zoneUID;
-					passJournal.EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, startTimeSpan.Hours, startTimeSpan.Minutes, startTimeSpan.Seconds);
-					passJournal.ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, endTimeSpan.Hours, endTimeSpan.Minutes, endTimeSpan.Seconds);
-					Context.PassJournals.InsertOnSubmit(passJournal);
+					for (int i = 0; i < count * 2; i += 2)
+					{
+						var startTimeSpan = TimeSpan.FromSeconds(seconds[i]);
+						var endTimeSpan = TimeSpan.FromSeconds(seconds[i + 1]);
+
+						var passJournal = new DataAccess.PassJournal();
+						passJournal.UID = Guid.NewGuid();
+						passJournal.EmployeeUID = employee.UID;
+						passJournal.ZoneUID = zoneUID;
+						passJournal.EnterTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, startTimeSpan.Hours, startTimeSpan.Minutes, startTimeSpan.Seconds);
+						passJournal.ExitTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, endTimeSpan.Hours, endTimeSpan.Minutes, endTimeSpan.Seconds);
+						Context.PassJournals.InsertOnSubmit(passJournal);
+					}
 				}
 			}
 
@@ -141,26 +148,26 @@ namespace SKDDriver.Translators
 			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
 			if (scheduleScheme == null)
 				return new DayTimeTrack("Не найдена схема работы");
-			var scheduleSchemeType = (FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType)scheduleScheme.Type;
+			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
 
-			var days = Context.Days.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID);
+			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID);
 			if (days == null || days.Count() == 0)
 				return new DayTimeTrack();
 			int dayNo = -1;
 
 			switch (scheduleSchemeType)
 			{
-				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.Week:
+				case ScheduleSchemeType.Week:
 					dayNo = (int)date.DayOfWeek - 1;
 					if (dayNo == -1)
 						dayNo = 6;
 					break;
-				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.SlideDay:
+				case ScheduleSchemeType.SlideDay:
 					var daysCount = days.Count();
 					var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
 					dayNo = (int)Math.IEEERemainder((int)period.TotalDays, daysCount);
 					break;
-				case FiresecAPI.EmployeeTimeIntervals.ScheduleSchemeType.Month:
+				case ScheduleSchemeType.Month:
 					dayNo = (int)date.Day;
 					break;
 			}
@@ -168,30 +175,30 @@ namespace SKDDriver.Translators
 			if (day == null)
 				return new DayTimeTrack("Не найден день");
 
-			List<DataAccess.Interval> intervals = new List<DataAccess.Interval>();
-			if (day.NamedIntervalUID != null)
+			List<DataAccess.DayIntervalPart> intervals = new List<DataAccess.DayIntervalPart>();
+			if (day.DayIntervalUID != null)
 			{
-				var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == day.NamedIntervalUID);
-				if (namedInterval == null)
+				var dayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == day.DayIntervalUID);
+				if (dayInterval == null)
 					return new DayTimeTrack("Не найден дневной интервал");
-				intervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID).ToList();
+				intervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID).ToList();
 			}
 
 			TimeTrackPart nightTimeTrackPart = null;
 			{
-				SKDDriver.DataAccess.Day previousDay = null;
+				SKDDriver.DataAccess.ScheduleDay previousDay = null;
 				if (dayNo > 0)
 					previousDay = days.FirstOrDefault(x => x.Number == dayNo - 1);
 				else
 					previousDay = days.FirstOrDefault(x => x.Number == days.Count() - 1);
 				if (previousDay != null)
 				{
-					if (previousDay.NamedIntervalUID != null)
+					if (previousDay.DayIntervalUID != null)
 					{
-						var namedInterval = Context.NamedIntervals.FirstOrDefault(x => x.UID == previousDay.NamedIntervalUID);
-						if (namedInterval != null)
+						var dayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == previousDay.DayIntervalUID);
+						if (dayInterval != null)
 						{
-							var previousIntervals = Context.Intervals.Where(x => x.NamedIntervalUID == namedInterval.UID).ToList();
+							var previousIntervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID).ToList();
 							var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTime > 60 * 60 * 24);
 							if (nightInterval != null)
 							{
@@ -214,17 +221,17 @@ namespace SKDDriver.Translators
 
 			if (!schedule.IsIgnoreHoliday)
 			{
-				var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID);
+				var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID);
 				if (holiday != null)
 				{
 					dayTimeTrack.IsHoliday = true;
 				}
-				holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID);
+				holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID);
 				if (holiday != null)
 				{
 					dayTimeTrack.HolidayReduction = holiday.Reduction;
 				}
-				holiday = Context.Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)FiresecAPI.EmployeeTimeIntervals.HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID);
+				holiday = Context.Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID);
 				if (holiday != null)
 				{
 					dayTimeTrack.IsHoliday = true;

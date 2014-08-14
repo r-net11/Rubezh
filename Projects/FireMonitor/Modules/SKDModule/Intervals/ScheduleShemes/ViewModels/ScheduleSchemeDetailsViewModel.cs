@@ -1,5 +1,5 @@
 ﻿using System;
-using FiresecAPI.EmployeeTimeIntervals;
+using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows.ViewModels;
 
@@ -44,11 +44,11 @@ namespace SKDModule.ViewModels
 					Name = name,
 				};
 				for (int i = 0; i < dayCount; i++)
-					scheduleScheme.DayIntervals.Add(new DayInterval()
+					scheduleScheme.DayIntervals.Add(new ScheduleDayInterval()
 					{
 						Number = i,
 						ScheduleSchemeUID = scheduleScheme.UID,
-						NamedIntervalUID = Guid.Empty,
+						DayIntervalUID = Guid.Empty,
 					});
 			}
 			ScheduleScheme = scheduleScheme;
