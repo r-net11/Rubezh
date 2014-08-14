@@ -84,12 +84,18 @@ namespace FiresecService.Processor
 			var sendMessageArguments = procedureStep.SendMessageArguments;
 			if (sendMessageArguments.ValueType == ValueType.IsValue)
 				automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
-			else
+			if (sendMessageArguments.ValueType == ValueType.IsLocalVariable)
 			{
 				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid) ??
 					procedure.Arguments.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid);
 				if (localVariable != null)
 					automationCallbackResult.Message = localVariable.CurrentValue;
+			}
+			if (sendMessageArguments.ValueType == ValueType.IsGlobalVariable)
+			{
+				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == sendMessageArguments.GlobalVariableUid);
+				if (globalVariable != null)
+					automationCallbackResult.Message = globalVariable.CurrentValue;
 			}
 			return automationCallbackResult;
 		}
@@ -140,13 +146,7 @@ namespace FiresecService.Processor
 			{
 				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid) ??
 					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
-				if (localVariable != null)
-				{
-					var argument = arguments.FirstOrDefault(x => x.ArgumentUid == localVariable.Uid);
-					if (argument != null)
-						return argument.IntValue;
-					return localVariable.IntValue;
-				}
+				return localVariable.IntValue;
 			}
 			return arithmeticParameter.Value;
 		}

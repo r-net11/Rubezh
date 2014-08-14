@@ -23,7 +23,7 @@ namespace AutomationModule.ViewModels
 			AddForeachCommand = new RelayCommand(OnAddForeach, CanAdd);
 			UpCommand = new RelayCommand(OnUp, CanUp);
 			DownCommand = new RelayCommand(OnDown, CanDown);
-
+			DownIntoCommand = new RelayCommand(OnDownInto, CanDownInto);
 			Procedure = procedure;
 
 			BuildTree();
@@ -268,7 +268,7 @@ namespace AutomationModule.ViewModels
 			else
 			{
 				var index = SelectedStep.Index;
-				if (index < 2)
+				if (index < 1)
 					return false;
 			}
 			return true;
@@ -321,13 +321,58 @@ namespace AutomationModule.ViewModels
 				var parentViewModel = SelectedStep.Parent;
 				var index = SelectedStep.Index;
 				parentViewModel.RemoveChild(SelectedStep);
-				parentViewModel[index + delta - 1].InsertChild(stepViewModel);
+
+				if (delta == 1)
+					parentViewModel[index + delta - 1].InsertChild(stepViewModel);
+				else
+					parentViewModel[index + delta].InsertTo(stepViewModel);
 				SelectedStep = stepViewModel;
 
 				var step = stepViewModel.Step;
 				parentViewModel.Step.Children.Remove(stepViewModel.Step);
 				parentViewModel.Step.Children.Insert(index + delta, step);
 			}
+		}
+
+		public RelayCommand DownIntoCommand { get; private set; }
+		void OnDownInto()
+		{
+			var stepViewModel = SelectedStep;
+			var index = RootSteps.IndexOf(SelectedStep);
+			StepViewModel targetStepViewModel;
+
+			if (SelectedStep.Parent == null)
+			{
+				targetStepViewModel = RootSteps[index + 1].Children.FirstOrDefault();
+				RootSteps.Remove(SelectedStep);
+				Procedure.Steps.Remove(stepViewModel.Step);
+			}
+			else
+			{
+				targetStepViewModel = SelectedStep.Parent[SelectedStep.Index + 1].Children.FirstOrDefault();
+				SelectedStep.Parent.RemoveChild(SelectedStep);
+			}
+
+			if (targetStepViewModel.ChildrenCount == 0)
+			{
+				targetStepViewModel.AddChild(stepViewModel);
+				stepViewModel.ExpandToThis();
+			}
+			else
+				targetStepViewModel[0].InsertTo(stepViewModel);
+			targetStepViewModel.Step.Children.Insert(0, stepViewModel.Step);
+			SelectedStep = stepViewModel;
+		}
+
+		bool CanDownInto()
+		{
+			ProcedureStep nextStep;
+			if (SelectedStep.Parent == null)
+				nextStep = RootSteps[SelectedStep.Index + 1].Step;
+			else
+				nextStep = SelectedStep.Parent[SelectedStep.Index + 1].Step;
+
+			return (CanDown() && (nextStep.ProcedureStepType == ProcedureStepType.If || nextStep.ProcedureStepType == ProcedureStepType.Foreach));
 		}
 	}
 }

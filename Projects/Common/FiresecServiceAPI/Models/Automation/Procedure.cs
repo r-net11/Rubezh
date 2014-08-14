@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Common;
 using Infrustructure.Plans.Interfaces;
+using System.Linq;
 
 namespace FiresecAPI.Automation
 {
@@ -43,10 +44,18 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public bool IsActive { get; set; }
 
-		public void ResetVaraibles()
+		public void ResetVaraibles(List<Argument> arguments)
 		{
 			foreach (var variable in Variables)
 				variable.ResetValue();
+			foreach (var variable in Arguments)
+			{
+				var argument = arguments.FirstOrDefault(x => x.ArgumentUid == variable.Uid);
+				if (argument == null)
+					variable.ResetValue();
+				else
+					variable.ResetValue(argument);
+			}
 		}
 
 		#region IIdentity Members

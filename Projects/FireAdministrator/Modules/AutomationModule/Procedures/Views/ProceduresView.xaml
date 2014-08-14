@@ -40,59 +40,55 @@
 
 		<Grid Grid.Column="2" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" DataContext="{Binding SelectedProcedure}" Margin="4, -50, 0, 0">
 			<Grid>
-				<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="250 14 0 0">
+				<StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="280 14 0 0">
 					<StackPanel Orientation="Horizontal">
-						
-						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Margin="2,0" Foreground="White" >
+
+						<Button Content="Шаги" Command="{Binding ShowStepsCommand}" Width="120" Foreground="White" >
 							<Button.Style>
-								<Style TargetType="Button">
-									<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
 											ConverterParameter={x:Static procedures:MenuType.IsSteps}}" Value="True">
-											<Setter Property="Background" Value="Orange" />
+											<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>
 							</Button.Style>
 						</Button>
 
-						<Button Content="Переменные" Command="{Binding ShowVariablesCommand}" Width="120" Margin="2,0" Foreground="White" >
+						<Button Content="Переменные" Command="{Binding ShowVariablesCommand}" Width="120" Foreground="White" >
 							<Button.Style>
-								<Style TargetType="Button">
-									<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
 											ConverterParameter={x:Static procedures:MenuType.IsVariables}, Mode=OneWay}" Value="True">
-											<Setter Property="Background" Value="Orange" />
+											<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>
 							</Button.Style>
 						</Button>
 
-						<Button Content="Аргументы" Command="{Binding ShowArgumentsCommand}" Width="120" Margin="2,0" Foreground="White" >
+						<Button Content="Аргументы" Command="{Binding ShowArgumentsCommand}" Width="120" Foreground="White" >
 							<Button.Style>
-								<Style TargetType="Button">
-									<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
 											ConverterParameter={x:Static procedures:MenuType.IsArguments}, Mode=OneWay}" Value="True">
-											<Setter Property="Background" Value="Orange" />
+											<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>
 							</Button.Style>
 						</Button>
 
-						<Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="120" Margin="2,0" Foreground="White" >
+						<Button Content="Условия запуска" Command="{Binding ShowConditionsCommand}" Width="120" Foreground="White" >
 							<Button.Style>
-								<Style TargetType="Button">
-									<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+								<Style BasedOn="{StaticResource ToolBarButtonStyle}" TargetType="{x:Type Button}">
 									<Style.Triggers>
 										<DataTrigger Binding="{Binding Path=SelectedMenuType, Converter={StaticResource EnumToBoolConverter},
 											ConverterParameter={x:Static procedures:MenuType.IsConditions}, Mode=OneWay}" Value="True">
-											<Setter Property="Background" Value="Orange" />
+											<Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
 										</DataTrigger>
 									</Style.Triggers>
 								</Style>

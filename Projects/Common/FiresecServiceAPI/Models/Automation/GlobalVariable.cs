@@ -23,5 +23,13 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Guid Uid { get; set; }
+
+		public string CurrentValue
+		{
+			get
+			{
+				return Value.ToString();
+			}
+		}
 	}
 }
