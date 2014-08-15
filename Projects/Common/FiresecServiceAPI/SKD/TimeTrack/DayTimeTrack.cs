@@ -1,9 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.ComponentModel;
 
 namespace FiresecAPI.SKD
 {
@@ -49,6 +47,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public TimeSpan AllowedEarlyLeave { get; set; }
+
+		[DataMember]
+		public TimeSpan SlideTime { get; set; }
 
 		[DataMember]
 		public bool IsHoliday { get; set; }
@@ -198,12 +199,18 @@ namespace FiresecAPI.SKD
 
 					if (timeTrackPart.StartTime == FirstPlanned && timeTrackPart.EndTime < LastPlanned)
 					{
-						timeTrackPart.TimeTrackPartType = TimeTrackPartType.Late;
+						if (timeTrackPart.Delta > AllowedLate)
+						{
+							timeTrackPart.TimeTrackPartType = TimeTrackPartType.Late;
+						}
 					}
 
 					if (timeTrackPart.EndTime == LastPlanned && timeTrackPart.StartTime > FirstPlanned)
 					{
-						timeTrackPart.TimeTrackPartType = TimeTrackPartType.EarlyLeave;
+						if (timeTrackPart.Delta > AllowedEarlyLeave)
+						{
+							timeTrackPart.TimeTrackPartType = TimeTrackPartType.EarlyLeave;
+						}
 					}
 				}
 			}
@@ -246,6 +253,20 @@ namespace FiresecAPI.SKD
 				}
 			}
 
+			if (SlideTime.TotalSeconds > 0)
+			{
+				if (Total > SlideTime)
+				{
+					TotalInSchedule = SlideTime;
+					TotalOutSchedule = Total - SlideTime;
+				}
+				else
+				{
+					TotalInSchedule = Total;
+					TotalOutSchedule = new TimeSpan();
+				}	
+			}
+
 			if (IsHoliday)
 			{
 				TotalInSchedule = new TimeSpan();
@@ -255,53 +276,53 @@ namespace FiresecAPI.SKD
 				TotalOutSchedule = new TimeSpan();
 			}
 
-			if (!string.IsNullOrEmpty(Error))
-			{
-				TimeTrackType = TimeTrackType.None;
-				return;
-			}
 			if (TimeTrackDocument.DocumentCode != 0)
 			{
-				TimeTrackType = TimeTrackType.Document;
 				Total = TotalPlanned;
 				TotalInSchedule = TotalPlanned;
 				TotalMissed = new TimeSpan();
 				TotalLate = new TimeSpan();
 				TotalEarlyLeave = new TimeSpan();
 				TotalOutSchedule = new TimeSpan();
-				return;
+			}
+			TimeTrackType = CalculateTimeTrackType();
+		}
+
+		TimeTrackType CalculateTimeTrackType()
+		{
+			if (!string.IsNullOrEmpty(Error))
+			{
+				return TimeTrackType.None;
+			}
+			if (TimeTrackDocument.DocumentCode != 0)
+			{
+				return TimeTrackType.Document;
 			}
 			if (IsHoliday)
 			{
-				TimeTrackType = TimeTrackType.Holiday;
-				return;
+				return TimeTrackType.Holiday;
 			}
 			if (PlannedTimeTrackParts.Count == 0)
 			{
-				TimeTrackType = TimeTrackType.DayOff;
-				return;
+				return TimeTrackType.DayOff;
 			}
 			if (Total.TotalSeconds == 0)
 			{
-				TimeTrackType = TimeTrackType.Missed;
-				return;
+				return TimeTrackType.Missed;
 			}
 			if (TotalLate.TotalSeconds > 0)
 			{
-				TimeTrackType = TimeTrackType.Late;
-				return;
+				return TimeTrackType.Late;
 			}
 			if (TotalEarlyLeave.TotalSeconds > 0)
 			{
-				TimeTrackType = TimeTrackType.EarlyLeave;
-				return;
+				return TimeTrackType.EarlyLeave;
 			}
 			if (TotalOutSchedule.TotalSeconds > 0)
 			{
-				TimeTrackType = TimeTrackType.OutShedule;
-				return;
+				return TimeTrackType.OutShedule;
 			}
-			TimeTrackType = TimeTrackType.AsPlanned;
+			return TimeTrackType.AsPlanned;
 		}
 
 		TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end)

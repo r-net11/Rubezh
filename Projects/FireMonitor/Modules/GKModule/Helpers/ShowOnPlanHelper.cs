@@ -3,10 +3,9 @@ using System.Linq;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKModule.Events;
 using Infrastructure;
-using Infrustructure.Plans.Events;
 using Infrastructure.Events;
+using Infrustructure.Plans.Events;
 
 namespace GKModule
 {

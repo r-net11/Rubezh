@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.SKD;
@@ -7,8 +9,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
-using System;
 
 namespace SKDModule.ViewModels
 {

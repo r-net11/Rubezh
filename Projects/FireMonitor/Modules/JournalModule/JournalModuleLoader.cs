@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Journal;
+using FiresecAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
-using Infrastructure.Common.Services.Layout;
-using Infrastructure.Client.Layout;
-using FiresecAPI.Models.Layouts;
-using System.Collections.ObjectModel;
 
 namespace JournalModule
 {

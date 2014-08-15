@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using AutomationModule.Events;
 using AutomationModule.ViewModels;
+using FiresecAPI;
+using FiresecAPI.Models;
+using FiresecAPI.Models.Layouts;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Client;
+using Infrastructure.Client.Layout;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using FiresecAPI;
-using System;
-using Infrastructure.Common.Windows;
-using System.Linq;
-using FiresecAPI.Models;
 using Infrastructure.Common.Services;
-using System.IO;
 using Infrastructure.Common.Services.Layout;
-using Infrastructure.Client.Layout;
-using FiresecAPI.Models.Layouts;
+using Infrastructure.Common.Windows;
 
 namespace AutomationModule
 {

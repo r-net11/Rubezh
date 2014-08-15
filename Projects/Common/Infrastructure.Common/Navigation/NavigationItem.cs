@@ -39,7 +39,7 @@ namespace Infrastructure.Common.Navigation
 			set
 			{
 				_title = value;
-				OnPropertyChanged("Title");
+				OnPropertyChanged(() => Title);
 			}
 		}
 		private string _icon;

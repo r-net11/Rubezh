@@ -221,6 +221,7 @@
     <Compile Include="SKD\Door\DoorType.cs" />
     <Compile Include="SKD\Driver\SKDDriverProperty.cs" />
     <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
+    <Compile Include="SKD\TimeTrack\PlannedTimeTrackCollection.cs" />
     <Compile Include="SKD\TimeTrack\ShortSchedule.cs" />
     <Compile Include="Models\Automation\AutomationSchedule.cs" />
     <Compile Include="SKD\TimeTrack\DayTimeTrack.cs" />

@@ -1,15 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
+using FiresecAPI.Models;
 using FiresecAPI.SKD;
+using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure;
 using Infrastructure.Events;
-using FiresecClient;
-using System;
-using FiresecAPI.Models;
 using Microsoft.Practices.Prism.Events;
 
 namespace JournalModule.ViewModels

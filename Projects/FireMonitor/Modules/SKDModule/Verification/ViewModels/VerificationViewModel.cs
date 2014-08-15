@@ -1,16 +1,14 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Journal;
 using FiresecAPI.Models.Layouts;
 using FiresecAPI.SKD;
+using FiresecClient;
+using FiresecClient.SKDHelpers;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using FiresecClient.SKDHelpers;
-using FiresecClient;
-using System;
 
 namespace SKDModule.ViewModels
 {

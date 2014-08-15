@@ -3,16 +3,15 @@ using System.Windows.Media;
 using DeviceControls;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
+using Infrastructure;
 using Infrastructure.Client.Plans;
 using Infrastructure.Client.Plans.Presenter;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 using Infrustructure.Plans.Painters;
 using Infrustructure.Plans.Presenter;
-using SKDModule.Events;
 using SKDModule.ViewModels;
-using Infrastructure.Events;
-using Infrastructure.Common;
-using Infrastructure;
 
 namespace SKDModule.Plans.Designer
 {

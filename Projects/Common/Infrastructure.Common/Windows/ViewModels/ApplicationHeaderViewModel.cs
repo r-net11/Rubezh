@@ -16,7 +16,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_showIconAndTitle = value;
-				OnPropertyChanged("ShowIconAndTitle");
+				OnPropertyChanged(() => ShowIconAndTitle);
 			}
 		}
 

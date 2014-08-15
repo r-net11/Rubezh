@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
@@ -7,9 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Events;
 using Infrastructure.Events;
-using FiresecAPI.GK;
 
 namespace SKDModule.ViewModels
 {

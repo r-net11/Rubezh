@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
-using System.Collections.Generic;
 
 namespace FiresecAPI.Journal
 {

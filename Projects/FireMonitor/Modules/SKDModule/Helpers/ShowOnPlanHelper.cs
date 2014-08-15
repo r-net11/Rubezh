@@ -1,12 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
-using Infrustructure.Plans.Events;
-using SKDModule.Events;
 using Infrastructure.Events;
-using System;
+using Infrustructure.Plans.Events;
 
 namespace SKDModule
 {
