@@ -112,6 +112,9 @@ namespace FiresecAPI.SKD
 
 		public void Calculate()
 		{
+			PlannedTimeTrackParts = NormalizeTimeTrackParts(PlannedTimeTrackParts);
+			RealTimeTrackParts = NormalizeTimeTrackParts(RealTimeTrackParts);
+
 			CalculateCombinedTimeTrackParts();
 			CalculateTotal();
 
@@ -322,6 +325,51 @@ namespace FiresecAPI.SKD
 							result += minEndTime - minStartTime;
 						}
 					}
+				}
+			}
+			return result;
+		}
+
+		List<TimeTrackPart> NormalizeTimeTrackParts(List<TimeTrackPart> timeTrackParts)
+		{
+			if (timeTrackParts.Count == 0)
+				return new List<TimeTrackPart>();
+
+			var result = new List<TimeTrackPart>();
+
+			var timeSpans = new List<TimeSpan>();
+			foreach (var timeTrackPart in timeTrackParts)
+			{
+				timeSpans.Add(timeTrackPart.StartTime);
+				timeSpans.Add(timeTrackPart.EndTime);
+			}
+			timeSpans = timeSpans.OrderBy(x => x.TotalSeconds).ToList();
+
+			for (int i = 0; i < timeSpans.Count - 1; i ++)
+			{
+				var startTimeSpan = timeSpans[i];
+				var endTimeSpan = timeSpans[i + 1];
+				var timeTrackPart = timeTrackParts.FirstOrDefault(x => x.StartTime <= startTimeSpan && x.EndTime > startTimeSpan);
+
+				if (timeTrackPart != null)
+				{
+					var newTimeTrackPart = new TimeTrackPart()
+					{
+						StartTime = startTimeSpan,
+						EndTime = endTimeSpan,
+						ZoneUID = timeTrackPart.ZoneUID,
+						TimeTrackPartType = timeTrackPart.TimeTrackPartType
+					};
+					result.Add(newTimeTrackPart);
+				}
+			}
+
+			for (int i = result.Count - 1; i > 0; i--)
+			{
+				if (result[i].StartTime == result[i - 1].EndTime)
+				{
+					result[i].StartTime = result[i - 1].StartTime;
+					result.RemoveAt(i - 1);
 				}
 			}
 			return result;

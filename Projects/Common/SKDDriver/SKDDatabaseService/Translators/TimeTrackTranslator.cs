@@ -148,13 +148,13 @@ namespace SKDDriver.Translators
 			if (passJournals == null)
 				passJournals = new List<DataAccess.PassJournal>();
 
-			var employee = Context.Employees.FirstOrDefault(x => x.UID == employeeUID);
+			var employee = Context.Employees.FirstOrDefault(x => x.UID == employeeUID && !x.IsDeleted);
 			if (employee == null)
 				return new DayTimeTrack("Не найден сотрудник");
-			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID);
+			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID && !x.IsDeleted);
 			if (schedule == null)
 				return new DayTimeTrack("Не найден график");
-			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value);
+			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value && !x.IsDeleted);
 			if (scheduleScheme == null)
 				return new DayTimeTrack("Не найдена схема работы");
 			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
@@ -173,15 +173,12 @@ namespace SKDDriver.Translators
 					break;
 				case ScheduleSchemeType.SlideDay:
 					var daysCount = days.Count();
-					var period = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
-					dayNo = (int)Math.IEEERemainder((int)period.TotalDays, daysCount);
-					if (dayNo == -1)
-					{
-						;
-					}
+					var ticksDelta = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
+					var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
+					dayNo = daysDelta % daysCount;
 					break;
 				case ScheduleSchemeType.Month:
-					dayNo = (int)date.Day;
+					dayNo = (int)date.Day - 1;
 					break;
 			}
 			var day = days.FirstOrDefault(x => x.Number == dayNo);
@@ -191,27 +188,27 @@ namespace SKDDriver.Translators
 			List<DataAccess.DayIntervalPart> intervals = new List<DataAccess.DayIntervalPart>();
 			if (day.DayIntervalUID != null)
 			{
-				var dayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == day.DayIntervalUID);
+				var dayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == day.DayIntervalUID && !x.IsDeleted);
 				if (dayInterval == null)
 					return new DayTimeTrack("Не найден дневной интервал");
-				intervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID).ToList();
+				intervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID && !x.IsDeleted).ToList();
 			}
 
 			TimeTrackPart nightTimeTrackPart = null;
 			{
 				SKDDriver.DataAccess.ScheduleDay previousDay = null;
 				if (dayNo > 0)
-					previousDay = days.FirstOrDefault(x => x.Number == dayNo - 1);
+					previousDay = days.FirstOrDefault(x => x.Number == dayNo - 1 && !x.IsDeleted);
 				else
-					previousDay = days.FirstOrDefault(x => x.Number == days.Count() - 1);
+					previousDay = days.FirstOrDefault(x => x.Number == days.Count() - 1 && !x.IsDeleted);
 				if (previousDay != null)
 				{
 					if (previousDay.DayIntervalUID != null)
 					{
-						var dayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == previousDay.DayIntervalUID);
+						var dayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == previousDay.DayIntervalUID && !x.IsDeleted);
 						if (dayInterval != null)
 						{
-							var previousIntervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID).ToList();
+							var previousIntervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID && !x.IsDeleted).ToList();
 							var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTime > 60 * 60 * 24);
 							if (nightInterval != null)
 							{
@@ -234,17 +231,17 @@ namespace SKDDriver.Translators
 
 			if (!schedule.IsIgnoreHoliday)
 			{
-				var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID);
+				var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
 				if (holiday != null)
 				{
 					dayTimeTrack.IsHoliday = true;
 				}
-				holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID);
+				holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
 				if (holiday != null)
 				{
 					dayTimeTrack.HolidayReduction = holiday.Reduction;
 				}
-				holiday = Context.Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID);
+				holiday = Context.Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
 				if (holiday != null)
 				{
 					dayTimeTrack.IsHoliday = true;
@@ -283,10 +280,10 @@ namespace SKDDriver.Translators
 				}
 			}
 
-			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID).ToList();
+			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID && !x.IsDeleted).ToList();
 			foreach (var passJournal in passJournals)
 			{
-				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID);
+				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID && !x.IsDeleted);
 				if (scheduleZone != null)
 				{
 					if (passJournal.ExitTime.HasValue)

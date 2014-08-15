@@ -128,9 +128,12 @@ namespace SKDModule.Views
 					current = timeTrackPart.EndTime.TotalSeconds;
 				}
 				var lastTimePart = new TimePart();
-				lastTimePart.Delta = 24 * 60 * 60 - current;
-				lastTimePart.IsInterval = false;
-				timeParts.Add(lastTimePart);
+				lastTimePart.Delta = 24 * 60 * 60 - 1 - current;
+				if (lastTimePart.Delta > 0)
+				{
+					lastTimePart.IsInterval = false;
+					timeParts.Add(lastTimePart);
+				}
 
 				for (int i = 0; i < timeParts.Count; i++)
 				{

@@ -17,7 +17,7 @@ namespace SKDModule.ViewModels
 
 		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack)
 		{
-			//dayTimeTrack.Calculate();
+			dayTimeTrack.Calculate();
 
 			Title = "Время в течение дня";
 			DayTimeTrack = dayTimeTrack;
