@@ -12,6 +12,12 @@ namespace FiresecAPI.SKD
 			PlannedTimeTrackParts = new List<PlannedTimeTrackPart>();
 		}
 
+		public PlannedTimeTrackCollection(string error) :
+			this()
+		{
+			Error = error;
+		}
+
 		[DataMember]
 		public List<PlannedTimeTrackPart> PlannedTimeTrackParts { get; private set; }
 
@@ -35,6 +41,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public int HolidayReduction { get; set; }
+
+		[DataMember]
+		public string Error { get; set; }
 	}
 
 	[DataContract]

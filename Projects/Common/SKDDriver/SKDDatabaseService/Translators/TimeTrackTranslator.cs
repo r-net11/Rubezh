@@ -309,31 +309,42 @@ namespace SKDDriver.Translators
 			return dayTimeTrack;
 		}
 
-		PlannedTimeTrackPart GetPlannedTimeTrack(Guid employeeUID, DateTime date)
+		PlannedTimeTrackCollection GetPlannedTimeTrack(Guid employeeUID, DateTime startDate, DateTime endDate)
 		{
-			var plannedTimeTrackCollection = new PlannedTimeTrackCollection();
-			var result = new PlannedTimeTrackPart();
-
-			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employeeUID && x.EnterTime != null && x.EnterTime.Date == date.Date).ToList();
-			if (passJournals == null)
-				passJournals = new List<DataAccess.PassJournal>();
-
 			var employee = Context.Employees.FirstOrDefault(x => x.UID == employeeUID && !x.IsDeleted);
 			if (employee == null)
-				return new PlannedTimeTrackPart("Не найден сотрудник");
+				return new PlannedTimeTrackCollection("Не найден сотрудник");
 			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID && !x.IsDeleted);
 			if (schedule == null)
-				return new PlannedTimeTrackPart("Не найден график");
+				return new PlannedTimeTrackCollection("Не найден график");
 			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value && !x.IsDeleted);
 			if (scheduleScheme == null)
-				return new PlannedTimeTrackPart("Не найдена схема работы");
-			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
+				return new PlannedTimeTrackCollection("Не найдена схема работы");
 
 			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted);
 			if (days == null || days.Count() == 0)
-				return new PlannedTimeTrackPart();
-			int dayNo = -1;
+				return new PlannedTimeTrackCollection();
 
+			var plannedTimeTrackCollection = new PlannedTimeTrackCollection();
+			plannedTimeTrackCollection.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
+			plannedTimeTrackCollection.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
+			plannedTimeTrackCollection.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
+			plannedTimeTrackCollection.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
+
+			for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+			{
+				var plannedTimeTrackPart = GetPlannedTimeTrackPart(employee, schedule, scheduleScheme, days, date);
+				plannedTimeTrackCollection.PlannedTimeTrackParts.Add(plannedTimeTrackPart);
+			}
+
+			return plannedTimeTrackCollection;
+		}
+
+		PlannedTimeTrackPart GetPlannedTimeTrackPart(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleDay> days, DateTime date)
+		{
+			var scheduleSchemeType = (ScheduleSchemeType)scheduleScheme.Type;
+
+			int dayNo = -1;
 			switch (scheduleSchemeType)
 			{
 				case ScheduleSchemeType.Week:
@@ -392,10 +403,7 @@ namespace SKDDriver.Translators
 				}
 			}
 
-			plannedTimeTrackCollection.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
-			plannedTimeTrackCollection.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
-			plannedTimeTrackCollection.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
-			plannedTimeTrackCollection.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
+			var result = new PlannedTimeTrackPart();
 			result.SlideTime = TimeSpan.FromSeconds(dayInterval.SlideTime);
 
 			if (!schedule.IsIgnoreHoliday)
