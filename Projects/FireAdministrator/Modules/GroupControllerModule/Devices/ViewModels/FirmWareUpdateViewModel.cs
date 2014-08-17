@@ -49,7 +49,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				updateButtonToolTip = value;
-				OnPropertyChanged("UpdateButtonToolTip");
+				OnPropertyChanged(() => UpdateButtonToolTip);
 			}
 		}
 		public RelayCommand UpdateCommand { get; private set; }

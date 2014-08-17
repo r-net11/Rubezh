@@ -42,7 +42,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_selectedHostNameOrAddress = value;
-				OnPropertyChanged("SelectedHostNameOrAddress");
+				OnPropertyChanged(() => SelectedHostNameOrAddress);
 			}
 		}
 

@@ -52,7 +52,7 @@ namespace DevicesModule.ViewModels
 			}
 
 			OnPropertyChanged(() => StringAUProperties);
-			OnPropertyChanged("EnumAUProperties");
+			OnPropertyChanged(() => EnumAUProperties);
 			UpdateDeviceParameterMissmatchType();
 		}
 

@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_fsDevice = value;
-				OnPropertyChanged("FSDevice");
+				OnPropertyChanged(() => FSDevice);
 			}
 		}
 

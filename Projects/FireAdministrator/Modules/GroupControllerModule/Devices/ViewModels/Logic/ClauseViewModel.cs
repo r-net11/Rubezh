@@ -53,7 +53,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedClauseConditionType = value;
-				OnPropertyChanged("SelectedClauseConditionType");
+				OnPropertyChanged(() => SelectedClauseConditionType);
 			}
 		}
 

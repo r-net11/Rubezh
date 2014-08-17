@@ -21,7 +21,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				Instruction.InstructionType = value;
-				OnPropertyChanged("InstructionType");
+				OnPropertyChanged(() => InstructionType);
 			}
 		}
 

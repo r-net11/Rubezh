@@ -124,7 +124,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_selectedPlan = value;
-				OnPropertyChanged("SelectedPlan");
+				OnPropertyChanged(() => SelectedPlan);
 				DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null && SelectedPlan.PlanFolder == null;
 				PlanDesignerViewModel.Save();
 				PlanDesignerViewModel.Initialize(value == null || value.PlanFolder != null ? null : value.Plan);

@@ -112,7 +112,7 @@ namespace DevicesModule.ViewModels
 			RootDevice = null;
 			AvailableRootDevice = null;
 			OnPropertyChanged(() => RootDevices);
-			OnPropertyChanged("AvailableRootDevices");
+			OnPropertyChanged(() => AvailableRootDevices);
 			SelectedDevice = null;
 			SelectedAvailableDevice = null;
 		}

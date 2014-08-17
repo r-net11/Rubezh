@@ -32,7 +32,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 				foreach (var child in Children)
 				{
 					child.IsChecked = value;

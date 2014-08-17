@@ -84,7 +84,7 @@ namespace DevicesModule.ViewModels
 					ZoneDevices.Initialize(value.Zone);
 				else
 					ZoneDevices.Clear();
-				OnPropertyChanged("SelectedZone");
+				OnPropertyChanged(() => SelectedZone);
 				if (!_lockSelection && _selectedZone != null && _selectedZone.Zone.PlanElementUIDs.Count > 0)
 					ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(_selectedZone.Zone.PlanElementUIDs);
 			}

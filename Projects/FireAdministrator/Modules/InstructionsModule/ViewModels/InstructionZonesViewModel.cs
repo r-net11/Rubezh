@@ -80,7 +80,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				_selectedInstructionZone = value;
-				OnPropertyChanged("SelectedInstructionZone");
+				OnPropertyChanged(() => SelectedInstructionZone);
 			}
 		}
 

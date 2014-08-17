@@ -378,7 +378,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedUserZone = value;
-				OnPropertyChanged("SelectedUserZone");
+				OnPropertyChanged(() => SelectedUserZone);
 			}
 		}
 

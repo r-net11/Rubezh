@@ -104,7 +104,7 @@ namespace DevicesModule.ViewModels
 			{
 				_selectedDevice = value;
 				OnPropertyChanged(() => SelectedDevice);
-				OnPropertyChanged("CanEditProperties");
+				OnPropertyChanged(() => CanEditProperties);
 			}
 		}
 

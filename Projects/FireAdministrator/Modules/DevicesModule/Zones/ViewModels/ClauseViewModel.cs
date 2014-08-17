@@ -205,7 +205,7 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged(() => CanSelectOperation);
 			OnPropertyChanged(() => CanSelectZones);
 			OnPropertyChanged(() => CanSelectDevice);
-			OnPropertyChanged("PresenrationZones");
+			OnPropertyChanged(() => PresenrationZones);
 			OnPropertyChanged("PresenrationSelectedDevice");
 
 			_zoneLogicViewModel.OnCurrentClauseStateChanged(SelectedState);

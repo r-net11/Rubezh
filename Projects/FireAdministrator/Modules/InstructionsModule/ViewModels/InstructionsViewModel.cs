@@ -53,7 +53,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				_instructions = value;
-				OnPropertyChanged("Instructions");
+				OnPropertyChanged(() => Instructions);
 			}
 		}
 

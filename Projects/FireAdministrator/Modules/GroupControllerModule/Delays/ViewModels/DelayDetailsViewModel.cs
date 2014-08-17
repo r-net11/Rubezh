@@ -73,7 +73,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 

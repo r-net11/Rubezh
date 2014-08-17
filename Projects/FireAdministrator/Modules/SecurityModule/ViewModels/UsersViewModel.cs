@@ -55,7 +55,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_selectedUser = value;
-				OnPropertyChanged("SelectedUser");
+				OnPropertyChanged(() => SelectedUser);
 			}
 		}
 

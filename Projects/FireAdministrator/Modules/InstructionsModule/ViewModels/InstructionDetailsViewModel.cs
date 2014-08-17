@@ -74,7 +74,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				_text = value;
-				OnPropertyChanged("Text");
+				OnPropertyChanged(() => Text);
 			}
 		}
 

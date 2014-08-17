@@ -108,7 +108,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				Device.Description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
