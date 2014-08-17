@@ -106,7 +106,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_hold = value;
-				OnPropertyChanged("Hold");
+				OnPropertyChanged(() => Hold);
 			}
 		}
 

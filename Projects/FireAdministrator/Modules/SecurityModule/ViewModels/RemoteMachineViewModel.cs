@@ -34,7 +34,7 @@ namespace SecurityModule.ViewModels
 					IsDnsName = false;
 				}
 
-				OnPropertyChanged("IsIpAddress");
+				OnPropertyChanged(() => IsIpAddress);
 			}
 		}
 

@@ -25,6 +25,9 @@ namespace FiresecAPI.SKD
 		public DateTime Date { get; set; }
 
 		[DataMember]
+		public ShortEmployee ShortEmployee { get; set; }
+
+		[DataMember]
 		public Guid EmployeeUID { get; set; }
 
 		[DataMember]

@@ -64,7 +64,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				_selectedInstruction = value;
-				OnPropertyChanged("SelectedInstruction");
+				OnPropertyChanged(() => SelectedInstruction);
 			}
 		}
 

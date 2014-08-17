@@ -50,7 +50,7 @@ namespace SecurityModule.ViewModels
 		public void UnsetParent()
 		{
 			_isChecked = false;
-			OnPropertyChanged("IsChecked");
+			OnPropertyChanged(() => IsChecked);
 			if (Parent != null)
 			{
 				Parent.UnsetParent();

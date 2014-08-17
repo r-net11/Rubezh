@@ -389,7 +389,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_deviceZones = value;
-				OnPropertyChanged("DeviceZones");
+				OnPropertyChanged(() => DeviceZones);
 			}
 		}
 

@@ -82,7 +82,7 @@ namespace SecurityModule.ViewModels
 		public void OnRemoteAccessTypeChecked(RemoteAccessTypeViewModel remoteAccessTypeViewModel)
 		{
 			RemoteAccessTypes.FindAll(x => x != remoteAccessTypeViewModel).ForEach(x => x.IsActive = false);
-			OnPropertyChanged("IsSelectivelyAllowed");
+			OnPropertyChanged(() => IsSelectivelyAllowed);
 		}
 
 		public RemoteAccess GetModel()

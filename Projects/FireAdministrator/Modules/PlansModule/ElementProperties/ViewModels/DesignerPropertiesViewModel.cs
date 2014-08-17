@@ -81,7 +81,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_width = value;
-				OnPropertyChanged("Width");
+				OnPropertyChanged(() => Width);
 			}
 		}
 

@@ -109,7 +109,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isNotEmpty = value;
-				OnPropertyChanged("IsNotEmpty");
+				OnPropertyChanged(() => IsNotEmpty);
 			}
 
 		}

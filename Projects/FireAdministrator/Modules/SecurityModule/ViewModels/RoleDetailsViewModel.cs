@@ -43,7 +43,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged(() => Login);
+				OnPropertyChanged(() => Name);
 			}
 		}
 

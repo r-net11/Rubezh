@@ -32,7 +32,7 @@ namespace InstructionsModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("Instruction");
+			OnPropertyChanged(() => Instruction);
 		}
 	}
 }

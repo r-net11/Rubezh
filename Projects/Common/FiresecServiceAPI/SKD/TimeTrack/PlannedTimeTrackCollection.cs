@@ -21,17 +21,17 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public List<PlannedTimeTrackPart> PlannedTimeTrackParts { get; private set; }
 
-		[DataMember]
-		public bool IsIgnoreHoliday { get; set; }
+		//[DataMember]
+		//public bool IsIgnoreHoliday { get; set; }
 
-		[DataMember]
-		public bool IsOnlyFirstEnter { get; set; }
+		//[DataMember]
+		//public bool IsOnlyFirstEnter { get; set; }
 
-		[DataMember]
-		public TimeSpan AllowedLate { get; set; }
+		//[DataMember]
+		//public TimeSpan AllowedLate { get; set; }
 
-		[DataMember]
-		public TimeSpan AllowedEarlyLeave { get; set; }
+		//[DataMember]
+		//public TimeSpan AllowedEarlyLeave { get; set; }
 
 		[DataMember]
 		public TimeSpan SlideTime { get; set; }

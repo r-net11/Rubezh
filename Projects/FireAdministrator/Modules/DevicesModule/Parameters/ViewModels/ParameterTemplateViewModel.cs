@@ -40,7 +40,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				ParameterTemplate.Name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 

@@ -69,7 +69,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				_selectedAvailableZone = value;
-				OnPropertyChanged("SelectedAvailableZone");
+				OnPropertyChanged(() => SelectedAvailableZone);
 			}
 		}
 
