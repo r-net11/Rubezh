@@ -59,8 +59,12 @@ namespace FiresecAPI
 		OperationResult MarkDeletedScheduleZone(Guid uid);
 
 		[OperationContract]
-		OperationResult<FiresecAPI.SKD.TimeTrackDocument> GetTimeTrackDocument(DateTime dateTime, Guid employeeUID);
+		OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime);
 		[OperationContract]
-		OperationResult SaveTimeTrackDocument(FiresecAPI.SKD.TimeTrackDocument item);
+		OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument);
+		[OperationContract]
+		OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument);
+		[OperationContract]
+		OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID);
 	}
 }

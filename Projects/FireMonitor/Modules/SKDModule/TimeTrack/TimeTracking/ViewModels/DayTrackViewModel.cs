@@ -18,11 +18,6 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			Total = DateTimeToString(DayTimeTrack.Total);
-			TotalMissed = DateTimeToString(DayTimeTrack.TotalMissed);
-			TotalInSchedule = DateTimeToString(DayTimeTrack.TotalInSchedule);
-			TotalOutSchedule = DateTimeToString(DayTimeTrack.TotalOutSchedule);
-
 			IsNormal = false;
 			HasLetter = false;
 			Letter = null;
@@ -69,23 +64,9 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => DayTimeTrack);
 		}
 
-		public string Total { get; private set; }
-		public string TotalMissed { get; private set; }
-		public string TotalInSchedule { get; private set; }
-		public string TotalOutSchedule { get; private set; }
-
 		public bool IsNormal { get; private set; }
 		public bool HasLetter { get; private set; }
 		public string Letter { get; private set; }
 		public string Tooltip { get; private set; }
-
-		public static string DateTimeToString(TimeSpan timeSpan)
-		{
-			if (timeSpan.TotalHours > 0)
-				return ((int)timeSpan.TotalHours).ToString() + "ч " + ((int)timeSpan.Minutes).ToString() + "мин";
-			else if (timeSpan.Minutes > 0)
-				return ((int)timeSpan.Minutes).ToString() + "мин";
-			return null;
-		}
 	}
 }

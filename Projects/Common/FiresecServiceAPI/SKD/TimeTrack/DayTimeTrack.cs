@@ -200,7 +200,7 @@ namespace FiresecAPI.SKD
 						timeTrackPart.TimeTrackPartType = TimeTrackPartType.MissedButInsidePlan;
 					}
 
-					if (timeTrackPart.StartTime == FirstPlanned && timeTrackPart.EndTime < LastPlanned)
+					if (timeTrackPart.StartTime == FirstPlanned && timeTrackPart.EndTime < LastPlanned && !PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime))
 					{
 						if (timeTrackPart.Delta > AllowedLate)
 						{
@@ -208,7 +208,7 @@ namespace FiresecAPI.SKD
 						}
 					}
 
-					if (timeTrackPart.EndTime == LastPlanned && timeTrackPart.StartTime > FirstPlanned)
+					if (timeTrackPart.EndTime == LastPlanned && timeTrackPart.StartTime > FirstPlanned && !PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime))
 					{
 						if (timeTrackPart.Delta > AllowedEarlyLeave)
 						{
@@ -279,7 +279,7 @@ namespace FiresecAPI.SKD
 				TotalOutSchedule = new TimeSpan();
 			}
 
-			if (TimeTrackDocument.DocumentCode != 0)
+			if (TimeTrackDocument != null && TimeTrackDocument.DocumentCode != 0)
 			{
 				Total = TotalPlanned;
 				TotalInSchedule = TotalPlanned;
@@ -297,7 +297,7 @@ namespace FiresecAPI.SKD
 			{
 				return TimeTrackType.None;
 			}
-			if (TimeTrackDocument.DocumentCode != 0)
+			if (TimeTrackDocument != null && TimeTrackDocument.DocumentCode != 0)
 			{
 				return TimeTrackType.Document;
 			}

@@ -47,18 +47,6 @@ namespace FiresecAPI.SKD
 		public ShortEmployee ShortEmployee { get; set; }
 
 		[DataMember]
-		public bool IsIgnoreHoliday { get; set; }
-
-		[DataMember]
-		public bool IsOnlyFirstEnter { get; set; }
-
-		[DataMember]
-		public TimeSpan AllowedLate { get; set; }
-
-		[DataMember]
-		public TimeSpan AllowedEarlyLeave { get; set; }
-
-		[DataMember]
 		public string Error { get; set; }
 	}
 }

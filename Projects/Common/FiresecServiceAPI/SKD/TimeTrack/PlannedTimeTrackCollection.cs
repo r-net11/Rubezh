@@ -78,4 +78,28 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public string Error { get; set; }
 	}
+
+	public class PlannedSheduleDayCollection
+	{
+		public PlannedSheduleDayCollection()
+		{
+			PlannedSheduleDays = new List<PlannedSheduleDay>();
+		}
+
+		public PlannedSheduleDayCollection(string error) :
+			this()
+		{
+			Error = error;
+		}
+
+		public List<PlannedSheduleDay> PlannedSheduleDays { get; private set; }
+
+		[DataMember]
+		public string Error { get; set; }
+	}
+
+	public class PlannedSheduleDay
+	{
+		public int DayNo { get; set; }
+	}
 }

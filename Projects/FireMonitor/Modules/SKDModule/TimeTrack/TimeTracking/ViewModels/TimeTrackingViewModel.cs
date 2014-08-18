@@ -6,22 +6,23 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Model;
+using System.Diagnostics;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeTrackingViewModel : ViewPartViewModel
 	{
-		EmployeeFilter _employeeFilter;
-		TimeTrackingSettings _settings;
+		EmployeeFilter EmployeeFilter;
+		TimeTrackingSettings TimeTrackingSettings;
 
 		public TimeTrackingViewModel()
 		{
-			_employeeFilter = new EmployeeFilter()
+			EmployeeFilter = new EmployeeFilter()
 			{
 				UserUID = FiresecClient.FiresecManager.CurrentUser.UID,
 			};
 
-			_settings = new TimeTrackingSettings()
+			TimeTrackingSettings = new TimeTrackingSettings()
 			{
 				Period = TimeTrackingPeriod.CurrentMonth,
 				StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day),
@@ -83,30 +84,30 @@ namespace SKDModule.ViewModels
 		{
 			var employeeFilter = new EmployeeFilter()
 			{
-				OrganisationUIDs = _employeeFilter.OrganisationUIDs,
-				DepartmentUIDs = _employeeFilter.DepartmentUIDs,
-				PositionUIDs = _employeeFilter.PositionUIDs,
-				Appointed = _employeeFilter.Appointed,
-				PersonType = _employeeFilter.PersonType
+				OrganisationUIDs = EmployeeFilter.OrganisationUIDs,
+				DepartmentUIDs = EmployeeFilter.DepartmentUIDs,
+				PositionUIDs = EmployeeFilter.PositionUIDs,
+				Appointed = EmployeeFilter.Appointed,
+				PersonType = EmployeeFilter.PersonType
 			};
 			var filter = new HRFilter()
 			{
 				EmployeeFilter = employeeFilter,
-				RemovalDates = _employeeFilter.RemovalDates,
-				UIDs = _employeeFilter.UIDs,
-				LogicalDeletationType = _employeeFilter.LogicalDeletationType,
+				RemovalDates = EmployeeFilter.RemovalDates,
+				UIDs = EmployeeFilter.UIDs,
+				LogicalDeletationType = EmployeeFilter.LogicalDeletationType,
 			};
 			var filterViewModel = new HRFilterViewModel(filter);
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
-				_employeeFilter.OrganisationUIDs = filterViewModel.Filter.OrganisationUIDs;
-				_employeeFilter.DepartmentUIDs = filterViewModel.Filter.EmployeeFilter.DepartmentUIDs;
-				_employeeFilter.PositionUIDs = filterViewModel.Filter.EmployeeFilter.PositionUIDs;
-				_employeeFilter.Appointed = filterViewModel.Filter.EmployeeFilter.Appointed;
-				_employeeFilter.PersonType = filterViewModel.Filter.EmployeeFilter.PersonType;
-				_employeeFilter.RemovalDates = filterViewModel.Filter.RemovalDates;
-				_employeeFilter.UIDs = filterViewModel.Filter.UIDs;
-				_employeeFilter.LogicalDeletationType = filterViewModel.Filter.LogicalDeletationType;
+				EmployeeFilter.OrganisationUIDs = filterViewModel.Filter.OrganisationUIDs;
+				EmployeeFilter.DepartmentUIDs = filterViewModel.Filter.EmployeeFilter.DepartmentUIDs;
+				EmployeeFilter.PositionUIDs = filterViewModel.Filter.EmployeeFilter.PositionUIDs;
+				EmployeeFilter.Appointed = filterViewModel.Filter.EmployeeFilter.Appointed;
+				EmployeeFilter.PersonType = filterViewModel.Filter.EmployeeFilter.PersonType;
+				EmployeeFilter.RemovalDates = filterViewModel.Filter.RemovalDates;
+				EmployeeFilter.UIDs = filterViewModel.Filter.UIDs;
+				EmployeeFilter.LogicalDeletationType = filterViewModel.Filter.LogicalDeletationType;
 				UpdateGrid();
 			}
 		}
@@ -114,7 +115,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand ShowSettingsCommand { get; private set; }
 		void OnShowSettings()
 		{
-			var settingsViewModel = new TimeTrackingSettingsViewModel(_settings);
+			var settingsViewModel = new TimeTrackingSettingsViewModel(TimeTrackingSettings);
 			if (DialogService.ShowModalWindow(settingsViewModel))
 				UpdateGrid();
 		}
@@ -122,7 +123,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand RefreshCommand { get; private set; }
 		void OnRefresh()
 		{
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
 			UpdateGrid();
+			stopwatch.Stop();
+			Trace.WriteLine("OnRefresh time " + stopwatch.Elapsed.ToString());
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
@@ -135,13 +140,16 @@ namespace SKDModule.ViewModels
 		{
 			using (new WaitWrapper())
 			{
-				TotalDays = (int)(_settings.EndDate - _settings.StartDate).TotalDays + 1;
-				FirstDay = _settings.StartDate;
+				TotalDays = (int)(TimeTrackingSettings.EndDate - TimeTrackingSettings.StartDate).TotalDays + 1;
+				FirstDay = TimeTrackingSettings.StartDate;
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
-				var timeTrackResult = EmployeeHelper.GetTimeTracks(_employeeFilter, _settings.StartDate, _settings.EndDate);
-				foreach (var timeTrackEmployeeResult in timeTrackResult.TimeTrackEmployeeResults)
+				var timeTrackResult = EmployeeHelper.GetTimeTracks(EmployeeFilter, TimeTrackingSettings.StartDate, TimeTrackingSettings.EndDate);
+				if (timeTrackResult != null)
 				{
-					TimeTracks.Add(new TimeTrackViewModel(timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks));
+					foreach (var timeTrackEmployeeResult in timeTrackResult.TimeTrackEmployeeResults)
+					{
+						TimeTracks.Add(new TimeTrackViewModel(timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks));
+					}
 				}
 			}
 		}

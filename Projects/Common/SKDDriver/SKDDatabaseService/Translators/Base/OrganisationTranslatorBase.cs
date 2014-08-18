@@ -39,7 +39,7 @@ namespace SKDDriver
 		{
 			var result = base.IsInFilter(filter);
 			if(filter.OrganisationUIDs.IsNotNullOrEmpty())
-				result = result.And(e => e.OrganisationUID != null && filter.OrganisationUIDs.Contains(e.OrganisationUID.Value));
+				result = result.And(x => x.OrganisationUID != null && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value));
 			if (filter.UserUID != Guid.Empty)
 				result = result.And(e => (Context.Organisations.Any(x => x.OrganisationUsers.Any(y => y.UserUID == filter.UserUID))));
 			return result;

@@ -5,6 +5,7 @@ using LinqKit;
 using OperationResult = FiresecAPI.OperationResult;
 using FiresecAPI.SKD;
 using FiresecAPI;
+using System.Collections.Generic;
 
 namespace SKDDriver.Translators
 {
@@ -49,30 +50,48 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		public OperationResult<TimeTrackDocument> Get(DateTime dateTime, Guid employeeUID)
+		public OperationResult<List<TimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
 			try
 			{
-				var timeTrackDocument = Context.TimeTrackDocuments.FirstOrDefault(x => x.EmployeeUID == employeeUID && x.StartDateTime.Date == dateTime.Date);
-				if (timeTrackDocument != null)
+				var tableTimeTrackDocuments = Context.TimeTrackDocuments.Where(x => x.EmployeeUID == employeeUID && ((x.StartDateTime.Date >= startDateTime && x.StartDateTime.Date <= endDateTime) || (x.EndDateTime.Date >= startDateTime && x.EndDateTime.Date <= endDateTime)));
+				if (tableTimeTrackDocuments != null)
 				{
-					var api = new TimeTrackDocument()
+					var timeTrackDocuments = new List<TimeTrackDocument>();
+					foreach (var tableTimeTrackDocument in tableTimeTrackDocuments)
 					{
-						UID = timeTrackDocument.UID,
-						EmployeeUID = timeTrackDocument.EmployeeUID,
-						StartDateTime = timeTrackDocument.StartDateTime,
-						EndDateTime = timeTrackDocument.EndDateTime,
-						DocumentCode = timeTrackDocument.DocumentCode,
-						Comment = timeTrackDocument.Comment
-					};
-					return new OperationResult<TimeTrackDocument>() { Result = api };
+						var timeTrackDocument = new TimeTrackDocument()
+						{
+							UID = tableTimeTrackDocument.UID,
+							EmployeeUID = tableTimeTrackDocument.EmployeeUID,
+							StartDateTime = tableTimeTrackDocument.StartDateTime,
+							EndDateTime = tableTimeTrackDocument.EndDateTime,
+							DocumentCode = tableTimeTrackDocument.DocumentCode,
+							Comment = tableTimeTrackDocument.Comment
+						};
+						timeTrackDocuments.Add(timeTrackDocument);
+					}
+					return new OperationResult<List<TimeTrackDocument>>() { Result = timeTrackDocuments };
 				}
-				return new OperationResult<TimeTrackDocument>() { Result = new TimeTrackDocument() };
+				return new OperationResult<List<TimeTrackDocument>>() { Result = new List<TimeTrackDocument>() };
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<TimeTrackDocument>(e.Message);
+				return new OperationResult<List<TimeTrackDocument>>(e.Message);
 			}
+		}
+
+		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
+		{
+			return new OperationResult();
+		}
+		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
+		{
+			return new OperationResult();
+		}
+		public OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID)
+		{
+			return new OperationResult();
 		}
 	}
 }

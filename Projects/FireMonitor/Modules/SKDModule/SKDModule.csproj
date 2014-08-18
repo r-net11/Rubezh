@@ -135,6 +135,7 @@
     <Compile Include="TimeTrack\Common\CopyHelper.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\OrganisationViewModel.cs" />
+    <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeTrackTypeToColorConverter.cs" />
     <Compile Include="TimeTrack\Holidays\ViewModels\Comparers.cs" />
     <Compile Include="TimeTrack\Intervals\ViewModels\Comparers.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingSettings.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingPeriod.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTrackViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingSettingsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
