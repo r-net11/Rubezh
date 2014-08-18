@@ -74,7 +74,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				_text = value;
-				OnPropertyChanged("Text");
+				OnPropertyChanged(() => Text);
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				_alarmType = value;
-				OnPropertyChanged("AlarmType");
+				OnPropertyChanged(() => AlarmType);
 			}
 		}
 		public List<AlarmType> AvailableAlarmTypes

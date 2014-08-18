@@ -56,7 +56,7 @@ namespace FireAdministrator.ViewModels
 			set
 			{
 				_percent = value;
-				OnPropertyChanged("Percent");
+				OnPropertyChanged(() => Percent);
 			}
 		}
 

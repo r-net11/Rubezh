@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 				XManager.RebuildRSR2Addresses(ShleifDevice.KAURSR2Parent);
 
 			Devices = new ObservableCollection<DeviceOnShleifViewModel>(Devices.Where(x => !x.IsActive));
-			OnPropertyChanged("Devices");
+			OnPropertyChanged(() => Devices);
 		}
 	}
 

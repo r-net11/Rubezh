@@ -66,7 +66,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedObject = value;
-				OnPropertyChanged("SelectedObject");
+				OnPropertyChanged(() => SelectedObject);
 			}
 		}
 	}

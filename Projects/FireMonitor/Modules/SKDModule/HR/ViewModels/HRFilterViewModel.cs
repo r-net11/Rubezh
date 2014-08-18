@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Infrastructure.Common;
 using FiresecAPI.SKD;
+using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {

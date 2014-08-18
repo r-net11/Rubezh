@@ -1,8 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
-using SKDModule.ViewModels;
 using Infrastructure.Common.Windows;
-using FiresecAPI.SKD;
+using SKDModule.ViewModels;
 
 namespace SKDModule.Views
 {

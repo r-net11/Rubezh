@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				isChecked = value;
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 			}
 		}
 	}

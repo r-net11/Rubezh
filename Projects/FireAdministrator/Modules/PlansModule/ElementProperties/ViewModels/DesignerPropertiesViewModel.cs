@@ -70,7 +70,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_width = value;
-				OnPropertyChanged("Width");
+				OnPropertyChanged(() => Width);
 			}
 		}
 

@@ -17,7 +17,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_role = value;
-				OnPropertyChanged("Role");
+				OnPropertyChanged(() => Role);
 			}
 		}
 	}

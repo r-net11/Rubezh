@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using Common;
 using Infrustructure.Plans.Interfaces;
-using System.Linq;
 
 namespace FiresecAPI.Automation
 {

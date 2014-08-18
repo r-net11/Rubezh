@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Reflection;
+using Controls.Converters;
 using FiresecAPI;
 using FiresecAPI.GK;
 using FiresecAPI.Journal;
 using Infrastructure.Common.TreeList;
-using Controls.Converters;
 
 namespace JournalModule.ViewModels
 {

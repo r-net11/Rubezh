@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using System.Windows.Controls;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using SKDModule.ViewModels;
-using System.Collections.Generic;
-using System;
 using FiresecAPI;
 using FiresecAPI.SKD;
+using SKDModule.ViewModels;
 
 namespace SKDModule.Views
 {

@@ -70,7 +70,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedSourceZone = value;
-				OnPropertyChanged("SelectedSourceZone");
+				OnPropertyChanged(() => SelectedSourceZone);
 			}
 		}
 		bool CanAdd()

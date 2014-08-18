@@ -5,7 +5,7 @@ namespace PlansModule.ViewModels
 {
 	public class FolderPropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private const double MinSize = 10;
+		const double MinSize = 10;
 		public PlanFolder PlanFolder { get; private set; }
 
 		public FolderPropertiesViewModel(PlanFolder planFolder)
@@ -21,7 +21,7 @@ namespace PlansModule.ViewModels
 			Description = PlanFolder.Description;
 		}
 
-		private string _caption;
+		string _caption;
 		public string Caption
 		{
 			get { return _caption; }
@@ -32,14 +32,14 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private string _description;
+		string _description;
 		public string Description
 		{
 			get { return _description; }
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 

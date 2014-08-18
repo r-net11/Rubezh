@@ -1,10 +1,10 @@
-﻿using System.Windows.Controls;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
-using JournalModule.ViewModels;
+using System.Linq;
+using System.Windows.Controls;
 using Common;
 using Infrastructure.Models;
-using System;
+using JournalModule.ViewModels;
 
 namespace JournalModule.Views
 {

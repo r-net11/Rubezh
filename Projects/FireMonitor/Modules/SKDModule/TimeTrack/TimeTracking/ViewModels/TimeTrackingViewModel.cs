@@ -137,14 +137,11 @@ namespace SKDModule.ViewModels
 			{
 				TotalDays = (int)(_settings.EndDate - _settings.StartDate).TotalDays + 1;
 				FirstDay = _settings.StartDate;
-				var employees = EmployeeHelper.Get(_employeeFilter);
-				if (employees == null)
-					return;
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
-				foreach (var employee in employees)
+				var timeTrackResult = EmployeeHelper.GetTimeTracks(_employeeFilter, _settings.StartDate, _settings.EndDate);
+				foreach (var timeTrackEmployeeResult in timeTrackResult.TimeTrackEmployeeResults)
 				{
-					var dayTimeTracks = EmployeeHelper.GetTimeTracks(employee.UID, _settings.StartDate, _settings.EndDate);
-					TimeTracks.Add(new TimeTrackViewModel(employee, dayTimeTracks));
+					TimeTracks.Add(new TimeTrackViewModel(timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks));
 				}
 			}
 		}

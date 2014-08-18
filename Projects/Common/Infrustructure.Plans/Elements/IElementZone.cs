@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Media;
 using System.ComponentModel;
+using System.Windows.Media;
 using Infrustructure.Plans.Interfaces;
 
 namespace Infrustructure.Plans.Elements

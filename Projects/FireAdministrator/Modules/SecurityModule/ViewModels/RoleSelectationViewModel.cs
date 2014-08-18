@@ -26,7 +26,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_selectedRole = value;
-				OnPropertyChanged("SelectedRole");
+				OnPropertyChanged(() => SelectedRole);
 			}
 		}
 

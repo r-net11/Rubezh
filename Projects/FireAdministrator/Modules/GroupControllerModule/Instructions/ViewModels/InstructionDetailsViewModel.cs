@@ -231,7 +231,7 @@ namespace GKModule.ViewModels
 				if (openDialog.ShowDialog().Value)
 				{
 					Instruction.MediaSource = openDialog.FileName;
-					OnPropertyChanged("Instruction");
+					OnPropertyChanged(() => Instruction);
 				}
 			}
 			catch (Exception e)

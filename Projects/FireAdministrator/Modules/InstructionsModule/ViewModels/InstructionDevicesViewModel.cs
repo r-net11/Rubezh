@@ -45,7 +45,7 @@ namespace InstructionsModule.ViewModels
 			SelectedInstructionDevice = InstructionDevices.FirstOrDefault();
 			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 
-			OnPropertyChanged("InstructionDevices");
+			OnPropertyChanged(() => InstructionDevices);
 			OnPropertyChanged("AvailableDevices");
 		}
 
