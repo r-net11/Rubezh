@@ -7,6 +7,7 @@ using FiresecAPI;
 using FiresecAPI.Journal;
 using FiresecAPI.SKD;
 using SKDDriver;
+using System.Diagnostics;
 
 namespace FiresecService.Service
 {
@@ -55,7 +56,12 @@ namespace FiresecService.Service
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			return SKDDatabaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
+			var stopwatch = new Stopwatch();
+			stopwatch.Start();
+			var result = SKDDatabaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
+			stopwatch.Stop();
+			Trace.WriteLine("GetTimeTracks time " + stopwatch.Elapsed.ToString());
+			return result;
 		}
 		#endregion
 

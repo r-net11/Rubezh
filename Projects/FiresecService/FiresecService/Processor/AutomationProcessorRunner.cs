@@ -6,7 +6,7 @@ using FiresecAPI.Journal;
 using GKProcessor;
 using FiresecAPI;
 using System;
-using ValueType = FiresecAPI.Automation.ValueType;
+using VariableType = FiresecAPI.Automation.VariableType;
 
 namespace FiresecService.Processor
 {

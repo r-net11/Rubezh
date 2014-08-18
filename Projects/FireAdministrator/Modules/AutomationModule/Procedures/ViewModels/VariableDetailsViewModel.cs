@@ -10,7 +10,7 @@ namespace AutomationModule.ViewModels
 	{
 		public Variable Variable { get; private set; }
 		public bool IsEditMode { get; private set; }
-		public VariableDetailsViewModel(bool isArgument = false)
+		public VariableDetailsViewModel(bool isArgument = false, bool isGlobal = false)
 		{
 			var defaultName = "Локальная переменная";
 			var title = "Добавить переменную";
@@ -19,15 +19,21 @@ namespace AutomationModule.ViewModels
 				defaultName = "Аргумент";
 				title = "Добавить аргумент";
 			}
+			if (isGlobal)
+			{
+				defaultName = "Глобальная переменная";
+				title = "Добавить глобальную переменную";
+			}
 			Title = title;
 			Variable = new Variable(defaultName);
+			Variable.IsGlobal = isGlobal;
 			Variables = new ObservableCollection<VariableViewModel>
 			{
-				new VariableViewModel(defaultName, VariableType.Integer),
-				new VariableViewModel(defaultName, VariableType.Boolean),
-				new VariableViewModel(defaultName, VariableType.String),
-				new VariableViewModel(defaultName, VariableType.DateTime),
-				new VariableViewModel(defaultName, VariableType.Object)
+				new VariableViewModel(defaultName, ValueType.Integer),
+				new VariableViewModel(defaultName, ValueType.Boolean),
+				new VariableViewModel(defaultName, ValueType.String),
+				new VariableViewModel(defaultName, ValueType.DateTime),
+				new VariableViewModel(defaultName, ValueType.Object)
 			};
 			SelectedVariable = Variables.FirstOrDefault();
 			Name = defaultName;
@@ -47,7 +53,7 @@ namespace AutomationModule.ViewModels
 			{
 				 new VariableViewModel(variable)
 			};
-			SelectedVariable = Variables.FirstOrDefault(x => x.VariableType == variable.VariableType);
+			SelectedVariable = Variables.FirstOrDefault(x => x.ValueType == variable.ValueType);
 			if (SelectedVariable != null)
 			{
 				Name = SelectedVariable.Name;
@@ -114,7 +120,7 @@ namespace AutomationModule.ViewModels
 			Variable.Name = Name;
 			Variable.ObjectType = SelectedVariable.ObjectType;
 			Variable.DefaultStringValue = SelectedVariable.DefaultStringValue;
-			Variable.VariableType = SelectedVariable.VariableType;
+			Variable.ValueType = SelectedVariable.ValueType;
 			Variable.IsList = IsList;
 			return base.Save();
 		}

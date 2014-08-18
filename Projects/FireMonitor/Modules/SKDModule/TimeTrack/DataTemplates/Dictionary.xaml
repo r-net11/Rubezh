@@ -59,4 +59,8 @@
 	    <Views:TimeTrackDetailsView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DocumentDetailsViewModel}">
+        <Views:DocumentDetailsView />
+    </DataTemplate>
+
 </ResourceDictionary>

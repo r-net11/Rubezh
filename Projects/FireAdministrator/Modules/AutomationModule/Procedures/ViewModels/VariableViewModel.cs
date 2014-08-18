@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
@@ -16,10 +17,10 @@ namespace AutomationModule.ViewModels
 			Update();
 		}
 
-		public VariableViewModel(string name, VariableType variableType)
+		public VariableViewModel(string name, ValueType valueType)
 		{
 			Variable = new Variable(name);
-			Variable.VariableType = variableType;
+			Variable.ValueType = valueType;
 			Update();
 		}
 
@@ -31,9 +32,9 @@ namespace AutomationModule.ViewModels
 			DefaultIntValue = Variable.DefaultIntValue;
 			ObjectType = Variable.ObjectType;
 			DefaultStringValue = Variable.DefaultStringValue;
-			VariableType = Variable.VariableType;
+			ValueType = Variable.ValueType;
 			IsList = Variable.IsList;
-
+			IsGlobal = Variable.IsGlobal;
 			ObjectTypes = new ObservableCollection<ObjectType>
 			{
 				ObjectType.Card, ObjectType.Device, ObjectType.Direction, ObjectType.GuardZone, ObjectType.Person, ObjectType.Plan,
@@ -46,7 +47,18 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => DefaultIntValue);
 			OnPropertyChanged(() => ObjectType);
 			OnPropertyChanged(() => DefaultStringValue);
-			OnPropertyChanged(() => VariableType);
+			OnPropertyChanged(() => ValueType);
+		}
+
+		bool _isGlobal;
+		public bool IsGlobal
+		{
+			get { return _isGlobal; }
+			set
+			{
+				_isGlobal = value;
+				OnPropertyChanged(() => IsGlobal);
+			}
 		}
 
 		bool _isList;
@@ -115,14 +127,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		VariableType _variableType;
-		public VariableType VariableType
+		ValueType _valueType;
+		public ValueType ValueType
 		{
-			get { return _variableType; }
+			get { return _valueType; }
 			set
 			{
-				_variableType = value;
-				OnPropertyChanged(() => VariableType);
+				_valueType = value;
+				OnPropertyChanged(() => ValueType);
 			}
 		}
 

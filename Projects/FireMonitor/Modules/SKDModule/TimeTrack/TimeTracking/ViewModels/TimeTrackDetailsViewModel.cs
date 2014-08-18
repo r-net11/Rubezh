@@ -16,7 +16,8 @@ namespace SKDModule.ViewModels
 		{
 			dayTimeTrack.Calculate();
 
-			Title = "Время в течение дня";
+			//Title = "Время сотрудника " + dayTimeTrack.ShortEmployee.LastName + " " + dayTimeTrack.ShortEmployee.FirstName + " в течение дня " + dayTimeTrack.Date.Date.ToString();
+			Title = "Время сотрудника в течение дня " + dayTimeTrack.Date.Date.ToString();
 			DayTimeTrack = dayTimeTrack;
 
 			AvailableDocuments = new ObservableCollection<TimeTrackDocumentType>();
@@ -86,7 +87,7 @@ namespace SKDModule.ViewModels
 
 			if (hasChanges)
 			{
-				var operationResult = FiresecManager.FiresecService.SaveTimeTrackDocument(DayTimeTrack.TimeTrackDocument);
+				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(DayTimeTrack.TimeTrackDocument);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);

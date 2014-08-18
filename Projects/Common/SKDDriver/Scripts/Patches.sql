@@ -737,3 +737,12 @@ BEGIN
 	INSERT INTO Patches (Id) VALUES ('RenameTimeTrackExceptionDocumentType')
 END
 GO
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleSchemeDaysCount')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'ScheduleScheme')
+	BEGIN
+		ALTER TABLE ScheduleScheme ADD [DaysCount] int NOT NULL CONSTRAINT "ScheduleScheme_DaysCount_Default" DEFAULT 0
+	END
+	INSERT INTO Patches (Id) VALUES ('ScheduleSchemeDaysCount')	
+END

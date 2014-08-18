@@ -114,9 +114,13 @@ namespace SKDDriver.Translators
 			Context.SubmitChanges();
 		}
 
+		IEnumerable<DataAccess.Holiday> Holidays { get; set; }
+
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
 			InvalidatePassJournal();
+
+			Holidays = Context.Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value) && !x.IsDeleted);
 
 			try
 			{
@@ -125,50 +129,21 @@ namespace SKDDriver.Translators
 					return new OperationResult<TimeTrackResult>(operationResult.Error);
 
 				var timeTrackResult = new TimeTrackResult();
-
 				foreach (var shortEmployee in operationResult.Result)
 				{
-					var timeTrackEmployeeResult = new TimeTrackEmployeeResult();
-					timeTrackResult.TimeTrackEmployeeResults.Add(timeTrackEmployeeResult);
+					var timeTrackEmployeeResult = GetEmployeeTimeTrack(shortEmployee, startDate, endDate);
 					timeTrackEmployeeResult.ShortEmployee = shortEmployee;
-
-					var employee = Context.Employees.FirstOrDefault(x => x.UID == shortEmployee.UID && !x.IsDeleted);
-					if (employee == null)
-						return new OperationResult<TimeTrackResult>("Не найден сотрудник");
-					var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID && !x.IsDeleted);
-					if (schedule == null)
-						return new OperationResult<TimeTrackResult>("Не найден график");
-					var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value && !x.IsDeleted);
-					if (scheduleScheme == null)
-						return new OperationResult<TimeTrackResult>("Не найдена схема работы");
-					var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted).ToList();
-					var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID && !x.IsDeleted).ToList();
-					var holidaySettings = SKDDatabaseService.HolidaySettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
-
-					var plannedTimeTrackCollection = new PlannedTimeTrackCollection();
-					timeTrackEmployeeResult.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
-					timeTrackEmployeeResult.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
-					timeTrackEmployeeResult.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
-					timeTrackEmployeeResult.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
-
-					for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+					if (timeTrackEmployeeResult.Error != null)
 					{
-						var dayTimeTrack = GetTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date);
-						timeTrackEmployeeResult.DayTimeTracks.Add(dayTimeTrack);
-						dayTimeTrack.HolidaySettings = holidaySettings;
-
-						dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
-						dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
-						dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
-						dayTimeTrack.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
-
-						var plannedTimeTrackPart = GetPlannedTimeTrackPart(employee, schedule, scheduleScheme, days, date);
-						dayTimeTrack.PlannedTimeTrackParts = plannedTimeTrackPart.TimeTrackParts;
-						dayTimeTrack.IsHoliday = plannedTimeTrackPart.IsHoliday;
-						dayTimeTrack.HolidayReduction = plannedTimeTrackPart.HolidayReduction;
-						dayTimeTrack.SlideTime = plannedTimeTrackPart.SlideTime;
-						dayTimeTrack.Error = plannedTimeTrackPart.Error;
+						for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
+						{
+							var dayTimeTrack = new DayTimeTrack();
+							dayTimeTrack.Error = timeTrackEmployeeResult.Error;
+							dayTimeTrack.Date = date;
+							timeTrackEmployeeResult.DayTimeTracks.Add(dayTimeTrack);
+						}
 					}
+					timeTrackResult.TimeTrackEmployeeResults.Add(timeTrackEmployeeResult);
 				}
 				return new OperationResult<TimeTrackResult> { Result = timeTrackResult };
 			}
@@ -178,40 +153,41 @@ namespace SKDDriver.Translators
 			}
 		}
 
-		DayTimeTrack GetTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date)
+		TimeTrackEmployeeResult GetEmployeeTimeTrack(ShortEmployee shortEmployee, DateTime startDate, DateTime endDate)
 		{
-			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime != null && x.EnterTime.Date == date.Date).ToList();
-			if (passJournals == null)
-				passJournals = new List<DataAccess.PassJournal>();
+			var employee = Context.Employees.FirstOrDefault(x => x.UID == shortEmployee.UID && !x.IsDeleted);
+			if (employee == null)
+				return new TimeTrackEmployeeResult("Не найден сотрудник");
+			var schedule = Context.Schedules.FirstOrDefault(x => x.UID == employee.ScheduleUID && !x.IsDeleted);
+			if (schedule == null)
+				return new TimeTrackEmployeeResult("Не найден график");
+			var scheduleScheme = Context.ScheduleSchemes.FirstOrDefault(x => x.UID == schedule.ScheduleSchemeUID.Value && !x.IsDeleted);
+			if (scheduleScheme == null)
+				return new TimeTrackEmployeeResult("Не найдена схема работы");
+			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted).ToList();
+			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID && !x.IsDeleted).ToList();
+			var holidaySettings = SKDDatabaseService.HolidaySettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
 
-			var dayTimeTrack = new DayTimeTrack();
-			dayTimeTrack.EmployeeUID = employee.UID;
-			dayTimeTrack.Date = date;
-
-			foreach (var passJournal in passJournals)
+			var timeTrackEmployeeResult = new TimeTrackEmployeeResult();
+			for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
 			{
-				var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID && !x.IsDeleted);
-				if (scheduleZone != null)
-				{
-					if (passJournal.ExitTime.HasValue)
-					{
-						var timeTrackPart = new TimeTrackPart();
-						timeTrackPart.StartTime = passJournal.EnterTime.TimeOfDay;
-						timeTrackPart.EndTime = passJournal.ExitTime.Value.TimeOfDay;
-						timeTrackPart.ZoneUID = passJournal.ZoneUID;
-						dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
-					}
-				}
-			}
-			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
+				var dayTimeTrack = GetTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date);
+				dayTimeTrack.HolidaySettings = holidaySettings;
+				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
+				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
+				dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
+				dayTimeTrack.AllowedEarlyLeave = TimeSpan.FromSeconds(schedule.AllowedEarlyLeave);
 
-			var operationResult = SKDDatabaseService.TimeTrackDocumentTranslator.Get(date, employee.UID);
-			if (!operationResult.HasError)
-			{
-				dayTimeTrack.TimeTrackDocument = operationResult.Result;
-			}
+				var plannedTimeTrackPart = GetPlannedTimeTrackPart(employee, schedule, scheduleScheme, days, date);
+				dayTimeTrack.PlannedTimeTrackParts = plannedTimeTrackPart.TimeTrackParts;
+				dayTimeTrack.IsHoliday = plannedTimeTrackPart.IsHoliday;
+				dayTimeTrack.HolidayReduction = plannedTimeTrackPart.HolidayReduction;
+				dayTimeTrack.SlideTime = plannedTimeTrackPart.SlideTime;
+				dayTimeTrack.Error = plannedTimeTrackPart.Error;
 
-			return dayTimeTrack;
+				timeTrackEmployeeResult.DayTimeTracks.Add(dayTimeTrack);
+			}
+			return timeTrackEmployeeResult;
 		}
 
 		PlannedTimeTrackPart GetPlannedTimeTrackPart(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleDay> days, DateTime date)
@@ -240,7 +216,7 @@ namespace SKDDriver.Translators
 			if (day == null)
 				return new PlannedTimeTrackPart("Не найден день");
 
-			List<DataAccess.DayIntervalPart> intervals = new List<DataAccess.DayIntervalPart>();
+			var intervals = new List<DataAccess.DayIntervalPart>();
 			DataAccess.DayInterval dayInterval = null;
 			if (day.DayIntervalUID != null)
 			{
@@ -283,17 +259,17 @@ namespace SKDDriver.Translators
 
 			if (!schedule.IsIgnoreHoliday)
 			{
-				var holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
+				var holiday = Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.Holiday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
 				if (holiday != null)
 				{
 					result.IsHoliday = true;
 				}
-				holiday = Context.Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
+				holiday = Holidays.FirstOrDefault(x => x.Date == date && x.Type == (int)HolidayType.BeforeHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
 				if (holiday != null)
 				{
 					result.HolidayReduction = holiday.Reduction;
 				}
-				holiday = Context.Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
+				holiday = Holidays.FirstOrDefault(x => x.TransferDate == date && x.Type == (int)HolidayType.WorkingHoliday && x.OrganisationUID == employee.OrganisationUID && !x.IsDeleted);
 				if (holiday != null)
 				{
 					result.IsHoliday = true;
@@ -317,10 +293,10 @@ namespace SKDDriver.Translators
 			}
 			if (result.HolidayReduction > 0)
 			{
-				var reductionTimeSpan = new TimeSpan(Math.BigMul(result.HolidayReduction, 10000000));
 				var lastTimeTrack = result.TimeTrackParts.LastOrDefault();
 				if (lastTimeTrack != null)
 				{
+					var reductionTimeSpan = new TimeSpan(Math.BigMul(result.HolidayReduction, 10000000));
 					if (lastTimeTrack.Delta.TotalHours > reductionTimeSpan.TotalHours)
 					{
 						lastTimeTrack.EndTime = lastTimeTrack.EndTime.Subtract(reductionTimeSpan);
@@ -334,5 +310,142 @@ namespace SKDDriver.Translators
 
 			return result;
 		}
+
+		DayTimeTrack GetTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date)
+		{
+			var dayTimeTrack = new DayTimeTrack();
+			dayTimeTrack.EmployeeUID = employee.UID;
+			dayTimeTrack.Date = date;
+
+			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime != null && x.EnterTime.Date == date.Date).ToList();
+			if (passJournals != null)
+			{
+				foreach (var passJournal in passJournals)
+				{
+					var scheduleZone = scheduleZones.FirstOrDefault(x => x.ZoneUID == passJournal.ZoneUID && !x.IsDeleted);
+					if (scheduleZone != null)
+					{
+						if (passJournal.ExitTime.HasValue)
+						{
+							var timeTrackPart = new TimeTrackPart()
+							{
+								StartTime = passJournal.EnterTime.TimeOfDay,
+								EndTime = passJournal.ExitTime.Value.TimeOfDay,
+								ZoneUID = passJournal.ZoneUID
+							};
+							dayTimeTrack.RealTimeTrackParts.Add(timeTrackPart);
+						}
+					}
+				}
+			}
+			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
+
+			var operationResult = SKDDatabaseService.TimeTrackDocumentTranslator.Get(employee.UID, date, date);
+			if (!operationResult.HasError)
+			{
+				dayTimeTrack.TimeTrackDocument = operationResult.Result.FirstOrDefault();
+			}
+
+			return dayTimeTrack;
+		}
+
+		//****************************************************************************************
+
+		//PlannedSheduleDays GetPlannedSheduleDays(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleDay> days)
+		//{
+		//    var plannedSheduleDays = new PlannedSheduleDays();
+
+		//    var daysCount = 0;
+		//    switch ((ScheduleSchemeType)scheduleScheme.Type)
+		//    {
+		//        case ScheduleSchemeType.Week:
+		//            daysCount = 7;
+		//            break;
+		//        case ScheduleSchemeType.SlideDay:
+		//            daysCount = 7;
+		//            break;
+		//        case ScheduleSchemeType.Month:
+		//            daysCount = 31;
+		//            break;
+		//    }
+
+		//    foreach (var day in days)
+		//    {
+		//        var plannedSheduleDay = new PlannedSheduleDay();
+		//        plannedSheduleDays.PlannedSheduleDays.Add(plannedSheduleDay);
+		//        plannedSheduleDay.DayNo = day.Number;
+		//    }
+
+		//    foreach (var day in days)
+		//    {
+		//        var plannedSheduleDay = plannedSheduleDays.PlannedSheduleDays.FirstOrDefault(x => x.DayNo == day.Number);
+
+
+		//        //int dayNo = -1;
+		//        //switch ((ScheduleSchemeType)scheduleScheme.Type)
+		//        //{
+		//        //    case ScheduleSchemeType.Week:
+		//        //        dayNo = (int)date.DayOfWeek - 1;
+		//        //        if (dayNo == -1)
+		//        //            dayNo = 6;
+		//        //        break;
+		//        //    case ScheduleSchemeType.SlideDay:
+		//        //        var daysCount = days.Count();
+		//        //        var ticksDelta = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
+		//        //        var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
+		//        //        dayNo = daysDelta % daysCount;
+		//        //        break;
+		//        //    case ScheduleSchemeType.Month:
+		//        //        dayNo = (int)date.Day - 1;
+		//        //        break;
+		//        //}
+		//        //var day = days.FirstOrDefault(x => x.Number == dayNo);
+		//        //if (day == null)
+		//        //    return new PlannedTimeTrackPart("Не найден день");
+
+		//        var intervals = new List<DataAccess.DayIntervalPart>();
+		//        DataAccess.DayInterval dayInterval = null;
+		//        if (day.DayIntervalUID != null)
+		//        {
+		//            dayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == day.DayIntervalUID && !x.IsDeleted);
+		//            if (dayInterval == null)
+		//                return new PlannedSheduleDays("Не найден дневной интервал");
+		//            intervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == dayInterval.UID && !x.IsDeleted).ToList();
+		//        }
+
+		//        TimeTrackPart nightTimeTrackPart = null;
+		//        {
+		//            SKDDriver.DataAccess.ScheduleDay previousDay = null;
+		//            if (dayNo > 0)
+		//                previousDay = days.FirstOrDefault(x => x.Number == dayNo - 1 && !x.IsDeleted);
+		//            else
+		//                previousDay = days.FirstOrDefault(x => x.Number == days.Count() - 1 && !x.IsDeleted);
+		//            if (previousDay != null)
+		//            {
+		//                if (previousDay.DayIntervalUID != null)
+		//                {
+		//                    var previousDayInterval = Context.DayIntervals.FirstOrDefault(x => x.UID == previousDay.DayIntervalUID && !x.IsDeleted);
+		//                    if (previousDayInterval != null)
+		//                    {
+		//                        var previousIntervals = Context.DayIntervalParts.Where(x => x.DayIntervalUID == previousDayInterval.UID && !x.IsDeleted).ToList();
+		//                        var nightInterval = previousIntervals.FirstOrDefault(x => x.EndTime > 60 * 60 * 24);
+		//                        if (nightInterval != null)
+		//                        {
+		//                            nightTimeTrackPart = new TimeTrackPart();
+		//                            nightTimeTrackPart.StartTime = new TimeSpan();
+		//                            nightTimeTrackPart.EndTime = new TimeSpan(Math.BigMul(nightInterval.EndTime - 60 * 60 * 24, 10000000));
+		//                        }
+		//                    }
+		//                }
+		//            }
+		//        }
+
+		//        var result = new PlannedTimeTrackPart();
+		//        if (dayInterval != null)
+		//            result.SlideTime = TimeSpan.FromSeconds(dayInterval.SlideTime);
+
+		//        return plannedSheduleDays;
+		//    }
+		//}
 	}
 }

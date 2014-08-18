@@ -20,6 +20,6 @@ namespace FiresecAPI.Automation
 		public Guid GlobalVariableUid { get; set; }
 		
 		[DataMember]
-		public ValueType ValueType { get; set; }
+		public VariableType VariableType { get; set; }
 	}
 }

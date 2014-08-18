@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Common;
 using FiresecAPI.SKD;
+using FiresecAPI;
 
 namespace FiresecClient
 {
@@ -102,13 +103,21 @@ namespace FiresecClient
 			return SafeContext.Execute(() => FiresecService.MarkDeletedScheduleZone(item.UID));
 		}
 
-		public FiresecAPI.OperationResult<FiresecAPI.SKD.TimeTrackDocument> GetTimeTrackDocument(DateTime dateTime, Guid employeeUID)
+		public FiresecAPI.OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
-			return SafeContext.Execute<FiresecAPI.OperationResult<FiresecAPI.SKD.TimeTrackDocument>>(() => FiresecService.GetTimeTrackDocument(dateTime, employeeUID));
+			return SafeContext.Execute<FiresecAPI.OperationResult<List<TimeTrackDocument>>>(() => FiresecService.GetTimeTrackDocument(employeeUID, startDateTime, endDateTime));
 		}
-		public FiresecAPI.OperationResult SaveTimeTrackDocument(FiresecAPI.SKD.TimeTrackDocument item)
+		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
-			return SafeContext.Execute(() => FiresecService.SaveTimeTrackDocument(item));
+			return SafeContext.Execute(() => FiresecService.AddTimeTrackDocument(timeTrackDocument));
+		}
+		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
+		{
+			return SafeContext.Execute(() => FiresecService.EditTimeTrackDocument(timeTrackDocument));
+		}
+		public OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID)
+		{
+			return SafeContext.Execute(() => FiresecService.RemoveTimeTrackDocument(timeTrackDocumentUID));
 		}
 	}
 }

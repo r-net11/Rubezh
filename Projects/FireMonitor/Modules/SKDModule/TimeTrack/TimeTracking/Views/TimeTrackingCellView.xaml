@@ -4,15 +4,16 @@
 	         xmlns:Converters="clr-namespace:SKDModule.Converters">
 	<UserControl.Resources>
 	    <Converters:TimeTrackTypeToColorConverter x:Key="TimeTrackTypeToColorConverter" />
+        <Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
 	</UserControl.Resources>
 
 	<Grid MouseDown="Grid_MouseDown" Cursor="Hand" Background="{Binding DayTimeTrack.TimeTrackType, Converter={StaticResource TimeTrackTypeToColorConverter}}"
 	      ToolTip="{Binding Tooltip}" Height="60">
 	    <StackPanel Visibility="{Binding IsNormal, Converter={StaticResource BoolToVisibilityConverter}}">
-	        <TextBlock Text="{Binding Total}" VerticalAlignment="Center" />
-	        <TextBlock Text="{Binding TotalMissed}" VerticalAlignment="Center" />
-	        <TextBlock Text="{Binding TotalInSchedule}" VerticalAlignment="Center" />
-	        <TextBlock Text="{Binding TotalOutSchedule}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding DayTimeTrack.Total, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding DayTimeTrack.TotalMissed, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding DayTimeTrack.TotalInSchedule, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding DayTimeTrack.TotalOutSchedule, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
 	    </StackPanel>
         <TextBlock Visibility="{Binding HasLetter, Converter={StaticResource BoolToVisibilityConverter}}" Text="{Binding Letter}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
 	</Grid>

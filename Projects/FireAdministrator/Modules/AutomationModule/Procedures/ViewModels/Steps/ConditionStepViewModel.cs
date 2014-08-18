@@ -155,19 +155,24 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			var variablesAndArguments = new List<Variable>(Procedure.Variables);
 			variablesAndArguments.AddRange(Procedure.Arguments);
-			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, variablesAndArguments, true);
+			var variableTypes = new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable };
+			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, variableTypes);
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
-			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, variablesAndArguments);
+			variableTypes.Add(VariableType.IsValue);
+			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, variableTypes);
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
 			ConditionTypes = new ObservableCollection<ConditionType> { ConditionType.IsEqual, ConditionType.IsLess, ConditionType.IsMore, ConditionType.IsNotEqual, ConditionType.IsNotLess, ConditionType.IsNotMore};
+			UpdateContent();
 		}
 
 		public void UpdateContent()
 		{
-			var variablesAndArguments = new List<Variable>(Procedure.Variables);
-			variablesAndArguments.AddRange(Procedure.Arguments);
-			Variable1.Update(variablesAndArguments);
-			Variable2.Update(variablesAndArguments);
+			var allVariables = new List<Variable>(FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+			allVariables.AddRange(Procedure.Variables);
+			allVariables.AddRange(Procedure.Arguments);
+			allVariables = allVariables.FindAll(x => !x.IsList);
+			Variable1.Update(allVariables);
+			Variable2.Update(allVariables);
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }

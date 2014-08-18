@@ -25,9 +25,9 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var variable = Procedure.Arguments.FirstOrDefault(x => x.Uid == Argument.ArgumentUid);
-				if (variable != null)
-					return variable.Name;
+				//var variable = Procedure.Arguments.FirstOrDefault(x => x.Uid == Argument.ArgumentUid);
+				//if (variable != null)
+				//    return variable.Name;
 				return "";
 			}
 		}
@@ -93,14 +93,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public VariableType VariableType
-		{
-			get { return Argument.VariableType; }
-			set
-			{
-				Argument.VariableType = value;
-				OnPropertyChanged(() => VariableType);
-			}
-		}
+		//public ValueType ValueType
+		//{
+		//    get { return Argument.ValueType; }
+		//    set
+		//    {
+		//        Argument.ValueType = value;
+		//        OnPropertyChanged(() => ValueType);
+		//    }
+		//}
 	}
 }

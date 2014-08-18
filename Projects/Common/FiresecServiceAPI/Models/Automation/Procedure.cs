@@ -50,7 +50,7 @@ namespace FiresecAPI.Automation
 				variable.ResetValue();
 			foreach (var variable in Arguments)
 			{
-				var argument = arguments.FirstOrDefault(x => x.ArgumentUid == variable.Uid);
+				var argument = arguments.FirstOrDefault(x => x.VariableUid == variable.Uid);
 				if (argument == null)
 					variable.ResetValue();
 				else

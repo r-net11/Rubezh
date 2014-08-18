@@ -36,15 +36,15 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<ValueType> ValueTypes { get; private set; }
-		public ValueType SelectedValueType
+		public ObservableCollection<VariableType> VariableTypes { get; private set; }
+		public VariableType SelectedVariableType
 		{
-			get { return SendMessageArguments.ValueType; }
+			get { return SendMessageArguments.VariableType; }
 			set
 			{
-				SendMessageArguments.ValueType = value;
+				SendMessageArguments.VariableType = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedValueType);
+				OnPropertyChanged(() => SelectedVariableType);
 				if (UpdateDescriptionHandler != null)
 					UpdateDescriptionHandler();
 			}
@@ -65,16 +65,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GlobalVariableViewModel> GlobalVariables { get; private set; }
-		private GlobalVariableViewModel _selectedGlobalVariable;
-		public GlobalVariableViewModel SelectedGlobalVariable
+		public ObservableCollection<VariableViewModel> GlobalVariables { get; private set; }
+		private VariableViewModel _selectedGlobalVariable;
+		public VariableViewModel SelectedGlobalVariable
 		{
 			get { return _selectedGlobalVariable; }
 			set
 			{
 				_selectedGlobalVariable = value;
 				if (value != null)
-					SendMessageArguments.GlobalVariableUid = value.GlobalVariable.Uid;
+					SendMessageArguments.GlobalVariableUid = value.Variable.Uid;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedGlobalVariable);
 			}
@@ -83,7 +83,7 @@ namespace AutomationModule.ViewModels
 		public void UpdateContent()
 		{
 			Variables = new ObservableCollection<VariableViewModel>();
-			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
+			GlobalVariables = new ObservableCollection<VariableViewModel>();
 			var variablesAndArguments = new List<Variable>(Procedure.Variables);
 			variablesAndArguments.AddRange(Procedure.Arguments);
 			foreach (var variable in variablesAndArguments)
@@ -92,12 +92,12 @@ namespace AutomationModule.ViewModels
 			}
 			foreach (var globalVariable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
-				GlobalVariables.Add(new GlobalVariableViewModel(globalVariable));
+				GlobalVariables.Add(new VariableViewModel(globalVariable));
 			}
-			ValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList());
-			SelectedValueType = SendMessageArguments.ValueType;
+			VariableTypes = new ObservableCollection<VariableType>(Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
+			SelectedVariableType = SendMessageArguments.VariableType;
 			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == SendMessageArguments.VariableUid);
-			SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.GlobalVariable.Uid == SendMessageArguments.GlobalVariableUid);
+			SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == SendMessageArguments.GlobalVariableUid);
 			OnPropertyChanged(() => Variables);
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => SelectedVariable);
@@ -107,9 +107,9 @@ namespace AutomationModule.ViewModels
 		{
 			get 
 			{
-				if (SelectedValueType == ValueType.IsLocalVariable)
+				if (SelectedVariableType == VariableType.IsLocalVariable)
 					return "<" + SelectedVariable.Name + ">";
-				if (SelectedValueType == ValueType.IsGlobalVariable)
+				if (SelectedVariableType == VariableType.IsGlobalVariable)
 					return "<" + SelectedGlobalVariable.Name + ">";
 				return Message; 
 			}

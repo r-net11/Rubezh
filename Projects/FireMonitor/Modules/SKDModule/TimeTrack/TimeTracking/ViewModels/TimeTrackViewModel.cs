@@ -9,6 +9,7 @@ namespace SKDModule.ViewModels
 	public class TimeTrackViewModel : BaseViewModel
 	{
 		public ShortEmployee ShortEmployee { get; private set; }
+		public DocumentsViewModel DocumentsViewModel { get; set; }
 
 		public TimeTrackViewModel(ShortEmployee shortEmployee, List<DayTimeTrack> dayTimeTracks)
 		{
@@ -24,28 +25,24 @@ namespace SKDModule.ViewModels
 				DayTracks.Add(dayTrackViewModel);
 			}
 
-			TimeSpan totalTimeSpan = new TimeSpan();
-			TimeSpan totalMissTimeSpan = new TimeSpan();
-			TimeSpan totalInScheduleTimeSpan = new TimeSpan();
-			TimeSpan totalOutScheduleTimeSpan = new TimeSpan();
+			Total = new TimeSpan();
+			TotalMissed = new TimeSpan();
+			TotalInSchedule = new TimeSpan();
+			TotalOutSchedule = new TimeSpan();
 			foreach (var dayTimeTrack in dayTimeTracks)
 			{
-				totalTimeSpan = totalTimeSpan.Add(dayTimeTrack.Total);
-				totalMissTimeSpan = totalMissTimeSpan.Add(dayTimeTrack.TotalMissed);
-				totalInScheduleTimeSpan = totalInScheduleTimeSpan.Add(dayTimeTrack.TotalInSchedule);
-				totalOutScheduleTimeSpan = totalOutScheduleTimeSpan.Add(dayTimeTrack.TotalOutSchedule);
+				Total = Total.Add(dayTimeTrack.Total);
+				TotalMissed = TotalMissed.Add(dayTimeTrack.TotalMissed);
+				TotalInSchedule = TotalInSchedule.Add(dayTimeTrack.TotalInSchedule);
+				TotalOutSchedule = TotalOutSchedule.Add(dayTimeTrack.TotalOutSchedule);
 			}
-			Total = DayTrackViewModel.DateTimeToString(totalTimeSpan);
-			TotalMiss = DayTrackViewModel.DateTimeToString(totalMissTimeSpan);
-			TotalInSchedule = DayTrackViewModel.DateTimeToString(totalInScheduleTimeSpan);
-			TotalOutSchedule = DayTrackViewModel.DateTimeToString(totalOutScheduleTimeSpan);
 		}
 
 		public ObservableCollection<DayTrackViewModel> DayTracks { get; set; }
 
-		public string Total { get; private set; }
-		public string TotalMiss { get; private set; }
-		public string TotalInSchedule { get; private set; }
-		public string TotalOutSchedule { get; private set; }
+		public TimeSpan Total { get; private set; }
+		public TimeSpan TotalMissed { get; private set; }
+		public TimeSpan TotalInSchedule { get; private set; }
+		public TimeSpan TotalOutSchedule { get; private set; }
 	}
 }
