@@ -23,7 +23,7 @@ namespace AutomationModule.ViewModels
 		{
 			ListVariables = new ObservableCollection<VariableViewModel>();
 			ItemVariables = new ObservableCollection<VariableViewModel>();
-			foreach (var variable in Procedure.Variables.FindAll(x => x.IsList && x.VariableType == VariableType.Object))
+			foreach (var variable in Procedure.Variables.FindAll(x => x.IsList && x.ValueType == ValueType.Object))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				ListVariables.Add(variableViewModel);
@@ -38,7 +38,7 @@ namespace AutomationModule.ViewModels
 		void UpdateItemVariables(ObjectType objectType)
 		{
 			ItemVariables = new ObservableCollection<VariableViewModel>();
-			foreach (var variable in Procedure.Variables.FindAll(x => !x.IsList && x.VariableType == VariableType.Object && x.ObjectType == objectType))
+			foreach (var variable in Procedure.Variables.FindAll(x => !x.IsList && x.ValueType == ValueType.Object && x.ObjectType == objectType))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				ItemVariables.Add(variableViewModel);

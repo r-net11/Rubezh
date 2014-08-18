@@ -35,7 +35,7 @@ namespace FiresecAPI.Automation
 		}
 
 		[DataMember]
-		public ValueType ValueType { get; set; }
+		public VariableType VariableType { get; set; }
 
 		[DataMember]
 		public int Value { get; set; }

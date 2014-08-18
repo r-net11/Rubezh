@@ -16,7 +16,7 @@ namespace FiresecAPI.Automation
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public ValueType ValueType { get; set; }
+		public VariableType VariableType { get; set; }
 
 		[DataMember]
 		public ExitCodeType ExitCodeType { get; set; }

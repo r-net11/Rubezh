@@ -93,13 +93,13 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public VariableType VariableType
+		public ValueType ValueType
 		{
-			get { return Argument.VariableType; }
+			get { return Argument.ValueType; }
 			set
 			{
-				Argument.VariableType = value;
-				OnPropertyChanged(() => VariableType);
+				Argument.ValueType = value;
+				OnPropertyChanged(() => ValueType);
 			}
 		}
 	}

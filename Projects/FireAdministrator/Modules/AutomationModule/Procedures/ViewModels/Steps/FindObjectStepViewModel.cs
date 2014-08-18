@@ -7,6 +7,7 @@ using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
@@ -54,7 +55,7 @@ namespace AutomationModule.ViewModels
 		public void UpdateContent()
 		{
 			Variables = new ObservableCollection<VariableViewModel>();
-			foreach (var variable in Procedure.Variables.FindAll(x => ((x.VariableType == VariableType.Object) && (x.IsList))))
+			foreach (var variable in Procedure.Variables.FindAll(x => ((x.ValueType == ValueType.Object) && (x.IsList))))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);

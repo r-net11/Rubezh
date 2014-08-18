@@ -100,7 +100,6 @@
     <Compile Include="Plans\Views\ProcedurePropertiesView.xaml.cs">
       <DependentUpon>ProcedurePropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Converters\ValueTypeToStringConverter.cs" />
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ControlCameraStepViewModel.cs" />
@@ -616,7 +615,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Procedures\Converters\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

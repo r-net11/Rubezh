@@ -99,11 +99,11 @@ namespace AutomationModule.ViewModels
 		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, List<Variable> localVariables, bool isResult = false)
 		{
 			ArithmeticParameter = arithmeticParameter;
-			ValueTypes = new ObservableCollection<ValueType>();
-			ValueTypes.Add(ValueType.IsGlobalVariable);
-			ValueTypes.Add(ValueType.IsLocalVariable);
+			VariableTypes = new ObservableCollection<VariableType>();
+			VariableTypes.Add(VariableType.IsGlobalVariable);
+			VariableTypes.Add(VariableType.IsLocalVariable);
 			if (!isResult)
-				ValueTypes.Add(ValueType.IsValue);
+				VariableTypes.Add(VariableType.IsValue);
 			Update(localVariables);
 		}
 
@@ -112,7 +112,7 @@ namespace AutomationModule.ViewModels
 			Variables = new ObservableCollection<VariableViewModel>();
 			if (localVariables == null)
 				localVariables = new List<Variable>();
-			foreach (var variable in localVariables.FindAll(x => (x.VariableType == VariableType.Integer) && (!x.IsList)))
+			foreach (var variable in localVariables.FindAll(x => (x.ValueType != ValueType.Object) && (!x.IsList)))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
@@ -133,24 +133,24 @@ namespace AutomationModule.ViewModels
 			else
 				SelectedGlobalVariable = null;
 
-			SelectedValueType = ArithmeticParameter.ValueType;
+			SelectedVariableType = ArithmeticParameter.VariableType;
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => Variables);
 		}
 
-		public ObservableCollection<ValueType> ValueTypes { get; private set; }
-		public ValueType SelectedValueType
+		public ObservableCollection<VariableType> VariableTypes { get; private set; }
+		public VariableType SelectedVariableType
 		{
-			get { return ArithmeticParameter.ValueType; }
+			get { return ArithmeticParameter.VariableType; }
 			set
 			{
-				ArithmeticParameter.ValueType = value;
-				if (value == ValueType.IsGlobalVariable)
+				ArithmeticParameter.VariableType = value;
+				if (value == VariableType.IsGlobalVariable)
 					DescriptionValue = SelectedGlobalVariable != null ? SelectedGlobalVariable.Name : "";
-				if (value == ValueType.IsLocalVariable)
+				if (value == VariableType.IsLocalVariable)
 					DescriptionValue = SelectedVariable != null ? SelectedVariable.Name : "";
 				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedValueType);
+				OnPropertyChanged(() => SelectedVariableType);
 			}
 		}
 
@@ -192,7 +192,7 @@ namespace AutomationModule.ViewModels
 					ArithmeticParameter.VariableUid = Guid.Empty;
 					ArithmeticParameter.GlobalVariableUid = value.GlobalVariable.Uid;
 				}
-				else if (SelectedValueType == ValueType.IsGlobalVariable)
+				else if (SelectedVariableType == VariableType.IsGlobalVariable)
 					DescriptionValue = "";
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedGlobalVariable);
@@ -213,7 +213,7 @@ namespace AutomationModule.ViewModels
 					ArithmeticParameter.GlobalVariableUid = Guid.Empty;
 					ArithmeticParameter.VariableUid = value.Variable.Uid;
 				}
-				else if (SelectedValueType == ValueType.IsLocalVariable)
+				else if (SelectedVariableType == VariableType.IsLocalVariable)
 					DescriptionValue = "";
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariable);

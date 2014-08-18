@@ -46,7 +46,7 @@ namespace FiresecAPI.Automation
 			DefaultDateTimeValues = variable.DefaultDateTimeValues;
 			DefaultIntValues = variable.DefaultIntValues;
 			DefaultStringValues = variable.DefaultStringValues;
-			VariableType = variable.VariableType;
+			ValueType = variable.ValueType;
 			IsList = variable.IsList;
 			ObjectsUids = variable.ObjectsUids;
 			ObjectUid = variable.ObjectUid;
@@ -97,7 +97,7 @@ namespace FiresecAPI.Automation
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public VariableType VariableType { get; set; }
+		public ValueType ValueType { get; set; }
 
 		[DataMember]
 		public ObjectType ObjectType { get; set; }
@@ -112,25 +112,25 @@ namespace FiresecAPI.Automation
 		{
 			get
 			{
-				if (!IsList && VariableType == VariableType.Boolean)
+				if (!IsList && ValueType == ValueType.Boolean)
 					return BoolValue.ToString();
-				if (!IsList && VariableType == VariableType.DateTime)
+				if (!IsList && ValueType == ValueType.DateTime)
 					return DateTimeValue.ToString();
-				if (!IsList && VariableType == VariableType.Integer)
+				if (!IsList && ValueType == ValueType.Integer)
 					return IntValue.ToString();
-				if (!IsList && VariableType == VariableType.String)
+				if (!IsList && ValueType == ValueType.String)
 					return StringValue;
 
-				if (IsList && VariableType == VariableType.Boolean)
+				if (IsList && ValueType == ValueType.Boolean)
 					return string.Join("\n", BoolValues.ToArray());
-				if (IsList && VariableType == VariableType.DateTime)
+				if (IsList && ValueType == ValueType.DateTime)
 					return string.Join("\n", DateTimeValues.ToArray());
-				if (IsList && VariableType == VariableType.Integer)
+				if (IsList && ValueType == ValueType.Integer)
 					return string.Join("\n", IntValues.ToArray());
-				if (IsList && VariableType == VariableType.String)
+				if (IsList && ValueType == ValueType.String)
 					return string.Join("\n", StringValues.ToArray());
 
-				if (VariableType == VariableType.Object)
+				if (ValueType == ValueType.Object)
 					return ObjectType.ToString();
 
 				return "Неизветсное значение";

@@ -10,7 +10,7 @@ using FiresecClient;
 using FiresecService.Service;
 using Infrastructure.Common.Video.RVI_VSS;
 using Property = FiresecAPI.Automation.Property;
-using ValueType = FiresecAPI.Automation.ValueType;
+using VariableType = FiresecAPI.Automation.VariableType;
 
 namespace FiresecService.Processor
 {
@@ -82,16 +82,16 @@ namespace FiresecService.Processor
 		{
 			var automationCallbackResult = new AutomationCallbackResult();
 			var sendMessageArguments = procedureStep.SendMessageArguments;
-			if (sendMessageArguments.ValueType == ValueType.IsValue)
+			if (sendMessageArguments.VariableType == VariableType.IsValue)
 				automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
-			if (sendMessageArguments.ValueType == ValueType.IsLocalVariable)
+			if (sendMessageArguments.VariableType == VariableType.IsLocalVariable)
 			{
 				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid) ??
 					procedure.Arguments.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid);
 				if (localVariable != null)
 					automationCallbackResult.Message = localVariable.CurrentValue;
 			}
-			if (sendMessageArguments.ValueType == ValueType.IsGlobalVariable)
+			if (sendMessageArguments.VariableType == VariableType.IsGlobalVariable)
 			{
 				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == sendMessageArguments.GlobalVariableUid);
 				if (globalVariable != null)
@@ -115,7 +115,7 @@ namespace FiresecService.Processor
 			if ((arithmeticArguments.ArithmeticType == ArithmeticType.Div) && (variable2 != 0))
 				result = variable1 / variable2;
 
-			if (arithmeticArguments.Result.ValueType == ValueType.IsGlobalVariable)
+			if (arithmeticArguments.Result.VariableType == VariableType.IsGlobalVariable)
 			{
 				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables
 					.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.GlobalVariableUid);
@@ -123,7 +123,7 @@ namespace FiresecService.Processor
 					globalVariable.Value = result;
 			}
 
-			if (arithmeticArguments.Result.ValueType == ValueType.IsLocalVariable)
+			if (arithmeticArguments.Result.VariableType == VariableType.IsLocalVariable)
 			{
 				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid) ??
 					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
@@ -134,7 +134,7 @@ namespace FiresecService.Processor
 
 		static int GetValue(ArithmeticParameter arithmeticParameter, Procedure procedure, List<Argument> arguments)
 		{
-			if (arithmeticParameter.ValueType == ValueType.IsGlobalVariable)
+			if (arithmeticParameter.VariableType == VariableType.IsGlobalVariable)
 			{
 				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables
 					.FirstOrDefault(
@@ -142,7 +142,7 @@ namespace FiresecService.Processor
 				if (globalVariable != null)
 					return globalVariable.Value;
 			}
-			if (arithmeticParameter.ValueType == ValueType.IsLocalVariable)
+			if (arithmeticParameter.VariableType == VariableType.IsLocalVariable)
 			{
 				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid) ??
 					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);

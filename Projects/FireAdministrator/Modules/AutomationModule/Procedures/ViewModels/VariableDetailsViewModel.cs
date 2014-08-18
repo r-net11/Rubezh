@@ -23,11 +23,11 @@ namespace AutomationModule.ViewModels
 			Variable = new Variable(defaultName);
 			Variables = new ObservableCollection<VariableViewModel>
 			{
-				new VariableViewModel(defaultName, VariableType.Integer),
-				new VariableViewModel(defaultName, VariableType.Boolean),
-				new VariableViewModel(defaultName, VariableType.String),
-				new VariableViewModel(defaultName, VariableType.DateTime),
-				new VariableViewModel(defaultName, VariableType.Object)
+				new VariableViewModel(defaultName, ValueType.Integer),
+				new VariableViewModel(defaultName, ValueType.Boolean),
+				new VariableViewModel(defaultName, ValueType.String),
+				new VariableViewModel(defaultName, ValueType.DateTime),
+				new VariableViewModel(defaultName, ValueType.Object)
 			};
 			SelectedVariable = Variables.FirstOrDefault();
 			Name = defaultName;
@@ -47,7 +47,7 @@ namespace AutomationModule.ViewModels
 			{
 				 new VariableViewModel(variable)
 			};
-			SelectedVariable = Variables.FirstOrDefault(x => x.VariableType == variable.VariableType);
+			SelectedVariable = Variables.FirstOrDefault(x => x.ValueType == variable.ValueType);
 			if (SelectedVariable != null)
 			{
 				Name = SelectedVariable.Name;
@@ -114,7 +114,7 @@ namespace AutomationModule.ViewModels
 			Variable.Name = Name;
 			Variable.ObjectType = SelectedVariable.ObjectType;
 			Variable.DefaultStringValue = SelectedVariable.DefaultStringValue;
-			Variable.VariableType = SelectedVariable.VariableType;
+			Variable.ValueType = SelectedVariable.ValueType;
 			Variable.IsList = IsList;
 			return base.Save();
 		}
