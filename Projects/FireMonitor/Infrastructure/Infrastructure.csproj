@@ -97,6 +97,7 @@
     <Compile Include="ClientSettings.cs" />
     <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowXGuardZoneDetailsEvent.cs" />
+    <Compile Include="Events\ShowOnPlan\ShowProcedureOnPlanEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowCameraOnPlanEvent.cs" />
     <Compile Include="Events\ShowObject\ShowCameraEvent.cs" />
     <Compile Include="Events\GKObjectsStateChangedEvent.cs" />

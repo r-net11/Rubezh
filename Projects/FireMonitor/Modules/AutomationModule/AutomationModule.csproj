@@ -60,6 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\ShowAutomationEvent.cs" />
+    <Compile Include="Plans\Designer\ProcedurePainter.cs" />
+    <Compile Include="Plans\PlanPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

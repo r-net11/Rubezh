@@ -88,6 +88,9 @@
     <Compile Include="Layout\Views\LayoutPartProcedureView.xaml.cs">
       <DependentUpon>LayoutPartProcedureView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageStyleView.xaml.cs">
+      <DependentUpon>LayoutPartPropertyProcedurePageStyleView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Layout\Views\LayoutPartPropertyProcedurePageView.xaml.cs">
       <DependentUpon>LayoutPartPropertyProcedurePageView.xaml</DependentUpon>
     </Compile>
@@ -387,6 +390,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Layout\Views\LayoutPartProcedureView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Layout\Views\LayoutPartPropertyProcedurePageStyleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -12,7 +12,7 @@ using Infrastructure.Designer.ElementProperties.ViewModels;
 
 namespace AutomationModule.Plans.ViewModels
 {
-	public class ProcedurePropertiesViewModel : RectanglePropertiesViewModel
+	public class ProcedurePropertiesViewModel : TextBlockPropertiesViewModel
 	{
 		private ElementProcedure _element;
 

@@ -2,19 +2,41 @@
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Interfaces;
+using System.Windows.Media;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementProcedure : ElementRectangle, IElementReference, IPrimitive
+	public class ElementProcedure : ElementBaseRectangle, IElementTextBlock, IPrimitive, IElementReference
 	{
 		public ElementProcedure()
 		{
 			ProcedureUID = Guid.Empty;
+			Stretch = false;
+			TextAlignment = 0;
+			BorderThickness = 0;
+			BackgroundColor = Colors.Transparent;
 		}
 
 		[DataMember]
 		public Guid ProcedureUID { get; set; }
+
+		[DataMember]
+		public string Text { get; set; }
+		[DataMember]
+		public Color ForegroundColor { get; set; }
+		[DataMember]
+		public double FontSize { get; set; }
+		[DataMember]
+		public bool FontItalic { get; set; }
+		[DataMember]
+		public bool FontBold { get; set; }
+		[DataMember]
+		public string FontFamilyName { get; set; }
+		[DataMember]
+		public bool Stretch { get; set; }
+		[DataMember]
+		public int TextAlignment { get; set; }
 
 		public override ElementBase Clone()
 		{
@@ -25,7 +47,16 @@ namespace FiresecAPI.Models
 		public override void Copy(ElementBase element)
 		{
 			base.Copy(element);
-			((ElementProcedure)element).ProcedureUID = ProcedureUID;
+			var elementProcedure = (ElementProcedure)element;
+			elementProcedure.ProcedureUID = ProcedureUID;
+			elementProcedure.Text = Text;
+			elementProcedure.ForegroundColor = ForegroundColor;
+			elementProcedure.FontSize = FontSize;
+			elementProcedure.FontFamilyName = FontFamilyName;
+			elementProcedure.Stretch = Stretch;
+			elementProcedure.TextAlignment = TextAlignment;
+			elementProcedure.FontBold = FontBold;
+			elementProcedure.FontItalic = FontItalic;
 		}
 		public override void UpdateZLayer()
 		{
@@ -42,13 +73,28 @@ namespace FiresecAPI.Models
 
 		#endregion
 
+
 		#region IPrimitive Members
 
-		public override Primitive Primitive
+		public Primitive Primitive
 		{
-			get { return base.Primitive; }
+			get { return Primitive.TextBlock; }
 		}
 
 		#endregion
+
+		protected override void SetDefault()
+		{
+			Text = "Процедура";
+			ForegroundColor = Colors.Black;
+			FontSize = 10;
+			TextAlignment = 0;
+			FontFamilyName = "Arial";
+			FontItalic = false;
+			FontBold = false;
+			base.SetDefault();
+			Height = 22;
+			Width = 52;
+		}
 	}
 }

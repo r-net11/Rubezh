@@ -8,4 +8,8 @@
 		<Views:LayoutPartPropertyProcedurePageView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:LayoutPartPropertyProcedurePageStyleViewModel}">
+		<Views:LayoutPartPropertyProcedurePageStyleView />
+	</DataTemplate>
+
 </ResourceDictionary>

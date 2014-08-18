@@ -7,21 +7,53 @@ using FiresecAPI.Models.Layouts;
 using FiresecAPI.Automation;
 using FiresecClient;
 using Infrastructure.Common;
+using System.Windows.Media;
+using System.Windows;
 
 namespace AutomationModule.ViewModels
 {
 	public class LayoutProcedurePartViewModel : BaseViewModel
 	{
-		public LayoutProcedurePartViewModel(LayoutPartReferenceProperties properties)
+		public LayoutProcedurePartViewModel(LayoutPartProcedureProperties properties)
 		{
 			Procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(item => item.Uid == properties.ReferenceUID);
 			if (Procedure != null)
 				Title = Procedure.Name;
 			RunProcedureCommand = new RelayCommand(OnRunProcedure, CanRunProcedure);
+
+			UseCustomStyle = properties.UseCustomStyle;
+			if (UseCustomStyle)
+			{
+				Text = properties.Text;
+				BackgroundBrush = new SolidColorBrush(properties.BackgroundColor);
+				ForegroundBrush = new SolidColorBrush(properties.ForegroundColor);
+				BorderBrush = new SolidColorBrush(properties.BorderColor);
+				BorderThickness = properties.BorderThickness;
+				FontSize = properties.FontSize;
+				FontStyle = properties.FontItalic ? FontStyles.Italic : FontStyles.Normal;
+				FontWeight = properties.FontBold ? FontWeights.Bold : FontWeights.Normal;
+				FontFamily = new FontFamily(properties.FontFamilyName);
+				TextAlignment = (TextAlignment)properties.TextAlignment;
+				Stretch = properties.Stretch ? Stretch.Fill : Stretch.None;
+			}
 		}
 
 		public Procedure Procedure { get; private set; }
 		public string Title { get; private set; }
+
+		public bool UseCustomStyle { get; private set; }
+		public string Text { get; private set; }
+		public Brush BackgroundBrush { get; private set; }
+		public Brush ForegroundBrush { get; private set; }
+		public Brush BorderBrush { get; private set; }
+		public double BorderThickness { get; private set; }
+		public double FontSize { get; private set; }
+		public FontStyle FontStyle { get; private set; }
+		public FontWeight FontWeight { get; private set; }
+		public FontFamily FontFamily { get; private set; }
+		public TextAlignment TextAlignment { get; private set; }
+		public Stretch Stretch { get; private set; }
+
 		public RelayCommand RunProcedureCommand { get; private set; }
 		private void OnRunProcedure()
 		{

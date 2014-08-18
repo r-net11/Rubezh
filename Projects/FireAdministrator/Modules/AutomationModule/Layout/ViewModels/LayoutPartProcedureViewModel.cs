@@ -9,11 +9,11 @@ namespace AutomationModule.Layout.ViewModels
 {
 	public class LayoutPartProcedureViewModel : LayoutPartTitleViewModel
 	{
-		private LayoutPartReferenceProperties _properties;
+		private LayoutPartProcedureProperties _properties;
 
-		public LayoutPartProcedureViewModel(LayoutPartReferenceProperties properties)
+		public LayoutPartProcedureViewModel(LayoutPartProcedureProperties properties)
 		{
-			_properties = properties ?? new LayoutPartReferenceProperties();
+			_properties = properties ?? new LayoutPartProcedureProperties();
 			UpdateLayoutPart();
 		}
 
