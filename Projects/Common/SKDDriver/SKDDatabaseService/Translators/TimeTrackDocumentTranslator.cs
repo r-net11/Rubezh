@@ -18,38 +18,6 @@ namespace SKDDriver.Translators
 			Context = context;
 		}
 
-		public OperationResult Save(TimeTrackDocument api)
-		{
-			try
-			{
-				var timeTrackDocument = Context.TimeTrackDocuments.FirstOrDefault(x => x.EmployeeUID == api.EmployeeUID && x.StartDateTime.Date == api.StartDateTime.Date);
-				if (timeTrackDocument != null)
-				{
-					timeTrackDocument.DocumentCode = api.DocumentCode;
-					timeTrackDocument.Comment = api.Comment;
-				}
-				else
-				{
-					timeTrackDocument = new DataAccess.TimeTrackDocument()
-					{
-						UID = Guid.NewGuid(),
-						StartDateTime = api.StartDateTime.Date,
-						EndDateTime = api.EndDateTime.Date,
-						EmployeeUID = api.EmployeeUID,
-						DocumentCode = api.DocumentCode,
-						Comment = api.Comment
-					};
-					Context.TimeTrackDocuments.InsertOnSubmit(timeTrackDocument);
-				}
-				Context.SubmitChanges();
-				return new OperationResult();
-			}
-			catch (Exception e)
-			{
-				return new OperationResult(e.Message);
-			}
-		}
-
 		public OperationResult<List<TimeTrackDocument>> Get(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
 			try
@@ -83,14 +51,57 @@ namespace SKDDriver.Translators
 
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
-			return new OperationResult();
+			try
+			{
+				var tableItem = new DataAccess.TimeTrackDocument();
+				tableItem.UID = timeTrackDocument.UID;
+				tableItem.EmployeeUID = timeTrackDocument.EmployeeUID;
+				tableItem.StartDateTime = timeTrackDocument.StartDateTime;
+				tableItem.EndDateTime = timeTrackDocument.EndDateTime;
+				tableItem.DocumentCode = timeTrackDocument.DocumentCode;
+				tableItem.Comment = timeTrackDocument.Comment;
+				Context.TimeTrackDocuments.InsertOnSubmit(tableItem);
+				Context.SubmitChanges();
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 		}
 		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
-			return new OperationResult();
+			try
+			{
+				var tableItem = (from x in Context.TimeTrackDocuments where x.UID.Equals(timeTrackDocument.UID) select x).FirstOrDefault();
+				if (tableItem != null)
+				{
+					tableItem.EmployeeUID = timeTrackDocument.EmployeeUID;
+					tableItem.StartDateTime = timeTrackDocument.StartDateTime;
+					tableItem.EndDateTime = timeTrackDocument.EndDateTime;
+					tableItem.DocumentCode = timeTrackDocument.DocumentCode;
+					tableItem.Comment = timeTrackDocument.Comment;
+					Context.SubmitChanges();
+				}
+				return new OperationResult();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 		}
-		public OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID)
+		public OperationResult RemoveTimeTrackDocument(Guid uid)
 		{
+			try
+			{
+				var tableItem = Context.TimeTrackDocuments.Where(x => x.UID.Equals(uid)).Single();
+				Context.TimeTrackDocuments.DeleteOnSubmit(tableItem);
+				Context.TimeTrackDocuments.Context.SubmitChanges();
+			}
+			catch (Exception e)
+			{
+				return new OperationResult(e.Message);
+			}
 			return new OperationResult();
 		}
 	}

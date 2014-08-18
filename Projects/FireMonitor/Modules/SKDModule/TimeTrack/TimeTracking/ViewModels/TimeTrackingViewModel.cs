@@ -148,7 +148,9 @@ namespace SKDModule.ViewModels
 				{
 					foreach (var timeTrackEmployeeResult in timeTrackResult.TimeTrackEmployeeResults)
 					{
-						TimeTracks.Add(new TimeTrackViewModel(timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks));
+						var timeTrackViewModel = new TimeTrackViewModel(timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks);
+						timeTrackViewModel.DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult.ShortEmployee, TimeTrackingSettings.StartDate, TimeTrackingSettings.EndDate);
+						TimeTracks.Add(timeTrackViewModel);
 					}
 				}
 			}

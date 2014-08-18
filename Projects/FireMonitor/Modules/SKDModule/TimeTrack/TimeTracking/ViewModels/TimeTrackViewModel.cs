@@ -9,12 +9,11 @@ namespace SKDModule.ViewModels
 	public class TimeTrackViewModel : BaseViewModel
 	{
 		public ShortEmployee ShortEmployee { get; private set; }
-		public DocumentsViewModel DocumentsViewModel { get; private set; }
+		public DocumentsViewModel DocumentsViewModel { get; set; }
 
 		public TimeTrackViewModel(ShortEmployee shortEmployee, List<DayTimeTrack> dayTimeTracks)
 		{
 			ShortEmployee = shortEmployee;
-			DocumentsViewModel = new DocumentsViewModel(shortEmployee);
 			if (dayTimeTracks == null)
 				dayTimeTracks = new List<DayTimeTrack>();
 

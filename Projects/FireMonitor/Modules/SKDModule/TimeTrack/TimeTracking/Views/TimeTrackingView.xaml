@@ -17,8 +17,13 @@
 			<ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Настройки" />
 			<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
 			<ToolBarButton Command="{Binding PrintCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать" />
+            <StackPanel DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}">
+                <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+                <ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+                <ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+            </StackPanel>
 		</StackPanel>
-	    <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="4" RowHeight="60" Margin="0 4 0 0">
+	    <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="4" RowHeight="60" Margin="0 4">
 			<DataGrid.Columns>
 	            <DataGridTemplateColumn Header="ФИО">
 	                <DataGridTemplateColumn.CellTemplate>
@@ -80,13 +85,27 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        <Grid Grid.Row="2" DataContext="{Binding SelectedTimeTrack}">
+        <Grid Grid.Row="2" DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}">
             <DataGrid ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Документ" Width="*">
+                    <DataGridTemplateColumn Header="Код документа" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text="{Binding DocumentCode}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Начало" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StartDateTime}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Конец" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding EndDateTime}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
