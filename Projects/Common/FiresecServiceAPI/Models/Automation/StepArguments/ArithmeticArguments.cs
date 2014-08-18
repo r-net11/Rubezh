@@ -14,6 +14,9 @@ namespace FiresecAPI.Automation
 		}
 
 		[DataMember]
+		public OperationType OperationType { get; set; }
+
+		[DataMember]
 		public ArithmeticType ArithmeticType { get; set; }
 
 		[DataMember]
@@ -30,7 +33,6 @@ namespace FiresecAPI.Automation
 	{
 		public ArithmeticParameter()
 		{
-			GlobalVariableUid = new Guid();
 			VariableUid = new Guid();
 		}
 
@@ -41,10 +43,26 @@ namespace FiresecAPI.Automation
 		public int Value { get; set; }
 
 		[DataMember]
-		public Guid GlobalVariableUid { get; set; }
+		public string StringValue { get; set; }
 
 		[DataMember]
 		public Guid VariableUid { get; set; }
+	}
+
+
+	public enum OperationType
+	{
+		[Description("Операции с целыми")]
+		IntegerOperation,
+
+		[Description("Операции с логическими")]
+		BoolOperation,
+
+		[Description("Операции с временными")]
+		DateTimeOperation,
+
+		[Description("Операции со строковыми")]
+		StringOperation
 	}
 
 	public enum ArithmeticType
@@ -59,6 +77,15 @@ namespace FiresecAPI.Automation
 		Multi,
 
 		[Description("Деление")]
-		Div
+		Div,
+
+		[Description("И")]
+		And,
+
+		[Description("Или")]
+		Or,
+
+		[Description("Конкатенация")]
+		Concat
 	}
 }

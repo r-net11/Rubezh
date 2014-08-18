@@ -14,10 +14,21 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<Label Grid.Row="0" Grid.Column="0" Content="Параметр1" HorizontalAlignment="Right" />
-		<ComboBox Grid.Row="0" Grid.Column="1" DataContext="{Binding Variable1}" ItemsSource="{Binding VariableTypes}" Margin="2"
+		<Label Grid.Row="0" Grid.Column="0" Content="Тип операции" HorizontalAlignment="Right" />
+		<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding OperationTypes}" Margin="2" 
+				  SelectedItem="{Binding SelectedOperationType, UpdateSourceTrigger=PropertyChanged}" >
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+		
+		<Label Grid.Row="1" Grid.Column="0" Content="Параметр1" HorizontalAlignment="Right" />
+		<ComboBox Grid.Row="1" Grid.Column="1" DataContext="{Binding Variable1}" ItemsSource="{Binding VariableTypes}" Margin="2"
 				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -25,8 +36,8 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Row="0" Grid.Column="2" DataContext="{Binding Variable1}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-				  SelectedItem="{Binding SelectedGlobalVariable, UpdateSourceTrigger=PropertyChanged}"
+		<ComboBox Grid.Row="1" Grid.Column="2" DataContext="{Binding Variable1}" ItemsSource="{Binding GlobalVariables}" Margin="2"
+				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" >
 			<ComboBox.ItemTemplate>
@@ -35,7 +46,7 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Row="0" Grid.Column="2" DataContext="{Binding Variable1}" ItemsSource="{Binding Variables}" Margin="2"
+		<ComboBox Grid.Row="1" Grid.Column="2" DataContext="{Binding Variable1}" ItemsSource="{Binding LocalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" >
@@ -45,12 +56,12 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<extToolkit:IntegerUpDown  Grid.Row="0" Grid.Column="2" DataContext="{Binding Variable1}" Value="{Binding Value}" Margin="2"
+		<extToolkit:IntegerUpDown  Grid.Row="1" Grid.Column="2" DataContext="{Binding Variable1}" Value="{Binding Value}" Margin="2"
 				Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsValue}}" />
 
-		<Label Grid.Row="1" Grid.Column="0" Content="Параметр2" HorizontalAlignment="Right" />
-		<ComboBox Grid.Row="1" Grid.Column="1" DataContext="{Binding Variable2}" ItemsSource="{Binding VariableTypes}" Margin="2"
+		<Label Grid.Row="2" Grid.Column="0" Content="Параметр2" HorizontalAlignment="Right" />
+		<ComboBox Grid.Row="2" Grid.Column="1" DataContext="{Binding Variable2}" ItemsSource="{Binding VariableTypes}" Margin="2"
 				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -58,8 +69,8 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Row="1" Grid.Column="2" DataContext="{Binding Variable2}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-				  SelectedItem="{Binding SelectedGlobalVariable, UpdateSourceTrigger=PropertyChanged}"
+		<ComboBox Grid.Row="2" Grid.Column="2" DataContext="{Binding Variable2}" ItemsSource="{Binding GlobalVariables}" Margin="2"
+				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" >
 			<ComboBox.ItemTemplate>
@@ -68,7 +79,7 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Row="1" Grid.Column="2" DataContext="{Binding Variable2}" ItemsSource="{Binding Variables}" Margin="2"
+		<ComboBox Grid.Row="2" Grid.Column="2" DataContext="{Binding Variable2}" ItemsSource="{Binding LocalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" >
@@ -78,12 +89,12 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<extToolkit:IntegerUpDown  Grid.Row="1" Grid.Column="2" DataContext="{Binding Variable2}" Value="{Binding Value}" Margin="2"
+		<extToolkit:IntegerUpDown  Grid.Row="2" Grid.Column="2" DataContext="{Binding Variable2}" Value="{Binding Value}" Margin="2"
 				Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsValue}}" />
 
-		<Label Grid.Row="2" Grid.Column="0" Content="Тип операции" HorizontalAlignment="Right" />
-		<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ArithmeticTypes}" Margin="2" 
+		<Label Grid.Row="3" Grid.Column="0" Content="Значение операции" HorizontalAlignment="Right" />
+		<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ArithmeticTypes}" Margin="2" 
 				  SelectedItem="{Binding SelectedArithmeticType, UpdateSourceTrigger=PropertyChanged}" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -92,8 +103,8 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<Label Grid.Row="3" Grid.Column="0" Content="Результат" HorizontalAlignment="Right" />
-		<ComboBox Grid.Row="3" Grid.Column="1" DataContext="{Binding Result}" ItemsSource="{Binding VariableTypes}" Margin="2"
+		<Label Grid.Row="4" Grid.Column="0" Content="Результат" HorizontalAlignment="Right" />
+		<ComboBox Grid.Row="4" Grid.Column="1" DataContext="{Binding Result}" ItemsSource="{Binding VariableTypes}" Margin="2"
 				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
@@ -101,8 +112,8 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Row="3" Grid.Column="2" DataContext="{Binding Result}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-				  SelectedItem="{Binding SelectedGlobalVariable, UpdateSourceTrigger=PropertyChanged}"
+		<ComboBox Grid.Row="4" Grid.Column="2" DataContext="{Binding Result}" ItemsSource="{Binding GlobalVariables}" Margin="2"
+				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" >
 			<ComboBox.ItemTemplate>
@@ -111,7 +122,7 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Row="3" Grid.Column="2" DataContext="{Binding Result}" ItemsSource="{Binding Variables}" Margin="2"
+		<ComboBox Grid.Row="4" Grid.Column="2" DataContext="{Binding Result}" ItemsSource="{Binding LocalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" >

@@ -6,10 +6,15 @@ namespace FiresecAPI.Automation
 	[DataContract]
 	public class Argument
 	{
+		public Argument()
+		{
+
+		}
+
 		public Argument(Variable variable)
 		{
 			Uid = Guid.NewGuid();
-			ArgumentUid = variable.Uid;
+			VariableUid = variable.Uid;
 			ValueType = variable.ValueType;
 			BoolValue = variable.DefaultBoolValue;
 			DateTimeValue = variable.DefaultDateTimeValue;
@@ -45,9 +50,12 @@ namespace FiresecAPI.Automation
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public Guid ArgumentUid { get; set; }
+		public Guid VariableUid { get; set; }
 
 		[DataMember]
 		public ValueType ValueType { get; set; }
+
+		[DataMember]
+		public VariableType VariableType { get; set; }
 	}
 }

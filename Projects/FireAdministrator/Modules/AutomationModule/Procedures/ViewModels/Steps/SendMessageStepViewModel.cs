@@ -65,16 +65,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<GlobalVariableViewModel> GlobalVariables { get; private set; }
-		private GlobalVariableViewModel _selectedGlobalVariable;
-		public GlobalVariableViewModel SelectedGlobalVariable
+		public ObservableCollection<VariableViewModel> GlobalVariables { get; private set; }
+		private VariableViewModel _selectedGlobalVariable;
+		public VariableViewModel SelectedGlobalVariable
 		{
 			get { return _selectedGlobalVariable; }
 			set
 			{
 				_selectedGlobalVariable = value;
 				if (value != null)
-					SendMessageArguments.GlobalVariableUid = value.GlobalVariable.Uid;
+					SendMessageArguments.GlobalVariableUid = value.Variable.Uid;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedGlobalVariable);
 			}
@@ -83,7 +83,7 @@ namespace AutomationModule.ViewModels
 		public void UpdateContent()
 		{
 			Variables = new ObservableCollection<VariableViewModel>();
-			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
+			GlobalVariables = new ObservableCollection<VariableViewModel>();
 			var variablesAndArguments = new List<Variable>(Procedure.Variables);
 			variablesAndArguments.AddRange(Procedure.Arguments);
 			foreach (var variable in variablesAndArguments)
@@ -92,12 +92,12 @@ namespace AutomationModule.ViewModels
 			}
 			foreach (var globalVariable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
-				GlobalVariables.Add(new GlobalVariableViewModel(globalVariable));
+				GlobalVariables.Add(new VariableViewModel(globalVariable));
 			}
 			VariableTypes = new ObservableCollection<VariableType>(Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
 			SelectedVariableType = SendMessageArguments.VariableType;
 			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == SendMessageArguments.VariableUid);
-			SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.GlobalVariable.Uid == SendMessageArguments.GlobalVariableUid);
+			SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == SendMessageArguments.GlobalVariableUid);
 			OnPropertyChanged(() => Variables);
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => SelectedVariable);

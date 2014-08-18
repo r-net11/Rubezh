@@ -10,7 +10,7 @@ using FiresecClient;
 using FiresecService.Service;
 using Infrastructure.Common.Video.RVI_VSS;
 using Property = FiresecAPI.Automation.Property;
-using VariableType = FiresecAPI.Automation.VariableType;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace FiresecService.Processor
 {
@@ -118,38 +118,69 @@ namespace FiresecService.Processor
 			if (arithmeticArguments.Result.VariableType == VariableType.IsGlobalVariable)
 			{
 				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables
-					.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.GlobalVariableUid);
+					.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
 				if (globalVariable != null)
-					globalVariable.Value = result;
+					globalVariable.IntValue = result;
 			}
 
 			if (arithmeticArguments.Result.VariableType == VariableType.IsLocalVariable)
 			{
 				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid) ??
 					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
-				if (localVariable != null)
-					localVariable.IntValue = result;
+				if (localVariable == null)
+					return;
+				if (localVariable.ValueType == ValueType.Boolean)
+					localVariable.BoolValue = Convert.ToBoolean(result);
+				if (localVariable.ValueType == ValueType.DateTime)
+					localVariable.DateTimeValue = Convert.ToDateTime(result);
+				localVariable.IntValue = result;
 			}
 		}
 
 		static int GetValue(ArithmeticParameter arithmeticParameter, Procedure procedure, List<Argument> arguments)
 		{
+			var allVariables = new List<Variable>(procedure.Variables);
+			allVariables.AddRange(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+
 			if (arithmeticParameter.VariableType == VariableType.IsGlobalVariable)
 			{
 				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables
-					.FirstOrDefault(
-						x => x.Uid == arithmeticParameter.GlobalVariableUid);
+					.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
 				if (globalVariable != null)
-					return globalVariable.Value;
+					return globalVariable.IntValue;
 			}
 			if (arithmeticParameter.VariableType == VariableType.IsLocalVariable)
 			{
 				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid) ??
 					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
+				if (localVariable.ValueType == ValueType.Boolean)
+					return Convert.ToInt32(localVariable.BoolValue);
+				if (localVariable.ValueType == ValueType.DateTime)
+					return Convert.ToInt32(localVariable.DateTimeValue);
 				return localVariable.IntValue;
 			}
 			return arithmeticParameter.Value;
 		}
+
+		static string GetStringValue(ArithmeticParameter arithmeticParameter, Procedure procedure, List<Argument> arguments)
+		{
+			if (arithmeticParameter.VariableType == VariableType.IsGlobalVariable)
+			{
+				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables
+					.FirstOrDefault(
+						x => x.Uid == arithmeticParameter.VariableUid);
+				if (globalVariable != null)
+					return globalVariable.StringValue;
+			}
+			if (arithmeticParameter.VariableType == VariableType.IsLocalVariable)
+			{
+				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid) ??
+					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
+				return localVariable.StringValue;
+			}
+			return arithmeticParameter.StringValue;
+		}
+
 
 		public static void FindObjects(ProcedureStep procedureStep, Procedure procedure)
 		{
@@ -447,7 +478,7 @@ namespace FiresecService.Processor
 				(x => x.Uid == incrementGlobalValueArguments.GlobalVariableUid);
 			if (globalVariable == null)
 				return;
-			globalVariable.Value = incrementGlobalValueArguments.IncrementType == IncrementType.Inc ? globalVariable.Value + 1 : globalVariable.Value - 1;
+			globalVariable.IntValue = incrementGlobalValueArguments.IncrementType == IncrementType.Inc ? globalVariable.IntValue + 1 : globalVariable.IntValue - 1;
 		}
 
 		public static void SetGlobalValue(ProcedureStep procedureStep)
@@ -457,7 +488,7 @@ namespace FiresecService.Processor
 				(x => x.Uid == setGlobalValueArguments.GlobalVariableUid);
 			if (globalVariable == null)
 				return;
-			globalVariable.Value = setGlobalValueArguments.Value;
+			globalVariable.IntValue = setGlobalValueArguments.Value;
 		}
 	}
 }

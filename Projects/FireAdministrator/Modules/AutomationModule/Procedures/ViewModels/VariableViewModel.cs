@@ -34,7 +34,7 @@ namespace AutomationModule.ViewModels
 			DefaultStringValue = Variable.DefaultStringValue;
 			ValueType = Variable.ValueType;
 			IsList = Variable.IsList;
-
+			IsGlobal = Variable.IsGlobal;
 			ObjectTypes = new ObservableCollection<ObjectType>
 			{
 				ObjectType.Card, ObjectType.Device, ObjectType.Direction, ObjectType.GuardZone, ObjectType.Person, ObjectType.Plan,
@@ -48,6 +48,17 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => ObjectType);
 			OnPropertyChanged(() => DefaultStringValue);
 			OnPropertyChanged(() => ValueType);
+		}
+
+		bool _isGlobal;
+		public bool IsGlobal
+		{
+			get { return _isGlobal; }
+			set
+			{
+				_isGlobal = value;
+				OnPropertyChanged(() => IsGlobal);
+			}
 		}
 
 		bool _isList;

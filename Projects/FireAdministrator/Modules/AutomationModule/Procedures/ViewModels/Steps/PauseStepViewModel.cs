@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.Generic;
 
 namespace AutomationModule.ViewModels
 {
@@ -13,7 +14,8 @@ namespace AutomationModule.ViewModels
 		{
 			PauseArguments = pauseArguments;
 			Procedure = procedure;
-			Variable = new ArithmeticParameterViewModel(PauseArguments.Variable, Procedure.Variables);
+			var variableTypes = new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable, VariableType.IsValue };
+			Variable = new ArithmeticParameterViewModel(PauseArguments.Variable, variableTypes);
 			UpdateContent();
 		}
 

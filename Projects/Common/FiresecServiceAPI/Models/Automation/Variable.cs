@@ -7,6 +7,11 @@ namespace FiresecAPI.Automation
 	[DataContract]
 	public class Variable
 	{
+		public Variable()
+		{
+
+		}
+
 		public Variable(string name)
 		{
 			Name = name;
@@ -29,7 +34,7 @@ namespace FiresecAPI.Automation
 
 		public Variable(Variable variable)
 		{
-			Copy (variable);
+			Copy(variable);
 			Uid = Guid.NewGuid();
 		}
 
@@ -107,6 +112,9 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public Guid ObjectUid { get; set; }
+
+		[DataMember]
+		public bool IsGlobal { get; set; }
 
 		public string CurrentValue
 		{

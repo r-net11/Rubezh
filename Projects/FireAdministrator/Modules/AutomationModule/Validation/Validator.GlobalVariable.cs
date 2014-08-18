@@ -12,7 +12,7 @@ namespace AutomationModule.Validation
 			foreach (var globalVariable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
 				if (nameList.Contains(globalVariable.Name))
-					Errors.Add(new GlobalVariableValidationError(globalVariable, "Глобальная переменная с таким именем уже существует " + globalVariable.Name, ValidationErrorLevel.CannotSave));
+					Errors.Add(new VariableValidationError(globalVariable, "Глобальная переменная с таким именем уже существует " + globalVariable.Name, ValidationErrorLevel.CannotSave));
 				nameList.Add(globalVariable.Name);
 			}
 		}

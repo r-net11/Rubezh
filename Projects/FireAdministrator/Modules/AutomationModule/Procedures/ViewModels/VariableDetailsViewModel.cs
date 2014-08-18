@@ -10,7 +10,7 @@ namespace AutomationModule.ViewModels
 	{
 		public Variable Variable { get; private set; }
 		public bool IsEditMode { get; private set; }
-		public VariableDetailsViewModel(bool isArgument = false)
+		public VariableDetailsViewModel(bool isArgument = false, bool isGlobal = false)
 		{
 			var defaultName = "Локальная переменная";
 			var title = "Добавить переменную";
@@ -19,8 +19,14 @@ namespace AutomationModule.ViewModels
 				defaultName = "Аргумент";
 				title = "Добавить аргумент";
 			}
+			if (isGlobal)
+			{
+				defaultName = "Глобальная переменная";
+				title = "Добавить глобальную переменную";
+			}
 			Title = title;
 			Variable = new Variable(defaultName);
+			Variable.IsGlobal = isGlobal;
 			Variables = new ObservableCollection<VariableViewModel>
 			{
 				new VariableViewModel(defaultName, ValueType.Integer),

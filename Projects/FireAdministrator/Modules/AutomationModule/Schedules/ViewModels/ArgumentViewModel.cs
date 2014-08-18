@@ -32,7 +32,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var variable = Procedure.Arguments.FirstOrDefault(x => x.Uid == Argument.ArgumentUid);
+				var variable = Procedure.Arguments.FirstOrDefault(x => x.Uid == Argument.VariableUid);
 				if (variable != null)
 					return variable.Name;
 				return "";
@@ -106,6 +106,17 @@ namespace AutomationModule.ViewModels
 			{
 				Argument.ValueType = value;
 				OnPropertyChanged(() => ValueType);
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+
+		public VariableType VariableType
+		{
+			get { return Argument.VariableType; }
+			set
+			{
+				Argument.VariableType = value;
+				OnPropertyChanged(() => VariableType);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}

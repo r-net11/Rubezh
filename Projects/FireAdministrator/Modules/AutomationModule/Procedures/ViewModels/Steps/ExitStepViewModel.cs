@@ -72,14 +72,14 @@ namespace AutomationModule.ViewModels
 				SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == ExitCode.VariableUid);
 			else
 				SelectedVariable = null;
-			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
+			GlobalVariables = new ObservableCollection<VariableViewModel>();
 			foreach (var globalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
-				var globalVariableViewModel = new GlobalVariableViewModel(globalVariable);
+				var globalVariableViewModel = new VariableViewModel(globalVariable);
 				GlobalVariables.Add(globalVariableViewModel);
 			}
-			if (GlobalVariables.Any(x => x.GlobalVariable.Uid == ExitCode.GlobalVariableUid))
-				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.GlobalVariable.Uid == ExitCode.GlobalVariableUid);
+			if (GlobalVariables.Any(x => x.Variable.Uid == ExitCode.GlobalVariableUid))
+				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == ExitCode.GlobalVariableUid);
 			else
 				SelectedGlobalVariable = null;
 
@@ -109,9 +109,9 @@ namespace AutomationModule.ViewModels
 			}
 		}
 		
-		public ObservableCollection<GlobalVariableViewModel> GlobalVariables { get; private set; }
-		GlobalVariableViewModel _selectedGlobalVariable;
-		public GlobalVariableViewModel SelectedGlobalVariable
+		public ObservableCollection<VariableViewModel> GlobalVariables { get; private set; }
+		VariableViewModel _selectedGlobalVariable;
+		public VariableViewModel SelectedGlobalVariable
 		{
 			get { return _selectedGlobalVariable; }
 			set
@@ -121,7 +121,7 @@ namespace AutomationModule.ViewModels
 				{
 					DescriptionValue = value.Name;
 					ExitCode.VariableUid = Guid.Empty;
-					ExitCode.GlobalVariableUid = value.GlobalVariable.Uid;
+					ExitCode.GlobalVariableUid = value.Variable.Uid;
 				}
 				else if (SelectedVariableType == VariableType.IsGlobalVariable)
 					DescriptionValue = "";

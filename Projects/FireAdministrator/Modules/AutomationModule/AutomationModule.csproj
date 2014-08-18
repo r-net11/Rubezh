@@ -72,7 +72,6 @@
     <Compile Include="GlobalVariables\ViewModels\GlobalVariableDetailsViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
-    <Compile Include="GlobalVariables\ViewModels\GlobalVariableViewModel.cs" />
     <Compile Include="GlobalVariables\Views\GlobalVariableDetailsView.xaml.cs">
       <DependentUpon>GlobalVariableDetailsView.xaml</DependentUpon>
     </Compile>

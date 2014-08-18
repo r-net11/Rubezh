@@ -29,7 +29,7 @@
 							</ComboBox.ItemTemplate>
 						</ComboBox>
 						<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-								  SelectedItem="{Binding SelectedGlobalVariable, UpdateSourceTrigger=PropertyChanged}"
+								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 							ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" MinWidth="163" MaxWidth="163">
 							<ComboBox.ItemTemplate>
@@ -38,7 +38,7 @@
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
-						<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding Variables}" Margin="2"
+						<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding LocalVariables}" Margin="2"
 								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 							ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" MinWidth="163" MaxWidth="163">
@@ -67,7 +67,7 @@
 							</ComboBox.ItemTemplate>
 						</ComboBox>
 						<ComboBox DataContext="{Binding Variable2}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-								  SelectedItem="{Binding SelectedGlobalVariable, UpdateSourceTrigger=PropertyChanged}"
+								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 							ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" MinWidth="163" MaxWidth="163">
 							<ComboBox.ItemTemplate>
@@ -76,7 +76,7 @@
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
-						<ComboBox DataContext="{Binding Variable2}" ItemsSource="{Binding Variables}" Margin="2"
+						<ComboBox DataContext="{Binding Variable2}" ItemsSource="{Binding LocalVariables}" Margin="2"
 								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 							ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" MinWidth="163" MaxWidth="163">
