@@ -1643,38 +1643,23 @@ namespace Xceed.Wpf.AvalonDock
 			_areas = new List<IDropArea>();
 			if (!isDraggingDocuments)
 			{
-				_areas.Add(new DropArea<DockingManager>(
-					this,
-					DropAreaType.DockingManager));
-
+				_areas.Add(new DropArea<DockingManager>(this, DropAreaType.DockingManager));
 				foreach (var areaHost in this.FindVisualChildren<LayoutAnchorablePaneControl>())
-				{
-					if (areaHost.Model.Descendents().Any())
-					{
-						_areas.Add(new DropArea<LayoutAnchorablePaneControl>(
-							areaHost,
-							DropAreaType.AnchorablePane));
-					}
-				}
+					if (areaHost.Model.Root.Manager == this && areaHost.Model.Descendents().Any())
+						_areas.Add(new DropArea<LayoutAnchorablePaneControl>(areaHost, DropAreaType.AnchorablePane));
 			}
 
 			foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneControl>())
-			{
-				_areas.Add(new DropArea<LayoutDocumentPaneControl>(
-					areaHost,
-					DropAreaType.DocumentPane));
-			}
+				if (areaHost.Model.Root.Manager == this)
+					_areas.Add(new DropArea<LayoutDocumentPaneControl>(areaHost, DropAreaType.DocumentPane));
 
 			foreach (var areaHost in this.FindVisualChildren<LayoutDocumentPaneGroupControl>())
-			{
-				var documentGroupModel = areaHost.Model as LayoutDocumentPaneGroup;
-				if (documentGroupModel.Children.Where(c => c.IsVisible).Count() == 0)
+				if (areaHost.Model.Root.Manager == this)
 				{
-					_areas.Add(new DropArea<LayoutDocumentPaneGroupControl>(
-						areaHost,
-						DropAreaType.DocumentPaneGroup));
+					var documentGroupModel = areaHost.Model as LayoutDocumentPaneGroup;
+					if (documentGroupModel.Children.Where(c => c.IsVisible).Count() == 0)
+						_areas.Add(new DropArea<LayoutDocumentPaneGroupControl>(areaHost, DropAreaType.DocumentPaneGroup));
 				}
-			}
 
 			return _areas;
 		}

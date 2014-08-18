@@ -54,8 +54,8 @@
 			<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" ItemsSource="{Binding UnitTypes}" SelectedItem="{Binding WidthType, UpdateSourceTrigger=PropertyChanged}" />
 			<ComboBox Grid.Row="2" Grid.Column="2" Margin="2" ItemsSource="{Binding UnitTypes}" SelectedItem="{Binding HeightType, UpdateSourceTrigger=PropertyChanged}" />
 
-			<extToolkit:DoubleUpDown Grid.Row="3" Grid.Column="1" Margin="2" FormatString="F2" Maximum="100000" Minimum="1" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
-			<extToolkit:DoubleUpDown Grid.Row="3" Grid.Column="2" Margin="2" FormatString="F2" Maximum="100000" Minimum="1" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:DoubleUpDown Grid.Row="3" Grid.Column="1" Margin="2" FormatString="F2" Maximum="100000" Minimum="0.01" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged}" />
+			<extToolkit:DoubleUpDown Grid.Row="3" Grid.Column="2" Margin="2" FormatString="F2" Maximum="100000" Minimum="0.01" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged}" />
 
 			<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Margin="2" Maximum="10000" Minimum="5" Value="{Binding MinWidth, UpdateSourceTrigger=PropertyChanged}" />
 			<extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="2" Margin="2" Maximum="10000" Minimum="5" Value="{Binding MinHeight, UpdateSourceTrigger=PropertyChanged}" />

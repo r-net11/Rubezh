@@ -80,6 +80,7 @@
     <Compile Include="ViewModels\ProcedureArgumentsViewModel.cs" />
     <Compile Include="ViewModels\LayoutProcedurePartViewModel.cs" />
     <Compile Include="ViewModels\ProceduresViewModel.cs" />
+    <Compile Include="ViewModels\ProcedureTooltipViewModel.cs" />
     <Compile Include="ViewModels\ProcedureViewModel.cs" />
     <Compile Include="ViewModels\ArgumentViewModel.cs" />
     <Compile Include="Views\LayoutProcedurePartView.xaml.cs">
@@ -93,6 +94,9 @@
     </Compile>
     <Compile Include="Views\ArgumentsView.xaml.cs">
       <DependentUpon>ArgumentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProcedureTooltipView.xaml.cs">
+      <DependentUpon>ProcedureTooltipView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -122,6 +126,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ArgumentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProcedureTooltipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

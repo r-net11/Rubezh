@@ -15,6 +15,7 @@ namespace AutomationModule.Plans.Designer
 {
 	class ProcedurePainter : TextBlockPainter
 	{
+		private ProcedureTooltipViewModel _tooltip;
 		public PresenterItem PresenterItem { get; private set; }
 		public Procedure Item { get; private set; }
 
@@ -28,6 +29,7 @@ namespace AutomationModule.Plans.Designer
 			PresenterItem.ShowBorderOnMouseOver = true;
 			PresenterItem.Cursor = Cursors.Hand;
 			PresenterItem.ClickEvent += (s, e) => ProcedureArgumentsViewModel.Run(Item);
+			_tooltip = new ProcedureTooltipViewModel(Item);
 		}
 
 		private Procedure CreateItem(PresenterItem presenterItem)
@@ -37,7 +39,7 @@ namespace AutomationModule.Plans.Designer
 		}
 		public override object GetToolTip(string title)
 		{
-			return Item.Name;
+			return _tooltip;
 		}
 	}
 }
