@@ -46,5 +46,16 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => Description);
 			OnPropertyChanged(() => IsInGrid);
 		}
+
+		public void Update(Organisation organisation)
+		{
+			Organisation = organisation;
+			IsOrganisation = true;
+			Name = organisation.Name;
+			Description = organisation.Description;
+			OnPropertyChanged(() => Name);
+			OnPropertyChanged(() => Description);
+			OnPropertyChanged(() => IsInGrid);
+		}
 	}
 }

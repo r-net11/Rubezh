@@ -70,6 +70,13 @@ namespace SKDModule.ViewModels
 			Update();
 		}
 
+		public void Update(Organisation organisation)
+		{
+			Organisation = organisation;
+			IsOrganisation = true;
+			Update();
+		}
+
 		public void UpdateColumnValues(List<ShortAdditionalColumnType> additionalColumnTypes)
 		{
 			AdditionalColumnValues = new ObservableCollection<string>();
@@ -84,6 +91,7 @@ namespace SKDModule.ViewModels
 		public void Update()
 		{
 			OnPropertyChanged(() => ShortEmployee);
+			OnPropertyChanged(() => Organisation);
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => DepartmentName);
 			OnPropertyChanged(() => PositionName);

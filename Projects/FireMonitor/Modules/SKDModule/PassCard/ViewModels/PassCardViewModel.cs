@@ -45,7 +45,7 @@ namespace SKDModule.PassCard.ViewModels
 			PassCardCanvas = new PassCardCanvas();
 			SKDManager.SKDPassCardLibraryConfiguration.Templates.Sort((item1, item2) => string.Compare(item1.Caption, item2.Caption));
 			PassCardTemplates = new ObservableCollection<PassCardTemplate>(SKDManager.SKDPassCardLibraryConfiguration.Templates.Where(x => Organisation.CardTemplateUIDs.Any(y => y == x.UID)));
-
+			
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 

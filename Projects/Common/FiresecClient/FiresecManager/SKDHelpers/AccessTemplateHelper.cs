@@ -34,5 +34,11 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.MarkDeletedAccessTemplate(uid);
 			return Common.ShowErrorIfExists(result);
 		}
+
+		public static IEnumerable<AccessTemplate> GetByOrganisation(Guid organisationUID)
+		{
+			var operationResult = FiresecManager.FiresecService.GetAccessTemplates(new AccessTemplateFilter { OrganisationUIDs = new List<Guid> { organisationUID } });
+			return Common.ShowErrorIfExists(operationResult);
+		}
 	}
 }

@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -366,12 +367,15 @@ namespace SKDModule.ViewModels
 			Card.DeactivationControllerUID = DeactivationControllerUID;
 			Card.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
 			Card.CardDoors.ForEach(x => x.CardUID = Card.UID);
+			Card.OrganisationUID = Organisation.UID;
 
 			if (SelectedAccessTemplate != null)
 				Card.AccessTemplateUID = SelectedAccessTemplate.UID;
 			if (AvailableAccessTemplates.IndexOf(SelectedAccessTemplate) == 0)
 				Card.AccessTemplateUID = null;
+			ServiceFactory.Events.GetEvent<NewCardEvent>().Publish(Card);
 			return true;
+
 		}
 	}
 }

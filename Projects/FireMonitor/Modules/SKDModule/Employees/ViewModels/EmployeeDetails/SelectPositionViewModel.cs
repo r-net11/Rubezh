@@ -28,19 +28,20 @@ namespace SKDModule.ViewModels
 			}
 			foreach (var item in positions)
 				Positions.Add(new SelectationPositionViewModel(item, this));
-			SelectationPositionViewModel selectedPosition;
-			if (position != null)
-				selectedPosition = Positions.FirstOrDefault(x => x.Position.UID == position.UID);
-			else
-				selectedPosition = Positions.FirstOrDefault();
-			selectedPosition.IsChecked = true;
+			SelectedPosition = position != null ? Positions.FirstOrDefault(x => x.Position.UID == position.UID) : Positions.FirstOrDefault();
 		}
 
 		public ObservableCollection<SelectationPositionViewModel> Positions { get; set; }
 
+		SelectationPositionViewModel selectedPosition;
 		public SelectationPositionViewModel SelectedPosition
 		{
-			get { return Positions.FirstOrDefault(x => x.IsChecked); }
+			get { return selectedPosition; }
+			set
+			{
+				selectedPosition = value;
+				OnPropertyChanged(() => SelectedPosition);
+			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }

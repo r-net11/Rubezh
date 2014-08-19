@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -32,7 +34,6 @@ namespace SKDModule.ViewModels
 			{
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);
-
 				if (value)
 				{
 					if (!Organisation.UserUIDs.Contains(User.UID))
@@ -43,7 +44,7 @@ namespace SKDModule.ViewModels
 					if (Organisation.UserUIDs.Contains(User.UID))
 						Organisation.UserUIDs.Remove(User.UID);
 				}
-
+				ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Publish(Organisation);
 				var saveResult = OrganisationHelper.SaveUsers(Organisation);
 			}
 		}

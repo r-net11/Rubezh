@@ -84,6 +84,9 @@
     <Compile Include="Employees\Views\ControllerSelectationView.xaml.cs">
       <DependentUpon>ControllerSelectationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Events\NewCardEvent.cs" />
+    <Compile Include="Events\EditOrganisationEvent.cs" />
+    <Compile Include="Events\OrganisationUsersChangedEvent.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />

@@ -32,15 +32,11 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			var organisation = OrganisationHelper.GetSingle(employee.OrganisationUID);
-			_organisation = new SelectationDepartmentViewModel(organisation, this);
-			OnPropertyChanged(() => RootDepartments);
-			var rootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToArray();
-			if (rootDepartments.IsNotNullOrEmpty())
+			RootDepartments = Departments.Where(x => x.Department.ParentDepartmentUID == null).ToList();
+			if (RootDepartments.IsNotNullOrEmpty())
 			{
-				foreach (var rootDepartment in rootDepartments)
+				foreach (var rootDepartment in RootDepartments)
 				{
-					_organisation.AddChild(rootDepartment);
 					SetChildren(rootDepartment);
 				}
 			}
@@ -58,9 +54,8 @@ namespace SKDModule.ViewModels
 				selectedDepartment.IsChecked = true;
 				selectedDepartment.ExpandToThis();
 			}
-			HighlightedDepartment = selectedDepartment;
+			SelectedDepartment = selectedDepartment;
 			OnPropertyChanged(() => SelectedDepartment);
-			OnPropertyChanged(() => HighlightedDepartment);
 		}
 
 		void SetChildren(SelectationDepartmentViewModel department)
@@ -75,21 +70,14 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		SelectationDepartmentViewModel _selectedDepartment;
 		public SelectationDepartmentViewModel SelectedDepartment
 		{
-			get { return Departments.FirstOrDefault(x => x.IsChecked); }
-		}
-
-		SelectationDepartmentViewModel _organisation;
-
-		SelectationDepartmentViewModel _highlightedDepartment;
-		public SelectationDepartmentViewModel HighlightedDepartment
-		{
-			get { return _highlightedDepartment; }
+			get { return _selectedDepartment; }
 			set
 			{
-				_highlightedDepartment = value;
-				OnPropertyChanged(() => HighlightedDepartment);
+				_selectedDepartment = value;
+				OnPropertyChanged(() => SelectedDepartment);
 			}
 		}
 
@@ -104,9 +92,21 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public SelectationDepartmentViewModel[] RootDepartments
+		List<SelectationDepartmentViewModel> rootDepartments;
+		public List<SelectationDepartmentViewModel> RootDepartments
 		{
-			get { return new SelectationDepartmentViewModel[] { _organisation }; }
+			get { return rootDepartments; }
+			private set
+			{
+				rootDepartments = value;
+				OnPropertyChanged(() => RootDepartments);
+				OnPropertyChanged(() => RootDepartmentsArray);
+			}
+		}
+
+		public SelectationDepartmentViewModel[] RootDepartmentsArray
+		{
+			get { return RootDepartments.ToArray(); }
 		}
 
 		List<SelectationDepartmentViewModel> GetAllChildren(SelectationDepartmentViewModel department)
@@ -129,9 +129,9 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			Guid? parentDepartmentUID = null;
-			var hasParentDepartment = HighlightedDepartment != null && HighlightedDepartment.IsDepartment;
+			var hasParentDepartment = SelectedDepartment != null && SelectedDepartment.IsDepartment;
 			if (hasParentDepartment)
-				parentDepartmentUID = HighlightedDepartment.Department.UID;
+				parentDepartmentUID = SelectedDepartment.Department.UID;
 			var departmentDetailsViewModel = new DepartmentDetailsViewModel(Employee.OrganisationUID, null, parentDepartmentUID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
@@ -139,11 +139,11 @@ namespace SKDModule.ViewModels
 				Departments.Add(departmentViewModel);
 				if (hasParentDepartment)
 				{
-					HighlightedDepartment.AddChild(departmentViewModel);
+					SelectedDepartment.AddChild(departmentViewModel);
 				}
 				else
 				{
-					_organisation.AddChild(departmentViewModel);
+					RootDepartments.Add(departmentViewModel);
 				}
 				departmentViewModel.ExpandToThis();
 				departmentViewModel.SelectCommand.Execute();

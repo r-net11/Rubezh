@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -17,6 +19,10 @@ namespace SKDModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
+			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
+			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
+			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
+			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
 		}
 
 		public void Initialize(AdditionalColumnTypeFilter filter)
@@ -27,12 +33,8 @@ namespace SKDModule.ViewModels
 			var additionalColumnTypes = AdditionalColumnTypeHelper.Get(filter);
 			if (additionalColumnTypes == null)
 				return;
-			var types = AdditionalColumnTypeHelper.Get(new AdditionalColumnTypeFilter { UserUID = FiresecManager.CurrentUser.UID, PersonType = PersonType.Guest });
-			if (types == null)
-				return;
-
-			AllAdditionalColumnTypes = new List<AdditionalColumnTypeViewModel>();
-			Organisations = new List<AdditionalColumnTypeViewModel>();
+			AllAdditionalColumnTypes = new ObservableCollection<AdditionalColumnTypeViewModel>();
+			Organisations = new ObservableCollection<AdditionalColumnTypeViewModel>();
 			foreach (var organisation in organisations)
 			{
 				var organisationViewModel = new AdditionalColumnTypeViewModel(organisation);
@@ -52,8 +54,48 @@ namespace SKDModule.ViewModels
 			SelectedAdditionalColumnType = Organisations.FirstOrDefault();
 		}
 
-		public List<AdditionalColumnTypeViewModel> Organisations { get; private set; }
-		List<AdditionalColumnTypeViewModel> AllAdditionalColumnTypes { get; set; }
+		void OnEditOrganisation(Organisation newOrganisation)
+		{
+			var organisation = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
+			if (organisation != null)
+			{
+				organisation.Update(newOrganisation);
+			}
+			OnPropertyChanged(() => Organisations);
+		}
+
+		void OnOrganisationUsersChanged(Organisation newOrganisation)
+		{
+			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
+			{
+				var organisationViewModel = new AdditionalColumnTypeViewModel(newOrganisation);
+				Organisations.Add(organisationViewModel);
+				AllAdditionalColumnTypes.Add(organisationViewModel);
+				var employees = AdditionalColumnTypeHelper.GetShortByOrganisation(newOrganisation.UID);
+				if (employees == null)
+					return;
+				foreach (var additionalColumnType in employees)
+				{
+					var employeeViewModel = new AdditionalColumnTypeViewModel(newOrganisation, additionalColumnType);
+					organisationViewModel.AddChild(employeeViewModel);
+					AllAdditionalColumnTypes.Add(employeeViewModel);
+				}
+				OnPropertyChanged(() => Organisations);
+			}
+			else
+			{
+				var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
+				if (organisationViewModel != null)
+				{
+					Organisations.Remove(organisationViewModel);
+					AllAdditionalColumnTypes.Remove(organisationViewModel);
+					OnPropertyChanged(() => Organisations);
+				}
+			}
+		}
+
+		public ObservableCollection<AdditionalColumnTypeViewModel> Organisations { get; private set; }
+		ObservableCollection<AdditionalColumnTypeViewModel> AllAdditionalColumnTypes { get; set; }
 
 		AdditionalColumnTypeViewModel _selectedAdditionalColumnType;
 		public AdditionalColumnTypeViewModel SelectedAdditionalColumnType

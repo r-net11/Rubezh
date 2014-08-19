@@ -53,7 +53,7 @@ namespace SKDModule.ViewModels
 			if (department != null)
 				department.IsChecked = false;
 			IsChecked = true;
-			SelectDepartmentViewModel.HighlightedDepartment = this;
+			SelectDepartmentViewModel.SelectedDepartment = this;
 		}
 
 		

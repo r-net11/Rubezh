@@ -58,9 +58,13 @@ namespace SKDDriver
 			result.Password = tableItem.Password;
 			result.UserTime = tableItem.UserTime;
 
+
 			var employee = Context.Employees.FirstOrDefault(x => x.UID == tableItem.EmployeeUID);
 			if (employee != null)
+			{
 				result.EmployeeName = employee.LastName + " " + employee.FirstName + " " + employee.SecondName;
+				result.OrganisationUID = employee.OrganisationUID.HasValue ? employee.OrganisationUID.Value : Guid.Empty;
+			}
 			return result;
 		}
 
@@ -93,18 +97,13 @@ namespace SKDDriver
 		{
 			try
 			{
-				var oprationResult = GetSingle(card.UID);
-				if (oprationResult != null)
-				{
-					oprationResult.Result.PassCardTemplateUID = card.PassCardTemplateUID;
-					Context.SubmitChanges();
-					return new OperationResult();
-				}
-				else
-				{
-					return new OperationResult("Карта не найдена в базе данных");
-				}
-			}
+                var tableItem = Table.FirstOrDefault(x => x.UID == card.UID);
+                if(tableItem == null)
+                    return new OperationResult("Карта не найдена в базе данных");
+                tableItem.PassCardTemplateUID = card.PassCardTemplateUID;
+                Context.SubmitChanges();
+                return new OperationResult();
+            }
 			catch (Exception e)
 			{
 				return new OperationResult(e.Message);

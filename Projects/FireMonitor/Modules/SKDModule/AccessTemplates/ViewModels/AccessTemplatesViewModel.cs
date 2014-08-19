@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Common;
+using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
@@ -21,6 +24,10 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			CopyCommand = new RelayCommand(OnCopy, CanCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
+			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
+			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
+			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
 		}
 
 		public void Initialize(AccessTemplateFilter filter)
@@ -31,8 +38,8 @@ namespace SKDModule.ViewModels
 			var accessTemplates = AccessTemplateHelper.Get(filter);
 			if (accessTemplates == null)
 				return;
-			AllAccessTemplates = new List<AccessTemplateViewModel>();
-			Organisations = new List<AccessTemplateViewModel>();
+			AllAccessTemplates = new ObservableCollection<AccessTemplateViewModel>();
+			Organisations = new ObservableCollection<AccessTemplateViewModel>();
 			foreach (var organisation in organisations)
 			{
 				var organisationViewModel = new AccessTemplateViewModel(organisation);
@@ -55,8 +62,49 @@ namespace SKDModule.ViewModels
 			SelectedAccessTemplate = Organisations.FirstOrDefault();
 		}
 
-		public List<AccessTemplateViewModel> Organisations { get; private set; }
-		List<AccessTemplateViewModel> AllAccessTemplates { get; set; }
+		
+		void OnEditOrganisation(Organisation newOrganisation)
+		{
+			var organisation = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
+			if (organisation != null)
+			{
+				organisation.Update(newOrganisation);
+			}
+			OnPropertyChanged(() => Organisations);
+		}
+
+		void OnOrganisationUsersChanged(Organisation newOrganisation)
+		{
+			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
+			{
+				var organisationViewModel = new AccessTemplateViewModel(newOrganisation);
+				Organisations.Add(organisationViewModel);
+				AllAccessTemplates.Add(organisationViewModel);
+				var employees = AccessTemplateHelper.GetByOrganisation(newOrganisation.UID);
+				if (employees == null)
+					return;
+				foreach (var additionalColumnType in employees)
+				{
+					var employeeViewModel = new AccessTemplateViewModel(newOrganisation, additionalColumnType);
+					organisationViewModel.AddChild(employeeViewModel);
+					AllAccessTemplates.Add(employeeViewModel);
+				}
+				OnPropertyChanged(() => Organisations);
+			}
+			else
+			{
+				var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
+				if (organisationViewModel != null)
+				{
+					Organisations.Remove(organisationViewModel);
+					AllAccessTemplates.Remove(organisationViewModel);
+					OnPropertyChanged(() => Organisations);
+				}
+			}
+		}
+
+		public ObservableCollection<AccessTemplateViewModel> Organisations { get; private set; }
+		ObservableCollection<AccessTemplateViewModel> AllAccessTemplates { get; set; }
 
 		AccessTemplateViewModel _selectedAccessTemplate;
 		public AccessTemplateViewModel SelectedAccessTemplate

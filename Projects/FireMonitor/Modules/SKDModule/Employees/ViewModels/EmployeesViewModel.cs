@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
@@ -25,39 +26,83 @@ namespace SKDModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			_hrViewModel = hrViewModel;
+			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
+			ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
+			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
+			ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
+		}
+
+		void OnEditOrganisation(Organisation newOrganisation)
+		{
+			var organisation = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
+			if (organisation != null)
+			{
+				organisation.Update(newOrganisation);
+			}
+			OnPropertyChanged(() => Organisations);
+		}
+		
+		void OnOrganisationUsersChanged(Organisation newOrganisation)
+		{
+			if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
+			{
+				var organisationViewModel = new EmployeeViewModel(newOrganisation);
+				Organisations.Add(organisationViewModel);
+				AllEmployees.Add(organisationViewModel);
+				var employees = EmployeeHelper.GetShortByOrganisation(newOrganisation.UID);
+				if (employees == null)
+					return;
+				foreach (var employee in employees)
+				{
+					var employeeViewModel = new EmployeeViewModel(newOrganisation, employee);
+					organisationViewModel.AddChild(employeeViewModel);
+					AllEmployees.Add(employeeViewModel);
+				}
+				OnPropertyChanged(() => Organisations);
+			}
+			else
+			{
+				var organisationViewModel = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
+				if (organisationViewModel != null)
+				{
+					Organisations.Remove(organisationViewModel);
+                    AllEmployees.Remove(organisationViewModel);
+					OnPropertyChanged(() => Organisations);
+				}
+			}
 		}
 
 		public void Initialize(EmployeeFilter filter)
 		{
 			Filter = filter;
-            var organisations = OrganisationHelper.GetByCurrentUser();
-            if (organisations == null)
-                return;
-            var employees = EmployeeHelper.Get(Filter);
-            PersonType = Filter.PersonType;
-            AllEmployees = new List<EmployeeViewModel>();
-            Organisations = new List<EmployeeViewModel>();
-            foreach (var organisation in organisations)
-            {
-                var organisationViewModel = new EmployeeViewModel(organisation);
-                Organisations.Add(organisationViewModel);
-                AllEmployees.Add(organisationViewModel);
-                foreach (var employee in employees)
-                {
-                    if (employee.OrganisationUID == organisation.UID)
-                    {
-                        var employeeViewModel = new EmployeeViewModel(organisation, employee);
-                        organisationViewModel.AddChild(employeeViewModel);
-                        AllEmployees.Add(employeeViewModel);
-                    }
-                }
-            }
-            OnPropertyChanged(() => Organisations);
-            SelectedEmployee = Organisations.FirstOrDefault();
-            InitializeAdditionalColumns();
+			var organisations = OrganisationHelper.GetByCurrentUser();
+			if (organisations == null)
+				return;
+			var employees = EmployeeHelper.Get(Filter);
+			PersonType = Filter.PersonType;
+			AllEmployees = new List<EmployeeViewModel>();
+			Organisations = new ObservableCollection<EmployeeViewModel>();
+			foreach (var organisation in organisations)
+			{
+				var organisationViewModel = new EmployeeViewModel(organisation);
+				Organisations.Add(organisationViewModel);
+				AllEmployees.Add(organisationViewModel);
+				foreach (var employee in employees)
+				{
+					if (employee.OrganisationUID == organisation.UID)
+					{
+						var employeeViewModel = new EmployeeViewModel(organisation, employee);
+						organisationViewModel.AddChild(employeeViewModel);
+						AllEmployees.Add(employeeViewModel);
+					}
+				}
+			}
+			OnPropertyChanged(() => Organisations);
+			SelectedEmployee = Organisations.FirstOrDefault();
+			InitializeAdditionalColumns();
 		}	
 
-		public List<EmployeeViewModel> Organisations { get; private set; }
+		public ObservableCollection<EmployeeViewModel> Organisations { get; private set; }
 		List<EmployeeViewModel> AllEmployees { get; set; }
 
 		public void Select(Guid employeeUID)
@@ -163,14 +208,13 @@ namespace SKDModule.ViewModels
 			foreach (var additionalColumnType in AdditionalColumnTypes)
 			{
 				if (additionalColumnType.DataType == AdditionalColumnDataType.Text && additionalColumnType.IsInGrid)
-				//if (additionalColumnType.DataType == AdditionalColumnDataType.Text)
 					AdditionalColumnNames.Add(additionalColumnType.Name);
 			}
 			foreach (var employee in AllEmployees.Where(x => !x.IsOrganisation))
 			{
 				employee.UpdateColumnValues(AdditionalColumnTypes);
 			}
-            ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
+			ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
 		}
 
 		public ObservableCollection<string> AdditionalColumnNames { get; private set; }

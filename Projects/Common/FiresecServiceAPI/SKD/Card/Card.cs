@@ -54,5 +54,8 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string EmployeeName { get; set; }
+
+		[DataMember]
+		public Guid OrganisationUID { get; set; }
 	}
 }

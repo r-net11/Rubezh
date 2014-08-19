@@ -8,21 +8,19 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0">
-			<DataGrid ItemsSource="{Binding Positions}">
+			<DataGrid ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" UIBehavior.ShowSelectionMark="True">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<RadioButton GroupName="Positions" VerticalAlignment="Center" Margin="2" 
-										Command="{Binding SelectCommand}" IsChecked="{Binding IsChecked}" />
 									<Image Width="16" Source="/Controls;component/Images/Position.png" VerticalAlignment="Center" Margin="1 0 0 0" />
 									<TextBlock Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>
 						</DataGridTemplateColumn.CellTemplate>
 					</DataGridTemplateColumn>
-	                <DataGridTemplateColumn Header="Примечание" Width="*">
+					<DataGridTemplateColumn Header="Примечание" Width="*">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" Margin="2" />
@@ -32,6 +30,6 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</ScrollViewer>
-        <Button Grid.Row="1" Content="Добавить новую должность" Command="{Binding AddCommand}" HorizontalAlignment="Right" Width="205" Margin="0 5 0 0" />
+		<Button Grid.Row="1" Content="Добавить новую должность" Command="{Binding AddCommand}" HorizontalAlignment="Right" Width="205" Margin="0 5 0 0" />
 	</Grid>
 </UserControl>
