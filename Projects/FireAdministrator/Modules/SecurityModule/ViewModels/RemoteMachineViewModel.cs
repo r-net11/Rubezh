@@ -51,7 +51,7 @@ namespace SecurityModule.ViewModels
 					IsIpAddress = false;
 				}
 
-				OnPropertyChanged("IsDnsName");
+				OnPropertyChanged(() => IsDnsName);
 			}
 		}
 	}

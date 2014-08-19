@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 				var mptViewModel = new MPTViewModel(mptDetailsViewModel.MPT);
 				MPTs.Add(mptViewModel);
 				SelectedMPT = mptViewModel;
-				OnPropertyChanged("HasSelectedMPT");
+				OnPropertyChanged(() => HasSelectedMPT);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

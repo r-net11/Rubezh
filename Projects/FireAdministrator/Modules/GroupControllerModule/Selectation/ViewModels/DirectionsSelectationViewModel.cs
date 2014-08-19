@@ -114,7 +114,7 @@ namespace GKModule.ViewModels
 				TargetDirections.Remove(TargetDirectionViewModel);
 			}
 			SelectedSourceDirection = SourceDirections.LastOrDefault();
-			OnPropertyChanged("TargetDirections");
+			OnPropertyChanged(() => TargetDirections);
 
 			index = Math.Min(index, TargetDirections.Count - 1);
 			if (index > -1)

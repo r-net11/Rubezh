@@ -11,11 +11,12 @@ namespace FiresecAPI.SKD
 
 		}
 
-		public TimeTrackDocumentType(string name, string shortName, int code)
+		public TimeTrackDocumentType(string name, string shortName, int code, DocumentType documentType = DocumentType.Presence)
 		{
 			Name = name;
 			ShortName = shortName;
 			Code = code;
+			DocumentType = documentType;
 		}
 
 		[DataMember]
@@ -26,6 +27,16 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public int Code { get; set; }
+
+		[DataMember]
+		public DocumentType DocumentType { get; set; }
+	}
+
+	public enum DocumentType
+	{
+		Presence,
+		Absence,
+		Overtime
 	}
 
 	public static class TimeTrackDocumentTypesCollection
@@ -37,8 +48,8 @@ namespace FiresecAPI.SKD
 			TimeTrackDocumentTypes = new List<TimeTrackDocumentType>();
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность работы в дневное время", "Я", 1));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность работы в ночное время", "Н", 2));
-			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность работы в выходные и нерабочие праздничные дни", "РВ", 3));
-			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность сверхурочной работы", "С", 4));
+			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность работы в выходные и нерабочие праздничные дни", "РВ", 3, DocumentType.Overtime));
+			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность сверхурочной работы", "С", 4, DocumentType.Overtime));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность работы вахтовым методом", "ВМ", 5));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Служебная командировка", "К", 6));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Повышение квалификации с отрывом от работы", "ПК", 7));
@@ -58,16 +69,16 @@ namespace FiresecAPI.SKD
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Сокращенная продолжительность рабочего времени против нормальной продолжительности рабочего дня в случаях, предусмотренных законодательством", "ЛЧ", 21));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Время вынужденного прогула в случае признания увольнения, перевода на другую работу или отстранения от работы незаконным и с восстановлением на прежней работе", "ПВ", 22));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Невыходы на время исполнения государственных или общественных обязанностей согласно законодательству", "Г", 23));
-			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Прогулы (отсутствие на рабочем месте без уважительных причин в течение времени, установленного законодательством)", "ПР", 24));
+			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Прогулы (отсутствие на рабочем месте без уважительных причин в течение времени, установленного законодательством)", "ПР", 24, DocumentType.Absence));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность работы в режиме неполного рабочего времени по инициативе работодателя в случаях, предусмотренных законодательством", "НС", 25));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Выходные дни (еженедельный отпуск) и нерабочие праздничные дни", "В", 26));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Дополнительные выходные дни (оплачиваемые)", "ОВ", 27));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Дополнительные выходные дни (без сохранения заработной платы)", "НВ", 28));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Забастовка (при условиях и в порядке, предусмотренных законом)", "ЗБ", 29));
-			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Неявки по невыясненным причинам (до выяснения обстоятельств)", "НН", 30));
+			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Неявки по невыясненным причинам (до выяснения обстоятельств)", "НН", 30, DocumentType.Absence));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Время простоя по вине работодателя", "РП", 31));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Время простоя по причинам, не зависящим от работодателя и работника", "НП", 32));
-			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Время простоя по вине работника", "ВП", 33));
+			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Время простоя по вине работника", "ВП", 33, DocumentType.Absence));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Отстранение от работы (недопущение к работе) с оплатой (пособием) в соответствии с законодательством", "НО", 34));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Отстранение от работы (недопущение к работе) по причинам, предусмотренным законодательством, без начисления заработной платы", "НБ", 35));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Время приостановки работы в случае задержки выплаты заработной платы", "НЗ", 36));

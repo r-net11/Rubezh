@@ -35,7 +35,9 @@ namespace SKDDriver.Translators
 							StartDateTime = tableTimeTrackDocument.StartDateTime,
 							EndDateTime = tableTimeTrackDocument.EndDateTime,
 							DocumentCode = tableTimeTrackDocument.DocumentCode,
-							Comment = tableTimeTrackDocument.Comment
+							Comment = tableTimeTrackDocument.Comment,
+							DocumentDateTime = tableTimeTrackDocument.DocumentDateTime,
+							DocumentNumber = tableTimeTrackDocument.DocumentNumber
 						};
 						timeTrackDocuments.Add(timeTrackDocument);
 					}
@@ -60,6 +62,8 @@ namespace SKDDriver.Translators
 				tableItem.EndDateTime = timeTrackDocument.EndDateTime;
 				tableItem.DocumentCode = timeTrackDocument.DocumentCode;
 				tableItem.Comment = timeTrackDocument.Comment;
+				tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime;
+				tableItem.DocumentNumber = timeTrackDocument.DocumentNumber;
 				Context.TimeTrackDocuments.InsertOnSubmit(tableItem);
 				Context.SubmitChanges();
 				return new OperationResult();
@@ -81,6 +85,8 @@ namespace SKDDriver.Translators
 					tableItem.EndDateTime = timeTrackDocument.EndDateTime;
 					tableItem.DocumentCode = timeTrackDocument.DocumentCode;
 					tableItem.Comment = timeTrackDocument.Comment;
+					tableItem.DocumentDateTime = timeTrackDocument.DocumentDateTime;
+					tableItem.DocumentNumber = timeTrackDocument.DocumentNumber;
 					Context.SubmitChanges();
 				}
 				return new OperationResult();
