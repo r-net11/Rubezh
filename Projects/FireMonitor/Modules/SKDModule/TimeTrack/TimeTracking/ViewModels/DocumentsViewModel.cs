@@ -22,22 +22,23 @@ namespace SKDModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 
-			Documents = new ObservableCollection<TimeTrackDocument>();
+			Documents = new ObservableCollection<DocumentViewModel>();
 			var operationResult = FiresecManager.FiresecService.GetTimeTrackDocument(shortEmployee.UID, startDate, endDate);
 			if (!operationResult.HasError)
 			{
-				foreach (var timeTrackDocument in operationResult.Result)
+				foreach (var document in operationResult.Result)
 				{
-					Documents.Add(timeTrackDocument);
+					var documentViewModel = new DocumentViewModel(document);
+					Documents.Add(documentViewModel);
 				}
 			}
 			SelectedDocument = Documents.FirstOrDefault();
 		}
 
-		public ObservableCollection<TimeTrackDocument> Documents { get; private set; }
+		public ObservableCollection<DocumentViewModel> Documents { get; private set; }
 
-		TimeTrackDocument _selectedDocument;
-		public TimeTrackDocument SelectedDocument
+		DocumentViewModel _selectedDocument;
+		public DocumentViewModel SelectedDocument
 		{
 			get { return _selectedDocument; }
 			set
@@ -53,10 +54,18 @@ namespace SKDModule.ViewModels
 			var documentDetailsViewModel = new DocumentDetailsViewModel();
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);
+				var document = documentDetailsViewModel.TimeTrackDocument;
+				document.EmployeeUID = ShortEmployee.UID;
+				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
+				}
+				else
+				{
+					var documentViewModel = new DocumentViewModel(document);
+					Documents.Add(documentViewModel);
+					SelectedDocument = documentViewModel;
 				}
 			}
 		}
@@ -64,14 +73,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(SelectedDocument);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(SelectedDocument.Document);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
-				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(documentDetailsViewModel.TimeTrackDocument);
+				var document = documentDetailsViewModel.TimeTrackDocument;
+				document.EmployeeUID = ShortEmployee.UID;
+				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{
 					MessageBoxService.ShowWarning(operationResult.Error);
 				}
+				SelectedDocument.Update();
 			}
 		}
 		bool CanEdit()
@@ -82,10 +94,14 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.UID);
+			var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
 			if (operationResult.HasError)
 			{
 				MessageBoxService.ShowWarning(operationResult.Error);
+			}
+			else
+			{
+				Documents.Remove(SelectedDocument);
 			}
 		}
 		bool CanRemove()

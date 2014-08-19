@@ -31,8 +31,10 @@ namespace SKDModule.ViewModels
 				AvailableDocuments.Add(timeTrackDocumentType);
 			}
 
-			StartDateTime = timeTrackDocument.StartDateTime;
-			EndDateTime = timeTrackDocument.EndDateTime;
+			StartDateTime = timeTrackDocument.StartDateTime.Date;
+			StartTime = timeTrackDocument.StartDateTime;
+			EndDateTime = timeTrackDocument.EndDateTime.Date;
+			EndTime = timeTrackDocument.EndDateTime;
 			Comment = timeTrackDocument.Comment;
 			SelectedDocument = AvailableDocuments.FirstOrDefault(x => x.Code == timeTrackDocument.DocumentCode);
 		}
@@ -48,6 +50,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		DateTime _startTime;
+		public DateTime StartTime
+		{
+			get { return _startTime; }
+			set
+			{
+				_startTime = value;
+				OnPropertyChanged(() => StartTime);
+			}
+		}
+
 		DateTime _endDateTime;
 		public DateTime EndDateTime
 		{
@@ -56,6 +69,17 @@ namespace SKDModule.ViewModels
 			{
 				_endDateTime = value;
 				OnPropertyChanged(() => EndDateTime);
+			}
+		}
+
+		DateTime _endTime;
+		public DateTime EndTime
+		{
+			get { return _endTime; }
+			set
+			{
+				_endTime = value;
+				OnPropertyChanged(() => EndTime);
 			}
 		}
 
@@ -86,8 +110,8 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			TimeTrackDocument.StartDateTime = StartDateTime;
-			TimeTrackDocument.EndDateTime = EndDateTime;
+			TimeTrackDocument.StartDateTime = StartDateTime + StartTime.TimeOfDay;
+			TimeTrackDocument.EndDateTime = EndDateTime + EndTime.TimeOfDay;
 			TimeTrackDocument.Comment = Comment;
 			if (SelectedDocument != null)
 				TimeTrackDocument.DocumentCode = SelectedDocument.Code;

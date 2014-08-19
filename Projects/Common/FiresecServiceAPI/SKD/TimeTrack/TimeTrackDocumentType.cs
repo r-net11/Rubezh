@@ -35,7 +35,6 @@ namespace FiresecAPI.SKD
 		static TimeTrackDocumentTypesCollection()
 		{
 			TimeTrackDocumentTypes = new List<TimeTrackDocumentType>();
-			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("<Нет>", "", 0));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность работы в дневное время", "Я", 1));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность работы в ночное время", "Н", 2));
 			TimeTrackDocumentTypes.Add(new TimeTrackDocumentType("Продолжительность работы в выходные и нерабочие праздничные дни", "РВ", 3));
