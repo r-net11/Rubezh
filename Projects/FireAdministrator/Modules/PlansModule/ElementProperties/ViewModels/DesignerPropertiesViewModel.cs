@@ -92,7 +92,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_height = value;
-				OnPropertyChanged("Height");
+				OnPropertyChanged(() => Height);
 			}
 		}
 

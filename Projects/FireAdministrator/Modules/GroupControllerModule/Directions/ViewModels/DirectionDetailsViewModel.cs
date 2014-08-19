@@ -166,7 +166,7 @@ namespace GKModule.ViewModels
 				DelayRegime = (DelayRegime)result.Result[2].Value;
 				OnPropertyChanged("Delay");
 				OnPropertyChanged("Hold");
-				OnPropertyChanged("Regime");
+				OnPropertyChanged(() => DelayRegime);
 			}
 			else
 			{

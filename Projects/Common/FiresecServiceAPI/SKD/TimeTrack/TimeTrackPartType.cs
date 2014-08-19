@@ -27,5 +27,8 @@ namespace FiresecAPI.SKD
 
 		[Description("Уход раньше")]
 		EarlyLeave,
+
+		[Description("По документу")]
+		Document,
 	}
 }

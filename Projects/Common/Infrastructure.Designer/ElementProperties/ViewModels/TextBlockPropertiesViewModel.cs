@@ -109,7 +109,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 				_fontSize = value;
 				if (_fontSize > MaxFontSize)
 					_fontSize = MaxFontSize;
-				OnPropertyChanged("FontSize");
+				OnPropertyChanged(() => FontSize);
 			}
 		}
 

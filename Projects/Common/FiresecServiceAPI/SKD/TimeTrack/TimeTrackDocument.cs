@@ -12,6 +12,7 @@ namespace FiresecAPI.SKD
 			DocumentCode = 1;
 			StartDateTime = DateTime.Now;
 			EndDateTime = DateTime.Now;
+			DocumentDateTime = DateTime.Now;
 		}
 
 		[DataMember]
