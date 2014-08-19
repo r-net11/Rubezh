@@ -38,7 +38,7 @@ namespace FiresecService.Processor
 
 		public static bool Run(Procedure procedure, List<Argument> arguments)
 		{
-			procedure.ResetVaraibles(arguments);
+			procedure.ResetVariables(arguments);
 			var procedureThread = new Thread(() => RunInThread(procedure, arguments));
 			procedureThread.Start();
 			ProceduresThreads.Add(procedureThread);

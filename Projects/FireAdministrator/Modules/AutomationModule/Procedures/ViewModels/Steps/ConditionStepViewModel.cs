@@ -6,6 +6,9 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
+using FiresecClient;
+using ValueType = FiresecAPI.Automation.ValueType;
+
 namespace AutomationModule.ViewModels
 {
 	public class ConditionStepViewModel : BaseViewModel, IStepViewModel
@@ -156,23 +159,60 @@ namespace AutomationModule.ViewModels
 			var variablesAndArguments = new List<Variable>(Procedure.Variables);
 			variablesAndArguments.AddRange(Procedure.Arguments);
 			var variableTypes = new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable };
+			ConditionValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList());
 			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, variableTypes);
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
 			variableTypes.Add(VariableType.IsValue);
 			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, variableTypes);
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
-			ConditionTypes = new ObservableCollection<ConditionType> { ConditionType.IsEqual, ConditionType.IsLess, ConditionType.IsMore, ConditionType.IsNotEqual, ConditionType.IsNotLess, ConditionType.IsNotMore};
-			UpdateContent();
+			SelectedConditionValueType = Condition.ConditionValueType;
+		}
+
+		public ObservableCollection<ValueType> ConditionValueTypes { get; private set; }
+		public ValueType SelectedConditionValueType
+		{
+			get { return Condition.ConditionValueType; }
+			set
+			{
+				Condition.ConditionValueType = value;
+				ConditionTypes = new ObservableCollection<ConditionType>();
+				if ((value == ValueType.String)||(value == ValueType.Boolean))
+					ConditionTypes = new ObservableCollection<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
+				if ((value == ValueType.Integer)||(value == ValueType.DateTime))
+					ConditionTypes = new ObservableCollection<ConditionType>(Enum.GetValues(typeof(ConditionType)).Cast<ConditionType>().ToList());
+				if (UpdateDescriptionHandler != null)
+					UpdateDescriptionHandler();
+				OnPropertyChanged(() => ConditionTypes);
+				UpdateContent();
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => SelectedConditionValueType);
+			}
 		}
 
 		public void UpdateContent()
 		{
-			var allVariables = new List<Variable>(FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-			allVariables.AddRange(Procedure.Variables);
-			allVariables.AddRange(Procedure.Arguments);
-			allVariables = allVariables.FindAll(x => !x.IsList);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
+			allVariables = allVariables.FindAll(x => (x.ValueType != ValueType.Object) && !x.IsList);
+
+			if (SelectedConditionValueType == ValueType.Boolean)
+			{
+				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Boolean);
+			}
+			if (SelectedConditionValueType == ValueType.Integer)
+			{
+				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Integer);
+			}
+			if (SelectedConditionValueType == ValueType.DateTime)
+			{
+				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.DateTime);
+			}
+			if (SelectedConditionValueType == ValueType.String)
+			{
+				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.String);
+			}
 			Variable1.Update(allVariables);
 			Variable2.Update(allVariables);
+			SelectedConditionType = ConditionTypes.Contains(Condition.ConditionType) ? Condition.ConditionType : ConditionTypes.FirstOrDefault();
 		}
 
 		public ObservableCollection<ConditionType> ConditionTypes { get; private set; }

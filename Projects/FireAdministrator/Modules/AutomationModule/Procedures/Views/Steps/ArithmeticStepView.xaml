@@ -8,6 +8,7 @@
 			<ColumnDefinition Width="*"/>
 			<ColumnDefinition Width="*"/>
 			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -15,18 +16,19 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<Label Grid.Row="0" Grid.Column="0" Content="Тип операции" HorizontalAlignment="Right" />
-		<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding OperationTypes}" Margin="2" 
-				  SelectedItem="{Binding SelectedOperationType, UpdateSourceTrigger=PropertyChanged}" >
+		<Label Grid.Row="0" Grid.Column="0" Content="Тип значений" HorizontalAlignment="Right" />
+		<ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding ArithmeticValueTypes}" Margin="2" 
+				  SelectedItem="{Binding SelectedArithmeticValueType, UpdateSourceTrigger=PropertyChanged}" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		
+
 		<Label Grid.Row="1" Grid.Column="0" Content="Параметр1" HorizontalAlignment="Right" />
 		<ComboBox Grid.Row="1" Grid.Column="1" DataContext="{Binding Variable1}" ItemsSource="{Binding VariableTypes}" Margin="2"
 				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" >
@@ -93,9 +95,20 @@
 				Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsValue}}" />
 
+		<ComboBox Grid.Row="2" Grid.Column="3" ItemsSource="{Binding TimeTypes}" Margin="2" 
+				  SelectedItem="{Binding SelectedTimeType, UpdateSourceTrigger=PropertyChanged}" 
+				  Visibility="{Binding Path=SelectedOperationType, Converter={StaticResource EnumToVisibilityConverter},
+			ConverterParameter={x:Static automation:ValueType.DateTime}}" Width="150" HorizontalAlignment="Left">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+
 		<Label Grid.Row="3" Grid.Column="0" Content="Значение операции" HorizontalAlignment="Right" />
-		<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ArithmeticTypes}" Margin="2" 
-				  SelectedItem="{Binding SelectedArithmeticType, UpdateSourceTrigger=PropertyChanged}" >
+		<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ArithmeticOperationTypes}" Margin="2" 
+				  SelectedItem="{Binding SelectedArithmeticOperationType, UpdateSourceTrigger=PropertyChanged}" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />

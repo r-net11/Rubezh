@@ -99,6 +99,7 @@
     <Compile Include="Plans\Views\ProcedurePropertiesView.xaml.cs">
       <DependentUpon>ProcedurePropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ControlCameraStepViewModel.cs" />

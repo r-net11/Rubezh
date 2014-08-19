@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace FiresecAPI.Automation
 {
@@ -24,5 +25,29 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ConditionType ConditionType { get; set; }
+
+		[DataMember]
+		public ValueType ConditionValueType { get; set; }
+	}
+
+	public enum ConditionType
+	{
+		[Description("равно")]
+		IsEqual,
+
+		[Description("не равно")]
+		IsNotEqual,
+
+		[Description("больше")]
+		IsMore,
+
+		[Description("не больше")]
+		IsNotMore,
+
+		[Description("меньше")]
+		IsLess,
+
+		[Description("не меньше")]
+		IsNotLess,
 	}
 }

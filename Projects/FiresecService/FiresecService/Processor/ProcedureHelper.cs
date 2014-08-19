@@ -16,7 +16,6 @@ namespace FiresecService.Processor
 {
 	public static class ProcedureHelper
 	{
-
 		static ProcedureHelper()
 		{
 			WinFormsPlayers = new List<WinFormsPlayer>();
@@ -28,8 +27,8 @@ namespace FiresecService.Processor
 			var result = conditionArguments.JoinOperator == JoinOperator.And;
 			foreach (var condition in conditionArguments.Conditions)
 			{
-				var variable1 = GetValue(condition.Variable1, procedure, arguments);
-				var variable2 = GetValue(condition.Variable2, procedure, arguments);
+				int variable1 = GetValue<int>(condition.Variable1, procedure, arguments);
+				int variable2 = GetValue<int>(condition.Variable2, procedure, arguments);
 				switch (condition.ConditionType)
 				{
 					case ConditionType.IsEqual:
@@ -103,84 +102,97 @@ namespace FiresecService.Processor
 		public static void Calculate(ProcedureStep procedureStep, Procedure procedure, List<Argument> arguments)
 		{
 			var arithmeticArguments = procedureStep.ArithmeticArguments;
-			var variable1 = GetValue(arithmeticArguments.Variable1, procedure, arguments);
-			var variable2 = GetValue(arithmeticArguments.Variable2, procedure, arguments);
-			int result = 0;
-			if (arithmeticArguments.ArithmeticType == ArithmeticType.Add)
-				result = variable1 + variable2;
-			if (arithmeticArguments.ArithmeticType == ArithmeticType.Sub)
-				result = variable1 - variable2;
-			if (arithmeticArguments.ArithmeticType == ArithmeticType.Multi)
-				result = variable1 * variable2;
-			if ((arithmeticArguments.ArithmeticType == ArithmeticType.Div) && (variable2 != 0))
-				result = variable1 / variable2;
-
-			if (arithmeticArguments.Result.VariableType == VariableType.IsGlobalVariable)
+			object variable1;
+			object variable2;
+			var resultVariable = GetAllVariables(procedure).FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
+			switch (arithmeticArguments.ArithmeticValueType)
 			{
-				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables
-					.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
-				if (globalVariable != null)
-					globalVariable.IntValue = result;
-			}
+				case ValueType.Boolean:
+					{
+						variable1 = GetValue<bool>(arithmeticArguments.Variable1, procedure, arguments);
+						variable2 = GetValue<bool>(arithmeticArguments.Variable2, procedure, arguments);
+						bool result = false;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.And)
+							result = (bool)variable1 & (bool)variable2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Or)
+							result = (bool)variable1 || (bool)variable2;
+						resultVariable.BoolValue = result;
+						break;
+					}
 
-			if (arithmeticArguments.Result.VariableType == VariableType.IsLocalVariable)
-			{
-				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid) ??
-					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticArguments.Result.VariableUid);
-				if (localVariable == null)
-					return;
-				if (localVariable.ValueType == ValueType.Boolean)
-					localVariable.BoolValue = Convert.ToBoolean(result);
-				if (localVariable.ValueType == ValueType.DateTime)
-					localVariable.DateTimeValue = Convert.ToDateTime(result);
-				localVariable.IntValue = result;
+				case ValueType.Integer:
+					{
+						variable1 = GetValue<int>(arithmeticArguments.Variable1, procedure, arguments);
+						variable2 = GetValue<int>(arithmeticArguments.Variable2, procedure, arguments);
+						int result = 0;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Add)
+							result = (int)variable1 + (int)variable2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Sub)
+							result = (int)variable1 - (int)variable2;
+						if (arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Multi)
+							result = (int)variable1 * (int)variable2;
+						if ((arithmeticArguments.ArithmeticOperationType == ArithmeticOperationType.Div) && ((int)variable2 != 0))
+							result = (int)variable1 / (int)variable2;
+						resultVariable.IntValue = result;
+						break;
+					}
+
+				case ValueType.DateTime:
+					{
+						variable1 = GetValue<DateTime>(arithmeticArguments.Variable1, procedure, arguments);
+						variable2 = GetValue<int>(arithmeticArguments.Variable2, procedure, arguments);
+						var result = new DateTime();
+						switch (arithmeticArguments.TimeType)
+						{
+							case TimeType.Sec:
+								result = (DateTime)variable1 + TimeSpan.FromSeconds((int)variable2);
+								break;
+							case TimeType.Min:
+								result = (DateTime)variable1 + TimeSpan.FromMinutes((int)variable2);
+								break;
+							case TimeType.Hour:
+								result = (DateTime)variable1 + TimeSpan.FromHours((int)variable2);
+								break;
+							case TimeType.Day:
+								result = (DateTime)variable1 + TimeSpan.FromDays((int)variable2);
+								break;
+						}
+						resultVariable.DateTimeValue = result;
+						break;
+					}
 			}
 		}
 
-		static int GetValue(ArithmeticParameter arithmeticParameter, Procedure procedure, List<Argument> arguments)
+		static T GetValue<T>(ArithmeticParameter arithmeticParameter, Procedure procedure, List<Argument> arguments)
 		{
-			var allVariables = new List<Variable>(procedure.Variables);
-			allVariables.AddRange(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-
-			if (arithmeticParameter.VariableType == VariableType.IsGlobalVariable)
+			T result = default(T);
+			var variable = GetAllVariables(procedure).FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
+			if (typeof(T) == typeof(bool))
 			{
-				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables
-					.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
-				if (globalVariable != null)
-					return globalVariable.IntValue;
+				result = (T) Convert.ChangeType(variable.BoolValue, typeof(T));
 			}
-			if (arithmeticParameter.VariableType == VariableType.IsLocalVariable)
+			if (typeof(T) == typeof(int))
 			{
-				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid) ??
-					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
-				if (localVariable.ValueType == ValueType.Boolean)
-					return Convert.ToInt32(localVariable.BoolValue);
-				if (localVariable.ValueType == ValueType.DateTime)
-					return Convert.ToInt32(localVariable.DateTimeValue);
-				return localVariable.IntValue;
+				result = (T)Convert.ChangeType(variable.IntValue, typeof(T));
 			}
-			return arithmeticParameter.Value;
+			if (typeof(T) == typeof(DateTime))
+			{
+				result = (T)Convert.ChangeType(variable.DateTimeValue, typeof(T));
+			}
+			if (typeof(T) == typeof(string))
+			{
+				result = (T)Convert.ChangeType(variable.StringValue, typeof(T));
+			}
+			return result;
 		}
 
-		static string GetStringValue(ArithmeticParameter arithmeticParameter, Procedure procedure, List<Argument> arguments)
+		static List<Variable> GetAllVariables(Procedure procedure)
 		{
-			if (arithmeticParameter.VariableType == VariableType.IsGlobalVariable)
-			{
-				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables
-					.FirstOrDefault(
-						x => x.Uid == arithmeticParameter.VariableUid);
-				if (globalVariable != null)
-					return globalVariable.StringValue;
-			}
-			if (arithmeticParameter.VariableType == VariableType.IsLocalVariable)
-			{
-				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid) ??
-					procedure.Arguments.FirstOrDefault(x => x.Uid == arithmeticParameter.VariableUid);
-				return localVariable.StringValue;
-			}
-			return arithmeticParameter.StringValue;
+			var allVariables = new List<Variable>(ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables);
+			allVariables.AddRange(procedure.Variables);
+			allVariables.AddRange(procedure.Arguments);
+			return allVariables;
 		}
-
 
 		public static void FindObjects(ProcedureStep procedureStep, Procedure procedure)
 		{

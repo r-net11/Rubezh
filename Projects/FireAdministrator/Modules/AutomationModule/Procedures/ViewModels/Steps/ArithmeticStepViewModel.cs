@@ -22,9 +22,7 @@ namespace AutomationModule.ViewModels
 		{
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
-			ArithmeticArguments = arithmeticArguments;
-			SelectedOperationType = ArithmeticArguments.OperationType;
-			SelectedArithmeticType = ArithmeticArguments.ArithmeticType;
+			ArithmeticArguments = arithmeticArguments;			
 			var variablesAndArguments = new List<Variable>(Procedure.Variables);
 			variablesAndArguments.AddRange(Procedure.Arguments);
 			var variableTypes = new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable };
@@ -32,30 +30,44 @@ namespace AutomationModule.ViewModels
 			variableTypes.Add(VariableType.IsValue);
 			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1, variableTypes);
 			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2, variableTypes);
-			OperationTypes = new ObservableCollection<OperationType>(Enum.GetValues(typeof(OperationType)).Cast<OperationType>().ToList());
+			ArithmeticValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList());
+			TimeTypes = new ObservableCollection<TimeType>(Enum.GetValues(typeof(TimeType)).Cast<TimeType>().ToList());
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
 			Result.UpdateDescriptionHandler = updateDescriptionHandler;
-			UpdateContent();
+			SelectedArithmeticValueType = ArithmeticArguments.ArithmeticValueType;
 		}
 
 		public void UpdateContent()
 		{
-			var allVariables = new List<Variable>(FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables);
-			allVariables.AddRange(Procedure.Variables);
-			allVariables.AddRange(Procedure.Arguments);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
 			allVariables = allVariables.FindAll(x => !x.IsList);
-			if (SelectedOperationType == OperationType.BoolOperation)
+			var allVariables2 = new List<Variable>(allVariables);
+
+			if (SelectedArithmeticValueType == ValueType.Boolean)
+			{
 				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Boolean);
-			if (SelectedOperationType == OperationType.IntegerOperation)
+				allVariables2 = allVariables2.FindAll(x => x.ValueType == ValueType.Boolean);
+			}
+			if (SelectedArithmeticValueType == ValueType.Integer)
+			{
 				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Integer);
-			if (SelectedOperationType == OperationType.DateTimeOperation)
+				allVariables2 = allVariables2.FindAll(x => x.ValueType == ValueType.Integer);
+			}
+			if (SelectedArithmeticValueType == ValueType.DateTime)
+			{
 				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.DateTime);
-			if (SelectedOperationType == OperationType.StringOperation)
+				allVariables2 = allVariables2.FindAll(x => x.ValueType == ValueType.Integer);
+			}
+			if (SelectedArithmeticValueType == ValueType.String)
+			{
 				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.String);
+				allVariables2 = allVariables2.FindAll(x => x.ValueType == ValueType.String);
+			}
 			Variable1.Update(allVariables);
-			Variable2.Update(allVariables);
+			Variable2.Update(allVariables2);
 			Result.Update(allVariables);
+			SelectedArithmeticOperationType = ArithmeticOperationTypes.Contains(ArithmeticArguments.ArithmeticOperationType) ? ArithmeticArguments.ArithmeticOperationType : ArithmeticOperationTypes.FirstOrDefault();
 		}
 
 		public string Description
@@ -72,18 +84,18 @@ namespace AutomationModule.ViewModels
 				if (String.IsNullOrEmpty(res))
 					res = "пусто";
 				var op = "";
-				switch (SelectedArithmeticType)
+				switch (SelectedArithmeticOperationType)
 				{
-					case ArithmeticType.Add:
+					case ArithmeticOperationType.Add:
 						op = "+";
 						break;
-					case ArithmeticType.Sub:
+					case ArithmeticOperationType.Sub:
 						op = "-";
 						break;
-					case ArithmeticType.Div:
+					case ArithmeticOperationType.Div:
 						op = ":";
 						break;
-					case ArithmeticType.Multi:
+					case ArithmeticOperationType.Multi:
 						op = "*";
 						break;
 				}
@@ -92,40 +104,56 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<ArithmeticType> ArithmeticTypes { get; private set; }
-		public ArithmeticType SelectedArithmeticType
+		public ObservableCollection<ArithmeticOperationType> ArithmeticOperationTypes { get; private set; }
+		public ArithmeticOperationType SelectedArithmeticOperationType
 		{
-			get { return ArithmeticArguments.ArithmeticType; }
+			get { return ArithmeticArguments.ArithmeticOperationType; }
 			set
 			{
-				ArithmeticArguments.ArithmeticType = value;
+				ArithmeticArguments.ArithmeticOperationType = value;
 				if (UpdateDescriptionHandler!=null)
 					UpdateDescriptionHandler();
 				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedArithmeticType);
+				OnPropertyChanged(() => SelectedArithmeticOperationType);
 			}
 		}
 
-		public ObservableCollection<OperationType> OperationTypes { get; private set; }
-		public OperationType SelectedOperationType
+		public ObservableCollection<TimeType> TimeTypes { get; private set; }
+		public TimeType SelectedTimeType
 		{
-			get { return ArithmeticArguments.OperationType; }
+			get { return ArithmeticArguments.TimeType; }
 			set
 			{
-				ArithmeticArguments.OperationType = value;
+				ArithmeticArguments.TimeType = value;
 				if (UpdateDescriptionHandler != null)
 					UpdateDescriptionHandler();
-				ArithmeticTypes = new ObservableCollection<ArithmeticType>();
-				if (value == OperationType.BoolOperation)
-					ArithmeticTypes = new ObservableCollection<ArithmeticType> { ArithmeticType.And, ArithmeticType.Or };
-				if (value == OperationType.DateTimeOperation)
-					ArithmeticTypes = new ObservableCollection<ArithmeticType> { ArithmeticType.Add, ArithmeticType.Sub };
-				if (value == OperationType.StringOperation)
-					ArithmeticTypes = new ObservableCollection<ArithmeticType> { ArithmeticType.Concat};
-				if (value == OperationType.IntegerOperation)
-					ArithmeticTypes = new ObservableCollection<ArithmeticType> { ArithmeticType.Add, ArithmeticType.Sub, ArithmeticType.Multi, ArithmeticType.Div};
 				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedOperationType);
+				OnPropertyChanged(() => SelectedTimeType);
+			}
+		}
+
+		public ObservableCollection<ValueType> ArithmeticValueTypes { get; private set; }
+		public ValueType SelectedArithmeticValueType
+		{
+			get { return ArithmeticArguments.ArithmeticValueType; }
+			set
+			{
+				ArithmeticArguments.ArithmeticValueType = value;
+				ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType>();
+				if (value == ValueType.Boolean)
+					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.And, ArithmeticOperationType.Or };
+				if (value == ValueType.DateTime)
+					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub };
+				if (value == ValueType.String)
+					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Concat};
+				if (value == ValueType.Integer)
+					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub, ArithmeticOperationType.Multi, ArithmeticOperationType.Div};
+				if (UpdateDescriptionHandler != null)
+					UpdateDescriptionHandler();
+				OnPropertyChanged(() => ArithmeticOperationTypes);
+				UpdateContent();
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => SelectedArithmeticValueType);
 			}
 		}
 	}

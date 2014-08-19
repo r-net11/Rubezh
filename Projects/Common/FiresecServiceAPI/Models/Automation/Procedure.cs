@@ -44,7 +44,7 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public bool IsActive { get; set; }
 
-		public void ResetVaraibles(List<Argument> arguments)
+		public void ResetVariables(List<Argument> arguments)
 		{
 			foreach (var variable in Variables)
 				variable.ResetValue();

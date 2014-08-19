@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
@@ -25,9 +26,9 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				//var variable = Procedure.Arguments.FirstOrDefault(x => x.Uid == Argument.ArgumentUid);
-				//if (variable != null)
-				//    return variable.Name;
+				var variable = Procedure.Arguments.FirstOrDefault(x => x.Uid == Argument.VariableUid);
+				if (variable != null)
+				    return variable.Name;
 				return "";
 			}
 		}
@@ -93,14 +94,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		//public ValueType ValueType
-		//{
-		//    get { return Argument.ValueType; }
-		//    set
-		//    {
-		//        Argument.ValueType = value;
-		//        OnPropertyChanged(() => ValueType);
-		//    }
-		//}
+		public ValueType ValueType
+		{
+			get { return Argument.ValueType; }
+			set
+			{
+				Argument.ValueType = value;
+				OnPropertyChanged(() => ValueType);
+			}
+		}
 	}
 }
