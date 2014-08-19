@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
@@ -13,7 +11,7 @@ namespace FiresecAPI.Automation
 			Procedures = new List<Procedure>();
 			AutomationSchedules = new List<AutomationSchedule>();
 			AutomationSounds = new List<AutomationSound>();
-			GlobalVariables = new List<GlobalVariable>();
+			GlobalVariables = new List<Variable>();
 		}
 
 		[DataMember]
@@ -26,9 +24,9 @@ namespace FiresecAPI.Automation
 		public List<AutomationSound> AutomationSounds { get; set; }
 
 		[DataMember]
-		public List<GlobalVariable> GlobalVariables { get; set; }
+		public List<Variable> GlobalVariables { get; set; }
 
-		public void UpdateConfiguration() //TODO???
+		public void UpdateConfiguration()
 		{
 			foreach (var procedure in Procedures)
 			{

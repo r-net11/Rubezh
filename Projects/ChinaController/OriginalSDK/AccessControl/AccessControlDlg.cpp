@@ -163,7 +163,7 @@ void CAccessControlDlg::InitDlg()
 		CString csIp = ConvertString("ip", DEVICE_PARAM);
 		if (csIp == CString("ip"))
 		{
-			m_DvrIPAddr.SetWindowText("172.16.6.54");
+			m_DvrIPAddr.SetWindowText("172.16.6.55");
 		} 
 		else
 		{
@@ -183,7 +183,7 @@ void CAccessControlDlg::InitDlg()
 		CString csName = ConvertString("username", DEVICE_PARAM);
 		if (csName == CString("username"))
 		{
-			GetDlgItem(IDC_EDT_NAME)->SetWindowText("system");
+			GetDlgItem(IDC_EDT_NAME)->SetWindowText("t_SuperUser");
 		} 
 		else
 		{

@@ -11,7 +11,6 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
 		<Label Grid.Row="0" Grid.Column="0" Content="Строковый список" HorizontalAlignment="Right" />
@@ -23,13 +22,12 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<Label Grid.Row="1" Grid.Column="0" Content="Тип операции" HorizontalAlignment="Right" />
-		<ToolBarButton Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="150" Height="30" Foreground="White" Command="{Binding ChangeStringOperationCommand}">
-			<TextBlock Text="{Binding StringOperation, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" />
+		<ToolBarButton Grid.Row="0" Grid.Column="2" Width="120" Height="28" HorizontalAlignment="Left" Foreground="White" Command="{Binding ChangeStringOperationCommand}">
+			<TextBlock Text="{Binding StringOperation, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" />
 		</ToolBarButton>
 
-		<Label Grid.Row="2" Grid.Column="0" Content="Объектная ссылка" HorizontalAlignment="Right" />
-		<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Variables}" Margin="2" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}" >
+		<Label Grid.Row="1" Grid.Column="0" Content="Объектная ссылка" HorizontalAlignment="Right" />
+		<ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Variables}" Margin="2" SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
@@ -37,9 +35,8 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<Label Grid.Row="3" Grid.Column="0" Content="Поле объекта" HorizontalAlignment="Right" />
-		<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Properties}" Margin="2" SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}"
-								  MinWidth="163" MaxWidth="163">
+		<Label Grid.Row="2" Grid.Column="0" Content="Поле объекта" HorizontalAlignment="Right" />
+		<ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Properties}" Margin="2" SelectedItem="{Binding SelectedProperty, UpdateSourceTrigger=PropertyChanged}" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />

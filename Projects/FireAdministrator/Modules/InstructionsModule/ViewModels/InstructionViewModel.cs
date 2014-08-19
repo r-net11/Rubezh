@@ -21,7 +21,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				Instruction.InstructionType = value;
-				OnPropertyChanged("InstructionType");
+				OnPropertyChanged(() => InstructionType);
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace InstructionsModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("Instruction");
+			OnPropertyChanged(() => Instruction);
 		}
 	}
 }

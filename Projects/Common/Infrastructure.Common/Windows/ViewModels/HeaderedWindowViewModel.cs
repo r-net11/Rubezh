@@ -14,7 +14,7 @@
 			set
 			{
 				_header = value;
-				OnPropertyChanged("Header");
+				OnPropertyChanged(() => Header);
 			}
 		}
 

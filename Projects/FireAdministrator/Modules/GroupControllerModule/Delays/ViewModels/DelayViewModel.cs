@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("Delay");
+			OnPropertyChanged(() => Delay);
 		}
 
 		public string PresentationLogic

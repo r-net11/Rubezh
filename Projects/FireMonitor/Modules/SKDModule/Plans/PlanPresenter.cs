@@ -8,13 +8,12 @@ using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
-using SKDModule.Events;
 using SKDModule.Plans.Designer;
-using Infrastructure.Events;
 
 namespace SKDModule.Plans
 {

@@ -51,7 +51,7 @@ namespace FireAdministrator.ViewModels
 			set
 			{
 				_extendedMenu = value;
-				OnPropertyChanged("ExtendedMenu");
+				OnPropertyChanged(() => ExtendedMenu);
 			}
 		}
 

@@ -22,7 +22,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_allowSave = value;
-				OnPropertyChanged("AllowSave");
+				OnPropertyChanged(() => AllowSave);
 			}
 		}
 		private string _saveCaption;

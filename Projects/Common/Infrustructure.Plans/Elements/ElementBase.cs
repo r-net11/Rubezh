@@ -6,7 +6,7 @@ using System.Windows.Media;
 namespace Infrustructure.Plans.Elements
 {
 	[DataContract]
-	public abstract class ElementBase : IElementBackground
+	public abstract class ElementBase : IElementBackground, IElementBorder
 	{
 		public ElementBase()
 		{

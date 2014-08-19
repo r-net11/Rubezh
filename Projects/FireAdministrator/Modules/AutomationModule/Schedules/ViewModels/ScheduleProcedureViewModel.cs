@@ -27,8 +27,8 @@ namespace AutomationModule.ViewModels
 			foreach (var variable in procedure.Arguments)
 			{
 				var argument = new Argument(variable);
-				if (ScheduleProcedure.Arguments.Any(x => x.ArgumentUid == variable.Uid))
-					argument = ScheduleProcedure.Arguments.FirstOrDefault(x => x.ArgumentUid == variable.Uid);
+				if (ScheduleProcedure.Arguments.Any(x => x.VariableUid == variable.Uid))
+					argument = ScheduleProcedure.Arguments.FirstOrDefault(x => x.VariableUid == variable.Uid);
 				var argumentViewModel = new ArgumentViewModel(argument, procedure);
 				tempArguments.Add(argument);
 				Arguments.Add(argumentViewModel);

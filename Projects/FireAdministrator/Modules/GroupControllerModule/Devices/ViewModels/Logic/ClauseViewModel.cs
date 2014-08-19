@@ -53,7 +53,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedClauseConditionType = value;
-				OnPropertyChanged("SelectedClauseConditionType");
+				OnPropertyChanged(() => SelectedClauseConditionType);
 			}
 		}
 
@@ -262,7 +262,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
 			{
 				Directions = directionsSelectationViewModel.Directions;
-				OnPropertyChanged("PresenrationDirections");
+				OnPropertyChanged(() => PresenrationDirections);
 			}
 		}
 

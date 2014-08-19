@@ -89,7 +89,7 @@ namespace AutomationModule
 		{
 			yield return new LayoutPartDescription(LayoutPartDescriptionGroup.Common, LayoutPartIdentities.AutomationProcedure, 160, "Процедура", "Выпонить процедуру", "BProcedures.png")
 			{
-				Factory = (p) => new LayoutPartProcedureViewModel(p as LayoutPartReferenceProperties),
+				Factory = (p) => new LayoutPartProcedureViewModel(p as LayoutPartProcedureProperties),
 			};
 		}
 

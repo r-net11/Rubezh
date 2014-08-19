@@ -127,7 +127,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_descriptors = value;
-				OnPropertyChanged("Descriptors");
+				OnPropertyChanged(() => Descriptors);
 			}
 		}
 

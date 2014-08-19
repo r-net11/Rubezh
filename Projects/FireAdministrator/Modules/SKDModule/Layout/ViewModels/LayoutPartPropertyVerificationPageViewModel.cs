@@ -30,8 +30,8 @@ namespace SKDModule.ViewModels
 		}
 		public override void CopyProperties()
 		{
-			var properties = (LayoutPartSKDVerificationProperties)_layoutPartVerificationViewModel.Properties;
-			SelectedDevice = Devices.FirstOrDefault(x => x.UID == properties.ReaderDeviceUID);
+			var properties = (LayoutPartReferenceProperties)_layoutPartVerificationViewModel.Properties;
+			SelectedDevice = Devices.FirstOrDefault(x => x.UID == properties.ReferenceUID);
 		}
 
 		public ObservableCollection<SKDDevice> Devices { get; private set; }
@@ -53,9 +53,9 @@ namespace SKDModule.ViewModels
 		}
 		public override bool Save()
 		{
-			var properties = (LayoutPartSKDVerificationProperties)_layoutPartVerificationViewModel.Properties;
+			var properties = (LayoutPartReferenceProperties)_layoutPartVerificationViewModel.Properties;
 
-			properties.ReaderDeviceUID = SelectedDevice.UID;
+			properties.ReferenceUID = SelectedDevice.UID;
 			_layoutPartVerificationViewModel.UpdateLayoutPart();
 			return true;
 		}

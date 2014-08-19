@@ -72,7 +72,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_login = value;
-				OnPropertyChanged("Login");
+				OnPropertyChanged(() => Login);
 			}
 		}
 

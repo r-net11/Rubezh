@@ -30,7 +30,7 @@ namespace PlansModule.ViewModels
 			{
 				_stateClass = value;
 				ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(Plan.UID);
-				OnPropertyChanged("StateClass");
+				OnPropertyChanged(() => StateClass);
 			}
 		}
 

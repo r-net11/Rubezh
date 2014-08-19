@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDeviceParameterTemplate = value;
-				OnPropertyChanged("SelectedDeviceParameterTemplate");
+				OnPropertyChanged(() => SelectedDeviceParameterTemplate);
 			}
 		}
 
@@ -40,7 +40,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				ParameterTemplate.Name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 			}
 		}
 

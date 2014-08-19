@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
-using FiresecAPI.EmployeeTimeIntervals;
 using FiresecAPI.GK;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;

@@ -5,8 +5,8 @@
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
 	<StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="2" HorizontalAlignment="Stretch">
 		<Label Content="Пауза: " HorizontalAlignment="Right" Margin="2"/>
-		<ComboBox  DataContext="{Binding Variable}" ItemsSource="{Binding ValueTypes}" Margin="2"
-				  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" Width="200">
+		<ComboBox  DataContext="{Binding Variable}" ItemsSource="{Binding VariableTypes}" Margin="2"
+				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" Width="200">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -15,8 +15,8 @@
 		</ComboBox>
 		<ComboBox DataContext="{Binding Variable}" ItemsSource="{Binding GlobalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedGlobalVariable, UpdateSourceTrigger=PropertyChanged}"
-				  Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:ValueType.IsGlobalVariable}}" Width="200">
+				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" Width="200">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
@@ -25,8 +25,8 @@
 		</ComboBox>
 		<ComboBox DataContext="{Binding Variable}" ItemsSource="{Binding Variables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
-				  Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:ValueType.IsLocalVariable}}" Width="200">
+				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" Width="200">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
@@ -34,7 +34,7 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 		<extToolkit:IntegerUpDown DataContext="{Binding Variable}" Value="{Binding Value}" Margin="2"
-				Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:ValueType.IsValue}}" Width="200"/>
+				Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+			ConverterParameter={x:Static automation:VariableType.IsValue}}" Width="200"/>
 	</StackPanel>
 </UserControl>

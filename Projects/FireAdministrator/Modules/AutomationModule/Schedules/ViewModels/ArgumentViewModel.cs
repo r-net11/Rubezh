@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
@@ -31,7 +32,7 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				var variable = Procedure.Arguments.FirstOrDefault(x => x.Uid == Argument.ArgumentUid);
+				var variable = Procedure.Arguments.FirstOrDefault(x => x.Uid == Argument.VariableUid);
 				if (variable != null)
 					return variable.Name;
 				return "";
@@ -94,6 +95,17 @@ namespace AutomationModule.ViewModels
 			{
 				Argument.StringValue = value;
 				OnPropertyChanged(() => StringValue);
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+
+		public ValueType ValueType
+		{
+			get { return Argument.ValueType; }
+			set
+			{
+				Argument.ValueType = value;
+				OnPropertyChanged(() => ValueType);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}

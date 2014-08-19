@@ -105,6 +105,7 @@ namespace FiresecClient
 
 					keys = XManager.Devices.Select(item => item.BaseUID).ToList();
 					var cameraKeys = SystemConfiguration.AllCameras.Select(item => item.UID).ToList();
+					var procedureKeys = SystemConfiguration.AutomationConfiguration.Procedures.Select(item => item.Uid).ToList();
 					var elementExtensions = new List<ElementBase>();
 					foreach (var elementExtension in Plan.ElementExtensions)
 					{
@@ -121,6 +122,15 @@ namespace FiresecClient
 							{
 								if (cameraKeys.Contains(elementCamera.CameraUID))
 									elementExtensions.Add(elementCamera);
+							}
+							else
+							{
+								var elementProcedure = elementExtension as ElementProcedure;
+								if (elementProcedure != null)
+								{
+									if (procedureKeys.Contains(elementProcedure.ProcedureUID))
+										elementExtensions.Add(elementProcedure);
+								}
 							}
 						}
 					}

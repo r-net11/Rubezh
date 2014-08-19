@@ -56,8 +56,8 @@ namespace VideoModule.ViewModels
 		}
 		public override void CopyProperties()
 		{
-			var properties = (LayoutPartCameraProperties)_layoutPartCameraViewModel.Properties;
-			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.SourceUID); 
+			var properties = (LayoutPartReferenceProperties)_layoutPartCameraViewModel.Properties;
+			var camera = FiresecManager.SystemConfiguration.Cameras.FirstOrDefault(item => item.UID == properties.ReferenceUID); 
 			SelectedCamera = new CameraViewModel(CamerasViewModel.Current, camera);
 		}
 		public override bool CanSave()
@@ -66,10 +66,10 @@ namespace VideoModule.ViewModels
 		}
 		public override bool Save()
 		{
-			var properties = (LayoutPartCameraProperties)_layoutPartCameraViewModel.Properties;
-			if ((SelectedCamera == null && properties.SourceUID != Guid.Empty) || (SelectedCamera != null && properties.SourceUID != SelectedCamera.Camera.UID))
+			var properties = (LayoutPartReferenceProperties)_layoutPartCameraViewModel.Properties;
+			if ((SelectedCamera == null && properties.ReferenceUID != Guid.Empty) || (SelectedCamera != null && properties.ReferenceUID != SelectedCamera.Camera.UID))
 			{
-				properties.SourceUID = SelectedCamera == null ? Guid.Empty : SelectedCamera.Camera.UID;
+				properties.ReferenceUID = SelectedCamera == null ? Guid.Empty : SelectedCamera.Camera.UID;
 				if (SelectedCamera == null)
 					_layoutPartCameraViewModel.UpdateLayoutPart(null);
 				else

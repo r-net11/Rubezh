@@ -28,7 +28,7 @@ namespace SKDModule
 		ZonesViewModel ZonesViewModel;
 		DoorsViewModel DoorsViewModel;
 		HRViewModel HRViewModel;
-		NamedIntervalsViewModel NamedIntervalsViewModel;
+		DayIntervalsViewModel DayIntervalsViewModel;
 		ScheduleSchemesWeeklyViewModel ScheduleSchemesWeeklyViewModel;
 		ScheduleSchemesMonthlyViewModel ScheduleSchemesMonthlyViewModel;
 		ScheduleSchemesSlideViewModel ScheduleSchemesSlideViewModel;
@@ -48,7 +48,7 @@ namespace SKDModule
 			ZonesViewModel = new ZonesViewModel();
 			DoorsViewModel = new DoorsViewModel();
 			HRViewModel = new HRViewModel();
-			NamedIntervalsViewModel = new NamedIntervalsViewModel();
+			DayIntervalsViewModel = new DayIntervalsViewModel();
 			ScheduleSchemesWeeklyViewModel = new ScheduleSchemesWeeklyViewModel();
 			ScheduleSchemesSlideViewModel = new ScheduleSchemesSlideViewModel();
 			ScheduleSchemesMonthlyViewModel = new ScheduleSchemesMonthlyViewModel();
@@ -112,7 +112,7 @@ namespace SKDModule
 						new NavigationItem<ShowHREvent>(HRViewModel, "Картотека", "/Controls;component/Images/Kartoteka2W.png"),
 						new NavigationItem("Учет рабочего времени", "/Controls;component/Images/TimeTrackingW.png", new List<NavigationItem>()
 						{
-							new NavigationItem<ShowTimeIntervalsEvent, Guid>(NamedIntervalsViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, Guid.Empty),
+							new NavigationItem<ShowTimeIntervalsEvent, Guid>(DayIntervalsViewModel, "Дневные графики", "/Controls;component/Images/ShedulesDaylyW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowWeeklyIntervalsEvent, Guid>(ScheduleSchemesWeeklyViewModel, "Недельные графики", "/Controls;component/Images/SheduleWeeklyW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowSlideDayIntervalsEvent, Guid>(ScheduleSchemesSlideViewModel, "Суточные графики", "/Controls;component/Images/SheduleSlideDaylyW.png", null, null, Guid.Empty),
 							new NavigationItem<ShowMonthlyIntervalsEvent, Guid>(ScheduleSchemesMonthlyViewModel, "Месячные графики", "/Controls;component/Images/ShedulesMonthlyW.png", null, null, Guid.Empty),
@@ -153,7 +153,7 @@ namespace SKDModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Organisations/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Verification/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Cards/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Intervals/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "TimeTrack/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "PassCard/DataTemplates/Dictionary.xaml"));
 		}
@@ -231,8 +231,8 @@ namespace SKDModule
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDevices, "СКД устройства", "Tree.png", (p) => DevicesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDZones, "СКД зоны", "Tree.png", (p) => ZonesViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDHR, "Картотека", "Levels.png", (p) => HRViewModel);
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartSKDVerificationProperties));
-			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDNamedIntervals, "Дневные графики", "Tree.png", (p) => NamedIntervalsViewModel);
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDVerification, "Верификация", "Tree.png", (p) => new VerificationViewModel(p as LayoutPartReferenceProperties));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDayIntervals, "Дневные графики", "Tree.png", (p) => DayIntervalsViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDWeeklyScheduleSchemes, "Недельные графики", "Tree.png", (p) => ScheduleSchemesWeeklyViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDDaylyScheduleSchemes, "Суточные графики", "Tree.png", (p) => ScheduleSchemesSlideViewModel);
 			yield return new LayoutPartPresenter(LayoutPartIdentities.SKDMonthlyScheduleSchemes, "Месячные графики", "BTree.png", (p) => ScheduleSchemesMonthlyViewModel);

@@ -127,7 +127,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_delayRegime = value;
-				OnPropertyChanged("DelayRegime");
+				OnPropertyChanged(() => DelayRegime);
 			}
 		}
 

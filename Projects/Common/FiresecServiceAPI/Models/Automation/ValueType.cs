@@ -4,13 +4,19 @@ namespace FiresecAPI.Automation
 {
 	public enum ValueType
 	{
-		[Description("Глобальная переменная")]
-		IsGlobalVariable,
+		[DescriptionAttribute("Целое")]
+		Integer,
 
-		[Description("Локальная переменнаяя")]
-		IsLocalVariable,
-		
-		[Description("Явное значение")]
-		IsValue
+		[DescriptionAttribute("Логическое")]
+		Boolean,
+
+		[DescriptionAttribute("Дата и время")]
+		DateTime,
+
+		[DescriptionAttribute("Строка")]
+		String,
+
+		[DescriptionAttribute("Объектная ссылка")]
+		Object
 	}
 }

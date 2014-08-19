@@ -16,16 +16,21 @@ using System.IO;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Client.Layout;
 using FiresecAPI.Models.Layouts;
+using AutomationModule.Plans;
+using Infrustructure.Plans.Events;
+using FiresecAPI.GK;
 
 namespace AutomationModule
 {
 	public class AutomationModuleLoader : ModuleBase, ILayoutProviderModule
 	{
+		PlanPresenter _planPresenter;
 		ProceduresViewModel ProceduresViewModel;
 		NavigationItem _proceduresNavigationItem;
 
 		public override void CreateViewModels()
 		{
+			_planPresenter = new PlanPresenter();
 			ProceduresViewModel = new ProceduresViewModel();
 			ProcessShedule();
 		}
@@ -38,6 +43,8 @@ namespace AutomationModule
 		{
 			_proceduresNavigationItem.IsVisible = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.Count > 0;
 			ProceduresViewModel.Initialize();
+			_planPresenter.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanPresenterEvent<Plan, XStateClass>>().Publish(_planPresenter);
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
@@ -90,7 +97,7 @@ namespace AutomationModule
 		#region ILayoutProviderModule Members
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
-			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedures.png", (p) => new LayoutProcedurePartViewModel((LayoutPartReferenceProperties)p));
+			yield return new LayoutPartPresenter(LayoutPartIdentities.AutomationProcedure, "Процедура", "Procedures.png", (p) => new LayoutProcedurePartViewModel((LayoutPartProcedureProperties)p));
 		}
 		#endregion
 	}

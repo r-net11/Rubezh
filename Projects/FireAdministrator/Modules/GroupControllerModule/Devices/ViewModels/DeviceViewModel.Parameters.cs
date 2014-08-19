@@ -452,7 +452,7 @@ namespace GKModule.ViewModels
 				}
 			}
 			PropertiesViewModel = new PropertiesViewModel(Device);
-			OnPropertyChanged("PropertiesViewModel");
+			OnPropertyChanged(() => PropertiesViewModel);
 		}
 
 		void UpdateDeviceParameterMissmatch()

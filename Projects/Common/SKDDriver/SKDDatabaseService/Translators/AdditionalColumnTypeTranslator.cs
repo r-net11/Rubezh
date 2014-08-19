@@ -82,7 +82,6 @@ namespace SKDDriver
 
 		public List<Guid> GetTextColumnTypes()
 		{
-			//return Table.Where(x => x.DataType == (int?)AdditionalColumnDataType.Text && x.IsInGrid).Select(x => x.UID).ToList();
 			return Table.Where(x => x.DataType == (int?)AdditionalColumnDataType.Text).Select(x => x.UID).ToList();
 		}
 

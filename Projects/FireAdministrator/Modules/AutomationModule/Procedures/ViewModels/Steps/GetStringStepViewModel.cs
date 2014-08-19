@@ -46,12 +46,12 @@ namespace AutomationModule.ViewModels
 			var variablesAndArguments = new List<Variable>(Procedure.Variables);
 			variablesAndArguments.AddRange(Procedure.Arguments);
 
-			foreach (var variable in variablesAndArguments.FindAll(x => ((x.VariableType == VariableType.String) && (x.IsList))))
+			foreach (var variable in variablesAndArguments.FindAll(x => ((x.ValueType == ValueType.String) && (x.IsList))))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				ResultVariables.Add(variableViewModel);
 			}
-			foreach (var variable in variablesAndArguments.FindAll(x => ((x.VariableType == VariableType.Object) && (!x.IsList))))
+			foreach (var variable in variablesAndArguments.FindAll(x => ((x.ValueType == ValueType.Object) && (!x.IsList))))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);

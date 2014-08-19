@@ -6,14 +6,13 @@ using DeviceControls;
 using FiresecAPI.GK;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKModule.Events;
 using GKModule.Plans.Designer;
 using Infrastructure;
+using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Presenter;
-using Infrastructure.Events;
 
 namespace GKModule.Plans
 {

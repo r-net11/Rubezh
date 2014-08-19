@@ -105,10 +105,14 @@ namespace LayoutModule.ViewModels
 		}
 		private void UpdateTitle()
 		{
-			OnPropertyChanged(() => Title);
 			var layoutPartTitleViewModel = Content as LayoutPartTitleViewModel;
 			if (layoutPartTitleViewModel != null)
+			{
 				layoutPartTitleViewModel.Title = Title;
+				if (string.IsNullOrEmpty(layoutPartTitleViewModel.IconSource))
+					layoutPartTitleViewModel.IconSource = IconSource;
+			}
+			OnPropertyChanged(() => Title);
 		}
 		private LayoutDocument GetLayoutDocument()
 		{
@@ -145,14 +149,12 @@ namespace LayoutModule.ViewModels
 						size.MinWidth = element.DockMinWidth;
 						size.IsWidthFixed = element.IsDockWidthFixed;
 						size.WidthType = element.DockWidth.GridUnitType;
-						//size.Width = element.DockWidth.IsAuto ? layoutItem.View.Width : element.DockWidth.Value;
 						size.Width = element.DockWidth.Value;
 						break;
 					case Orientation.Vertical:
 						size.MinHeight = element.DockMinHeight;
 						size.IsHeightFixed = element.IsDockHeightFixed;
 						size.HeightType = element.DockHeight.GridUnitType;
-						//size.Height = element.DockHeight.IsAuto ? layoutItem.View.Height : element.DockHeight.Value;
 						size.Height = element.DockHeight.Value;
 						break;
 				}
@@ -169,13 +171,11 @@ namespace LayoutModule.ViewModels
 						element.DockMinWidth = size.MinWidth;
 						element.IsDockWidthFixed = size.IsWidthFixed;
 						element.DockWidth = new GridLength(size.Width, size.WidthType);
-						//layoutItem.View.Width = size.WidthType == GridUnitType.Auto ? (size.Width < size.MinWidth ? size.MinWidth : size.Width) : double.NaN;
 						break;
 					case Orientation.Vertical:
 						element.DockMinHeight = size.MinHeight;
 						element.IsDockHeightFixed = size.IsHeightFixed;
 						element.DockHeight = new GridLength(size.Height, size.HeightType);
-						//layoutItem.View.Height = size.HeightType == GridUnitType.Auto ? (size.Height < size.MinHeight?size.MinHeight:size.Height): double.NaN;
 						break;
 				}
 			}
@@ -186,6 +186,10 @@ namespace LayoutModule.ViewModels
 				size.Width = LayoutPartDescriptionViewModel.LayoutPartDescription.Size.Width;
 			if (double.IsNaN(size.Height))
 				size.Height = LayoutPartDescriptionViewModel.LayoutPartDescription.Size.Height;
+			if (size.HeightType == GridUnitType.Auto && size.Height == 0)
+				size.Height = 1;
+			if (size.WidthType == GridUnitType.Auto && size.Width == 0)
+				size.Width = 1;
 		}
 	}
 }

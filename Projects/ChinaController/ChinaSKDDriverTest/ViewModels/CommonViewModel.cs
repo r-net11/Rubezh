@@ -72,9 +72,9 @@ namespace ControllerSDK.ViewModels
 			{
 				var deviceNetInfo = new DeviceNetInfo()
 				{
-					IP = "172.16.6.53",
-					SubnetMask = "255.255.255.0",
-					DefaultGateway = "172.5.1.1",
+					IP = "172.16.6.55",
+					SubnetMask = "255.255.252.0",
+					DefaultGateway = "172.16.6.219",
 					MTU = 1000
 				};
 				MainViewModel.Wrapper.SetDeviceNetInfo(deviceNetInfo);

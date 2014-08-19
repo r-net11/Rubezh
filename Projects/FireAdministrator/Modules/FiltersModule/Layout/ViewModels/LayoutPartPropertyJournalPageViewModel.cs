@@ -48,8 +48,8 @@ namespace FiltersModule.ViewModels
 		}
 		public override void CopyProperties()
 		{
-			var properties = (LayoutPartJournalProperties)_layoutPartJournalViewModel.Properties;
-			SelectedFilter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == properties.FilterUID);
+			var properties = (LayoutPartReferenceProperties)_layoutPartJournalViewModel.Properties;
+			SelectedFilter = FiresecManager.SystemConfiguration.JournalFilters.FirstOrDefault(item => item.UID == properties.ReferenceUID);
 		}
 		public override bool CanSave()
 		{
@@ -57,10 +57,10 @@ namespace FiltersModule.ViewModels
 		}
 		public override bool Save()
 		{
-			var properties = (LayoutPartJournalProperties)_layoutPartJournalViewModel.Properties;
-			if ((SelectedFilter == null && properties.FilterUID != Guid.Empty) || (SelectedFilter != null && properties.FilterUID != SelectedFilter.UID))
+			var properties = (LayoutPartReferenceProperties)_layoutPartJournalViewModel.Properties;
+			if ((SelectedFilter == null && properties.ReferenceUID != Guid.Empty) || (SelectedFilter != null && properties.ReferenceUID != SelectedFilter.UID))
 			{
-				properties.FilterUID = SelectedFilter == null ? Guid.Empty : SelectedFilter.UID;
+				properties.ReferenceUID = SelectedFilter == null ? Guid.Empty : SelectedFilter.UID;
 				_layoutPartJournalViewModel.UpdateLayoutPart(SelectedFilter);
 				return true;
 			}

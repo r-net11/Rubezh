@@ -25,7 +25,7 @@ namespace DevicesModule.ViewModels
 			{
 				Zone.Name = value;
 				Zone.OnChanged();
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}

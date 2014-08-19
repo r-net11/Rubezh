@@ -45,9 +45,6 @@ namespace SKDDriver.DataAccess
     partial void InsertCardDoor(CardDoor instance);
     partial void UpdateCardDoor(CardDoor instance);
     partial void DeleteCardDoor(CardDoor instance);
-    partial void InsertDay(Day instance);
-    partial void UpdateDay(Day instance);
-    partial void DeleteDay(Day instance);
     partial void InsertDepartment(Department instance);
     partial void UpdateDepartment(Department instance);
     partial void DeleteDepartment(Department instance);
@@ -63,15 +60,9 @@ namespace SKDDriver.DataAccess
     partial void InsertHolidaySetting(HolidaySetting instance);
     partial void UpdateHolidaySetting(HolidaySetting instance);
     partial void DeleteHolidaySetting(HolidaySetting instance);
-    partial void InsertInterval(Interval instance);
-    partial void UpdateInterval(Interval instance);
-    partial void DeleteInterval(Interval instance);
     partial void InsertJournal(Journal instance);
     partial void UpdateJournal(Journal instance);
     partial void DeleteJournal(Journal instance);
-    partial void InsertNamedInterval(NamedInterval instance);
-    partial void UpdateNamedInterval(NamedInterval instance);
-    partial void DeleteNamedInterval(NamedInterval instance);
     partial void InsertOrganisation(Organisation instance);
     partial void UpdateOrganisation(Organisation instance);
     partial void DeleteOrganisation(Organisation instance);
@@ -108,9 +99,18 @@ namespace SKDDriver.DataAccess
     partial void InsertScheduleZone(ScheduleZone instance);
     partial void UpdateScheduleZone(ScheduleZone instance);
     partial void DeleteScheduleZone(ScheduleZone instance);
-    partial void InsertTimeTrackException(TimeTrackException instance);
-    partial void UpdateTimeTrackException(TimeTrackException instance);
-    partial void DeleteTimeTrackException(TimeTrackException instance);
+    partial void InsertScheduleDay(ScheduleDay instance);
+    partial void UpdateScheduleDay(ScheduleDay instance);
+    partial void DeleteScheduleDay(ScheduleDay instance);
+    partial void InsertDayInterval(DayInterval instance);
+    partial void UpdateDayInterval(DayInterval instance);
+    partial void DeleteDayInterval(DayInterval instance);
+    partial void InsertDayIntervalPart(DayIntervalPart instance);
+    partial void UpdateDayIntervalPart(DayIntervalPart instance);
+    partial void DeleteDayIntervalPart(DayIntervalPart instance);
+    partial void InsertTimeTrackDocument(TimeTrackDocument instance);
+    partial void UpdateTimeTrackDocument(TimeTrackDocument instance);
+    partial void DeleteTimeTrackDocument(TimeTrackDocument instance);
     #endregion
 		
 		public SKDDataContext() : 
@@ -184,14 +184,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<Day> Days
-		{
-			get
-			{
-				return this.GetTable<Day>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Department> Departments
 		{
 			get
@@ -248,27 +240,11 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<Interval> Intervals
-		{
-			get
-			{
-				return this.GetTable<Interval>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Journal> Journals
 		{
 			get
 			{
 				return this.GetTable<Journal>();
-			}
-		}
-		
-		public System.Data.Linq.Table<NamedInterval> NamedIntervals
-		{
-			get
-			{
-				return this.GetTable<NamedInterval>();
 			}
 		}
 		
@@ -376,11 +352,35 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		public System.Data.Linq.Table<TimeTrackException> TimeTrackExceptions
+		public System.Data.Linq.Table<ScheduleDay> ScheduleDays
 		{
 			get
 			{
-				return this.GetTable<TimeTrackException>();
+				return this.GetTable<ScheduleDay>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DayInterval> DayIntervals
+		{
+			get
+			{
+				return this.GetTable<DayInterval>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DayIntervalPart> DayIntervalParts
+		{
+			get
+			{
+				return this.GetTable<DayIntervalPart>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TimeTrackDocument> TimeTrackDocuments
+		{
+			get
+			{
+				return this.GetTable<TimeTrackDocument>();
 			}
 		}
 	}
@@ -2220,270 +2220,6 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Day")]
-	public partial class Day : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private System.Nullable<System.Guid> _NamedIntervalUID;
-		
-		private System.Guid _ScheduleSchemeUID;
-		
-		private int _Number;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private EntityRef<NamedInterval> _NamedInterval;
-		
-		private EntityRef<ScheduleScheme> _ScheduleScheme;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnNamedIntervalUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnNamedIntervalUIDChanged();
-    partial void OnScheduleSchemeUIDChanging(System.Guid value);
-    partial void OnScheduleSchemeUIDChanged();
-    partial void OnNumberChanging(int value);
-    partial void OnNumberChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    #endregion
-		
-		public Day()
-		{
-			this._NamedInterval = default(EntityRef<NamedInterval>);
-			this._ScheduleScheme = default(EntityRef<ScheduleScheme>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NamedIntervalUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> NamedIntervalUID
-		{
-			get
-			{
-				return this._NamedIntervalUID;
-			}
-			set
-			{
-				if ((this._NamedIntervalUID != value))
-				{
-					if (this._NamedInterval.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnNamedIntervalUIDChanging(value);
-					this.SendPropertyChanging();
-					this._NamedIntervalUID = value;
-					this.SendPropertyChanged("NamedIntervalUID");
-					this.OnNamedIntervalUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleSchemeUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid ScheduleSchemeUID
-		{
-			get
-			{
-				return this._ScheduleSchemeUID;
-			}
-			set
-			{
-				if ((this._ScheduleSchemeUID != value))
-				{
-					if (this._ScheduleScheme.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnScheduleSchemeUIDChanging(value);
-					this.SendPropertyChanging();
-					this._ScheduleSchemeUID = value;
-					this.SendPropertyChanged("ScheduleSchemeUID");
-					this.OnScheduleSchemeUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
-		public int Number
-		{
-			get
-			{
-				return this._Number;
-			}
-			set
-			{
-				if ((this._Number != value))
-				{
-					this.OnNumberChanging(value);
-					this.SendPropertyChanging();
-					this._Number = value;
-					this.SendPropertyChanged("Number");
-					this.OnNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Day", Storage="_NamedInterval", ThisKey="NamedIntervalUID", OtherKey="UID", IsForeignKey=true)]
-		public NamedInterval NamedInterval
-		{
-			get
-			{
-				return this._NamedInterval.Entity;
-			}
-			set
-			{
-				NamedInterval previousValue = this._NamedInterval.Entity;
-				if (((previousValue != value) 
-							|| (this._NamedInterval.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._NamedInterval.Entity = null;
-						previousValue.Days.Remove(this);
-					}
-					this._NamedInterval.Entity = value;
-					if ((value != null))
-					{
-						value.Days.Add(this);
-						this._NamedIntervalUID = value.UID;
-					}
-					else
-					{
-						this._NamedIntervalUID = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("NamedInterval");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Day", Storage="_ScheduleScheme", ThisKey="ScheduleSchemeUID", OtherKey="UID", IsForeignKey=true)]
-		public ScheduleScheme ScheduleScheme
-		{
-			get
-			{
-				return this._ScheduleScheme.Entity;
-			}
-			set
-			{
-				ScheduleScheme previousValue = this._ScheduleScheme.Entity;
-				if (((previousValue != value) 
-							|| (this._ScheduleScheme.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._ScheduleScheme.Entity = null;
-						previousValue.Days.Remove(this);
-					}
-					this._ScheduleScheme.Entity = value;
-					if ((value != null))
-					{
-						value.Days.Add(this);
-						this._ScheduleSchemeUID = value.UID;
-					}
-					else
-					{
-						this._ScheduleSchemeUID = default(System.Guid);
-					}
-					this.SendPropertyChanged("ScheduleScheme");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Department")]
 	public partial class Department : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3097,7 +2833,7 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<PassJournal> _PassJournals;
 		
-		private EntitySet<TimeTrackException> _TimeTrackExceptions;
+		private EntitySet<TimeTrackDocument> _TimeTrackDocuments;
 		
 		private EntityRef<Department> _Department;
 		
@@ -3180,7 +2916,7 @@ namespace SKDDriver.DataAccess
 			this._Employees = new EntitySet<Employee>(new Action<Employee>(this.attach_Employees), new Action<Employee>(this.detach_Employees));
 			this._GuardZones = new EntitySet<GuardZone>(new Action<GuardZone>(this.attach_GuardZones), new Action<GuardZone>(this.detach_GuardZones));
 			this._PassJournals = new EntitySet<PassJournal>(new Action<PassJournal>(this.attach_PassJournals), new Action<PassJournal>(this.detach_PassJournals));
-			this._TimeTrackExceptions = new EntitySet<TimeTrackException>(new Action<TimeTrackException>(this.attach_TimeTrackExceptions), new Action<TimeTrackException>(this.detach_TimeTrackExceptions));
+			this._TimeTrackDocuments = new EntitySet<TimeTrackDocument>(new Action<TimeTrackDocument>(this.attach_TimeTrackDocuments), new Action<TimeTrackDocument>(this.detach_TimeTrackDocuments));
 			this._Department = default(EntityRef<Department>);
 			this._Employee1 = default(EntityRef<Employee>);
 			this._Organisation = default(EntityRef<Organisation>);
@@ -3845,16 +3581,16 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_TimeTrackException", Storage="_TimeTrackExceptions", ThisKey="UID", OtherKey="EmployeeUID")]
-		public EntitySet<TimeTrackException> TimeTrackExceptions
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_TimeTrackDocument", Storage="_TimeTrackDocuments", ThisKey="UID", OtherKey="EmployeeUID")]
+		public EntitySet<TimeTrackDocument> TimeTrackDocuments
 		{
 			get
 			{
-				return this._TimeTrackExceptions;
+				return this._TimeTrackDocuments;
 			}
 			set
 			{
-				this._TimeTrackExceptions.Assign(value);
+				this._TimeTrackDocuments.Assign(value);
 			}
 		}
 		
@@ -4166,13 +3902,13 @@ namespace SKDDriver.DataAccess
 			entity.Employee = null;
 		}
 		
-		private void attach_TimeTrackExceptions(TimeTrackException entity)
+		private void attach_TimeTrackDocuments(TimeTrackDocument entity)
 		{
 			this.SendPropertyChanging();
 			entity.Employee = this;
 		}
 		
-		private void detach_TimeTrackExceptions(TimeTrackException entity)
+		private void detach_TimeTrackDocuments(TimeTrackDocument entity)
 		{
 			this.SendPropertyChanging();
 			entity.Employee = null;
@@ -5025,229 +4761,6 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Interval")]
-	public partial class Interval : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _BeginTime;
-		
-		private int _EndTime;
-		
-		private System.Guid _UID;
-		
-		private System.Guid _NamedIntervalUID;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private EntityRef<NamedInterval> _NamedInterval;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnBeginTimeChanging(int value);
-    partial void OnBeginTimeChanged();
-    partial void OnEndTimeChanging(int value);
-    partial void OnEndTimeChanged();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnNamedIntervalUIDChanging(System.Guid value);
-    partial void OnNamedIntervalUIDChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    #endregion
-		
-		public Interval()
-		{
-			this._NamedInterval = default(EntityRef<NamedInterval>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginTime", DbType="Int NOT NULL")]
-		public int BeginTime
-		{
-			get
-			{
-				return this._BeginTime;
-			}
-			set
-			{
-				if ((this._BeginTime != value))
-				{
-					this.OnBeginTimeChanging(value);
-					this.SendPropertyChanging();
-					this._BeginTime = value;
-					this.SendPropertyChanged("BeginTime");
-					this.OnBeginTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="Int NOT NULL")]
-		public int EndTime
-		{
-			get
-			{
-				return this._EndTime;
-			}
-			set
-			{
-				if ((this._EndTime != value))
-				{
-					this.OnEndTimeChanging(value);
-					this.SendPropertyChanging();
-					this._EndTime = value;
-					this.SendPropertyChanged("EndTime");
-					this.OnEndTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NamedIntervalUID", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid NamedIntervalUID
-		{
-			get
-			{
-				return this._NamedIntervalUID;
-			}
-			set
-			{
-				if ((this._NamedIntervalUID != value))
-				{
-					if (this._NamedInterval.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnNamedIntervalUIDChanging(value);
-					this.SendPropertyChanging();
-					this._NamedIntervalUID = value;
-					this.SendPropertyChanged("NamedIntervalUID");
-					this.OnNamedIntervalUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Interval", Storage="_NamedInterval", ThisKey="NamedIntervalUID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
-		public NamedInterval NamedInterval
-		{
-			get
-			{
-				return this._NamedInterval.Entity;
-			}
-			set
-			{
-				NamedInterval previousValue = this._NamedInterval.Entity;
-				if (((previousValue != value) 
-							|| (this._NamedInterval.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._NamedInterval.Entity = null;
-						previousValue.Intervals.Remove(this);
-					}
-					this._NamedInterval.Entity = value;
-					if ((value != null))
-					{
-						value.Intervals.Add(this);
-						this._NamedIntervalUID = value.UID;
-					}
-					else
-					{
-						this._NamedIntervalUID = default(System.Guid);
-					}
-					this.SendPropertyChanged("NamedInterval");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Journal")]
 	public partial class Journal : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -5687,309 +5200,6 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.NamedInterval")]
-	public partial class NamedInterval : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private System.Guid _UID;
-		
-		private string _Name;
-		
-		private string _Description;
-		
-		private int _SlideTime;
-		
-		private bool _IsDeleted;
-		
-		private System.DateTime _RemovalDate;
-		
-		private System.Nullable<System.Guid> _OrganisationUID;
-		
-		private EntitySet<Day> _Days;
-		
-		private EntitySet<Interval> _Intervals;
-		
-		private EntityRef<Organisation> _Organisation;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUIDChanging(System.Guid value);
-    partial void OnUIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    partial void OnSlideTimeChanging(int value);
-    partial void OnSlideTimeChanged();
-    partial void OnIsDeletedChanging(bool value);
-    partial void OnIsDeletedChanged();
-    partial void OnRemovalDateChanging(System.DateTime value);
-    partial void OnRemovalDateChanged();
-    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
-    partial void OnOrganisationUIDChanged();
-    #endregion
-		
-		public NamedInterval()
-		{
-			this._Days = new EntitySet<Day>(new Action<Day>(this.attach_Days), new Action<Day>(this.detach_Days));
-			this._Intervals = new EntitySet<Interval>(new Action<Interval>(this.attach_Intervals), new Action<Interval>(this.detach_Intervals));
-			this._Organisation = default(EntityRef<Organisation>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
-		public System.Guid UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SlideTime", DbType="Int NOT NULL")]
-		public int SlideTime
-		{
-			get
-			{
-				return this._SlideTime;
-			}
-			set
-			{
-				if ((this._SlideTime != value))
-				{
-					this.OnSlideTimeChanging(value);
-					this.SendPropertyChanging();
-					this._SlideTime = value;
-					this.SendPropertyChanged("SlideTime");
-					this.OnSlideTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
-		public bool IsDeleted
-		{
-			get
-			{
-				return this._IsDeleted;
-			}
-			set
-			{
-				if ((this._IsDeleted != value))
-				{
-					this.OnIsDeletedChanging(value);
-					this.SendPropertyChanging();
-					this._IsDeleted = value;
-					this.SendPropertyChanged("IsDeleted");
-					this.OnIsDeletedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
-		public System.DateTime RemovalDate
-		{
-			get
-			{
-				return this._RemovalDate;
-			}
-			set
-			{
-				if ((this._RemovalDate != value))
-				{
-					this.OnRemovalDateChanging(value);
-					this.SendPropertyChanging();
-					this._RemovalDate = value;
-					this.SendPropertyChanged("RemovalDate");
-					this.OnRemovalDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
-		public System.Nullable<System.Guid> OrganisationUID
-		{
-			get
-			{
-				return this._OrganisationUID;
-			}
-			set
-			{
-				if ((this._OrganisationUID != value))
-				{
-					if (this._Organisation.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnOrganisationUIDChanging(value);
-					this.SendPropertyChanging();
-					this._OrganisationUID = value;
-					this.SendPropertyChanged("OrganisationUID");
-					this.OnOrganisationUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Day", Storage="_Days", ThisKey="UID", OtherKey="NamedIntervalUID")]
-		public EntitySet<Day> Days
-		{
-			get
-			{
-				return this._Days;
-			}
-			set
-			{
-				this._Days.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="NamedInterval_Interval", Storage="_Intervals", ThisKey="UID", OtherKey="NamedIntervalUID")]
-		public EntitySet<Interval> Intervals
-		{
-			get
-			{
-				return this._Intervals;
-			}
-			set
-			{
-				this._Intervals.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_NamedInterval", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
-		public Organisation Organisation
-		{
-			get
-			{
-				return this._Organisation.Entity;
-			}
-			set
-			{
-				Organisation previousValue = this._Organisation.Entity;
-				if (((previousValue != value) 
-							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Organisation.Entity = null;
-						previousValue.NamedIntervals.Remove(this);
-					}
-					this._Organisation.Entity = value;
-					if ((value != null))
-					{
-						value.NamedIntervals.Add(this);
-						this._OrganisationUID = value.UID;
-					}
-					else
-					{
-						this._OrganisationUID = default(Nullable<System.Guid>);
-					}
-					this.SendPropertyChanged("Organisation");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Days(Day entity)
-		{
-			this.SendPropertyChanging();
-			entity.NamedInterval = this;
-		}
-		
-		private void detach_Days(Day entity)
-		{
-			this.SendPropertyChanging();
-			entity.NamedInterval = null;
-		}
-		
-		private void attach_Intervals(Interval entity)
-		{
-			this.SendPropertyChanging();
-			entity.NamedInterval = this;
-		}
-		
-		private void detach_Intervals(Interval entity)
-		{
-			this.SendPropertyChanging();
-			entity.NamedInterval = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Organisation")]
 	public partial class Organisation : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -6022,8 +5232,6 @@ namespace SKDDriver.DataAccess
 		
 		private EntitySet<HolidaySetting> _HolidaySettings;
 		
-		private EntitySet<NamedInterval> _NamedIntervals;
-		
 		private EntitySet<OrganisationCardTemplate> _OrganisationCardTemplates;
 		
 		private EntitySet<OrganisationDoor> _OrganisationDoors;
@@ -6037,6 +5245,8 @@ namespace SKDDriver.DataAccess
 		private EntitySet<Schedule> _Schedules;
 		
 		private EntitySet<ScheduleScheme> _ScheduleSchemes;
+		
+		private EntitySet<DayInterval> _DayIntervals;
 		
 		private EntityRef<Photo> _Photo;
 		
@@ -6067,7 +5277,6 @@ namespace SKDDriver.DataAccess
 			this._GuardZones = new EntitySet<GuardZone>(new Action<GuardZone>(this.attach_GuardZones), new Action<GuardZone>(this.detach_GuardZones));
 			this._Holidays = new EntitySet<Holiday>(new Action<Holiday>(this.attach_Holidays), new Action<Holiday>(this.detach_Holidays));
 			this._HolidaySettings = new EntitySet<HolidaySetting>(new Action<HolidaySetting>(this.attach_HolidaySettings), new Action<HolidaySetting>(this.detach_HolidaySettings));
-			this._NamedIntervals = new EntitySet<NamedInterval>(new Action<NamedInterval>(this.attach_NamedIntervals), new Action<NamedInterval>(this.detach_NamedIntervals));
 			this._OrganisationCardTemplates = new EntitySet<OrganisationCardTemplate>(new Action<OrganisationCardTemplate>(this.attach_OrganisationCardTemplates), new Action<OrganisationCardTemplate>(this.detach_OrganisationCardTemplates));
 			this._OrganisationDoors = new EntitySet<OrganisationDoor>(new Action<OrganisationDoor>(this.attach_OrganisationDoors), new Action<OrganisationDoor>(this.detach_OrganisationDoors));
 			this._OrganisationUsers = new EntitySet<OrganisationUser>(new Action<OrganisationUser>(this.attach_OrganisationUsers), new Action<OrganisationUser>(this.detach_OrganisationUsers));
@@ -6075,6 +5284,7 @@ namespace SKDDriver.DataAccess
 			this._Positions = new EntitySet<Position>(new Action<Position>(this.attach_Positions), new Action<Position>(this.detach_Positions));
 			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
 			this._ScheduleSchemes = new EntitySet<ScheduleScheme>(new Action<ScheduleScheme>(this.attach_ScheduleSchemes), new Action<ScheduleScheme>(this.detach_ScheduleSchemes));
+			this._DayIntervals = new EntitySet<DayInterval>(new Action<DayInterval>(this.attach_DayIntervals), new Action<DayInterval>(this.detach_DayIntervals));
 			this._Photo = default(EntityRef<Photo>);
 			OnCreated();
 		}
@@ -6294,19 +5504,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_NamedInterval", Storage="_NamedIntervals", ThisKey="UID", OtherKey="OrganisationUID")]
-		public EntitySet<NamedInterval> NamedIntervals
-		{
-			get
-			{
-				return this._NamedIntervals;
-			}
-			set
-			{
-				this._NamedIntervals.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_OrganisationCardTemplate", Storage="_OrganisationCardTemplates", ThisKey="UID", OtherKey="OrganisationUID")]
 		public EntitySet<OrganisationCardTemplate> OrganisationCardTemplates
 		{
@@ -6395,6 +5592,19 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._ScheduleSchemes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_DayInterval", Storage="_DayIntervals", ThisKey="UID", OtherKey="OrganisationUID")]
+		public EntitySet<DayInterval> DayIntervals
+		{
+			get
+			{
+				return this._DayIntervals;
+			}
+			set
+			{
+				this._DayIntervals.Assign(value);
 			}
 		}
 		
@@ -6536,18 +5746,6 @@ namespace SKDDriver.DataAccess
 			entity.Organisation = null;
 		}
 		
-		private void attach_NamedIntervals(NamedInterval entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organisation = this;
-		}
-		
-		private void detach_NamedIntervals(NamedInterval entity)
-		{
-			this.SendPropertyChanging();
-			entity.Organisation = null;
-		}
-		
 		private void attach_OrganisationCardTemplates(OrganisationCardTemplate entity)
 		{
 			this.SendPropertyChanging();
@@ -6627,6 +5825,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_ScheduleSchemes(ScheduleScheme entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organisation = null;
+		}
+		
+		private void attach_DayIntervals(DayInterval entity)
+		{
+			this.SendPropertyChanging();
+			entity.Organisation = this;
+		}
+		
+		private void detach_DayIntervals(DayInterval entity)
 		{
 			this.SendPropertyChanging();
 			entity.Organisation = null;
@@ -8616,9 +7826,9 @@ namespace SKDDriver.DataAccess
 		
 		private System.Nullable<System.Guid> _OrganisationUID;
 		
-		private EntitySet<Day> _Days;
-		
 		private EntitySet<Schedule> _Schedules;
+		
+		private EntitySet<ScheduleDay> _ScheduleDays;
 		
 		private EntityRef<Organisation> _Organisation;
 		
@@ -8644,8 +7854,8 @@ namespace SKDDriver.DataAccess
 		
 		public ScheduleScheme()
 		{
-			this._Days = new EntitySet<Day>(new Action<Day>(this.attach_Days), new Action<Day>(this.detach_Days));
 			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
+			this._ScheduleDays = new EntitySet<ScheduleDay>(new Action<ScheduleDay>(this.attach_ScheduleDays), new Action<ScheduleDay>(this.detach_ScheduleDays));
 			this._Organisation = default(EntityRef<Organisation>);
 			OnCreated();
 		}
@@ -8794,19 +8004,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Day", Storage="_Days", ThisKey="UID", OtherKey="ScheduleSchemeUID")]
-		public EntitySet<Day> Days
-		{
-			get
-			{
-				return this._Days;
-			}
-			set
-			{
-				this._Days.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_Schedule", Storage="_Schedules", ThisKey="UID", OtherKey="ScheduleSchemeUID")]
 		public EntitySet<Schedule> Schedules
 		{
@@ -8817,6 +8014,19 @@ namespace SKDDriver.DataAccess
 			set
 			{
 				this._Schedules.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_ScheduleDay", Storage="_ScheduleDays", ThisKey="UID", OtherKey="ScheduleSchemeUID")]
+		public EntitySet<ScheduleDay> ScheduleDays
+		{
+			get
+			{
+				return this._ScheduleDays;
+			}
+			set
+			{
+				this._ScheduleDays.Assign(value);
 			}
 		}
 		
@@ -8874,18 +8084,6 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		private void attach_Days(Day entity)
-		{
-			this.SendPropertyChanging();
-			entity.ScheduleScheme = this;
-		}
-		
-		private void detach_Days(Day entity)
-		{
-			this.SendPropertyChanging();
-			entity.ScheduleScheme = null;
-		}
-		
 		private void attach_Schedules(Schedule entity)
 		{
 			this.SendPropertyChanging();
@@ -8893,6 +8091,18 @@ namespace SKDDriver.DataAccess
 		}
 		
 		private void detach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.ScheduleScheme = null;
+		}
+		
+		private void attach_ScheduleDays(ScheduleDay entity)
+		{
+			this.SendPropertyChanging();
+			entity.ScheduleScheme = this;
+		}
+		
+		private void detach_ScheduleDays(ScheduleDay entity)
 		{
 			this.SendPropertyChanging();
 			entity.ScheduleScheme = null;
@@ -9098,8 +8308,798 @@ namespace SKDDriver.DataAccess
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TimeTrackException")]
-	public partial class TimeTrackException : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ScheduleDay")]
+	public partial class ScheduleDay : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private System.Nullable<System.Guid> _DayIntervalUID;
+		
+		private System.Guid _ScheduleSchemeUID;
+		
+		private int _Number;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private EntityRef<ScheduleScheme> _ScheduleScheme;
+		
+		private EntityRef<DayInterval> _DayInterval;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnDayIntervalUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnDayIntervalUIDChanged();
+    partial void OnScheduleSchemeUIDChanging(System.Guid value);
+    partial void OnScheduleSchemeUIDChanged();
+    partial void OnNumberChanging(int value);
+    partial void OnNumberChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
+		
+		public ScheduleDay()
+		{
+			this._ScheduleScheme = default(EntityRef<ScheduleScheme>);
+			this._DayInterval = default(EntityRef<DayInterval>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DayIntervalUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> DayIntervalUID
+		{
+			get
+			{
+				return this._DayIntervalUID;
+			}
+			set
+			{
+				if ((this._DayIntervalUID != value))
+				{
+					if (this._DayInterval.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDayIntervalUIDChanging(value);
+					this.SendPropertyChanging();
+					this._DayIntervalUID = value;
+					this.SendPropertyChanged("DayIntervalUID");
+					this.OnDayIntervalUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleSchemeUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid ScheduleSchemeUID
+		{
+			get
+			{
+				return this._ScheduleSchemeUID;
+			}
+			set
+			{
+				if ((this._ScheduleSchemeUID != value))
+				{
+					if (this._ScheduleScheme.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnScheduleSchemeUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ScheduleSchemeUID = value;
+					this.SendPropertyChanged("ScheduleSchemeUID");
+					this.OnScheduleSchemeUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="Int NOT NULL")]
+		public int Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this.OnNumberChanging(value);
+					this.SendPropertyChanging();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ScheduleScheme_ScheduleDay", Storage="_ScheduleScheme", ThisKey="ScheduleSchemeUID", OtherKey="UID", IsForeignKey=true)]
+		public ScheduleScheme ScheduleScheme
+		{
+			get
+			{
+				return this._ScheduleScheme.Entity;
+			}
+			set
+			{
+				ScheduleScheme previousValue = this._ScheduleScheme.Entity;
+				if (((previousValue != value) 
+							|| (this._ScheduleScheme.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ScheduleScheme.Entity = null;
+						previousValue.ScheduleDays.Remove(this);
+					}
+					this._ScheduleScheme.Entity = value;
+					if ((value != null))
+					{
+						value.ScheduleDays.Add(this);
+						this._ScheduleSchemeUID = value.UID;
+					}
+					else
+					{
+						this._ScheduleSchemeUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("ScheduleScheme");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DayInterval_ScheduleDay", Storage="_DayInterval", ThisKey="DayIntervalUID", OtherKey="UID", IsForeignKey=true)]
+		public DayInterval DayInterval
+		{
+			get
+			{
+				return this._DayInterval.Entity;
+			}
+			set
+			{
+				DayInterval previousValue = this._DayInterval.Entity;
+				if (((previousValue != value) 
+							|| (this._DayInterval.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DayInterval.Entity = null;
+						previousValue.ScheduleDays.Remove(this);
+					}
+					this._DayInterval.Entity = value;
+					if ((value != null))
+					{
+						value.ScheduleDays.Add(this);
+						this._DayIntervalUID = value.UID;
+					}
+					else
+					{
+						this._DayIntervalUID = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("DayInterval");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DayInterval")]
+	public partial class DayInterval : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _UID;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private int _SlideTime;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private System.Nullable<System.Guid> _OrganisationUID;
+		
+		private EntitySet<ScheduleDay> _ScheduleDays;
+		
+		private EntitySet<DayIntervalPart> _DayIntervalParts;
+		
+		private EntityRef<Organisation> _Organisation;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnSlideTimeChanging(int value);
+    partial void OnSlideTimeChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    partial void OnOrganisationUIDChanging(System.Nullable<System.Guid> value);
+    partial void OnOrganisationUIDChanged();
+    #endregion
+		
+		public DayInterval()
+		{
+			this._ScheduleDays = new EntitySet<ScheduleDay>(new Action<ScheduleDay>(this.attach_ScheduleDays), new Action<ScheduleDay>(this.detach_ScheduleDays));
+			this._DayIntervalParts = new EntitySet<DayIntervalPart>(new Action<DayIntervalPart>(this.attach_DayIntervalParts), new Action<DayIntervalPart>(this.detach_DayIntervalParts));
+			this._Organisation = default(EntityRef<Organisation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(MAX)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SlideTime", DbType="Int NOT NULL")]
+		public int SlideTime
+		{
+			get
+			{
+				return this._SlideTime;
+			}
+			set
+			{
+				if ((this._SlideTime != value))
+				{
+					this.OnSlideTimeChanging(value);
+					this.SendPropertyChanging();
+					this._SlideTime = value;
+					this.SendPropertyChanged("SlideTime");
+					this.OnSlideTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganisationUID", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> OrganisationUID
+		{
+			get
+			{
+				return this._OrganisationUID;
+			}
+			set
+			{
+				if ((this._OrganisationUID != value))
+				{
+					if (this._Organisation.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOrganisationUIDChanging(value);
+					this.SendPropertyChanging();
+					this._OrganisationUID = value;
+					this.SendPropertyChanged("OrganisationUID");
+					this.OnOrganisationUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DayInterval_ScheduleDay", Storage="_ScheduleDays", ThisKey="UID", OtherKey="DayIntervalUID")]
+		public EntitySet<ScheduleDay> ScheduleDays
+		{
+			get
+			{
+				return this._ScheduleDays;
+			}
+			set
+			{
+				this._ScheduleDays.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DayInterval_DayIntervalPart", Storage="_DayIntervalParts", ThisKey="UID", OtherKey="DayIntervalUID")]
+		public EntitySet<DayIntervalPart> DayIntervalParts
+		{
+			get
+			{
+				return this._DayIntervalParts;
+			}
+			set
+			{
+				this._DayIntervalParts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Organisation_DayInterval", Storage="_Organisation", ThisKey="OrganisationUID", OtherKey="UID", IsForeignKey=true)]
+		public Organisation Organisation
+		{
+			get
+			{
+				return this._Organisation.Entity;
+			}
+			set
+			{
+				Organisation previousValue = this._Organisation.Entity;
+				if (((previousValue != value) 
+							|| (this._Organisation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Organisation.Entity = null;
+						previousValue.DayIntervals.Remove(this);
+					}
+					this._Organisation.Entity = value;
+					if ((value != null))
+					{
+						value.DayIntervals.Add(this);
+						this._OrganisationUID = value.UID;
+					}
+					else
+					{
+						this._OrganisationUID = default(Nullable<System.Guid>);
+					}
+					this.SendPropertyChanged("Organisation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ScheduleDays(ScheduleDay entity)
+		{
+			this.SendPropertyChanging();
+			entity.DayInterval = this;
+		}
+		
+		private void detach_ScheduleDays(ScheduleDay entity)
+		{
+			this.SendPropertyChanging();
+			entity.DayInterval = null;
+		}
+		
+		private void attach_DayIntervalParts(DayIntervalPart entity)
+		{
+			this.SendPropertyChanging();
+			entity.DayInterval = this;
+		}
+		
+		private void detach_DayIntervalParts(DayIntervalPart entity)
+		{
+			this.SendPropertyChanging();
+			entity.DayInterval = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DayIntervalPart")]
+	public partial class DayIntervalPart : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _BeginTime;
+		
+		private int _EndTime;
+		
+		private System.Guid _UID;
+		
+		private System.Guid _DayIntervalUID;
+		
+		private bool _IsDeleted;
+		
+		private System.DateTime _RemovalDate;
+		
+		private EntityRef<DayInterval> _DayInterval;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnBeginTimeChanging(int value);
+    partial void OnBeginTimeChanged();
+    partial void OnEndTimeChanging(int value);
+    partial void OnEndTimeChanged();
+    partial void OnUIDChanging(System.Guid value);
+    partial void OnUIDChanged();
+    partial void OnDayIntervalUIDChanging(System.Guid value);
+    partial void OnDayIntervalUIDChanged();
+    partial void OnIsDeletedChanging(bool value);
+    partial void OnIsDeletedChanged();
+    partial void OnRemovalDateChanging(System.DateTime value);
+    partial void OnRemovalDateChanged();
+    #endregion
+		
+		public DayIntervalPart()
+		{
+			this._DayInterval = default(EntityRef<DayInterval>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BeginTime", DbType="Int NOT NULL")]
+		public int BeginTime
+		{
+			get
+			{
+				return this._BeginTime;
+			}
+			set
+			{
+				if ((this._BeginTime != value))
+				{
+					this.OnBeginTimeChanging(value);
+					this.SendPropertyChanging();
+					this._BeginTime = value;
+					this.SendPropertyChanged("BeginTime");
+					this.OnBeginTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="Int NOT NULL")]
+		public int EndTime
+		{
+			get
+			{
+				return this._EndTime;
+			}
+			set
+			{
+				if ((this._EndTime != value))
+				{
+					this.OnEndTimeChanging(value);
+					this.SendPropertyChanging();
+					this._EndTime = value;
+					this.SendPropertyChanged("EndTime");
+					this.OnEndTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DayIntervalUID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid DayIntervalUID
+		{
+			get
+			{
+				return this._DayIntervalUID;
+			}
+			set
+			{
+				if ((this._DayIntervalUID != value))
+				{
+					if (this._DayInterval.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDayIntervalUIDChanging(value);
+					this.SendPropertyChanging();
+					this._DayIntervalUID = value;
+					this.SendPropertyChanged("DayIntervalUID");
+					this.OnDayIntervalUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDeleted", DbType="Bit NOT NULL")]
+		public bool IsDeleted
+		{
+			get
+			{
+				return this._IsDeleted;
+			}
+			set
+			{
+				if ((this._IsDeleted != value))
+				{
+					this.OnIsDeletedChanging(value);
+					this.SendPropertyChanging();
+					this._IsDeleted = value;
+					this.SendPropertyChanged("IsDeleted");
+					this.OnIsDeletedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RemovalDate", DbType="DateTime NOT NULL")]
+		public System.DateTime RemovalDate
+		{
+			get
+			{
+				return this._RemovalDate;
+			}
+			set
+			{
+				if ((this._RemovalDate != value))
+				{
+					this.OnRemovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._RemovalDate = value;
+					this.SendPropertyChanged("RemovalDate");
+					this.OnRemovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DayInterval_DayIntervalPart", Storage="_DayInterval", ThisKey="DayIntervalUID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public DayInterval DayInterval
+		{
+			get
+			{
+				return this._DayInterval.Entity;
+			}
+			set
+			{
+				DayInterval previousValue = this._DayInterval.Entity;
+				if (((previousValue != value) 
+							|| (this._DayInterval.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DayInterval.Entity = null;
+						previousValue.DayIntervalParts.Remove(this);
+					}
+					this._DayInterval.Entity = value;
+					if ((value != null))
+					{
+						value.DayIntervalParts.Add(this);
+						this._DayIntervalUID = value.UID;
+					}
+					else
+					{
+						this._DayIntervalUID = default(System.Guid);
+					}
+					this.SendPropertyChanged("DayInterval");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TimeTrackDocument")]
+	public partial class TimeTrackDocument : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -9112,7 +9112,7 @@ namespace SKDDriver.DataAccess
 		
 		private System.DateTime _EndDateTime;
 		
-		private int _DocumentType;
+		private int _DocumentCode;
 		
 		private string _Comment;
 		
@@ -9130,13 +9130,13 @@ namespace SKDDriver.DataAccess
     partial void OnStartDateTimeChanged();
     partial void OnEndDateTimeChanging(System.DateTime value);
     partial void OnEndDateTimeChanged();
-    partial void OnDocumentTypeChanging(int value);
-    partial void OnDocumentTypeChanged();
+    partial void OnDocumentCodeChanging(int value);
+    partial void OnDocumentCodeChanged();
     partial void OnCommentChanging(string value);
     partial void OnCommentChanged();
     #endregion
 		
-		public TimeTrackException()
+		public TimeTrackDocument()
 		{
 			this._Employee = default(EntityRef<Employee>);
 			OnCreated();
@@ -9226,22 +9226,22 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentType", DbType="Int NOT NULL")]
-		public int DocumentType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DocumentCode", DbType="Int NOT NULL")]
+		public int DocumentCode
 		{
 			get
 			{
-				return this._DocumentType;
+				return this._DocumentCode;
 			}
 			set
 			{
-				if ((this._DocumentType != value))
+				if ((this._DocumentCode != value))
 				{
-					this.OnDocumentTypeChanging(value);
+					this.OnDocumentCodeChanging(value);
 					this.SendPropertyChanging();
-					this._DocumentType = value;
-					this.SendPropertyChanged("DocumentType");
-					this.OnDocumentTypeChanged();
+					this._DocumentCode = value;
+					this.SendPropertyChanged("DocumentCode");
+					this.OnDocumentCodeChanged();
 				}
 			}
 		}
@@ -9266,7 +9266,7 @@ namespace SKDDriver.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_TimeTrackException", Storage="_Employee", ThisKey="EmployeeUID", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_TimeTrackDocument", Storage="_Employee", ThisKey="EmployeeUID", OtherKey="UID", IsForeignKey=true)]
 		public Employee Employee
 		{
 			get
@@ -9283,12 +9283,12 @@ namespace SKDDriver.DataAccess
 					if ((previousValue != null))
 					{
 						this._Employee.Entity = null;
-						previousValue.TimeTrackExceptions.Remove(this);
+						previousValue.TimeTrackDocuments.Remove(this);
 					}
 					this._Employee.Entity = value;
 					if ((value != null))
 					{
-						value.TimeTrackExceptions.Add(this);
+						value.TimeTrackDocuments.Add(this);
 						this._EmployeeUID = value.UID;
 					}
 					else

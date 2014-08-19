@@ -93,7 +93,7 @@ namespace PlansModule.ViewModels
 
 		void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
 		{
-			OnPropertyChanged("HasPermissionsToScale");
+			OnPropertyChanged(() => HasPermissionsToScale);
 		}
 
 		#region IPlanDesignerViewModel Members

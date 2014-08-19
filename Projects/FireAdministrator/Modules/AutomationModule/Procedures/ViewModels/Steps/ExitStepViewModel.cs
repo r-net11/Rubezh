@@ -51,9 +51,9 @@ namespace AutomationModule.ViewModels
 		public ExitCodeViewModel(ExitCode exitCode, Procedure procedure)
 		{
 			ExitCode = exitCode;
-			ValueTypes = new ObservableCollection<ValueType>
+			VariableTypes = new ObservableCollection<VariableType>
 			{
-				ValueType.IsGlobalVariable, ValueType.IsLocalVariable, ValueType.IsValue
+				VariableType.IsGlobalVariable, VariableType.IsLocalVariable, VariableType.IsValue
 			};
 		}
 
@@ -62,7 +62,7 @@ namespace AutomationModule.ViewModels
 			Variables = new ObservableCollection<VariableViewModel>();
 			if (localVariables == null)
 				localVariables = new List<Variable>();
-			foreach (var variable in localVariables.FindAll(x => (x.VariableType == VariableType.Integer) && (!x.IsList)))
+			foreach (var variable in localVariables.FindAll(x => (x.ValueType == ValueType.Integer) && (!x.IsList)))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
@@ -72,14 +72,14 @@ namespace AutomationModule.ViewModels
 				SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == ExitCode.VariableUid);
 			else
 				SelectedVariable = null;
-			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
+			GlobalVariables = new ObservableCollection<VariableViewModel>();
 			foreach (var globalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
-				var globalVariableViewModel = new GlobalVariableViewModel(globalVariable);
+				var globalVariableViewModel = new VariableViewModel(globalVariable);
 				GlobalVariables.Add(globalVariableViewModel);
 			}
-			if (GlobalVariables.Any(x => x.GlobalVariable.Uid == ExitCode.GlobalVariableUid))
-				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.GlobalVariable.Uid == ExitCode.GlobalVariableUid);
+			if (GlobalVariables.Any(x => x.Variable.Uid == ExitCode.GlobalVariableUid))
+				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == ExitCode.GlobalVariableUid);
 			else
 				SelectedGlobalVariable = null;
 
@@ -87,31 +87,31 @@ namespace AutomationModule.ViewModels
 			{
 				ExitCodeType.Normal, ExitCodeType.Interrupt
 			};
-			SelectedValueType = ExitCode.ValueType;
+			SelectedVariableType = ExitCode.VariableType;
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => Variables);
 			OnPropertyChanged(() => ExitCodeTypes);
 		}
 
-		public ObservableCollection<ValueType> ValueTypes { get; private set; }
-		public ValueType SelectedValueType
+		public ObservableCollection<VariableType> VariableTypes { get; private set; }
+		public VariableType SelectedVariableType
 		{
-			get { return ExitCode.ValueType; }
+			get { return ExitCode.VariableType; }
 			set
 			{
-				ExitCode.ValueType = value;
-				if (value == ValueType.IsGlobalVariable)
+				ExitCode.VariableType = value;
+				if (value == VariableType.IsGlobalVariable)
 					DescriptionValue = SelectedGlobalVariable != null ? SelectedGlobalVariable.Name : "";
-				if (value == ValueType.IsLocalVariable)
+				if (value == VariableType.IsLocalVariable)
 					DescriptionValue = SelectedVariable != null ? SelectedVariable.Name : "";
 				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedValueType);
+				OnPropertyChanged(() => SelectedVariableType);
 			}
 		}
 		
-		public ObservableCollection<GlobalVariableViewModel> GlobalVariables { get; private set; }
-		GlobalVariableViewModel _selectedGlobalVariable;
-		public GlobalVariableViewModel SelectedGlobalVariable
+		public ObservableCollection<VariableViewModel> GlobalVariables { get; private set; }
+		VariableViewModel _selectedGlobalVariable;
+		public VariableViewModel SelectedGlobalVariable
 		{
 			get { return _selectedGlobalVariable; }
 			set
@@ -121,9 +121,9 @@ namespace AutomationModule.ViewModels
 				{
 					DescriptionValue = value.Name;
 					ExitCode.VariableUid = Guid.Empty;
-					ExitCode.GlobalVariableUid = value.GlobalVariable.Uid;
+					ExitCode.GlobalVariableUid = value.Variable.Uid;
 				}
-				else if (SelectedValueType == ValueType.IsGlobalVariable)
+				else if (SelectedVariableType == VariableType.IsGlobalVariable)
 					DescriptionValue = "";
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedGlobalVariable);
@@ -144,7 +144,7 @@ namespace AutomationModule.ViewModels
 					ExitCode.GlobalVariableUid = Guid.Empty;
 					ExitCode.VariableUid = value.Variable.Uid;
 				}
-				else if (SelectedValueType == ValueType.IsLocalVariable)
+				else if (SelectedVariableType == VariableType.IsLocalVariable)
 					DescriptionValue = "";
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariable);
@@ -160,7 +160,7 @@ namespace AutomationModule.ViewModels
 				ExitCode.ExitCodeType = value;
 				ExitCode.GlobalVariableUid = Guid.Empty;
 				ExitCode.VariableUid = Guid.Empty;
-				if (SelectedValueType == ValueType.IsValue)
+				if (SelectedVariableType == VariableType.IsValue)
 					DescriptionValue = value.ToString();
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedExitCodeType);

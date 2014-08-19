@@ -1,0 +1,66 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+					xmlns:clientPlans="clr-namespace:Infrastructure.Client.Plans;assembly=Infrastructure.Client"
+					xmlns:ViewModels="clr-namespace:SKDModule.ViewModels"
+					xmlns:Views="clr-namespace:SKDModule.Views">
+
+	<DataTemplate DataType="{x:Type ViewModels:DayIntervalsViewModel}">
+		<Views:DayIntervalsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DayIntervalDetailsViewModel}">
+		<Views:DayIntervalDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:DayIntervalPartDetailsViewModel}">
+		<Views:DayIntervalPartDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:HolidaysViewModel}">
+		<Views:HolidaysView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:HolidayDetailsViewModel}">
+		<Views:HolidayDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:HolidaySettingsViewModel}">
+		<Views:HolidaySettingsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
+		<Views:SchedulesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ScheduleDetailsViewModel}">
+		<Views:ScheduleDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ScheduleZoneDetailsViewModel}">
+		<Views:ScheduleZoneDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ScheduleSchemesViewModel}">
+		<Views:ScheduleSchemesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ScheduleSchemeDetailsViewModel}">
+		<Views:ScheduleSchemeDetailsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:TimeTrackingViewModel}">
+		<Views:TimeTrackingView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:TimeTrackingSettingsViewModel}">
+		<Views:TimeTrackingSettingsView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:TimeTrackDetailsViewModel}">
+	    <Views:TimeTrackDetailsView />
+	</DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DocumentDetailsViewModel}">
+        <Views:DocumentDetailsView />
+    </DataTemplate>
+
+</ResourceDictionary>

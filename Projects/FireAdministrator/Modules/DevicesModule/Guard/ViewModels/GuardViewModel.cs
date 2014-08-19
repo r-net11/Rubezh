@@ -378,7 +378,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedUserZone = value;
-				OnPropertyChanged("SelectedUserZone");
+				OnPropertyChanged(() => SelectedUserZone);
 			}
 		}
 
@@ -389,7 +389,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_deviceZones = value;
-				OnPropertyChanged("DeviceZones");
+				OnPropertyChanged(() => DeviceZones);
 			}
 		}
 

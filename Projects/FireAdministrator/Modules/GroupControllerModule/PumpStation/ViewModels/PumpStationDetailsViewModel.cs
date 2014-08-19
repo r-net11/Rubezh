@@ -117,7 +117,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_mainPumpsCount = value;
-				OnPropertyChanged("MainPumpsCount");
+				OnPropertyChanged(() => NSPumpsCount);
 			}
 		}
 

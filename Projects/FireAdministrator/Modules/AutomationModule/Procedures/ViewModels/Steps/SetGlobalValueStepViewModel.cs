@@ -16,17 +16,17 @@ namespace AutomationModule.ViewModels
 			UpdateContent();
 		}
 
-		public ObservableCollection<GlobalVariableViewModel> GlobalVariables { get; private set; }
+		public ObservableCollection<VariableViewModel> GlobalVariables { get; private set; }
 
-		GlobalVariableViewModel _selectedGlobalVariable;
-		public GlobalVariableViewModel SelectedGlobalVariable
+		VariableViewModel _selectedGlobalVariable;
+		public VariableViewModel SelectedGlobalVariable
 		{
 			get { return _selectedGlobalVariable; }
 			set
 			{
 				_selectedGlobalVariable = value;
 				if (_selectedGlobalVariable != null)
-					SetGlobalValueArguments.GlobalVariableUid = _selectedGlobalVariable.GlobalVariable.Uid;
+					SetGlobalValueArguments.GlobalVariableUid = _selectedGlobalVariable.Variable.Uid;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(()=>SelectedGlobalVariable);
 			}
@@ -44,14 +44,14 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
+			GlobalVariables = new ObservableCollection<VariableViewModel>();
 			foreach (var globalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
-				var globalVariableViewModel = new GlobalVariableViewModel(globalVariable);
+				var globalVariableViewModel = new VariableViewModel(globalVariable);
 				GlobalVariables.Add(globalVariableViewModel);
 			}
-			if (GlobalVariables.Any(x => x.GlobalVariable.Uid == SetGlobalValueArguments.GlobalVariableUid))
-				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.GlobalVariable.Uid == SetGlobalValueArguments.GlobalVariableUid);
+			if (GlobalVariables.Any(x => x.Variable.Uid == SetGlobalValueArguments.GlobalVariableUid))
+				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == SetGlobalValueArguments.GlobalVariableUid);
 			else
 				SelectedGlobalVariable = null;
 			OnPropertyChanged(()=>GlobalVariables);

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
 using FiresecAPI.GK;
-using FiresecAPI.Models;
+using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
-using Infrustructure.Plans.Events;
-using FiresecAPI.SKD;
 using Infrastructure.Events;
 
 namespace JournalModule.ViewModels

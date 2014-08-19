@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedFrame = value;
-				OnPropertyChanged("SelectedFrame");
+				OnPropertyChanged(() => SelectedFrame);
 			}
 		}
 

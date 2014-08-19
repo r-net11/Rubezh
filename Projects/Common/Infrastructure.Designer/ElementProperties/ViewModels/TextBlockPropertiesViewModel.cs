@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Elements;
 
 namespace Infrastructure.Designer.ElementProperties.ViewModels
 {
@@ -10,9 +11,9 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 		private const int MaxFontSize = 1000;
 		public List<string> Fonts { get; private set; }
 		public List<string> TextAlignments { get; private set; }
-		protected ElementTextBlock ElementTextBlock { get; private set; }
+		protected IElementTextBlock ElementTextBlock { get; private set; }
 
-		public TextBlockPropertiesViewModel(ElementTextBlock elementTextBlock)
+		public TextBlockPropertiesViewModel(IElementTextBlock elementTextBlock)
 		{
 			Title = "Свойства фигуры: Надпись";
 			ElementTextBlock = elementTextBlock;

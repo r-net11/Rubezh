@@ -7,7 +7,6 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
-using SKDModule.Events;
 
 namespace SKDModule
 {

@@ -12,7 +12,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
-using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {

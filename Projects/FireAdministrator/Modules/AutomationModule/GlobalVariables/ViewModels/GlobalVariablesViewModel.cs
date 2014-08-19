@@ -24,17 +24,17 @@ namespace AutomationModule.ViewModels
 
 		public void Initialize()
 		{
-			GlobalVariables = new ObservableCollection<GlobalVariableViewModel>();
+			GlobalVariables = new ObservableCollection<VariableViewModel>();
 			foreach (var globalVariable in FiresecClient.FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
 			{
-				var globalVariableViewModel = new GlobalVariableViewModel(globalVariable);
+				var globalVariableViewModel = new VariableViewModel(globalVariable);
 				GlobalVariables.Add(globalVariableViewModel);
 			}
 			SelectedGlobalVariable = GlobalVariables.FirstOrDefault();
 		}
 
-		ObservableCollection<GlobalVariableViewModel> _globalVariables;
-		public ObservableCollection<GlobalVariableViewModel> GlobalVariables
+		ObservableCollection<VariableViewModel> _globalVariables;
+		public ObservableCollection<VariableViewModel> GlobalVariables
 		{
 			get { return _globalVariables; }
 			set
@@ -44,8 +44,8 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		GlobalVariableViewModel _selectedGlobalVariable;
-		public GlobalVariableViewModel SelectedGlobalVariable
+		VariableViewModel _selectedGlobalVariable;
+		public VariableViewModel SelectedGlobalVariable
 		{
 			get { return _selectedGlobalVariable; }
 			set
@@ -58,11 +58,11 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var globalVariableDetailsViewModel = new GlobalVariableDetailsViewModel();
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(false, true);
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
-				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.GlobalVariable);
-				var globalVariableViewModel = new GlobalVariableViewModel(globalVariableDetailsViewModel.GlobalVariable);
+				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);
+				var globalVariableViewModel = new VariableViewModel(globalVariableDetailsViewModel.Variable);
 				GlobalVariables.Add(globalVariableViewModel);
 				SelectedGlobalVariable = globalVariableViewModel;
 				ServiceFactory.SaveService.AutomationChanged = true;
@@ -77,7 +77,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Remove(SelectedGlobalVariable.GlobalVariable);
+			FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Remove(SelectedGlobalVariable.Variable);
 			GlobalVariables.Remove(SelectedGlobalVariable);
 			SelectedGlobalVariable = GlobalVariables.FirstOrDefault();
 			ServiceFactory.SaveService.AutomationChanged = true;
@@ -86,10 +86,10 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var globalVariableDetailsViewModel = new GlobalVariableDetailsViewModel(SelectedGlobalVariable.GlobalVariable);
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable);
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
-				SelectedGlobalVariable.Update(globalVariableDetailsViewModel.GlobalVariable);
+				SelectedGlobalVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -103,7 +103,7 @@ namespace AutomationModule.ViewModels
 		{
 			if (globalVariableUid != Guid.Empty)
 			{
-				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(item => item.GlobalVariable.Uid == globalVariableUid);
+				SelectedGlobalVariable = GlobalVariables.FirstOrDefault(item => item.Variable.Uid == globalVariableUid);
 			}
 		}
 	}

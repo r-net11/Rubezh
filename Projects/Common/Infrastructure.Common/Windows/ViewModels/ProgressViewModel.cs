@@ -22,7 +22,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_text = value;
-				OnPropertyChanged("Text");
+				OnPropertyChanged(() => Text);
 			}
 		}
 

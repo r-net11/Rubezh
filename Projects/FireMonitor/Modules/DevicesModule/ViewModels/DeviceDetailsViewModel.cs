@@ -65,7 +65,7 @@ namespace DevicesModule.ViewModels
 			}
 			OnPropertyChanged(() => StateType);
 			OnPropertyChanged(() => States);
-			OnPropertyChanged("ParentStringStates");
+			OnPropertyChanged(() => ParentStates);
 			OnPropertyChanged(() => IsAutomaticOff);
 
 			var property = Device.Properties.FirstOrDefault(x => x.Name == "EnableCountDownTimer");

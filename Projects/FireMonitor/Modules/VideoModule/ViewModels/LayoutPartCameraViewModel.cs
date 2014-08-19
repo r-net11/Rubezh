@@ -15,12 +15,12 @@ namespace VideoModule.ViewModels
 	{
 		Camera Camera { get; set; }
 		public CellPlayerWrap CellPlayerWrap { get; private set; }
-		public LayoutPartCameraViewModel(LayoutPartCameraProperties properties)
+		public LayoutPartCameraViewModel(LayoutPartReferenceProperties properties)
 		{
 			CellPlayerWrap = new CellPlayerWrap();
 			if (properties != null)
 			{
-				Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(item => item.UID == properties.SourceUID);
+				Camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(item => item.UID == properties.ReferenceUID);
 				if (Camera == null)
 					return;
 				Camera.Status = DeviceStatuses.Connected;

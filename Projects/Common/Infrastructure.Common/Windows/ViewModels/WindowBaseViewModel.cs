@@ -33,7 +33,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_icon = value;
-				OnPropertyChanged("Icon");
+				OnPropertyChanged(() => Icon);
 			}
 		}
 		private string _title;

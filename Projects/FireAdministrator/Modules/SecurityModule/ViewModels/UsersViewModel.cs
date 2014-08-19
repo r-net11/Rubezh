@@ -44,7 +44,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_users = value;
-				OnPropertyChanged("Users");
+				OnPropertyChanged(() => Users);
 			}
 		}
 
@@ -55,7 +55,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_selectedUser = value;
-				OnPropertyChanged("SelectedUser");
+				OnPropertyChanged(() => SelectedUser);
 			}
 		}
 

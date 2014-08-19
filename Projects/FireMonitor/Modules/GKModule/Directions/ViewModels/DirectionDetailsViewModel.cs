@@ -10,8 +10,8 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Elements;
 using Infrastructure.Events;
+using Infrustructure.Plans.Elements;
 
 namespace GKModule.ViewModels
 {
