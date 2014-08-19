@@ -45,11 +45,11 @@ namespace SKDModule.ViewModels
 			}
 			Tooltip = DayTimeTrack.TimeTrackType.ToDescription();
 
-			if (DayTimeTrack.TimeTrackDocument != null && DayTimeTrack.TimeTrackDocument.DocumentCode != 0)
+			if (DayTimeTrack.Documents != null && DayTimeTrack.Documents.Count > 0)
 			{
 				IsNormal = false;
 				HasLetter = true;
-				var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == DayTimeTrack.TimeTrackDocument.DocumentCode);
+				var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == DayTimeTrack.Documents[0].DocumentCode);
 				if (timeTrackDocumentType != null)
 				{
 					Letter = timeTrackDocumentType.ShortName;

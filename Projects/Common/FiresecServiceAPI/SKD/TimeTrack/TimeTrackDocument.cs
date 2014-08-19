@@ -31,5 +31,11 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string Comment { get; set; }
+
+		[DataMember]
+		public DateTime DocumentDateTime { get; set; }
+
+		[DataMember]
+		public int DocumentNumber { get; set; }
 	}
 }

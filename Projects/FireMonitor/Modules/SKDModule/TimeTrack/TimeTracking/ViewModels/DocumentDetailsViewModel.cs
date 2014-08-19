@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.SKD;
 using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -36,6 +37,8 @@ namespace SKDModule.ViewModels
 			EndDateTime = timeTrackDocument.EndDateTime.Date;
 			EndTime = timeTrackDocument.EndDateTime;
 			Comment = timeTrackDocument.Comment;
+			DocumentNumber = timeTrackDocument.DocumentNumber;
+			DocumentDateTime = timeTrackDocument.DocumentDateTime;
 			SelectedDocument = AvailableDocuments.FirstOrDefault(x => x.Code == timeTrackDocument.DocumentCode);
 		}
 
@@ -94,6 +97,28 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		DateTime _documentDateTime;
+		public DateTime DocumentDateTime
+		{
+			get { return _documentDateTime; }
+			set
+			{
+				_documentDateTime = value;
+				OnPropertyChanged(() => DocumentDateTime);
+			}
+		}
+
+		int _documentNumber;
+		public int DocumentNumber
+		{
+			get { return _documentNumber; }
+			set
+			{
+				_documentNumber = value;
+				OnPropertyChanged(() => DocumentNumber);
+			}
+		}
+
 		public ObservableCollection<TimeTrackDocumentType> AvailableDocuments { get; private set; }
 
 		TimeTrackDocumentType _selectedDocument;
@@ -110,9 +135,20 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			TimeTrackDocument.StartDateTime = StartDateTime + StartTime.TimeOfDay;
-			TimeTrackDocument.EndDateTime = EndDateTime + EndTime.TimeOfDay;
+			var startDateTime = StartDateTime + StartTime.TimeOfDay;
+			var endDateTime = EndDateTime + EndTime.TimeOfDay;
+
+			if (startDateTime >= endDateTime)
+			{
+				MessageBoxService.ShowWarning("Время окончания не может быть раньше времени начала");
+				return false;
+			}
+
+			TimeTrackDocument.StartDateTime = startDateTime;
+			TimeTrackDocument.EndDateTime = endDateTime;
 			TimeTrackDocument.Comment = Comment;
+			TimeTrackDocument.DocumentNumber = DocumentNumber;
+			TimeTrackDocument.DocumentDateTime = DocumentDateTime;
 			if (SelectedDocument != null)
 				TimeTrackDocument.DocumentCode = SelectedDocument.Code;
 			return base.Save();

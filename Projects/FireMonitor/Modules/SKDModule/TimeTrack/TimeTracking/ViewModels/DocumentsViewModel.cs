@@ -13,20 +13,19 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentsViewModel : BaseViewModel
 	{
-		public ShortEmployee ShortEmployee { get; private set; }
+		public Guid EmployeeUID { get; private set; }
 
-		public DocumentsViewModel(ShortEmployee shortEmployee, DateTime startDate, DateTime endDate)
+		public DocumentsViewModel(TimeTrackEmployeeResult timeTrackEmployeeResult, DateTime startDate, DateTime endDate)
 		{
-			ShortEmployee = shortEmployee;
+			EmployeeUID = timeTrackEmployeeResult.ShortEmployee.UID;
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 
 			Documents = new ObservableCollection<DocumentViewModel>();
-			var operationResult = FiresecManager.FiresecService.GetTimeTrackDocument(shortEmployee.UID, startDate, endDate);
-			if (!operationResult.HasError)
+			if (timeTrackEmployeeResult.Documents != null)
 			{
-				foreach (var document in operationResult.Result)
+				foreach (var document in timeTrackEmployeeResult.Documents)
 				{
 					var documentViewModel = new DocumentViewModel(document);
 					Documents.Add(documentViewModel);
@@ -55,7 +54,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;
-				document.EmployeeUID = ShortEmployee.UID;
+				document.EmployeeUID = EmployeeUID;
 				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{
@@ -77,7 +76,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;
-				document.EmployeeUID = ShortEmployee.UID;
+				document.EmployeeUID = EmployeeUID;
 				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{

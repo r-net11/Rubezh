@@ -57,27 +57,30 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		int _totalDays;
-		public int TotalDays
-		{
-			get { return _totalDays; }
-			set
-			{
-				_totalDays = value;
-				OnPropertyChanged(() => TotalDays);
-			}
-		}
+		public int TotalDays { get; private set; }
+		public DateTime FirstDay { get; private set; }
 
-		DateTime _firstDay;
-		public DateTime FirstDay
-		{
-			get { return _firstDay; }
-			set
-			{
-				_firstDay = value;
-				OnPropertyChanged(() => FirstDay);
-			}
-		}
+		//int _totalDays;
+		//public int TotalDays
+		//{
+		//    get { return _totalDays; }
+		//    set
+		//    {
+		//        _totalDays = value;
+		//        OnPropertyChanged(() => TotalDays);
+		//    }
+		//}
+
+		//DateTime _firstDay;
+		//public DateTime FirstDay
+		//{
+		//    get { return _firstDay; }
+		//    set
+		//    {
+		//        _firstDay = value;
+		//        OnPropertyChanged(() => FirstDay);
+		//    }
+		//}
 
 		public RelayCommand ShowFilterCommand { get; private set; }
 		void OnShowFilter()
@@ -149,7 +152,7 @@ namespace SKDModule.ViewModels
 					foreach (var timeTrackEmployeeResult in timeTrackResult.TimeTrackEmployeeResults)
 					{
 						var timeTrackViewModel = new TimeTrackViewModel(timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks);
-						timeTrackViewModel.DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult.ShortEmployee, TimeTrackingSettings.StartDate, TimeTrackingSettings.EndDate);
+						timeTrackViewModel.DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult, TimeTrackingSettings.StartDate, TimeTrackingSettings.EndDate);
 						TimeTracks.Add(timeTrackViewModel);
 					}
 				}

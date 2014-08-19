@@ -4,27 +4,21 @@ using FiresecAPI.SKD;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeTrackDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public DayTimeTrack DayTimeTrack { get; private set; }
-		bool hasChanges = false;
 
 		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack)
 		{
 			dayTimeTrack.Calculate();
 
-			//Title = "Время сотрудника " + dayTimeTrack.ShortEmployee.LastName + " " + dayTimeTrack.ShortEmployee.FirstName + " в течение дня " + dayTimeTrack.Date.Date.ToString();
-			Title = "Время сотрудника в течение дня " + dayTimeTrack.Date.Date.ToString();
+			AddCommand = new RelayCommand(OnAdd);
+			Title = "Время сотрудника в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
 			DayTimeTrack = dayTimeTrack;
-
-			AvailableDocuments = new ObservableCollection<TimeTrackDocumentType>();
-			foreach (var timeTrackDocumentType in TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes)
-			{
-				AvailableDocuments.Add(timeTrackDocumentType);
-			}
 
 			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPartViewModel>();
 			foreach (var timeTrackPart in DayTimeTrack.RealTimeTrackParts)
@@ -33,66 +27,28 @@ namespace SKDModule.ViewModels
 				DayTimeTrackParts.Add(employeeTimeTrackPartViewModel);
 			}
 
-			if (DayTimeTrack.TimeTrackDocument != null)
+			Documents = new ObservableCollection<DocumentViewModel>();
+			if (dayTimeTrack.Documents != null)
 			{
-				SelectedDocument = AvailableDocuments.FirstOrDefault(x => x.Code == DayTimeTrack.TimeTrackDocument.DocumentCode);
-				Comment = DayTimeTrack.TimeTrackDocument.Comment;
-			}
-			hasChanges = false;
-		}
-
-		public ObservableCollection<TimeTrackDocumentType> AvailableDocuments { get; private set; }
-
-		TimeTrackDocumentType _selectedDocument;
-		public TimeTrackDocumentType SelectedDocument
-		{
-			get { return _selectedDocument; }
-			set
-			{
-				_selectedDocument = value;
-				OnPropertyChanged(() => SelectedDocument);
-				IsCommentEnabled = value != null && value.Code != 0;
-				OnPropertyChanged(() => IsCommentEnabled);
-				hasChanges = true;
+				foreach (var document in dayTimeTrack.Documents)
+				{
+					var documentViewModel = new DocumentViewModel(document);
+					Documents.Add(documentViewModel);
+				}
 			}
 		}
 
-		string _comment;
-		public string Comment
-		{
-			get { return _comment; }
-			set
-			{
-				_comment = value;
-				OnPropertyChanged(() => Comment);
-				hasChanges = true;
-			}
-		}
-
-		public bool IsCommentEnabled { get; private set; }
-
+		public ObservableCollection<DocumentViewModel> Documents { get; private set; }
 		public ObservableCollection<DayTimeTrackPartViewModel> DayTimeTrackParts { get; private set; }
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			
+		}
 
 		protected override bool Save()
 		{
-			if (DayTimeTrack.TimeTrackDocument == null)
-			{
-				DayTimeTrack.TimeTrackDocument = new TimeTrackDocument();
-			}
-			DayTimeTrack.TimeTrackDocument.EmployeeUID = DayTimeTrack.EmployeeUID;
-			DayTimeTrack.TimeTrackDocument.StartDateTime = DayTimeTrack.Date.Date;
-			DayTimeTrack.TimeTrackDocument.EndDateTime = DayTimeTrack.Date.Date;
-			DayTimeTrack.TimeTrackDocument.DocumentCode = SelectedDocument.Code;
-			DayTimeTrack.TimeTrackDocument.Comment = Comment;
-
-			if (hasChanges)
-			{
-				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(DayTimeTrack.TimeTrackDocument);
-				if (operationResult.HasError)
-				{
-					MessageBoxService.ShowWarning(operationResult.Error);
-				}
-			}
 			return base.Save();
 		}
 	}
