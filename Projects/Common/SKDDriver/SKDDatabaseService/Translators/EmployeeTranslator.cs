@@ -200,11 +200,6 @@ namespace SKDDriver
 			if (!string.IsNullOrEmpty(filter.SecondName))
 				result = result.And(e => e.SecondName.Contains(filter.SecondName));
 
-			if (filter.CardNo > 0)
-			{
-				result = result.And(e => Context.Cards.Any(x => x.Number == filter.CardNo && x.EmployeeUID == e.UID));
-			}
-
 			return result;
 		}
 

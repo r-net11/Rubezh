@@ -33,6 +33,19 @@ namespace SKDModule.ViewModels
 			Period = timeTrackFilter.Period;
 			StartDate = timeTrackFilter.StartDate;
 			EndDate = timeTrackFilter.EndDate;
+
+			IsTotal = Filter.IsTotal;
+			IsTotalMissed = Filter.IsTotalMissed;
+			IsTotalInSchedule = Filter.IsTotalInSchedule;
+			IsTotalOvertime = Filter.IsTotalOvertime;
+			IsTotalLate = Filter.IsTotalLate;
+			IsTotalEarlyLeave = Filter.IsTotalEarlyLeave;
+			IsTotalPlanned = Filter.IsTotalPlanned;
+			IsTotalEavening = Filter.IsTotalEavening;
+			IsTotalNight = Filter.IsTotalNight;
+			IsTotal_DocumentOvertime = Filter.IsTotal_DocumentOvertime;
+			IsTotal_DocumentPresence = Filter.IsTotal_DocumentPresence;
+			IsTotal_DocumentAbsence = Filter.IsTotal_DocumentAbsence;
 		}
 
 		DateTime _startDate;
@@ -76,6 +89,19 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		public bool IsTotal { get; set; }
+		public bool IsTotalMissed { get; set; }
+		public bool IsTotalInSchedule { get; set; }
+		public bool IsTotalOvertime { get; set; }
+		public bool IsTotalLate { get; set; }
+		public bool IsTotalEarlyLeave { get; set; }
+		public bool IsTotalPlanned { get; set; }
+		public bool IsTotalEavening { get; set; }
+		public bool IsTotalNight { get; set; }
+		public bool IsTotal_DocumentOvertime { get; set; }
+		public bool IsTotal_DocumentPresence { get; set; }
+		public bool IsTotal_DocumentAbsence { get; set; }
+
 		protected override bool Save()
 		{
 			base.Save();
@@ -117,6 +143,19 @@ namespace SKDModule.ViewModels
 			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs;
+
+			Filter.IsTotal = IsTotal;
+			Filter.IsTotalMissed = IsTotalMissed;
+			Filter.IsTotalInSchedule = IsTotalInSchedule;
+			Filter.IsTotalOvertime = IsTotalOvertime;
+			Filter.IsTotalLate = IsTotalLate;
+			Filter.IsTotalEarlyLeave = IsTotalEarlyLeave;
+			Filter.IsTotalPlanned = IsTotalPlanned;
+			Filter.IsTotalEavening = IsTotalEavening;
+			Filter.IsTotalNight = IsTotalNight;
+			Filter.IsTotal_DocumentOvertime = IsTotal_DocumentOvertime;
+			Filter.IsTotal_DocumentPresence = IsTotal_DocumentPresence;
+			Filter.IsTotal_DocumentAbsence = IsTotal_DocumentAbsence;
 			return true;
 		}
 

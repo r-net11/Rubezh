@@ -39,7 +39,7 @@ namespace SKDModule.Converters
 				case TimeTrackType.Document:
 					return Brushes.DeepSkyBlue;
 			}
-			return Brushes.White;
+			return Brushes.Green;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

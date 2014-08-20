@@ -129,7 +129,7 @@
         </TabItem>
         <TabItem Header="Отображаемые данные">
             <Border CornerRadius="5" Background="White" Margin="2">
-                <StackPanel DataContext="{Binding TimeTrackFilter}" Margin="2">
+                <StackPanel Margin="2">
                     <CheckBox Content="Фактическое Присутствиеп" IsChecked="{Binding IsTotal}" Margin="2" />
                     <CheckBox Content="Прогул" IsChecked="{Binding IsTotalMissed}" Margin="2" />
                     <CheckBox Content="По графику" IsChecked="{Binding IsTotalInSchedule}" Margin="2" />

@@ -1,9 +1,14 @@
 ﻿<UserControl x:Class="SKDModule.Views.TimeTrackingView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:SKDModule.Converters">
+             xmlns:Converters="clr-namespace:SKDModule.Converters"
+             xmlns:local="clr-namespace:SKDModule.Views">
+    
     <UserControl.Resources>
+        <Converters:TimeTrackTypeToColorConverter x:Key="TimeTrackTypeToColorConverter" />
         <Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
+        <Converters:TimeSpanToStringConverter2 x:Key="TimeSpanToStringConverter2" />
+        <Converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -23,29 +28,34 @@
                 <ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="/Controls;component/Images/Delete.png" />
             </StackPanel>
 		</StackPanel>
-        <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="4" RowHeight="{Binding RowHeight}" Margin="0 4">
+        <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="3" RowHeight="{Binding RowHeight}" Margin="0 4">
 			<DataGrid.Columns>
 	            <DataGridTemplateColumn Header="ФИО">
 	                <DataGridTemplateColumn.CellTemplate>
 	                    <DataTemplate>
-	                        <StackPanel Orientation="Horizontal">
-	                            <TextBlock Text="{Binding ShortEmployee.LastName}" Margin="4 0" />
-	                            <TextBlock Text="{Binding ShortEmployee.FirstName}" Margin="4 0" />
-	                            <TextBlock Text="{Binding ShortEmployee.SecondName}" Margin="4 0" />
-	                        </StackPanel>
-	                    </DataTemplate>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding ShortEmployee.LastName}" Margin="4 0" />
+                                    <TextBlock Text="{Binding ShortEmployee.FirstName}" Margin="4 0" />
+                                    <TextBlock Text="{Binding ShortEmployee.SecondName}" Margin="4 0" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding ShortEmployee.DepartmentName}" Margin="4 0" />
+                                <TextBlock Text="{Binding ShortEmployee.PositionName}" Margin="4 0" />
+                            </StackPanel>
+                        </DataTemplate>
 	                </DataGridTemplateColumn.CellTemplate>
 	            </DataGridTemplateColumn>
-	            <DataGridTextColumn Binding="{Binding ShortEmployee.DepartmentName}" Header="Отдел" />
-	            <DataGridTextColumn Binding="{Binding ShortEmployee.PositionName}" Header="Должность" />
 	            <DataGridTemplateColumn Header="Тип">
 	                <DataGridTemplateColumn.CellTemplate>
 	                    <DataTemplate>
-	                        <StackPanel>
-	                            <TextBlock Text="Присутствие" Margin="4 0" />
-	                            <TextBlock Text="Пропущено" Margin="4 0" />
-	                            <TextBlock Text="По графику" Margin="4 0" />
-	                            <TextBlock Text="Переработка" Margin="4 0" />
+	                        <StackPanel Margin="0 60 0 0">
+                                <ItemsControl ItemsSource="{Binding Totals}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 	                        </StackPanel>
 	                    </DataTemplate>
 	                </DataGridTemplateColumn.CellTemplate>
@@ -53,12 +63,15 @@
 	            <DataGridTemplateColumn Header="Итого">
 	                <DataGridTemplateColumn.CellTemplate>
 	                    <DataTemplate>
-	                        <StackPanel>
-                                <TextBlock Text="{Binding Total, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding TotalMissed, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding TotalInSchedule, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding TotalOvertime, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
-	                        </StackPanel>
+                            <StackPanel Margin="0 60 0 0">
+                                <ItemsControl ItemsSource="{Binding Totals}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock ToolTip="{Binding Name}" Text="{Binding TimeSpan, Converter={StaticResource TimeSpanToStringConverter2}}" Foreground="{Binding TimeSpan, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
 	                    </DataTemplate>
 	                </DataGridTemplateColumn.CellTemplate>
 	            </DataGridTemplateColumn>
@@ -84,6 +97,11 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.CellStyle>
+            <DataGrid.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel IsItemsHost="True" local:VirtualizingStackPanelBehaviors.IsPixelBasedScrolling="True" />
+                </ItemsPanelTemplate>
+            </DataGrid.ItemsPanel>
         </DataGrid>
         <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
         <Grid Grid.Row="3" DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}">
