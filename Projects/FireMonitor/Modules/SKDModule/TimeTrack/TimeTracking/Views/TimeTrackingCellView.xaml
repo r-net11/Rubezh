@@ -13,7 +13,7 @@
             <TextBlock Text="{Binding DayTimeTrack.Total, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
             <TextBlock Text="{Binding DayTimeTrack.TotalMissed, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
             <TextBlock Text="{Binding DayTimeTrack.TotalInSchedule, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
-            <TextBlock Text="{Binding DayTimeTrack.TotalOutSchedule, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding DayTimeTrack.TotalOvertime, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
 	    </StackPanel>
         <TextBlock Visibility="{Binding HasLetter, Converter={StaticResource BoolToVisibilityConverter}}" Text="{Binding Letter}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
 	</Grid>

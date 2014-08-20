@@ -27,7 +27,7 @@ namespace SKDModule.Converters
 				case TimeTrackType.EarlyLeave:
 					return Brushes.LightPink;
 
-				case TimeTrackType.OutShedule:
+				case TimeTrackType.Overtime:
 					return Brushes.Green;
 
 				case TimeTrackType.DayOff:

@@ -28,13 +28,13 @@ namespace SKDModule.ViewModels
 			Total = new TimeSpan();
 			TotalMissed = new TimeSpan();
 			TotalInSchedule = new TimeSpan();
-			TotalOutSchedule = new TimeSpan();
+			TotalOvertime = new TimeSpan();
 			foreach (var dayTimeTrack in dayTimeTracks)
 			{
 				Total = Total.Add(dayTimeTrack.Total);
 				TotalMissed = TotalMissed.Add(dayTimeTrack.TotalMissed);
 				TotalInSchedule = TotalInSchedule.Add(dayTimeTrack.TotalInSchedule);
-				TotalOutSchedule = TotalOutSchedule.Add(dayTimeTrack.TotalOutSchedule);
+				TotalOvertime = TotalOvertime.Add(dayTimeTrack.TotalOvertime);
 			}
 		}
 
@@ -43,6 +43,6 @@ namespace SKDModule.ViewModels
 		public TimeSpan Total { get; private set; }
 		public TimeSpan TotalMissed { get; private set; }
 		public TimeSpan TotalInSchedule { get; private set; }
-		public TimeSpan TotalOutSchedule { get; private set; }
+		public TimeSpan TotalOvertime { get; private set; }
 	}
 }

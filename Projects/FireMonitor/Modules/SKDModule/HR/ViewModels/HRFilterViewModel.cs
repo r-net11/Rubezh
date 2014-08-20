@@ -28,15 +28,9 @@ namespace SKDModule.ViewModels
 		{
 			base.Save();
 			Filter.EmployeeFilter = EmployeeFilterViewModel.Save();
-			Filter.CardFilter = new CardFilter();
-
+			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs; 
 			Filter.EmployeeFilter.DepartmentUIDs = DepartmentsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();
-
-			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs; 
-			Filter.DepartmentFilter.OrganisationUIDs = Filter.OrganisationUIDs;
-			Filter.PositionFilter.OrganisationUIDs = Filter.OrganisationUIDs;
-
 			return true;
 		}
 

@@ -15,7 +15,6 @@
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
 			<ToolBarButton Command="{Binding ShowFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Задать фильтр" />
-			<ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Настройки" />
 			<ToolBarButton Command="{Binding RefreshCommand}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить" />
 			<ToolBarButton Command="{Binding PrintCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать" />
             <StackPanel DataContext="{Binding SelectedTimeTrack.DocumentsViewModel}" Orientation="Horizontal">
@@ -24,7 +23,7 @@
                 <ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить документ" ImageSource="/Controls;component/Images/Delete.png" />
             </StackPanel>
 		</StackPanel>
-	    <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="4" RowHeight="60" Margin="0 4">
+        <DataGrid x:Name="grid" Grid.Row="1" ItemsSource="{Binding TimeTracks}" SelectedItem="{Binding SelectedTimeTrack}" FrozenColumnCount="4" RowHeight="{Binding RowHeight}" Margin="0 4">
 			<DataGrid.Columns>
 	            <DataGridTemplateColumn Header="ФИО">
 	                <DataGridTemplateColumn.CellTemplate>
@@ -58,7 +57,7 @@
                                 <TextBlock Text="{Binding Total, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding TotalMissed, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding TotalInSchedule, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding TotalOutSchedule, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding TotalOvertime, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" />
 	                        </StackPanel>
 	                    </DataTemplate>
 	                </DataGridTemplateColumn.CellTemplate>
