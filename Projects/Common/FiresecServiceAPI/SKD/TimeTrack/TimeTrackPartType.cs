@@ -10,8 +10,8 @@ namespace FiresecAPI.SKD
 		[Description("Пропуск")]
 		PlanedOnly,
 
-		[Description("Работа вне графика")]
-		RealOnly,
+		[Description("Переработка не подтвержденная документом")]
+		Overtime,
 
 		[Description("Работа по графику")]
 		AsPlanned,
@@ -28,7 +28,13 @@ namespace FiresecAPI.SKD
 		[Description("Уход раньше")]
 		EarlyLeave,
 
-		[Description("По документу")]
-		Document,
+		[Description("Переработка по документу")]
+		DocumentOvertime,
+
+		[Description("Присутствие по документу")]
+		DocumentPresence,
+
+		[Description("Отсутствие по документу")]
+		DocumentAbsence,
 	}
 }

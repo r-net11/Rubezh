@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.Generic;
 using FiresecClient;
 using ValueType = FiresecAPI.Automation.ValueType;
+using System.Linq.Expressions;
 
 namespace AutomationModule.ViewModels
 {
@@ -58,8 +59,6 @@ namespace AutomationModule.ViewModels
 			{
 				ConditionArguments.JoinOperator = value;
 				OnPropertyChanged(()=>JoinOperator);
-				if (UpdateDescriptionHandler != null)
-					UpdateDescriptionHandler();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -71,8 +70,7 @@ namespace AutomationModule.ViewModels
 			var conditionViewModel = new ConditionViewModel(condition, Procedure ,UpdateDescriptionHandler);
 			ConditionArguments.Conditions.Add(condition);
 			Conditions.Add(conditionViewModel);
-			if (UpdateDescriptionHandler != null)
-				UpdateDescriptionHandler();
+			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
@@ -81,8 +79,7 @@ namespace AutomationModule.ViewModels
 		{
 			Conditions.Remove(conditionViewModel);
 			ConditionArguments.Conditions.Remove(conditionViewModel.Condition);
-			if (UpdateDescriptionHandler != null)
-				UpdateDescriptionHandler();
+			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
@@ -91,12 +88,18 @@ namespace AutomationModule.ViewModels
 			return Conditions.Count > 1;
 		}
 
+		public bool IsJoinOperatorVisible
+		{
+			get { return Conditions.Count > 1; }
+		}
+		
 		public void UpdateContent()
 		{
 			foreach (var conditionViewModel in Conditions)
 			{
 				conditionViewModel.UpdateContent();
 			}
+			OnPropertyChanged(() => IsJoinOperatorVisible);
 		}
 
 		public string Description
@@ -107,12 +110,28 @@ namespace AutomationModule.ViewModels
 				if (conditionViewModel == null)
 					return "";
 
-				string var1 = conditionViewModel.Variable1.DescriptionValue;
-				if (String.IsNullOrEmpty(var1))
-					var1 = "пусто";
-				string var2 = conditionViewModel.Variable2.DescriptionValue;
-				if (String.IsNullOrEmpty(var2))
-					var2 = "пусто";
+				var var1 = "пусто";
+				var var2 = "пусто";
+				var Variable1 = conditionViewModel.Variable1;
+				var Variable2 = conditionViewModel.Variable2;
+
+				var1 = Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто";
+				switch (conditionViewModel.SelectedConditionValueType)
+				{
+					case ValueType.Boolean:						
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.BoolValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						break;
+					case ValueType.DateTime:
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.DateTimeValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						break;
+					case ValueType.Integer:
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.IntValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						break;
+					case ValueType.String:
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.StringValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						break;
+				}
+
 				var op = "";
 				switch (conditionViewModel.SelectedConditionType)
 				{
@@ -142,6 +161,13 @@ namespace AutomationModule.ViewModels
 				return var1 + " " + op + " " + var2 + " " + end;
 			}
 		}
+
+		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
+		{
+			base.OnPropertyChanged(propertyExpression);
+			if (UpdateDescriptionHandler != null)
+				UpdateDescriptionHandler();
+		}
 	}
 
 	public class ConditionViewModel : BaseViewModel
@@ -159,7 +185,7 @@ namespace AutomationModule.ViewModels
 			var variablesAndArguments = new List<Variable>(Procedure.Variables);
 			variablesAndArguments.AddRange(Procedure.Arguments);
 			var variableTypes = new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable };
-			ConditionValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList());
+			ConditionValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList().FindAll(x => x != ValueType.Object));
 			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, variableTypes);
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
 			variableTypes.Add(VariableType.IsValue);
@@ -179,9 +205,8 @@ namespace AutomationModule.ViewModels
 				if ((value == ValueType.String)||(value == ValueType.Boolean))
 					ConditionTypes = new ObservableCollection<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
 				if ((value == ValueType.Integer)||(value == ValueType.DateTime))
-					ConditionTypes = new ObservableCollection<ConditionType>(Enum.GetValues(typeof(ConditionType)).Cast<ConditionType>().ToList());
-				if (UpdateDescriptionHandler != null)
-					UpdateDescriptionHandler();
+					ConditionTypes = new ObservableCollection<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, 
+						ConditionType.IsLess, ConditionType.IsNotMore, ConditionType.IsNotLess };
 				OnPropertyChanged(() => ConditionTypes);
 				UpdateContent();
 				ServiceFactory.SaveService.AutomationChanged = true;
@@ -223,10 +248,15 @@ namespace AutomationModule.ViewModels
 			{
 				Condition.ConditionType = value;
 				OnPropertyChanged(() => SelectedConditionType);
-				if (UpdateDescriptionHandler != null)
-					UpdateDescriptionHandler();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
+		}
+
+		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
+		{
+			base.OnPropertyChanged(propertyExpression);
+			if (UpdateDescriptionHandler != null)
+				UpdateDescriptionHandler();
 		}
 	}
 }

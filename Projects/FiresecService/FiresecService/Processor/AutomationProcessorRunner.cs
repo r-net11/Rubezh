@@ -95,7 +95,7 @@ namespace FiresecService.Processor
 					break;
 
 				case ProcedureStepType.Pause:
-					Thread.Sleep(TimeSpan.FromSeconds(procedureStep.PauseArguments.Variable.Value));
+					Thread.Sleep(TimeSpan.FromSeconds(procedureStep.PauseArguments.Variable.IntValue));
 					break;
 
 				case ProcedureStepType.AddJournalItem:

@@ -41,8 +41,6 @@ namespace SKDModule.ViewModels
 			var userUID = FiresecManager.CurrentUser.UID;
 			Filter = new HRFilter() { UserUID = userUID };
 			Filter.EmployeeFilter.UserUID = userUID;
-			Filter.DepartmentFilter.UserUID = userUID;
-			Filter.PositionFilter.UserUID = userUID;
 			InitializeFilters();
 			Initialize();
 		}
@@ -169,10 +167,7 @@ namespace SKDModule.ViewModels
 		void InitializeFilters()
 		{
 			EmployeeFilter = Filter.EmployeeFilter;
-			DepartmentFilter = Filter.DepartmentFilter;
-			PositionFilter = Filter.PositionFilter;
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
-			CardFilter = Filter.CardFilter;
 			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 		}
 	}

@@ -19,13 +19,13 @@ namespace FiresecAPI.Automation
 		public ConditionType ConditionType { get; set; }
 
 		[DataMember]
-		public StringConditionType StringConditionType { get; set; }
-
-		[DataMember]
 		public int IntValue{ get; set; }
 
 		[DataMember]
 		public string StringValue { get; set; }
+
+		[DataMember]
+		public string Type { get; set; }
 
 		[DataMember]
 		public StateType StateTypeValue { get; set; }
@@ -36,8 +36,8 @@ namespace FiresecAPI.Automation
 
 	public enum Property
 	{
-		[Description("Имя")]
-		Name,
+		[Description("Примечание")]
+		Description,
 
 		[Description("Адрес")]
 		IntAddress,
@@ -52,7 +52,7 @@ namespace FiresecAPI.Automation
 		No,
 
 		[Description("Тип")]
-		ZoneType,
+		Type,
 
 		[Description("Задержка")]
 		Delay,
@@ -62,23 +62,5 @@ namespace FiresecAPI.Automation
 
 		[Description("Режим")]
 		DelayRegime
-	}
-
-	public enum PropertyType
-	{
-		[DescriptionAttribute("Целое")]
-		Integer,
-
-		[DescriptionAttribute("Логическое")]
-		Boolean,
-
-		[DescriptionAttribute("Дата и время")]
-		DateTime,
-
-		[DescriptionAttribute("Строка")]
-		String,
-
-		[Description("Перечисление")]
-		Enum
 	}
 }

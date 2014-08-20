@@ -12,26 +12,24 @@ namespace SKDModule.ViewModels
 {
 	public class TimeTrackingViewModel : ViewPartViewModel
 	{
-		EmployeeFilter EmployeeFilter;
-		TimeTrackingSettings TimeTrackingSettings;
+		TimeTrackFilter TimeTrackFilter;
 
 		public TimeTrackingViewModel()
 		{
-			EmployeeFilter = new EmployeeFilter()
+			TimeTrackFilter = new TimeTrackFilter();
+			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
 			{
 				UserUID = FiresecClient.FiresecManager.CurrentUser.UID,
 			};
 
-			TimeTrackingSettings = new TimeTrackingSettings()
-			{
-				Period = TimeTrackingPeriod.CurrentMonth,
-				StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day),
-				EndDate = DateTime.Today
-			};
+			TimeTrackFilter.Period = TimeTrackingPeriod.CurrentMonth;
+			TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day);
+			TimeTrackFilter.EndDate = DateTime.Today;
+
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
-			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			PrintCommand = new RelayCommand(OnPrint);
+
 			UpdateGrid();
 		}
 
@@ -60,67 +58,25 @@ namespace SKDModule.ViewModels
 		public int TotalDays { get; private set; }
 		public DateTime FirstDay { get; private set; }
 
-		//int _totalDays;
-		//public int TotalDays
-		//{
-		//    get { return _totalDays; }
-		//    set
-		//    {
-		//        _totalDays = value;
-		//        OnPropertyChanged(() => TotalDays);
-		//    }
-		//}
-
-		//DateTime _firstDay;
-		//public DateTime FirstDay
-		//{
-		//    get { return _firstDay; }
-		//    set
-		//    {
-		//        _firstDay = value;
-		//        OnPropertyChanged(() => FirstDay);
-		//    }
-		//}
+		int _rowHeight;
+		public int RowHeight
+		{
+			get { return _rowHeight; }
+			set
+			{
+				_rowHeight = value;
+				OnPropertyChanged(() => RowHeight);
+			}
+		}
 
 		public RelayCommand ShowFilterCommand { get; private set; }
 		void OnShowFilter()
 		{
-			var employeeFilter = new EmployeeFilter()
-			{
-				OrganisationUIDs = EmployeeFilter.OrganisationUIDs,
-				DepartmentUIDs = EmployeeFilter.DepartmentUIDs,
-				PositionUIDs = EmployeeFilter.PositionUIDs,
-				Appointed = EmployeeFilter.Appointed,
-				PersonType = EmployeeFilter.PersonType
-			};
-			var filter = new HRFilter()
-			{
-				EmployeeFilter = employeeFilter,
-				RemovalDates = EmployeeFilter.RemovalDates,
-				UIDs = EmployeeFilter.UIDs,
-				LogicalDeletationType = EmployeeFilter.LogicalDeletationType,
-			};
-			var filterViewModel = new HRFilterViewModel(filter);
+			var filterViewModel = new TimeTrackFilterViewModel(TimeTrackFilter);
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
-				EmployeeFilter.OrganisationUIDs = filterViewModel.Filter.OrganisationUIDs;
-				EmployeeFilter.DepartmentUIDs = filterViewModel.Filter.EmployeeFilter.DepartmentUIDs;
-				EmployeeFilter.PositionUIDs = filterViewModel.Filter.EmployeeFilter.PositionUIDs;
-				EmployeeFilter.Appointed = filterViewModel.Filter.EmployeeFilter.Appointed;
-				EmployeeFilter.PersonType = filterViewModel.Filter.EmployeeFilter.PersonType;
-				EmployeeFilter.RemovalDates = filterViewModel.Filter.RemovalDates;
-				EmployeeFilter.UIDs = filterViewModel.Filter.UIDs;
-				EmployeeFilter.LogicalDeletationType = filterViewModel.Filter.LogicalDeletationType;
 				UpdateGrid();
 			}
-		}
-
-		public RelayCommand ShowSettingsCommand { get; private set; }
-		void OnShowSettings()
-		{
-			var settingsViewModel = new TimeTrackingSettingsViewModel(TimeTrackingSettings);
-			if (DialogService.ShowModalWindow(settingsViewModel))
-				UpdateGrid();
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
@@ -143,20 +99,38 @@ namespace SKDModule.ViewModels
 		{
 			using (new WaitWrapper())
 			{
-				TotalDays = (int)(TimeTrackingSettings.EndDate - TimeTrackingSettings.StartDate).TotalDays + 1;
-				FirstDay = TimeTrackingSettings.StartDate;
+				TotalDays = (int)(TimeTrackFilter.EndDate - TimeTrackFilter.StartDate).TotalDays + 1;
+				FirstDay = TimeTrackFilter.StartDate;
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
-				var timeTrackResult = EmployeeHelper.GetTimeTracks(EmployeeFilter, TimeTrackingSettings.StartDate, TimeTrackingSettings.EndDate);
+				var timeTrackResult = EmployeeHelper.GetTimeTracks(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 				if (timeTrackResult != null)
 				{
 					foreach (var timeTrackEmployeeResult in timeTrackResult.TimeTrackEmployeeResults)
 					{
-						var timeTrackViewModel = new TimeTrackViewModel(timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks);
-						timeTrackViewModel.DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult, TimeTrackingSettings.StartDate, TimeTrackingSettings.EndDate);
+						var timeTrackViewModel = new TimeTrackViewModel(TimeTrackFilter, timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks);
+						timeTrackViewModel.DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 						TimeTracks.Add(timeTrackViewModel);
 					}
+
+					RowHeight = 60 + 20 * GetVisibleFilterRorsCount();
 				}
 			}
+		}
+
+		int GetVisibleFilterRorsCount()
+		{
+			return (TimeTrackFilter.IsTotal ? 1 : 0) +
+				(TimeTrackFilter.IsTotalMissed ? 1 : 0) +
+				(TimeTrackFilter.IsTotalInSchedule ? 1 : 0) +
+				(TimeTrackFilter.IsTotalOvertime ? 1 : 0) +
+				(TimeTrackFilter.IsTotalLate ? 1 : 0) +
+				(TimeTrackFilter.IsTotalEarlyLeave ? 1 : 0) +
+				(TimeTrackFilter.IsTotalPlanned ? 1 : 0) +
+				(TimeTrackFilter.IsTotalEavening ? 1 : 0) +
+				(TimeTrackFilter.IsTotalNight ? 1 : 0) +
+				(TimeTrackFilter.IsTotal_DocumentOvertime ? 1 : 0) +
+				(TimeTrackFilter.IsTotal_DocumentPresence ? 1 : 0) +
+				(TimeTrackFilter.IsTotal_DocumentAbsence ? 1 : 0);
 		}
 	}
 }

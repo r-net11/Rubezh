@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class TimeTrackingSettingsView : UserControl
+	public partial class TimeTrackFilterView : UserControl
 	{
-		public TimeTrackingSettingsView()
+		public TimeTrackFilterView()
 		{
 			InitializeComponent();
 		}

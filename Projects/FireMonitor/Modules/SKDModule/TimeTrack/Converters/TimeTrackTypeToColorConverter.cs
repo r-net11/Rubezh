@@ -27,7 +27,7 @@ namespace SKDModule.Converters
 				case TimeTrackType.EarlyLeave:
 					return Brushes.LightPink;
 
-				case TimeTrackType.OutShedule:
+				case TimeTrackType.Overtime:
 					return Brushes.Green;
 
 				case TimeTrackType.DayOff:
@@ -39,7 +39,7 @@ namespace SKDModule.Converters
 				case TimeTrackType.Document:
 					return Brushes.DeepSkyBlue;
 			}
-			return Brushes.White;
+			return Brushes.Green;
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

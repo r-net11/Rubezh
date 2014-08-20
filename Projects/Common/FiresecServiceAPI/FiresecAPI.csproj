@@ -204,7 +204,6 @@
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureSelectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
-    <Compile Include="Models\Automation\StringConditionType.cs" />
     <Compile Include="Models\Automation\VariableType.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ValueType.cs" />

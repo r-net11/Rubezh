@@ -108,7 +108,7 @@ namespace AutomationModule.ViewModels
 				_selectedVariable = value;
 				if (value != null)
 				{
-					Properties = new ObservableCollection<Property>(AutomationConfiguration.ObjectTypeToProperiesList(value.ObjectType));
+					Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(value.ObjectType));
 					if (GetStringArguments.VariableUid != value.Variable.Uid)
 					{
 						GetStringArguments.VariableUid = value.Variable.Uid;

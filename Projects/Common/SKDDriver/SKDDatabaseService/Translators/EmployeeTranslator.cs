@@ -178,19 +178,18 @@ namespace SKDDriver
 		{
 			var result = base.IsInFilter(filter);
 			result = result.And(e => e.Type == (int?)filter.PersonType);
-			var departmentUIDs = filter.DepartmentUIDs;
-			if (departmentUIDs.IsNotNullOrEmpty())
+
+			if (filter.DepartmentUIDs.IsNotNullOrEmpty())
 			{
+				result = result.And(e => e != null && filter.DepartmentUIDs.Contains(e.DepartmentUID.Value));
 				result = result.And(e => e != null);
 			}
 
-			var positionUIDs = filter.PositionUIDs;
-			if (positionUIDs.IsNotNullOrEmpty())
-				result = result.And(e => e != null && positionUIDs.Contains(e.PositionUID.Value));
+			if (filter.PositionUIDs.IsNotNullOrEmpty())
+				result = result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
 
-			var appointedDates = filter.Appointed;
-			if (appointedDates != null)
-				result = result.And(e => e.Appointed >= appointedDates.StartDate && e.Appointed <= appointedDates.EndDate);
+			if (filter.Appointed != null)
+				result = result.And(e => e.Appointed >= filter.Appointed.StartDate && e.Appointed <= filter.Appointed.EndDate);
 
 			if (!string.IsNullOrEmpty(filter.LastName))
 				result = result.And(e => e.LastName.Contains(filter.LastName));
@@ -200,11 +199,6 @@ namespace SKDDriver
 
 			if (!string.IsNullOrEmpty(filter.SecondName))
 				result = result.And(e => e.SecondName.Contains(filter.SecondName));
-
-			if (filter.CardNo > 0)
-			{
-				result = result.And(e => Context.Cards.Any(x => x.Number == filter.CardNo && x.EmployeeUID == e.UID));
-			}
 
 			return result;
 		}

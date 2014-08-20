@@ -34,9 +34,9 @@ namespace FiresecAPI.SKD
 
 	public enum DocumentType
 	{
-		Presence,
-		Absence,
-		Overtime
+		Overtime = 0,
+		Presence = 1,
+		Absence = 2,
 	}
 
 	public static class TimeTrackDocumentTypesCollection

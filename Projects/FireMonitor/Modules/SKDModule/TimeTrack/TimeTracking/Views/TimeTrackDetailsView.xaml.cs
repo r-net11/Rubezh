@@ -264,7 +264,7 @@ namespace SKDModule.Views
 									rectangle.Fill = new SolidColorBrush(Colors.Green);
 									break;
 
-								case TimeTrackPartType.RealOnly:
+								case TimeTrackPartType.Overtime:
 									rectangle.Fill = new SolidColorBrush(Colors.Yellow);
 									break;
 
@@ -277,11 +277,19 @@ namespace SKDModule.Views
 									break;
 
 								case TimeTrackPartType.EarlyLeave:
-									rectangle.Fill = new SolidColorBrush(Colors.LightPink);
+									rectangle.Fill = new SolidColorBrush(Colors.Pink);
 									break;
 
-								case TimeTrackPartType.Document:
-									rectangle.Fill = new SolidColorBrush(Colors.Brown);
+								case TimeTrackPartType.DocumentOvertime:
+									rectangle.Fill = new SolidColorBrush(Colors.LightYellow);
+									break;
+
+								case TimeTrackPartType.DocumentPresence:
+									rectangle.Fill = new SolidColorBrush(Colors.LightGreen);
+									break;
+
+								case TimeTrackPartType.DocumentAbsence:
+									rectangle.Fill = new SolidColorBrush(Colors.LightPink);
 									break;
 							}
 							rectangle.Stroke = new SolidColorBrush(Colors.Black);
