@@ -37,13 +37,23 @@ namespace FiresecAPI.Automation
 		public ArithmeticParameter()
 		{
 			VariableUid = new Guid();
+			BoolValue = false;
+			DateTimeValue = DateTime.Now;
+			IntValue = 0;
+			StringValue = "";
 		}
 
 		[DataMember]
 		public VariableType VariableType { get; set; }
 
 		[DataMember]
-		public int Value { get; set; }
+		public bool BoolValue { get; set; }
+
+		[DataMember]
+		public DateTime DateTimeValue { get; set; }
+
+		[DataMember]
+		public int IntValue { get; set; }
 
 		[DataMember]
 		public string StringValue { get; set; }

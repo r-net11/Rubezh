@@ -49,5 +49,14 @@ namespace FiresecAPI.Automation
 
 		[Description("не меньше")]
 		IsNotLess,
+
+		[Description("Начинается с")]
+		StartsWith,
+
+		[Description("Заканчивается на")]
+		EndsWith,
+
+		[Description("Содержит")]
+		Contains
 	}
 }

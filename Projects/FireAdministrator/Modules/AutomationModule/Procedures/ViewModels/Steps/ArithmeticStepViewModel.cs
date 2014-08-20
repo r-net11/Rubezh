@@ -6,6 +6,8 @@ using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using ValueType = FiresecAPI.Automation.ValueType;
+using System.Linq.Expressions;
+using FiresecAPI;
 
 namespace AutomationModule.ViewModels
 {
@@ -30,7 +32,7 @@ namespace AutomationModule.ViewModels
 			variableTypes.Add(VariableType.IsValue);
 			Variable1 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable1, variableTypes);
 			Variable2 = new ArithmeticParameterViewModel(ArithmeticArguments.Variable2, variableTypes);
-			ArithmeticValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList());
+			ArithmeticValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList().FindAll(x => x != ValueType.Object));
 			TimeTypes = new ObservableCollection<TimeType>(Enum.GetValues(typeof(TimeType)).Cast<TimeType>().ToList());
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
@@ -74,19 +76,39 @@ namespace AutomationModule.ViewModels
 		{
 			get
 			{
-				string var1 = Variable1.DescriptionValue;
-				if (String.IsNullOrEmpty(var1))
-					var1 = "пусто";
-				string var2 = Variable2.DescriptionValue;
-				if (String.IsNullOrEmpty(var2))
-					var2 = "пусто";
-				string res = Result.DescriptionValue;
-				if (String.IsNullOrEmpty(res))
-					res = "пусто";
+				var var1 = "пусто";
+				var var2 = "пусто";
+				var res = "пусто";
+				switch(SelectedArithmeticValueType)
+				{
+					case ValueType.Boolean:
+						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.BoolValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.BoolValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
+						break;
+					case ValueType.DateTime:
+						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.DateTimeValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.IntValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						var2 = var2 + " " + SelectedTimeType.ToDescription();;
+						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
+						break;
+					case ValueType.Integer:
+						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.IntValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.IntValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
+						break;
+					case ValueType.String:
+						var1 = Variable1.SelectedVariableType == VariableType.IsValue ? Variable1.StringValue.ToString() : (Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто");
+						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.StringValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
+						res = Result.SelectedVariable != null ? Result.SelectedVariable.Name : "пусто";
+						break;
+				}
+
 				var op = "";
 				switch (SelectedArithmeticOperationType)
 				{
 					case ArithmeticOperationType.Add:
+					case ArithmeticOperationType.Concat:
 						op = "+";
 						break;
 					case ArithmeticOperationType.Sub:
@@ -98,9 +120,15 @@ namespace AutomationModule.ViewModels
 					case ArithmeticOperationType.Multi:
 						op = "*";
 						break;
+					case ArithmeticOperationType.And:
+						op = "И";
+						break;
+					case ArithmeticOperationType.Or:
+						op = "Или";
+						break;
 				}
 
-				return "<" + res + ">" + " = " + "<" + var1 + ">" + op + " " + "<" + var2 + ">";
+				return "<" + res + ">" + " = " + "<" + var1 + "> " + op + " <" + var2 + ">";
 			}
 		}
 
@@ -111,8 +139,6 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticArguments.ArithmeticOperationType = value;
-				if (UpdateDescriptionHandler!=null)
-					UpdateDescriptionHandler();
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedArithmeticOperationType);
 			}
@@ -125,8 +151,6 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticArguments.TimeType = value;
-				if (UpdateDescriptionHandler != null)
-					UpdateDescriptionHandler();
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedTimeType);
 			}
@@ -148,13 +172,18 @@ namespace AutomationModule.ViewModels
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Concat};
 				if (value == ValueType.Integer)
 					ArithmeticOperationTypes = new ObservableCollection<ArithmeticOperationType> { ArithmeticOperationType.Add, ArithmeticOperationType.Sub, ArithmeticOperationType.Multi, ArithmeticOperationType.Div};
-				if (UpdateDescriptionHandler != null)
-					UpdateDescriptionHandler();
 				OnPropertyChanged(() => ArithmeticOperationTypes);
-				UpdateContent();
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedArithmeticValueType);
+				UpdateContent();
 			}
+		}
+
+		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
+		{
+			base.OnPropertyChanged(propertyExpression);
+			if (UpdateDescriptionHandler != null)
+				UpdateDescriptionHandler();
 		}
 	}
 
@@ -196,27 +225,47 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		string _desctriptionValue;
-		public string DescriptionValue 
+		public bool BoolValue
 		{
-			get { return _desctriptionValue; }
-			private set
+			get { return ArithmeticParameter.BoolValue; }
+			set
 			{
-				_desctriptionValue = value;
-				if (UpdateDescriptionHandler != null)
-					UpdateDescriptionHandler();
+				ArithmeticParameter.BoolValue = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => BoolValue);
 			}
 		}
 
-		public int Value
+		public DateTime DateTimeValue
 		{
-			get { return ArithmeticParameter.Value; }
+			get { return ArithmeticParameter.DateTimeValue; }
 			set
 			{
-				ArithmeticParameter.Value = value;
-				DescriptionValue = value.ToString();
+				ArithmeticParameter.DateTimeValue = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => Value);
+				OnPropertyChanged(() => DateTimeValue);
+			}
+		}
+
+		public int IntValue
+		{
+			get { return ArithmeticParameter.IntValue; }
+			set
+			{
+				ArithmeticParameter.IntValue = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => IntValue);
+			}
+		}
+
+		public string StringValue
+		{
+			get { return ArithmeticParameter.StringValue; }
+			set
+			{
+				ArithmeticParameter.StringValue = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => StringValue);
 			}
 		}
 
@@ -247,11 +296,17 @@ namespace AutomationModule.ViewModels
 				if (_selectedVariable != null)
 				{
 					ArithmeticParameter.VariableUid = value.Variable.Uid;
-					DescriptionValue = value.Name;
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariable);
 			}
+		}
+
+		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
+		{
+			base.OnPropertyChanged(propertyExpression);
+			if (UpdateDescriptionHandler != null)
+				UpdateDescriptionHandler();
 		}
 	}
 }

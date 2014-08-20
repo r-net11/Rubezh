@@ -71,7 +71,7 @@ namespace FiresecService.Processor
 			InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, getStringArguments.Property, item);
 			if (getStringArguments.StringOperation == StringOperation.Is)
 				resultVariable.StringValues = new List<string>();
-			if (getStringArguments.Property != Property.Name)
+			if (getStringArguments.Property != Property.Description)
 				resultVariable.StringValues.Add(intPropertyValue.ToString());
 			else
 				resultVariable.StringValues.Add(stringPropertyValue);
@@ -219,8 +219,11 @@ namespace FiresecService.Processor
 					case Property.DeviceState:
 						intPropertyValue = (int)(item as XDevice).State.StateClass;
 						break;
-					case Property.Name:
-						stringPropertyValue = (item as XDevice).PresentationName.Trim();
+					case Property.Type:
+						stringPropertyValue = (item as XDevice).Driver.Name.Trim();
+						break;
+					case Property.Description:
+						stringPropertyValue = (item as XDevice).Description.Trim();
 						break;
 				}
 				itemUid = (item as XDevice).UID;
@@ -233,11 +236,11 @@ namespace FiresecService.Processor
 					case Property.No:
 						intPropertyValue = (item as XZone).No;
 						break;
-					case Property.ZoneType:
+					case Property.Type:
 						intPropertyValue = (int)(item as XZone).ObjectType;
 						break;
-					case Property.Name:
-						stringPropertyValue = (item as XZone).Name.Trim();
+					case Property.Description:
+						stringPropertyValue = (item as XZone).Description.Trim();
 						break;
 				}
 				itemUid = (item as XZone).UID;
@@ -259,8 +262,8 @@ namespace FiresecService.Processor
 					case Property.DelayRegime:
 						intPropertyValue = (int)(item as XDirection).DelayRegime;
 						break;
-					case Property.Name:
-						stringPropertyValue = (item as XDirection).Name.Trim();
+					case Property.Description:
+						stringPropertyValue = (item as XDirection).Description.Trim();
 						break;
 				}
 				itemUid = (item as XDirection).UID;
@@ -313,17 +316,17 @@ namespace FiresecService.Processor
 					InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, findObjectCondition.Property, item);
 					if (resultObjects.Contains(item))
 						continue;
-					if (((findObjectCondition.Property != Property.Name) &&
+					if (((findObjectCondition.Property != Property.Description) &&
 						(((findObjectCondition.ConditionType == ConditionType.IsEqual) && (intPropertyValue == findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (intPropertyValue != findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsMore) && (intPropertyValue > findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (intPropertyValue <= findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsLess) && (intPropertyValue < findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (intPropertyValue >= findObjectCondition.IntValue)))) ||
-						((findObjectCondition.Property == Property.Name) &&
-						(((findObjectCondition.StringConditionType == StringConditionType.StartsWith) && (stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
-						((findObjectCondition.StringConditionType == StringConditionType.EndsWith) && (stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
-						((findObjectCondition.StringConditionType == StringConditionType.Contains) && (stringPropertyValue.Contains(findObjectCondition.StringValue))))))
+						((findObjectCondition.Property == Property.Description) &&
+						(((findObjectCondition.ConditionType == ConditionType.StartsWith) && (stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
+						((findObjectCondition.ConditionType == ConditionType.EndsWith) && (stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
+						((findObjectCondition.ConditionType == ConditionType.Contains) && (stringPropertyValue.Contains(findObjectCondition.StringValue))))))
 					{ resultObjects.Add(item); result.ObjectsUids.Add(itemUid); }
 				}
 			}
@@ -344,17 +347,17 @@ namespace FiresecService.Processor
 				foreach (var item in resultObjects)
 				{
 					InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, findObjectCondition.Property, item);
-					if (((findObjectCondition.Property != Property.Name) &&
+					if (((findObjectCondition.Property != Property.Description) &&
 						(((findObjectCondition.ConditionType == ConditionType.IsEqual) && (intPropertyValue != findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotEqual) && (intPropertyValue == findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsMore) && (intPropertyValue <= findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotMore) && (intPropertyValue > findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsLess) && (intPropertyValue >= findObjectCondition.IntValue)) ||
 						((findObjectCondition.ConditionType == ConditionType.IsNotLess) && (intPropertyValue < findObjectCondition.IntValue)))) ||
-						((findObjectCondition.Property == Property.Name) &&
-						(((findObjectCondition.StringConditionType == StringConditionType.StartsWith) && (!stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
-						((findObjectCondition.StringConditionType == StringConditionType.EndsWith) && (!stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
-						((findObjectCondition.StringConditionType == StringConditionType.Contains) && (!stringPropertyValue.Contains(findObjectCondition.StringValue))))))
+						((findObjectCondition.Property == Property.Description) &&
+						(((findObjectCondition.ConditionType == ConditionType.StartsWith) && (!stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
+						((findObjectCondition.ConditionType == ConditionType.EndsWith) && (!stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
+						((findObjectCondition.ConditionType == ConditionType.Contains) && (!stringPropertyValue.Contains(findObjectCondition.StringValue))))))
 					{ tempObjects.Remove(item); result.ObjectsUids.Remove(itemUid); }
 				}
 				resultObjects = new List<object>(tempObjects);
