@@ -12,7 +12,7 @@ namespace SKDModule.ViewModels
 		
 		public HolidaySettingsViewModel(Guid organisationUID)
 		{
-			Title = "Настройки праздничных дней";
+			Title = "Настройки вечерних и ночных интервалов";
 			HolidaySettings = HolidaySettingsHelper.GetByOrganisation(organisationUID);
 			if (HolidaySettings == null)
 				HolidaySettings = new HolidaySettings { OrganisationUID = organisationUID };

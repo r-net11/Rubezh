@@ -9,7 +9,10 @@ namespace FiresecAPI.SKD
 		public TimeTrackDocument()
 		{
 			UID = Guid.NewGuid();
-			DocumentCode = 0;
+			DocumentCode = 1;
+			StartDateTime = DateTime.Now;
+			EndDateTime = DateTime.Now;
+			DocumentDateTime = DateTime.Now;
 		}
 
 		[DataMember]
@@ -29,5 +32,11 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public string Comment { get; set; }
+
+		[DataMember]
+		public DateTime DocumentDateTime { get; set; }
+
+		[DataMember]
+		public int DocumentNumber { get; set; }
 	}
 }

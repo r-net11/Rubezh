@@ -90,7 +90,6 @@ namespace SKDModule.ViewModels
 		public EmployeeFilter Save()
 		{
 			var employeeFilter = new EmployeeFilter();
-
 			employeeFilter.FirstName = FirstName;
 			employeeFilter.LastName = LastName;
 			employeeFilter.SecondName = SecondName;

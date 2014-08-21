@@ -5,6 +5,7 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.SKD;
 using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -31,9 +32,13 @@ namespace SKDModule.ViewModels
 				AvailableDocuments.Add(timeTrackDocumentType);
 			}
 
-			StartDateTime = timeTrackDocument.StartDateTime;
-			EndDateTime = timeTrackDocument.EndDateTime;
+			StartDateTime = timeTrackDocument.StartDateTime.Date;
+			StartTime = timeTrackDocument.StartDateTime;
+			EndDateTime = timeTrackDocument.EndDateTime.Date;
+			EndTime = timeTrackDocument.EndDateTime;
 			Comment = timeTrackDocument.Comment;
+			DocumentNumber = timeTrackDocument.DocumentNumber;
+			DocumentDateTime = timeTrackDocument.DocumentDateTime;
 			SelectedDocument = AvailableDocuments.FirstOrDefault(x => x.Code == timeTrackDocument.DocumentCode);
 		}
 
@@ -48,6 +53,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		DateTime _startTime;
+		public DateTime StartTime
+		{
+			get { return _startTime; }
+			set
+			{
+				_startTime = value;
+				OnPropertyChanged(() => StartTime);
+			}
+		}
+
 		DateTime _endDateTime;
 		public DateTime EndDateTime
 		{
@@ -59,6 +75,17 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		DateTime _endTime;
+		public DateTime EndTime
+		{
+			get { return _endTime; }
+			set
+			{
+				_endTime = value;
+				OnPropertyChanged(() => EndTime);
+			}
+		}
+
 		string _comment;
 		public string Comment
 		{
@@ -67,6 +94,28 @@ namespace SKDModule.ViewModels
 			{
 				_comment = value;
 				OnPropertyChanged(() => Comment);
+			}
+		}
+
+		DateTime _documentDateTime;
+		public DateTime DocumentDateTime
+		{
+			get { return _documentDateTime; }
+			set
+			{
+				_documentDateTime = value;
+				OnPropertyChanged(() => DocumentDateTime);
+			}
+		}
+
+		int _documentNumber;
+		public int DocumentNumber
+		{
+			get { return _documentNumber; }
+			set
+			{
+				_documentNumber = value;
+				OnPropertyChanged(() => DocumentNumber);
 			}
 		}
 
@@ -86,9 +135,20 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			TimeTrackDocument.StartDateTime = StartDateTime;
-			TimeTrackDocument.EndDateTime = EndDateTime;
+			var startDateTime = StartDateTime + StartTime.TimeOfDay;
+			var endDateTime = EndDateTime + EndTime.TimeOfDay;
+
+			if (startDateTime >= endDateTime)
+			{
+				MessageBoxService.ShowWarning("Время окончания не может быть раньше времени начала");
+				return false;
+			}
+
+			TimeTrackDocument.StartDateTime = startDateTime;
+			TimeTrackDocument.EndDateTime = endDateTime;
 			TimeTrackDocument.Comment = Comment;
+			TimeTrackDocument.DocumentNumber = DocumentNumber;
+			TimeTrackDocument.DocumentDateTime = DocumentDateTime;
 			if (SelectedDocument != null)
 				TimeTrackDocument.DocumentCode = SelectedDocument.Code;
 			return base.Save();

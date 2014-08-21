@@ -18,7 +18,7 @@
 		</tree:TreeList.ItemContainerStyle>
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Header="Тип операции">
+				<GridViewColumn Header="Наименование">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

@@ -62,7 +62,7 @@ namespace Infrastructure.Client.Login.ViewModels
 			set
 			{
 				_userName = value;
-				OnPropertyChanged("UserName");
+				OnPropertyChanged(() => UserName);
 			}
 		}
 		string _password;

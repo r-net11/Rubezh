@@ -103,7 +103,7 @@ namespace GKModule.ViewModels
 				AvailableDevices.Remove(availabledeviceViewModel);
 			}
 			SelectedDevice = Devices.LastOrDefault();
-			OnPropertyChanged("AvailableDevices");
+			OnPropertyChanged(() => AvailableDevices);
 
 			index = Math.Min(index, AvailableDevices.Count - 1);
 			if (index > -1)

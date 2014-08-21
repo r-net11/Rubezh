@@ -44,12 +44,64 @@ namespace SKDModule.Views
 			if (timeTrackDetailsViewModel != null)
 			{
 				var dayTimeTrack = timeTrackDetailsViewModel.DayTimeTrack;
+				DrawDocumentTimeTrackGrid(dayTimeTrack);
 				DrawRealTimeTrackGrid(dayTimeTrack);
 				DrawPlannedTimeTrackGrid(dayTimeTrack);
 				DrawCombinedTimeTrackGrid(dayTimeTrack);
 			}
 
 			DrawHoursGrid();
+		}
+
+		void DrawDocumentTimeTrackGrid(DayTimeTrack dayTimeTrack)
+		{
+			if (dayTimeTrack.DocumentTrackParts.Count > 0)
+			{
+				double current = 0;
+				var timeParts = new List<TimePart>();
+				for (int i = 0; i < dayTimeTrack.DocumentTrackParts.Count; i++)
+				{
+					var timeTrackPart = dayTimeTrack.DocumentTrackParts[i];
+
+					var startTimePart = new TimePart();
+					startTimePart.Delta = timeTrackPart.StartTime.TotalSeconds - current;
+					startTimePart.IsInterval = false;
+					timeParts.Add(startTimePart);
+
+					var endTimePart = new TimePart();
+					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
+					endTimePart.IsInterval = true;
+					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime);
+					timeParts.Add(endTimePart);
+
+					current = timeTrackPart.EndTime.TotalSeconds;
+				}
+				var lastTimePart = new TimePart();
+				lastTimePart.Delta = 24 * 60 * 60 - current;
+				lastTimePart.IsInterval = false;
+				timeParts.Add(lastTimePart);
+
+				for (int i = 0; i < timeParts.Count; i++)
+				{
+					var timePart = timeParts[i];
+					var widht = timePart.Delta;
+					if (widht >= 0)
+					{
+						DocumentsGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+
+						if (timePart.IsInterval)
+						{
+							Rectangle rectangle = new Rectangle();
+							rectangle.ToolTip = timePart.Tooltip;
+							rectangle.Fill = new SolidColorBrush(Colors.Green);
+							rectangle.Stroke = new SolidColorBrush(Colors.Black);
+							Grid.SetRow(rectangle, 0);
+							Grid.SetColumn(rectangle, i);
+							DocumentsGrid.Children.Add(rectangle);
+						}
+					}
+				}
+			}
 		}
 
 		void DrawRealTimeTrackGrid(DayTimeTrack dayTimeTrack)
@@ -212,7 +264,7 @@ namespace SKDModule.Views
 									rectangle.Fill = new SolidColorBrush(Colors.Green);
 									break;
 
-								case TimeTrackPartType.RealOnly:
+								case TimeTrackPartType.Overtime:
 									rectangle.Fill = new SolidColorBrush(Colors.Yellow);
 									break;
 
@@ -225,6 +277,18 @@ namespace SKDModule.Views
 									break;
 
 								case TimeTrackPartType.EarlyLeave:
+									rectangle.Fill = new SolidColorBrush(Colors.Pink);
+									break;
+
+								case TimeTrackPartType.DocumentOvertime:
+									rectangle.Fill = new SolidColorBrush(Colors.LightYellow);
+									break;
+
+								case TimeTrackPartType.DocumentPresence:
+									rectangle.Fill = new SolidColorBrush(Colors.LightGreen);
+									break;
+
+								case TimeTrackPartType.DocumentAbsence:
 									rectangle.Fill = new SolidColorBrush(Colors.LightPink);
 									break;
 							}

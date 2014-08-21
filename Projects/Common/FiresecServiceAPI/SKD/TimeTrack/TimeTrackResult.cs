@@ -37,14 +37,18 @@ namespace FiresecAPI.SKD
 			this()
 		{
 			DayTimeTracks = new List<DayTimeTrack>();
+			Documents = new List<TimeTrackDocument>();
 			Error = error;
 		}
+
+		[DataMember]
+		public ShortEmployee ShortEmployee { get; set; }
 
 		[DataMember]
 		public List<DayTimeTrack> DayTimeTracks { get; set; }
 
 		[DataMember]
-		public ShortEmployee ShortEmployee { get; set; }
+		public List<TimeTrackDocument> Documents { get; set; }
 
 		[DataMember]
 		public string Error { get; set; }

@@ -51,13 +51,13 @@
 		<Views:TimeTrackingView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:TimeTrackingSettingsViewModel}">
-		<Views:TimeTrackingSettingsView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:TimeTrackDetailsViewModel}">
 	    <Views:TimeTrackDetailsView />
 	</DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:TimeTrackFilterViewModel}">
+        <Views:TimeTrackFilterView />
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:DocumentDetailsViewModel}">
         <Views:DocumentDetailsView />

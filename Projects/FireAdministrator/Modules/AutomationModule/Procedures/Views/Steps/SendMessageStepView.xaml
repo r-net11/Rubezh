@@ -28,7 +28,7 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<TextBox Text="{Binding Message}" Width="200" Margin="2" VerticalAlignment="Top" Height="20" 
+		<TextBox Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" VerticalAlignment="Top" Height="20" 
 				 Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsValue}}"/>
 	</StackPanel>

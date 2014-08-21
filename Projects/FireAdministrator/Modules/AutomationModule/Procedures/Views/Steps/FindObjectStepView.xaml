@@ -8,18 +8,29 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<StackPanel Orientation="Horizontal" Grid.Row="0">
-			<ComboBox ItemsSource="{Binding Variables}" Margin="2"
+		<StackPanel Grid.Row="0">
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Результат: " HorizontalAlignment="Right" VerticalAlignment="Center"/>
+				<ComboBox ItemsSource="{Binding Variables}" Margin="2"
 					  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</StackPanel>
 			<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedVariable, Converter = {StaticResource NullToVisibilityConverter}}">
+				<Label Content="Условия поиска: " HorizontalAlignment="Right" VerticalAlignment="Center"/>
 				<ToolBarButton HorizontalAlignment="Left" Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить условие" Height="32" Width="32" />
-				<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="White" Command="{Binding ChangeJoinOperatorCommand}">
+				<ToolBarButton HorizontalAlignment="Left" Width="50" Height="30" Foreground="White" Command="{Binding ChangeJoinOperatorCommand}"
+							   Visibility="{Binding Path=IsJoinOperatorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+					<ToolBarButton.ToolTip>
+						<StackPanel Orientation="Horizontal" >
+							<TextBlock Text="Условия объединены по " VerticalAlignment="Center" />
+							<TextBlock Text="{Binding JoinOperator, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" FontWeight="Bold" VerticalAlignment="Center" />
+						</StackPanel>
+					</ToolBarButton.ToolTip>
 					<TextBlock Text="{Binding JoinOperator, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" />
 				</ToolBarButton>
 			</StackPanel>
@@ -40,19 +51,7 @@
 							</ComboBox.ItemTemplate>
 						</ComboBox>
 
-						<ComboBox ItemsSource="{Binding ConditionTypes}" Margin="2" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}"
-								  Visibility="{Binding Path=PropertyType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:PropertyType.Integer}}" MinWidth="130" MaxWidth="130">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate>
-						</ComboBox>
-
-						<ComboBox ItemsSource="{Binding StringConditionTypes}" Margin="2" SelectedItem="{Binding SelectedStringConditionType, UpdateSourceTrigger=PropertyChanged}"
-								  Visibility="{Binding Path=PropertyType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:PropertyType.String}}" MinWidth="130" MaxWidth="130">
+						<ComboBox ItemsSource="{Binding ConditionTypes}" Margin="2" SelectedItem="{Binding SelectedConditionType, UpdateSourceTrigger=PropertyChanged}" MinWidth="130" MaxWidth="130">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -61,12 +60,22 @@
 						</ComboBox>
 
 						<extToolkit:IntegerUpDown Value="{Binding IntValue}" Margin="2" VerticalContentAlignment="Center"
-							Visibility="{Binding Path=PropertyType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:PropertyType.Integer}}" MinWidth="163" MaxWidth="163"/>
+							Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
+							ConverterParameter={x:Static automation:ValueType.Integer}}" MinWidth="163" MaxWidth="163"/>
 
 						<TextBox Text="{Binding StringValue}" Margin="2" VerticalContentAlignment="Center"
-							Visibility="{Binding Path=PropertyType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:PropertyType.String}}" MinWidth="163" MaxWidth="163"/>
+							Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
+							ConverterParameter={x:Static automation:ValueType.String}}" MinWidth="163" MaxWidth="163"/>
+
+						<ComboBox ItemsSource="{Binding Types}" Margin="2" SelectedItem="{Binding SelectedType, UpdateSourceTrigger=PropertyChanged}"
+								  Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
+							ConverterParameter={x:Static automation:ValueType.Object}}" MinWidth="163" MaxWidth="163">
+							<ComboBox.ItemTemplate>
+								<DataTemplate>
+									<TextBlock Text="{Binding .}" />
+								</DataTemplate>
+							</ComboBox.ItemTemplate>
+						</ComboBox>
 
 					</StackPanel>
 				</DataTemplate>

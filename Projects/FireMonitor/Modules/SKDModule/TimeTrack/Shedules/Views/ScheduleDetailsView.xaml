@@ -22,18 +22,15 @@
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Наименование" />
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
-				<CheckBox Grid.Row="1" Grid.Column="1" Margin="2" Content="Не учитывать праздники" Foreground="White" IsChecked="{Binding IsIgnoreHoliday, UpdateSourceTrigger=PropertyChanged}" />
-				<CheckBox Grid.Row="2" Grid.Column="1" Margin="2" Content="Учитывать только первый вход последний выход" Foreground="White" IsChecked="{Binding IsOnlyFirstEnter, UpdateSourceTrigger=PropertyChanged}" />
-
-				<TextBlock Grid.Row="3" Grid.Column="0" Margin="2" Foreground="White" Text="Схема работы" />
-				<ComboBox Grid.Row="3" Grid.Column="1" Margin="2" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding AvailableScheduleTypes}" SelectedItem="{Binding SelectedScheduleType, UpdateSourceTrigger=PropertyChanged}">
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Схема работы" />
+				<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding AvailableScheduleTypes}" SelectedItem="{Binding SelectedScheduleType, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Foreground="Black" Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-				<ComboBox Grid.Row="4" Grid.Column="1" Margin="2" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding AvailableScheduleSchemes}" SelectedItem="{Binding SelectedScheduleScheme, UpdateSourceTrigger=PropertyChanged}">
+				<ComboBox Grid.Row="2" Grid.Column="1" Margin="2" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding AvailableScheduleSchemes}" SelectedItem="{Binding SelectedScheduleScheme, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Foreground="Black" Text="{Binding Name}" />
@@ -41,7 +38,10 @@
 					</ComboBox.ItemTemplate>
 				</ComboBox>
 
-	            <TextBlock Grid.Row="5" Grid.Column="0" Margin="2" Foreground="White" Text="Разрешить опоздания не более чем на" />
+                <CheckBox Grid.Row="3" Grid.Column="1" Margin="2" Content="Не учитывать праздники" Foreground="White" IsChecked="{Binding IsIgnoreHoliday, UpdateSourceTrigger=PropertyChanged}" />
+                <CheckBox Grid.Row="4" Grid.Column="1" Margin="2" Content="Учитывать только первый вход последний выход" Foreground="White" IsChecked="{Binding IsOnlyFirstEnter, UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Margin="2" Foreground="White" Text="Разрешить опоздания не более чем на" />
 	            <TimePicker Grid.Row="5" Grid.Column="1" Margin="2" TimeSpan="{Binding AllowedLate, UpdateSourceTrigger=PropertyChanged}" />
 
 	            <TextBlock Grid.Row="6" Grid.Column="0" Margin="2" Foreground="White" Text="Разрешить уходы раньше не более чем на" />

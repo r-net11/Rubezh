@@ -1,9 +1,11 @@
 ﻿<UserControl x:Class="AutomationModule.Views.GlobalVariablesView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI">
+
 	<DataGrid ItemsSource="{Binding GlobalVariables}" SelectedItem="{Binding SelectedGlobalVariable}" IsReadOnly="False">
 		<DataGrid.Columns>
-			<DataGridTemplateColumn Header="Название" Width="*">
+			<DataGridTemplateColumn Header="Имя" Width="*">
 				<DataGridTemplateColumn.CellTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal">
@@ -13,7 +15,45 @@
 					</DataTemplate>
 				</DataGridTemplateColumn.CellTemplate>
 			</DataGridTemplateColumn>
-			<DataGridTextColumn Width="*" Binding="{Binding Value}" Header="Значение" />
+			<DataGridTemplateColumn Header="Тип" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding ValueType, Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Значение" Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel>
+							<TextBlock Text="{Binding DefaultBoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+									 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
+									ConverterParameter={x:Static automation:ValueType.Boolean}}" />
+							<TextBlock Text="{Binding DefaultDateTimeValue, UpdateSourceTrigger=PropertyChanged}" Margin="2"
+										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
+									ConverterParameter={x:Static automation:ValueType.DateTime}}" />
+							<TextBlock Text="{Binding DefaultIntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
+									ConverterParameter={x:Static automation:ValueType.Integer}}" />
+							<TextBlock Text="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
+										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
+									ConverterParameter={x:Static automation:ValueType.Object}}" />
+							<TextBlock Text="{Binding DefaultStringValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
+										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
+									ConverterParameter={x:Static automation:ValueType.String}}" />
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Header="Список" Width="60" MinWidth="60" MaxWidth="60">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<CheckBox IsChecked="{Binding IsList}" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2 0" />
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
 		</DataGrid.Columns>
 	</DataGrid>
 </UserControl>

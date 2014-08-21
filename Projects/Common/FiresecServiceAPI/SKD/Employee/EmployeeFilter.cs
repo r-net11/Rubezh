@@ -36,8 +36,5 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public PersonType PersonType { get; set; }
-
-		[DataMember]
-		public int CardNo { get; set; }
 	}
 }

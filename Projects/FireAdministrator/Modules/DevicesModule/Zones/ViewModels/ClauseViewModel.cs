@@ -261,7 +261,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedMROMessageNo = value;
-				OnPropertyChanged("SelectedMROMessageNo");
+				OnPropertyChanged(() => SelectedMROMessageNo);
 			}
 		}
 

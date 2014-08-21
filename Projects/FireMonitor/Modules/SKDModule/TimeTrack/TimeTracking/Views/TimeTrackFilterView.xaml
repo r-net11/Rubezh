@@ -1,0 +1,149 @@
+﻿<UserControl x:Class="SKDModule.Views.TimeTrackFilterView"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
+			 xmlns:Views="clr-namespace:SKDModule.Views"
+			 Width="800" Height="600">
+	<TabControl>
+		<Views:FilterOrganisationTabItem />
+		<TabItem Header="Отделы" DataContext="{Binding DepartmentsFilterViewModel}">
+			<tree:TreeList Focusable="True" Source="{Binding RootDepartments}">
+				<tree:TreeList.View>
+					<GridView>
+						<GridViewColumn Header="Название" Width="200">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+											<StackPanel Orientation="Horizontal">
+												<Image Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" />
+												<TextBlock Text="{Binding Name}" />
+											</StackPanel>
+										</CheckBox>
+										<StackPanel Orientation="Horizontal" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}">
+											<Image Width="16" Source="/Controls;component/Images/BDirection.png" VerticalAlignment="Center" Margin="1 0" />
+											<TextBlock Text="{Binding Name}" />
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn Header="Описание">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="{Binding Description}" />
+									</StackPanel>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
+				</tree:TreeList.View>
+			</tree:TreeList>
+		</TabItem>
+		<TabItem Header="Должности" DataContext="{Binding PositionsFilterViewModel}">
+			<tree:TreeList Focusable="True" Source="{Binding RootPositions}">
+				<tree:TreeList.View>
+					<GridView>
+						<GridViewColumn Header="Название" Width="200">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}">
+											<StackPanel Orientation="Horizontal">
+												<Image Width="16" Source="/Controls;component/Images/Zone.png" VerticalAlignment="Center" Margin="1 0" />
+												<TextBlock Text="{Binding Name}" />
+											</StackPanel>
+										</CheckBox>
+										<StackPanel Orientation="Horizontal" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}">
+											<Image Width="16" Source="/Controls;component/Images/BDirection.png" VerticalAlignment="Center" Margin="1 0" />
+											<TextBlock Text="{Binding Name}" />
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						<GridViewColumn Header="Описание">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Text="{Binding Description}" />
+									</StackPanel>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
+				</tree:TreeList.View>
+			</tree:TreeList>
+		</TabItem>
+		<TabItem Header="Сотрудники" DataContext="{Binding EmployeeFilterViewModel}">
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Фамилия" Width="200" Foreground="White" Margin="2" />
+					<TextBox Text="{Binding LastName}" Margin="2" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Имя" Width="200" Foreground="White" Margin="2" />
+					<TextBox Text="{Binding FirstName}" Margin="2" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Отчество" Width="200" Foreground="White" Margin="2" />
+					<TextBox Text="{Binding SecondName}" Margin="2" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Visibility="{Binding HasManyPersonTypes, Converter={StaticResource BoolToVisibilityConverter}}">
+					<TextBlock Text="Тип" Width="200" Foreground="White" Margin="2" />
+					<StackPanel Margin="2">
+						<RadioButton GroupName="PersonTypes" Content="Сотрудники" IsChecked="{Binding IsEmployeesAllowed, Mode=TwoWay}" Foreground="White" FontSize="14" />
+						<RadioButton GroupName="PersonTypes" Content="Посетители" IsChecked="{Binding IsGuestsAllowed, Mode=TwoWay}" Foreground="White" FontSize="14" />
+					</StackPanel>
+				</StackPanel>
+			</StackPanel>
+		</TabItem>
+        <TabItem Header="Период">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Content="Период отчета" />
+
+                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Periods}" SelectedItem="{Binding Period}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Content="Дата начала" />
+                <Calendar Grid.Row="2" Grid.Column="0" DisplayDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFreePeriod}" SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+
+                <Label Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Content="Дата конца" />
+                <Calendar Grid.Row="2" Grid.Column="1" DisplayDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFreePeriod}" SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+            </Grid>
+        </TabItem>
+        <TabItem Header="Отображаемые данные">
+            <Border CornerRadius="5" Background="White" Margin="2">
+                <StackPanel Margin="2">
+                    <CheckBox Content="Фактическое Присутствиеп" IsChecked="{Binding IsTotal}" Margin="2" />
+                    <CheckBox Content="Прогул" IsChecked="{Binding IsTotalMissed}" Margin="2" />
+                    <CheckBox Content="По графику" IsChecked="{Binding IsTotalInSchedule}" Margin="2" />
+                    <CheckBox Content="Переработка" IsChecked="{Binding IsTotalOvertime}" Margin="2" />
+                    <CheckBox Content="Опоздания" IsChecked="{Binding IsTotalLate}" Margin="2" />
+                    <CheckBox Content="Ранний уход" IsChecked="{Binding IsTotalEarlyLeave}" Margin="2" />
+                    <CheckBox Content="По графику" IsChecked="{Binding IsTotalPlanned}" Margin="2" />
+                    <CheckBox Content="В вечерние часы" IsChecked="{Binding IsTotalEavening}" Margin="2" />
+                    <CheckBox Content="В ночные часы" IsChecked="{Binding IsTotalNight}" Margin="2" />
+                    <CheckBox Content="Переработка по документу" IsChecked="{Binding IsTotal_DocumentOvertime}" Margin="2" />
+                    <CheckBox Content="Присутствие по документу" IsChecked="{Binding IsTotal_DocumentPresence}" Margin="2" />
+                    <CheckBox Content="Отсутствие по документу" IsChecked="{Binding IsTotal_DocumentAbsence}" Margin="2" />
+                </StackPanel>
+            </Border>
+        </TabItem>
+	</TabControl>
+</UserControl>

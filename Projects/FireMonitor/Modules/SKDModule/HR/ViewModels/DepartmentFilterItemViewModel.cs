@@ -37,31 +37,7 @@ namespace SKDModule.ViewModels
 			{
 				_isChecked = value;
 				OnPropertyChanged(() => IsChecked);
-				if (value && Parent != null)
-				{
-					Parent.IsChecked = true;
-				}
-				var allChildren = GetAllChildren();
-				if (value)
-				{
-					if (allChildren.All(x => !x.IsChecked))
-						allChildren.ForEach(x => x.IsChecked = true);
-				}
-				else
-				{
-					allChildren.ForEach(x => x.IsChecked = false);
-				}
 			}
-		}
-
-		List<DepartmentFilterItemViewModel> GetAllChildren()
-		{
-			var result = Children.ToList();
-			foreach (var child in Children)
-			{
-				result.AddRange(child.GetAllChildren());
-			}
-			return result;
 		}
 	}
 }

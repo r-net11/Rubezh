@@ -8,6 +8,9 @@ using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
+using Infrastructure;
+using Infrastructure.Events.Reports;
+using System.Windows.Controls;
 
 namespace ReportsModule
 {
@@ -18,6 +21,11 @@ namespace ReportsModule
 		public override void CreateViewModels()
 		{
 			_reportViewModel = new ReportsViewModel();
+
+			ServiceFactory.Events.GetEvent<PrintReportEvent>().Unsubscribe(OnPrintReport);
+			ServiceFactory.Events.GetEvent<PrintReportEvent>().Subscribe(OnPrintReport);
+			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Unsubscribe(OnPrintReportPreview);
+			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Subscribe(OnPrintReportPreview);
 		}
 
 		public override void Initialize()
@@ -52,5 +60,15 @@ namespace ReportsModule
 		}
 
 		#endregion
+
+		private void OnPrintReport(IReportProvider provider)
+		{
+			var reportViewModel = new ReportPreviewViewModel(provider);
+			reportViewModel.Print();
+		}
+		private void OnPrintReportPreview(IReportProvider provider)
+		{
+			DialogService.ShowModalWindow(new ReportPreviewViewModel(provider));
+		}
 	}
 }

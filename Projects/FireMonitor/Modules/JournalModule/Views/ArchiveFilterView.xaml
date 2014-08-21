@@ -3,7 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
 		xmlns:Converters="clr-namespace:JournalModule.Converters"
-		xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+		xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 		xmlns:loya="clr-namespace:Loya.Dameer;assembly=Loya.Dameer"
 		xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"

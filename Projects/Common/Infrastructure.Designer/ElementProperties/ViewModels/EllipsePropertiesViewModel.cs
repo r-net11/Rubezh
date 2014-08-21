@@ -31,7 +31,7 @@ namespace Infrastructure.Designer.ElementProperties.ViewModels
 			set
 			{
 				_backgroundColor = value;
-				OnPropertyChanged("BackgroundColor");
+				OnPropertyChanged(() => BackgroundColor);
 			}
 		}
 

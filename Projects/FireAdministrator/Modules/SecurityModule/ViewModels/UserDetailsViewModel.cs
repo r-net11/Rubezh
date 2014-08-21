@@ -94,7 +94,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_password = value;
-				OnPropertyChanged("Password");
+				OnPropertyChanged(() => Password);
 			}
 		}
 

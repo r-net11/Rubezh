@@ -187,7 +187,6 @@
     <Compile Include="IGKService.cs" />
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\Automation\Condition.cs" />
-    <Compile Include="Models\Automation\ConditionType.cs" />
     <Compile Include="Models\Automation\ExitCode.cs" />
     <Compile Include="Models\Automation\FindObjectCondition.cs" />
     <Compile Include="Models\Automation\JoinOperator.cs" />
@@ -205,7 +204,6 @@
     <Compile Include="Models\Automation\StepArguments\PauseArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ProcedureSelectionArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\SoundArguments.cs" />
-    <Compile Include="Models\Automation\StringConditionType.cs" />
     <Compile Include="Models\Automation\VariableType.cs" />
     <Compile Include="Models\Automation\Variable.cs" />
     <Compile Include="Models\Automation\ValueType.cs" />

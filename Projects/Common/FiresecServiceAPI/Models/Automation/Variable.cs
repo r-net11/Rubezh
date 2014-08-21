@@ -68,34 +68,50 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public List<bool> DefaultBoolValues { get; set; }
+
+		[DataMember]
 		public List<bool> BoolValues { get; set; }
 
 		[DataMember]
 		public bool DefaultBoolValue { get; set; }
+
+		[DataMember]
 		public bool BoolValue { get; set; }
 
 		[DataMember]
 		public List<DateTime> DefaultDateTimeValues { get; set; }
+
+		[DataMember]
 		public List<DateTime> DateTimeValues { get; set; }
 
 		[DataMember]
 		public DateTime DefaultDateTimeValue { get; set; }
+
+		[DataMember]
 		public DateTime DateTimeValue { get; set; }
 
 		[DataMember]
 		public List<int> DefaultIntValues { get; set; }
+
+		[DataMember]
 		public List<int> IntValues { get; set; }
 
 		[DataMember]
 		public int DefaultIntValue { get; set; }
+
+		[DataMember]
 		public int IntValue { get; set; }
 
 		[DataMember]
 		public List<string> DefaultStringValues { get; set; }
+
+		[DataMember]
 		public List<string> StringValues { get; set; }
 
 		[DataMember]
 		public string DefaultStringValue { get; set; }
+
+		[DataMember]
 		public string StringValue { get; set; }
 
 		[DataMember]

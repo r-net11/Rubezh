@@ -1,33 +1,52 @@
 ﻿<UserControl x:Class="SKDModule.Views.DocumentDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" Text="Оправдательный документ" Foreground="White" Margin="2" />
-        <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableDocuments}" SelectedItem="{Binding SelectedDocument}" Margin="2">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+             MinWidth="500" MinHeight="500">
+    <TabControl>
+        <TabItem Header="Основные">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Оправдательный документ" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="2" />
+                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableDocuments}" SelectedItem="{Binding SelectedDocument}" Margin="2">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Описание" Foreground="White" Margin="2" />
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Comment}" Margin="2" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Описание" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Comment}" Margin="2" />
 
-        <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Content="Дата начала" />
-        <Calendar Grid.Row="2" Grid.Column="1" DisplayDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFreePeriod}" SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Номер документа" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding DocumentNumber}" Margin="2" />
 
-        <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Content="Дата конца" />
-        <Calendar Grid.Row="3" Grid.Column="1" DisplayDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFreePeriod}" SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
-    </Grid>
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата документа" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <Calendar Grid.Row="3" Grid.Column="1" DisplayDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+
+                <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" Content="Дата начала" />
+                <Calendar Grid.Row="5" Grid.Column="0" DisplayDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+                <ExtToolkit:TimePicker Grid.Row="6" Grid.Column="0" Value="{Binding StartTime}" Format="Custom" FormatString="HH:mm" Width="180" />
+
+
+                <Label Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Content="Дата конца" />
+                <Calendar Grid.Row="5" Grid.Column="1" DisplayDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding EndDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
+                <ExtToolkit:TimePicker Grid.Row="6" Grid.Column="1" Value="{Binding EndTime}" Format="Custom" FormatString="HH:mm" Width="180" />
+            </Grid>
+        </TabItem>
+    </TabControl>
 </UserControl>

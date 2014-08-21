@@ -746,3 +746,13 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('ScheduleSchemeDaysCount')	
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'TimeTrackDocumentDateTimeAndNumber')
+BEGIN
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'TimeTrackDocument')
+	BEGIN
+		ALTER TABLE TimeTrackDocument ADD [DocumentDateTime] [datetime] NOT NULL CONSTRAINT "TimeTrackDocument_DocumentDateTime_Default" DEFAULT CURRENT_TIMESTAMP
+		ALTER TABLE TimeTrackDocument ADD [DocumentNumber] [int] NOT NULL CONSTRAINT "TimeTrackDocument_DocumentNumber_Default" DEFAULT 1
+	END
+	INSERT INTO Patches (Id) VALUES ('TimeTrackDocumentDateTimeAndNumber')	
+END

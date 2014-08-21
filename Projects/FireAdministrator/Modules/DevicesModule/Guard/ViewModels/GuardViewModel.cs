@@ -400,7 +400,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedDeviceZone = value;
-				OnPropertyChanged("SelectedDeviceZone");
+				OnPropertyChanged(() => SelectedDeviceZone);
 			}
 		}
 

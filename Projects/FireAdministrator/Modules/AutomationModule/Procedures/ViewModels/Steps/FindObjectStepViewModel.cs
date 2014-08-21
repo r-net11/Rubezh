@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ValueType = FiresecAPI.Automation.ValueType;
+using FiresecAPI.GK;
 
 namespace AutomationModule.ViewModels
 {
@@ -33,8 +34,10 @@ namespace AutomationModule.ViewModels
 			var findObjectCondition = new FindObjectCondition();
 			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, SelectedVariable.Variable);
 			FindObjectArguments.FindObjectConditions.Add(findObjectCondition);
-			FindObjectConditions.Add(findObjectConditionViewModel);
+			FindObjectConditions.Add(findObjectConditionViewModel);			
 			OnPropertyChanged(() => FindObjectConditions);
+			UpdateContent();
+			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
 		public RelayCommand<FindObjectConditionViewModel> RemoveCommand { get; private set; }
@@ -43,6 +46,7 @@ namespace AutomationModule.ViewModels
 			FindObjectConditions.Remove(findObjectConditionViewModel);
 			FindObjectArguments.FindObjectConditions.Remove(findObjectConditionViewModel.FindObjectCondition);
 			OnPropertyChanged(() => FindObjectConditions);
+			UpdateContent();
 			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
@@ -52,10 +56,16 @@ namespace AutomationModule.ViewModels
 			JoinOperator = JoinOperator == JoinOperator.And ? JoinOperator.Or : JoinOperator.And;
 		}
 
+		public bool IsJoinOperatorVisible
+		{
+			get { return FindObjectConditions.Count > 1; }
+		}
+
 		public void UpdateContent()
 		{
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
 			Variables = new ObservableCollection<VariableViewModel>();
-			foreach (var variable in Procedure.Variables.FindAll(x => ((x.ValueType == ValueType.Object) && (x.IsList))))
+			foreach (var variable in allVariables.FindAll(x => ((x.ValueType == ValueType.Object) && (x.IsList))))
 			{
 				var variableViewModel = new VariableViewModel(variable);
 				Variables.Add(variableViewModel);
@@ -74,6 +84,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => Variables);
 			OnPropertyChanged(() => SelectedVariable);
 			OnPropertyChanged(() => FindObjectConditions);
+			OnPropertyChanged(() => IsJoinOperatorVisible);
 		}
 
 		public string Description
@@ -108,7 +119,8 @@ namespace AutomationModule.ViewModels
 						FindObjectArguments.FindObjectConditions = new List<FindObjectCondition>();
 						OnPropertyChanged(() => FindObjectConditions);
 					}
-					FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(AutomationConfiguration.ObjectTypeToProperiesList(value.ObjectType));
+					FindObjectConditionViewModel.Properties = new ObservableCollection<Property>(ProcedureHelper.ObjectTypeToProperiesList(value.ObjectType));
+					FindObjectConditionViewModel.Types = new ObservableCollection<string>(ProcedureHelper.ObjectTypeToTypesList(value.ObjectType));
 					FindObjectArguments.ResultUid = value.Variable.Uid;
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
@@ -126,10 +138,6 @@ namespace AutomationModule.ViewModels
 		{
 			FindObjectCondition = findObjectCondition;
 			ResultVariable = resultVariable;
-
-			ConditionTypes = new ObservableCollection<ConditionType>(Enum.GetValues(typeof(ConditionType)).Cast<ConditionType>());
-			StringConditionTypes = new ObservableCollection<StringConditionType>(Enum.GetValues(typeof(StringConditionType)).Cast<StringConditionType>());
-
 			SelectedProperty = FindObjectCondition.Property;
 			SelectedConditionType = FindObjectCondition.ConditionType;
 			IntValue = FindObjectCondition.IntValue;
@@ -143,8 +151,10 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				FindObjectCondition.Property = value;
+				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(ValueType));
 				OnPropertyChanged(() => SelectedProperty);
-				OnPropertyChanged(() => PropertyType);
+				OnPropertyChanged(() => ValueType);
+				OnPropertyChanged(() => ConditionTypes);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -161,14 +171,14 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public ObservableCollection<StringConditionType> StringConditionTypes { get; private set; }
-		public StringConditionType SelectedStringConditionType
+		public static ObservableCollection<string> Types { get; set; }
+		public string SelectedType
 		{
-			get { return FindObjectCondition.StringConditionType; }
+			get { return FindObjectCondition.Type; }
 			set
 			{
-				FindObjectCondition.StringConditionType = value;
-				OnPropertyChanged(() => SelectedStringConditionType);
+				FindObjectCondition.Type = value;
+				OnPropertyChanged(() => SelectedType);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -195,13 +205,15 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public PropertyType PropertyType
+		public ValueType ValueType
 		{
 			get
 			{
-				if (SelectedProperty == Property.Name)
-					return PropertyType.String;
-				return PropertyType.Integer;
+				if (SelectedProperty == Property.Description)
+					return ValueType.String;
+				if (SelectedProperty == Property.Type)
+					return ValueType.Object;
+				return ValueType.Integer;
 			}
 		}
 	}

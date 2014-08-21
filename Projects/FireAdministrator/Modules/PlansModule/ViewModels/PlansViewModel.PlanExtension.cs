@@ -12,7 +12,7 @@ namespace PlansModule.ViewModels
 {
 	public partial class PlansViewModel
 	{
-		private List<IPlanExtension<Plan>> _planExtensions;
+		List<IPlanExtension<Plan>> _planExtensions;
 
 		public void RegisterExtension(IPlanExtension<Plan> planExtension)
 		{
@@ -48,17 +48,17 @@ namespace PlansModule.ViewModels
 					yield return element;
 		}
 
-		private List<TabItem> _tabPages;
+		List<TabItem> _tabPages;
 		public List<TabItem> TabPages
 		{
 			get { return _tabPages; }
 			set
 			{
 				_tabPages = value;
-				OnPropertyChanged("TabPages");
+				OnPropertyChanged(() => TabPages);
 			}
 		}
-		private int _selectedTabIndex;
+		int _selectedTabIndex;
 		public int SelectedTabIndex
 		{
 			get { return _selectedTabIndex; }
@@ -68,7 +68,7 @@ namespace PlansModule.ViewModels
 				OnPropertyChanged("SelectedTabIndex");
 			}
 		}
-		private void CreatePages()
+		void CreatePages()
 		{
 			var layers = new TabItem()
 				{
@@ -86,12 +86,12 @@ namespace PlansModule.ViewModels
 			};
 			SelectedTabIndex = -1;
 		}
-		private void UpdateTabIndex()
+		void UpdateTabIndex()
 		{
 			SelectedTabIndex = SelectedPlan == null ? -1 : 0;
 		}
 
-		private void ExtensionAttached()
+		void ExtensionAttached()
 		{
 			foreach (var planExtension in _planExtensions)
 				planExtension.ExtensionAttached();

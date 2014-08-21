@@ -95,6 +95,8 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Events\Reports\PrintReportPreviewEvent.cs" />
+    <Compile Include="Events\Reports\PrintReportEvent.cs" />
     <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
     <Compile Include="Events\ShowDetails\ShowXGuardZoneDetailsEvent.cs" />
     <Compile Include="Events\ShowOnPlan\ShowProcedureOnPlanEvent.cs" />

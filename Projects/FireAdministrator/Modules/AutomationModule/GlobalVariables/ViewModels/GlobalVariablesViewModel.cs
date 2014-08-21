@@ -63,6 +63,7 @@ namespace AutomationModule.ViewModels
 			{
 				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);
 				var globalVariableViewModel = new VariableViewModel(globalVariableDetailsViewModel.Variable);
+				globalVariableViewModel.Variable.ResetValue();
 				GlobalVariables.Add(globalVariableViewModel);
 				SelectedGlobalVariable = globalVariableViewModel;
 				ServiceFactory.SaveService.AutomationChanged = true;
@@ -89,6 +90,7 @@ namespace AutomationModule.ViewModels
 			var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable);
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
+				SelectedGlobalVariable.Variable.Copy(globalVariableDetailsViewModel.Variable);
 				SelectedGlobalVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}

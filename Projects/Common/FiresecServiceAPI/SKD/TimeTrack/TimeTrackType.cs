@@ -20,7 +20,7 @@ namespace FiresecAPI.SKD
 		EarlyLeave,
 
 		[Description("Сверхурочно")]
-		OutShedule,
+		Overtime,
 
 		[Description("Выходной")]
 		DayOff,

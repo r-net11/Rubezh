@@ -14,10 +14,13 @@ namespace FiresecAPI.Automation
 		}
 
 		[DataMember]
-		public OperationType OperationType { get; set; }
+		public ValueType ArithmeticValueType { get; set; }
 
 		[DataMember]
-		public ArithmeticType ArithmeticType { get; set; }
+		public ArithmeticOperationType ArithmeticOperationType { get; set; }
+
+		[DataMember]
+		public TimeType TimeType { get; set; }
 
 		[DataMember]
 		public ArithmeticParameter Variable1 { get; set; }
@@ -34,13 +37,23 @@ namespace FiresecAPI.Automation
 		public ArithmeticParameter()
 		{
 			VariableUid = new Guid();
+			BoolValue = false;
+			DateTimeValue = DateTime.Now;
+			IntValue = 0;
+			StringValue = "";
 		}
 
 		[DataMember]
 		public VariableType VariableType { get; set; }
 
 		[DataMember]
-		public int Value { get; set; }
+		public bool BoolValue { get; set; }
+
+		[DataMember]
+		public DateTime DateTimeValue { get; set; }
+
+		[DataMember]
+		public int IntValue { get; set; }
 
 		[DataMember]
 		public string StringValue { get; set; }
@@ -49,23 +62,7 @@ namespace FiresecAPI.Automation
 		public Guid VariableUid { get; set; }
 	}
 
-
-	public enum OperationType
-	{
-		[Description("Операции с целыми")]
-		IntegerOperation,
-
-		[Description("Операции с логическими")]
-		BoolOperation,
-
-		[Description("Операции с временными")]
-		DateTimeOperation,
-
-		[Description("Операции со строковыми")]
-		StringOperation
-	}
-
-	public enum ArithmeticType
+	public enum ArithmeticOperationType
 	{
 		[Description("Сложение")]
 		Add,
@@ -87,5 +84,20 @@ namespace FiresecAPI.Automation
 
 		[Description("Конкатенация")]
 		Concat
+	}
+
+	public enum TimeType
+	{
+		[Description("секунд")]
+		Sec,
+
+		[Description("минут")]
+		Min,
+
+		[Description("часов")]
+		Hour,
+
+		[Description("дней")]
+		Day
 	}
 }

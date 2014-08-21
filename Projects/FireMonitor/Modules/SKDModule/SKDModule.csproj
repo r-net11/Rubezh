@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeReason.Reports, Version=0.5.0.0, Culture=neutral, PublicKeyToken=74fc60a060db7911, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
+    </Reference>
     <Reference Include="Loya.Dameer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\3rdParty\Loya.Dameer.dll</HintPath>
     </Reference>
@@ -138,11 +142,14 @@
     <Compile Include="HR\ViewModels\PositionsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentsFilterViewModel.cs" />
     <Compile Include="HR\ViewModels\DepartmentFilterItemViewModel.cs" />
+    <Compile Include="Reports\T13Report.cs" />
     <Compile Include="TimeTrack\Common\CopyHelper.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\OrganisationViewModel.cs" />
     <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeTrackTypeToColorConverter.cs" />
+    <Compile Include="TimeTrack\Converters\TimeSpanToColorConverter.cs" />
+    <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter2.cs" />
     <Compile Include="TimeTrack\Holidays\ViewModels\Comparers.cs" />
     <Compile Include="TimeTrack\Intervals\ViewModels\Comparers.cs" />
     <Compile Include="TimeTrack\ScheduleShemes\ViewModels\Comparers.cs" />
@@ -160,26 +167,28 @@
       <DependentUpon>ScheduleSchemesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\Shedules\ViewModels\Comparers.cs" />
-    <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingSettings.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackingPeriod.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTrackViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackFilter.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackFilterViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
-    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingSettingsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TotalViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml.cs">
       <DependentUpon>DocumentDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackFilterView.xaml.cs">
+      <DependentUpon>TimeTrackFilterView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackDetailsView.xaml.cs">
       <DependentUpon>TimeTrackDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackingCellView.xaml.cs">
       <DependentUpon>TimeTrackingCellView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackingSettingsView.xaml.cs">
-      <DependentUpon>TimeTrackingSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\TimeTrackingView.xaml.cs">
       <DependentUpon>TimeTrackingView.xaml</DependentUpon>
@@ -557,6 +566,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Resource Include="Reports\T13.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Reports\T13_2.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -569,15 +584,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackFilterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="TimeTrack\TimeTracking\Views\TimeTrackDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimeTrack\TimeTracking\Views\TimeTrackingCellView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TimeTrack\TimeTracking\Views\TimeTrackingSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

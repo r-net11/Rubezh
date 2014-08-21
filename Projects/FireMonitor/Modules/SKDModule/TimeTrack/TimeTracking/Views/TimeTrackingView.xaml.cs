@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using SKDModule.ViewModels;
+using System.Reflection;
 
 namespace SKDModule.Views
 {
@@ -46,6 +47,35 @@ namespace SKDModule.Views
 				grid.Columns.Add(column);
 				date = date.AddDays(1);
 			}
+		}
+	}
+
+	public static class VirtualizingStackPanelBehaviors
+	{
+		public static bool GetIsPixelBasedScrolling(DependencyObject obj)
+		{
+			return (bool)obj.GetValue(IsPixelBasedScrollingProperty);
+		}
+
+		public static void SetIsPixelBasedScrolling(DependencyObject obj, bool value)
+		{
+			obj.SetValue(IsPixelBasedScrollingProperty, value);
+		}
+
+		public static readonly DependencyProperty IsPixelBasedScrollingProperty =
+			DependencyProperty.RegisterAttached("IsPixelBasedScrolling", typeof(bool), typeof(VirtualizingStackPanelBehaviors), new UIPropertyMetadata(false, OnIsPixelBasedScrollingChanged));
+
+		private static void OnIsPixelBasedScrollingChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+		{
+			var virtualizingStackPanel = o as VirtualizingStackPanel;
+			if (virtualizingStackPanel == null)
+				throw new InvalidOperationException();
+
+			var isPixelBasedPropertyInfo = typeof(VirtualizingStackPanel).GetProperty("IsPixelBased", BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic);
+			if (isPixelBasedPropertyInfo == null)
+				throw new InvalidOperationException();
+
+			isPixelBasedPropertyInfo.SetValue(virtualizingStackPanel, (bool)(e.NewValue), null);
 		}
 	}
 }

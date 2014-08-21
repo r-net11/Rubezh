@@ -143,6 +143,24 @@ namespace SKDDriver.Translators
 							timeTrackEmployeeResult.DayTimeTracks.Add(dayTimeTrack);
 						}
 					}
+
+					var documentsOperationResult = SKDDatabaseService.TimeTrackDocumentTranslator.Get(shortEmployee.UID, startDate, endDate);
+					if (!documentsOperationResult.HasError)
+					{
+						timeTrackEmployeeResult.Documents = documentsOperationResult.Result;
+						foreach (var document in timeTrackEmployeeResult.Documents)
+						{
+							for (DateTime date = document.StartDateTime; date <= document.EndDateTime; date = date.AddDays(1))
+							{
+								var dayTimeTracks = timeTrackEmployeeResult.DayTimeTracks.FirstOrDefault(x => x.Date.Date == date.Date);
+								if (dayTimeTracks != null)
+								{
+									dayTimeTracks.Documents.Add(document);
+								}
+							}
+						}
+					}
+
 					timeTrackResult.TimeTrackEmployeeResults.Add(timeTrackEmployeeResult);
 				}
 				return new OperationResult<TimeTrackResult> { Result = timeTrackResult };
@@ -339,12 +357,6 @@ namespace SKDDriver.Translators
 				}
 			}
 			dayTimeTrack.RealTimeTrackParts = dayTimeTrack.RealTimeTrackParts.OrderBy(x => x.StartTime.Ticks).ToList();
-
-			var operationResult = SKDDatabaseService.TimeTrackDocumentTranslator.Get(employee.UID, date, date);
-			if (!operationResult.HasError)
-			{
-				dayTimeTrack.TimeTrackDocument = operationResult.Result.FirstOrDefault();
-			}
 
 			return dayTimeTrack;
 		}
