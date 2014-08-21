@@ -1,54 +1,32 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.SKD;
-using Infrastructure.Common.TreeList;
+using SKDModule.Common.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class AccessTemplateViewModel : TreeNodeViewModel<AccessTemplateViewModel>
+	public class AccessTemplateViewModel : CartothequeTabItemElementBase<AccessTemplateViewModel, AccessTemplate>
 	{
-		public Organisation Organisation { get; private set; }
-		public bool IsOrganisation { get; private set; }
-		public string Name { get; private set; }
-		public string Description { get; private set; }
-		public AccessTemplate AccessTemplate { get; private set; }
 		public CardDoorsViewModel CardDoorsViewModel { get; private set; }
 
-		public AccessTemplateViewModel(Organisation organisation)
+		public override void InitializeOrganisation(Organisation organisation)
 		{
-			Organisation = organisation;
-			IsOrganisation = true;
-			Name = organisation.Name;
-			IsExpanded = true;
+			base.InitializeOrganisation(organisation);
 			CardDoorsViewModel = new CardDoorsViewModel(new List<CardDoor>());
 		}
 
-		public AccessTemplateViewModel(Organisation organisation, AccessTemplate accessTemplate)
+		public override void InitializeModel(Organisation organisation, AccessTemplate accessTemplate)
 		{
-			Organisation = organisation;
-			AccessTemplate = accessTemplate;
-			IsOrganisation = false;
-			Name = accessTemplate.Name;
+			base.InitializeModel(organisation, accessTemplate);
 			Description = accessTemplate.Description;
 			CardDoorsViewModel = new CardDoorsViewModel(accessTemplate.CardDoors);
 		}
 
-		public void Update(AccessTemplate accessTemplate)
+		public override void Update(AccessTemplate accessTemplate)
 		{
-			Name = accessTemplate.Name;
 			Description = accessTemplate.Description;
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
 			CardDoorsViewModel.Update(accessTemplate.CardDoors);
-		}
-
-		public void Update(Organisation organisation)
-		{
-			Organisation = organisation;
-			IsOrganisation = true;
-			Name = organisation.Name;
-			Description = organisation.Description;
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
+			base.Update(accessTemplate);
 		}
 	}
+
 }

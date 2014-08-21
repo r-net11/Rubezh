@@ -16,7 +16,7 @@
 	        <RowDefinition Height="Auto" />
 	        <RowDefinition Height="*" MinHeight="200" />
 	    </Grid.RowDefinitions>
-	    <tree:TreeList Grid.Row="0" SelectedTreeNode="{Binding SelectedAccessTemplate}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True" Focusable="True">
+	    <tree:TreeList Grid.Row="0" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True" Focusable="True">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource AccessTemplateViewModelNameComparer}">
@@ -44,7 +44,7 @@
 		</tree:TreeList>
 
 	    <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
-	    <Grid Grid.Row="2" DataContext="{Binding SelectedAccessTemplate}">
+	    <Grid Grid.Row="2" DataContext="{Binding SelectedItem}">
 	        <Views:CardDoorsView Grid.Row="1" DataContext="{Binding CardDoorsViewModel}" />
 	    </Grid>
 	</Grid>

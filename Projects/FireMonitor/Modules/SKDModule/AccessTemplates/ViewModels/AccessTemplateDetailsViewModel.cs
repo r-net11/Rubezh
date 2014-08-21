@@ -2,16 +2,19 @@
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Common.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class AccessTemplateDetailsViewModel : SaveCancelDialogViewModel
+	public class AccessTemplateDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<AccessTemplate>
 	{
 		Organisation Organisation { get; set; }
-		public AccessTemplate AccessTemplate { get; private set; }
+		public AccessTemplate Model { get; private set; }
 		public AccessDoorsSelectationViewModel AccessDoorsSelectationViewModel { get; private set; }
 
-		public AccessTemplateDetailsViewModel(Organisation orgnaisation, AccessTemplate accessTemplate = null)
+		public AccessTemplateDetailsViewModel() {  }
+		
+		public void Initialize(Organisation orgnaisation, AccessTemplate accessTemplate)
 		{
 			Organisation = orgnaisation;
 			if (accessTemplate == null)
@@ -26,16 +29,16 @@ namespace SKDModule.ViewModels
 			{
 				Title = string.Format("Свойства шаблона доступа: {0}", accessTemplate.Name);
 			}
-			AccessTemplate = accessTemplate;
-			AccessTemplateGuardZones = new AccessTemplateGuardZonesViewModel(AccessTemplate);
+			Model = accessTemplate;
+			AccessTemplateGuardZones = new AccessTemplateGuardZonesViewModel(Model);
 			CopyProperties();
-			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, AccessTemplate.CardDoors);
+			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Model.CardDoors);
 		}
 
 		public void CopyProperties()
 		{
-			Name = AccessTemplate.Name;
-			Description = AccessTemplate.Description;
+			Name = Model.Name;
+			Description = Model.Description;
 		}
 
 		string _name;
@@ -75,18 +78,20 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (AccessTemplate.Name == "НЕТ")
+			if (Model.Name == "НЕТ")
 			{
 				MessageBoxService.ShowWarning("Запрещенное название");
 				return false;
 			}
 
-			AccessTemplate.Name = Name;
-			AccessTemplate.Description = Description;
-			AccessTemplate.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
-			AccessTemplate.CardDoors.ForEach(x => x.AccessTemplateUID = AccessTemplate.UID);
-			AccessTemplate.OrganisationUID = Organisation.UID;
-			return AccessTemplateHelper.Save(AccessTemplate);
+			Model.Name = Name;
+			Model.Description = Description;
+			Model.CardDoors = AccessDoorsSelectationViewModel.GetCardDoors();
+			Model.CardDoors.ForEach(x => x.AccessTemplateUID = Model.UID);
+			Model.OrganisationUID = Organisation.UID;
+			return AccessTemplateHelper.Save(Model);
 		}
 	}
+
+	
 }

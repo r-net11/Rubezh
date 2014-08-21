@@ -24,4 +24,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public Guid UID { get; set; }
 	}
+
+    public interface IWithName
+    {
+        string Name { get; set; }
+    }
 }
