@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_kauShleifNo = value;
-				OnPropertyChanged("KAUShleifNo");
+				OnPropertyChanged(() => KAUShleifNo);
 			}
 		}
 

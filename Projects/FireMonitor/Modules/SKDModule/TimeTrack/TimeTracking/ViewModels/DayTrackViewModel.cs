@@ -22,24 +22,7 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			switch (DayTimeTrack.TimeTrackType)
-			{
-				case TimeTrackType.Holiday:
-					Letter = "В";
-					break;
-
-				case TimeTrackType.Missed:
-					Letter = "ПР";
-					break;
-
-				case TimeTrackType.DayOff:
-					Letter = "В";
-					break;
-
-				default:
-					Letter = "X";
-					break;
-			}
+			Letter = DayTimeTrack.LetterCode;
 			Tooltip = DayTimeTrack.TimeTrackType.ToDescription();
 
 			if (DayTimeTrack.Documents != null && DayTimeTrack.Documents.Count > 0)
@@ -47,7 +30,6 @@ namespace SKDModule.ViewModels
 				var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == DayTimeTrack.Documents[0].DocumentCode);
 				if (timeTrackDocumentType != null)
 				{
-					Letter = timeTrackDocumentType.ShortName;
 					Tooltip = timeTrackDocumentType.Name;
 				}
 			}

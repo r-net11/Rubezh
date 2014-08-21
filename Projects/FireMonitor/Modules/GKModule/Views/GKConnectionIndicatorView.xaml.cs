@@ -71,7 +71,7 @@ namespace GKModule.Views
 			set
 			{
 				_isConnected = value;
-				OnPropertyChanged(() => IsConnected);
+				OnPropertyChanged("IsConnected");
 				if (value)
 				{
 					_border.ToolTip = "Связь в норме";

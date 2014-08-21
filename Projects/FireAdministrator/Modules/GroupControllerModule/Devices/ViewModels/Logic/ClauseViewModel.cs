@@ -251,7 +251,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Zones = zonesSelectationViewModel.Zones;
-				OnPropertyChanged("PresenrationZones");
+				OnPropertyChanged(() => PresenrationZones);
 			}
 		}
 

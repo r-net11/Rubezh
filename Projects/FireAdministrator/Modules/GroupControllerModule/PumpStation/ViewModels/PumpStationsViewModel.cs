@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
 				XManager.PumpStations.Remove(SelectedPumpStation.PumpStation);
 				PumpStations.Remove(SelectedPumpStation);
 				SelectedPumpStation = PumpStations.FirstOrDefault();
-				OnPropertyChanged("HasSelectedPumpStation");
+				OnPropertyChanged(() => HasSelectedPumpStation);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

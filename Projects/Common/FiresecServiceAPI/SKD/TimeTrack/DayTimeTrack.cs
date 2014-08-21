@@ -97,6 +97,28 @@ namespace FiresecAPI.SKD
 		public TimeSpan Total_DocumentPresence { get; set; }
 		public TimeSpan Total_DocumentAbsence { get; set; }
 
+		public string LetterCode { get; set; }
+
+		public void Calculate()
+		{
+			CalculateDocuments();
+
+			PlannedTimeTrackParts = NormalizeTimeTrackParts(PlannedTimeTrackParts);
+			RealTimeTrackParts = NormalizeTimeTrackParts(RealTimeTrackParts);
+
+			CalculateCombinedTimeTrackParts();
+			CalculateTotal();
+
+			TotalEavening = new TimeSpan();
+			TotalNight = new TimeSpan();
+			if (HolidaySettings != null)
+			{
+				TotalEavening = CalculateEveningTime(HolidaySettings.EveningStartTime, HolidaySettings.EveningEndTime);
+				TotalNight = CalculateEveningTime(HolidaySettings.NightStartTime, HolidaySettings.NightEndTime);
+			}
+			CalculateLetterCode();
+		}
+
 		void CalculateDocuments()
 		{
 			DocumentTrackParts = new List<TimeTrackPart>();
@@ -166,25 +188,6 @@ namespace FiresecAPI.SKD
 				}
 			}
 			DocumentTrackParts = result;
-		}
-
-		public void Calculate()
-		{
-			CalculateDocuments();
-
-			PlannedTimeTrackParts = NormalizeTimeTrackParts(PlannedTimeTrackParts);
-			RealTimeTrackParts = NormalizeTimeTrackParts(RealTimeTrackParts);
-
-			CalculateCombinedTimeTrackParts();
-			CalculateTotal();
-
-			TotalEavening = new TimeSpan();
-			TotalNight = new TimeSpan();
-			if (HolidaySettings != null)
-			{
-				TotalEavening = CalculateEveningTime(HolidaySettings.EveningStartTime, HolidaySettings.EveningEndTime);
-				TotalNight = CalculateEveningTime(HolidaySettings.NightStartTime, HolidaySettings.NightEndTime);
-			}
 		}
 
 		void CalculateCombinedTimeTrackParts()
@@ -509,6 +512,37 @@ namespace FiresecAPI.SKD
 				}
 			}
 			return result;
+		}
+
+		void CalculateLetterCode()
+		{
+			switch (TimeTrackType)
+			{
+				case TimeTrackType.Holiday:
+					LetterCode = "В";
+					break;
+
+				case TimeTrackType.Missed:
+					LetterCode = "ПР";
+					break;
+
+				case TimeTrackType.DayOff:
+					LetterCode = "В";
+					break;
+
+				default:
+					LetterCode = "X";
+					break;
+			}
+
+			if (Documents != null && Documents.Count > 0)
+			{
+				var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == Documents[0].DocumentCode);
+				if (timeTrackDocumentType != null)
+				{
+					LetterCode = timeTrackDocumentType.ShortName;
+				}
+			}
 		}
 	}
 }

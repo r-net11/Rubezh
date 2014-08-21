@@ -80,11 +80,36 @@ namespace SKDModule.ViewModels
 			if (reportModel.EndDateTime > TimeTrackFilter.EndDate)
 				reportModel.EndDateTime = TimeTrackFilter.EndDate;
 
+			int currentNo = 0;
 			foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
 			{
 				var employeeReportModel = new EmployeeReportModel();
 				reportModel.EmployeeRepors.Add(employeeReportModel);
+
+				employeeReportModel.No = currentNo++;
 				employeeReportModel.EmploueeFIO = timeTrackEmployeeResult.ShortEmployee.FIO;
+
+				foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
+				{
+					if (dayTimeTrack.Date > reportModel.StartDateTime && dayTimeTrack.Date < reportModel.EndDateTime)
+					{
+						var employeeReportModelDay = new EmployeeReportModelDay();
+						employeeReportModel.Days.Add(employeeReportModelDay);
+						employeeReportModelDay.Code = dayTimeTrack.LetterCode;
+						employeeReportModelDay.TimeSpan = dayTimeTrack.Total;
+
+						if (dayTimeTrack.Documents != null)
+						{
+							foreach (var trackPart in dayTimeTrack.CombinedTimeTrackParts)
+							{
+								foreach (var documentCode in trackPart.DocumentCodes)
+								{
+
+								}
+							}
+						}
+					}
+				}
 			}
 
 			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(true, reportModel));

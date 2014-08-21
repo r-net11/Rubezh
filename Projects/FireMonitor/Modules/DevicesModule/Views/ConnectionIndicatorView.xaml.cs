@@ -43,7 +43,7 @@ namespace DevicesModule.Views
 			set
 			{
 				_isConnected = value;
-				OnPropertyChanged(() => IsConnected);
+				OnPropertyChanged("IsConnected");
 				if (value)
 				{
 					_connectionControl.ToolTip = "Связь с сервером в норме";
