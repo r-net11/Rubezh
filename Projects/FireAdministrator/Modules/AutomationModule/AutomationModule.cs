@@ -15,6 +15,8 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Services.Layout;
 using Infrastructure.Common.Validation;
 using Infrustructure.Plans.Events;
+using FiresecClient;
+using FiresecAPI.Automation;
 
 namespace AutomationModule
 {

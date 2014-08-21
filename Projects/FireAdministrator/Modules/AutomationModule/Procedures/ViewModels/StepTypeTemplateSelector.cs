@@ -6,7 +6,7 @@ namespace AutomationModule.ViewModels
 	public class StepTypeTemplateSelector : DataTemplateSelector
 	{
 		public DataTemplate SoundsTemplate { get; set; }
-		public DataTemplate SendMessageTemplate { get; set; }
+		public DataTemplate ShowMessageTemplate { get; set; }
 		public DataTemplate JournalTemplate { get; set; }
 		public DataTemplate ArithmeticTemplate { get; set; }
 		public DataTemplate ConditionTemplate { get; set; }
@@ -34,9 +34,9 @@ namespace AutomationModule.ViewModels
 			{
 				return SoundsTemplate;
 			}
-			if (item is SendMessageStepViewModel)
+			if (item is ShowMessageStepViewModel)
 			{
-				return SendMessageTemplate;
+				return ShowMessageTemplate;
 			}
 			if (item is JournalStepViewModel)
 			{

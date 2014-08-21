@@ -21,7 +21,8 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			Variable.Update(Procedure.Variables);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Integer);
+			Variable.Update(allVariables);
 		}
 
 		public string Description

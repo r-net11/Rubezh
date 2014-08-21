@@ -10,6 +10,7 @@ namespace FiresecAPI.Automation
 		{
 			Uid = Guid.NewGuid();
 			Variable = new ArithmeticParameter();
+			Variable.IntValue = 1;
 		}
 
 		[DataMember]

@@ -3,11 +3,12 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
+			<ColumnDefinition Width="250"/>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<StackPanel Grid.Column="0" Margin="2" >
-			<ComboBox ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}">
+		<StackPanel Grid.Column="0" Margin="2" Orientation="Horizontal">
+			<Label Content="Звук: " VerticalAlignment="Top"/>
+			<ComboBox ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}" VerticalAlignment="Top">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding Name}" />
@@ -15,8 +16,7 @@
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 		</StackPanel>
-		<DataGrid Grid.Column="1" Margin="2" ItemsSource="{Binding Layouts}" Visibility="{Binding SelectedSound, 
-			Converter = {StaticResource NullToVisibilityConverter}}" >
+		<DataGrid Grid.Column="1" Margin="2" ItemsSource="{Binding Layouts}" >
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="Название" Width="*" >
 					<DataGridTemplateColumn.CellTemplate>

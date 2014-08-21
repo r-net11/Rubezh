@@ -213,7 +213,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => GlobalVariables);
 		}
 
-		public ObservableCollection<VariableType> VariableTypes { get; private set; }
+		public ObservableCollection<VariableType> VariableTypes { get; set; }
 		public VariableType SelectedVariableType
 		{
 			get { return ArithmeticParameter.VariableType; }
@@ -266,6 +266,17 @@ namespace AutomationModule.ViewModels
 				ArithmeticParameter.StringValue = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => StringValue);
+			}
+		}
+
+		public string TypeValue
+		{
+			get { return ArithmeticParameter.TypeValue; }
+			set
+			{
+				ArithmeticParameter.TypeValue = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => TypeValue);
 			}
 		}
 

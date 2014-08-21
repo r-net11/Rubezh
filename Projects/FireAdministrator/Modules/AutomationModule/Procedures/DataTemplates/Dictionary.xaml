@@ -64,7 +64,7 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="sendMessageTemplate">
-		<Views:SendMessageStepView />
+		<Views:ShowMessageStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="journalTemplate">
@@ -149,7 +149,7 @@
 
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
-		SendMessageTemplate ="{StaticResource sendMessageTemplate}"
+		ShowMessageTemplate ="{StaticResource sendMessageTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 		ConditionTemplate="{StaticResource conditionTemplate}"

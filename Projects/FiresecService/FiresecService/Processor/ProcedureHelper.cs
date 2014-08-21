@@ -77,25 +77,25 @@ namespace FiresecService.Processor
 				resultVariable.StringValues.Add(stringPropertyValue);
 		}
 
-		public static AutomationCallbackResult SendMessage(ProcedureStep procedureStep, Procedure procedure)
+		public static AutomationCallbackResult ShowMessage(ProcedureStep procedureStep, Procedure procedure)
 		{
 			var automationCallbackResult = new AutomationCallbackResult();
-			var sendMessageArguments = procedureStep.SendMessageArguments;
-			if (sendMessageArguments.VariableType == VariableType.IsValue)
-				automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
-			if (sendMessageArguments.VariableType == VariableType.IsLocalVariable)
-			{
-				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid) ??
-					procedure.Arguments.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid);
-				if (localVariable != null)
-					automationCallbackResult.Message = localVariable.CurrentValue;
-			}
-			if (sendMessageArguments.VariableType == VariableType.IsGlobalVariable)
-			{
-				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == sendMessageArguments.GlobalVariableUid);
-				if (globalVariable != null)
-					automationCallbackResult.Message = globalVariable.CurrentValue;
-			}
+			//var sendMessageArguments = procedureStep.SendMessageArguments;
+			//if (sendMessageArguments.VariableType == VariableType.IsValue)
+			//    automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
+			//if (sendMessageArguments.VariableType == VariableType.IsLocalVariable)
+			//{
+			//    var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid) ??
+			//        procedure.Arguments.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid);
+			//    if (localVariable != null)
+			//        automationCallbackResult.Message = localVariable.CurrentValue;
+			//}
+			//if (sendMessageArguments.VariableType == VariableType.IsGlobalVariable)
+			//{
+			//    var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == sendMessageArguments.GlobalVariableUid);
+			//    if (globalVariable != null)
+			//        automationCallbackResult.Message = globalVariable.CurrentValue;
+			//}
 			return automationCallbackResult;
 		}
 
