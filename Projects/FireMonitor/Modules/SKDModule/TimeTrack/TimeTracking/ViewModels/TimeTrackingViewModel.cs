@@ -11,6 +11,7 @@ using System.Diagnostics;
 using Infrastructure;
 using Infrastructure.Events.Reports;
 using SKDModule.Reports;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -94,11 +95,42 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
-		private void OnPrint()
+		void OnPrint()
 		{
-			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(MessageBoxService.ShowConfirmation2("Печать отчет в пейзажном формате?")));
+			if (TimeTracks.Count == 0)
+			{
+				MessageBoxService.ShowWarning("В отчете нет ни одного сотрудника");
+				return;
+			}
+			var uids = new HashSet<Guid>();
+			foreach (var timeTrack in TimeTracks)
+			{
+				if (timeTrack.ShortEmployee.OrganisationUID.HasValue)
+					uids.Add(timeTrack.ShortEmployee.OrganisationUID.Value);
+			}
+			if (uids.Count > 1)
+			{
+				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одной организации");
+				return;
+			}
+
+			if (TimeTrackFilter.StartDate.Date.Month < TimeTrackFilter.EndDate.Date.Month || TimeTrackFilter.StartDate.Date.Year < TimeTrackFilter.EndDate.Date.Year)
+			{
+				MessageBoxService.ShowWarning("В отчете содержаться данные за несколько месяцев. Будут показаны данные только за первый месяц");
+			}
+
+			var reportModel = new ReportModel();
+			reportModel.StartDateTime = new DateTime(TimeTrackFilter.StartDate.Date.Year, TimeTrackFilter.StartDate.Month, 1);
+			reportModel.EndDateTime = reportModel.StartDateTime.AddMonths(1).AddDays(-1);
+			if (reportModel.EndDateTime > TimeTrackFilter.EndDate)
+				reportModel.EndDateTime = TimeTrackFilter.EndDate;
+
+			var reportSettingsViewModel = new ReportSettingsViewModel();
+			DialogService.ShowModalWindow(reportSettingsViewModel);
+
+			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(MessageBoxService.ShowConfirmation2("Печать отчет в пейзажном формате?"), reportModel));
 		}
-		private bool CanPrint()
+		bool CanPrint()
 		{
 			return ApplicationService.IsReportEnabled;
 		}

@@ -24,7 +24,10 @@
                 <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding AvailableDocuments}" SelectedItem="{Binding SelectedDocument}" Margin="2">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding ShortName}" VerticalAlignment="Center" Width="30" />
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                            </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -39,8 +42,8 @@
                 <Calendar Grid.Row="3" Grid.Column="1" DisplayDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DocumentDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
 
                 <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" Content="Дата начала" />
-                <Calendar Grid.Row="5" Grid.Column="0" DisplayDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
-                <ExtToolkit:TimePicker Grid.Row="6" Grid.Column="0" Value="{Binding StartTime}" Format="Custom" FormatString="HH:mm" Width="180" />
+                <Calendar Grid.Row="5" Grid.Column="0" DisplayDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" IsEnabled="{Binding CanEditStartDateTime}" />
+                <ExtToolkit:TimePicker Grid.Row="6" Grid.Column="0" Value="{Binding StartTime}" Format="Custom" FormatString="HH:mm" Width="180" IsEnabled="{Binding CanEditStartDateTime}" />
 
 
                 <Label Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Content="Дата конца" />

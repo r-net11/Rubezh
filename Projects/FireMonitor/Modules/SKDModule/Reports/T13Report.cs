@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Reports;
 using CodeReason.Reports;
+using FiresecAPI.SKD;
 
 namespace SKDModule.Reports
 {
 	internal class T13Report : ISingleReportProvider
 	{
-		private bool _isLandscape;
-		public T13Report(bool isLandscape)
+		bool _isLandscape;
+		public ReportModel ReportModel { get; private set; }
+
+		public T13Report(bool isLandscape, ReportModel reportModel)
 		{
 			_isLandscape = isLandscape;
+			ReportModel = reportModel;
 		}
 
 		#region ISingleReportProvider Members

@@ -51,6 +51,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
                         <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="/Controls;component/Images/Add.png" />
+                        <ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="/Controls;component/Images/Edit.png" />
                     </StackPanel>
                     <DataGrid Grid.Row="1" ItemsSource="{Binding Documents}">
                         <DataGrid.Columns>

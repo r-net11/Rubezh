@@ -63,4 +63,8 @@
         <Views:DocumentDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ReportSettingsViewModel}">
+        <Views:ReportSettingsView />
+    </DataTemplate>
+
 </ResourceDictionary>

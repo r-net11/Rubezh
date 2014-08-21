@@ -13,8 +13,10 @@ namespace SKDModule.ViewModels
 	{
 		public TimeTrackDocument TimeTrackDocument { get; private set; }
 
-		public DocumentDetailsViewModel(TimeTrackDocument timeTrackDocument = null)
+		public DocumentDetailsViewModel(bool canEditStartDateTime, TimeTrackDocument timeTrackDocument = null)
 		{
+			CanEditStartDateTime = canEditStartDateTime;
+
 			if (timeTrackDocument == null)
 			{
 				Title = "Добавление документа";
@@ -52,6 +54,8 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => StartDateTime);
 			}
 		}
+
+		public bool CanEditStartDateTime { get; private set; }
 
 		DateTime _startTime;
 		public DateTime StartTime
