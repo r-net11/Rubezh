@@ -22,7 +22,7 @@ namespace VideoModule.ViewModels
 			SelectedCamera = Cameras.FirstOrDefault(x => x.UID == cameraUid);
 		}
 
-		private ObservableCollection<Camera> _cameras;
+		ObservableCollection<Camera> _cameras;
 		public ObservableCollection<Camera> Cameras
 		{
 			get { return _cameras; }
@@ -33,14 +33,14 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		private Camera _selectedCamera;
+		Camera _selectedCamera;
 		public Camera SelectedCamera
 		{
 			get { return _selectedCamera; }
 			set
 			{
 				_selectedCamera = value;
-				OnPropertyChanged("SelectedCamera");
+				OnPropertyChanged(() => SelectedCamera);
 			}
 		}
 	}

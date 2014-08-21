@@ -39,8 +39,8 @@
                                     <TextBlock Text="{Binding ShortEmployee.FirstName}" Margin="4 0" />
                                     <TextBlock Text="{Binding ShortEmployee.SecondName}" Margin="4 0" />
                                 </StackPanel>
-                                <TextBlock Text="{Binding ShortEmployee.DepartmentName}" Margin="4 0" />
-                                <TextBlock Text="{Binding ShortEmployee.PositionName}" Margin="4 0" />
+                                <TextBlock Text="{Binding ShortEmployee.DepartmentName}" Foreground="White" Margin="4 0" />
+                                <TextBlock Text="{Binding ShortEmployee.PositionName}" Foreground="White" Margin="4 0" />
                             </StackPanel>
                         </DataTemplate>
 	                </DataGridTemplateColumn.CellTemplate>
@@ -52,7 +52,7 @@
                                 <ItemsControl ItemsSource="{Binding Totals}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" />
+                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Right" Height="20" Margin="0 0 2 0" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

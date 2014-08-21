@@ -32,7 +32,7 @@ namespace ReportsModule.ViewModels
 			private set
 			{
 				_documentPaginator = value;
-				OnPropertyChanged("DocumentWidth");
+				OnPropertyChanged(() => DocumentWidth);
 				OnPropertyChanged("DocumentHeight");
 				OnPropertyChanged("DocumentPaginator");
 			}

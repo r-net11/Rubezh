@@ -18,9 +18,14 @@ namespace SKDModule.ViewModels
 	public class TimeTrackingViewModel : ViewPartViewModel
 	{
 		TimeTrackFilter TimeTrackFilter;
+		List<TimeTrackEmployeeResult> TimeTrackEmployeeResults;
 
 		public TimeTrackingViewModel()
 		{
+			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			RefreshCommand = new RelayCommand(OnRefresh);
+			PrintCommand = new RelayCommand(OnPrint, CanPrint);
+
 			TimeTrackFilter = new TimeTrackFilter();
 			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
 			{
@@ -30,10 +35,6 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter.Period = TimeTrackingPeriod.CurrentMonth;
 			TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day);
 			TimeTrackFilter.EndDate = DateTime.Today;
-
-			ShowFilterCommand = new RelayCommand(OnShowFilter);
-			RefreshCommand = new RelayCommand(OnRefresh);
-			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 
 			UpdateGrid();
 		}
@@ -119,16 +120,8 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("В отчете содержаться данные за несколько месяцев. Будут показаны данные только за первый месяц");
 			}
 
-			var reportModel = new ReportModel();
-			reportModel.StartDateTime = new DateTime(TimeTrackFilter.StartDate.Date.Year, TimeTrackFilter.StartDate.Month, 1);
-			reportModel.EndDateTime = reportModel.StartDateTime.AddMonths(1).AddDays(-1);
-			if (reportModel.EndDateTime > TimeTrackFilter.EndDate)
-				reportModel.EndDateTime = TimeTrackFilter.EndDate;
-
-			var reportSettingsViewModel = new ReportSettingsViewModel();
+			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults);
 			DialogService.ShowModalWindow(reportSettingsViewModel);
-
-			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(MessageBoxService.ShowConfirmation2("Печать отчет в пейзажном формате?"), reportModel));
 		}
 		bool CanPrint()
 		{
@@ -145,7 +138,8 @@ namespace SKDModule.ViewModels
 				var timeTrackResult = EmployeeHelper.GetTimeTracks(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 				if (timeTrackResult != null)
 				{
-					foreach (var timeTrackEmployeeResult in timeTrackResult.TimeTrackEmployeeResults)
+					TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
+					foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
 					{
 						var timeTrackViewModel = new TimeTrackViewModel(TimeTrackFilter, timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks);
 						timeTrackViewModel.DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);

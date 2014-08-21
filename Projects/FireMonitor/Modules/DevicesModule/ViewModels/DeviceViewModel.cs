@@ -85,9 +85,6 @@ namespace DevicesModule.ViewModels
 
 			OnPropertyChanged(() => ToolTip);
 			OnPropertyChanged(() => DeviceState);
-			OnPropertyChanged("DeviceState.States");
-			OnPropertyChanged("DeviceState.StringStates");
-			OnPropertyChanged("DeviceState.ParentStringStates");
 			OnPropertyChanged(() => States);
 			OnPropertyChanged(() => ParentStates);
 			OnPropertyChanged(() => ChildState);

@@ -43,14 +43,14 @@ namespace VideoModule.ViewModels
 			}
 		}
 
-		private CameraViewModel _cameraViewModel;
+		CameraViewModel _cameraViewModel;
 		public CameraViewModel CameraViewModel
 		{
 			get { return _cameraViewModel; }
 			set
 			{
 				_cameraViewModel = value;
-				OnPropertyChanged("CameraViewModel");
+				OnPropertyChanged(() => CameraViewModel);
 			}
 		}
 	}
