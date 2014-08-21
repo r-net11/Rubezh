@@ -11,6 +11,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common.Windows.DataTemplates;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
+using System.Linq;
 
 namespace Infrastructure.Common.Windows
 {
@@ -27,6 +28,7 @@ namespace Infrastructure.Common.Windows
 		public static ILayoutService Layout { get; private set; }
 		public static ShellViewModel Shell { get; private set; }
 		public static bool IsShuttingDown { get; private set; }
+		public static bool IsReportEnabled { get; private set; }
 
 		static ApplicationService()
 		{
@@ -159,6 +161,7 @@ namespace Infrastructure.Common.Windows
 		public static void RegisterModules(List<IModule> modules)
 		{
 			Modules = new ReadOnlyCollection<IModule>(modules);
+			IsReportEnabled = Modules.Any(item => item.Name == "Отчеты");
 		}
 		public static void RegisterShell(ShellViewModel shell)
 		{
@@ -170,7 +173,6 @@ namespace Infrastructure.Common.Windows
 			if (Closing != null)
 				Closing(sender, e);
 		}
-
 		static void win_Closed(object sender, EventArgs e)
 		{
 			if (Closed != null)

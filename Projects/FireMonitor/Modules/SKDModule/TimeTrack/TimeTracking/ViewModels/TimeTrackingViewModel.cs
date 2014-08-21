@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
@@ -7,6 +8,9 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Model;
 using System.Diagnostics;
+using Infrastructure;
+using Infrastructure.Events.Reports;
+using SKDModule.Reports;
 
 namespace SKDModule.ViewModels
 {
@@ -28,7 +32,7 @@ namespace SKDModule.ViewModels
 
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			RefreshCommand = new RelayCommand(OnRefresh);
-			PrintCommand = new RelayCommand(OnPrint);
+			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 
 			UpdateGrid();
 		}
@@ -90,9 +94,13 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
-		void OnPrint()
+		private void OnPrint()
 		{
-			MessageBoxService.Show("Not Implemented");
+			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(MessageBoxService.ShowConfirmation2("Печать отчет в пейзажном формате?")));
+		}
+		private bool CanPrint()
+		{
+			return ApplicationService.IsReportEnabled;
 		}
 
 		void UpdateGrid()

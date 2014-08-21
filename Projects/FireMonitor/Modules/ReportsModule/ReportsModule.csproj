@@ -88,8 +88,12 @@
     <Compile Include="DocumentPaginatorModel\ReportPaginator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportsModuleLoader.cs" />
+    <Compile Include="ViewModels\ReportPreviewViewModel.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
+    <Compile Include="Views\ReportPreviewView.xaml.cs">
+      <DependentUpon>ReportPreviewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
     </Compile>
@@ -132,6 +136,10 @@
     <Resource Include="DataTemplates\ReportResources.xaml">
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Views\ReportPreviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ReportsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

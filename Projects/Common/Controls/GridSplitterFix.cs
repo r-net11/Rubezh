@@ -60,11 +60,17 @@ namespace Controls
 			var index = Grid.GetColumn(splitter);
 			if (index > 0 && index < grid.ColumnDefinitions.Count)
 			{
-				var space = grid.ColumnDefinitions[index - 1].ActualWidth + grid.ColumnDefinitions[index].ActualWidth + grid.ColumnDefinitions[index + 1].ActualWidth;
+				var space = grid.ColumnDefinitions[index - 1].ActualWidth + grid.ColumnDefinitions[index + 1].ActualWidth;
 				if (grid.ColumnDefinitions[index - 1].Width.IsStar && grid.ColumnDefinitions[index + 1].Width.IsAbsolute)
-					grid.ColumnDefinitions[index + 1].MaxWidth = space - grid.ColumnDefinitions[index - 1].MinWidth - grid.ColumnDefinitions[index].ActualWidth - 1;
+				{
+					space -= grid.ColumnDefinitions[index - 1].MinWidth;
+					grid.ColumnDefinitions[index + 1].MaxWidth = space > 1 ? space - 1 : 0;
+				}
 				else if (grid.ColumnDefinitions[index - 1].Width.IsAbsolute && grid.ColumnDefinitions[index + 1].Width.IsStar)
-					grid.ColumnDefinitions[index - 1].MaxWidth = space - grid.ColumnDefinitions[index + 1].MinWidth - grid.ColumnDefinitions[index].ActualWidth - 1;
+				{
+					space -= grid.ColumnDefinitions[index + 1].MinWidth;
+					grid.ColumnDefinitions[index - 1].MaxWidth = space > 1 ? space - 1 : 0;
+				}
 			}
 		}
 		private static void FixRow(Grid grid, GridSplitter splitter)
@@ -72,11 +78,17 @@ namespace Controls
 			var index = Grid.GetRow(splitter);
 			if (index > 0 && index < grid.RowDefinitions.Count)
 			{
-				var space = grid.RowDefinitions[index - 1].ActualHeight + grid.RowDefinitions[index].ActualHeight + grid.RowDefinitions[index + 1].ActualHeight;
+				var space = grid.RowDefinitions[index - 1].ActualHeight + grid.RowDefinitions[index + 1].ActualHeight;
 				if (grid.RowDefinitions[index - 1].Height.IsStar && grid.RowDefinitions[index + 1].Height.IsAbsolute)
-					grid.RowDefinitions[index + 1].MaxHeight = space - grid.RowDefinitions[index - 1].MinHeight - grid.RowDefinitions[index].ActualHeight - 1;
+				{
+					space -= grid.RowDefinitions[index - 1].MinHeight;
+					grid.RowDefinitions[index + 1].MaxHeight = space > 1 ? space - 1 : 0;
+				}
 				else if (grid.RowDefinitions[index - 1].Height.IsAbsolute && grid.RowDefinitions[index + 1].Height.IsStar)
-					grid.RowDefinitions[index - 1].MaxHeight = space - grid.RowDefinitions[index + 1].MinHeight - grid.RowDefinitions[index].ActualHeight - 1;
+				{
+					space -= grid.RowDefinitions[index + 1].MinHeight;
+					grid.RowDefinitions[index - 1].MaxHeight = space > 1 ? space - 1 : 0;
+				}
 			}
 		}
 	}
