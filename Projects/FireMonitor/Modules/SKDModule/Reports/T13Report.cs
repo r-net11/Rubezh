@@ -10,12 +10,10 @@ namespace SKDModule.Reports
 {
 	internal class T13Report : ISingleReportProvider
 	{
-		bool _isLandscape;
 		public ReportModel ReportModel { get; private set; }
 
-		public T13Report(bool isLandscape, ReportModel reportModel)
+		public T13Report(ReportModel reportModel)
 		{
-			_isLandscape = isLandscape;
 			ReportModel = reportModel;
 		}
 
@@ -23,7 +21,11 @@ namespace SKDModule.Reports
 
 		public ReportData GetData()
 		{
-			return new ReportData();
+			var data = new ReportData();
+			data.ReportDocumentValues.Add("PrintDate", ReportModel.CreationDateTime);
+			data.ReportDocumentValues.Add("StartDate", ReportModel.StartDateTime);
+			data.ReportDocumentValues.Add("EndDate", ReportModel.EndDateTime);
+			return data;
 		}
 
 		#endregion
@@ -32,12 +34,12 @@ namespace SKDModule.Reports
 
 		public string Template
 		{
-			get { return _isLandscape ? "Reports/T13.xaml" : "Reports/T13_2.xaml"; }
+			get { return "Reports/T13.xaml"; }
 		}
 
 		public string Title
 		{
-			get { return "T13"; }
+			get { return string.Format("Унифицированная форма №T-13 за период с {0:dd.MM.yyyy} по {1:dd.MM.yyyy}", ReportModel.StartDateTime, ReportModel.EndDateTime); }
 		}
 
 		public bool IsEnabled

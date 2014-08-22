@@ -8,5 +8,9 @@ namespace SKDModule.ViewModels
 {
 	public class ReportSettingsViewModel : DialogViewModel
 	{
+		public ReportSettingsViewModel()
+		{
+			Title = "Настройки";
+		}
 	}
 }

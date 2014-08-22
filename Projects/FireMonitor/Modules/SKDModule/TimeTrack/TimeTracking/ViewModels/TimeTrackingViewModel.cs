@@ -108,11 +108,11 @@ namespace SKDModule.ViewModels
 				if (timeTrack.ShortEmployee.OrganisationUID.HasValue)
 					uids.Add(timeTrack.ShortEmployee.OrganisationUID.Value);
 			}
-			if (uids.Count > 1)
-			{
-				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одной организации");
-				return;
-			}
+			//if (uids.Count > 1)
+			//{
+			//    MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одной организации");
+			//    return;
+			//}
 
 			if (TimeTrackFilter.StartDate.Date.Month < TimeTrackFilter.EndDate.Date.Month || TimeTrackFilter.StartDate.Date.Year < TimeTrackFilter.EndDate.Date.Year)
 			{
@@ -125,10 +125,11 @@ namespace SKDModule.ViewModels
 			if (reportModel.EndDateTime > TimeTrackFilter.EndDate)
 				reportModel.EndDateTime = TimeTrackFilter.EndDate;
 
-			var reportSettingsViewModel = new ReportSettingsViewModel();
-			DialogService.ShowModalWindow(reportSettingsViewModel);
+			//var reportSettingsViewModel = new ReportSettingsViewModel();
+			//DialogService.ShowModalWindow(reportSettingsViewModel);
 
-			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(MessageBoxService.ShowConfirmation2("Печать отчет в пейзажном формате?"), reportModel));
+			var report = new T13Report(reportModel);
+			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(report);
 		}
 		bool CanPrint()
 		{

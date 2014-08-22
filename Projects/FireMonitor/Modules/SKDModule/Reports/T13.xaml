@@ -19,7 +19,7 @@
 	</xrd:ReportProperties>
 
 	<!--  Шапка заголовка  -->
-	<Section Padding="10">
+	<Section FontSize="8" Padding="10,10,10,0">
 		<Paragraph TextAlignment="Right">
 			Унифицированная форма № Т-13
 			<LineBreak />
@@ -30,25 +30,25 @@
 	</Section>
 
 	<!--  Таблица заголовка (осн. реквизиты)  -->
-	<Section Padding="40,10,100,0">
+	<Section>
 		<Table>
 			<Table.Columns>
 				<TableColumn Width="20*" />
-				<TableColumn Width="4*" />
-				<TableColumn Width="3*" />
+				<TableColumn Width="5*" />
+				<TableColumn Width="1.5*" />
 				<TableColumn Width="4*" />
 			</Table.Columns>
 			<TableRowGroup>
 				<TableRow>
 					<TableCell BorderThickness="0" ColumnSpan="3" />
 					<TableCell>
-						<Paragraph>Код</Paragraph>
+						<Paragraph FontSize="9">Код</Paragraph>
 					</TableCell>
 				</TableRow>
 				<TableRow>
 					<TableCell BorderThickness="0" />
-					<TableCell BorderThickness="0" ColumnSpan="2" TextAlignment="Right">
-						<Paragraph>Форма по ОКУД</Paragraph>
+					<TableCell BorderThickness="0" ColumnSpan="2" Padding="0,3,3,0" TextAlignment="Right">
+						<Paragraph FontSize="9">Форма по ОКУД</Paragraph>
 					</TableCell>
 					<TableCell>
 						<Paragraph>0301008</Paragraph>
@@ -56,14 +56,14 @@
 				</TableRow>
 				<TableRow>
 					<TableCell BorderThickness="0" ColumnSpan="2" />
-					<TableCell BorderThickness="0" TextAlignment="Right">
-						<Paragraph>по ОКПО</Paragraph>
+					<TableCell BorderThickness="0" Padding="0,3,3,0" TextAlignment="Right">
+						<Paragraph FontSize="9">по ОКПО</Paragraph>
 					</TableCell>
 					<TableCell />
 				</TableRow>
 				<TableRow>
 					<TableCell BorderThickness="0,1,0,0" ColumnSpan="2">
-						<Paragraph>(наименование организации)</Paragraph>
+						<Paragraph FontSize="8">(наименование организации)</Paragraph>
 					</TableCell>
 					<TableCell BorderThickness="0" />
 					<TableCell RowSpan="2" />
@@ -77,7 +77,7 @@
 				</TableRow>
 				<TableRow>
 					<TableCell BorderThickness="0,1,0,0" ColumnSpan="2">
-						<Paragraph>(структурное подразделение)</Paragraph>
+						<Paragraph FontSize="8">(структурное подразделение)</Paragraph>
 					</TableCell>
 					<TableCell BorderThickness="0,1,0,0" ColumnSpan="2" />
 				</TableRow>
@@ -86,15 +86,30 @@
 	</Section>
 
 	<!--  Отчетный период  -->
-	<Section Padding="300,0,100,0">
+	<Section Padding="400,0,100,0">
 		<Table>
+			<Table.Columns>
+				<TableColumn Width="3*" />
+				<TableColumn Width="1*" />
+				<TableColumn Width="1*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="1*" />
+				<TableColumn Width="1*" />
+			</Table.Columns>
 			<TableRowGroup>
 				<TableRow>
-					<TableCell RowSpan="2">
-						<Paragraph Margin="0,10,0,0">Номер документа</Paragraph>
+					<TableCell BorderThickness="0" Padding="0,40,0,0" RowSpan="4">
+						<Paragraph FontSize="13" FontWeight="Bold" TextAlignment="Center">
+							<Run>ТАБЕЛЬ</Run>
+							<LineBreak />
+							<Run>учета рабочего времени</Run>
+						</Paragraph>
 					</TableCell>
 					<TableCell RowSpan="2">
-						<Paragraph Margin="0,10,0,0">Дата составления</Paragraph>
+						<Paragraph Margin="0,10,0,0" FontSize="9">Номер документа</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph Margin="0,10,0,0" FontSize="9">Дата составления</Paragraph>
 					</TableCell>
 					<TableCell BorderThickness="0" RowSpan="3" />
 					<TableCell ColumnSpan="2">
@@ -103,37 +118,35 @@
 				</TableRow>
 				<TableRow>
 					<TableCell BorderThickness="1">
-						<Paragraph>с</Paragraph>
+						<Paragraph FontSize="9">с</Paragraph>
 					</TableCell>
 					<TableCell>
-						<Paragraph>по</Paragraph>
+						<Paragraph FontSize="9">по</Paragraph>
 					</TableCell>
 				</TableRow>
 				<TableRow>
 					<TableCell>
-						<Paragraph Margin="5" />
+						<Paragraph FontSize="13" />
 					</TableCell>
 					<TableCell>
-						<Paragraph />
+						<Paragraph FontSize="13" />
 					</TableCell>
-					<TableCell>
-						<Paragraph />
+					<TableCell Padding="3">
+						<Paragraph FontSize="13">
+							<xrd:InlineDocumentValue Format="dd.MM.yyyy" PropertyName="StartDate" />
+						</Paragraph>
 					</TableCell>
-					<TableCell>
-						<Paragraph />
+					<TableCell Padding="3">
+						<Paragraph FontSize="13">
+							<xrd:InlineDocumentValue Format="dd.MM.yyyy" PropertyName="EndDate" />
+						</Paragraph>
 					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell BorderThickness="0" ColumnSpan="5" />
 				</TableRow>
 			</TableRowGroup>
 		</Table>
-	</Section>
-
-	<!--  Наименование отчета  -->
-	<Section>
-		<Paragraph TextAlignment="Center">
-			<Run>ТАБЕЛЬ</Run>
-			<LineBreak />
-			<Run>УЧЕТА РАБОЧЕГО ВРЕМЕНИ</Run>
-		</Paragraph>
 	</Section>
 
 	<!--  Основная таблица данных  -->
@@ -141,9 +154,9 @@
 		<Table BorderThickness="1">
 			<!--  Columns  -->
 			<Table.Columns>
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="2*" />
+				<TableColumn Width="0.5*" />
 				<TableColumn Width="0.5*" />
 				<TableColumn Width="0.5*" />
 				<TableColumn Width="0.5*" />
@@ -192,7 +205,11 @@
 						<Paragraph>Отработано за</Paragraph>
 					</TableCell>
 					<TableCell ColumnSpan="6">
-						<Paragraph>Данные для начисления заработной платы</Paragraph>
+						<Paragraph>
+							Данные для начисления заработной платы
+							<LineBreak />
+							по видам и направлениям затрат
+						</Paragraph>
 					</TableCell>
 					<TableCell ColumnSpan="4">
 						<Paragraph>Неявки по причинам</Paragraph>
@@ -670,262 +687,6 @@
 					<TableCell />
 				</TableRow>
 			</TableRowGroup>
-			<!--  Group 3  -->
-			<TableRowGroup>
-				<TableRow>
-					<TableCell RowSpan="4" />
-					<TableCell RowSpan="4" />
-					<TableCell RowSpan="4" />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell>
-						<Paragraph>X</Paragraph>
-					</TableCell>
-					<TableCell />
-					<TableCell RowSpan="2" />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-				</TableRow>
-				<TableRow>
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell>
-						<Paragraph>X</Paragraph>
-					</TableCell>
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-				</TableRow>
-				<TableRow>
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell RowSpan="2" />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-				</TableRow>
-				<TableRow>
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-				</TableRow>
-			</TableRowGroup>
-			<!--  Group 4  -->
-			<TableRowGroup>
-				<TableRow>
-					<TableCell RowSpan="4" />
-					<TableCell RowSpan="4" />
-					<TableCell RowSpan="4" />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell>
-						<Paragraph>X</Paragraph>
-					</TableCell>
-					<TableCell />
-					<TableCell RowSpan="2" />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-				</TableRow>
-				<TableRow>
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell>
-						<Paragraph>X</Paragraph>
-					</TableCell>
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-				</TableRow>
-				<TableRow>
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell RowSpan="2" />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-				</TableRow>
-				<TableRow>
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-					<TableCell />
-				</TableRow>
-			</TableRowGroup>
 		</Table>
 	</Section>
 
@@ -938,20 +699,28 @@
 				</Style>
 			</Table.Resources>
 			<Table.Columns>
-				<TableColumn Width="15*" />
-				<TableColumn Width="1*" />
+				<TableColumn Width="11*" />
+				<TableColumn Width="0.5*" />
 				<TableColumn Width="10*" />
-				<TableColumn Width="1*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="10*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="10*" />
+				<TableColumn Width="2*" />
 				<TableColumn Width="15*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="15*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="15*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="10*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="10*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="10*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="10*" />
 			</Table.Columns>
 			<TableRowGroup>
 				<TableRow>
 					<TableCell TextAlignment="Left">
-						<Paragraph>Ответственное лицо</Paragraph>
+						<Paragraph FontWeight="Bold">Ответственное лицо</Paragraph>
 					</TableCell>
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1" />
@@ -959,10 +728,41 @@
 					<TableCell BorderThickness="0,0,0,1" />
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1" />
-					<TableCell ColumnSpan="2" />
+					<TableCell />
+					<TableCell TextAlignment="Left">
+						<Paragraph FontWeight="Bold">
+							Руководитель
+							<LineBreak />
+							структурного подразделения
+						</Paragraph>
+					</TableCell>
+					<TableCell />
+					<TableCell BorderThickness="0,0,0,1" />
+					<TableCell />
+					<TableCell BorderThickness="0,0,0,1" />
+					<TableCell />
+					<TableCell BorderThickness="0,0,0,1" />
+					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineDocumentValue Format="\&quot;dd\&quot; MMMM yyyy г." PropertyName="PrintDate" />
+						</Paragraph>
+					</TableCell>
 				</TableRow>
-				<TableRow>
+				<TableRow FontSize="8">
 					<TableCell ColumnSpan="2" />
+					<TableCell>
+						<Paragraph>должность</Paragraph>
+					</TableCell>
+					<TableCell />
+					<TableCell>
+						<Paragraph>личная подпись</Paragraph>
+					</TableCell>
+					<TableCell />
+					<TableCell>
+						<Paragraph>расшифровка подписи</Paragraph>
+					</TableCell>
+					<TableCell ColumnSpan="3" />
 					<TableCell>
 						<Paragraph>должность</Paragraph>
 					</TableCell>
@@ -977,8 +777,9 @@
 					<TableCell ColumnSpan="2" />
 				</TableRow>
 				<TableRow>
+					<TableCell ColumnSpan="8" />
 					<TableCell TextAlignment="Left">
-						<Paragraph>Руководитель структурного подразделения</Paragraph>
+						<Paragraph FontWeight="Bold">Работник кадровой службы</Paragraph>
 					</TableCell>
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1" />
@@ -993,40 +794,8 @@
 						</Paragraph>
 					</TableCell>
 				</TableRow>
-				<TableRow>
-					<TableCell ColumnSpan="2" />
-					<TableCell>
-						<Paragraph>должность</Paragraph>
-					</TableCell>
-					<TableCell />
-					<TableCell>
-						<Paragraph>личная подпись</Paragraph>
-					</TableCell>
-					<TableCell />
-					<TableCell>
-						<Paragraph>расшифровка подписи</Paragraph>
-					</TableCell>
-					<TableCell ColumnSpan="2" />
-				</TableRow>
-				<TableRow>
-					<TableCell TextAlignment="Left">
-						<Paragraph>Работник кадровой службы</Paragraph>
-					</TableCell>
-					<TableCell />
-					<TableCell BorderThickness="0,0,0,1" />
-					<TableCell />
-					<TableCell BorderThickness="0,0,0,1" />
-					<TableCell />
-					<TableCell BorderThickness="0,0,0,1" />
-					<TableCell />
-					<TableCell Padding="0,10,0,0">
-						<Paragraph>
-							<xrd:InlineDocumentValue Format="\&quot;dd\&quot; MMMM yyyy г." PropertyName="PrintDate" />
-						</Paragraph>
-					</TableCell>
-				</TableRow>
-				<TableRow>
-					<TableCell ColumnSpan="2" />
+				<TableRow FontSize="8">
+					<TableCell ColumnSpan="10" />
 					<TableCell>
 						<Paragraph>должность</Paragraph>
 					</TableCell>
@@ -1046,7 +815,7 @@
 
 	<!--  Место для печати  -->
 	<Section>
-		<Paragraph TextAlignment="Right">Печатать с оборотом. Подписи печатать на обороте</Paragraph>
+		<Paragraph FontSize="8" TextAlignment="Right">Печатать с оборотом. Подписи печатать на обороте</Paragraph>
 	</Section>
 
 </FlowDocument>
