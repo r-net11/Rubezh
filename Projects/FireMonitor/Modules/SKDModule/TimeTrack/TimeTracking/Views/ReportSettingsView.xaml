@@ -13,19 +13,27 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Ответственное лицо" HorizontalAlignment="Right" Margin="2" />
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FillName}"  Background="LightGray" Margin="2" />
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FillName, UpdateSourceTrigger=PropertyChanged}"  Background="LightGray" Margin="2" />
 
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Руководитель структурного подразделения" HorizontalAlignment="Right" Margin="2" />
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LeadName}" Background="LightGray" Margin="2" />
+			<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding LeadName, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" Margin="2" />
 
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Руководитель кадровой службы" HorizontalAlignment="Right" Margin="2" />
-            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding HRName}" Background="LightGray" Margin="2" />
+			<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding HRName, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" Margin="2" />
 
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата формирования" HorizontalAlignment="Right" Margin="2" />
-            <Calendar Grid.Row="3" Grid.Column="1" DisplayDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" Margin="2" />
+			<TextBlock Grid.Row="3" Grid.Column="0" Text="Номер документа" HorizontalAlignment="Right" Margin="2" />
+			<TextBox Grid.Row="3" Grid.Column="1" Text="{Binding DocNumber, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" Margin="2" />
+
+			<TextBlock Grid.Row="4" Grid.Column="0" Text="ОКПО" HorizontalAlignment="Right" Margin="2" />
+			<TextBox Grid.Row="4" Grid.Column="1" Text="{Binding OKPO, UpdateSourceTrigger=PropertyChanged}" Background="LightGray" Margin="2" />
+
+			<TextBlock Grid.Row="5" Grid.Column="0" Text="Дата формирования" HorizontalAlignment="Right" Margin="2" />
+            <Calendar Grid.Row="5" Grid.Column="1" DisplayDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" Margin="2" />
         </Grid>
     </Border>
 </UserControl>

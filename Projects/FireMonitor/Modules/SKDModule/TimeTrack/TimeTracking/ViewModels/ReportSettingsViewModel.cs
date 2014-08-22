@@ -9,6 +9,7 @@ using SKDModule.Model;
 using Infrastructure.Events.Reports;
 using Infrastructure;
 using SKDModule.Reports;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -69,25 +70,55 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		private string _docNumber;
+		public string DocNumber
+		{
+			get { return _docNumber; }
+			set
+			{
+				_docNumber = value;
+				OnPropertyChanged(() => DocNumber);
+			}
+		}
+
+		private string _OKPO;
+		public string OKPO
+		{
+			get { return _OKPO; }
+			set
+			{
+				_OKPO = value;
+				OnPropertyChanged(() => OKPO);
+			}
+		}
+		
+
 		protected override bool Save()
 		{
-			var report = new ReportT13();
-			report.FillName = FillName;
-			report.LeadName = LeadName;
-			report.HRName = HRName;
-			report.CreationDateTime = DateTime;
-			report.StartDateTime = new DateTime(TimeTrackFilter.StartDate.Date.Year, TimeTrackFilter.StartDate.Month, 1);
+			var report = new ReportT13()
+			{
+				FillName = FillName,
+				LeadName = LeadName,
+				HRName = HRName,
+				DocNumber = DocNumber,
+				DepartmentName = TimeTrackEmployeeResults[0].ShortEmployee.DepartmentName,
+				OrganizationName = OrganisationHelper.GetByCurrentUser().Where(org => org.UID == TimeTrackEmployeeResults[0].ShortEmployee.OrganisationUID).Select(org => org.Name).FirstOrDefault(),
+				OKPO = OKPO,
+				CreationDateTime = DateTime,
+				StartDateTime = new DateTime(TimeTrackFilter.StartDate.Date.Year, TimeTrackFilter.StartDate.Month, 1),
+			};
 			report.EndDateTime = report.StartDateTime.AddMonths(1).AddDays(-1);
 			if (report.EndDateTime > TimeTrackFilter.EndDate)
 				report.EndDateTime = TimeTrackFilter.EndDate;
+			if (!string.IsNullOrEmpty(report.DepartmentName) && TimeTrackEmployeeResults.Any(item => item.ShortEmployee.DepartmentName != report.DepartmentName))
+				report.DepartmentName = null;
 
-			int currentNo = 0;
 			foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
 			{
 				var employeeReport = new EmployeeReport();
 				report.EmployeeRepors.Add(employeeReport);
 
-				employeeReport.No = currentNo++;
+				employeeReport.No = report.EmployeeRepors.Count;
 				employeeReport.EmploueeFIO = timeTrackEmployeeResult.ShortEmployee.FIO;
 
 				foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)

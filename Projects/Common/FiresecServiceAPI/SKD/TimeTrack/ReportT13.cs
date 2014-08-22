@@ -16,6 +16,10 @@ namespace FiresecAPI.SKD
 		public string FillName { get; set; }
 		public string LeadName { get; set; }
 		public string HRName { get; set; }
+		public string DocNumber { get; set; }
+		public string OrganizationName { get; set; }
+		public string DepartmentName { get; set; }
+		public string OKPO { get; set; }
 		public DateTime CreationDateTime { get; set; }
 		public DateTime StartDateTime { get; set; }
 		public DateTime EndDateTime { get; set; }

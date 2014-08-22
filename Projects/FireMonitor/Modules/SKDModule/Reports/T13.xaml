@@ -723,7 +723,11 @@
 						<Paragraph FontWeight="Bold">Ответственное лицо</Paragraph>
 					</TableCell>
 					<TableCell />
-					<TableCell BorderThickness="0,0,0,1" />
+					<TableCell BorderThickness="0,0,0,1">
+						<Paragraph>
+							<xrd:InlineDocumentValue PropertyName="FillName" />
+						</Paragraph>
+					</TableCell>
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1" />
 					<TableCell />
@@ -737,7 +741,11 @@
 						</Paragraph>
 					</TableCell>
 					<TableCell />
-					<TableCell BorderThickness="0,0,0,1" />
+					<TableCell BorderThickness="0,0,0,1">
+						<Paragraph>
+							<xrd:InlineDocumentValue PropertyName="LeadName" />
+						</Paragraph>
+					</TableCell>
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1" />
 					<TableCell />
@@ -782,7 +790,11 @@
 						<Paragraph FontWeight="Bold">Работник кадровой службы</Paragraph>
 					</TableCell>
 					<TableCell />
-					<TableCell BorderThickness="0,0,0,1" />
+					<TableCell BorderThickness="0,0,0,1">
+						<Paragraph>
+							<xrd:InlineDocumentValue PropertyName="HRName" />
+						</Paragraph>
+					</TableCell>
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1" />
 					<TableCell />

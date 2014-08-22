@@ -25,6 +25,10 @@ namespace SKDModule.Reports
 			data.ReportDocumentValues.Add("PrintDate", ReportModel.CreationDateTime);
 			data.ReportDocumentValues.Add("StartDate", ReportModel.StartDateTime);
 			data.ReportDocumentValues.Add("EndDate", ReportModel.EndDateTime);
+
+			data.ReportDocumentValues.Add("FillName", ReportModel.FillName);
+			data.ReportDocumentValues.Add("HRName", ReportModel.HRName);
+			data.ReportDocumentValues.Add("LeadName", ReportModel.LeadName);
 			return data;
 		}
 
