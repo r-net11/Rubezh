@@ -112,7 +112,7 @@ namespace SKDModule.ViewModels
 				}
 			}
 
-			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(true, reportModel));
+			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(reportModel));
 			return true;
 		}
 	}
