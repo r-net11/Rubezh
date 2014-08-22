@@ -55,11 +55,19 @@
 					</TableCell>
 				</TableRow>
 				<TableRow>
-					<TableCell BorderThickness="0" ColumnSpan="2" />
+					<TableCell BorderThickness="0" ColumnSpan="2">
+						<Paragraph>
+							<xrd:InlineDocumentValue PropertyName="Organization" />
+						</Paragraph>
+					</TableCell>
 					<TableCell BorderThickness="0" Padding="0,3,3,0" TextAlignment="Right">
 						<Paragraph FontSize="9">по ОКПО</Paragraph>
 					</TableCell>
-					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineDocumentValue PropertyName="OKPO" />
+						</Paragraph>
+					</TableCell>
 				</TableRow>
 				<TableRow>
 					<TableCell BorderThickness="0,1,0,0" ColumnSpan="2">
@@ -69,11 +77,12 @@
 					<TableCell RowSpan="2" />
 				</TableRow>
 				<TableRow>
-					<TableCell BorderThickness="0" ColumnSpan="3">
+					<TableCell BorderThickness="0" ColumnSpan="2">
 						<Paragraph>
-							<LineBreak />
+							<xrd:InlineDocumentValue PropertyName="Department" />
 						</Paragraph>
 					</TableCell>
+					<TableCell BorderThickness="0" />
 				</TableRow>
 				<TableRow>
 					<TableCell BorderThickness="0,1,0,0" ColumnSpan="2">
@@ -126,10 +135,14 @@
 				</TableRow>
 				<TableRow>
 					<TableCell>
-						<Paragraph FontSize="13" />
+						<Paragraph FontSize="13">
+							<xrd:InlineDocumentValue PropertyName="DocNumber" />
+						</Paragraph>
 					</TableCell>
 					<TableCell>
-						<Paragraph FontSize="13" />
+						<Paragraph FontSize="13">
+							<xrd:InlineDocumentValue Format="dd.MM.yyyy" PropertyName="PrintDate" />
+						</Paragraph>
 					</TableCell>
 					<TableCell Padding="3">
 						<Paragraph FontSize="13">
@@ -790,7 +803,7 @@
 						<Paragraph FontWeight="Bold">Работник кадровой службы</Paragraph>
 					</TableCell>
 					<TableCell />
-					<TableCell BorderThickness="0,0,0,1">
+					<TableCell BorderThickness="0,0,0,1" Padding="0,10,0,0">
 						<Paragraph>
 							<xrd:InlineDocumentValue PropertyName="HRName" />
 						</Paragraph>

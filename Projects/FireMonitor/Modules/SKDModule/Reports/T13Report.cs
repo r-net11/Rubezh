@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Reports;
-using CodeReason.Reports;
+﻿using CodeReason.Reports;
 using FiresecAPI.SKD;
+using Infrastructure.Common.Reports;
 
 namespace SKDModule.Reports
 {
@@ -29,6 +25,13 @@ namespace SKDModule.Reports
 			data.ReportDocumentValues.Add("FillName", ReportModel.FillName);
 			data.ReportDocumentValues.Add("HRName", ReportModel.HRName);
 			data.ReportDocumentValues.Add("LeadName", ReportModel.LeadName);
+
+			data.ReportDocumentValues.Add("Organization", ReportModel.OrganizationName);
+			data.ReportDocumentValues.Add("Department", ReportModel.DepartmentName);
+
+			data.ReportDocumentValues.Add("DocNumber", ReportModel.DocNumber);
+			data.ReportDocumentValues.Add("OKPO", ReportModel.OKPO);
+
 			return data;
 		}
 
