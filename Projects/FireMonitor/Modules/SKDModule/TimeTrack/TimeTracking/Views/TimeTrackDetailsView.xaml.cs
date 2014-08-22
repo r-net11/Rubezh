@@ -73,31 +73,21 @@ namespace SKDModule.Views
 					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = true;
 
-					var minDocumentType = DocumentType.Overtime;
-					string documentName = "";
-					foreach (var timeTrackDocumentType in timeTrackPart.TimeTrackDocumentTypes)
-					{
-						if (timeTrackDocumentType.DocumentType < minDocumentType)
-						{
-							minDocumentType = timeTrackDocumentType.DocumentType;
-							documentName = timeTrackDocumentType.Name;
-						}
-					}
-					switch(minDocumentType)
+					switch (timeTrackPart.MinTimeTrackDocumentType.DocumentType)
 					{
 						case DocumentType.Overtime:
 							endTimePart.Color = Colors.LightYellow;
 							break;
 
 						case DocumentType.Presence:
-							endTimePart.Color = Colors.LimeGreen;
+							endTimePart.Color = Colors.LightGreen;
 							break;
 
 						case DocumentType.Absence:
 							endTimePart.Color = Colors.LightPink;
 							break;
 					}
-					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + documentName;
+					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.MinTimeTrackDocumentType.Name;
 					timeParts.Add(endTimePart);
 
 					current = timeTrackPart.EndTime.TotalSeconds;

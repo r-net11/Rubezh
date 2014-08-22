@@ -220,7 +220,7 @@
     <Compile Include="SKD\Door\DoorType.cs" />
     <Compile Include="SKD\Driver\SKDDriverProperty.cs" />
     <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
-    <Compile Include="SKD\TimeTrack\ReportModel.cs" />
+    <Compile Include="SKD\TimeTrack\ReportT13.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackResult.cs" />
     <Compile Include="SKD\TimeTrack\PlannedTimeTrackCollection.cs" />
     <Compile Include="SKD\TimeTrack\ShortSchedule.cs" />

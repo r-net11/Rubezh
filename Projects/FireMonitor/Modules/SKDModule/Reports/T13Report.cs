@@ -10,9 +10,9 @@ namespace SKDModule.Reports
 {
 	internal class T13Report : ISingleReportProvider
 	{
-		public ReportModel ReportModel { get; private set; }
+		public ReportT13 ReportModel { get; private set; }
 
-		public T13Report(ReportModel reportModel)
+		public T13Report(ReportT13 reportModel)
 		{
 			ReportModel = reportModel;
 		}

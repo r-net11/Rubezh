@@ -27,10 +27,10 @@ namespace FiresecAPI.SKD
 		public DateTime Date { get; set; }
 
 		[DataMember]
-		public ShortEmployee ShortEmployee { get; set; }
+		public Guid EmployeeUID { get; set; }
 
 		[DataMember]
-		public Guid EmployeeUID { get; set; }
+		public ShortEmployee ShortEmployee { get; set; }
 
 		[DataMember]
 		public List<TimeTrackPart> PlannedTimeTrackParts { get; set; }
@@ -66,9 +66,6 @@ namespace FiresecAPI.SKD
 		public int HolidayReduction { get; set; }
 
 		[DataMember]
-		public TimeTrackType TimeTrackType { get; set; }
-
-		[DataMember]
 		public List<TimeTrackDocument> Documents { get; set; }
 
 		[DataMember]
@@ -77,11 +74,8 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public string Error { get; set; }
 
-
-		public TimeSpan FirstReal { get; set; }
-		public TimeSpan LastReal { get; set; }
-		public TimeSpan FirstPlanned { get; set; }
-		public TimeSpan LastPlanned { get; set; }
+		public TimeTrackType TimeTrackType { get; set; }
+		public string LetterCode { get; set; }
 
 		public TimeSpan Total { get; set; }
 		public TimeSpan TotalMissed { get; set; }
@@ -96,8 +90,6 @@ namespace FiresecAPI.SKD
 		public TimeSpan Total_DocumentOvertime { get; set; }
 		public TimeSpan Total_DocumentPresence { get; set; }
 		public TimeSpan Total_DocumentAbsence { get; set; }
-
-		public string LetterCode { get; set; }
 
 		public void Calculate()
 		{
@@ -153,7 +145,7 @@ namespace FiresecAPI.SKD
 				}
 				if (timeTrackPart != null)
 				{
-					timeTrackPart.TimeTrackDocumentType = document.TimeTrackDocumentType;
+					timeTrackPart.MinTimeTrackDocumentType = document.TimeTrackDocumentType;
 					DocumentTrackParts.Add(timeTrackPart);
 				}
 			}
@@ -183,8 +175,13 @@ namespace FiresecAPI.SKD
 					};
 					foreach (var timeTrackPart in timeTrackParts)
 					{
-						newTimeTrackPart.TimeTrackDocumentTypes.Add(timeTrackPart.TimeTrackDocumentType);
+						if (newTimeTrackPart.MinTimeTrackDocumentType == null)
+							newTimeTrackPart.MinTimeTrackDocumentType = timeTrackPart.MinTimeTrackDocumentType;
+						else if (timeTrackPart.MinTimeTrackDocumentType.DocumentType < newTimeTrackPart.MinTimeTrackDocumentType.DocumentType)
+							newTimeTrackPart.MinTimeTrackDocumentType = timeTrackPart.MinTimeTrackDocumentType;
+						newTimeTrackPart.TimeTrackDocumentTypes.Add(timeTrackPart.MinTimeTrackDocumentType);
 					}
+
 					result.Add(newTimeTrackPart);
 				}
 			}
@@ -193,15 +190,20 @@ namespace FiresecAPI.SKD
 
 		void CalculateCombinedTimeTrackParts()
 		{
+			var firstReal = new TimeSpan();
+			var lastReal = new TimeSpan();
+			var firstPlanned = new TimeSpan();
+			var lastPlanned = new TimeSpan();
+
 			if (RealTimeTrackParts.Count > 0)
 			{
-				FirstReal = RealTimeTrackParts.FirstOrDefault().StartTime;
-				LastReal = RealTimeTrackParts.LastOrDefault().EndTime;
+				firstReal = RealTimeTrackParts.FirstOrDefault().StartTime;
+				lastReal = RealTimeTrackParts.LastOrDefault().EndTime;
 			}
 			if (PlannedTimeTrackParts.Count > 0)
 			{
-				FirstPlanned = PlannedTimeTrackParts.FirstOrDefault().StartTime;
-				LastPlanned = PlannedTimeTrackParts.LastOrDefault().EndTime;
+				firstPlanned = PlannedTimeTrackParts.FirstOrDefault().StartTime;
+				lastPlanned = PlannedTimeTrackParts.LastOrDefault().EndTime;
 			}
 
 			var combinedTimeSpans = new List<TimeSpan>();
@@ -254,7 +256,7 @@ namespace FiresecAPI.SKD
 				if (hasRealTimeTrack && !hasPlannedTimeTrack)
 				{
 					timeTrackPart.TimeTrackPartType = TimeTrackPartType.Overtime;
-					if (timeTrackPart.StartTime > FirstPlanned && timeTrackPart.EndTime < LastPlanned)
+					if (timeTrackPart.StartTime > firstPlanned && timeTrackPart.EndTime < lastPlanned)
 						timeTrackPart.TimeTrackPartType = TimeTrackPartType.InBrerak;
 				}
 				if (!hasRealTimeTrack && hasPlannedTimeTrack)
@@ -266,7 +268,7 @@ namespace FiresecAPI.SKD
 						timeTrackPart.TimeTrackPartType = TimeTrackPartType.MissedButInsidePlan;
 					}
 
-					if (timeTrackPart.StartTime == FirstPlanned && timeTrackPart.EndTime < LastPlanned && !PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime))
+					if (timeTrackPart.StartTime == firstPlanned && timeTrackPart.EndTime < lastPlanned && !PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime))
 					{
 						if (timeTrackPart.Delta > AllowedLate)
 						{
@@ -274,7 +276,7 @@ namespace FiresecAPI.SKD
 						}
 					}
 
-					if (timeTrackPart.EndTime == LastPlanned && timeTrackPart.StartTime > FirstPlanned && !PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime))
+					if (timeTrackPart.EndTime == lastPlanned && timeTrackPart.StartTime > firstPlanned && !PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime))
 					{
 						if (timeTrackPart.Delta > AllowedEarlyLeave)
 						{
@@ -284,13 +286,7 @@ namespace FiresecAPI.SKD
 				}
 				if (documentTimeTrack != null)
 				{
-					var documentType = DocumentType.Absence;
-					foreach (var timeTrackDocumentType in documentTimeTrack.TimeTrackDocumentTypes)
-					{
-						if (timeTrackDocumentType.DocumentType < documentType)
-							documentType = timeTrackDocumentType.DocumentType;
-					}
-
+					var documentType = documentTimeTrack.MinTimeTrackDocumentType.DocumentType;
 					if (documentType == DocumentType.Overtime)
 					{
 						timeTrackPart.TimeTrackPartType = TimeTrackPartType.DocumentOvertime;
@@ -557,11 +553,11 @@ namespace FiresecAPI.SKD
 
 			if (Documents.Count > 0)
 			{
-				var minDocumentType = DocumentType.Overtime;
+				var minDocumentType = DocumentType.Absence;
 				var minDocument = Documents[0];
 				foreach (var document in Documents)
 				{
-					if (document.TimeTrackDocumentType.DocumentType < minDocumentType)
+					if (document.TimeTrackDocumentType.DocumentType <= minDocumentType)
 					{
 						minDocumentType = document.TimeTrackDocumentType.DocumentType;
 						minDocument = document;

@@ -22,38 +22,39 @@ namespace SKDModule.ViewModels
 			Title = "Настройка печати отчета Т-13";
 			TimeTrackFilter = timeTrackFilter;
 			TimeTrackEmployeeResults = timeTrackEmployeeResults;
+			DateTime = DateTime.Now;
 		}
 
-		string _name1;
-		public string Name1
+		string _fillName;
+		public string FillName
 		{
-			get { return _name1; }
+			get { return _fillName; }
 			set
 			{
-				_name1 = value;
-				OnPropertyChanged(() => Name1);
+				_fillName = value;
+				OnPropertyChanged(() => FillName);
 			}
 		}
 
-		string _name2;
-		public string Name2
+		string _leadName;
+		public string LeadName
 		{
-			get { return _name2; }
+			get { return _leadName; }
 			set
 			{
-				_name2 = value;
-				OnPropertyChanged(() => Name2);
+				_leadName = value;
+				OnPropertyChanged(() => LeadName);
 			}
 		}
 
-		string _name3;
-		public string Name3
+		string _hrName;
+		public string HRName
 		{
-			get { return _name3; }
+			get { return _hrName; }
 			set
 			{
-				_name3 = value;
-				OnPropertyChanged(() => Name3);
+				_hrName = value;
+				OnPropertyChanged(() => HRName);
 			}
 		}
 
@@ -70,46 +71,75 @@ namespace SKDModule.ViewModels
 
 		protected override bool Save()
 		{
-			var reportModel = new ReportModel();
-			reportModel.Name1 = Name1;
-			reportModel.Name2 = Name2;
-			reportModel.Name3 = Name3;
-			reportModel.CreationDateTime = DateTime;
-			reportModel.StartDateTime = new DateTime(TimeTrackFilter.StartDate.Date.Year, TimeTrackFilter.StartDate.Month, 1);
-			reportModel.EndDateTime = reportModel.StartDateTime.AddMonths(1).AddDays(-1);
-			if (reportModel.EndDateTime > TimeTrackFilter.EndDate)
-				reportModel.EndDateTime = TimeTrackFilter.EndDate;
+			var report = new ReportT13();
+			report.FillName = FillName;
+			report.LeadName = LeadName;
+			report.HRName = HRName;
+			report.CreationDateTime = DateTime;
+			report.StartDateTime = new DateTime(TimeTrackFilter.StartDate.Date.Year, TimeTrackFilter.StartDate.Month, 1);
+			report.EndDateTime = report.StartDateTime.AddMonths(1).AddDays(-1);
+			if (report.EndDateTime > TimeTrackFilter.EndDate)
+				report.EndDateTime = TimeTrackFilter.EndDate;
 
 			int currentNo = 0;
 			foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
 			{
-				var employeeReportModel = new EmployeeReportModel();
-				reportModel.EmployeeRepors.Add(employeeReportModel);
+				var employeeReport = new EmployeeReport();
+				report.EmployeeRepors.Add(employeeReport);
 
-				employeeReportModel.No = currentNo++;
-				employeeReportModel.EmploueeFIO = timeTrackEmployeeResult.ShortEmployee.FIO;
+				employeeReport.No = currentNo++;
+				employeeReport.EmploueeFIO = timeTrackEmployeeResult.ShortEmployee.FIO;
 
 				foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 				{
-					if (dayTimeTrack.Date > reportModel.StartDateTime && dayTimeTrack.Date < reportModel.EndDateTime)
+					if (dayTimeTrack.Date > report.StartDateTime && dayTimeTrack.Date < report.EndDateTime)
 					{
-						var employeeReportModelDay = new EmployeeReportModelDay();
-						employeeReportModel.Days.Add(employeeReportModelDay);
-						employeeReportModelDay.Code = dayTimeTrack.LetterCode;
-						employeeReportModelDay.TimeSpan = dayTimeTrack.Total;
+						var employeeReportDay = new EmployeeReportDay();
+						employeeReport.Days.Add(employeeReportDay);
+
+						employeeReportDay.Code = dayTimeTrack.LetterCode;
+						employeeReportDay.TimeSpan = dayTimeTrack.Total;
+
+						if (dayTimeTrack.Date.Day <= 15)
+						{
+							if (dayTimeTrack.Total > TimeSpan.Zero)
+								employeeReport.FirstHalfDaysCount++;
+							employeeReport.FirstHalfTimeSpan += dayTimeTrack.Total;
+						}
+						else
+						{
+							if (dayTimeTrack.Total > TimeSpan.Zero)
+								employeeReport.SecondHalfDaysCount++;
+							employeeReport.SecondHalfTimeSpan += dayTimeTrack.Total;
+						}
+						if (dayTimeTrack.Total > TimeSpan.Zero)
+							employeeReport.TotalDaysCount++;
+						employeeReport.TotalTimeSpan += dayTimeTrack.Total;
 
 						foreach (var trackPart in dayTimeTrack.CombinedTimeTrackParts)
 						{
-							foreach (var timeTrackDocumentType in trackPart.TimeTrackDocumentTypes)
+							if (employeeReport.MissReasons.Count < 8)
 							{
-
+								if (trackPart.MinTimeTrackDocumentType != null && trackPart.MinTimeTrackDocumentType.DocumentType == DocumentType.Absence)
+								{
+									var employeeReportMissReason = employeeReport.MissReasons.FirstOrDefault(x => x.Code == trackPart.MinTimeTrackDocumentType.ShortName);
+									if (employeeReportMissReason == null)
+									{
+										employeeReportMissReason = new EmployeeReportMissReason()
+										{
+											Code = trackPart.MinTimeTrackDocumentType.ShortName
+										};
+									}
+									employeeReportMissReason.TimeSpan += trackPart.Delta;
+									employeeReport.MissReasons.Add(employeeReportMissReason);
+								}
 							}
 						}
 					}
 				}
 			}
 
-			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(reportModel));
+			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(report));
 			return true;
 		}
 	}

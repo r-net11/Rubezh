@@ -25,7 +25,7 @@ namespace FiresecAPI.SKD
 		public TimeTrackPartType TimeTrackPartType { get; set; }
 
 		[DataMember]
-		public TimeTrackDocumentType TimeTrackDocumentType { get; set; }
+		public TimeTrackDocumentType MinTimeTrackDocumentType { get; set; }
 
 		[DataMember]
 		public List<TimeTrackDocumentType> TimeTrackDocumentTypes { get; set; }

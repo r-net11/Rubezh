@@ -38,8 +38,8 @@
                                     <TextBlock Text="{Binding ShortEmployee.FirstName}" Margin="4 0" />
                                     <TextBlock Text="{Binding ShortEmployee.SecondName}" Margin="4 0" />
                                 </StackPanel>
-                                <TextBlock Text="{Binding ShortEmployee.DepartmentName}" Foreground="White" Margin="4 0" />
-                                <TextBlock Text="{Binding ShortEmployee.PositionName}" Foreground="White" Margin="4 0" />
+                                <TextBlock Text="{Binding ShortEmployee.DepartmentName}" Foreground="Gray" Margin="4 0" />
+                                <TextBlock Text="{Binding ShortEmployee.PositionName}" Foreground="Gray" Margin="4 0" />
                             </StackPanel>
                         </DataTemplate>
 	                </DataGridTemplateColumn.CellTemplate>

@@ -43,7 +43,7 @@
 
                 <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" Content="Дата начала" />
                 <Calendar Grid.Row="5" Grid.Column="0" DisplayDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding StartDateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" IsEnabled="{Binding CanEditStartDateTime}" />
-                <ExtToolkit:TimePicker Grid.Row="6" Grid.Column="0" Value="{Binding StartTime}" Format="Custom" FormatString="HH:mm" Width="180" IsEnabled="{Binding CanEditStartDateTime}" />
+                <ExtToolkit:TimePicker Grid.Row="6" Grid.Column="0" Value="{Binding StartTime}" Format="Custom" FormatString="HH:mm" Width="180" />
 
 
                 <Label Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Content="Дата конца" />

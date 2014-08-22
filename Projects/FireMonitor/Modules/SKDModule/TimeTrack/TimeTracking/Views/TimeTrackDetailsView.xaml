@@ -5,6 +5,7 @@
 	         MinWidth="900" MinHeight="800">
     <UserControl.Resources>
         <Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
+        <Converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -53,7 +54,7 @@
                         <ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить документ" ImageSource="/Controls;component/Images/Add.png" />
                         <ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать документ" ImageSource="/Controls;component/Images/Edit.png" />
                     </StackPanel>
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding Documents}">
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Название документа" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -124,59 +125,59 @@
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="Всего" VerticalAlignment="Center" Width="150" Margin="4 2" />
                             <Rectangle Fill="Gray" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.Total, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.Total, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.Total, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="Пропуск" VerticalAlignment="Center" Width="150" Margin="4 2" />
                             <Rectangle Fill="Red" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.TotalMissed, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.TotalMissed, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.TotalMissed, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="По графику" VerticalAlignment="Center" Width="150" Margin="4 2" />
                             <Rectangle Fill="Green" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.TotalInSchedule, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.TotalInSchedule, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.TotalInSchedule, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="Переработка" VerticalAlignment="Center" Width="150" Margin="4 2" />
                             <Rectangle Fill="Yellow" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.TotalOvertime, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.TotalOvertime, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.TotalOvertime, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="Опоздания" VerticalAlignment="Center" Width="150" Margin="4 2" />
                             <Rectangle Fill="SkyBlue" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.TotalLate, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.TotalLate, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.TotalLate, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="Уходы раньше" VerticalAlignment="Center" Width="150" Margin="4 2" />
                             <Rectangle Fill="LightPink" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.TotalEarlyLeave, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.TotalEarlyLeave, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.TotalEarlyLeave, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="Переработка по документу" VerticalAlignment="Center" Width="150" Margin="4 2" />
                             <Rectangle Fill="LightYellow" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.Total_DocumentOvertime, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.Total_DocumentOvertime, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.Total_DocumentOvertime, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="Явка по документу" VerticalAlignment="Center" Width="150" Margin="4 2" />
                             <Rectangle Fill="LightGreen" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.Total_DocumentPresence, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.Total_DocumentPresence, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.Total_DocumentPresence, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="Неявка по документу" VerticalAlignment="Center" Width="150" Margin="4 2" />
                             <Rectangle Fill="LightPink" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.Total_DocumentAbsence, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.Total_DocumentAbsence, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.Total_DocumentAbsence, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="Вечером" VerticalAlignment="Center" Width="150" Margin="4 2" />
-                            <Rectangle Fill="Green" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.TotalEavening, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <Rectangle Fill="DarkGreen" Width="50" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.TotalEavening, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.TotalEavening, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Height="25">
                             <TextBlock Text="Ночью" VerticalAlignment="Center" Width="150" Margin="4 2" />
-                            <Rectangle Fill="Green" Width="50" Margin="4 2" />
-                            <TextBlock Text="{Binding DayTimeTrack.TotalNight, Converter={StaticResource TimeSpanToStringConverter}}" VerticalAlignment="Center" Margin="4 2" />
+                            <Rectangle Fill="DarkGreen" Width="50" Margin="4 2" />
+                            <TextBlock Text="{Binding DayTimeTrack.TotalNight, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding DayTimeTrack.TotalNight, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" Margin="4 2" />
                         </StackPanel>
                     </StackPanel>
                 </Grid>
