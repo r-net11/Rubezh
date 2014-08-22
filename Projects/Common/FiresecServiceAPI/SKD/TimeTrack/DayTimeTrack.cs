@@ -72,7 +72,7 @@ namespace FiresecAPI.SKD
 		public List<TimeTrackDocument> Documents { get; set; }
 
 		[DataMember]
-		public HolidaySettings HolidaySettings { get; set; }
+		public NightSettings NightSettings { get; set; }
 
 		[DataMember]
 		public string Error { get; set; }
@@ -111,10 +111,10 @@ namespace FiresecAPI.SKD
 
 			TotalEavening = new TimeSpan();
 			TotalNight = new TimeSpan();
-			if (HolidaySettings != null)
+			if (NightSettings != null)
 			{
-				TotalEavening = CalculateEveningTime(HolidaySettings.EveningStartTime, HolidaySettings.EveningEndTime);
-				TotalNight = CalculateEveningTime(HolidaySettings.NightStartTime, HolidaySettings.NightEndTime);
+				TotalEavening = CalculateEveningTime(NightSettings.EveningStartTime, NightSettings.EveningEndTime);
+				TotalNight = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
 			}
 			CalculateLetterCode();
 		}
@@ -124,6 +124,8 @@ namespace FiresecAPI.SKD
 			DocumentTrackParts = new List<TimeTrackPart>();
 			foreach (var document in Documents)
 			{
+				document.TimeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
+
 				TimeTrackPart timeTrackPart = null;
 				if (document.StartDateTime.Date < Date && document.EndDateTime.Date > Date)
 				{
@@ -151,7 +153,7 @@ namespace FiresecAPI.SKD
 				}
 				if (timeTrackPart != null)
 				{
-					timeTrackPart.DocumentCode = document.DocumentCode;
+					timeTrackPart.TimeTrackDocumentType = document.TimeTrackDocumentType;
 					DocumentTrackParts.Add(timeTrackPart);
 				}
 			}
@@ -181,8 +183,7 @@ namespace FiresecAPI.SKD
 					};
 					foreach (var timeTrackPart in timeTrackParts)
 					{
-						newTimeTrackPart.DocumentCode = timeTrackPart.DocumentCode;
-						newTimeTrackPart.DocumentCodes.Add(timeTrackPart.DocumentCode);
+						newTimeTrackPart.TimeTrackDocumentTypes.Add(timeTrackPart.TimeTrackDocumentType);
 					}
 					result.Add(newTimeTrackPart);
 				}
@@ -284,14 +285,10 @@ namespace FiresecAPI.SKD
 				if (documentTimeTrack != null)
 				{
 					var documentType = DocumentType.Absence;
-					foreach (var documentCode in documentTimeTrack.DocumentCodes)
+					foreach (var timeTrackDocumentType in documentTimeTrack.TimeTrackDocumentTypes)
 					{
-						var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == documentCode);
-						if (timeTrackDocumentType != null)
-						{
-							if (timeTrackDocumentType.DocumentType < documentType)
-								documentType = timeTrackDocumentType.DocumentType;
-						}
+						if (timeTrackDocumentType.DocumentType < documentType)
+							documentType = timeTrackDocumentType.DocumentType;
 					}
 
 					if (documentType == DocumentType.Overtime)
@@ -382,7 +379,7 @@ namespace FiresecAPI.SKD
 				{
 					TotalInSchedule = Total;
 					TotalOvertime = new TimeSpan();
-				}	
+				}
 			}
 
 			if (IsHoliday)
@@ -394,15 +391,6 @@ namespace FiresecAPI.SKD
 				TotalOvertime = new TimeSpan();
 			}
 
-			//if (Documents != null && Documents.Count > 0)
-			//{
-			//    Total = TotalPlanned;
-			//    TotalInSchedule = TotalPlanned;
-			//    TotalMissed = new TimeSpan();
-			//    TotalLate = new TimeSpan();
-			//    TotalEarlyLeave = new TimeSpan();
-			//    TotalOvertime = new TimeSpan();
-			//}
 			TimeTrackType = CalculateTimeTrackType();
 		}
 
@@ -412,7 +400,7 @@ namespace FiresecAPI.SKD
 			{
 				return TimeTrackType.None;
 			}
-			if (Documents != null && Documents.Count > 0)
+			if (Documents.Count > 0)
 			{
 				return TimeTrackType.Document;
 			}
@@ -426,7 +414,7 @@ namespace FiresecAPI.SKD
 			}
 			if (Total.TotalSeconds == 0)
 			{
-				return TimeTrackType.Missed;
+				return TimeTrackType.Absence;
 			}
 			if (TotalLate.TotalSeconds > 0)
 			{
@@ -440,7 +428,11 @@ namespace FiresecAPI.SKD
 			{
 				return TimeTrackType.Overtime;
 			}
-			return TimeTrackType.AsPlanned;
+			if (TotalNight.TotalSeconds > 0)
+			{
+				return TimeTrackType.Night;
+			}
+			return TimeTrackType.Presence;
 		}
 
 		TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end)
@@ -484,7 +476,7 @@ namespace FiresecAPI.SKD
 			}
 			timeSpans = timeSpans.OrderBy(x => x.TotalSeconds).ToList();
 
-			for (int i = 0; i < timeSpans.Count - 1; i ++)
+			for (int i = 0; i < timeSpans.Count - 1; i++)
 			{
 				var startTimeSpan = timeSpans[i];
 				var endTimeSpan = timeSpans[i + 1];
@@ -518,30 +510,64 @@ namespace FiresecAPI.SKD
 		{
 			switch (TimeTrackType)
 			{
-				case TimeTrackType.Holiday:
-					LetterCode = "В";
+				case TimeTrackType.None:
+					LetterCode = "";
 					break;
 
-				case TimeTrackType.Missed:
+				case TimeTrackType.Presence:
+					LetterCode = "Я";
+					break;
+
+				case TimeTrackType.Absence:
 					LetterCode = "ПР";
+					break;
+
+				case TimeTrackType.Late:
+					LetterCode = "ОП";
+					break;
+
+				case TimeTrackType.EarlyLeave:
+					LetterCode = "УР";
+					break;
+
+				case TimeTrackType.Overtime:
+					LetterCode = "С";
+					break;
+
+				case TimeTrackType.Night:
+					LetterCode = "Н";
 					break;
 
 				case TimeTrackType.DayOff:
 					LetterCode = "В";
 					break;
 
+				case TimeTrackType.Holiday:
+					LetterCode = "В";
+					break;
+
+				case TimeTrackType.Document:
+					LetterCode = "";
+					break;
+
 				default:
-					LetterCode = "X";
+					LetterCode = "";
 					break;
 			}
 
-			if (Documents != null && Documents.Count > 0)
+			if (Documents.Count > 0)
 			{
-				var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == Documents[0].DocumentCode);
-				if (timeTrackDocumentType != null)
+				var minDocumentType = DocumentType.Overtime;
+				var minDocument = Documents[0];
+				foreach (var document in Documents)
 				{
-					LetterCode = timeTrackDocumentType.ShortName;
+					if (document.TimeTrackDocumentType.DocumentType < minDocumentType)
+					{
+						minDocumentType = document.TimeTrackDocumentType.DocumentType;
+						minDocument = document;
+					}
 				}
+				LetterCode = minDocument.TimeTrackDocumentType.ShortName;
 			}
 		}
 	}

@@ -204,12 +204,12 @@ namespace FiresecAPI
 		OperationResult<bool> SKDCloseDoorForever(Guid doorUID);
 		#endregion
 
-        #region HolidaySettings
-        [OperationContract]
-        OperationResult<HolidaySettings> GetHolidaySettingsByOrganisation(Guid uid);
+		#region NightSettings
+		[OperationContract]
+        OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID);
 
         [OperationContract]
-        OperationResult SaveHolidaySettings(HolidaySettings item);
+		OperationResult SaveNightSettings(NightSettings nightSettings);
         #endregion
     }
 }

@@ -98,14 +98,11 @@ namespace SKDModule.ViewModels
 						employeeReportModelDay.Code = dayTimeTrack.LetterCode;
 						employeeReportModelDay.TimeSpan = dayTimeTrack.Total;
 
-						if (dayTimeTrack.Documents != null)
+						foreach (var trackPart in dayTimeTrack.CombinedTimeTrackParts)
 						{
-							foreach (var trackPart in dayTimeTrack.CombinedTimeTrackParts)
+							foreach (var timeTrackDocumentType in trackPart.TimeTrackDocumentTypes)
 							{
-								foreach (var documentCode in trackPart.DocumentCodes)
-								{
 
-								}
 							}
 						}
 					}

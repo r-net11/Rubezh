@@ -23,6 +23,7 @@ namespace SKDModule.Views
 			public double Delta { get; set; }
 			public bool IsInterval { get; set; }
 			public string Tooltip { get; set; }
+			public Color Color { get; set; }
 			public TimeTrackPartType DayTrackDualIntervalPartType { get; set; }
 		}
 
@@ -71,7 +72,32 @@ namespace SKDModule.Views
 					var endTimePart = new TimePart();
 					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = true;
-					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime);
+
+					var minDocumentType = DocumentType.Overtime;
+					string documentName = "";
+					foreach (var timeTrackDocumentType in timeTrackPart.TimeTrackDocumentTypes)
+					{
+						if (timeTrackDocumentType.DocumentType < minDocumentType)
+						{
+							minDocumentType = timeTrackDocumentType.DocumentType;
+							documentName = timeTrackDocumentType.Name;
+						}
+					}
+					switch(minDocumentType)
+					{
+						case DocumentType.Overtime:
+							endTimePart.Color = Colors.LightYellow;
+							break;
+
+						case DocumentType.Presence:
+							endTimePart.Color = Colors.LimeGreen;
+							break;
+
+						case DocumentType.Absence:
+							endTimePart.Color = Colors.LightPink;
+							break;
+					}
+					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + documentName;
 					timeParts.Add(endTimePart);
 
 					current = timeTrackPart.EndTime.TotalSeconds;
@@ -93,7 +119,7 @@ namespace SKDModule.Views
 						{
 							Rectangle rectangle = new Rectangle();
 							rectangle.ToolTip = timePart.Tooltip;
-							rectangle.Fill = new SolidColorBrush(Colors.Green);
+							rectangle.Fill = new SolidColorBrush(timePart.Color);
 							rectangle.Stroke = new SolidColorBrush(Colors.Black);
 							Grid.SetRow(rectangle, 0);
 							Grid.SetColumn(rectangle, i);

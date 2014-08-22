@@ -26,7 +26,7 @@ namespace SKDDriver.DataAccess
 	public partial class Journal : IDatabaseElement { }
 	public partial class AdditionalColumn : IDatabaseElement, ILinkedToEmployee { }
 	public partial class Photo : IDatabaseElement { }
-	public partial class HolidaySetting : IDatabaseElement { }
+	public partial class NightSetting : IDatabaseElement { }
 
 	public partial class ScheduleDay : IDatabaseElement, IIsDeletedDatabaseElement { }
 	public partial class ScheduleZone : IDatabaseElement, IIsDeletedDatabaseElement { }

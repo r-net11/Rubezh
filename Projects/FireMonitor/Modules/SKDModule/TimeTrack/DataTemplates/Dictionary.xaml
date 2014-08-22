@@ -23,8 +23,8 @@
 		<Views:HolidayDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:HolidaySettingsViewModel}">
-		<Views:HolidaySettingsView />
+	<DataTemplate DataType="{x:Type ViewModels:NightSettingsViewModel}">
+		<Views:NightSettingsView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">

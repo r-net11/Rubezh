@@ -6,6 +6,8 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class TimeTrackDocument
 	{
+		public TimeTrackDocumentType TimeTrackDocumentType { get; set; }
+
 		public TimeTrackDocument()
 		{
 			UID = Guid.NewGuid();

@@ -146,10 +146,9 @@
     <Compile Include="TimeTrack\Common\CopyHelper.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\IntervalViewPartViewModel.cs" />
     <Compile Include="TimeTrack\Common\ViewModels\OrganisationViewModel.cs" />
-    <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeTrackTypeToColorConverter.cs" />
     <Compile Include="TimeTrack\Converters\TimeSpanToColorConverter.cs" />
-    <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter2.cs" />
+    <Compile Include="TimeTrack\Converters\TimeSpanToStringConverter.cs" />
     <Compile Include="TimeTrack\Holidays\ViewModels\Comparers.cs" />
     <Compile Include="TimeTrack\Intervals\ViewModels\Comparers.cs" />
     <Compile Include="TimeTrack\ScheduleShemes\ViewModels\Comparers.cs" />
@@ -294,7 +293,7 @@
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateFilterViewModel.cs" />
     <Compile Include="Events\UpdateAdditionalColumns.cs" />
     <Compile Include="Helpers\ShowOnPlanHelper.cs" />
-    <Compile Include="TimeTrack\Holidays\ViewModels\HolidaySettingsViewModel.cs" />
+    <Compile Include="TimeTrack\Holidays\ViewModels\NightSettingsViewModel.cs" />
     <Compile Include="TimeTrack\Holidays\Views\HolidayDetailsView.xaml.cs">
       <DependentUpon>HolidayDetailsView.xaml</DependentUpon>
     </Compile>
@@ -384,8 +383,8 @@
     <Compile Include="TimeTrack\Holidays\ViewModels\HolidayDetailsViewModel.cs" />
     <Compile Include="TimeTrack\Holidays\ViewModels\HolidaysViewModel.cs" />
     <Compile Include="TimeTrack\Holidays\ViewModels\HolidayViewModel.cs" />
-    <Compile Include="TimeTrack\Holidays\Views\HolidaySettingsView.xaml.cs">
-      <DependentUpon>HolidaySettingsView.xaml</DependentUpon>
+    <Compile Include="TimeTrack\Holidays\Views\NightSettingsView.xaml.cs">
+      <DependentUpon>NightSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\Holidays\Views\HolidaysView.xaml.cs">
       <DependentUpon>HolidaysView.xaml</DependentUpon>
@@ -657,7 +656,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="TimeTrack\Holidays\Views\HolidaySettingsView.xaml">
+    <Page Include="TimeTrack\Holidays\Views\NightSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

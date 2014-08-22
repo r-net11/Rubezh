@@ -184,13 +184,13 @@ namespace SKDDriver.Translators
 				return new TimeTrackEmployeeResult("Не найдена схема работы");
 			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted).ToList();
 			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID && !x.IsDeleted).ToList();
-			var holidaySettings = SKDDatabaseService.HolidaySettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
+			var nightSettings = SKDDatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
 
 			var timeTrackEmployeeResult = new TimeTrackEmployeeResult();
 			for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
 			{
 				var dayTimeTrack = GetTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date);
-				dayTimeTrack.HolidaySettings = holidaySettings;
+				dayTimeTrack.NightSettings = nightSettings;
 				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
 				dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);

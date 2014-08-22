@@ -163,7 +163,7 @@ namespace SKDModule.ViewModels
 			return SelectedHoliday != null && SelectedHoliday.Parent != null && !SelectedHoliday.IsOrganisation;
 		}
 
-		private Holiday CopyHoliday(Holiday source, bool newName = true)
+		Holiday CopyHoliday(Holiday source, bool newName = true)
 		{
 			var copy = new Holiday();
 			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
@@ -183,7 +183,7 @@ namespace SKDModule.ViewModels
 			SelectedYear = AvailableYears.FirstOrDefault(x => x == DateTime.Now.Year);
 		}
 
-		private ObservableCollection<int> _availableYears;
+		ObservableCollection<int> _availableYears;
 		public ObservableCollection<int> AvailableYears
 		{
 			get { return _availableYears; }
@@ -194,7 +194,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private int _selectedYear;
+		int _selectedYear;
 		public int SelectedYear
 		{
 			get { return _selectedYear; }
@@ -209,11 +209,10 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }
-		private void OnShowSettings()
+		void OnShowSettings()
 		{
-			var organisationUID = ParentOrganisation.Organisation.UID;
-			var holidaySettingsViewModel = new HolidaySettingsViewModel(organisationUID);
-			DialogService.ShowModalWindow(holidaySettingsViewModel);
+			var nightSettingsViewModel = new NightSettingsViewModel(ParentOrganisation.Organisation.UID);
+			DialogService.ShowModalWindow(nightSettingsViewModel);
 		}
 	}
 }

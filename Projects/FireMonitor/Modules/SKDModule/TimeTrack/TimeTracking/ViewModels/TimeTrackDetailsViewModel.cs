@@ -30,13 +30,11 @@ namespace SKDModule.ViewModels
 			}
 
 			Documents = new ObservableCollection<DocumentViewModel>();
-			if (dayTimeTrack.Documents != null)
+
+			foreach (var document in dayTimeTrack.Documents)
 			{
-				foreach (var document in dayTimeTrack.Documents)
-				{
-					var documentViewModel = new DocumentViewModel(document);
-					Documents.Add(documentViewModel);
-				}
+				var documentViewModel = new DocumentViewModel(document);
+				Documents.Add(documentViewModel);
 			}
 		}
 

@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 			Letter = DayTimeTrack.LetterCode;
 			Tooltip = DayTimeTrack.TimeTrackType.ToDescription();
 
-			if (DayTimeTrack.Documents != null && DayTimeTrack.Documents.Count > 0)
+			if (DayTimeTrack.Documents.Count > 0)
 			{
 				var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == DayTimeTrack.Documents[0].DocumentCode);
 				if (timeTrackDocumentType != null)

@@ -177,14 +177,14 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-        #region HolidaySettings
-        public OperationResult<HolidaySettings> GetHolidaySettingsByOrganisation(Guid uid)
+        #region NightSettings
+		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
         {
-            return SafeContext.Execute<OperationResult<HolidaySettings>>(() => FiresecService.GetHolidaySettingsByOrganisation(uid));
+			return SafeContext.Execute<OperationResult<NightSettings>>(() => FiresecService.GetNightSettingsByOrganisation(organisationUID));
         }
-        public OperationResult SaveHolidaySettings(HolidaySettings item)
+		public OperationResult SaveNightSettings(NightSettings nightSettings)
         {
-            return SafeContext.Execute<OperationResult>(() => FiresecService.SaveHolidaySettings(item));
+			return SafeContext.Execute<OperationResult>(() => FiresecService.SaveNightSettings(nightSettings));
         }
         #endregion
 

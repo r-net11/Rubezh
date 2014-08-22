@@ -7,7 +7,6 @@
     <UserControl.Resources>
         <Converters:TimeTrackTypeToColorConverter x:Key="TimeTrackTypeToColorConverter" />
         <Converters:TimeSpanToStringConverter x:Key="TimeSpanToStringConverter" />
-        <Converters:TimeSpanToStringConverter2 x:Key="TimeSpanToStringConverter2" />
         <Converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
     </UserControl.Resources>
 
@@ -67,7 +66,7 @@
                                 <ItemsControl ItemsSource="{Binding Totals}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <TextBlock ToolTip="{Binding Name}" Text="{Binding TimeSpan, Converter={StaticResource TimeSpanToStringConverter2}}" Foreground="{Binding TimeSpan, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" />
+                                            <TextBlock ToolTip="{Binding Name}" Text="{Binding TimeSpan, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding TimeSpan, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

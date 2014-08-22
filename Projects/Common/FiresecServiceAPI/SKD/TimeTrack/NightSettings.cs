@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class HolidaySettings : SKDModelBase
+	public class NightSettings : SKDModelBase
 	{
 		[DataMember]
 		public Guid OrganisationUID { get; set; }

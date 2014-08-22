@@ -15,10 +15,10 @@ namespace SKDModule.Converters
 				case TimeTrackType.None:
 					return Brushes.Gray;
 
-				case TimeTrackType.Missed:
+				case TimeTrackType.Absence:
 					return Brushes.DarkRed;
 
-				case TimeTrackType.AsPlanned:
+				case TimeTrackType.Presence:
 					return Brushes.White;
 
 				case TimeTrackType.Late:
