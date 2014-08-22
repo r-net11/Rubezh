@@ -39,6 +39,14 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid? OrganisationUID { get; set; }
+
+		public string FIO
+		{
+			get
+			{
+				return LastName + " " + FirstName + SecondName != null ? " " + SecondName : "";
+			}
+		}
 	}
 
 	public class TextColumn

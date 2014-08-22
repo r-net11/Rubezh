@@ -66,7 +66,7 @@ namespace GKModule.ViewModels
 					return;
 
 				Device.Description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 
 				var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.BaseUID == Device.BaseUID);
 				if (deviceViewModel != null)

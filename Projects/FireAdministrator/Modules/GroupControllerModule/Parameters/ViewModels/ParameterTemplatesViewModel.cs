@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedParameterTemplate = value;
-				OnPropertyChanged("SelectedParameterTemplate");
+				OnPropertyChanged(() => SelectedParameterTemplate);
 			}
 		}
 

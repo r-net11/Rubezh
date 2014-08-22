@@ -93,7 +93,7 @@ namespace VideoModule.ViewModels
 			set
 			{
 				_cameras = value;
-				OnPropertyChanged("Cameras");
+				OnPropertyChanged(() => Cameras);
 			}
 		}
 

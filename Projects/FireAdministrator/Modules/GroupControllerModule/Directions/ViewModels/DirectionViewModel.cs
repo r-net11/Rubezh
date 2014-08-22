@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedOutputDevice = value;
-				OnPropertyChanged("SelectedOutputDevice");
+				OnPropertyChanged(() => SelectedOutputDevice);
 			}
 		}
 

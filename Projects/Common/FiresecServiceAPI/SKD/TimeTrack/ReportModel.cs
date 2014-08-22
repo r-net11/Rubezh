@@ -13,6 +13,9 @@ namespace FiresecAPI.SKD
 		}
 
 		public List<EmployeeReportModel> EmployeeRepors { get; set; }
+		public string Name1 { get; set; }
+		public string Name2 { get; set; }
+		public string Name3 { get; set; }
 		public DateTime CreationDateTime { get; set; }
 		public DateTime StartDateTime { get; set; }
 		public DateTime EndDateTime { get; set; }
@@ -30,7 +33,7 @@ namespace FiresecAPI.SKD
 		public List<EmployeeReportModelDay> Days { get; set; }
 		public List<EmployeeReportModelMissed> MissReasons { get; set; }
 		public int No { get; set; }
-		public int EmploueeFIO { get; set; }
+		public string EmploueeFIO { get; set; }
 		public int TabelNo { get; set; }
 		public int FirstHalfDaysCount { get; set; }
 		public TimeSpan FirstHalfTimeSpan { get; set; }

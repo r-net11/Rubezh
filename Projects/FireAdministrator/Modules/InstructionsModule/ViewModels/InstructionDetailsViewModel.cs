@@ -106,7 +106,7 @@ namespace InstructionsModule.ViewModels
 			{
 				_instructionType = value;
 				OnPropertyChanged(() => InstructionType);
-				OnPropertyChanged("IsDetails");
+				OnPropertyChanged(() => IsDetails);
 			}
 		}
 		public List<InstructionType> AvailableInstructionsType
