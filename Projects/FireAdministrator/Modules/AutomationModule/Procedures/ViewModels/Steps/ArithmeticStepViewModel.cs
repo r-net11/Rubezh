@@ -196,6 +196,7 @@ namespace AutomationModule.ViewModels
 		{
 			ArithmeticParameter = arithmeticParameter;
 			VariableTypes = new ObservableCollection<VariableType>(availableVariableTypes);
+			OnPropertyChanged(() => VariableTypes);
 		}
 
 		public void Update(List<Variable> variables)

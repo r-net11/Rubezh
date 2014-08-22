@@ -107,12 +107,12 @@
 		<Views:PersonInspectionStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="setGlobalValueTemplate">
-		<Views:SetGlobalValueStepView />
+	<DataTemplate x:Key="setValueTemplate">
+		<Views:SetValueStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="incrementGlobalValueTemplate">
-		<Views:IncrementGlobalValueStepView />
+		<Views:IncrementValueStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="controlGKDeviceTemplate">
@@ -159,8 +159,8 @@
 		ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
 		ExitTemplate="{StaticResource exitTemplate}"
 		PersonInspectionTemplate="{StaticResource personInspectionTemplate}"
-		SetGlobalValueTemplate="{StaticResource setGlobalValueTemplate}"
-		IncrementGlobalValueTemplate="{StaticResource incrementGlobalValueTemplate}"
+		SetValueTemplate="{StaticResource setValueTemplate}"
+		IncrementValueTemplate="{StaticResource incrementGlobalValueTemplate}"
 		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
 		ControlSKDDeviceTemplate="{StaticResource controlSKDDeviceTemplate}"
 		ControlGKFireZoneTemplate="{StaticResource controlGKFireZoneTemplate}"

@@ -66,12 +66,12 @@ namespace AutomationModule.ViewModels
 					Content = new PersonInspectionStepViewModel(step.PersonInspectionArguments, procedure);
 					break;
 				
-				case ProcedureStepType.SetGlobalValue:
-					Content = new SetGlobalValueStepViewModel(step.SetGlobalValueArguments);
+				case ProcedureStepType.SetValue:
+					Content = new SetValueStepViewModel(step.SetValueArguments, procedure);
 					break;
 				
-				case ProcedureStepType.IncrementGlobalValue:
-					Content = new IncrementGlobalValueStepViewModel(step.IncrementGlobalValueArguments);
+				case ProcedureStepType.IncrementValue:
+					Content = new IncrementValueStepViewModel(step.IncrementValueArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlGKDevice:

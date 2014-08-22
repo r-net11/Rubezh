@@ -32,7 +32,7 @@ namespace AutomationModule.ViewModels
 		public void OnAdd()
 		{
 			var findObjectCondition = new FindObjectCondition();
-			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, SelectedVariable.Variable, Procedure);
+			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure);
 			FindObjectArguments.FindObjectConditions.Add(findObjectCondition);
 			FindObjectConditions.Add(findObjectConditionViewModel);			
 			OnPropertyChanged(() => FindObjectConditions);
@@ -76,7 +76,7 @@ namespace AutomationModule.ViewModels
 			if (SelectedVariable != null)
 				foreach (var findObjectCondition in FindObjectArguments.FindObjectConditions)
 				{
-					var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, SelectedVariable.Variable, Procedure);
+					var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure);
 					FindObjectConditions.Add(findObjectConditionViewModel);
 				}
 			else
@@ -132,14 +132,12 @@ namespace AutomationModule.ViewModels
 	public class FindObjectConditionViewModel : BaseViewModel
 	{
 		public FindObjectCondition FindObjectCondition { get; private set; }
-		Variable ResultVariable { get; set; }
 		public ArithmeticParameterViewModel Variable2 { get; private set; }
 		Procedure Procedure { get; set; }
-		public FindObjectConditionViewModel(FindObjectCondition findObjectCondition, Variable resultVariable, Procedure procedure)
+		public FindObjectConditionViewModel(FindObjectCondition findObjectCondition, Procedure procedure)
 		{
 			FindObjectCondition = findObjectCondition;
 			Procedure = procedure;
-			ResultVariable = resultVariable;
 			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2, new List<VariableType>());
 			SelectedProperty = FindObjectCondition.Property;			
 			SelectedConditionType = FindObjectCondition.ConditionType;

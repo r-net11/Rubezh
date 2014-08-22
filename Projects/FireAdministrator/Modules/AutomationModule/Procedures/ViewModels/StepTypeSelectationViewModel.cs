@@ -90,9 +90,9 @@ namespace AutomationModule.ViewModels
 						new List<StepTypeViewModel>()
 						{
 							new StepTypeViewModel(ProcedureStepType.Exit),
-							new StepTypeViewModel(ProcedureStepType.SetGlobalValue),
+							new StepTypeViewModel(ProcedureStepType.SetValue),
 							new StepTypeViewModel(ProcedureStepType.RunProgramm),
-							new StepTypeViewModel(ProcedureStepType.IncrementGlobalValue),
+							new StepTypeViewModel(ProcedureStepType.IncrementValue),
 							new StepTypeViewModel(ProcedureStepType.GetString),
 							new StepTypeViewModel(ProcedureStepType.Pause),
 							new StepTypeViewModel(ProcedureStepType.ProcedureSelection)

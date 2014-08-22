@@ -147,21 +147,18 @@ namespace FiresecService.Processor
 
 				case ProcedureStepType.ProcedureSelection:
 					{
-						foreach (var scheduleProcedure in procedureStep.ProcedureSelectionArguments.ScheduleProcedures)
-						{
-							var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
-								FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
-							Run(childProcedure, scheduleProcedure.Arguments);
-						}
+						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
+								FirstOrDefault(x => x.Uid == procedureStep.ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
+						Run(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments);
 					}
 					break;
 
-				case ProcedureStepType.IncrementGlobalValue:
-					ProcedureHelper.IncrementGlobalValue(procedureStep);
+				case ProcedureStepType.IncrementValue:
+					ProcedureHelper.IncrementValue(procedureStep);
 					break;
 
-				case ProcedureStepType.SetGlobalValue:
-					ProcedureHelper.SetGlobalValue(procedureStep);
+				case ProcedureStepType.SetValue:
+					ProcedureHelper.SetValue(procedureStep);
 					break;
 
 				case ProcedureStepType.Exit:

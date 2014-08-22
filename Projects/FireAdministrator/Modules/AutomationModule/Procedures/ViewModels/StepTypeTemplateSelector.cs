@@ -16,8 +16,8 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ProcedureSelectionTemplate { get; set; }
 		public DataTemplate ExitTemplate { get; set; }
 		public DataTemplate PersonInspectionTemplate { get; set; }
-		public DataTemplate SetGlobalValueTemplate { get; set; }
-		public DataTemplate IncrementGlobalValueTemplate { get; set; }
+		public DataTemplate SetValueTemplate { get; set; }
+		public DataTemplate IncrementValueTemplate { get; set; }
 		public DataTemplate ControlGKDeviceTemplate { get; set; }
 		public DataTemplate ControlSKDDeviceTemplate { get; set; }
 		public DataTemplate ControlGKFireZoneTemplate { get; set; }
@@ -74,13 +74,13 @@ namespace AutomationModule.ViewModels
 			{
 				return PersonInspectionTemplate;
 			}
-			if (item is SetGlobalValueStepViewModel)
+			if (item is SetValueStepViewModel)
 			{
-				return SetGlobalValueTemplate;
+				return SetValueTemplate;
 			}
-			if (item is IncrementGlobalValueStepViewModel)
+			if (item is IncrementValueStepViewModel)
 			{
-				return IncrementGlobalValueTemplate;
+				return IncrementValueTemplate;
 			}
 			if (item is ControlGKDeviceStepViewModel)
 			{

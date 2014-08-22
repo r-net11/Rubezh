@@ -130,14 +130,14 @@
     <Compile Include="Procedures\ViewModels\Steps\FindObjectStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\GetStringStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\IncrementGlobalValueStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\IncrementValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\PauseStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\PersonInspectionStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ProcedureSelectionStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ShowMessageStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\SetGlobalValueStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\SetValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
@@ -223,8 +223,8 @@
     <Compile Include="Procedures\Views\Steps\GetStringStepView.xaml.cs">
       <DependentUpon>GetStringStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\IncrementGlobalValueStepView.xaml.cs">
-      <DependentUpon>IncrementGlobalValueStepView.xaml</DependentUpon>
+    <Compile Include="Procedures\Views\Steps\IncrementValueStepView.xaml.cs">
+      <DependentUpon>IncrementValueStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\JournalStepView.xaml.cs">
       <DependentUpon>JournalStepView.xaml</DependentUpon>
@@ -241,8 +241,8 @@
     <Compile Include="Procedures\Views\Steps\ShowMessageStepView.xaml.cs">
       <DependentUpon>ShowMessageStepView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Procedures\Views\Steps\SetGlobalValueStepView.xaml.cs">
-      <DependentUpon>SetGlobalValueStepView.xaml</DependentUpon>
+    <Compile Include="Procedures\Views\Steps\SetValueStepView.xaml.cs">
+      <DependentUpon>SetValueStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\SoundStepView.xaml.cs">
       <DependentUpon>SoundStepView.xaml</DependentUpon>
@@ -504,7 +504,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\IncrementGlobalValueStepView.xaml">
+    <Page Include="Procedures\Views\Steps\IncrementValueStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -528,7 +528,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Procedures\Views\Steps\SetGlobalValueStepView.xaml">
+    <Page Include="Procedures\Views\Steps\SetValueStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

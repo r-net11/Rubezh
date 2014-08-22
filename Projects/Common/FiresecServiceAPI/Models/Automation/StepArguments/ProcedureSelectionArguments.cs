@@ -9,13 +9,13 @@ namespace FiresecAPI.Automation
 		public ProcedureSelectionArguments()
 		{
 			Uid = Guid.NewGuid();
-			ScheduleProcedures = new List<ScheduleProcedure>();
+			ScheduleProcedure = new ScheduleProcedure();
 		}
 
 		[DataMember]
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public List<ScheduleProcedure> ScheduleProcedures { get; set; }
+		public ScheduleProcedure ScheduleProcedure { get; set; }
 	}
 }

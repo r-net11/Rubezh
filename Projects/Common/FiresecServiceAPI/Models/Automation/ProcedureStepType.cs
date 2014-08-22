@@ -49,14 +49,14 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Выход из процедуры")]
 		Exit,
 
-		[DescriptionAttribute("Задание значения глобальной переменной")]
-		SetGlobalValue,
+		[DescriptionAttribute("Задание значения переменной")]
+		SetValue,
 
 		[DescriptionAttribute("Запуск программ")]
 		RunProgramm,
 
-		[DescriptionAttribute("Инкремент значения глобальной переменной")]
-		IncrementGlobalValue,
+		[DescriptionAttribute("Инкремент значения переменной")]
+		IncrementValue,
 
 		[DescriptionAttribute("Отправить сообщение по электронной почте")]
 		SendEmail,
