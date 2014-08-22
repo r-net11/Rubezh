@@ -24,7 +24,7 @@ namespace SKDModule.Views
 			public bool IsInterval { get; set; }
 			public string Tooltip { get; set; }
 			public Color Color { get; set; }
-			public TimeTrackPartType DayTrackDualIntervalPartType { get; set; }
+			public TimeTrackType DayTrackDualIntervalPartType { get; set; }
 		}
 
 		string TimePartDateToString(DateTime dateTime)
@@ -242,7 +242,7 @@ namespace SKDModule.Views
 
 					var endTimePart = new TimePart();
 					endTimePart.Delta = trackPart.EndTime.TotalSeconds - trackPart.StartTime.TotalSeconds;
-					endTimePart.IsInterval = trackPart.TimeTrackPartType != TimeTrackPartType.None;
+					endTimePart.IsInterval = trackPart.TimeTrackPartType != TimeTrackType.None;
 					endTimePart.Tooltip = TimePartDateToString(trackPart.StartTime) + " - " + TimePartDateToString(trackPart.EndTime) + " " + trackPart.TimeTrackPartType.ToDescription();
 					endTimePart.DayTrackDualIntervalPartType = trackPart.TimeTrackPartType;
 					timeParts.Add(endTimePart);
@@ -268,43 +268,43 @@ namespace SKDModule.Views
 							rectangle.ToolTip = timePart.Tooltip;
 							switch (timePart.DayTrackDualIntervalPartType)
 							{
-								case TimeTrackPartType.PlanedOnly:
+								case TimeTrackType.Absence:
 									rectangle.Fill = new SolidColorBrush(Colors.Red);
 									break;
 
-								case TimeTrackPartType.MissedButInsidePlan:
+								case TimeTrackType.AbsenceInsidePlan:
 									rectangle.Fill = new SolidColorBrush(Colors.Pink);
 									break;
 
-								case TimeTrackPartType.AsPlanned:
+								case TimeTrackType.Presence:
 									rectangle.Fill = new SolidColorBrush(Colors.Green);
 									break;
 
-								case TimeTrackPartType.Overtime:
+								case TimeTrackType.Overtime:
 									rectangle.Fill = new SolidColorBrush(Colors.Yellow);
 									break;
 
-								case TimeTrackPartType.InBrerak:
+								case TimeTrackType.PresenceInBrerak:
 									rectangle.Fill = new SolidColorBrush(Colors.Violet);
 									break;
 
-								case TimeTrackPartType.Late:
+								case TimeTrackType.Late:
 									rectangle.Fill = new SolidColorBrush(Colors.SkyBlue);
 									break;
 
-								case TimeTrackPartType.EarlyLeave:
+								case TimeTrackType.EarlyLeave:
 									rectangle.Fill = new SolidColorBrush(Colors.Pink);
 									break;
 
-								case TimeTrackPartType.DocumentOvertime:
+								case TimeTrackType.DocumentOvertime:
 									rectangle.Fill = new SolidColorBrush(Colors.LightYellow);
 									break;
 
-								case TimeTrackPartType.DocumentPresence:
+								case TimeTrackType.DocumentPresence:
 									rectangle.Fill = new SolidColorBrush(Colors.LightGreen);
 									break;
 
-								case TimeTrackPartType.DocumentAbsence:
+								case TimeTrackType.DocumentAbsence:
 									rectangle.Fill = new SolidColorBrush(Colors.LightPink);
 									break;
 							}

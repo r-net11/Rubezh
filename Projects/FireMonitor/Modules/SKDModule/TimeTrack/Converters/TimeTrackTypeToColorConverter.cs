@@ -36,8 +36,8 @@ namespace SKDModule.Converters
 				case TimeTrackType.Holiday:
 					return Brushes.GreenYellow;
 
-				case TimeTrackType.Document:
-					return Brushes.DeepSkyBlue;
+				//case TimeTrackType.Document:
+				//    return Brushes.DeepSkyBlue;
 			}
 			return Brushes.Green;
 		}

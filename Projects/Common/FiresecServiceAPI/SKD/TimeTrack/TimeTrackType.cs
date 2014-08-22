@@ -13,6 +13,12 @@ namespace FiresecAPI.SKD
 		[Description("Прогул")]
 		Absence,
 
+		[Description("Отсутствие в рамках графика")]
+		AbsenceInsidePlan,
+
+		[Description("Явка в перерыве")]
+		PresenceInBrerak,
+
 		[Description("Опоздание")]
 		Late,
 
@@ -31,7 +37,13 @@ namespace FiresecAPI.SKD
 		[Description("Праздник")]
 		Holiday,
 
-		[Description("Документ")]
-		Document,
+		[Description("Переработка по документу")]
+		DocumentOvertime,
+
+		[Description("Присутствие по документу")]
+		DocumentPresence,
+
+		[Description("Отсутствие по документу")]
+		DocumentAbsence,
 	}
 }

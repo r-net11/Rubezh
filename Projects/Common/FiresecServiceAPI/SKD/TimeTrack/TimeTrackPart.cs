@@ -22,7 +22,7 @@ namespace FiresecAPI.SKD
 		public Guid ZoneUID { get; set; }
 
 		[DataMember]
-		public TimeTrackPartType TimeTrackPartType { get; set; }
+		public TimeTrackType TimeTrackPartType { get; set; }
 
 		[DataMember]
 		public TimeTrackDocumentType MinTimeTrackDocumentType { get; set; }
