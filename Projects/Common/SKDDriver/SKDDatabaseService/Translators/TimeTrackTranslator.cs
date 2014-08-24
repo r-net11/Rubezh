@@ -120,7 +120,10 @@ namespace SKDDriver.Translators
 		{
 			InvalidatePassJournal();
 
-			Holidays = Context.Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value) && !x.IsDeleted);
+			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
+				Holidays = Context.Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value) && !x.IsDeleted).ToList();
+			else
+				Holidays = Context.Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && !x.IsDeleted).ToList();
 
 			try
 			{

@@ -113,7 +113,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_instructionType = value;
-				OnPropertyChanged("InstructionType");
+				OnPropertyChanged(() => InstructionType);
 				OnPropertyChanged("IsDetails");
 			}
 		}

@@ -176,6 +176,7 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackFilterViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackTypeFilterItem.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TotalViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml.cs">

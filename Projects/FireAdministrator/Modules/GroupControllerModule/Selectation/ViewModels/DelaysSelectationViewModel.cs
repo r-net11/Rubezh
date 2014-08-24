@@ -62,7 +62,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedTargetDelay = value;
-				OnPropertyChanged("SelectedTargetDelay");
+				OnPropertyChanged(() => SelectedTargetDelay);
 			}
 		}
 

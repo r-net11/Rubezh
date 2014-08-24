@@ -49,7 +49,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedSourceDirection = value;
-				OnPropertyChanged("SelectedSourceDirection");
+				OnPropertyChanged(() => SelectedSourceDirection);
 			}
 		}
 

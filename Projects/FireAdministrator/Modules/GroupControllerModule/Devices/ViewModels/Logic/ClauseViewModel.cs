@@ -164,7 +164,7 @@ namespace GKModule.ViewModels
 				if (!StateTypes.Contains(value))
 					value = StateTypes.FirstOrDefault();
 				_selectedStateType = value;
-				OnPropertyChanged("SelectedStateType");
+				OnPropertyChanged(() => SelectedStateType);
 			}
 		}
 

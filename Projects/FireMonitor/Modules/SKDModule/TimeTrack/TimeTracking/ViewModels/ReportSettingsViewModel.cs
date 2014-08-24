@@ -129,23 +129,24 @@ namespace SKDModule.ViewModels
 						employeeReport.Days.Add(employeeReportDay);
 
 						employeeReportDay.Code = dayTimeTrack.LetterCode;
-						employeeReportDay.TimeSpan = dayTimeTrack.Total;
+						var totaPresence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Presence).TimeSpan;
+						employeeReportDay.TimeSpan = totaPresence;
 
 						if (dayTimeTrack.Date.Day <= 15)
 						{
-							if (dayTimeTrack.Total > TimeSpan.Zero)
+							if (totaPresence > TimeSpan.Zero)
 								employeeReport.FirstHalfDaysCount++;
-							employeeReport.FirstHalfTimeSpan += dayTimeTrack.Total;
+							employeeReport.FirstHalfTimeSpan += totaPresence;
 						}
 						else
 						{
-							if (dayTimeTrack.Total > TimeSpan.Zero)
+							if (totaPresence > TimeSpan.Zero)
 								employeeReport.SecondHalfDaysCount++;
-							employeeReport.SecondHalfTimeSpan += dayTimeTrack.Total;
+							employeeReport.SecondHalfTimeSpan += totaPresence;
 						}
-						if (dayTimeTrack.Total > TimeSpan.Zero)
+						if (totaPresence > TimeSpan.Zero)
 							employeeReport.TotalDaysCount++;
-						employeeReport.TotalTimeSpan += dayTimeTrack.Total;
+						employeeReport.TotalTimeSpan += totaPresence;
 
 						foreach (var trackPart in dayTimeTrack.CombinedTimeTrackParts)
 						{

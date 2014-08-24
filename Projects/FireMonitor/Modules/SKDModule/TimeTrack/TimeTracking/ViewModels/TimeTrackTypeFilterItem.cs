@@ -7,15 +7,24 @@ using FiresecAPI.SKD;
 
 namespace SKDModule.ViewModels
 {
-	public class TotalViewModel : BaseViewModel
+	public class TimeTrackTypeFilterItem : BaseViewModel
 	{
-		public TotalViewModel(TimeTrackType timeTrackType, TimeSpan timeSpan)
+		public TimeTrackTypeFilterItem(TimeTrackType timeTrackType)
 		{
 			TimeTrackType = timeTrackType;
-			TimeSpan = timeSpan;
 		}
 
 		public TimeTrackType TimeTrackType { get; private set; }
-		public TimeSpan TimeSpan { get; private set; }
+
+		bool _isChecked;
+		public bool IsChecked
+		{
+			get { return _isChecked; }
+			set
+			{
+				_isChecked = value;
+				OnPropertyChanged(() => IsChecked);
+			}
+		}
 	}
 }

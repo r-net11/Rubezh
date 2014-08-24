@@ -5,6 +5,7 @@ using SKDModule.Model;
 using System.Collections.ObjectModel;
 using System;
 using Infrastructure.Common.Windows;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -34,18 +35,28 @@ namespace SKDModule.ViewModels
 			StartDate = timeTrackFilter.StartDate;
 			EndDate = timeTrackFilter.EndDate;
 
-			IsTotal = Filter.IsTotal;
-			IsTotalMissed = Filter.IsTotalMissed;
-			IsTotalInSchedule = Filter.IsTotalInSchedule;
-			IsTotalOvertime = Filter.IsTotalOvertime;
-			IsTotalLate = Filter.IsTotalLate;
-			IsTotalEarlyLeave = Filter.IsTotalEarlyLeave;
-			IsTotalPlanned = Filter.IsTotalPlanned;
-			IsTotalEavening = Filter.IsTotalEavening;
-			IsTotalNight = Filter.IsTotalNight;
-			IsTotal_DocumentOvertime = Filter.IsTotal_DocumentOvertime;
-			IsTotal_DocumentPresence = Filter.IsTotal_DocumentPresence;
-			IsTotal_DocumentAbsence = Filter.IsTotal_DocumentAbsence;
+			Totals = new ObservableCollection<TimeTrackTypeFilterItem>();
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Balance));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Presence));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Absence));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.AbsenceInsidePlan));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.PresenceInBrerak));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Late));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.EarlyLeave));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Overtime));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Night));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DayOff));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Holiday));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DocumentOvertime));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DocumentPresence));
+			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DocumentAbsence));
+
+			foreach (var totalTimeTrackTypeFilter in timeTrackFilter.TotalTimeTrackTypeFilters)
+			{
+				var timeTrackTypeFilterItem = Totals.FirstOrDefault(x => x.TimeTrackType == totalTimeTrackTypeFilter);
+				if (timeTrackTypeFilterItem != null)
+					timeTrackTypeFilterItem.IsChecked = true;
+			}
 		}
 
 		DateTime _startDate;
@@ -89,18 +100,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		public bool IsTotal { get; set; }
-		public bool IsTotalMissed { get; set; }
-		public bool IsTotalInSchedule { get; set; }
-		public bool IsTotalOvertime { get; set; }
-		public bool IsTotalLate { get; set; }
-		public bool IsTotalEarlyLeave { get; set; }
-		public bool IsTotalPlanned { get; set; }
-		public bool IsTotalEavening { get; set; }
-		public bool IsTotalNight { get; set; }
-		public bool IsTotal_DocumentOvertime { get; set; }
-		public bool IsTotal_DocumentPresence { get; set; }
-		public bool IsTotal_DocumentAbsence { get; set; }
+		public ObservableCollection<TimeTrackTypeFilterItem> Totals { get; private set; }
 
 		protected override bool Save()
 		{
@@ -144,18 +144,14 @@ namespace SKDModule.ViewModels
 			Filter.EmployeeFilter.PositionUIDs = PositionsFilterViewModel.UIDs.ToList();
 			Filter.EmployeeFilter.OrganisationUIDs = Filter.OrganisationUIDs;
 
-			Filter.IsTotal = IsTotal;
-			Filter.IsTotalMissed = IsTotalMissed;
-			Filter.IsTotalInSchedule = IsTotalInSchedule;
-			Filter.IsTotalOvertime = IsTotalOvertime;
-			Filter.IsTotalLate = IsTotalLate;
-			Filter.IsTotalEarlyLeave = IsTotalEarlyLeave;
-			Filter.IsTotalPlanned = IsTotalPlanned;
-			Filter.IsTotalEavening = IsTotalEavening;
-			Filter.IsTotalNight = IsTotalNight;
-			Filter.IsTotal_DocumentOvertime = IsTotal_DocumentOvertime;
-			Filter.IsTotal_DocumentPresence = IsTotal_DocumentPresence;
-			Filter.IsTotal_DocumentAbsence = IsTotal_DocumentAbsence;
+			Filter.TotalTimeTrackTypeFilters = new List<TimeTrackType>();
+			foreach (var timeTrackTypeFilterItem in Totals)
+			{
+				if (timeTrackTypeFilterItem.IsChecked)
+				{
+					Filter.TotalTimeTrackTypeFilters.Add(timeTrackTypeFilterItem.TimeTrackType);
+				}
+			}
 			return true;
 		}
 

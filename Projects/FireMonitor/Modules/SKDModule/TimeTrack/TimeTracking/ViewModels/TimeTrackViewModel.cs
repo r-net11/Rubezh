@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.SKD;
@@ -26,64 +27,37 @@ namespace SKDModule.ViewModels
 				DayTracks.Add(dayTrackViewModel);
 			}
 
-			var total = new TimeSpan();
-			var totalMissed = new TimeSpan();
-			var totalInSchedule = new TimeSpan();
-			var totalOvertime = new TimeSpan();
-			var totalLate = new TimeSpan();
-			var totalEarlyLeave = new TimeSpan();
-			var totalPlanned = new TimeSpan();
-			var totalEavening = new TimeSpan();
-			var totalNight = new TimeSpan();
-			var total_DocumentOvertime = new TimeSpan();
-			var total_DocumentPresence = new TimeSpan();
-			var total_DocumentAbsence = new TimeSpan();
+			Totals = new List<TimeTrackTotal>();
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Balance));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Presence));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Absence));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.AbsenceInsidePlan));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.PresenceInBrerak));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Late));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.EarlyLeave));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Overtime));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Night));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DayOff));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Holiday));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentOvertime));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentPresence));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentAbsence));
+
 			foreach (var dayTimeTrack in dayTimeTracks)
 			{
-				total = total.Add(dayTimeTrack.Total);
-				totalMissed = totalMissed.Add(dayTimeTrack.TotalMissed);
-				totalInSchedule = totalInSchedule.Add(dayTimeTrack.TotalInSchedule);
-				totalOvertime = totalOvertime.Add(dayTimeTrack.TotalOvertime);
-				totalLate = totalLate.Add(dayTimeTrack.TotalLate);
-				totalEarlyLeave = totalEarlyLeave.Add(dayTimeTrack.TotalEarlyLeave);
-				totalPlanned = totalPlanned.Add(dayTimeTrack.TotalPlanned);
-				totalEavening = totalEavening.Add(dayTimeTrack.TotalEavening);
-				totalNight = totalNight.Add(dayTimeTrack.TotalNight);
-				total_DocumentOvertime = total_DocumentOvertime.Add(dayTimeTrack.Total_DocumentOvertime);
-				total_DocumentPresence = total_DocumentPresence.Add(dayTimeTrack.Total_DocumentPresence);
-				total_DocumentAbsence = total_DocumentAbsence.Add(dayTimeTrack.Total_DocumentAbsence);
+				foreach (var timeTrackTotal in dayTimeTrack.Totals)
+				{
+					var total = Totals.FirstOrDefault(x => x.TimeTrackType == timeTrackTotal.TimeTrackType);
+					if (total != null)
+					{
+						total.TimeSpan += timeTrackTotal.TimeSpan;
+					}
+				}
 			}
-
-			Totals = new List<TotalViewModel>();
-			if (timeTrackFilter.IsTotal)
-				Totals.Add(new TotalViewModel("Присутствие", total));
-			if (timeTrackFilter.IsTotalMissed)
-				Totals.Add(new TotalViewModel("Пропущено", totalMissed));
-			if (timeTrackFilter.IsTotalInSchedule)
-				Totals.Add(new TotalViewModel("По графику", totalInSchedule));
-			if (timeTrackFilter.IsTotalOvertime)
-				Totals.Add(new TotalViewModel("Переработка", totalOvertime));
-			if (timeTrackFilter.IsTotalLate)
-				Totals.Add(new TotalViewModel("Опоздания", totalLate));
-			if (timeTrackFilter.IsTotalEarlyLeave)
-				Totals.Add(new TotalViewModel("Ранний уход", totalEarlyLeave));
-			if (timeTrackFilter.IsTotalPlanned)
-				Totals.Add(new TotalViewModel("По графику", totalPlanned));
-			if (timeTrackFilter.IsTotalEavening)
-				Totals.Add(new TotalViewModel("В вечерние часы", totalEavening));
-			if (timeTrackFilter.IsTotalNight)
-				Totals.Add(new TotalViewModel("В ночные часы", totalNight));
-			if (timeTrackFilter.IsTotal_DocumentOvertime)
-				Totals.Add(new TotalViewModel("Переработка по документу", total_DocumentOvertime));
-			if (timeTrackFilter.IsTotal_DocumentPresence)
-				Totals.Add(new TotalViewModel("Присутствие по документу", total_DocumentPresence));
-			if (timeTrackFilter.IsTotal_DocumentAbsence)
-				Totals.Add(new TotalViewModel("Отсутствие по документу", total_DocumentAbsence));
 			OnPropertyChanged(() => Totals);
 		}
 
 		public ObservableCollection<DayTrackViewModel> DayTracks { get; set; }
-
-		public List<TotalViewModel> Totals { get; private set; }
+		public List<TimeTrackTotal> Totals { get; private set; }
 	}
 }

@@ -15,6 +15,7 @@ namespace FiresecAPI.SKD
 			DocumentTrackParts = new List<TimeTrackPart>();
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			Documents = new List<TimeTrackDocument>();
+			Totals = new List<TimeTrackTotal>();
 		}
 
 		public DayTimeTrack(string error)
@@ -76,20 +77,7 @@ namespace FiresecAPI.SKD
 
 		public TimeTrackType TimeTrackType { get; set; }
 		public string LetterCode { get; set; }
-
-		public TimeSpan Total { get; set; }
-		public TimeSpan TotalMissed { get; set; }
-		public TimeSpan TotalInSchedule { get; set; }
-		public TimeSpan TotalOvertime { get; set; }
-		public TimeSpan TotalLate { get; set; }
-		public TimeSpan TotalEarlyLeave { get; set; }
-		public TimeSpan TotalPlanned { get; set; }
-
-		public TimeSpan TotalEavening { get; set; }
-		public TimeSpan TotalNight { get; set; }
-		public TimeSpan Total_DocumentOvertime { get; set; }
-		public TimeSpan Total_DocumentPresence { get; set; }
-		public TimeSpan Total_DocumentAbsence { get; set; }
+		public List<TimeTrackTotal> Totals { get; set; }
 
 		public void Calculate()
 		{
@@ -100,14 +88,6 @@ namespace FiresecAPI.SKD
 
 			CalculateCombinedTimeTrackParts();
 			CalculateTotal();
-
-			TotalEavening = new TimeSpan();
-			TotalNight = new TimeSpan();
-			if (NightSettings != null)
-			{
-				TotalEavening = CalculateEveningTime(NightSettings.EveningStartTime, NightSettings.EveningEndTime);
-				TotalNight = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
-			}
 			CalculateLetterCode();
 		}
 
@@ -224,12 +204,6 @@ namespace FiresecAPI.SKD
 			}
 			combinedTimeSpans.Sort();
 
-			TotalPlanned = new TimeSpan();
-			foreach (var timeTrackPart in RealTimeTrackParts)
-			{
-				TotalPlanned += timeTrackPart.Delta;
-			}
-
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			for (int i = 0; i < combinedTimeSpans.Count - 1; i++)
 			{
@@ -311,80 +285,83 @@ namespace FiresecAPI.SKD
 
 		void CalculateTotal()
 		{
-			Total = new TimeSpan();
-			TotalInSchedule = new TimeSpan();
-			TotalMissed = new TimeSpan();
-			TotalLate = new TimeSpan();
-			TotalEarlyLeave = new TimeSpan();
-			TotalOvertime = new TimeSpan();
-			TotalEavening = new TimeSpan();
-			TotalNight = new TimeSpan();
-			Total_DocumentOvertime = new TimeSpan();
-			Total_DocumentPresence = new TimeSpan();
-			Total_DocumentAbsence = new TimeSpan();
+			Totals = new List<TimeTrackTotal>();
+			var totalBalance = new TimeTrackTotal(TimeTrackType.Balance);
+			Totals.Add(totalBalance);
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Presence));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Absence));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.AbsenceInsidePlan));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.PresenceInBrerak));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Late));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.EarlyLeave));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Overtime));
+			var totalNight = new TimeTrackTotal(TimeTrackType.Night);
+			Totals.Add(totalNight);
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DayOff));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Holiday));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentOvertime));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentPresence));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentAbsence));
 
 			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
-				if (timeTrack.TimeTrackPartType == TimeTrackType.Absence || timeTrack.TimeTrackPartType == TimeTrackType.Overtime || timeTrack.TimeTrackPartType == TimeTrackType.AbsenceInsidePlan)
+				var timeTrackTotal = Totals.FirstOrDefault(x => x.TimeTrackType == timeTrack.TimeTrackPartType);
+				if (timeTrackTotal != null)
 				{
-					Total += timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackType.Presence || timeTrack.TimeTrackPartType == TimeTrackType.AbsenceInsidePlan)
-				{
-					TotalInSchedule += timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackType.Absence)
-				{
-					TotalMissed = timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackType.Late)
-				{
-					TotalLate = timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackType.EarlyLeave)
-				{
-					TotalEarlyLeave = timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackType.Overtime)
-				{
-					TotalOvertime += timeTrack.Delta;
+					if (IsHoliday)
+					{
+						switch (timeTrack.TimeTrackPartType)
+						{
+							case SKD.TimeTrackType.Absence:
+							case SKD.TimeTrackType.Late:
+							case SKD.TimeTrackType.EarlyLeave:
+							case SKD.TimeTrackType.DocumentAbsence:
+								continue;
+						}
+					}
+
+					timeTrackTotal.TimeSpan += timeTrack.Delta;
 				}
 
-				if (timeTrack.TimeTrackPartType == TimeTrackType.DocumentOvertime)
+				switch(timeTrack.TimeTrackPartType)
 				{
-					Total_DocumentOvertime += timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackType.DocumentPresence)
-				{
-					Total_DocumentPresence += timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackType.DocumentAbsence)
-				{
-					Total_DocumentAbsence += timeTrack.Delta;
+					//case SKD.TimeTrackType.Presence:
+					//case SKD.TimeTrackType.AbsenceInsidePlan:
+					case SKD.TimeTrackType.Overtime:
+					case SKD.TimeTrackType.Night:
+					case SKD.TimeTrackType.DocumentOvertime:
+					case SKD.TimeTrackType.DocumentPresence:
+						totalBalance.TimeSpan += timeTrack.Delta;
+						break;
+
+					case SKD.TimeTrackType.Absence:
+					case SKD.TimeTrackType.Late:
+					case SKD.TimeTrackType.EarlyLeave:
+					case SKD.TimeTrackType.DocumentAbsence:
+						totalBalance.TimeSpan -= timeTrack.Delta;
+						break;
 				}
 			}
 
-			if (SlideTime.TotalSeconds > 0)
-			{
-				if (Total > SlideTime)
-				{
-					TotalInSchedule = SlideTime;
-					TotalOvertime = Total - SlideTime;
-				}
-				else
-				{
-					TotalInSchedule = Total;
-					TotalOvertime = new TimeSpan();
-				}
-			}
+			//if (SlideTime.TotalSeconds > 0)
+			//{
+			//    if (Total > SlideTime)
+			//    {
+			//        TotalInSchedule = SlideTime;
+			//        TotalOvertime = Total - SlideTime;
+			//    }
+			//    else
+			//    {
+			//        TotalInSchedule = Total;
+			//        TotalOvertime = new TimeSpan();
+			//    }
+			//}
 
-			if (IsHoliday)
+			var totalEaveningTimeSpan = new TimeSpan();
+			if (NightSettings != null)
 			{
-				TotalInSchedule = new TimeSpan();
-				TotalMissed = new TimeSpan();
-				TotalLate = new TimeSpan();
-				TotalEarlyLeave = new TimeSpan();
-				TotalOvertime = new TimeSpan();
+				totalEaveningTimeSpan = CalculateEveningTime(NightSettings.EveningStartTime, NightSettings.EveningEndTime);
+				totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
 			}
 
 			TimeTrackType = CalculateTimeTrackType();
@@ -393,41 +370,38 @@ namespace FiresecAPI.SKD
 		TimeTrackType CalculateTimeTrackType()
 		{
 			if (!string.IsNullOrEmpty(Error))
-			{
 				return TimeTrackType.None;
-			}
-			if (Documents.Count > 0)
-			{
-				//return TimeTrackType.Document;
-			}
+
+			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.DocumentOvertime))
+				return TimeTrackType.DocumentOvertime;
+
+			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.DocumentPresence))
+				return TimeTrackType.DocumentPresence;
+
+			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.DocumentAbsence))
+				return TimeTrackType.DocumentAbsence;
+
 			if (IsHoliday)
-			{
 				return TimeTrackType.Holiday;
-			}
+
 			if (PlannedTimeTrackParts.Count == 0)
-			{
 				return TimeTrackType.DayOff;
-			}
-			if (Total.TotalSeconds == 0)
-			{
+
+			if (RealTimeTrackParts.Count == 0)
 				return TimeTrackType.Absence;
-			}
-			if (TotalLate.TotalSeconds > 0)
-			{
+
+			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.Late))
 				return TimeTrackType.Late;
-			}
-			if (TotalEarlyLeave.TotalSeconds > 0)
-			{
+
+			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.EarlyLeave))
 				return TimeTrackType.EarlyLeave;
-			}
-			if (TotalOvertime.TotalSeconds > 0)
-			{
+
+			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.Overtime))
 				return TimeTrackType.Overtime;
-			}
-			if (TotalNight.TotalSeconds > 0)
-			{
+
+			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.Night))
 				return TimeTrackType.Night;
-			}
+
 			return TimeTrackType.Presence;
 		}
 
@@ -541,10 +515,6 @@ namespace FiresecAPI.SKD
 				case TimeTrackType.Holiday:
 					LetterCode = "В";
 					break;
-
-				//case TimeTrackType.Document:
-				//    LetterCode = "";
-				//    break;
 
 				default:
 					LetterCode = "";

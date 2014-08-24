@@ -15,29 +15,47 @@ namespace SKDModule.Converters
 				case TimeTrackType.None:
 					return Brushes.Gray;
 
-				case TimeTrackType.Absence:
-					return Brushes.DarkRed;
+				case TimeTrackType.Balance:
+					return Brushes.Gray;
 
 				case TimeTrackType.Presence:
-					return Brushes.White;
+					return Brushes.Green;
+
+				case TimeTrackType.Absence:
+					return Brushes.Red;
+
+				case TimeTrackType.AbsenceInsidePlan:
+					return Brushes.Pink;
+
+				case TimeTrackType.PresenceInBrerak:
+					return Brushes.DarkGreen;
 
 				case TimeTrackType.Late:
 					return Brushes.SkyBlue;
 
 				case TimeTrackType.EarlyLeave:
-					return Brushes.LightPink;
+					return Brushes.LightBlue;
 
 				case TimeTrackType.Overtime:
-					return Brushes.Green;
+					return Brushes.Yellow;
+
+				case TimeTrackType.Night:
+					return Brushes.YellowGreen;
 
 				case TimeTrackType.DayOff:
 					return Brushes.LightGray;
 
 				case TimeTrackType.Holiday:
-					return Brushes.GreenYellow;
+					return Brushes.DarkGray;
 
-				//case TimeTrackType.Document:
-				//    return Brushes.DeepSkyBlue;
+				case TimeTrackType.DocumentOvertime:
+					return Brushes.LightYellow;
+
+				case TimeTrackType.DocumentPresence:
+					return Brushes.LightGreen;
+
+				case TimeTrackType.DocumentAbsence:
+					return Brushes.LightPink;
 			}
 			return Brushes.Green;
 		}

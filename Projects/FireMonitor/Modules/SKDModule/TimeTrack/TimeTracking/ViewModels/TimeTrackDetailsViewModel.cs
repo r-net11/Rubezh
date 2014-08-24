@@ -56,7 +56,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(false);
+			var timeTrackDocument = new TimeTrackDocument();
+			timeTrackDocument.StartDateTime = DayTimeTrack.Date;
+			timeTrackDocument.EndDateTime = DayTimeTrack.Date;
+			var documentDetailsViewModel = new DocumentDetailsViewModel(false, timeTrackDocument);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;

@@ -230,6 +230,7 @@
     <Compile Include="SKD\TimeTrack\TimeTrackDocument.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackDocumentType.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackPart.cs" />
+    <Compile Include="SKD\TimeTrack\TimeTrackTotal.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackType.cs" />
     <Compile Include="SKD\Settings\GlobalSettings.cs" />
     <Compile Include="Models\Automation\AutomationConfiguration.cs" />
