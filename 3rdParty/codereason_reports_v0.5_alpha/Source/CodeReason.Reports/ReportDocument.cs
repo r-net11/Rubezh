@@ -277,7 +277,7 @@ namespace CodeReason.Reports
             PackageStore.AddPackage(new Uri(pack), pkg);
             XpsDocument doc = new XpsDocument(pkg, CompressionOption.NotCompressed, pack);
             XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
-            DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+			//DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
 
             ReportPaginator rp = new ReportPaginator(this, data);
             rsm.SaveAsXaml(rp);
@@ -304,7 +304,7 @@ namespace CodeReason.Reports
             PackageStore.AddPackage(new Uri(pack), pkg);
             XpsDocument doc = new XpsDocument(pkg, CompressionOption.NotCompressed, pack);
             XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
-            DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+			//DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
 
             MultipleReportPaginator rp = new MultipleReportPaginator(this, data);
             rsm.SaveAsXaml(rp);
@@ -325,7 +325,7 @@ namespace CodeReason.Reports
             PackageStore.AddPackage(new Uri(pack), pkg);
             XpsDocument doc = new XpsDocument(pkg, _xpsCompressionOption, pack);
             XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
-            DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+			//DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
 
             ReportPaginator rp = new ReportPaginator(this, data);
             rsm.SaveAsXaml(rp);
@@ -353,7 +353,7 @@ namespace CodeReason.Reports
             PackageStore.AddPackage(new Uri(pack), pkg);
             XpsDocument doc = new XpsDocument(pkg, _xpsCompressionOption, pack);
             XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
-            DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+			//DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
 
             MultipleReportPaginator rp = new MultipleReportPaginator(this, data);
             rsm.SaveAsXaml(rp);

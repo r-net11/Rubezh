@@ -80,6 +80,11 @@
     <Compile Include="Barcode\BarcodeBase.cs" />
     <Compile Include="Barcode\BarcodeCharInfo.cs" />
     <Compile Include="Barcode\BarcodeC128.cs" />
+    <Compile Include="Document\ReportHint.cs" />
+    <Compile Include="Hint.cs" />
+    <Compile Include="InlineIndexValue.cs" />
+    <Compile Include="Document\InlineTableCellIndexValue.cs" />
+    <Compile Include="Document\TableRowGroupForDataTable.cs" />
     <Compile Include="Document\InlineAggregateValue.cs" />
     <Compile Include="Document\SectionReportFooter.cs" />
     <Compile Include="Document\SectionDataGroup.cs" />
@@ -87,6 +92,8 @@
     <Compile Include="Document\TableRowForDynamicDataTable.cs" />
     <Compile Include="Document\TableRowForDynamicHeader.cs" />
     <Compile Include="ImageErrorEventArgs.cs" />
+    <Compile Include="Interfaces\IIndexValue.cs" />
+    <Compile Include="Interfaces\ITableRowGroupForDataTable.cs" />
     <Compile Include="Interfaces\ITableRowForDataTable.cs" />
     <Compile Include="Interfaces\ITableRowForDynamicDataTable.cs" />
     <Compile Include="Interfaces\ITableRowForDynamicHeader.cs" />
@@ -130,6 +137,7 @@
     <Compile Include="Document\TableRowForDataTable.cs" />
     <Compile Include="InlineHasValue.cs" />
     <Compile Include="ReportPaginatorStaticCache.cs" />
+    <Compile Include="TimeCounter.cs" />
     <Compile Include="XamlHelper.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

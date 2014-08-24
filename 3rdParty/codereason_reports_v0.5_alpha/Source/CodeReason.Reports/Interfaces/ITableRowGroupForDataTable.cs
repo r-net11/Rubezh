@@ -12,10 +12,13 @@
 namespace CodeReason.Reports.Interfaces
 {
     /// <summary>
-    /// Interface for inline context values
+    /// Interface for special table rows
     /// </summary>
-    public interface IInlineContextValue : IHasValue, IAggregateValue
+	public interface ITableRowGroupForDataTable
     {
-		ReportContextValueType Type { get; set; }
+        /// <summary>
+        /// Gets or sets the table name
+        /// </summary>
+        string TableName { get; set; }
     }
 }

@@ -9,13 +9,16 @@
  *
  ************************************************************************/
 
-namespace CodeReason.Reports.Interfaces
+using System.Windows;
+using System.Windows.Documents;
+
+namespace CodeReason.Reports.Document
 {
     /// <summary>
-    /// Interface for inline context values
+    /// Specifies hints for report
     /// </summary>
-    public interface IInlineContextValue : IHasValue, IAggregateValue
+	public class ReportHint : Section
     {
-		ReportContextValueType Type { get; set; }
+		public Hint Hint { get; set; }
     }
 }

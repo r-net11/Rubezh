@@ -5,8 +5,10 @@ namespace Infrastructure.Common
 {
 	public class WaitWrapper : IDisposable
 	{
-		public WaitWrapper()
+		private Cursor _previous;
+		public WaitWrapper(bool restore = true)
 		{
+			_previous = restore ? Mouse.OverrideCursor : null;
 			Mouse.OverrideCursor = Cursors.Wait;
 		}
 
@@ -14,7 +16,7 @@ namespace Infrastructure.Common
 
 		public void Dispose()
 		{
-			Mouse.OverrideCursor = null;
+			Mouse.OverrideCursor = _previous;
 		}
 
 		#endregion

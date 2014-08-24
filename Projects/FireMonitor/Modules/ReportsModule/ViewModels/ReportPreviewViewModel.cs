@@ -93,14 +93,16 @@ namespace ReportsModule.ViewModels
 			}
 		}
 
-
 		private void GenerateReport()
 		{
 			using (new TimeCounter("Build report: {0}"))
+			using (new WaitWrapper())
 			{
 				var reportDocument = new ReportDocument();
-				reportDocument.XamlData = GetXaml();
-				DocumentPaginator = GetPaginator(reportDocument);
+				using (new TimeCounter("\tGet template: {0}"))
+					reportDocument.XamlData = GetXaml();
+				using (new TimeCounter("\tGet paginator: {0}"))
+					DocumentPaginator = GetPaginator(reportDocument);
 				PageNumber = 0;
 			}
 		}

@@ -12,10 +12,13 @@
 namespace CodeReason.Reports.Interfaces
 {
     /// <summary>
-    /// Interface for inline context values
+    /// Interface for property values
     /// </summary>
-    public interface IInlineContextValue : IHasValue, IAggregateValue
+	public interface IIndexValue : IHasValue
     {
-		ReportContextValueType Type { get; set; }
+        /// <summary>
+        /// Gets or sets index of the property
+        /// </summary>
+        int Index { get; set; }
     }
 }

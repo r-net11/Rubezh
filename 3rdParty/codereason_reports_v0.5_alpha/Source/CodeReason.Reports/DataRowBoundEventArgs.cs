@@ -40,6 +40,11 @@ namespace CodeReason.Reports
         /// </summary>
         public TableRow TableRow { get; set; }
 
+		/// <summary>
+		/// Gets or sets the newly created table row group
+		/// </summary>
+		public TableRowGroup TableRowGroup { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>

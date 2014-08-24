@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
 using FiresecAPI.SKD;
-using SKDModule.Model;
-using Infrastructure.Events.Reports;
-using Infrastructure;
-using SKDModule.Reports;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events.Reports;
+using SKDModule.Model;
+using SKDModule.Reports;
 
 namespace SKDModule.ViewModels
 {
@@ -24,6 +22,7 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter = timeTrackFilter;
 			TimeTrackEmployeeResults = timeTrackEmployeeResults;
 			DateTime = DateTime.Now;
+			RecordsPerPage = 3;
 		}
 
 		string _fillName;
@@ -91,6 +90,17 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => OKPO);
 			}
 		}
+
+		private int _recordsPerPage;
+		public int RecordsPerPage
+		{
+			get { return _recordsPerPage; }
+			set
+			{
+				_recordsPerPage = value;
+				OnPropertyChanged(() => RecordsPerPage);
+			}
+		}
 		
 
 		protected override bool Save()
@@ -105,9 +115,10 @@ namespace SKDModule.ViewModels
 				OrganizationName = OrganisationHelper.GetByCurrentUser().Where(org => org.UID == TimeTrackEmployeeResults[0].ShortEmployee.OrganisationUID).Select(org => org.Name).FirstOrDefault(),
 				OKPO = OKPO,
 				CreationDateTime = DateTime,
-				StartDateTime = new DateTime(TimeTrackFilter.StartDate.Date.Year, TimeTrackFilter.StartDate.Month, 1),
+				StartDateTime = TimeTrackFilter.StartDate.Date,
+				EndDateTime = TimeTrackFilter.EndDate.Date,
+				RecordsPerPage = RecordsPerPage,
 			};
-			report.EndDateTime = report.StartDateTime.AddMonths(1).AddDays(-1);
 			if (report.EndDateTime > TimeTrackFilter.EndDate)
 				report.EndDateTime = TimeTrackFilter.EndDate;
 			if (!string.IsNullOrEmpty(report.DepartmentName) && TimeTrackEmployeeResults.Any(item => item.ShortEmployee.DepartmentName != report.DepartmentName))

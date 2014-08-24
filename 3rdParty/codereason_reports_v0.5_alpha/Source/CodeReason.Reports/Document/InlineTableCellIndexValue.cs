@@ -10,29 +10,15 @@
  ************************************************************************/
 
 using CodeReason.Reports.Interfaces;
-using System.Windows;
 
 namespace CodeReason.Reports.Document
 {
     /// <summary>
-    /// Contains a single report context value that is to be displayed on the report
+    /// Ccontains a single report value that is to be displayed on the report (e.g. report title)
     /// </summary>
-	public class InlineContextValue : InlineHasValue, IAggregateValue, IInlineContextValue
+	public class InlineTableCellIndexValue : InlineIndexValue, ITableCellValue
     {
-		/// <summary>
-		/// Gets or sets the Type
-		/// </summary>
-		public virtual ReportContextValueType Type
-		{
-			get { return (ReportContextValueType)GetValue(TypeProperty); }
-			set { SetValue(TypeProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for Type.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty TypeProperty =
-			DependencyProperty.Register("Type", typeof(ReportContextValueType), typeof(InlineContextValue), new UIPropertyMetadata(null));
-		
-		private string _aggregateGroup = null;
+        private string _aggregateGroup = null;
         /// <summary>
         /// Gets or sets the aggregate group
         /// </summary>
