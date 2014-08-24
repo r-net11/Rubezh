@@ -116,7 +116,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_isChangePassword = value;
-				OnPropertyChanged("IsChangePassword");
+				OnPropertyChanged(() => IsChangePassword);
 			}
 		}
 

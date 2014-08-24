@@ -39,30 +39,14 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => DayTimeTrack);
 
 			Totals = new List<TotalViewModel>();
-			if (TimeTrackFilter.IsTotal)
-				Totals.Add(new TotalViewModel("Присутствие", DayTimeTrack.Total));
-			if (TimeTrackFilter.IsTotalMissed)
-				Totals.Add(new TotalViewModel("Пропущено", DayTimeTrack.TotalMissed));
-			if (TimeTrackFilter.IsTotalInSchedule)
-				Totals.Add(new TotalViewModel("По графику", DayTimeTrack.TotalInSchedule));
-			if (TimeTrackFilter.IsTotalOvertime)
-				Totals.Add(new TotalViewModel("Переработка", DayTimeTrack.TotalOvertime));
-			if (TimeTrackFilter.IsTotalLate)
-				Totals.Add(new TotalViewModel("Опоздания", DayTimeTrack.TotalLate));
-			if (TimeTrackFilter.IsTotalEarlyLeave)
-				Totals.Add(new TotalViewModel("Ранний уход", DayTimeTrack.TotalEarlyLeave));
-			if (TimeTrackFilter.IsTotalPlanned)
-				Totals.Add(new TotalViewModel("По графику", DayTimeTrack.TotalPlanned));
-			if (TimeTrackFilter.IsTotalEavening)
-				Totals.Add(new TotalViewModel("В вечерние часы", DayTimeTrack.TotalEavening));
-			if (TimeTrackFilter.IsTotalNight)
-				Totals.Add(new TotalViewModel("В ночные часы", DayTimeTrack.TotalNight));
-			if (TimeTrackFilter.IsTotal_DocumentOvertime)
-				Totals.Add(new TotalViewModel("Переработка по документу", DayTimeTrack.Total_DocumentOvertime));
-			if (TimeTrackFilter.IsTotal_DocumentPresence)
-				Totals.Add(new TotalViewModel("Присутствие по документу", DayTimeTrack.Total_DocumentPresence));
-			if (TimeTrackFilter.IsTotal_DocumentAbsence)
-				Totals.Add(new TotalViewModel("Отсутствие по документу", DayTimeTrack.Total_DocumentAbsence));
+			foreach (var totalTimeTrackTypeFilter in TimeTrackFilter.TotalTimeTrackTypeFilters)
+			{
+				var timeTrackTotal = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == totalTimeTrackTypeFilter);
+				if (timeTrackTotal != null)
+				{
+					Totals.Add(new TotalViewModel(timeTrackTotal.TimeTrackType, timeTrackTotal.TimeSpan));
+				}
+			}
 			OnPropertyChanged(() => Totals);
 		}
 

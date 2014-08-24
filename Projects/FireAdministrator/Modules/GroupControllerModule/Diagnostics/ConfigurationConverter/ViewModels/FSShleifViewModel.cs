@@ -46,7 +46,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_fsShleifNo = value;
-				OnPropertyChanged("FSShleifNo");
+				OnPropertyChanged(() => FSShleifNo);
 			}
 		}
 

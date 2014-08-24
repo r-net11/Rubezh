@@ -17,7 +17,7 @@
             <ItemsControl ItemsSource="{Binding Totals}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock ToolTip="{Binding Name}" Text="{Binding TimeSpan, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding TimeSpan, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" />
+                        <TextBlock ToolTip="{Binding TimeTrackType, Converter={StaticResource EnumToDescriptionConverter}}" Text="{Binding TimeSpan, Converter={StaticResource TimeSpanToStringConverter}}" Foreground="{Binding TimeSpan, Converter={StaticResource TimeSpanToColorConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" Height="20" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

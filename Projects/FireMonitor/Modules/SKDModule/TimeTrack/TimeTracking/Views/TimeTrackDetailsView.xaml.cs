@@ -7,6 +7,7 @@ using System.Windows.Shapes;
 using FiresecAPI;
 using FiresecAPI.SKD;
 using SKDModule.ViewModels;
+using SKDModule.Converters;
 
 namespace SKDModule.Views
 {
@@ -24,7 +25,7 @@ namespace SKDModule.Views
 			public bool IsInterval { get; set; }
 			public string Tooltip { get; set; }
 			public Color Color { get; set; }
-			public TimeTrackType DayTrackDualIntervalPartType { get; set; }
+			public TimeTrackType TimeTrackType { get; set; }
 		}
 
 		string TimePartDateToString(DateTime dateTime)
@@ -76,15 +77,15 @@ namespace SKDModule.Views
 					switch (timeTrackPart.MinTimeTrackDocumentType.DocumentType)
 					{
 						case DocumentType.Overtime:
-							endTimePart.Color = Colors.LightYellow;
+							endTimePart.TimeTrackType = TimeTrackType.DocumentOvertime;
 							break;
 
 						case DocumentType.Presence:
-							endTimePart.Color = Colors.LightGreen;
+							endTimePart.TimeTrackType = TimeTrackType.DocumentPresence;
 							break;
 
 						case DocumentType.Absence:
-							endTimePart.Color = Colors.LightPink;
+							endTimePart.TimeTrackType = TimeTrackType.DocumentAbsence;
 							break;
 					}
 					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.MinTimeTrackDocumentType.Name;
@@ -97,26 +98,7 @@ namespace SKDModule.Views
 				lastTimePart.IsInterval = false;
 				timeParts.Add(lastTimePart);
 
-				for (int i = 0; i < timeParts.Count; i++)
-				{
-					var timePart = timeParts[i];
-					var widht = timePart.Delta;
-					if (widht >= 0)
-					{
-						DocumentsGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
-
-						if (timePart.IsInterval)
-						{
-							Rectangle rectangle = new Rectangle();
-							rectangle.ToolTip = timePart.Tooltip;
-							rectangle.Fill = new SolidColorBrush(timePart.Color);
-							rectangle.Stroke = new SolidColorBrush(Colors.Black);
-							Grid.SetRow(rectangle, 0);
-							Grid.SetColumn(rectangle, i);
-							DocumentsGrid.Children.Add(rectangle);
-						}
-					}
-				}
+				DrawGrid(timeParts, DocumentsGrid);
 			}
 		}
 
@@ -139,6 +121,7 @@ namespace SKDModule.Views
 					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = true;
 					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime);
+					endTimePart.TimeTrackType = TimeTrackType.Presence;
 					timeParts.Add(endTimePart);
 
 					current = timeTrackPart.EndTime.TotalSeconds;
@@ -148,26 +131,7 @@ namespace SKDModule.Views
 				lastTimePart.IsInterval = false;
 				timeParts.Add(lastTimePart);
 
-				for (int i = 0; i < timeParts.Count; i++)
-				{
-					var timePart = timeParts[i];
-					var widht = timePart.Delta;
-					if (widht >= 0)
-					{
-						RealGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
-
-						if (timePart.IsInterval)
-						{
-							Rectangle rectangle = new Rectangle();
-							rectangle.ToolTip = timePart.Tooltip;
-							rectangle.Fill = new SolidColorBrush(Colors.Green);
-							rectangle.Stroke = new SolidColorBrush(Colors.Black);
-							Grid.SetRow(rectangle, 0);
-							Grid.SetColumn(rectangle, i);
-							RealGrid.Children.Add(rectangle);
-						}
-					}
-				}
+				DrawGrid(timeParts, RealGrid);
 			}
 		}
 
@@ -190,6 +154,7 @@ namespace SKDModule.Views
 					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = true;
 					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime);
+					endTimePart.TimeTrackType = TimeTrackType.Presence;
 					timeParts.Add(endTimePart);
 
 					current = timeTrackPart.EndTime.TotalSeconds;
@@ -202,26 +167,7 @@ namespace SKDModule.Views
 					timeParts.Add(lastTimePart);
 				}
 
-				for (int i = 0; i < timeParts.Count; i++)
-				{
-					var timePart = timeParts[i];
-					var widht = timePart.Delta;
-					if (widht >= 0)
-					{
-						PlannedGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
-
-						if (timePart.IsInterval)
-						{
-							Rectangle rectangle = new Rectangle();
-							rectangle.ToolTip = timePart.Tooltip;
-							rectangle.Fill = new SolidColorBrush(Colors.Green);
-							rectangle.Stroke = new SolidColorBrush(Colors.Black);
-							Grid.SetRow(rectangle, 0);
-							Grid.SetColumn(rectangle, i);
-							PlannedGrid.Children.Add(rectangle);
-						}
-					}
-				}
+				DrawGrid(timeParts, PlannedGrid);
 			}
 		}
 
@@ -244,7 +190,7 @@ namespace SKDModule.Views
 					endTimePart.Delta = trackPart.EndTime.TotalSeconds - trackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = trackPart.TimeTrackPartType != TimeTrackType.None;
 					endTimePart.Tooltip = TimePartDateToString(trackPart.StartTime) + " - " + TimePartDateToString(trackPart.EndTime) + " " + trackPart.TimeTrackPartType.ToDescription();
-					endTimePart.DayTrackDualIntervalPartType = trackPart.TimeTrackPartType;
+					endTimePart.TimeTrackType = trackPart.TimeTrackPartType;
 					timeParts.Add(endTimePart);
 
 					current = trackPart.EndTime.TotalSeconds;
@@ -254,65 +200,30 @@ namespace SKDModule.Views
 				lastTimePart.IsInterval = false;
 				timeParts.Add(lastTimePart);
 
-				for (int i = 0; i < timeParts.Count; i++)
+				DrawGrid(timeParts, CombinedGrid);
+			}
+		}
+
+		void DrawGrid(List<TimePart> timeParts, Grid grid)
+		{
+			for (int i = 0; i < timeParts.Count; i++)
+			{
+				var timePart = timeParts[i];
+				var widht = timePart.Delta;
+				if (widht >= 0)
 				{
-					var timePart = timeParts[i];
-					var widht = timePart.Delta;
-					if (widht >= 0)
+					grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
+
+					if (timePart.IsInterval)
 					{
-						CombinedGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(widht, GridUnitType.Star) });
-
-						if (timePart.IsInterval)
-						{
-							Rectangle rectangle = new Rectangle();
-							rectangle.ToolTip = timePart.Tooltip;
-							switch (timePart.DayTrackDualIntervalPartType)
-							{
-								case TimeTrackType.Absence:
-									rectangle.Fill = new SolidColorBrush(Colors.Red);
-									break;
-
-								case TimeTrackType.AbsenceInsidePlan:
-									rectangle.Fill = new SolidColorBrush(Colors.Pink);
-									break;
-
-								case TimeTrackType.Presence:
-									rectangle.Fill = new SolidColorBrush(Colors.Green);
-									break;
-
-								case TimeTrackType.Overtime:
-									rectangle.Fill = new SolidColorBrush(Colors.Yellow);
-									break;
-
-								case TimeTrackType.PresenceInBrerak:
-									rectangle.Fill = new SolidColorBrush(Colors.Violet);
-									break;
-
-								case TimeTrackType.Late:
-									rectangle.Fill = new SolidColorBrush(Colors.SkyBlue);
-									break;
-
-								case TimeTrackType.EarlyLeave:
-									rectangle.Fill = new SolidColorBrush(Colors.Pink);
-									break;
-
-								case TimeTrackType.DocumentOvertime:
-									rectangle.Fill = new SolidColorBrush(Colors.LightYellow);
-									break;
-
-								case TimeTrackType.DocumentPresence:
-									rectangle.Fill = new SolidColorBrush(Colors.LightGreen);
-									break;
-
-								case TimeTrackType.DocumentAbsence:
-									rectangle.Fill = new SolidColorBrush(Colors.LightPink);
-									break;
-							}
-							rectangle.Stroke = new SolidColorBrush(Colors.Black);
-							Grid.SetRow(rectangle, 0);
-							Grid.SetColumn(rectangle, i);
-							CombinedGrid.Children.Add(rectangle);
-						}
+						Rectangle rectangle = new Rectangle();
+						rectangle.ToolTip = timePart.Tooltip;
+						var timeTrackTypeToColorConverter = new TimeTrackTypeToColorConverter();
+						rectangle.Fill = (Brush)timeTrackTypeToColorConverter.Convert(timePart.TimeTrackType, null, null, null);
+						rectangle.Stroke = new SolidColorBrush(Colors.Black);
+						Grid.SetRow(rectangle, 0);
+						Grid.SetColumn(rectangle, i);
+						grid.Children.Add(rectangle);
 					}
 				}
 			}

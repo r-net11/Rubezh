@@ -56,7 +56,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedPumpStation = value;
-				OnPropertyChanged("SelectedPumpStation");
+				OnPropertyChanged(() => SelectedPumpStation);
 			}
 		}
 

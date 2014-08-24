@@ -7,6 +7,9 @@ namespace FiresecAPI.SKD
 		[Description("Нет данных")]
 		None,
 
+		[Description("Баланс")]
+		Balance,
+
 		[Description("Явка")]
 		Presence,
 

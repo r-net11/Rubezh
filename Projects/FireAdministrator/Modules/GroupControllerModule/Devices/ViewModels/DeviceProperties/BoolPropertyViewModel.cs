@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 			{
 				_isChecked = value;
 				Save(value ? (ushort)1 : (ushort)0);
-				OnPropertyChanged("IsChecked");
+				OnPropertyChanged(() => IsChecked);
 			}
 		}
 

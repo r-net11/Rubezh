@@ -33,7 +33,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedMPTDeviceType = value;
-				OnPropertyChanged("SelectedMPTDeviceType");
+				OnPropertyChanged(() => SelectedMPTDeviceType);
 			}
 		}
 

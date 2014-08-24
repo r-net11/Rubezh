@@ -57,7 +57,7 @@ namespace GKModule.ViewModels
 			{
 				_selectedMPT = value;
 				OnPropertyChanged(() => SelectedMPT);
-				OnPropertyChanged("HasSelectedMPT");
+				OnPropertyChanged(() => HasSelectedMPT);
 			}
 		}
 

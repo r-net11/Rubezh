@@ -153,18 +153,7 @@ namespace SKDModule.ViewModels
 
 		int GetVisibleFilterRorsCount()
 		{
-			return (TimeTrackFilter.IsTotal ? 1 : 0) +
-				(TimeTrackFilter.IsTotalMissed ? 1 : 0) +
-				(TimeTrackFilter.IsTotalInSchedule ? 1 : 0) +
-				(TimeTrackFilter.IsTotalOvertime ? 1 : 0) +
-				(TimeTrackFilter.IsTotalLate ? 1 : 0) +
-				(TimeTrackFilter.IsTotalEarlyLeave ? 1 : 0) +
-				(TimeTrackFilter.IsTotalPlanned ? 1 : 0) +
-				(TimeTrackFilter.IsTotalEavening ? 1 : 0) +
-				(TimeTrackFilter.IsTotalNight ? 1 : 0) +
-				(TimeTrackFilter.IsTotal_DocumentOvertime ? 1 : 0) +
-				(TimeTrackFilter.IsTotal_DocumentPresence ? 1 : 0) +
-				(TimeTrackFilter.IsTotal_DocumentAbsence ? 1 : 0);
+			return TimeTrackFilter.TotalTimeTrackTypeFilters.Count();
 		}
 	}
 }

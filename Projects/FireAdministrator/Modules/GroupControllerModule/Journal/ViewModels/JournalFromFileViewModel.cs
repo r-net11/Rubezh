@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_journalItems = value;
-				OnPropertyChanged("JournalItems");
+				OnPropertyChanged(() => JournalItems);
 			}
 		}
 	}

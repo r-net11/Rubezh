@@ -88,7 +88,7 @@ namespace GKModule.ViewModels
 				SourceMPTs.Remove(mptViewModel);
 			}
 			SelectedTargetMPT = TargetMPTs.LastOrDefault();
-			OnPropertyChanged("SourceMPTs");
+			OnPropertyChanged(() => SourceMPTs);
 
 			index = Math.Min(index, SourceMPTs.Count - 1);
 			if (index > -1)
@@ -115,7 +115,7 @@ namespace GKModule.ViewModels
 				TargetMPTs.Remove(mptViewModel);
 			}
 			SelectedSourceMPT = SourceMPTs.LastOrDefault();
-			OnPropertyChanged("TargetMPTs");
+			OnPropertyChanged(() => TargetMPTs);
 
 			index = Math.Min(index, TargetMPTs.Count - 1);
 			if (index > -1)
