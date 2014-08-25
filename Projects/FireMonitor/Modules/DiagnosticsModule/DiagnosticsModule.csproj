@@ -41,40 +41,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
     </Reference>
-    <Reference Include="itextsharp, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.dll</HintPath>
-    </Reference>
-    <Reference Include="itextsharp.pdfa, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.pdfa.dll</HintPath>
-    </Reference>
-    <Reference Include="itextsharp.xtra, Version=5.4.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\3rdParty\iTextSharp\itextsharp.xtra.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="MigraDoc.DocumentObjectModel-WPF, Version=1.32.3885.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\MigraDoc.DocumentObjectModel-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="MigraDoc.Rendering-WPF, Version=1.32.3885.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\MigraDoc.Rendering-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="MigraDoc.RtfRendering-WPF">
-      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\MigraDoc.RtfRendering-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp-WPF, Version=1.32.2608.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\PdfSharp-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.Charting-WPF, Version=1.32.2608.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\3rdParty\PDFsharp_MigraDocFoundation_1_32\PdfSharp.Charting-WPF.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -91,16 +60,11 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
-    <Compile Include="ViewModels\ImitatorViewModel.cs" />
     <Compile Include="Views\DiagnosticsView.xaml.cs">
       <DependentUpon>DiagnosticsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ImitatorView.xaml.cs">
-      <DependentUpon>ImitatorView.xaml</DependentUpon>
     </Compile>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -108,10 +72,6 @@
     </Page>
     <Compile Include="DiagnosticsModuleLoader.cs" />
     <Page Include="Views\DiagnosticsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ImitatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -157,10 +117,6 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Firesec\Firesec.csproj">
-      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
-      <Name>Firesec</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\GKProcessor\GKProcessor.csproj">
       <Project>{62564D14-0234-4947-8218-2C7D74721023}</Project>
       <Name>GKProcessor</Name>
@@ -191,23 +147,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="AcroPDFLib">
-      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="AxAcroPDFLib">
-      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
     <COMReference Include="FS_Types">
       <Guid>{B86C6AD7-5766-4233-AF55-707B45661224}</Guid>
       <VersionMajor>1</VersionMajor>

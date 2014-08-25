@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 				var pumpStationViewModel = new PumpStationViewModel(pumpStationDetailsViewModel.PumpStation);
 				PumpStations.Add(pumpStationViewModel);
 				SelectedPumpStation = pumpStationViewModel;
-				OnPropertyChanged("HasSelectedPumpStation");
+				OnPropertyChanged(() => HasSelectedPumpStation);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

@@ -178,7 +178,6 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackingViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackTypeFilterItem.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackViewModel.cs" />
-    <Compile Include="TimeTrack\TimeTracking\ViewModels\TotalViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml.cs">
       <DependentUpon>DocumentDetailsView.xaml</DependentUpon>
     </Compile>

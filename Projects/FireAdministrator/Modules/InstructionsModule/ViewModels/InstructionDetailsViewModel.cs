@@ -121,7 +121,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				_instructionZones = value;
-				OnPropertyChanged("InstructionZones");
+				OnPropertyChanged(() => InstructionZones);
 			}
 		}
 

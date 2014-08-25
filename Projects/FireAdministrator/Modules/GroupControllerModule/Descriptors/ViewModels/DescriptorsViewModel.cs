@@ -138,7 +138,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDescriptor = value;
-				OnPropertyChanged("SelectedDescriptor");
+				OnPropertyChanged(() => SelectedDescriptor);
 			}
 		}
 	}

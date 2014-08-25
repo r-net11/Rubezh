@@ -358,7 +358,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				XManager.ChangeDeviceLogic(Device, deviceLogicViewModel.GetModel());
-				OnPropertyChanged("PresentationZone");
+				OnPropertyChanged(() => PresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

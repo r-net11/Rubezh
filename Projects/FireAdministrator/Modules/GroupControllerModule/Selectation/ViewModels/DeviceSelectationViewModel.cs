@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 	}

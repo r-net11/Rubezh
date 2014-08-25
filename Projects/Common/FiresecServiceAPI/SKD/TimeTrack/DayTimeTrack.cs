@@ -77,6 +77,7 @@ namespace FiresecAPI.SKD
 
 		public TimeTrackType TimeTrackType { get; set; }
 		public string LetterCode { get; set; }
+		public string Tooltip { get; set; }
 		public List<TimeTrackTotal> Totals { get; set; }
 
 		public void Calculate()
@@ -261,6 +262,7 @@ namespace FiresecAPI.SKD
 				if (documentTimeTrack != null)
 				{
 					var documentType = documentTimeTrack.MinTimeTrackDocumentType.DocumentType;
+					timeTrackPart.MinTimeTrackDocumentType = documentTimeTrack.MinTimeTrackDocumentType;
 					if (documentType == DocumentType.Overtime)
 					{
 						timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentOvertime;
@@ -472,6 +474,8 @@ namespace FiresecAPI.SKD
 
 		void CalculateLetterCode()
 		{
+			Tooltip = TimeTrackType.ToDescription();
+
 			switch (TimeTrackType)
 			{
 				case TimeTrackType.None:
@@ -510,24 +514,21 @@ namespace FiresecAPI.SKD
 					LetterCode = "В";
 					break;
 
+				case TimeTrackType.DocumentOvertime:
+				case TimeTrackType.DocumentPresence:
+				case TimeTrackType.DocumentAbsence:
+					var tmieTrackPart = CombinedTimeTrackParts.FirstOrDefault(x => x.TimeTrackPartType == TimeTrackType);
+					if (tmieTrackPart != null && tmieTrackPart.MinTimeTrackDocumentType != null)
+					{
+						LetterCode = tmieTrackPart.MinTimeTrackDocumentType.ShortName;
+						Tooltip = tmieTrackPart.MinTimeTrackDocumentType.Name;
+					}
+					break;
+
 				default:
 					LetterCode = "";
+					Tooltip = "";
 					break;
-			}
-
-			if (Documents.Count > 0)
-			{
-				var minDocumentType = DocumentType.Absence;
-				var minDocument = Documents[0];
-				foreach (var document in Documents)
-				{
-					if (document.TimeTrackDocumentType.DocumentType <= minDocumentType)
-					{
-						minDocumentType = document.TimeTrackDocumentType.DocumentType;
-						minDocument = document;
-					}
-				}
-				LetterCode = minDocument.TimeTrackDocumentType.ShortName;
 			}
 		}
 	}

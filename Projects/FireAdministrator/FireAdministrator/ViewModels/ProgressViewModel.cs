@@ -78,7 +78,7 @@ namespace FireAdministrator.ViewModels
 			set
 			{
 				_cancelText = value;
-				OnPropertyChanged("CancelText");
+				OnPropertyChanged(() => CancelText);
 			}
 		}
 

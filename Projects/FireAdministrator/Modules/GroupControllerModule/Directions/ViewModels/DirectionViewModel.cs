@@ -272,7 +272,7 @@ namespace GKModule.ViewModels
 			{
 				Direction.Name = value;
 				Direction.OnChanged();
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

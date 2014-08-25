@@ -8,11 +8,11 @@
         <Converters:TimeSpanToColorConverter x:Key="TimeSpanToColorConverter" />
 	</UserControl.Resources>
 
-	<Grid MouseDown="Grid_MouseDown" Cursor="Hand" ToolTip="{Binding Tooltip}">
+    <Grid MouseDown="Grid_MouseDown" Cursor="Hand" ToolTip="{Binding DayTimeTrack.Tooltip}">
 	    <StackPanel Background="White">
             <Grid Height="60">
                 <Rectangle Fill="{Binding DayTimeTrack.TimeTrackType, Converter={StaticResource TimeTrackTypeToColorConverter}}" />
-                <TextBlock Text="{Binding Letter}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding DayTimeTrack.LetterCode}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" />
             </Grid>
             <ItemsControl ItemsSource="{Binding Totals}">
                 <ItemsControl.ItemTemplate>
