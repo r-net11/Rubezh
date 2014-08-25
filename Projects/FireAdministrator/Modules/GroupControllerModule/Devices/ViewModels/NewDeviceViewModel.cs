@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
 				if (_startAddress != value)
 				{
 					_startAddress = value;
-					OnPropertyChanged("StartAddress");
+					OnPropertyChanged(() => StartAddress);
 				}
 			}
 		}

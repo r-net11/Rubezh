@@ -48,7 +48,7 @@ namespace DevicesModule.ViewModels
 		{
 			Zone = zone;
 			OnPropertyChanged(() => Zone);
-			OnPropertyChanged("Name");
+			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => Description);
 			Update();
 		}

@@ -151,7 +151,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_stateTypes = value;
-				OnPropertyChanged("StateTypes");
+				OnPropertyChanged(() => StateTypes);
 			}
 		}
 

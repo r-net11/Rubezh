@@ -136,7 +136,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedAvailableDevice = value;
-				OnPropertyChanged("SelectedAvailableDevice");
+				OnPropertyChanged(() => SelectedAvailableDevice);
 			}
 		}
 
