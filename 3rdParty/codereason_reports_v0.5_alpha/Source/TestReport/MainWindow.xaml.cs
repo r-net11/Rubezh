@@ -28,8 +28,8 @@ namespace TestReport
 			{
 				ReportDocument reportDocument = new ReportDocument();
 
-				//StreamReader reader = new StreamReader(new FileStream(@"..\..\..\..\..\..\Projects\FireMonitor\Modules\SKDModule\Reports\T13.xaml", FileMode.Open, FileAccess.Read));
-				StreamReader reader = new StreamReader(new FileStream(@"..\..\Templates\Test.xaml", FileMode.Open, FileAccess.Read));
+				StreamReader reader = new StreamReader(new FileStream(@"..\..\..\..\..\..\Projects\FireMonitor\Modules\SKDModule\Reports\T13.xaml", FileMode.Open, FileAccess.Read));
+				//StreamReader reader = new StreamReader(new FileStream(@"..\..\Templates\Test.xaml", FileMode.Open, FileAccess.Read));
 				reportDocument.XamlData = reader.ReadToEnd();
 				reportDocument.XamlImagePath = Path.Combine(Environment.CurrentDirectory, @"Templates\");
 				reader.Close();
@@ -66,13 +66,13 @@ namespace TestReport
 				//    if (reportData.DataTables[0].Rows.Count == countOnPage)
 				//        reportData = null;
 				//}
-
 				ReportData data = new ReportData();
+				data.Groups.Add("Header");
+				data.Groups.Add("Footer");
 				SetDocumentValues(data);
 				data.DataTables.Add(table);
 
 				DateTime dateTimeStart = DateTime.Now; // start time measure here
-
 				XpsDocument xps = reportDocument.CreateXpsDocument(data);
 				documentViewer.Document = xps.GetFixedDocumentSequence();
 
@@ -89,20 +89,20 @@ namespace TestReport
 		private void SetDocumentValues(ReportData data)
 		{
 			// set constant document values
-			data.ReportDocumentValues.Add("PrintDate", new DateTime(2015, 9, 29)); // print date is now
-			data.ReportDocumentValues.Add("StartDate", new DateTime(2015, 9, 30)); // print date is now
-			data.ReportDocumentValues.Add("EndDate", new DateTime(2015, 9, 1)); // print date is now
+			data.ReportDocumentValues.Add("PrintDate", new DateTime(2015, 9, 29));
+			data.ReportDocumentValues.Add("StartDate", new DateTime(2015, 9, 30));
+			data.ReportDocumentValues.Add("EndDate", new DateTime(2015, 9, 1));
 
-			data.ReportDocumentValues.Add("FillName", "Заведующий канцелярией");
-			data.ReportDocumentValues.Add("HRName", "Заведующий канцелярией");
-			data.ReportDocumentValues.Add("LeadName", "Начальник кадровой службы");
+			data.ReportDocumentValues.Add("FillName", "Иванов И.С.");
+			data.ReportDocumentValues.Add("HRName", "Петров П.Г.");
+			data.ReportDocumentValues.Add("LeadName", "Сидоров Ф.П.");
+
+			data.ReportDocumentValues.Add("FillPosition", "Заведующий канцелярией");
+			data.ReportDocumentValues.Add("HRPosition", "Заведующий канцелярией");
+			data.ReportDocumentValues.Add("LeadPosition", "Начальник кадровой службы");
 
 			data.ReportDocumentValues.Add("Organization", "ООО \"Сатурн-Экспорт\"");
 			data.ReportDocumentValues.Add("Department", "концелярия");
-
-			data.ReportDocumentValues.Add("DocNumber", "Б2-12/3");
-			data.ReportDocumentValues.Add("OKPO", "76065777");
-
 		}
 
 		private string tableData = @"<?xml version=""1.0"" standalone=""yes""?>

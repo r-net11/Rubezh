@@ -1,4 +1,4 @@
-﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports" ColumnWidth="29.7cm" FontSize="9" PageHeight="21cm" PageWidth="29.7cm" TextAlignment="Center">
+﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports" ColumnWidth="29.7cm" FontSize="9" PageHeight="21cm" PagePadding="1.3cm,1.8cm,1.3cm,1cm" PageWidth="29.7cm" TextAlignment="Center">
 	<FlowDocument.Resources>
 		<Style TargetType="{x:Type TableCell}">
 			<Setter Property="BorderThickness" Value="1" />
@@ -10,8 +10,12 @@
 		<xrd:ReportProperties.ReportTitle>Т13</xrd:ReportProperties.ReportTitle>
 	</xrd:ReportProperties>
 
+	<!--  Hints  -->
+	<xrd:ReportHint Hint="MoveRegular" />
+	<xrd:ReportHint Hint="SimpleClone" />
+
 	<!--  Шапка заголовка  -->
-	<xrd:SectionDataGroup DataGroupName="Header" Padding="10,10,10,0">
+	<xrd:SectionDataGroup DataGroupName="Header">
 		<Paragraph FontSize="7" TextAlignment="Right">
 			Унифицированная форма № Т-13
 			<LineBreak />
@@ -55,11 +59,7 @@
 					<TableCell BorderThickness="0" Padding="0,3,3,0" TextAlignment="Right">
 						<Paragraph FontSize="8">по ОКПО</Paragraph>
 					</TableCell>
-					<TableCell>
-						<Paragraph>
-							<xrd:InlineDocumentValue PropertyName="OKPO" />
-						</Paragraph>
-					</TableCell>
+					<TableCell />
 				</TableRow>
 				<TableRow FontSize="7">
 					<TableCell BorderThickness="0,1,0,0" ColumnSpan="2">
@@ -126,11 +126,7 @@
 					</TableCell>
 				</TableRow>
 				<TableRow>
-					<TableCell>
-						<Paragraph FontSize="12" Padding="3">
-							<xrd:InlineDocumentValue PropertyName="DocNumber" />
-						</Paragraph>
-					</TableCell>
+					<TableCell />
 					<TableCell>
 						<Paragraph FontSize="12" Padding="3">
 							<xrd:InlineDocumentValue Format="dd.MM.yyyy" PropertyName="PrintDate" />
@@ -180,33 +176,33 @@
 				<TableColumn Width="0.5*" />
 				<TableColumn Width="1*" />
 				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
-				<TableColumn Width="1*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="0.5*" />
+				<TableColumn Width="0.7*" />
+				<TableColumn Width="0.7*" />
+				<TableColumn Width="0.7*" />
+				<TableColumn Width="0.7*" />
 			</Table.Columns>
 			<!--  Headers  -->
 			<TableRowGroup>
 				<TableRow>
-					<TableCell RowSpan="7">
+					<TableCell Padding="0,9,0,0" RowSpan="7">
 						<Paragraph>Номер по порядку</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="7">
+					<TableCell Padding="0,9,0,0" RowSpan="7">
 						<Paragraph>Фамилия, илиниалы, должность (специальность, профессия)</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="7">
+					<TableCell Padding="0,9,0,0" RowSpan="7">
 						<Paragraph>Табельный номер</Paragraph>
 					</TableCell>
-					<TableCell ColumnSpan="16">
+					<TableCell ColumnSpan="16" Padding="0,9,0,0">
 						<Paragraph>Отметки о явках и неявках на работу по числам месяца</Paragraph>
 					</TableCell>
-					<TableCell ColumnSpan="2">
+					<TableCell ColumnSpan="2" Padding="0,9,0,0">
 						<Paragraph>Отработано за</Paragraph>
 					</TableCell>
 					<TableCell ColumnSpan="6">
@@ -216,83 +212,91 @@
 							по видам и направлениям затрат
 						</Paragraph>
 					</TableCell>
-					<TableCell ColumnSpan="4">
+					<TableCell ColumnSpan="4" Padding="0,9,0,0">
 						<Paragraph>Неявки по причинам</Paragraph>
 					</TableCell>
 				</TableRow>
 				<TableRow>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>1</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>2</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>3</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>4</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>5</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>6</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>7</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>8</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>9</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>10</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>11</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>12</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>13</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>14</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>15</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>X</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,9,0,0" RowSpan="4">
 						<Paragraph>
 							Половину месяца
 							<LineBreak />
 							(I, II)
 						</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="4">
+					<TableCell Padding="0,18,0,0" RowSpan="4">
 						<Paragraph>Месяц</Paragraph>
 					</TableCell>
 					<TableCell ColumnSpan="6">
 						<Paragraph>код вида оплаты</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="6">
+					<TableCell Padding="0,45,0,0" RowSpan="6">
 						<Paragraph>код</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="6">
-						<Paragraph>дни (часы)</Paragraph>
+					<TableCell Padding="0,40,0,0" RowSpan="6">
+						<Paragraph>
+							дни
+							<LineBreak />
+							(часы)
+						</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="6">
+					<TableCell Padding="0,45,0,0" RowSpan="6">
 						<Paragraph>код</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="6">
-						<Paragraph>дни (часы)</Paragraph>
+					<TableCell Padding="0,40,0,0" RowSpan="6">
+						<Paragraph>
+							дни
+							<LineBreak />
+							(часы)
+						</Paragraph>
 					</TableCell>
 				</TableRow>
 				<TableRow>
@@ -311,55 +315,55 @@
 					</TableCell>
 				</TableRow>
 				<TableRow>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>16</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>17</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>18</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>19</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>20</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>21</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>22</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>23</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>24</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>25</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>26</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>27</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>28</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>29</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>30</Paragraph>
 					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell Padding="0,18,0,0" RowSpan="2">
 						<Paragraph>31</Paragraph>
 					</TableCell>
-					<TableCell ColumnSpan="2">
+					<TableCell ColumnSpan="2" Padding="0,7,0,7">
 						<Paragraph>дни</Paragraph>
 					</TableCell>
 					<TableCell RowSpan="2">
@@ -382,7 +386,7 @@
 					</TableCell>
 				</TableRow>
 				<TableRow>
-					<TableCell ColumnSpan="2">
+					<TableCell ColumnSpan="2" Padding="0,7,0,0">
 						<Paragraph>часы</Paragraph>
 					</TableCell>
 				</TableRow>
@@ -541,12 +545,16 @@
 							<xrd:InlineTableCellValue PropertyName="FirstHalfDays" />
 						</Paragraph>
 					</TableCell>
-					<TableCell Padding="0,4.5,0,0" RowSpan="2">
+					<TableCell RowSpan="2">
 						<Paragraph>
 							<xrd:InlineTableCellValue PropertyName="TotalDays" />
 						</Paragraph>
 					</TableCell>
-					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<LineBreak />
+						</Paragraph>
+					</TableCell>
 					<TableCell />
 					<TableCell />
 					<TableCell />
@@ -657,7 +665,11 @@
 							<xrd:InlineTableCellValue PropertyName="FirstHalfHours" />
 						</Paragraph>
 					</TableCell>
-					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<LineBreak />
+						</Paragraph>
+					</TableCell>
 					<TableCell />
 					<TableCell />
 					<TableCell />
@@ -770,12 +782,16 @@
 							<xrd:InlineTableCellValue PropertyName="SecondHalfDays" />
 						</Paragraph>
 					</TableCell>
-					<TableCell Padding="0,4.5,0,0" RowSpan="2">
+					<TableCell RowSpan="2">
 						<Paragraph>
 							<xrd:InlineTableCellValue PropertyName="TotalHours" />
 						</Paragraph>
 					</TableCell>
-					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<LineBreak />
+						</Paragraph>
+					</TableCell>
 					<TableCell />
 					<TableCell />
 					<TableCell />
@@ -888,7 +904,11 @@
 							<xrd:InlineTableCellValue PropertyName="SecondHalfHours" />
 						</Paragraph>
 					</TableCell>
-					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<LineBreak />
+						</Paragraph>
+					</TableCell>
 					<TableCell />
 					<TableCell />
 					<TableCell />
@@ -1012,13 +1032,18 @@
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1">
 						<Paragraph>
-							<xrd:InlineDocumentValue PropertyName="FillName" />
+							<xrd:InlineDocumentValue PropertyName="FillPosition" />
 						</Paragraph>
 					</TableCell>
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1" />
 					<TableCell />
-					<TableCell BorderThickness="0,0,0,1" />
+					<TableCell BorderThickness="0,0,0,1">
+						<Paragraph>
+							<LineBreak />
+							<xrd:InlineDocumentValue PropertyName="FillName" />
+						</Paragraph>
+					</TableCell>
 					<TableCell />
 					<TableCell TextAlignment="Left">
 						<Paragraph FontWeight="Bold">
@@ -1030,13 +1055,18 @@
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1">
 						<Paragraph>
-							<xrd:InlineDocumentValue PropertyName="LeadName" />
+							<xrd:InlineDocumentValue PropertyName="LeadPosition" />
 						</Paragraph>
 					</TableCell>
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1" />
 					<TableCell />
-					<TableCell BorderThickness="0,0,0,1" />
+					<TableCell BorderThickness="0,0,0,1">
+						<Paragraph>
+							<LineBreak />
+							<xrd:InlineDocumentValue PropertyName="LeadName" />
+						</Paragraph>
+					</TableCell>
 					<TableCell />
 					<TableCell>
 						<Paragraph>
@@ -1081,18 +1111,29 @@
 						</Paragraph>
 					</TableCell>
 					<TableCell />
-					<TableCell BorderThickness="0,0,0,1" Padding="0,10,0,0">
+					<TableCell BorderThickness="0,0,0,1">
 						<Paragraph>
-							<xrd:InlineDocumentValue PropertyName="HRName" />
+							<LineBreak />
+							<LineBreak />
+							<xrd:InlineDocumentValue PropertyName="HRPosition" />
 						</Paragraph>
 					</TableCell>
 					<TableCell />
 					<TableCell BorderThickness="0,0,0,1" />
 					<TableCell />
-					<TableCell BorderThickness="0,0,0,1" />
-					<TableCell />
-					<TableCell Padding="0,10,0,0">
+					<TableCell BorderThickness="0,0,0,1">
 						<Paragraph>
+							<LineBreak />
+							<LineBreak />
+							<LineBreak />
+							<xrd:InlineDocumentValue PropertyName="HRName" />
+						</Paragraph>
+					</TableCell>
+					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<LineBreak />
+							<LineBreak />
 							<LineBreak />
 							<xrd:InlineDocumentValue Format="\&quot;dd\&quot; MMMM yyyy г." PropertyName="PrintDate" />
 						</Paragraph>
@@ -1118,8 +1159,10 @@
 	</xrd:SectionDataGroup>
 
 	<!--  Место для печати  -->
-	<xrd:SectionDataGroup DataGroupName="Footer">
+	<!--
+		<xrd:SectionDataGroup DataGroupName="Footer">
 		<Paragraph FontSize="7" TextAlignment="Right">Печатать с оборотом. Подписи печатать на обороте</Paragraph>
-	</xrd:SectionDataGroup>
+		</xrd:SectionDataGroup>
+	-->
 
 </FlowDocument>

@@ -27,6 +27,9 @@
 		<xrd:ReportProperties.ReportTitle>Т13</xrd:ReportProperties.ReportTitle>
 	</xrd:ReportProperties>
 
+	<!-- Hints -->
+	<xrd:ReportHint Hint="MoveRegular,SimpleClone" />
+	
 	<!--  Основная таблица данных  -->
 	<Section>
 		<Table BorderThickness="1" FontSize="9" TextAlignment="Center">
@@ -542,5 +545,4 @@
 			</xrd:TableRowGroupForDataTable>
 		</Table>
 	</Section>
-
 </FlowDocument>

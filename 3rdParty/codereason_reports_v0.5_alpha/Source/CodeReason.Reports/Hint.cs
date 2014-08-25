@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace CodeReason.Reports
 {
@@ -9,7 +6,7 @@ namespace CodeReason.Reports
 	public enum Hint
 	{
 		None,					// Default
-		SkipCloneeRegular,		// Move regular Row/RowGroup instead of full clone process
-		CustomClone,			// Use custom Clone mechanism instead of standart XamlWriter/XamlReader
+		MoveRegular,			// Move regular Row/RowGroup instead of full clone process
+		SimpleClone,			// Use custom Clone mechanism instead of standart XamlWriter/XamlReader
 	}
 }

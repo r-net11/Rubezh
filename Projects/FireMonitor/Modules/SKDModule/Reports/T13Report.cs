@@ -101,11 +101,12 @@ namespace SKDModule.Reports
 				data.ReportDocumentValues.Add("HRName", ReportModel.HRName);
 				data.ReportDocumentValues.Add("LeadName", ReportModel.LeadName);
 
-				data.ReportDocumentValues.Add("Organization", ReportModel.OrganizationName);
-				data.ReportDocumentValues.Add("Department", ReportModel.DepartmentName);
+				data.ReportDocumentValues.Add("FillPosition", ReportModel.FillPosition);
+				data.ReportDocumentValues.Add("HRPosition", ReportModel.HRPosition);
+				data.ReportDocumentValues.Add("LeadPosition", ReportModel.LeadPosition);
 
-				data.ReportDocumentValues.Add("DocNumber", ReportModel.DocNumber);
-				data.ReportDocumentValues.Add("OKPO", ReportModel.OKPO);
+				data.ReportDocumentValues.Add("Organization", ReportModel.OrganizationName);
+				//data.ReportDocumentValues.Add("Department", ReportModel.DepartmentName);
 
 				return data;
 			}
@@ -174,12 +175,10 @@ namespace SKDModule.Reports
 		private string GetValue(int? val)
 		{
 			return val.HasValue ? val.Value.ToString() : null;
-			//return val.HasValue && val.Value > 0 ? val.Value.ToString() : rnd.Next(1024).ToString();
 		}
 		private string GetValue(TimeSpan? val)
 		{
-			return val.HasValue ? val.Value.Hours.ToString() : null;
-			//return val.HasValue && val.Value != TimeSpan.Zero ? val.Value.Hours.ToString() : rnd.Next(24).ToString();
+			return val.HasValue && val.Value != TimeSpan.Zero ? val.Value.TotalHours.ToString("n2") : null;
 		}
 	}
 }

@@ -58,6 +58,39 @@ namespace SKDModule.ViewModels
 			}
 		}
 
+		string _fillPosition;
+		public string FillPosition
+		{
+			get { return _fillPosition; }
+			set
+			{
+				_fillPosition = value;
+				OnPropertyChanged(() => FillPosition);
+			}
+		}
+
+		string _leadPosition;
+		public string LeadPosition
+		{
+			get { return _leadPosition; }
+			set
+			{
+				_leadPosition = value;
+				OnPropertyChanged(() => LeadPosition);
+			}
+		}
+
+		string _hrPosition;
+		public string HRPosition
+		{
+			get { return _hrPosition; }
+			set
+			{
+				_hrPosition = value;
+				OnPropertyChanged(() => HRPosition);
+			}
+		}
+
 		DateTime _dateTime;
 		public DateTime DateTime
 		{
@@ -66,28 +99,6 @@ namespace SKDModule.ViewModels
 			{
 				_dateTime = value;
 				OnPropertyChanged(() => DateTime);
-			}
-		}
-
-		private string _docNumber;
-		public string DocNumber
-		{
-			get { return _docNumber; }
-			set
-			{
-				_docNumber = value;
-				OnPropertyChanged(() => DocNumber);
-			}
-		}
-
-		private string _OKPO;
-		public string OKPO
-		{
-			get { return _OKPO; }
-			set
-			{
-				_OKPO = value;
-				OnPropertyChanged(() => OKPO);
 			}
 		}
 
@@ -110,10 +121,10 @@ namespace SKDModule.ViewModels
 				FillName = FillName,
 				LeadName = LeadName,
 				HRName = HRName,
-				DocNumber = DocNumber,
-				DepartmentName = TimeTrackEmployeeResults[0].ShortEmployee.DepartmentName,
+				FillPosition = FillPosition,
+				LeadPosition = LeadPosition,
+				HRPosition = HRPosition,
 				OrganizationName = OrganisationHelper.GetByCurrentUser().Where(org => org.UID == TimeTrackEmployeeResults[0].ShortEmployee.OrganisationUID).Select(org => org.Name).FirstOrDefault(),
-				OKPO = OKPO,
 				CreationDateTime = DateTime,
 				StartDateTime = TimeTrackFilter.StartDate.Date,
 				EndDateTime = TimeTrackFilter.EndDate.Date,
@@ -121,8 +132,6 @@ namespace SKDModule.ViewModels
 			};
 			if (report.EndDateTime > TimeTrackFilter.EndDate)
 				report.EndDateTime = TimeTrackFilter.EndDate;
-			if (!string.IsNullOrEmpty(report.DepartmentName) && TimeTrackEmployeeResults.Any(item => item.ShortEmployee.DepartmentName != report.DepartmentName))
-				report.DepartmentName = null;
 
 			foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
 			{
@@ -131,6 +140,8 @@ namespace SKDModule.ViewModels
 
 				employeeReport.No = report.EmployeeRepors.Count;
 				employeeReport.EmploueeFIO = timeTrackEmployeeResult.ShortEmployee.FIO;
+				//employeeReport.DepartmenuUID = timeTrackEmployeeResult.ShortEmployee.DepartmentUID;
+				employeeReport.DepartmentName = timeTrackEmployeeResult.ShortEmployee.DepartmentName;
 
 				foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 				{

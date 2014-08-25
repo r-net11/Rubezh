@@ -13,13 +13,13 @@ namespace FiresecAPI.SKD
 		}
 
 		public List<EmployeeReport> EmployeeRepors { get; set; }
+		public string FillPosition { get; set; }
+		public string LeadPosition { get; set; }
+		public string HRPosition { get; set; }
 		public string FillName { get; set; }
 		public string LeadName { get; set; }
 		public string HRName { get; set; }
-		public string DocNumber { get; set; }
 		public string OrganizationName { get; set; }
-		public string DepartmentName { get; set; }
-		public string OKPO { get; set; }
 		public DateTime CreationDateTime { get; set; }
 		public DateTime StartDateTime { get; set; }
 		public DateTime EndDateTime { get; set; }
@@ -40,6 +40,8 @@ namespace FiresecAPI.SKD
 		public List<EmployeeReportMissReason> MissReasons { get; set; }
 		public int? No { get; set; }
 		public string EmploueeFIO { get; set; }
+		public Guid DepartmenuUID { get; set; }
+		public string DepartmentName { get; set; }
 		public int? TabelNo { get; set; }
 
 		public int? FirstHalfDaysCount { get; set; }

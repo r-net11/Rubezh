@@ -145,6 +145,34 @@
 				of
 				<xrd:InlineContextValue FontWeight="Bold" Type="PageCount" />
 			</Paragraph>
+
+			<!--<ReportTable RowsOnPage="int" RowsOnFirstPage="int" MaxRowsOnLatPage="int" ForEachTable="bool"  TableName="string" BreakPageBefore="bool">
+				<ReportTable.Header>
+					<Section>
+						
+					</Section>
+				</ReportTable.Header>
+				<ReportTable.HeaderRowGroup ShowOnEachPage="bool">
+					<TableRowGroup>
+
+					</TableRowGroup>
+				</ReportTable.HeaderRowGroup>
+				<ReportTable.ContentRowGroup >
+					<TableRowGroup>
+
+					</TableRowGroup>
+				</ReportTable.ContentRowGroup>
+				<ReportTable.FooterRowGroup ShowOnEachPage="bool">
+					<TableRowGroup>
+						
+					</TableRowGroup>
+				</ReportTable.FooterRowGroup>
+				<ReportTable.Footer>
+					<Section>
+						
+					</Section>
+				</ReportTable.Footer>
+			</ReportTable>-->
 		</xrd:SectionDataGroup>
 	</Section>
 </FlowDocument>

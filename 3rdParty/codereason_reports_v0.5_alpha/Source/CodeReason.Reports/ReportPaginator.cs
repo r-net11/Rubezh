@@ -64,7 +64,8 @@ namespace CodeReason.Reports
 			_data = data;
 			_reportDate = DateTime.Now;
 
-			_flowDocument = report.CreateFlowDocument();
+			using (new TimeCounter("\t\tCreateFlowDocument	{0}"))
+				_flowDocument = report.CreateFlowDocument(out _hints);
 			_pageSize = new Size(_flowDocument.PageWidth, _flowDocument.PageHeight);
 
 			if (_flowDocument.PageHeight == double.NaN)
@@ -101,7 +102,7 @@ namespace CodeReason.Reports
 			// get report context values
 			_reportContextValues = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(IInlineContextValue));
 
-			using (new TimeCounter("FillData	{0}"))
+			using (new TimeCounter("\t\tFillData	{0}"))
 				FillData();
 		}
 
@@ -443,18 +444,23 @@ namespace CodeReason.Reports
 						if (reportTableRow == null)
 						{
 							// clone regular row
-							//listNewRows.Add(XamlHelper.Clone(row));
-							listNewRows.Add(row);
+							if ((_hints & Hint.MoveRegular) == Hint.MoveRegular)
+								listNewRows.Add(row);
+							else
+								listNewRows.Add(XamlHelper.Clone(row));
 						}
 						else
 						{
-							string reportTableRowXaml = XamlWriter.Save(reportTableRow);
+							string reportTableRowXaml = null;
+							if ((_hints & Hint.SimpleClone) == Hint.None)
+								reportTableRowXaml = XamlWriter.Save(reportTableRow);
 
 							// clone ReportTableRows
 							List<TableRow> clonedTableRows = new List<TableRow>();
 							for (int i = 0; i < table.Rows.Count; i++)
 							{
-								clonedTableRows.Add(XamlHelper.LoadXamlFromString<TableRow>(reportTableRowXaml));
+								var clonedRow = (_hints & Hint.SimpleClone) == Hint.SimpleClone ? XamlHelper.SimpleClone(reportTableRow) : XamlHelper.LoadXamlFromString<TableRow>(reportTableRowXaml);
+								clonedTableRows.Add(clonedRow);
 							}
 
 							foreach (DataRow dataRow in table.Rows)
@@ -524,37 +530,41 @@ namespace CodeReason.Reports
 						if (reportTableRowGroup == null)
 						{
 							// clone regular row group
-							//listNewRowGroups.Add(XamlHelper.Clone(rowGroup));
-							listNewRowGroups.Add(rowGroup);
+							if ((_hints & Hint.MoveRegular) == Hint.MoveRegular)
+								listNewRowGroups.Add(rowGroup);
+							else
+								listNewRowGroups.Add(XamlHelper.Clone(rowGroup));
 						}
 						else
 						{
-							string reportTableRowGroupXaml;
-							using (new TimeCounter("Save	{0}"))
-								reportTableRowGroupXaml = XamlWriter.Save(reportTableRowGroup);
+							string reportTableRowGroupXaml = null;
+							using (new TimeCounter("\t\tSave	{0}"))
+								if ((_hints & Hint.SimpleClone) == Hint.None)
+									reportTableRowGroupXaml = XamlWriter.Save(reportTableRowGroup);
 
 							// clone ReportTableRows
 							List<TableRowGroup> clonedTableRowGroups = new List<TableRowGroup>();
-							using (new TimeCounter("Load	{0}"))
+							using (new TimeCounter("\t\tLoad	{0}"))
 								for (int i = 0; i < dataTable.Rows.Count; i++)
-							{
-								clonedTableRowGroups.Add(XamlHelper.LoadXamlFromString<TableRowGroup>(reportTableRowGroupXaml));
-							}
+								{
+									var clonedRowGroup = (_hints & Hint.SimpleClone) == Hint.SimpleClone ? XamlHelper.SimpleClone(reportTableRowGroup) : XamlHelper.LoadXamlFromString<TableRowGroup>(reportTableRowGroupXaml);
+									clonedTableRowGroups.Add(clonedRowGroup);
+								}
 
-							using (new TimeCounter("Set	{0}"))
+							using (new TimeCounter("\t\tSet	{0}"))
 								foreach (DataRow dataRow in dataTable.Rows)
-							{
-								// get cloned ReportTableRow
-								TableRowGroup newTableRowGroup = clonedTableRowGroups[0];
-								clonedTableRowGroups.RemoveAt(0);
+								{
+									// get cloned ReportTableRow
+									TableRowGroup newTableRowGroup = clonedTableRowGroups[0];
+									clonedTableRowGroups.RemoveAt(0);
 
-								foreach (TableRow row in newTableRowGroup.Rows)
-									FillTableRow(row, dataRow);
-								listNewRowGroups.Add(newTableRowGroup);
+									foreach (TableRow row in newTableRowGroup.Rows)
+										FillTableRow(row, dataRow);
+									listNewRowGroups.Add(newTableRowGroup);
 
-								// fire event
-								_report.FireEventDataRowBoundEventArgs(new DataRowBoundEventArgs(_report, dataRow) { TableName = dataRow.Table.TableName, TableRowGroup = newTableRowGroup });
-							}
+									// fire event
+									_report.FireEventDataRowBoundEventArgs(new DataRowBoundEventArgs(_report, dataRow) { TableName = dataRow.Table.TableName, TableRowGroup = newTableRowGroup });
+								}
 						}
 					}
 					table.RowGroups.Clear();
