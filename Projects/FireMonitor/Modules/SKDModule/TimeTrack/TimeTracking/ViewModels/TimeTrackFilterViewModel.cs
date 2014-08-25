@@ -45,8 +45,6 @@ namespace SKDModule.ViewModels
 			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.EarlyLeave));
 			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Overtime));
 			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Night));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DayOff));
-			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.Holiday));
 			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DocumentOvertime));
 			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DocumentPresence));
 			Totals.Add(new TimeTrackTypeFilterItem(TimeTrackType.DocumentAbsence));

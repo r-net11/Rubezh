@@ -225,7 +225,7 @@ namespace SKDDriver.Translators
 					break;
 				case ScheduleSchemeType.SlideDay:
 					var daysCount = days.Count();
-					var ticksDelta = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
+					var ticksDelta = new TimeSpan(date.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
 					var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
 					dayNo = daysDelta % daysCount;
 					break;

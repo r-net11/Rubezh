@@ -32,7 +32,7 @@
 	            <DataGridTemplateColumn Header="ФИО">
 	                <DataGridTemplateColumn.CellTemplate>
 	                    <DataTemplate>
-                            <StackPanel>
+                            <StackPanel VerticalAlignment="Top">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding ShortEmployee.LastName}" Margin="4 0" />
                                     <TextBlock Text="{Binding ShortEmployee.FirstName}" Margin="4 0" />

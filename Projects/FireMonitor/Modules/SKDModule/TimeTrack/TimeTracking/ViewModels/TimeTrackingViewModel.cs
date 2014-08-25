@@ -132,8 +132,15 @@ namespace SKDModule.ViewModels
 		{
 			using (new WaitWrapper())
 			{
+				var employeeUID = Guid.Empty;
+				if (SelectedTimeTrack != null)
+				{
+					employeeUID = SelectedTimeTrack.ShortEmployee.UID;
+				}
+
 				TotalDays = (int)(TimeTrackFilter.EndDate - TimeTrackFilter.StartDate).TotalDays + 1;
 				FirstDay = TimeTrackFilter.StartDate;
+
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
 				var timeTrackResult = EmployeeHelper.GetTimeTracks(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 				if (timeTrackResult != null)
@@ -148,6 +155,7 @@ namespace SKDModule.ViewModels
 
 					RowHeight = 60 + 20 * GetVisibleFilterRorsCount();
 				}
+				SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID);
 			}
 		}
 

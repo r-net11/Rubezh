@@ -237,7 +237,7 @@ namespace FiresecAPI.SKD
 				{
 					timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
 
-					if (RealTimeTrackParts.Any(x => x.StartTime < startTime) && IsOnlyFirstEnter)
+					if (RealTimeTrackParts.Any(x => x.StartTime <= startTime && x.EndTime >= endTime) && IsOnlyFirstEnter)
 					{
 						timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 					}
@@ -325,10 +325,6 @@ namespace FiresecAPI.SKD
 
 				switch(timeTrack.TimeTrackPartType)
 				{
-					//case SKD.TimeTrackType.Presence:
-					//case SKD.TimeTrackType.AbsenceInsidePlan:
-					case SKD.TimeTrackType.Overtime:
-					case SKD.TimeTrackType.Night:
 					case SKD.TimeTrackType.DocumentOvertime:
 					case SKD.TimeTrackType.DocumentPresence:
 						totalBalance.TimeSpan += timeTrack.Delta;
@@ -343,19 +339,17 @@ namespace FiresecAPI.SKD
 				}
 			}
 
-			//if (SlideTime.TotalSeconds > 0)
-			//{
-			//    if (Total > SlideTime)
-			//    {
-			//        TotalInSchedule = SlideTime;
-			//        TotalOvertime = Total - SlideTime;
-			//    }
-			//    else
-			//    {
-			//        TotalInSchedule = Total;
-			//        TotalOvertime = new TimeSpan();
-			//    }
-			//}
+			if (SlideTime.TotalSeconds > 0)
+			{
+				if (PlannedTimeTrackParts.Count > 0)
+					totalBalance.TimeSpan = -TimeSpan.FromSeconds(SlideTime.TotalSeconds);
+				else
+					totalBalance.TimeSpan = new TimeSpan();
+				foreach (var realTimeTrackPart in RealTimeTrackParts)
+				{
+					totalBalance.TimeSpan += realTimeTrackPart.Delta;
+				}
+			}
 
 			var totalEaveningTimeSpan = new TimeSpan();
 			if (NightSettings != null)
@@ -372,37 +366,37 @@ namespace FiresecAPI.SKD
 			if (!string.IsNullOrEmpty(Error))
 				return TimeTrackType.None;
 
-			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.DocumentOvertime))
-				return TimeTrackType.DocumentOvertime;
+			var longestTimeTrackType = TimeTrackType.Presence;
+			var longestTimeSpan = new TimeSpan();
+			foreach (var total in Totals)
+			{
+				switch(total.TimeTrackType)
+				{
+					case TimeTrackType.Absence:
+					case TimeTrackType.Late:
+					case TimeTrackType.EarlyLeave:
+					case TimeTrackType.Overtime:
+					case TimeTrackType.Night:
+					case TimeTrackType.DocumentOvertime:
+					case TimeTrackType.DocumentPresence:
+					case TimeTrackType.DocumentAbsence:
+						if (total.TimeSpan > longestTimeSpan)
+						{
+							longestTimeTrackType = total.TimeTrackType;
+							longestTimeSpan = total.TimeSpan;
+						}
+						break;
+				}
+			}
+			if (longestTimeTrackType == TimeTrackType.Presence)
+			{
+				if (IsHoliday)
+					return TimeTrackType.Holiday;
 
-			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.DocumentPresence))
-				return TimeTrackType.DocumentPresence;
-
-			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.DocumentAbsence))
-				return TimeTrackType.DocumentAbsence;
-
-			if (IsHoliday)
-				return TimeTrackType.Holiday;
-
-			if (PlannedTimeTrackParts.Count == 0)
-				return TimeTrackType.DayOff;
-
-			if (RealTimeTrackParts.Count == 0)
-				return TimeTrackType.Absence;
-
-			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.Late))
-				return TimeTrackType.Late;
-
-			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.EarlyLeave))
-				return TimeTrackType.EarlyLeave;
-
-			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.Overtime))
-				return TimeTrackType.Overtime;
-
-			if (CombinedTimeTrackParts.Any(x => x.TimeTrackPartType == TimeTrackType.Night))
-				return TimeTrackType.Night;
-
-			return TimeTrackType.Presence;
+				if (PlannedTimeTrackParts.Count == 0)
+					return TimeTrackType.DayOff;
+			}
+			return longestTimeTrackType;
 		}
 
 		TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end)
