@@ -44,7 +44,7 @@ namespace FiresecAPI.SKD
 		{
 			get
 			{
-				return LastName + " " + FirstName + SecondName != null ? " " + SecondName : "";
+				return LastName + " " + FirstName + (SecondName != null ? " " + SecondName : "");
 			}
 		}
 	}

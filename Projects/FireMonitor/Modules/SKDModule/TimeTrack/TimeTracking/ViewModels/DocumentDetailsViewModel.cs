@@ -136,15 +136,20 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-
 		protected override bool Save()
 		{
+			if (SelectedDocument == null)
+			{
+				MessageBoxService.ShowWarning("Необходимо выбрать тип документа");
+				return false;
+			}
+
 			var startDateTime = StartDateTime + StartTime.TimeOfDay;
 			var endDateTime = EndDateTime + EndTime.TimeOfDay;
 
 			if (startDateTime >= endDateTime)
 			{
-				MessageBoxService.ShowWarning("Время окончания не может быть раньше времени начала");
+				MessageBoxService.ShowWarning("Дата и время окончания должно быть позднее даты и времени начала");
 				return false;
 			}
 

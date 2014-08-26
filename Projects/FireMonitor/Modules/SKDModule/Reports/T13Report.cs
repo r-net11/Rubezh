@@ -63,7 +63,6 @@ namespace SKDModule.Reports
 
 		#endregion
 
-
 		#region IReportProvider Members
 
 		public string Template
@@ -120,7 +119,7 @@ namespace SKDModule.Reports
 				var values = new List<string>()
 				{
 					GetValue( employee.No),
-					employee.EmploueeFIO,
+					employee.EmployeeFIO,
 					GetValue(employee.TabelNo),
 					GetValue(employee.FirstHalfDaysCount),
 					GetValue(employee.SecondHalfDaysCount),
@@ -135,8 +134,8 @@ namespace SKDModule.Reports
 					if (ReportModel.StartDateTime.AddDays(i).Date <= ReportModel.EndDateTime.Date)
 					{
 						var num = ReportModel.StartDateTime.AddDays(i).Day;
-						values[7 + 2 * num] = employee.Days[i].Code;
-						values[8 + 2 * num] = GetValue(employee.Days[i].TimeSpan);
+						values[7 + 2 * num] = employee.Days[i].CodeStrings;
+						values[8 + 2 * num] = employee.Days[i].TimeSpanStrings;
 					}
 				for (int i = 0; i < 8; i++)
 					values.AddRange(
@@ -176,9 +175,9 @@ namespace SKDModule.Reports
 		{
 			return val.HasValue ? val.Value.ToString() : null;
 		}
-		private string GetValue(TimeSpan? val)
+		private string GetValue(TimeSpan val)
 		{
-			return val.HasValue && val.Value != TimeSpan.Zero ? val.Value.TotalHours.ToString("n2") : null;
+			return val != TimeSpan.Zero ? val.TotalHours.ToString("n2").TrimEnd('0').TrimEnd(',') : null;
 		}
 	}
 }

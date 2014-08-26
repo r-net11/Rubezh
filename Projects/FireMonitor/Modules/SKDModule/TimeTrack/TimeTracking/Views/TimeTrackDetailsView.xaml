@@ -117,12 +117,12 @@
                     <Grid Grid.Row="3" Grid.Column="1" Name="CombinedGrid" Height="30" Margin="2" />
                     <Grid Grid.Row="4" Grid.Column="1" Name="TimeLineGrid" Height="30" Margin="2" />
                 </Grid>
-                <ItemsControl ItemsSource="{Binding DayTimeTrack.Totals}" Height="180">
+                <ItemsControl ItemsSource="{Binding DayTimeTrack.Totals}" Height="160">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid Height="25" Margin="30 0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="180" />
+                                    <ColumnDefinition Width="150" />
                                     <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>

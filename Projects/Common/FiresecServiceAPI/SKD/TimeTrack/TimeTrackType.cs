@@ -13,7 +13,7 @@ namespace FiresecAPI.SKD
 		[Description("Явка")]
 		Presence,
 
-		[Description("Прогул")]
+		[Description("Отсутствие")]
 		Absence,
 
 		[Description("Отсутствие в рамках графика")]

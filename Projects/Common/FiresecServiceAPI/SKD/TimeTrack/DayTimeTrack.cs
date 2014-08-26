@@ -171,16 +171,9 @@ namespace FiresecAPI.SKD
 
 		void CalculateCombinedTimeTrackParts()
 		{
-			var firstReal = new TimeSpan();
-			var lastReal = new TimeSpan();
 			var firstPlanned = new TimeSpan();
 			var lastPlanned = new TimeSpan();
 
-			if (RealTimeTrackParts.Count > 0)
-			{
-				firstReal = RealTimeTrackParts.FirstOrDefault().StartTime;
-				lastReal = RealTimeTrackParts.LastOrDefault().EndTime;
-			}
 			if (PlannedTimeTrackParts.Count > 0)
 			{
 				firstPlanned = PlannedTimeTrackParts.FirstOrDefault().StartTime;
@@ -243,7 +236,7 @@ namespace FiresecAPI.SKD
 						timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 					}
 
-					if (timeTrackPart.StartTime == firstPlanned && timeTrackPart.EndTime < lastPlanned && !PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime))
+					if (PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && !PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) && RealTimeTrackParts.Any(x => x.StartTime == timeTrackPart.EndTime))
 					{
 						if (timeTrackPart.Delta > AllowedLate)
 						{
@@ -251,7 +244,7 @@ namespace FiresecAPI.SKD
 						}
 					}
 
-					if (timeTrackPart.EndTime == lastPlanned && timeTrackPart.StartTime > firstPlanned && !PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime))
+					if (!PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) && RealTimeTrackParts.Any(x => x.EndTime == timeTrackPart.StartTime))
 					{
 						if (timeTrackPart.Delta > AllowedEarlyLeave)
 						{
@@ -299,8 +292,6 @@ namespace FiresecAPI.SKD
 			Totals.Add(new TimeTrackTotal(TimeTrackType.Overtime));
 			var totalNight = new TimeTrackTotal(TimeTrackType.Night);
 			Totals.Add(totalNight);
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DayOff));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Holiday));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentOvertime));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentPresence));
 			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentAbsence));
@@ -487,7 +478,7 @@ namespace FiresecAPI.SKD
 					break;
 
 				case TimeTrackType.Absence:
-					LetterCode = "ПР";
+					LetterCode = "НН";
 					break;
 
 				case TimeTrackType.Late:

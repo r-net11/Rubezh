@@ -106,34 +106,34 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
-							<StackPanel Grid.Column="0" Margin="5">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Width="100" Margin="2" Text="Имя" />
-									<TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
-								</StackPanel>
+                        <StackPanel Grid.Column="0" Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="100" Margin="2" Text="Имя" />
+                                <TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
+                            </StackPanel>
 
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Width="100" Margin="2" Text="Фамилия" />
-									<TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
-								</StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="100" Margin="2" Text="Фамилия" />
+                                <TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
+                            </StackPanel>
 
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Width="100" Margin="2" Text="Отчество" />
-									<TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
-								</StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="100" Margin="2" Text="Отчество" />
+                                <TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
+                            </StackPanel>
 
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Width="100" Margin="2" Text="Отдел" />
-									<TextBlock Margin="2" Text="{Binding DepartmentName}" />
-								</StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="100" Margin="2" Text="Отдел" />
+                                <TextBlock Margin="2" Text="{Binding DepartmentName}" />
+                            </StackPanel>
 
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Width="100" Margin="2" Text="Должность" />
-									<TextBlock Margin="2" Text="{Binding PositionName}" />
-								</StackPanel>
-							</StackPanel>
-					
-							<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="100" Margin="2" Text="Должность" />
+                                <TextBlock Margin="2" Text="{Binding PositionName}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" />
 					</Grid>
 				</Border>
 

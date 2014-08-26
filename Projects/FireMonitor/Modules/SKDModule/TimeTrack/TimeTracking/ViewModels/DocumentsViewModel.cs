@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 			Documents = new ObservableCollection<DocumentViewModel>();
 			if (timeTrackEmployeeResult.Documents != null)
 			{
-				foreach (var document in timeTrackEmployeeResult.Documents)
+				foreach (var document in timeTrackEmployeeResult.Documents.OrderBy(x => x.StartDateTime))
 				{
 					var documentViewModel = new DocumentViewModel(document);
 					Documents.Add(documentViewModel);

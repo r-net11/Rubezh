@@ -103,15 +103,28 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("В отчете нет ни одного сотрудника");
 				return;
 			}
-			var uids = new HashSet<Guid>();
+			var organisationUIDs = new HashSet<Guid>();
+			var departmentNames = new HashSet<string>();
 			foreach (var timeTrack in TimeTracks)
 			{
 				if (timeTrack.ShortEmployee.OrganisationUID.HasValue)
-					uids.Add(timeTrack.ShortEmployee.OrganisationUID.Value);
+					organisationUIDs.Add(timeTrack.ShortEmployee.OrganisationUID.Value);
+
+				if (string.IsNullOrEmpty(timeTrack.ShortEmployee.DepartmentName))
+				{
+					MessageBoxService.ShowWarning("Сотрудник " + timeTrack.ShortEmployee.FIO + " не относится ни к одному отделу");
+					return;
+				}
+				departmentNames.Add(timeTrack.ShortEmployee.DepartmentName);
 			}
-			if (uids.Count > 1)
+			if (organisationUIDs.Count > 1)
 			{
 				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одной организации");
+				return;
+			}
+			if (departmentNames.Count > 1)
+			{
+				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одного отдела");
 				return;
 			}
 

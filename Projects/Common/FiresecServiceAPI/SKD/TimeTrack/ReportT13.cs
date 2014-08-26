@@ -39,7 +39,7 @@ namespace FiresecAPI.SKD
 		public List<EmployeeReportDay> Days { get; set; }
 		public List<EmployeeReportMissReason> MissReasons { get; set; }
 		public int? No { get; set; }
-		public string EmploueeFIO { get; set; }
+		public string EmployeeFIO { get; set; }
 		public Guid DepartmenuUID { get; set; }
 		public string DepartmentName { get; set; }
 		public int? TabelNo { get; set; }
@@ -48,21 +48,21 @@ namespace FiresecAPI.SKD
 		public int? SecondHalfDaysCount { get; set; }
 		public int? TotalDaysCount { get; set; }
 
-		public TimeSpan? FirstHalfTimeSpan { get; set; }
-		public TimeSpan? SecondHalfTimeSpan { get; set; }
-		public TimeSpan? TotalTimeSpan { get; set; }
+		public TimeSpan FirstHalfTimeSpan { get; set; }
+		public TimeSpan SecondHalfTimeSpan { get; set; }
+		public TimeSpan TotalTimeSpan { get; set; }
 
 	}
 
 	public class EmployeeReportDay
 	{
-		public string Code { get; set; } // Can contain up to 3 codes
-		public TimeSpan? TimeSpan { get; set; } // Can contain up to 3 timeSpans
+		public string CodeStrings { get; set; }
+		public string TimeSpanStrings { get; set; }
 	}
 
 	public class EmployeeReportMissReason
 	{
 		public string Code { get; set; }
-		public TimeSpan? TimeSpan { get; set; }
+		public TimeSpan TimeSpan { get; set; }
 	}
 }

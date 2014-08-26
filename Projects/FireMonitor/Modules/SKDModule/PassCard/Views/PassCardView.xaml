@@ -16,6 +16,6 @@
 				</DockPanel>
 			</TabItem>
 		</TabControl>
-		<Button Grid.Row="1" Content="Печать" Command="{Binding PrintCommand}" HorizontalAlignment="Right" Width="100" Margin="2" />
+		<Button Grid.Row="1" Content="Печать" Command="{Binding PrintCommand}" HorizontalAlignment="Right" Width="100" Margin="0 2 0 0" />
 	</Grid>
 </UserControl>
