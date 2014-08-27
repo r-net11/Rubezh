@@ -14,7 +14,7 @@ namespace AutomationModule.ViewModels
 			Zones = new ObservableCollection<ZoneViewModel>();
 			SKDManager.Zones.ForEach(x => Zones.Add(new ZoneViewModel(x)));
 			if (zone != null)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zone.UID);
+				SelectedZone = Zones.FirstOrDefault(x => x.SKDZone.UID == zone.UID);
 			if (SelectedZone == null)
 				SelectedZone = Zones.FirstOrDefault();
 		}

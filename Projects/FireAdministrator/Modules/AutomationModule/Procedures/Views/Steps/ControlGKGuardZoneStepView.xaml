@@ -5,7 +5,9 @@
 		<StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Зона: " VerticalAlignment="Top" Margin="2"/>
-				<TextBlock Margin="20,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
+				<Image Width="16" Height="16" Margin="0, 5, 5, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Controls;component/Images/Zone.png"
+					   Visibility="{Binding Path= SelectedZone, Converter={StaticResource NullToVisibilityConverter}}"/>
+				<TextBlock Margin="0,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
 				<Hyperlink Command="{Binding SelectZoneCommand}" Style="{StaticResource HyperlinkStyle}" >
 					<TextBlock Text="{Binding SelectedZone.GuardZone.PresentationName}" Visibility="{Binding Path= SelectedZone, Converter={StaticResource NullToVisibilityConverter}}"/>
 					<TextBlock Text="Нажмите для выбора зоны" >
