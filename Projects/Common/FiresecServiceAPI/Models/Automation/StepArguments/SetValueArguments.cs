@@ -22,5 +22,8 @@ namespace FiresecAPI.Automation
 		[DataMember]
 		public ArithmeticParameter Variable1 { get; set; }
 
+		[DataMember]
+		public ValueType ValueType { get; set; }
+
 	}
 }

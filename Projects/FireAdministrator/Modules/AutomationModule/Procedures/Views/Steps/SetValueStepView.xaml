@@ -3,38 +3,31 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
-			<ColumnDefinition />
-			<ColumnDefinition />
-			<ColumnDefinition />
-			<ColumnDefinition />
-			<ColumnDefinition />
-		</Grid.ColumnDefinitions>
-		<Label Grid.Column="0" Content="Результат" HorizontalAlignment="Right" />
-		<ComboBox Grid.Column="1" DataContext="{Binding Result}" ItemsSource="{Binding VariableTypes}" Margin="2"
-				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" >
+
+	<StackPanel Orientation="Horizontal" >
+		<Label Content="Результат" HorizontalAlignment="Right" />
+		<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding VariableTypes}" Margin="2"
+				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Column="2" DataContext="{Binding Result}" ItemsSource="{Binding GlobalVariables}" Margin="2"
+		<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding GlobalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" >
+			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" VerticalAlignment="Top" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Column="2" DataContext="{Binding Result}" ItemsSource="{Binding LocalVariables}" Margin="2"
+		<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding LocalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" >
+			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" VerticalAlignment="Top" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
@@ -42,29 +35,29 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<Label Grid.Column="3" Content="равно" HorizontalAlignment="Center" />
-		<ComboBox Grid.Column="4" DataContext="{Binding Variable1}" ItemsSource="{Binding VariableTypes}" Margin="2"
-				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" >
+		<Label Content="равно" HorizontalAlignment="Center" />
+		<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding VariableTypes}" Margin="2"
+				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Column="5" DataContext="{Binding Variable1}" ItemsSource="{Binding GlobalVariables}" Margin="2"
+		<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding GlobalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" >
+			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" VerticalAlignment="Top" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Column="5" DataContext="{Binding Variable1}" ItemsSource="{Binding LocalVariables}" Margin="2"
+		<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding LocalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" >
+			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" VerticalAlignment="Top" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
@@ -72,16 +65,16 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<StackPanel Grid.Column="5" Margin="2" Visibility="{Binding Path=Variable1.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsValue}}">
-			<extToolkit:IntegerUpDown Value="{Binding Variable1.IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedArithmeticValueType, Converter={StaticResource EnumToVisibilityConverter},
-				ConverterParameter={x:Static automation:ValueType.Integer}}"/>
-			<CheckBox IsChecked="{Binding Variable1.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedArithmeticValueType, Converter={StaticResource EnumToVisibilityConverter}, 
-						ConverterParameter={x:Static automation:ValueType.Boolean}}" Margin="0,7,0,0" />
-			<TextBox Text="{Binding Variable1.StringValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedArithmeticValueType, Converter={StaticResource EnumToVisibilityConverter},
-						ConverterParameter={x:Static automation:ValueType.String}}" Height="28" VerticalContentAlignment="Center" />
-			<extToolkit:DateTimePicker Value = "{Binding Variable1.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedArithmeticValueType, Converter={StaticResource EnumToVisibilityConverter},
-						ConverterParameter={x:Static automation:ValueType.DateTime}}" />
+		<StackPanel Margin="2" Visibility="{Binding Variable1.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+			ConverterParameter={x:Static automation:VariableType.IsValue}}" VerticalAlignment="Top" >
+			<extToolkit:IntegerUpDown Value="{Binding Variable1.IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToVisibilityConverter},
+				ConverterParameter={x:Static automation:ValueType.Integer}}" VerticalAlignment="Top" />
+			<CheckBox IsChecked="{Binding Variable1.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToVisibilityConverter}, 
+						ConverterParameter={x:Static automation:ValueType.Boolean}}" Margin="0,7,0,0" VerticalAlignment="Top" />
+			<TextBox Text="{Binding Variable1.StringValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ValueType.String}}" Height="28" VerticalContentAlignment="Center" VerticalAlignment="Top" />
+			<extToolkit:DateTimePicker Value = "{Binding Variable1.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ValueType.DateTime}}" VerticalAlignment="Top" />
 		</StackPanel>
-	</Grid>
+	</StackPanel>
 </UserControl>

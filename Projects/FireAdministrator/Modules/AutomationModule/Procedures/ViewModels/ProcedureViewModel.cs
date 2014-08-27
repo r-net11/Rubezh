@@ -62,6 +62,16 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public string Description
+		{
+			get { return Procedure.Description; }
+			set
+			{
+				Procedure.Description = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+
 		public void Update(Procedure procedure)
 		{
 			Procedure = procedure;

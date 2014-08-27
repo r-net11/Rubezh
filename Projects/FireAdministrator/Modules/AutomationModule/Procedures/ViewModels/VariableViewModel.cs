@@ -4,6 +4,11 @@ using System.Collections.ObjectModel;
 using FiresecAPI.Automation;
 using Infrastructure.Common.Windows.ViewModels;
 using ValueType = FiresecAPI.Automation.ValueType;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using FiresecClient;
+using System.Linq;
+using FiresecAPI.SKD;
 
 namespace AutomationModule.ViewModels
 {
