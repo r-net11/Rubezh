@@ -57,8 +57,8 @@ namespace SKDModule.ViewModels
 		void OnAdd()
 		{
 			var timeTrackDocument = new TimeTrackDocument();
-			timeTrackDocument.StartDateTime = DayTimeTrack.Date;
-			timeTrackDocument.EndDateTime = DayTimeTrack.Date;
+			timeTrackDocument.StartDateTime = DayTimeTrack.Date.Date;
+			timeTrackDocument.EndDateTime = DayTimeTrack.Date.Date + new TimeSpan(23, 59, 59);
 			var documentDetailsViewModel = new DocumentDetailsViewModel(false, timeTrackDocument);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
@@ -96,7 +96,7 @@ namespace SKDModule.ViewModels
 		}
 		bool CanEdit()
 		{
-			return SelectedDocument != null && SelectedDocument.Document.StartDateTime.Date == DateTime.Now.Date;
+			return SelectedDocument != null && SelectedDocument.Document.StartDateTime.Date == DayTimeTrack.Date.Date;
 		}
 
 		protected override bool Save()

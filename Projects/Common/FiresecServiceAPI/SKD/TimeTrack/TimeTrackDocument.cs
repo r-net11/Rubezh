@@ -11,9 +11,9 @@ namespace FiresecAPI.SKD
 		public TimeTrackDocument()
 		{
 			UID = Guid.NewGuid();
-			DocumentCode = 1;
-			StartDateTime = DateTime.Now;
-			EndDateTime = DateTime.Now;
+			DocumentCode = 0;
+			StartDateTime = DateTime.Now.Date;
+			EndDateTime = DateTime.Now.Date + new TimeSpan(23, 59, 59);
 			DocumentDateTime = DateTime.Now;
 		}
 

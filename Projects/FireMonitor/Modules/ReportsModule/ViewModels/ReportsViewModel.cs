@@ -25,7 +25,7 @@ namespace ReportsModule.ViewModels
 			SelectedReport = null;
 		}
 
-		private DocumentPaginator _documentPaginator;
+		DocumentPaginator _documentPaginator;
 		public DocumentPaginator DocumentPaginator
 		{
 			get { return _documentPaginator; }
@@ -47,7 +47,8 @@ namespace ReportsModule.ViewModels
 		}
 
 		public List<ReportViewModel> Reports { get; private set; }
-		private ReportViewModel _selectedReport;
+
+		ReportViewModel _selectedReport;
 		public ReportViewModel SelectedReport
 		{
 			get { return _selectedReport; }
@@ -62,7 +63,8 @@ namespace ReportsModule.ViewModels
 				RefreshCommand.Execute();
 			}
 		}
-		private bool _inProgress;
+
+		bool _inProgress;
 		public bool InProgress
 		{
 			get { return _inProgress; }
@@ -72,7 +74,8 @@ namespace ReportsModule.ViewModels
 				OnPropertyChanged("InProgress");
 			}
 		}
-		private bool _isSelectingReport;
+
+		bool _isSelectingReport;
 		public bool IsSelectingReport
 		{
 			get { return _isSelectingReport; }
@@ -84,6 +87,7 @@ namespace ReportsModule.ViewModels
 					Reports.ForEach(report => report.OnPropertyChanged("IsEnabled"));
 			}
 		}
+
 		public bool IsPdfAllowed
 		{
 			get
@@ -96,7 +100,7 @@ namespace ReportsModule.ViewModels
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
-		private void OnRefresh()
+		void OnRefresh()
 		{
 			if (SelectedReport != null)
 				ApplicationService.BeginInvoke((Action)(() =>
@@ -119,23 +123,23 @@ namespace ReportsModule.ViewModels
 			else
 				DocumentPaginator = null;
 		}
-		private bool CanRefresh()
+		bool CanRefresh()
 		{
 			return SelectedReport != null;
 		}
 
 		public RelayCommand FilterCommand { get; private set; }
-		private void OnFilter()
+		void OnFilter()
 		{
 			SelectedReport.Filter(RefreshCommand);
 		}
-		private bool CanFilter()
+		bool CanFilter()
 		{
 			return SelectedReport != null && SelectedReport.IsFilterable;
 		}
 
 		public RelayCommand PrintReportCommand { get; private set; }
-		private void OnPrintReport()
+		void OnPrintReport()
 		{
 			var printDialog = new PrintDialog();
 			if (printDialog.ShowDialog() == true)
@@ -146,17 +150,17 @@ namespace ReportsModule.ViewModels
 					writer.WriteAsync(DocumentPaginator, printDialog.PrintTicket);
 			}
 		}
-		private bool CanPrintReport()
+		bool CanPrintReport()
 		{
 			return DocumentPaginator != null && DocumentPaginator.PageCount > 0;
 		}
 
 		public RelayCommand PdfPrintReportCommand { get; private set; }
-		private void OnPdfPrintReport()
+		void OnPdfPrintReport()
 		{
 			SelectedReport.PdfPrint();
 		}
-		private bool CanPdfPrintReport()
+		bool CanPdfPrintReport()
 		{
 			return DocumentPaginator != null && DocumentPaginator.PageCount > 0 && SelectedReport != null && SelectedReport.CanPdfPrint;
 		}
