@@ -1,18 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.SKD
 {
 	[DataContract]
 	public class TimeTrackDocumentType
 	{
+		public TimeTrackDocumentType()
+		{
+		}
+
 		public TimeTrackDocumentType(string name, string shortName, int code, DocumentType documentType = DocumentType.Presence)
 		{
+			UID = Guid.NewGuid();
 			Name = name;
 			ShortName = shortName;
 			Code = code;
 			DocumentType = documentType;
 		}
+
+		[DataMember]
+		public Guid UID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -25,6 +34,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public DocumentType DocumentType { get; set; }
+
+		[DataMember]
+		public Guid OrganisationUID { get; set; }
 	}
 
 	public enum DocumentType

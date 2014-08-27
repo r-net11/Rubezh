@@ -226,6 +226,7 @@
       <Association Name="Organisation_ScheduleScheme" Member="ScheduleSchemes" ThisKey="UID" OtherKey="OrganisationUID" Type="ScheduleScheme" />
       <Association Name="Organisation_DayInterval" Member="DayIntervals" ThisKey="UID" OtherKey="OrganisationUID" Type="DayInterval" />
       <Association Name="Organisation_NightSetting" Member="NightSettings" ThisKey="UID" OtherKey="OrganisationUID" Type="NightSetting" />
+      <Association Name="Organisation_TimeTrackDocumentType" Member="TimeTrackDocumentTypes" ThisKey="UID" OtherKey="OrganisationUID" Type="TimeTrackDocumentType" />
       <Association Name="Photo_Organisation" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
   </Table>
@@ -411,6 +412,17 @@
       <Column Name="EveningStartTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
       <Column Name="EveningEndTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
       <Association Name="Organisation_NightSetting" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TimeTrackDocumentType" Member="TimeTrackDocumentTypes">
+    <Type Name="TimeTrackDocumentType">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ShortName" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="DocumentCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DocumentType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Association Name="Organisation_TimeTrackDocumentType" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

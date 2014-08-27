@@ -59,12 +59,20 @@
         <Views:TimeTrackFilterView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ReportSettingsViewModel}">
+        <Views:ReportSettingsView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:DocumentDetailsViewModel}">
         <Views:DocumentDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ReportSettingsViewModel}">
-        <Views:ReportSettingsView />
+    <DataTemplate DataType="{x:Type ViewModels:DocumentTypesViewModel}">
+        <Views:DocumentTypesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DocumentTypeDetailsViewModel}">
+        <Views:DocumentTypeDetailsView />
     </DataTemplate>
 
 </ResourceDictionary>

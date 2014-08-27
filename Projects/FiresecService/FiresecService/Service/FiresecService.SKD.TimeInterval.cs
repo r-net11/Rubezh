@@ -134,5 +134,22 @@ namespace FiresecService.Service
 		{
 			return SKDDatabaseService.TimeTrackDocumentTranslator.RemoveTimeTrackDocument(timeTrackDocumentUID);
 		}
+
+		public OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID)
+		{
+			return SKDDatabaseService.TimeTrackDocumentTypeTranslator.Get(organisationUID);
+		}
+		public OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
+		{
+			return SKDDatabaseService.TimeTrackDocumentTypeTranslator.AddTimeTrackDocumentType(timeTrackDocumentType);
+		}
+		public OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
+		{
+			return SKDDatabaseService.TimeTrackDocumentTypeTranslator.EditTimeTrackDocumentType(timeTrackDocumentType);
+		}
+		public OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID)
+		{
+			return SKDDatabaseService.TimeTrackDocumentTypeTranslator.RemoveTimeTrackDocumentType(timeTrackDocumentTypeUID);
+		}
 	}
 }

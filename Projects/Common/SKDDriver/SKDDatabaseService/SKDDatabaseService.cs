@@ -35,6 +35,7 @@ namespace SKDDriver
 			EmployeeTranslator = new EmployeeTranslator(Context, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator, ScheduleTranslator);
 			TimeTrackTranslator = new TimeTrackTranslator(Context);
 			TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(Context);
+			TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(Context);
 			AdditionalColumnTypeTranslator.AdditionalColumnTranslator = AdditionalColumnTranslator;
 		}
 
@@ -59,5 +60,6 @@ namespace SKDDriver
 		public static ScheduleTranslator ScheduleTranslator { get; private set; }
 		public static TimeTrackTranslator TimeTrackTranslator { get; private set; }
 		public static TimeTrackDocumentTranslator TimeTrackDocumentTranslator { get; private set; }
+		public static TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
 	}
 }

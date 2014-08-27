@@ -66,5 +66,14 @@ namespace FiresecAPI
 		OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument);
 		[OperationContract]
 		OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID);
+
+		[OperationContract]
+		OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID);
+		[OperationContract]
+		OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);
+		[OperationContract]
+		OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType);
+		[OperationContract]
+		OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID);
 	}
 }

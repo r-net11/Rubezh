@@ -764,3 +764,28 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('RenameHolidaySettings')
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'TimeTrackDocumentType')
+BEGIN
+	CREATE TABLE [dbo].[TimeTrackDocumentType](
+		[UID] [uniqueidentifier] NOT NULL,
+		[Name] [nvarchar](max) NOT NULL,
+		[ShortName] [nvarchar](10) NOT NULL,
+		[DocumentCode] [int] NOT NULL,
+		[DocumentType] [int] NOT NULL,
+		[OrganisationUID] [uniqueidentifier] NOT NULL,
+	CONSTRAINT [PK_TimeTrackDocumentType] PRIMARY KEY CLUSTERED
+	(
+		[UID] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+	CREATE INDEX TimeTrackDocumentTypeUIDIndex ON TimeTrackDocumentType([UID])
+
+	ALTER TABLE [dbo].[TimeTrackDocumentType] WITH NOCHECK ADD CONSTRAINT [FK_TimeTrackDocumentType_Organisation] FOREIGN KEY([OrganisationUid])
+	REFERENCES [dbo].[Organisation] ([Uid])
+	NOT FOR REPLICATION 
+	ALTER TABLE [dbo].[TimeTrackDocumentType] NOCHECK CONSTRAINT [FK_TimeTrackDocumentType_Organisation]
+
+	INSERT INTO Patches (Id) VALUES ('TimeTrackDocumentType')
+END
