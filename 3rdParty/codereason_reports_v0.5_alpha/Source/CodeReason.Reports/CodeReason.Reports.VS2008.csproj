@@ -81,6 +81,9 @@
     <Compile Include="Barcode\BarcodeCharInfo.cs" />
     <Compile Include="Barcode\BarcodeC128.cs" />
     <Compile Include="Document\ReportHint.cs" />
+    <Compile Include="Document\SplitTable.cs" />
+    <Compile Include="Interfaces\ISplitTable.cs" />
+    <Compile Include="Providers\TableProvider.cs" />
     <Compile Include="Hint.cs" />
     <Compile Include="InlineIndexValue.cs" />
     <Compile Include="Document\InlineTableCellIndexValue.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="Interfaces\ITableRowForDynamicDataTable.cs" />
     <Compile Include="Interfaces\ITableRowForDynamicHeader.cs" />
     <Compile Include="MultipleReportPaginator.cs" />
+    <Compile Include="Providers\SplitTableProvider.cs" />
     <Compile Include="ReportPaginatorDynamicCache.cs" />
     <Compile Include="ImageEventArgs.cs" />
     <Compile Include="DataRowBoundEventArgs.cs" />

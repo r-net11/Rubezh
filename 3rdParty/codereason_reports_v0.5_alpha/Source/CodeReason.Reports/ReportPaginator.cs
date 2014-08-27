@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using CodeReason.Reports.Document;
 using CodeReason.Reports.Interfaces;
 using System.Windows.Markup;
+using CodeReason.Reports.Providers;
 //using System.Windows.Markup;
 
 namespace CodeReason.Reports
@@ -304,6 +305,7 @@ namespace CodeReason.Reports
 			ArrayList charts = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(IChart)); // walker.Walk<IChart>(_flowDocument);
 			ArrayList dynamicHeaderTableRows = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ITableRowForDynamicHeader));
 			ArrayList dynamicDataTableRows = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ITableRowForDynamicDataTable));
+			ArrayList splitTables = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ISplitTable));
 
 			List<Block> blocks = new List<Block>();
 			if (_blockPageHeader != null)
@@ -313,11 +315,25 @@ namespace CodeReason.Reports
 
 			DocumentWalker walker = new DocumentWalker();
 			blockDocumentValues.AddRange(walker.TraverseBlockCollection<IInlineDocumentValue>(blocks));
+			foreach (ISplitTable splitTable in splitTables)
+			{
+				if (splitTable.ContentRowGroup != null)
+					blockDocumentValues.AddRange(walker.TraverseRowGroup<IInlineDocumentValue>(splitTable.ContentRowGroup));
+				if (splitTable.HeaderRowGroup != null)
+					blockDocumentValues.AddRange(walker.TraverseRowGroup<IInlineDocumentValue>(splitTable.HeaderRowGroup));
+				if (splitTable.FooterRowGroup != null)
+					blockDocumentValues.AddRange(walker.TraverseRowGroup<IInlineDocumentValue>(splitTable.FooterRowGroup));
+				if (splitTable.Header != null)
+					blockDocumentValues.AddRange(walker.TraverseBlockCollection<IInlineDocumentValue>(splitTable.Header.Blocks));
+				if (splitTable.Footer != null)
+					blockDocumentValues.AddRange(walker.TraverseBlockCollection<IInlineDocumentValue>(splitTable.Footer.Blocks));
+			}
 
 			_aggregateValues = new Dictionary<string, List<object>>();
 
 			FillCharts(charts);
 			FillDocumentValues(blockDocumentValues);
+			FillSplitTables(splitTables);
 			FillDynamicDataTableRows(dynamicDataTableRows);
 			FillDynamicHeaderTableRows(dynamicHeaderTableRows);
 			FillTableRows(blockTableRows);
@@ -345,6 +361,14 @@ namespace CodeReason.Reports
 						dv.Value = "[" + ((dv.PropertyName != null) ? dv.PropertyName : "NULL") + "]";
 					RememberAggregateValue(_aggregateValues, dv.AggregateGroup, null);
 				}
+			}
+		}
+		protected virtual void FillSplitTables(ArrayList splitTables)
+		{
+			foreach (ISplitTable table in splitTables)
+			{
+				var provider = new SplitTableProvider(table, _data);
+				provider.FillTable();
 			}
 		}
 		protected virtual void FillDynamicDataTableRows(ArrayList dynamicDataTableRows)
@@ -419,9 +443,13 @@ namespace CodeReason.Reports
 							foreach (ITableCellValue cv in tableCells)
 							{
 								IPropertyValue dv = cv as IPropertyValue;
-								if (dv == null)
-									continue;
-								dv.Value = "[" + dv.PropertyName + "]";
+								if (dv != null)
+									dv.Value = "[" + dv.PropertyName + "]";
+								else
+								{
+									IIndexValue iv = cv as IIndexValue;
+									iv.Value = "[" + iv.Index + "]";
+								}
 								IAggregateValue av = cv as IAggregateValue;
 								if (av != null)
 									RememberAggregateValue(_aggregateValues, av.AggregateGroup, null);
@@ -505,9 +533,13 @@ namespace CodeReason.Reports
 								foreach (ITableCellValue cv in tableCells)
 								{
 									IPropertyValue dv = cv as IPropertyValue;
-									if (dv == null)
-										continue;
-									dv.Value = "[" + dv.PropertyName + "]";
+									if (dv != null)
+										dv.Value = "[" + dv.PropertyName + "]";
+									else
+									{
+										IIndexValue iv = cv as IIndexValue;
+										iv.Value = "[" + iv.Index + "]";
+									}
 									IAggregateValue av = cv as IAggregateValue;
 									if (av != null)
 										RememberAggregateValue(_aggregateValues, av.AggregateGroup, null);

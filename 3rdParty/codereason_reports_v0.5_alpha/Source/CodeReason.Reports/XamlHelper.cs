@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Linq;
 using CodeReason.Reports.Document;
+using CodeReason.Reports.Providers;
 
 namespace CodeReason.Reports
 {
@@ -95,133 +96,14 @@ namespace CodeReason.Reports
 
 		public static TableRowGroup SimpleClone(TableRowGroup rowGroup)
 		{
-			var group = rowGroup is TableRowGroupForDataTable ? new TableRowGroupForDataTable() { TableName = ((TableRowGroupForDataTable)rowGroup).TableName } : new TableRowGroup();
-			CopyProperties(rowGroup, group);
-			foreach (var row in rowGroup.Rows)
-				group.Rows.Add(SimpleClone(row));
-			return group;
+			var provider = new TableProvider();
+			return provider.Clone(rowGroup, true);
 		}
 		public static TableRow SimpleClone(TableRow row)
 		{
-			var newRow = row is TableRowForDataTable ? new TableRowForDataTable() { TableName = ((TableRowForDataTable)row).TableName } : new TableRow();
-			CopyProperties(row, newRow);
-			foreach (var cell in row.Cells)
-				newRow.Cells.Add(SimpleClone(cell));
-			return newRow;
+			var provider = new TableProvider();
+			return provider.Clone(row, true);
 		}
-		private static TableCell SimpleClone(TableCell cell)
-		{
-			var newCell = new TableCell()
-			{
-				ColumnSpan = cell.ColumnSpan,
-				RowSpan = cell.RowSpan,
-				Padding = cell.Padding,
-				BorderBrush = cell.BorderBrush,
-				BorderThickness = cell.BorderThickness,
-				FontSize = cell.FontSize,
-				FontWeight = cell.FontWeight,
-				TextAlignment = cell.TextAlignment,
-			};
-			foreach (var block in cell.Blocks)
-				newCell.Blocks.Add(SimpleClone(block));
-			CopyProperties(cell, newCell);
-			return newCell;
-		}
-		private static Block SimpleClone(Block block)
-		{
-			var paragraph = block as Paragraph;
-			if (paragraph != null)
-			{
-				var newParagraph = new Paragraph()
-				{
-					FontSize = paragraph.FontSize,
-					FontWeight = paragraph.FontWeight,
-					Padding = paragraph.Padding,
-					Margin = paragraph.Margin,
-					TextAlignment = paragraph.TextAlignment,
-				};
-				foreach (var inline in paragraph.Inlines)
-					newParagraph.Inlines.Add(SimpleClone(inline));
-				return newParagraph;
-			}
-			throw new NotSupportedException();
-		}
-		private static Inline SimpleClone(Inline inline)
-		{
-			Inline newInline = null;
-			if (inline is InlineTableCellIndexValue)
-			{
-				var inlineValue = (InlineTableCellIndexValue)inline;
-				newInline = new InlineTableCellIndexValue()
-				{
-					AggregateGroup = inlineValue.AggregateGroup,
-					Index = inlineValue.Index,
-					Format = inlineValue.Format,
-				};
-			}
-			else if (inline is InlineTableCellValue)
-			{
-				var inlineValue = (InlineTableCellValue)inline;
-				newInline = new InlineTableCellValue()
-				{
-					AggregateGroup = inlineValue.AggregateGroup,
-					PropertyName = inlineValue.PropertyName,
-					Format = inlineValue.Format,
-				};
-			}
-			else if (inline is InlineAggregateValue)
-			{
-				var inlineValue = (InlineAggregateValue)inline;
-				newInline = new InlineAggregateValue()
-				{
-					AggregateGroup = inlineValue.AggregateGroup,
-					EmptyValue = inlineValue.EmptyValue,
-					ErrorValue = inlineValue.ErrorValue,
-					Format = inlineValue.Format,
-				};
-			}
-			else if (inline is InlineContextValue)
-			{
-				var inlineValue = (InlineContextValue)inline;
-				newInline = new InlineContextValue()
-				{
-					AggregateGroup = inlineValue.AggregateGroup,
-					Type = inlineValue.Type,
-					Format = inlineValue.Format,
-				};
-			}
-			else if (inline is InlineDocumentValue)
-			{
-				var inlineValue = (InlineDocumentValue)inline;
-				newInline = new InlineDocumentValue()
-				{
-					AggregateGroup = inlineValue.AggregateGroup,
-					PropertyName = inlineValue.PropertyName,
-					Format = inlineValue.Format,
-				};
-			}
-			else if (inline is Run)
-			{
-				var run = (Run)inline;
-				newInline = new Run()
-				{
-					Text = run.Text,
-					FontSize = run.FontSize,
-					FontWeight = run.FontWeight,
-				};
-			}
-			else if (inline is LineBreak)
-				newInline = new LineBreak();
-			if (newInline != null)
-			{
-				newInline.FontSize = inline.FontSize;
-				newInline.FontWeight = inline.FontWeight;
-				return newInline;
-			}
-			throw new NotSupportedException();
-		}
-		private static void CopyProperties(TextElement source, TextElement target)
-		{
-		}
+
 	}
 }

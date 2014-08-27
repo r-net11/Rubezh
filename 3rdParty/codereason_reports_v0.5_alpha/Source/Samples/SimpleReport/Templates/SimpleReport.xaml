@@ -3,6 +3,128 @@
 		<xrd:ReportProperties.ReportName>SimpleReport</xrd:ReportProperties.ReportName>
 		<xrd:ReportProperties.ReportTitle>Simple Report</xrd:ReportProperties.ReportTitle>
 	</xrd:ReportProperties>
+	<xrd:SplitTable BorderThickness="1" PageBreakAfter="true" PageBreakBefore="true" RowsOnFirstPage="2" RowsOnLatPage="2" RowsOnPage="3" TableFooterOnEachPage="False" TableHeaderOnEachPage="true" TableName="Ean">
+		<xrd:SplitTable.Columns>
+			<TableColumn Width="1*" />
+			<TableColumn Width="2*" />
+			<TableColumn Width="2*" />
+			<TableColumn Width="1*" />
+		</xrd:SplitTable.Columns>
+		<xrd:SplitTable.Header>
+			<Section>
+				<Paragraph>
+					<xrd:InlineDocumentValue PropertyName="Organization" />
+					There are
+					<xrd:InlineAggregateValue AggregateGroup="ItemCount" AggregateValueType="Count" EmptyValue="no" FontWeight="Bold" />
+					item positions with a total of
+					<xrd:InlineAggregateValue AggregateGroup="ItemCount" AggregateValueType="Sum" EmptyValue="0" FontWeight="Bold" />
+					items listed.
+				</Paragraph>
+			</Section>
+		</xrd:SplitTable.Header>
+		<xrd:SplitTable.HeaderRowGroup>
+			<TableRowGroup>
+				<TableRow>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<Bold>Pos.</Bold>
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<Bold>Item Name</Bold>
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<Bold>
+								EAN -
+								<xrd:InlineDocumentValue PropertyName="Organization" />
+							</Bold>
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<Bold>Count</Bold>
+						</Paragraph>
+					</TableCell>
+				</TableRow>
+			</TableRowGroup>
+		</xrd:SplitTable.HeaderRowGroup>
+		<xrd:SplitTable.ContentRowGroup>
+			<TableRowGroup>
+				<TableRow>
+					<TableCell ColumnSpan="2">
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Item" />
+						</Paragraph>
+					</TableCell>
+					<TableCell ColumnSpan="2">
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="EAN" />
+						</Paragraph>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell ColumnSpan="2">
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Position" />
+							/
+							<xrd:InlineTableCellIndexValue Index="0" />
+						</Paragraph>
+					</TableCell>
+					<TableCell ColumnSpan="2">
+						<Paragraph TextAlignment="Center">
+							<xrd:InlineDocumentValue PropertyName="Organization" />
+							/
+							<xrd:InlineTableCellValue PropertyName="Count" />
+						</Paragraph>
+					</TableCell>
+				</TableRow>
+			</TableRowGroup>
+		</xrd:SplitTable.ContentRowGroup>
+		<xrd:SplitTable.FooterRowGroup>
+			<TableRowGroup>
+				<TableRow>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<Bold>Pos. 2</Bold>
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<Bold>Item Name 2</Bold>
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<Bold>
+								EAN 2 -
+								<xrd:InlineDocumentValue PropertyName="Organization" />
+							</Bold>
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<Bold>Count 2</Bold>
+						</Paragraph>
+					</TableCell>
+				</TableRow>
+			</TableRowGroup>
+		</xrd:SplitTable.FooterRowGroup>
+		<xrd:SplitTable.Footer>
+			<Section>
+				<Paragraph>
+					<xrd:InlineDocumentValue PropertyName="Organization" />
+					There are
+					<xrd:InlineAggregateValue AggregateGroup="ItemCount" AggregateValueType="Count" EmptyValue="no" FontWeight="Bold" />
+					item positions with a total of
+					<xrd:InlineAggregateValue AggregateGroup="ItemCount" AggregateValueType="Sum" EmptyValue="0" FontWeight="Bold" />
+					items listed.
+				</Paragraph>
+			</Section>
+		</xrd:SplitTable.Footer>
+	</xrd:SplitTable>
 	<Section FontSize="12" Padding="80,10,40,10">
 		<Paragraph FontSize="24" FontWeight="Bold">
 			<xrd:InlineContextValue Type="ReportTitle" />
@@ -114,6 +236,8 @@
 						</TableCell>
 						<TableCell ColumnSpan="2">
 							<Paragraph TextAlignment="Center">
+								<xrd:InlineDocumentValue PropertyName="Organization" />
+								/
 								<xrd:InlineTableCellValue AggregateGroup="ItemCount2" PropertyName="Count" />
 							</Paragraph>
 						</TableCell>
@@ -145,34 +269,6 @@
 				of
 				<xrd:InlineContextValue FontWeight="Bold" Type="PageCount" />
 			</Paragraph>
-
-			<!--<ReportTable RowsOnPage="int" RowsOnFirstPage="int" MaxRowsOnLatPage="int" ForEachTable="bool"  TableName="string" BreakPageBefore="bool">
-				<ReportTable.Header>
-					<Section>
-						
-					</Section>
-				</ReportTable.Header>
-				<ReportTable.HeaderRowGroup ShowOnEachPage="bool">
-					<TableRowGroup>
-
-					</TableRowGroup>
-				</ReportTable.HeaderRowGroup>
-				<ReportTable.ContentRowGroup >
-					<TableRowGroup>
-
-					</TableRowGroup>
-				</ReportTable.ContentRowGroup>
-				<ReportTable.FooterRowGroup ShowOnEachPage="bool">
-					<TableRowGroup>
-						
-					</TableRowGroup>
-				</ReportTable.FooterRowGroup>
-				<ReportTable.Footer>
-					<Section>
-						
-					</Section>
-				</ReportTable.Footer>
-			</ReportTable>-->
 		</xrd:SectionDataGroup>
 	</Section>
 </FlowDocument>
