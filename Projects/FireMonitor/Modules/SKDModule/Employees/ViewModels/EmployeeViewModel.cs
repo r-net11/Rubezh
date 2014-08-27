@@ -1,104 +1,68 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
-using Infrastructure.Common.TreeList;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeViewModel : TreeNodeViewModel<EmployeeViewModel>
+	public class EmployeeViewModel : CartothequeTabItemElementBase<EmployeeViewModel, ShortEmployee>
 	{
-		public Organisation Organisation { get; private set; }
-		public bool IsOrganisation { get; private set; }
-		public ShortEmployee ShortEmployee { get; set; }
-		public string Name 
+		public string AppointedString
 		{
-			get 
-			{
-				if (IsOrganisation)
-					return Organisation.Name;
-				else
-					return ShortEmployee.LastName + " " + ShortEmployee.FirstName + " " + ShortEmployee.SecondName; 
-			} 
-		}
-		public string AppointedString 
-		{
-			get { return IsOrganisation? "" : ShortEmployee.Appointed; } 
+			get { return IsOrganisation ? "" : Model.Appointed; }
 		}
 		public string DepartmentName
 		{
-			get { return IsOrganisation ? "" : ShortEmployee.DepartmentName; }
-		} 
+			get { return IsOrganisation ? "" : Model.DepartmentName; }
+		}
 		public string PositionName
 		{
-			get { return IsOrganisation ? "" : ShortEmployee.PositionName; } 
+			get { return IsOrganisation ? "" : Model.PositionName; }
 		} 
 
-		public EmployeeViewModel(Organisation organisation)
+		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
-			Organisation = organisation;
-			IsOrganisation = true;
-			IsExpanded = true;
+			base.InitializeOrganisation(organisation, parentViewModel);
 		}
 
-		public EmployeeViewModel(Organisation organisation, ShortEmployee employee)
+		public ObservableCollection<string> AdditionalColumnValues 
+		{ 
+			get
+			{
+				var result = new ObservableCollection<string>();
+				if (this.IsOrganisation)
+					return result;
+				var additionalColumnTypes = (ParentViewModel as EmployeesViewModel).AdditionalColumnTypes;
+				foreach (var additionalColumnType in additionalColumnTypes)
+				{
+					var textColumn = Model.TextColumns.FirstOrDefault(x => x.ColumnTypeUID == additionalColumnType.UID);
+					var columnValue = textColumn != null ? textColumn.Text : "";
+					result.Add(columnValue);
+				}
+				return result;
+			}
+		}
+
+		public override void InitializeModel(Organisation organisation, ShortEmployee model, ViewPartViewModel parentViewModel)
 		{
-			Organisation = organisation;
-			ShortEmployee = employee;
-			IsOrganisation = false;
+			base.InitializeModel(organisation, model, parentViewModel);
 			AddCardCommand = new RelayCommand(OnAddCard);
 			SelectEmployeeCommand = new RelayCommand(OnSelectEmployee);
-			Initialize();
+			InitializeCards();
 		}
 
-		private void Initialize()
+		private void InitializeCards()
 		{
 			Cards = new ObservableCollection<EmployeeCardViewModel>();
-			foreach (var item in ShortEmployee.Cards)
+			foreach (var item in Model.Cards)
 				Cards.Add(new EmployeeCardViewModel(Organisation, this, item));
 			SelectedCard = Cards.FirstOrDefault();
 			Update();
 		}
-
-		public void Update(ShortEmployee employee, List<ShortAdditionalColumnType> additionalColumnTypes)
-		{
-			ShortEmployee = employee;
-			UpdateColumnValues(additionalColumnTypes);
-			Update();
-		}
-
-		public void Update(Organisation organisation)
-		{
-			Organisation = organisation;
-			IsOrganisation = true;
-			Update();
-		}
-
-		public void UpdateColumnValues(List<ShortAdditionalColumnType> additionalColumnTypes)
-		{
-			AdditionalColumnValues = new ObservableCollection<string>();
-			foreach (var additionalColumnType in additionalColumnTypes)
-			{
-				var textColumn = ShortEmployee.TextColumns.FirstOrDefault(x => x.ColumnTypeUID == additionalColumnType.UID);
-				var columnValue = textColumn != null ? textColumn.Text : "";
-				AdditionalColumnValues.Add(columnValue);
-			}
-		}
-
-		public void Update()
-		{
-			OnPropertyChanged(() => ShortEmployee);
-			OnPropertyChanged(() => Organisation);
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => DepartmentName);
-			OnPropertyChanged(() => PositionName);
-			OnPropertyChanged(() => AppointedString);
-			OnPropertyChanged(() => AdditionalColumnValues);
-		}
-
+		
 		public PhotoColumnViewModel Photo { get; private set; }
 
 		public void UpdatePhoto()
@@ -112,7 +76,7 @@ namespace SKDModule.ViewModels
 			}
 			else
 			{
-				var details = EmployeeHelper.GetDetails(ShortEmployee.UID);
+				var details = EmployeeHelper.GetDetails(Model.UID);
 				if (details != null)
 					photo = details.Photo;
 			}
@@ -120,7 +84,14 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => Photo);
 		}
 
-		public ObservableCollection<string> AdditionalColumnValues { get; set; }
+		public override void Update()
+		{
+			base.Update();
+			OnPropertyChanged(() => DepartmentName);
+			OnPropertyChanged(() => PositionName);
+			OnPropertyChanged(() => AppointedString);
+			OnPropertyChanged(() => AdditionalColumnValues);
+		}
 
 		#region Cards
 		public ObservableCollection<EmployeeCardViewModel> Cards { get; private set; }
@@ -148,7 +119,7 @@ namespace SKDModule.ViewModels
 			if (DialogService.ShowModalWindow(cardDetailsViewModel))
 			{
 				var card = cardDetailsViewModel.Card;
-				card.HolderUID = ShortEmployee.UID;
+				card.HolderUID = Model.UID;
 				var saveResult = CardHelper.Add(card);
 				if (!saveResult)
 					return;

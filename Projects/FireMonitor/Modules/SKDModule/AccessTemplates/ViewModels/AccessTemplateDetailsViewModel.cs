@@ -2,7 +2,6 @@
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Common.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -14,7 +13,7 @@ namespace SKDModule.ViewModels
 
 		public AccessTemplateDetailsViewModel() {  }
 		
-		public void Initialize(Organisation orgnaisation, AccessTemplate accessTemplate)
+		public void Initialize(Organisation orgnaisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
 		{
 			Organisation = orgnaisation;
 			if (accessTemplate == null)

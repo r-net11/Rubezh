@@ -25,8 +25,19 @@ namespace FiresecAPI.SKD
 		public Guid UID { get; set; }
 	}
 
-    public interface IWithName
-    {
-        string Name { get; set; }
-    }
+	public interface IWithName
+	{
+		string Name { get; set; }
+	}
+
+    public interface IWithOrganisationUID
+	{
+        Guid OrganisationUID { get; set; }
+	}
+
+    public interface IWithUID
+	{
+		Guid UID { get; }
+	}
+    
 }

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class ShortEmployee
+    public class ShortEmployee : IWithName, IWithOrganisationUID, IWithUID
 	{
 		[DataMember]
 		public Guid UID { get; set; }
@@ -38,8 +38,14 @@ namespace FiresecAPI.SKD
 		public string Appointed { get; set; }
 
 		[DataMember]
-		public Guid? OrganisationUID { get; set; }
-	}
+		public Guid OrganisationUID { get; set; }
+
+        public string Name
+        {
+            get { return LastName + " " + FirstName + " " + SecondName; }
+            set { return; }
+        }
+    }
 
 	public class TextColumn
 	{

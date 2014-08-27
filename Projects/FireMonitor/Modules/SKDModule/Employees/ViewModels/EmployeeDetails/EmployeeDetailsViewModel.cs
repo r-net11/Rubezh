@@ -11,12 +11,14 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel
+	public class EmployeeDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortEmployee>
 	{
 		Organisation _organisation;
 		HRViewModel _hrViewModel;
 		
-		public EmployeeDetailsViewModel(PersonType personType, Organisation orgnaisation, HRViewModel hrViewModel, ShortEmployee employee = null)
+		public EmployeeDetailsViewModel() {	}
+
+		public void Initialize(Organisation orgnaisation, ShortEmployee employee, ViewPartViewModel parentViewModel)
 		{
 			SelectDepartmentCommand = new RelayCommand(OnSelectDepartment);
 			RemoveDepartmentCommand = new RelayCommand(OnRemoveDepartment);
@@ -35,8 +37,9 @@ namespace SKDModule.ViewModels
 			RemoveScheduleCommand = new RelayCommand(OnRemoveSchedule);
 
 			_organisation = orgnaisation;
-			_hrViewModel = hrViewModel;
-			IsEmployee = personType == PersonType.Employee;
+			var employeesViewModel = (parentViewModel as EmployeesViewModel);
+			_hrViewModel = employeesViewModel.HRViewModel;
+			IsEmployee = employeesViewModel.PersonType == PersonType.Employee;
 			if (employee == null)
 			{
 				Employee = new Employee();
@@ -115,7 +118,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public Employee Employee { get; private set; }
-		public ShortEmployee ShortEmployee
+		public ShortEmployee Model
 		{
 			get
 			{

@@ -71,6 +71,7 @@
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZonesViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZoneViewModel.cs" />
     <Compile Include="Common\ViewModels\CartothequeTabItemBase.cs" />
+    <Compile Include="Common\ViewModels\CartothequeTabItemCopyPasteBase.cs" />
     <Compile Include="Common\ViewModels\CartothequeTabItemElementBase.cs" />
     <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Common\ViewModels\IDetailsViewModel.cs" />

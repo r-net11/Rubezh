@@ -4,22 +4,23 @@
 	<UserControl.Resources>
 		<viewModel:EmployeeViewModelLastNameComparer x:Key="EmployeeViewModelLastNameComparer" />
 	</UserControl.Resources>
-
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" MinHeight="200" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" MinHeight="200" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" SelectedTreeNode="{Binding SelectedEmployee}" Source="{Binding Organisations}" Loaded="treeList_Loaded">
+		<tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" Loaded="treeList_Loaded">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Header="ФИО" Width="200" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelLastNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Source="/Controls;component/Images/Organisation.png" Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
-									<Image Width="16" Source="/Controls;component/Images/Employee.png" Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="1 0" />
+									<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0" 
+										   Visibility="{Binding IsOrganisation, Converter={StaticResource BoolToVisibilityConverter}}" />
+									<Image Width="16" Source="/Controls;component/Images/Employee.png" VerticalAlignment="Center" Margin="1 0" 
+										   Visibility="{Binding IsOrganisation, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
 									<TextBlock Text="{Binding Name}" />
 								</StackPanel>
 							</DataTemplate>
@@ -32,7 +33,7 @@
 		</tree:TreeList>
 		<GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeNS" />
 		<Grid Grid.Row="2" Visibility="{Binding IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-			<Grid DataContext="{Binding SelectedEmployee}">
+			<Grid DataContext="{Binding SelectedItem}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" MinWidth="150" />
 					<ColumnDefinition Width="Auto" />
@@ -105,38 +106,31 @@
 							<ColumnDefinition Width ="*" />
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
-
 							<StackPanel Grid.Column="0" Margin="5">
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Width="100" Margin="2" Text="Имя" />
-									<TextBlock Margin="2" Text="{Binding ShortEmployee.FirstName}" />
+									<TextBlock Margin="2" Text="{Binding Model.FirstName}" />
 								</StackPanel>
-
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Width="100" Margin="2" Text="Фамилия" />
-									<TextBlock Margin="2" Text="{Binding ShortEmployee.SecondName}" />
+									<TextBlock Margin="2" Text="{Binding Model.SecondName}" />
 								</StackPanel>
-
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Width="100" Margin="2" Text="Отчество" />
-									<TextBlock Margin="2" Text="{Binding ShortEmployee.LastName}" />
+									<TextBlock Margin="2" Text="{Binding Model.LastName}" />
 								</StackPanel>
-
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Width="100" Margin="2" Text="Отдел" />
 									<TextBlock Margin="2" Text="{Binding DepartmentName}" />
 								</StackPanel>
-
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Width="100" Margin="2" Text="Должность" />
 									<TextBlock Margin="2" Text="{Binding PositionName}" />
 								</StackPanel>
 							</StackPanel>
-					
 							<Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" />
 					</Grid>
 				</Border>
-
 				<Grid Grid.Column="2" Visibility="{Binding IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 					<Grid DataContext="{Binding SelectedCard}">
 						<Views:CardDoorsView Grid.Row="1" DataContext="{Binding CardDoorsViewModel}" />

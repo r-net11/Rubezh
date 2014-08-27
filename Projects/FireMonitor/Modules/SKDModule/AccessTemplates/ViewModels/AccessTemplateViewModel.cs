@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.SKD;
-using SKDModule.Common.ViewModels;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
@@ -8,20 +8,20 @@ namespace SKDModule.ViewModels
 	{
 		public CardDoorsViewModel CardDoorsViewModel { get; private set; }
 
-		public override void InitializeOrganisation(Organisation organisation)
+        public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
-			base.InitializeOrganisation(organisation);
+			base.InitializeOrganisation(organisation, parentViewModel);
 			CardDoorsViewModel = new CardDoorsViewModel(new List<CardDoor>());
 		}
 
-		public override void InitializeModel(Organisation organisation, AccessTemplate accessTemplate)
+        public override void InitializeModel(Organisation organisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
 		{
-			base.InitializeModel(organisation, accessTemplate);
+			base.InitializeModel(organisation, accessTemplate, parentViewModel);
 			Description = accessTemplate.Description;
 			CardDoorsViewModel = new CardDoorsViewModel(accessTemplate.CardDoors);
 		}
 
-		public override void Update(AccessTemplate accessTemplate)
+        public override void Update(AccessTemplate accessTemplate)
 		{
 			Description = accessTemplate.Description;
 			CardDoorsViewModel.Update(accessTemplate.CardDoors);

@@ -96,7 +96,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand PrintCommand { get; private set; }
 		void OnPrint()
 		{
-			var passCardViewModel = new PassCardViewModel(EmployeeViewModel.ShortEmployee.UID, Card);
+			var passCardViewModel = new PassCardViewModel(EmployeeViewModel.Model.UID, Card);
 			DialogService.ShowModalWindow(passCardViewModel);
 		}
 

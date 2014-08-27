@@ -9,26 +9,20 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Common;
-using SKDModule.Common.ViewModels;
 using SKDModule.Events;
 
 namespace SKDModule.ViewModels
 {
     public abstract class CartothequeTabItemBase<ModelT, FilterT, ViewModelT, DetailsViewModelT> : ViewPartViewModel
         where ViewModelT : CartothequeTabItemElementBase<ViewModelT, ModelT>, new()
-        where ModelT : OrganisationElementBase, IWithName, new()
+        where ModelT : class, IWithOrganisationUID, IWithUID, IWithName, new()
         where DetailsViewModelT : SaveCancelDialogViewModel, IDetailsViewModel<ModelT>, new()
     {
-        protected ModelT _clipboard;
-
         public CartothequeTabItemBase()
         {
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
             EditCommand = new RelayCommand(OnEdit, CanEdit);
-            CopyCommand = new RelayCommand(OnCopy, CanCopy);
-            PasteCommand = new RelayCommand(OnPaste, CanPaste);
             ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
             ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
             ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
@@ -38,13 +32,12 @@ namespace SKDModule.ViewModels
         protected abstract IEnumerable<ModelT> GetModels(FilterT filter);
         protected abstract IEnumerable<ModelT> GetModelsByOrganisation(Guid organisauinUID);
         protected abstract bool MarkDeleted(Guid uid);
-        protected abstract bool Save(ModelT item);
-
+        
         protected ModelT ShowDetails(Organisation organisation, ModelT model = null)
         {
             ModelT result = null;
             var detailsViewModel = new DetailsViewModelT();
-            detailsViewModel.Initialize(SelectedItem.Organisation, SelectedItem.Model);
+            detailsViewModel.Initialize(SelectedItem.Organisation, model, this);
             if (DialogService.ShowModalWindow(detailsViewModel))
             {
                 result = detailsViewModel.Model;
@@ -52,30 +45,7 @@ namespace SKDModule.ViewModels
             return result;
         }
 
-        protected void OnAdd()
-        {
-            var model = ShowDetails(SelectedItem.Organisation);
-            if (model == null)
-                return;
-            var itemViewModel = new ViewModelT();
-            itemViewModel.InitializeModel(SelectedItem.Organisation, model);
-            ViewModelT organisationViewModel = SelectedItem;
-            if (!organisationViewModel.IsOrganisation)
-                organisationViewModel = SelectedItem.Parent;
-            if (organisationViewModel == null || organisationViewModel.Organisation == null)
-                return;
-            organisationViewModel.AddChild(itemViewModel);
-            SelectedItem = itemViewModel;
-        }
-
-        protected void OnEdit()
-        {
-            var model = ShowDetails(SelectedItem.Organisation);
-            if (model != null)
-                SelectedItem.Update(model);
-        }
-
-        public void Initialize(FilterT filter)
+        public virtual void Initialize(FilterT filter)
         {
             var organisations = OrganisationHelper.GetByCurrentUser();
             if (organisations == null)
@@ -87,7 +57,7 @@ namespace SKDModule.ViewModels
             foreach (var organisation in organisations)
             {
                 var organisationViewModel = new ViewModelT();
-                organisationViewModel.InitializeOrganisation(organisation);
+                organisationViewModel.InitializeOrganisation(organisation, this);
                 Organisations.Add(organisationViewModel);
                 if (models != null)
                 {
@@ -96,7 +66,7 @@ namespace SKDModule.ViewModels
                         if (model.OrganisationUID == organisation.UID)
                         {
                             var itemViewModel = new ViewModelT();
-                            itemViewModel.InitializeModel(organisation, model);
+                            itemViewModel.InitializeModel(organisation, model, this);
                             organisationViewModel.AddChild(itemViewModel);
                         }
                     }
@@ -105,7 +75,7 @@ namespace SKDModule.ViewModels
             OnPropertyChanged(() => Organisations);
             SelectedItem = Organisations.FirstOrDefault();
         }
-
+        
         void OnEditOrganisation(Organisation newOrganisation)
         {
             var organisation = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
@@ -121,7 +91,7 @@ namespace SKDModule.ViewModels
             if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
             {
                 var organisationViewModel = new ViewModelT();
-                organisationViewModel.InitializeOrganisation(newOrganisation);
+                organisationViewModel.InitializeOrganisation(newOrganisation, this);
                 Organisations.Add(organisationViewModel);
                 var models = GetModelsByOrganisation(newOrganisation.UID);
                 if (models == null)
@@ -129,7 +99,7 @@ namespace SKDModule.ViewModels
                 foreach (var model in models)
                 {
                     var itemViewModel = new ViewModelT();
-                    itemViewModel.InitializeModel(newOrganisation, model);
+                    itemViewModel.InitializeModel(newOrganisation, model, this);
                     organisationViewModel.AddChild(itemViewModel);
                 }
                 OnPropertyChanged(() => Organisations);
@@ -157,8 +127,11 @@ namespace SKDModule.ViewModels
                 if (value != null)
                     value.ExpandToThis();
                 OnPropertyChanged(() => SelectedItem);
+                UpdateSelected();
             }
         }
+
+        protected virtual void UpdateSelected() { }
 
         public ViewModelT ParentOrganisation
         {
@@ -176,7 +149,21 @@ namespace SKDModule.ViewModels
         }
 
         public RelayCommand AddCommand { get; private set; }
-
+        protected void OnAdd()
+        {
+            var model = ShowDetails(SelectedItem.Organisation);
+            if (model == null)
+                return;
+            var itemViewModel = new ViewModelT();
+            itemViewModel.InitializeModel(SelectedItem.Organisation, model, this);
+            ViewModelT organisationViewModel = SelectedItem;
+            if (!organisationViewModel.IsOrganisation)
+                organisationViewModel = SelectedItem.Parent;
+            if (organisationViewModel == null || organisationViewModel.Organisation == null)
+                return;
+            organisationViewModel.AddChild(itemViewModel);
+            SelectedItem = itemViewModel;
+        }
         bool CanAdd()
         {
             return SelectedItem != null;
@@ -210,47 +197,15 @@ namespace SKDModule.ViewModels
         }
 
         public RelayCommand EditCommand { get; private set; }
+        protected void OnEdit()
+        {
+            var model = ShowDetails(SelectedItem.Organisation, SelectedItem.Model);
+            if (model != null)
+                SelectedItem.Update(model);
+        }
         bool CanEdit()
         {
             return SelectedItem != null && SelectedItem.Parent != null && !SelectedItem.IsOrganisation;
-        }
-
-        public RelayCommand CopyCommand { get; private set; }
-        void OnCopy()
-        {
-            _clipboard = CopyModel(SelectedItem.Model, false);
-        }
-        bool CanCopy()
-        {
-            return SelectedItem != null && !SelectedItem.IsOrganisation;
-        }
-
-        public RelayCommand PasteCommand { get; private set; }
-        void OnPaste()
-        {
-            if (ParentOrganisation != null)
-            {
-                var newAccessTemplate = CopyModel(_clipboard);
-                if (Save(newAccessTemplate))
-                {
-                    var accessTemplateViewModel = new ViewModelT();
-                    accessTemplateViewModel.InitializeModel(SelectedItem.Organisation, newAccessTemplate);
-                    ParentOrganisation.AddChild(accessTemplateViewModel);
-                    SelectedItem = accessTemplateViewModel;
-                }
-            }
-        }
-        bool CanPaste()
-        {
-            return SelectedItem != null && _clipboard != null && ParentOrganisation != null && ParentOrganisation.Organisation.UID == _clipboard.OrganisationUID;
-        }
-
-        protected virtual ModelT CopyModel(ModelT source, bool newName = true)
-        {
-            var copy = new ModelT();
-            copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
-            copy.OrganisationUID = ParentOrganisation.Organisation.UID;
-            return copy;
         }
     }
 }
