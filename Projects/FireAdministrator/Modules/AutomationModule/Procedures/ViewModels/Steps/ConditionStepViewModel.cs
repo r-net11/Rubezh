@@ -182,6 +182,7 @@ namespace AutomationModule.ViewModels
 		{
 			Condition = condition;
 			Procedure = procedure;
+			UpdateDescriptionHandler = updateDescriptionHandler;
 			var variablesAndArguments = new List<Variable>(Procedure.Variables);
 			variablesAndArguments.AddRange(Procedure.Arguments);
 			var variableTypes = new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable };
