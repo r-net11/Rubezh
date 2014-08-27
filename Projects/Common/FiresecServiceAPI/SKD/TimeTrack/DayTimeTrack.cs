@@ -25,6 +25,9 @@ namespace FiresecAPI.SKD
 		}
 
 		[DataMember]
+		public string Error { get; set; }
+
+		[DataMember]
 		public DateTime Date { get; set; }
 
 		[DataMember]
@@ -71,9 +74,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public NightSettings NightSettings { get; set; }
-
-		[DataMember]
-		public string Error { get; set; }
 
 		public TimeTrackType TimeTrackType { get; set; }
 		public string LetterCode { get; set; }
@@ -238,17 +238,33 @@ namespace FiresecAPI.SKD
 
 					if (PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && !PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) && RealTimeTrackParts.Any(x => x.StartTime == timeTrackPart.EndTime))
 					{
-						if (timeTrackPart.Delta > AllowedLate)
+						var firstPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.StartTime == timeTrackPart.StartTime);
+						if (firstPlannedTimeTrack.StartsInPreviousDay)
 						{
-							timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
+							timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
+						}
+						else
+						{
+							if (timeTrackPart.Delta > AllowedLate)
+							{
+								timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
+							}
 						}
 					}
 
 					if (!PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) && RealTimeTrackParts.Any(x => x.EndTime == timeTrackPart.StartTime))
 					{
-						if (timeTrackPart.Delta > AllowedEarlyLeave)
+						var lastPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.EndTime == timeTrackPart.EndTime);
+						if (lastPlannedTimeTrack.EndsInNextDay)
 						{
-							timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
+							timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
+						}
+						else
+						{
+							if (timeTrackPart.Delta > AllowedEarlyLeave)
+							{
+								timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
+							}
 						}
 					}
 				}
@@ -446,6 +462,8 @@ namespace FiresecAPI.SKD
 						StartTime = startTimeSpan,
 						EndTime = endTimeSpan,
 						ZoneUID = timeTrackPart.ZoneUID,
+						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
+						EndsInNextDay = timeTrackPart.EndsInNextDay,
 						TimeTrackPartType = timeTrackPart.TimeTrackPartType
 					};
 					result.Add(newTimeTrackPart);

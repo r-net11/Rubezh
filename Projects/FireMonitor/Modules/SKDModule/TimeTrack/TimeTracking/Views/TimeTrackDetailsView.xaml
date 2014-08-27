@@ -122,7 +122,7 @@
                         <DataTemplate>
                             <Grid Height="25" Margin="30 0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="200" />
                                     <ColumnDefinition Width="50" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>

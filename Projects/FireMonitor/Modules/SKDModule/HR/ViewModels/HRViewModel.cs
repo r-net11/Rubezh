@@ -167,6 +167,8 @@ namespace SKDModule.ViewModels
 		void InitializeFilters()
 		{
 			EmployeeFilter = Filter.EmployeeFilter;
+			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 		}

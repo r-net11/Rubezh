@@ -53,7 +53,7 @@
 				<TableRow>
 					<TableCell BorderThickness="0" ColumnSpan="2">
 						<Paragraph>
-							<xrd:InlineDocumentValue PropertyName="Organization" />
+							<xrd:InlineDocumentValue PropertyName="Organisation" />
 						</Paragraph>
 					</TableCell>
 					<TableCell BorderThickness="0" Padding="0,3,3,0" TextAlignment="Right">

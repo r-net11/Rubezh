@@ -104,8 +104,8 @@ namespace SKDModule.Reports
 				data.ReportDocumentValues.Add("HRPosition", ReportModel.HRPosition);
 				data.ReportDocumentValues.Add("LeadPosition", ReportModel.LeadPosition);
 
-				data.ReportDocumentValues.Add("Organization", ReportModel.OrganizationName);
-				//data.ReportDocumentValues.Add("Department", ReportModel.DepartmentName);
+				data.ReportDocumentValues.Add("Organisation", ReportModel.OrganisationName);
+				data.ReportDocumentValues.Add("Department", ReportModel.DepartmentName);
 
 				return data;
 			}
@@ -118,7 +118,7 @@ namespace SKDModule.Reports
 			{
 				var values = new List<string>()
 				{
-					GetValue( employee.No),
+					employee.No.ToString(),
 					employee.EmployeeFIO,
 					GetValue(employee.TabelNo),
 					GetValue(employee.FirstHalfDaysCount),
@@ -171,9 +171,9 @@ namespace SKDModule.Reports
 			}
 		}
 
-		private string GetValue(int? val)
+		private string GetValue(int val)
 		{
-			return val.HasValue ? val.Value.ToString() : null;
+			return val> 0 ? val.ToString() : null;
 		}
 		private string GetValue(TimeSpan val)
 		{

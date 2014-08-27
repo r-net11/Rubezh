@@ -4,6 +4,7 @@
 	{
 		System,
 		Controller,
+		ChinaController_1_1,
 		ChinaController_1_2,
 		ChinaController_2_2,
 		ChinaController_2_4,

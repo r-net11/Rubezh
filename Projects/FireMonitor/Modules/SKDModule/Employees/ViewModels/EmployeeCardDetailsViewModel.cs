@@ -209,6 +209,7 @@ namespace SKDModule.ViewModels
 			{
 				_useStopList = value;
 				OnPropertyChanged(() => UseStopList);
+				Number = 0;
 				UpdateStopListCard();
 			}
 		}
@@ -348,7 +349,7 @@ namespace SKDModule.ViewModels
 			}
 			if(Number <= 0)
 			{
-				MessageBoxService.ShowWarning("Номер карты должен быто положительным числом");
+				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 - " + Int32.MaxValue.ToString());
 				return false;
 			}
 

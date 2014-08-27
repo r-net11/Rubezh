@@ -13,11 +13,11 @@
       <FeatureRef Id="SDK.Features" />
 
       <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Программа установит компопненты необходимые для работы криптопроцессора HASP"
-        Display="expand" AllowAdvertise="no" Absent='allow' InstallDefault="local">
+        Display="hidden" AllowAdvertise="no" Absent='allow' InstallDefault="local">
         <Condition Level="2">INSTALL_HASP</Condition>
       </Feature>
 
-      <Feature Id="GK.Features" Title="ГК" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
+      <Feature Id="GK.Features" Title="ГК" Display="hidden" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Группового Контроллера">
         <Condition Level="2">INSTALL_GK</Condition>
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
@@ -27,7 +27,7 @@
         <ComponentRef Id="Administrator.SKD_MODULE" />
         <ComponentRef Id="Monitor.SKD_MODULE" />
       </Feature>
-      <Feature Id="Video.Features" Title="Видео" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео. Необходимы компоненты VLC">
+      <Feature Id="Video.Features" Title="Видео" Display="hidden" AllowAdvertise="no" Absent="allow" InstallDefault="local" Description="Программа установит компопненты для работы Видео. Необходимы компоненты VLC">
         <Condition Level="2">INSTALL_VIDEO</Condition>
         <ComponentRef Id="Administrator.VIDEO_MODULE" />
         <ComponentRef Id="Monitor.VIDEO_MODULE" />

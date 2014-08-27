@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -120,7 +121,19 @@ namespace SKDModule.Views
 					var endTimePart = new TimePart();
 					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = true;
-					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime);
+
+					var zoneName = "";
+					var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+					if (zone != null)
+					{
+						zoneName = zone.Name;
+					}
+					else
+					{
+						zoneName = "<Нет в конфигурации>";
+					}
+					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + zoneName;
+
 					endTimePart.TimeTrackType = TimeTrackType.Presence;
 					timeParts.Add(endTimePart);
 
@@ -153,7 +166,7 @@ namespace SKDModule.Views
 					var endTimePart = new TimePart();
 					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = true;
-					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime);
+					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.DayName;
 					endTimePart.TimeTrackType = TimeTrackType.Presence;
 					timeParts.Add(endTimePart);
 

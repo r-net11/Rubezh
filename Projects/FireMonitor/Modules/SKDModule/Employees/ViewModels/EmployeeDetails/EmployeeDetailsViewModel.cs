@@ -89,6 +89,7 @@ namespace SKDModule.ViewModels
 				ScheduleStartDate = Employee.ScheduleStartDate;
 				Appointed = Employee.Appointed;
 				CredentialsStartDate = Employee.CredentialsStartDate;
+				TabelNo = Employee.TabelNo;
 			}
 			else
 			{
@@ -317,6 +318,20 @@ namespace SKDModule.ViewModels
 		public string CredentialsStartDateString
 		{
 			get { return CredentialsStartDate.ToString("dd/MM/yyyy"); }
+		}
+
+		int _tabelNo;
+		public int TabelNo
+		{
+			get { return _tabelNo; }
+			set
+			{
+				if (_tabelNo != value)
+				{
+					_tabelNo = value;
+					OnPropertyChanged(() => TabelNo);
+				}
+			}
 		}
 
 		public EmployeeGuardZonesViewModel EmployeeGuardZones { get; private set; }
@@ -718,6 +733,7 @@ namespace SKDModule.ViewModels
 				Employee.ScheduleStartDate = ScheduleStartDate;
 				Employee.Appointed = Appointed;
 				Employee.CredentialsStartDate = CredentialsStartDate;
+				Employee.TabelNo = TabelNo;
 			}
 			else
 			{

@@ -158,8 +158,7 @@ namespace SKDModule.ViewModels
 					TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
 					foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
 					{
-						var timeTrackViewModel = new TimeTrackViewModel(TimeTrackFilter, timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks);
-						timeTrackViewModel.DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
+						var timeTrackViewModel = new TimeTrackViewModel(TimeTrackFilter, timeTrackEmployeeResult);
 						TimeTracks.Add(timeTrackViewModel);
 					}
 

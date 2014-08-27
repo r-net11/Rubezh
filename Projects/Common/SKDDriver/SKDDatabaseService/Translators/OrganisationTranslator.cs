@@ -116,7 +116,6 @@ namespace SKDDriver
 				return new OperationResult<OrganisationDetails>(e.Message);
 			}
 		}
-			
 
 		public OperationResult SaveDoors(Organisation apiItem)
 		{

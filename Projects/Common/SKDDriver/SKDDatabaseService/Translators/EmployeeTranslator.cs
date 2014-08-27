@@ -113,7 +113,7 @@ namespace SKDDriver
 				Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID),
 				Type = (PersonType)tableItem.Type,
 				Appointed = tableItem.Appointed.ToString("d MMM yyyy"),
-				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty,
+				TabelNo = tableItem.TabelNo,
 				TextColumns = AdditionalColumnTranslator.GetTextColumns(tableItem.UID)
 			};
 			var position = Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);

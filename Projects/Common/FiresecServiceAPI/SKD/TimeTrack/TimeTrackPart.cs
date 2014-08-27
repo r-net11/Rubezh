@@ -30,6 +30,15 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public List<TimeTrackDocumentType> TimeTrackDocumentTypes { get; set; }
 
+		[DataMember]
+		public bool StartsInPreviousDay { get; set; }
+
+		[DataMember]
+		public bool EndsInNextDay { get; set; }
+
+		[DataMember]
+		public string DayName { get; set; }
+
 		public TimeSpan Delta
 		{
 			get { return EndTime - StartTime; }

@@ -45,6 +45,9 @@ namespace FiresecAPI.SKD
 		public ShortEmployee ShortEmployee { get; set; }
 
 		[DataMember]
+		public string ScheduleName { get; set; }
+
+		[DataMember]
 		public List<DayTimeTrack> DayTimeTracks { get; set; }
 
 		[DataMember]

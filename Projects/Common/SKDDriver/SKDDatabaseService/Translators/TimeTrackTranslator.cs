@@ -190,9 +190,11 @@ namespace SKDDriver.Translators
 			var nightSettings = SKDDatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
 
 			var timeTrackEmployeeResult = new TimeTrackEmployeeResult();
+			timeTrackEmployeeResult.ScheduleName = schedule.Name;
+
 			for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
 			{
-				var dayTimeTrack = GetTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date);
+				var dayTimeTrack = GetRealTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date);
 				dayTimeTrack.NightSettings = nightSettings;
 				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
@@ -268,6 +270,8 @@ namespace SKDDriver.Translators
 								nightTimeTrackPart = new TimeTrackPart();
 								nightTimeTrackPart.StartTime = new TimeSpan();
 								nightTimeTrackPart.EndTime = new TimeSpan(Math.BigMul(nightInterval.EndTime - 60 * 60 * 24, 10000000));
+								nightTimeTrackPart.StartsInPreviousDay = true;
+								nightTimeTrackPart.DayName = previousDayInterval.Name;
 							}
 						}
 					}
@@ -304,6 +308,9 @@ namespace SKDDriver.Translators
 					var timeTrackPart = new TimeTrackPart();
 					timeTrackPart.StartTime = new TimeSpan(Math.BigMul(tableInterval.BeginTime, 10000000));
 					timeTrackPart.EndTime = new TimeSpan(Math.BigMul(Math.Min(tableInterval.EndTime, 60 * 60 * 24 - 1), 10000000));
+					if (tableInterval.EndTime > 60 * 60 * 24)
+						timeTrackPart.EndsInNextDay = true;
+					timeTrackPart.DayName = dayInterval.Name;
 					result.TimeTrackParts.Add(timeTrackPart);
 				}
 				if (nightTimeTrackPart != null)
@@ -332,7 +339,7 @@ namespace SKDDriver.Translators
 			return result;
 		}
 
-		DayTimeTrack GetTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date)
+		DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date)
 		{
 			var dayTimeTrack = new DayTimeTrack();
 			dayTimeTrack.EmployeeUID = employee.UID;
