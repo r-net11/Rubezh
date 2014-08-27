@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Model;
-using System.Diagnostics;
-using Infrastructure;
-using Infrastructure.Events.Reports;
-using SKDModule.Reports;
-using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
@@ -107,8 +104,8 @@ namespace SKDModule.ViewModels
 			var departmentNames = new HashSet<string>();
 			foreach (var timeTrack in TimeTracks)
 			{
-				if (timeTrack.ShortEmployee.OrganisationUID.HasValue)
-					organisationUIDs.Add(timeTrack.ShortEmployee.OrganisationUID.Value);
+				if (timeTrack.ShortEmployee.OrganisationUID != Guid.Empty)
+					organisationUIDs.Add(timeTrack.ShortEmployee.OrganisationUID);
 
 				if (string.IsNullOrEmpty(timeTrack.ShortEmployee.DepartmentName))
 				{
