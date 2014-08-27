@@ -5,18 +5,19 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class IncrementGlobalValueArguments
+	public class IncrementValueArguments
 	{
-		public IncrementGlobalValueArguments()
+		public IncrementValueArguments()
 		{
 			Uid = Guid.NewGuid();
+			Variable1 = new ArithmeticParameter();
 		}
 
 		[DataMember]
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public Guid GlobalVariableUid { get; set; }
+		public ArithmeticParameter Variable1 { get; set; }
 
 		[DataMember]
 		public IncrementType IncrementType { get; set; }

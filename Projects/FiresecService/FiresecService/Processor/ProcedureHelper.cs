@@ -77,25 +77,25 @@ namespace FiresecService.Processor
 				resultVariable.StringValues.Add(stringPropertyValue);
 		}
 
-		public static AutomationCallbackResult SendMessage(ProcedureStep procedureStep, Procedure procedure)
+		public static AutomationCallbackResult ShowMessage(ProcedureStep procedureStep, Procedure procedure)
 		{
 			var automationCallbackResult = new AutomationCallbackResult();
-			var sendMessageArguments = procedureStep.SendMessageArguments;
-			if (sendMessageArguments.VariableType == VariableType.IsValue)
-				automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
-			if (sendMessageArguments.VariableType == VariableType.IsLocalVariable)
-			{
-				var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid) ??
-					procedure.Arguments.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid);
-				if (localVariable != null)
-					automationCallbackResult.Message = localVariable.CurrentValue;
-			}
-			if (sendMessageArguments.VariableType == VariableType.IsGlobalVariable)
-			{
-				var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == sendMessageArguments.GlobalVariableUid);
-				if (globalVariable != null)
-					automationCallbackResult.Message = globalVariable.CurrentValue;
-			}
+			//var sendMessageArguments = procedureStep.SendMessageArguments;
+			//if (sendMessageArguments.VariableType == VariableType.IsValue)
+			//    automationCallbackResult.Message = procedureStep.SendMessageArguments.Message;
+			//if (sendMessageArguments.VariableType == VariableType.IsLocalVariable)
+			//{
+			//    var localVariable = procedure.Variables.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid) ??
+			//        procedure.Arguments.FirstOrDefault(x => x.Uid == sendMessageArguments.VariableUid);
+			//    if (localVariable != null)
+			//        automationCallbackResult.Message = localVariable.CurrentValue;
+			//}
+			//if (sendMessageArguments.VariableType == VariableType.IsGlobalVariable)
+			//{
+			//    var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault(x => x.Uid == sendMessageArguments.GlobalVariableUid);
+			//    if (globalVariable != null)
+			//        automationCallbackResult.Message = globalVariable.CurrentValue;
+			//}
 			return automationCallbackResult;
 		}
 
@@ -486,24 +486,24 @@ namespace FiresecService.Processor
 				return; // TODO
 		}
 
-		public static void IncrementGlobalValue(ProcedureStep procedureStep)
+		public static void IncrementValue(ProcedureStep procedureStep)
 		{
-			var incrementGlobalValueArguments = procedureStep.IncrementGlobalValueArguments;
+			var incrementValueArguments = procedureStep.IncrementValueArguments;
 			var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault
-				(x => x.Uid == incrementGlobalValueArguments.GlobalVariableUid);
+				(x => x.Uid == incrementValueArguments.Variable1.VariableUid);
 			if (globalVariable == null)
 				return;
-			globalVariable.IntValue = incrementGlobalValueArguments.IncrementType == IncrementType.Inc ? globalVariable.IntValue + 1 : globalVariable.IntValue - 1;
+			globalVariable.IntValue = incrementValueArguments.IncrementType == IncrementType.Inc ? globalVariable.IntValue + 1 : globalVariable.IntValue - 1;
 		}
 
-		public static void SetGlobalValue(ProcedureStep procedureStep)
+		public static void SetValue(ProcedureStep procedureStep)
 		{
-			var setGlobalValueArguments = procedureStep.SetGlobalValueArguments;
+			var setValueArguments = procedureStep.SetValueArguments;
 			var globalVariable = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.GlobalVariables.FirstOrDefault
-				(x => x.Uid == setGlobalValueArguments.GlobalVariableUid);
+				(x => x.Uid == setValueArguments.Result.VariableUid);
 			if (globalVariable == null)
 				return;
-			globalVariable.IntValue = setGlobalValueArguments.Value;
+			//globalVariable.IntValue = setValueArguments.Value;
 		}
 	}
 }

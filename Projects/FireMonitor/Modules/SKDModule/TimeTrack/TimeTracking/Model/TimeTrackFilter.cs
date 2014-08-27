@@ -3,6 +3,7 @@ using FiresecAPI.Models;
 using FiresecAPI.SKD;
 using FiresecClient;
 using System;
+using System.Collections.Generic;
 
 namespace SKDModule.Model
 {
@@ -16,6 +17,7 @@ namespace SKDModule.Model
 			var hasGuestPermission = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests);
 			EmployeeFilter.PersonType = hasGuestPermission && !hasEmployeePermission ? PersonType.Guest : PersonType.Employee;
 			Period = TimeTrackingPeriod.CurrentMonth;
+			TotalTimeTrackTypeFilters = new List<TimeTrackType>();
 		}
 
 		[DataMember]
@@ -26,17 +28,6 @@ namespace SKDModule.Model
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
 
-		public bool IsTotal { get; set; }
-		public bool IsTotalMissed { get; set; }
-		public bool IsTotalInSchedule { get; set; }
-		public bool IsTotalOvertime { get; set; }
-		public bool IsTotalLate { get; set; }
-		public bool IsTotalEarlyLeave { get; set; }
-		public bool IsTotalPlanned { get; set; }
-		public bool IsTotalEavening { get; set; }
-		public bool IsTotalNight { get; set; }
-		public bool IsTotal_DocumentOvertime { get; set; }
-		public bool IsTotal_DocumentPresence { get; set; }
-		public bool IsTotal_DocumentAbsence { get; set; }
+		public List<TimeTrackType> TotalTimeTrackTypeFilters { get; set; }
 	}
 }

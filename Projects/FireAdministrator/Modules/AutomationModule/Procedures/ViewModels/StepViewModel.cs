@@ -22,8 +22,8 @@ namespace AutomationModule.ViewModels
 					Content = new SoundStepViewModel(step.SoundArguments, Update);
 					break;
 
-				case ProcedureStepType.SendMessage:
-					Content = new SendMessageStepViewModel(step.SendMessageArguments, procedure, Update);
+				case ProcedureStepType.ShowMessage:
+					Content = new ShowMessageStepViewModel(step.ShowMessageArguments, procedure, Update);
 					break;
 
 				case ProcedureStepType.GetString:
@@ -39,7 +39,7 @@ namespace AutomationModule.ViewModels
 					break;
 
 				case ProcedureStepType.AddJournalItem:
-					Content = new JournalStepViewModel(step.JournalArguments, Update);
+					Content = new JournalStepViewModel(step.JournalArguments, Update, procedure);
 					break;
 
 				case ProcedureStepType.FindObjects:
@@ -66,12 +66,12 @@ namespace AutomationModule.ViewModels
 					Content = new PersonInspectionStepViewModel(step.PersonInspectionArguments, procedure);
 					break;
 				
-				case ProcedureStepType.SetGlobalValue:
-					Content = new SetGlobalValueStepViewModel(step.SetGlobalValueArguments);
+				case ProcedureStepType.SetValue:
+					Content = new SetValueStepViewModel(step.SetValueArguments, procedure);
 					break;
 				
-				case ProcedureStepType.IncrementGlobalValue:
-					Content = new IncrementGlobalValueStepViewModel(step.IncrementGlobalValueArguments);
+				case ProcedureStepType.IncrementValue:
+					Content = new IncrementValueStepViewModel(step.IncrementValueArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlGKDevice:

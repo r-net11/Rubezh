@@ -6,54 +6,54 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class HolidaySettingsViewModel : SaveCancelDialogViewModel
+	public class NightSettingsViewModel : SaveCancelDialogViewModel
 	{
-		HolidaySettings HolidaySettings;
+		NightSettings NightSettings;
 		
-		public HolidaySettingsViewModel(Guid organisationUID)
+		public NightSettingsViewModel(Guid organisationUID)
 		{
 			Title = "Настройки вечерних и ночных интервалов";
-			HolidaySettings = HolidaySettingsHelper.GetByOrganisation(organisationUID);
-			if (HolidaySettings == null)
-				HolidaySettings = new HolidaySettings { OrganisationUID = organisationUID };
+			NightSettings = NightSettingsHelper.GetByOrganisation(organisationUID);
+			if (NightSettings == null)
+				NightSettings = new NightSettings { OrganisationUID = organisationUID };
 		}
 
 		public TimeSpan EveningStartTime
 		{
-			get { return HolidaySettings.EveningStartTime; }
+			get { return NightSettings.EveningStartTime; }
 			set
 			{
-				HolidaySettings.EveningStartTime = value;
+				NightSettings.EveningStartTime = value;
 				OnPropertyChanged(() => EveningStartTime);
 			}
 		}
 
 		public TimeSpan EveningEndTime
 		{
-			get { return HolidaySettings.EveningEndTime; }
+			get { return NightSettings.EveningEndTime; }
 			set
 			{
-				HolidaySettings.EveningEndTime = value;
+				NightSettings.EveningEndTime = value;
 				OnPropertyChanged(() => EveningEndTime);
 			}
 		}
 
 		public TimeSpan NightStartTime
 		{
-			get { return HolidaySettings.NightStartTime; }
+			get { return NightSettings.NightStartTime; }
 			set
 			{
-				HolidaySettings.NightStartTime = value;
+				NightSettings.NightStartTime = value;
 				OnPropertyChanged(() => NightStartTime);
 			}
 		}
 
 		public TimeSpan NightEndTime
 		{
-			get { return HolidaySettings.NightEndTime; }
+			get { return NightSettings.NightEndTime; }
 			set
 			{
-				HolidaySettings.NightEndTime = value;
+				NightSettings.NightEndTime = value;
 				OnPropertyChanged(() => NightEndTime);
 			}
 		}
@@ -75,7 +75,7 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Начало ночного времени должно быть больше конца вечернего");
 				return false;
 			}
-			return HolidaySettingsHelper.Save(HolidaySettings);
+			return NightSettingsHelper.Save(NightSettings);
 		}
 	}
 }

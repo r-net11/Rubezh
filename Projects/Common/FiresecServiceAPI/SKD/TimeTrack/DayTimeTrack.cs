@@ -15,6 +15,7 @@ namespace FiresecAPI.SKD
 			DocumentTrackParts = new List<TimeTrackPart>();
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			Documents = new List<TimeTrackDocument>();
+			Totals = new List<TimeTrackTotal>();
 		}
 
 		public DayTimeTrack(string error)
@@ -27,10 +28,10 @@ namespace FiresecAPI.SKD
 		public DateTime Date { get; set; }
 
 		[DataMember]
-		public ShortEmployee ShortEmployee { get; set; }
+		public Guid EmployeeUID { get; set; }
 
 		[DataMember]
-		public Guid EmployeeUID { get; set; }
+		public ShortEmployee ShortEmployee { get; set; }
 
 		[DataMember]
 		public List<TimeTrackPart> PlannedTimeTrackParts { get; set; }
@@ -66,42 +67,38 @@ namespace FiresecAPI.SKD
 		public int HolidayReduction { get; set; }
 
 		[DataMember]
-		public TimeTrackType TimeTrackType { get; set; }
-
-		[DataMember]
 		public List<TimeTrackDocument> Documents { get; set; }
 
 		[DataMember]
-		public HolidaySettings HolidaySettings { get; set; }
+		public NightSettings NightSettings { get; set; }
 
 		[DataMember]
 		public string Error { get; set; }
 
+		public TimeTrackType TimeTrackType { get; set; }
+		public string LetterCode { get; set; }
+		public string Tooltip { get; set; }
+		public List<TimeTrackTotal> Totals { get; set; }
 
-		public TimeSpan FirstReal { get; set; }
-		public TimeSpan LastReal { get; set; }
-		public TimeSpan FirstPlanned { get; set; }
-		public TimeSpan LastPlanned { get; set; }
+		public void Calculate()
+		{
+			CalculateDocuments();
 
-		public TimeSpan Total { get; set; }
-		public TimeSpan TotalMissed { get; set; }
-		public TimeSpan TotalInSchedule { get; set; }
-		public TimeSpan TotalOvertime { get; set; }
-		public TimeSpan TotalLate { get; set; }
-		public TimeSpan TotalEarlyLeave { get; set; }
-		public TimeSpan TotalPlanned { get; set; }
+			PlannedTimeTrackParts = NormalizeTimeTrackParts(PlannedTimeTrackParts);
+			RealTimeTrackParts = NormalizeTimeTrackParts(RealTimeTrackParts);
 
-		public TimeSpan TotalEavening { get; set; }
-		public TimeSpan TotalNight { get; set; }
-		public TimeSpan Total_DocumentOvertime { get; set; }
-		public TimeSpan Total_DocumentPresence { get; set; }
-		public TimeSpan Total_DocumentAbsence { get; set; }
+			CalculateCombinedTimeTrackParts();
+			CalculateTotal();
+			CalculateLetterCode();
+		}
 
 		void CalculateDocuments()
 		{
 			DocumentTrackParts = new List<TimeTrackPart>();
 			foreach (var document in Documents)
 			{
+				document.TimeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
+
 				TimeTrackPart timeTrackPart = null;
 				if (document.StartDateTime.Date < Date && document.EndDateTime.Date > Date)
 				{
@@ -129,7 +126,7 @@ namespace FiresecAPI.SKD
 				}
 				if (timeTrackPart != null)
 				{
-					timeTrackPart.DocumentCode = document.DocumentCode;
+					timeTrackPart.MinTimeTrackDocumentType = document.TimeTrackDocumentType;
 					DocumentTrackParts.Add(timeTrackPart);
 				}
 			}
@@ -159,45 +156,28 @@ namespace FiresecAPI.SKD
 					};
 					foreach (var timeTrackPart in timeTrackParts)
 					{
-						newTimeTrackPart.DocumentCode = timeTrackPart.DocumentCode;
-						newTimeTrackPart.DocumentCodes.Add(timeTrackPart.DocumentCode);
+						if (newTimeTrackPart.MinTimeTrackDocumentType == null)
+							newTimeTrackPart.MinTimeTrackDocumentType = timeTrackPart.MinTimeTrackDocumentType;
+						else if (timeTrackPart.MinTimeTrackDocumentType.DocumentType < newTimeTrackPart.MinTimeTrackDocumentType.DocumentType)
+							newTimeTrackPart.MinTimeTrackDocumentType = timeTrackPart.MinTimeTrackDocumentType;
+						newTimeTrackPart.TimeTrackDocumentTypes.Add(timeTrackPart.MinTimeTrackDocumentType);
 					}
+
 					result.Add(newTimeTrackPart);
 				}
 			}
 			DocumentTrackParts = result;
 		}
 
-		public void Calculate()
-		{
-			CalculateDocuments();
-
-			PlannedTimeTrackParts = NormalizeTimeTrackParts(PlannedTimeTrackParts);
-			RealTimeTrackParts = NormalizeTimeTrackParts(RealTimeTrackParts);
-
-			CalculateCombinedTimeTrackParts();
-			CalculateTotal();
-
-			TotalEavening = new TimeSpan();
-			TotalNight = new TimeSpan();
-			if (HolidaySettings != null)
-			{
-				TotalEavening = CalculateEveningTime(HolidaySettings.EveningStartTime, HolidaySettings.EveningEndTime);
-				TotalNight = CalculateEveningTime(HolidaySettings.NightStartTime, HolidaySettings.NightEndTime);
-			}
-		}
-
 		void CalculateCombinedTimeTrackParts()
 		{
-			if (RealTimeTrackParts.Count > 0)
-			{
-				FirstReal = RealTimeTrackParts.FirstOrDefault().StartTime;
-				LastReal = RealTimeTrackParts.LastOrDefault().EndTime;
-			}
+			var firstPlanned = new TimeSpan();
+			var lastPlanned = new TimeSpan();
+
 			if (PlannedTimeTrackParts.Count > 0)
 			{
-				FirstPlanned = PlannedTimeTrackParts.FirstOrDefault().StartTime;
-				LastPlanned = PlannedTimeTrackParts.LastOrDefault().EndTime;
+				firstPlanned = PlannedTimeTrackParts.FirstOrDefault().StartTime;
+				lastPlanned = PlannedTimeTrackParts.LastOrDefault().EndTime;
 			}
 
 			var combinedTimeSpans = new List<TimeSpan>();
@@ -218,12 +198,6 @@ namespace FiresecAPI.SKD
 			}
 			combinedTimeSpans.Sort();
 
-			TotalPlanned = new TimeSpan();
-			foreach (var timeTrackPart in RealTimeTrackParts)
-			{
-				TotalPlanned += timeTrackPart.Delta;
-			}
-
 			CombinedTimeTrackParts = new List<TimeTrackPart>();
 			for (int i = 0; i < combinedTimeSpans.Count - 1; i++)
 			{
@@ -241,73 +215,64 @@ namespace FiresecAPI.SKD
 
 				if (hasRealTimeTrack && hasPlannedTimeTrack)
 				{
-					timeTrackPart.TimeTrackPartType = TimeTrackPartType.AsPlanned;
+					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
 				}
 				if (!hasRealTimeTrack && !hasPlannedTimeTrack)
 				{
-					timeTrackPart.TimeTrackPartType = TimeTrackPartType.None;
+					timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 				}
 				if (hasRealTimeTrack && !hasPlannedTimeTrack)
 				{
-					timeTrackPart.TimeTrackPartType = TimeTrackPartType.Overtime;
-					if (timeTrackPart.StartTime > FirstPlanned && timeTrackPart.EndTime < LastPlanned)
-						timeTrackPart.TimeTrackPartType = TimeTrackPartType.InBrerak;
+					timeTrackPart.TimeTrackPartType = TimeTrackType.Overtime;
+					if (timeTrackPart.StartTime > firstPlanned && timeTrackPart.EndTime < lastPlanned)
+						timeTrackPart.TimeTrackPartType = TimeTrackType.PresenceInBrerak;
 				}
 				if (!hasRealTimeTrack && hasPlannedTimeTrack)
 				{
-					timeTrackPart.TimeTrackPartType = TimeTrackPartType.PlanedOnly;
+					timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
 
-					if (RealTimeTrackParts.Any(x => x.StartTime < startTime) && IsOnlyFirstEnter)
+					if (RealTimeTrackParts.Any(x => x.StartTime <= startTime && x.EndTime >= endTime) && IsOnlyFirstEnter)
 					{
-						timeTrackPart.TimeTrackPartType = TimeTrackPartType.MissedButInsidePlan;
+						timeTrackPart.TimeTrackPartType = TimeTrackType.AbsenceInsidePlan;
 					}
 
-					if (timeTrackPart.StartTime == FirstPlanned && timeTrackPart.EndTime < LastPlanned && !PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime))
+					if (PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && !PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) && RealTimeTrackParts.Any(x => x.StartTime == timeTrackPart.EndTime))
 					{
 						if (timeTrackPart.Delta > AllowedLate)
 						{
-							timeTrackPart.TimeTrackPartType = TimeTrackPartType.Late;
+							timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
 						}
 					}
 
-					if (timeTrackPart.EndTime == LastPlanned && timeTrackPart.StartTime > FirstPlanned && !PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime))
+					if (!PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) && RealTimeTrackParts.Any(x => x.EndTime == timeTrackPart.StartTime))
 					{
 						if (timeTrackPart.Delta > AllowedEarlyLeave)
 						{
-							timeTrackPart.TimeTrackPartType = TimeTrackPartType.EarlyLeave;
+							timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
 						}
 					}
 				}
 				if (documentTimeTrack != null)
 				{
-					var documentType = DocumentType.Absence;
-					foreach (var documentCode in documentTimeTrack.DocumentCodes)
-					{
-						var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == documentCode);
-						if (timeTrackDocumentType != null)
-						{
-							if (timeTrackDocumentType.DocumentType < documentType)
-								documentType = timeTrackDocumentType.DocumentType;
-						}
-					}
-
+					var documentType = documentTimeTrack.MinTimeTrackDocumentType.DocumentType;
+					timeTrackPart.MinTimeTrackDocumentType = documentTimeTrack.MinTimeTrackDocumentType;
 					if (documentType == DocumentType.Overtime)
 					{
-						timeTrackPart.TimeTrackPartType = TimeTrackPartType.DocumentOvertime;
+						timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentOvertime;
 					}
 					if (documentType == DocumentType.Presence)
 					{
 						if (hasPlannedTimeTrack)
-							timeTrackPart.TimeTrackPartType = TimeTrackPartType.DocumentPresence;
+							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentPresence;
 						else
-							timeTrackPart.TimeTrackPartType = TimeTrackPartType.None;
+							timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 					}
 					if (documentType == DocumentType.Absence)
 					{
 						if (hasRealTimeTrack || hasPlannedTimeTrack)
-							timeTrackPart.TimeTrackPartType = TimeTrackPartType.DocumentAbsence;
+							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsence;
 						else
-							timeTrackPart.TimeTrackPartType = TimeTrackPartType.None;
+							timeTrackPart.TimeTrackPartType = TimeTrackType.None;
 					}
 				}
 			}
@@ -315,129 +280,116 @@ namespace FiresecAPI.SKD
 
 		void CalculateTotal()
 		{
-			Total = new TimeSpan();
-			TotalInSchedule = new TimeSpan();
-			TotalMissed = new TimeSpan();
-			TotalLate = new TimeSpan();
-			TotalEarlyLeave = new TimeSpan();
-			TotalOvertime = new TimeSpan();
-			TotalEavening = new TimeSpan();
-			TotalNight = new TimeSpan();
-			Total_DocumentOvertime = new TimeSpan();
-			Total_DocumentPresence = new TimeSpan();
-			Total_DocumentAbsence = new TimeSpan();
+			Totals = new List<TimeTrackTotal>();
+			var totalBalance = new TimeTrackTotal(TimeTrackType.Balance);
+			Totals.Add(totalBalance);
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Presence));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Absence));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.AbsenceInsidePlan));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.PresenceInBrerak));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Late));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.EarlyLeave));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.Overtime));
+			var totalNight = new TimeTrackTotal(TimeTrackType.Night);
+			Totals.Add(totalNight);
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentOvertime));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentPresence));
+			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentAbsence));
 
 			foreach (var timeTrack in CombinedTimeTrackParts)
 			{
-				if (timeTrack.TimeTrackPartType == TimeTrackPartType.AsPlanned || timeTrack.TimeTrackPartType == TimeTrackPartType.Overtime || timeTrack.TimeTrackPartType == TimeTrackPartType.MissedButInsidePlan)
+				var timeTrackTotal = Totals.FirstOrDefault(x => x.TimeTrackType == timeTrack.TimeTrackPartType);
+				if (timeTrackTotal != null)
 				{
-					Total += timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackPartType.AsPlanned || timeTrack.TimeTrackPartType == TimeTrackPartType.MissedButInsidePlan)
-				{
-					TotalInSchedule += timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackPartType.PlanedOnly)
-				{
-					TotalMissed = timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackPartType.Late)
-				{
-					TotalLate = timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackPartType.EarlyLeave)
-				{
-					TotalEarlyLeave = timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackPartType.Overtime)
-				{
-					TotalOvertime += timeTrack.Delta;
+					if (IsHoliday)
+					{
+						switch (timeTrack.TimeTrackPartType)
+						{
+							case SKD.TimeTrackType.Absence:
+							case SKD.TimeTrackType.Late:
+							case SKD.TimeTrackType.EarlyLeave:
+							case SKD.TimeTrackType.DocumentAbsence:
+								continue;
+						}
+					}
+
+					timeTrackTotal.TimeSpan += timeTrack.Delta;
 				}
 
-				if (timeTrack.TimeTrackPartType == TimeTrackPartType.DocumentOvertime)
+				switch(timeTrack.TimeTrackPartType)
 				{
-					Total_DocumentOvertime += timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackPartType.DocumentPresence)
-				{
-					Total_DocumentPresence += timeTrack.Delta;
-				}
-				if (timeTrack.TimeTrackPartType == TimeTrackPartType.DocumentAbsence)
-				{
-					Total_DocumentAbsence += timeTrack.Delta;
+					case SKD.TimeTrackType.DocumentOvertime:
+					case SKD.TimeTrackType.DocumentPresence:
+						totalBalance.TimeSpan += timeTrack.Delta;
+						break;
+
+					case SKD.TimeTrackType.Absence:
+					case SKD.TimeTrackType.Late:
+					case SKD.TimeTrackType.EarlyLeave:
+					case SKD.TimeTrackType.DocumentAbsence:
+						totalBalance.TimeSpan -= timeTrack.Delta;
+						break;
 				}
 			}
 
 			if (SlideTime.TotalSeconds > 0)
 			{
-				if (Total > SlideTime)
-				{
-					TotalInSchedule = SlideTime;
-					TotalOvertime = Total - SlideTime;
-				}
+				if (PlannedTimeTrackParts.Count > 0)
+					totalBalance.TimeSpan = -TimeSpan.FromSeconds(SlideTime.TotalSeconds);
 				else
+					totalBalance.TimeSpan = new TimeSpan();
+				foreach (var realTimeTrackPart in RealTimeTrackParts)
 				{
-					TotalInSchedule = Total;
-					TotalOvertime = new TimeSpan();
-				}	
+					totalBalance.TimeSpan += realTimeTrackPart.Delta;
+				}
 			}
 
-			if (IsHoliday)
+			var totalEaveningTimeSpan = new TimeSpan();
+			if (NightSettings != null)
 			{
-				TotalInSchedule = new TimeSpan();
-				TotalMissed = new TimeSpan();
-				TotalLate = new TimeSpan();
-				TotalEarlyLeave = new TimeSpan();
-				TotalOvertime = new TimeSpan();
+				totalEaveningTimeSpan = CalculateEveningTime(NightSettings.EveningStartTime, NightSettings.EveningEndTime);
+				totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
 			}
 
-			//if (Documents != null && Documents.Count > 0)
-			//{
-			//    Total = TotalPlanned;
-			//    TotalInSchedule = TotalPlanned;
-			//    TotalMissed = new TimeSpan();
-			//    TotalLate = new TimeSpan();
-			//    TotalEarlyLeave = new TimeSpan();
-			//    TotalOvertime = new TimeSpan();
-			//}
 			TimeTrackType = CalculateTimeTrackType();
 		}
 
 		TimeTrackType CalculateTimeTrackType()
 		{
 			if (!string.IsNullOrEmpty(Error))
-			{
 				return TimeTrackType.None;
-			}
-			if (Documents != null && Documents.Count > 0)
+
+			var longestTimeTrackType = TimeTrackType.Presence;
+			var longestTimeSpan = new TimeSpan();
+			foreach (var total in Totals)
 			{
-				return TimeTrackType.Document;
+				switch(total.TimeTrackType)
+				{
+					case TimeTrackType.Absence:
+					case TimeTrackType.Late:
+					case TimeTrackType.EarlyLeave:
+					case TimeTrackType.Overtime:
+					case TimeTrackType.Night:
+					case TimeTrackType.DocumentOvertime:
+					case TimeTrackType.DocumentPresence:
+					case TimeTrackType.DocumentAbsence:
+						if (total.TimeSpan > longestTimeSpan)
+						{
+							longestTimeTrackType = total.TimeTrackType;
+							longestTimeSpan = total.TimeSpan;
+						}
+						break;
+				}
 			}
-			if (IsHoliday)
+			if (longestTimeTrackType == TimeTrackType.Presence)
 			{
-				return TimeTrackType.Holiday;
+				if (IsHoliday)
+					return TimeTrackType.Holiday;
+
+				if (PlannedTimeTrackParts.Count == 0)
+					return TimeTrackType.DayOff;
 			}
-			if (PlannedTimeTrackParts.Count == 0)
-			{
-				return TimeTrackType.DayOff;
-			}
-			if (Total.TotalSeconds == 0)
-			{
-				return TimeTrackType.Missed;
-			}
-			if (TotalLate.TotalSeconds > 0)
-			{
-				return TimeTrackType.Late;
-			}
-			if (TotalEarlyLeave.TotalSeconds > 0)
-			{
-				return TimeTrackType.EarlyLeave;
-			}
-			if (TotalOvertime.TotalSeconds > 0)
-			{
-				return TimeTrackType.Overtime;
-			}
-			return TimeTrackType.AsPlanned;
+			return longestTimeTrackType;
 		}
 
 		TimeSpan CalculateEveningTime(TimeSpan start, TimeSpan end)
@@ -481,7 +433,7 @@ namespace FiresecAPI.SKD
 			}
 			timeSpans = timeSpans.OrderBy(x => x.TotalSeconds).ToList();
 
-			for (int i = 0; i < timeSpans.Count - 1; i ++)
+			for (int i = 0; i < timeSpans.Count - 1; i++)
 			{
 				var startTimeSpan = timeSpans[i];
 				var endTimeSpan = timeSpans[i + 1];
@@ -509,6 +461,66 @@ namespace FiresecAPI.SKD
 				}
 			}
 			return result;
+		}
+
+		void CalculateLetterCode()
+		{
+			Tooltip = TimeTrackType.ToDescription();
+
+			switch (TimeTrackType)
+			{
+				case TimeTrackType.None:
+					LetterCode = "";
+					break;
+
+				case TimeTrackType.Presence:
+					LetterCode = "Я";
+					break;
+
+				case TimeTrackType.Absence:
+					LetterCode = "НН";
+					break;
+
+				case TimeTrackType.Late:
+					LetterCode = "ОП";
+					break;
+
+				case TimeTrackType.EarlyLeave:
+					LetterCode = "УР";
+					break;
+
+				case TimeTrackType.Overtime:
+					LetterCode = "С";
+					break;
+
+				case TimeTrackType.Night:
+					LetterCode = "Н";
+					break;
+
+				case TimeTrackType.DayOff:
+					LetterCode = "В";
+					break;
+
+				case TimeTrackType.Holiday:
+					LetterCode = "В";
+					break;
+
+				case TimeTrackType.DocumentOvertime:
+				case TimeTrackType.DocumentPresence:
+				case TimeTrackType.DocumentAbsence:
+					var tmieTrackPart = CombinedTimeTrackParts.FirstOrDefault(x => x.TimeTrackPartType == TimeTrackType);
+					if (tmieTrackPart != null && tmieTrackPart.MinTimeTrackDocumentType != null)
+					{
+						LetterCode = tmieTrackPart.MinTimeTrackDocumentType.ShortName;
+						Tooltip = tmieTrackPart.MinTimeTrackDocumentType.Name;
+					}
+					break;
+
+				default:
+					LetterCode = "";
+					Tooltip = "";
+					break;
+			}
 		}
 	}
 }

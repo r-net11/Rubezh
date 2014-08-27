@@ -151,7 +151,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_stateTypes = value;
-				OnPropertyChanged("StateTypes");
+				OnPropertyChanged(() => StateTypes);
 			}
 		}
 
@@ -164,7 +164,7 @@ namespace GKModule.ViewModels
 				if (!StateTypes.Contains(value))
 					value = StateTypes.FirstOrDefault();
 				_selectedStateType = value;
-				OnPropertyChanged("SelectedStateType");
+				OnPropertyChanged(() => SelectedStateType);
 			}
 		}
 
@@ -251,7 +251,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Zones = zonesSelectationViewModel.Zones;
-				OnPropertyChanged("PresenrationZones");
+				OnPropertyChanged(() => PresenrationZones);
 			}
 		}
 

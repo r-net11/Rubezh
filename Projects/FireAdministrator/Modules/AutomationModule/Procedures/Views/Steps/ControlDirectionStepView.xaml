@@ -5,7 +5,9 @@
 		<StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Направление: " VerticalAlignment="Top" Margin="2"/>
-				<TextBlock Margin="20,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
+				<Image Width="16" Height="16" Margin="0, 5, 5, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Controls;component/Images/Blue_Direction.png"
+					   Visibility="{Binding Path= SelectedDirection, Converter={StaticResource NullToVisibilityConverter}}"/>
+				<TextBlock Margin="0,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
 				<Hyperlink Command="{Binding SelectDirectionCommand}" Style="{StaticResource HyperlinkStyle}" >
 					<TextBlock Text="{Binding SelectedDirection.Direction.PresentationName}" Visibility="{Binding Path= SelectedDirection, Converter={StaticResource NullToVisibilityConverter}}"/>
 					<TextBlock Text="Нажмите для выбора направления" >

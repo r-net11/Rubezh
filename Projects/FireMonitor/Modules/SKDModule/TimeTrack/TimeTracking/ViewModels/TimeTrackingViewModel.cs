@@ -11,15 +11,21 @@ using System.Diagnostics;
 using Infrastructure;
 using Infrastructure.Events.Reports;
 using SKDModule.Reports;
+using System.Collections.Generic;
 
 namespace SKDModule.ViewModels
 {
 	public class TimeTrackingViewModel : ViewPartViewModel
 	{
 		TimeTrackFilter TimeTrackFilter;
+		List<TimeTrackEmployeeResult> TimeTrackEmployeeResults;
 
 		public TimeTrackingViewModel()
 		{
+			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			RefreshCommand = new RelayCommand(OnRefresh);
+			PrintCommand = new RelayCommand(OnPrint, CanPrint);
+
 			TimeTrackFilter = new TimeTrackFilter();
 			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
 			{
@@ -29,10 +35,6 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter.Period = TimeTrackingPeriod.CurrentMonth;
 			TimeTrackFilter.StartDate = DateTime.Today.AddDays(1 - DateTime.Today.Day);
 			TimeTrackFilter.EndDate = DateTime.Today;
-
-			ShowFilterCommand = new RelayCommand(OnShowFilter);
-			RefreshCommand = new RelayCommand(OnRefresh);
-			PrintCommand = new RelayCommand(OnPrint, CanPrint);
 
 			UpdateGrid();
 		}
@@ -94,11 +96,47 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand PrintCommand { get; private set; }
-		private void OnPrint()
+		void OnPrint()
 		{
-			ServiceFactory.Events.GetEvent<PrintReportPreviewEvent>().Publish(new T13Report(MessageBoxService.ShowConfirmation2("Печать отчет в пейзажном формате?")));
+			if (TimeTracks.Count == 0)
+			{
+				MessageBoxService.ShowWarning("В отчете нет ни одного сотрудника");
+				return;
+			}
+			var organisationUIDs = new HashSet<Guid>();
+			var departmentNames = new HashSet<string>();
+			foreach (var timeTrack in TimeTracks)
+			{
+				if (timeTrack.ShortEmployee.OrganisationUID.HasValue)
+					organisationUIDs.Add(timeTrack.ShortEmployee.OrganisationUID.Value);
+
+				if (string.IsNullOrEmpty(timeTrack.ShortEmployee.DepartmentName))
+				{
+					MessageBoxService.ShowWarning("Сотрудник " + timeTrack.ShortEmployee.FIO + " не относится ни к одному отделу");
+					return;
+				}
+				departmentNames.Add(timeTrack.ShortEmployee.DepartmentName);
+			}
+			if (organisationUIDs.Count > 1)
+			{
+				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одной организации");
+				return;
+			}
+			if (departmentNames.Count > 1)
+			{
+				MessageBoxService.ShowWarning("В отчете должны дыть сотрудники только из одного отдела");
+				return;
+			}
+
+			if (TimeTrackFilter.StartDate.Date.Month < TimeTrackFilter.EndDate.Date.Month || TimeTrackFilter.StartDate.Date.Year < TimeTrackFilter.EndDate.Date.Year)
+			{
+				MessageBoxService.ShowWarning("В отчете содержаться данные за несколько месяцев. Будут показаны данные только за первый месяц");
+			}
+
+			var reportSettingsViewModel = new ReportSettingsViewModel(TimeTrackFilter, TimeTrackEmployeeResults);
+			DialogService.ShowModalWindow(reportSettingsViewModel);
 		}
-		private bool CanPrint()
+		bool CanPrint()
 		{
 			return ApplicationService.IsReportEnabled;
 		}
@@ -107,13 +145,21 @@ namespace SKDModule.ViewModels
 		{
 			using (new WaitWrapper())
 			{
+				var employeeUID = Guid.Empty;
+				if (SelectedTimeTrack != null)
+				{
+					employeeUID = SelectedTimeTrack.ShortEmployee.UID;
+				}
+
 				TotalDays = (int)(TimeTrackFilter.EndDate - TimeTrackFilter.StartDate).TotalDays + 1;
 				FirstDay = TimeTrackFilter.StartDate;
+
 				TimeTracks = new ObservableCollection<TimeTrackViewModel>();
 				var timeTrackResult = EmployeeHelper.GetTimeTracks(TimeTrackFilter.EmployeeFilter, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
 				if (timeTrackResult != null)
 				{
-					foreach (var timeTrackEmployeeResult in timeTrackResult.TimeTrackEmployeeResults)
+					TimeTrackEmployeeResults = timeTrackResult.TimeTrackEmployeeResults;
+					foreach (var timeTrackEmployeeResult in TimeTrackEmployeeResults)
 					{
 						var timeTrackViewModel = new TimeTrackViewModel(TimeTrackFilter, timeTrackEmployeeResult.ShortEmployee, timeTrackEmployeeResult.DayTimeTracks);
 						timeTrackViewModel.DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult, TimeTrackFilter.StartDate, TimeTrackFilter.EndDate);
@@ -122,23 +168,13 @@ namespace SKDModule.ViewModels
 
 					RowHeight = 60 + 20 * GetVisibleFilterRorsCount();
 				}
+				SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID);
 			}
 		}
 
 		int GetVisibleFilterRorsCount()
 		{
-			return (TimeTrackFilter.IsTotal ? 1 : 0) +
-				(TimeTrackFilter.IsTotalMissed ? 1 : 0) +
-				(TimeTrackFilter.IsTotalInSchedule ? 1 : 0) +
-				(TimeTrackFilter.IsTotalOvertime ? 1 : 0) +
-				(TimeTrackFilter.IsTotalLate ? 1 : 0) +
-				(TimeTrackFilter.IsTotalEarlyLeave ? 1 : 0) +
-				(TimeTrackFilter.IsTotalPlanned ? 1 : 0) +
-				(TimeTrackFilter.IsTotalEavening ? 1 : 0) +
-				(TimeTrackFilter.IsTotalNight ? 1 : 0) +
-				(TimeTrackFilter.IsTotal_DocumentOvertime ? 1 : 0) +
-				(TimeTrackFilter.IsTotal_DocumentPresence ? 1 : 0) +
-				(TimeTrackFilter.IsTotal_DocumentAbsence ? 1 : 0);
+			return TimeTrackFilter.TotalTimeTrackTypeFilters.Count();
 		}
 	}
 }

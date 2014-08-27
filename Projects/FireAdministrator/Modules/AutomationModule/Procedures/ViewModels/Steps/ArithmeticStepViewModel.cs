@@ -43,29 +43,12 @@ namespace AutomationModule.ViewModels
 		public void UpdateContent()
 		{
 			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
-			allVariables = allVariables.FindAll(x => !x.IsList);
+			allVariables = allVariables.FindAll(x => !x.IsList && x.ValueType == SelectedArithmeticValueType);
 			var allVariables2 = new List<Variable>(allVariables);
-
-			if (SelectedArithmeticValueType == ValueType.Boolean)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Boolean);
-				allVariables2 = allVariables2.FindAll(x => x.ValueType == ValueType.Boolean);
-			}
-			if (SelectedArithmeticValueType == ValueType.Integer)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Integer);
-				allVariables2 = allVariables2.FindAll(x => x.ValueType == ValueType.Integer);
-			}
+			
 			if (SelectedArithmeticValueType == ValueType.DateTime)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.DateTime);
 				allVariables2 = allVariables2.FindAll(x => x.ValueType == ValueType.Integer);
-			}
-			if (SelectedArithmeticValueType == ValueType.String)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.String);
-				allVariables2 = allVariables2.FindAll(x => x.ValueType == ValueType.String);
-			}
+
 			Variable1.Update(allVariables);
 			Variable2.Update(allVariables2);
 			Result.Update(allVariables);
@@ -196,6 +179,7 @@ namespace AutomationModule.ViewModels
 		{
 			ArithmeticParameter = arithmeticParameter;
 			VariableTypes = new ObservableCollection<VariableType>(availableVariableTypes);
+			OnPropertyChanged(() => VariableTypes);
 		}
 
 		public void Update(List<Variable> variables)
@@ -213,7 +197,7 @@ namespace AutomationModule.ViewModels
 			OnPropertyChanged(() => GlobalVariables);
 		}
 
-		public ObservableCollection<VariableType> VariableTypes { get; private set; }
+		public ObservableCollection<VariableType> VariableTypes { get; set; }
 		public VariableType SelectedVariableType
 		{
 			get { return ArithmeticParameter.VariableType; }
@@ -266,6 +250,17 @@ namespace AutomationModule.ViewModels
 				ArithmeticParameter.StringValue = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => StringValue);
+			}
+		}
+
+		public string TypeValue
+		{
+			get { return ArithmeticParameter.TypeValue; }
+			set
+			{
+				ArithmeticParameter.TypeValue = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => TypeValue);
 			}
 		}
 

@@ -20,37 +20,35 @@ namespace CodeReason.Reports
 		/// <exception cref="ArgumentException">Need at least two ReportData objects</exception>
 		public MultipleReportPaginator(ReportDocument report, IEnumerable<ReportData> data)
 		{
-			if (data == null)
-				throw new ArgumentException("Need at least two ReportData objects");
+			using (var counter = new TimeCounter("\tMultipleReportPaginator Total:		{0}", true, true))
+			{
+				if (data == null)
+					throw new ArgumentException("Need at least two ReportData objects");
 
-			// create a list of report paginators and compute page counts
-			_pageCount = 0;
-			int dataCount = 0;
-			int totalPages = 0;
-			foreach (ReportData rd in data)
-			{
-				if (rd == null)
-					continue;
-				ReportPaginator temp = new ReportPaginator(report, rd);
-				DocumentPage dp = temp.GetPage(0);
-				totalPages += temp.PageCount;
+				// create a list of report paginators and compute page counts
+				_pageCount = 0;
+				foreach (ReportData rd in data)
+				{
+					if (rd == null)
+						continue;
+					ReportPaginator paginator = new ReportPaginator(report, rd);
+					_reportPaginators.Add(paginator);
+					paginator.PageShift = _pageCount;
+					paginator.TotalPageCount = _pageCount;
+					counter.ShowTick("\tMultipleReportPaginator Paginator:	{0}");
+					DocumentPage dp = paginator.GetPage(0);
+					if ((dp != DocumentPage.Missing) && (dp.Size != Size.Empty))
+						_pageSize = paginator.PageSize;
+					_pageCount += paginator.PageCount;
+					counter.ShowTick("\tMultipleReportPaginator PageCount:	{0}");
+				}
+				counter.ShowTick("\tMultipleReportPaginator Paginators:	{0}");
+				foreach (ReportPaginator paginator in _reportPaginators)
+					paginator.TotalPageCount = _pageCount;
+				if (_reportPaginators.Count <= 0)
+					throw new ArgumentException("Need at least two ReportData objects");
+				counter.ShowTick("\tMultipleReportPaginator PageCount:	{0}");
 			}
-			foreach (ReportData rd in data)
-			{
-				if (rd == null)
-					continue;
-				ReportPaginator paginator = new ReportPaginator(report, rd);
-				_reportPaginators.Add(paginator);
-				paginator.PageShift = _pageCount;
-				paginator.TotalPageCount = totalPages;
-				DocumentPage dp = paginator.GetPage(0);
-				if ((dp != DocumentPage.Missing) && (dp.Size != Size.Empty))
-					_pageSize = paginator.PageSize;
-				_pageCount += paginator.PageCount;
-				dataCount++;
-			}
-			if (_reportPaginators.Count <= 0)
-				throw new ArgumentException("Need at least two ReportData objects");
 		}
 
 		/// <summary>

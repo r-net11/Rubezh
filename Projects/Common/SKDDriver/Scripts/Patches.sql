@@ -756,3 +756,11 @@ BEGIN
 	END
 	INSERT INTO Patches (Id) VALUES ('TimeTrackDocumentDateTimeAndNumber')	
 END
+GO
+IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RenameHolidaySettings')
+BEGIN
+	BEGIN
+		EXEC sp_rename 'HolidaySettings', 'NightSettings'
+	END
+	INSERT INTO Patches (Id) VALUES ('RenameHolidaySettings')
+END

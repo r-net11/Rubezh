@@ -277,7 +277,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_selectedMROMessageType = value;
-				OnPropertyChanged("SelectedMROMessageType");
+				OnPropertyChanged(() => SelectedMROMessageType);
 			}
 		}
 		#endregion

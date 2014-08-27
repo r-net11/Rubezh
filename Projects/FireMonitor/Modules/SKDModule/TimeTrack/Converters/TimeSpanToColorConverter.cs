@@ -9,7 +9,7 @@ namespace SKDModule.Converters
 		object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			TimeSpan timeSpan = (TimeSpan)value;
-			if (timeSpan > TimeSpan.Zero)
+			if (timeSpan != TimeSpan.Zero)
 				return Brushes.Black;
 			return Brushes.Gray;
 		}

@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
 
 		public void UpdateAvailableDevices()
 		{
-			OnPropertyChanged("AvailableDevices");
+			OnPropertyChanged(() => AvailableDevices);
 		}
 
 		public ObservableCollection<ZoneDeviceViewModel> Devices { get; private set; }
@@ -136,7 +136,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedAvailableDevice = value;
-				OnPropertyChanged("SelectedAvailableDevice");
+				OnPropertyChanged(() => SelectedAvailableDevice);
 			}
 		}
 

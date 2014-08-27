@@ -10,14 +10,14 @@ using FiresecClient;
 
 namespace AutomationModule.ViewModels
 {
-	public class SendMessageStepViewModel : BaseViewModel, IStepViewModel
+	public class ShowMessageStepViewModel : BaseViewModel, IStepViewModel
 	{
-		SendMessageArguments SendMessageArguments { get; set; }
+		ShowMessageArguments ShowMessageArguments { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
 		Procedure Procedure { get; set; }
-		public SendMessageStepViewModel(SendMessageArguments sendMessageArguments, Procedure procedure, Action updateDescriptionHandler)
+		public ShowMessageStepViewModel(ShowMessageArguments showMessageArguments, Procedure procedure, Action updateDescriptionHandler)
 		{
-			SendMessageArguments = sendMessageArguments;
+			ShowMessageArguments = showMessageArguments;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			Procedure = procedure;
 			UpdateContent();
@@ -25,10 +25,10 @@ namespace AutomationModule.ViewModels
 
 		public string Message
 		{
-			get { return SendMessageArguments.Message; }
+			get { return ShowMessageArguments.Message; }
 			set
 			{
-				SendMessageArguments.Message = value;
+				ShowMessageArguments.Message = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => Message);
 				if (UpdateDescriptionHandler != null)
@@ -39,10 +39,10 @@ namespace AutomationModule.ViewModels
 		public ObservableCollection<VariableType> VariableTypes { get; private set; }
 		public VariableType SelectedVariableType
 		{
-			get { return SendMessageArguments.VariableType; }
+			get { return ShowMessageArguments.VariableType; }
 			set
 			{
-				SendMessageArguments.VariableType = value;
+				ShowMessageArguments.VariableType = value;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariableType);
 				if (UpdateDescriptionHandler != null)
@@ -59,7 +59,7 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedVariable = value;
 				if (value != null)
-					SendMessageArguments.VariableUid = value.Variable.Uid;
+					ShowMessageArguments.VariableUid = value.Variable.Uid;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariable);
 			}
@@ -74,7 +74,7 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedGlobalVariable = value;
 				if (value != null)
-					SendMessageArguments.GlobalVariableUid = value.Variable.Uid;
+					ShowMessageArguments.GlobalVariableUid = value.Variable.Uid;
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedGlobalVariable);
 			}
@@ -95,9 +95,9 @@ namespace AutomationModule.ViewModels
 				GlobalVariables.Add(new VariableViewModel(globalVariable));
 			}
 			VariableTypes = new ObservableCollection<VariableType>(Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
-			SelectedVariableType = SendMessageArguments.VariableType;
-			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == SendMessageArguments.VariableUid);
-			SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == SendMessageArguments.GlobalVariableUid);
+			SelectedVariableType = ShowMessageArguments.VariableType;
+			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == ShowMessageArguments.VariableUid);
+			SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == ShowMessageArguments.GlobalVariableUid);
 			OnPropertyChanged(() => Variables);
 			OnPropertyChanged(() => GlobalVariables);
 			OnPropertyChanged(() => SelectedVariable);

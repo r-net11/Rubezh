@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="SKDModule.Views.DayIntervalDetailsView"
 	         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	         Width="500" Height="200">
+	         Width="500" Height="300">
 	<TabControl>
 		<TabItem Header="Основные">
 			<Grid>
@@ -27,7 +27,7 @@
 				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Описание" />
 				<TextBox Grid.Row="1" Grid.Column="1" Margin="2" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Постоянная составляющая скользящего графика" TextWrapping="Wrap" />
+				<TextBlock Grid.Row="2" Grid.Column="0" Margin="2" Foreground="White" Text="Обязательная продолжительность скользящего графика" TextWrapping="Wrap" />
 				<TimePicker Grid.Row="2" Grid.Column="1" Margin="2" TimeSpan="{Binding ConstantSlideTime, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 		</TabItem>

@@ -56,7 +56,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedPumpStation = value;
-				OnPropertyChanged("SelectedPumpStation");
+				OnPropertyChanged(() => SelectedPumpStation);
 			}
 		}
 
@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 				var pumpStationViewModel = new PumpStationViewModel(pumpStationDetailsViewModel.PumpStation);
 				PumpStations.Add(pumpStationViewModel);
 				SelectedPumpStation = pumpStationViewModel;
-				OnPropertyChanged("HasSelectedPumpStation");
+				OnPropertyChanged(() => HasSelectedPumpStation);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
 				XManager.PumpStations.Remove(SelectedPumpStation.PumpStation);
 				PumpStations.Remove(SelectedPumpStation);
 				SelectedPumpStation = PumpStations.FirstOrDefault();
-				OnPropertyChanged("HasSelectedPumpStation");
+				OnPropertyChanged(() => HasSelectedPumpStation);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

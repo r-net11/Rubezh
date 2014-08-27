@@ -105,7 +105,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_passwordConfirmation = value;
-				OnPropertyChanged("PasswordConfirmation");
+				OnPropertyChanged(() => PasswordConfirmation);
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace SecurityModule.ViewModels
 			set
 			{
 				_isChangePassword = value;
-				OnPropertyChanged("IsChangePassword");
+				OnPropertyChanged(() => IsChangePassword);
 			}
 		}
 

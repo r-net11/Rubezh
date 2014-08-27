@@ -3,18 +3,17 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.SKD;
 
-
 namespace SKDDriver
 {
-	public class HolidaySettingsTranslator : TranslatorBase<DataAccess.HolidaySetting, HolidaySettings>
+	public class NightSettingsTranslator : TranslatorBase<DataAccess.NightSetting, NightSettings>
 	{
-		public HolidaySettingsTranslator(DataAccess.SKDDataContext context)
+		public NightSettingsTranslator(DataAccess.SKDDataContext context)
 			: base(context)
 		{
 
 		}
 
-		protected override HolidaySettings Translate(DataAccess.HolidaySetting tableItem)
+		protected override NightSettings Translate(DataAccess.NightSetting tableItem)
 		{
 			var apiItem = base.Translate(tableItem);
 			apiItem.OrganisationUID = tableItem.OrganisationUID != null ? tableItem.OrganisationUID.Value : Guid.Empty;
@@ -25,7 +24,7 @@ namespace SKDDriver
 			return apiItem;
 		}
 
-		protected override void TranslateBack(DataAccess.HolidaySetting tableItem, HolidaySettings apiItem)
+		protected override void TranslateBack(DataAccess.NightSetting tableItem, NightSettings apiItem)
 		{
 			tableItem.OrganisationUID = apiItem.OrganisationUID;
 			tableItem.NightStartTime = apiItem.NightStartTime.Ticks;
@@ -34,20 +33,19 @@ namespace SKDDriver
 			tableItem.EveningEndTime = apiItem.EveningEndTime.Ticks;
 		}
 
-		public OperationResult<HolidaySettings> GetByOrganisation(Guid uid)
+		public OperationResult<NightSettings> GetByOrganisation(Guid uid)
 		{
 			try
 			{
 				var tableItem = Table.FirstOrDefault(x => x.OrganisationUID.Equals(uid));
 				if (tableItem == null)
-					return new OperationResult<HolidaySettings>("Настройки праздничных дней для данной организации не найдены");
-				return new OperationResult<HolidaySettings> { Result = Translate(tableItem) };
+					return new OperationResult<NightSettings>("Настройки ночных и вечерних интервалов для данной организации не найдены");
+				return new OperationResult<NightSettings> { Result = Translate(tableItem) };
 			}
 			catch (Exception e)
 			{
-				return new OperationResult<HolidaySettings>(e.Message);
+				return new OperationResult<NightSettings>(e.Message);
 			}
 		}
-
 	}
 }

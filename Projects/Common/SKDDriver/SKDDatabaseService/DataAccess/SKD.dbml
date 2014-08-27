@@ -183,17 +183,6 @@
       <Association Name="Organisation_Holiday" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.HolidaySettings" Member="HolidaySettings">
-    <Type Name="HolidaySetting">
-      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
-      <Column Name="NightStartTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="NightEndTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="EveningStartTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="EveningEndTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Association Name="Organisation_HolidaySetting" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Journal" Member="Journals">
     <Type Name="Journal">
       <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -228,7 +217,6 @@
       <Association Name="Organisation_Employee" Member="Employees" ThisKey="UID" OtherKey="OrganisationUID" Type="Employee" />
       <Association Name="Organisation_GuardZone" Member="GuardZones" ThisKey="UID" OtherKey="ParentUID" Type="GuardZone" />
       <Association Name="Organisation_Holiday" Member="Holidays" ThisKey="UID" OtherKey="OrganisationUID" Type="Holiday" />
-      <Association Name="Organisation_HolidaySetting" Member="HolidaySettings" ThisKey="UID" OtherKey="OrganisationUID" Type="HolidaySetting" />
       <Association Name="Organisation_OrganisationCardTemplate" Member="OrganisationCardTemplates" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationCardTemplate" />
       <Association Name="Organisation_OrganisationDoor" Member="OrganisationDoors" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationDoor" />
       <Association Name="Organisation_OrganisationUser" Member="OrganisationUsers" ThisKey="UID" OtherKey="OrganisationUID" Type="OrganisationUser" />
@@ -237,6 +225,7 @@
       <Association Name="Organisation_Schedule" Member="Schedules" ThisKey="UID" OtherKey="OrganisationUID" Type="Schedule" />
       <Association Name="Organisation_ScheduleScheme" Member="ScheduleSchemes" ThisKey="UID" OtherKey="OrganisationUID" Type="ScheduleScheme" />
       <Association Name="Organisation_DayInterval" Member="DayIntervals" ThisKey="UID" OtherKey="OrganisationUID" Type="DayInterval" />
+      <Association Name="Organisation_NightSetting" Member="NightSettings" ThisKey="UID" OtherKey="OrganisationUID" Type="NightSetting" />
       <Association Name="Photo_Organisation" Member="Photo" ThisKey="PhotoUID" OtherKey="UID" Type="Photo" IsForeignKey="true" />
     </Type>
   </Table>
@@ -411,6 +400,17 @@
       <Column Name="DocumentDateTime" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="DocumentNumber" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Employee_TimeTrackDocument" Member="Employee" ThisKey="EmployeeUID" OtherKey="UID" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NightSettings" Member="NightSettings">
+    <Type Name="NightSetting">
+      <Column Name="UID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="OrganisationUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="NightStartTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="NightEndTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="EveningStartTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="EveningEndTime" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Association Name="Organisation_NightSetting" Member="Organisation" ThisKey="OrganisationUID" OtherKey="UID" Type="Organisation" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

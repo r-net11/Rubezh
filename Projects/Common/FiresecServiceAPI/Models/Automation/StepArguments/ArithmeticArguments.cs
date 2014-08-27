@@ -41,6 +41,7 @@ namespace FiresecAPI.Automation
 			DateTimeValue = DateTime.Now;
 			IntValue = 0;
 			StringValue = "";
+			TypeValue = "";
 		}
 
 		[DataMember]
@@ -57,6 +58,9 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public string StringValue { get; set; }
+
+		[DataMember]
+		public string TypeValue { get; set; }
 
 		[DataMember]
 		public Guid VariableUid { get; set; }

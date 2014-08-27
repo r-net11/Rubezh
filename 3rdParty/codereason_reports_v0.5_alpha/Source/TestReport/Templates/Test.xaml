@@ -1,0 +1,1108 @@
+﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports" ColumnWidth="29.7cm" FontSize="9" PageHeight="21cm" PagePadding="1.3cm,1.8cm,1.3cm,1cm" PageWidth="29.7cm" TextAlignment="Center">
+	<FlowDocument.Resources>
+		<Style TargetType="{x:Type TableCell}">
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="BorderBrush" Value="Black" />
+		</Style>
+	</FlowDocument.Resources>
+	<xrd:ReportProperties>
+		<xrd:ReportProperties.ReportName>Табель учета рабочего времени</xrd:ReportProperties.ReportName>
+		<xrd:ReportProperties.ReportTitle>Т13</xrd:ReportProperties.ReportTitle>
+	</xrd:ReportProperties>
+
+	<!--  Hints  -->
+	<xrd:ReportHint Hint="MoveRegular" />
+	<xrd:ReportHint Hint="SimpleClone" />
+
+	<xrd:SplitTable BorderThickness="1" RowsOnFirstPage="2" RowsOnLatPage="2" RowsOnPage="3" TableHeaderOnEachPage="true" TableName="Data" TextAlignment="Center" FontSize="7">
+		<xrd:SplitTable.Columns>
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="2*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="1*" />
+			<TableColumn Width="1*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.5*" />
+			<TableColumn Width="0.7*" />
+			<TableColumn Width="0.7*" />
+			<TableColumn Width="0.7*" />
+			<TableColumn Width="0.7*" />
+		</xrd:SplitTable.Columns>
+		<xrd:SplitTable.Header>
+			<Section>
+				<!--  Шапка заголовка  -->
+				<xrd:SectionDataGroup DataGroupName="Header">
+					<Paragraph FontSize="7" TextAlignment="Right">
+						Унифицированная форма № Т-13
+						<LineBreak />
+						Утверждена Постановлением Госкомстата
+						<LineBreak />
+						России от 05.01.2004 № 1
+					</Paragraph>
+				</xrd:SectionDataGroup>
+
+				<!--  Таблица заголовка (осн. реквизиты)  -->
+				<xrd:SectionDataGroup DataGroupName="Header">
+					<Table BorderBrush="Black" BorderThickness="0" CellSpacing="0">
+						<Table.Columns>
+							<TableColumn Width="20*" />
+							<TableColumn Width="5*" />
+							<TableColumn Width="1.5*" />
+							<TableColumn Width="4*" />
+						</Table.Columns>
+						<TableRowGroup>
+							<TableRow>
+								<TableCell BorderThickness="0" ColumnSpan="3" />
+								<TableCell>
+									<Paragraph FontSize="8">Код</Paragraph>
+								</TableCell>
+							</TableRow>
+							<TableRow>
+								<TableCell BorderThickness="0" />
+								<TableCell BorderThickness="0" ColumnSpan="2" Padding="0,3,3,0" TextAlignment="Right">
+									<Paragraph FontSize="8">Форма по ОКУД</Paragraph>
+								</TableCell>
+								<TableCell>
+									<Paragraph>0301008</Paragraph>
+								</TableCell>
+							</TableRow>
+							<TableRow>
+								<TableCell BorderThickness="0" ColumnSpan="2">
+									<Paragraph>
+										<xrd:InlineDocumentValue PropertyName="Organization" />
+									</Paragraph>
+								</TableCell>
+								<TableCell BorderThickness="0" Padding="0,3,3,0" TextAlignment="Right">
+									<Paragraph FontSize="8">по ОКПО</Paragraph>
+								</TableCell>
+								<TableCell />
+							</TableRow>
+							<TableRow FontSize="7">
+								<TableCell BorderThickness="0,1,0,0" ColumnSpan="2">
+									<Paragraph FontSize="7">(наименование организации)</Paragraph>
+								</TableCell>
+								<TableCell BorderThickness="0" />
+								<TableCell RowSpan="2" />
+							</TableRow>
+							<TableRow FontSize="9">
+								<TableCell BorderThickness="0" ColumnSpan="2" Padding="0,3,0,0">
+									<Paragraph FontSize="9">
+										<xrd:InlineDocumentValue PropertyName="Department" />
+									</Paragraph>
+								</TableCell>
+								<TableCell BorderThickness="0" />
+							</TableRow>
+							<TableRow FontSize="7">
+								<TableCell BorderThickness="0,1,0,0" ColumnSpan="2">
+									<Paragraph FontSize="7">(структурное подразделение)</Paragraph>
+								</TableCell>
+								<TableCell BorderThickness="0,1,0,0" ColumnSpan="2" />
+							</TableRow>
+						</TableRowGroup>
+					</Table>
+				</xrd:SectionDataGroup>
+
+				<!--  Отчетный период  -->
+				<xrd:SectionDataGroup DataGroupName="Header" Padding="400,0,100,0">
+					<Table CellSpacing="0">
+						<Table.Columns>
+							<TableColumn Width="3*" />
+							<TableColumn Width="1.5*" />
+							<TableColumn Width="1.5*" />
+							<TableColumn Width="0.5*" />
+							<TableColumn Width="1.5*" />
+							<TableColumn Width="1.5*" />
+						</Table.Columns>
+						<TableRowGroup>
+							<TableRow>
+								<TableCell BorderThickness="0" Padding="0,40,0,0" RowSpan="4">
+									<Paragraph FontSize="12" FontWeight="Bold" TextAlignment="Center">
+										<Run>ТАБЕЛЬ</Run>
+										<LineBreak />
+										<Run>учета рабочего времени</Run>
+									</Paragraph>
+								</TableCell>
+								<TableCell RowSpan="2">
+									<Paragraph Margin="0,8,0,0" FontSize="8">Номер документа</Paragraph>
+								</TableCell>
+								<TableCell RowSpan="2">
+									<Paragraph Margin="0,8,0,0" FontSize="8">Дата составления</Paragraph>
+								</TableCell>
+								<TableCell BorderThickness="0" RowSpan="3" />
+								<TableCell ColumnSpan="2">
+									<Paragraph>Отчетный период</Paragraph>
+								</TableCell>
+							</TableRow>
+							<TableRow>
+								<TableCell BorderThickness="1">
+									<Paragraph FontSize="8">с</Paragraph>
+								</TableCell>
+								<TableCell>
+									<Paragraph FontSize="8">по</Paragraph>
+								</TableCell>
+							</TableRow>
+							<TableRow>
+								<TableCell />
+								<TableCell>
+									<Paragraph FontSize="12" Padding="3">
+										<xrd:InlineDocumentValue Format="dd.MM.yyyy" PropertyName="PrintDate" />
+									</Paragraph>
+								</TableCell>
+								<TableCell Padding="3">
+									<Paragraph FontSize="12">
+										<xrd:InlineDocumentValue Format="dd.MM.yyyy" PropertyName="StartDate" />
+									</Paragraph>
+								</TableCell>
+								<TableCell Padding="3">
+									<Paragraph FontSize="12">
+										<xrd:InlineDocumentValue Format="dd.MM.yyyy" PropertyName="EndDate" />
+									</Paragraph>
+								</TableCell>
+							</TableRow>
+							<TableRow>
+								<TableCell BorderThickness="0" ColumnSpan="5" />
+							</TableRow>
+						</TableRowGroup>
+					</Table>
+				</xrd:SectionDataGroup>
+			</Section>
+		</xrd:SplitTable.Header>
+		<xrd:SplitTable.HeaderRowGroup>
+			<TableRowGroup>
+				<!--  Headers  -->
+				<TableRow>
+					<TableCell Padding="0,9,0,0" RowSpan="7">
+						<Paragraph>Номер по порядку</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,9,0,0" RowSpan="7">
+						<Paragraph>Фамилия, илиниалы, должность (специальность, профессия)</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,9,0,0" RowSpan="7">
+						<Paragraph>Табельный номер</Paragraph>
+					</TableCell>
+					<TableCell ColumnSpan="16" Padding="0,9,0,0">
+						<Paragraph>Отметки о явках и неявках на работу по числам месяца</Paragraph>
+					</TableCell>
+					<TableCell ColumnSpan="2" Padding="0,9,0,0">
+						<Paragraph>Отработано за</Paragraph>
+					</TableCell>
+					<TableCell ColumnSpan="6">
+						<Paragraph>
+							Данные для начисления заработной платы
+							<LineBreak />
+							по видам и направлениям затрат
+						</Paragraph>
+					</TableCell>
+					<TableCell ColumnSpan="4" Padding="0,9,0,0">
+						<Paragraph>Неявки по причинам</Paragraph>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>1</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>2</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>3</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>4</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>5</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>6</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>7</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>8</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>9</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>10</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>11</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>12</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>13</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>14</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>15</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>X</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,9,0,0" RowSpan="4">
+						<Paragraph>
+							Половину месяца
+							<LineBreak />
+							(I, II)
+						</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="4">
+						<Paragraph>Месяц</Paragraph>
+					</TableCell>
+					<TableCell ColumnSpan="6">
+						<Paragraph>код вида оплаты</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,45,0,0" RowSpan="6">
+						<Paragraph>код</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,40,0,0" RowSpan="6">
+						<Paragraph>
+							дни
+							<LineBreak />
+							(часы)
+						</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,45,0,0" RowSpan="6">
+						<Paragraph>код</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,40,0,0" RowSpan="6">
+						<Paragraph>
+							дни
+							<LineBreak />
+							(часы)
+						</Paragraph>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell ColumnSpan="6">
+						<Paragraph />
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell ColumnSpan="6">
+						<Paragraph>корреспондирующий счет</Paragraph>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell ColumnSpan="6">
+						<Paragraph />
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>16</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>17</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>18</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>19</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>20</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>21</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>22</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>23</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>24</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>25</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>26</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>27</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>28</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>29</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>30</Paragraph>
+					</TableCell>
+					<TableCell Padding="0,18,0,0" RowSpan="2">
+						<Paragraph>31</Paragraph>
+					</TableCell>
+					<TableCell ColumnSpan="2" Padding="0,7,0,7">
+						<Paragraph>дни</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph>код вида оплаты</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph>корреспондирующий счет</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph>дни (часы)</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph>код вида оплаты</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph>корреспондирующий счет</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph>дни (часы)</Paragraph>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell ColumnSpan="2" Padding="0,7,0,0">
+						<Paragraph>часы</Paragraph>
+					</TableCell>
+				</TableRow>
+				<!--  Numbers  -->
+				<TableRow>
+					<TableCell>
+						<Paragraph>1</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>2</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>3</Paragraph>
+					</TableCell>
+					<TableCell ColumnSpan="16">
+						<Paragraph>4</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>5</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>6</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>7</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>8</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>9</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>7</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>8</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>9</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>10</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>11</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>12</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>13</Paragraph>
+					</TableCell>
+				</TableRow>
+			</TableRowGroup>
+		</xrd:SplitTable.HeaderRowGroup>
+		<xrd:SplitTable.ContentRowGroup>
+			<!--  Data Group  -->
+			<TableRowGroup>
+				<TableRow>
+					<TableCell RowSpan="4">
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="No" />
+						</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="4" TextAlignment="Left">
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="EmploueeFIO" />
+						</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="4">
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="TabelNo" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day1_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day2_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day3_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day4_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day5_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day6_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day7_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day8_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day9_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day10_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day11_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day12_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day13_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day14_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day15_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>X</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="FirstHalfDays" />
+						</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="TotalDays" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<LineBreak />
+						</Paragraph>
+					</TableCell>
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason1_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason1_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason5_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason5_Hours" />
+						</Paragraph>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day1_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day2_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day3_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day4_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day5_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day6_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day7_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day8_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day9_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day10_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day11_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day12_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day13_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day14_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day15_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>X</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="FirstHalfHours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<LineBreak />
+						</Paragraph>
+					</TableCell>
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason2_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason2_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason6_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason6_Hours" />
+						</Paragraph>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day16_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day17_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day18_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day19_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day20_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day21_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day22_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day23_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day24_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day25_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day26_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day27_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day28_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day29_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day30_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day31_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="SecondHalfDays" />
+						</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="TotalHours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<LineBreak />
+						</Paragraph>
+					</TableCell>
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason3_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason3_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason7_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason7_Hours" />
+						</Paragraph>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day16_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day17_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day18_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day19_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day20_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day21_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day22_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day23_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day24_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day25_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day26_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day27_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day28_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day29_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day30_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Day31_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="SecondHalfHours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<LineBreak />
+						</Paragraph>
+					</TableCell>
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell />
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason4_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason4_Hours" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason8_Code" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="MissReason8_Hours" />
+						</Paragraph>
+					</TableCell>
+				</TableRow>
+			</TableRowGroup>
+		</xrd:SplitTable.ContentRowGroup>
+		<xrd:SplitTable.Footer>
+			<!--  Подписи  -->
+			<xrd:SectionDataGroup DataGroupName="Footer">
+				<Table CellSpacing="0">
+					<Table.Resources>
+						<Style BasedOn="{StaticResource {x:Type TableCell}}" TargetType="{x:Type TableCell}">
+							<Setter Property="BorderThickness" Value="0" />
+						</Style>
+					</Table.Resources>
+					<Table.Columns>
+						<TableColumn Width="10*" />
+						<TableColumn Width="0.5*" />
+						<TableColumn Width="10*" />
+						<TableColumn Width="0.5*" />
+						<TableColumn Width="8*" />
+						<TableColumn Width="0.5*" />
+						<TableColumn Width="10*" />
+						<TableColumn Width="2*" />
+						<TableColumn Width="15*" />
+						<TableColumn Width="0.5*" />
+						<TableColumn Width="10*" />
+						<TableColumn Width="0.5*" />
+						<TableColumn Width="8*" />
+						<TableColumn Width="0.5*" />
+						<TableColumn Width="10*" />
+						<TableColumn Width="0.5*" />
+						<TableColumn Width="10*" />
+					</Table.Columns>
+					<TableRowGroup>
+						<TableRow>
+							<TableCell TextAlignment="Left">
+								<Paragraph FontWeight="Bold">
+									<LineBreak />
+									Ответственное лицо
+								</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell BorderThickness="0,0,0,1">
+								<Paragraph>
+									<xrd:InlineDocumentValue PropertyName="FillPosition" />
+								</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell BorderThickness="0,0,0,1" />
+							<TableCell />
+							<TableCell BorderThickness="0,0,0,1">
+								<Paragraph>
+									<LineBreak />
+									<xrd:InlineDocumentValue PropertyName="FillName" />
+								</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell TextAlignment="Left">
+								<Paragraph FontWeight="Bold">
+									Руководитель
+									<LineBreak />
+									структурного подразделения
+								</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell BorderThickness="0,0,0,1">
+								<Paragraph>
+									<xrd:InlineDocumentValue PropertyName="LeadPosition" />
+								</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell BorderThickness="0,0,0,1" />
+							<TableCell />
+							<TableCell BorderThickness="0,0,0,1">
+								<Paragraph>
+									<LineBreak />
+									<xrd:InlineDocumentValue PropertyName="LeadName" />
+								</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell>
+								<Paragraph>
+									<xrd:InlineDocumentValue Format="\&quot;dd\&quot; MMMM yyyy г." PropertyName="PrintDate" />
+								</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow FontSize="7">
+							<TableCell ColumnSpan="2" />
+							<TableCell>
+								<Paragraph FontSize="7">должность</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell>
+								<Paragraph FontSize="7">личная подпись</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell>
+								<Paragraph FontSize="7">расшифровка подписи</Paragraph>
+							</TableCell>
+							<TableCell ColumnSpan="3" />
+							<TableCell>
+								<Paragraph FontSize="7">должность</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell>
+								<Paragraph FontSize="7">личная подпись</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell>
+								<Paragraph FontSize="7">расшифровка подписи</Paragraph>
+							</TableCell>
+							<TableCell ColumnSpan="2" />
+						</TableRow>
+						<TableRow>
+							<TableCell ColumnSpan="8" />
+							<TableCell TextAlignment="Left">
+								<Paragraph FontWeight="Bold">
+									<LineBreak />
+									<LineBreak />
+									Работник кадровой службы
+								</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell BorderThickness="0,0,0,1">
+								<Paragraph>
+									<LineBreak />
+									<LineBreak />
+									<xrd:InlineDocumentValue PropertyName="HRPosition" />
+								</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell BorderThickness="0,0,0,1" />
+							<TableCell />
+							<TableCell BorderThickness="0,0,0,1">
+								<Paragraph>
+									<LineBreak />
+									<LineBreak />
+									<LineBreak />
+									<xrd:InlineDocumentValue PropertyName="HRName" />
+								</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell>
+								<Paragraph>
+									<LineBreak />
+									<LineBreak />
+									<LineBreak />
+									<xrd:InlineDocumentValue Format="\&quot;dd\&quot; MMMM yyyy г." PropertyName="PrintDate" />
+								</Paragraph>
+							</TableCell>
+						</TableRow>
+						<TableRow FontSize="7">
+							<TableCell ColumnSpan="10" />
+							<TableCell>
+								<Paragraph FontSize="7">должность</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell>
+								<Paragraph FontSize="7">личная подпись</Paragraph>
+							</TableCell>
+							<TableCell />
+							<TableCell>
+								<Paragraph FontSize="7">расшифровка подписи</Paragraph>
+							</TableCell>
+							<TableCell ColumnSpan="2" />
+						</TableRow>
+					</TableRowGroup>
+				</Table>
+			</xrd:SectionDataGroup>
+		</xrd:SplitTable.Footer>
+	</xrd:SplitTable>
+
+</FlowDocument>

@@ -16,7 +16,6 @@ namespace DiagnosticsModule
 
 		public override void CreateViewModels()
 		{
-			ServiceFactory.Layout.AddToolbarItem(new ImitatorViewModel());
 			DiagnosticsViewModel = new DiagnosticsViewModel();
 		}
 
@@ -25,7 +24,6 @@ namespace DiagnosticsModule
 		}
 		public override void AfterInitialize()
 		{
-			//DiagnosticsViewModel.TestPdf2Command.Execute();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -45,12 +43,10 @@ namespace DiagnosticsModule
 		}
 
 		#region ILayoutProviderModule Members
-
 		public IEnumerable<ILayoutPartPresenter> GetLayoutParts()
 		{
 			yield return new LayoutPartPresenter(LayoutPartIdentities.Diagnostics, "Диагностика", "Bug.png", (p) => DiagnosticsViewModel);
 		}
-
 		#endregion
 	}
 }

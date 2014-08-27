@@ -21,7 +21,7 @@ namespace SKDDriver
 			PhotoTranslator = new PhotoTranslator(Context);
 			OrganisationTranslator = new OrganisationTranslator(Context, PhotoTranslator);
 			PositionTranslator = new PositionTranslator(Context, PhotoTranslator);
-			HolidaySettingsTranslator = new HolidaySettingsTranslator(Context);
+			NightSettingsTranslator = new NightSettingsTranslator(Context);
 			DepartmentTranslator = new DepartmentTranslator(Context, PhotoTranslator);
 			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
 			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context, PhotoTranslator, AdditionalColumnTypeTranslator);
@@ -38,7 +38,7 @@ namespace SKDDriver
 			AdditionalColumnTypeTranslator.AdditionalColumnTranslator = AdditionalColumnTranslator;
 		}
 
-		public static HolidaySettingsTranslator HolidaySettingsTranslator { get; private set; }
+		public static NightSettingsTranslator NightSettingsTranslator { get; private set; }
 		public static PositionTranslator PositionTranslator { get; private set; }
 		public static CardTranslator CardTranslator { get; private set; }
 		public static CardDoorTranslator CardDoorTranslator { get; private set; }

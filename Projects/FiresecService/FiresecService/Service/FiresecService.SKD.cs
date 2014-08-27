@@ -356,15 +356,15 @@ namespace FiresecService.Service
 		}
 		#endregion
 
-		#region HolidaySettings
-		public OperationResult<HolidaySettings> GetHolidaySettingsByOrganisation(Guid uid)
+		#region NightSettings
+		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
 		{
-            return SKDDatabaseService.HolidaySettingsTranslator.GetByOrganisation(uid);
+            return SKDDatabaseService.NightSettingsTranslator.GetByOrganisation(organisationUID);
 		}
 
-		public OperationResult SaveHolidaySettings(HolidaySettings item)
+		public OperationResult SaveNightSettings(NightSettings nightSettings)
 		{
-			return SKDDatabaseService.HolidaySettingsTranslator.Save(item);
+			return SKDDatabaseService.NightSettingsTranslator.Save(nightSettings);
 		}
 		#endregion
 

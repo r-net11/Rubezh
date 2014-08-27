@@ -1,8 +1,8 @@
 ﻿namespace AutomationModule.Views
 {
-	public partial class SendMessageStepView
+	public partial class ShowMessageStepView
 	{
-		public SendMessageStepView()
+		public ShowMessageStepView()
 		{
 			InitializeComponent();
 		}

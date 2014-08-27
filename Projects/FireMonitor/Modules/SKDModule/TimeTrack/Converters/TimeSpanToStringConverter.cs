@@ -8,11 +8,7 @@ namespace SKDModule.Converters
 		object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			TimeSpan timeSpan = (TimeSpan)value;
-			if (timeSpan.TotalHours > 0)
-				return ((int)timeSpan.TotalHours).ToString() + "ч " + ((int)timeSpan.Minutes).ToString() + "мин";
-			else if (timeSpan.Minutes > 0)
-				return ((int)timeSpan.Minutes).ToString() + "мин";
-			return null;
+			return ((int)timeSpan.TotalHours).ToString("00") + ":" + ((int)timeSpan.Minutes).ToString("00");
 		}
 
 		object IValueConverter.ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

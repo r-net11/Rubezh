@@ -24,8 +24,8 @@ namespace SKDModule.ViewModels
 			{
 				Name = timeTrackDocumentType.Name;
 				ShortName = timeTrackDocumentType.ShortName;
-				StartDateTime = Document.StartDateTime.ToString("yyyy-MM-dd hh:mm");
-				EndDateTime = Document.EndDateTime.ToString("yyyy-MM-dd hh:mm");
+				StartDateTime = Document.StartDateTime.ToString("yyyy-MM-dd HH:mm");
+				EndDateTime = Document.EndDateTime.ToString("yyyy-MM-dd HH:mm");
 			}
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => ShortName);

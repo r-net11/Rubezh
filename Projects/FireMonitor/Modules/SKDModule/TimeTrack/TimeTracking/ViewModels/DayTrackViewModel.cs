@@ -22,70 +22,20 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			switch (DayTimeTrack.TimeTrackType)
-			{
-				case TimeTrackType.Holiday:
-					Letter = "В";
-					break;
-
-				case TimeTrackType.Missed:
-					Letter = "ПР";
-					break;
-
-				case TimeTrackType.DayOff:
-					Letter = "В";
-					break;
-
-				default:
-					Letter = "X";
-					break;
-			}
-			Tooltip = DayTimeTrack.TimeTrackType.ToDescription();
-
-			if (DayTimeTrack.Documents != null && DayTimeTrack.Documents.Count > 0)
-			{
-				var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == DayTimeTrack.Documents[0].DocumentCode);
-				if (timeTrackDocumentType != null)
-				{
-					Letter = timeTrackDocumentType.ShortName;
-					Tooltip = timeTrackDocumentType.Name;
-				}
-			}
-
-			OnPropertyChanged(() => Letter);
-			OnPropertyChanged(() => Tooltip);
 			OnPropertyChanged(() => DayTimeTrack);
 
-			Totals = new List<TotalViewModel>();
-			if (TimeTrackFilter.IsTotal)
-				Totals.Add(new TotalViewModel("Присутствие", DayTimeTrack.Total));
-			if (TimeTrackFilter.IsTotalMissed)
-				Totals.Add(new TotalViewModel("Пропущено", DayTimeTrack.TotalMissed));
-			if (TimeTrackFilter.IsTotalInSchedule)
-				Totals.Add(new TotalViewModel("По графику", DayTimeTrack.TotalInSchedule));
-			if (TimeTrackFilter.IsTotalOvertime)
-				Totals.Add(new TotalViewModel("Переработка", DayTimeTrack.TotalOvertime));
-			if (TimeTrackFilter.IsTotalLate)
-				Totals.Add(new TotalViewModel("Опоздания", DayTimeTrack.TotalLate));
-			if (TimeTrackFilter.IsTotalEarlyLeave)
-				Totals.Add(new TotalViewModel("Ранний уход", DayTimeTrack.TotalEarlyLeave));
-			if (TimeTrackFilter.IsTotalPlanned)
-				Totals.Add(new TotalViewModel("По графику", DayTimeTrack.TotalPlanned));
-			if (TimeTrackFilter.IsTotalEavening)
-				Totals.Add(new TotalViewModel("В вечерние часы", DayTimeTrack.TotalEavening));
-			if (TimeTrackFilter.IsTotalNight)
-				Totals.Add(new TotalViewModel("В ночные часы", DayTimeTrack.TotalNight));
-			if (TimeTrackFilter.IsTotal_DocumentOvertime)
-				Totals.Add(new TotalViewModel("Переработка по документу", DayTimeTrack.Total_DocumentOvertime));
-			if (TimeTrackFilter.IsTotal_DocumentPresence)
-				Totals.Add(new TotalViewModel("Присутствие по документу", DayTimeTrack.Total_DocumentPresence));
-			if (TimeTrackFilter.IsTotal_DocumentAbsence)
-				Totals.Add(new TotalViewModel("Отсутствие по документу", DayTimeTrack.Total_DocumentAbsence));
+			Totals = new List<TimeTrackTotal>();
+			foreach (var totalTimeTrackTypeFilter in TimeTrackFilter.TotalTimeTrackTypeFilters)
+			{
+				var timeTrackTotal = DayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == totalTimeTrackTypeFilter);
+				if (timeTrackTotal != null)
+				{
+					Totals.Add(timeTrackTotal);
+				}
+			}
 			OnPropertyChanged(() => Totals);
 		}
 
-		public string Letter { get; private set; }
-		public string Tooltip { get; private set; }
-		public List<TotalViewModel> Totals { get; private set; }
+		public List<TimeTrackTotal> Totals { get; private set; }
 	}
 }

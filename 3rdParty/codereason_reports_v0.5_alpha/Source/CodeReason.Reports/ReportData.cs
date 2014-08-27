@@ -37,6 +37,15 @@ namespace CodeReason.Reports
             get { return _dataTables; }
         }
 
+		private List<string> _groups = new List<string>();
+		/// <summary>
+		/// Gets a list of data groups
+		/// </summary>
+		public List<string> Groups
+		{
+			get { return _groups; }
+		}
+
         private bool _showUnknownValues = true;
         /// <summary>
         /// Shows all unknown values on the page

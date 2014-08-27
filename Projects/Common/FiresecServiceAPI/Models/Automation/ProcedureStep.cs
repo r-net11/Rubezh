@@ -12,7 +12,7 @@ namespace FiresecAPI.Automation
 			UID = Guid.NewGuid();
 			Children = new List<ProcedureStep>();
 			SoundArguments = new SoundArguments();
-			SendMessageArguments = new SendMessageArguments();
+			ShowMessageArguments = new ShowMessageArguments();
 			ArithmeticArguments = new ArithmeticArguments();
 			GetStringArguments = new GetStringArguments();
 			ConditionArguments = new ConditionArguments();
@@ -22,8 +22,8 @@ namespace FiresecAPI.Automation
 			ProcedureSelectionArguments = new ProcedureSelectionArguments();
 			ExitArguments = new ExitArguments();
 			PersonInspectionArguments = new PersonInspectionArguments();
-			SetGlobalValueArguments = new SetGlobalValueArguments();
-			IncrementGlobalValueArguments = new IncrementGlobalValueArguments();
+			SetValueArguments = new SetValueArguments();
+			IncrementValueArguments = new IncrementValueArguments();
 			ControlGKDeviceArguments = new ControlGKDeviceArguments();
 			ControlGKFireZoneArguments = new ControlGKFireZoneArguments();
 			ControlGKGuardZoneArguments = new ControlGKGuardZoneArguments();
@@ -56,7 +56,7 @@ namespace FiresecAPI.Automation
 		public SoundArguments SoundArguments { get; set; }
 
 		[DataMember]
-		public SendMessageArguments SendMessageArguments { get; set; }
+		public ShowMessageArguments ShowMessageArguments { get; set; }
 
 		[DataMember]
 		public ArithmeticArguments ArithmeticArguments { get; set; }
@@ -86,10 +86,10 @@ namespace FiresecAPI.Automation
 		public PersonInspectionArguments PersonInspectionArguments { get; set; }
 
 		[DataMember]
-		public SetGlobalValueArguments SetGlobalValueArguments { get; set; }
+		public SetValueArguments SetValueArguments { get; set; }
 
 		[DataMember]
-		public IncrementGlobalValueArguments IncrementGlobalValueArguments { get; set; }
+		public IncrementValueArguments IncrementValueArguments { get; set; }
 
 		[DataMember]
 		public ControlGKDeviceArguments ControlGKDeviceArguments { get; set; }

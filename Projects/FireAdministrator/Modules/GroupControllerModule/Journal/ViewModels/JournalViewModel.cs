@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_lastCount = value;
-				OnPropertyChanged("LastCount");
+				OnPropertyChanged(() => LastCount);
 				StartIndex = Math.Max(0, TotalCount - value);
 				EndIndex = TotalCount;
 			}
@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_journalItems = value;
-				OnPropertyChanged("JournalItems");
+				OnPropertyChanged(() => JournalItems);
 			}
 		}
 

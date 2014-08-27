@@ -23,8 +23,8 @@
 		<Views:HolidayDetailsView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:HolidaySettingsViewModel}">
-		<Views:HolidaySettingsView />
+	<DataTemplate DataType="{x:Type ViewModels:NightSettingsViewModel}">
+		<Views:NightSettingsView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:SchedulesViewModel}">
@@ -61,6 +61,10 @@
 
     <DataTemplate DataType="{x:Type ViewModels:DocumentDetailsViewModel}">
         <Views:DocumentDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ReportSettingsViewModel}">
+        <Views:ReportSettingsView />
     </DataTemplate>
 
 </ResourceDictionary>

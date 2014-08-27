@@ -15,8 +15,12 @@
 				<File Id="Monitor.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Common.TargetDir)" />
-				
-				<File Id="Monitor.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
+
+        <File Id="Monitor.FireMonitor.Layout.exe" Name="FireMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.FireMonitor.Layout.exe.config" Name="FireMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.FireMonitor.Layout.exe.manifest" Name="FireMonitor.Layout.exe.manifest" Source="$(var.Monitor.TargetDir)" />
+
+        <File Id="Monitor.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.FSAgentAPI.dll" Name="FSAgentAPI.dll" Source="$(var.Common.TargetDir)" />
@@ -35,6 +39,7 @@
 				<File Id="Monitor.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Monitor.WPFToolkit.dll" Name="WPFToolkit.dll" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
 				<File Id="Monitor.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
@@ -65,9 +70,6 @@
 
 			<Component Id="Monitor.SKD_MODULE" Guid="99EC1F25-69FD-4081-A254-37AEAD590798">
 				<File Id="Monitor.SKDModule.dll" Name="SKDModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
-				<File Id="Monitor.FireMonitor.Layout.exe" Name="FireMonitor.Layout.exe" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.FireMonitor.Layout.exe.config" Name="FireMonitor.Layout.exe.config" Source="$(var.Monitor.TargetDir)" />
-				<File Id="Monitor.FireMonitor.Layout.exe.manifest" Name="FireMonitor.Layout.exe.manifest" Source="$(var.Monitor.TargetDir)" />
 				<File Id="Monitor.Xceed.Wpf.AvalonDock.dll" Name="Xceed.Wpf.AvalonDock.dll" Source="$(var.Common.TargetDir)" />
 			</Component>
 

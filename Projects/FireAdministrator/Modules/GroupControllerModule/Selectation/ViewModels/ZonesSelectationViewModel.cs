@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedSourceZone = value;
-				OnPropertyChanged("SelectedSourceZone");
+				OnPropertyChanged(() => SelectedSourceZone);
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 				SourceZones.Remove(zoneViewModel);
 			}
 			SelectedTargetZone = TargetZones.LastOrDefault();
-			OnPropertyChanged("SourceZones");
+			OnPropertyChanged(() => SourceZones);
 
 			index = Math.Min(index, SourceZones.Count - 1);
 			if (index > -1)

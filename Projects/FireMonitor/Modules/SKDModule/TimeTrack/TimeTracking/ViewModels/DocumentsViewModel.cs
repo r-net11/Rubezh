@@ -25,7 +25,7 @@ namespace SKDModule.ViewModels
 			Documents = new ObservableCollection<DocumentViewModel>();
 			if (timeTrackEmployeeResult.Documents != null)
 			{
-				foreach (var document in timeTrackEmployeeResult.Documents)
+				foreach (var document in timeTrackEmployeeResult.Documents.OrderBy(x => x.StartDateTime))
 				{
 					var documentViewModel = new DocumentViewModel(document);
 					Documents.Add(documentViewModel);
@@ -50,7 +50,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel();
+			var documentDetailsViewModel = new DocumentDetailsViewModel(true);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;
@@ -72,7 +72,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(SelectedDocument.Document);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(true, SelectedDocument.Document);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;

@@ -25,341 +25,396 @@ using CodeReason.Reports.Document;
 
 namespace CodeReason.Reports
 {
-    /// <summary>
-    /// Contains a complete report template without data
-    /// </summary>
-    public class ReportDocument
-    {
-        private double _pageHeaderHeight = 0;
-        /// <summary>
-        /// Gets or sets the page header height
-        /// </summary>
-        public double PageHeaderHeight
-        {
-            get { return _pageHeaderHeight; }
-            set { _pageHeaderHeight = value; }
-        }
+	/// <summary>
+	/// Contains a complete report template without data
+	/// </summary>
+	public class ReportDocument
+	{
+		private double _pageHeaderHeight = 0;
+		/// <summary>
+		/// Gets or sets the page header height
+		/// </summary>
+		public double PageHeaderHeight
+		{
+			get { return _pageHeaderHeight; }
+			set { _pageHeaderHeight = value; }
+		}
 
-        private double _pageFooterHeight = 0;
-        /// <summary>
-        /// Gets or sets the page footer height
-        /// </summary>
-        public double PageFooterHeight
-        {
-            get { return _pageFooterHeight; }
-            set { _pageFooterHeight = value; }
-        }
+		private double _pageFooterHeight = 0;
+		/// <summary>
+		/// Gets or sets the page footer height
+		/// </summary>
+		public double PageFooterHeight
+		{
+			get { return _pageFooterHeight; }
+			set { _pageFooterHeight = value; }
+		}
 
-        private double _pageHeight = double.NaN;
-        /// <summary>
-        /// Gets the original page height of the FlowDocument
-        /// </summary>
-        public double PageHeight
-        {
-            get { return _pageHeight; }
-        }
+		private double _pageHeight = double.NaN;
+		/// <summary>
+		/// Gets the original page height of the FlowDocument
+		/// </summary>
+		public double PageHeight
+		{
+			get { return _pageHeight; }
+		}
 
-        private double _pageWidth = double.NaN;
-        /// <summary>
-        /// Gets the original page width of the FlowDocument
-        /// </summary>
-        public double PageWidth
-        {
-            get { return _pageWidth; }
-        }
+		private double _pageWidth = double.NaN;
+		/// <summary>
+		/// Gets the original page width of the FlowDocument
+		/// </summary>
+		public double PageWidth
+		{
+			get { return _pageWidth; }
+		}
 
-        private string _reportName = "";
-        /// <summary>
-        /// Gets or sets the optional report name
-        /// </summary>
-        public string ReportName
-        {
-            get { return _reportName; }
-            set { _reportName = value; }
-        }
+		private string _reportName = "";
+		/// <summary>
+		/// Gets or sets the optional report name
+		/// </summary>
+		public string ReportName
+		{
+			get { return _reportName; }
+			set { _reportName = value; }
+		}
 
-        private string _reportTitle = "";
-        /// <summary>
-        /// Gets or sets the optional report title
-        /// </summary>
-        public string ReportTitle
-        {
-            get { return _reportTitle; }
-            set { _reportTitle = value; }
-        }
+		private string _reportTitle = "";
+		/// <summary>
+		/// Gets or sets the optional report title
+		/// </summary>
+		public string ReportTitle
+		{
+			get { return _reportTitle; }
+			set { _reportTitle = value; }
+		}
 
-        private string _xamlImagePath = "";
-        /// <summary>
-        /// XAML image path
-        /// </summary>
-        public string XamlImagePath
-        {
-            get { return _xamlImagePath; }
-            set { _xamlImagePath = value; }
-        }
+		private string _xamlImagePath = "";
+		/// <summary>
+		/// XAML image path
+		/// </summary>
+		public string XamlImagePath
+		{
+			get { return _xamlImagePath; }
+			set { _xamlImagePath = value; }
+		}
 
-        private string _xamlData = "";
-        /// <summary>
-        /// XAML report data
-        /// </summary>
-        public string XamlData
-        {
-            get { return _xamlData; }
-            set { _xamlData = value; }
-        }
+		private string _xamlData = "";
+		/// <summary>
+		/// XAML report data
+		/// </summary>
+		public string XamlData
+		{
+			get { return _xamlData; }
+			set { _xamlData = value; }
+		}
 
-        private CompressionOption _xpsCompressionOption = CompressionOption.NotCompressed;
-        /// <summary>
-        /// Gets or sets the compression option which is used to create XPS files
-        /// </summary>
-        /// <seealso cref="CreateXpsDocument(ReportData data, string fileName)" />
-        public CompressionOption XpsCompressionOption
-        {
-            get { return _xpsCompressionOption; }
-            set { _xpsCompressionOption = value; }
-        }
+		public FlowDocument FlowDocument { get; set; }
 
-        #region Events
-        /// <summary>
-        /// Event occurs after a data row is bound
-        /// </summary>
-        public event EventHandler<DataRowBoundEventArgs> DataRowBound = null;
+		private CompressionOption _xpsCompressionOption = CompressionOption.NotCompressed;
+		/// <summary>
+		/// Gets or sets the compression option which is used to create XPS files
+		/// </summary>
+		/// <seealso cref="CreateXpsDocument(ReportData data, string fileName)" />
+		public CompressionOption XpsCompressionOption
+		{
+			get { return _xpsCompressionOption; }
+			set { _xpsCompressionOption = value; }
+		}
 
-        /// <summary>
-        /// Event occurs after a page has been completed
-        /// </summary>
-        public event GetPageCompletedEventHandler GetPageCompleted = null;
+		#region Events
+		/// <summary>
+		/// Event occurs after a data row is bound
+		/// </summary>
+		public event EventHandler<DataRowBoundEventArgs> DataRowBound = null;
 
-        /// <summary>
-        /// Event occurs if an exception has encountered while loading the BitmapSource
-        /// </summary>
-        public event EventHandler<ImageErrorEventArgs> ImageError = null;
+		/// <summary>
+		/// Event occurs after a page has been completed
+		/// </summary>
+		public event GetPageCompletedEventHandler GetPageCompleted = null;
 
-        /// <summary>
-        /// Event occurs before an image is being processed
-        /// </summary>
-        public event EventHandler<ImageEventArgs> ImageProcessing = null;
+		/// <summary>
+		/// Event occurs if an exception has encountered while loading the BitmapSource
+		/// </summary>
+		public event EventHandler<ImageErrorEventArgs> ImageError = null;
 
-        /// <summary>
-        /// Event occurs after an image has being processed
-        /// </summary>
-        public event EventHandler<ImageEventArgs> ImageProcessed = null;
-        #endregion
+		/// <summary>
+		/// Event occurs before an image is being processed
+		/// </summary>
+		public event EventHandler<ImageEventArgs> ImageProcessing = null;
 
-        /// <summary>
-        /// Fire event after a page has been completed
-        /// </summary>
-        /// <param name="ea">GetPageCompletedEventArgs</param>
-        public void FireEventGetPageCompleted(GetPageCompletedEventArgs ea)
-        {
-            if (GetPageCompleted != null) GetPageCompleted(this, ea);
-        }
+		/// <summary>
+		/// Event occurs after an image has being processed
+		/// </summary>
+		public event EventHandler<ImageEventArgs> ImageProcessed = null;
+		#endregion
 
-        /// <summary>
-        /// Fire event after a data row has been bound
-        /// </summary>
-        /// <param name="ea">DataRowBoundEventArgs</param>
-        public void FireEventDataRowBoundEventArgs(DataRowBoundEventArgs ea)
-        {
-            if (DataRowBound != null) DataRowBound(this, ea);
-        }
+		/// <summary>
+		/// Fire event after a page has been completed
+		/// </summary>
+		/// <param name="ea">GetPageCompletedEventArgs</param>
+		public void FireEventGetPageCompleted(GetPageCompletedEventArgs ea)
+		{
+			if (GetPageCompleted != null)
+				GetPageCompleted(this, ea);
+		}
 
-        /// <summary>
-        /// Creates a flow document of the report data
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException">Flow document must have a specified page height</exception>
-        /// <exception cref="ArgumentException">Flow document must have a specified page width</exception>
-        /// <exception cref="ArgumentException">"Flow document must have only one ReportProperties section, but it has {0}"</exception>
-        public FlowDocument CreateFlowDocument()
-        {
-            MemoryStream mem = new MemoryStream();
-            byte[] buf = Encoding.UTF8.GetBytes(_xamlData);
-            mem.Write(buf, 0, buf.Length);
-            mem.Position = 0;
-            FlowDocument res = XamlReader.Load(mem) as FlowDocument;
+		/// <summary>
+		/// Fire event after a data row has been bound
+		/// </summary>
+		/// <param name="ea">DataRowBoundEventArgs</param>
+		public void FireEventDataRowBoundEventArgs(DataRowBoundEventArgs ea)
+		{
+			if (DataRowBound != null)
+				DataRowBound(this, ea);
+		}
 
-            if (res.PageHeight == double.NaN) throw new ArgumentException("Flow document must have a specified page height");
-            if (res.PageWidth == double.NaN) throw new ArgumentException("Flow document must have a specified page width");
+		/// <summary>
+		/// Creates a flow document of the report data
+		/// </summary>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException">Flow document must have a specified page height</exception>
+		/// <exception cref="ArgumentException">Flow document must have a specified page width</exception>
+		/// <exception cref="ArgumentException">"Flow document must have only one ReportProperties section, but it has {0}"</exception>
+		public FlowDocument CreateFlowDocument(out Hint hints)
+		{
+			using (var counter = new TimeCounter("\t\t\tReportDocument Total	{0}"))
+			{
+				FlowDocument res = GetFlowDocument();
+				counter.ShowTick("\t\t\t\tReportDocument Load XAML:	{0}");
 
-            // remember original values
-            _pageHeight = res.PageHeight;
-            _pageWidth = res.PageWidth;
+				if (res.PageHeight == double.NaN)
+					throw new ArgumentException("Flow document must have a specified page height");
+				if (res.PageWidth == double.NaN)
+					throw new ArgumentException("Flow document must have a specified page width");
 
-            // search report properties
-            DocumentWalker walker = new DocumentWalker();
-            List<SectionReportHeader> headers = walker.Walk<SectionReportHeader>(res);
-            List<SectionReportFooter> footers = walker.Walk<SectionReportFooter>(res);
-            List<ReportProperties> properties = walker.Walk<ReportProperties>(res);
-            if (properties.Count > 0)
-            {
-                if (properties.Count > 1) throw new ArgumentException(String.Format("Flow document must have only one ReportProperties section, but it has {0}", properties.Count));
-                ReportProperties prop = properties[0];
-                if (prop.ReportName != null) ReportName = prop.ReportName;
-                if (prop.ReportTitle != null) ReportTitle = prop.ReportTitle;
-                if (headers.Count > 0) PageHeaderHeight = headers[0].PageHeaderHeight;
-                if (footers.Count > 0) PageFooterHeight = footers[0].PageFooterHeight;
+				// remember original values
+				_pageHeight = res.PageHeight;
+				_pageWidth = res.PageWidth;
 
-                // remove properties section from FlowDocument
-                DependencyObject parent = prop.Parent;
-                if (parent is FlowDocument) { ((FlowDocument)parent).Blocks.Remove(prop); parent = null; }
-                if (parent is Section) { ((Section)parent).Blocks.Remove(prop); parent = null; }
-            }
+				// search report properties
+				DocumentWalker walker = new DocumentWalker();
+				List<SectionReportHeader> headers = walker.Walk<SectionReportHeader>(res);
+				List<SectionReportFooter> footers = walker.Walk<SectionReportFooter>(res);
 
-            // make height smaller to have enough space for page header and page footer
-            res.PageHeight = _pageHeight - _pageHeight * (PageHeaderHeight + PageFooterHeight) / 100d;
+				var hintList = walker.Walk<ReportHint>(res);
+				hints = Hint.None;
+				foreach (var hint in hintList)
+				{
+					hints |= hint.Hint;
+					// remove properties section from FlowDocument
+					DependencyObject parent = hint.Parent;
+					if (parent is FlowDocument) { ((FlowDocument)parent).Blocks.Remove(hint); parent = null; }
+					if (parent is Section) { ((Section)parent).Blocks.Remove(hint); parent = null; }
+				}
 
-            // search image objects
-            List<Image> images = new List<Image>();
-            walker.Tag = images;
-            walker.VisualVisited += new DocumentVisitedEventHandler(walker_VisualVisited);
-            walker.Walk(res);
+				List<ReportProperties> properties = walker.Walk<ReportProperties>(res);
+				if (properties.Count > 0)
+				{
+					if (properties.Count > 1)
+						throw new ArgumentException(String.Format("Flow document must have only one ReportProperties section, but it has {0}", properties.Count));
+					ReportProperties prop = properties[0];
+					if (prop.ReportName != null)
+						ReportName = prop.ReportName;
+					if (prop.ReportTitle != null)
+						ReportTitle = prop.ReportTitle;
+					if (headers.Count > 0)
+						PageHeaderHeight = headers[0].PageHeaderHeight;
+					if (footers.Count > 0)
+						PageFooterHeight = footers[0].PageFooterHeight;
 
-            // load all images
-            foreach (Image image in images)
-            {
-                if (ImageProcessing != null) ImageProcessing(this, new ImageEventArgs(this, image));
-                try
-                {
-                    if (image.Tag is string)
-                        image.Source = new BitmapImage(new Uri("file:///" + Path.Combine(_xamlImagePath, image.Tag.ToString())));
-                }
-                catch (Exception ex)
-                {
-                    // fire event on exception and check for Handled = true after each invoke
-                    if (ImageError != null)
-                    {
-                        bool handled = false;
-                        lock (ImageError)
-                        {
-                            ImageErrorEventArgs eventArgs = new ImageErrorEventArgs(ex, this, image);
-                            foreach (var ed in ImageError.GetInvocationList())
-                            {
-                                ed.DynamicInvoke(this, eventArgs);
-                                if (eventArgs.Handled) { handled = true; break; }
-                            }
-                        }
-                        if (!handled) throw;
-                    }
-                    else throw;
-                }
-                if (ImageProcessed != null) ImageProcessed(this, new ImageEventArgs(this, image));
-                // TODO: find a better way to specify file names
-            }
+					// remove properties section from FlowDocument
+					DependencyObject parent = prop.Parent;
+					if (parent is FlowDocument) { ((FlowDocument)parent).Blocks.Remove(prop); parent = null; }
+					if (parent is Section) { ((Section)parent).Blocks.Remove(prop); parent = null; }
+				}
 
-            return res;
-        }
+				// make height smaller to have enough space for page header and page footer
+				res.PageHeight = _pageHeight - _pageHeight * (PageHeaderHeight + PageFooterHeight) / 100d;
 
-        private void walker_VisualVisited(object sender, object visitedObject, bool start)
-        {
-            if (!(visitedObject is Image)) return;
+				// search image objects
+				List<Image> images = new List<Image>();
+				walker.Tag = images;
+				walker.VisualVisited += new DocumentVisitedEventHandler(walker_VisualVisited);
+				walker.Walk(res);
 
-            DocumentWalker walker = sender as DocumentWalker;
-            if (walker == null) return;
+				// load all images
+				foreach (Image image in images)
+				{
+					if (ImageProcessing != null)
+						ImageProcessing(this, new ImageEventArgs(this, image));
+					try
+					{
+						if (image.Tag is string)
+							image.Source = new BitmapImage(new Uri("file:///" + Path.Combine(_xamlImagePath, image.Tag.ToString())));
+					}
+					catch (Exception ex)
+					{
+						// fire event on exception and check for Handled = true after each invoke
+						if (ImageError != null)
+						{
+							bool handled = false;
+							lock (ImageError)
+							{
+								ImageErrorEventArgs eventArgs = new ImageErrorEventArgs(ex, this, image);
+								foreach (var ed in ImageError.GetInvocationList())
+								{
+									ed.DynamicInvoke(this, eventArgs);
+									if (eventArgs.Handled) { handled = true; break; }
+								}
+							}
+							if (!handled)
+								throw;
+						}
+						else
+							throw;
+					}
+					if (ImageProcessed != null)
+						ImageProcessed(this, new ImageEventArgs(this, image));
+					// TODO: find a better way to specify file names
+				}
 
-            List<Image> list = walker.Tag as List<Image>;
-            if (list == null) return;
+				return res;
+			}
+		}
 
-            list.Add((Image)visitedObject);
-        }
+		private void walker_VisualVisited(object sender, object visitedObject, bool start)
+		{
+			if (!(visitedObject is Image))
+				return;
 
-        /// <summary>
-        /// Helper method to create page header or footer from flow document template
-        /// </summary>
-        /// <param name="data">report data</param>
-        /// <returns></returns>
-        public XpsDocument CreateXpsDocument(ReportData data)
-        {
-            MemoryStream ms = new MemoryStream();
-            Package pkg = Package.Open(ms, FileMode.Create, FileAccess.ReadWrite);
-            string pack = "pack://report.xps";
-            PackageStore.RemovePackage(new Uri(pack));
-            PackageStore.AddPackage(new Uri(pack), pkg);
-            XpsDocument doc = new XpsDocument(pkg, CompressionOption.NotCompressed, pack);
-            XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
-            DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+			DocumentWalker walker = sender as DocumentWalker;
+			if (walker == null)
+				return;
 
-            ReportPaginator rp = new ReportPaginator(this, data);
-            rsm.SaveAsXaml(rp);
-            return doc;
-        }
+			List<Image> list = walker.Tag as List<Image>;
+			if (list == null)
+				return;
 
-        /// <summary>
-        /// Helper method to create page header or footer from flow document template
-        /// </summary>
-        /// <param name="data">enumerable report data</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException">data</exception>
-        public XpsDocument CreateXpsDocument(IEnumerable<ReportData> data)
-        {
-            if (data == null) throw new ArgumentNullException("data");
-            int count = 0; ReportData firstData = null;
-            foreach (ReportData rd in data) { if (firstData == null) firstData = rd; count++; }
-            if (count == 1) return CreateXpsDocument(firstData); // we have only one ReportData object -> use the normal ReportPaginator instead
+			list.Add((Image)visitedObject);
+		}
 
-            MemoryStream ms = new MemoryStream();
-            Package pkg = Package.Open(ms, FileMode.Create, FileAccess.ReadWrite);
-            string pack = "pack://report.xps";
-            PackageStore.RemovePackage(new Uri(pack));
-            PackageStore.AddPackage(new Uri(pack), pkg);
-            XpsDocument doc = new XpsDocument(pkg, CompressionOption.NotCompressed, pack);
-            XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
-            DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+		protected virtual FlowDocument GetFlowDocument()
+		{
+			if (FlowDocument != null)
+				return FlowDocument;
+			using (MemoryStream mem = new MemoryStream())
+			{
+				byte[] buf = Encoding.UTF8.GetBytes(_xamlData);
+				mem.Write(buf, 0, buf.Length);
+				mem.Position = 0;
+				return XamlReader.Load(mem) as FlowDocument;
+			}
+		}
 
-            MultipleReportPaginator rp = new MultipleReportPaginator(this, data);
-            rsm.SaveAsXaml(rp);
-            return doc;
-        }
+		/// <summary>
+		/// Helper method to create page header or footer from flow document template
+		/// </summary>
+		/// <param name="data">report data</param>
+		/// <returns></returns>
+		public XpsDocument CreateXpsDocument(ReportData data)
+		{
+			MemoryStream ms = new MemoryStream();
+			Package pkg = Package.Open(ms, FileMode.Create, FileAccess.ReadWrite);
+			string pack = "pack://report.xps";
+			PackageStore.RemovePackage(new Uri(pack));
+			PackageStore.AddPackage(new Uri(pack), pkg);
+			XpsDocument doc = new XpsDocument(pkg, CompressionOption.NotCompressed, pack);
+			XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
+			//DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
 
-        /// <summary>
-        /// Helper method to create page header or footer from flow document template
-        /// </summary>
-        /// <param name="data">report data</param>
-        /// <param name="fileName">file to save XPS to</param>
-        /// <returns></returns>
-        public XpsDocument CreateXpsDocument(ReportData data, string fileName)
-        {
-            Package pkg = Package.Open(fileName, FileMode.Create, FileAccess.ReadWrite);
-            string pack = "pack://report.xps";
-            PackageStore.RemovePackage(new Uri(pack));
-            PackageStore.AddPackage(new Uri(pack), pkg);
-            XpsDocument doc = new XpsDocument(pkg, _xpsCompressionOption, pack);
-            XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
-            DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+			ReportPaginator rp = new ReportPaginator(this, data);
+			rsm.SaveAsXaml(rp);
+			return doc;
+		}
 
-            ReportPaginator rp = new ReportPaginator(this, data);
-            rsm.SaveAsXaml(rp);
-            rsm.Commit();
-            pkg.Close();
-            return new XpsDocument(fileName, FileAccess.Read);
-        }
+		/// <summary>
+		/// Helper method to create page header or footer from flow document template
+		/// </summary>
+		/// <param name="data">enumerable report data</param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentNullException">data</exception>
+		public XpsDocument CreateXpsDocument(IEnumerable<ReportData> data)
+		{
+			using (var counter = new TimeCounter("CreateXpsDocument Total:		{0}", true, true))
+			{
+				if (data == null)
+					throw new ArgumentNullException("data");
+				int count = 0;
+				ReportData firstData = null;
+				foreach (ReportData rd in data) { if (firstData == null) firstData = rd; count++; }
+				if (count == 1)
+					return CreateXpsDocument(firstData); // we have only one ReportData object -> use the normal ReportPaginator instead
 
-        /// <summary>
-        /// Helper method to create page header or footer from flow document template
-        /// </summary>
-        /// <param name="data">enumerable report data</param>
-        /// <param name="fileName">file to save XPS to</param>
-        /// <returns></returns>
-        public XpsDocument CreateXpsDocument(IEnumerable<ReportData> data, string fileName)
-        {
-            if (data == null) throw new ArgumentNullException("data");
-            int count = 0; ReportData firstData = null;
-            foreach (ReportData rd in data) { if (firstData == null) firstData = rd; count++; }
-            if (count == 1) return CreateXpsDocument(firstData); // we have only one ReportData object -> use the normal ReportPaginator instead
+				MemoryStream ms = new MemoryStream();
+				Package pkg = Package.Open(ms, FileMode.Create, FileAccess.ReadWrite);
+				string pack = "pack://report.xps";
+				PackageStore.RemovePackage(new Uri(pack));
+				PackageStore.AddPackage(new Uri(pack), pkg);
+				XpsDocument doc = new XpsDocument(pkg, CompressionOption.NotCompressed, pack);
+				XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
+				//DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+				counter.ShowTick("CreateXpsDocument Prepare:	{0}");
 
-            Package pkg = Package.Open(fileName, FileMode.Create, FileAccess.ReadWrite);
-            string pack = "pack://report.xps";
-            PackageStore.RemovePackage(new Uri(pack));
-            PackageStore.AddPackage(new Uri(pack), pkg);
-            XpsDocument doc = new XpsDocument(pkg, _xpsCompressionOption, pack);
-            XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
-            DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+				MultipleReportPaginator rp = new MultipleReportPaginator(this, data);
+				counter.ShowTick("CreateXpsDocument Paginator:	{0}");
+				rsm.SaveAsXaml(rp);
+				counter.ShowTick("CreateXpsDocument SaveAsXaml:	{0}");
+				return doc;
+			}
+		}
 
-            MultipleReportPaginator rp = new MultipleReportPaginator(this, data);
-            rsm.SaveAsXaml(rp);
-            rsm.Commit();
-            pkg.Close();
-            return new XpsDocument(fileName, FileAccess.Read);
-        }
-    }
+		/// <summary>
+		/// Helper method to create page header or footer from flow document template
+		/// </summary>
+		/// <param name="data">report data</param>
+		/// <param name="fileName">file to save XPS to</param>
+		/// <returns></returns>
+		public XpsDocument CreateXpsDocument(ReportData data, string fileName)
+		{
+			Package pkg = Package.Open(fileName, FileMode.Create, FileAccess.ReadWrite);
+			string pack = "pack://report.xps";
+			PackageStore.RemovePackage(new Uri(pack));
+			PackageStore.AddPackage(new Uri(pack), pkg);
+			XpsDocument doc = new XpsDocument(pkg, _xpsCompressionOption, pack);
+			XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
+			//DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+
+			ReportPaginator rp = new ReportPaginator(this, data);
+			rsm.SaveAsXaml(rp);
+			rsm.Commit();
+			pkg.Close();
+			return new XpsDocument(fileName, FileAccess.Read);
+		}
+
+		/// <summary>
+		/// Helper method to create page header or footer from flow document template
+		/// </summary>
+		/// <param name="data">enumerable report data</param>
+		/// <param name="fileName">file to save XPS to</param>
+		/// <returns></returns>
+		public XpsDocument CreateXpsDocument(IEnumerable<ReportData> data, string fileName)
+		{
+			if (data == null)
+				throw new ArgumentNullException("data");
+			int count = 0;
+			ReportData firstData = null;
+			foreach (ReportData rd in data) { if (firstData == null) firstData = rd; count++; }
+			if (count == 1)
+				return CreateXpsDocument(firstData); // we have only one ReportData object -> use the normal ReportPaginator instead
+
+			Package pkg = Package.Open(fileName, FileMode.Create, FileAccess.ReadWrite);
+			string pack = "pack://report.xps";
+			PackageStore.RemovePackage(new Uri(pack));
+			PackageStore.AddPackage(new Uri(pack), pkg);
+			XpsDocument doc = new XpsDocument(pkg, _xpsCompressionOption, pack);
+			XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(doc), false);
+			//DocumentPaginator paginator = ((IDocumentPaginatorSource)CreateFlowDocument()).DocumentPaginator;
+
+			MultipleReportPaginator rp = new MultipleReportPaginator(this, data);
+			rsm.SaveAsXaml(rp);
+			rsm.Commit();
+			pkg.Close();
+			return new XpsDocument(fileName, FileAccess.Read);
+		}
+	}
 }

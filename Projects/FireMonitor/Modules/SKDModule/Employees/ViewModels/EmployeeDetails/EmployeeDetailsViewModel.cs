@@ -716,6 +716,8 @@ namespace SKDModule.ViewModels
 				if (SelectedSchedule != null)
 					Employee.Schedule = SelectedSchedule;
 				Employee.ScheduleStartDate = ScheduleStartDate;
+				Employee.Appointed = Appointed;
+				Employee.CredentialsStartDate = CredentialsStartDate;
 			}
 			else
 			{

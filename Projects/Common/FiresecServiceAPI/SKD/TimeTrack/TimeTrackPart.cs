@@ -9,7 +9,7 @@ namespace FiresecAPI.SKD
 	{
 		public TimeTrackPart()
 		{
-			DocumentCodes = new List<int>();
+			TimeTrackDocumentTypes = new List<TimeTrackDocumentType>();
 		}
 
 		[DataMember]
@@ -22,13 +22,13 @@ namespace FiresecAPI.SKD
 		public Guid ZoneUID { get; set; }
 
 		[DataMember]
-		public TimeTrackPartType TimeTrackPartType { get; set; }
+		public TimeTrackType TimeTrackPartType { get; set; }
 
 		[DataMember]
-		public int DocumentCode { get; set; }
+		public TimeTrackDocumentType MinTimeTrackDocumentType { get; set; }
 
 		[DataMember]
-		public List<int> DocumentCodes { get; set; }
+		public List<TimeTrackDocumentType> TimeTrackDocumentTypes { get; set; }
 
 		public TimeSpan Delta
 		{

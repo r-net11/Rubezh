@@ -27,7 +27,7 @@ namespace VideoModule.ViewModels
 				else
 					PropertyViewModels.Add(new PropertyViewModel(item.Key, presentationCellName, item.Value));
 			}
-			OnPropertyChanged("PropertyViewModels");
+			OnPropertyChanged(() => PropertyViewModels);
 		}
 
 		public ObservableCollection<PropertyViewModel> PropertyViewModels { get; private set; }

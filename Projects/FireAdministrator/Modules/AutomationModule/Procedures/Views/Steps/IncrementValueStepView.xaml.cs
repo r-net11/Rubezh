@@ -1,8 +1,8 @@
 ﻿namespace AutomationModule.Views
 {
-	public partial class SetGlobalValueStepView
+	public partial class IncrementValueStepView
 	{
-		public SetGlobalValueStepView()
+		public IncrementValueStepView()
 		{
 			InitializeComponent();
 		}

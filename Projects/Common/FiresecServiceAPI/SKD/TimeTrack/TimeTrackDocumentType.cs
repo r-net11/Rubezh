@@ -6,11 +6,6 @@ namespace FiresecAPI.SKD
 	[DataContract]
 	public class TimeTrackDocumentType
 	{
-		public TimeTrackDocumentType()
-		{
-
-		}
-
 		public TimeTrackDocumentType(string name, string shortName, int code, DocumentType documentType = DocumentType.Presence)
 		{
 			Name = name;

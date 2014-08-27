@@ -17,11 +17,13 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CodeReason.Reports.Document;
 using CodeReason.Reports.Interfaces;
+using System.Windows.Markup;
+using CodeReason.Reports.Providers;
+//using System.Windows.Markup;
 
 namespace CodeReason.Reports
 {
@@ -43,6 +45,8 @@ namespace CodeReason.Reports
 		protected ArrayList _reportContextValues = null;
 		protected ReportPaginatorDynamicCache _dynamicCache = null;
 		protected DateTime _reportDate;
+		protected Dictionary<string, List<object>> _aggregateValues;
+		protected Hint _hints;
 
 		/// <summary>
 		/// Constructor
@@ -61,7 +65,8 @@ namespace CodeReason.Reports
 			_data = data;
 			_reportDate = DateTime.Now;
 
-			_flowDocument = report.CreateFlowDocument();
+			using (new TimeCounter("\t\tCreateFlowDocument	{0}"))
+				_flowDocument = report.CreateFlowDocument(out _hints);
 			_pageSize = new Size(_flowDocument.PageWidth, _flowDocument.PageHeight);
 
 			if (_flowDocument.PageHeight == double.NaN)
@@ -93,10 +98,13 @@ namespace CodeReason.Reports
 					_flowDocument.Blocks.Remove(thisBlock);
 			}
 
+			HandleDataGroups();
+
 			// get report context values
 			_reportContextValues = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(IInlineContextValue));
 
-			FillData();
+			using (new TimeCounter("\t\tFillData	{0}"))
+				FillData();
 		}
 
 		protected void RememberAggregateValue(Dictionary<string, List<object>> aggregateValues, string aggregateGroups, object value)
@@ -124,296 +132,6 @@ namespace CodeReason.Reports
 			}
 		}
 
-		/// <summary>
-		/// Fill charts with data
-		/// </summary>
-		/// <param name="charts">list of charts</param>
-		/// <exception cref="TimeoutException">Thread for drawing charts timed out</exception>
-		protected virtual void FillCharts(ArrayList charts)
-		{
-			Window window = null;
-
-			// fill charts
-			foreach (IChart chart in charts)
-			{
-				if (chart == null)
-					continue;
-				Canvas chartCanvas = chart as Canvas;
-				if (String.IsNullOrEmpty(chart.TableName))
-					continue;
-				if (String.IsNullOrEmpty(chart.TableColumns))
-					continue;
-
-				DataTable table = _data.GetDataTableByName(chart.TableName);
-				if (table == null)
-					continue;
-
-				if (chartCanvas != null)
-				{
-					// HACK: this here is REALLY dirty!!!
-					IChart newChart = (IChart)chart.Clone();
-					if (window == null)
-					{
-						window = new Window();
-						window.WindowStyle = WindowStyle.None;
-						window.BorderThickness = new Thickness(0);
-						window.ShowInTaskbar = false;
-						window.Left = 30000;
-						window.Top = 30000;
-						window.Show();
-					}
-					window.Width = chartCanvas.Width + 2 * SystemParameters.BorderWidth;
-					window.Height = chartCanvas.Height + 2 * SystemParameters.BorderWidth;
-					window.Content = newChart;
-
-					newChart.DataColumns = null;
-
-					newChart.DataView = table.DefaultView;
-					newChart.DataColumns = chart.TableColumns.Split(',', ';');
-					newChart.UpdateChart();
-
-					RenderTargetBitmap bitmap = new RenderTargetBitmap((int)((window.Content as FrameworkElement).RenderSize.Width * 600d / 96d), (int)((window.Content as FrameworkElement).RenderSize.Height * 600d / 96d), 600d, 600d, PixelFormats.Pbgra32);
-					bitmap.Render(window);
-					chartCanvas.Children.Add(new Image() { Source = bitmap });
-				}
-				else
-				{
-					chart.DataColumns = null;
-
-					chart.DataView = table.DefaultView;
-					chart.DataColumns = chart.TableColumns.Split(',', ';');
-					chart.UpdateChart();
-				}
-			}
-
-			if (window != null)
-				window.Close();
-		}
-
-		/// <summary>
-		/// Fills document with data
-		/// </summary>
-		/// <exception cref="InvalidDataException">ReportTableRow must have a TableRowGroup as parent</exception>
-		protected virtual void FillData()
-		{
-			ArrayList blockDocumentValues = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(IInlineDocumentValue)); // walker.Walk<IInlineDocumentValue>(_flowDocument);
-			ArrayList blockTableRows = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ITableRowForDataTable)); // walker.Walk<TableRowForDataTable>(_flowDocument);
-			ArrayList blockAggregateValues = _dynamicCache.GetFlowDocumentVisualListByType(typeof(InlineAggregateValue)); // walker.Walk<InlineAggregateValue>(_flowDocument);
-			ArrayList charts = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(IChart)); // walker.Walk<IChart>(_flowDocument);
-			ArrayList dynamicHeaderTableRows = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ITableRowForDynamicHeader));
-			ArrayList dynamicDataTableRows = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ITableRowForDynamicDataTable));
-
-
-			List<Block> blocks = new List<Block>();
-			if (_blockPageHeader != null)
-				blocks.Add(_blockPageHeader);
-			if (_blockPageFooter != null)
-				blocks.Add(_blockPageFooter);
-
-			DocumentWalker walker = new DocumentWalker();
-			blockDocumentValues.AddRange(walker.TraverseBlockCollection<IInlineDocumentValue>(blocks));
-
-			Dictionary<string, List<object>> aggregateValues = new Dictionary<string, List<object>>();
-
-			FillCharts(charts);
-
-			// fill report values
-			foreach (IInlineDocumentValue dv in blockDocumentValues)
-			{
-				if (dv == null)
-					continue;
-				object obj = null;
-				if ((dv.PropertyName != null) && (_data.ReportDocumentValues.TryGetValue(dv.PropertyName, out obj)))
-				{
-					dv.Value = obj;
-					RememberAggregateValue(aggregateValues, dv.AggregateGroup, obj);
-				}
-				else
-				{
-					if ((_data.ShowUnknownValues) && (dv.Value == null))
-						dv.Value = "[" + ((dv.PropertyName != null) ? dv.PropertyName : "NULL") + "]";
-					RememberAggregateValue(aggregateValues, dv.AggregateGroup, null);
-				}
-			}
-
-
-			// fill dynamic tables
-			foreach (ITableRowForDynamicDataTable iTableRow in dynamicDataTableRows)
-			{
-				TableRow tableRow = iTableRow as TableRow;
-				if (tableRow == null)
-					continue;
-
-				TableRowGroup tableGroup = tableRow.Parent as TableRowGroup;
-				if (tableGroup == null)
-					continue;
-
-				TableRow currentRow = null;
-
-				DataTable table = _data.GetDataTableByName(iTableRow.TableName);
-
-				for (int i = 0; i < table.Rows.Count; i++)
-				{
-					currentRow = new TableRow();
-
-					DataRow dataRow = table.Rows[i];
-					for (int j = 0; j < table.Columns.Count; j++)
-					{
-						string value = dataRow[j].ToString();
-						currentRow.Cells.Add(new TableCell(new Paragraph(new Run(value))));
-					}
-					tableGroup.Rows.Add(currentRow);
-				}
-			}
-
-			foreach (ITableRowForDynamicHeader iTableRow in dynamicHeaderTableRows)
-			{
-				TableRow tableRow = iTableRow as TableRow;
-				if (tableRow == null)
-					continue;
-
-				DataTable table = _data.GetDataTableByName(iTableRow.TableName);
-
-				foreach (DataRow row in table.Rows)
-				{
-					string value = row[0].ToString();
-					TableCell tableCell = new TableCell(new Paragraph(new Run(value)));
-					tableRow.Cells.Add(tableCell);
-				}
-
-			}
-
-			// fill tables
-			foreach (ITableRowForDataTable iTableRow in blockTableRows)
-			{
-				TableRow tableRow = iTableRow as TableRow;
-				if (tableRow == null)
-					continue;
-
-				DataTable table = _data.GetDataTableByName(iTableRow.TableName);
-				if (table == null)
-				{
-					if (_data.ShowUnknownValues)
-					{
-						// show unknown values
-						foreach (TableCell cell in tableRow.Cells)
-						{
-							DocumentWalker localWalker = new DocumentWalker();
-							List<ITableCellValue> tableCells = localWalker.TraverseBlockCollection<ITableCellValue>(cell.Blocks);
-							foreach (ITableCellValue cv in tableCells)
-							{
-								IPropertyValue dv = cv as IPropertyValue;
-								if (dv == null)
-									continue;
-								dv.Value = "[" + dv.PropertyName + "]";
-								IAggregateValue av = cv as IAggregateValue;
-								if (av != null)
-									RememberAggregateValue(aggregateValues, av.AggregateGroup, null);
-							}
-						}
-					}
-					else
-						continue;
-				}
-				else
-				{
-					List<ITableCellValue> tableCells = new List<ITableCellValue>();
-					foreach (TableCell cell in tableRow.Cells)
-					{
-						DocumentWalker localWalker = new DocumentWalker();
-						tableCells.AddRange(localWalker.TraverseBlockCollection<ITableCellValue>(cell.Blocks));
-					}
-
-					TableRowGroup rowGroup = tableRow.Parent as TableRowGroup;
-					if (rowGroup == null)
-						throw new InvalidDataException("ReportTableRow must have a TableRowGroup as parent");
-
-					List<TableRow> listNewRows = new List<TableRow>();
-					foreach (TableRow row in rowGroup.Rows)
-					{
-						TableRowForDataTable reportTableRow = row as TableRowForDataTable;
-						if (reportTableRow == null)
-						{
-							// clone regular row
-							listNewRows.Add(XamlHelper.CloneTableRow(row));
-						}
-						else
-						{
-							string reportTableRowXaml = XamlWriter.Save(reportTableRow);
-
-							// clone ReportTableRows
-							List<TableRow> clonedTableRows = new List<TableRow>();
-							for (int i = 0; i < table.Rows.Count; i++)
-							{
-								clonedTableRows.Add((TableRow)XamlHelper.LoadXamlFromString(reportTableRowXaml));
-							}
-
-							foreach (DataRow dataRow in table.Rows)
-							{
-								// get cloned ReportTableRow
-								TableRow newTableRow = clonedTableRows[0];
-								clonedTableRows.RemoveAt(0);
-
-								foreach (TableCell cell in newTableRow.Cells)
-								{
-									DocumentWalker localWalker = new DocumentWalker();
-									List<ITableCellValue> newCells = localWalker.TraverseBlockCollection<ITableCellValue>(cell.Blocks);
-									foreach (ITableCellValue cv in newCells)
-									{
-										IPropertyValue dv = cv as IPropertyValue;
-										if (dv == null)
-											continue;
-										IAggregateValue av = cv as IAggregateValue;
-										try
-										{
-											object obj = dataRow[dv.PropertyName];
-											if (obj == DBNull.Value)
-												obj = null;
-											dv.Value = obj;
-
-											if (av != null)
-												RememberAggregateValue(aggregateValues, av.AggregateGroup, obj);
-										}
-										catch
-										{
-											if (_data.ShowUnknownValues)
-												dv.Value = "[" + dv.PropertyName + "]";
-											else
-												dv.Value = "";
-											if (av != null)
-												RememberAggregateValue(aggregateValues, av.AggregateGroup, null);
-										}
-									}
-								}
-								listNewRows.Add(newTableRow);
-
-								// fire event
-								_report.FireEventDataRowBoundEventArgs(new DataRowBoundEventArgs(_report, dataRow) { TableName = dataRow.Table.TableName, TableRow = newTableRow });
-							}
-						}
-					}
-					rowGroup.Rows.Clear();
-					foreach (TableRow row in listNewRows)
-						rowGroup.Rows.Add(row);
-				}
-			}
-
-			// fill aggregate values
-			foreach (InlineAggregateValue av in blockAggregateValues)
-			{
-				if (String.IsNullOrEmpty(av.AggregateGroup))
-					continue;
-				if (!aggregateValues.ContainsKey(av.AggregateGroup))
-				{
-					av.Text = av.EmptyValue;
-				}
-				else
-				{
-					av.Text = av.ComputeAndFormat(aggregateValues);
-				}
-			}
-		}
-
 		ContainerVisual CloneVisualBlock(Block block, int pageNumber)
 		{
 			FlowDocument tmpDoc = new FlowDocument();
@@ -422,8 +140,7 @@ namespace CodeReason.Reports
 			tmpDoc.PageWidth = _report.PageWidth;
 			tmpDoc.PagePadding = new Thickness(0);
 
-			string xaml = XamlWriter.Save(block);
-			Block newBlock = XamlReader.Parse(xaml) as Block;
+			Block newBlock = XamlHelper.Clone<Block>(block);
 			tmpDoc.Blocks.Add(newBlock);
 
 			DocumentWalker walkerBlock = new DocumentWalker();
@@ -444,41 +161,30 @@ namespace CodeReason.Reports
 			{
 				if (cv == null)
 					continue;
-				ReportContextValueType? reportContextValueType = ReportPaginatorStaticCache.GetReportContextValueTypeByName(cv.PropertyName);
-				if (reportContextValueType == null)
+				switch (cv.Type)
 				{
-					if (_data.ShowUnknownValues)
-						cv.Value = "<" + ((cv.PropertyName != null) ? cv.PropertyName : "NULL") + ">";
-					else
-						cv.Value = "";
-				}
-				else
-				{
-					switch (reportContextValueType.Value)
-					{
-						case ReportContextValueType.PageNumber:
-							cv.Value = pageNumber + PageShift;
-							break;
-						case ReportContextValueType.PageCount:
-							cv.Value = TotalPageCount == -1 ? PageCount : TotalPageCount;;
-							Console.WriteLine(cv.Value);
-							break;
-						case ReportContextValueType.ReportName:
-							cv.Value = _report.ReportName;
-							break;
-						case ReportContextValueType.ReportTitle:
-							cv.Value = _report.ReportTitle;
-							break;
-						case ReportContextValueType.ReportDate:
-							cv.Value = _reportDate;
-							break;
-					}
+					case ReportContextValueType.PageNumber:
+						cv.Value = pageNumber + PageShift;
+						break;
+					case ReportContextValueType.PageCount:
+						cv.Value = TotalPageCount == -1 ? PageCount : TotalPageCount;
+						Console.WriteLine(cv.Value);
+						break;
+					case ReportContextValueType.ReportName:
+						cv.Value = _report.ReportName;
+						break;
+					case ReportContextValueType.ReportTitle:
+						cv.Value = _report.ReportTitle;
+						break;
+					case ReportContextValueType.ReportDate:
+						cv.Value = _reportDate;
+						break;
 				}
 			}
 		}
 
 		public int PageShift { get; set; }
-		public int TotalPageCount {get;set;}
+		public int TotalPageCount { get; set; }
 
 		/// <summary>
 		/// This is most important method, modifies the original 
@@ -586,5 +292,454 @@ namespace CodeReason.Reports
 			get { return _paginator.Source; }
 		}
 
+		/// <summary>
+		/// Fills document with data
+		/// </summary>
+		/// <exception cref="InvalidDataException">ReportTableRow must have a TableRowGroup as parent</exception>
+		protected virtual void FillData()
+		{
+			ArrayList blockDocumentValues = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(IInlineDocumentValue)); // walker.Walk<IInlineDocumentValue>(_flowDocument);
+			ArrayList blockTableRows = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ITableRowForDataTable)); // walker.Walk<TableRowForDataTable>(_flowDocument);
+			ArrayList blockTableRowGroups = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ITableRowGroupForDataTable));
+			ArrayList blockAggregateValues = _dynamicCache.GetFlowDocumentVisualListByType(typeof(InlineAggregateValue)); // walker.Walk<InlineAggregateValue>(_flowDocument);
+			ArrayList charts = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(IChart)); // walker.Walk<IChart>(_flowDocument);
+			ArrayList dynamicHeaderTableRows = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ITableRowForDynamicHeader));
+			ArrayList dynamicDataTableRows = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ITableRowForDynamicDataTable));
+			ArrayList splitTables = _dynamicCache.GetFlowDocumentVisualListByInterface(typeof(ISplitTable));
+
+			List<Block> blocks = new List<Block>();
+			if (_blockPageHeader != null)
+				blocks.Add(_blockPageHeader);
+			if (_blockPageFooter != null)
+				blocks.Add(_blockPageFooter);
+
+			DocumentWalker walker = new DocumentWalker();
+			blockDocumentValues.AddRange(walker.TraverseBlockCollection<IInlineDocumentValue>(blocks));
+			foreach (ISplitTable splitTable in splitTables)
+			{
+				if (splitTable.ContentRowGroup != null)
+					blockDocumentValues.AddRange(walker.TraverseRowGroup<IInlineDocumentValue>(splitTable.ContentRowGroup));
+				if (splitTable.HeaderRowGroup != null)
+					blockDocumentValues.AddRange(walker.TraverseRowGroup<IInlineDocumentValue>(splitTable.HeaderRowGroup));
+				if (splitTable.FooterRowGroup != null)
+					blockDocumentValues.AddRange(walker.TraverseRowGroup<IInlineDocumentValue>(splitTable.FooterRowGroup));
+				if (splitTable.Header != null)
+					blockDocumentValues.AddRange(walker.TraverseBlockCollection<IInlineDocumentValue>(splitTable.Header.Blocks));
+				if (splitTable.Footer != null)
+					blockDocumentValues.AddRange(walker.TraverseBlockCollection<IInlineDocumentValue>(splitTable.Footer.Blocks));
+			}
+
+			_aggregateValues = new Dictionary<string, List<object>>();
+
+			FillCharts(charts);
+			FillDocumentValues(blockDocumentValues);
+			FillSplitTables(splitTables);
+			FillDynamicDataTableRows(dynamicDataTableRows);
+			FillDynamicHeaderTableRows(dynamicHeaderTableRows);
+			FillTableRows(blockTableRows);
+			FillTableRowGroups(blockTableRowGroups);
+			FillAggregateValues(blockAggregateValues);
+		}
+
+		protected virtual void FillDocumentValues(ArrayList blockDocumentValues)
+		{
+
+			// fill report values
+			foreach (IInlineDocumentValue dv in blockDocumentValues)
+			{
+				if (dv == null)
+					continue;
+				object obj = null;
+				if ((dv.PropertyName != null) && (_data.ReportDocumentValues.TryGetValue(dv.PropertyName, out obj)))
+				{
+					dv.Value = obj;
+					RememberAggregateValue(_aggregateValues, dv.AggregateGroup, obj);
+				}
+				else
+				{
+					if ((_data.ShowUnknownValues) && (dv.Value == null))
+						dv.Value = "[" + ((dv.PropertyName != null) ? dv.PropertyName : "NULL") + "]";
+					RememberAggregateValue(_aggregateValues, dv.AggregateGroup, null);
+				}
+			}
+		}
+		protected virtual void FillSplitTables(ArrayList splitTables)
+		{
+			foreach (ISplitTable table in splitTables)
+			{
+				var provider = new SplitTableProvider(table, _data);
+				provider.FillTable();
+			}
+		}
+		protected virtual void FillDynamicDataTableRows(ArrayList dynamicDataTableRows)
+		{
+			// fill dynamic tables
+			foreach (ITableRowForDynamicDataTable iTableRow in dynamicDataTableRows)
+			{
+				TableRow tableRow = iTableRow as TableRow;
+				if (tableRow == null)
+					continue;
+
+				TableRowGroup tableGroup = tableRow.Parent as TableRowGroup;
+				if (tableGroup == null)
+					continue;
+
+				TableRow currentRow = null;
+
+				DataTable table = _data.GetDataTableByName(iTableRow.TableName);
+
+				for (int i = 0; i < table.Rows.Count; i++)
+				{
+					currentRow = new TableRow();
+
+					DataRow dataRow = table.Rows[i];
+					for (int j = 0; j < table.Columns.Count; j++)
+					{
+						string value = dataRow[j].ToString();
+						currentRow.Cells.Add(new TableCell(new Paragraph(new Run(value))));
+					}
+					tableGroup.Rows.Add(currentRow);
+				}
+			}
+		}
+		protected virtual void FillDynamicHeaderTableRows(ArrayList dynamicHeaderTableRows)
+		{
+			foreach (ITableRowForDynamicHeader iTableRow in dynamicHeaderTableRows)
+			{
+				TableRow tableRow = iTableRow as TableRow;
+				if (tableRow == null)
+					continue;
+
+				DataTable table = _data.GetDataTableByName(iTableRow.TableName);
+
+				foreach (DataRow row in table.Rows)
+				{
+					string value = row[0].ToString();
+					TableCell tableCell = new TableCell(new Paragraph(new Run(value)));
+					tableRow.Cells.Add(tableCell);
+				}
+
+			}
+		}
+		protected virtual void FillTableRows(ArrayList blockTableRows)
+		{
+			// fill tables
+			foreach (ITableRowForDataTable iTableRow in blockTableRows)
+			{
+				TableRow tableRow = iTableRow as TableRow;
+				if (tableRow == null)
+					continue;
+
+				DataTable table = _data.GetDataTableByName(iTableRow.TableName);
+				if (table == null)
+				{
+					if (_data.ShowUnknownValues)
+					{
+						// show unknown values
+						foreach (TableCell cell in tableRow.Cells)
+						{
+							DocumentWalker localWalker = new DocumentWalker();
+							List<ITableCellValue> tableCells = localWalker.TraverseBlockCollection<ITableCellValue>(cell.Blocks);
+							foreach (ITableCellValue cv in tableCells)
+							{
+								IPropertyValue dv = cv as IPropertyValue;
+								if (dv != null)
+									dv.Value = "[" + dv.PropertyName + "]";
+								else
+								{
+									IIndexValue iv = cv as IIndexValue;
+									iv.Value = "[" + iv.Index + "]";
+								}
+								IAggregateValue av = cv as IAggregateValue;
+								if (av != null)
+									RememberAggregateValue(_aggregateValues, av.AggregateGroup, null);
+							}
+						}
+					}
+					else
+						continue;
+				}
+				else
+				{
+					TableRowGroup rowGroup = tableRow.Parent as TableRowGroup;
+					if (rowGroup == null)
+						throw new InvalidDataException("ReportTableRow must have a TableRowGroup as parent");
+
+					List<TableRow> listNewRows = new List<TableRow>();
+					foreach (TableRow row in rowGroup.Rows)
+					{
+						TableRowForDataTable reportTableRow = row as TableRowForDataTable;
+						if (reportTableRow == null)
+						{
+							// clone regular row
+							if ((_hints & Hint.MoveRegular) == Hint.MoveRegular)
+								listNewRows.Add(row);
+							else
+								listNewRows.Add(XamlHelper.Clone(row));
+						}
+						else
+						{
+							string reportTableRowXaml = null;
+							if ((_hints & Hint.SimpleClone) == Hint.None)
+								reportTableRowXaml = XamlWriter.Save(reportTableRow);
+
+							// clone ReportTableRows
+							List<TableRow> clonedTableRows = new List<TableRow>();
+							for (int i = 0; i < table.Rows.Count; i++)
+							{
+								var clonedRow = (_hints & Hint.SimpleClone) == Hint.SimpleClone ? XamlHelper.SimpleClone(reportTableRow) : XamlHelper.LoadXamlFromString<TableRow>(reportTableRowXaml);
+								clonedTableRows.Add(clonedRow);
+							}
+
+							foreach (DataRow dataRow in table.Rows)
+							{
+								// get cloned ReportTableRow
+								TableRow newTableRow = clonedTableRows[0];
+								clonedTableRows.RemoveAt(0);
+
+								FillTableRow(newTableRow, dataRow);
+								listNewRows.Add(newTableRow);
+
+								// fire event
+								_report.FireEventDataRowBoundEventArgs(new DataRowBoundEventArgs(_report, dataRow) { TableName = dataRow.Table.TableName, TableRow = newTableRow });
+							}
+						}
+					}
+					rowGroup.Rows.Clear();
+					foreach (TableRow row in listNewRows)
+						rowGroup.Rows.Add(row);
+				}
+			}
+		}
+		protected virtual void FillTableRowGroups(ArrayList blockTableRowGroups)
+		{
+			foreach (ITableRowGroupForDataTable iTableRowGroup in blockTableRowGroups)
+			{
+				TableRowGroup tableRowGroup = iTableRowGroup as TableRowGroup;
+				if (tableRowGroup == null)
+					continue;
+
+				DataTable dataTable = _data.GetDataTableByName(iTableRowGroup.TableName);
+				if (dataTable == null)
+				{
+					if (_data.ShowUnknownValues)
+					{
+						// show unknown values
+						foreach (var tableRow in tableRowGroup.Rows)
+							foreach (TableCell cell in tableRow.Cells)
+							{
+								DocumentWalker localWalker = new DocumentWalker();
+								List<ITableCellValue> tableCells = localWalker.TraverseBlockCollection<ITableCellValue>(cell.Blocks);
+								foreach (ITableCellValue cv in tableCells)
+								{
+									IPropertyValue dv = cv as IPropertyValue;
+									if (dv != null)
+										dv.Value = "[" + dv.PropertyName + "]";
+									else
+									{
+										IIndexValue iv = cv as IIndexValue;
+										iv.Value = "[" + iv.Index + "]";
+									}
+									IAggregateValue av = cv as IAggregateValue;
+									if (av != null)
+										RememberAggregateValue(_aggregateValues, av.AggregateGroup, null);
+								}
+							}
+					}
+					else
+						continue;
+				}
+				else
+				{
+					Table table = tableRowGroup.Parent as Table;
+					if (table == null)
+						throw new InvalidDataException("ReportTableRow must have a TableRowGroup as parent");
+
+					List<TableRowGroup> listNewRowGroups = new List<TableRowGroup>();
+					foreach (TableRowGroup rowGroup in table.RowGroups)
+					{
+						TableRowGroupForDataTable reportTableRowGroup = rowGroup as TableRowGroupForDataTable;
+						if (reportTableRowGroup == null)
+						{
+							// clone regular row group
+							if ((_hints & Hint.MoveRegular) == Hint.MoveRegular)
+								listNewRowGroups.Add(rowGroup);
+							else
+								listNewRowGroups.Add(XamlHelper.Clone(rowGroup));
+						}
+						else
+						{
+							string reportTableRowGroupXaml = null;
+							using (new TimeCounter("\t\tSave	{0}"))
+								if ((_hints & Hint.SimpleClone) == Hint.None)
+									reportTableRowGroupXaml = XamlWriter.Save(reportTableRowGroup);
+
+							// clone ReportTableRows
+							List<TableRowGroup> clonedTableRowGroups = new List<TableRowGroup>();
+							using (new TimeCounter("\t\tLoad	{0}"))
+								for (int i = 0; i < dataTable.Rows.Count; i++)
+								{
+									var clonedRowGroup = (_hints & Hint.SimpleClone) == Hint.SimpleClone ? XamlHelper.SimpleClone(reportTableRowGroup) : XamlHelper.LoadXamlFromString<TableRowGroup>(reportTableRowGroupXaml);
+									clonedTableRowGroups.Add(clonedRowGroup);
+								}
+
+							using (new TimeCounter("\t\tSet	{0}"))
+								foreach (DataRow dataRow in dataTable.Rows)
+								{
+									// get cloned ReportTableRow
+									TableRowGroup newTableRowGroup = clonedTableRowGroups[0];
+									clonedTableRowGroups.RemoveAt(0);
+
+									foreach (TableRow row in newTableRowGroup.Rows)
+										FillTableRow(row, dataRow);
+									listNewRowGroups.Add(newTableRowGroup);
+
+									// fire event
+									_report.FireEventDataRowBoundEventArgs(new DataRowBoundEventArgs(_report, dataRow) { TableName = dataRow.Table.TableName, TableRowGroup = newTableRowGroup });
+								}
+						}
+					}
+					table.RowGroups.Clear();
+					foreach (TableRowGroup group in listNewRowGroups)
+						table.RowGroups.Add(group);
+				}
+			}
+		}
+		protected virtual void FillAggregateValues(ArrayList blockAggregateValues)
+		{
+			// fill aggregate values
+			foreach (InlineAggregateValue av in blockAggregateValues)
+			{
+				if (String.IsNullOrEmpty(av.AggregateGroup))
+					continue;
+				if (!_aggregateValues.ContainsKey(av.AggregateGroup))
+				{
+					av.Text = av.EmptyValue;
+				}
+				else
+				{
+					av.Text = av.ComputeAndFormat(_aggregateValues);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Fill charts with data
+		/// </summary>
+		/// <param name="charts">list of charts</param>
+		/// <exception cref="TimeoutException">Thread for drawing charts timed out</exception>
+		protected virtual void FillCharts(ArrayList charts)
+		{
+			Window window = null;
+
+			// fill charts
+			foreach (IChart chart in charts)
+			{
+				if (chart == null)
+					continue;
+				Canvas chartCanvas = chart as Canvas;
+				if (String.IsNullOrEmpty(chart.TableName))
+					continue;
+				if (String.IsNullOrEmpty(chart.TableColumns))
+					continue;
+
+				DataTable table = _data.GetDataTableByName(chart.TableName);
+				if (table == null)
+					continue;
+
+				if (chartCanvas != null)
+				{
+					// HACK: this here is REALLY dirty!!!
+					IChart newChart = (IChart)chart.Clone();
+					if (window == null)
+					{
+						window = new Window();
+						window.WindowStyle = WindowStyle.None;
+						window.BorderThickness = new Thickness(0);
+						window.ShowInTaskbar = false;
+						window.Left = 30000;
+						window.Top = 30000;
+						window.Show();
+					}
+					window.Width = chartCanvas.Width + 2 * SystemParameters.BorderWidth;
+					window.Height = chartCanvas.Height + 2 * SystemParameters.BorderWidth;
+					window.Content = newChart;
+
+					newChart.DataColumns = null;
+
+					newChart.DataView = table.DefaultView;
+					newChart.DataColumns = chart.TableColumns.Split(',', ';');
+					newChart.UpdateChart();
+
+					RenderTargetBitmap bitmap = new RenderTargetBitmap((int)((window.Content as FrameworkElement).RenderSize.Width * 600d / 96d), (int)((window.Content as FrameworkElement).RenderSize.Height * 600d / 96d), 600d, 600d, PixelFormats.Pbgra32);
+					bitmap.Render(window);
+					chartCanvas.Children.Add(new Image() { Source = bitmap });
+				}
+				else
+				{
+					chart.DataColumns = null;
+
+					chart.DataView = table.DefaultView;
+					chart.DataColumns = chart.TableColumns.Split(',', ';');
+					chart.UpdateChart();
+				}
+			}
+
+			if (window != null)
+				window.Close();
+		}
+
+		protected virtual void FillTableRow(TableRow row, DataRow dataRow)
+		{
+			DocumentWalker localWalker = new DocumentWalker();
+			foreach (TableCell cell in row.Cells)
+			{
+				List<ITableCellValue> newCells = localWalker.TraverseBlockCollection<ITableCellValue>(cell.Blocks);
+				foreach (ITableCellValue cv in newCells)
+				{
+					IPropertyValue dv = cv as IPropertyValue;
+					IIndexValue iv = null;
+					if (dv == null)
+					{
+						iv = cv as IIndexValue;
+						if (iv == null)
+							continue;
+					}
+					IAggregateValue av = cv as IAggregateValue;
+					try
+					{
+						object obj = dv == null ? dataRow[iv.Index] : dataRow[dv.PropertyName];
+						if (obj == DBNull.Value)
+							obj = null;
+						cv.Value = obj;
+
+						if (av != null)
+							RememberAggregateValue(_aggregateValues, av.AggregateGroup, obj);
+					}
+					catch
+					{
+						if (_data.ShowUnknownValues)
+							cv.Value = "[" + (dv == null ? iv.Index.ToString() : dv.PropertyName) + "]";
+						else
+							cv.Value = "";
+						if (av != null)
+							RememberAggregateValue(_aggregateValues, av.AggregateGroup, null);
+					}
+				}
+			}
+		}
+
+		protected virtual void HandleDataGroups()
+		{
+			var groups = _dynamicCache.GetFlowDocumentVisualListByType(typeof(SectionDataGroup));
+			foreach (SectionDataGroup group in groups)
+				if (!string.IsNullOrEmpty(group.DataGroupName) && !_data.Groups.Contains(group.DataGroupName))
+				{
+					// remove DataGroup section from FlowDocument
+					DependencyObject parent = group.Parent;
+					if (parent is FlowDocument) { ((FlowDocument)parent).Blocks.Remove(group); parent = null; }
+					if (parent is Section) { ((Section)parent).Blocks.Remove(group); parent = null; }
+				}
+		}
 	}
 }

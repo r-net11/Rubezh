@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_description = value;
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 			}
 		}
 
@@ -165,7 +165,7 @@ namespace GKModule.ViewModels
 				Hold = result.Result[1].Value;
 				DelayRegime = (DelayRegime)result.Result[2].Value;
 				OnPropertyChanged("Delay");
-				OnPropertyChanged("Hold");
+				OnPropertyChanged(() => Hold);
 				OnPropertyChanged(() => DelayRegime);
 			}
 			else

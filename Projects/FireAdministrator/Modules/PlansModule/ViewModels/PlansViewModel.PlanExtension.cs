@@ -65,7 +65,7 @@ namespace PlansModule.ViewModels
 			set
 			{
 				_selectedTabIndex = value;
-				OnPropertyChanged("SelectedTabIndex");
+				OnPropertyChanged(() => SelectedTabIndex);
 			}
 		}
 		void CreatePages()

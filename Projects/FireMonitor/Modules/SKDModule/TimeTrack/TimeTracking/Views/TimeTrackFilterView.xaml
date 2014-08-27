@@ -77,27 +77,32 @@
 			</tree:TreeList>
 		</TabItem>
 		<TabItem Header="Сотрудники" DataContext="{Binding EmployeeFilterViewModel}">
-			<StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Фамилия" Width="200" Foreground="White" Margin="2" />
-					<TextBox Text="{Binding LastName}" Margin="2" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Имя" Width="200" Foreground="White" Margin="2" />
-					<TextBox Text="{Binding FirstName}" Margin="2" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="Отчество" Width="200" Foreground="White" Margin="2" />
-					<TextBox Text="{Binding SecondName}" Margin="2" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal" Visibility="{Binding HasManyPersonTypes, Converter={StaticResource BoolToVisibilityConverter}}">
-					<TextBlock Text="Тип" Width="200" Foreground="White" Margin="2" />
-					<StackPanel Margin="2">
-						<RadioButton GroupName="PersonTypes" Content="Сотрудники" IsChecked="{Binding IsEmployeesAllowed, Mode=TwoWay}" Foreground="White" FontSize="14" />
-						<RadioButton GroupName="PersonTypes" Content="Посетители" IsChecked="{Binding IsGuestsAllowed, Mode=TwoWay}" Foreground="White" FontSize="14" />
-					</StackPanel>
-				</StackPanel>
-			</StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Фамилия" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LastName}" Margin="2" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Имя" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName}" Margin="2" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Отчество" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName}" Margin="2" />
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Тип" HorizontalAlignment="Right" Foreground="White" Margin="2" />
+                <StackPanel Grid.Row="3" Grid.Column="1" Margin="2">
+                    <RadioButton GroupName="PersonTypes" Content="Сотрудники" IsChecked="{Binding IsEmployeesAllowed, Mode=TwoWay}" Foreground="White" FontSize="14" />
+                    <RadioButton GroupName="PersonTypes" Content="Посетители" IsChecked="{Binding IsGuestsAllowed, Mode=TwoWay}" Foreground="White" FontSize="14" />
+                </StackPanel>
+            </Grid>
 		</TabItem>
         <TabItem Header="Период">
             <Grid>
@@ -129,20 +134,13 @@
         </TabItem>
         <TabItem Header="Отображаемые данные">
             <Border CornerRadius="5" Background="White" Margin="2">
-                <StackPanel Margin="2">
-                    <CheckBox Content="Фактическое Присутствиеп" IsChecked="{Binding IsTotal}" Margin="2" />
-                    <CheckBox Content="Прогул" IsChecked="{Binding IsTotalMissed}" Margin="2" />
-                    <CheckBox Content="По графику" IsChecked="{Binding IsTotalInSchedule}" Margin="2" />
-                    <CheckBox Content="Переработка" IsChecked="{Binding IsTotalOvertime}" Margin="2" />
-                    <CheckBox Content="Опоздания" IsChecked="{Binding IsTotalLate}" Margin="2" />
-                    <CheckBox Content="Ранний уход" IsChecked="{Binding IsTotalEarlyLeave}" Margin="2" />
-                    <CheckBox Content="По графику" IsChecked="{Binding IsTotalPlanned}" Margin="2" />
-                    <CheckBox Content="В вечерние часы" IsChecked="{Binding IsTotalEavening}" Margin="2" />
-                    <CheckBox Content="В ночные часы" IsChecked="{Binding IsTotalNight}" Margin="2" />
-                    <CheckBox Content="Переработка по документу" IsChecked="{Binding IsTotal_DocumentOvertime}" Margin="2" />
-                    <CheckBox Content="Присутствие по документу" IsChecked="{Binding IsTotal_DocumentPresence}" Margin="2" />
-                    <CheckBox Content="Отсутствие по документу" IsChecked="{Binding IsTotal_DocumentAbsence}" Margin="2" />
-                </StackPanel>
+                <ItemsControl ItemsSource="{Binding Totals}" Margin="5">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding TimeTrackType, Converter={StaticResource EnumToDescriptionConverter}}" IsChecked="{Binding IsChecked}" Margin="2" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Border>
         </TabItem>
 	</TabControl>

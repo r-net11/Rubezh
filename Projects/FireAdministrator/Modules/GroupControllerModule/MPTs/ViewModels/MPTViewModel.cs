@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 
@@ -171,7 +171,7 @@ namespace GKModule.ViewModels
 
 		public void Update()
 		{
-			OnPropertyChanged("MPT");
+			OnPropertyChanged(() => MPT);
 		}
 
 		public RelayCommand ChangeStartLogicCommand { get; private set; }

@@ -58,6 +58,8 @@ namespace SimpleReport
                 // set constant document values
                 data.ReportDocumentValues.Add("PrintDate", DateTime.Now); // print date is now
 
+				data.Groups.Add("ItemList");
+
                 // sample table "Ean"
                 DataTable table = new DataTable("Ean");
                 table.Columns.Add("Position", typeof(string));
@@ -65,7 +67,7 @@ namespace SimpleReport
                 table.Columns.Add("EAN", typeof(string));
                 table.Columns.Add("Count", typeof(int));
                 Random rnd = new Random(1234);
-                for (int i = 1; i <= 100; i++)
+                for (int i = 1; i <= 10; i++)
                 {
                     // randomly create some articles
                     table.Rows.Add(new object[] { i, "Item " + i.ToString("0000"), "123456790123", rnd.Next(9) + 1 });

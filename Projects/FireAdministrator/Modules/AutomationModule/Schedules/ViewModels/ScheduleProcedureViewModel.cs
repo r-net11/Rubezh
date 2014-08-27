@@ -16,8 +16,8 @@ namespace AutomationModule.ViewModels
 			ScheduleProcedure = scheduleProcedure;
 			Procedure = FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
 			ScheduleProcedure.ProcedureUid = scheduleProcedure.ProcedureUid;
-			UpdateArguments(Procedure);
-
+			if (Procedure != null)
+				UpdateArguments(Procedure);
 		}
 
 		public void UpdateArguments(Procedure procedure)

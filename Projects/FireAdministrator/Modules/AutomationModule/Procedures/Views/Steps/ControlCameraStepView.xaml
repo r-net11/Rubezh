@@ -4,7 +4,9 @@
 	<Grid>
 		<StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<Label Content="Направление: " VerticalAlignment="Top" Margin="2"/>
+				<Label Content="Камера: " VerticalAlignment="Top" Margin="2"/>
+				<Image Width="16" Height="16" Margin="0, 5, 5, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{Binding SelectedCamera.Camera.ImageSource}" 
+					   Visibility="{Binding Path= SelectedCamera, Converter={StaticResource NullToVisibilityConverter}}"/>
 				<TextBlock Margin="0,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
 				<Hyperlink Command="{Binding SelectCameraCommand}" Style="{StaticResource HyperlinkStyle}" >
 					<TextBlock Text="{Binding SelectedCamera.PresentationName}" Visibility="{Binding Path= SelectedCamera, Converter={StaticResource NullToVisibilityConverter}}"/>

@@ -3,9 +3,9 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
-	public class SendMessageArguments
+	public class ShowMessageArguments
 	{
-		public SendMessageArguments()
+		public ShowMessageArguments()
 		{
 
 		}

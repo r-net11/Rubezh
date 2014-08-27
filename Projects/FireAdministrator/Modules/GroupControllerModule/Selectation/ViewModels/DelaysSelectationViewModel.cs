@@ -62,7 +62,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedTargetDelay = value;
-				OnPropertyChanged("SelectedTargetDelay");
+				OnPropertyChanged(() => SelectedTargetDelay);
 			}
 		}
 
@@ -113,7 +113,7 @@ namespace GKModule.ViewModels
 				TargetDelays.Remove(delayViewModel);
 			}
 			SelectedSourceDelay = SourceDelays.LastOrDefault();
-			OnPropertyChanged("TargetDelays");
+			OnPropertyChanged(() => TargetDelays);
 
 			index = Math.Min(index, TargetDelays.Count - 1);
 			if (index > -1)

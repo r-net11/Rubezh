@@ -44,7 +44,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isZoneGrayed = value;
-				OnPropertyChanged("IsZoneGrayed");
+				OnPropertyChanged(() => IsZoneGrayed);
 			}
 		}
 

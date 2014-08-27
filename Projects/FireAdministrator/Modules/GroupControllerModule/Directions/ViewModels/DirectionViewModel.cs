@@ -80,7 +80,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged(() => SelectedDevice);
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedOutputDevice = value;
-				OnPropertyChanged("SelectedOutputDevice");
+				OnPropertyChanged(() => SelectedOutputDevice);
 			}
 		}
 
@@ -272,7 +272,7 @@ namespace GKModule.ViewModels
 			{
 				Direction.Name = value;
 				Direction.OnChanged();
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

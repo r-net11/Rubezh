@@ -369,6 +369,8 @@ namespace AutomationModule.ViewModels
 			if (SelectedStep == null)
 				return false;
 			ProcedureStep nextStep;
+			if (RootSteps.Count <= SelectedStep.Index + 1)
+				return false;
 			if (SelectedStep.Parent == null)
 				nextStep = RootSteps[SelectedStep.Index + 1].Step;
 			else

@@ -288,7 +288,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_isZoneGrayed = value;
-				OnPropertyChanged("IsZoneGrayed");
+				OnPropertyChanged(() => IsZoneGrayed);
 			}
 		}
 
@@ -358,7 +358,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(deviceLogicViewModel))
 			{
 				XManager.ChangeDeviceLogic(Device, deviceLogicViewModel.GetModel());
-				OnPropertyChanged("PresentationZone");
+				OnPropertyChanged(() => PresentationZone);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

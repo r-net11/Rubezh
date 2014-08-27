@@ -64,7 +64,7 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="sendMessageTemplate">
-		<Views:SendMessageStepView />
+		<Views:ShowMessageStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="journalTemplate">
@@ -107,12 +107,12 @@
 		<Views:PersonInspectionStepView />
 	</DataTemplate>
 
-	<DataTemplate x:Key="setGlobalValueTemplate">
-		<Views:SetGlobalValueStepView />
+	<DataTemplate x:Key="setValueTemplate">
+		<Views:SetValueStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="incrementGlobalValueTemplate">
-		<Views:IncrementGlobalValueStepView />
+		<Views:IncrementValueStepView />
 	</DataTemplate>
 
 	<DataTemplate x:Key="controlGKDeviceTemplate">
@@ -149,7 +149,7 @@
 
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
-		SendMessageTemplate ="{StaticResource sendMessageTemplate}"
+		ShowMessageTemplate ="{StaticResource sendMessageTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
 		ArithmeticTemplate="{StaticResource arithmeticTemplate}"
 		ConditionTemplate="{StaticResource conditionTemplate}"
@@ -159,8 +159,8 @@
 		ProcedureSelectionTemplate="{StaticResource procedureSelectionTemplate}"
 		ExitTemplate="{StaticResource exitTemplate}"
 		PersonInspectionTemplate="{StaticResource personInspectionTemplate}"
-		SetGlobalValueTemplate="{StaticResource setGlobalValueTemplate}"
-		IncrementGlobalValueTemplate="{StaticResource incrementGlobalValueTemplate}"
+		SetValueTemplate="{StaticResource setValueTemplate}"
+		IncrementValueTemplate="{StaticResource incrementGlobalValueTemplate}"
 		ControlGKDeviceTemplate="{StaticResource controlGKDeviceTemplate}"
 		ControlSKDDeviceTemplate="{StaticResource controlSKDDeviceTemplate}"
 		ControlGKFireZoneTemplate="{StaticResource controlGKFireZoneTemplate}"

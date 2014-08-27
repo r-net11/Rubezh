@@ -3,21 +3,17 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:views="clr-namespace:AutomationModule.Views" >
 	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="40"/>
-			<RowDefinition />
-		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
-			<ColumnDefinition />
+			<ColumnDefinition Width="2*" />
 		</Grid.ColumnDefinitions>
-		<StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
-			<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить процедуру" ImageSource="/Controls;component/Images/Add.png" />
-			<ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить процедуру" ImageSource="/Controls;component/Images/Delete.png" />
-		</StackPanel>
-		<views:ScheduleProceduresView Grid.Column="0" Grid.RowSpan="2" Margin="2" />
-		<Border CornerRadius="5" Background="White" Margin="2" Grid.Row="1" Grid.Column="1" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" DataContext="{Binding SelectedScheduleProcedure}">
-			<views:ArgumentsView />
-		</Border>
+		<ComboBox Grid.Column="0" VerticalAlignment="Top" ItemsSource="{Binding ScheduleProcedures}" SelectedItem="{Binding SelectedScheduleProcedure}" >
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text ="{Binding Name}" />
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+		<views:ArgumentsView Grid.Column="1" DataContext="{Binding SelectedScheduleProcedure}" Visibility="{Binding ., Converter={StaticResource NullToVisibilityConverter}}" />
 	</Grid>
 </UserControl>

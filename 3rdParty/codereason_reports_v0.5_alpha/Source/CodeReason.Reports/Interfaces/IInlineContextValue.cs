@@ -14,7 +14,8 @@ namespace CodeReason.Reports.Interfaces
     /// <summary>
     /// Interface for inline context values
     /// </summary>
-    public interface IInlineContextValue : IPropertyValue, IAggregateValue
+    public interface IInlineContextValue : IHasValue, IAggregateValue
     {
+		ReportContextValueType Type { get; set; }
     }
 }

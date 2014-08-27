@@ -103,7 +103,7 @@ namespace FiresecService.Processor
 					journalItem.SystemDateTime = DateTime.Now;
 					journalItem.DeviceDateTime = DateTime.Now;
 					journalItem.JournalEventNameType = JournalEventNameType.Сообщение_автоматизации;
-					journalItem.DescriptionText = procedureStep.JournalArguments.Message;
+					//journalItem.DescriptionText = procedureStep.JournalArguments.Message;
 					Service.FiresecService.AddCommonJournalItem(journalItem);
 					break;
 
@@ -111,8 +111,8 @@ namespace FiresecService.Processor
 					ProcedureHelper.GetString(procedureStep, procedure);
 					break;
 
-				case ProcedureStepType.SendMessage:
-					automationCallbackResult = ProcedureHelper.SendMessage(procedureStep, procedure);
+				case ProcedureStepType.ShowMessage:
+					automationCallbackResult = ProcedureHelper.ShowMessage(procedureStep, procedure);
 					automationCallbackResult.AutomationCallbackType = AutomationCallbackType.Message;
 					Service.FiresecService.NotifyAutomation(automationCallbackResult);
 					break;
@@ -147,21 +147,18 @@ namespace FiresecService.Processor
 
 				case ProcedureStepType.ProcedureSelection:
 					{
-						foreach (var scheduleProcedure in procedureStep.ProcedureSelectionArguments.ScheduleProcedures)
-						{
-							var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
-								FirstOrDefault(x => x.Uid == scheduleProcedure.ProcedureUid);
-							Run(childProcedure, scheduleProcedure.Arguments);
-						}
+						var childProcedure = ConfigurationCashHelper.SystemConfiguration.AutomationConfiguration.Procedures.
+								FirstOrDefault(x => x.Uid == procedureStep.ProcedureSelectionArguments.ScheduleProcedure.ProcedureUid);
+						Run(childProcedure, procedureStep.ProcedureSelectionArguments.ScheduleProcedure.Arguments);
 					}
 					break;
 
-				case ProcedureStepType.IncrementGlobalValue:
-					ProcedureHelper.IncrementGlobalValue(procedureStep);
+				case ProcedureStepType.IncrementValue:
+					ProcedureHelper.IncrementValue(procedureStep);
 					break;
 
-				case ProcedureStepType.SetGlobalValue:
-					ProcedureHelper.SetGlobalValue(procedureStep);
+				case ProcedureStepType.SetValue:
+					ProcedureHelper.SetValue(procedureStep);
 					break;
 
 				case ProcedureStepType.Exit:

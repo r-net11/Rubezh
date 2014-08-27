@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class HolidaySettingsView : UserControl
+	public partial class ReportSettingsView : UserControl
 	{
-		public HolidaySettingsView()
+		public ReportSettingsView()
 		{
 			InitializeComponent();
 		}

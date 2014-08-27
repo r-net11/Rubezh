@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ReportsModule.ViewModels;
+using System.Windows.Controls.Primitives;
 
 namespace ReportsModule.Views
 {
@@ -29,19 +30,29 @@ namespace ReportsModule.Views
 		private void ReportPreviewView_Loaded(object sender, RoutedEventArgs e)
 		{
 			_viewer.PageViews[0].DocumentPaginator = ((ReportPreviewViewModel)DataContext).DocumentPaginator;
-			_viewer.PageViews[0].PageNumber = 0;
+		}
+		private void ResetScroll()
+		{
+			_scrollViewer.ScrollToTop();
+			_scrollViewer.ScrollToLeftEnd();
+		}
+		private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if (_scrollViewer.ContentVerticalOffset == _scrollViewer.ScrollableHeight && e.Delta < 0 && _nextButton.Command.CanExecute(null))
+			{
+				_nextButton.Command.Execute(null);
+				_scrollViewer.ScrollToTop();
+			}
+			else if (_scrollViewer.ContentVerticalOffset == 0 && e.Delta > 0 && _previousButton.Command.CanExecute(null))
+			{
+				_previousButton.Command.Execute(null);
+				_scrollViewer.ScrollToBottom();
+			}
 		}
 
-		private void Previous_Click(object sender, RoutedEventArgs e)
+		private void OnPageConnected(object sender, EventArgs e)
 		{
-			if (_viewer.PageViews[0].PageNumber > 0)
-				_viewer.PageViews[0].PageNumber--;
-		}
-
-		private void Next_Click(object sender, RoutedEventArgs e)
-		{
-			if (_viewer.PageViews[0].PageNumber < _viewer.PageViews[0].DocumentPaginator.PageCount - 1)
-				_viewer.PageViews[0].PageNumber++;
+			ResetScroll();
 		}
 	}
 }

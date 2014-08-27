@@ -120,7 +120,10 @@ namespace SKDDriver.Translators
 		{
 			InvalidatePassJournal();
 
-			Holidays = Context.Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value) && !x.IsDeleted);
+			if (filter.OrganisationUIDs.IsNotNullOrEmpty())
+				Holidays = Context.Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && filter.OrganisationUIDs.Contains(x.OrganisationUID.Value) && !x.IsDeleted).ToList();
+			else
+				Holidays = Context.Holidays.Where(x => x.Date >= startDate && x.Date <= endDate && !x.IsDeleted).ToList();
 
 			try
 			{
@@ -184,13 +187,13 @@ namespace SKDDriver.Translators
 				return new TimeTrackEmployeeResult("Не найдена схема работы");
 			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted).ToList();
 			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID && !x.IsDeleted).ToList();
-			var holidaySettings = SKDDatabaseService.HolidaySettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
+			var nightSettings = SKDDatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
 
 			var timeTrackEmployeeResult = new TimeTrackEmployeeResult();
 			for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
 			{
 				var dayTimeTrack = GetTimeTrack(employee, schedule, scheduleScheme, scheduleZones, date);
-				dayTimeTrack.HolidaySettings = holidaySettings;
+				dayTimeTrack.NightSettings = nightSettings;
 				dayTimeTrack.IsIgnoreHoliday = schedule.IsIgnoreHoliday;
 				dayTimeTrack.IsOnlyFirstEnter = schedule.IsOnlyFirstEnter;
 				dayTimeTrack.AllowedLate = TimeSpan.FromSeconds(schedule.AllowedLate);
@@ -222,7 +225,7 @@ namespace SKDDriver.Translators
 					break;
 				case ScheduleSchemeType.SlideDay:
 					var daysCount = days.Count();
-					var ticksDelta = new TimeSpan(date.Ticks - employee.ScheduleStartDate.Ticks);
+					var ticksDelta = new TimeSpan(date.Date.Ticks - employee.ScheduleStartDate.Date.Ticks);
 					var daysDelta = Math.Abs((int)ticksDelta.TotalDays);
 					dayNo = daysDelta % daysCount;
 					break;

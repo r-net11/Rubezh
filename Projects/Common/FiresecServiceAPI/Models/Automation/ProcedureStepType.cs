@@ -22,13 +22,10 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Функция выбора процедур")]
 		ProcedureSelection,
 
-		[DescriptionAttribute("Изменить значение поля объекта")]
-		SetObjectField,
-
 		[DescriptionAttribute("Получить значение поля объекта")]
 		GetObjectField,
 
-		[DescriptionAttribute("Проигрывание звуков")]
+		[DescriptionAttribute("Проигрывание звука")]
 		PlaySound,
 
 		[DescriptionAttribute("Арифметическая операция")]
@@ -40,8 +37,8 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Найти объекты")]
 		FindObjects,
 
-		[DescriptionAttribute("Отправить сообщение")]
-		SendMessage,
+		[DescriptionAttribute("Показать сообщение")]
+		ShowMessage,
 
 		[DescriptionAttribute("Получить строку")]
 		GetString,
@@ -52,14 +49,14 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Выход из процедуры")]
 		Exit,
 
-		[DescriptionAttribute("Задание значения глобальной переменной")]
-		SetGlobalValue,
+		[DescriptionAttribute("Задание значения переменной")]
+		SetValue,
 
 		[DescriptionAttribute("Запуск программ")]
 		RunProgramm,
 
-		[DescriptionAttribute("Инкремент значения глобальной переменной")]
-		IncrementGlobalValue,
+		[DescriptionAttribute("Инкремент значения переменной")]
+		IncrementValue,
 
 		[DescriptionAttribute("Отправить сообщение по электронной почте")]
 		SendEmail,

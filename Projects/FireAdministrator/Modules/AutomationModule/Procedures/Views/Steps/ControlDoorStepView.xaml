@@ -5,6 +5,8 @@
 		<StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Точка доступа: " VerticalAlignment="Top" Margin="2"/>
+				<Image Width="16" Height="16" Margin="0, 5, 5, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Controls;component/Images/Door.png"
+					   Visibility="{Binding Path= SelectedDoor, Converter={StaticResource NullToVisibilityConverter}}"/>
 				<TextBlock Margin="0,7,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
 				<Hyperlink Command="{Binding SelectDoorCommand}" Style="{StaticResource HyperlinkStyle}" >
 					<TextBlock Text="{Binding SelectedDoor.Door.Name}" Visibility="{Binding Path= SelectedDoor, Converter={StaticResource NullToVisibilityConverter}}"/>

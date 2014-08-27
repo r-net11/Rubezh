@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 			{
 				Zone.Name = value;
 				Zone.OnChanged();
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
 			{
 				Zone.Description = value;
 				Zone.OnChanged();
-				OnPropertyChanged("Description");
+				OnPropertyChanged(() => Description);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

@@ -32,7 +32,7 @@ namespace AutomationModule.ViewModels
 		public void OnAdd()
 		{
 			var findObjectCondition = new FindObjectCondition();
-			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, SelectedVariable.Variable);
+			var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure);
 			FindObjectArguments.FindObjectConditions.Add(findObjectCondition);
 			FindObjectConditions.Add(findObjectConditionViewModel);			
 			OnPropertyChanged(() => FindObjectConditions);
@@ -76,7 +76,7 @@ namespace AutomationModule.ViewModels
 			if (SelectedVariable != null)
 				foreach (var findObjectCondition in FindObjectArguments.FindObjectConditions)
 				{
-					var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, SelectedVariable.Variable);
+					var findObjectConditionViewModel = new FindObjectConditionViewModel(findObjectCondition, Procedure);
 					FindObjectConditions.Add(findObjectConditionViewModel);
 				}
 			else
@@ -132,13 +132,14 @@ namespace AutomationModule.ViewModels
 	public class FindObjectConditionViewModel : BaseViewModel
 	{
 		public FindObjectCondition FindObjectCondition { get; private set; }
-		Variable ResultVariable { get; set; }
-
-		public FindObjectConditionViewModel(FindObjectCondition findObjectCondition, Variable resultVariable)
+		public ArithmeticParameterViewModel Variable2 { get; private set; }
+		Procedure Procedure { get; set; }
+		public FindObjectConditionViewModel(FindObjectCondition findObjectCondition, Procedure procedure)
 		{
 			FindObjectCondition = findObjectCondition;
-			ResultVariable = resultVariable;
-			SelectedProperty = FindObjectCondition.Property;
+			Procedure = procedure;
+			Variable2 = new ArithmeticParameterViewModel(findObjectCondition.Variable2, new List<VariableType>());
+			SelectedProperty = FindObjectCondition.Property;			
 			SelectedConditionType = FindObjectCondition.ConditionType;
 			IntValue = FindObjectCondition.IntValue;
 			StringValue = FindObjectCondition.StringValue;
@@ -149,12 +150,33 @@ namespace AutomationModule.ViewModels
 		{
 			get { return FindObjectCondition.Property; }
 			set
-			{
+			{							
 				FindObjectCondition.Property = value;
+				if (value == Property.IntAddress)
+				{ MinValue = 1; MaxValue = 255; }
+				if (value == Property.ShleifNo)
+				{ MinValue = 1; MaxValue = 8; }
 				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(ValueType));
+				Variable2.VariableTypes = new ObservableCollection<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable, VariableType.IsValue };
+				var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList);
+				if (ValueType == ValueType.Boolean)
+				{
+					allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Boolean);
+				}
+				if ((ValueType == ValueType.Integer) ||  (ValueType == ValueType.Object))
+				{
+					allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Integer);
+				}
+				if (ValueType == ValueType.String)
+				{
+					allVariables = allVariables.FindAll(x => x.ValueType == ValueType.String);
+				}
+				Variable2.Update(allVariables);
 				OnPropertyChanged(() => SelectedProperty);
 				OnPropertyChanged(() => ValueType);
 				OnPropertyChanged(() => ConditionTypes);
+				OnPropertyChanged(() => MinValue);
+				OnPropertyChanged(() => MaxValue);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -172,16 +194,6 @@ namespace AutomationModule.ViewModels
 		}
 
 		public static ObservableCollection<string> Types { get; set; }
-		public string SelectedType
-		{
-			get { return FindObjectCondition.Type; }
-			set
-			{
-				FindObjectCondition.Type = value;
-				OnPropertyChanged(() => SelectedType);
-				ServiceFactory.SaveService.AutomationChanged = true;
-			}
-		}
 
 		public int IntValue
 		{
@@ -202,6 +214,28 @@ namespace AutomationModule.ViewModels
 				FindObjectCondition.StringValue = value;
 				OnPropertyChanged(() => StringValue);
 				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+
+		int _minValue;
+		public int MinValue
+		{
+			get { return _minValue; }
+			set
+			{
+				_minValue = value;
+				OnPropertyChanged(() => MinValue);
+			}
+		}
+
+		int _maxValue;
+		public int MaxValue
+		{ 
+			get { return _maxValue; }
+			set
+			{
+				_maxValue = value;
+				OnPropertyChanged(() => MaxValue);
 			}
 		}
 

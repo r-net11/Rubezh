@@ -7,11 +7,20 @@ namespace FiresecAPI.SKD
 		[Description("Нет данных")]
 		None,
 
-		[Description("Прогул")]
-		Missed,
+		[Description("Баланс")]
+		Balance,
 
-		[Description("По графику")]
-		AsPlanned,
+		[Description("Явка")]
+		Presence,
+
+		[Description("Отсутствие")]
+		Absence,
+
+		[Description("Отсутствие в рамках графика")]
+		AbsenceInsidePlan,
+
+		[Description("Явка в перерыве")]
+		PresenceInBrerak,
 
 		[Description("Опоздание")]
 		Late,
@@ -22,13 +31,22 @@ namespace FiresecAPI.SKD
 		[Description("Сверхурочно")]
 		Overtime,
 
+		[Description("Работа ночью")]
+		Night,
+
 		[Description("Выходной")]
 		DayOff,
 
 		[Description("Праздник")]
 		Holiday,
 
-		[Description("Документ")]
-		Document,
+		[Description("Переработка по документу")]
+		DocumentOvertime,
+
+		[Description("Присутствие по документу")]
+		DocumentPresence,
+
+		[Description("Отсутствие по документу")]
+		DocumentAbsence,
 	}
 }
