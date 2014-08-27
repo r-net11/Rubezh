@@ -253,6 +253,17 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public Guid UidValue
+		{
+			get { return ArithmeticParameter.UidValue; }
+			set
+			{
+				ArithmeticParameter.UidValue = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => UidValue);
+			}
+		}
+
 		public string TypeValue
 		{
 			get { return ArithmeticParameter.TypeValue; }

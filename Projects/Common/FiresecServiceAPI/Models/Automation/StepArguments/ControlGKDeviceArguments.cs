@@ -10,13 +10,14 @@ namespace FiresecAPI.Automation
 		public ControlGKDeviceArguments()
 		{
 			Uid = Guid.NewGuid();
+			Variable1 = new ArithmeticParameter();
 		}
 
 		[DataMember]
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public Guid DeviceUid { get; set; }
+		public ArithmeticParameter Variable1 { get; set; }
 
 		[DataMember]
 		public XStateBit Command { get; set; }

@@ -75,7 +75,7 @@ namespace AutomationModule.ViewModels
 					break;
 
 				case ProcedureStepType.ControlGKDevice:
-					Content = new ControlGKDeviceStepViewModel(step.ControlGKDeviceArguments);
+					Content = new ControlGKDeviceStepViewModel(step.ControlGKDeviceArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlSKDDevice:
@@ -103,7 +103,7 @@ namespace AutomationModule.ViewModels
 					break;
 
 				case ProcedureStepType.ControlCamera:
-					Content = new ControlCameraStepViewModel(step.ControlCameraArguments);
+					Content = new ControlCameraStepViewModel(step.ControlCameraArguments, procedure);
 					break;
 			}
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;

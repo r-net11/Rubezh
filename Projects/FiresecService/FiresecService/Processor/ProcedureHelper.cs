@@ -366,7 +366,7 @@ namespace FiresecService.Processor
 
 		public static void ControlGKDevice(ProcedureStep procedureStep)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.UID == procedureStep.ControlGKDeviceArguments.DeviceUid);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == procedureStep.ControlGKDeviceArguments.Variable1.UidValue);
 			if (device == null)
 				return;
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.BaseUID, procedureStep.ControlGKDeviceArguments.Command);
@@ -375,7 +375,7 @@ namespace FiresecService.Processor
 		public static List<WinFormsPlayer> WinFormsPlayers { get; private set; }
 		public static void ControlCamera(ProcedureStep procedureStep)
 		{
-			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == procedureStep.ControlCameraArguments.CameraUid);
+			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == procedureStep.ControlCameraArguments.Variable1.UidValue);
 			if (camera == null)
 				return;
 			if (procedureStep.ControlCameraArguments.CameraCommandType == CameraCommandType.StartRecord)

@@ -9,31 +9,48 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
+using System.ComponentModel;
 
 namespace AutomationModule.ViewModels
 {
-	public class ControlGKDeviceStepViewModel: BaseViewModel, IStepViewModel
+	public class ControlGKDeviceStepViewModel : BaseViewModel, IStepViewModel
 	{
 		ControlGKDeviceArguments ControlGkDeviceArguments { get; set; }
-		public ControlGKDeviceStepViewModel(ControlGKDeviceArguments controlGkDeviceArguments)
+		public ArithmeticParameterViewModel Variable1 { get; private set; }
+		Procedure Procedure { get; set; }
+
+		public ControlGKDeviceStepViewModel(ControlGKDeviceArguments controlGkDeviceArguments, Procedure procedure)
 		{
 			ControlGkDeviceArguments = controlGkDeviceArguments;
-			Commands = new ObservableCollection<string>();
+			Procedure = procedure;
+			Variable1 = new ArithmeticParameterViewModel(controlGkDeviceArguments.Variable1, Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
+			Variable1.UpdateDescriptionHandler = Update;
+			Commands = new ObservableCollection<CommandType>();
 			SelectDeviceCommand = new RelayCommand(OnSelectDevice);
 			UpdateContent();
 		}
 
-		public ObservableCollection<string> Commands { get; private set; }
+		public void Update()
+		{
+			if (Variable1.SelectedVariableType != VariableType.IsValue)
+				Commands = new ObservableCollection<CommandType>(Enum.GetValues(typeof(CommandType)).Cast<CommandType>().ToList());
+			else if (_selectedDevice != null)
+				InitializeCommands(_selectedDevice.Device);
+			OnPropertyChanged(() => Commands);
+		}
 
-		string _selectedCommand;
-		public string SelectedCommand
+		public ObservableCollection<CommandType> Commands { get; private set; }
+
+		CommandType _selectedCommand;
+		public CommandType SelectedCommand
 		{
 			get { return _selectedCommand; }
 			set
 			{
 				_selectedCommand = value;
-				ControlGkDeviceArguments.Command = StringToXStateBit(value);
-				OnPropertyChanged(()=>SelectedCommand);
+				ControlGkDeviceArguments.Command = CommandTypeToXStateBit(value);
+				OnPropertyChanged(() => SelectedCommand);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -45,10 +62,10 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				ControlGkDeviceArguments.DeviceUid = Guid.Empty;
+				Variable1.UidValue = Guid.Empty;
 				if (_selectedDevice != null)
 				{
-					ControlGkDeviceArguments.DeviceUid = _selectedDevice.Device.UID;
+					Variable1.UidValue = _selectedDevice.Device.UID;
 					InitializeCommands(_selectedDevice.Device);
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
@@ -60,13 +77,13 @@ namespace AutomationModule.ViewModels
 		{
 			if (IsBiStateControl(device))
 			{
-				Commands = new ObservableCollection<string> { "Снять отключение", "Отключение" };
+				Commands = new ObservableCollection<CommandType> { CommandType.SetRegime_Automatic2, CommandType.SetRegime_Off };
 				if (HasReset(device))
-					Commands.Add("Сбросить");
+					Commands.Add(CommandType.Reset);
 			}
 			if (IsTriStateControl(device))
 			{
-				Commands = new ObservableCollection<string> { "Автоматика", "Ручное", "Отключение" };
+				Commands = new ObservableCollection<CommandType> { CommandType.SetRegime_Automatic, CommandType.SetRegime_Manual, CommandType.SetRegime_Off };
 				foreach (var availableCommand in device.Driver.AvailableCommandBits)
 				{
 					if (device.DriverType == XDriverType.Valve)
@@ -74,28 +91,26 @@ namespace AutomationModule.ViewModels
 						switch (availableCommand)
 						{
 							case XStateBit.TurnOn_InManual:
-								Commands.Add("Открыть");
+								Commands.Add(CommandType.TurnOn_InManual2);
 								break;
 							case XStateBit.TurnOnNow_InManual:
-								Commands.Add("Открыть немедленно");
+								Commands.Add(CommandType.TurnOnNow_InManual2);
 								break;
 							case XStateBit.TurnOff_InManual:
-								Commands.Add("Закрыть");
+								Commands.Add(CommandType.TurnOff_InManual2);
 								break;
 							case XStateBit.Stop_InManual:
-								Commands.Add("Остановить");
+								Commands.Add(CommandType.Stop_InManual);
 								break;
 						}
 					}
 					else
-						Commands.Add(availableCommand.ToDescription());
+						Commands.Add(XStateBitToCommandType(availableCommand));
 				}
 				if (device.DriverType == XDriverType.JockeyPump)
-					Commands.Add("Запретить пуск");
+					Commands.Add(CommandType.ForbidStart_InManual);
 			}
 			OnPropertyChanged(() => Commands);
-			if (String.IsNullOrEmpty(SelectedCommand))
-				SelectedCommand = Commands.FirstOrDefault();
 		}
 
 		public bool IsBiStateControl(XDevice device)
@@ -125,12 +140,13 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			if (ControlGkDeviceArguments.DeviceUid != Guid.Empty)
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Object && x.ObjectType == ObjectType.Device && !x.IsList));
+			if (Variable1.UidValue != Guid.Empty)
 			{
-				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == ControlGkDeviceArguments.DeviceUid);
+				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Variable1.UidValue);
 				SelectedDevice = device != null ? new DeviceViewModel(device) : null;
 				if (SelectedDevice != null)
-					SelectedCommand = XStateBitToString(ControlGkDeviceArguments.Command);
+					SelectedCommand = XStateBitToCommandType(ControlGkDeviceArguments.Command);
 			}
 		}
 
@@ -138,67 +154,109 @@ namespace AutomationModule.ViewModels
 		{
 			get { return ""; }
 		}
-		
-		XStateBit StringToXStateBit (string stateString)
+
+		XStateBit CommandTypeToXStateBit(CommandType commandType)
 		{
-			switch (stateString)
+			switch (commandType)
 			{
-				case "Автоматика":
+				case CommandType.SetRegime_Automatic:
 					return XStateBit.SetRegime_Automatic;
-				case "Снять отключение":
+				case CommandType.SetRegime_Automatic2:
 					return XStateBit.SetRegime_Automatic;
-				case "Ручное":
+				case CommandType.SetRegime_Manual:
 					return XStateBit.SetRegime_Manual;
-				case"Отключение":
+				case CommandType.SetRegime_Off:
 					return XStateBit.SetRegime_Off;
-				case "Включить":
+				case CommandType.TurnOn_InManual:
 					return XStateBit.TurnOn_InManual;
-				case "Открыть":
+				case CommandType.TurnOn_InManual2:
 					return XStateBit.TurnOn_InManual;
-				case "Включить немедленно":
+				case CommandType.TurnOnNow_InManual:
 					return XStateBit.TurnOnNow_InManual;
-				case "Открыть немедленно":
+				case CommandType.TurnOnNow_InManual2:
 					return XStateBit.TurnOnNow_InManual;
-				case "Выключить":
+				case CommandType.TurnOff_InManual:
 					return XStateBit.TurnOff_InManual;
-				case "Закрыть":
+				case CommandType.TurnOff_InManual2:
 					return XStateBit.TurnOff_InManual;
-				case "Остановить":
+				case CommandType.Stop_InManual:
 					return XStateBit.Stop_InManual;
-				case "Сбросить":
+				case CommandType.Reset:
 					return XStateBit.Reset;
-				case "Запретить пуск":
+				case CommandType.ForbidStart_InManual:
 					return XStateBit.ForbidStart_InManual;
 				default:
 					return new XStateBit();
 			}
 		}
 
-		string XStateBitToString(XStateBit stateString)
+		CommandType XStateBitToCommandType(XStateBit stateString)
 		{
 			switch (stateString)
 			{
 				case XStateBit.SetRegime_Automatic:
-					return IsTriStateControl(SelectedDevice.Device) ? "Автоматика" : "Снять отключение";
+					return IsTriStateControl(SelectedDevice.Device) ? CommandType.SetRegime_Automatic : CommandType.SetRegime_Automatic2;
 				case XStateBit.SetRegime_Manual:
-					return "Ручное";
+					return CommandType.SetRegime_Manual;
 				case XStateBit.SetRegime_Off:
-					return "Отключение";
+					return CommandType.SetRegime_Off;
 				case XStateBit.TurnOn_InManual:
-					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? "Открыть" : "Включить";
+					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOn_InManual2 : CommandType.TurnOn_InManual;
 				case XStateBit.TurnOnNow_InManual:
-					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? "Открыть немедленно" : "Включить немедленно";
+					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOnNow_InManual2 : CommandType.TurnOnNow_InManual;
 				case XStateBit.TurnOff_InManual:
-					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? "Закрыть" : "Выключить";
+					return (SelectedDevice.Device.DriverType == XDriverType.Valve) ? CommandType.TurnOff_InManual2 : CommandType.TurnOff_InManual;
 				case XStateBit.Stop_InManual:
-					return "Остановить";
+					return CommandType.Stop_InManual;
 				case XStateBit.Reset:
-					return "Сбросить";
+					return CommandType.Reset;
 				case XStateBit.ForbidStart_InManual:
-					return "Запретить пуск";
+					return CommandType.ForbidStart_InManual;
 				default:
-					return "";
+					return (CommandType) 111;
 			}
 		}
+	}
+
+	public enum CommandType
+	{
+		[Description("Автоматика")]
+		SetRegime_Automatic,
+
+		[Description("Снять отключение")]
+		SetRegime_Automatic2,
+
+		[Description("Ручное")]
+		SetRegime_Manual,
+
+		[Description("Отключение")]
+		SetRegime_Off,
+
+		[Description("Включить")]
+		TurnOn_InManual,
+
+		[Description("Открыть")]
+		TurnOn_InManual2,
+
+		[Description("Включить немедленно")]
+		TurnOnNow_InManual,
+
+		[Description("Открыть немедленно")]
+		TurnOnNow_InManual2,
+
+		[Description("Выключить")]
+		TurnOff_InManual,
+
+		[Description("Закрыть")]
+		TurnOff_InManual2,
+
+		[Description("Остановить")]
+		Stop_InManual,
+
+		[Description("Сбросить")]
+		Reset,
+
+		[Description("Запретить пуск")]
+		ForbidStart_InManual,
 	}
 }
