@@ -14,7 +14,7 @@
 	<xrd:ReportHint Hint="MoveRegular" />
 	<xrd:ReportHint Hint="SimpleClone" />
 
-	<xrd:SplitTable BorderThickness="1" FontSize="9" RowsOnFirstPage="2" RowsOnLatPage="2" RowsOnPage="3" TableHeaderOnEachPage="true" TableName="Data" TextAlignment="Center">
+	<xrd:SplitTable BorderThickness="1" RowsOnFirstPage="2" RowsOnLatPage="2" RowsOnPage="3" TableHeaderOnEachPage="true" TableName="Data" TextAlignment="Center" FontSize="9">
 		<xrd:SplitTable.Columns>
 			<TableColumn Width="0.5*" />
 			<TableColumn Width="2*" />

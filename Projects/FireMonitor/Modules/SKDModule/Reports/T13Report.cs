@@ -9,7 +9,7 @@ using Common;
 
 namespace SKDModule.Reports
 {
-	internal class T13Report : IMultiReportProvider
+	internal class T13Report : ISingleReportProvider //IMultiReportProvider
 	{
 		public ReportT13 ReportModel { get; private set; }
 
@@ -18,48 +18,49 @@ namespace SKDModule.Reports
 			ReportModel = reportModel;
 		}
 
+		#region ISingleReportProvider Members
+
+		ReportData ISingleReportProvider.GetData()
+		{
+			var table = BuildTable();
+			ReportData data = CreateData();
+			data.DataTables.Add(table);
+			return data;
+		}
+
+		#endregion
+
 		#region IMultiReportProvider Members
 
-		IEnumerable<ReportData> IMultiReportProvider.GetData()
-		{
-			var result = new List<ReportData>();
-			var table = BuildTable();
-			ReportData data = null;
-			if (ReportModel.RecordsPerPage == 0)
-			{
-				data = CreateData();
-				data.Groups.Add("Header");
-				data.Groups.Add("Footer");
-				data.DataTables.Add(table);
-				result.Add(data);
-			}
-			else
-			{
-				int countOnPage = -1;
-				for (int i = 0; i < table.Rows.Count; i++)
-				{
-					if (data == null || data.DataTables[0].Rows.Count == countOnPage)
-					{
-						data = CreateData();
-						data.DataTables.Add(table.Clone());
-						result.Add(data);
-						if (countOnPage == -1)
-						{
-							data.Groups.Add("Header");
-							countOnPage = ReportModel.RecordsPerPage - 1;
-						}
-						else if (i + ReportModel.RecordsPerPage == table.Rows.Count)
-							countOnPage = ReportModel.RecordsPerPage - 1;
-						else if (i + ReportModel.RecordsPerPage > table.Rows.Count)
-							data.Groups.Add("Footer");
-						else
-							countOnPage = ReportModel.RecordsPerPage;
-					}
-					data.DataTables[0].Rows.Add(table.Rows[i].ItemArray);
-				}
-			}
-			return result;
-		}
+		//IEnumerable<ReportData> IMultiReportProvider.GetData()
+		//{
+		//    var result = new List<ReportData>();
+		//    var table = BuildTable();
+		//    ReportData data = null;
+		//    int countOnPage = -1;
+		//    for (int i = 0; i < table.Rows.Count; i++)
+		//    {
+		//        if (data == null || data.DataTables[0].Rows.Count == countOnPage)
+		//        {
+		//            data = CreateData();
+		//            data.DataTables.Add(table.Clone());
+		//            result.Add(data);
+		//            if (countOnPage == -1)
+		//            {
+		//                data.Groups.Add("Header");
+		//                countOnPage = 2;
+		//            }
+		//            else if (i + 3 == table.Rows.Count)
+		//                countOnPage = 2;
+		//            else if (i + 3 <= table.Rows.Count)
+		//                countOnPage = 3;
+		//            if (i + 3 > table.Rows.Count)
+		//                data.Groups.Add("Footer");
+		//        }
+		//        data.DataTables[0].Rows.Add(table.Rows[i].ItemArray);
+		//    }
+		//    return result;
+		//}
 
 		#endregion
 
@@ -67,7 +68,7 @@ namespace SKDModule.Reports
 
 		public string Template
 		{
-			get { return "Reports/T13.xaml"; }
+			get { return "Reports/T13_2.xaml"; }
 		}
 
 		public string Title
@@ -104,7 +105,7 @@ namespace SKDModule.Reports
 				data.ReportDocumentValues.Add("HRPosition", ReportModel.HRPosition);
 				data.ReportDocumentValues.Add("LeadPosition", ReportModel.LeadPosition);
 
-				data.ReportDocumentValues.Add("Organisation", ReportModel.OrganisationName);
+				data.ReportDocumentValues.Add("Organization", ReportModel.OrganisationName);
 				data.ReportDocumentValues.Add("Department", ReportModel.DepartmentName);
 
 				return data;
@@ -173,7 +174,7 @@ namespace SKDModule.Reports
 
 		private string GetValue(int val)
 		{
-			return val> 0 ? val.ToString() : null;
+			return val > 0 ? val.ToString() : null;
 		}
 		private string GetValue(TimeSpan val)
 		{

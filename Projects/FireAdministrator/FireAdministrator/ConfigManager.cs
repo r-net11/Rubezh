@@ -25,6 +25,7 @@ namespace FireAdministrator
 		{
 			try
 			{
+				ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
 				ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
 
 				var validationResult = ServiceFactory.ValidationService.Validate();

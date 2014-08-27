@@ -27,7 +27,6 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
-				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<TextBlock Grid.Row="0" Grid.Column="0" Text="Ответственное лицо" />
 			<TextBox Grid.Row="0" Grid.Column="1" Text="{Binding FillName, UpdateSourceTrigger=PropertyChanged}" />
@@ -49,9 +48,6 @@
 
 			<TextBlock Grid.Row="6" Grid.Column="0" Text="Дата формирования" VerticalAlignment="Top" />
 			<Calendar Grid.Row="6" Grid.Column="1" Margin="2" HorizontalAlignment="Left" DisplayDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" SelectedDate="{Binding DateTime, UpdateSourceTrigger=PropertyChanged}" SelectionMode="SingleDate" />
-
-			<TextBlock Grid.Row="8" Grid.Column="0" Text="Число записей на странице" />
-			<extToolkit:IntegerUpDown Grid.Row="9" Grid.Column="1" Maximum="10" Minimum="0" Value="{Binding RecordsPerPage, UpdateSourceTrigger=PropertyChanged}" />
 		</Grid>
 	</Border>
 </UserControl>

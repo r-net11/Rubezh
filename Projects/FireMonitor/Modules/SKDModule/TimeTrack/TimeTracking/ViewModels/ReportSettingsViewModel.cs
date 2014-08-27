@@ -22,7 +22,6 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter = timeTrackFilter;
 			TimeTrackEmployeeResults = timeTrackEmployeeResults;
 			DateTime = DateTime.Now;
-			RecordsPerPage = 3;
 		}
 
 		string _fillName;
@@ -102,17 +101,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private int _recordsPerPage;
-		public int RecordsPerPage
-		{
-			get { return _recordsPerPage; }
-			set
-			{
-				_recordsPerPage = value;
-				OnPropertyChanged(() => RecordsPerPage);
-			}
-		}
-
 		protected override bool Save()
 		{
 			var report = new ReportT13()
@@ -128,7 +116,6 @@ namespace SKDModule.ViewModels
 				CreationDateTime = DateTime,
 				StartDateTime = TimeTrackFilter.StartDate.Date,
 				EndDateTime = TimeTrackFilter.EndDate.Date,
-				RecordsPerPage = RecordsPerPage,
 			};
 			if (report.EndDateTime > TimeTrackFilter.EndDate)
 				report.EndDateTime = TimeTrackFilter.EndDate;

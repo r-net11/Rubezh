@@ -40,6 +40,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public Guid OrganisationUID { get; set; }
 
+		[DataMember]
+		public int TabelNo { get; set; }
+
 		public string Name
 		{
             		get { return LastName + " " + FirstName + " " + SecondName; }

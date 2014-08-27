@@ -164,6 +164,10 @@ namespace CodeReason.Reports.Providers
 			}
 
 			var table = CreateTable();
+			var splitTableSection = (SplitTable)_splitTable;
+			table.FontSize = splitTableSection.FontSize;
+			table.FontWeight = splitTableSection.FontWeight;
+			table.TextAlignment = splitTableSection.TextAlignment;
 			if ((pageNumber == 0 || _splitTable.TableHeaderOnEachPage) && _splitTable.HeaderRowGroup != null)
 				table.RowGroups.Add(_tableProvider.Clone(_splitTable.HeaderRowGroup, true));
 

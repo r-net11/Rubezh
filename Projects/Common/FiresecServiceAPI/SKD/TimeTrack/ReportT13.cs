@@ -24,9 +24,6 @@ namespace FiresecAPI.SKD
 		public DateTime CreationDateTime { get; set; }
 		public DateTime StartDateTime { get; set; }
 		public DateTime EndDateTime { get; set; }
-
-		// Временное поле для тестов (0 - все записи подряд без разбиения)
-		public int RecordsPerPage { get; set; } 
 	}
 
 	public class EmployeeReport

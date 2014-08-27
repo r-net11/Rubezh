@@ -573,6 +573,9 @@
     <Resource Include="Reports\T13.xaml">
       <SubType>Designer</SubType>
     </Resource>
+    <Resource Include="Reports\T13_2.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
