@@ -43,7 +43,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_parameterTemplates = value;
-				OnPropertyChanged("ParameterTemplates");
+				OnPropertyChanged(() => ParameterTemplates);
 			}
 		}
 

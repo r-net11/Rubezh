@@ -87,7 +87,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_deviceParameterMissmatchType = value;
-				OnPropertyChanged("DeviceParameterMissmatchType");
+				OnPropertyChanged(() => DeviceParameterMissmatchType);
 			}
 		}
 	}

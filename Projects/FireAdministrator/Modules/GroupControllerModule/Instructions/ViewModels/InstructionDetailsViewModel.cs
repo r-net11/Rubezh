@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_alarmType = value;
-				OnPropertyChanged("AlarmType");
+				OnPropertyChanged(() => AlarmType);
 			}
 		}
 		public List<XAlarmType> AvailableAlarmTypes

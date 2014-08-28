@@ -43,7 +43,7 @@ namespace GKModule.ViewModels
 				if (value == "По умолчанию")
 					return;
 				ParameterTemplate.Name = value;
-				OnPropertyChanged("Name");
+				OnPropertyChanged(() => Name);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

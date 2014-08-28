@@ -39,6 +39,9 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public string DayName { get; set; }
 
+		[DataMember]
+		public string Tooltip { get; set; }
+
 		public TimeSpan Delta
 		{
 			get { return EndTime - StartTime; }

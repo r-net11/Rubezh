@@ -452,32 +452,35 @@ END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveCardDoorParentType')
 BEGIN
-	ALTER TABLE CardDoor DROP COLUMN ParentType
+	IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardDoor' and table_name = 'CardDoor')
+		ALTER TABLE CardDoor DROP COLUMN ParentType
 	INSERT INTO Patches (Id) VALUES ('RemoveCardDoorParentType')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'RemoveCardDoorParentUID')
 BEGIN
-	ALTER TABLE CardDoor DROP COLUMN ParentUID
+	IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'ParentUID' and table_name = 'CardDoor')
+		ALTER TABLE CardDoor DROP COLUMN ParentUID
 	INSERT INTO Patches (Id) VALUES ('RemoveCardDoorParentUID')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FK_CardDoor_Card_DROP')
 BEGIN
 	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CardDoor_Card]') AND parent_object_id = OBJECT_ID(N'[dbo].[CardDoor]'))
-	ALTER TABLE [dbo].[CardDoor] DROP CONSTRAINT [FK_CardDoor_Card]
+		ALTER TABLE [dbo].[CardDoor] DROP CONSTRAINT [FK_CardDoor_Card]
 	INSERT INTO Patches (Id) VALUES ('FK_CardDoor_Card_DROP')
 END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'FK_CardDoor_AccessTemplate_DROP')
 BEGIN
 	IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_CardDoor_AccessTemplate]') AND parent_object_id = OBJECT_ID(N'[dbo].[CardDoor]'))
-	ALTER TABLE [dbo].[CardDoor] DROP CONSTRAINT [FK_CardDoor_AccessTemplate]
+		ALTER TABLE [dbo].[CardDoor] DROP CONSTRAINT [FK_CardDoor_AccessTemplate]
 	INSERT INTO Patches (Id) VALUES ('FK_CardDoor_AccessTemplate_DROP')
-END
+END		
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddCardDoorCardUID')
 BEGIN
+IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'CardDoor' and table_name = 'CardDoor')
 	ALTER TABLE CardDoor ADD [CardUID] [uniqueidentifier] NULL
 	INSERT INTO Patches (Id) VALUES ('AddCardDoorCardUID')	
 END
@@ -502,11 +505,11 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'SKDCardPasswordDeactivation')
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
 	BEGIN
-		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'DeactivationControllerUID' and table_name = 'SKDCardPasswordDeactivation')
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'DeactivationControllerUID' and table_name = 'Card')
 		BEGIN
 			ALTER TABLE [Card] ADD DeactivationControllerUID [uniqueidentifier] NULL
 		END
-		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'Password' and table_name = 'SKDCardPasswordDeactivation')
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'Password' and table_name = 'Card')
 		BEGIN
 			ALTER TABLE [Card] ADD [Password] [nvarchar](50) NULL
 		END
@@ -516,7 +519,8 @@ END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'AddAccessTemplateUID')
 BEGIN
-	ALTER TABLE CardDoor ADD [AccessTemplateUID] [uniqueidentifier] NULL
+	IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'AccessTemplateUID' and table_name = 'CardDoor')
+		ALTER TABLE CardDoor ADD [AccessTemplateUID] [uniqueidentifier] NULL
 	INSERT INTO Patches (Id) VALUES ('AddAccessTemplateUID')	
 END
 GO
@@ -578,7 +582,8 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Card_UserTime')
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Card')
 	BEGIN
-		ALTER TABLE Card ADD UserTime int default 0 NOT NULL
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'UserTime' and table_name = 'Card')
+			ALTER TABLE Card ADD UserTime int default 0 NOT NULL
 	END
 	INSERT INTO Patches (Id) VALUES ('Card_UserTime')	
 END
@@ -611,8 +616,10 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Schedule_AllowedLateAndEarlyLea
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Schedule')
 	BEGIN
-		ALTER TABLE Schedule ADD AllowedLate int default 0 NOT NULL
-		ALTER TABLE Schedule ADD AllowedEarlyLeave int default 0 NOT NULL
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'AllowedLate' and table_name = 'Schedule')
+			ALTER TABLE Schedule ADD AllowedLate int default 0 NOT NULL
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'AllowedEarlyLeave' and table_name = 'Schedule')
+			ALTER TABLE Schedule ADD AllowedEarlyLeave int default 0 NOT NULL
 	END
 	INSERT INTO Patches (Id) VALUES ('Schedule_AllowedLateAndEarlyLeave')
 END
@@ -628,7 +635,8 @@ END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'DropIndex_PhoneUIDIndex')
 BEGIN
-	DROP INDEX PhoneUIDIndex ON Phone
+	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'Phone')
+		DROP INDEX PhoneUIDIndex ON Phone
 	INSERT INTO Patches (Id) VALUES ('DropIndex_PhoneUIDIndex')
 END
 GO
@@ -643,7 +651,8 @@ END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'Employee_DropColumn_Dismissed')
 BEGIN
-	ALTER TABLE Employee DROP COLUMN Dismissed
+	IF EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'Dismissed' and table_name = 'Employee')
+		ALTER TABLE Employee DROP COLUMN Dismissed
 	INSERT INTO Patches (Id) VALUES ('Employee_DropColumn_Dismissed')
 END
 GO
@@ -742,7 +751,8 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'ScheduleSchemeDaysCount')
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'ScheduleScheme')
 	BEGIN
-		ALTER TABLE ScheduleScheme ADD [DaysCount] int NOT NULL CONSTRAINT "ScheduleScheme_DaysCount_Default" DEFAULT 0
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'DaysCount' and table_name = 'ScheduleScheme')
+			ALTER TABLE ScheduleScheme ADD [DaysCount] int NOT NULL CONSTRAINT "ScheduleScheme_DaysCount_Default" DEFAULT 0
 	END
 	INSERT INTO Patches (Id) VALUES ('ScheduleSchemeDaysCount')	
 END
@@ -751,8 +761,10 @@ IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'TimeTrackDocumentDateTimeAndNum
 BEGIN
 	IF EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'TimeTrackDocument')
 	BEGIN
-		ALTER TABLE TimeTrackDocument ADD [DocumentDateTime] [datetime] NOT NULL CONSTRAINT "TimeTrackDocument_DocumentDateTime_Default" DEFAULT CURRENT_TIMESTAMP
-		ALTER TABLE TimeTrackDocument ADD [DocumentNumber] [int] NOT NULL CONSTRAINT "TimeTrackDocument_DocumentNumber_Default" DEFAULT 1
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'DocumentDateTime' and table_name = 'TimeTrackDocument')
+			ALTER TABLE TimeTrackDocument ADD [DocumentDateTime] [datetime] NOT NULL CONSTRAINT "TimeTrackDocument_DocumentDateTime_Default" DEFAULT CURRENT_TIMESTAMP
+		IF NOT EXISTS (select column_name from INFORMATION_SCHEMA.columns where column_name = 'DocumentNumber' and table_name = 'TimeTrackDocument')
+			ALTER TABLE TimeTrackDocument ADD [DocumentNumber] [int] NOT NULL CONSTRAINT "TimeTrackDocument_DocumentNumber_Default" DEFAULT 1
 	END
 	INSERT INTO Patches (Id) VALUES ('TimeTrackDocumentDateTimeAndNumber')	
 END
@@ -767,25 +779,27 @@ END
 GO
 IF NOT EXISTS (SELECT * FROM Patches WHERE Id = 'TimeTrackDocumentType')
 BEGIN
-	CREATE TABLE [dbo].[TimeTrackDocumentType](
-		[UID] [uniqueidentifier] NOT NULL,
-		[Name] [nvarchar](max) NOT NULL,
-		[ShortName] [nvarchar](10) NOT NULL,
-		[DocumentCode] [int] NOT NULL,
-		[DocumentType] [int] NOT NULL,
-		[OrganisationUID] [uniqueidentifier] NOT NULL,
-	CONSTRAINT [PK_TimeTrackDocumentType] PRIMARY KEY CLUSTERED
-	(
-		[UID] ASC
-	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-	) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+IF NOT EXISTS (SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = 'TimeTrackDocumentType')
+	BEGIN
+		CREATE TABLE [dbo].[TimeTrackDocumentType](
+			[UID] [uniqueidentifier] NOT NULL,
+			[Name] [nvarchar](max) NOT NULL,
+			[ShortName] [nvarchar](10) NOT NULL,
+			[DocumentCode] [int] NOT NULL,
+			[DocumentType] [int] NOT NULL,
+			[OrganisationUID] [uniqueidentifier] NOT NULL,
+		CONSTRAINT [PK_TimeTrackDocumentType] PRIMARY KEY CLUSTERED
+		(
+			[UID] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-	CREATE INDEX TimeTrackDocumentTypeUIDIndex ON TimeTrackDocumentType([UID])
+		CREATE INDEX TimeTrackDocumentTypeUIDIndex ON TimeTrackDocumentType([UID])
 
-	ALTER TABLE [dbo].[TimeTrackDocumentType] WITH NOCHECK ADD CONSTRAINT [FK_TimeTrackDocumentType_Organisation] FOREIGN KEY([OrganisationUid])
-	REFERENCES [dbo].[Organisation] ([Uid])
-	NOT FOR REPLICATION 
-	ALTER TABLE [dbo].[TimeTrackDocumentType] NOCHECK CONSTRAINT [FK_TimeTrackDocumentType_Organisation]
-
+		ALTER TABLE [dbo].[TimeTrackDocumentType] WITH NOCHECK ADD CONSTRAINT [FK_TimeTrackDocumentType_Organisation] FOREIGN KEY([OrganisationUid])
+		REFERENCES [dbo].[Organisation] ([Uid])
+		NOT FOR REPLICATION 
+		ALTER TABLE [dbo].[TimeTrackDocumentType] NOCHECK CONSTRAINT [FK_TimeTrackDocumentType_Organisation]
+	END
 	INSERT INTO Patches (Id) VALUES ('TimeTrackDocumentType')
 END

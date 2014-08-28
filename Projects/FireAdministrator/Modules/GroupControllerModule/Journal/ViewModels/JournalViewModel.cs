@@ -74,7 +74,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_endIndex = value;
-				OnPropertyChanged("EndIndex");
+				OnPropertyChanged(() => EndIndex);
 			}
 		}
 

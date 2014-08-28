@@ -51,7 +51,7 @@ namespace GKModule.ViewModels
 		public void Update()
 		{
 			InitializeDependences();
-			OnPropertyChanged("Direction");
+			OnPropertyChanged(() => Direction);
 			if (Direction.PlanElementUIDs == null)
 				Direction.PlanElementUIDs = new List<Guid>();
 			_visualizetionState = Direction.PlanElementUIDs.Count == 0 ? VisualizationState.NotPresent : (Direction.PlanElementUIDs.Count > 1 ? VisualizationState.Multiple : VisualizationState.Single);
