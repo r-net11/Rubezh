@@ -51,7 +51,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel();
+			var variableDetailsViewModel = new VariableDetailsViewModel(null, "локальная переменная", "Добавить локальную переменную");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				var varialbeViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
@@ -78,10 +78,10 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable);
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "локальная переменная", "Редактировать локальную переменную");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				SelectedVariable.Variable.Copy(variableDetailsViewModel.Variable);
+				SelectedVariable.Variable = (Variable)variableDetailsViewModel.Variable.Clone();
 				SelectedVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}

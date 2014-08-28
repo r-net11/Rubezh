@@ -70,11 +70,11 @@ namespace FiresecService.Processor
 			InitializeItem(ref item, variable.ObjectUid, variable.ObjectType);
 			InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, getStringArguments.Property, item);
 			if (getStringArguments.StringOperation == StringOperation.Is)
-				resultVariable.StringValues = new List<string>();
+				resultVariable.VariableItems = new List<VariableItem>();
 			if (getStringArguments.Property != Property.Description)
-				resultVariable.StringValues.Add(intPropertyValue.ToString());
+				resultVariable.VariableItems.Add(new VariableItem { StringValue = intPropertyValue.ToString() });
 			else
-				resultVariable.StringValues.Add(stringPropertyValue);
+				resultVariable.VariableItems.Add(new VariableItem { StringValue = stringPropertyValue });
 		}
 
 		public static AutomationCallbackResult ShowMessage(ProcedureStep procedureStep, Procedure procedure)
@@ -272,22 +272,26 @@ namespace FiresecService.Processor
 
 		static void InitializeItems(ref IEnumerable<object> items, ref Variable result)
 		{
-			result.ObjectsUids = new List<Guid>();
+			var variableItems = new List<VariableItem>();
 			if (result.ObjectType == ObjectType.Device)
 			{
 				items = new List<XDevice>(XManager.DeviceConfiguration.Devices);
-				result.ObjectsUids = new List<Guid>(XManager.DeviceConfiguration.Devices.Select(x => x.UID));
+				foreach (var objectUid in new List<Guid>(XManager.DeviceConfiguration.Devices.Select(x => x.UID)))
+					variableItems.Add(new VariableItem { ObjectUid = objectUid });
 			}
 			if (result.ObjectType == ObjectType.Zone)
 			{
 				items = new List<XZone>(XManager.Zones);
-				result.ObjectsUids = new List<Guid>(XManager.Zones.Select(x => x.UID));
+				foreach (var objectUid in new List<Guid>(XManager.Zones.Select(x => x.UID)))
+					variableItems.Add(new VariableItem { ObjectUid = objectUid });
 			}
 			if (result.ObjectType == ObjectType.Direction)
 			{
 				items = new List<XDirection>(XManager.Directions);
-				result.ObjectsUids = new List<Guid>(XManager.Directions.Select(x => x.UID));
+				foreach (var objectUid in new List<Guid>(XManager.Directions.Select(x => x.UID)))
+					variableItems.Add(new VariableItem { ObjectUid = objectUid });
 			}
+			result.VariableItems = variableItems;
 		}
 
 		static void InitializeItem(ref object item, Guid itemUid, ObjectType objectType)
@@ -327,7 +331,7 @@ namespace FiresecService.Processor
 						(((findObjectCondition.ConditionType == ConditionType.StartsWith) && (stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.ConditionType == ConditionType.EndsWith) && (stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.ConditionType == ConditionType.Contains) && (stringPropertyValue.Contains(findObjectCondition.StringValue))))))
-					{ resultObjects.Add(item); result.ObjectsUids.Add(itemUid); }
+					{ resultObjects.Add(item); result.VariableItems.Add(new VariableItem { ObjectUid = itemUid }); }
 				}
 			}
 		}
@@ -358,7 +362,7 @@ namespace FiresecService.Processor
 						(((findObjectCondition.ConditionType == ConditionType.StartsWith) && (!stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.ConditionType == ConditionType.EndsWith) && (!stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.ConditionType == ConditionType.Contains) && (!stringPropertyValue.Contains(findObjectCondition.StringValue))))))
-					{ tempObjects.Remove(item); result.ObjectsUids.Remove(itemUid); }
+					{ tempObjects.Remove(item); result.VariableItems.RemoveAll(x => x.ObjectUid == itemUid); }
 				}
 				resultObjects = new List<object>(tempObjects);
 			}

@@ -139,7 +139,6 @@
     <Compile Include="Procedures\ViewModels\Steps\ShowMessageStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SetValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\VariableObjectViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />

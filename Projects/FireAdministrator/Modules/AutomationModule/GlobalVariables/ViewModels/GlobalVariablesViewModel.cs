@@ -58,7 +58,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(false, true);
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную");
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
 				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);
@@ -87,10 +87,10 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable);
+			var globalVariableDetailsViewModel = new VariableDetailsViewModel(SelectedGlobalVariable.Variable, "глобальная переменная", "Редактировать глобальную переменную");
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
-				SelectedGlobalVariable.Variable.Copy(globalVariableDetailsViewModel.Variable);
+				SelectedGlobalVariable.Variable = (Variable) globalVariableDetailsViewModel.Variable.Clone();
 				SelectedGlobalVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
