@@ -25,7 +25,7 @@ namespace AutomationModule.ViewModels
 			ControlGkDeviceArguments = controlGkDeviceArguments;
 			Procedure = procedure;
 			Variable1 = new ArithmeticParameterViewModel(controlGkDeviceArguments.Variable1, Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
-			Variable1.UpdateDescriptionHandler = Update;
+			Variable1.UpdateVariableTypeHandler = Update;
 			Commands = new ObservableCollection<CommandType>();
 			SelectDeviceCommand = new RelayCommand(OnSelectDevice);
 			UpdateContent();
@@ -141,7 +141,7 @@ namespace AutomationModule.ViewModels
 		public void UpdateContent()
 		{
 			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Object && x.ObjectType == ObjectType.Device && !x.IsList));
-			if (Variable1.UidValue != Guid.Empty)
+			if ((Variable1.SelectedVariableType == VariableType.IsValue) && (Variable1.UidValue != Guid.Empty))
 			{
 				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Variable1.UidValue);
 				SelectedDevice = device != null ? new DeviceViewModel(device) : null;

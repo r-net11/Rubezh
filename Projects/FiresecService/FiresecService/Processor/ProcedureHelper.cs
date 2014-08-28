@@ -401,7 +401,7 @@ namespace FiresecService.Processor
 
 		public static void ControlFireZone(ProcedureStep procedureStep)
 		{
-			var zone = XManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlGKFireZoneArguments.ZoneUid);
+			var zone = XManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlGKFireZoneArguments.Variable1.UidValue);
 			if (zone == null)
 				return;
 			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.Ignore)
@@ -414,7 +414,7 @@ namespace FiresecService.Processor
 
 		public static void ControlGuardZone(ProcedureStep procedureStep)
 		{
-			var zone = XManager.GuardZones.FirstOrDefault(x => x.UID == procedureStep.ControlGKGuardZoneArguments.ZoneUid);
+			var zone = XManager.GuardZones.FirstOrDefault(x => x.UID == procedureStep.ControlGKGuardZoneArguments.Variable1.UidValue);
 			if (zone == null)
 				return;
 			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.Automatic)
@@ -435,7 +435,7 @@ namespace FiresecService.Processor
 
 		public static void ControlDirection(ProcedureStep procedureStep)
 		{
-			var direction = XManager.Directions.FirstOrDefault(x => x.UID == procedureStep.ControlDirectionArguments.DirectionUid);
+			var direction = XManager.Directions.FirstOrDefault(x => x.UID == procedureStep.ControlDirectionArguments.Variable1.UidValue);
 			if (direction == null)
 				return;
 			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.Automatic)
@@ -456,7 +456,7 @@ namespace FiresecService.Processor
 
 		public static void ControlDoor(ProcedureStep procedureStep)
 		{
-			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == procedureStep.ControlDoorArguments.DoorUid);
+			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == procedureStep.ControlDoorArguments.Variable1.UidValue);
 			if (door == null)
 				return;
 			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.Open)
@@ -471,7 +471,7 @@ namespace FiresecService.Processor
 
 		public static void ControlSKDZone(ProcedureStep procedureStep)
 		{
-			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlSKDZoneArguments.ZoneUid);
+			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlSKDZoneArguments.Variable1.UidValue);
 			if (sKDZone == null)
 				return;
 			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.Open)

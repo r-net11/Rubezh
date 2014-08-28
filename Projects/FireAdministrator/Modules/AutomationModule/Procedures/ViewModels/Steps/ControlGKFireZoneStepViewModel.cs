@@ -7,16 +7,22 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
 	public class ControlGKFireZoneStepViewModel: BaseViewModel, IStepViewModel
 	{
 		ControlGKFireZoneArguments ControlGKFireZoneArguments { get; set; }
-		public ControlGKFireZoneStepViewModel(ControlGKFireZoneArguments controlGKFireZoneArguments)
+		Procedure Procedure { get; set; }
+		public ArithmeticParameterViewModel Variable1 { get; private set; }
+
+		public ControlGKFireZoneStepViewModel(ControlGKFireZoneArguments controlGKFireZoneArguments, Procedure procedure)
 		{
 			ControlGKFireZoneArguments = controlGKFireZoneArguments;
-			Commands = new ObservableCollection<ZoneCommandType> { ZoneCommandType.Ignore, ZoneCommandType.ResetIgnore, ZoneCommandType.Reset };
+			Procedure = procedure;
+			Commands = ProcedureHelper.GetEnumObs<ZoneCommandType>();
+			Variable1 = new ArithmeticParameterViewModel(ControlGKFireZoneArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
 			OnPropertyChanged(() => Commands);
 			SelectZoneCommand = new RelayCommand(OnSelectZone);
 			UpdateContent();
@@ -44,10 +50,10 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedZone = value;
-				ControlGKFireZoneArguments.ZoneUid = Guid.Empty;
+				Variable1.UidValue = Guid.Empty;
 				if (_selectedZone != null)
 				{
-					ControlGKFireZoneArguments.ZoneUid = _selectedZone.Zone.UID;
+					Variable1.UidValue = _selectedZone.Zone.UID;
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedZone);
@@ -66,9 +72,10 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			if (ControlGKFireZoneArguments.ZoneUid != Guid.Empty)
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, ObjectType.Zone, false));
+			if (Variable1.UidValue != Guid.Empty)
 			{
-				var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == ControlGKFireZoneArguments.ZoneUid);
+				var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == Variable1.UidValue);
 				SelectedZone = zone != null ? new ZoneViewModel(zone) : null;
 				SelectedCommand = ControlGKFireZoneArguments.ZoneCommandType;
 			}

@@ -174,6 +174,7 @@ namespace AutomationModule.ViewModels
 	{
 		public ArithmeticParameter ArithmeticParameter { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
+		public Action UpdateVariableTypeHandler { get; set; }
 
 		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, List<VariableType> availableVariableTypes)
 		{
@@ -204,6 +205,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.VariableType = value;
+				if (UpdateVariableTypeHandler != null)
+					UpdateVariableTypeHandler();
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariableType);
 			}

@@ -6,6 +6,7 @@ using FiresecAPI.Automation;
 using FiresecClient;
 using FiresecAPI.GK;
 using ValueType = FiresecAPI.Automation.ValueType;
+using System.Collections.ObjectModel;
 
 namespace AutomationModule
 {
@@ -17,6 +18,11 @@ namespace AutomationModule
 			allVariables.AddRange(procedure.Variables);
 			allVariables.AddRange(procedure.Arguments);
 			return allVariables;
+		}
+
+		public static List<Variable> GetAllVariables(Procedure procedure, ValueType valueType, ObjectType objectType = ObjectType.Device, bool isList = false)
+		{
+			return GetAllVariables(procedure).FindAll(x => x.ValueType == valueType && x.ObjectType == objectType && x.IsList == isList);
 		}
 
 		public static List<Property> ObjectTypeToProperiesList(ObjectType objectType)
@@ -46,6 +52,16 @@ namespace AutomationModule
 			if (valueType == ValueType.String)
 				return new List<ConditionType> { ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains};
 			return new List<ConditionType>();
+		}
+
+		public static ObservableCollection<T> GetEnumObs<T>()
+		{
+			return new ObservableCollection<T>(Enum.GetValues(typeof(T)).Cast<T>().ToList());
+		}
+
+		public static List<T> GetEnumList<T>()
+		{
+			return new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
 		}
 	}
 }

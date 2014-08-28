@@ -40,11 +40,7 @@ namespace AutomationModule.ViewModels
 			ValueType = Variable.ValueType;
 			IsList = Variable.IsList;
 			IsGlobal = Variable.IsGlobal;
-			ObjectTypes = new ObservableCollection<ObjectType>
-			{
-				ObjectType.Card, ObjectType.Device, ObjectType.Direction, ObjectType.GuardZone, ObjectType.Person, ObjectType.Plan,
-				ObjectType.SKDDevice, ObjectType.SKDZone, ObjectType.VideoDevice, ObjectType.Zone
-			};
+			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
 			OnPropertyChanged(() => Variable);
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => DefaultBoolValue);

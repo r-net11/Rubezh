@@ -79,27 +79,27 @@ namespace AutomationModule.ViewModels
 					break;
 
 				case ProcedureStepType.ControlSKDDevice:
-					Content = new ControlSKDDeviceStepViewModel(step.ControlSKDDeviceArguments);
+					Content = new ControlSKDDeviceStepViewModel(step.ControlSKDDeviceArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
-					Content = new ControlGKFireZoneStepViewModel(step.ControlGKFireZoneArguments);
+					Content = new ControlGKFireZoneStepViewModel(step.ControlGKFireZoneArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:
-					Content = new ControlGKGuardZoneStepViewModel(step.ControlGKGuardZoneArguments);
+					Content = new ControlGKGuardZoneStepViewModel(step.ControlGKGuardZoneArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlDirection:
-					Content = new ControlDirectionStepViewModel(step.ControlDirectionArguments);
+					Content = new ControlDirectionStepViewModel(step.ControlDirectionArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlDoor:
-					Content = new ControlDoorStepViewModel(step.ControlDoorArguments);
+					Content = new ControlDoorStepViewModel(step.ControlDoorArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlSKDZone:
-					Content = new ControlSKDZoneStepViewModel(step.ControlSKDZoneArguments);
+					Content = new ControlSKDZoneStepViewModel(step.ControlSKDZoneArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlCamera:
