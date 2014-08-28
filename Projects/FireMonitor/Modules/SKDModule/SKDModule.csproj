@@ -173,6 +173,7 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypeDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypesViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypeViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackFilter.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\ReportSettingsViewModel.cs" />

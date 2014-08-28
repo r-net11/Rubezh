@@ -27,7 +27,7 @@ namespace SKDModule.ViewModels
 			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{
 				dayTimeTrack.Calculate();
-				var dayTrackViewModel = new DayTrackViewModel(dayTimeTrack, timeTrackFilter);
+				var dayTrackViewModel = new DayTrackViewModel(dayTimeTrack, timeTrackFilter, timeTrackEmployeeResult.ShortEmployee);
 				DayTracks.Add(dayTrackViewModel);
 			}
 

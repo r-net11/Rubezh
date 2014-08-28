@@ -137,7 +137,7 @@
     <Compile Include="FiresecManager\SKDHelpers\ScheduleZoneHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\ScheduleHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\ScheduleDayIntervalHelper.cs" />
-    <Compile Include="FiresecManager\SKDHelpers\ScheduleSchemaHelper.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\ScheduleSchemeHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\HolidayHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\DayIntervalPartHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\DepartmentHelper.cs" />
@@ -146,6 +146,7 @@
     <Compile Include="FiresecManager\SKDHelpers\DayIntervalHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\OrganisationHelper.cs" />
     <Compile Include="FiresecManager\SKDHelpers\PositionHelper.cs" />
+    <Compile Include="FiresecManager\SKDHelpers\DocumentTypeHelper.cs" />
     <Compile Include="Service\SafeFiresecService.SKD.TimeInterval.cs" />
     <Compile Include="Service\SafeFiresecService.GK.cs" />
     <Compile Include="Service\FileHelper.cs" />

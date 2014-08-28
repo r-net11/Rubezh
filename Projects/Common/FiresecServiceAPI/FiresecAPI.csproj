@@ -221,6 +221,8 @@
     <Compile Include="SKD\Driver\SKDDriverProperty.cs" />
     <Compile Include="SKD\Driver\SKDDriverPropertyParameter.cs" />
     <Compile Include="SKD\SKDManager\ChinaController_1_1Helper.cs" />
+    <Compile Include="SKD\TimeTrack\DocumentType.cs" />
+    <Compile Include="SKD\TimeTrack\DocumentTypeFilter.cs" />
     <Compile Include="SKD\TimeTrack\ReportT13.cs" />
     <Compile Include="SKD\TimeTrack\TimeTrackResult.cs" />
     <Compile Include="SKD\TimeTrack\PlannedTimeTrackCollection.cs" />

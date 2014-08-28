@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.SKD;
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows;
+using FiresecClient.SKDHelpers;
 
 namespace SKDModule.ViewModels
 {
@@ -13,7 +14,7 @@ namespace SKDModule.ViewModels
 	{
 		public TimeTrackDocument TimeTrackDocument { get; private set; }
 
-		public DocumentDetailsViewModel(bool canEditStartDateTime, TimeTrackDocument timeTrackDocument = null)
+		public DocumentDetailsViewModel(bool canEditStartDateTime, Guid organisationUID, TimeTrackDocument timeTrackDocument = null)
 		{
 			CanEditStartDateTime = canEditStartDateTime;
 
@@ -32,6 +33,11 @@ namespace SKDModule.ViewModels
 			foreach (var timeTrackDocumentType in TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes)
 			{
 				AvailableDocuments.Add(timeTrackDocumentType);
+			}
+			var documentTypes = DocumentTypeHelper.GetByOrganisation(organisationUID);
+			foreach (var documentType in documentTypes)
+			{
+				AvailableDocuments.Add(documentType);
 			}
 
 			StartDateTime = timeTrackDocument.StartDateTime.Date;
@@ -158,8 +164,8 @@ namespace SKDModule.ViewModels
 			TimeTrackDocument.Comment = Comment;
 			TimeTrackDocument.DocumentNumber = DocumentNumber;
 			TimeTrackDocument.DocumentDateTime = DocumentDateTime;
-			if (SelectedDocument != null)
-				TimeTrackDocument.DocumentCode = SelectedDocument.Code;
+			TimeTrackDocument.TimeTrackDocumentType = SelectedDocument;
+			TimeTrackDocument.DocumentCode = SelectedDocument.Code;
 			return base.Save();
 		}
 	}

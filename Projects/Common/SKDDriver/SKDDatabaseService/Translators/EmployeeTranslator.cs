@@ -113,6 +113,7 @@ namespace SKDDriver
 				Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID),
 				Type = (PersonType)tableItem.Type,
 				Appointed = tableItem.Appointed.ToString("d MMM yyyy"),
+				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty,
 				TabelNo = tableItem.TabelNo,
 				TextColumns = AdditionalColumnTranslator.GetTextColumns(tableItem.UID)
 			};
@@ -187,9 +188,6 @@ namespace SKDDriver
 
 			if (filter.PositionUIDs.IsNotNullOrEmpty())
 				result = result.And(e => e != null && filter.PositionUIDs.Contains(e.PositionUID.Value));
-
-			if (filter.Appointed != null)
-				result = result.And(e => e.Appointed >= filter.Appointed.StartDate && e.Appointed <= filter.Appointed.EndDate);
 
 			if (!string.IsNullOrEmpty(filter.LastName))
 				result = result.And(e => e.LastName.Contains(filter.LastName));

@@ -202,7 +202,7 @@ namespace SKDModule.Views
 					var endTimePart = new TimePart();
 					endTimePart.Delta = trackPart.EndTime.TotalSeconds - trackPart.StartTime.TotalSeconds;
 					endTimePart.IsInterval = trackPart.TimeTrackPartType != TimeTrackType.None;
-					endTimePart.Tooltip = TimePartDateToString(trackPart.StartTime) + " - " + TimePartDateToString(trackPart.EndTime) + " " + trackPart.TimeTrackPartType.ToDescription();
+					endTimePart.Tooltip = TimePartDateToString(trackPart.StartTime) + " - " + TimePartDateToString(trackPart.EndTime) + "\n" + trackPart.TimeTrackPartType.ToDescription();
 					endTimePart.TimeTrackType = trackPart.TimeTrackPartType;
 					timeParts.Add(endTimePart);
 

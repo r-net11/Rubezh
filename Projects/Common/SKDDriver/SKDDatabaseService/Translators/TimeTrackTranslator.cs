@@ -150,7 +150,24 @@ namespace SKDDriver.Translators
 					var documentsOperationResult = SKDDatabaseService.TimeTrackDocumentTranslator.Get(shortEmployee.UID, startDate, endDate);
 					if (!documentsOperationResult.HasError)
 					{
-						timeTrackEmployeeResult.Documents = documentsOperationResult.Result;
+						var documents = documentsOperationResult.Result;
+						foreach (var document in documents)
+						{
+							document.TimeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
+							if (document.TimeTrackDocumentType == null)
+							{
+								var documentTypesResult = SKDDatabaseService.TimeTrackDocumentTypeTranslator.Get(shortEmployee.OrganisationUID);
+								if (documentTypesResult.Result != null)
+								{
+									document.TimeTrackDocumentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
+								}
+							}
+							if (document.TimeTrackDocumentType != null)
+							{
+								timeTrackEmployeeResult.Documents.Add(document);
+							}
+						}
+
 						foreach (var document in timeTrackEmployeeResult.Documents)
 						{
 							for (DateTime date = document.StartDateTime; date <= document.EndDateTime; date = date.AddDays(1))
@@ -342,7 +359,6 @@ namespace SKDDriver.Translators
 		DayTimeTrack GetRealTimeTrack(DataAccess.Employee employee, DataAccess.Schedule schedule, DataAccess.ScheduleScheme scheduleScheme, IEnumerable<DataAccess.ScheduleZone> scheduleZones, DateTime date)
 		{
 			var dayTimeTrack = new DayTimeTrack();
-			dayTimeTrack.EmployeeUID = employee.UID;
 			dayTimeTrack.Date = date;
 
 			var passJournals = Context.PassJournals.Where(x => x.EmployeeUID == employee.UID && x.EnterTime != null && x.EnterTime.Date == date.Date).ToList();

@@ -9,11 +9,11 @@ namespace FiresecAPI.SKD
 	{
 		public TimeTrackDocumentType()
 		{
+			UID = Guid.NewGuid();
 		}
 
 		public TimeTrackDocumentType(string name, string shortName, int code, DocumentType documentType = DocumentType.Presence)
 		{
-			UID = Guid.NewGuid();
 			Name = name;
 			ShortName = shortName;
 			Code = code;
@@ -37,13 +37,6 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public Guid OrganisationUID { get; set; }
-	}
-
-	public enum DocumentType
-	{
-		Overtime = 0,
-		Presence = 1,
-		Absence = 2,
 	}
 
 	public static class TimeTrackDocumentTypesCollection
