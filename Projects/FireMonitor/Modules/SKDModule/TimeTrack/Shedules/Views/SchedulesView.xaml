@@ -35,7 +35,7 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-	                    <GridViewColumn Header="Схема" tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelSchemeComparer}">
+	                    <GridViewColumn Header="График" tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelSchemeComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">

@@ -20,7 +20,7 @@
 				</Style>
 			</DataGrid.ItemContainerStyle>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" Header="Зона">
+				<DataGridTemplateColumn Width="*" Header="Наименование">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

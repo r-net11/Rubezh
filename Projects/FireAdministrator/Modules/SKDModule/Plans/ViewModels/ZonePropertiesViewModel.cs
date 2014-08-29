@@ -15,7 +15,7 @@ namespace SKDModule.Plans.ViewModels
 {
 	public class ZonePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private IElementZone IElementZone;
+		IElementZone IElementZone;
 
 		public ZonePropertiesViewModel(IElementZone iElementZone, ZonesViewModel zonesViewModel)
 		{
@@ -30,7 +30,7 @@ namespace SKDModule.Plans.ViewModels
 
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
-		private ZoneViewModel _selectedZone;
+		ZoneViewModel _selectedZone;
 		public ZoneViewModel SelectedZone
 		{
 			get { return _selectedZone; }
@@ -42,7 +42,7 @@ namespace SKDModule.Plans.ViewModels
 		}
 
 		public RelayCommand CreateCommand { get; private set; }
-		private void OnCreate()
+		void OnCreate()
 		{
 			Guid zoneUID = IElementZone.ZoneUID;
 			var createZoneEventArg = new CreateSKDZoneEventArg();
@@ -57,12 +57,12 @@ namespace SKDModule.Plans.ViewModels
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
+		void OnEdit()
 		{
 			ServiceFactory.Events.GetEvent<EditSKDZoneEvent>().Publish(SelectedZone.Zone.UID);
 			SelectedZone.Update(SelectedZone.Zone);
 		}
-		private bool CanEdit()
+		bool CanEdit()
 		{
 			return SelectedZone != null;
 		}
@@ -74,7 +74,7 @@ namespace SKDModule.Plans.ViewModels
 			UpdateZones(zoneUID);
 			return base.Save();
 		}
-		private void UpdateZones(Guid zoneUID)
+		void UpdateZones(Guid zoneUID)
 		{
 			if (Zones != null)
 			{
@@ -84,7 +84,7 @@ namespace SKDModule.Plans.ViewModels
 				//Zones.LockedSelect(IElementZone.ZoneUID);
 			}
 		}
-		private void Update(Guid zoneUID)
+		void Update(Guid zoneUID)
 		{
 			var zone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zone != null)

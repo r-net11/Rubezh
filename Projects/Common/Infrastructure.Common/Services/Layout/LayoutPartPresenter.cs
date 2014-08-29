@@ -6,7 +6,7 @@ namespace Infrastructure.Common.Services.Layout
 {
 	public class LayoutPartPresenter : ILayoutPartPresenter
 	{
-		private const string IconPath = "/Controls;component/Images/";
+		const string IconPath = "/Controls;component/Images/";
 		public Converter<ILayoutProperties, BaseViewModel> Factory { get; set; }
 
 		public LayoutPartPresenter(Guid uid, string name, string iconName, Converter<ILayoutProperties, BaseViewModel> factory)

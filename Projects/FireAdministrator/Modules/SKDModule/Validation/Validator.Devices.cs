@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common.Validation;
+using System.Text.RegularExpressions;
 
 namespace SKDModule.Validation
 {
@@ -89,13 +90,20 @@ namespace SKDModule.Validation
 					if (property == null || string.IsNullOrEmpty(property.StringValue))
 					{
 						Errors.Add(new DeviceValidationError(device, "Отсутствует IP-адрес устройства", ValidationErrorLevel.CannotSave));
+						continue;
 					}
-					else
+
+					const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
+					var address = property.StringValue;
+					if (string.IsNullOrEmpty(address) || !Regex.IsMatch(address, pattern))
 					{
-						if (!ipAddresses.Add(property.StringValue))
-						{
-							Errors.Add(new DeviceValidationError(device, "Дублируется IP-адрес устройства", ValidationErrorLevel.CannotSave));
-						}
+						Errors.Add(new DeviceValidationError(device, "Не верно задан IP-адрес", ValidationErrorLevel.CannotSave));
+						continue;
+					}
+
+					if (!ipAddresses.Add(property.StringValue))
+					{
+						Errors.Add(new DeviceValidationError(device, "Дублируется IP-адрес устройства", ValidationErrorLevel.CannotSave));
 					}
 				}
 			}

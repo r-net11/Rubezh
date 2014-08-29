@@ -180,7 +180,7 @@ namespace SKDModule.Plans
 			base.ExtensionRegistered(designerCanvas);
 			LayerGroupService.Instance.RegisterGroup("SKD", "СКД Устройства", 5);
 			LayerGroupService.Instance.RegisterGroup("SKDZone", "СКД Зоны", 6);
-			LayerGroupService.Instance.RegisterGroup("Doors", "Двери", 7);
+			LayerGroupService.Instance.RegisterGroup("Doors", "Точки доступа", 7);
 		}
 		public override void ExtensionAttached()
 		{

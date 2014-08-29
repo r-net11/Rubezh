@@ -10,8 +10,8 @@ namespace SKDModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		private ElementSKDDevice _elementSKDDevice;
-		private DevicesViewModel _devicesViewModel;
+		ElementSKDDevice _elementSKDDevice;
+		DevicesViewModel _devicesViewModel;
 
 		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementSKDDevice elementDevice)
 		{
@@ -23,20 +23,25 @@ namespace SKDModule.Plans.ViewModels
 			if (SelectedDevice != null)
 				SelectedDevice.ExpandToThis();
 		}
-		private DeviceViewModel AddDeviceInternal(SKDDevice device, DeviceViewModel parentDeviceViewModel)
+		DeviceViewModel AddDeviceInternal(SKDDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device);
 			if (parentDeviceViewModel != null)
 				parentDeviceViewModel.AddChild(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
-				AddDeviceInternal(childDevice, deviceViewModel);
+			{
+				if (childDevice.Driver.IsPlaceable)
+				{
+					AddDeviceInternal(childDevice, deviceViewModel);
+				}
+			}
 			if (device.UID == _elementSKDDevice.DeviceUID)
 				SelectedDevice = deviceViewModel;
 			return deviceViewModel;
 		}
 
-		private DeviceViewModel _rootDevice;
+		DeviceViewModel _rootDevice;
 		public DeviceViewModel RootDevice
 		{
 			get { return _rootDevice; }
@@ -52,7 +57,7 @@ namespace SKDModule.Plans.ViewModels
 			get { return new DeviceViewModel[] { RootDevice }; }
 		}
 
-		private DeviceViewModel _selectedDevice;
+		DeviceViewModel _selectedDevice;
 		public DeviceViewModel SelectedDevice
 		{
 			get { return _selectedDevice; }
@@ -73,7 +78,7 @@ namespace SKDModule.Plans.ViewModels
 			_devicesViewModel.SelectedDevice = Update(_elementSKDDevice.DeviceUID);
 			return base.Save();
 		}
-		private DeviceViewModel Update(Guid deviceUID)
+		DeviceViewModel Update(Guid deviceUID)
 		{
 			var device = _devicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)
