@@ -23,9 +23,10 @@ namespace AutomationModule.ViewModels
 			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
 			VariableItems = new List<VariableItemViewModel>();
 			Variable = new Variable();
-			if (variable != null)
-				Copy(variable);			
+			SelectedVariableItem = new VariableItemViewModel(new VariableItem());
 			Name = defaultName;
+			if (variable != null)
+				Copy(variable);
 			Title = title;
 			Initialize(variable);
 		}
@@ -39,6 +40,10 @@ namespace AutomationModule.ViewModels
 			SelectedValueType = variable.ValueType;
 			SelectedObjectType = variable.ObjectType;
 			IsEditMode = true;
+			DefaultIntValue = variable.DefaultIntValue;
+			DefaultBoolValue = variable.DefaultBoolValue;
+			DefaultDateTimeValue = variable.DefaultDateTimeValue;
+			DefaultStringValue = variable.DefaultStringValue;
 			SelectedVariableItem = new VariableItemViewModel(new VariableItem { ObjectUid = variable.ObjectUid });
 			foreach (var variableItem in variable.VariableItems)
 				VariableItems.Add(new VariableItemViewModel(variableItem));
@@ -60,6 +65,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedValueType = value;
+				VariableItems = new List<VariableItemViewModel>();
+				UpdateVariableItems();
 				OnPropertyChanged(() => SelectedValueType);
 			}
 		}
@@ -72,6 +79,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedObjectType = value;
+				VariableItems = new List<VariableItemViewModel>();
+				UpdateVariableItems();
 				OnPropertyChanged(() => SelectedObjectType);
 			}
 		}
@@ -107,20 +116,32 @@ namespace AutomationModule.ViewModels
 		public RelayCommand<VariableItemViewModel> ChangeItemCommand { get; private set; }
 		public void OnChangeItem(VariableItemViewModel variableItemViewModel)
 		{
-			variableItemViewModel.Initialize(SelectItem(variableItemViewModel).VariableItem.ObjectUid);
-			OnPropertyChanged(() => VariableObjects);
-			OnPropertyChanged(() => VariableBools);
+			variableItemViewModel.Initialize(SelectItem(variableItemViewModel).VariableItem);
+			UpdateVariableItems();
 		}
 
 		public List<VariableItemViewModel> VariableItems { get; private set; }
 		public ObservableCollection<VariableItemViewModel> VariableObjects
 		{
-			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Object)); } 
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Object)); }
 		}
 		public ObservableCollection<VariableItemViewModel> VariableBools
 		{
 			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Boolean)); }
 		}
+		public ObservableCollection<VariableItemViewModel> VariableDateTimes
+		{
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.DateTime)); }
+		}
+		public ObservableCollection<VariableItemViewModel> VariableIntegers
+		{
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Integer)); }
+		}
+		public ObservableCollection<VariableItemViewModel> VariableStrings
+		{
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.String)); }
+		}
+
 		VariableItemViewModel _selectedVariableItem;
 		public VariableItemViewModel SelectedVariableItem
 		{
@@ -182,10 +203,9 @@ namespace AutomationModule.ViewModels
 		void OnAdd()
 		{
 			var variableItemViewModel = SelectItem();
-			if (!variableItemViewModel.IsEmpty)
+			if (variableItemViewModel.VariableItem.ValueType != ValueType.Object || !variableItemViewModel.IsEmpty)
 				VariableItems.Add(variableItemViewModel);
-			OnPropertyChanged(() => VariableObjects);
-			OnPropertyChanged(() => VariableBools);
+			UpdateVariableItems();
 		}
 
 		public RelayCommand<VariableItemViewModel> RemoveCommand { get; private set; }
@@ -194,14 +214,19 @@ namespace AutomationModule.ViewModels
 			if (variableItemViewModel == null)
 				return;
 			VariableItems.Remove(variableItemViewModel);
-			OnPropertyChanged(() => VariableObjects);
-			OnPropertyChanged(() => VariableBools);
+			UpdateVariableItems();
 		}
 
 		VariableItemViewModel SelectItem(VariableItemViewModel currentVariableItem = null)
 		{
 			if (currentVariableItem == null)
 				currentVariableItem = new VariableItemViewModel(new VariableItem());
+			if (SelectedValueType != ValueType.Object)
+			{
+				var variableItemViewModel = new VariableItemViewModel(new VariableItem { ValueType = SelectedValueType });
+				variableItemViewModel.SelectedBoolValue = currentVariableItem.SelectedBoolValue;
+				return variableItemViewModel;
+			}
 			var variableItem = new VariableItem();
 			variableItem.ValueType = SelectedValueType;
 			variableItem.ObjectUid = currentVariableItem.VariableItem.ObjectUid;
@@ -262,6 +287,15 @@ namespace AutomationModule.ViewModels
 			}
 
 			return new VariableItemViewModel(variableItem);
+		}
+
+		void UpdateVariableItems()
+		{
+			OnPropertyChanged(() => VariableObjects);
+			OnPropertyChanged(() => VariableBools);
+			OnPropertyChanged(() => VariableDateTimes);
+			OnPropertyChanged(() => VariableIntegers);
+			OnPropertyChanged(() => VariableStrings);
 		}
 
 		protected override bool Save()

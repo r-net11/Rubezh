@@ -43,6 +43,7 @@ namespace AutomationModule.ViewModels
 			IsList = Variable.IsList;
 			IsGlobal = Variable.IsGlobal;
 			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+
 			OnPropertyChanged(() => Variable);
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => DefaultBoolValue);
@@ -168,12 +169,14 @@ namespace AutomationModule.ViewModels
 
 		public VariableItemViewModel(VariableItem variableItem)
 		{
-			VariableItem = variableItem;
-			Initialize(variableItem.ObjectUid);
+			VariableItem = new VariableItem();
+			Initialize(variableItem);
 		}
 
-		public void Initialize(Guid objectUid)
+		public void Initialize(VariableItem variableItem)
 		{
+			VariableItem = (VariableItem)variableItem.Clone();
+			var objectUid = variableItem.ObjectUid;
 			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objectUid);
 			Zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == objectUid);
 			GuardZone = XManager.DeviceConfiguration.GuardZones.FirstOrDefault(x => x.UID == objectUid);
@@ -207,6 +210,47 @@ namespace AutomationModule.ViewModels
 				return "";
 			}
 		}
+
+		public bool SelectedBoolValue
+		{
+			get { return VariableItem.BoolValue; }
+			set
+			{
+				VariableItem.BoolValue = value;
+				OnPropertyChanged(() => SelectedBoolValue);
+			}
+		}
+
+		public DateTime SelectedDateTimeValue
+		{
+			get { return VariableItem.DateTimeValue; }
+			set
+			{
+				VariableItem.DateTimeValue = value;
+				OnPropertyChanged(() => SelectedDateTimeValue);
+			}
+		}
+
+		public int SelectedIntValue
+		{
+			get { return VariableItem.IntValue; }
+			set
+			{
+				VariableItem.IntValue = value;
+				OnPropertyChanged(() => SelectedIntValue);
+			}
+		}
+
+		public string SelectedStringValue
+		{
+			get { return VariableItem.StringValue; }
+			set
+			{
+				VariableItem.StringValue = value;
+				OnPropertyChanged(() => SelectedStringValue);
+			}
+		}
+
 
 		public bool IsEmpty
 		{

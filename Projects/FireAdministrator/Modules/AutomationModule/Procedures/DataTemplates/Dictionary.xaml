@@ -147,6 +147,10 @@
 		<Views:ControlDoorStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="getObjectFieldTemplate">
+		<Views:GetObjectFieldStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		ShowMessageTemplate ="{StaticResource sendMessageTemplate}"
@@ -169,6 +173,7 @@
 		ControlCameraTemplate="{StaticResource controlCameraTemplate}"
 		ControlDirectionTemplate="{StaticResource controlDirectionTemplate}"
 		ControlDoorTemplate="{StaticResource controlDoorTemplate}"
+		GetObjectFieldTemplate ="{StaticResource getObjectFieldTemplate}"
 		GetStringTemplate ="{StaticResource getStringTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 

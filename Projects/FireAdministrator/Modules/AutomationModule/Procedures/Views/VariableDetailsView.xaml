@@ -17,14 +17,12 @@
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 
-				<DataGrid Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding ValueTypes}" SelectedValue="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsReadOnly="False">
+				<DataGrid Grid.Column="0" Grid.RowSpan="2" ItemsSource="{Binding ValueTypes}" SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsReadOnly="False">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Header="Тип" Width="*">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<Grid>
-										<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
-									</Grid>
+									<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="2 0" />
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>
@@ -56,7 +54,7 @@
 						</ComboBox>
 					</StackPanel>
 
-					<StackPanel Visibility="{Binding IsList, Converter={StaticResource BoolToVisibilityConverter}}" >
+					<StackPanel Visibility="{Binding IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
 						<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
 						ConverterParameter={x:Static automation:ValueType.Integer}}" HorizontalAlignment="Right" Height="28" >
 						<Label Content="Значение" />
@@ -150,7 +148,52 @@
 									<DockPanel>
 										<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
 											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
-										<CheckBox IsChecked="{Binding SelectedBoolValue}" Margin="0,7,0,0"  HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding IsEmpty, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
+										<CheckBox IsChecked="{Binding SelectedBoolValue}" Margin="0,7,0,0"  HorizontalAlignment="Right" VerticalAlignment="Top" />
+									</DockPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+
+					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ValueType.DateTime}}" >
+						<ItemsControl ItemsSource="{Binding VariableDateTimes}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<DockPanel>
+										<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
+										<extToolkit:DateTimePicker Value = "{Binding SelectedDateTimeValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" />
+									</DockPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+
+					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ValueType.Integer}}" >
+						<ItemsControl ItemsSource="{Binding VariableIntegers}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<DockPanel>
+										<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
+										<extToolkit:IntegerUpDown Width="200" Value="{Binding SelectedIntValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" HorizontalAlignment="Right" />
+									</DockPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+
+					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
+						ConverterParameter={x:Static automation:ValueType.String}}" >
+						<ItemsControl ItemsSource="{Binding VariableStrings}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<DockPanel>
+										<ToolBarButton ToolTip="Удалить объект" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},
+											Path=DataContext.RemoveCommand}" CommandParameter="{Binding}" ImageSource="/Controls;component/Images/deleteCross.png" Height="28" Width="28" Background="DarkGray" />
+										<TextBox Text="{Binding SelectedStringValue, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="2" HorizontalAlignment="Right" />
 									</DockPanel>
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>

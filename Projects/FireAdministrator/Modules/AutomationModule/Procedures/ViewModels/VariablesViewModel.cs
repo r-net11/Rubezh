@@ -5,6 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
 using Infrastructure;
+using MiscUtil.Reflection;
 
 namespace AutomationModule.ViewModels
 {
@@ -81,7 +82,7 @@ namespace AutomationModule.ViewModels
 			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "локальная переменная", "Редактировать локальную переменную");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				SelectedVariable.Variable = (Variable)variableDetailsViewModel.Variable.Clone();
+				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);
 				SelectedVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}

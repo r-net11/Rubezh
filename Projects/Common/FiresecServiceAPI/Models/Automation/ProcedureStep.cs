@@ -33,6 +33,7 @@ namespace FiresecAPI.Automation
 			ControlSKDDeviceArguments = new ControlSKDDeviceArguments();
 			ControlCameraArguments = new ControlCameraArguments();
 			JournalArguments = new JournalArguments();
+			GetObjectFieldArguments = new GetObjectFieldArguments();
 		}
 
 		public ProcedureStep Parent { get; set; }
@@ -117,5 +118,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public JournalArguments JournalArguments { get; set; }
+
+		[DataMember]
+		public GetObjectFieldArguments GetObjectFieldArguments { get; set; }
 	}
 }

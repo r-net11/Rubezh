@@ -146,6 +146,7 @@
     <Compile Include="Journal\JournalDetalisationItem.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlCameraArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlSKDZoneArguments.cs" />
+    <Compile Include="Models\Automation\StepArguments\GetObjectFieldArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\GetStringArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\JournalArguments.cs" />
     <Compile Include="Models\Automation\StepArguments\ControlDirectionArguments.cs" />

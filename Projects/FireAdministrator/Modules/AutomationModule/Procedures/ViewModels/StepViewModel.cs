@@ -105,6 +105,10 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.ControlCamera:
 					Content = new ControlCameraStepViewModel(step.ControlCameraArguments, procedure);
 					break;
+				
+				case ProcedureStepType.GetObjectField:
+					Content = new GetObjectFieldStepViewModel(step.GetObjectFieldArguments, procedure);
+					break;
 			}
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}

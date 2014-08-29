@@ -5,16 +5,10 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Automation
 {
 	[DataContract]
-	public class Variable : ICloneable
+	public class Variable
 	{
 		public Variable()
 		{
-
-		}
-
-		public Variable(string name)
-		{
-			Name = name;
 			Uid = Guid.NewGuid();
 			DateTimeValue = DateTime.Now;
 			IntValue = 0;
@@ -24,17 +18,11 @@ namespace FiresecAPI.Automation
 			VariableItems = new List<VariableItem>();
 		}
 
-		public object Clone()
+		public Variable(string name) : base()
 		{
-			var newVariable = (Variable)this.MemberwiseClone();
-			var newVariableItems = new List<VariableItem>();
-			foreach (var variableItem in VariableItems)
-				newVariableItems.Add((VariableItem)variableItem.Clone());
-			newVariable.VariableItems = newVariableItems;
-			newVariable.Uid = Guid.NewGuid();
-			return newVariable;
+			Name = name;
 		}
-
+		
 		[DataMember]
 		public bool IsList { get; set; }
 
