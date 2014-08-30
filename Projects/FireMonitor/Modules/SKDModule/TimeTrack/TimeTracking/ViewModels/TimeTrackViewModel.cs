@@ -32,18 +32,10 @@ namespace SKDModule.ViewModels
 			}
 
 			Totals = new List<TimeTrackTotal>();
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Balance));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Presence));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Absence));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.AbsenceInsidePlan));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.PresenceInBrerak));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Late));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.EarlyLeave));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Overtime));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Night));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentOvertime));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentPresence));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentAbsence));
+			foreach (var timeTrackType in timeTrackFilter.TotalTimeTrackTypeFilters)
+			{
+				Totals.Add(new TimeTrackTotal(timeTrackType));
+			}
 
 			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{

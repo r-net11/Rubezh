@@ -13,16 +13,12 @@ namespace SKDModule.ViewModels
 {
 	public class DocumentTypesViewModel : DialogViewModel
 	{
-		TimeTrackDocumentType _clipboard;
-
 		public DocumentTypesViewModel()
 		{
 			Title = "Документы";
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 
 			Organisations = new List<DocumentTypeViewModel>();
 			var organisations = OrganisationHelper.GetByCurrentUser();
@@ -148,53 +144,6 @@ namespace SKDModule.ViewModels
 		bool CanRemove()
 		{
 			return SelectedDocumentType != null && !SelectedDocumentType.IsOrganisation;
-		}
-
-		public RelayCommand CopyCommand { get; private set; }
-		void OnCopy()
-		{
-			_clipboard = CopyDocumentType(SelectedDocumentType.TimeTrackDocumentType, false);
-		}
-		bool CanCopy()
-		{
-			return SelectedDocumentType != null && !SelectedDocumentType.IsOrganisation;
-		}
-
-		public RelayCommand PasteCommand { get; private set; }
-		void OnPaste()
-		{
-			if (ParentOrganisation != null)
-			{
-				var newDocumentType = CopyDocumentType(_clipboard);
-				newDocumentType.UID = Guid.NewGuid();
-				var timeTrackDocumentType = new TimeTrackDocumentType()
-				{
-					UID = newDocumentType.UID,
-					Name = newDocumentType.Name,
-					ShortName = newDocumentType.ShortName,
-					OrganisationUID = newDocumentType.OrganisationUID,
-				};
-				if (DocumentTypeHelper.Add(timeTrackDocumentType))
-				{
-					var documentTypeViewModel = new DocumentTypeViewModel(SelectedDocumentType.Organisation, newDocumentType);
-
-					ParentOrganisation.AddChild(documentTypeViewModel);
-					SelectedDocumentType = documentTypeViewModel;
-				}
-			}
-		}
-		bool CanPaste()
-		{
-			return SelectedDocumentType != null && _clipboard != null;
-		}
-
-		TimeTrackDocumentType CopyDocumentType(TimeTrackDocumentType source, bool newName = true)
-		{
-			var copy = new TimeTrackDocumentType();
-			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
-			copy.ShortName = source.ShortName;
-			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
-			return copy;
 		}
 	}
 }

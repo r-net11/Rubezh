@@ -356,7 +356,14 @@ namespace FiresecAPI.SKD
 			if (NightSettings != null)
 			{
 				totalEaveningTimeSpan = CalculateEveningTime(NightSettings.EveningStartTime, NightSettings.EveningEndTime);
-				totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
+				if (NightSettings.NightEndTime > NightSettings.NightStartTime)
+				{
+					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
+				}
+				else
+				{
+					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, new TimeSpan(23, 59, 59)) + CalculateEveningTime(new TimeSpan(0, 0, 0), NightSettings.NightEndTime);
+				}
 			}
 
 			TimeTrackType = CalculateTimeTrackType();

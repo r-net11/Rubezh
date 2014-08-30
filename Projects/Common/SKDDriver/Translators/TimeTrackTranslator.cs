@@ -286,7 +286,7 @@ namespace SKDDriver.Translators
 							{
 								nightTimeTrackPart = new TimeTrackPart();
 								nightTimeTrackPart.StartTime = new TimeSpan();
-								nightTimeTrackPart.EndTime = new TimeSpan(Math.BigMul(nightInterval.EndTime - 60 * 60 * 24, 10000000));
+								nightTimeTrackPart.EndTime = TimeSpan.FromSeconds(nightInterval.EndTime - 60 * 60 * 24);
 								nightTimeTrackPart.StartsInPreviousDay = true;
 								nightTimeTrackPart.DayName = previousDayInterval.Name;
 							}
@@ -323,8 +323,8 @@ namespace SKDDriver.Translators
 				foreach (var tableInterval in intervals)
 				{
 					var timeTrackPart = new TimeTrackPart();
-					timeTrackPart.StartTime = new TimeSpan(Math.BigMul(tableInterval.BeginTime, 10000000));
-					timeTrackPart.EndTime = new TimeSpan(Math.BigMul(Math.Min(tableInterval.EndTime, 60 * 60 * 24 - 1), 10000000));
+					timeTrackPart.StartTime = TimeSpan.FromSeconds(tableInterval.BeginTime);
+					timeTrackPart.EndTime = TimeSpan.FromSeconds(Math.Min(tableInterval.EndTime, 60 * 60 * 24 - 1));
 					if (tableInterval.EndTime > 60 * 60 * 24)
 						timeTrackPart.EndsInNextDay = true;
 					timeTrackPart.DayName = dayInterval.Name;
@@ -341,7 +341,7 @@ namespace SKDDriver.Translators
 				var lastTimeTrack = result.TimeTrackParts.LastOrDefault();
 				if (lastTimeTrack != null)
 				{
-					var reductionTimeSpan = new TimeSpan(Math.BigMul(result.HolidayReduction, 10000000));
+					var reductionTimeSpan = TimeSpan.FromSeconds(result.HolidayReduction);
 					if (lastTimeTrack.Delta.TotalHours > reductionTimeSpan.TotalHours)
 					{
 						lastTimeTrack.EndTime = lastTimeTrack.EndTime.Subtract(reductionTimeSpan);
@@ -471,7 +471,7 @@ namespace SKDDriver.Translators
 		//                        {
 		//                            nightTimeTrackPart = new TimeTrackPart();
 		//                            nightTimeTrackPart.StartTime = new TimeSpan();
-		//                            nightTimeTrackPart.EndTime = new TimeSpan(Math.BigMul(nightInterval.EndTime - 60 * 60 * 24, 10000000));
+		//                            nightTimeTrackPart.EndTime = TimeSpan.FromSeconds(nightInterval.EndTime - 60 * 60 * 24);
 		//                        }
 		//                    }
 		//                }

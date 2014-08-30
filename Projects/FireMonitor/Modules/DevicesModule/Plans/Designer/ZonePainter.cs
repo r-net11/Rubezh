@@ -145,7 +145,8 @@ namespace DevicesModule.Plans.Designer
 		{
 			if (_zone == null || _zone.ZoneType == ZoneType.Guard)
 				return false;
-			return (FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList) && _deviceStates.Any(x => !x.IsDisabled));
+			//return (FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList) && _deviceStates.Any(x => !x.IsDisabled));
+			return (_deviceStates.Any(x => !x.IsDisabled));
 		}
 
 		public RelayCommand EnableAllCommand { get; private set; }
@@ -158,7 +159,8 @@ namespace DevicesModule.Plans.Designer
 		{
 			if (_zone == null || _zone.ZoneType == ZoneType.Guard)
 				return false;
-			return (FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList) && _deviceStates.Any(x => x.IsDisabled));
+			//return (FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList) && _deviceStates.Any(x => x.IsDisabled));
+			return (_deviceStates.Any(x => x.IsDisabled));
 		}
 
 		public RelayCommand SetGuardCommand { get; private set; }

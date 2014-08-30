@@ -124,7 +124,7 @@ namespace GKModule
 					new NavigationItem<ShowXDescriptorsEvent, object>(DescriptorsViewModel, "Дескрипторы", "/Controls;component/Images/Descriptors.png"),
 					new NavigationItem<ShowXDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png"),
 					#endif
-				}, PermissionType.Adm_SKUD) {IsExpanded = true},
+				}) {IsExpanded = true},
 			};
 		}
 		public override string Name

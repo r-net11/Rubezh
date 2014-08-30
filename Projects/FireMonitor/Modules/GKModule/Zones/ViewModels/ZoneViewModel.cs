@@ -116,8 +116,8 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnoreAll()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
-				return false;
+			//if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+			//    return false;
 			foreach (var device in Zone.Devices)
 			{
 				if (!device.State.StateClasses.Contains(XStateClass.Ignore))
@@ -142,8 +142,8 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnoreAll()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
-				return false;
+			//if (!FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList))
+			//    return false;
 			foreach (var device in Zone.Devices)
 			{
 				if (device.State.StateClasses.Contains(XStateClass.Ignore))
