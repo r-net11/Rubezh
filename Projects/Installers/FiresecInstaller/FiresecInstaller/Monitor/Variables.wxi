@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
   <?define MonitorName="Оперативная задача ОПС FireSec-2" ?>
+  <?define LayoutMonitorName="Оперативная задача ОПС FireSec-2 с макетами" ?>
   <?define Monitor.TargetDir="..\..\..\..\..\FireMonitor\bin\Release\"?>
-  <?define Monitor.DEBUG_TargetDir="..\..\..\..\..\FireMonitor\bin\Debug\"?>
   <?define Monitor.TargetFileName="FireMonitor.exe"?>
+  <?define LayoutMonitor.TargetFileName="FireMonitor.Layout.exe"?>
   <?define Monitor.TargetPath="..\..\..\..\..\FireMonitor\bin\Release\FireMonitor.exe"?>
   <?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
   <?define Common.TargetDir="..\..\..\..\..\FireAdministrator\bin\Release\"?>
+  <?define VSSDll.TargetDir="..\..\..\..\..\..\3rdParty\RVI_VSS\"?>
 </Include>

@@ -17,13 +17,15 @@
         <File Id="Server.FiresecService.exe.config" Name="FiresecService.exe.config" Source="$(var.Server.TargetDir)" />
         <File Id="Server.FiresecService.exe.manifest" Name="FiresecService.exe.manifest" Source="$(var.Server.TargetDir)" />
         <File Id="Server.Common.dll" Name="Common.dll" Source="$(var.Common.TargetDir)" />
-        <File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Server.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Server.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Server.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Server.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Server.Ionic.Zip.dll" Name="Ionic.Zip.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Server.NLog.dll" Name="NLog.dll" Source="$(var.Common.TargetDir)" />
+        <File Id="Server.hasp_net_windows.dll" Name="hasp_net_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
+        <File Id="Server.hasp_windows.dll" Name="hasp_windows.dll" Source="..\..\..\..\..\..\3rdParty\HASP\" />
         <File Id="Server.Xceed.Wpf.Toolkit.dll" Name="Xceed.Wpf.Toolkit.dll" Source="$(var.Common.TargetDir)" />
         <File Id="Server.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Common.TargetDir)" />
       </Component>
@@ -36,13 +38,42 @@
         <File Id="Server.sqlceoledb35.dll" Name="sqlceoledb35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
-        <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+
+        <?if $(var.Platform) = x64 ?>
+          <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+        <?else ?>
+          <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+        <?endif ?>
+
         <File Id="Server.FiresecDB.dll" Name="FiresecDB.dll" Source="$(var.Server.TargetDir)" />
+
+        <File Id="Server.Microsoft.Sqlserver.Batchparser.dll" Name="Microsoft.Sqlserver.Batchparser.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.BatchParserClient.dll" Name="Microsoft.SqlServer.BatchParserClient.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.ConnectionInfo.dll" Name="Microsoft.SqlServer.ConnectionInfo.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.Management.Sdk.Sfc.dll" Name="Microsoft.SqlServer.Management.Sdk.Sfc.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.Smo.dll" Name="Microsoft.SqlServer.Smo.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.SqlClrProvider.dll" Name="Microsoft.SqlServer.SqlClrProvider.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
+        <File Id="Server.Microsoft.SqlServer.SqlEnum.dll" Name="Microsoft.SqlServer.SqlEnum.dll" Source="..\..\..\..\..\..\3rdParty\SQL_SMO\" />
       </Component>
 
-      <Component Id="Server.SKUD_MODULE" Guid="C9D9C6A5-6D49-4E76-919E-F4831BEEE135">
+      <Component Id="Server.SKD_MODULE" Guid="47582E19-F112-4827-A8FC-D782C88C7B93">
         <File Id="Server.SKDDriver.dll" Name="SKDDriver.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
+        <File Id="Server.LinqKit.dll" Name="LinqKit.dll" Source="$(var.Server.TargetDir)" />
       </Component>
+
+      <Component Id="Server.ChinaSKD" Guid="CF260D60-A5C0-4fda-83F2-4F6F8BDF72C6">
+        <File Id="Server.avnetsdk.dll" Name="avnetsdk.dll" Source="$(var.Server.TargetDir)" KeyPath="yes" />
+        <File Id="Server.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.dhnetsdk.dll" Name="dhnetsdk.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.Infra.dll" Name="Infra.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.json.dll" Name="json.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.NetFramework.dll" Name="NetFramework.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.Stream.dll" Name="Stream.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.StreamSvr.dll" Name="StreamSvr.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.CPPWrapper.dll" Name="CPPWrapper.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.ChinaSKDDriver.dll" Name="ChinaSKDDriver.dll" Source="$(var.Server.TargetDir)" />
+      </Component>
+
     </DirectoryRef>
 
     <DirectoryRef Id="AppData.ServerLocation">
@@ -62,8 +93,6 @@
 
       <Component Id="Server.Config.fscp" Guid="36BBFC25-874E-49DE-A34B-065120D2F9FF" Permanent='yes' NeverOverwrite='yes'>
         <File Id="Server.Config.fscp" Name="config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\config.fscp" KeyPath="yes" />
-        <File Id="Server.rubezh2010.xml" Name="rubezh2010.xml" Source="..\..\..\..\..\Deploy\ConfigurationService\rubezh2010.xml" />
-        <File Id="Server.frm.fscf" Name="frm.fscf" Source="..\..\..\..\..\Deploy\ConfigurationService\frm.fscf" />
       </Component>
     </DirectoryRef>
 
@@ -75,8 +104,62 @@
       </Component>
     </DirectoryRef>
 
+    <DirectoryRef Id="SERVERLOCATION">
+      <Component Id="Server.VIDEO_MODULE_DLL" Guid="4E1D0D35-DD67-4e60-AE56-41E912E3C9B9">
+        <File Id="Server.Dll.Entities.dll" Name="Entities.dll" Source="$(var.VSSDll.TargetDir)" />
+        <File Id="Server.Dll.SdkWrapper.dll" Name="SdkWrapper.dll" Source="$(var.VSSDll.TargetDir)" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="Server.Dll.Dahua">
+      <Component Id="Server.VIDEO_MODULE_DLL.Dahua" Guid="23A7B25E-AC5F-4f54-898F-11FFF05E1FAE">
+        <File Id="Server.Dll.Dahua.aacdec.dll" Name="aacdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.AACDecoder.dll" Name="AACDecoder.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.amrdec.dll" Name="amrdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.AmrDll.dll" Name="AmrDll.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dhconfigsdk.dll" Name="dhconfigsdk.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.DhDecode.dll" Name="DhDecode.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dhdvr.dll" Name="dhdvr.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dhnetsdk.dll" Name="dhnetsdk.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dhplay.dll" Name="dhplay.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.DllDeinterlace.dll" Name="DllDeinterlace.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dllh264.dll" Name="dllh264.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.dllmpeg4.dll" Name="dllmpeg4.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.h264dec.dll" Name="h264dec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.IvsDrawer.dll" Name="IvsDrawer.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.IvsDrawer_64.dll" Name="IvsDrawer_64.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.jpegdec.dll" Name="jpegdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.mjpegdec.dll" Name="mjpegdec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.mp3dec.dll" Name="mp3dec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.MP3Decoder.dll" Name="MP3Decoder.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.mpeg4dec.dll" Name="mpeg4dec.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.mpeg4enc.dll" Name="mpeg4enc.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+        <File Id="Server.Dll.Dahua.postproc.dll" Name="postproc.dll" Source="$(var.VSSDll.TargetDir)Dll\Dahua\" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="Server.Dll.Hik">
+      <Component Id="Server.VIDEO_MODULE_DLL.Hik" Guid="CBEB266C-B46F-4c7b-89D6-62BB025F07E6">
+        <File Id="Server.Dll.Hik.AudioIntercom.dll" Name="AudioIntercom.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.DsSdk.dll" Name="DsSdk.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.gdiplus.dll" Name="gdiplus.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.HCNetSDK.dll" Name="HCNetSDK.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.OpenAL32.dll" Name="OpenAL32.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.PlayCtrl.dll" Name="PlayCtrl.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.QosControl.dll" Name="QosControl.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.StreamTransClient.dll" Name="StreamTransClient.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+        <File Id="Server.Dll.Hik.SystemTransform.dll" Name="SystemTransform.dll" Source="$(var.VSSDll.TargetDir)Dll\Hik\" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="Server.Dll.Sunell">
+      <Component Id="Server.VIDEO_MODULE_DLL.Sunell" Guid="092A6EFF-F755-4826-9D0E-6CEF108DBD01">
+        <File Id="Server.Dll.Sunell.NvdaiDll.dll" Name="NvdaiDll.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+        <File Id="Server.Dll.Sunell.NvdalDll.dll" Name="NvdalDll.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+        <File Id="Server.Dll.Sunell.Nvdcdll.dll" Name="Nvdcdll.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+        <File Id="Server.Dll.Sunell.SensorUI.dll" Name="SensorUI.dll" Source="$(var.VSSDll.TargetDir)Dll\Sunell\" />
+      </Component>
+    </DirectoryRef>
+
     <DirectoryRef Id="AppData.EmptyLocation">
-      <Component Id="Server.AppData.EmptyLocation" Guid="EBFF4919-E86E-48C2-88C7-C91E7133EE37" Permanent='yes' NeverOverwrite='yes'>
+      <Component Id="Server.AppData.EmptyLocation" Guid="EBFF4919-E86E-48C2-88C7-C91E7133EE37">
         <File Id="Server.AppData.EmptyLocation.Config.fscp" Name="Config.fscp" Source="..\..\..\..\..\Deploy\ConfigurationService\Config.fscp" />
         <File Id="Server.AppData.EmptyLocation.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\Firesec.sdf" />
         <File Id="Server.AppData.EmptyLocation.FSDB.sdf" Name="FSDB.sdf" Source="..\..\..\..\..\Deploy\SqlCE\FSDB.sdf" />
