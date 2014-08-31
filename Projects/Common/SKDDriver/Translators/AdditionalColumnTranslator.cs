@@ -10,22 +10,17 @@ namespace SKDDriver
 {
 	public class AdditionalColumnTranslator : WithFilterTranslator<DataAccess.AdditionalColumn, AdditionalColumn, AdditionalColumnFilter>
 	{
-		public AdditionalColumnTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator, AdditionalColumnTypeTranslator additionalColumnTypeTranslator)
-			: base(context)
+		public AdditionalColumnTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
-			PhotoTranslator = photoTranslator;
-			AdditionalColumnTypeTranslator = additionalColumnTypeTranslator;
 		}
-
-		PhotoTranslator PhotoTranslator;
-		AdditionalColumnTypeTranslator AdditionalColumnTypeTranslator;
 
 		protected override AdditionalColumn Translate(DataAccess.AdditionalColumn tableItem)
 		{
 			var result = base.Translate(tableItem);
 			result.EmployeeUID = tableItem.EmployeeUID;
-			result.AdditionalColumnType = AdditionalColumnTypeTranslator.Get(tableItem.AdditionalColumnTypeUID);
-			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
+			result.AdditionalColumnType = DatabaseService.AdditionalColumnTypeTranslator.Get(tableItem.AdditionalColumnTypeUID);
+			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			result.TextData = tableItem.TextData;
 			return result;
 		}
@@ -43,7 +38,7 @@ namespace SKDDriver
 		{
 			try
 			{
-				var textColumnTypes = AdditionalColumnTypeTranslator.GetTextColumnTypes();
+				var textColumnTypes = DatabaseService.AdditionalColumnTypeTranslator.GetTextColumnTypes();
 				var employees = employeesResult.Result;
 				foreach (var employee in employees)
 				{
@@ -71,7 +66,7 @@ namespace SKDDriver
 
 		public List<TextColumn> GetTextColumns(Guid employeeUID)
 		{
-				var textColumnTypes = AdditionalColumnTypeTranslator.GetTextColumnTypes();
+			var textColumnTypes = DatabaseService.AdditionalColumnTypeTranslator.GetTextColumnTypes();
 				var textColumns = new List<TextColumn>();
 				var tableItems = from x in Table where x.EmployeeUID == employeeUID && textColumnTypes.Contains(x.AdditionalColumnTypeUID.Value) select x;
 				foreach (var item in tableItems)
@@ -108,7 +103,7 @@ namespace SKDDriver
 					photosToDelete.Add(tableItem.PhotoUID.Value);
 				}
 			}
-			var photoSaveResult = PhotoTranslator.Save(photosToSave);
+			var photoSaveResult = DatabaseService.PhotoTranslator.Save(photosToSave);
 			if (photoSaveResult.HasError)
 				return photoSaveResult;
 			//var photoDeleteResult = PhotoTranslator.Delete(photosToDelete);

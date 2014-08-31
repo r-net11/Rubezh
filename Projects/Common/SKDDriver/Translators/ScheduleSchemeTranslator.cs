@@ -9,12 +9,11 @@ namespace SKDDriver.Translators
 {
 	public class ScheduleSchemeTranslator : OrganisationElementTranslator<DataAccess.ScheduleScheme, ScheduleScheme, ScheduleSchemeFilter>
 	{
-		private ScheduleDayIntervalTranslator _dayIntervalTranslator;
-		private bool _withDays;
-		public ScheduleSchemeTranslator(DataAccess.SKDDataContext context, ScheduleDayIntervalTranslator dayIntervalTranslator)
-			: base(context)
+		bool _withDays;
+
+		public ScheduleSchemeTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
-			_dayIntervalTranslator = dayIntervalTranslator;
 		}
 
 		protected override IQueryable<DataAccess.ScheduleScheme> GetQuery(ScheduleSchemeFilter filter)
@@ -51,7 +50,7 @@ namespace SKDDriver.Translators
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			if (_withDays)
-				result.DayIntervals = _dayIntervalTranslator.TranslateAll(tableItem.ScheduleDays.Where(item => !item.IsDeleted).OrderBy(item => item.Number));
+				result.DayIntervals = DatabaseService.ScheduleDayIntervalTranslator.TranslateAll(tableItem.ScheduleDays.Where(item => !item.IsDeleted).OrderBy(item => item.Number));
 			result.Type = (ScheduleSchemeType)tableItem.Type;
 			return result;
 		}
@@ -62,7 +61,7 @@ namespace SKDDriver.Translators
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.Type = (int)apiItem.Type;
-			_dayIntervalTranslator.Save(apiItem.DayIntervals);
+			DatabaseService.ScheduleDayIntervalTranslator.Save(apiItem.DayIntervals);
 		}
 	}
 }

@@ -10,14 +10,11 @@ namespace SKDDriver
 {
 	public class AdditionalColumnTypeTranslator : WithShortTranslator<DataAccess.AdditionalColumnType, AdditionalColumnType, AdditionalColumnTypeFilter, ShortAdditionalColumnType>
 	{
-		public AdditionalColumnTypeTranslator(DataAccess.SKDDataContext context)
-			: base(context)
+		public AdditionalColumnTypeTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
 			
 		}
-		
-		public AdditionalColumnTranslator AdditionalColumnTranslator;
-
 		protected override OperationResult CanSave(AdditionalColumnType item)
 		{
 			bool hasSameName = Table.Any(x => x.Name == item.Name &&
@@ -99,7 +96,7 @@ namespace SKDDriver
 
 		public override OperationResult MarkDeleted(Guid uid)
 		{
-			var result = AdditionalColumnTranslator.DeleteAllByType(uid);
+			var result = DatabaseService.AdditionalColumnTranslator.DeleteAllByType(uid);
 			if (result.HasError)
 				return result;
 			return base.MarkDeleted(uid);

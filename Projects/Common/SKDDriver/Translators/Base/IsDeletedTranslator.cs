@@ -13,7 +13,7 @@ namespace SKDDriver
 		where ApiT : SKDIsDeletedModel, new()
 		where FilterT : IsDeletedFilter
 	{
-		public IsDeletedTranslator(DataAccess.SKDDataContext context) : base(context) { }
+		public IsDeletedTranslator(SKDDatabaseService databaseService) : base(databaseService) { }
 
 		protected override ApiT Translate(TableT tableItem)
 		{

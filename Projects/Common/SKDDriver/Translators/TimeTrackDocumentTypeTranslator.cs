@@ -11,11 +11,13 @@ namespace SKDDriver.Translators
 {
 	public class TimeTrackDocumentTypeTranslator
 	{
-		DataAccess.SKDDataContext Context;
+		protected SKDDatabaseService DatabaseService;
+		protected DataAccess.SKDDataContext Context;
 
-		public TimeTrackDocumentTypeTranslator(DataAccess.SKDDataContext context)
+		public TimeTrackDocumentTypeTranslator(SKDDatabaseService databaseService)
 		{
-			Context = context;
+			DatabaseService = databaseService;
+			Context = databaseService.Context;
 		}
 
 		public OperationResult<List<TimeTrackDocumentType>> Get(Guid organisationUID)

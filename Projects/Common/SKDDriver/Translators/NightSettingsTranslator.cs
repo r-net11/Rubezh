@@ -7,8 +7,8 @@ namespace SKDDriver
 {
 	public class NightSettingsTranslator : TranslatorBase<DataAccess.NightSetting, NightSettings>
 	{
-		public NightSettingsTranslator(DataAccess.SKDDataContext context)
-			: base(context)
+		public NightSettingsTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
 
 		}

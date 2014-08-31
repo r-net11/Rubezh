@@ -12,29 +12,10 @@ namespace SKDDriver
 {
 	public class EmployeeTranslator : WithShortTranslator<DataAccess.Employee, Employee, EmployeeFilter, ShortEmployee>
 	{
-		public EmployeeTranslator(DataAccess.SKDDataContext context,
-			PositionTranslator positionTranslator,
-			DepartmentTranslator departmentTranslator,
-			AdditionalColumnTranslator additionalColumnTranslator,
-			CardTranslator cardTranslator,
-			PhotoTranslator photoTranslator,
-			ScheduleTranslator scheduleTranslator)
-			: base(context)
+		public EmployeeTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
-			PositionTranslator = positionTranslator;
-			DepartmentTranslator = departmentTranslator;
-			AdditionalColumnTranslator = additionalColumnTranslator;
-			CardTranslator = cardTranslator;
-			PhotoTranslator = photoTranslator;
-			ScheduleTranslator = scheduleTranslator;
 		}
-
-		PositionTranslator PositionTranslator;
-		DepartmentTranslator DepartmentTranslator;
-		AdditionalColumnTranslator AdditionalColumnTranslator;
-		CardTranslator CardTranslator;
-		PhotoTranslator PhotoTranslator;
-		ScheduleTranslator ScheduleTranslator;
 
 		protected override OperationResult CanSave(Employee employee)
 		{
@@ -68,14 +49,14 @@ namespace SKDDriver
 			result.SecondName = tableItem.SecondName;
 			result.LastName = tableItem.LastName;
 			result.Appointed = tableItem.Appointed;
-			result.Department = DepartmentTranslator.GetSingleShort(tableItem.DepartmentUID);
-			result.Schedule = ScheduleTranslator.GetSingleShort(tableItem.ScheduleUID);
+			result.Department = DatabaseService.DepartmentTranslator.GetSingleShort(tableItem.DepartmentUID);
+			result.Schedule = DatabaseService.ScheduleTranslator.GetSingleShort(tableItem.ScheduleUID);
 			result.ScheduleStartDate = tableItem.ScheduleStartDate;
-			result.AdditionalColumns = AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID);
+			result.AdditionalColumns = DatabaseService.AdditionalColumnTranslator.GetAllByEmployee<DataAccess.AdditionalColumn>(tableItem.UID);
 			result.Type = (PersonType)tableItem.Type;
-			result.Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
-			result.Position = PositionTranslator.GetSingleShort(tableItem.PositionUID);
-			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
+			result.Cards = DatabaseService.CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID);
+			result.Position = DatabaseService.PositionTranslator.GetSingleShort(tableItem.PositionUID);
+			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			result.TabelNo = tableItem.TabelNo;
 			result.CredentialsStartDate = tableItem.CredentialsStartDate;
 			result.EscortUID = tableItem.EscortUID;
@@ -110,12 +91,12 @@ namespace SKDDriver
 				FirstName = tableItem.FirstName,
 				SecondName = tableItem.SecondName,
 				LastName = tableItem.LastName,
-				Cards = CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID),
+				Cards = DatabaseService.CardTranslator.GetByEmployee<DataAccess.Card>(tableItem.UID),
 				Type = (PersonType)tableItem.Type,
 				Appointed = tableItem.Appointed.ToString("d MMM yyyy"),
 				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty,
 				TabelNo = tableItem.TabelNo,
-				TextColumns = AdditionalColumnTranslator.GetTextColumns(tableItem.UID)
+				TextColumns = DatabaseService.AdditionalColumnTranslator.GetTextColumns(tableItem.UID)
 			};
 			var position = Context.Positions.FirstOrDefault(x => x.UID == tableItem.PositionUID);
 			if (position != null)
@@ -160,7 +141,7 @@ namespace SKDDriver
 
 		public override OperationResult Save(Employee apiItem)
 		{
-			var columnSaveResult = AdditionalColumnTranslator.Save(apiItem.AdditionalColumns);
+			var columnSaveResult = DatabaseService.AdditionalColumnTranslator.Save(apiItem.AdditionalColumns);
 			if (columnSaveResult.HasError)
 				return columnSaveResult;
 			var zoneSaveResult = SaveGuardZones(apiItem);
@@ -168,7 +149,7 @@ namespace SKDDriver
 				return zoneSaveResult;
 			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
 			{
-				var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
+				var photoSaveResult = DatabaseService.PhotoTranslator.Save(apiItem.Photo);
 				if (photoSaveResult.HasError)
 					return photoSaveResult;
 			}

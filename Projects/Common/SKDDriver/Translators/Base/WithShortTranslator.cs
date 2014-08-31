@@ -12,8 +12,8 @@ namespace SKDDriver
 		where FilterT : OrganisationFilterBase
 		where ShortT : class, new()
 	{
-		public WithShortTranslator(DataAccess.SKDDataContext context)
-			: base(context)
+		public WithShortTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
 
 		}

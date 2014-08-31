@@ -7,11 +7,9 @@ namespace SKDDriver.Translators
 {
 	public class ScheduleTranslator : WithShortTranslator<DataAccess.Schedule, Schedule, ScheduleFilter, ShortSchedule>
 	{
-		private ScheduleZoneTranslator _scheduleZoneTranslator;
-		public ScheduleTranslator(DataAccess.SKDDataContext context, ScheduleZoneTranslator scheduleZoneTranslator)
-			: base(context)
+		public ScheduleTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
-			_scheduleZoneTranslator = scheduleZoneTranslator;
 		}
 
 		protected override IQueryable<DataAccess.Schedule> GetQuery(ScheduleFilter filter)
@@ -43,7 +41,7 @@ namespace SKDDriver.Translators
 			result.IsOnlyFirstEnter = tableItem.IsOnlyFirstEnter;
 			result.AllowedLate = TimeSpan.FromSeconds(tableItem.AllowedLate);
 			result.AllowedEarlyLeave = TimeSpan.FromSeconds(tableItem.AllowedEarlyLeave);
-			result.Zones = _scheduleZoneTranslator.TranslateAll(tableItem.ScheduleZones.Where(item => !item.IsDeleted));
+			result.Zones = DatabaseService.ScheduleZoneTranslator.TranslateAll(tableItem.ScheduleZones.Where(item => !item.IsDeleted));
 			return result;
 		}
 
@@ -69,7 +67,7 @@ namespace SKDDriver.Translators
 				tableItem.ScheduleSchemeUID = apiItem.ScheduleSchemeUID;
 			else
 				tableItem.ScheduleScheme = scheduleScheme;
-			_scheduleZoneTranslator.Save(apiItem.Zones);
+			DatabaseService.ScheduleZoneTranslator.Save(apiItem.Zones);
 		}
 
 		public string GetName(Guid? uid)

@@ -9,8 +9,8 @@ namespace SKDDriver.Translators
 {
 	public class HolidayTranslator : OrganisationElementTranslator<DataAccess.Holiday, Holiday, HolidayFilter>
 	{
-		public HolidayTranslator(DataAccess.SKDDataContext context)
-			: base(context)
+		public HolidayTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
 
 		}

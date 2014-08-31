@@ -10,8 +10,8 @@ namespace SKDDriver
 {
 	public class CardDoorTranslator : IsDeletedTranslator<DataAccess.CardDoor, CardDoor, CardDoorFilter>
 	{
-		public CardDoorTranslator(DataAccess.SKDDataContext context)
-			: base(context)
+		public CardDoorTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
 
 		}

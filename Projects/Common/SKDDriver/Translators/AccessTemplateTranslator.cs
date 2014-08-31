@@ -11,13 +11,10 @@ namespace SKDDriver
 {
 	public class AccessTemplateTranslator : OrganisationElementTranslator<DataAccess.AccessTemplate, AccessTemplate, AccessTemplateFilter>
 	{
-		public AccessTemplateTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardDoorTranslator)
-			: base(context)
+		public AccessTemplateTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
-			CardDoorTranslator = cardDoorTranslator;
 		}
-
-		CardDoorTranslator CardDoorTranslator;
 
 		protected override OperationResult CanSave(AccessTemplate accessTemplate)
 		{
@@ -40,7 +37,7 @@ namespace SKDDriver
 
 		public override OperationResult MarkDeleted(Guid uid)
 		{
-			var deleteDoorsResult = CardDoorTranslator.MarkDeletefFromAccessTemplate(uid);
+			var deleteDoorsResult = DatabaseService.CardDoorTranslator.MarkDeletefFromAccessTemplate(uid);
 			if (deleteDoorsResult.HasError)
 				return deleteDoorsResult;
 			return base.MarkDeleted(uid);
@@ -49,7 +46,7 @@ namespace SKDDriver
 		protected override AccessTemplate Translate(DataAccess.AccessTemplate tableItem)
 		{
 			var result = base.Translate(tableItem);
-			result.CardDoors = CardDoorTranslator.GetForAccessTemplate(tableItem.UID);
+			result.CardDoors = DatabaseService.CardDoorTranslator.GetForAccessTemplate(tableItem.UID);
 			result.Name = tableItem.Name;
 			var guardZones = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x);
 			foreach (var item in guardZones)
@@ -72,9 +69,9 @@ namespace SKDDriver
 
 		public override OperationResult Save(AccessTemplate item)
 		{
-			var updateCardDoorsResult = CardDoorTranslator.RemoveFromAccessTemplate(item);
+			var updateCardDoorsResult = DatabaseService.CardDoorTranslator.RemoveFromAccessTemplate(item);
 			var result = base.Save(item);
-			CardDoorTranslator.Save(item.CardDoors);
+			DatabaseService.CardDoorTranslator.Save(item.CardDoors);
 			return result;
 		}
 

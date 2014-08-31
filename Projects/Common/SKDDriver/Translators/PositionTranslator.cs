@@ -8,13 +8,10 @@ namespace SKDDriver
 {
 	public class PositionTranslator : WithShortTranslator<DataAccess.Position, Position, PositionFilter, ShortPosition>
 	{
-		public PositionTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator)
-			: base(context)
+		public PositionTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
-			PhotoTranslator = photoTranslator;
 		}
-
-		PhotoTranslator PhotoTranslator;
 
 		protected override OperationResult CanSave(Position position)
 		{
@@ -39,7 +36,7 @@ namespace SKDDriver
 			var result = base.Translate(tableItem);
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
-			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
+			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			return result;
 		}
 
@@ -68,7 +65,7 @@ namespace SKDDriver
 		{
 			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
 			{
-				var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
+				var photoSaveResult = DatabaseService.PhotoTranslator.Save(apiItem.Photo);
 				if (photoSaveResult.HasError)
 					return photoSaveResult;
 			}

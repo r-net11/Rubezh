@@ -8,13 +8,10 @@ namespace SKDDriver
 {
 	public class DepartmentTranslator : WithShortTranslator<DataAccess.Department, Department, DepartmentFilter, ShortDepartment>
 	{
-		public DepartmentTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator)
-			: base(context)
+		public DepartmentTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
-			PhotoTranslator = photoTranslator;
 		}
-
-		PhotoTranslator PhotoTranslator;
 
 		protected override OperationResult CanSave(Department department)
 		{
@@ -58,7 +55,7 @@ namespace SKDDriver
 			result.ChildDepartmentUIDs = childDepartmentUIDs;
 			result.ContactEmployeeUID = tableItem.ContactEmployeeUID;
 			result.AttendantEmployeeUID = tableItem.AttendantUID;
-			result.Photo = GetResult(PhotoTranslator.GetSingle(tableItem.PhotoUID));
+			result.Photo = GetResult(DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID));
 			return result;
 		}
 
@@ -104,7 +101,7 @@ namespace SKDDriver
 		{
 			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
 			{
-				var photoSaveResult = PhotoTranslator.Save(apiItem.Photo);
+				var photoSaveResult = DatabaseService.PhotoTranslator.Save(apiItem.Photo);
 				if (photoSaveResult.HasError)
 					return photoSaveResult;
 			}

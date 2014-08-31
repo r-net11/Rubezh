@@ -9,6 +9,7 @@ using FiresecAPI.Models;
 using FiresecService.Properties;
 using FiresecService.ViewModels;
 using GKProcessor;
+using SKDDriver;
 
 namespace FiresecService.Service
 {
@@ -114,7 +115,10 @@ namespace FiresecService.Service
 
 		public string Test(string arg)
 		{
-			SKDDriver.SKDDatabaseService.TimeTrackTranslator.InsertPassJournalTestData();
+			using (var databaseService = new SKDDatabaseService())
+			{
+				databaseService.TimeTrackTranslator.InsertPassJournalTestData();
+			}
 			return "Test";
 		}
 

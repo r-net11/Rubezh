@@ -10,13 +10,10 @@ namespace SKDDriver
 {
 	public class CardTranslator : IsDeletedTranslator<DataAccess.Card, SKDCard, CardFilter>
 	{
-		public CardTranslator(DataAccess.SKDDataContext context, CardDoorTranslator cardDoorTranslator)
-			: base(context)
+		public CardTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
-			CardDoorTranslator = cardDoorTranslator;
 		}
-
-		CardDoorTranslator CardDoorTranslator;
 
 		protected override OperationResult CanSave(SKDCard item)
 		{
@@ -50,7 +47,7 @@ namespace SKDDriver
 			result.StartDate = tableItem.StartDate;
 			result.EndDate = tableItem.EndDate;
 			result.AccessTemplateUID = tableItem.AccessTemplateUID;
-			result.CardDoors = CardDoorTranslator.GetForCards(tableItem.UID);
+			result.CardDoors = DatabaseService.CardDoorTranslator.GetForCards(tableItem.UID);
 			result.IsInStopList = tableItem.IsInStopList;
 			result.StopReason = tableItem.StopReason;
 			result.PassCardTemplateUID = tableItem.PassCardTemplateUID;
@@ -87,9 +84,9 @@ namespace SKDDriver
 
 		public override OperationResult Save(SKDCard card)
 		{
-			var updateCardDoorsResult = CardDoorTranslator.RemoveFromCard(card);
+			var updateCardDoorsResult = DatabaseService.CardDoorTranslator.RemoveFromCard(card);
 			var result = base.Save(card);
-			CardDoorTranslator.Save(card.CardDoors);
+			DatabaseService.CardDoorTranslator.Save(card.CardDoors);
 			return result;
 		}
 		

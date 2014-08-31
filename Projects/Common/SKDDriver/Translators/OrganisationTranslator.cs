@@ -10,13 +10,10 @@ namespace SKDDriver
 {
 	public class OrganisationTranslator : IsDeletedTranslator<DataAccess.Organisation, Organisation, OrganisationFilter>
 	{
-		public OrganisationTranslator(DataAccess.SKDDataContext context, PhotoTranslator photoTranslator)
-			: base(context)
+		public OrganisationTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
-			PhotoTranslator = photoTranslator;
 		}
-
-		PhotoTranslator PhotoTranslator; 
 
 		protected OperationResult CanSave(OrganisationDetails item)
 		{
@@ -92,7 +89,7 @@ namespace SKDDriver
 						Description = tableItem.Description,
 						IsDeleted = tableItem.IsDeleted,
 						Name = tableItem.Name,
-						Photo = PhotoTranslator.GetSingle(tableItem.PhotoUID).Result,
+						Photo = DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID).Result,
 						RemovalDate = tableItem.RemovalDate,
 						UID = tableItem.UID,
 						DoorUIDs = (from x in Context.OrganisationDoors.Where(x => x.OrganisationUID == tableItem.UID) select x.DoorUID).ToList(),
@@ -101,7 +98,7 @@ namespace SKDDriver
 						UserUIDs = (from x in Context.OrganisationUsers.Where(x => x.OrganisationUID == tableItem.UID) select x.UserUID).ToList(),
 						GuardZoneUIDs = (from x in Context.GuardZones.Where(x => x.ParentUID == tableItem.UID) select x.ZoneUID).ToList()
 					};
-				var photoResult = PhotoTranslator.GetSingle(tableItem.PhotoUID);
+				var photoResult = DatabaseService.PhotoTranslator.GetSingle(tableItem.PhotoUID);
 				if (photoResult.HasError)
 				{
 					result.Error = photoResult.Error;
@@ -301,7 +298,7 @@ namespace SKDDriver
 				return saveUsersResult;
 			if (apiItem.Photo != null && apiItem.Photo.Data != null && apiItem.Photo.Data.Count() > 0)
 			{
-				var savePhotoResult = PhotoTranslator.Save(apiItem.Photo);
+				var savePhotoResult = DatabaseService.PhotoTranslator.Save(apiItem.Photo);
 				if (savePhotoResult.HasError)
 					return savePhotoResult;
 			}

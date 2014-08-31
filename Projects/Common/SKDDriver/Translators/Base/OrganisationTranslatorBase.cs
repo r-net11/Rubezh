@@ -12,8 +12,8 @@ namespace SKDDriver
 		where ApiT : OrganisationElementBase, new()
 		where FilterT : OrganisationFilterBase
 	{
-		public OrganisationElementTranslator(DataAccess.SKDDataContext context)
-			: base(context)
+		public OrganisationElementTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
 
 		}

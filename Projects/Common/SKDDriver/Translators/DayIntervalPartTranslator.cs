@@ -11,8 +11,8 @@ namespace SKDDriver.Translators
 	public class DayIntervalPartTranslator : IsDeletedTranslator<DataAccess.DayIntervalPart, DayIntervalPart, DayIntervalPartFilter>
 	{
 		int DaySeconds = 86400;
-		public DayIntervalPartTranslator(DataAccess.SKDDataContext context)
-			: base(context)
+		public DayIntervalPartTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
 
 		}

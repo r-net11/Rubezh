@@ -4,8 +4,8 @@ namespace SKDDriver
 {
 	public class PhotoTranslator : WithFilterTranslator<DataAccess.Photo, Photo, PhotoFilter>
 	{
-		public PhotoTranslator(DataAccess.SKDDataContext context)
-			: base(context)	{ }
+		public PhotoTranslator(SKDDatabaseService databaseService)
+			: base(databaseService) { }
 
 		protected override Photo Translate(DataAccess.Photo tableItem)
 		{

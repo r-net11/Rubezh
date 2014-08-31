@@ -13,8 +13,8 @@ namespace SKDDriver
         where ApiT : SKDModelBase, new()
         where FilterT : FilterBase
     {
-        public WithFilterTranslator(DataAccess.SKDDataContext context)
-            : base(context)
+		public WithFilterTranslator(SKDDatabaseService databaseService)
+            : base(databaseService)
         {
 
         }

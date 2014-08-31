@@ -11,145 +11,235 @@ namespace FiresecService.Service
 	{
 		public OperationResult<IEnumerable<DayInterval>> GetDayIntervals(DayIntervalFilter filter)
 		{
-			return SKDDatabaseService.DayIntervalTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DayIntervalTranslator.Get(filter);
+			}
 		}
 		public OperationResult SaveDayInterval(DayInterval item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дневного_графика);
-			return SKDDatabaseService.DayIntervalTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DayIntervalTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedDayInterval(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дневного_графика);
-			return SKDDatabaseService.DayIntervalTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DayIntervalTranslator.MarkDeleted(uid);
+			}
 		}
 
 		public OperationResult<IEnumerable<DayIntervalPart>> GetDayIntervalParts(DayIntervalPartFilter filter)
 		{
-			return SKDDatabaseService.DayIntervalPartTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DayIntervalPartTranslator.Get(filter);
+			}
 		}
 		public OperationResult SaveDayIntervalPart(DayIntervalPart item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дневного_графика);
-			return SKDDatabaseService.DayIntervalPartTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DayIntervalPartTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedDayIntervalPart(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дневного_графика);
-			return SKDDatabaseService.DayIntervalPartTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DayIntervalPartTranslator.MarkDeleted(uid);
+			}
 		}
 
 		public OperationResult<IEnumerable<Holiday>> GetHolidays(HolidayFilter filter)
 		{
-			return SKDDatabaseService.HolidayTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.HolidayTranslator.Get(filter);
+			}
 		}
 		public OperationResult SaveHoliday(Holiday item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_праздничного_дня);
-			return SKDDatabaseService.HolidayTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.HolidayTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedHoliday(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_праздничного_дня);
-			return SKDDatabaseService.HolidayTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.HolidayTranslator.MarkDeleted(uid);
+			}
 		}
 
 		public OperationResult<IEnumerable<ScheduleScheme>> GetScheduleSchemes(ScheduleSchemeFilter filter)
 		{
-			return SKDDatabaseService.ScheduleSchemeTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleSchemeTranslator.Get(filter);
+			}
 		}
 		public OperationResult SaveScheduleScheme(ScheduleScheme item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_схемы_работы);
-			return SKDDatabaseService.ScheduleSchemeTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleSchemeTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedScheduleScheme(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_схемы_работы);
-			return SKDDatabaseService.ScheduleSchemeTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleSchemeTranslator.MarkDeleted(uid);
+			}
 		}
 
 		public OperationResult<IEnumerable<ScheduleDayInterval>> GetSheduleDayIntervals(ScheduleDayIntervalFilter filter)
 		{
-			return SKDDatabaseService.ScheduleDayIntervalTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleDayIntervalTranslator.Get(filter);
+			}
 		}
 		public OperationResult SaveSheduleDayInterval(ScheduleDayInterval item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_схемы_работы);
-			return SKDDatabaseService.ScheduleDayIntervalTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleDayIntervalTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedSheduleDayInterval(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_схемы_работы);
-			return SKDDatabaseService.ScheduleDayIntervalTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleDayIntervalTranslator.MarkDeleted(uid);
+			}
 		}
 
 		public OperationResult<IEnumerable<Schedule>> GetSchedules(ScheduleFilter filter)
 		{
-			return SKDDatabaseService.ScheduleTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleTranslator.Get(filter);
+			}
 		}
 		public OperationResult SaveSchedule(Schedule item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_графика_работы);
-			return SKDDatabaseService.ScheduleTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedSchedule(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_графика_работы);
-			return SKDDatabaseService.ScheduleTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleTranslator.MarkDeleted(uid);
+			}
 		}
 		public OperationResult<IEnumerable<ShortSchedule>> GetScheduleShortList(ScheduleFilter filter)
 		{
-			return SKDDatabaseService.ScheduleTranslator.GetList(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleTranslator.GetList(filter);
+			}
 		}
-		
+
 		public OperationResult<IEnumerable<ScheduleZone>> GetScheduleZones(ScheduleZoneFilter filter)
 		{
-			return SKDDatabaseService.ScheduleZoneTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleZoneTranslator.Get(filter);
+			}
 		}
 		public OperationResult SaveScheduleZone(ScheduleZone item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_графика_работы);
-			return SKDDatabaseService.ScheduleZoneTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleZoneTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedScheduleZone(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_графика_работы);
-			return SKDDatabaseService.ScheduleZoneTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.ScheduleZoneTranslator.MarkDeleted(uid);
+			}
 		}
 
 		public OperationResult<List<TimeTrackDocument>> GetTimeTrackDocument(Guid employeeUID, DateTime startDateTime, DateTime endDateTime)
 		{
-			return SKDDatabaseService.TimeTrackDocumentTranslator.Get(employeeUID, startDateTime, endDateTime);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackDocumentTranslator.Get(employeeUID, startDateTime, endDateTime);
+			}
 		}
 		public OperationResult AddTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
-			return SKDDatabaseService.TimeTrackDocumentTranslator.AddTimeTrackDocument(timeTrackDocument);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackDocumentTranslator.AddTimeTrackDocument(timeTrackDocument);
+			}
 		}
 		public OperationResult EditTimeTrackDocument(TimeTrackDocument timeTrackDocument)
 		{
-			return SKDDatabaseService.TimeTrackDocumentTranslator.EditTimeTrackDocument(timeTrackDocument);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackDocumentTranslator.EditTimeTrackDocument(timeTrackDocument);
+			}
 		}
 		public OperationResult RemoveTimeTrackDocument(Guid timeTrackDocumentUID)
 		{
-			return SKDDatabaseService.TimeTrackDocumentTranslator.RemoveTimeTrackDocument(timeTrackDocumentUID);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackDocumentTranslator.RemoveTimeTrackDocument(timeTrackDocumentUID);
+			}
 		}
 
 		public OperationResult<List<TimeTrackDocumentType>> GetTimeTrackDocumentTypes(Guid organisationUID)
 		{
-			return SKDDatabaseService.TimeTrackDocumentTypeTranslator.Get(organisationUID);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackDocumentTypeTranslator.Get(organisationUID);
+			}
 		}
 		public OperationResult AddTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
-			return SKDDatabaseService.TimeTrackDocumentTypeTranslator.AddTimeTrackDocumentType(timeTrackDocumentType);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackDocumentTypeTranslator.AddTimeTrackDocumentType(timeTrackDocumentType);
+			}
 		}
 		public OperationResult EditTimeTrackDocumentType(TimeTrackDocumentType timeTrackDocumentType)
 		{
-			return SKDDatabaseService.TimeTrackDocumentTypeTranslator.EditTimeTrackDocumentType(timeTrackDocumentType);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackDocumentTypeTranslator.EditTimeTrackDocumentType(timeTrackDocumentType);
+			}
 		}
 		public OperationResult RemoveTimeTrackDocumentType(Guid timeTrackDocumentTypeUID)
 		{
-			return SKDDatabaseService.TimeTrackDocumentTypeTranslator.RemoveTimeTrackDocumentType(timeTrackDocumentTypeUID);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackDocumentTypeTranslator.RemoveTimeTrackDocumentType(timeTrackDocumentTypeUID);
+			}
 		}
 	}
 }

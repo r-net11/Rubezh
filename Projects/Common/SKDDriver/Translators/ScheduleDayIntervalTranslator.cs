@@ -10,8 +10,8 @@ namespace SKDDriver.Translators
 {
 	public class ScheduleDayIntervalTranslator : IsDeletedTranslator<DataAccess.ScheduleDay, ScheduleDayInterval, ScheduleDayIntervalFilter>
 	{
-		public ScheduleDayIntervalTranslator(DataAccess.SKDDataContext context)
-			: base(context)
+		public ScheduleDayIntervalTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
 
 		}

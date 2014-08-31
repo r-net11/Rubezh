@@ -10,8 +10,8 @@ namespace SKDDriver.Translators
 {
 	public class ScheduleZoneTranslator : IsDeletedTranslator<DataAccess.ScheduleZone, ScheduleZone, ScheduleZoneFilter>
 	{
-		public ScheduleZoneTranslator(DataAccess.SKDDataContext context)
-			: base(context)
+		public ScheduleZoneTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
 
 		}

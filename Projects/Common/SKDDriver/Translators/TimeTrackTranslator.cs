@@ -11,11 +11,13 @@ namespace SKDDriver.Translators
 {
 	public class TimeTrackTranslator
 	{
-		DataAccess.SKDDataContext Context;
+		protected SKDDatabaseService DatabaseService;
+		protected DataAccess.SKDDataContext Context;
 
-		public TimeTrackTranslator(DataAccess.SKDDataContext context)
+		public TimeTrackTranslator(SKDDatabaseService databaseService)
 		{
-			Context = context;
+			DatabaseService = databaseService;
+			Context = databaseService.Context;
 		}
 
 		public OperationResult AddPassJournal(Guid employeeUID, Guid zoneUID)
@@ -71,7 +73,7 @@ namespace SKDDriver.Translators
 
 		public void InsertPassJournalTestData()
 		{
-			var employees = SKDDatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result;
+			var employees = DatabaseService.EmployeeTranslator.GetList(new EmployeeFilter()).Result;
 			var zoneUID = SKDManager.Zones.FirstOrDefault().UID;
 
 			foreach (var passJournal in Context.PassJournals)
@@ -127,7 +129,7 @@ namespace SKDDriver.Translators
 
 			try
 			{
-				var operationResult = SKDDatabaseService.EmployeeTranslator.GetList(filter);
+				var operationResult = DatabaseService.EmployeeTranslator.GetList(filter);
 				if (operationResult.HasError)
 					return new OperationResult<TimeTrackResult>(operationResult.Error);
 
@@ -147,7 +149,7 @@ namespace SKDDriver.Translators
 						}
 					}
 
-					var documentsOperationResult = SKDDatabaseService.TimeTrackDocumentTranslator.Get(shortEmployee.UID, startDate, endDate);
+					var documentsOperationResult = DatabaseService.TimeTrackDocumentTranslator.Get(shortEmployee.UID, startDate, endDate);
 					if (!documentsOperationResult.HasError)
 					{
 						var documents = documentsOperationResult.Result;
@@ -156,7 +158,7 @@ namespace SKDDriver.Translators
 							document.TimeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
 							if (document.TimeTrackDocumentType == null)
 							{
-								var documentTypesResult = SKDDatabaseService.TimeTrackDocumentTypeTranslator.Get(shortEmployee.OrganisationUID);
+								var documentTypesResult = DatabaseService.TimeTrackDocumentTypeTranslator.Get(shortEmployee.OrganisationUID);
 								if (documentTypesResult.Result != null)
 								{
 									document.TimeTrackDocumentType = documentTypesResult.Result.FirstOrDefault(x => x.Code == document.DocumentCode);
@@ -204,7 +206,7 @@ namespace SKDDriver.Translators
 				return new TimeTrackEmployeeResult("Не найдена схема работы");
 			var days = Context.ScheduleDays.Where(x => x.ScheduleSchemeUID == scheduleScheme.UID && !x.IsDeleted).ToList();
 			var scheduleZones = Context.ScheduleZones.Where(x => x.ScheduleUID == schedule.UID && !x.IsDeleted).ToList();
-			var nightSettings = SKDDatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
+			var nightSettings = DatabaseService.NightSettingsTranslator.GetByOrganisation(employee.OrganisationUID.Value).Result;
 
 			var timeTrackEmployeeResult = new TimeTrackEmployeeResult();
 			timeTrackEmployeeResult.ScheduleName = schedule.Name;

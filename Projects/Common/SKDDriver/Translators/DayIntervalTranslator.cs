@@ -7,11 +7,9 @@ namespace SKDDriver.Translators
 {
 	public class DayIntervalTranslator : OrganisationElementTranslator<DataAccess.DayInterval, DayInterval, DayIntervalFilter>
 	{
-		private DayIntervalPartTranslator _timeIntervalTranslator;
-		public DayIntervalTranslator(DataAccess.SKDDataContext context, DayIntervalPartTranslator timeIntervalTranslator)
-			: base(context)
+		public DayIntervalTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
-			_timeIntervalTranslator = timeIntervalTranslator;
 		}
 
 		protected override IQueryable<DataAccess.DayInterval> GetQuery(DayIntervalFilter filter)
@@ -42,7 +40,7 @@ namespace SKDDriver.Translators
 			result.Name = tableItem.Name;
 			result.Description = tableItem.Description;
 			result.SlideTime = TimeSpan.FromSeconds(tableItem.SlideTime);
-			result.DayIntervalParts = _timeIntervalTranslator.TranslateAll(tableItem.DayIntervalParts.Where(item => !item.IsDeleted).OrderBy(item => item.BeginTime));
+			result.DayIntervalParts = DatabaseService.DayIntervalPartTranslator.TranslateAll(tableItem.DayIntervalParts.Where(item => !item.IsDeleted).OrderBy(item => item.BeginTime));
 			return result;
 		}
 
@@ -52,7 +50,7 @@ namespace SKDDriver.Translators
 			tableItem.Name = apiItem.Name;
 			tableItem.Description = apiItem.Description;
 			tableItem.SlideTime = (int)apiItem.SlideTime.TotalSeconds;
-			_timeIntervalTranslator.Save(apiItem.DayIntervalParts);
+			DatabaseService.DayIntervalPartTranslator.Save(apiItem.DayIntervalParts);
 		}
 	}
 }

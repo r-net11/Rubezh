@@ -8,8 +8,8 @@ namespace SKDDriver
 {
 	public class JournalItemTranslator : WithFilterTranslator<DataAccess.Journal, JournalItem, JournalFilter>
 	{
-		public JournalItemTranslator(DataAccess.SKDDataContext context)
-			: base(context)
+		public JournalItemTranslator(SKDDatabaseService databaseService)
+			: base(databaseService)
 		{
 			var j = new JournalItem();
 			j.JournalDetalisationItems.Add(new JournalDetalisationItem("Name", "Value"));

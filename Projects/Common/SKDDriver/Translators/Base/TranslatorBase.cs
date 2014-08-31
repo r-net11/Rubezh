@@ -13,11 +13,13 @@ namespace SKDDriver
 		
 	{
 		protected Table<TableT> Table;
+		protected SKDDatabaseService DatabaseService;
 		protected DataAccess.SKDDataContext Context;
 
-		public TranslatorBase(DataAccess.SKDDataContext context)
+		public TranslatorBase(SKDDatabaseService databaseService)
 		{
-			Context = context;
+			DatabaseService = databaseService;
+			Context = databaseService.Context;
 			Table = Context.GetTable<TableT>();
 		}
 

@@ -1,65 +1,71 @@
 ﻿using System.Configuration;
 using SKDDriver.Translators;
+using System;
 
 namespace SKDDriver
 {
-	public static class SKDDatabaseService
+	public class SKDDatabaseService : IDisposable
 	{
-		static DataAccess.SKDDataContext Context;
-		static string ConnectionString
+		public DataAccess.SKDDataContext Context { get; private set; }
+		string ConnectionString
 		{
 			get	{ return ConfigurationManager.ConnectionStrings["SKDDriver.Properties.Settings.SKDConnectionString"].ConnectionString; }
 		}
 
-		static SKDDatabaseService()
+		public SKDDatabaseService()
 		{
 			Context = new DataAccess.SKDDataContext(ConnectionString);
-			CardDoorTranslator = new CardDoorTranslator(Context);
-			CardTranslator = new CardTranslator(Context, CardDoorTranslator);
-			AccessTemplateTranslator = new AccessTemplateTranslator(Context, CardDoorTranslator);
-			JournalItemTranslator = new JournalItemTranslator(Context);
-			PhotoTranslator = new PhotoTranslator(Context);
-			OrganisationTranslator = new OrganisationTranslator(Context, PhotoTranslator);
-			PositionTranslator = new PositionTranslator(Context, PhotoTranslator);
-			NightSettingsTranslator = new NightSettingsTranslator(Context);
-			DepartmentTranslator = new DepartmentTranslator(Context, PhotoTranslator);
-			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(Context);
-			AdditionalColumnTranslator = new AdditionalColumnTranslator(Context, PhotoTranslator, AdditionalColumnTypeTranslator);
-			DayIntervalPartTranslator = new DayIntervalPartTranslator(Context);
-			DayIntervalTranslator = new DayIntervalTranslator(Context, DayIntervalPartTranslator);
-			HolidayTranslator = new HolidayTranslator(Context);
-			ScheduleDayIntervalTranslator = new ScheduleDayIntervalTranslator(Context);
-			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(Context, ScheduleDayIntervalTranslator);
-			ScheduleZoneTranslator = new ScheduleZoneTranslator(Context);
-			ScheduleTranslator = new ScheduleTranslator(Context, ScheduleZoneTranslator);
-			EmployeeTranslator = new EmployeeTranslator(Context, PositionTranslator, DepartmentTranslator, AdditionalColumnTranslator, CardTranslator, PhotoTranslator, ScheduleTranslator);
-			TimeTrackTranslator = new TimeTrackTranslator(Context);
-			TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(Context);
-			TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(Context);
-			AdditionalColumnTypeTranslator.AdditionalColumnTranslator = AdditionalColumnTranslator;
+
+			CardDoorTranslator = new CardDoorTranslator(this);
+			CardTranslator = new CardTranslator(this);
+			AccessTemplateTranslator = new AccessTemplateTranslator(this);
+			JournalItemTranslator = new JournalItemTranslator(this);
+			PhotoTranslator = new PhotoTranslator(this);
+			OrganisationTranslator = new OrganisationTranslator(this);
+			PositionTranslator = new PositionTranslator(this);
+			NightSettingsTranslator = new NightSettingsTranslator(this);
+			DepartmentTranslator = new DepartmentTranslator(this);
+			AdditionalColumnTypeTranslator = new AdditionalColumnTypeTranslator(this);
+			AdditionalColumnTranslator = new AdditionalColumnTranslator(this);
+			DayIntervalPartTranslator = new DayIntervalPartTranslator(this);
+			DayIntervalTranslator = new DayIntervalTranslator(this);
+			HolidayTranslator = new HolidayTranslator(this);
+			ScheduleDayIntervalTranslator = new ScheduleDayIntervalTranslator(this);
+			ScheduleSchemeTranslator = new ScheduleSchemeTranslator(this);
+			ScheduleZoneTranslator = new ScheduleZoneTranslator(this);
+			ScheduleTranslator = new ScheduleTranslator(this);
+			EmployeeTranslator = new EmployeeTranslator(this);
+			TimeTrackTranslator = new TimeTrackTranslator(this);
+			TimeTrackDocumentTranslator = new TimeTrackDocumentTranslator(this);
+			TimeTrackDocumentTypeTranslator = new TimeTrackDocumentTypeTranslator(this);
 		}
 
-		public static NightSettingsTranslator NightSettingsTranslator { get; private set; }
-		public static PositionTranslator PositionTranslator { get; private set; }
-		public static CardTranslator CardTranslator { get; private set; }
-		public static CardDoorTranslator CardDoorTranslator { get; private set; }
-		public static AccessTemplateTranslator AccessTemplateTranslator { get; private set; }
-		public static OrganisationTranslator OrganisationTranslator { get; private set; }
-		public static JournalItemTranslator JournalItemTranslator { get; private set; }
-		public static EmployeeTranslator EmployeeTranslator { get; private set; }
-		public static DepartmentTranslator DepartmentTranslator { get; private set; }
-		public static AdditionalColumnTypeTranslator AdditionalColumnTypeTranslator { get; private set; }
-		public static AdditionalColumnTranslator AdditionalColumnTranslator { get; private set; }
-		public static PhotoTranslator PhotoTranslator { get; private set; }
-		public static DayIntervalTranslator DayIntervalTranslator { get; private set; }
-		public static DayIntervalPartTranslator DayIntervalPartTranslator { get; private set; }
-		public static HolidayTranslator HolidayTranslator { get; private set; }
-		public static ScheduleSchemeTranslator ScheduleSchemeTranslator { get; private set; }
-		public static ScheduleDayIntervalTranslator ScheduleDayIntervalTranslator { get; private set; }
-		public static ScheduleZoneTranslator ScheduleZoneTranslator { get; private set; }
-		public static ScheduleTranslator ScheduleTranslator { get; private set; }
-		public static TimeTrackTranslator TimeTrackTranslator { get; private set; }
-		public static TimeTrackDocumentTranslator TimeTrackDocumentTranslator { get; private set; }
-		public static TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
+		public NightSettingsTranslator NightSettingsTranslator { get; private set; }
+		public PositionTranslator PositionTranslator { get; private set; }
+		public CardTranslator CardTranslator { get; private set; }
+		public CardDoorTranslator CardDoorTranslator { get; private set; }
+		public AccessTemplateTranslator AccessTemplateTranslator { get; private set; }
+		public OrganisationTranslator OrganisationTranslator { get; private set; }
+		public JournalItemTranslator JournalItemTranslator { get; private set; }
+		public EmployeeTranslator EmployeeTranslator { get; private set; }
+		public DepartmentTranslator DepartmentTranslator { get; private set; }
+		public AdditionalColumnTypeTranslator AdditionalColumnTypeTranslator { get; private set; }
+		public AdditionalColumnTranslator AdditionalColumnTranslator { get; private set; }
+		public PhotoTranslator PhotoTranslator { get; private set; }
+		public DayIntervalTranslator DayIntervalTranslator { get; private set; }
+		public DayIntervalPartTranslator DayIntervalPartTranslator { get; private set; }
+		public HolidayTranslator HolidayTranslator { get; private set; }
+		public ScheduleSchemeTranslator ScheduleSchemeTranslator { get; private set; }
+		public ScheduleDayIntervalTranslator ScheduleDayIntervalTranslator { get; private set; }
+		public ScheduleZoneTranslator ScheduleZoneTranslator { get; private set; }
+		public ScheduleTranslator ScheduleTranslator { get; private set; }
+		public TimeTrackTranslator TimeTrackTranslator { get; private set; }
+		public TimeTrackDocumentTranslator TimeTrackDocumentTranslator { get; private set; }
+		public TimeTrackDocumentTypeTranslator TimeTrackDocumentTypeTranslator { get; private set; }
+
+		public void Dispose()
+		{
+			Context.Dispose();
+		}
 	}
 }
