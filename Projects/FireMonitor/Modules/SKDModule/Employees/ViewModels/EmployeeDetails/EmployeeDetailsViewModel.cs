@@ -15,6 +15,7 @@ namespace SKDModule.ViewModels
 	{
 		Organisation _organisation;
 		HRViewModel _hrViewModel;
+		PersonType PersonType;
 		
 		public EmployeeDetailsViewModel() {	}
 
@@ -39,7 +40,8 @@ namespace SKDModule.ViewModels
 			_organisation = orgnaisation;
 			var employeesViewModel = (parentViewModel as EmployeesViewModel);
 			_hrViewModel = employeesViewModel.HRViewModel;
-			IsEmployee = employeesViewModel.PersonType == PersonType.Employee;
+			PersonType = employeesViewModel.PersonType;
+			IsEmployee = PersonType == PersonType.Employee;
 			if (employee == null)
 			{
 				Employee = new Employee();
@@ -739,9 +741,9 @@ namespace SKDModule.ViewModels
 			{
 				Employee.EscortUID = SelectedEscort != null ? SelectedEscort.Employee.UID : Employee.EscortUID = null;
 			}
+			Employee.Type = PersonType;
 
 			var guardZoneAccesses = new List<XGuardZoneAccess>();
-
 			foreach (var guardZone in EmployeeGuardZones.GuardZones)
 			{
 				if (guardZone.IsChecked)

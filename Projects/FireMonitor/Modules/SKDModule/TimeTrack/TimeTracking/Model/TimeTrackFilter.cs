@@ -23,7 +23,6 @@ namespace SKDModule.Model
 		[DataMember]
 		public EmployeeFilter EmployeeFilter { get; set; }
 
-
 		public TimeTrackingPeriod Period { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }

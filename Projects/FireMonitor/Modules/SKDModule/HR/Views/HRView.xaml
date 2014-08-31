@@ -10,25 +10,23 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<Grid Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-				<Grid DataContext="{Binding EmployeesViewModel}">
-					<StackPanel Orientation="Horizontal">
-						<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-							<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить пользователя" />
-							<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить пользователя" />
-							<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать пользователя" />
-						</StackPanel>
-						<ToolBarButton Command="{Binding SelectedItem.AddCardCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить пропуск" />
-						<StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-							<StackPanel DataContext="{Binding SelectedItem}" Orientation="Horizontal">
-								<ToolBarButton Command="{Binding SelectedCard.RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить пропуск" />
-								<ToolBarButton Command="{Binding SelectedCard.EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать пропуск" />
-								<ToolBarButton Command="{Binding SelectedCard.PrintCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать удостоверения" />
-							</StackPanel>
-						</StackPanel>
-					</StackPanel>
-				</Grid>
-			</Grid>
+            <StackPanel Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
+                <StackPanel DataContext="{Binding EmployeesViewModel}" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsEmployeeSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить сотрудника" />
+                        <ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить сотрудника" />
+                        <ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать сотрудника" />
+                    </StackPanel>
+                    <ToolBarButton Command="{Binding SelectedItem.AddCardCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить пропуск" />
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding SelectedItem.IsCardSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <StackPanel DataContext="{Binding SelectedItem}" Orientation="Horizontal">
+                            <ToolBarButton Command="{Binding SelectedCard.RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить пропуск" />
+                            <ToolBarButton Command="{Binding SelectedCard.EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать пропуск" />
+                            <ToolBarButton Command="{Binding SelectedCard.PrintCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать удостоверения" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
 			<Grid Visibility="{Binding IsDepartmentsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
 				<StackPanel Orientation="Horizontal" DataContext="{Binding DepartmentsViewModel}">
 					<ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
@@ -76,6 +74,17 @@
 				</StackPanel>
 			</Grid>
 			<ToolBarButton Command="{Binding EditFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" />
+            <StackPanel Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
+                <Grid Visibility="{Binding CanSelectPersonType, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ComboBox ItemsSource="{Binding PersonTypes}" SelectedItem="{Binding SelectedPersonType}" Width="100">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
 		</StackPanel>
 
 		<TabControl Grid.Row="1">

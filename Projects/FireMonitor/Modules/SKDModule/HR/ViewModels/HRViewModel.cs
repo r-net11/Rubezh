@@ -4,6 +4,8 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SKDModule.ViewModels
 {
@@ -38,22 +40,18 @@ namespace SKDModule.ViewModels
 			OrganisationsViewModel = new OrganisationsViewModel();
 			IsEmployeesSelected = true;
 
+			PersonTypes = new ObservableCollection<PersonType>();
+			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees))
+				PersonTypes.Add(PersonType.Employee);
+			if (FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests))
+				PersonTypes.Add(PersonType.Guest);
+			_selectedPersonType = PersonTypes.FirstOrDefault();
+			CanSelectPersonType = PersonTypes.Count == 2;
+
 			var userUID = FiresecManager.CurrentUser.UID;
 			Filter = new HRFilter() { UserUID = userUID };
 			Filter.EmployeeFilter.UserUID = userUID;
 			InitializeFilters();
-			Initialize();
-		}
-
-		public void Initialize()
-		{
-			EmployeesViewModel.Initialize(EmployeeFilter);
-			DepartmentsViewModel.Initialize(DepartmentFilter);
-			PositionsViewModel.Initialize(PositionFilter);
-			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
-			CardsViewModel.Initialize(CardFilter);
-			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
-			OrganisationsViewModel.Initialize();
 		}
 
 		public void UpdateDepartments()
@@ -152,6 +150,22 @@ namespace SKDModule.ViewModels
 			get { return FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Organisations); }
 		}
 
+		public ObservableCollection<PersonType> PersonTypes { get; private set; }
+
+		PersonType _selectedPersonType;
+		public PersonType SelectedPersonType
+		{
+			get { return _selectedPersonType; }
+			set
+			{
+				_selectedPersonType = value;
+				OnPropertyChanged(() => SelectedPersonType);
+				InitializeFilters();
+			}
+		}
+
+		public bool CanSelectPersonType { get; private set; }
+
 		public RelayCommand EditFilterCommand { get; private set; }
 		void OnEditFilter()
 		{
@@ -160,17 +174,26 @@ namespace SKDModule.ViewModels
 			{
 				Filter = filterViewModel.Filter;
 				InitializeFilters();
-				Initialize();
 			}
 		}
 
 		void InitializeFilters()
 		{
 			EmployeeFilter = Filter.EmployeeFilter;
+			EmployeeFilter.PersonType = SelectedPersonType;
 			DepartmentFilter = new DepartmentFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			PositionFilter = new PositionFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
 			AdditionalColumnTypeFilter = new AdditionalColumnTypeFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+			CardFilter = new CardFilter();
 			AccessTemplateFilter = new AccessTemplateFilter() { OrganisationUIDs = Filter.OrganisationUIDs };
+
+			EmployeesViewModel.Initialize(EmployeeFilter);
+			DepartmentsViewModel.Initialize(DepartmentFilter);
+			PositionsViewModel.Initialize(PositionFilter);
+			AdditionalColumnTypesViewModel.Initialize(AdditionalColumnTypeFilter);
+			CardsViewModel.Initialize(CardFilter);
+			AccessTemplatesViewModel.Initialize(AccessTemplateFilter);
+			OrganisationsViewModel.Initialize();
 		}
 	}
 }

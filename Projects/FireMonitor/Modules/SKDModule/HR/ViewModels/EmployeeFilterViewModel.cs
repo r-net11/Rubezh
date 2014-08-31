@@ -15,19 +15,6 @@ namespace SKDModule.ViewModels
 
 			var hasEmployeePermission = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Employees);
 			var hasGuestPermission = FiresecManager.CurrentUser.HasPermission(PermissionType.Oper_SKD_Guests);
-
-			HasManyPersonTypes = hasEmployeePermission && hasGuestPermission;
-			if (HasManyPersonTypes)
-			{
-				if (employeeFilter.PersonType == PersonType.Guest)
-					IsGuestsAllowed = true;
-				else
-					IsEmployeesAllowed = true;
-			}
-			else if (hasEmployeePermission)
-				IsEmployeesAllowed = true;
-			else if (hasGuestPermission)
-				IsGuestsAllowed = true;
 		}
 
 		string _firstName;
@@ -62,43 +49,12 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SecondName);
 			}
 		}
-
-		public bool HasManyPersonTypes { get; private set; }
-
-		bool _isEmployeesAllowed;
-		public bool IsEmployeesAllowed
-		{
-			get { return _isEmployeesAllowed; }
-			set
-			{
-				_isEmployeesAllowed = value;
-				OnPropertyChanged(() => IsEmployeesAllowed);
-			}
-		}
-
-		bool _isGuestsAllowed;
-		public bool IsGuestsAllowed
-		{
-			get { return _isGuestsAllowed; }
-			set
-			{
-				_isGuestsAllowed = value;
-				OnPropertyChanged(() => IsGuestsAllowed);
-			}
-		}
-
 		public EmployeeFilter Save()
 		{
 			var employeeFilter = new EmployeeFilter();
 			employeeFilter.FirstName = FirstName;
 			employeeFilter.LastName = LastName;
 			employeeFilter.SecondName = SecondName;
-
-			if (IsGuestsAllowed)
-				employeeFilter.PersonType = PersonType.Guest;
-			else
-				employeeFilter.PersonType = PersonType.Employee;
-
 			return employeeFilter;
 		}
 	}
