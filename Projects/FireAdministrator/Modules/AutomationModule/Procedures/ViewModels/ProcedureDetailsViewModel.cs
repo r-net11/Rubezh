@@ -21,6 +21,7 @@ namespace AutomationModule.ViewModels
 				Title = "Редактирование процедуры";
 			}
 			Name = Procedure.Name;
+			Description = Procedure.Description;
 		}
 
 		string _name;
@@ -34,6 +35,17 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		string _description;
+		public string Description
+		{
+			get { return _description; }
+			set
+			{
+				_description = value;
+				OnPropertyChanged(() => Description);
+			}
+		}
+
 		protected override bool Save()
 		{
 			if (string.IsNullOrEmpty(Name))
@@ -42,6 +54,7 @@ namespace AutomationModule.ViewModels
 				return false;
 			}
 			Procedure.Name = Name;
+			Procedure.Description = Description;
 			return true;
 		}
 	}

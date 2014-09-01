@@ -62,6 +62,7 @@ namespace AutomationModule.ViewModels
 			var globalVariableDetailsViewModel = new VariableDetailsViewModel(null, "глобальная переменная", "Добавить глобальную переменную");
 			if (DialogService.ShowModalWindow(globalVariableDetailsViewModel))
 			{
+				globalVariableDetailsViewModel.Variable.IsGlobal = true;
 				FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables.Add(globalVariableDetailsViewModel.Variable);
 				var globalVariableViewModel = new VariableViewModel(globalVariableDetailsViewModel.Variable);
 				globalVariableViewModel.Variable.ResetValue();

@@ -22,7 +22,7 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			Variable1 = new ArithmeticParameterViewModel(getObjectFieldArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
 			Variable1.UpdateVariableHandler += UpdateProperies;
-			Result = new ArithmeticParameterViewModel(getObjectFieldArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
+			Result = new ArithmeticParameterViewModel(getObjectFieldArguments.Result, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
 			UpdateContent();
 		}
 
@@ -40,14 +40,14 @@ namespace AutomationModule.ViewModels
 			{
 				GetObjectFieldArguments.Property = value;
 				OnPropertyChanged(() => SelectedProperty);
-				Result.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType, isList: false));
+				Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && !x.IsList));
 			}
 		}
 
 		public void UpdateContent()
 		{
-			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, isList: false));
-			Result.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType, isList: false));
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Object && !x.IsList));
+			Result.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && !x.IsList));
 		}
 
 		public string Description

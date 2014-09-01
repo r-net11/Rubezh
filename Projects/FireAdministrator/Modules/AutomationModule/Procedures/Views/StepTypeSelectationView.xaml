@@ -24,7 +24,7 @@
 							<StackPanel Orientation="Horizontal">
 								<Image VerticalAlignment="Center" Source="/Controls;component/Images/CFolder.png" Margin="1 0 0 0"
 														   Visibility="{Binding IsFolder, Converter={StaticResource BoolToVisibilityConverter}}"/>
-								<Image VerticalAlignment="Center" Source="/Controls;component/Images/Zone.png" Margin="1 0 0 0" 
+								<Image VerticalAlignment="Center" Source="/Controls;component/Images/Step.png" Margin="1 0 0 0" 
 														   Visibility="{Binding IsFolder, Converter={StaticResource InversedBoolToVisibilityConverter}}"/>
 								<TextBlock Margin="2" VerticalAlignment="Center" Text="{Binding Name}" />
 							</StackPanel>
