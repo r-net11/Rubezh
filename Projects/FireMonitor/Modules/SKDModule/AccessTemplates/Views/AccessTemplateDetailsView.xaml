@@ -27,8 +27,8 @@
 		<TabItem Header="Точки доступа">
 			<Views:AccessDoorsSelectationView DataContext="{Binding AccessDoorsSelectationViewModel}" />
 		</TabItem>
-		<TabItem Header="Охранные зоны">
-			<Grid DataContext="{Binding AccessTemplateGuardZones}">
+        <TabItem Header="Охранные зоны" DataContext="{Binding AccessTemplateGuardZones}" Visibility="{Binding HasZones, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />

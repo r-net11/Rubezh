@@ -23,7 +23,7 @@
         <File Id="Administrator.FSAgentClient.dll" Name="FSAgentClient.dll" Source="$(var.Administrator.TargetDir)" />        
         <File Id="Administrator.SecurityModule.dll" Name="SecurityModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FiltersModule.dll" Name="FiltersModule.dll" Source="$(var.Administrator.TargetDir)" />
-        <File Id="Administrator.AutomationModule.dll" Name="AutomationModule.dll" Source="$(var.Administrator.TargetDir)" />
+        <!--<File Id="Administrator.AutomationModule.dll" Name="AutomationModule.dll" Source="$(var.Administrator.TargetDir)" />-->
         <File Id="Administrator.GKProcessor.dll" Name="GKProcessor.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Administrator.TargetDir)" />

@@ -94,6 +94,7 @@ namespace FiresecClient
 				FiresecConfiguration.UpdateConfiguration();
 				GKDriversCreator.Create();
 				XManager.UpdateConfiguration();
+				XManager.CreateStates();
 				SKDManager.UpdateConfiguration();
 				UpdatePlansConfiguration();
 			}

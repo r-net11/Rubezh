@@ -29,7 +29,7 @@ namespace SKDModule.ViewModels
 				Title = string.Format("Свойства шаблона доступа: {0}", accessTemplate.Name);
 			}
 			Model = accessTemplate;
-			AccessTemplateGuardZones = new AccessTemplateGuardZonesViewModel(Model);
+			AccessTemplateGuardZones = new AccessTemplateGuardZonesViewModel(Model, Organisation);
 			CopyProperties();
 			AccessDoorsSelectationViewModel = new AccessDoorsSelectationViewModel(Organisation, Model.CardDoors);
 		}
@@ -91,6 +91,4 @@ namespace SKDModule.ViewModels
 			return AccessTemplateHelper.Save(Model);
 		}
 	}
-
-	
 }

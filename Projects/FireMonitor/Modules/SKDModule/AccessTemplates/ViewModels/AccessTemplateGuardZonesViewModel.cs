@@ -9,17 +9,23 @@ namespace SKDModule.ViewModels
 	public class AccessTemplateGuardZonesViewModel : BaseViewModel
 	{
 		public AccessTemplate AccessTemplate { get; private set; }
+		Organisation Organisation;
 
-		public AccessTemplateGuardZonesViewModel(AccessTemplate accessTemplate)
+		public AccessTemplateGuardZonesViewModel(AccessTemplate accessTemplate, Organisation organisation)
 		{
 			AccessTemplate = accessTemplate;
+			Organisation = organisation;
 			GuardZones = new ObservableCollection<AccessTemplateGuardZoneViewModel>();
 			foreach (var guardZone in XManager.DeviceConfiguration.GuardZones)
 			{
-				var guardZoneViewModel = new AccessTemplateGuardZoneViewModel(accessTemplate, guardZone);
-				GuardZones.Add(guardZoneViewModel);
+				if (Organisation.GuardZoneUIDs.Any(x => x == guardZone.UID))
+				{
+					var guardZoneViewModel = new AccessTemplateGuardZoneViewModel(accessTemplate, guardZone);
+					GuardZones.Add(guardZoneViewModel);
+				}
 			}
 			SelectedGuardZone = GuardZones.FirstOrDefault();
+			HasZones = GuardZones.Count > 0;
 		}
 
 		ObservableCollection<AccessTemplateGuardZoneViewModel> _guardZones;
@@ -43,5 +49,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SelectedGuardZone);
 			}
 		}
+
+		public bool HasZones { get; private set; }
 	}
 }
