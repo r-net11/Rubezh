@@ -279,6 +279,16 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDSetDoorConfiguration(device.UID, doorConfiguration); }, "SKDSetDoorConfiguration");
 		}
 
+		public OperationResult<SKDControllerDirectionType> GetDirectionType(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDirectionType(device.UID); }, "GetDirectionType");
+		}
+
+		public OperationResult<bool> SetDirectionType(SKDDevice device, SKDControllerDirectionType directionType)
+		{
+			return SafeOperationCall(() => { return FiresecService.SetDirectionType(device.UID, directionType); }, "SetDirectionType");
+		}
+
 		public OperationResult<bool> SKDOpenDevice(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(device.UID); }, "SKDOpenDevice");

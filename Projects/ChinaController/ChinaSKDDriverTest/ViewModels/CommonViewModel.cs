@@ -6,6 +6,8 @@ using ChinaSKDDriverAPI;
 using ChinaSKDDriverNativeApi;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
+using FiresecAPI.SKD;
 
 namespace ControllerSDK.ViewModels
 {
@@ -20,14 +22,18 @@ namespace ControllerSDK.ViewModels
 			GetMaxPageSizeCommand = new RelayCommand(OnGetMaxPageSize);
 			GetCurrentTimeCommand = new RelayCommand(OnGetCurrentTime);
 			SetCurrentTimeCommand = new RelayCommand(OnSetCurrentTime);
-			GetProjectPasswordCommand = new RelayCommand(OnGetProjectPassword);
-			SetProjectPasswordCommand = new RelayCommand(OnSetProjectPassword);
+			GetControllerDirectionTypeCommand = new RelayCommand(OnGetControllerDirectionType);
+			SetControllerDirectionTypeCommand = new RelayCommand(OnSetControllerDirectionType);
 			GetDoorConfigurationCommand = new RelayCommand(OnGetDoorConfiguration);
 			SetDoorConfigurationCommand = new RelayCommand(OnSetDoorConfiguration);
 			ReBootCommand = new RelayCommand(OnReBoot);
 			UpdateFirmwareCommand = new RelayCommand(OnUpdateFirmware);
 			DeleteCfgFileCommand = new RelayCommand(OnDeleteCfgFile);
 			TestCommand = new RelayCommand(OnTest);
+
+			AvailableControllerDirectionTypes = new ObservableCollection<SKDControllerDirectionType>();
+			AvailableControllerDirectionTypes.Add(SKDControllerDirectionType.Unidirect);
+			AvailableControllerDirectionTypes.Add(SKDControllerDirectionType.Bidirect);
 		}
 
 		public RelayCommand GetDeviceSoftwareInfoCommand { get; private set; }
@@ -137,25 +143,16 @@ namespace ControllerSDK.ViewModels
 			}
 		}
 
-		public RelayCommand GetProjectPasswordCommand { get; private set; }
-		void OnGetProjectPassword()
+		public RelayCommand GetControllerDirectionTypeCommand { get; private set; }
+		void OnGetControllerDirectionType()
 		{
-			var projectPassword = MainViewModel.Wrapper.GetProjectPassword();
-			if (!string.IsNullOrEmpty(projectPassword))
-			{
-				MessageBox.Show(projectPassword);
-			}
-			else
-			{
-				MessageBox.Show("Error");
-			}
+			SelectedControllerDirectionType = MainViewModel.Wrapper.GetControllerDirectionType();
 		}
 
-		public RelayCommand SetProjectPasswordCommand { get; private set; }
-		void OnSetProjectPassword()
+		public RelayCommand SetControllerDirectionTypeCommand { get; private set; }
+		void OnSetControllerDirectionType()
 		{
-			var projectPassword = "99999999";
-			var result = MainViewModel.Wrapper.SetProjectPassword(projectPassword);
+			var result = MainViewModel.Wrapper.SetControllerDirectionType(SelectedControllerDirectionType);
 			if (result)
 			{
 				MessageBox.Show("Success");
@@ -163,6 +160,19 @@ namespace ControllerSDK.ViewModels
 			else
 			{
 				MessageBox.Show("Error");
+			}
+		}
+
+		public ObservableCollection<SKDControllerDirectionType> AvailableControllerDirectionTypes { get; private set; }
+
+		SKDControllerDirectionType _selectedControllerDirectionType;
+		public SKDControllerDirectionType SelectedControllerDirectionType
+		{
+			get { return _selectedControllerDirectionType; }
+			set
+			{
+				_selectedControllerDirectionType = value;
+				OnPropertyChanged(() => SelectedControllerDirectionType);
 			}
 		}
 

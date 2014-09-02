@@ -216,6 +216,7 @@
     <Compile Include="Models\Plans\ElementPolygonXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXGuardZone.cs" />
     <Compile Include="Models\Plans\ElementDoor.cs" />
+    <Compile Include="SKD\Device\ControllerDirectionType.cs" />
     <Compile Include="SKD\Device\SKDDeviceInfo.cs" />
     <Compile Include="SKD\Device\SKDDoorConfiguration.cs" />
     <Compile Include="SKD\Device\SKDProperty.cs" />

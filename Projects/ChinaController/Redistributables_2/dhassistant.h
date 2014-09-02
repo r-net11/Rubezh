@@ -89,6 +89,7 @@ enum
 	EN_DYNAMIC_REG,                 // Active Register Support, by bit. 1- Dynamic active register support.
 	EM_MULTI_PLAYBACK,              // Multi-channel Preview and Playback, by bit. 1-Multi-channel preview and playback support.
 	EN_ENCODE_CHN,					// Encoding Channel, by bit. 1- Audio-only channel support
+    EN_SEARCH_RECORD,                   // 录像查询, 按位, 1-支持异步查询录像, 2-支持三代协议查询录像
 };
 
 typedef struct 

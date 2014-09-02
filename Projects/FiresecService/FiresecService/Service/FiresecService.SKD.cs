@@ -620,6 +620,28 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
+		public OperationResult<SKDControllerDirectionType> GetDirectionType(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запрос_направления_контроллера, device);
+				return ChinaSKDDriver.Processor.GetDirectionType(deviceUID);
+			}
+			return new OperationResult<SKDControllerDirectionType>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SetDirectionType(Guid deviceUID, SKDControllerDirectionType directionType)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запись_направления_контроллера, device);
+				return ChinaSKDDriver.Processor.SetDirectionType(deviceUID, directionType);
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
 		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);

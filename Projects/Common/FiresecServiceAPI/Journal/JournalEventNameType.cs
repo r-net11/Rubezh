@@ -374,6 +374,12 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.SKD, "Запись конфигурации двери", XStateClass.TechnologicalRegime)]
 		Запись_конфигурации_двери,
 
+		[EventDescription(JournalSubsystemType.SKD, "Запрос направления контроллера", XStateClass.TechnologicalRegime)]
+		Запрос_направления_контроллера,
+
+		[EventDescription(JournalSubsystemType.SKD, "Запись направления контроллера", XStateClass.TechnologicalRegime)]
+		Запись_направления_контроллера,
+
 		[EventDescription(JournalSubsystemType.SKD, "Команда на открытие двери", XStateClass.On)]
 		Команда_на_открытие_двери,
 

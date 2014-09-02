@@ -271,5 +271,37 @@ namespace ChinaSKDDriver
 			}
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}
+
+		public static OperationResult<SKDControllerDirectionType> GetDirectionType(Guid deviceUID)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<SKDControllerDirectionType>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var directionType = deviceProcessor.Wrapper.GetControllerDirectionType();
+				return new OperationResult<SKDControllerDirectionType>() { Result = directionType };
+			}
+			return new OperationResult<SKDControllerDirectionType>("Не найден контроллер в конфигурации");
+		}
+
+		public static OperationResult<bool> SetDirectionType(Guid deviceUID, SKDControllerDirectionType directionType)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var result = deviceProcessor.Wrapper.SetControllerDirectionType(directionType);
+				//deviceProcessor.Reconnect();
+				if (result)
+					return new OperationResult<bool>() { Result = true };
+				else
+					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+			}
+			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+		}
 	}
 }

@@ -179,18 +179,24 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetCurrentTime(int loginID, int dwYear, int dwMonth, int dwDay, int dwHour, int dwMinute, int dwSecond);
 
-		[StructLayout(LayoutKind.Sequential)]
-		public struct WRAP_GeneralConfig_Password
+		public enum CFG_ACCESS_PROPERTY_TYPE
 		{
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
-			public string szProjectPassword;
+			CFG_ACCESS_PROPERTY_UNKNOWN = 0,
+			CFG_ACCESS_PROPERTY_BIDIRECT,
+			CFG_ACCESS_PROPERTY_UNIDIRECT,
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct WRAP_ControllerDirectionType
+		{
+			public CFG_ACCESS_PROPERTY_TYPE emAccessProperty;
 		}
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_GetProjectPassword(int loginID, out WRAP_GeneralConfig_Password result);
+		public static extern bool WRAP_GetControllerDirectionType(int loginID, out WRAP_ControllerDirectionType result);
 
 		[DllImport(@"CPPWrapper.dll")]
-		public static extern bool WRAP_SetProjectPassword(int loginID, string password);
+		public static extern bool WRAP_SetControllerDirectionType(int loginID, CFG_ACCESS_PROPERTY_TYPE emAccessProperty);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO

@@ -18,6 +18,7 @@ namespace FiresecAPI.SKD
 			Properties = new List<SKDProperty>();
 			PlanElementUIDs = new List<Guid>();
 			AllowMultipleVizualization = false;
+			ControllerDirectionType = SKDControllerDirectionType.Unidirect;
 		}
 
 		public SKDDriver Driver { get; set; }
@@ -59,6 +60,9 @@ namespace FiresecAPI.SKD
 
 		[DataMember]
 		public SKDDoorConfiguration SKDDoorConfiguration { get; set; }
+
+		[DataMember]
+		public SKDControllerDirectionType ControllerDirectionType { get; set; }
 
 		[DataMember]
 		public bool HasConfigurationMissmatch { get; set; }
