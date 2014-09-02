@@ -110,25 +110,28 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			PositionViewModel OrganisationViewModel = SelectedPosition;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedPosition.Parent;
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить должность?"))
+			{
+				PositionViewModel OrganisationViewModel = SelectedPosition;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedPosition.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-				return;
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+					return;
 
-			var position = SelectedPosition.Position;
-			bool removeResult = PositionHelper.MarkDeleted(position.UID);
-			if (!removeResult)
-				return;
+				var position = SelectedPosition.Position;
+				bool removeResult = PositionHelper.MarkDeleted(position.UID);
+				if (!removeResult)
+					return;
 
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedPosition);
-			OrganisationViewModel.RemoveChild(SelectedPosition);
-			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-			if (index > -1)
-				SelectedPosition = OrganisationViewModel.Children.ToList()[index];
-			else
-				SelectedPosition = OrganisationViewModel;
+				var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedPosition);
+				OrganisationViewModel.RemoveChild(SelectedPosition);
+				index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
+				if (index > -1)
+					SelectedPosition = OrganisationViewModel.Children.ToList()[index];
+				else
+					SelectedPosition = OrganisationViewModel;
+			}
 		}
 		bool CanRemove()
 		{

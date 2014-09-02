@@ -169,7 +169,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditFilterCommand { get; private set; }
 		void OnEditFilter()
 		{
-			var filterViewModel = new HRFilterViewModel(Filter);
+			var filterViewModel = new HRFilterViewModel(Filter, IsEmployeesSelected);
 			if (DialogService.ShowModalWindow(filterViewModel))
 			{
 				Filter = filterViewModel.Filter;

@@ -36,6 +36,7 @@ namespace GKModule.ViewModels
 				case FormulaOperationType.OR:
 				case FormulaOperationType.SUB:
 				case FormulaOperationType.XOR:
+				case FormulaOperationType.KOD:
 					FirstOperand = "";
 					SecondOperand = "";
 					break;

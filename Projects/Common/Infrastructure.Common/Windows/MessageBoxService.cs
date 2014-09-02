@@ -11,7 +11,7 @@ namespace Infrastructure.Common.Windows
 		{
 			Show(message, title);
 		}
-		public static bool? ShowQuestion2(string message, string title = null)
+		public static bool ShowQuestion2(string message, string title = null)
 		{
 			var result = ShowQuestion(message, title);
 			switch (result)
@@ -21,7 +21,7 @@ namespace Infrastructure.Common.Windows
 				case MessageBoxResult.No:
 					return false;
 				default:
-					return null;
+					return false;
 			}
 		}
 		public static bool ShowConfirmation2(string message, string title = null)

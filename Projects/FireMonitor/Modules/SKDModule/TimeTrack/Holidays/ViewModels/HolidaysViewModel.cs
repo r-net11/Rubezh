@@ -125,24 +125,27 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			HolidayViewModel OrganisationViewModel = SelectedHoliday;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedHoliday.Parent;
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить праздничный день?"))
+			{
+				HolidayViewModel OrganisationViewModel = SelectedHoliday;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedHoliday.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-				return;
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+					return;
 
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedHoliday);
-			var holiday = SelectedHoliday.Holiday;
-			bool removeResult = HolidayHelper.MarkDeleted(holiday);
-			if (!removeResult)
-				return;
-			OrganisationViewModel.RemoveChild(SelectedHoliday);
-			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-			if (index > -1)
-				SelectedHoliday = OrganisationViewModel.Children.ToList()[index];
-			else
-				SelectedHoliday = OrganisationViewModel;
+				var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedHoliday);
+				var holiday = SelectedHoliday.Holiday;
+				bool removeResult = HolidayHelper.MarkDeleted(holiday);
+				if (!removeResult)
+					return;
+				OrganisationViewModel.RemoveChild(SelectedHoliday);
+				index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
+				if (index > -1)
+					SelectedHoliday = OrganisationViewModel.Children.ToList()[index];
+				else
+					SelectedHoliday = OrganisationViewModel;
+			}
 		}
 		bool CanRemove()
 		{

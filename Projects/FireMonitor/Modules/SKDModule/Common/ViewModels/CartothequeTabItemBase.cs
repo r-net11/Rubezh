@@ -170,27 +170,30 @@ namespace SKDModule.ViewModels
         }
 
         public RelayCommand RemoveCommand { get; private set; }
-        void OnRemove()
-        {
-            ViewModelT OrganisationViewModel = SelectedItem;
-            if (!OrganisationViewModel.IsOrganisation)
-                OrganisationViewModel = SelectedItem.Parent;
+		void OnRemove()
+		{
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить запись?"))
+			{
+				ViewModelT OrganisationViewModel = SelectedItem;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedItem.Parent;
 
-            if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-                return;
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+					return;
 
-            var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedItem);
-            var model = SelectedItem.Model;
-            var removeResult = MarkDeleted(model.UID);
-            if (!removeResult)
-                return;
-            OrganisationViewModel.RemoveChild(SelectedItem);
-            index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-            if (index > -1)
-                SelectedItem = OrganisationViewModel.Children.ToList()[index];
-            else
-                SelectedItem = OrganisationViewModel;
-        }
+				var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedItem);
+				var model = SelectedItem.Model;
+				var removeResult = MarkDeleted(model.UID);
+				if (!removeResult)
+					return;
+				OrganisationViewModel.RemoveChild(SelectedItem);
+				index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
+				if (index > -1)
+					SelectedItem = OrganisationViewModel.Children.ToList()[index];
+				else
+					SelectedItem = OrganisationViewModel;
+			}
+		}
         bool CanRemove()
         {
             return SelectedItem != null && !SelectedItem.IsOrganisation;

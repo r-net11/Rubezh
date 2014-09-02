@@ -141,24 +141,27 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			DayIntervalViewModel OrganisationViewModel = SelectedDayInterval;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedDayInterval.Parent;
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить дневной интервал?"))
+			{
+				DayIntervalViewModel OrganisationViewModel = SelectedDayInterval;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedDayInterval.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-				return;
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+					return;
 
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedDayInterval);
-			var dayInterval = SelectedDayInterval.DayInterval;
-			bool removeResult = DayIntervalHelper.MarkDeleted(dayInterval);
-			if (!removeResult)
-				return;
-			OrganisationViewModel.RemoveChild(SelectedDayInterval);
-			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-			if (index > -1)
-				SelectedDayInterval = OrganisationViewModel.Children.ToList()[index];
-			else
-				SelectedDayInterval = OrganisationViewModel;
+				var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedDayInterval);
+				var dayInterval = SelectedDayInterval.DayInterval;
+				bool removeResult = DayIntervalHelper.MarkDeleted(dayInterval);
+				if (!removeResult)
+					return;
+				OrganisationViewModel.RemoveChild(SelectedDayInterval);
+				index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
+				if (index > -1)
+					SelectedDayInterval = OrganisationViewModel.Children.ToList()[index];
+				else
+					SelectedDayInterval = OrganisationViewModel;
+			}
 		}
 		bool CanRemove()
 		{

@@ -133,21 +133,24 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var parent = SelectedDepartment.Parent;
-			if (parent != null)
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить отдел?"))
 			{
-				var removeResult = DepartmentHelper.MarkDeleted(SelectedDepartment.Department.UID);
-				if (!removeResult)
-					return;
+				var parent = SelectedDepartment.Parent;
+				if (parent != null)
+				{
+					var removeResult = DepartmentHelper.MarkDeleted(SelectedDepartment.Department.UID);
+					if (!removeResult)
+						return;
 
-				var index = parent.Children.ToList().IndexOf(SelectedDepartment);
-				parent.RemoveChild(SelectedDepartment);
-				index = Math.Min(index, parent.Children.Count() - 1);
-				if (index > -1)
-					SelectedDepartment = parent.Children.ToList()[index];
-				else
-					SelectedDepartment = parent;
-				AllDepartments.Remove(SelectedDepartment);
+					var index = parent.Children.ToList().IndexOf(SelectedDepartment);
+					parent.RemoveChild(SelectedDepartment);
+					index = Math.Min(index, parent.Children.Count() - 1);
+					if (index > -1)
+						SelectedDepartment = parent.Children.ToList()[index];
+					else
+						SelectedDepartment = parent;
+					AllDepartments.Remove(SelectedDepartment);
+				}
 			}
 		}
 		bool CanRemove()

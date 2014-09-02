@@ -95,14 +95,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
-			if (operationResult.HasError)
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить документ?"))
 			{
-				MessageBoxService.ShowWarning(operationResult.Error);
-			}
-			else
-			{
-				Documents.Remove(SelectedDocument);
+				var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
+				if (operationResult.HasError)
+				{
+					MessageBoxService.ShowWarning(operationResult.Error);
+				}
+				else
+				{
+					Documents.Remove(SelectedDocument);
+				}
 			}
 		}
 		bool CanRemove()

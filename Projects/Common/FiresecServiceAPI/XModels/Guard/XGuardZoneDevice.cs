@@ -7,6 +7,11 @@ namespace FiresecAPI.GK
 	[DataContract]
 	public class XGuardZoneDevice
 	{
+		public XGuardZoneDevice()
+		{
+			CodeReaderSettings = new XCodeReaderSettings();
+		}
+
 		public XDevice Device { get; set; }
 
 		[DataMember]
@@ -14,6 +19,9 @@ namespace FiresecAPI.GK
 
 		[DataMember]
 		public XGuardZoneDeviceActionType ActionType { get; set; }
+
+		[DataMember]
+		public XCodeReaderSettings CodeReaderSettings { get; set; }
 	}
 
 	public enum XGuardZoneDeviceActionType

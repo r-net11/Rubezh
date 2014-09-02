@@ -16,9 +16,9 @@ namespace SKDModule.ViewModels
 	public abstract class ScheduleSchemesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public abstract ScheduleSchemeType Type { get; }
-		private ScheduleScheme _clipboard;
-		private bool _isInitialized;
-		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
+		ScheduleScheme _clipboard;
+		bool _isInitialized;
+		Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
 
 		public ScheduleSchemesViewModel()
 		{
@@ -99,7 +99,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public List<ScheduleSchemeViewModel> Organisations { get; private set; }
-		private List<ScheduleSchemeViewModel> AllScheduleSchemes { get; set; }
+		List<ScheduleSchemeViewModel> AllScheduleSchemes { get; set; }
 
 		public void Select(Guid scheduleSchemelUID)
 		{
@@ -112,7 +112,7 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private ScheduleSchemeViewModel _selectedScheduleScheme;
+		ScheduleSchemeViewModel _selectedScheduleScheme;
 		public ScheduleSchemeViewModel SelectedScheduleScheme
 		{
 			get { return _selectedScheduleScheme; }
@@ -144,7 +144,7 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand AddCommand { get; private set; }
-		private void OnAdd()
+		void OnAdd()
 		{
 			var ScheduleSchemeDetailsViewModel = new ScheduleSchemeDetailsViewModel(SelectedScheduleScheme.Organisation, Type);
 			if (DialogService.ShowModalWindow(ScheduleSchemeDetailsViewModel))
@@ -162,40 +162,43 @@ namespace SKDModule.ViewModels
 				SelectedScheduleScheme = scheduleSchemeViewModel;
 			}
 		}
-		private bool CanAdd()
+		bool CanAdd()
 		{
 			return SelectedScheduleScheme != null;
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
-		private void OnRemove()
+		void OnRemove()
 		{
-			ScheduleSchemeViewModel OrganisationViewModel = SelectedScheduleScheme;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedScheduleScheme.Parent;
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить схему работы?"))
+			{
+				ScheduleSchemeViewModel OrganisationViewModel = SelectedScheduleScheme;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedScheduleScheme.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-				return;
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+					return;
 
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedScheduleScheme);
-			var scheduleScheme = SelectedScheduleScheme.ScheduleScheme;
-			bool removeResult = ScheduleSchemaHelper.MarkDeleted(scheduleScheme);
-			if (!removeResult)
-				return;
-			OrganisationViewModel.RemoveChild(SelectedScheduleScheme);
-			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-			if (index > -1)
-				SelectedScheduleScheme = OrganisationViewModel.Children.ToList()[index];
-			else
-				SelectedScheduleScheme = OrganisationViewModel;
+				var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedScheduleScheme);
+				var scheduleScheme = SelectedScheduleScheme.ScheduleScheme;
+				bool removeResult = ScheduleSchemaHelper.MarkDeleted(scheduleScheme);
+				if (!removeResult)
+					return;
+				OrganisationViewModel.RemoveChild(SelectedScheduleScheme);
+				index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
+				if (index > -1)
+					SelectedScheduleScheme = OrganisationViewModel.Children.ToList()[index];
+				else
+					SelectedScheduleScheme = OrganisationViewModel;
+			}
 		}
-		private bool CanRemove()
+		bool CanRemove()
 		{
 			return SelectedScheduleScheme != null && !SelectedScheduleScheme.IsOrganisation;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
+		void OnEdit()
 		{
 			var scheduleSchemeDetailsViewModel = new ScheduleSchemeDetailsViewModel(SelectedScheduleScheme.Organisation, Type, SelectedScheduleScheme.ScheduleScheme);
 			if (DialogService.ShowModalWindow(scheduleSchemeDetailsViewModel))
@@ -207,17 +210,17 @@ namespace SKDModule.ViewModels
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
-		private void OnCopy()
+		void OnCopy()
 		{
 			_clipboard = CopyScheduleScheme(SelectedScheduleScheme.ScheduleScheme, false);
 		}
-		private bool CanCopy()
+		bool CanCopy()
 		{
 			return SelectedScheduleScheme != null && !SelectedScheduleScheme.IsOrganisation;
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
-		private void OnPaste()
+		void OnPaste()
 		{
 			var newInterval = CopyScheduleScheme(_clipboard);
 			if (ScheduleSchemaHelper.Save(newInterval))
@@ -236,7 +239,7 @@ namespace SKDModule.ViewModels
 			return SelectedScheduleScheme != null && _clipboard != null && _clipboard.Type == Type;
 		}
 
-		private ScheduleScheme CopyScheduleScheme(ScheduleScheme source, bool newName = true)
+		ScheduleScheme CopyScheduleScheme(ScheduleScheme source, bool newName = true)
 		{
 			var copy = new ScheduleScheme();
 			copy.Type = Type;

@@ -81,7 +81,10 @@ namespace GKProcessor
 				var count = 0;
 				foreach (var device in alarmDevices)
 				{
+					Formula.Add(FormulaOperationType.KOD);
+					Formula.Add(FormulaOperationType.ADD);
 					Formula.AddGetBit(GetDeviceStateBit(device), device);
+					Formula.Add(FormulaOperationType.AND);
 					if (count > 0)
 					{
 						Formula.Add(FormulaOperationType.OR);

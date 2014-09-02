@@ -142,24 +142,27 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			ScheduleViewModel OrganisationViewModel = SelectedSchedule;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedSchedule.Parent;
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить график?"))
+			{
+				ScheduleViewModel OrganisationViewModel = SelectedSchedule;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedSchedule.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-				return;
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+					return;
 
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedSchedule);
-			var Schedule = SelectedSchedule.Schedule;
-			bool removeResult = ScheduleHelper.MarkDeleted(Schedule);
-			if (!removeResult)
-				return;
-			OrganisationViewModel.RemoveChild(SelectedSchedule);
-			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-			if (index > -1)
-				SelectedSchedule = OrganisationViewModel.Children.ToList()[index];
-			else
-				SelectedSchedule = OrganisationViewModel;
+				var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedSchedule);
+				var Schedule = SelectedSchedule.Schedule;
+				bool removeResult = ScheduleHelper.MarkDeleted(Schedule);
+				if (!removeResult)
+					return;
+				OrganisationViewModel.RemoveChild(SelectedSchedule);
+				index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
+				if (index > -1)
+					SelectedSchedule = OrganisationViewModel.Children.ToList()[index];
+				else
+					SelectedSchedule = OrganisationViewModel;
+			}
 		}
 		bool CanRemove()
 		{

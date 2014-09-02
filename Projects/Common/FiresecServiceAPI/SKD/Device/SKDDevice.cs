@@ -123,6 +123,19 @@ namespace FiresecAPI.SKD
 			}
 		}
 
+		public string NameWithParent
+		{
+			get
+			{
+				var result = Name;
+				if (Parent != null && Parent.Name != null)
+				{
+					result += " (" + Parent.Name + ")";
+				}
+				return result;
+			}
+		}
+
 		public void OnChanged()
 		{
 			if (Changed != null)

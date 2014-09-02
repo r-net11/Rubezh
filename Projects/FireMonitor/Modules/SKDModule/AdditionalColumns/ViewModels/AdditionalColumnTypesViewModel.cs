@@ -137,24 +137,27 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			AdditionalColumnTypeViewModel OrganisationViewModel = SelectedAdditionalColumnType;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedAdditionalColumnType.Parent;
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить дополнительную колонку?"))
+			{
+				AdditionalColumnTypeViewModel OrganisationViewModel = SelectedAdditionalColumnType;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedAdditionalColumnType.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-				return;
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+					return;
 
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedAdditionalColumnType);
-			var additionalColumnType = SelectedAdditionalColumnType.AdditionalColumnType;
-			bool removeResult = AdditionalColumnTypeHelper.MarkDeleted(additionalColumnType.UID);
-			if (!removeResult)
-				return;
-			OrganisationViewModel.RemoveChild(SelectedAdditionalColumnType);
-			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-			if (index > -1)
-				SelectedAdditionalColumnType = OrganisationViewModel.Children.ToList()[index];
-			else
-				SelectedAdditionalColumnType = OrganisationViewModel;
+				var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedAdditionalColumnType);
+				var additionalColumnType = SelectedAdditionalColumnType.AdditionalColumnType;
+				bool removeResult = AdditionalColumnTypeHelper.MarkDeleted(additionalColumnType.UID);
+				if (!removeResult)
+					return;
+				OrganisationViewModel.RemoveChild(SelectedAdditionalColumnType);
+				index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
+				if (index > -1)
+					SelectedAdditionalColumnType = OrganisationViewModel.Children.ToList()[index];
+				else
+					SelectedAdditionalColumnType = OrganisationViewModel;
+			}
 		}
 		bool CanRemove()
 		{

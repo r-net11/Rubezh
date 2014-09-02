@@ -7,7 +7,7 @@ namespace FiresecAPI.SKD
 		[DescriptionAttribute("Сотрудник")]
 		Employee,
 
-		[DescriptionAttribute("Гость")]
+		[DescriptionAttribute("Посетитель")]
 		Guest
 	}
 }

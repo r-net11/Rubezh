@@ -121,25 +121,28 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			DocumentTypeViewModel OrganisationViewModel = SelectedDocumentType;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedDocumentType.Parent;
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить тип документа?"))
+			{
+				DocumentTypeViewModel OrganisationViewModel = SelectedDocumentType;
+				if (!OrganisationViewModel.IsOrganisation)
+					OrganisationViewModel = SelectedDocumentType.Parent;
 
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-				return;
+				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
+					return;
 
-			var timeTrackDocumentType = SelectedDocumentType.TimeTrackDocumentType;
-			bool removeResult = DocumentTypeHelper.Remove(timeTrackDocumentType.UID);
-			if (!removeResult)
-				return;
+				var timeTrackDocumentType = SelectedDocumentType.TimeTrackDocumentType;
+				bool removeResult = DocumentTypeHelper.Remove(timeTrackDocumentType.UID);
+				if (!removeResult)
+					return;
 
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedDocumentType);
-			OrganisationViewModel.RemoveChild(SelectedDocumentType);
-			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-			if (index > -1)
-				SelectedDocumentType = OrganisationViewModel.Children.ToList()[index];
-			else
-				SelectedDocumentType = OrganisationViewModel;
+				var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedDocumentType);
+				OrganisationViewModel.RemoveChild(SelectedDocumentType);
+				index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
+				if (index > -1)
+					SelectedDocumentType = OrganisationViewModel.Children.ToList()[index];
+				else
+					SelectedDocumentType = OrganisationViewModel;
+			}
 		}
 		bool CanRemove()
 		{

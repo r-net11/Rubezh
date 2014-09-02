@@ -6,8 +6,8 @@
 			 Width="800" Height="600">
 	<TabControl>
 		<Views:FilterOrganisationTabItem />
-		<TabItem Header="Отделы" DataContext="{Binding DepartmentsFilterViewModel}">
-			<tree:TreeList Focusable="True" Source="{Binding RootDepartments}">
+        <TabItem Header="Отделы" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
+            <tree:TreeList Focusable="True" DataContext="{Binding DepartmentsFilterViewModel}" Source="{Binding RootDepartments}">
 				<tree:TreeList.View>
 					<GridView>
 						<GridViewColumn Header="Название" Width="200">
@@ -41,8 +41,8 @@
 				</tree:TreeList.View>
 			</tree:TreeList>
 		</TabItem>
-		<TabItem Header="Должности" DataContext="{Binding PositionsFilterViewModel}">
-			<tree:TreeList Focusable="True" Source="{Binding RootPositions}">
+        <TabItem Header="Должности" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
+            <tree:TreeList Focusable="True" DataContext="{Binding PositionsFilterViewModel}" Source="{Binding RootPositions}">
 				<tree:TreeList.View>
 					<GridView>
 						<GridViewColumn Header="Название" Width="200">
@@ -76,8 +76,8 @@
 				</tree:TreeList.View>
 			</tree:TreeList>
 		</TabItem>
-		<TabItem Header="Сотрудники" DataContext="{Binding EmployeeFilterViewModel}">
-            <Grid>
+        <TabItem Header="Сотрудники" Visibility="{Binding ShowEmployeeFilter, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid DataContext="{Binding EmployeeFilterViewModel}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="*" />

@@ -73,7 +73,7 @@
 					<ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
 				</StackPanel>
 			</Grid>
-			<ToolBarButton Command="{Binding EditFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" />
+            <ToolBarButton Command="{Binding EditFilterCommand}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Фильтр" Visibility="{Binding IsOrganisationsSelected, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
             <StackPanel Visibility="{Binding IsEmployeesSelected, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
                 <Grid Visibility="{Binding CanSelectPersonType, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ComboBox ItemsSource="{Binding PersonTypes}" SelectedItem="{Binding SelectedPersonType}" Width="100">

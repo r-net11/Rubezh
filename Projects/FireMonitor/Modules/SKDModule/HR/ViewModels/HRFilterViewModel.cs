@@ -9,11 +9,13 @@ namespace SKDModule.ViewModels
 		public EmployeeFilterViewModel EmployeeFilterViewModel { get; private set; }
 		public DepartmentsFilterViewModel DepartmentsFilterViewModel { get; private set; }
 		public PositionsFilterViewModel PositionsFilterViewModel { get; private set; }
+		public bool ShowEmployeeFilter { get; private set; }
 
-		public HRFilterViewModel(HRFilter filter)
+		public HRFilterViewModel(HRFilter filter, bool showEmployeeFilter)
 			: base(filter)
 		{
 			ResetCommand = new RelayCommand(OnReset);
+			ShowEmployeeFilter = showEmployeeFilter;
 			InitializeFilter(filter);
 		}
 

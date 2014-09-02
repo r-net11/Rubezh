@@ -352,6 +352,11 @@ namespace SKDModule.ViewModels
 				MessageBoxService.ShowWarning("Номер карты должен быть задан в пределах 1 - " + Int32.MaxValue.ToString());
 				return false;
 			}
+			if (SelectedCardType == CardType.OneTime && DeactivationControllerUID != Guid.Empty && UserTime <= 0)
+			{
+				MessageBoxService.ShowWarning("Количество проходов для разовой карты должно быть больше 0");
+				return false;
+			}
 
 			if (UseStopList && SelectedStopListCard != null)
 			{
