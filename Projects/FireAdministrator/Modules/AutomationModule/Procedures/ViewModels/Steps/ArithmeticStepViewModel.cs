@@ -42,12 +42,11 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
-			allVariables = allVariables.FindAll(x => !x.IsList && x.ValueType == SelectedArithmeticValueType);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedArithmeticValueType);
 			var allVariables2 = new List<Variable>(allVariables);
 			
 			if (SelectedArithmeticValueType == ValueType.DateTime)
-				allVariables2 = allVariables2.FindAll(x => x.ValueType == ValueType.Integer);
+				allVariables2 = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == ValueType.Integer);
 
 			Variable1.Update(allVariables);
 			Variable2.Update(allVariables2);

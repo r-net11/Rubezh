@@ -109,6 +109,14 @@ namespace AutomationModule.ViewModels
 				case ProcedureStepType.GetObjectField:
 					Content = new GetObjectFieldStepViewModel(step.GetObjectFieldArguments, procedure);
 					break;
+
+				case ProcedureStepType.SendEmail:
+					Content = new SendEmailStepViewModel(step.SendEmailArguments, procedure, Update);
+					break;
+
+				case ProcedureStepType.RunProgramm:
+					Content = new RunProgrammStepViewModel(step.RunProgrammArguments, procedure, Update);
+					break;
 			}
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
 		}

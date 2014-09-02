@@ -151,6 +151,14 @@
 		<Views:GetObjectFieldStepView />
 	</DataTemplate>
 
+	<DataTemplate x:Key="sendEmailTemplate">
+		<Views:SendEmailStepView />
+	</DataTemplate>
+
+	<DataTemplate x:Key="runProgrammTemplate">
+		<Views:RunProgrammStepView />
+	</DataTemplate>
+
 	<ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		ShowMessageTemplate ="{StaticResource sendMessageTemplate}"
@@ -175,6 +183,8 @@
 		ControlDoorTemplate="{StaticResource controlDoorTemplate}"
 		GetObjectFieldTemplate ="{StaticResource getObjectFieldTemplate}"
 		GetStringTemplate ="{StaticResource getStringTemplate}"
+		SendEmailTemplate="{StaticResource sendEmailTemplate}"
+		RunProgrammTemplate="{StaticResource runProgrammTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

@@ -4,8 +4,9 @@
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
 	
-	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
-		<DockPanel VerticalAlignment="Top">
+		<StackPanel>
+		<StackPanel Orientation="Horizontal" >
+			<Label Content="Тип значений" Width="100" />
 			<ComboBox ItemsSource="{Binding ValueTypes}" Margin="2"
 					  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" >
 				<ComboBox.ItemTemplate>
@@ -14,6 +15,9 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" >
+			<Label Content="Переменная" Width="100" />
 			<ComboBox DataContext="{Binding Result}" ItemsSource="{Binding VariableTypes}" Margin="2"
 					  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
 				<ComboBox.ItemTemplate>
@@ -42,9 +46,9 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-			
-			<Label Content="равно" MinWidth="60" MaxWidth="60" FontSize="15" HorizontalAlignment="Center" />
-			
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" >
+			<Label Content="Значение" Width="100" />
 			<ComboBox DataContext="{Binding Variable1}" ItemsSource="{Binding VariableTypes}" Margin="2"
 					  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
 				<ComboBox.ItemTemplate>
@@ -85,6 +89,6 @@
 				<extToolkit:DateTimePicker Value="{Binding Variable1.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
 					ConverterParameter={x:Static automation:ValueType.DateTime}}" Height="25" />
 			</StackPanel>
-		</DockPanel>
-	</ScrollViewer>
+		</StackPanel>
+	</StackPanel>
 </UserControl>

@@ -37,6 +37,7 @@ namespace AutomationModule.ViewModels
 				Commands = new ObservableCollection<CommandType>(Enum.GetValues(typeof(CommandType)).Cast<CommandType>().ToList());
 			else if (_selectedDevice != null)
 				InitializeCommands(_selectedDevice.Device);
+			SelectedCommand = Commands.FirstOrDefault();
 			OnPropertyChanged(() => Commands);
 		}
 
