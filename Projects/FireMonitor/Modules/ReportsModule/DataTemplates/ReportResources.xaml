@@ -34,9 +34,9 @@
 				<TableCell>
 					<Paragraph TextAlignment="Right">
 						Страница
-						<xrd:InlineContextValue FontWeight="Bold" PropertyName="PageNumber" />
+						<xrd:InlineContextValue FontWeight="Bold" Type="PageNumber"  />
 						из
-						<xrd:InlineContextValue FontWeight="Bold" PropertyName="PageCount" />
+						<xrd:InlineContextValue FontWeight="Bold" Type="PageCount" />
 					</Paragraph>
 				</TableCell>
 			</TableRow>

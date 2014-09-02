@@ -1,8 +1,12 @@
 ﻿using System;
+using Common;
+using System.Linq;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Controls
 {
@@ -42,6 +46,16 @@ namespace Controls
 		public static void SetCanUserResize(DependencyObject obj, bool value)
 		{
 			obj.SetValue(CanUserResizeProperty, value);
+		}
+
+		public static readonly DependencyProperty StarWidthProperty = DependencyProperty.RegisterAttached("StarWidth", typeof(double), typeof(ListViewLayoutManager), new FrameworkPropertyMetadata());
+		public static double GetStarWidth(DependencyObject dependencyObject)
+		{
+			return (double)dependencyObject.GetValue(StarWidthProperty);
+		}
+		public static void SetStarWidth(DependencyObject dependencyObject, double starWidth)
+		{
+			dependencyObject.SetValue(StarWidthProperty, starWidth);
 		}
 
 		private static void OnLayoutManagerEnabledChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -152,32 +166,65 @@ namespace Controls
 					try
 					{
 						_resizing = true;
-						GridViewColumn fillColumn = Columns[0];
-						for (int j = Columns.Count - 1; j >= 0; j--)
-							if (GetCanUserResize(Columns[j]))
-							{
-								fillColumn = Columns[j];
-								break;
-							}
+						var hasStarColumn = Columns.Any(col => GetStarWidth(col) > 0);
+						GridViewColumn fillColumn = hasStarColumn ? null : Columns[0];
+						if (!hasStarColumn)
+							for (int j = Columns.Count - 1; j >= 0; j--)
+								if (GetCanUserResize(Columns[j]))
+								{
+									fillColumn = Columns[j];
+									break;
+								}
 						double columnsWidth = 0;
 						for (int i = 0; i < Columns.Count; i++)
 							if (Columns[i] != fillColumn)
 							{
 								if (Columns[i].ActualWidth < MinWidth)
 									Columns[i].Width = MinWidth;
-								columnsWidth += Columns[i].ActualWidth;
+								if (GetStarWidth(Columns[i]) == 0)
+									columnsWidth += Columns[i].ActualWidth;
 							}
 						double preWidth = presenter.ActualWidth - columnsWidth;
-						if (preWidth < MinWidth || (column == fillColumn && fillColumn.Width > preWidth))
+						if (fillColumn != null)
 						{
-							if (fillColumn.ActualWidth < MinWidth)
-								fillColumn.Width = MinWidth;
-							_scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+							if (preWidth < MinWidth || (column == fillColumn && fillColumn.Width > preWidth))
+							{
+								if (fillColumn.ActualWidth < MinWidth)
+									fillColumn.Width = MinWidth;
+								_scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+							}
+							else
+							{
+								_scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+								fillColumn.Width = preWidth;
+							}
 						}
 						else
 						{
-							_scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
-							fillColumn.Width = preWidth;
+							if (column != null && GetStarWidth(column) > 0)
+								SetStarWidth(column, column.ActualWidth);
+							var totalStars = Columns.Sum(col => GetStarWidth(col));
+							var nextCycle = true;
+							var starColumns = Columns.Where(col => GetStarWidth(col) > 0).ToList();
+							while (nextCycle)
+							{
+								_scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+								nextCycle = false;
+								for (int i = starColumns.Count - 1; i >= 0; i--)
+									if (preWidth * GetStarWidth(starColumns[i]) / totalStars < MinWidth)
+									{
+										starColumns[i].Width = MinWidth;
+										preWidth -= MinWidth;
+										totalStars -= GetStarWidth(starColumns[i]);
+										starColumns.RemoveAt(i);
+										nextCycle = starColumns.Count > 0;
+										_scroller.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+										break;
+									}
+									else
+										starColumns[i].Width = preWidth * GetStarWidth(starColumns[i]) / totalStars;
+							}
+							Columns.Where(col => GetStarWidth(col) > 0).ForEach(col => SetStarWidth(col, col.ActualWidth));
 						}
 					}
 					finally
