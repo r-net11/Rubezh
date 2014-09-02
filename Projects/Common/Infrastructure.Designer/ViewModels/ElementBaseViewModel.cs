@@ -13,6 +13,11 @@ namespace Infrastructure.Designer.ViewModels
 			get { return null; }
 		}
 
+		public virtual object ToolTip
+		{
+			get { return null; }
+		}
+
 		private bool _isBold;
 		public bool IsBold
 		{

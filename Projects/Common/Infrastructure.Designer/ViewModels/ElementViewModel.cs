@@ -49,7 +49,11 @@ namespace Infrastructure.Designer.ViewModels
 
 		public override ContextMenu ContextMenu
 		{
-			get { return DesignerItem.GetContextMenu(); }
+			get { return DesignerItem.GetElementContextMenu(); }
+		}
+		public override object ToolTip
+		{
+			get { return DesignerItem.ToolTip; }
 		}
 
 		void OnShowOnPlan()

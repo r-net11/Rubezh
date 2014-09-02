@@ -56,6 +56,11 @@ namespace Infrustructure.Plans.Designer
 			}
 		}
 
+		public object ToolTip
+		{
+			get { return GetToolTip(); }
+		}
+
 		public virtual bool IsVisibleLayout
 		{
 			get { return !Element.IsHidden; }
@@ -144,6 +149,10 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		public virtual ContextMenu GetContextMenu()
+		{
+			return null;
+		}
+		public virtual ContextMenu GetElementContextMenu()
 		{
 			return null;
 		}
