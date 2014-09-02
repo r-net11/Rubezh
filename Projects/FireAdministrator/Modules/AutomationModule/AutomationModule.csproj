@@ -69,7 +69,6 @@
     <Compile Include="Events\ShowAutomationSoundsEvent.cs" />
     <Compile Include="Events\ShowGlobalVariablesEvent.cs" />
     <Compile Include="Events\ShowProceduresEvent.cs" />
-    <Compile Include="GlobalVariables\ViewModels\GlobalVariableDetailsViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesMenuViewModel.cs" />
     <Compile Include="GlobalVariables\ViewModels\GlobalVariablesViewModel.cs" />
     <Compile Include="GlobalVariables\Views\GlobalVariableDetailsView.xaml.cs">
@@ -129,6 +128,7 @@
     <Compile Include="Procedures\ViewModels\Steps\ExitStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\FindObjectStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\GetObjectFieldStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\GetStringStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IncrementValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IStepViewModel.cs" />
@@ -139,7 +139,6 @@
     <Compile Include="Procedures\ViewModels\Steps\ShowMessageStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SetValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\SoundLayoutViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\VariableObjectViewModel.cs" />
     <Compile Include="Procedures\ViewModels\ZoneSelectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeTemplateSelector.cs" />
     <Compile Include="Procedures\ViewModels\StepTypeViewModel.cs" />
@@ -221,6 +220,9 @@
     <Compile Include="Procedures\Views\Steps\ForeachStepView.xaml.cs">
       <DependentUpon>ForeachStepView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Procedures\Views\Steps\GetObjectFieldStepView.xaml.cs">
+      <DependentUpon>GetObjectFieldStepView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Procedures\Views\Steps\GetStringStepView.xaml.cs">
       <DependentUpon>GetStringStepView.xaml</DependentUpon>
     </Compile>
@@ -265,6 +267,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AutomationModule.cs" />
+    <Compile Include="PropertyCopy.cs" />
     <Compile Include="Schedules\ViewModels\ProcedureSelectionViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ScheduleDetailsViewModel.cs" />
     <Compile Include="Schedules\ViewModels\ArgumentViewModel.cs" />
@@ -498,6 +501,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\ForeachStepView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Procedures\Views\Steps\GetObjectFieldStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

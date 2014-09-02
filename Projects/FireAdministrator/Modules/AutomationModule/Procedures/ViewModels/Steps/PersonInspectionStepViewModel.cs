@@ -19,7 +19,7 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			CardNumber.Update(Procedure.Variables);
+			CardNumber.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Integer && !x.IsList));
 		}
 
 		public string Description { get { return ""; } }

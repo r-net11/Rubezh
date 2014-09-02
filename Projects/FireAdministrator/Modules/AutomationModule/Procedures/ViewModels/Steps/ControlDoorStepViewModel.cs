@@ -7,19 +7,22 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
 	public class ControlDoorStepViewModel : BaseViewModel, IStepViewModel
 	{
 		ControlDoorArguments ControlDoorArguments { get; set; }
-		public ControlDoorStepViewModel(ControlDoorArguments controlDoorArguments)
+		Procedure Procedure { get; set; }
+		public ArithmeticParameterViewModel Variable1 { get; private set; }
+
+		public ControlDoorStepViewModel(ControlDoorArguments controlDoorArguments, Procedure procedure)
 		{
 			ControlDoorArguments = controlDoorArguments;
-			Commands = new ObservableCollection<DoorCommandType>
-			{
-				DoorCommandType.Open, DoorCommandType.Close
-			};
+			Procedure = procedure;
+			Commands = ProcedureHelper.GetEnumObs<DoorCommandType>();
+			Variable1 = new ArithmeticParameterViewModel(ControlDoorArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
 			OnPropertyChanged(() => Commands);
 			SelectDoorCommand = new RelayCommand(OnSelectDoor);
 			UpdateContent();
@@ -47,10 +50,10 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedDoor = value;
-				ControlDoorArguments.DoorUid = Guid.Empty;
+				Variable1.UidValue = Guid.Empty;
 				if (_selectedDoor != null)
 				{
-					ControlDoorArguments.DoorUid = _selectedDoor.Door.UID;
+					Variable1.UidValue = _selectedDoor.Door.UID;
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedDoor);
@@ -69,9 +72,10 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			if (ControlDoorArguments.DoorUid != Guid.Empty)
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, ObjectType.ControlDoor, false));
+			if (Variable1.UidValue != Guid.Empty)
 			{
-				var door = SKDManager.Doors.FirstOrDefault(x => x.UID == ControlDoorArguments.DoorUid);
+				var door = SKDManager.Doors.FirstOrDefault(x => x.UID == Variable1.UidValue);
 				SelectedDoor = door != null ? new DoorViewModel(door) : null;
 				SelectedCommand = ControlDoorArguments.DoorCommandType;
 			}

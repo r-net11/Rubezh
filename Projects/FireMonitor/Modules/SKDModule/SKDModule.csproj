@@ -171,6 +171,9 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DayTrackViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentsViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypeDetailsViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypesViewModel.cs" />
+    <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentTypeViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\DocumentViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Model\TimeTrackFilter.cs" />
     <Compile Include="TimeTrack\TimeTracking\ViewModels\ReportSettingsViewModel.cs" />
@@ -181,6 +184,12 @@
     <Compile Include="TimeTrack\TimeTracking\ViewModels\TimeTrackViewModel.cs" />
     <Compile Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml.cs">
       <DependentUpon>DocumentDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\DocumentTypeDetailsView.xaml.cs">
+      <DependentUpon>DocumentTypeDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TimeTrack\TimeTracking\Views\DocumentTypesView.xaml.cs">
+      <DependentUpon>DocumentTypesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimeTrack\TimeTracking\Views\ReportSettingsView.xaml.cs">
       <DependentUpon>ReportSettingsView.xaml</DependentUpon>
@@ -585,6 +594,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TimeTrack\TimeTracking\Views\DocumentDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\DocumentTypeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TimeTrack\TimeTracking\Views\DocumentTypesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

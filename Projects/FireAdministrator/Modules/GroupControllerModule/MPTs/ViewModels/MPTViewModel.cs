@@ -40,7 +40,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_devices = value;
-				OnPropertyChanged("Devices");
+				OnPropertyChanged(() => Devices);
 			}
 		}
 

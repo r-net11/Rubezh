@@ -241,8 +241,8 @@
 				<Controls:PhotoSelectation Grid.Column="1" Data="{Binding SelectedGraphicsColumn.Data}" CanEdit="True" />
 			</Grid>
 		</TabItem>
-		<TabItem Header="Охранные зоны" Visibility="Collapsed">
-			<Grid DataContext="{Binding EmployeeGuardZones}">
+        <TabItem Header="Охранные зоны" DataContext="{Binding EmployeeGuardZones}" Visibility="{Binding HasZones, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*" />
 					<RowDefinition Height="Auto" />

@@ -150,6 +150,7 @@ namespace SKDModule.ViewModels
 					Filter.TotalTimeTrackTypeFilters.Add(timeTrackTypeFilterItem.TimeTrackType);
 				}
 			}
+			Filter.EmployeeFilter.PersonType = PersonType.Employee;
 			return true;
 		}
 

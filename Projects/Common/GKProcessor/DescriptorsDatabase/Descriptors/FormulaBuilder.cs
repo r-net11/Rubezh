@@ -193,6 +193,10 @@ namespace GKProcessor
 						stackDepth += 1;
 						break;
 
+					case FormulaOperationType.KOD:
+						stackDepth += 2;
+						break;
+
 					case FormulaOperationType.ADD:
 					case FormulaOperationType.AND:
 					case FormulaOperationType.EQ:

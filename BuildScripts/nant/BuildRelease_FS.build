@@ -24,11 +24,11 @@
     <msbuild project="..\..\Projects\FiresecOPCServer\FiresecOPCServer.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <msbuild project="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
+    <msbuild project="..\..\Projects\Installers\FS1FiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
     <copy todir="..\bin\Firesec\">
-      <fileset basedir="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release">
+      <fileset basedir="..\..\Projects\Installers\FS1FiresecInstaller\FiresecInstaller\bin\Release">
         <include name="**\*" />
       </fileset>
     </copy>

@@ -45,7 +45,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_mpts = value;
-				OnPropertyChanged("MPTs");
+				OnPropertyChanged(() => MPTs);
 			}
 		}
 

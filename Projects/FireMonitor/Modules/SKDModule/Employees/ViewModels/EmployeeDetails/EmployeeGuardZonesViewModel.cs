@@ -18,12 +18,14 @@ namespace SKDModule.ViewModels
 			GuardZones = new ObservableCollection<EmployeeGuardZoneViewModel>();
 			foreach (var guardZone in XManager.DeviceConfiguration.GuardZones)
 			{
-				if (!Organisation.GuardZoneUIDs.Any(x => x == guardZone.UID))
-					continue;
-				var guardZoneViewModel = new EmployeeGuardZoneViewModel(employee, guardZone);
-				GuardZones.Add(guardZoneViewModel);
+				if (Organisation.GuardZoneUIDs.Any(x => x == guardZone.UID))
+				{
+					var guardZoneViewModel = new EmployeeGuardZoneViewModel(employee, guardZone);
+					GuardZones.Add(guardZoneViewModel);
+				}
 			}
 			SelectedGuardZone = GuardZones.FirstOrDefault();
+			HasZones = GuardZones.Count > 0;
 		}
 
 		ObservableCollection<EmployeeGuardZoneViewModel> _guardZones;
@@ -47,5 +49,7 @@ namespace SKDModule.ViewModels
 				OnPropertyChanged(() => SelectedGuardZone);
 			}
 		}
+
+		public bool HasZones { get; private set; }
 	}
 }

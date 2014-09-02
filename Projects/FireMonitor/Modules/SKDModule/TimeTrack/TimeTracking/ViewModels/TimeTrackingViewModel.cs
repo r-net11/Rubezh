@@ -22,6 +22,7 @@ namespace SKDModule.ViewModels
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			PrintCommand = new RelayCommand(OnPrint, CanPrint);
+			ShowDocumentTypesCommand = new RelayCommand(OnShowDocumentTypes);
 
 			TimeTrackFilter = new TimeTrackFilter();
 			TimeTrackFilter.EmployeeFilter = new EmployeeFilter()
@@ -162,15 +163,17 @@ namespace SKDModule.ViewModels
 						TimeTracks.Add(timeTrackViewModel);
 					}
 
-					RowHeight = 60 + 20 * GetVisibleFilterRorsCount();
+					RowHeight = 60 + 20 * TimeTrackFilter.TotalTimeTrackTypeFilters.Count;
 				}
 				SelectedTimeTrack = TimeTracks.FirstOrDefault(x => x.ShortEmployee.UID == employeeUID);
 			}
 		}
 
-		int GetVisibleFilterRorsCount()
+		public RelayCommand ShowDocumentTypesCommand { get; private set; }
+		void OnShowDocumentTypes()
 		{
-			return TimeTrackFilter.TotalTimeTrackTypeFilters.Count();
+			var documentTypesViewModel = new DocumentTypesViewModel();
+			DialogService.ShowModalWindow(documentTypesViewModel);
 		}
 	}
 }

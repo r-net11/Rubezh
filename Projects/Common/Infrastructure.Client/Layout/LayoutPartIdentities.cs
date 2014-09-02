@@ -35,6 +35,7 @@ namespace Infrastructure.Client.Layout
 		// SKD
 		public static readonly Guid SKDDevices = new Guid("{41B13062-368D-40D7-B0C5-BCEE16429518}");
 		public static readonly Guid SKDZones = new Guid("{64FB191F-004A-4F52-A0D0-A739031EDBF5}");
+		public static readonly Guid SKDDoors = new Guid("{22DAD869-E2BA-4dac-8B74-FF3C938946ED}");
 		public static readonly Guid SKDHR = new Guid("{CADC9059-9868-4B31-A072-992776677C57}");
 		public static readonly Guid SKDVerification = new Guid("{3223085C-F808-49DC-B215-45875DA67833}");
 		public static readonly Guid SKDDayIntervals = new Guid("{3BB6AB5A-4CD8-4D12-B46C-27E8F9DB8A51}");
@@ -42,6 +43,7 @@ namespace Infrastructure.Client.Layout
 		public static readonly Guid SKDDaylyScheduleSchemes = new Guid("{B23AC76D-C16C-4F68-8223-262393A874FB}");
 		public static readonly Guid SKDMonthlyScheduleSchemes = new Guid("{6D6D4B53-8E45-44BC-A011-3E38B87FD6B6}");
 		public static readonly Guid SKDHolidays = new Guid("{C0DF2716-3AEA-449C-9371-9DB33625F6D5}");
+		public static readonly Guid SKDSchedules = new Guid("{A793B0E1-CB3D-4318-94AF-EB379387DCFB}");
 		public static readonly Guid SKDTimeTracking = new Guid("{9F5A429C-7E00-4360-824C-24D31952E50F}");
 	}
 }

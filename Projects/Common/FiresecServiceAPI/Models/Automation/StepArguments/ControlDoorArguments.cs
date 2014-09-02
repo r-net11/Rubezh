@@ -10,13 +10,14 @@ namespace FiresecAPI.Automation
 		public ControlDoorArguments()
 		{
 			Uid = Guid.NewGuid();
+			Variable1 = new ArithmeticParameter();
 		}
 
 		[DataMember]
 		public Guid Uid { get; set; }
 
 		[DataMember]
-		public Guid DoorUid { get; set; }
+		public ArithmeticParameter Variable1 { get; set; }
 
 		[DataMember]
 		public DoorCommandType DoorCommandType { get; set; }

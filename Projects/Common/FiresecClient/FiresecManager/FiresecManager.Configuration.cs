@@ -10,6 +10,7 @@ using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Services;
 using Infrustructure.Plans.Elements;
+using GKProcessor;
 
 namespace FiresecClient
 {
@@ -91,6 +92,9 @@ namespace FiresecClient
 				PlansConfiguration.Update();
 				SystemConfiguration.UpdateConfiguration();
 				FiresecConfiguration.UpdateConfiguration();
+				GKDriversCreator.Create();
+				XManager.UpdateConfiguration();
+				XManager.CreateStates();
 				SKDManager.UpdateConfiguration();
 				UpdatePlansConfiguration();
 			}

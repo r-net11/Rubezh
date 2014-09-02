@@ -31,13 +31,12 @@ namespace FiresecAPI.SKD
 		public TimeTrackEmployeeResult()
 		{
 			DayTimeTracks = new List<DayTimeTrack>();
+			Documents = new List<TimeTrackDocument>();
 		}
 
 		public TimeTrackEmployeeResult(string error) :
 			this()
 		{
-			DayTimeTracks = new List<DayTimeTrack>();
-			Documents = new List<TimeTrackDocument>();
 			Error = error;
 		}
 

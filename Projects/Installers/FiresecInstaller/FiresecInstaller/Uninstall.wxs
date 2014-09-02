@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <DirectoryRef Id="DesktopFolder">
-      <Component Id="DesktopFolder" Guid="*">
+      <Component Id="DesktopFolder" Guid="BC330E1A-4A65-4369-93D7-1D772036F1A5">
         <RemoveFolder Id="DesktopFolder" On="uninstall" />
         <RegistryValue Root="HKCU" Key="Sofware\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
       </Component>

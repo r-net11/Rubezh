@@ -12,11 +12,13 @@ namespace SKDModule.ViewModels
 	{
 		public DayTimeTrack DayTimeTrack { get; private set; }
 		public TimeTrackFilter TimeTrackFilter { get; private set; }
+		public ShortEmployee ShortEmployee { get; private set; }
 
-		public DayTrackViewModel(DayTimeTrack dayTimeTrack, TimeTrackFilter timeTrackFilter)
+		public DayTrackViewModel(DayTimeTrack dayTimeTrack, TimeTrackFilter timeTrackFilter, ShortEmployee shortEmployee)
 		{
 			DayTimeTrack = dayTimeTrack;
 			TimeTrackFilter = timeTrackFilter;
+			ShortEmployee = shortEmployee;
 			Update();
 		}
 

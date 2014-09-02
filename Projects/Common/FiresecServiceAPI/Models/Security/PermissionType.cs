@@ -25,8 +25,8 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("АДМ: Управление правами пользователей")]
 		Adm_Security,
 
-		[DescriptionAttribute("АДМ: СКД")]
-		Adm_SKUD,
+		//[DescriptionAttribute("АДМ: СКД")]
+		//Adm_SKUD,
 
 		[DescriptionAttribute("ОЗ")]
 		Oper_All,
@@ -43,11 +43,11 @@ namespace FiresecAPI.Models
 		[DescriptionAttribute("ОЗ: Не требуется подтверждение тревог")]
 		Oper_NoAlarmConfirm,
 
-		[DescriptionAttribute("ОЗ: Отключение в приборах Рубеж")]
-		Oper_AddToIgnoreList,
+		//[DescriptionAttribute("ОЗ: Отключение в приборах Рубеж")]
+		//Oper_AddToIgnoreList,
 
-		[DescriptionAttribute("ОЗ: Снятие отключения в приборах Рубеж")]
-		Oper_RemoveFromIgnoreList,
+		//[DescriptionAttribute("ОЗ: Снятие отключения в приборах Рубеж")]
+		//Oper_RemoveFromIgnoreList,
 
 		[DescriptionAttribute("ОЗ: Постановка, снятие зон с охраны")]
 		Oper_SecurityZone,

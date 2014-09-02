@@ -77,7 +77,7 @@ namespace GKModule.DeviceProperties
 			set
 			{
 				_deviceParameterMissmatchType = value;
-				OnPropertyChanged("DeviceParameterMissmatchType");
+				OnPropertyChanged(() => DeviceParameterMissmatchType);
 			}
 		}
 

@@ -12,15 +12,17 @@ namespace SKDModule.ViewModels
 	public class TimeTrackDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public DayTimeTrack DayTimeTrack { get; private set; }
+		public ShortEmployee ShortEmployee { get; private set; }
 
-		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack)
+		public TimeTrackDetailsViewModel(DayTimeTrack dayTimeTrack, ShortEmployee shortEmployee)
 		{
 			dayTimeTrack.Calculate();
 
-			Title = "Время сотрудника в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
+			Title = "Время сотрудника " + shortEmployee.FIO + " в течение дня " + dayTimeTrack.Date.Date.ToString("yyyy-MM-dd");
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			DayTimeTrack = dayTimeTrack;
+			ShortEmployee = shortEmployee;
 
 			DayTimeTrackParts = new ObservableCollection<DayTimeTrackPartViewModel>();
 			foreach (var timeTrackPart in DayTimeTrack.RealTimeTrackParts)
@@ -30,7 +32,6 @@ namespace SKDModule.ViewModels
 			}
 
 			Documents = new ObservableCollection<DocumentViewModel>();
-
 			foreach (var document in dayTimeTrack.Documents)
 			{
 				var documentViewModel = new DocumentViewModel(document);
@@ -59,11 +60,11 @@ namespace SKDModule.ViewModels
 			var timeTrackDocument = new TimeTrackDocument();
 			timeTrackDocument.StartDateTime = DayTimeTrack.Date.Date;
 			timeTrackDocument.EndDateTime = DayTimeTrack.Date.Date + new TimeSpan(23, 59, 59);
-			var documentDetailsViewModel = new DocumentDetailsViewModel(false, timeTrackDocument);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, timeTrackDocument);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;
-				document.EmployeeUID = DayTimeTrack.EmployeeUID;
+				document.EmployeeUID = ShortEmployee.UID;
 				var operationResult = FiresecManager.FiresecService.AddTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{
@@ -81,11 +82,10 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(false, SelectedDocument.Document);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(false, ShortEmployee.OrganisationUID, SelectedDocument.Document);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;
-				document.EmployeeUID = DayTimeTrack.EmployeeUID;
 				var operationResult = FiresecManager.FiresecService.EditTimeTrackDocument(document);
 				if (operationResult.HasError)
 				{

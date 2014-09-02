@@ -22,7 +22,7 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 		<ComboBox Grid.Row="0" Grid.Column="2" DataContext="{Binding CardNumber}" ItemsSource="{Binding GlobalVariables}" Margin="2"
-				  SelectedItem="{Binding SelectedGlobalVariable, UpdateSourceTrigger=PropertyChanged}"
+				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" >
 			<ComboBox.ItemTemplate>
@@ -31,7 +31,7 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<ComboBox Grid.Row="0" Grid.Column="2" DataContext="{Binding CardNumber}" ItemsSource="{Binding Variables}" Margin="2"
+		<ComboBox Grid.Row="0" Grid.Column="2" DataContext="{Binding CardNumber}" ItemsSource="{Binding LocalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" >
@@ -41,7 +41,7 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<extToolkit:IntegerUpDown  Grid.Row="0" Grid.Column="2" DataContext="{Binding CardNumber}" Value="{Binding Value}" Margin="2"
+		<extToolkit:IntegerUpDown  Grid.Row="0" Grid.Column="2" DataContext="{Binding CardNumber}" Value="{Binding IntValue}" Margin="2"
 				Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsValue}}" />
 	</Grid>

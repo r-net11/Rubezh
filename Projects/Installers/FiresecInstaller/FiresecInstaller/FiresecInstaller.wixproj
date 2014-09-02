@@ -7,7 +7,7 @@
     <ProductVersion>3.5</ProductVersion>
     <ProjectGuid>{184068e9-b59d-4b55-a57b-60c9cc3450f2}</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Firesec-2 1.2</OutputName>
+    <OutputName>Firesec 2.1.4</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
@@ -31,15 +31,12 @@
   <ItemGroup>
     <Compile Include="Binary.wxs" />
     <Compile Include="Common.wxs" />
-    <Compile Include="Firesec\Files5.wxs" />
-    <Compile Include="FSAgent\Files.wxs" />
     <Compile Include="CustomActions.wxs" />
     <Compile Include="Features.wxs" />
     <Compile Include="Administrator\Features.wxs" />
     <Compile Include="Administrator\Files.wxs" />
     <Compile Include="Administrator\Shortcuts.wxs" />
     <Compile Include="Administrator\Uninstall.wxs" />
-    <Compile Include="FSAgent\Shortcuts.wxs" />
     <Compile Include="Monitor\Features.wxs" />
     <Compile Include="Monitor\Files.wxs" />
     <Compile Include="Monitor\Shortcuts.wxs" />
@@ -49,12 +46,12 @@
     <Compile Include="OPC\Files.wxs" />
     <Compile Include="OPC\Shortcuts.wxs" />
     <Compile Include="OPC\Uninstall.wxs" />
+    <Compile Include="SDK\Features.wxs" />
+    <Compile Include="SDK\Files.wxs" />
     <Compile Include="Server\Features.wxs" />
     <Compile Include="Server\Files.wxs" />
     <Compile Include="Server\Shortcuts.wxs" />
     <Compile Include="Server\Uninstall.wxs" />
-    <Compile Include="Firesec\Features.wxs" />
-    <Compile Include="Firesec\Files.wxs" />
     <Compile Include="UI\ModulesDialog.wxs" />
     <Compile Include="UI\DestinationFolderDialog.wxs" />
     <Compile Include="UI\InstallChangeFolderDialog.wxs" />
@@ -92,11 +89,6 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\FSAgent.ico" />
-    <Content Include="Data\RegisterFS.bat" />
-    <Content Include="Data\RegisterFS48.bat" />
-    <Content Include="Data\RegisterFSx86x64.bat" />
-    <Content Include="FSAgent\Variables.wxi" />
     <Content Include="Data\Administrator.ico" />
     <Content Include="Data\Monitor.ico" />
     <Content Include="Data\OPC.ico" />
@@ -106,8 +98,8 @@
     <Content Include="Data\TitleRect.bmp" />
     <Content Include="Monitor\Variables.wxi" />
     <Content Include="OPC\Variables.wxi" />
+    <Content Include="SDK\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
-    <Content Include="Firesec\Variables.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="ManagementConsole\Variables.wxi" />
     <Content Include="Variables.wxi" />
@@ -118,14 +110,13 @@
     <Content Include="Data\Up.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="FSAgent" />
     <Folder Include="Data" />
     <Folder Include="ManagementConsole" />
+    <Folder Include="SDK" />
     <Folder Include="OPC" />
     <Folder Include="Server" />
     <Folder Include="Administrator" />
     <Folder Include="Monitor" />
-    <Folder Include="Firesec" />
     <Folder Include="UI" />
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,7 @@ namespace SKDModule.ViewModels
 		public override void Initialize(EmployeeFilter filter)
 		{
 			base.Initialize(filter);
+			PersonType = filter.PersonType;
 			InitializeAdditionalColumns();
 		}	
 

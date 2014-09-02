@@ -66,6 +66,12 @@ namespace GKProcessor
 					Formula.AddGetBit(XStateBit.Off, Device.GuardZone);
 					Formula.AddPutBit(XStateBit.TurnOff_InAutomatic, Device);
 				}
+				if (Device.DriverType == XDriverType.RSR2_CodeReader)
+				{
+					Formula.Add(FormulaOperationType.KOD);
+					Formula.Add(FormulaOperationType.ADD);
+					Formula.AddStandardTurning(Device);
+				}
 			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();

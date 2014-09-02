@@ -21,20 +21,28 @@
     </Condition>
 
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
-    <Property Id="SHORTCUT_PROGRAMMENU" Value="1"/>
-    <Property Id="SHORTCUT_DESKTOP" Value="1"/>
+    <Property Id="SHORTCUT_PROGRAMMENU" Value="1" />
+    <Property Id="SHORTCUT_DESKTOP" Value="1" />
     <Property Id="CHECKSQLSERVER" Value="0" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <Property Id="INSTALLLEVEL" Value="1" />
     <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
     <Property Id="WixUI_Mode" Value="Mondo" />
     <Property Id="AgreeToLicense" Value="No" />
-    <Property Id="SETUPCHOICE" Value="Full"/>
+    <Property Id="SETUPCHOICE" Value="Full" />
     <Property Id="IS_SQLSERVER_USERNAME" Value="sa" />
     <Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
     <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
     <Property Id="INSTALLMODE" />
-    <Property Id="ALLUSERS" Value="1" Secure="yes"/>
+    <Property Id="ALLUSERS" Value="1" Secure="yes" />
+    
+    <Property Id="INSTALL_FIRESEC2" Secure="yes" />
+    <Property Id="INSTALL_HASP" Value="0" Secure="yes" />
+    <Property Id="INSTALL_OPC" Value="0" Secure="yes" />
+    <Property Id="INSTALL_SDK" Value="0" Secure="yes" />
+    <Property Id="INSTALL_GK" Value="0" Secure="yes" />
+    <Property Id="INSTALL_SKD" Value="1" Secure="yes" />
+    <Property Id="INSTALL_VIDEO" Value="0" Secure="yes" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="SystemFolder"/>
@@ -45,8 +53,10 @@
         </Directory>
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
           <Directory Id="SERVERLOCATION" Name="$(var.ServerName)">
-            <Directory Id="Server.ConfigFolder" Name="$(var.ConfigurationFolder)">
-              <Directory Id="Server.SoundsFolder" Name="$(var.SoundsFolder)" />
+            <Directory Id="Server.Dll" Name="Dll">
+              <Directory Id="Server.Dll.Dahua" Name="Dahua" />
+              <Directory Id="Server.Dll.Hik" Name="Hik" />
+              <Directory Id="Server.Dll.Sunell" Name="Sunell" />
             </Directory>
           </Directory>
           <Directory Id="ADMINISTRATORLOCATION" Name="$(var.AdministratorName)">
@@ -56,33 +66,34 @@
                 <Directory Id="Administrator.Xaml2svgFolder" Name="$(var.xaml2svgFolder)" />
               </Directory>
             </Directory>
+            <Directory Id="Administrator.Dll" Name="Dll">
+              <Directory Id="Administrator.Dll.Dahua" Name="Dahua" />
+              <Directory Id="Administrator.Dll.Hik" Name="Hik" />
+              <Directory Id="Administrator.Dll.Sunell" Name="Sunell" />
+            </Directory>
           </Directory>
           <Directory Id="MONITORLOCATION" Name="$(var.MonitorName)">
             <Directory Id="Monitor.ShellFolder" Name="Shell" />
             <Directory Id="Monitor.ClientSettingsFolder" Name="ClientSettings" />
-            <Directory Id="Monitor.ConfigFolder" Name="$(var.ConfigurationFolder)">
-              <Directory Id="Monitor.SoundsFolder" Name="$(var.SoundsFolder)" />
+            <Directory Id="Monitor.Dll" Name="Dll">
+              <Directory Id="Monitor.Dll.Dahua" Name="Dahua" />
+              <Directory Id="Monitor.Dll.Hik" Name="Hik" />
+              <Directory Id="Monitor.Dll.Sunell" Name="Sunell" />
             </Directory>
-          </Directory>
-          <Directory Id="FSAGENTLOCATION" Name="FSAgent" />
-          <Directory Id="FS2LOCATION" Name="FS2">
-            <Directory Id="FS2.MetadataFolder" Name="Metadata" />
           </Directory>
           <Directory Id="MANAGEMENTCONSOLELOCATION" Name="$(var.ManagementConsoleName)" />
           <Directory Id="UTILSLOCATION" Name="Утилиты" />
-          <Directory Id="OPCLOCATION" Name="OPC">
-            <Directory Id="OPC.ConfigFolder" Name="$(var.ConfigurationFolder)">
+          <Directory Id="GKOPCLOCATION" Name="GKOPC" />
+          <Directory Id="FirmwhareUpdateLOCATION" Name="Актуальные прошивки ГК" />
+
+          <Directory Id="SDKLOCATION" Name="SDK">
+            <Directory Id="SDKLOCATION_GKSDK" Name="GKSDK">
+              <Directory Id="SDKLOCATION_Infrastructure" Name="Infrastructure" />
+              <Directory Id="SDKLOCATION_Properties" Name="Properties" />
             </Directory>
+            <Directory Id="SDKLOCATION_Assemblies" Name="Assemblies" />
           </Directory>
-          <Directory Id="FIRMWHARELOCATION" Name="Актуальные прошивки" />
-          <Directory Id="FIRESECLOCATION5" Name="Firesec5">
-            <Directory Id="FIRESECLOCATION5_CONFIG" Name="Config" />
-            <Directory Id="FIRESECLOCATION5_LIB" Name="lib">
-              <Directory Id="FIRESECLOCATION5_FireBird" Name="FireBird">
-                <Directory Id="FIRESECLOCATION5_INTL" Name="intl" />
-              </Directory>
-            </Directory>
-          </Directory>
+          
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">
@@ -91,12 +102,6 @@
             <Component Id="ProgramMenuDir.Additional" Guid="0C15958E-D695-4F12-B440-B19279EF218B">
               <RemoveFolder Id='ProgramMenuDir.AdditionalFolder' On='uninstall' />
               <RemoveFolder Id='RemoveProgramMenuDir' Directory='ProgramMenuDir' On='uninstall' />
-              <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
-            </Component>
-          </Directory>
-          <Directory Id="ProgramMenuDir.UtilsFolder" Name="Утилиты">
-            <Component Id="ProgramMenuDir.Utils" Guid="3CD226CF-F3D8-4267-8E6D-F6852A425217">
-              <RemoveFolder Id='ProgramMenuDir.UtilsFolder' On='uninstall' />
               <RegistryValue Root='HKCU' Key='Software\[Manufacturer]\[ProductName]' Type='string' Value='' KeyPath='yes' />
             </Component>
           </Directory>
@@ -118,33 +123,8 @@
       <Custom Action="CloseApplications" Sequence="1" />
       <RemoveExistingProducts After="InstallInitialize" />
       <InstallExecute After="RemoveExistingProducts" />
-
-      <?if $(var.Firesec1Version)=50?>
-      <Custom Action="RegisterFS_Bat" Before="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
-      <?endif?>
-
-      <?if $(var.Firesec1Version)=48?>
-      <Custom Action="RegisterFS48_Bat" Before="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
-      <?endif?>
-
-      <!--<Custom Action="RegisterFs_types" After="RegisterFS_Bat">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
-      -->
-      <!--<Custom Action="RegisterFs_types2" After="RegisterFs_types">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>-->
-      <!--
-      <Custom Action="RegisterSockProxy" After="RegisterFs_types">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
-      <Custom Action="RegisterServer" After="RegisterSockProxy">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>-->
       <Custom Action="InstallHaspDriver" After="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.HASP=3]]></Custom>
-
-      <!--<Custom Action="StartFiresecServiceOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>-->
-      <!--<Custom Action="StartFiresecServiceOnExit" After="InstallFinalize">INSTALLMODE</Custom>-->
-      <!--<Custom Action="StartFSAgentOnExit" After="StartFiresecServiceOnExit">INSTALLMODE</Custom>-->
       <Custom Action="StartOPCServerOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
-
-      <!--<Custom Action="StopFiresecNTService" After="CloseApplications">1</Custom>-->
-      <!--<Custom Action="UnregisterSockProxy" After="CloseApplications">NOT INSTALLMODE</Custom>
-      <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">NOT INSTALLMODE</Custom>
-      <Custom Action="UnRegisterServer" After="UnregisterFs_types">NOT INSTALLMODE</Custom>-->
-
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

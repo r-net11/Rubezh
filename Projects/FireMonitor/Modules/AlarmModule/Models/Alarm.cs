@@ -30,8 +30,8 @@ namespace AlarmModule
 
 		public bool CanRemoveFromIgnoreList()
 		{
-			return ((StateType == StateType.Off) &&
-			(FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList)));
+			//return ((StateType == StateType.Off) && (FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList)));
+			return (StateType == StateType.Off);
 		}
 
 		public void RemoveFromIgnoreList()

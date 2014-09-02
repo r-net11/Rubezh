@@ -31,12 +31,6 @@ namespace FiresecAPI.SKD
 		public DateTime Date { get; set; }
 
 		[DataMember]
-		public Guid EmployeeUID { get; set; }
-
-		[DataMember]
-		public ShortEmployee ShortEmployee { get; set; }
-
-		[DataMember]
 		public List<TimeTrackPart> PlannedTimeTrackParts { get; set; }
 
 		[DataMember]
@@ -97,8 +91,6 @@ namespace FiresecAPI.SKD
 			DocumentTrackParts = new List<TimeTrackPart>();
 			foreach (var document in Documents)
 			{
-				document.TimeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
-
 				TimeTrackPart timeTrackPart = null;
 				if (document.StartDateTime.Date < Date && document.EndDateTime.Date > Date)
 				{
@@ -364,7 +356,14 @@ namespace FiresecAPI.SKD
 			if (NightSettings != null)
 			{
 				totalEaveningTimeSpan = CalculateEveningTime(NightSettings.EveningStartTime, NightSettings.EveningEndTime);
-				totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
+				if (NightSettings.NightEndTime > NightSettings.NightStartTime)
+				{
+					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
+				}
+				else
+				{
+					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, new TimeSpan(23, 59, 59)) + CalculateEveningTime(new TimeSpan(0, 0, 0), NightSettings.NightEndTime);
+				}
 			}
 
 			TimeTrackType = CalculateTimeTrackType();
@@ -461,10 +460,11 @@ namespace FiresecAPI.SKD
 					{
 						StartTime = startTimeSpan,
 						EndTime = endTimeSpan,
+						TimeTrackPartType = timeTrackPart.TimeTrackPartType,
 						ZoneUID = timeTrackPart.ZoneUID,
 						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
 						EndsInNextDay = timeTrackPart.EndsInNextDay,
-						TimeTrackPartType = timeTrackPart.TimeTrackPartType
+						DayName = timeTrackPart.DayName
 					};
 					result.Add(newTimeTrackPart);
 				}
