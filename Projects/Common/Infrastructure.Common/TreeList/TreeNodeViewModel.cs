@@ -24,13 +24,8 @@ namespace Infrastructure.Common.TreeList
 		public void AssignToRoot(RootTreeNodeViewModel root)
 		{
 			_root = root;
-			//foreach (var child in Nodes)
-			//	child.AssignToTree(Tree);
-			//if (ParentNode == null)
-			//{
-			//	Tree.Rows.Add(this);
-			//	CreateChildrenRows();
-			//}
+			foreach (var child in Nodes)
+				child.AssignToRoot(root);
 		}
 
 		public class TreeItemCollection : ObservableCollectionAdv<TreeNodeViewModel>

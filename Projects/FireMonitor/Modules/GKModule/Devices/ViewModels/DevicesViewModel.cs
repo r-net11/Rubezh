@@ -26,10 +26,13 @@ namespace GKModule.ViewModels
 
 			foreach (var device in AllDevices)
 			{
-				if(device.Device.DriverType == XDriverType.KAU || device.Device.DriverType == XDriverType.RSR2_KAU)
+				if (device.Device.DriverType == XDriverType.KAU || device.Device.DriverType == XDriverType.RSR2_KAU)
 					device.ExpandToThis();
 			}
 
+			RootDevices = null;
+			OnPropertyChanged(() => RootDevices);
+			RootDevices = new DeviceViewModel[] { RootDevice };
 			OnPropertyChanged(() => RootDevices);
 		}
 
@@ -82,10 +85,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public DeviceViewModel[] RootDevices
-		{
-			get { return new DeviceViewModel[] { RootDevice }; }
-		}
+		public DeviceViewModel[] RootDevices { get; private set; }
 
 		void BuildTree()
 		{

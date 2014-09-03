@@ -78,6 +78,10 @@
     <Compile Include="Events\EditDoorEvent.cs" />
     <Compile Include="Events\CreateDoorEvent.cs" />
     <Compile Include="Events\ShowSKDDoorEvent.cs" />
+    <Compile Include="Plans\ViewModels\DeviceTooltipViewModel.cs" />
+    <Compile Include="Plans\Views\DeviceTooltipView.xaml.cs">
+      <DependentUpon>DeviceTooltipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TimeIntervals\Base\ViewModels\BaseIntervalPartViewModel.cs" />
     <Compile Include="TimeIntervals\Base\ViewModels\BaseIntervalsViewModel.cs" />
     <Compile Include="TimeIntervals\Base\ViewModels\BaseIntervalViewModel.cs" />
@@ -386,6 +390,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Doors\Views\DeviceSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Plans\Views\DeviceTooltipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

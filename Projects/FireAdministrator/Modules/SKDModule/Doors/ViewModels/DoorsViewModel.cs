@@ -107,6 +107,7 @@ namespace SKDModule.ViewModels
 			{
 				var index = Doors.IndexOf(SelectedDoor);
 				SKDManager.RemoveDoor(SelectedDoor.Door);
+				SelectedDoor.Door.OnChanged();
 
 				Doors.Remove(SelectedDoor);
 				index = Math.Min(index, Doors.Count - 1);

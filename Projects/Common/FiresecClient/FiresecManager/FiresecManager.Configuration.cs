@@ -118,6 +118,7 @@ namespace FiresecClient
 
 				SKDManager.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 				SKDManager.Zones.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+				SKDManager.Doors.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
 				SystemConfiguration.AllCameras.ForEach(x => x.PlanElementUIDs = new List<Guid>());
 				FiresecManager.SystemConfiguration.AutomationConfiguration.Procedures.ForEach(x => x.PlanElementUIDs = new List<Guid>());

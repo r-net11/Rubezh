@@ -8,9 +8,8 @@ namespace FiresecAPI.SKD
 		public static void EditDevice(SKDDevice device)
 		{
 			if (device.Door != null)
-			{
 				device.Door.OnChanged();
-			}
+			device.OnChanged();
 		}
 
 		public static void DeleteDevice(SKDDevice device)
