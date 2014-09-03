@@ -39,5 +39,4 @@ namespace FiresecAPI.SKD
 	{
         Guid UID { get; set; }
 	}
-    
 }

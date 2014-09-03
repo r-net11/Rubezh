@@ -62,9 +62,13 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\IntToNullableIntConverter.cs" />
+    <Compile Include="Devices\ViewModels\ControllerPaswordViewModel.cs" />
     <Compile Include="Devices\ViewModels\ControllerPropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\LockIntervalsViewModel.cs" />
     <Compile Include="Devices\ViewModels\LockPropertiesViewModel.cs" />
+    <Compile Include="Devices\Views\ControllerPaswordView.xaml.cs">
+      <DependentUpon>ControllerPaswordView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\Views\ControllerPropertiesView.xaml.cs">
       <DependentUpon>ControllerPropertiesView.xaml</DependentUpon>
     </Compile>
@@ -368,6 +372,10 @@
     <Page Include="Devices\Views\CameraSelectationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\ControllerPaswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\ControllerPropertiesView.xaml">
       <SubType>Designer</SubType>

@@ -303,5 +303,22 @@ namespace ChinaSKDDriver
 			}
 			return new OperationResult<bool>("Не найден контроллер в конфигурации");
 		}
+
+		public static OperationResult<bool> SetControllerPassword(Guid deviceUID, string name, string oldPassword, string password)
+		{
+			var deviceProcessor = DeviceProcessors.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceProcessor != null)
+			{
+				if (!deviceProcessor.IsConnected)
+					return new OperationResult<bool>("Нет связи с контроллером. " + deviceProcessor.LoginFailureReason);
+
+				var result = deviceProcessor.Wrapper.SetControllerPassword(name, oldPassword, password);
+				if (result)
+					return new OperationResult<bool>() { Result = true };
+				else
+					return new OperationResult<bool>("Ошибка при выполнении операции в приборе");
+			}
+			return new OperationResult<bool>("Не найден контроллер в конфигурации");
+		}
 	}
 }

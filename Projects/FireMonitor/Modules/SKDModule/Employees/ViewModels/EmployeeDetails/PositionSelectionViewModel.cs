@@ -52,10 +52,12 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(OrganisationUID);
+			//var positionDetailsViewModel = new PositionDetailsViewModel(OrganisationUID);
+			var positionDetailsViewModel = new PositionDetailsViewModel();
+			positionDetailsViewModel.Initialize(OrganisationUID);
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
-				Positions.Add(positionDetailsViewModel.ShortPosition);
+				Positions.Add(positionDetailsViewModel.Model);
 				SelectedPosition = Positions.LastOrDefault();
 				HRViewModel.UpdatePositions();
 			}

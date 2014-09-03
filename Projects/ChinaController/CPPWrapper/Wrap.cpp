@@ -193,6 +193,19 @@ BOOL CALL_METHOD WRAP_SetControllerDirectionType(int loginID, CFG_ACCESS_PROPERT
 	}
 }
 
+BOOL CALL_METHOD WRAP_SetControllerPassword(int loginID, char name[], char oldPassword[], char password[])
+{
+	USER_INFO_NEW stuOldInfo = {sizeof(stuOldInfo)};
+	strcpy(stuOldInfo.name, name);
+	strcpy(stuOldInfo.passWord, oldPassword);
+
+	USER_INFO_NEW stuModifiedInfo = {sizeof(stuModifiedInfo)};
+	strcpy(stuModifiedInfo.passWord, password);
+
+	BOOL bRet = CLIENT_OperateUserInfoNew(loginID, 6, &stuModifiedInfo, &stuOldInfo, NULL, SDK_API_WAITTIME);
+	return bRet;
+}
+
 BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result)
 {
 	char szJsonBuf[1024 * 40] = {0};

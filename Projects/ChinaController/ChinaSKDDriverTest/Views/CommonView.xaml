@@ -28,5 +28,20 @@
 			<Button Content="GetCurrentTime" Command="{Binding GetCurrentTimeCommand}" Width="300" Margin="2" />
 			<Button Content="SetCurrentTime" Command="{Binding SetCurrentTimeCommand}" Width="300" Margin="2" />
 		</StackPanel>
-	</StackPanel>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Логин" Width="100" Margin="2" />
+                <TextBox Text="{Binding Login}" Width="150" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Действующий пароль" Width="150" Margin="2" />
+                <TextBox Text="{Binding OldPassword}" Width="100" Margin="2" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Новый пароль" Width="150" Margin="2" />
+                <TextBox Text="{Binding NewPassword}" Width="100" Margin="2" />
+            </StackPanel>
+            <Button Content="SetPassword" Command="{Binding SetPasswordCommand}" Width="300" Margin="2" />
+        </StackPanel>
+    </StackPanel>
 </UserControl>

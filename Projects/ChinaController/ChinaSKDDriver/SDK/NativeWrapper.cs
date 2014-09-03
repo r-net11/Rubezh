@@ -198,6 +198,9 @@ namespace ChinaSKDDriverNativeApi
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetControllerDirectionType(int loginID, CFG_ACCESS_PROPERTY_TYPE emAccessProperty);
 
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_SetControllerPassword(int loginID, string name, string oldPassword, string password);
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO
 		{

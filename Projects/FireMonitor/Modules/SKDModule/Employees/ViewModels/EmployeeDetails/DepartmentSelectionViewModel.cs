@@ -85,10 +85,12 @@ namespace SKDModule.ViewModels
 			var hasParentDepartment = SelectedDepartment != null;
 			if (hasParentDepartment)
 				parentDepartmentUID = SelectedDepartment.Department.UID;
-			var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationUID, null, parentDepartmentUID);
+			//var departmentDetailsViewModel = new DepartmentDetailsViewModel(OrganisationUID, null, parentDepartmentUID);
+			var departmentDetailsViewModel = new DepartmentDetailsViewModel();
+			departmentDetailsViewModel.Initialize(OrganisationUID, parentDepartmentUID);
 			if (DialogService.ShowModalWindow(departmentDetailsViewModel))
 			{
-				var departmentViewModel = new DepartmentSelectionItemViewModel(departmentDetailsViewModel.ShortDepartment);
+				var departmentViewModel = new DepartmentSelectionItemViewModel(departmentDetailsViewModel.Model);
 				if (hasParentDepartment)
 				{
 					SelectedDepartment.AddChild(departmentViewModel);

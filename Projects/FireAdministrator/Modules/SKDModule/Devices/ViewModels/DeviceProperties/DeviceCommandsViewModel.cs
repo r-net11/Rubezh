@@ -24,6 +24,7 @@ namespace SKDModule.ViewModels
 		{
 			DevicesViewModel = devicesViewModel;
 			ShowControllerConfigurationCommand = new RelayCommand(OnShowControllerConfiguration, CanShowControllerConfiguration);
+			ShowControllerPasswordCommand = new RelayCommand(OnShowControllerPassword, CanShowControllerPassword);
 			ShowLockConfigurationCommand = new RelayCommand(OnShowLockConfiguration, CanShowLockConfiguration);
 			WriteTimeSheduleConfigurationCommand = new RelayCommand(OnWriteTimeSheduleConfiguration, CanWriteTimeSheduleConfiguration);
 			WriteAllTimeSheduleConfigurationCommand = new RelayCommand(OnWriteAllTimeSheduleConfiguration);
@@ -49,6 +50,20 @@ namespace SKDModule.ViewModels
 			}
 		}
 		bool CanShowControllerConfiguration()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+		}
+
+		public RelayCommand ShowControllerPasswordCommand { get; private set; }
+		void OnShowControllerPassword()
+		{
+			var controllerPaswordViewModel = new ControllerPaswordViewModel(SelectedDevice);
+			if (DialogService.ShowModalWindow(controllerPaswordViewModel))
+			{
+
+			}
+		}
+		bool CanShowControllerPassword()
 		{
 			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}

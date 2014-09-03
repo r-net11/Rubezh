@@ -8,7 +8,11 @@
 		<Views:ControllerPropertiesView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:LockPropertiesViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:ControllerPaswordViewModel}">
+        <Views:ControllerPaswordView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:LockPropertiesViewModel}">
 		<Views:LockPropertiesView />
 	</DataTemplate>
 

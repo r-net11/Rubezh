@@ -642,6 +642,17 @@ namespace FiresecService.Service
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
 
+		public OperationResult<bool> SetControllerPassword(Guid deviceUID, string name, string oldPassword, string password)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запись_пароля_контроллера, device);
+				return ChinaSKDDriver.Processor.SetControllerPassword(deviceUID, name, oldPassword, password);
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
 		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
 		{
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);

@@ -37,5 +37,4 @@ namespace SKDModule.ViewModels
 			base.Update(accessTemplate);
 		}
 	}
-
 }

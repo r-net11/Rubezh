@@ -289,6 +289,11 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SetDirectionType(device.UID, directionType); }, "SetDirectionType");
 		}
 
+		public OperationResult<bool> SetControllerPassword(SKDDevice device, string name, string oldPassword, string password)
+		{
+			return SafeOperationCall(() => { return FiresecService.SetControllerPassword(device.UID, name, oldPassword, password); }, "SetControllerPassword");
+		}
+
 		public OperationResult<bool> SKDOpenDevice(SKDDevice device)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(device.UID); }, "SKDOpenDevice");
