@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.SelectDepartmentView"
+﻿<UserControl x:Class="SKDModule.Views.DepartmentSelectionView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls"
@@ -8,18 +8,15 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<tree:TreeList Grid.Row="0" Focusable="True" Source="{Binding RootDepartmentsArray}" SelectedItem="{Binding SelectedDepartment}" UIBehavior.ShowSelectionMark="True">
+        <tree:TreeList Grid.Row="0" Focusable="True" Source="{Binding RootDepartments}" SelectedItem="{Binding SelectedDepartment}" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Header="Название">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
-									<Image Width="16" Source="/Controls;component/Images/Department.png" VerticalAlignment="Center" Margin="1 0 0 0" 
-										   Visibility="{Binding IsDepartment, Converter={StaticResource BoolToVisibilityConverter}}" />
-									<Image Width="16" Source="/Controls;component/Images/Organisation.png" VerticalAlignment="Center" Margin="1 0 0 0" 
-										   Visibility="{Binding IsDepartment, Converter={StaticResource InversedBoolToVisibilityConverter}}" />
-									<TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
+									<Image Width="16" Source="/Controls;component/Images/Department.png" VerticalAlignment="Center" Margin="1 0 0 0" />
+                                    <TextBlock Text="{Binding Department.Name}" VerticalAlignment="Center" Margin="2" />
 								</StackPanel>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>

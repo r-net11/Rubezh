@@ -12,7 +12,7 @@
 	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 		<tree:TreeList.View>
 			<GridView>
-				<GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource DepartmentViewModelNameComparer}">
+                <GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DepartmentViewModelNameComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -23,7 +23,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Header="Описание" tree:SortBehavior.SortComparer="{StaticResource DepartmentViewModelDescriptionComparer}">
+                <GridViewColumn Header="Описание" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource DepartmentViewModelDescriptionComparer}">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

@@ -83,6 +83,7 @@
     <Compile Include="Employees\ViewModels\AccessDoorsSelectationViewModel.cs" />
     <Compile Include="Employees\ViewModels\AccessDoorViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardNumberViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionItemViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZonesViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\EmployeeGuardZoneViewModel.cs" />
     <Compile Include="Employees\ViewModels\ControllerSelectationViewModel.cs" />
@@ -100,20 +101,18 @@
     <Compile Include="HR\ViewModels\Comparers.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\GenderSelectionViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\SelectEscortViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\SelectScheduleViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\EscortSelectionViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\ScheduleSelectionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\TextColumnViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardDoorsViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardDetailsViewModel.cs" />
     <Compile Include="Employees\ViewModels\CardRemovalReasonViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeCardViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\GraphicsColumnViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\SelectationPositionViewModel.cs" />
     <Compile Include="Employees\ViewModels\EmployeesViewModel.cs" />
     <Compile Include="Employees\ViewModels\ReaderSelectationViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\SelectationDepartmentViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\SelectDepartmentViewModel.cs" />
-    <Compile Include="Employees\ViewModels\EmployeeDetails\SelectPositionViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\DepartmentSelectionViewModel.cs" />
+    <Compile Include="Employees\ViewModels\EmployeeDetails\PositionSelectionViewModel.cs" />
     <Compile Include="Employees\Views\EmployeeDetails\DocumentTypeSelectionView.xaml.cs">
       <DependentUpon>DocumentTypeSelectionView.xaml</DependentUpon>
     </Compile>
@@ -123,17 +122,17 @@
     <Compile Include="Employees\Views\EmployeeDetails\GenderSelectionView.xaml.cs">
       <DependentUpon>GenderSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Employees\Views\EmployeeDetails\SelectScheduleView.xaml.cs">
-      <DependentUpon>SelectScheduleView.xaml</DependentUpon>
+    <Compile Include="Employees\Views\EmployeeDetails\ScheduleSelectionView.xaml.cs">
+      <DependentUpon>ScheduleSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Employees\Views\ReaderSelectationView.xaml.cs">
       <DependentUpon>ReaderSelectationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Employees\Views\EmployeeDetails\SelectDepartmentView.xaml.cs">
-      <DependentUpon>SelectDepartmentView.xaml</DependentUpon>
+    <Compile Include="Employees\Views\EmployeeDetails\DepartmentSelectionView.xaml.cs">
+      <DependentUpon>DepartmentSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Employees\Views\EmployeeDetails\SelectPositionView.xaml.cs">
-      <DependentUpon>SelectPositionView.xaml</DependentUpon>
+    <Compile Include="Employees\Views\EmployeeDetails\PositionSelectionView.xaml.cs">
+      <DependentUpon>PositionSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\ShowTimeTrackingEvent.cs" />
@@ -532,7 +531,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Employees\Views\EmployeeDetails\SelectScheduleView.xaml">
+    <Page Include="Employees\Views\EmployeeDetails\ScheduleSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -568,11 +567,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Employees\Views\EmployeeDetails\SelectDepartmentView.xaml">
+    <Page Include="Employees\Views\EmployeeDetails\DepartmentSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Employees\Views\EmployeeDetails\SelectPositionView.xaml">
+    <Page Include="Employees\Views\EmployeeDetails\PositionSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

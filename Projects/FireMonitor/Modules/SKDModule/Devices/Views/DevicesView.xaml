@@ -14,7 +14,7 @@
 			<tree:TreeList Name="_devicesDataGrid" Focusable="True" SelectedTreeNode="{Binding SelectedDevice}" Source="{Binding RootDevices}" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
-						<GridViewColumn Width="250" Header="Устройство" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDeviceComparer}">
+                        <GridViewColumn Width="Auto" Header="Устройство" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelDeviceComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<Views:DeviceView />
@@ -22,7 +22,7 @@
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
 						<GridViewColumn Width="75" DisplayMemberBinding="{Binding PresentationAddress}" Header="Адрес" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelAddressComparer}" />
-						<GridViewColumn Width="300" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
+                        <GridViewColumn ListViewLayoutManager.StarWidth="1" Header="Ведет в зону" tree:SortBehavior.SortComparer="{StaticResource DeviceViewModelZoneComparer}">
 							<GridViewColumn.CellTemplate>
 	                            <DataTemplate>
 	                                <TextBlock VerticalAlignment="Center" Visibility="{Binding HasZone, Converter={StaticResource BoolToVisibilityConverter}}">

@@ -28,12 +28,12 @@
 		<Views:ReaderSelectationView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:SelectDepartmentViewModel}">
-		<Views:SelectDepartmentView />
+	<DataTemplate DataType="{x:Type ViewModels:DepartmentSelectionViewModel}">
+		<Views:DepartmentSelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:SelectPositionViewModel}">
-		<Views:SelectPositionView />
+	<DataTemplate DataType="{x:Type ViewModels:PositionSelectionViewModel}">
+		<Views:PositionSelectionView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:GenderSelectionViewModel}">
@@ -44,12 +44,12 @@
 		<Views:DocumentTypeSelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:SelectEscortViewModel}">
-		<Views:SelectEscortView />
+	<DataTemplate DataType="{x:Type ViewModels:EscortSelectionViewModel}">
+		<Views:EscortSelectionView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:SelectScheduleViewModel}">
-		<Views:SelectScheduleView />
+	<DataTemplate DataType="{x:Type ViewModels:ScheduleSelectionViewModel}">
+		<Views:ScheduleSelectionView />
 	</DataTemplate>
 
 </ResourceDictionary>

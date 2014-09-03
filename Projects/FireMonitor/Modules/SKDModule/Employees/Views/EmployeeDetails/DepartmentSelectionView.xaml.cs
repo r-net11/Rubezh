@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class SelectScheduleView : UserControl
+	public partial class DepartmentSelectionView : UserControl
 	{
-		public SelectScheduleView()
+		public DepartmentSelectionView()
 		{
 			InitializeComponent();
 		}

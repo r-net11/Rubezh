@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.SelectScheduleView"
+﻿<UserControl x:Class="SKDModule.Views.ScheduleSelectionView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:Controls="clr-namespace:Controls;assembly=Controls"
@@ -19,13 +19,12 @@
 		        </StackPanel>
 		
 		        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-			        <DataGrid ItemsSource="{Binding Schedules}" >
+                    <DataGrid ItemsSource="{Binding Schedules}" SelectedItem="{Binding SelectedSchedule}" UIBehavior.ShowSelectionMark="True"  UIBehavior.IsActiveSelectionMark="True">
 				        <DataGrid.Columns>
 					        <DataGridTemplateColumn Header="Название" Width="*">
 						        <DataGridTemplateColumn.CellTemplate>
 							        <DataTemplate>
-								        <RadioButton GroupName="Schedules" VerticalAlignment="Center" Margin="2"
-									        Content="{Binding Name}" IsChecked="{Binding IsChecked}" Command="{Binding SelectCommand}"/>
+                                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="2" />
 							        </DataTemplate>
 						        </DataGridTemplateColumn.CellTemplate>
 					        </DataGridTemplateColumn>

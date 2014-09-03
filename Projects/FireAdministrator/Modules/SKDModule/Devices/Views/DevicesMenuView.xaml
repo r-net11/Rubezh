@@ -4,7 +4,7 @@
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 		<ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить (Ctrl+N)" ImageSource="/Controls;component/Images/Add.png" />
-		<ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать (Ctrl+E)" ImageSource="/Controls;component/Images/Edit.png" />
+		<ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Свойства (Ctrl+E)" ImageSource="/Controls;component/Images/Edit.png" />
 		<ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/Delete.png" />
 		<Menu VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}" FontSize="12">
 			<MenuItem>
