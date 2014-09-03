@@ -211,6 +211,10 @@ namespace SKDModule.ViewModels
         {
             return SelectedItem != null && !SelectedItem.IsOrganisation;
         }
+        protected virtual string ItemRussianName
+        {
+            get { return "запись"; }
+        }
 
         public RelayCommand EditCommand { get; private set; }
         protected void OnEdit()

@@ -9,7 +9,7 @@ namespace SKDModule.ViewModels
             base.Update();
             OnPropertyChanged(() => ReductionTime);
 			OnPropertyChanged(() => TransitionDate);
-			OnPropertyChanged(() => Holiday);
+			OnPropertyChanged(() => Model);
 		}
 
 		public string ReductionTime
