@@ -185,7 +185,7 @@ namespace SKDModule.ViewModels
         public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить запись?"))
+			if (MessageBoxService.ShowQuestion2(string.Format("Вы уверены, что хотите удалить {0}?", ItemRussianName)))
 			{
 				ViewModelT OrganisationViewModel = SelectedItem;
 				if (!OrganisationViewModel.IsOrganisation)
