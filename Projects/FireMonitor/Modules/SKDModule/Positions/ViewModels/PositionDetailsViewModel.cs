@@ -5,10 +5,10 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class PositionDetailsViewModel : SaveCancelDialogViewModel
+	public class PositionDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortPosition>
 	{
 		public Position Position { get; private set; }
-		public ShortPosition ShortPosition
+		public ShortPosition Model
 		{
 			get
 			{
@@ -24,27 +24,49 @@ namespace SKDModule.ViewModels
 
 		Guid OrganisationUID { get; set; }
 
-		public PositionDetailsViewModel(Guid orgnaisationUID, Guid? positionUID = null)
-		{
-			OrganisationUID = orgnaisationUID;
-			if (positionUID == null)
-			{
-				Title = "Создание должности";
-				Position = new Position()
-				{
-					Name = "Новая должность",
-					OrganisationUID = OrganisationUID
-				};
-			}
-			else
-			{
-				Position = PositionHelper.GetDetails(positionUID);
-				Title = string.Format("Свойства должности: {0}", Position.Name);
-			}
-			CopyProperties();
-		}
+		public PositionDetailsViewModel() { }
 
-		public void CopyProperties()
+        public void Initialize(Guid orgnaisationUID, Guid? positionUID = null)
+        {
+            OrganisationUID = orgnaisationUID;
+            if (positionUID == null)
+            {
+                Title = "Создание должности";
+                Position = new Position()
+                {
+                    Name = "Новая должность",
+                    OrganisationUID = OrganisationUID
+                };
+            }
+            else
+            {
+                Position = PositionHelper.GetDetails(positionUID);
+                Title = string.Format("Свойства должности: {0}", Position.Name);
+            }
+            CopyProperties();
+        }
+
+        public void Initialize(Organisation organisation, ShortPosition model, ViewPartViewModel parentViewModel)
+        {
+            OrganisationUID = organisation.UID;
+            if (model == null)
+            {
+                Title = "Создание должности";
+                Position = new Position()
+                {
+                    Name = "Новая должность",
+                    OrganisationUID = OrganisationUID
+                };
+            }
+            else
+            {
+                Position = PositionHelper.GetDetails(model.UID);
+                Title = string.Format("Свойства должности: {0}", Position.Name);
+            }
+            CopyProperties();
+        }
+
+        public void CopyProperties()
 		{
 			Name = Position.Name;
 			Description = Position.Description;
@@ -106,5 +128,5 @@ namespace SKDModule.ViewModels
 			Position.OrganisationUID = OrganisationUID;
 			return PositionHelper.Save(Position);
 		}
-	}
+    }
 }

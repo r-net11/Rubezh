@@ -5,31 +5,31 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class DayIntervalDetailsViewModel : SaveCancelDialogViewModel
+	public class DayIntervalDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<DayInterval>
 	{
 		FiresecAPI.SKD.Organisation Organisation;
-		public DayInterval DayInterval { get; private set; }
+		public DayInterval Model { get; private set; }
 
-		public DayIntervalDetailsViewModel(FiresecAPI.SKD.Organisation organisation, DayInterval dayInterval = null)
-		{
-			Organisation = organisation;
-			if (dayInterval == null)
-			{
-				Title = "Новый дневной график";
-				dayInterval = new DayInterval()
-				{
-					Name = "Дневной график",
-					OrganisationUID = organisation.UID,
-				};
-				dayInterval.DayIntervalParts.Add(new DayIntervalPart() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = dayInterval.UID });
-			}
-			else
-				Title = "Редактирование дневного графика";
-			DayInterval = dayInterval;
-			Name = DayInterval.Name;
-			Description = DayInterval.Description;
-			ConstantSlideTime = DayInterval.SlideTime;
-		}
+        public void Initialize(Organisation organisation, DayInterval model, ViewPartViewModel parentViewModel)
+        {
+            Organisation = organisation;
+            if (model == null)
+            {
+                Title = "Новый дневной график";
+                model = new DayInterval()
+                {
+                    Name = "Дневной график",
+                    OrganisationUID = organisation.UID,
+                };
+                model.DayIntervalParts.Add(new DayIntervalPart() { BeginTime = new TimeSpan(9, 0, 0), EndTime = new TimeSpan(18, 0, 0), DayIntervalUID = model.UID });
+            }
+            else
+                Title = "Редактирование дневного графика";
+            Model = model;
+            Name = Model.Name;
+            Description = Model.Description;
+            ConstantSlideTime = Model.SlideTime;
+        }
 
 		string _name;
 		public string Name
@@ -70,10 +70,10 @@ namespace SKDModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			DayInterval.Name = Name;
-			DayInterval.Description = Description;
-			DayInterval.SlideTime = ConstantSlideTime;
-			return DayIntervalHelper.Save(DayInterval);
+			Model.Name = Name;
+			Model.Description = Description;
+			Model.SlideTime = ConstantSlideTime;
+			return DayIntervalHelper.Save(Model);
 		}
-	}
+    }
 }

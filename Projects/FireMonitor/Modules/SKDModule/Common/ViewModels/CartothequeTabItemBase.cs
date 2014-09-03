@@ -17,6 +17,7 @@ namespace SKDModule.ViewModels
         where ViewModelT : CartothequeTabItemElementBase<ViewModelT, ModelT>, new()
         where ModelT : class, IWithOrganisationUID, IWithUID, IWithName, new()
         where DetailsViewModelT : SaveCancelDialogViewModel, IDetailsViewModel<ModelT>, new()
+        where FilterT: OrganisationFilterBase
     {
         public CartothequeTabItemBase()
         {
@@ -37,7 +38,7 @@ namespace SKDModule.ViewModels
         {
             ModelT result = null;
             var detailsViewModel = new DetailsViewModelT();
-            detailsViewModel.Initialize(SelectedItem.Organisation, model, this);
+            detailsViewModel.Initialize(organisation, model, this);
             if (DialogService.ShowModalWindow(detailsViewModel))
             {
                 result = detailsViewModel.Model;
@@ -47,36 +48,50 @@ namespace SKDModule.ViewModels
 
         public virtual void Initialize(FilterT filter)
         {
-            var organisations = OrganisationHelper.GetByCurrentUser();
-            if (organisations == null)
+            var result = InitializeOrganisations(filter);
+            if (!result)
                 return;
             var models = GetModels(filter);
             if (models == null)
                 return;
+            InitializeModels(models);
+            OnPropertyChanged(() => Organisations);
+            SelectedItem = Organisations.FirstOrDefault();
+        }
+
+        protected virtual bool InitializeOrganisations(FilterT filter)
+        {
+            var organisationFilter = new OrganisationFilter { UIDs = filter.OrganisationUIDs, UserUID = FiresecManager.CurrentUser.UID };
+            var organisations = OrganisationHelper.Get(organisationFilter);
+            if (organisations == null)
+                return false;
             Organisations = new ObservableCollection<ViewModelT>();
             foreach (var organisation in organisations)
             {
                 var organisationViewModel = new ViewModelT();
                 organisationViewModel.InitializeOrganisation(organisation, this);
                 Organisations.Add(organisationViewModel);
-                if (models != null)
+            }
+            return true;
+        }
+
+        protected virtual void InitializeModels(IEnumerable<ModelT> models)
+        {
+            foreach (var organisation in Organisations)
+            {
+                foreach (var model in models)
                 {
-                    foreach (var model in models)
+                    if (model.OrganisationUID == organisation.Organisation.UID)
                     {
-                        if (model.OrganisationUID == organisation.UID)
-                        {
-                            var itemViewModel = new ViewModelT();
-                            itemViewModel.InitializeModel(organisation, model, this);
-                            organisationViewModel.AddChild(itemViewModel);
-                        }
+                        var itemViewModel = new ViewModelT();
+                        itemViewModel.InitializeModel(organisation.Organisation, model, this);
+                        organisation.AddChild(itemViewModel);
                     }
                 }
             }
-            OnPropertyChanged(() => Organisations);
-            SelectedItem = Organisations.FirstOrDefault();
         }
-        
-        void OnEditOrganisation(Organisation newOrganisation)
+                
+        protected virtual void OnEditOrganisation(Organisation newOrganisation)
         {
             var organisation = Organisations.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
             if (organisation != null)
@@ -86,7 +101,7 @@ namespace SKDModule.ViewModels
             OnPropertyChanged(() => Organisations);
         }
 
-        void OnOrganisationUsersChanged(Organisation newOrganisation)
+        protected virtual void OnOrganisationUsersChanged(Organisation newOrganisation)
         {
             if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
             {
@@ -96,12 +111,7 @@ namespace SKDModule.ViewModels
                 var models = GetModelsByOrganisation(newOrganisation.UID);
                 if (models == null)
                     return;
-                foreach (var model in models)
-                {
-                    var itemViewModel = new ViewModelT();
-                    itemViewModel.InitializeModel(newOrganisation, model, this);
-                    organisationViewModel.AddChild(itemViewModel);
-                }
+                InitializeModels(models);
                 OnPropertyChanged(() => Organisations);
             }
             else
@@ -125,9 +135,11 @@ namespace SKDModule.ViewModels
             {
                 _selectedItem = value;
                 if (value != null)
+                {
                     value.ExpandToThis();
+                    UpdateSelected();
+                }
                 OnPropertyChanged(() => SelectedItem);
-                UpdateSelected();
             }
         }
 
@@ -156,17 +168,18 @@ namespace SKDModule.ViewModels
                 return;
             var itemViewModel = new ViewModelT();
             itemViewModel.InitializeModel(SelectedItem.Organisation, model, this);
-            ViewModelT organisationViewModel = SelectedItem;
-            if (!organisationViewModel.IsOrganisation)
-                organisationViewModel = SelectedItem.Parent;
-            if (organisationViewModel == null || organisationViewModel.Organisation == null)
-                return;
-            organisationViewModel.AddChild(itemViewModel);
+            var parentViewModel = GetParentItem();
+            parentViewModel.AddChild(itemViewModel);
             SelectedItem = itemViewModel;
         }
         bool CanAdd()
         {
             return SelectedItem != null;
+        }
+
+        protected virtual ViewModelT GetParentItem()
+        {
+            return SelectedItem.IsOrganisation ? SelectedItem : SelectedItem.Parent;
         }
 
         public RelayCommand RemoveCommand { get; private set; }

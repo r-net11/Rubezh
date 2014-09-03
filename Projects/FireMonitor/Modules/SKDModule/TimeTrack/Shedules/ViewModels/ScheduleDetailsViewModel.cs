@@ -8,46 +8,13 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel
+	public class ScheduleDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<Schedule>
 	{
 		FiresecAPI.SKD.Organisation Organisation;
 		IEnumerable<ScheduleScheme> _schemes;
-		public Schedule Schedule { get; private set; }
+		public Schedule Model { get; private set; }
 
-		public ScheduleDetailsViewModel(FiresecAPI.SKD.Organisation organisation, Schedule schedule = null)
-		{
-			Organisation = organisation;
-			if (schedule == null)
-			{
-				Title = "Новый график";
-				schedule = new Schedule()
-				{
-					Name = "Новый график работы",
-					OrganisationUID = Organisation.UID,
-				};
-			}
-			else
-				Title = "Редактирование графика работы";
-			Schedule = schedule;
-			Name = Schedule.Name;
-			IsIgnoreHoliday = Schedule.IsIgnoreHoliday;
-			IsOnlyFirstEnter = Schedule.IsOnlyFirstEnter;
-			AllowedLate = Schedule.AllowedLate;
-			AllowedEarlyLeave = Schedule.AllowedEarlyLeave;
-			AvailableScheduleTypes = new ObservableCollection<ScheduleSchemeType>(Enum.GetValues(typeof(ScheduleSchemeType)).OfType<ScheduleSchemeType>());
-			_schemes = ScheduleSchemaHelper.Get(new ScheduleSchemeFilter()
-			{
-				OrganisationUIDs = new List<Guid>() { Organisation.UID },
-				Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
-				WithDays = false,
-			});
-			var selectedScheme = _schemes.FirstOrDefault(item => item.UID == Schedule.ScheduleSchemeUID);
-			if (selectedScheme != null)
-			{
-				SelectedScheduleType = selectedScheme.Type;
-				SelectedScheduleScheme = selectedScheme;
-			}
-		}
+		public ScheduleDetailsViewModel() { }
 
 		string _name;
 		public string Name
@@ -148,13 +115,49 @@ namespace SKDModule.ViewModels
 		}
 		protected override bool Save()
 		{
-			Schedule.Name = Name;
-			Schedule.IsIgnoreHoliday = IsIgnoreHoliday;
-			Schedule.IsOnlyFirstEnter = IsOnlyFirstEnter;
-			Schedule.AllowedLate = AllowedLate;
-			Schedule.AllowedEarlyLeave = AllowedEarlyLeave;
-			Schedule.ScheduleSchemeUID = SelectedScheduleScheme == null ? Guid.Empty : SelectedScheduleScheme.UID;
-			return ScheduleHelper.Save(Schedule);
+			Model.Name = Name;
+			Model.IsIgnoreHoliday = IsIgnoreHoliday;
+			Model.IsOnlyFirstEnter = IsOnlyFirstEnter;
+			Model.AllowedLate = AllowedLate;
+			Model.AllowedEarlyLeave = AllowedEarlyLeave;
+			Model.ScheduleSchemeUID = SelectedScheduleScheme == null ? Guid.Empty : SelectedScheduleScheme.UID;
+			return ScheduleHelper.Save(Model);
 		}
-	}
+
+
+        public void Initialize(Organisation organisation, Schedule model, ViewPartViewModel parentViewModel)
+        {
+            Organisation = organisation;
+            if (model == null)
+            {
+                Title = "Новый график";
+                model = new Schedule()
+                {
+                    Name = "Новый график работы",
+                    OrganisationUID = Organisation.UID,
+                };
+            }
+            else
+                Title = "Редактирование графика работы";
+            Model = model;
+            Name = Model.Name;
+            IsIgnoreHoliday = Model.IsIgnoreHoliday;
+            IsOnlyFirstEnter = Model.IsOnlyFirstEnter;
+            AllowedLate = Model.AllowedLate;
+            AllowedEarlyLeave = Model.AllowedEarlyLeave;
+            AvailableScheduleTypes = new ObservableCollection<ScheduleSchemeType>(Enum.GetValues(typeof(ScheduleSchemeType)).OfType<ScheduleSchemeType>());
+            _schemes = ScheduleSchemaHelper.Get(new ScheduleSchemeFilter()
+            {
+                OrganisationUIDs = new List<Guid>() { Organisation.UID },
+                Type = ScheduleSchemeType.Month | ScheduleSchemeType.SlideDay | ScheduleSchemeType.Week,
+                WithDays = false,
+            });
+            var selectedScheme = _schemes.FirstOrDefault(item => item.UID == Model.ScheduleSchemeUID);
+            if (selectedScheme != null)
+            {
+                SelectedScheduleType = selectedScheme.Type;
+                SelectedScheduleScheme = selectedScheme;
+            }
+        }
+    }
 }

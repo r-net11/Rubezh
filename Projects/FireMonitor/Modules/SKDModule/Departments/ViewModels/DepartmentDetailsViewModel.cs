@@ -5,30 +5,46 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class DepartmentDetailsViewModel : SaveCancelDialogViewModel
+	public class DepartmentDetailsViewModel : SaveCancelDialogViewModel, IDetailsViewModel<ShortDepartment>
 	{
 		Guid OrganisationUID { get; set; }
 		Department Department { get; set; }
 
-		public DepartmentDetailsViewModel(Guid organisationUID, Guid? departmentUID = null, Guid? parentDepartmentUID = null)
+		public DepartmentDetailsViewModel() { }
+		
+		public void Initialize(Organisation organisation, ShortDepartment shortDepartment, ViewPartViewModel parentViewModel)
 		{
-			OrganisationUID = organisationUID;
+			OrganisationUID = organisation.UID;
 
-			if (departmentUID == null)
+			if (shortDepartment == null)
 			{
 				Title = "Создание отдела";
+				var parentModel = (parentViewModel as DepartmentsViewModel).SelectedItem.Model;
 				Department = new Department()
 				{
 					Name = "Новый отдел",
-					ParentDepartmentUID = parentDepartmentUID,
+					ParentDepartmentUID = parentModel != null ? parentModel.UID : new Guid?(),
 					OrganisationUID = OrganisationUID
 				};
 			}
 			else
 			{
-				Department = DepartmentHelper.GetDetails(departmentUID);
+				Department = DepartmentHelper.GetDetails(shortDepartment.UID);
 				Title = string.Format("Свойства отдела: {0}", Department.Name);
 			}
+			CopyProperties();
+		}
+
+		public void Initialize(Guid organisationUID, Guid? parentDepartmentUID)
+		{
+			OrganisationUID = organisationUID;
+			Title = "Создание отдела";
+			Department = new Department()
+			{
+				Name = "Новый отдел",
+				ParentDepartmentUID = parentDepartmentUID,
+				OrganisationUID = OrganisationUID
+			};
 			CopyProperties();
 		}
 
@@ -84,7 +100,7 @@ namespace SKDModule.ViewModels
 			return true;
 		}
 
-		public ShortDepartment ShortDepartment 
+		public ShortDepartment Model 
 		{ 
 			get
 			{

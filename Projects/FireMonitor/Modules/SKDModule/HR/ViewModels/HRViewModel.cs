@@ -36,6 +36,9 @@ namespace SKDModule.ViewModels
 			CardsViewModel = new CardsViewModel();
 			AccessTemplatesViewModel = new AccessTemplatesViewModel();
 			OrganisationsViewModel = new OrganisationsViewModel();
+			DepartmentFilter = new DepartmentFilter();
+			PositionFilter = new PositionFilter();
+			CardFilter = new CardFilter();
 			IsEmployeesSelected = true;
 
 			var userUID = FiresecManager.CurrentUser.UID;

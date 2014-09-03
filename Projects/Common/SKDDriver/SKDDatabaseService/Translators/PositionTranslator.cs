@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.SKD;
@@ -59,7 +58,7 @@ namespace SKDDriver
 				UID = tableItem.UID,
 				Name = tableItem.Name,
 				Description = tableItem.Description,
-				OrganisationUID = tableItem.OrganisationUID
+				OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty
 			};
 			return shortPosition;
 		}

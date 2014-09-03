@@ -9,7 +9,7 @@
 		<viewModel:DepartmentViewModelDescriptionComparer x:Key="DepartmentViewModelDescriptionComparer" />
 	</UserControl.Resources>
 
-	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedDepartment}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 		<tree:TreeList.View>
 			<GridView>
 				<GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource DepartmentViewModelNameComparer}">

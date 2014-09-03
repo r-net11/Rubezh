@@ -5,39 +5,30 @@ using Common;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
-using Infrastructure.Common.TreeList;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-	public class ScheduleSchemeViewModel : TreeNodeViewModel<ScheduleSchemeViewModel>
+	public class ScheduleSchemeViewModel : CartothequeTabItemElementBase<ScheduleSchemeViewModel, ScheduleScheme>
 	{
-		private bool _isInitialized;
+		bool _isInitialized;
 		public ScheduleSchemesViewModel ScheduleSchemesViewModel;
-		public FiresecAPI.SKD.Organisation Organisation { get; private set; }
-		public bool IsOrganisation { get; private set; }
-		public ScheduleScheme ScheduleScheme { get; private set; }
+		
+		public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
+        {
+            base.InitializeOrganisation(organisation, parentViewModel);
+            ScheduleSchemesViewModel = (parentViewModel as ScheduleSchemesViewModel);
+            _isInitialized = true;
+        }
 
-		public ScheduleSchemeViewModel(ScheduleSchemesViewModel scheduleSchemesViewModel, FiresecAPI.SKD.Organisation organisation)
-		{
-			ScheduleSchemesViewModel = scheduleSchemesViewModel;
-			Organisation = organisation;
-			IsOrganisation = true;
-			IsExpanded = true;
-			_isInitialized = true;
-		}
-		public ScheduleSchemeViewModel(ScheduleSchemesViewModel scheduleSchemesViewModel, FiresecAPI.SKD.Organisation organisation, ScheduleScheme scheduleScheme)
-		{
-			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
-
-			ScheduleSchemesViewModel = scheduleSchemesViewModel;
-			Organisation = organisation;
-			ScheduleScheme = scheduleScheme;
-			IsOrganisation = false;
-			Update();
-
-			_isInitialized = false;
-		}
+        public override void InitializeModel(Organisation organisation, ScheduleScheme model, ViewPartViewModel parentViewModel)
+        {
+            AddCommand = new RelayCommand(OnAdd);
+            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+            ScheduleSchemesViewModel = (parentViewModel as ScheduleSchemesViewModel);
+            base.InitializeModel(organisation, model, parentViewModel);
+            _isInitialized = false;
+        }
 
 		public void Initialize()
 		{
@@ -45,23 +36,22 @@ namespace SKDModule.ViewModels
 			{
 				_isInitialized = true;
 				if (!IsOrganisation)
-					SheduleDayIntervals = new SortableObservableCollection<SheduleDayIntervalViewModel>(ScheduleScheme.DayIntervals.Select(item => new SheduleDayIntervalViewModel(this, item)));
+					SheduleDayIntervals = new SortableObservableCollection<SheduleDayIntervalViewModel>(Model.DayIntervals.Select(item => new SheduleDayIntervalViewModel(this, item)));
 			}
 			OnPropertyChanged(() => DayIntervals);
 		}
-		public void Update()
-		{
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
-		}
-		public string Name
-		{
-			get { return IsOrganisation ? Organisation.Name : ScheduleScheme.Name; }
-		}
-		public string Description
-		{
-			get { return IsOrganisation ? Organisation.Description : ScheduleScheme.Description; }
-		}
+
+        public override string Description
+        {
+            get { return IsOrganisation ? Organisation.Description : Model.Description; }
+            protected set
+            {
+                if (IsOrganisation)
+                    Organisation.Description = value;
+                else
+                    Model.Description = value;
+            }
+        }
 
 		public SortableObservableCollection<SheduleDayIntervalViewModel> SheduleDayIntervals { get; private set; }
 		public ObservableCollection<DayInterval> DayIntervals
@@ -71,7 +61,7 @@ namespace SKDModule.ViewModels
 
 		public bool IsSlide
 		{
-			get { return ScheduleScheme != null && ScheduleScheme.Type == ScheduleSchemeType.SlideDay; }
+            get { return Model != null && Model.Type == ScheduleSchemeType.SlideDay; }
 		}
 
 		SheduleDayIntervalViewModel _selectedDayInterval;
@@ -90,13 +80,13 @@ namespace SKDModule.ViewModels
 		{
 			var dayInterval = new ScheduleDayInterval()
 			{
-				Number = ScheduleScheme.DayIntervals.Count,
-				ScheduleSchemeUID = ScheduleScheme.UID,
+                Number = Model.DayIntervals.Count,
+                ScheduleSchemeUID = Model.UID,
 				DayIntervalUID = Guid.Empty,
 			};
 			if (SheduleDayIntervalHelper.Save(dayInterval))
 			{
-				ScheduleScheme.DayIntervals.Add(dayInterval);
+                Model.DayIntervals.Add(dayInterval);
 				var viewModel = new SheduleDayIntervalViewModel(this, dayInterval);
 				SheduleDayIntervals.Add(viewModel);
 				Sort();
@@ -114,9 +104,9 @@ namespace SKDModule.ViewModels
 			var number = SelectedSheduleDayInterval.Model.Number;
 			if (SheduleDayIntervalHelper.MarkDeleted(SelectedSheduleDayInterval.Model))
 			{
-				for (int i = number + 1; i < ScheduleScheme.DayIntervals.Count; i++)
-					ScheduleScheme.DayIntervals[i].Number--;
-				ScheduleScheme.DayIntervals.Remove(SelectedSheduleDayInterval.Model);
+                for (int i = number + 1; i < Model.DayIntervals.Count; i++)
+                    Model.DayIntervals[i].Number--;
+                Model.DayIntervals.Remove(SelectedSheduleDayInterval.Model);
 				SheduleDayIntervals.Remove(SelectedSheduleDayInterval);
 				SheduleDayIntervals.ForEach(item => item.Update());
 				SelectedSheduleDayInterval = number < SheduleDayIntervals.Count ? SheduleDayIntervals[number] : SheduleDayIntervals.LastOrDefault();

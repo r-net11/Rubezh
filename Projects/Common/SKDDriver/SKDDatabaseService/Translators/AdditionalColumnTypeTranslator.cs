@@ -48,7 +48,7 @@ namespace SKDDriver
 				DataType = (AdditionalColumnDataType)tableItem.DataType,
 				Description = tableItem.Description,
 				Name = tableItem.Name,
-				OrganisationUID = tableItem.OrganisationUID,
+                OrganisationUID = tableItem.OrganisationUID.HasValue ? tableItem.OrganisationUID.Value : Guid.Empty,
 				IsInGrid = tableItem.IsInGrid
 			};
 		}

@@ -1,38 +1,13 @@
 ﻿using FiresecAPI.SKD;
-using Infrastructure.Common.TreeList;
 
 namespace SKDModule.ViewModels
 {
-	public class HolidayViewModel : TreeNodeViewModel<HolidayViewModel>
+	public class HolidayViewModel :CartothequeTabItemElementBase<HolidayViewModel, Holiday>
 	{
-		public FiresecAPI.SKD.Organisation Organisation { get; private set; }
-		public bool IsOrganisation { get; private set; }
-		public string Name { get; private set; }
-		public string Description { get; private set; }
-		public Holiday Holiday { get; private set; }
-
-		public HolidayViewModel(FiresecAPI.SKD.Organisation organisation)
+		public override void Update()
 		{
-			Organisation = organisation;
-			IsOrganisation = true;
-			Name = organisation.Name;
-			IsExpanded = true;
-		}
-
-		public HolidayViewModel(FiresecAPI.SKD.Organisation organisation, Holiday holiday)
-		{
-			Organisation = organisation;
-			Holiday = holiday;
-			IsOrganisation = false;
-			Name = holiday.Name;
-		}
-
-		public void Update(Holiday holiday)
-		{
-			Name = holiday.Name;
-			OnPropertyChanged(() => Name);
-			OnPropertyChanged(() => Description);
-			OnPropertyChanged(() => ReductionTime);
+            base.Update();
+            OnPropertyChanged(() => ReductionTime);
 			OnPropertyChanged(() => TransitionDate);
 		}
 
@@ -40,8 +15,8 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (Holiday != null && Holiday.Type == HolidayType.BeforeHoliday)
-					return Holiday.Reduction.ToString("hh\\-mm");
+                if (Model != null && Model.Type == HolidayType.BeforeHoliday)
+                    return Model.Reduction.ToString("hh\\-mm");
 				return null;
 			}
 		}
@@ -49,8 +24,8 @@ namespace SKDModule.ViewModels
 		{
 			get
 			{
-				if (Holiday != null && Holiday.Type == HolidayType.WorkingHoliday && Holiday.TransferDate.HasValue)
-					return Holiday.TransferDate.Value.ToString("dd-MM");
+                if (Model != null && Model.Type == HolidayType.WorkingHoliday && Model.TransferDate.HasValue)
+                    return Model.TransferDate.Value.ToString("dd-MM");
 				return null;
 			}
 		}

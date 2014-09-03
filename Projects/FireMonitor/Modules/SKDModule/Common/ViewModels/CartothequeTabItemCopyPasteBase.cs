@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FiresecAPI.SKD;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -10,6 +11,7 @@ namespace SKDModule.ViewModels
         where ViewModelT : CartothequeTabItemElementBase<ViewModelT, ModelT>, new()
         where ModelT : class, IWithOrganisationUID, IWithUID, IWithName, new()
         where DetailsViewModelT : SaveCancelDialogViewModel, IDetailsViewModel<ModelT>, new()
+        where FilterT: OrganisationFilterBase
     {
         protected ModelT _clipboard;
         protected abstract bool Save(ModelT item);
@@ -22,38 +24,36 @@ namespace SKDModule.ViewModels
         }
 
         public RelayCommand CopyCommand { get; private set; }
-        void OnCopy()
+        protected virtual void OnCopy()
         {
             _clipboard = CopyModel(SelectedItem.Model, false);
         }
-        bool CanCopy()
+        protected virtual bool CanCopy()
         {
             return SelectedItem != null && !SelectedItem.IsOrganisation;
         }
 
         public RelayCommand PasteCommand { get; private set; }
-        void OnPaste()
+        protected virtual void OnPaste()
         {
-            if (ParentOrganisation != null)
+            var newItem = CopyModel(_clipboard);
+            if (Save(newItem))
             {
-                var newAccessTemplate = CopyModel(_clipboard);
-                if (Save(newAccessTemplate))
-                {
-                    var accessTemplateViewModel = new ViewModelT();
-                    accessTemplateViewModel.InitializeModel(SelectedItem.Organisation, newAccessTemplate, this);
-                    ParentOrganisation.AddChild(accessTemplateViewModel);
-                    SelectedItem = accessTemplateViewModel;
-                }
+                var itemVireModel = new ViewModelT();
+                itemVireModel.InitializeModel(SelectedItem.Organisation, newItem, this);
+                ParentOrganisation.AddChild(itemVireModel);
+                SelectedItem = itemVireModel;
             }
         }
-        bool CanPaste()
+        protected virtual bool CanPaste()
         {
-            return SelectedItem != null && _clipboard != null && ParentOrganisation != null && ParentOrganisation.Organisation.UID == _clipboard.OrganisationUID;
+            return SelectedItem != null && _clipboard != null && ParentOrganisation != null;
         }
 
         protected virtual ModelT CopyModel(ModelT source, bool newName = true)
         {
             var copy = new ModelT();
+            copy.UID = Guid.NewGuid();
             copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
             copy.OrganisationUID = ParentOrganisation.Organisation.UID;
             return copy;

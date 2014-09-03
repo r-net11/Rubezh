@@ -6,63 +6,32 @@ using Common;
 using FiresecAPI.SKD;
 using FiresecClient;
 using FiresecClient.SKDHelpers;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SKDModule.Common;
 
 namespace SKDModule.ViewModels
 {
-	public abstract class ScheduleSchemesViewModel : ViewPartViewModel, ISelectable<Guid>
+	public abstract class ScheduleSchemesViewModel : CartothequeTabItemCopyPasteBase<ScheduleScheme, ScheduleSchemeFilter, ScheduleSchemeViewModel, ScheduleSchemeDetailsViewModel>, ISelectable<Guid>
 	{
 		public abstract ScheduleSchemeType Type { get; }
-		private ScheduleScheme _clipboard;
-		private bool _isInitialized;
+		bool _isInitialized;
 		private Dictionary<Guid, ObservableCollection<DayInterval>> _dayIntervals;
 
 		public ScheduleSchemesViewModel()
+			:base()
 		{
-			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			EditCommand = new RelayCommand(OnEdit, CanEdit);
-			CopyCommand = new RelayCommand(OnCopy, CanCopy);
-			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			_isInitialized = false;
 		}
 
 		public void Initialize()
 		{
-			var organisations = OrganisationHelper.GetByCurrentUser();
-			if (organisations == null)
-				return;
 			var filter = new ScheduleSchemeFilter()
 			{
 				UserUID = FiresecManager.CurrentUser.UID,
-				OrganisationUIDs = organisations.Select(item => item.UID).ToList(),
 				Type = Type,
 			};
-			var scheduleSchemes = ScheduleSchemaHelper.Get(filter);
-
-			AllScheduleSchemes = new List<ScheduleSchemeViewModel>();
-			Organisations = new List<ScheduleSchemeViewModel>();
-			foreach (var organisation in organisations)
-			{
-				var organisationViewModel = new ScheduleSchemeViewModel(this, organisation);
-				Organisations.Add(organisationViewModel);
-				AllScheduleSchemes.Add(organisationViewModel);
-				foreach (var scheduleScheme in scheduleSchemes)
-				{
-					if (scheduleScheme.OrganisationUID == organisation.UID)
-					{
-						var scheduleSchemeViewModel = new ScheduleSchemeViewModel(this, organisation, scheduleScheme);
-						organisationViewModel.AddChild(scheduleSchemeViewModel);
-						AllScheduleSchemes.Add(scheduleSchemeViewModel);
-					}
-				}
-			}
-			OnPropertyChanged(() => Organisations);
-			SelectedScheduleScheme = Organisations.FirstOrDefault();
+			Initialize(filter);
 		}
+
 		public override void OnShow()
 		{
 			base.OnShow();
@@ -72,6 +41,18 @@ namespace SKDModule.ViewModels
 				_isInitialized = true;
 			}
 			ReloadDayIntervals();
+		}
+
+		protected override void OnEditOrganisation(Organisation newOrganisation)
+		{
+			if(_isInitialized)
+				base.OnEditOrganisation(newOrganisation);
+		}
+
+		protected override void OnOrganisationUsersChanged(Organisation newOrganisation)
+		{
+			if(_isInitialized)
+				base.OnOrganisationUsersChanged(newOrganisation);
 		}
 
 		public void ReloadDayIntervals()
@@ -98,160 +79,57 @@ namespace SKDModule.ViewModels
 			return _dayIntervals.ContainsKey(organisationUID) ? _dayIntervals[organisationUID] : new ObservableCollection<DayInterval>();
 		}
 
-		public List<ScheduleSchemeViewModel> Organisations { get; private set; }
-		private List<ScheduleSchemeViewModel> AllScheduleSchemes { get; set; }
-
 		public void Select(Guid scheduleSchemelUID)
 		{
 			if (scheduleSchemelUID != Guid.Empty)
 			{
-				var scheduleSchemeViewModel = AllScheduleSchemes.FirstOrDefault(x => x.ScheduleScheme != null && x.ScheduleScheme.UID == scheduleSchemelUID);
+				var scheduleSchemeViewModel = Organisations.SelectMany(x => x.Children).FirstOrDefault(x => x.Model != null && x.Model.UID == scheduleSchemelUID);
 				if (scheduleSchemeViewModel != null)
 					scheduleSchemeViewModel.ExpandToThis();
-				SelectedScheduleScheme = scheduleSchemeViewModel;
+				SelectedItem = scheduleSchemeViewModel;
 			}
 		}
 
-		private ScheduleSchemeViewModel _selectedScheduleScheme;
-		public ScheduleSchemeViewModel SelectedScheduleScheme
+		protected override void UpdateSelected()
 		{
-			get { return _selectedScheduleScheme; }
-			set
-			{
-				_selectedScheduleScheme = value;
-				if (value != null)
-				{
-					value.ExpandToThis();
-					value.Initialize();
-				}
-				OnPropertyChanged(() => SelectedScheduleScheme);
-			}
+			SelectedItem.Initialize();
 		}
 
-		public ScheduleSchemeViewModel ParentOrganisation
+		protected override ScheduleScheme CopyModel(ScheduleScheme source, bool newName = true)
 		{
-			get
-			{
-				ScheduleSchemeViewModel OrganisationViewModel = SelectedScheduleScheme;
-				if (!OrganisationViewModel.IsOrganisation)
-					OrganisationViewModel = SelectedScheduleScheme.Parent;
-
-				if (OrganisationViewModel.Organisation != null)
-					return OrganisationViewModel;
-
-				return null;
-			}
-		}
-
-		public RelayCommand AddCommand { get; private set; }
-		private void OnAdd()
-		{
-			var ScheduleSchemeDetailsViewModel = new ScheduleSchemeDetailsViewModel(SelectedScheduleScheme.Organisation, Type);
-			if (DialogService.ShowModalWindow(ScheduleSchemeDetailsViewModel))
-			{
-				var scheduleSchemeViewModel = new ScheduleSchemeViewModel(this, SelectedScheduleScheme.Organisation, ScheduleSchemeDetailsViewModel.ScheduleScheme);
-
-				ScheduleSchemeViewModel OrganisationViewModel = SelectedScheduleScheme;
-				if (!OrganisationViewModel.IsOrganisation)
-					OrganisationViewModel = SelectedScheduleScheme.Parent;
-
-				if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-					return;
-
-				OrganisationViewModel.AddChild(scheduleSchemeViewModel);
-				SelectedScheduleScheme = scheduleSchemeViewModel;
-			}
-		}
-		private bool CanAdd()
-		{
-			return SelectedScheduleScheme != null;
-		}
-
-		public RelayCommand RemoveCommand { get; private set; }
-		private void OnRemove()
-		{
-			ScheduleSchemeViewModel OrganisationViewModel = SelectedScheduleScheme;
-			if (!OrganisationViewModel.IsOrganisation)
-				OrganisationViewModel = SelectedScheduleScheme.Parent;
-
-			if (OrganisationViewModel == null || OrganisationViewModel.Organisation == null)
-				return;
-
-			var index = OrganisationViewModel.Children.ToList().IndexOf(SelectedScheduleScheme);
-			var scheduleScheme = SelectedScheduleScheme.ScheduleScheme;
-			bool removeResult = ScheduleSchemaHelper.MarkDeleted(scheduleScheme);
-			if (!removeResult)
-				return;
-			OrganisationViewModel.RemoveChild(SelectedScheduleScheme);
-			index = Math.Min(index, OrganisationViewModel.Children.Count() - 1);
-			if (index > -1)
-				SelectedScheduleScheme = OrganisationViewModel.Children.ToList()[index];
-			else
-				SelectedScheduleScheme = OrganisationViewModel;
-		}
-		private bool CanRemove()
-		{
-			return SelectedScheduleScheme != null && !SelectedScheduleScheme.IsOrganisation;
-		}
-
-		public RelayCommand EditCommand { get; private set; }
-		private void OnEdit()
-		{
-			var scheduleSchemeDetailsViewModel = new ScheduleSchemeDetailsViewModel(SelectedScheduleScheme.Organisation, Type, SelectedScheduleScheme.ScheduleScheme);
-			if (DialogService.ShowModalWindow(scheduleSchemeDetailsViewModel))
-				SelectedScheduleScheme.Update();
-		}
-		private bool CanEdit()
-		{
-			return SelectedScheduleScheme != null && SelectedScheduleScheme.Parent != null && !SelectedScheduleScheme.IsOrganisation;
-		}
-
-		public RelayCommand CopyCommand { get; private set; }
-		private void OnCopy()
-		{
-			_clipboard = CopyScheduleScheme(SelectedScheduleScheme.ScheduleScheme, false);
-		}
-		private bool CanCopy()
-		{
-			return SelectedScheduleScheme != null && !SelectedScheduleScheme.IsOrganisation;
-		}
-
-		public RelayCommand PasteCommand { get; private set; }
-		private void OnPaste()
-		{
-			var newInterval = CopyScheduleScheme(_clipboard);
-			if (ScheduleSchemaHelper.Save(newInterval))
-			{
-				var scheduleSchemeViewModel = new ScheduleSchemeViewModel(this, SelectedScheduleScheme.Organisation, newInterval);
-				if (ParentOrganisation != null)
-				{
-					ParentOrganisation.AddChild(scheduleSchemeViewModel);
-					AllScheduleSchemes.Add(scheduleSchemeViewModel);
-				}
-				SelectedScheduleScheme = scheduleSchemeViewModel;
-			}
-		}
-		bool CanPaste()
-		{
-			return SelectedScheduleScheme != null && _clipboard != null && _clipboard.Type == Type;
-		}
-
-		private ScheduleScheme CopyScheduleScheme(ScheduleScheme source, bool newName = true)
-		{
-			var copy = new ScheduleScheme();
+			var copy = base.CopyModel(source, newName);
 			copy.Type = Type;
-			copy.Name = newName ? CopyHelper.CopyName(source.Name, ParentOrganisation.Children.Select(item => item.Name)) : source.Name;
 			copy.Description = source.Description;
-			copy.OrganisationUID = ParentOrganisation.Organisation.UID;
 			foreach (var day in source.DayIntervals)
+			{
 				if (!day.IsDeleted)
+				{
 					copy.DayIntervals.Add(new ScheduleDayInterval()
 					{
 						DayIntervalUID = day.DayIntervalUID,
 						Number = day.Number,
 						ScheduleSchemeUID = copy.UID,
 					});
+				}
+			}
 			return copy;
+		}
+
+		protected override IEnumerable<ScheduleScheme> GetModels(ScheduleSchemeFilter filter)
+		{
+			return ScheduleSchemaHelper.Get(filter);
+		}
+		protected override IEnumerable<ScheduleScheme> GetModelsByOrganisation(Guid organisationUID)
+		{
+			return ScheduleSchemaHelper.GetByOrganisation(organisationUID);
+		}
+		protected override bool MarkDeleted(Guid uid)
+		{
+			return ScheduleSchemaHelper.MarkDeleted(uid);
+		}
+		protected override bool Save(ScheduleScheme item)
+		{
+			return ScheduleSchemaHelper.Save(item);
 		}
 	}
 }

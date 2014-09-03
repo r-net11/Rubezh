@@ -14,7 +14,7 @@ namespace SKDModule.ViewModels
 			Title = "Сопровождающий";
 			var filter = new EmployeeFilter();
 			filter.DepartmentUIDs.Add(department.UID);
-			filter.OrganisationUIDs.Add(department.OrganisationUID.Value);
+			filter.OrganisationUIDs.Add(department.OrganisationUID);
 			var employees = EmployeeHelper.Get(filter);
 			if (employees == null)
 				return;

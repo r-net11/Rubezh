@@ -32,7 +32,7 @@ namespace SKDModule.ViewModels
 		public override void Update()
 		{
 			base.Update();
-			if (_scheduleScheme.ScheduleScheme.Type == ScheduleSchemeType.Week)
+			if (_scheduleScheme.Model.Type == ScheduleSchemeType.Week)
 			{
 				var dayOfWeek = (DayOfWeek)((Model.Number + 1) % 7);
 				var culture = new System.Globalization.CultureInfo("ru-RU");

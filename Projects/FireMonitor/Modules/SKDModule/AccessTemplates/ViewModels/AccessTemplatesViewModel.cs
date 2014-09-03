@@ -43,6 +43,11 @@ namespace SKDModule.ViewModels
 			copy.CardDoors.ForEach(x => x.AccessTemplateUID = copy.UID);
 			return copy;
 		}
+
+        protected override bool CanPaste()
+        {
+            return base.CanPaste() && ParentOrganisation.Organisation.UID == _clipboard.OrganisationUID;
+        }
 	}
 
 	

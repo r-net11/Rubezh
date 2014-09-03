@@ -13,9 +13,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Schedule scheme)
+		public static bool MarkDeleted(Guid uid)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedSchedule(scheme);
+			var operationResult = FiresecManager.FiresecService.MarkDeletedSchedule(uid);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 

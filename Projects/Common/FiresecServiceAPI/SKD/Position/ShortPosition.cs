@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class ShortPosition
+    public class ShortPosition : IWithName, IWithOrganisationUID, IWithUID
 	{
 		[DataMember]
 		public Guid UID { get; set; }
@@ -16,6 +16,6 @@ namespace FiresecAPI.SKD
 		public string Description { get; set; }
 
 		[DataMember]
-		public Guid? OrganisationUID { get; set; }
+		public Guid OrganisationUID { get; set; }
 	}
 }

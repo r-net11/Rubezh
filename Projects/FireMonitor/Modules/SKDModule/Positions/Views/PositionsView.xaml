@@ -9,7 +9,7 @@
 		<viewModel:PositionViewModelDescriptionComparer x:Key="PositionViewModelDescriptionComparer" />
 	</UserControl.Resources>
 
-	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedPosition}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+	<tree:TreeList Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 		<tree:TreeList.View>
 			<GridView>
 				<GridViewColumn Header="Название" Width="200" tree:SortBehavior.SortComparer="{StaticResource PositionViewModelNameComparer}">

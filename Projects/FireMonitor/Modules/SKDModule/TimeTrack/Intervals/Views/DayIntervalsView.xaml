@@ -22,7 +22,7 @@
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<tree:TreeList Grid.Column="0" Focusable="True" ItemActivatedCommand="{Binding EditCommand}" SelectedTreeNode="{Binding SelectedDayInterval}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+			<tree:TreeList Grid.Column="0" Focusable="True" ItemActivatedCommand="{Binding EditCommand}" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
 						<GridViewColumn Width="200" Header="Название" tree:SortBehavior.SortComparer="{StaticResource DayIntervalViewModelNameComparer}">
@@ -49,7 +49,7 @@
 				</tree:TreeList.View>
 			</tree:TreeList>
 			<GridSplitter Grid.Row="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Cursor="SizeWE" GridSplitterFix.Attach="True" />
-			<Grid Grid.Column="2" Margin="4 0 0 0" DataContext="{Binding SelectedDayInterval}">
+			<Grid Grid.Column="2" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
@@ -59,7 +59,7 @@
 					<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать (Ctrl+E)" />
 					<ToolBarButton Command="{Binding DeleteCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить (Ctrl+Del)" />
 				</StackPanel>
-                <XDataGrid Grid.Row="1" Margin="2" ItemsSource="{Binding DayIntervalParts}" SelectedItem="{Binding SelectedDayIntervalPart}">
+				<XDataGrid Grid.Row="1" Margin="2" ItemsSource="{Binding DayIntervalParts}" SelectedItem="{Binding SelectedDayIntervalPart}">
 					<DataGrid.Columns>
 						<DataGridTemplateColumn Width="*" Header="Начало">
 							<DataGridTemplateColumn.CellTemplate>

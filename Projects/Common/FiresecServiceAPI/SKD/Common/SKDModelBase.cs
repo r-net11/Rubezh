@@ -37,7 +37,7 @@ namespace FiresecAPI.SKD
 
     public interface IWithUID
 	{
-		Guid UID { get; }
+        Guid UID { get; set; }
 	}
     
 }

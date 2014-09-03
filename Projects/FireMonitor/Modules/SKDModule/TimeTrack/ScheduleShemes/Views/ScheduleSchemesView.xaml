@@ -22,7 +22,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<tree:TreeList Grid.Column="0" Focusable="True" ItemActivatedCommand="{Binding EditCommand}" SelectedTreeNode="{Binding SelectedScheduleScheme}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+			<tree:TreeList Grid.Column="0" Focusable="True" ItemActivatedCommand="{Binding EditCommand}" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
 						<GridViewColumn Width="200" Header="Название" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelNameComparer}">
@@ -48,7 +48,7 @@
 					</GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>
-			<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedScheduleScheme}">
+            <Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />

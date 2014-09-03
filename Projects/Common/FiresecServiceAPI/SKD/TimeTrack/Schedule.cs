@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class Schedule : OrganisationElementBase
+    public class Schedule : OrganisationElementBase, IWithName, IWithOrganisationUID, IWithUID
 	{
 		public Schedule()
 		{

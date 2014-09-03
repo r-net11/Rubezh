@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="SKDModule.Views.SchedulesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:SKDModule.Converters" xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended" xmlns:tree="clr-namespace:Controls.TreeList;assembly=Controls" xmlns:viewModel="clr-namespace:SKDModule.ViewModels">
 	<UserControl.Resources>
 		<viewModel:ScheduleViewModelNameComparer x:Key="ScheduleViewModelNameComparer" />
-	    <viewModel:ScheduleViewModelSchemeComparer x:Key="ScheduleViewModelSchemeComparer" />
+		<viewModel:ScheduleViewModelSchemeComparer x:Key="ScheduleViewModelSchemeComparer" />
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -21,7 +21,7 @@
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<tree:TreeList Grid.Column="0" Focusable="True" ItemActivatedCommand="{Binding EditCommand}" SelectedTreeNode="{Binding SelectedSchedule}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+			<tree:TreeList Grid.Column="0" Focusable="True" ItemActivatedCommand="{Binding EditCommand}" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 				<tree:TreeList.View>
 					<GridView>
 						<GridViewColumn Width="200" Header="Название" tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelNameComparer}">
@@ -35,11 +35,11 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-	                    <GridViewColumn Header="Схема" tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelSchemeComparer}">
+						<GridViewColumn Header="Схема" tree:SortBehavior.SortComparer="{StaticResource ScheduleViewModelSchemeComparer}">
 							<GridViewColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-	                                    <TextBlock Text="{Binding Scheme}" />
+										<TextBlock Text="{Binding Scheme}" />
 									</StackPanel>
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
@@ -47,7 +47,7 @@
 					</GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>
-			<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedSchedule}">
+			<Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />

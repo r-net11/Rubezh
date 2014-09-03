@@ -13,9 +13,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(Holiday holiday)
+		public static bool MarkDeleted(Guid uid)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedHoliday(holiday);
+			var operationResult = FiresecManager.FiresecService.MarkDeletedHoliday(uid);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
@@ -34,5 +34,14 @@ namespace FiresecClient.SKDHelpers
 			var operationResult = FiresecManager.FiresecService.GetHolidays(filter);
 			return Common.ShowErrorIfExists(operationResult);
 		}
+
+        public static IEnumerable<Holiday> GetByOrganisation(Guid organisationUID)
+        {
+            var result = FiresecManager.FiresecService.GetHolidays(new HolidayFilter
+            {
+                OrganisationUIDs = new List<System.Guid> { organisationUID }
+            });
+            return Common.ShowErrorIfExists(result);
+        }
 	}
 }

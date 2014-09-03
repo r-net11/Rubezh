@@ -21,7 +21,15 @@ namespace SKDModule.ViewModels
                     return Model.Name;
             }
         }
-        public string Description { get; protected set; }
+        public virtual string Description
+        {
+            get { return IsOrganisation ? Organisation.Description : ""; }
+            protected set
+            {
+                if (IsOrganisation)
+                    Organisation.Description = value;
+            }
+        }
         protected ViewPartViewModel ParentViewModel;
         
         public CartothequeTabItemElementBase() { }
@@ -31,7 +39,6 @@ namespace SKDModule.ViewModels
             Organisation = organisation;
             IsOrganisation = true;
             IsExpanded = true;
-            Description = organisation.Description;
             ParentViewModel = parentViewModel;
         }
 
@@ -53,7 +60,6 @@ namespace SKDModule.ViewModels
         {
             Organisation = organisation;
             IsOrganisation = true;
-            Description = organisation.Description;
             Update();
         }
 

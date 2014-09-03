@@ -4,13 +4,13 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class ShortAdditionalColumnType
+    public class ShortAdditionalColumnType : IWithName, IWithOrganisationUID, IWithUID
 	{
 		[DataMember]
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public Guid? OrganisationUID { get; set; }
+		public Guid OrganisationUID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

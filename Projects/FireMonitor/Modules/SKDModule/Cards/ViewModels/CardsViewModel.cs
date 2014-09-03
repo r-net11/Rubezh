@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.SKD;
+using FiresecClient;
 using FiresecClient.SKDHelpers;
 using Infrastructure;
 using Infrastructure.Common;
@@ -20,6 +21,10 @@ namespace SKDModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Unsubscribe(OnNewCard);
 			ServiceFactory.Events.GetEvent<NewCardEvent>().Subscribe(OnNewCard);
+            ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Unsubscribe(OnEditOrganisation);
+            ServiceFactory.Events.GetEvent<EditOrganisationEvent>().Subscribe(OnEditOrganisation);
+            ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Unsubscribe(OnOrganisationUsersChanged);
+            ServiceFactory.Events.GetEvent<OrganisationUsersChangedEvent>().Subscribe(OnOrganisationUsersChanged);
 		}
 
 		void OnNewCard(SKDCard newCard)
@@ -35,6 +40,44 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => RootItems);
 			OnPropertyChanged(() => RootItemsArray);
 		}
+
+        void OnEditOrganisation(Organisation newOrganisation)
+        {
+            var organisation = RootItems.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
+            if (organisation != null)
+            {
+                organisation.Update(newOrganisation);
+            }
+            OnPropertyChanged(() => RootItems);
+        }
+
+        void OnOrganisationUsersChanged(Organisation newOrganisation)
+        {
+            if (newOrganisation.UserUIDs.Any(x => x == FiresecManager.CurrentUser.UID))
+            {
+                var organisationViewModel = new CardViewModel(newOrganisation);
+                RootItems.Add(organisationViewModel);
+                var cards = CardHelper.Get(new CardFilter());
+                if (cards == null)
+                    return;
+                foreach (var card in cards.Where(x => x.OrganisationUID == newOrganisation.UID))
+                {
+                    organisationViewModel.AddChild(new CardViewModel(card));
+                }
+                OnPropertyChanged(() => RootItems);
+                OnPropertyChanged(() => RootItemsArray);
+            }
+            else
+            {
+                var organisationViewModel = RootItems.FirstOrDefault(x => x.IsOrganisation && x.Organisation.UID == newOrganisation.UID);
+                if (organisationViewModel != null)
+                {
+                    RootItems.Remove(organisationViewModel);
+                    OnPropertyChanged(() => RootItems);
+                    OnPropertyChanged(() => RootItemsArray);
+                }
+            }
+        }
 
 		public void Initialize(CardFilter filter)
 		{

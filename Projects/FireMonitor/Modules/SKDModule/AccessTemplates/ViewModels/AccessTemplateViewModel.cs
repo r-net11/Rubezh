@@ -7,6 +7,17 @@ namespace SKDModule.ViewModels
 	public class AccessTemplateViewModel : CartothequeTabItemElementBase<AccessTemplateViewModel, AccessTemplate>
 	{
 		public CardDoorsViewModel CardDoorsViewModel { get; private set; }
+        public override string Description
+        {
+            get { return IsOrganisation ? Organisation.Description : Model.Description; }
+            protected set
+            {
+                if (IsOrganisation)
+                    Organisation.Description = value;
+                else
+                    Model.Description = value;
+            }
+        }
 
         public override void InitializeOrganisation(Organisation organisation, ViewPartViewModel parentViewModel)
 		{
@@ -17,13 +28,11 @@ namespace SKDModule.ViewModels
         public override void InitializeModel(Organisation organisation, AccessTemplate accessTemplate, ViewPartViewModel parentViewModel)
 		{
 			base.InitializeModel(organisation, accessTemplate, parentViewModel);
-			Description = accessTemplate.Description;
 			CardDoorsViewModel = new CardDoorsViewModel(accessTemplate.CardDoors);
 		}
 
         public override void Update(AccessTemplate accessTemplate)
 		{
-			Description = accessTemplate.Description;
 			CardDoorsViewModel.Update(accessTemplate.CardDoors);
 			base.Update(accessTemplate);
 		}

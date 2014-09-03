@@ -20,11 +20,13 @@
 				<ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
 				<ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать" />
 				<ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
-				<ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="/Controls;component/Images/Settings.png" ToolTip="Настройки" />
+                <ToolBarButton Command="{Binding CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
+                <ToolBarButton Command="{Binding PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
+                <ToolBarButton Command="{Binding ShowSettingsCommand}" ImageSource="/Controls;component/Images/Settings.png" ToolTip="Настройки" />
 			</StackPanel>
 		</StackPanel>
 
-		<tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedHoliday}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
+		<tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
 					<GridViewColumn Width="200" Header="Название" tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">
@@ -41,14 +43,14 @@
 					<GridViewColumn Header="Дата">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Path=Holiday.Date, StringFormat=dd-MM}" />
+                                <TextBlock Text="{Binding Path=Model.Date, StringFormat=dd-MM}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
 					<GridViewColumn Header="Тип">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Holiday.Type, Converter={StaticResource EnumToDescriptionConverter}}" />
+								<TextBlock Text="{Binding Model.Type, Converter={StaticResource EnumToDescriptionConverter}}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

@@ -7,6 +7,7 @@ namespace SKDModule.ViewModels
         where ModelT : class
     {
         ModelT Model { get; }
+        //void Initialize(Organisation organisation, ModelT model, ViewPartViewModel parentViewModel);
         void Initialize(Organisation organisation, ModelT model, ViewPartViewModel parentViewModel);
     }
 }

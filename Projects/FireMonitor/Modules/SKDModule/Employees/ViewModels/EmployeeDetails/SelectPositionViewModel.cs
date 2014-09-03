@@ -47,10 +47,11 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var positionDetailsViewModel = new PositionDetailsViewModel(Employee.OrganisationUID);
+			var positionDetailsViewModel = new PositionDetailsViewModel();
+            positionDetailsViewModel.Initialize(Employee.OrganisationUID);
 			if (DialogService.ShowModalWindow(positionDetailsViewModel))
 			{
-				var positionViewModel = new SelectationPositionViewModel(positionDetailsViewModel.ShortPosition, this);
+				var positionViewModel = new SelectationPositionViewModel(positionDetailsViewModel.Model, this);
 				Positions.Add(positionViewModel);
 				positionViewModel.SelectCommand.Execute();
 				_hrViewModel.UpdatePositions();

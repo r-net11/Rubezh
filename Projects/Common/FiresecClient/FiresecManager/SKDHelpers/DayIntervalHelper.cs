@@ -12,9 +12,9 @@ namespace FiresecClient.SKDHelpers
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
-		public static bool MarkDeleted(DayInterval dayInterval)
+		public static bool MarkDeleted(Guid uid)
 		{
-			var operationResult = FiresecManager.FiresecService.MarkDeletedDayInterval(dayInterval);
+			var operationResult = FiresecManager.FiresecService.MarkDeletedDayInterval(uid);
 			return Common.ShowErrorIfExists(operationResult);
 		}
 
