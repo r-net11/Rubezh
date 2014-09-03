@@ -53,7 +53,5 @@ namespace SKDModule.ViewModels
         {
             get { return "шаблон доступа"; }
         }
-	}
-
-	
+	}	
 }

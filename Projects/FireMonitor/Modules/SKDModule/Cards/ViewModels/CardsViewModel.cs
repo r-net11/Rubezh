@@ -58,7 +58,7 @@ namespace SKDModule.ViewModels
 
 		void OnEditOrganisation(Organisation newOrganisation)
 		{
-			var organisation = RootItems.FirstOrDefault(x => x.Organisation.UID == newOrganisation.UID);
+			var organisation = RootItems.FirstOrDefault(x => x.Organisation != null && x.Organisation.UID == newOrganisation.UID);
 			if (organisation != null)
 			{
 				organisation.Update(newOrganisation);

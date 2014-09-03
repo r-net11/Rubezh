@@ -174,6 +174,9 @@ namespace FiresecAPI
 		OperationResult<bool> SetDirectionType(Guid deviceUID, SKDControllerDirectionType directionType);
 
 		[OperationContract]
+		OperationResult<bool> SetControllerPassword(Guid deviceUID, string name, string oldPassword, string password);
+
+		[OperationContract]
 		OperationResult<bool> SKDOpenDevice(Guid deviceUID);
 
 		[OperationContract]

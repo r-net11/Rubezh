@@ -29,7 +29,7 @@
 		<tree:TreeList Grid.Row="1" Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" tree:SortBehavior.CanUserSortColumns="True">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Width="200" Header="Название" tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">
+                    <GridViewColumn Header="Название" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource HolidayViewModelNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">

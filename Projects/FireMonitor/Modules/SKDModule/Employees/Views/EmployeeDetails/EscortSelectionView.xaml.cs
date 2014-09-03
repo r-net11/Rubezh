@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class SelectEscortView : UserControl
+	public partial class EscortSelectionView : UserControl
 	{
-		public SelectEscortView()
+		public EscortSelectionView()
 		{
 			InitializeComponent();
 		}

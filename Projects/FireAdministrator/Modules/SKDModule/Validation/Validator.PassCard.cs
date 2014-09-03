@@ -55,7 +55,7 @@ namespace SKDModule.Validation
 		Guid? GetOrganisationUID(Guid additionalColumnGuid)
 		{
 			var additionalColumn = AdditionalColumns.FirstOrDefault(item => item.UID == additionalColumnGuid);
-			return additionalColumn == null ? null : (Guid?)additionalColumn.OrganisationUID;
+			return additionalColumn == null ? (Guid?)null : additionalColumn.OrganisationUID;
 		}
 
 		List<ShortAdditionalColumnType> _addtionalColumns = null;

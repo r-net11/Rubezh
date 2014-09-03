@@ -3,11 +3,10 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace SKDModule.ViewModels
 {
-    public interface IDetailsViewModel<ModelT>
-        where ModelT : class
-    {
-        ModelT Model { get; }
-        //void Initialize(Organisation organisation, ModelT model, ViewPartViewModel parentViewModel);
-        void Initialize(Organisation organisation, ModelT model, ViewPartViewModel parentViewModel);
-    }
+	public interface IDetailsViewModel<ModelT>
+		where ModelT : class
+	{
+		ModelT Model { get; }
+		void Initialize(Organisation organisation, ModelT model, ViewPartViewModel parentViewModel);
+	}
 }

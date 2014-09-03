@@ -288,7 +288,7 @@ namespace ChinaSKDDriver
 				port = portProperty.Value;
 			}
 			var loginProperty = Device.Properties.FirstOrDefault(x => x.Name == "Login");
-			if (portProperty != null)
+			if (loginProperty != null)
 			{
 				login = loginProperty.StringValue;
 			}

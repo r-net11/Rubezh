@@ -33,10 +33,8 @@
 					<Label Grid.Row="2" Grid.Column="0" Content="Отчество" HorizontalAlignment="Right" />
 					<TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 					
-					<Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center"
-					   Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
-					<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center"
-							Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
+					<Label Grid.Row="3" Grid.Column="0" Content="Должность" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>
+					<StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}">
 						<TextBlock VerticalAlignment="Center">
 							<Hyperlink Command="{Binding SelectPositionCommand}" Style="{StaticResource HyperlinkStyle}">
 								<TextBlock Text="{Binding SelectedPosition.Name}" TextDecorations="Underline" />
@@ -53,9 +51,6 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-                        <Controls:ToolBarButton ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" Height="24" Width="24" 
-							Visibility="{Binding HasSelectedPosition, Converter={StaticResource BoolToVisibilityConverter}}"
-							Command="{Binding RemovePositionCommand}" />
 					</StackPanel>
 					
 					<Label Grid.Row="4" Grid.Column="0" Content="Отдел" HorizontalAlignment="Right" VerticalAlignment="Center" />
@@ -76,9 +71,6 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-                        <Controls:ToolBarButton ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" Height="24" Width="24" 
-							Visibility="{Binding HasSelectedDepartment, Converter={StaticResource BoolToVisibilityConverter}}"
-							Command="{Binding RemoveDepartmentCommand}" />
 					</StackPanel>
 					
 					<Label Grid.Row="5" Grid.Column="0" Content="Сопровождающий" HorizontalAlignment="Right" VerticalAlignment="Center" 
@@ -101,9 +93,6 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-                        <Controls:ToolBarButton ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" Height="24" Width="24" 
-							Visibility="{Binding HasSelectedEscort, Converter={StaticResource BoolToVisibilityConverter}}"
-							Command="{Binding RemoveEscortCommand}" />
 					</StackPanel>
 
 					<Label Grid.Row="6" Grid.Column="0" Content="График работы" HorizontalAlignment="Right" VerticalAlignment="Center" 
@@ -126,9 +115,6 @@
 								</TextBlock>
 							</Hyperlink>
 						</TextBlock>
-                        <Controls:ToolBarButton ToolTip="Удалить" ImageSource="/Controls;component/Images/Close.png" Height="24" Width="24" 
-							Visibility="{Binding HasSelectedSchedule, Converter={StaticResource BoolToVisibilityConverter}}"
-							Command="{Binding RemoveScheduleCommand}" />
 					</StackPanel>
 
 					<Label Grid.Row="7" Grid.Column="0" Content="Назначен" HorizontalAlignment="Right" Visibility="{Binding IsEmployee, Converter={StaticResource BoolToVisibilityConverter}}"/>

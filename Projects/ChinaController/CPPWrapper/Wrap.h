@@ -51,6 +51,8 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetControllerDirectionType(int login
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetControllerDirectionType(int loginID, CFG_ACCESS_PROPERTY_TYPE emAccessProperty);
 
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetControllerPassword(int loginID, char name[], char oldPassword[], char password[]);
+
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* stuGeneralInfo);

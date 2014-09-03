@@ -152,6 +152,12 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
+		public bool SetControllerPassword(string name, string oldPassword, string password)
+		{
+			var result = NativeWrapper.WRAP_SetControllerPassword(LoginID, name, oldPassword, password);
+			return result;
+		}
+
 		public int GetLogsCount()
 		{
 			NativeWrapper.QUERY_DEVICE_LOG_PARAM logParam = new NativeWrapper.QUERY_DEVICE_LOG_PARAM();

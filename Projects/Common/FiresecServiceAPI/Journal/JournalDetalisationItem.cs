@@ -41,7 +41,10 @@ namespace FiresecAPI.Journal
 			foreach (var detSubString in detalisationStringsItems)
 			{
 				var nameValueString = detSubString.Split(new string[] { "%" }, StringSplitOptions.RemoveEmptyEntries);
-				result.Add(new JournalDetalisationItem(nameValueString[0], nameValueString[1]));
+				if (nameValueString.Length >= 2)
+				{
+					result.Add(new JournalDetalisationItem(nameValueString[0], nameValueString[1]));
+				}
 			};
 			return result;
 		}

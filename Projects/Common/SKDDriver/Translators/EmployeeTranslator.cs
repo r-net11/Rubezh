@@ -114,15 +114,11 @@ namespace SKDDriver
 			tableItem.SecondName = apiItem.SecondName;
 			tableItem.LastName = apiItem.LastName;
 			tableItem.Appointed = CheckDate(apiItem.Appointed);
-			if (apiItem.Position != null)
-				tableItem.PositionUID = apiItem.Position.UID;
-			if (apiItem.Department != null)
-				tableItem.DepartmentUID = apiItem.Department.UID;
-			if (apiItem.Schedule != null)
-				tableItem.ScheduleUID = apiItem.Schedule.UID;
+			tableItem.PositionUID = apiItem.Position != null ? apiItem.Position.UID : Guid.Empty;
+			tableItem.DepartmentUID = apiItem.Department != null ? apiItem.Department.UID : Guid.Empty;
+			tableItem.ScheduleUID = apiItem.Schedule != null ? apiItem.Schedule.UID : Guid.Empty;
 			tableItem.ScheduleStartDate = CheckDate(apiItem.ScheduleStartDate);
-			if (apiItem.Photo != null)
-				tableItem.PhotoUID = apiItem.Photo.UID;
+			tableItem.PhotoUID = apiItem.Photo != null ? apiItem.Photo.UID : Guid.Empty;
 			tableItem.Type = (int)apiItem.Type;
 			tableItem.TabelNo = apiItem.TabelNo;
 			tableItem.CredentialsStartDate = CheckDate(apiItem.CredentialsStartDate);

@@ -13,7 +13,7 @@
 		<tree:TreeList Grid.Row="0" Name="_treeList" Focusable="True" SelectedTreeNode="{Binding SelectedItem}" Source="{Binding Organisations}" Loaded="treeList_Loaded">
 			<tree:TreeList.View>
 				<GridView>
-					<GridViewColumn Header="ФИО" Width="200" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelLastNameComparer}">
+                    <GridViewColumn Header="ФИО" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource EmployeeViewModelLastNameComparer}">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel Orientation="Horizontal">
@@ -26,8 +26,8 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Header="Отдел" Width="150" DisplayMemberBinding="{Binding DepartmentName}" />
-					<GridViewColumn Header="Должность" Width="150" DisplayMemberBinding="{Binding PositionName}" />
+                    <GridViewColumn Header="Отдел" ListViewLayoutManager.StarWidth="1" DisplayMemberBinding="{Binding DepartmentName}" />
+                    <GridViewColumn Header="Должность" ListViewLayoutManager.StarWidth="1" DisplayMemberBinding="{Binding PositionName}" />
 				</GridView>
 			</tree:TreeList.View> 
 		</tree:TreeList>
@@ -108,24 +108,16 @@
 						</Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Margin="5">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Имя" />
-									<TextBlock Margin="2" Text="{Binding Model.FirstName}" />
+                                <TextBlock Width="100" Margin="2" Text="Фамилия" />
+                                <TextBlock Margin="2" Text="{Binding Model.LastName}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Фамилия" />
-									<TextBlock Margin="2" Text="{Binding Model.LastName}" />
+                                <TextBlock Width="100" Margin="2" Text="Имя" />
+                                <TextBlock Margin="2" Text="{Binding Model.FirstName}" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Width="100" Margin="2" Text="Отчество" />
-									<TextBlock Margin="2" Text="{Binding Model.SecondName}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Отдел" />
-                                <TextBlock Margin="2" Text="{Binding DepartmentName}" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="100" Margin="2" Text="Должность" />
-                                <TextBlock Margin="2" Text="{Binding PositionName}" />
+                                <TextBlock Margin="2" Text="{Binding Model.SecondName}" />
                             </StackPanel>
                         </StackPanel>
                         <Controls:PhotoSelectation Grid.Column="1" Data="{Binding Photo.Data, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Margin="20" CanEdit="False" />

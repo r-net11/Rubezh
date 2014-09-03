@@ -56,7 +56,7 @@
                             <Button Content="Считать направление" Command="{Binding GetControllerDirectionTypeCommand}" Width="150" Margin="2" />
                             <Button Content="Записать направление" Command="{Binding SetControllerDirectionTypeCommand}" Width="150" Margin="2" />
                         </StackPanel>
-                        <ComboBox ItemsSource="{Binding AvailableControllerDirectionTypes}" SelectedItem="{Binding SelectedControllerDirectionType}" HorizontalAlignment="Right" Width="150" Margin="2">
+                        <ComboBox ItemsSource="{Binding AvailableControllerDirectionTypes}" SelectedItem="{Binding SelectedControllerDirectionType}" HorizontalAlignment="Right" Width="150" BorderThickness="1" Margin="2">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />

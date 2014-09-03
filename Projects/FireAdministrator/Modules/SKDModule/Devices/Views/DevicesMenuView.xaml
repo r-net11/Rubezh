@@ -4,7 +4,7 @@
 
 	<StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
 		<ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить (Ctrl+N)" ImageSource="/Controls;component/Images/Add.png" />
-		<ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать (Ctrl+E)" ImageSource="/Controls;component/Images/Edit.png" />
+		<ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Свойства (Ctrl+E)" ImageSource="/Controls;component/Images/Edit.png" />
 		<ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить (Ctrl+Del)" ImageSource="/Controls;component/Images/Delete.png" />
 		<Menu VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}" FontSize="12">
 			<MenuItem>
@@ -13,6 +13,7 @@
 				</MenuItem.Header>
 				<IconedMenuItem Command="{Binding ShowControllerConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Параметры контроллера" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding ShowLockConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Параметры замка" TotalHeight="32" />
+                <IconedMenuItem Command="{Binding ShowControllerPasswordCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Пароль контроллера" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding WriteTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Записать графики работ" TotalHeight="32" />
 				<IconedMenuItem Command="{Binding WriteAllTimeSheduleConfigurationCommand}" ImageSource="/Controls;component/Images/BParametersSync.png" Text="Записать графики работ во все приборы" TotalHeight="32" />
 			</MenuItem>

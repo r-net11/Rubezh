@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SKDModule.Views.SelectPositionView"
+﻿<UserControl x:Class="SKDModule.Views.PositionSelectionView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 MinWidth="500" MinHeight="500">
@@ -8,7 +8,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0">
-			<DataGrid ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" UIBehavior.ShowSelectionMark="True">
+            <DataGrid ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" UIBehavior.ShowSelectionMark="True" UIBehavior.IsActiveSelectionMark="True">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Название" Width="*">
 						<DataGridTemplateColumn.CellTemplate>

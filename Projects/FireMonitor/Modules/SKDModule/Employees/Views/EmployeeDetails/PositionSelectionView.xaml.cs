@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class DateSelectionView : UserControl
+	public partial class PositionSelectionView : UserControl
 	{
-		public DateSelectionView()
+		public PositionSelectionView()
 		{
 			InitializeComponent();
 		}

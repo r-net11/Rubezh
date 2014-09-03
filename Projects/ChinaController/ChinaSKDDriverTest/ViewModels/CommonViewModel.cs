@@ -29,11 +29,16 @@ namespace ControllerSDK.ViewModels
 			ReBootCommand = new RelayCommand(OnReBoot);
 			UpdateFirmwareCommand = new RelayCommand(OnUpdateFirmware);
 			DeleteCfgFileCommand = new RelayCommand(OnDeleteCfgFile);
+			SetPasswordCommand = new RelayCommand(OnSetPassword);
 			TestCommand = new RelayCommand(OnTest);
 
 			AvailableControllerDirectionTypes = new ObservableCollection<SKDControllerDirectionType>();
 			AvailableControllerDirectionTypes.Add(SKDControllerDirectionType.Unidirect);
 			AvailableControllerDirectionTypes.Add(SKDControllerDirectionType.Bidirect);
+
+			Login = "system";
+			OldPassword = "123456";
+			NewPassword = "123456";
 		}
 
 		public RelayCommand GetDeviceSoftwareInfoCommand { get; private set; }
@@ -269,6 +274,53 @@ namespace ControllerSDK.ViewModels
 		void OnDeleteCfgFile()
 		{
 			var result = MainViewModel.Wrapper.Reset();
+			if (result)
+			{
+				MessageBox.Show("Success");
+			}
+			else
+			{
+				MessageBox.Show("Error");
+			}
+		}
+
+		string _login;
+		public string Login
+		{
+			get { return _login; }
+			set
+			{
+				_login = value;
+				OnPropertyChanged(() => Login);
+			}
+		}
+
+		string _oldPassword;
+		public string OldPassword
+		{
+			get { return _oldPassword; }
+			set
+			{
+				_oldPassword = value;
+				OnPropertyChanged(() => OldPassword);
+			}
+		}
+
+		string _newPassword;
+		public string NewPassword
+		{
+			get { return _newPassword; }
+			set
+			{
+				_newPassword = value;
+				OnPropertyChanged(() => NewPassword);
+			}
+		}
+
+		public RelayCommand SetPasswordCommand { get; private set; }
+		void OnSetPassword()
+		{
+			var result = MainViewModel.Wrapper.SetControllerPassword(Login, OldPassword, NewPassword);
 			if (result)
 			{
 				MessageBox.Show("Success");

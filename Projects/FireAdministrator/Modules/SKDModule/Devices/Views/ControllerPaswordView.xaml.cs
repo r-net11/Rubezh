@@ -2,9 +2,9 @@
 
 namespace SKDModule.Views
 {
-	public partial class SelectDepartmentView : UserControl
+	public partial class ControllerPaswordView : UserControl
 	{
-		public SelectDepartmentView()
+		public ControllerPaswordView()
 		{
 			InitializeComponent();
 		}
