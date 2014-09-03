@@ -61,14 +61,20 @@
 #else
 #define BOOL        int
 #endif
+#ifndef TRUE
 #define TRUE        1
+#endif
+#ifndef FALSE
 #define FALSE       0
+#endif
 #define BYTE        unsigned char
 #define UINT        unsigned int
 #define HDC         void*
 #define HWND        void*
 #define LPVOID      void*
+#ifndef NULL
 #define NULL        0
+#endif
 #define LLONG       long
 #define INT64       long long
 #define LDWORD      long 
@@ -77,6 +83,7 @@
 #define MAX_PATH    260
 #endif
 
+#ifndef DEF_RECT
 typedef struct  tagRECT
 {
     LONG left;
@@ -84,8 +91,11 @@ typedef struct  tagRECT
     LONG right;
     LONG bottom;
 } RECT;
+#define DEF_RECT
+#endif
 
 #else	//Internal translation
+
 #include "../Platform/osIndependent.h"
 #endif
 
@@ -331,6 +341,7 @@ extern "C" {
 #define DH_MAX_MULTIPLAYBACK_CHANNEL_NUM 64     // max channel number of multiplayback channel
 #define DH_MAX_MULTIPLAYBACK_SPLIT_NUM   32     // max split number of multipalyback channel
 #define DH_MAX_AUDIO_ENCODE_TYPE          64               // Max audio encoding type quantity
+#define MAX_LOG_PATH_LEN                  260              // 日志路径名最大长度
 
 #define DH_BATTERY_NUM_MAX			 16			// max battery number	
 #define DH_POWER_NUM_MAX			 16			// max power number	
@@ -706,7 +717,9 @@ typedef struct tagNET_ALARM_CHANNELS
 #define DH_ALARM_INPUT_SOURCE_SIGNAL		0x3183		// Alarm input source signal events (as long as there is input will generate the event, whether to play the current mode, unable to block, struct ALARM_INPUT_SOURCE_SIGNAL_INFO)
 #define DH_ALARM_ANALOGALARM_EVENT	0x3184		//  analog alarm(struct ALARM_ANALOGALARM_EVENT_INFO)
 #define DH_ALARM_ACCESS_CTL_STATUS	0x3185		// Access control status event(corresponding structure ALARM_ACCESS_CTL_STATUS_INFO)
-
+#define DH_ALARM_ACCESS_SNAP              0x3186           // 门禁抓图事件(对应结构体ALARM_ACCESS_SNAP_INFO)
+#define DH_ALARM_ALARMCLEAR               0x3187           // 消警事件(对应结构体ALARM_ALARMCLEAR_INFO)
+#define DH_ALARM_CIDEVENT                 0x3188           // CID事件(对应结构体ALARM_CIDEVENT_INFO)
 
 // Event type
 #define DH_CONFIG_RESULT_EVENT_EX	0x3000		// Modify the return code of the setup. Please refer to DEV_SET_RESULT for returned structure.
@@ -964,6 +977,12 @@ typedef struct tagNET_ALARM_CHANNELS
 #define EVENT_IVS_TRAFFIC_RESTRICTED_PLATE  0X00000136      // Limited license plate event
 #define EVENT_ALARM_ANALOGALARM             0x00000150      // Analog alarm channel’s alarm event(correspondingDEV_EVENT_ALARM_ANALOGALRM_INFO)
 
+// 
+#define EVENT_IVS_TRAFFIC_ALL				0x000001FF		// All event start with [TRAFFIC]
+															// EVENT_IVS_TRAFFICCONTROL -> EVENT_TRAFFICSNAPSHOT
+															// EVENT_IVS_TRAFFIC_RUNREDLIGHT -> EVENT_IVS_TRAFFIC_UNDERSPEED
+#define EVENT_IVS_VIDEOANALYSE                  0x00000200        // All IVS events 
+
 //Traffic statistics event using macros
 #define FLOWSTAT_ADDR_NAME                     16              //Has long place name
 
@@ -972,10 +991,7 @@ typedef struct tagNET_ALARM_CHANNELS
 #define DH_CREATE_TIME_LEN                      32
 #define DH_AUTHORITY_NUM                        16
 
-// 
-#define EVENT_IVS_TRAFFIC_ALL				0x000001FF		// All event start with [TRAFFIC]
-															// EVENT_IVS_TRAFFICCONTROL -> EVENT_TRAFFICSNAPSHOT
-															// EVENT_IVS_TRAFFIC_RUNREDLIGHT -> EVENT_IVS_TRAFFIC_UNDERSPEED
+
 // Error type code. Corresponding to the return value of CLIENT_GetLastError
 #define _EC(x)						(0x80000000|x)
 #define NET_NOERROR 				0			// No error 
@@ -1216,6 +1232,7 @@ typedef struct tagNET_ALARM_CHANNELS
 #define NET_ERROR_LOW_PRIORITY				_EC(419)	// low priority
 #define NET_ERROR_REMOTE_REQUEST_TIMEOUT	_EC(420)	// The remote device request timeout
 #define NET_ERROR_LIMITED_INPUT_SOURCE		_EC(421)	//Input source beyond maximum route restrictions
+#define NET_ERROR_SET_LOG_PRINT_INFO            _EC(422)          // 设置日志打印失败
 #define NET_ERROR_VISITE_FILE				_EC(510)	// Access to the file failed
 #define NET_ERROR_DEVICE_STATUS_BUSY		_EC(511)	// Device busy
 
@@ -1540,6 +1557,8 @@ typedef enum _RealPlayType
 	DH_RType_Multiplay_16,						// Multiple-channel preview--16-window
 	DH_RType_Multiplay_6,						// Multiple-channel preview--6-window
 	DH_RType_Multiplay_12,						// Multiple-channel preview--12-window
+    DH_RType_Multiplay_25,                      // 多画面预览－25画面
+    DH_RType_Multiplay_36,                      // 多画面预览－36画面
 } DH_RealPlayType;
 
 /////////////////////////////////About PTZ/////////////////////////////////
@@ -1941,6 +1960,7 @@ typedef enum __EM_TALK_DATA_TYPE
 	NET_TALK_DATA_LOCAL_AUDIO = 0,				// Local recording audio data from the library
 	NET_TALK_DATA_RECV_AUDIO,					// Receiving device sending audio data
 	NET_TALK_DATA_RESPOND,						// Intercom call response data
+    NET_TALK_DATA_RECV_VIDEO,                   // 收到的设备发过来的视频数据
 }EM_TALK_DATA_TYPE;
 
 typedef struct tagNET_TALK_VIDEO_FORMAT
@@ -2105,6 +2125,8 @@ typedef enum _CtrlType
 	DH_CTRL_RECORDSET_CLEAR,					// Remove all RECORDSET information corresponding.net (CTRL you PARAM)
 	DH_CTRL_ACCESS_CLOSE,						// Entrance guard control - CLOSE corresponding structure NET (CTRL ACCESS CLOSE)
 	DH_CTRL_ALARM_SUBSYSTEM_ACTIVE_SET,			// Alarm sub system activation setup(corresponding structure NET_CTRL_ALARM_SUBSYSTEM_SETACTIVE)
+    DH_CTRL_FORBID_OPEN_STROBE,                    // 禁止设备端开闸(对应结构体 NET_CTRL_FORBID_OPEN_STROBE)
+    DH_CTRL_OPEN_STROBE,                           // 开启道闸(对应结构体 NET_CTRL_OPEN_STROBE)
 } CtrlType;
 
 // IO control command. Corresponding to CLIENT_QueryIOControlState
@@ -2901,6 +2923,14 @@ typedef struct __ALARM_UPLOAD_IVS_INFO
 	int					nChannelID;                               // channel,from 0
 	char				szType[MAX_PATH];                         // alarm type,check rule
 	int					nState;                                   // alarm state, 0-reset,1-setting,2-pulse
+    char            szRuleName[DH_COMMON_STRING_128];           // 规则名称  
+    char            szIPAddress[DH_MAX_IPADDR_LEN_EX];          // 设备IP地址  
+    int             nPort;                                      // 设备端口号
+    char            szMacAddress[DH_MACADDR_LEN];               // 设备端mac地址
+    char            szPicFilePath[MAX_PATH];                    // 图片存放文件夹路径
+    int             nPicFileNum;                                // 当前报警对应的图片文件个数
+    int             nUploadPicFileNum;                          // 已上传FTP的图片文件个数
+    DWORD           dwChannelMask;                              // 抓图视频通道的掩码，15表示此次报警抓图的有1,2,3,4通道 
 } ALARM_UPLOAD_IVS_INFO;
 
 // Alarm center external alarm extension info
@@ -2925,6 +2955,8 @@ typedef struct
 	char				reserved[12];
 } ALARM_RECORDING_CHANGED;
 
+#define NET_MAX_WINDINGID_NUM    8
+
 // CoilFault alarm event
 typedef struct __ALARM_WINGDING_INFO
 {
@@ -2934,6 +2966,8 @@ typedef struct __ALARM_WINGDING_INFO
 	int                 nState;                 // Device state,0 indicate fault recover,1 indicate fault happen
 	DWORD				dwChannel;				// Channel of alarm
 	char                reserve[28];
+    int                 nWindingIDNum;          // 线圈ID个数
+    int                 nWindingIDs[NET_MAX_WINDINGID_NUM];// 具体线圈ID 
 } ALARM_WINGDING_INFO;
 
 // traffic congestion alarm 
@@ -3692,6 +3726,43 @@ typedef struct tagALARM_ACCESS_CTL_STATUS_INFO
 	NET_ACCESS_CTL_STATUS_TYPE	emStatus;	// Access control status
 }ALARM_ACCESS_CTL_STATUS_INFO;
 
+// 门禁抓图类型
+typedef enum tagNET_ACCESS_SNAP_TYPE
+{
+    NET_ACCESS_SNAP_TYPE_UNKNOWN = 0,
+    NET_ACCESS_SNAP_TYPE_CARD,                          // 刷卡
+    NET_ACCESS_SNAP_TYPE_PASSWORD,                      // 密码
+}NET_ACCESS_SNAP_TYPE;
+
+// 门禁抓图事件
+typedef struct tagALARM_ACCESS_SNAP_INFO
+{
+    DWORD           dwSize;
+    NET_ACCESS_SNAP_TYPE emType;                        // 类型
+    char            szCardNO[DH_COMMON_STRING_32];      // 卡号, 刷卡开门时有效
+    char            szPassword[DH_COMMON_STRING_64];    // 密码, 密码开门时才有效    
+    char            szFtpUrl[MAX_PATH];                 // ftp上传地址, 图片路径
+    int             nImageNum;                          // 抓图张数
+    NET_TIME        stuTime;                            // 事件发生的时间
+}ALARM_ACCESS_SNAP_INFO;
+
+// 消警事件
+typedef struct tagALARM_ALARMCLEAR_INFO 
+{
+    DWORD           dwSize;
+    int             nChannelID;                         // 通道号
+    NET_TIME        stuTime;                            // 报警事件发生的时间
+}ALARM_ALARMCLEAR_INFO;
+
+// CID事件
+typedef struct tagALARM_CIDEVENT_INFO
+{
+    DWORD           dwSize;
+    NET_TIME        stuTime;                            // 报警事件发生的时间
+    char			szCID[DH_COMMON_STRING_32];         // CID码，标准协议码 字符串长度为16，字符数值为0~F
+                                                        // 4位用户码 + 2位识别码 + 1位事件限定码 + 3位事件码 + 2位系统号 + 3位防区码 + 1位校验码
+}ALARM_CIDEVENT_INFO;
+
 //////////////////////////////////////////////////////////////////////////
 
 // New Record Set Operation(Insert)Parameter
@@ -3838,6 +3909,7 @@ typedef struct tagNET_RECORDSET_HOLIDAY
     NET_TIME        stuStartTime;                           // Start Time
     NET_TIME        stuEndTime;                             // End Time
     BOOL            bEnable;                                // Holiday Ennable
+	char            szHolidayNo[DH_COMMON_STRING_32];       // Holiday No
 }NET_RECORDSET_HOLIDAY;
 
 // entrance guard don't close event details information
@@ -7598,7 +7670,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_TRAFFICCAR_INFO
 	BYTE			   byDirection;						// 0 - south to north 1- Southwest to northeast 2 - West to east, 3 - Northwest to southeast 4 - north to south 5 - northeast to southwest 6 - East to West 7 - Southeast to northwest 8 - Unknown
 	BYTE			   byReserved[2];
 	char*			   szDetailedAddress;				// Address, as szDeviceAddress supplement）
-    BYTE               bReserved[848];                  // reserved
+    char               szDefendCode[DH_COMMON_STRING_64];   // 图片防伪码  
+    BYTE               bReserved[784];                  // reserved
 }DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO;
 
 // the describe of EVENT_IVS_CROSSLINEDETECTION's data
@@ -8258,6 +8331,21 @@ typedef struct tagEVENT_CARD_INFO
     BYTE bReserved[32];	                      // Reserved bytes, leave extended
 }EVENT_CARD_INFO;
 
+typedef enum tagEM_OPEN_STROBE_STATE
+{
+    NET_OPEN_STROBE_STATE_UNKOWN,                   // 未知状态
+    NET_OPEN_STROBE_STATE_CLOSE,                    // 关闸
+    NET_OPEN_STROBE_STATE_AUTO,                     // 自动开闸    
+    NET_OPEN_STROBE_STATE_MANUAL,                   // 手动开闸
+}EM_OPEN_STROBE_STATE;
+
+typedef enum tagEM_VEHICLE_DIRECTION
+{
+    NET_VEHICLE_DIRECTION_UNKOWN,                   // 未知
+    NET_VEHICLE_DIRECTION_HEAD,                     // 车头    
+    NET_VEHICLE_DIRECTION_TAIL,                     // 车尾  
+}EM_VEHICLE_DIRECTION;
+
 //（Event Type EVENT_IVS_TRAFFICJUNCTION (transportation card traffic junctions old rule event / video port on the old electric alarm event rules) corresponds to the description of the data block）
 //（Due to historical reasons, if you want to deal with bayonet event, DEV_EVENT_TRAFFICJUNCTION_INFO and EVENT_IVS_TRAFFICGATE be processed together to prevent police and video electrical coil electric alarm occurred while the case access platform）
 // （Also EVENT_IVS_TRAFFIC_TOLLGATE only support the new bayonet events）
@@ -8265,7 +8353,9 @@ typedef struct tagDEV_EVENT_TRAFFICJUNCTION_INFO
 {
 	int					nChannelID;						// ChannelId
 	char				szName[128];					// event name
-	char                bReserved1[4];                  // byte alignment
+	char                bReserved1[2];                  // byte alignment
+    BYTE                byVehicleDirection;                         // 当前被抓拍到的车辆是车头还是车尾，具体请见 EM_VEHICLE_DIRECTION
+    BYTE                byOpenStrobeState;                          // 开闸状态，具体请见 EM_OPEN_STROBE_STATE 
 	double				PTS;							// PTS(ms)
 	NET_TIME_EX			UTC;							// the event happen time
 	int					nEventID;						// event ID
@@ -8301,7 +8391,8 @@ typedef struct tagDEV_EVENT_TRAFFICGATE_INFO
 {
 	int					nChannelID;						// ChannelId
 	char				szName[128];					// event name
-	char                bReserved1[4];                  // byte alignment
+    BYTE                byOpenStrobeState;                          // 开闸状态，具体请见EM_OPEN_STROBE_STATE
+	char                bReserved1[3];                  // byte alignment
 	double				PTS;							// PTS(ms)
 	NET_TIME_EX			UTC;							// the event happen time
 	int					nEventID;						// event ID
@@ -8351,10 +8442,12 @@ typedef struct tagDEV_EVENT_TRAFFICGATE_INFO
 	char              * szDeviceAddress;                // device address,OSD superimposed onto the image,from TrafficSnapshot.DeviceAddress,'\0'means end.
 	float               fActualShutter;                 // Current picture exposure time, in milliseconds
 	BYTE                byActualGain;                   // Current picture gain, ranging from 0 to 1000
-    BYTE                bReserve[2];                    // Reserved bytes, byte alignment
+    BYTE                byDirection;                                // 0-南向北 1-西南向东北 2-西向东 3-西北向东南 4-北向南 5-东北向西南 6-东向西 7-东南向西北 8-未知
+    BYTE                bReserve;                    // Reserved bytes, byte alignment
     BYTE                bRetCardNumber;                 // Card Number
     EVENT_CARD_INFO     stuCardInfo[DH_EVENT_MAX_CARD_NUM];// Card information
-	BYTE				bReserved[2568];				// Reserved bytes, leave extended
+    char               szDefendCode[DH_COMMON_STRING_64];           // 图片防伪码
+	BYTE				bReserved[2504];				// Reserved bytes, leave extended
 } DEV_EVENT_TRAFFICGATE_INFO;
 
 //the describe of EVENT_TRAFFICSNAPSHOT's data
@@ -8660,7 +8753,8 @@ typedef struct tagDEV_EVENT_TRAFFIC_PARKING_INFO
 	BOOL                bIsExistAlarmRecord;            // true:corresponding alarm recording; false: no corresponding alarm recording
 	DWORD               dwAlarmRecordSize;              // Video size
 	char                szAlarmRecordPath[DH_COMMON_STRING_256]; // Video Path
-	BYTE				bReserved[660];				    // Reserved 
+    char                szFTPPath[DH_COMMON_STRING_256];            // FTP路径 
+	BYTE				bReserved[404];				    // Reserved 
 	DEV_EVENT_TRAFFIC_TRAFFICCAR_INFO stTrafficCar;     // Traffic vehicle info
 } DEV_EVENT_TRAFFIC_PARKING_INFO;
 
@@ -9438,6 +9532,27 @@ typedef enum __EM_FILE_QUERY_TYPE
     DH_FILE_QUERY_FACE_DETECTION,                       // face recognition event info MEDIAFILE_FACE_DETECTION_PARAM  and MEDIAFILE_FACE_DETECTION_INFO
 } EM_FILE_QUERY_TYPE;
 
+typedef enum _EM_RECORD_SNAP_FLAG_TYPE
+{
+    FLAG_TYPE_TIMING ,                  //定时文件
+    FLAG_TYPE_MANUAL ,                  //手动文件
+    FLAG_TYPE_MARKED ,                  //重要文件
+    FLAG_TYPE_EVENT  ,                  //事件文件
+    FLAG_TYPE_MOSAIC ,                  //合成图片
+    FLAG_TYPE_CUTOUT ,                  //抠图图片
+    FLAG_TYPE_LEAVE_WORD ,              //留言文件
+    FLAG_TYPE_TALKBACK_LOCAL_SIDE ,     //对讲本地方文件
+    FLAG_TYPE_TALKBACK_REMOTE_SIDE ,    //对讲远程方文件
+    FLAG_TYPE_SYNOPSIS_VIDEO ,          //浓缩视频
+    FLAG_TYPE_ORIGINAL_VIDEO ,          //原始视频
+    FLAG_TYPE_PRE_ORIGINAL_VIDEO ,      //已经预处理的原始视频
+    FLAG_TYPE_BLACK_PLATE ,             //黑名单图片
+    FLAG_TYPE_ORIGINAL_PIC ,            //原始图片
+    FLAG_TYPE_MAX = 128, 
+}EM_RECORD_SNAP_FLAG_TYPE;
+
+#define MAX_IVS_EVENT_NUM    256
+
 // record info, corresponde to CLIENT_FindFileEx, search condition
 // support paths search in curent
 typedef struct  
@@ -9445,6 +9560,15 @@ typedef struct
     DWORD               dwSize;                 // size 
     char*               szDirs;                 // working directory list,can inquire multiple directory at a atime,separated by ";",example "/mnt/dvr/sda0;/mnt/dvr/sda1",if szDirs==null or szDirs == "" ,means search all
     int					nMediaType;		        // file info,0:any type,1:search jpg image,2:search dav
+    int                 nChannelID;             // 通道号从0开始，-1表示查询所有通道
+    NET_TIME            stuStartTime;           // 开始时间	
+    NET_TIME            stuEndTime;             // 结束时间
+    int                 nEventLists[MAX_IVS_EVENT_NUM]; // 事件类型列表,参见智能分析事件类型
+    int                 nEventCount;            // 事件总数
+    BYTE                byVideoStream;          // 视频码流 0-未知 1-主码流 2-辅码流1 3-辅码流2 4-辅码流3 
+    BYTE                bReserved[3];           // 字节对齐
+    EM_RECORD_SNAP_FLAG_TYPE emFalgLists[FLAG_TYPE_MAX]; // 录像或抓图文件标志, 不设置标志表示查询所有文件
+    int                 nFalgCount;             // 标志总数
 }NET_IN_MEDIA_QUERY_FILE;
 
 // record info, corresponde to CLIENT_FindFileEx, search result
@@ -9457,9 +9581,14 @@ typedef struct
     unsigned int		nFileSize;				// size of file
     BYTE				byFileType;				// file type 1:jpg, 2: dav
     BYTE                byDriveNo;              // drive no.
-    BYTE                byReserved1[2];         // reserved
+    BYTE                byPartition;            // 分区号
+    BYTE                byVideoStream;          // 视频码流 0-未知 1-主码流 2-辅码流1 3-辅码流 4-辅码流 
     unsigned int        nCluster;               // cluster
 	char				szFilePath[MAX_PATH];	// FilePath
+    int                 nEventLists[MAX_IVS_EVENT_NUM]; // 关联的事件列表,事件类型列表,参见智能分析事件类型
+    int                 nEventCount;            //事件总数
+    EM_RECORD_SNAP_FLAG_TYPE emFalgLists[FLAG_TYPE_MAX]; // 录像或抓图文件标志 
+    int                 nFalgCount;             //标志总数
 }NET_OUT_MEDIA_QUERY_FILE;
 //The corresponding search criteria of  DH_MEDIA_QUERY_TRAFFICCAR
 typedef struct  
@@ -13248,7 +13377,51 @@ typedef enum tagNET_SPLIT_OPERATE_TYPE
 {
     NET_SPLIT_OPERATE_SET_BACKGROUND,            // Set background, corresponding NET_IN_SPLIT_SET_BACKGROUND  and NET_OUT_SPLIT_SET_BACKBROUND
     NET_SPLIT_OPERATE_GET_BACKGROUND,            // get background, corresponding NET_IN_SPLIT_GET_BACKGROUND  and NET_OUT_SPLIT_GET_BACKGROUND
+    NET_SPLIT_OPERATE_SET_PREPULLSRC,           // 设置预拉流源, 对应 NET_IN_SPLIT_SET_PREPULLSRC 和 NET_OUT_SPLIT_SET_PREPULLSRC
+    NET_SPLIT_OPERATE_SET_HIGHLIGHT,            // 设置源边框高亮使能开关, 对应 NET_IN_SPLIT_SET_HIGHLIGHT 和 NET_OUT_SPLIT_SET_HIGHLIGHT
 } NET_SPLIT_OPERATE_TYPE;
+
+// 设置源边框高亮使能开关输入参数
+typedef struct tagNET_IN_SPLIT_SET_HIGHLIGHT
+{
+    DWORD           dwSize; 
+    int             nChannel;                   // 视频输出通道
+    int             nWindow;                    // 窗口号
+    BOOL            bHighLightEn;               // 边框高亮使能,TRUE-表示高亮
+    DH_COLOR_RGBA   stuColor;                   // 边框颜色 
+}NET_IN_SPLIT_SET_HIGHLIGHT;
+
+// 设置源边框高亮使能开关输出参数
+typedef struct tagNET_OUT_SPLIT_SET_HIGHLIGHT
+{
+    DWORD           dwSize;
+}NET_OUT_SPLIT_SET_HIGHLIGHT;
+
+// 设置预拉流源输入参数
+typedef struct tagNET_IN_SPLIT_SET_PREPULLSRC 
+{
+    DWORD           dwSize;
+    int             nChannel;                   // 视频输出通道
+    int             nWindow;                    // 窗口号
+    int             nSrcCount;                  // 预拉流源数量
+    DH_SPLIT_SOURCE* pSources;                  // 预拉流源信息
+} NET_IN_SPLIT_SET_PREPULLSRC;
+
+// 设置预拉流源的返回结果
+typedef struct tagNET_SPLIT_SET_PREPULLSRC_RESULT 
+{
+    DWORD           dwSize;
+    BOOL            bResult;                    // 设置结果, TRUE-成功, FALSE-失败
+    DWORD           dwErrorCode;                // 失败错误码
+} NET_SPLIT_SET_PREPULLSRC_RESULT;
+
+// 设置预拉流源输出参数
+typedef struct tagNET_OUT_SPLIT_SET_PREPULLSRC 
+{
+    DWORD           dwSize;
+    int             nResultCount;               // 结果数量, 与预拉流源数量相同
+    NET_SPLIT_SET_PREPULLSRC_RESULT* pResults;  // 结果
+} NET_OUT_SPLIT_SET_PREPULLSRC;
 
 // Set video output background input parameter
 typedef struct tagNET_IN_SPLIT_SET_BACKGROUND
@@ -14185,6 +14358,77 @@ typedef struct tagDH_OUT_MONITORWALL_SET_SCENE
 {
 	DWORD				dwSize;
 } DH_OUT_MONITORWALL_SET_SCENE;
+
+
+// 电视墙操作类型
+typedef enum tagNET_MONITORWALL_OPERATE_TYPE
+{
+    NET_MONITORWALL_OPERATE_ADD,            // 添加电视墙, 对应 NET_IN_MONITORWALL_ADD 和 NET_OUT_MONITORWALL_ADD
+    NET_MONITORWALL_OPERATE_CTRL_TOUR,      // 预案轮巡控制, 对应 NET_IN_CTRL_COLLECTIONTOUR 和 NET_OUT_CTRL_COLLECTIONTOUR
+    NET_MONITORWALL_OPERATE_GET_STATUS,     // 获取矩阵当前状态, 对应 NET_IN_MONITORWALL_GET_STATUS 和 NET_OUT_MONITORWALL_GET_STATUS
+} NET_MONITORWALL_OPERATE_TYPE;
+
+// 添加电视墙输入参数
+typedef struct tagNET_IN_MONITORWALL_ADD
+{
+    DWORD dwSize;
+    DH_MONITORWALL stuMonitorWall; // 电视墙信息
+} NET_IN_MONITORWALL_ADD;
+
+// 添加电视墙输出参数
+typedef struct tagNET_OUT_MONITORWALL_ADD
+{
+    DWORD dwSize;
+    unsigned int nMonitorWallID; // 电视墙ID
+} NET_OUT_MONITORWALL_ADD;
+
+// CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_CTRL_TOUR
+typedef struct tagNET_IN_CTRL_COLLECTIONTOUR 
+{
+    DWORD              dwSize;
+    int                nChannel;                       // 通道号
+    int                nAction;                        // 轮巡动作, 0:结束, 1:开始
+} NET_IN_CTRL_COLLECTIONTOUR;
+
+// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_CTRL_TOUR
+typedef struct tagNET_OUT_CTRL_COLLECTIONTOUR 
+{
+    DWORD                   dwSize;
+} NET_OUT_CTRL_COLLECTIONTOUR;
+
+// 矩阵运行状态
+typedef enum tagNET_MATRIX_STATUS
+{
+    MATRIX_STATUS_UNKNOWN,              // 未知
+    MATRIX_STATUS_TOUR,                 // 预案轮巡
+    MATRIX_STATUS_NORMAL,               // 普通预览
+} NET_MATRIX_STATUS;
+
+#define DH_MAX_COLLECTION_NUM   64      // 最大预案数
+// 矩阵状态信息
+typedef struct tagNET_MONITORWALL_STATUS_INFO
+{
+    DWORD       dwSize;
+    int         nInterval;                      // 轮巡时间间隔
+    int         nCollectionNum;                 // 预案轮巡数
+    char        szCollections[DH_MAX_COLLECTION_NUM][DH_DEVICE_NAME_LEN];         // 预案轮巡组内容
+    char        szName[DH_DEVICE_NAME_LEN];     // 当前显示的预案名称
+} NET_MONITORWALL_STATUS_INFO;
+
+// // CLIENT_OperateMonitorWall接口输入参数=>NET_MONITORWALL_OPERATE_GET_STATUS
+typedef struct tagNET_IN_MONITORWALL_GET_STATUS 
+{
+    DWORD              dwSize;
+    int                nChannel;                        // 通道号
+} NET_IN_MONITORWALL_GET_STATUS;
+
+// CLIENT_OperateMonitorWall接口输出参数=>NET_MONITORWALL_OPERATE_GET_STATUS
+typedef struct tagNET_OUT_MONITORWALL_GET_STATUS
+{
+    DWORD                           dwSize;
+    NET_MATRIX_STATUS               emMatrixStatus;     // 运行状态
+    NET_MONITORWALL_STATUS_INFO     stuStatusInfo;      // 状态信息
+} NET_OUT_MONITORWALL_GET_STATUS;
 
 //CLIENT_QueryNetStat Port, input parameter when the Types of queries is NET_APP_DATA_STAT (statistics for protocol stack) 
 typedef struct tagNET_IN_NETAPP_NET_DATA_STAT
@@ -15350,6 +15594,32 @@ typedef struct tagNET_OUT_ATTACH_CAN
     DWORD          dwSize;
 }NET_OUT_ATTACH_CAN;
 
+// parameter of fAttachDevCommCB
+typedef struct tagNET_CB_DEVCOMMDATA
+{
+    DWORD           dwSize;
+    int             nDataLength;                    // data length
+    unsigned char*  pDataContent;                   // data content
+}NET_CB_DEVCOMMDATA;
+
+// callback prototype of listening to data from trans comm, lAttachHandle is return value of CLIENT_AttachDevComm
+typedef void (CALLBACK *fAttachDevCommCB) (LLONG lLoginID, LLONG lAttachHandle, NET_CB_DEVCOMMDATA* pBuf, LDWORD dwUser);
+
+// CLIENT_AttachDevComm() input parameter
+typedef struct tagNET_IN_ATTACH_DEVCOMM
+{
+    DWORD               dwSize;
+    int                 nChannel;                        // channel
+    fAttachDevCommCB    cbAttachDevComm;                 // callback function
+    LDWORD              dwUser;                          // user param
+}NET_IN_ATTACH_DEVCOMM;
+
+// CLIENT_AttachDevComm() output parameter
+typedef struct tagNET_OUT_ATTACH_DEVCOMM
+{
+    DWORD          dwSize;
+}NET_OUT_ATTACH_DEVCOMM;
+
 // Gets the current equipment serial number，corresponding CLIENT_QueryDevState() Interface's DH_DEVSTATE_GET_COMM_COUNT command parameter 
 typedef struct tagNET_GET_COMM_COUNT
 {
@@ -15920,6 +16190,7 @@ typedef enum __EM_CAPSULE_STATE
     CAPSULE_STATE_UNKNOW ,      //undefine
     CAPSULE_STATE_NORMAL ,      //normal
     CAPSULE_STATE_TIME_OUT ,    //overtime
+    CAPSULE_STATE_EMERGENCY_CALL,   //紧急呼叫
 }EM_CAPSULE_STATE;
 
 //protective capsule event
@@ -15975,6 +16246,7 @@ typedef struct tagNET_STREAM_CFG_CAPS
     int                 nH264ProfileRankNum;                        // supported H.264 Profile level
     int                 nCifPFrameMaxSize;                          // when resolution is  cif, max p frame(Kbps)
     int                 nCifPFrameMinSize;                          // when currentresolution is cif, min p frame(Kbps)
+    int                 nFPSMax;                                    // 视频帧率最大值，为0时，以nResolutionFPSMax为准
 }NET_STREAM_CFG_CAPS;
 
 // get device encode config corresponding capacity output parameter
@@ -16142,6 +16414,21 @@ typedef struct tagNET_OUT_GETCOUNT_LOG_PARAM
 } NET_OUT_GETCOUNT_LOG_PARAM;
 
 
+// SDK全局日志打印信息
+typedef struct tagLogSetPrintInfo
+{
+    DWORD           dwSize;
+    BOOL            bSetFilePath;                           // 是否重设日志路径
+    char            szLogFilePath[MAX_LOG_PATH_LEN];        // 日志路径(默认"./sdk_log/sdk_log.log")
+    BOOL            bSetFileSize;                           // 是否重设日志文件大小
+    unsigned int    nFileSize;                              // 每个日志文件的大小(默认大小10240), 单位:比特
+    BOOL            bSetFileNum;                            // 是否重设日志文件个数
+    unsigned int    nFileNum;                               // 绕接日志文件个数(默认大小10)
+    BOOL            bSetPrintStrategy;                      // 是否重设日志打印输出策略
+    unsigned int    nPrintStrategy;                         // 日志输出策略, 0:输出到文件(默认); 1:输出到窗口
+}LOG_SET_PRINT_INFO;
+
+
 // get current sub system enable status(correspondingDH_DEVSTATE_GET_ALARM_SUBSYSTEM_ACTIVATESTATUS命令)
 typedef struct tagNET_GET_ALARM_SUBSYSTEM_ACTIVATE_STATUES
 {
@@ -16157,6 +16444,23 @@ typedef struct tagNET_CTRL_ALARM_SUBSYSTEM_SETACTIVE
 	int					nChannelId;			// sub system no.
 	BOOL				bActive;			// sub system enable status ,TRUE means enable, FALSE means disable
 }NET_CTRL_ALARM_SUBSYSTEM_SETACTIVE;
+
+// 禁止开闸参数(对应 DH_CTRL_FORBID_OPEN_STROBE)
+typedef struct tagNET_CTRL_FORBID_OPEN_STROBE
+{
+    DWORD               dwSize;             
+    int                 nChannelID;        // 通道号    
+    int                 nTime;             // 禁止开闸的持续时间，单位:s，即在此操作之后的对应时间内不允许设备开闸 
+}NET_CTRL_FORBID_OPEN_STROBE;
+
+#define MAX_PLATENUMBER_LEN    64           // 最大车牌号码长度
+// 开启道闸参数(对应DH_CTRL_OPEN_STROBE命令)
+typedef struct tagNET_CTRL_OPEN_STROBE
+{
+	DWORD				dwSize;
+	int				nChannelId;			                // 通道号
+	char				szPlateNumber[MAX_PLATENUMBER_LEN];		// 车牌号码
+}NET_CTRL_OPEN_STROBE;
 
 ////////////////////////////////system task subscription//////////////////////////////////////////
 // zone status
@@ -16243,6 +16547,51 @@ typedef struct NET_OUT_ATTACH_MISSION_PARAM
     DWORD             dwSize;
     LLONG             lAttachHandle;           // subscribe handle
 }NET_OUT_ATTACH_MISSION_PARAM;
+
+// CLIENT_StartQueryLog input parameter
+typedef struct tagNET_IN_START_QUERYLOG
+{
+    DWORD               dwSize;
+} NET_IN_START_QUERYLOG;
+
+// CLIENT_StartQueryLog ouput parameter
+typedef struct tagNET_OUT_START_QUERYLOG
+{
+    DWORD               dwSize;
+}NET_OUT_START_QUERYLOG;
+
+// Detail info of log
+typedef struct tagNET_LOG_MESSAGE
+{
+    DWORD               dwSize;
+    char				szLogMessage[DH_COMMON_STRING_1024];    // detailed info
+} NET_LOG_MESSAGE;
+
+// Info of log
+typedef struct tagNET_LOG_INFO
+{
+    DWORD               dwSize;
+    NET_TIME            stuTime;                        // time 
+    char                szUserName[DH_COMMON_STRING_32];// operator
+    char                szLogType[DH_COMMON_STRING_128];// type
+    NET_LOG_MESSAGE	    stuLogMsg;                      // detailed info
+} NET_LOG_INFO;
+
+// CLIENT_QueryNextLog input parameter
+typedef struct tagNET_IN_QUERYNEXTLOG
+{
+    DWORD               dwSize;
+    int                 nGetCount;      // count of log item try to query
+}NET_IN_QUERYNEXTLOG;
+
+// CLIENT_QueryNextLog ouput parameter
+typedef struct tagNET_OUT_QUERYNEXTLOG
+{
+    DWORD               dwSize;
+    int                 nMaxCount;      // count of log item malloced by user，should be NET_IN_GETNEXTLOG*nGetCount
+    NET_LOG_INFO*       pstuLogInfo;    // buffer for log item malloced by user, should be nMaxCount*sizeof(NET_LOG_INFO)
+    int                 nRetCount;      // return count of log item
+}NET_OUT_QUERYNEXTLOG;
 
 /***********************************************************************
  ** Callback Function Definition 
@@ -16936,6 +17285,7 @@ CLIENT_API BOOL CALL_METHOD CLIENT_SetDecTVOutEnable(LLONG lLoginID, BYTE *pDecT
 
 // set decoder tip layout enable, channel number start at 0
 CLIENT_API BOOL CALL_METHOD CLIENT_SetDecLayOutEnable(LLONG lLoginID, BYTE bDecLayOutEnable, int nChannel, int waittime=1000);
+CLIENT_API BOOL CALL_METHOD CLIENT_GetDecLayOutEnable(LLONG lLoginID, BYTE *pDecLayOutEnable, int nChannel, int waittime=1000);
 //------------------------------------------------------------------------
 
 // Set up asynchronous callback function
@@ -17398,6 +17748,9 @@ CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallSetScrnCtrlParam(LLONG lLoginID, c
 CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallGetBackgroudColor(LLONG lLoginID, const NET_IN_MW_GET_BACKGROUDND_COLOR* pInParam, NET_OUT_MW_GET_BACKGROUDND_COLOR* pOutParam, int nWaitTime);
 CLIENT_API BOOL CALL_METHOD CLIENT_MonitorWallSetBackgroudColor(LLONG lLoginID, const NET_IN_MW_SET_BACKGROUD_COLOR* pInParam, NET_OUT_MW_SET_BACKGROUD_COLOR* pOutParam, int nWaitTime);
 
+// operate Monitor Wall
+CLIENT_API BOOL CALL_METHOD CLIENT_OperateMonitorWall(LLONG lLoginID, NET_MONITORWALL_OPERATE_TYPE emType, void* pInParam, void* pOutParam, int nWaitTime);
+
 ///////////////////////////////// directory management /////////////////////////////////////////
 
 // add nodes
@@ -17557,8 +17910,23 @@ CLIENT_API LLONG CALL_METHOD CLIENT_AttachAnalogAlarmData(LLONG lLoginID, const 
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachAnalogAlarmData(LLONG lAttachHandle);
 
 ////////////////////////////Special Version Interface///////////////////////////////
+// 打开日志功能
+CLIENT_API BOOL CALL_METHOD CLIENT_LogOpen(LOG_SET_PRINT_INFO *pstLogPrintInfo);
+
+// 关闭日志功能
+CLIENT_API BOOL CALL_METHOD CLIENT_LogClose();
+
 // Search device log--extensive
 CLIENT_API BOOL CALL_METHOD CLIENT_QueryLogEx(LLONG lLoginID, DH_LOG_QUERY_TYPE logType, char *pLogBuffer, int maxlen, int *nLogBufferlen, void* reserved, int waittime=3000);
+
+// Start query log(support BSC only)
+CLIENT_API LLONG CALL_METHOD CLIENT_StartQueryLog(LLONG lLoginID, const NET_IN_START_QUERYLOG* pInParam, NET_OUT_START_QUERYLOG* pOutParam, int nWaitTime);
+
+// Query next log(support BSC only)
+CLIENT_API BOOL CALL_METHOD CLIENT_QueryNextLog(LLONG lLogID, NET_IN_QUERYNEXTLOG* pInParam, NET_OUT_QUERYNEXTLOG* pOutParam, int nWaitTime);
+
+// Stop query log(support BSC only)
+CLIENT_API BOOL CALL_METHOD CLIENT_StopQueryLog(LLONG lLogID);
 
 // Active registered redirect function,establish directed connections
 CLIENT_API LONG CALL_METHOD CLIENT_ControlConnectServer(LLONG lLoginID, char* RegServerIP, WORD RegServerPort, int TimeOut=3000);
@@ -17619,6 +17987,10 @@ CLIENT_API LLONG CALL_METHOD CLIENT_AttachCAN(LLONG lLoginID, const NET_IN_ATTAC
 
 // cancel listen CAN bus data，lAttachHandle is CLIENT_AttachCAN return value
 CLIENT_API BOOL CALL_METHOD CLIENT_DetachCAN(LLONG lAttachHandle);
+
+CLIENT_API LLONG CALL_METHOD CLIENT_AttachDevComm(LLONG lLoginID, const NET_IN_ATTACH_DEVCOMM* pstInParam, NET_OUT_ATTACH_DEVCOMM* pstOutParam, int nWaitTime = 3000);
+
+CLIENT_API BOOL CALL_METHOD CLIENT_DetachDevComm(LLONG lAttachHandle);
 #endif
 
 /////////////////////////////////Cancelled Interface/////////////////////////////////

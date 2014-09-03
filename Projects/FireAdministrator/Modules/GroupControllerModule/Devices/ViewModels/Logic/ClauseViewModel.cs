@@ -240,7 +240,7 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
 				Devices = devicesSelectationViewModel.DevicesList;
-				OnPropertyChanged("PresenrationDevices");
+				OnPropertyChanged(() => PresenrationDevices);
 			}
 		}
 

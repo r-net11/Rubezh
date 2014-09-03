@@ -60,6 +60,9 @@ namespace FiresecAPI.Automation
 		public string StringValue { get; set; }
 
 		[DataMember]
+		public Guid UidValue { get; set; }
+
+		[DataMember]
 		public string TypeValue { get; set; }
 
 		[DataMember]

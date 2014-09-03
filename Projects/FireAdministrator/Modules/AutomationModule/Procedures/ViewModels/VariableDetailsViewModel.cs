@@ -17,96 +17,71 @@ namespace AutomationModule.ViewModels
 		public Variable Variable { get; private set; }
 		public bool IsEditMode { get; private set; }
 
-		public VariableDetailsViewModel(bool isArgument = false, bool isGlobal = false)
+		public VariableDetailsViewModel(Variable variable, string defaultName, string title)
 		{
-			var defaultName = "Локальная переменная";
-			var title = "Добавить переменную";
-			if (isArgument)
-			{
-				defaultName = "Аргумент";
-				title = "Добавить аргумент";
-			}
-			if (isGlobal)
-			{
-				defaultName = "Глобальная переменная";
-				title = "Добавить глобальную переменную";
-			}
-			Title = title;
-			Variable = new Variable(defaultName);
-			Variable.IsGlobal = isGlobal;
-			Variables = new ObservableCollection<VariableViewModel>
-			{
-				new VariableViewModel(defaultName, ValueType.Integer),
-				new VariableViewModel(defaultName, ValueType.Boolean),
-				new VariableViewModel(defaultName, ValueType.String),
-				new VariableViewModel(defaultName, ValueType.DateTime),
-				new VariableViewModel(defaultName, ValueType.Object)
-			};
-			SelectedVariable = Variables.FirstOrDefault();
+			ValueTypes = ProcedureHelper.GetEnumObs<ValueType>();
+			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			VariableItems = new List<VariableItemViewModel>();
+			Variable = new Variable();
+			SelectedVariableItem = new VariableItemViewModel(new VariableItem());
 			Name = defaultName;
-			IsEditMode = false;
-			SelectCommand = new RelayCommand(OnSelect);
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand<VariableObjectViewModel>(OnRemove);
-			ChangeItemCommand = new RelayCommand<VariableObjectViewModel>(OnChangeItem);
-			SelectedVariableObject = new VariableObjectViewModel(Variable.ObjectUid);
-			InitializeVariableObjects();
-		}
-
-		public VariableDetailsViewModel(Variable variable, bool isArgument = false)
-		{
-			var title = "Редактировать переменную";
-			if (isArgument)
-			{
-				title = "Редактировать аргумент";
-			}
+			if (variable != null)
+				Copy(variable);
 			Title = title;
-			Variable = new Variable(variable);
-			Variables = new ObservableCollection<VariableViewModel>
-			{
-				 new VariableViewModel(variable)
-			};
-			SelectedVariable = Variables.FirstOrDefault(x => x.ValueType == variable.ValueType);
-			if (SelectedVariable != null)
-			{
-				Name = SelectedVariable.Name;
-				IsList = SelectedVariable.IsList;
-			}
+			Initialize(variable);
+		}
+
+		void Copy(Variable variable)
+		{
+			Name = variable.Name;
+			IsList = variable.IsList;
+			Variable.IsGlobal = variable.IsGlobal;
+			ValueTypes = new ObservableCollection<ValueType> { variable.ValueType };
+			SelectedValueType = variable.ValueType;
+			SelectedObjectType = variable.ObjectType;
 			IsEditMode = true;
+			DefaultIntValue = variable.DefaultIntValue;
+			DefaultBoolValue = variable.DefaultBoolValue;
+			DefaultDateTimeValue = variable.DefaultDateTimeValue;
+			DefaultStringValue = variable.DefaultStringValue;
+			SelectedVariableItem = new VariableItemViewModel(new VariableItem { ObjectUid = variable.ObjectUid });
+			foreach (var variableItem in variable.VariableItems)
+				VariableItems.Add(new VariableItemViewModel(variableItem));
+		}
+
+		void Initialize(Variable variable)
+		{
 			SelectCommand = new RelayCommand(OnSelect);
 			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand<VariableObjectViewModel>(OnRemove);
-			ChangeItemCommand = new RelayCommand<VariableObjectViewModel>(OnChangeItem);
-			SelectedVariableObject = new VariableObjectViewModel(Variable.ObjectUid);
-			InitializeVariableObjects();
+			RemoveCommand = new RelayCommand<VariableItemViewModel>(OnRemove);
+			ChangeItemCommand = new RelayCommand<VariableItemViewModel>(OnChangeItem);
 		}
 
-		void InitializeVariableObjects()
+		public ObservableCollection<ValueType> ValueTypes { get; private set; }
+		ValueType _selectedValueType;
+		public ValueType SelectedValueType
 		{
-			VariableObjects = new ObservableCollection<VariableObjectViewModel>();
-			foreach (var objectUid in SelectedVariable.Variable.ObjectsUids)
-				VariableObjects.Add(new VariableObjectViewModel(objectUid));
-		}
-
-		VariableViewModel _selectedVariable;
-		public VariableViewModel SelectedVariable
-		{
-			get { return _selectedVariable; }
+			get { return _selectedValueType; }
 			set
 			{
-				_selectedVariable = value;
-				OnPropertyChanged(() => SelectedVariable);
+				_selectedValueType = value;
+				VariableItems = new List<VariableItemViewModel>();
+				UpdateVariableItems();
+				OnPropertyChanged(() => SelectedValueType);
 			}
 		}
 
-		ObservableCollection<VariableViewModel> _variables;
-		public ObservableCollection<VariableViewModel> Variables
+		public ObservableCollection<ObjectType> ObjectTypes { get; private set; }
+		ObjectType _selectedObjectType;
+		public ObjectType SelectedObjectType
 		{
-			get { return _variables; }
+			get { return _selectedObjectType; }
 			set
 			{
-				_variables = value;
-				OnPropertyChanged(() => Variables);
+				_selectedObjectType = value;
+				VariableItems = new List<VariableItemViewModel>();
+				UpdateVariableItems();
+				OnPropertyChanged(() => SelectedObjectType);
 			}
 		}
 
@@ -133,104 +108,136 @@ namespace AutomationModule.ViewModels
 		}
 
 		public RelayCommand SelectCommand { get; private set; }
-		private void OnSelect()
-		{			
-			if (SelectedVariable.ObjectType == ObjectType.Device)
-			{
-				var deviceSelectationViewModel = new DeviceSelectionViewModel(SelectedVariableObject.Device != null ? SelectedVariableObject.Device : null);
-				if (DialogService.ShowModalWindow(deviceSelectationViewModel))
-					SelectedVariableObject = new VariableObjectViewModel(deviceSelectationViewModel.SelectedDevice.Device.UID);
-			}
-
-			if (SelectedVariable.ObjectType == ObjectType.Zone)
-			{
-				var zoneSelectationViewModel = new ZoneSelectionViewModel(SelectedVariableObject.Zone != null ? SelectedVariableObject.Zone : null);
-				if (DialogService.ShowModalWindow(zoneSelectationViewModel))
-					SelectedVariableObject = new VariableObjectViewModel(zoneSelectationViewModel.SelectedZone.Zone.UID);
-			}
-
-			if (SelectedVariable.ObjectType == ObjectType.GuardZone)
-			{
-				var guardZoneSelectationViewModel = new GuardZoneSelectionViewModel(SelectedVariableObject.GuardZone != null ? SelectedVariableObject.GuardZone : null);
-				if (DialogService.ShowModalWindow(guardZoneSelectationViewModel))
-					SelectedVariableObject = new VariableObjectViewModel(guardZoneSelectationViewModel.SelectedZone.GuardZone.UID);
-			}
-
-			if (SelectedVariable.ObjectType == ObjectType.SKDDevice)
-			{
-				var skdDeviceSelectationViewModel = new SKDDeviceSelectionViewModel(SelectedVariableObject.SKDDevice != null ? SelectedVariableObject.SKDDevice : null);
-				if (DialogService.ShowModalWindow(skdDeviceSelectationViewModel))
-					SelectedVariableObject = new VariableObjectViewModel(skdDeviceSelectationViewModel.SelectedDevice.SKDDevice.UID);
-			}
-
-			if (SelectedVariable.ObjectType == ObjectType.SKDZone)
-			{
-				var skdZoneSelectationViewModel = new SKDZoneSelectionViewModel(SelectedVariableObject.SKDZone != null ? SelectedVariableObject.SKDZone : null);
-				if (DialogService.ShowModalWindow(skdZoneSelectationViewModel))
-					SelectedVariableObject = new VariableObjectViewModel(skdZoneSelectationViewModel.SelectedZone.SKDZone.UID);
-			}
-
-			if (SelectedVariable.ObjectType == ObjectType.ControlDoor)
-			{
-				var doorSelectationViewModel = new DoorSelectionViewModel(SelectedVariableObject.SKDDoor != null ? SelectedVariableObject.SKDDoor : null);
-				if (DialogService.ShowModalWindow(doorSelectationViewModel))
-					SelectedVariableObject = new VariableObjectViewModel(doorSelectationViewModel.SelectedDoor.Door.UID);
-			}
-
-			if (SelectedVariable.ObjectType == ObjectType.Direction)
-			{
-				var directionSelectationViewModel = new DirectionSelectionViewModel(SelectedVariableObject.Direction != null ? SelectedVariableObject.Direction : null);
-				if (DialogService.ShowModalWindow(directionSelectationViewModel))
-					SelectedVariableObject = new VariableObjectViewModel(directionSelectationViewModel.SelectedDirection.Direction.UID);
-			}
-
-			if (SelectedVariable.ObjectType == ObjectType.VideoDevice)
-			{
-				var cameraSelectionViewModel = new CameraSelectionViewModel(SelectedVariableObject.Camera != null ? SelectedVariableObject.Camera : null);
-				if (DialogService.ShowModalWindow(cameraSelectionViewModel))
-					SelectedVariableObject = new VariableObjectViewModel(cameraSelectionViewModel.SelectedCamera.Camera.UID);
-			}
+		void OnSelect()
+		{
+			SelectedVariableItem = SelectItem(SelectedVariableItem);
 		}
 
-		public RelayCommand<VariableObjectViewModel> ChangeItemCommand { get; private set; }
-		public void OnChangeItem(VariableObjectViewModel variableObjectViewModel)
+		public RelayCommand<VariableItemViewModel> ChangeItemCommand { get; private set; }
+		public void OnChangeItem(VariableItemViewModel variableItemViewModel)
 		{
-			SelectedVariableObject = variableObjectViewModel;
-			OnSelect();
-			variableObjectViewModel.Copy(SelectedVariableObject);
-			OnPropertyChanged(() => VariableObjects);
+			variableItemViewModel.Initialize(SelectItem(variableItemViewModel).VariableItem);
+			UpdateVariableItems();
 		}
 
-		public ObservableCollection<VariableObjectViewModel> VariableObjects { get; private set; }
-		VariableObjectViewModel _selectedVariableObject;
-		public VariableObjectViewModel SelectedVariableObject
+		public List<VariableItemViewModel> VariableItems { get; private set; }
+		public ObservableCollection<VariableItemViewModel> VariableObjects
 		{
-			get { return _selectedVariableObject; }
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Object)); }
+		}
+		public ObservableCollection<VariableItemViewModel> VariableBools
+		{
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Boolean)); }
+		}
+		public ObservableCollection<VariableItemViewModel> VariableDateTimes
+		{
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.DateTime)); }
+		}
+		public ObservableCollection<VariableItemViewModel> VariableIntegers
+		{
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.Integer)); }
+		}
+		public ObservableCollection<VariableItemViewModel> VariableStrings
+		{
+			get { return new ObservableCollection<VariableItemViewModel>(VariableItems.FindAll(x => x.VariableItem.ValueType == ValueType.String)); }
+		}
+
+		VariableItemViewModel _selectedVariableItem;
+		public VariableItemViewModel SelectedVariableItem
+		{
+			get { return _selectedVariableItem; }
 			set
 			{
-				_selectedVariableObject = value;
+				_selectedVariableItem = value;
 				if (value != null)
-					SelectedVariable.Variable.ObjectUid = _selectedVariableObject.ObjectUid;
-				OnPropertyChanged(() => SelectedVariableObject);
+					Variable.ObjectUid = _selectedVariableItem.VariableItem.ObjectUid;
+				OnPropertyChanged(() => SelectedVariableItem);
+			}
+		}
+
+		bool _defaultBoolValue;
+		public bool DefaultBoolValue
+		{
+			get { return _defaultBoolValue; }
+			set
+			{
+				_defaultBoolValue = value;
+				OnPropertyChanged(() => DefaultBoolValue);
+			}
+		}
+
+		DateTime _defaultDateTimeValue;
+		public DateTime DefaultDateTimeValue
+		{
+			get { return _defaultDateTimeValue; }
+			set
+			{
+				_defaultDateTimeValue = value;
+				OnPropertyChanged(() => DefaultDateTimeValue);
+			}
+		}
+
+		int _defaultIntValue;
+		public int DefaultIntValue
+		{
+			get { return _defaultIntValue; }
+			set
+			{
+				_defaultIntValue = value;
+				OnPropertyChanged(() => DefaultIntValue);
+			}
+		}
+
+		string _defaultStringValue;
+		public string DefaultStringValue
+		{
+			get { return _defaultStringValue; }
+			set
+			{
+				_defaultStringValue = value;
+				OnPropertyChanged(() => DefaultStringValue);
 			}
 		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			SelectedVariableObject.IsEmpty = true;
-			OnSelect();
-			if (!SelectedVariableObject.IsEmpty)
-				VariableObjects.Add(SelectedVariableObject);
-			OnPropertyChanged(() => VariableObjects);
+			var variableItemViewModel = SelectItem();
+			if (variableItemViewModel.VariableItem.ValueType != ValueType.Object || !variableItemViewModel.IsEmpty)
+				VariableItems.Add(variableItemViewModel);
+			UpdateVariableItems();
 		}
 
-		public RelayCommand<VariableObjectViewModel> RemoveCommand { get; private set; }
-		void OnRemove(VariableObjectViewModel variableObjectViewModel)
+		public RelayCommand<VariableItemViewModel> RemoveCommand { get; private set; }
+		void OnRemove(VariableItemViewModel variableItemViewModel)
 		{
-			if (variableObjectViewModel != null)
-				VariableObjects.Remove(variableObjectViewModel);
+			if (variableItemViewModel == null)
+				return;
+			VariableItems.Remove(variableItemViewModel);
+			UpdateVariableItems();
+		}
+
+		VariableItemViewModel SelectItem(VariableItemViewModel currentVariableItem = null)
+		{
+			if (currentVariableItem == null)
+				currentVariableItem = new VariableItemViewModel(new VariableItem());
+			if (SelectedValueType != ValueType.Object)
+			{
+				var variableItemViewModel = new VariableItemViewModel(new VariableItem { ValueType = SelectedValueType });
+				variableItemViewModel.SelectedBoolValue = currentVariableItem.SelectedBoolValue;
+				return variableItemViewModel;
+			}
+
+			return ProcedureHelper.SelectObject(SelectedObjectType, currentVariableItem);
+		}
+
+		void UpdateVariableItems()
+		{
 			OnPropertyChanged(() => VariableObjects);
+			OnPropertyChanged(() => VariableBools);
+			OnPropertyChanged(() => VariableDateTimes);
+			OnPropertyChanged(() => VariableIntegers);
+			OnPropertyChanged(() => VariableStrings);
 		}
 
 		protected override bool Save()
@@ -240,19 +247,17 @@ namespace AutomationModule.ViewModels
 				MessageBoxService.ShowWarning("Название не может быть пустым");
 				return false;
 			}
-			Variable.Name = SelectedVariable.Name;
-			Variable.DefaultBoolValue = SelectedVariable.DefaultBoolValue;
-			Variable.DefaultDateTimeValue = SelectedVariable.DefaultDateTimeValue;
-			Variable.DefaultIntValue = SelectedVariable.DefaultIntValue;
 			Variable.Name = Name;
-			Variable.ObjectType = SelectedVariable.ObjectType;
-			Variable.DefaultStringValue = SelectedVariable.DefaultStringValue;
-			Variable.ValueType = SelectedVariable.ValueType;
+			Variable.DefaultBoolValue = DefaultBoolValue;
+			Variable.DefaultDateTimeValue = DefaultDateTimeValue;
+			Variable.DefaultIntValue = DefaultIntValue;
+			Variable.DefaultStringValue = DefaultStringValue;
+			Variable.ValueType = SelectedValueType;
+			Variable.ObjectType = SelectedObjectType;
 			Variable.IsList = IsList;
-			Variable.ObjectUid = SelectedVariable.Variable.ObjectUid;
-			Variable.ObjectsUids = new List<Guid>();
-			foreach (var variableObject in VariableObjects)
-				Variable.ObjectsUids.Add(variableObject.ObjectUid);
+			Variable.VariableItems = new List<VariableItem>();
+			foreach (var variableItemViewModel in VariableItems)
+				Variable.VariableItems.Add(variableItemViewModel.VariableItem);
 			return base.Save();
 		}
 	}

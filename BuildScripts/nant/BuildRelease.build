@@ -21,11 +21,11 @@
     <msbuild project="..\..\Projects\GKOPCServer\GKOPCServer.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-    <msbuild project="..\..\Projects\Installers\GKFiresecInstaller\FiresecInstaller.sln">
+    <msbuild project="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
     <copy todir="..\bin\GK\">
-      <fileset basedir="..\..\Projects\Installers\GKFiresecInstaller\FiresecInstaller\bin\Release">
+      <fileset basedir="..\..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release">
         <include name="**\*" />
       </fileset>
     </copy>

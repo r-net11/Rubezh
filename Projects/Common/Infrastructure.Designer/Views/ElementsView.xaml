@@ -47,6 +47,7 @@
 			<Style BasedOn="{StaticResource {x:Type tree:TreeListItem}}" TargetType="{x:Type tree:TreeListItem}">
 				<Setter Property="Visibility" Value="{Binding IsGroupHasChild, Converter={StaticResource BoolToVisibilityConverter}}" />
 				<Setter Property="ContextMenu" Value="{Binding ContextMenu}" />
+				<Setter Property="ToolTip" Value="{Binding ToolTip}" />
 			</Style>
 		</tree:TreeList.ItemContainerStyle>
 		<tree:TreeList.View>

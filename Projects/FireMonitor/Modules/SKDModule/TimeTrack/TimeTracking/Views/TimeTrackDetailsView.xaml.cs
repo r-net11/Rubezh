@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -46,24 +47,75 @@ namespace SKDModule.Views
 			if (timeTrackDetailsViewModel != null)
 			{
 				var dayTimeTrack = timeTrackDetailsViewModel.DayTimeTrack;
-				DrawDocumentTimeTrackGrid(dayTimeTrack);
-				DrawRealTimeTrackGrid(dayTimeTrack);
-				DrawPlannedTimeTrackGrid(dayTimeTrack);
-				DrawCombinedTimeTrackGrid(dayTimeTrack);
+
+				foreach (var timeTrackPart in dayTimeTrack.DocumentTrackParts)
+				{
+					switch (timeTrackPart.MinTimeTrackDocumentType.DocumentType)
+					{
+						case DocumentType.Overtime:
+							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentOvertime;
+							break;
+
+						case DocumentType.Presence:
+							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentPresence;
+							break;
+
+						case DocumentType.Absence:
+							timeTrackPart.TimeTrackPartType = TimeTrackType.DocumentAbsence;
+							break;
+					}
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.MinTimeTrackDocumentType.Name;
+				}
+
+				foreach (var timeTrackPart in dayTimeTrack.RealTimeTrackParts)
+				{
+					var zoneName = "";
+					var zone = SKDManager.Zones.FirstOrDefault(x => x.UID == timeTrackPart.ZoneUID);
+					if (zone != null)
+					{
+						zoneName = zone.Name;
+					}
+					else
+					{
+						zoneName = "<Нет в конфигурации>";
+					}
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + zoneName;
+					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
+				}
+
+				foreach (var timeTrackPart in dayTimeTrack.PlannedTimeTrackParts)
+				{
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.DayName;
+					if (timeTrackPart.StartsInPreviousDay)
+						timeTrackPart.Tooltip += "\n" + "Интервал начинается днем рашьше";
+					if (timeTrackPart.EndsInNextDay)
+						timeTrackPart.Tooltip += "\n" + "Интервал заканчивается днем позже";
+					timeTrackPart.TimeTrackPartType = TimeTrackType.Presence;
+				}
+
+				foreach (var timeTrackPart in dayTimeTrack.CombinedTimeTrackParts)
+				{
+					timeTrackPart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.TimeTrackPartType.ToDescription();
+				}
+
+				DrawTimeTrackGrid(dayTimeTrack.DocumentTrackParts, DocumentsGrid);
+				DrawTimeTrackGrid(dayTimeTrack.RealTimeTrackParts, RealGrid);
+				DrawTimeTrackGrid(dayTimeTrack.PlannedTimeTrackParts, PlannedGrid);
+				DrawTimeTrackGrid(dayTimeTrack.CombinedTimeTrackParts, CombinedGrid);
 			}
 
 			DrawHoursGrid();
 		}
 
-		void DrawDocumentTimeTrackGrid(DayTimeTrack dayTimeTrack)
+		void DrawTimeTrackGrid(List<TimeTrackPart> timeTrackParts, Grid grid)
 		{
-			if (dayTimeTrack.DocumentTrackParts.Count > 0)
+			if (timeTrackParts.Count > 0)
 			{
 				double current = 0;
 				var timeParts = new List<TimePart>();
-				for (int i = 0; i < dayTimeTrack.DocumentTrackParts.Count; i++)
+				for (int i = 0; i < timeTrackParts.Count; i++)
 				{
-					var timeTrackPart = dayTimeTrack.DocumentTrackParts[i];
+					var timeTrackPart = timeTrackParts[i];
 
 					var startTimePart = new TimePart();
 					startTimePart.Delta = timeTrackPart.StartTime.TotalSeconds - current;
@@ -72,23 +124,9 @@ namespace SKDModule.Views
 
 					var endTimePart = new TimePart();
 					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
-					endTimePart.IsInterval = true;
-
-					switch (timeTrackPart.MinTimeTrackDocumentType.DocumentType)
-					{
-						case DocumentType.Overtime:
-							endTimePart.TimeTrackType = TimeTrackType.DocumentOvertime;
-							break;
-
-						case DocumentType.Presence:
-							endTimePart.TimeTrackType = TimeTrackType.DocumentPresence;
-							break;
-
-						case DocumentType.Absence:
-							endTimePart.TimeTrackType = TimeTrackType.DocumentAbsence;
-							break;
-					}
-					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime) + "\n" + timeTrackPart.MinTimeTrackDocumentType.Name;
+					endTimePart.IsInterval = timeTrackPart.TimeTrackPartType != TimeTrackType.None;
+					endTimePart.TimeTrackType = timeTrackPart.TimeTrackPartType;
+					endTimePart.Tooltip = timeTrackPart.Tooltip;
 					timeParts.Add(endTimePart);
 
 					current = timeTrackPart.EndTime.TotalSeconds;
@@ -98,109 +136,7 @@ namespace SKDModule.Views
 				lastTimePart.IsInterval = false;
 				timeParts.Add(lastTimePart);
 
-				DrawGrid(timeParts, DocumentsGrid);
-			}
-		}
-
-		void DrawRealTimeTrackGrid(DayTimeTrack dayTimeTrack)
-		{
-			if (dayTimeTrack.RealTimeTrackParts.Count > 0)
-			{
-				double current = 0;
-				var timeParts = new List<TimePart>();
-				for (int i = 0; i < dayTimeTrack.RealTimeTrackParts.Count; i++)
-				{
-					var timeTrackPart = dayTimeTrack.RealTimeTrackParts[i];
-
-					var startTimePart = new TimePart();
-					startTimePart.Delta = timeTrackPart.StartTime.TotalSeconds - current;
-					startTimePart.IsInterval = false;
-					timeParts.Add(startTimePart);
-
-					var endTimePart = new TimePart();
-					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
-					endTimePart.IsInterval = true;
-					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime);
-					endTimePart.TimeTrackType = TimeTrackType.Presence;
-					timeParts.Add(endTimePart);
-
-					current = timeTrackPart.EndTime.TotalSeconds;
-				}
-				var lastTimePart = new TimePart();
-				lastTimePart.Delta = 24 * 60 * 60 - current;
-				lastTimePart.IsInterval = false;
-				timeParts.Add(lastTimePart);
-
-				DrawGrid(timeParts, RealGrid);
-			}
-		}
-
-		void DrawPlannedTimeTrackGrid(DayTimeTrack dayTimeTrack)
-		{
-			if (dayTimeTrack.PlannedTimeTrackParts.Count > 0)
-			{
-				double current = 0;
-				var timeParts = new List<TimePart>();
-				for (int i = 0; i < dayTimeTrack.PlannedTimeTrackParts.Count; i++)
-				{
-					var timeTrackPart = dayTimeTrack.PlannedTimeTrackParts[i];
-
-					var startTimePart = new TimePart();
-					startTimePart.Delta = timeTrackPart.StartTime.TotalSeconds - current;
-					startTimePart.IsInterval = false;
-					timeParts.Add(startTimePart);
-
-					var endTimePart = new TimePart();
-					endTimePart.Delta = timeTrackPart.EndTime.TotalSeconds - timeTrackPart.StartTime.TotalSeconds;
-					endTimePart.IsInterval = true;
-					endTimePart.Tooltip = TimePartDateToString(timeTrackPart.StartTime) + " - " + TimePartDateToString(timeTrackPart.EndTime);
-					endTimePart.TimeTrackType = TimeTrackType.Presence;
-					timeParts.Add(endTimePart);
-
-					current = timeTrackPart.EndTime.TotalSeconds;
-				}
-				var lastTimePart = new TimePart();
-				lastTimePart.Delta = 24 * 60 * 60 - 1 - current;
-				if (lastTimePart.Delta > 0)
-				{
-					lastTimePart.IsInterval = false;
-					timeParts.Add(lastTimePart);
-				}
-
-				DrawGrid(timeParts, PlannedGrid);
-			}
-		}
-
-		void DrawCombinedTimeTrackGrid(DayTimeTrack dayTimeTrack)
-		{
-			if (dayTimeTrack.CombinedTimeTrackParts.Count > 0)
-			{
-				double current = 0;
-				var timeParts = new List<TimePart>();
-				for (int i = 0; i < dayTimeTrack.CombinedTimeTrackParts.Count; i++)
-				{
-					var trackPart = dayTimeTrack.CombinedTimeTrackParts[i];
-
-					var startTimePart = new TimePart();
-					startTimePart.Delta = trackPart.StartTime.TotalSeconds - current;
-					startTimePart.IsInterval = false;
-					timeParts.Add(startTimePart);
-
-					var endTimePart = new TimePart();
-					endTimePart.Delta = trackPart.EndTime.TotalSeconds - trackPart.StartTime.TotalSeconds;
-					endTimePart.IsInterval = trackPart.TimeTrackPartType != TimeTrackType.None;
-					endTimePart.Tooltip = TimePartDateToString(trackPart.StartTime) + " - " + TimePartDateToString(trackPart.EndTime) + " " + trackPart.TimeTrackPartType.ToDescription();
-					endTimePart.TimeTrackType = trackPart.TimeTrackPartType;
-					timeParts.Add(endTimePart);
-
-					current = trackPart.EndTime.TotalSeconds;
-				}
-				var lastTimePart = new TimePart();
-				lastTimePart.Delta = 24 * 60 * 60 - current;
-				lastTimePart.IsInterval = false;
-				timeParts.Add(lastTimePart);
-
-				DrawGrid(timeParts, CombinedGrid);
+				DrawGrid(timeParts, grid);
 			}
 		}
 

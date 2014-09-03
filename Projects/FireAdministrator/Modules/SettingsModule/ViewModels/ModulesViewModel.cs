@@ -16,7 +16,7 @@ namespace SettingsModule.ViewModels
 			Modules.Add(new ModuleViewModel("SecurityModule.dll", "Пользователи"));
 			Modules.Add(new ModuleViewModel("SoundsModule.dll", "Звуки"));
 			Modules.Add(new ModuleViewModel("SettingsModule.dll", "Настройки", false));
-			Modules.Add(new ModuleViewModel("GKModule.dll", "Глобал"));
+			Modules.Add(new ModuleViewModel("GKModule.dll", "ГК"));
 			Modules.Add(new ModuleViewModel("OPCModule.dll", "OPC сервер"));
 			Modules.Add(new ModuleViewModel("NotificationModule.dll", "Нотификация"));
 			Modules.Add(new ModuleViewModel("VideoModule.dll", "Видео"));

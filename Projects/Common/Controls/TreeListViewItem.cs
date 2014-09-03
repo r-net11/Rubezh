@@ -15,7 +15,7 @@ namespace Controls
 			MouseRightButtonDown += new MouseButtonEventHandler(TreeListViewItem_MouseRightButtonDown);
 		}
 
-		private int _level = -1;
+		int _level = -1;
 		public int Level
 		{
 			get
@@ -38,7 +38,7 @@ namespace Controls
 			return item is TreeListViewItem;
 		}
 
-		private void TreeListViewItem_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		void TreeListViewItem_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			TreeListViewItem item = sender as TreeListViewItem;
 			if (item != null)

@@ -67,19 +67,22 @@ namespace FiresecService
 		{
 			if (journalItem.CardNo > 0)
 			{
-				var operationResult = SKDDatabaseService.CardTranslator.GetEmployeeByCardNo(journalItem.CardNo);
-				if (!operationResult.HasError)
+				using (var databaseService = new SKDDatabaseService())
 				{
-					var employeeUID = operationResult.Result;
-					journalItem.EmployeeUID = employeeUID;
-
-					if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен)
+					var operationResult = databaseService.CardTranslator.GetEmployeeByCardNo(journalItem.CardNo);
+					if (!operationResult.HasError)
 					{
-						var readerdevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
-						if (readerdevice != null && readerdevice.Zone != null)
+						var employeeUID = operationResult.Result;
+						journalItem.EmployeeUID = employeeUID;
+
+						if (journalItem.JournalEventNameType == JournalEventNameType.Проход_разрешен)
 						{
-							var zoneUID = readerdevice.Zone.UID;
-							SKDDatabaseService.TimeTrackTranslator.AddPassJournal(employeeUID, zoneUID);
+							var readerdevice = SKDManager.Devices.FirstOrDefault(x => x.UID == journalItem.ObjectUID);
+							if (readerdevice != null && readerdevice.Zone != null)
+							{
+								var zoneUID = readerdevice.Zone.UID;
+								databaseService.TimeTrackTranslator.AddPassJournal(employeeUID, zoneUID);
+							}
 						}
 					}
 				}
@@ -208,26 +211,29 @@ namespace FiresecService
 
 		static void OnConnectionAppeared(DeviceProcessor deviceProcessor)
 		{
-			var pendingCards = SKDDatabaseService.CardTranslator.GetAllPendingCards(deviceProcessor.Device.UID);
-			foreach (var pendingCard in pendingCards)
+			using (var databaseService = new SKDDatabaseService())
 			{
-				var operationResult = SKDDatabaseService.CardTranslator.GetSingle(pendingCard.CardUID);
-				if (!operationResult.HasError && operationResult.Result != null)
+				var pendingCards = databaseService.CardTranslator.GetAllPendingCards(deviceProcessor.Device.UID);
+				foreach (var pendingCard in pendingCards)
 				{
-					var card = operationResult.Result;
-					var getAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
-					var cardWriter = ChinaSKDDriver.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
-					foreach (var controllerCardItem in cardWriter.ControllerCardItems)
+					var operationResult = databaseService.CardTranslator.GetSingle(pendingCard.CardUID);
+					if (!operationResult.HasError && operationResult.Result != null)
 					{
-						if (!controllerCardItem.HasError)
+						var card = operationResult.Result;
+						var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(card.AccessTemplateUID);
+						var cardWriter = ChinaSKDDriver.Processor.AddCard(card, getAccessTemplateOperationResult.Result);
+						foreach (var controllerCardItem in cardWriter.ControllerCardItems)
 						{
-							SKDDatabaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceProcessor.Device.UID);
+							if (!controllerCardItem.HasError)
+							{
+								databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceProcessor.Device.UID);
+							}
 						}
 					}
-				}
-				else
-				{
-					SKDDatabaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceProcessor.Device.UID);
+					else
+					{
+						databaseService.CardTranslator.DeleteAllPendingCards(pendingCard.CardUID, deviceProcessor.Device.UID);
+					}
 				}
 			}
 		}

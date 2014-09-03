@@ -7,6 +7,7 @@ using FiresecAPI.Automation;
 using System.Linq;
 using ValueType = FiresecAPI.Automation.ValueType;
 using FiresecClient;
+using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels
 {
@@ -15,103 +16,60 @@ namespace AutomationModule.ViewModels
 		ShowMessageArguments ShowMessageArguments { get; set; }
 		public Action UpdateDescriptionHandler { get; set; }
 		Procedure Procedure { get; set; }
+		public ArithmeticParameterViewModel Variable1 { get; private set; }
+
 		public ShowMessageStepViewModel(ShowMessageArguments showMessageArguments, Procedure procedure, Action updateDescriptionHandler)
 		{
 			ShowMessageArguments = showMessageArguments;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			Procedure = procedure;
+			Variable1 = new ArithmeticParameterViewModel(ShowMessageArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
+			ValueTypes = new ObservableCollection<ValueType> (ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object));
 			UpdateContent();
 		}
 
-		public string Message
+		VariableItemViewModel _selectedVariableItem;
+		public VariableItemViewModel SelectedVariableItem
 		{
-			get { return ShowMessageArguments.Message; }
+			get { return _selectedVariableItem; }
 			set
 			{
-				ShowMessageArguments.Message = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => Message);
-				if (UpdateDescriptionHandler != null)
-					UpdateDescriptionHandler();
-			}
-		}
-
-		public ObservableCollection<VariableType> VariableTypes { get; private set; }
-		public VariableType SelectedVariableType
-		{
-			get { return ShowMessageArguments.VariableType; }
-			set
-			{
-				ShowMessageArguments.VariableType = value;
-				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedVariableType);
-				if (UpdateDescriptionHandler != null)
-					UpdateDescriptionHandler();
-			}
-		}
-
-		public ObservableCollection<VariableViewModel> Variables { get; private set; }
-		private VariableViewModel _selectedVariable;
-		public VariableViewModel SelectedVariable
-		{
-			get { return _selectedVariable; }
-			set
-			{
-				_selectedVariable = value;
+				_selectedVariableItem = value;
 				if (value != null)
-					ShowMessageArguments.VariableUid = value.Variable.Uid;
-				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedVariable);
-			}
-		}
-
-		public ObservableCollection<VariableViewModel> GlobalVariables { get; private set; }
-		private VariableViewModel _selectedGlobalVariable;
-		public VariableViewModel SelectedGlobalVariable
-		{
-			get { return _selectedGlobalVariable; }
-			set
-			{
-				_selectedGlobalVariable = value;
-				if (value != null)
-					ShowMessageArguments.GlobalVariableUid = value.Variable.Uid;
-				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedGlobalVariable);
+					Variable1.UidValue = _selectedVariableItem.VariableItem.ObjectUid;
+				OnPropertyChanged(() => SelectedVariableItem);
 			}
 		}
 
 		public void UpdateContent()
-		{
-			Variables = new ObservableCollection<VariableViewModel>();
-			GlobalVariables = new ObservableCollection<VariableViewModel>();
-			var variablesAndArguments = new List<Variable>(Procedure.Variables);
-			variablesAndArguments.AddRange(Procedure.Arguments);
-			foreach (var variable in variablesAndArguments)
-			{
-				Variables.Add(new VariableViewModel(variable));
-			}
-			foreach (var globalVariable in FiresecManager.SystemConfiguration.AutomationConfiguration.GlobalVariables)
-			{
-				GlobalVariables.Add(new VariableViewModel(globalVariable));
-			}
-			VariableTypes = new ObservableCollection<VariableType>(Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
-			SelectedVariableType = ShowMessageArguments.VariableType;
-			SelectedVariable = Variables.FirstOrDefault(x => x.Variable.Uid == ShowMessageArguments.VariableUid);
-			SelectedGlobalVariable = GlobalVariables.FirstOrDefault(x => x.Variable.Uid == ShowMessageArguments.GlobalVariableUid);
-			OnPropertyChanged(() => Variables);
-			OnPropertyChanged(() => GlobalVariables);
-			OnPropertyChanged(() => SelectedVariable);
+		{			
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType && !x.IsList));
 		}
 
 		public string Description
 		{
 			get 
 			{
-				if (SelectedVariableType == VariableType.IsLocalVariable)
-					return "<" + SelectedVariable.Name + ">";
-				if (SelectedVariableType == VariableType.IsGlobalVariable)
-					return "<" + SelectedGlobalVariable.Name + ">";
-				return Message; 
+				if (Variable1.SelectedVariableType == VariableType.IsValue && Variable1.SelectedVariable != null)
+					return "<" + Variable1.SelectedVariable.Name + ">";
+				else if (Variable1.SelectedVariable != null)
+					return "<" + Variable1.SelectedVariable.Name + ">";
+				return "";
+			}
+		}
+
+		public ObservableCollection<ValueType> ValueTypes { get; private set; }
+		public ValueType ValueType
+		{
+			get
+			{
+				return ShowMessageArguments.ValueType;
+			}
+			set
+			{
+				ShowMessageArguments.ValueType = value;
+				UpdateContent();
+				OnPropertyChanged(() => ValueType);
 			}
 		}
 	}

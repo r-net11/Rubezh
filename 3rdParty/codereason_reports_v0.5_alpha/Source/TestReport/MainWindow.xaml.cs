@@ -28,8 +28,8 @@ namespace TestReport
 			{
 				ReportDocument reportDocument = new ReportDocument();
 
-				StreamReader reader = new StreamReader(new FileStream(@"..\..\..\..\..\..\Projects\FireMonitor\Modules\SKDModule\Reports\T13.xaml", FileMode.Open, FileAccess.Read));
-				//StreamReader reader = new StreamReader(new FileStream(@"..\..\Templates\Test.xaml", FileMode.Open, FileAccess.Read));
+				//StreamReader reader = new StreamReader(new FileStream(@"..\..\..\..\..\..\Projects\FireMonitor\Modules\SKDModule\Reports\T13.xaml", FileMode.Open, FileAccess.Read));
+				StreamReader reader = new StreamReader(new FileStream(@"..\..\Templates\Test.xaml", FileMode.Open, FileAccess.Read));
 				reportDocument.XamlData = reader.ReadToEnd();
 				reportDocument.XamlImagePath = Path.Combine(Environment.CurrentDirectory, @"Templates\");
 				reader.Close();
@@ -74,6 +74,7 @@ namespace TestReport
 
 				DateTime dateTimeStart = DateTime.Now; // start time measure here
 				XpsDocument xps = reportDocument.CreateXpsDocument(data);
+				Title += " - xps " + (DateTime.Now - dateTimeStart).TotalMilliseconds + "ms";
 				documentViewer.Document = xps.GetFixedDocumentSequence();
 
 				// show the elapsed time in window title

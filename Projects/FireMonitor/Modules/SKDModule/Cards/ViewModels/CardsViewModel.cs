@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using SKDModule.Events;
+using Infrastructure.Common.Windows;
 
 namespace SKDModule.ViewModels
 {
@@ -140,10 +141,13 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			CardHelper.Delete(SelectedCard.Card.UID);
-			var parent = SelectedCard.Card.IsInStopList ? RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem) : RootItems.FirstOrDefault(x => x.Organisation.UID == SelectedCard.Card.OrganisationUID);
-			parent.RemoveChild(SelectedCard);
-			SelectedCard = parent.HasChildren ? parent : parent.Children.FirstOrDefault();
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить карту?"))
+			{
+				CardHelper.Delete(SelectedCard.Card.UID);
+				var parent = SelectedCard.Card.IsInStopList ? RootItems.FirstOrDefault(x => x.IsDeactivatedRootItem) : RootItems.FirstOrDefault(x => x.Organisation.UID == SelectedCard.Card.OrganisationUID);
+				parent.RemoveChild(SelectedCard);
+				SelectedCard = parent.HasChildren ? parent : parent.Children.FirstOrDefault();
+			}
 		}
 		bool CanRemove()
 		{

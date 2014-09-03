@@ -44,12 +44,12 @@ extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetCurrentTime(int loginID, int dwYe
 
 typedef struct
 {
-	char szProjectPassword[MAX_PASSWORD_LEN];
-} WRAP_GeneralConfig_Password;
+	CFG_ACCESS_PROPERTY_TYPE emAccessProperty;
+} WRAP_ControllerDirectionType;
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetProjectPassword(int loginID, WRAP_GeneralConfig_Password* result);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetControllerDirectionType(int loginID, WRAP_ControllerDirectionType* result);
 
-extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetProjectPassword(int loginID, char password[]);
+extern "C" CLIENT_API BOOL CALL_METHOD WRAP_SetControllerDirectionType(int loginID, CFG_ACCESS_PROPERTY_TYPE emAccessProperty);
 
 extern "C" CLIENT_API BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result);
 

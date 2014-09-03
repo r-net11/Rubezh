@@ -63,7 +63,7 @@
 	
 	<Converters:SwitchConverter x:Key="StretchToStringConverter" Else="{x:Null}">
 		<Converters:SwitchCase Then="Заполнить" When="Fill" />
-		<Converters:SwitchCase Then="Как есть" When="None" />
+		<Converters:SwitchCase Then="Исходный размер" When="None" />
 		<Converters:SwitchCase Then="Сохранить пропорции" When="Uniform" />
 		<Converters:SwitchCase Then="Заполнить пропорционально" When="UniformToFill" />
 	</Converters:SwitchConverter>

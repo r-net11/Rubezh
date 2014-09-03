@@ -10,20 +10,22 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
 	public class ControlSKDDeviceStepViewModel: BaseViewModel, IStepViewModel
 	{
 		ControlSKDDeviceArguments ControlSKDDeviceArguments { get; set; }
-		public ControlSKDDeviceStepViewModel(ControlSKDDeviceArguments controlSKDDeviceArguments)
+		Procedure Procedure { get; set; }
+		public ArithmeticParameterViewModel Variable1 { get; private set; }
+
+		public ControlSKDDeviceStepViewModel(ControlSKDDeviceArguments controlSKDDeviceArguments, Procedure procedure)
 		{
 			ControlSKDDeviceArguments = controlSKDDeviceArguments;
-			Commands = new ObservableCollection<SKDDeviceCommandType>
-			{
-				SKDDeviceCommandType.Open, SKDDeviceCommandType.Close, 
-				SKDDeviceCommandType.OpenForever, SKDDeviceCommandType.CloseForever
-			};
+			Procedure = procedure;
+			Commands = ProcedureHelper.GetEnumObs<SKDDeviceCommandType>();
+			Variable1 = new ArithmeticParameterViewModel(ControlSKDDeviceArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
 			SelectDeviceCommand = new RelayCommand(OnSelectDevice);
 			UpdateContent();
 		}
@@ -50,10 +52,10 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedDevice = value;
-				ControlSKDDeviceArguments.DeviceUid = Guid.Empty;
+				Variable1.UidValue = Guid.Empty;
 				if (_selectedDevice != null)
 				{
-					ControlSKDDeviceArguments.DeviceUid = _selectedDevice.SKDDevice.UID;
+					Variable1.UidValue = _selectedDevice.SKDDevice.UID;
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedDevice);
@@ -72,9 +74,10 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			if (ControlSKDDeviceArguments.DeviceUid != Guid.Empty)
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, ObjectType.SKDDevice, false));
+			if (Variable1.UidValue != Guid.Empty)
 			{
-				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == ControlSKDDeviceArguments.DeviceUid);
+				var device = SKDManager.Devices.FirstOrDefault(x => x.UID == Variable1.UidValue);
 				SelectedDevice = device != null ? new DeviceViewModel(device) : null;
 				if (SelectedDevice != null)
 					SelectedCommand = ControlSKDDeviceArguments.Command;

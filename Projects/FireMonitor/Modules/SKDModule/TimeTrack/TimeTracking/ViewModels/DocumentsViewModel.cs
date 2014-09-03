@@ -14,10 +14,12 @@ namespace SKDModule.ViewModels
 	public class DocumentsViewModel : BaseViewModel
 	{
 		public Guid EmployeeUID { get; private set; }
+		public Guid OrganisationUID { get; private set; }
 
 		public DocumentsViewModel(TimeTrackEmployeeResult timeTrackEmployeeResult, DateTime startDate, DateTime endDate)
 		{
 			EmployeeUID = timeTrackEmployeeResult.ShortEmployee.UID;
+			OrganisationUID = timeTrackEmployeeResult.ShortEmployee.OrganisationUID;
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
@@ -50,7 +52,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(true);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;
@@ -72,7 +74,7 @@ namespace SKDModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var documentDetailsViewModel = new DocumentDetailsViewModel(true, SelectedDocument.Document);
+			var documentDetailsViewModel = new DocumentDetailsViewModel(true, OrganisationUID, SelectedDocument.Document);
 			if (DialogService.ShowModalWindow(documentDetailsViewModel))
 			{
 				var document = documentDetailsViewModel.TimeTrackDocument;
@@ -93,14 +95,17 @@ namespace SKDModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
-			if (operationResult.HasError)
+			if (MessageBoxService.ShowQuestion2("Вы уверены, что хотите удалить документ?"))
 			{
-				MessageBoxService.ShowWarning(operationResult.Error);
-			}
-			else
-			{
-				Documents.Remove(SelectedDocument);
+				var operationResult = FiresecManager.FiresecService.RemoveTimeTrackDocument(SelectedDocument.Document.UID);
+				if (operationResult.HasError)
+				{
+					MessageBoxService.ShowWarning(operationResult.Error);
+				}
+				else
+				{
+					Documents.Remove(SelectedDocument);
+				}
 			}
 		}
 		bool CanRemove()

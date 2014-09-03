@@ -57,7 +57,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_kauDevice = value;
-				OnPropertyChanged("KAUDevice");
+				OnPropertyChanged(() => KAUDevice);
 			}
 		}
 

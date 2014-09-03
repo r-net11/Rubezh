@@ -1021,7 +1021,6 @@
     <Resource Include="GKIcons\DrainagePump.png" />
     <Resource Include="GKIcons\FirePump.png" />
     <Resource Include="GKIcons\JockeyPump.png" />
-    <Resource Include="SKDIcons\Gate.png" />
     <Resource Include="SKDIcons\Reader.png" />
     <Resource Include="SKDIcons\System.png" />
     <Resource Include="SKDIcons\Controller.png" />
@@ -1187,9 +1186,6 @@
     <Resource Include="Images\Procedure.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Procedures.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="SKDIcons\ChinaController_4_4.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1272,6 +1268,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\arrowInto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SKDIcons\ChinaController_1_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ProcedureYellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Step.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -156,36 +156,41 @@ BOOL CALL_METHOD WRAP_SetCurrentTime(int loginID, int dwYear, int dwMonth, int d
 	return bRet;
 }
 
-BOOL CALL_METHOD WRAP_GetProjectPassword(int loginID, WRAP_GeneralConfig_Password* result)
+BOOL CALL_METHOD WRAP_GetControllerDirectionType(int loginID, WRAP_ControllerDirectionType* result)
 {
+	CFG_ACCESS_GENERAL_INFO	m_stuInfo;
 	char szJsonBuf[1024 * 40] = {0};
 	int nerror = 0;
+	BOOL bRet = CLIENT_GetNewDevConfig((LLONG)loginID, CFG_CMD_ACCESS_GENERAL, -1, szJsonBuf, 1024*40, &nerror, SDK_API_WAITTIME);
 	
-	BOOL bRet = CLIENT_GetNewDevConfig(loginID, CFG_CMD_ACCESS_GENERAL, -1, szJsonBuf, sizeof(szJsonBuf), &nerror, SDK_API_WAITTIME);
-
 	if (bRet)
 	{
-		int nRetLen = 0;
-		CFG_ACCESS_GENERAL_INFO stuInfo = {0};
-		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_GENERAL, szJsonBuf, &stuInfo, sizeof(stuInfo), &nRetLen);
-		strcpy(result->szProjectPassword, stuInfo.szProjectPassword);
+		DWORD dwRetLen = 0;
+		bRet = CLIENT_ParseData(CFG_CMD_ACCESS_GENERAL, szJsonBuf, (void*)&m_stuInfo, sizeof(m_stuInfo), &dwRetLen);
+		result->emAccessProperty = m_stuInfo.emAccessProperty;
 		return bRet;
 	}
 	return FALSE;
 }
 
-BOOL CALL_METHOD WRAP_SetProjectPassword(int loginID, char password[])
+BOOL CALL_METHOD WRAP_SetControllerDirectionType(int loginID, CFG_ACCESS_PROPERTY_TYPE emAccessProperty)
 {
-	char szJsonBufSet[1024 * 40] = {0};
-	int nerror = 0;
-	int nrestart = 0;
-
-	CFG_ACCESS_GENERAL_INFO stuInfo = {sizeof(stuInfo)};
-	stuInfo.abProjectPassword = true;
-	strncpy(stuInfo.szProjectPassword, password, __min(strlen(password), sizeof(stuInfo.szProjectPassword)));
-	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_GENERAL, &stuInfo, sizeof(stuInfo), szJsonBufSet, sizeof(szJsonBufSet));
-	bRet = CLIENT_SetNewDevConfig(loginID, CFG_CMD_ACCESS_GENERAL, -1, szJsonBufSet, sizeof(szJsonBufSet), &nerror, &nrestart, SDK_API_WAITTIME);
-	return bRet;
+	CFG_ACCESS_GENERAL_INFO	m_stuInfo;
+	m_stuInfo.emAccessProperty = emAccessProperty;
+	char szJsonBuf[1024 * 40] = {0};
+	BOOL bRet = CLIENT_PacketData(CFG_CMD_ACCESS_GENERAL, &m_stuInfo, sizeof(m_stuInfo), szJsonBuf, sizeof(szJsonBuf));
+	if (!bRet)
+	{
+		return FALSE;
+	} 
+	else
+	{		
+		int nerror = 0;
+		int nrestart = 0;
+		
+		bRet = CLIENT_SetNewDevConfig((LLONG)loginID, CFG_CMD_ACCESS_GENERAL, -1, szJsonBuf, 1024*40, &nerror, &nrestart, SDK_API_WAITTIME);
+		return bRet;
+	}
 }
 
 BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result)

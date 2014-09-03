@@ -56,7 +56,7 @@ namespace AutomationModule
 					new NavigationItem("Автоматизация", "/Controls;component/Images/tree.png",
 						new List<NavigationItem>()
 						{
-							new NavigationItem<ShowProceduresEvent, Guid>(ProceduresViewModel, "Процедуры", "/Controls;component/Images/Procedures.png"),
+							new NavigationItem<ShowProceduresEvent, Guid>(ProceduresViewModel, "Процедуры", "/Controls;component/Images/Procedure.png"),
 							new NavigationItem<ShowAutomationSchedulesEvents, Guid>(SchedulesViewModel, "Расписания", "/Controls;component/Images/Shedules.png"),
 							new NavigationItem<ShowGlobalVariablesEvent, Guid>(GlobalVariablesViewModel, "Глобальные переменные", "/Controls;component/Images/GlobalVariables.png"),
 							new NavigationItem<ShowAutomationSoundsEvent, Guid>(SoundsViewModel, "Звуки", "/Controls;component/Images/Music.png")

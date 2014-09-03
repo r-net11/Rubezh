@@ -145,7 +145,6 @@ namespace FireAdministrator.ViewModels
 					MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
 					return;
 				}
-				ServiceFactory.Events.GetEvent<BeforeConfigurationSerializeEvent>().Publish(null);
 				ConfigManager.SetNewConfig();
 			}
 		}

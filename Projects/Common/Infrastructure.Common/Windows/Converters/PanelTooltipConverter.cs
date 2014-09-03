@@ -10,7 +10,7 @@ namespace Infrastructure.Common.Windows.Converters
 			var isLeftPanel = parameter == null || System.Convert.ToBoolean(parameter);
 			var isVisible = System.Convert.ToBoolean(value);
 			return isLeftPanel ?
-				(isVisible ? "Свернуть левую часть" : "Развернуть правую часть") :
+				(isVisible ? "Свернуть планы" : "Развернуть планы") :
 				(isVisible ? "Свернуть правую часть" : "Развернуть левую часть");
 		}
 

@@ -19,16 +19,28 @@ namespace FiresecAPI.SKD
 		public TimeSpan EndTime { get; set; }
 
 		[DataMember]
-		public Guid ZoneUID { get; set; }
+		public TimeTrackType TimeTrackPartType { get; set; }
 
 		[DataMember]
-		public TimeTrackType TimeTrackPartType { get; set; }
+		public Guid ZoneUID { get; set; }
 
 		[DataMember]
 		public TimeTrackDocumentType MinTimeTrackDocumentType { get; set; }
 
 		[DataMember]
 		public List<TimeTrackDocumentType> TimeTrackDocumentTypes { get; set; }
+
+		[DataMember]
+		public bool StartsInPreviousDay { get; set; }
+
+		[DataMember]
+		public bool EndsInNextDay { get; set; }
+
+		[DataMember]
+		public string DayName { get; set; }
+
+		[DataMember]
+		public string Tooltip { get; set; }
 
 		public TimeSpan Delta
 		{

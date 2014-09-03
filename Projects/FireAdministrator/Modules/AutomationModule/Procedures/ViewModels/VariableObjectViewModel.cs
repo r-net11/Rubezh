@@ -7,10 +7,12 @@ using FiresecAPI.GK;
 using FiresecClient;
 using FiresecAPI.SKD;
 using FiresecAPI.Models;
+using System.Collections.ObjectModel;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class VariableObjectViewModel : BaseViewModel
+	public class VariableItemViewModel : BaseViewModel
 	{
 		public XDevice Device { get; private set; }
 		public XZone Zone { get; private set; }
@@ -21,7 +23,11 @@ namespace AutomationModule.ViewModels
 		public SKDDoor SKDDoor { get; private set; }
 		public XDirection Direction { get; private set; }
 
-		public VariableObjectViewModel(Guid objectUid)
+		public bool BoolValue { get; private set; }
+		public ValueType ValueType { get; set; }
+		public Guid ObjectUid { get; private set; }
+
+		public VariableItemViewModel(Guid objectUid)
 		{
 			ObjectUid = objectUid;
 			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == objectUid);
@@ -34,19 +40,17 @@ namespace AutomationModule.ViewModels
 			Direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == objectUid);
 		}
 
-		public Guid ObjectUid { get; private set; }
-
-		public void Copy(VariableObjectViewModel variableObjectViewModel)
+		public void Copy(VariableItemViewModel variableItemViewModel)
 		{
-			Device = variableObjectViewModel.Device;
-			Zone = variableObjectViewModel.Zone;
-			GuardZone = variableObjectViewModel.GuardZone;
-			SKDDevice = variableObjectViewModel.SKDDevice;
-			SKDZone = variableObjectViewModel.SKDZone;
-			Camera = variableObjectViewModel.Camera;
-			SKDDoor = variableObjectViewModel.SKDDoor;
-			Direction = variableObjectViewModel.Direction;
-			ObjectUid = variableObjectViewModel.ObjectUid;
+			Device = variableItemViewModel.Device;
+			Zone = variableItemViewModel.Zone;
+			GuardZone = variableItemViewModel.GuardZone;
+			SKDDevice = variableItemViewModel.SKDDevice;
+			SKDZone = variableItemViewModel.SKDZone;
+			Camera = variableItemViewModel.Camera;
+			SKDDoor = variableItemViewModel.SKDDoor;
+			Direction = variableItemViewModel.Direction;
+			ObjectUid = variableItemViewModel.ObjectUid;
 			OnPropertyChanged(() => PresentationName);
 			OnPropertyChanged(() => IsEmpty);
 		}

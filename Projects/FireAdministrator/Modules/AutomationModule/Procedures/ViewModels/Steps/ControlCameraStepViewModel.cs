@@ -7,19 +7,25 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
 	public class ControlCameraStepViewModel: BaseViewModel, IStepViewModel
 	{
 		ControlCameraArguments ControlCameraArguments { get; set; }
-		public ControlCameraStepViewModel(ControlCameraArguments controlCameraArguments)
+		public ArithmeticParameterViewModel Variable1 { get; private set; }
+		Procedure Procedure { get; set; }
+
+		public ControlCameraStepViewModel(ControlCameraArguments controlCameraArguments, Procedure procedure)
 		{
 			ControlCameraArguments = controlCameraArguments;
+			Procedure = procedure;
 			Commands = new ObservableCollection<CameraCommandType>
 			{
 				CameraCommandType.StartRecord, CameraCommandType.StopRecord
 			};
+			Variable1 = new ArithmeticParameterViewModel(ControlCameraArguments.Variable1, Enum.GetValues(typeof(VariableType)).Cast<VariableType>().ToList());
 			OnPropertyChanged(() => Commands);
 			SelectCameraCommand = new RelayCommand(OnSelectCamera);
 			UpdateContent();
@@ -47,10 +53,10 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedCamera = value;
-				ControlCameraArguments.CameraUid = Guid.Empty;
+				Variable1.UidValue = Guid.Empty;
 				if (_selectedCamera != null)
 				{
-					ControlCameraArguments.CameraUid = _selectedCamera.Camera.UID;
+					Variable1.UidValue = _selectedCamera.Camera.UID;
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedCamera);
@@ -69,9 +75,10 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			if (ControlCameraArguments.CameraUid != Guid.Empty)
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.Object && x.ObjectType == ObjectType.VideoDevice && !x.IsList));
+			if (Variable1.UidValue != Guid.Empty)
 			{
-				var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == ControlCameraArguments.CameraUid);
+				var camera = FiresecManager.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == Variable1.UidValue);
 				SelectedCamera = camera != null ? new CameraViewModel(camera) : null;
 				SelectedCommand = ControlCameraArguments.CameraCommandType;
 			}

@@ -4,10 +4,10 @@ namespace FiresecAPI.SKD
 {
 	public enum PersonType
 	{
-		[DescriptionAttribute("Работник")]
+		[DescriptionAttribute("Сотрудник")]
 		Employee,
 
-		[DescriptionAttribute("Гость")]
+		[DescriptionAttribute("Посетитель")]
 		Guest
 	}
 }

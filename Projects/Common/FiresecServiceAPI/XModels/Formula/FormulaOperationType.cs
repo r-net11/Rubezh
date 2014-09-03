@@ -67,6 +67,12 @@ namespace FiresecAPI.GK
 		[DescriptionAttribute("Условие Меньше или равно")]
 		LE = 22,
 
+		[DescriptionAttribute("Занести в стек пароль наборника")]
+		KOD = 26,
+
+		[DescriptionAttribute("Проверка уровня доступа")]
+		ACS = 27,
+
 		[DescriptionAttribute("Дублировать содержимое стека")]
 		DUP = 30,
 

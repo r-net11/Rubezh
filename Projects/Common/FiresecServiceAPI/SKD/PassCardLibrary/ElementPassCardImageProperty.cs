@@ -11,6 +11,7 @@ namespace FiresecAPI.SKD
 	{
 		public ElementPassCardImageProperty()
 		{
+			Stretch = Stretch.Fill;
 		}
 
 		public override ElementBase Clone()

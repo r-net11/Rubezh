@@ -19,15 +19,15 @@
 				<TableRow>
 					<TableCell>
 						<Paragraph>
-							<xrd:InlineContextValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="ReportDate" />
+							<xrd:InlineContextValue Format="dd.MM.yyyy HH:mm:ss" Type="ReportDate" />
 						</Paragraph>
 					</TableCell>
 					<TableCell>
 						<Paragraph TextAlignment="Right">
 							Страница
-							<xrd:InlineContextValue FontWeight="Bold" PropertyName="PageNumber" />
+							<xrd:InlineContextValue FontWeight="Bold" Type="PageNumber" />
 							из
-							<xrd:InlineContextValue FontWeight="Bold" PropertyName="PageCount" />
+							<xrd:InlineContextValue FontWeight="Bold" Type="PageCount" />
 						</Paragraph>
 					</TableCell>
 				</TableRow>
@@ -50,7 +50,7 @@
 							Параметры устройств
 							<LineBreak />
 							на
-							<xrd:InlineContextValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="ReportDate" />
+							<xrd:InlineContextValue Format="dd.MM.yyyy HH:mm:ss" Type="ReportDate" />
 						</Paragraph>
 					</TableCell>
 				</TableRow>

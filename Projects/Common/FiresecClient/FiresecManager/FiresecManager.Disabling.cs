@@ -13,9 +13,10 @@ namespace FiresecClient
 			{
 				if ((deviceState != null) && (deviceState.Device.Driver.CanDisable))
 				{
-					if (deviceState.IsDisabled)
-						return CheckPermission(PermissionType.Oper_RemoveFromIgnoreList);
-					return CheckPermission(PermissionType.Oper_AddToIgnoreList);
+					return true;
+					//if (deviceState.IsDisabled)
+					//    return CheckPermission(PermissionType.Oper_RemoveFromIgnoreList);
+					//return CheckPermission(PermissionType.Oper_AddToIgnoreList);
 				}
 				return false;
 			}

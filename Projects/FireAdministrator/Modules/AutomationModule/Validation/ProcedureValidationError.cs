@@ -30,7 +30,7 @@ namespace AutomationModule.Validation
 		}
 		public override string ImageSource
 		{
-			get { return "/Controls;component/Images/Procedures.png"; }
+			get { return "/Controls;component/Images/Procedure.png"; }
 		}
 	}
 

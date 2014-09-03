@@ -11,24 +11,79 @@ using Infrastructure;
 using System.ComponentModel;
 using Infrastructure.Events;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace SKDModule.ViewModels
 {
-	public class ControllerPropertiesViewModel : DialogViewModel
+	public class ControllerPropertiesViewModel : SaveCancelDialogViewModel
 	{
 		public SKDDevice Device { get; private set; }
 		public SKDDeviceInfo DeviceInfo { get; private set; }
+		bool HasChanged { get; set; }
 
 		public ControllerPropertiesViewModel(SKDDevice device, SKDDeviceInfo deviceInfo)
 		{
 			Title = "Конфигурация контроллера";
 			Device = device;
+			DeviceInfo = deviceInfo;
+
+			GetControllerDirectionTypeCommand = new RelayCommand(OnGetControllerDirectionType);
+			SetControllerDirectionTypeCommand = new RelayCommand(OnSetControllerDirectionType);
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime);
 			ResetCommand = new RelayCommand(OnReset);
 			RebootCommand = new RelayCommand(OnReboot);
 			RewriteAllCardsCommand = new RelayCommand(OnRewriteAllCards);
 
-			DeviceInfo = deviceInfo;
+			AvailableControllerDirectionTypes = new ObservableCollection<SKDControllerDirectionType>();
+			AvailableControllerDirectionTypes.Add(SKDControllerDirectionType.Unidirect);
+			AvailableControllerDirectionTypes.Add(SKDControllerDirectionType.Bidirect);
+			SelectedControllerDirectionType = device.ControllerDirectionType;
+			HasChanged = false;
+		}
+
+		public ObservableCollection<SKDControllerDirectionType> AvailableControllerDirectionTypes { get; private set; }
+
+		SKDControllerDirectionType _selectedControllerDirectionType;
+		public SKDControllerDirectionType SelectedControllerDirectionType
+		{
+			get { return _selectedControllerDirectionType; }
+			set
+			{
+				_selectedControllerDirectionType = value;
+				OnPropertyChanged(() => SelectedControllerDirectionType);
+				HasChanged = true;
+			}
+		}
+
+		public RelayCommand GetControllerDirectionTypeCommand { get; private set; }
+		void OnGetControllerDirectionType()
+		{
+			var result = FiresecManager.FiresecService.GetDirectionType(Device);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error);
+				return;
+			}
+			else
+			{
+				SelectedControllerDirectionType = result.Result;
+				HasChanged = false;
+			}
+		}
+
+		public RelayCommand SetControllerDirectionTypeCommand { get; private set; }
+		void OnSetControllerDirectionType()
+		{
+			var result = FiresecManager.FiresecService.SetDirectionType(Device, SelectedControllerDirectionType);
+			if (result.HasError)
+			{
+				MessageBoxService.ShowWarning(result.Error);
+				return;
+			}
+			else
+			{
+				HasChanged = false;
+			}
 		}
 
 		public RelayCommand SynchroniseTimeCommand { get; private set; }
@@ -91,6 +146,22 @@ namespace SKDModule.ViewModels
 			});
 			thread.Name = "DeviceCommandsViewModel OnWriteTimeSheduleConfiguration";
 			thread.Start();
+		}
+
+		protected override bool Save()
+		{
+			if (HasChanged)
+			{
+				Device.ControllerDirectionType = SelectedControllerDirectionType;
+				ServiceFactory.SaveService.SKDChanged = true;
+			}
+
+			if (HasChanged)
+			{
+				if (!MessageBoxService.ShowConfirmation2("Настройки не записаны в прибор. вы уверены, что хотите закрыть окно без записи в прибор?"))
+					return false;
+			}
+			return base.Save();
 		}
 	}
 }

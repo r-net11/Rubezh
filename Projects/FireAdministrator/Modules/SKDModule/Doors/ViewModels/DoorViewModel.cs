@@ -65,7 +65,7 @@ namespace SKDModule.ViewModels
 			get
 			{
 				if (InDevice != null)
-					return InDevice.Name;
+					return InDevice.NameWithParent;
 				return "Нажмите для выбора устройства";
 			}
 		}

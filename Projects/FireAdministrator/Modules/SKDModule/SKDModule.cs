@@ -78,9 +78,6 @@ namespace SKDModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			if (!FiresecManager.CheckPermission(PermissionType.Adm_SKUD))
-				return null;
-
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("СКД", "/Controls;component/Images/SKDW.png", new List<NavigationItem>()

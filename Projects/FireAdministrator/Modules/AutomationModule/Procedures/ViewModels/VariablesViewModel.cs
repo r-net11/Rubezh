@@ -5,6 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
 using Infrastructure;
+using MiscUtil.Reflection;
 
 namespace AutomationModule.ViewModels
 {
@@ -51,7 +52,7 @@ namespace AutomationModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel();
+			var variableDetailsViewModel = new VariableDetailsViewModel(null, "локальная переменная", "Добавить локальную переменную");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
 				var varialbeViewModel = new VariableViewModel(variableDetailsViewModel.Variable);
@@ -78,10 +79,10 @@ namespace AutomationModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable);
+			var variableDetailsViewModel = new VariableDetailsViewModel(SelectedVariable.Variable, "локальная переменная", "Редактировать локальную переменную");
 			if (DialogService.ShowModalWindow(variableDetailsViewModel))
 			{
-				SelectedVariable.Variable.Copy(variableDetailsViewModel.Variable);
+				PropertyCopy.Copy<Variable, Variable>(variableDetailsViewModel.Variable, SelectedVariable.Variable);
 				SelectedVariable.Update();
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}

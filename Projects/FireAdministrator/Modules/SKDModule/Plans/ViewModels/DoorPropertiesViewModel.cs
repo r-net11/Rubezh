@@ -19,7 +19,7 @@ namespace SKDModule.Plans.ViewModels
 
 		public DoorPropertiesViewModel(DoorsViewModel doorsViewModel, ElementDoor elementDoor)
 		{
-			Title = "Свойства фигуры: Дверь";
+			Title = "Свойства фигуры: Точка доступа";
 			_elementDoor = elementDoor;
 			_doorsViewModel = doorsViewModel;
 

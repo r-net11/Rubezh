@@ -3,8 +3,9 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
-	<StackPanel Orientation="Horizontal">
-		<Label Content="Тип значений" HorizontalAlignment="Right" />
+	<StackPanel>
+		<StackPanel Orientation="Horizontal" >
+			<Label Content="Тип значений" Margin="2" Width="100" />
 		<ComboBox ItemsSource="{Binding ValueTypes}" Margin="2" 
 				  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" >
 			<ComboBox.ItemTemplate>
@@ -13,9 +14,11 @@
 				</DataTemplate>
 			</ComboBox.ItemTemplate>
 		</ComboBox>
-		<Label Content="Сообщение: " Margin="2" />
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" >
+			<Label Content="Сообщение: " Margin="2" Width="100" />
 		<ComboBox DataContext="{Binding Variable}" ItemsSource="{Binding VariableTypes}" Margin="2"
-				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" >
+				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="163" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -25,7 +28,7 @@
 		<ComboBox DataContext="{Binding Variable}" ItemsSource="{Binding GlobalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" VerticalAlignment="Top" >
+			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" VerticalAlignment="Top" Width="163" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
@@ -35,7 +38,7 @@
 		<ComboBox DataContext="{Binding Variable}" ItemsSource="{Binding LocalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" VerticalAlignment="Top" >
+			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" VerticalAlignment="Top" Width="163" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
@@ -46,13 +49,14 @@
 		<StackPanel Margin="2" Visibility="{Binding Path=Variable.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 			ConverterParameter={x:Static automation:VariableType.IsValue}}" VerticalAlignment="Top">
 			<extToolkit:IntegerUpDown Value="{Binding Variable.IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
-				ConverterParameter={x:Static automation:ValueType.Integer}}" Height="28" Width="163" />
+				ConverterParameter={x:Static automation:ValueType.Integer}}" Height="25" Width="163" />
 			<CheckBox IsChecked="{Binding Variable.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter}, 
 						ConverterParameter={x:Static automation:ValueType.Boolean}}" Margin="0,7,0,0" />
 			<TextBox Text="{Binding Variable.StringValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
-						ConverterParameter={x:Static automation:ValueType.String}}" Height="28" Width="163" VerticalContentAlignment="Center" />
+						ConverterParameter={x:Static automation:ValueType.String}}" Height="25" Width="163" VerticalContentAlignment="Center" />
 			<extToolkit:DateTimePicker Value = "{Binding Variable.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedValueType, Converter={StaticResource EnumToVisibilityConverter},
-						ConverterParameter={x:Static automation:ValueType.DateTime}}" Height="28" Width="163" />
+						ConverterParameter={x:Static automation:ValueType.DateTime}}" Height="25" Width="163" />
+		</StackPanel>
 		</StackPanel>
 	</StackPanel>
 </UserControl>

@@ -24,7 +24,10 @@ namespace FiresecService
 		{
 			lock (databaseLocker)
 			{
-				SKDDatabaseService.JournalItemTranslator.Save(journalItem);
+				using (var databaseService = new SKDDatabaseService())
+				{
+					databaseService.JournalItemTranslator.Save(journalItem);
+				}
 			}
 		}
 

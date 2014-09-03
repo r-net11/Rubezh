@@ -22,7 +22,7 @@
 				<TextBlock Grid.Row="0" Grid.Column="0" Margin="2" Foreground="White" Text="Наименование" />
 				<TextBox Grid.Row="0" Grid.Column="1" Margin="2" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
 
-				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="Схема работы" />
+				<TextBlock Grid.Row="1" Grid.Column="0" Margin="2" Foreground="White" Text="График работы" />
 				<ComboBox Grid.Row="1" Grid.Column="1" Margin="2" VerticalAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding AvailableScheduleTypes}" SelectedItem="{Binding SelectedScheduleType, UpdateSourceTrigger=PropertyChanged}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>

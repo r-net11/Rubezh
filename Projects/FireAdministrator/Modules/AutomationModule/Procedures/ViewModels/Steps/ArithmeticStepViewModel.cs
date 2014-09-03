@@ -42,12 +42,11 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
-			allVariables = allVariables.FindAll(x => !x.IsList && x.ValueType == SelectedArithmeticValueType);
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedArithmeticValueType);
 			var allVariables2 = new List<Variable>(allVariables);
 			
 			if (SelectedArithmeticValueType == ValueType.DateTime)
-				allVariables2 = allVariables2.FindAll(x => x.ValueType == ValueType.Integer);
+				allVariables2 = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == ValueType.Integer);
 
 			Variable1.Update(allVariables);
 			Variable2.Update(allVariables2);
@@ -174,6 +173,8 @@ namespace AutomationModule.ViewModels
 	{
 		public ArithmeticParameter ArithmeticParameter { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
+		public Action UpdateVariableTypeHandler { get; set; }
+		public Action UpdateVariableHandler { get; set; }
 
 		public ArithmeticParameterViewModel(ArithmeticParameter arithmeticParameter, List<VariableType> availableVariableTypes)
 		{
@@ -204,6 +205,8 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				ArithmeticParameter.VariableType = value;
+				if (UpdateVariableTypeHandler != null)
+					UpdateVariableTypeHandler();
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariableType);
 			}
@@ -253,6 +256,17 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
+		public Guid UidValue
+		{
+			get { return ArithmeticParameter.UidValue; }
+			set
+			{
+				ArithmeticParameter.UidValue = value;
+				ServiceFactory.SaveService.AutomationChanged = true;
+				OnPropertyChanged(() => UidValue);
+			}
+		}
+
 		public string TypeValue
 		{
 			get { return ArithmeticParameter.TypeValue; }
@@ -291,6 +305,8 @@ namespace AutomationModule.ViewModels
 				if (_selectedVariable != null)
 				{
 					ArithmeticParameter.VariableUid = value.Variable.Uid;
+					if (UpdateVariableHandler != null)
+						UpdateVariableHandler();
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariable);

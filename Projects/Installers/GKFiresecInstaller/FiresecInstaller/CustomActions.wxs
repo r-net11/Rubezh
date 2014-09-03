@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Fragment>
-    <CustomAction Id="StartOPCServerOnExit" Directory="GKOPCLOCATION" ExeCommand="[GKOPCLOCATION]GKOPCServer.exe" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
-    <CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="CloseApplications" Execute="immediate" Impersonate="yes" Return="check" />
-    <CustomAction Id="InstallHaspDriver" BinaryKey="haspdinst.exe" ExeCommand="-i -kp" Return="ignore" Execute="immediate" />
-  </Fragment>
-</Wix>

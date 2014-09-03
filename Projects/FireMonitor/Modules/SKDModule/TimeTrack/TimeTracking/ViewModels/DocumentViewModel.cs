@@ -19,14 +19,11 @@ namespace SKDModule.ViewModels
 
 		public void Update()
 		{
-			var timeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == Document.DocumentCode);
-			if (timeTrackDocumentType != null)
-			{
-				Name = timeTrackDocumentType.Name;
-				ShortName = timeTrackDocumentType.ShortName;
-				StartDateTime = Document.StartDateTime.ToString("yyyy-MM-dd HH:mm");
-				EndDateTime = Document.EndDateTime.ToString("yyyy-MM-dd HH:mm");
-			}
+			Name = Document.TimeTrackDocumentType.Name;
+			ShortName = Document.TimeTrackDocumentType.ShortName;
+			StartDateTime = Document.StartDateTime.ToString("yyyy-MM-dd HH:mm");
+			EndDateTime = Document.EndDateTime.ToString("yyyy-MM-dd HH:mm");
+
 			OnPropertyChanged(() => Name);
 			OnPropertyChanged(() => ShortName);
 			OnPropertyChanged(() => StartDateTime);

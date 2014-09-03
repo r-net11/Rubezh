@@ -16,11 +16,17 @@ namespace FiresecService.Service
 		#region Employee
 		public OperationResult<IEnumerable<ShortEmployee>> GetEmployeeList(EmployeeFilter filter)
 		{
-			return SKDDatabaseService.EmployeeTranslator.GetList(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.EmployeeTranslator.GetList(filter);
+			}
 		}
 		public OperationResult<Employee> GetEmployeeDetails(Guid uid)
 		{
-			return SKDDatabaseService.EmployeeTranslator.GetSingle(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.EmployeeTranslator.GetSingle(uid);
+			}
 		}
 		public OperationResult SaveEmployee(Employee item)
 		{
@@ -29,25 +35,33 @@ namespace FiresecService.Service
 			//	GKAddUser(gkDevice.UID);
 			//}
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_сотрудника);
-			return SKDDatabaseService.EmployeeTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.EmployeeTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedEmployee(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_сотрудника);
 			var stringBuilder = new StringBuilder();
-			var getEmployeeOperationResult = SKDDatabaseService.EmployeeTranslator.GetSingle(uid);
-			if (!getEmployeeOperationResult.HasError)
+			using (var databaseService = new SKDDatabaseService())
 			{
-				foreach (var card in getEmployeeOperationResult.Result.Cards)
+				var getEmployeeOperationResult = databaseService.EmployeeTranslator.GetSingle(uid);
+
+				if (!getEmployeeOperationResult.HasError)
 				{
-					var operationResult = DeleteCardFromEmployee(card, "Сотрудник удален");
-					if (operationResult.HasError)
+					foreach (var card in getEmployeeOperationResult.Result.Cards)
 					{
-						stringBuilder.AppendLine(operationResult.Error);
+						var operationResult = DeleteCardFromEmployee(card, "Сотрудник удален");
+						if (operationResult.HasError)
+						{
+							stringBuilder.AppendLine(operationResult.Error);
+						}
 					}
 				}
+
+				var markdDletedOperationResult = databaseService.EmployeeTranslator.MarkDeleted(uid);
 			}
-			var markdDletedOperationResult = SKDDatabaseService.EmployeeTranslator.MarkDeleted(uid);
 
 			if (stringBuilder.Length > 0)
 				return new OperationResult(stringBuilder.ToString());
@@ -56,182 +70,224 @@ namespace FiresecService.Service
 		}
 		public OperationResult<TimeTrackResult> GetTimeTracks(EmployeeFilter filter, DateTime startDate, DateTime endDate)
 		{
-			var stopwatch = new Stopwatch();
-			stopwatch.Start();
-			var result = SKDDatabaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
-			stopwatch.Stop();
-			Trace.WriteLine("GetTimeTracks time " + stopwatch.Elapsed.ToString());
-			return result;
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.TimeTrackTranslator.GetTimeTracks(filter, startDate, endDate);
+			}
 		}
 		#endregion
 
 		#region Department
 		public OperationResult<IEnumerable<ShortDepartment>> GetDepartmentList(DepartmentFilter filter)
 		{
-			return SKDDatabaseService.DepartmentTranslator.GetList(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.GetList(filter);
+			}
 		}
 		public OperationResult<Department> GetDepartmentDetails(Guid uid)
 		{
-			return SKDDatabaseService.DepartmentTranslator.GetSingle(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.GetSingle(uid);
+			}
 		}
 		public OperationResult SaveDepartment(Department item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_отдела);
-			return SKDDatabaseService.DepartmentTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedDepartment(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_отдела);
-			return SKDDatabaseService.DepartmentTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.DepartmentTranslator.MarkDeleted(uid);
+			}
 		}
 		#endregion
 
 		#region Position
 		public OperationResult<IEnumerable<ShortPosition>> GetPositionList(PositionFilter filter)
 		{
-			return SKDDatabaseService.PositionTranslator.GetList(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PositionTranslator.GetList(filter);
+			}
 		}
 		public OperationResult<Position> GetPositionDetails(Guid uid)
 		{
-			return SKDDatabaseService.PositionTranslator.GetSingle(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PositionTranslator.GetSingle(uid);
+			}
 		}
 		public OperationResult SavePosition(Position item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
-			return SKDDatabaseService.PositionTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PositionTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedPosition(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_должности);
-			return SKDDatabaseService.PositionTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.PositionTranslator.MarkDeleted(uid);
+			}
 		}
 		#endregion
 
 		#region Card
 		public OperationResult<IEnumerable<SKDCard>> GetCards(CardFilter filter)
 		{
-			return SKDDatabaseService.CardTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.CardTranslator.Get(filter);
+			}
 		}
 		public OperationResult<bool> AddCard(SKDCard item)
 		{
-			AddSKDJournalMessage(JournalEventNameType.Добавление_карты);
-			var getAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				AddSKDJournalMessage(JournalEventNameType.Добавление_карты);
+				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
 
-			string cardWriterError = null;
-			var cardWriter = ChinaSKDDriver.Processor.AddCard(item, getAccessTemplateOperationResult.Result);
-			cardWriterError = cardWriter.GetError();
-			var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
-			var pendingResult = SKDDatabaseService.CardTranslator.AddPendingList(item.UID, failedControllerUIDs);
+				string cardWriterError = null;
+				var cardWriter = ChinaSKDDriver.Processor.AddCard(item, getAccessTemplateOperationResult.Result);
+				cardWriterError = cardWriter.GetError();
+				var failedControllerUIDs = GetFailedControllerUIDs(cardWriter);
+				var pendingResult = databaseService.CardTranslator.AddPendingList(item.UID, failedControllerUIDs);
 
-			var saveResult = SKDDatabaseService.CardTranslator.Save(item);
+				var saveResult = databaseService.CardTranslator.Save(item);
 
-			var stringBuilder = new StringBuilder();
-			if (!String.IsNullOrEmpty(cardWriterError))
-				stringBuilder.AppendLine(cardWriterError);
-			if (pendingResult.HasError)
-				stringBuilder.AppendLine(pendingResult.Error);
-			if (saveResult.HasError)
-				stringBuilder.AppendLine(saveResult.Error);
-			if (stringBuilder.Length > 0)
-				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
-			else
-				return new OperationResult<bool>() { Result = !saveResult.HasError };
+				var stringBuilder = new StringBuilder();
+				if (!String.IsNullOrEmpty(cardWriterError))
+					stringBuilder.AppendLine(cardWriterError);
+				if (pendingResult.HasError)
+					stringBuilder.AppendLine(pendingResult.Error);
+				if (saveResult.HasError)
+					stringBuilder.AppendLine(saveResult.Error);
+				if (stringBuilder.Length > 0)
+					return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
+				else
+					return new OperationResult<bool>() { Result = !saveResult.HasError };
+			}
 		}
 		public OperationResult<bool> EditCard(SKDCard item)
 		{
-			AddSKDJournalMessage(JournalEventNameType.Редактирование_карты);
-			var getAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
-
-			string cardWriterError = null;
-			OperationResult pendingResult;
-
-			var operationResult = SKDDatabaseService.CardTranslator.GetSingle(item.UID);
-			if (!operationResult.HasError)
+			using (var databaseService = new SKDDatabaseService())
 			{
-				var oldCard = operationResult.Result;
-				var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
+				AddSKDJournalMessage(JournalEventNameType.Редактирование_карты);
+				var getAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(item.AccessTemplateUID);
 
-				var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldGetAccessTemplateOperationResult.Result, item, getAccessTemplateOperationResult.Result);
-				cardWriterError = cardWriter.GetError();
-				pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+				string cardWriterError = null;
+				OperationResult pendingResult;
+
+				var operationResult = databaseService.CardTranslator.GetSingle(item.UID);
+				if (!operationResult.HasError)
+				{
+					var oldCard = operationResult.Result;
+					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
+
+					var cardWriter = ChinaSKDDriver.Processor.EditCard(oldCard, oldGetAccessTemplateOperationResult.Result, item, getAccessTemplateOperationResult.Result);
+					cardWriterError = cardWriter.GetError();
+					pendingResult = databaseService.CardTranslator.EditPendingList(item.UID, GetFailedControllerUIDs(cardWriter));
+				}
+				else
+				{
+					pendingResult = new OperationResult("Не найдена предидущая карта");
+				}
+
+				var saveResult = databaseService.CardTranslator.Save(item);
+
+				var stringBuilder = new StringBuilder();
+				if (!String.IsNullOrEmpty(cardWriterError))
+					stringBuilder.AppendLine(cardWriterError);
+				if (pendingResult.HasError)
+					stringBuilder.AppendLine(pendingResult.Error);
+				if (saveResult.HasError)
+					stringBuilder.AppendLine(saveResult.Error);
+				if (stringBuilder.Length > 0)
+					return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
+				else
+					return new OperationResult<bool>() { Result = !saveResult.HasError };
 			}
-			else
-			{
-				pendingResult = new OperationResult("Не найдена предидущая карта");
-			}
-
-			var saveResult = SKDDatabaseService.CardTranslator.Save(item);
-
-			var stringBuilder = new StringBuilder();
-			if (!String.IsNullOrEmpty(cardWriterError))
-				stringBuilder.AppendLine(cardWriterError);
-			if (pendingResult.HasError)
-				stringBuilder.AppendLine(pendingResult.Error);
-			if (saveResult.HasError)
-				stringBuilder.AppendLine(saveResult.Error);
-			if (stringBuilder.Length > 0)
-				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
-			else
-				return new OperationResult<bool>() { Result = !saveResult.HasError };
-
 		}
 		public OperationResult<bool> DeleteCardFromEmployee(SKDCard item, string reason = null)
 		{
-			AddSKDJournalMessage(JournalEventNameType.Удаление_карты);
-
-			item.AccessTemplateUID = null;
-			item.CardDoors = new List<CardDoor>();
-			item.PassCardTemplateUID = null;
-			item.EmployeeName = null;
-			item.HolderUID = null;
-			item.IsInStopList = true;
-			item.StopReason = reason;
-			item.StartDate = DateTime.Now;
-			item.EndDate = DateTime.Now;
-
-			string cardWriterError = null;
-			OperationResult pendingResult;
-
-			var operationResult = SKDDatabaseService.CardTranslator.GetSingle(item.UID);
-			if (!operationResult.HasError && operationResult.Result != null)
+			using (var databaseService = new SKDDatabaseService())
 			{
-				var oldCard = operationResult.Result;
-				var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
-				var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, oldGetAccessTemplateOperationResult.Result);
-				cardWriterError = cardWriter.GetError();
-				pendingResult = SKDDatabaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
-			}
-			else
-			{
-				pendingResult = new OperationResult("Не найдена предидущая карта");
-			}
+				AddSKDJournalMessage(JournalEventNameType.Удаление_карты);
 
-			var saveResult = SKDDatabaseService.CardTranslator.Save(item);
+				item.AccessTemplateUID = null;
+				item.CardDoors = new List<CardDoor>();
+				item.PassCardTemplateUID = null;
+				item.EmployeeName = null;
+				item.HolderUID = null;
+				item.IsInStopList = true;
+				item.StopReason = reason;
+				item.StartDate = DateTime.Now;
+				item.EndDate = DateTime.Now;
 
-			var stringBuilder = new StringBuilder();
-			if (!String.IsNullOrEmpty(cardWriterError))
-				stringBuilder.AppendLine(cardWriterError);
-			if (pendingResult.HasError)
-				stringBuilder.AppendLine(pendingResult.Error);
-			if (saveResult.HasError)
-				stringBuilder.AppendLine(saveResult.Error);
-			if (stringBuilder.Length > 0)
-				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
-			else
-				return new OperationResult<bool>() { Result = !saveResult.HasError };
+				string cardWriterError = null;
+				OperationResult pendingResult;
+
+				var operationResult = databaseService.CardTranslator.GetSingle(item.UID);
+				if (!operationResult.HasError && operationResult.Result != null)
+				{
+					var oldCard = operationResult.Result;
+					var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(oldCard.AccessTemplateUID);
+					var cardWriter = ChinaSKDDriver.Processor.DeleteCard(oldCard, oldGetAccessTemplateOperationResult.Result);
+					cardWriterError = cardWriter.GetError();
+					pendingResult = databaseService.CardTranslator.DeletePendingList(oldCard.UID, GetFailedControllerUIDs(cardWriter));
+				}
+				else
+				{
+					pendingResult = new OperationResult("Не найдена предидущая карта");
+				}
+
+				var saveResult = databaseService.CardTranslator.Save(item);
+
+				var stringBuilder = new StringBuilder();
+				if (!String.IsNullOrEmpty(cardWriterError))
+					stringBuilder.AppendLine(cardWriterError);
+				if (pendingResult.HasError)
+					stringBuilder.AppendLine(pendingResult.Error);
+				if (saveResult.HasError)
+					stringBuilder.AppendLine(saveResult.Error);
+				if (stringBuilder.Length > 0)
+					return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
+				else
+					return new OperationResult<bool>() { Result = !saveResult.HasError };
+			}
 		}
 
 		public OperationResult MarkDeletedCard(Guid uid)
 		{
-			return SKDDatabaseService.CardTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.CardTranslator.MarkDeleted(uid);
+			}
 		}
 		public OperationResult DeletedCard(Guid uid)
 		{
-			return SKDDatabaseService.CardTranslator.Delete(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.CardTranslator.Delete(uid);
+			}
 		}
 		public OperationResult SaveCardTemplate(SKDCard card)
 		{
-			return SKDDatabaseService.CardTranslator.SavePassTemplate(card);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.CardTranslator.SavePassTemplate(card);
+			}
 		}
 
 		IEnumerable<Guid> GetFailedControllerUIDs(CardWriter cardWriter)
@@ -243,44 +299,52 @@ namespace FiresecService.Service
 		#region AccessTemplate
 		public OperationResult<IEnumerable<AccessTemplate>> GetAccessTemplates(AccessTemplateFilter filter)
 		{
-			return SKDDatabaseService.AccessTemplateTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.AccessTemplateTranslator.Get(filter);
+			}
 		}
 		public OperationResult<bool> SaveAccessTemplate(AccessTemplate accessTemplate)
 		{
-			AddSKDJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа);
-			var oldGetAccessTemplateOperationResult = SKDDatabaseService.AccessTemplateTranslator.GetSingle(accessTemplate.UID);
-			var saveResult = SKDDatabaseService.AccessTemplateTranslator.Save(accessTemplate);
-
-			var stringBuilder = new StringBuilder();
-			if (saveResult.HasError)
-				stringBuilder.AppendLine(saveResult.Error);
-
-			var operationResult = SKDDatabaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
-			if (operationResult.Result != null)
+			using (var databaseService = new SKDDatabaseService())
 			{
-				foreach (var card in operationResult.Result)
+				AddSKDJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа);
+				var oldGetAccessTemplateOperationResult = databaseService.AccessTemplateTranslator.GetSingle(accessTemplate.UID);
+				var saveResult = databaseService.AccessTemplateTranslator.Save(accessTemplate);
+
+				var stringBuilder = new StringBuilder();
+				if (saveResult.HasError)
+					stringBuilder.AppendLine(saveResult.Error);
+
+				var operationResult = databaseService.CardTranslator.GetByAccessTemplateUID(accessTemplate.UID);
+				if (operationResult.Result != null)
 				{
-					var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate);
-					var cardWriterError = cardWriter.GetError();
-					var pendingResult = SKDDatabaseService.CardTranslator.EditPendingList(accessTemplate.UID, GetFailedControllerUIDs(cardWriter));
+					foreach (var card in operationResult.Result)
+					{
+						var cardWriter = ChinaSKDDriver.Processor.EditCard(card, oldGetAccessTemplateOperationResult.Result, card, accessTemplate);
+						var cardWriterError = cardWriter.GetError();
+						var pendingResult = databaseService.CardTranslator.EditPendingList(accessTemplate.UID, GetFailedControllerUIDs(cardWriter));
 
-					if (!String.IsNullOrEmpty(cardWriterError))
-						stringBuilder.AppendLine(cardWriterError);
-					if (pendingResult.HasError)
-						stringBuilder.AppendLine(pendingResult.Error);
+						if (!String.IsNullOrEmpty(cardWriterError))
+							stringBuilder.AppendLine(cardWriterError);
+						if (pendingResult.HasError)
+							stringBuilder.AppendLine(pendingResult.Error);
+					}
 				}
-			}
 
-			if (stringBuilder.Length > 0)
-				return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
-			else
-				return new OperationResult<bool>() { Result = !saveResult.HasError };
+				if (stringBuilder.Length > 0)
+					return new OperationResult<bool>(stringBuilder.ToString()) { Result = !saveResult.HasError };
+				else
+					return new OperationResult<bool>() { Result = !saveResult.HasError };
+			}
 		}
 		public OperationResult MarkDeletedAccessTemplate(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_шаблона_доступа);
-			var result = SKDDatabaseService.AccessTemplateTranslator.MarkDeleted(uid);
-			return result;
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.AccessTemplateTranslator.MarkDeleted(uid);
+			}
 		}
 
 		#endregion
@@ -288,83 +352,131 @@ namespace FiresecService.Service
 		#region Organisation
 		public OperationResult<IEnumerable<Organisation>> GetOrganisations(OrganisationFilter filter)
 		{
-			return SKDDatabaseService.OrganisationTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.Get(filter);
+			}
 		}
 		public OperationResult SaveOrganisation(OrganisationDetails item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
-			return SKDDatabaseService.OrganisationTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedOrganisation(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
-			return SKDDatabaseService.OrganisationTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.MarkDeleted(uid);
+			}
 		}
 		public OperationResult SaveOrganisationDoors(Organisation organisation)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
-			return SKDDatabaseService.OrganisationTranslator.SaveDoors(organisation);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.SaveDoors(organisation);
+			}
 		}
 		public OperationResult SaveOrganisationZones(Organisation organisation)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
-			return SKDDatabaseService.OrganisationTranslator.SaveZones(organisation);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.SaveZones(organisation);
+			}
 		}
 		public OperationResult SaveOrganisationCardTemplates(Organisation organisation)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
-			return SKDDatabaseService.OrganisationTranslator.SaveCardTemplates(organisation);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.SaveCardTemplates(organisation);
+			}
 		}
 		public OperationResult SaveOrganisationGuardZones(Organisation organisation)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
-			return SKDDatabaseService.OrganisationTranslator.SaveGuardZones(organisation);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.SaveGuardZones(organisation);
+			}
 		}
 		public OperationResult SaveOrganisationUsers(Organisation organisation)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_организации);
-			return SKDDatabaseService.OrganisationTranslator.SaveUsers(organisation);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.SaveUsers(organisation);
+			}
 		}
 		public OperationResult<OrganisationDetails> GetOrganisationDetails(Guid uid)
 		{
-			return SKDDatabaseService.OrganisationTranslator.GetDetails(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.OrganisationTranslator.GetDetails(uid);
+			}
 		}
 		#endregion
 
 		#region AdditionalColumnType
 		public OperationResult<IEnumerable<ShortAdditionalColumnType>> GetAdditionalColumnTypeList(AdditionalColumnTypeFilter filter)
 		{
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.GetList(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.AdditionalColumnTypeTranslator.GetList(filter);
+			}
 		}
 		public OperationResult<IEnumerable<AdditionalColumnType>> GetAdditionalColumnTypes(AdditionalColumnTypeFilter filter)
 		{
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.Get(filter);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.AdditionalColumnTypeTranslator.Get(filter);
+			}
 		}
 		public OperationResult<AdditionalColumnType> GetAdditionalColumnTypeDetails(Guid uid)
 		{
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.GetSingle(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.AdditionalColumnTypeTranslator.GetSingle(uid);
+			}
 		}
 		public OperationResult SaveAdditionalColumnType(AdditionalColumnType item)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки);
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.Save(item);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.AdditionalColumnTypeTranslator.Save(item);
+			}
 		}
 		public OperationResult MarkDeletedAdditionalColumnType(Guid uid)
 		{
 			AddSKDJournalMessage(JournalEventNameType.Редактирование_дополнительной_колонки);
-			return SKDDatabaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.AdditionalColumnTypeTranslator.MarkDeleted(uid);
+			}
 		}
 		#endregion
 
 		#region NightSettings
 		public OperationResult<NightSettings> GetNightSettingsByOrganisation(Guid organisationUID)
 		{
-            return SKDDatabaseService.NightSettingsTranslator.GetByOrganisation(organisationUID);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.NightSettingsTranslator.GetByOrganisation(organisationUID);
+			}
 		}
 
 		public OperationResult SaveNightSettings(NightSettings nightSettings)
 		{
-			return SKDDatabaseService.NightSettingsTranslator.Save(nightSettings);
+			using (var databaseService = new SKDDatabaseService())
+			{
+				return databaseService.NightSettingsTranslator.Save(nightSettings);
+			}
 		}
 		#endregion
 
@@ -456,16 +568,19 @@ namespace FiresecService.Service
 			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
-				AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
-				var cardsResult = SKDDatabaseService.CardTranslator.Get(new CardFilter());
-				var accessTemplatesResult = SKDDatabaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
-				if (!cardsResult.HasError && !accessTemplatesResult.HasError)
+				using (var databaseService = new SKDDatabaseService())
 				{
-					return ChinaSKDDriver.Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
-				}
-				else
-				{
-					return new OperationResult<bool>("Ошибка при получении карт или шаблонов карт");
+					AddSKDJournalMessage(JournalEventNameType.Перезапись_всех_карт, device);
+					var cardsResult = databaseService.CardTranslator.Get(new CardFilter());
+					var accessTemplatesResult = databaseService.AccessTemplateTranslator.Get(new AccessTemplateFilter());
+					if (!cardsResult.HasError && !accessTemplatesResult.HasError)
+					{
+						return ChinaSKDDriver.Processor.SKDRewriteAllCards(device, cardsResult.Result, accessTemplatesResult.Result);
+					}
+					else
+					{
+						return new OperationResult<bool>("Ошибка при получении карт или шаблонов карт");
+					}
 				}
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
@@ -501,6 +616,28 @@ namespace FiresecService.Service
 				AddSKDJournalMessage(JournalEventNameType.Запись_конфигурации_двери, device);
 				doorConfiguration.OpenAlwaysTimeIndex = 0;
 				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, doorConfiguration);
+			}
+			return new OperationResult<bool>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<SKDControllerDirectionType> GetDirectionType(Guid deviceUID)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запрос_направления_контроллера, device);
+				return ChinaSKDDriver.Processor.GetDirectionType(deviceUID);
+			}
+			return new OperationResult<SKDControllerDirectionType>("Устройство не найдено в конфигурации");
+		}
+
+		public OperationResult<bool> SetDirectionType(Guid deviceUID, SKDControllerDirectionType directionType)
+		{
+			var device = SKDManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device != null)
+			{
+				AddSKDJournalMessage(JournalEventNameType.Запись_направления_контроллера, device);
+				return ChinaSKDDriver.Processor.SetDirectionType(deviceUID, directionType);
 			}
 			return new OperationResult<bool>("Устройство не найдено в конфигурации");
 		}
@@ -709,7 +846,7 @@ namespace FiresecService.Service
 			if (door != null)
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_открытие_точки_доступа, door);
-				if(door.InDevice != null)
+				if (door.InDevice != null)
 				{
 					var lockDevice = door.InDevice.Parent.Children.FirstOrDefault(x => x.DriverType == SKDDriverType.Lock && x.IntAddress == door.InDevice.IntAddress / 2);
 					if (lockDevice != null)

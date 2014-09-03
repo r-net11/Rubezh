@@ -8,18 +8,22 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using System.Windows.Input;
+using System.Collections.Generic;
 
 namespace Infrastructure.Designer.DesignerItems
 {
 	public class DesignerItemBase : DesignerItem
 	{
 		private ContextMenu _contextMenu;
+		private ContextMenu _elementContextMenu;
 		public DesignerItemBase(ElementBase element)
 			: base(element)
 		{
 			_contextMenu = null;
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			DeleteCommand = new RelayCommand(OnDelete);
+			DeleteCurrentCommand = new RelayCommand(OnDeleteCurrent);
 		}
 
 		protected override void OnShowProperties()
@@ -54,6 +58,7 @@ namespace Infrastructure.Designer.DesignerItems
 			ServiceFactoryBase.Events.GetEvent<ShowPropertiesEvent>().Publish(args);
 			return args.PropertyViewModel as SaveCancelDialogViewModel;
 		}
+
 		public override ContextMenu GetContextMenu()
 		{
 			if (_contextMenu == null)
@@ -144,6 +149,66 @@ namespace Infrastructure.Designer.DesignerItems
 				));
 			};
 			return _contextMenu;
+		}
+		public override ContextMenu GetElementContextMenu()
+		{
+			if (_elementContextMenu == null)
+			{
+				_elementContextMenu = new ContextMenu();
+
+				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
+					"Копировать (Ctrl+C)",
+					"pack://application:,,,/Controls;component/Images/BCopy.png",
+					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CopyCommand
+				));
+				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
+					"Вырезать (Ctrl+X)",
+					"pack://application:,,,/Controls;component/Images/BCut.png",
+					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.CutCommand)
+				);
+
+				_elementContextMenu.Items.Add(new Separator());
+				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
+					"Удалить",
+					"pack://application:,,,/Controls;component/Images/BDelete.png",
+					DeleteCurrentCommand
+				));
+				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
+					"Свойства",
+					"pack://application:,,,/Controls;component/Images/BSettings.png",
+					ShowPropertiesCommand
+				));
+				_elementContextMenu.Items.Add(new Separator());
+				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
+					"Вверх",
+					"pack://application:,,,/Controls;component/Images/BMoveForward.png",
+					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveToFrontCommand
+				));
+				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
+					"Вниз",
+					"pack://application:,,,/Controls;component/Images/BMoveBackward.png",
+					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.SendToBackCommand
+				));
+				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
+					"Выше",
+					"pack://application:,,,/Controls;component/Images/BMoveFront.png",
+					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveForwardCommand
+				));
+				_elementContextMenu.Items.Add(DesignerCanvasHelper.BuildMenuItem(
+					"Ниже",
+					"pack://application:,,,/Controls;component/Images/BMoveBack.png",
+					((DesignerCanvas)DesignerCanvas).PlanDesignerViewModel.MoveBackwardCommand
+				));
+			};
+			return _elementContextMenu;
+		}
+
+		public ICommand DeleteCurrentCommand { get; private set; }
+		private void OnDeleteCurrent()
+		{
+			((DesignerCanvas)DesignerCanvas).RemoveDesignerItem(this);
+			ServiceFactoryBase.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>() { Element });
+			DesignerCanvas.DesignerChanged();
 		}
 
 		public override void DragDelta(Point point, Vector shift)

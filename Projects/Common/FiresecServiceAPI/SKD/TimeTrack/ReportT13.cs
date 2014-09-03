@@ -19,13 +19,11 @@ namespace FiresecAPI.SKD
 		public string FillName { get; set; }
 		public string LeadName { get; set; }
 		public string HRName { get; set; }
-		public string OrganizationName { get; set; }
+		public string OrganisationName { get; set; }
+		public string DepartmentName { get; set; }
 		public DateTime CreationDateTime { get; set; }
 		public DateTime StartDateTime { get; set; }
 		public DateTime EndDateTime { get; set; }
-
-		// Временное поле для тестов (0 - все записи подряд без разбиения)
-		public int RecordsPerPage { get; set; } 
 	}
 
 	public class EmployeeReport
@@ -38,15 +36,15 @@ namespace FiresecAPI.SKD
 
 		public List<EmployeeReportDay> Days { get; set; }
 		public List<EmployeeReportMissReason> MissReasons { get; set; }
-		public int? No { get; set; }
+		public int No { get; set; }
 		public string EmployeeFIO { get; set; }
 		public Guid DepartmenuUID { get; set; }
 		public string DepartmentName { get; set; }
-		public int? TabelNo { get; set; }
+		public int TabelNo { get; set; }
 
-		public int? FirstHalfDaysCount { get; set; }
-		public int? SecondHalfDaysCount { get; set; }
-		public int? TotalDaysCount { get; set; }
+		public int FirstHalfDaysCount { get; set; }
+		public int SecondHalfDaysCount { get; set; }
+		public int TotalDaysCount { get; set; }
 
 		public TimeSpan FirstHalfTimeSpan { get; set; }
 		public TimeSpan SecondHalfTimeSpan { get; set; }

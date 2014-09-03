@@ -11,39 +11,33 @@ namespace SKDModule.ViewModels
 	public class TimeTrackViewModel : BaseViewModel
 	{
 		public ShortEmployee ShortEmployee { get; private set; }
-		public DocumentsViewModel DocumentsViewModel { get; set; }
+		public string ScheduleName { get; private set; }
+		public DocumentsViewModel DocumentsViewModel { get; private set; }
 
-		public TimeTrackViewModel(TimeTrackFilter timeTrackFilter, ShortEmployee shortEmployee, List<DayTimeTrack> dayTimeTracks)
+		public TimeTrackViewModel(TimeTrackFilter timeTrackFilter, TimeTrackEmployeeResult timeTrackEmployeeResult)
 		{
-			ShortEmployee = shortEmployee;
-			if (dayTimeTracks == null)
-				dayTimeTracks = new List<DayTimeTrack>();
+			DocumentsViewModel = new DocumentsViewModel(timeTrackEmployeeResult, timeTrackFilter.StartDate, timeTrackFilter.EndDate);
+
+			ShortEmployee = timeTrackEmployeeResult.ShortEmployee;
+			ScheduleName = timeTrackEmployeeResult.ScheduleName;
+			if (timeTrackEmployeeResult.DayTimeTracks == null)
+				timeTrackEmployeeResult.DayTimeTracks = new List<DayTimeTrack>();
 
 			DayTracks = new ObservableCollection<DayTrackViewModel>();
-			foreach (var dayTimeTrack in dayTimeTracks)
+			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{
 				dayTimeTrack.Calculate();
-				var dayTrackViewModel = new DayTrackViewModel(dayTimeTrack, timeTrackFilter);
+				var dayTrackViewModel = new DayTrackViewModel(dayTimeTrack, timeTrackFilter, timeTrackEmployeeResult.ShortEmployee);
 				DayTracks.Add(dayTrackViewModel);
 			}
 
 			Totals = new List<TimeTrackTotal>();
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Balance));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Presence));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Absence));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.AbsenceInsidePlan));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.PresenceInBrerak));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Late));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.EarlyLeave));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Overtime));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Night));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DayOff));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.Holiday));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentOvertime));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentPresence));
-			Totals.Add(new TimeTrackTotal(TimeTrackType.DocumentAbsence));
+			foreach (var timeTrackType in timeTrackFilter.TotalTimeTrackTypeFilters)
+			{
+				Totals.Add(new TimeTrackTotal(timeTrackType));
+			}
 
-			foreach (var dayTimeTrack in dayTimeTracks)
+			foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
 			{
 				foreach (var timeTrackTotal in dayTimeTrack.Totals)
 				{

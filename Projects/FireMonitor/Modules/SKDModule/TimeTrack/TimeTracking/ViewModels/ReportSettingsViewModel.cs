@@ -22,7 +22,6 @@ namespace SKDModule.ViewModels
 			TimeTrackFilter = timeTrackFilter;
 			TimeTrackEmployeeResults = timeTrackEmployeeResults;
 			DateTime = DateTime.Now;
-			RecordsPerPage = 3;
 		}
 
 		string _fillName;
@@ -102,17 +101,6 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		private int _recordsPerPage;
-		public int RecordsPerPage
-		{
-			get { return _recordsPerPage; }
-			set
-			{
-				_recordsPerPage = value;
-				OnPropertyChanged(() => RecordsPerPage);
-			}
-		}
-
 		protected override bool Save()
 		{
 			var report = new ReportT13()
@@ -123,11 +111,11 @@ namespace SKDModule.ViewModels
 				FillPosition = FillPosition,
 				LeadPosition = LeadPosition,
 				HRPosition = HRPosition,
-				OrganizationName = OrganisationHelper.GetByCurrentUser().Where(org => org.UID == TimeTrackEmployeeResults[0].ShortEmployee.OrganisationUID).Select(org => org.Name).FirstOrDefault(),
+				OrganisationName = OrganisationHelper.GetByCurrentUser().Where(org => org.UID == TimeTrackEmployeeResults[0].ShortEmployee.OrganisationUID).Select(org => org.Name).FirstOrDefault(),
+				DepartmentName = TimeTrackEmployeeResults.FirstOrDefault().ShortEmployee.DepartmentName,
 				CreationDateTime = DateTime,
 				StartDateTime = TimeTrackFilter.StartDate.Date,
 				EndDateTime = TimeTrackFilter.EndDate.Date,
-				RecordsPerPage = RecordsPerPage,
 			};
 			if (report.EndDateTime > TimeTrackFilter.EndDate)
 				report.EndDateTime = TimeTrackFilter.EndDate;
@@ -139,6 +127,7 @@ namespace SKDModule.ViewModels
 
 				employeeReport.No = report.EmployeeRepors.Count;
 				employeeReport.EmployeeFIO = timeTrackEmployeeResult.ShortEmployee.FIO;
+				employeeReport.TabelNo = timeTrackEmployeeResult.ShortEmployee.TabelNo;
 				employeeReport.DepartmentName = timeTrackEmployeeResult.ShortEmployee.DepartmentName;
 
 				foreach (var dayTimeTrack in timeTrackEmployeeResult.DayTimeTracks)
@@ -150,6 +139,8 @@ namespace SKDModule.ViewModels
 
 						var codeCount = 1;
 						string codeStrings = dayTimeTrack.LetterCode;
+						if (codeStrings == "УР")
+							codeStrings = "НН";
 						var totaPresence = dayTimeTrack.Totals.FirstOrDefault(x => x.TimeTrackType == TimeTrackType.Presence).TimeSpan;
 						string timeSpanStrings = totaPresence.Hours.ToString();
 						foreach (var timeTrackPart in dayTimeTrack.DocumentTrackParts)
@@ -192,7 +183,7 @@ namespace SKDModule.ViewModels
 						{
 							if (employeeReport.MissReasons.Count < 8)
 							{
-								if (trackPart.MinTimeTrackDocumentType != null && trackPart.MinTimeTrackDocumentType.DocumentType == DocumentType.Absence)
+								if (trackPart.MinTimeTrackDocumentType != null && (trackPart.MinTimeTrackDocumentType.DocumentType == DocumentType.Absence || trackPart.MinTimeTrackDocumentType.DocumentType == DocumentType.Presence))
 								{
 									var employeeReportMissReason = employeeReport.MissReasons.FirstOrDefault(x => x.Code == trackPart.MinTimeTrackDocumentType.ShortName);
 									if (employeeReportMissReason == null)

@@ -109,6 +109,7 @@ namespace GKProcessor
 							JournalItem.Description = code.ToString();
 							break;
 					}
+					JournalItem.ObjectUID = gkDevice.BaseUID;
 					break;
 
 				case JournalSourceType.Device:

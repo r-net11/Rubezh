@@ -70,11 +70,11 @@ namespace FiresecService.Processor
 			InitializeItem(ref item, variable.ObjectUid, variable.ObjectType);
 			InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, getStringArguments.Property, item);
 			if (getStringArguments.StringOperation == StringOperation.Is)
-				resultVariable.StringValues = new List<string>();
+				resultVariable.VariableItems = new List<VariableItem>();
 			if (getStringArguments.Property != Property.Description)
-				resultVariable.StringValues.Add(intPropertyValue.ToString());
+				resultVariable.VariableItems.Add(new VariableItem { StringValue = intPropertyValue.ToString() });
 			else
-				resultVariable.StringValues.Add(stringPropertyValue);
+				resultVariable.VariableItems.Add(new VariableItem { StringValue = stringPropertyValue });
 		}
 
 		public static AutomationCallbackResult ShowMessage(ProcedureStep procedureStep, Procedure procedure)
@@ -272,22 +272,26 @@ namespace FiresecService.Processor
 
 		static void InitializeItems(ref IEnumerable<object> items, ref Variable result)
 		{
-			result.ObjectsUids = new List<Guid>();
+			var variableItems = new List<VariableItem>();
 			if (result.ObjectType == ObjectType.Device)
 			{
 				items = new List<XDevice>(XManager.DeviceConfiguration.Devices);
-				result.ObjectsUids = new List<Guid>(XManager.DeviceConfiguration.Devices.Select(x => x.UID));
+				foreach (var objectUid in new List<Guid>(XManager.DeviceConfiguration.Devices.Select(x => x.UID)))
+					variableItems.Add(new VariableItem { ObjectUid = objectUid });
 			}
 			if (result.ObjectType == ObjectType.Zone)
 			{
 				items = new List<XZone>(XManager.Zones);
-				result.ObjectsUids = new List<Guid>(XManager.Zones.Select(x => x.UID));
+				foreach (var objectUid in new List<Guid>(XManager.Zones.Select(x => x.UID)))
+					variableItems.Add(new VariableItem { ObjectUid = objectUid });
 			}
 			if (result.ObjectType == ObjectType.Direction)
 			{
 				items = new List<XDirection>(XManager.Directions);
-				result.ObjectsUids = new List<Guid>(XManager.Directions.Select(x => x.UID));
+				foreach (var objectUid in new List<Guid>(XManager.Directions.Select(x => x.UID)))
+					variableItems.Add(new VariableItem { ObjectUid = objectUid });
 			}
+			result.VariableItems = variableItems;
 		}
 
 		static void InitializeItem(ref object item, Guid itemUid, ObjectType objectType)
@@ -327,7 +331,7 @@ namespace FiresecService.Processor
 						(((findObjectCondition.ConditionType == ConditionType.StartsWith) && (stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.ConditionType == ConditionType.EndsWith) && (stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.ConditionType == ConditionType.Contains) && (stringPropertyValue.Contains(findObjectCondition.StringValue))))))
-					{ resultObjects.Add(item); result.ObjectsUids.Add(itemUid); }
+					{ resultObjects.Add(item); result.VariableItems.Add(new VariableItem { ObjectUid = itemUid }); }
 				}
 			}
 		}
@@ -358,7 +362,7 @@ namespace FiresecService.Processor
 						(((findObjectCondition.ConditionType == ConditionType.StartsWith) && (!stringPropertyValue.StartsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.ConditionType == ConditionType.EndsWith) && (!stringPropertyValue.EndsWith(findObjectCondition.StringValue))) ||
 						((findObjectCondition.ConditionType == ConditionType.Contains) && (!stringPropertyValue.Contains(findObjectCondition.StringValue))))))
-					{ tempObjects.Remove(item); result.ObjectsUids.Remove(itemUid); }
+					{ tempObjects.Remove(item); result.VariableItems.RemoveAll(x => x.ObjectUid == itemUid); }
 				}
 				resultObjects = new List<object>(tempObjects);
 			}
@@ -366,7 +370,7 @@ namespace FiresecService.Processor
 
 		public static void ControlGKDevice(ProcedureStep procedureStep)
 		{
-			var device = XManager.Devices.FirstOrDefault(x => x.UID == procedureStep.ControlGKDeviceArguments.DeviceUid);
+			var device = XManager.Devices.FirstOrDefault(x => x.UID == procedureStep.ControlGKDeviceArguments.Variable1.UidValue);
 			if (device == null)
 				return;
 			FiresecServiceManager.SafeFiresecService.GKExecuteDeviceCommand(device.BaseUID, procedureStep.ControlGKDeviceArguments.Command);
@@ -375,7 +379,7 @@ namespace FiresecService.Processor
 		public static List<WinFormsPlayer> WinFormsPlayers { get; private set; }
 		public static void ControlCamera(ProcedureStep procedureStep)
 		{
-			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == procedureStep.ControlCameraArguments.CameraUid);
+			var camera = ConfigurationCashHelper.SystemConfiguration.AllCameras.FirstOrDefault(x => x.UID == procedureStep.ControlCameraArguments.Variable1.UidValue);
 			if (camera == null)
 				return;
 			if (procedureStep.ControlCameraArguments.CameraCommandType == CameraCommandType.StartRecord)
@@ -401,7 +405,7 @@ namespace FiresecService.Processor
 
 		public static void ControlFireZone(ProcedureStep procedureStep)
 		{
-			var zone = XManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlGKFireZoneArguments.ZoneUid);
+			var zone = XManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlGKFireZoneArguments.Variable1.UidValue);
 			if (zone == null)
 				return;
 			if (procedureStep.ControlGKFireZoneArguments.ZoneCommandType == ZoneCommandType.Ignore)
@@ -414,7 +418,7 @@ namespace FiresecService.Processor
 
 		public static void ControlGuardZone(ProcedureStep procedureStep)
 		{
-			var zone = XManager.GuardZones.FirstOrDefault(x => x.UID == procedureStep.ControlGKGuardZoneArguments.ZoneUid);
+			var zone = XManager.GuardZones.FirstOrDefault(x => x.UID == procedureStep.ControlGKGuardZoneArguments.Variable1.UidValue);
 			if (zone == null)
 				return;
 			if (procedureStep.ControlGKGuardZoneArguments.GuardZoneCommandType == GuardZoneCommandType.Automatic)
@@ -435,7 +439,7 @@ namespace FiresecService.Processor
 
 		public static void ControlDirection(ProcedureStep procedureStep)
 		{
-			var direction = XManager.Directions.FirstOrDefault(x => x.UID == procedureStep.ControlDirectionArguments.DirectionUid);
+			var direction = XManager.Directions.FirstOrDefault(x => x.UID == procedureStep.ControlDirectionArguments.Variable1.UidValue);
 			if (direction == null)
 				return;
 			if (procedureStep.ControlDirectionArguments.DirectionCommandType == DirectionCommandType.Automatic)
@@ -456,7 +460,7 @@ namespace FiresecService.Processor
 
 		public static void ControlDoor(ProcedureStep procedureStep)
 		{
-			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == procedureStep.ControlDoorArguments.DoorUid);
+			var door = SKDManager.Doors.FirstOrDefault(x => x.UID == procedureStep.ControlDoorArguments.Variable1.UidValue);
 			if (door == null)
 				return;
 			if (procedureStep.ControlDoorArguments.DoorCommandType == DoorCommandType.Open)
@@ -471,7 +475,7 @@ namespace FiresecService.Processor
 
 		public static void ControlSKDZone(ProcedureStep procedureStep)
 		{
-			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlSKDZoneArguments.ZoneUid);
+			var sKDZone = SKDManager.Zones.FirstOrDefault(x => x.UID == procedureStep.ControlSKDZoneArguments.Variable1.UidValue);
 			if (sKDZone == null)
 				return;
 			if (procedureStep.ControlSKDZoneArguments.SKDZoneCommandType == SKDZoneCommandType.Open)

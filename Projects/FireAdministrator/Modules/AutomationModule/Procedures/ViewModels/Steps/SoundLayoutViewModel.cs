@@ -29,9 +29,9 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				if (value)
+				if (value && !SoundArguments.LayoutsUids.Contains(Layout.UID))					
 					SoundArguments.LayoutsUids.Add(Layout.UID);
-				else
+				else if (!value)
 					SoundArguments.LayoutsUids.Remove(Layout.UID);
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => IsChecked);

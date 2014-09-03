@@ -7,19 +7,13 @@ namespace FiresecAPI.Automation
 	{
 		public ShowMessageArguments()
 		{
-
+			Variable1 = new ArithmeticParameter();
 		}
 
 		[DataMember]
-		public string Message { get; set; }
+		public ArithmeticParameter Variable1 { get; set; }
 
 		[DataMember]
-		public Guid VariableUid { get; set; }
-
-		[DataMember]
-		public Guid GlobalVariableUid { get; set; }
-		
-		[DataMember]
-		public VariableType VariableType { get; set; }
+		public ValueType ValueType { get; set; }
 	}
 }

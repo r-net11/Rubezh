@@ -25,13 +25,10 @@ namespace FiresecAPI.SKD
 		}
 
 		[DataMember]
+		public string Error { get; set; }
+
+		[DataMember]
 		public DateTime Date { get; set; }
-
-		[DataMember]
-		public Guid EmployeeUID { get; set; }
-
-		[DataMember]
-		public ShortEmployee ShortEmployee { get; set; }
 
 		[DataMember]
 		public List<TimeTrackPart> PlannedTimeTrackParts { get; set; }
@@ -72,9 +69,6 @@ namespace FiresecAPI.SKD
 		[DataMember]
 		public NightSettings NightSettings { get; set; }
 
-		[DataMember]
-		public string Error { get; set; }
-
 		public TimeTrackType TimeTrackType { get; set; }
 		public string LetterCode { get; set; }
 		public string Tooltip { get; set; }
@@ -97,8 +91,6 @@ namespace FiresecAPI.SKD
 			DocumentTrackParts = new List<TimeTrackPart>();
 			foreach (var document in Documents)
 			{
-				document.TimeTrackDocumentType = TimeTrackDocumentTypesCollection.TimeTrackDocumentTypes.FirstOrDefault(x => x.Code == document.DocumentCode);
-
 				TimeTrackPart timeTrackPart = null;
 				if (document.StartDateTime.Date < Date && document.EndDateTime.Date > Date)
 				{
@@ -238,17 +230,33 @@ namespace FiresecAPI.SKD
 
 					if (PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && !PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) && RealTimeTrackParts.Any(x => x.StartTime == timeTrackPart.EndTime))
 					{
-						if (timeTrackPart.Delta > AllowedLate)
+						var firstPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.StartTime == timeTrackPart.StartTime);
+						if (firstPlannedTimeTrack.StartsInPreviousDay)
 						{
-							timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
+							timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
+						}
+						else
+						{
+							if (timeTrackPart.Delta > AllowedLate)
+							{
+								timeTrackPart.TimeTrackPartType = TimeTrackType.Late;
+							}
 						}
 					}
 
 					if (!PlannedTimeTrackParts.Any(x => x.StartTime == timeTrackPart.StartTime) && PlannedTimeTrackParts.Any(x => x.EndTime == timeTrackPart.EndTime) && RealTimeTrackParts.Any(x => x.EndTime == timeTrackPart.StartTime))
 					{
-						if (timeTrackPart.Delta > AllowedEarlyLeave)
+						var lastPlannedTimeTrack = PlannedTimeTrackParts.FirstOrDefault(x => x.EndTime == timeTrackPart.EndTime);
+						if (lastPlannedTimeTrack.EndsInNextDay)
 						{
-							timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
+							timeTrackPart.TimeTrackPartType = TimeTrackType.Absence;
+						}
+						else
+						{
+							if (timeTrackPart.Delta > AllowedEarlyLeave)
+							{
+								timeTrackPart.TimeTrackPartType = TimeTrackType.EarlyLeave;
+							}
 						}
 					}
 				}
@@ -348,7 +356,14 @@ namespace FiresecAPI.SKD
 			if (NightSettings != null)
 			{
 				totalEaveningTimeSpan = CalculateEveningTime(NightSettings.EveningStartTime, NightSettings.EveningEndTime);
-				totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
+				if (NightSettings.NightEndTime > NightSettings.NightStartTime)
+				{
+					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, NightSettings.NightEndTime);
+				}
+				else
+				{
+					totalNight.TimeSpan = CalculateEveningTime(NightSettings.NightStartTime, new TimeSpan(23, 59, 59)) + CalculateEveningTime(new TimeSpan(0, 0, 0), NightSettings.NightEndTime);
+				}
 			}
 
 			TimeTrackType = CalculateTimeTrackType();
@@ -445,8 +460,11 @@ namespace FiresecAPI.SKD
 					{
 						StartTime = startTimeSpan,
 						EndTime = endTimeSpan,
+						TimeTrackPartType = timeTrackPart.TimeTrackPartType,
 						ZoneUID = timeTrackPart.ZoneUID,
-						TimeTrackPartType = timeTrackPart.TimeTrackPartType
+						StartsInPreviousDay = timeTrackPart.StartsInPreviousDay,
+						EndsInNextDay = timeTrackPart.EndsInNextDay,
+						DayName = timeTrackPart.DayName
 					};
 					result.Add(newTimeTrackPart);
 				}

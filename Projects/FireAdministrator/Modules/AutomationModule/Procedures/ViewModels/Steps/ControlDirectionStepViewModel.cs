@@ -7,20 +7,22 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
 	public class ControlDirectionStepViewModel : BaseViewModel, IStepViewModel
 	{
 		ControlDirectionArguments ControlDirectionArguments { get; set; }
-		public ControlDirectionStepViewModel(ControlDirectionArguments controlDirectionArguments)
+		public ArithmeticParameterViewModel Variable1 { get; private set; }
+		Procedure Procedure { get; set; }
+
+		public ControlDirectionStepViewModel(ControlDirectionArguments controlDirectionArguments, Procedure procedure)
 		{
 			ControlDirectionArguments = controlDirectionArguments;
-			Commands = new ObservableCollection<DirectionCommandType>
-			{
-				DirectionCommandType.Automatic, DirectionCommandType.Manual, DirectionCommandType.Ignore, DirectionCommandType.TurnOn,
-				DirectionCommandType.TurnOnNow, DirectionCommandType.ForbidStart, DirectionCommandType.TurnOff 
-			};
+			Procedure = procedure;
+			Commands = ProcedureHelper.GetEnumObs<DirectionCommandType>();
+			Variable1 = new ArithmeticParameterViewModel(ControlDirectionArguments.Variable1, ProcedureHelper.GetEnumList<VariableType>());
 			OnPropertyChanged(() => Commands);
 			SelectDirectionCommand = new RelayCommand(OnSelectDirection);
 			UpdateContent();
@@ -36,7 +38,7 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedCommand = value;
 				ControlDirectionArguments.DirectionCommandType = value;
-				OnPropertyChanged(()=>SelectedCommand);
+				OnPropertyChanged(() => SelectedCommand);
 				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
@@ -48,16 +50,16 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_selectedDirection = value;
-				ControlDirectionArguments.DirectionUid = Guid.Empty;
+				Variable1.UidValue = Guid.Empty;
 				if (_selectedDirection != null)
 				{
-					ControlDirectionArguments.DirectionUid = _selectedDirection.Direction.UID;
+					Variable1.UidValue = _selectedDirection.Direction.UID;
 				}
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedDirection);
 			}
 		}
-		
+
 		public RelayCommand SelectDirectionCommand { get; private set; }
 		private void OnSelectDirection()
 		{
@@ -70,9 +72,10 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
-			if (ControlDirectionArguments.DirectionUid != Guid.Empty)
+			Variable1.Update(ProcedureHelper.GetAllVariables(Procedure, ValueType.Object, ObjectType.Direction, false));
+			if (Variable1.UidValue != Guid.Empty)
 			{
-				var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == ControlDirectionArguments.DirectionUid);
+				var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == Variable1.UidValue);
 				SelectedDirection = direction != null ? new DirectionViewModel(direction) : null;
 				SelectedCommand = ControlDirectionArguments.DirectionCommandType;
 			}

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Documents;
 using CodeReason.Reports.Document;
+using System.Windows;
 
 namespace CodeReason.Reports.Providers
 {
@@ -28,20 +29,22 @@ namespace CodeReason.Reports.Providers
 
 		private TableCell Clone(TableCell cell)
 		{
-			var newCell = new TableCell()
-			{
-				ColumnSpan = cell.ColumnSpan,
-				RowSpan = cell.RowSpan,
-				Padding = cell.Padding,
-				BorderBrush = cell.BorderBrush,
-				BorderThickness = cell.BorderThickness,
-				FontSize = cell.FontSize,
-				FontWeight = cell.FontWeight,
-				TextAlignment = cell.TextAlignment,
-			};
+			var newCell = new TableCell();
+			if (DependencyPropertyHelper.GetValueSource(cell, TableCell.ColumnSpanProperty).BaseValueSource != BaseValueSource.Default)
+				newCell.SetValue(TableCell.ColumnSpanProperty, cell.ColumnSpan);
+			if (DependencyPropertyHelper.GetValueSource(cell, TableCell.RowSpanProperty).BaseValueSource != BaseValueSource.Default)
+				newCell.SetValue(TableCell.RowSpanProperty, cell.RowSpan);
+			if (DependencyPropertyHelper.GetValueSource(cell, TableCell.PaddingProperty).BaseValueSource != BaseValueSource.Default)
+				newCell.SetValue(TableCell.PaddingProperty, cell.Padding);
+			if (DependencyPropertyHelper.GetValueSource(cell, TableCell.BorderBrushProperty).BaseValueSource != BaseValueSource.Default)
+				newCell.SetValue(TableCell.BorderBrushProperty, cell.BorderBrush);
+			if (DependencyPropertyHelper.GetValueSource(cell, TableCell.BorderThicknessProperty).BaseValueSource != BaseValueSource.Default)
+				newCell.SetValue(TableCell.BorderThicknessProperty, cell.BorderThickness);
+			if (DependencyPropertyHelper.GetValueSource(cell, TableCell.TextAlignmentProperty).BaseValueSource != BaseValueSource.Default)
+				newCell.SetValue(TableCell.TextAlignmentProperty, cell.TextAlignment);
+			CopyProperties(cell, newCell);
 			foreach (var block in cell.Blocks)
 				newCell.Blocks.Add(Clone(block));
-			CopyProperties(cell, newCell);
 			return newCell;
 		}
 		private Block Clone(Block block)
@@ -49,14 +52,14 @@ namespace CodeReason.Reports.Providers
 			var paragraph = block as Paragraph;
 			if (paragraph != null)
 			{
-				var newParagraph = new Paragraph()
-				{
-					FontSize = paragraph.FontSize,
-					FontWeight = paragraph.FontWeight,
-					Padding = paragraph.Padding,
-					Margin = paragraph.Margin,
-					TextAlignment = paragraph.TextAlignment,
-				};
+				var newParagraph = new Paragraph();
+				if (DependencyPropertyHelper.GetValueSource(paragraph, Paragraph.PaddingProperty).BaseValueSource != BaseValueSource.Default)
+					newParagraph.SetValue(Paragraph.PaddingProperty, paragraph.Padding);
+				if (DependencyPropertyHelper.GetValueSource(paragraph, Paragraph.MarginProperty).BaseValueSource != BaseValueSource.Default)
+					newParagraph.SetValue(Paragraph.MarginProperty, paragraph.Margin);
+				if (DependencyPropertyHelper.GetValueSource(paragraph, Paragraph.TextAlignmentProperty).BaseValueSource != BaseValueSource.Default)
+					newParagraph.SetValue(Paragraph.TextAlignmentProperty, paragraph.TextAlignment);
+				CopyProperties(paragraph, newParagraph);
 				foreach (var inline in paragraph.Inlines)
 					newParagraph.Inlines.Add(Clone(inline));
 				return newParagraph;
@@ -128,8 +131,6 @@ namespace CodeReason.Reports.Providers
 				newInline = new Run()
 				{
 					Text = run.Text,
-					FontSize = run.FontSize,
-					FontWeight = run.FontWeight,
 				};
 			}
 			else if (inline is LineBreak)
@@ -143,14 +144,17 @@ namespace CodeReason.Reports.Providers
 			}
 			if (newInline != null)
 			{
-				newInline.FontSize = inline.FontSize;
-				newInline.FontWeight = inline.FontWeight;
+				CopyProperties(inline, newInline);
 				return newInline;
 			}
 			throw new NotSupportedException();
 		}
 		private void CopyProperties(TextElement source, TextElement target)
 		{
+			if (DependencyPropertyHelper.GetValueSource(source, Run.FontSizeProperty).BaseValueSource != BaseValueSource.Default)
+				target.SetValue(Run.FontSizeProperty, source.FontSize);
+			if (DependencyPropertyHelper.GetValueSource(source, Run.FontWeightProperty).BaseValueSource != BaseValueSource.Default)
+				target.SetValue(Run.FontWeightProperty, source.FontWeight);
 		}
 	}
 }

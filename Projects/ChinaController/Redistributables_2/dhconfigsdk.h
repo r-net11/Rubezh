@@ -431,6 +431,8 @@ extern "C" {
 #define CFG_CMD_AUDIOINPUT          "AudioInput"                // Audio Input Config(CFG_AUDIO_INPUT)
 #define CFG_CMD_EMAIL				"Email"				        // Mail Sending Config(CFG_EMAIL_INFO)
 #define CFG_CMD_TRAFFIC_TRANSFER_OFFLINE "TrafficTransferOffline"    // Send Offline File Config(TRAFFIC_TRANSFER_OFFLINE_INFO)
+#define CFG_CMD_COMMSUBSCRIBE		"CommSubscribe"		// 订阅串口数据配置(CFG_DEVCOMM_SUBSCRIBE)
+#define CFG_CMD_PARKINGSPACE_LIGHT_STATE "ParkingSpaceLightState"    // 车位状态对应的车位指示灯(CFG_PARKINGSPACE_LIGHT_STATE)
 
  /************************************************************************
  ** Capacity set command  Corresponding of CLIENT_QueryNewSystemInfo
@@ -4584,7 +4586,8 @@ typedef struct tagCFG_VIDEO_IN_NIGHT_OPTIONS
 	BYTE                byWideDynamicRange;     // wide dynamic range[1~100],0-close
 	BYTE                byGlareInhibition;		// glare inhibition,0-close,[1-100]
 	CFG_RECT			stuBacklightRegion;     // backlight region
-	BYTE				reserved[76];			// Reserved
+	BYTE                byFocusMode;            // 0-关闭，1-辅助聚焦，2-自动聚焦
+	BYTE				reserved[75];			// 保留
 } CFG_VIDEO_IN_NIGHT_OPTIONS;
 
 typedef struct tagCFG_VIDEO_IN_NORMAL_OPTIONS
@@ -4611,7 +4614,8 @@ typedef struct tagCFG_VIDEO_IN_NORMAL_OPTIONS
 	BYTE                byWideDynamicRange;     // wide dynamic range[1~100],0-close
 	BYTE                byGlareInhibition;		// glare inhibition,0-close,[1-100]
 	CFG_RECT			stuBacklightRegion;     // backlight region
-	BYTE				reserved[76];			// Reserved
+	BYTE                byFocusMode;            // 0-关闭，1-辅助聚焦，2-自动聚焦
+	BYTE				reserved[75];			// 保留
 }CFG_VIDEO_IN_NORMAL_OPTIONS;
 
 
@@ -4683,7 +4687,8 @@ typedef struct tagCFG_VIDEO_IN_OPTIONS
 	CFG_FLASH_CONTROL	stuFlash;				// Flashling config 
 	CFG_VIDEO_IN_SNAPSHOT_OPTIONS stuSnapshot;	// Snapshot option, doule exposure only
 	CFG_FISH_EYE        stuFishEye;             // fish eye
-	BYTE                reserved[29];           // Reserved
+	BYTE                byFocusMode;            // 0-关闭，1-辅助聚焦，2-自动聚焦
+	BYTE                reserved[28];           // 保留
 	BYTE				byGainMin;				// min gain
 	BYTE				byGainMax;				// max gain
 	BYTE				byAntiFlicker;			// prevent flashing mode 0-Outdoor 1-50Hz prevent flashing 2-60Hz prevent flashing
@@ -7071,7 +7076,6 @@ typedef struct tagCFG_ALARM_SUBSYSTEM_INFO
 	int			anZone[DH_MAX_ZONE_NUM];		// Local zone no.
 	int			nExZoneNum;						// Extention zone quantity
 	int			anExZone[DH_MAX_ZONE_NUM];		// Extention zone no.
-	CFG_TIME_SECTION	stuTime[WEEK_DAY_NUM][MAX_REC_TSECT];// valid period
 	int			nDisableDelay;					// Delay disarm time（entry time）,unit is s
 	int			nEnableDelay;					// Delay arm time（exit delay）, unit is s
 	BOOL		bIsPublic;						// Public sub system
@@ -7151,6 +7155,50 @@ typedef struct tagTRAFFIC_TRANSFER_OFFLINE_INFO
     char            szClientID[MAX_TRANSFER_SERVER_NUM][MAX_ADDRESS_LEN];   // mac address
 
 }TRAFFIC_TRANSFER_OFFLINE_INFO;
+
+#define MAX_DEVCOMM_NUM          16                                     // 最大串口个数
+// 订阅串口数据配置-单个串口配置
+typedef struct tagCFG_DEVCOMM_SUBSCRIBE_INFO
+{
+    int             nReadCycle;                                         // 串口读取间隔,单位: 秒    
+}CFG_DEVCOMM_SUBSCRIBE_INFO;
+
+// 订阅串口数据配置
+typedef struct tagCFG_DEVCOMM_SUBSCRIBE
+{
+    int                             nSubscribeInfoNum;                  // 串口数据配置个数
+    CFG_DEVCOMM_SUBSCRIBE_INFO      stuSubscribeInfo[MAX_DEVCOMM_NUM];  // 订阅串口数据配置，是一个数组，每个元素对应一个串口    
+}CFG_DEVCOMM_SUBSCRIBE;
+
+// 车位状态对应的车位指示灯
+typedef enum tagEM_CFG_PARKINGSPACE_LIGHT_COLOR
+{
+    EM_CFG_PARKINGSPACE_LIGHT_RED,                                      // 红色
+    EM_CFG_PARKINGSPACE_LIGHT_YELLOW,                                   // 黄色
+    EM_CFG_PARKINGSPACE_LIGHT_BLUE,                                     // 蓝色 
+    EM_CFG_PARKINGSPACE_LIGHT_GREEN,                                    // 绿色
+    EM_CFG_PARKINGSPACE_LIGHT_PURPLE,                                   // 紫色
+    EM_CFG_PARKINGSPACE_LIGHT_WHITE,                                    // 白色
+    EM_CFG_PARKINGSPACE_LIGHT_PINK,                                     // 粉色
+}EM_CFG_PARKINGSPACE_LIGHT_COLOR;
+
+// 指示灯状态
+typedef enum tagEM_CFG_PARKINGSPACE_LIGHT_STATE
+{
+    EM_CFG_PARKINGSPACE_LIGHT_OFF,                                      // 灭
+    EM_CFG_PARKINGSPACE_LIGHT_ON,                                       // 亮
+    EM_CFG_PARKINGSPACE_LIGHT_GLINT,                                    // 闪烁
+}EM_CFG_PARKINGSPACE_LIGHT_STATE;
+
+#define CFG_MAX_PARKINGSPACE_LIGHT_NUM       8
+
+typedef struct tagCFG_PARKINGSPACE_LIGHT_STATE
+{
+    BYTE                            bySpaceFreeLinght[CFG_MAX_PARKINGSPACE_LIGHT_NUM]; // 车位空闲状态灯色,颜色枚举值作为数组下标，数组元素值表示指示灯状态，如bySpaceFreeLinght[0]=1,表示红色指示灯亮
+    int                             nSpaceFreeLinghtNum;
+    BYTE                            bySpaceFullLinght[CFG_MAX_PARKINGSPACE_LIGHT_NUM]; // 车位满状态灯色，颜色枚举值作为数组下标，数组元素值表示指示灯状态，如bySpaceFullLinght[1]=1,表示黄色指示灯亮
+    int                             nSpaceFullLinghtNum;
+}CFG_PARKINGSPACE_LIGHT_STATE;
 
 /************************************************************************
  ** Interface Definition 

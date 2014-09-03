@@ -3,18 +3,24 @@
 	<?include Variables.wxi?>
 	<Fragment>
     <Feature Id="Server.Features" Title="Сервер приложений" Description="Установка приложения Сервер приложений" Level="1" Display="hidden"
-						 ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+			    ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Server.Files" />
       <ComponentRef Id="Server.DB.Common" />
       <ComponentRef Id="Server.DB" />
+      <ComponentRef Id="Server.ChinaSKD" />
       <ComponentRef Id="Server.Config.fscp" />
       <ComponentRef Id="Server.AppData.EmptyLocation" />
-      <ComponentRef Id="AppData.ServerLocation.Sounds" />
-      <ComponentRef Id="AppData.Manual.pdf" />
-      <ComponentRef Id="Server.SKUD_MODULE" />
+      <ComponentRef Id="Server.SKD_MODULE" />
 			<ComponentRef Id="Server.ProgramsMenuShortcut" />
 			<ComponentRef Id="Server.AutorunComponent" />
+      <ComponentRef Id="AppData.ServerLocation.Sounds" />
+      <ComponentRef Id="AppData.Manual.pdf" />
       <ComponentRef Id="AppData.FiresecLocation.Permissions" />
+
+      <ComponentRef Id="Server.VIDEO_MODULE_DLL" />
+      <ComponentRef Id="Server.VIDEO_MODULE_DLL.Dahua" />
+      <ComponentRef Id="Server.VIDEO_MODULE_DLL.Hik" />
+      <ComponentRef Id="Server.VIDEO_MODULE_DLL.Sunell" />
 
       <!--<ComponentRef Id="FiresecNTServiceComponent" />
       <ComponentRef Id="RemoveNTServiceComponent" />-->

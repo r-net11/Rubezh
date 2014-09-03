@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 				var delayViewModel = new DelayViewModel(delayDetailsViewModel.Delay);
 				Delays.Add(delayViewModel);
 				SelectedDelay = delayViewModel;
-				OnPropertyChanged("HasSelectedDelay");
+				OnPropertyChanged(() => HasSelectedDelay);
 				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}

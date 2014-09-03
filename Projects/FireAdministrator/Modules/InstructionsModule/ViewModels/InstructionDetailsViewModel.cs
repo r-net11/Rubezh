@@ -132,7 +132,7 @@ namespace InstructionsModule.ViewModels
 			set
 			{
 				_instructionDevices = value;
-				OnPropertyChanged("InstructionDevices");
+				OnPropertyChanged(() => InstructionDevices);
 			}
 		}
 

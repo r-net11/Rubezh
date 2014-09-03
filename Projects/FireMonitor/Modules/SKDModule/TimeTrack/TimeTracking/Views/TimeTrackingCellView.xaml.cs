@@ -17,7 +17,7 @@ namespace SKDModule.Views
 			DayTrackViewModel dayTrackViewModel = DataContext as DayTrackViewModel;
 			if (dayTrackViewModel != null)
 			{
-				var timeTrackDetailsViewModel = new TimeTrackDetailsViewModel(dayTrackViewModel.DayTimeTrack);
+				var timeTrackDetailsViewModel = new TimeTrackDetailsViewModel(dayTrackViewModel.DayTimeTrack, dayTrackViewModel.ShortEmployee);
 				if (DialogService.ShowModalWindow(timeTrackDetailsViewModel))
 				{
 					dayTrackViewModel.DayTimeTrack.Calculate();

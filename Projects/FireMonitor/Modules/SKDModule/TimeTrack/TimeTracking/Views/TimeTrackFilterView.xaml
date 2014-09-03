@@ -86,22 +86,15 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Фамилия" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LastName}" Margin="2" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Имя" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName}" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Отчество" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName}" Margin="2" />
-
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Тип" HorizontalAlignment="Right" Foreground="White" Margin="2" />
-                <StackPanel Grid.Row="3" Grid.Column="1" Margin="2">
-                    <RadioButton GroupName="PersonTypes" Content="Сотрудники" IsChecked="{Binding IsEmployeesAllowed, Mode=TwoWay}" Foreground="White" FontSize="14" />
-                    <RadioButton GroupName="PersonTypes" Content="Посетители" IsChecked="{Binding IsGuestsAllowed, Mode=TwoWay}" Foreground="White" FontSize="14" />
-                </StackPanel>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SecondName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
             </Grid>
 		</TabItem>
         <TabItem Header="Период">

@@ -233,6 +233,14 @@ namespace FiresecService.Service
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDSetDoorConfiguration(deviceUID, doorConfiguration); }, "SKDSetDoorConfiguration");
 		}
+		public OperationResult<SKDControllerDirectionType> GetDirectionType(Guid deviceUID)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDirectionType(deviceUID); }, "GetDirectionType");
+		}
+		public OperationResult<bool> SetDirectionType(Guid deviceUID, SKDControllerDirectionType directionType)
+		{
+			return SafeOperationCall(() => { return FiresecService.SetDirectionType(deviceUID, directionType); }, "SetDirectionType");
+		}
 		public OperationResult<bool> SKDOpenDevice(Guid deviceUID)
 		{
 			return SafeOperationCall(() => { return FiresecService.SKDOpenDevice(deviceUID); }, "SKDOpenDevice");

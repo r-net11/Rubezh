@@ -126,24 +126,29 @@ namespace ChinaSKDDriver
 			return result;
 		}
 
-		public string GetProjectPassword()
+		public SKDControllerDirectionType GetControllerDirectionType()
 		{
-			NativeWrapper.WRAP_GeneralConfig_Password outResult;
-			var result = NativeWrapper.WRAP_GetProjectPassword(LoginID, out outResult);
+			NativeWrapper.WRAP_ControllerDirectionType outResult;
+			var result = NativeWrapper.WRAP_GetControllerDirectionType(LoginID, out outResult);
 			if (result)
 			{
-				var projectPassword = outResult.szProjectPassword;
-				return projectPassword;
+				var accessProperty = outResult.emAccessProperty;
+				if (accessProperty == NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_BIDIRECT)
+					return SKDControllerDirectionType.Bidirect;
+				if (accessProperty == NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_UNIDIRECT)
+					return SKDControllerDirectionType.Unidirect;
 			}
-			else
-			{
-				return null;
-			}
+			return SKDControllerDirectionType.Bidirect;
 		}
 
-		public bool SetProjectPassword(string projectPassword)
+		public bool SetControllerDirectionType(SKDControllerDirectionType controllerDirectionType)
 		{
-			var result = NativeWrapper.WRAP_SetProjectPassword(LoginID, projectPassword);
+			NativeWrapper.CFG_ACCESS_PROPERTY_TYPE nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_UNIDIRECT;
+			if (controllerDirectionType == SKDControllerDirectionType.Bidirect)
+				nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_BIDIRECT;
+			if (controllerDirectionType == SKDControllerDirectionType.Unidirect)
+				nativeControllerDirectionType = NativeWrapper.CFG_ACCESS_PROPERTY_TYPE.CFG_ACCESS_PROPERTY_UNIDIRECT;
+			var result = NativeWrapper.WRAP_SetControllerDirectionType(LoginID, nativeControllerDirectionType);
 			return result;
 		}
 

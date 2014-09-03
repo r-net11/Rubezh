@@ -55,7 +55,7 @@
 					<TextBlock Grid.Row="6" Grid.Column="0" Text="Тревога по принуждению" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
 					<CheckBox Grid.Row="6" Grid.Column="1" IsChecked="{Binding IsDuressAlarmEnable}" Margin="2" />
 
-					<TextBlock Grid.Row="7" Grid.Column="0" Text="Активен сенсор двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
+					<TextBlock Grid.Row="7" Grid.Column="0" Text="Активен датчик контроля двери" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White" Margin="5 2" />
 					<CheckBox Grid.Row="7" Grid.Column="1" IsChecked="{Binding IsSensorEnable}" Margin="2" /> 
 				</Grid>
 			</TabItem>

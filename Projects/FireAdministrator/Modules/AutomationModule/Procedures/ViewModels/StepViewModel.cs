@@ -75,35 +75,47 @@ namespace AutomationModule.ViewModels
 					break;
 
 				case ProcedureStepType.ControlGKDevice:
-					Content = new ControlGKDeviceStepViewModel(step.ControlGKDeviceArguments);
+					Content = new ControlGKDeviceStepViewModel(step.ControlGKDeviceArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlSKDDevice:
-					Content = new ControlSKDDeviceStepViewModel(step.ControlSKDDeviceArguments);
+					Content = new ControlSKDDeviceStepViewModel(step.ControlSKDDeviceArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlGKFireZone:
-					Content = new ControlGKFireZoneStepViewModel(step.ControlGKFireZoneArguments);
+					Content = new ControlGKFireZoneStepViewModel(step.ControlGKFireZoneArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlGKGuardZone:
-					Content = new ControlGKGuardZoneStepViewModel(step.ControlGKGuardZoneArguments);
+					Content = new ControlGKGuardZoneStepViewModel(step.ControlGKGuardZoneArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlDirection:
-					Content = new ControlDirectionStepViewModel(step.ControlDirectionArguments);
+					Content = new ControlDirectionStepViewModel(step.ControlDirectionArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlDoor:
-					Content = new ControlDoorStepViewModel(step.ControlDoorArguments);
+					Content = new ControlDoorStepViewModel(step.ControlDoorArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlSKDZone:
-					Content = new ControlSKDZoneStepViewModel(step.ControlSKDZoneArguments);
+					Content = new ControlSKDZoneStepViewModel(step.ControlSKDZoneArguments, procedure);
 					break;
 
 				case ProcedureStepType.ControlCamera:
-					Content = new ControlCameraStepViewModel(step.ControlCameraArguments);
+					Content = new ControlCameraStepViewModel(step.ControlCameraArguments, procedure);
+					break;
+				
+				case ProcedureStepType.GetObjectField:
+					Content = new GetObjectFieldStepViewModel(step.GetObjectFieldArguments, procedure);
+					break;
+
+				case ProcedureStepType.SendEmail:
+					Content = new SendEmailStepViewModel(step.SendEmailArguments, procedure, Update);
+					break;
+
+				case ProcedureStepType.RunProgramm:
+					Content = new RunProgrammStepViewModel(step.RunProgrammArguments, procedure, Update);
 					break;
 			}
 			ServiceFactory.SaveService.AutomationChanged = automationChanged;
