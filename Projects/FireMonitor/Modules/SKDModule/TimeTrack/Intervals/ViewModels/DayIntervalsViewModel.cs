@@ -81,5 +81,10 @@ namespace SKDModule.ViewModels
             copy.DayIntervalParts = source.DayIntervalParts;
 			return copy;
 		}
+
+        protected override string ItemRemovingName
+        {
+            get { return "дневной график"; }
+        }
 	}
 }

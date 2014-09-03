@@ -36,6 +36,11 @@ namespace SKDModule.ViewModels
             var copy = base.CopyModel(source, newName);
             copy.Description = source.Description;
             return copy;
-        }	    
+        }
+
+        protected override string ItemRemovingName
+        {
+            get { return "дополнительную колонку"; }
+        }
 	}
 }

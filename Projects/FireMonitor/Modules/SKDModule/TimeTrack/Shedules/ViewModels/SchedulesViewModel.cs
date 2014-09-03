@@ -99,5 +99,10 @@ namespace SKDModule.ViewModels
 		{
 			return ScheduleHelper.MarkDeleted(uid);
 		}
+
+        protected override string ItemRemovingName
+        {
+            get { return "график работы"; }
+        }
 	}
 }

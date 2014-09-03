@@ -105,5 +105,10 @@ namespace SKDModule.ViewModels
             copy.OrganisationUID = ParentOrganisation.Organisation.UID;
             return copy;
         }
+
+        protected override string ItemRemovingName
+        {
+            get { return "отдел"; }
+        }
 	}
 }

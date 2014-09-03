@@ -2,9 +2,11 @@
 using System.Linq;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SKDModule.Events;
 using SKDModule.PassCard.ViewModels;
 
 namespace SKDModule.ViewModels
@@ -70,7 +72,8 @@ namespace SKDModule.ViewModels
 				if (!toStopListResult)
 					return;
 				EmployeeViewModel.Cards.Remove(this);
-				EmployeeViewModel.OnSelectEmployee();
+                ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(Card.UID);
+                EmployeeViewModel.OnSelectEmployee();
 			}
 		}
 

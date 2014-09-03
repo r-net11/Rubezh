@@ -98,5 +98,10 @@ namespace SKDModule.ViewModels
         {
             return HolidayHelper.MarkDeleted(uid);
         }
+
+        protected override string ItemRemovingName
+        {
+            get { return "праздничный день"; }
+        }
     }
 }

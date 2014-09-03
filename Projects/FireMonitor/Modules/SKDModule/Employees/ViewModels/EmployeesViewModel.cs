@@ -43,6 +43,16 @@ namespace SKDModule.ViewModels
 			ServiceFactory.Events.GetEvent<UpdateAdditionalColumns>().Publish(null);
 		}
 
+		protected override void Remove()
+		{
+			var cardUIDs = SelectedItem.Cards.Select(x => x.Card.UID);
+			base.Remove();
+			foreach (var uid in cardUIDs)
+			{
+				ServiceFactory.Events.GetEvent<BlockCardEvent>().Publish(uid);
+			}
+		}
+
 		protected override IEnumerable<ShortEmployee> GetModels(EmployeeFilter filter)
 		{
 			return EmployeeHelper.Get(filter);
@@ -71,5 +81,10 @@ namespace SKDModule.ViewModels
 		}
 
 		public ObservableCollection<string> AdditionalColumnNames { get; private set; }
+
+		protected override string ItemRemovingName
+		{
+			get { return "сотрудника"; }
+		}
 	}
 }

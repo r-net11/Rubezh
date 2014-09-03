@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FiresecAPI.SKD;
 
 namespace FiresecClient.SKDHelpers
@@ -11,6 +12,12 @@ namespace FiresecClient.SKDHelpers
 			var result = FiresecManager.FiresecService.GetCards(filter);
 			return Common.ShowErrorIfExists(result);
 		}
+
+        public static SKDCard GetSingle(Guid uid)
+        {
+            var result = FiresecManager.FiresecService.GetCards(new CardFilter { UIDs = new List<Guid> { uid }, LogicalDeletationType = LogicalDeletationType.All });
+            return Common.ShowErrorIfExists(result).FirstOrDefault();
+        }
 		 
 		public static bool Add(SKDCard card)
 		{

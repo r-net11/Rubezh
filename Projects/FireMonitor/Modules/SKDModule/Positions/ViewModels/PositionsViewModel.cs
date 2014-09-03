@@ -37,5 +37,10 @@ namespace SKDModule.ViewModels
 			copy.Description = source.Description;
 			return copy;
 		}
+
+        protected override string ItemRemovingName
+        {
+            get { return "должность"; }
+        }
 	}
 }

@@ -28,19 +28,21 @@ namespace SKDModule.ViewModels
 			base.InitializeOrganisation(organisation, parentViewModel);
 		}
 
-		public ObservableCollection<string> AdditionalColumnValues 
+		public string[] AdditionalColumnValues 
 		{ 
 			get
 			{
-				var result = new ObservableCollection<string>();
+				var additionalColumnTypes = (ParentViewModel as EmployeesViewModel).AdditionalColumnTypes;
+				var result = new string[additionalColumnTypes.Count];
 				if (this.IsOrganisation)
 					return result;
-				var additionalColumnTypes = (ParentViewModel as EmployeesViewModel).AdditionalColumnTypes;
+				var i = 0;
 				foreach (var additionalColumnType in additionalColumnTypes)
 				{
 					var textColumn = Model.TextColumns.FirstOrDefault(x => x.ColumnTypeUID == additionalColumnType.UID);
 					var columnValue = textColumn != null ? textColumn.Text : "";
-					result.Add(columnValue);
+					result[i] = columnValue;
+					i++;
 				}
 				return result;
 			}

@@ -131,5 +131,10 @@ namespace SKDModule.ViewModels
 		{
 			return ScheduleSchemaHelper.Save(item);
 		}
+
+        protected override string ItemRemovingName
+        {
+            get { return "график"; }
+        }
 	}
 }

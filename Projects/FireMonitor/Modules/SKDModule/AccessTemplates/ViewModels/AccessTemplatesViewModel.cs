@@ -48,6 +48,11 @@ namespace SKDModule.ViewModels
         {
             return base.CanPaste() && ParentOrganisation.Organisation.UID == _clipboard.OrganisationUID;
         }
+
+        protected override string ItemRemovingName
+        {
+            get { return "шаблон доступа"; }
+        }
 	}
 
 	
