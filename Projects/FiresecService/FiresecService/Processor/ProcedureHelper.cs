@@ -67,7 +67,7 @@ namespace FiresecService.Processor
 			string stringPropertyValue = "";
 			var item = new object();
 			var itemUid = Guid.Empty;
-			InitializeItem(ref item, variable.ObjectUid, variable.ObjectType);
+			InitializeItem(ref item, variable.UidValue, variable.ObjectType);
 			InitializeProperties(ref intPropertyValue, ref stringPropertyValue, ref itemUid, getStringArguments.Property, item);
 			if (getStringArguments.StringOperation == StringOperation.Is)
 				resultVariable.VariableItems = new List<VariableItem>();

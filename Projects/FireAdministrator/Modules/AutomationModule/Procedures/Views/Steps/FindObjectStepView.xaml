@@ -92,14 +92,14 @@
 							<StackPanel Margin="2" Visibility="{Binding Path=Variable2.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
 								ConverterParameter={x:Static automation:VariableType.IsValue}}" Width="163" >
 								<extToolkit:IntegerUpDown Value="{Binding Variable2.IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
-									ConverterParameter={x:Static automation:ValueType.Integer}}" Height="28"/>
+									ConverterParameter={x:Static automation:ValueType.Integer}}" Height="28" Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" />
 								<CheckBox IsChecked="{Binding Variable2.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:ValueType.Boolean}}" Margin="0,7,0,0" />
 								<TextBox Text="{Binding Variable2.StringValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ValueType.String}}" Height="28" VerticalContentAlignment="Center" />
 								<ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding Variable2.TypeValue, UpdateSourceTrigger=PropertyChanged}"
 								  Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
-									ConverterParameter={x:Static automation:ValueType.Object}}" >
+									ConverterParameter={x:Static automation:ValueType.Enum}}" >
 									<ComboBox.ItemTemplate>
 										<DataTemplate>
 											<TextBlock Text="{Binding .}" />

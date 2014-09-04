@@ -10,16 +10,33 @@ namespace FiresecAPI.Automation
 	{
 		public SendEmailArguments()
 		{
-			Variable1 = new ArithmeticParameter();
+			EMailAddress = new ArithmeticParameter();
+			EMailTitle = new ArithmeticParameter();
+			EMailContent = new ArithmeticParameter();
 		}
 
 		[DataMember]
-		public ArithmeticParameter Variable1 { get; set; }
+		public ArithmeticParameter EMailAddress { get; set; }
 
 		[DataMember]
-		public string Email{ get; set; }
+		public ArithmeticParameter EMailTitle { get; set; }
 
 		[DataMember]
-		public ValueType ValueType { get; set; }
+		public ArithmeticParameter EMailContent { get; set; }
+
+		[DataMember]
+		public string Email { get; set; }
+
+		[DataMember]
+		public string Host { get; set; }
+
+		[DataMember]
+		public string Port { get; set; }
+
+		[DataMember]
+		public string UserName { get; set; }
+
+		[DataMember]
+		public string Password { get; set; }
 	}
 }

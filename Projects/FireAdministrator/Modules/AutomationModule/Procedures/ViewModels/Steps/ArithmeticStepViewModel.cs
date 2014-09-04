@@ -308,6 +308,10 @@ namespace AutomationModule.ViewModels
 					if (UpdateVariableHandler != null)
 						UpdateVariableHandler();
 				}
+				else
+				{
+					ArithmeticParameter.VariableUid = Guid.Empty;
+				}
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => SelectedVariable);
 			}

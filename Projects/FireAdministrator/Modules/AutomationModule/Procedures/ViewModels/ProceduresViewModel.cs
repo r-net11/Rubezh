@@ -111,11 +111,13 @@ namespace AutomationModule.ViewModels
 				return;
 			var variables = new List<Variable>();
 			var arguments = new List<Variable>();
+			var procedureSteps = new List<ProcedureStep>();
 
 			foreach (var procedure in Procedures)
 			{
 				variables.AddRange(procedure.Procedure.Variables);
 				arguments.AddRange(procedure.Procedure.Arguments);
+				procedureSteps.AddRange(procedure.Procedure.Steps);
 			}
 
 			if (Procedures.Any(item => item.Procedure.Uid == inputUid))
@@ -141,6 +143,17 @@ namespace AutomationModule.ViewModels
 					SelectedProcedure.ShowArgumentsCommand.Execute();
 				}
 				SelectedProcedure.ArgumentsViewModel.SelectedVariable = SelectedProcedure.ArgumentsViewModel.Variables.FirstOrDefault(item => item.Variable.Uid == inputUid);
+			}
+
+			else if (procedureSteps.Any(item => item.UID == inputUid))
+			{
+				var selectedProcedure = Procedures.FirstOrDefault(x => x.Procedure.Steps.Any(z => z.UID == inputUid));
+				if (selectedProcedure != null)
+				{
+					SelectedProcedure = selectedProcedure;
+					SelectedProcedure.ShowStepsCommand.Execute();
+				}
+				SelectedProcedure.StepsViewModel.SelectedStep = SelectedProcedure.StepsViewModel.AllSteps.FirstOrDefault(item => item.Step.UID == inputUid);
 			}
 		}
 

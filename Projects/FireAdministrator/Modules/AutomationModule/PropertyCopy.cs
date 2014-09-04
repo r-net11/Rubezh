@@ -100,7 +100,8 @@ namespace MiscUtil.Reflection
             }
             for (int i = 0; i < sourceProperties.Count; i++)
             {
-                targetProperties[i].SetValue(target, sourceProperties[i].GetValue(source, null), null);
+				if (targetProperties[i].Name != "Uid")
+					targetProperties[i].SetValue(target, sourceProperties[i].GetValue(source, null), null);
             }
 
         }

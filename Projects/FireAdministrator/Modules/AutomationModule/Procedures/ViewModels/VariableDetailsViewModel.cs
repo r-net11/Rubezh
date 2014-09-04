@@ -44,7 +44,7 @@ namespace AutomationModule.ViewModels
 			DefaultBoolValue = variable.DefaultBoolValue;
 			DefaultDateTimeValue = variable.DefaultDateTimeValue;
 			DefaultStringValue = variable.DefaultStringValue;
-			SelectedVariableItem = new VariableItemViewModel(new VariableItem { ObjectUid = variable.ObjectUid });
+			SelectedVariableItem = new VariableItemViewModel(new VariableItem { ObjectUid = variable.DefaultUidValue });
 			foreach (var variableItem in variable.VariableItems)
 				VariableItems.Add(new VariableItemViewModel(variableItem));
 		}
@@ -150,7 +150,7 @@ namespace AutomationModule.ViewModels
 			{
 				_selectedVariableItem = value;
 				if (value != null)
-					Variable.ObjectUid = _selectedVariableItem.VariableItem.ObjectUid;
+					Variable.DefaultUidValue = _selectedVariableItem.VariableItem.ObjectUid;
 				OnPropertyChanged(() => SelectedVariableItem);
 			}
 		}

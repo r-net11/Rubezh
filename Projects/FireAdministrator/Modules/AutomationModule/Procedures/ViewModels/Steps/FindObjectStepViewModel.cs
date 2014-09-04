@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ValueType = FiresecAPI.Automation.ValueType;
 using FiresecAPI.GK;
+using System.Reflection.Emit;
 
 namespace AutomationModule.ViewModels
 {
@@ -246,7 +247,7 @@ namespace AutomationModule.ViewModels
 				if (SelectedProperty == Property.Description)
 					return ValueType.String;
 				if (SelectedProperty == Property.Type)
-					return ValueType.Object;
+					return ValueType.Enum;
 				return ValueType.Integer;
 			}
 		}

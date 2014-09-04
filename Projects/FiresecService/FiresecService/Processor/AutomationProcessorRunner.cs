@@ -81,7 +81,7 @@ namespace FiresecService.Processor
 						procedure.Arguments.FirstOrDefault(x => x.Uid == foreachArguments.ItemVariableUid);
 					foreach (var itemUid in listVariable.VariableItems.Select(x => x.ObjectUid))
 					{
-						itemVariable.ObjectUid = itemUid;
+						itemVariable.UidValue = itemUid;
 						if (procedureStep.Children[0].Children.Any(childStep => !RunStep(childStep, procedure, arguments)))
 							return false;
 					}

@@ -124,7 +124,7 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 
-		<Label Grid.Row="3" Grid.Column="0" Content="Значение операции" HorizontalAlignment="Right" />
+		<Label Grid.Row="3" Grid.Column="0" Content="Тип операции" HorizontalAlignment="Right" />
 		<ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ArithmeticOperationTypes}" Margin="2" 
 				  SelectedItem="{Binding SelectedArithmeticOperationType, UpdateSourceTrigger=PropertyChanged}" >
 			<ComboBox.ItemTemplate>

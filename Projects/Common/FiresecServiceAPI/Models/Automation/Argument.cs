@@ -13,11 +13,11 @@ namespace FiresecAPI.Automation
 
 		public Argument(Variable variable)
 		{
-			Uid = Guid.NewGuid();
 			VariableUid = variable.Uid;
 			ValueType = variable.ValueType;
 			BoolValue = variable.DefaultBoolValue;
 			DateTimeValue = variable.DefaultDateTimeValue;
+			UidValue = variable.DefaultUidValue;
 			IntValue = variable.DefaultIntValue;
 			ObjectType = variable.ObjectType;
 			StringValue = variable.DefaultStringValue;
@@ -38,6 +38,9 @@ namespace FiresecAPI.Automation
 		public DateTime DateTimeValue { get; set; }
 
 		[DataMember]
+		public Guid UidValue { get; set; }
+
+		[DataMember]
 		public int IntValue { get; set; }
 		
 		[DataMember]
@@ -45,9 +48,6 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public string StringValue { get; set; }
-
-		[DataMember]
-		public Guid Uid { get; set; }
 
 		[DataMember]
 		public Guid VariableUid { get; set; }
