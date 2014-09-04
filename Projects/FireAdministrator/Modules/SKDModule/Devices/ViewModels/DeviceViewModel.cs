@@ -140,8 +140,7 @@ namespace SKDModule.ViewModels
 		void OnRemove()
 		{
 			var allDevices = Device.Children;
-			foreach (var device in allDevices)
-				SKDManager.DeleteDevice(device);
+			SKDManager.DeleteDevice(Device);
 			var parent = Parent;
 			if (parent != null)
 			{
@@ -155,9 +154,6 @@ namespace SKDModule.ViewModels
 				DevicesViewModel.Current.AllDevices.Remove(this);
 				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.GetChildByVisualIndex(index) : parent;
 			}
-			allDevices.ForEach(item => item.OnChanged());
-			if (Device.Parent != null)
-				Device.Parent.Children.Remove(Device);
 			ServiceFactory.SaveService.SKDChanged = true;
 		}
 		bool CanRemove()

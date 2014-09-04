@@ -13,11 +13,15 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System.Windows.Threading;
 
 namespace FireMonitor
 {
 	public class Bootstrapper : BaseBootstrapper
 	{
+		private string _login;
+		private string _password;
+
 		public bool Initialize()
 		{
 			var result = true;
@@ -26,15 +30,15 @@ namespace FireMonitor
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 
-			if (ServiceFactory.LoginService.ExecuteConnect(App.Login, App.Password))
+			if (ServiceFactory.LoginService.ExecuteConnect(_login, _password))
 			{
 				var userChangedEventArgs = new UserChangedEventArgs
 				{
 					IsReconnect = false
 				};
 				ServiceFactory.Events.GetEvent<UserChangedEvent>().Publish(userChangedEventArgs);
-				App.Login = ServiceFactory.LoginService.Login;
-				App.Password = ServiceFactory.LoginService.Password;
+				_login = ServiceFactory.LoginService.Login;
+				_password = ServiceFactory.LoginService.Password;
 				try
 				{
 					CreateModules();
@@ -115,58 +119,79 @@ namespace FireMonitor
 			return new MonitorShellViewModel();
 		}
 
-		bool IsRestarting = false;
-
 		protected virtual void OnConfigurationChanged()
 		{
-			try
+			var restartView = new RestartApplicationViewModel();
+			var isRestart = DialogService.ShowModalWindow(restartView);
+			if (isRestart)
+				Restart();
+			else
 			{
-				ServiceFactory.ContentService.Invalidate();
-				if (IsRestarting)
-					return;
-				FiresecManager.FiresecService.SuspendPoll = true;
-				if (FiresecManager.FSAgent != null)
-					FiresecManager.FSAgent.SuspendPoll = true;
-				LoadingErrorManager.Clear();
-				IsRestarting = true;
-				ProgressWatcher.Close();
-				ApplicationService.Restart();
-
-				LoadingService.Show("Перезагрузка конфигурации", "Перезагрузка конфигурации", 10);
-				LoadingService.AddCount(10);
-
-				LoadingService.DoStep("Загрузка конфигурации с сервера");
-				FiresecManager.GetConfiguration("Monitor/Configuration");
-
-				ApplicationService.CloseAllWindows();
-				ServiceFactory.Layout.Close();
-
-				BeforeInitialize(false);
-				InitializeModules();
-				if (ApplicationService.Modules.Any(x => x.Name == "Устройства и Зоны"))
-					ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-				else if (ApplicationService.Modules.Any(x => x.Name == "Групповой контроллер"))
-					ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Publish(Guid.Empty);
-				AterInitialize();
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Bootstrapper.OnConfigurationChanged");
-			}
-			finally
-			{
-				LoadingService.Close();
-				IsRestarting = false;
-				FiresecManager.FiresecService.SuspendPoll = false;
-				if (FiresecManager.FSAgent != null)
-					FiresecManager.FSAgent.SuspendPoll = false;
+				var timer = new DispatcherTimer();
+				timer.Tick += (s, e) =>
+				{
+					timer.Stop();
+					Restart();
+				};
+				timer.Interval = TimeSpan.FromSeconds(restartView.Total);
+				timer.Start();
 			}
 		}
-
-		private void CloseOnException(string message)
+		private void Restart()
 		{
-			MessageBoxService.ShowError(message);
-			Application.Current.Shutdown();
+			using (new WaitWrapper())
+			{
+				ApplicationService.ApplicationWindow.IsEnabled = false;
+				ServiceFactory.ContentService.Invalidate();
+				FiresecManager.FiresecService.StopPoll();
+				if (FiresecManager.FSAgent != null)
+					FiresecManager.FSAgent.Stop();
+				LoadingErrorManager.Clear();
+				ProgressWatcher.Close();
+				ApplicationService.CloseAllWindows();
+				ServiceFactory.Layout.Close();
+				ApplicationService.ShutDown();
+			}
+			RestartApplication();
+		}
+
+		public void RestartApplication()
+		{
+			var processStartInfo = new ProcessStartInfo()
+			{
+				FileName = Application.ResourceAssembly.Location,
+				Arguments = GetRestartCommandLineArguments()
+			};
+			System.Diagnostics.Process.Start(processStartInfo);
+		}
+		protected virtual string GetRestartCommandLineArguments()
+		{
+			string commandLineArguments = null;
+			if (_login != null && _password != null)
+				commandLineArguments = "login='" + _login + "' password='" + _password + "'";
+			return commandLineArguments;
+		}
+		public virtual void InitializeCommandLineArguments(string[] args)
+		{
+			if (args != null)
+			{
+				if (args.Count() >= 2)
+				{
+					foreach (var arg in args)
+					{
+						if (arg.StartsWith("login='") && arg.EndsWith("'"))
+						{
+							_login = arg.Replace("login='", "");
+							_login = _login.Replace("'", "");
+						}
+						if (arg.StartsWith("password='") && arg.EndsWith("'"))
+						{
+							_password = arg.Replace("password='", "");
+							_password = _password.Replace("'", "");
+						}
+					}
+				}
+			}
 		}
 	}
 }

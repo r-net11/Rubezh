@@ -14,12 +14,10 @@ namespace FireMonitor
 {
 	public partial class App : Application
 	{
-		const string SignalId = "{B8150ECC-9433-4535-89AA-5BF6EF631575}";
-		const string WaitId = "{358D5240-9A07-4134-9EAF-8D7A54BCA81F}";
-		Bootstrapper Bootstrapper;
+		private const string SignalId = "{B8150ECC-9433-4535-89AA-5BF6EF631575}";
+		private const string WaitId = "{358D5240-9A07-4134-9EAF-8D7A54BCA81F}";
+		private Bootstrapper _bootstrapper;
 		public static bool IsClosingOnException = false;
-		public static string Login;
-		public static string Password;
 
 		public App()
 		{
@@ -40,7 +38,6 @@ namespace FireMonitor
 					Shutdown();
 					return;
 				}
-				InitializeCommandLineArguments(e.Args);
 
 				ApplicationService.Closing += new CancelEventHandler(ApplicationService_Closing);
 				ApplicationService.Closed += new EventHandler(ApplicationService_Closed);
@@ -49,11 +46,12 @@ namespace FireMonitor
 				bool trace = false;
 				BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
-				Bootstrapper = CreateBootstrapper();
+				_bootstrapper = CreateBootstrapper();
+				_bootstrapper.InitializeCommandLineArguments(e.Args);
 				var result = true;
 				using (new DoubleLaunchLocker(SignalId, WaitId, true, true))
 				{
-					result = Bootstrapper.Initialize();
+					result = _bootstrapper.Initialize();
 				}
 				if (!result)
 				{
@@ -97,11 +95,10 @@ namespace FireMonitor
 		{
 			IsClosingOnException = true;
 			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
-			Restart();
+			_bootstrapper.RestartApplication();
 			Environment.Exit(0);
 			return;
-			Application.Current.MainWindow.Close();
-			Application.Current.Shutdown();
+			//ApplicationService.ShutDown();
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
@@ -126,47 +123,7 @@ namespace FireMonitor
 			Application.Current.Shutdown();
 		}
 
-		void Restart()
-		{
-#if DEBUG
-			return;
-#endif
-			string commandLineArguments = null;
-			if (Login != null && Password != null)
-			{
-				commandLineArguments = "login='" + Login + "' password='" + Password + "'";
-			}
-			var processStartInfo = new ProcessStartInfo()
-			{
-				FileName = Application.ResourceAssembly.Location,
-				Arguments = commandLineArguments
-			};
-			System.Diagnostics.Process.Start(processStartInfo);
-		}
-
-		void InitializeCommandLineArguments(string[] args)
-		{
-			if (args != null)
-			{
-				if (args.Count() >= 2)
-				{
-					foreach (var arg in args)
-					{
-						if (arg.StartsWith("login='") && arg.EndsWith("'"))
-						{
-							Login = arg.Replace("login='", "");
-							Login = Login.Replace("'", "");
-						}
-						if (arg.StartsWith("password='") && arg.EndsWith("'"))
-						{
-							Password = arg.Replace("password='", "");
-							Password = Password.Replace("'", "");
-						}
-					}
-				}
-			}
-		}
-		bool CheckIntegrateCommandLineArguments(string[] args)
+		private bool CheckIntegrateCommandLineArguments(string[] args)
 		{
 			if (args != null)
 			{

@@ -168,22 +168,15 @@ namespace Infrastructure.Common.Windows
 			Shell = shell;
 		}
 
-		static void win_Closing(object sender, CancelEventArgs e)
+		private static void win_Closing(object sender, CancelEventArgs e)
 		{
 			if (Closing != null)
 				Closing(sender, e);
 		}
-		static void win_Closed(object sender, EventArgs e)
+		private static void win_Closed(object sender, EventArgs e)
 		{
 			if (Closed != null)
 				Closed(sender, e);
 		}
-
-		public static void Restart()
-		{
-			if (Restarting != null)
-				Restarting();
-		}
-		public static event Action Restarting;
 	}
 }

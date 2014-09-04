@@ -14,6 +14,14 @@ namespace FiresecAPI.SKD
 
 		public static void DeleteDevice(SKDDevice device)
 		{
+			foreach (var subDevice in device.Children)
+				DeleteDeviceInternal(subDevice);
+			DeleteDeviceInternal(device);
+			if (device.Parent != null)
+				device.Parent.Children.Remove(device);
+		}
+		private static void DeleteDeviceInternal(SKDDevice device)
+		{
 			if (device.Zone != null)
 			{
 				device.Zone.Devices.Remove(device);
@@ -26,6 +34,7 @@ namespace FiresecAPI.SKD
 				device.Door.OnChanged();
 			}
 			Devices.Remove(device);
+			device.OnChanged();
 		}
 
 		public static void ChangeDeviceZone(SKDDevice device, SKDZone zone)
@@ -59,6 +68,7 @@ namespace FiresecAPI.SKD
 				device.OnChanged();
 			}
 			Zones.Remove(zone);
+			zone.OnChanged();
 		}
 
 		public static void ChangeDoorDevice(SKDDoor door, SKDDevice device)
@@ -120,7 +130,7 @@ namespace FiresecAPI.SKD
 			}
 
 			SKDManager.SKDConfiguration.Doors.Remove(door);
-			//door.OnChanged();
+			door.OnChanged();
 		}
 	}
 }

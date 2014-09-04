@@ -16,6 +16,7 @@ namespace FireMonitor.Layout
 {
 	internal class Bootstrapper : Shell.Bootstrapper
 	{
+		private Guid? _layoutID;
 		private FiresecAPI.Models.Layouts.Layout _layout;
 		private MonitorLayoutShellViewModel _monitorLayoutShellViewModel;
 
@@ -52,6 +53,7 @@ namespace FireMonitor.Layout
 		{
 			try
 			{
+				_layoutID = null;
 				var result = GetLayout();
 				if (result && _monitorLayoutShellViewModel != null)
 					_monitorLayoutShellViewModel.UpdateLayout(_layout);
@@ -64,11 +66,29 @@ namespace FireMonitor.Layout
 			}
 		}
 
-		protected override void OnConfigurationChanged()
+		protected override string GetRestartCommandLineArguments()
 		{
-			base.OnConfigurationChanged();
-			UpdateLayout();
+			var args = base.GetRestartCommandLineArguments();
+			if (args.Length > 0)
+				args += " ";
+			return args + "layout='" + _layout.UID.ToString() + "'";
 		}
+		public override void InitializeCommandLineArguments(string[] args)
+		{
+			_layoutID = null;
+			base.InitializeCommandLineArguments(args);
+			if (args != null)
+				foreach (var arg in args)
+					if (arg.StartsWith("layout='") && arg.EndsWith("'"))
+					{
+						var layout = arg.Replace("layout='", "");
+						layout = layout.Replace("'", "");
+						Guid layoutID;
+						if (Guid.TryParse(layout, out layoutID))
+							_layoutID = layoutID;
+					}
+		}
+
 		private void OnUserChanged(UserChangedEventArgs userChangedEventArgs)
 		{
 			UpdateLayout();
@@ -81,8 +101,18 @@ namespace FireMonitor.Layout
 			var layouts = FiresecManager.LayoutsConfiguration.Layouts.Where(layout => layout.Users.Contains(FiresecManager.CurrentUser.UID) && (ip == null || layout.IPs.Contains(ip))).ToList();
 			if (layouts.Count > 0)
 			{
-				ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
-				_layout = layouts.Count == 1 ? layouts[0] : SelectLayout(layouts);
+				if (_layoutID.HasValue)
+					_layout = layouts.FirstOrDefault(item => item.UID == _layoutID.Value);
+
+				if (_layout == null&&layouts.Count == 1)
+						_layout = layouts[0];
+
+				if (_layout == null)
+				{
+					ServiceFactory.ResourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
+					_layout = SelectLayout(layouts);
+				}
+
 				if (_layout == null)
 					return false;
 			}
