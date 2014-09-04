@@ -225,7 +225,7 @@ namespace SKDModule.Plans
 			else if (typeof(TItem) == typeof(SKDDoor))
 			{
 				var door = item as SKDDoor;
-				designerItem.Title = door == null ? "Неизвестная дверь" : door.Name;
+				designerItem.Title = door == null ? "Неизвестная точка доступа" : door.Name;
 			}
 			else
 				base.UpdateDesignerItemProperties<TItem>(designerItem, item);

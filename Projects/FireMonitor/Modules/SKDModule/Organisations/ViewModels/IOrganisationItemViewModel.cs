@@ -1,5 +1,4 @@
-﻿
-namespace SKDModule.ViewModels
+﻿namespace SKDModule.ViewModels
 {
 	public interface IOrganisationItemViewModel
 	{

@@ -688,6 +688,10 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Открыто, device);
 				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 1;
+				if (device.State != null)
+				{
+					device.State.OpenAlwaysTimeIndex = 1;
+				}
 				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
 			}
 			else
@@ -703,6 +707,10 @@ namespace FiresecService.Service
 			{
 				AddSKDJournalMessage(JournalEventNameType.Команда_на_перевод_двери_в_режим_Закрыто, device);
 				device.SKDDoorConfiguration.OpenAlwaysTimeIndex = 0;
+				if (device.State != null)
+				{
+					device.State.OpenAlwaysTimeIndex = 0;
+				}
 				return ChinaSKDDriver.Processor.SetDoorConfiguration(deviceUID, device.SKDDoorConfiguration);
 			}
 			else

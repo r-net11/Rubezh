@@ -312,7 +312,7 @@ namespace GKModule.Plans
 			else if (typeof(TItem) == typeof(XGuardZone))
 			{
 				var guardZone = item as XGuardZone;
-				designerItem.Title = guardZone == null ? "Неизвестная дверь" : guardZone.PresentationName;
+				designerItem.Title = guardZone == null ? "Неизвестная охраная зона" : guardZone.PresentationName;
 			}
 			else if (typeof(TItem) == typeof(XDirection))
 			{
