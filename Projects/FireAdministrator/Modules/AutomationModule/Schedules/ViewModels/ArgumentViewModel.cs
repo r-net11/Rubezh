@@ -5,6 +5,7 @@ using FiresecAPI.Automation;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using ValueType = FiresecAPI.Automation.ValueType;
+using Infrastructure.Common;
 
 namespace AutomationModule.ViewModels
 {
@@ -16,11 +17,28 @@ namespace AutomationModule.ViewModels
 		{
 			Argument = argument;
 			Procedure = procedure;
-			ObjectTypes = new ObservableCollection<ObjectType>
+			SelectedVariableItem = new VariableItemViewModel(new VariableItem { ObjectUid = Argument.UidValue });
+			ObjectTypes = ProcedureHelper.GetEnumObs<ObjectType>();
+			ChangeItemCommand = new RelayCommand(OnChangeItem);
+		}
+
+		public RelayCommand ChangeItemCommand { get; private set; }
+		public void OnChangeItem()
+		{
+			SelectedVariableItem = ProcedureHelper.SelectObject(Argument.ObjectType, SelectedVariableItem);
+		}
+
+		VariableItemViewModel _selectedVariableItem;
+		public VariableItemViewModel SelectedVariableItem
+		{
+			get { return _selectedVariableItem; }
+			set
 			{
-				ObjectType.Card, ObjectType.Device, ObjectType.Direction, ObjectType.GuardZone, ObjectType.Person, ObjectType.Plan,
-				ObjectType.SKDDevice, ObjectType.SKDZone, ObjectType.VideoDevice, ObjectType.Zone
-			};
+				_selectedVariableItem = value;
+				if (value != null)
+					Argument.UidValue = _selectedVariableItem.VariableItem.ObjectUid;
+				OnPropertyChanged(() => SelectedVariableItem);
+			}
 		}
 
 		public bool IsList

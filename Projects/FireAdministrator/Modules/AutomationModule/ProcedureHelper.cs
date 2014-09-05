@@ -49,10 +49,10 @@ namespace AutomationModule
 		{
 			if ((valueType == ValueType.Integer) || (valueType == ValueType.DateTime) || (valueType == ValueType.Object))
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, ConditionType.IsNotMore, ConditionType.IsLess, ConditionType.IsNotLess};
-			if (valueType == ValueType.Boolean)
+			if (valueType == ValueType.Boolean || valueType == ValueType.Enum)
 				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
 			if (valueType == ValueType.String)
-				return new List<ConditionType> { ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains};
+				return new List<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.StartsWith, ConditionType.EndsWith, ConditionType.Contains };
 			return new List<ConditionType>();
 		}
 

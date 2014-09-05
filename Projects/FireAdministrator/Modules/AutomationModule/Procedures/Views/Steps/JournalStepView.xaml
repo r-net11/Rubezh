@@ -6,7 +6,7 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal" >
 			<Label Content="Тип значений" Margin="2" Width="100" />
-		<ComboBox ItemsSource="{Binding ValueTypes}" Margin="2" 
+			<ComboBox ItemsSource="{Binding ValueTypes}" Margin="2" Width="163"
 				  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" >
 			<ComboBox.ItemTemplate>
 				<DataTemplate>

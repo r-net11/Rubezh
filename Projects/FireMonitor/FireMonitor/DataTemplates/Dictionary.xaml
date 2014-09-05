@@ -27,4 +27,8 @@
 		<Views:ProgressView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:RestartApplicationViewModel}">
+		<Views:RestartApplicationView />
+	</DataTemplate>
+
 </ResourceDictionary>

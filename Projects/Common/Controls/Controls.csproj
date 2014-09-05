@@ -146,6 +146,7 @@
     <Compile Include="Converters\GridLengthToMinWidthConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\InversedBoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\InversedEnumToVisibilityConverter.cs" />
     <Compile Include="Converters\MROMessageNoToStringConverter.cs" />
     <Compile Include="Converters\MROMessageTypeToStringConverter.cs" />
     <Compile Include="Converters\ObjectTypeToStringConverter.cs" />

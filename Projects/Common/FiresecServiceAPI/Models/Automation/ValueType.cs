@@ -17,6 +17,9 @@ namespace FiresecAPI.Automation
 		String,
 
 		[DescriptionAttribute("Объектная ссылка")]
-		Object
+		Object,
+
+		[DescriptionAttribute("Перечисление")]
+		Enum
 	}
 }
