@@ -8,17 +8,10 @@ namespace FiresecAPI.Automation
 	{
 		public ExitArguments()
 		{
-			Uid = Guid.NewGuid();
-			ExitCode = new ExitCode();
+			ExitCode = new ArithmeticParameter();
 		}
 
 		[DataMember]
-		public Guid Uid { get; set; }
-
-		[DataMember]
-		public string Message { get; set; }
-		
-		[DataMember]
-		public ExitCode ExitCode { get; set; }
+		public ArithmeticParameter ExitCode { get; set; }
 	}
 }

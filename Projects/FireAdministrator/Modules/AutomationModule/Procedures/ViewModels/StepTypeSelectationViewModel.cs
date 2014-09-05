@@ -93,7 +93,6 @@ namespace AutomationModule.ViewModels
 							new StepTypeViewModel(ProcedureStepType.SetValue),
 							new StepTypeViewModel(ProcedureStepType.RunProgramm),
 							new StepTypeViewModel(ProcedureStepType.IncrementValue),
-							new StepTypeViewModel(ProcedureStepType.GetString),
 							new StepTypeViewModel(ProcedureStepType.Pause),
 							new StepTypeViewModel(ProcedureStepType.ProcedureSelection)
 						}),

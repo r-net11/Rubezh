@@ -2,54 +2,178 @@
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
-			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended" >
-	<StackPanel>
-		<DockPanel Margin="2" >
-			<Label Content="Адрес" Margin="2" Width="100" />
-			<ComboBox DataContext="{Binding EMailAddress}" ItemsSource="{Binding VariableTypes}" Margin="2"
-								  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" MinWidth="163" MaxWidth="163">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<ComboBox DataContext="{Binding EMailAddress}" ItemsSource="{Binding GlobalVariables}" Margin="2"
+			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
+	<UserControl.Resources>
+		<ResourceDictionary Source="ProcedureResources.xaml" />
+	</UserControl.Resources>
+	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+	<Grid>
+		<StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Адрес" />
+				<ComboBox DataContext="{Binding EMailAddress}" ItemsSource="{Binding VariableTypes}" 
+								  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<ComboBox DataContext="{Binding EMailAddress}" ItemsSource="{Binding GlobalVariables}" 
 								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" MinWidth="163" MaxWidth="163">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<ComboBox DataContext="{Binding EMailAddress}" ItemsSource="{Binding LocalVariables}" Margin="2"
+							ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<ComboBox DataContext="{Binding EMailAddress}" ItemsSource="{Binding LocalVariables}" 
 								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-							ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" MinWidth="163" MaxWidth="163">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}" />
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
+							ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 
-			<StackPanel Margin="2" Visibility="{Binding Path=Variable1.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-								ConverterParameter={x:Static automation:VariableType.IsValue}}" HorizontalAlignment="Left" Width="200" >
-				<extToolkit:IntegerUpDown Value="{Binding Variable1.IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
-									ConverterParameter={x:Static automation:ValueType.Integer}}" Height="25" VerticalAlignment="Center" />
-				<CheckBox IsChecked="{Binding Variable1.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
-									ConverterParameter={x:Static automation:ValueType.Boolean}}" Margin="0,7,0,0" VerticalAlignment="Center" />
-				<TextBox Text="{Binding Variable1.StringValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
-									ConverterParameter={x:Static automation:ValueType.String}}" Height="25" VerticalAlignment="Center" VerticalContentAlignment="Center" />
-				<extToolkit:DateTimePicker Value="{Binding Variable1.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
-									ConverterParameter={x:Static automation:ValueType.DateTime}}" Height="25" VerticalAlignment="Center" />
+				<StackPanel DataContext="{Binding EMailAddress}" Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+				ConverterParameter={x:Static automation:VariableType.IsValue}}">
+					<TextBox Text="{Binding StringValue, UpdateSourceTrigger=PropertyChanged}" />
+				</StackPanel>
 			</StackPanel>
-		</DockPanel>
-		<DockPanel Margin="2">
-			<Label Content="EMail" Margin="2" Width="100" />
-			<TextBox Text="{Binding Email}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Width="300" Height="25" />
-		</DockPanel>
-	</StackPanel>
+
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Тип заголовка" />
+				<ComboBox ItemsSource="{Binding EMailTitleValueTypes}" 
+				  SelectedItem="{Binding SelectedEMailTitleValueType, UpdateSourceTrigger=PropertyChanged}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Заголовок" />
+				<ComboBox DataContext="{Binding EMailTitle}" ItemsSource="{Binding VariableTypes}"
+								  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<ComboBox DataContext="{Binding EMailTitle}" ItemsSource="{Binding GlobalVariables}"
+								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
+								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+							ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<ComboBox DataContext="{Binding EMailTitle}" ItemsSource="{Binding LocalVariables}" 
+								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
+								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+							ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+
+				<StackPanel Visibility="{Binding Path=EMailTitle.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+								ConverterParameter={x:Static automation:VariableType.IsValue}}">
+					<extToolkit:IntegerUpDown Value="{Binding EMailTitle.IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedEMailTitleValueType, Converter={StaticResource EnumToVisibilityConverter},
+									ConverterParameter={x:Static automation:ValueType.Integer}}" />
+					<CheckBox IsChecked="{Binding EMailTitle.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedEMailTitleValueType, Converter={StaticResource EnumToVisibilityConverter}, 
+									ConverterParameter={x:Static automation:ValueType.Boolean}}" />
+					<TextBox Text="{Binding EMailTitle.StringValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedEMailTitleValueType, Converter={StaticResource EnumToVisibilityConverter},
+									ConverterParameter={x:Static automation:ValueType.String}}" />
+					<extToolkit:DateTimePicker Value="{Binding EMailTitle.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedEMailTitleValueType, Converter={StaticResource EnumToVisibilityConverter},
+									ConverterParameter={x:Static automation:ValueType.DateTime}}" />
+				</StackPanel>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Тип Сообщения" />
+				<ComboBox ItemsSource="{Binding EMailContentValueTypes}" 
+				  SelectedItem="{Binding SelectedEMailContentValueType, UpdateSourceTrigger=PropertyChanged}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal">
+				<Label Content="Сообщение" />
+				<ComboBox DataContext="{Binding EMailContent}" ItemsSource="{Binding VariableTypes}"
+								  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<ComboBox DataContext="{Binding EMailContent}" ItemsSource="{Binding GlobalVariables}"
+								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
+								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+							ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+				<ComboBox DataContext="{Binding EMailContent}" ItemsSource="{Binding LocalVariables}" 
+								  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
+								  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+							ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+
+				<StackPanel Visibility="{Binding Path=EMailContent.SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
+								ConverterParameter={x:Static automation:VariableType.IsValue}}">
+					<extToolkit:IntegerUpDown Value="{Binding EMailContent.IntValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedEMailContentValueType, Converter={StaticResource EnumToVisibilityConverter},
+									ConverterParameter={x:Static automation:ValueType.Integer}}" />
+					<CheckBox IsChecked="{Binding EMailContent.BoolValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedEMailContentValueType, Converter={StaticResource EnumToVisibilityConverter}, 
+									ConverterParameter={x:Static automation:ValueType.Boolean}}" />
+					<TextBox Text="{Binding EMailContent.StringValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedEMailContentValueType, Converter={StaticResource EnumToVisibilityConverter},
+									ConverterParameter={x:Static automation:ValueType.String}}" />
+					<extToolkit:DateTimePicker Value="{Binding EMailContent.DateTimeValue, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path=SelectedEMailContentValueType, Converter={StaticResource EnumToVisibilityConverter},
+									ConverterParameter={x:Static automation:ValueType.DateTime}}" />
+				</StackPanel>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+					<Label Content="Хост" />
+					<TextBox Text="{Binding Host}" />
+			</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Порт" />
+					<TextBox Text="{Binding Port}" />
+			</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Логин" />
+					<TextBox Text="{Binding Login}" />
+			</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Пароль" />
+					<TextBox Text="{Binding Password}" />
+			</StackPanel>
+		</StackPanel>
+	</Grid>
+	</ScrollViewer>
 </UserControl>

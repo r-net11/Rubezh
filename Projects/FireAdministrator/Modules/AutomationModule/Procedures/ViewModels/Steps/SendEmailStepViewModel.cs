@@ -3,6 +3,8 @@ using FiresecAPI.Automation;
 using System;
 using System.Collections.ObjectModel;
 using ValueType = FiresecAPI.Automation.ValueType;
+using Infrastructure;
+using System.Linq;
 
 namespace AutomationModule.ViewModels
 {
@@ -20,10 +22,37 @@ namespace AutomationModule.ViewModels
 			SendEmailArguments = sendEmailArguments;
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			Procedure = procedure;
+			EMailTitleValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object && x != ValueType.Enum));
+			EMailContentValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object && x != ValueType.Enum));
 			EMailAddress = new ArithmeticParameterViewModel(SendEmailArguments.EMailAddress, ProcedureHelper.GetEnumList<VariableType>());
 			EMailTitle = new ArithmeticParameterViewModel(SendEmailArguments.EMailTitle, ProcedureHelper.GetEnumList<VariableType>());
 			EMailContent = new ArithmeticParameterViewModel(SendEmailArguments.EMailContent, ProcedureHelper.GetEnumList<VariableType>());
 			UpdateContent();
+		}
+
+		public ObservableCollection<ValueType> EMailTitleValueTypes { get; private set; }
+		public ValueType SelectedEMailTitleValueType
+		{
+			get { return SendEmailArguments.SelectedEMailTitleValueType; }
+			set
+			{
+				SendEmailArguments.SelectedEMailTitleValueType = value;
+				OnPropertyChanged(() => SelectedEMailTitleValueType);
+				UpdateContent();
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
+		}
+
+		public ObservableCollection<ValueType> EMailContentValueTypes { get; private set; }
+		public ValueType SelectedEMailContentValueType
+		{
+			get { return SendEmailArguments.SelectedEMailContentValueType; }
+			set
+			{
+				SendEmailArguments.SelectedEMailContentValueType = value;
+				OnPropertyChanged(() => SelectedEMailContentValueType);
+				ServiceFactory.SaveService.AutomationChanged = true;
+			}
 		}
 
 		VariableItemViewModel _selectedVariableItem;
@@ -69,13 +98,13 @@ namespace AutomationModule.ViewModels
 			}
 		}
 
-		public string UserName
+		public string Login
 		{
-			get { return SendEmailArguments.UserName; }
+			get { return SendEmailArguments.Login; }
 			set
 			{
-				SendEmailArguments.UserName = value;
-				OnPropertyChanged(() => UserName);
+				SendEmailArguments.Login = value;
+				OnPropertyChanged(() => Login);
 			}
 		}
 
@@ -91,9 +120,11 @@ namespace AutomationModule.ViewModels
 
 		public void UpdateContent()
 		{
+			var allEMailTitleVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedEMailTitleValueType);
+			var allEMailContentVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList && x.ValueType == SelectedEMailContentValueType);
 			EMailAddress.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == ValueType.String && !x.IsList));
-			EMailTitle.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList));
-			EMailContent.Update(ProcedureHelper.GetAllVariables(Procedure).FindAll(x => !x.IsList));
+			EMailTitle.Update(allEMailTitleVariables);
+			EMailContent.Update(allEMailContentVariables);
 		}
 
 		public string Description

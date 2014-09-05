@@ -55,10 +55,6 @@ namespace AutomationModule.Validation
 					ValidateStepArguments(step.ShowMessageArguments, step);
 					break;
 
-				case ProcedureStepType.GetString:
-					ValidateStepArguments(step.GetStringArguments, step);
-					break;
-
 				case ProcedureStepType.Arithmetics:
 					ValidateStepArguments(step.ArithmeticArguments, step);
 					break;

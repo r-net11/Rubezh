@@ -24,19 +24,13 @@ namespace AutomationModule.ViewModels
 			UpdateDescriptionHandler = updateDescriptionHandler;
 			ConditionArguments = conditionArguments;
 			Procedure = procedure;
-
 			Conditions = new ObservableCollection<ConditionViewModel>();
-			foreach (var condition in conditionArguments.Conditions)
-			{
-				var conditionViewModel = new ConditionViewModel(condition, procedure, updateDescriptionHandler);
-				Conditions.Add(conditionViewModel);
-			}
+			conditionArguments.Conditions.ForEach (condition => Conditions.Add(new ConditionViewModel(condition, procedure, updateDescriptionHandler)));
 			if (Conditions.Count == 0)
 			{
 				var condition = new Condition();
-				var conditionViewModel = new ConditionViewModel(condition, procedure, updateDescriptionHandler);
-				conditionViewModel.UpdateDescriptionHandler = updateDescriptionHandler;
 				ConditionArguments.Conditions.Add(condition);
+				var conditionViewModel = new ConditionViewModel(condition, procedure, updateDescriptionHandler);
 				Conditions.Add(conditionViewModel);
 			}
 			JoinOperator = ConditionArguments.JoinOperator;
@@ -59,7 +53,6 @@ namespace AutomationModule.ViewModels
 			{
 				ConditionArguments.JoinOperator = value;
 				OnPropertyChanged(()=>JoinOperator);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
@@ -71,7 +64,6 @@ namespace AutomationModule.ViewModels
 			ConditionArguments.Conditions.Add(condition);
 			Conditions.Add(conditionViewModel);
 			UpdateContent();
-			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
 		public RelayCommand<ConditionViewModel> RemoveCommand { get; private set; }
@@ -80,7 +72,6 @@ namespace AutomationModule.ViewModels
 			Conditions.Remove(conditionViewModel);
 			ConditionArguments.Conditions.Remove(conditionViewModel.Condition);
 			UpdateContent();
-			ServiceFactory.SaveService.AutomationChanged = true;
 		}
 
 		bool CanRemove(ConditionViewModel conditionViewModel)
@@ -116,7 +107,7 @@ namespace AutomationModule.ViewModels
 				var Variable2 = conditionViewModel.Variable2;
 
 				var1 = Variable1.SelectedVariable != null ? Variable1.SelectedVariable.Name : "пусто";
-				switch (conditionViewModel.SelectedConditionValueType)
+				switch (conditionViewModel.SelectedValueType)
 				{
 					case ValueType.Boolean:						
 						var2 = Variable2.SelectedVariableType == VariableType.IsValue ? Variable2.BoolValue.ToString() : (Variable2.SelectedVariable != null ? Variable2.SelectedVariable.Name : "пусто");
@@ -165,6 +156,7 @@ namespace AutomationModule.ViewModels
 		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
 		{
 			base.OnPropertyChanged(propertyExpression);
+			ServiceFactory.SaveService.AutomationChanged = true;
 			if (UpdateDescriptionHandler != null)
 				UpdateDescriptionHandler();
 		}
@@ -183,59 +175,31 @@ namespace AutomationModule.ViewModels
 			Condition = condition;
 			Procedure = procedure;
 			UpdateDescriptionHandler = updateDescriptionHandler;
-			var variablesAndArguments = new List<Variable>(Procedure.Variables);
-			variablesAndArguments.AddRange(Procedure.Arguments);
-			var variableTypes = new List<VariableType> { VariableType.IsGlobalVariable, VariableType.IsLocalVariable };
-			ConditionValueTypes = new ObservableCollection<ValueType>(Enum.GetValues(typeof(ValueType)).Cast<ValueType>().ToList().FindAll(x => x != ValueType.Object));
-			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, variableTypes);
+			ValueTypes = new ObservableCollection<ValueType>(ProcedureHelper.GetEnumList<ValueType>().FindAll(x => x != ValueType.Object));
+			Variable1 = new ArithmeticParameterViewModel(Condition.Variable1, ProcedureHelper.GetEnumList<VariableType>().FindAll(x => x != VariableType.IsValue));
 			Variable1.UpdateDescriptionHandler = updateDescriptionHandler;
-			variableTypes.Add(VariableType.IsValue);
-			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, variableTypes);
+			Variable2 = new ArithmeticParameterViewModel(Condition.Variable2, ProcedureHelper.GetEnumList<VariableType>());
 			Variable2.UpdateDescriptionHandler = updateDescriptionHandler;
-			SelectedConditionValueType = Condition.ConditionValueType;
+			SelectedValueType = Condition.ValueType;
 		}
 
-		public ObservableCollection<ValueType> ConditionValueTypes { get; private set; }
-		public ValueType SelectedConditionValueType
+		public ObservableCollection<ValueType> ValueTypes { get; private set; }
+		public ValueType SelectedValueType
 		{
-			get { return Condition.ConditionValueType; }
+			get { return Condition.ValueType; }
 			set
 			{
-				Condition.ConditionValueType = value;
-				ConditionTypes = new ObservableCollection<ConditionType>();
-				if ((value == ValueType.String)||(value == ValueType.Boolean))
-					ConditionTypes = new ObservableCollection<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual };
-				if ((value == ValueType.Integer)||(value == ValueType.DateTime))
-					ConditionTypes = new ObservableCollection<ConditionType> { ConditionType.IsEqual, ConditionType.IsNotEqual, ConditionType.IsMore, 
-						ConditionType.IsLess, ConditionType.IsNotMore, ConditionType.IsNotLess };
+				Condition.ValueType = value;
+				ConditionTypes = new ObservableCollection<ConditionType>(ProcedureHelper.ObjectTypeToConditionTypesList(SelectedValueType));
 				OnPropertyChanged(() => ConditionTypes);
 				UpdateContent();
-				ServiceFactory.SaveService.AutomationChanged = true;
-				OnPropertyChanged(() => SelectedConditionValueType);
+				OnPropertyChanged(() => SelectedValueType);
 			}
 		}
 
 		public void UpdateContent()
 		{
-			var allVariables = ProcedureHelper.GetAllVariables(Procedure);
-			allVariables = allVariables.FindAll(x => (x.ValueType != ValueType.Object) && !x.IsList);
-
-			if (SelectedConditionValueType == ValueType.Boolean)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Boolean);
-			}
-			if (SelectedConditionValueType == ValueType.Integer)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.Integer);
-			}
-			if (SelectedConditionValueType == ValueType.DateTime)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.DateTime);
-			}
-			if (SelectedConditionValueType == ValueType.String)
-			{
-				allVariables = allVariables.FindAll(x => x.ValueType == ValueType.String);
-			}
+			var allVariables = ProcedureHelper.GetAllVariables(Procedure).FindAll(x => x.ValueType == SelectedValueType && !x.IsList);
 			Variable1.Update(allVariables);
 			Variable2.Update(allVariables);
 			SelectedConditionType = ConditionTypes.Contains(Condition.ConditionType) ? Condition.ConditionType : ConditionTypes.FirstOrDefault();
@@ -249,13 +213,13 @@ namespace AutomationModule.ViewModels
 			{
 				Condition.ConditionType = value;
 				OnPropertyChanged(() => SelectedConditionType);
-				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 
 		public new void OnPropertyChanged<T>(Expression<Func<T>> propertyExpression)
 		{
 			base.OnPropertyChanged(propertyExpression);
+			ServiceFactory.SaveService.AutomationChanged = true;
 			if (UpdateDescriptionHandler != null)
 				UpdateDescriptionHandler();
 		}

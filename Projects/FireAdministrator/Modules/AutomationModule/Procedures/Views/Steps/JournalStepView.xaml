@@ -4,10 +4,10 @@
 			 xmlns:automation="clr-namespace:FiresecAPI.Automation;assembly=FiresecAPI"
 			 xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended">
 	<StackPanel>
-		<StackPanel Orientation="Horizontal" >
+		<StackPanel Orientation="Horizontal">
 			<Label Content="Тип значений" Margin="2" Width="100" />
 			<ComboBox ItemsSource="{Binding ValueTypes}" Margin="2" Width="163"
-				  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" >
+				  SelectedItem="{Binding SelectedValueType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -15,10 +15,10 @@
 			</ComboBox.ItemTemplate>
 		</ComboBox>
 		</StackPanel>
-		<StackPanel Orientation="Horizontal" >
+		<StackPanel Orientation="Horizontal">
 			<Label Content="Сообщение: " Margin="2" Width="100" />
 		<ComboBox DataContext="{Binding Variable}" ItemsSource="{Binding VariableTypes}" Margin="2"
-				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="163" >
+				  SelectedItem="{Binding SelectedVariableType, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="163">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding ., Converter={StaticResource EnumToDescriptionConverter}}" />
@@ -28,7 +28,7 @@
 		<ComboBox DataContext="{Binding Variable}" ItemsSource="{Binding GlobalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" VerticalAlignment="Top" Width="163" >
+			ConverterParameter={x:Static automation:VariableType.IsGlobalVariable}}" VerticalAlignment="Top" Width="163">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />
@@ -38,7 +38,7 @@
 		<ComboBox DataContext="{Binding Variable}" ItemsSource="{Binding LocalVariables}" Margin="2"
 				  SelectedItem="{Binding SelectedVariable, UpdateSourceTrigger=PropertyChanged}"
 				  Visibility="{Binding Path=SelectedVariableType, Converter={StaticResource EnumToVisibilityConverter},
-			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" VerticalAlignment="Top" Width="163" >
+			ConverterParameter={x:Static automation:VariableType.IsLocalVariable}}" VerticalAlignment="Top" Width="163">
 			<ComboBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name}" />

@@ -37,7 +37,7 @@
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel>
-								<StackPanel Visibility="{Binding Path=IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}" >
+								<StackPanel Visibility="{Binding Path=IsList, Converter={StaticResource InversedBoolToVisibilityConverter}}">
 									<TextBlock Text="{Binding DefaultBoolValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" 
 									 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter}, 
 									ConverterParameter={x:Static automation:ValueType.Boolean}}" />
@@ -55,7 +55,7 @@
 									ConverterParameter={x:Static automation:ValueType.String}}" />
 								</StackPanel>
 
-								<StackPanel Visibility="{Binding Path=IsList, Converter={StaticResource BoolToVisibilityConverter}}" >
+								<StackPanel Visibility="{Binding Path=IsList, Converter={StaticResource BoolToVisibilityConverter}}">
 									<TextBlock Text="{Binding ObjectType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToDescriptionConverter}}" Margin="2"
 										 Visibility="{Binding Path=ValueType, Converter={StaticResource EnumToVisibilityConverter},
 									ConverterParameter={x:Static automation:ValueType.Object}}" />

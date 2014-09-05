@@ -14,7 +14,7 @@ namespace FiresecAPI.Automation
 		}
 
 		[DataMember]
-		public ValueType ArithmeticValueType { get; set; }
+		public ValueType ValueType { get; set; }
 
 		[DataMember]
 		public ArithmeticOperationType ArithmeticOperationType { get; set; }
@@ -87,10 +87,7 @@ namespace FiresecAPI.Automation
 		And,
 
 		[Description("Или")]
-		Or,
-
-		[Description("Конкатенация")]
-		Concat
+		Or
 	}
 
 	public enum TimeType

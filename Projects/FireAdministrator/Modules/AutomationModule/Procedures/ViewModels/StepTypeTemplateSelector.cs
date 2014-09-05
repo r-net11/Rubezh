@@ -26,7 +26,6 @@ namespace AutomationModule.ViewModels
 		public DataTemplate ControlCameraTemplate { get; set; }
 		public DataTemplate ControlDirectionTemplate { get; set; }
 		public DataTemplate ControlDoorTemplate { get; set; }
-		public DataTemplate GetStringTemplate { get; set; }
 		public DataTemplate GetObjectFieldTemplate { get; set; }
 		public DataTemplate SendEmailTemplate { get; set; }
 		public DataTemplate RunProgrammTemplate { get; set; }
@@ -116,10 +115,6 @@ namespace AutomationModule.ViewModels
 			if (item is ControlDoorStepViewModel)
 			{
 				return ControlDoorTemplate;
-			}
-			if (item is GetStringStepViewModel)
-			{
-				return GetStringTemplate;
 			}
 			if (item is GetObjectFieldStepViewModel)
 			{

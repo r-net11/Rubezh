@@ -14,7 +14,6 @@ namespace FiresecAPI.Automation
 			SoundArguments = new SoundArguments();
 			ShowMessageArguments = new ShowMessageArguments();
 			ArithmeticArguments = new ArithmeticArguments();
-			GetStringArguments = new GetStringArguments();
 			ConditionArguments = new ConditionArguments();
 			FindObjectArguments = new FindObjectArguments();
 			ForeachArguments = new ForeachArguments();
@@ -63,9 +62,6 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public ArithmeticArguments ArithmeticArguments { get; set; }
-
-		[DataMember]
-		public GetStringArguments GetStringArguments { get; set; }
 
 		[DataMember]
 		public ConditionArguments ConditionArguments { get; set; }

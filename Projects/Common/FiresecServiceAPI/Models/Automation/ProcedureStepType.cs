@@ -40,9 +40,6 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Показать сообщение")]
 		ShowMessage,
 
-		[DescriptionAttribute("Получить строку")]
-		GetString,
-
 		[DescriptionAttribute("Добавить запись в журнал")]
 		AddJournalItem,
 
@@ -79,7 +76,7 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Управление зоной СКД")]
 		ControlSKDZone,
 
-		[DescriptionAttribute("Управление камерой")]
+		[DescriptionAttribute("Управление видеоустройством")]
 		ControlCamera,
 
 		[DescriptionAttribute("Управление направлением")]

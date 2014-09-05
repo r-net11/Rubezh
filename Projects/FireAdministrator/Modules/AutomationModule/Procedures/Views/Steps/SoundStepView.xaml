@@ -16,9 +16,9 @@
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 		</StackPanel>
-		<DataGrid Grid.Column="1" Margin="2" ItemsSource="{Binding Layouts}" >
+		<DataGrid Grid.Column="1" Margin="2" ItemsSource="{Binding Layouts}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="Наименование макета" Width="*" >
+				<DataGridTemplateColumn Header="Наименование макета" Width="*">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">

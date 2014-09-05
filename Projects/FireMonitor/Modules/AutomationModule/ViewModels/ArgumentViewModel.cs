@@ -17,8 +17,8 @@ namespace AutomationModule.ViewModels
 			Procedure = procedure;
 			ObjectTypes = new ObservableCollection<ObjectType>
 			{
-				ObjectType.Card, ObjectType.Device, ObjectType.Direction, ObjectType.GuardZone, ObjectType.Person, ObjectType.Plan,
-				ObjectType.SKDDevice, ObjectType.SKDZone, ObjectType.VideoDevice, ObjectType.Zone
+				ObjectType.Device, ObjectType.Direction, ObjectType.GuardZone,ObjectType.SKDDevice,
+				ObjectType.SKDZone, ObjectType.VideoDevice, ObjectType.Zone
 			};
 		}
 

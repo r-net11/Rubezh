@@ -8,15 +8,14 @@ namespace FiresecAPI.Automation
 	{
 		public PauseArguments()
 		{
-			Uid = Guid.NewGuid();
-			Variable = new ArithmeticParameter();
-			Variable.IntValue = 1;
+			Pause = new ArithmeticParameter();
+			Pause.IntValue = 1;
 		}
 
 		[DataMember]
-		public Guid Uid { get; set; }
+		public TimeType TimeType { get; set; }
 
 		[DataMember]
-		public ArithmeticParameter Variable { get; set; }
+		public ArithmeticParameter Pause { get; set; }
 	}
 }

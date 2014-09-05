@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>DeadCodeRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -129,7 +130,6 @@
     <Compile Include="Procedures\ViewModels\Steps\FindObjectStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ForeachStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\GetObjectFieldStepViewModel.cs" />
-    <Compile Include="Procedures\ViewModels\Steps\GetStringStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IncrementValueStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\IStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\JournalStepViewModel.cs" />
@@ -224,9 +224,6 @@
     </Compile>
     <Compile Include="Procedures\Views\Steps\GetObjectFieldStepView.xaml.cs">
       <DependentUpon>GetObjectFieldStepView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Procedures\Views\Steps\GetStringStepView.xaml.cs">
-      <DependentUpon>GetStringStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Procedures\Views\Steps\IncrementValueStepView.xaml.cs">
       <DependentUpon>IncrementValueStepView.xaml</DependentUpon>
@@ -420,6 +417,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Procedures\Views\Steps\ProcedureResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Procedures\Views\CameraSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -513,10 +514,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Procedures\Views\Steps\GetObjectFieldStepView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Procedures\Views\Steps\GetStringStepView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -641,6 +638,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Procedures\Converters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DeadCodeRules.ruleset" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
