@@ -2,6 +2,7 @@
 	<UserControl.Resources>
 		<viewModel:ScheduleShemeViewModelNameComparer x:Key="ScheduleShemeViewModelNameComparer" />
 		<viewModel:ScheduleShemeViewModelDescriptionComparer x:Key="ScheduleShemeViewModelDescriptionComparer" />
+        <viewModel:ScheduleShemeViewModelTypeComparer x:Key="ScheduleShemeViewModelTypeComparer" />
 	</UserControl.Resources>
 
 	<Grid>
@@ -45,7 +46,16 @@
 								</DataTemplate>
 							</GridViewColumn.CellTemplate>
 						</GridViewColumn>
-					</GridView>
+                        <GridViewColumn Header="Тип" ListViewLayoutManager.StarWidth="1" tree:SortBehavior.SortComparer="{StaticResource ScheduleShemeViewModelTypeComparer}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Type}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
 				</tree:TreeList.View>
 			</tree:TreeList>
             <Grid Grid.Column="1" Margin="4 0 0 0" DataContext="{Binding SelectedItem}">

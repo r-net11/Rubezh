@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
+using FiresecAPI;
 using FiresecAPI.SKD;
 using FiresecClient.SKDHelpers;
 using Infrastructure.Common;
@@ -63,6 +64,11 @@ namespace SKDModule.ViewModels
 		{
             get { return Model != null && Model.Type == ScheduleSchemeType.SlideDay; }
 		}
+
+        public string Type
+        {
+            get { return IsOrganisation? "" : Model.Type.ToDescription(); }
+        }
 
 		SheduleDayIntervalViewModel _selectedDayInterval;
 		public SheduleDayIntervalViewModel SelectedSheduleDayInterval

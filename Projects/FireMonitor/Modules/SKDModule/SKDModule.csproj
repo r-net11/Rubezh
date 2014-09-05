@@ -70,9 +70,8 @@
     <Compile Include="AccessTemplates\ViewModels\Comparers.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZonesViewModel.cs" />
     <Compile Include="AccessTemplates\ViewModels\AccessTemplateGuardZoneViewModel.cs" />
-    <Compile Include="Common\ViewModels\CartothequeTabItemBase.cs" />
-    <Compile Include="Common\ViewModels\CartothequeTabItemCopyPasteBase.cs" />
-    <Compile Include="Common\ViewModels\CartothequeTabItemElementBase.cs" />
+    <Compile Include="Common\ViewModels\OrganisationBaseViewModel.cs" />
+    <Compile Include="Common\ViewModels\OrganisationElementBaseViewModel.cs" />
     <Compile Include="Common\ViewModels\DateSelectionViewModel.cs" />
     <Compile Include="Common\ViewModels\IDetailsViewModel.cs" />
     <Compile Include="Common\Views\DateSelectionView.xaml.cs">
@@ -97,6 +96,7 @@
     <Compile Include="Events\NewCardEvent.cs" />
     <Compile Include="Events\EditOrganisationEvent.cs" />
     <Compile Include="Events\OrganisationUsersChangedEvent.cs" />
+    <Compile Include="Events\RemoveOrganisationEvent.cs" />
     <Compile Include="HR\Converters\DeactivationTypeToStringConverter.cs" />
     <Compile Include="HR\ViewModels\Comparers.cs" />
     <Compile Include="Employees\ViewModels\EmployeeDetails\DocumentTypeSelectionViewModel.cs" />
@@ -156,10 +156,7 @@
     <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleDayIntervalViewModel.cs" />
     <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemeDetailsViewModel.cs" />
     <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemesViewModel.cs" />
-    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemesMonthlyViewModel.cs" />
     <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemeViewModel.cs" />
-    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemesSlideViewModel.cs" />
-    <Compile Include="TimeTrack\ScheduleShemes\ViewModels\ScheduleSchemesWeeklyViewModel.cs" />
     <Compile Include="TimeTrack\ScheduleShemes\Views\ScheduleSchemeDetailsView.xaml.cs">
       <DependentUpon>ScheduleSchemeDetailsView.xaml</DependentUpon>
     </Compile>

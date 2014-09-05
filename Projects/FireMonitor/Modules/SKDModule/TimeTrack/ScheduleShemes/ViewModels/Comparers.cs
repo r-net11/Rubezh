@@ -17,4 +17,12 @@ namespace SKDModule.ViewModels
 			return string.Compare(x.Description, y.Description);
 		}
 	}
+
+    public class ScheduleShemeViewModelTypeComparer : TreeNodeComparer<ScheduleSchemeViewModel>
+    {
+        protected override int Compare(ScheduleSchemeViewModel x, ScheduleSchemeViewModel y)
+        {
+            return string.Compare(x.Type, y.Type);
+        }
+    }
 }
