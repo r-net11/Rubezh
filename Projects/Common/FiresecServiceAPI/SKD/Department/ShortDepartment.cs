@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-    public class ShortDepartment : IWithName, IWithOrganisationUID, IWithUID
+    public class ShortDepartment : IOrganisationElement
 	{
 		public ShortDepartment()
 		{

@@ -5,7 +5,7 @@ using FiresecAPI.GK;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-	public class AccessTemplate : OrganisationElementBase, IWithName, IWithOrganisationUID, IWithUID
+    public class AccessTemplate : OrganisationElementBase, IOrganisationElement
 	{
 		public AccessTemplate()
 			: base()

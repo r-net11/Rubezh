@@ -42,19 +42,7 @@ namespace SKDModule.ViewModels
 			OnPropertyChanged(() => DayIntervals);
 		}
 
-        public override string Description
-        {
-            get { return IsOrganisation ? Organisation.Description : Model.Description; }
-            protected set
-            {
-                if (IsOrganisation)
-                    Organisation.Description = value;
-                else
-                    Model.Description = value;
-            }
-        }
-
-		public SortableObservableCollection<SheduleDayIntervalViewModel> SheduleDayIntervals { get; private set; }
+        public SortableObservableCollection<SheduleDayIntervalViewModel> SheduleDayIntervals { get; private set; }
 		public ObservableCollection<DayInterval> DayIntervals
 		{
 			get { return ScheduleSchemesViewModel.GetDayIntervals(Organisation.UID); }

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.SKD
 {
 	[DataContract]
-    public class ShortAdditionalColumnType : IWithName, IWithOrganisationUID, IWithUID
+    public class ShortAdditionalColumnType : IOrganisationElement
 	{
 		[DataMember]
 		public Guid UID { get; set; }

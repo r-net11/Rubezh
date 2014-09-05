@@ -16,7 +16,7 @@ namespace SKDModule.ViewModels
 {
 	public abstract class OrganisationBaseViewModel<ModelT, FilterT, ViewModelT, DetailsViewModelT> : ViewPartViewModel
 		where ViewModelT : CartothequeTabItemElementBase<ViewModelT, ModelT>, new()
-		where ModelT : class, IWithOrganisationUID, IWithUID, IWithName, new()
+        where ModelT : class, IOrganisationElement, new()
 		where DetailsViewModelT : SaveCancelDialogViewModel, IDetailsViewModel<ModelT>, new()
 		where FilterT : OrganisationFilterBase
 	{
@@ -56,14 +56,16 @@ namespace SKDModule.ViewModels
 		public virtual void Initialize(FilterT filter)
 		{
 			var result = InitializeOrganisations(filter);
-			if (!result)
-				return;
-			var models = GetModels(filter);
-			if (models == null)
-				return;
-			InitializeModels(models);
-			OnPropertyChanged(() => Organisations);
-			SelectedItem = Organisations.FirstOrDefault();
+            if (result)
+            {
+                var models = GetModels(filter);
+                if (models != null)
+                {
+                    InitializeModels(models);
+                    OnPropertyChanged(() => Organisations);
+                    SelectedItem = Organisations.FirstOrDefault();
+                }
+            }
 		}
 
 		protected virtual bool InitializeOrganisations(FilterT filter)
@@ -73,7 +75,7 @@ namespace SKDModule.ViewModels
 			if (organisations == null)
 				return false;
 			Organisations = new ObservableCollection<ViewModelT>();
-			foreach (var organisation in organisations)
+			foreach (var organisation in organisations) 
 			{
 				var organisationViewModel = new ViewModelT();
 				organisationViewModel.InitializeOrganisation(organisation, this);
