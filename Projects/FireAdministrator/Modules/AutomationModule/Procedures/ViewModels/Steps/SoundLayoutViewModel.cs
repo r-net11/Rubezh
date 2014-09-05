@@ -29,7 +29,7 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				if (value && !SoundArguments.LayoutsUids.Contains(Layout.UID))					
+				if (value && !SoundArguments.LayoutsUids.Contains(Layout.UID))
 					SoundArguments.LayoutsUids.Add(Layout.UID);
 				else if (!value)
 					SoundArguments.LayoutsUids.Remove(Layout.UID);
@@ -37,6 +37,5 @@ namespace AutomationModule.ViewModels
 				OnPropertyChanged(() => IsChecked);
 			}
 		}
-
 	}
 }

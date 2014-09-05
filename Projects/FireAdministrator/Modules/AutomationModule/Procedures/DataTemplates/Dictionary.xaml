@@ -155,7 +155,11 @@
 		<Views:RunProgrammStepView />
 	</DataTemplate>
 
-	<ViewModels:StepTypeTemplateSelector
+    <DataTemplate x:Key="randomTemplate">
+        <Views:RandomStepView />
+    </DataTemplate>
+
+    <ViewModels:StepTypeTemplateSelector
 		SoundsTemplate="{StaticResource soundsTemplate}"
 		ShowMessageTemplate ="{StaticResource sendMessageTemplate}"
 		JournalTemplate="{StaticResource journalTemplate}"
@@ -180,6 +184,7 @@
 		GetObjectFieldTemplate ="{StaticResource getObjectFieldTemplate}"
 		SendEmailTemplate="{StaticResource sendEmailTemplate}"
 		RunProgrammTemplate="{StaticResource runProgrammTemplate}"
+        RandomTemplate="{StaticResource randomTemplate}"
 		x:Key="stepTypeTemplateSelector" />
 
 </ResourceDictionary>

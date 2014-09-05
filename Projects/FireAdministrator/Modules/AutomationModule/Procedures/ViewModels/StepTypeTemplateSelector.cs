@@ -29,6 +29,7 @@ namespace AutomationModule.ViewModels
 		public DataTemplate GetObjectFieldTemplate { get; set; }
 		public DataTemplate SendEmailTemplate { get; set; }
 		public DataTemplate RunProgrammTemplate { get; set; }
+		public DataTemplate RandomTemplate { get; set; }
 
 		public override DataTemplate SelectTemplate(object item, DependencyObject container)
 		{
@@ -127,7 +128,11 @@ namespace AutomationModule.ViewModels
 			if (item is RunProgrammStepViewModel)
 			{
 				return RunProgrammTemplate;
-			}		
+			}
+			if (item is RandomStepViewModel)
+			{
+				return RandomTemplate;
+			}
 			return null;
 		}
 	}

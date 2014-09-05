@@ -35,6 +35,7 @@ namespace FiresecAPI.Automation
 			GetObjectFieldArguments = new GetObjectFieldArguments();
 			SendEmailArguments = new SendEmailArguments();
 			RunProgrammArguments = new RunProgrammArguments();
+			RandomArguments = new RandomArguments();
 		}
 
 		public ProcedureStep Parent { get; set; }
@@ -125,5 +126,8 @@ namespace FiresecAPI.Automation
 
 		[DataMember]
 		public RunProgrammArguments RunProgrammArguments { get; set; }
+
+		[DataMember]
+		public RandomArguments RandomArguments { get; set; }
 	}
 }

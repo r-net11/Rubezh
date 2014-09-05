@@ -61,6 +61,9 @@ namespace FiresecAPI.Automation
 		[DescriptionAttribute("Пауза")]
 		Pause,
 
+		[DescriptionAttribute("Случайное значение")]
+		Random,
+
 		[DescriptionAttribute("Управление устройством ГК")]
 		ControlGKDevice,
 

@@ -14,7 +14,7 @@ namespace AutomationModule.Validation
 
 		public override string Module
 		{
-			get { return "Schedule"; }
+			get { return "AutomationModule"; }
 		}
 		protected override Guid Key
 		{

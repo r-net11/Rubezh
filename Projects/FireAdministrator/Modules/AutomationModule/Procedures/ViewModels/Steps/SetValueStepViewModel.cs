@@ -9,7 +9,7 @@ using ValueType = FiresecAPI.Automation.ValueType;
 
 namespace AutomationModule.ViewModels
 {
-	public class SetValueStepViewModel: BaseViewModel, IStepViewModel
+	public class SetValueStepViewModel : BaseViewModel, IStepViewModel
 	{
 		SetValueArguments SetValueArguments { get; set; }
 		public ArithmeticParameterViewModel Variable1 { get; private set; }

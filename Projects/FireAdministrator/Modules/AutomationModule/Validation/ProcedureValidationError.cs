@@ -15,7 +15,7 @@ namespace AutomationModule.Validation
 
 		public override string Module
 		{
-			get { return "Procedure"; }
+			get { return "AutomationModule"; }
 		}
 		protected override Guid Key
 		{
@@ -44,7 +44,7 @@ namespace AutomationModule.Validation
 
 		public override string Module
 		{
-			get { return "Variable"; }
+			get { return "AutomationModule"; }
 		}
 		protected override Guid Key
 		{
@@ -73,7 +73,7 @@ namespace AutomationModule.Validation
 
 		public override string Module
 		{
-			get { return "Procedure"; }
+			get { return "AutomationModule"; }
 		}
 		protected override Guid Key
 		{

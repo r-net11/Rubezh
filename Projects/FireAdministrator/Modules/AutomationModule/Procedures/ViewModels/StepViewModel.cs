@@ -70,6 +70,10 @@ namespace AutomationModule.ViewModels
 					Content = new IncrementValueStepViewModel(step.IncrementValueArguments, procedure);
 					break;
 
+				case ProcedureStepType.Random:
+					Content = new RandomStepViewModel(step.RandomArguments, procedure);
+					break;
+
 				case ProcedureStepType.ControlGKDevice:
 					Content = new ControlGKDeviceStepViewModel(step.ControlGKDeviceArguments, procedure);
 					break;

@@ -6,17 +6,19 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
-	public class RunProgrammArguments
+	[DataContract]
+	public class RandomArguments
 	{
-		public RunProgrammArguments()
+		public RandomArguments()
 		{
-
+			Uid = Guid.NewGuid();
+			MaxValue = 100;
 		}
 
 		[DataMember]
-		public string Path { get; set; }
+		public Guid Uid { get; set; }
 
 		[DataMember]
-		public string Parameters { get; set; }
+		public int MaxValue { get; set; }
 	}
 }

@@ -37,7 +37,7 @@ namespace AutomationModule.ViewModels
 
 		public CameraViewModel[] RootCameras { get; private set; }
 
-		private CameraViewModel _selectedCamera;
+		CameraViewModel _selectedCamera;
 		public CameraViewModel SelectedCamera
 		{
 			get { return _selectedCamera; }

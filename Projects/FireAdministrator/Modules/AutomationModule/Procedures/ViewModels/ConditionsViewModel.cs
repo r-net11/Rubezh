@@ -34,6 +34,7 @@ namespace AutomationModule.ViewModels
 		}
 
 		public ObservableCollection<FilterViewModel> Filters { get; private set; }
+
 		FilterViewModel _selectedFilter;
 		public FilterViewModel SelectedFilter
 		{

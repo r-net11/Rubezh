@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="AutomationModule.Views.RandomStepView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel Orientation="Horizontal">
+        <Label Content="Мксимальное значение: " HorizontalAlignment="Right" Margin="2"/>
+        <TextBox Text="{Binding Value}" Margin="2" />
+    </StackPanel>
+</UserControl>

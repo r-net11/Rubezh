@@ -26,7 +26,7 @@ namespace AutomationModule
 		ProceduresViewModel ProceduresViewModel;
 		SchedulesViewModel SchedulesViewModel;
 		GlobalVariablesViewModel GlobalVariablesViewModel;
-		private AutomationPlanExtension _planExtension;
+		AutomationPlanExtension _planExtension;
 
 		public override void CreateViewModels()
 		{
