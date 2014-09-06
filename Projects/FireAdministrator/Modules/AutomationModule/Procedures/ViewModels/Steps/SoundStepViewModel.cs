@@ -11,7 +11,7 @@ namespace AutomationModule.ViewModels
 	public class SoundStepViewModel : BaseViewModel, IStepViewModel
 	{
 		public SoundArguments SoundArguments { get; private set; }
-		public ObservableCollection<SoundLayoutViewModel> Layouts { get; private set; }
+		public ProcedureLayoutCollectionViewModel ProcedureLayoutCollectionViewModel { get; private set; }
 		public Action UpdateDescriptionHandler { get; set; }
 
 		public SoundStepViewModel(SoundArguments soundArguments, Action updateDescriptionHandler)
@@ -23,10 +23,7 @@ namespace AutomationModule.ViewModels
 
 		public string Description
 		{
-			get
-			{
-				return SelectedSound == null ? "нет" : SelectedSound.Name;
-			}
+			get { return SelectedSound == null ? "нет" : SelectedSound.Name; }
 		}
 
 		public void UpdateContent()
@@ -41,19 +38,14 @@ namespace AutomationModule.ViewModels
 				SelectedSound = Sounds.FirstOrDefault(x => x.Sound.Uid == SoundArguments.SoundUid);
 			else
 				SelectedSound = null;
-			Layouts = new ObservableCollection<SoundLayoutViewModel>();
-			foreach (var layout in FiresecManager.LayoutsConfiguration.Layouts)
-			{
-				var soundLayoutViewModel = new SoundLayoutViewModel(SoundArguments, layout);
-				soundLayoutViewModel.IsChecked = SoundArguments.LayoutsUids.Contains(layout.UID);
-				Layouts.Add(soundLayoutViewModel);
-			}
 
-			OnPropertyChanged(() => Layouts);
+			ProcedureLayoutCollectionViewModel = new ProcedureLayoutCollectionViewModel(SoundArguments.ProcedureLayoutCollection);
+			OnPropertyChanged(() => ProcedureLayoutCollectionViewModel);
 			OnPropertyChanged(() => Sounds);
 		}
 
 		public ObservableCollection<SoundViewModel> Sounds { get; private set; }
+
 		SoundViewModel _selectedSound;
 		public SoundViewModel SelectedSound
 		{
@@ -65,8 +57,9 @@ namespace AutomationModule.ViewModels
 					SoundArguments.SoundUid = value.Sound.Uid;
 				if (UpdateDescriptionHandler != null)
 					UpdateDescriptionHandler();
-				ServiceFactory.SaveService.AutomationChanged = true;
+
 				OnPropertyChanged(() => SelectedSound);
+				ServiceFactory.SaveService.AutomationChanged = true;
 			}
 		}
 	}

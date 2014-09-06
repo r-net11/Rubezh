@@ -79,8 +79,8 @@ namespace SKDModule.ViewModels
 			}
 		}
 
-		int _timeZone;
-		public int TimeZone
+		SKDTimeZoneType _timeZone;
+		public SKDTimeZoneType TimeZone
 		{
 			get { return _timeZone; }
 			set

@@ -4,18 +4,19 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Automation
 {
+	[DataContract]
 	public class SoundArguments
 	{
 		public SoundArguments()
 		{
 			SoundUid = new Guid();
-			LayoutsUids = new List<Guid>();
+			ProcedureLayoutCollection = new ProcedureLayoutCollection();
 		}
 
 		[DataMember]
 		public Guid SoundUid { get; set; }
 
 		[DataMember]
-		public List<Guid> LayoutsUids { get; set; }
+		public ProcedureLayoutCollection ProcedureLayoutCollection { get; set; }
 	}
 }

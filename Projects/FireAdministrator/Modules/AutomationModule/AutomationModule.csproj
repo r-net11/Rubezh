@@ -102,6 +102,7 @@
     <Compile Include="ProcedureHelper.cs" />
     <Compile Include="Procedures\MenuType.cs" />
     <Compile Include="Procedures\ViewModels\ArgumentsViewModel.cs" />
+    <Compile Include="Procedures\ViewModels\Steps\ProcedureLayoutCollectionViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\RandomStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\Steps\ControlCameraStepViewModel.cs" />
     <Compile Include="Procedures\ViewModels\DirectionSelectionViewModel.cs" />

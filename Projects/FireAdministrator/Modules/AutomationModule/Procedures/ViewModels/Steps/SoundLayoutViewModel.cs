@@ -29,10 +29,10 @@ namespace AutomationModule.ViewModels
 			set
 			{
 				_isChecked = value;
-				if (value && !SoundArguments.LayoutsUids.Contains(Layout.UID))
-					SoundArguments.LayoutsUids.Add(Layout.UID);
+				if (value && !SoundArguments.ProcedureLayoutCollection.LayoutsUIDs.Contains(Layout.UID))
+					SoundArguments.ProcedureLayoutCollection.LayoutsUIDs.Add(Layout.UID);
 				else if (!value)
-					SoundArguments.LayoutsUids.Remove(Layout.UID);
+					SoundArguments.ProcedureLayoutCollection.LayoutsUIDs.Remove(Layout.UID);
 				ServiceFactory.SaveService.AutomationChanged = true;
 				OnPropertyChanged(() => IsChecked);
 			}
