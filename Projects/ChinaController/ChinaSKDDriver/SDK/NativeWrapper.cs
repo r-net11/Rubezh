@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
+using FiresecAPI.SKD;
 
 namespace ChinaSKDDriverNativeApi
 {
@@ -200,6 +201,24 @@ namespace ChinaSKDDriverNativeApi
 
 		[DllImport(@"CPPWrapper.dll")]
 		public static extern bool WRAP_SetControllerPassword(int loginID, string name, string oldPassword, string password);
+
+		public struct CFG_NTP_INFO
+		{
+			public bool bEnable;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+			public string szAddress;
+			public int nPort;
+			public int nUpdatePeriod;
+			public SKDTimeZoneType emTimeZoneType;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+			public string szTimeZoneDesc;
+		}
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_GetControllerTimeConfiguration(int loginID, out CFG_NTP_INFO result);
+
+		[DllImport(@"CPPWrapper.dll")]
+		public static extern bool WRAP_SetControllerTimeConfiguration(int loginID, CFG_NTP_INFO cfg_NTP_INFO);
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct CFG_ACCESS_EVENT_INFO

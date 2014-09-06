@@ -383,6 +383,18 @@ namespace FiresecAPI.Journal
 		[EventDescription(JournalSubsystemType.SKD, "Запись пароля контроллера", XStateClass.TechnologicalRegime)]
 		Запись_пароля_контроллера,
 
+		[EventDescription(JournalSubsystemType.SKD, "Запрос временных настроек контроллера", XStateClass.TechnologicalRegime)]
+		Запрос_временных_настроек_контроллера,
+
+		[EventDescription(JournalSubsystemType.SKD, "Запись временных настроек контроллера", XStateClass.TechnologicalRegime)]
+		Запись_временных_настроек_контроллера,
+
+		[EventDescription(JournalSubsystemType.SKD, "Запрос сетевых настроек контроллера", XStateClass.TechnologicalRegime)]
+		Запрос_сетевых_настроек_контроллера,
+
+		[EventDescription(JournalSubsystemType.SKD, "Запись сетевых настроек контроллера", XStateClass.TechnologicalRegime)]
+		Запись_сетевых_настроек_контроллера,
+
 		[EventDescription(JournalSubsystemType.SKD, "Команда на открытие двери", XStateClass.On)]
 		Команда_на_открытие_двери,
 

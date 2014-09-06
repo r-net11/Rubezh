@@ -279,19 +279,39 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.SKDSetDoorConfiguration(device.UID, doorConfiguration); }, "SKDSetDoorConfiguration");
 		}
 
-		public OperationResult<SKDControllerDirectionType> GetDirectionType(SKDDevice device)
+		public OperationResult<DoorType> GetControllerDoorType(SKDDevice device)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetDirectionType(device.UID); }, "GetDirectionType");
+			return SafeOperationCall(() => { return FiresecService.GetControllerDoorType(device.UID); }, "GetControllerDoorType");
 		}
 
-		public OperationResult<bool> SetDirectionType(SKDDevice device, SKDControllerDirectionType directionType)
+		public OperationResult<bool> SetControllerDoorType(SKDDevice device, DoorType doorType)
 		{
-			return SafeOperationCall(() => { return FiresecService.SetDirectionType(device.UID, directionType); }, "SetDirectionType");
+			return SafeOperationCall(() => { return FiresecService.SetControllerDoorType(device.UID, doorType); }, "SetControllerDoorType");
 		}
 
 		public OperationResult<bool> SetControllerPassword(SKDDevice device, string name, string oldPassword, string password)
 		{
 			return SafeOperationCall(() => { return FiresecService.SetControllerPassword(device.UID, name, oldPassword, password); }, "SetControllerPassword");
+		}
+
+		public OperationResult<SKDControllerTimeSettings> GetControllerTimeSettings(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetControllerTimeSettings(device.UID); }, "GetControllerTimeSettings");
+		}
+
+		public OperationResult<bool> SetControllerTimeSettings(SKDDevice device, SKDControllerTimeSettings controllerTimeSettings)
+		{
+			return SafeOperationCall(() => { return FiresecService.SetControllerTimeSettings(device.UID, controllerTimeSettings); }, "SetControllerTimeSettings");
+		}
+
+		public OperationResult<SKDControllerNetworkSettings> GetControllerNetworkSettings(SKDDevice device)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetControllerNetworkSettings(device.UID); }, "GetControllerNetworkSettings");
+		}
+
+		public OperationResult<bool> SetControllerNetworkSettings(SKDDevice device, SKDControllerNetworkSettings controllerNetworkSettings)
+		{
+			return SafeOperationCall(() => { return FiresecService.SetControllerNetworkSettings(device.UID, controllerNetworkSettings); }, "SetControllerNetworkSettings");
 		}
 
 		public OperationResult<bool> SKDOpenDevice(SKDDevice device)

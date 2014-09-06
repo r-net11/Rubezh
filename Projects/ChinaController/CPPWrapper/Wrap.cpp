@@ -206,6 +206,50 @@ BOOL CALL_METHOD WRAP_SetControllerPassword(int loginID, char name[], char oldPa
 	return bRet;
 }
 
+BOOL CALL_METHOD WRAP_GetControllerTimeConfiguration(int loginID, CFG_NTP_INFO* result)
+{
+	char szJsonBuf[1024 * 10] = {0};
+	int nErr = 0, nRestart = 0;
+	BOOL bRet = CLIENT_GetNewDevConfig(loginID, CFG_CMD_NTP, -1, szJsonBuf, sizeof(szJsonBuf), &nErr, SDK_API_WAITTIME);
+	if (bRet)
+	{
+		CFG_NTP_INFO stuInfo = {sizeof(CFG_NTP_INFO)};  
+		
+		DWORD dwRetLen = 0;
+		bRet = CLIENT_ParseData(CFG_CMD_NTP, szJsonBuf, (void*)&stuInfo, sizeof(stuInfo), &dwRetLen);
+		if (!bRet)
+		{
+			return FALSE;
+		}
+		else
+		{
+			memcpy(result, &stuInfo, sizeof(CFG_NTP_INFO));
+		}
+	}
+	else
+	{			
+		return FALSE;
+	}
+	return TRUE;
+}
+
+BOOL CALL_METHOD WRAP_SetControllerTimeConfiguration(int loginID, CFG_NTP_INFO cfg_NTP_INFO)
+{
+	char szJsonBuf[1024 * 10] = {0};
+	BOOL bRet = CLIENT_PacketData(CFG_CMD_NTP, &cfg_NTP_INFO, sizeof(cfg_NTP_INFO), szJsonBuf, sizeof(szJsonBuf));
+	if (bRet)
+	{
+		int nErr = 0, nRestart = 0;
+		BOOL bRetSetupCfg = CLIENT_SetNewDevConfig(loginID, CFG_CMD_NTP, -1, szJsonBuf, strlen(szJsonBuf), &nErr, &nRestart, SDK_API_WAITTIME);
+		return bRetSetupCfg;
+	} 
+	else
+	{
+		return FALSE;
+	}
+	return TRUE;
+}
+
 BOOL CALL_METHOD WRAP_GetDoorConfiguration(int loginID, int channelNo, CFG_ACCESS_EVENT_INFO* result)
 {
 	char szJsonBuf[1024 * 40] = {0};

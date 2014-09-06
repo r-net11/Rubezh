@@ -25,6 +25,9 @@ namespace SKDModule.ViewModels
 			DevicesViewModel = devicesViewModel;
 			ShowControllerConfigurationCommand = new RelayCommand(OnShowControllerConfiguration, CanShowControllerConfiguration);
 			ShowControllerPasswordCommand = new RelayCommand(OnShowControllerPassword, CanShowControllerPassword);
+			ShowControllerTimeSettingsCommand = new RelayCommand(OnShowControllerTimeSettings, CanShowControllerTimeSettings);
+			ShowControllerNetworkCommand = new RelayCommand(OnShowControllerNetwork, CanShowControllerNetwork);
+			ShowControllerDoorTypeCommand = new RelayCommand(OnShowControllerDoorType, CanShowControllerDoorType);
 			ShowLockConfigurationCommand = new RelayCommand(OnShowLockConfiguration, CanShowLockConfiguration);
 			WriteTimeSheduleConfigurationCommand = new RelayCommand(OnWriteTimeSheduleConfiguration, CanWriteTimeSheduleConfiguration);
 			WriteAllTimeSheduleConfigurationCommand = new RelayCommand(OnWriteAllTimeSheduleConfiguration);
@@ -64,6 +67,48 @@ namespace SKDModule.ViewModels
 			}
 		}
 		bool CanShowControllerPassword()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+		}
+
+		public RelayCommand ShowControllerTimeSettingsCommand { get; private set; }
+		void OnShowControllerTimeSettings()
+		{
+			var controllerTimeSettingsViewModel = new ControllerTimeSettingsViewModel(SelectedDevice);
+			if (DialogService.ShowModalWindow(controllerTimeSettingsViewModel))
+			{
+
+			}
+		}
+		bool CanShowControllerTimeSettings()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+		}
+
+		public RelayCommand ShowControllerNetworkCommand { get; private set; }
+		void OnShowControllerNetwork()
+		{
+			var controllerNetSettingsViewModel = new ControllerNetSettingsViewModel(SelectedDevice);
+			if (DialogService.ShowModalWindow(controllerNetSettingsViewModel))
+			{
+
+			}
+		}
+		bool CanShowControllerNetwork()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
+		}
+
+		public RelayCommand ShowControllerDoorTypeCommand { get; private set; }
+		void OnShowControllerDoorType()
+		{
+			var controllerDoorTypeViewModel = new ControllerDoorTypeViewModel(SelectedDevice);
+			if (DialogService.ShowModalWindow(controllerDoorTypeViewModel))
+			{
+
+			}
+		}
+		bool CanShowControllerDoorType()
 		{
 			return SelectedDevice != null && SelectedDevice.Device.Driver.IsController;
 		}

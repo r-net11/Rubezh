@@ -168,13 +168,29 @@ namespace FiresecAPI
 		OperationResult<bool> SKDSetDoorConfiguration(Guid deviceUID, SKDDoorConfiguration doorConfiguration);
 
 		[OperationContract]
-		OperationResult<SKDControllerDirectionType> GetDirectionType(Guid deviceUID);
+		OperationResult<DoorType> GetControllerDoorType(Guid deviceUID);
 
 		[OperationContract]
-		OperationResult<bool> SetDirectionType(Guid deviceUID, SKDControllerDirectionType directionType);
+		OperationResult<bool> SetControllerDoorType(Guid deviceUID, DoorType doorType);
 
 		[OperationContract]
 		OperationResult<bool> SetControllerPassword(Guid deviceUID, string name, string oldPassword, string password);
+
+
+
+		[OperationContract]
+		OperationResult<SKDControllerTimeSettings> GetControllerTimeSettings(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SetControllerTimeSettings(Guid deviceUID, SKDControllerTimeSettings controllerTimeSettings);
+
+		[OperationContract]
+		OperationResult<SKDControllerNetworkSettings> GetControllerNetworkSettings(Guid deviceUID);
+
+		[OperationContract]
+		OperationResult<bool> SetControllerNetworkSettings(Guid deviceUID, SKDControllerNetworkSettings controllerNetworkSettings);
+
+
 
 		[OperationContract]
 		OperationResult<bool> SKDOpenDevice(Guid deviceUID);
