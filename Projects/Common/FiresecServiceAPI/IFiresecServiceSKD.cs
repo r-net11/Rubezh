@@ -176,8 +176,6 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<bool> SetControllerPassword(Guid deviceUID, string name, string oldPassword, string password);
 
-
-
 		[OperationContract]
 		OperationResult<SKDControllerTimeSettings> GetControllerTimeSettings(Guid deviceUID);
 
@@ -189,8 +187,6 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<bool> SetControllerNetworkSettings(Guid deviceUID, SKDControllerNetworkSettings controllerNetworkSettings);
-
-
 
 		[OperationContract]
 		OperationResult<bool> SKDOpenDevice(Guid deviceUID);

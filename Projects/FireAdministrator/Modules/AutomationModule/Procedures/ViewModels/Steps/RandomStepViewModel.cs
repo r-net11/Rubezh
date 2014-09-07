@@ -11,28 +11,18 @@ namespace AutomationModule.ViewModels
 	{
 		Procedure Procedure { get; set; }
 		public RandomArguments RandomArguments { get; private set; }
+		public ArgumentItemViewModel MaxValue { get; private set; }
 
 		public RandomStepViewModel(RandomArguments randomArguments, Procedure procedure)
 		{
 			RandomArguments = randomArguments;
+			MaxValue = new ArgumentItemViewModel(procedure, randomArguments.MaxValue, new List<FiresecAPI.Automation.ValueType>() { FiresecAPI.Automation.ValueType.Integer });
 			Procedure = procedure;
 			UpdateContent();
 		}
 
-		int _value;
-		public int Value
-		{
-			get { return _value; }
-			set
-			{
-				_value = value;
-				OnPropertyChanged(() => Value);
-			}
-		}
-
 		public void UpdateContent()
 		{
-
 		}
 
 		public string Description
